@@ -186,28 +186,19 @@
         "dex_id": 968
       },
       {
-        "catalog_id": "xy7-31",
+        "catalog_id": "swsh12.5-070",
         "name": "Baltoy",
         "category": "Pokemon",
         "stage": "Basic",
         "types": [
-          "Psychic"
+          "Fighting"
         ],
         "hp": 60,
         "attacks": [
           {
-            "name": "Slap",
+            "name": "Smack",
             "cost": [
-              "Psychic"
-            ],
-            "damage": 10,
-            "text": "",
-            "effects": []
-          },
-          {
-            "name": "Spinning Attack",
-            "cost": [
-              "Psychic",
+              "Colorless",
               "Colorless"
             ],
             "damage": 20,
@@ -218,7 +209,7 @@
         "abilities": [],
         "weaknesses": [
           {
-            "type": "Psychic",
+            "type": "Grass",
             "value": "\u00d72"
           }
         ],
@@ -227,9 +218,9 @@
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/xy/xy7/31/low.webp",
-        "set_name": "Ancient Origins",
-        "text": "It moves by spinning on its foot. It is a rare Pok\u00e9mon that was discovered in ancient ruins.",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/070/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "It was discovered in ancient ruins. While moving, it constantly spins. It stands on one foot even when asleep.",
         "dex_id": 343
       },
       {
@@ -690,31 +681,21 @@
         "dex_id": 315
       },
       {
-        "catalog_id": "sm3-40",
+        "catalog_id": "sm12-66",
         "name": "Pikachu",
         "category": "Pokemon",
         "stage": "Basic",
         "types": [
           "Lightning"
         ],
-        "hp": 60,
+        "hp": 70,
         "attacks": [
           {
-            "name": "Tail Whap",
+            "name": "Nuzzle",
             "cost": [
-              "Colorless"
+              "Lightning"
             ],
-            "damage": 10,
-            "text": "",
-            "effects": []
-          },
-          {
-            "name": "Thunder Shock",
-            "cost": [
-              "Lightning",
-              "Colorless"
-            ],
-            "damage": 20,
+            "damage": 0,
             "text": "Flip a coin. If heads, your opponent\u2019s Active Pok\u00e9mon is now Paralyzed.",
             "effects": [
               {
@@ -723,6 +704,17 @@
                 "coin": true
               }
             ]
+          },
+          {
+            "name": "Volt Tackle",
+            "cost": [
+              "Lightning",
+              "Lightning",
+              "Colorless"
+            ],
+            "damage": 70,
+            "text": "This Pok\u00e9mon does 10 damage to itself.",
+            "effects": []
           }
         ],
         "abilities": [],
@@ -742,9 +734,9 @@
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sm/sm3/40/low.webp",
-        "set_name": "Burning Shadows",
-        "text": "A plan was recently announced to gather many Pikachu and make an electric power plant.",
+        "image": "https://assets.tcgdex.net/en/sm/sm12/66/low.webp",
+        "set_name": "Cosmic Eclipse",
+        "text": "Its nature is to store up electricity. Forests where nests of Pikachu live are dangerous, since the trees are so often struck by lightning.",
         "dex_id": 25
       },
       {
@@ -907,8 +899,8 @@
             "text": "This attack does 20 damage for each Psychic Energy attached to all of your Pok\u00e9mon.",
             "effects": [
               {
-                "kind": "times",
-                "note": "20\u00d7"
+                "kind": "psychic_energy_times",
+                "per": 20
               }
             ]
           }

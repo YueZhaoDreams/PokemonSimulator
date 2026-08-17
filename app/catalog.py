@@ -64,7 +64,8 @@ PREFERRED_IDS = {
     "Dondozo": "sv04-055",  # Supplemental Swallow-Up / Hydro Splash 180 (Paradox Rift)
     "Orthworm": "sv04-138",  # Punch and Draw / Crunch-Time Rush
     "Flutter Mane": "sv05-078",  # Hex Hurl
-    "Pikachu": "sm3-40",  # Tail Whap / Thunder Shock
+    "Pikachu": "sm3-40",  # Set B default: Tail Whap / Thunder Shock (Set A uses prefer → Nuzzle/Volt Tackle)
+    "Baltoy": "swsh12.5-070",  # Fighting — Carbink Power Gem fuel under Family Cup
     "Tulip": "sv04-181",
     "Plusle": "sv04-060",
     "Crocalor": "sv04-024",
@@ -91,6 +92,8 @@ PRINT_PREFER = {
     "Roselia": ["soothing scent"],
     "Salazzle": ["tail trickery", "super singe"],
     "Carbink": ["lucky find", "power gem"],
+    "Baltoy": ["smack"],
+    "Clefairy": ["wonder storm", "moon-watching", "moon watching"],
     "Relicanth": ["into the deep"],
     "Plusle": ["plus damage"],
     "Emolga": ["static shock", "call for family"],
@@ -278,8 +281,8 @@ def resolve_name(name: str, prefer: list[str] | None = None) -> Card:
             return card
         except Exception:
             continue
-    # Fall back to preferred id even without phrase match, then any ranked card.
-    if preferred_id:
+    # Fall back to preferred id only when the caller did not ask for attack hints.
+    if preferred_id and not prefer:
         try:
             return normalize_card(fetch_full(preferred_id))
         except Exception:
@@ -289,6 +292,11 @@ def resolve_name(name: str, prefer: list[str] | None = None) -> Card:
             return normalize_card(fetch_full(brief["id"]))
         except Exception:
             continue
+    if preferred_id:
+        try:
+            return normalize_card(fetch_full(preferred_id))
+        except Exception:
+            pass
     return fallback_card(name)
 
 
