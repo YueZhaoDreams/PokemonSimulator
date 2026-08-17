@@ -71,7 +71,11 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
         effects.append({"kind": "coin_whiff"})
 
     if "×" in damage_raw or "x" in damage_raw.lower() or "for each" in t:
-        effects.append({"kind": "times", "note": damage_raw or text})
+        # Clefairy Wonder Storm style: scale by Psychic Energy in play.
+        if "psychic energy" in t and "attached" in t:
+            effects.append({"kind": "psychic_energy_times", "per": parse_damage(damage_raw) or 20})
+        else:
+            effects.append({"kind": "times", "note": damage_raw or text})
 
     # Dondozo (Paradox Rift): Supplemental Swallow-Up
     if "attach any number of basic energy" in t and "top" in t:

@@ -198,7 +198,7 @@ for card in [
             "If there are 3 or fewer cards in your deck, this attack does 150 more damage.",
         ),
     ], retreat=3, catalog_id="sv04-138", weakness="Fire"),
-    _pkm("Baltoy", "Basic", ["Fighting"], 60, [_atk("Smack", ["Fighting"], 20)], weakness="Grass"),
+    _pkm("Baltoy", "Basic", ["Fighting"], 60, [_atk("Smack", ["Fighting"], 20)], weakness="Grass", catalog_id="swsh12.5-070"),
     _pkm("Carbink", "Basic", ["Fighting"], 90, [
         _atk(
             "Lucky Find",
@@ -215,7 +215,23 @@ for card in [
     _pkm("Dusclops", "Stage1", ["Psychic"], 90, [_atk("Fade to Black", ["Psychic"], 30, "Your opponent's Active Pokémon is now Confused.")], evolves_from="Duskull", weakness="Darkness"),
     _pkm("Flittle", "Basic", ["Psychic"], 40, [_atk("Seed Bomb", ["Psychic"], 10), _atk("Reckless Charge", ["Colorless", "Colorless"], 40)], weakness="Darkness"),
     _pkm("Kadabra", "Stage1", ["Psychic"], 80, [_atk("Teleportation Attack", ["Psychic"], 30, "Switch this Pokémon with 1 of your Benched Pokémon.")], evolves_from="Abra", weakness="Darkness"),
-    _pkm("Clefairy", "Basic", ["Psychic"], 60, [_atk("Wonder Storm", ["Colorless", "Colorless", "Colorless"], 20)], weakness="Metal"),
+    _pkm(
+        "Clefairy",
+        "Basic",
+        ["Psychic"],
+        60,
+        [
+            _atk(
+                "Wonder Storm",
+                ["Colorless", "Colorless", "Colorless"],
+                20,
+                "This attack does 20 damage for each Psychic Energy attached to all of your Pokémon.",
+            )
+        ],
+        catalog_id="swsh11-062",
+        weakness="Metal",
+        retreat=2,
+    ),
     _pkm(
         "Flutter Mane",
         "Basic",
@@ -289,7 +305,7 @@ for card in [
 ]:
     _register(card)
 
-# Two Pikachu prints: family photo B has Thunder Shock (paralysis).
+# Set B carpet Pikachu: Tail Whap / Thunder Shock.
 _register(_pkm(
     "Pikachu",
     "Basic",
@@ -307,6 +323,30 @@ _register(_pkm(
     catalog_id="sm3-40",
     weakness="Fighting",
 ))
+
+# Set A carpet Pikachu (traded to B): Nuzzle / Volt Tackle.
+FALLBACK_BY_NAME["pikachu-nuzzle"] = _pkm(
+    "Pikachu",
+    "Basic",
+    ["Lightning"],
+    60,
+    [
+        _atk(
+            "Nuzzle",
+            ["Lightning"],
+            0,
+            "Flip a coin. If heads, your opponent's Active Pokémon is now Paralyzed.",
+        ),
+        _atk(
+            "Volt Tackle",
+            ["Lightning", "Lightning", "Colorless"],
+            70,
+            "This Pokémon does 10 damage to itself.",
+        ),
+    ],
+    catalog_id="sm12-66",
+    weakness="Fighting",
+)
 
 
 def fallback_named(name: str) -> Card:

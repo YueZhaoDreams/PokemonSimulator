@@ -826,7 +826,18 @@ class Game:
                 return
 
         dmg = atk.damage
-        if any(e.get("kind") == "times" for e in atk.effects):
+        has_psychic_scale = any(e.get("kind") == "psychic_energy_times" for e in atk.effects)
+        if has_psychic_scale:
+            per = 20
+            for effect in atk.effects:
+                if effect.get("kind") == "psychic_energy_times":
+                    per = int(effect.get("per") or atk.damage or 20)
+                    break
+            count = self._count_psychic_energy_in_play(me)
+            dmg = per * count
+            self._bump("wonder_storm_energy", count)
+        elif any(e.get("kind") == "times" for e in atk.effects):
+            # Legacy Tatsugiri-style scaling.
             dmg = atk.damage * max(1, sum(1 for i in me.discard if "tatsu" in me.card(i).name.lower()))
         for effect in atk.effects:
             if effect.get("kind") == "deck_count_bonus" and len(me.deck) <= int(effect.get("max_deck") or 0):
@@ -861,6 +872,21 @@ class Game:
                 self._swallow_energy(me, int(effect.get("look") or 5))
             elif effect.get("kind") == "bench_damage_counters":
                 self._bench_damage_counters(foe, int(effect.get("counters") or 1))
+
+    def _count_psychic_energy_in_play(self, me: Player) -> int:
+        """Count Psychic Energy attached to all of this player's Pokémon.
+
+        Under Family Cup, a Pokémon card attached as energy counts if its type is Psychic.
+        """
+        total = 0
+        for mon in me.in_play():
+            for energy_i in mon.energy:
+                card = me.card(energy_i)
+                if card.is_energy and (card.energy_type or (card.types[0] if card.types else "")) == "Psychic":
+                    total += 1
+                elif card.is_pokemon and card.types and card.types[0] == "Psychic":
+                    total += 1
+        return total
 
     def _swallow_energy(self, me: Player, look: int) -> None:
         """Supplemental Swallow-Up: attach Basic Energy from the top of the deck.
@@ -924,6 +950,9 @@ class Game:
                 score += 40 * strat.prefer_status
                 if foe_name in strat.status_targets or foe_name.lower() in {n.lower() for n in strat.status_targets}:
                     score += 50 * strat.prefer_status
+            if any(e.get("kind") == "psychic_energy_times" for e in atk.effects):
+                # Estimate Wonder Storm from current board Psychic attachments.
+                score = max(score, 20 * self._count_psychic_energy_in_play(me) * strat.prefer_damage)
             if any(e.get("kind") == "swallow_energy" for e in atk.effects) and not has_big:
                 # Charge Dondozo before Hydro Splash is online.
                 score += 120 * max(0.4, strat.prefer_damage)
