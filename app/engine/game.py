@@ -541,6 +541,9 @@ class Game:
         dmg = atk.damage
         if any(e.get("kind") == "times" for e in atk.effects):
             dmg = atk.damage * max(1, sum(1 for i in me.discard if "tatsu" in me.card(i).name.lower()))
+        for effect in atk.effects:
+            if effect.get("kind") == "deck_count_bonus" and len(me.deck) <= int(effect.get("max_deck") or 0):
+                dmg += int(effect.get("bonus") or 0)
         dmg *= weakness_multiplier(defender.weaknesses, attacker.types)
         dmg = max(0, dmg - resistance_reduce(defender.resistances, attacker.types))
         foe.active.damage += dmg
@@ -565,6 +568,54 @@ class Game:
             elif effect.get("kind") == "call_family":
                 self._search(me, lambda c: c.is_basic)
                 self._play_basics(me)
+            elif effect.get("kind") == "swallow_energy":
+                self._swallow_energy(me, int(effect.get("look") or 5))
+            elif effect.get("kind") == "bench_damage_counters":
+                self._bench_damage_counters(foe, int(effect.get("counters") or 1))
+
+    def _swallow_energy(self, me: Player, look: int) -> None:
+        """Supplemental Swallow-Up: attach Basic Energy from the top of the deck.
+
+        Under Family Cup, Pokémon may also be attached as matching Basic Energy.
+        """
+        if not me.active:
+            return
+        protect = {n.lower() for n in self.strats["a" if me.name == "A" else "b"].protect}
+        taken = min(look, len(me.deck))
+        top = [me.deck.pop(0) for _ in range(taken)]
+        keep: list[int] = []
+        attached = 0
+        for card_i in top:
+            card = me.card(card_i)
+            attachable = card.is_energy or (
+                self.rules.pokemon_as_energy
+                and card.is_pokemon
+                and card.as_energy_type
+                and card.name.lower() not in protect
+            )
+            if attachable:
+                me.active.energy.append(card_i)
+                attached += 1
+                if card.is_pokemon:
+                    self._bump("pokemon_as_energy")
+                self._bump("swallow_energy")
+                self._log(f"{me.name} swallows {card.name} onto {me.card(me.active.card_i).name}")
+            else:
+                keep.append(card_i)
+        me.deck.extend(keep)
+        self.rng.shuffle(me.deck)
+        if attached:
+            self._log(f"{me.name} Supplemental Swallow-Up attached {attached} energy")
+
+    def _bench_damage_counters(self, foe: Player, counters: int) -> None:
+        if not foe.bench:
+            return
+        damage = 10 * max(1, counters)
+        # Dump all counters onto the lowest-HP bench Pokémon (simple AI).
+        target = min(foe.bench, key=lambda m: foe.card(m.card_i).hp - m.damage)
+        target.damage += damage
+        self._bump("bench_damage", damage)
+        self._log(f"Bench {foe.card(target.card_i).name} took {damage} from Hex-style attack")
 
     def _choose_attack(self, me: Player, foe: Player, strat: StrategySpec):
         assert me.active and foe.active
@@ -574,6 +625,7 @@ class Game:
         if not legal:
             return None
         foe_name = foe.card(foe.active.card_i).name
+        has_big = any(a.damage >= 100 for a in legal)
         best = None
         best_score = -1e9
         for atk in legal:
@@ -583,6 +635,13 @@ class Game:
                 score += 40 * strat.prefer_status
                 if foe_name in strat.status_targets or foe_name.lower() in {n.lower() for n in strat.status_targets}:
                     score += 50 * strat.prefer_status
+            if any(e.get("kind") == "swallow_energy" for e in atk.effects) and not has_big:
+                # Charge Dondozo before Hydro Splash is online.
+                score += 120 * max(0.4, strat.prefer_damage)
+            if any(e.get("kind") == "deck_count_bonus" for e in atk.effects) and len(me.deck) <= 3:
+                score += 150
+            if any(e.get("kind") == "draw" for e in atk.effects) and atk.damage <= 30:
+                score += 15
             if best is None or score > best_score:
                 best, best_score = atk, score
         return best
