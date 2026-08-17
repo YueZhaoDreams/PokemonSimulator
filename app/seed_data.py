@@ -62,7 +62,7 @@ SET_B_NAMES = [
     "Lickilicky",
     "Spinarak",
     "Aipom",
-    "Jacq",
+    "Tulip",
 ]
 
 
@@ -135,6 +135,13 @@ _register(_trn("Tool Box", "item", "Look at the top 7 cards of your deck. You ma
 _register(_trn("Trekking Shoes", "item", "Look at the top card of your deck. You may put it into your hand, or discard it and draw a card."))
 _register(_trn("Lake Acuity", "stadium", "Water and Fighting Pokémon take 20 less damage from attacks."))
 _register(_trn("Jacq", "supporter", "Search your deck for up to 2 Evolution Pokémon."))
+_register(
+    _trn(
+        "Tulip",
+        "supporter",
+        "Put up to 4 in any combination of Psychic Pokémon and Basic Psychic Energy cards from your discard pile into your hand.",
+    )
+)
 _register(_nrg("Psychic"))
 _register(_nrg("Grass"))
 
