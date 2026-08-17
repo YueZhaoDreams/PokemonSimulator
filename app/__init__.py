@@ -1,0 +1,1 @@
+"""Family Pokémon TCG simulator."""

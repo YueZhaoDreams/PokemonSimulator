@@ -1,0 +1,2164 @@
+{
+  "a": {
+    "id": "seed-a",
+    "name": "Carpet Set A (Dondozo)",
+    "sample": "set-a-web.jpg",
+    "cards": [
+      {
+        "catalog_id": "bronzor",
+        "name": "Bronzor",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Metal"
+        ],
+        "hp": 70,
+        "attacks": [
+          {
+            "name": "Spinning Attack",
+            "cost": [
+              "Colorless"
+            ],
+            "damage": 10,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Fire",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": null,
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "metang",
+        "name": "Metang",
+        "category": "Pokemon",
+        "stage": "Stage1",
+        "types": [
+          "Metal"
+        ],
+        "hp": 100,
+        "attacks": [
+          {
+            "name": "Bullet Punch",
+            "cost": [
+              "Metal"
+            ],
+            "damage": 30,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Fire",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": "Beldum",
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": null,
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "orthworm",
+        "name": "Orthworm",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Metal"
+        ],
+        "hp": 140,
+        "attacks": [
+          {
+            "name": "Punch and Draw",
+            "cost": [
+              "Metal"
+            ],
+            "damage": 20,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Fire",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": null,
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "baltoy",
+        "name": "Baltoy",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Fighting"
+        ],
+        "hp": 60,
+        "attacks": [
+          {
+            "name": "Smack",
+            "cost": [
+              "Fighting"
+            ],
+            "damage": 20,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Grass",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": null,
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "rockruff",
+        "name": "Rockruff",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Fighting"
+        ],
+        "hp": 60,
+        "attacks": [
+          {
+            "name": "Rock Kick",
+            "cost": [
+              "Fighting"
+            ],
+            "damage": 20,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Grass",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": null,
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "carbink",
+        "name": "Carbink",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Fighting"
+        ],
+        "hp": 90,
+        "attacks": [
+          {
+            "name": "Lucky Find",
+            "cost": [
+              "Colorless"
+            ],
+            "damage": 0,
+            "text": "",
+            "effects": []
+          },
+          {
+            "name": "Power Gem",
+            "cost": [
+              "Fighting",
+              "Fighting",
+              "Colorless"
+            ],
+            "damage": 80,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Grass",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": null,
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "seel",
+        "name": "Seel",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Water"
+        ],
+        "hp": 70,
+        "attacks": [
+          {
+            "name": "Headbutt",
+            "cost": [
+              "Water"
+            ],
+            "damage": 20,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Lightning",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": null,
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "corphish",
+        "name": "Corphish",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Water"
+        ],
+        "hp": 70,
+        "attacks": [
+          {
+            "name": "Water Gun",
+            "cost": [
+              "Water"
+            ],
+            "damage": 10,
+            "text": "",
+            "effects": []
+          },
+          {
+            "name": "Crabhammer",
+            "cost": [
+              "Water",
+              "Colorless"
+            ],
+            "damage": 50,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Lightning",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": null,
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "poliwhirl",
+        "name": "Poliwhirl",
+        "category": "Pokemon",
+        "stage": "Stage1",
+        "types": [
+          "Water"
+        ],
+        "hp": 90,
+        "attacks": [
+          {
+            "name": "Light Punch",
+            "cost": [
+              "Water"
+            ],
+            "damage": 30,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Lightning",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": "Poliwag",
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": null,
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv01-061",
+        "name": "Dondozo",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Water"
+        ],
+        "hp": 160,
+        "attacks": [
+          {
+            "name": "Release Rage",
+            "cost": [
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 50,
+            "text": "This attack does 50 damage for each Tatsugiri in your discard pile.",
+            "effects": []
+          },
+          {
+            "name": "Heavy Splash",
+            "cost": [
+              "Water",
+              "Water",
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 120,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Lightning",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 4,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": null,
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "phantump",
+        "name": "Phantump",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Grass"
+        ],
+        "hp": 70,
+        "attacks": [
+          {
+            "name": "Hook",
+            "cost": [
+              "Grass"
+            ],
+            "damage": 10,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Fire",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": null,
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "gloom",
+        "name": "Gloom",
+        "category": "Pokemon",
+        "stage": "Stage1",
+        "types": [
+          "Grass"
+        ],
+        "hp": 80,
+        "attacks": [
+          {
+            "name": "Absorb",
+            "cost": [
+              "Grass"
+            ],
+            "damage": 30,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Fire",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": "Oddish",
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": null,
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "oddish",
+        "name": "Oddish",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Grass"
+        ],
+        "hp": 50,
+        "attacks": [
+          {
+            "name": "Leaf Boomerang",
+            "cost": [
+              "Grass"
+            ],
+            "damage": 10,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Fire",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": null,
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "roselia",
+        "name": "Roselia",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Grass"
+        ],
+        "hp": 70,
+        "attacks": [
+          {
+            "name": "Bind",
+            "cost": [
+              "Grass"
+            ],
+            "damage": 10,
+            "text": "Flip a coin. If heads, your opponent's Active Pok\u00e9mon is now Paralyzed.",
+            "effects": [
+              {
+                "kind": "status",
+                "status": "paralyzed",
+                "coin": true
+              }
+            ]
+          },
+          {
+            "name": "Vine Whip",
+            "cost": [
+              "Grass"
+            ],
+            "damage": 20,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Fire",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": null,
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "family-pikachu-thundershock",
+        "name": "Pikachu",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Lightning"
+        ],
+        "hp": 60,
+        "attacks": [
+          {
+            "name": "Tail Whap",
+            "cost": [
+              "Colorless"
+            ],
+            "damage": 10,
+            "text": "",
+            "effects": []
+          },
+          {
+            "name": "Thunder Shock",
+            "cost": [
+              "Lightning"
+            ],
+            "damage": 20,
+            "text": "Flip a coin. If heads, your opponent's Active Pok\u00e9mon is now Paralyzed.",
+            "effects": [
+              {
+                "kind": "status",
+                "status": "paralyzed",
+                "coin": true
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Fighting",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": null,
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "dusclops",
+        "name": "Dusclops",
+        "category": "Pokemon",
+        "stage": "Stage1",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 90,
+        "attacks": [
+          {
+            "name": "Fade to Black",
+            "cost": [
+              "Psychic"
+            ],
+            "damage": 30,
+            "text": "Your opponent's Active Pok\u00e9mon is now Confused.",
+            "effects": [
+              {
+                "kind": "status",
+                "status": "confused",
+                "coin": false
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Darkness",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": "Duskull",
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": null,
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "flittle",
+        "name": "Flittle",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 40,
+        "attacks": [
+          {
+            "name": "Seed Bomb",
+            "cost": [
+              "Psychic"
+            ],
+            "damage": 10,
+            "text": "",
+            "effects": []
+          },
+          {
+            "name": "Reckless Charge",
+            "cost": [
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 40,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Darkness",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": null,
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "kadabra",
+        "name": "Kadabra",
+        "category": "Pokemon",
+        "stage": "Stage1",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 80,
+        "attacks": [
+          {
+            "name": "Teleportation Attack",
+            "cost": [
+              "Psychic"
+            ],
+            "damage": 30,
+            "text": "Switch this Pok\u00e9mon with 1 of your Benched Pok\u00e9mon.",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Darkness",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": "Abra",
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": null,
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "clefairy",
+        "name": "Clefairy",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 60,
+        "attacks": [
+          {
+            "name": "Wonder Storm",
+            "cost": [
+              "Colorless",
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 20,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Metal",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": null,
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "flutter-mane",
+        "name": "Flutter Mane",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 90,
+        "attacks": [
+          {
+            "name": "Hex Hurl",
+            "cost": [
+              "Psychic",
+              "Colorless"
+            ],
+            "damage": 90,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Metal",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": null,
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "hisuian-sliggoo",
+        "name": "Hisuian Sliggoo",
+        "category": "Pokemon",
+        "stage": "Stage1",
+        "types": [
+          "Dragon"
+        ],
+        "hp": 90,
+        "attacks": [
+          {
+            "name": "Rigidify",
+            "cost": [
+              "Colorless"
+            ],
+            "damage": 0,
+            "text": "",
+            "effects": []
+          },
+          {
+            "name": "Gentle Slap",
+            "cost": [
+              "Water",
+              "Metal"
+            ],
+            "damage": 40,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Dragon",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": "Goomy",
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": null,
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "energy-psychic",
+        "name": "Psychic Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Psychic",
+        "image": null,
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "lake-acuity",
+        "name": "Lake Acuity",
+        "category": "Trainer",
+        "stage": "Stadium",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "stadium",
+        "energy_type": null,
+        "image": null,
+        "set_name": null,
+        "text": "Water and Fighting Pok\u00e9mon take 20 less damage from attacks.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "pok\u00e9-ball",
+        "name": "Pok\u00e9 Ball",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": null,
+        "set_name": null,
+        "text": "Flip a coin. If heads, search your deck for a Pok\u00e9mon.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "ultra-ball",
+        "name": "Ultra Ball",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": null,
+        "set_name": null,
+        "text": "Discard 2 cards from your hand. Search your deck for a Pok\u00e9mon.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "energy-switch",
+        "name": "Energy Switch",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": null,
+        "set_name": null,
+        "text": "Move a Basic Energy from 1 of your Pok\u00e9mon to another of your Pok\u00e9mon.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "tool-box",
+        "name": "Tool Box",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": null,
+        "set_name": null,
+        "text": "Look at the top 7 cards of your deck. You may put any Pok\u00e9mon Tool cards you find there into your hand.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "trekking-shoes",
+        "name": "Trekking Shoes",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": null,
+        "set_name": null,
+        "text": "Look at the top card of your deck. You may put it into your hand, or discard it and draw a card.",
+        "dex_id": null
+      }
+    ]
+  },
+  "b": {
+    "id": "seed-b",
+    "name": "Carpet Set B (Pikachu shock)",
+    "sample": "set-b-web.jpg",
+    "cards": [
+      {
+        "catalog_id": "ivysaur",
+        "name": "Ivysaur",
+        "category": "Pokemon",
+        "stage": "Stage1",
+        "types": [
+          "Grass"
+        ],
+        "hp": 100,
+        "attacks": [
+          {
+            "name": "Seed Bomb",
+            "cost": [
+              "Grass"
+            ],
+            "damage": 20,
+            "text": "",
+            "effects": []
+          },
+          {
+            "name": "Leaf Whip",
+            "cost": [
+              "Grass",
+              "Colorless"
+            ],
+            "damage": 60,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Fire",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": "Bulbasaur",
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": null,
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "roselia",
+        "name": "Roselia",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Grass"
+        ],
+        "hp": 70,
+        "attacks": [
+          {
+            "name": "Bind",
+            "cost": [
+              "Grass"
+            ],
+            "damage": 10,
+            "text": "Flip a coin. If heads, your opponent's Active Pok\u00e9mon is now Paralyzed.",
+            "effects": [
+              {
+                "kind": "status",
+                "status": "paralyzed",
+                "coin": true
+              }
+            ]
+          },
+          {
+            "name": "Vine Whip",
+            "cost": [
+              "Grass"
+            ],
+            "damage": 20,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Fire",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": null,
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "energy-grass",
+        "name": "Grass Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Grass"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Grass",
+        "image": null,
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "tangela",
+        "name": "Tangela",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Grass"
+        ],
+        "hp": 80,
+        "attacks": [
+          {
+            "name": "Beat",
+            "cost": [
+              "Grass"
+            ],
+            "damage": 10,
+            "text": "",
+            "effects": []
+          },
+          {
+            "name": "Vine Whip",
+            "cost": [
+              "Grass",
+              "Grass",
+              "Colorless"
+            ],
+            "damage": 60,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Fire",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": null,
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sudowoodo",
+        "name": "Sudowoodo",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Fighting"
+        ],
+        "hp": 110,
+        "attacks": [
+          {
+            "name": "Joust",
+            "cost": [
+              "Fighting"
+            ],
+            "damage": 20,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Water",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": null,
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "gible",
+        "name": "Gible",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Fighting"
+        ],
+        "hp": 70,
+        "attacks": [
+          {
+            "name": "Bite",
+            "cost": [
+              "Fighting"
+            ],
+            "damage": 20,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Grass",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": null,
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "rockruff",
+        "name": "Rockruff",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Fighting"
+        ],
+        "hp": 60,
+        "attacks": [
+          {
+            "name": "Rock Kick",
+            "cost": [
+              "Fighting"
+            ],
+            "damage": 20,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Grass",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": null,
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "relicanth",
+        "name": "Relicanth",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Fighting"
+        ],
+        "hp": 90,
+        "attacks": [
+          {
+            "name": "Into the Deep",
+            "cost": [
+              "Colorless"
+            ],
+            "damage": 0,
+            "text": "",
+            "effects": []
+          },
+          {
+            "name": "Tackle",
+            "cost": [
+              "Fighting",
+              "Colorless"
+            ],
+            "damage": 80,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Grass",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": null,
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "salazzle",
+        "name": "Salazzle",
+        "category": "Pokemon",
+        "stage": "Stage1",
+        "types": [
+          "Fire"
+        ],
+        "hp": 120,
+        "attacks": [
+          {
+            "name": "Super Singe",
+            "cost": [
+              "Fire",
+              "Colorless"
+            ],
+            "damage": 90,
+            "text": "Your opponent's Active Pok\u00e9mon is now Burned.",
+            "effects": [
+              {
+                "kind": "status",
+                "status": "burned",
+                "coin": false
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Water",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": "Salandit",
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": null,
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "crocalor",
+        "name": "Crocalor",
+        "category": "Pokemon",
+        "stage": "Stage1",
+        "types": [
+          "Fire"
+        ],
+        "hp": 100,
+        "attacks": [
+          {
+            "name": "Rolling Fireball",
+            "cost": [
+              "Fire",
+              "Fire"
+            ],
+            "damage": 90,
+            "text": "Put an Energy attached to this Pok\u00e9mon into your hand.",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Water",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": "Fuecoco",
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": null,
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "slugma",
+        "name": "Slugma",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Fire"
+        ],
+        "hp": 70,
+        "attacks": [
+          {
+            "name": "Flare",
+            "cost": [
+              "Fire"
+            ],
+            "damage": 10,
+            "text": "",
+            "effects": []
+          },
+          {
+            "name": "Combustion",
+            "cost": [
+              "Fire",
+              "Colorless"
+            ],
+            "damage": 30,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Water",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": null,
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "litwick",
+        "name": "Litwick",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Fire"
+        ],
+        "hp": 60,
+        "attacks": [
+          {
+            "name": "Searing Flame",
+            "cost": [
+              "Fire"
+            ],
+            "damage": 10,
+            "text": "Flip a coin. If heads, your opponent's Active Pok\u00e9mon is now Burned.",
+            "effects": [
+              {
+                "kind": "status",
+                "status": "burned",
+                "coin": true
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Water",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": null,
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "energy-search",
+        "name": "Energy Search",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": null,
+        "set_name": null,
+        "text": "Search your deck for a Basic Energy card.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "ferroseed",
+        "name": "Ferroseed",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Metal"
+        ],
+        "hp": 60,
+        "attacks": [
+          {
+            "name": "Spike Ring",
+            "cost": [
+              "Metal"
+            ],
+            "damage": 20,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Fire",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": null,
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "galarian-meowth",
+        "name": "Galarian Meowth",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Metal"
+        ],
+        "hp": 60,
+        "attacks": [
+          {
+            "name": "Scratch",
+            "cost": [
+              "Metal"
+            ],
+            "damage": 10,
+            "text": "",
+            "effects": []
+          },
+          {
+            "name": "Spiked Heels",
+            "cost": [
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 30,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Fire",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": null,
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "aron",
+        "name": "Aron",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Metal"
+        ],
+        "hp": 60,
+        "attacks": [
+          {
+            "name": "Dig-Claws",
+            "cost": [
+              "Metal"
+            ],
+            "damage": 20,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Fire",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": null,
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "energy-retrieval",
+        "name": "Energy Retrieval",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": null,
+        "set_name": null,
+        "text": "Put up to 2 Basic Energy cards from your discard pile into your hand.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "gimmighoul",
+        "name": "Gimmighoul",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 50,
+        "attacks": [
+          {
+            "name": "Call for Family",
+            "cost": [
+              "Colorless"
+            ],
+            "damage": 0,
+            "text": "",
+            "effects": []
+          },
+          {
+            "name": "Corkscrew Punch",
+            "cost": [
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 20,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Darkness",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": null,
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "electrike",
+        "name": "Electrike",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Lightning"
+        ],
+        "hp": 60,
+        "attacks": [
+          {
+            "name": "Thunder Fang",
+            "cost": [
+              "Lightning"
+            ],
+            "damage": 20,
+            "text": "Flip a coin. If heads, your opponent's Active Pok\u00e9mon is now Paralyzed.",
+            "effects": [
+              {
+                "kind": "status",
+                "status": "paralyzed",
+                "coin": true
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Fighting",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": null,
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "family-pikachu-thundershock",
+        "name": "Pikachu",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Lightning"
+        ],
+        "hp": 60,
+        "attacks": [
+          {
+            "name": "Tail Whap",
+            "cost": [
+              "Colorless"
+            ],
+            "damage": 10,
+            "text": "",
+            "effects": []
+          },
+          {
+            "name": "Thunder Shock",
+            "cost": [
+              "Lightning"
+            ],
+            "damage": 20,
+            "text": "Flip a coin. If heads, your opponent's Active Pok\u00e9mon is now Paralyzed.",
+            "effects": [
+              {
+                "kind": "status",
+                "status": "paralyzed",
+                "coin": true
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Fighting",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": null,
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "plusle",
+        "name": "Plusle",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Lightning"
+        ],
+        "hp": 70,
+        "attacks": [
+          {
+            "name": "Plus Damage",
+            "cost": [
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 10,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Fighting",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": null,
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "emolga",
+        "name": "Emolga",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Lightning"
+        ],
+        "hp": 70,
+        "attacks": [
+          {
+            "name": "Call for Family",
+            "cost": [
+              "Colorless"
+            ],
+            "damage": 0,
+            "text": "Search your deck for a Basic Pok\u00e9mon and put it onto your Bench.",
+            "effects": [
+              {
+                "kind": "call_family"
+              }
+            ]
+          },
+          {
+            "name": "Static Shock",
+            "cost": [
+              "Lightning"
+            ],
+            "damage": 40,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Fighting",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": null,
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "wailmer",
+        "name": "Wailmer",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Water"
+        ],
+        "hp": 120,
+        "attacks": [
+          {
+            "name": "Slap",
+            "cost": [
+              "Colorless"
+            ],
+            "damage": 20,
+            "text": "",
+            "effects": []
+          },
+          {
+            "name": "Wave Splash",
+            "cost": [
+              "Water",
+              "Colorless"
+            ],
+            "damage": 50,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Lightning",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": null,
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "corphish",
+        "name": "Corphish",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Water"
+        ],
+        "hp": 70,
+        "attacks": [
+          {
+            "name": "Water Gun",
+            "cost": [
+              "Water"
+            ],
+            "damage": 10,
+            "text": "",
+            "effects": []
+          },
+          {
+            "name": "Crabhammer",
+            "cost": [
+              "Water",
+              "Colorless"
+            ],
+            "damage": 50,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Lightning",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": null,
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "lickilicky",
+        "name": "Lickilicky",
+        "category": "Pokemon",
+        "stage": "Stage1",
+        "types": [
+          "Colorless"
+        ],
+        "hp": 140,
+        "attacks": [
+          {
+            "name": "Tongue Slap",
+            "cost": [
+              "Colorless"
+            ],
+            "damage": 40,
+            "text": "",
+            "effects": []
+          },
+          {
+            "name": "Heavy Impact",
+            "cost": [
+              "Colorless",
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 90,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Fighting",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": "Lickitung",
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": null,
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "spinarak",
+        "name": "Spinarak",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Grass"
+        ],
+        "hp": 60,
+        "attacks": [
+          {
+            "name": "Poison Sting",
+            "cost": [
+              "Grass"
+            ],
+            "damage": 20,
+            "text": "Your opponent's Active Pok\u00e9mon is now Poisoned.",
+            "effects": [
+              {
+                "kind": "status",
+                "status": "poisoned",
+                "coin": false
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Fire",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": null,
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "aipom",
+        "name": "Aipom",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Colorless"
+        ],
+        "hp": 60,
+        "attacks": [
+          {
+            "name": "Tail Slap",
+            "cost": [
+              "Colorless"
+            ],
+            "damage": 20,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Fighting",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": null,
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "jacq",
+        "name": "Jacq",
+        "category": "Trainer",
+        "stage": "Supporter",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "supporter",
+        "energy_type": null,
+        "image": null,
+        "set_name": null,
+        "text": "Search your deck for up to 2 Evolution Pok\u00e9mon.",
+        "dex_id": null
+      }
+    ]
+  },
+  "hashes": {
+    "a": 57955236583522545846236945406208001688957203268691354098485835530357541513247,
+    "b": 94113678299995436670871367334191645319444037671666136758300686791289025070086
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "name": "Family Pokémon Cup",
+  "short_name": "Family Cup",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#10141c",
+  "theme_color": "#1b3a6b",
+  "icons": [
+    { "src": "/static/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
