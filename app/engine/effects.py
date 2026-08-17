@@ -31,7 +31,7 @@ def parse_attack(raw: dict[str, Any]) -> Attack:
 def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
     t = (text or "").lower()
     effects: list[dict[str, Any]] = []
-    coin = "flip a coin" in t or "flip" in t
+    coin = "flip a coin" in t or ("flip" in t and "heads" in t)
 
     if "paralyze" in t:
         effects.append({"kind": "status", "status": "paralyzed", "coin": coin})
@@ -58,8 +58,29 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
     if "this attack does nothing" in t:
         effects.append({"kind": "coin_whiff"})
 
-    if "×" in damage_raw or "x" in damage_raw.lower():
-        effects.append({"kind": "times", "note": damage_raw})
+    if "×" in damage_raw or "x" in damage_raw.lower() or "for each" in t:
+        effects.append({"kind": "times", "note": damage_raw or text})
+
+    # Dondozo (Paradox Rift): Supplemental Swallow-Up
+    if "attach any number of basic energy" in t and "top" in t:
+        top = re.search(r"top (\d+)", t)
+        effects.append({"kind": "swallow_energy", "look": int(top.group(1)) if top else 5})
+
+    # Orthworm Crunch-Time Rush style: more damage when deck is thin
+    more = re.search(r"(\d+) or fewer cards in your deck.*?(\d+) more damage", t)
+    if more:
+        effects.append(
+            {
+                "kind": "deck_count_bonus",
+                "max_deck": int(more.group(1)),
+                "bonus": int(more.group(2)),
+            }
+        )
+
+    # Flutter Mane Hex Hurl: damage counters on benched Pokémon
+    bench = re.search(r"put (\d+) damage counters? on your opponent'?s? benched", t)
+    if bench:
+        effects.append({"kind": "bench_damage_counters", "counters": int(bench.group(1))})
 
     return effects
 

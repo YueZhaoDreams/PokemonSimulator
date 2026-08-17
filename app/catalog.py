@@ -45,14 +45,65 @@ TRAINER_KIND_HINTS = {
     "picnic basket": "item",
     "energy search": "item",
     "energy retrieval": "item",
+    "energy switch": "item",
+    "ultra ball": "item",
+    "poké ball": "item",
+    "poke ball": "item",
+    "tool box": "item",
+    "trekking shoes": "item",
+    "lake acuity": "stadium",
     "hop": "supporter",
     "youngster": "supporter",
     "shauna": "supporter",
+    "jacq": "supporter",
+    "tulip": "supporter",
 }
 
+# Carpet-photo printings confirmed via attack OCR phrases / user correction.
 PREFERRED_IDS = {
-    "Dondozo": "sv01-061",
-    "Pikachu": "sv03.5-025",
+    "Dondozo": "sv04-055",  # Supplemental Swallow-Up / Hydro Splash 180 (Paradox Rift)
+    "Orthworm": "sv04-138",  # Punch and Draw / Crunch-Time Rush
+    "Flutter Mane": "sv05-078",  # Hex Hurl
+    "Pikachu": "sm3-40",  # Tail Whap / Thunder Shock
+    "Tulip": "sv04-181",
+    "Plusle": "sv04-060",
+    "Crocalor": "sv04-024",
+    "Salazzle": "swsh12.5-028",
+    "Roselia": "swsh11-014",
+    "Relicanth": "swsh11-101",
+    "Carbink": "swsh11-108",
+    "Hisuian Sliggoo": "swsh11-133",
+    "Lickilicky": "swsh11-139",
+    "Emolga": "sv10.5b-029",
+    "Oddish": "swsh12.5-001",
+    "Clefairy": "swsh11-062",
+    "Dusclops": "swsh9-061",
+    "Spinarak": "swsh10.5-006",
+}
+
+# When resolving by name, prefer candidates whose attacks/text match these phrases.
+PRINT_PREFER = {
+    "Dondozo": ["supplemental swallow", "hydro splash"],
+    "Orthworm": ["crunch-time", "punch and draw"],
+    "Flutter Mane": ["hex hurl"],
+    "Pikachu": ["thunder shock", "tail whap", "paralyze"],
+    "Roselia": ["soothing scent"],
+    "Salazzle": ["tail trickery", "super singe"],
+    "Carbink": ["lucky find", "power gem"],
+    "Relicanth": ["into the deep"],
+    "Plusle": ["plus damage"],
+    "Emolga": ["static shock"],
+    "Hisuian Sliggoo": ["rigidify", "gentle slap"],
+    "Dusclops": ["fade to black"],
+    "Oddish": ["leaf boomerang"],
+    "Clefairy": ["wonder storm"],
+    "Lickilicky": ["tongue slap", "heavy impact"],
+    "Spinarak": ["poison sting"],
+    "Corphish": ["crabhammer"],
+    "Bronzor": ["spinning attack"],
+    "Metang": ["bullet punch"],
+    "Crocalor": ["rolling fireball"],
+    "Tulip": ["psychic"],
 }
 
 
@@ -96,19 +147,20 @@ def _image_url(raw: dict[str, Any]) -> str | None:
     return f"{image}/low.webp"
 
 
-def _trainer_kind(name: str, stage: str, category: str) -> str | None:
+def _trainer_kind(name: str, stage: str, category: str, trainer_type: str | None = None) -> str | None:
     if category.lower() != "trainer":
         return None
     hinted = TRAINER_KIND_HINTS.get(name.lower())
     if hinted:
         return hinted
-    stage_l = (stage or "").lower()
-    if "support" in stage_l:
-        return "supporter"
-    if "stadium" in stage_l:
-        return "stadium"
-    if "item" in stage_l or "tool" in stage_l:
-        return "item"
+    for blob in (trainer_type or "", stage or ""):
+        stage_l = blob.lower()
+        if "support" in stage_l:
+            return "supporter"
+        if "stadium" in stage_l:
+            return "stadium"
+        if "item" in stage_l or "tool" in stage_l:
+            return "item"
     return "item"
 
 
@@ -136,9 +188,11 @@ def normalize_card(raw: dict[str, Any]) -> Card:
         for a in raw.get("abilities") or []
     ]
     set_info = raw.get("set") or {}
+    trainer_type = raw.get("trainerType") or raw.get("trainer_type")
     stage = raw.get("stage") or ""
+    trainer_kind = _trainer_kind(name, stage, category, trainer_type)
     if category.lower() == "trainer" and not stage:
-        stage = _trainer_kind(name, stage, category) or "Item"
+        stage = (trainer_kind or "item").title()
 
     evolves = raw.get("evolveFrom") or raw.get("evolvesFrom") or raw.get("evolves_from")
     return Card(
@@ -154,7 +208,7 @@ def normalize_card(raw: dict[str, Any]) -> Card:
         resistances=list(raw.get("resistances") or []),
         retreat=int(raw.get("retreat") or 0),
         evolves_from=evolves,
-        trainer_kind=_trainer_kind(name, stage, category),
+        trainer_kind=trainer_kind,
         energy_type=energy_type,
         image=_image_url(raw),
         set_name=set_info.get("name") if isinstance(set_info, dict) else None,
@@ -189,11 +243,17 @@ def resolve_name(name: str, prefer: list[str] | None = None) -> Card:
     if energy:
         return energy_card(energy)
 
-    prefer = prefer or []
+    prefer = list(prefer or []) or list(PRINT_PREFER.get(name) or [])
     preferred_id = PREFERRED_IDS.get(name)
     if preferred_id:
         try:
-            return normalize_card(fetch_full(preferred_id))
+            card = normalize_card(fetch_full(preferred_id))
+            if not prefer:
+                return card
+            blob = json.dumps(card.to_dict()).lower()
+            if any(p.lower() in blob for p in prefer):
+                return card
+            # Preferred id exists but does not match attack hints — keep searching.
         except Exception:
             pass
 
@@ -204,7 +264,7 @@ def resolve_name(name: str, prefer: list[str] | None = None) -> Card:
         return fallback_card(name)
 
     ranked = sorted(pool, key=lambda b: _score_candidate(b, name, prefer), reverse=True)
-    for brief in ranked[:8]:
+    for brief in ranked[:12]:
         try:
             full = fetch_full(brief["id"])
             card = normalize_card(full)
@@ -212,7 +272,19 @@ def resolve_name(name: str, prefer: list[str] | None = None) -> Card:
                 blob = json.dumps(card.to_dict()).lower()
                 if any(p.lower() in blob for p in prefer):
                     return card
+                continue
             return card
+        except Exception:
+            continue
+    # Fall back to preferred id even without phrase match, then any ranked card.
+    if preferred_id:
+        try:
+            return normalize_card(fetch_full(preferred_id))
+        except Exception:
+            pass
+    for brief in ranked[:8]:
+        try:
+            return normalize_card(fetch_full(brief["id"]))
         except Exception:
             continue
     return fallback_card(name)

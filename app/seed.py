@@ -49,9 +49,16 @@ def load_seed_payload() -> dict:
 
 
 def build_seed_payload(enrich: bool = True) -> dict:
+    from app.catalog import PRINT_PREFER
+
+    prefer_a = {**PRINT_PREFER}
+    prefer_b = {
+        **PRINT_PREFER,
+        "Pikachu": ["paralyze", "Thunder Shock", "Tail Whap"],
+    }
     builder = _try_enrich if enrich else lambda names, prefer=None: build_fallback_deck(names)
-    cards_a = builder(SET_A_NAMES, {})
-    cards_b = builder(SET_B_NAMES, {"Pikachu": ["paralyze", "Thunder Shock"]})
+    cards_a = builder(SET_A_NAMES, prefer_a)
+    cards_b = builder(SET_B_NAMES, prefer_b)
     payload = {
         "a": {
             "id": "seed-a",
