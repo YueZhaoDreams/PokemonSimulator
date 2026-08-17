@@ -70,6 +70,8 @@ PHRASE_HINTS = {
     "into the deep": "Relicanth",
     "poison sting": "Spinarak",
     "crabhammer": "Corphish",
+    "kindling panic": "Litwick",
+    "flickering flames": "Litwick",
     "tongue slap": "Lickilicky",
     "heavy impact": "Lickilicky",
     "spinning attack": "Bronzor",

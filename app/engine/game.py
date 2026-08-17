@@ -872,6 +872,21 @@ class Game:
                 self._swallow_energy(me, int(effect.get("look") or 5))
             elif effect.get("kind") == "bench_damage_counters":
                 self._bench_damage_counters(foe, int(effect.get("counters") or 1))
+            elif effect.get("kind") == "mill_opponent":
+                self._mill_opponent(me, foe, int(effect.get("count") or 1))
+
+    def _mill_opponent(self, me: Player, foe: Player, count: int = 1) -> None:
+        milled = 0
+        for _ in range(max(1, count)):
+            if not foe.deck:
+                break
+            card_i = foe.deck.pop(0)
+            foe.discard.append(card_i)
+            milled += 1
+            self._bump("mill_opponent")
+            self._log(f"{me.name} mills {foe.card(card_i).name} from {foe.name}'s deck")
+        if milled:
+            self._bump("mill_attack")
 
     def _count_psychic_energy_in_play(self, me: Player) -> int:
         """Count Psychic Energy attached to all of this player's Pokémon.
@@ -974,6 +989,9 @@ class Game:
                     if n.lower() not in {me.card(m.card_i).name.lower() for m in me.in_play()}
                 ]
                 score += 70 if slots > 0 and missing else (20 if slots > 0 else -20)
+            if any(e.get("kind") == "mill_opponent" for e in atk.effects):
+                # Deck mill is a real plan in Family Cup long games.
+                score += 55
             if any(e.get("kind") == "draw" for e in atk.effects) and atk.damage <= 30:
                 score += 15
             if best is None or score > best_score:
