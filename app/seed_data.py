@@ -273,7 +273,22 @@ for card in [
     _pkm("Plusle", "Basic", ["Lightning"], 70, [_atk("Plus Damage", ["Colorless", "Colorless"], 10)], weakness="Fighting"),
     _pkm("Lickilicky", "Stage1", ["Colorless"], 140, [_atk("Tongue Slap", ["Colorless"], 40), _atk("Heavy Impact", ["Colorless", "Colorless", "Colorless"], 90)], evolves_from="Lickitung", weakness="Fighting"),
     _pkm("Slugma", "Basic", ["Fire"], 70, [_atk("Flare", ["Fire"], 10), _atk("Combustion", ["Fire", "Colorless"], 30)], weakness="Water"),
-    _pkm("Litwick", "Basic", ["Fire"], 60, [_atk("Searing Flame", ["Fire"], 10, "Flip a coin. If heads, your opponent's Active Pokémon is now Burned.")], weakness="Water"),
+    _pkm(
+        "Litwick",
+        "Basic",
+        ["Fire"],
+        60,
+        [
+            _atk(
+                "Kindling Panic",
+                ["Fire"],
+                0,
+                "Discard the top card of your opponent's deck.",
+            )
+        ],
+        weakness="Water",
+        catalog_id="swsh11-024",
+    ),
     _pkm("Ferroseed", "Basic", ["Metal"], 60, [_atk("Spike Ring", ["Metal"], 20)], weakness="Fire"),
     _pkm("Galarian Meowth", "Basic", ["Metal"], 60, [_atk("Scratch", ["Metal"], 10), _atk("Spiked Heels", ["Colorless", "Colorless"], 30)], weakness="Fire"),
     _pkm("Aron", "Basic", ["Metal"], 60, [_atk("Dig-Claws", ["Metal"], 20)], weakness="Fire"),

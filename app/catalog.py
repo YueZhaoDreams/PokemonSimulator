@@ -77,6 +77,7 @@ PREFERRED_IDS = {
     "Lickilicky": "swsh11-139",
     "Emolga": "sv10.5b-029",
     "Gimmighoul": "sv04-087",  # Call for Family / Corkscrew Punch
+    "Litwick": "swsh11-024",  # Kindling Panic — mill opponent deck
     "Oddish": "swsh12.5-001",
     "Clefairy": "swsh11-062",
     "Dusclops": "swsh9-061",
@@ -98,6 +99,7 @@ PRINT_PREFER = {
     "Plusle": ["plus damage"],
     "Emolga": ["static shock", "call for family"],
     "Gimmighoul": ["call for family", "corkscrew"],
+    "Litwick": ["kindling panic", "discard the top"],
     "Hisuian Sliggoo": ["rigidify", "gentle slap"],
     "Dusclops": ["fade to black"],
     "Oddish": ["leaf boomerang"],

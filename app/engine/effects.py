@@ -67,6 +67,11 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
         up_to = re.search(r"up to (\d+)", t)
         effects.append({"kind": "search_item", "count": int(up_to.group(1)) if up_to else 1})
 
+    # Litwick Kindling Panic / opponent deck mill
+    if "discard the top" in t and "opponent" in t and "deck" in t:
+        top = re.search(r"top (\d+)", t)
+        effects.append({"kind": "mill_opponent", "count": int(top.group(1)) if top else 1})
+
     if "this attack does nothing" in t:
         effects.append({"kind": "coin_whiff"})
 

@@ -1634,46 +1634,40 @@
         "dex_id": 218
       },
       {
-        "catalog_id": "sm2-11",
+        "catalog_id": "swsh11-024",
         "name": "Litwick",
         "category": "Pokemon",
         "stage": "Basic",
         "types": [
           "Fire"
         ],
-        "hp": 50,
+        "hp": 60,
         "attacks": [
           {
-            "name": "Flickering Flames",
+            "name": "Kindling Panic",
             "cost": [
               "Fire"
             ],
-            "damage": 10,
-            "text": "Your opponent\u2019s Active Pok\u00e9mon is now Asleep.",
+            "damage": 0,
+            "text": "Discard the top card of your opponent's deck.",
             "effects": [
               {
-                "kind": "status",
-                "status": "asleep",
-                "coin": false
+                "kind": "mill_opponent",
+                "count": 1
               }
             ]
           }
         ],
         "abilities": [],
-        "weaknesses": [
-          {
-            "type": "Water",
-            "value": "\u00d72"
-          }
-        ],
+        "weaknesses": [],
         "resistances": [],
         "retreat": 1,
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sm/sm2/11/low.webp",
-        "set_name": "Guardians Rising",
-        "text": "While shining a light and pretending to be a guide, it leeches off the life force of any who follow it.",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh11/024/low.webp",
+        "set_name": "Lost Origin",
+        "text": "",
         "dex_id": 607
       },
       {
