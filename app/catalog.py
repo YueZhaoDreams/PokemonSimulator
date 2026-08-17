@@ -75,6 +75,7 @@ PREFERRED_IDS = {
     "Hisuian Sliggoo": "swsh11-133",
     "Lickilicky": "swsh11-139",
     "Emolga": "sv10.5b-029",
+    "Gimmighoul": "sv04-087",  # Call for Family / Corkscrew Punch
     "Oddish": "swsh12.5-001",
     "Clefairy": "swsh11-062",
     "Dusclops": "swsh9-061",
@@ -92,7 +93,8 @@ PRINT_PREFER = {
     "Carbink": ["lucky find", "power gem"],
     "Relicanth": ["into the deep"],
     "Plusle": ["plus damage"],
-    "Emolga": ["static shock"],
+    "Emolga": ["static shock", "call for family"],
+    "Gimmighoul": ["call for family", "corkscrew"],
     "Hisuian Sliggoo": ["rigidify", "gentle slap"],
     "Dusclops": ["fade to black"],
     "Oddish": ["leaf boomerang"],

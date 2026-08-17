@@ -370,26 +370,57 @@ class Game:
 
     def _play_trainers(self, me: Player, foe: Player, who: str) -> None:
         for _ in range(10):
-            found = None
-            for card_i in me.hand:
-                card = me.card(card_i)
-                if not card.is_trainer or card.name.lower() == "rare candy":
-                    continue
-                if card.is_supporter and me.supporter_used:
-                    continue
-                found = card_i
-                break
+            found = self._pick_trainer(me)
             if found is None:
                 return
             card = me.card(found)
             if card.is_supporter:
                 me.supporter_used = True
             me.hand.remove(found)
-            me.discard.append(found)
-            self._resolve_trainer(me, foe, card)
+            # Ultra Ball discards happen inside resolver before searching.
+            if card.name.lower() not in {"ultra ball"}:
+                me.discard.append(found)
+            self._resolve_trainer(me, foe, card, who=who, card_i=found)
             self._log(f"{me.name} plays {card.name}")
 
-    def _resolve_trainer(self, me: Player, foe: Player, card: Card) -> None:
+    def _pick_trainer(self, me: Player) -> int | None:
+        """Prefer search items (balls) when key Pokémon are not yet available."""
+        protect = {n.lower() for n in self.strats["a" if me.name == "A" else "b"].protect}
+        in_play = {me.card(m.card_i).name.lower() for m in me.in_play()}
+        in_hand = {me.card(i).name.lower() for i in me.hand}
+        missing_protect = [n for n in protect if n not in in_play and n not in in_hand]
+
+        candidates: list[tuple[float, int]] = []
+        for card_i in me.hand:
+            card = me.card(card_i)
+            if not card.is_trainer or card.name.lower() == "rare candy":
+                continue
+            if card.is_supporter and me.supporter_used:
+                continue
+            name = card.name.lower()
+            score = 0.0
+            if name in {"ultra ball", "poké ball", "poke ball"} and missing_protect:
+                score += 8
+            elif name in {"ultra ball", "poké ball", "poke ball"}:
+                score += 3
+            elif name == "energy search":
+                score += 4 if missing_protect else 2
+            elif name == "tulip":
+                score += 2
+            elif name in {"energy switch", "trekking shoes", "tool box"}:
+                score += 1
+            else:
+                score += 0.5
+            # Family Cup: Energy Search is also a Pokémon tutor.
+            if name == "energy search" and self.rules.pokemon_as_energy:
+                score += 3
+            candidates.append((score, card_i))
+        if not candidates:
+            return None
+        candidates.sort(reverse=True)
+        return candidates[0][1]
+
+    def _resolve_trainer(self, me: Player, foe: Player, card: Card, who: str = "a", card_i: int | None = None) -> None:
         name = card.name.lower()
         if name in {"hop"}:
             self._draw(me, 3)
@@ -398,28 +429,284 @@ class Game:
             me.hand.clear()
             self.rng.shuffle(me.deck)
             self._draw(me, 5)
-        elif name in {"quick ball", "great ball", "nest ball", "nesting ball"}:
-            self._search(me, lambda c: c.is_pokemon and (c.is_basic if "nest" in name or "quick" in name else True))
+        elif name in {"quick ball", "great ball", "nest ball", "nesting ball", "poké ball", "poke ball"}:
+            if name in {"poké ball", "poke ball"} and self.rng.random() < 0.5:
+                self._bump("poke_ball_miss")
+                self._log(f"{me.name} Poké Ball missed (tails)")
+                return
+            prefer = self._pokemon_search_prefer(me, who)
+            found = self._search(me, lambda c: c.is_pokemon, prefer=prefer)
+            if found:
+                self._bump("ball_search_hit")
+                self._log(f"{me.name} ball finds {me.card(found).name}")
+        elif name == "ultra ball":
+            # Cost: discard Ultra Ball + 2 other cards from hand.
+            if card_i is not None:
+                me.discard.append(card_i)
+            discarded = self._discard_for_ultra_ball(me, n=2)
+            if discarded < 2:
+                self._bump("ultra_ball_fail")
+                return
+            prefer = self._pokemon_search_prefer(me, who)
+            found = self._search(me, lambda c: c.is_pokemon, prefer=prefer)
+            if found:
+                self._bump("ball_search_hit")
+                self._bump("ultra_ball_hit")
+                self._log(f"{me.name} Ultra Ball finds {me.card(found).name}")
         elif name == "energy search":
-            self._search(me, lambda c: c.is_energy)
+            # Family Cup: Pokémon count as Basic Energy of their type, so Energy Search
+            # may fetch a Pokémon to attach later as energy (or to play).
+            prefer = self._energy_search_prefer(me, who)
+            found = self._search(
+                me,
+                lambda c: c.is_energy
+                or (self.rules.pokemon_as_energy and c.is_pokemon and bool(c.as_energy_type)),
+                prefer=prefer,
+            )
+            if found:
+                card_found = me.card(found)
+                self._bump("energy_search_hit")
+                if card_found.is_pokemon:
+                    self._bump("energy_search_pokemon")
+                self._log(
+                    f"{me.name} Energy Search finds {card_found.name}"
+                    + (" (as energy)" if card_found.is_pokemon else "")
+                )
         elif name == "energy retrieval":
             found = [i for i in me.discard if me.card(i).is_energy][:2]
             for i in found:
                 me.discard.remove(i)
                 me.hand.append(i)
+        elif name == "energy switch":
+            self._energy_switch(me)
+        elif name == "tulip":
+            self._tulip(me)
+        elif name == "trekking shoes":
+            if me.deck:
+                top = me.deck.pop(0)
+                # Prefer keeping protect/search cards.
+                card_top = me.card(top)
+                protect = {n.lower() for n in self.strats["a" if me.name == "A" else "b"].protect}
+                keep = (
+                    card_top.name.lower() in protect
+                    or card_top.is_energy
+                    or card_top.name.lower() in {"ultra ball", "poké ball", "poke ball", "energy search"}
+                    or self.rng.random() < 0.55
+                )
+                if keep:
+                    me.hand.append(top)
+                else:
+                    me.discard.append(top)
+                    self._draw(me, 1)
         elif name == "picnic basket":
             for mon in me.in_play():
                 mon.damage = max(0, mon.damage - 30)
         else:
             self._draw(me, 1)
 
-    def _search(self, me: Player, pred) -> None:
-        for idx, card_i in enumerate(list(me.deck)):
-            if pred(me.card(card_i)):
-                me.deck.pop(idx)
-                me.hand.append(card_i)
-                self.rng.shuffle(me.deck)
+    def _discard_for_ultra_ball(self, me: Player, n: int = 2) -> int:
+        protect = {n.lower() for n in self.strats["a" if me.name == "A" else "b"].protect}
+        scored: list[tuple[float, int]] = []
+        for i in list(me.hand):
+            card = me.card(i)
+            score = 0.0
+            if card.name.lower() in protect:
+                score -= 10
+            if card.name.lower() in {"ultra ball", "poké ball", "poke ball"}:
+                score -= 5
+            if card.is_energy:
+                score -= 1
+            if card.hp and card.hp >= 140:
+                score -= 3
+            if card.is_trainer:
+                score += 2
+            if card.is_pokemon and card.hp and card.hp <= 70:
+                score += 3
+            scored.append((score, i))
+        scored.sort(reverse=True)
+        taken = 0
+        for _, i in scored[:n]:
+            if i in me.hand:
+                me.hand.remove(i)
+                me.discard.append(i)
+                taken += 1
+        return taken
+
+    def _pokemon_search_prefer(self, me: Player, who: str) -> list[str]:
+        strat = self.strats[who]
+        prefer = list(strat.protect)
+        # Side defaults for carpet sets.
+        if who == "a":
+            prefer += ["Dondozo", "Orthworm", "Flutter Mane", "Carbink"]
+        else:
+            prefer += ["Pikachu", "Emolga", "Gimmighoul", "Electrike", "Wailmer"]
+        # Already in play/hand are lower priority — handled by scoring in _search.
+        return list(dict.fromkeys(prefer))
+
+    def _energy_search_prefer(self, me: Player, who: str) -> list[str]:
+        """What Energy Search should dig for under Family Cup."""
+        prefer: list[str] = []
+        if me.active:
+            need = self._needed_types(me, me.active)
+            # Named energies first.
+            for et in need:
+                prefer.append(f"{et} Energy")
+            # Then Pokémon that pay those types (and protected aces).
+            type_prefer = {
+                "Water": ["Dondozo", "Seel", "Corphish", "Wailmer", "Poliwhirl"],
+                "Metal": ["Orthworm", "Bronzor", "Metang", "Aron", "Ferroseed"],
+                "Psychic": ["Flutter Mane", "Flittle", "Kadabra", "Gimmighoul"],
+                "Lightning": ["Pikachu", "Electrike", "Emolga", "Plusle"],
+                "Fire": ["Slugma", "Litwick", "Crocalor", "Salazzle"],
+                "Grass": ["Roselia", "Tangela", "Oddish"],
+                "Fighting": ["Rockruff", "Relicanth", "Carbink"],
+            }
+            for et in need:
+                prefer.extend(type_prefer.get(et, []))
+        prefer.extend(self._pokemon_search_prefer(me, who))
+        if who == "b":
+            prefer = ["Grass Energy", "Pikachu", "Electrike", "Emolga"] + prefer
+        else:
+            prefer = ["Psychic Energy", "Dondozo", "Orthworm", "Flutter Mane"] + prefer
+        return list(dict.fromkeys(prefer))
+
+    def _search(self, me: Player, pred, prefer: list[str] | None = None, n: int = 1) -> int | None:
+        prefer_l = [p.lower() for p in (prefer or [])]
+        in_play = {me.card(m.card_i).name.lower() for m in me.in_play()}
+        in_hand = {me.card(i).name.lower() for i in me.hand}
+        scored: list[tuple[float, int, int]] = []
+        for idx, card_i in enumerate(me.deck):
+            card = me.card(card_i)
+            if not pred(card):
+                continue
+            score = 0.0
+            name = card.name.lower()
+            if name in prefer_l:
+                score += 20 - prefer_l.index(name)
+            if name in in_play or name in in_hand:
+                score -= 8
+            if card.is_basic:
+                score += 1
+            if card.hp >= 140:
+                score += 3
+            scored.append((score, idx, card_i))
+        if not scored:
+            return None
+        scored.sort(reverse=True)
+        last = None
+        for i, (_, idx, card_i) in enumerate(scored[:n]):
+            # Recompute index each time since deck mutates.
+            try:
+                real_idx = me.deck.index(card_i)
+            except ValueError:
+                continue
+            me.deck.pop(real_idx)
+            me.hand.append(card_i)
+            last = card_i
+        self.rng.shuffle(me.deck)
+        return last
+
+    def _search_items(self, me: Player, count: int = 2, prefer_names: list[str] | None = None) -> list[int]:
+        prefer = [n.lower() for n in (prefer_names or ["ultra ball", "poké ball", "poke ball", "energy search", "energy switch"])]
+        in_hand = {me.card(i).name.lower() for i in me.hand}
+        scored: list[tuple[float, int]] = []
+        for card_i in me.deck:
+            card = me.card(card_i)
+            if not card.is_item and not (card.is_trainer and (card.trainer_kind or "").lower() == "item"):
+                # Some seeds mark items with stage Item.
+                if not (card.is_trainer and "item" in (card.stage or "").lower()):
+                    if not card.is_trainer or card.is_supporter:
+                        continue
+                    if (card.trainer_kind or "").lower() == "supporter":
+                        continue
+            name = card.name.lower()
+            score = 0.0
+            if name in prefer:
+                score += 30 - prefer.index(name)
+            if name in in_hand:
+                score -= 5
+            if "ball" in name:
+                score += 5
+            scored.append((score, card_i))
+        scored.sort(reverse=True)
+        found: list[int] = []
+        for _, card_i in scored[:count]:
+            try:
+                me.deck.remove(card_i)
+            except ValueError:
+                continue
+            me.hand.append(card_i)
+            found.append(card_i)
+            self._bump("lucky_find_item")
+            self._log(f"{me.name} Lucky Find gets {me.card(card_i).name}")
+        self.rng.shuffle(me.deck)
+        return found
+
+    def _call_family(self, me: Player, who: str, count: int = 1) -> None:
+        prefer = [p.lower() for p in self._pokemon_search_prefer(me, who)]
+        slots = self.rules.bench_size - len(me.bench)
+        take = min(count, max(0, slots))
+        for _ in range(take):
+            scored: list[tuple[float, int]] = []
+            in_play = {me.card(m.card_i).name.lower() for m in me.in_play()}
+            for card_i in me.deck:
+                card = me.card(card_i)
+                if not card.is_basic:
+                    continue
+                name = card.name.lower()
+                score = 0.0
+                if name in prefer:
+                    score += 20 - prefer.index(name)
+                if name in in_play:
+                    score -= 4
+                if card.hp >= 140:
+                    score += 2
+                scored.append((score, card_i))
+            if not scored:
+                break
+            scored.sort(reverse=True)
+            card_i = scored[0][1]
+            me.deck.remove(card_i)
+            me.bench.append(Pokemon(card_i=card_i, played_turn=self.turn))
+            self._bump("call_family")
+            self._log(f"{me.name} Call for Family benches {me.card(card_i).name}")
+            self.rng.shuffle(me.deck)
+
+    def _energy_switch(self, me: Player) -> None:
+        donors = [m for m in me.in_play() if m.energy]
+        if not donors or not me.active:
+            return
+        # Move one energy onto active if active needs it.
+        if me.active.energy and all(len(m.energy) <= len(me.active.energy) for m in donors):
+            return
+        donor = max(donors, key=lambda m: len(m.energy))
+        if donor is me.active and len(donors) == 1:
+            return
+        if donor is me.active:
+            others = [m for m in donors if m is not me.active]
+            if not others:
                 return
+            # Prefer charging active: take from bench instead.
+            donor = max(others, key=lambda m: len(m.energy))
+        energy_i = donor.energy.pop()
+        me.active.energy.append(energy_i)
+        self._log(f"{me.name} Energy Switch onto {me.card(me.active.card_i).name}")
+
+    def _tulip(self, me: Player) -> None:
+        picked = []
+        for i in list(me.discard):
+            card = me.card(i)
+            is_psychic_pkm = card.is_pokemon and card.types and card.types[0] == "Psychic"
+            is_psychic_nrg = card.is_energy and (card.energy_type or "") == "Psychic"
+            if is_psychic_pkm or is_psychic_nrg:
+                picked.append(i)
+            if len(picked) >= 4:
+                break
+        for i in picked:
+            me.discard.remove(i)
+            me.hand.append(i)
+        if picked:
+            self._log(f"{me.name} Tulip recovers {len(picked)} Psychic cards")
 
     def _attach_energy(self, me: Player, who: str) -> None:
         if not me.active or me.energy_attached:
@@ -566,8 +853,10 @@ class Game:
             elif effect.get("kind") == "draw":
                 self._draw(me, int(effect.get("amount") or 1))
             elif effect.get("kind") == "call_family":
-                self._search(me, lambda c: c.is_basic)
-                self._play_basics(me)
+                self._call_family(me, who, count=int(effect.get("count") or 1))
+            elif effect.get("kind") == "search_item":
+                prefer = ["Ultra Ball", "Poké Ball", "Poke Ball", "Energy Search", "Energy Switch", "Trekking Shoes"]
+                self._search_items(me, count=int(effect.get("count") or 2), prefer_names=prefer)
             elif effect.get("kind") == "swallow_energy":
                 self._swallow_energy(me, int(effect.get("look") or 5))
             elif effect.get("kind") == "bench_damage_counters":
@@ -640,6 +929,22 @@ class Game:
                 score += 120 * max(0.4, strat.prefer_damage)
             if any(e.get("kind") == "deck_count_bonus" for e in atk.effects) and len(me.deck) <= 3:
                 score += 150
+            if any(e.get("kind") == "search_item" for e in atk.effects):
+                # Carbink Lucky Find: prioritize fetching Ultra/Poké Ball while they remain in deck.
+                need_balls = any(
+                    me.card(i).name.lower() in {"ultra ball", "poké ball", "poke ball"} for i in me.deck
+                ) and not any(
+                    me.card(i).name.lower() in {"ultra ball", "poké ball", "poke ball"} for i in me.hand
+                )
+                score += 100 if need_balls else 25
+            if any(e.get("kind") == "call_family" for e in atk.effects):
+                slots = self.rules.bench_size - len(me.bench)
+                missing = [
+                    n
+                    for n in strat.protect
+                    if n.lower() not in {me.card(m.card_i).name.lower() for m in me.in_play()}
+                ]
+                score += 70 if slots > 0 and missing else (20 if slots > 0 else -20)
             if any(e.get("kind") == "draw" for e in atk.effects) and atk.damage <= 30:
                 score += 15
             if best is None or score > best_score:

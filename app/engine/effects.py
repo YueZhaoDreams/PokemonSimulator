@@ -48,12 +48,24 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
     if heal:
         effects.append({"kind": "heal", "amount": int(heal.group(1))})
 
-    if "draw" in t:
+    if "draw" in t and "search your deck" not in t:
         n = re.search(r"draw (\d+)", t)
         effects.append({"kind": "draw", "amount": int(n.group(1)) if n else 1})
 
-    if "call for family" in t or "search your deck for a basic" in t:
-        effects.append({"kind": "call_family"})
+    # Call for Family / bench a Basic from deck
+    if (
+        "call for family" in t
+        or ("basic" in t and "bench" in t and "search your deck" in t)
+        or "search your deck for a basic" in t
+        or "search your deck for up to" in t and "basic" in t and "bench" in t
+    ):
+        up_to = re.search(r"up to (\d+)", t)
+        effects.append({"kind": "call_family", "count": int(up_to.group(1)) if up_to else 1})
+
+    # Carbink Lucky Find / item search attacks
+    if "search your deck" in t and "item" in t:
+        up_to = re.search(r"up to (\d+)", t)
+        effects.append({"kind": "search_item", "count": int(up_to.group(1)) if up_to else 1})
 
     if "this attack does nothing" in t:
         effects.append({"kind": "coin_whiff"})
