@@ -2136,8 +2136,8 @@
         "dex_id": null
       },
       {
-        "catalog_id": "jacq",
-        "name": "Jacq",
+        "catalog_id": "tulip",
+        "name": "Tulip",
         "category": "Trainer",
         "stage": "Supporter",
         "types": [],
@@ -2152,7 +2152,7 @@
         "energy_type": null,
         "image": null,
         "set_name": null,
-        "text": "Search your deck for up to 2 Evolution Pok\u00e9mon.",
+        "text": "Put up to 4 in any combination of Psychic Pok\u00e9mon and Basic Psychic Energy cards from your discard pile into your hand.",
         "dex_id": null
       }
     ]
