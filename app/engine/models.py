@@ -152,7 +152,8 @@ class FamilyRules:
     extra_prize_for_ex: bool = False
     notes: str = (
         "28-card decks, 3 prize cards, and every Pokémon can be attached as a "
-        "Basic Energy of its type. Other play follows standard Pokémon TCG."
+        "Basic Energy of its type (so Energy Search may also fetch a Pokémon). "
+        "Other play follows standard Pokémon TCG."
     )
 
     def to_dict(self) -> dict[str, Any]:
