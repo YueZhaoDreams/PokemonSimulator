@@ -174,6 +174,8 @@ def api_simulate(payload: dict) -> dict:
         question=payload.get("question"),
         queries=payload.get("queries") or [
             {"type": "opening_hand_contains", "side": "a", "card": "Dondozo", "key": "dondozo_opening_a"},
+            {"type": "event_prefix", "prefix": "saw_play:Dondozo", "key": "dondozo_saw_play"},
+            {"type": "event_prefix", "prefix": "tutor:Dondozo", "key": "dondozo_tutored"},
             {
                 "type": "status",
                 "attacker": "Pikachu",

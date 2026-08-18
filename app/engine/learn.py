@@ -56,6 +56,15 @@ def learn_from_games(games: list[Any], cards_a: list[Card], cards_b: list[Card])
     else:
         insights.append(f"The matchup is close ({win_rate_a:.0%} for A). Family play should stay fun.")
 
+    if events.get("saw_play:Dondozo") or events.get("tutor:Dondozo"):
+        saw = sum(1 for g in games if any(k.startswith("saw_play:Dondozo") for k in g.events))
+        tutored = sum(1 for g in games if any(k.startswith("tutor:Dondozo") for k in g.events))
+        prized_open = sum(1 for g in games if "Dondozo" in g.prized_a)
+        insights.append(
+            f"Dondozo reached play in {saw / n:.0%} of games "
+            f"(tutored from deck in {tutored / n:.0%}; started in prizes in {prized_open / n:.0%})."
+        )
+
     if events.get("pokemon_as_energy"):
         insights.append(
             f"Family energy rule fired {events['pokemon_as_energy'] / n:.1f} times per game on average — "
@@ -127,6 +136,14 @@ def learn_from_games(games: list[Any], cards_a: list[Card], cards_b: list[Card])
             "pokemon_as_energy_per_game": events.get("pokemon_as_energy", 0) / n,
         },
         "combo": combo,
+        "ace_access": {
+            "dondozo_saw_play": sum(1 for g in games if any(k.startswith("saw_play:Dondozo") for k in g.events)) / n,
+            "dondozo_tutored": sum(1 for g in games if any(k.startswith("tutor:Dondozo") for k in g.events)) / n,
+            "dondozo_opening_prize": sum(1 for g in games if "Dondozo" in g.prized_a) / n,
+            "tutor_poke_ball": events.get("tutor:Dondozo:poke ball", 0) / n,
+            "tutor_ultra_ball": events.get("tutor:Dondozo:ultra ball", 0) / n,
+            "tutor_energy_search": events.get("tutor:Dondozo:energy search", 0) / n,
+        },
         "insights": insights,
         "top_knockouts": top_kos[:8],
         "event_totals": dict(events.most_common(40)),
