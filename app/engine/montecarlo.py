@@ -38,6 +38,8 @@ def run_simulation(
             {"type": "opening_hand_contains", "side": "a", "card": "Dondozo", "key": "dondozo_opening_a"},
             {"type": "event_prefix", "prefix": "saw_play:Dondozo", "key": "dondozo_saw_play"},
             {"type": "event_prefix", "prefix": "tutor:Dondozo", "key": "dondozo_tutored"},
+            {"type": "event_prefix", "prefix": "saw_play:Pikachu", "key": "pikachu_saw_play"},
+            {"type": "event_prefix", "prefix": "attack:Pikachu:Volt Tackle", "key": "volt_tackle"},
             {
                 "type": "status",
                 "attacker": "Pikachu",

@@ -21,6 +21,11 @@ class StrategySpec:
     protect: list[str] = field(default_factory=list)
     search_aces: list[str] = field(default_factory=list)
     status_targets: list[str] = field(default_factory=list)
+    backups: list[str] = field(default_factory=list)
+    insurance: list[str] = field(default_factory=list)
+    insurance_bench: int = 0
+    insurance_non_fuel: bool = False
+    max_ace_copies: int = 1
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -37,6 +42,11 @@ class StrategySpec:
             "protect": list(self.protect),
             "search_aces": list(self.search_aces),
             "status_targets": list(self.status_targets),
+            "backups": list(self.backups),
+            "insurance": list(self.insurance),
+            "insurance_bench": self.insurance_bench,
+            "insurance_non_fuel": self.insurance_non_fuel,
+            "max_ace_copies": self.max_ace_copies,
         }
 
     @classmethod
@@ -96,12 +106,12 @@ STRATEGY_LIBRARY = {
     "thrifty": StrategySpec(
         name="thrifty",
         description=(
-            "Set A family play: only put a Pokémon in play if it is the attacker you "
-            "mean to use (or a searcher to find it). Everything else stays in hand as "
-            "Family Cup energy. Save balls for Dondozo; Swallow-Up looks at 3."
+            "Set A family play: Dondozo is the attacker. Keep Water Basics in hand as "
+            "energy. After Dondozo is out, bench one non-Water Pokémon (Orthworm first) "
+            "so a single KO does not end the game. Swallow-Up looks at 3; balls only hunt Dondozo."
         ),
-        prefer_damage=0.75,
-        prefer_status=0.25,
+        prefer_damage=0.85,
+        prefer_status=0.2,
         bench_fill=0.0,
         evolve_asap=0.85,
         attach_pokemon_as_energy=0.9,
@@ -110,6 +120,36 @@ STRATEGY_LIBRARY = {
         hold_as_energy=True,
         protect=["Dondozo"],
         search_aces=["Dondozo"],
+        backups=["Orthworm", "Flutter Mane"],
+        insurance=["Orthworm"],
+        insurance_bench=1,
+        insurance_non_fuel=True,
+        max_ace_copies=1,
+    ),
+    "nuzzle": StrategySpec(
+        name="nuzzle",
+        description=(
+            "Set B family play: one Pikachu in play (prefer Volt Tackle). Lightning "
+            "Basics stay in hand as energy. Nuzzle or Thunder Shock while charging, "
+            "then Volt Tackle into Dondozo's Lightning weakness. Bench two non-Lightning "
+            "Pokémon (Wailmer first) so Hydro Splash cannot wipe the board. Call for "
+            "Family only fetches Pikachu."
+        ),
+        prefer_damage=0.85,
+        prefer_status=0.7,
+        bench_fill=0.0,
+        evolve_asap=0.7,
+        attach_pokemon_as_energy=0.95,
+        item_spend=0.2,
+        hold_as_energy=True,
+        protect=["Pikachu"],
+        search_aces=["Pikachu"],
+        status_targets=["Dondozo", "Wailmer", "Orthworm"],
+        backups=["Electrike"],
+        insurance=["Wailmer", "Sudowoodo", "Relicanth"],
+        insurance_bench=2,
+        insurance_non_fuel=True,
+        max_ace_copies=1,
     ),
 }
 

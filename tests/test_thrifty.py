@@ -23,6 +23,9 @@ def test_thrifty_strategy_knobs():
     assert strat.search_aces == ["Dondozo"]
     assert strat.hold_as_energy is True
     assert strat.bench_fill == 0
+    assert strat.insurance_bench == 1
+    assert strat.backups == ["Orthworm", "Flutter Mane"]
+    assert strat.insurance_non_fuel is True
 
 
 def test_thrifty_opening_does_not_fill_the_bench():
@@ -44,11 +47,24 @@ def test_thrifty_does_not_bench_energy_fuel():
     me.active = Pokemon(card_i=_idx(me, "Dondozo"), played_turn=0)
     me.bench = []
     seel = _idx(me, "Seel")
-    oddish = _idx(me, "Oddish")
-    me.hand = [seel, oddish]
+    corphish = _idx(me, "Corphish")
+    me.hand = [seel, corphish]
     game._play_basics(me)
     assert me.bench == []
-    assert seel in me.hand and oddish in me.hand
+    assert seel in me.hand and corphish in me.hand
+
+
+def test_thrifty_benches_non_water_as_insurance():
+    game = _carpet_game(StrategySpec.from_dict("thrifty"))
+    me = game.players["a"]
+    me.active = Pokemon(card_i=_idx(me, "Dondozo"), played_turn=0)
+    me.bench = []
+    oddish = _idx(me, "Oddish")
+    seel = _idx(me, "Seel")
+    me.hand = [oddish, seel]
+    game._play_basics(me)
+    assert [me.card(m.card_i).name for m in me.bench] == ["Oddish"]
+    assert seel in me.hand
 
 
 def test_thrifty_holds_balls_when_dondozo_is_in_play():
@@ -121,3 +137,32 @@ def test_swallow_look_three_leaves_the_rest_in_deck():
     # Only the looked-at prefix can be attached.
     assert gloom not in me.active.energy
     assert oddish not in me.active.energy
+
+
+def test_thrifty_benches_orthworm_as_ko_insurance():
+    game = _carpet_game(StrategySpec.from_dict("thrifty"))
+    me = game.players["a"]
+    me.active = Pokemon(card_i=_idx(me, "Dondozo"), played_turn=0)
+    me.bench = []
+    orth = _idx(me, "Orthworm")
+    seel = _idx(me, "Seel")
+    me.hand = [orth, seel]
+    game._play_basics(me)
+    assert [me.card(m.card_i).name for m in me.bench] == ["Orthworm"]
+    assert seel in me.hand
+
+
+def test_thrifty_plays_orthworm_when_dondozo_is_gone():
+    game = _carpet_game(StrategySpec.from_dict("thrifty"))
+    me = game.players["a"]
+    dondozo = _idx(me, "Dondozo")
+    me.active = Pokemon(card_i=_idx(me, "Seel"), played_turn=0)
+    me.bench = []
+    me.hand = [_idx(me, "Orthworm"), _idx(me, "Oddish")]
+    me.deck = []
+    me.prizes = [dondozo]
+    me.discard = []
+    game._play_basics(me)
+    names = [me.card(m.card_i).name for m in me.in_play()]
+    assert "Orthworm" in names
+    assert "Oddish" not in names

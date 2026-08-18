@@ -179,15 +179,99 @@ class Game:
                 player.bench.append(Pokemon(card_i=card_i, played_turn=0))
                 self._bump(f"saw_play:{player.card(card_i).name}")
 
+    def _in_play_names(self, player: Player) -> list[str]:
+        return [player.card(m.card_i).name.lower() for m in player.in_play()]
+
+    def _count_named_in_play(self, player: Player, name: str) -> int:
+        key = name.lower()
+        return sum(1 for n in self._in_play_names(player) if n == key)
+
+    def _name_in_zones(self, player: Player, names: set[str], zones: str) -> bool:
+        idxs: list[int] = []
+        if "hand" in zones:
+            idxs.extend(player.hand)
+        if "deck" in zones:
+            idxs.extend(player.deck)
+        if "play" in zones:
+            if player.active:
+                idxs.append(player.active.card_i)
+            idxs.extend(p.card_i for p in player.bench)
+        return any(player.card(i).name.lower() in names for i in idxs)
+
+    def _ace_energy_types(self, player: Player, strat: StrategySpec) -> set[str]:
+        aces = {n.lower() for n in strat.search_aces}
+        types: set[str] = set()
+        for card in player.cards:
+            if card.name.lower() in aces and card.types:
+                types.add(card.types[0])
+        return types
+
+    def _ace_in_play(self, player: Player, strat: StrategySpec) -> bool:
+        aces = {n.lower() for n in strat.search_aces}
+        return (not aces) or any(n in aces for n in self._in_play_names(player))
+
+    def _print_value(self, card) -> float:
+        """Prefer the stronger printing (Volt Tackle Pikachu over Tail Whap)."""
+        dmg = max((atk.damage for atk in card.attacks), default=0)
+        para = any("paralyze" in (atk.text or "").lower() for atk in card.attacks)
+        return float(dmg) + (25.0 if para else 0.0)
+
+    def _is_family_caller(self, card) -> bool:
+        return any(e.get("kind") == "call_family" for atk in card.attacks for e in atk.effects)
+
+    def _is_protected_from_energy(self, me: Player, card, strat: StrategySpec) -> bool:
+        """Keep the last copy of a protected attacker off the energy pile.
+
+        Extra copies (second Pikachu) may still pay Lightning once one is in play.
+        """
+        if card.name.lower() not in {n.lower() for n in strat.protect}:
+            return False
+        return self._count_named_in_play(me, card.name) == 0
+
     def _wants_in_play(self, player: Player, card, strat: StrategySpec, ace_out: bool | None = None) -> bool:
         """True if this Basic should occupy the field instead of staying in hand as energy."""
         if not card.is_basic:
             return False
-        if card.name.lower() in {n.lower() for n in strat.search_aces}:
+        name = card.name.lower()
+        aces = {n.lower() for n in strat.search_aces}
+        backups = {n.lower() for n in strat.backups}
+        insurance = {n.lower() for n in (strat.insurance or strat.backups)}
+        copies = self._count_named_in_play(player, name)
+
+        if name in aces:
+            if strat.hold_as_energy:
+                return copies < max(1, strat.max_ace_copies)
             return True
-        if strat.hold_as_energy:
-            return False
-        return True
+        if not strat.hold_as_energy:
+            return True
+
+        ace_out = self._ace_in_play(player, strat) if ace_out is None else ace_out
+        ace_reachable = (not aces) or self._name_in_zones(player, aces, "play+hand+deck")
+        fallback_out = sum(1 for n in self._in_play_names(player) if n in backups)
+
+        # Ace is prized or otherwise gone — this backup is now the attacker.
+        if name in backups and not ace_reachable:
+            return copies < 1 and fallback_out < 1
+
+        # One extra Pokémon so a single KO does not lose on the spot.
+        if ace_out and strat.insurance_bench > 0 and len(player.bench) < strat.insurance_bench:
+            if name in insurance:
+                return True
+            if strat.insurance_non_fuel and name not in aces:
+                fuel = self._ace_energy_types(player, strat)
+                if (card.as_energy_type or "") not in fuel:
+                    return True
+
+        # Carbink / Emolga: only while the ace is still in the deck.
+        ace_in_hand = self._name_in_zones(player, aces, "hand")
+        if not ace_out and not ace_in_hand and ace_reachable:
+            if self._is_ace_searcher(card) or self._is_family_caller(card):
+                searcher_out = any(
+                    self._is_ace_searcher(player.card(m.card_i)) or self._is_family_caller(player.card(m.card_i))
+                    for m in player.in_play()
+                )
+                return not searcher_out
+        return False
 
     def _is_ace_searcher(self, card) -> bool:
         return any(
@@ -196,15 +280,21 @@ class Game:
 
     def _pick_starter(self, player: Player, basics: list[int], strat: StrategySpec) -> int:
         aces = {n.lower() for n in strat.search_aces}
+        backups = {n.lower() for n in strat.backups}
         ace_in_hand = any(player.card(i).name.lower() in aces for i in basics)
+        ace_in_deck = self._name_in_zones(player, aces, "deck") if aces else True
 
         def score(i: int) -> float:
             card = player.card(i)
             if card.name.lower() in aces:
-                return 1000 + float(card.hp or 0)
+                return 1000 + self._print_value(card)
             if strat.hold_as_energy:
-                if not ace_in_hand and self._is_ace_searcher(card):
+                if not ace_in_hand and ace_in_deck and (
+                    self._is_ace_searcher(card) or self._is_family_caller(card)
+                ):
                     return 500 + float(card.hp or 0)
+                if not ace_in_hand and card.name.lower() in backups:
+                    return (400 if not ace_in_deck else 200) + float(card.hp or 0)
                 # Cheap placeholder — keep stronger Pokémon in hand as energy.
                 return 50 - float(card.hp or 0)
             value = float(card.hp or 50)
@@ -355,11 +445,33 @@ class Game:
         who = "a" if me.name == "A" else "b"
         strat = self.strats[who]
         aces = {n.lower() for n in strat.search_aces}
+        backups = {n.lower() for n in strat.backups}
+        insurance = {n.lower() for n in strat.insurance}
         ace_out = (not aces) or any(me.card(m.card_i).name.lower() in aces for m in me.in_play())
-        # Only the intended attacker (and a searcher if the ace is still missing) enters play.
-        for card_i in list(me.hand):
+
+        def prio(card_i: int) -> tuple:
             card = me.card(card_i)
-            if not card.is_basic or not self._wants_in_play(me, card, strat, ace_out=ace_out):
+            name = card.name.lower()
+            if name in aces:
+                return (0, -self._print_value(card))
+            if name in backups:
+                return (1, -(card.hp or 0))
+            if name in insurance:
+                return (2, -(card.hp or 0))
+            fuel = self._ace_energy_types(me, strat)
+            if strat.insurance_non_fuel and name not in aces and (card.as_energy_type or "") not in fuel:
+                return (3, -(card.hp or 0))
+            if self._is_ace_searcher(card) or self._is_family_caller(card):
+                return (4, 0)
+            return (9, 0)
+
+        # Aces, then fallback attackers, then KO insurance — never random fuel.
+        ordered = sorted((i for i in list(me.hand) if me.card(i).is_basic), key=prio)
+        for card_i in ordered:
+            card = me.card(card_i)
+            if card_i not in me.hand:
+                continue
+            if not self._wants_in_play(me, card, strat, ace_out=ace_out):
                 continue
             if me.active is None:
                 me.hand.remove(card_i)
@@ -680,13 +792,18 @@ class Game:
 
     def _pokemon_search_prefer(self, me: Player, who: str) -> list[str]:
         strat = self.strats[who]
+        if strat.hold_as_energy:
+            prefer = list(strat.search_aces)
+            aces = {n.lower() for n in strat.search_aces}
+            if aces and not self._name_in_zones(me, aces, "play+hand+deck"):
+                prefer += list(strat.backups)
+            return list(dict.fromkeys(prefer))
         prefer = list(strat.search_aces) + list(strat.protect)
         # Side defaults for carpet sets.
         if who == "a":
             prefer += ["Dondozo", "Orthworm", "Flutter Mane", "Carbink"]
         else:
             prefer += ["Pikachu", "Emolga", "Gimmighoul", "Electrike", "Wailmer"]
-        # Already in play/hand are lower priority — handled by scoring in _search.
         return list(dict.fromkeys(prefer))
 
     def _energy_search_prefer(self, me: Player, who: str) -> list[str]:
@@ -738,6 +855,11 @@ class Game:
                 score += 20 - prefer_l.index(name)
             if name in in_play or name in in_hand:
                 score -= 8
+            who = "a" if me.name == "A" else "b"
+            strat = self.strats[who]
+            if strat.hold_as_energy and name in {n.lower() for n in strat.search_aces} and name in in_play:
+                score -= 25
+            score += self._print_value(card) / 20.0
             if card.is_basic:
                 score += 1
             if card.hp >= 140:
@@ -799,7 +921,13 @@ class Game:
         return found
 
     def _call_family(self, me: Player, who: str, count: int = 1) -> None:
+        strat = self.strats[who]
         prefer = [p.lower() for p in self._pokemon_search_prefer(me, who)]
+        allow = {n.lower() for n in strat.search_aces}
+        if strat.hold_as_energy:
+            aces = {n.lower() for n in strat.search_aces}
+            if aces and not self._name_in_zones(me, aces, "play+hand+deck"):
+                allow |= {n.lower() for n in strat.backups}
         slots = self.rules.bench_size - len(me.bench)
         take = min(count, max(0, slots))
         for _ in range(take):
@@ -810,6 +938,8 @@ class Game:
                 if not card.is_basic:
                     continue
                 name = card.name.lower()
+                if strat.hold_as_energy and allow and name not in allow:
+                    continue
                 score = 0.0
                 if name in prefer:
                     score += 20 - prefer.index(name)
@@ -887,33 +1017,34 @@ class Game:
     def _choose_energy_card(self, me: Player, target: Pokemon, strat: StrategySpec) -> int | None:
         need = self._needed_types(me, target)
         energies = [i for i in me.hand if me.card(i).is_energy]
-        if energies:
-            for i in energies:
-                et = me.card(i).as_energy_type
-                if et in need or et == "Colorless" or not need:
-                    return i
-            return energies[0]
+        matching_nrg = [
+            i
+            for i in energies
+            if (me.card(i).as_energy_type in need or me.card(i).as_energy_type == "Colorless" or not need)
+        ]
+        if matching_nrg:
+            return matching_nrg[0]
         if not self.rules.pokemon_as_energy:
-            return None
+            return energies[0] if energies else None
         if self.rng.random() > strat.attach_pokemon_as_energy:
-            return None
-        protect = {n.lower() for n in strat.protect}
+            return energies[0] if energies else None
         candidates = []
         for i in me.hand:
             card = me.card(i)
             if not card.is_pokemon:
                 continue
-            if card.name.lower() in protect:
+            if self._is_protected_from_energy(me, card, strat):
                 continue
-            # Keep at least one copy of a basic line in hand/play if it is the only fighter.
             et = card.as_energy_type
             score = 2 if et in need else 0
             score -= 1 if card.hp >= 120 else 0
             candidates.append((score, i))
         if not candidates:
-            return None
+            return energies[0] if energies else None
         candidates.sort(reverse=True)
-        return candidates[0][1] if candidates[0][0] >= 0 or need else None
+        if candidates[0][0] >= 0 or need:
+            return candidates[0][1]
+        return energies[0] if energies else None
 
     def _needed_types(self, me: Player, target: Pokemon) -> set[str]:
         card = me.card(target.card_i)
@@ -1078,7 +1209,8 @@ class Game:
         """
         if not me.active:
             return
-        protect = {n.lower() for n in self.strats["a" if me.name == "A" else "b"].protect}
+        who = "a" if me.name == "A" else "b"
+        strat = self.strats[who]
         taken = min(look, len(me.deck))
         top = [me.deck.pop(0) for _ in range(taken)]
         keep: list[int] = []
@@ -1092,7 +1224,7 @@ class Game:
                     self.rules.pokemon_as_energy
                     and card.is_pokemon
                     and card.as_energy_type
-                    and card.name.lower() not in protect
+                    and not self._is_protected_from_energy(me, card, strat)
                 )
             )
             if attachable:
@@ -1121,6 +1253,20 @@ class Game:
         self._bump("bench_damage", damage)
         self._log(f"Bench {foe.card(target.card_i).name} took {damage} from Hex-style attack")
 
+    def _effective_damage(self, me: Player, foe: Player, atk) -> int:
+        attacker = me.card(me.active.card_i)
+        defender = foe.card(foe.active.card_i)
+        dmg = atk.damage
+        if any(e.get("kind") == "psychic_energy_times" for e in atk.effects):
+            per = 20
+            for effect in atk.effects:
+                if effect.get("kind") == "psychic_energy_times":
+                    per = int(effect.get("per") or atk.damage or 20)
+                    break
+            dmg = per * self._count_psychic_energy_in_play(me)
+        dmg *= weakness_multiplier(defender.weaknesses, attacker.types)
+        return max(0, dmg - resistance_reduce(defender.resistances, attacker.types))
+
     def _choose_attack(self, me: Player, foe: Player, strat: StrategySpec):
         assert me.active and foe.active
         card = me.card(me.active.card_i)
@@ -1129,26 +1275,35 @@ class Game:
         if not legal:
             return None
         foe_name = foe.card(foe.active.card_i).name
+        foe_hp = max(0, foe.card(foe.active.card_i).hp - foe.active.damage)
+        already_para = bool(foe.active.status & ST_PARALYZED)
         has_big = any(a.damage >= 100 for a in legal)
         best = None
         best_score = -1e9
         for atk in legal:
-            score = atk.damage * strat.prefer_damage
+            effective = self._effective_damage(me, foe, atk)
+            score = float(effective)
             has_status = any(e.get("kind") == "status" for e in atk.effects)
+            has_para = any(e.get("kind") == "status" and e.get("status") == "paralyzed" for e in atk.effects)
+            if effective >= foe_hp > 0:
+                score += 1000
             if has_status:
-                score += 40 * strat.prefer_status
-                if foe_name in strat.status_targets or foe_name.lower() in {n.lower() for n in strat.status_targets}:
-                    score += 50 * strat.prefer_status
+                if has_para and already_para:
+                    score -= 40
+                elif effective < foe_hp:
+                    score += 35 * strat.prefer_status
+                    if foe_name.lower() in {n.lower() for n in strat.status_targets}:
+                        score += 25 * strat.prefer_status
+            # 0-damage Nuzzle loses to a real hit once Volt Tackle / Thunder Shock is online.
+            if atk.damage == 0 and has_status and any(self._effective_damage(me, foe, a) >= 40 for a in legal):
+                score -= 80
             if any(e.get("kind") == "psychic_energy_times" for e in atk.effects):
-                # Estimate Wonder Storm from current board Psychic attachments.
-                score = max(score, 20 * self._count_psychic_energy_in_play(me) * strat.prefer_damage)
+                score = max(score, float(effective) * max(0.6, strat.prefer_damage))
             if any(e.get("kind") == "swallow_energy" for e in atk.effects) and not has_big:
-                # Charge Dondozo before Hydro Splash is online.
                 score += 120 * max(0.4, strat.prefer_damage)
             if any(e.get("kind") == "deck_count_bonus" for e in atk.effects) and len(me.deck) <= 3:
                 score += 150
             if any(e.get("kind") == "search_item" for e in atk.effects):
-                # Carbink Lucky Find: greedy AI tutors balls; thrifty only when an ace is missing.
                 need_balls = any(
                     me.card(i).name.lower() in {"ultra ball", "poké ball", "poke ball"} for i in me.deck
                 ) and not any(
@@ -1167,15 +1322,18 @@ class Game:
                     score += 100 if need_balls else 25
             if any(e.get("kind") == "call_family" for e in atk.effects):
                 slots = self.rules.bench_size - len(me.bench)
-                missing = [
+                missing_ace = [
                     n
-                    for n in strat.protect
+                    for n in strat.search_aces
                     if n.lower() not in {me.card(m.card_i).name.lower() for m in me.in_play()}
+                    and n.lower() not in {me.card(i).name.lower() for i in me.hand}
                 ]
-                score += 70 if slots > 0 and missing else (20 if slots > 0 else -20)
+                if strat.hold_as_energy:
+                    score += 80 if slots > 0 and missing_ace else -40
+                else:
+                    score += 70 if slots > 0 and missing_ace else (20 if slots > 0 else -20)
             if any(e.get("kind") == "mill_opponent" for e in atk.effects):
-                # Deck mill is a real plan in Family Cup long games.
-                score += 55
+                score += 15 if strat.hold_as_energy else 55
             if any(e.get("kind") == "draw" for e in atk.effects) and atk.damage <= 30:
                 score += 15
             if best is None or score > best_score:
