@@ -48,28 +48,54 @@ def load_seed_payload() -> dict:
     return payload
 
 
-def build_seed_payload(enrich: bool = True) -> dict:
-    from app.catalog import PRINT_PREFER, resolve_name
+def _assign_named_prints(cards: list, name: str, prints: list) -> list:
+    """Replace successive copies of `name` with the given printings, in order."""
+    idx = 0
+    out = []
+    for card in cards:
+        card_name = card.name if isinstance(card, Card) else card.get("name")
+        if card_name == name and idx < len(prints):
+            out.append(prints[idx])
+            idx += 1
+        else:
+            out.append(card)
+    return out
 
-    prefer_a = {**PRINT_PREFER, "Pikachu": ["nuzzle", "volt tackle"]}
+
+def build_seed_payload(enrich: bool = True) -> dict:
+    from app.catalog import PRINT_PREFER
+    from app.seed_data import fallback_named
+
+    prefer_a = {
+        **PRINT_PREFER,
+        "Rockruff": ["invite out", "smash kick"],
+    }
     prefer_b = {
         **PRINT_PREFER,
         "Pikachu": ["paralyze", "Thunder Shock", "Tail Whap"],
+        "Rockruff": ["double draw", "rear kick"],
     }
     builder = _try_enrich if enrich else lambda names, prefer=None: build_fallback_deck(names)
     cards_a = builder(SET_A_NAMES, prefer_a)
     cards_b = builder(SET_B_NAMES, prefer_b)
-    # Guarantee the two carpet Pikachu printings stay distinct even if search ties.
+    # After A traded Cosmic Eclipse Pikachu for B's Tulip, B holds both carpet prints:
+    # first copy = original Burning Shadows Thunder Shock, second = Nuzzle / Volt Tackle.
+    nuzzle = fallback_named("pikachu-nuzzle")
+    shock = fallback_named("Pikachu")
     if enrich:
         try:
             from app.catalog import fetch_full, normalize_card
 
-            nuzzle = normalize_card(fetch_full("sm12-66"))  # Nuzzle / Volt Tackle (Set A photo)
-            shock = normalize_card(fetch_full("sm3-40"))  # Tail Whap / Thunder Shock (Set B photo)
-            cards_a = [nuzzle if c.name == "Pikachu" else c for c in cards_a]
-            cards_b = [shock if c.name == "Pikachu" else c for c in cards_b]
+            nuzzle = normalize_card(fetch_full("sm12-66"))  # Cosmic Eclipse, moved A → B
+            shock = normalize_card(fetch_full("sm3-40"))  # Burning Shadows, original Set B
+            # Distinct Rockruff prints: A howls at the moon (CZ), B rolls in grass (Lost Origin).
+            a_ruff = normalize_card(fetch_full("swsh12.5-073"))
+            b_ruff = normalize_card(fetch_full("swsh11-109"))
+            cards_a = [a_ruff if c.name == "Rockruff" else c for c in cards_a]
+            cards_b = [b_ruff if c.name == "Rockruff" else c for c in cards_b]
         except Exception:
             pass
+    cards_b = _assign_named_prints(cards_b, "Pikachu", [shock, nuzzle])
     payload = {
         "a": {
             "id": "seed-a",

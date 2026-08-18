@@ -78,6 +78,20 @@ PHRASE_HINTS = {
     "bullet punch": "Metang",
     "crunch time": "Orthworm",
     "punch and draw": "Orthworm",
+    "invite out": "Rockruff",
+    "smash kick": "Rockruff",
+    "branch poke": "Phantump",
+    "draw in": "Slugma",
+    "spike sting": "Ferroseed",
+    "zap kick": "Electrike",
+    "fasten claws": "Galarian Meowth",
+    "slight intrusion": "Aron",
+    "joust": "Sudowoodo",
+    "light punch": "Poliwhirl",
+    "double smash": "Poliwhirl",
+    "reckless charge": "Pumpkaboo",
+    "mischievous tail": "Aipom",
+    "tactful tangling": "Tangela",
 }
 
 
@@ -108,6 +122,7 @@ def name_lexicon() -> list[str]:
         "Jacq",
         "Tulip",
         "Gimmighoul",
+        "Pumpkaboo",
         "Flittle",
         "Crocalor",
     ]
@@ -235,6 +250,10 @@ def identify_crop(image: Image.Image) -> dict:
     elif best_name is None:
         # Prefer the rotation whose top band looks most like a title (letters, not carpet).
         oriented = _guess_upright(image, gray)
+        best_rot = 0
+    attack_ocr = _ocr_attack_band(oriented)
+    if attack_ocr:
+        raw = f"{raw} {attack_ocr}".strip()
     return {
         "name": best_name,
         "confidence": round(best_score, 1),
@@ -242,6 +261,17 @@ def identify_crop(image: Image.Image) -> dict:
         "ocr": raw,
         "oriented": oriented,
     }
+
+
+def _ocr_attack_band(image: Image.Image) -> str:
+    """Read the attack box of an already-oriented crop so print matching sees move names."""
+    bgr = _to_bgr(image)
+    gray = cv2.cvtColor(bgr, cv2.COLOR_BGR2GRAY)
+    h, w = gray.shape
+    if min(h, w) < 40:
+        return ""
+    band = gray[int(h * 0.40) : int(h * 0.88), int(w * 0.04) : int(w * 0.96)]
+    return _ocr_text(band, psm=6)
 
 
 def _guess_upright(image: Image.Image, gray: np.ndarray) -> Image.Image:

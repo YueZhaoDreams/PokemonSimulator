@@ -20,6 +20,106 @@ def test_dondozo_is_paradox_rift_swallow_up():
     assert hydro.damage == 180
 
 
+def test_set_a_carpet_prints_match_photos():
+    """Printings taken from Set A gallery crops (attacks + art), not first name hit."""
+    expected = {
+        "Bronzor": ("swsh11-125", ["Spinning Attack"]),
+        "Metang": ("swsh12.5-090", ["Bullet Punch"]),
+        "Seel": ("swsh12.5-029", ["Headbutt", "Rain Splash"]),
+        "Corphish": ("swsh12.5-033", ["Water Gun", "Crabhammer"]),
+        "Poliwhirl": ("swsh11-031", ["Light Punch", "Double Smash"]),
+        "Phantump": ("swsh11-016", ["Hook"]),
+        "Gloom": ("swsh11-002", ["Absorb"]),
+        "Dusclops": ("swsh12.5-063", ["Fade to Black"]),
+        "Pumpkaboo": ("sv04-077", ["Seed Bomb", "Reckless Charge"]),
+    }
+    for name, (cid, attacks) in expected.items():
+        card = resolve_name(name)
+        assert card.catalog_id == cid, f"{name} got {card.catalog_id}"
+        got = [a.name for a in card.attacks]
+        for attack in attacks:
+            assert attack in got
+
+
+def test_rockruff_prints_split_by_attack_hints():
+    howl = resolve_name("Rockruff", ["invite out", "smash kick"])
+    roll = resolve_name("Rockruff", ["double draw", "rear kick"])
+    assert howl.catalog_id == "swsh12.5-073"
+    assert roll.catalog_id == "swsh11-109"
+    assert howl.catalog_id != roll.catalog_id
+
+
+def test_ocr_blob_picks_corphish_crown_zenith_over_crimson_invasion():
+    card = resolve_name("Corphish", ocr_text="Corphish 70 WaterGun10 Crabhammer 50")
+    assert card.catalog_id == "swsh12.5-033"
+
+
+def test_gallery_art_picks_lost_origin_phantump_and_gloom():
+    """Art-only crops fooled attack-phrase matching; illustration color must win."""
+    from pathlib import Path
+
+    from app.config import DATA_DIR
+    from app.recognition.images import load_image
+
+    gallery = DATA_DIR / "gallery"
+    phantump = load_image(gallery / "phantump__198639362136c008.jpg")
+    gloom = load_image(gallery / "gloom__4716065e15262e9b.jpg")
+    assert resolve_name("Phantump", crop_image=phantump).catalog_id == "swsh11-016"
+    assert resolve_name("Gloom", crop_image=gloom).catalog_id == "swsh11-002"
+
+
+def test_ocr_blob_picks_gloom_lost_origin_over_obsidian_flames():
+    card = resolve_name("Gloom", ocr_text="Gloom 80 Absorb 30 Heal 30")
+    assert card.catalog_id == "swsh11-002"
+
+
+def test_gallery_art_picks_crown_zenith_tangela_not_twilight_masquerade():
+    """Green-forest HSV hist prefers TWM; yellow frame + Beat/Vine Whip must win."""
+    from app.config import DATA_DIR
+    from app.recognition.images import load_image
+
+    crop = load_image(DATA_DIR / "gallery" / "tangela__0b1616663606b4d8.jpg")
+    assert resolve_name("Tangela", crop_image=crop).catalog_id == "swsh12.5-004"
+
+
+def test_aipom_without_crop_is_lost_origin_not_pokemon_go():
+    card = resolve_name("Aipom")
+    assert card.catalog_id == "swsh11-144"
+    assert [a.name for a in card.attacks] == ["Mischievous Tail", "Scratch"]
+
+
+def test_set_b_carpet_prints_match_photos():
+    """Set B printings taken from gallery crops (attacks + art), not first name hit."""
+    expected = {
+        "Ivysaur": ("sv03.5-002", ["Leech Seed", "Vine Whip"]),
+        "Sudowoodo": ("swsh11-094", ["Joust", "Impound"]),
+        "Gible": ("sv04-094", ["Bite"]),
+        "Slugma": ("swsh11-021", ["Draw In", "Combustion"]),
+        "Ferroseed": ("sv04-127", ["Spike Sting"]),
+        "Electrike": ("swsh11-054", ["Zap Kick", "Thunder Fang"]),
+        "Wailmer": ("swsh12.5-031", ["Nap", "Water Gun"]),
+        "Aron": ("swsh12.5-087", ["Ram", "Slight Intrusion"]),
+        "Spinarak": ("swsh11-112", ["Poison Sting"]),
+        "Salazzle": ("swsh12.5-028", ["Tail Trickery", "Super Singe"]),
+        "Crocalor": ("sv04-024", ["Rolling Fireball"]),
+        "Galarian Meowth": ("swsh12.5-084", ["Fasten Claws"]),
+        "Emolga": ("sv10.5b-029", ["Call for Family", "Static Shock"]),
+        "Tangela": ("swsh12.5-004", ["Beat", "Vine Whip"]),
+        "Aipom": ("swsh11-144", ["Mischievous Tail", "Scratch"]),
+    }
+    for name, (cid, attacks) in expected.items():
+        card = resolve_name(name)
+        assert card.catalog_id == cid, f"{name} got {card.catalog_id}"
+        got = [a.name for a in card.attacks]
+        for attack in attacks:
+            assert attack in got
+        if name == "Spinarak":
+            assert "Darkness" in card.types
+        if name == "Gible":
+            assert card.hp == 70
+            assert "Fighting" in card.types
+
+
 def test_orthworm_has_crunch_time_rush():
     card = resolve_name("Orthworm")
     assert card.catalog_id == "sv04-138"

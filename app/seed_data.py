@@ -18,9 +18,9 @@ SET_A_NAMES = [
     "Gloom",
     "Oddish",
     "Roselia",
-    "Pikachu",
+    "Tulip",
     "Dusclops",
-    "Flittle",
+    "Pumpkaboo",
     "Kadabra",
     "Clefairy",
     "Flutter Mane",
@@ -62,7 +62,7 @@ SET_B_NAMES = [
     "Lickilicky",
     "Spinarak",
     "Aipom",
-    "Tulip",
+    "Pikachu",  # Cosmic Eclipse Nuzzle / Volt Tackle, received from Set A for Tulip
 ]
 
 
@@ -148,7 +148,10 @@ _register(_nrg("Grass"))
 for card in [
     _pkm("Sobble", "Basic", ["Water"], 60, [_atk("Water Gun", ["Water"], 20)], weakness="Lightning"),
     _pkm("Snom", "Basic", ["Water"], 50, [_atk("Powder Snow", ["Water"], 10)], weakness="Metal"),
-    _pkm("Seel", "Basic", ["Water"], 70, [_atk("Headbutt", ["Water"], 20)], weakness="Lightning"),
+    _pkm("Seel", "Basic", ["Water"], 70, [
+        _atk("Headbutt", ["Water"], 10),
+        _atk("Rain Splash", ["Water", "Colorless"], 20),
+    ], catalog_id="swsh12.5-029", weakness="Lightning"),
     _pkm("Wingull", "Basic", ["Water"], 70, [_atk("Gust", ["Colorless"], 10)], weakness="Lightning"),
     _pkm("Marill", "Basic", ["Water"], 70, [_atk("Bubble Drain", ["Water", "Colorless"], 20, "Heal 20 damage from this Pokémon.")], weakness="Lightning"),
     _pkm("Dondozo", "Basic", ["Water"], 160, [
@@ -173,22 +176,30 @@ for card in [
     _pkm("Tinkatink", "Basic", ["Psychic"], 70, [_atk("Smithereen", ["Colorless"], 10)], weakness="Metal"),
     _pkm("Tinkatuff", "Stage1", ["Psychic"], 90, [_atk("Heavy Smash", ["Psychic", "Colorless"], 40)], evolves_from="Tinkatink", weakness="Metal"),
     _pkm("Tinkaton", "Stage2", ["Psychic"], 140, [_atk("Hammer Launch", ["Psychic", "Psychic", "Colorless"], 120)], evolves_from="Tinkatuff", weakness="Metal"),
-    _pkm("Ivysaur", "Stage1", ["Grass"], 100, [_atk("Seed Bomb", ["Grass"], 20), _atk("Leaf Whip", ["Grass", "Colorless"], 60)], evolves_from="Bulbasaur", weakness="Fire"),
+    _pkm("Ivysaur", "Stage1", ["Grass"], 100, [
+        _atk("Leech Seed", ["Grass", "Colorless"], 30, "Heal 20 damage from this Pokémon."),
+        _atk("Vine Whip", ["Grass", "Grass", "Colorless"], 80),
+    ], evolves_from="Bulbasaur", weakness="Fire", catalog_id="sv03.5-002"),
     _pkm("Floragato", "Stage1", ["Grass"], 90, [_atk("Slashing Claw", ["Grass", "Colorless"], 90)], evolves_from="Sprigatito", weakness="Fire"),
     _pkm("Roselia", "Basic", ["Grass"], 70, [
         _atk("Soothing Scent", ["Grass"], 0, "Your opponent's Active Pokémon is now Asleep."),
     ], weakness="Fire"),
     _pkm("Cubone", "Basic", ["Fighting"], 70, [_atk("Headbutt", ["Fighting"], 30)], weakness="Grass"),
     _pkm("Graveler", "Stage1", ["Fighting"], 110, [_atk("Rollout", ["Fighting"], 40), _atk("Rock Slide", ["Fighting", "Colorless", "Colorless"], 80)], evolves_from="Geodude", weakness="Grass"),
-    _pkm("Rockruff", "Basic", ["Fighting"], 60, [_atk("Rock Kick", ["Fighting"], 20)], weakness="Grass"),
+    _pkm("Rockruff", "Basic", ["Fighting"], 60, [
+        _atk("Invite Out", ["Colorless"], 0, "Flip a coin. If heads, switch 1 of your opponent's Benched Pokémon with their Active Pokémon."),
+        _atk("Smash Kick", ["Fighting", "Colorless"], 20),
+    ], weakness="Grass", catalog_id="swsh12.5-073"),
     _pkm("Salazzle", "Stage1", ["Fire"], 120, [
         _atk("Tail Trickery", ["Colorless"], 20, "Your opponent's Active Pokémon is now Confused."),
         _atk("Super Singe", ["Fire", "Colorless"], 60, "Your opponent's Active Pokémon is now Burned."),
     ], evolves_from="Salandit", weakness="Water"),
     _pkm("Combusken", "Stage1", ["Fire"], 90, [_atk("Rolling Fireball", ["Fire", "Colorless"], 60)], evolves_from="Torchic", weakness="Water"),
     _pkm("Crocalor", "Stage1", ["Fire"], 100, [_atk("Rolling Fireball", ["Fire", "Fire"], 90, "Put an Energy attached to this Pokémon into your hand.")], evolves_from="Fuecoco", weakness="Water"),
-    _pkm("Bronzor", "Basic", ["Metal"], 70, [_atk("Spinning Attack", ["Colorless"], 10)], weakness="Fire"),
-    _pkm("Metang", "Stage1", ["Metal"], 100, [_atk("Bullet Punch", ["Metal"], 30)], evolves_from="Beldum", weakness="Fire"),
+    _pkm("Bronzor", "Basic", ["Metal"], 70, [_atk("Spinning Attack", ["Colorless"], 10)], retreat=2, catalog_id="swsh11-125", weakness="Fire"),
+    _pkm("Metang", "Stage1", ["Metal"], 100, [
+        _atk("Bullet Punch", ["Metal", "Colorless"], 30, "Flip 2 coins. This attack does 30 more damage for each heads."),
+    ], evolves_from="Beldum", retreat=2, catalog_id="swsh12.5-090", weakness="Fire"),
     _pkm("Orthworm", "Basic", ["Metal"], 140, [
         _atk("Punch and Draw", ["Metal"], 20, "Draw 2 cards."),
         _atk(
@@ -208,12 +219,20 @@ for card in [
         ),
         _atk("Power Gem", ["Fighting", "Fighting", "Colorless"], 80),
     ], weakness="Grass", catalog_id="swsh11-108"),
-    _pkm("Poliwhirl", "Stage1", ["Water"], 90, [_atk("Light Punch", ["Water"], 30)], evolves_from="Poliwag", weakness="Lightning"),
-    _pkm("Phantump", "Basic", ["Grass"], 70, [_atk("Hook", ["Grass"], 10)], weakness="Fire"),
-    _pkm("Gloom", "Stage1", ["Grass"], 80, [_atk("Absorb", ["Grass"], 30)], evolves_from="Oddish", weakness="Fire"),
+    _pkm("Poliwhirl", "Stage1", ["Water"], 90, [
+        _atk("Light Punch", ["Colorless", "Colorless"], 30),
+        _atk("Double Smash", ["Water", "Colorless", "Colorless"], 50, "Flip 2 coins. This attack does 50 damage for each heads."),
+    ], evolves_from="Poliwag", retreat=2, catalog_id="swsh11-031", weakness="Lightning"),
+    _pkm("Phantump", "Basic", ["Grass"], 70, [_atk("Hook", ["Colorless"], 10)], retreat=2, catalog_id="swsh11-016", weakness="Fire"),
+    _pkm("Gloom", "Stage1", ["Grass"], 80, [
+        _atk("Absorb", ["Grass", "Colorless"], 30, "Heal 30 damage from this Pokémon."),
+    ], evolves_from="Oddish", retreat=2, catalog_id="swsh11-002", weakness="Fire"),
     _pkm("Oddish", "Basic", ["Grass"], 50, [_atk("Leaf Boomerang", ["Grass"], 10)], weakness="Fire"),
-    _pkm("Dusclops", "Stage1", ["Psychic"], 90, [_atk("Fade to Black", ["Psychic"], 30, "Your opponent's Active Pokémon is now Confused.")], evolves_from="Duskull", weakness="Darkness"),
-    _pkm("Flittle", "Basic", ["Psychic"], 40, [_atk("Seed Bomb", ["Psychic"], 10), _atk("Reckless Charge", ["Colorless", "Colorless"], 40)], weakness="Darkness"),
+    _pkm("Dusclops", "Stage1", ["Psychic"], 90, [_atk("Fade to Black", ["Psychic"], 30, "Your opponent's Active Pokémon is now Confused.")], evolves_from="Duskull", retreat=2, catalog_id="swsh12.5-063", weakness="Darkness"),
+    _pkm("Pumpkaboo", "Basic", ["Psychic"], 60, [
+        _atk("Seed Bomb", ["Psychic"], 10),
+        _atk("Reckless Charge", ["Colorless", "Colorless"], 40, "This Pokémon also does 20 damage to itself."),
+    ], retreat=2, catalog_id="sv04-077", weakness="Darkness"),
     _pkm("Kadabra", "Stage1", ["Psychic"], 80, [_atk("Teleportation Attack", ["Psychic"], 30, "Switch this Pokémon with 1 of your Benched Pokémon.")], evolves_from="Abra", weakness="Darkness"),
     _pkm(
         "Clefairy",
@@ -249,10 +268,16 @@ for card in [
         weakness="Metal",
     ),
     _pkm("Hisuian Sliggoo", "Stage1", ["Dragon"], 90, [_atk("Rigidify", ["Colorless"], 0), _atk("Gentle Slap", ["Water", "Metal"], 40)], evolves_from="Goomy", weakness="Dragon"),
-    _pkm("Sudowoodo", "Basic", ["Fighting"], 110, [_atk("Joust", ["Fighting"], 20)], weakness="Water"),
-    _pkm("Gible", "Basic", ["Fighting"], 70, [_atk("Bite", ["Fighting"], 20)], weakness="Grass"),
+    _pkm("Sudowoodo", "Basic", ["Fighting"], 110, [
+        _atk("Joust", ["Fighting"], 20),
+        _atk("Impound", ["Fighting", "Colorless"], 50, "During your opponent's next turn, the Defending Pokémon can't retreat."),
+    ], weakness="Water", catalog_id="swsh11-094"),
+    _pkm("Gible", "Basic", ["Fighting"], 70, [_atk("Bite", ["Fighting"], 20)], weakness="Grass", catalog_id="sv04-094"),
     _pkm("Relicanth", "Basic", ["Fighting"], 90, [_atk("Into the Deep", ["Colorless"], 0), _atk("Tackle", ["Fighting", "Colorless"], 80)], weakness="Grass"),
-    _pkm("Tangela", "Basic", ["Grass"], 80, [_atk("Beat", ["Grass"], 10), _atk("Vine Whip", ["Grass", "Grass", "Colorless"], 60)], weakness="Fire"),
+    _pkm("Tangela", "Basic", ["Grass"], 80, [
+        _atk("Beat", ["Colorless"], 10),
+        _atk("Vine Whip", ["Grass", "Grass", "Colorless"], 60),
+    ], retreat=2, weakness="Fire", catalog_id="swsh12.5-004"),
     _pkm(
         "Gimmighoul",
         "Basic",
@@ -272,7 +297,10 @@ for card in [
     ),
     _pkm("Plusle", "Basic", ["Lightning"], 70, [_atk("Plus Damage", ["Colorless", "Colorless"], 10)], weakness="Fighting"),
     _pkm("Lickilicky", "Stage1", ["Colorless"], 140, [_atk("Tongue Slap", ["Colorless"], 40), _atk("Heavy Impact", ["Colorless", "Colorless", "Colorless"], 90)], evolves_from="Lickitung", weakness="Fighting"),
-    _pkm("Slugma", "Basic", ["Fire"], 70, [_atk("Flare", ["Fire"], 10), _atk("Combustion", ["Fire", "Colorless"], 30)], weakness="Water"),
+    _pkm("Slugma", "Basic", ["Fire"], 70, [
+        _atk("Draw In", ["Fire"], 0, "Attach a Fire Energy card from your discard pile to this Pokémon."),
+        _atk("Combustion", ["Fire", "Fire", "Colorless"], 50),
+    ], retreat=2, weakness="Water", catalog_id="swsh11-021"),
     _pkm(
         "Litwick",
         "Basic",
@@ -289,10 +317,18 @@ for card in [
         weakness="Water",
         catalog_id="swsh11-024",
     ),
-    _pkm("Ferroseed", "Basic", ["Metal"], 60, [_atk("Spike Ring", ["Metal"], 20)], weakness="Fire"),
-    _pkm("Galarian Meowth", "Basic", ["Metal"], 60, [_atk("Scratch", ["Metal"], 10), _atk("Spiked Heels", ["Colorless", "Colorless"], 30)], weakness="Fire"),
-    _pkm("Aron", "Basic", ["Metal"], 60, [_atk("Dig-Claws", ["Metal"], 20)], weakness="Fire"),
-    _pkm("Electrike", "Basic", ["Lightning"], 60, [_atk("Thunder Fang", ["Lightning"], 20, "Flip a coin. If heads, your opponent's Active Pokémon is now Paralyzed.")], weakness="Fighting"),
+    _pkm("Ferroseed", "Basic", ["Metal"], 70, [_atk("Spike Sting", ["Metal", "Colorless"], 30)], retreat=2, weakness="Fire", catalog_id="sv04-127"),
+    _pkm("Galarian Meowth", "Basic", ["Metal"], 70, [
+        _atk("Fasten Claws", ["Metal"], 10, "Flip a coin. If heads, this attack does 20 more damage."),
+    ], weakness="Fire", catalog_id="swsh12.5-084"),
+    _pkm("Aron", "Basic", ["Metal"], 70, [
+        _atk("Ram", ["Metal"], 10),
+        _atk("Slight Intrusion", ["Colorless", "Colorless"], 30, "This Pokémon also does 10 damage to itself."),
+    ], retreat=2, weakness="Fire", catalog_id="swsh12.5-087"),
+    _pkm("Electrike", "Basic", ["Lightning"], 60, [
+        _atk("Zap Kick", ["Lightning"], 10),
+        _atk("Thunder Fang", ["Colorless", "Colorless"], 20, "Flip a coin. If heads, your opponent's Active Pokémon is now Paralyzed."),
+    ], weakness="Fighting", catalog_id="swsh11-054"),
     _pkm("Pichu", "Basic", ["Lightning"], 30, [_atk("Mix-Up", ["Colorless"], 0, "Draw a card.")], weakness="Fighting"),
     _pkm(
         "Emolga",
@@ -312,10 +348,19 @@ for card in [
         catalog_id="sv10.5b-029",
     ),
     _pkm("Dedenne", "Basic", ["Psychic"], 70, [_atk("Call for Family", ["Colorless"], 0, "Search your deck for a Basic Pokémon."), _atk("Voltish Pulse", ["Psychic"], 30, "Flip a coin. If heads, your opponent's Active Pokémon is now Paralyzed.")], weakness="Metal"),
-    _pkm("Aipom", "Basic", ["Colorless"], 60, [_atk("Tail Slap", ["Colorless"], 20)], weakness="Fighting"),
-    _pkm("Corphish", "Basic", ["Water"], 70, [_atk("Water Gun", ["Water"], 10), _atk("Crabhammer", ["Water", "Colorless"], 50)], weakness="Lightning"),
-    _pkm("Wailmer", "Basic", ["Water"], 120, [_atk("Slap", ["Colorless"], 20), _atk("Wave Splash", ["Water", "Colorless"], 50)], weakness="Lightning"),
-    _pkm("Spinarak", "Basic", ["Grass"], 60, [_atk("Poison Sting", ["Grass"], 20, "Your opponent's Active Pokémon is now Poisoned.")], weakness="Fire"),
+    _pkm("Aipom", "Basic", ["Colorless"], 60, [
+        _atk("Mischievous Tail", ["Colorless"], 0, "Look at the top card of your opponent's deck. You may have your opponent shuffle their deck."),
+        _atk("Scratch", ["Colorless", "Colorless"], 10),
+    ], weakness="Fighting", catalog_id="swsh11-144"),
+    _pkm("Corphish", "Basic", ["Water"], 70, [
+        _atk("Water Gun", ["Colorless"], 10),
+        _atk("Crabhammer", ["Water", "Colorless", "Colorless"], 50),
+    ], retreat=2, catalog_id="swsh12.5-033", weakness="Lightning"),
+    _pkm("Wailmer", "Basic", ["Water"], 120, [
+        _atk("Nap", ["Colorless"], 0, "Heal 30 damage from this Pokémon."),
+        _atk("Water Gun", ["Colorless", "Colorless", "Colorless"], 70),
+    ], weakness="Lightning", catalog_id="swsh12.5-031"),
+    _pkm("Spinarak", "Basic", ["Darkness"], 50, [_atk("Poison Sting", ["Darkness"], 10, "Your opponent's Active Pokémon is now Poisoned.")], weakness="Fighting", catalog_id="swsh11-112"),
     _pkm("Lickitung", "Basic", ["Colorless"], 90, [_atk("Tongue Slap", ["Colorless"], 30), _atk("Heavy Impact", ["Colorless", "Colorless"], 50)], weakness="Fighting"),
 ]:
     _register(card)

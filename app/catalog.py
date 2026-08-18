@@ -64,7 +64,7 @@ PREFERRED_IDS = {
     "Dondozo": "sv04-055",  # Supplemental Swallow-Up / Hydro Splash 180 (Paradox Rift)
     "Orthworm": "sv04-138",  # Punch and Draw / Crunch-Time Rush
     "Flutter Mane": "sv05-078",  # Hex Hurl
-    "Pikachu": "sm3-40",  # Set B default: Tail Whap / Thunder Shock (Set A uses prefer → Nuzzle/Volt Tackle)
+    "Pikachu": "sm3-40",  # Set B original: Tail Whap / Thunder Shock. sm12-66 (Nuzzle) is B's second copy after the Tulip trade.
     "Baltoy": "swsh12.5-070",  # Fighting — Carbink Power Gem fuel under Family Cup
     "Tulip": "sv04-181",
     "Plusle": "sv04-060",
@@ -80,8 +80,29 @@ PREFERRED_IDS = {
     "Litwick": "swsh11-024",  # Kindling Panic — mill opponent deck
     "Oddish": "swsh12.5-001",
     "Clefairy": "swsh11-062",
-    "Dusclops": "swsh9-061",
-    "Spinarak": "swsh10.5-006",
+    "Dusclops": "swsh12.5-063",  # Fade to Black / Confused (Crown Zenith) — not Brilliant Stars
+    "Spinarak": "swsh11-112",  # Darkness Poison Sting 10 (Lost Origin) — not Pokémon GO Grass
+    "Bronzor": "swsh11-125",  # Spinning Attack 10, HP 70 (Lost Origin)
+    "Metang": "swsh12.5-090",  # Bullet Punch 30+ flip 2 coins (Crown Zenith)
+    "Seel": "swsh12.5-029",  # Headbutt 10 / Rain Splash 20 (Crown Zenith)
+    "Corphish": "swsh12.5-033",  # Water Gun 10 / Crabhammer 50 (Crown Zenith)
+    "Poliwhirl": "swsh11-031",  # Light Punch / Double Smash 50× (Lost Origin)
+    "Phantump": "swsh11-016",  # Hook 10, pink/purple forest (Lost Origin) — not OF Branch Poke
+    "Gloom": "swsh11-002",  # Absorb 30, Komiya circular flowers (Lost Origin) — not OF IR
+    "Pumpkaboo": "sv04-077",  # Seed Bomb / Reckless Charge (Paradox Rift). Set A had this, not Flittle.
+    "Flittle": "sv04-079",  # Keep for real Flittle photos; Carpet Set A uses Pumpkaboo.
+    "Sudowoodo": "swsh11-094",  # Joust / Impound (Lost Origin)
+    "Gible": "sv04-094",  # Bite 20, HP 70 Fighting (Paradox Rift) — not Forbidden Light / POP
+    "Slugma": "swsh11-021",  # Draw In / Combustion 50 (Lost Origin)
+    "Ferroseed": "sv04-127",  # Spike Sting 30 (Paradox Rift) — not White Flare
+    "Electrike": "swsh11-054",  # Zap Kick / Thunder Fang (Lost Origin)
+    "Wailmer": "swsh12.5-031",  # Nap / Water Gun 70 (Crown Zenith)
+    "Aron": "swsh12.5-087",  # Ram / Slight Intrusion (Crown Zenith)
+    "Ivysaur": "sv03.5-002",  # Leech Seed / Vine Whip (151)
+    "Tangela": "swsh12.5-004",  # Beat 10 / Vine Whip 60, Razz berries (Crown Zenith) — not TWM meadow
+    "Aipom": "swsh11-144",  # Mischievous Tail / Scratch 10 (Lost Origin) — not Pokémon GO
+    "Galarian Meowth": "swsh12.5-084",  # Fasten Claws (Crown Zenith)
+    # Rockruff is NOT pinned globally: Set A is Crown Zenith Invite Out, Set B is Lost Origin Double Draw.
 }
 
 # When resolving by name, prefer candidates whose attacks/text match these phrases.
@@ -94,7 +115,7 @@ PRINT_PREFER = {
     "Salazzle": ["tail trickery", "super singe"],
     "Carbink": ["lucky find", "power gem"],
     "Baltoy": ["smack"],
-    "Clefairy": ["wonder storm", "moon-watching", "moon watching"],
+    "Clefairy": ["wonder storm"],
     "Relicanth": ["into the deep"],
     "Plusle": ["plus damage"],
     "Emolga": ["static shock", "call for family"],
@@ -103,12 +124,28 @@ PRINT_PREFER = {
     "Hisuian Sliggoo": ["rigidify", "gentle slap"],
     "Dusclops": ["fade to black"],
     "Oddish": ["leaf boomerang"],
-    "Clefairy": ["wonder storm"],
     "Lickilicky": ["tongue slap", "heavy impact"],
     "Spinarak": ["poison sting"],
-    "Corphish": ["crabhammer"],
+    "Sudowoodo": ["joust", "impound"],
+    "Gible": ["bite"],
+    "Slugma": ["draw in", "combustion"],
+    "Ferroseed": ["spike sting"],
+    "Electrike": ["zap kick", "thunder fang"],
+    "Wailmer": ["nap", "water gun"],
+    "Aron": ["slight intrusion", "ram"],
+    "Ivysaur": ["leech seed", "vine whip"],
+    "Tangela": ["beat", "vine whip"],
+    "Aipom": ["mischievous tail", "scratch"],
+    "Galarian Meowth": ["fasten claws"],
+    "Corphish": ["water gun", "crabhammer"],
     "Bronzor": ["spinning attack"],
-    "Metang": ["bullet punch"],
+    "Metang": ["bullet punch", "flip 2 coins"],
+    "Seel": ["headbutt", "rain splash"],
+    "Poliwhirl": ["light punch", "double smash"],
+    "Phantump": ["hook"],
+    "Gloom": ["absorb"],
+    "Pumpkaboo": ["seed bomb", "reckless charge"],
+    "Flittle": ["quick attack"],
     "Crocalor": ["rolling fireball"],
     "Tulip": ["psychic"],
 }
@@ -224,6 +261,10 @@ def normalize_card(raw: dict[str, Any]) -> Card:
     )
 
 
+def _norm_alnum(text: str) -> str:
+    return re.sub(r"[^a-z0-9]+", " ", (text or "").lower()).strip()
+
+
 def _score_candidate(brief: dict[str, Any], name: str, prefer: list[str]) -> float:
     score = 0.0
     cid = str(brief.get("id") or "")
@@ -234,17 +275,105 @@ def _score_candidate(brief: dict[str, Any], name: str, prefer: list[str]) -> flo
         score += 10
     else:
         score -= 20
-    if "tcgp" in cid or cid.startswith("A") and "-" in cid:
-        score -= 15
-    if any(cid.startswith(prefix) for prefix in ("sv", "swsh", "sm", "xy")):
-        score += 8
+    if "tcgp" in cid or (cid[:1] in {"A", "B"} and "-" in cid):
+        score -= 25
+    if any(cid.startswith(prefix) for prefix in ("sv", "swsh")):
+        score += 10
+    elif any(cid.startswith(prefix) for prefix in ("sm", "xy")):
+        score += 4
     if prefer:
         blob = json.dumps(brief).lower()
         score += 5 * sum(1 for p in prefer if p.lower() in blob)
     return score
 
 
-def resolve_name(name: str, prefer: list[str] | None = None) -> Card:
+def _score_print(
+    card: Card,
+    prefer: list[str],
+    ocr_text: str,
+    preferred_id: str | None,
+    art: float = 0.0,
+    best_art: float = 0.0,
+    crop_yellow: float = 0.0,
+) -> float:
+    """Rank a fully fetched printing. Coverage beats first-match on a shared attack name."""
+    blob = json.dumps(card.to_dict()).lower()
+    attack_blob = " ".join(f"{a.name} {a.damage} {a.text}" for a in card.attacks).lower()
+    ocr = _norm_alnum(ocr_text)
+    ocr_compact = ocr.replace(" ", "")
+    score = 0.0
+    pin_ok = True
+    if best_art >= 0.28 and art + 0.04 < best_art:
+        pin_ok = False
+    if preferred_id and card.catalog_id == preferred_id and pin_ok:
+        score += 40
+    cid = card.catalog_id
+    if cid.startswith(("A", "B")) or "tcgp" in cid.lower():
+        score -= 30
+    elif cid.startswith(("sv", "swsh")):
+        score += 4
+    prefix = cid.split("-")[0].lower()
+    if (art > 0 or best_art > 0) and prefix.startswith(
+        ("pop", "ex", "ecard", "neo", "base", "dp", "col", "pl", "hgss", "bw", "lc")
+    ):
+        # Carpet photos are SWSH/SV-era paper; vintage color collisions (POP Gible) lose.
+        score -= 28
+    if crop_yellow >= 0.70:
+        # Visible yellow English frame → SWSH/SM, not SV silver (TWM Tangela vs CZ).
+        if prefix.startswith("sv"):
+            score -= 18
+        elif prefix.startswith(("swsh", "sm")):
+            score += 10
+    hits = 0
+    for phrase in prefer:
+        pl = phrase.lower().strip()
+        if not pl:
+            continue
+        if pl in attack_blob:
+            hits += 1
+            score += 12
+        elif pl in blob:
+            hits += 1
+            score += 5
+    if prefer:
+        score += 18 * (hits / len(prefer))
+    if ocr:
+        for attack in card.attacks:
+            an = _norm_alnum(attack.name)
+            if len(an) < 5:
+                continue
+            if an in ocr:
+                score += 20
+            elif an.replace(" ", "") in ocr_compact:
+                score += 16
+    if art > 0:
+        score += 70 * art
+    return score
+
+
+def _load_catalog_image(url: str | None):
+    if not url:
+        return None
+    try:
+        from PIL import Image
+    except Exception:
+        return None
+    folder = CACHE_DIR / "img"
+    folder.mkdir(parents=True, exist_ok=True)
+    safe = re.sub(r"[^a-zA-Z0-9._-]+", "_", url)[:180]
+    path = folder / safe
+    try:
+        if path.exists() and path.stat().st_size > 200:
+            return Image.open(path).convert("RGB")
+        response = _CLIENT.get(url)
+        response.raise_for_status()
+        path.write_bytes(response.content)
+        return Image.open(path).convert("RGB")
+    except Exception:
+        return None
+
+
+def resolve_name(name: str, prefer: list[str] | None = None, ocr_text: str | None = None, crop_image=None) -> Card:
     name = name.strip()
     energy = ENERGY_NAME_TO_TYPE.get(name.lower())
     if energy:
@@ -252,54 +381,66 @@ def resolve_name(name: str, prefer: list[str] | None = None) -> Card:
 
     prefer = list(prefer or []) or list(PRINT_PREFER.get(name) or [])
     preferred_id = PREFERRED_IDS.get(name)
-    if preferred_id:
-        try:
-            card = normalize_card(fetch_full(preferred_id))
-            if not prefer:
-                return card
-            blob = json.dumps(card.to_dict()).lower()
-            if any(p.lower() in blob for p in prefer):
-                return card
-            # Preferred id exists but does not match attack hints — keep searching.
-        except Exception:
-            pass
 
     briefs = search_briefs(name)
     exact = [b for b in briefs if (b.get("name") or "").lower() == name.lower()]
     pool = exact or briefs
-    if not pool:
+    ranked = sorted(pool, key=lambda b: _score_candidate(b, name, prefer), reverse=True)
+
+    candidates: list[Card] = []
+    seen: set[str] = set()
+
+    def _add(card_id: str | None) -> None:
+        if not card_id or card_id in seen:
+            return
+        seen.add(card_id)
+        try:
+            candidates.append(normalize_card(fetch_full(card_id)))
+        except Exception:
+            pass
+
+    _add(preferred_id)
+    for brief in ranked[:16]:
+        _add(brief.get("id"))
+    for brief in exact:
+        cid = str(brief.get("id") or "")
+        if cid.startswith(("sv", "swsh", "sm")):
+            _add(cid)
+
+    if not candidates:
         return fallback_card(name)
 
-    ranked = sorted(pool, key=lambda b: _score_candidate(b, name, prefer), reverse=True)
-    for brief in ranked[:12]:
-        try:
-            full = fetch_full(brief["id"])
-            card = normalize_card(full)
-            if prefer:
-                blob = json.dumps(card.to_dict()).lower()
-                if any(p.lower() in blob for p in prefer):
-                    return card
-                continue
-            return card
-        except Exception:
-            continue
-    # Fall back to preferred id only when the caller did not ask for attack hints.
-    if preferred_id and not prefer:
-        try:
-            return normalize_card(fetch_full(preferred_id))
-        except Exception:
-            pass
-    for brief in ranked[:8]:
-        try:
-            return normalize_card(fetch_full(brief["id"]))
-        except Exception:
-            continue
-    if preferred_id:
-        try:
-            return normalize_card(fetch_full(preferred_id))
-        except Exception:
-            pass
-    return fallback_card(name)
+    art_scores: dict[str, float] = {}
+    crop_yellow = 0.0
+    if crop_image is not None:
+        from app.recognition.images import art_similarity, frame_yellow_frac
+
+        crop_yellow = frame_yellow_frac(crop_image)
+        for card in candidates:
+            img = _load_catalog_image(card.image)
+            if img is not None:
+                art_scores[card.catalog_id] = art_similarity(crop_image, img)
+    best_art = max(art_scores.values(), default=0.0)
+
+    def _key(card: Card) -> float:
+        return _score_print(
+            card,
+            prefer,
+            ocr_text or "",
+            preferred_id,
+            art_scores.get(card.catalog_id, 0.0),
+            best_art,
+            crop_yellow,
+        )
+
+    best = max(candidates, key=_key)
+    if prefer and _key(best) <= 0:
+        if preferred_id:
+            _add(preferred_id)
+            pinned = next((c for c in candidates if c.catalog_id == preferred_id), None)
+            if pinned:
+                return pinned
+    return best
 
 
 def energy_card(energy_type: str) -> Card:
