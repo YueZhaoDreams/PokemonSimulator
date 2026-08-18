@@ -56,7 +56,8 @@ function fillFight() {
   for (const id of ["stratA", "stratB"]) {
     $(`#${id}`).innerHTML = state.strategies.map((s) => `<option value="${s.name}">${s.name}</option>`).join("");
   }
-  $("#stratB").value = "control";
+  if ([...$("#stratA").options].some((o) => o.value === "thrifty")) $("#stratA").value = "thrifty";
+  if ([...$("#stratB").options].some((o) => o.value === "nuzzle")) $("#stratB").value = "nuzzle";
 }
 
 function renderEditor() {

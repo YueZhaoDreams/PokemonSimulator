@@ -167,8 +167,8 @@ def api_simulate(payload: dict) -> dict:
         [Card.from_dict(c) for c in deck_a["cards"]],
         [Card.from_dict(c) for c in deck_b["cards"]],
         rules,
-        StrategySpec.from_dict(payload.get("strategy_a") or "balanced"),
-        StrategySpec.from_dict(payload.get("strategy_b") or "control"),
+        StrategySpec.from_dict(payload.get("strategy_a") or "thrifty"),
+        StrategySpec.from_dict(payload.get("strategy_b") or "nuzzle"),
         games=int(payload.get("games") or 2000),
         seed=payload.get("seed"),
         question=payload.get("question"),
@@ -176,6 +176,8 @@ def api_simulate(payload: dict) -> dict:
             {"type": "opening_hand_contains", "side": "a", "card": "Dondozo", "key": "dondozo_opening_a"},
             {"type": "event_prefix", "prefix": "saw_play:Dondozo", "key": "dondozo_saw_play"},
             {"type": "event_prefix", "prefix": "tutor:Dondozo", "key": "dondozo_tutored"},
+            {"type": "event_prefix", "prefix": "saw_play:Pikachu", "key": "pikachu_saw_play"},
+            {"type": "event_prefix", "prefix": "attack:Pikachu:Volt Tackle", "key": "volt_tackle"},
             {
                 "type": "status",
                 "attacker": "Pikachu",
@@ -201,8 +203,8 @@ def api_trades(payload: dict) -> dict:
         [Card.from_dict(c) for c in deck_a["cards"]],
         [Card.from_dict(c) for c in deck_b["cards"]],
         get_rules(),
-        StrategySpec.from_dict(payload.get("strategy_a") or "balanced"),
-        StrategySpec.from_dict(payload.get("strategy_b") or "control"),
+        StrategySpec.from_dict(payload.get("strategy_a") or "thrifty"),
+        StrategySpec.from_dict(payload.get("strategy_b") or "nuzzle"),
         games=int(payload.get("games") or 240),
     )
 

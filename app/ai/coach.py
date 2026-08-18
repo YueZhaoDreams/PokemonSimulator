@@ -124,13 +124,12 @@ def _local_coach(message: str, tool_trace: list[dict]) -> str:
         games = 10000
     elif re.search(r"1,?000", message):
         games = 1000
-    strat_b = "control" if "paraly" in message.lower() or "pikachu" in message.lower() else "balanced"
     args = {
         "deck_a_id": a_id,
         "deck_b_id": b_id,
         "games": games,
-        "strategy_a": "balanced",
-        "strategy_b": strat_b,
+        "strategy_a": "thrifty",
+        "strategy_b": "nuzzle",
         "question": message,
     }
     result = run_tool("simulate_match", args)
