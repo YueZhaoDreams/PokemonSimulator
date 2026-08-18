@@ -28,7 +28,7 @@ def recognize_image(source, filename: str = "") -> dict:
     identified: list[dict] = []
     oriented_crops: list[Image.Image] = []
     for crop in crops:
-        gallery_name, gallery_conf, _dist = match_crop(crop)
+        gallery_name, gallery_conf, _dist, gallery_id = match_crop(crop)
         result = {"name": None, "confidence": 0.0, "ocr": "", "oriented": crop}
         if gallery_name and gallery_conf >= 88:
             name, conf, source_tag = gallery_name, gallery_conf, "gallery"
@@ -36,11 +36,12 @@ def recognize_image(source, filename: str = "") -> dict:
         elif _dull_background(crop):
             name, conf, source_tag = None, 0.0, "unrecognized"
             oriented = crop
+            gallery_id = None
         else:
             result = identify_crop(crop)
             oriented = result["oriented"] if isinstance(result.get("oriented"), Image.Image) else crop
             if gallery_name is None:
-                gallery_name, gallery_conf, _dist = match_crop(oriented)
+                gallery_name, gallery_conf, _dist, gallery_id = match_crop(oriented)
             name = result["name"]
             conf = result["confidence"]
             source_tag = "ocr"
@@ -78,6 +79,7 @@ def recognize_image(source, filename: str = "") -> dict:
                 "source": source_tag,
                 "needs_review": conf < 90 or source_tag == "unrecognized",
                 "ocr": result.get("ocr") or "",
+                "catalog_id": gallery_id if source_tag == "gallery" else None,
             }
         )
         if source_tag == "ocr" and conf >= 99:
@@ -86,7 +88,11 @@ def recognize_image(source, filename: str = "") -> dict:
             except Exception:
                 pass
 
-    cards = [_resolve_identified(item) for item in identified if item["name"] != "Unknown"]
+    cards = [
+        _resolve_identified(item, crop)
+        for item, crop in zip(identified, oriented_crops)
+        if item["name"] != "Unknown"
+    ]
     unknown_n = sum(1 for item in identified if item["name"] == "Unknown")
     if unknown_n:
         notes.append(f"{unknown_n} crops still need a name — tap a thumbnail to fix it.")
@@ -126,8 +132,9 @@ def recognize_image(source, filename: str = "") -> dict:
 
 def learn_crop(image: Image.Image, name: str, source: str = "") -> dict:
     clean = _normalize_name(name)
-    remember_crop(image, clean, source=source)
-    return resolve_name(clean).to_dict()
+    card = resolve_name(clean, crop_image=image)
+    remember_crop(image, clean, source=source, catalog_id=card.catalog_id)
+    return card.to_dict()
 
 
 def _dull_background(image: Image.Image) -> bool:
@@ -152,9 +159,16 @@ def _normalize_name(name: str) -> str:
     return aliases.get(name, name)
 
 
-def _resolve_identified(item: dict) -> Card:
-    prefer = []
+def _resolve_identified(item: dict, crop=None) -> Card:
+    from app.catalog import PRINT_PREFER, fetch_full, normalize_card
+
+    if item.get("catalog_id"):
+        try:
+            return normalize_card(fetch_full(item["catalog_id"]))
+        except Exception:
+            pass
     name = item["name"]
+    prefer = list(PRINT_PREFER.get(name) or [])
     if name.lower() == "pikachu":
-        prefer = ["paralyze", "Nuzzle", "Thunder Shock"]
-    return resolve_name(name, prefer)
+        prefer = ["paralyze", "Nuzzle", "Thunder Shock", "Tail Whap", "Volt Tackle"]
+    return resolve_name(name, prefer, ocr_text=item.get("ocr") or "", crop_image=crop)

@@ -27,7 +27,7 @@ def _save_index(rows: list[dict]) -> None:
     INDEX_PATH.write_text(json.dumps(rows, indent=2))
 
 
-def remember_crop(image: Image.Image, name: str, source: str = "") -> dict:
+def remember_crop(image: Image.Image, name: str, source: str = "", catalog_id: str | None = None) -> dict:
     GALLERY_DIR.mkdir(parents=True, exist_ok=True)
     digest = dhash(image)
     hex_id = f"{digest:064x}"[-16:]
@@ -35,16 +35,18 @@ def remember_crop(image: Image.Image, name: str, source: str = "") -> dict:
     path = GALLERY_DIR / filename
     image.convert("RGB").save(path, format="JPEG", quality=82)
     row = {"name": name, "hash": digest, "file": filename, "source": source}
+    if catalog_id:
+        row["catalog_id"] = catalog_id
     rows = [r for r in _load_index() if r.get("hash") != digest]
     rows.append(row)
     _save_index(rows)
     return row
 
 
-def match_crop(image: Image.Image) -> tuple[str | None, float, int]:
+def match_crop(image: Image.Image) -> tuple[str | None, float, int, str | None]:
     rows = _load_index()
     if not rows:
-        return None, 0.0, 999
+        return None, 0.0, 999, None
     best, best_dist = None, 999
     for rot in range(4):
         oriented = image if rot == 0 else image.rotate(90 * rot, expand=True)
@@ -56,9 +58,9 @@ def match_crop(image: Image.Image) -> tuple[str | None, float, int]:
         if best_dist == 0:
             break
     if best is None or best_dist > MAX_HAMMING:
-        return None, 0.0, best_dist
+        return None, 0.0, best_dist, None
     conf = 99.0 - (best_dist / max(1, MAX_HAMMING)) * 13.0
-    return best["name"], round(conf, 1), best_dist
+    return best["name"], round(conf, 1), best_dist, best.get("catalog_id")
 
 
 def _slug(name: str) -> str:

@@ -44,7 +44,7 @@ def test_gallery_roundtrip(tmp_path, monkeypatch):
     monkeypatch.setattr(gallery_mod, "INDEX_PATH", tmp_path / "index.json")
     image = Image.new("RGB", (200, 280), (40, 80, 160))
     gallery_mod.remember_crop(image, "Dondozo", source="test")
-    name, conf, dist = gallery_mod.match_crop(image)
+    name, conf, dist, _cid = gallery_mod.match_crop(image)
     assert name == "Dondozo"
     assert dist <= 2
     assert conf >= 90

@@ -555,7 +555,7 @@ class Game:
             type_prefer = {
                 "Water": ["Dondozo", "Seel", "Corphish", "Wailmer", "Poliwhirl"],
                 "Metal": ["Orthworm", "Bronzor", "Metang", "Aron", "Ferroseed"],
-                "Psychic": ["Flutter Mane", "Flittle", "Kadabra", "Gimmighoul"],
+                "Psychic": ["Flutter Mane", "Pumpkaboo", "Kadabra", "Gimmighoul"],
                 "Lightning": ["Pikachu", "Electrike", "Emolga", "Plusle"],
                 "Fire": ["Slugma", "Litwick", "Crocalor", "Salazzle"],
                 "Grass": ["Roselia", "Tangela", "Oddish"],

@@ -19,7 +19,7 @@ def test_wonder_storm_parses_psychic_energy_times():
 def test_wonder_storm_counts_psychic_pokemon_as_energy():
     """Family Cup: Psychic Pokémon attached as energy count toward Wonder Storm."""
     a = build_fallback_deck(
-        ["Clefairy", "Flittle", "Kadabra", "Dusclops", "Flutter Mane", "Psychic Energy"] + ["Sobble"] * 22
+        ["Clefairy", "Pumpkaboo", "Kadabra", "Dusclops", "Flutter Mane", "Psychic Energy"] + ["Sobble"] * 22
     )
     b = build_fallback_deck(["Pikachu"] + ["Cubone"] * 27)
     game = Game(
@@ -34,7 +34,7 @@ def test_wonder_storm_counts_psychic_pokemon_as_energy():
     me = game.players["a"]
     # Put Clefairy active with 3 energy slots filled by Psychic Energy + Psychic Pokémon-as-energy.
     clef_i = next(i for i, c in enumerate(me.cards) if c.name == "Clefairy")
-    fuel = [i for i, c in enumerate(me.cards) if c.name in {"Psychic Energy", "Flittle", "Kadabra", "Dusclops"}][:4]
+    fuel = [i for i, c in enumerate(me.cards) if c.name in {"Psychic Energy", "Pumpkaboo", "Kadabra", "Dusclops"}][:4]
     from app.engine.game import Pokemon
 
     me.active = Pokemon(card_i=clef_i, energy=list(fuel))

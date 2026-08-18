@@ -3,13 +3,15 @@
     "name": "Bronzor",
     "hash": 21592266002166892974058174007494706922028081204771204966997648322863528854580,
     "file": "bronzor__f832f0e6989ac434.jpg",
-    "source": "sample-a-01"
+    "source": "sample-a-01",
+    "catalog_id": "swsh11-125"
   },
   {
     "name": "Metang",
     "hash": 20295187164595485685569640548719892352468107244914779736563704461556090311340,
     "file": "metang__7832f046f09a92ac.jpg",
-    "source": "sample-a-02"
+    "source": "sample-a-02",
+    "catalog_id": "swsh12.5-090"
   },
   {
     "name": "Baltoy",
@@ -27,7 +29,8 @@
     "name": "Rockruff",
     "hash": 43491434765390255814979131797456750687159406788874744523258798514147348980576,
     "file": "rockruff__60c6069460842360.jpg",
-    "source": "sample-a-06"
+    "source": "sample-a-06",
+    "catalog_id": "swsh12.5-073"
   },
   {
     "name": "Carbink",
@@ -45,13 +48,15 @@
     "name": "Seel",
     "hash": 24309470385008054918147113966760051281579611942163417146400898702910315809146,
     "file": "seel__acdebb780c7bc97a.jpg",
-    "source": "sample-a-09"
+    "source": "sample-a-09",
+    "catalog_id": "swsh12.5-029"
   },
   {
     "name": "Corphish",
     "hash": 62466218497353838339360013851033778724820320646166337085788680413636774764990,
     "file": "corphish__bc9e23780c3aa1be.jpg",
-    "source": "sample-a-10"
+    "source": "sample-a-10",
+    "catalog_id": "swsh12.5-033"
   },
   {
     "name": "Dondozo",
@@ -63,7 +68,8 @@
     "name": "Poliwhirl",
     "hash": 4909185959399846917276621931832366102571467083733890394763261093420950327858,
     "file": "poliwhirl__389ea1788c3b9232.jpg",
-    "source": "sample-a-12"
+    "source": "sample-a-12",
+    "catalog_id": "swsh11-031"
   },
   {
     "name": "Ultra Ball",
@@ -87,7 +93,8 @@
     "name": "Phantump",
     "hash": 72375550162907442018764820694253403439892753133164174785814153119444919304200,
     "file": "phantump__198639362136c008.jpg",
-    "source": "sample-a-18"
+    "source": "sample-a-18",
+    "catalog_id": "swsh11-016"
   },
   {
     "name": "Roselia",
@@ -99,7 +106,8 @@
     "name": "Gloom",
     "hash": 36696238677184242165071081908194325990483747677368421424986517922212611501723,
     "file": "gloom__4716065e15262e9b.jpg",
-    "source": "sample-a-20"
+    "source": "sample-a-20",
+    "catalog_id": "swsh11-002"
   },
   {
     "name": "Oddish",
@@ -117,7 +125,8 @@
     "name": "Dusclops",
     "hash": 3714858690969729404181730410446079273235608809847025725817610273517159907475,
     "file": "dusclops__6085112d10690093.jpg",
-    "source": "sample-a-24"
+    "source": "sample-a-24",
+    "catalog_id": "swsh12.5-063"
   },
   {
     "name": "Psychic Energy",
@@ -165,25 +174,29 @@
     "name": "Tangela",
     "hash": 44014573219431915410458725756333627731789897924686757312394075434759003485400,
     "file": "tangela__0b1616663606b4d8.jpg",
-    "source": "sample-b-04"
+    "source": "sample-b-04",
+    "catalog_id": "swsh12.5-004"
   },
   {
     "name": "Sudowoodo",
     "hash": 34388891898952125259494819052383379973518260146420648276430625776607886238232,
     "file": "sudowoodo__2da63da63c46e218.jpg",
-    "source": "sample-b-05"
+    "source": "sample-b-05",
+    "catalog_id": "swsh11-094"
   },
   {
     "name": "Gible",
     "hash": 28679628775587191778176114273618960511577793036597882166558243165775779286103,
     "file": "gible__8c19cc1a08934c57.jpg",
-    "source": "sample-b-06"
+    "source": "sample-b-06",
+    "catalog_id": "sv04-094"
   },
   {
     "name": "Rockruff",
     "hash": 906848609361166117710049282446880576957535528710301412988035551866614376002,
     "file": "rockruff__338666340916e642.jpg",
-    "source": "sample-b-07"
+    "source": "sample-b-07",
+    "catalog_id": "swsh11-109"
   },
   {
     "name": "Relicanth",
@@ -207,7 +220,8 @@
     "name": "Slugma",
     "hash": 71583009682061436559718732285837815836664651770720975570411168200430454408849,
     "file": "slugma__21c71b3d19198691.jpg",
-    "source": "sample-b-11"
+    "source": "sample-b-11",
+    "catalog_id": "swsh11-021"
   },
   {
     "name": "Litwick",
@@ -225,7 +239,8 @@
     "name": "Ferroseed",
     "hash": 56631592173421213517232933465499742175588069889382995925850206773308786921674,
     "file": "ferroseed__6460e896f86ed0ca.jpg",
-    "source": "sample-b-14"
+    "source": "sample-b-14",
+    "catalog_id": "sv04-127"
   },
   {
     "name": "Galarian Meowth",
@@ -237,7 +252,8 @@
     "name": "Aron",
     "hash": 76042751790376169909313320540614199710634459329674355709096969554890781019310,
     "file": "aron__7c10f0e4f0deccae.jpg",
-    "source": "sample-b-16"
+    "source": "sample-b-16",
+    "catalog_id": "swsh12.5-087"
   },
   {
     "name": "Energy Retrieval",
@@ -255,7 +271,8 @@
     "name": "Electrike",
     "hash": 10974083027807093959349300524350929495747280271197476224274253749566684709249,
     "file": "electrike__c98ec91e892ec181.jpg",
-    "source": "sample-b-19"
+    "source": "sample-b-19",
+    "catalog_id": "swsh11-054"
   },
   {
     "name": "Pikachu",
@@ -279,13 +296,15 @@
     "name": "Wailmer",
     "hash": 72556293846281132670566330613345048087672187967790418318972248742100547000346,
     "file": "wailmer__38dd1b240c39d81a.jpg",
-    "source": "sample-b-23"
+    "source": "sample-b-23",
+    "catalog_id": "swsh12.5-031"
   },
   {
     "name": "Corphish",
     "hash": 101410198713528614475118960471464105880356539039784997677664169111433321719512,
     "file": "corphish__381d0b2c0c1926d8.jpg",
-    "source": "sample-b-24"
+    "source": "sample-b-24",
+    "catalog_id": "swsh12.5-033"
   },
   {
     "name": "Lickilicky",
@@ -297,6 +316,14 @@
     "name": "Spinarak",
     "hash": 27114594023678675206902076757473715007288674329633032778843966154182590318245,
     "file": "spinarak__300117390419c6a5.jpg",
-    "source": "sample-b-26"
+    "source": "sample-b-26",
+    "catalog_id": "swsh11-112"
+  },
+  {
+    "name": "Aipom",
+    "hash": 115743175165103104400677283069994970107612621392792785238724874145871723398054,
+    "file": "aipom__0ad6b1e0c68283a6.jpg",
+    "source": "sample-b-aipom",
+    "catalog_id": "swsh11-144"
   }
 ]

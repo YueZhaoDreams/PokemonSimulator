@@ -1,7 +1,9 @@
-from app.engine.models import Card
-from app.engine.trades import _needs, suggest_trades
+import json
+
+from app.config import DATA_DIR
 from app.engine.models import default_family_rules
 from app.engine.strategies import StrategySpec
+from app.engine.trades import _needs, suggest_trades
 from app.seed_data import SET_A_NAMES, SET_B_NAMES, build_fallback_deck
 
 
@@ -11,7 +13,31 @@ def test_seed_counts():
     a = build_fallback_deck(SET_A_NAMES)
     b = build_fallback_deck(SET_B_NAMES)
     assert sum(1 for c in a if c.name == "Dondozo") == 1
+    assert any(c.name == "Tulip" for c in a)
+    assert any(c.name == "Pumpkaboo" for c in a)
+    assert not any(c.name == "Flittle" for c in a)
+    assert not any(c.name == "Pikachu" for c in a)
+    assert sum(1 for c in b if c.name == "Pikachu") == 2
+    assert not any(c.name == "Tulip" for c in b)
     assert any(c.name == "Pikachu" and any("paralyze" in (atk.text or "").lower() for atk in c.attacks) for c in b)
+
+
+def test_seed_decks_record_pikachu_tulip_trade():
+    data = json.loads((DATA_DIR / "seed_decks.json").read_text())
+    a_names = [c["name"] for c in data["a"]["cards"]]
+    b_names = [c["name"] for c in data["b"]["cards"]]
+    a_ids = [c["catalog_id"] for c in data["a"]["cards"]]
+    b_ids = [c["catalog_id"] for c in data["b"]["cards"]]
+    assert "Tulip" in a_names
+    assert "Pumpkaboo" in a_names
+    assert "Flittle" not in a_names
+    assert "Pikachu" not in a_names
+    assert a_ids.count("sv04-181") == 1
+    assert "sm12-66" not in a_ids
+    assert b_names.count("Pikachu") == 2
+    assert "Tulip" not in b_names
+    assert "sm3-40" in b_ids
+    assert "sm12-66" in b_ids
 
 
 def test_set_b_has_orphan_evolutions():

@@ -52,22 +52,27 @@ def init_db() -> None:
                 "INSERT INTO settings(key, value_json) VALUES (?, ?)",
                 ("rules", json.dumps(default_family_rules().to_dict())),
             )
-        if conn.execute("SELECT COUNT(*) AS n FROM decks").fetchone()["n"] == 0:
-            from app.seed import load_seed_payload
+        _upsert_seed_decks(conn)
 
-            payload = load_seed_payload()
-            for key in ("a", "b"):
-                deck = payload[key]
-                conn.execute(
-                    "INSERT INTO decks(id, name, source, cards_json, created_at) VALUES (?,?,?,?,?)",
-                    (
-                        deck["id"],
-                        deck["name"],
-                        deck.get("sample"),
-                        json.dumps(deck["cards"]),
-                        _now(),
-                    ),
-                )
+
+def _upsert_seed_decks(conn: sqlite3.Connection) -> None:
+    from app.seed import load_seed_payload
+
+    payload = load_seed_payload()
+    now = _now()
+    for key in ("a", "b"):
+        deck = payload[key]
+        existing = conn.execute("SELECT id FROM decks WHERE id=?", (deck["id"],)).fetchone()
+        if existing:
+            conn.execute(
+                "UPDATE decks SET name=?, source=?, cards_json=? WHERE id=?",
+                (deck["name"], deck.get("sample"), json.dumps(deck["cards"]), deck["id"]),
+            )
+        else:
+            conn.execute(
+                "INSERT INTO decks(id, name, source, cards_json, created_at) VALUES (?,?,?,?,?)",
+                (deck["id"], deck["name"], deck.get("sample"), json.dumps(deck["cards"]), now),
+            )
 
 
 def _now() -> str:
