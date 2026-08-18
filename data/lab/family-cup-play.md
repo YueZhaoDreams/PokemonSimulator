@@ -18,7 +18,8 @@ This note is the experience log from iterating **both** sides until the engine s
 | Side | Name | How it plays |
 | --- | --- | --- |
 | A | `thrifty` | One Dondozo. Water Basics stay in hand as energy. Balls hunt Dondozo only. Swallow-Up looks at 3 and stops when Hydro Splash is payable. After Dondozo is out, bench one non-Water Pokémon (Orthworm first) as KO insurance. If Dondozo is prized, Orthworm / Flutter Mane becomes the attacker. |
-| B | `nuzzle` | One Pikachu (prefer the Volt Tackle print). Lightning Basics stay in hand as energy. Nuzzle / Thunder Shock while charging; Volt Tackle once it is payable. After Pikachu is out, bench **two** non-Lightning Pokémon (Wailmer first) so Hydro Splash cannot wipe the board. Call for Family only fetches Pikachu. Extra Pikachu pays Lightning. |
+| B | `shock` (default) | Thunder Shock Pikachu or Electrike chip + paralyze. Nuzzle Pikachu stays in hand as Lightning energy. Bench Plusle as closer: after ~80 damage, Plus Damage is (damage + 10) × 2. Two non-Lightning sponges. |
+| B | `nuzzle` | One Volt Tackle Pikachu. Hits 140 then stalls at 20 HP. Kept as a named alternative. |
 
 ## Iteration (10k unless noted)
 
@@ -27,17 +28,17 @@ This note is the experience log from iterating **both** sides until the engine s
 | 0 | balanced | control | ~50% | Both dumped the bench. Fake even matchup. |
 | 1 | thrifty, empty bench | control | 73.5% | A held energy. B still played like a standard TCG AI. |
 | 2 | thrifty | nuzzle, 0 sponges | 73.2% (2k) | B used Volt Tackle / Nuzzle correctly, but Hydro Splash still wiped 60 HP Pikachu. |
-| 3 | thrifty + 1 sponge | nuzzle + 2 sponges | **69.1%** | Honest prize fights. Seed `20260818`. Lab id `490cda4b-092b-49d7-b73e-cc19fdc12963`. |
+| 3 | thrifty + 1 sponge | nuzzle + 2 sponges | 69.1% then 67.5% after Plusle math | Honest prize fights. Seed `20260818`. |
+| 4 | thrifty | **shock** (chip + Plusle) | **66.6%** | B 33.4%. Electrike in opening → B 55%. Plusle finishes the 20 HP Volt Tackle cannot. |
 
-## Final 10,000 games
+## Final 10,000 games (shock, default B)
 
-- Seed `20260818`, 8.0s, engine `family-tcg-monte-carlo`
-- **A 6,905 (69.1%) · B 3,095 (30.9%) · ties 0**
-- Average 15.5 turns
-- Dondozo reached play 85%; tutored 44% (Ultra Ball 34%, Poké Ball 10%)
-- Dondozo in opening 7 → A wins 81.7%; Dondozo prized → A still 60.1%
-- Pikachu in opening (at least one of two) → B wins **46.6%**; Pikachu prized → B 24.3%
-- Hydro Splash used in 59% of games; Volt Tackle in 17%; Pikachu paralyzed Dondozo in 26%
-- Wins by: 6,806 prize, 1,924 no Pokémon left, 1,201 A decked out, 69 B decked out
+- Seed `20260818`, engine `family-tcg-monte-carlo`
+- **A 6,658 (66.6%) · B 3,342 (33.4%) · ties 0**
+- Average 16.5 turns
+- Plusle reached play 50%; Plus Damage fired 18%
+- Electrike in opening 7 → B wins 55.1%
+- B going first 33.5%; going second 33.3%
+- Dondozo Knocked Out 26.6% (vs 23.5% on the nuzzle plan)
 
-The remaining gap is the cards, not the AI: 180 damage vs 60 HP, and Set B has Energy Search / Call for Family but no Poké Ball or Ultra Ball.
+Nuzzle / Volt Tackle on the same seed: A 67.5% / B 32.5%. The remaining gap is still the cards: Hydro Splash 180 vs 60 HP, and Set B has no balls.

@@ -48,7 +48,7 @@ TOOL_SCHEMAS = [
                 "deck_a_id": {"type": "string"},
                 "deck_b_id": {"type": "string"},
                 "games": {"type": "integer", "default": 2000},
-                "strategy_a": {"type": "string", "description": "thrifty|nuzzle|aggressive|setup|control|balanced"},
+                "strategy_a": {"type": "string", "description": "thrifty|shock|nuzzle|aggressive|setup|control|balanced"},
                 "strategy_b": {"type": "string"},
                 "question": {"type": "string"},
             },
@@ -125,7 +125,7 @@ def run_tool(name: str, args: dict[str, Any]) -> Any:
             _cards(deck_b),
             rules,
             StrategySpec.from_dict(args.get("strategy_a") or "thrifty"),
-            StrategySpec.from_dict(args.get("strategy_b") or "nuzzle"),
+            StrategySpec.from_dict(args.get("strategy_b") or "shock"),
             games=games,
             question=args.get("question"),
             queries=[

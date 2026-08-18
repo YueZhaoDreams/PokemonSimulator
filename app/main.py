@@ -168,7 +168,7 @@ def api_simulate(payload: dict) -> dict:
         [Card.from_dict(c) for c in deck_b["cards"]],
         rules,
         StrategySpec.from_dict(payload.get("strategy_a") or "thrifty"),
-        StrategySpec.from_dict(payload.get("strategy_b") or "nuzzle"),
+        StrategySpec.from_dict(payload.get("strategy_b") or "shock"),
         games=int(payload.get("games") or 2000),
         seed=payload.get("seed"),
         question=payload.get("question"),
@@ -204,7 +204,7 @@ def api_trades(payload: dict) -> dict:
         [Card.from_dict(c) for c in deck_b["cards"]],
         get_rules(),
         StrategySpec.from_dict(payload.get("strategy_a") or "thrifty"),
-        StrategySpec.from_dict(payload.get("strategy_b") or "nuzzle"),
+        StrategySpec.from_dict(payload.get("strategy_b") or "shock"),
         games=int(payload.get("games") or 240),
     )
 

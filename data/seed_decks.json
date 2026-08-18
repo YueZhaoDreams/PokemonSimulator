@@ -1945,8 +1945,8 @@
             "text": "This attack does 10 more damage for each damage counter on your opponent's Active Pok\u00e9mon.",
             "effects": [
               {
-                "kind": "times",
-                "note": "10+"
+                "kind": "damage_counter_bonus",
+                "per": 10
               }
             ]
           }

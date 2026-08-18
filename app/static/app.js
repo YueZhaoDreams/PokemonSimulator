@@ -57,7 +57,7 @@ function fillFight() {
     $(`#${id}`).innerHTML = state.strategies.map((s) => `<option value="${s.name}">${s.name}</option>`).join("");
   }
   if ([...$("#stratA").options].some((o) => o.value === "thrifty")) $("#stratA").value = "thrifty";
-  if ([...$("#stratB").options].some((o) => o.value === "nuzzle")) $("#stratB").value = "nuzzle";
+  if ([...$("#stratB").options].some((o) => o.value === "shock")) $("#stratB").value = "shock";
 }
 
 function renderEditor() {

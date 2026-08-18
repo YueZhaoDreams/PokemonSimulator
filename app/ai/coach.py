@@ -129,7 +129,7 @@ def _local_coach(message: str, tool_trace: list[dict]) -> str:
         "deck_b_id": b_id,
         "games": games,
         "strategy_a": "thrifty",
-        "strategy_b": "nuzzle",
+        "strategy_b": "shock",
         "question": message,
     }
     result = run_tool("simulate_match", args)

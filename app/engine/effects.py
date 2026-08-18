@@ -75,7 +75,11 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
     if "this attack does nothing" in t:
         effects.append({"kind": "coin_whiff"})
 
-    if "×" in damage_raw or "x" in damage_raw.lower() or "for each" in t:
+    # Plusle Plus Damage: 10 more for each damage counter on the opponent's Active.
+    counter_bonus = re.search(r"(\d+) more damage for each damage counter", t)
+    if counter_bonus and "opponent" in t:
+        effects.append({"kind": "damage_counter_bonus", "per": int(counter_bonus.group(1))})
+    elif "×" in damage_raw or "x" in damage_raw.lower() or "for each" in t:
         # Clefairy Wonder Storm style: scale by Psychic Energy in play.
         if "psychic energy" in t and "attached" in t:
             effects.append({"kind": "psychic_energy_times", "per": parse_damage(damage_raw) or 20})
