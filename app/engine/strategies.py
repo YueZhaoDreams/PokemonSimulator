@@ -15,7 +15,11 @@ class StrategySpec:
     bench_fill: float = 0.7
     evolve_asap: float = 0.9
     attach_pokemon_as_energy: float = 0.65
+    item_spend: float = 1.0
+    swallow_look: int | None = None
+    hold_as_energy: bool = False
     protect: list[str] = field(default_factory=list)
+    search_aces: list[str] = field(default_factory=list)
     status_targets: list[str] = field(default_factory=list)
 
     def to_dict(self) -> dict[str, Any]:
@@ -27,7 +31,11 @@ class StrategySpec:
             "bench_fill": self.bench_fill,
             "evolve_asap": self.evolve_asap,
             "attach_pokemon_as_energy": self.attach_pokemon_as_energy,
+            "item_spend": self.item_spend,
+            "swallow_look": self.swallow_look,
+            "hold_as_energy": self.hold_as_energy,
             "protect": list(self.protect),
+            "search_aces": list(self.search_aces),
             "status_targets": list(self.status_targets),
         }
 
@@ -83,6 +91,25 @@ STRATEGY_LIBRARY = {
         bench_fill=0.7,
         evolve_asap=0.85,
         attach_pokemon_as_energy=0.6,
+        item_spend=1.0,
+    ),
+    "thrifty": StrategySpec(
+        name="thrifty",
+        description=(
+            "Set A family play: only put a Pokémon in play if it is the attacker you "
+            "mean to use (or a searcher to find it). Everything else stays in hand as "
+            "Family Cup energy. Save balls for Dondozo; Swallow-Up looks at 3."
+        ),
+        prefer_damage=0.75,
+        prefer_status=0.25,
+        bench_fill=0.0,
+        evolve_asap=0.85,
+        attach_pokemon_as_energy=0.9,
+        item_spend=0.2,
+        swallow_look=3,
+        hold_as_energy=True,
+        protect=["Dondozo"],
+        search_aces=["Dondozo"],
     ),
 }
 
