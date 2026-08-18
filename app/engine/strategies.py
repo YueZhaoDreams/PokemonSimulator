@@ -26,6 +26,8 @@ class StrategySpec:
     insurance_bench: int = 0
     insurance_non_fuel: bool = False
     max_ace_copies: int = 1
+    closers: list[str] = field(default_factory=list)
+    prefer_chip: bool = False
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -47,6 +49,8 @@ class StrategySpec:
             "insurance_bench": self.insurance_bench,
             "insurance_non_fuel": self.insurance_non_fuel,
             "max_ace_copies": self.max_ace_copies,
+            "closers": list(self.closers),
+            "prefer_chip": self.prefer_chip,
         }
 
     @classmethod
@@ -150,6 +154,32 @@ STRATEGY_LIBRARY = {
         insurance_bench=2,
         insurance_non_fuel=True,
         max_ace_copies=1,
+    ),
+    "shock": StrategySpec(
+        name="shock",
+        description=(
+            "Set B chip line: Thunder Shock Pikachu or Electrike (damage + paralysis), "
+            "keep Nuzzle Pikachu in hand as Lightning energy, bench Plusle as the closer. "
+            "After about 80 damage, Plusle's Plus Damage is (damage + 10) × 2 into "
+            "Dondozo's weakness and finishes the 20 HP Volt Tackle cannot."
+        ),
+        prefer_damage=0.7,
+        prefer_status=0.9,
+        bench_fill=0.0,
+        evolve_asap=0.7,
+        attach_pokemon_as_energy=0.95,
+        item_spend=0.2,
+        hold_as_energy=True,
+        protect=["Pikachu", "Plusle"],
+        search_aces=["Pikachu", "Electrike"],
+        status_targets=["Dondozo", "Wailmer", "Orthworm"],
+        backups=["Electrike"],
+        insurance=["Wailmer", "Sudowoodo", "Relicanth"],
+        insurance_bench=2,
+        insurance_non_fuel=True,
+        max_ace_copies=1,
+        closers=["Plusle"],
+        prefer_chip=True,
     ),
 }
 

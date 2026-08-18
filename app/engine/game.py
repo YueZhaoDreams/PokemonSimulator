@@ -210,10 +210,18 @@ class Game:
         aces = {n.lower() for n in strat.search_aces}
         return (not aces) or any(n in aces for n in self._in_play_names(player))
 
-    def _print_value(self, card) -> float:
-        """Prefer the stronger printing (Volt Tackle Pikachu over Tail Whap)."""
+    def _print_value(self, card, strat: StrategySpec | None = None) -> float:
+        """Prefer the stronger printing, or the chip+para printing when prefer_chip."""
         dmg = max((atk.damage for atk in card.attacks), default=0)
         para = any("paralyze" in (atk.text or "").lower() for atk in card.attacks)
+        if strat and strat.prefer_chip:
+            chip = 0.0
+            for atk in card.attacks:
+                if "paralyze" in (atk.text or "").lower() and atk.damage > 0:
+                    chip = max(chip, float(atk.damage) + 40.0)
+            if chip:
+                return chip
+            return 25.0 if para else float(dmg)
         return float(dmg) + (25.0 if para else 0.0)
 
     def _is_family_caller(self, card) -> bool:
@@ -222,11 +230,19 @@ class Game:
     def _is_protected_from_energy(self, me: Player, card, strat: StrategySpec) -> bool:
         """Keep the last copy of a protected attacker off the energy pile.
 
-        Extra copies (second Pikachu) may still pay Lightning once one is in play.
+        Extra copies (second Pikachu) may still pay Lightning once one ace is in play.
+        Closers like Plusle stay in hand until they occupy the field.
         """
-        if card.name.lower() not in {n.lower() for n in strat.protect}:
+        name = card.name.lower()
+        closers = {n.lower() for n in strat.closers}
+        aces = {n.lower() for n in strat.search_aces}
+        if name in closers:
+            return self._count_named_in_play(me, name) == 0
+        if name in aces:
+            return not any(n in aces for n in self._in_play_names(me))
+        if name not in {n.lower() for n in strat.protect}:
             return False
-        return self._count_named_in_play(me, card.name) == 0
+        return self._count_named_in_play(me, name) == 0
 
     def _wants_in_play(self, player: Player, card, strat: StrategySpec, ace_out: bool | None = None) -> bool:
         """True if this Basic should occupy the field instead of staying in hand as energy."""
@@ -240,7 +256,8 @@ class Game:
 
         if name in aces:
             if strat.hold_as_energy:
-                return copies < max(1, strat.max_ace_copies)
+                ace_count = sum(1 for n in self._in_play_names(player) if n in aces)
+                return ace_count < max(1, strat.max_ace_copies)
             return True
         if not strat.hold_as_energy:
             return True
@@ -248,16 +265,27 @@ class Game:
         ace_out = self._ace_in_play(player, strat) if ace_out is None else ace_out
         ace_reachable = (not aces) or self._name_in_zones(player, aces, "play+hand+deck")
         fallback_out = sum(1 for n in self._in_play_names(player) if n in backups)
+        closers = {n.lower() for n in strat.closers}
+
+        if name in closers:
+            closer_out = any(n in closers for n in self._in_play_names(player))
+            return (ace_out or not ace_reachable) and not closer_out
 
         # Ace is prized or otherwise gone — this backup is now the attacker.
         if name in backups and not ace_reachable:
             return copies < 1 and fallback_out < 1
 
         # One extra Pokémon so a single KO does not lose on the spot.
-        if ace_out and strat.insurance_bench > 0 and len(player.bench) < strat.insurance_bench:
+        sponge_count = sum(
+            1
+            for m in player.bench
+            if player.card(m.card_i).name.lower() not in aces
+            and player.card(m.card_i).name.lower() not in closers
+        )
+        if ace_out and strat.insurance_bench > 0 and sponge_count < strat.insurance_bench:
             if name in insurance:
                 return True
-            if strat.insurance_non_fuel and name not in aces:
+            if strat.insurance_non_fuel and name not in aces and name not in closers:
                 fuel = self._ace_energy_types(player, strat)
                 if (card.as_energy_type or "") not in fuel:
                     return True
@@ -287,7 +315,7 @@ class Game:
         def score(i: int) -> float:
             card = player.card(i)
             if card.name.lower() in aces:
-                return 1000 + self._print_value(card)
+                return 1000 + self._print_value(card, strat)
             if strat.hold_as_energy:
                 if not ace_in_hand and ace_in_deck and (
                     self._is_ace_searcher(card) or self._is_family_caller(card)
@@ -447,22 +475,27 @@ class Game:
         aces = {n.lower() for n in strat.search_aces}
         backups = {n.lower() for n in strat.backups}
         insurance = {n.lower() for n in strat.insurance}
+        closers = {n.lower() for n in strat.closers}
         ace_out = (not aces) or any(me.card(m.card_i).name.lower() in aces for m in me.in_play())
 
         def prio(card_i: int) -> tuple:
             card = me.card(card_i)
             name = card.name.lower()
             if name in aces:
-                return (0, -self._print_value(card))
+                return (0, -self._print_value(card, strat))
+            if name in closers:
+                return (1, 0)
             if name in backups:
-                return (1, -(card.hp or 0))
-            if name in insurance:
                 return (2, -(card.hp or 0))
-            fuel = self._ace_energy_types(me, strat)
-            if strat.insurance_non_fuel and name not in aces and (card.as_energy_type or "") not in fuel:
+            if name in insurance:
                 return (3, -(card.hp or 0))
+            fuel = self._ace_energy_types(me, strat)
+            if strat.insurance_non_fuel and name not in aces and name not in closers and (
+                card.as_energy_type or ""
+            ) not in fuel:
+                return (4, -(card.hp or 0))
             if self._is_ace_searcher(card) or self._is_family_caller(card):
-                return (4, 0)
+                return (5, 0)
             return (9, 0)
 
         # Aces, then fallback attackers, then KO insurance — never random fuel.
@@ -586,7 +619,10 @@ class Game:
         in_play = {me.card(m.card_i).name.lower() for m in me.in_play()}
         in_hand = {me.card(i).name.lower() for i in me.hand}
         hunt = [n.lower() for n in (strat.search_aces or strat.protect)]
-        missing_ace = [n for n in hunt if n not in in_play and n not in in_hand]
+        if strat.hold_as_energy and hunt:
+            missing_ace = [] if any(n in in_play or n in in_hand for n in hunt) else hunt
+        else:
+            missing_ace = [n for n in hunt if n not in in_play and n not in in_hand]
         missing_protect = missing_ace
 
         candidates: list[tuple[float, int]] = []
@@ -813,6 +849,9 @@ class Game:
         in_play = {me.card(m.card_i).name.lower() for m in me.in_play()}
         in_hand = {me.card(i).name.lower() for i in me.hand}
         missing_aces = [n for n in strat.search_aces if n.lower() not in in_play and n.lower() not in in_hand]
+        if strat.hold_as_energy and strat.search_aces:
+            have_one = any(n.lower() in in_play or n.lower() in in_hand for n in strat.search_aces)
+            missing_aces = [] if have_one else missing_aces
         # Family play: Energy Search can fetch the main attacker if it is still in the deck.
         if missing_aces and self.rules.pokemon_as_energy:
             prefer.extend(missing_aces)
@@ -859,7 +898,7 @@ class Game:
             strat = self.strats[who]
             if strat.hold_as_energy and name in {n.lower() for n in strat.search_aces} and name in in_play:
                 score -= 25
-            score += self._print_value(card) / 20.0
+            score += self._print_value(card, strat) / 20.0
             if card.is_basic:
                 score += 1
             if card.hp >= 140:
@@ -1012,7 +1051,34 @@ class Game:
 
     def _energy_target(self, me: Player, strat: StrategySpec) -> Pokemon:
         assert me.active
+        closers = {n.lower() for n in strat.closers}
+        if closers and self._active_can_chip(me, strat):
+            for mon in me.bench:
+                if me.card(mon.card_i).name.lower() not in closers:
+                    continue
+                attached = [me.card(i).as_energy_type or "Colorless" for i in mon.energy]
+                card = me.card(mon.card_i)
+                if not any(can_pay_energy(attached, atk.cost) for atk in card.attacks):
+                    return mon
         return me.active
+
+    def _active_can_chip(self, me: Player, strat: StrategySpec) -> bool:
+        if not me.active:
+            return False
+        card = me.card(me.active.card_i)
+        attached = [me.card(i).as_energy_type or "Colorless" for i in me.active.energy]
+        if strat.prefer_chip:
+            return any(
+                can_pay_energy(attached, atk.cost)
+                and atk.damage >= 20
+                and "paralyze" in (atk.text or "").lower()
+                for atk in card.attacks
+            )
+        return any(
+            can_pay_energy(attached, atk.cost)
+            and (atk.damage >= 10 or any(e.get("kind") == "status" for e in atk.effects))
+            for atk in card.attacks
+        )
 
     def _choose_energy_card(self, me: Player, target: Pokemon, strat: StrategySpec) -> int | None:
         need = self._needed_types(me, target)
@@ -1074,6 +1140,21 @@ class Game:
                 if me.card(mon.card_i).name.lower() in aces:
                     incoming_idx = idx
                     break
+        if incoming_idx is None and foe.active and strat.closers:
+            closers = {n.lower() for n in strat.closers}
+            foe_hp = max(0, foe.card(foe.active.card_i).hp - foe.active.damage)
+            for idx, mon in enumerate(me.bench):
+                if me.card(mon.card_i).name.lower() not in closers:
+                    continue
+                for atk in me.card(mon.card_i).attacks:
+                    attached = [me.card(i).as_energy_type or "Colorless" for i in mon.energy]
+                    if not can_pay_energy(attached, atk.cost):
+                        continue
+                    if self._effective_damage_for(me, foe, mon, atk) >= foe_hp > 0:
+                        incoming_idx = idx
+                        break
+                if incoming_idx is not None:
+                    break
         if incoming_idx is None and foe.active and strat.prefer_status >= 0.6:
             active_card = me.card(me.active.card_i)
             active_has_status = any("paralyze" in (a.text or "").lower() for a in active_card.attacks)
@@ -1130,6 +1211,9 @@ class Game:
             count = self._count_psychic_energy_in_play(me)
             dmg = per * count
             self._bump("wonder_storm_energy", count)
+        elif self._damage_counter_bonus(atk) is not None:
+            dmg = atk.damage + self._damage_counter_bonus(atk) * (foe.active.damage // 10)
+            self._bump("plusle_scale", foe.active.damage // 10)
         elif any(e.get("kind") == "times" for e in atk.effects):
             # Legacy Tatsugiri-style scaling.
             dmg = atk.damage * max(1, sum(1 for i in me.discard if "tatsu" in me.card(i).name.lower()))
@@ -1253,8 +1337,17 @@ class Game:
         self._bump("bench_damage", damage)
         self._log(f"Bench {foe.card(target.card_i).name} took {damage} from Hex-style attack")
 
-    def _effective_damage(self, me: Player, foe: Player, atk) -> int:
-        attacker = me.card(me.active.card_i)
+    def _damage_counter_bonus(self, atk) -> int | None:
+        for effect in atk.effects:
+            if effect.get("kind") == "damage_counter_bonus":
+                return int(effect.get("per") or 10)
+        text = (atk.text or "").lower()
+        if "damage counter" in text and "more damage" in text and "opponent" in text:
+            return 10
+        return None
+
+    def _effective_damage_for(self, me: Player, foe: Player, mon: Pokemon, atk) -> int:
+        attacker = me.card(mon.card_i)
         defender = foe.card(foe.active.card_i)
         dmg = atk.damage
         if any(e.get("kind") == "psychic_energy_times" for e in atk.effects):
@@ -1264,8 +1357,14 @@ class Game:
                     per = int(effect.get("per") or atk.damage or 20)
                     break
             dmg = per * self._count_psychic_energy_in_play(me)
+        elif self._damage_counter_bonus(atk) is not None:
+            dmg = atk.damage + self._damage_counter_bonus(atk) * (foe.active.damage // 10)
         dmg *= weakness_multiplier(defender.weaknesses, attacker.types)
         return max(0, dmg - resistance_reduce(defender.resistances, attacker.types))
+
+    def _effective_damage(self, me: Player, foe: Player, atk) -> int:
+        assert me.active
+        return self._effective_damage_for(me, foe, me.active, atk)
 
     def _choose_attack(self, me: Player, foe: Player, strat: StrategySpec):
         assert me.active and foe.active

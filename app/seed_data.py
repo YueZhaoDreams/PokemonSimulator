@@ -295,7 +295,12 @@ for card in [
         weakness="Darkness",
         catalog_id="sv04-087",
     ),
-    _pkm("Plusle", "Basic", ["Lightning"], 70, [_atk("Plus Damage", ["Colorless", "Colorless"], 10)], weakness="Fighting"),
+    _pkm("Plusle", "Basic", ["Lightning"], 70, [_atk(
+        "Plus Damage",
+        ["Colorless", "Colorless"],
+        10,
+        "This attack does 10 more damage for each damage counter on your opponent's Active Pokémon.",
+    )], weakness="Fighting"),
     _pkm("Lickilicky", "Stage1", ["Colorless"], 140, [_atk("Tongue Slap", ["Colorless"], 40), _atk("Heavy Impact", ["Colorless", "Colorless", "Colorless"], 90)], evolves_from="Lickitung", weakness="Fighting"),
     _pkm("Slugma", "Basic", ["Fire"], 70, [
         _atk("Draw In", ["Fire"], 0, "Attach a Fire Energy card from your discard pile to this Pokémon."),
