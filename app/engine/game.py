@@ -1163,7 +1163,8 @@ class Game:
             prefer: list[str] = []
             if self._mewtwo_mon(me) is None and not any(self._is_mewtwo(me.card(i)) for i in me.hand):
                 prefer.append("Mewtwo ex")
-            if not self._vs_lightning_glass(who):
+            # Only tutor Clefairy when the matchup still wants the Party engine board.
+            if self._clefairy_play_cap(me) > 0:
                 prefer.append("Clefairy")
             return list(dict.fromkeys(prefer))
         if strat.hold_as_energy:
@@ -2590,15 +2591,25 @@ class Game:
         return False
 
     def _clefairy_play_cap(self, me: Player) -> int:
-        """Party wants benched Clefairy, but Lightning paralysis makes Active Clefairy a trap."""
+        """How many Clefairies to put in play for Party.
+
+        Vs Lightning (shock): 0 — Thunder Shock para-locks Wonder Storm into deck-out.
+        Vs Dondozo (thrifty): at most 1 — Hydro Splash still prizes 60 HP bodies; one engine
+        is enough while Mewtwo Photons. Vs Ogerpon: up to 3 for Party / Mega setup.
+        """
         who = "a" if me.name == "A" else "b"
-        if self._vs_lightning_glass(who):
+        foe_who = "b" if who == "a" else "a"
+        foe_strat = self.strats[foe_who].name
+        if foe_strat in {"shock", "nuzzle"}:
             return 0
+        if foe_strat == "thrifty":
+            return 1
         return 3
 
     def _vs_lightning_glass(self, who: str) -> bool:
+        """Matchups where Mewtwo should open and Clefairy stays mostly as energy."""
         foe_who = "b" if who == "a" else "a"
-        return self.strats[foe_who].name in {"shock", "nuzzle"}
+        return self.strats[foe_who].name in {"shock", "nuzzle", "thrifty"}
 
     def _mega_mon(self, me: Player) -> Pokemon | None:
         for mon in me.in_play():

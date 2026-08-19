@@ -436,8 +436,8 @@ def test_pick_starter_prefers_mewtwo_vs_shock():
     assert pick == mewtwo
 
 
-def test_storm_line_not_vs_thrifty_dondozo():
-    """Dondozo is 160 HP — keep Photon; Clefairy engine still allowed for Party ramp."""
+def test_vs_thrifty_caps_clefairy_and_opens_mewtwo():
+    """Vs Dondozo: at most one Clefairy; prefer Mewtwo opener for Photon."""
     from app.seed_data import SET_A_NAMES
 
     c = build_fallback_deck(list(SET_C_NAMES))
@@ -452,5 +452,8 @@ def test_storm_line_not_vs_thrifty_dondozo():
     me.bench = [Pokemon(card_i=mewtwo, played_turn=0)]
     foe.active = Pokemon(card_i=dozo)
     assert game._want_storm_line(me, foe, "a") is False
-    assert game._clefairy_play_cap(me) == 3
+    assert game._clefairy_play_cap(me) == 1
+    assert game._vs_lightning_glass("a")
     assert game._energy_target(me, StrategySpec.from_dict("party")) is me.bench[0]
+    pick = game._pick_starter(me, [clefs[0], mewtwo], StrategySpec.from_dict("party"))
+    assert pick == mewtwo

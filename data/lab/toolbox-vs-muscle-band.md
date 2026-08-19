@@ -43,16 +43,16 @@ Date: 2026-08-19 · Seed: `20260819`
 Strategies: A `thrifty`, B `shock`, C `party`, D `demolish`.
 Cell = **row player's win rate** vs column. Diagonal is —.
 
-`party` vs B: **Mewtwo Photon only** — do not Active Clefairy (Thunder Shock para-locks Wonder Storm into deck-out). Vs A/D: Party ramp → Photon / Belt.
+`party` vs A/B: open on **Mewtwo**, Clefairy mostly as energy (cap **1** vs thrifty, **0** vs shock). Vs D: Party ramp (cap 3) → Photon / Belt.
 
 |  | A | B | C | D |
 | --- | ---: | ---: | ---: | ---: |
-| **A** | — | 64.5% | 31.4% | 0.2% |
+| **A** | — | 64.5% | 7.7% | 0.2% |
 | **B** | 37.9% | — | 9.2% | 0.3% |
-| **C** | **68.9%** | **91.1%** | — | **54.9%** |
+| **C** | **92.3%** | **91.1%** | — | **54.9%** |
 | **D** | 99.8% | 99.8% | 45.0% | — |
 
 Notes:
 
-- C vs B ≈ 91% after keeping Clefairy in hand as energy; B’s previous ~40% was almost all C deck-outs under paralysis.
-- C still beats A (~69%) and D (~55%); D hard-crushes A and B.
+- C vs A/B were previously inflated by C deck-outs while Active Clefairy died to Hydro Splash / Thunder Shock.
+- C vs D unchanged (~55%); D still hard-crushes A and B.

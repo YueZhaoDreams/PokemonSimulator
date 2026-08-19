@@ -184,10 +184,10 @@ STRATEGY_LIBRARY = {
     "party": StrategySpec(
         name="party",
         description=(
-            "Set C Clefairy / Mewtwo: vs Set B (shock) keep Mewtwo Active — Clefairy is Psychic "
-            "Energy only (Thunder Shock para-locks 60 HP Wonder Storm). Vs A/D: Party ramp into "
-            "Transfer Charge → Photon (7P+Belt or 9P); Mega wall only if Mewtwo cannot eat the next "
-            "140. Never end turn on 60 HP Clefairy into Demolish. Cap Clefairy at 3 vs A/D, 0 vs B."
+            "Set C Clefairy / Mewtwo: vs A/B open on Mewtwo and keep Clefairy mostly as Psychic "
+            "Energy (cap 1 vs thrifty, 0 vs shock — Hydro Splash / Thunder Shock prize 60 HP "
+            "engines into deck-out). Vs D: Party ramp (cap 3) → Transfer Charge → Photon "
+            "(7P+Belt or 9P); Mega wall only if Mewtwo cannot eat the next 140."
         ),
         prefer_damage=0.95,
         prefer_status=0.1,
