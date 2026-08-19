@@ -4,7 +4,7 @@ from app.config import DATA_DIR
 from app.engine.models import default_family_rules
 from app.engine.strategies import StrategySpec
 from app.engine.trades import _needs, suggest_trades
-from app.seed_data import SET_A_NAMES, SET_B_NAMES, SET_C_NAMES, SET_D_NAMES, build_fallback_deck
+from app.seed_data import SET_A_NAMES, SET_B_NAMES, SET_C_NAMES, SET_D_NAMES, SET_S_NAMES, build_fallback_deck
 
 
 def test_seed_counts():
@@ -12,6 +12,7 @@ def test_seed_counts():
     assert len(SET_B_NAMES) == 28
     assert len(SET_C_NAMES) == 28
     assert len(SET_D_NAMES) == 28
+    assert len(SET_S_NAMES) == 28
     a = build_fallback_deck(SET_A_NAMES)
     b = build_fallback_deck(SET_B_NAMES)
     assert sum(1 for c in a if c.name == "Dondozo") == 1
@@ -50,11 +51,18 @@ def test_seed_decks_include_set_c_and_d():
     data = load_seed_payload()
     c_names = [c["name"] for c in data["c"]["cards"]]
     d_names = [c["name"] for c in data["d"]["cards"]]
+    s_names = [c["name"] for c in data["s"]["cards"]]
     assert "e" not in data
     assert data["c"]["id"] == "seed-c"
     assert data["d"]["id"] == "seed-d"
+    assert data["s"]["id"] == "seed-s"
     assert len(c_names) == 28
     assert len(d_names) == 28
+    assert len(s_names) == 28
+    assert s_names.count("Sprigatito") == 4
+    assert s_names.count("Floragato") == 4
+    assert s_names.count("Mewtwo ex") == 3
+    assert s_names.count("Maximum Belt") == 1
     assert c_names.count("Clefairy") == 4
     assert c_names.count("Mewtwo ex") == 2
     assert c_names.count("Hop") == 3

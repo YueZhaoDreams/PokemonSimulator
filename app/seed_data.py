@@ -93,6 +93,26 @@ SET_D_NAMES = (
     + ["Switch"] * 2
 )
 
+# Set S — Grass hunter vs Charm Ogerpon.
+# Floragato Slashing Claw 90 + Maximum Belt 50 = 140, Grass Weakness ×2 = 280
+# OHKOs 260 Charm Ogerpon. Floragato has no Ability, so Stance does not block.
+# Mewtwo is the 230 HP Demolish sponge (no Ability). ACE SPEC: one Belt.
+SET_S_NAMES = (
+    ["Sprigatito"] * 4
+    + ["Floragato"] * 4
+    + ["Mewtwo ex"] * 3
+    + ["Nest Ball"] * 4
+    + ["Energy Search"] * 3
+    + ["Switch"] * 2
+    + ["Jacq"]
+    + ["Maximum Belt"]
+    + ["Muscle Band"]
+    + ["Tool Box"]
+    + ["Arven"]
+    + ["Hop"]
+    + ["Tangela"] * 2
+)
+
 
 def _atk(name, cost, damage=0, text=""):
     return parse_attack({"name": name, "cost": cost, "damage": damage, "effect": text})
@@ -275,7 +295,16 @@ for card in [
         _atk("Leech Seed", ["Grass", "Colorless"], 30, "Heal 20 damage from this Pokémon."),
         _atk("Vine Whip", ["Grass", "Grass", "Colorless"], 80),
     ], evolves_from="Bulbasaur", weakness="Fire", catalog_id="sv03.5-002"),
-    _pkm("Floragato", "Stage1", ["Grass"], 90, [_atk("Slashing Claw", ["Grass", "Colorless"], 90)], evolves_from="Sprigatito", weakness="Fire"),
+    _pkm(
+        "Sprigatito",
+        "Basic",
+        ["Grass"],
+        60,
+        [_atk("Scratch", ["Colorless"], 10), _atk("Leafage", ["Grass"], 20)],
+        weakness="Fire",
+        catalog_id="sv03-013",
+    ),
+    _pkm("Floragato", "Stage1", ["Grass"], 90, [_atk("Slashing Claw", ["Grass", "Colorless"], 90)], evolves_from="Sprigatito", weakness="Fire", catalog_id="sv03-014"),
     _pkm("Roselia", "Basic", ["Grass"], 70, [
         _atk("Soothing Scent", ["Grass"], 0, "Your opponent's Active Pokémon is now Asleep."),
     ], weakness="Fire"),

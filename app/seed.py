@@ -6,7 +6,7 @@ from pathlib import Path
 from app.config import DATA_DIR, SAMPLES_DIR
 from app.engine.models import Card
 from app.recognition.images import dhash, load_image
-from app.seed_data import SET_A_NAMES, SET_B_NAMES, SET_C_NAMES, SET_D_NAMES, build_fallback_deck
+from app.seed_data import SET_A_NAMES, SET_B_NAMES, SET_C_NAMES, SET_D_NAMES, SET_S_NAMES, build_fallback_deck
 
 SEED_PATH = DATA_DIR / "seed_decks.json"
 SAMPLE_HASHES: dict[str, int] = {}
@@ -34,7 +34,7 @@ def _try_enrich(names: list[str], prefer: dict[str, list[str]] | None = None) ->
 def load_seed_deck(which: str) -> dict:
     decks = load_seed_payload()
     key = which.lower().replace("set-", "").replace("seed-", "")
-    key = {"1": "a", "2": "b", "3": "c", "4": "d"}.get(key, key)
+    key = {"1": "a", "2": "b", "3": "c", "4": "d", "5": "s"}.get(key, key)
     if key not in decks:
         raise KeyError(f"unknown seed deck {which}")
     return decks[key]
@@ -44,10 +44,11 @@ def load_seed_payload() -> dict:
     if SEED_PATH.exists():
         data = json.loads(SEED_PATH.read_text())
         dirty = False
-        if "c" not in data or "d" not in data:
+        if "c" not in data or "d" not in data or "s" not in data:
             extra = _cd_payload(enrich=True)
             data["c"] = extra["c"]
             data["d"] = extra["d"]
+            data["s"] = extra["s"]
             dirty = True
         # Set E was folded into Set C — drop any leftover seed.
         if "e" in data:
@@ -58,6 +59,11 @@ def load_seed_payload() -> dict:
         have_c = [c.get("name") for c in (data.get("c") or {}).get("cards") or []]
         if have_c != expected_c:
             data["c"] = _cd_payload(enrich=False)["c"]
+            dirty = True
+        expected_s = [c.name for c in _repeat_named_cards(list(SET_S_NAMES), enrich=False)]
+        have_s = [c.get("name") for c in (data.get("s") or {}).get("cards") or []]
+        if have_s != expected_s:
+            data["s"] = _cd_payload(enrich=False)["s"]
             dirty = True
         if dirty:
             SEED_PATH.write_text(json.dumps(data, indent=2))
@@ -97,6 +103,7 @@ def _repeat_named_cards(names: list[str], enrich: bool) -> list[Card]:
 def _cd_payload(enrich: bool = True) -> dict:
     cards_c = _repeat_named_cards(list(SET_C_NAMES), enrich)
     cards_d = _repeat_named_cards(list(SET_D_NAMES), enrich)
+    cards_s = _repeat_named_cards(list(SET_S_NAMES), enrich)
     return {
         "c": {
             "id": "seed-c",
@@ -109,6 +116,12 @@ def _cd_payload(enrich: bool = True) -> dict:
             "name": "Set D (Charm Ogerpon)",
             "sample": None,
             "cards": [c.to_dict() if isinstance(c, Card) else c for c in cards_d],
+        },
+        "s": {
+            "id": "seed-s",
+            "name": "Set S (Floragato hunter)",
+            "sample": None,
+            "cards": [c.to_dict() if isinstance(c, Card) else c for c in cards_s],
         },
     }
 
@@ -177,6 +190,7 @@ def build_seed_payload(enrich: bool = True) -> dict:
         },
         "c": cd["c"],
         "d": cd["d"],
+        "s": cd["s"],
         "hashes": {},
     }
     _refresh_hashes(payload)

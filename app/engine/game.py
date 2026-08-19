@@ -259,6 +259,13 @@ class Game:
                 return self._copies_hand_and_play(me, "Clefable ex") <= 1
             if name == "clefable":
                 return self._copies_hand_and_play(me, "Clefable") <= 1
+        if strat.name == "slash":
+            if name == "floragato":
+                return self._copies_hand_and_play(me, "Floragato") <= 1
+            if name == "sprigatito":
+                return self._count_named_in_play(me, "sprigatito") == 0 and not any(
+                    self._is_floragato(me.card(m.card_i)) for m in me.in_play()
+                )
         if name in aces:
             return not any(n in aces for n in self._in_play_names(me))
         if name not in {n.lower() for n in strat.protect}:
@@ -277,6 +284,9 @@ class Game:
 
         if name in aces:
             if strat.hold_as_energy:
+                if strat.name == "slash":
+                    # One Mewtwo tank. Sprigatito is a backup Basic, not an ace.
+                    return copies < 1
                 ace_count = sum(1 for n in self._in_play_names(player) if n in aces)
                 cap = self._clefairy_play_cap(player) if strat.name == "party" else max(1, strat.max_ace_copies)
                 return ace_count < cap
@@ -295,6 +305,10 @@ class Game:
                 # Mewtwo is the Demolish tank as well as the closer — play it even before Clefairy.
                 return not closer_out
             return (ace_out or not ace_reachable) and not closer_out
+
+        if strat.name == "slash" and name == "sprigatito":
+            # One attacker to evolve; extras are Grass energy.
+            return copies < 1
 
         # Ace is prized or otherwise gone — this backup is now the attacker.
         if name in backups and not ace_reachable:
@@ -339,10 +353,17 @@ class Game:
         ace_in_deck = self._name_in_zones(player, aces, "deck") if aces else True
         who = "a" if player.name == "A" else "b"
         glass = strat.name == "party" and self._vs_lightning_glass(who)
+        slash = strat.name == "slash"
 
         def score(i: int) -> float:
             card = player.card(i)
             name = card.name.lower()
+            if slash and name in closers:
+                return 500 + self._print_value(card, strat)
+            if slash and self._is_mewtwo(card):
+                return 2000 + self._print_value(card, strat)
+            if slash and name == "sprigatito":
+                return 1500
             if glass and name in closers:
                 return 2000 + self._print_value(card, strat)
             if name in aces:
@@ -470,13 +491,13 @@ class Game:
         self._play_basics(me)
         self._play_trainers(me, foe, who)
         self._play_basics(me)
-        if self.strats[who].name in {"party", "demolish"}:
+        if self.strats[who].name in {"party", "demolish", "slash"}:
             self._play_trainers(me, foe, who)
             self._play_basics(me)
         self._use_abilities(me, foe, who)
         self._evolve(me, foe, who)
         self._play_basics(me)
-        if self.strats[who].name in {"party", "demolish"}:
+        if self.strats[who].name in {"party", "demolish", "slash"}:
             self._play_trainers(me, foe, who)
         self._use_abilities(me, foe, who)
         if self.strats[who].name == "party" and self._should_transfer_combo(me, foe):
@@ -601,6 +622,9 @@ class Game:
         strat = self.strats[who]
         if strat.name == "party":
             self._evolve_party(me, foe, who)
+            return
+        if strat.name == "slash":
+            self._evolve_slash(me, who)
             return
         if self.rng.random() > strat.evolve_asap:
             return
@@ -764,6 +788,19 @@ class Game:
                         score += 6
                     else:
                         score += 2
+                elif strat.name == "slash" and slots > 0:
+                    have_mewtwo = self._mewtwo_mon(me) is not None or any(
+                        self._is_mewtwo(me.card(i)) for i in me.hand
+                    )
+                    have_cat = any(
+                        me.card(m.card_i).name.lower() in {"sprigatito", "floragato"} for m in me.in_play()
+                    )
+                    if not have_mewtwo:
+                        score += 14
+                    elif not have_cat:
+                        score += 10
+                    else:
+                        score -= 6
                 elif strat.name == "invisible" and slots > 0:
                     have_mime = any(self._is_mr_mime(me.card(m.card_i)) for m in me.in_play())
                     have_worm = any(self._is_orthworm(me.card(m.card_i)) for m in me.in_play())
@@ -815,6 +852,21 @@ class Game:
                         score += 8
                     else:
                         score += 5
+                elif strat.name == "slash":
+                    have_mewtwo = self._mewtwo_mon(me) is not None or any(
+                        self._is_mewtwo(me.card(i)) for i in me.hand
+                    )
+                    have_cat = any(
+                        me.card(m.card_i).name.lower() in {"sprigatito", "floragato"} for m in me.in_play()
+                    ) or any(me.card(i).name.lower() == "sprigatito" for i in me.hand)
+                    if not have_mewtwo:
+                        score += 12
+                    elif not have_cat:
+                        score += 10
+                    elif me.active and not self._hand_has_attachable_energy(me, who):
+                        score += 8
+                    else:
+                        score += 6
                 elif missing_protect and self.rules.pokemon_as_energy:
                     score += 8
                 elif missing_protect:
@@ -824,7 +876,16 @@ class Game:
                 else:
                     score += 0.5
             elif name == "switch":
-                if strat.name == "party":
+                if strat.name == "slash":
+                    if me.active and self._slash_ko(me, foe):
+                        score -= 20
+                    elif me.active and any(self._slash_ko(me, foe, mon) for mon in me.bench):
+                        score += 14
+                    elif me.active and self._ogerpon_threat(foe) and not self._is_tank_mon(me, me.active):
+                        score += 10
+                    else:
+                        score -= 4
+                elif strat.name == "party":
                     score -= 20
                 elif strat.name == "demolish" and me.active and not self._is_ogerpon(me.card(me.active.card_i)) and me.bench:
                     score += 9
@@ -846,6 +907,8 @@ class Game:
                 if strat.name == "party" and not belt_ready:
                     # Belt is the Ogerpon Photon plan; Storm line must not waste turns on it.
                     score += -40 if self._want_storm_line(me, foe, who) else 10
+                elif strat.name == "slash" and not belt_ready:
+                    score += 12
                 elif strat.name == "crunch" and (not belt_ready or not charm_ready):
                     score += 11
                 else:
@@ -862,12 +925,22 @@ class Game:
                 elif strat.name == "party" and self._want_storm_line(me, foe, who):
                     # 28-card Storm line decks out around turn 18 — never Hop-mill.
                     score -= 20
+                elif strat.name == "slash":
+                    if len(me.deck) <= 10:
+                        score -= 12
+                    else:
+                        score += 3
                 elif len(me.deck) <= 8:
                     score -= 10
                 else:
                     score += 7 if strat.name == "party" else 3
             elif name == "jacq":
-                if strat.name == "party" and self._mega_mon(me) is None:
+                if strat.name == "slash":
+                    have_flora = any(self._is_floragato(me.card(m.card_i)) for m in me.in_play()) or any(
+                        me.card(i).name.lower() == "floragato" for i in me.hand
+                    )
+                    score += 12 if not have_flora else 2
+                elif strat.name == "party" and self._mega_mon(me) is None:
                     score += 8
                 else:
                     score += 3
@@ -928,6 +1001,8 @@ class Game:
                 belt_in_deck = any("maximum belt" in me.card(i).name.lower() for i in me.deck)
                 if strat.name == "party" and not belt_ready and belt_in_deck:
                     score += -40 if self._want_storm_line(me, foe, who) else 10
+                elif strat.name == "slash" and not belt_ready and belt_in_deck:
+                    score += 12
                 elif not belt_ready and belt_in_deck:
                     score += 6
                 else:
@@ -998,10 +1073,13 @@ class Game:
         if name in {"hop"}:
             self._draw(me, 3)
         elif name == "jacq":
+            prefer = ["Mega Clefable ex", "Clefable ex", "Clefable"]
+            if self.strats[who].name == "slash":
+                prefer = ["Floragato"]
             self._search(
                 me,
                 lambda c: c.is_pokemon and bool(c.evolves_from),
-                prefer=["Mega Clefable ex", "Clefable ex", "Clefable"],
+                prefer=prefer,
                 n=2,
                 source="jacq",
             )
@@ -1167,6 +1245,16 @@ class Game:
             if self._clefairy_play_cap(me) > 0:
                 prefer.append("Clefairy")
             return list(dict.fromkeys(prefer))
+        if strat.name == "slash":
+            prefer: list[str] = []
+            if self._mewtwo_mon(me) is None and not any(self._is_mewtwo(me.card(i)) for i in me.hand):
+                prefer.append("Mewtwo ex")
+            have_cat = any(
+                me.card(m.card_i).name.lower() in {"sprigatito", "floragato"} for m in me.in_play()
+            ) or any(me.card(i).name.lower() == "sprigatito" for i in me.hand)
+            if not have_cat:
+                prefer.append("Sprigatito")
+            return list(dict.fromkeys(prefer))
         if strat.hold_as_energy:
             prefer = list(strat.search_aces)
             aces = {n.lower() for n in strat.search_aces}
@@ -1213,6 +1301,16 @@ class Game:
             ):
                 prefer.insert(0, "Cornerstone Mask Ogerpon ex")
             prefer.append("Fighting Energy")
+            return list(dict.fromkeys(prefer))
+        if strat.name == "slash":
+            if self._mewtwo_mon(me) is None and not any(self._is_mewtwo(me.card(i)) for i in me.hand):
+                prefer.insert(0, "Mewtwo ex")
+            have_flora = any(self._is_floragato(me.card(m.card_i)) for m in me.in_play()) or any(
+                me.card(i).name.lower() == "floragato" for i in me.hand
+            )
+            if not have_flora:
+                prefer.append("Floragato")
+            prefer.extend(["Sprigatito", "Tangela", "Floragato"])
             return list(dict.fromkeys(prefer))
         if strat.name == "invisible":
             have_mime = any(self._is_mr_mime(me.card(m.card_i)) for m in me.in_play()) or any(
@@ -1527,6 +1625,8 @@ class Game:
             if me.active and self._is_wall_mon(me, me.active) and not me.active.energy:
                 return me.active
             return me.active
+        if strat.name == "slash":
+            return self._slash_energy_target(me)
         if strat.name == "invisible":
             for mon in me.in_play():
                 if not self._is_orthworm(me.card(mon.card_i)):
@@ -1640,6 +1740,9 @@ class Game:
         strat = self.strats[who]
         if strat.name == "party":
             self._retreat_party(me, foe, who)
+            return
+        if strat.name == "slash":
+            self._retreat_slash(me, foe, who)
             return
         if strat.name == "demolish":
             self._retreat_demolish(me, who)
@@ -2031,6 +2134,16 @@ class Game:
         def prio(i: int) -> int:
             mon = player.bench[i]
             name = player.card(mon.card_i).name.lower()
+            if strat.name == "slash":
+                if self._slash_ko(player, foe, mon):
+                    return 0
+                if self._is_mewtwo(player.card(mon.card_i)):
+                    return 1
+                if name == "floragato":
+                    return 2
+                if name == "sprigatito":
+                    return 3
+                return 9
             if strat.name == "party" and storm:
                 if self._is_clefairy(player.card(mon.card_i)):
                     if self._can_pay_wonder_storm(player, mon):
@@ -2089,6 +2202,12 @@ class Game:
 
     def _is_mewtwo(self, card: Card) -> bool:
         return "mewtwo" in card.name.lower()
+
+    def _is_floragato(self, card: Card) -> bool:
+        return card.name.lower() == "floragato"
+
+    def _is_sprigatito(self, card: Card) -> bool:
+        return card.name.lower() == "sprigatito"
 
     def _is_tool_card(self, card: Card) -> bool:
         name = card.name.lower()
@@ -2266,6 +2385,9 @@ class Game:
             return None
         if name == "maximum belt":
             for mon in me.in_play():
+                if mon.tool is None and self._is_floragato(me.card(mon.card_i)):
+                    return mon
+            for mon in me.in_play():
                 if mon.tool is None and self._is_orthworm(me.card(mon.card_i)):
                     return mon
             for mon in me.in_play():
@@ -2276,6 +2398,9 @@ class Game:
                     return mon
             return None
         if name == "muscle band":
+            for mon in me.in_play():
+                if mon.tool is None and self._is_floragato(me.card(mon.card_i)):
+                    return mon
             for mon in me.in_play():
                 if mon.tool is None and self._is_mewtwo(me.card(mon.card_i)):
                     return mon
@@ -2355,6 +2480,21 @@ class Game:
         if strat.name == "demolish":
             for idx, mon in enumerate(me.bench):
                 if self._is_ogerpon(me.card(mon.card_i)):
+                    return idx
+        if strat.name == "slash":
+            foe = self.players["b" if who == "a" else "a"]
+            for idx, mon in enumerate(me.bench):
+                if self._slash_ko(me, foe, mon):
+                    return idx
+            if self._ogerpon_threat(foe):
+                for idx, mon in enumerate(me.bench):
+                    if self._is_mewtwo(me.card(mon.card_i)):
+                        return idx
+            for idx, mon in enumerate(me.bench):
+                if self._is_floragato(me.card(mon.card_i)):
+                    return idx
+            for idx, mon in enumerate(me.bench):
+                if me.card(mon.card_i).name.lower() == "sprigatito":
                     return idx
         return 0
 
@@ -3200,6 +3340,83 @@ class Game:
             if self._is_ogerpon(me.card(mon.card_i)):
                 self._do_retreat_into(me, idx)
                 return
+
+    def _slash_ko(self, me: Player, foe: Player, mon: Pokemon | None = None) -> bool:
+        if not foe.active:
+            return False
+        mon = mon or me.active
+        if mon is None or not self._is_floragato(me.card(mon.card_i)):
+            return False
+        card = me.card(mon.card_i)
+        atk = next((a for a in card.attacks if "slashing claw" in a.name.lower()), None)
+        if atk is None or not can_pay_energy(self._energy_pool(me, mon), atk.cost):
+            return False
+        hp = self._max_hp(foe, foe.active) - foe.active.damage
+        return self._raw_attack_damage(me, foe, mon, atk) >= hp > 0
+
+    def _slash_energy_target(self, me: Player) -> Pokemon:
+        """Load Sprigatito / Floragato for [G][C]. Mewtwo is a sponge, not the attacker."""
+        assert me.active
+        cats = [
+            m
+            for m in me.in_play()
+            if self._is_floragato(me.card(m.card_i)) or self._is_sprigatito(me.card(m.card_i))
+        ]
+        unpaid = [m for m in cats if not can_pay_energy(self._energy_pool(me, m), ["Grass", "Colorless"])]
+        if unpaid:
+            floras = [m for m in unpaid if self._is_floragato(me.card(m.card_i))]
+            return (floras or unpaid)[0]
+        if cats:
+            return cats[0]
+        return me.active
+
+    def _evolve_slash(self, me: Player, who: str) -> None:
+        if self.rules.first_turn_no_evolve and self._is_players_first_turn(who):
+            return
+        evo_i = next((i for i in me.hand if self._is_floragato(me.card(i))), None)
+        if evo_i is None:
+            return
+        evo = me.card(evo_i)
+        candidates = [
+            mon
+            for mon in me.in_play()
+            if me.card(mon.card_i).name.lower() == (evo.evolves_from or "").lower()
+            and self._can_evolve_now(me, who, mon)
+        ]
+        if not candidates:
+            return
+        # Prefer a benched Sprigatito so Active Mewtwo can keep tanking.
+        bench = [m for m in candidates if m is not me.active]
+        target = (bench or candidates)[0]
+        self._do_evolve(me, target, evo_i)
+
+    def _retreat_slash(self, me: Player, foe: Player, who: str) -> None:
+        if not me.active or not me.bench:
+            return
+        if self._slash_ko(me, foe, me.active):
+            return
+        for idx, mon in enumerate(me.bench):
+            if self._slash_ko(me, foe, mon):
+                self._swap_to_bench(me, who, idx, allow_paid=True)
+                return
+        # Never sit 60/90 HP in front of Demolish.
+        if self._ogerpon_threat(foe) or self._foe_can_demolish(foe):
+            if self._is_mewtwo(me.card(me.active.card_i)):
+                return
+            for idx, mon in enumerate(me.bench):
+                if self._is_mewtwo(me.card(mon.card_i)):
+                    self._swap_to_bench(me, who, idx, allow_paid=True)
+                    return
+            return
+        if self._is_mewtwo(me.card(me.active.card_i)):
+            for idx, mon in enumerate(me.bench):
+                if self._is_floragato(me.card(mon.card_i)) and len(mon.energy) >= 1:
+                    self._swap_to_bench(me, who, idx, allow_paid=True)
+                    return
+            for idx, mon in enumerate(me.bench):
+                if self._is_sprigatito(me.card(mon.card_i)):
+                    self._swap_to_bench(me, who, idx, allow_paid=True)
+                    return
 
     def _orthworm_can_ko(self, me: Player, foe: Player, mon: Pokemon) -> bool:
         if not foe.active:
