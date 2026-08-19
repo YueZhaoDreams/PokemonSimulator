@@ -376,3 +376,73 @@ def test_fast_line_allows_mewtwo_to_tank_demolish():
     assert sim["pp"]
     assert sim["psychic"] == 7
     assert sim["ko_next"] or sim["ko_next_no_attach"]
+
+
+def test_storm_line_fuels_clefairy_not_mewtwo_vs_shock():
+    """Vs Set B glass: attach for Wonder Storm on Clefairy, not dump onto Mewtwo."""
+    from app.seed_data import SET_B_NAMES
+
+    c = build_fallback_deck(list(SET_C_NAMES))
+    b = build_fallback_deck(list(SET_B_NAMES))
+    game = Game(c, b, default_family_rules(), StrategySpec.from_dict("party"), StrategySpec.from_dict("shock"), Random(1))
+    me = game.players["a"]
+    foe = game.players["b"]
+    clefs = [i for i, card in enumerate(me.cards) if card.name == "Clefairy"]
+    mewtwo = next(i for i, card in enumerate(me.cards) if card.name == "Mewtwo ex")
+    fuels = [i for i, card in enumerate(me.cards) if card.name == "Clefable"]
+    pika = next(i for i, card in enumerate(foe.cards) if card.name == "Pikachu")
+    me.active = Pokemon(card_i=clefs[0], energy=[], ability_used=False, played_turn=0)
+    me.bench = [Pokemon(card_i=clefs[1], played_turn=0), Pokemon(card_i=mewtwo, played_turn=0)]
+    me.hand = [fuels[0]]
+    foe.active = Pokemon(card_i=pika)
+    assert game._want_storm_line(me, foe, "a")
+    assert game._want_fast_line(me, foe, "a") is False
+    target = game._energy_target(me, StrategySpec.from_dict("party"))
+    assert target is me.active
+    assert game._is_clefairy(me.card(target.card_i))
+
+
+def test_wonder_storm_kos_pikachu_with_four_psychic():
+    from app.seed_data import SET_B_NAMES
+
+    c = build_fallback_deck(list(SET_C_NAMES))
+    b = build_fallback_deck(list(SET_B_NAMES))
+    game = Game(c, b, default_family_rules(), StrategySpec.from_dict("party"), StrategySpec.from_dict("shock"), Random(2))
+    me = game.players["a"]
+    foe = game.players["b"]
+    clefs = [i for i, card in enumerate(me.cards) if card.name == "Clefairy"]
+    fuels = [i for i, card in enumerate(me.cards) if card.name == "Clefable"]
+    pika = next(i for i, card in enumerate(foe.cards) if card.name == "Pikachu")
+    me.active = Pokemon(card_i=clefs[0], energy=fuels[:3], ability_used=True, played_turn=0)
+    me.bench = [Pokemon(card_i=clefs[1], energy=[fuels[3]], ability_used=True, played_turn=0)]
+    foe.active = Pokemon(card_i=pika)
+    assert game._can_pay_wonder_storm(me, me.active)
+    assert game._count_psychic_energy_in_play(me) == 4
+    atk = game._choose_attack(me, foe, StrategySpec.from_dict("party"))
+    assert atk is not None
+    assert "wonder storm" in atk.name.lower()
+    assert game._effective_damage(me, foe, atk) >= game._max_hp(foe, foe.active)
+
+
+def test_storm_retreat_stays_on_clefairy_not_mewtwo():
+    from app.seed_data import SET_B_NAMES
+
+    c = build_fallback_deck(list(SET_C_NAMES))
+    b = build_fallback_deck(list(SET_B_NAMES))
+    game = Game(c, b, default_family_rules(), StrategySpec.from_dict("party"), StrategySpec.from_dict("shock"), Random(3))
+    me = game.players["a"]
+    foe = game.players["b"]
+    clefs = [i for i, card in enumerate(me.cards) if card.name == "Clefairy"]
+    mewtwo = next(i for i, card in enumerate(me.cards) if card.name == "Mewtwo ex")
+    fuels = [i for i, card in enumerate(me.cards) if card.name == "Clefable"]
+    pika = next(i for i, card in enumerate(foe.cards) if card.name == "Pikachu")
+    me.active = Pokemon(card_i=mewtwo, energy=fuels[:2], played_turn=0)
+    # Three Psychic attachments so Wonder Storm is payable after the paid retreat.
+    me.bench = [
+        Pokemon(card_i=clefs[0], energy=[fuels[2], fuels[3], clefs[1]], ability_used=True, played_turn=0)
+    ]
+    foe.active = Pokemon(card_i=pika)
+    assert game._can_pay_wonder_storm(me, me.bench[0])
+    game._retreat_party(me, foe, "a")
+    assert game._is_clefairy(me.card(me.active.card_i))
+    assert game._can_pay_wonder_storm(me, me.active)

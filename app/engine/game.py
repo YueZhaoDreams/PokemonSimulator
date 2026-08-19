@@ -730,12 +730,20 @@ class Game:
                 if copies >= max(1, strat.max_ace_copies) and strat.name == "demolish":
                     score -= 8
                 elif strat.name == "party" and slots > 0:
+                    storm = self._want_storm_line(me, foe, who)
                     have_mewtwo = self._mewtwo_mon(me) is not None or any(
                         self._is_mewtwo(me.card(i)) for i in me.hand
                     )
-                    if not have_mewtwo:
+                    clefairy_count = self._count_named_in_play(me, "Clefairy")
+                    if storm:
+                        # Bench Party engines first; Wonder Storm does not need Mewtwo.
+                        if clefairy_count < self._clefairy_play_cap(me):
+                            score += 12
+                        else:
+                            score += 2
+                    elif not have_mewtwo:
                         score += 13
-                    elif self._count_named_in_play(me, "Clefairy") < self._clefairy_play_cap(me):
+                    elif clefairy_count < self._clefairy_play_cap(me):
                         score += 6
                     else:
                         score += 2
@@ -819,7 +827,8 @@ class Game:
                     for m in me.in_play()
                 ) or any("bravery charm" in me.card(i).name.lower() for i in me.hand)
                 if strat.name == "party" and not belt_ready:
-                    score += 10
+                    # Belt is the Ogerpon Photon plan; Storm line does not need it.
+                    score += 2 if self._want_storm_line(me, foe, who) else 10
                 elif strat.name == "crunch" and (not belt_ready or not charm_ready):
                     score += 11
                 else:
@@ -833,6 +842,14 @@ class Game:
                         score += 12
                     else:
                         score += 9
+                elif strat.name == "party" and self._want_storm_line(me, foe, who):
+                    # Storm line wins on prizes; do not Hop-mill once Wonder Storm is online.
+                    if len(me.deck) <= 12:
+                        score -= 12
+                    elif me.active and self._can_pay_wonder_storm(me, me.active):
+                        score -= 8
+                    else:
+                        score += 3
                 elif len(me.deck) <= 8:
                     score -= 10
                 else:
@@ -898,7 +915,7 @@ class Game:
                 ) or any("maximum belt" in me.card(i).name.lower() for i in me.hand)
                 belt_in_deck = any("maximum belt" in me.card(i).name.lower() for i in me.deck)
                 if strat.name == "party" and not belt_ready and belt_in_deck:
-                    score += 10
+                    score += 2 if self._want_storm_line(me, foe, who) else 10
                 elif not belt_ready and belt_in_deck:
                     score += 6
                 else:
@@ -1484,6 +1501,10 @@ class Game:
     def _energy_target(self, me: Player, strat: StrategySpec) -> Pokemon:
         assert me.active
         if strat.name == "party":
+            who = "a" if me.name == "A" else "b"
+            foe = self.players["b" if who == "a" else "a"]
+            if self._want_storm_line(me, foe, who):
+                return self._storm_energy_target(me)
             mewtwo = self._mewtwo_mon(me)
             if mewtwo is not None:
                 return mewtwo
@@ -1860,8 +1881,14 @@ class Game:
                 score -= 80
             if any(e.get("kind") in {"psychic_energy_times", "psychic_energy_bonus"} for e in atk.effects):
                 score = max(score, float(effective) * max(0.6, strat.prefer_damage))
+                if strat.name == "party" and any(e.get("kind") == "psychic_energy_times" for e in atk.effects):
+                    # Wonder Storm is the glass-cannon plan: fire whenever it chips or KOs.
+                    score += 40 if effective >= foe_hp > 0 else 25
             if any(e.get("kind") == "transfer_charge" for e in atk.effects):
-                if strat.name == "party" and not any(
+                if strat.name == "party" and self._want_storm_line(me, foe, "a" if me.name == "A" else "b"):
+                    # Do not stall on Transfer Charge when Clefairy should be storming.
+                    score -= 80
+                elif strat.name == "party" and not any(
                     self._effective_damage(me, foe, a) >= foe_hp > 0 for a in legal
                 ):
                     score += 90
@@ -2612,6 +2639,9 @@ class Game:
         }
 
     def _want_fast_line(self, me: Player, foe: Player, who: str) -> bool:
+        # Glass matchups win with Wonder Storm; do not pivot into Mewtwo Transfer.
+        if self._want_storm_line(me, foe, who):
+            return False
         if self._photon_ko(me, foe):
             return False
         sim = self._simulate_fast_line(me, foe, who)
@@ -2621,6 +2651,66 @@ class Game:
             return True
         # Load Mewtwo while tanking; Photon can fire the turn after.
         return self._ogerpon_threat(foe)
+
+    def _want_storm_line(self, me: Player, foe: Player, who: str) -> bool:
+        """Clefairy Wonder Storm vs glass (Set B etc.). Keep Mewtwo Photon vs Demolish."""
+        foe_who = "b" if who == "a" else "a"
+        if self.strats[foe_who].name == "demolish":
+            return False
+        if self._ogerpon_threat(foe) or self._foe_can_demolish(foe):
+            return False
+        if any(self._is_ogerpon(foe.card(m.card_i)) for m in foe.in_play()):
+            return False
+        return any(self._is_clefairy(me.card(m.card_i)) for m in me.in_play())
+
+    def _wonder_storm_attack(self, me: Player, mon: Pokemon):
+        card = me.card(mon.card_i)
+        return next((a for a in card.attacks if "wonder storm" in a.name.lower()), None)
+
+    def _can_pay_wonder_storm(self, me: Player, mon: Pokemon) -> bool:
+        atk = self._wonder_storm_attack(me, mon)
+        return bool(atk) and can_pay_energy(self._energy_pool(me, mon), atk.cost)
+
+    def _storm_energy_target(self, me: Player) -> Pokemon:
+        """Fuel Active Clefairy for Wonder Storm; extras still count as Psychic in play."""
+        assert me.active
+        if self._is_clefairy(me.card(me.active.card_i)):
+            return me.active
+        for mon in me.in_play():
+            if self._is_clefairy(me.card(mon.card_i)) and not self._can_pay_wonder_storm(me, mon):
+                return mon
+        for mon in me.in_play():
+            if self._is_clefairy(me.card(mon.card_i)):
+                return mon
+        return me.active
+
+    def _retreat_party_storm(self, me: Player, foe: Player, who: str) -> None:
+        """Stay on a storm-ready Clefairy; do not force Mewtwo."""
+        if not me.active or not me.bench:
+            return
+        if self._can_pay_wonder_storm(me, me.active):
+            return
+        for idx, mon in enumerate(me.bench):
+            if self._can_pay_wonder_storm(me, mon):
+                self._swap_to_bench(me, who, idx, allow_paid=True)
+                return
+        if not self._is_clefairy(me.card(me.active.card_i)):
+            scored: list[tuple[int, int, int]] = []
+            for idx, mon in enumerate(me.bench):
+                if not self._is_clefairy(me.card(mon.card_i)):
+                    continue
+                unused = 0 if mon.ability_used else 1
+                scored.append((unused, len(mon.energy), idx))
+            if scored:
+                scored.sort(reverse=True)
+                self._swap_to_bench(me, who, scored[0][2], allow_paid=True)
+                return
+        # Rotate unused Party engines while loading the Active for [C][C][C].
+        if self._is_clefairy(me.card(me.active.card_i)) and me.active.ability_used:
+            for idx, mon in enumerate(me.bench):
+                if self._is_clefairy(me.card(mon.card_i)) and not mon.ability_used:
+                    self._swap_to_bench(me, who, idx, allow_paid=True)
+                    return
 
     def _mega_dies_to_next_demolish(self, me: Player) -> bool:
         mega = self._mega_mon(me)
@@ -2856,6 +2946,15 @@ class Game:
                 break
             if not self._swap_to_bench(me, who, unused):
                 break
+        if self._want_storm_line(me, foe, who):
+            # End on a Wonder Storm-ready Clefairy so the attach/attack window fires.
+            if me.active and self._can_pay_wonder_storm(me, me.active):
+                return
+            for idx, mon in enumerate(me.bench):
+                if self._can_pay_wonder_storm(me, mon):
+                    self._swap_to_bench(me, who, idx, allow_paid=True)
+                    return
+            return
         if self._photon_ko(me, foe) or self._want_fast_line(me, foe, who):
             return
         if self._ogerpon_threat(foe):
@@ -2867,6 +2966,7 @@ class Game:
         engines = self._party_engines(me)
         can_kill = self._photon_ko(me, foe)
         fast = self._want_fast_line(me, foe, who)
+        storm = self._want_storm_line(me, foe, who)
 
         def evo_in_hand(name: str) -> int | None:
             for i in me.hand:
@@ -2902,8 +3002,8 @@ class Game:
             self._do_evolve(me, target, evo_i)
             return True
 
-        # Plan A: do not spend Clefairy engines on RCL / Clefable ex / Mega.
-        if can_kill or fast:
+        # Plan Storm / Plan A: do not spend Clefairy engines on RCL / Clefable ex / Mega.
+        if can_kill or fast or storm:
             return
 
         # Prankish only if bouncing energy actually delays Demolish and a used engine exists.
@@ -2960,6 +3060,9 @@ class Game:
 
     def _retreat_party(self, me: Player, foe: Player, who: str) -> None:
         if not me.active or not me.bench:
+            return
+        if self._want_storm_line(me, foe, who):
+            self._retreat_party_storm(me, foe, who)
             return
         if self._photon_ko(me, foe) or self._want_fast_line(me, foe, who):
             if self._is_mewtwo(me.card(me.active.card_i)):
