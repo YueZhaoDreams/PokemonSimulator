@@ -476,3 +476,22 @@ def test_storm_evolves_lunar_zone_for_party_rotation():
     assert game._has_lunar_zone(me)
     assert game._is_clefairy(me.card(me.active.card_i))
     assert game.events.get("lunar_zone_play")
+
+
+def test_storm_line_also_vs_thrifty():
+    """Wonder Storm plan applies vs Set A (thrifty), not only shock."""
+    from app.seed_data import SET_A_NAMES
+
+    c = build_fallback_deck(list(SET_C_NAMES))
+    a = build_fallback_deck(list(SET_A_NAMES))
+    game = Game(c, a, default_family_rules(), StrategySpec.from_dict("party"), StrategySpec.from_dict("thrifty"), Random(5))
+    me = game.players["a"]
+    foe = game.players["b"]
+    clefs = [i for i, card in enumerate(me.cards) if card.name == "Clefairy"]
+    mewtwo = next(i for i, card in enumerate(me.cards) if card.name == "Mewtwo ex")
+    dozo = next(i for i, card in enumerate(foe.cards) if card.name == "Dondozo")
+    me.active = Pokemon(card_i=clefs[0], played_turn=0)
+    me.bench = [Pokemon(card_i=mewtwo, played_turn=0)]
+    foe.active = Pokemon(card_i=dozo)
+    assert game._want_storm_line(me, foe, "a")
+    assert game._energy_target(me, StrategySpec.from_dict("party")) is me.active

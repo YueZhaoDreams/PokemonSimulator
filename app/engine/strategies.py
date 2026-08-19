@@ -184,7 +184,7 @@ STRATEGY_LIBRARY = {
     "party": StrategySpec(
         name="party",
         description=(
-            "Set C Clefairy / Mewtwo: vs glass (Set B etc.) Plan Storm — bench Clefairies, "
+            "Set C Clefairy / Mewtwo: vs Set A/B (thrifty/shock) Plan Storm — bench Clefairies, "
             "Moon-Watching Party for Psychic, evolve one Clefable ex for Lunar Zone free retreat "
             "so Party can rotate, then Wonder Storm ([C][C][C]) with 4–5 Psychic in play. "
             "Do not Hop-mill or Belt. Vs Ogerpon/Demolish: Transfer Charge → Mewtwo Photon "

@@ -39,17 +39,22 @@ Muscle Band remains in the engine (printed +20) for other lists, but **does not 
 
 ## Family Cup win-rate matrix (3,000 games / cell)
 
-Strategies: A `thrifty`, B `shock`, C `party`, D `demolish`. Cell = **row player's win rate** vs column. Diagonal is —.
+Date: 2026-08-19 · Seed: `20260819`
+Strategies: A `thrifty`, B `shock`, C `party`, D `demolish`.
+Cell = **row player's win rate** vs column. Diagonal is —.
+
+`party` uses **Wonder Storm** vs A/B (not Demolish); Photon / Belt only vs D.
 
 |  | A | B | C | D |
 | --- | ---: | ---: | ---: | ---: |
-| **A** | — | 64.2% | 29.8% | 0.2% |
-| **B** | 35.1% | — | 49.0% | 0.1% |
-| **C** | 70.6% | 52.7% | — | **54.9%** |
-| **D** | 99.7% | 99.8% | 47.2% | — |
+| **A** | — | 64.5% | 55.8% | 0.2% |
+| **B** | 37.9% | — | 43.6% | 0.3% |
+| **C** | 46.5% | **59.5%** | — | **54.9%** |
+| **D** | 99.8% | 99.8% | 45.0% | — |
 
 Notes:
 
-- A vs B ≈ documented carpet matchup (~66% A in the older 10k shock log).
-- D (Charm Ogerpon) hard-crushes A and B; C is the only list that stays above 50% vs D.
-- C vs D ≈ 55% matches the locked Tool Box list.
+- C Wonder Storm rate ≈ 74% vs A and vs B; 0% vs D (Photon path).
+- C vs B improved after Storm (was ~53% while Hop-milling toward Mewtwo).
+- C vs A is weaker on Storm: Dondozo is 160 HP (needs 8 Psychic for Wonder Storm OHKO); A still favored in that cell.
+- D hard-crushes A and B; C is the only list above 50% vs D.

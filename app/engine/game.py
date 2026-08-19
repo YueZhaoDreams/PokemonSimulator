@@ -2678,7 +2678,7 @@ class Game:
         return self._ogerpon_threat(foe)
 
     def _want_storm_line(self, me: Player, foe: Player, who: str) -> bool:
-        """Clefairy Wonder Storm vs glass (Set B etc.). Keep Mewtwo Photon vs Demolish."""
+        """Clefairy Wonder Storm vs A/B (thrifty/shock). Keep Mewtwo Photon vs Demolish."""
         foe_who = "b" if who == "a" else "a"
         if self.strats[foe_who].name == "demolish":
             return False
