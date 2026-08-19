@@ -103,10 +103,9 @@ SET_S_NAMES = (
     + ["Mewtwo ex"] * 3
     + ["Nest Ball"] * 4
     + ["Energy Search"] * 3
-    + ["Switch"] * 2
+    + ["Switch"] * 3
     + ["Jacq"]
     + ["Maximum Belt"]
-    + ["Muscle Band"]
     + ["Tool Box"]
     + ["Arven"]
     + ["Hop"]

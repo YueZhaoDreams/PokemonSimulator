@@ -63,6 +63,8 @@ def test_seed_decks_include_set_c_and_d():
     assert s_names.count("Floragato") == 4
     assert s_names.count("Mewtwo ex") == 3
     assert s_names.count("Maximum Belt") == 1
+    assert s_names.count("Switch") == 3
+    assert s_names.count("Muscle Band") == 0
     assert c_names.count("Clefairy") == 4
     assert c_names.count("Mewtwo ex") == 2
     assert c_names.count("Hop") == 3

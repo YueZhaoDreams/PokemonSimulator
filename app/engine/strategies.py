@@ -224,8 +224,9 @@ STRATEGY_LIBRARY = {
             "Set S Floragato hunter vs Charm Ogerpon: Nest Mewtwo as the 230 HP Demolish "
             "sponge (no Ability). Evolve Sprigatito → Floragato. Slashing Claw 90 + Maximum "
             "Belt 50 = 140, Grass Weakness ×2 = 280 OHKO on 260 Charm Ogerpon. Stance does "
-            "not block (Floragato has no Ability). Never end on 60/90 HP into Demolish. "
-            "Cap one Sprigatito and one Mewtwo in play; extras are Grass energy. ACE SPEC Belt."
+            "not block (Floragato has no Ability). Never end on 60/90 HP into Demolish — "
+            "stay on Mewtwo until Floragato can KO this turn. Cap one Sprigatito and one "
+            "Mewtwo in play; extras are Grass energy. ACE SPEC Belt; do not attach any other Tool."
         ),
         prefer_damage=1.0,
         prefer_status=0.05,

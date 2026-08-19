@@ -4246,7 +4246,7 @@
         "dex_id": null
       },
       {
-        "catalog_id": "floragato",
+        "catalog_id": "sv03-014",
         "name": "Floragato",
         "category": "Pokemon",
         "stage": "Stage1",
@@ -4284,7 +4284,7 @@
         "dex_id": null
       },
       {
-        "catalog_id": "floragato",
+        "catalog_id": "sv03-014",
         "name": "Floragato",
         "category": "Pokemon",
         "stage": "Stage1",
@@ -4322,7 +4322,7 @@
         "dex_id": null
       },
       {
-        "catalog_id": "floragato",
+        "catalog_id": "sv03-014",
         "name": "Floragato",
         "category": "Pokemon",
         "stage": "Stage1",
@@ -4360,7 +4360,7 @@
         "dex_id": null
       },
       {
-        "catalog_id": "floragato",
+        "catalog_id": "sv03-014",
         "name": "Floragato",
         "category": "Pokemon",
         "stage": "Stage1",
@@ -4413,7 +4413,7 @@
               "Psychic"
             ],
             "damage": 0,
-            "text": "Attach up to 2 Basic {P} Energy cards from your discard pile to your Pok\u00e9mon in any way you like.",
+            "text": "Attach up to 2 Basic Psychic Energy cards from your discard pile to your Pok\u00e9mon in any way you like.",
             "effects": [
               {
                 "kind": "transfer_charge",
@@ -4428,7 +4428,7 @@
               "Psychic"
             ],
             "damage": 10,
-            "text": "This attack does 30 more damage for each {P} Energy attached to all of your Pok\u00e9mon.",
+            "text": "This attack does 30 more damage for each Psychic Energy attached to all of your Pok\u00e9mon.",
             "effects": [
               {
                 "kind": "psychic_energy_bonus",
@@ -4449,10 +4449,10 @@
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv04/058/low.webp",
-        "set_name": "Paradox Rift",
+        "image": null,
+        "set_name": null,
         "text": "",
-        "dex_id": 150
+        "dex_id": null
       },
       {
         "catalog_id": "sv04-058",
@@ -4470,7 +4470,7 @@
               "Psychic"
             ],
             "damage": 0,
-            "text": "Attach up to 2 Basic {P} Energy cards from your discard pile to your Pok\u00e9mon in any way you like.",
+            "text": "Attach up to 2 Basic Psychic Energy cards from your discard pile to your Pok\u00e9mon in any way you like.",
             "effects": [
               {
                 "kind": "transfer_charge",
@@ -4485,7 +4485,7 @@
               "Psychic"
             ],
             "damage": 10,
-            "text": "This attack does 30 more damage for each {P} Energy attached to all of your Pok\u00e9mon.",
+            "text": "This attack does 30 more damage for each Psychic Energy attached to all of your Pok\u00e9mon.",
             "effects": [
               {
                 "kind": "psychic_energy_bonus",
@@ -4506,10 +4506,10 @@
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv04/058/low.webp",
-        "set_name": "Paradox Rift",
+        "image": null,
+        "set_name": null,
         "text": "",
-        "dex_id": 150
+        "dex_id": null
       },
       {
         "catalog_id": "sv04-058",
@@ -4527,7 +4527,7 @@
               "Psychic"
             ],
             "damage": 0,
-            "text": "Attach up to 2 Basic {P} Energy cards from your discard pile to your Pok\u00e9mon in any way you like.",
+            "text": "Attach up to 2 Basic Psychic Energy cards from your discard pile to your Pok\u00e9mon in any way you like.",
             "effects": [
               {
                 "kind": "transfer_charge",
@@ -4542,7 +4542,7 @@
               "Psychic"
             ],
             "damage": 10,
-            "text": "This attack does 30 more damage for each {P} Energy attached to all of your Pok\u00e9mon.",
+            "text": "This attack does 30 more damage for each Psychic Energy attached to all of your Pok\u00e9mon.",
             "effects": [
               {
                 "kind": "psychic_energy_bonus",
@@ -4563,13 +4563,13 @@
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv04/058/low.webp",
-        "set_name": "Paradox Rift",
+        "image": null,
+        "set_name": null,
         "text": "",
-        "dex_id": 150
+        "dex_id": null
       },
       {
-        "catalog_id": "sv01-181",
+        "catalog_id": "nest-ball",
         "name": "Nest Ball",
         "category": "Trainer",
         "stage": "Item",
@@ -4583,13 +4583,13 @@
         "evolves_from": null,
         "trainer_kind": "item",
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv01/181/low.webp",
-        "set_name": "Scarlet & Violet",
+        "image": null,
+        "set_name": null,
         "text": "Search your deck for a Basic Pok\u00e9mon and put it onto your Bench. Then, shuffle your deck.",
         "dex_id": null
       },
       {
-        "catalog_id": "sv01-181",
+        "catalog_id": "nest-ball",
         "name": "Nest Ball",
         "category": "Trainer",
         "stage": "Item",
@@ -4603,13 +4603,13 @@
         "evolves_from": null,
         "trainer_kind": "item",
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv01/181/low.webp",
-        "set_name": "Scarlet & Violet",
+        "image": null,
+        "set_name": null,
         "text": "Search your deck for a Basic Pok\u00e9mon and put it onto your Bench. Then, shuffle your deck.",
         "dex_id": null
       },
       {
-        "catalog_id": "sv01-181",
+        "catalog_id": "nest-ball",
         "name": "Nest Ball",
         "category": "Trainer",
         "stage": "Item",
@@ -4623,13 +4623,13 @@
         "evolves_from": null,
         "trainer_kind": "item",
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv01/181/low.webp",
-        "set_name": "Scarlet & Violet",
+        "image": null,
+        "set_name": null,
         "text": "Search your deck for a Basic Pok\u00e9mon and put it onto your Bench. Then, shuffle your deck.",
         "dex_id": null
       },
       {
-        "catalog_id": "sv01-181",
+        "catalog_id": "nest-ball",
         "name": "Nest Ball",
         "category": "Trainer",
         "stage": "Item",
@@ -4643,13 +4643,13 @@
         "evolves_from": null,
         "trainer_kind": "item",
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv01/181/low.webp",
-        "set_name": "Scarlet & Violet",
+        "image": null,
+        "set_name": null,
         "text": "Search your deck for a Basic Pok\u00e9mon and put it onto your Bench. Then, shuffle your deck.",
         "dex_id": null
       },
       {
-        "catalog_id": "sv01-172",
+        "catalog_id": "energy-search",
         "name": "Energy Search",
         "category": "Trainer",
         "stage": "Item",
@@ -4663,13 +4663,13 @@
         "evolves_from": null,
         "trainer_kind": "item",
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv01/172/low.webp",
-        "set_name": "Scarlet & Violet",
-        "text": "Search your deck for a Basic Energy card, reveal it, and put it into your hand. Then, shuffle your deck.",
+        "image": null,
+        "set_name": null,
+        "text": "Search your deck for a Basic Energy card.",
         "dex_id": null
       },
       {
-        "catalog_id": "sv01-172",
+        "catalog_id": "energy-search",
         "name": "Energy Search",
         "category": "Trainer",
         "stage": "Item",
@@ -4683,13 +4683,13 @@
         "evolves_from": null,
         "trainer_kind": "item",
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv01/172/low.webp",
-        "set_name": "Scarlet & Violet",
-        "text": "Search your deck for a Basic Energy card, reveal it, and put it into your hand. Then, shuffle your deck.",
+        "image": null,
+        "set_name": null,
+        "text": "Search your deck for a Basic Energy card.",
         "dex_id": null
       },
       {
-        "catalog_id": "sv01-172",
+        "catalog_id": "energy-search",
         "name": "Energy Search",
         "category": "Trainer",
         "stage": "Item",
@@ -4703,13 +4703,13 @@
         "evolves_from": null,
         "trainer_kind": "item",
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv01/172/low.webp",
-        "set_name": "Scarlet & Violet",
-        "text": "Search your deck for a Basic Energy card, reveal it, and put it into your hand. Then, shuffle your deck.",
+        "image": null,
+        "set_name": null,
+        "text": "Search your deck for a Basic Energy card.",
         "dex_id": null
       },
       {
-        "catalog_id": "sv01-194",
+        "catalog_id": "switch",
         "name": "Switch",
         "category": "Trainer",
         "stage": "Item",
@@ -4723,13 +4723,13 @@
         "evolves_from": null,
         "trainer_kind": "item",
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv01/194/low.webp",
-        "set_name": "Scarlet & Violet",
+        "image": null,
+        "set_name": null,
         "text": "Switch your Active Pok\u00e9mon with 1 of your Benched Pok\u00e9mon.",
         "dex_id": null
       },
       {
-        "catalog_id": "sv01-194",
+        "catalog_id": "switch",
         "name": "Switch",
         "category": "Trainer",
         "stage": "Item",
@@ -4743,8 +4743,28 @@
         "evolves_from": null,
         "trainer_kind": "item",
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv01/194/low.webp",
-        "set_name": "Scarlet & Violet",
+        "image": null,
+        "set_name": null,
+        "text": "Switch your Active Pok\u00e9mon with 1 of your Benched Pok\u00e9mon.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "switch",
+        "name": "Switch",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": null,
+        "set_name": null,
         "text": "Switch your Active Pok\u00e9mon with 1 of your Benched Pok\u00e9mon.",
         "dex_id": null
       },
@@ -4769,7 +4789,7 @@
         "dex_id": null
       },
       {
-        "catalog_id": "sv05-154",
+        "catalog_id": "maximum-belt",
         "name": "Maximum Belt",
         "category": "Trainer",
         "stage": "Item",
@@ -4783,33 +4803,13 @@
         "evolves_from": null,
         "trainer_kind": "item",
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv05/154/low.webp",
-        "set_name": "Temporal Forces",
+        "image": null,
+        "set_name": null,
         "text": "Attacks used by the Pok\u00e9mon this card is attached to do 50 more damage to your opponent's Active Pok\u00e9mon ex (before applying Weakness and Resistance).",
         "dex_id": null
       },
       {
-        "catalog_id": "xy1-121",
-        "name": "Muscle Band",
-        "category": "Trainer",
-        "stage": "Item",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "item",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/xy/xy1/121/low.webp",
-        "set_name": "XY",
-        "text": "The attacks of the Pok\u00e9mon this card is attached to do 20 more damage to your opponent's Active Pok\u00e9mon (before applying Weakness and Resistance).",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "swsh11-168",
+        "catalog_id": "tool-box",
         "name": "Tool Box",
         "category": "Trainer",
         "stage": "Item",
@@ -4823,13 +4823,13 @@
         "evolves_from": null,
         "trainer_kind": "item",
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh11/168/low.webp",
-        "set_name": "Lost Origin",
-        "text": "Look at the top 7 cards of your deck. You may reveal any number of Pok\u00e9mon Tool cards you find there and put them into your hand. Shuffle the other cards back into your deck.",
+        "image": null,
+        "set_name": null,
+        "text": "Look at the top 7 cards of your deck. You may put any Pok\u00e9mon Tool cards you find there into your hand.",
         "dex_id": null
       },
       {
-        "catalog_id": "sv01-166",
+        "catalog_id": "arven",
         "name": "Arven",
         "category": "Trainer",
         "stage": "Supporter",
@@ -4843,13 +4843,13 @@
         "evolves_from": null,
         "trainer_kind": "supporter",
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv01/166/low.webp",
-        "set_name": "Scarlet & Violet",
+        "image": null,
+        "set_name": null,
         "text": "Search your deck for an Item card and a Pok\u00e9mon Tool card, reveal them, and put them into your hand. Then, shuffle your deck.",
         "dex_id": null
       },
       {
-        "catalog_id": "swsh1-165",
+        "catalog_id": "hop",
         "name": "Hop",
         "category": "Trainer",
         "stage": "Supporter",
@@ -4863,8 +4863,8 @@
         "evolves_from": null,
         "trainer_kind": "supporter",
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh1/165/low.webp",
-        "set_name": "Sword & Shield",
+        "image": null,
+        "set_name": null,
         "text": "Draw 3 cards.",
         "dex_id": null
       },
@@ -4911,10 +4911,10 @@
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/004/low.webp",
-        "set_name": "Crown Zenith",
-        "text": "Hidden beneath a tangle of vines that grows nonstop even if the vines are torn off, this Pok\u00e9mon's true appearance remains a mystery.",
-        "dex_id": 114
+        "image": null,
+        "set_name": null,
+        "text": "",
+        "dex_id": null
       },
       {
         "catalog_id": "swsh12.5-004",
@@ -4959,10 +4959,10 @@
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/004/low.webp",
-        "set_name": "Crown Zenith",
-        "text": "Hidden beneath a tangle of vines that grows nonstop even if the vines are torn off, this Pok\u00e9mon's true appearance remains a mystery.",
-        "dex_id": 114
+        "image": null,
+        "set_name": null,
+        "text": "",
+        "dex_id": null
       }
     ]
   }

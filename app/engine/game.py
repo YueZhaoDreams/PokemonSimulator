@@ -789,18 +789,17 @@ class Game:
                     else:
                         score += 2
                 elif strat.name == "slash" and slots > 0:
-                    have_mewtwo = self._mewtwo_mon(me) is not None or any(
-                        self._is_mewtwo(me.card(i)) for i in me.hand
-                    )
+                    deck_names = {me.card(i).name.lower() for i in me.deck}
+                    have_mewtwo = self._mewtwo_mon(me) is not None
                     have_cat = any(
                         me.card(m.card_i).name.lower() in {"sprigatito", "floragato"} for m in me.in_play()
                     )
-                    if not have_mewtwo:
+                    if not have_mewtwo and any("mewtwo" in n for n in deck_names):
                         score += 14
-                    elif not have_cat:
+                    elif not have_cat and "sprigatito" in deck_names:
                         score += 10
                     else:
-                        score -= 6
+                        score -= 20
                 elif strat.name == "invisible" and slots > 0:
                     have_mime = any(self._is_mr_mime(me.card(m.card_i)) for m in me.in_play())
                     have_worm = any(self._is_orthworm(me.card(m.card_i)) for m in me.in_play())
@@ -881,10 +880,12 @@ class Game:
                         score -= 20
                     elif me.active and any(self._slash_ko(me, foe, mon) for mon in me.bench):
                         score += 14
-                    elif me.active and self._ogerpon_threat(foe) and not self._is_tank_mon(me, me.active):
-                        score += 10
+                    elif me.active and not self._is_mewtwo(me.card(me.active.card_i)) and any(
+                        self._is_mewtwo(me.card(m.card_i)) for m in me.bench
+                    ):
+                        score += 12
                     else:
-                        score -= 4
+                        score -= 20
                 elif strat.name == "party":
                     score -= 20
                 elif strat.name == "demolish" and me.active and not self._is_ogerpon(me.card(me.active.card_i)) and me.bench:
@@ -2074,6 +2075,13 @@ class Game:
                 and "mewtwo" in card.name.lower()
             ):
                 return None
+        if strat.name == "slash" and best is not None:
+            effective = self._effective_damage(me, foe, best)
+            # Acerola resets a non-KO; 90 HP Floragato then dies to Demolish.
+            if self._is_floragato(card) and effective < foe_hp:
+                return None
+            if self._is_mewtwo(card) and effective < foe_hp:
+                return None
         return best
 
     def _apply_status(self, mon: Pokemon, status: str) -> None:
@@ -2387,6 +2395,9 @@ class Game:
             for mon in me.in_play():
                 if mon.tool is None and self._is_floragato(me.card(mon.card_i)):
                     return mon
+            if self.strats[who].name == "slash":
+                # Belt on Mewtwo bricks the Floragato OHKO.
+                return None
             for mon in me.in_play():
                 if mon.tool is None and self._is_orthworm(me.card(mon.card_i)):
                     return mon
@@ -2398,6 +2409,9 @@ class Game:
                     return mon
             return None
         if name == "muscle band":
+            if self.strats[who].name == "slash":
+                # Band is +20; 110×2 = 220 does not KO Charm 260 and occupies the Belt slot.
+                return None
             for mon in me.in_play():
                 if mon.tool is None and self._is_floragato(me.card(mon.card_i)):
                     return mon
@@ -2439,6 +2453,8 @@ class Game:
                 if max_hp is not None and (card.hp or 0) > max_hp:
                     continue
                 name = card.name.lower()
+                if strat.name == "slash" and name not in {"mewtwo ex", "sprigatito"}:
+                    continue
                 score = 0.0
                 if name in prefer:
                     score += 20 - prefer.index(name)
@@ -2486,16 +2502,10 @@ class Game:
             for idx, mon in enumerate(me.bench):
                 if self._slash_ko(me, foe, mon):
                     return idx
-            if self._ogerpon_threat(foe):
-                for idx, mon in enumerate(me.bench):
-                    if self._is_mewtwo(me.card(mon.card_i)):
-                        return idx
             for idx, mon in enumerate(me.bench):
-                if self._is_floragato(me.card(mon.card_i)):
+                if self._is_mewtwo(me.card(mon.card_i)):
                     return idx
-            for idx, mon in enumerate(me.bench):
-                if me.card(mon.card_i).name.lower() == "sprigatito":
-                    return idx
+            return None
         return 0
 
     def _play_switch(self, me: Player, who: str, target_idx: int | None = None) -> bool:
@@ -3051,6 +3061,10 @@ class Game:
     def _swap_to_bench(self, me: Player, who: str, idx: int, allow_paid: bool = False) -> bool:
         if not me.active or idx < 0 or idx >= len(me.bench):
             return False
+        # Slash saves Switch for Mewtwo's printed Retreat 2; pay Sprigatito's 1 when we can.
+        if allow_paid and self.strats[who].name == "slash":
+            if self._do_retreat_into(me, idx):
+                return True
         switch_i = self._first_named(me, "Switch")
         if switch_i is not None:
             me.hand.remove(switch_i)
@@ -3399,24 +3413,13 @@ class Game:
             if self._slash_ko(me, foe, mon):
                 self._swap_to_bench(me, who, idx, allow_paid=True)
                 return
-        # Never sit 60/90 HP in front of Demolish.
-        if self._ogerpon_threat(foe) or self._foe_can_demolish(foe):
-            if self._is_mewtwo(me.card(me.active.card_i)):
-                return
-            for idx, mon in enumerate(me.bench):
-                if self._is_mewtwo(me.card(mon.card_i)):
-                    self._swap_to_bench(me, who, idx, allow_paid=True)
-                    return
-            return
+        # Stay on the 230 HP sponge until Floragato can OHKO this turn.
         if self._is_mewtwo(me.card(me.active.card_i)):
-            for idx, mon in enumerate(me.bench):
-                if self._is_floragato(me.card(mon.card_i)) and len(mon.energy) >= 1:
-                    self._swap_to_bench(me, who, idx, allow_paid=True)
-                    return
-            for idx, mon in enumerate(me.bench):
-                if self._is_sprigatito(me.card(mon.card_i)):
-                    self._swap_to_bench(me, who, idx, allow_paid=True)
-                    return
+            return
+        for idx, mon in enumerate(me.bench):
+            if self._is_mewtwo(me.card(mon.card_i)):
+                self._swap_to_bench(me, who, idx, allow_paid=True)
+                return
 
     def _orthworm_can_ko(self, me: Player, foe: Player, mon: Pokemon) -> bool:
         if not foe.active:
