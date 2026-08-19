@@ -45,13 +45,18 @@ class Attack:
 class Ability:
     name: str
     text: str = ""
+    effects: list[dict[str, Any]] = field(default_factory=list)
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> Ability:
-        return cls(name=data.get("name", "Ability"), text=data.get("text") or data.get("effect") or "")
+        return cls(
+            name=data.get("name", "Ability"),
+            text=data.get("text") or data.get("effect") or "",
+            effects=list(data.get("effects") or []),
+        )
 
 
 @dataclass
@@ -149,11 +154,17 @@ class FamilyRules:
     pokemon_as_energy: bool = True
     first_player_no_attack: bool = True
     first_player_no_draw: bool = True
+    first_player_no_supporter: bool = True
+    first_turn_no_evolve: bool = True
+    one_retreat_per_turn: bool = True
     extra_prize_for_ex: bool = False
     notes: str = (
         "28-card decks, 3 prize cards, and every Pokémon can be attached as a "
         "Basic Energy of its type (so Energy Search may also fetch a Pokémon). "
-        "Other play follows standard Pokémon TCG."
+        "Other play follows standard Pokémon TCG: going first cannot draw, attack, "
+        "or play a Supporter on the first turn; neither player may evolve on their "
+        "first turn; a Pokémon cannot evolve the turn it entered play; one manual "
+        "retreat per turn (Switch does not count)."
     )
 
     def to_dict(self) -> dict[str, Any]:

@@ -60,7 +60,9 @@ def _upsert_seed_decks(conn: sqlite3.Connection) -> None:
 
     payload = load_seed_payload()
     now = _now()
-    for key in ("a", "b"):
+    for key in ("a", "b", "c", "d"):
+        if key not in payload:
+            continue
         deck = payload[key]
         existing = conn.execute("SELECT id FROM decks WHERE id=?", (deck["id"],)).fetchone()
         if existing:

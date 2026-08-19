@@ -181,6 +181,46 @@ STRATEGY_LIBRARY = {
         closers=["Plusle"],
         prefer_chip=True,
     ),
+    "party": StrategySpec(
+        name="party",
+        description=(
+            "Set C Clefairy / Mewtwo: Plan A is the fast Transfer Charge line "
+            "(Party → retreat into Mewtwo → attach 1 → Transfer Charge → tank one "
+            "Demolish → Photon with 7P+Belt or 9P). Plan B is Mega wall only if Mewtwo "
+            "cannot eat the next 140. Play Mewtwo immediately as a 230 HP tank; never "
+            "end turn on 60 HP Clefairy into Demolish. Cap Clefairy at 3 so Party has "
+            "two benched copies without flooding prize fodder. Poffin benches Clefairy; "
+            "Nest Ball fetches Mewtwo; Hop draws."
+        ),
+        prefer_damage=0.95,
+        prefer_status=0.1,
+        bench_fill=0.0,
+        evolve_asap=0.0,
+        attach_pokemon_as_energy=0.95,
+        item_spend=1.0,
+        hold_as_energy=True,
+        protect=["Clefairy", "Mewtwo ex"],
+        search_aces=["Clefairy"],
+        closers=["Mewtwo ex"],
+        max_ace_copies=3,
+    ),
+    "demolish": StrategySpec(
+        name="demolish",
+        description=(
+            "Set D Cornerstone Ogerpon: Nest Ball into Ogerpon, T1 Fighting + T2 DCE = Demolish 140. "
+            "Bravery Charm to 260 HP. Acerola resets a chipped Ogerpon. Stance blocks Pokémon that have Abilities."
+        ),
+        prefer_damage=1.0,
+        prefer_status=0.05,
+        bench_fill=0.0,
+        evolve_asap=0.0,
+        attach_pokemon_as_energy=0.7,
+        item_spend=1.0,
+        hold_as_energy=True,
+        protect=["Cornerstone Mask Ogerpon ex"],
+        search_aces=["Cornerstone Mask Ogerpon ex"],
+        max_ace_copies=1,
+    ),
 }
 
 

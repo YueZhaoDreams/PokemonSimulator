@@ -10,7 +10,7 @@ from urllib.parse import quote
 import httpx
 
 from app.config import CACHE_DIR, TCGDEX_BASE
-from app.engine.effects import parse_attack
+from app.engine.effects import parse_ability_effects, parse_attack
 from app.engine.models import Ability, Card
 
 CACHE_DIR.mkdir(parents=True, exist_ok=True)
@@ -46,6 +46,14 @@ TRAINER_KIND_HINTS = {
     "energy search": "item",
     "energy retrieval": "item",
     "energy switch": "item",
+    "switch": "item",
+    "nest ball": "item",
+    "buddy-buddy poffin": "item",
+    "maximum belt": "item",
+    "bravery charm": "item",
+    "beach court": "stadium",
+    "arven": "supporter",
+    "acerola": "supporter",
     "ultra ball": "item",
     "poké ball": "item",
     "poke ball": "item",
@@ -80,6 +88,24 @@ PREFERRED_IDS = {
     "Litwick": "swsh11-024",  # Kindling Panic — mill opponent deck
     "Oddish": "swsh12.5-001",
     "Clefairy": "swsh11-062",
+    "Clefable": "swsh2-75",
+    "Clefable ex": "sv03-082",
+    "Mega Clefable ex": "me03-031",
+    "Mewtwo ex": "sv04-058",
+    "Buddy-Buddy Poffin": "sv05-144",
+    "Maximum Belt": "sv05-154",
+    "Energy Search": "sv01-172",
+    "Switch": "sv01-194",
+    "Beach Court": "sv01-167",
+    "Hop": "swsh1-165",
+    "Arven": "sv01-166",
+    "Super Rod": "sv02-188",
+    "Earthen Vessel": "sv04-163",
+    "Cornerstone Mask Ogerpon ex": "sv06-112",
+    "Nest Ball": "sv01-181",
+    "Bravery Charm": "sv02-173",
+    "Acerola": "sm3-112",
+    "Double Colorless Energy": "sm3.5-69",
     "Dusclops": "swsh12.5-063",  # Fade to Black / Confused (Crown Zenith) — not Brilliant Stars
     "Spinarak": "swsh11-112",  # Darkness Poison Sting 10 (Lost Origin) — not Pokémon GO Grass
     "Bronzor": "swsh11-125",  # Spinning Attack 10, HP 70 (Lost Origin)
@@ -115,7 +141,18 @@ PRINT_PREFER = {
     "Salazzle": ["tail trickery", "super singe"],
     "Carbink": ["lucky find", "power gem"],
     "Baltoy": ["smack"],
-    "Clefairy": ["wonder storm"],
+    "Clefairy": ["wonder storm", "moon-watching"],
+    "Clefable": ["prankish"],
+    "Clefable ex": ["lunar zone"],
+    "Mega Clefable ex": ["luminous wing", "shooting moons"],
+    "Mewtwo ex": ["photon kinesis", "transfer charge"],
+    "Cornerstone Mask Ogerpon ex": ["demolish", "cornerstone stance"],
+    "Buddy-Buddy Poffin": ["70 hp"],
+    "Maximum Belt": ["50 more damage"],
+    "Beach Court": ["retreat"],
+    "Arven": ["item", "tool"],
+    "Bravery Charm": ["+50 hp"],
+    "Acerola": ["damage counters"],
     "Relicanth": ["into the deep"],
     "Plusle": ["plus damage"],
     "Emolga": ["static shock", "call for family"],
@@ -227,10 +264,16 @@ def normalize_card(raw: dict[str, Any]) -> Card:
         category = "Energy"
 
     attacks = [parse_attack(a) for a in raw.get("attacks") or []]
-    abilities = [
-        Ability(name=a.get("name") or "Ability", text=a.get("effect") or a.get("text") or "")
-        for a in raw.get("abilities") or []
-    ]
+    abilities = []
+    for a in raw.get("abilities") or []:
+        text = a.get("effect") or a.get("text") or ""
+        abilities.append(
+            Ability(
+                name=a.get("name") or "Ability",
+                text=text,
+                effects=parse_ability_effects(text),
+            )
+        )
     set_info = raw.get("set") or {}
     trainer_type = raw.get("trainerType") or raw.get("trainer_type")
     stage = raw.get("stage") or ""

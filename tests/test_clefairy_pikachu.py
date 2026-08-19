@@ -1,7 +1,7 @@
 from random import Random
 
 from app.catalog import fetch_full, normalize_card
-from app.engine.effects import parse_effects
+from app.engine.effects import parse_ability_effects, parse_effects
 from app.engine.game import Game
 from app.engine.models import default_family_rules
 from app.engine.strategies import StrategySpec
@@ -56,3 +56,25 @@ def test_two_carpet_pikachu_prints_differ():
 def test_clefairy_fallback_has_scaling_effect():
     card = fallback_named("Clefairy")
     assert any(e.get("kind") == "psychic_energy_times" for a in card.attacks for e in a.effects)
+    party = next(a for a in card.abilities if "moon-watching" in (a.name or "").lower())
+    assert "for each of your Benched Clefairy" in party.text
+    assert "search your deck" in party.text.lower()
+    assert "top 6" not in party.text.lower()
+    effects = parse_ability_effects(party.text)
+    assert effects[0]["kind"] == "attach_energy_from_deck_per_benched"
+    assert effects[0]["benched_name"] == "clefairy"
+    assert effects[0]["energy_type"] == "Psychic"
+
+
+def test_ability_parser_does_not_invent_a_top_look():
+    official = fallback_named("Clefairy").abilities[0].text
+    assert parse_ability_effects(official)[0]["kind"] == "attach_energy_from_deck_per_benched"
+    fake = (
+        "Once during your turn, if this Pokémon is in the Active Spot, look at the top 6 cards "
+        "of your deck. Attach any number of Psychic Energy cards you find there to your Benched "
+        "Clefairy in any way you like. Shuffle the other cards back into your deck."
+    )
+    fake_eff = parse_ability_effects(fake)
+    assert fake_eff[0]["kind"] == "attach_energy_from_top"
+    assert fake_eff[0]["look"] == 6
+    assert all(e["kind"] != "attach_energy_from_deck_per_benched" for e in fake_eff)

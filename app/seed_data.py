@@ -65,6 +65,30 @@ SET_B_NAMES = [
     "Pikachu",  # Cosmic Eclipse Nuzzle / Volt Tackle, received from Set A for Tulip
 ]
 
+SET_C_NAMES = (
+    ["Clefairy"] * 4
+    + ["Mewtwo ex"] * 2
+    + ["Clefable"] * 4
+    + ["Clefable ex"] * 4
+    + ["Mega Clefable ex"] * 3
+    + ["Hop"] * 4
+    + ["Nest Ball"] * 2
+    + ["Energy Search"] * 3
+    + ["Maximum Belt"]
+    + ["Arven"]
+)
+
+SET_D_NAMES = (
+    ["Cornerstone Mask Ogerpon ex"] * 4
+    + ["Fighting Energy"] * 6
+    + ["Double Colorless Energy"] * 4
+    + ["Energy Search"] * 4
+    + ["Nest Ball"] * 4
+    + ["Bravery Charm"] * 2
+    + ["Acerola"] * 2
+    + ["Switch"] * 2
+)
+
 
 def _atk(name, cost, damage=0, text=""):
     return parse_attack({"name": name, "cost": cost, "damage": damage, "effect": text})
@@ -121,14 +145,60 @@ def _register(card: Card) -> Card:
 _register(_trn("Hop", "supporter", "Draw 3 cards."))
 _register(_trn("Youngster", "supporter", "Shuffle your hand into your deck and draw 5 cards."))
 _register(_trn("Shauna", "supporter", "Shuffle your hand into your deck and draw 5 cards."))
+_register(
+    _trn(
+        "Professor's Research",
+        "supporter",
+        "Discard your hand and draw 7 cards.",
+    )
+)
 _register(_trn("Rare Candy", "item", "Evolve a Pokémon, skipping the middle stage."))
 _register(_trn("Quick Ball", "item", "Search your deck for a Pokémon."))
 _register(_trn("Great Ball", "item", "Search your deck for a Pokémon."))
-_register(_trn("Nest Ball", "item", "Search your deck for a Basic Pokémon."))
+_register(_trn("Nest Ball", "item", "Search your deck for a Basic Pokémon and put it onto your Bench. Then, shuffle your deck."))
 _register(_trn("Picnic Basket", "item", "Heal 30 damage from each of your Pokémon."))
 _register(_trn("Energy Search", "item", "Search your deck for a Basic Energy card."))
+_register(_trn("Switch", "item", "Switch your Active Pokémon with 1 of your Benched Pokémon."))
+_register(
+    _trn(
+        "Buddy-Buddy Poffin",
+        "item",
+        "Search your deck for up to 2 Basic Pokémon with 70 HP or less and put them onto your Bench. Then, shuffle your deck.",
+    )
+)
+_register(
+    _trn(
+        "Maximum Belt",
+        "item",
+        "Attacks used by the Pokémon this card is attached to do 50 more damage to your opponent's Active Pokémon ex (before applying Weakness and Resistance).",
+    )
+)
+_register(_trn("Bravery Charm", "item", "The Basic Pokémon this card is attached to gets +50 HP."))
+_register(_trn("Beach Court", "stadium", "The Retreat Cost of each Basic Pokémon in play (both yours and your opponent's) is Colorless less."))
+_register(_trn("Arven", "supporter", "Search your deck for an Item card and a Pokémon Tool card, reveal them, and put them into your hand. Then, shuffle your deck."))
+_register(
+    _trn(
+        "Acerola",
+        "supporter",
+        "Put 1 of your Pokémon that has any damage counters on it and all cards attached to it into your hand.",
+    )
+)
 _register(_trn("Energy Retrieval", "item", "Put up to 2 Basic Energy cards from your discard pile into your hand."))
 _register(_trn("Energy Switch", "item", "Move a Basic Energy from 1 of your Pokémon to another of your Pokémon."))
+_register(
+    _trn(
+        "Super Rod",
+        "item",
+        "Shuffle up to 3 in any combination of Pokémon and Basic Energy cards from your discard pile into your deck.",
+    )
+)
+_register(
+    _trn(
+        "Earthen Vessel",
+        "item",
+        "Search your deck for up to 2 Basic Energy cards, reveal them, and put them into your hand. Then, shuffle your deck. You must discard a card from your hand in order to use this.",
+    )
+)
 _register(_trn("Poké Ball", "item", "Flip a coin. If heads, search your deck for a Pokémon."))
 _register(_trn("Ultra Ball", "item", "Discard 2 cards from your hand. Search your deck for a Pokémon."))
 _register(_trn("Tool Box", "item", "Look at the top 7 cards of your deck. You may put any Pokémon Tool cards you find there into your hand."))
@@ -144,6 +214,19 @@ _register(
 )
 _register(_nrg("Psychic"))
 _register(_nrg("Grass"))
+_register(_nrg("Fighting"))
+_register(
+    Card(
+        catalog_id="sm3.5-69",
+        name="Double Colorless Energy",
+        category="Energy",
+        stage="Special",
+        types=["Colorless"],
+        energy_type="Colorless",
+        text="Double Colorless Energy provides ColorlessColorless Energy.",
+        retreat=0,
+    )
+)
 
 for card in [
     _pkm("Sobble", "Basic", ["Water"], 60, [_atk("Water Gun", ["Water"], 20)], weakness="Lightning"),
@@ -250,6 +333,130 @@ for card in [
         catalog_id="swsh11-062",
         weakness="Metal",
         retreat=2,
+        abilities=[
+            Ability(
+                name="Moon-Watching Party",
+                text=(
+                    "Once during your turn, if this Pokémon is in the Active Spot, for each of your Benched "
+                    "Clefairy, you may search your deck for a Psychic Energy card and attach it to that "
+                    "Clefairy. Then, shuffle your deck."
+                ),
+            )
+        ],
+    ),
+    _pkm(
+        "Clefable",
+        "Stage1",
+        ["Psychic"],
+        110,
+        [_atk("Moon Kick", ["Psychic", "Colorless"], 60)],
+        evolves_from="Clefairy",
+        catalog_id="swsh2-75",
+        weakness="Metal",
+        retreat=2,
+        abilities=[
+            Ability(
+                name="Prankish",
+                text=(
+                    "When you play this Pokémon from your hand to evolve 1 of your Pokémon during your turn, "
+                    "you may put an Energy attached to your opponent's Active Pokémon on top of their deck."
+                ),
+            )
+        ],
+    ),
+    _pkm(
+        "Clefable ex",
+        "Stage1",
+        ["Psychic"],
+        260,
+        [
+            _atk(
+                "Wondrous Moon",
+                ["Psychic", "Psychic", "Psychic"],
+                170,
+                "You may move any amount of Psychic Energy from your Pokémon to your other Pokémon in any way you like.",
+            )
+        ],
+        evolves_from="Clefairy",
+        catalog_id="sv03-082",
+        weakness="Metal",
+        retreat=2,
+        abilities=[
+            Ability(
+                name="Lunar Zone",
+                text="All of your Pokémon that have Psychic Energy attached have no Retreat Cost.",
+            )
+        ],
+    ),
+    _pkm(
+        "Mega Clefable ex",
+        "Stage1",
+        ["Psychic"],
+        320,
+        [
+            _atk(
+                "Shooting Moons",
+                ["Psychic", "Psychic"],
+                120,
+                "You may discard up to 4 Energy cards from your hand, and this attack does 40 more damage for each card you discarded in this way.",
+            )
+        ],
+        evolves_from="Clefairy",
+        catalog_id="me03-031",
+        weakness="Metal",
+        retreat=1,
+        abilities=[
+            Ability(
+                name="Luminous Wing",
+                text="Prevent all effects of your opponent's Pokémon's Abilities done to this Pokémon.",
+            )
+        ],
+    ),
+    _pkm(
+        "Mewtwo ex",
+        "Basic",
+        ["Lightning"],
+        230,
+        [
+            _atk(
+                "Transfer Charge",
+                ["Psychic"],
+                0,
+                "Attach up to 2 Basic Psychic Energy cards from your discard pile to your Pokémon in any way you like.",
+            ),
+            _atk(
+                "Photon Kinesis",
+                ["Psychic", "Psychic"],
+                10,
+                "This attack does 30 more damage for each Psychic Energy attached to all of your Pokémon.",
+            ),
+        ],
+        catalog_id="sv04-058",
+        weakness="Fighting",
+        retreat=2,
+    ),
+    _pkm(
+        "Cornerstone Mask Ogerpon ex",
+        "Basic",
+        ["Fighting"],
+        210,
+        [
+            _atk(
+                "Demolish",
+                ["Fighting", "Colorless", "Colorless"],
+                140,
+                "This attack's damage isn't affected by Weakness or Resistance, or by any effects on your opponent's Active Pokémon.",
+            )
+        ],
+        catalog_id="sv06-112",
+        weakness="Grass",
+        retreat=1,
+        abilities=[
+            Ability(
+                name="Cornerstone Stance",
+                text="Prevent all damage from attacks done to this Pokémon by your opponent's Pokémon that have an Ability.",
+            )
+        ],
     ),
     _pkm(
         "Flutter Mane",
@@ -416,10 +623,12 @@ FALLBACK_BY_NAME["pikachu-nuzzle"] = _pkm(
 
 def fallback_named(name: str) -> Card:
     key = name.lower()
+    if "double colorless" in key:
+        key = "double colorless energy"
     if key in FALLBACK_BY_NAME:
         card = FALLBACK_BY_NAME[key]
         return Card.from_dict(card.to_dict())
-    if key.endswith(" energy"):
+    if key.endswith(" energy") and "double" not in key:
         return _nrg(name.split()[0].title())
     from app.catalog import fallback_card
 
