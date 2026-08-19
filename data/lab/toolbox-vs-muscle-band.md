@@ -43,16 +43,16 @@ Date: 2026-08-19 · Seed: `20260819`
 Strategies: A `thrifty`, B `shock`, C `party`, D `demolish`.
 Cell = **row player's win rate** vs column. Diagonal is —.
 
-`party` uses **Wonder Storm only vs B** (shock/nuzzle). Vs A (Dondozo) and D (Ogerpon) it keeps the Mewtwo Photon line — Storm needs 8 Psychic to OHKO 160 HP Dondozo; Photon does it at 5.
+`party` vs B: **Mewtwo Photon only** — do not Active Clefairy (Thunder Shock para-locks Wonder Storm into deck-out). Vs A/D: Party ramp → Photon / Belt.
 
 |  | A | B | C | D |
 | --- | ---: | ---: | ---: | ---: |
-| **A** | — | 64.5% | 31.1% | 0.2% |
-| **B** | 35.5% | — | 40.5% | 0.3% |
-| **C** | **68.9%** | **59.5%** | — | **54.9%** |
-| **D** | 99.8% | 99.7% | 45.1% | — |
+| **A** | — | 64.5% | 31.4% | 0.2% |
+| **B** | 37.9% | — | 9.2% | 0.3% |
+| **C** | **68.9%** | **91.1%** | — | **54.9%** |
+| **D** | 99.8% | 99.8% | 45.0% | — |
 
 Notes:
 
-- C Wonder Storm ≈ 74% of games vs B; ≈ 0–4% vs A/D (Photon path).
-- C beats A/B/D; D still hard-crushes A and B.
+- C vs B ≈ 91% after keeping Clefairy in hand as energy; B’s previous ~40% was almost all C deck-outs under paralysis.
+- C still beats A (~69%) and D (~55%); D hard-crushes A and B.
