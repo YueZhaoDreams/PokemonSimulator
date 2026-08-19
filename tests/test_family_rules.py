@@ -4,7 +4,7 @@ from app.config import DATA_DIR
 from app.engine.models import default_family_rules
 from app.engine.strategies import StrategySpec
 from app.engine.trades import _needs, suggest_trades
-from app.seed_data import SET_A_NAMES, SET_B_NAMES, SET_C_NAMES, SET_D_NAMES, build_fallback_deck
+from app.seed_data import SET_A_NAMES, SET_B_NAMES, SET_C_NAMES, SET_D_NAMES, SET_E_NAMES, build_fallback_deck
 
 
 def test_seed_counts():
@@ -12,6 +12,7 @@ def test_seed_counts():
     assert len(SET_B_NAMES) == 28
     assert len(SET_C_NAMES) == 28
     assert len(SET_D_NAMES) == 28
+    assert len(SET_E_NAMES) == 28
     a = build_fallback_deck(SET_A_NAMES)
     b = build_fallback_deck(SET_B_NAMES)
     assert sum(1 for c in a if c.name == "Dondozo") == 1
@@ -70,6 +71,23 @@ def test_seed_decks_include_set_c_and_d():
     assert d_names.count("Cornerstone Mask Ogerpon ex") == 4
     assert d_names.count("Double Colorless Energy") == 4
     assert d_names.count("Fighting Energy") == 6
+
+
+def test_seed_decks_include_set_e():
+    from app.seed import load_seed_payload
+
+    data = load_seed_payload()
+    e_names = [c["name"] for c in data["e"]["cards"]]
+    assert data["e"]["id"] == "seed-e"
+    assert data["e"]["name"] == "Set E (Ogerpon hunter)"
+    assert len(e_names) == 28
+    assert e_names.count("Clefairy") == 4
+    assert e_names.count("Mewtwo ex") == 2
+    assert e_names.count("Clefable ex") == 3
+    assert e_names.count("Nest Ball") == 2
+    assert e_names.count("Maximum Belt") == 2
+    assert e_names.count("Hop") == 4
+
 
 
 def test_set_b_has_orphan_evolutions():

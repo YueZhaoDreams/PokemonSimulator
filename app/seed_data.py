@@ -89,6 +89,23 @@ SET_D_NAMES = (
     + ["Switch"] * 2
 )
 
+# Set E — specialized counter to Set D Charm Ogerpon.
+# Cornerstone Stance only stops Pokémon that have an Ability. Mewtwo has none, so
+# Photon Kinesis connects. Charm Ogerpon is 260 HP; 9 Psychic → 280, or 7 Psychic +
+# Maximum Belt = 270. Two Belts (vs Set C's one) is the seat-stable upgrade for this race.
+SET_E_NAMES = (
+    ["Clefairy"] * 4
+    + ["Mewtwo ex"] * 2
+    + ["Clefable"] * 4
+    + ["Clefable ex"] * 3
+    + ["Mega Clefable ex"] * 3
+    + ["Hop"] * 4
+    + ["Nest Ball"] * 2
+    + ["Energy Search"] * 3
+    + ["Maximum Belt"] * 2
+    + ["Arven"]
+)
+
 
 def _atk(name, cost, damage=0, text=""):
     return parse_attack({"name": name, "cost": cost, "damage": damage, "effect": text})
@@ -215,6 +232,7 @@ _register(
 _register(_nrg("Psychic"))
 _register(_nrg("Grass"))
 _register(_nrg("Fighting"))
+_register(_nrg("Metal"))
 _register(
     Card(
         catalog_id="sm3.5-69",
@@ -455,6 +473,34 @@ for card in [
             Ability(
                 name="Cornerstone Stance",
                 text="Prevent all damage from attacks done to this Pokémon by your opponent's Pokémon that have an Ability.",
+            )
+        ],
+    ),
+    _pkm(
+        "Mr. Mime",
+        "Basic",
+        ["Psychic"],
+        40,
+        [
+            _atk(
+                "Meditate",
+                ["Psychic", "Colorless"],
+                10,
+                "Does 10 damage plus 10 more damage for each damage counter on the Defending Pokémon.",
+            )
+        ],
+        catalog_id="base2-6",
+        weakness="Psychic",
+        retreat=1,
+        abilities=[
+            Ability(
+                name="Invisible Wall",
+                text=(
+                    "Whenever an attack (including your own) does 30 or more damage to Mr. Mime "
+                    "(after applying Weakness and Resistance), prevent that damage. "
+                    "(Any other effects of attacks still happen.) This power can't be used if "
+                    "Mr. Mime is Asleep, Confused, or Paralyzed."
+                ),
             )
         ],
     ),

@@ -6,7 +6,7 @@ from pathlib import Path
 from app.config import DATA_DIR, SAMPLES_DIR
 from app.engine.models import Card
 from app.recognition.images import dhash, load_image
-from app.seed_data import SET_A_NAMES, SET_B_NAMES, SET_C_NAMES, SET_D_NAMES, build_fallback_deck
+from app.seed_data import SET_A_NAMES, SET_B_NAMES, SET_C_NAMES, SET_D_NAMES, SET_E_NAMES, build_fallback_deck
 
 SEED_PATH = DATA_DIR / "seed_decks.json"
 SAMPLE_HASHES: dict[str, int] = {}
@@ -34,7 +34,7 @@ def _try_enrich(names: list[str], prefer: dict[str, list[str]] | None = None) ->
 def load_seed_deck(which: str) -> dict:
     decks = load_seed_payload()
     key = which.lower().replace("set-", "").replace("seed-", "")
-    key = {"1": "a", "2": "b", "3": "c", "4": "d"}.get(key, key)
+    key = {"1": "a", "2": "b", "3": "c", "4": "d", "5": "e"}.get(key, key)
     if key not in decks:
         raise KeyError(f"unknown seed deck {which}")
     return decks[key]
@@ -43,10 +43,16 @@ def load_seed_deck(which: str) -> dict:
 def load_seed_payload() -> dict:
     if SEED_PATH.exists():
         data = json.loads(SEED_PATH.read_text())
+        dirty = False
         if "c" not in data or "d" not in data:
             extra = _cd_payload(enrich=True)
             data["c"] = extra["c"]
             data["d"] = extra["d"]
+            dirty = True
+        if "e" not in data:
+            data["e"] = _e_payload(enrich=True)["e"]
+            dirty = True
+        if dirty:
             SEED_PATH.write_text(json.dumps(data, indent=2))
         _refresh_hashes(data)
         return data
@@ -100,6 +106,18 @@ def _cd_payload(enrich: bool = True) -> dict:
     }
 
 
+def _e_payload(enrich: bool = True) -> dict:
+    cards_e = _repeat_named_cards(list(SET_E_NAMES), enrich)
+    return {
+        "e": {
+            "id": "seed-e",
+            "name": "Set E (Ogerpon hunter)",
+            "sample": None,
+            "cards": [c.to_dict() if isinstance(c, Card) else c for c in cards_e],
+        }
+    }
+
+
 def _assign_named_prints(cards: list, name: str, prints: list) -> list:
     """Replace successive copies of `name` with the given printings, in order."""
     idx = 0
@@ -149,6 +167,7 @@ def build_seed_payload(enrich: bool = True) -> dict:
             pass
     cards_b = _assign_named_prints(cards_b, "Pikachu", [shock, nuzzle])
     cd = _cd_payload(enrich=enrich)
+    e = _e_payload(enrich=enrich)
     payload = {
         "a": {
             "id": "seed-a",
@@ -164,6 +183,7 @@ def build_seed_payload(enrich: bool = True) -> dict:
         },
         "c": cd["c"],
         "d": cd["d"],
+        "e": e["e"],
         "hashes": {},
     }
     _refresh_hashes(payload)
