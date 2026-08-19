@@ -888,8 +888,20 @@ class Game:
                     score += 11 if not have_mewtwo else 7
                 else:
                     score += 4
-            elif name in {"trekking shoes", "tool box"}:
+            elif name in {"trekking shoes"}:
                 score += 1
+            elif name == "tool box":
+                belt_ready = any(
+                    m.tool is not None and "maximum belt" in me.card(m.tool).name.lower()
+                    for m in me.in_play()
+                ) or any("maximum belt" in me.card(i).name.lower() for i in me.hand)
+                belt_in_deck = any("maximum belt" in me.card(i).name.lower() for i in me.deck)
+                if strat.name == "party" and not belt_ready and belt_in_deck:
+                    score += 10
+                elif not belt_ready and belt_in_deck:
+                    score += 6
+                else:
+                    score += 1
             else:
                 score += 0.5
             # Greedy Family Cup: Energy Search is also a Pokémon tutor.
@@ -1056,11 +1068,34 @@ class Game:
                 else:
                     me.discard.append(top)
                     self._draw(me, 1)
+        elif name == "tool box":
+            self._tool_box(me)
         elif name == "picnic basket":
             for mon in me.in_play():
                 mon.damage = max(0, mon.damage - 30)
         else:
             self._draw(me, 1)
+
+    def _tool_box(self, me: Player) -> None:
+        """Printed Tool Box: look at the top 7; put any Pokémon Tools into the hand."""
+        look = me.deck[:7]
+        me.deck = me.deck[len(look) :]
+        kept: list[int] = []
+        rest: list[int] = []
+        for card_i in look:
+            if self._is_tool_card(me.card(card_i)):
+                me.hand.append(card_i)
+                kept.append(card_i)
+            else:
+                rest.append(card_i)
+        me.deck = rest + me.deck
+        self.rng.shuffle(me.deck)
+        if kept:
+            self._bump("tool_box", len(kept))
+            self._log(f"{me.name} Tool Box finds {', '.join(me.card(i).name for i in kept)}")
+        else:
+            self._bump("tool_box_miss")
+            self._log(f"{me.name} Tool Box finds no Tools")
 
     def _discard_for_ultra_ball(self, me: Player, n: int = 2) -> int:
         protect = {n.lower() for n in self.strats["a" if me.name == "A" else "b"].protect}
@@ -2264,7 +2299,7 @@ class Game:
 
     def _arven(self, me: Player, who: str) -> None:
         tool_names = {"maximum belt", "bravery charm"}
-        item_prefer = ["Energy Search", "Nest Ball", "Switch", "Buddy-Buddy Poffin", "Maximum Belt", "Bravery Charm"]
+        item_prefer = ["Energy Search", "Nest Ball", "Switch", "Buddy-Buddy Poffin", "Tool Box", "Maximum Belt", "Bravery Charm"]
         found_tool = self._search(
             me,
             lambda c: c.name.lower() in tool_names or self._is_tool_card(c),

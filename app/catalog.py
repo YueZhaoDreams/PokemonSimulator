@@ -98,6 +98,7 @@ PREFERRED_IDS = {
     "Switch": "sv01-194",
     "Beach Court": "sv01-167",
     "Hop": "swsh1-165",
+    "Tool Box": "sv01-196",
     "Arven": "sv01-166",
     "Super Rod": "sv02-188",
     "Earthen Vessel": "sv04-163",

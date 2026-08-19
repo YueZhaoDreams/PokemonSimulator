@@ -13,13 +13,40 @@ def test_set_e_counts():
     assert sum(1 for x in e if x.name == "Clefairy") == 4
     assert sum(1 for x in e if x.name == "Mewtwo ex") == 2
     assert sum(1 for x in e if x.name == "Clefable") == 4
-    assert sum(1 for x in e if x.name == "Clefable ex") == 3
+    assert sum(1 for x in e if x.name == "Clefable ex") == 4
     assert sum(1 for x in e if x.name == "Mega Clefable ex") == 3
-    assert sum(1 for x in e if x.name == "Hop") == 4
+    assert sum(1 for x in e if x.name == "Hop") == 3
     assert sum(1 for x in e if x.name == "Nest Ball") == 2
     assert sum(1 for x in e if x.name == "Energy Search") == 3
-    assert sum(1 for x in e if x.name == "Maximum Belt") == 2
+    assert sum(1 for x in e if x.name == "Maximum Belt") == 1
+    assert sum(1 for x in e if x.name == "Tool Box") == 1
     assert sum(1 for x in e if x.name == "Arven") == 1
+
+
+def test_tool_box_takes_tools_from_top_seven():
+    e = build_fallback_deck(list(SET_E_NAMES))
+    d = build_fallback_deck(list(SET_D_NAMES))
+    game = Game(
+        e,
+        d,
+        default_family_rules(),
+        StrategySpec.from_dict("party"),
+        StrategySpec.from_dict("demolish"),
+        Random(5),
+    )
+    me = game.players["a"]
+    belt = next(i for i, card in enumerate(me.cards) if card.name == "Maximum Belt")
+    hop = next(i for i, card in enumerate(me.cards) if card.name == "Hop")
+    nest = next(i for i, card in enumerate(me.cards) if card.name == "Nest Ball")
+    fillers = [i for i, card in enumerate(me.cards) if card.name == "Clefable"][:5]
+    me.deck = [hop, belt, nest] + fillers
+    me.hand = []
+    game._tool_box(me)
+    assert belt in me.hand
+    assert hop not in me.hand
+    assert nest not in me.hand
+    assert len(me.deck) == 6
+    assert game.events.get("tool_box", 0) == 1
 
 
 def test_invisible_wall_parses_from_printed_text():

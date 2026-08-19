@@ -83,10 +83,12 @@ def test_seed_decks_include_set_e():
     assert len(e_names) == 28
     assert e_names.count("Clefairy") == 4
     assert e_names.count("Mewtwo ex") == 2
-    assert e_names.count("Clefable ex") == 3
+    assert e_names.count("Clefable ex") == 4
     assert e_names.count("Nest Ball") == 2
-    assert e_names.count("Maximum Belt") == 2
-    assert e_names.count("Hop") == 4
+    assert e_names.count("Maximum Belt") == 1
+    assert e_names.count("Tool Box") == 1
+    assert e_names.count("Hop") == 3
+    assert e_names.count("Arven") == 1
 
 
 
