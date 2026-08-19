@@ -446,3 +446,33 @@ def test_storm_retreat_stays_on_clefairy_not_mewtwo():
     game._retreat_party(me, foe, "a")
     assert game._is_clefairy(me.card(me.active.card_i))
     assert game._can_pay_wonder_storm(me, me.active)
+
+
+def test_storm_evolves_lunar_zone_for_party_rotation():
+    """Vs glass: evolve one used Clefairy into Clefable ex so Party can free-retreat."""
+    from app.seed_data import SET_B_NAMES
+
+    c = build_fallback_deck(list(SET_C_NAMES))
+    b = build_fallback_deck(list(SET_B_NAMES))
+    game = Game(c, b, default_family_rules(), StrategySpec.from_dict("party"), StrategySpec.from_dict("shock"), Random(4))
+    me = game.players["a"]
+    foe = game.players["b"]
+    game.turn = 4
+    game.first = "b"
+    clefs = [i for i, card in enumerate(me.cards) if card.name == "Clefairy"]
+    zone = next(i for i, card in enumerate(me.cards) if card.name == "Clefable ex")
+    fuels = [i for i, card in enumerate(me.cards) if card.name == "Clefable"]
+    pika = next(i for i, card in enumerate(foe.cards) if card.name == "Pikachu")
+    me.active = Pokemon(card_i=clefs[0], energy=[fuels[0]], ability_used=True, played_turn=0)
+    me.bench = [
+        Pokemon(card_i=clefs[1], energy=[fuels[1]], ability_used=True, played_turn=0),
+        Pokemon(card_i=clefs[2], played_turn=0),
+    ]
+    me.hand = [zone]
+    foe.active = Pokemon(card_i=pika)
+    assert game._want_storm_line(me, foe, "a")
+    assert not game._has_lunar_zone(me)
+    game._evolve_party(me, foe, "a")
+    assert game._has_lunar_zone(me)
+    assert game._is_clefairy(me.card(me.active.card_i))
+    assert game.events.get("lunar_zone_play")

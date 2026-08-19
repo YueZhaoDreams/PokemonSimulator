@@ -478,6 +478,11 @@ class Game:
             self._attach_energy(me, who)
             if not me.active or not self._is_mewtwo(me.card(me.active.card_i)):
                 self._maybe_retreat(me, foe, who)
+        elif self.strats[who].name == "party" and self._want_storm_line(me, foe, who):
+            # Retreat onto the loaded Clefairy first so the hand attach finishes Wonder Storm.
+            self._maybe_retreat(me, foe, who)
+            self._attach_energy(me, who)
+            self._maybe_retreat(me, foe, who)
         else:
             self._attach_energy(me, who)
             self._maybe_retreat(me, foe, who)
@@ -827,8 +832,8 @@ class Game:
                     for m in me.in_play()
                 ) or any("bravery charm" in me.card(i).name.lower() for i in me.hand)
                 if strat.name == "party" and not belt_ready:
-                    # Belt is the Ogerpon Photon plan; Storm line does not need it.
-                    score += 2 if self._want_storm_line(me, foe, who) else 10
+                    # Belt is the Ogerpon Photon plan; Storm line must not waste turns on it.
+                    score += -12 if self._want_storm_line(me, foe, who) else 10
                 elif strat.name == "crunch" and (not belt_ready or not charm_ready):
                     score += 11
                 else:
@@ -843,13 +848,15 @@ class Game:
                     else:
                         score += 9
                 elif strat.name == "party" and self._want_storm_line(me, foe, who):
-                    # Storm line wins on prizes; do not Hop-mill once Wonder Storm is online.
-                    if len(me.deck) <= 12:
-                        score -= 12
+                    # Storm line wins on prizes; do not Hop-mill once setup can attack.
+                    if len(me.deck) <= 14:
+                        score -= 14
                     elif me.active and self._can_pay_wonder_storm(me, me.active):
-                        score -= 8
+                        score -= 12
+                    elif self._count_psychic_energy_in_play(me) >= 3:
+                        score -= 6
                     else:
-                        score += 3
+                        score += 1
                 elif len(me.deck) <= 8:
                     score -= 10
                 else:
@@ -915,7 +922,7 @@ class Game:
                 ) or any("maximum belt" in me.card(i).name.lower() for i in me.hand)
                 belt_in_deck = any("maximum belt" in me.card(i).name.lower() for i in me.deck)
                 if strat.name == "party" and not belt_ready and belt_in_deck:
-                    score += 2 if self._want_storm_line(me, foe, who) else 10
+                    score += -10 if self._want_storm_line(me, foe, who) else 10
                 elif not belt_ready and belt_in_deck:
                     score += 6
                 else:
@@ -2009,9 +2016,21 @@ class Game:
         if not player.bench:
             return 0
         strat = self.strats[who]
+        foe = self.players["b" if who == "a" else "a"]
+        storm = strat.name == "party" and self._want_storm_line(player, foe, who)
 
         def prio(i: int) -> int:
-            name = player.card(player.bench[i].card_i).name.lower()
+            mon = player.bench[i]
+            name = player.card(mon.card_i).name.lower()
+            if strat.name == "party" and storm:
+                if self._is_clefairy(player.card(mon.card_i)):
+                    if self._can_pay_wonder_storm(player, mon):
+                        return 0
+                    # Prefer the heaviest Clefairy so the next attach finishes Wonder Storm.
+                    return 1 + max(0, 6 - len(mon.energy))
+                if "mewtwo" in name:
+                    return 8
+                return 9
             if strat.name == "party":
                 if "mega clefable" in name:
                     return 0
@@ -2481,6 +2500,12 @@ class Game:
                 for i in list(me.hand) + list(me.deck) + [m.card_i for m in me.in_play()]
                 if me.card(i).name.lower() == name
             )
+            if name == "clefable ex" and not self._has_lunar_zone(me):
+                who = "a" if me.name == "A" else "b"
+                foe = self.players["b" if who == "a" else "a"]
+                if self._want_storm_line(me, foe, who):
+                    # Do not Party-fuel the Lunar Zone card before it hits the board.
+                    return False
             return total >= 2
         return True
 
@@ -2694,18 +2719,26 @@ class Game:
             if self._can_pay_wonder_storm(me, mon):
                 self._swap_to_bench(me, who, idx, allow_paid=True)
                 return
-        if not self._is_clefairy(me.card(me.active.card_i)):
-            scored: list[tuple[int, int, int]] = []
-            for idx, mon in enumerate(me.bench):
-                if not self._is_clefairy(me.card(mon.card_i)):
-                    continue
-                unused = 0 if mon.ability_used else 1
-                scored.append((unused, len(mon.energy), idx))
-            if scored:
-                scored.sort(reverse=True)
-                self._swap_to_bench(me, who, scored[0][2], allow_paid=True)
+        # Prefer the heaviest Clefairy so hand attaches finish [C][C][C] ASAP.
+        candidates: list[tuple[int, int, int, int]] = []
+        for idx, mon in enumerate([me.active, *me.bench]):
+            if not self._is_clefairy(me.card(mon.card_i)):
+                continue
+            bench_idx = idx - 1
+            unused = 0 if mon.ability_used else 1
+            candidates.append((len(mon.energy), unused, idx, bench_idx))
+        if candidates:
+            candidates.sort(reverse=True)
+            _, _, idx, bench_idx = candidates[0]
+            if bench_idx >= 0 and (not self._is_clefairy(me.card(me.active.card_i)) or len(me.active.energy) < candidates[0][0]):
+                self._swap_to_bench(me, who, bench_idx, allow_paid=True)
                 return
-        # Rotate unused Party engines while loading the Active for [C][C][C].
+        if not self._is_clefairy(me.card(me.active.card_i)):
+            for idx, mon in enumerate(me.bench):
+                if self._is_clefairy(me.card(mon.card_i)):
+                    self._swap_to_bench(me, who, idx, allow_paid=True)
+                    return
+        # Rotate unused Party engines while Lunar Zone (or Switch) allows.
         if self._is_clefairy(me.card(me.active.card_i)) and me.active.ability_used:
             for idx, mon in enumerate(me.bench):
                 if self._is_clefairy(me.card(mon.card_i)) and not mon.ability_used:
@@ -2895,6 +2928,7 @@ class Game:
         if not me.active:
             return
         walling = any(self._is_tank_mon(me, mon) for mon in me.in_play())
+        storm = self._want_storm_line(me, foe, who)
         for _ in range(6):
             if not me.active:
                 return
@@ -2908,6 +2942,10 @@ class Game:
                     and not any(self._is_clefairy(me.card(m.card_i)) for m in me.bench)
                 ):
                     me.active.ability_used = True
+            # Storm line: do not spend the one retreat on Party rotation — save it to
+            # bring a loaded Clefairy Active for Wonder Storm after the attach step.
+            if storm:
+                break
             unused_fueled = next(
                 (
                     idx
@@ -2946,14 +2984,25 @@ class Game:
                 break
             if not self._swap_to_bench(me, who, unused):
                 break
-        if self._want_storm_line(me, foe, who):
-            # End on a Wonder Storm-ready Clefairy so the attach/attack window fires.
+        if storm:
+            # Prefer ending the ability phase on the heaviest / storm-ready Clefairy only via Switch.
             if me.active and self._can_pay_wonder_storm(me, me.active):
                 return
-            for idx, mon in enumerate(me.bench):
-                if self._can_pay_wonder_storm(me, mon):
-                    self._swap_to_bench(me, who, idx, allow_paid=True)
-                    return
+            switch_i = self._first_named(me, "Switch")
+            if switch_i is not None:
+                best: tuple[int, int] | None = None
+                for idx, mon in enumerate(me.bench):
+                    if not self._is_clefairy(me.card(mon.card_i)):
+                        continue
+                    score = 100 if self._can_pay_wonder_storm(me, mon) else len(mon.energy)
+                    if best is None or score > best[0]:
+                        best = (score, idx)
+                if best is not None and (
+                    not me.active
+                    or not self._is_clefairy(me.card(me.active.card_i))
+                    or (not self._can_pay_wonder_storm(me, me.active) and len(me.active.energy) < best[0])
+                ):
+                    self._swap_to_bench(me, who, best[1], allow_paid=False)
             return
         if self._photon_ko(me, foe) or self._want_fast_line(me, foe, who):
             return
@@ -2998,12 +3047,23 @@ class Game:
             elif prefer_active:
                 target = (fueled_used or fueled or used or candidates)[0]
             else:
-                target = (used or candidates)[0]
+                # Prefer a benched engine so the Active keeps Wonder Storm / Party.
+                bench_used = [m for m in used if m is not me.active]
+                bench_all = [m for m in candidates if m is not me.active]
+                target = (bench_used or bench_all or used or candidates)[0]
             self._do_evolve(me, target, evo_i)
             return True
 
-        # Plan Storm / Plan A: do not spend Clefairy engines on RCL / Clefable ex / Mega.
-        if can_kill or fast or storm:
+        # Plan A (Photon): do not spend Clefairy engines on RCL / Clefable ex / Mega.
+        if can_kill or fast:
+            return
+
+        # Plan Storm: only Lunar Zone so Party can free-retreat and stack Psychic in one turn.
+        # Wonder Storm needs [C][C][C] on Active; Party attaches to the bench — without Zone
+        # we cannot rotate and the 60 HP body dies waiting for three hand attaches.
+        if storm:
+            if not self._has_lunar_zone(me) and len(engines) >= 2:
+                evolve_named("Clefable ex", prefer_active=False, require_used=True)
             return
 
         # Prankish only if bouncing energy actually delays Demolish and a used engine exists.
