@@ -19,7 +19,7 @@ TOOL_SCHEMAS = [
     },
     {
         "name": "get_deck",
-        "description": "Get the full card list for a deck id (seed-a, seed-b, or a scanned deck).",
+        "description": "Get the full card list for a deck id (seed-a, seed-b, seed-c, seed-d, or a scanned deck).",
         "parameters": {
             "type": "object",
             "properties": {"deck_id": {"type": "string"}},
@@ -48,7 +48,7 @@ TOOL_SCHEMAS = [
                 "deck_a_id": {"type": "string"},
                 "deck_b_id": {"type": "string"},
                 "games": {"type": "integer", "default": 2000},
-                "strategy_a": {"type": "string", "description": "thrifty|shock|nuzzle|aggressive|setup|control|balanced"},
+                "strategy_a": {"type": "string", "description": "thrifty|shock|nuzzle|party|demolish|aggressive|setup|control|balanced"},
                 "strategy_b": {"type": "string"},
                 "question": {"type": "string"},
             },

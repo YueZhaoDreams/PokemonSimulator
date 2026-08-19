@@ -1,0 +1,13 @@
+---
+description: Printed TCG card text is the only source of truth for engine effects
+alwaysApply: true
+---
+
+# Printed card text wins
+
+Attacks go through `parse_effects(text)`. Abilities go through `parse_ability_effects(text)`. The engine must not attach, search, or look-N from a lab note, memory, or strategy comment.
+
+- If catalog/JSON text disagrees with `data/lab/*.md`, the printed sentence wins.
+- Never hardcode a look size such as "top 6" into `app/engine/game.py`.
+- A new ability needs a parser branch plus a test that uses the exact printed wording.
+- Clefairy LOR 62 is a full-deck search, one Psychic Energy per benched Clefairy — not a top-6 look.

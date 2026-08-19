@@ -6,7 +6,7 @@ from pathlib import Path
 from app.config import DATA_DIR, SAMPLES_DIR
 from app.engine.models import Card
 from app.recognition.images import dhash, load_image
-from app.seed_data import SET_A_NAMES, SET_B_NAMES, build_fallback_deck
+from app.seed_data import SET_A_NAMES, SET_B_NAMES, SET_C_NAMES, SET_D_NAMES, build_fallback_deck
 
 SEED_PATH = DATA_DIR / "seed_decks.json"
 SAMPLE_HASHES: dict[str, int] = {}
@@ -33,19 +33,71 @@ def _try_enrich(names: list[str], prefer: dict[str, list[str]] | None = None) ->
 
 def load_seed_deck(which: str) -> dict:
     decks = load_seed_payload()
-    key = "a" if which.lower() in {"a", "set-a", "1"} else "b"
+    key = which.lower().replace("set-", "").replace("seed-", "")
+    key = {"1": "a", "2": "b", "3": "c", "4": "d"}.get(key, key)
+    if key not in decks:
+        raise KeyError(f"unknown seed deck {which}")
     return decks[key]
 
 
 def load_seed_payload() -> dict:
     if SEED_PATH.exists():
         data = json.loads(SEED_PATH.read_text())
+        if "c" not in data or "d" not in data:
+            extra = _cd_payload(enrich=True)
+            data["c"] = extra["c"]
+            data["d"] = extra["d"]
+            SEED_PATH.write_text(json.dumps(data, indent=2))
         _refresh_hashes(data)
         return data
     payload = build_seed_payload(enrich=False)
     SEED_PATH.write_text(json.dumps(payload, indent=2))
     _refresh_hashes(payload)
     return payload
+
+
+def _repeat_named_cards(names: list[str], enrich: bool) -> list[Card]:
+    from app.catalog import PREFERRED_IDS, energy_card, fetch_full, normalize_card
+    from app.seed_data import fallback_named
+
+    cache: dict[str, Card] = {}
+    out: list[Card] = []
+    for name in names:
+        if name not in cache:
+            if name.lower().endswith(" energy") and "double" not in name.lower():
+                cache[name] = energy_card(name.split()[0])
+            elif enrich:
+                try:
+                    cid = PREFERRED_IDS.get(name)
+                    card = normalize_card(fetch_full(cid)) if cid else fallback_named(name)
+                    if card.name.lower() != name.lower():
+                        card = fallback_named(name)
+                    cache[name] = card
+                except Exception:
+                    cache[name] = fallback_named(name)
+            else:
+                cache[name] = fallback_named(name)
+        out.append(cache[name])
+    return out
+
+
+def _cd_payload(enrich: bool = True) -> dict:
+    cards_c = _repeat_named_cards(list(SET_C_NAMES), enrich)
+    cards_d = _repeat_named_cards(list(SET_D_NAMES), enrich)
+    return {
+        "c": {
+            "id": "seed-c",
+            "name": "Set C (Clefairy / Mewtwo)",
+            "sample": None,
+            "cards": [c.to_dict() if isinstance(c, Card) else c for c in cards_c],
+        },
+        "d": {
+            "id": "seed-d",
+            "name": "Set D (Charm Ogerpon)",
+            "sample": None,
+            "cards": [c.to_dict() if isinstance(c, Card) else c for c in cards_d],
+        },
+    }
 
 
 def _assign_named_prints(cards: list, name: str, prints: list) -> list:
@@ -96,6 +148,7 @@ def build_seed_payload(enrich: bool = True) -> dict:
         except Exception:
             pass
     cards_b = _assign_named_prints(cards_b, "Pikachu", [shock, nuzzle])
+    cd = _cd_payload(enrich=enrich)
     payload = {
         "a": {
             "id": "seed-a",
@@ -109,6 +162,8 @@ def build_seed_payload(enrich: bool = True) -> dict:
             "sample": "set-b-web.jpg",
             "cards": [c.to_dict() if isinstance(c, Card) else c for c in cards_b],
         },
+        "c": cd["c"],
+        "d": cd["d"],
         "hashes": {},
     }
     _refresh_hashes(payload)

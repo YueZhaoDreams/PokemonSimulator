@@ -25,6 +25,7 @@ def run_simulation(
     queries: list[dict[str, Any]] | None = None,
     deck_a_meta: dict[str, Any] | None = None,
     deck_b_meta: dict[str, Any] | None = None,
+    first_player: str | None = None,
 ) -> dict[str, Any]:
     games = max(1, min(int(games), 25000))
     seed = int(seed if seed is not None else random.randrange(1, 10**9))
@@ -51,7 +52,7 @@ def run_simulation(
 
     for i in range(games):
         want_trace = i < 6
-        result = play_game(cards_a, cards_b, rules, strat_a, strat_b, rng, trace=want_trace)
+        result = play_game(cards_a, cards_b, rules, strat_a, strat_b, rng, trace=want_trace, first=first_player)
         results.append(result)
         _apply_queries(result, queries or [], query_hits)
         if want_trace:
@@ -81,6 +82,11 @@ def run_simulation(
     wins_a = sum(1 for g in results if g.winner == "a")
     wins_b = sum(1 for g in results if g.winner == "b")
     ties = sum(1 for g in results if g.winner == "tie")
+    a_first = [g for g in results if g.first_player == "a"]
+    a_second = [g for g in results if g.first_player == "b"]
+
+    def _rate(games, winner):
+        return (sum(1 for g in games if g.winner == winner) / len(games)) if games else 0.0
 
     record = {
         "id": str(uuid.uuid4()),
@@ -111,6 +117,10 @@ def run_simulation(
             "win_rate_a": wins_a / games,
             "win_rate_b": wins_b / games,
             "tie_rate": ties / games,
+            "win_rate_a_going_first": _rate(a_first, "a"),
+            "win_rate_a_going_second": _rate(a_second, "a"),
+            "games_a_first": len(a_first),
+            "games_a_second": len(a_second),
             "queries": {k: v / games for k, v in query_hits.items()},
             "query_counts": query_hits,
             "opening_probabilities": extra_probs,

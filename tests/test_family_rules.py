@@ -4,12 +4,14 @@ from app.config import DATA_DIR
 from app.engine.models import default_family_rules
 from app.engine.strategies import StrategySpec
 from app.engine.trades import _needs, suggest_trades
-from app.seed_data import SET_A_NAMES, SET_B_NAMES, build_fallback_deck
+from app.seed_data import SET_A_NAMES, SET_B_NAMES, SET_C_NAMES, SET_D_NAMES, build_fallback_deck
 
 
 def test_seed_counts():
     assert len(SET_A_NAMES) == 28
     assert len(SET_B_NAMES) == 28
+    assert len(SET_C_NAMES) == 28
+    assert len(SET_D_NAMES) == 28
     a = build_fallback_deck(SET_A_NAMES)
     b = build_fallback_deck(SET_B_NAMES)
     assert sum(1 for c in a if c.name == "Dondozo") == 1
@@ -38,6 +40,36 @@ def test_seed_decks_record_pikachu_tulip_trade():
     assert "Tulip" not in b_names
     assert "sm3-40" in b_ids
     assert "sm12-66" in b_ids
+
+
+def test_seed_decks_include_set_c_and_d():
+    data = json.loads((DATA_DIR / "seed_decks.json").read_text())
+    c_names = [c["name"] for c in data["c"]["cards"]]
+    d_names = [c["name"] for c in data["d"]["cards"]]
+    assert data["c"]["id"] == "seed-c"
+    assert data["d"]["id"] == "seed-d"
+    assert len(c_names) == 28
+    assert len(d_names) == 28
+    assert c_names.count("Clefairy") == 4
+    assert c_names.count("Mewtwo ex") == 2
+    assert c_names.count("Hop") == 4
+    assert c_names.count("Nest Ball") == 2
+    assert c_names.count("Energy Search") == 3
+    assert c_names.count("Switch") == 0
+    assert c_names.count("Buddy-Buddy Poffin") == 0
+    assert c_names.count("Beach Court") == 0
+    assert c_names.count("Maximum Belt") == 1
+    assert c_names.count("Arven") == 1
+    clefairy_text = next(c["abilities"][0]["text"] for c in data["c"]["cards"] if c["name"] == "Clefairy")
+    assert "for each of your Benched Clefairy" in clefairy_text
+    assert "search your deck" in clefairy_text
+    assert "top 6" not in clefairy_text.lower()
+    from app.engine.effects import parse_ability_effects
+
+    assert parse_ability_effects(clefairy_text)[0]["kind"] == "attach_energy_from_deck_per_benched"
+    assert d_names.count("Cornerstone Mask Ogerpon ex") == 4
+    assert d_names.count("Double Colorless Energy") == 4
+    assert d_names.count("Fighting Energy") == 6
 
 
 def test_set_b_has_orphan_evolutions():
