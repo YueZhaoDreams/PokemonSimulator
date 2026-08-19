@@ -177,6 +177,13 @@ _register(
         "Attacks used by the Pokémon this card is attached to do 50 more damage to your opponent's Active Pokémon ex (before applying Weakness and Resistance).",
     )
 )
+_register(
+    _trn(
+        "Muscle Band",
+        "item",
+        "The attacks of the Pokémon this card is attached to do 20 more damage to your opponent's Active Pokémon (before applying Weakness and Resistance).",
+    )
+)
 _register(_trn("Bravery Charm", "item", "The Basic Pokémon this card is attached to gets +50 HP."))
 _register(_trn("Beach Court", "stadium", "The Retreat Cost of each Basic Pokémon in play (both yours and your opponent's) is Colorless less."))
 _register(_trn("Arven", "supporter", "Search your deck for an Item card and a Pokémon Tool card, reveal them, and put them into your hand. Then, shuffle your deck."))

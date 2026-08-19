@@ -7,6 +7,39 @@ from app.engine.strategies import StrategySpec
 from app.seed_data import SET_C_NAMES, SET_D_NAMES, build_fallback_deck, fallback_named
 
 
+def test_muscle_band_adds_twenty_before_weakness():
+    c = build_fallback_deck(
+        ["Mewtwo ex", "Muscle Band", "Maximum Belt"]
+        + ["Clefable"] * 8
+        + ["Clefairy"]
+        + ["Hop"] * 14
+    )
+    d = build_fallback_deck(list(SET_D_NAMES))
+    game = Game(
+        c,
+        d,
+        default_family_rules(),
+        StrategySpec.from_dict("party"),
+        StrategySpec.from_dict("demolish"),
+        Random(6),
+    )
+    me = game.players["a"]
+    foe = game.players["b"]
+    mewtwo = next(i for i, card in enumerate(me.cards) if card.name == "Mewtwo ex")
+    band = next(i for i, card in enumerate(me.cards) if card.name == "Muscle Band")
+    oger = next(i for i, card in enumerate(foe.cards) if "Ogerpon" in card.name)
+    charm = next(i for i, card in enumerate(foe.cards) if card.name == "Bravery Charm")
+    fuels = [i for i, card in enumerate(me.cards) if card.name == "Clefable"][:8]
+    clef = next(i for i, card in enumerate(me.cards) if card.name == "Clefairy")
+    me.active = Pokemon(card_i=mewtwo, energy=list(fuels[:2]), tool=band)
+    me.bench = [Pokemon(card_i=clef, energy=list(fuels[2:]))]
+    foe.active = Pokemon(card_i=oger, tool=charm)
+    photon = next(a for a in me.card(mewtwo).attacks if a.name == "Photon Kinesis")
+    assert game._count_psychic_energy_in_play(me) == 8
+    # 10 + 30*8 + 20 Muscle Band = 270
+    assert game._raw_attack_damage(me, foe, me.active, photon) == 270
+
+
 def test_tool_box_takes_tools_from_top_seven():
     c = build_fallback_deck(list(SET_C_NAMES))
     d = build_fallback_deck(list(SET_D_NAMES))
