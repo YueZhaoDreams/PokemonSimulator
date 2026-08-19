@@ -2,9 +2,10 @@ from random import Random
 
 from app.catalog import fetch_full, normalize_card
 from app.engine.effects import parse_ability_effects, parse_effects
-from app.engine.game import Game
-from app.engine.models import default_family_rules
+from app.engine.game import Game, Pokemon
+from app.engine.models import Card, default_family_rules
 from app.engine.strategies import StrategySpec
+from app.seed import load_seed_payload
 from app.seed_data import build_fallback_deck, fallback_named
 
 
@@ -78,3 +79,82 @@ def test_ability_parser_does_not_invent_a_top_look():
     assert fake_eff[0]["kind"] == "attach_energy_from_top"
     assert fake_eff[0]["look"] == 6
     assert all(e["kind"] != "attach_energy_from_deck_per_benched" for e in fake_eff)
+
+
+def _cb_game() -> Game:
+    payload = load_seed_payload()
+    c = [Card.from_dict(x) for x in payload["c"]["cards"]]
+    b = [Card.from_dict(x) for x in payload["b"]["cards"]]
+    return Game(
+        c,
+        b,
+        default_family_rules(),
+        StrategySpec.from_dict("party"),
+        StrategySpec.from_dict("shock"),
+        Random(1),
+    )
+
+
+def test_wonder_storm_with_three_psychic_kos_pikachu():
+    """Printed Wonder Storm is 20 × Psychic in play. 3 energy = 60, one-shots 60 HP Pikachu."""
+    game = _cb_game()
+    me = game.players["a"]
+    foe = game.players["b"]
+    clef = next(i for i, c in enumerate(me.cards) if c.name == "Clefairy")
+    fuels = [i for i, c in enumerate(me.cards) if c.types == ["Psychic"] and c.name != "Clefairy"][:3]
+    pika = next(
+        i
+        for i, c in enumerate(foe.cards)
+        if c.name == "Pikachu" and any(a.name == "Thunder Shock" for a in c.attacks)
+    )
+    me.active = Pokemon(card_i=clef, energy=list(fuels))
+    foe.active = Pokemon(card_i=pika)
+    atk = next(a for a in me.card(clef).attacks if a.name == "Wonder Storm")
+    assert "for each Psychic Energy attached to all of your Pokémon" in atk.text
+    assert game._effective_damage(me, foe, atk) == 60
+    assert game._wonder_storm_ko(me, foe)
+
+
+def test_party_charges_active_clefairy_vs_pikachu_not_mewtwo():
+    """Wonder Storm costs Colorless × 3. Turn attach must go to Active Clefairy vs B, not benched Mewtwo."""
+    game = _cb_game()
+    me = game.players["a"]
+    foe = game.players["b"]
+    clef = next(i for i, c in enumerate(me.cards) if c.name == "Clefairy")
+    mewtwo = next(i for i, c in enumerate(me.cards) if c.name == "Mewtwo ex")
+    pika = next(i for i, c in enumerate(foe.cards) if c.name == "Pikachu")
+    me.active = Pokemon(card_i=clef)
+    me.bench = [Pokemon(card_i=mewtwo)]
+    foe.active = Pokemon(card_i=pika)
+    assert game._energy_target(me, StrategySpec.from_dict("party")) is me.active
+    assert game._want_wonder_storm(me, foe)
+
+
+def test_party_stays_on_clefairy_when_wonder_storm_kos():
+    game = _cb_game()
+    me = game.players["a"]
+    foe = game.players["b"]
+    clef = next(i for i, c in enumerate(me.cards) if c.name == "Clefairy")
+    mewtwo = next(i for i, c in enumerate(me.cards) if c.name == "Mewtwo ex")
+    fuels = [i for i, c in enumerate(me.cards) if c.types == ["Psychic"] and c.name != "Clefairy"][:3]
+    pika = next(i for i, c in enumerate(foe.cards) if c.name == "Pikachu")
+    me.active = Pokemon(card_i=clef, energy=list(fuels), ability_used=True)
+    me.bench = [Pokemon(card_i=mewtwo)]
+    foe.active = Pokemon(card_i=pika)
+    game._retreat_party(me, foe, "a")
+    assert me.card(me.active.card_i).name == "Clefairy"
+
+
+def test_party_does_not_fast_line_off_clefairy_vs_pikachu():
+    """Retreat cost 2 would dump Wonder Storm energy to chase Photon into 60 HP."""
+    game = _cb_game()
+    me = game.players["a"]
+    foe = game.players["b"]
+    clef = next(i for i, c in enumerate(me.cards) if c.name == "Clefairy")
+    mewtwo = next(i for i, c in enumerate(me.cards) if c.name == "Mewtwo ex")
+    fuels = [i for i, c in enumerate(me.cards) if c.types == ["Psychic"] and c.name != "Clefairy"][:2]
+    pika = next(i for i, c in enumerate(foe.cards) if c.name == "Pikachu")
+    me.active = Pokemon(card_i=clef, energy=list(fuels), ability_used=True)
+    me.bench = [Pokemon(card_i=mewtwo)]
+    foe.active = Pokemon(card_i=pika)
+    assert game._should_transfer_combo(me, foe) is False

@@ -184,13 +184,11 @@ STRATEGY_LIBRARY = {
     "party": StrategySpec(
         name="party",
         description=(
-            "Set C Clefairy / Mewtwo: Plan A is the fast Transfer Charge line "
-            "(Party → retreat into Mewtwo → attach 1 → Transfer Charge → tank one "
-            "Demolish → Photon with 7P+Belt or 9P). Plan B is Mega wall only if Mewtwo "
-            "cannot eat the next 140. Play Mewtwo immediately as a 230 HP tank; never "
-            "end turn on 60 HP Clefairy into Demolish. Cap Clefairy at 3 so Party has "
-            "two benched copies without flooding prize fodder. Poffin benches Clefairy; "
-            "Nest Ball fetches Mewtwo; Hop draws."
+            "Set C Clefairy / Mewtwo: vs Ogerpon, Party → retreat into Mewtwo → "
+            "Photon (tank one Demolish). vs A/B, charge Active Clefairy to pay "
+            "Wonder Storm (20 × Psychic in play) and one-shot 60/160 HP attackers. "
+            "Play Mewtwo as a 230 HP tank; never end turn on 60 HP Clefairy into "
+            "Demolish. Cap Clefairy at 3. Nest Ball fetches Mewtwo; Hop draws."
         ),
         prefer_damage=0.95,
         prefer_status=0.1,

@@ -214,6 +214,23 @@ def test_party_attaches_energy_to_benched_mewtwo():
     assert game._energy_target(me, StrategySpec.from_dict("party")) is closer
 
 
+def test_party_still_feeds_mewtwo_when_clefairy_faces_ogerpon():
+    """60 HP Clefairy must not charge Wonder Storm into Demolish."""
+    game = _cd_game()
+    me = game.players["a"]
+    foe = game.players["b"]
+    clef = next(i for i, card in enumerate(me.cards) if card.name == "Clefairy")
+    mewtwo = next(i for i, card in enumerate(me.cards) if card.name == "Mewtwo ex")
+    oger = next(i for i, card in enumerate(foe.cards) if "Ogerpon" in card.name)
+    fighting = next(i for i, card in enumerate(foe.cards) if card.name == "Fighting Energy")
+    dce = next(i for i, card in enumerate(foe.cards) if card.name == "Double Colorless Energy")
+    me.active = Pokemon(card_i=clef)
+    me.bench = [Pokemon(card_i=mewtwo)]
+    foe.active = Pokemon(card_i=oger, energy=[fighting, dce])
+    assert game._want_wonder_storm(me, foe) is False
+    assert game._energy_target(me, StrategySpec.from_dict("party")) is me.bench[0]
+
+
 def test_party_while_mega_walls_then_restores():
     game = _cd_game()
     me = game.players["a"]

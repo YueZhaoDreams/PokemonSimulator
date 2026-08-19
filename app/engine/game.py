@@ -802,7 +802,7 @@ class Game:
                 if len(me.deck) <= 8:
                     score -= 10
                 else:
-                    score += 7 if strat.name == "party" else 3
+                    score += 7 if strat.name == "party" else 5
             elif name == "jacq":
                 if strat.name == "party" and self._mega_mon(me) is None:
                     score += 8
@@ -1395,6 +1395,11 @@ class Game:
     def _energy_target(self, me: Player, strat: StrategySpec) -> Pokemon:
         assert me.active
         if strat.name == "party":
+            foe = self.players["b" if me.name == "A" else "a"]
+            # Vs A/B, Wonder Storm is 20 × all Psychic in play — but only if Active
+            # Clefairy can pay Colorless × 3. Party energy goes to benched copies.
+            if self._want_wonder_storm(me, foe) and not self._clefairy_can_pay_wonder_storm(me, me.active):
+                return me.active
             mewtwo = self._mewtwo_mon(me)
             if mewtwo is not None:
                 return mewtwo
@@ -1994,6 +1999,38 @@ class Game:
             return 0
         return dmg
 
+    def _wonder_storm_attack(self, card: Card):
+        return next(
+            (a for a in card.attacks if any(e.get("kind") == "psychic_energy_times" for e in a.effects)),
+            None,
+        )
+
+    def _clefairy_can_pay_wonder_storm(self, me: Player, mon: Pokemon | None = None) -> bool:
+        mon = mon or me.active
+        if mon is None or not self._is_clefairy(me.card(mon.card_i)):
+            return False
+        atk = self._wonder_storm_attack(me.card(mon.card_i))
+        return bool(atk) and can_pay_energy(self._energy_pool(me, mon), atk.cost)
+
+    def _wonder_storm_ko(self, me: Player, foe: Player) -> bool:
+        if not me.active or not foe.active:
+            return False
+        if not self._clefairy_can_pay_wonder_storm(me, me.active):
+            return False
+        atk = self._wonder_storm_attack(me.card(me.active.card_i))
+        if atk is None:
+            return False
+        hp = self._max_hp(foe, foe.active) - foe.active.damage
+        return self._raw_attack_damage(me, foe, me.active, atk) >= hp > 0
+
+    def _want_wonder_storm(self, me: Player, foe: Player) -> bool:
+        """Clefairy one-shots 60 HP Pikachu / 160 HP Dondozo. Do not sit on 60 HP vs Demolish."""
+        if not me.active or not self._is_clefairy(me.card(me.active.card_i)):
+            return False
+        if foe.active and self._is_ogerpon(foe.card(foe.active.card_i)):
+            return False
+        return True
+
     def _photon_ko(self, me: Player, foe: Player, mon: Pokemon | None = None) -> bool:
         if not foe.active:
             return False
@@ -2035,6 +2072,12 @@ class Game:
                     return mon
             for mon in me.in_play():
                 if mon.tool is None and self._is_ex(me.card(mon.card_i)):
+                    return mon
+            # Printed Belt attaches to any Pokémon; +50 only applies when the target is an ex.
+            if me.active and me.active.tool is None:
+                return me.active
+            for mon in me.in_play():
+                if mon.tool is None:
                     return mon
             return None
         for mon in me.in_play():
@@ -2751,6 +2794,10 @@ class Game:
 
     def _should_transfer_combo(self, me: Player, foe: Player) -> bool:
         who = "a" if me.name == "A" else "b"
+        # Vs A/B, stay on Clefairy and Wonder Storm. Fast-line Photon would
+        # discard the Active's energy paying retreat 2.
+        if me.active and self._want_wonder_storm(me, foe):
+            return False
         if self._photon_ko(me, foe):
             return False
         return self._want_fast_line(me, foe, who)
@@ -2768,6 +2815,10 @@ class Game:
 
     def _retreat_party(self, me: Player, foe: Player, who: str) -> None:
         if not me.active or not me.bench:
+            return
+        if self._wonder_storm_ko(me, foe) or (
+            self._want_wonder_storm(me, foe) and self._is_clefairy(me.card(me.active.card_i))
+        ):
             return
         if self._photon_ko(me, foe) or self._want_fast_line(me, foe, who):
             if self._is_mewtwo(me.card(me.active.card_i)):

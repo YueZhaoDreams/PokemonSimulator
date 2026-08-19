@@ -166,3 +166,35 @@ def test_thrifty_plays_orthworm_when_dondozo_is_gone():
     names = [me.card(m.card_i).name for m in me.in_play()]
     assert "Orthworm" in names
     assert "Oddish" not in names
+
+
+def test_maximum_belt_attaches_to_dondozo():
+    """Printed Belt can sit on any attacker; +50 only fires vs an ex."""
+    from app.seed_data import fallback_named
+
+    game = _carpet_game(StrategySpec.from_dict("thrifty"))
+    me = game.players["a"]
+    dondozo = _idx(me, "Dondozo")
+    me.cards = list(me.cards) + [fallback_named("Maximum Belt")]
+    belt = len(me.cards) - 1
+    me.active = Pokemon(card_i=dondozo, played_turn=0)
+    me.bench = []
+    me.hand = [belt]
+    assert game._tool_target(me, "a", me.card(belt)) is me.active
+    assert game._attach_tool(me, "a", belt) is True
+    assert me.active.tool == belt
+
+
+def test_thrifty_plays_hop_when_deck_is_healthy():
+    from app.seed_data import fallback_named
+
+    game = _carpet_game(StrategySpec.from_dict("thrifty"))
+    me = game.players["a"]
+    me.cards = list(me.cards) + [fallback_named("Hop")]
+    hop = len(me.cards) - 1
+    me.active = Pokemon(card_i=_idx(me, "Dondozo"), played_turn=0)
+    me.bench = []
+    me.hand = [hop]
+    me.deck = [_idx(me, "Orthworm")] * 12
+    picked = game._pick_trainer(me)
+    assert picked == hop
