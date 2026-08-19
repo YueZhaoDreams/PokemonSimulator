@@ -378,8 +378,8 @@ def test_fast_line_allows_mewtwo_to_tank_demolish():
     assert sim["ko_next"] or sim["ko_next_no_attach"]
 
 
-def test_storm_line_fuels_clefairy_not_mewtwo_vs_shock():
-    """Vs Set B glass: attach for Wonder Storm on Clefairy, not dump onto Mewtwo."""
+def test_vs_shock_fuels_mewtwo_not_clefairy():
+    """Thunder Shock para-locks Clefairy — vs B keep the Photon line on Mewtwo."""
     from app.seed_data import SET_B_NAMES
 
     c = build_fallback_deck(list(SET_C_NAMES))
@@ -389,17 +389,16 @@ def test_storm_line_fuels_clefairy_not_mewtwo_vs_shock():
     foe = game.players["b"]
     clefs = [i for i, card in enumerate(me.cards) if card.name == "Clefairy"]
     mewtwo = next(i for i, card in enumerate(me.cards) if card.name == "Mewtwo ex")
-    fuels = [i for i, card in enumerate(me.cards) if card.name == "Clefable"]
     pika = next(i for i, card in enumerate(foe.cards) if card.name == "Pikachu")
     me.active = Pokemon(card_i=clefs[0], energy=[], ability_used=False, played_turn=0)
-    me.bench = [Pokemon(card_i=clefs[1], played_turn=0), Pokemon(card_i=mewtwo, played_turn=0)]
-    me.hand = [fuels[0]]
+    me.bench = [Pokemon(card_i=mewtwo, played_turn=0)]
     foe.active = Pokemon(card_i=pika)
-    assert game._want_storm_line(me, foe, "a")
-    assert game._want_fast_line(me, foe, "a") is False
+    assert game._want_storm_line(me, foe, "a") is False
+    assert game._clefairy_play_cap(me) == 0
+    assert game._vs_lightning_glass("a")
     target = game._energy_target(me, StrategySpec.from_dict("party"))
-    assert target is me.active
-    assert game._is_clefairy(me.card(target.card_i))
+    assert target is me.bench[0]
+    assert game._is_mewtwo(me.card(target.card_i))
 
 
 def test_wonder_storm_kos_pikachu_with_four_psychic():
@@ -424,62 +423,21 @@ def test_wonder_storm_kos_pikachu_with_four_psychic():
     assert game._effective_damage(me, foe, atk) >= game._max_hp(foe, foe.active)
 
 
-def test_storm_retreat_stays_on_clefairy_not_mewtwo():
+def test_pick_starter_prefers_mewtwo_vs_shock():
     from app.seed_data import SET_B_NAMES
 
     c = build_fallback_deck(list(SET_C_NAMES))
     b = build_fallback_deck(list(SET_B_NAMES))
     game = Game(c, b, default_family_rules(), StrategySpec.from_dict("party"), StrategySpec.from_dict("shock"), Random(3))
     me = game.players["a"]
-    foe = game.players["b"]
     clefs = [i for i, card in enumerate(me.cards) if card.name == "Clefairy"]
     mewtwo = next(i for i, card in enumerate(me.cards) if card.name == "Mewtwo ex")
-    fuels = [i for i, card in enumerate(me.cards) if card.name == "Clefable"]
-    pika = next(i for i, card in enumerate(foe.cards) if card.name == "Pikachu")
-    me.active = Pokemon(card_i=mewtwo, energy=fuels[:2], played_turn=0)
-    # Three Psychic attachments so Wonder Storm is payable after the paid retreat.
-    me.bench = [
-        Pokemon(card_i=clefs[0], energy=[fuels[2], fuels[3], clefs[1]], ability_used=True, played_turn=0)
-    ]
-    foe.active = Pokemon(card_i=pika)
-    assert game._can_pay_wonder_storm(me, me.bench[0])
-    game._retreat_party(me, foe, "a")
-    assert game._is_clefairy(me.card(me.active.card_i))
-    assert game._can_pay_wonder_storm(me, me.active)
-
-
-def test_storm_evolves_lunar_zone_for_party_rotation():
-    """Vs glass: evolve one used Clefairy into Clefable ex so Party can free-retreat."""
-    from app.seed_data import SET_B_NAMES
-
-    c = build_fallback_deck(list(SET_C_NAMES))
-    b = build_fallback_deck(list(SET_B_NAMES))
-    game = Game(c, b, default_family_rules(), StrategySpec.from_dict("party"), StrategySpec.from_dict("shock"), Random(4))
-    me = game.players["a"]
-    foe = game.players["b"]
-    game.turn = 4
-    game.first = "b"
-    clefs = [i for i, card in enumerate(me.cards) if card.name == "Clefairy"]
-    zone = next(i for i, card in enumerate(me.cards) if card.name == "Clefable ex")
-    fuels = [i for i, card in enumerate(me.cards) if card.name == "Clefable"]
-    pika = next(i for i, card in enumerate(foe.cards) if card.name == "Pikachu")
-    me.active = Pokemon(card_i=clefs[0], energy=[fuels[0]], ability_used=True, played_turn=0)
-    me.bench = [
-        Pokemon(card_i=clefs[1], energy=[fuels[1]], ability_used=True, played_turn=0),
-        Pokemon(card_i=clefs[2], played_turn=0),
-    ]
-    me.hand = [zone]
-    foe.active = Pokemon(card_i=pika)
-    assert game._want_storm_line(me, foe, "a")
-    assert not game._has_lunar_zone(me)
-    game._evolve_party(me, foe, "a")
-    assert game._has_lunar_zone(me)
-    assert game._is_clefairy(me.card(me.active.card_i))
-    assert game.events.get("lunar_zone_play")
+    pick = game._pick_starter(me, [clefs[0], mewtwo], StrategySpec.from_dict("party"))
+    assert pick == mewtwo
 
 
 def test_storm_line_not_vs_thrifty_dondozo():
-    """Dondozo is 160 HP — keep Photon, do not Wonder Storm into thrifty."""
+    """Dondozo is 160 HP — keep Photon; Clefairy engine still allowed for Party ramp."""
     from app.seed_data import SET_A_NAMES
 
     c = build_fallback_deck(list(SET_C_NAMES))
@@ -494,4 +452,5 @@ def test_storm_line_not_vs_thrifty_dondozo():
     me.bench = [Pokemon(card_i=mewtwo, played_turn=0)]
     foe.active = Pokemon(card_i=dozo)
     assert game._want_storm_line(me, foe, "a") is False
+    assert game._clefairy_play_cap(me) == 3
     assert game._energy_target(me, StrategySpec.from_dict("party")) is me.bench[0]

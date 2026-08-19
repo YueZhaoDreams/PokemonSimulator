@@ -184,11 +184,10 @@ STRATEGY_LIBRARY = {
     "party": StrategySpec(
         name="party",
         description=(
-            "Set C Clefairy / Mewtwo: vs Set B (shock/nuzzle) Plan Storm — bench Clefairies, "
-            "Moon-Watching Party, Lunar Zone on bench, Wonder Storm ([C][C][C]) into 60–70 HP "
-            "Lightning. Vs Set A (Dondozo) and Set D (Ogerpon): Transfer Charge → Mewtwo Photon "
-            "(7P+Belt or 9P); Mega wall only if Mewtwo cannot eat the next 140. "
-            "Never end turn on 60 HP Clefairy into Demolish. Cap Clefairy at 3."
+            "Set C Clefairy / Mewtwo: vs Set B (shock) keep Mewtwo Active — Clefairy is Psychic "
+            "Energy only (Thunder Shock para-locks 60 HP Wonder Storm). Vs A/D: Party ramp into "
+            "Transfer Charge → Photon (7P+Belt or 9P); Mega wall only if Mewtwo cannot eat the next "
+            "140. Never end turn on 60 HP Clefairy into Demolish. Cap Clefairy at 3 vs A/D, 0 vs B."
         ),
         prefer_damage=0.95,
         prefer_status=0.1,
