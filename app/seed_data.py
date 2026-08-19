@@ -65,16 +65,20 @@ SET_B_NAMES = [
     "Pikachu",  # Cosmic Eclipse Nuzzle / Volt Tackle, received from Set A for Tulip
 ]
 
+# Set C — Clefairy / Mewtwo vs Charm Ogerpon.
+# Maximum Belt is an ACE SPEC (one copy). Tool Box tutors it from the top 7; Arven
+# is the full-deck Tool + Item search. Moon-Watching Party is LOR 62 full-deck search.
 SET_C_NAMES = (
     ["Clefairy"] * 4
     + ["Mewtwo ex"] * 2
     + ["Clefable"] * 4
     + ["Clefable ex"] * 4
     + ["Mega Clefable ex"] * 3
-    + ["Hop"] * 4
+    + ["Hop"] * 3
     + ["Nest Ball"] * 2
     + ["Energy Search"] * 3
     + ["Maximum Belt"]
+    + ["Tool Box"]
     + ["Arven"]
 )
 
@@ -87,25 +91,6 @@ SET_D_NAMES = (
     + ["Bravery Charm"] * 2
     + ["Acerola"] * 2
     + ["Switch"] * 2
-)
-
-# Set E — specialized counter to Set D Charm Ogerpon.
-# Cornerstone Stance only stops Pokémon that have an Ability. Mewtwo has none, so
-# Photon Kinesis connects. Charm Ogerpon is 260 HP; 9 Psychic → 280, or 7 Psychic +
-# Maximum Belt = 270. Maximum Belt is an ACE SPEC — only one copy. Tool Box tutors it
-# from the top 7 (vs Set C: −1 Hop, +1 Tool Box).
-SET_E_NAMES = (
-    ["Clefairy"] * 4
-    + ["Mewtwo ex"] * 2
-    + ["Clefable"] * 4
-    + ["Clefable ex"] * 4
-    + ["Mega Clefable ex"] * 3
-    + ["Hop"] * 3
-    + ["Nest Ball"] * 2
-    + ["Energy Search"] * 3
-    + ["Maximum Belt"]
-    + ["Tool Box"]
-    + ["Arven"]
 )
 
 

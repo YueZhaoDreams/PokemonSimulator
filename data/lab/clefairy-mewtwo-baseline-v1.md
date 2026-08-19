@@ -1,8 +1,10 @@
 # Clefairy / Mewtwo Baseline v1 — Family Cup
 
-Date: 2026-08-18
+Date: 2026-08-19
 
-This is the locked **28-card** Family Cup list vs Charm Ogerpon. Moon-Watching Party is LOR 62 (full-deck search, one Psychic Energy per benched Clefairy). The original 3 Poffin / 2 Switch 28 retested at **28.1%** random after that fix. The locked trainer package is 4 Hop / 2 Nest / 3 Energy Search / Belt / Arven: **54.6%** random (57.9% first, 51.4% second), 10k seed `20260818`.
+This is the locked **28-card** Family Cup list vs Charm Ogerpon. Moon-Watching Party is LOR 62 (full-deck search, one Psychic Energy per benched Clefairy). **Maximum Belt is an ACE SPEC (one copy).** Tool Box tutors it from the top 7; Arven is the full-deck Tool + Item search.
+
+Locked trainer package: **3 Hop / 2 Nest / 3 Energy Search / 1 Belt / 1 Tool Box / 1 Arven** — **54.1%** random (56.9% first, 50.8% second), 10k seed `20260818`. Earlier 4 Hop / no Tool Box sat at ~53.7% on the same seed.
 
 Any later swap must beat this list in the same simulator before it replaces Baseline v1.
 
@@ -27,14 +29,15 @@ Under this rule, Psychic Pokémon in the deck (Clefairy, both Clefable lines, Me
 | 4 | Clefable — Rebel Clash 75 | 110 | Stage 1 / Psychic | Prankish + Psychic fuel |
 | 4 | Clefable ex — Obsidian Flames 82 | 260 | Stage 1 / Psychic | Lunar Zone |
 | 3 | Mega Clefable ex | 320 | Stage 1 / Psychic | Wall / Plan B |
-| 4 | Hop | — | Supporter | Draw 3 |
+| 3 | Hop | — | Supporter | Draw 3 |
 | 2 | Nest Ball | — | Item | Put Mewtwo on the bench |
 | 3 | Energy Search | — | Item | Mewtwo / Psychic tutor |
-| 1 | Maximum Belt | — | Item (Tool) | +50 damage |
+| 1 | Maximum Belt | — | ACE SPEC Tool | +50 vs ex |
+| 1 | Tool Box | — | Item | Top-7 Tool tutor |
 | 1 | Arven | — | Supporter | 1 Tool + 1 Item |
 | **28** | | | | |
 
-Original v1 was 3 Poffin / 2 Switch / 3 Energy Search / Belt / Beach / Arven. After LOR 62 Party it is **28.1%** random vs Set D. Hop ×4 + Nest ×2 is the first 28 to clear 50% on both seats in this engine.
+Original v1 was 3 Poffin / 2 Switch / 3 Energy Search / Belt / Beach / Arven. After LOR 62 Party the 4 Hop list cleared 50%. **2026-08-19:** −1 Hop +1 Tool Box (ACE SPEC Belt stays at one copy).
 
 Mewtwo is recorded here as **Lightning**, so it is **not** Psychic Energy under Rule B. Energy Search can still find it as Lightning Energy. Do not attach Mewtwo as fuel.
 
@@ -66,17 +69,17 @@ This is the matchup the list was optimized against. See [Matchups](#matchups) fo
 
 Line: T1 Ogerpon + Fighting → T2 DCE → Demolish 140. Charm makes the body 260. Acerola punishes any hit that does not KO.
 
-### Simulator check — 2026-08-18
+### Simulator check — 2026-08-19
 
 Seed `20260818`, 10,000 games, strategies `party` vs `demolish`, engine `family-tcg-monte-carlo`. Set C is player A.
 
-| Seat | Documented | Original (3 Poffin / 2 Switch) | Locked (4 Hop / 2 Nest) |
-| --- | ---: | ---: | ---: |
-| Clefairy first | 68% | 29.2% | **57.9%** |
-| Clefairy second | 74% | 27.0% | **51.4%** |
-| Random | 71% | 28.1% | **54.6%** |
+| Seat | Documented | Original (3 Poffin / 2 Switch) | Prior (4 Hop) | Locked (3 Hop + Tool Box) |
+| --- | ---: | ---: | ---: | ---: |
+| Clefairy first | 68% | 29.2% | 56.9% | **56.9%** |
+| Clefairy second | 74% | 27.0% | 50.4% | **50.8%** |
+| Random | 71% | 28.1% | 53.7% | **54.1%** |
 
-The locked 28 does not reproduce the documented ~71%. It is the first list in this engine to clear 50% on both seats vs Charm Ogerpon. Photon still equals the win. Details: `data/lab/clefairy-ogerpon-sim.md`.
+ACE SPEC Belt stays at one. Details: `data/lab/clefairy-ogerpon-sim.md`.
 
 ---
 
@@ -336,4 +339,4 @@ Mr. Mime is a **meta card**: excellent vs this engine, often weak vs decks that 
 
 **Do not change this 28 without a same-simulator proof that the new list is stronger.**
 
-Frozen counts **v2**: **4 / 2 / 4 / 4 / 3** Pokémon, plus **1 Nest Ball / 1 Belt / 3 Energy Search / 1 Switch / 3 Hop / 1 Beach Court / 1 Arven**.
+Frozen counts **v3**: **4 / 2 / 4 / 4 / 3** Pokémon, plus **2 Nest Ball / 1 Belt / 1 Tool Box / 3 Energy Search / 3 Hop / 1 Arven**.

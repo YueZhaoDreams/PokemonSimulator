@@ -19,14 +19,15 @@ Original 3 Poffin / 2 Switch retest after the LOR 62 fix: **28.1%** random (29.2
 | 4 | Clefable | swsh2-75 | Psychic, HP110, Stage 1 |
 | 4 | Clefable ex | sv03-082 | Psychic, HP260, Stage 1 |
 | 3 | Mega Clefable ex | me03-031 | Psychic, HP320, Stage 1 |
-| 4 | Hop | swsh1-165 | Draw 3 |
+| 3 | Hop | swsh1-165 | Draw 3 |
 | 2 | Nest Ball | sv01-181 | Fetch Mewtwo |
 | 3 | Energy Search | sv01-172 | Mewtwo / Psychic fuel |
-| 1 | Maximum Belt | sv05-154 | +50 vs ex |
+| 1 | Maximum Belt | sv05-154 | ACE SPEC +50 vs ex |
+| 1 | Tool Box | sv01-196 | Top-7 Tool tutor |
 | 1 | Arven | sv01-166 | Belt + Item |
 | **28** | | | |
 
-No Poffin, Switch, or Beach Court. The 4th Hop beat Beach; Arven stayed so Belt is searchable.
+No Poffin, Switch, or Beach Court. **Maximum Belt is ACE SPEC (one copy).** Tool Box + Arven dig for it. Diff vs the prior 4 Hop lock: −1 Hop, +1 Tool Box.
 
 ## Play
 
@@ -40,14 +41,14 @@ No Poffin, Switch, or Beach Court. The 4th Hop beat Beach; Arven stayed so Belt 
 
 ## 10,000 games (seed `20260818`, random seat)
 
-| Seat | Original (3 Poffin / 2 Switch) | Locked (4 Hop / 2 Nest) |
-| --- | ---: | ---: |
-| Clefairy first | 29.2% | **57.9%** |
-| Clefairy second | 27.0% | **51.4%** |
-| Random | 28.1% | **54.6%** |
+| Seat | Original (3 Poffin / 2 Switch) | Prior (4 Hop) | Locked (3 Hop + Tool Box) |
+| --- | ---: | ---: | ---: |
+| Clefairy first | 29.2% | 56.9% | **56.9%** |
+| Clefairy second | 27.0% | 50.4% | **50.8%** |
+| Random | 28.1% | 53.7% | **54.1%** |
 
-Photon still equals the win. Locked list: 7P 19.5%; Mewtwo tanked one 140 in 58.7%; Party energy 1.82/game; deck-out 7.1%. Original Poffin list attached **3.51** Party energy/game but lost on 60 HP prize fodder (Photon 28.1%).
+Photon still equals the win. ACE SPEC stays at one Belt — a second Belt is illegal.
 
 ## What was tried
 
-Poffin does **not** empty a top-6 window. It does make Party stronger, and it still loses this matchup because extra Clefairy are Demolish prizes. 3 Hop + 2 Nest + Beach sat at 49.8%. Keeping Beach instead of a 4th Hop, or dropping Arven for Beach, both lost to **4 Hop + 2 Nest + 3 Energy Search + Belt + Arven**.
+Poffin does **not** empty a top-6 window. It does make Party stronger, and it still loses this matchup because extra Clefairy are Demolish prizes. 3 Hop + 2 Nest + Beach sat at 49.8%. Two Maximum Belts are illegal ACE SPEC. Orthworm Charm lines lost this race (~11%).

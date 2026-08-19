@@ -224,7 +224,7 @@ STRATEGY_LIBRARY = {
     "invisible": StrategySpec(
         name="invisible",
         description=(
-            "Legacy Jungle Mr. Mime wall line. Prefer `crunch` for Set E vs Ogerpon."
+            "Jungle Mr. Mime wall line: keep Mime Active so ≥30 after W/R is prevented."
         ),
         prefer_damage=0.95,
         prefer_status=0.1,
@@ -240,7 +240,7 @@ STRATEGY_LIBRARY = {
     "crunch": StrategySpec(
         name="crunch",
         description=(
-            "Set E Orthworm vs Charm Ogerpon: Nest Ball Orthworm, Bravery Charm to 190 HP "
+            "Orthworm vs Charm Ogerpon: Nest Ball Orthworm, Bravery Charm to 190 HP "
             "so one Demolish does not KO. Load Metal Pokémon-as-energy onto Orthworm. "
             "Hop thins toward ≤3 cards. Maximum Belt + Crunch-Time Rush (90+150+50) OHKOs "
             "260 HP Charm Ogerpon. Orthworm has no Ability, so Cornerstone Stance does not block. "

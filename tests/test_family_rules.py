@@ -4,7 +4,7 @@ from app.config import DATA_DIR
 from app.engine.models import default_family_rules
 from app.engine.strategies import StrategySpec
 from app.engine.trades import _needs, suggest_trades
-from app.seed_data import SET_A_NAMES, SET_B_NAMES, SET_C_NAMES, SET_D_NAMES, SET_E_NAMES, build_fallback_deck
+from app.seed_data import SET_A_NAMES, SET_B_NAMES, SET_C_NAMES, SET_D_NAMES, build_fallback_deck
 
 
 def test_seed_counts():
@@ -12,7 +12,6 @@ def test_seed_counts():
     assert len(SET_B_NAMES) == 28
     assert len(SET_C_NAMES) == 28
     assert len(SET_D_NAMES) == 28
-    assert len(SET_E_NAMES) == 28
     a = build_fallback_deck(SET_A_NAMES)
     b = build_fallback_deck(SET_B_NAMES)
     assert sum(1 for c in a if c.name == "Dondozo") == 1
@@ -22,7 +21,9 @@ def test_seed_counts():
     assert not any(c.name == "Pikachu" for c in a)
     assert sum(1 for c in b if c.name == "Pikachu") == 2
     assert not any(c.name == "Tulip" for c in b)
-    assert any(c.name == "Pikachu" and any("paralyze" in (atk.text or "").lower() for atk in c.attacks) for c in b)
+    assert any(
+        c.name == "Pikachu" and any("paralyze" in (atk.text or "").lower() for atk in c.attacks) for c in b
+    )
 
 
 def test_seed_decks_record_pikachu_tulip_trade():
@@ -44,22 +45,26 @@ def test_seed_decks_record_pikachu_tulip_trade():
 
 
 def test_seed_decks_include_set_c_and_d():
-    data = json.loads((DATA_DIR / "seed_decks.json").read_text())
+    from app.seed import load_seed_payload
+
+    data = load_seed_payload()
     c_names = [c["name"] for c in data["c"]["cards"]]
     d_names = [c["name"] for c in data["d"]["cards"]]
+    assert "e" not in data
     assert data["c"]["id"] == "seed-c"
     assert data["d"]["id"] == "seed-d"
     assert len(c_names) == 28
     assert len(d_names) == 28
     assert c_names.count("Clefairy") == 4
     assert c_names.count("Mewtwo ex") == 2
-    assert c_names.count("Hop") == 4
+    assert c_names.count("Hop") == 3
     assert c_names.count("Nest Ball") == 2
     assert c_names.count("Energy Search") == 3
     assert c_names.count("Switch") == 0
     assert c_names.count("Buddy-Buddy Poffin") == 0
     assert c_names.count("Beach Court") == 0
     assert c_names.count("Maximum Belt") == 1
+    assert c_names.count("Tool Box") == 1
     assert c_names.count("Arven") == 1
     clefairy_text = next(c["abilities"][0]["text"] for c in data["c"]["cards"] if c["name"] == "Clefairy")
     assert "for each of your Benched Clefairy" in clefairy_text
@@ -73,25 +78,6 @@ def test_seed_decks_include_set_c_and_d():
     assert d_names.count("Fighting Energy") == 6
 
 
-def test_seed_decks_include_set_e():
-    from app.seed import load_seed_payload
-
-    data = load_seed_payload()
-    e_names = [c["name"] for c in data["e"]["cards"]]
-    assert data["e"]["id"] == "seed-e"
-    assert data["e"]["name"] == "Set E (Ogerpon hunter)"
-    assert len(e_names) == 28
-    assert e_names.count("Clefairy") == 4
-    assert e_names.count("Mewtwo ex") == 2
-    assert e_names.count("Clefable ex") == 4
-    assert e_names.count("Nest Ball") == 2
-    assert e_names.count("Maximum Belt") == 1
-    assert e_names.count("Tool Box") == 1
-    assert e_names.count("Hop") == 3
-    assert e_names.count("Arven") == 1
-
-
-
 def test_set_b_has_orphan_evolutions():
     b = build_fallback_deck(SET_B_NAMES)
     needs = _needs(b)
@@ -101,6 +87,14 @@ def test_set_b_has_orphan_evolutions():
 def test_trade_suggestions_run():
     a = build_fallback_deck(SET_A_NAMES)
     b = build_fallback_deck(SET_B_NAMES)
-    rec = suggest_trades(a, b, default_family_rules(), StrategySpec.from_dict("balanced"), StrategySpec.from_dict("control"), games=40, seed=2)
+    rec = suggest_trades(
+        a,
+        b,
+        default_family_rules(),
+        StrategySpec.from_dict("balanced"),
+        StrategySpec.from_dict("control"),
+        games=40,
+        seed=2,
+    )
     assert "recommendations" in rec
     assert rec["method"]
