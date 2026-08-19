@@ -21,7 +21,9 @@ def test_seed_counts():
     assert not any(c.name == "Pikachu" for c in a)
     assert sum(1 for c in b if c.name == "Pikachu") == 2
     assert not any(c.name == "Tulip" for c in b)
-    assert any(c.name == "Pikachu" and any("paralyze" in (atk.text or "").lower() for atk in c.attacks) for c in b)
+    assert any(
+        c.name == "Pikachu" and any("paralyze" in (atk.text or "").lower() for atk in c.attacks) for c in b
+    )
 
 
 def test_seed_decks_record_pikachu_tulip_trade():
@@ -43,22 +45,26 @@ def test_seed_decks_record_pikachu_tulip_trade():
 
 
 def test_seed_decks_include_set_c_and_d():
-    data = json.loads((DATA_DIR / "seed_decks.json").read_text())
+    from app.seed import load_seed_payload
+
+    data = load_seed_payload()
     c_names = [c["name"] for c in data["c"]["cards"]]
     d_names = [c["name"] for c in data["d"]["cards"]]
+    assert "e" not in data
     assert data["c"]["id"] == "seed-c"
     assert data["d"]["id"] == "seed-d"
     assert len(c_names) == 28
     assert len(d_names) == 28
     assert c_names.count("Clefairy") == 4
     assert c_names.count("Mewtwo ex") == 2
-    assert c_names.count("Hop") == 4
+    assert c_names.count("Hop") == 3
     assert c_names.count("Nest Ball") == 2
     assert c_names.count("Energy Search") == 3
     assert c_names.count("Switch") == 0
     assert c_names.count("Buddy-Buddy Poffin") == 0
     assert c_names.count("Beach Court") == 0
     assert c_names.count("Maximum Belt") == 1
+    assert c_names.count("Tool Box") == 1
     assert c_names.count("Arven") == 1
     clefairy_text = next(c["abilities"][0]["text"] for c in data["c"]["cards"] if c["name"] == "Clefairy")
     assert "for each of your Benched Clefairy" in clefairy_text
@@ -81,6 +87,14 @@ def test_set_b_has_orphan_evolutions():
 def test_trade_suggestions_run():
     a = build_fallback_deck(SET_A_NAMES)
     b = build_fallback_deck(SET_B_NAMES)
-    rec = suggest_trades(a, b, default_family_rules(), StrategySpec.from_dict("balanced"), StrategySpec.from_dict("control"), games=40, seed=2)
+    rec = suggest_trades(
+        a,
+        b,
+        default_family_rules(),
+        StrategySpec.from_dict("balanced"),
+        StrategySpec.from_dict("control"),
+        games=40,
+        seed=2,
+    )
     assert "recommendations" in rec
     assert rec["method"]

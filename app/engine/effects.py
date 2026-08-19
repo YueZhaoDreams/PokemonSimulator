@@ -74,6 +74,19 @@ def parse_ability_effects(text: str) -> list[dict[str, Any]]:
                 "any_number": "any number" in t,
             }
         )
+
+    # Jungle Mr. Mime Invisible Wall: prevent attack damage ≥ threshold after W/R.
+    if (
+        ("30 or more" in t or "30 or more damage" in t)
+        and "prevent" in t
+        and "damage" in t
+        and ("weakness" in t or "resistance" in t)
+    ):
+        threshold = 30
+        n = re.search(r"(\d+) or more", t)
+        if n:
+            threshold = int(n.group(1))
+        effects.append({"kind": "invisible_wall", "threshold": threshold})
     return effects
 
 
@@ -131,11 +144,13 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
 
     if "isn't affected by weakness" in t or "not affected by weakness" in t:
         effects.append({"kind": "ignore_wr"})
+    if ("isn't affected" in t or "not affected" in t) and "effects" in t and "active" in t:
+        effects.append({"kind": "ignore_active_effects"})
 
-    # Plusle Plus Damage: 10 more for each damage counter on the opponent's Active.
+    # Plusle Plus Damage / Jungle Meditate: N more for each damage counter on the defender.
     counter_bonus = re.search(r"(\d+) more damage for each damage counter", t)
     psychic_ref = "psychic energy" in t or "{p} energy" in t or "{p}" in t
-    if counter_bonus and "opponent" in t:
+    if counter_bonus and ("opponent" in t or "defending" in t):
         effects.append({"kind": "damage_counter_bonus", "per": int(counter_bonus.group(1))})
     elif psychic_ref and "more damage" in t and "for each" in t:
         n = re.search(r"(\d+) more damage for each", t)

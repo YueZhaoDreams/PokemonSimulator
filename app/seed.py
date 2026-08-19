@@ -43,10 +43,23 @@ def load_seed_deck(which: str) -> dict:
 def load_seed_payload() -> dict:
     if SEED_PATH.exists():
         data = json.loads(SEED_PATH.read_text())
+        dirty = False
         if "c" not in data or "d" not in data:
             extra = _cd_payload(enrich=True)
             data["c"] = extra["c"]
             data["d"] = extra["d"]
+            dirty = True
+        # Set E was folded into Set C — drop any leftover seed.
+        if "e" in data:
+            del data["e"]
+            dirty = True
+        # Refresh Set C whenever the locked list changes (Tool Box / Hop counts).
+        expected_c = [c.name for c in _repeat_named_cards(list(SET_C_NAMES), enrich=False)]
+        have_c = [c.get("name") for c in (data.get("c") or {}).get("cards") or []]
+        if have_c != expected_c:
+            data["c"] = _cd_payload(enrich=False)["c"]
+            dirty = True
+        if dirty:
             SEED_PATH.write_text(json.dumps(data, indent=2))
         _refresh_hashes(data)
         return data

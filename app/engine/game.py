@@ -738,6 +738,23 @@ class Game:
                         score += 6
                     else:
                         score += 2
+                elif strat.name == "invisible" and slots > 0:
+                    have_mime = any(self._is_mr_mime(me.card(m.card_i)) for m in me.in_play())
+                    have_worm = any(self._is_orthworm(me.card(m.card_i)) for m in me.in_play())
+                    if not have_mime:
+                        score += 14
+                    elif not have_worm:
+                        score += 10
+                    elif copies < max(1, strat.max_ace_copies):
+                        score += 5
+                    else:
+                        score += 1
+                elif strat.name == "crunch" and slots > 0:
+                    have_worm = any(self._is_orthworm(me.card(m.card_i)) for m in me.in_play())
+                    if not have_worm:
+                        score += 14
+                    else:
+                        score -= 6
                 elif missing_protect and slots > 0:
                     score += 10
                 elif slots > 0:
@@ -785,6 +802,8 @@ class Game:
                     score -= 20
                 elif strat.name == "demolish" and me.active and not self._is_ogerpon(me.card(me.active.card_i)) and me.bench:
                     score += 9
+                elif strat.name == "crunch" and me.active and not self._is_orthworm(me.card(me.active.card_i)) and me.bench:
+                    score += 10
                 elif me.bench:
                     score += 1
                 else:
@@ -794,12 +813,26 @@ class Game:
                     m.tool is not None and "maximum belt" in me.card(m.tool).name.lower()
                     for m in me.in_play()
                 ) or any("maximum belt" in me.card(i).name.lower() for i in me.hand)
+                charm_ready = any(
+                    m.tool is not None and "bravery charm" in me.card(m.tool).name.lower()
+                    for m in me.in_play()
+                ) or any("bravery charm" in me.card(i).name.lower() for i in me.hand)
                 if strat.name == "party" and not belt_ready:
                     score += 10
+                elif strat.name == "crunch" and (not belt_ready or not charm_ready):
+                    score += 11
                 else:
                     score += 6
             elif name == "hop":
-                if len(me.deck) <= 8:
+                if strat.name == "crunch":
+                    # Thin toward ≤3 for Crunch-Time Rush; avoid deck-out.
+                    if len(me.deck) <= 3:
+                        score -= 20
+                    elif len(me.deck) <= 6:
+                        score += 12
+                    else:
+                        score += 9
+                elif len(me.deck) <= 8:
                     score -= 10
                 else:
                     score += 7 if strat.name == "party" else 3
@@ -855,8 +888,20 @@ class Game:
                     score += 11 if not have_mewtwo else 7
                 else:
                     score += 4
-            elif name in {"trekking shoes", "tool box"}:
+            elif name in {"trekking shoes"}:
                 score += 1
+            elif name == "tool box":
+                belt_ready = any(
+                    m.tool is not None and "maximum belt" in me.card(m.tool).name.lower()
+                    for m in me.in_play()
+                ) or any("maximum belt" in me.card(i).name.lower() for i in me.hand)
+                belt_in_deck = any("maximum belt" in me.card(i).name.lower() for i in me.deck)
+                if strat.name == "party" and not belt_ready and belt_in_deck:
+                    score += 10
+                elif not belt_ready and belt_in_deck:
+                    score += 6
+                else:
+                    score += 1
             else:
                 score += 0.5
             # Greedy Family Cup: Energy Search is also a Pokémon tutor.
@@ -1023,11 +1068,34 @@ class Game:
                 else:
                     me.discard.append(top)
                     self._draw(me, 1)
+        elif name == "tool box":
+            self._tool_box(me)
         elif name == "picnic basket":
             for mon in me.in_play():
                 mon.damage = max(0, mon.damage - 30)
         else:
             self._draw(me, 1)
+
+    def _tool_box(self, me: Player) -> None:
+        """Printed Tool Box: look at the top 7; put any Pokémon Tools into the hand."""
+        look = me.deck[:7]
+        me.deck = me.deck[len(look) :]
+        kept: list[int] = []
+        rest: list[int] = []
+        for card_i in look:
+            if self._is_tool_card(me.card(card_i)):
+                me.hand.append(card_i)
+                kept.append(card_i)
+            else:
+                rest.append(card_i)
+        me.deck = rest + me.deck
+        self.rng.shuffle(me.deck)
+        if kept:
+            self._bump("tool_box", len(kept))
+            self._log(f"{me.name} Tool Box finds {', '.join(me.card(i).name for i in kept)}")
+        else:
+            self._bump("tool_box_miss")
+            self._log(f"{me.name} Tool Box finds no Tools")
 
     def _discard_for_ultra_ball(self, me: Player, n: int = 2) -> int:
         protect = {n.lower() for n in self.strats["a" if me.name == "A" else "b"].protect}
@@ -1112,6 +1180,26 @@ class Game:
                 prefer.insert(0, "Cornerstone Mask Ogerpon ex")
             prefer.append("Fighting Energy")
             return list(dict.fromkeys(prefer))
+        if strat.name == "invisible":
+            have_mime = any(self._is_mr_mime(me.card(m.card_i)) for m in me.in_play()) or any(
+                self._is_mr_mime(me.card(i)) for i in me.hand
+            )
+            if not have_mime:
+                prefer.insert(0, "Mr. Mime")
+            if not any(self._is_orthworm(me.card(m.card_i)) for m in me.in_play()) and not any(
+                self._is_orthworm(me.card(i)) for i in me.hand
+            ):
+                prefer.append("Orthworm")
+            prefer.extend(["Mr. Mime", "Orthworm", "Ferroseed", "Aron", "Metal Energy"])
+            return list(dict.fromkeys(prefer))
+        if strat.name == "crunch":
+            have_worm = any(self._is_orthworm(me.card(m.card_i)) for m in me.in_play()) or any(
+                self._is_orthworm(me.card(i)) for i in me.hand
+            )
+            if not have_worm:
+                prefer.insert(0, "Orthworm")
+            prefer.extend(["Orthworm", "Ferroseed", "Aron", "Metal Energy"])
+            return list(dict.fromkeys(prefer))
         if me.active:
             need = self._needed_types(me, me.active)
             # Named energies first.
@@ -1121,7 +1209,7 @@ class Game:
             type_prefer = {
                 "Water": ["Dondozo", "Seel", "Corphish", "Wailmer", "Poliwhirl"],
                 "Metal": ["Orthworm", "Bronzor", "Metang", "Aron", "Ferroseed"],
-                "Psychic": ["Clefairy", "Clefable", "Clefable ex", "Mega Clefable ex", "Flutter Mane", "Pumpkaboo", "Kadabra"],
+                "Psychic": ["Mr. Mime", "Clefairy", "Clefable", "Clefable ex", "Mega Clefable ex", "Flutter Mane", "Pumpkaboo", "Kadabra"],
                 "Lightning": ["Mewtwo ex", "Pikachu", "Electrike", "Emolga", "Plusle"],
                 "Fire": ["Slugma", "Litwick", "Crocalor", "Salazzle"],
                 "Grass": ["Roselia", "Tangela", "Oddish"],
@@ -1401,6 +1489,24 @@ class Game:
             if me.active and self._is_wall_mon(me, me.active) and not me.active.energy:
                 return me.active
             return me.active
+        if strat.name == "invisible":
+            for mon in me.in_play():
+                if not self._is_orthworm(me.card(mon.card_i)):
+                    continue
+                attached = self._energy_pool(me, mon)
+                rush = next((a for a in me.card(mon.card_i).attacks if "crunch" in a.name.lower()), None)
+                if rush is None or not can_pay_energy(attached, rush.cost):
+                    return mon
+            if me.active and self._is_mr_mime(me.card(me.active.card_i)):
+                meditate = next((a for a in me.card(me.active.card_i).attacks if "meditate" in a.name.lower()), None)
+                if meditate and not can_pay_energy(self._energy_pool(me, me.active), meditate.cost):
+                    return me.active
+            return me.active
+        if strat.name == "crunch":
+            for mon in me.in_play():
+                if self._is_orthworm(me.card(mon.card_i)):
+                    return mon
+            return me.active
         closers = {n.lower() for n in strat.closers}
         if closers and self._active_can_chip(me, strat):
             for mon in me.bench:
@@ -1499,6 +1605,12 @@ class Game:
             return
         if strat.name == "demolish":
             self._retreat_demolish(me, who)
+            return
+        if strat.name == "invisible":
+            self._retreat_invisible(me, foe, who)
+            return
+        if strat.name == "crunch":
+            self._retreat_crunch(me, who)
             return
         incoming_idx = None
         aces = {n.lower() for n in strat.search_aces}
@@ -1698,7 +1810,7 @@ class Game:
             if effect.get("kind") == "damage_counter_bonus":
                 return int(effect.get("per") or 10)
         text = (atk.text or "").lower()
-        if "damage counter" in text and "more damage" in text and "opponent" in text:
+        if "damage counter" in text and "more damage" in text and ("opponent" in text or "defending" in text):
             return 10
         return None
 
@@ -1758,6 +1870,17 @@ class Game:
                 score += 120 * max(0.4, strat.prefer_damage)
             if any(e.get("kind") == "deck_count_bonus" for e in atk.effects) and len(me.deck) <= 3:
                 score += 150
+            if strat.name == "crunch":
+                if "crunch" in atk.name.lower():
+                    if effective >= foe_hp > 0:
+                        score += 500
+                    elif len(me.deck) <= 3:
+                        score += 80
+                    else:
+                        score += 20
+                elif "punch" in atk.name.lower() and effective < foe_hp:
+                    # Draw 2 while loading toward the thin-deck OHKO.
+                    score += 40
             if any(e.get("kind") == "search_item" for e in atk.effects):
                 need_balls = any(
                     me.card(i).name.lower() in {"ultra ball", "poké ball", "poke ball"} for i in me.deck
@@ -1897,6 +2020,12 @@ class Game:
     def _is_ogerpon(self, card: Card) -> bool:
         return "ogerpon" in card.name.lower()
 
+    def _is_mr_mime(self, card: Card) -> bool:
+        return card.name.lower() in {"mr. mime", "mr mime"}
+
+    def _is_orthworm(self, card: Card) -> bool:
+        return "orthworm" in card.name.lower()
+
     def _is_clefairy(self, card: Card) -> bool:
         return card.name.lower() == "clefairy"
 
@@ -1956,6 +2085,19 @@ class Game:
         )
         return stance and bool(attacker.abilities)
 
+    def _invisible_wall_threshold(self, defender_mon: Pokemon, defender: Card) -> int | None:
+        """Return the printed Invisible Wall threshold, or None if it does not apply."""
+        if defender_mon.status & (ST_ASLEEP | ST_CONFUSED | ST_PARALYZED):
+            return None
+        for abi in defender.abilities:
+            for eff in self._ability_effects(abi):
+                if eff.get("kind") == "invisible_wall":
+                    return int(eff.get("threshold") or 30)
+            text = (abi.text or "").lower()
+            if "30 or more" in text and "prevent" in text and "damage" in text:
+                return 30
+        return None
+
     def _raw_attack_damage(self, me: Player, foe: Player, mon: Pokemon, atk) -> int:
         if not foe.active:
             return 0
@@ -1992,6 +2134,13 @@ class Game:
         if self._stance_prevents(attacker, defender):
             self._bump("stance_block")
             return 0
+        ignore_effects = any(e.get("kind") == "ignore_active_effects" for e in atk.effects) or (
+            "effects" in (atk.text or "").lower() and "isn't affected" in (atk.text or "").lower()
+        )
+        wall = None if ignore_effects else self._invisible_wall_threshold(foe.active, defender)
+        if wall is not None and dmg >= wall:
+            self._bump("invisible_wall")
+            return 0
         return dmg
 
     def _photon_ko(self, me: Player, foe: Player, mon: Pokemon | None = None) -> bool:
@@ -2023,13 +2172,21 @@ class Game:
         if name == "bravery charm":
             for mon in me.in_play():
                 if mon.tool is None and me.card(mon.card_i).is_basic:
-                    if self._is_ogerpon(me.card(mon.card_i)) or self._is_mewtwo(me.card(mon.card_i)):
+                    if (
+                        self._is_ogerpon(me.card(mon.card_i))
+                        or self._is_mewtwo(me.card(mon.card_i))
+                        or self._is_orthworm(me.card(mon.card_i))
+                        or self._is_mr_mime(me.card(mon.card_i))
+                    ):
                         return mon
             for mon in me.in_play():
                 if mon.tool is None and me.card(mon.card_i).is_basic:
                     return mon
             return None
         if name == "maximum belt":
+            for mon in me.in_play():
+                if mon.tool is None and self._is_orthworm(me.card(mon.card_i)):
+                    return mon
             for mon in me.in_play():
                 if mon.tool is None and self._is_mewtwo(me.card(mon.card_i)):
                     return mon
@@ -2142,7 +2299,7 @@ class Game:
 
     def _arven(self, me: Player, who: str) -> None:
         tool_names = {"maximum belt", "bravery charm"}
-        item_prefer = ["Energy Search", "Nest Ball", "Switch", "Buddy-Buddy Poffin", "Maximum Belt", "Bravery Charm"]
+        item_prefer = ["Energy Search", "Nest Ball", "Switch", "Buddy-Buddy Poffin", "Tool Box", "Maximum Belt", "Bravery Charm"]
         found_tool = self._search(
             me,
             lambda c: c.name.lower() in tool_names or self._is_tool_card(c),
@@ -2803,6 +2960,53 @@ class Game:
             return
         for idx, mon in enumerate(me.bench):
             if self._is_ogerpon(me.card(mon.card_i)):
+                self._do_retreat_into(me, idx)
+                return
+
+    def _orthworm_can_ko(self, me: Player, foe: Player, mon: Pokemon) -> bool:
+        if not foe.active:
+            return False
+        card = me.card(mon.card_i)
+        if not self._is_orthworm(card):
+            return False
+        attached = self._energy_pool(me, mon)
+        foe_hp = max(0, self._max_hp(foe, foe.active) - foe.active.damage)
+        for atk in card.attacks:
+            if can_pay_energy(attached, atk.cost) and self._effective_damage_for(me, foe, mon, atk) >= foe_hp > 0:
+                return True
+        return False
+
+    def _retreat_invisible(self, me: Player, foe: Player, who: str) -> None:
+        if not me.active or not me.bench:
+            return
+        active = me.card(me.active.card_i)
+        # Swing with Orthworm only when it KOs; otherwise stay on Mime.
+        if self._is_mr_mime(active):
+            for idx, mon in enumerate(me.bench):
+                if self._orthworm_can_ko(me, foe, mon):
+                    if self._swap_to_bench(me, who, idx, allow_paid=True):
+                        self._bump("mime_swing")
+                    return
+            return
+        if self._is_orthworm(active):
+            if self._orthworm_can_ko(me, foe, me.active):
+                return
+            for idx, mon in enumerate(me.bench):
+                if self._is_mr_mime(me.card(mon.card_i)):
+                    if self._swap_to_bench(me, who, idx, allow_paid=True):
+                        self._bump("mime_restore")
+                    return
+            return
+        for idx, mon in enumerate(me.bench):
+            if self._is_mr_mime(me.card(mon.card_i)):
+                self._swap_to_bench(me, who, idx, allow_paid=True)
+                return
+
+    def _retreat_crunch(self, me: Player, who: str) -> None:
+        if not me.active or self._is_orthworm(me.card(me.active.card_i)):
+            return
+        for idx, mon in enumerate(me.bench):
+            if self._is_orthworm(me.card(mon.card_i)):
                 self._do_retreat_into(me, idx)
                 return
 

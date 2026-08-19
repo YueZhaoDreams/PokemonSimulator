@@ -65,16 +65,20 @@ SET_B_NAMES = [
     "Pikachu",  # Cosmic Eclipse Nuzzle / Volt Tackle, received from Set A for Tulip
 ]
 
+# Set C — Clefairy / Mewtwo vs Charm Ogerpon.
+# Maximum Belt is an ACE SPEC (one copy). Tool Box tutors it from the top 7; Arven
+# is the full-deck Tool + Item search. Moon-Watching Party is LOR 62 full-deck search.
 SET_C_NAMES = (
     ["Clefairy"] * 4
     + ["Mewtwo ex"] * 2
     + ["Clefable"] * 4
     + ["Clefable ex"] * 4
     + ["Mega Clefable ex"] * 3
-    + ["Hop"] * 4
+    + ["Hop"] * 3
     + ["Nest Ball"] * 2
     + ["Energy Search"] * 3
     + ["Maximum Belt"]
+    + ["Tool Box"]
     + ["Arven"]
 )
 
@@ -215,6 +219,7 @@ _register(
 _register(_nrg("Psychic"))
 _register(_nrg("Grass"))
 _register(_nrg("Fighting"))
+_register(_nrg("Metal"))
 _register(
     Card(
         catalog_id="sm3.5-69",
@@ -455,6 +460,34 @@ for card in [
             Ability(
                 name="Cornerstone Stance",
                 text="Prevent all damage from attacks done to this Pokémon by your opponent's Pokémon that have an Ability.",
+            )
+        ],
+    ),
+    _pkm(
+        "Mr. Mime",
+        "Basic",
+        ["Psychic"],
+        40,
+        [
+            _atk(
+                "Meditate",
+                ["Psychic", "Colorless"],
+                10,
+                "Does 10 damage plus 10 more damage for each damage counter on the Defending Pokémon.",
+            )
+        ],
+        catalog_id="base2-6",
+        weakness="Psychic",
+        retreat=1,
+        abilities=[
+            Ability(
+                name="Invisible Wall",
+                text=(
+                    "Whenever an attack (including your own) does 30 or more damage to Mr. Mime "
+                    "(after applying Weakness and Resistance), prevent that damage. "
+                    "(Any other effects of attacks still happen.) This power can't be used if "
+                    "Mr. Mime is Asleep, Confused, or Paralyzed."
+                ),
             )
         ],
     ),
