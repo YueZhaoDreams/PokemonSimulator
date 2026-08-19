@@ -50,3 +50,17 @@ No Muscle Band. Band is +20 (110×2 = 220), which does not KO Charm 260 and occu
 1,981–1,019–0. Slashing Claw fired in 66.0% of games and every firing Knocked Out Ogerpon. Maximum Belt attached in 75.6%. Forced-seat checks on the same seed: S first 66.7%, S second 66.9%.
 
 Prior best hunter vs D was Set C `party` at **54.9%** on this seed. Orthworm Charm/Crunch was ~11%.
+
+## Family Cup matrix (3,000 games / cell, same seed)
+
+Row = that set's win rate. Strategies: A `thrifty`, B `shock`, C `party`, D `demolish`, S `slash`.
+
+|  | A | B | C | D | S |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| **A** | — | 64.5% | 7.7% | 0.2% | 71.4% |
+| **B** | 37.9% | — | 9.2% | 0.3% | 19.5% |
+| **C** | 92.3% | 91.1% | — | 54.9% | 69.0% |
+| **D** | 99.8% | 99.8% | 45.0% | — | 32.9% |
+| **S** | 26.7% | 80.4% | 30.5% | **66.0%** | — |
+
+S was built only to beat D. Vs B the Mewtwo tank still works (80.4%). Vs A and C it sits on Mewtwo until an OHKO that Belt cannot provide against non-ex Dondozo, so Hydro Splash / Photon take the prizes.

@@ -40,19 +40,23 @@ Muscle Band remains in the engine (printed +20) for other lists, but **does not 
 ## Family Cup win-rate matrix (3,000 games / cell)
 
 Date: 2026-08-19 · Seed: `20260819`
-Strategies: A `thrifty`, B `shock`, C `party`, D `demolish`.
-Cell = **row player's win rate** vs column. Diagonal is —.
+Engine: `family-tcg-monte-carlo`
+Strategies: A `thrifty`, B `shock`, C `party`, D `demolish`, S `slash`.
+Cell = **row player's win rate** vs column. Diagonal is —. Random seat.
 
 `party` vs A/B: open on **Mewtwo**, Clefairy mostly as energy (cap **1** vs thrifty, **0** vs shock). Vs D: Party ramp (cap 3) → Photon / Belt.
+`slash` is the Set S Floragato hunter: tank on Mewtwo, OHKO Charm Ogerpon with Slashing Claw + Belt (280).
 
-|  | A | B | C | D |
-| --- | ---: | ---: | ---: | ---: |
-| **A** | — | 64.5% | 7.7% | 0.2% |
-| **B** | 37.9% | — | 9.2% | 0.3% |
-| **C** | **92.3%** | **91.1%** | — | **54.9%** |
-| **D** | 99.8% | 99.8% | 45.0% | — |
+|  | A | B | C | D | S |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| **A** | — | 64.5% | 7.7% | 0.2% | 71.4% |
+| **B** | 37.9% | — | 9.2% | 0.3% | 19.5% |
+| **C** | **92.3%** | **91.1%** | — | 54.9% | 69.0% |
+| **D** | 99.8% | 99.8% | 45.0% | — | 32.9% |
+| **S** | 26.7% | 80.4% | 30.5% | **66.0%** | — |
 
 Notes:
 
+- A–D cells re-ran unchanged on this seed.
 - C vs A/B were previously inflated by C deck-outs while Active Clefairy died to Hydro Splash / Thunder Shock.
-- C vs D unchanged (~55%); D still hard-crushes A and B.
+- S is specialized vs D (66.0%). It also beats B (80.4%) because Mewtwo tanks Thunder Shock. It loses to A (26.7%) and C (30.5%): Hydro Splash / Photon win the prize race while Floragato only swings on an OHKO, and Belt does not help vs non-ex Dondozo.
