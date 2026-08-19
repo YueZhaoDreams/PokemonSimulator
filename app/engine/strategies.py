@@ -184,10 +184,9 @@ STRATEGY_LIBRARY = {
     "party": StrategySpec(
         name="party",
         description=(
-            "Set C Clefairy / Mewtwo: vs Set A/B (thrifty/shock) Plan Storm — bench Clefairies, "
-            "Moon-Watching Party for Psychic, evolve one Clefable ex for Lunar Zone free retreat "
-            "so Party can rotate, then Wonder Storm ([C][C][C]) with 4–5 Psychic in play. "
-            "Do not Hop-mill or Belt. Vs Ogerpon/Demolish: Transfer Charge → Mewtwo Photon "
+            "Set C Clefairy / Mewtwo: vs Set B (shock/nuzzle) Plan Storm — bench Clefairies, "
+            "Moon-Watching Party, Lunar Zone on bench, Wonder Storm ([C][C][C]) into 60–70 HP "
+            "Lightning. Vs Set A (Dondozo) and Set D (Ogerpon): Transfer Charge → Mewtwo Photon "
             "(7P+Belt or 9P); Mega wall only if Mewtwo cannot eat the next 140. "
             "Never end turn on 60 HP Clefairy into Demolish. Cap Clefairy at 3."
         ),

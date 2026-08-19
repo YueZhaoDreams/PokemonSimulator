@@ -43,18 +43,16 @@ Date: 2026-08-19 · Seed: `20260819`
 Strategies: A `thrifty`, B `shock`, C `party`, D `demolish`.
 Cell = **row player's win rate** vs column. Diagonal is —.
 
-`party` uses **Wonder Storm** vs A/B (not Demolish); Photon / Belt only vs D.
+`party` uses **Wonder Storm only vs B** (shock/nuzzle). Vs A (Dondozo) and D (Ogerpon) it keeps the Mewtwo Photon line — Storm needs 8 Psychic to OHKO 160 HP Dondozo; Photon does it at 5.
 
 |  | A | B | C | D |
 | --- | ---: | ---: | ---: | ---: |
-| **A** | — | 64.5% | 55.8% | 0.2% |
-| **B** | 37.9% | — | 43.6% | 0.3% |
-| **C** | 46.5% | **59.5%** | — | **54.9%** |
-| **D** | 99.8% | 99.8% | 45.0% | — |
+| **A** | — | 64.5% | 31.1% | 0.2% |
+| **B** | 35.5% | — | 40.5% | 0.3% |
+| **C** | **68.9%** | **59.5%** | — | **54.9%** |
+| **D** | 99.8% | 99.7% | 45.1% | — |
 
 Notes:
 
-- C Wonder Storm rate ≈ 74% vs A and vs B; 0% vs D (Photon path).
-- C vs B improved after Storm (was ~53% while Hop-milling toward Mewtwo).
-- C vs A is weaker on Storm: Dondozo is 160 HP (needs 8 Psychic for Wonder Storm OHKO); A still favored in that cell.
-- D hard-crushes A and B; C is the only list above 50% vs D.
+- C Wonder Storm ≈ 74% of games vs B; ≈ 0–4% vs A/D (Photon path).
+- C beats A/B/D; D still hard-crushes A and B.

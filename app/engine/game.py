@@ -2678,13 +2678,15 @@ class Game:
         return self._ogerpon_threat(foe)
 
     def _want_storm_line(self, me: Player, foe: Player, who: str) -> bool:
-        """Clefairy Wonder Storm vs A/B (thrifty/shock). Keep Mewtwo Photon vs Demolish."""
+        """Clefairy Wonder Storm vs glass Lightning (shock/nuzzle).
+
+        Dondozo (thrifty) is 160 HP — Wonder Storm needs 8 Psychic to OHKO, while Photon
+        KOs at 5. Keep the Mewtwo line vs thrifty and vs Demolish/Ogerpon.
+        """
         foe_who = "b" if who == "a" else "a"
-        if self.strats[foe_who].name == "demolish":
+        if self.strats[foe_who].name not in {"shock", "nuzzle"}:
             return False
         if self._ogerpon_threat(foe) or self._foe_can_demolish(foe):
-            return False
-        if any(self._is_ogerpon(foe.card(m.card_i)) for m in foe.in_play()):
             return False
         return any(self._is_clefairy(me.card(m.card_i)) for m in me.in_play())
 
