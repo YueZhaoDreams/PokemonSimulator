@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import random
+import re
 from dataclasses import dataclass, field
 from typing import Any
 
@@ -2034,10 +2035,33 @@ class Game:
 
     def _is_tool_card(self, card: Card) -> bool:
         name = card.name.lower()
-        if name in {"maximum belt", "bravery charm"}:
+        if name in {"maximum belt", "bravery charm", "muscle band"}:
             return True
         text = (card.text or "").lower()
-        return card.is_item and "this card is attached" in text
+        return card.is_item and (
+            "this card is attached" in text or "the pokemon this card is attached" in text
+        )
+
+    def _tool_damage_bonus(self, me: Player, mon: Pokemon, defender: Card) -> int:
+        """Bonus from the printed Tool text on `mon` (before Weakness / Resistance)."""
+        if mon.tool is None:
+            return 0
+        tool = me.card(mon.tool)
+        text = (tool.text or "").lower().replace("pokémon", "pokemon")
+        name = tool.name.lower()
+        # Maximum Belt: +50 only vs Pokémon ex.
+        if "maximum belt" in name or ("50 more" in text and " ex" in text):
+            return 50 if self._is_ex(defender) else 0
+        # Muscle Band: flat +20.
+        if "muscle band" in name:
+            return 20
+        n = re.search(r"(\d+) more damage", text)
+        if not n:
+            return 0
+        amount = int(n.group(1))
+        if " ex" in text and not self._is_ex(defender):
+            return 0
+        return amount
 
     def _is_psychic_energy_card(self, card: Card) -> bool:
         return self._is_type_energy_card(card, "Psychic")
@@ -2123,8 +2147,8 @@ class Game:
         for effect in atk.effects:
             if effect.get("kind") == "deck_count_bonus" and len(me.deck) <= int(effect.get("max_deck") or 0):
                 dmg += int(effect.get("bonus") or 0)
-        if mon.tool is not None and "maximum belt" in me.card(mon.tool).name.lower() and self._is_ex(defender):
-            dmg += 50
+        if mon.tool is not None:
+            dmg += self._tool_damage_bonus(me, mon, defender)
         ignore_wr = any(e.get("kind") == "ignore_wr" for e in atk.effects) or "isn't affected by weakness" in (
             atk.text or ""
         ).lower()
@@ -2192,6 +2216,17 @@ class Game:
                     return mon
             for mon in me.in_play():
                 if mon.tool is None and self._is_ex(me.card(mon.card_i)):
+                    return mon
+            return None
+        if name == "muscle band":
+            for mon in me.in_play():
+                if mon.tool is None and self._is_mewtwo(me.card(mon.card_i)):
+                    return mon
+            for mon in me.in_play():
+                if mon.tool is None and self._is_orthworm(me.card(mon.card_i)):
+                    return mon
+            for mon in me.in_play():
+                if mon.tool is None:
                     return mon
             return None
         for mon in me.in_play():
@@ -2298,12 +2333,12 @@ class Game:
         return True
 
     def _arven(self, me: Player, who: str) -> None:
-        tool_names = {"maximum belt", "bravery charm"}
-        item_prefer = ["Energy Search", "Nest Ball", "Switch", "Buddy-Buddy Poffin", "Tool Box", "Maximum Belt", "Bravery Charm"]
+        tool_names = {"maximum belt", "bravery charm", "muscle band"}
+        item_prefer = ["Energy Search", "Nest Ball", "Switch", "Buddy-Buddy Poffin", "Tool Box", "Maximum Belt", "Muscle Band", "Bravery Charm"]
         found_tool = self._search(
             me,
             lambda c: c.name.lower() in tool_names or self._is_tool_card(c),
-            prefer=["Maximum Belt", "Bravery Charm"],
+            prefer=["Maximum Belt", "Muscle Band", "Bravery Charm"],
             source="arven",
         )
         found_item = self._search(
