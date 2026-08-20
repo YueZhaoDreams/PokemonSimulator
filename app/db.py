@@ -70,7 +70,9 @@ def _upsert_seed_decks(conn: sqlite3.Connection) -> None:
 
     payload = load_seed_payload()
     now = _now()
-    for key in ("a", "b", "c", "d", "s"):
+    from app.seed import SEED_KEYS
+
+    for key in SEED_KEYS:
         if key not in payload:
             continue
         deck = payload[key]
@@ -119,6 +121,7 @@ def list_decks() -> list[dict]:
                 "source": row["source"],
                 "created_at": row["created_at"],
                 "count": len(cards),
+                "kind": _deck_kind(row["id"]),
                 "cards": cards,
             }
         )
@@ -135,8 +138,13 @@ def get_deck(deck_id: str) -> dict | None:
         "name": row["name"],
         "source": row["source"],
         "created_at": row["created_at"],
+        "kind": _deck_kind(row["id"]),
         "cards": json.loads(row["cards_json"]),
     }
+
+
+def _deck_kind(deck_id: str) -> str:
+    return "spare" if deck_id == "seed-spare" else "list"
 
 
 def save_deck(name: str, cards: list[dict], source: str | None = None, deck_id: str | None = None) -> dict:

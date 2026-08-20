@@ -100,14 +100,15 @@ SET_D_NAMES = (  # 30: Fighting Energy 6 → 8
     + ["Switch"] * 2
 )
 
-# Set S — Grass hunter vs Charm Ogerpon. 30 with +2 Grass Energy.
-# Floragato Slashing Claw 90 + Maximum Belt 50 = 140, Grass Weakness ×2 = 280
-# OHKOs 260 Charm Ogerpon. Floragato has no Ability, so Stance does not block.
-# Mewtwo is the 230 HP Demolish sponge (no Ability). ACE SPEC: one Belt.
+# Set S — Grass hunter vs Charm Ogerpon. 30.
+# Floragato Slashing Claw 90 + Maximum Belt 50 = 140, Grass Weakness ×2 = 280.
+# Wo-Chien ex (Grass, no Ability, HP 230) is the Demolish sponge; Forest Blast 220
+# also hits through Stance (×2 = 440). Paradox Rift Mewtwo is Lightning and cannot
+# pay Photon in a Grass list.
 SET_S_NAMES = (
     ["Sprigatito"] * 4
     + ["Floragato"] * 4
-    + ["Mewtwo ex"] * 3
+    + ["Wo-Chien ex"] * 3
     + ["Nest Ball"] * 4
     + ["Energy Search"] * 3
     + ["Switch"] * 3
@@ -119,6 +120,15 @@ SET_S_NAMES = (
     + ["Tangela"] * 2
     + ["Grass Energy"] * 2
 )
+
+# Spare Cards — leftover pile, not a 30-card Family Cup list. Grows as extras
+# accumulate. Starts with Tool Box plus Darkness / Grass / Fighting Energy.
+SET_SPARE_NAMES = [
+    "Tool Box",
+    "Darkness Energy",
+    "Grass Energy",
+    "Fighting Energy",
+]
 
 
 def _atk(name, cost, damage=0, text=""):
@@ -249,6 +259,7 @@ _register(
 _register(_nrg("Psychic"))
 _register(_nrg("Grass"))
 _register(_nrg("Fighting"))
+_register(_nrg("Darkness"))
 _register(_nrg("Metal"))
 _register(_nrg("Water"))
 _register(_nrg("Lightning"))
@@ -496,6 +507,30 @@ for card in [
         catalog_id="sv04-058",
         weakness="Fighting",
         retreat=2,
+    ),
+    _pkm(
+        "Wo-Chien ex",
+        "Basic",
+        ["Grass"],
+        230,
+        [
+            _atk(
+                "Covetous Ivy",
+                ["Grass", "Grass", "Colorless"],
+                0,
+                "This attack does 60 damage to 1 of your opponent's Benched Pokémon for each Prize card your opponent has taken. (Don't apply Weakness and Resistance for Benched Pokémon.)",
+            ),
+            _atk(
+                "Forest Blast",
+                ["Grass", "Grass", "Grass", "Colorless"],
+                220,
+            ),
+        ],
+        catalog_id="sv02-027",
+        weakness="Fire",
+        retreat=4,
+        image="https://assets.tcgdex.net/en/sv/sv02/027/low.webp",
+        set_name="Paldea Evolved",
     ),
     _pkm(
         "Cornerstone Mask Ogerpon ex",
