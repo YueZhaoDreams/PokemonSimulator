@@ -231,10 +231,54 @@ def get_chat(chat_id: str) -> dict | None:
     }
 
 
-def list_chats() -> list[dict]:
+def _escape_like(text: str) -> str:
+    return text.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_")
+
+
+def _chat_preview(messages: list[dict]) -> str:
+    for msg in reversed(messages):
+        content = (msg.get("content") or "").strip()
+        if content:
+            return content.replace("\n", " ")[:140]
+    return ""
+
+
+def list_chats(query: str | None = None, limit: int = 80) -> list[dict]:
+    q = (query or "").strip()
     with connect() as conn:
-        rows = conn.execute("SELECT id, title, created_at, updated_at FROM chats ORDER BY updated_at DESC").fetchall()
-    return [dict(r) for r in rows]
+        if q:
+            like = f"%{_escape_like(q)}%"
+            rows = conn.execute(
+                "SELECT id, title, messages_json, created_at, updated_at FROM chats "
+                "WHERE title LIKE ? ESCAPE '\\' OR messages_json LIKE ? ESCAPE '\\' "
+                "ORDER BY updated_at DESC LIMIT ?",
+                (like, like, limit),
+            ).fetchall()
+        else:
+            rows = conn.execute(
+                "SELECT id, title, messages_json, created_at, updated_at FROM chats "
+                "ORDER BY updated_at DESC LIMIT ?",
+                (limit,),
+            ).fetchall()
+    out = []
+    for row in rows:
+        messages = json.loads(row["messages_json"] or "[]")
+        out.append(
+            {
+                "id": row["id"],
+                "title": row["title"] or "Family cup chat",
+                "preview": _chat_preview(messages),
+                "turns": sum(1 for msg in messages if msg.get("role") == "user"),
+                "created_at": row["created_at"],
+                "updated_at": row["updated_at"],
+            }
+        )
+    return out
+
+
+def delete_chat(chat_id: str) -> None:
+    with connect() as conn:
+        conn.execute("DELETE FROM chats WHERE id=?", (chat_id,))
 
 
 def save_chat(

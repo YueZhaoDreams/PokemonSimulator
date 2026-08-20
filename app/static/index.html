@@ -87,13 +87,19 @@
     <section id="view-chat" class="hidden">
       <h2 class="screen-title">Ask Cursor</h2>
       <p class="tiny">This chat is Cursor in this repo. It can run sims, pytest, and lab scripts, and it can edit the app when you ask.</p>
-      <div class="chips" id="chips"></div>
-      <div id="chatLog"></div>
-      <div class="panel">
-        <textarea id="chatInput" placeholder="Run 2,000 games of A vs B and tell me what you learned."></textarea>
-        <div class="row" style="margin-top:8px">
-          <button id="sendChat">Ask</button>
-          <button id="newChat" class="secondary">New chat</button>
+      <div class="row">
+        <input id="chatSearch" class="grow" placeholder="Search old threads" />
+        <button id="newChat" class="secondary">New</button>
+      </div>
+      <div id="chatThreads"></div>
+      <div id="chatThread" class="hidden">
+        <button id="backToThreads" class="ghost" type="button">All threads</button>
+        <h3 id="chatTitle" class="chat-title"></h3>
+        <div class="chips" id="chips"></div>
+        <div id="chatLog"></div>
+        <div class="panel">
+          <textarea id="chatInput" placeholder="Run 2,000 games of A vs B and tell me what you learned."></textarea>
+          <button id="sendChat" style="margin-top:8px">Ask</button>
         </div>
       </div>
     </section>

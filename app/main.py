@@ -20,6 +20,8 @@ from app.db import (
     get_rules,
     get_simulation,
     init_db,
+    delete_chat,
+    get_chat,
     list_chats,
     list_decks,
     list_simulations,
@@ -261,5 +263,21 @@ async def api_chat_stream(payload: dict) -> StreamingResponse:
 
 
 @app.get("/api/chats")
-def api_chats() -> list:
-    return list_chats()
+def api_chats(q: str = "") -> list:
+    return list_chats(query=q)
+
+
+@app.get("/api/chats/{chat_id}")
+def api_get_chat(chat_id: str) -> dict:
+    chat = get_chat(chat_id)
+    if not chat:
+        raise HTTPException(404, "Chat not found")
+    return chat
+
+
+@app.delete("/api/chats/{chat_id}")
+def api_delete_chat(chat_id: str) -> dict:
+    if not get_chat(chat_id):
+        raise HTTPException(404, "Chat not found")
+    delete_chat(chat_id)
+    return {"ok": True}

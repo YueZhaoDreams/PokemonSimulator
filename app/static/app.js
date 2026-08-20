@@ -1,6 +1,7 @@
 const $ = (sel) => document.querySelector(sel);
 const $$ = (sel) => [...document.querySelectorAll(sel)];
-let state = { decks: [], strategies: [], scanCards: [], scanCrops: [], chatId: null, history: [] };
+let state = { decks: [], strategies: [], scanCards: [], scanCrops: [], chatId: null, history: [], chatMode: "list" };
+const CHAT_STORE = "family-cup-chat-id";
 
 const CHIPS = [
   "What is the probability Dondozo appears in the first 7 cards?",
@@ -23,14 +24,29 @@ function show(view) {
   if (view === "decks") renderDecks();
   if (view === "fight") fillFight();
   if (view === "lab") renderLab();
+  if (view === "chat") renderChat();
 }
 
 function md(text) {
-  return text
+  return String(text || "")
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/\*\*(.+?)\*\*/g, "<b>$1</b>")
     .replace(/\n/g, "<br>");
+}
+
+function esc(text) {
+  return String(text || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/"/g, "&quot;");
+}
+
+function when(iso) {
+  if (!iso) return "";
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return iso;
+  return d.toLocaleString();
 }
 
 function aiLabel(ai) {
@@ -52,7 +68,12 @@ async function boot() {
   CHIPS.forEach((q) => {
     const b = document.createElement("button");
     b.textContent = q;
-    b.onclick = () => { show("chat"); $("#chatInput").value = q; sendChat(); };
+    b.onclick = () => {
+      startNewChat();
+      show("chat");
+      $("#chatInput").value = q;
+      sendChat();
+    };
     $("#chips").appendChild(b);
   });
   fillFight();
@@ -302,6 +323,7 @@ $("#runTrades").onclick = async () => {
 async function sendChat() {
   const message = $("#chatInput").value.trim();
   if (!message) return;
+  showThread();
   $("#chatLog").insertAdjacentHTML("beforeend", `<div class="msg user">${md(message)}</div>`);
   $("#chatInput").value = "";
   const bot = document.createElement("div");
@@ -347,8 +369,10 @@ async function sendChat() {
           } else if (event.type === "done") {
             state.chatId = event.chat_id;
             state.history = event.messages;
+            rememberChat(event.chat_id);
             answer = event.answer || answer;
             body.innerHTML = md(answer);
+            $("#chatTitle").textContent = threadTitle(event.messages);
             if (event.coach && event.coach !== "cursor") {
               trace.textContent = event.coach === "local" ? "Local coach" : event.coach;
             } else {
@@ -365,13 +389,130 @@ async function sendChat() {
     bot.classList.remove("live");
   } finally {
     document.body.classList.remove("busy");
+    renderChatThreads();
   }
 }
-$("#sendChat").onclick = sendChat;
-$("#newChat").onclick = () => {
+
+function rememberChat(chatId) {
+  if (chatId) localStorage.setItem(CHAT_STORE, chatId);
+  else localStorage.removeItem(CHAT_STORE);
+}
+
+function threadTitle(messages) {
+  const first = (messages || []).find((m) => m.role === "user" && m.content);
+  const text = (first?.content || "New chat").replace(/\s+/g, " ").trim();
+  return text.length > 60 ? `${text.slice(0, 57)}…` : text;
+}
+
+function renderChatLog(messages) {
+  $("#chatLog").innerHTML = (messages || [])
+    .filter((m) => m.role === "user" || m.role === "assistant")
+    .map((m) => `<div class="msg ${m.role === "user" ? "user" : "bot"}">${md(m.content || "")}</div>`)
+    .join("");
+  $("#chatLog").scrollTop = $("#chatLog").scrollHeight;
+}
+
+function showThread() {
+  state.chatMode = "thread";
+  $("#chatThreads").classList.add("hidden");
+  $("#chatThread").classList.remove("hidden");
+}
+
+function showThreadList() {
+  state.chatMode = "list";
+  $("#chatThread").classList.add("hidden");
+  $("#chatThreads").classList.remove("hidden");
+  renderChatThreads();
+}
+
+function startNewChat() {
   state.chatId = null;
   state.history = [];
+  rememberChat(null);
+  $("#chatTitle").textContent = "New chat";
   $("#chatLog").innerHTML = "";
+  $("#chatInput").value = "";
+  showThread();
+}
+
+async function openThread(chatId) {
+  const chat = await api(`/api/chats/${chatId}`);
+  state.chatId = chat.id;
+  state.history = chat.messages || [];
+  rememberChat(chat.id);
+  $("#chatTitle").textContent = chat.title || threadTitle(chat.messages);
+  renderChatLog(chat.messages);
+  showThread();
+}
+
+async function renderChatThreads() {
+  const q = ($("#chatSearch")?.value || "").trim();
+  const rows = await api(`/api/chats${q ? `?q=${encodeURIComponent(q)}` : ""}`);
+  const box = $("#chatThreads");
+  if (!rows.length) {
+    box.innerHTML = `<div class="panel"><p class="tiny">${q ? "No threads match that search." : "No threads yet. Tap New to start one."}</p></div>`;
+    return;
+  }
+  box.innerHTML = rows.map((row) => `
+    <div class="panel thread${row.id === state.chatId ? " active" : ""}" data-open="${row.id}">
+      <div class="list-item">
+        <div>
+          <b>${esc(row.title)}</b>
+          <div class="tiny">${esc(row.preview || "")}</div>
+          <div class="tiny">${when(row.updated_at)} · ${row.turns || 0} turn${row.turns === 1 ? "" : "s"}</div>
+        </div>
+        <button class="ghost" data-del="${row.id}" type="button">✕</button>
+      </div>
+    </div>`).join("");
+  box.querySelectorAll("[data-open]").forEach((el) => {
+    el.onclick = (ev) => {
+      if (ev.target.closest("[data-del]")) return;
+      openThread(el.dataset.open).catch((err) => { box.innerHTML = `<div class="panel">${esc(err.message)}</div>`; });
+    };
+  });
+  box.querySelectorAll("[data-del]").forEach((btn) => {
+    btn.onclick = async (ev) => {
+      ev.stopPropagation();
+      await api(`/api/chats/${btn.dataset.del}`, { method: "DELETE" });
+      if (state.chatId === btn.dataset.del) {
+        state.chatId = null;
+        state.history = [];
+        rememberChat(null);
+      }
+      showThreadList();
+    };
+  });
+}
+
+async function renderChat() {
+  if (state.chatMode === "thread") {
+    showThread();
+    return;
+  }
+  const remembered = localStorage.getItem(CHAT_STORE);
+  if (!state.chatId && remembered) {
+    try {
+      await openThread(remembered);
+      return;
+    } catch {
+      rememberChat(null);
+    }
+  }
+  showThreadList();
+}
+
+$("#sendChat").onclick = sendChat;
+$("#newChat").onclick = () => {
+  startNewChat();
+  $("#chatInput").focus();
+};
+$("#backToThreads").onclick = () => showThreadList();
+let searchTimer = 0;
+$("#chatSearch").oninput = () => {
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(() => {
+    showThreadList();
+  }, 180);
 };
 
 async function renderLab() {
