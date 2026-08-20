@@ -2162,49 +2162,26 @@
         "dex_id": 341
       },
       {
-        "catalog_id": "swsh11-139",
-        "name": "Lickilicky",
-        "category": "Pokemon",
-        "stage": "Stage1",
+        "catalog_id": "swsh12.5-158",
+        "name": "Darkness Energy",
+        "category": "Energy",
+        "stage": "Basic",
         "types": [
-          "Colorless"
+          "Darkness"
         ],
-        "hp": 140,
-        "attacks": [
-          {
-            "name": "Tongue Slap",
-            "cost": [
-              "Colorless",
-              "Colorless"
-            ],
-            "damage": 50,
-            "text": "",
-            "effects": []
-          },
-          {
-            "name": "Heavy Impact",
-            "cost": [
-              "Colorless",
-              "Colorless",
-              "Colorless",
-              "Colorless"
-            ],
-            "damage": 130,
-            "text": "",
-            "effects": []
-          }
-        ],
+        "hp": 0,
+        "attacks": [],
         "abilities": [],
         "weaknesses": [],
         "resistances": [],
-        "retreat": 4,
-        "evolves_from": "Lickitung",
+        "retreat": 0,
+        "evolves_from": null,
         "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh11/139/low.webp",
-        "set_name": "Lost Origin",
+        "energy_type": "Darkness",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/158/low.webp",
+        "set_name": "Crown Zenith",
         "text": "",
-        "dex_id": 463
+        "dex_id": null
       },
       {
         "catalog_id": "swsh11-112",
@@ -2245,45 +2222,26 @@
         "dex_id": 167
       },
       {
-        "catalog_id": "swsh11-144",
-        "name": "Aipom",
-        "category": "Pokemon",
+        "catalog_id": "swsh12.5-152",
+        "name": "Grass Energy",
+        "category": "Energy",
         "stage": "Basic",
         "types": [
-          "Colorless"
+          "Grass"
         ],
-        "hp": 60,
-        "attacks": [
-          {
-            "name": "Mischievous Tail",
-            "cost": [
-              "Colorless"
-            ],
-            "damage": 0,
-            "text": "Look at the top card of your opponent's deck. You may have your opponent shuffle their deck.",
-            "effects": []
-          },
-          {
-            "name": "Scratch",
-            "cost": [
-              "Colorless"
-            ],
-            "damage": 10,
-            "text": "",
-            "effects": []
-          }
-        ],
+        "hp": 0,
+        "attacks": [],
         "abilities": [],
         "weaknesses": [],
         "resistances": [],
-        "retreat": 1,
+        "retreat": 0,
         "evolves_from": null,
         "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh11/144/low.webp",
-        "set_name": "Lost Origin",
+        "energy_type": "Grass",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/152/low.webp",
+        "set_name": "Crown Zenith",
         "text": "",
-        "dex_id": 190
+        "dex_id": null
       },
       {
         "catalog_id": "sm12-66",
@@ -5216,48 +5174,90 @@
         "dex_id": null
       },
       {
-        "catalog_id": "swsh12.5-158",
-        "name": "Darkness Energy",
-        "category": "Energy",
-        "stage": "Basic",
+        "catalog_id": "swsh11-139",
+        "name": "Lickilicky",
+        "category": "Pokemon",
+        "stage": "Stage1",
         "types": [
-          "Darkness"
+          "Colorless"
         ],
-        "hp": 0,
-        "attacks": [],
+        "hp": 140,
+        "attacks": [
+          {
+            "name": "Tongue Slap",
+            "cost": [
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 50,
+            "text": "",
+            "effects": []
+          },
+          {
+            "name": "Heavy Impact",
+            "cost": [
+              "Colorless",
+              "Colorless",
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 130,
+            "text": "",
+            "effects": []
+          }
+        ],
         "abilities": [],
         "weaknesses": [],
         "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
+        "retreat": 4,
+        "evolves_from": "Lickitung",
         "trainer_kind": null,
-        "energy_type": "Darkness",
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/158/low.webp",
-        "set_name": "Crown Zenith",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/swsh/swsh11/139/low.webp",
+        "set_name": "Lost Origin",
         "text": "",
-        "dex_id": null
+        "dex_id": 463
       },
       {
-        "catalog_id": "swsh12.5-152",
-        "name": "Grass Energy",
-        "category": "Energy",
+        "catalog_id": "swsh11-144",
+        "name": "Aipom",
+        "category": "Pokemon",
         "stage": "Basic",
         "types": [
-          "Grass"
+          "Colorless"
         ],
-        "hp": 0,
-        "attacks": [],
+        "hp": 60,
+        "attacks": [
+          {
+            "name": "Mischievous Tail",
+            "cost": [
+              "Colorless"
+            ],
+            "damage": 0,
+            "text": "Look at the top card of your opponent's deck. You may have your opponent shuffle their deck.",
+            "effects": []
+          },
+          {
+            "name": "Scratch",
+            "cost": [
+              "Colorless"
+            ],
+            "damage": 10,
+            "text": "",
+            "effects": []
+          }
+        ],
         "abilities": [],
         "weaknesses": [],
         "resistances": [],
-        "retreat": 0,
+        "retreat": 1,
         "evolves_from": null,
         "trainer_kind": null,
-        "energy_type": "Grass",
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/152/low.webp",
-        "set_name": "Crown Zenith",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/swsh/swsh11/144/low.webp",
+        "set_name": "Lost Origin",
         "text": "",
-        "dex_id": null
+        "dex_id": 190
       },
       {
         "catalog_id": "swsh12.5-157",

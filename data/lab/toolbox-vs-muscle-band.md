@@ -90,3 +90,45 @@ Paradox Rift Mewtwo ex is Lightning; Photon costs Psychic. Set S is Grass, so th
 | **S** | 28.8% | 74.6% | 22.4% | **67.0%** | — |
 
 S vs D is **67.0%** (Floragato 280 / Forest Blast 440). A–D cells are unchanged.
+
+## 30-card, B cuts Lickilicky / Aipom (2026-08-20)
+
+Set B swapped Colorless Lickilicky and Aipom for spare **Darkness Energy** and a second **Grass Energy**. Same seed, 3,000 games / cell. Raw: `data/lab/family-cup-30-matrix.json`.
+
+|  | A | B | C | D | S |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| **A** | — | 72.0% | 4.8% | 0.3% | 70.8% |
+| **B** | 29.1% | — | 10.9% | 0.1% | 24.3% |
+| **C** | **94.9%** | **88.6%** | — | **60.2%** | 77.4% |
+| **D** | 99.9% | 99.8% | 42.0% | — | 33.8% |
+| **S** | 28.8% | 74.6% | 22.4% | **67.0%** | — |
+
+B did **not** improve until `shock` actually played Roselia. Vs A 29.2% → 29.1% (noise). Vs S 25.9% → 24.3%. Extra Grass sat unused: Thunder Shock already had a Colorless, and Roselia stayed in hand as fuel.
+
+## 30-card, shock uses Roselia (2026-08-20)
+
+`shock` now benches one Roselia. Extra Grass Energy pays **Soothing Scent [G]** when Thunder Shock is not ready; once Pikachu can Shock, it swaps in. Same seed, 3,000 games / cell. Raw: `data/lab/family-cup-30-matrix.json`.
+
+|  | A | B | C | D | S |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| **A** | — | 63.4% | 4.8% | 0.3% | 70.8% |
+| **B** | **34.9%** | — | 15.0% | 0.4% | 25.5% |
+| **C** | **94.9%** | 85.0% | — | **60.2%** | 77.4% |
+| **D** | 99.9% | 99.6% | 42.0% | — | 33.8% |
+| **S** | 28.8% | 76.1% | 22.4% | **67.0%** | — |
+
+B vs A **29.1% → 34.9%**. Vs C 10.9% → 15.0%. Sleep-lock eats Hydro Splash turns. Vs D still ~0. Vs S ~flat.
+
+## 30-card, shock uses Spinarak too (2026-08-20)
+
+Darkness Energy pays **Poison Sting 10 + Poison**. Do not open the 50 HP bug into Hydro Splash; bench it, sting when Thunder Shock is not ready, poison ticks stack with paralysis. Same seed, 3,000 games / cell. Raw: `data/lab/family-cup-30-matrix.json`.
+
+|  | A | B | C | D | S |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| **A** | — | 70.0% | 4.8% | 0.3% | 70.8% |
+| **B** | 31.9% | — | **18.6%** | 0.5% | 19.2% |
+| **C** | **94.9%** | 81.6% | — | **60.2%** | 77.4% |
+| **D** | 99.9% | 99.7% | 42.0% | — | 33.8% |
+| **S** | 28.8% | 81.5% | 22.4% | **67.0%** | — |
+
+Vs the last merged 30-card table (Wo-Chien S, B still Lickilicky/Aipom): B vs A 29.2% → **31.9%**, vs C 11.1% → **18.6%**, vs S 25.9% → 19.2%. Poison helps the Plusle race vs Clefairy/Mewtwo; 50 HP Spinarak is prize food vs Floragato. Vs Roselia-only, B vs A dropped 34.9% → 31.9% and vs C rose 15.0% → 18.6%.

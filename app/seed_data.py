@@ -38,6 +38,7 @@ SET_A_NAMES = [
 ]
 
 # Carpet Set B — 30. Lightning Energy + Fire Energy. No Clefairy.
+# Lickilicky / Aipom (Colorless) went to spare; Darkness Energy + extra Grass Energy in.
 SET_B_NAMES = [
     "Ivysaur",
     "Roselia",
@@ -63,9 +64,9 @@ SET_B_NAMES = [
     "Emolga",
     "Wailmer",
     "Corphish",
-    "Lickilicky",
+    "Darkness Energy",
     "Spinarak",
-    "Aipom",
+    "Grass Energy",
     "Pikachu",  # Cosmic Eclipse Nuzzle / Volt Tackle, received from Set A for Tulip
     "Lightning Energy",
     "Fire Energy",
@@ -121,12 +122,12 @@ SET_S_NAMES = (
     + ["Grass Energy"] * 2
 )
 
-# Spare Cards — leftover pile, not a 30-card Family Cup list. Grows as extras
-# accumulate. Starts with Tool Box plus Darkness / Grass / Fighting Energy.
+# Spare Cards — leftover pile, not a 30-card Family Cup list.
+# Lickilicky / Aipom came out of Set B for Darkness + Grass Energy.
 SET_SPARE_NAMES = [
     "Tool Box",
-    "Darkness Energy",
-    "Grass Energy",
+    "Lickilicky",
+    "Aipom",
     "Fighting Energy",
 ]
 

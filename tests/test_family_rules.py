@@ -26,6 +26,10 @@ def test_seed_counts():
     assert sum(1 for c in b if c.name == "Pikachu") == 2
     assert sum(1 for c in b if c.name == "Lightning Energy") == 1
     assert sum(1 for c in b if c.name == "Fire Energy") == 1
+    assert sum(1 for c in b if c.name == "Darkness Energy") == 1
+    assert sum(1 for c in b if c.name == "Grass Energy") == 2
+    assert not any(c.name == "Lickilicky" for c in b)
+    assert not any(c.name == "Aipom" for c in b)
     assert not any(c.name == "Clefairy" for c in b)
     assert not any(c.name == "Tulip" for c in b)
     assert any(
@@ -57,6 +61,10 @@ def test_seed_decks_record_pikachu_tulip_trade():
     assert b_names.count("Pikachu") == 2
     assert b_names.count("Lightning Energy") == 1
     assert b_names.count("Fire Energy") == 1
+    assert b_names.count("Darkness Energy") == 1
+    assert b_names.count("Grass Energy") == 2
+    assert "Lickilicky" not in b_names
+    assert "Aipom" not in b_names
     assert "Clefairy" not in b_names
     assert "Tulip" not in b_names
     assert "sm3-40" in b_ids
@@ -90,6 +98,8 @@ def test_seed_decks_include_set_c_and_d():
     assert data["spare"]["id"] == "seed-spare"
     assert data["spare"]["kind"] == "spare"
     assert data["spare"]["name"] == "Spare Cards"
+    spare_names = [c["name"] for c in data["spare"]["cards"]]
+    assert spare_names == ["Tool Box", "Lickilicky", "Aipom", "Fighting Energy"]
     assert len(c_names) == 30
     assert len(d_names) == 30
     assert len(s_names) == 30
@@ -123,8 +133,6 @@ def test_seed_decks_include_set_c_and_d():
     assert d_names.count("Cornerstone Mask Ogerpon ex") == 4
     assert d_names.count("Double Colorless Energy") == 4
     assert d_names.count("Fighting Energy") == 8
-    spare_names = [c["name"] for c in data["spare"]["cards"]]
-    assert spare_names == ["Tool Box", "Darkness Energy", "Grass Energy", "Fighting Energy"]
 
 
 def test_set_b_has_orphan_evolutions():
