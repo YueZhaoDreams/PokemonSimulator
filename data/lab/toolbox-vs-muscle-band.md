@@ -60,3 +60,19 @@ Notes:
 - A–D cells re-ran unchanged on this seed.
 - C vs A/B were previously inflated by C deck-outs while Active Clefairy died to Hydro Splash / Thunder Shock.
 - S is specialized vs D (66.0%). It also beats B (80.4%) because Mewtwo tanks Thunder Shock. It loses to A (26.7%) and C (30.5%): Hydro Splash / Photon win the prize race while Floragato only swings on an OHKO, and Belt does not help vs non-ex Dondozo.
+
+## 30-card Family Cup (2026-08-20)
+
+Rule is **30**. Carpet A dropped Tool Box and added Metal / Water / Psychic Energy (still one Clefairy). Carpet B added Lightning Energy and Fire Energy. Constructed C / D / S each gained two typed energy of their line. Set E stays folded into C; S is the fifth list.
+
+Same engine, seed `20260819`, 3,000 games / ordered pair. Raw: `data/lab/family-cup-30-matrix.json`.
+
+|  | A | B | C | D | S |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| **A** | — | 71.4% | 4.8% | 0.3% | 73.6% |
+| **B** | 29.2% | — | 11.1% | 0.2% | 28.8% |
+| **C** | **94.9%** | **88.2%** | — | **60.2%** | 76.6% |
+| **D** | 99.9% | 99.6% | 42.0% | — | 33.4% |
+| **S** | 27.7% | 71.7% | 24.2% | **67.6%** | — |
+
+Moves vs the 28-card table: A vs B +6.9 (Water Energy pays Hydro Splash). C vs D +5.3 (real Psychic Energy for Party). S vs D +1.6 (Grass Energy for Slashing Claw). B vs S +9.3 (Lightning Energy pays Thunder Shock / Volt Tackle). D still tables A/B.

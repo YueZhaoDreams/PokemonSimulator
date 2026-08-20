@@ -1,7 +1,9 @@
 # Family Cup play record — 2026-08-18
 
 Carpet Set A (吃吼霸 / Dondozo) vs Carpet Set B (two Pikachu prints).
-Family rules: 28 cards, opening 7, 3 prizes, Pokémon in hand may be attached as matching Basic Energy.
+Family rules: 30 cards, opening 7, 3 prizes, Pokémon in hand may be attached as matching Basic Energy.
+
+2026-08-20: carpet lists moved to 30. Set A cut Tool Box and added Metal / Water / Psychic Energy (still one Clefairy). Set B added Lightning Energy and Fire Energy (no Clefairy). Constructed C / D / S each gained two typed energy of their line. Set E was already folded into C.
 
 This note is the experience log from iterating **both** sides until the engine stopped making obvious family-play mistakes. Perfect play is not 50/50 — the cards still favor A.
 

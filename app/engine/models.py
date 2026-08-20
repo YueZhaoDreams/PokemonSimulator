@@ -146,7 +146,7 @@ class Card:
 @dataclass
 class FamilyRules:
     name: str = "Family Cup"
-    deck_size: int = 28
+    deck_size: int = 30
     opening_hand: int = 7
     prize_count: int = 3
     bench_size: int = 5
@@ -159,7 +159,7 @@ class FamilyRules:
     one_retreat_per_turn: bool = True
     extra_prize_for_ex: bool = False
     notes: str = (
-        "28-card decks, 3 prize cards, and every Pokémon can be attached as a "
+        "30-card decks, 3 prize cards, and every Pokémon can be attached as a "
         "Basic Energy of its type (so Energy Search may also fetch a Pokémon). "
         "Other play follows standard Pokémon TCG: going first cannot draw, attack, "
         "or play a Supporter on the first turn; neither player may evolve on their "

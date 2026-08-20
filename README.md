@@ -6,7 +6,7 @@ This is a fan-made simulator. It is not affiliated with Nintendo, Game Freak, or
 
 ## Family Cup rules (defaults)
 
-- **28-card** decks (play whatever you scanned; 28 is the target)
+- **30-card** decks (play whatever you scanned; 30 is the target)
 - Opening hand of **7**
 - **3 prize cards**
 - **Any Pokémon can be attached as a Basic Energy of its type**

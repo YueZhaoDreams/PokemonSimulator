@@ -1,6 +1,3 @@
-import json
-
-from app.config import DATA_DIR
 from app.engine.models import default_family_rules
 from app.engine.strategies import StrategySpec
 from app.engine.trades import _needs, suggest_trades
@@ -8,11 +5,11 @@ from app.seed_data import SET_A_NAMES, SET_B_NAMES, SET_C_NAMES, SET_D_NAMES, SE
 
 
 def test_seed_counts():
-    assert len(SET_A_NAMES) == 28
-    assert len(SET_B_NAMES) == 28
-    assert len(SET_C_NAMES) == 28
-    assert len(SET_D_NAMES) == 28
-    assert len(SET_S_NAMES) == 28
+    assert len(SET_A_NAMES) == 30
+    assert len(SET_B_NAMES) == 30
+    assert len(SET_C_NAMES) == 30
+    assert len(SET_D_NAMES) == 30
+    assert len(SET_S_NAMES) == 30
     a = build_fallback_deck(SET_A_NAMES)
     b = build_fallback_deck(SET_B_NAMES)
     assert sum(1 for c in a if c.name == "Dondozo") == 1
@@ -20,7 +17,15 @@ def test_seed_counts():
     assert any(c.name == "Pumpkaboo" for c in a)
     assert not any(c.name == "Flittle" for c in a)
     assert not any(c.name == "Pikachu" for c in a)
+    assert sum(1 for c in a if c.name == "Clefairy") == 1
+    assert sum(1 for c in a if c.name == "Psychic Energy") == 2
+    assert sum(1 for c in a if c.name == "Water Energy") == 1
+    assert sum(1 for c in a if c.name == "Metal Energy") == 1
+    assert not any(c.name == "Tool Box" for c in a)
     assert sum(1 for c in b if c.name == "Pikachu") == 2
+    assert sum(1 for c in b if c.name == "Lightning Energy") == 1
+    assert sum(1 for c in b if c.name == "Fire Energy") == 1
+    assert not any(c.name == "Clefairy" for c in b)
     assert not any(c.name == "Tulip" for c in b)
     assert any(
         c.name == "Pikachu" and any("paralyze" in (atk.text or "").lower() for atk in c.attacks) for c in b
@@ -28,21 +33,46 @@ def test_seed_counts():
 
 
 def test_seed_decks_record_pikachu_tulip_trade():
-    data = json.loads((DATA_DIR / "seed_decks.json").read_text())
+    from app.seed import load_seed_payload
+
+    data = load_seed_payload()
     a_names = [c["name"] for c in data["a"]["cards"]]
     b_names = [c["name"] for c in data["b"]["cards"]]
     a_ids = [c["catalog_id"] for c in data["a"]["cards"]]
     b_ids = [c["catalog_id"] for c in data["b"]["cards"]]
+    assert len(a_names) == 30
+    assert len(b_names) == 30
     assert "Tulip" in a_names
     assert "Pumpkaboo" in a_names
     assert "Flittle" not in a_names
     assert "Pikachu" not in a_names
+    assert "Tool Box" not in a_names
+    assert a_names.count("Psychic Energy") == 2
+    assert a_names.count("Water Energy") == 1
+    assert a_names.count("Metal Energy") == 1
+    assert a_names.count("Clefairy") == 1
     assert a_ids.count("sv04-181") == 1
     assert "sm12-66" not in a_ids
     assert b_names.count("Pikachu") == 2
+    assert b_names.count("Lightning Energy") == 1
+    assert b_names.count("Fire Energy") == 1
+    assert "Clefairy" not in b_names
     assert "Tulip" not in b_names
     assert "sm3-40" in b_ids
     assert "sm12-66" in b_ids
+
+
+def test_seed_decks_have_images():
+    from app.seed import load_seed_payload
+
+    data = load_seed_payload()
+    for key in ("a", "b", "c", "d", "s"):
+        for card in data[key]["cards"]:
+            assert card.get("image"), f"{key} {card['name']} {card.get('catalog_id')} has no image"
+            assert str(card["image"]).startswith("http")
+    flora = next(c for c in data["s"]["cards"] if c["name"] == "Floragato")
+    assert any(a["name"] == "Slashing Claw" for a in flora["attacks"])
+    assert flora["catalog_id"] == "sv01-014"
 
 
 def test_seed_decks_include_set_c_and_d():
@@ -56,15 +86,16 @@ def test_seed_decks_include_set_c_and_d():
     assert data["c"]["id"] == "seed-c"
     assert data["d"]["id"] == "seed-d"
     assert data["s"]["id"] == "seed-s"
-    assert len(c_names) == 28
-    assert len(d_names) == 28
-    assert len(s_names) == 28
+    assert len(c_names) == 30
+    assert len(d_names) == 30
+    assert len(s_names) == 30
     assert s_names.count("Sprigatito") == 4
     assert s_names.count("Floragato") == 4
     assert s_names.count("Mewtwo ex") == 3
     assert s_names.count("Maximum Belt") == 1
     assert s_names.count("Switch") == 3
     assert s_names.count("Muscle Band") == 0
+    assert s_names.count("Grass Energy") == 2
     assert c_names.count("Clefairy") == 4
     assert c_names.count("Mewtwo ex") == 2
     assert c_names.count("Hop") == 3
@@ -76,6 +107,7 @@ def test_seed_decks_include_set_c_and_d():
     assert c_names.count("Maximum Belt") == 1
     assert c_names.count("Tool Box") == 1
     assert c_names.count("Arven") == 1
+    assert c_names.count("Psychic Energy") == 2
     clefairy_text = next(c["abilities"][0]["text"] for c in data["c"]["cards"] if c["name"] == "Clefairy")
     assert "for each of your Benched Clefairy" in clefairy_text
     assert "search your deck" in clefairy_text
@@ -85,7 +117,7 @@ def test_seed_decks_include_set_c_and_d():
     assert parse_ability_effects(clefairy_text)[0]["kind"] == "attach_energy_from_deck_per_benched"
     assert d_names.count("Cornerstone Mask Ogerpon ex") == 4
     assert d_names.count("Double Colorless Energy") == 4
-    assert d_names.count("Fighting Energy") == 6
+    assert d_names.count("Fighting Energy") == 8
 
 
 def test_set_b_has_orphan_evolutions():

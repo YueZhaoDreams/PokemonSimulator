@@ -6,7 +6,7 @@ Engine: `family-tcg-monte-carlo`
 Strategies: `slash` (Set S) vs `demolish` (Set D)
 Games: 3,000, random seat
 
-Forget A/B/C. This 28 is built only to beat Charm Ogerpon.
+Forget A/B/C. This list is built only to beat Charm Ogerpon. 2026-08-20: Family Cup is 30; +2 Grass Energy.
 
 Ogerpon is Grass-weak. Floragato has **no Ability**, so Cornerstone Stance does not block. Slashing Claw 90 + Maximum Belt 50 = 140, ×2 Weakness = **280**, which OHKOs 260 Charm Ogerpon so Acerola cannot reset. Mewtwo (230 HP, no Ability) is the Demolish sponge. ACE SPEC stays one Belt.
 
@@ -14,13 +14,13 @@ Ogerpon is Grass-weak. Floragato has **no Ability**, so Cornerstone Stance does 
 
 | Qty | Card | ID | Notes |
 | ---: | --- | --- | --- |
-| 4 | Sprigatito | sv03-013 | Basic; extras are Grass energy |
-| 4 | Floragato | sv03-014 | Slashing Claw 90 for [G][C]; no Ability |
+| 4 | Sprigatito | sv01-013 | Paldea Evolved; extras are Grass energy |
+| 4 | Floragato | sv01-014 | Engine: Slashing Claw 90 for [G][C] (no Ability). Picture is Paldea Evolved. |
 | 3 | Mewtwo ex | sv04-058 | 230 HP tank; cap one in play |
 | 4 | Nest Ball | sv01-181 | Fetch Mewtwo, then one Sprigatito |
 | 3 | Energy Search | sv01-172 | Mewtwo / Grass fuel |
 | 3 | Switch | sv01-194 | Mewtwo Retreat 2; swing only when Floragato KOs |
-| 1 | Jacq | sv03-175 | Up to 2 Evolution Pokémon (Floragato) |
+| 1 | Jacq | sv01-175 | Up to 2 Evolution Pokémon (Floragato) |
 | 1 | Maximum Belt | sv05-154 | ACE SPEC +50 vs ex |
 | 1 | Tool Box | swsh11-168 | Printed top-7 Tool tutor |
 | 1 | Arven | sv01-166 | Belt + Item |
@@ -64,3 +64,17 @@ Row = that set's win rate. Strategies: A `thrifty`, B `shock`, C `party`, D `dem
 | **S** | 26.7% | 80.4% | 30.5% | **66.0%** | — |
 
 S was built only to beat D. Vs B the Mewtwo tank still works (80.4%). Vs A and C it sits on Mewtwo until an OHKO that Belt cannot provide against non-ex Dondozo, so Hydro Splash / Photon take the prizes.
+
+## 30-card Family Cup (2026-08-20)
+
++2 Grass Energy. Same seed, 3,000 games / cell. Full table: `data/lab/toolbox-vs-muscle-band.md`.
+
+|  | A | B | C | D | S |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| **A** | — | 71.4% | 4.8% | 0.3% | 73.6% |
+| **B** | 29.2% | — | 11.1% | 0.2% | 28.8% |
+| **C** | 94.9% | 88.2% | — | 60.2% | 76.6% |
+| **D** | 99.9% | 99.6% | 42.0% | — | 33.4% |
+| **S** | 27.7% | 71.7% | 24.2% | **67.6%** | — |
+
+S vs D is **67.6%** (was 66.0%). B's Lightning Energy cuts S vs B from 80.4% to 71.7%.

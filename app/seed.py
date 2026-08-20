@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from collections import deque
 from pathlib import Path
 
 from app.config import DATA_DIR, SAMPLES_DIR
@@ -44,27 +45,31 @@ def load_seed_payload() -> dict:
     if SEED_PATH.exists():
         data = json.loads(SEED_PATH.read_text())
         dirty = False
-        if "c" not in data or "d" not in data or "s" not in data:
-            extra = _cd_payload(enrich=True)
-            data["c"] = extra["c"]
-            data["d"] = extra["d"]
-            data["s"] = extra["s"]
-            dirty = True
+        extra = _cd_payload(enrich=False)
+        for key, blob in extra.items():
+            if key not in data:
+                data[key] = blob
+                dirty = True
         # Set E was folded into Set C — drop any leftover seed.
         if "e" in data:
             del data["e"]
             dirty = True
-        # Refresh Set C whenever the locked list changes (Tool Box / Hop counts).
-        expected_c = [c.name for c in _repeat_named_cards(list(SET_C_NAMES), enrich=False)]
-        have_c = [c.get("name") for c in (data.get("c") or {}).get("cards") or []]
-        if have_c != expected_c:
-            data["c"] = _cd_payload(enrich=False)["c"]
-            dirty = True
-        expected_s = [c.name for c in _repeat_named_cards(list(SET_S_NAMES), enrich=False)]
-        have_s = [c.get("name") for c in (data.get("s") or {}).get("cards") or []]
-        if have_s != expected_s:
-            data["s"] = _cd_payload(enrich=False)["s"]
-            dirty = True
+        for key, names in (
+            ("a", SET_A_NAMES),
+            ("b", SET_B_NAMES),
+            ("c", SET_C_NAMES),
+            ("d", SET_D_NAMES),
+            ("s", SET_S_NAMES),
+        ):
+            have = [c.get("name") for c in (data.get(key) or {}).get("cards") or []]
+            want = list(names)
+            if have != want:
+                data[key]["cards"] = _align_named_cards((data.get(key) or {}).get("cards") or [], want)
+                dirty = True
+            filled = _ensure_card_images(data[key]["cards"])
+            if filled != data[key]["cards"]:
+                data[key]["cards"] = filled
+                dirty = True
         if dirty:
             SEED_PATH.write_text(json.dumps(data, indent=2))
         _refresh_hashes(data)
@@ -75,8 +80,79 @@ def load_seed_payload() -> dict:
     return payload
 
 
+def _align_named_cards(existing: list, names: list[str]) -> list[dict]:
+    """Keep existing printings, add missing names from fallback / basic energy."""
+    from app.catalog import energy_card
+    from app.seed_data import fallback_named
+
+    pools: dict[str, deque] = {}
+    for card in existing:
+        blob = card if isinstance(card, dict) else card.to_dict()
+        pools.setdefault(blob.get("name"), deque()).append(blob)
+    out: list[dict] = []
+    for name in names:
+        q = pools.get(name)
+        if q:
+            out.append(q.popleft())
+        elif name.lower().endswith(" energy") and "double" not in name.lower():
+            out.append(energy_card(name.split()[0]).to_dict())
+        else:
+            out.append(fallback_named(name).to_dict())
+    return out
+
+
+def _ensure_card_images(cards: list[dict]) -> list[dict]:
+    """Fill missing TCGDex art. Floragato keeps Slashing Claw; only the picture is swapped."""
+    from app.catalog import ART_ONLY_IDS, PREFERRED_IDS, energy_card, fetch_full, normalize_card
+    from app.seed_data import fallback_named
+
+    cache: dict[str, dict] = {}
+    out: list[dict] = []
+    for card in cards:
+        name = card.get("name") or ""
+        if card.get("image") and name not in ART_ONLY_IDS:
+            out.append(card)
+            continue
+        if name not in cache:
+            if name.lower().endswith(" energy") and "double" not in name.lower():
+                cache[name] = energy_card(name.split()[0]).to_dict()
+            elif name in ART_ONLY_IDS:
+                base = fallback_named(name)
+                try:
+                    cache[name] = _overlay_art(base, ART_ONLY_IDS[name]).to_dict()
+                except Exception:
+                    cache[name] = base.to_dict()
+            else:
+                cid = PREFERRED_IDS.get(name)
+                try:
+                    fetched = normalize_card(fetch_full(cid)).to_dict() if cid else None
+                    if fetched and (fetched.get("name") or "").lower() == name.lower() and fetched.get("image"):
+                        cache[name] = fetched
+                    else:
+                        cache[name] = card
+                except Exception:
+                    cache[name] = card
+        src = cache[name]
+        if src.get("image"):
+            out.append(src)
+        else:
+            out.append(card)
+    return out
+
+
+def _overlay_art(card: Card, card_id: str) -> Card:
+    from app.catalog import fetch_full, normalize_card
+
+    art = normalize_card(fetch_full(card_id))
+    blob = card.to_dict()
+    blob["image"] = art.image
+    blob["catalog_id"] = art.catalog_id
+    blob["set_name"] = art.set_name
+    return Card.from_dict(blob)
+
+
 def _repeat_named_cards(names: list[str], enrich: bool) -> list[Card]:
-    from app.catalog import PREFERRED_IDS, energy_card, fetch_full, normalize_card
+    from app.catalog import ART_ONLY_IDS, PREFERRED_IDS, energy_card, fetch_full, normalize_card
     from app.seed_data import fallback_named
 
     cache: dict[str, Card] = {}
@@ -85,6 +161,12 @@ def _repeat_named_cards(names: list[str], enrich: bool) -> list[Card]:
         if name not in cache:
             if name.lower().endswith(" energy") and "double" not in name.lower():
                 cache[name] = energy_card(name.split()[0])
+            elif name in ART_ONLY_IDS:
+                card = fallback_named(name)
+                try:
+                    cache[name] = _overlay_art(card, ART_ONLY_IDS[name])
+                except Exception:
+                    cache[name] = card
             elif enrich:
                 try:
                     cid = PREFERRED_IDS.get(name)
