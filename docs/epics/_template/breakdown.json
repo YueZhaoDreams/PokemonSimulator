@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "epic_slug": "replace-me",
+  "plan_status": "draft",
+  "features": [
+    {
+      "slug": "first-slice",
+      "depends_on": [],
+      "parallel_group": 1
+    }
+  ],
+  "acceptance_gates": [
+    {
+      "id": "milestone-example",
+      "title": "Example milestone",
+      "after_features": ["first-slice"],
+      "consumer": "agent",
+      "verifier": "agent-auto",
+      "verify": ["Machine-assertable checks against deployed APIs or filesystem state"],
+      "blocks_dispatch": true
+    },
+    {
+      "id": "epic-exit",
+      "title": "Epic exit",
+      "after_features": ["__all__"],
+      "consumer": "human",
+      "verifier": "human-required",
+      "verify": ["Product-level validation an operator signs off on"],
+      "blocks_epic_done": true
+    }
+  ]
+}

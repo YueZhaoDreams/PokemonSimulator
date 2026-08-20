@@ -1,0 +1,40 @@
+{
+  "repoId": "YueZhaoDreams/PokemonSimulator",
+  "skillType": "fix-feature",
+  "sourceTemplateId": "fix-feature",
+  "sourceTemplateVersion": "1.4.0",
+  "generationStatus": "generated",
+  "dependencies": [
+    "setup-env",
+    "compile-test-fix-loop",
+    "post-due-diligence"
+  ],
+  "orchestrationHints": [
+    "Use for feature-level work tied to docs/features packets.",
+    "Read .harmonia/features/<slug>.json comments before implementation.",
+    "Do not treat this skill as a standalone worker; the session continues through PR open, review polling, fixes, and merge or documented blocker.",
+    "The session is incomplete until the PR merges or a concrete blocker is documented \u2014 poll checks and reviews like a long-running agent.",
+    "Run the local Bugbot review loop on branch changes before push; fix actionable findings and re-validate until clean.",
+    "Copilot feedback loop = validate locally (compile-test-fix-loop \u2192 post-due-diligence \u2192 Bugbot) before every push.",
+    "Chain the same validation discipline as fix-jira-issue."
+  ],
+  "lastGeneratedAt": "2026-08-20T22:58:08.503093+00:00",
+  "createdAt": "2026-08-20T22:58:08.503074+00:00",
+  "updatedAt": "2026-08-20T22:58:08.503094+00:00",
+  "metadata": {
+    "templateName": "Fix Feature",
+    "templateDescription": "Orchestrate feature-level development by reading the linked docs/features spec, adhoc comments, and then invoking the supporting Harmonia skills in order. Runs a mandatory long-running PR closure loop after the PR is opened; do not end the session until merge or a documented blocker.",
+    "generationRevision": 1,
+    "repoContext": {
+      "repoId": "YueZhaoDreams/PokemonSimulator",
+      "repoName": "PokemonSimulator",
+      "configuredRepo": "YueZhaoDreams/PokemonSimulator",
+      "defaultBaseBranch": "main",
+      "language": "python",
+      "service": "family-cup-simulator",
+      "purpose": "family Pok\u00e9mon TCG simulator with scan, chat, Monte Carlo lab, and printed-card-text engine"
+    },
+    "prClosureFingerprint": "e03fa3e387d60e6b",
+    "localReviewFingerprint": "c6c17d1f06ed37e1"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "repoId": "YueZhaoDreams/PokemonSimulator",
+  "skillType": "verify-gate",
+  "sourceTemplateId": "verify-gate",
+  "sourceTemplateVersion": "1.0.0",
+  "generationStatus": "generated",
+  "dependencies": [
+    "setup-env"
+  ],
+  "orchestrationHints": [
+    "Independent QA \u2014 readonly, post-deploy.",
+    "Invoked by implement-epic-features at gate checkpoints.",
+    "Produces gate_reports in .harmonia/epics/<slug>.json; human pass remains separate."
+  ],
+  "lastGeneratedAt": "2026-08-20T22:58:08.504104+00:00",
+  "createdAt": "2026-08-20T22:58:08.504102+00:00",
+  "updatedAt": "2026-08-20T22:58:08.504105+00:00",
+  "metadata": {
+    "templateName": "Verify Gate",
+    "templateDescription": "Independent post-deploy acceptance gate verification. Runs breakdown.json verify steps against production, produces a structured report, and recommends pass/skip based on consumer and verifier \u2014 never auto-passes human-required gates.",
+    "generationRevision": 1,
+    "repoContext": {
+      "repoId": "YueZhaoDreams/PokemonSimulator",
+      "repoName": "PokemonSimulator",
+      "configuredRepo": "YueZhaoDreams/PokemonSimulator",
+      "defaultBaseBranch": "main",
+      "language": "python",
+      "service": "family-cup-simulator",
+      "purpose": "family Pok\u00e9mon TCG simulator with scan, chat, Monte Carlo lab, and printed-card-text engine"
+    }
+  }
+}

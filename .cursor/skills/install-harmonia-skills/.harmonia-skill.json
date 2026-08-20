@@ -1,0 +1,32 @@
+{
+  "repoId": "YueZhaoDreams/PokemonSimulator",
+  "skillType": "install-harmonia-skills",
+  "sourceTemplateId": "install-harmonia-skills",
+  "sourceTemplateVersion": "1.1.0",
+  "generationStatus": "generated",
+  "dependencies": [
+    "setup-env"
+  ],
+  "orchestrationHints": [
+    "Run first when Harmonia starts on a repo with unknown skill readiness.",
+    "Generate only missing or invalid skills unless regeneration is explicitly requested.",
+    "Return a readiness summary that humans can inspect via API."
+  ],
+  "lastGeneratedAt": "2026-08-20T22:58:08.501605+00:00",
+  "createdAt": "2026-08-20T22:58:08.501476+00:00",
+  "updatedAt": "2026-08-20T22:58:08.501607+00:00",
+  "metadata": {
+    "templateName": "Install Harmonia Skills",
+    "templateDescription": "Bootstrap repo-specific skills from Harmonia-managed templates before any repo work starts.",
+    "generationRevision": 1,
+    "repoContext": {
+      "repoId": "YueZhaoDreams/PokemonSimulator",
+      "repoName": "PokemonSimulator",
+      "configuredRepo": "YueZhaoDreams/PokemonSimulator",
+      "defaultBaseBranch": "main",
+      "language": "python",
+      "service": "family-cup-simulator",
+      "purpose": "family Pok\u00e9mon TCG simulator with scan, chat, Monte Carlo lab, and printed-card-text engine"
+    }
+  }
+}
