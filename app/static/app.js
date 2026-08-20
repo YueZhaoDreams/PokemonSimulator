@@ -7,6 +7,7 @@ const CHIPS = [
   "If I use Pikachu to paralyze Dondozo, how often can I pull that off?",
   "Run 10,000 games. What strategy won, and what did you learn?",
   "Which cards should we trade so both sets get stronger?",
+  "Run pytest and tell me if anything failed.",
 ];
 
 async function api(path, opts = {}) {
@@ -32,9 +33,20 @@ function md(text) {
     .replace(/\n/g, "<br>");
 }
 
+function aiLabel(ai) {
+  if (ai?.chat?.configured) {
+    const model = ai.chat.model || "cursor";
+    if (ai.chat.ready === false) return `Cursor · ${model} (offline)`;
+    return `Cursor · ${model}`;
+  }
+  if (ai?.vision?.configured) return `Vision · ${ai.vision.provider}`;
+  if (ai?.configured) return `${ai.provider} · ${ai.model}`;
+  return "Local coach";
+}
+
 async function boot() {
   const health = await api("/api/health");
-  $("#aiPill").textContent = health.ai.configured ? `${health.ai.provider} · ${health.ai.model}` : "Local coach";
+  $("#aiPill").textContent = aiLabel(health.ai);
   state.decks = await api("/api/decks");
   state.strategies = await api("/api/strategies");
   CHIPS.forEach((q) => {
@@ -292,24 +304,75 @@ async function sendChat() {
   if (!message) return;
   $("#chatLog").insertAdjacentHTML("beforeend", `<div class="msg user">${md(message)}</div>`);
   $("#chatInput").value = "";
+  const bot = document.createElement("div");
+  bot.className = "msg bot live";
+  const trace = document.createElement("div");
+  trace.className = "tiny trace";
+  const body = document.createElement("div");
+  body.innerHTML = "Cursor is working…";
+  bot.appendChild(trace);
+  bot.appendChild(body);
+  $("#chatLog").appendChild(bot);
+  $("#chatLog").scrollTop = $("#chatLog").scrollHeight;
   document.body.classList.add("busy");
+  let answer = "";
   try {
-    const res = await api("/api/chat", {
+    const res = await fetch("/api/chat/stream", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ message, chat_id: state.chatId, history: state.history }),
     });
-    state.chatId = res.chat_id;
-    state.history = res.messages;
-    $("#chatLog").insertAdjacentHTML("beforeend", `<div class="msg bot">${md(res.answer)}</div>`);
-    $("#chatLog").scrollTop = $("#chatLog").scrollHeight;
+    if (!res.ok || !res.body) throw new Error(await res.text());
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = "";
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      buffer += decoder.decode(value, { stream: true });
+      const parts = buffer.split("\n\n");
+      buffer = parts.pop() || "";
+      for (const part of parts) {
+        for (const line of part.split("\n")) {
+          if (!line.startsWith("data: ")) continue;
+          const event = JSON.parse(line.slice(6));
+          if (event.type === "status" && event.text) {
+            trace.textContent = event.text;
+          } else if (event.type === "tool") {
+            const name = event.tool || event.name || "tool";
+            trace.textContent = `${name} ${event.status || ""}`.trim();
+          } else if (event.type === "text" && event.text) {
+            answer += event.text;
+            body.innerHTML = md(answer);
+          } else if (event.type === "done") {
+            state.chatId = event.chat_id;
+            state.history = event.messages;
+            answer = event.answer || answer;
+            body.innerHTML = md(answer);
+            if (event.coach && event.coach !== "cursor") {
+              trace.textContent = event.coach === "local" ? "Local coach" : event.coach;
+            } else {
+              trace.remove();
+            }
+          }
+        }
+      }
+      $("#chatLog").scrollTop = $("#chatLog").scrollHeight;
+    }
+    bot.classList.remove("live");
   } catch (err) {
-    $("#chatLog").insertAdjacentHTML("beforeend", `<div class="msg bot">${err.message}</div>`);
+    body.innerHTML = md(String(err.message || err));
+    bot.classList.remove("live");
   } finally {
     document.body.classList.remove("busy");
   }
 }
 $("#sendChat").onclick = sendChat;
+$("#newChat").onclick = () => {
+  state.chatId = null;
+  state.history = [];
+  $("#chatLog").innerHTML = "";
+};
 
 async function renderLab() {
   const rows = await api("/api/simulations");

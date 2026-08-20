@@ -1,13 +1,16 @@
 from __future__ import annotations
 
+import json
 import uuid
+from contextlib import asynccontextmanager
 from pathlib import Path
 
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
-from fastapi.responses import FileResponse, HTMLResponse
+from fastapi.responses import FileResponse, HTMLResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 
-from app.ai.coach import ask_coach
+from app.ai.coach import ask_coach, ask_coach_events
+from app.ai.cursor_agent import start_cursor_runtime, stop_cursor_runtime
 from app.ai.llm import provider_status
 from app.catalog import resolve_name, search_local
 from app.config import SAMPLES_DIR, STATIC_DIR, UPLOADS_DIR
@@ -31,15 +34,21 @@ from app.engine.strategies import list_strategies, StrategySpec
 from app.engine.trades import suggest_trades
 from app.recognition.pipeline import recognize_image
 
-app = FastAPI(title="Family Pokémon TCG Simulator", version="1.0.0")
+
+@asynccontextmanager
+async def lifespan(_app: FastAPI):
+    init_db()
+    await start_cursor_runtime()
+    try:
+        yield
+    finally:
+        await stop_cursor_runtime()
+
+
+app = FastAPI(title="Family Pokémon TCG Simulator", version="1.0.0", lifespan=lifespan)
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 if SAMPLES_DIR.exists():
     app.mount("/samples", StaticFiles(directory=SAMPLES_DIR), name="samples")
-
-
-@app.on_event("startup")
-def _startup() -> None:
-    init_db()
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -223,11 +232,32 @@ def api_sim(sim_id: str) -> dict:
 
 
 @app.post("/api/chat")
-def api_chat(payload: dict) -> dict:
+async def api_chat(payload: dict) -> dict:
     message = (payload.get("message") or "").strip()
     if not message:
         raise HTTPException(400, "message required")
-    return ask_coach(message, chat_id=payload.get("chat_id"), history=payload.get("history"))
+    return await ask_coach(message, chat_id=payload.get("chat_id"), history=payload.get("history"))
+
+
+@app.post("/api/chat/stream")
+async def api_chat_stream(payload: dict) -> StreamingResponse:
+    message = (payload.get("message") or "").strip()
+    if not message:
+        raise HTTPException(400, "message required")
+
+    async def events():
+        async for event in ask_coach_events(
+            message,
+            chat_id=payload.get("chat_id"),
+            history=payload.get("history"),
+        ):
+            yield f"data: {json.dumps(event, default=str)}\n\n"
+
+    return StreamingResponse(
+        events(),
+        media_type="text/event-stream",
+        headers={"Cache-Control": "no-cache", "Connection": "keep-alive", "X-Accel-Buffering": "no"},
+    )
 
 
 @app.get("/api/chats")

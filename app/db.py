@@ -21,7 +21,8 @@ CREATE TABLE IF NOT EXISTS chats (
     title TEXT,
     messages_json TEXT NOT NULL,
     created_at TEXT NOT NULL,
-    updated_at TEXT NOT NULL
+    updated_at TEXT NOT NULL,
+    agent_id TEXT
 );
 CREATE TABLE IF NOT EXISTS simulations (
     id TEXT PRIMARY KEY,
@@ -62,7 +63,14 @@ def init_db() -> None:
                     "UPDATE settings SET value_json=? WHERE key='rules'",
                     (json.dumps(stored),),
                 )
+        _ensure_chat_agent_id(conn)
         _upsert_seed_decks(conn)
+
+
+def _ensure_chat_agent_id(conn: sqlite3.Connection) -> None:
+    cols = {row[1] for row in conn.execute("PRAGMA table_info(chats)")}
+    if "agent_id" not in cols:
+        conn.execute("ALTER TABLE chats ADD COLUMN agent_id TEXT")
 
 
 def _upsert_seed_decks(conn: sqlite3.Connection) -> None:
@@ -212,12 +220,14 @@ def get_chat(chat_id: str) -> dict | None:
         row = conn.execute("SELECT * FROM chats WHERE id=?", (chat_id,)).fetchone()
     if not row:
         return None
+    keys = row.keys()
     return {
         "id": row["id"],
         "title": row["title"],
         "messages": json.loads(row["messages_json"]),
         "created_at": row["created_at"],
         "updated_at": row["updated_at"],
+        "agent_id": row["agent_id"] if "agent_id" in keys else None,
     }
 
 
@@ -227,21 +237,27 @@ def list_chats() -> list[dict]:
     return [dict(r) for r in rows]
 
 
-def save_chat(messages: list[dict], chat_id: str | None = None, title: str | None = None) -> dict:
+def save_chat(
+    messages: list[dict],
+    chat_id: str | None = None,
+    title: str | None = None,
+    agent_id: str | None = None,
+) -> dict:
     chat_id = chat_id or str(uuid.uuid4())
     now = _now()
     if not title:
         title = next((m["content"][:48] for m in messages if m.get("role") == "user"), "Family cup chat")
     with connect() as conn:
-        existing = conn.execute("SELECT id FROM chats WHERE id=?", (chat_id,)).fetchone()
+        existing = conn.execute("SELECT id, agent_id FROM chats WHERE id=?", (chat_id,)).fetchone()
         if existing:
+            stored_agent = agent_id if agent_id is not None else existing["agent_id"]
             conn.execute(
-                "UPDATE chats SET title=?, messages_json=?, updated_at=? WHERE id=?",
-                (title, json.dumps(messages), now, chat_id),
+                "UPDATE chats SET title=?, messages_json=?, updated_at=?, agent_id=? WHERE id=?",
+                (title, json.dumps(messages), now, stored_agent, chat_id),
             )
         else:
             conn.execute(
-                "INSERT INTO chats(id, title, messages_json, created_at, updated_at) VALUES (?,?,?,?,?)",
-                (chat_id, title, json.dumps(messages), now, now),
+                "INSERT INTO chats(id, title, messages_json, created_at, updated_at, agent_id) VALUES (?,?,?,?,?,?)",
+                (chat_id, title, json.dumps(messages), now, now, agent_id),
             )
     return get_chat(chat_id)

@@ -5,6 +5,7 @@ from typing import Any
 
 import httpx
 
+from app.ai.cursor_agent import cursor_status
 from app.config import (
     ANTHROPIC_API_KEY,
     ANTHROPIC_MODEL,
@@ -22,11 +23,21 @@ class LLMNotConfigured(RuntimeError):
 
 
 def provider_status() -> dict[str, Any]:
-    name = llm_provider()
+    chat = cursor_status()
+    vision = llm_provider()
+    vision_model = {"grok": XAI_MODEL, "openai": OPENAI_MODEL, "anthropic": ANTHROPIC_MODEL}.get(vision)
+    if chat["configured"]:
+        provider, model, configured = "cursor", chat["model"], True
+    elif vision:
+        provider, model, configured = vision, vision_model, True
+    else:
+        provider, model, configured = None, None, False
     return {
-        "provider": name,
-        "model": {"grok": XAI_MODEL, "openai": OPENAI_MODEL, "anthropic": ANTHROPIC_MODEL}.get(name),
-        "configured": name is not None,
+        "provider": provider,
+        "model": model,
+        "configured": configured,
+        "chat": chat,
+        "vision": {"provider": vision, "model": vision_model, "configured": vision is not None},
     }
 
 

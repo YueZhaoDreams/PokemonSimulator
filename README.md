@@ -18,7 +18,7 @@ Rules are editable in the API (`PUT /api/rules`).
 
 1. **Scan** a floor photo of a card set (iPhone HEIC works). Sample photos from this repo are auto-recognized.
 2. **Look up** card data via [TCGdex](https://tcgdex.dev/) (free, no key). Optional Grok / OpenAI / Claude vision for new photos.
-3. **Ask anything** — draw odds, paralysis lines, win rates, win-win trades.
+3. **Ask Cursor** — the Chat tab is a local Cursor agent in this repo. It can run simulations, pytest, and lab scripts, and it can edit the app when you ask.
 4. **Simulate 10,000 games** with named strategies. Every run is stored in the **Lab**: method, strategy, results, sample game logs, and learning notes (which cards mattered, status rates, prize bricks).
 
 ## Reused vs built here
@@ -47,11 +47,12 @@ chmod +x run.sh
 
 Open http://127.0.0.1:8000 on the computer, or `http://<your-lan-ip>:8000` on a phone on the same Wi-Fi. Add to Home Screen for a standalone app.
 
-Optional AI (vision + richer chat). Without a key, the **local coach** still answers the example questions by calling the same simulator tools:
+Chat is Cursor, defaulting to **Grok 4.6 Extra High**. Mint a key at [Cursor Dashboard → Integrations](https://cursor.com/dashboard/integrations) and put it in `.env`. Without `CURSOR_API_KEY`, the **local coach** still answers the example questions by calling the same simulator tools.
 
 ```bash
 cp .env.example .env
-# set XAI_API_KEY (Grok) and/or OPENAI_API_KEY and/or ANTHROPIC_API_KEY
+# CURSOR_API_KEY is the chat agent (required for "talk to Cursor")
+# optional: XAI_API_KEY / OPENAI_API_KEY / ANTHROPIC_API_KEY for photo vision only
 ```
 
 ## Cursor cloud / Docker

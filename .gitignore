@@ -9,6 +9,7 @@ data/app.db
 data/uploads/
 data/cache/
 data/debug/
+data/cursor-agents/
 *.log
 .idea/
 .vscode/
