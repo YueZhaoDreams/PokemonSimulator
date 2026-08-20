@@ -4580,175 +4580,172 @@
         "dex_id": null
       },
       {
-        "catalog_id": "sv04-058",
-        "name": "Mewtwo ex",
+        "catalog_id": "sv02-027",
+        "name": "Wo-Chien ex",
         "category": "Pokemon",
         "stage": "Basic",
         "types": [
-          "Lightning"
+          "Grass"
         ],
         "hp": 230,
         "attacks": [
           {
-            "name": "Transfer Charge",
+            "name": "Covetous Ivy",
             "cost": [
-              "Psychic"
+              "Grass",
+              "Grass",
+              "Colorless"
             ],
             "damage": 0,
-            "text": "Attach up to 2 Basic {P} Energy cards from your discard pile to your Pok\u00e9mon in any way you like.",
+            "text": "This attack does 60 damage to 1 of your opponent's Benched Pok\u00e9mon for each Prize card your opponent has taken. (Don't apply Weakness and Resistance for Benched Pok\u00e9mon.)",
             "effects": [
               {
-                "kind": "transfer_charge",
-                "count": 2
+                "kind": "times",
+                "note": "This attack does 60 damage to 1 of your opponent's Benched Pok\u00e9mon for each Prize card your opponent has taken. (Don't apply Weakness and Resistance for Benched Pok\u00e9mon.)"
               }
             ]
           },
           {
-            "name": "Photon Kinesis",
+            "name": "Forest Blast",
             "cost": [
-              "Psychic",
-              "Psychic"
+              "Grass",
+              "Grass",
+              "Grass",
+              "Colorless"
             ],
-            "damage": 10,
-            "text": "This attack does 30 more damage for each {P} Energy attached to all of your Pok\u00e9mon.",
-            "effects": [
-              {
-                "kind": "psychic_energy_bonus",
-                "per": 30
-              }
-            ]
+            "damage": 220,
+            "text": "",
+            "effects": []
           }
         ],
         "abilities": [],
         "weaknesses": [
           {
-            "type": "Fighting",
+            "type": "Fire",
             "value": "\u00d72"
           }
         ],
         "resistances": [],
-        "retreat": 2,
+        "retreat": 4,
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv04/058/low.webp",
-        "set_name": "Paradox Rift",
+        "image": "https://assets.tcgdex.net/en/sv/sv02/027/low.webp",
+        "set_name": "Paldea Evolved",
         "text": "",
-        "dex_id": 150
+        "dex_id": null
       },
       {
-        "catalog_id": "sv04-058",
-        "name": "Mewtwo ex",
+        "catalog_id": "sv02-027",
+        "name": "Wo-Chien ex",
         "category": "Pokemon",
         "stage": "Basic",
         "types": [
-          "Lightning"
+          "Grass"
         ],
         "hp": 230,
         "attacks": [
           {
-            "name": "Transfer Charge",
+            "name": "Covetous Ivy",
             "cost": [
-              "Psychic"
+              "Grass",
+              "Grass",
+              "Colorless"
             ],
             "damage": 0,
-            "text": "Attach up to 2 Basic {P} Energy cards from your discard pile to your Pok\u00e9mon in any way you like.",
+            "text": "This attack does 60 damage to 1 of your opponent's Benched Pok\u00e9mon for each Prize card your opponent has taken. (Don't apply Weakness and Resistance for Benched Pok\u00e9mon.)",
             "effects": [
               {
-                "kind": "transfer_charge",
-                "count": 2
+                "kind": "times",
+                "note": "This attack does 60 damage to 1 of your opponent's Benched Pok\u00e9mon for each Prize card your opponent has taken. (Don't apply Weakness and Resistance for Benched Pok\u00e9mon.)"
               }
             ]
           },
           {
-            "name": "Photon Kinesis",
+            "name": "Forest Blast",
             "cost": [
-              "Psychic",
-              "Psychic"
+              "Grass",
+              "Grass",
+              "Grass",
+              "Colorless"
             ],
-            "damage": 10,
-            "text": "This attack does 30 more damage for each {P} Energy attached to all of your Pok\u00e9mon.",
-            "effects": [
-              {
-                "kind": "psychic_energy_bonus",
-                "per": 30
-              }
-            ]
+            "damage": 220,
+            "text": "",
+            "effects": []
           }
         ],
         "abilities": [],
         "weaknesses": [
           {
-            "type": "Fighting",
+            "type": "Fire",
             "value": "\u00d72"
           }
         ],
         "resistances": [],
-        "retreat": 2,
+        "retreat": 4,
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv04/058/low.webp",
-        "set_name": "Paradox Rift",
+        "image": "https://assets.tcgdex.net/en/sv/sv02/027/low.webp",
+        "set_name": "Paldea Evolved",
         "text": "",
-        "dex_id": 150
+        "dex_id": null
       },
       {
-        "catalog_id": "sv04-058",
-        "name": "Mewtwo ex",
+        "catalog_id": "sv02-027",
+        "name": "Wo-Chien ex",
         "category": "Pokemon",
         "stage": "Basic",
         "types": [
-          "Lightning"
+          "Grass"
         ],
         "hp": 230,
         "attacks": [
           {
-            "name": "Transfer Charge",
+            "name": "Covetous Ivy",
             "cost": [
-              "Psychic"
+              "Grass",
+              "Grass",
+              "Colorless"
             ],
             "damage": 0,
-            "text": "Attach up to 2 Basic {P} Energy cards from your discard pile to your Pok\u00e9mon in any way you like.",
+            "text": "This attack does 60 damage to 1 of your opponent's Benched Pok\u00e9mon for each Prize card your opponent has taken. (Don't apply Weakness and Resistance for Benched Pok\u00e9mon.)",
             "effects": [
               {
-                "kind": "transfer_charge",
-                "count": 2
+                "kind": "times",
+                "note": "This attack does 60 damage to 1 of your opponent's Benched Pok\u00e9mon for each Prize card your opponent has taken. (Don't apply Weakness and Resistance for Benched Pok\u00e9mon.)"
               }
             ]
           },
           {
-            "name": "Photon Kinesis",
+            "name": "Forest Blast",
             "cost": [
-              "Psychic",
-              "Psychic"
+              "Grass",
+              "Grass",
+              "Grass",
+              "Colorless"
             ],
-            "damage": 10,
-            "text": "This attack does 30 more damage for each {P} Energy attached to all of your Pok\u00e9mon.",
-            "effects": [
-              {
-                "kind": "psychic_energy_bonus",
-                "per": 30
-              }
-            ]
+            "damage": 220,
+            "text": "",
+            "effects": []
           }
         ],
         "abilities": [],
         "weaknesses": [
           {
-            "type": "Fighting",
+            "type": "Fire",
             "value": "\u00d72"
           }
         ],
         "resistances": [],
-        "retreat": 2,
+        "retreat": 4,
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv04/058/low.webp",
-        "set_name": "Paradox Rift",
+        "image": "https://assets.tcgdex.net/en/sv/sv02/027/low.webp",
+        "set_name": "Paldea Evolved",
         "text": "",
-        "dex_id": 150
+        "dex_id": null
       },
       {
         "catalog_id": "sv01-181",
@@ -5186,6 +5183,100 @@
         "trainer_kind": null,
         "energy_type": "Grass",
         "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/152/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      }
+    ]
+  },
+  "spare": {
+    "id": "seed-spare",
+    "name": "Spare Cards",
+    "sample": null,
+    "kind": "spare",
+    "cards": [
+      {
+        "catalog_id": "swsh11-168",
+        "name": "Tool Box",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/swsh/swsh11/168/low.webp",
+        "set_name": "Lost Origin",
+        "text": "Look at the top 7 cards of your deck. You may reveal any number of Pok\u00e9mon Tool cards you find there and put them into your hand. Shuffle the other cards back into your deck.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-158",
+        "name": "Darkness Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Darkness"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Darkness",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/158/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-152",
+        "name": "Grass Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Grass"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Grass",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/152/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-157",
+        "name": "Fighting Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Fighting"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Fighting",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/157/low.webp",
         "set_name": "Crown Zenith",
         "text": "",
         "dex_id": null

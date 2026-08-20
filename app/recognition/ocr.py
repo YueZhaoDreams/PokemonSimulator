@@ -119,6 +119,8 @@ def name_lexicon() -> list[str]:
         "Basic Psychic Energy",
         "Psychic Energy",
         "Grass Energy",
+        "Fighting Energy",
+        "Darkness Energy",
         "Jacq",
         "Tulip",
         "Gimmighoul",

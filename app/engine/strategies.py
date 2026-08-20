@@ -221,12 +221,13 @@ STRATEGY_LIBRARY = {
     "slash": StrategySpec(
         name="slash",
         description=(
-            "Set S Floragato hunter vs Charm Ogerpon: Nest Mewtwo as the 230 HP Demolish "
-            "sponge (no Ability). Evolve Sprigatito → Floragato. Slashing Claw 90 + Maximum "
-            "Belt 50 = 140, Grass Weakness ×2 = 280 OHKO on 260 Charm Ogerpon. Stance does "
-            "not block (Floragato has no Ability). Never end on 60/90 HP into Demolish — "
-            "stay on Mewtwo until Floragato can KO this turn. Cap one Sprigatito and one "
-            "Mewtwo in play; extras are Grass energy. ACE SPEC Belt; do not attach any other Tool."
+            "Set S Grass hunter vs Charm Ogerpon: Nest Wo-Chien ex as the 230 HP Grass "
+            "Demolish sponge (no Ability, so Stance does not block). Evolve Sprigatito → "
+            "Floragato. Slashing Claw 90 + Maximum Belt 50 = 140, Grass Weakness ×2 = 280 "
+            "OHKO. Forest Blast 220 ×2 = 440 is the backup KO. Never end on 60/90 HP into "
+            "Demolish — stay on Wo-Chien until a Grass attack KOs this turn. Cap one "
+            "Sprigatito and one Wo-Chien in play; extras are Grass energy. ACE SPEC Belt "
+            "on Floragato only. Paradox Rift Mewtwo is Lightning and cannot pay Photon here."
         ),
         prefer_damage=1.0,
         prefer_status=0.05,
@@ -235,11 +236,11 @@ STRATEGY_LIBRARY = {
         attach_pokemon_as_energy=0.95,
         item_spend=1.0,
         hold_as_energy=True,
-        protect=["Mewtwo ex", "Sprigatito", "Floragato"],
-        search_aces=["Mewtwo ex"],
+        protect=["Wo-Chien ex", "Sprigatito", "Floragato"],
+        search_aces=["Wo-Chien ex"],
         closers=["Floragato"],
         backups=["Sprigatito"],
-        insurance=["Mewtwo ex"],
+        insurance=["Wo-Chien ex"],
         insurance_bench=1,
         max_ace_copies=1,
     ),

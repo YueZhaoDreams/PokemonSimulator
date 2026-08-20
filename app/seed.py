@@ -7,7 +7,18 @@ from pathlib import Path
 from app.config import DATA_DIR, SAMPLES_DIR
 from app.engine.models import Card
 from app.recognition.images import dhash, load_image
-from app.seed_data import SET_A_NAMES, SET_B_NAMES, SET_C_NAMES, SET_D_NAMES, SET_S_NAMES, build_fallback_deck
+from app.seed_data import (
+    SET_A_NAMES,
+    SET_B_NAMES,
+    SET_C_NAMES,
+    SET_D_NAMES,
+    SET_S_NAMES,
+    SET_SPARE_NAMES,
+    build_fallback_deck,
+)
+
+LIST_KEYS = ("a", "b", "c", "d", "s")
+SEED_KEYS = (*LIST_KEYS, "spare")
 
 SEED_PATH = DATA_DIR / "seed_decks.json"
 SAMPLE_HASHES: dict[str, int] = {}
@@ -35,7 +46,9 @@ def _try_enrich(names: list[str], prefer: dict[str, list[str]] | None = None) ->
 def load_seed_deck(which: str) -> dict:
     decks = load_seed_payload()
     key = which.lower().replace("set-", "").replace("seed-", "")
-    key = {"1": "a", "2": "b", "3": "c", "4": "d", "5": "s"}.get(key, key)
+    key = {"1": "a", "2": "b", "3": "c", "4": "d", "5": "s", "6": "spare", "spare-cards": "spare", "p": "spare"}.get(
+        key, key
+    )
     if key not in decks:
         raise KeyError(f"unknown seed deck {which}")
     return decks[key]
@@ -45,7 +58,7 @@ def load_seed_payload() -> dict:
     if SEED_PATH.exists():
         data = json.loads(SEED_PATH.read_text())
         dirty = False
-        extra = _cd_payload(enrich=False)
+        extra = {**_cd_payload(enrich=False), **_spare_payload(enrich=False)}
         for key, blob in extra.items():
             if key not in data:
                 data[key] = blob
@@ -54,12 +67,18 @@ def load_seed_payload() -> dict:
         if "e" in data:
             del data["e"]
             dirty = True
+        spare = data.get("spare") or {}
+        if spare.get("kind") != "spare" or spare.get("name") != "Spare Cards" or spare.get("id") != "seed-spare":
+            spare = {**spare, "id": "seed-spare", "name": "Spare Cards", "kind": "spare", "sample": spare.get("sample")}
+            data["spare"] = spare
+            dirty = True
         for key, names in (
             ("a", SET_A_NAMES),
             ("b", SET_B_NAMES),
             ("c", SET_C_NAMES),
             ("d", SET_D_NAMES),
             ("s", SET_S_NAMES),
+            ("spare", SET_SPARE_NAMES),
         ):
             have = [c.get("name") for c in (data.get(key) or {}).get("cards") or []]
             want = list(names)
@@ -191,20 +210,36 @@ def _cd_payload(enrich: bool = True) -> dict:
             "id": "seed-c",
             "name": "Set C (Clefairy / Mewtwo)",
             "sample": None,
+            "kind": "list",
             "cards": [c.to_dict() if isinstance(c, Card) else c for c in cards_c],
         },
         "d": {
             "id": "seed-d",
             "name": "Set D (Charm Ogerpon)",
             "sample": None,
+            "kind": "list",
             "cards": [c.to_dict() if isinstance(c, Card) else c for c in cards_d],
         },
         "s": {
             "id": "seed-s",
             "name": "Set S (Floragato hunter)",
             "sample": None,
+            "kind": "list",
             "cards": [c.to_dict() if isinstance(c, Card) else c for c in cards_s],
         },
+    }
+
+
+def _spare_payload(enrich: bool = True) -> dict:
+    cards = _repeat_named_cards(list(SET_SPARE_NAMES), enrich)
+    return {
+        "spare": {
+            "id": "seed-spare",
+            "name": "Spare Cards",
+            "sample": None,
+            "kind": "spare",
+            "cards": [c.to_dict() if isinstance(c, Card) else c for c in cards],
+        }
     }
 
 
@@ -257,22 +292,26 @@ def build_seed_payload(enrich: bool = True) -> dict:
             pass
     cards_b = _assign_named_prints(cards_b, "Pikachu", [shock, nuzzle])
     cd = _cd_payload(enrich=enrich)
+    spare = _spare_payload(enrich=enrich)
     payload = {
         "a": {
             "id": "seed-a",
             "name": "Carpet Set A (Dondozo)",
             "sample": "set-a-web.jpg",
+            "kind": "list",
             "cards": [c.to_dict() if isinstance(c, Card) else c for c in cards_a],
         },
         "b": {
             "id": "seed-b",
             "name": "Carpet Set B (Pikachu shock)",
             "sample": "set-b-web.jpg",
+            "kind": "list",
             "cards": [c.to_dict() if isinstance(c, Card) else c for c in cards_b],
         },
         "c": cd["c"],
         "d": cd["d"],
         "s": cd["s"],
+        "spare": spare["spare"],
         "hashes": {},
     }
     _refresh_hashes(payload)

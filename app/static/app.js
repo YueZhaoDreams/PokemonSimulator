@@ -48,11 +48,13 @@ async function boot() {
 }
 
 function fillFight() {
+  const lists = state.decks.filter((d) => d.kind !== "spare");
   for (const id of ["deckA", "deckB"]) {
     const sel = $(`#${id}`);
     sel.innerHTML = state.decks.map((d) => `<option value="${d.id}">${d.name} (${d.count})</option>`).join("");
   }
-  if (state.decks[1]) $("#deckB").value = state.decks[1].id;
+  if (lists[0]) $("#deckA").value = lists[0].id;
+  if (lists[1]) $("#deckB").value = lists[1].id;
   for (const id of ["stratA", "stratB"]) {
     $(`#${id}`).innerHTML = state.strategies.map((s) => `<option value="${s.name}">${s.name}</option>`).join("");
   }
@@ -140,7 +142,7 @@ function renderDecks() {
   $("#deckList").innerHTML = state.decks.map((d) => `
     <div class="panel">
       <div class="list-item">
-        <div><b>${d.name}</b><div class="tiny">${d.count} cards · ${d.id}</div></div>
+        <div><b>${d.name}</b><div class="tiny">${d.count} cards · ${d.kind === "spare" ? "leftover pile" : d.id}</div></div>
       </div>
       <div class="grid">
         ${d.cards.map((c) => `

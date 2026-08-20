@@ -24,6 +24,7 @@ ENERGY_NAME_TO_TYPE = {
     "psychic energy": "Psychic",
     "fighting energy": "Fighting",
     "darkness energy": "Darkness",
+    "dark energy": "Darkness",
     "metal energy": "Metal",
     "fairy energy": "Fairy",
     "basic grass energy": "Grass",
@@ -33,6 +34,7 @@ ENERGY_NAME_TO_TYPE = {
     "basic psychic energy": "Psychic",
     "basic fighting energy": "Fighting",
     "basic darkness energy": "Darkness",
+    "basic dark energy": "Darkness",
     "basic metal energy": "Metal",
 }
 
@@ -92,6 +94,7 @@ PREFERRED_IDS = {
     "Clefable ex": "sv03-082",
     "Mega Clefable ex": "me03-031",
     "Mewtwo ex": "sv04-058",
+    "Wo-Chien ex": "sv02-027",
     "Sprigatito": "sv01-013",  # Paldea Evolved Scratch / Leafage
     "Floragato": "sv01-014",  # Paldea Evolved art; engine keeps Slashing Claw 90
     "Jacq": "sv01-175",
@@ -152,6 +155,7 @@ PRINT_PREFER = {
     "Clefable ex": ["lunar zone"],
     "Mega Clefable ex": ["luminous wing", "shooting moons"],
     "Mewtwo ex": ["photon kinesis", "transfer charge"],
+    "Wo-Chien ex": ["forest blast", "covetous ivy"],
     "Floragato": ["slashing claw"],
     "Sprigatito": ["leafage", "scratch"],
     "Cornerstone Mask Ogerpon ex": ["demolish", "cornerstone stance"],

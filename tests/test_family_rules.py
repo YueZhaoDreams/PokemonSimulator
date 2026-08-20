@@ -1,7 +1,7 @@
 from app.engine.models import default_family_rules
 from app.engine.strategies import StrategySpec
 from app.engine.trades import _needs, suggest_trades
-from app.seed_data import SET_A_NAMES, SET_B_NAMES, SET_C_NAMES, SET_D_NAMES, SET_S_NAMES, build_fallback_deck
+from app.seed_data import SET_A_NAMES, SET_B_NAMES, SET_C_NAMES, SET_D_NAMES, SET_S_NAMES, SET_SPARE_NAMES, build_fallback_deck
 
 
 def test_seed_counts():
@@ -10,6 +10,7 @@ def test_seed_counts():
     assert len(SET_C_NAMES) == 30
     assert len(SET_D_NAMES) == 30
     assert len(SET_S_NAMES) == 30
+    assert len(SET_SPARE_NAMES) == 4
     a = build_fallback_deck(SET_A_NAMES)
     b = build_fallback_deck(SET_B_NAMES)
     assert sum(1 for c in a if c.name == "Dondozo") == 1
@@ -66,7 +67,7 @@ def test_seed_decks_have_images():
     from app.seed import load_seed_payload
 
     data = load_seed_payload()
-    for key in ("a", "b", "c", "d", "s"):
+    for key in ("a", "b", "c", "d", "s", "spare"):
         for card in data[key]["cards"]:
             assert card.get("image"), f"{key} {card['name']} {card.get('catalog_id')} has no image"
             assert str(card["image"]).startswith("http")
@@ -86,12 +87,16 @@ def test_seed_decks_include_set_c_and_d():
     assert data["c"]["id"] == "seed-c"
     assert data["d"]["id"] == "seed-d"
     assert data["s"]["id"] == "seed-s"
+    assert data["spare"]["id"] == "seed-spare"
+    assert data["spare"]["kind"] == "spare"
+    assert data["spare"]["name"] == "Spare Cards"
     assert len(c_names) == 30
     assert len(d_names) == 30
     assert len(s_names) == 30
     assert s_names.count("Sprigatito") == 4
     assert s_names.count("Floragato") == 4
-    assert s_names.count("Mewtwo ex") == 3
+    assert s_names.count("Wo-Chien ex") == 3
+    assert s_names.count("Mewtwo ex") == 0
     assert s_names.count("Maximum Belt") == 1
     assert s_names.count("Switch") == 3
     assert s_names.count("Muscle Band") == 0
@@ -118,6 +123,8 @@ def test_seed_decks_include_set_c_and_d():
     assert d_names.count("Cornerstone Mask Ogerpon ex") == 4
     assert d_names.count("Double Colorless Energy") == 4
     assert d_names.count("Fighting Energy") == 8
+    spare_names = [c["name"] for c in data["spare"]["cards"]]
+    assert spare_names == ["Tool Box", "Darkness Energy", "Grass Energy", "Fighting Energy"]
 
 
 def test_set_b_has_orphan_evolutions():
