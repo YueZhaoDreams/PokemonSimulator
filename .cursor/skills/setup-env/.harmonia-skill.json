@@ -1,0 +1,29 @@
+{
+  "repoId": "YueZhaoDreams/PokemonSimulator",
+  "skillType": "setup-env",
+  "sourceTemplateId": "setup-env",
+  "sourceTemplateVersion": "1.0.0",
+  "generationStatus": "generated",
+  "dependencies": [],
+  "orchestrationHints": [
+    "Run when bootstrap indicates the environment may not be ready.",
+    "Keep environment preparation focused on prerequisites for the current task."
+  ],
+  "lastGeneratedAt": "2026-08-20T22:58:08.502410+00:00",
+  "createdAt": "2026-08-20T22:58:08.502407+00:00",
+  "updatedAt": "2026-08-20T22:58:08.502410+00:00",
+  "metadata": {
+    "templateName": "Setup Environment",
+    "templateDescription": "Verify the repo environment, dependencies, and tooling before making changes.",
+    "generationRevision": 1,
+    "repoContext": {
+      "repoId": "YueZhaoDreams/PokemonSimulator",
+      "repoName": "PokemonSimulator",
+      "configuredRepo": "YueZhaoDreams/PokemonSimulator",
+      "defaultBaseBranch": "main",
+      "language": "python",
+      "service": "family-cup-simulator",
+      "purpose": "family Pok\u00e9mon TCG simulator with scan, chat, Monte Carlo lab, and printed-card-text engine"
+    }
+  }
+}

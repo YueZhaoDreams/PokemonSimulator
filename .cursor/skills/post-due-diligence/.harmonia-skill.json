@@ -1,0 +1,30 @@
+{
+  "repoId": "YueZhaoDreams/PokemonSimulator",
+  "skillType": "post-due-diligence",
+  "sourceTemplateId": "post-due-diligence",
+  "sourceTemplateVersion": "1.1.0",
+  "generationStatus": "generated",
+  "dependencies": [],
+  "orchestrationHints": [
+    "Run after compile-test-fix-loop, not before it.",
+    "Use this step for repo-specific checks that depend on the final implementation.",
+    "When called by an orchestrator, the PR closure loop still follows \u2014 do not pop out after this step."
+  ],
+  "lastGeneratedAt": "2026-08-20T22:58:08.504377+00:00",
+  "createdAt": "2026-08-20T22:58:08.504375+00:00",
+  "updatedAt": "2026-08-20T22:58:08.504378+00:00",
+  "metadata": {
+    "templateName": "Post Due Diligence",
+    "templateDescription": "Run repo-specific follow-up checks after the main fix loop completes. When invoked by fix-jira-issue or fix-feature, this is not a handoff \u2014 return to the orchestrator for PR submission and the mandatory PR closure loop.",
+    "generationRevision": 1,
+    "repoContext": {
+      "repoId": "YueZhaoDreams/PokemonSimulator",
+      "repoName": "PokemonSimulator",
+      "configuredRepo": "YueZhaoDreams/PokemonSimulator",
+      "defaultBaseBranch": "main",
+      "language": "python",
+      "service": "family-cup-simulator",
+      "purpose": "family Pok\u00e9mon TCG simulator with scan, chat, Monte Carlo lab, and printed-card-text engine"
+    }
+  }
+}

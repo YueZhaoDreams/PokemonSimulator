@@ -1,0 +1,40 @@
+{
+  "repoId": "YueZhaoDreams/PokemonSimulator",
+  "skillType": "fix-jira-issue",
+  "sourceTemplateId": "fix-jira-issue",
+  "sourceTemplateVersion": "1.8.1",
+  "generationStatus": "generated",
+  "dependencies": [
+    "setup-env",
+    "compile-test-fix-loop",
+    "post-due-diligence"
+  ],
+  "orchestrationHints": [
+    "Use this skill as the main prompt payload for Jira issue execution.",
+    "When invoked without a Jira key, treat the slash-command remainder as the task description.",
+    "Include dependency summaries so humans can understand the planned flow.",
+    "The session is incomplete until the PR merges or a concrete blocker is documented \u2014 poll checks and reviews like a long-running agent.",
+    "Run the local Bugbot review loop on branch changes before push (Cursor `/review-bugbot`, Codex `bugbot` subagent); fix actionable findings and re-validate until clean.",
+    "Copilot feedback loop = validate locally (compile-test-fix-loop \u2192 post-due-diligence \u2192 Bugbot) before every push.",
+    "If structural debt blocks completion, create a Jira refactor follow-up instead of invoking another code-changing skill."
+  ],
+  "lastGeneratedAt": "2026-08-20T22:58:08.502762+00:00",
+  "createdAt": "2026-08-20T22:58:08.502729+00:00",
+  "updatedAt": "2026-08-20T22:58:08.502764+00:00",
+  "metadata": {
+    "templateName": "Fix Jira Issue",
+    "templateDescription": "Orchestrate the end-to-end issue resolution flow by invoking the supporting Harmonia skills in order. Jira issue key is optional for manual invocation.",
+    "generationRevision": 1,
+    "repoContext": {
+      "repoId": "YueZhaoDreams/PokemonSimulator",
+      "repoName": "PokemonSimulator",
+      "configuredRepo": "YueZhaoDreams/PokemonSimulator",
+      "defaultBaseBranch": "main",
+      "language": "python",
+      "service": "family-cup-simulator",
+      "purpose": "family Pok\u00e9mon TCG simulator with scan, chat, Monte Carlo lab, and printed-card-text engine"
+    },
+    "prClosureFingerprint": "e03fa3e387d60e6b",
+    "localReviewFingerprint": "c6c17d1f06ed37e1"
+  }
+}

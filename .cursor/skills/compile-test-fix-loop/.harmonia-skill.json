@@ -1,0 +1,31 @@
+{
+  "repoId": "YueZhaoDreams/PokemonSimulator",
+  "skillType": "compile-test-fix-loop",
+  "sourceTemplateId": "compile-test-fix-loop",
+  "sourceTemplateVersion": "1.0.0",
+  "generationStatus": "generated",
+  "dependencies": [],
+  "orchestrationHints": [
+    "Use before post-due-diligence so compile, targeted tests, and broad validation converge before extra repo-specific checks.",
+    "Always establish the compile/build step first, even if the repo later turns out to have no separate compile command.",
+    "Keep each loop iteration tied to one hypothesis and one category of failure.",
+    "When invoked from fix-jira-issue or fix-feature, finishing this loop is not session completion \u2014 the orchestrator continues into PR open and review polling."
+  ],
+  "lastGeneratedAt": "2026-08-20T22:58:08.502104+00:00",
+  "createdAt": "2026-08-20T22:58:08.502100+00:00",
+  "updatedAt": "2026-08-20T22:58:08.502105+00:00",
+  "metadata": {
+    "templateName": "Compile Test Fix Loop",
+    "templateDescription": "Run a strict build-then-test fix loop that separates compile failures from logic failures, requires explicit root-cause analysis, and ends with broader validation plus prevention notes.",
+    "generationRevision": 1,
+    "repoContext": {
+      "repoId": "YueZhaoDreams/PokemonSimulator",
+      "repoName": "PokemonSimulator",
+      "configuredRepo": "YueZhaoDreams/PokemonSimulator",
+      "defaultBaseBranch": "main",
+      "language": "python",
+      "service": "family-cup-simulator",
+      "purpose": "family Pok\u00e9mon TCG simulator with scan, chat, Monte Carlo lab, and printed-card-text engine"
+    }
+  }
+}

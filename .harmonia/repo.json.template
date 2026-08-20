@@ -1,0 +1,8 @@
+{
+  "pr_closure": {
+    "copilot_required": false,
+    "copilot_min_polls": 8,
+    "copilot_poll_interval_seconds": 90,
+    "copilot_min_wait_after_push_minutes": 10
+  }
+}

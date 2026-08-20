@@ -1,0 +1,30 @@
+{
+  "repoId": "YueZhaoDreams/PokemonSimulator",
+  "skillType": "create-features-for-epic",
+  "sourceTemplateId": "create-features-for-epic",
+  "sourceTemplateVersion": "1.0.2",
+  "generationStatus": "generated",
+  "dependencies": [],
+  "orchestrationHints": [
+    "Plan-only \u2014 no coding or PRs.",
+    "Outputs breakdown.json and draft slice specs under docs/features/.",
+    "Pairs with implement-epic-features (multi-slice) or fix-feature (single slice) after human approval."
+  ],
+  "lastGeneratedAt": "2026-08-20T22:58:08.503590+00:00",
+  "createdAt": "2026-08-20T22:58:08.503589+00:00",
+  "updatedAt": "2026-08-20T22:58:08.503591+00:00",
+  "metadata": {
+    "templateName": "Create Features For Epic",
+    "templateDescription": "Plan-only: read an epic spec and produce breakdown.json plus draft docs/features slice specs. Do not implement code or open PRs.",
+    "generationRevision": 1,
+    "repoContext": {
+      "repoId": "YueZhaoDreams/PokemonSimulator",
+      "repoName": "PokemonSimulator",
+      "configuredRepo": "YueZhaoDreams/PokemonSimulator",
+      "defaultBaseBranch": "main",
+      "language": "python",
+      "service": "family-cup-simulator",
+      "purpose": "family Pok\u00e9mon TCG simulator with scan, chat, Monte Carlo lab, and printed-card-text engine"
+    }
+  }
+}
