@@ -161,7 +161,10 @@ STRATEGY_LIBRARY = {
             "Set B chip line: Thunder Shock Pikachu or Electrike (damage + paralysis), "
             "keep Nuzzle Pikachu in hand as Lightning energy, bench Plusle as the closer. "
             "After about 80 damage, Plusle's Plus Damage is (damage + 10) × 2 into "
-            "Dondozo's weakness and finishes the 20 HP Volt Tackle cannot."
+            "Dondozo's weakness and finishes the 20 HP Volt Tackle cannot. "
+            "Play one Roselia: extra Grass Energy pays Soothing Scent [G] to sleep-lock "
+            "when Thunder Shock is not ready. Play one Spinarak: Darkness Energy pays "
+            "Poison Sting [D] (10 + Poison); poison ticks stack with paralysis."
         ),
         prefer_damage=0.7,
         prefer_status=0.9,
@@ -170,7 +173,7 @@ STRATEGY_LIBRARY = {
         attach_pokemon_as_energy=0.95,
         item_spend=0.2,
         hold_as_energy=True,
-        protect=["Pikachu", "Plusle"],
+        protect=["Pikachu", "Plusle", "Roselia", "Spinarak"],
         search_aces=["Pikachu", "Electrike"],
         status_targets=["Dondozo", "Wailmer", "Orthworm"],
         backups=["Electrike"],

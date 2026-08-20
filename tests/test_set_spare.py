@@ -7,16 +7,16 @@ from app.seed_data import SET_SPARE_NAMES, build_fallback_deck
 def test_spare_is_a_leftover_pile_not_a_thirty():
     assert SET_SPARE_NAMES == [
         "Tool Box",
-        "Darkness Energy",
-        "Grass Energy",
+        "Lickilicky",
+        "Aipom",
         "Fighting Energy",
     ]
     assert len(SET_SPARE_NAMES) == 4
     pile = build_fallback_deck(list(SET_SPARE_NAMES))
     assert [c.name for c in pile] == SET_SPARE_NAMES
     assert pile[0].category == "Trainer"
-    assert pile[1].energy_type == "Darkness"
-    assert pile[2].energy_type == "Grass"
+    assert pile[1].name == "Lickilicky"
+    assert pile[2].name == "Aipom"
     assert pile[3].energy_type == "Fighting"
 
 

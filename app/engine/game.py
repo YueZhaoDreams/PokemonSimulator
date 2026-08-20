@@ -310,6 +310,13 @@ class Game:
             # One attacker to evolve; extras are Grass energy.
             return copies < 1
 
+        if strat.name == "shock" and name == "roselia":
+            # One sleeper; extra Grass Energy pays Soothing Scent.
+            return copies < 1
+        if strat.name == "shock" and name == "spinarak":
+            # One Poison Sting; Darkness Energy pays it.
+            return copies < 1
+
         # Ace is prized or otherwise gone — this backup is now the attacker.
         if name in backups and not ace_reachable:
             return copies < 1 and fallback_out < 1
@@ -364,6 +371,21 @@ class Game:
                 return 2000 + self._print_value(card, strat)
             if slash and name == "sprigatito":
                 return 1500
+            if strat.name == "shock" and name == "spinarak":
+                # 50 HP dies to Hydro Splash — do not open on it. Poison from the bench / after a KO.
+                dark = any(
+                    player.card(j).name.lower() == "darkness energy"
+                    or "darkness" in [t.lower() for t in (player.card(j).types or [])]
+                    for j in player.hand
+                )
+                return 200 if dark else 90
+            if strat.name == "shock" and name == "roselia":
+                grass = any(
+                    player.card(j).name.lower() == "grass energy"
+                    or "grass" in [t.lower() for t in (player.card(j).types or [])]
+                    for j in player.hand
+                )
+                return 800 if grass else 100
             if glass and name in closers:
                 return 2000 + self._print_value(card, strat)
             if name in aces:
@@ -1346,13 +1368,14 @@ class Game:
                 "Lightning": ["Mewtwo ex", "Pikachu", "Electrike", "Emolga", "Plusle"],
                 "Fire": ["Slugma", "Litwick", "Crocalor", "Salazzle"],
                 "Grass": ["Roselia", "Tangela", "Oddish"],
+                "Darkness": ["Spinarak"],
                 "Fighting": ["Cornerstone Mask Ogerpon ex", "Rockruff", "Relicanth", "Carbink"],
             }
             for et in need:
                 prefer.extend(type_prefer.get(et, []))
         prefer.extend(self._pokemon_search_prefer(me, who))
         if who == "b":
-            prefer = prefer + ["Grass Energy", "Pikachu", "Electrike", "Emolga"]
+            prefer = prefer + ["Grass Energy", "Darkness Energy", "Pikachu", "Electrike", "Emolga"]
         else:
             prefer = prefer + ["Psychic Energy", "Dondozo", "Orthworm", "Flutter Mane"]
         return list(dict.fromkeys(prefer))
@@ -1628,6 +1651,8 @@ class Game:
             return me.active
         if strat.name == "slash":
             return self._slash_energy_target(me)
+        if strat.name == "shock":
+            return self._shock_energy_target(me)
         if strat.name == "invisible":
             for mon in me.in_play():
                 if not self._is_orthworm(me.card(mon.card_i)):
@@ -1744,6 +1769,9 @@ class Game:
             return
         if strat.name == "slash":
             self._retreat_slash(me, foe, who)
+            return
+        if strat.name == "shock":
+            self._retreat_shock(me, foe, who)
             return
         if strat.name == "demolish":
             self._retreat_demolish(me, who)
@@ -2152,6 +2180,20 @@ class Game:
                 if name == "sprigatito":
                     return 3
                 return 9
+            if strat.name == "shock":
+                if self._shock_chip_ready(player, mon):
+                    return 0
+                if self._roselia_can_scent(player, mon):
+                    return 1
+                if self._spinarak_can_sting(player, mon):
+                    return 2
+                if name == "roselia":
+                    return 3
+                if name == "plusle":
+                    return 4
+                if name == "spinarak":
+                    return 5
+                return 9
             if strat.name == "party" and storm:
                 if self._is_clefairy(player.card(mon.card_i)):
                     if self._can_pay_wonder_storm(player, mon):
@@ -2222,6 +2264,12 @@ class Game:
 
     def _is_sprigatito(self, card: Card) -> bool:
         return card.name.lower() == "sprigatito"
+
+    def _is_roselia(self, card: Card) -> bool:
+        return card.name.lower() == "roselia"
+
+    def _is_spinarak(self, card: Card) -> bool:
+        return card.name.lower() == "spinarak"
 
     def _is_tool_card(self, card: Card) -> bool:
         name = card.name.lower()
@@ -3436,6 +3484,118 @@ class Game:
         for idx, mon in enumerate(me.bench):
             if self._is_slash_tank(me.card(mon.card_i)):
                 self._swap_to_bench(me, who, idx, allow_paid=True)
+                return
+
+    def _is_shock_chipper(self, card: Card) -> bool:
+        return any(atk.damage >= 20 and "paralyze" in (atk.text or "").lower() for atk in card.attacks)
+
+    def _shock_chip_ready(self, me: Player, mon: Pokemon) -> bool:
+        card = me.card(mon.card_i)
+        attached = self._energy_pool(me, mon)
+        return any(
+            can_pay_energy(attached, atk.cost) and atk.damage >= 20 and "paralyze" in (atk.text or "").lower()
+            for atk in card.attacks
+        )
+
+    def _roselia_can_scent(self, me: Player, mon: Pokemon) -> bool:
+        card = me.card(mon.card_i)
+        if not self._is_roselia(card):
+            return False
+        atk = next((a for a in card.attacks if "soothing scent" in a.name.lower()), None)
+        return atk is not None and can_pay_energy(self._energy_pool(me, mon), atk.cost)
+
+    def _spinarak_can_sting(self, me: Player, mon: Pokemon) -> bool:
+        card = me.card(mon.card_i)
+        if not self._is_spinarak(card):
+            return False
+        atk = next((a for a in card.attacks if "poison sting" in a.name.lower()), None)
+        return atk is not None and can_pay_energy(self._energy_pool(me, mon), atk.cost)
+
+    def _shock_hand_has_type(self, me: Player, energy_type: str, who: str) -> bool:
+        strat = self.strats[who]
+        for i in me.hand:
+            card = me.card(i)
+            if (card.as_energy_type or "") != energy_type:
+                continue
+            if card.is_energy:
+                return True
+            if card.is_pokemon and not self._is_protected_from_energy(me, card, strat):
+                return True
+        return False
+
+    def _shock_energy_target(self, me: Player) -> Pokemon:
+        """Pay Thunder Shock, then Poison Sting, then Soothing Scent, then Plusle."""
+        assert me.active
+        who = "a" if me.name == "A" else "b"
+        if self._is_shock_chipper(me.card(me.active.card_i)) and not self._shock_chip_ready(me, me.active):
+            pool = self._energy_pool(me, me.active)
+            if self._shock_hand_has_type(me, "Lightning", who) or (
+                "Lightning" in pool and any(me.card(i).is_energy or me.card(i).is_pokemon for i in me.hand)
+            ):
+                return me.active
+        if self._is_spinarak(me.card(me.active.card_i)) and not self._spinarak_can_sting(me, me.active):
+            return me.active
+        if self._is_roselia(me.card(me.active.card_i)) and not self._roselia_can_scent(me, me.active):
+            return me.active
+        for mon in me.bench:
+            if self._is_shock_chipper(me.card(mon.card_i)) and not self._shock_chip_ready(me, mon):
+                if self._shock_hand_has_type(me, "Lightning", who):
+                    return mon
+        bugs = [m for m in me.in_play() if self._is_spinarak(me.card(m.card_i)) and not self._spinarak_can_sting(me, m)]
+        if bugs:
+            return bugs[0]
+        for mon in me.bench:
+            if self._is_shock_chipper(me.card(mon.card_i)) and not self._shock_chip_ready(me, mon):
+                return mon
+        roses = [m for m in me.in_play() if self._is_roselia(me.card(m.card_i)) and not self._roselia_can_scent(me, m)]
+        if roses:
+            return roses[0]
+        for mon in me.bench:
+            if me.card(mon.card_i).name.lower() == "plusle":
+                if not can_pay_energy(self._energy_pool(me, mon), ["Colorless", "Colorless"]):
+                    return mon
+        return me.active
+
+    def _retreat_shock(self, me: Player, foe: Player, who: str) -> None:
+        if not me.active or not me.bench:
+            return
+        if foe.active:
+            foe_hp = max(0, self._max_hp(foe, foe.active) - foe.active.damage)
+            for idx, mon in enumerate(me.bench):
+                if me.card(mon.card_i).name.lower() != "plusle":
+                    continue
+                for atk in me.card(mon.card_i).attacks:
+                    if not can_pay_energy(self._energy_pool(me, mon), atk.cost):
+                        continue
+                    if self._effective_damage_for(me, foe, mon, atk) >= foe_hp > 0:
+                        self._do_retreat_into(me, idx)
+                        return
+        if self._shock_chip_ready(me, me.active):
+            return
+        poisoned = bool(foe.active and foe.active.status & ST_POISONED)
+        if self._spinarak_can_sting(me, me.active) and not poisoned:
+            for idx, mon in enumerate(me.bench):
+                if self._shock_chip_ready(me, mon):
+                    self._do_retreat_into(me, idx)
+                    return
+            return
+        if self._roselia_can_scent(me, me.active):
+            for idx, mon in enumerate(me.bench):
+                if self._shock_chip_ready(me, mon):
+                    self._do_retreat_into(me, idx)
+                    return
+            return
+        for idx, mon in enumerate(me.bench):
+            if self._shock_chip_ready(me, mon):
+                self._do_retreat_into(me, idx)
+                return
+        for idx, mon in enumerate(me.bench):
+            if self._spinarak_can_sting(me, mon) and not poisoned:
+                self._do_retreat_into(me, idx)
+                return
+        for idx, mon in enumerate(me.bench):
+            if self._roselia_can_scent(me, mon):
+                self._do_retreat_into(me, idx)
                 return
 
     def _orthworm_can_ko(self, me: Player, foe: Player, mon: Pokemon) -> bool:
