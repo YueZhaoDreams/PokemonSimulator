@@ -92,9 +92,9 @@ PREFERRED_IDS = {
     "Clefable ex": "sv03-082",
     "Mega Clefable ex": "me03-031",
     "Mewtwo ex": "sv04-058",
-    "Sprigatito": "sv03-013",
-    "Floragato": "sv03-014",
-    "Jacq": "sv03-175",
+    "Sprigatito": "sv01-013",  # Paldea Evolved Scratch / Leafage
+    "Floragato": "sv01-014",  # Paldea Evolved art; engine keeps Slashing Claw 90
+    "Jacq": "sv01-175",
     "Buddy-Buddy Poffin": "sv05-144",
     "Maximum Belt": "sv05-154",
     "Muscle Band": "xy1-121",
@@ -111,7 +111,7 @@ PREFERRED_IDS = {
     "Nest Ball": "sv01-181",
     "Bravery Charm": "sv02-173",
     "Acerola": "sm3-112",
-    "Double Colorless Energy": "sm3.5-69",
+    "Double Colorless Energy": "sm1-136",
     "Dusclops": "swsh12.5-063",  # Fade to Black / Confused (Crown Zenith) — not Brilliant Stars
     "Spinarak": "swsh11-112",  # Darkness Poison Sting 10 (Lost Origin) — not Pokémon GO Grass
     "Bronzor": "swsh11-125",  # Spinning Attack 10, HP 70 (Lost Origin)
@@ -497,15 +497,41 @@ def resolve_name(name: str, prefer: list[str] | None = None, ocr_text: str | Non
     return best
 
 
+# Crown Zenith basic energy — one print per type, with TCGDex art.
+ENERGY_PRINTS = {
+    "Grass": "swsh12.5-152",
+    "Fire": "swsh12.5-153",
+    "Water": "swsh12.5-154",
+    "Lightning": "swsh12.5-155",
+    "Psychic": "swsh12.5-156",
+    "Fighting": "swsh12.5-157",
+    "Darkness": "swsh12.5-158",
+    "Metal": "swsh12.5-159",
+}
+
+# Keep fallback attack text, overlay this catalog art (wrong print would break Set S OHKO).
+ART_ONLY_IDS = {
+    "Floragato": "sv01-014",
+}
+
+
+def _tcgdex_low(card_id: str) -> str:
+    series, number = card_id.split("-", 1)
+    folder = "swsh" if series.startswith("swsh") else "sv" if series.startswith("sv") else "sm" if series.startswith("sm") else series
+    return f"https://assets.tcgdex.net/en/{folder}/{series}/{number}/low.webp"
+
+
 def energy_card(energy_type: str) -> Card:
+    print_id = ENERGY_PRINTS.get(energy_type)
     return Card(
-        catalog_id=f"energy-{energy_type.lower()}",
+        catalog_id=print_id or f"energy-{energy_type.lower()}",
         name=f"{energy_type} Energy",
         category="Energy",
         stage="Basic",
         types=[energy_type],
         energy_type=energy_type,
-        image=None,
+        image=_tcgdex_low(print_id) if print_id else None,
+        set_name="Crown Zenith" if print_id else None,
         retreat=0,
     )
 

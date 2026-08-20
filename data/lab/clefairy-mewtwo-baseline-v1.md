@@ -340,3 +340,7 @@ Mr. Mime is a **meta card**: excellent vs this engine, often weak vs decks that 
 **Do not change this 28 without a same-simulator proof that the new list is stronger.**
 
 Frozen counts **v3**: **4 / 2 / 4 / 4 / 3** Pokémon, plus **2 Nest Ball / 1 Belt / 1 Tool Box / 3 Energy Search / 3 Hop / 1 Arven**.
+
+## 30-card Family Cup (2026-08-20)
+
+The household rule is now **30**, not 28. This list was not retuned; it gained **2 Psychic Energy** so Moon-Watching Party has printed energy to find. Vs Charm Ogerpon on seed `20260819` (3k, `party` vs `demolish`): **60.2%** random. See [clefairy-ogerpon-sim.md](clefairy-ogerpon-sim.md) and the A–S table in [toolbox-vs-muscle-band.md](toolbox-vs-muscle-band.md).

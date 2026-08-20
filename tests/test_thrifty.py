@@ -102,7 +102,7 @@ def test_thrifty_holds_filler_items_when_ace_is_in_play():
     me = game.players["a"]
     me.active = Pokemon(card_i=_idx(me, "Dondozo"), played_turn=0)
     me.bench = []
-    me.hand = [_idx(me, "Trekking Shoes"), _idx(me, "Tool Box"), _idx(me, "Energy Switch")]
+    me.hand = [_idx(me, "Trekking Shoes"), _idx(me, "Energy Switch"), _idx(me, "Lake Acuity")]
     assert game._pick_trainer(me) is None
 
 
@@ -111,10 +111,10 @@ def test_balanced_still_plays_filler_items():
     me = game.players["a"]
     me.active = Pokemon(card_i=_idx(me, "Dondozo"), played_turn=0)
     me.bench = []
-    me.hand = [_idx(me, "Trekking Shoes"), _idx(me, "Tool Box")]
+    me.hand = [_idx(me, "Trekking Shoes"), _idx(me, "Energy Switch")]
     picked = game._pick_trainer(me)
     assert picked is not None
-    assert me.card(picked).name in {"Trekking Shoes", "Tool Box"}
+    assert me.card(picked).name in {"Trekking Shoes", "Energy Switch"}
 
 
 def test_swallow_look_three_leaves_the_rest_in_deck():

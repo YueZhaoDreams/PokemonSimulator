@@ -6,8 +6,8 @@ from app.engine.strategies import StrategySpec
 from app.seed_data import SET_D_NAMES, SET_S_NAMES, build_fallback_deck
 
 
-def test_set_s_is_28_and_ace_legal():
-    assert len(SET_S_NAMES) == 28
+def test_set_s_is_30_and_ace_legal():
+    assert len(SET_S_NAMES) == 30
     s = build_fallback_deck(list(SET_S_NAMES))
     assert sum(1 for x in s if x.name == "Sprigatito") == 4
     assert sum(1 for x in s if x.name == "Floragato") == 4
@@ -15,9 +15,11 @@ def test_set_s_is_28_and_ace_legal():
     assert sum(1 for x in s if x.name == "Maximum Belt") == 1
     assert sum(1 for x in s if x.name == "Switch") == 3
     assert sum(1 for x in s if x.name == "Muscle Band") == 0
+    assert sum(1 for x in s if x.name == "Grass Energy") == 2
     flora = next(c for c in s if c.name == "Floragato")
     assert flora.evolves_from == "Sprigatito"
     assert not flora.abilities
+    assert flora.image
     claw = next(a for a in flora.attacks if a.name == "Slashing Claw")
     assert claw.damage == 90
     assert claw.cost == ["Grass", "Colorless"]

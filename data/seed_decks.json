@@ -928,7 +928,7 @@
         "dex_id": 705
       },
       {
-        "catalog_id": "energy-psychic",
+        "catalog_id": "swsh12.5-156",
         "name": "Psychic Energy",
         "category": "Energy",
         "stage": "Basic",
@@ -944,8 +944,74 @@
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": "Psychic",
-        "image": null,
-        "set_name": null,
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/156/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-156",
+        "name": "Psychic Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Psychic",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/156/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-154",
+        "name": "Water Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Water"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Water",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/154/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-159",
+        "name": "Metal Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Metal"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Metal",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/159/low.webp",
+        "set_name": "Crown Zenith",
         "text": "",
         "dex_id": null
       },
@@ -1027,26 +1093,6 @@
         "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/129/low.webp",
         "set_name": "Crown Zenith",
         "text": "Move a basic Energy from 1 of your Pok\u00e9mon to another of your Pok\u00e9mon.",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "swsh11-168",
-        "name": "Tool Box",
-        "category": "Trainer",
-        "stage": "Item",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "item",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh11/168/low.webp",
-        "set_name": "Lost Origin",
-        "text": "Look at the top 7 cards of your deck. You may reveal any number of Pok\u00e9mon Tool cards you find there and put them into your hand. Shuffle the other cards back into your deck.",
         "dex_id": null
       },
       {
@@ -1169,7 +1215,7 @@
         "dex_id": 315
       },
       {
-        "catalog_id": "energy-grass",
+        "catalog_id": "swsh12.5-152",
         "name": "Grass Energy",
         "category": "Energy",
         "stage": "Basic",
@@ -1185,8 +1231,8 @@
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": "Grass",
-        "image": null,
-        "set_name": null,
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/152/low.webp",
+        "set_name": "Crown Zenith",
         "text": "",
         "dex_id": null
       },
@@ -2297,6 +2343,50 @@
         "set_name": "Cosmic Eclipse",
         "text": "Its nature is to store up electricity. Forests where nests of Pikachu live are dangerous, since the trees are so often struck by lightning.",
         "dex_id": 25
+      },
+      {
+        "catalog_id": "swsh12.5-155",
+        "name": "Lightning Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Lightning"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Lightning",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/155/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-153",
+        "name": "Fire Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Fire"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Fire",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/153/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
       }
     ]
   },
@@ -3338,6 +3428,50 @@
         "set_name": "Scarlet & Violet",
         "text": "Search your deck for an Item card and a Pok\u00e9mon Tool card, reveal them, and put them into your hand. Then, shuffle your deck.",
         "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-156",
+        "name": "Psychic Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Psychic",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/156/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-156",
+        "name": "Psychic Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Psychic",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/156/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
       }
     ]
   },
@@ -3555,7 +3689,7 @@
         "dex_id": 1017
       },
       {
-        "catalog_id": "energy-fighting",
+        "catalog_id": "swsh12.5-157",
         "name": "Fighting Energy",
         "category": "Energy",
         "stage": "Basic",
@@ -3571,13 +3705,13 @@
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": "Fighting",
-        "image": null,
-        "set_name": null,
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/157/low.webp",
+        "set_name": "Crown Zenith",
         "text": "",
         "dex_id": null
       },
       {
-        "catalog_id": "energy-fighting",
+        "catalog_id": "swsh12.5-157",
         "name": "Fighting Energy",
         "category": "Energy",
         "stage": "Basic",
@@ -3593,13 +3727,13 @@
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": "Fighting",
-        "image": null,
-        "set_name": null,
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/157/low.webp",
+        "set_name": "Crown Zenith",
         "text": "",
         "dex_id": null
       },
       {
-        "catalog_id": "energy-fighting",
+        "catalog_id": "swsh12.5-157",
         "name": "Fighting Energy",
         "category": "Energy",
         "stage": "Basic",
@@ -3615,13 +3749,13 @@
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": "Fighting",
-        "image": null,
-        "set_name": null,
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/157/low.webp",
+        "set_name": "Crown Zenith",
         "text": "",
         "dex_id": null
       },
       {
-        "catalog_id": "energy-fighting",
+        "catalog_id": "swsh12.5-157",
         "name": "Fighting Energy",
         "category": "Energy",
         "stage": "Basic",
@@ -3637,13 +3771,13 @@
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": "Fighting",
-        "image": null,
-        "set_name": null,
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/157/low.webp",
+        "set_name": "Crown Zenith",
         "text": "",
         "dex_id": null
       },
       {
-        "catalog_id": "energy-fighting",
+        "catalog_id": "swsh12.5-157",
         "name": "Fighting Energy",
         "category": "Energy",
         "stage": "Basic",
@@ -3659,13 +3793,13 @@
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": "Fighting",
-        "image": null,
-        "set_name": null,
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/157/low.webp",
+        "set_name": "Crown Zenith",
         "text": "",
         "dex_id": null
       },
       {
-        "catalog_id": "energy-fighting",
+        "catalog_id": "swsh12.5-157",
         "name": "Fighting Energy",
         "category": "Energy",
         "stage": "Basic",
@@ -3681,13 +3815,57 @@
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": "Fighting",
-        "image": null,
-        "set_name": null,
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/157/low.webp",
+        "set_name": "Crown Zenith",
         "text": "",
         "dex_id": null
       },
       {
-        "catalog_id": "sm3.5-69",
+        "catalog_id": "swsh12.5-157",
+        "name": "Fighting Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Fighting"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Fighting",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/157/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-157",
+        "name": "Fighting Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Fighting"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Fighting",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/157/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sm1-136",
         "name": "Double Colorless Energy",
         "category": "Energy",
         "stage": "",
@@ -3703,13 +3881,13 @@
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": "Colorless",
-        "image": null,
-        "set_name": "Shining Legends",
+        "image": "https://assets.tcgdex.net/en/sm/sm1/136/low.webp",
+        "set_name": "Sun & Moon",
         "text": "Double Colorless Energy provides ColorlessColorless Energy.",
         "dex_id": null
       },
       {
-        "catalog_id": "sm3.5-69",
+        "catalog_id": "sm1-136",
         "name": "Double Colorless Energy",
         "category": "Energy",
         "stage": "",
@@ -3725,13 +3903,13 @@
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": "Colorless",
-        "image": null,
-        "set_name": "Shining Legends",
+        "image": "https://assets.tcgdex.net/en/sm/sm1/136/low.webp",
+        "set_name": "Sun & Moon",
         "text": "Double Colorless Energy provides ColorlessColorless Energy.",
         "dex_id": null
       },
       {
-        "catalog_id": "sm3.5-69",
+        "catalog_id": "sm1-136",
         "name": "Double Colorless Energy",
         "category": "Energy",
         "stage": "",
@@ -3747,13 +3925,13 @@
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": "Colorless",
-        "image": null,
-        "set_name": "Shining Legends",
+        "image": "https://assets.tcgdex.net/en/sm/sm1/136/low.webp",
+        "set_name": "Sun & Moon",
         "text": "Double Colorless Energy provides ColorlessColorless Energy.",
         "dex_id": null
       },
       {
-        "catalog_id": "sm3.5-69",
+        "catalog_id": "sm1-136",
         "name": "Double Colorless Energy",
         "category": "Energy",
         "stage": "",
@@ -3769,8 +3947,8 @@
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": "Colorless",
-        "image": null,
-        "set_name": "Shining Legends",
+        "image": "https://assets.tcgdex.net/en/sm/sm1/136/low.webp",
+        "set_name": "Sun & Moon",
         "text": "Double Colorless Energy provides ColorlessColorless Energy.",
         "dex_id": null
       },
@@ -4062,14 +4240,14 @@
     "sample": null,
     "cards": [
       {
-        "catalog_id": "sv03-013",
+        "catalog_id": "sv01-013",
         "name": "Sprigatito",
         "category": "Pokemon",
         "stage": "Basic",
         "types": [
           "Grass"
         ],
-        "hp": 60,
+        "hp": 70,
         "attacks": [
           {
             "name": "Scratch",
@@ -4083,7 +4261,8 @@
           {
             "name": "Leafage",
             "cost": [
-              "Grass"
+              "Grass",
+              "Colorless"
             ],
             "damage": 20,
             "text": "",
@@ -4102,20 +4281,20 @@
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": null,
-        "image": null,
-        "set_name": null,
-        "text": "",
-        "dex_id": null
+        "image": "https://assets.tcgdex.net/en/sv/sv01/013/low.webp",
+        "set_name": "Scarlet & Violet",
+        "text": "Its fluffy fur is similar in composition to plants. This Pok\u00e9mon frequently washes its face to keep it from drying out.",
+        "dex_id": 906
       },
       {
-        "catalog_id": "sv03-013",
+        "catalog_id": "sv01-013",
         "name": "Sprigatito",
         "category": "Pokemon",
         "stage": "Basic",
         "types": [
           "Grass"
         ],
-        "hp": 60,
+        "hp": 70,
         "attacks": [
           {
             "name": "Scratch",
@@ -4129,7 +4308,8 @@
           {
             "name": "Leafage",
             "cost": [
-              "Grass"
+              "Grass",
+              "Colorless"
             ],
             "damage": 20,
             "text": "",
@@ -4148,20 +4328,20 @@
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": null,
-        "image": null,
-        "set_name": null,
-        "text": "",
-        "dex_id": null
+        "image": "https://assets.tcgdex.net/en/sv/sv01/013/low.webp",
+        "set_name": "Scarlet & Violet",
+        "text": "Its fluffy fur is similar in composition to plants. This Pok\u00e9mon frequently washes its face to keep it from drying out.",
+        "dex_id": 906
       },
       {
-        "catalog_id": "sv03-013",
+        "catalog_id": "sv01-013",
         "name": "Sprigatito",
         "category": "Pokemon",
         "stage": "Basic",
         "types": [
           "Grass"
         ],
-        "hp": 60,
+        "hp": 70,
         "attacks": [
           {
             "name": "Scratch",
@@ -4175,7 +4355,8 @@
           {
             "name": "Leafage",
             "cost": [
-              "Grass"
+              "Grass",
+              "Colorless"
             ],
             "damage": 20,
             "text": "",
@@ -4194,20 +4375,20 @@
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": null,
-        "image": null,
-        "set_name": null,
-        "text": "",
-        "dex_id": null
+        "image": "https://assets.tcgdex.net/en/sv/sv01/013/low.webp",
+        "set_name": "Scarlet & Violet",
+        "text": "Its fluffy fur is similar in composition to plants. This Pok\u00e9mon frequently washes its face to keep it from drying out.",
+        "dex_id": 906
       },
       {
-        "catalog_id": "sv03-013",
+        "catalog_id": "sv01-013",
         "name": "Sprigatito",
         "category": "Pokemon",
         "stage": "Basic",
         "types": [
           "Grass"
         ],
-        "hp": 60,
+        "hp": 70,
         "attacks": [
           {
             "name": "Scratch",
@@ -4221,7 +4402,8 @@
           {
             "name": "Leafage",
             "cost": [
-              "Grass"
+              "Grass",
+              "Colorless"
             ],
             "damage": 20,
             "text": "",
@@ -4240,13 +4422,13 @@
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": null,
-        "image": null,
-        "set_name": null,
-        "text": "",
-        "dex_id": null
+        "image": "https://assets.tcgdex.net/en/sv/sv01/013/low.webp",
+        "set_name": "Scarlet & Violet",
+        "text": "Its fluffy fur is similar in composition to plants. This Pok\u00e9mon frequently washes its face to keep it from drying out.",
+        "dex_id": 906
       },
       {
-        "catalog_id": "sv03-014",
+        "catalog_id": "sv01-014",
         "name": "Floragato",
         "category": "Pokemon",
         "stage": "Stage1",
@@ -4278,13 +4460,13 @@
         "evolves_from": "Sprigatito",
         "trainer_kind": null,
         "energy_type": null,
-        "image": null,
-        "set_name": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/014/low.webp",
+        "set_name": "Scarlet & Violet",
         "text": "",
         "dex_id": null
       },
       {
-        "catalog_id": "sv03-014",
+        "catalog_id": "sv01-014",
         "name": "Floragato",
         "category": "Pokemon",
         "stage": "Stage1",
@@ -4316,13 +4498,13 @@
         "evolves_from": "Sprigatito",
         "trainer_kind": null,
         "energy_type": null,
-        "image": null,
-        "set_name": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/014/low.webp",
+        "set_name": "Scarlet & Violet",
         "text": "",
         "dex_id": null
       },
       {
-        "catalog_id": "sv03-014",
+        "catalog_id": "sv01-014",
         "name": "Floragato",
         "category": "Pokemon",
         "stage": "Stage1",
@@ -4354,13 +4536,13 @@
         "evolves_from": "Sprigatito",
         "trainer_kind": null,
         "energy_type": null,
-        "image": null,
-        "set_name": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/014/low.webp",
+        "set_name": "Scarlet & Violet",
         "text": "",
         "dex_id": null
       },
       {
-        "catalog_id": "sv03-014",
+        "catalog_id": "sv01-014",
         "name": "Floragato",
         "category": "Pokemon",
         "stage": "Stage1",
@@ -4392,8 +4574,8 @@
         "evolves_from": "Sprigatito",
         "trainer_kind": null,
         "energy_type": null,
-        "image": null,
-        "set_name": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/014/low.webp",
+        "set_name": "Scarlet & Violet",
         "text": "",
         "dex_id": null
       },
@@ -4413,7 +4595,7 @@
               "Psychic"
             ],
             "damage": 0,
-            "text": "Attach up to 2 Basic Psychic Energy cards from your discard pile to your Pok\u00e9mon in any way you like.",
+            "text": "Attach up to 2 Basic {P} Energy cards from your discard pile to your Pok\u00e9mon in any way you like.",
             "effects": [
               {
                 "kind": "transfer_charge",
@@ -4428,7 +4610,7 @@
               "Psychic"
             ],
             "damage": 10,
-            "text": "This attack does 30 more damage for each Psychic Energy attached to all of your Pok\u00e9mon.",
+            "text": "This attack does 30 more damage for each {P} Energy attached to all of your Pok\u00e9mon.",
             "effects": [
               {
                 "kind": "psychic_energy_bonus",
@@ -4449,10 +4631,10 @@
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": null,
-        "image": null,
-        "set_name": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv04/058/low.webp",
+        "set_name": "Paradox Rift",
         "text": "",
-        "dex_id": null
+        "dex_id": 150
       },
       {
         "catalog_id": "sv04-058",
@@ -4470,7 +4652,7 @@
               "Psychic"
             ],
             "damage": 0,
-            "text": "Attach up to 2 Basic Psychic Energy cards from your discard pile to your Pok\u00e9mon in any way you like.",
+            "text": "Attach up to 2 Basic {P} Energy cards from your discard pile to your Pok\u00e9mon in any way you like.",
             "effects": [
               {
                 "kind": "transfer_charge",
@@ -4485,7 +4667,7 @@
               "Psychic"
             ],
             "damage": 10,
-            "text": "This attack does 30 more damage for each Psychic Energy attached to all of your Pok\u00e9mon.",
+            "text": "This attack does 30 more damage for each {P} Energy attached to all of your Pok\u00e9mon.",
             "effects": [
               {
                 "kind": "psychic_energy_bonus",
@@ -4506,10 +4688,10 @@
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": null,
-        "image": null,
-        "set_name": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv04/058/low.webp",
+        "set_name": "Paradox Rift",
         "text": "",
-        "dex_id": null
+        "dex_id": 150
       },
       {
         "catalog_id": "sv04-058",
@@ -4527,7 +4709,7 @@
               "Psychic"
             ],
             "damage": 0,
-            "text": "Attach up to 2 Basic Psychic Energy cards from your discard pile to your Pok\u00e9mon in any way you like.",
+            "text": "Attach up to 2 Basic {P} Energy cards from your discard pile to your Pok\u00e9mon in any way you like.",
             "effects": [
               {
                 "kind": "transfer_charge",
@@ -4542,7 +4724,7 @@
               "Psychic"
             ],
             "damage": 10,
-            "text": "This attack does 30 more damage for each Psychic Energy attached to all of your Pok\u00e9mon.",
+            "text": "This attack does 30 more damage for each {P} Energy attached to all of your Pok\u00e9mon.",
             "effects": [
               {
                 "kind": "psychic_energy_bonus",
@@ -4563,13 +4745,13 @@
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": null,
-        "image": null,
-        "set_name": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv04/058/low.webp",
+        "set_name": "Paradox Rift",
         "text": "",
-        "dex_id": null
+        "dex_id": 150
       },
       {
-        "catalog_id": "nest-ball",
+        "catalog_id": "sv01-181",
         "name": "Nest Ball",
         "category": "Trainer",
         "stage": "Item",
@@ -4583,13 +4765,13 @@
         "evolves_from": null,
         "trainer_kind": "item",
         "energy_type": null,
-        "image": null,
-        "set_name": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/181/low.webp",
+        "set_name": "Scarlet & Violet",
         "text": "Search your deck for a Basic Pok\u00e9mon and put it onto your Bench. Then, shuffle your deck.",
         "dex_id": null
       },
       {
-        "catalog_id": "nest-ball",
+        "catalog_id": "sv01-181",
         "name": "Nest Ball",
         "category": "Trainer",
         "stage": "Item",
@@ -4603,13 +4785,13 @@
         "evolves_from": null,
         "trainer_kind": "item",
         "energy_type": null,
-        "image": null,
-        "set_name": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/181/low.webp",
+        "set_name": "Scarlet & Violet",
         "text": "Search your deck for a Basic Pok\u00e9mon and put it onto your Bench. Then, shuffle your deck.",
         "dex_id": null
       },
       {
-        "catalog_id": "nest-ball",
+        "catalog_id": "sv01-181",
         "name": "Nest Ball",
         "category": "Trainer",
         "stage": "Item",
@@ -4623,13 +4805,13 @@
         "evolves_from": null,
         "trainer_kind": "item",
         "energy_type": null,
-        "image": null,
-        "set_name": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/181/low.webp",
+        "set_name": "Scarlet & Violet",
         "text": "Search your deck for a Basic Pok\u00e9mon and put it onto your Bench. Then, shuffle your deck.",
         "dex_id": null
       },
       {
-        "catalog_id": "nest-ball",
+        "catalog_id": "sv01-181",
         "name": "Nest Ball",
         "category": "Trainer",
         "stage": "Item",
@@ -4643,13 +4825,13 @@
         "evolves_from": null,
         "trainer_kind": "item",
         "energy_type": null,
-        "image": null,
-        "set_name": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/181/low.webp",
+        "set_name": "Scarlet & Violet",
         "text": "Search your deck for a Basic Pok\u00e9mon and put it onto your Bench. Then, shuffle your deck.",
         "dex_id": null
       },
       {
-        "catalog_id": "energy-search",
+        "catalog_id": "sv01-172",
         "name": "Energy Search",
         "category": "Trainer",
         "stage": "Item",
@@ -4663,13 +4845,13 @@
         "evolves_from": null,
         "trainer_kind": "item",
         "energy_type": null,
-        "image": null,
-        "set_name": null,
-        "text": "Search your deck for a Basic Energy card.",
+        "image": "https://assets.tcgdex.net/en/sv/sv01/172/low.webp",
+        "set_name": "Scarlet & Violet",
+        "text": "Search your deck for a Basic Energy card, reveal it, and put it into your hand. Then, shuffle your deck.",
         "dex_id": null
       },
       {
-        "catalog_id": "energy-search",
+        "catalog_id": "sv01-172",
         "name": "Energy Search",
         "category": "Trainer",
         "stage": "Item",
@@ -4683,13 +4865,13 @@
         "evolves_from": null,
         "trainer_kind": "item",
         "energy_type": null,
-        "image": null,
-        "set_name": null,
-        "text": "Search your deck for a Basic Energy card.",
+        "image": "https://assets.tcgdex.net/en/sv/sv01/172/low.webp",
+        "set_name": "Scarlet & Violet",
+        "text": "Search your deck for a Basic Energy card, reveal it, and put it into your hand. Then, shuffle your deck.",
         "dex_id": null
       },
       {
-        "catalog_id": "energy-search",
+        "catalog_id": "sv01-172",
         "name": "Energy Search",
         "category": "Trainer",
         "stage": "Item",
@@ -4703,13 +4885,13 @@
         "evolves_from": null,
         "trainer_kind": "item",
         "energy_type": null,
-        "image": null,
-        "set_name": null,
-        "text": "Search your deck for a Basic Energy card.",
+        "image": "https://assets.tcgdex.net/en/sv/sv01/172/low.webp",
+        "set_name": "Scarlet & Violet",
+        "text": "Search your deck for a Basic Energy card, reveal it, and put it into your hand. Then, shuffle your deck.",
         "dex_id": null
       },
       {
-        "catalog_id": "switch",
+        "catalog_id": "sv01-194",
         "name": "Switch",
         "category": "Trainer",
         "stage": "Item",
@@ -4723,13 +4905,13 @@
         "evolves_from": null,
         "trainer_kind": "item",
         "energy_type": null,
-        "image": null,
-        "set_name": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/194/low.webp",
+        "set_name": "Scarlet & Violet",
         "text": "Switch your Active Pok\u00e9mon with 1 of your Benched Pok\u00e9mon.",
         "dex_id": null
       },
       {
-        "catalog_id": "switch",
+        "catalog_id": "sv01-194",
         "name": "Switch",
         "category": "Trainer",
         "stage": "Item",
@@ -4743,13 +4925,13 @@
         "evolves_from": null,
         "trainer_kind": "item",
         "energy_type": null,
-        "image": null,
-        "set_name": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/194/low.webp",
+        "set_name": "Scarlet & Violet",
         "text": "Switch your Active Pok\u00e9mon with 1 of your Benched Pok\u00e9mon.",
         "dex_id": null
       },
       {
-        "catalog_id": "switch",
+        "catalog_id": "sv01-194",
         "name": "Switch",
         "category": "Trainer",
         "stage": "Item",
@@ -4763,13 +4945,13 @@
         "evolves_from": null,
         "trainer_kind": "item",
         "energy_type": null,
-        "image": null,
-        "set_name": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/194/low.webp",
+        "set_name": "Scarlet & Violet",
         "text": "Switch your Active Pok\u00e9mon with 1 of your Benched Pok\u00e9mon.",
         "dex_id": null
       },
       {
-        "catalog_id": "jacq",
+        "catalog_id": "sv01-175",
         "name": "Jacq",
         "category": "Trainer",
         "stage": "Supporter",
@@ -4783,13 +4965,13 @@
         "evolves_from": null,
         "trainer_kind": "supporter",
         "energy_type": null,
-        "image": null,
-        "set_name": null,
-        "text": "Search your deck for up to 2 Evolution Pok\u00e9mon.",
+        "image": "https://assets.tcgdex.net/en/sv/sv01/175/low.webp",
+        "set_name": "Scarlet & Violet",
+        "text": "Search your deck for up to 2 Evolution Pok\u00e9mon, reveal them, and put them into your hand. Then, shuffle your deck.",
         "dex_id": null
       },
       {
-        "catalog_id": "maximum-belt",
+        "catalog_id": "sv05-154",
         "name": "Maximum Belt",
         "category": "Trainer",
         "stage": "Item",
@@ -4803,13 +4985,13 @@
         "evolves_from": null,
         "trainer_kind": "item",
         "energy_type": null,
-        "image": null,
-        "set_name": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv05/154/low.webp",
+        "set_name": "Temporal Forces",
         "text": "Attacks used by the Pok\u00e9mon this card is attached to do 50 more damage to your opponent's Active Pok\u00e9mon ex (before applying Weakness and Resistance).",
         "dex_id": null
       },
       {
-        "catalog_id": "tool-box",
+        "catalog_id": "swsh11-168",
         "name": "Tool Box",
         "category": "Trainer",
         "stage": "Item",
@@ -4823,13 +5005,13 @@
         "evolves_from": null,
         "trainer_kind": "item",
         "energy_type": null,
-        "image": null,
-        "set_name": null,
-        "text": "Look at the top 7 cards of your deck. You may put any Pok\u00e9mon Tool cards you find there into your hand.",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh11/168/low.webp",
+        "set_name": "Lost Origin",
+        "text": "Look at the top 7 cards of your deck. You may reveal any number of Pok\u00e9mon Tool cards you find there and put them into your hand. Shuffle the other cards back into your deck.",
         "dex_id": null
       },
       {
-        "catalog_id": "arven",
+        "catalog_id": "sv01-166",
         "name": "Arven",
         "category": "Trainer",
         "stage": "Supporter",
@@ -4843,13 +5025,13 @@
         "evolves_from": null,
         "trainer_kind": "supporter",
         "energy_type": null,
-        "image": null,
-        "set_name": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/166/low.webp",
+        "set_name": "Scarlet & Violet",
         "text": "Search your deck for an Item card and a Pok\u00e9mon Tool card, reveal them, and put them into your hand. Then, shuffle your deck.",
         "dex_id": null
       },
       {
-        "catalog_id": "hop",
+        "catalog_id": "swsh1-165",
         "name": "Hop",
         "category": "Trainer",
         "stage": "Supporter",
@@ -4863,8 +5045,8 @@
         "evolves_from": null,
         "trainer_kind": "supporter",
         "energy_type": null,
-        "image": null,
-        "set_name": null,
+        "image": "https://assets.tcgdex.net/en/swsh/swsh1/165/low.webp",
+        "set_name": "Sword & Shield",
         "text": "Draw 3 cards.",
         "dex_id": null
       },
@@ -4911,10 +5093,10 @@
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": null,
-        "image": null,
-        "set_name": null,
-        "text": "",
-        "dex_id": null
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/004/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "Hidden beneath a tangle of vines that grows nonstop even if the vines are torn off, this Pok\u00e9mon's true appearance remains a mystery.",
+        "dex_id": 114
       },
       {
         "catalog_id": "swsh12.5-004",
@@ -4959,8 +5141,52 @@
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": null,
-        "image": null,
-        "set_name": null,
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/004/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "Hidden beneath a tangle of vines that grows nonstop even if the vines are torn off, this Pok\u00e9mon's true appearance remains a mystery.",
+        "dex_id": 114
+      },
+      {
+        "catalog_id": "swsh12.5-152",
+        "name": "Grass Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Grass"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Grass",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/152/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-152",
+        "name": "Grass Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Grass"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Grass",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/152/low.webp",
+        "set_name": "Crown Zenith",
         "text": "",
         "dex_id": null
       }

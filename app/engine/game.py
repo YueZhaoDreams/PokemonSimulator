@@ -924,7 +924,7 @@ class Game:
                     else:
                         score += 9
                 elif strat.name == "party" and self._want_storm_line(me, foe, who):
-                    # 28-card Storm line decks out around turn 18 — never Hop-mill.
+                    # 30-card Storm line still decks out if it Hop-mills — never Hop-mill.
                     score -= 20
                 elif strat.name == "slash":
                     if len(me.deck) <= 10:

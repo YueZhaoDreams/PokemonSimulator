@@ -8,8 +8,8 @@ from app.seed_data import SET_C_NAMES, SET_D_NAMES, build_fallback_deck, fallbac
 
 
 def test_set_cd_counts():
-    assert len(SET_C_NAMES) == 28
-    assert len(SET_D_NAMES) == 28
+    assert len(SET_C_NAMES) == 30
+    assert len(SET_D_NAMES) == 30
     c = build_fallback_deck(list(SET_C_NAMES))
     d = build_fallback_deck(list(SET_D_NAMES))
     assert sum(1 for x in c if x.name == "Clefairy") == 4
@@ -26,8 +26,9 @@ def test_set_cd_counts():
     assert sum(1 for x in c if x.name == "Maximum Belt") == 1
     assert sum(1 for x in c if x.name == "Tool Box") == 1
     assert sum(1 for x in c if x.name == "Arven") == 1
+    assert sum(1 for x in c if x.name == "Psychic Energy") == 2
     assert sum(1 for x in d if x.name == "Cornerstone Mask Ogerpon ex") == 4
-    assert sum(1 for x in d if x.name == "Fighting Energy") == 6
+    assert sum(1 for x in d if x.name == "Fighting Energy") == 8
     assert sum(1 for x in d if x.name == "Double Colorless Energy") == 4
 
 

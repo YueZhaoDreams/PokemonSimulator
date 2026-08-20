@@ -3,6 +3,7 @@ from __future__ import annotations
 from app.engine.effects import parse_attack
 from app.engine.models import Ability, Card
 
+# Carpet Set A — 30. Tool Box out; Metal / Water / extra Psychic Energy in. One Clefairy stays.
 SET_A_NAMES = [
     "Bronzor",
     "Metang",
@@ -26,14 +27,17 @@ SET_A_NAMES = [
     "Flutter Mane",
     "Hisuian Sliggoo",
     "Psychic Energy",
+    "Psychic Energy",
+    "Water Energy",
+    "Metal Energy",
     "Lake Acuity",
     "Poké Ball",
     "Ultra Ball",
     "Energy Switch",
-    "Tool Box",
     "Trekking Shoes",
 ]
 
+# Carpet Set B — 30. Lightning Energy + Fire Energy. No Clefairy.
 SET_B_NAMES = [
     "Ivysaur",
     "Roselia",
@@ -63,9 +67,11 @@ SET_B_NAMES = [
     "Spinarak",
     "Aipom",
     "Pikachu",  # Cosmic Eclipse Nuzzle / Volt Tackle, received from Set A for Tulip
+    "Lightning Energy",
+    "Fire Energy",
 ]
 
-# Set C — Clefairy / Mewtwo vs Charm Ogerpon.
+# Set C — Clefairy / Mewtwo vs Charm Ogerpon. 30 with +2 Psychic Energy.
 # Maximum Belt is an ACE SPEC (one copy). Tool Box tutors it from the top 7; Arven
 # is the full-deck Tool + Item search. Moon-Watching Party is LOR 62 full-deck search.
 SET_C_NAMES = (
@@ -80,11 +86,12 @@ SET_C_NAMES = (
     + ["Maximum Belt"]
     + ["Tool Box"]
     + ["Arven"]
+    + ["Psychic Energy"] * 2
 )
 
-SET_D_NAMES = (
+SET_D_NAMES = (  # 30: Fighting Energy 6 → 8
     ["Cornerstone Mask Ogerpon ex"] * 4
-    + ["Fighting Energy"] * 6
+    + ["Fighting Energy"] * 8
     + ["Double Colorless Energy"] * 4
     + ["Energy Search"] * 4
     + ["Nest Ball"] * 4
@@ -93,7 +100,7 @@ SET_D_NAMES = (
     + ["Switch"] * 2
 )
 
-# Set S — Grass hunter vs Charm Ogerpon.
+# Set S — Grass hunter vs Charm Ogerpon. 30 with +2 Grass Energy.
 # Floragato Slashing Claw 90 + Maximum Belt 50 = 140, Grass Weakness ×2 = 280
 # OHKOs 260 Charm Ogerpon. Floragato has no Ability, so Stance does not block.
 # Mewtwo is the 230 HP Demolish sponge (no Ability). ACE SPEC: one Belt.
@@ -110,6 +117,7 @@ SET_S_NAMES = (
     + ["Arven"]
     + ["Hop"]
     + ["Tangela"] * 2
+    + ["Grass Energy"] * 2
 )
 
 
@@ -117,7 +125,7 @@ def _atk(name, cost, damage=0, text=""):
     return parse_attack({"name": name, "cost": cost, "damage": damage, "effect": text})
 
 
-def _pkm(name, stage, types, hp, attacks, evolves_from=None, retreat=1, catalog_id=None, abilities=None, weakness=None):
+def _pkm(name, stage, types, hp, attacks, evolves_from=None, retreat=1, catalog_id=None, abilities=None, weakness=None, image=None, set_name=None):
     return Card(
         catalog_id=catalog_id or name.lower().replace(" ", "-"),
         name=name,
@@ -130,6 +138,8 @@ def _pkm(name, stage, types, hp, attacks, evolves_from=None, retreat=1, catalog_
         weaknesses=[{"type": weakness, "value": "×2"}] if weakness else [],
         retreat=retreat,
         evolves_from=evolves_from,
+        image=image,
+        set_name=set_name,
     )
 
 
@@ -146,15 +156,9 @@ def _trn(name, kind, text=""):
 
 
 def _nrg(energy_type: str) -> Card:
-    return Card(
-        catalog_id=f"energy-{energy_type.lower()}",
-        name=f"{energy_type} Energy",
-        category="Energy",
-        stage="Basic",
-        types=[energy_type],
-        energy_type=energy_type,
-        retreat=0,
-    )
+    from app.catalog import energy_card
+
+    return energy_card(energy_type)
 
 
 FALLBACK_BY_NAME: dict[str, Card] = {}
@@ -246,15 +250,20 @@ _register(_nrg("Psychic"))
 _register(_nrg("Grass"))
 _register(_nrg("Fighting"))
 _register(_nrg("Metal"))
+_register(_nrg("Water"))
+_register(_nrg("Lightning"))
+_register(_nrg("Fire"))
 _register(
     Card(
-        catalog_id="sm3.5-69",
+        catalog_id="sm1-136",
         name="Double Colorless Energy",
         category="Energy",
         stage="Special",
         types=["Colorless"],
         energy_type="Colorless",
         text="Double Colorless Energy provides ColorlessColorless Energy.",
+        image="https://assets.tcgdex.net/en/sm/sm1/136/low.webp",
+        set_name="Sun & Moon",
         retreat=0,
     )
 )
@@ -301,9 +310,22 @@ for card in [
         60,
         [_atk("Scratch", ["Colorless"], 10), _atk("Leafage", ["Grass"], 20)],
         weakness="Fire",
-        catalog_id="sv03-013",
+        catalog_id="sv01-013",
+        image="https://assets.tcgdex.net/en/sv/sv01/013/low.webp",
+        set_name="Paldea Evolved",
     ),
-    _pkm("Floragato", "Stage1", ["Grass"], 90, [_atk("Slashing Claw", ["Grass", "Colorless"], 90)], evolves_from="Sprigatito", weakness="Fire", catalog_id="sv03-014"),
+    _pkm(
+        "Floragato",
+        "Stage1",
+        ["Grass"],
+        90,
+        [_atk("Slashing Claw", ["Grass", "Colorless"], 90)],
+        evolves_from="Sprigatito",
+        weakness="Fire",
+        catalog_id="sv01-014",
+        image="https://assets.tcgdex.net/en/sv/sv01/014/low.webp",
+        set_name="Paldea Evolved",
+    ),
     _pkm("Roselia", "Basic", ["Grass"], 70, [
         _atk("Soothing Scent", ["Grass"], 0, "Your opponent's Active Pokémon is now Asleep."),
     ], weakness="Fire"),

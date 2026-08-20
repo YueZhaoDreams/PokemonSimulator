@@ -49,6 +49,12 @@ No Poffin, Switch, or Beach Court. **Maximum Belt is ACE SPEC (one copy).** Tool
 
 Photon still equals the win. ACE SPEC stays at one Belt — a second Belt is illegal.
 
+## 30-card Family Cup (2026-08-20)
+
+Family Cup is now 30. This list added **2 Psychic Energy** (Party's printed search). Pokémon line and ACE SPEC Belt are unchanged.
+
+3,000 games, seed `20260819`, `party` vs `demolish`: **60.2%** random (62.1% first, 58.3% second). The 28-card Tool Box lock was 54.9% on this seed.
+
 ## What was tried
 
 Poffin does **not** empty a top-6 window. It does make Party stronger, and it still loses this matchup because extra Clefairy are Demolish prizes. 3 Hop + 2 Nest + Beach sat at 49.8%. Two Maximum Belts are illegal ACE SPEC. Orthworm Charm lines lost this race (~11%).

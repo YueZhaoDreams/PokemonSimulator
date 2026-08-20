@@ -52,6 +52,16 @@ def init_db() -> None:
                 "INSERT INTO settings(key, value_json) VALUES (?, ?)",
                 ("rules", json.dumps(default_family_rules().to_dict())),
             )
+        else:
+            stored = json.loads(row["value_json"])
+            if stored.get("deck_size") == 28:
+                fresh = default_family_rules()
+                stored["deck_size"] = fresh.deck_size
+                stored["notes"] = fresh.notes
+                conn.execute(
+                    "UPDATE settings SET value_json=? WHERE key='rules'",
+                    (json.dumps(stored),),
+                )
         _upsert_seed_decks(conn)
 
 
@@ -60,7 +70,7 @@ def _upsert_seed_decks(conn: sqlite3.Connection) -> None:
 
     payload = load_seed_payload()
     now = _now()
-    for key in ("a", "b", "c", "d"):
+    for key in ("a", "b", "c", "d", "s"):
         if key not in payload:
             continue
         deck = payload[key]

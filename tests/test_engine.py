@@ -17,7 +17,7 @@ def test_pokemon_pays_as_matching_energy():
 
 def test_family_rules_defaults():
     rules = default_family_rules()
-    assert rules.deck_size == 28
+    assert rules.deck_size == 30
     assert rules.prize_count == 3
     assert rules.pokemon_as_energy is True
     assert rules.opening_hand == 7
