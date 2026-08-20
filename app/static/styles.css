@@ -88,6 +88,13 @@ label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 6px
 .msg { border-radius: 14px; padding: 10px 12px; margin: 8px 0; white-space: pre-wrap; }
 .msg.user { background: #1b3a6b; }
 .msg.bot { background: #121826; border: 1px solid var(--line); }
+.msg.bot.live { border-color: #3d7dca; }
+.msg.bot .trace { margin-bottom: 8px; }
+#chatLog { max-height: 46vh; overflow: auto; }
+.chat-title { margin: 8px 0 4px; font-size: 16px; }
+.thread { cursor: pointer; }
+.thread.active { border-color: var(--yellow); }
+.thread .list-item { border-bottom: 0; padding: 0; }
 .drop {
   border: 2px dashed #3d4d6b; border-radius: 18px; padding: 22px; text-align: center; background: #121826;
 }

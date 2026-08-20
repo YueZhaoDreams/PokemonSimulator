@@ -2,75 +2,119 @@ from __future__ import annotations
 
 import json
 import re
+from collections.abc import AsyncIterator
 from typing import Any
 
-from app.ai.llm import LLMNotConfigured, chat_completion, provider_status
-from app.ai.tools import TOOL_SCHEMAS, _default_ids, run_tool
-from app.db import get_rules, list_decks, save_chat
-
-SYSTEM = """You are the family Pokémon TCG simulator coach.
-You help a household play a home-ruled format:
-- 30-card decks
-- 3 prize cards
-- Any Pokémon can be attached as a Basic Energy of its type
-- Otherwise follow standard Pokémon TCG
-
-Always use tools for numbers. Never invent a win rate or probability.
-After a simulation, explain: how the sim was run, which strategies were used, the results, and what was learned.
-Be concrete and short. Name cards. Mention Family Cup energy when it matters.
-"""
+from app.ai.cursor_agent import cursor_configured, runtime_ready, stream_cursor_turn
+from app.ai.llm import provider_status
+from app.ai.tools import _default_ids, fill_default_args, run_tool
+from app.db import get_chat, get_rules, list_decks, save_chat
 
 
-def ask_coach(message: str, chat_id: str | None = None, history: list[dict] | None = None) -> dict[str, Any]:
-    history = list(history or [])
-    history.append({"role": "user", "content": message})
+async def ask_coach_events(
+    message: str,
+    chat_id: str | None = None,
+    history: list[dict] | None = None,
+) -> AsyncIterator[dict[str, Any]]:
+    stored = get_chat(chat_id) if chat_id else None
+    thread = list(history or (stored["messages"] if stored else []))
+    agent_id = (stored or {}).get("agent_id")
     tool_trace: list[dict[str, Any]] = []
-    try:
-        answer = _llm_loop(history, tool_trace, message)
-        used = "llm"
-    except LLMNotConfigured:
-        answer = _local_coach(message, tool_trace)
-        used = "local"
-    except Exception as exc:
-        answer = _local_coach(message, tool_trace) + f"\n\n(Cloud AI fallback: {exc})"
-        used = "local-fallback"
 
-    history.append({"role": "assistant", "content": answer})
-    saved = save_chat(history, chat_id=chat_id)
+    if cursor_configured() and runtime_ready():
+        try:
+            async for event in stream_cursor_turn(
+                message,
+                agent_id=agent_id,
+                chat_id=chat_id,
+                history=thread,
+            ):
+                if event.get("type") == "tool":
+                    tool_trace.append(
+                        {
+                            "tool": event.get("tool"),
+                            "args": event.get("args"),
+                            "output_preview": event.get("output_preview"),
+                            "status": event.get("status"),
+                        }
+                    )
+                if event.get("type") == "result":
+                    saved = _save_turn(
+                        thread,
+                        message,
+                        event["answer"],
+                        chat_id=chat_id,
+                        agent_id=event.get("agent_id"),
+                    )
+                    yield {
+                        "type": "done",
+                        "chat_id": saved["id"],
+                        "answer": event["answer"],
+                        "messages": saved["messages"],
+                        "tool_trace": event.get("tool_trace") or tool_trace,
+                        "coach": "cursor",
+                        "provider": provider_status(),
+                        "agent_id": event.get("agent_id"),
+                        "run_id": event.get("run_id"),
+                    }
+                    return
+                yield event
+        except Exception as exc:
+            yield {"type": "status", "text": f"Cursor fallback: {exc}"}
+            answer = _local_coach(message, tool_trace) + f"\n\n(Cursor fallback: {exc})"
+            saved = _save_turn(thread, message, answer, chat_id=chat_id, agent_id=agent_id)
+            yield _done(saved, answer, tool_trace, "cursor-fallback")
+            return
+
+    answer = _local_coach(message, tool_trace)
+    used = "local"
+    saved = _save_turn(thread, message, answer, chat_id=chat_id, agent_id=agent_id)
+    yield _done(saved, answer, tool_trace, used)
+
+
+async def ask_coach(message: str, chat_id: str | None = None, history: list[dict] | None = None) -> dict[str, Any]:
+    done: dict[str, Any] | None = None
+    async for event in ask_coach_events(message, chat_id=chat_id, history=history):
+        if event.get("type") == "done":
+            done = event
+    if not done:
+        raise RuntimeError("chat produced no reply")
     return {
+        "chat_id": done["chat_id"],
+        "answer": done["answer"],
+        "messages": done["messages"],
+        "tool_trace": done.get("tool_trace") or [],
+        "coach": done.get("coach"),
+        "provider": done.get("provider") or provider_status(),
+        "agent_id": done.get("agent_id"),
+        "run_id": done.get("run_id"),
+    }
+
+
+def _save_turn(
+    thread: list[dict],
+    message: str,
+    answer: str,
+    *,
+    chat_id: str | None,
+    agent_id: str | None,
+) -> dict:
+    thread.append({"role": "user", "content": message})
+    thread.append({"role": "assistant", "content": answer})
+    return save_chat(thread, chat_id=chat_id, agent_id=agent_id)
+
+
+def _done(saved: dict, answer: str, tool_trace: list[dict], coach: str) -> dict[str, Any]:
+    return {
+        "type": "done",
         "chat_id": saved["id"],
         "answer": answer,
         "messages": saved["messages"],
         "tool_trace": tool_trace,
-        "coach": used,
+        "coach": coach,
         "provider": provider_status(),
+        "agent_id": saved.get("agent_id"),
     }
-
-
-def _llm_loop(history: list[dict], tool_trace: list[dict], question: str) -> str:
-    messages = [{"role": "system", "content": SYSTEM}] + history
-    for _ in range(4):
-        result = chat_completion(messages, TOOL_SCHEMAS)
-        calls = result.get("tool_calls") or []
-        if not calls:
-            return result.get("content") or "I need a bit more context about the two decks."
-        messages.append(result.get("raw") or {"role": "assistant", "content": result.get("content"), "tool_calls": calls})
-        for call in calls:
-            args = _parse_args(call.get("arguments"))
-            if "question" not in args:
-                args["question"] = question
-            _fill_default_decks(args)
-            output = run_tool(call["name"], args)
-            tool_trace.append({"tool": call["name"], "args": args, "output_preview": _preview(output)})
-            messages.append(
-                {
-                    "role": "tool",
-                    "tool_call_id": call.get("id"),
-                    "name": call["name"],
-                    "content": json.dumps(output, default=str)[:12000],
-                }
-            )
-    return "The tools ran, but I could not summarize in time. Check the Lab tab for the simulation record."
 
 
 def _local_coach(message: str, tool_trace: list[dict]) -> str:
@@ -86,7 +130,7 @@ def _local_coach(message: str, tool_trace: list[dict]) -> str:
         m = re.search(r"first\s+(\d+)|opening\s+(\d+)|(\d+)\s+cards", message.lower())
         if m:
             draw = int(next(g for g in m.groups() if g))
-        args = {"deck_id": deck_id, "card_name": card, "draw": draw}
+        args = fill_default_args({"deck_id": deck_id, "card_name": card, "draw": draw})
         result = run_tool("draw_odds", args)
         tool_trace.append({"tool": "draw_odds", "args": args, "output_preview": result})
         p = result.get("p_at_least_one", 0)
@@ -99,7 +143,7 @@ def _local_coach(message: str, tool_trace: list[dict]) -> str:
         )
 
     if intent == "trade":
-        args = {"deck_a_id": a_id, "deck_b_id": b_id, "games": 200}
+        args = fill_default_args({"deck_a_id": a_id, "deck_b_id": b_id, "games": 200})
         result = run_tool("suggest_trades", args)
         tool_trace.append({"tool": "suggest_trades", "args": args, "output_preview": _preview(result)})
         lines = [
@@ -124,14 +168,16 @@ def _local_coach(message: str, tool_trace: list[dict]) -> str:
         games = 10000
     elif re.search(r"1,?000", message):
         games = 1000
-    args = {
-        "deck_a_id": a_id,
-        "deck_b_id": b_id,
-        "games": games,
-        "strategy_a": "thrifty",
-        "strategy_b": "shock",
-        "question": message,
-    }
+    args = fill_default_args(
+        {
+            "deck_a_id": a_id,
+            "deck_b_id": b_id,
+            "games": games,
+            "strategy_a": "thrifty",
+            "strategy_b": "shock",
+            "question": message,
+        }
+    )
     result = run_tool("simulate_match", args)
     tool_trace.append({"tool": "simulate_match", "args": args, "output_preview": _preview(result)})
     return _narrate_sim(result, message)
@@ -198,30 +244,25 @@ def _name_in_deck(name: str, deck_id: str) -> bool:
     return any(c["name"].lower() == name.lower() for c in deck["cards"])
 
 
-def _fill_default_decks(args: dict) -> None:
-    a_id, b_id = _default_ids()
-    args.setdefault("deck_a_id", a_id)
-    args.setdefault("deck_b_id", b_id)
-    if "deck_id" in args and not args["deck_id"]:
-        args["deck_id"] = a_id
-
-
-def _parse_args(raw: Any) -> dict:
-    if isinstance(raw, dict):
-        return raw
-    if not raw:
-        return {}
-    try:
-        return json.loads(raw)
-    except json.JSONDecodeError:
-        return {}
-
-
 def _preview(output: Any) -> Any:
     text = json.dumps(output, default=str)
     if len(text) < 1500:
         return output
     if isinstance(output, dict):
-        slim = {k: output[k] for k in output if k in {"results", "learning", "method", "recommendations", "p_at_least_one", "simulation_id", "needs_a", "needs_b"}}
+        slim = {
+            k: output[k]
+            for k in output
+            if k
+            in {
+                "results",
+                "learning",
+                "method",
+                "recommendations",
+                "p_at_least_one",
+                "simulation_id",
+                "needs_a",
+                "needs_b",
+            }
+        }
         return slim or text[:1500]
     return text[:1500]

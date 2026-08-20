@@ -12,11 +12,21 @@ DATA_DIR = ROOT / "data"
 SAMPLES_DIR = DATA_DIR / "samples"
 CACHE_DIR = DATA_DIR / "cache"
 UPLOADS_DIR = DATA_DIR / "uploads"
+CURSOR_STATE_DIR = DATA_DIR / "cursor-agents"
 STATIC_DIR = Path(__file__).resolve().parent / "static"
 DB_PATH = DATA_DIR / "app.db"
 
-for folder in (DATA_DIR, SAMPLES_DIR, CACHE_DIR, UPLOADS_DIR):
+for folder in (DATA_DIR, SAMPLES_DIR, CACHE_DIR, UPLOADS_DIR, CURSOR_STATE_DIR):
     folder.mkdir(parents=True, exist_ok=True)
+
+CURSOR_API_KEY = os.getenv("CURSOR_API_KEY", "").strip()
+CURSOR_MODEL = os.getenv("CURSOR_MODEL", "grok-4.6").strip() or "grok-4.6"
+CURSOR_MODEL_EFFORT = os.getenv("CURSOR_MODEL_EFFORT", "xhigh").strip()
+CURSOR_SETTING_SOURCES = tuple(
+    part.strip()
+    for part in os.getenv("CURSOR_SETTING_SOURCES", "project").split(",")
+    if part.strip()
+)
 
 XAI_API_KEY = os.getenv("XAI_API_KEY", "").strip()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "").strip()

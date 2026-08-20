@@ -8,7 +8,7 @@ from app.db import get_deck, get_rules, list_decks, list_simulations, save_simul
 from app.engine.models import Card
 from app.engine.montecarlo import run_simulation
 from app.engine.probability import draw_probability
-from app.engine.strategies import StrategySpec
+from app.engine.strategies import StrategySpec, list_strategies
 from app.engine.trades import suggest_trades
 
 TOOL_SCHEMAS = [
@@ -78,6 +78,20 @@ TOOL_SCHEMAS = [
         "description": "List recent simulation lab records.",
         "parameters": {"type": "object", "properties": {}},
     },
+    {
+        "name": "list_strategies",
+        "description": "List named Family Cup strategies the engine can run (thrifty, shock, party, demolish, slash, …).",
+        "parameters": {"type": "object", "properties": {}},
+    },
+    {
+        "name": "search_cards",
+        "description": "Search the local card catalog by name.",
+        "parameters": {
+            "type": "object",
+            "properties": {"query": {"type": "string"}},
+            "required": ["query"],
+        },
+    },
 ]
 
 
@@ -90,6 +104,18 @@ def _default_ids() -> tuple[str, str]:
     if len(decks) >= 2:
         return decks[0]["id"], decks[1]["id"]
     return "seed-a", "seed-b"
+
+
+def fill_default_args(args: dict[str, Any] | None, question: str | None = None) -> dict[str, Any]:
+    filled = dict(args or {})
+    a_id, b_id = _default_ids()
+    filled.setdefault("deck_a_id", a_id)
+    filled.setdefault("deck_b_id", b_id)
+    if "deck_id" in filled and not filled["deck_id"]:
+        filled["deck_id"] = a_id
+    if question and not filled.get("question"):
+        filled["question"] = question
+    return filled
 
 
 def run_tool(name: str, args: dict[str, Any]) -> Any:
@@ -107,6 +133,8 @@ def run_tool(name: str, args: dict[str, Any]) -> Any:
         return get_rules().to_dict()
     if name == "list_lab":
         return list_simulations()
+    if name == "list_strategies":
+        return list_strategies()
     if name == "draw_odds":
         deck = get_deck(args["deck_id"])
         if not deck:

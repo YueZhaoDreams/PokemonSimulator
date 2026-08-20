@@ -1,12 +1,14 @@
 const $ = (sel) => document.querySelector(sel);
 const $$ = (sel) => [...document.querySelectorAll(sel)];
-let state = { decks: [], strategies: [], scanCards: [], scanCrops: [], chatId: null, history: [] };
+let state = { decks: [], strategies: [], scanCards: [], scanCrops: [], chatId: null, history: [], chatMode: "list" };
+const CHAT_STORE = "family-cup-chat-id";
 
 const CHIPS = [
   "What is the probability Dondozo appears in the first 7 cards?",
   "If I use Pikachu to paralyze Dondozo, how often can I pull that off?",
   "Run 10,000 games. What strategy won, and what did you learn?",
   "Which cards should we trade so both sets get stronger?",
+  "Run pytest and tell me if anything failed.",
 ];
 
 async function api(path, opts = {}) {
@@ -22,25 +24,56 @@ function show(view) {
   if (view === "decks") renderDecks();
   if (view === "fight") fillFight();
   if (view === "lab") renderLab();
+  if (view === "chat") renderChat();
 }
 
 function md(text) {
-  return text
+  return String(text || "")
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/\*\*(.+?)\*\*/g, "<b>$1</b>")
     .replace(/\n/g, "<br>");
 }
 
+function esc(text) {
+  return String(text || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/"/g, "&quot;");
+}
+
+function when(iso) {
+  if (!iso) return "";
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return iso;
+  return d.toLocaleString();
+}
+
+function aiLabel(ai) {
+  if (ai?.chat?.configured) {
+    const model = ai.chat.model || "cursor";
+    if (ai.chat.ready === false) return `Cursor · ${model} (offline)`;
+    return `Cursor · ${model}`;
+  }
+  if (ai?.vision?.configured) return `Vision · ${ai.vision.provider}`;
+  if (ai?.configured) return `${ai.provider} · ${ai.model}`;
+  return "Local coach";
+}
+
 async function boot() {
   const health = await api("/api/health");
-  $("#aiPill").textContent = health.ai.configured ? `${health.ai.provider} · ${health.ai.model}` : "Local coach";
+  $("#aiPill").textContent = aiLabel(health.ai);
   state.decks = await api("/api/decks");
   state.strategies = await api("/api/strategies");
   CHIPS.forEach((q) => {
     const b = document.createElement("button");
     b.textContent = q;
-    b.onclick = () => { show("chat"); $("#chatInput").value = q; sendChat(); };
+    b.onclick = () => {
+      startNewChat();
+      show("chat");
+      $("#chatInput").value = q;
+      sendChat();
+    };
     $("#chips").appendChild(b);
   });
   fillFight();
@@ -290,26 +323,197 @@ $("#runTrades").onclick = async () => {
 async function sendChat() {
   const message = $("#chatInput").value.trim();
   if (!message) return;
+  showThread();
   $("#chatLog").insertAdjacentHTML("beforeend", `<div class="msg user">${md(message)}</div>`);
   $("#chatInput").value = "";
+  const bot = document.createElement("div");
+  bot.className = "msg bot live";
+  const trace = document.createElement("div");
+  trace.className = "tiny trace";
+  const body = document.createElement("div");
+  body.innerHTML = "Cursor is working…";
+  bot.appendChild(trace);
+  bot.appendChild(body);
+  $("#chatLog").appendChild(bot);
+  $("#chatLog").scrollTop = $("#chatLog").scrollHeight;
   document.body.classList.add("busy");
+  let answer = "";
   try {
-    const res = await api("/api/chat", {
+    const res = await fetch("/api/chat/stream", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ message, chat_id: state.chatId, history: state.history }),
     });
-    state.chatId = res.chat_id;
-    state.history = res.messages;
-    $("#chatLog").insertAdjacentHTML("beforeend", `<div class="msg bot">${md(res.answer)}</div>`);
-    $("#chatLog").scrollTop = $("#chatLog").scrollHeight;
+    if (!res.ok || !res.body) throw new Error(await res.text());
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = "";
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      buffer += decoder.decode(value, { stream: true });
+      const parts = buffer.split("\n\n");
+      buffer = parts.pop() || "";
+      for (const part of parts) {
+        for (const line of part.split("\n")) {
+          if (!line.startsWith("data: ")) continue;
+          const event = JSON.parse(line.slice(6));
+          if (event.type === "status" && event.text) {
+            trace.textContent = event.text;
+          } else if (event.type === "tool") {
+            const name = event.tool || event.name || "tool";
+            trace.textContent = `${name} ${event.status || ""}`.trim();
+          } else if (event.type === "text" && event.text) {
+            answer += event.text;
+            body.innerHTML = md(answer);
+          } else if (event.type === "done") {
+            state.chatId = event.chat_id;
+            state.history = event.messages;
+            rememberChat(event.chat_id);
+            answer = event.answer || answer;
+            body.innerHTML = md(answer);
+            $("#chatTitle").textContent = threadTitle(event.messages);
+            if (event.coach && event.coach !== "cursor") {
+              trace.textContent = event.coach === "local" ? "Local coach" : event.coach;
+            } else {
+              trace.remove();
+            }
+          }
+        }
+      }
+      $("#chatLog").scrollTop = $("#chatLog").scrollHeight;
+    }
+    bot.classList.remove("live");
   } catch (err) {
-    $("#chatLog").insertAdjacentHTML("beforeend", `<div class="msg bot">${err.message}</div>`);
+    body.innerHTML = md(String(err.message || err));
+    bot.classList.remove("live");
   } finally {
     document.body.classList.remove("busy");
+    renderChatThreads();
   }
 }
+
+function rememberChat(chatId) {
+  if (chatId) localStorage.setItem(CHAT_STORE, chatId);
+  else localStorage.removeItem(CHAT_STORE);
+}
+
+function threadTitle(messages) {
+  const first = (messages || []).find((m) => m.role === "user" && m.content);
+  const text = (first?.content || "New chat").replace(/\s+/g, " ").trim();
+  return text.length > 60 ? `${text.slice(0, 57)}…` : text;
+}
+
+function renderChatLog(messages) {
+  $("#chatLog").innerHTML = (messages || [])
+    .filter((m) => m.role === "user" || m.role === "assistant")
+    .map((m) => `<div class="msg ${m.role === "user" ? "user" : "bot"}">${md(m.content || "")}</div>`)
+    .join("");
+  $("#chatLog").scrollTop = $("#chatLog").scrollHeight;
+}
+
+function showThread() {
+  state.chatMode = "thread";
+  $("#chatThreads").classList.add("hidden");
+  $("#chatThread").classList.remove("hidden");
+}
+
+function showThreadList() {
+  state.chatMode = "list";
+  $("#chatThread").classList.add("hidden");
+  $("#chatThreads").classList.remove("hidden");
+  renderChatThreads();
+}
+
+function startNewChat() {
+  state.chatId = null;
+  state.history = [];
+  rememberChat(null);
+  $("#chatTitle").textContent = "New chat";
+  $("#chatLog").innerHTML = "";
+  $("#chatInput").value = "";
+  showThread();
+}
+
+async function openThread(chatId) {
+  const chat = await api(`/api/chats/${chatId}`);
+  state.chatId = chat.id;
+  state.history = chat.messages || [];
+  rememberChat(chat.id);
+  $("#chatTitle").textContent = chat.title || threadTitle(chat.messages);
+  renderChatLog(chat.messages);
+  showThread();
+}
+
+async function renderChatThreads() {
+  const q = ($("#chatSearch")?.value || "").trim();
+  const rows = await api(`/api/chats${q ? `?q=${encodeURIComponent(q)}` : ""}`);
+  const box = $("#chatThreads");
+  if (!rows.length) {
+    box.innerHTML = `<div class="panel"><p class="tiny">${q ? "No threads match that search." : "No threads yet. Tap New to start one."}</p></div>`;
+    return;
+  }
+  box.innerHTML = rows.map((row) => `
+    <div class="panel thread${row.id === state.chatId ? " active" : ""}" data-open="${row.id}">
+      <div class="list-item">
+        <div>
+          <b>${esc(row.title)}</b>
+          <div class="tiny">${esc(row.preview || "")}</div>
+          <div class="tiny">${when(row.updated_at)} · ${row.turns || 0} turn${row.turns === 1 ? "" : "s"}</div>
+        </div>
+        <button class="ghost" data-del="${row.id}" type="button">✕</button>
+      </div>
+    </div>`).join("");
+  box.querySelectorAll("[data-open]").forEach((el) => {
+    el.onclick = (ev) => {
+      if (ev.target.closest("[data-del]")) return;
+      openThread(el.dataset.open).catch((err) => { box.innerHTML = `<div class="panel">${esc(err.message)}</div>`; });
+    };
+  });
+  box.querySelectorAll("[data-del]").forEach((btn) => {
+    btn.onclick = async (ev) => {
+      ev.stopPropagation();
+      await api(`/api/chats/${btn.dataset.del}`, { method: "DELETE" });
+      if (state.chatId === btn.dataset.del) {
+        state.chatId = null;
+        state.history = [];
+        rememberChat(null);
+      }
+      showThreadList();
+    };
+  });
+}
+
+async function renderChat() {
+  if (state.chatMode === "thread") {
+    showThread();
+    return;
+  }
+  const remembered = localStorage.getItem(CHAT_STORE);
+  if (!state.chatId && remembered) {
+    try {
+      await openThread(remembered);
+      return;
+    } catch {
+      rememberChat(null);
+    }
+  }
+  showThreadList();
+}
+
 $("#sendChat").onclick = sendChat;
+$("#newChat").onclick = () => {
+  startNewChat();
+  $("#chatInput").focus();
+};
+$("#backToThreads").onclick = () => showThreadList();
+let searchTimer = 0;
+$("#chatSearch").oninput = () => {
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(() => {
+    showThreadList();
+  }, 180);
+};
 
 async function renderLab() {
   const rows = await api("/api/simulations");
