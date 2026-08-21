@@ -3,8 +3,9 @@
   "short_name": "Family Cup",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#10141c",
-  "theme_color": "#1b3a6b",
+  "background_color": "#0b1220",
+  "theme_color": "#0b1220",
+  "description": "Scan household Pokémon cards, fight Family Cup, and watch the lab learn.",
   "icons": [
     { "src": "/static/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
   ]
