@@ -113,6 +113,11 @@ def test_app_js_keeps_simulator_contracts():
     assert "function beginStadiumRun" in js
     assert "Simulation failed" in js
     assert "${aName} takes it" in js
+    assert "function prizeCount" in js
+    assert "function closeLightbox" in js
+    assert 'classList.toggle("busy", !!(on && withMask))' in js
+    assert "function stopReplay" in js
+    assert "sendChat.busy" in js
 
 
 def test_classify_log_labels_printed_engine_lines():

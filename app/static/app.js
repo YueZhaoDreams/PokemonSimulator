@@ -204,7 +204,7 @@ function paintSfx() {
 }
 
 function setBusy(on, line, withMask) {
-  document.body.classList.toggle("busy", on);
+  document.body.classList.toggle("busy", !!(on && withMask));
   const mask = $("#busyMask");
   if (mask) mask.classList.toggle("hidden", !(on && withMask));
   if (line && $("#busyLine")) $("#busyLine").textContent = line;
@@ -264,16 +264,40 @@ function paintRules(rules) {
   }
   const tag = $("#brandTag");
   if (tag) tag.textContent = `${rules.deck_size} cards · ${rules.prize_count} prizes · ${energy}`;
+  ensurePrizePips();
+}
+
+function prizeCount() {
+  const n = Number(state.rules?.prize_count);
+  return Number.isFinite(n) && n > 0 ? n : 3;
+}
+
+function ensurePrizePips() {
+  const n = prizeCount();
+  for (const id of ["prizesA", "prizesB"]) {
+    const row = $(`#${id}`);
+    if (!row) continue;
+    if (row.children.length === n) continue;
+    row.innerHTML = Array.from({ length: n }, () => "<i></i>").join("");
+  }
 }
 
 function paintPrizes(winner) {
-  const fill = (id, n) => {
-    $$(`#${id} i`).forEach((el, i) => el.classList.toggle("taken", i < n));
+  ensurePrizePips();
+  const n = prizeCount();
+  const fill = (id, taken) => {
+    $$(`#${id} i`).forEach((el, i) => el.classList.toggle("taken", i < taken));
   };
-  if (winner === "a") { fill("prizesA", 3); fill("prizesB", 0); }
-  else if (winner === "b") { fill("prizesA", 0); fill("prizesB", 3); }
-  else if (winner === "tie") { fill("prizesA", 1); fill("prizesB", 1); }
-  else { fill("prizesA", 0); fill("prizesB", 0); }
+  if (winner === "a") { fill("prizesA", n); fill("prizesB", 0); }
+  else if (winner === "b") { fill("prizesA", 0); fill("prizesB", n); }
+  else if (winner === "tie") {
+    const half = Math.floor(n / 2);
+    fill("prizesA", half);
+    fill("prizesB", half);
+  } else {
+    fill("prizesA", 0);
+    fill("prizesB", 0);
+  }
 }
 
 function resetArenaResult() {
@@ -617,6 +641,7 @@ function resultPanel(rec, opts = {}) {
 }
 
 function beginStadiumRun(hint) {
+  stopReplay();
   resetArenaResult();
   if ($("#arenaHint") && hint) $("#arenaHint").textContent = hint;
 }
@@ -659,6 +684,11 @@ function replayHtml(rec, boxId) {
 
 let replayTimer = 0;
 let replayGen = 0;
+function stopReplay() {
+  replayGen += 1;
+  if (replayTimer) clearTimeout(replayTimer);
+  replayTimer = 0;
+}
 function playLog(boxId) {
   const box = document.getElementById(boxId);
   if (!box) return;
@@ -770,8 +800,7 @@ $("#watchOne").onclick = async () => {
 };
 
 $("#runTrades").onclick = async () => {
-  resetArenaResult();
-  if ($("#arenaHint")) $("#arenaHint").textContent = "Looking for win-win trades";
+  beginStadiumRun("Looking for win-win trades");
   $("#simOut").innerHTML = `<div class="panel">Searching win-win trades…</div>`;
   setBusy(true, "Trying 1-for-1 swaps that help both sets…", true);
   try {
@@ -796,7 +825,9 @@ $("#runTrades").onclick = async () => {
 
 async function sendChat() {
   const message = $("#chatInput").value.trim();
-  if (!message) return;
+  if (!message || sendChat.busy) return;
+  sendChat.busy = true;
+  $("#sendChat").disabled = true;
   showThread();
   $("#chatLog").insertAdjacentHTML("beforeend", `<div class="msg user">${md(message)}</div>`);
   $("#chatInput").value = "";
@@ -863,6 +894,8 @@ async function sendChat() {
     body.innerHTML = md(String(err.message || err));
     bot.classList.remove("live");
   } finally {
+    sendChat.busy = false;
+    if ($("#sendChat")) $("#sendChat").disabled = false;
     setBusy(false);
     renderChatThreads();
   }
@@ -1020,15 +1053,24 @@ async function renderLab() {
   });
 }
 
+let lightboxOpener = null;
 function openLightbox(src, name) {
+  lightboxOpener = document.activeElement;
   $("#lightboxImg").src = src;
   $("#lightboxImg").alt = name;
   $("#lightboxCap").textContent = name;
   $("#lightbox").classList.remove("hidden");
+  $("#lightboxClose")?.focus();
 }
-$("#lightboxClose").onclick = () => $("#lightbox").classList.add("hidden");
+function closeLightbox() {
+  if ($("#lightbox").classList.contains("hidden")) return;
+  $("#lightbox").classList.add("hidden");
+  if (lightboxOpener && typeof lightboxOpener.focus === "function") lightboxOpener.focus();
+  lightboxOpener = null;
+}
+$("#lightboxClose").onclick = () => closeLightbox();
 $("#lightbox").addEventListener("click", (e) => {
-  if (e.target.id === "lightbox") $("#lightbox").classList.add("hidden");
+  if (e.target.id === "lightbox") closeLightbox();
 });
 
 ["deckA", "deckB", "stratA", "stratB"].forEach((id) => {
@@ -1058,6 +1100,10 @@ $("#brandTap").onclick = () => {
 };
 
 document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    closeLightbox();
+    return;
+  }
   if (e.target && /input|textarea|select/i.test(e.target.tagName)) return;
   const map = { 1: "scan", 2: "decks", 3: "fight", 4: "chat", 5: "lab" };
   if (map[e.key]) show(map[e.key]);
