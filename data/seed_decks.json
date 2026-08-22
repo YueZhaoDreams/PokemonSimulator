@@ -1,63 +1,182 @@
 {
   "a": {
     "id": "seed-a",
-    "name": "Carpet Set A (Dondozo)",
+    "name": "Carpet Set A (Dondozo / Staraptor)",
     "sample": "set-a-web.jpg",
+    "kind": "list",
     "cards": [
       {
-        "catalog_id": "swsh11-125",
-        "name": "Bronzor",
+        "catalog_id": "swsh11-160",
+        "name": "Lake Acuity",
+        "category": "Trainer",
+        "stage": "Stadium",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "stadium",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/swsh/swsh11/160/low.webp",
+        "set_name": "Lost Origin",
+        "text": "All Pok\u00e9mon that have any Water or Fighting Energy attached (both yours and your opponent's) take 20 less damage from attacks from the opponent's Pok\u00e9mon (after applying Weakness and Resistance).",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv04-181",
+        "name": "Tulip",
+        "category": "Trainer",
+        "stage": "Supporter",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "supporter",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv04/181/low.webp",
+        "set_name": "Paradox Rift",
+        "text": "Put up to 4 in any combination of {P} Pok\u00e9mon and Basic {P} Energy cards from your discard pile into your hand.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv04.5-091",
+        "name": "Ultra Ball",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv04.5/091/low.webp",
+        "set_name": "Paldean Fates",
+        "text": "You can use this card only if you discard 2 other cards from your hand.\n\nSearch your deck for a Pok\u00e9mon, reveal it, and put it into your hand. Then, shuffle your deck.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-129",
+        "name": "Energy Switch",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/129/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "Move a basic Energy from 1 of your Pok\u00e9mon to another of your Pok\u00e9mon.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh3.5-59",
+        "name": "Pok\u00e9 Ball",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/swsh/swsh3.5/59/low.webp",
+        "set_name": "Champion's Path",
+        "text": "Flip a coin. If heads, search your deck for a Pok\u00e9mon, reveal it, and put it into your hand. Then, shuffle your deck.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv05-078",
+        "name": "Flutter Mane",
         "category": "Pokemon",
         "stage": "Basic",
         "types": [
-          "Metal"
+          "Psychic"
+        ],
+        "hp": 90,
+        "attacks": [
+          {
+            "name": "Hex Hurl",
+            "cost": [
+              "Colorless",
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 90,
+            "text": "Put 2 damage counters on your opponent's Benched Pok\u00e9mon in any way you like.",
+            "effects": [
+              {
+                "kind": "bench_damage_counters",
+                "counters": 2
+              }
+            ]
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Midnight Fluttering",
+            "text": "As long as this Pok\u00e9mon is in the Active Spot, your opponent's Active Pok\u00e9mon has no Abilities, except for Midnight Fluttering.",
+            "effects": []
+          }
+        ],
+        "weaknesses": [
+          {
+            "type": "Metal",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv05/078/low.webp",
+        "set_name": "Temporal Forces",
+        "text": "This Pok\u00e9mon has characteristics similar to those of Flutter Mane, a creature mentioned in a certain book.",
+        "dex_id": 987
+      },
+      {
+        "catalog_id": "sv04-091",
+        "name": "Gligar",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Fighting"
         ],
         "hp": 70,
         "attacks": [
           {
-            "name": "Spinning Attack",
+            "name": "Toxic",
             "cost": [
               "Colorless"
             ],
-            "damage": 10,
-            "text": "",
-            "effects": []
-          }
-        ],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 2,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh11/125/low.webp",
-        "set_name": "Lost Origin",
-        "text": "",
-        "dex_id": 436
-      },
-      {
-        "catalog_id": "swsh12.5-090",
-        "name": "Metang",
-        "category": "Pokemon",
-        "stage": "Stage1",
-        "types": [
-          "Metal"
-        ],
-        "hp": 100,
-        "attacks": [
-          {
-            "name": "Bullet Punch",
-            "cost": [
-              "Metal",
-              "Colorless"
-            ],
-            "damage": 30,
-            "text": "Flip 2 coins. This attack does 30 more damage for each heads.",
+            "damage": 0,
+            "text": "Flip a coin. If heads, your opponent's Active Pok\u00e9mon is now Poisoned. During Pok\u00e9mon Checkup, put 2 damage counters on that Pok\u00e9mon instead of 1.",
             "effects": [
               {
-                "kind": "times",
-                "note": "30+"
+                "kind": "status",
+                "status": "poisoned",
+                "coin": true
               }
             ]
           }
@@ -65,24 +184,82 @@
         "abilities": [],
         "weaknesses": [
           {
-            "type": "Fire",
+            "type": "Grass",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv04/091/low.webp",
+        "set_name": "Paradox Rift",
+        "text": "It flies straight at its target's face, then clamps down on the startled victim to inject poison.",
+        "dex_id": 207
+      },
+      {
+        "catalog_id": "sv01-150",
+        "name": "Staraptor",
+        "category": "Pokemon",
+        "stage": "Stage2",
+        "types": [
+          "Colorless"
+        ],
+        "hp": 150,
+        "attacks": [
+          {
+            "name": "Tailspin Away",
+            "cost": [
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 60,
+            "text": "During your opponent's next turn, prevent all damage done to this Pok\u00e9mon by attacks from Basic Pok\u00e9mon.",
+            "effects": [
+              {
+                "kind": "prevent_basic_damage"
+              }
+            ]
+          },
+          {
+            "name": "Power Blast",
+            "cost": [
+              "Colorless",
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 180,
+            "text": "Discard an Energy from this Pok\u00e9mon.",
+            "effects": [
+              {
+                "kind": "discard_energy",
+                "count": 1
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Lightning",
             "value": "\u00d72"
           }
         ],
         "resistances": [
           {
-            "type": "Grass",
+            "type": "Fighting",
             "value": "-30"
           }
         ],
-        "retreat": 2,
-        "evolves_from": "Beldum",
+        "retreat": 1,
+        "evolves_from": "Staravia",
         "trainer_kind": null,
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/090/low.webp",
-        "set_name": "Crown Zenith",
-        "text": "Two Beldum have become stuck together via their own magnetic forces. With two brains, the resulting Metang has doubled psychic powers.",
-        "dex_id": 375
+        "image": "https://assets.tcgdex.net/en/sv/sv01/150/low.webp",
+        "set_name": "Scarlet & Violet",
+        "text": "When Staravia evolve into Staraptor, they leave the flock to live alone. They have sturdy wings.",
+        "dex_id": 398
       },
       {
         "catalog_id": "sv04-138",
@@ -149,283 +326,6 @@
         "dex_id": 968
       },
       {
-        "catalog_id": "swsh12.5-070",
-        "name": "Baltoy",
-        "category": "Pokemon",
-        "stage": "Basic",
-        "types": [
-          "Fighting"
-        ],
-        "hp": 60,
-        "attacks": [
-          {
-            "name": "Smack",
-            "cost": [
-              "Colorless",
-              "Colorless"
-            ],
-            "damage": 20,
-            "text": "",
-            "effects": []
-          }
-        ],
-        "abilities": [],
-        "weaknesses": [
-          {
-            "type": "Grass",
-            "value": "\u00d72"
-          }
-        ],
-        "resistances": [],
-        "retreat": 1,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/070/low.webp",
-        "set_name": "Crown Zenith",
-        "text": "It was discovered in ancient ruins. While moving, it constantly spins. It stands on one foot even when asleep.",
-        "dex_id": 343
-      },
-      {
-        "catalog_id": "swsh12.5-073",
-        "name": "Rockruff",
-        "category": "Pokemon",
-        "stage": "Basic",
-        "types": [
-          "Fighting"
-        ],
-        "hp": 60,
-        "attacks": [
-          {
-            "name": "Invite Out",
-            "cost": [
-              "Colorless"
-            ],
-            "damage": 0,
-            "text": "Flip a coin. If heads, switch 1 of your opponent's Benched Pok\u00e9mon with their Active Pok\u00e9mon.",
-            "effects": []
-          },
-          {
-            "name": "Smash Kick",
-            "cost": [
-              "Fighting",
-              "Colorless"
-            ],
-            "damage": 20,
-            "text": "",
-            "effects": []
-          }
-        ],
-        "abilities": [],
-        "weaknesses": [
-          {
-            "type": "Grass",
-            "value": "\u00d72"
-          }
-        ],
-        "resistances": [],
-        "retreat": 1,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/073/low.webp",
-        "set_name": "Crown Zenith",
-        "text": "This Pok\u00e9mon can bond very strongly with its Trainer, but it also has a habit of biting. Raising a Rockruff for a long time can be challenging.",
-        "dex_id": 744
-      },
-      {
-        "catalog_id": "swsh11-108",
-        "name": "Carbink",
-        "category": "Pokemon",
-        "stage": "Basic",
-        "types": [
-          "Fighting"
-        ],
-        "hp": 90,
-        "attacks": [
-          {
-            "name": "Lucky Find",
-            "cost": [
-              "Colorless"
-            ],
-            "damage": 0,
-            "text": "Search your deck for up to 2 Item cards, reveal them, and put them into your hand. Then, shuffle your deck.",
-            "effects": [
-              {
-                "kind": "search_item",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "name": "Power Gem",
-            "cost": [
-              "Fighting",
-              "Colorless",
-              "Colorless"
-            ],
-            "damage": 80,
-            "text": "",
-            "effects": []
-          }
-        ],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 1,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh11/108/low.webp",
-        "set_name": "Lost Origin",
-        "text": "",
-        "dex_id": 703
-      },
-      {
-        "catalog_id": "swsh12.5-029",
-        "name": "Seel",
-        "category": "Pokemon",
-        "stage": "Basic",
-        "types": [
-          "Water"
-        ],
-        "hp": 70,
-        "attacks": [
-          {
-            "name": "Headbutt",
-            "cost": [
-              "Water"
-            ],
-            "damage": 10,
-            "text": "",
-            "effects": []
-          },
-          {
-            "name": "Rain Splash",
-            "cost": [
-              "Water",
-              "Colorless"
-            ],
-            "damage": 20,
-            "text": "",
-            "effects": []
-          }
-        ],
-        "abilities": [],
-        "weaknesses": [
-          {
-            "type": "Lightning",
-            "value": "\u00d72"
-          }
-        ],
-        "resistances": [],
-        "retreat": 1,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/029/low.webp",
-        "set_name": "Crown Zenith",
-        "text": "Thanks to its thick fat, cold seas don't bother it at all, but it gets tired pretty easily in warm waters.",
-        "dex_id": 86
-      },
-      {
-        "catalog_id": "swsh12.5-033",
-        "name": "Corphish",
-        "category": "Pokemon",
-        "stage": "Basic",
-        "types": [
-          "Water"
-        ],
-        "hp": 70,
-        "attacks": [
-          {
-            "name": "Water Gun",
-            "cost": [
-              "Colorless"
-            ],
-            "damage": 10,
-            "text": "",
-            "effects": []
-          },
-          {
-            "name": "Crabhammer",
-            "cost": [
-              "Water",
-              "Colorless",
-              "Colorless"
-            ],
-            "damage": 50,
-            "text": "",
-            "effects": []
-          }
-        ],
-        "abilities": [],
-        "weaknesses": [
-          {
-            "type": "Lightning",
-            "value": "\u00d72"
-          }
-        ],
-        "resistances": [],
-        "retreat": 2,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/033/low.webp",
-        "set_name": "Crown Zenith",
-        "text": "No matter how dirty the water in the river, it will adapt and thrive. It has a strong will to survive.",
-        "dex_id": 341
-      },
-      {
-        "catalog_id": "swsh11-031",
-        "name": "Poliwhirl",
-        "category": "Pokemon",
-        "stage": "Stage1",
-        "types": [
-          "Water"
-        ],
-        "hp": 90,
-        "attacks": [
-          {
-            "name": "Light Punch",
-            "cost": [
-              "Colorless",
-              "Colorless"
-            ],
-            "damage": 30,
-            "text": "",
-            "effects": []
-          },
-          {
-            "name": "Double Smash",
-            "cost": [
-              "Water",
-              "Colorless",
-              "Colorless"
-            ],
-            "damage": 50,
-            "text": "Flip 2 coins. This attack does 50 damage for each heads.",
-            "effects": [
-              {
-                "kind": "times",
-                "note": "50\u00d7"
-              }
-            ]
-          }
-        ],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 2,
-        "evolves_from": "Poliwag",
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh11/031/low.webp",
-        "set_name": "Lost Origin",
-        "text": "",
-        "dex_id": 61
-      },
-      {
         "catalog_id": "sv04-055",
         "name": "Dondozo",
         "category": "Pokemon",
@@ -481,21 +381,37 @@
         "dex_id": 977
       },
       {
-        "catalog_id": "swsh11-016",
-        "name": "Phantump",
+        "catalog_id": "swsh11-108",
+        "name": "Carbink",
         "category": "Pokemon",
         "stage": "Basic",
         "types": [
-          "Grass"
+          "Fighting"
         ],
-        "hp": 70,
+        "hp": 90,
         "attacks": [
           {
-            "name": "Hook",
+            "name": "Lucky Find",
             "cost": [
               "Colorless"
             ],
-            "damage": 10,
+            "damage": 0,
+            "text": "Search your deck for up to 2 Item cards, reveal them, and put them into your hand. Then, shuffle your deck.",
+            "effects": [
+              {
+                "kind": "search_item",
+                "count": 2
+              }
+            ]
+          },
+          {
+            "name": "Power Gem",
+            "cost": [
+              "Fighting",
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 80,
             "text": "",
             "effects": []
           }
@@ -503,52 +419,14 @@
         "abilities": [],
         "weaknesses": [],
         "resistances": [],
-        "retreat": 2,
+        "retreat": 1,
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh11/016/low.webp",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh11/108/low.webp",
         "set_name": "Lost Origin",
         "text": "",
-        "dex_id": 708
-      },
-      {
-        "catalog_id": "swsh11-002",
-        "name": "Gloom",
-        "category": "Pokemon",
-        "stage": "Stage1",
-        "types": [
-          "Grass"
-        ],
-        "hp": 80,
-        "attacks": [
-          {
-            "name": "Absorb",
-            "cost": [
-              "Grass",
-              "Colorless"
-            ],
-            "damage": 30,
-            "text": "Heal 30 damage from this Pok\u00e9mon.",
-            "effects": [
-              {
-                "kind": "heal",
-                "amount": 30
-              }
-            ]
-          }
-        ],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 2,
-        "evolves_from": "Oddish",
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh11/002/low.webp",
-        "set_name": "Lost Origin",
-        "text": "",
-        "dex_id": 44
+        "dex_id": 703
       },
       {
         "catalog_id": "swsh12.5-001",
@@ -593,187 +471,41 @@
         "dex_id": 43
       },
       {
-        "catalog_id": "swsh11-014",
-        "name": "Roselia",
-        "category": "Pokemon",
-        "stage": "Basic",
-        "types": [
-          "Grass"
-        ],
-        "hp": 70,
-        "attacks": [
-          {
-            "name": "Soothing Scent",
-            "cost": [
-              "Grass"
-            ],
-            "damage": 0,
-            "text": "Your opponent's Active Pok\u00e9mon is now Asleep.",
-            "effects": [
-              {
-                "kind": "status",
-                "status": "asleep",
-                "coin": false
-              }
-            ]
-          }
-        ],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 1,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh11/014/low.webp",
-        "set_name": "Lost Origin",
-        "text": "",
-        "dex_id": 315
-      },
-      {
-        "catalog_id": "sv04-181",
-        "name": "Tulip",
-        "category": "Trainer",
-        "stage": "Supporter",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "supporter",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv04/181/low.webp",
-        "set_name": "Paradox Rift",
-        "text": "Put up to 4 in any combination of {P} Pok\u00e9mon and Basic {P} Energy cards from your discard pile into your hand.",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "swsh12.5-063",
-        "name": "Dusclops",
+        "catalog_id": "sv01-149",
+        "name": "Staravia",
         "category": "Pokemon",
         "stage": "Stage1",
         "types": [
-          "Psychic"
-        ],
-        "hp": 90,
-        "attacks": [
-          {
-            "name": "Fade to Black",
-            "cost": [
-              "Psychic"
-            ],
-            "damage": 30,
-            "text": "Your opponent's Active Pok\u00e9mon is now Confused.",
-            "effects": [
-              {
-                "kind": "status",
-                "status": "confused",
-                "coin": false
-              }
-            ]
-          }
-        ],
-        "abilities": [],
-        "weaknesses": [
-          {
-            "type": "Darkness",
-            "value": "\u00d72"
-          }
-        ],
-        "resistances": [
-          {
-            "type": "Fighting",
-            "value": "-30"
-          }
-        ],
-        "retreat": 2,
-        "evolves_from": "Duskull",
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/063/low.webp",
-        "set_name": "Crown Zenith",
-        "text": "Its body is entirely hollow. When it opens its mouth, it sucks everything in as if it were a black hole.",
-        "dex_id": 356
-      },
-      {
-        "catalog_id": "sv04-077",
-        "name": "Pumpkaboo",
-        "category": "Pokemon",
-        "stage": "Basic",
-        "types": [
-          "Psychic"
-        ],
-        "hp": 60,
-        "attacks": [
-          {
-            "name": "Seed Bomb",
-            "cost": [
-              "Psychic"
-            ],
-            "damage": 10,
-            "text": "",
-            "effects": []
-          },
-          {
-            "name": "Reckless Charge",
-            "cost": [
-              "Colorless",
-              "Colorless"
-            ],
-            "damage": 40,
-            "text": "This Pok\u00e9mon also does 20 damage to itself.",
-            "effects": []
-          }
-        ],
-        "abilities": [],
-        "weaknesses": [
-          {
-            "type": "Darkness",
-            "value": "\u00d72"
-          }
-        ],
-        "resistances": [
-          {
-            "type": "Fighting",
-            "value": "-30"
-          }
-        ],
-        "retreat": 2,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv04/077/low.webp",
-        "set_name": "Paradox Rift",
-        "text": "The light that streams out from the holes in the pumpkin can hypnotize and control the people and Pok\u00e9mon that see it.",
-        "dex_id": 710
-      },
-      {
-        "catalog_id": "sv03.5-064",
-        "name": "Kadabra",
-        "category": "Pokemon",
-        "stage": "Stage1",
-        "types": [
-          "Psychic"
+          "Colorless"
         ],
         "hp": 80,
         "attacks": [
           {
-            "name": "Teleportation Attack",
+            "name": "Wing Attack",
             "cost": [
-              "Psychic"
+              "Colorless",
+              "Colorless"
             ],
-            "damage": 30,
-            "text": "Switch this Pok\u00e9mon with 1 of your Benched Pok\u00e9mon.",
+            "damage": 40,
+            "text": "",
+            "effects": []
+          },
+          {
+            "name": "Speed Dive",
+            "cost": [
+              "Colorless",
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 80,
+            "text": "",
             "effects": []
           }
         ],
         "abilities": [],
         "weaknesses": [
           {
-            "type": "Darkness",
+            "type": "Lightning",
             "value": "\u00d72"
           }
         ],
@@ -784,133 +516,30 @@
           }
         ],
         "retreat": 1,
-        "evolves_from": "Abra",
+        "evolves_from": "Starly",
         "trainer_kind": null,
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv03.5/064/low.webp",
-        "set_name": "151",
-        "text": "This Pok\u00e9mon's telekinesis is immensely powerful. To prepare for evolution, Kadabra stores up psychic energy in the star on its forehead.",
-        "dex_id": 64
+        "image": "https://assets.tcgdex.net/en/sv/sv01/149/low.webp",
+        "set_name": "Scarlet & Violet",
+        "text": "Recognizing their own weakness, they always live in a group. When alone, a Staravia cries noisily.",
+        "dex_id": 397
       },
       {
-        "catalog_id": "swsh11-062",
-        "name": "Clefairy",
+        "catalog_id": "swsh11-125",
+        "name": "Bronzor",
         "category": "Pokemon",
         "stage": "Basic",
         "types": [
-          "Psychic"
+          "Metal"
         ],
-        "hp": 60,
+        "hp": 70,
         "attacks": [
           {
-            "name": "Wonder Storm",
-            "cost": [
-              "Colorless",
-              "Colorless",
-              "Colorless"
-            ],
-            "damage": 20,
-            "text": "This attack does 20 damage for each Psychic Energy attached to all of your Pok\u00e9mon.",
-            "effects": [
-              {
-                "kind": "psychic_energy_times",
-                "per": 20
-              }
-            ]
-          }
-        ],
-        "abilities": [
-          {
-            "name": "Moon-Watching Party",
-            "text": "Once during your turn, if this Pok\u00e9mon is in the Active Spot, for each of your Benched Clefairy, you may search your deck for a Psychic Energy card and attach it to that Clefairy. Then, shuffle your deck."
-          }
-        ],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 2,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh11/062/low.webp",
-        "set_name": "Lost Origin",
-        "text": "",
-        "dex_id": 35
-      },
-      {
-        "catalog_id": "sv05-078",
-        "name": "Flutter Mane",
-        "category": "Pokemon",
-        "stage": "Basic",
-        "types": [
-          "Psychic"
-        ],
-        "hp": 90,
-        "attacks": [
-          {
-            "name": "Hex Hurl",
-            "cost": [
-              "Colorless",
-              "Colorless",
-              "Colorless"
-            ],
-            "damage": 90,
-            "text": "Put 2 damage counters on your opponent's Benched Pok\u00e9mon in any way you like.",
-            "effects": [
-              {
-                "kind": "bench_damage_counters",
-                "counters": 2
-              }
-            ]
-          }
-        ],
-        "abilities": [
-          {
-            "name": "Midnight Fluttering",
-            "text": "As long as this Pok\u00e9mon is in the Active Spot, your opponent's Active Pok\u00e9mon has no Abilities, except for Midnight Fluttering."
-          }
-        ],
-        "weaknesses": [
-          {
-            "type": "Metal",
-            "value": "\u00d72"
-          }
-        ],
-        "resistances": [],
-        "retreat": 1,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv05/078/low.webp",
-        "set_name": "Temporal Forces",
-        "text": "This Pok\u00e9mon has characteristics similar to those of Flutter Mane, a creature mentioned in a certain book.",
-        "dex_id": 987
-      },
-      {
-        "catalog_id": "swsh11-133",
-        "name": "Hisuian Sliggoo",
-        "category": "Pokemon",
-        "stage": "Stage1",
-        "types": [
-          "Dragon"
-        ],
-        "hp": 90,
-        "attacks": [
-          {
-            "name": "Rigidify",
+            "name": "Spinning Attack",
             "cost": [
               "Colorless"
             ],
-            "damage": 0,
-            "text": "During your opponent's next turn, this Pok\u00e9mon takes 50 less damage from attacks (after applying Weakness and Resistance).",
-            "effects": []
-          },
-          {
-            "name": "Gentle Slap",
-            "cost": [
-              "Water",
-              "Metal"
-            ],
-            "damage": 40,
+            "damage": 10,
             "text": "",
             "effects": []
           }
@@ -918,58 +547,14 @@
         "abilities": [],
         "weaknesses": [],
         "resistances": [],
-        "retreat": 3,
-        "evolves_from": "Goomy",
+        "retreat": 2,
+        "evolves_from": null,
         "trainer_kind": null,
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh11/133/low.webp",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh11/125/low.webp",
         "set_name": "Lost Origin",
         "text": "",
-        "dex_id": 705
-      },
-      {
-        "catalog_id": "swsh12.5-156",
-        "name": "Psychic Energy",
-        "category": "Energy",
-        "stage": "Basic",
-        "types": [
-          "Psychic"
-        ],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": "Psychic",
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/156/low.webp",
-        "set_name": "Crown Zenith",
-        "text": "",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "swsh12.5-156",
-        "name": "Psychic Energy",
-        "category": "Energy",
-        "stage": "Basic",
-        "types": [
-          "Psychic"
-        ],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": "Psychic",
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/156/low.webp",
-        "set_name": "Crown Zenith",
-        "text": "",
-        "dex_id": null
+        "dex_id": 436
       },
       {
         "catalog_id": "swsh12.5-154",
@@ -994,12 +579,12 @@
         "dex_id": null
       },
       {
-        "catalog_id": "swsh12.5-159",
-        "name": "Metal Energy",
+        "catalog_id": "swsh12.5-156",
+        "name": "Psychic Energy",
         "category": "Energy",
         "stage": "Basic",
         "types": [
-          "Metal"
+          "Psychic"
         ],
         "hp": 0,
         "attacks": [],
@@ -1009,152 +594,51 @@
         "retreat": 0,
         "evolves_from": null,
         "trainer_kind": null,
-        "energy_type": "Metal",
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/159/low.webp",
+        "energy_type": "Psychic",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/156/low.webp",
         "set_name": "Crown Zenith",
         "text": "",
         "dex_id": null
       },
       {
-        "catalog_id": "swsh11-160",
-        "name": "Lake Acuity",
-        "category": "Trainer",
-        "stage": "Stadium",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "stadium",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh11/160/low.webp",
-        "set_name": "Lost Origin",
-        "text": "All Pok\u00e9mon that have any Water or Fighting Energy attached (both yours and your opponent's) take 20 less damage from attacks from the opponent's Pok\u00e9mon (after applying Weakness and Resistance).",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "swsh3.5-59",
-        "name": "Pok\u00e9 Ball",
-        "category": "Trainer",
-        "stage": "Item",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "item",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh3.5/59/low.webp",
-        "set_name": "Champion's Path",
-        "text": "Flip a coin. If heads, search your deck for a Pok\u00e9mon, reveal it, and put it into your hand. Then, shuffle your deck.",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "sv04.5-091",
-        "name": "Ultra Ball",
-        "category": "Trainer",
-        "stage": "Item",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "item",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv04.5/091/low.webp",
-        "set_name": "Paldean Fates",
-        "text": "You can use this card only if you discard 2 other cards from your hand.\n\nSearch your deck for a Pok\u00e9mon, reveal it, and put it into your hand. Then, shuffle your deck.",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "swsh12.5-129",
-        "name": "Energy Switch",
-        "category": "Trainer",
-        "stage": "Item",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "item",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/129/low.webp",
-        "set_name": "Crown Zenith",
-        "text": "Move a basic Energy from 1 of your Pok\u00e9mon to another of your Pok\u00e9mon.",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "swsh12.5-145",
-        "name": "Trekking Shoes",
-        "category": "Trainer",
-        "stage": "Item",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "item",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/145/low.webp",
-        "set_name": "Crown Zenith",
-        "text": "Look at the top card of your deck. You may put that card into your hand. If you don't, discard that card and draw a card.",
-        "dex_id": null
-      }
-    ]
-  },
-  "b": {
-    "id": "seed-b",
-    "name": "Carpet Set B (Pikachu shock)",
-    "sample": "set-b-web.jpg",
-    "cards": [
-      {
-        "catalog_id": "sv03.5-002",
-        "name": "Ivysaur",
-        "category": "Pokemon",
-        "stage": "Stage1",
+        "catalog_id": "swsh12.5-156",
+        "name": "Psychic Energy",
+        "category": "Energy",
+        "stage": "Basic",
         "types": [
-          "Grass"
+          "Psychic"
         ],
-        "hp": 100,
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Psychic",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/156/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-070",
+        "name": "Baltoy",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Fighting"
+        ],
+        "hp": 60,
         "attacks": [
           {
-            "name": "Leech Seed",
+            "name": "Smack",
             "cost": [
-              "Grass",
+              "Colorless",
               "Colorless"
             ],
-            "damage": 30,
-            "text": "Heal 20 damage from this Pok\u00e9mon.",
-            "effects": [
-              {
-                "kind": "heal",
-                "amount": 20
-              }
-            ]
-          },
-          {
-            "name": "Vine Whip",
-            "cost": [
-              "Grass",
-              "Grass",
-              "Colorless"
-            ],
-            "damage": 80,
+            "damage": 20,
             "text": "",
             "effects": []
           }
@@ -1162,19 +646,19 @@
         "abilities": [],
         "weaknesses": [
           {
-            "type": "Fire",
+            "type": "Grass",
             "value": "\u00d72"
           }
         ],
         "resistances": [],
-        "retreat": 3,
-        "evolves_from": "Bulbasaur",
+        "retreat": 1,
+        "evolves_from": null,
         "trainer_kind": null,
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv03.5/002/low.webp",
-        "set_name": "151",
-        "text": "Exposure to sunlight adds to its strength. Sunlight also makes the bud on its back grow larger.",
-        "dex_id": 2
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/070/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "It was discovered in ancient ruins. While moving, it constantly spins. It stands on one foot even when asleep.",
+        "dex_id": 343
       },
       {
         "catalog_id": "swsh11-014",
@@ -1215,56 +699,71 @@
         "dex_id": 315
       },
       {
-        "catalog_id": "swsh12.5-152",
-        "name": "Grass Energy",
-        "category": "Energy",
-        "stage": "Basic",
-        "types": [
-          "Grass"
-        ],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": "Grass",
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/152/low.webp",
-        "set_name": "Crown Zenith",
-        "text": "",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "swsh12.5-004",
-        "name": "Tangela",
+        "catalog_id": "sv01-148",
+        "name": "Starly",
         "category": "Pokemon",
         "stage": "Basic",
         "types": [
-          "Grass"
+          "Colorless"
         ],
-        "hp": 80,
+        "hp": 60,
         "attacks": [
           {
-            "name": "Beat",
+            "name": "Flap",
             "cost": [
               "Colorless"
             ],
-            "damage": 10,
+            "damage": 20,
             "text": "",
             "effects": []
-          },
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
           {
-            "name": "Vine Whip",
+            "type": "Lightning",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [
+          {
+            "type": "Fighting",
+            "value": "-30"
+          }
+        ],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/148/low.webp",
+        "set_name": "Scarlet & Violet",
+        "text": "They flock around mountains and fields, chasing after bug Pok\u00e9mon. Their singing is noisy and annoying.",
+        "dex_id": 396
+      },
+      {
+        "catalog_id": "swsh12.5-090",
+        "name": "Metang",
+        "category": "Pokemon",
+        "stage": "Stage1",
+        "types": [
+          "Metal"
+        ],
+        "hp": 100,
+        "attacks": [
+          {
+            "name": "Bullet Punch",
             "cost": [
-              "Grass",
-              "Grass",
+              "Metal",
               "Colorless"
             ],
-            "damage": 60,
-            "text": "",
-            "effects": []
+            "damage": 30,
+            "text": "Flip 2 coins. This attack does 30 more damage for each heads.",
+            "effects": [
+              {
+                "kind": "times",
+                "note": "30+"
+              }
+            ]
           }
         ],
         "abilities": [],
@@ -1274,72 +773,94 @@
             "value": "\u00d72"
           }
         ],
-        "resistances": [],
+        "resistances": [
+          {
+            "type": "Grass",
+            "value": "-30"
+          }
+        ],
         "retreat": 2,
-        "evolves_from": null,
+        "evolves_from": "Beldum",
         "trainer_kind": null,
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/004/low.webp",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/090/low.webp",
         "set_name": "Crown Zenith",
-        "text": "Hidden beneath a tangle of vines that grows nonstop even if the vines are torn off, this Pok\u00e9mon's true appearance remains a mystery.",
-        "dex_id": 114
+        "text": "Two Beldum have become stuck together via their own magnetic forces. With two brains, the resulting Metang has doubled psychic powers.",
+        "dex_id": 375
       },
       {
-        "catalog_id": "swsh11-094",
-        "name": "Sudowoodo",
+        "catalog_id": "swsh11-031",
+        "name": "Poliwhirl",
         "category": "Pokemon",
-        "stage": "Basic",
+        "stage": "Stage1",
         "types": [
-          "Fighting"
+          "Water"
         ],
-        "hp": 110,
+        "hp": 90,
         "attacks": [
           {
-            "name": "Joust",
+            "name": "Light Punch",
             "cost": [
-              "Fighting"
+              "Colorless",
+              "Colorless"
             ],
-            "damage": 20,
-            "text": "Before doing damage, discard all Pok\u00e9mon Tools from your opponent's Active Pok\u00e9mon.",
+            "damage": 30,
+            "text": "",
             "effects": []
           },
           {
-            "name": "Impound",
+            "name": "Double Smash",
             "cost": [
-              "Fighting",
+              "Water",
+              "Colorless",
               "Colorless"
             ],
             "damage": 50,
-            "text": "During your opponent's next turn, the Defending Pok\u00e9mon can't retreat.",
-            "effects": []
+            "text": "Flip 2 coins. This attack does 50 damage for each heads.",
+            "effects": [
+              {
+                "kind": "times",
+                "note": "50\u00d7"
+              }
+            ]
           }
         ],
         "abilities": [],
         "weaknesses": [],
         "resistances": [],
         "retreat": 2,
-        "evolves_from": null,
+        "evolves_from": "Poliwag",
         "trainer_kind": null,
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh11/094/low.webp",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh11/031/low.webp",
         "set_name": "Lost Origin",
         "text": "",
-        "dex_id": 185
+        "dex_id": 61
       },
       {
-        "catalog_id": "sv04-094",
-        "name": "Gible",
+        "catalog_id": "swsh12.5-073",
+        "name": "Rockruff",
         "category": "Pokemon",
         "stage": "Basic",
         "types": [
           "Fighting"
         ],
-        "hp": 70,
+        "hp": 60,
         "attacks": [
           {
-            "name": "Bite",
+            "name": "Invite Out",
             "cost": [
-              "Fighting"
+              "Colorless"
+            ],
+            "damage": 0,
+            "text": "Flip a coin. If heads, switch 1 of your opponent's Benched Pok\u00e9mon with their Active Pok\u00e9mon.",
+            "effects": []
+          },
+          {
+            "name": "Smash Kick",
+            "cost": [
+              "Fighting",
+              "Colorless"
             ],
             "damage": 20,
             "text": "",
@@ -1358,43 +879,36 @@
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv04/094/low.webp",
-        "set_name": "Paradox Rift",
-        "text": "It skulks in caves, and when prey or an enemy passes by, it leaps out and chomps them. The force of its attack sometimes chips its teeth.",
-        "dex_id": 443
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/073/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "This Pok\u00e9mon can bond very strongly with its Trainer, but it also has a habit of biting. Raising a Rockruff for a long time can be challenging.",
+        "dex_id": 744
       },
       {
-        "catalog_id": "swsh11-109",
-        "name": "Rockruff",
+        "catalog_id": "swsh11-144",
+        "name": "Aipom",
         "category": "Pokemon",
         "stage": "Basic",
         "types": [
-          "Fighting"
+          "Colorless"
         ],
         "hp": 60,
         "attacks": [
           {
-            "name": "Double Draw",
+            "name": "Mischievous Tail",
             "cost": [
-              "Fighting"
-            ],
-            "damage": 0,
-            "text": "Draw 2 cards.",
-            "effects": [
-              {
-                "kind": "draw",
-                "amount": 2
-              }
-            ]
-          },
-          {
-            "name": "Rear Kick",
-            "cost": [
-              "Fighting",
-              "Colorless",
               "Colorless"
             ],
-            "damage": 30,
+            "damage": 0,
+            "text": "Look at the top card of your opponent's deck. You may have your opponent shuffle their deck.",
+            "effects": []
+          },
+          {
+            "name": "Scratch",
+            "cost": [
+              "Colorless"
+            ],
+            "damage": 10,
             "text": "",
             "effects": []
           }
@@ -1406,175 +920,57 @@
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh11/109/low.webp",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh11/144/low.webp",
         "set_name": "Lost Origin",
         "text": "",
-        "dex_id": 744
+        "dex_id": 190
       },
       {
-        "catalog_id": "swsh11-101",
-        "name": "Relicanth",
-        "category": "Pokemon",
+        "catalog_id": "swsh12.5-159",
+        "name": "Metal Energy",
+        "category": "Energy",
         "stage": "Basic",
         "types": [
-          "Fighting"
+          "Metal"
         ],
-        "hp": 90,
-        "attacks": [
-          {
-            "name": "Into the Deep",
-            "cost": [
-              "Colorless"
-            ],
-            "damage": 0,
-            "text": "Put up to 2 basic Energy cards from your discard pile into your hand.",
-            "effects": []
-          },
-          {
-            "name": "Tackle",
-            "cost": [
-              "Colorless",
-              "Colorless",
-              "Colorless"
-            ],
-            "damage": 80,
-            "text": "",
-            "effects": []
-          }
-        ],
+        "hp": 0,
+        "attacks": [],
         "abilities": [],
         "weaknesses": [],
         "resistances": [],
-        "retreat": 1,
+        "retreat": 0,
         "evolves_from": null,
         "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh11/101/low.webp",
-        "set_name": "Lost Origin",
-        "text": "",
-        "dex_id": 369
-      },
-      {
-        "catalog_id": "swsh12.5-028",
-        "name": "Salazzle",
-        "category": "Pokemon",
-        "stage": "Stage1",
-        "types": [
-          "Fire"
-        ],
-        "hp": 120,
-        "attacks": [
-          {
-            "name": "Tail Trickery",
-            "cost": [
-              "Colorless"
-            ],
-            "damage": 20,
-            "text": "Your opponent's Active Pok\u00e9mon is now Confused.",
-            "effects": [
-              {
-                "kind": "status",
-                "status": "confused",
-                "coin": false
-              }
-            ]
-          },
-          {
-            "name": "Super Singe",
-            "cost": [
-              "Fire",
-              "Colorless"
-            ],
-            "damage": 60,
-            "text": "Your opponent's Active Pok\u00e9mon is now Burned.",
-            "effects": [
-              {
-                "kind": "status",
-                "status": "burned",
-                "coin": false
-              }
-            ]
-          }
-        ],
-        "abilities": [],
-        "weaknesses": [
-          {
-            "type": "Water",
-            "value": "\u00d72"
-          }
-        ],
-        "resistances": [],
-        "retreat": 1,
-        "evolves_from": "Salandit",
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/028/low.webp",
+        "energy_type": "Metal",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/159/low.webp",
         "set_name": "Crown Zenith",
-        "text": "Only female Salazzle exist. They emit a gas laden with pheromones to captivate male Salandit.",
-        "dex_id": 758
+        "text": "",
+        "dex_id": null
       },
       {
-        "catalog_id": "sv04-024",
-        "name": "Crocalor",
-        "category": "Pokemon",
-        "stage": "Stage1",
-        "types": [
-          "Fire"
-        ],
-        "hp": 100,
-        "attacks": [
-          {
-            "name": "Rolling Fireball",
-            "cost": [
-              "Fire",
-              "Fire"
-            ],
-            "damage": 90,
-            "text": "Put an Energy attached to this Pok\u00e9mon into your hand.",
-            "effects": []
-          }
-        ],
-        "abilities": [],
-        "weaknesses": [
-          {
-            "type": "Water",
-            "value": "\u00d72"
-          }
-        ],
-        "resistances": [],
-        "retreat": 3,
-        "evolves_from": "Fuecoco",
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv04/024/low.webp",
-        "set_name": "Paradox Rift",
-        "text": "The combination of Crocalor's fire energy and overflowing vitality has caused an egg-shaped fireball to appear on the Pok\u00e9mon's head.",
-        "dex_id": 910
-      },
-      {
-        "catalog_id": "swsh11-021",
-        "name": "Slugma",
+        "catalog_id": "swsh12.5-033",
+        "name": "Corphish",
         "category": "Pokemon",
         "stage": "Basic",
         "types": [
-          "Fire"
+          "Water"
         ],
         "hp": 70,
         "attacks": [
           {
-            "name": "Draw In",
+            "name": "Water Gun",
             "cost": [
-              "Fire"
+              "Colorless"
             ],
-            "damage": 0,
-            "text": "Attach a Fire Energy card from your discard pile to this Pok\u00e9mon.",
+            "damage": 10,
+            "text": "",
             "effects": []
           },
           {
-            "name": "Combustion",
+            "name": "Crabhammer",
             "cost": [
-              "Fire",
-              "Fire",
+              "Water",
+              "Colorless",
               "Colorless"
             ],
             "damage": 50,
@@ -1583,60 +979,30 @@
           }
         ],
         "abilities": [],
-        "weaknesses": [],
+        "weaknesses": [
+          {
+            "type": "Lightning",
+            "value": "\u00d72"
+          }
+        ],
         "resistances": [],
         "retreat": 2,
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh11/021/low.webp",
-        "set_name": "Lost Origin",
-        "text": "",
-        "dex_id": 218
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/033/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "No matter how dirty the water in the river, it will adapt and thrive. It has a strong will to survive.",
+        "dex_id": 341
       },
       {
-        "catalog_id": "swsh11-024",
-        "name": "Litwick",
-        "category": "Pokemon",
-        "stage": "Basic",
+        "catalog_id": "sv06-166",
+        "name": "Boomerang Energy",
+        "category": "Energy",
+        "stage": "Special",
         "types": [
-          "Fire"
+          "Colorless"
         ],
-        "hp": 60,
-        "attacks": [
-          {
-            "name": "Kindling Panic",
-            "cost": [
-              "Fire"
-            ],
-            "damage": 0,
-            "text": "Discard the top card of your opponent's deck.",
-            "effects": [
-              {
-                "kind": "mill_opponent",
-                "count": 1
-              }
-            ]
-          }
-        ],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 1,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh11/024/low.webp",
-        "set_name": "Lost Origin",
-        "text": "",
-        "dex_id": 607
-      },
-      {
-        "catalog_id": "swsh12.5-128",
-        "name": "Energy Search",
-        "category": "Trainer",
-        "stage": "Item",
-        "types": [],
         "hp": 0,
         "attacks": [],
         "abilities": [],
@@ -1644,12 +1010,69 @@
         "resistances": [],
         "retreat": 0,
         "evolves_from": null,
-        "trainer_kind": "item",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/128/low.webp",
-        "set_name": "Crown Zenith",
-        "text": "Search your deck for a basic Energy card, reveal it, and put it into your hand. Then, shuffle your deck.",
+        "trainer_kind": null,
+        "energy_type": "Colorless",
+        "image": "https://assets.tcgdex.net/en/sv/sv06/166/low.webp",
+        "set_name": "Twilight Masquerade",
+        "text": "As long as this card is attached to a Pok\u00e9mon, it provides {C} Energy.\n\nIf this card is discarded by an effect of an attack used by the Pok\u00e9mon this card is attached to, attach this card from your discard pile to that Pok\u00e9mon after attacking.",
         "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-087",
+        "name": "Aron",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Metal"
+        ],
+        "hp": 70,
+        "attacks": [
+          {
+            "name": "Ram",
+            "cost": [
+              "Metal"
+            ],
+            "damage": 10,
+            "text": "",
+            "effects": []
+          },
+          {
+            "name": "Slight Intrusion",
+            "cost": [
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 30,
+            "text": "This Pok\u00e9mon also does 10 damage to itself.",
+            "effects": [
+              {
+                "kind": "recoil",
+                "amount": 10
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Fire",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [
+          {
+            "type": "Grass",
+            "value": "-30"
+          }
+        ],
+        "retreat": 2,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/087/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "It eats iron ore\u2014and sometimes railroad tracks\u2014 to build up the steel armor that protects its body.",
+        "dex_id": 304
       },
       {
         "catalog_id": "sv04-127",
@@ -1735,62 +1158,18 @@
         "set_name": "Crown Zenith",
         "text": "Living with a savage, seafaring people has toughened this Pok\u00e9mon's body so much that parts of it have turned to iron.",
         "dex_id": 52
-      },
+      }
+    ]
+  },
+  "b": {
+    "id": "seed-b",
+    "name": "Carpet Set B (Walrein / Pikachu shock)",
+    "sample": "set-b-web.jpg",
+    "kind": "list",
+    "cards": [
       {
-        "catalog_id": "swsh12.5-087",
-        "name": "Aron",
-        "category": "Pokemon",
-        "stage": "Basic",
-        "types": [
-          "Metal"
-        ],
-        "hp": 70,
-        "attacks": [
-          {
-            "name": "Ram",
-            "cost": [
-              "Metal"
-            ],
-            "damage": 10,
-            "text": "",
-            "effects": []
-          },
-          {
-            "name": "Slight Intrusion",
-            "cost": [
-              "Colorless",
-              "Colorless"
-            ],
-            "damage": 30,
-            "text": "This Pok\u00e9mon also does 10 damage to itself.",
-            "effects": []
-          }
-        ],
-        "abilities": [],
-        "weaknesses": [
-          {
-            "type": "Fire",
-            "value": "\u00d72"
-          }
-        ],
-        "resistances": [
-          {
-            "type": "Grass",
-            "value": "-30"
-          }
-        ],
-        "retreat": 2,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/087/low.webp",
-        "set_name": "Crown Zenith",
-        "text": "It eats iron ore\u2014and sometimes railroad tracks\u2014 to build up the steel armor that protects its body.",
-        "dex_id": 304
-      },
-      {
-        "catalog_id": "sv10.5w-082",
-        "name": "Energy Retrieval",
+        "catalog_id": "swsh12.5-145",
+        "name": "Trekking Shoes",
         "category": "Trainer",
         "stage": "Item",
         "types": [],
@@ -1803,20 +1182,63 @@
         "evolves_from": null,
         "trainer_kind": "item",
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv10.5w/082/low.webp",
-        "set_name": "White Flare",
-        "text": "Put up to 2 Basic Energy cards from your discard pile into your hand.",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/145/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "Look at the top card of your deck. You may put that card into your hand. If you don't, discard that card and draw a card.",
         "dex_id": null
       },
       {
-        "catalog_id": "sv04-087",
-        "name": "Gimmighoul",
+        "catalog_id": "sv04-060",
+        "name": "Plusle",
         "category": "Pokemon",
         "stage": "Basic",
         "types": [
-          "Psychic"
+          "Lightning"
         ],
-        "hp": 50,
+        "hp": 70,
+        "attacks": [
+          {
+            "name": "Plus Damage",
+            "cost": [
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 10,
+            "text": "This attack does 10 more damage for each damage counter on your opponent's Active Pok\u00e9mon.",
+            "effects": [
+              {
+                "kind": "damage_counter_bonus",
+                "per": 10
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Fighting",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv04/060/low.webp",
+        "set_name": "Paradox Rift",
+        "text": "It absorbs electricity from telephone poles. It shorts out its body to create crackling noises.",
+        "dex_id": 311
+      },
+      {
+        "catalog_id": "sv10.5b-029",
+        "name": "Emolga",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Lightning"
+        ],
+        "hp": 70,
         "attacks": [
           {
             "name": "Call for Family",
@@ -1824,19 +1246,18 @@
               "Colorless"
             ],
             "damage": 0,
-            "text": "Search your deck for a Basic Pok\u00e9mon and put it onto your Bench. Then, shuffle your deck.",
+            "text": "Search your deck for up to 2 Basic Pok\u00e9mon and put them onto your Bench. Then, shuffle your deck.",
             "effects": [
               {
                 "kind": "call_family",
-                "count": 1
+                "count": 2
               }
             ]
           },
           {
-            "name": "Corkscrew Punch",
+            "name": "Static Shock",
             "cost": [
-              "Colorless",
-              "Colorless"
+              "Lightning"
             ],
             "damage": 20,
             "text": "",
@@ -1844,26 +1265,80 @@
           }
         ],
         "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv10.5b/029/low.webp",
+        "set_name": "Black Bolt",
+        "text": "",
+        "dex_id": 587
+      },
+      {
+        "catalog_id": "sm12-66",
+        "name": "Pikachu",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Lightning"
+        ],
+        "hp": 70,
+        "attacks": [
+          {
+            "name": "Nuzzle",
+            "cost": [
+              "Lightning"
+            ],
+            "damage": 0,
+            "text": "Flip a coin. If heads, your opponent\u2019s Active Pok\u00e9mon is now Paralyzed.",
+            "effects": [
+              {
+                "kind": "status",
+                "status": "paralyzed",
+                "coin": true
+              }
+            ]
+          },
+          {
+            "name": "Volt Tackle",
+            "cost": [
+              "Lightning",
+              "Lightning",
+              "Colorless"
+            ],
+            "damage": 70,
+            "text": "This Pok\u00e9mon does 10 damage to itself.",
+            "effects": [
+              {
+                "kind": "recoil",
+                "amount": 10
+              }
+            ]
+          }
+        ],
+        "abilities": [],
         "weaknesses": [
           {
-            "type": "Darkness",
+            "type": "Fighting",
             "value": "\u00d72"
           }
         ],
         "resistances": [
           {
-            "type": "Fighting",
-            "value": "-30"
+            "type": "Metal",
+            "value": "-20"
           }
         ],
         "retreat": 1,
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv04/087/low.webp",
-        "set_name": "Paradox Rift",
-        "text": "This Pok\u00e9mon was born inside a treasure chest about 1,500 years ago. It sucks the life-force out of scoundrels who try to steal the treasure.",
-        "dex_id": 999
+        "image": "https://assets.tcgdex.net/en/sm/sm12/66/low.webp",
+        "set_name": "Cosmic Eclipse",
+        "text": "Its nature is to store up electricity. Forests where nests of Pikachu live are dangerous, since the trees are so often struck by lightning.",
+        "dex_id": 25
       },
       {
         "catalog_id": "swsh11-054",
@@ -1972,35 +1447,137 @@
         "dex_id": 25
       },
       {
-        "catalog_id": "sv04-060",
-        "name": "Plusle",
-        "category": "Pokemon",
+        "catalog_id": "swsh12.5-155",
+        "name": "Lightning Energy",
+        "category": "Energy",
         "stage": "Basic",
         "types": [
           "Lightning"
         ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Lightning",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/155/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-155",
+        "name": "Lightning Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Lightning"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Lightning",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/155/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-155",
+        "name": "Lightning Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Lightning"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Lightning",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/155/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-155",
+        "name": "Lightning Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Lightning"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Lightning",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/155/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv01-171",
+        "name": "Energy Retrieval",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/171/low.webp",
+        "set_name": "Scarlet & Violet",
+        "text": "Put up to 2 Basic Energy cards from your discard pile into your hand.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv04-094",
+        "name": "Gible",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Fighting"
+        ],
         "hp": 70,
         "attacks": [
           {
-            "name": "Plus Damage",
+            "name": "Bite",
             "cost": [
-              "Colorless",
-              "Colorless"
+              "Fighting"
             ],
-            "damage": 10,
-            "text": "This attack does 10 more damage for each damage counter on your opponent's Active Pok\u00e9mon.",
-            "effects": [
-              {
-                "kind": "damage_counter_bonus",
-                "per": 10
-              }
-            ]
+            "damage": 20,
+            "text": "",
+            "effects": []
           }
         ],
         "abilities": [],
         "weaknesses": [
           {
-            "type": "Fighting",
+            "type": "Grass",
             "value": "\u00d72"
           }
         ],
@@ -2009,41 +1586,43 @@
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv04/060/low.webp",
+        "image": "https://assets.tcgdex.net/en/sv/sv04/094/low.webp",
         "set_name": "Paradox Rift",
-        "text": "It absorbs electricity from telephone poles. It shorts out its body to create crackling noises.",
-        "dex_id": 311
+        "text": "It skulks in caves, and when prey or an enemy passes by, it leaps out and chomps them. The force of its attack sometimes chips its teeth.",
+        "dex_id": 443
       },
       {
-        "catalog_id": "sv10.5b-029",
-        "name": "Emolga",
+        "catalog_id": "swsh11-109",
+        "name": "Rockruff",
         "category": "Pokemon",
         "stage": "Basic",
         "types": [
-          "Lightning"
+          "Fighting"
         ],
-        "hp": 70,
+        "hp": 60,
         "attacks": [
           {
-            "name": "Call for Family",
+            "name": "Double Draw",
             "cost": [
-              "Colorless"
+              "Fighting"
             ],
             "damage": 0,
-            "text": "Search your deck for up to 2 Basic Pok\u00e9mon and put them onto your Bench. Then, shuffle your deck.",
+            "text": "Draw 2 cards.",
             "effects": [
               {
-                "kind": "call_family",
-                "count": 2
+                "kind": "draw",
+                "amount": 2
               }
             ]
           },
           {
-            "name": "Static Shock",
+            "name": "Rear Kick",
             "cost": [
-              "Lightning"
+              "Fighting",
+              "Colorless",
+              "Colorless"
             ],
-            "damage": 20,
+            "damage": 30,
             "text": "",
             "effects": []
           }
@@ -2051,14 +1630,541 @@
         "abilities": [],
         "weaknesses": [],
         "resistances": [],
-        "retreat": 0,
+        "retreat": 1,
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv10.5b/029/low.webp",
-        "set_name": "Black Bolt",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh11/109/low.webp",
+        "set_name": "Lost Origin",
         "text": "",
-        "dex_id": 587
+        "dex_id": 744
+      },
+      {
+        "catalog_id": "swsh11-094",
+        "name": "Sudowoodo",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Fighting"
+        ],
+        "hp": 110,
+        "attacks": [
+          {
+            "name": "Joust",
+            "cost": [
+              "Fighting"
+            ],
+            "damage": 20,
+            "text": "Before doing damage, discard all Pok\u00e9mon Tools from your opponent's Active Pok\u00e9mon.",
+            "effects": []
+          },
+          {
+            "name": "Impound",
+            "cost": [
+              "Fighting",
+              "Colorless"
+            ],
+            "damage": 50,
+            "text": "During your opponent's next turn, the Defending Pok\u00e9mon can't retreat.",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 2,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/swsh/swsh11/094/low.webp",
+        "set_name": "Lost Origin",
+        "text": "",
+        "dex_id": 185
+      },
+      {
+        "catalog_id": "swsh11-101",
+        "name": "Relicanth",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Fighting"
+        ],
+        "hp": 90,
+        "attacks": [
+          {
+            "name": "Into the Deep",
+            "cost": [
+              "Colorless"
+            ],
+            "damage": 0,
+            "text": "Put up to 2 basic Energy cards from your discard pile into your hand.",
+            "effects": []
+          },
+          {
+            "name": "Tackle",
+            "cost": [
+              "Colorless",
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 80,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/swsh/swsh11/101/low.webp",
+        "set_name": "Lost Origin",
+        "text": "",
+        "dex_id": 369
+      },
+      {
+        "catalog_id": "sv01-172",
+        "name": "Energy Search",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/172/low.webp",
+        "set_name": "Scarlet & Violet",
+        "text": "Search your deck for a Basic Energy card, reveal it, and put it into your hand. Then, shuffle your deck.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh11-014",
+        "name": "Roselia",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Grass"
+        ],
+        "hp": 70,
+        "attacks": [
+          {
+            "name": "Soothing Scent",
+            "cost": [
+              "Grass"
+            ],
+            "damage": 0,
+            "text": "Your opponent's Active Pok\u00e9mon is now Asleep.",
+            "effects": [
+              {
+                "kind": "status",
+                "status": "asleep",
+                "coin": false
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/swsh/swsh11/014/low.webp",
+        "set_name": "Lost Origin",
+        "text": "",
+        "dex_id": 315
+      },
+      {
+        "catalog_id": "swsh12.5-152",
+        "name": "Grass Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Grass"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Grass",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/152/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv03.5-002",
+        "name": "Ivysaur",
+        "category": "Pokemon",
+        "stage": "Stage1",
+        "types": [
+          "Grass"
+        ],
+        "hp": 100,
+        "attacks": [
+          {
+            "name": "Leech Seed",
+            "cost": [
+              "Grass",
+              "Colorless"
+            ],
+            "damage": 30,
+            "text": "Heal 20 damage from this Pok\u00e9mon.",
+            "effects": [
+              {
+                "kind": "heal",
+                "amount": 20
+              }
+            ]
+          },
+          {
+            "name": "Vine Whip",
+            "cost": [
+              "Grass",
+              "Grass",
+              "Colorless"
+            ],
+            "damage": 80,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Fire",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 3,
+        "evolves_from": "Bulbasaur",
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv03.5/002/low.webp",
+        "set_name": "151",
+        "text": "Exposure to sunlight adds to its strength. Sunlight also makes the bud on its back grow larger.",
+        "dex_id": 2
+      },
+      {
+        "catalog_id": "swsh12.5-004",
+        "name": "Tangela",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Grass"
+        ],
+        "hp": 80,
+        "attacks": [
+          {
+            "name": "Beat",
+            "cost": [
+              "Colorless"
+            ],
+            "damage": 10,
+            "text": "",
+            "effects": []
+          },
+          {
+            "name": "Vine Whip",
+            "cost": [
+              "Grass",
+              "Grass",
+              "Colorless"
+            ],
+            "damage": 60,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Fire",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 2,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/004/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "Hidden beneath a tangle of vines that grows nonstop even if the vines are torn off, this Pok\u00e9mon's true appearance remains a mystery.",
+        "dex_id": 114
+      },
+      {
+        "catalog_id": "swsh12.5-152",
+        "name": "Grass Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Grass"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Grass",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/152/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-152",
+        "name": "Grass Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Grass"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Grass",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/152/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv08-043",
+        "name": "Spheal",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Water"
+        ],
+        "hp": 70,
+        "attacks": [
+          {
+            "name": "Powder Snow",
+            "cost": [
+              "Water"
+            ],
+            "damage": 10,
+            "text": "Your opponent's Active Pok\u00e9mon is now Asleep.",
+            "effects": [
+              {
+                "kind": "status",
+                "status": "asleep",
+                "coin": false
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Metal",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 2,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv08/043/low.webp",
+        "set_name": "Surging Sparks",
+        "text": "",
+        "dex_id": 363
+      },
+      {
+        "catalog_id": "sv08-044",
+        "name": "Sealeo",
+        "category": "Pokemon",
+        "stage": "Stage1",
+        "types": [
+          "Water"
+        ],
+        "hp": 100,
+        "attacks": [
+          {
+            "name": "Lunge Out",
+            "cost": [
+              "Water"
+            ],
+            "damage": 30,
+            "text": "",
+            "effects": []
+          },
+          {
+            "name": "Ice Ball",
+            "cost": [
+              "Water",
+              "Water"
+            ],
+            "damage": 60,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Metal",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 3,
+        "evolves_from": "Spheal",
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv08/044/low.webp",
+        "set_name": "Surging Sparks",
+        "text": "",
+        "dex_id": 364
+      },
+      {
+        "catalog_id": "sv08-045",
+        "name": "Walrein",
+        "category": "Pokemon",
+        "stage": "Stage2",
+        "types": [
+          "Water"
+        ],
+        "hp": 170,
+        "attacks": [
+          {
+            "name": "Frigid Fangs",
+            "cost": [
+              "Water"
+            ],
+            "damage": 60,
+            "text": "During your opponent's next turn, Pok\u00e9mon that have 2 or less Energy attached can't attack. (This includes new Pok\u00e9mon that come into play.)",
+            "effects": [
+              {
+                "kind": "energy_attack_lock",
+                "max_energy": 2
+              }
+            ]
+          },
+          {
+            "name": "Megaton Fall",
+            "cost": [
+              "Water",
+              "Water"
+            ],
+            "damage": 170,
+            "text": "This Pok\u00e9mon also does 50 damage to itself.",
+            "effects": [
+              {
+                "kind": "recoil",
+                "amount": 50
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Metal",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 3,
+        "evolves_from": "Sealeo",
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv08/045/low.webp",
+        "set_name": "Surging Sparks",
+        "text": "",
+        "dex_id": 365
+      },
+      {
+        "catalog_id": "swsh12.5-154",
+        "name": "Water Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Water"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Water",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/154/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-029",
+        "name": "Seel",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Water"
+        ],
+        "hp": 70,
+        "attacks": [
+          {
+            "name": "Headbutt",
+            "cost": [
+              "Water"
+            ],
+            "damage": 10,
+            "text": "",
+            "effects": []
+          },
+          {
+            "name": "Rain Splash",
+            "cost": [
+              "Water",
+              "Colorless"
+            ],
+            "damage": 20,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Lightning",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/029/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "Thanks to its thick fat, cold seas don't bother it at all, but it gets tired pretty easily in warm waters.",
+        "dex_id": 86
       },
       {
         "catalog_id": "swsh12.5-031",
@@ -2114,6 +2220,28 @@
         "dex_id": 320
       },
       {
+        "catalog_id": "swsh12.5-154",
+        "name": "Water Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Water"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Water",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/154/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
         "catalog_id": "swsh12.5-033",
         "name": "Corphish",
         "category": "Pokemon",
@@ -2160,202 +2288,14 @@
         "set_name": "Crown Zenith",
         "text": "No matter how dirty the water in the river, it will adapt and thrive. It has a strong will to survive.",
         "dex_id": 341
-      },
-      {
-        "catalog_id": "swsh12.5-158",
-        "name": "Darkness Energy",
-        "category": "Energy",
-        "stage": "Basic",
-        "types": [
-          "Darkness"
-        ],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": "Darkness",
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/158/low.webp",
-        "set_name": "Crown Zenith",
-        "text": "",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "swsh11-112",
-        "name": "Spinarak",
-        "category": "Pokemon",
-        "stage": "Basic",
-        "types": [
-          "Darkness"
-        ],
-        "hp": 50,
-        "attacks": [
-          {
-            "name": "Poison Sting",
-            "cost": [
-              "Darkness"
-            ],
-            "damage": 10,
-            "text": "Your opponent's Active Pok\u00e9mon is now Poisoned.",
-            "effects": [
-              {
-                "kind": "status",
-                "status": "poisoned",
-                "coin": false
-              }
-            ]
-          }
-        ],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 1,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh11/112/low.webp",
-        "set_name": "Lost Origin",
-        "text": "",
-        "dex_id": 167
-      },
-      {
-        "catalog_id": "swsh12.5-152",
-        "name": "Grass Energy",
-        "category": "Energy",
-        "stage": "Basic",
-        "types": [
-          "Grass"
-        ],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": "Grass",
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/152/low.webp",
-        "set_name": "Crown Zenith",
-        "text": "",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "sm12-66",
-        "name": "Pikachu",
-        "category": "Pokemon",
-        "stage": "Basic",
-        "types": [
-          "Lightning"
-        ],
-        "hp": 70,
-        "attacks": [
-          {
-            "name": "Nuzzle",
-            "cost": [
-              "Lightning"
-            ],
-            "damage": 0,
-            "text": "Flip a coin. If heads, your opponent\u2019s Active Pok\u00e9mon is now Paralyzed.",
-            "effects": [
-              {
-                "kind": "status",
-                "status": "paralyzed",
-                "coin": true
-              }
-            ]
-          },
-          {
-            "name": "Volt Tackle",
-            "cost": [
-              "Lightning",
-              "Lightning",
-              "Colorless"
-            ],
-            "damage": 70,
-            "text": "This Pok\u00e9mon does 10 damage to itself.",
-            "effects": []
-          }
-        ],
-        "abilities": [],
-        "weaknesses": [
-          {
-            "type": "Fighting",
-            "value": "\u00d72"
-          }
-        ],
-        "resistances": [
-          {
-            "type": "Metal",
-            "value": "-20"
-          }
-        ],
-        "retreat": 1,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sm/sm12/66/low.webp",
-        "set_name": "Cosmic Eclipse",
-        "text": "Its nature is to store up electricity. Forests where nests of Pikachu live are dangerous, since the trees are so often struck by lightning.",
-        "dex_id": 25
-      },
-      {
-        "catalog_id": "swsh12.5-155",
-        "name": "Lightning Energy",
-        "category": "Energy",
-        "stage": "Basic",
-        "types": [
-          "Lightning"
-        ],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": "Lightning",
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/155/low.webp",
-        "set_name": "Crown Zenith",
-        "text": "",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "swsh12.5-153",
-        "name": "Fire Energy",
-        "category": "Energy",
-        "stage": "Basic",
-        "types": [
-          "Fire"
-        ],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": "Fire",
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/153/low.webp",
-        "set_name": "Crown Zenith",
-        "text": "",
-        "dex_id": null
       }
     ]
-  },
-  "hashes": {
-    "a": 57955236583522545846236945406208001688957203268691354098485835530357541513247,
-    "b": 94113678299995436670871367334191645319444037671666136758300686791289025070086
   },
   "c": {
     "id": "seed-c",
     "name": "Set C (Clefairy / Mewtwo)",
     "sample": null,
+    "kind": "list",
     "cards": [
       {
         "catalog_id": "swsh11-062",
@@ -3437,6 +3377,7 @@
     "id": "seed-d",
     "name": "Set D (Charm Ogerpon)",
     "sample": null,
+    "kind": "list",
     "cards": [
       {
         "catalog_id": "sv06-112",
@@ -3826,7 +3767,7 @@
         "catalog_id": "sm1-136",
         "name": "Double Colorless Energy",
         "category": "Energy",
-        "stage": "",
+        "stage": "Special",
         "types": [
           "Colorless"
         ],
@@ -3848,7 +3789,7 @@
         "catalog_id": "sm1-136",
         "name": "Double Colorless Energy",
         "category": "Energy",
-        "stage": "",
+        "stage": "Special",
         "types": [
           "Colorless"
         ],
@@ -3870,7 +3811,7 @@
         "catalog_id": "sm1-136",
         "name": "Double Colorless Energy",
         "category": "Energy",
-        "stage": "",
+        "stage": "Special",
         "types": [
           "Colorless"
         ],
@@ -3892,7 +3833,7 @@
         "catalog_id": "sm1-136",
         "name": "Double Colorless Energy",
         "category": "Energy",
-        "stage": "",
+        "stage": "Special",
         "types": [
           "Colorless"
         ],
@@ -4196,6 +4137,7 @@
     "id": "seed-s",
     "name": "Set S (Floragato hunter)",
     "sample": null,
+    "kind": "list",
     "cards": [
       {
         "catalog_id": "sv01-013",
@@ -4591,7 +4533,7 @@
         "image": "https://assets.tcgdex.net/en/sv/sv02/027/low.webp",
         "set_name": "Paldea Evolved",
         "text": "",
-        "dex_id": null
+        "dex_id": 1001
       },
       {
         "catalog_id": "sv02-027",
@@ -4647,7 +4589,7 @@
         "image": "https://assets.tcgdex.net/en/sv/sv02/027/low.webp",
         "set_name": "Paldea Evolved",
         "text": "",
-        "dex_id": null
+        "dex_id": 1001
       },
       {
         "catalog_id": "sv02-027",
@@ -4703,7 +4645,7 @@
         "image": "https://assets.tcgdex.net/en/sv/sv02/027/low.webp",
         "set_name": "Paldea Evolved",
         "text": "",
-        "dex_id": null
+        "dex_id": 1001
       },
       {
         "catalog_id": "sv01-181",
@@ -5219,47 +5161,6 @@
         "dex_id": 463
       },
       {
-        "catalog_id": "swsh11-144",
-        "name": "Aipom",
-        "category": "Pokemon",
-        "stage": "Basic",
-        "types": [
-          "Colorless"
-        ],
-        "hp": 60,
-        "attacks": [
-          {
-            "name": "Mischievous Tail",
-            "cost": [
-              "Colorless"
-            ],
-            "damage": 0,
-            "text": "Look at the top card of your opponent's deck. You may have your opponent shuffle their deck.",
-            "effects": []
-          },
-          {
-            "name": "Scratch",
-            "cost": [
-              "Colorless"
-            ],
-            "damage": 10,
-            "text": "",
-            "effects": []
-          }
-        ],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 1,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh11/144/low.webp",
-        "set_name": "Lost Origin",
-        "text": "",
-        "dex_id": 190
-      },
-      {
         "catalog_id": "swsh12.5-157",
         "name": "Fighting Energy",
         "category": "Energy",
@@ -5280,7 +5181,68 @@
         "set_name": "Crown Zenith",
         "text": "",
         "dex_id": null
+      },
+      {
+        "catalog_id": "sv04-087",
+        "name": "Gimmighoul",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 50,
+        "attacks": [
+          {
+            "name": "Call for Family",
+            "cost": [
+              "Colorless"
+            ],
+            "damage": 0,
+            "text": "Search your deck for a Basic Pok\u00e9mon and put it onto your Bench. Then, shuffle your deck.",
+            "effects": [
+              {
+                "kind": "call_family",
+                "count": 1
+              }
+            ]
+          },
+          {
+            "name": "Corkscrew Punch",
+            "cost": [
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 20,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Darkness",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [
+          {
+            "type": "Fighting",
+            "value": "-30"
+          }
+        ],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv04/087/low.webp",
+        "set_name": "Paradox Rift",
+        "text": "This Pok\u00e9mon was born inside a treasure chest about 1,500 years ago. It sucks the life-force out of scoundrels who try to steal the treasure.",
+        "dex_id": 999
       }
     ]
+  },
+  "hashes": {
+    "a": 57955236583522545846236945406208001688957203268691354098485835530357541513247,
+    "b": 94113678299995436670871367334191645319444037671666136758300686791289025070086
   }
 }

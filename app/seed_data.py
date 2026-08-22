@@ -3,73 +3,76 @@ from __future__ import annotations
 from app.engine.effects import parse_attack
 from app.engine.models import Ability, Card
 
-# Carpet Set A — 30. Tool Box out; Metal / Water / extra Psychic Energy in. One Clefairy stays.
+# Carpet Set A — 30 from the Aug 22 beige-carpet photo (not data/samples/set-a.jpg).
+# Paldea Evolved Starly line + Twilight Masquerade Boomerang Energy. Ghosts / Clefairy / Trekking out.
+# Two Psychic Energy complete the 30; the layout photo was counted as 28.
 SET_A_NAMES = [
-    "Bronzor",
-    "Metang",
-    "Orthworm",
-    "Baltoy",
-    "Rockruff",
-    "Carbink",
-    "Seel",
-    "Corphish",
-    "Poliwhirl",
-    "Dondozo",
-    "Phantump",
-    "Gloom",
-    "Oddish",
-    "Roselia",
-    "Tulip",
-    "Dusclops",
-    "Pumpkaboo",
-    "Kadabra",
-    "Clefairy",
-    "Flutter Mane",
-    "Hisuian Sliggoo",
-    "Psychic Energy",
-    "Psychic Energy",
-    "Water Energy",
-    "Metal Energy",
     "Lake Acuity",
-    "Poké Ball",
+    "Tulip",
     "Ultra Ball",
     "Energy Switch",
-    "Trekking Shoes",
-]
-
-# Carpet Set B — 30. Lightning Energy + Fire Energy. No Clefairy.
-# Lickilicky / Aipom (Colorless) went to spare; Darkness Energy + extra Grass Energy in.
-SET_B_NAMES = [
-    "Ivysaur",
+    "Poké Ball",
+    "Flutter Mane",
+    "Gligar",
+    "Staraptor",
+    "Orthworm",
+    "Dondozo",
+    "Carbink",
+    "Oddish",
+    "Staravia",
+    "Bronzor",
+    "Water Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Baltoy",
     "Roselia",
-    "Grass Energy",
-    "Tangela",
-    "Sudowoodo",
-    "Gible",
+    "Starly",
+    "Metang",
+    "Poliwhirl",
     "Rockruff",
-    "Relicanth",
-    "Salazzle",
-    "Crocalor",
-    "Slugma",
-    "Litwick",
-    "Energy Search",
+    "Aipom",
+    "Metal Energy",
+    "Corphish",
+    "Boomerang Energy",
+    "Aron",
     "Ferroseed",
     "Galarian Meowth",
-    "Aron",
-    "Energy Retrieval",
-    "Gimmighoul",
-    "Electrike",
-    "Pikachu",
+]
+
+# Carpet Set B — 30 from the Aug 22 beige-carpet photo (not data/samples/set-b.jpg).
+# Surging Sparks Spheal / Sealeo / Walrein + two Pikachu prints. Fire / Darkness / Gimmighoul out.
+# 4 Lightning, 3 Grass, 2 Water. Trekking Shoes in. Gimmighoul sits in spare.
+SET_B_NAMES = [
+    "Trekking Shoes",
     "Plusle",
     "Emolga",
-    "Wailmer",
-    "Corphish",
-    "Darkness Energy",
-    "Spinarak",
-    "Grass Energy",
     "Pikachu",  # Cosmic Eclipse Nuzzle / Volt Tackle, received from Set A for Tulip
+    "Electrike",
+    "Pikachu",  # Burning Shadows Tail Whap / Thunder Shock
     "Lightning Energy",
-    "Fire Energy",
+    "Lightning Energy",
+    "Lightning Energy",
+    "Lightning Energy",
+    "Energy Retrieval",
+    "Gible",
+    "Rockruff",
+    "Sudowoodo",
+    "Relicanth",
+    "Energy Search",
+    "Roselia",
+    "Grass Energy",
+    "Ivysaur",
+    "Tangela",
+    "Grass Energy",
+    "Grass Energy",
+    "Spheal",
+    "Sealeo",
+    "Walrein",
+    "Water Energy",
+    "Seel",
+    "Wailmer",
+    "Water Energy",
+    "Corphish",
 ]
 
 # Set C — Clefairy / Mewtwo vs Charm Ogerpon. 30 with +2 Psychic Energy.
@@ -123,12 +126,12 @@ SET_S_NAMES = (
 )
 
 # Spare Cards — leftover pile, not a 30-card Family Cup list.
-# Lickilicky / Aipom came out of Set B for Darkness + Grass Energy.
+# Aipom returned to Carpet Set A with the Starly line.
 SET_SPARE_NAMES = [
     "Tool Box",
     "Lickilicky",
-    "Aipom",
     "Fighting Energy",
+    "Gimmighoul",
 ]
 
 
@@ -276,6 +279,24 @@ _register(
         text="Double Colorless Energy provides ColorlessColorless Energy.",
         image="https://assets.tcgdex.net/en/sm/sm1/136/low.webp",
         set_name="Sun & Moon",
+        retreat=0,
+    )
+)
+_register(
+    Card(
+        catalog_id="sv06-166",
+        name="Boomerang Energy",
+        category="Energy",
+        stage="Special",
+        types=["Colorless"],
+        energy_type="Colorless",
+        text=(
+            "As long as this card is attached to a Pokémon, it provides Colorless Energy. "
+            "If this card is discarded by an effect of an attack used by the Pokémon this card "
+            "is attached to, attach this card from your discard pile to that Pokémon after attacking."
+        ),
+        image="https://assets.tcgdex.net/en/sv/sv06/166/low.webp",
+        set_name="Twilight Masquerade",
         retreat=0,
     )
 )
@@ -686,10 +707,116 @@ for card in [
         catalog_id="sv10.5b-029",
     ),
     _pkm("Dedenne", "Basic", ["Psychic"], 70, [_atk("Call for Family", ["Colorless"], 0, "Search your deck for a Basic Pokémon."), _atk("Voltish Pulse", ["Psychic"], 30, "Flip a coin. If heads, your opponent's Active Pokémon is now Paralyzed.")], weakness="Metal"),
+    _pkm(
+        "Gligar",
+        "Basic",
+        ["Fighting"],
+        70,
+        [
+            _atk(
+                "Toxic",
+                ["Colorless"],
+                0,
+                "Flip a coin. If heads, your opponent's Active Pokémon is now Poisoned. During Pokémon Checkup, put 2 damage counters on that Pokémon instead of 1.",
+            )
+        ],
+        weakness="Grass",
+        catalog_id="sv04-091",
+    ),
+    _pkm(
+        "Starly",
+        "Basic",
+        ["Colorless"],
+        60,
+        [_atk("Flap", ["Colorless"], 20)],
+        weakness="Lightning",
+        catalog_id="sv01-148",
+    ),
+    _pkm(
+        "Staravia",
+        "Stage1",
+        ["Colorless"],
+        80,
+        [
+            _atk("Wing Attack", ["Colorless", "Colorless"], 40),
+            _atk("Speed Dive", ["Colorless", "Colorless", "Colorless"], 80),
+        ],
+        evolves_from="Starly",
+        weakness="Lightning",
+        catalog_id="sv01-149",
+    ),
+    _pkm(
+        "Staraptor",
+        "Stage2",
+        ["Colorless"],
+        150,
+        [
+            _atk(
+                "Tailspin Away",
+                ["Colorless", "Colorless"],
+                60,
+                "During your opponent's next turn, prevent all damage done to this Pokémon by attacks from Basic Pokémon.",
+            ),
+            _atk(
+                "Power Blast",
+                ["Colorless", "Colorless", "Colorless"],
+                180,
+                "Discard an Energy from this Pokémon.",
+            ),
+        ],
+        evolves_from="Staravia",
+        weakness="Lightning",
+        catalog_id="sv01-150",
+    ),
     _pkm("Aipom", "Basic", ["Colorless"], 60, [
         _atk("Mischievous Tail", ["Colorless"], 0, "Look at the top card of your opponent's deck. You may have your opponent shuffle their deck."),
         _atk("Scratch", ["Colorless", "Colorless"], 10),
     ], weakness="Fighting", catalog_id="swsh11-144"),
+    _pkm(
+        "Spheal",
+        "Basic",
+        ["Water"],
+        70,
+        [_atk("Powder Snow", ["Water"], 10, "Your opponent's Active Pokémon is now Asleep.")],
+        retreat=2,
+        weakness="Metal",
+        catalog_id="sv08-043",
+    ),
+    _pkm(
+        "Sealeo",
+        "Stage1",
+        ["Water"],
+        100,
+        [_atk("Lunge Out", ["Water"], 30), _atk("Ice Ball", ["Water", "Water"], 60)],
+        evolves_from="Spheal",
+        retreat=3,
+        weakness="Metal",
+        catalog_id="sv08-044",
+    ),
+    _pkm(
+        "Walrein",
+        "Stage2",
+        ["Water"],
+        170,
+        [
+            _atk(
+                "Frigid Fangs",
+                ["Water"],
+                60,
+                "During your opponent's next turn, Pokémon that have 2 or less Energy attached can't attack. (This includes new Pokémon that come into play.)",
+            ),
+            _atk(
+                "Megaton Fall",
+                ["Water", "Water"],
+                170,
+                "This Pokémon also does 50 damage to itself.",
+            ),
+        ],
+        evolves_from="Sealeo",
+        retreat=3,
+        weakness="Metal",
+        catalog_id="sv08-045",
+    ),
     _pkm("Corphish", "Basic", ["Water"], 70, [
         _atk("Water Gun", ["Colorless"], 10),
         _atk("Crabhammer", ["Water", "Colorless", "Colorless"], 50),
@@ -751,6 +878,8 @@ def fallback_named(name: str) -> Card:
     key = name.lower()
     if "double colorless" in key:
         key = "double colorless energy"
+    if "boomerang" in key:
+        key = "boomerang energy"
     if key in FALLBACK_BY_NAME:
         card = FALLBACK_BY_NAME[key]
         return Card.from_dict(card.to_dict())
