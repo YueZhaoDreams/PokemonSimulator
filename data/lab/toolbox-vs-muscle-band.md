@@ -146,3 +146,17 @@ Carpet Set B cut Fire / Darkness / Spinarak / Gimmighoul and added Surging Spark
 | **S** | 29.4% | 78.5% | 22.4% | **67.0%** | — |
 
 B vs A **31.9% → 44.1%**. Megaton Fall is a real Hydro Splash answer; A vs B fell 70.0% → 54.7%. Vs D still ~1% (140 Demolish vs a 170 HP Water that does not hit Fighting weakness). Vs C 18.6% → 13.9% without Poison Sting. Vs S ~flat (21.3%). Recoil is now parsed from printed "does N damage to itself" text (Megaton Fall 50, and any other card that already had that sentence).
+
+## 28-card A, Staraptor + Boomerang (2026-08-22)
+
+Carpet Set A is **28**: Dondozo plus Paldea Evolved **Starly / Staravia / Staraptor**, Twilight Masquerade **Boomerang Energy**, Gligar, Aipom, and metal leftovers (Aron / Ferroseed / Galarian Meowth). Clefairy, Psychic Energy, and Trekking Shoes out. `thrifty` evolves the bird; **Power Blast 180** discards energy and Boomerang returns; **Tailspin Away** prevents damage from Basic Pokémon. Same seed `20260819`, 3,000 games / ordered pair. Raw: `data/lab/family-cup-30-matrix.json`.
+
+|  | A | B | C | D | S |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| **A** | — | **66.6%** | 11.7% | 5.2% | 66.0% |
+| **B** | 32.7% | — | 13.9% | 1.1% | 21.3% |
+| **C** | 87.7% | 86.7% | — | **60.2%** | 77.4% |
+| **D** | 95.3% | 98.6% | 42.0% | — | 33.8% |
+| **S** | 32.7% | 78.5% | 22.4% | **67.0%** | — |
+
+A vs B **54.7% → 66.6%** (B vs A 44.1% → 32.7%): Tailspin Away walls Pikachu / Spheal. A vs D 0.3% → **5.2%** (Ogerpon is Basic, so Tailspin can blank Demolish for a turn, but 150 HP still dies if the bird is late). A vs C 4.8% → 11.7%. B–C–D–S cells that do not touch A match the Walrein table.
