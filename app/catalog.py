@@ -86,6 +86,9 @@ PREFERRED_IDS = {
     "Hisuian Sliggoo": "swsh11-133",
     "Lickilicky": "swsh11-139",
     "Emolga": "sv10.5b-029",
+    "Spheal": "sv08-043",  # Powder Snow 10 + Asleep (Surging Sparks)
+    "Sealeo": "sv08-044",  # Lunge Out 30 / Ice Ball 60
+    "Walrein": "sv08-045",  # Frigid Fangs 60 / Megaton Fall 170
     "Gimmighoul": "sv04-087",  # Call for Family / Corkscrew Punch
     "Litwick": "swsh11-024",  # Kindling Panic — mill opponent deck
     "Oddish": "swsh12.5-001",
@@ -102,6 +105,8 @@ PREFERRED_IDS = {
     "Maximum Belt": "sv05-154",
     "Muscle Band": "xy1-121",
     "Energy Search": "sv01-172",
+    "Energy Retrieval": "sv01-171",
+    "Trekking Shoes": "swsh12.5-145",
     "Switch": "sv01-194",
     "Beach Court": "sv01-167",
     "Hop": "swsh1-165",
@@ -171,6 +176,9 @@ PRINT_PREFER = {
     "Relicanth": ["into the deep"],
     "Plusle": ["plus damage"],
     "Emolga": ["static shock", "call for family"],
+    "Spheal": ["powder snow"],
+    "Sealeo": ["lunge out", "ice ball"],
+    "Walrein": ["frigid fangs", "megaton fall"],
     "Gimmighoul": ["call for family", "corkscrew"],
     "Litwick": ["kindling panic", "discard the top"],
     "Hisuian Sliggoo": ["rigidify", "gentle slap"],

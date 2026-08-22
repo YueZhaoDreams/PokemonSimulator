@@ -37,39 +37,39 @@ SET_A_NAMES = [
     "Trekking Shoes",
 ]
 
-# Carpet Set B — 30. Lightning Energy + Fire Energy. No Clefairy.
-# Lickilicky / Aipom (Colorless) went to spare; Darkness Energy + extra Grass Energy in.
+# Carpet Set B — 30. Walrein line + Pikachu shock. Fire / Darkness / Gimmighoul out.
+# 4 Lightning, 3 Grass, 2 Water. Trekking Shoes in. Gimmighoul sits in spare.
 SET_B_NAMES = [
-    "Ivysaur",
-    "Roselia",
-    "Grass Energy",
-    "Tangela",
-    "Sudowoodo",
-    "Gible",
-    "Rockruff",
-    "Relicanth",
-    "Salazzle",
-    "Crocalor",
-    "Slugma",
-    "Litwick",
-    "Energy Search",
-    "Ferroseed",
-    "Galarian Meowth",
-    "Aron",
-    "Energy Retrieval",
-    "Gimmighoul",
-    "Electrike",
-    "Pikachu",
+    "Trekking Shoes",
     "Plusle",
     "Emolga",
-    "Wailmer",
-    "Corphish",
-    "Darkness Energy",
-    "Spinarak",
-    "Grass Energy",
     "Pikachu",  # Cosmic Eclipse Nuzzle / Volt Tackle, received from Set A for Tulip
+    "Electrike",
+    "Pikachu",  # Burning Shadows Tail Whap / Thunder Shock
     "Lightning Energy",
-    "Fire Energy",
+    "Lightning Energy",
+    "Lightning Energy",
+    "Lightning Energy",
+    "Energy Retrieval",
+    "Gible",
+    "Rockruff",
+    "Sudowoodo",
+    "Relicanth",
+    "Energy Search",
+    "Roselia",
+    "Grass Energy",
+    "Ivysaur",
+    "Tangela",
+    "Grass Energy",
+    "Grass Energy",
+    "Spheal",
+    "Sealeo",
+    "Walrein",
+    "Water Energy",
+    "Seel",
+    "Wailmer",
+    "Water Energy",
+    "Corphish",
 ]
 
 # Set C — Clefairy / Mewtwo vs Charm Ogerpon. 30 with +2 Psychic Energy.
@@ -123,12 +123,13 @@ SET_S_NAMES = (
 )
 
 # Spare Cards — leftover pile, not a 30-card Family Cup list.
-# Lickilicky / Aipom came out of Set B for Darkness + Grass Energy.
+# Lickilicky / Aipom came out of Set B earlier; Gimmighoul left the 30 after the Walrein rebuild.
 SET_SPARE_NAMES = [
     "Tool Box",
     "Lickilicky",
     "Aipom",
     "Fighting Energy",
+    "Gimmighoul",
 ]
 
 
@@ -690,6 +691,51 @@ for card in [
         _atk("Mischievous Tail", ["Colorless"], 0, "Look at the top card of your opponent's deck. You may have your opponent shuffle their deck."),
         _atk("Scratch", ["Colorless", "Colorless"], 10),
     ], weakness="Fighting", catalog_id="swsh11-144"),
+    _pkm(
+        "Spheal",
+        "Basic",
+        ["Water"],
+        70,
+        [_atk("Powder Snow", ["Water"], 10, "Your opponent's Active Pokémon is now Asleep.")],
+        retreat=2,
+        weakness="Metal",
+        catalog_id="sv08-043",
+    ),
+    _pkm(
+        "Sealeo",
+        "Stage1",
+        ["Water"],
+        100,
+        [_atk("Lunge Out", ["Water"], 30), _atk("Ice Ball", ["Water", "Water"], 60)],
+        evolves_from="Spheal",
+        retreat=3,
+        weakness="Metal",
+        catalog_id="sv08-044",
+    ),
+    _pkm(
+        "Walrein",
+        "Stage2",
+        ["Water"],
+        170,
+        [
+            _atk(
+                "Frigid Fangs",
+                ["Water"],
+                60,
+                "During your opponent's next turn, Pokémon that have 2 or less Energy attached can't attack. (This includes new Pokémon that come into play.)",
+            ),
+            _atk(
+                "Megaton Fall",
+                ["Water", "Water"],
+                170,
+                "This Pokémon also does 50 damage to itself.",
+            ),
+        ],
+        evolves_from="Sealeo",
+        retreat=3,
+        weakness="Metal",
+        catalog_id="sv08-045",
+    ),
     _pkm("Corphish", "Basic", ["Water"], 70, [
         _atk("Water Gun", ["Colorless"], 10),
         _atk("Crabhammer", ["Water", "Colorless", "Colorless"], 50),

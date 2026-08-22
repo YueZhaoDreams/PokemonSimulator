@@ -10,7 +10,7 @@ def test_seed_counts():
     assert len(SET_C_NAMES) == 30
     assert len(SET_D_NAMES) == 30
     assert len(SET_S_NAMES) == 30
-    assert len(SET_SPARE_NAMES) == 4
+    assert len(SET_SPARE_NAMES) == 5
     a = build_fallback_deck(SET_A_NAMES)
     b = build_fallback_deck(SET_B_NAMES)
     assert sum(1 for c in a if c.name == "Dondozo") == 1
@@ -24,10 +24,17 @@ def test_seed_counts():
     assert sum(1 for c in a if c.name == "Metal Energy") == 1
     assert not any(c.name == "Tool Box" for c in a)
     assert sum(1 for c in b if c.name == "Pikachu") == 2
-    assert sum(1 for c in b if c.name == "Lightning Energy") == 1
-    assert sum(1 for c in b if c.name == "Fire Energy") == 1
-    assert sum(1 for c in b if c.name == "Darkness Energy") == 1
-    assert sum(1 for c in b if c.name == "Grass Energy") == 2
+    assert sum(1 for c in b if c.name == "Lightning Energy") == 4
+    assert sum(1 for c in b if c.name == "Grass Energy") == 3
+    assert sum(1 for c in b if c.name == "Water Energy") == 2
+    assert any(c.name == "Walrein" for c in b)
+    assert any(c.name == "Spheal" for c in b)
+    assert any(c.name == "Sealeo" for c in b)
+    assert any(c.name == "Trekking Shoes" for c in b)
+    assert not any(c.name == "Fire Energy" for c in b)
+    assert not any(c.name == "Darkness Energy" for c in b)
+    assert not any(c.name == "Spinarak" for c in b)
+    assert not any(c.name == "Gimmighoul" for c in b)
     assert not any(c.name == "Lickilicky" for c in b)
     assert not any(c.name == "Aipom" for c in b)
     assert not any(c.name == "Clefairy" for c in b)
@@ -59,10 +66,16 @@ def test_seed_decks_record_pikachu_tulip_trade():
     assert a_ids.count("sv04-181") == 1
     assert "sm12-66" not in a_ids
     assert b_names.count("Pikachu") == 2
-    assert b_names.count("Lightning Energy") == 1
-    assert b_names.count("Fire Energy") == 1
-    assert b_names.count("Darkness Energy") == 1
-    assert b_names.count("Grass Energy") == 2
+    assert b_names.count("Lightning Energy") == 4
+    assert b_names.count("Grass Energy") == 3
+    assert b_names.count("Water Energy") == 2
+    assert "Walrein" in b_names
+    assert "Spheal" in b_names
+    assert "Trekking Shoes" in b_names
+    assert "Fire Energy" not in b_names
+    assert "Darkness Energy" not in b_names
+    assert "Spinarak" not in b_names
+    assert "Gimmighoul" not in b_names
     assert "Lickilicky" not in b_names
     assert "Aipom" not in b_names
     assert "Clefairy" not in b_names
@@ -99,7 +112,7 @@ def test_seed_decks_include_set_c_and_d():
     assert data["spare"]["kind"] == "spare"
     assert data["spare"]["name"] == "Spare Cards"
     spare_names = [c["name"] for c in data["spare"]["cards"]]
-    assert spare_names == ["Tool Box", "Lickilicky", "Aipom", "Fighting Energy"]
+    assert spare_names == ["Tool Box", "Lickilicky", "Aipom", "Fighting Energy", "Gimmighoul"]
     assert len(c_names) == 30
     assert len(d_names) == 30
     assert len(s_names) == 30

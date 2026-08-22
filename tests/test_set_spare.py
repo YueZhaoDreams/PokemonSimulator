@@ -10,8 +10,9 @@ def test_spare_is_a_leftover_pile_not_a_thirty():
         "Lickilicky",
         "Aipom",
         "Fighting Energy",
+        "Gimmighoul",
     ]
-    assert len(SET_SPARE_NAMES) == 4
+    assert len(SET_SPARE_NAMES) == 5
     pile = build_fallback_deck(list(SET_SPARE_NAMES))
     assert [c.name for c in pile] == SET_SPARE_NAMES
     assert pile[0].category == "Trainer"

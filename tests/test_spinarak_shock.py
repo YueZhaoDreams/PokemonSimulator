@@ -4,6 +4,7 @@ from app.engine.game import ST_POISONED, Game, Pokemon
 from app.engine.models import Card, default_family_rules
 from app.engine.strategies import StrategySpec
 from app.seed import load_seed_payload
+from app.seed_data import fallback_named
 
 
 def _idx(player, name: str) -> int:
@@ -22,6 +23,8 @@ def _seed_game(seed: int = 1) -> Game:
     payload = load_seed_payload()
     a = [Card.from_dict(c) for c in payload["a"]["cards"]]
     b = [Card.from_dict(c) for c in payload["b"]["cards"]]
+    b.append(fallback_named("Spinarak"))
+    b.append(fallback_named("Darkness Energy"))
     return Game(
         a,
         b,

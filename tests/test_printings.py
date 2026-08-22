@@ -105,6 +105,9 @@ def test_set_b_carpet_prints_match_photos():
         "Galarian Meowth": ("swsh12.5-084", ["Fasten Claws"]),
         "Emolga": ("sv10.5b-029", ["Call for Family", "Static Shock"]),
         "Tangela": ("swsh12.5-004", ["Beat", "Vine Whip"]),
+        "Spheal": ("sv08-043", ["Powder Snow"]),
+        "Sealeo": ("sv08-044", ["Lunge Out", "Ice Ball"]),
+        "Walrein": ("sv08-045", ["Frigid Fangs", "Megaton Fall"]),
         "Aipom": ("swsh11-144", ["Mischievous Tail", "Scratch"]),
     }
     for name, (cid, attacks) in expected.items():
@@ -118,6 +121,13 @@ def test_set_b_carpet_prints_match_photos():
         if name == "Gible":
             assert card.hp == 70
             assert "Fighting" in card.types
+        if name == "Walrein":
+            assert card.hp == 170
+            megaton = next(a for a in card.attacks if a.name == "Megaton Fall")
+            assert megaton.damage == 170
+            assert any(e.get("kind") == "recoil" and e.get("amount") == 50 for e in megaton.effects)
+            fangs = next(a for a in card.attacks if a.name == "Frigid Fangs")
+            assert any(e.get("kind") == "energy_attack_lock" and e.get("max_energy") == 2 for e in fangs.effects)
 
 
 def test_orthworm_has_crunch_time_rush():

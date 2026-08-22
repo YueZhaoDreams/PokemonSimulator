@@ -103,6 +103,14 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
         effects.append({"kind": "status", "status": "burned", "coin": coin})
     if "asleep" in t or "put to sleep" in t:
         effects.append({"kind": "status", "status": "asleep", "coin": coin})
+
+    recoil = re.search(r"(?:also )?does (\d+) damage to itself", t)
+    if recoil:
+        effects.append({"kind": "recoil", "amount": int(recoil.group(1))})
+
+    lock = re.search(r"(\d+) or less energy attached", t)
+    if lock and ("can't attack" in t or "cannot attack" in t):
+        effects.append({"kind": "energy_attack_lock", "max_energy": int(lock.group(1))})
     if "confus" in t:
         effects.append({"kind": "status", "status": "confused", "coin": coin})
 

@@ -17,15 +17,15 @@ def test_set_b_buy_swap_keeps_thirty_cards():
     mod = _load_lab("set_b_buy_sim.py")
     deck = build_fallback_deck(SET_B_NAMES)
     assert len(deck) == 30
-    out = mod.replace(deck, "Crocalor", fallback_named("Lightning Energy"))
+    out = mod.replace(deck, "Ivysaur", fallback_named("Lightning Energy"))
     assert len(out) == 30
-    assert sum(1 for card in out if card.name == "Crocalor") == 0
-    assert sum(1 for card in out if card.name == "Lightning Energy") == 2
+    assert sum(1 for card in out if card.name == "Ivysaur") == 0
+    assert sum(1 for card in out if card.name == "Lightning Energy") == 5
 
 
 def test_set_b_confirm_swap_keeps_thirty_cards():
     mod = _load_lab("set_b_buy_confirm.py")
     deck = build_fallback_deck(SET_B_NAMES)
-    out = mod.replace(deck, "Crocalor", fallback_named("Poké Ball"))
+    out = mod.replace(deck, "Ivysaur", fallback_named("Poké Ball"))
     assert len(out) == 30
     assert any(card.name == "Poké Ball" for card in out)
