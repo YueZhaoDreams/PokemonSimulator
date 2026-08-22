@@ -1,13 +1,13 @@
 # Family Cup play record — 2026-08-18
 
-Carpet Set A (Dondozo / Staraptor, 28) vs Carpet Set B (Walrein / two Pikachu prints, 30).
+Carpet Set A (Dondozo / Staraptor, 30) vs Carpet Set B (Walrein / two Pikachu prints, 30).
 Family rules: 30 cards, opening 7, 3 prizes, Pokémon in hand may be attached as matching Basic Energy.
 
 2026-08-20: carpet lists moved to 30. Set A cut Tool Box and added Metal / Water / Psychic Energy (still one Clefairy). Set B added Lightning Energy and Fire Energy (no Clefairy), then later cut Lickilicky / Aipom for Darkness Energy and a second Grass Energy. Constructed C / D / S each gained two typed energy of their line. Set E was already folded into C.
 
 2026-08-22: Set B rebuilt around Surging Sparks Spheal / Sealeo / Walrein. Fire, Darkness, Spinarak, and Gimmighoul left the 30. Four Lightning Energy, three Grass, two Water, Trekking Shoes in. Megaton Fall 170 is the Dondozo KO; Thunder Shock still chips.
 
-2026-08-22: Set A rebuilt as a **28-card** carpet: Paldea Evolved Starly / Staravia / Staraptor, Twilight Masquerade Boomerang Energy, Gligar, Aipom, and the metal leftovers (Aron / Ferroseed / Galarian Meowth). Clefairy, Psychic Energy, Trekking Shoes, and the ghost line left. Tailspin Away prevents Basic damage; Power Blast 180 discards energy and Boomerang returns. These names come from the new floor photos, not from `data/samples/set-a.jpg` / `set-b.jpg` (those files are the older carpets).
+2026-08-22: Set A rebuilt as a **30-card** carpet: Paldea Evolved Starly / Staravia / Staraptor, Twilight Masquerade Boomerang Energy, Gligar, Aipom, metal leftovers (Aron / Ferroseed / Galarian Meowth), plus two Psychic Energy (the layout photo was counted as 28). Clefairy, Trekking Shoes, and the ghost line left. Tailspin Away prevents Basic damage; Power Blast 180 discards energy and Boomerang returns. These names come from the new floor photos, not from `data/samples/set-a.jpg` / `set-b.jpg` (those files are the older carpets).
 
 ## What was wrong
 

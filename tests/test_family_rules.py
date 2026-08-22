@@ -5,7 +5,7 @@ from app.seed_data import SET_A_NAMES, SET_B_NAMES, SET_C_NAMES, SET_D_NAMES, SE
 
 
 def test_seed_counts():
-    assert len(SET_A_NAMES) == 28
+    assert len(SET_A_NAMES) == 30
     assert len(SET_B_NAMES) == 30
     assert len(SET_C_NAMES) == 30
     assert len(SET_D_NAMES) == 30
@@ -26,6 +26,7 @@ def test_seed_counts():
     assert not any(c.name == "Trekking Shoes" for c in a)
     assert sum(1 for c in a if c.name == "Water Energy") == 1
     assert sum(1 for c in a if c.name == "Metal Energy") == 1
+    assert sum(1 for c in a if c.name == "Psychic Energy") == 2
     assert not any(c.name == "Tool Box" for c in a)
     assert sum(1 for c in b if c.name == "Pikachu") == 2
     assert sum(1 for c in b if c.name == "Lightning Energy") == 4
@@ -57,7 +58,7 @@ def test_seed_decks_record_pikachu_tulip_trade():
     b_names = [c["name"] for c in data["b"]["cards"]]
     a_ids = [c["catalog_id"] for c in data["a"]["cards"]]
     b_ids = [c["catalog_id"] for c in data["b"]["cards"]]
-    assert len(a_names) == 28
+    assert len(a_names) == 30
     assert len(b_names) == 30
     assert "Tulip" in a_names
     assert "Staraptor" in a_names
@@ -71,6 +72,7 @@ def test_seed_decks_record_pikachu_tulip_trade():
     assert "Trekking Shoes" not in a_names
     assert a_names.count("Water Energy") == 1
     assert a_names.count("Metal Energy") == 1
+    assert a_names.count("Psychic Energy") == 2
     assert a_ids.count("sv04-181") == 1
     assert "sm12-66" not in a_ids
     assert b_names.count("Pikachu") == 2

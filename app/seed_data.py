@@ -3,8 +3,9 @@ from __future__ import annotations
 from app.engine.effects import parse_attack
 from app.engine.models import Ability, Card
 
-# Carpet Set A — 28 from the Aug 22 beige-carpet photo (not data/samples/set-a.jpg).
+# Carpet Set A — 30 from the Aug 22 beige-carpet photo (not data/samples/set-a.jpg).
 # Paldea Evolved Starly line + Twilight Masquerade Boomerang Energy. Ghosts / Clefairy / Trekking out.
+# Two Psychic Energy complete the 30; the layout photo was counted as 28.
 SET_A_NAMES = [
     "Lake Acuity",
     "Tulip",
@@ -21,6 +22,8 @@ SET_A_NAMES = [
     "Staravia",
     "Bronzor",
     "Water Energy",
+    "Psychic Energy",
+    "Psychic Energy",
     "Baltoy",
     "Roselia",
     "Starly",
