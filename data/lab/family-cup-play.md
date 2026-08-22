@@ -1,11 +1,13 @@
 # Family Cup play record — 2026-08-18
 
-Carpet Set A (吃吼霸 / Dondozo) vs Carpet Set B (two Pikachu prints).
+Carpet Set A (吃吼霸 / Dondozo) vs Carpet Set B (Walrein / two Pikachu prints).
 Family rules: 30 cards, opening 7, 3 prizes, Pokémon in hand may be attached as matching Basic Energy.
 
 2026-08-20: carpet lists moved to 30. Set A cut Tool Box and added Metal / Water / Psychic Energy (still one Clefairy). Set B added Lightning Energy and Fire Energy (no Clefairy), then later cut Lickilicky / Aipom for Darkness Energy and a second Grass Energy. Constructed C / D / S each gained two typed energy of their line. Set E was already folded into C.
 
-This note is the experience log from iterating **both** sides until the engine stopped making obvious family-play mistakes. Perfect play is not 50/50 — the cards still favor A.
+2026-08-22: Set B rebuilt around Surging Sparks Spheal / Sealeo / Walrein. Fire, Darkness, Spinarak, and Gimmighoul left the 30. Four Lightning Energy, three Grass, two Water, Trekking Shoes in. Megaton Fall 170 is the Dondozo KO; Thunder Shock still chips.
+
+This note is the experience log from iterating **both** sides until the engine stopped making obvious family-play mistakes. Perfect play is not 50/50 — the cards still favor A, but Walrein closed most of the old Hydro Splash gap.
 
 ## What was wrong
 
@@ -20,7 +22,7 @@ This note is the experience log from iterating **both** sides until the engine s
 | Side | Name | How it plays |
 | --- | --- | --- |
 | A | `thrifty` | One Dondozo. Water Basics stay in hand as energy. Balls hunt Dondozo only. Swallow-Up looks at 3 and stops when Hydro Splash is payable. After Dondozo is out, bench one non-Water Pokémon (Orthworm first) as KO insurance. If Dondozo is prized, Orthworm / Flutter Mane becomes the attacker. |
-| B | `shock` (default) | Thunder Shock Pikachu or Electrike chip + paralyze. Nuzzle Pikachu stays in hand as Lightning energy. Bench Plusle as closer. One Roselia (Soothing Scent) and one Spinarak (Poison Sting). Two non-Lightning sponges. |
+| B | `shock` (default) | One Spheal → Sealeo → Walrein. Water Energy pays Megaton Fall 170 (KO on 160 HP Dondozo). Frigid Fangs locks ≤2 Energy. Thunder Shock Pikachu / Electrike chip + paralyze while the line evolves. Nuzzle Pikachu stays as Lightning. Plusle leftover closer. One Roselia. Two Fighting sponges. Energy Search / Retrieval / Trekking Shoes. |
 | B | `nuzzle` | One Volt Tackle Pikachu. Hits 140 then stalls at 20 HP. Kept as a named alternative. |
 
 ## Iteration (10k unless noted)
