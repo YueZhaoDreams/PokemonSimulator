@@ -111,6 +111,13 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
     lock = re.search(r"(\d+) or less energy attached", t)
     if lock and ("can't attack" in t or "cannot attack" in t):
         effects.append({"kind": "energy_attack_lock", "max_energy": int(lock.group(1))})
+
+    if "prevent all damage" in t and "basic" in t:
+        effects.append({"kind": "prevent_basic_damage"})
+
+    if "discard an energy" in t or "discard 1 energy" in t or "discard a energy" in t:
+        n = re.search(r"discard (\d+) energy", t)
+        effects.append({"kind": "discard_energy", "count": int(n.group(1)) if n else 1})
     if "confus" in t:
         effects.append({"kind": "status", "status": "confused", "coin": coin})
 
@@ -198,10 +205,24 @@ def is_double_colorless(card: Any) -> bool:
     return "double colorless" in (getattr(card, "name", "") or "").lower()
 
 
+def is_boomerang_energy(card: Any) -> bool:
+    return "boomerang energy" in (getattr(card, "name", "") or "").lower()
+
+
+def is_special_energy(card: Any) -> bool:
+    if not getattr(card, "is_energy", False):
+        return False
+    if is_double_colorless(card) or is_boomerang_energy(card):
+        return True
+    return (getattr(card, "stage", "") or "").lower() == "special"
+
+
 def energy_provided(card: Any) -> list[str]:
     """Energy units one attached card pays. DCE pays two Colorless."""
     if is_double_colorless(card):
         return ["Colorless", "Colorless"]
+    if is_boomerang_energy(card):
+        return ["Colorless"]
     et = getattr(card, "as_energy_type", None)
     if callable(et):
         et = card.as_energy_type
@@ -211,7 +232,7 @@ def energy_provided(card: Any) -> list[str]:
 
 
 def is_basic_energy(card: Any, pokemon_as_energy: bool = False) -> bool:
-    if is_double_colorless(card):
+    if is_special_energy(card):
         return False
     if getattr(card, "is_energy", False):
         return True

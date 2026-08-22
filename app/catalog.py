@@ -138,6 +138,11 @@ PREFERRED_IDS = {
     "Electrike": "swsh11-054",  # Zap Kick / Thunder Fang (Lost Origin)
     "Wailmer": "swsh12.5-031",  # Nap / Water Gun 70 (Crown Zenith)
     "Aron": "swsh12.5-087",  # Ram / Slight Intrusion (Crown Zenith)
+    "Starly": "sv01-148",  # Flap 20 (Paldea Evolved)
+    "Staravia": "sv01-149",  # Wing Attack / Speed Dive
+    "Staraptor": "sv01-150",  # Tailspin Away 60 / Power Blast 180
+    "Gligar": "sv04-091",  # Toxic (Paradox Rift)
+    "Boomerang Energy": "sv06-166",
     "Ivysaur": "sv03.5-002",  # Leech Seed / Vine Whip (151)
     "Tangela": "swsh12.5-004",  # Beat 10 / Vine Whip 60, Razz berries (Crown Zenith) — not TWM meadow
     "Aipom": "swsh11-144",  # Mischievous Tail / Scratch 10 (Lost Origin) — not Pokémon GO
@@ -196,6 +201,11 @@ PRINT_PREFER = {
     "Ivysaur": ["leech seed", "vine whip"],
     "Tangela": ["beat", "vine whip"],
     "Aipom": ["mischievous tail", "scratch"],
+    "Starly": ["flap"],
+    "Staravia": ["wing attack", "speed dive"],
+    "Staraptor": ["tailspin away", "power blast"],
+    "Gligar": ["toxic"],
+    "Boomerang Energy": ["provides", "discarded by an effect"],
     "Galarian Meowth": ["fasten claws"],
     "Corphish": ["water gun", "crabhammer"],
     "Bronzor": ["spinning attack"],
@@ -285,6 +295,8 @@ def normalize_card(raw: dict[str, Any]) -> Card:
             energy_type = energy_type or "Colorless"
         types = types or [energy_type]
         category = "Energy"
+        if (raw.get("energyType") or raw.get("energy_type") or "").lower() == "special":
+            raw = {**raw, "stage": raw.get("stage") or "Special"}
 
     attacks = [parse_attack(a) for a in raw.get("attacks") or []]
     abilities = []
@@ -442,7 +454,7 @@ def _load_catalog_image(url: str | None):
 def resolve_name(name: str, prefer: list[str] | None = None, ocr_text: str | None = None, crop_image=None) -> Card:
     name = name.strip()
     energy = ENERGY_NAME_TO_TYPE.get(name.lower())
-    if energy:
+    if energy and name.lower() not in {"boomerang energy", "double colorless energy"}:
         return energy_card(energy)
 
     prefer = list(prefer or []) or list(PRINT_PREFER.get(name) or [])

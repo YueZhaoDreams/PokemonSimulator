@@ -113,6 +113,8 @@ def _align_named_cards(existing: list, names: list[str]) -> list[dict]:
         q = pools.get(name)
         if q:
             out.append(q.popleft())
+        elif name.lower() == "boomerang energy":
+            out.append(fallback_named(name).to_dict())
         elif name.lower().endswith(" energy") and "double" not in name.lower():
             out.append(energy_card(name.split()[0]).to_dict())
         else:
@@ -296,7 +298,7 @@ def build_seed_payload(enrich: bool = True) -> dict:
     payload = {
         "a": {
             "id": "seed-a",
-            "name": "Carpet Set A (Dondozo)",
+            "name": "Carpet Set A (Dondozo / Staraptor)",
             "sample": "set-a-web.jpg",
             "kind": "list",
             "cards": [c.to_dict() if isinstance(c, Card) else c for c in cards_a],

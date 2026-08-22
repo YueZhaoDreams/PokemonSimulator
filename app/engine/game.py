@@ -5,7 +5,16 @@ import re
 from dataclasses import dataclass, field
 from typing import Any
 
-from app.engine.effects import can_pay_energy, energy_provided, is_basic_energy, is_double_colorless, parse_ability_effects, resistance_reduce, weakness_multiplier
+from app.engine.effects import (
+    can_pay_energy,
+    energy_provided,
+    is_basic_energy,
+    is_boomerang_energy,
+    is_double_colorless,
+    parse_ability_effects,
+    resistance_reduce,
+    weakness_multiplier,
+)
 from app.engine.models import Card, FamilyRules
 from app.engine.strategies import StrategySpec
 
@@ -26,6 +35,7 @@ class Pokemon:
     played_turn: int = 0
     tool: int | None = None
     ability_used: bool = False
+    prevent_basic_damage: bool = False
 
     @property
     def remaining(self) -> int:
@@ -318,6 +328,9 @@ class Game:
         if strat.name == "shock" and name == "spheal":
             # One Walrein engine; Water Energy / Water Basics pay Megaton Fall.
             return copies < 1
+        if strat.name == "thrifty" and name == "starly":
+            # One Staraptor engine; Boomerang Energy returns after Power Blast.
+            return copies < 1
         if strat.name == "shock" and name == "spinarak":
             # One Poison Sting; Darkness Energy pays it.
             return copies < 1
@@ -398,6 +411,8 @@ class Game:
                     for j in player.hand
                 )
                 return 850 if water else 160
+            if strat.name == "thrifty" and name == "starly":
+                return 850
             if glass and name in closers:
                 return 2000 + self._print_value(card, strat)
             if name in aces:
@@ -525,13 +540,13 @@ class Game:
         self._play_basics(me)
         self._play_trainers(me, foe, who)
         self._play_basics(me)
-        if self.strats[who].name in {"party", "demolish", "slash", "shock"}:
+        if self.strats[who].name in {"party", "demolish", "slash", "shock", "thrifty"}:
             self._play_trainers(me, foe, who)
             self._play_basics(me)
         self._use_abilities(me, foe, who)
         self._evolve(me, foe, who)
         self._play_basics(me)
-        if self.strats[who].name in {"party", "demolish", "slash", "shock"}:
+        if self.strats[who].name in {"party", "demolish", "slash", "shock", "thrifty"}:
             self._play_trainers(me, foe, who)
         self._use_abilities(me, foe, who)
         if self.strats[who].name == "party" and self._should_transfer_combo(me, foe):
@@ -574,6 +589,9 @@ class Game:
         if me.active:
             me.active.status &= ~ST_PARALYZED
         self.energy_attack_lock.pop(who, None)
+        other = "b" if who == "a" else "a"
+        for mon in self.players[other].in_play():
+            mon.prevent_basic_damage = False
         return False
 
     def _between_turns(self, me: Player) -> None:
@@ -1313,7 +1331,7 @@ class Game:
         prefer = list(strat.search_aces) + list(strat.protect)
         # Side defaults for carpet sets.
         if who == "a":
-            prefer += ["Dondozo", "Orthworm", "Flutter Mane", "Carbink"]
+            prefer += ["Dondozo", "Orthworm", "Starly", "Flutter Mane", "Carbink"]
         else:
             prefer += ["Pikachu", "Emolga", "Spheal", "Electrike", "Wailmer"]
         return list(dict.fromkeys(prefer))
@@ -1395,7 +1413,8 @@ class Game:
                 "Fire": ["Slugma", "Litwick", "Crocalor", "Salazzle"],
                 "Grass": ["Roselia", "Tangela", "Oddish"],
                 "Darkness": ["Spinarak"],
-                "Fighting": ["Cornerstone Mask Ogerpon ex", "Rockruff", "Relicanth", "Carbink"],
+                "Fighting": ["Cornerstone Mask Ogerpon ex", "Rockruff", "Relicanth", "Carbink", "Gligar"],
+                "Colorless": ["Boomerang Energy", "Staraptor", "Staravia", "Starly", "Aipom"],
             }
             for et in need:
                 prefer.extend(type_prefer.get(et, []))
@@ -1403,7 +1422,7 @@ class Game:
         if who == "b":
             prefer = prefer + ["Water Energy", "Lightning Energy", "Grass Energy", "Spheal", "Pikachu", "Electrike", "Emolga"]
         else:
-            prefer = prefer + ["Psychic Energy", "Dondozo", "Orthworm", "Flutter Mane"]
+            prefer = prefer + ["Psychic Energy", "Boomerang Energy", "Dondozo", "Starly", "Orthworm", "Flutter Mane"]
         return list(dict.fromkeys(prefer))
 
     def _search(self, me: Player, pred, prefer: list[str] | None = None, n: int = 1, source: str = "search") -> int | None:
@@ -1679,6 +1698,8 @@ class Game:
             return self._slash_energy_target(me)
         if strat.name == "shock":
             return self._shock_energy_target(me)
+        if strat.name == "thrifty":
+            return self._thrifty_energy_target(me)
         if strat.name == "invisible":
             for mon in me.in_play():
                 if not self._is_orthworm(me.card(mon.card_i)):
@@ -1730,6 +1751,10 @@ class Game:
         need = self._needed_types(me, target)
         pool = self._energy_pool(me, target)
         card = me.card(target.card_i)
+        if self._is_staraptor_line(card):
+            boom = [i for i in me.hand if is_boomerang_energy(me.card(i))]
+            if boom and not any(is_boomerang_energy(me.card(i)) for i in target.energy):
+                return boom[0]
         # DCE completes [F][C][C] after a Fighting is attached.
         dce = [i for i in me.hand if is_double_colorless(me.card(i))]
         if dce and any(atk.cost.count("Colorless") >= 2 and not can_pay_energy(pool, atk.cost) for atk in card.attacks):
@@ -1798,6 +1823,9 @@ class Game:
             return
         if strat.name == "shock":
             self._retreat_shock(me, foe, who)
+            return
+        if strat.name == "thrifty":
+            self._retreat_thrifty(me, foe, who)
             return
         if strat.name == "demolish":
             self._retreat_demolish(me, who)
@@ -1928,6 +1956,12 @@ class Game:
                 self.energy_attack_lock[foe_who] = int(effect.get("max_energy") or 2)
                 self._bump("frigid_fangs_lock")
                 self._log(f"{attacker.name} locks Pokémon with {self.energy_attack_lock[foe_who]} or less Energy")
+            elif effect.get("kind") == "prevent_basic_damage":
+                me.active.prevent_basic_damage = True
+                self._bump("tailspin_away")
+                self._log(f"{attacker.name} prevents damage from Basic Pokémon next turn")
+            elif effect.get("kind") == "discard_energy":
+                self._discard_attack_energy(me, me.active, int(effect.get("count") or 1))
 
     def _mill_opponent(self, me: Player, foe: Player, count: int = 1) -> None:
         milled = 0
@@ -1975,7 +2009,7 @@ class Game:
         for card_i in top:
             card = me.card(card_i)
             attachable = (not powered) and (
-                card.is_energy
+                is_basic_energy(card, pokemon_as_energy=False)
                 or (
                     self.rules.pokemon_as_energy
                     and card.is_pokemon
@@ -2129,6 +2163,9 @@ class Game:
                 max_e = next(int(e.get("max_energy") or 2) for e in atk.effects if e.get("kind") == "energy_attack_lock")
                 if foe.active and len(foe.active.energy) <= max_e:
                     score += 80 * strat.prefer_status
+            if any(e.get("kind") == "prevent_basic_damage" for e in atk.effects):
+                if foe.active and foe.card(foe.active.card_i).is_basic and effective < foe_hp:
+                    score += 70
             if any(e.get("kind") == "mill_opponent" for e in atk.effects):
                 score += 15 if strat.hold_as_energy else 55
             if any(e.get("kind") == "draw" for e in atk.effects) and atk.damage <= 30:
@@ -2438,6 +2475,9 @@ class Game:
             dmg = max(0, dmg - resistance_reduce(defender.resistances, attacker.types))
         if self._stance_prevents(attacker, defender):
             self._bump("stance_block")
+            return 0
+        if foe.active.prevent_basic_damage and attacker.is_basic:
+            self._bump("prevent_basic_damage")
             return 0
         ignore_effects = any(e.get("kind") == "ignore_active_effects" for e in atk.effects) or (
             "effects" in (atk.text or "").lower() and "isn't affected" in (atk.text or "").lower()
@@ -3528,6 +3568,78 @@ class Game:
             if self._is_slash_tank(me.card(mon.card_i)):
                 self._swap_to_bench(me, who, idx, allow_paid=True)
                 return
+
+    def _is_staraptor_line(self, card: Card) -> bool:
+        return card.name.lower() in {"starly", "staravia", "staraptor"}
+
+    def _power_blast_ready(self, me: Player, mon: Pokemon) -> bool:
+        card = me.card(mon.card_i)
+        atk = next((a for a in card.attacks if "power blast" in a.name.lower()), None)
+        if atk is None:
+            return len(self._energy_pool(me, mon)) >= 3 if self._is_staraptor_line(card) else False
+        return can_pay_energy(self._energy_pool(me, mon), atk.cost)
+
+    def _staraptor_can_ko(self, me: Player, foe: Player, mon: Pokemon) -> bool:
+        if not foe.active:
+            return False
+        card = me.card(mon.card_i)
+        if card.name.lower() != "staraptor":
+            return False
+        attached = self._energy_pool(me, mon)
+        foe_hp = max(0, self._max_hp(foe, foe.active) - foe.active.damage)
+        for atk in card.attacks:
+            if can_pay_energy(attached, atk.cost) and self._effective_damage_for(me, foe, mon, atk) >= foe_hp > 0:
+                return True
+        return False
+
+    def _thrifty_energy_target(self, me: Player) -> Pokemon:
+        assert me.active
+        dondozo = next((m for m in me.in_play() if me.card(m.card_i).name.lower() == "dondozo"), None)
+        if dondozo is not None and not any(
+            can_pay_energy(self._energy_pool(me, dondozo), atk.cost) and atk.damage >= 180
+            for atk in me.card(dondozo.card_i).attacks
+        ):
+            return dondozo
+        birds = [m for m in me.in_play() if self._is_staraptor_line(me.card(m.card_i)) and not self._power_blast_ready(me, m)]
+        if birds:
+            return birds[0]
+        return me.active
+
+    def _retreat_thrifty(self, me: Player, foe: Player, who: str) -> None:
+        if not me.active or not me.bench:
+            return
+        if foe.active:
+            for idx, mon in enumerate(me.bench):
+                if self._staraptor_can_ko(me, foe, mon):
+                    self._do_retreat_into(me, idx)
+                    return
+        if self._staraptor_can_ko(me, foe, me.active):
+            return
+        aces = {n.lower() for n in self.strats[who].search_aces}
+        if me.card(me.active.card_i).name.lower() not in aces:
+            for idx, mon in enumerate(me.bench):
+                if me.card(mon.card_i).name.lower() in aces:
+                    self._do_retreat_into(me, idx)
+                    return
+
+    def _discard_attack_energy(self, me: Player, mon: Pokemon, count: int) -> None:
+        if not mon.energy or count <= 0:
+            return
+        ordered = sorted(list(mon.energy), key=lambda i: 0 if is_boomerang_energy(me.card(i)) else 1)
+        dumped: list[int] = []
+        for energy_i in ordered[:count]:
+            mon.energy.remove(energy_i)
+            me.discard.append(energy_i)
+            dumped.append(energy_i)
+            self._log(f"{me.card(mon.card_i).name} discards {me.card(energy_i).name}")
+        for energy_i in dumped:
+            if not is_boomerang_energy(me.card(energy_i)):
+                continue
+            if energy_i in me.discard:
+                me.discard.remove(energy_i)
+                mon.energy.append(energy_i)
+                self._bump("boomerang_return")
+                self._log("Boomerang Energy returns after the attack")
 
     def _is_walrein_line(self, card: Card) -> bool:
         return card.name.lower() in {"spheal", "sealeo", "walrein"}

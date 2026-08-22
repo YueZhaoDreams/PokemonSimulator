@@ -108,6 +108,10 @@ def test_set_b_carpet_prints_match_photos():
         "Spheal": ("sv08-043", ["Powder Snow"]),
         "Sealeo": ("sv08-044", ["Lunge Out", "Ice Ball"]),
         "Walrein": ("sv08-045", ["Frigid Fangs", "Megaton Fall"]),
+        "Starly": ("sv01-148", ["Flap"]),
+        "Staravia": ("sv01-149", ["Wing Attack", "Speed Dive"]),
+        "Staraptor": ("sv01-150", ["Tailspin Away", "Power Blast"]),
+        "Gligar": ("sv04-091", ["Toxic"]),
         "Aipom": ("swsh11-144", ["Mischievous Tail", "Scratch"]),
     }
     for name, (cid, attacks) in expected.items():
@@ -121,6 +125,13 @@ def test_set_b_carpet_prints_match_photos():
         if name == "Gible":
             assert card.hp == 70
             assert "Fighting" in card.types
+        if name == "Staraptor":
+            assert card.hp == 150
+            blast = next(a for a in card.attacks if a.name == "Power Blast")
+            assert blast.damage == 180
+            assert any(e.get("kind") == "discard_energy" for e in blast.effects)
+            spin = next(a for a in card.attacks if a.name == "Tailspin Away")
+            assert any(e.get("kind") == "prevent_basic_damage" for e in spin.effects)
         if name == "Walrein":
             assert card.hp == 170
             megaton = next(a for a in card.attacks if a.name == "Megaton Fall")

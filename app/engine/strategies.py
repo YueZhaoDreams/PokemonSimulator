@@ -110,19 +110,22 @@ STRATEGY_LIBRARY = {
     "thrifty": StrategySpec(
         name="thrifty",
         description=(
-            "Set A family play: Dondozo is the attacker. Keep Water Basics in hand as "
-            "energy. After Dondozo is out, bench one non-Water Pokémon (Orthworm first) "
-            "so a single KO does not end the game. Swallow-Up looks at 3; balls only hunt Dondozo."
+            "Set A family play: Dondozo is still the Hydro Splash attacker. Play one Starly "
+            "and evolve Staravia → Staraptor. Boomerang Energy pays Colorless and returns "
+            "after Power Blast discards it. Tailspin Away prevents damage from Basic Pokémon "
+            "(Pikachu, Ogerpon, Mewtwo). Water / Metal Basics stay in hand as energy. After "
+            "Dondozo is out, bench Orthworm so a single KO does not end the game. Swallow-Up "
+            "looks at 3; balls hunt Dondozo."
         ),
         prefer_damage=0.85,
         prefer_status=0.2,
         bench_fill=0.0,
-        evolve_asap=0.85,
+        evolve_asap=1.0,
         attach_pokemon_as_energy=0.9,
         item_spend=0.2,
         swallow_look=3,
         hold_as_energy=True,
-        protect=["Dondozo"],
+        protect=["Dondozo", "Starly", "Staravia", "Staraptor"],
         search_aces=["Dondozo"],
         backups=["Orthworm", "Flutter Mane"],
         insurance=["Orthworm"],

@@ -34,7 +34,9 @@ def test_thrifty_opening_does_not_fill_the_bench():
         game = _carpet_game(StrategySpec.from_dict("thrifty"), seed)
         me = game.players["a"]
         assert me.active is not None
-        assert me.bench == []
+        names = [me.card(m.card_i).name for m in me.bench]
+        assert set(names) <= {"Starly", "Orthworm"}
+        assert names.count("Starly") <= 1
         if me.card(me.active.card_i).name == "Dondozo":
             continue
         # Ace in the opening 7 must be the Active, not left in hand.
@@ -46,12 +48,11 @@ def test_thrifty_does_not_bench_energy_fuel():
     me = game.players["a"]
     me.active = Pokemon(card_i=_idx(me, "Dondozo"), played_turn=0)
     me.bench = []
-    seel = _idx(me, "Seel")
     corphish = _idx(me, "Corphish")
-    me.hand = [seel, corphish]
+    me.hand = [corphish]
     game._play_basics(me)
     assert me.bench == []
-    assert seel in me.hand and corphish in me.hand
+    assert corphish in me.hand
 
 
 def test_thrifty_benches_non_water_as_insurance():
@@ -60,11 +61,11 @@ def test_thrifty_benches_non_water_as_insurance():
     me.active = Pokemon(card_i=_idx(me, "Dondozo"), played_turn=0)
     me.bench = []
     oddish = _idx(me, "Oddish")
-    seel = _idx(me, "Seel")
-    me.hand = [oddish, seel]
+    corphish = _idx(me, "Corphish")
+    me.hand = [oddish, corphish]
     game._play_basics(me)
     assert [me.card(m.card_i).name for m in me.bench] == ["Oddish"]
-    assert seel in me.hand
+    assert corphish in me.hand
 
 
 def test_thrifty_holds_balls_when_dondozo_is_in_play():
@@ -72,7 +73,7 @@ def test_thrifty_holds_balls_when_dondozo_is_in_play():
     me = game.players["a"]
     me.active = Pokemon(card_i=_idx(me, "Dondozo"), played_turn=0)
     me.bench = []
-    me.hand = [_idx(me, "Ultra Ball"), _idx(me, "Poké Ball"), _idx(me, "Clefairy")]
+    me.hand = [_idx(me, "Ultra Ball"), _idx(me, "Poké Ball"), _idx(me, "Aipom")]
     assert game._pick_trainer(me) is None
 
 
@@ -82,7 +83,7 @@ def test_ultra_ball_benches_dondozo_same_turn():
     foe = game.players["b"]
     dondozo = _idx(me, "Dondozo")
     ball = _idx(me, "Ultra Ball")
-    seel = _idx(me, "Seel")
+    seel = _idx(me, "Corphish")
     bronzor = _idx(me, "Bronzor")
     oddish = _idx(me, "Oddish")
     me.active = Pokemon(card_i=seel, played_turn=0)
@@ -102,7 +103,7 @@ def test_thrifty_holds_filler_items_when_ace_is_in_play():
     me = game.players["a"]
     me.active = Pokemon(card_i=_idx(me, "Dondozo"), played_turn=0)
     me.bench = []
-    me.hand = [_idx(me, "Trekking Shoes"), _idx(me, "Energy Switch"), _idx(me, "Lake Acuity")]
+    me.hand = [_idx(me, "Energy Switch"), _idx(me, "Lake Acuity")]
     assert game._pick_trainer(me) is None
 
 
@@ -111,21 +112,21 @@ def test_balanced_still_plays_filler_items():
     me = game.players["a"]
     me.active = Pokemon(card_i=_idx(me, "Dondozo"), played_turn=0)
     me.bench = []
-    me.hand = [_idx(me, "Trekking Shoes"), _idx(me, "Energy Switch")]
+    me.hand = [_idx(me, "Energy Switch"), _idx(me, "Poké Ball")]
     picked = game._pick_trainer(me)
     assert picked is not None
-    assert me.card(picked).name in {"Trekking Shoes", "Energy Switch"}
+    assert me.card(picked).name in {"Energy Switch", "Poké Ball"}
 
 
 def test_swallow_look_three_leaves_the_rest_in_deck():
     game = _carpet_game(StrategySpec.from_dict("thrifty"))
     me = game.players["a"]
     dondozo = _idx(me, "Dondozo")
-    psychic = _idx(me, "Psychic Energy")
-    seel = _idx(me, "Seel")
+    psychic = _idx(me, "Water Energy")
+    seel = _idx(me, "Corphish")
     bronzor = _idx(me, "Bronzor")
     oddish = _idx(me, "Oddish")
-    gloom = _idx(me, "Gloom")
+    gloom = _idx(me, "Aipom")
     me.active = Pokemon(card_i=dondozo, played_turn=0)
     me.hand = []
     me.bench = []
@@ -145,7 +146,7 @@ def test_thrifty_benches_orthworm_as_ko_insurance():
     me.active = Pokemon(card_i=_idx(me, "Dondozo"), played_turn=0)
     me.bench = []
     orth = _idx(me, "Orthworm")
-    seel = _idx(me, "Seel")
+    seel = _idx(me, "Corphish")
     me.hand = [orth, seel]
     game._play_basics(me)
     assert [me.card(m.card_i).name for m in me.bench] == ["Orthworm"]
@@ -156,7 +157,7 @@ def test_thrifty_plays_orthworm_when_dondozo_is_gone():
     game = _carpet_game(StrategySpec.from_dict("thrifty"))
     me = game.players["a"]
     dondozo = _idx(me, "Dondozo")
-    me.active = Pokemon(card_i=_idx(me, "Seel"), played_turn=0)
+    me.active = Pokemon(card_i=_idx(me, "Corphish"), played_turn=0)
     me.bench = []
     me.hand = [_idx(me, "Orthworm"), _idx(me, "Oddish")]
     me.deck = []
