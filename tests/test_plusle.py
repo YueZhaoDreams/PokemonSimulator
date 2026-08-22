@@ -120,7 +120,7 @@ def test_shock_retreats_into_plusle_for_the_knock_out():
     shock = _shock_idx(me)
     plusle = _idx(me, "Plusle")
     pik_fuel = [_idx(me, "Emolga"), _idx(me, "Grass Energy")]
-    plus_fuel = [_idx(me, "Electrike"), _idx(me, "Seel")]
+    plus_fuel = [_idx(me, "Electrike"), _idx(me, "Gimmighoul")]
     me.active = Pokemon(card_i=shock, played_turn=0, energy=list(pik_fuel))
     me.bench = [Pokemon(card_i=plusle, played_turn=0, energy=list(plus_fuel))]
     foe.active = Pokemon(card_i=_idx(foe, "Dondozo"), played_turn=0, damage=80)

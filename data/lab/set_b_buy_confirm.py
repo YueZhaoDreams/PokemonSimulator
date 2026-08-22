@@ -16,7 +16,7 @@ from app.seed_data import fallback_named
 ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / "data" / "lab" / "set-b-buy-confirm.json"
 SEED = 20260818
-CUT = "Ivysaur"
+CUT = "Crocalor"
 GAMES_AC = 5000
 GAMES_D = 3000
 

@@ -110,22 +110,19 @@ STRATEGY_LIBRARY = {
     "thrifty": StrategySpec(
         name="thrifty",
         description=(
-            "Set A family play: Dondozo is still the Hydro Splash attacker. Play one Starly "
-            "and evolve Staravia → Staraptor. Boomerang Energy pays Colorless and returns "
-            "after Power Blast discards it. Tailspin Away prevents damage from Basic Pokémon "
-            "(Pikachu, Ogerpon, Mewtwo). Water / Metal Basics stay in hand as energy. After "
-            "Dondozo is out, bench Orthworm so a single KO does not end the game. Swallow-Up "
-            "looks at 3; balls hunt Dondozo."
+            "Set A family play: Dondozo is the attacker. Keep Water Basics in hand as "
+            "energy. After Dondozo is out, bench one non-Water Pokémon (Orthworm first) "
+            "so a single KO does not end the game. Swallow-Up looks at 3; balls only hunt Dondozo."
         ),
         prefer_damage=0.85,
         prefer_status=0.2,
         bench_fill=0.0,
-        evolve_asap=1.0,
+        evolve_asap=0.85,
         attach_pokemon_as_energy=0.9,
         item_spend=0.2,
         swallow_look=3,
         hold_as_energy=True,
-        protect=["Dondozo", "Starly", "Staravia", "Staraptor"],
+        protect=["Dondozo"],
         search_aces=["Dondozo"],
         backups=["Orthworm", "Flutter Mane"],
         insurance=["Orthworm"],
@@ -161,26 +158,26 @@ STRATEGY_LIBRARY = {
     "shock": StrategySpec(
         name="shock",
         description=(
-            "Set B Walrein + chip: play one Spheal, evolve Sealeo → Walrein. Water Energy "
-            "and Water Basics pay Megaton Fall [W][W] 170, which KOs 160 HP Dondozo. "
-            "Frigid Fangs 60 locks Pokémon with 2 or less Energy. Thunder Shock Pikachu "
-            "or Electrike chip + paralyze while the line evolves; Nuzzle Pikachu stays "
-            "as Lightning energy. Bench Plusle as the leftover closer. One Roselia for "
-            "Soothing Scent. Play Energy Search / Retrieval / Trekking Shoes. Two "
-            "Fighting sponges so Hydro Splash cannot wipe the board."
+            "Set B chip line: Thunder Shock Pikachu or Electrike (damage + paralysis), "
+            "keep Nuzzle Pikachu in hand as Lightning energy, bench Plusle as the closer. "
+            "After about 80 damage, Plusle's Plus Damage is (damage + 10) × 2 into "
+            "Dondozo's weakness and finishes the 20 HP Volt Tackle cannot. "
+            "Play one Roselia: extra Grass Energy pays Soothing Scent [G] to sleep-lock "
+            "when Thunder Shock is not ready. Play one Spinarak: Darkness Energy pays "
+            "Poison Sting [D] (10 + Poison); poison ticks stack with paralysis."
         ),
-        prefer_damage=0.85,
+        prefer_damage=0.7,
         prefer_status=0.9,
         bench_fill=0.0,
-        evolve_asap=1.0,
+        evolve_asap=0.7,
         attach_pokemon_as_energy=0.95,
-        item_spend=1.0,
+        item_spend=0.2,
         hold_as_energy=True,
-        protect=["Pikachu", "Plusle", "Roselia", "Spheal", "Sealeo", "Walrein"],
+        protect=["Pikachu", "Plusle", "Roselia", "Spinarak"],
         search_aces=["Pikachu", "Electrike"],
         status_targets=["Dondozo", "Wailmer", "Orthworm"],
         backups=["Electrike"],
-        insurance=["Sudowoodo", "Relicanth", "Wailmer"],
+        insurance=["Wailmer", "Sudowoodo", "Relicanth"],
         insurance_bench=2,
         insurance_non_fuel=True,
         max_ace_copies=1,

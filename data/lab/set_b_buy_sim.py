@@ -17,7 +17,7 @@ ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / "data" / "lab" / "set-b-buy-rank.json"
 SEED = 20260818
 GAMES = 2000
-CUT = "Ivysaur"
+CUT = "Crocalor"
 
 CATALOG = {
     "iron-hands-ex": "sv04-070",
