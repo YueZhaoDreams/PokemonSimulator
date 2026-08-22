@@ -8,16 +8,15 @@ def test_spare_is_a_leftover_pile_not_a_thirty():
     assert SET_SPARE_NAMES == [
         "Tool Box",
         "Lickilicky",
-        "Aipom",
         "Fighting Energy",
+        "Gimmighoul",
     ]
     assert len(SET_SPARE_NAMES) == 4
     pile = build_fallback_deck(list(SET_SPARE_NAMES))
     assert [c.name for c in pile] == SET_SPARE_NAMES
     assert pile[0].category == "Trainer"
     assert pile[1].name == "Lickilicky"
-    assert pile[2].name == "Aipom"
-    assert pile[3].energy_type == "Fighting"
+    assert pile[2].energy_type == "Fighting"
 
 
 def test_dark_energy_alias_is_darkness():

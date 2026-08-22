@@ -113,6 +113,8 @@ def _align_named_cards(existing: list, names: list[str]) -> list[dict]:
         q = pools.get(name)
         if q:
             out.append(q.popleft())
+        elif name.lower() == "boomerang energy":
+            out.append(fallback_named(name).to_dict())
         elif name.lower().endswith(" energy") and "double" not in name.lower():
             out.append(energy_card(name.split()[0]).to_dict())
         else:
@@ -273,8 +275,8 @@ def build_seed_payload(enrich: bool = True) -> dict:
     builder = _try_enrich if enrich else lambda names, prefer=None: build_fallback_deck(names)
     cards_a = builder(SET_A_NAMES, prefer_a)
     cards_b = builder(SET_B_NAMES, prefer_b)
-    # After A traded Cosmic Eclipse Pikachu for B's Tulip, B holds both carpet prints:
-    # first copy = original Burning Shadows Thunder Shock, second = Nuzzle / Volt Tackle.
+    # After A traded Cosmic Eclipse Pikachu for B's Tulip, B holds both carpet prints.
+    # Carpet order is Nuzzle / Volt Tackle first, then Burning Shadows Thunder Shock.
     nuzzle = fallback_named("pikachu-nuzzle")
     shock = fallback_named("Pikachu")
     if enrich:
@@ -290,20 +292,20 @@ def build_seed_payload(enrich: bool = True) -> dict:
             cards_b = [b_ruff if c.name == "Rockruff" else c for c in cards_b]
         except Exception:
             pass
-    cards_b = _assign_named_prints(cards_b, "Pikachu", [shock, nuzzle])
+    cards_b = _assign_named_prints(cards_b, "Pikachu", [nuzzle, shock])
     cd = _cd_payload(enrich=enrich)
     spare = _spare_payload(enrich=enrich)
     payload = {
         "a": {
             "id": "seed-a",
-            "name": "Carpet Set A (Dondozo)",
+            "name": "Carpet Set A (Dondozo / Staraptor)",
             "sample": "set-a-web.jpg",
             "kind": "list",
             "cards": [c.to_dict() if isinstance(c, Card) else c for c in cards_a],
         },
         "b": {
             "id": "seed-b",
-            "name": "Carpet Set B (Pikachu shock)",
+            "name": "Carpet Set B (Walrein / Pikachu shock)",
             "sample": "set-b-web.jpg",
             "kind": "list",
             "cards": [c.to_dict() if isinstance(c, Card) else c for c in cards_b],
