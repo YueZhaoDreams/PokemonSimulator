@@ -3328,13 +3328,11 @@
         "dex_id": null
       },
       {
-        "catalog_id": "swsh12.5-156",
-        "name": "Psychic Energy",
-        "category": "Energy",
-        "stage": "Basic",
-        "types": [
-          "Psychic"
-        ],
+        "catalog_id": "sv02-172",
+        "name": "Boss's Orders",
+        "category": "Trainer",
+        "stage": "Supporter",
+        "types": [],
         "hp": 0,
         "attacks": [],
         "abilities": [],
@@ -3342,11 +3340,11 @@
         "resistances": [],
         "retreat": 0,
         "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": "Psychic",
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/156/low.webp",
-        "set_name": "Crown Zenith",
-        "text": "",
+        "trainer_kind": "supporter",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv02/172/low.webp",
+        "set_name": "Paldea Evolved",
+        "text": "Switch in 1 of your opponent's Benched Pok\u00e9mon to the Active Spot.",
         "dex_id": null
       },
       {

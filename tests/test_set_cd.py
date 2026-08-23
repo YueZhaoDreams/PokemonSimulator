@@ -26,7 +26,8 @@ def test_set_cd_counts():
     assert sum(1 for x in c if x.name == "Maximum Belt") == 1
     assert sum(1 for x in c if x.name == "Tool Box") == 1
     assert sum(1 for x in c if x.name == "Arven") == 1
-    assert sum(1 for x in c if x.name == "Psychic Energy") == 2
+    assert sum(1 for x in c if x.name == "Boss's Orders") == 1
+    assert sum(1 for x in c if x.name == "Psychic Energy") == 1
     assert sum(1 for x in d if x.name == "Cornerstone Mask Ogerpon ex") == 4
     assert sum(1 for x in d if x.name == "Fighting Energy") == 8
     assert sum(1 for x in d if x.name == "Double Colorless Energy") == 4

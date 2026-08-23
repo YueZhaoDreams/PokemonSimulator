@@ -75,9 +75,10 @@ SET_B_NAMES = [
     "Corphish",
 ]
 
-# Set C — Clefairy / Mewtwo vs Charm Ogerpon. 30 with +2 Psychic Energy.
-# Maximum Belt is an ACE SPEC (one copy). Tool Box tutors it from the top 7; Arven
-# is the full-deck Tool + Item search. Moon-Watching Party is LOR 62 full-deck search.
+# Set C — Clefairy / Mewtwo vs Charm Ogerpon. 30: one Psychic Energy + one Boss's Orders
+# (the second energy lost to Switch / extra Clefairy in bakeoffs). Maximum Belt is ACE SPEC.
+# Tool Box tutors it from the top 7; Arven is the full-deck Tool + Item search.
+# Moon-Watching Party is LOR 62 full-deck search.
 SET_C_NAMES = (
     ["Clefairy"] * 4
     + ["Mewtwo ex"] * 2
@@ -90,7 +91,8 @@ SET_C_NAMES = (
     + ["Maximum Belt"]
     + ["Tool Box"]
     + ["Arven"]
-    + ["Psychic Energy"] * 2
+    + ["Boss's Orders"]
+    + ["Psychic Energy"]
 )
 
 SET_D_NAMES = (  # 30: Fighting Energy 6 → 8

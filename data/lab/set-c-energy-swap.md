@@ -1,0 +1,24 @@
+# Set C: cut one Psychic Energy
+
+Date: 2026-08-23
+Seed (bakeoff): `20260823` · 1,000 games / cell
+Engine: `family-tcg-monte-carlo` with Family Cup **ex = 2 / Mega ex = 3**
+
+Set C is 30. The two dedicated Psychic Energy are redundant under Rule B (Clefairy / Clefable are Psychic Energy) but still help Photon density vs D. Replacing **both** with Switch or extra Clefairy lost the D/T race. The locked swap is **−1 Psychic Energy, +1 Boss's Orders**.
+
+## Bakeoff (C is row, party vs foe)
+
+D+T = mean of vs D and vs T. Baseline `energy2` is the old 2× Psychic Energy list.
+
+| package | A | B | D | S | T | mean | D+T |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| **energy1 + Boss** (locked) | 86.0% | 84.6% | 49.6% | 86.6% | **51.2%** | **71.6%** | **50.4%** |
+| energy2 (old) | 88.9% | 87.1% | **54.0%** | 82.5% | 44.0% | 71.3% | 49.0% |
+| 2× Boss | 84.2% | 85.9% | 46.4% | 86.8% | 51.3% | 70.9% | 48.9% |
+| 1 energy + 1 Switch | 90.0% | 93.8% | 50.3% | 77.4% | 43.2% | 70.9% | 46.8% |
+| 2× Switch | 91.5% | 94.4% | 45.8% | 72.4% | 44.1% | 69.6% | 45.0% |
+| 2× Clefairy | 85.3% | 85.0% | 57.6% | 77.5% | 39.5% | 69.0% | 48.5% |
+
+Switch helps vs carpet A/B (rotate Party) and loses vs D (Ogerpon does not care about your Active) and vs T (Dive still prizes 60 HP Clefairy). Extra Clefairy helps vs D and feeds T. Boss pulls Budew / a weak Dragapult into Photon; vs T that flips C over 50% in the 1k screen.
+
+Locked 30: 4 Clefairy / 2 Mewtwo ex / 4 Clefable / 4 Clefable ex / 3 Mega Clefable ex / 3 Hop / 2 Nest / 3 Energy Search / 1 Belt / 1 Tool Box / 1 Arven / **1 Boss's Orders / 1 Psychic Energy**.

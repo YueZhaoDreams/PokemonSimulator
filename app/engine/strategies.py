@@ -193,7 +193,8 @@ STRATEGY_LIBRARY = {
             "Set C Clefairy / Mewtwo: vs A/B open on Mewtwo and keep Clefairy mostly as Psychic "
             "Energy (cap 1 vs thrifty, 0 vs shock — Hydro Splash / Thunder Shock prize 60 HP "
             "engines into deck-out). Vs D: Party ramp (cap 3) → Transfer Charge → Photon "
-            "(7P+Belt or 9P); Mega wall only if Mewtwo cannot eat the next 140."
+            "(7P+Belt or 9P); Mega wall only if Mewtwo cannot eat the next 140. "
+            "One Boss's Orders to pull a prize (Dragapult / Budew) rather than a second Psychic Energy."
         ),
         prefer_damage=0.95,
         prefer_status=0.1,

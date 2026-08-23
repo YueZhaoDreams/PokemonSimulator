@@ -159,7 +159,8 @@ def test_seed_decks_include_set_c_and_d():
     assert c_names.count("Maximum Belt") == 1
     assert c_names.count("Tool Box") == 1
     assert c_names.count("Arven") == 1
-    assert c_names.count("Psychic Energy") == 2
+    assert c_names.count("Boss's Orders") == 1
+    assert c_names.count("Psychic Energy") == 1
     clefairy_text = next(c["abilities"][0]["text"] for c in data["c"]["cards"] if c["name"] == "Clefairy")
     assert "for each of your Benched Clefairy" in clefairy_text
     assert "search your deck" in clefairy_text
