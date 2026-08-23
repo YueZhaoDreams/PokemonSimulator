@@ -2213,12 +2213,12 @@ class Game:
         for i in picked:
             me.deck.remove(i)
         self.rng.shuffle(me.deck)
-        attach_i = picked[0]
-        me.hand.append(attach_i if len(picked) == 1 else picked[1])
         target = self._energy_target(me, self.strats[who]) if me.active else None
-        if target is None:
-            me.hand.append(attach_i)
+        if len(picked) == 1 or target is None:
+            me.hand.extend(picked)
             return
+        hand_i, attach_i = picked[1], picked[0]
+        me.hand.append(hand_i)
         target.energy.append(attach_i)
         me.energy_attached = True
         self._bump("crispin_attach")

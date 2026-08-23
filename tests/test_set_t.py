@@ -37,6 +37,13 @@ def test_phantom_dive_parses_bench_counters():
     assert {"kind": "bench_damage_counters", "counters": 6} in effects
 
 
+def test_cruel_arrow_parses_accented_pokemon():
+    effects = parse_effects(
+        "This attack does 100 damage to 1 of your opponent's Pokémon. (Don't apply Weakness and Resistance for Benched Pokémon.)"
+    )
+    assert {"kind": "damage_one_pokemon", "amount": 100} in effects
+
+
 def test_itchy_pollen_parses_item_lock():
     effects = parse_effects(
         "During your opponent's next turn, they can't play any Item cards from their hand."

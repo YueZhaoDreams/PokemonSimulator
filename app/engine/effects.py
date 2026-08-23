@@ -110,7 +110,7 @@ def parse_ability_effects(text: str) -> list[dict[str, Any]]:
 
 
 def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
-    t = (text or "").lower()
+    t = (text or "").lower().replace("pokémon", "pokemon").replace("poké", "poke")
     effects: list[dict[str, Any]] = []
     coin = "flip a coin" in t or ("flip" in t and "heads" in t)
 
