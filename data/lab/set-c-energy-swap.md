@@ -67,6 +67,25 @@ CLC density helps vs T and costs vs D. Those packages are also illegal as extra 
 
 Family Cup uses Standard constructed copies: **at most 4 of the same name**, basic Energy unlimited. TWM 79 and CLC 014 are still named **Clefable**, so they share the cap with Rebel Clash. Clefable / Clefable ex / Mega Clefable ex are different names (4 each). Official 30-card constructed's 2-of rule is only how Set T was imported; A–S are household 30s with the 4-of cap.
 
-The fifth RCL Clefable (and any Metronome printing as a fifth Clefable) is illegal. The 30th card returns to **1 Psychic Energy** — the last legal bakeoff winner versus a 4th Mega (3 prizes). Locked 30: 4 Clefairy / 2 Mewtwo ex / **4 Clefable** / 4 Clefable ex / 3 Mega / 3 Hop / 2 Nest / 3 Energy Search / Belt / Tool Box / Arven / Boss / **1 Psychic Energy**.
+The fifth RCL Clefable (and any Metronome printing as a fifth Clefable) is illegal.
+
+## 30th card: 4th Mega, four Clefable stay Rebel Clash (2026-08-23)
+
+If the last slot must be a Clefable-line Pokémon (Rule B, no dedicated Energy), the only legal add is **Mega Clefable ex** (a different name; the list had 3). Hop / Nest / Energy Search / Psychic Energy are also legal, but they are not that line. Replacing one of the four **Clefable** with TWM/CLC is legal and worse.
+
+3,000 games / cell, seed `20260819`, Boss kept:
+
+| package | A | B | D | S | T | mean | D+T |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 4× RCL + energy | 87.0% | 86.0% | 49.1% | 85.5% | **47.0%** | **70.9%** | **48.0%** |
+| **4× RCL + 4th Mega** (locked) | 86.1% | 85.1% | **49.7%** | 85.3% | 45.6% | 70.3% | 47.6% |
+| 3× RCL + TWM + 4th Mega | 86.4% | 85.2% | 46.9% | 85.6% | 45.6% | 69.9% | 46.3% |
+| 3× RCL + CLC + 4th Mega | 86.7% | 85.8% | 45.2% | 85.8% | 47.0% | 70.1% | 46.1% |
+
+Rebel Clash is the Clefable printing: Prankish + Psychic type for Party/Photon. TWM still Psychic but no Prankish and steals a name slot. CLC is Colorless 70 HP, not Psychic fuel.
+
+Locked 30: 4 Clefairy / 2 Mewtwo ex / **4 Rebel Clash Clefable** / 4 Clefable ex / **4 Mega Clefable ex** / 3 Hop / 2 Nest / 3 Energy Search / Belt / Tool Box / Arven / Boss. **Zero dedicated Energy.**
+
+Full A–T matrix (3,000 / cell, seed `20260819`): C vs A 85.6%, B 85.9%, D 49.9%, S 84.4%, T 48.1%.
 
 
