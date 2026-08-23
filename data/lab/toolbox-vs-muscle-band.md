@@ -160,3 +160,21 @@ Carpet Set A is **30**: Dondozo plus Paldea Evolved **Starly / Staravia / Starap
 | **S** | 33.7% | 78.5% | 22.4% | **67.0%** | — |
 
 Vs the 28-card Staraptor table: A vs B 66.6% → **67.3%** (noise). A vs C 11.7% → 10.1% (extra Psychic is also Party fuel if C prizes it, but A holds it as Flutter Mane pay). A vs D 5.2% → 4.2%. B–C–D–S cells that do not touch A match the Walrein table.
+
+## 30-card Set T, Dragapult ex (2026-08-23)
+
+Set T is the official **30-card constructed** half-deck (max 2 copies except basic Energy, 3 prizes) compressed from August 2026 Standard **Dragapult ex**. Strategy `phantom`: Poffin Dreepy / Budew, Recon Directive from printed look-N, Rare Candy into Dragapult, Phantom Dive 200 + 6 bench counters. Budew Itchy Pollen locks Items. Same seed `20260819`, 3,000 games / ordered pair. Raw: `data/lab/family-cup-30-matrix.json`.
+
+Family Cup still allows Pokémon-as-energy; T holds the line and pays Fire / Psychic / Darkness Energy.
+
+|  | A | B | C | D | S | T |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| **A** | — | 67.3% | 10.1% | 4.2% | 66.4% | 45.8% |
+| **B** | 32.1% | — | 13.9% | 1.1% | 21.3% | 50.1% |
+| **C** | 89.2% | 86.7% | — | **60.2%** | 77.4% | 41.3% |
+| **D** | 95.5% | 98.6% | 42.0% | — | 33.8% | **61.9%** |
+| **S** | 33.7% | 78.5% | 22.4% | **67.0%** | — | **65.9%** |
+| **T** | **55.9%** | 50.9% | **59.4%** | 40.0% | 35.0% | — |
+
+T beats carpet A and Party C, splits shock B, and loses to Charm Ogerpon D (Demolish 140 into a slow Stage 2) and Floragato hunter S (Grass OHKO / Wo-Chien sponge). A–S cells that do not touch T match the Staraptor table.
+
