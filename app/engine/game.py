@@ -149,6 +149,7 @@ class Game:
         return any(player.card(i).is_basic for i in zone)
 
     def _opening(self, player: Player, strat: StrategySpec) -> None:
+        # Standard TCG: draw 7; if there is no Basic Pokémon, shuffle and draw again.
         hand_n = self.rules.opening_hand
         while True:
             self._draw(player, hand_n)
