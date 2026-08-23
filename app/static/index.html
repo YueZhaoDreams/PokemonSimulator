@@ -138,21 +138,28 @@
     </section>
 
     <section id="view-chat" class="hidden">
-      <h2 class="screen-title">Ask Cursor</h2>
-      <p class="tiny">This chat is Cursor in this repo. It can run sims, pytest, and lab scripts, and it can edit the app when you ask.</p>
+      <h2 class="screen-title">Voice chat · 语音对话</h2>
+      <p class="tiny">Tap Talk and speak. I answer out loud in 中文 or English. 点「说话」，用中文或英文讲，我会念给你听。</p>
       <div class="row">
-        <input id="chatSearch" class="grow" placeholder="Search old threads" />
-        <button id="newChat" class="secondary" type="button">New</button>
+        <input id="chatSearch" class="grow" placeholder="Search threads · 搜索对话" />
+        <button id="newChat" class="secondary" type="button">New · 新对话</button>
+      </div>
+      <div id="chatLang" class="chips lang-toggle" role="group" aria-label="Voice language">
+        <button id="chatLangZh" type="button" data-lang="zh">中文</button>
+        <button id="chatLangEn" type="button" data-lang="en">English</button>
+        <button id="chatSpeak" type="button" aria-pressed="true">🔊 Speak replies · 朗读</button>
       </div>
       <div id="chatThreads"></div>
       <div id="chatThread" class="hidden">
-        <button id="backToThreads" class="ghost" type="button">All threads</button>
+        <button id="backToThreads" class="ghost" type="button">All threads · 全部对话</button>
         <h3 id="chatTitle" class="chat-title"></h3>
         <div class="chips" id="chips"></div>
         <div id="chatLog"></div>
         <div class="panel">
-          <textarea id="chatInput" placeholder="Run 2,000 games of A vs B and tell me what you learned."></textarea>
-          <button id="sendChat" type="button" style="margin-top:8px">Ask</button>
+          <button id="chatMic" class="talk-btn" type="button" aria-pressed="false">🎤 Talk · 说话</button>
+          <p id="chatVoiceHint" class="tiny">Listening uses the phone mic. 说话时请靠近麦克风。</p>
+          <textarea id="chatInput" placeholder="Or type here… / 也可以打字…"></textarea>
+          <button id="sendChat" type="button" style="margin-top:8px">Send · 发送</button>
         </div>
       </div>
     </section>
@@ -182,7 +189,7 @@
     <button data-view="scan" class="active" type="button"><span class="nav-ico" aria-hidden="true">📷</span><span>Scan</span></button>
     <button data-view="decks" type="button"><span class="nav-ico" aria-hidden="true">🃏</span><span>Sets</span></button>
     <button data-view="fight" type="button"><span class="nav-ico" aria-hidden="true">⚡</span><span>Fight</span></button>
-    <button data-view="chat" type="button"><span class="nav-ico" aria-hidden="true">💬</span><span>Chat</span></button>
+    <button data-view="chat" type="button"><span class="nav-ico" aria-hidden="true">💬</span><span>Talk 语音</span></button>
     <button data-view="lab" type="button"><span class="nav-ico" aria-hidden="true">🧪</span><span>Lab</span></button>
   </nav>
   <script src="/static/app.js"></script>

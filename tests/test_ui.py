@@ -31,6 +31,10 @@ REQUIRED_IDS = [
     "view-chat",
     "chatSearch",
     "newChat",
+    "chatLang",
+    "chatLangZh",
+    "chatLangEn",
+    "chatSpeak",
     "chatThreads",
     "chatThread",
     "backToThreads",
@@ -38,6 +42,8 @@ REQUIRED_IDS = [
     "chips",
     "chatLog",
     "chatInput",
+    "chatVoiceHint",
+    "chatMic",
     "sendChat",
     "view-lab",
     "labList",
@@ -118,6 +124,20 @@ def test_app_js_keeps_simulator_contracts():
     assert 'classList.toggle("busy", !!(on && withMask))' in js
     assert "function stopReplay" in js
     assert "sendChat.busy" in js
+    assert "language: state.chatLang" in js
+    assert "webkitSpeechRecognition" in js
+    assert "speechSynthesis" in js
+    assert "function speakReply" in js
+    assert "function startVoiceListen" in js
+    assert "function speakableText" in js
+    assert "function speechLang" in js
+    assert "function speechLangFor" in js
+    assert "sendChat.pending" in js
+    assert "function chatViewOpen" in js
+    assert "CHAT_WELCOME" in js
+    assert "function setChatLang" in js
+    assert "function startNewChat" in js
+    assert "state.chatOpened" in js
 
 
 def test_classify_log_labels_printed_engine_lines():

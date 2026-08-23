@@ -1,7 +1,9 @@
 const $ = (sel) => document.querySelector(sel);
 const $$ = (sel) => [...document.querySelectorAll(sel)];
-let state = { decks: [], strategies: [], scanCards: [], scanCrops: [], chatId: null, history: [], chatMode: "list", rules: null };
+let state = { decks: [], strategies: [], scanCards: [], scanCrops: [], chatId: null, history: [], chatMode: "list", chatLang: "zh", chatOpened: false, speakReplies: true, rules: null };
 const CHAT_STORE = "family-cup-chat-id";
+const CHAT_LANG_STORE = "family-cup-chat-lang";
+const CHAT_SPEAK_STORE = "family-cup-chat-speak";
 const SFX_STORE = "family-cup-sfx";
 const SHINY_STORE = "family-cup-shiny";
 const REDUCE = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -23,12 +25,18 @@ const TYPE_TINT = {
 };
 
 const CHIPS = [
+  "你好！你会什么？",
+  "Hi! What can you do?",
+  "暴噬龟出现在起手 7 张的概率是多少？",
   "What is the probability Dondozo appears in the first 7 cards?",
-  "If I use Pikachu to paralyze Dondozo, how often can I pull that off?",
-  "Run 10,000 games. What strategy won, and what did you learn?",
+  "帮两套牌对打，谁更强？",
   "Which cards should we trade so both sets get stronger?",
-  "Run pytest and tell me if anything failed.",
 ];
+
+const CHAT_WELCOME = `你好！我是家庭杯小助手，可以直接跟我说话。
+Hi! I’m the Family Cup helper — talk to me here.
+
+中文和英文都可以。English or 中文 is fine.`;
 
 const THEATER_BEATS = [
   "Shuffling both 30-card Family Cup decks…",
@@ -46,6 +54,9 @@ async function api(path, opts = {}) {
 }
 
 function show(view) {
+  if (view !== "chat") stopVoiceSession(false);
+  else sendChat.muteSpeak = false;
+
   $$("main > section").forEach((s) => s.classList.add("hidden"));
   $(`#view-${view}`).classList.remove("hidden");
   $$(".nav button").forEach((b) => {
@@ -203,6 +214,256 @@ function paintSfx() {
   btn.setAttribute("aria-pressed", sfx.on ? "true" : "false");
 }
 
+function loadChatLang() {
+  try {
+    const stored = localStorage.getItem(CHAT_LANG_STORE);
+    if (stored === "zh" || stored === "en") {
+      state.chatLang = stored;
+      return;
+    }
+  } catch {
+    /* private mode */
+  }
+  const nav = (navigator.language || "").toLowerCase();
+  state.chatLang = nav.startsWith("zh") ? "zh" : "en";
+}
+
+function loadSpeakReplies() {
+  try {
+    const stored = localStorage.getItem(CHAT_SPEAK_STORE);
+    if (stored === "0") state.speakReplies = false;
+    if (stored === "1") state.speakReplies = true;
+  } catch {
+    /* private mode */
+  }
+}
+
+function setChatLang(lang) {
+  state.chatLang = lang === "en" ? "en" : "zh";
+  try { localStorage.setItem(CHAT_LANG_STORE, state.chatLang); } catch { /* private mode */ }
+  paintChatLang();
+  if (voice.rec) voice.rec.lang = speechLang();
+}
+
+function toggleSpeakReplies() {
+  state.speakReplies = !state.speakReplies;
+  try { localStorage.setItem(CHAT_SPEAK_STORE, state.speakReplies ? "1" : "0"); } catch { /* private mode */ }
+  if (!state.speakReplies) stopSpeech();
+  paintChatLang();
+}
+
+function paintChatLang() {
+  $("#chatLangZh")?.classList.toggle("active", state.chatLang === "zh");
+  $("#chatLangEn")?.classList.toggle("active", state.chatLang === "en");
+  const speak = $("#chatSpeak");
+  if (speak) {
+    speak.classList.toggle("active", state.speakReplies);
+    speak.setAttribute("aria-pressed", state.speakReplies ? "true" : "false");
+    speak.textContent = state.speakReplies ? "🔊 Speak replies · 朗读" : "🔇 Replies muted · 静音";
+  }
+  paintTalkButton();
+}
+
+function speechSupported() {
+  return !!(window.SpeechRecognition || window.webkitSpeechRecognition);
+}
+
+function ttsSupported() {
+  return "speechSynthesis" in window;
+}
+
+function speechLang() {
+  return state.chatLang === "zh" ? "zh-CN" : "en-US";
+}
+
+function speechLangFor(text) {
+  if (/[\u3400-\u9fff]/.test(text || "")) return "zh-CN";
+  if (/[A-Za-z]/.test(text || "")) return "en-US";
+  return speechLang();
+}
+
+const voice = { rec: null, loop: false, speaking: false };
+
+function paintTalkButton() {
+  const mic = $("#chatMic");
+  if (!mic) return;
+  if (!speechSupported()) {
+    mic.disabled = true;
+    mic.textContent = "Mic unavailable · 无法语音";
+    mic.setAttribute("aria-pressed", "false");
+    return;
+  }
+  mic.disabled = false;
+  if (voice.rec) {
+    mic.classList.add("active");
+    mic.setAttribute("aria-pressed", "true");
+    mic.textContent = state.chatLang === "zh" ? "🎤 正在听… 点一下停止" : "🎤 Listening… tap to stop";
+  } else if (voice.speaking) {
+    mic.classList.add("active");
+    mic.setAttribute("aria-pressed", "true");
+    mic.textContent = state.chatLang === "zh" ? "🔊 正在说… 点一下打断" : "🔊 Speaking… tap to interrupt";
+  } else {
+    mic.classList.remove("active");
+    mic.setAttribute("aria-pressed", "false");
+    mic.textContent = state.chatLang === "zh" ? "🎤 说话" : "🎤 Talk";
+  }
+}
+
+function speakableText(text) {
+  const plain = String(text || "")
+    .replace(/```[\s\S]*?```/g, " ")
+    .replace(/`([^`]+)`/g, "$1")
+    .replace(/\*\*([^*]+)\*\*/g, "$1")
+    .replace(/[_#>]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+  const bits = [];
+  let buf = "";
+  for (const ch of plain) {
+    buf += ch;
+    if ("。！？.!?".includes(ch)) {
+      bits.push(buf.trim());
+      buf = "";
+    }
+  }
+  if (buf.trim()) bits.push(buf.trim());
+  return (bits.slice(0, 4).join(" ") || plain).slice(0, 420);
+}
+
+function pickVoice(lang) {
+  const voices = window.speechSynthesis.getVoices() || [];
+  const want = (lang || "en-US").toLowerCase();
+  return voices.find((v) => (v.lang || "").toLowerCase().startsWith(want.slice(0, 2))) || null;
+}
+
+function stopSpeech() {
+  voice.speaking = false;
+  if (ttsSupported()) window.speechSynthesis.cancel();
+}
+
+function stopVoiceListen() {
+  const rec = voice.rec;
+  voice.rec = null;
+  if (rec) {
+    try { rec.onend = null; rec.onerror = null; rec.stop(); } catch { /* already stopped */ }
+  }
+  paintTalkButton();
+}
+
+function chatViewOpen() {
+  const view = $("#view-chat");
+  return !!(view && !view.classList.contains("hidden"));
+}
+
+function stopVoiceSession(keepLoop) {
+  if (!keepLoop) voice.loop = false;
+  sendChat.muteSpeak = true;
+  sendChat.pending = null;
+  stopVoiceListen();
+  stopSpeech();
+  paintTalkButton();
+}
+
+function speakReply(text) {
+  return new Promise((resolve) => {
+    if (!state.speakReplies || !ttsSupported() || REDUCE) {
+      resolve();
+      return;
+    }
+    const spoken = speakableText(text);
+    if (!spoken) {
+      resolve();
+      return;
+    }
+    stopSpeech();
+    const utter = new SpeechSynthesisUtterance(spoken);
+    utter.lang = speechLangFor(spoken);
+    const chosen = pickVoice(utter.lang);
+    if (chosen) utter.voice = chosen;
+    utter.rate = utter.lang.startsWith("zh") ? 1 : 1.02;
+    const done = () => {
+      voice.speaking = false;
+      paintTalkButton();
+      resolve();
+    };
+    utter.onend = done;
+    utter.onerror = done;
+    voice.speaking = true;
+    paintTalkButton();
+    window.speechSynthesis.speak(utter);
+  });
+}
+
+function startVoiceListen() {
+  if (!speechSupported() || sendChat.streaming || voice.rec) return;
+  stopSpeech();
+  const Ctor = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const rec = new Ctor();
+  rec.lang = speechLang();
+  rec.interimResults = true;
+  rec.maxAlternatives = 1;
+  rec.continuous = false;
+  rec.onresult = (ev) => {
+    let finalText = "";
+    let live = "";
+    for (let i = ev.resultIndex; i < ev.results.length; i += 1) {
+      const chunk = ev.results[i][0]?.transcript || "";
+      if (ev.results[i].isFinal) finalText += chunk;
+      else live += chunk;
+    }
+    if ($("#chatInput")) $("#chatInput").value = (finalText || live).trim();
+    if (finalText.trim()) {
+      if (/[\u3400-\u9fff]/.test(finalText)) setChatLang("zh");
+      else if (/[A-Za-z]/.test(finalText)) setChatLang("en");
+      sendChat.fromVoice = true;
+      rec.onend = () => {
+        voice.rec = null;
+        paintTalkButton();
+      };
+      try { rec.stop(); } catch { /* ignore */ }
+      if (sendChat.busy || sendChat.streaming) {
+        sendChat.pending = { message: finalText.trim(), fromVoice: true };
+        stopSpeech();
+      } else {
+        sendChat();
+      }
+    }
+  };
+  rec.onend = () => {
+    voice.rec = null;
+    paintTalkButton();
+  };
+  rec.onerror = () => {
+    voice.rec = null;
+    paintTalkButton();
+  };
+  voice.rec = rec;
+  paintTalkButton();
+  try {
+    rec.start();
+  } catch {
+    voice.rec = null;
+    paintTalkButton();
+  }
+}
+
+function toggleChatMic() {
+  if (voice.speaking) {
+    voice.loop = true;
+    stopSpeech();
+    startVoiceListen();
+    return;
+  }
+  if (voice.rec) {
+    voice.loop = false;
+    stopVoiceListen();
+    return;
+  }
+  if (!speechSupported() || sendChat.streaming) return;
+  voice.loop = true;
+  startVoiceListen();
+}
+
 function setBusy(on, line, withMask) {
   document.body.classList.toggle("busy", !!(on && withMask));
   const mask = $("#busyMask");
@@ -354,6 +615,9 @@ async function boot() {
     /* private mode */
   }
   paintSfx();
+  loadChatLang();
+  loadSpeakReplies();
+  paintChatLang();
   const health = await api("/api/health");
   $("#aiPill").textContent = aiLabel(health.ai);
   paintRules(health.rules);
@@ -826,7 +1090,12 @@ $("#runTrades").onclick = async () => {
 async function sendChat() {
   const message = $("#chatInput").value.trim();
   if (!message || sendChat.busy) return;
+  const fromVoice = !!sendChat.fromVoice;
+  sendChat.fromVoice = false;
+  if (!fromVoice) voice.loop = false;
+  stopVoiceListen();
   sendChat.busy = true;
+  sendChat.streaming = true;
   $("#sendChat").disabled = true;
   showThread();
   $("#chatLog").insertAdjacentHTML("beforeend", `<div class="msg user">${md(message)}</div>`);
@@ -836,18 +1105,18 @@ async function sendChat() {
   const trace = document.createElement("div");
   trace.className = "tiny trace";
   const body = document.createElement("div");
-  body.innerHTML = "Cursor is working…";
+  body.innerHTML = "正在想… / Thinking…";
   bot.appendChild(trace);
   bot.appendChild(body);
   $("#chatLog").appendChild(bot);
   $("#chatLog").scrollTop = $("#chatLog").scrollHeight;
-  setBusy(true, "Cursor is in the lab…");
+  setBusy(true, "正在想… / Thinking…");
   let answer = "";
   try {
     const res = await fetch("/api/chat/stream", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message, chat_id: state.chatId, history: state.history }),
+      body: JSON.stringify({ message, chat_id: state.chatId, history: state.history, language: state.chatLang }),
     });
     if (!res.ok || !res.body) throw new Error(await res.text());
     const reader = res.body.getReader();
@@ -894,10 +1163,26 @@ async function sendChat() {
     body.innerHTML = md(String(err.message || err));
     bot.classList.remove("live");
   } finally {
-    sendChat.busy = false;
-    if ($("#sendChat")) $("#sendChat").disabled = false;
+    sendChat.streaming = false;
     setBusy(false);
     renderChatThreads();
+    const pending = sendChat.pending;
+    sendChat.pending = null;
+    const spoken = answer || body.textContent || "";
+    try {
+      if (chatViewOpen() && !sendChat.muteSpeak) await speakReply(spoken);
+    } finally {
+      sendChat.muteSpeak = false;
+      sendChat.busy = false;
+      if ($("#sendChat")) $("#sendChat").disabled = false;
+      if (pending?.message) {
+        $("#chatInput").value = pending.message;
+        sendChat.fromVoice = !!pending.fromVoice;
+        sendChat();
+      } else if (voice.loop && fromVoice && chatViewOpen() && !voice.rec) {
+        startVoiceListen();
+      }
+    }
   }
 }
 
@@ -912,7 +1197,7 @@ function rememberChat(chatId) {
 
 function threadTitle(messages) {
   const first = (messages || []).find((m) => m.role === "user" && m.content);
-  const text = (first?.content || "New chat").replace(/\s+/g, " ").trim();
+  const text = (first?.content || (state.chatLang === "zh" ? "新对话" : "New chat")).replace(/\s+/g, " ").trim();
   return text.length > 60 ? `${text.slice(0, 57)}…` : text;
 }
 
@@ -941,8 +1226,8 @@ function startNewChat() {
   state.chatId = null;
   state.history = [];
   rememberChat(null);
-  $("#chatTitle").textContent = "New chat";
-  $("#chatLog").innerHTML = "";
+  $("#chatTitle").textContent = state.chatLang === "zh" ? "新对话" : "New chat";
+  $("#chatLog").innerHTML = `<div class="msg bot welcome">${md(CHAT_WELCOME)}</div>`;
   $("#chatInput").value = "";
   showThread();
 }
@@ -962,7 +1247,7 @@ async function renderChatThreads() {
   const rows = await api(`/api/chats${q ? `?q=${encodeURIComponent(q)}` : ""}`);
   const box = $("#chatThreads");
   if (!rows.length) {
-    box.innerHTML = `<div class="panel"><p class="tiny">${q ? "No threads match that search." : "No threads yet. Tap New to start one."}</p></div>`;
+    box.innerHTML = `<div class="panel"><p class="tiny">${q ? "No threads match. / 没有找到对话。" : "No threads yet. Tap New. / 还没有对话，点「新对话」。"}</p></div>`;
     return;
   }
   box.innerHTML = rows.map((row) => `
@@ -1001,6 +1286,11 @@ async function renderChat() {
     showThread();
     return;
   }
+  if (state.chatOpened) {
+    showThreadList();
+    return;
+  }
+  state.chatOpened = true;
   let remembered = null;
   try { remembered = localStorage.getItem(CHAT_STORE); } catch { remembered = null; }
   if (!state.chatId && remembered) {
@@ -1011,7 +1301,7 @@ async function renderChat() {
       rememberChat(null);
     }
   }
-  showThreadList();
+  startNewChat();
 }
 
 $("#sendChat").onclick = sendChat;
@@ -1020,6 +1310,13 @@ $("#newChat").onclick = () => {
   $("#chatInput").focus();
 };
 $("#backToThreads").onclick = () => showThreadList();
+$("#chatLangZh").onclick = () => setChatLang("zh");
+$("#chatLangEn").onclick = () => setChatLang("en");
+$("#chatSpeak").onclick = toggleSpeakReplies;
+$("#chatMic").onclick = toggleChatMic;
+if (ttsSupported()) {
+  window.speechSynthesis.onvoiceschanged = () => {};
+}
 let searchTimer = 0;
 $("#chatSearch").oninput = () => {
   clearTimeout(searchTimer);
@@ -1028,7 +1325,7 @@ $("#chatSearch").oninput = () => {
   }, 180);
 };
 $("#chatInput").addEventListener("keydown", (e) => {
-  if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
+  if (e.key === "Enter" && !e.shiftKey) {
     e.preventDefault();
     sendChat();
   }
