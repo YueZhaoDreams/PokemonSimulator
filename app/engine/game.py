@@ -1800,6 +1800,12 @@ class Game:
             foe = self.players["b" if who == "a" else "a"]
             if self._want_storm_line(me, foe, who):
                 return self._storm_energy_target(me)
+            if me.active:
+                card = me.card(me.active.card_i)
+                metro = next((a for a in card.attacks if self._is_copy_attack(a)), None)
+                if metro is not None and not can_pay_energy(self._energy_pool(me, me.active), metro.cost):
+                    if self._copy_would_ko(me, foe, me.active, card, extra_colorless=1):
+                        return me.active
             mewtwo = self._mewtwo_mon(me)
             if mewtwo is not None:
                 return mewtwo
@@ -1930,6 +1936,12 @@ class Game:
             return
         strat = self.strats[who]
         if strat.name == "party":
+            if me.active:
+                card = me.card(me.active.card_i)
+                if any(self._is_copy_attack(a) for a in card.attacks) and self._copy_would_ko(
+                    me, foe, me.active, card
+                ):
+                    return
             self._retreat_party(me, foe, who)
             return
         if strat.name == "slash":
@@ -2002,10 +2014,15 @@ class Game:
         atk = self._choose_attack(me, foe, strat)
         if atk is None:
             return
+        resolved = self._resolved_attack(me, foe, atk)
         attacker = me.card(me.active.card_i)
         defender = foe.card(foe.active.card_i)
         self._bump(f"attack:{attacker.name}:{atk.name}")
         self._bump(f"attack_by:{who}")
+        if resolved is not atk:
+            self._bump(f"metronome:{resolved.name}")
+            self._log(f"{attacker.name} Metronome copies {resolved.name}")
+        atk = resolved
 
         if me.active.status & ST_CONFUSED:
             if self.rng.random() < 0.5:
@@ -2343,10 +2360,11 @@ class Game:
         best = None
         best_score = -1e9
         for atk in legal:
-            effective = self._effective_damage(me, foe, atk)
+            resolved = self._resolved_attack(me, foe, atk)
+            effective = self._effective_damage(me, foe, resolved)
             score = float(effective)
-            has_status = any(e.get("kind") == "status" for e in atk.effects)
-            has_para = any(e.get("kind") == "status" and e.get("status") == "paralyzed" for e in atk.effects)
+            has_status = any(e.get("kind") == "status" for e in resolved.effects)
+            has_para = any(e.get("kind") == "status" and e.get("status") == "paralyzed" for e in resolved.effects)
             if effective >= foe_hp > 0:
                 score += 1000
             elif strat.name == "party" and "mewtwo" in card.name.lower() and effective > 0:
@@ -2362,17 +2380,17 @@ class Game:
                     score += 35 * strat.prefer_status
                     if foe_name.lower() in {n.lower() for n in strat.status_targets}:
                         score += 25 * strat.prefer_status
-            if any(e.get("kind") == "lock_items" for e in atk.effects):
+            if any(e.get("kind") == "lock_items" for e in resolved.effects):
                 if not foe.pending_item_lock and not foe.item_lock:
                     score += 45
-            if any(e.get("kind") == "bench_damage_counters" for e in atk.effects):
+            if any(e.get("kind") == "bench_damage_counters" for e in resolved.effects):
                 score += 20
             # 0-damage Nuzzle loses to a real hit once Volt Tackle / Thunder Shock is online.
             if atk.damage == 0 and has_status and any(self._effective_damage(me, foe, a) >= 40 for a in legal):
                 score -= 80
-            if any(e.get("kind") in {"psychic_energy_times", "psychic_energy_bonus"} for e in atk.effects):
+            if any(e.get("kind") in {"psychic_energy_times", "psychic_energy_bonus"} for e in resolved.effects):
                 score = max(score, float(effective) * max(0.6, strat.prefer_damage))
-                if strat.name == "party" and any(e.get("kind") == "psychic_energy_times" for e in atk.effects):
+                if strat.name == "party" and any(e.get("kind") == "psychic_energy_times" for e in resolved.effects):
                     # Wonder Storm is the glass-cannon plan: fire whenever it chips or KOs.
                     score += 40 if effective >= foe_hp > 0 else 25
             if any(e.get("kind") == "transfer_charge" for e in atk.effects):
@@ -2448,7 +2466,7 @@ class Game:
             if best is None or score > best_score:
                 best, best_score = atk, score
         if strat.name == "party" and best is not None:
-            effective = self._effective_damage(me, foe, best)
+            effective = self._effective_damage(me, foe, self._resolved_attack(me, foe, best))
             transfer = any(e.get("kind") == "transfer_charge" for e in best.effects)
             if effective <= 0 and not transfer:
                 return None
@@ -2619,6 +2637,81 @@ class Game:
 
     def _is_mega_ex(self, card: Card) -> bool:
         return card.name.lower().startswith("mega ") and self._is_ex(card)
+
+    def _is_copy_attack(self, atk) -> bool:
+        return any(e.get("kind") == "copy_active_attack" for e in (atk.effects or [])) or (
+            "use it as this attack" in (atk.text or "").lower()
+        )
+
+    def _resolved_attack(self, me: Player, foe: Player, atk):
+        """Pay Metronome's cost; resolve the copied Active attack's damage and effects."""
+        if not self._is_copy_attack(atk) or not foe.active:
+            return atk
+        copies = [
+            cand
+            for cand in foe.card(foe.active.card_i).attacks
+            if not self._is_copy_attack(cand)
+        ]
+        if not copies:
+            return atk
+        return max(copies, key=lambda cand: self._raw_attack_damage(me, foe, me.active, cand))
+
+    def _metronome_clefable_in_hand(self, me: Player) -> int | None:
+        best: tuple[int, int] | None = None
+        for i in me.hand:
+            card = me.card(i)
+            if card.name.lower() != "clefable":
+                continue
+            metro = next((a for a in card.attacks if self._is_copy_attack(a)), None)
+            if metro is None:
+                continue
+            cost = len(metro.cost)
+            if best is None or cost < best[0]:
+                best = (cost, i)
+        return None if best is None else best[1]
+
+    def _copy_would_ko(
+        self,
+        me: Player,
+        foe: Player,
+        mon: Pokemon,
+        evo: Card,
+        extra_colorless: int = 0,
+        as_card_i: int | None = None,
+    ) -> bool:
+        if not foe.active:
+            return False
+        metro = next((a for a in evo.attacks if self._is_copy_attack(a)), None)
+        pool = self._energy_pool(me, mon) + ["Colorless"] * extra_colorless
+        if metro is None or not can_pay_energy(pool, metro.cost):
+            return False
+        old = mon.card_i
+        if as_card_i is not None:
+            mon.card_i = as_card_i
+        try:
+            copied = self._resolved_attack(me, foe, metro)
+            hp = self._max_hp(foe, foe.active) - foe.active.damage
+            return self._raw_attack_damage(me, foe, mon, copied) >= hp > 0
+        finally:
+            mon.card_i = old
+
+    def _try_evolve_metronome(self, me: Player, foe: Player) -> bool:
+        """Evolve Metronome Clefable onto Active Clefairy when the copy would KO."""
+        evo_i = self._metronome_clefable_in_hand(me)
+        if evo_i is None or not me.active:
+            return False
+        target = me.active
+        if not self._is_clefairy(me.card(target.card_i)):
+            return False
+        if not self._can_evolve_now(me, "a" if me.name == "A" else "b", target):
+            return False
+        evo = me.card(evo_i)
+        extra = 0 if me.energy_attached else 1
+        if not self._copy_would_ko(me, foe, target, evo, extra_colorless=extra, as_card_i=evo_i):
+            return False
+        self._do_evolve(me, target, evo_i)
+        self._bump("metronome_evolve")
+        return True
 
     def _is_ogerpon(self, card: Card) -> bool:
         return "ogerpon" in card.name.lower()
@@ -3709,14 +3802,19 @@ class Game:
         fast = self._want_fast_line(me, foe, who)
         storm = self._want_storm_line(me, foe, who)
 
-        def evo_in_hand(name: str) -> int | None:
+        def evo_in_hand(name: str, skip_metronome: bool = False) -> int | None:
             for i in me.hand:
-                if me.card(i).name.lower() == name.lower():
-                    return i
+                card = me.card(i)
+                if card.name.lower() != name.lower():
+                    continue
+                if skip_metronome and any(self._is_copy_attack(a) for a in card.attacks):
+                    continue
+                return i
             return None
 
         def evolve_named(evo_name: str, prefer_active: bool, require_used: bool = False) -> bool:
-            evo_i = evo_in_hand(evo_name)
+            skip_metro = evo_name.lower() == "clefable"
+            evo_i = evo_in_hand(evo_name, skip_metronome=skip_metro)
             if evo_i is None:
                 return False
             evo = me.card(evo_i)
@@ -3745,6 +3843,10 @@ class Game:
                 target = (bench_used or bench_all or used or candidates)[0]
             self._do_evolve(me, target, evo_i)
             return True
+
+        # Metronome Clefable: T2 evolve on a fueled Active Clefairy and copy a KO.
+        if self._try_evolve_metronome(me, foe):
+            return
 
         # Plan A (Photon): do not spend Clefairy engines on RCL / Clefable ex / Mega.
         if can_kill or fast:

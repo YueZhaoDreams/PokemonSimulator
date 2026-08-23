@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-"""Bake off Set C's last Psychic Energy vs Clefable-line copies. 1k games / cell, seed 20260823."""
+"""Bake off Set C's fifth Clefable slot: RCL Prankish vs TWM/CLC Metronome.
+
+3k games / cell, seed 20260819. CLC is Colorless (Rule B Colorless Energy), not Psychic.
+"""
 
 from __future__ import annotations
 
@@ -15,32 +18,31 @@ SEED = 20260819
 FOES = ("a", "b", "d", "s", "t")
 STRATS = {"a": "thrifty", "b": "shock", "c": "party", "d": "demolish", "s": "slash", "t": "phantom"}
 
-# 28-card core; each package is the last two slots (Boss is already locked).
-PACKAGES = {
-    "energy_boss": ["Psychic Energy", "Boss's Orders"],
-    "clefable_boss": ["Clefable", "Boss's Orders"],
-    "clefable_ex_boss": ["Clefable ex", "Boss's Orders"],
-    "mega_boss": ["Mega Clefable ex", "Boss's Orders"],
+# rcl count + extra named printings. Boss stays in every 30.
+PACKAGES: dict[str, tuple[int, list[str]]] = {
+    "5rcl": (5, []),
+    "4rcl_twm": (4, ["Clefable TWM"]),
+    "4rcl_clc": (4, ["Clefable CLC"]),
+    "3rcl_twm_clc": (3, ["Clefable TWM", "Clefable CLC"]),
 }
 
 
-CORE = (
-    ["Clefairy"] * 4
-    + ["Mewtwo ex"] * 2
-    + ["Clefable"] * 4
-    + ["Clefable ex"] * 4
-    + ["Mega Clefable ex"] * 3
-    + ["Hop"] * 3
-    + ["Nest Ball"] * 2
-    + ["Energy Search"] * 3
-    + ["Maximum Belt"]
-    + ["Tool Box"]
-    + ["Arven"]
-)
-
-
-def _c_list(adds: list[str]) -> list[str]:
-    names = list(CORE) + list(adds)
+def _c_list(rcl: int, extras: list[str]) -> list[str]:
+    names = (
+        ["Clefairy"] * 4
+        + ["Mewtwo ex"] * 2
+        + ["Clefable"] * rcl
+        + list(extras)
+        + ["Clefable ex"] * 4
+        + ["Mega Clefable ex"] * 3
+        + ["Hop"] * 3
+        + ["Nest Ball"] * 2
+        + ["Energy Search"] * 3
+        + ["Maximum Belt"]
+        + ["Tool Box"]
+        + ["Arven"]
+        + ["Boss's Orders"]
+    )
     assert len(names) == 30
     return names
 
@@ -49,7 +51,8 @@ def _run(pkg: str, foe: str) -> tuple[str, str, float]:
     from app.seed_data import build_fallback_deck
 
     payload = load_seed_payload()
-    c = build_fallback_deck(_c_list(PACKAGES[pkg]))
+    rcl, extras = PACKAGES[pkg]
+    c = build_fallback_deck(_c_list(rcl, extras))
     b = [Card.from_dict(x) for x in payload[foe]["cards"]]
     rec = run_simulation(
         c,

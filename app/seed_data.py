@@ -164,7 +164,7 @@ def _atk(name, cost, damage=0, text=""):
     return parse_attack({"name": name, "cost": cost, "damage": damage, "effect": text})
 
 
-def _pkm(name, stage, types, hp, attacks, evolves_from=None, retreat=1, catalog_id=None, abilities=None, weakness=None, image=None, set_name=None):
+def _pkm(name, stage, types, hp, attacks, evolves_from=None, retreat=1, catalog_id=None, abilities=None, weakness=None, image=None, set_name=None, resistances=None):
     return Card(
         catalog_id=catalog_id or name.lower().replace(" ", "-"),
         name=name,
@@ -175,6 +175,7 @@ def _pkm(name, stage, types, hp, attacks, evolves_from=None, retreat=1, catalog_
         attacks=attacks,
         abilities=abilities or [],
         weaknesses=[{"type": weakness, "value": "×2"}] if weakness else [],
+        resistances=list(resistances) if resistances else [],
         retreat=retreat,
         evolves_from=evolves_from,
         image=image,
@@ -1007,6 +1008,61 @@ for card in [
     ),
 ]:
     _register(card)
+
+# TWM / CLC Clefable keep the printed name "Clefable" but live under alias keys so they
+# do not overwrite Rebel Clash Prankish in FALLBACK_BY_NAME.
+_CLEFABLE_TWM = _pkm(
+    "Clefable",
+    "Stage1",
+    ["Psychic"],
+    120,
+    [
+        _atk(
+            "Metronome",
+            ["Colorless", "Colorless"],
+            0,
+            "Choose 1 of your opponent's Active Pokémon's attacks and use it as this attack.",
+        ),
+        _atk("Magical Shot", ["Psychic", "Colorless", "Colorless"], 100),
+    ],
+    evolves_from="Clefairy",
+    catalog_id="sv06-079",
+    weakness="Metal",
+    retreat=2,
+    image="https://assets.tcgdex.net/en/sv/sv06/079/low.webp",
+    set_name="Twilight Masquerade",
+)
+_CLEFABLE_CLC = _pkm(
+    "Clefable",
+    "Stage1",
+    ["Colorless"],
+    70,
+    [
+        _atk(
+            "Metronome",
+            ["Colorless"],
+            0,
+            "Choose 1 of your opponent's Active Pokémon's attacks and use it as this attack.",
+        ),
+        _atk(
+            "Minimize",
+            ["Colorless", "Colorless"],
+            0,
+            "During your opponent's next turn, this Pokémon takes 20 less damage from attacks (after applying Weakness and Resistance).",
+        ),
+    ],
+    evolves_from="Clefairy",
+    catalog_id="clc-014",
+    weakness="Fighting",
+    retreat=2,
+    resistances=[{"type": "Psychic", "value": "-30"}],
+    set_name="Pokémon TCG Classic",
+)
+FALLBACK_BY_NAME["clefable twm"] = _CLEFABLE_TWM
+FALLBACK_BY_NAME["clefable (twilight masquerade)"] = _CLEFABLE_TWM
+FALLBACK_BY_NAME["clefable clc"] = _CLEFABLE_CLC
+FALLBACK_BY_NAME["clefable (clc 014)"] = _CLEFABLE_CLC
+FALLBACK_BY_NAME["clefable cmc 014"] = _CLEFABLE_CLC
 
 # Set B carpet Pikachu: Tail Whap / Thunder Shock.
 _register(_pkm(

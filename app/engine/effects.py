@@ -181,6 +181,9 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
     if ("isn't affected" in t or "not affected" in t) and "effects" in t and "active" in t:
         effects.append({"kind": "ignore_active_effects"})
 
+    if "choose 1 of your opponent's active" in t and "attack" in t and "use it as this attack" in t:
+        effects.append({"kind": "copy_active_attack"})
+
     if "can't play any item" in t or "cannot play any item" in t:
         effects.append({"kind": "lock_items"})
 
