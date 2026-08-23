@@ -238,7 +238,12 @@ async def api_chat(payload: dict) -> dict:
     message = (payload.get("message") or "").strip()
     if not message:
         raise HTTPException(400, "message required")
-    return await ask_coach(message, chat_id=payload.get("chat_id"), history=payload.get("history"))
+    return await ask_coach(
+        message,
+        chat_id=payload.get("chat_id"),
+        history=payload.get("history"),
+        language=payload.get("language"),
+    )
 
 
 @app.post("/api/chat/stream")
@@ -252,6 +257,7 @@ async def api_chat_stream(payload: dict) -> StreamingResponse:
             message,
             chat_id=payload.get("chat_id"),
             history=payload.get("history"),
+            language=payload.get("language"),
         ):
             yield f"data: {json.dumps(event, default=str)}\n\n"
 

@@ -18,7 +18,16 @@ def test_opening_prompt_includes_family_cup_and_user_text():
     assert "30-card" in FAMILY_CUP_BRIEF
     assert "30-card" in text
     assert "Do not start another uvicorn" in text
+    assert "Reply in the language of the latest user message" in FAMILY_CUP_BRIEF
+    assert "Do not run a match simulation just because someone said hello" in FAMILY_CUP_BRIEF
+    assert "Replies may be spoken aloud" in FAMILY_CUP_BRIEF
     assert "Run 1000 games of A vs B" in text
+
+
+def test_opening_prompt_marks_chinese_ui_language():
+    text = opening_prompt("你好", language="zh")
+    assert "Simplified Chinese" in text
+    assert "你好" in text
 
 
 def test_opening_prompt_can_replay_recent_history():

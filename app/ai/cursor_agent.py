@@ -35,7 +35,14 @@ except ImportError:  # pragma: no cover
     CursorAgentError = RuntimeError  # type: ignore[misc, assignment]
 
 FAMILY_CUP_BRIEF = """You are Cursor, chatting through the Family Pokémon TCG Simulator web app.
+Kids and parents talk to you here. Hold a real conversation: greet them, answer follow-ups, and stay on this thread.
 This process is already serving the app (typically http://127.0.0.1:8000). Do not start another uvicorn on port 8000 unless the user asks you to restart it.
+
+Language:
+- Support Simplified Chinese and English in the same thread.
+- Reply in the language of the latest user message. If they mix both, answer in the language they used most, and keep Pokémon names in English as printed on the cards (you may add the Chinese name in parentheses).
+- For a child, use short, kind sentences. Skip lab jargon unless they ask for a simulation.
+- Replies may be spoken aloud. Keep a spoken answer to a few short sentences unless they asked for a full simulation.
 
 Family Cup:
 - 30-card decks, opening hand of 7, 3 prize cards
@@ -48,6 +55,7 @@ How to do work:
 - Use the shell for pytest, lab scripts under data/lab/, and other repo commands. Activate with `.venv/bin/pytest -q` from the repo root.
 - You may edit files when the user wants the simulator changed.
 - Never invent a win rate or probability. Run the tool or script.
+- Do not run a match simulation just because someone said hello.
 
 Be concrete and short. Name cards. Mention Family Cup energy when it matters.
 After a simulation, explain: how the sim was run, which strategies were used, the results, and what was learned.
@@ -91,8 +99,14 @@ def cursor_status() -> dict[str, Any]:
     }
 
 
-def opening_prompt(message: str, history: list[dict] | None = None) -> str:
+def opening_prompt(message: str, history: list[dict] | None = None, language: str | None = None) -> str:
     parts = [FAMILY_CUP_BRIEF.strip(), ""]
+    if language == "zh":
+        parts.append("Preferred UI language: Simplified Chinese. Still follow the latest user message.")
+        parts.append("")
+    elif language == "en":
+        parts.append("Preferred UI language: English. Still follow the latest user message.")
+        parts.append("")
     prior = [
         f"{item.get('role', 'user').upper()}: {item.get('content', '')}"
         for item in (history or [])[-8:]
@@ -250,6 +264,7 @@ async def stream_cursor_turn(
     agent_id: str | None = None,
     chat_id: str | None = None,
     history: list[dict] | None = None,
+    language: str | None = None,
 ) -> AsyncIterator[dict[str, Any]]:
     if not runtime_ready():
         raise RuntimeError(_client_error or "Cursor is not ready")
@@ -259,8 +274,12 @@ async def stream_cursor_turn(
         created = False
         try:
             agent, created = await _open_agent(agent_id)
-            yield {"type": "status", "text": "Cursor is working in this repo…", "agent_id": agent.agent_id}
-            prompt = opening_prompt(message, history if created else None) if created else message
+            yield {"type": "status", "text": "正在想… / Thinking…", "agent_id": agent.agent_id}
+            prompt = (
+                opening_prompt(message, history if created else None, language=language)
+                if created
+                else message
+            )
             run = await agent.send(
                 prompt,
                 SendOptions(local=LocalSendOptions(force=True)),

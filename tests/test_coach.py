@@ -21,3 +21,75 @@ def test_ask_coach_stays_local_without_runtime(monkeypatch):
     assert result["coach"] == "local"
     assert "Dondozo" in result["answer"]
     assert result["chat_id"]
+
+
+def test_local_coach_greets_in_chinese_without_simulating():
+    init_db()
+    trace = []
+    answer = _local_coach("你好！你会什么？", trace)
+    assert "家庭杯" in answer
+    assert "中文" in answer
+    assert trace == []
+
+
+def test_local_coach_nin_hao_greeting_without_simulating():
+    init_db()
+    trace = []
+    answer = _local_coach("您好", trace)
+    assert "家庭杯" in answer
+    assert trace == []
+
+
+def test_local_coach_greets_in_english_without_simulating():
+    init_db()
+    trace = []
+    answer = _local_coach("Hi! What can you do?", trace)
+    assert "Family Cup" in answer
+    assert "中文" in answer
+    assert trace == []
+
+
+def test_local_coach_chinese_draw_odds():
+    init_db()
+    trace = []
+    answer = _local_coach("暴噬龟出现在起手7张的概率是多少？", trace)
+    assert "Dondozo" in answer
+    assert "%" in answer
+    assert "概率" in answer
+    assert trace and trace[0]["tool"] == "draw_odds"
+
+
+def test_local_coach_greeting_plus_odds_still_runs_tools():
+    init_db()
+    trace = []
+    answer = _local_coach("你好，暴噬龟起手概率？", trace)
+    assert "Dondozo" in answer
+    assert trace and trace[0]["tool"] == "draw_odds"
+
+
+def test_local_coach_paralyze_question_still_simulates():
+    init_db()
+    trace = []
+    answer = _local_coach("If I use Pikachu to paralyze Dondozo, how often can I pull that off?", trace)
+    assert "%" in answer
+    assert trace and trace[0]["tool"] == "simulate_match"
+
+
+def test_local_coach_win_chance_chinese_simulates():
+    init_db()
+    trace = []
+    answer = _local_coach("B套有机会赢吗", trace)
+    assert trace and trace[0]["tool"] == "simulate_match"
+    assert "胜" in answer or "wins" in answer.lower() or "%" in answer
+
+
+def test_local_coach_greeting_plus_match_still_simulates():
+    init_db()
+    trace = []
+    answer = _local_coach("Hello, run 1000 games", trace)
+    assert "%" in answer
+    assert trace and trace[0]["tool"] == "simulate_match"
+    trace_zh = []
+    zh = _local_coach("嗨，帮我对打", trace_zh)
+    assert "%" in zh or "胜" in zh
+    assert trace_zh and trace_zh[0]["tool"] == "simulate_match"
