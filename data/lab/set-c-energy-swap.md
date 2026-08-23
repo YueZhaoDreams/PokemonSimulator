@@ -37,3 +37,5 @@ Rule B: a Clefable **is** a Psychic Energy. 3,000 games / cell, seed `20260819`,
 | 4th Mega + Boss | 86.5% | 85.1% | 47.5% | 85.4% | 47.8% | 70.5% | 47.7% |
 
 Locked 30: 4 Clefairy / 2 Mewtwo ex / **5 Clefable** / 4 Clefable ex / 3 Mega / 3 Hop / 2 Nest / 3 Energy Search / Belt / Tool Box / Arven / Boss. **Zero dedicated Energy.**
+
+Full A–T matrix after this lock (3,000 / cell, seed `20260819`): C vs A 86.8%, B 83.9%, D 48.6%, S 83.7%, T 46.3%. Versus the 1-energy list this is noise on D/T; Clefable ex and Mega were worse because they pay 2 and 3 prizes.

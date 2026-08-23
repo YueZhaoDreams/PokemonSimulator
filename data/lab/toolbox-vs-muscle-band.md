@@ -208,3 +208,18 @@ Rule B already treats Clefable as Psychic Energy. Bakeoffs (`data/lab/set_c_ener
 
 Vs the 2-energy prize table: C vs T 45.3% → **47.1%**, C vs S 82.8% → **85.4%**, C vs D 52.4% → **48.3%**. Cells that do not touch C match.
 
+## 30-card Set C, fifth Clefable instead of energy (2026-08-23)
+
+The last Psychic Energy is now a fifth Rebel Clash **Clefable** (Prankish, 1 prize, Rule B Psychic). 3k bakeoff vs Clefable ex / Mega: RCL Clefable matches dedicated energy; Mega loses vs D. Same seed `20260819`, 3,000 games / ordered pair. Raw: `data/lab/family-cup-30-matrix.json`.
+
+|  | A | B | C | D | S | T |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| **A** | — | 67.3% | 15.9% | 4.2% | 67.3% | 46.1% |
+| **B** | 32.1% | — | 15.1% | 1.1% | 22.8% | 49.5% |
+| **C** | **86.8%** | 83.9% | — | 48.6% | 83.7% | 46.3% |
+| **D** | 95.5% | 98.6% | 50.9% | — | 42.5% | 70.1% |
+| **S** | 31.1% | 76.3% | 14.5% | 57.9% | — | 60.4% |
+| **T** | 52.9% | 50.2% | 51.6% | 30.6% | 41.8% | — |
+
+Vs the 1-energy+Boss table: D/T are noise (48.3/47.1 → 48.6/46.3). C vs A 85.4% → **86.8%**. Dedicated Energy is gone from Set C.
+
