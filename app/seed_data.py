@@ -75,14 +75,15 @@ SET_B_NAMES = [
     "Corphish",
 ]
 
-# Set C — Clefairy / Mewtwo vs Charm Ogerpon. 30: fifth Rebel Clash Clefable + Boss's Orders
-# (no dedicated Psychic Energy; Rule B treats Clefable as Psychic). Maximum Belt is ACE SPEC.
+# Set C — Clefairy / Mewtwo vs Charm Ogerpon. 30: 4 Clefable (name cap) + 1 Psychic Energy
+# + Boss's Orders. Clefable / Clefable ex / Mega Clefable ex are different names (4 each).
+# TWM/CLC Clefable share the Clefable name and cannot be a 5th copy. Maximum Belt is ACE SPEC.
 # Tool Box tutors it from the top 7; Arven is the full-deck Tool + Item search.
 # Moon-Watching Party is LOR 62 full-deck search.
 SET_C_NAMES = (
     ["Clefairy"] * 4
     + ["Mewtwo ex"] * 2
-    + ["Clefable"] * 5
+    + ["Clefable"] * 4
     + ["Clefable ex"] * 4
     + ["Mega Clefable ex"] * 3
     + ["Hop"] * 3
@@ -92,6 +93,7 @@ SET_C_NAMES = (
     + ["Tool Box"]
     + ["Arven"]
     + ["Boss's Orders"]
+    + ["Psychic Energy"]
 )
 
 SET_D_NAMES = (  # 30: Fighting Energy 6 → 8

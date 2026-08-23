@@ -21,6 +21,7 @@ def test_family_rules_defaults():
     assert rules.prize_count == 3
     assert rules.pokemon_as_energy is True
     assert rules.extra_prize_for_ex is True
+    assert rules.max_copies_except_basic_energy == 4
     assert rules.opening_hand == 7
 
 

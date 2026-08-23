@@ -63,6 +63,9 @@ def init_db() -> None:
             if stored.get("extra_prize_for_ex") is not True:
                 stored["extra_prize_for_ex"] = True
                 changed = True
+            if stored.get("max_copies_except_basic_energy") != 4:
+                stored["max_copies_except_basic_energy"] = 4
+                changed = True
             if changed:
                 stored["notes"] = fresh.notes
                 conn.execute(

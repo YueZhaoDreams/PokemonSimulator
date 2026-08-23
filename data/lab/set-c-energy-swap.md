@@ -31,14 +31,14 @@ Rule B: a Clefable **is** a Psychic Energy. 3,000 games / cell, seed `20260819`,
 
 | package | A | B | D | S | T | mean | D+T |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 1 energy + Boss | 86.8% | 85.1% | 49.3% | 85.7% | 48.1% | 71.0% | 48.7% |
-| **5th Clefable + Boss** (locked) | 86.7% | 85.8% | 48.9% | 85.0% | 47.9% | 70.9% | 48.4% |
-| 5th Clefable ex + Boss | 86.8% | 84.7% | 49.1% | 86.0% | 47.3% | 70.8% | 48.2% |
-| 4th Mega + Boss | 86.5% | 85.1% | 47.5% | 85.4% | 47.8% | 70.5% | 47.7% |
+| **1 energy + Boss** (locked) | 86.8% | 85.1% | 49.3% | 85.7% | 48.1% | 71.0% | 48.7% |
+| 5th Clefable + Boss (**illegal 5-of**) | 86.7% | 85.8% | 48.9% | 85.0% | 47.9% | 70.9% | 48.4% |
+| 5th Clefable ex + Boss (**illegal 5-of**) | 86.8% | 84.7% | 49.1% | 86.0% | 47.3% | 70.8% | 48.2% |
+| 4th Mega + Boss (legal name) | 86.5% | 85.1% | 47.5% | 85.4% | 47.8% | 70.5% | 47.7% |
 
-Locked 30: 4 Clefairy / 2 Mewtwo ex / **5 Clefable** / 4 Clefable ex / 3 Mega / 3 Hop / 2 Nest / 3 Energy Search / Belt / Tool Box / Arven / Boss. **Zero dedicated Energy.**
+The 5th Clefable / 5th Clefable ex break the 4-of same-name cap. **Locked 30 is the energy row:** 4 Clefairy / 2 Mewtwo ex / **4 Clefable** / 4 Clefable ex / 3 Mega / 3 Hop / 2 Nest / 3 Energy Search / Belt / Tool Box / Arven / Boss / **1 Psychic Energy**.
 
-Full A–T matrix after this lock (3,000 / cell, seed `20260819`): C vs A 86.8%, B 83.9%, D 48.6%, S 83.7%, T 46.3%. Versus the 1-energy list this is noise on D/T; Clefable ex and Mega were worse because they pay 2 and 3 prizes.
+Full A–T matrix after the (now reverted) illegal fifth Clefable is historical; rerun after restoring energy.
 
 ## Metronome Clefable (TWM 79 / CLC 014) — not locked (2026-08-23)
 
@@ -56,10 +56,17 @@ The T2 “copy a huge attack” line is real in isolation (CLC copies Hydro Spla
 
 | package | A | B | D | S | T | mean | D+T |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| **5× RCL** (locked) | 86.4% | 83.9% | **48.6%** | 83.7% | 46.3% | 69.8% | **47.5%** |
+| **5× RCL** (illegal 5-of) | 86.4% | 83.9% | **48.6%** | 83.7% | 46.3% | 69.8% | **47.5%** |
 | 4× RCL + TWM | 87.0% | 85.3% | 46.7% | 84.9% | 46.0% | 70.0% | 46.4% |
 | 4× RCL + CLC | 85.2% | 85.3% | 44.3% | 84.0% | 47.7% | 69.3% | 46.0% |
 | 3× RCL + TWM + CLC | 85.7% | 85.6% | 41.9% | 84.9% | **49.9%** | 69.6% | 45.9% |
 
-CLC density helps vs T (copy Dive chips + Magical Shot on TWM) and costs vs D (70 HP Colorless body, one less Psychic for Photon). Keep five Rebel Clash Clefable.
+CLC density helps vs T and costs vs D. Those packages are also illegal as extra **Clefable** copies of the same name.
+
+## Same-name cap: 5× Clefable is illegal (2026-08-23)
+
+Family Cup uses Standard constructed copies: **at most 4 of the same name**, basic Energy unlimited. TWM 79 and CLC 014 are still named **Clefable**, so they share the cap with Rebel Clash. Clefable / Clefable ex / Mega Clefable ex are different names (4 each). Official 30-card constructed's 2-of rule is only how Set T was imported; A–S are household 30s with the 4-of cap.
+
+The fifth RCL Clefable (and any Metronome printing as a fifth Clefable) is illegal. The 30th card returns to **1 Psychic Energy** — the last legal bakeoff winner versus a 4th Mega (3 prizes). Locked 30: 4 Clefairy / 2 Mewtwo ex / **4 Clefable** / 4 Clefable ex / 3 Mega / 3 Hop / 2 Nest / 3 Energy Search / Belt / Tool Box / Arven / Boss / **1 Psychic Energy**.
+
 

@@ -158,14 +158,18 @@ class FamilyRules:
     first_turn_no_evolve: bool = True
     one_retreat_per_turn: bool = True
     extra_prize_for_ex: bool = True
+    max_copies_except_basic_energy: int = 4
     notes: str = (
         "30-card decks, 3 prize cards, and every Pokémon can be attached as a "
         "Basic Energy of its type (so Energy Search may also fetch a Pokémon). "
-        "Knocking Out a Pokémon ex takes 2 prize cards; Knocking Out a Mega ex "
-        "takes 3. Other play follows standard Pokémon TCG: going first cannot "
-        "draw, attack, or play a Supporter on the first turn; neither player may "
-        "evolve on their first turn; a Pokémon cannot evolve the turn it entered "
-        "play; one manual retreat per turn (Switch does not count)."
+        "A deck may include at most 4 copies of a card with the same name, except "
+        "basic Energy (unlimited). Same name includes every printing; Clefable, "
+        "Clefable ex, and Mega Clefable ex are different names. Knocking Out a "
+        "Pokémon ex takes 2 prize cards; Knocking Out a Mega ex takes 3. Other "
+        "play follows standard Pokémon TCG: going first cannot draw, attack, or "
+        "play a Supporter on the first turn; neither player may evolve on their "
+        "first turn; a Pokémon cannot evolve the turn it entered play; one manual "
+        "retreat per turn (Switch does not count)."
     )
 
     def to_dict(self) -> dict[str, Any]:
