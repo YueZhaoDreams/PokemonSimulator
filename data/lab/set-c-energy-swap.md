@@ -86,6 +86,21 @@ Rebel Clash is the Clefable printing: Prankish + Psychic type for Party/Photon. 
 
 Locked 30: 4 Clefairy / 2 Mewtwo ex / **4 Rebel Clash Clefable** / 4 Clefable ex / **4 Mega Clefable ex** / 3 Hop / 2 Nest / 3 Energy Search / Belt / Tool Box / Arven / Boss. **Zero dedicated Energy.**
 
-Full A–T matrix (3,000 / cell, seed `20260819`): C vs A 85.6%, B 85.9%, D 49.9%, S 84.4%, T 48.1%.
+## Mulligan bonus draws (2026-08-23)
+
+After both players have a Basic and prizes are set, each side **always** draws one card per opponent mulligan. Extra cards stay in hand (not benched during setup). First-hand miss: C 17%, D 32%, S 6%, T 32%.
+
+Full A–T matrix after this rule (3,000 / cell, seed `20260819`):
+
+|  | A | B | C | D | S | T |
+| --- | --- | --- | --- | --- | --- | --- |
+| A | — | 68.3% | 14.4% | 4.2% | 67.7% | 47.2% |
+| B | 32.3% | — | 15.9% | 1.2% | 23.2% | 50.3% |
+| C | 85.8% | 84.3% | — | **51.7%** | 84.9% | 46.5% |
+| D | 95.7% | 98.7% | 46.6% | — | 39.1% | 70.5% |
+| S | 31.1% | 75.5% | 14.2% | **60.9%** | — | 59.0% |
+| T | 52.8% | 49.4% | 53.0% | 30.9% | 39.8% | — |
+
+Vs the same 4 Mega list without bonus draws: C vs D 49.9% → **51.7%**, D vs C 51.0% → 46.6%, S vs D 57.9% → **60.9%**. C vs T 48.1% → 46.5% (T vs C 50.9% → 53.0%); T’s extra Poffin/Candy from C’s rarer mulligans still matter.
 
 
