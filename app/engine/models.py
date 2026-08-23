@@ -169,7 +169,8 @@ class FamilyRules:
         "play follows standard Pokémon TCG: going first cannot draw, attack, or "
         "play a Supporter on the first turn; neither player may evolve on their "
         "first turn; a Pokémon cannot evolve the turn it entered play; one manual "
-        "retreat per turn (Switch does not count)."
+        "retreat per turn (Switch does not count). Opening mulligans until a Basic "
+        "Pokémon; the opponent then draws one card per mulligan (always taken)."
     )
 
     def to_dict(self) -> dict[str, Any]:

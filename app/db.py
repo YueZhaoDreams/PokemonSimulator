@@ -66,6 +66,9 @@ def init_db() -> None:
             if stored.get("max_copies_except_basic_energy") != 4:
                 stored["max_copies_except_basic_energy"] = 4
                 changed = True
+            if "one card per mulligan" not in (stored.get("notes") or ""):
+                stored["notes"] = fresh.notes
+                changed = True
             if changed:
                 stored["notes"] = fresh.notes
                 conn.execute(

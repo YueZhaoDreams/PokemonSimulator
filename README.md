@@ -11,7 +11,7 @@ This is a fan-made simulator. It is not affiliated with Nintendo, Game Freak, or
 - **3 prize cards**
 - **Pokémon ex = 2 prizes; Mega ex = 3 prizes**
 - **Any Pokémon can be attached as a Basic Energy of its type**
-- Otherwise: standard Pokémon TCG turn structure (mulligans, bench of 5, one energy attach per turn, first player does not draw or attack on turn 1)
+- Otherwise: standard Pokémon TCG turn structure (mulligans until a Basic, opponent draws one per mulligan, bench of 5, one energy attach per turn, first player does not draw or attack on turn 1)
 
 Rules are editable in the API (`PUT /api/rules`).
 

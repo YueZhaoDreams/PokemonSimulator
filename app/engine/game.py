@@ -115,6 +115,7 @@ class Game:
             "a": self._deal("A", cards_a, strat_a),
             "b": self._deal("B", cards_b, strat_b),
         }
+        self._apply_mulligan_bonus_draws()
         self.first = first if first in {"a", "b"} else ("a" if rng.random() < 0.5 else "b")
         self.current = self.first
         # Frigid Fangs: player key → max attached Energy that still cannot attack.
@@ -165,6 +166,7 @@ class Game:
         player._opening_prizes = list(player.prizes)  # type: ignore[attr-defined]
         basics = [i for i in player.hand if player.card(i).is_basic]
         if not basics:
+            _capture_opening(player)
             return
         active_i = self._pick_starter(player, basics, strat)
         player.hand.remove(active_i)
@@ -174,6 +176,7 @@ class Game:
         if strat.hold_as_energy:
             # Family Cup: Pokémon on the field cannot be attached as energy.
             # Opening puts down only the Active — extras stay in hand as fuel.
+            _capture_opening(player)
             return
         aces = {n.lower() for n in strat.search_aces}
         ace_cards = [i for i in remaining if player.card(i).name.lower() in aces]
@@ -201,6 +204,21 @@ class Game:
                 player.hand.remove(card_i)
                 player.bench.append(Pokemon(card_i=card_i, played_turn=0))
                 self._bump(f"saw_play:{player.card(card_i).name}")
+        _capture_opening(player)
+
+    def _apply_mulligan_bonus_draws(self) -> None:
+        """After prizes and setup, each player draws one card per opponent mulligan."""
+        a, b = self.players["a"], self.players["b"]
+        extra_a = b.mulligans
+        extra_b = a.mulligans
+        if extra_a:
+            got = self._draw(a, extra_a)
+            self._bump("mulligan_bonus_draw:a", len(got))
+            self._log(f"{a.name} draws {len(got)} for opponent mulligans")
+        if extra_b:
+            got = self._draw(b, extra_b)
+            self._bump("mulligan_bonus_draw:b", len(got))
+            self._log(f"{b.name} draws {len(got)} for opponent mulligans")
 
     def _in_play_names(self, player: Player) -> list[str]:
         return [player.card(m.card_i).name.lower() for m in player.in_play()]
@@ -4335,7 +4353,9 @@ class Game:
 
 
 def _capture_opening(player: Player) -> None:
-    # After deal, opening 7 is: hand + active + bench, which together were the opening hand.
+    # Snapshot the 7-card setup (hand + Active + bench) before mulligan bonus draws.
+    if getattr(player, "_opening_names", None) is not None:
+        return
     names = [player.card(i).name for i in player.hand]
     if player.active:
         names.append(player.card(player.active.card_i).name)

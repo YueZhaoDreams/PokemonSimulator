@@ -99,8 +99,9 @@ def run_simulation(
             "seed": seed,
             "rules": rules.to_dict(),
             "how": (
-                f"Shuffled both decks, drew {rules.opening_hand}, set {rules.prize_count} prize cards, "
-                "mulliganed until a Basic Pokémon, then played turns under Family Cup rules "
+                f"Shuffled both decks, drew {rules.opening_hand}, mulliganed until a Basic Pokémon, "
+                f"set {rules.prize_count} prize cards, drew one card per opponent mulligan, "
+                "then played turns under Family Cup rules "
                 f"({'Pokémon count as matching Basic Energy' if rules.pokemon_as_energy else 'standard energy only'}"
                 f"{'; ex = 2 prizes, Mega ex = 3' if rules.extra_prize_for_ex else ''}). "
                 f"Each side used a deterministic-weighted strategy. {games} independent games, seed {seed}."
