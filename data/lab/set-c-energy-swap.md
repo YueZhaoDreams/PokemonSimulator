@@ -39,3 +39,27 @@ Rule B: a Clefable **is** a Psychic Energy. 3,000 games / cell, seed `20260819`,
 Locked 30: 4 Clefairy / 2 Mewtwo ex / **5 Clefable** / 4 Clefable ex / 3 Mega / 3 Hop / 2 Nest / 3 Energy Search / Belt / Tool Box / Arven / Boss. **Zero dedicated Energy.**
 
 Full A–T matrix after this lock (3,000 / cell, seed `20260819`): C vs A 86.8%, B 83.9%, D 48.6%, S 83.7%, T 46.3%. Versus the 1-energy list this is noise on D/T; Clefable ex and Mega were worse because they pay 2 and 3 prizes.
+
+## Metronome Clefable (TWM 79 / CLC 014) — not locked (2026-08-23)
+
+Printed text (both): *Choose 1 of your opponent's Active Pokémon's attacks and use it as this attack.* Pay **Metronome's** cost; resolve the copied attack's damage and effects. Do not recurse into another Metronome.
+
+| printing | type | HP | Metronome | other | Family Cup energy |
+| --- | --- | --- | --- | --- | --- |
+| Rebel Clash Clefable (locked) | Psychic | 110 | — | Moon Kick 60, Prankish | Psychic |
+| TWM 79 | Psychic | 120 | **[C][C]** | Magical Shot 100 | Psychic |
+| CLC/CMC 014 | Colorless | 70 | **[C]** | Minimize | Colorless, not Psychic |
+
+The T2 “copy a huge attack” line is real in isolation (CLC copies Hydro Splash 180 into 160 HP Dondozo on one energy; CLC has no Ability so copied Demolish is 140 through Stance). It is not a KO into Charm Ogerpon (~270) or Dragapult ex (320). Boss-gusting Budew then Metronome copies Itchy Pollen, not Phantom Dive.
+
+3,000 games / cell, seed `20260819`, Boss kept. Fifth slot (or fifth+sixth as TWM+CLC):
+
+| package | A | B | D | S | T | mean | D+T |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| **5× RCL** (locked) | 86.4% | 83.9% | **48.6%** | 83.7% | 46.3% | 69.8% | **47.5%** |
+| 4× RCL + TWM | 87.0% | 85.3% | 46.7% | 84.9% | 46.0% | 70.0% | 46.4% |
+| 4× RCL + CLC | 85.2% | 85.3% | 44.3% | 84.0% | 47.7% | 69.3% | 46.0% |
+| 3× RCL + TWM + CLC | 85.7% | 85.6% | 41.9% | 84.9% | **49.9%** | 69.6% | 45.9% |
+
+CLC density helps vs T (copy Dive chips + Magical Shot on TWM) and costs vs D (70 HP Colorless body, one less Psychic for Photon). Keep five Rebel Clash Clefable.
+
