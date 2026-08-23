@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
-"""Bake off Set C's fifth Clefable slot: RCL Prankish vs TWM/CLC Metronome.
+"""Legal 30th-card bakeoff for Set C (4-of same name).
 
-3k games / cell, seed 20260819. CLC is Colorless (Rule B Colorless Energy), not Psychic.
+4 Rebel Clash Clefable is the name cap. The last slot is 4th Mega vs 1 Psychic Energy.
+Mixing TWM/CLC replaces one of those four Clefable, it cannot be a fifth.
 """
 
 from __future__ import annotations
@@ -18,32 +19,33 @@ SEED = 20260819
 FOES = ("a", "b", "d", "s", "t")
 STRATS = {"a": "thrifty", "b": "shock", "c": "party", "d": "demolish", "s": "slash", "t": "phantom"}
 
-# rcl count + extra named printings. Boss stays in every 30.
-PACKAGES: dict[str, tuple[int, list[str]]] = {
-    "5rcl": (5, []),
-    "4rcl_twm": (4, ["Clefable TWM"]),
-    "4rcl_clc": (4, ["Clefable CLC"]),
-    "3rcl_twm_clc": (3, ["Clefable TWM", "Clefable CLC"]),
+TRAINERS = (
+    ["Hop"] * 3
+    + ["Nest Ball"] * 2
+    + ["Energy Search"] * 3
+    + ["Maximum Belt"]
+    + ["Tool Box"]
+    + ["Arven"]
+    + ["Boss's Orders"]
+)
+
+PACKAGES: dict[str, list[str]] = {
+    "4rcl_energy": ["Clefable"] * 4 + ["Psychic Energy"] + ["Mega Clefable ex"] * 3,
+    "4rcl_mega": ["Clefable"] * 4 + ["Mega Clefable ex"] * 4,
+    "3rcl_twm_mega": ["Clefable"] * 3 + ["Clefable TWM"] + ["Mega Clefable ex"] * 4,
+    "3rcl_clc_mega": ["Clefable"] * 3 + ["Clefable CLC"] + ["Mega Clefable ex"] * 4,
 }
 
 
-def _c_list(rcl: int, extras: list[str]) -> list[str]:
+def _c_list(slot: list[str]) -> list[str]:
     names = (
         ["Clefairy"] * 4
         + ["Mewtwo ex"] * 2
-        + ["Clefable"] * rcl
-        + list(extras)
+        + list(slot)
         + ["Clefable ex"] * 4
-        + ["Mega Clefable ex"] * 3
-        + ["Hop"] * 3
-        + ["Nest Ball"] * 2
-        + ["Energy Search"] * 3
-        + ["Maximum Belt"]
-        + ["Tool Box"]
-        + ["Arven"]
-        + ["Boss's Orders"]
+        + list(TRAINERS)
     )
-    assert len(names) == 30
+    assert len(names) == 30, len(names)
     return names
 
 
@@ -51,8 +53,7 @@ def _run(pkg: str, foe: str) -> tuple[str, str, float]:
     from app.seed_data import build_fallback_deck
 
     payload = load_seed_payload()
-    rcl, extras = PACKAGES[pkg]
-    c = build_fallback_deck(_c_list(rcl, extras))
+    c = build_fallback_deck(_c_list(PACKAGES[pkg]))
     b = [Card.from_dict(x) for x in payload[foe]["cards"]]
     rec = run_simulation(
         c,
