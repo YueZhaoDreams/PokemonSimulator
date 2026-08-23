@@ -22,3 +22,5 @@ D+T = mean of vs D and vs T. Baseline `energy2` is the old 2× Psychic Energy li
 Switch helps vs carpet A/B (rotate Party) and loses vs D (Ogerpon does not care about your Active) and vs T (Dive still prizes 60 HP Clefairy). Extra Clefairy helps vs D and feeds T. Boss pulls Budew / a weak Dragapult into Photon; vs T that flips C over 50% in the 1k screen.
 
 Locked 30: 4 Clefairy / 2 Mewtwo ex / 4 Clefable / 4 Clefable ex / 3 Mega Clefable ex / 3 Hop / 2 Nest / 3 Energy Search / 1 Belt / 1 Tool Box / 1 Arven / **1 Boss's Orders / 1 Psychic Energy**.
+
+Full A–T matrix (3,000 / cell, seed `20260819`) after this lock: C vs T **47.1%** (was 45.3% on 2 energy), C vs D **48.3%** (was 52.4%), C vs S **85.4%** (was 82.8%). The 1k T screen (51.2%) was high; 3k is the number.

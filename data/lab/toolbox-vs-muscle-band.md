@@ -193,3 +193,18 @@ Family Cup still puts **3** prize cards face-down. Knocking Out a Pokémon ex no
 
 Vs the previous 1-prize-per-KO table: C vs D **60.2% → 52.4%** (Ogerpon is 2 prizes; Mega Clefable is a 3-prize gift). D vs T **61.9% → 70.1%** (Dragapult ex is 2). S vs D **67.0% → 57.9%** because Wo-Chien ex also pays 2. T vs C **59.4% → 55.4%**; C vs T **41.3% → 45.3%**. Carpet A/B barely move — they are mostly non-ex.
 
+## 30-card Set C, −1 Psychic Energy + Boss's Orders (2026-08-23)
+
+Rule B already treats Clefable as Psychic Energy. Bakeoffs (`data/lab/set_c_energy_swap.py`, seed `20260823`, 1k/cell) showed 2× Switch and 2× Clefairy lose D+T. Locked swap: **one Boss's Orders, one Psychic Energy**. Same seed `20260819`, 3,000 games / ordered pair. Raw: `data/lab/family-cup-30-matrix.json`.
+
+|  | A | B | C | D | S | T |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| **A** | — | 67.3% | 14.0% | 4.2% | 67.3% | 46.1% |
+| **B** | 32.1% | — | 15.2% | 1.1% | 22.8% | 49.5% |
+| **C** | 85.4% | 85.9% | — | 48.3% | **85.4%** | 47.1% |
+| **D** | 95.5% | 98.6% | 49.9% | — | 42.5% | 70.1% |
+| **S** | 31.1% | 76.3% | 13.8% | 57.9% | — | 60.4% |
+| **T** | 52.9% | 50.2% | 51.6% | 30.6% | 41.8% | — |
+
+Vs the 2-energy prize table: C vs T 45.3% → **47.1%**, C vs S 82.8% → **85.4%**, C vs D 52.4% → **48.3%**. Cells that do not touch C match.
+
