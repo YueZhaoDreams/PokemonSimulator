@@ -20,6 +20,7 @@ def test_family_rules_defaults():
     assert rules.deck_size == 30
     assert rules.prize_count == 3
     assert rules.pokemon_as_energy is True
+    assert rules.extra_prize_for_ex is True
     assert rules.opening_hand == 7
 
 

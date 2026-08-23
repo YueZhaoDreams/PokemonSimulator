@@ -2494,24 +2494,28 @@ class Game:
         victim_owner.bench = still_bench
         if not knocked:
             return False
-        for where, mon in knocked:
-            name = victim_owner.card(mon.card_i).name
+        won = False
+        slayer_who = "a" if slayer.name == "A" else "b"
+        for _where, mon in knocked:
+            card = victim_owner.card(mon.card_i)
+            name = card.name
+            n = self._prizes_for_ko(card)
             self._discard_mon(victim_owner, mon)
-            self._take_prize(slayer)
+            self._take_prizes(slayer, n)
             self._bump(f"ko:{name}")
-            self._log(f"{name} was Knocked Out")
-            slayer_who = "a" if slayer.name == "A" else "b"
+            extra = f" ({n} prize cards)" if n > 1 else ""
+            self._log(f"{name} was Knocked Out{extra}")
             if self.current == slayer_who:
                 victim_owner.ko_since_opp_turn = True
             if slayer.prizes_taken >= self.rules.prize_count or not slayer.prizes:
-                slayer_who = "a" if slayer.name == "A" else "b"
-                self.winner, self.reason = slayer_who, "took all prize cards"
-                return True
+                won = True
         if victim_owner.active and self._max_hp(victim_owner, victim_owner.active) <= victim_owner.active.damage:
             victim_owner.active = None
+        if won:
+            self.winner, self.reason = slayer_who, "took all prize cards"
+            return True
         if victim_owner.active is None:
             if not victim_owner.bench:
-                slayer_who = "a" if slayer.name == "A" else "b"
                 self.winner, self.reason = slayer_who, "opponent has no Pokémon in play"
                 return True
             idx = self._promote_idx(victim_owner, victim_who)
@@ -2589,12 +2593,32 @@ class Game:
             player.active = None
 
     def _take_prize(self, player: Player) -> None:
-        if player.prizes:
+        self._take_prizes(player, 1)
+
+    def _take_prizes(self, player: Player, n: int) -> int:
+        got = 0
+        for _ in range(max(0, n)):
+            if not player.prizes:
+                break
             player.hand.append(player.prizes.pop())
-        player.prizes_taken += 1
+            player.prizes_taken += 1
+            got += 1
+        return got
+
+    def _prizes_for_ko(self, card: Card) -> int:
+        if not self.rules.extra_prize_for_ex:
+            return 1
+        if self._is_mega_ex(card):
+            return 3
+        if self._is_ex(card):
+            return 2
+        return 1
 
     def _is_ex(self, card: Card) -> bool:
         return card.name.lower().rstrip().endswith(" ex")
+
+    def _is_mega_ex(self, card: Card) -> bool:
+        return card.name.lower().startswith("mega ") and self._is_ex(card)
 
     def _is_ogerpon(self, card: Card) -> bool:
         return "ogerpon" in card.name.lower()

@@ -16,6 +16,7 @@ def test_default_model_is_grok_extra_high():
 def test_opening_prompt_includes_family_cup_and_user_text():
     text = opening_prompt("Run 1000 games of A vs B")
     assert "30-card" in FAMILY_CUP_BRIEF
+    assert "Mega ex takes 3" in FAMILY_CUP_BRIEF
     assert "30-card" in text
     assert "Do not start another uvicorn" in text
     assert "Reply in the language of the latest user message" in FAMILY_CUP_BRIEF

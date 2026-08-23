@@ -521,6 +521,9 @@ function paintRules(rules) {
       `hand ${rules.opening_hand}`,
       rules.pokemon_as_energy ? "Pokémon = energy" : "standard energy",
     ];
+    if (rules.extra_prize_for_ex) {
+      chips.push("ex = 2 prizes · Mega ex = 3");
+    }
     strip.innerHTML = chips.map((c) => `<span class="chip">${esc(c)}</span>`).join("");
   }
   const tag = $("#brandTag");

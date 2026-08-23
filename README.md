@@ -9,6 +9,7 @@ This is a fan-made simulator. It is not affiliated with Nintendo, Game Freak, or
 - **30-card** decks (play whatever you scanned; 30 is the target)
 - Opening hand of **7**
 - **3 prize cards**
+- **Pokémon ex = 2 prizes; Mega ex = 3 prizes**
 - **Any Pokémon can be attached as a Basic Energy of its type**
 - Otherwise: standard Pokémon TCG turn structure (mulligans, bench of 5, one energy attach per turn, first player does not draw or attack on turn 1)
 
