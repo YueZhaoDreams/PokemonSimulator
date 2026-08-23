@@ -74,6 +74,25 @@ def parse_ability_effects(text: str) -> list[dict[str, Any]]:
                 "any_number": "any number" in t,
             }
         )
+    elif top and "into your hand" in t and "attach" not in t:
+        effects.append(
+            {
+                "kind": "look_top_put_hand",
+                "look": int(top.group(1)),
+                "keep": 1,
+                "rest": "bottom" if "bottom" in t else "shuffle",
+            }
+        )
+
+    if "knocked out during your opponent's last turn" in t and "draw" in t:
+        n = re.search(r"draw (\d+)", t)
+        effects.append(
+            {
+                "kind": "draw_if_ko_last_turn",
+                "amount": int(n.group(1) if n else 3),
+                "once_per_turn": "can't use more than 1" in t or "cannot use more than 1" in t,
+            }
+        )
 
     # Jungle Mr. Mime Invisible Wall: prevent attack damage ≥ threshold after W/R.
     if (
@@ -91,7 +110,7 @@ def parse_ability_effects(text: str) -> list[dict[str, Any]]:
 
 
 def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
-    t = (text or "").lower()
+    t = (text or "").lower().replace("pokémon", "pokemon").replace("poké", "poke")
     effects: list[dict[str, Any]] = []
     coin = "flip a coin" in t or ("flip" in t and "heads" in t)
 
@@ -161,6 +180,13 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
         effects.append({"kind": "ignore_wr"})
     if ("isn't affected" in t or "not affected" in t) and "effects" in t and "active" in t:
         effects.append({"kind": "ignore_active_effects"})
+
+    if "can't play any item" in t or "cannot play any item" in t:
+        effects.append({"kind": "lock_items"})
+
+    one_poke = re.search(r"does (\d+) damage to 1 of your opponent'?s? pokemon", t)
+    if one_poke:
+        effects.append({"kind": "damage_one_pokemon", "amount": int(one_poke.group(1))})
 
     # Plusle Plus Damage / Jungle Meditate: N more for each damage counter on the defender.
     counter_bonus = re.search(r"(\d+) more damage for each damage counter", t)

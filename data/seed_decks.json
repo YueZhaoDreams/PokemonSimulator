@@ -5244,5 +5244,805 @@
   "hashes": {
     "a": 57955236583522545846236945406208001688957203268691354098485835530357541513247,
     "b": 94113678299995436670871367334191645319444037671666136758300686791289025070086
+  },
+  "t": {
+    "id": "seed-t",
+    "name": "Set T (Dragapult ex)",
+    "sample": null,
+    "kind": "list",
+    "cards": [
+      {
+        "catalog_id": "sv06-128",
+        "name": "Dreepy",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Dragon"
+        ],
+        "hp": 70,
+        "attacks": [
+          {
+            "name": "Petty Grudge",
+            "cost": [
+              "Psychic"
+            ],
+            "damage": 10,
+            "text": "",
+            "effects": []
+          },
+          {
+            "name": "Bite",
+            "cost": [
+              "Fire",
+              "Psychic"
+            ],
+            "damage": 40,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv06/128/low.webp",
+        "set_name": "Twilight Masquerade",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv06-128",
+        "name": "Dreepy",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Dragon"
+        ],
+        "hp": 70,
+        "attacks": [
+          {
+            "name": "Petty Grudge",
+            "cost": [
+              "Psychic"
+            ],
+            "damage": 10,
+            "text": "",
+            "effects": []
+          },
+          {
+            "name": "Bite",
+            "cost": [
+              "Fire",
+              "Psychic"
+            ],
+            "damage": 40,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv06/128/low.webp",
+        "set_name": "Twilight Masquerade",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv06-129",
+        "name": "Drakloak",
+        "category": "Pokemon",
+        "stage": "Stage1",
+        "types": [
+          "Dragon"
+        ],
+        "hp": 90,
+        "attacks": [
+          {
+            "name": "Dragon Headbutt",
+            "cost": [
+              "Fire",
+              "Psychic"
+            ],
+            "damage": 70,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Recon Directive",
+            "text": "Once during your turn, you may look at the top 2 cards of your deck and put 1 of them into your hand. Put the other card on the bottom of your deck.",
+            "effects": []
+          }
+        ],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": "Dreepy",
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv06/129/low.webp",
+        "set_name": "Twilight Masquerade",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv06-129",
+        "name": "Drakloak",
+        "category": "Pokemon",
+        "stage": "Stage1",
+        "types": [
+          "Dragon"
+        ],
+        "hp": 90,
+        "attacks": [
+          {
+            "name": "Dragon Headbutt",
+            "cost": [
+              "Fire",
+              "Psychic"
+            ],
+            "damage": 70,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Recon Directive",
+            "text": "Once during your turn, you may look at the top 2 cards of your deck and put 1 of them into your hand. Put the other card on the bottom of your deck.",
+            "effects": []
+          }
+        ],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": "Dreepy",
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv06/129/low.webp",
+        "set_name": "Twilight Masquerade",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv06-130",
+        "name": "Dragapult ex",
+        "category": "Pokemon",
+        "stage": "Stage2",
+        "types": [
+          "Dragon"
+        ],
+        "hp": 320,
+        "attacks": [
+          {
+            "name": "Jet Headbutt",
+            "cost": [
+              "Colorless"
+            ],
+            "damage": 70,
+            "text": "",
+            "effects": []
+          },
+          {
+            "name": "Phantom Dive",
+            "cost": [
+              "Fire",
+              "Psychic"
+            ],
+            "damage": 200,
+            "text": "Put 6 damage counters on your opponent's Benched Pok\u00e9mon in any way you like.",
+            "effects": [
+              {
+                "kind": "bench_damage_counters",
+                "counters": 6
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": "Drakloak",
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv06/130/low.webp",
+        "set_name": "Twilight Masquerade",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv06-130",
+        "name": "Dragapult ex",
+        "category": "Pokemon",
+        "stage": "Stage2",
+        "types": [
+          "Dragon"
+        ],
+        "hp": 320,
+        "attacks": [
+          {
+            "name": "Jet Headbutt",
+            "cost": [
+              "Colorless"
+            ],
+            "damage": 70,
+            "text": "",
+            "effects": []
+          },
+          {
+            "name": "Phantom Dive",
+            "cost": [
+              "Fire",
+              "Psychic"
+            ],
+            "damage": 200,
+            "text": "Put 6 damage counters on your opponent's Benched Pok\u00e9mon in any way you like.",
+            "effects": [
+              {
+                "kind": "bench_damage_counters",
+                "counters": 6
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": "Drakloak",
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv06/130/low.webp",
+        "set_name": "Twilight Masquerade",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv06.5-038",
+        "name": "Fezandipiti ex",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Darkness"
+        ],
+        "hp": 210,
+        "attacks": [
+          {
+            "name": "Cruel Arrow",
+            "cost": [
+              "Colorless",
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 0,
+            "text": "This attack does 100 damage to 1 of your opponent's Pok\u00e9mon. (Don't apply Weakness and Resistance for Benched Pok\u00e9mon.)",
+            "effects": []
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Flip the Script",
+            "text": "Once during your turn, if any of your Pok\u00e9mon were Knocked Out during your opponent's last turn, you may draw 3 cards. You can't use more than 1 Flip the Script Ability each turn.",
+            "effects": []
+          }
+        ],
+        "weaknesses": [
+          {
+            "type": "Fighting",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv06.5/038/low.webp",
+        "set_name": "Shrouded Fable",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv08.5-004",
+        "name": "Budew",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Grass"
+        ],
+        "hp": 30,
+        "attacks": [
+          {
+            "name": "Itchy Pollen",
+            "cost": [
+              "Colorless"
+            ],
+            "damage": 10,
+            "text": "During your opponent's next turn, they can't play any Item cards from their hand.",
+            "effects": [
+              {
+                "kind": "lock_items"
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Fire",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv08.5/004/low.webp",
+        "set_name": "Prismatic Evolutions",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "me01-119",
+        "name": "Lillie's Determination",
+        "category": "Trainer",
+        "stage": "Supporter",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "supporter",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/me/me01/119/low.webp",
+        "set_name": "Mega Evolution",
+        "text": "Shuffle your hand into your deck. Then, draw 6 cards. If you have exactly 6 Prize cards remaining, draw 8 cards instead.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "me01-119",
+        "name": "Lillie's Determination",
+        "category": "Trainer",
+        "stage": "Supporter",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "supporter",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/me/me01/119/low.webp",
+        "set_name": "Mega Evolution",
+        "text": "Shuffle your hand into your deck. Then, draw 6 cards. If you have exactly 6 Prize cards remaining, draw 8 cards instead.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv02-172",
+        "name": "Boss's Orders",
+        "category": "Trainer",
+        "stage": "Supporter",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "supporter",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv02/172/low.webp",
+        "set_name": "Paldea Evolved",
+        "text": "Switch in 1 of your opponent's Benched Pok\u00e9mon to the Active Spot.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv02-172",
+        "name": "Boss's Orders",
+        "category": "Trainer",
+        "stage": "Supporter",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "supporter",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv02/172/low.webp",
+        "set_name": "Paldea Evolved",
+        "text": "Switch in 1 of your opponent's Benched Pok\u00e9mon to the Active Spot.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv07-133",
+        "name": "Crispin",
+        "category": "Trainer",
+        "stage": "Supporter",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "supporter",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv07/133/low.webp",
+        "set_name": "Stellar Crown",
+        "text": "Search your deck for up to 2 Basic Energy cards of different types, reveal them, and put 1 of them into your hand. Attach the other to 1 of your Pok\u00e9mon. Then, shuffle your deck.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv04.5-091",
+        "name": "Ultra Ball",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv04.5/091/low.webp",
+        "set_name": "Paldean Fates",
+        "text": "You can use this card only if you discard 2 other cards from your hand.\n\nSearch your deck for a Pok\u00e9mon, reveal it, and put it into your hand. Then, shuffle your deck.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv04.5-091",
+        "name": "Ultra Ball",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv04.5/091/low.webp",
+        "set_name": "Paldean Fates",
+        "text": "You can use this card only if you discard 2 other cards from your hand.\n\nSearch your deck for a Pok\u00e9mon, reveal it, and put it into your hand. Then, shuffle your deck.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv05-144",
+        "name": "Buddy-Buddy Poffin",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv05/144/low.webp",
+        "set_name": "Temporal Forces",
+        "text": "Search your deck for up to 2 Basic Pok\u00e9mon with 70 HP or less and put them onto your Bench. Then, shuffle your deck.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv05-144",
+        "name": "Buddy-Buddy Poffin",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv05/144/low.webp",
+        "set_name": "Temporal Forces",
+        "text": "Search your deck for up to 2 Basic Pok\u00e9mon with 70 HP or less and put them onto your Bench. Then, shuffle your deck.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "me02.5-198",
+        "name": "Pok\u00e9 Pad",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/me/me02.5/198/low.webp",
+        "set_name": "Ascended Heroes",
+        "text": "Search your deck for a Pok\u00e9mon that doesn't have a Rule Box, reveal it, and put it into your hand. Then, shuffle your deck. (Pok\u00e9mon ex, Pok\u00e9mon V, etc. have Rule Boxes.)",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "me02.5-198",
+        "name": "Pok\u00e9 Pad",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/me/me02.5/198/low.webp",
+        "set_name": "Ascended Heroes",
+        "text": "Search your deck for a Pok\u00e9mon that doesn't have a Rule Box, reveal it, and put it into your hand. Then, shuffle your deck. (Pok\u00e9mon ex, Pok\u00e9mon V, etc. have Rule Boxes.)",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-125",
+        "name": "Crushing Hammer",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/125/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "Flip a coin. If heads, discard an Energy from 1 of your opponent's Pok\u00e9mon.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-125",
+        "name": "Crushing Hammer",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/125/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "Flip a coin. If heads, discard an Energy from 1 of your opponent's Pok\u00e9mon.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv06.5-061",
+        "name": "Night Stretcher",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv06.5/061/low.webp",
+        "set_name": "Shrouded Fable",
+        "text": "Put a Pok\u00e9mon or a Basic Energy card from your discard pile into your hand.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv04.5-089",
+        "name": "Rare Candy",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv04.5/089/low.webp",
+        "set_name": "Paldean Fates",
+        "text": "Choose 1 of your Basic Pok\u00e9mon in play. If you have a Stage 2 card in your hand that evolves from that Pok\u00e9mon, put that card onto the Basic Pok\u00e9mon to evolve it, skipping the Stage 1. You can't use this card during your first turn or on a Basic Pok\u00e9mon that was put into play this turn.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv06-165",
+        "name": "Unfair Stamp",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv06/165/low.webp",
+        "set_name": "Twilight Masquerade",
+        "text": "You can use this card only if any of your Pok\u00e9mon were Knocked Out during your opponent's last turn.\n\nEach player shuffles their hand into their deck. Then, you draw 5 cards, and your opponent draws 2 cards.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv01-176",
+        "name": "Judge",
+        "category": "Trainer",
+        "stage": "Supporter",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "supporter",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/176/low.webp",
+        "set_name": "Scarlet & Violet",
+        "text": "Each player shuffles their hand into their deck and draws 4 cards.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-156",
+        "name": "Psychic Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Psychic",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/156/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-156",
+        "name": "Psychic Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Psychic",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/156/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-153",
+        "name": "Fire Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Fire"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Fire",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/153/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-153",
+        "name": "Fire Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Fire"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Fire",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/153/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-158",
+        "name": "Darkness Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Darkness"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Darkness",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/158/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      }
+    ]
   }
 }

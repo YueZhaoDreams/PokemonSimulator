@@ -125,6 +125,30 @@ SET_S_NAMES = (
     + ["Grass Energy"] * 2
 )
 
+# Set T — official 30-card constructed (max 2 copies except basic Energy, 3 prizes).
+# Compressed August 2026 Standard Dragapult ex (Phantom Dive) half-deck.
+SET_T_NAMES = (
+    ["Dreepy"] * 2
+    + ["Drakloak"] * 2
+    + ["Dragapult ex"] * 2
+    + ["Fezandipiti ex"]
+    + ["Budew"]
+    + ["Lillie's Determination"] * 2
+    + ["Boss's Orders"] * 2
+    + ["Crispin"]
+    + ["Ultra Ball"] * 2
+    + ["Buddy-Buddy Poffin"] * 2
+    + ["Poké Pad"] * 2
+    + ["Crushing Hammer"] * 2
+    + ["Night Stretcher"]
+    + ["Rare Candy"]
+    + ["Unfair Stamp"]
+    + ["Judge"]
+    + ["Psychic Energy"] * 2
+    + ["Fire Energy"] * 2
+    + ["Darkness Energy"]
+)
+
 # Spare Cards — leftover pile, not a 30-card Family Cup list.
 # Aipom returned to Carpet Set A with the Starly line.
 SET_SPARE_NAMES = [
@@ -253,6 +277,56 @@ _register(_trn("Tool Box", "item", "Look at the top 7 cards of your deck. You ma
 _register(_trn("Trekking Shoes", "item", "Look at the top card of your deck. You may put it into your hand, or discard it and draw a card."))
 _register(_trn("Lake Acuity", "stadium", "Water and Fighting Pokémon take 20 less damage from attacks."))
 _register(_trn("Jacq", "supporter", "Search your deck for up to 2 Evolution Pokémon."))
+_register(
+    _trn(
+        "Lillie's Determination",
+        "supporter",
+        "Shuffle your hand into your deck. Then, draw 6 cards. If you have exactly 6 Prize cards remaining, draw 8 cards instead.",
+    )
+)
+_register(_trn("Boss's Orders", "supporter", "Switch in 1 of your opponent's Benched Pokémon to the Active Spot."))
+_register(
+    _trn(
+        "Crispin",
+        "supporter",
+        "Search your deck for up to 2 Basic Energy cards of different types, reveal them, and put 1 of them into your hand. Attach the other to 1 of your Pokémon. Then, shuffle your deck.",
+    )
+)
+_register(
+    _trn(
+        "Poké Pad",
+        "item",
+        "Search your deck for a Pokémon that doesn't have a Rule Box, reveal it, and put it into your hand. Then, shuffle your deck. (Pokémon ex, Pokémon V, etc. have Rule Boxes.)",
+    )
+)
+_register(
+    _trn(
+        "Crushing Hammer",
+        "item",
+        "Flip a coin. If heads, discard an Energy from 1 of your opponent's Pokémon.",
+    )
+)
+_register(
+    _trn(
+        "Night Stretcher",
+        "item",
+        "Put a Pokémon or a Basic Energy card from your discard pile into your hand.",
+    )
+)
+_register(
+    _trn(
+        "Unfair Stamp",
+        "item",
+        "You can use this card only if any of your Pokémon were Knocked Out during your opponent's last turn.\n\nEach player shuffles their hand into their deck. Then, you draw 5 cards, and your opponent draws 2 cards.",
+    )
+)
+_register(
+    _trn(
+        "Judge",
+        "supporter",
+        "Each player shuffles their hand into their deck and draws 4 cards.",
+    )
+)
 _register(
     _trn(
         "Tulip",
@@ -827,6 +901,109 @@ for card in [
     ], weakness="Lightning", catalog_id="swsh12.5-031"),
     _pkm("Spinarak", "Basic", ["Darkness"], 50, [_atk("Poison Sting", ["Darkness"], 10, "Your opponent's Active Pokémon is now Poisoned.")], weakness="Fighting", catalog_id="swsh11-112"),
     _pkm("Lickitung", "Basic", ["Colorless"], 90, [_atk("Tongue Slap", ["Colorless"], 30), _atk("Heavy Impact", ["Colorless", "Colorless"], 50)], weakness="Fighting"),
+    _pkm(
+        "Dreepy",
+        "Basic",
+        ["Dragon"],
+        70,
+        [
+            _atk("Petty Grudge", ["Psychic"], 10),
+            _atk("Bite", ["Fire", "Psychic"], 40),
+        ],
+        weakness=None,
+        catalog_id="sv06-128",
+        image="https://assets.tcgdex.net/en/sv/sv06/128/low.webp",
+        set_name="Twilight Masquerade",
+    ),
+    _pkm(
+        "Drakloak",
+        "Stage1",
+        ["Dragon"],
+        90,
+        [_atk("Dragon Headbutt", ["Fire", "Psychic"], 70)],
+        evolves_from="Dreepy",
+        abilities=[
+            Ability(
+                name="Recon Directive",
+                text=(
+                    "Once during your turn, you may look at the top 2 cards of your "
+                    "deck and put 1 of them into your hand. Put the other card on "
+                    "the bottom of your deck."
+                ),
+            )
+        ],
+        weakness=None,
+        catalog_id="sv06-129",
+        image="https://assets.tcgdex.net/en/sv/sv06/129/low.webp",
+        set_name="Twilight Masquerade",
+    ),
+    _pkm(
+        "Dragapult ex",
+        "Stage2",
+        ["Dragon"],
+        320,
+        [
+            _atk("Jet Headbutt", ["Colorless"], 70),
+            _atk(
+                "Phantom Dive",
+                ["Fire", "Psychic"],
+                200,
+                "Put 6 damage counters on your opponent's Benched Pokémon in any way you like.",
+            ),
+        ],
+        evolves_from="Drakloak",
+        weakness=None,
+        catalog_id="sv06-130",
+        image="https://assets.tcgdex.net/en/sv/sv06/130/low.webp",
+        set_name="Twilight Masquerade",
+    ),
+    _pkm(
+        "Fezandipiti ex",
+        "Basic",
+        ["Darkness"],
+        210,
+        [
+            _atk(
+                "Cruel Arrow",
+                ["Colorless", "Colorless", "Colorless"],
+                0,
+                "This attack does 100 damage to 1 of your opponent's Pokémon. (Don't apply Weakness and Resistance for Benched Pokémon.)",
+            )
+        ],
+        abilities=[
+            Ability(
+                name="Flip the Script",
+                text=(
+                    "Once during your turn, if any of your Pokémon were Knocked Out "
+                    "during your opponent's last turn, you may draw 3 cards. You can't "
+                    "use more than 1 Flip the Script Ability each turn."
+                ),
+            )
+        ],
+        weakness="Fighting",
+        catalog_id="sv06.5-038",
+        image="https://assets.tcgdex.net/en/sv/sv06.5/038/low.webp",
+        set_name="Shrouded Fable",
+    ),
+    _pkm(
+        "Budew",
+        "Basic",
+        ["Grass"],
+        30,
+        [
+            _atk(
+                "Itchy Pollen",
+                [],
+                10,
+                "During your opponent's next turn, they can't play any Item cards from their hand.",
+            )
+        ],
+        retreat=0,
+        weakness="Fire",
+        catalog_id="sv08.5-004",
+        image="https://assets.tcgdex.net/en/sv/sv08.5/004/low.webp",
+        set_name="Prismatic Evolutions",
+    ),
 ]:
     _register(card)
 

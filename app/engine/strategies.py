@@ -250,6 +250,30 @@ STRATEGY_LIBRARY = {
         insurance_bench=1,
         max_ace_copies=1,
     ),
+    "phantom": StrategySpec(
+        name="phantom",
+        description=(
+            "Set T Dragapult ex half-deck: Poffin Dreepy (and Budew). Evolve "
+            "Drakloak for Recon Directive (look top N from printed text), Rare Candy "
+            "to Dragapult ex. Fire + Psychic pay Phantom Dive 200 plus 6 bench "
+            "counters. Budew Itchy Pollen locks Items. Fezandipiti Flip the Script "
+            "draws after a KO. Do not spend the line as Family Cup energy."
+        ),
+        prefer_damage=1.0,
+        prefer_status=0.15,
+        bench_fill=0.0,
+        evolve_asap=1.0,
+        attach_pokemon_as_energy=0.2,
+        item_spend=1.0,
+        hold_as_energy=True,
+        protect=["Dreepy", "Drakloak", "Dragapult ex", "Fezandipiti ex", "Budew"],
+        search_aces=["Dreepy"],
+        closers=["Dragapult ex"],
+        backups=["Budew"],
+        insurance=["Fezandipiti ex"],
+        insurance_bench=1,
+        max_ace_copies=1,
+    ),
     "invisible": StrategySpec(
         name="invisible",
         description=(

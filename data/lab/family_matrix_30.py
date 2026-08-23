@@ -1,4 +1,4 @@
-"""Family Cup 30-card A–S win-rate matrix. 3k games / ordered pair, seed 20260819."""
+"""Family Cup 30-card A–T win-rate matrix. 3k games / ordered pair, seed 20260819."""
 
 from __future__ import annotations
 
@@ -15,8 +15,8 @@ from app.seed import load_seed_payload
 ROOT = Path(__file__).resolve().parents[2]
 GAMES = 3000
 SEED = 20260819
-STRATS = {"a": "thrifty", "b": "shock", "c": "party", "d": "demolish", "s": "slash"}
-KEYS = ("a", "b", "c", "d", "s")
+STRATS = {"a": "thrifty", "b": "shock", "c": "party", "d": "demolish", "s": "slash", "t": "phantom"}
+KEYS = ("a", "b", "c", "d", "s", "t")
 
 
 def _run_cell(left: str, right: str) -> tuple[str, str, dict]:
@@ -66,7 +66,7 @@ def main() -> None:
     print("\nRow = that set's win rate\n")
     header = " | ".join(["  "] + [k.upper() for k in KEYS])
     print("| " + header + " |")
-    print("| " + " | ".join(["---"] * 6) + " |")
+    print("| " + " | ".join(["---"] * (len(KEYS) + 1)) + " |")
     for row in KEYS:
         cells = []
         for col in KEYS:

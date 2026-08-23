@@ -13,11 +13,12 @@ from app.seed_data import (
     SET_C_NAMES,
     SET_D_NAMES,
     SET_S_NAMES,
+    SET_T_NAMES,
     SET_SPARE_NAMES,
     build_fallback_deck,
 )
 
-LIST_KEYS = ("a", "b", "c", "d", "s")
+LIST_KEYS = ("a", "b", "c", "d", "s", "t")
 SEED_KEYS = (*LIST_KEYS, "spare")
 
 SEED_PATH = DATA_DIR / "seed_decks.json"
@@ -46,7 +47,7 @@ def _try_enrich(names: list[str], prefer: dict[str, list[str]] | None = None) ->
 def load_seed_deck(which: str) -> dict:
     decks = load_seed_payload()
     key = which.lower().replace("set-", "").replace("seed-", "")
-    key = {"1": "a", "2": "b", "3": "c", "4": "d", "5": "s", "6": "spare", "spare-cards": "spare", "p": "spare"}.get(
+    key = {"1": "a", "2": "b", "3": "c", "4": "d", "5": "s", "6": "spare", "7": "t", "spare-cards": "spare", "p": "spare"}.get(
         key, key
     )
     if key not in decks:
@@ -78,6 +79,7 @@ def load_seed_payload() -> dict:
             ("c", SET_C_NAMES),
             ("d", SET_D_NAMES),
             ("s", SET_S_NAMES),
+            ("t", SET_T_NAMES),
             ("spare", SET_SPARE_NAMES),
         ):
             have = [c.get("name") for c in (data.get(key) or {}).get("cards") or []]
@@ -207,6 +209,7 @@ def _cd_payload(enrich: bool = True) -> dict:
     cards_c = _repeat_named_cards(list(SET_C_NAMES), enrich)
     cards_d = _repeat_named_cards(list(SET_D_NAMES), enrich)
     cards_s = _repeat_named_cards(list(SET_S_NAMES), enrich)
+    cards_t = _repeat_named_cards(list(SET_T_NAMES), enrich)
     return {
         "c": {
             "id": "seed-c",
@@ -228,6 +231,13 @@ def _cd_payload(enrich: bool = True) -> dict:
             "sample": None,
             "kind": "list",
             "cards": [c.to_dict() if isinstance(c, Card) else c for c in cards_s],
+        },
+        "t": {
+            "id": "seed-t",
+            "name": "Set T (Dragapult ex)",
+            "sample": None,
+            "kind": "list",
+            "cards": [c.to_dict() if isinstance(c, Card) else c for c in cards_t],
         },
     }
 
@@ -313,6 +323,7 @@ def build_seed_payload(enrich: bool = True) -> dict:
         "c": cd["c"],
         "d": cd["d"],
         "s": cd["s"],
+        "t": cd["t"],
         "spare": spare["spare"],
         "hashes": {},
     }
