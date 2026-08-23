@@ -150,6 +150,9 @@ def test_seed_decks_include_set_c_and_d():
     assert t_names.count("Darkness Energy") == 1
     assert c_names.count("Clefairy") == 4
     assert c_names.count("Mewtwo ex") == 2
+    assert c_names.count("Clefable") == 4
+    assert c_names.count("Clefable ex") == 4
+    assert c_names.count("Mega Clefable ex") == 4
     assert c_names.count("Hop") == 3
     assert c_names.count("Nest Ball") == 2
     assert c_names.count("Energy Search") == 3
@@ -159,7 +162,8 @@ def test_seed_decks_include_set_c_and_d():
     assert c_names.count("Maximum Belt") == 1
     assert c_names.count("Tool Box") == 1
     assert c_names.count("Arven") == 1
-    assert c_names.count("Psychic Energy") == 2
+    assert c_names.count("Boss's Orders") == 1
+    assert c_names.count("Psychic Energy") == 0
     clefairy_text = next(c["abilities"][0]["text"] for c in data["c"]["cards"] if c["name"] == "Clefairy")
     assert "for each of your Benched Clefairy" in clefairy_text
     assert "search your deck" in clefairy_text
@@ -192,3 +196,25 @@ def test_trade_suggestions_run():
     )
     assert "recommendations" in rec
     assert rec["method"]
+
+
+def test_family_decks_respect_four_of_same_name():
+    from app.engine.legality import copy_violations
+
+    assert default_family_rules().max_copies_except_basic_energy == 4
+    for names in (SET_A_NAMES, SET_B_NAMES, SET_C_NAMES, SET_D_NAMES, SET_S_NAMES, SET_T_NAMES):
+        assert copy_violations(build_fallback_deck(list(names))) == []
+    # Basic Energy is unlimited; Special Energy is not.
+    d = build_fallback_deck(list(SET_D_NAMES))
+    assert sum(1 for c in d if c.name == "Fighting Energy") == 8
+    five_clefable = build_fallback_deck(["Clefable"] * 4 + ["Clefable CLC"] + ["Psychic Energy"] * 25)
+    hit = copy_violations(five_clefable)
+    assert hit == [{"name": "Clefable", "count": 5, "max": 4}]
+    split_line = build_fallback_deck(
+        ["Clefable"] * 4
+        + ["Clefable ex"] * 4
+        + ["Mega Clefable ex"] * 4
+        + ["Clefairy"] * 4
+        + ["Psychic Energy"] * 14
+    )
+    assert copy_violations(split_line) == []

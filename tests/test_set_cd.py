@@ -16,7 +16,7 @@ def test_set_cd_counts():
     assert sum(1 for x in c if x.name == "Mewtwo ex") == 2
     assert sum(1 for x in c if x.name == "Clefable") == 4
     assert sum(1 for x in c if x.name == "Clefable ex") == 4
-    assert sum(1 for x in c if x.name == "Mega Clefable ex") == 3
+    assert sum(1 for x in c if x.name == "Mega Clefable ex") == 4
     assert sum(1 for x in c if x.name == "Hop") == 3
     assert sum(1 for x in c if x.name == "Nest Ball") == 2
     assert sum(1 for x in c if x.name == "Energy Search") == 3
@@ -26,7 +26,9 @@ def test_set_cd_counts():
     assert sum(1 for x in c if x.name == "Maximum Belt") == 1
     assert sum(1 for x in c if x.name == "Tool Box") == 1
     assert sum(1 for x in c if x.name == "Arven") == 1
-    assert sum(1 for x in c if x.name == "Psychic Energy") == 2
+    assert sum(1 for x in c if x.name == "Boss's Orders") == 1
+    assert sum(1 for x in c if x.name == "Psychic Energy") == 0
+    assert all(x.catalog_id == "swsh2-75" for x in c if x.name == "Clefable")
     assert sum(1 for x in d if x.name == "Cornerstone Mask Ogerpon ex") == 4
     assert sum(1 for x in d if x.name == "Fighting Energy") == 8
     assert sum(1 for x in d if x.name == "Double Colorless Energy") == 4

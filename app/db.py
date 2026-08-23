@@ -55,9 +55,21 @@ def init_db() -> None:
             )
         else:
             stored = json.loads(row["value_json"])
+            fresh = default_family_rules()
+            changed = False
             if stored.get("deck_size") == 28:
-                fresh = default_family_rules()
                 stored["deck_size"] = fresh.deck_size
+                changed = True
+            if stored.get("extra_prize_for_ex") is not True:
+                stored["extra_prize_for_ex"] = True
+                changed = True
+            if stored.get("max_copies_except_basic_energy") != 4:
+                stored["max_copies_except_basic_energy"] = 4
+                changed = True
+            if "one card per mulligan" not in (stored.get("notes") or ""):
+                stored["notes"] = fresh.notes
+                changed = True
+            if changed:
                 stored["notes"] = fresh.notes
                 conn.execute(
                     "UPDATE settings SET value_json=? WHERE key='rules'",

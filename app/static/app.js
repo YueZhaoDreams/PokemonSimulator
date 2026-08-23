@@ -521,6 +521,12 @@ function paintRules(rules) {
       `hand ${rules.opening_hand}`,
       rules.pokemon_as_energy ? "Pokémon = energy" : "standard energy",
     ];
+    if (rules.extra_prize_for_ex) {
+      chips.push("ex = 2 prizes · Mega ex = 3");
+    }
+    if (rules.max_copies_except_basic_energy) {
+      chips.push(`max ${rules.max_copies_except_basic_energy} of a name`);
+    }
     strip.innerHTML = chips.map((c) => `<span class="chip">${esc(c)}</span>`).join("");
   }
   const tag = $("#brandTag");

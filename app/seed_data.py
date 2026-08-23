@@ -75,22 +75,24 @@ SET_B_NAMES = [
     "Corphish",
 ]
 
-# Set C — Clefairy / Mewtwo vs Charm Ogerpon. 30 with +2 Psychic Energy.
-# Maximum Belt is an ACE SPEC (one copy). Tool Box tutors it from the top 7; Arven
-# is the full-deck Tool + Item search. Moon-Watching Party is LOR 62 full-deck search.
+# Set C — Clefairy / Mewtwo vs Charm Ogerpon. 30: 4 Rebel Clash Clefable (name cap) + 4th Mega
+# + Boss's Orders. No dedicated Energy; Rule B treats the line as Psychic. Clefable / Clefable ex /
+# Mega Clefable ex are different names (4 each). TWM/CLC share the Clefable name. Maximum Belt is ACE SPEC.
+# Tool Box tutors it from the top 7; Arven is the full-deck Tool + Item search.
+# Moon-Watching Party is LOR 62 full-deck search.
 SET_C_NAMES = (
     ["Clefairy"] * 4
     + ["Mewtwo ex"] * 2
     + ["Clefable"] * 4
     + ["Clefable ex"] * 4
-    + ["Mega Clefable ex"] * 3
+    + ["Mega Clefable ex"] * 4
     + ["Hop"] * 3
     + ["Nest Ball"] * 2
     + ["Energy Search"] * 3
     + ["Maximum Belt"]
     + ["Tool Box"]
     + ["Arven"]
-    + ["Psychic Energy"] * 2
+    + ["Boss's Orders"]
 )
 
 SET_D_NAMES = (  # 30: Fighting Energy 6 → 8
@@ -163,7 +165,7 @@ def _atk(name, cost, damage=0, text=""):
     return parse_attack({"name": name, "cost": cost, "damage": damage, "effect": text})
 
 
-def _pkm(name, stage, types, hp, attacks, evolves_from=None, retreat=1, catalog_id=None, abilities=None, weakness=None, image=None, set_name=None):
+def _pkm(name, stage, types, hp, attacks, evolves_from=None, retreat=1, catalog_id=None, abilities=None, weakness=None, image=None, set_name=None, resistances=None):
     return Card(
         catalog_id=catalog_id or name.lower().replace(" ", "-"),
         name=name,
@@ -174,6 +176,7 @@ def _pkm(name, stage, types, hp, attacks, evolves_from=None, retreat=1, catalog_
         attacks=attacks,
         abilities=abilities or [],
         weaknesses=[{"type": weakness, "value": "×2"}] if weakness else [],
+        resistances=list(resistances) if resistances else [],
         retreat=retreat,
         evolves_from=evolves_from,
         image=image,
@@ -1006,6 +1009,61 @@ for card in [
     ),
 ]:
     _register(card)
+
+# TWM / CLC Clefable keep the printed name "Clefable" but live under alias keys so they
+# do not overwrite Rebel Clash Prankish in FALLBACK_BY_NAME.
+_CLEFABLE_TWM = _pkm(
+    "Clefable",
+    "Stage1",
+    ["Psychic"],
+    120,
+    [
+        _atk(
+            "Metronome",
+            ["Colorless", "Colorless"],
+            0,
+            "Choose 1 of your opponent's Active Pokémon's attacks and use it as this attack.",
+        ),
+        _atk("Magical Shot", ["Psychic", "Colorless", "Colorless"], 100),
+    ],
+    evolves_from="Clefairy",
+    catalog_id="sv06-079",
+    weakness="Metal",
+    retreat=2,
+    image="https://assets.tcgdex.net/en/sv/sv06/079/low.webp",
+    set_name="Twilight Masquerade",
+)
+_CLEFABLE_CLC = _pkm(
+    "Clefable",
+    "Stage1",
+    ["Colorless"],
+    70,
+    [
+        _atk(
+            "Metronome",
+            ["Colorless"],
+            0,
+            "Choose 1 of your opponent's Active Pokémon's attacks and use it as this attack.",
+        ),
+        _atk(
+            "Minimize",
+            ["Colorless", "Colorless"],
+            0,
+            "During your opponent's next turn, this Pokémon takes 20 less damage from attacks (after applying Weakness and Resistance).",
+        ),
+    ],
+    evolves_from="Clefairy",
+    catalog_id="clc-014",
+    weakness="Fighting",
+    retreat=2,
+    resistances=[{"type": "Psychic", "value": "-30"}],
+    set_name="Pokémon TCG Classic",
+)
+FALLBACK_BY_NAME["clefable twm"] = _CLEFABLE_TWM
+FALLBACK_BY_NAME["clefable (twilight masquerade)"] = _CLEFABLE_TWM
+FALLBACK_BY_NAME["clefable clc"] = _CLEFABLE_CLC
+FALLBACK_BY_NAME["clefable (clc 014)"] = _CLEFABLE_CLC
+FALLBACK_BY_NAME["clefable cmc 014"] = _CLEFABLE_CLC
 
 # Set B carpet Pikachu: Tail Whap / Thunder Shock.
 _register(_pkm(
