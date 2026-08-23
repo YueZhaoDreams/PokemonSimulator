@@ -67,6 +67,15 @@ TRAINER_KIND_HINTS = {
     "shauna": "supporter",
     "jacq": "supporter",
     "tulip": "supporter",
+    "lillie's determination": "supporter",
+    "boss's orders": "supporter",
+    "crispin": "supporter",
+    "poké pad": "item",
+    "poke pad": "item",
+    "crushing hammer": "item",
+    "night stretcher": "item",
+    "unfair stamp": "item",
+    "judge": "supporter",
 }
 
 # Carpet-photo printings confirmed via attack OCR phrases / user correction.
@@ -143,6 +152,21 @@ PREFERRED_IDS = {
     "Staraptor": "sv01-150",  # Tailspin Away 60 / Power Blast 180
     "Gligar": "sv04-091",  # Toxic (Paradox Rift)
     "Boomerang Energy": "sv06-166",
+    "Dragapult ex": "sv06-130",
+    "Dreepy": "sv06-128",
+    "Drakloak": "sv06-129",
+    "Fezandipiti ex": "sv06.5-038",
+    "Budew": "sv08.5-004",
+    "Lillie's Determination": "me01-119",
+    "Boss's Orders": "sv02-172",
+    "Crispin": "sv07-133",
+    "Poké Pad": "me02.5-198",
+    "Crushing Hammer": "swsh12.5-125",
+    "Night Stretcher": "sv06.5-061",
+    "Unfair Stamp": "sv06-165",
+    "Judge": "sv01-176",
+    "Ultra Ball": "sv04.5-091",
+    "Rare Candy": "sv04.5-089",
     "Ivysaur": "sv03.5-002",  # Leech Seed / Vine Whip (151)
     "Tangela": "swsh12.5-004",  # Beat 10 / Vine Whip 60, Razz berries (Crown Zenith) — not TWM meadow
     "Aipom": "swsh11-144",  # Mischievous Tail / Scratch 10 (Lost Origin) — not Pokémon GO
@@ -218,6 +242,19 @@ PRINT_PREFER = {
     "Flittle": ["quick attack"],
     "Crocalor": ["rolling fireball"],
     "Tulip": ["psychic"],
+    "Dragapult ex": ["phantom dive"],
+    "Dreepy": ["petty grudge"],
+    "Drakloak": ["recon directive"],
+    "Fezandipiti ex": ["flip the script", "cruel arrow"],
+    "Budew": ["itchy pollen"],
+    "Lillie's Determination": ["exactly 6 prize"],
+    "Boss's Orders": ["switch in"],
+    "Crispin": ["different types"],
+    "Poké Pad": ["rule box"],
+    "Crushing Hammer": ["flip a coin"],
+    "Night Stretcher": ["discard pile"],
+    "Unfair Stamp": ["knocked out during your opponent's last turn"],
+    "Judge": ["draws 4"],
 }
 
 

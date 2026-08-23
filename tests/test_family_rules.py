@@ -1,7 +1,7 @@
 from app.engine.models import default_family_rules
 from app.engine.strategies import StrategySpec
 from app.engine.trades import _needs, suggest_trades
-from app.seed_data import SET_A_NAMES, SET_B_NAMES, SET_C_NAMES, SET_D_NAMES, SET_S_NAMES, SET_SPARE_NAMES, build_fallback_deck
+from app.seed_data import SET_A_NAMES, SET_B_NAMES, SET_C_NAMES, SET_D_NAMES, SET_S_NAMES, SET_T_NAMES, SET_SPARE_NAMES, build_fallback_deck
 
 
 def test_seed_counts():
@@ -10,6 +10,7 @@ def test_seed_counts():
     assert len(SET_C_NAMES) == 30
     assert len(SET_D_NAMES) == 30
     assert len(SET_S_NAMES) == 30
+    assert len(SET_T_NAMES) == 30
     assert len(SET_SPARE_NAMES) == 4
     a = build_fallback_deck(SET_A_NAMES)
     b = build_fallback_deck(SET_B_NAMES)
@@ -98,7 +99,7 @@ def test_seed_decks_have_images():
     from app.seed import load_seed_payload
 
     data = load_seed_payload()
-    for key in ("a", "b", "c", "d", "s", "spare"):
+    for key in ("a", "b", "c", "d", "s", "t", "spare"):
         for card in data[key]["cards"]:
             assert card.get("image"), f"{key} {card['name']} {card.get('catalog_id')} has no image"
             assert str(card["image"]).startswith("http")
@@ -114,10 +115,13 @@ def test_seed_decks_include_set_c_and_d():
     c_names = [c["name"] for c in data["c"]["cards"]]
     d_names = [c["name"] for c in data["d"]["cards"]]
     s_names = [c["name"] for c in data["s"]["cards"]]
+    t_names = [c["name"] for c in data["t"]["cards"]]
     assert "e" not in data
     assert data["c"]["id"] == "seed-c"
     assert data["d"]["id"] == "seed-d"
     assert data["s"]["id"] == "seed-s"
+    assert data["t"]["id"] == "seed-t"
+    assert data["t"]["name"] == "Set T (Dragapult ex)"
     assert data["spare"]["id"] == "seed-spare"
     assert data["spare"]["kind"] == "spare"
     assert data["spare"]["name"] == "Spare Cards"
@@ -134,6 +138,16 @@ def test_seed_decks_include_set_c_and_d():
     assert s_names.count("Switch") == 3
     assert s_names.count("Muscle Band") == 0
     assert s_names.count("Grass Energy") == 2
+    assert len(t_names) == 30
+    assert t_names.count("Dreepy") == 2
+    assert t_names.count("Drakloak") == 2
+    assert t_names.count("Dragapult ex") == 2
+    assert t_names.count("Fezandipiti ex") == 1
+    assert t_names.count("Budew") == 1
+    assert t_names.count("Unfair Stamp") == 1
+    assert t_names.count("Psychic Energy") == 2
+    assert t_names.count("Fire Energy") == 2
+    assert t_names.count("Darkness Energy") == 1
     assert c_names.count("Clefairy") == 4
     assert c_names.count("Mewtwo ex") == 2
     assert c_names.count("Hop") == 3

@@ -58,6 +58,9 @@ class Player:
     mulligans: int = 0
     prizes_taken: int = 0
     first_attacks_turn: dict[str, int] = field(default_factory=dict)
+    item_lock: bool = False
+    pending_item_lock: bool = False
+    ko_since_opp_turn: bool = False
 
     def in_play(self) -> list[Pokemon]:
         mons = []
@@ -116,6 +119,7 @@ class Game:
         self.current = self.first
         # Frigid Fangs: player key → max attached Energy that still cannot attack.
         self.energy_attack_lock: dict[str, int] = {}
+        self.flip_script_used = False
 
     def _log(self, message: str) -> None:
         if self.trace_on:
@@ -322,6 +326,13 @@ class Game:
             # One attacker to evolve; extras are Grass energy.
             return copies < 1
 
+        if strat.name == "phantom" and name == "dreepy":
+            return copies < 1
+        if strat.name == "phantom" and name == "budew":
+            return copies < 1
+        if strat.name == "phantom" and "fezandipiti" in name:
+            return copies < 1
+
         if strat.name == "shock" and name == "roselia":
             # One sleeper; extra Grass Energy pays Soothing Scent.
             return copies < 1
@@ -413,6 +424,10 @@ class Game:
                 return 850 if water else 160
             if strat.name == "thrifty" and name == "starly":
                 return 850
+            if strat.name == "phantom" and name == "budew":
+                return 900
+            if strat.name == "phantom" and name == "dreepy":
+                return 950
             if glass and name in closers:
                 return 2000 + self._print_value(card, strat)
             if name in aces:
@@ -537,16 +552,21 @@ class Game:
                 self.winner, self.reason = ("b" if who == "a" else "a"), f"{who} decked out"
                 return True
 
+        self.flip_script_used = False
+        if me.pending_item_lock:
+            me.item_lock = True
+            me.pending_item_lock = False
+
         self._play_basics(me)
         self._play_trainers(me, foe, who)
         self._play_basics(me)
-        if self.strats[who].name in {"party", "demolish", "slash", "shock", "thrifty"}:
+        if self.strats[who].name in {"party", "demolish", "slash", "shock", "thrifty", "phantom"}:
             self._play_trainers(me, foe, who)
             self._play_basics(me)
         self._use_abilities(me, foe, who)
         self._evolve(me, foe, who)
         self._play_basics(me)
-        if self.strats[who].name in {"party", "demolish", "slash", "shock", "thrifty"}:
+        if self.strats[who].name in {"party", "demolish", "slash", "shock", "thrifty", "phantom"}:
             self._play_trainers(me, foe, who)
         self._use_abilities(me, foe, who)
         if self.strats[who].name == "party" and self._should_transfer_combo(me, foe):
@@ -592,6 +612,8 @@ class Game:
         other = "b" if who == "a" else "a"
         for mon in self.players[other].in_play():
             mon.prevent_basic_damage = False
+        me.item_lock = False
+        me.ko_since_opp_turn = False
         return False
 
     def _between_turns(self, me: Player) -> None:
@@ -816,6 +838,8 @@ class Game:
                 continue
             if card.is_supporter and not self._can_play_supporter(who):
                 continue
+            if card.is_item and me.item_lock:
+                continue
             name = card.name.lower()
             score = 0.0
             if name in {"ultra ball", "poké ball", "poke ball"} and missing_protect:
@@ -883,18 +907,28 @@ class Game:
                     score -= 5
             elif name in {"buddy-buddy poffin", "buddy buddy poffin"}:
                 slots = self.rules.bench_size - len(me.bench)
-                clef = self._count_named_in_play(me, "Clefairy")
-                cap = self._clefairy_play_cap(me) if strat.name == "party" else max(1, strat.max_ace_copies)
-                have_mewtwo = self._mewtwo_mon(me) is not None or any(
-                    self._is_mewtwo(me.card(i)) for i in me.hand
-                )
-                if slots > 0 and clef < cap:
-                    # Hunt Mewtwo first; extra Poffin copies are 60 HP prize fodder.
-                    score += 6 if not have_mewtwo else 11
-                    if have_mewtwo and clef <= 1:
-                        score += 3
+                if strat.name == "phantom":
+                    have_dreepy = any(me.card(m.card_i).name.lower() == "dreepy" for m in me.in_play()) or any(
+                        me.card(i).name.lower() == "dreepy" for i in me.hand
+                    )
+                    have_budew = any(me.card(m.card_i).name.lower() == "budew" for m in me.in_play())
+                    if slots > 0 and (not have_dreepy or not have_budew):
+                        score += 14
+                    else:
+                        score -= 8
                 else:
-                    score -= 5
+                    clef = self._count_named_in_play(me, "Clefairy")
+                    cap = self._clefairy_play_cap(me) if strat.name == "party" else max(1, strat.max_ace_copies)
+                    have_mewtwo = self._mewtwo_mon(me) is not None or any(
+                        self._is_mewtwo(me.card(i)) for i in me.hand
+                    )
+                    if slots > 0 and clef < cap:
+                        # Hunt Mewtwo first; extra Poffin copies are 60 HP prize fodder.
+                        score += 6 if not have_mewtwo else 11
+                        if have_mewtwo and clef <= 1:
+                            score += 3
+                    else:
+                        score -= 5
             elif name == "energy search":
                 if strat.name == "party":
                     have_mewtwo = any(self._is_mewtwo(me.card(m.card_i)) for m in me.in_play()) or any(
@@ -1076,6 +1110,24 @@ class Game:
                     score += 1
                 if strat.name == "party" and self._want_storm_line(me, foe, who):
                     score -= 30
+            elif name in {"lillie's determination"}:
+                score += 9 if len(me.hand) <= 5 else 5
+            elif name in {"boss's orders", "boss's orders (giovanni)", "boss's orders (lysandre)"}:
+                score += 8 if foe.bench else -6
+            elif name == "crispin":
+                score += 11 if me.in_play() else -4
+            elif name in {"poké pad", "poke pad"}:
+                score += 8 if missing_protect else 3
+            elif name == "crushing hammer":
+                has_nrg = foe.active is not None and bool(foe.active.energy)
+                score += 6 if has_nrg else -3
+            elif name == "night stretcher":
+                rec = sum(1 for i in me.discard if me.card(i).is_pokemon or me.card(i).is_energy)
+                score += 8 if rec else -4
+            elif name == "unfair stamp":
+                score += 12 if me.ko_since_opp_turn else -20
+            elif name == "judge":
+                score += 6 if len(me.hand) <= 3 else 1
             else:
                 score += 0.5
             # Greedy Family Cup: Energy Search is also a Pokémon tutor.
@@ -1250,6 +1302,48 @@ class Game:
         elif name == "picnic basket":
             for mon in me.in_play():
                 mon.damage = max(0, mon.damage - 30)
+        elif name == "lillie's determination":
+            remaining = len(me.prizes)
+            me.deck.extend(list(me.hand))
+            me.hand.clear()
+            self.rng.shuffle(me.deck)
+            self._draw(me, 8 if remaining == 6 else 6)
+        elif name in {"boss's orders", "boss's orders (giovanni)", "boss's orders (lysandre)"}:
+            self._boss_orders(foe)
+        elif name == "crispin":
+            self._crispin(me, who)
+        elif name in {"poké pad", "poke pad"}:
+            prefer = ["Dreepy", "Drakloak", "Budew"]
+            found = self._search(
+                me,
+                lambda c: c.is_pokemon and not self._has_rule_box(c),
+                prefer=prefer,
+                source="poke pad",
+            )
+            if found:
+                self._bump("poke_pad_hit")
+                self._log(f"{me.name} Poké Pad finds {me.card(found).name}")
+        elif name == "crushing hammer":
+            if self.rng.random() < 0.5:
+                self._discard_one_energy_from_foe(foe)
+                self._bump("crushing_hammer_heads")
+            else:
+                self._bump("crushing_hammer_tails")
+        elif name == "night stretcher":
+            self._night_stretcher(me)
+        elif name == "unfair stamp":
+            if not me.ko_since_opp_turn:
+                self._bump("unfair_stamp_fail")
+                return
+            self._shuffle_hand_into_deck(me)
+            self._shuffle_hand_into_deck(foe)
+            self._draw(me, 5)
+            self._draw(foe, 2)
+        elif name == "judge":
+            self._shuffle_hand_into_deck(me)
+            self._shuffle_hand_into_deck(foe)
+            self._draw(me, 4)
+            self._draw(foe, 4)
         else:
             self._draw(me, 1)
 
@@ -1321,6 +1415,17 @@ class Game:
             ) or any(me.card(i).name.lower() == "sprigatito" for i in me.hand)
             if not have_cat:
                 prefer.append("Sprigatito")
+            return list(dict.fromkeys(prefer))
+        if strat.name == "phantom":
+            prefer: list[str] = []
+            have_line = any(
+                me.card(m.card_i).name.lower() in {"dreepy", "drakloak", "dragapult ex"} for m in me.in_play()
+            ) or any(me.card(i).name.lower() in {"dreepy", "drakloak", "dragapult ex"} for i in me.hand)
+            if not have_line:
+                prefer.append("Dreepy")
+            if not any(me.card(m.card_i).name.lower() == "budew" for m in me.in_play()):
+                prefer.append("Budew")
+            prefer.extend(["Drakloak", "Dragapult ex"])
             return list(dict.fromkeys(prefer))
         if strat.hold_as_energy:
             prefer = list(strat.search_aces)
@@ -1398,6 +1503,13 @@ class Game:
             if not have_worm:
                 prefer.insert(0, "Orthworm")
             prefer.extend(["Orthworm", "Ferroseed", "Aron", "Metal Energy"])
+            return list(dict.fromkeys(prefer))
+        if strat.name == "phantom":
+            if not any(me.card(m.card_i).name.lower() == "dreepy" for m in me.in_play()) and not any(
+                me.card(i).name.lower() == "dreepy" for i in me.hand
+            ):
+                prefer.insert(0, "Dreepy")
+            prefer.extend(["Fire Energy", "Psychic Energy", "Darkness Energy", "Dreepy", "Budew"])
             return list(dict.fromkeys(prefer))
         if me.active:
             need = self._needed_types(me, me.active)
@@ -1696,6 +1808,8 @@ class Game:
             return me.active
         if strat.name == "slash":
             return self._slash_energy_target(me)
+        if strat.name == "phantom":
+            return self._phantom_energy_target(me)
         if strat.name == "shock":
             return self._shock_energy_target(me)
         if strat.name == "thrifty":
@@ -1821,6 +1935,9 @@ class Game:
         if strat.name == "slash":
             self._retreat_slash(me, foe, who)
             return
+        if strat.name == "phantom":
+            self._retreat_phantom(me, foe, who)
+            return
         if strat.name == "shock":
             self._retreat_shock(me, foe, who)
             return
@@ -1944,6 +2061,12 @@ class Game:
                 self._swallow_energy(me, look, stop_when_powered=strat.item_spend < 0.75)
             elif effect.get("kind") == "bench_damage_counters":
                 self._bench_damage_counters(foe, int(effect.get("counters") or 1))
+            elif effect.get("kind") == "lock_items":
+                foe.pending_item_lock = True
+                self._bump("itchy_pollen_lock")
+                self._log(f"{attacker.name} locks Item cards next turn")
+            elif effect.get("kind") == "damage_one_pokemon":
+                self._damage_one_pokemon(me, foe, int(effect.get("amount") or 0))
             elif effect.get("kind") == "transfer_charge":
                 self._transfer_charge(me, count=int(effect.get("count") or 2))
             elif effect.get("kind") == "mill_opponent":
@@ -2043,6 +2166,153 @@ class Game:
         self._bump("bench_damage", damage)
         self._log(f"Bench {foe.card(target.card_i).name} took {damage} from Hex-style attack")
 
+    def _has_rule_box(self, card: Card) -> bool:
+        name = (card.name or "").lower()
+        return (
+            name.endswith(" ex")
+            or name.endswith(" gx")
+            or " vmax" in name
+            or name.endswith(" vmax")
+            or "vstar" in name
+            or name.endswith(" v")
+            or " v " in name
+        )
+
+    def _shuffle_hand_into_deck(self, player: Player) -> None:
+        player.deck.extend(list(player.hand))
+        player.hand.clear()
+        self.rng.shuffle(player.deck)
+
+    def _boss_orders(self, foe: Player) -> None:
+        if not foe.bench or not foe.active:
+            return
+        idx = min(
+            range(len(foe.bench)),
+            key=lambda i: self._max_hp(foe, foe.bench[i]) - foe.bench[i].damage,
+        )
+        incoming = foe.bench.pop(idx)
+        foe.bench.append(foe.active)
+        foe.active = incoming
+        self._bump("boss_orders")
+        self._log(f"Boss's Orders brings {foe.card(incoming.card_i).name} Active")
+
+    def _crispin(self, me: Player, who: str) -> None:
+        types_seen: dict[str, int] = {}
+        for i in list(me.deck):
+            card = me.card(i)
+            if not card.is_energy or not is_basic_energy(card):
+                continue
+            et = card.as_energy_type or ""
+            if et and et not in types_seen:
+                types_seen[et] = i
+            if len(types_seen) >= 2:
+                break
+        picked = list(types_seen.values())[:2]
+        if not picked:
+            return
+        for i in picked:
+            me.deck.remove(i)
+        self.rng.shuffle(me.deck)
+        attach_i = picked[0]
+        me.hand.append(attach_i if len(picked) == 1 else picked[1])
+        target = self._energy_target(me, self.strats[who]) if me.active else None
+        if target is None:
+            me.hand.append(attach_i)
+            return
+        target.energy.append(attach_i)
+        me.energy_attached = True
+        self._bump("crispin_attach")
+        self._log(f"{me.name} Crispin attaches {me.card(attach_i).name} to {me.card(target.card_i).name}")
+
+    def _discard_one_energy_from_foe(self, foe: Player) -> None:
+        mons = [m for m in foe.in_play() if m.energy]
+        if not mons:
+            return
+        target = max(mons, key=lambda m: len(m.energy))
+        energy_i = target.energy.pop()
+        foe.discard.append(energy_i)
+        self._log(f"Crushing Hammer discards energy from {foe.card(target.card_i).name}")
+
+    def _night_stretcher(self, me: Player) -> None:
+        prefer = ["dragapult ex", "drakloak", "dreepy", "fezandipiti ex", "fire energy", "psychic energy", "darkness energy"]
+        scored: list[tuple[int, int]] = []
+        for i in me.discard:
+            card = me.card(i)
+            if not (card.is_pokemon or (card.is_energy and is_basic_energy(card))):
+                continue
+            name = card.name.lower()
+            rank = prefer.index(name) if name in prefer else 20
+            scored.append((rank, i))
+        if not scored:
+            return
+        scored.sort()
+        card_i = scored[0][1]
+        me.discard.remove(card_i)
+        me.hand.append(card_i)
+        self._bump("night_stretcher")
+        self._log(f"{me.name} Night Stretcher takes {me.card(card_i).name}")
+
+    def _damage_one_pokemon(self, me: Player, foe: Player, amount: int) -> None:
+        if amount <= 0 or not foe.active:
+            return
+        attacker = me.card(me.active.card_i) if me.active else None
+        active_hp = self._max_hp(foe, foe.active) - foe.active.damage
+        dmg = amount
+        if attacker:
+            dmg = amount * weakness_multiplier(foe.card(foe.active.card_i).weaknesses, attacker.types)
+            dmg = max(0, dmg - resistance_reduce(foe.card(foe.active.card_i).resistances, attacker.types))
+        if dmg >= active_hp > 0 or not foe.bench:
+            foe.active.damage += dmg
+            self._bump("damage_dealt", dmg)
+            self._log(f"Cruel Arrow hits Active {foe.card(foe.active.card_i).name} for {dmg}")
+            return
+        target = min(foe.bench, key=lambda m: self._max_hp(foe, m) - m.damage)
+        target.damage += amount
+        self._bump("bench_damage", amount)
+        self._log(f"Cruel Arrow hits Bench {foe.card(target.card_i).name} for {amount}")
+
+    def _phantom_energy_target(self, me: Player) -> Pokemon:
+        assert me.active
+        dive = ["Fire", "Psychic"]
+        for mon in me.in_play():
+            if me.card(mon.card_i).name.lower() != "dragapult ex":
+                continue
+            if not can_pay_energy(self._energy_pool(me, mon), dive):
+                return mon
+        for mon in me.in_play():
+            if me.card(mon.card_i).name.lower() in {"drakloak", "dreepy"}:
+                if not can_pay_energy(self._energy_pool(me, mon), dive):
+                    return mon
+        for mon in me.in_play():
+            if "fezandipiti" in me.card(mon.card_i).name.lower():
+                if not can_pay_energy(self._energy_pool(me, mon), ["Colorless", "Colorless", "Colorless"]):
+                    return mon
+        return me.active
+
+    def _phantom_dive_ready(self, me: Player, mon: Pokemon) -> bool:
+        card = me.card(mon.card_i)
+        atk = next((a for a in card.attacks if "phantom dive" in a.name.lower()), None)
+        if atk is None:
+            return False
+        return can_pay_energy(self._energy_pool(me, mon), atk.cost)
+
+    def _retreat_phantom(self, me: Player, foe: Player, who: str) -> None:
+        if not me.active or not me.bench:
+            return
+        if self._phantom_dive_ready(me, me.active):
+            return
+        for idx, mon in enumerate(me.bench):
+            if self._phantom_dive_ready(me, mon):
+                self._swap_to_bench(me, who, idx, allow_paid=True)
+                return
+        name = me.card(me.active.card_i).name.lower()
+        if name == "budew":
+            return
+        for idx, mon in enumerate(me.bench):
+            if me.card(mon.card_i).name.lower() == "budew":
+                self._swap_to_bench(me, who, idx, allow_paid=True)
+                return
+
     def _damage_counter_bonus(self, atk) -> int | None:
         for effect in atk.effects:
             if effect.get("kind") == "damage_counter_bonus":
@@ -2092,6 +2362,11 @@ class Game:
                     score += 35 * strat.prefer_status
                     if foe_name.lower() in {n.lower() for n in strat.status_targets}:
                         score += 25 * strat.prefer_status
+            if any(e.get("kind") == "lock_items" for e in atk.effects):
+                if not foe.pending_item_lock and not foe.item_lock:
+                    score += 45
+            if any(e.get("kind") == "bench_damage_counters" for e in atk.effects):
+                score += 20
             # 0-damage Nuzzle loses to a real hit once Volt Tackle / Thunder Shock is online.
             if atk.damage == 0 and has_status and any(self._effective_damage(me, foe, a) >= 40 for a in legal):
                 score -= 80
@@ -2225,6 +2500,9 @@ class Game:
             self._take_prize(slayer)
             self._bump(f"ko:{name}")
             self._log(f"{name} was Knocked Out")
+            slayer_who = "a" if slayer.name == "A" else "b"
+            if self.current == slayer_who:
+                victim_owner.ko_since_opp_turn = True
             if slayer.prizes_taken >= self.rules.prize_count or not slayer.prizes:
                 slayer_who = "a" if slayer.name == "A" else "b"
                 self.winner, self.reason = slayer_who, "took all prize cards"
@@ -2591,6 +2869,8 @@ class Game:
                     continue
                 name = card.name.lower()
                 if strat.name == "slash" and name not in {"wo-chien ex", "sprigatito"}:
+                    continue
+                if strat.name == "phantom" and name not in {"dreepy", "budew"}:
                     continue
                 score = 0.0
                 if name in prefer:
@@ -3128,6 +3408,62 @@ class Game:
         """Always parse the printed ability text. Stored effect lists can be stale."""
         return parse_ability_effects(abi.text)
 
+    def _use_passive_abilities(self, me: Player, who: str) -> None:
+        for mon in me.in_play():
+            if mon.ability_used:
+                continue
+            card = me.card(mon.card_i)
+            for abi in card.abilities:
+                for eff in self._ability_effects(abi):
+                    kind = eff.get("kind")
+                    if kind == "look_top_put_hand":
+                        self._look_top_put_hand(me, mon, int(eff.get("look") or 0), str(eff.get("rest") or "bottom"))
+                    elif kind == "draw_if_ko_last_turn":
+                        if not me.ko_since_opp_turn:
+                            continue
+                        if eff.get("once_per_turn") and self.flip_script_used:
+                            continue
+                        self._draw(me, int(eff.get("amount") or 3))
+                        self.flip_script_used = True
+                        mon.ability_used = True
+                        self._bump("flip_the_script")
+                        self._log(f"{card.name} Flip the Script draws")
+
+    def _look_top_put_hand(self, me: Player, mon: Pokemon, look: int, rest: str) -> None:
+        look = int(look or 0)
+        if look <= 0 or not me.deck:
+            return
+        n = min(look, len(me.deck))
+        seen = [me.deck.pop() for _ in range(n)]
+        prefer = [
+            "dragapult ex",
+            "rare candy",
+            "fire energy",
+            "psychic energy",
+            "lillie's determination",
+            "buddy-buddy poffin",
+            "dreepy",
+            "ultra ball",
+            "drakloak",
+        ]
+
+        def score(card_i: int) -> int:
+            name = me.card(card_i).name.lower()
+            return prefer.index(name) if name in prefer else 40
+
+        keep = min(seen, key=score)
+        me.hand.append(keep)
+        leftover = [i for i in seen if i != keep]
+        if rest == "bottom":
+            leftover.reverse()
+            me.deck[0:0] = leftover
+        else:
+            me.deck.extend(leftover)
+            self.rng.shuffle(me.deck)
+        mon.ability_used = True
+        self._bump("recon_directive")
+        self._log(f"{me.card(mon.card_i).name} Recon Directive takes {me.card(keep).name}")
+
     def _benched_named(self, me: Player, name: str) -> list[Pokemon]:
         want = (name or "").lower()
         if not want:
@@ -3254,6 +3590,7 @@ class Game:
         return False
 
     def _use_abilities(self, me: Player, foe: Player, who: str) -> None:
+        self._use_passive_abilities(me, who)
         if self.strats[who].name != "party":
             return
         if not me.active:
