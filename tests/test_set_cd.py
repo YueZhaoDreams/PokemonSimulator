@@ -14,7 +14,7 @@ def test_set_cd_counts():
     d = build_fallback_deck(list(SET_D_NAMES))
     assert sum(1 for x in c if x.name == "Clefairy") == 4
     assert sum(1 for x in c if x.name == "Mewtwo ex") == 2
-    assert sum(1 for x in c if x.name == "Clefable") == 4
+    assert sum(1 for x in c if x.name == "Clefable") == 5
     assert sum(1 for x in c if x.name == "Clefable ex") == 4
     assert sum(1 for x in c if x.name == "Mega Clefable ex") == 3
     assert sum(1 for x in c if x.name == "Hop") == 3
@@ -27,7 +27,7 @@ def test_set_cd_counts():
     assert sum(1 for x in c if x.name == "Tool Box") == 1
     assert sum(1 for x in c if x.name == "Arven") == 1
     assert sum(1 for x in c if x.name == "Boss's Orders") == 1
-    assert sum(1 for x in c if x.name == "Psychic Energy") == 1
+    assert sum(1 for x in c if x.name == "Psychic Energy") == 0
     assert sum(1 for x in d if x.name == "Cornerstone Mask Ogerpon ex") == 4
     assert sum(1 for x in d if x.name == "Fighting Energy") == 8
     assert sum(1 for x in d if x.name == "Double Colorless Energy") == 4
@@ -158,7 +158,7 @@ def test_moon_watching_party_uses_deck_clefable_as_energy():
     me.deck = list(fuels)
     game._moon_watching_party(me, me.active)
     assert [len(m.energy) for m in me.bench] == [1, 1]
-    assert sum(1 for i in me.deck if me.card(i).name == "Clefable") == 2
+    assert sum(1 for i in me.deck if me.card(i).name == "Clefable") == 3
 
 
 def test_party_vs_demolish_game_completes():

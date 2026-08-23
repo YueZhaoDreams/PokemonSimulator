@@ -2796,6 +2796,50 @@
         "dex_id": 36
       },
       {
+        "catalog_id": "swsh2-75",
+        "name": "Clefable",
+        "category": "Pokemon",
+        "stage": "Stage1",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 110,
+        "attacks": [
+          {
+            "name": "Moon Kick",
+            "cost": [
+              "Psychic",
+              "Colorless"
+            ],
+            "damage": 60,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Prankish",
+            "text": "When you play this Pok\u00e9mon from your hand to evolve 1 of your Pok\u00e9mon during your turn, you may put an Energy attached to your opponent's Active Pok\u00e9mon on top of their deck.",
+            "effects": []
+          }
+        ],
+        "weaknesses": [
+          {
+            "type": "Metal",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 2,
+        "evolves_from": "Clefairy",
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/swsh/swsh2/75/low.webp",
+        "set_name": "Rebel Clash",
+        "text": "A timid fairy Pok\u00e9mon that is rarely seen, it will run and hide the moment it senses people.",
+        "dex_id": 36
+      },
+      {
         "catalog_id": "sv03-082",
         "name": "Clefable ex",
         "category": "Pokemon",
@@ -3345,28 +3389,6 @@
         "image": "https://assets.tcgdex.net/en/sv/sv02/172/low.webp",
         "set_name": "Paldea Evolved",
         "text": "Switch in 1 of your opponent's Benched Pok\u00e9mon to the Active Spot.",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "swsh12.5-156",
-        "name": "Psychic Energy",
-        "category": "Energy",
-        "stage": "Basic",
-        "types": [
-          "Psychic"
-        ],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": "Psychic",
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/156/low.webp",
-        "set_name": "Crown Zenith",
-        "text": "",
         "dex_id": null
       }
     ]

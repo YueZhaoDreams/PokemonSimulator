@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Bake off Set C replacements for the two Psychic Energy. 1k games / cell, seed 20260823."""
+"""Bake off Set C's last Psychic Energy vs Clefable-line copies. 1k games / cell, seed 20260823."""
 
 from __future__ import annotations
 
@@ -10,18 +10,17 @@ from app.engine.montecarlo import run_simulation
 from app.engine.strategies import StrategySpec
 from app.seed import load_seed_payload
 
-GAMES = 1000
-SEED = 20260823
+GAMES = 3000
+SEED = 20260819
 FOES = ("a", "b", "d", "s", "t")
 STRATS = {"a": "thrifty", "b": "shock", "c": "party", "d": "demolish", "s": "slash", "t": "phantom"}
 
+# 28-card core; each package is the last two slots (Boss is already locked).
 PACKAGES = {
-    "energy2": ["Psychic Energy", "Psychic Energy"],
-    "energy1_boss": ["Psychic Energy", "Boss's Orders"],
-    "energy1_switch": ["Psychic Energy", "Switch"],
-    "switch2": ["Switch", "Switch"],
-    "clefairy2": ["Clefairy", "Clefairy"],
-    "boss2": ["Boss's Orders", "Boss's Orders"],
+    "energy_boss": ["Psychic Energy", "Boss's Orders"],
+    "clefable_boss": ["Clefable", "Boss's Orders"],
+    "clefable_ex_boss": ["Clefable ex", "Boss's Orders"],
+    "mega_boss": ["Mega Clefable ex", "Boss's Orders"],
 }
 
 

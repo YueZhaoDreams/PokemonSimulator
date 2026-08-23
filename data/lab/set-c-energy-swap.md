@@ -24,3 +24,16 @@ Switch helps vs carpet A/B (rotate Party) and loses vs D (Ogerpon does not care 
 Locked 30: 4 Clefairy / 2 Mewtwo ex / 4 Clefable / 4 Clefable ex / 3 Mega Clefable ex / 3 Hop / 2 Nest / 3 Energy Search / 1 Belt / 1 Tool Box / 1 Arven / **1 Boss's Orders / 1 Psychic Energy**.
 
 Full A–T matrix (3,000 / cell, seed `20260819`) after this lock: C vs T **47.1%** (was 45.3% on 2 energy), C vs D **48.3%** (was 52.4%), C vs S **85.4%** (was 82.8%). The 1k T screen (51.2%) was high; 3k is the number.
+
+## Last energy → which Clefable (2026-08-23)
+
+Rule B: a Clefable **is** a Psychic Energy. 3,000 games / cell, seed `20260819`, Boss kept. The dedicated energy is noise against Rebel Clash Clefable; Mega is a 3-prize gift vs D.
+
+| package | A | B | D | S | T | mean | D+T |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 1 energy + Boss | 86.8% | 85.1% | 49.3% | 85.7% | 48.1% | 71.0% | 48.7% |
+| **5th Clefable + Boss** (locked) | 86.7% | 85.8% | 48.9% | 85.0% | 47.9% | 70.9% | 48.4% |
+| 5th Clefable ex + Boss | 86.8% | 84.7% | 49.1% | 86.0% | 47.3% | 70.8% | 48.2% |
+| 4th Mega + Boss | 86.5% | 85.1% | 47.5% | 85.4% | 47.8% | 70.5% | 47.7% |
+
+Locked 30: 4 Clefairy / 2 Mewtwo ex / **5 Clefable** / 4 Clefable ex / 3 Mega / 3 Hop / 2 Nest / 3 Energy Search / Belt / Tool Box / Arven / Boss. **Zero dedicated Energy.**
