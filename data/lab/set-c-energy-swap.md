@@ -38,7 +38,7 @@ Rule B: a Clefable **is** a Psychic Energy. 3,000 games / cell, seed `20260819`,
 
 The 5th Clefable / 5th Clefable ex break the 4-of same-name cap. **Locked 30 is the energy row:** 4 Clefairy / 2 Mewtwo ex / **4 Clefable** / 4 Clefable ex / 3 Mega / 3 Hop / 2 Nest / 3 Energy Search / Belt / Tool Box / Arven / Boss / **1 Psychic Energy**.
 
-Full A–T matrix after the (now reverted) illegal fifth Clefable is historical; rerun after restoring energy.
+Full A–T matrix after restoring energy (3,000 / cell, seed `20260819`): C vs A 85.4%, B 85.9%, D 48.3%, S 85.4%, T 47.1%.
 
 ## Metronome Clefable (TWM 79 / CLC 014) — not locked (2026-08-23)
 
