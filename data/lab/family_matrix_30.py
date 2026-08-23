@@ -1,4 +1,7 @@
-"""Family Cup 30-card A–T win-rate matrix. 3k games / ordered pair, seed 20260819."""
+"""Family Cup 30-card A–T win-rate matrix. 3k games / ordered pair, seed 20260819.
+
+Prize table: basic 1, Pokémon ex 2, Mega ex 3.
+"""
 
 from __future__ import annotations
 

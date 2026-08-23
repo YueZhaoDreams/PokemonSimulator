@@ -178,3 +178,18 @@ Family Cup still allows Pokémon-as-energy; T holds the line and pays Fire / Psy
 
 T beats carpet A and Party C, splits shock B, and loses to Charm Ogerpon D (Demolish 140 into a slow Stage 2) and Floragato hunter S (Grass OHKO / Wo-Chien sponge). A–S cells that do not touch T match the Staraptor table.
 
+## 30-card, ex = 2 prizes, Mega ex = 3 (2026-08-23)
+
+Family Cup still puts **3** prize cards face-down. Knocking Out a Pokémon ex now takes **2**; Knocking Out a Mega ex takes **3** (one Mega KO wins). Same lists, strategies, seed `20260819`, 3,000 games / ordered pair. Raw: `data/lab/family-cup-30-matrix.json`.
+
+|  | A | B | C | D | S | T |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| **A** | — | 67.3% | 11.9% | 4.2% | 67.3% | 46.1% |
+| **B** | 32.1% | — | 13.2% | 1.1% | 22.8% | 49.5% |
+| **C** | 87.7% | 86.2% | — | 52.4% | 82.8% | 45.3% |
+| **D** | 95.5% | 98.6% | 49.2% | — | 42.5% | **70.1%** |
+| **S** | 31.1% | 76.3% | 17.4% | 57.9% | — | 60.4% |
+| **T** | 52.9% | 50.2% | 55.4% | 30.6% | 41.8% | — |
+
+Vs the previous 1-prize-per-KO table: C vs D **60.2% → 52.4%** (Ogerpon is 2 prizes; Mega Clefable is a 3-prize gift). D vs T **61.9% → 70.1%** (Dragapult ex is 2). S vs D **67.0% → 57.9%** because Wo-Chien ex also pays 2. T vs C **59.4% → 55.4%**; C vs T **41.3% → 45.3%**. Carpet A/B barely move — they are mostly non-ex.
+
