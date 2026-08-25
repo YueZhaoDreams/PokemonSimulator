@@ -79,14 +79,15 @@ SET_B_NAMES = [
 # + Boss's Orders. No dedicated Energy; Rule B treats the line as Psychic. Clefable / Clefable ex /
 # Mega Clefable ex are different names (4 each). TWM/CLC share the Clefable name. Maximum Belt is ACE SPEC.
 # Tool Box tutors it from the top 7; Arven is the full-deck Tool + Item search.
-# Moon-Watching Party is LOR 62 full-deck search.
+# Moon-Watching Party is LOR 62 full-deck search. 2 Hop + 1 SM Lillie (UPR first-turn 8).
 SET_C_NAMES = (
     ["Clefairy"] * 4
     + ["Mewtwo ex"] * 2
     + ["Clefable"] * 4
     + ["Clefable ex"] * 4
     + ["Mega Clefable ex"] * 4
-    + ["Hop"] * 3
+    + ["Hop"] * 2
+    + ["Lillie"]
     + ["Nest Ball"] * 2
     + ["Energy Search"] * 3
     + ["Maximum Belt"]

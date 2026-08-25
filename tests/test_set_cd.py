@@ -17,7 +17,8 @@ def test_set_cd_counts():
     assert sum(1 for x in c if x.name == "Clefable") == 4
     assert sum(1 for x in c if x.name == "Clefable ex") == 4
     assert sum(1 for x in c if x.name == "Mega Clefable ex") == 4
-    assert sum(1 for x in c if x.name == "Hop") == 3
+    assert sum(1 for x in c if x.name == "Hop") == 2
+    assert sum(1 for x in c if x.name == "Lillie") == 1
     assert sum(1 for x in c if x.name == "Nest Ball") == 2
     assert sum(1 for x in c if x.name == "Energy Search") == 3
     assert sum(1 for x in c if x.name == "Switch") == 0

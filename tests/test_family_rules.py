@@ -154,7 +154,8 @@ def test_seed_decks_include_set_c_and_d():
     assert c_names.count("Clefable ex") == 4
     assert c_names.count("Mega Clefable ex") == 4
     assert c_names.count("Lillie's Clefairy ex") == 0
-    assert c_names.count("Hop") == 3
+    assert c_names.count("Hop") == 2
+    assert c_names.count("Lillie") == 1
     assert c_names.count("Nest Ball") == 2
     assert c_names.count("Energy Search") == 3
     assert c_names.count("Switch") == 0

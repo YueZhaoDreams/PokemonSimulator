@@ -3198,8 +3198,8 @@
         "dex_id": null
       },
       {
-        "catalog_id": "swsh1-165",
-        "name": "Hop",
+        "catalog_id": "sm5-125",
+        "name": "Lillie",
         "category": "Trainer",
         "stage": "Supporter",
         "types": [],
@@ -3212,9 +3212,9 @@
         "evolves_from": null,
         "trainer_kind": "supporter",
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh1/165/low.webp",
-        "set_name": "Sword & Shield",
-        "text": "Draw 3 cards.",
+        "image": "https://assets.tcgdex.net/en/sm/sm5/125/low.webp",
+        "set_name": "Ultra Prism",
+        "text": "Draw cards until you have 6 cards in your hand. If it\u2019s your first turn, draw cards until you have 8 cards in your hand.",
         "dex_id": null
       },
       {

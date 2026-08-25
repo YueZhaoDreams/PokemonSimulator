@@ -196,8 +196,9 @@ STRATEGY_LIBRARY = {
             "(7P+Belt or 9P); Mega wall only if Mewtwo cannot eat the next 140. "
             "151 Invitation Clefairy (if mixed in) dumps Party engines in one attack when "
             "there is no Switch to rotate Party. One Boss's Orders to pull a prize. "
-            "Trainer order: hunt Maximum Belt (Arven before Tool Box), then Hop, then "
-            "Energy Search / Nest Ball. If Shooting Moons can KO (hand Energy discards, "
+            "Trainer order: hunt Maximum Belt (Arven before Tool Box), then Hop or "
+            "Lillie (until 6, or 8 on your first turn), then Energy Search / Nest Ball. "
+            "If Shooting Moons can KO (hand Energy discards, "
             "not vs Cornerstone Stance), evolve Mega Clefable ex instead of waiting on Photon."
         ),
         prefer_damage=0.95,

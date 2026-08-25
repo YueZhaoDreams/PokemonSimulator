@@ -238,3 +238,16 @@ Vs the 1-energy+Boss table: D/T are noise (48.3/47.1 → 48.6/46.3). C vs A 85.4
 
 Vs the mulligan-bonus table (previous json): cells that do not touch C are unchanged. C vs S 84.9% → **88.5%** (S vs C 14.2% → 11.8%). C vs D 51.7% → 52.3%. C vs T 46.5% → 45.9%. A/B vs C are noise (±1%).
 
+## 2 Hop + 1 SM Lillie (2026-08-25)
+
+Printed UPR 125: draw until 6, or until 8 on **your first turn** (not “went first all game”). Family Cup still blocks the first player’s turn-1 Supporter, so the 8-card draw is the second player’s first turn.
+
+`party` plays Lillie over Hop when it would draw more. Same seed `20260819`, 3,000 / C-cell. Raw: `data/lab/c-sm-lillie-hop.json`; C cells copied into `data/lab/family-cup-30-matrix.json`.
+
+| list | vs A | vs B | vs D | vs S | vs T | T vs C | C avg |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 3 Hop | 88.0% | 85.6% | **52.3%** | 82.0% | 51.2% | 50.2% | 71.8% |
+| **2 Hop + 1 Lillie** | **89.2%** | **88.7%** | 51.3% | **82.3%** | **51.3%** | **48.8%** | **72.6%** |
+
+B is the big gain. D dips about 1 point. Set C locks 2 Hop / 1 Lillie.
+
