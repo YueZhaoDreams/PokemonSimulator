@@ -364,6 +364,86 @@ def test_dying_mewtwo_retreats_to_mega():
     assert me.retreated is True
 
 
+def test_party_plays_second_mewtwo_vs_ogerpon():
+    """Vs D both Mewtwo occupy the field as 230 HP sponges."""
+    game = _cd_game()
+    me = game.players["a"]
+    mewtwos = [i for i, card in enumerate(me.cards) if card.name == "Mewtwo ex"]
+    me.active = Pokemon(card_i=mewtwos[0], played_turn=0)
+    me.bench = []
+    me.hand = [mewtwos[1]]
+    strat = StrategySpec.from_dict("party")
+    card = me.card(mewtwos[1])
+    assert game._mewtwo_play_cap(me) == 2
+    assert game._wants_in_play(me, card, strat) is True
+    assert game._is_protected_from_energy(me, card, strat) is True
+
+
+def test_party_keeps_second_mewtwo_as_energy_vs_shock():
+    """Vs B the spare Mewtwo is Psychic Energy, not a second 2-prize body."""
+    from app.seed_data import SET_B_NAMES
+
+    c = build_fallback_deck(list(SET_C_NAMES))
+    b = build_fallback_deck(list(SET_B_NAMES))
+    game = Game(
+        c, b, default_family_rules(), StrategySpec.from_dict("party"), StrategySpec.from_dict("shock"), Random(1)
+    )
+    me = game.players["a"]
+    mewtwos = [i for i, card in enumerate(me.cards) if card.name == "Mewtwo ex"]
+    me.active = Pokemon(card_i=mewtwos[0], played_turn=0)
+    me.bench = []
+    me.hand = [mewtwos[1]]
+    strat = StrategySpec.from_dict("party")
+    card = me.card(mewtwos[1])
+    assert game._mewtwo_play_cap(me) == 1
+    assert game._wants_in_play(me, card, strat) is False
+    assert game._is_protected_from_energy(me, card, strat) is False
+
+
+def test_dying_mewtwo_rotates_to_the_other_mewtwo():
+    game = _cd_game()
+    me = game.players["a"]
+    foe = game.players["b"]
+    mewtwos = [i for i, card in enumerate(me.cards) if card.name == "Mewtwo ex"]
+    fuels = [i for i, card in enumerate(me.cards) if card.name == "Clefable"][:2]
+    oger = next(i for i, card in enumerate(foe.cards) if "Ogerpon" in card.name)
+    fighting = next(i for i, card in enumerate(foe.cards) if card.name == "Fighting Energy")
+    dce = next(i for i, card in enumerate(foe.cards) if card.name == "Double Colorless Energy")
+    me.active = Pokemon(card_i=mewtwos[0], damage=140, energy=list(fuels), played_turn=0)
+    me.bench = [Pokemon(card_i=mewtwos[1], played_turn=0)]
+    me.retreated = False
+    foe.active = Pokemon(card_i=oger, energy=[fighting, dce])
+    game._maybe_retreat(me, foe, "a")
+    assert me.active.card_i == mewtwos[1]
+    assert game._survives_demolish(me, me.active)
+
+
+def test_photon_swaps_to_loaded_benched_mewtwo():
+    """Active 90 HP Mewtwo without energy must not hide a benched Photon KO."""
+    game = _cd_game()
+    me = game.players["a"]
+    foe = game.players["b"]
+    mewtwos = [i for i, card in enumerate(me.cards) if card.name == "Mewtwo ex"]
+    fuels = [i for i, card in enumerate(me.cards) if card.name == "Clefable"]
+    extras = [i for i, card in enumerate(me.cards) if card.name == "Clefable ex"]
+    clef = next(i for i, card in enumerate(me.cards) if card.name == "Clefairy")
+    oger = next(i for i, card in enumerate(foe.cards) if "Ogerpon" in card.name)
+    fighting = next(i for i, card in enumerate(foe.cards) if card.name == "Fighting Energy")
+    dce = next(i for i, card in enumerate(foe.cards) if card.name == "Double Colorless Energy")
+    belt = next(i for i, card in enumerate(me.cards) if card.name == "Maximum Belt")
+    me.active = Pokemon(card_i=mewtwos[0], damage=140, energy=[fuels[0], fuels[1]], played_turn=0)
+    me.bench = [
+        Pokemon(card_i=mewtwos[1], energy=[fuels[2], extras[0]], tool=belt, played_turn=0),
+        Pokemon(card_i=clef, energy=list(extras[1:]) + fuels[3:], played_turn=0),
+    ]
+    me.retreated = False
+    foe.active = Pokemon(card_i=oger, energy=[fighting, dce])
+    assert game._photon_ko(me, foe)
+    assert game._photon_killer(me, foe) is me.bench[0]
+    game._maybe_retreat(me, foe, "a")
+    assert me.active.card_i == mewtwos[1]
+
+
 def test_party_while_mega_walls_then_restores():
     game = _cd_game()
     me = game.players["a"]

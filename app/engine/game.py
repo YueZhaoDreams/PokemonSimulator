@@ -286,7 +286,12 @@ class Game:
         aces = {n.lower() for n in strat.search_aces}
         if name in closers:
             if strat.name == "party":
-                return True
+                # Vs D play both Mewtwo as 230 HP sponges. Vs A/B/S/T the spare is Psychic Energy.
+                n = self._count_named_in_play(me, name)
+                if n >= self._mewtwo_play_cap(me):
+                    return False
+                slots = (1 if me.active is None else 0) + (self.rules.bench_size - len(me.bench))
+                return slots > 0
             return self._count_named_in_play(me, name) == 0
         if strat.name == "party":
             if "mega clefable" in name:
@@ -341,8 +346,9 @@ class Game:
         if name in closers:
             closer_out = any(n in closers for n in self._in_play_names(player))
             if strat.name == "party":
-                # Mewtwo is the Demolish tank as well as the closer — play it even before Clefairy.
-                return not closer_out
+                # Vs D: both copies. Vs others: one closer, spare is Psychic Energy.
+                # Retreat / Photon already pick the surviving / loaded copy when both are out.
+                return self._count_named_in_play(player, name) < self._mewtwo_play_cap(player)
             return (ace_out or not ace_reachable) and not closer_out
 
         if strat.name == "slash" and name == "sprigatito":
@@ -1938,13 +1944,20 @@ class Game:
                 cost = self._retreat_cost(me, me.active)
                 if cost > 0 and len(me.active.energy) < cost + 2:
                     return me.active
-            mewtwo = self._mewtwo_mon(me)
             if self._want_invitation_line(me, foe, who):
-                unpaid = self._unpaid_invitation_mon(me)
-                if unpaid is not None:
-                    return unpaid
-            if mewtwo is not None:
-                return mewtwo
+                invite = self._unpaid_invitation_mon(me)
+                if invite is not None:
+                    return invite
+            unpaid = [m for m in self._mewtwo_mons(me) if not self._mewtwo_can_pay_photon(me, m)]
+            if unpaid:
+                # Finish Photon on one copy before fueling a second sponge.
+                return max(
+                    unpaid,
+                    key=lambda m: (len(m.energy), 1 if self._belt_on(me, m) else 0),
+                )
+            fueled = self._mewtwo_mons(me)
+            if fueled:
+                return max(fueled, key=lambda m: (1 if self._belt_on(me, m) else 0, len(m.energy)))
             if me.active and self._is_wall_mon(me, me.active) and not me.active.energy:
                 return me.active
             return me.active
@@ -3121,9 +3134,10 @@ class Game:
     def _photon_ko(self, me: Player, foe: Player, mon: Pokemon | None = None) -> bool:
         if not foe.active:
             return False
-        mon = mon or next((m for m in me.in_play() if self._is_mewtwo(me.card(m.card_i))), None)
-        if mon is None:
-            return False
+        mons = [mon] if mon is not None else self._mewtwo_mons(me)
+        return any(self._mewtwo_photon_kos(me, foe, m) for m in mons)
+
+    def _mewtwo_photon_kos(self, me: Player, foe: Player, mon: Pokemon) -> bool:
         card = me.card(mon.card_i)
         atk = next((a for a in card.attacks if "kinesis" in a.name.lower()), None)
         if atk is None:
@@ -3132,6 +3146,16 @@ class Game:
             return False
         hp = self._max_hp(foe, foe.active) - foe.active.damage
         return self._raw_attack_damage(me, foe, mon, atk) >= hp > 0
+
+    def _photon_killer(self, me: Player, foe: Player) -> Pokemon | None:
+        scored: list[tuple[int, int, Pokemon]] = []
+        for mon in self._mewtwo_mons(me):
+            if self._mewtwo_photon_kos(me, foe, mon):
+                scored.append((1 if self._belt_on(me, mon) else 0, len(mon.energy), mon))
+        if not scored:
+            return None
+        scored.sort(key=lambda row: (row[0], row[1]), reverse=True)
+        return scored[0][2]
 
     def _foe_can_demolish(self, foe: Player) -> bool:
         if not foe.active:
@@ -3445,11 +3469,12 @@ class Game:
             return total >= 2
         return True
 
+    def _mewtwo_mons(self, me: Player) -> list[Pokemon]:
+        return [mon for mon in me.in_play() if self._is_mewtwo(me.card(mon.card_i))]
+
     def _mewtwo_mon(self, me: Player) -> Pokemon | None:
-        for mon in me.in_play():
-            if self._is_mewtwo(me.card(mon.card_i)):
-                return mon
-        return None
+        mons = self._mewtwo_mons(me)
+        return mons[0] if mons else None
 
     def _psychic_on(self, me: Player, mon: Pokemon) -> int:
         return sum(1 for i in mon.energy if self._is_psychic_energy_card(me.card(i)))
@@ -3506,9 +3531,9 @@ class Game:
     def _end_on_tank(self, me: Player, foe: Player, who: str) -> bool:
         """Hide from Demolish. 死保 Mewtwo: never let it eat a KO 140 if anything else can.
 
-        Order: Photon this turn → caller brings Mewtwo. Else a body that survives 140
-        (Mega, then Clefable ex, then full Mewtwo). Else a cheap Clefairy chump (1 prize,
-        little energy). Mewtwo at 90 leaves even if Retreat 2 dumps extra energy.
+        Order: Photon this turn → caller brings the loaded copy. Else a body that
+        survives 140 (Mega, then Clefable ex, then a full Mewtwo — including the
+        other copy). Mewtwo at 90 leaves even if Retreat 2 dumps extra energy.
         """
         if not me.active or not me.bench:
             return False
@@ -3544,6 +3569,18 @@ class Game:
                 continue
             return True
         return False
+
+    def _mewtwo_play_cap(self, me: Player) -> int:
+        """How many Mewtwo ex to put in play.
+
+        Vs Ogerpon: both copies (230 HP / 2 prizes each, rotate the dying one).
+        Vs everyone else: one Photon closer; the spare is Psychic Energy.
+        """
+        who = "a" if me.name == "A" else "b"
+        foe_who = "b" if who == "a" else "a"
+        if self.strats[foe_who].name == "demolish":
+            return 2
+        return 1
 
     def _clefairy_play_cap(self, me: Player) -> int:
         """How many Clefairies to put in play for Party.
@@ -3745,8 +3782,7 @@ class Game:
         return mon.tool is not None and "maximum belt" in me.card(mon.tool).name.lower()
 
     def _belt_available(self, me: Player, who: str, mewtwo: Pokemon | None = None) -> bool:
-        mewtwo = mewtwo or self._mewtwo_mon(me)
-        if mewtwo is not None and self._belt_on(me, mewtwo):
+        if any(self._belt_on(me, m) for m in self._mewtwo_mons(me)):
             return True
         if any("maximum belt" in me.card(i).name.lower() for i in me.hand):
             return True
@@ -3828,11 +3864,9 @@ class Game:
             return False
         # Vs D: Transfer Charge onto a Mewtwo that still survives the next 140, then
         # leave after that hit. Do not Transfer onto 90 HP Mewtwo.
-        mewtwo = self._mewtwo_mon(me)
         return bool(
             self._ogerpon_threat(foe)
-            and mewtwo is not None
-            and self._survives_demolish(me, mewtwo)
+            and any(self._survives_demolish(me, m) for m in self._mewtwo_mons(me))
         )
 
     def _photon_finish(self, me: Player, foe: Player, who: str) -> bool:
@@ -4378,13 +4412,17 @@ class Game:
     def _retreat_for_transfer(self, me: Player, who: str) -> None:
         if not me.active or not me.bench:
             return
-        mewtwo_idx = next((idx for idx, mon in enumerate(me.bench) if self._is_mewtwo(me.card(mon.card_i))), None)
-        if mewtwo_idx is None:
+        scored: list[tuple[int, int]] = []
+        for idx, mon in enumerate(me.bench):
+            if not self._is_mewtwo(me.card(mon.card_i)):
+                continue
+            scored.append((1 if self._survives_demolish(me, mon) else 0, idx))
+        if not scored:
             return
-        if self._is_mewtwo(me.card(me.active.card_i)):
+        if self._is_mewtwo(me.card(me.active.card_i)) and self._survives_demolish(me, me.active):
             return
-        # Pay the printed (modified) cost only — Beach Court 1, not a fake 2.
-        self._do_retreat_into(me, mewtwo_idx)
+        scored.sort(reverse=True)
+        self._do_retreat_into(me, scored[0][1])
 
     def _retreat_party(self, me: Player, foe: Player, who: str) -> None:
         if not me.active or not me.bench:
@@ -4414,10 +4452,11 @@ class Game:
                     return
         # Photon this turn only. 死保 Mewtwo: do not park it for a maybe-next KO.
         if self._photon_ko(me, foe):
-            if self._is_mewtwo(me.card(me.active.card_i)):
+            killer = self._photon_killer(me, foe)
+            if killer is None or killer is me.active:
                 return
             for idx, mon in enumerate(me.bench):
-                if self._is_mewtwo(me.card(mon.card_i)):
+                if mon is killer:
                     self._swap_to_bench(me, who, idx, allow_paid=True)
                     return
         if self._ogerpon_threat(foe):
