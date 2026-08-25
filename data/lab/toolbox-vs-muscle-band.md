@@ -251,3 +251,15 @@ Printed UPR 125: draw until 6, or until 8 on **your first turn** (not “went fi
 
 B is the big gain. D dips about 1 point. Set C locks 2 Hop / 1 Lillie.
 
+## Boss only closes the game (2026-08-25)
+
+`party` plays Boss's Orders only if the pulled Active is a KO that covers remaining prizes (e.g. 6P+Belt = 240 snipe uncharmed 210, not Charm 260). Same 2 Hop + 1 Lillie list, seed `20260819`, 3,000 / C-cell.
+
+| Boss | vs A | vs B | vs D | vs S | vs T | C avg |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| any bench | 89.2% | 88.7% | 51.3% | **82.3%** | 51.3% | 72.6% |
+| last prize(s) only | **90.7%** | 88.7% | 51.3% | 80.2% | **52.5%** | **72.7%** |
+
+D does not move. A/T pick up a bit. S drops ~2 points (early Boss vs 60 HP cats is gone).
+
+

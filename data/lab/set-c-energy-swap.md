@@ -122,6 +122,9 @@ Non-C cells match the mulligan table. C vs S 84.9% → **88.5%**. C vs D 51.7% �
 
 Printed: until 6, until 8 on **your first turn**. First player cannot play a Supporter on turn 1, so 8 is going second. Screened vs 3 Hop, seed `20260819`, 3,000 / cell. C avg **72.6%** beats 3 Hop 71.8% (B 85.6% → **88.7%**, D 52.3% → 51.3%). Locked 30 is 2 Hop / 1 Lillie. Raw: `data/lab/c-sm-lillie-hop.json`.
 
+Boss prize-close (same list): C avg **72.7%**. D stays 51.3%. A 90.7%, T 52.5%, S 80.2%.
+
+
 ## 151 Invitation Clefairy instead of Party (2026-08-25)
 
 Locked C still has **no Switch**. Replacing 1–2 LOR 62 with MEW 035 (`Moon-Viewing Invitation`, bench up to 3 Clefairy) was retested after the engine learned the attack. Seed `20260819`, 3,000 / cell. Full writeup: [set-c-moon-view.md](set-c-moon-view.md).
