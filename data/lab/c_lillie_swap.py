@@ -1,5 +1,8 @@
 """Compare which Set C body to cut for one Lillie's Clefairy ex.
 
+Screened 2026-08-25: no-Lillie C-row average 71.8% beats every Lillie swap
+(cut RCL 68.5%, cut ex 68.4%, cut Mega 68.1%). Set C stays 4 Mega / no Lillie.
+
 Only C-involved cells move. 3000 games / ordered pair, seed 20260819.
 """
 

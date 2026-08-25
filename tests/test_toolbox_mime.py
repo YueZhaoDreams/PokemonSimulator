@@ -55,9 +55,7 @@ def test_tool_box_takes_tools_from_top_seven():
     belt = next(i for i, card in enumerate(me.cards) if card.name == "Maximum Belt")
     hop = next(i for i, card in enumerate(me.cards) if card.name == "Hop")
     nest = next(i for i, card in enumerate(me.cards) if card.name == "Nest Ball")
-    rcl = [i for i, card in enumerate(me.cards) if card.name == "Clefable"]
-    extra = [i for i, card in enumerate(me.cards) if card.name == "Clefable ex"]
-    fillers = (rcl + extra)[:4]
+    fillers = [i for i, card in enumerate(me.cards) if card.name == "Clefable"][:4]
     me.deck = [hop, belt, nest] + fillers
     me.hand = []
     game._tool_box(me)

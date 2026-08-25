@@ -45,7 +45,7 @@ def test_mulligan_reshuffles_until_a_basic():
 
 def test_cdst_opening_always_puts_a_basic_active():
     specs = {
-        "c": ("party", SET_C_NAMES, {"Clefairy", "Mewtwo ex", "Lillie's Clefairy ex"}),
+        "c": ("party", SET_C_NAMES, {"Clefairy", "Mewtwo ex"}),
         "d": ("demolish", SET_D_NAMES, {"Cornerstone Mask Ogerpon ex"}),
         "s": ("slash", SET_S_NAMES, {"Sprigatito", "Wo-Chien ex", "Tangela"}),
         "t": ("phantom", SET_T_NAMES, {"Dreepy", "Budew", "Fezandipiti ex"}),
