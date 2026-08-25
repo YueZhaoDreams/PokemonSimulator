@@ -696,3 +696,87 @@ def test_fairy_zone_parses_and_doubles_psychic_not_lightning():
     me.bench = [Pokemon(card_i=mega)]
     assert game._raw_attack_damage(me, foe, me.active, rondo) == 80
 
+
+LILLIE_UPR = (
+    "Draw cards until you have 6 cards in your hand. "
+    "If it's your first turn, draw cards until you have 8 cards in your hand."
+)
+LILLIE_UPR_CURLY = (
+    "Draw cards until you have 6 cards in your hand. "
+    "If it’s your first turn, draw cards until you have 8 cards in your hand."
+)
+
+
+def test_lillie_parse_is_your_first_turn_not_going_first():
+    from app.engine.effects import parse_draw_until_hand
+
+    for text in (LILLIE_UPR, LILLIE_UPR_CURLY, fallback_named("Lillie").text):
+        spec = parse_draw_until_hand(text)
+        assert spec is not None
+        assert spec["kind"] == "draw_until_hand"
+        assert spec["count"] == 6
+        assert spec["first_turn"] == 8
+
+
+def test_lillie_draws_to_eight_only_on_that_players_first_turn():
+    game = _cd_game()
+    me = game.players["a"]
+    me.cards.append(fallback_named("Lillie"))
+    lillie = me.cards[-1]
+    fuels = [i for i, card in enumerate(me.cards) if card.name == "Clefable"]
+    rest = [i for i, card in enumerate(me.cards) if card.name in {"Clefable ex", "Mega Clefable ex"}]
+
+    game.first = "b"
+    game.turn = 2
+    me.hand = fuels[:2]
+    me.deck = list(rest)
+    game._resolve_trainer(me, game.players["b"], lillie, who="a")
+    assert len(me.hand) == 8
+
+    game.first = "a"
+    game.turn = 3
+    me.hand = fuels[:2]
+    me.deck = list(rest)
+    game._resolve_trainer(me, game.players["b"], lillie, who="a")
+    assert len(me.hand) == 6
+
+
+def test_first_player_cannot_play_lillie_on_turn_one():
+    game = _cd_game()
+    game.first = "a"
+    game.turn = 1
+    me, ids = _party_trainer_board(game)
+    me.cards.append(fallback_named("Lillie"))
+    li = len(me.cards) - 1
+    me.hand = [li]
+    me.deck = ids["fillers"]
+    assert game._pick_trainer(me) is None
+
+
+def test_party_picks_lillie_over_hop_on_own_first_turn():
+    game = _cd_game()
+    game.first = "b"
+    game.turn = 2
+    me, ids = _party_trainer_board(game)
+    me.cards.append(fallback_named("Lillie"))
+    li = len(me.cards) - 1
+    me.hand = [li, ids["hop"], ids["search"]]
+    me.deck = ids["fillers"]
+    picked = game._pick_trainer(me)
+    assert picked is not None
+    assert me.card(picked).name == "Lillie"
+
+
+def test_party_picks_hop_over_lillie_when_hand_is_already_full():
+    game = _cd_game()
+    game.first = "a"
+    game.turn = 4
+    me, ids = _party_trainer_board(game)
+    me.cards.append(fallback_named("Lillie"))
+    li = len(me.cards) - 1
+    me.hand = [li, ids["hop"], ids["search"], ids["nest"], ids["fillers"][0], ids["fillers"][1]]
+    me.deck = ids["fillers"][2:]
+    picked = game._pick_trainer(me)
+    assert picked is not None
+    assert me.card(picked).name == "Hop"
+

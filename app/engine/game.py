@@ -12,6 +12,7 @@ from app.engine.effects import (
     is_boomerang_energy,
     is_double_colorless,
     parse_ability_effects,
+    parse_draw_until_hand,
     resistance_reduce,
     weakness_multiplier,
 )
@@ -804,6 +805,22 @@ class Game:
             return self.turn == 1
         return self.turn == 2
 
+    def _lillie_hand_target(self, who: str, spec: dict[str, Any]) -> int:
+        """Printed Lillie: until 6, or first_turn (8) only on that player's first turn."""
+        if spec.get("first_turn") and self._is_players_first_turn(who):
+            return int(spec["first_turn"])
+        return int(spec.get("count") or 6)
+
+    def _lillie_draw_n(self, me: Player, who: str, still_in_hand: bool = False) -> int:
+        card = next((me.card(i) for i in me.hand if me.card(i).name.lower() == "lillie"), None)
+        spec = parse_draw_until_hand(card.text or "") if card else None
+        if spec:
+            target = self._lillie_hand_target(who, spec)
+        else:
+            target = 8 if self._is_players_first_turn(who) else 6
+        after = len(me.hand) - (1 if still_in_hand else 0)
+        return max(0, min(target - after, len(me.deck)))
+
     def _can_play_supporter(self, who: str) -> bool:
         if not self.rules.first_player_no_supporter:
             return True
@@ -1061,6 +1078,19 @@ class Game:
                     score += 17
                 else:
                     score += 3
+            elif name == "lillie":
+                n = self._lillie_draw_n(me, who, still_in_hand=True)
+                if n <= 0:
+                    score -= 8
+                elif strat.name == "party" and self._want_storm_line(me, foe, who):
+                    score -= 20
+                elif len(me.deck) <= 8:
+                    score -= 10
+                elif strat.name == "party":
+                    # Same slot as Hop: draw before tutors. More cards than Hop outranks Hop.
+                    score += 17 + (n - 3)
+                else:
+                    score += 3 + max(0, n - 3)
             elif name == "jacq":
                 if strat.name == "slash":
                     have_flora = any(self._is_floragato(me.card(m.card_i)) for m in me.in_play()) or any(
@@ -1231,6 +1261,13 @@ class Game:
         name = card.name.lower()
         if name in {"hop"}:
             self._draw(me, 3)
+        elif name == "lillie":
+            spec = parse_draw_until_hand(card.text or "")
+            if spec:
+                target = self._lillie_hand_target(who, spec)
+            else:
+                target = 8 if self._is_players_first_turn(who) else 6
+            self._draw(me, max(0, target - len(me.hand)))
         elif name == "jacq":
             prefer = ["Mega Clefable ex", "Clefable ex", "Clefable"]
             if self.strats[who].name == "slash":

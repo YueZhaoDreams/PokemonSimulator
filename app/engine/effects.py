@@ -23,9 +23,30 @@ _TYPE_GLYPHS = {
 
 def _normalize_card_text(text: str) -> str:
     t = (text or "").lower().replace("pokémon", "pokemon").replace("poké", "poke")
+    t = t.replace("’", "'").replace("`", "'")
     for glyph, name in _TYPE_GLYPHS.items():
         t = t.replace(glyph, name)
     return t
+
+
+def parse_draw_until_hand(text: str) -> dict[str, Any] | None:
+    """Lillie UPR 125: draw until 6, or until 8 if it is your first turn."""
+    t = _normalize_card_text(text)
+    first = re.search(
+        r"draw cards until you have (\d+) cards in your hand\.?\s*"
+        r"if it's your first turn, draw cards until you have (\d+) cards in your hand",
+        t,
+    )
+    if first:
+        return {
+            "kind": "draw_until_hand",
+            "count": int(first.group(1)),
+            "first_turn": int(first.group(2)),
+        }
+    plain = re.search(r"draw cards until you have (\d+) cards in your hand", t)
+    if plain:
+        return {"kind": "draw_until_hand", "count": int(plain.group(1))}
+    return None
 
 
 def parse_damage(raw: Any) -> int:

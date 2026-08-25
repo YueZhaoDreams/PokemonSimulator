@@ -211,6 +211,13 @@ def _register(card: Card) -> Card:
 
 
 _register(_trn("Hop", "supporter", "Draw 3 cards."))
+_register(
+    _trn(
+        "Lillie",
+        "supporter",
+        "Draw cards until you have 6 cards in your hand. If it's your first turn, draw cards until you have 8 cards in your hand.",
+    )
+)
 _register(_trn("Youngster", "supporter", "Shuffle your hand into your deck and draw 5 cards."))
 _register(_trn("Shauna", "supporter", "Shuffle your hand into your deck and draw 5 cards."))
 _register(
