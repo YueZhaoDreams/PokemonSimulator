@@ -120,7 +120,7 @@ Non-C cells match the mulligan table. C vs S 84.9% → **88.5%**. C vs D 51.7% �
 
 ## 2 Hop + 1 SM Lillie (2026-08-25)
 
-Printed: until 6, until 8 on **your first turn**. First player cannot play a Supporter on turn 1, so 8 is going second. Dump Nest/Search/tools before Lillie, then evolve. Screened vs 3 Hop, seed `20260819`, 3,000 / cell. C avg **72.2%** beats 3 Hop 71.8% (B 85.6% → **87.9%**, D 52.3% → 51.4%). Locked 30 is 2 Hop / 1 Lillie. Raw: `data/lab/c-sm-lillie-hop.json`.
+Printed: until 6, until 8 on **your first turn**. First player cannot play a Supporter on turn 1, so 8 is going second. Screened vs 3 Hop, seed `20260819`, 3,000 / cell. C avg **72.6%** beats 3 Hop 71.8% (B 85.6% → **88.7%**, D 52.3% → 51.3%). Locked 30 is 2 Hop / 1 Lillie. Raw: `data/lab/c-sm-lillie-hop.json`.
 
 ## 151 Invitation Clefairy instead of Party (2026-08-25)
 

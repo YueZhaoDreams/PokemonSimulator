@@ -1,8 +1,7 @@
 """Compare 3 Hop vs 2 Hop + 1 SM Lillie (UPR: until 6, until 8 on your first turn).
 
-Screened 2026-08-25: 2 Hop + 1 SM Lillie C-row average 72.2% beats 3 Hop 71.8%
-after dump-items-then-Lillie (vs A 88.5%, B 87.9%, D 51.4%, S 82.1%, T 51.2%).
-Holding Lillie until after evolve dipped D to 48.9%; evolve must follow the draw.
+Screened 2026-08-25: 2 Hop + 1 SM Lillie C-row average 72.6% beats 3 Hop 71.8%
+(vs A 89.2%, B 88.7%, D 51.3%, S 82.3%, T 51.3%). Set C locks 2 Hop / 1 Lillie.
 
 Family Cup: first player cannot play a Supporter on turn 1, so the 8-card
 draw is the second player's first turn. Later turns are draw-until-6.
