@@ -466,7 +466,11 @@ def _party_trainer_board(game):
     me = game.players["a"]
     mewtwo = next(i for i, card in enumerate(me.cards) if card.name == "Mewtwo ex")
     clef = next(i for i, card in enumerate(me.cards) if card.name == "Clefairy")
-    fillers = [i for i, card in enumerate(me.cards) if card.name == "Clefable"][:10]
+    fillers = [
+        i
+        for i, card in enumerate(me.cards)
+        if card.name in {"Clefable", "Clefable ex", "Mega Clefable ex"}
+    ]
     me.active = Pokemon(card_i=mewtwo, played_turn=0)
     me.bench = [Pokemon(card_i=clef, played_turn=0)]
     me.supporter_used = False
