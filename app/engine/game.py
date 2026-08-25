@@ -286,9 +286,7 @@ class Game:
         aces = {n.lower() for n in strat.search_aces}
         if name in closers:
             if strat.name == "party":
-                # One Mewtwo on the field. The spare attaches as Psychic Energy
-                # (previously always-protected, so it sat dead in hand).
-                return self._count_named_in_play(me, name) == 0
+                return True
             return self._count_named_in_play(me, name) == 0
         if strat.name == "party":
             if "mega clefable" in name:
@@ -343,10 +341,18 @@ class Game:
         if name in closers:
             closer_out = any(n in closers for n in self._in_play_names(player))
             if strat.name == "party":
-                # One Mewtwo from hand. Playing both vs D splits Photon fuel and
-                # donates a second 2-prize body (C vs D 47%). If both occupy the
-                # field anyway, retreat/Photon pick the surviving / loaded copy.
-                return self._count_named_in_play(player, name) < 1
+                # One healthy Mewtwo. Vs D, bench the spare only after the first
+                # has taken Demolish (90 HP left) so Photon fuel is not split up
+                # front. Playing both at full HP is a 47% line.
+                mons = self._mewtwo_mons(player)
+                if len(mons) >= 2:
+                    return False
+                if not mons:
+                    return True
+                who = "a" if player.name == "A" else "b"
+                if self.strats["b" if who == "a" else "a"].name != "demolish":
+                    return False
+                return not self._survives_demolish(player, mons[0])
             return (ace_out or not ace_reachable) and not closer_out
 
         if strat.name == "slash" and name == "sprigatito":

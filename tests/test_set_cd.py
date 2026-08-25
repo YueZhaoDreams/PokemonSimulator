@@ -364,8 +364,8 @@ def test_dying_mewtwo_retreats_to_mega():
     assert me.retreated is True
 
 
-def test_party_keeps_second_mewtwo_as_energy():
-    """Second Mewtwo from hand is Psychic Energy, including vs D (play-2 is a 47% line)."""
+def test_party_benches_second_mewtwo_after_demolish():
+    """Vs D the spare stays in hand until the first Mewtwo is at 90 HP."""
     game = _cd_game()
     me = game.players["a"]
     mewtwos = [i for i, card in enumerate(me.cards) if card.name == "Mewtwo ex"]
@@ -375,11 +375,16 @@ def test_party_keeps_second_mewtwo_as_energy():
     strat = StrategySpec.from_dict("party")
     card = me.card(mewtwos[1])
     assert game._wants_in_play(me, card, strat) is False
-    assert game._is_protected_from_energy(me, card, strat) is False
+    assert game._is_protected_from_energy(me, card, strat) is True
+    me.active.damage = 140
+    assert not game._survives_demolish(me, me.active)
+    assert game._wants_in_play(me, card, strat) is True
+    me.active = None
+    assert game._wants_in_play(me, card, strat) is True
 
 
-def test_party_keeps_second_mewtwo_as_energy_vs_shock():
-    """Vs B the spare Mewtwo is Psychic Energy, not a second 2-prize body."""
+def test_party_holds_second_mewtwo_as_backup_vs_shock():
+    """Vs B the spare is a backup closer even if the first is chipped."""
     from app.seed_data import SET_B_NAMES
 
     c = build_fallback_deck(list(SET_C_NAMES))
@@ -389,13 +394,13 @@ def test_party_keeps_second_mewtwo_as_energy_vs_shock():
     )
     me = game.players["a"]
     mewtwos = [i for i, card in enumerate(me.cards) if card.name == "Mewtwo ex"]
-    me.active = Pokemon(card_i=mewtwos[0], played_turn=0)
+    me.active = Pokemon(card_i=mewtwos[0], damage=140, played_turn=0)
     me.bench = []
     me.hand = [mewtwos[1]]
     strat = StrategySpec.from_dict("party")
     card = me.card(mewtwos[1])
     assert game._wants_in_play(me, card, strat) is False
-    assert game._is_protected_from_energy(me, card, strat) is False
+    assert game._is_protected_from_energy(me, card, strat) is True
 
 
 def test_dying_mewtwo_rotates_to_the_other_mewtwo():
