@@ -1029,7 +1029,8 @@ class Game:
                 ) or any("bravery charm" in me.card(i).name.lower() for i in me.hand)
                 if strat.name == "party" and not belt_ready:
                     # Belt is the Ogerpon Photon plan; Storm line must not waste turns on it.
-                    score += -40 if self._want_storm_line(me, foe, who) else 10
+                    # Arven is Tool + Item (Search/Nest), so it outranks Tool Box.
+                    score += -40 if self._want_storm_line(me, foe, who) else 22
                 elif strat.name == "slash" and not belt_ready:
                     score += 12
                 elif strat.name == "crunch" and (not belt_ready or not charm_ready):
@@ -1055,8 +1056,11 @@ class Game:
                         score += 3
                 elif len(me.deck) <= 8:
                     score -= 10
+                elif strat.name == "party":
+                    # Draw 3 before tutoring so Hop can still hit Search, Nest, or the ace.
+                    score += 17
                 else:
-                    score += 7 if strat.name == "party" else 3
+                    score += 3
             elif name == "jacq":
                 if strat.name == "slash":
                     have_flora = any(self._is_floragato(me.card(m.card_i)) for m in me.in_play()) or any(
@@ -1077,7 +1081,13 @@ class Game:
             elif name == "beach court":
                 score += 8 if strat.name == "party" and self.stadium_name != "Beach Court" else (3 if self.stadium_name != "Beach Court" else -4)
             elif self._is_tool_card(card):
-                score += 8 if self._tool_target(me, who, card) is not None else -6
+                if self._tool_target(me, who, card) is None:
+                    score -= 6
+                elif strat.name == "party" and "maximum belt" in name:
+                    # Attach a found Belt before Hop / Search mill the deck around it.
+                    score += 21
+                else:
+                    score += 8
             elif name == "tulip":
                 score += 2
                 psychic_discard = sum(
@@ -1131,7 +1141,7 @@ class Game:
                 ) or any("maximum belt" in me.card(i).name.lower() for i in me.hand)
                 belt_in_deck = any("maximum belt" in me.card(i).name.lower() for i in me.deck)
                 if strat.name == "party" and not belt_ready and belt_in_deck:
-                    score += -40 if self._want_storm_line(me, foe, who) else 10
+                    score += -40 if self._want_storm_line(me, foe, who) else 20
                 elif strat.name == "slash" and not belt_ready and belt_in_deck:
                     score += 12
                 elif not belt_ready and belt_in_deck:

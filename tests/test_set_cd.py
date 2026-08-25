@@ -460,3 +460,68 @@ def test_vs_thrifty_caps_clefairy_and_opens_mewtwo():
     assert game._energy_target(me, StrategySpec.from_dict("party")) is me.bench[0]
     pick = game._pick_starter(me, [clefs[0], mewtwo], StrategySpec.from_dict("party"))
     assert pick == mewtwo
+
+
+def _party_trainer_board(game):
+    me = game.players["a"]
+    mewtwo = next(i for i, card in enumerate(me.cards) if card.name == "Mewtwo ex")
+    clef = next(i for i, card in enumerate(me.cards) if card.name == "Clefairy")
+    fillers = [i for i, card in enumerate(me.cards) if card.name == "Clefable"][:10]
+    me.active = Pokemon(card_i=mewtwo, played_turn=0)
+    me.bench = [Pokemon(card_i=clef, played_turn=0)]
+    me.supporter_used = False
+    return me, {
+        "arven": next(i for i, card in enumerate(me.cards) if card.name == "Arven"),
+        "box": next(i for i, card in enumerate(me.cards) if card.name == "Tool Box"),
+        "hop": next(i for i, card in enumerate(me.cards) if card.name == "Hop"),
+        "search": next(i for i, card in enumerate(me.cards) if card.name == "Energy Search"),
+        "nest": next(i for i, card in enumerate(me.cards) if card.name == "Nest Ball"),
+        "belt": next(i for i, card in enumerate(me.cards) if card.name == "Maximum Belt"),
+        "fillers": fillers,
+    }
+
+
+def test_party_picks_arven_before_tool_box_hop_and_tutors():
+    """Hunt Belt first. Arven is Tool + Item, so it outranks Tool Box."""
+    game = _cd_game()
+    game.turn = 3
+    me, ids = _party_trainer_board(game)
+    me.hand = [ids["arven"], ids["box"], ids["hop"], ids["search"], ids["nest"]]
+    me.deck = [ids["belt"]] + ids["fillers"]
+    picked = game._pick_trainer(me)
+    assert picked is not None
+    assert me.card(picked).name == "Arven"
+
+
+def test_party_picks_tool_box_before_hop_when_belt_is_in_the_deck():
+    game = _cd_game()
+    game.turn = 3
+    me, ids = _party_trainer_board(game)
+    me.hand = [ids["box"], ids["hop"], ids["search"], ids["nest"]]
+    me.deck = [ids["belt"]] + ids["fillers"]
+    picked = game._pick_trainer(me)
+    assert picked is not None
+    assert me.card(picked).name == "Tool Box"
+
+
+def test_party_picks_hop_before_energy_search_and_nest():
+    """Hop draws 3 before Search/Nest strip hits out of the deck."""
+    game = _cd_game()
+    game.turn = 3
+    me, ids = _party_trainer_board(game)
+    me.hand = [ids["hop"], ids["search"], ids["nest"]]
+    me.deck = ids["fillers"] + [ids["belt"]]
+    picked = game._pick_trainer(me)
+    assert picked is not None
+    assert me.card(picked).name == "Hop"
+
+
+def test_party_attaches_found_belt_before_hop():
+    game = _cd_game()
+    game.turn = 3
+    me, ids = _party_trainer_board(game)
+    me.hand = [ids["belt"], ids["hop"], ids["search"], ids["nest"]]
+    me.deck = ids["fillers"]
+    picked = game._pick_trainer(me)
+    assert picked is not None
+    assert me.card(picked).name == "Maximum Belt"
