@@ -148,8 +148,21 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
         n = re.search(r"draw (\d+)", t)
         effects.append({"kind": "draw", "amount": int(n.group(1)) if n else 1})
 
+    # MEW 035 Moon-Viewing Invitation: bench a named Pokémon (not any Basic).
+    named_bench = re.search(
+        r"search your deck for up to (\d+) ([a-z]+)(?: cards?)? and put them onto your bench",
+        t,
+    )
+    if named_bench and named_bench.group(2) not in {"basic", "item", "energy"}:
+        effects.append(
+            {
+                "kind": "call_family",
+                "count": int(named_bench.group(1)),
+                "name": named_bench.group(2),
+            }
+        )
     # Call for Family / bench a Basic from deck
-    if (
+    elif (
         "call for family" in t
         or ("basic" in t and "bench" in t and "search your deck" in t)
         or "search your deck for a basic" in t

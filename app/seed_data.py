@@ -1065,6 +1065,32 @@ FALLBACK_BY_NAME["clefable clc"] = _CLEFABLE_CLC
 FALLBACK_BY_NAME["clefable (clc 014)"] = _CLEFABLE_CLC
 FALLBACK_BY_NAME["clefable cmc 014"] = _CLEFABLE_CLC
 
+# 151 / MEW 035 keeps the printed name "Clefairy" so it shares the 4-of cap
+# with LOR 62 Moon-Watching Party. Alias keys so it does not overwrite Party.
+_CLEFAIRY_MEW = _pkm(
+    "Clefairy",
+    "Basic",
+    ["Psychic"],
+    60,
+    [
+        _atk(
+            "Moon-Viewing Invitation",
+            ["Psychic"],
+            0,
+            "Search your deck for up to 3 Clefairy and put them onto your Bench. Then, shuffle your deck.",
+        ),
+        _atk("Smack", ["Psychic", "Colorless"], 20),
+    ],
+    catalog_id="sv03.5-035",
+    weakness="Metal",
+    retreat=1,
+    set_name="151",
+)
+FALLBACK_BY_NAME["clefairy mew"] = _CLEFAIRY_MEW
+FALLBACK_BY_NAME["clefairy 151"] = _CLEFAIRY_MEW
+FALLBACK_BY_NAME["clefairy invitation"] = _CLEFAIRY_MEW
+FALLBACK_BY_NAME["clefairy mew 035"] = _CLEFAIRY_MEW
+
 # Set B carpet Pikachu: Tail Whap / Thunder Shock.
 _register(_pkm(
     "Pikachu",

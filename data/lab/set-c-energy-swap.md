@@ -103,4 +103,16 @@ Full A–T matrix after this rule (3,000 / cell, seed `20260819`):
 
 Vs the same 4 Mega list without bonus draws: C vs D 49.9% → **51.7%**, D vs C 51.0% → 46.6%, S vs D 57.9% → **60.9%**. C vs T 48.1% → 46.5% (T vs C 50.9% → 53.0%); T’s extra Poffin/Candy from C’s rarer mulligans still matter.
 
+## 151 Invitation Clefairy instead of Party (2026-08-25)
+
+Locked C still has **no Switch**. Replacing 1–2 LOR 62 with MEW 035 (`Moon-Viewing Invitation`, bench up to 3 Clefairy) was retested after the engine learned the attack. Seed `20260819`, 3,000 / cell. Full writeup: [set-c-moon-view.md](set-c-moon-view.md).
+
+| package | A | B | D | S | T | mean | D+T |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| **4 party** (locked) | 87.0% | 84.3% | **51.7%** | 84.9% | 46.5% | **70.9%** | **49.1%** |
+| 3 party + 1 invite | 87.0% | 85.9% | 38.3% | 88.5% | 47.1% | 69.4% | 42.7% |
+| 2 party + 2 invite | 84.9% | 85.1% | 28.3% | 91.6% | 47.0% | 67.4% | 37.6% |
+
+The dump costs the attack and leaves 60 HP Active. Without Switch you cannot Party-then-tank the same turn, so vs D it is still a turn short. Cutting Party engines is the rest of the hole (−13 then −10 vs D) even when Invitation almost never fires (~2% vs D). Vs S it helps a winning matchup; that does not buy the D race. Stay on 4× LOR 62.
+
 

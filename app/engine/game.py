@@ -15,7 +15,7 @@ from app.engine.effects import (
     resistance_reduce,
     weakness_multiplier,
 )
-from app.engine.models import Card, FamilyRules
+from app.engine.models import Attack, Card, FamilyRules
 from app.engine.strategies import StrategySpec
 
 ST_PARALYZED = 1
@@ -301,6 +301,9 @@ class Game:
                 return self._count_named_in_play(me, "sprigatito") == 0 and not any(
                     self._is_floragato(me.card(m.card_i)) for m in me.in_play()
                 )
+        if strat.name == "party" and self._invitation_attack(card):
+            # 151 print is a one-attack dump, not Psychic Energy.
+            return True
         if name in aces:
             return not any(n in aces for n in self._in_play_names(me))
         if name not in {n.lower() for n in strat.protect}:
@@ -450,7 +453,11 @@ class Game:
             if glass and name in closers:
                 return 2000 + self._print_value(card, strat)
             if name in aces:
-                return (10 if glass else 1000) + self._print_value(card, strat)
+                bonus = 10 if glass else 1000
+                if strat.name == "party" and not glass and self._invitation_attack(card):
+                    # Open on 151 Invitation so it can dump Party engines without Switch.
+                    bonus += 250
+                return bonus + self._print_value(card, strat)
             if strat.hold_as_energy:
                 if not ace_in_hand and ace_in_deck and (
                     self._is_ace_searcher(card) or self._is_family_caller(card)
@@ -664,7 +671,8 @@ class Game:
             card = me.card(card_i)
             name = card.name.lower()
             if name in aces:
-                return (0, -self._print_value(card, strat))
+                bonus = 80 if self._invitation_attack(card) else 0
+                return (0, -(bonus + self._print_value(card, strat)))
             if name in closers:
                 return (1, 0)
             if name in backups:
@@ -877,7 +885,10 @@ class Game:
                         self._is_mewtwo(me.card(i)) for i in me.hand
                     )
                     clefairy_count = self._count_named_in_play(me, "Clefairy")
-                    if storm:
+                    if self._invitation_held_for_dump(me, who) and have_mewtwo:
+                        # Leave deck Clefairy for Moon-Viewing Invitation instead of Nesting them.
+                        score -= 10
+                    elif storm:
                         # Bench Party engines first; Wonder Storm does not need Mewtwo.
                         if clefairy_count < self._clefairy_play_cap(me):
                             score += 12
@@ -1422,7 +1433,7 @@ class Game:
             if self._mewtwo_mon(me) is None and not any(self._is_mewtwo(me.card(i)) for i in me.hand):
                 prefer.append("Mewtwo ex")
             # Only tutor Clefairy when the matchup still wants the Party engine board.
-            if self._clefairy_play_cap(me) > 0:
+            if self._clefairy_play_cap(me) > 0 and not self._invitation_held_for_dump(me, who):
                 prefer.append("Clefairy")
             return list(dict.fromkeys(prefer))
         if strat.name == "slash":
@@ -1478,13 +1489,15 @@ class Game:
                 self._is_mewtwo(me.card(i)) for i in me.hand
             ):
                 prefer.insert(0, "Mewtwo ex")
-            if self._count_named_in_play(me, "Clefairy") + sum(1 for i in me.hand if self._is_clefairy(me.card(i))) < self._clefairy_play_cap(me):
+            if self._count_named_in_play(me, "Clefairy") + sum(1 for i in me.hand if self._is_clefairy(me.card(i))) < self._clefairy_play_cap(me) and not self._invitation_held_for_dump(me, who):
                 prefer.append("Clefairy")
             if not any("mega clefable" in me.card(m.card_i).name.lower() for m in me.in_play()):
                 prefer.append("Mega Clefable ex")
             if not self._has_lunar_zone(me):
                 prefer.append("Clefable ex")
-            prefer.extend(["Clefable", "Clefable ex", "Mega Clefable ex", "Clefairy"])
+            prefer.extend(["Clefable", "Clefable ex", "Mega Clefable ex"])
+            if not self._invitation_held_for_dump(me, who):
+                prefer.append("Clefairy")
             return list(dict.fromkeys(prefer))
         if strat.name == "demolish":
             if not any(self._is_ogerpon(me.card(m.card_i)) for m in me.in_play()) and not any(
@@ -1581,6 +1594,12 @@ class Game:
                 elif copies:
                     score -= 4
             score += self._print_value(card, strat) / 20.0
+            if strat.name == "party" and name == "clefairy":
+                if self._invitation_attack(card):
+                    score += 6 if self._invitation_mon(me) is None else -3
+                elif any("moon-watching" in (abi.name or "").lower() for abi in card.abilities):
+                    if self._invitation_mon(me) is not None:
+                        score += 4
             if card.is_basic:
                 score += 1
             if card.hp >= 140:
@@ -1641,16 +1660,20 @@ class Game:
         self.rng.shuffle(me.deck)
         return found
 
-    def _call_family(self, me: Player, who: str, count: int = 1) -> None:
+    def _call_family(self, me: Player, who: str, count: int = 1, name: str | None = None) -> None:
         strat = self.strats[who]
         prefer = [p.lower() for p in self._pokemon_search_prefer(me, who)]
         allow = {n.lower() for n in strat.search_aces}
+        want = (name or "").lower()
         if strat.hold_as_energy:
             aces = {n.lower() for n in strat.search_aces}
             if aces and not self._name_in_zones(me, aces, "play+hand+deck"):
                 allow |= {n.lower() for n in strat.backups}
         slots = self.rules.bench_size - len(me.bench)
         take = min(count, max(0, slots))
+        if want == "clefairy" and strat.name == "party":
+            cap_left = max(0, self._clefairy_play_cap(me) - self._count_named_in_play(me, "Clefairy"))
+            take = min(take, cap_left)
         for _ in range(take):
             scored: list[tuple[float, int]] = []
             in_play = {me.card(m.card_i).name.lower() for m in me.in_play()}
@@ -1658,16 +1681,22 @@ class Game:
                 card = me.card(card_i)
                 if not card.is_basic:
                     continue
-                name = card.name.lower()
-                if strat.hold_as_energy and allow and name not in allow:
+                card_name = card.name.lower()
+                if want and card_name != want:
+                    continue
+                if not want and strat.hold_as_energy and allow and card_name not in allow:
                     continue
                 score = 0.0
-                if name in prefer:
-                    score += 20 - prefer.index(name)
-                if name in in_play:
+                if card_name in prefer:
+                    score += 20 - prefer.index(card_name)
+                if card_name in in_play:
                     score -= 4
                 if card.hp >= 140:
                     score += 2
+                if want == "clefairy" and any(
+                    "moon-watching" in (abi.name or "").lower() for abi in card.abilities
+                ):
+                    score += 8
                 scored.append((score, card_i))
             if not scored:
                 break
@@ -1676,6 +1705,8 @@ class Game:
             me.deck.remove(card_i)
             me.bench.append(Pokemon(card_i=card_i, played_turn=self.turn))
             self._bump("call_family")
+            if want:
+                self._bump("moon_viewing_invitation")
             self._log(f"{me.name} Call for Family benches {me.card(card_i).name}")
             self.rng.shuffle(me.deck)
 
@@ -1826,6 +1857,10 @@ class Game:
                     if self._copy_would_ko(me, foe, me.active, card, extra_colorless=1):
                         return me.active
             mewtwo = self._mewtwo_mon(me)
+            if self._want_invitation_line(me, foe, who):
+                unpaid = self._unpaid_invitation_mon(me)
+                if unpaid is not None:
+                    return unpaid
             if mewtwo is not None:
                 return mewtwo
             if me.active and self._is_wall_mon(me, me.active) and not me.active.energy:
@@ -2085,7 +2120,12 @@ class Game:
             elif effect.get("kind") == "draw":
                 self._draw(me, int(effect.get("amount") or 1))
             elif effect.get("kind") == "call_family":
-                self._call_family(me, who, count=int(effect.get("count") or 1))
+                self._call_family(
+                    me,
+                    who,
+                    count=int(effect.get("count") or 1),
+                    name=effect.get("name"),
+                )
             elif effect.get("kind") == "search_item":
                 prefer = ["Ultra Ball", "Poké Ball", "Poke Ball", "Energy Search", "Energy Switch", "Trekking Shoes"]
                 self._search_items(me, count=int(effect.get("count") or 2), prefer_names=prefer)
@@ -2455,6 +2495,7 @@ class Game:
                 else:
                     score += 100 if need_balls else 25
             if any(e.get("kind") == "call_family" for e in atk.effects):
+                fam = next(e for e in atk.effects if e.get("kind") == "call_family")
                 slots = self.rules.bench_size - len(me.bench)
                 missing_ace = [
                     n
@@ -2462,7 +2503,11 @@ class Game:
                     if n.lower() not in {me.card(m.card_i).name.lower() for m in me.in_play()}
                     and n.lower() not in {me.card(i).name.lower() for i in me.hand}
                 ]
-                if strat.hold_as_energy:
+                if strat.name == "party" and (fam.get("name") or "").lower() == "clefairy":
+                    who = "a" if me.name == "A" else "b"
+                    dump = self._invitation_dump_available(me, who, fam)
+                    score += (90 + 20 * dump) if dump else -50
+                elif strat.hold_as_energy:
                     score += 80 if slots > 0 and missing_ace else -40
                 else:
                     score += 70 if slots > 0 and missing_ace else (20 if slots > 0 else -20)
@@ -2486,12 +2531,14 @@ class Game:
                 best, best_score = atk, score
         if strat.name == "party" and best is not None:
             effective = self._effective_damage(me, foe, self._resolved_attack(me, foe, best))
-            transfer = any(e.get("kind") == "transfer_charge" for e in best.effects)
-            if effective <= 0 and not transfer:
+            setup = any(
+                e.get("kind") in {"transfer_charge", "call_family"} for e in best.effects
+            )
+            if effective <= 0 and not setup:
                 return None
             if (
                 effective < foe_hp
-                and not transfer
+                and not setup
                 and "mewtwo" in card.name.lower()
             ):
                 return None
@@ -3309,6 +3356,68 @@ class Game:
             return 1
         return 3
 
+    def _invitation_attack(self, card) -> Attack | None:
+        for atk in card.attacks:
+            for effect in atk.effects:
+                if effect.get("kind") == "call_family" and (effect.get("name") or "").lower() == "clefairy":
+                    return atk
+        return None
+
+    def _invitation_dump_available(self, me: Player, who: str, fam: dict[str, Any] | None = None) -> int:
+        slots = self.rules.bench_size - len(me.bench)
+        in_deck = sum(1 for i in me.deck if self._is_clefairy(me.card(i)))
+        cap_left = max(0, self._clefairy_play_cap(me) - self._count_named_in_play(me, "Clefairy"))
+        count = int((fam or {}).get("count") or 3)
+        return min(count, slots, in_deck, cap_left)
+
+    def _invitation_mon(self, me: Player) -> Pokemon | None:
+        for mon in me.in_play():
+            if self._invitation_attack(me.card(mon.card_i)):
+                return mon
+        return None
+
+    def _unpaid_invitation_mon(self, me: Player) -> Pokemon | None:
+        for mon in me.in_play():
+            atk = self._invitation_attack(me.card(mon.card_i))
+            if atk is None:
+                continue
+            if not can_pay_energy(self._energy_pool(me, mon), atk.cost):
+                return mon
+        return None
+
+    def _want_invitation_line(self, me: Player, foe: Player, who: str) -> bool:
+        """Spend the attack on 151 Invitation to bench Party engines when Switch is gone.
+
+        This ends the turn on 60 HP. Vs Ogerpon that is often a prize next turn; the
+        dump still has to beat 4× Party with no rotation.
+        """
+        if self.strats[who].name != "party":
+            return False
+        if self._photon_ko(me, foe):
+            return False
+        inv = self._invitation_mon(me)
+        if inv is None:
+            return False
+        atk = self._invitation_attack(me.card(inv.card_i))
+        if atk is None:
+            return False
+        dump = self._invitation_dump_available(me, who, {"count": 3})
+        if dump < 1:
+            return False
+        can_pay = can_pay_energy(self._energy_pool(me, inv), atk.cost)
+        if not can_pay and not self._hand_has_psychic_attach(me, who):
+            return False
+        if dump >= 2:
+            return True
+        return self._count_named_in_play(me, "Clefairy") <= 1
+
+    def _invitation_held_for_dump(self, me: Player, who: str) -> bool:
+        if self._clefairy_play_cap(me) <= 1:
+            return False
+        if any(self._invitation_attack(me.card(m.card_i)) for m in me.in_play()):
+            return True
+        return any(self._invitation_attack(me.card(i)) for i in me.hand)
+
     def _vs_lightning_glass(self, who: str) -> bool:
         """Matchups where Mewtwo should open and Clefairy stays mostly as energy."""
         foe_who = "b" if who == "a" else "a"
@@ -3750,6 +3859,9 @@ class Game:
             # bring a loaded Clefairy Active for Wonder Storm after the attach step.
             if storm:
                 break
+            if self._want_invitation_line(me, foe, who):
+                # Stay on Invitation so the 0-damage dump can fire; Party rotation would steal the attack.
+                break
             unused_fueled = next(
                 (
                     idx
@@ -3936,6 +4048,19 @@ class Game:
             return
         if self._want_storm_line(me, foe, who):
             self._retreat_party_storm(me, foe, who)
+            return
+        if self._want_invitation_line(me, foe, who):
+            if me.active and self._invitation_attack(me.card(me.active.card_i)):
+                atk = self._invitation_attack(me.card(me.active.card_i))
+                if atk and can_pay_energy(self._energy_pool(me, me.active), atk.cost):
+                    return
+            for idx, mon in enumerate(me.bench):
+                atk = self._invitation_attack(me.card(mon.card_i))
+                if atk is None:
+                    continue
+                if can_pay_energy(self._energy_pool(me, mon), atk.cost):
+                    self._swap_to_bench(me, who, idx, allow_paid=True)
+                    return
             return
         if self._photon_ko(me, foe) or self._want_fast_line(me, foe, who):
             if self._is_mewtwo(me.card(me.active.card_i)):

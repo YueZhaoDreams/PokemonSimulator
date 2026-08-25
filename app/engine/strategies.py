@@ -194,9 +194,8 @@ STRATEGY_LIBRARY = {
             "Energy (cap 1 vs thrifty, 0 vs shock — Hydro Splash / Thunder Shock prize 60 HP "
             "engines into deck-out). Vs D: Party ramp (cap 3) → Transfer Charge → Photon "
             "(7P+Belt or 9P); Mega wall only if Mewtwo cannot eat the next 140. "
-            "One Boss's Orders to pull a prize. The last Psychic Energy is a fifth "
-            "Rebel Clash Clefable — Rule B already treats it as Psychic fuel, and it "
-            "is a 1-prize body unlike Clefable ex / Mega."
+            "151 Invitation Clefairy (if mixed in) dumps Party engines in one attack when "
+            "there is no Switch to rotate Party. One Boss's Orders to pull a prize."
         ),
         prefer_damage=0.95,
         prefer_status=0.1,
