@@ -66,12 +66,11 @@ def test_invitation_benches_party_clefairy_and_respects_cap():
     me.hand = [mewtwo]
     me.deck = list(party)
     game._call_family(me, "a", count=3, name="clefairy")
-    # Cap 3 vs Ogerpon, 1 Invitation already Active → bench 2 Party engines.
-    assert len(me.bench) == 2
-    assert [me.card(m.card_i).catalog_id for m in me.bench] == ["swsh11-062", "swsh11-062"]
-    assert game.events.get("moon_viewing_invitation") == 2
-    assert len(me.deck) == 1
-    assert me.card(me.deck[0]).catalog_id == "swsh11-062"
+    # Cap 4 vs Ogerpon, 1 Invitation already Active → bench 3 Party engines.
+    assert len(me.bench) == 3
+    assert [me.card(m.card_i).catalog_id for m in me.bench] == ["swsh11-062", "swsh11-062", "swsh11-062"]
+    assert game.events.get("moon_viewing_invitation") == 3
+    assert len(me.deck) == 0
 
 
 def test_party_attacks_with_zero_damage_invitation():
