@@ -1915,16 +1915,15 @@ class Game:
                 if metro is not None and not can_pay_energy(self._energy_pool(me, me.active), metro.cost):
                     if self._copy_would_ko(me, foe, me.active, card, extra_colorless=1):
                         return me.active
-            # Mega printed Retreat 1. Set C has no Switch. Lunar Zone zeros cost only
-            # after this Mega already has a Psychic. Keep a payer on the Demolish tank
-            # so it can leave before a third 140 (320 → 180 → 40).
+            # Wall Retreat (Mega 1, Clefable ex 2). Set C has no Switch. Lunar Zone
+            # zeros cost only after this Pokémon already has a Psychic. Bank a payer
+            # so a dying wall can rotate into the next sponge — Mewtwo stays the closer.
             if (
                 me.active
-                and "mega clefable" in me.card(me.active.card_i).name.lower()
+                and self._is_wall_mon(me, me.active)
                 and (
                     self._ogerpon_threat(foe)
-                    or self._photon_ko(me, foe)
-                    or self._want_fast_line(me, foe, who)
+                    or self._photon_finish(me, foe, who)
                 )
                 and self._retreat_cost(me, me.active) > 0
                 and len(me.active.energy) < self._retreat_cost(me, me.active)
@@ -3457,20 +3456,28 @@ class Game:
         name = me.card(mon.card_i).name.lower()
         return "mega clefable" in name or name == "clefable ex" or self._is_mewtwo(me.card(mon.card_i))
 
-    def _best_tank_idx(self, me: Player) -> int | None:
-        """Bench index of the best Demolish sponge. Prefer a body that survives 140."""
+    def _best_tank_idx(self, me: Player, require_survive: bool = False) -> int | None:
+        """Bench index of the next Demolish sponge.
+
+        Prefer a body that survives 140. Mewtwo is last among sponges — Photon is the
+        closer. We can rotate Mega / Clefable ex; Charm Ogerpon wants to stay Active.
+        """
         scored: list[tuple[int, int, int, int]] = []
         for idx, mon in enumerate(me.bench):
             if not self._is_tank_mon(me, mon):
                 continue
             survives = 1 if self._survives_demolish(me, mon) else 0
+            if require_survive and not survives:
+                continue
             name = me.card(mon.card_i).name.lower()
             if "mega clefable" in name:
                 role = 3
-            elif self._is_mewtwo(me.card(mon.card_i)):
+            elif name == "clefable ex":
                 role = 2
-            else:
+            elif self._is_mewtwo(me.card(mon.card_i)):
                 role = 1
+            else:
+                role = 0
             hp = self._max_hp(me, mon) - mon.damage
             scored.append((survives, role, hp, idx))
         if not scored:
@@ -3482,13 +3489,15 @@ class Game:
         """Never leave 60 HP Clefairy Active into Demolish."""
         if not me.active or not me.bench:
             return False
-        if self._photon_ko(me, foe) or self._want_fast_line(me, foe, who):
+        if self._photon_finish(me, foe, who):
             return False
         if not self._ogerpon_threat(foe):
             return False
         if self._is_tank_mon(me, me.active) and self._survives_demolish(me, me.active):
             return True
-        idx = self._best_tank_idx(me)
+        idx = self._best_tank_idx(me, require_survive=True)
+        if idx is None:
+            idx = self._best_tank_idx(me)
         if idx is None:
             return False
         return self._swap_to_bench(me, who, idx, allow_paid=True)
@@ -3789,8 +3798,16 @@ class Game:
         # Glass matchups default to Wonder Storm; do not Transfer-Charge stall.
         if self._want_storm_line(me, foe, who):
             return False
-        # Load Mewtwo while tanking; Photon can fire the turn after.
-        return self._ogerpon_threat(foe)
+        # Vs D, keep Mega / Clefable ex in front and load Mewtwo on the bench. Do not
+        # Transfer-Charge the closer into Demolish unless Photon actually finishes.
+        return False
+
+    def _photon_finish(self, me: Player, foe: Player, who: str) -> bool:
+        """True when Mewtwo should come Active for the last hit."""
+        if self._photon_ko(me, foe):
+            return True
+        sim = self._simulate_fast_line(me, foe, who)
+        return bool(sim and (sim["ko_next"] or sim["ko_next_no_attach"]))
 
     def _want_storm_line(self, me: Player, foe: Player, who: str) -> bool:
         """Wonder Storm vs Lightning looks free, but Thunder Shock para-locks 60 HP Clefairy.
@@ -4194,7 +4211,7 @@ class Game:
                 ):
                     self._swap_to_bench(me, who, best[1], allow_paid=False)
             return
-        if self._photon_ko(me, foe) or self._want_fast_line(me, foe, who):
+        if self._photon_finish(me, foe, who):
             return
         if self._ogerpon_threat(foe):
             self._end_on_tank(me, foe, who)
@@ -4317,6 +4334,11 @@ class Game:
         # Hop-stocked Shooting Moons can take this prize now; do not retreat to Transfer Charge.
         if self._want_mega_rush(me, foe, who):
             return False
+        if self._ogerpon_threat(foe) and me.active and self._is_tank_mon(me, me.active):
+            if self._survives_demolish(me, me.active):
+                return False
+            if self._best_tank_idx(me, require_survive=True) is not None and not self._photon_finish(me, foe, who):
+                return False
         return self._want_fast_line(me, foe, who)
 
     def _retreat_for_transfer(self, me: Player, who: str) -> None:
@@ -4356,25 +4378,27 @@ class Game:
                 ):
                     self._swap_to_bench(me, who, idx, allow_paid=True)
                     return
-        if self._photon_ko(me, foe) or self._want_fast_line(me, foe, who):
+        # Last hit: rotate any wall into Mewtwo. Photon is in play, not only on Active.
+        if self._photon_finish(me, foe, who):
             if self._is_mewtwo(me.card(me.active.card_i)):
                 return
             for idx, mon in enumerate(me.bench):
                 if self._is_mewtwo(me.card(mon.card_i)):
                     self._swap_to_bench(me, who, idx, allow_paid=True)
                     return
-        # Mega must leave before a third Demolish (320 → 180 → 40).
-        if me.active and "mega clefable" in me.card(me.active.card_i).name.lower() and self._mega_dies_to_next_demolish(me):
-            for idx, mon in enumerate(me.bench):
-                if self._is_mewtwo(me.card(mon.card_i)):
-                    if self._swap_to_bench(me, who, idx, allow_paid=True):
-                        return
-            for idx, mon in enumerate(me.bench):
-                if me.card(mon.card_i).name.lower() == "clefable ex":
-                    if self._swap_to_bench(me, who, idx, allow_paid=True):
-                        return
-            return
-        if self._want_fast_line(me, foe, who):
+        # Dying wall: another Mega / Clefable ex soaks the next 140. Opponent cannot
+        # rotate Charm Ogerpon off Demolish the same way. Mewtwo only if no sponge left.
+        if (
+            me.active
+            and self._ogerpon_threat(foe)
+            and self._is_tank_mon(me, me.active)
+            and not self._survives_demolish(me, me.active)
+        ):
+            idx = self._best_tank_idx(me, require_survive=True)
+            if idx is None:
+                idx = self._best_tank_idx(me)
+            if idx is not None:
+                self._swap_to_bench(me, who, idx, allow_paid=True)
             return
         if self._ogerpon_threat(foe):
             self._end_on_tank(me, foe, who)

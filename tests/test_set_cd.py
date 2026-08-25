@@ -241,7 +241,7 @@ def test_mega_tank_keeps_retreat_energy_vs_demolish():
 
 
 def test_dying_mega_attaches_then_retreats_to_mewtwo():
-    """After two Demolishes (40 HP left), attach the retreat payer then leave to Mewtwo."""
+    """Last sponge: after two Demolishes, pay Retreat 1 and leave to Mewtwo."""
     game = _cd_game()
     me = game.players["a"]
     foe = game.players["b"]
@@ -265,6 +265,82 @@ def test_dying_mega_attaches_then_retreats_to_mewtwo():
     assert game._is_mewtwo(me.card(me.active.card_i))
     assert me.retreated is True
     assert paid in me.discard
+
+
+def test_dying_mega_rotates_to_another_mega_not_mewtwo():
+    """Vs D we can cycle walls; keep Mewtwo benched until Photon finishes."""
+    game = _cd_game()
+    me = game.players["a"]
+    foe = game.players["b"]
+    megas = [i for i, card in enumerate(me.cards) if "Mega Clefable" in card.name]
+    mewtwo = next(i for i, card in enumerate(me.cards) if card.name == "Mewtwo ex")
+    fuel = next(i for i, card in enumerate(me.cards) if card.name == "Clefable")
+    oger = next(i for i, card in enumerate(foe.cards) if "Ogerpon" in card.name)
+    fighting = next(i for i, card in enumerate(foe.cards) if card.name == "Fighting Energy")
+    dce = next(i for i, card in enumerate(foe.cards) if card.name == "Double Colorless Energy")
+    me.active = Pokemon(card_i=megas[0], damage=280, energy=[fuel], played_turn=0)
+    me.bench = [
+        Pokemon(card_i=mewtwo, played_turn=0),
+        Pokemon(card_i=megas[1], played_turn=0),
+    ]
+    me.retreated = False
+    foe.active = Pokemon(card_i=oger, energy=[fighting, dce])
+    assert not game._survives_demolish(me, me.active)
+    game._maybe_retreat(me, foe, "a")
+    assert me.active.card_i == megas[1]
+    assert game._survives_demolish(me, me.active)
+    assert not game._is_mewtwo(me.card(me.active.card_i))
+
+
+def test_dying_mega_rotates_to_clefable_ex_before_mewtwo():
+    game = _cd_game()
+    me = game.players["a"]
+    foe = game.players["b"]
+    mega = next(i for i, card in enumerate(me.cards) if "Mega Clefable" in card.name)
+    ex = next(i for i, card in enumerate(me.cards) if card.name == "Clefable ex")
+    mewtwo = next(i for i, card in enumerate(me.cards) if card.name == "Mewtwo ex")
+    fuel = next(i for i, card in enumerate(me.cards) if card.name == "Clefable")
+    oger = next(i for i, card in enumerate(foe.cards) if "Ogerpon" in card.name)
+    fighting = next(i for i, card in enumerate(foe.cards) if card.name == "Fighting Energy")
+    dce = next(i for i, card in enumerate(foe.cards) if card.name == "Double Colorless Energy")
+    me.active = Pokemon(card_i=mega, damage=280, energy=[fuel], played_turn=0)
+    me.bench = [
+        Pokemon(card_i=mewtwo, played_turn=0),
+        Pokemon(card_i=ex, played_turn=0),
+    ]
+    me.retreated = False
+    foe.active = Pokemon(card_i=oger, energy=[fighting, dce])
+    game._maybe_retreat(me, foe, "a")
+    assert me.card(me.active.card_i).name.lower() == "clefable ex"
+    assert game._survives_demolish(me, me.active)
+
+
+def test_photon_finish_rotates_dying_wall_to_mewtwo():
+    """When Photon KOs now, skip the extra sponge and take the last hit."""
+    game = _cd_game()
+    me = game.players["a"]
+    foe = game.players["b"]
+    megas = [i for i, card in enumerate(me.cards) if "Mega Clefable" in card.name]
+    mewtwo = next(i for i, card in enumerate(me.cards) if card.name == "Mewtwo ex")
+    fuels = [i for i, card in enumerate(me.cards) if card.name == "Clefable"]
+    oger = next(i for i, card in enumerate(foe.cards) if "Ogerpon" in card.name)
+    fighting = next(i for i, card in enumerate(foe.cards) if card.name == "Fighting Energy")
+    dce = next(i for i, card in enumerate(foe.cards) if card.name == "Double Colorless Energy")
+    clefs = [i for i, card in enumerate(me.cards) if card.name == "Clefairy"]
+    me.active = Pokemon(card_i=megas[0], damage=280, energy=[fuels[0]], played_turn=0)
+    me.bench = [
+        Pokemon(card_i=mewtwo, energy=[fuels[1], fuels[2]], played_turn=0),
+        Pokemon(card_i=megas[1], played_turn=0),
+        Pokemon(card_i=clefs[0], played_turn=0),
+    ]
+    extras = [i for i, card in enumerate(me.cards) if card.name == "Clefable ex"]
+    me.bench[-1].energy = extras + [fuels[3], clefs[1]]
+    me.retreated = False
+    foe.active = Pokemon(card_i=oger, energy=[fighting, dce])
+    assert game._count_psychic_energy_in_play(me) >= 9
+    assert game._photon_ko(me, foe)
+    game._maybe_retreat(me, foe, "a")
+    assert game._is_mewtwo(me.card(me.active.card_i))
 
 
 def test_party_while_mega_walls_then_restores():

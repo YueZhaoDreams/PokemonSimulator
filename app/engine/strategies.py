@@ -192,8 +192,9 @@ STRATEGY_LIBRARY = {
         description=(
             "Set C Clefairy / Mewtwo: vs A/B open on Mewtwo and keep Clefairy mostly as Psychic "
             "Energy (cap 1 vs thrifty, 0 vs shock — Hydro Splash / Thunder Shock prize 60 HP "
-            "engines into deck-out). Vs D: Party ramp (cap 3) → Transfer Charge → Photon "
-            "(7P+Belt or 9P); Mega wall only if Mewtwo cannot eat the next 140. "
+            "engines into deck-out). Vs D: rotate Mega (two 140s) and Clefable ex (one 140) in "
+            "front; Mewtwo Photons the last hit (7P+Belt or 9P). A dying wall swaps to the next "
+            "sponge — we can rotate, Charm Ogerpon wants to stay Active. "
             "151 Invitation Clefairy (if mixed in) dumps Party engines in one attack when "
             "there is no Switch to rotate Party. One Boss's Orders to pull a prize. "
             "Trainer order: hunt Maximum Belt (Arven before Tool Box), then Hop or "
