@@ -286,12 +286,9 @@ class Game:
         aces = {n.lower() for n in strat.search_aces}
         if name in closers:
             if strat.name == "party":
-                # Vs D play both Mewtwo as 230 HP sponges. Vs A/B/S/T the spare is Psychic Energy.
-                n = self._count_named_in_play(me, name)
-                if n >= self._mewtwo_play_cap(me):
-                    return False
-                slots = (1 if me.active is None else 0) + (self.rules.bench_size - len(me.bench))
-                return slots > 0
+                # One Mewtwo on the field. The spare attaches as Psychic Energy
+                # (previously always-protected, so it sat dead in hand).
+                return self._count_named_in_play(me, name) == 0
             return self._count_named_in_play(me, name) == 0
         if strat.name == "party":
             if "mega clefable" in name:
@@ -346,9 +343,10 @@ class Game:
         if name in closers:
             closer_out = any(n in closers for n in self._in_play_names(player))
             if strat.name == "party":
-                # Vs D: both copies. Vs others: one closer, spare is Psychic Energy.
-                # Retreat / Photon already pick the surviving / loaded copy when both are out.
-                return self._count_named_in_play(player, name) < self._mewtwo_play_cap(player)
+                # One Mewtwo from hand. Playing both vs D splits Photon fuel and
+                # donates a second 2-prize body (C vs D 47%). If both occupy the
+                # field anyway, retreat/Photon pick the surviving / loaded copy.
+                return self._count_named_in_play(player, name) < 1
             return (ace_out or not ace_reachable) and not closer_out
 
         if strat.name == "slash" and name == "sprigatito":
@@ -3569,18 +3567,6 @@ class Game:
                 continue
             return True
         return False
-
-    def _mewtwo_play_cap(self, me: Player) -> int:
-        """How many Mewtwo ex to put in play.
-
-        Vs Ogerpon: both copies (230 HP / 2 prizes each, rotate the dying one).
-        Vs everyone else: one Photon closer; the spare is Psychic Energy.
-        """
-        who = "a" if me.name == "A" else "b"
-        foe_who = "b" if who == "a" else "a"
-        if self.strats[foe_who].name == "demolish":
-            return 2
-        return 1
 
     def _clefairy_play_cap(self, me: Player) -> int:
         """How many Clefairies to put in play for Party.

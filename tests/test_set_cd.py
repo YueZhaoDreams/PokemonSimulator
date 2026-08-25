@@ -364,8 +364,8 @@ def test_dying_mewtwo_retreats_to_mega():
     assert me.retreated is True
 
 
-def test_party_plays_second_mewtwo_vs_ogerpon():
-    """Vs D both Mewtwo occupy the field as 230 HP sponges."""
+def test_party_keeps_second_mewtwo_as_energy():
+    """Second Mewtwo from hand is Psychic Energy, including vs D (play-2 is a 47% line)."""
     game = _cd_game()
     me = game.players["a"]
     mewtwos = [i for i, card in enumerate(me.cards) if card.name == "Mewtwo ex"]
@@ -374,9 +374,8 @@ def test_party_plays_second_mewtwo_vs_ogerpon():
     me.hand = [mewtwos[1]]
     strat = StrategySpec.from_dict("party")
     card = me.card(mewtwos[1])
-    assert game._mewtwo_play_cap(me) == 2
-    assert game._wants_in_play(me, card, strat) is True
-    assert game._is_protected_from_energy(me, card, strat) is True
+    assert game._wants_in_play(me, card, strat) is False
+    assert game._is_protected_from_energy(me, card, strat) is False
 
 
 def test_party_keeps_second_mewtwo_as_energy_vs_shock():
@@ -395,7 +394,6 @@ def test_party_keeps_second_mewtwo_as_energy_vs_shock():
     me.hand = [mewtwos[1]]
     strat = StrategySpec.from_dict("party")
     card = me.card(mewtwos[1])
-    assert game._mewtwo_play_cap(me) == 1
     assert game._wants_in_play(me, card, strat) is False
     assert game._is_protected_from_energy(me, card, strat) is False
 
