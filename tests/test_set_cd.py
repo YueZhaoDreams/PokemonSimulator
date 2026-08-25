@@ -758,25 +758,56 @@ def test_party_picks_lillie_over_hop_on_own_first_turn():
     game = _cd_game()
     game.first = "b"
     game.turn = 2
+    game._allow_lillie = True
     me, ids = _party_trainer_board(game)
     me.cards.append(fallback_named("Lillie"))
     li = len(me.cards) - 1
-    me.hand = [li, ids["hop"], ids["search"]]
+    me.hand = [li, ids["hop"]]
     me.deck = ids["fillers"]
     picked = game._pick_trainer(me)
     assert picked is not None
     assert me.card(picked).name == "Lillie"
 
 
+def test_party_dumps_search_and_nest_before_lillie():
+    """Lillie fills to 6/8; play the items first so it draws more."""
+    game = _cd_game()
+    game.first = "b"
+    game.turn = 2
+    game._allow_lillie = True
+    me, ids = _party_trainer_board(game)
+    me.cards.append(fallback_named("Lillie"))
+    li = len(me.cards) - 1
+    me.hand = [li, ids["hop"], ids["search"], ids["nest"]]
+    me.deck = ids["fillers"]
+    picked = game._pick_trainer(me)
+    assert picked is not None
+    assert me.card(picked).name in {"Energy Search", "Nest Ball"}
+
+
+def test_party_holds_lillie_until_after_evolve():
+    game = _cd_game()
+    game.first = "b"
+    game.turn = 2
+    game._allow_lillie = False
+    me, ids = _party_trainer_board(game)
+    me.cards.append(fallback_named("Lillie"))
+    li = len(me.cards) - 1
+    me.hand = [li, ids["hop"]]
+    me.deck = ids["fillers"]
+    assert game._pick_trainer(me) is None
+
+
 def test_party_picks_hop_over_lillie_when_hand_is_already_full():
     game = _cd_game()
     game.first = "a"
     game.turn = 4
+    game._allow_lillie = True
     me, ids = _party_trainer_board(game)
     me.cards.append(fallback_named("Lillie"))
     li = len(me.cards) - 1
-    me.hand = [li, ids["hop"], ids["search"], ids["nest"], ids["fillers"][0], ids["fillers"][1]]
-    me.deck = ids["fillers"][2:]
+    me.hand = [li, ids["hop"], ids["fillers"][0], ids["fillers"][1], ids["fillers"][2]]
+    me.deck = ids["fillers"][3:]
     picked = game._pick_trainer(me)
     assert picked is not None
     assert me.card(picked).name == "Hop"

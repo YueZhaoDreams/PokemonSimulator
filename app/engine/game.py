@@ -122,6 +122,8 @@ class Game:
         # Frigid Fangs: player key → max attached Energy that still cannot attack.
         self.energy_attack_lock: dict[str, int] = {}
         self.flip_script_used = False
+        # Tests pick trainers without taking a turn. A live turn sets this False until evolve.
+        self._allow_lillie = True
 
     def _log(self, message: str) -> None:
         if self.trace_on:
@@ -580,6 +582,7 @@ class Game:
                 return True
 
         self.flip_script_used = False
+        self._allow_lillie = False
         if me.pending_item_lock:
             me.item_lock = True
             me.pending_item_lock = False
@@ -592,6 +595,7 @@ class Game:
             self._play_basics(me)
         self._use_abilities(me, foe, who)
         self._evolve(me, foe, who)
+        self._allow_lillie = True
         self._play_basics(me)
         if self.strats[who].name in {"party", "demolish", "slash", "shock", "thrifty", "phantom"}:
             self._play_trainers(me, foe, who)
@@ -820,6 +824,37 @@ class Game:
             target = 8 if self._is_players_first_turn(who) else 6
         after = len(me.hand) - (1 if still_in_hand else 0)
         return max(0, min(target - after, len(me.deck)))
+
+    def _hand_has_lillie(self, me: Player) -> bool:
+        return any(me.card(i).name.lower() == "lillie" for i in me.hand)
+
+    def _lillie_dump_pending(self, me: Player, who: str) -> bool:
+        """Playable items/tools still in hand. Dump them so Lillie draws until 6/8."""
+        slots = self.rules.bench_size - len(me.bench)
+        for card_i in me.hand:
+            card = me.card(card_i)
+            if not card.is_trainer or card.is_supporter:
+                continue
+            if card.is_item and me.item_lock:
+                continue
+            name = card.name.lower()
+            if name == "energy search" and me.deck:
+                return True
+            if name in {"nest ball", "nesting ball"} and slots > 0:
+                return True
+            if name == "tool box" and me.deck:
+                return True
+            if self._is_tool_card(card) and self._tool_target(me, who, card) is not None:
+                return True
+        return False
+
+    def _hold_draw_for_lillie(self, me: Player, who: str) -> bool:
+        """Hop-before-tutor is wrong when Lillie is the draw: empty the hand first."""
+        if not self._hand_has_lillie(me):
+            return False
+        if not getattr(self, "_allow_lillie", True):
+            return True
+        return self._lillie_dump_pending(me, who)
 
     def _can_play_supporter(self, who: str) -> bool:
         if not self.rules.first_player_no_supporter:
@@ -1055,7 +1090,9 @@ class Game:
                 else:
                     score += 6
             elif name == "hop":
-                if strat.name == "crunch":
+                if self._hold_draw_for_lillie(me, who):
+                    score -= 50
+                elif strat.name == "crunch":
                     # Thin toward ≤3 for Crunch-Time Rush; avoid deck-out.
                     if len(me.deck) <= 3:
                         score -= 20
@@ -1079,18 +1116,20 @@ class Game:
                 else:
                     score += 3
             elif name == "lillie":
-                n = self._lillie_draw_n(me, who, still_in_hand=True)
-                if n <= 0:
-                    score -= 8
-                elif strat.name == "party" and self._want_storm_line(me, foe, who):
-                    score -= 20
-                elif len(me.deck) <= 8:
-                    score -= 10
-                elif strat.name == "party":
-                    # Same slot as Hop: draw before tutors. More cards than Hop outranks Hop.
-                    score += 17 + (n - 3)
+                if self._hold_draw_for_lillie(me, who):
+                    score -= 50
                 else:
-                    score += 3 + max(0, n - 3)
+                    n = self._lillie_draw_n(me, who, still_in_hand=True)
+                    if n <= 0:
+                        score -= 8
+                    elif strat.name == "party" and self._want_storm_line(me, foe, who):
+                        score -= 20
+                    elif len(me.deck) <= 8:
+                        score -= 10
+                    elif strat.name == "party":
+                        score += 17 + (n - 3)
+                    else:
+                        score += 3 + max(0, n - 3)
             elif name == "jacq":
                 if strat.name == "slash":
                     have_flora = any(self._is_floragato(me.card(m.card_i)) for m in me.in_play()) or any(
