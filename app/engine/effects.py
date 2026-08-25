@@ -6,6 +6,28 @@ from typing import Any
 from app.engine.models import Attack
 
 
+_TYPE_GLYPHS = {
+    "{g}": "grass",
+    "{r}": "fire",
+    "{w}": "water",
+    "{l}": "lightning",
+    "{p}": "psychic",
+    "{f}": "fighting",
+    "{d}": "darkness",
+    "{m}": "metal",
+    "{y}": "fairy",
+    "{n}": "dragon",
+    "{c}": "colorless",
+}
+
+
+def _normalize_card_text(text: str) -> str:
+    t = (text or "").lower().replace("pokémon", "pokemon").replace("poké", "poke")
+    for glyph, name in _TYPE_GLYPHS.items():
+        t = t.replace(glyph, name)
+    return t
+
+
 def parse_damage(raw: Any) -> int:
     if raw is None or raw == "":
         return 0
@@ -35,7 +57,7 @@ def parse_ability_effects(text: str) -> list[dict[str, Any]]:
     that is not in this text. Attacks already go through parse_effects; abilities
     must go through this function before the engine attaches, searches, or looks.
     """
-    t = (text or "").lower().replace("pokémon", "pokemon").replace("poké", "poke")
+    t = _normalize_card_text(text)
     effects: list[dict[str, Any]] = []
     if not t:
         return effects
@@ -94,6 +116,17 @@ def parse_ability_effects(text: str) -> list[dict[str, Any]]:
             }
         )
 
+    # Lillie's Clefairy ex Fairy Zone: opponent Dragon Weakness becomes Psychic ×2.
+    if "dragon" in t and "weakness" in t and "psychic" in t and "opponent" in t:
+        effects.append(
+            {
+                "kind": "fairy_zone",
+                "pokemon_type": "Dragon",
+                "weakness": "Psychic",
+                "multiplier": 2,
+            }
+        )
+
     # Jungle Mr. Mime Invisible Wall: prevent attack damage ≥ threshold after W/R.
     if (
         ("30 or more" in t or "30 or more damage" in t)
@@ -110,7 +143,7 @@ def parse_ability_effects(text: str) -> list[dict[str, Any]]:
 
 
 def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
-    t = (text or "").lower().replace("pokémon", "pokemon").replace("poké", "poke")
+    t = _normalize_card_text(text)
     effects: list[dict[str, Any]] = []
     coin = "flip a coin" in t or ("flip" in t and "heads" in t)
 
@@ -221,7 +254,16 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
     # Plusle Plus Damage / Jungle Meditate: N more for each damage counter on the defender.
     counter_bonus = re.search(r"(\d+) more damage for each damage counter", t)
     psychic_ref = "psychic energy" in t or "{p} energy" in t or "{p}" in t
-    if counter_bonus and ("opponent" in t or "defending" in t):
+    both_bench = re.search(r"(\d+) more damage for each benched pokemon", t)
+    if both_bench and ("both" in t or "yours and" in t):
+        effects.append(
+            {
+                "kind": "benched_pokemon_bonus",
+                "per": int(both_bench.group(1)),
+                "sides": "both",
+            }
+        )
+    elif counter_bonus and ("opponent" in t or "defending" in t):
         effects.append({"kind": "damage_counter_bonus", "per": int(counter_bonus.group(1))})
     elif psychic_ref and "more damage" in t and "for each" in t:
         n = re.search(r"(\d+) more damage for each", t)

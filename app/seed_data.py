@@ -77,7 +77,7 @@ SET_B_NAMES = [
 
 # Set C — Clefairy / Mewtwo vs Charm Ogerpon. 30: 4 Rebel Clash Clefable (name cap) + 4th Mega
 # + Boss's Orders. No dedicated Energy; Rule B treats the line as Psychic. Clefable / Clefable ex /
-# Mega Clefable ex are different names (4 each). TWM/CLC share the Clefable name. Maximum Belt is ACE SPEC.
+# 3 Mega Clefable ex + 1 Lillie's Clefairy ex (Fairy Zone vs Dragon). TWM/CLC share the Clefable name.
 # Tool Box tutors it from the top 7; Arven is the full-deck Tool + Item search.
 # Moon-Watching Party is LOR 62 full-deck search.
 SET_C_NAMES = (
@@ -85,7 +85,8 @@ SET_C_NAMES = (
     + ["Mewtwo ex"] * 2
     + ["Clefable"] * 4
     + ["Clefable ex"] * 4
-    + ["Mega Clefable ex"] * 4
+    + ["Mega Clefable ex"] * 3
+    + ["Lillie's Clefairy ex"]
     + ["Hop"] * 3
     + ["Nest Ball"] * 2
     + ["Energy Search"] * 3
@@ -581,6 +582,32 @@ for card in [
             Ability(
                 name="Luminous Wing",
                 text="Prevent all effects of your opponent's Pokémon's Abilities done to this Pokémon.",
+            )
+        ],
+    ),
+    _pkm(
+        "Lillie's Clefairy ex",
+        "Basic",
+        ["Psychic"],
+        190,
+        [
+            _atk(
+                "Full Moon Rondo",
+                ["Psychic", "Colorless"],
+                20,
+                "This attack does 20 more damage for each Benched Pokémon (both yours and your opponent's).",
+            )
+        ],
+        catalog_id="sv09-056",
+        weakness="Metal",
+        retreat=1,
+        abilities=[
+            Ability(
+                name="Fairy Zone",
+                text=(
+                    "The Weakness of each of your opponent's Dragon Pokémon in play is now Psychic. "
+                    "(Apply Weakness as ×2.)"
+                ),
             )
         ],
     ),

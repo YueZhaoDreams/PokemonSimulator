@@ -16,7 +16,8 @@ def test_set_cd_counts():
     assert sum(1 for x in c if x.name == "Mewtwo ex") == 2
     assert sum(1 for x in c if x.name == "Clefable") == 4
     assert sum(1 for x in c if x.name == "Clefable ex") == 4
-    assert sum(1 for x in c if x.name == "Mega Clefable ex") == 4
+    assert sum(1 for x in c if x.name == "Mega Clefable ex") == 3
+    assert sum(1 for x in c if x.name == "Lillie's Clefairy ex") == 1
     assert sum(1 for x in c if x.name == "Hop") == 3
     assert sum(1 for x in c if x.name == "Nest Ball") == 2
     assert sum(1 for x in c if x.name == "Energy Search") == 3
@@ -653,3 +654,52 @@ def test_mega_rush_skips_transfer_charge_combo():
     foe.active = Pokemon(card_i=dozo)
     assert game._want_mega_rush(me, foe, "a") is True
     assert game._should_transfer_combo(me, foe) is False
+
+
+def test_fairy_zone_parses_and_doubles_psychic_not_lightning():
+    from app.engine.effects import parse_ability_effects
+    from app.seed_data import SET_T_NAMES
+
+    lillie = fallback_named("Lillie's Clefairy ex")
+    zone = next(a for a in lillie.abilities if a.name == "Fairy Zone")
+    assert any(e.get("kind") == "fairy_zone" and e.get("weakness") == "Psychic" for e in parse_ability_effects(zone.text))
+    assert any(
+        e.get("kind") == "fairy_zone"
+        for e in parse_ability_effects(
+            "The Weakness of each of your opponent's {N} Pokémon in play is now {P}. (Apply Weakness as ×2.)"
+        )
+    )
+    rondo = next(a for a in lillie.attacks if a.name == "Full Moon Rondo")
+    assert any(e.get("kind") == "benched_pokemon_bonus" and e.get("per") == 20 and e.get("sides") == "both" for e in rondo.effects)
+
+    c = build_fallback_deck(list(SET_C_NAMES))
+    t = build_fallback_deck(list(SET_T_NAMES))
+    game = Game(c, t, default_family_rules(), StrategySpec.from_dict("party"), StrategySpec.from_dict("phantom"), Random(1))
+    me = game.players["a"]
+    foe = game.players["b"]
+    mega = next(i for i, card in enumerate(me.cards) if "Mega Clefable" in card.name)
+    lillie_i = next(i for i, card in enumerate(me.cards) if "Lillie's Clefairy" in card.name)
+    mewtwo = next(i for i, card in enumerate(me.cards) if card.name == "Mewtwo ex")
+    fuels = [i for i, card in enumerate(me.cards) if card.name == "Clefable"]
+    drap = next(i for i, card in enumerate(foe.cards) if card.name == "Dragapult ex")
+    me.active = Pokemon(card_i=mega, energy=list(fuels[:2]))
+    me.bench = [Pokemon(card_i=lillie_i)]
+    me.hand = [fuels[2]]
+    foe.active = Pokemon(card_i=drap)
+    moons = next(a for a in me.card(mega).attacks if a.name == "Shooting Moons")
+    # 120 + 40 one discard, Psychic vs Fairy Zone = 320.
+    assert game._raw_attack_damage(me, foe, me.active, moons) == 320
+    me.active = Pokemon(card_i=mewtwo, energy=list(fuels[:2]))
+    photon = next(a for a in me.card(mewtwo).attacks if "Kinesis" in a.name)
+    # Paradox Rift Mewtwo is Lightning; Fairy Zone is Psychic Weakness, so no ×2.
+    assert game._raw_attack_damage(me, foe, me.active, photon) == 10 + 30 * 2
+    rondo = next(a for a in me.card(lillie_i).attacks if a.name == "Full Moon Rondo")
+    me.active = Pokemon(card_i=lillie_i, energy=list(fuels[:2]))
+    me.bench = [Pokemon(card_i=mega)]
+    # 20 + 20×1 our bench ×2 = 80.
+    assert game._raw_attack_damage(me, foe, me.active, rondo) == 80
+    assert game._wants_in_play(me, me.card(lillie_i), game.strats["a"]) is False  # already in play as Active; copies>=1
+    me.bench = []
+    me.active = Pokemon(card_i=mega)
+    assert game._wants_in_play(me, me.card(lillie_i), game.strats["a"]) is True
+

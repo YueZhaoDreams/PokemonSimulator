@@ -290,6 +290,8 @@ class Game:
         if strat.name == "party":
             if "mega clefable" in name:
                 return self._copies_hand_and_play(me, "Mega Clefable ex") <= 1
+            if "lillie's clefairy" in name:
+                return True
             if name == "clefable ex":
                 return self._copies_hand_and_play(me, "Clefable ex") <= 1
             if name == "clefable":
@@ -343,6 +345,11 @@ class Game:
                 # Mewtwo is the Demolish tank as well as the closer — play it even before Clefairy.
                 return not closer_out
             return (ace_out or not ace_reachable) and not closer_out
+
+        if strat.name == "party" and "lillie's clefairy" in name:
+            who = "a" if player.name == "A" else "b"
+            foe = self.players["b" if who == "a" else "a"]
+            return copies < 1 and self._want_fairy_zone(player, foe, who)
 
         if strat.name == "slash" and name == "sprigatito":
             # One attacker to evolve; extras are Grass energy.
@@ -1442,6 +1449,13 @@ class Game:
             prefer: list[str] = []
             if self._mewtwo_mon(me) is None and not any(self._is_mewtwo(me.card(i)) for i in me.hand):
                 prefer.append("Mewtwo ex")
+            who = "a" if me.name == "A" else "b"
+            foe = self.players["b" if who == "a" else "a"]
+            if self._want_fairy_zone(me, foe, who) and not any(
+                "lillie's clefairy" in me.card(i).name.lower()
+                for i in list(me.hand) + [m.card_i for m in me.in_play()]
+            ):
+                prefer.append("Lillie's Clefairy ex")
             # Only tutor Clefairy when the matchup still wants the Party engine board.
             if self._clefairy_play_cap(me) > 0 and not self._invitation_held_for_dump(me, who):
                 prefer.append("Clefairy")
@@ -2364,7 +2378,9 @@ class Game:
         active_hp = self._max_hp(foe, foe.active) - foe.active.damage
         dmg = amount
         if attacker:
-            dmg = amount * weakness_multiplier(foe.card(foe.active.card_i).weaknesses, attacker.types)
+            dmg = amount * weakness_multiplier(
+                self._defender_weaknesses(me, foe, foe.card(foe.active.card_i)), attacker.types
+            )
             dmg = max(0, dmg - resistance_reduce(foe.card(foe.active.card_i).resistances, attacker.types))
         if dmg >= active_hp > 0 or not foe.bench:
             foe.active.damage += dmg
@@ -2820,6 +2836,41 @@ class Game:
     def _is_clefairy(self, card: Card) -> bool:
         return card.name.lower() == "clefairy"
 
+    def _is_lillie_clefairy(self, card: Card) -> bool:
+        return "lillie's clefairy" in card.name.lower()
+
+    def _is_dragon(self, card: Card) -> bool:
+        return "Dragon" in (card.types or [])
+
+    def _want_fairy_zone(self, me: Player, foe: Player, who: str) -> bool:
+        foe_who = "b" if who == "a" else "a"
+        if self.strats[foe_who].name == "phantom":
+            return True
+        return any(self._is_dragon(foe.card(m.card_i)) for m in foe.in_play())
+
+    def _fairy_zone_in_play(self, me: Player) -> bool:
+        for mon in me.in_play():
+            for abi in me.card(mon.card_i).abilities:
+                if any(e.get("kind") == "fairy_zone" for e in self._ability_effects(abi)):
+                    return True
+        return False
+
+    def _ability_blocks_ability_effects(self, card: Card) -> bool:
+        for abi in card.abilities:
+            t = (abi.text or "").lower()
+            if "prevent all effects" in t and "abilities" in t:
+                return True
+        return False
+
+    def _defender_weaknesses(self, me: Player, foe: Player, defender: Card) -> list[dict[str, str]]:
+        if (
+            self._is_dragon(defender)
+            and self._fairy_zone_in_play(me)
+            and not self._ability_blocks_ability_effects(defender)
+        ):
+            return [{"type": "Psychic", "value": "×2"}]
+        return list(defender.weaknesses or [])
+
     def _is_mewtwo(self, card: Card) -> bool:
         return "mewtwo" in card.name.lower()
 
@@ -2948,6 +2999,17 @@ class Game:
                 if effect.get("kind") == "psychic_energy_bonus":
                     per = int(effect.get("per") or 30)
             dmg = atk.damage + per * self._count_psychic_energy_in_play(me)
+        elif any(e.get("kind") == "benched_pokemon_bonus" for e in atk.effects):
+            per = 20
+            sides = "both"
+            for effect in atk.effects:
+                if effect.get("kind") == "benched_pokemon_bonus":
+                    per = int(effect.get("per") or 20)
+                    sides = str(effect.get("sides") or "both")
+            n = len(me.bench)
+            if sides == "both":
+                n += len(foe.bench)
+            dmg = atk.damage + per * n
         elif self._damage_counter_bonus(atk) is not None:
             dmg = atk.damage + self._damage_counter_bonus(atk) * (foe.active.damage // 10)
         elif any(e.get("kind") == "times" for e in atk.effects):
@@ -2967,7 +3029,7 @@ class Game:
             atk.text or ""
         ).lower()
         if not ignore_wr:
-            dmg *= weakness_multiplier(defender.weaknesses, attacker.types)
+            dmg *= weakness_multiplier(self._defender_weaknesses(me, foe, defender), attacker.types)
             dmg = max(0, dmg - resistance_reduce(defender.resistances, attacker.types))
         if self._stance_prevents(attacker, defender):
             self._bump("stance_block")
@@ -3295,6 +3357,8 @@ class Game:
         name = me.card(card_i).name.lower()
         if "mewtwo" in name:
             return False
+        if "lillie's clefairy" in name:
+            return False
         # Keep 1 Clefable-line copy in hand, play, or deck as a Pokémon; extras are energy.
         if "mega clefable" in name or name in {"clefable ex", "clefable"}:
             total = sum(
@@ -3484,6 +3548,10 @@ class Game:
             if not is_basic_energy(card, pokemon_as_energy=self.rules.pokemon_as_energy):
                 continue
             if self._is_mewtwo(card):
+                continue
+            if self._is_lillie_clefairy(card) and not any(
+                self._is_lillie_clefairy(me.card(m.card_i)) for m in me.in_play()
+            ):
                 continue
             name = card.name.lower()
             if "mega clefable" in name and self._mega_mon(me) is None:
