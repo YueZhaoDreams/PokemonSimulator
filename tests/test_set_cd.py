@@ -7,6 +7,14 @@ from app.engine.strategies import StrategySpec
 from app.seed_data import SET_C_NAMES, SET_D_NAMES, build_fallback_deck, fallback_named
 
 
+def _rcl_fuels(me):
+    return [i for i, card in enumerate(me.cards) if card.name == "Clefable"]
+
+
+def _ex_fuels(me):
+    return [i for i, card in enumerate(me.cards) if card.name == "Clefable ex"]
+
+
 def test_set_cd_counts():
     assert len(SET_C_NAMES) == 30
     assert len(SET_D_NAMES) == 30
@@ -14,9 +22,9 @@ def test_set_cd_counts():
     d = build_fallback_deck(list(SET_D_NAMES))
     assert sum(1 for x in c if x.name == "Clefairy") == 4
     assert sum(1 for x in c if x.name == "Mewtwo ex") == 2
-    assert sum(1 for x in c if x.name == "Clefable") == 4
+    assert sum(1 for x in c if x.name == "Clefable") == 3
     assert sum(1 for x in c if x.name == "Clefable ex") == 4
-    assert sum(1 for x in c if x.name == "Mega Clefable ex") == 3
+    assert sum(1 for x in c if x.name == "Mega Clefable ex") == 4
     assert sum(1 for x in c if x.name == "Lillie's Clefairy ex") == 1
     assert sum(1 for x in c if x.name == "Hop") == 3
     assert sum(1 for x in c if x.name == "Nest Ball") == 2
@@ -92,12 +100,13 @@ def test_moon_watching_party_searches_one_per_benched_clefairy():
     game = Game(c, d, default_family_rules(), StrategySpec.from_dict("party"), StrategySpec.from_dict("demolish"), Random(1))
     me = game.players["a"]
     clefs = [i for i, card in enumerate(me.cards) if card.name == "Clefairy"]
-    fuels = [i for i, card in enumerate(me.cards) if card.name == "Clefable"]
+    fuels = _rcl_fuels(me)
+    extra = _ex_fuels(me)
     me.active = Pokemon(card_i=clefs[0])
     me.bench = [Pokemon(card_i=clefs[1]), Pokemon(card_i=clefs[2])]
     fillers = [i for i, card in enumerate(me.cards) if card.name in {"Energy Search", "Arven", "Hop", "Nest Ball"}]
     me.deck = fillers + fuels[:3]
-    me.hand = [fuels[3]]
+    me.hand = [extra[0]]
     game._moon_watching_party(me, me.active)
     assert [len(m.energy) for m in me.bench] == [1, 1]
     assert me.active.ability_used is True
@@ -160,7 +169,7 @@ def test_moon_watching_party_uses_deck_clefable_as_energy():
     me.deck = list(fuels)
     game._moon_watching_party(me, me.active)
     assert [len(m.energy) for m in me.bench] == [1, 1]
-    assert sum(1 for i in me.deck if me.card(i).name == "Clefable") == 2
+    assert sum(1 for i in me.deck if me.card(i).name == "Clefable") == 1
 
 
 def test_party_vs_demolish_game_completes():
@@ -242,8 +251,9 @@ def test_party_while_mega_walls_then_restores():
         Pokemon(card_i=zone),
         Pokemon(card_i=mewtwo),
     ]
-    me.hand = [fuels[3], switch]
-    me.deck = fillers + [fuels[2]]
+    extra = _ex_fuels(me)
+    me.hand = [switch]
+    me.deck = fillers + extra[:2]
     foe.active = Pokemon(card_i=oger, energy=[fighting, dce])
     game._use_abilities(me, foe, "a")
     assert "mega clefable" in me.card(me.active.card_i).name.lower()
@@ -414,10 +424,11 @@ def test_wonder_storm_kos_pikachu_with_four_psychic():
     me = game.players["a"]
     foe = game.players["b"]
     clefs = [i for i, card in enumerate(me.cards) if card.name == "Clefairy"]
-    fuels = [i for i, card in enumerate(me.cards) if card.name == "Clefable"]
+    fuels = _rcl_fuels(me)
+    extra = _ex_fuels(me)
     pika = next(i for i, card in enumerate(foe.cards) if card.name == "Pikachu")
     me.active = Pokemon(card_i=clefs[0], energy=fuels[:3], ability_used=True, played_turn=0)
-    me.bench = [Pokemon(card_i=clefs[1], energy=[fuels[3]], ability_used=True, played_turn=0)]
+    me.bench = [Pokemon(card_i=clefs[1], energy=[extra[0]], ability_used=True, played_turn=0)]
     foe.active = Pokemon(card_i=pika)
     assert game._can_pay_wonder_storm(me, me.active)
     assert game._count_psychic_energy_in_play(me) == 4
@@ -579,10 +590,11 @@ def test_shooting_moons_discards_one_energy_to_ko_dondozo():
     me = game.players["a"]
     foe = game.players["b"]
     mega = next(i for i, card in enumerate(me.cards) if "Mega Clefable" in card.name)
-    fuels = [i for i, card in enumerate(me.cards) if card.name == "Clefable"]
+    fuels = _rcl_fuels(me)
+    extra = _ex_fuels(me)
     dozo = next(i for i, card in enumerate(foe.cards) if card.name == "Dondozo")
     me.active = Pokemon(card_i=mega, energy=list(fuels[:2]))
-    me.hand = list(fuels[2:4])
+    me.hand = [fuels[2], extra[0]]
     foe.active = Pokemon(card_i=dozo)
     moons = next(a for a in me.card(mega).attacks if a.name == "Shooting Moons")
     assert game._raw_attack_damage(me, foe, me.active, moons) == 160

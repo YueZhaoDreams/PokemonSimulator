@@ -77,15 +77,15 @@ SET_B_NAMES = [
 
 # Set C — Clefairy / Mewtwo vs Charm Ogerpon. 30: 4 Rebel Clash Clefable (name cap) + 4th Mega
 # + Boss's Orders. No dedicated Energy; Rule B treats the line as Psychic. Clefable / Clefable ex /
-# 3 Mega Clefable ex + 1 Lillie's Clefairy ex (Fairy Zone vs Dragon). TWM/CLC share the Clefable name.
+# 3 Rebel Clash Clefable + 4 Mega + 1 Lillie's Clefairy ex (Fairy Zone vs Dragon).
 # Tool Box tutors it from the top 7; Arven is the full-deck Tool + Item search.
 # Moon-Watching Party is LOR 62 full-deck search.
 SET_C_NAMES = (
     ["Clefairy"] * 4
     + ["Mewtwo ex"] * 2
-    + ["Clefable"] * 4
+    + ["Clefable"] * 3
     + ["Clefable ex"] * 4
-    + ["Mega Clefable ex"] * 3
+    + ["Mega Clefable ex"] * 4
     + ["Lillie's Clefairy ex"]
     + ["Hop"] * 3
     + ["Nest Ball"] * 2

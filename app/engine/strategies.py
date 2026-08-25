@@ -199,8 +199,9 @@ STRATEGY_LIBRARY = {
             "Trainer order: hunt Maximum Belt (Arven before Tool Box), then Hop, then "
             "Energy Search / Nest Ball. Vs Dragapult: bench Lillie's Clefairy ex (Fairy Zone "
             "sets Dragon Weakness to Psychic ×2) so Psychic Mega / Rondo double; Paradox Rift "
-            "Mewtwo is Lightning so Photon does not get that ×2. If Shooting Moons can KO "
-            "(hand Energy discards, not vs Cornerstone Stance), evolve Mega Clefable ex "
+            "Mewtwo is Lightning so Photon does not get that ×2. Cut a Rebel Clash Clefable "
+            "for the slot (better C-row than cutting Mega or Clefable ex). If Shooting Moons "
+            "can KO (hand Energy discards, not vs Cornerstone Stance), evolve Mega Clefable ex "
             "instead of waiting on Photon."
         ),
         prefer_damage=0.95,
