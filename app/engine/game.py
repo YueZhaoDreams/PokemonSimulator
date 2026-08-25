@@ -1921,6 +1921,14 @@ class Game:
                         return me.active
             # Wall Retreat: Mega 1, Clefable ex 2, Mewtwo 2. Set C has no Switch.
             # Lunar Zone zeros cost only after this Pokémon already has a Psychic.
+            if self._want_ex_tank_line(me, foe):
+                mewtwo = self._mewtwo_mon(me)
+                if mewtwo is not None and not self._mewtwo_can_pay_photon(me, mewtwo):
+                    return mewtwo
+                if self._is_clefable_ex(me.card(me.active.card_i)) and not self._has_psychic_energy_on(me, me.active):
+                    return me.active
+                if mewtwo is not None:
+                    return mewtwo
             if self._want_clefairy_battery(me, foe):
                 if len(me.active.energy) < 2:
                     return me.active
@@ -3489,8 +3497,42 @@ class Game:
         return self.strats["b" if who == "a" else "a"].name == "demolish"
 
     def _mewtwo_play_cap(self, me: Player) -> int:
-        """Vs D both copies (Transfer support + Photon attacker). Else one closer."""
-        return 2 if self._facing_demolish(me) else 1
+        """Vs D: one closer if the 4-Clefairy Active-ex tank is open; else both copies."""
+        if not self._facing_demolish(me):
+            return 1
+        clef_play = self._count_named_in_play(me, "clefairy")
+        if clef_play >= 4:
+            return 1
+        clef_left = clef_play + sum(
+            1 for i in list(me.hand) + list(me.deck) if self._is_clefairy(me.card(i))
+        )
+        if clef_play >= 3 and clef_left >= 4:
+            return 1
+        return 2
+
+    def _is_clefable_ex(self, card) -> bool:
+        return card.name.lower() == "clefable ex"
+
+    def _want_ex_tank_line(self, me: Player, foe: Player) -> bool:
+        """4 Clefairy + 1 Mewtwo: Active Clefable ex soaks one 140, then Photon."""
+        if not self._facing_demolish(me) or not me.active:
+            return False
+        if len(self._mewtwo_mons(me)) != 1:
+            return False
+        clef = self._count_named_in_play(me, "clefairy")
+        if clef >= 4:
+            return True
+        return self._is_clefable_ex(me.card(me.active.card_i)) and clef >= 3
+
+    def _want_clefairy_battery(self, me: Player, foe: Player) -> bool:
+        """Vs D keep Active Clefairy as the 1-prize Demolish chump (2 energy → discard)."""
+        if not self._facing_demolish(me) or not me.active or not foe.active:
+            return False
+        if self._want_ex_tank_line(me, foe):
+            return False
+        if self._photon_ko(me, foe):
+            return False
+        return self._is_clefairy(me.card(me.active.card_i))
 
     def _main_mewtwo(self, me: Player) -> Pokemon | None:
         mons = self._mewtwo_mons(me)
@@ -3511,14 +3553,6 @@ class Game:
             if mon is not main:
                 return mon
         return None
-
-    def _want_clefairy_battery(self, me: Player, foe: Player) -> bool:
-        """Vs D keep Active Clefairy as the 1-prize Demolish chump (2 energy → discard)."""
-        if not self._facing_demolish(me) or not me.active or not foe.active:
-            return False
-        if self._photon_ko(me, foe):
-            return False
-        return self._is_clefairy(me.card(me.active.card_i))
 
     def _transfer_attack(self, card):
         return next((a for a in card.attacks if "transfer charge" in (a.name or "").lower()), None)
@@ -3637,7 +3671,7 @@ class Game:
 
         Vs Lightning (shock): 0 — Thunder Shock para-locks Wonder Storm into deck-out.
         Vs Dondozo (thrifty): at most 1 — Hydro Splash still prizes 60 HP bodies; one engine
-        is enough while Mewtwo Photons. Vs Ogerpon: up to 3 for Party / Mega setup.
+        is enough while Mewtwo Photons. Vs Ogerpon: up to 4 for the Active-ex tank line.
         """
         who = "a" if me.name == "A" else "b"
         foe_who = "b" if who == "a" else "a"
@@ -3646,6 +3680,8 @@ class Game:
             return 0
         if foe_strat == "thrifty":
             return 1
+        if foe_strat == "demolish":
+            return 4
         return 3
 
     def _invitation_attack(self, card) -> Attack | None:
@@ -4252,7 +4288,9 @@ class Game:
             return
         walling = any(self._is_tank_mon(me, mon) for mon in me.in_play())
         storm = self._want_storm_line(me, foe, who)
-        if self._want_clefairy_battery(me, foe):
+        if self._want_clefairy_battery(me, foe) or (
+            self._want_ex_tank_line(me, foe) and self._is_clefairy(me.card(me.active.card_i))
+        ):
             # Printed Party fuels every benched Clefairy in one use. Do not spend
             # retreat rotating, and do not hide behind Mega/Mewtwo while the
             # Active Clefairy is the 1-prize discard battery.
@@ -4387,7 +4425,7 @@ class Game:
                     reverse=True,
                 )
                 target = ranked[0]
-            elif prefer_active and me.active in candidates and me.active.energy:
+            elif prefer_active and me.active in candidates:
                 target = me.active
             elif prefer_active:
                 target = (fueled_used or fueled or used or candidates)[0]
@@ -4406,10 +4444,15 @@ class Game:
             return
 
         if can_kill:
-            # Still plant Lunar Zone on the bench so the Transfer support can
-            # leave for the killer without paying Retreat 2.
-            if self._facing_demolish(me) and not self._has_lunar_zone(me) and len(engines) >= 1:
+            if self._want_ex_tank_line(me, foe) and me.active and self._is_clefairy(me.card(me.active.card_i)):
+                evolve_named("Clefable ex", prefer_active=True, require_used=False)
+            elif self._facing_demolish(me) and not self._has_lunar_zone(me) and len(engines) >= 1:
                 evolve_named("Clefable ex", prefer_active=False, require_used=False)
+            return
+        if self._want_ex_tank_line(me, foe):
+            # T2: Active Clefairy → Clefable ex so 260 HP soaks Demolish; Zone is now up.
+            if me.active and self._is_clefairy(me.card(me.active.card_i)):
+                evolve_named("Clefable ex", prefer_active=True, require_used=False)
             return
         if self._want_clefairy_battery(me, foe):
             # Prankish on a benched engine; keep Active Clefairy unevolved for the 1-prize KO.
@@ -4539,6 +4582,22 @@ class Game:
                 ):
                     self._swap_to_bench(me, who, idx, allow_paid=True)
                     return
+        if self._want_ex_tank_line(me, foe):
+            if self._is_clefairy(me.card(me.active.card_i)):
+                return
+            if self._is_clefable_ex(me.card(me.active.card_i)):
+                mewtwo_idx = next(
+                    (idx for idx, mon in enumerate(me.bench) if self._is_mewtwo(me.card(mon.card_i))),
+                    None,
+                )
+                if mewtwo_idx is None:
+                    return
+                dest = me.bench[mewtwo_idx]
+                if me.active.damage > 0 and (
+                    self._photon_ko(me, foe, dest) or self._mewtwo_can_pay_photon(me, dest)
+                ):
+                    self._swap_to_bench(me, who, mewtwo_idx, allow_paid=True)
+                return
         if self._want_clefairy_battery(me, foe):
             return
         if self._support_transfer_turn(me, foe):

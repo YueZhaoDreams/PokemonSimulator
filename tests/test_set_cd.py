@@ -1134,3 +1134,77 @@ def test_bench_clefable_ex_zeros_support_retreat():
     assert me.active.card_i == mewtwos[1]
     assert me.discard == []
 
+
+def test_four_clef_loads_mewtwo_and_evolves_active_to_ex():
+    """4 Clefairy + 1 Mewtwo: Party, [P][P] on Mewtwo, T2 Active Clefable ex soaks 140."""
+    game = _cd_game()
+    game.turn = 4
+    game.first = "b"
+    me = game.players["a"]
+    foe = game.players["b"]
+    clefs = [i for i, card in enumerate(me.cards) if card.name == "Clefairy"]
+    exs = [i for i, card in enumerate(me.cards) if card.name == "Clefable ex"]
+    mewtwo = next(i for i, card in enumerate(me.cards) if card.name == "Mewtwo ex")
+    extras = [i for i, card in enumerate(me.cards) if card.name == "Clefable"]
+    belt = next(i for i, card in enumerate(me.cards) if card.name == "Maximum Belt")
+    oger = next(i for i, card in enumerate(foe.cards) if "Ogerpon" in card.name)
+    fighting = next(i for i, card in enumerate(foe.cards) if card.name == "Fighting Energy")
+    dce = next(i for i, card in enumerate(foe.cards) if card.name == "Double Colorless Energy")
+    charm = next(i for i, card in enumerate(foe.cards) if card.name == "Bravery Charm")
+    me.active = Pokemon(card_i=clefs[0], ability_used=True, played_turn=0)
+    me.bench = [
+        Pokemon(card_i=clefs[1], energy=[extras[0]], played_turn=0),
+        Pokemon(card_i=clefs[2], energy=[extras[1]], played_turn=0),
+        Pokemon(card_i=clefs[3], energy=[extras[2]], played_turn=0),
+        Pokemon(card_i=mewtwo, energy=[extras[3]], tool=belt, played_turn=0),
+    ]
+    me.hand = [exs[0], exs[1]]
+    foe.active = Pokemon(card_i=oger, energy=[fighting, dce], tool=charm)
+    assert game._clefairy_play_cap(me) == 4
+    assert game._mewtwo_play_cap(me) == 1
+    assert game._want_ex_tank_line(me, foe)
+    assert game._want_clefairy_battery(me, foe) is False
+    assert game._energy_target(me, StrategySpec.from_dict("party")) is me.bench[3]
+    game._evolve_party(me, foe, "a")
+    assert game._is_clefable_ex(me.card(me.active.card_i))
+    assert game._has_lunar_zone(me)
+    game._maybe_retreat(me, foe, "a")
+    assert game._is_clefable_ex(me.card(me.active.card_i))
+
+
+def test_four_clef_ex_attaches_then_free_retreats_to_loaded_mewtwo():
+    game = _cd_game()
+    game.turn = 5
+    game.first = "b"
+    me = game.players["a"]
+    foe = game.players["b"]
+    clefs = [i for i, card in enumerate(me.cards) if card.name == "Clefairy"]
+    exs = [i for i, card in enumerate(me.cards) if card.name == "Clefable ex"]
+    mewtwo = next(i for i, card in enumerate(me.cards) if card.name == "Mewtwo ex")
+    extras = [i for i, card in enumerate(me.cards) if card.name == "Clefable"]
+    belt = next(i for i, card in enumerate(me.cards) if card.name == "Maximum Belt")
+    oger = next(i for i, card in enumerate(foe.cards) if "Ogerpon" in card.name)
+    fighting = next(i for i, card in enumerate(foe.cards) if card.name == "Fighting Energy")
+    dce = next(i for i, card in enumerate(foe.cards) if card.name == "Double Colorless Energy")
+    charm = next(i for i, card in enumerate(foe.cards) if card.name == "Bravery Charm")
+    me.active = Pokemon(card_i=exs[0], damage=140, played_turn=0)
+    me.bench = [
+        Pokemon(card_i=clefs[0], energy=[extras[0]], played_turn=0),
+        Pokemon(card_i=clefs[1], energy=[extras[1]], played_turn=0),
+        Pokemon(card_i=clefs[2], energy=[extras[2]], played_turn=0),
+        Pokemon(card_i=mewtwo, energy=[extras[3], clefs[3]], tool=belt, played_turn=0),
+    ]
+    me.hand = [exs[1], exs[2]]
+    me.energy_attached = False
+    me.retreated = False
+    me.discard = []
+    foe.active = Pokemon(card_i=oger, energy=[fighting, dce], tool=charm)
+    assert game._want_ex_tank_line(me, foe)
+    assert game._energy_target(me, StrategySpec.from_dict("party")) is me.active
+    game._attach_energy(me, "a")
+    assert game._has_psychic_energy_on(me, me.active)
+    assert game._retreat_cost(me, me.active) == 0
+    game._maybe_retreat(me, foe, "a")
+    assert game._is_mewtwo(me.card(me.active.card_i))
+    assert me.discard == []
+
