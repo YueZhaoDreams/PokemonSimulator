@@ -247,7 +247,8 @@ Printed UPR 125: draw until 6, or until 8 on **your first turn** (not “went fi
 | list | vs A | vs B | vs D | vs S | vs T | T vs C | C avg |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | 3 Hop | 88.0% | 85.6% | **52.3%** | 82.0% | 51.2% | 50.2% | 71.8% |
-| **2 Hop + 1 Lillie** | **89.2%** | **88.7%** | 51.3% | **82.3%** | **51.3%** | **48.8%** | **72.6%** |
+| **2 Hop + 1 Lillie** (Hop-before-tutor) | **89.2%** | **88.7%** | 51.3% | **82.3%** | **51.3%** | **48.8%** | **72.6%** |
+| **2 Hop + 1 Lillie** (dump items, then Lillie, then evolve) | 88.5% | 87.9% | 51.4% | 82.1% | 51.2% | **48.1%** | **72.2%** |
 
-B is the big gain. D dips about 1 point. Set C locks 2 Hop / 1 Lillie.
+B is the big gain. D still dips about a point (Lillie later fills to 6 while Hop is +3). Holding Lillie until after evolve was worse (D 48.9%). Set C locks 2 Hop / 1 Lillie.
 
