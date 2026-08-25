@@ -204,6 +204,20 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
     if one_poke:
         effects.append({"kind": "damage_one_pokemon", "amount": int(one_poke.group(1))})
 
+    # Mega Clefable ex Shooting Moons: discard Energy from hand for bonus damage.
+    hand_discard = re.search(
+        r"discard up to (\d+) energy cards? from your hand.*?(\d+) more damage",
+        t,
+    )
+    if hand_discard and "discarded" in t:
+        effects.append(
+            {
+                "kind": "discard_hand_energy_bonus",
+                "max": int(hand_discard.group(1)),
+                "per": int(hand_discard.group(2)),
+            }
+        )
+
     # Plusle Plus Damage / Jungle Meditate: N more for each damage counter on the defender.
     counter_bonus = re.search(r"(\d+) more damage for each damage counter", t)
     psychic_ref = "psychic energy" in t or "{p} energy" in t or "{p}" in t

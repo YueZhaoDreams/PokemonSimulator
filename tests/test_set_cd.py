@@ -529,3 +529,98 @@ def test_party_attaches_found_belt_before_hop():
     picked = game._pick_trainer(me)
     assert picked is not None
     assert me.card(picked).name == "Maximum Belt"
+
+
+def test_shooting_moons_parses_hand_discard_bonus():
+    mega = fallback_named("Mega Clefable ex")
+    moons = next(a for a in mega.attacks if a.name == "Shooting Moons")
+    assert any(
+        e.get("kind") == "discard_hand_energy_bonus" and e.get("max") == 4 and e.get("per") == 40
+        for e in moons.effects
+    )
+
+
+def test_shooting_moons_discards_one_energy_to_ko_dondozo():
+    from app.seed_data import SET_A_NAMES
+
+    c = build_fallback_deck(list(SET_C_NAMES))
+    a = build_fallback_deck(list(SET_A_NAMES))
+    game = Game(c, a, default_family_rules(), StrategySpec.from_dict("party"), StrategySpec.from_dict("thrifty"), Random(1))
+    me = game.players["a"]
+    foe = game.players["b"]
+    mega = next(i for i, card in enumerate(me.cards) if "Mega Clefable" in card.name)
+    fuels = [i for i, card in enumerate(me.cards) if card.name == "Clefable"]
+    dozo = next(i for i, card in enumerate(foe.cards) if card.name == "Dondozo")
+    me.active = Pokemon(card_i=mega, energy=list(fuels[:2]))
+    me.hand = list(fuels[2:4])
+    foe.active = Pokemon(card_i=dozo)
+    moons = next(a for a in me.card(mega).attacks if a.name == "Shooting Moons")
+    assert game._raw_attack_damage(me, foe, me.active, moons) == 160
+    game._attack(me, foe, "a")
+    assert foe.active.damage >= 160
+    assert game.events.get("shooting_moons_discard") == 1
+    assert len(me.hand) == 1
+
+
+def test_mega_rush_skips_ogerpon_stance():
+    game = _cd_game()
+    game.turn = 3
+    me = game.players["a"]
+    foe = game.players["b"]
+    mega = next(i for i, card in enumerate(me.cards) if "Mega Clefable" in card.name)
+    clef = next(i for i, card in enumerate(me.cards) if card.name == "Clefairy")
+    fuels = [i for i, card in enumerate(me.cards) if card.name == "Clefable"]
+    oger = next(i for i, card in enumerate(foe.cards) if "Ogerpon" in card.name)
+    me.active = Pokemon(card_i=mega, energy=list(fuels[:2]))
+    me.hand = list(fuels[2:])
+    foe.active = Pokemon(card_i=oger)
+    assert game._want_mega_rush(me, foe, "a") is False
+    me.active = Pokemon(card_i=clef, energy=list(fuels[:2]))
+    me.hand = [mega] + fuels[2:]
+    assert game._want_mega_rush(me, foe, "a") is False
+
+
+def test_mega_rush_evolves_when_moons_kos_dondozo():
+    from app.seed_data import SET_A_NAMES
+
+    c = build_fallback_deck(list(SET_C_NAMES))
+    a = build_fallback_deck(list(SET_A_NAMES))
+    game = Game(c, a, default_family_rules(), StrategySpec.from_dict("party"), StrategySpec.from_dict("thrifty"), Random(1))
+    game.turn = 3
+    me = game.players["a"]
+    foe = game.players["b"]
+    mega = next(i for i, card in enumerate(me.cards) if "Mega Clefable" in card.name)
+    clefs = [i for i, card in enumerate(me.cards) if card.name == "Clefairy"]
+    fuels = [i for i, card in enumerate(me.cards) if card.name == "Clefable"]
+    dozo = next(i for i, card in enumerate(foe.cards) if card.name == "Dondozo")
+    me.active = Pokemon(card_i=clefs[0], energy=list(fuels[:2]), played_turn=0)
+    me.bench = []
+    me.hand = [mega, fuels[2]]
+    foe.active = Pokemon(card_i=dozo)
+    assert game._want_mega_rush(me, foe, "a") is True
+    game._evolve_party(me, foe, "a")
+    assert "mega clefable" in me.card(me.active.card_i).name.lower()
+
+
+def test_mega_rush_skips_transfer_charge_combo():
+    """A same-turn Moons KO beats retreating to Mewtwo for Transfer Charge."""
+    from app.seed_data import SET_A_NAMES
+
+    c = build_fallback_deck(list(SET_C_NAMES))
+    a = build_fallback_deck(list(SET_A_NAMES))
+    game = Game(c, a, default_family_rules(), StrategySpec.from_dict("party"), StrategySpec.from_dict("thrifty"), Random(1))
+    game.turn = 3
+    me = game.players["a"]
+    foe = game.players["b"]
+    mega = next(i for i, card in enumerate(me.cards) if "Mega Clefable" in card.name)
+    clefs = [i for i, card in enumerate(me.cards) if card.name == "Clefairy"]
+    fuels = [i for i, card in enumerate(me.cards) if card.name == "Clefable"]
+    ex_fuels = [i for i, card in enumerate(me.cards) if card.name == "Clefable ex"]
+    mewtwo = next(i for i, card in enumerate(me.cards) if card.name == "Mewtwo ex")
+    dozo = next(i for i, card in enumerate(foe.cards) if card.name == "Dondozo")
+    me.active = Pokemon(card_i=clefs[0], energy=list(fuels[:2]), played_turn=0)
+    me.bench = [Pokemon(card_i=mewtwo, energy=list(ex_fuels[:2]))]
+    me.hand = [mega, fuels[2]]
+    foe.active = Pokemon(card_i=dozo)
+    assert game._want_mega_rush(me, foe, "a") is True
+    assert game._should_transfer_combo(me, foe) is False

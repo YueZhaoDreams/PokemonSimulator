@@ -1860,6 +1860,14 @@ class Game:
             foe = self.players["b" if who == "a" else "a"]
             if self._want_storm_line(me, foe, who):
                 return self._storm_energy_target(me)
+            if self._want_mega_rush(me, foe, who):
+                mega = self._mega_mon(me)
+                if mega is not None and not self._can_pay_shooting_moons(me, mega):
+                    return mega
+                if mega is None:
+                    fueled = self._best_mega_evolve_target(me)
+                    if fueled is not None:
+                        return fueled
             if me.active:
                 card = me.card(me.active.card_i)
                 metro = next((a for a in card.attacks if self._is_copy_attack(a)), None)
@@ -2100,6 +2108,17 @@ class Game:
                 return
 
         dmg = self._raw_attack_damage(me, foe, me.active, atk)
+        moons = next((e for e in atk.effects if e.get("kind") == "discard_hand_energy_bonus"), None)
+        if moons:
+            dumped = self._plan_hand_energy_discards(me, foe, me.active, atk)
+            for card_i in dumped:
+                if card_i in me.hand:
+                    me.hand.remove(card_i)
+                    me.discard.append(card_i)
+            if dumped:
+                self._bump("shooting_moons_discard", len(dumped))
+                self._log(f"{attacker.name} discards {len(dumped)} Energy from hand")
+            dmg = self._raw_attack_damage(me, foe, me.active, atk, extra_discard_n=len(dumped))
         was_undamaged = foe.active.damage == 0
         foe.active.damage += dmg
         self._bump("damage_dealt", dmg)
@@ -2911,7 +2930,7 @@ class Game:
                 return 30
         return None
 
-    def _raw_attack_damage(self, me: Player, foe: Player, mon: Pokemon, atk) -> int:
+    def _raw_attack_damage(self, me: Player, foe: Player, mon: Pokemon, atk, extra_discard_n: int | None = None) -> int:
         if not foe.active:
             return 0
         attacker = me.card(mon.card_i)
@@ -2936,6 +2955,12 @@ class Game:
         for effect in atk.effects:
             if effect.get("kind") == "deck_count_bonus" and len(me.deck) <= int(effect.get("max_deck") or 0):
                 dmg += int(effect.get("bonus") or 0)
+            if effect.get("kind") == "discard_hand_energy_bonus":
+                per = int(effect.get("per") or 40)
+                n = extra_discard_n
+                if n is None:
+                    n = len(self._plan_hand_energy_discards(me, foe, mon, atk))
+                dmg += per * int(n)
         if mon.tool is not None:
             dmg += self._tool_damage_bonus(me, mon, defender)
         ignore_wr = any(e.get("kind") == "ignore_wr" for e in atk.effects) or "isn't affected by weakness" in (
@@ -3006,6 +3031,12 @@ class Game:
             if self.strats[who].name == "slash":
                 # Belt on the tank bricks the Floragato OHKO.
                 return None
+            if self.strats[who].name == "party":
+                foe = self.players["b" if who == "a" else "a"]
+                if self._want_mega_rush(me, foe, who):
+                    for mon in me.in_play():
+                        if mon.tool is None and "mega clefable" in me.card(mon.card_i).name.lower():
+                            return mon
             for mon in me.in_play():
                 if mon.tool is None and self._is_orthworm(me.card(mon.card_i)):
                     return mon
@@ -3438,6 +3469,113 @@ class Game:
             if "mega clefable" in me.card(mon.card_i).name.lower():
                 return mon
         return None
+
+    def _shooting_moons_attack(self, card: Card):
+        return next((a for a in card.attacks if "shooting moons" in a.name.lower()), None)
+
+    def _can_pay_shooting_moons(self, me: Player, mon: Pokemon) -> bool:
+        atk = self._shooting_moons_attack(me.card(mon.card_i))
+        return bool(atk) and can_pay_energy(self._energy_pool(me, mon), atk.cost)
+
+    def _hand_energy_discard_candidates(self, me: Player, _who: str) -> list[int]:
+        scored: list[tuple[int, int]] = []
+        for i in me.hand:
+            card = me.card(i)
+            if not is_basic_energy(card, pokemon_as_energy=self.rules.pokemon_as_energy):
+                continue
+            if self._is_mewtwo(card):
+                continue
+            name = card.name.lower()
+            if "mega clefable" in name and self._mega_mon(me) is None:
+                continue
+            if self._is_clefairy(card) and self._count_named_in_play(me, "Clefairy") < self._clefairy_play_cap(me):
+                continue
+            rank = 0
+            if name == "clefable":
+                rank = 3
+            elif name == "clefable ex":
+                rank = 2
+            elif "mega clefable" in name:
+                rank = 1
+            scored.append((rank, i))
+        scored.sort(reverse=True)
+        return [i for _, i in scored]
+
+    def _plan_hand_energy_discards(self, me: Player, foe: Player, mon: Pokemon, atk) -> list[int]:
+        eff = next((e for e in atk.effects if e.get("kind") == "discard_hand_energy_bonus"), None)
+        if eff is None or not foe.active:
+            return []
+        who = "a" if me.name == "A" else "b"
+        fuels = self._hand_energy_discard_candidates(me, who)
+        max_n = min(int(eff.get("max") or 4), len(fuels))
+        hp = self._max_hp(foe, foe.active) - foe.active.damage
+        if hp <= 0:
+            return []
+        for n in range(0, max_n + 1):
+            if self._raw_attack_damage(me, foe, mon, atk, extra_discard_n=n) >= hp:
+                return fuels[:n]
+        if self._raw_attack_damage(me, foe, mon, atk, extra_discard_n=max_n) <= 0:
+            return []
+        return fuels[:max_n]
+
+    def _shooting_moons_ko(self, me: Player, foe: Player, mon: Pokemon) -> bool:
+        if not foe.active:
+            return False
+        atk = self._shooting_moons_attack(me.card(mon.card_i))
+        if atk is None or not can_pay_energy(self._energy_pool(me, mon), atk.cost):
+            return False
+        hp = self._max_hp(foe, foe.active) - foe.active.damage
+        return self._raw_attack_damage(me, foe, mon, atk) >= hp > 0
+
+    def _best_mega_evolve_target(self, me: Player) -> Pokemon | None:
+        clefs = [m for m in me.in_play() if self._is_clefairy(me.card(m.card_i))]
+        if not clefs:
+            return None
+        return max(clefs, key=lambda m: (len(m.energy), 1 if m is me.active else 0))
+
+    def _want_mega_rush(self, me: Player, foe: Player, who: str) -> bool:
+        """Shooting Moons aggro: Hop-stocked hand discards for a two-KO prize race.
+
+        Skip vs Cornerstone Stance — Mega has an Ability, so the attack deals 0.
+        Photon still wins if it already KOs this turn.
+        """
+        if self.strats[who].name != "party" or not foe.active:
+            return False
+        if self._photon_ko(me, foe):
+            return False
+        mega_card = next((c for c in me.cards if "mega clefable" in c.name.lower()), None)
+        if mega_card is None:
+            return False
+        if self._stance_prevents(mega_card, foe.card(foe.active.card_i)):
+            return False
+        mega = self._mega_mon(me)
+        in_hand = any("mega clefable" in me.card(i).name.lower() for i in me.hand)
+        if mega is None and not in_hand:
+            return False
+        if mega is None and self._best_mega_evolve_target(me) is None:
+            return False
+        if self.rules.first_turn_no_evolve and self._is_players_first_turn(who) and mega is None:
+            return False
+        mon = mega or self._best_mega_evolve_target(me)
+        if mon is None:
+            return False
+        atk = self._shooting_moons_attack(mega_card)
+        if atk is None:
+            return False
+        if not can_pay_energy(self._energy_pool(me, mon), atk.cost):
+            probe_pool = list(self._energy_pool(me, mon))
+            if not me.energy_attached:
+                probe_pool.append("Psychic")
+            if not can_pay_energy(probe_pool, atk.cost):
+                return False
+        mega_i = next(i for i, card in enumerate(me.cards) if "mega clefable" in card.name.lower())
+        probe = (
+            mega
+            if mega is not None
+            else Pokemon(card_i=mega_i, energy=list(mon.energy), tool=mon.tool, damage=mon.damage)
+        )
+        hp = self._max_hp(foe, foe.active) - foe.active.damage
+        return self._raw_attack_damage(me, foe, probe, atk) >= hp > 0
 
     def _belt_on(self, me: Player, mon: Pokemon) -> bool:
         return mon.tool is not None and "maximum belt" in me.card(mon.tool).name.lower()
@@ -3973,7 +4111,14 @@ class Game:
             fueled = [m for m in candidates if m.energy]
             if require_used and not used:
                 return False
-            if prefer_active and me.active in candidates and me.active.energy:
+            if "mega clefable" in evo_name.lower():
+                ranked = sorted(
+                    candidates,
+                    key=lambda m: (len(m.energy), 1 if m is me.active else 0),
+                    reverse=True,
+                )
+                target = ranked[0]
+            elif prefer_active and me.active in candidates and me.active.energy:
                 target = me.active
             elif prefer_active:
                 target = (fueled_used or fueled or used or candidates)[0]
@@ -3989,8 +4134,11 @@ class Game:
         if self._try_evolve_metronome(me, foe):
             return
 
-        # Plan A (Photon): do not spend Clefairy engines on RCL / Clefable ex / Mega.
-        if can_kill or fast:
+        if can_kill:
+            return
+        if self._want_mega_rush(me, foe, who) and self._mega_mon(me) is None:
+            evolve_named("Mega Clefable ex", prefer_active=True)
+        if fast:
             return
 
         # Plan Storm: only Lunar Zone so Party can free-retreat and stack Psychic in one turn.
@@ -4040,6 +4188,9 @@ class Game:
         who = "a" if me.name == "A" else "b"
         if self._photon_ko(me, foe):
             return False
+        # Hop-stocked Shooting Moons can take this prize now; do not retreat to Transfer Charge.
+        if self._want_mega_rush(me, foe, who):
+            return False
         return self._want_fast_line(me, foe, who)
 
     def _retreat_for_transfer(self, me: Player, who: str) -> None:
@@ -4072,6 +4223,13 @@ class Game:
                     self._swap_to_bench(me, who, idx, allow_paid=True)
                     return
             return
+        if self._want_mega_rush(me, foe, who):
+            for idx, mon in enumerate(me.bench):
+                if "mega clefable" in me.card(mon.card_i).name.lower() and (
+                    self._shooting_moons_ko(me, foe, mon) or self._can_pay_shooting_moons(me, mon)
+                ):
+                    self._swap_to_bench(me, who, idx, allow_paid=True)
+                    return
         if self._photon_ko(me, foe) or self._want_fast_line(me, foe, who):
             if self._is_mewtwo(me.card(me.active.card_i)):
                 return
