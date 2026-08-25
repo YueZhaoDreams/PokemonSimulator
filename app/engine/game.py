@@ -122,8 +122,6 @@ class Game:
         # Frigid Fangs: player key → max attached Energy that still cannot attack.
         self.energy_attack_lock: dict[str, int] = {}
         self.flip_script_used = False
-        # Tests pick trainers without taking a turn. A live turn sets this False until evolve.
-        self._allow_lillie = True
 
     def _log(self, message: str) -> None:
         if self.trace_on:
@@ -582,7 +580,6 @@ class Game:
                 return True
 
         self.flip_script_used = False
-        self._allow_lillie = False
         if me.pending_item_lock:
             me.item_lock = True
             me.pending_item_lock = False
@@ -595,7 +592,6 @@ class Game:
             self._play_basics(me)
         self._use_abilities(me, foe, who)
         self._evolve(me, foe, who)
-        self._allow_lillie = True
         self._play_basics(me)
         if self.strats[who].name in {"party", "demolish", "slash", "shock", "thrifty", "phantom"}:
             self._play_trainers(me, foe, who)
@@ -849,12 +845,8 @@ class Game:
         return False
 
     def _hold_draw_for_lillie(self, me: Player, who: str) -> bool:
-        """Hop-before-tutor is wrong when Lillie is the draw: empty the hand first."""
-        if not self._hand_has_lillie(me):
-            return False
-        if not getattr(self, "_allow_lillie", True):
-            return True
-        return self._lillie_dump_pending(me, who)
+        """Hop-before-tutor is wrong when Lillie is the draw: empty playable items first."""
+        return self._hand_has_lillie(me) and self._lillie_dump_pending(me, who)
 
     def _can_play_supporter(self, who: str) -> bool:
         if not self.rules.first_player_no_supporter:
