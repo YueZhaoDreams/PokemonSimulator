@@ -3500,13 +3500,7 @@ class Game:
         """Vs D: one closer if the 4-Clefairy Active-ex tank is open; else both copies."""
         if not self._facing_demolish(me):
             return 1
-        clef_play = self._count_named_in_play(me, "clefairy")
-        if clef_play >= 4:
-            return 1
-        clef_left = clef_play + sum(
-            1 for i in list(me.hand) + list(me.deck) if self._is_clefairy(me.card(i))
-        )
-        if clef_play >= 3 and clef_left >= 4:
+        if self._count_named_in_play(me, "clefairy") >= 4:
             return 1
         return 2
 
