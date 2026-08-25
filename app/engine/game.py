@@ -1915,6 +1915,21 @@ class Game:
                 if metro is not None and not can_pay_energy(self._energy_pool(me, me.active), metro.cost):
                     if self._copy_would_ko(me, foe, me.active, card, extra_colorless=1):
                         return me.active
+            # Mega printed Retreat 1. Set C has no Switch. Lunar Zone zeros cost only
+            # after this Mega already has a Psychic. Keep a payer on the Demolish tank
+            # so it can leave before a third 140 (320 → 180 → 40).
+            if (
+                me.active
+                and "mega clefable" in me.card(me.active.card_i).name.lower()
+                and (
+                    self._ogerpon_threat(foe)
+                    or self._photon_ko(me, foe)
+                    or self._want_fast_line(me, foe, who)
+                )
+                and self._retreat_cost(me, me.active) > 0
+                and len(me.active.energy) < self._retreat_cost(me, me.active)
+            ):
+                return me.active
             mewtwo = self._mewtwo_mon(me)
             if self._want_invitation_line(me, foe, who):
                 unpaid = self._unpaid_invitation_mon(me)
