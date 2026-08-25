@@ -118,6 +118,21 @@ Vs the same 4 Mega list without bonus draws: C vs D 49.9% → **51.7%**, D vs C 
 
 Non-C cells match the mulligan table. C vs S 84.9% → **88.5%**. C vs D 51.7% → 52.3%. C vs T 46.5% → 45.9%.
 
+## Prankish saved for bench evolve (2026-08-25)
+
+Extra Clefable ex / Mega pay Photon; Prankish benches after Party. Same seed `20260819`, 3,000 / cell. Raw: `data/lab/family-cup-30-matrix.json`.
+
+|  | A | B | C | D | S | T |
+| --- | --- | --- | --- | --- | --- | --- |
+| A | — | 68.3% | 14.3% | 4.2% | 67.7% | 47.2% |
+| B | 32.3% | — | 14.8% | 1.2% | 23.2% | 50.3% |
+| C | 85.6% | 84.1% | — | 50.9% | 85.8% | 44.5% |
+| D | 95.7% | 98.7% | 50.0% | — | 39.1% | 70.5% |
+| S | 31.1% | 75.5% | 13.8% | 60.9% | — | 59.0% |
+| T | 52.8% | 49.4% | 55.3% | 30.9% | 39.8% | — |
+
+Vs Belt-then-Hop: C vs D 52.3% → 50.9%, C vs S 88.5% → 85.8%, C vs T 45.9% → 44.5%. A/B unchanged.
+
 ## 151 Invitation Clefairy instead of Party (2026-08-25)
 
 Locked C still has **no Switch**. Replacing 1–2 LOR 62 with MEW 035 (`Moon-Viewing Invitation`, bench up to 3 Clefairy) was retested after the engine learned the attack. Seed `20260819`, 3,000 / cell. Full writeup: [set-c-moon-view.md](set-c-moon-view.md).

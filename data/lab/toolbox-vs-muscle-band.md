@@ -238,3 +238,18 @@ Vs the 1-energy+Boss table: D/T are noise (48.3/47.1 → 48.6/46.3). C vs A 85.4
 
 Vs the mulligan-bonus table (previous json): cells that do not touch C are unchanged. C vs S 84.9% → **88.5%** (S vs C 14.2% → 11.8%). C vs D 51.7% → 52.3%. C vs T 46.5% → 45.9%. A/B vs C are noise (±1%).
 
+## 30-card Set C, Prankish saved for bench evolve (2026-08-25)
+
+Extra Clefable ex / Mega are Psychic fuel (keep one). Rebel Clash Prankish benches after Party instead of being the first energy attached. Same seed `20260819`, 3,000 / cell. Raw: `data/lab/family-cup-30-matrix.json`.
+
+|  | A | B | C | D | S | T |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| **A** | — | 68.3% | 14.3% | 4.2% | 67.7% | 47.2% |
+| **B** | 32.3% | — | 14.8% | 1.2% | 23.2% | 50.3% |
+| **C** | 85.6% | 84.1% | — | 50.9% | 85.8% | 44.5% |
+| **D** | 95.7% | 98.7% | 50.0% | — | 39.1% | 70.5% |
+| **S** | 31.1% | 75.5% | 13.8% | 60.9% | — | 59.0% |
+| **T** | 52.8% | 49.4% | 55.3% | 30.9% | 39.8% | — |
+
+Vs Belt-then-Hop: C vs D 52.3% → 50.9%, C vs S 88.5% → 85.8%, C vs T 45.9% → 44.5%. D vs C 47.6% → **50.0%**. Non-C cells unchanged.
+
