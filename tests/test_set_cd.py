@@ -343,6 +343,27 @@ def test_photon_finish_rotates_dying_wall_to_mewtwo():
     assert game._is_mewtwo(me.card(me.active.card_i))
 
 
+def test_dying_mewtwo_retreats_to_mega():
+    """死保超梦: after one Demolish (90 HP), Retreat 2 onto Mega even if it dumps energy."""
+    game = _cd_game()
+    me = game.players["a"]
+    foe = game.players["b"]
+    mega = next(i for i, card in enumerate(me.cards) if "Mega Clefable" in card.name)
+    mewtwo = next(i for i, card in enumerate(me.cards) if card.name == "Mewtwo ex")
+    fuels = [i for i, card in enumerate(me.cards) if card.name == "Clefable"][:2]
+    oger = next(i for i, card in enumerate(foe.cards) if "Ogerpon" in card.name)
+    fighting = next(i for i, card in enumerate(foe.cards) if card.name == "Fighting Energy")
+    dce = next(i for i, card in enumerate(foe.cards) if card.name == "Double Colorless Energy")
+    me.active = Pokemon(card_i=mewtwo, damage=140, energy=list(fuels), played_turn=0)
+    me.bench = [Pokemon(card_i=mega, played_turn=0)]
+    me.retreated = False
+    foe.active = Pokemon(card_i=oger, energy=[fighting, dce])
+    assert not game._survives_demolish(me, me.active)
+    game._maybe_retreat(me, foe, "a")
+    assert "mega clefable" in me.card(me.active.card_i).name.lower()
+    assert me.retreated is True
+
+
 def test_party_while_mega_walls_then_restores():
     game = _cd_game()
     me = game.players["a"]
