@@ -1183,7 +1183,11 @@ class Game:
             elif name in {"lillie's determination"}:
                 score += 9 if len(me.hand) <= 5 else 5
             elif name in {"boss's orders", "boss's orders (giovanni)", "boss's orders (lysandre)"}:
-                score += 8 if foe.bench else -6
+                if strat.name == "party":
+                    # Do not yank a 1-prize chump while Charm / Dondozo is still the prize race.
+                    score += 24 if self._boss_closes_this_turn(me, foe, who) else -12
+                else:
+                    score += 8 if foe.bench else -6
             elif name == "crispin":
                 score += 11 if me.in_play() else -4
             elif name in {"poké pad", "poke pad"}:
@@ -2337,6 +2341,37 @@ class Game:
         foe.active = incoming
         self._bump("boss_orders")
         self._log(f"Boss's Orders brings {foe.card(incoming.card_i).name} Active")
+
+    def _boss_pull_target(self, foe: Player) -> Pokemon | None:
+        if not foe.bench:
+            return None
+        return min(foe.bench, key=lambda m: self._max_hp(foe, m) - m.damage)
+
+    def _party_would_ko(self, me: Player, foe: Player, defender: Pokemon) -> bool:
+        """Photon (or Active attack) KOs defender, including Mewtwo still on the bench."""
+        saved = foe.active
+        foe.active = defender
+        try:
+            return self._photon_ko(me, foe) or self._can_active_ko(me, foe)
+        finally:
+            foe.active = saved
+
+    def _boss_closes_this_turn(self, me: Player, foe: Player, who: str) -> bool:
+        """True when Boss + a KO takes the last prize(s). Matches _boss_orders' HP-min pull."""
+        if self.strats[who].name != "party":
+            return False
+        if not foe.bench or not foe.active:
+            return False
+        remaining = self.rules.prize_count - me.prizes_taken
+        if remaining <= 0:
+            return False
+        if self._party_would_ko(me, foe, foe.active):
+            if self._prizes_for_ko(foe.card(foe.active.card_i)) >= remaining:
+                return False
+        target = self._boss_pull_target(foe)
+        if target is None or not self._party_would_ko(me, foe, target):
+            return False
+        return self._prizes_for_ko(foe.card(target.card_i)) >= remaining
 
     def _crispin(self, me: Player, who: str) -> None:
         types_seen: dict[str, int] = {}

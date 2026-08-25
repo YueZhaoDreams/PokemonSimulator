@@ -482,6 +482,7 @@ def _party_trainer_board(game):
         "search": next(i for i, card in enumerate(me.cards) if card.name == "Energy Search"),
         "nest": next(i for i, card in enumerate(me.cards) if card.name == "Nest Ball"),
         "belt": next(i for i, card in enumerate(me.cards) if card.name == "Maximum Belt"),
+        "boss": next(i for i, card in enumerate(me.cards) if card.name == "Boss's Orders"),
         "fillers": fillers,
     }
 
@@ -780,4 +781,31 @@ def test_party_picks_hop_over_lillie_when_hand_is_already_full():
     picked = game._pick_trainer(me)
     assert picked is not None
     assert me.card(picked).name == "Hop"
+
+
+def test_party_holds_boss_until_it_closes_the_game():
+    """6P+Belt = 240: KOs a 210 Ogerpon, not Charm 260. Boss only when that wins."""
+    game = _cd_game()
+    game.turn = 5
+    me, ids = _party_trainer_board(game)
+    foe = game.players["b"]
+    ogers = [i for i, card in enumerate(foe.cards) if "Ogerpon" in card.name]
+    charm = next(i for i, card in enumerate(foe.cards) if card.name == "Bravery Charm")
+    mewtwo = next(i for i, card in enumerate(me.cards) if card.name == "Mewtwo ex")
+    fuels = ids["fillers"][:6]
+    me.active = Pokemon(card_i=mewtwo, energy=list(fuels), tool=ids["belt"], played_turn=0)
+    me.bench = [Pokemon(card_i=next(i for i, c in enumerate(me.cards) if c.name == "Clefairy"), played_turn=0)]
+    foe.active = Pokemon(card_i=ogers[0], tool=charm)
+    foe.bench = [Pokemon(card_i=ogers[1])]
+    me.hand = [ids["boss"], ids["hop"]]
+    used = {ids["boss"], ids["hop"], mewtwo, me.bench[0].card_i, ids["belt"], *fuels}
+    me.deck = [i for i in range(len(me.cards)) if i not in used]
+    me.prizes_taken = 0
+    picked = game._pick_trainer(me)
+    assert picked is not None
+    assert me.card(picked).name == "Hop"
+    me.prizes_taken = 1
+    picked = game._pick_trainer(me)
+    assert picked is not None
+    assert me.card(picked).name == "Boss's Orders"
 

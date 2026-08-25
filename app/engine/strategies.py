@@ -198,6 +198,7 @@ STRATEGY_LIBRARY = {
             "there is no Switch to rotate Party. One Boss's Orders to pull a prize. "
             "Trainer order: hunt Maximum Belt (Arven before Tool Box), then Hop or "
             "Lillie (until 6, or 8 on your first turn) before Energy Search / Nest. "
+            "Boss's Orders only to take the last prize(s). "
             "If Shooting Moons can KO (hand Energy discards, "
             "not vs Cornerstone Stance), evolve Mega Clefable ex instead of waiting on Photon."
         ),
