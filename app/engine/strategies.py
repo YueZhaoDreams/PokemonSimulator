@@ -197,7 +197,8 @@ STRATEGY_LIBRARY = {
             "151 Invitation Clefairy (if mixed in) dumps Party engines in one attack when "
             "there is no Switch to rotate Party. One Boss's Orders to pull a prize. "
             "Trainer order: hunt Maximum Belt (Arven before Tool Box), then Hop, then "
-            "Energy Search / Nest Ball."
+            "Energy Search / Nest Ball. Extra Clefable ex / Mega are Psychic fuel (keep one); "
+            "Prankish Clefable benches after Party so it can bounce energy without retreat."
         ),
         prefer_damage=0.95,
         prefer_status=0.1,

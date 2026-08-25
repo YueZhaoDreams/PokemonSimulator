@@ -1505,7 +1505,8 @@ class Game:
                 prefer.append("Mega Clefable ex")
             if not self._has_lunar_zone(me):
                 prefer.append("Clefable ex")
-            prefer.extend(["Clefable", "Clefable ex", "Mega Clefable ex"])
+            # Extras of ex / Mega are fuel. Prankish Clefable stays last so it can bench-evolve.
+            prefer.extend(["Clefable ex", "Mega Clefable ex", "Clefable"])
             if not self._invitation_held_for_dump(me, who):
                 prefer.append("Clefairy")
             return list(dict.fromkeys(prefer))
@@ -1971,6 +1972,14 @@ class Game:
             et = pkm.as_energy_type
             score = 2 if et in need else 0
             score -= 1 if pkm.hp >= 120 else 0
+            if strat.name == "party":
+                name = pkm.name.lower()
+                if name == "clefable":
+                    # Prankish is a bench evolve that steals a turn; do not burn it first.
+                    score -= 6
+                elif name == "clefable ex" or "mega clefable" in name:
+                    # One copy is already protected; extras are Psychic fuel.
+                    score += 3
             candidates.append((score, i))
         if not candidates:
             return energies[0] if energies else None
@@ -3647,15 +3656,16 @@ class Game:
 
         def score(card_i: int) -> int:
             name = me.card(card_i).name.lower()
-            if name == "clefable":
-                return 0
             if name == "clefable ex":
-                return 1
+                return 0
             if "mega clefable" in name:
-                return 2
+                return 1
+            if name == "clefable":
+                # Last among the line: Prankish should stay in deck/hand for a bench evolve.
+                return 4
             if self._is_clefairy(me.card(card_i)):
                 return 3
-            return 4
+            return 2
 
         return min(fuels, key=score)
 
@@ -3989,8 +3999,15 @@ class Game:
         if self._try_evolve_metronome(me, foe):
             return
 
-        # Plan A (Photon): do not spend Clefairy engines on RCL / Clefable ex / Mega.
-        if can_kill or fast:
+        # Photon KO this turn: keep every Clefairy. Otherwise bench-evolve Prankish
+        # even on the fast line — bouncing energy is a free turn and does not retreat.
+        if can_kill:
+            return
+        if foe.active and foe.active.energy and len(engines) >= 2:
+            evolve_named("Clefable", prefer_active=False, require_used=True)
+
+        # Plan A (Photon): do not spend leftover engines on ex / Mega walls.
+        if fast:
             return
 
         # Plan Storm: only Lunar Zone so Party can free-retreat and stack Psychic in one turn.
@@ -4000,16 +4017,6 @@ class Game:
             if not self._has_lunar_zone(me) and len(engines) >= 2:
                 evolve_named("Clefable ex", prefer_active=False, require_used=True)
             return
-
-        # Prankish only if bouncing energy actually delays Demolish and a used engine exists.
-        if (
-            foe.active
-            and self._is_ogerpon(foe.card(foe.active.card_i))
-            and foe.active.energy
-            and self._prankish_stops_demolish(foe)
-            and len(engines) >= 2
-        ):
-            evolve_named("Clefable", prefer_active=False, require_used=True)
 
         if self._foe_can_demolish(foe):
             mewtwo = self._mewtwo_mon(me)

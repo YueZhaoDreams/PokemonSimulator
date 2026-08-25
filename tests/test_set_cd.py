@@ -529,3 +529,57 @@ def test_party_attaches_found_belt_before_hop():
     picked = game._pick_trainer(me)
     assert picked is not None
     assert me.card(picked).name == "Maximum Belt"
+
+
+def test_party_fuel_prefers_extra_clefable_ex_over_prankish():
+    game = _cd_game()
+    me = game.players["a"]
+    clefs = [i for i, card in enumerate(me.cards) if card.name == "Clefairy"]
+    fables = [i for i, card in enumerate(me.cards) if card.name == "Clefable"]
+    exes = [i for i, card in enumerate(me.cards) if card.name == "Clefable ex"]
+    me.active = Pokemon(card_i=clefs[0])
+    me.bench = [Pokemon(card_i=clefs[1])]
+    me.hand = [fables[0], exes[0]]
+    me.deck = [exes[1], fables[1]]
+    picked = game._pick_party_fuel_from_deck(me, "Psychic")
+    assert picked == exes[1]
+
+
+def test_party_hand_attaches_extra_ex_not_prankish():
+    game = _cd_game()
+    me = game.players["a"]
+    mewtwo = next(i for i, card in enumerate(me.cards) if card.name == "Mewtwo ex")
+    fables = [i for i, card in enumerate(me.cards) if card.name == "Clefable"]
+    exes = [i for i, card in enumerate(me.cards) if card.name == "Clefable ex"]
+    me.active = Pokemon(card_i=mewtwo)
+    me.bench = []
+    me.hand = [fables[0], fables[1], exes[0], exes[1]]
+    chosen = game._choose_energy_card(me, me.active, StrategySpec.from_dict("party"))
+    assert chosen in {exes[0], exes[1]}
+
+
+def test_evolve_party_benches_prankish_after_party_without_retreat():
+    """Prankish on a used benched Clefairy bounces energy and leaves Active in place."""
+    game = _cd_game()
+    game.turn = 3
+    me = game.players["a"]
+    foe = game.players["b"]
+    clefs = [i for i, card in enumerate(me.cards) if card.name == "Clefairy"]
+    fable = next(i for i, card in enumerate(me.cards) if card.name == "Clefable")
+    mewtwo = next(i for i, card in enumerate(me.cards) if card.name == "Mewtwo ex")
+    oger = next(i for i, card in enumerate(foe.cards) if "Ogerpon" in card.name)
+    fighting = next(i for i, card in enumerate(foe.cards) if card.name == "Fighting Energy")
+    dce = next(i for i, card in enumerate(foe.cards) if card.name == "Double Colorless Energy")
+    me.active = Pokemon(card_i=clefs[0], ability_used=False, played_turn=0)
+    me.bench = [
+        Pokemon(card_i=clefs[1], ability_used=True, played_turn=0),
+        Pokemon(card_i=mewtwo, played_turn=0),
+    ]
+    me.hand = [fable]
+    foe.active = Pokemon(card_i=oger, energy=[fighting, dce])
+    foe.deck = []
+    game._evolve_party(me, foe, "a")
+    assert game._is_clefairy(me.card(me.active.card_i))
+    assert any(me.card(m.card_i).name == "Clefable" for m in me.bench)
+    assert fighting == foe.deck[0]
+    assert me.retreated is False
