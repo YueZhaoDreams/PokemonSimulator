@@ -223,3 +223,18 @@ The last Psychic Energy is now a fifth Rebel Clash **Clefable** (Prankish, 1 pri
 
 Vs the 1-energy+Boss table: D/T are noise (48.3/47.1 → 48.6/46.3). C vs A 85.4% → **86.8%**. Dedicated Energy is gone from Set C.
 
+## 30-card Set C, Belt-then-Hop trainer order (2026-08-25)
+
+`party` now hunts Maximum Belt (Arven before Tool Box), then Hop, then Energy Search / Nest Ball. Same lists, seed `20260819`, 3,000 games / ordered pair. Raw: `data/lab/family-cup-30-matrix.json`.
+
+|  | A | B | C | D | S | T |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| **A** | — | 68.3% | 15.1% | 4.2% | 67.7% | 47.2% |
+| **B** | 32.3% | — | 14.8% | 1.2% | 23.2% | 50.3% |
+| **C** | 85.7% | 84.1% | — | **52.3%** | **88.5%** | 45.9% |
+| **D** | 95.7% | 98.7% | 47.6% | — | 39.1% | 70.5% |
+| **S** | 31.1% | 75.5% | 11.8% | 60.9% | — | 59.0% |
+| **T** | 52.8% | 49.4% | 53.6% | 30.9% | 39.8% | — |
+
+Vs the mulligan-bonus table (previous json): cells that do not touch C are unchanged. C vs S 84.9% → **88.5%** (S vs C 14.2% → 11.8%). C vs D 51.7% → 52.3%. C vs T 46.5% → 45.9%. A/B vs C are noise (±1%).
+

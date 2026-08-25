@@ -103,6 +103,21 @@ Full A–T matrix after this rule (3,000 / cell, seed `20260819`):
 
 Vs the same 4 Mega list without bonus draws: C vs D 49.9% → **51.7%**, D vs C 51.0% → 46.6%, S vs D 57.9% → **60.9%**. C vs T 48.1% → 46.5% (T vs C 50.9% → 53.0%); T’s extra Poffin/Candy from C’s rarer mulligans still matter.
 
+## Belt-then-Hop trainer order (2026-08-25)
+
+`party` plays Arven before Tool Box, Hop before Energy Search / Nest. Same 30-card lists, seed `20260819`, 3,000 / cell. Raw: `data/lab/family-cup-30-matrix.json`.
+
+|  | A | B | C | D | S | T |
+| --- | --- | --- | --- | --- | --- | --- |
+| A | — | 68.3% | 15.1% | 4.2% | 67.7% | 47.2% |
+| B | 32.3% | — | 14.8% | 1.2% | 23.2% | 50.3% |
+| C | 85.7% | 84.1% | — | **52.3%** | **88.5%** | 45.9% |
+| D | 95.7% | 98.7% | 47.6% | — | 39.1% | 70.5% |
+| S | 31.1% | 75.5% | 11.8% | **60.9%** | — | 59.0% |
+| T | 52.8% | 49.4% | 53.6% | 30.9% | 39.8% | — |
+
+Non-C cells match the mulligan table. C vs S 84.9% → **88.5%**. C vs D 51.7% → 52.3%. C vs T 46.5% → 45.9%.
+
 ## 151 Invitation Clefairy instead of Party (2026-08-25)
 
 Locked C still has **no Switch**. Replacing 1–2 LOR 62 with MEW 035 (`Moon-Viewing Invitation`, bench up to 3 Clefairy) was retested after the engine learned the attack. Seed `20260819`, 3,000 / cell. Full writeup: [set-c-moon-view.md](set-c-moon-view.md).
