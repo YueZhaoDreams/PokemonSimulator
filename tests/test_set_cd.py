@@ -531,7 +531,36 @@ def test_party_attaches_found_belt_before_hop():
     assert me.card(picked).name == "Maximum Belt"
 
 
-def test_shooting_moons_parses_hand_discard_bonus():
+def test_seed_json_empty_effects_still_parse_shooting_moons():
+    """Matrix / API decks load via Card.from_dict; stale empty effects must not hide printed text."""
+    from app.engine.models import Card
+
+    raw = {
+        "catalog_id": "me03-031",
+        "name": "Mega Clefable ex",
+        "category": "Pokemon",
+        "stage": "Stage1",
+        "types": ["Psychic"],
+        "hp": 320,
+        "attacks": [
+            {
+                "name": "Shooting Moons",
+                "cost": ["Psychic", "Psychic"],
+                "damage": 120,
+                "text": (
+                    "You may discard up to 4 Energy cards from your hand, and this attack "
+                    "does 40 more damage for each card you discarded in this way."
+                ),
+                "effects": [],
+            }
+        ],
+    }
+    card = Card.from_dict(raw)
+    moons = card.attacks[0]
+    assert any(
+        e.get("kind") == "discard_hand_energy_bonus" and e.get("max") == 4 and e.get("per") == 40
+        for e in moons.effects
+    )
     mega = fallback_named("Mega Clefable ex")
     moons = next(a for a in mega.attacks if a.name == "Shooting Moons")
     assert any(
@@ -619,7 +648,7 @@ def test_mega_rush_skips_transfer_charge_combo():
     mewtwo = next(i for i, card in enumerate(me.cards) if card.name == "Mewtwo ex")
     dozo = next(i for i, card in enumerate(foe.cards) if card.name == "Dondozo")
     me.active = Pokemon(card_i=clefs[0], energy=list(fuels[:2]), played_turn=0)
-    me.bench = [Pokemon(card_i=mewtwo, energy=list(ex_fuels[:2]))]
+    me.bench = [Pokemon(card_i=mewtwo, energy=list(ex_fuels[:1]))]
     me.hand = [mega, fuels[2]]
     foe.active = Pokemon(card_i=dozo)
     assert game._want_mega_rush(me, foe, "a") is True

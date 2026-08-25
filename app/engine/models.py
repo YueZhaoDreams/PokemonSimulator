@@ -32,12 +32,19 @@ class Attack:
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> Attack:
+        text = data.get("text") or data.get("effect") or ""
+        damage = int(data.get("damage") or 0)
+        stored = list(data.get("effects") or [])
+        # Printed text wins over stale seed JSON (empty or outdated effects).
+        from app.engine.effects import parse_effects
+
+        parsed = parse_effects(text, str(data.get("damage") or damage or ""))
         return cls(
             name=data.get("name", "Attack"),
             cost=list(data.get("cost") or ["Colorless"]),
-            damage=int(data.get("damage") or 0),
-            text=data.get("text") or data.get("effect") or "",
-            effects=list(data.get("effects") or []),
+            damage=damage,
+            text=text,
+            effects=parsed if parsed else stored,
         )
 
 
@@ -52,10 +59,15 @@ class Ability:
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> Ability:
+        text = data.get("text") or data.get("effect") or ""
+        stored = list(data.get("effects") or [])
+        from app.engine.effects import parse_ability_effects
+
+        parsed = parse_ability_effects(text)
         return cls(
             name=data.get("name", "Ability"),
-            text=data.get("text") or data.get("effect") or "",
-            effects=list(data.get("effects") or []),
+            text=text,
+            effects=parsed if parsed else stored,
         )
 
 
