@@ -1091,3 +1091,46 @@ def test_promote_support_mewtwo_then_transfer_onto_belted_main():
     assert game._belt_on(me, main)
     assert len(main.energy) >= 4
 
+
+def test_bench_clefable_ex_zeros_support_retreat():
+    """Lunar Zone on a benched ex: support with 1 Psychic retreats free onto the attacker."""
+    game = _cd_game()
+    game.turn = 4
+    game.first = "b"
+    me = game.players["a"]
+    foe = game.players["b"]
+    clefs = [i for i, card in enumerate(me.cards) if card.name == "Clefairy"]
+    exs = [i for i, card in enumerate(me.cards) if card.name == "Clefable ex"]
+    mewtwos = [i for i, card in enumerate(me.cards) if card.name == "Mewtwo ex"]
+    fuels = [i for i, card in enumerate(me.cards) if card.name == "Clefable"]
+    belt = next(i for i, card in enumerate(me.cards) if card.name == "Maximum Belt")
+    oger = next(i for i, card in enumerate(foe.cards) if "Ogerpon" in card.name)
+    fighting = next(i for i, card in enumerate(foe.cards) if card.name == "Fighting Energy")
+    dce = next(i for i, card in enumerate(foe.cards) if card.name == "Double Colorless Energy")
+    charm = next(i for i, card in enumerate(foe.cards) if card.name == "Bravery Charm")
+    me.active = Pokemon(card_i=clefs[0], energy=[fuels[0], fuels[1]], ability_used=True, played_turn=0)
+    me.bench = [
+        Pokemon(card_i=clefs[1], energy=[fuels[2]], played_turn=0),
+        Pokemon(card_i=clefs[2], energy=[fuels[3]], played_turn=0),
+        Pokemon(card_i=mewtwos[0], played_turn=0),
+        Pokemon(card_i=mewtwos[1], tool=belt, energy=[exs[1], exs[2]], played_turn=0),
+    ]
+    me.hand = [exs[0], exs[3]]
+    foe.active = Pokemon(card_i=oger, energy=[fighting, dce], tool=charm)
+    game._evolve_party(me, foe, "a")
+    assert game._has_lunar_zone(me)
+    assert game._is_clefairy(me.card(me.active.card_i))
+    assert any(me.card(m.card_i).name == "Clefable ex" for m in me.bench)
+
+    support = Pokemon(card_i=mewtwos[0], energy=[clefs[3]], damage=140, played_turn=0)
+    main = next(m for m in me.bench if m.card_i == mewtwos[1])
+    zone = next(m for m in me.in_play() if me.card(m.card_i).name == "Clefable ex")
+    me.active = support
+    me.bench = [main, zone]
+    me.retreated = False
+    me.discard = []
+    assert game._retreat_cost(me, me.active) == 0
+    game._maybe_retreat(me, foe, "a")
+    assert me.active.card_i == mewtwos[1]
+    assert me.discard == []
+

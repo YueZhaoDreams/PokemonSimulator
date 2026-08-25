@@ -4392,10 +4392,12 @@ class Game:
             elif prefer_active:
                 target = (fueled_used or fueled or used or candidates)[0]
             else:
-                # Prefer a benched engine so the Active keeps Wonder Storm / Party.
+                # Prefer a fueled benched Clefairy so Lunar Zone sits in back
+                # and the Active Clefairy stays the 1-prize battery.
+                bench = [m for m in candidates if m is not me.active]
+                bench_fueled = [m for m in bench if m.energy]
                 bench_used = [m for m in used if m is not me.active]
-                bench_all = [m for m in candidates if m is not me.active]
-                target = (bench_used or bench_all or used or candidates)[0]
+                target = (bench_fueled or bench_used or bench or fueled_used or fueled or used or candidates)[0]
             self._do_evolve(me, target, evo_i)
             return True
 
@@ -4404,6 +4406,10 @@ class Game:
             return
 
         if can_kill:
+            # Still plant Lunar Zone on the bench so the Transfer support can
+            # leave for the killer without paying Retreat 2.
+            if self._facing_demolish(me) and not self._has_lunar_zone(me) and len(engines) >= 1:
+                evolve_named("Clefable ex", prefer_active=False, require_used=False)
             return
         if self._want_clefairy_battery(me, foe):
             # Prankish on a benched engine; keep Active Clefairy unevolved for the 1-prize KO.
@@ -4415,6 +4421,10 @@ class Game:
                 and len(engines) >= 2
             ):
                 evolve_named("Clefable", prefer_active=False, require_used=False)
+            # Bench Clefable ex now: Lunar Zone zeros the support Mewtwo's Retreat 2
+            # after it attaches 1 Psychic to Transfer Charge.
+            if not self._has_lunar_zone(me) and len(engines) >= 2:
+                evolve_named("Clefable ex", prefer_active=False, require_used=False)
             return
         if self._want_mega_rush(me, foe, who) and self._mega_mon(me) is None:
             evolve_named("Mega Clefable ex", prefer_active=True)
@@ -4458,7 +4468,12 @@ class Game:
         if self._facing_demolish(me) and mewtwo_out and len(engines) >= 1:
             zone_worth = True
         if not self._has_lunar_zone(me) and zone_worth:
-            evolve_named("Clefable ex", prefer_active=False, require_used=True)
+            # Bench Clefairy never uses Moon-Watching Party; do not require ability_used vs D.
+            evolve_named(
+                "Clefable ex",
+                prefer_active=False,
+                require_used=not self._facing_demolish(me),
+            )
 
     def _ogerpon_threat(self, foe: Player) -> bool:
         if not foe.active or not self._is_ogerpon(foe.card(foe.active.card_i)):
