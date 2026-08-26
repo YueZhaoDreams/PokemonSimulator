@@ -251,6 +251,13 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
     if "choose 1 of your opponent's active" in t and "attack" in t and "use it as this attack" in t:
         effects.append({"kind": "copy_active_attack"})
 
+    # Clefable ex Wondrous Moon (sv03-082): move Psychic Energy after the hit.
+    if re.search(
+        r"you may move any amount of psychic energy from your pokemon to your other pokemon",
+        t,
+    ):
+        effects.append({"kind": "move_psychic_energy"})
+
     if "can't play any item" in t or "cannot play any item" in t:
         effects.append({"kind": "lock_items"})
 
