@@ -137,4 +137,61 @@ Locked C still has **no Switch**. Replacing 1–2 LOR 62 with MEW 035 (`Moon-Vie
 
 The dump costs the attack and leaves 60 HP Active. Without Switch you cannot Party-then-tank the same turn, so vs D it is still a turn short. Cutting Party engines is the rest of the hole (−13 then −10 vs D) even when Invitation almost never fires (~2% vs D). Vs S it helps a winning matchup; that does not buy the D race. Stay on 4× LOR 62.
 
+## Going-first 2+2+Prankish+ex (2026-08-26)
+
+Human line vs D, going first, when the board is **2 Clefairy + 2 Mewtwo + Rebel Clash Clefable + Clefable ex + Belt** (not 4+1, not 3+2):
+
+1. T1 Party + hand attach.
+2. T3 Party, evolve **Prankish** on the empty Active Clefairy — bounce T2 Fighting so Demolish cannot land T4.
+3. T5 another attach. T6 Demolish KOs Clefable (1 prize); the Clefairy underneath and Clefable hit discard. Promote the **support** Mewtwo.
+4. T7 Transfer Charge +2 onto the Belted closer, stay to tank.
+5. T8 support (230 HP) eats 140 and lives.
+6. T9 evolve Lunar Zone, attach, free-retreat onto the full-HP closer, Photon for 2 prizes.
+
+The engine now plays this Charge combo at 2 Party engines going first; going second still wants 3 Clefairy. This does not replace locked 4× LOR 62.
+
+## Going-first 2+1+Mega+ex+tool (2026-08-26)
+
+Human line vs D, going first, when the board is **2 Clefairy + 1 Mewtwo + Mega Clefable ex + Clefable ex + Maximum Belt** (second Mewtwo not in hand):
+
+1. T1 Party + hand attach (D cannot Demolish yet).
+2. T3 Party, evolve **Mega** on the empty Active Clefairy (320 HP). Mega evolves from Clefairy.
+3. T4 Demolish (180 HP left). T5 attach, evolve Lunar Zone on the leftover Clefairy.
+4. T6 Demolish (40 HP left). T7 attach a retreat payer, swap to Clefable ex (260).
+5. T8 Demolish on the ex. T9 attach, swap to the full-HP Belted Mewtwo, Photon.
+
+If the second Mewtwo is already in hand, the 2+2 Charge line still takes priority. This does not replace locked 4× LOR 62.
+
+## Going-second 3+1+Mega+ex+tool (2026-08-26)
+
+Human line vs D, going second, when the board is **3 Clefairy + 1 Mewtwo + Mega Clefable ex + Clefable ex + Maximum Belt** (fourth Clefairy not still in hand/deck; second Mewtwo not for 3+2):
+
+1. T2 Party +3 (two benched engines + hand attach). Empty Active Clefairy is the chump.
+2. T3 Demolish takes that Clefairy (1 prize).
+3. T4 Party +2, evolve **Mega** on the Active Clefairy (320 HP).
+4. T5 Demolish (180 left). T6 +1 on Mewtwo. T7 Demolish (40 left).
+5. T8 +1 retreat payer, evolve **Lunar Zone**, switch onto Clefable ex (260).
+6. T9 Demolish on the ex. T10 +1, switch to the full-HP Belted Mewtwo, Photon.
+
+If a fourth Clefairy can still come down, keep assembling 4+1. This does not replace locked 4× LOR 62.
+
+## A–T matrix after 2+2 / 2+1 scripts (2026-08-26)
+
+First pass locked Clefairy at 2 whenever Mega/Prankish pieces were in hand. That stole
+PR #33's going-first 4+1 / 3+2: C vs D **57.5% → 52.8%** (first **58.2% → 48.2%**).
+
+Fix: 2+2 / 2+1 only start when no more Clefairy are in hand or deck. Cap stays 4 (or 3
+with both Mewtwo). Seed `20260819`, 3,000 / cell. Raw: `data/lab/family-cup-30-matrix.json`.
+
+|  | A | B | C | D | S | T |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| **A** | — | 68.3% | 11.3% | 4.2% | 67.7% | 47.5% |
+| **B** | 32.3% | — | 10.4% | 1.2% | 23.2% | 50.4% |
+| **C** | **88.2%** | **89.6%** | — | **57.9%** | 78.2% | **54.5%** |
+| **D** | 95.7% | 98.7% | 40.7% | — | 39.1% | 70.4% |
+| **S** | 31.1% | 75.5% | 20.8% | **60.9%** | — | 59.7% |
+| **T** | 51.7% | 49.6% | 44.6% | 31.0% | 41.1% | — |
+
+C vs D **57.9%** (first **58.7%** / second **57.1%**), at or above PR #33's 57.5% / 58.2% / 56.8%. C vs T **54.5%**. C vs S 78.2% is the same as PR #33 (that drop was the D scripts vs Floragato, not the 2-engine lock). C mean vs A/B/D/S/T **73.7%**.
+
 
