@@ -1928,6 +1928,15 @@ class Game:
                 if mewtwo is not None:
                     return mewtwo
             if self._want_three_two_combo(me, foe):
+                if (
+                    me.active
+                    and self._is_clefairy(me.card(me.active.card_i))
+                    and not me.active.energy
+                    and self._has_lunar_zone(me)
+                    and self._best_fodder_idx(me) is not None
+                    and self._ogerpon_threat(foe)
+                ):
+                    return me.active
                 fodder = me.active if self._is_fodder_mon(me, me.active) else None
                 if fodder is not None and self._is_clefable(me.card(fodder.card_i)) and len(fodder.energy) < 2:
                     return fodder
@@ -4532,13 +4541,14 @@ class Game:
             # Keep all four Clefairy. The empty Active is the 1-prize sacrifice.
             return
         if self._want_three_two_combo(me, foe):
-            # Zone on the bench (free retreat). Clefable / extra ex is the Charge fodder.
+            # Zone on the bench (free retreat). Active Clefable / extra ex is the Charge fodder
+            # so we do not have to pay Retreat 1 off an empty Clefairy.
             if not self._has_lunar_zone(me) and len(engines) >= 2:
                 evolve_named("Clefable ex", prefer_active=False, require_used=False)
             if not any(self._is_clefable(me.card(m.card_i)) for m in me.in_play()):
-                if not evolve_named("Clefable", prefer_active=False, require_used=False):
+                if not evolve_named("Clefable", prefer_active=True, require_used=False):
                     if self._has_lunar_zone(me) and len(engines) >= 2:
-                        evolve_named("Clefable ex", prefer_active=False, require_used=False)
+                        evolve_named("Clefable ex", prefer_active=True, require_used=False)
             if (
                 foe.active
                 and self._is_ogerpon(foe.card(foe.active.card_i))

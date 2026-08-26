@@ -1146,8 +1146,7 @@ def test_bench_clefable_ex_zeros_support_retreat():
     foe.active = Pokemon(card_i=oger, energy=[fighting, dce], tool=charm)
     game._evolve_party(me, foe, "a")
     assert game._has_lunar_zone(me)
-    assert game._is_clefairy(me.card(me.active.card_i))
-    assert any(me.card(m.card_i).name == "Clefable ex" for m in me.bench)
+    assert any(me.card(m.card_i).name == "Clefable ex" for m in me.in_play())
 
     support = Pokemon(card_i=mewtwos[0], energy=[clefs[3]], damage=140, played_turn=0)
     main = next(m for m in me.bench if m.card_i == mewtwos[1])
@@ -1253,9 +1252,8 @@ def test_three_two_evolves_bench_zone_and_clefable_fodder():
     foe.active = Pokemon(card_i=oger, energy=[fighting, dce], tool=charm)
     assert game._want_three_two_combo(me, foe)
     game._evolve_party(me, foe, "a")
-    assert game._is_clefairy(me.card(me.active.card_i))
+    assert game._is_clefable(me.card(me.active.card_i))
     assert game._has_lunar_zone(me)
-    assert any(game._is_clefable(me.card(m.card_i)) for m in me.bench)
     game._maybe_retreat(me, foe, "a")
     assert game._is_clefable(me.card(me.active.card_i))
 
