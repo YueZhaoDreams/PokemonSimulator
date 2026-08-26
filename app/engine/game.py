@@ -2812,10 +2812,14 @@ class Game:
                 return 9
             if strat.name == "party":
                 if self._want_four_one_line(player, foe):
+                    if self._photon_ko(player, foe) or not self._four_one_keep_partying(player, foe):
+                        if "mewtwo" in name:
+                            return 0
+                        return 9
+                    if self._is_clefairy(player.card(mon.card_i)):
+                        return 0 if not mon.energy else 1
                     if "mewtwo" in name:
-                        return 0
-                    if "mega clefable" in name:
-                        return 1
+                        return 8
                     return 9
                 if self._want_three_two_combo(player, foe):
                     if "mewtwo" in name:
@@ -3523,7 +3527,7 @@ class Game:
         """Vs D: 2 only for the 3+2 Charge line. 4+1 and the Mega-wall fallback keep one."""
         if not self._facing_demolish(me):
             return 1
-        if self._count_named_in_play(me, "clefairy") >= 4:
+        if self._four_one_assembled(me):
             return 1
         if self._count_named_in_play(me, "clefairy") >= 3 and self._three_two_pieces_ready(me):
             return 2
@@ -3557,15 +3561,56 @@ class Game:
         return ex_play + ex_hand >= need
 
     def _three_two_pieces_ready(self, me: Player) -> bool:
-        return self._has_belt_in_hand_or_play(me) and self._zone_piece_available(me) and self._fodder_piece_available(me)
-
-    def _want_four_one_line(self, me: Player, foe: Player | None = None) -> bool:
-        """4 Clefairy + 1 Mewtwo: empty Active Clefairy chump, Photon after the 1-prize KO."""
-        if not self._facing_demolish(me) or not me.active:
+        if not self._has_belt_in_hand_or_play(me) or not self._zone_piece_available(me):
             return False
+        # Going second: Belt + Clefable ex Zone is enough for Transfer → free retreat → Photon.
+        # Going first still needs a Clefable/ex Charge fodder.
+        if self._went_second(me):
+            return True
+        return self._fodder_piece_available(me)
+
+    def _who_of(self, me: Player) -> str:
+        return "a" if me.name == "A" else "b"
+
+    def _went_second(self, me: Player) -> bool:
+        return self._who_of(me) != self.first
+
+    def _clefairy_discarded(self, me: Player) -> int:
+        return sum(1 for i in me.discard if self._is_clefairy(me.card(i)))
+
+    def _four_one_assembled(self, me: Player) -> bool:
+        """True while the 4+1 script is live, including after Clefairy chumps hit discard."""
         if len(self._mewtwo_mons(me)) != 1:
             return False
-        return self._count_named_in_play(me, "clefairy") >= 4
+        n_play = self._count_named_in_play(me, "clefairy")
+        n_disc = self._clefairy_discarded(me)
+        if n_play >= 4:
+            return True
+        return n_play >= 1 and n_play + n_disc >= 4
+
+    def _want_four_one_line(self, me: Player, foe: Player | None = None) -> bool:
+        """4 Clefairy + 1 Mewtwo: empty Clefairy chumps, then Photon.
+
+        Going first: one empty chump, then harvest. Going second: Belt required,
+        two empty chumps while Party keeps firing, then harvest.
+        """
+        if not self._facing_demolish(me):
+            return False
+        if not self._four_one_assembled(me):
+            return False
+        if self._went_second(me) and not self._has_belt_in_hand_or_play(me):
+            return False
+        return True
+
+    def _four_one_chumps_needed(self, me: Player) -> int:
+        return 2 if self._went_second(me) else 1
+
+    def _four_one_keep_partying(self, me: Player, foe: Player | None = None) -> bool:
+        if not self._want_four_one_line(me, foe):
+            return False
+        if foe is not None and self._photon_ko(me, foe):
+            return False
+        return self._clefairy_discarded(me) < self._four_one_chumps_needed(me)
 
     def _want_three_two_combo(self, me: Player, foe: Player | None = None) -> bool:
         """3 Clefairy + 2 Mewtwo + Belt + Clefable/ex fodder + Clefable ex Zone.
@@ -3587,9 +3632,9 @@ class Game:
         return self._count_named_in_play(me, "clefairy") >= 3
 
     def _want_empty_clefairy_chump(self, me: Player, foe: Player) -> bool:
-        if not self._want_four_one_line(me, foe):
+        if not self._four_one_keep_partying(me, foe):
             return False
-        if self._photon_ko(me, foe):
+        if not me.active:
             return False
         return self._is_clefairy(me.card(me.active.card_i))
 
@@ -3645,6 +3690,10 @@ class Game:
         if self._photon_ko(me, foe):
             return False
         if not self._is_mewtwo(me.card(me.active.card_i)):
+            return False
+        main = self._main_mewtwo(me)
+        # Once the Belted closer can harvest, stop Transfer and free-retreat onto it.
+        if main is not None and main is not me.active and self._photon_ko(me, foe, main):
             return False
         if not any(self._is_psychic_energy_card(me.card(i)) for i in me.discard):
             return False
@@ -4541,22 +4590,23 @@ class Game:
             # Keep all four Clefairy. The empty Active is the 1-prize sacrifice.
             return
         if self._want_three_two_combo(me, foe):
-            # Zone on the bench (free retreat). Active Clefable / extra ex is the Charge fodder
-            # so we do not have to pay Retreat 1 off an empty Clefairy.
+            # Zone on the bench (free retreat). Going first: Active Clefable/ex is Charge fodder.
+            # Going second: keep Clefairy engines; support Transfers, then free-retreat to the closer.
             if not self._has_lunar_zone(me) and len(engines) >= 2:
                 evolve_named("Clefable ex", prefer_active=False, require_used=False)
-            if not any(self._is_clefable(me.card(m.card_i)) for m in me.in_play()):
-                if not evolve_named("Clefable", prefer_active=True, require_used=False):
-                    if self._has_lunar_zone(me) and len(engines) >= 2:
-                        evolve_named("Clefable ex", prefer_active=True, require_used=False)
-            if (
-                foe.active
-                and self._is_ogerpon(foe.card(foe.active.card_i))
-                and foe.active.energy
-                and self._prankish_stops_demolish(foe)
-                and len(engines) >= 2
-            ):
-                evolve_named("Clefable", prefer_active=False, require_used=False)
+            if not self._went_second(me):
+                if not any(self._is_clefable(me.card(m.card_i)) for m in me.in_play()):
+                    if not evolve_named("Clefable", prefer_active=True, require_used=False):
+                        if self._has_lunar_zone(me) and len(engines) >= 2:
+                            evolve_named("Clefable ex", prefer_active=True, require_used=False)
+                if (
+                    foe.active
+                    and self._is_ogerpon(foe.card(foe.active.card_i))
+                    and foe.active.energy
+                    and self._prankish_stops_demolish(foe)
+                    and len(engines) >= 2
+                ):
+                    evolve_named("Clefable", prefer_active=False, require_used=False)
             return
         if self._want_mega_rush(me, foe, who) and self._mega_mon(me) is None:
             evolve_named("Mega Clefable ex", prefer_active=True)
@@ -4672,18 +4722,26 @@ class Game:
                     self._swap_to_bench(me, who, idx, allow_paid=True)
                     return
         if self._want_four_one_line(me, foe) and not self._photon_ko(me, foe):
-            if self._is_clefairy(me.card(me.active.card_i)):
+            if self._four_one_keep_partying(me, foe):
+                if me.active and self._is_clefairy(me.card(me.active.card_i)):
+                    return
+                empty = next(
+                    (idx for idx, mon in enumerate(me.bench) if self._is_clefairy(me.card(mon.card_i)) and not mon.energy),
+                    None,
+                )
+                if empty is not None:
+                    self._swap_to_bench(me, who, empty, allow_paid=True)
+                    return
+                clef = next((idx for idx, mon in enumerate(me.bench) if self._is_clefairy(me.card(mon.card_i))), None)
+                if clef is not None:
+                    self._swap_to_bench(me, who, clef, allow_paid=True)
                 return
-            empty = next(
-                (idx for idx, mon in enumerate(me.bench) if self._is_clefairy(me.card(mon.card_i)) and not mon.energy),
+            mewtwo_idx = next(
+                (idx for idx, mon in enumerate(me.bench) if self._is_mewtwo(me.card(mon.card_i))),
                 None,
             )
-            if empty is not None:
-                self._swap_to_bench(me, who, empty, allow_paid=True)
-                return
-            clef = next((idx for idx, mon in enumerate(me.bench) if self._is_clefairy(me.card(mon.card_i))), None)
-            if clef is not None:
-                self._swap_to_bench(me, who, clef, allow_paid=True)
+            if mewtwo_idx is not None and not self._is_mewtwo(me.card(me.active.card_i)):
+                self._swap_to_bench(me, who, mewtwo_idx, allow_paid=True)
             return
         if self._want_three_two_combo(me, foe):
             if self._photon_ko(me, foe):
