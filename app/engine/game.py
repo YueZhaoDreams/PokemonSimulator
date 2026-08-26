@@ -3539,28 +3539,26 @@ class Game:
         return self.strats["b" if who == "a" else "a"].name == "demolish"
 
     def _mewtwo_play_cap(self, me: Player) -> int:
-        """Vs D: 2 for the Charge lines. 4+1 and the Mega-wall fallback keep one."""
+        """Vs D: 2 for Charge. 4+1 and the Mega-wall fallback keep one.
+
+        Going-first 2+2 plays the second copy only when no more Clefairy can come
+        down (otherwise wait for 3+2 / 4+1 — PR #33's 57.5% vs D).
+        """
         if not self._facing_demolish(me):
             return 1
         if self._four_one_assembled(me):
             return 1
         n_clef = self._count_named_in_play(me, "clefairy")
-        # Going-first Mega wall: one Mewtwo while the second copy is not in hand
-        # and Charge fodder has not already been spent.
-        if (
-            not self._went_second(me)
-            and n_clef >= 2
-            and self._two_one_mega_pieces_ready(me)
-            and not self._mewtwo_copy_in_hand(me)
-            and self._clefable_discarded(me) == 0
-            and len(self._mewtwo_mons(me)) < 2
-        ):
-            return 1
-        # Stay at 2 while the Charge combo is live — including after Prankish/Clefable is KO'd.
         if self._three_two_combo_pieces_ok(me):
             if n_clef >= 3:
                 return 2
-            if not self._went_second(me) and (n_clef >= 2 or self._clefable_discarded(me) >= 1):
+            if not self._went_second(me) and self._clefable_discarded(me) >= 1:
+                return 2
+            if (
+                not self._went_second(me)
+                and n_clef >= 2
+                and not self._clefairy_still_to_play(me)
+            ):
                 return 2
         return 1
 
@@ -3677,7 +3675,13 @@ class Game:
         n_clef = self._count_named_in_play(me, "clefairy")
         if n_clef >= 3:
             return True
-        if not self._went_second(me) and n_clef >= 2:
+        # Going-first 2+2 only when no third Clefairy is left to play — otherwise
+        # assemble 3+2 (PR #33). 2+2 is the assembled-board fallback.
+        if (
+            not self._went_second(me)
+            and n_clef >= 2
+            and not self._clefairy_still_to_play(me)
+        ):
             return True
         return not self._went_second(me) and n_clef >= 1 and self._clefable_discarded(me) >= 1
 
@@ -3685,6 +3689,10 @@ class Game:
         if self._mega_mon(me) is not None:
             return True
         return any("mega clefable" in me.card(i).name.lower() for i in me.hand)
+
+    def _clefairy_still_to_play(self, me: Player) -> bool:
+        """True if another Clefairy can still be put in play from hand or deck."""
+        return any(self._is_clefairy(me.card(i)) for i in me.hand + me.deck)
 
     def _mewtwo_copy_in_hand(self, me: Player) -> bool:
         """True if a Mewtwo is still in hand (the extra copy for 2+2 Charge).
@@ -3716,6 +3724,12 @@ class Game:
             return False
         if self._mega_mon(me) is not None:
             return True
+        # Do not start this line while a third/fourth Clefairy can still come down —
+        # those boards are 4+1 or the PR #33 Mega wall.
+        if self._count_named_in_play(me, "clefairy") >= 3:
+            return False
+        if self._clefairy_still_to_play(me):
+            return False
         return self._count_named_in_play(me, "clefairy") >= 2
 
     def _want_empty_clefairy_chump(self, me: Player, foe: Player) -> bool:
@@ -3913,19 +3927,11 @@ class Game:
         if foe_strat == "thrifty":
             return 1
         if foe_strat == "demolish":
-            # Charge combo keeps three Party engines, or two once the going-first
-            # 2+2+Prankish board is locked. Otherwise assemble four for 4+1.
+            # 3+2 keeps three Party engines; otherwise assemble four for 4+1.
+            # 2+2 / 2+1 are fallbacks on already-assembled boards — do not cap
+            # Clefairy at 2 while extra engines can still come down.
             if len(self._mewtwo_mons(me)) >= 2:
-                if not self._went_second(me) and self._count_named_in_play(me, "clefairy") < 3:
-                    return 2
                 return 3
-            if (
-                not self._went_second(me)
-                and self._two_one_mega_pieces_ready(me)
-                and self._count_named_in_play(me, "clefairy") >= 2
-                and not self._mewtwo_copy_in_hand(me)
-            ):
-                return 2
             return 4
         return 3
 

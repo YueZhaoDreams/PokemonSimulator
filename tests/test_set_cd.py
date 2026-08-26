@@ -187,6 +187,17 @@ def _cd_game():
     return Game(c, d, default_family_rules(), StrategySpec.from_dict("party"), StrategySpec.from_dict("demolish"), Random(1))
 
 
+def _prize_spare_clefairy(me, keep):
+    """Treat unused Clefairy as prized so 2+2 / 2+1 can start on an assembled board."""
+    keep = set(keep)
+    all_clef = [i for i, card in enumerate(me.cards) if card.name == "Clefairy"]
+    extra = [i for i in all_clef if i not in keep]
+    clef_set = set(all_clef)
+    me.deck = [i for i in me.deck if i not in clef_set]
+    me.hand = [i for i in me.hand if i not in clef_set]
+    me.prizes = [i for i in me.prizes if i not in clef_set] + extra
+
+
 def test_prankish_bounces_fighting_not_dce():
     game = _cd_game()
     me = game.players["a"]
@@ -1403,13 +1414,14 @@ def test_going_first_two_two_plays_second_mewtwo_with_prankish_and_ex():
         Pokemon(card_i=clefs[1], played_turn=0),
     ]
     me.hand = [mewtwos[1], belt, exs[0], fable]
+    _prize_spare_clefairy(me, {clefs[0], clefs[1]})
     strat = StrategySpec.from_dict("party")
     assert game._mewtwo_play_cap(me) == 2
     assert game._wants_in_play(me, me.card(mewtwos[1]), strat) is True
     me.bench.append(Pokemon(card_i=mewtwos[1], tool=belt, played_turn=0))
     me.hand = [exs[0], fable]
     assert game._want_three_two_combo(me, game.players["b"])
-    assert game._clefairy_play_cap(me) == 2
+    assert game._clefairy_play_cap(me) == 3
 
 
 def test_going_second_two_clefairy_does_not_play_second_mewtwo():
@@ -1455,6 +1467,7 @@ def test_going_first_two_two_evolves_prankish_not_zone():
         Pokemon(card_i=mewtwos[1], tool=belt, energy=[exs[1]], played_turn=0),
     ]
     me.hand = [exs[0], fuels[0]]
+    _prize_spare_clefairy(me, {clefs[0], clefs[1]})
     foe.active = Pokemon(card_i=oger, energy=[fighting], tool=charm)
     foe.deck = [dce]
     assert game._want_three_two_combo(me, foe)
@@ -1647,16 +1660,53 @@ def test_going_first_two_one_mega_keeps_one_mewtwo_without_second_in_hand():
     ]
     me.hand = [mega, exs[0], belt]
     me.deck = [mewtwos[1]]
+    _prize_spare_clefairy(me, {clefs[0], clefs[1]})
     strat = StrategySpec.from_dict("party")
     assert game._want_two_one_mega_wall(me, game.players["b"])
     assert game._mewtwo_play_cap(me) == 1
-    assert game._clefairy_play_cap(me) == 2
+    assert game._clefairy_play_cap(me) == 4
     assert game._wants_in_play(me, me.card(mewtwos[1]), strat) is False
     fable = next(i for i, card in enumerate(me.cards) if card.name == "Clefable")
     me.hand = [mega, exs[0], belt, mewtwos[1], fable]
     me.deck = []
     assert game._mewtwo_play_cap(me) == 2
     assert game._wants_in_play(me, me.card(mewtwos[1]), strat) is True
+
+
+def test_going_first_spare_clefairy_does_not_lock_two_one_or_two_two():
+    """PR #33 4+1 / 3+2 still assemble when more Clefairy can come down."""
+    game = _cd_game()
+    game.first = "a"
+    me = game.players["a"]
+    foe = game.players["b"]
+    mewtwos = [i for i, card in enumerate(me.cards) if card.name == "Mewtwo ex"]
+    clefs = [i for i, card in enumerate(me.cards) if card.name == "Clefairy"]
+    exs = [i for i, card in enumerate(me.cards) if card.name == "Clefable ex"]
+    mega = next(i for i, card in enumerate(me.cards) if "Mega Clefable" in card.name)
+    fable = next(i for i, card in enumerate(me.cards) if card.name == "Clefable")
+    belt = next(i for i, card in enumerate(me.cards) if card.name == "Maximum Belt")
+    me.active = Pokemon(card_i=clefs[0], played_turn=0)
+    me.bench = [
+        Pokemon(card_i=clefs[1], played_turn=0),
+        Pokemon(card_i=mewtwos[0], played_turn=0),
+    ]
+    me.hand = [mega, exs[0], belt, clefs[2]]
+    me.deck = []
+    assert game._clefairy_play_cap(me) == 4
+    assert game._want_two_one_mega_wall(me, foe) is False
+    me.hand = [mega, exs[0], belt]
+    me.deck = [clefs[2]]
+    assert game._want_two_one_mega_wall(me, foe) is False
+    assert game._mewtwo_play_cap(me) == 1
+    me.bench.append(Pokemon(card_i=mewtwos[1], tool=belt, played_turn=0))
+    me.hand = [exs[0], fable, clefs[2]]
+    me.deck = []
+    assert game._clefairy_play_cap(me) == 3
+    assert game._want_three_two_combo(me, foe) is False
+    me.hand = [exs[0], fable]
+    me.deck = [clefs[2]]
+    assert game._want_three_two_combo(me, foe) is False
+    assert game._mewtwo_play_cap(me) == 1
 
 
 def test_going_first_two_one_evolves_mega_not_zone_on_t3():
@@ -1679,6 +1729,7 @@ def test_going_first_two_one_evolves_mega_not_zone_on_t3():
         Pokemon(card_i=mewtwo, tool=belt, played_turn=0),
     ]
     me.hand = [mega, exs[0]]
+    _prize_spare_clefairy(me, {clefs[0], clefs[1]})
     foe.active = Pokemon(card_i=oger, energy=[fighting])
     assert game._want_two_one_mega_wall(me, foe)
     game._evolve_party(me, foe, "a")
