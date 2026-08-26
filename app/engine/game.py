@@ -2872,13 +2872,13 @@ class Game:
                         return 9
                     survives = self._survives_dive(player, mon)
                     if "mega clefable" in name:
-                        return 0 if survives else 3
+                        return 0 if survives else 10
                     if "mewtwo" in name:
-                        return 1 if survives else 4
+                        return 1 if survives else 9
                     if name == "clefable ex":
-                        return 2 if survives else 5
+                        return 2 if survives else 8
                     if self._is_clefairy(player.card(mon.card_i)):
-                        return 11
+                        return 6
                     return 12
                 if self._want_four_one_line(player, foe):
                     if self._photon_ko(player, foe) or not self._four_one_keep_partying(player, foe):
@@ -3710,14 +3710,25 @@ class Game:
             if self._survives_dive(me, me.active):
                 return True
         idx = self._best_dive_tank_idx(me, require_survive=True)
-        if idx is None:
-            idx = self._best_dive_tank_idx(me, require_survive=False)
-        if idx is None:
+        if idx is not None:
+            return self._swap_to_bench(me, who, idx, allow_paid=True)
+        # No body survives 200. Do not gift Mega (3) or an ex (2); keep a 1-prize snack.
+        if self._prizes_for_ko(me.card(me.active.card_i)) <= 1:
+            return True
+        cheap = next(
+            (
+                i
+                for i, mon in enumerate(me.bench)
+                if self._prizes_for_ko(me.card(mon.card_i)) <= 1
+            ),
+            None,
+        )
+        if cheap is None:
             return False
-        return self._swap_to_bench(me, who, idx, allow_paid=True)
+        return self._swap_to_bench(me, who, cheap, allow_paid=True)
 
     def _retreat_party_vs_phantom(self, me: Player, foe: Player, who: str) -> None:
-        """Wondrous Moon trades 2 prizes for a dragon. End on a body that survives 200."""
+        """Moon only to take prizes this turn. Otherwise hide on a Dive tank."""
         if not me.active or not me.bench:
             return
         if self._moon_ko(me, foe):
@@ -3728,33 +3739,11 @@ class Game:
                 if mon is cannon:
                     self._swap_to_bench(me, who, idx, allow_paid=True)
                     return
-        if (
-            cannon is not None
-            and cannon is not me.active
-            and self._can_pay_wondrous_moon(me, cannon)
-            and self._survives_dive(me, cannon)
-        ):
-            for idx, mon in enumerate(me.bench):
-                if mon is cannon:
-                    self._swap_to_bench(me, who, idx, allow_paid=True)
-                    return
         self._end_on_dive_tank(me, foe, who)
 
     def _party_vs_phantom_energy_target(self, me: Player) -> Pokemon:
-        """PPP on the Moon cannon, then Clefairy Retreat, then Photon."""
+        """Pay Clefairy Retreat, then Photon, then PPP on a Moon cannon that already exists."""
         assert me.active
-        cannon = self._moon_cannon(me)
-        moon_ready = cannon is not None and self._can_pay_wondrous_moon(me, cannon)
-        if me.active and self._is_clefairy(me.card(me.active.card_i)):
-            need = self._retreat_cost(me, me.active)
-            if need > 0 and len(me.active.energy) < need and moon_ready:
-                return me.active
-        if cannon is not None and not moon_ready:
-            return cannon
-        if cannon is None:
-            clefs = [m for m in me.in_play() if self._is_clefairy(me.card(m.card_i)) and m is not me.active]
-            if clefs:
-                return max(clefs, key=lambda m: len(m.energy))
         if me.active and self._is_clefairy(me.card(me.active.card_i)):
             need = self._retreat_cost(me, me.active)
             if need > 0 and len(me.active.energy) < need:
@@ -3762,6 +3751,12 @@ class Game:
         unpaid = [m for m in self._mewtwo_mons(me) if not self._mewtwo_can_pay_photon(me, m)]
         if unpaid:
             return max(unpaid, key=lambda m: len(m.energy))
+        cannon = self._moon_cannon(me)
+        if cannon is not None and not self._can_pay_wondrous_moon(me, cannon):
+            return cannon
+        fueled = self._mewtwo_mons(me)
+        if fueled:
+            return max(fueled, key=lambda m: len(m.energy))
         return me.active
 
     def _move_psychic_energy(self, me: Player, attacker: Pokemon) -> None:
@@ -5088,13 +5083,14 @@ class Game:
                 return
             return
         if self._facing_phantom(me):
-            # Clefable ex on the most-fueled bench Clefairy (Moon needs PPP; Party
-            # fuels the bench). Mega on another Clefairy as the 320 HP Dive wall.
+            # Clefable ex on a fueled bench Clefairy (Moon / Lunar Zone). Mega on
+            # another Clefairy only when Mewtwo is already the second Dive tank —
+            # otherwise Mega is a 3-prize gift.
             if not self._has_lunar_zone(me):
                 evolve_named("Clefable ex", prefer_active=False, require_used=False)
-            if self._mega_mon(me) is None:
+            if self._mega_mon(me) is None and self._mewtwo_mon(me) is not None:
                 evolve_named("Mega Clefable ex", prefer_active=False)
-            if self._mega_mon(me) is not None and self._has_lunar_zone(me):
+            if self._has_lunar_zone(me):
                 evolve_named("Clefable", prefer_active=False, require_used=False)
             return
         if self._want_mega_rush(me, foe, who) and self._mega_mon(me) is None:

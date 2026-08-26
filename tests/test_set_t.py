@@ -150,6 +150,21 @@ def test_party_vs_phantom_swaps_chipped_mega_to_full_mewtwo():
     assert game._is_mewtwo(me.card(me.active.card_i))
 
 
+def test_party_vs_phantom_does_not_gift_chipped_mega():
+    """A 120 HP Mega is a 3-prize Dive KO. Keep the 1-prize Clefairy."""
+    game = _party_vs_phantom_game(4)
+    me = game.players["a"]
+    foe = game.players["b"]
+    clefs = [i for i, card in enumerate(me.cards) if card.name == "Clefairy"]
+    mega = next(i for i, card in enumerate(me.cards) if "Mega Clefable" in card.name)
+    pult = next(i for i, card in enumerate(foe.cards) if card.name == "Dragapult ex")
+    me.active = Pokemon(card_i=clefs[0], energy=[clefs[1], clefs[2]], played_turn=0)
+    me.bench = [Pokemon(card_i=mega, damage=200, played_turn=0)]
+    foe.active = Pokemon(card_i=pult)
+    game._maybe_retreat(me, foe, "a")
+    assert game._is_clefairy(me.card(me.active.card_i))
+
+
 def test_party_vs_demolish_four_one_still_chumps():
     c = build_fallback_deck(list(SET_C_NAMES))
     d = build_fallback_deck(list(SET_D_NAMES))
