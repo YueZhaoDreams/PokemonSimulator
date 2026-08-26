@@ -1929,8 +1929,8 @@ class Game:
             # Wall Retreat: Mega 1, Clefable ex 2, Mewtwo 2. Set C has no Switch.
             # Lunar Zone zeros cost only after this Pokémon already has a Psychic.
             if self._facing_slash(me) and me.active and self._is_clefairy(me.card(me.active.card_i)):
-                # Pay Retreat 1 so Party can hide behind Mega / ex / Mewtwo. Empty Active
-                # is the vs-D chump; vs Floragato that 60 HP is a free prize.
+                # Pay Clefairy Retreat 2 so Party can hide behind Mega / ex / Mewtwo.
+                # Empty Active is the vs-D chump; vs Floragato that 60 HP is a free prize.
                 need = self._retreat_cost(me, me.active)
                 if need > 0 and len(me.active.energy) < need:
                     return me.active
@@ -3578,7 +3578,7 @@ class Game:
     def _slash_hit_damage(self, foe: Player) -> int:
         """Floragato Claw 90 (+Belt 50) or Wo-Chien Forest Blast 220."""
         if not foe.active:
-            return 90
+            return 0
         card = foe.card(foe.active.card_i)
         name = card.name.lower()
         belt = 0

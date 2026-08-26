@@ -209,6 +209,13 @@ def test_party_vs_slash_opens_on_mewtwo():
     assert game._want_four_one_line(me, game.players["b"]) is False
 
 
+def test_slash_hit_damage_is_zero_without_active():
+    game = _party_vs_slash_game()
+    foe = game.players["b"]
+    foe.active = None
+    assert game._slash_hit_damage(foe) == 0
+
+
 def test_party_vs_slash_pays_clefairy_retreat_then_hides_on_mega():
     """Slashing Claw 90 farms empty 60 HP Clefairy. Attach for Retreat 2, hide on Mega."""
     game = _party_vs_slash_game()
