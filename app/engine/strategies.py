@@ -200,6 +200,8 @@ STRATEGY_LIBRARY = {
             "2 from discard, free-retreat onto the Belted closer, Photon. Going first also uses "
             "a Clefable/ex Charge fodder. "
             "If those boards are not assembled, hide behind Mega / Clefable ex and keep one Mewtwo. "
+            "Vs D lock the script from the opening hand plus the first trainer that looks through "
+            "the deck (Nest / Arven / Energy Search / Tool Box); otherwise keep the Mega wall. "
             "151 Invitation Clefairy (if mixed in) dumps Party engines in one attack when "
             "there is no Switch to rotate Party. One Boss's Orders to pull a prize. "
             "Trainer order: hunt Maximum Belt (Arven before Tool Box), then Hop or "

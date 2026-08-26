@@ -1386,3 +1386,90 @@ def test_going_second_three_two_plays_second_mewtwo_with_belt_and_ex():
     assert game._mewtwo_play_cap(me) == 2
     assert game._wants_in_play(me, me.card(mewtwos[1]), strat) is True
 
+
+def test_opening_hand_locks_four_one_without_deck_look():
+    game = _cd_game()
+    game.first = "a"
+    me = game.players["a"]
+    clefs = [i for i, card in enumerate(me.cards) if card.name == "Clefairy"]
+    mewtwo = next(i for i, card in enumerate(me.cards) if card.name == "Mewtwo ex")
+    belt = next(i for i, card in enumerate(me.cards) if card.name == "Maximum Belt")
+    me.active = Pokemon(card_i=clefs[0], played_turn=0)
+    me.bench = [
+        Pokemon(card_i=clefs[1], played_turn=0),
+        Pokemon(card_i=clefs[2], played_turn=0),
+        Pokemon(card_i=clefs[3], played_turn=0),
+        Pokemon(card_i=mewtwo, played_turn=0),
+    ]
+    me.hand = [belt]
+    assert me.party_route_peeked is False
+    assert game._party_vs_d_route(me) == "four_one"
+    assert game._clefairy_play_cap(me) == 4
+    assert game._mewtwo_play_cap(me) == 1
+
+
+def test_first_nest_look_locks_four_one_and_benches_clefairy():
+    game = _cd_game()
+    game.first = "a"
+    me = game.players["a"]
+    foe = game.players["b"]
+    nest = next(i for i, card in enumerate(me.cards) if card.name == "Nest Ball")
+    clefs = [i for i, card in enumerate(me.cards) if card.name == "Clefairy"]
+    mewtwo = next(i for i, card in enumerate(me.cards) if card.name == "Mewtwo ex")
+    belt = next(i for i, card in enumerate(me.cards) if card.name == "Maximum Belt")
+    mega = next(i for i, card in enumerate(me.cards) if "Mega Clefable" in card.name)
+    me.active = Pokemon(card_i=mewtwo, played_turn=0)
+    me.bench = []
+    me.hand = [nest]
+    me.deck = [clefs[0], clefs[1], clefs[2], clefs[3], belt, mega]
+    game._resolve_trainer(me, foe, me.card(nest), "a", nest)
+    assert me.party_route_peeked is True
+    assert me.party_route == "four_one"
+    assert any(game._is_clefairy(me.card(m.card_i)) for m in me.bench)
+
+
+def test_first_nest_without_script_pieces_locks_wall_and_benches_mewtwo():
+    game = _cd_game()
+    game.first = "a"
+    me = game.players["a"]
+    foe = game.players["b"]
+    nest = next(i for i, card in enumerate(me.cards) if card.name == "Nest Ball")
+    clef = next(i for i, card in enumerate(me.cards) if card.name == "Clefairy")
+    mewtwo = next(i for i, card in enumerate(me.cards) if card.name == "Mewtwo ex")
+    mega = next(i for i, card in enumerate(me.cards) if "Mega Clefable" in card.name)
+    me.active = Pokemon(card_i=clef, played_turn=0)
+    me.bench = []
+    me.hand = [nest]
+    me.deck = [mewtwo, mega]
+    game._resolve_trainer(me, foe, me.card(nest), "a", nest)
+    assert me.party_route == "wall"
+    assert game._clefairy_play_cap(me) == 3
+    assert game._mewtwo_play_cap(me) == 1
+    assert game._is_mewtwo(me.card(me.bench[0].card_i))
+    assert game._want_four_one_line(me, foe) is False
+
+
+def test_first_nest_look_locks_three_two_when_both_mewtwo_are_seen():
+    game = _cd_game()
+    game.first = "a"
+    me = game.players["a"]
+    foe = game.players["b"]
+    nest = next(i for i, card in enumerate(me.cards) if card.name == "Nest Ball")
+    clefs = [i for i, card in enumerate(me.cards) if card.name == "Clefairy"]
+    mewtwos = [i for i, card in enumerate(me.cards) if card.name == "Mewtwo ex"]
+    belt = next(i for i, card in enumerate(me.cards) if card.name == "Maximum Belt")
+    exs = [i for i, card in enumerate(me.cards) if card.name == "Clefable ex"]
+    fable = next(i for i, card in enumerate(me.cards) if card.name == "Clefable")
+    me.active = Pokemon(card_i=clefs[0], played_turn=0)
+    me.bench = [
+        Pokemon(card_i=clefs[1], played_turn=0),
+        Pokemon(card_i=clefs[2], played_turn=0),
+        Pokemon(card_i=mewtwos[0], played_turn=0),
+    ]
+    me.hand = [nest, belt, exs[0], fable]
+    me.deck = [mewtwos[1]]
+    game._resolve_trainer(me, foe, me.card(nest), "a", nest)
+    assert me.party_route == "three_two"
+    assert game._mewtwo_play_cap(me) == 2
+    assert any(m.card_i == mewtwos[1] for m in me.bench)
+

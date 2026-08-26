@@ -62,6 +62,10 @@ class Player:
     item_lock: bool = False
     pending_item_lock: bool = False
     ko_since_opp_turn: bool = False
+    # Vs D: "four_one" | "three_two" | "wall". Locked after the first deck-look trainer.
+    party_route: str | None = None
+    party_route_peeked: bool = False
+    party_peeked: list[int] = field(default_factory=list)
 
     def in_play(self) -> list[Pokemon]:
         mons = []
@@ -1297,12 +1301,14 @@ class Game:
                 self._bump("poke_ball_miss")
                 self._log(f"{me.name} Poké Ball missed (tails)")
                 return
+            self._note_party_deck_look(me, list(me.deck))
             prefer = self._pokemon_search_prefer(me, who)
             found = self._search(me, lambda c: c.is_pokemon, prefer=prefer, source="poke ball")
             if found:
                 self._bump("ball_search_hit")
                 self._log(f"{me.name} ball finds {me.card(found).name}")
         elif name in {"nest ball", "nesting ball"}:
+            self._note_party_deck_look(me, list(me.deck))
             self._bench_basic_from_deck(me, who, count=1, source="nest ball")
         elif name in {"buddy-buddy poffin", "buddy buddy poffin"}:
             self._bench_basic_from_deck(me, who, count=2, max_hp=70, source="poffin")
@@ -1323,6 +1329,7 @@ class Game:
             if discarded < 2:
                 self._bump("ultra_ball_fail")
                 return
+            self._note_party_deck_look(me, list(me.deck))
             prefer = self._pokemon_search_prefer(me, who)
             found = self._search(me, lambda c: c.is_pokemon, prefer=prefer, source="ultra ball")
             if found:
@@ -1332,6 +1339,7 @@ class Game:
         elif name == "energy search":
             # Family Cup: Pokémon count as Basic Energy of their type, so Energy Search
             # may fetch a Pokémon to attach later as energy (or to play).
+            self._note_party_deck_look(me, list(me.deck))
             prefer = self._energy_search_prefer(me, who)
             found = self._search(
                 me,
@@ -1431,6 +1439,7 @@ class Game:
     def _tool_box(self, me: Player) -> None:
         """Printed Tool Box: look at the top 7; put any Pokémon Tools into the hand."""
         look = me.deck[:7]
+        self._note_party_deck_look(me, list(look))
         me.deck = me.deck[len(look) :]
         kept: list[int] = []
         rest: list[int] = []
@@ -1481,16 +1490,19 @@ class Game:
         strat = self.strats[who]
         if strat.name == "party":
             prefer: list[str] = []
-            # Vs D: 4+1 searches Party first; 3+2 also needs the second Mewtwo once
-            # three Clefairy and the Charge pieces are ready. Vs A/B keep Mewtwo
-            # tutor only while none is in play or hand.
+            route = self._party_vs_d_route(me) if self._facing_demolish(me) else ""
             if self._clefairy_play_cap(me) > 0 and not self._invitation_held_for_dump(me, who):
                 prefer.append("Clefairy")
             mewtwo_out = self._count_named_in_play(me, "Mewtwo ex")
             mewtwo_hand = sum(1 for i in me.hand if self._is_mewtwo(me.card(i)))
             need = self._mewtwo_play_cap(me) - mewtwo_out
             if need > 0 and mewtwo_hand < need:
-                prefer.append("Mewtwo ex")
+                if route == "wall":
+                    prefer.insert(0, "Mewtwo ex")
+                else:
+                    prefer.append("Mewtwo ex")
+            if route == "wall":
+                prefer.append("Mega Clefable ex")
             return list(dict.fromkeys(prefer))
         if strat.name == "slash":
             prefer: list[str] = []
@@ -1626,6 +1638,9 @@ class Game:
         return list(dict.fromkeys(prefer))
 
     def _search(self, me: Player, pred, prefer: list[str] | None = None, n: int = 1, source: str = "search") -> int | None:
+        who = "a" if me.name == "A" else "b"
+        if self.strats[who].name == "party":
+            self._note_party_deck_look(me, list(me.deck))
         prefer_l = [p.lower() for p in (prefer or [])]
         in_play = {me.card(m.card_i).name.lower() for m in me.in_play()}
         in_hand = {me.card(i).name.lower() for i in me.hand}
@@ -3280,6 +3295,8 @@ class Game:
         return True
 
     def _bench_basic_from_deck(self, me: Player, who: str, count: int = 1, max_hp: int | None = None, source: str = "ball") -> None:
+        if self.strats[who].name == "party":
+            self._note_party_deck_look(me, list(me.deck))
         strat = self.strats[who]
         prefer = [p.lower() for p in self._pokemon_search_prefer(me, who)]
         take = min(count, max(0, self.rules.bench_size - len(me.bench)))
@@ -3382,6 +3399,7 @@ class Game:
         return True
 
     def _arven(self, me: Player, who: str) -> None:
+        self._note_party_deck_look(me, list(me.deck))
         tool_names = {"maximum belt", "bravery charm", "muscle band"}
         item_prefer = ["Energy Search", "Nest Ball", "Switch", "Buddy-Buddy Poffin", "Tool Box", "Maximum Belt", "Muscle Band", "Bravery Charm"]
         found_tool = self._search(
@@ -3524,12 +3542,10 @@ class Game:
         return self.strats["b" if who == "a" else "a"].name == "demolish"
 
     def _mewtwo_play_cap(self, me: Player) -> int:
-        """Vs D: 2 only for the 3+2 Charge line. 4+1 and the Mega-wall fallback keep one."""
+        """Vs D: 2 only on the locked 3+2 Charge line. 4+1 and the Mega-wall keep one."""
         if not self._facing_demolish(me):
             return 1
-        if self._four_one_assembled(me):
-            return 1
-        if self._count_named_in_play(me, "clefairy") >= 3 and self._three_two_pieces_ready(me):
+        if self._party_vs_d_route(me) == "three_two":
             return 2
         return 1
 
@@ -3538,6 +3554,63 @@ class Game:
 
     def _is_clefable_ex(self, card) -> bool:
         return card.name.lower() == "clefable ex"
+
+    def _party_known_ids(self, me: Player) -> set[int]:
+        seen: set[int] = set(me.hand)
+        for mon in me.in_play():
+            seen.add(mon.card_i)
+            if mon.tool is not None:
+                seen.add(mon.tool)
+        seen.update(me.party_peeked)
+        seen.update(me.discard)
+        return seen
+
+    def _count_known_named(self, me: Player, pred) -> int:
+        return sum(1 for i in self._party_known_ids(me) if pred(me.card(i)))
+
+    def _known_has_belt(self, me: Player) -> bool:
+        if self._has_belt_in_hand_or_play(me):
+            return True
+        return any("maximum belt" in me.card(i).name.lower() for i in me.party_peeked)
+
+    def _pick_party_route(self, me: Player) -> str:
+        """Choose 4+1, 3+2, or Mega wall from cards the player has actually seen."""
+        if not self._facing_demolish(me):
+            return "wall"
+        n_fairy = self._count_known_named(me, self._is_clefairy)
+        n_mewtwo = self._count_known_named(me, self._is_mewtwo)
+        n_ex = self._count_known_named(me, self._is_clefable_ex)
+        n_fable = self._count_known_named(me, self._is_clefable)
+        belt = self._known_has_belt(me)
+        in_play_mewtwo = len(self._mewtwo_mons(me))
+        # Dual Mewtwo already on the board stays 3+2 even if a 4th Clefairy is in hand as fuel.
+        if in_play_mewtwo >= 2 and n_fairy >= 3 and belt and n_ex >= 1:
+            if self._went_second(me) or n_fable >= 1 or n_ex >= 2:
+                return "three_two"
+        if n_fairy >= 4 and n_mewtwo >= 1 and belt:
+            return "four_one"
+        if n_fairy >= 3 and n_mewtwo >= 2 and belt and n_ex >= 1:
+            if self._went_second(me) or n_fable >= 1 or n_ex >= 2:
+                return "three_two"
+        return "wall"
+
+    def _party_vs_d_route(self, me: Player) -> str:
+        if not self._facing_demolish(me):
+            return "wall"
+        if me.party_route_peeked and me.party_route:
+            return me.party_route
+        return self._pick_party_route(me)
+
+    def _note_party_deck_look(self, me: Player, seen: list[int]) -> None:
+        """First trainer look through the deck locks the vs-D script."""
+        who = "a" if me.name == "A" else "b"
+        if self.strats[who].name != "party" or not self._facing_demolish(me):
+            return
+        if me.party_route_peeked:
+            return
+        me.party_peeked = list(dict.fromkeys(seen))
+        me.party_route_peeked = True
+        me.party_route = self._pick_party_route(me)
 
     def _has_belt_in_hand_or_play(self, me: Player) -> bool:
         if any(self._belt_on(me, m) for m in me.in_play()):
@@ -3594,7 +3667,7 @@ class Game:
         Going first: one empty chump, then harvest. Going second: Belt required,
         two empty chumps while Party keeps firing, then harvest.
         """
-        if not self._facing_demolish(me):
+        if self._party_vs_d_route(me) != "four_one":
             return False
         if not self._four_one_assembled(me):
             return False
@@ -3618,6 +3691,8 @@ class Game:
         After the evolutions land, Clefairy count drops; stay on the line while the
         pieces are still in play.
         """
+        if self._party_vs_d_route(me) != "three_two":
+            return False
         if not self._facing_demolish(me) or not me.active:
             return False
         if len(self._mewtwo_mons(me)) < 2:
@@ -3813,10 +3888,9 @@ class Game:
         if foe_strat == "thrifty":
             return 1
         if foe_strat == "demolish":
-            # 3+2 keeps three Party engines; otherwise assemble four for the empty-chump T3 line.
-            if len(self._mewtwo_mons(me)) >= 2:
-                return 3
-            return 4
+            if self._party_vs_d_route(me) == "four_one":
+                return 4
+            return 3
         return 3
 
     def _invitation_attack(self, card) -> Attack | None:
