@@ -1949,7 +1949,7 @@ class Game:
                     return support
                 if main is not None:
                     return main
-            if self._want_two_one_mega_wall(me, foe):
+            if self._want_two_one_mega_wall(me, foe) or self._want_three_one_mega_wall(me, foe):
                 if (
                     me.active
                     and self._retreat_cost(me, me.active) > 0
@@ -2836,6 +2836,12 @@ class Game:
                     if "mewtwo" in name:
                         return 8
                     return 9
+                if self._want_three_one_mega_wall(player, foe) and self._mega_mon(player) is None:
+                    if self._is_clefairy(player.card(mon.card_i)):
+                        return 0 if not mon.energy else 1
+                    if "mewtwo" in name:
+                        return 8
+                    return 9
                 if self._want_three_two_combo(player, foe):
                     if "mewtwo" in name:
                         return 1 + (5 if self._belt_on(player, mon) else 0) + min(len(mon.energy), 3)
@@ -3549,6 +3555,16 @@ class Game:
         if self._four_one_assembled(me):
             return 1
         n_clef = self._count_named_in_play(me, "clefairy")
+        # Going-second 3+1 Mega wall: keep one Mewtwo while the extra copy is not in hand.
+        if (
+            self._went_second(me)
+            and n_clef >= 2
+            and self._two_one_mega_pieces_ready(me)
+            and not self._mewtwo_copy_in_hand(me)
+            and self._clefable_discarded(me) == 0
+            and len(self._mewtwo_mons(me)) < 2
+        ):
+            return 1
         if self._three_two_combo_pieces_ok(me):
             if n_clef >= 3:
                 return 2
@@ -3732,12 +3748,39 @@ class Game:
             return False
         return self._count_named_in_play(me, "clefairy") >= 2
 
-    def _want_empty_clefairy_chump(self, me: Player, foe: Player) -> bool:
-        if not self._four_one_keep_partying(me, foe):
+    def _want_three_one_mega_wall(self, me: Player, foe: Player | None = None) -> bool:
+        """Going second 3 Clefairy + 1 Mewtwo + Mega + Clefable ex + Belt.
+
+        T2 Party +3, T3 one empty Clefairy chump, T4 Party +2 and Mega (320 soaks
+        T5 and T7). T8: evolve Lunar Zone and switch onto the ex. T10 Photon.
+        """
+        if not self._went_second(me) or not self._facing_demolish(me):
             return False
+        if self._want_four_one_line(me, foe):
+            return False
+        if len(self._mewtwo_mons(me)) != 1:
+            return False
+        if not self._two_one_mega_pieces_ready(me):
+            return False
+        if self._mega_mon(me) is not None:
+            return True
+        if self._mewtwo_copy_in_hand(me):
+            return False
+        n_play = self._count_named_in_play(me, "clefairy")
+        n_disc = self._clefairy_discarded(me)
+        # A fourth Clefairy still to play is going-second 4+1, not this line.
+        if self._clefairy_still_to_play(me):
+            return False
+        return n_play >= 3 or (n_play >= 2 and n_disc >= 1)
+
+    def _want_empty_clefairy_chump(self, me: Player, foe: Player) -> bool:
         if not me.active:
             return False
-        return self._is_clefairy(me.card(me.active.card_i))
+        if not self._is_clefairy(me.card(me.active.card_i)):
+            return False
+        if self._four_one_keep_partying(me, foe):
+            return True
+        return self._want_three_one_mega_wall(me, foe) and self._clefairy_discarded(me) < 1
 
     def _is_fodder_mon(self, me: Player, mon: Pokemon) -> bool:
         if self._is_clefable(me.card(mon.card_i)):
@@ -3878,7 +3921,9 @@ class Game:
             return True
         if self._want_three_two_combo(me, foe):
             return False
-        if self._want_two_one_mega_wall(me, foe) and me.active and self._is_clefairy(me.card(me.active.card_i)):
+        if (
+            self._want_two_one_mega_wall(me, foe) or self._want_three_one_mega_wall(me, foe)
+        ) and me.active and self._is_clefairy(me.card(me.active.card_i)):
             return True
         if not self._ogerpon_threat(foe):
             return False
@@ -4545,7 +4590,9 @@ class Game:
         storm = self._want_storm_line(me, foe, who)
         if self._want_empty_clefairy_chump(me, foe) or (
             (
-                self._want_three_two_combo(me, foe) or self._want_two_one_mega_wall(me, foe)
+                self._want_three_two_combo(me, foe)
+                or self._want_two_one_mega_wall(me, foe)
+                or self._want_three_one_mega_wall(me, foe)
             )
             and self._is_clefairy(me.card(me.active.card_i))
         ):
@@ -4756,6 +4803,16 @@ class Game:
                 if mega is not None and (mega.damage > 0 or mega.played_turn < self.turn):
                     evolve_named("Clefable ex", prefer_active=False, require_used=False)
             return
+        if self._want_three_one_mega_wall(me, foe):
+            # T2: empty Clefairy chump. T4: Mega on Active after the 1-prize KO.
+            # T8: evolve Zone and switch onto the ex (Mega is at 40 HP). T10 Photon.
+            if self._mega_mon(me) is None:
+                if self._clefairy_discarded(me) >= 1:
+                    evolve_named("Mega Clefable ex", prefer_active=True)
+                return
+            if not self._has_lunar_zone(me) and self._mega_dies_to_next_demolish(me):
+                evolve_named("Clefable ex", prefer_active=False, require_used=False)
+            return
         if self._want_mega_rush(me, foe, who) and self._mega_mon(me) is None:
             evolve_named("Mega Clefable ex", prefer_active=True)
         if fast:
@@ -4869,7 +4926,10 @@ class Game:
                 ):
                     self._swap_to_bench(me, who, idx, allow_paid=True)
                     return
-        if self._want_two_one_mega_wall(me, foe) and not self._photon_ko(me, foe):
+        if (
+            (self._want_two_one_mega_wall(me, foe) or self._want_three_one_mega_wall(me, foe))
+            and not self._photon_ko(me, foe)
+        ):
             if me.active and self._is_clefairy(me.card(me.active.card_i)):
                 return
             if self._ogerpon_threat(foe):

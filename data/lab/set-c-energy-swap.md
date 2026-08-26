@@ -162,6 +162,19 @@ Human line vs D, going first, when the board is **2 Clefairy + 1 Mewtwo + Mega C
 
 If the second Mewtwo is already in hand, the 2+2 Charge line still takes priority. This does not replace locked 4× LOR 62.
 
+## Going-second 3+1+Mega+ex+tool (2026-08-26)
+
+Human line vs D, going second, when the board is **3 Clefairy + 1 Mewtwo + Mega Clefable ex + Clefable ex + Maximum Belt** (fourth Clefairy not still in hand/deck; second Mewtwo not for 3+2):
+
+1. T2 Party +3 (two benched engines + hand attach). Empty Active Clefairy is the chump.
+2. T3 Demolish takes that Clefairy (1 prize).
+3. T4 Party +2, evolve **Mega** on the Active Clefairy (320 HP).
+4. T5 Demolish (180 left). T6 +1 on Mewtwo. T7 Demolish (40 left).
+5. T8 +1 retreat payer, evolve **Lunar Zone**, switch onto Clefable ex (260).
+6. T9 Demolish on the ex. T10 +1, switch to the full-HP Belted Mewtwo, Photon.
+
+If a fourth Clefairy can still come down, keep assembling 4+1. This does not replace locked 4× LOR 62.
+
 ## A–T matrix after 2+2 / 2+1 scripts (2026-08-26)
 
 First pass locked Clefairy at 2 whenever Mega/Prankish pieces were in hand. That stole
