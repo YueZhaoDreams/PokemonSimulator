@@ -413,6 +413,7 @@ class Game:
         ace_in_deck = self._name_in_zones(player, aces, "deck") if aces else True
         who = "a" if player.name == "A" else "b"
         glass = strat.name == "party" and self._vs_lightning_glass(who)
+        vs_claw = strat.name == "party" and self._facing_slash(player)
         slash = strat.name == "slash"
 
         def score(i: int) -> float:
@@ -452,10 +453,14 @@ class Game:
                 return 900
             if strat.name == "phantom" and name == "dreepy":
                 return 950
+            if vs_claw and name in closers:
+                return 2000 + self._print_value(card, strat)
             if glass and name in closers:
                 return 2000 + self._print_value(card, strat)
             if name in aces:
                 bonus = 10 if glass else 1000
+                if vs_claw:
+                    bonus = 150
                 if strat.name == "party" and not glass and self._invitation_attack(card):
                     # Open on 151 Invitation so it can dump Party engines without Switch.
                     bonus += 250
@@ -1923,6 +1928,12 @@ class Game:
                         return me.active
             # Wall Retreat: Mega 1, Clefable ex 2, Mewtwo 2. Set C has no Switch.
             # Lunar Zone zeros cost only after this Pokémon already has a Psychic.
+            if self._facing_slash(me) and me.active and self._is_clefairy(me.card(me.active.card_i)):
+                # Pay Retreat 1 so Party can hide behind Mega / ex / Mewtwo. Empty Active
+                # is the vs-D chump; vs Floragato that 60 HP is a free prize.
+                need = self._retreat_cost(me, me.active)
+                if need > 0 and len(me.active.energy) < need:
+                    return me.active
             if self._want_four_one_line(me, foe):
                 # Empty Active Clefairy is the 1-prize chump; every attach goes on Mewtwo.
                 mewtwo = self._mewtwo_mon(me)
@@ -2826,6 +2837,20 @@ class Game:
                     return 2
                 return 9
             if strat.name == "party":
+                if self._facing_slash(player):
+                    if self._photon_ko(player, foe) or self._photon_finish(player, foe, who):
+                        if "mewtwo" in name:
+                            return 0
+                        return 9
+                    if "mega clefable" in name:
+                        return 0
+                    if "mewtwo" in name:
+                        return 1
+                    if name == "clefable ex":
+                        return 2
+                    if self._is_clefairy(player.card(mon.card_i)):
+                        return 11
+                    return 12
                 if self._want_four_one_line(player, foe):
                     if self._photon_ko(player, foe) or not self._four_one_keep_partying(player, foe):
                         if "mewtwo" in name:
@@ -3540,9 +3565,64 @@ class Game:
         mons = self._mewtwo_mons(me)
         return mons[0] if mons else None
 
-    def _facing_demolish(self, me: Player) -> bool:
+    def _foe_strat_name(self, me: Player) -> str:
         who = "a" if me.name == "A" else "b"
-        return self.strats["b" if who == "a" else "a"].name == "demolish"
+        return self.strats["b" if who == "a" else "a"].name
+
+    def _facing_demolish(self, me: Player) -> bool:
+        return self._foe_strat_name(me) == "demolish"
+
+    def _facing_slash(self, me: Player) -> bool:
+        return self._foe_strat_name(me) == "slash"
+
+    def _slash_hit_damage(self, foe: Player) -> int:
+        """Floragato Claw 90 (+Belt 50) or Wo-Chien Forest Blast 220."""
+        if not foe.active:
+            return 90
+        card = foe.card(foe.active.card_i)
+        name = card.name.lower()
+        belt = 0
+        if foe.active.tool is not None and "maximum belt" in foe.card(foe.active.tool).name.lower():
+            belt = 50
+        if name == "floragato":
+            return 90 + belt
+        if "wo-chien" in name:
+            return 220
+        if name == "sprigatito":
+            return 90
+        return 90
+
+    def _survives_slash(self, me: Player, mon: Pokemon, foe: Player) -> bool:
+        return self._max_hp(me, mon) - mon.damage > self._slash_hit_damage(foe)
+
+    def _best_slash_tank_idx(self, me: Player, foe: Player, require_survive: bool = False) -> int | None:
+        scored: list[tuple[int, int, int, int]] = []
+        for idx, mon in enumerate(me.bench):
+            if not self._is_tank_mon(me, mon):
+                continue
+            survives = 1 if self._survives_slash(me, mon, foe) else 0
+            if require_survive and not survives:
+                continue
+            scored.append((survives, self._tank_role(me, mon), self._max_hp(me, mon) - mon.damage, idx))
+        if not scored:
+            return None
+        scored.sort(reverse=True)
+        return scored[0][3]
+
+    def _end_on_slash_tank(self, me: Player, foe: Player, who: str) -> bool:
+        """Hide 60 HP Clefairy from Slashing Claw. Mega / Clefable ex / Mewtwo soak 90–140."""
+        if not me.active or not me.bench:
+            return False
+        if self._photon_finish(me, foe, who):
+            return False
+        if self._is_tank_mon(me, me.active) and self._survives_slash(me, me.active, foe):
+            return True
+        idx = self._best_slash_tank_idx(me, foe, require_survive=True)
+        if idx is None:
+            idx = self._best_slash_tank_idx(me, foe, require_survive=False)
+        if idx is None:
+            return False
+        return self._swap_to_bench(me, who, idx, allow_paid=True)
 
     def _mewtwo_play_cap(self, me: Player) -> int:
         """Vs D: 2 for Charge. 4+1 and the Mega-wall fallback keep one.
@@ -3961,8 +4041,9 @@ class Game:
 
         Vs Lightning (shock): 0 — Thunder Shock para-locks Wonder Storm into deck-out.
         Vs Dondozo (thrifty): at most 1 — Hydro Splash still prizes 60 HP bodies; one engine
-        is enough while Mewtwo Photons. Vs Ogerpon: up to 4 for the empty-chump T3 line,
-        or 3 once both Mewtwo are down for the Charge combo.
+        is enough while Mewtwo Photons. Vs Floragato (slash): 3 on the bench for Party,
+        but never leave a 60 HP Active into Slashing Claw. Vs Ogerpon: up to 4 for the
+        empty-chump T3 line, or 3 once both Mewtwo are down for the Charge combo.
         """
         who = "a" if me.name == "A" else "b"
         foe_who = "b" if who == "a" else "a"
@@ -4601,6 +4682,12 @@ class Game:
             if not me.active.ability_used:
                 self._moon_watching_party(me, me.active)
             return
+        if self._facing_slash(me):
+            # One Party from Active Clefairy fuels every benched copy. Do not spend
+            # the retreat rotating more 60 HP bodies into Slashing Claw.
+            if self._is_clefairy(me.card(me.active.card_i)) and not me.active.ability_used:
+                self._moon_watching_party(me, me.active)
+            return
         for _ in range(6):
             if not me.active:
                 return
@@ -4813,6 +4900,16 @@ class Game:
             if not self._has_lunar_zone(me) and self._mega_dies_to_next_demolish(me):
                 evolve_named("Clefable ex", prefer_active=False, require_used=False)
             return
+        if self._facing_slash(me):
+            # Mega soaks Claw; Lunar Zone zeros Clefairy Retreat 2 so Party can hide
+            # the same turn. Keep a Clefairy Active for the ability.
+            if self._mega_mon(me) is None:
+                evolve_named("Mega Clefable ex", prefer_active=False)
+            if not self._has_lunar_zone(me) and len(engines) >= 2:
+                evolve_named("Clefable ex", prefer_active=False, require_used=False)
+            if self._want_mega_rush(me, foe, who) and self._mega_mon(me) is not None:
+                return
+            return
         if self._want_mega_rush(me, foe, who) and self._mega_mon(me) is None:
             evolve_named("Mega Clefable ex", prefer_active=True)
         if fast:
@@ -4996,6 +5093,16 @@ class Game:
                         return
             if self._ogerpon_threat(foe):
                 self._end_on_tank(me, foe, who)
+            return
+        if self._facing_slash(me):
+            if self._photon_finish(me, foe, who):
+                if self._is_mewtwo(me.card(me.active.card_i)):
+                    return
+                for idx, mon in enumerate(me.bench):
+                    if self._is_mewtwo(me.card(mon.card_i)):
+                        self._swap_to_bench(me, who, idx, allow_paid=True)
+                        return
+            self._end_on_slash_tank(me, foe, who)
             return
         if self._ogerpon_threat(foe):
             self._end_on_tank(me, foe, who)

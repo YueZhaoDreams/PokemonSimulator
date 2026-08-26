@@ -306,4 +306,26 @@ C-row vs the wall-rotate table (same seed / 3k):
 
 C vs D is first 58.2% / second 56.8%. The vs-D lift is paid for vs S (86.2% → 78.2%); S vs C 14.8% → 20.8%. D vs C 48.0% → 41.4%.
 
+## Party vs Floragato (2026-08-26)
+
+`party` branches on the opponent: D scripts stay vs Ogerpon; vs Floragato open Mewtwo, Party once, hide on Mega / Clefable ex / Mewtwo, Photon when it finishes. Same seed `20260819`, 3,000 / ordered pair. Raw: `data/lab/family-cup-30-matrix.json`.
+
+|  | A | B | C | D | S | T |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| **A** | — | 68.3% | 11.3% | 4.2% | 67.7% | 47.5% |
+| **B** | 32.3% | — | 10.4% | 1.2% | 23.2% | 50.4% |
+| **C** | 88.2% | 89.6% | — | **58.1%** | **90.6%** | 54.5% |
+| **D** | 95.7% | 98.7% | 41.8% | — | 39.1% | 70.4% |
+| **S** | 31.1% | 75.5% | **9.7%** | 60.9% | — | 59.7% |
+| **T** | 51.7% | 49.6% | 44.6% | 31.0% | 41.1% | — |
+
+C-row vs the D-script table (same seed / 3k):
+
+|  | vs A | vs B | vs D | vs S | vs T | C avg |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| D scripts | 88.2% | 89.6% | 57.5% | 78.2% | 54.5% | 73.6% |
+| vs Floragato branch | 88.2% | 89.6% | **58.1%** | **90.6%** | 54.5% | **76.2%** |
+
+C vs S is first 85.5% / second 95.8%. C vs D stays 58.1% (first 59.4 / second 56.9).
+
 

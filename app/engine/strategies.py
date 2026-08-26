@@ -212,6 +212,8 @@ STRATEGY_LIBRARY = {
             "T10 Photon from the full-HP Belted closer. "
             "If a third/fourth Clefairy is still in hand or deck, keep assembling 4+1 / 3+2. "
             "If those boards are not assembled, hide behind Mega / Clefable ex and keep one Mewtwo. "
+            "Vs Floragato: Party once from Active Clefairy, pay Retreat 1, hide on Mega / ex / "
+            "Mewtwo so Slashing Claw 90 (Belt 140) does not farm 60 HP prizes; Photon when it KOs. "
             "151 Invitation Clefairy (if mixed in) dumps Party engines in one attack when "
             "there is no Switch to rotate Party. One Boss's Orders to pull a prize. "
             "Trainer order: hunt Maximum Belt (Arven before Tool Box), then Hop or "

@@ -194,4 +194,24 @@ with both Mewtwo). Seed `20260819`, 3,000 / cell. Raw: `data/lab/family-cup-30-m
 
 C vs D **57.9%** (first **58.7%** / second **57.1%**), at or above PR #33's 57.5% / 58.2% / 56.8%. C vs T **54.5%**. C vs S 78.2% is the same as PR #33 (that drop was the D scripts vs Floragato, not the 2-engine lock). C mean vs A/B/D/S/T **73.7%**.
 
+## Party vs Floragato (2026-08-26)
+
+D scripts stay vs Ogerpon only. Vs `slash`, `party` opens Mewtwo, Parties once from Active
+Clefairy, pays Retreat 2 (or Lunar Zone), and hides on Mega / Clefable ex / Mewtwo so
+Slashing Claw 90 does not farm 60 HP prizes. Photon when it KOs or KOs next. Same seed
+`20260819`, 3,000 / cell. Raw: `data/lab/family-cup-30-matrix.json`.
+
+|  | A | B | C | D | S | T |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| **A** | — | 68.3% | 11.3% | 4.2% | 67.7% | 47.5% |
+| **B** | 32.3% | — | 10.4% | 1.2% | 23.2% | 50.4% |
+| **C** | 88.2% | 89.6% | — | **58.1%** | **90.6%** | 54.5% |
+| **D** | 95.7% | 98.7% | 41.8% | — | 39.1% | 70.4% |
+| **S** | 31.1% | 75.5% | **9.7%** | 60.9% | — | 59.7% |
+| **T** | 51.7% | 49.6% | 44.6% | 31.0% | 41.1% | — |
+
+C vs S **90.6%** (first **85.5%** / second **95.8%**), above the wall-rotate 86.2% and the
+pre-D-script 88.5%. C vs D **58.1%** (first **59.4%** / second **56.9%**) holds. C mean vs
+A/B/D/S/T **76.2%**.
+
 
