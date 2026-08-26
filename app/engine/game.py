@@ -2639,8 +2639,8 @@ class Game:
                     # Wonder Storm is the glass-cannon plan: fire whenever it chips or KOs.
                     score += 40 if effective >= foe_hp > 0 else 25
             if strat.name == "party" and self._facing_phantom(me) and "wondrous moon" in atk.name.lower():
-                # Two 170s KO Dragapult 320. Do not skip the first chip the way Photon skips Acerola.
-                score += 80
+                # Prize-only: two 170s still need the first hit to KO something, or a
+                # leftover dragon already at ≤170. Do not boost a chip into Photon.
                 if effective >= foe_hp > 0:
                     score += 200
             if any(e.get("kind") == "transfer_charge" for e in atk.effects):
@@ -2728,7 +2728,11 @@ class Game:
             setup = any(
                 e.get("kind") in {"transfer_charge", "call_family"} for e in best.effects
             )
-            moon_chip = self._facing_phantom(me) and "wondrous moon" in best.name.lower() and effective > 0
+            moon_ko = (
+                self._facing_phantom(me)
+                and "wondrous moon" in best.name.lower()
+                and effective >= foe_hp > 0
+            )
             if effective <= 0 and not setup:
                 return None
             if (
@@ -2737,7 +2741,19 @@ class Game:
                 and "mewtwo" in card.name.lower()
             ):
                 return None
-            if moon_chip:
+            if (
+                self._facing_phantom(me)
+                and "wondrous moon" in best.name.lower()
+                and effective < foe_hp
+            ):
+                return None
+            if (
+                self._facing_phantom(me)
+                and "shooting moons" in best.name.lower()
+                and effective < foe_hp
+            ):
+                return None
+            if moon_ko:
                 return best
         if strat.name == "slash" and best is not None:
             effective = self._effective_damage(me, foe, best)
@@ -3706,9 +3722,6 @@ class Game:
             return False
         if self._is_tank_mon(me, me.active) and self._survives_dive(me, me.active):
             return True
-        if self._is_clefable_ex(me.card(me.active.card_i)) and self._can_pay_wondrous_moon(me, me.active):
-            if self._survives_dive(me, me.active):
-                return True
         idx = self._best_dive_tank_idx(me, require_survive=True)
         if idx is not None:
             return self._swap_to_bench(me, who, idx, allow_paid=True)
@@ -3737,8 +3750,9 @@ class Game:
         if cannon is not None and cannon is not me.active and self._moon_ko(me, foe, cannon):
             for idx, mon in enumerate(me.bench):
                 if mon is cannon:
-                    self._swap_to_bench(me, who, idx, allow_paid=True)
-                    return
+                    if self._swap_to_bench(me, who, idx, allow_paid=True):
+                        return
+                    break
         self._end_on_dive_tank(me, foe, who)
 
     def _party_vs_phantom_energy_target(self, me: Player) -> Pokemon:

@@ -232,7 +232,7 @@ Mewtwo is already the second Dive tank. Photon stays the closer. Same seed `2026
 | **S** | 31.1% | 75.5% | **9.7%** | 60.9% | — | 59.7% |
 | **T** | 51.7% | 49.6% | **37.1%** | 31.0% | 41.1% | — |
 
-C vs T **62.4%** (first **63.6%** / second **61.1%**), up from the Floragato-branch **54.5%**.
+C vs T **62.4%** (first **63.0%** / second **61.8%**), up from the Floragato-branch **54.5%**.
 C vs D **58.1%** and C vs S **90.6%** hold. C mean vs A/B/D/S/T **77.8%**.
 
 

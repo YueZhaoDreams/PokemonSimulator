@@ -348,6 +348,6 @@ C-row vs the Floragato-branch table (same seed / 3k):
 | vs Floragato branch | 88.2% | 89.6% | 58.1% | 90.6% | 54.5% | 76.2% |
 | vs Dragapult branch | 88.2% | 89.6% | **58.1%** | **90.6%** | **62.4%** | **77.8%** |
 
-C vs T is first 63.6% / second 61.1%. C vs D and C vs S are unchanged.
+C vs T is first 63.0% / second 61.8%. C vs D and C vs S are unchanged.
 
 
