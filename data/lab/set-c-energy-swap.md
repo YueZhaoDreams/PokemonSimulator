@@ -150,4 +150,16 @@ Human line vs D, going first, when the board is **2 Clefairy + 2 Mewtwo + Rebel 
 
 The engine now plays this Charge combo at 2 Party engines going first; going second still wants 3 Clefairy. This does not replace locked 4× LOR 62.
 
+## Going-first 2+1+Mega+ex+tool (2026-08-26)
+
+Human line vs D, going first, when the board is **2 Clefairy + 1 Mewtwo + Mega Clefable ex + Clefable ex + Maximum Belt** (second Mewtwo not in hand):
+
+1. T1 Party + hand attach (D cannot Demolish yet).
+2. T3 Party, evolve **Mega** on the empty Active Clefairy (320 HP). Mega evolves from Clefairy.
+3. T4 Demolish (180 HP left). T5 attach, evolve Lunar Zone on the leftover Clefairy.
+4. T6 Demolish (40 HP left). T7 attach a retreat payer, swap to Clefable ex (260).
+5. T8 Demolish on the ex. T9 attach, swap to the full-HP Belted Mewtwo, Photon.
+
+If the second Mewtwo is already in hand, the 2+2 Charge line still takes priority. This does not replace locked 4× LOR 62.
+
 

@@ -1949,6 +1949,20 @@ class Game:
                     return support
                 if main is not None:
                     return main
+            if self._want_two_one_mega_wall(me, foe):
+                if (
+                    me.active
+                    and self._retreat_cost(me, me.active) > 0
+                    and len(me.active.energy) < self._retreat_cost(me, me.active)
+                    and (
+                        self._mega_dies_to_next_demolish(me)
+                        or self._photon_ko(me, foe)
+                    )
+                ):
+                    return me.active
+                mewtwo = self._mewtwo_mon(me)
+                if mewtwo is not None:
+                    return mewtwo
             if self._support_transfer_turn(me, foe):
                 if not self._can_pay_transfer(me, me.active):
                     return me.active
@@ -3530,14 +3544,16 @@ class Game:
             return 1
         if self._four_one_assembled(me):
             return 1
-        if not self._three_two_pieces_ready(me):
-            return 1
         n_clef = self._count_named_in_play(me, "clefairy")
-        if n_clef >= 3:
+        if n_clef >= 3 and self._three_two_pieces_ready(me):
             return 2
-        # Going first 2+2+Prankish+ex: two Party engines are enough if fodder+Zone+Belt are ready.
         if not self._went_second(me) and n_clef >= 2:
-            return 2
+            if self._three_two_pieces_ready(me) and self._second_mewtwo_in_hand(me):
+                return 2
+            if self._two_one_mega_pieces_ready(me) and not self._second_mewtwo_in_hand(me):
+                return 1
+            if self._three_two_pieces_ready(me):
+                return 2
         return 1
 
     def _is_clefable(self, card) -> bool:
@@ -3656,6 +3672,38 @@ class Game:
         if not self._went_second(me) and n_clef >= 2:
             return True
         return not self._went_second(me) and n_clef >= 1 and self._clefable_discarded(me) >= 1
+
+    def _mega_piece_available(self, me: Player) -> bool:
+        if self._mega_mon(me) is not None:
+            return True
+        return any("mega clefable" in me.card(i).name.lower() for i in me.hand)
+
+    def _second_mewtwo_in_hand(self, me: Player) -> bool:
+        return sum(1 for i in me.hand if self._is_mewtwo(me.card(i))) > 0
+
+    def _two_one_mega_pieces_ready(self, me: Player) -> bool:
+        return (
+            self._has_belt_in_hand_or_play(me)
+            and self._zone_piece_available(me)
+            and self._mega_piece_available(me)
+        )
+
+    def _want_two_one_mega_wall(self, me: Player, foe: Player | None = None) -> bool:
+        """Going first 2 Clefairy + 1 Mewtwo + Mega + Clefable ex + Belt.
+
+        Mega (320) soaks two Demolishes, Zone Clefable ex soaks the third, then Photon.
+        """
+        if self._went_second(me) or not self._facing_demolish(me):
+            return False
+        if self._want_four_one_line(me, foe):
+            return False
+        if len(self._mewtwo_mons(me)) != 1:
+            return False
+        if not self._two_one_mega_pieces_ready(me):
+            return False
+        if self._mega_mon(me) is not None:
+            return True
+        return self._count_named_in_play(me, "clefairy") >= 2
 
     def _want_empty_clefairy_chump(self, me: Player, foe: Player) -> bool:
         if not self._four_one_keep_partying(me, foe):
@@ -3803,6 +3851,8 @@ class Game:
             return True
         if self._want_three_two_combo(me, foe):
             return False
+        if self._want_two_one_mega_wall(me, foe) and me.active and self._is_clefairy(me.card(me.active.card_i)):
+            return True
         if not self._ogerpon_threat(foe):
             return False
         live = self._best_tank_idx(me, require_survive=True)
@@ -3856,6 +3906,13 @@ class Game:
                 if not self._went_second(me) and self._count_named_in_play(me, "clefairy") < 3:
                     return 2
                 return 3
+            if (
+                not self._went_second(me)
+                and self._two_one_mega_pieces_ready(me)
+                and self._count_named_in_play(me, "clefairy") >= 2
+                and not self._second_mewtwo_in_hand(me)
+            ):
+                return 2
             return 4
         return 3
 
@@ -4468,10 +4525,13 @@ class Game:
         walling = any(self._is_tank_mon(me, mon) for mon in me.in_play())
         storm = self._want_storm_line(me, foe, who)
         if self._want_empty_clefairy_chump(me, foe) or (
-            self._want_three_two_combo(me, foe) and self._is_clefairy(me.card(me.active.card_i))
+            (
+                self._want_three_two_combo(me, foe) or self._want_two_one_mega_wall(me, foe)
+            )
+            and self._is_clefairy(me.card(me.active.card_i))
         ):
             # Printed Party fuels every benched Clefairy in one use. Stay Active
-            # on Clefairy while the 4+1 chump or 3+2 engines are still firing.
+            # on Clefairy while the 4+1 / 3+2 / 2+1 engines are still firing.
             if not me.active.ability_used:
                 self._moon_watching_party(me, me.active)
             return
@@ -4597,12 +4657,20 @@ class Game:
             if require_used and not used:
                 return False
             if "mega clefable" in evo_name.lower():
-                ranked = sorted(
-                    candidates,
-                    key=lambda m: (len(m.energy), 1 if m is me.active else 0),
-                    reverse=True,
-                )
-                target = ranked[0]
+                if (
+                    prefer_active
+                    and self._facing_demolish(me)
+                    and me.active in candidates
+                ):
+                    # Vs D Mega is a 320 HP sponge; keep the empty Active as the chump.
+                    target = me.active
+                else:
+                    ranked = sorted(
+                        candidates,
+                        key=lambda m: (len(m.energy), 1 if m is me.active else 0),
+                        reverse=True,
+                    )
+                    target = ranked[0]
             elif prefer_active and me.active in candidates:
                 target = me.active
             elif prefer_active:
@@ -4658,6 +4726,16 @@ class Game:
                     and len(engines) >= 2
                 ):
                     evolve_named("Clefable", prefer_active=False, require_used=False)
+            return
+        if self._want_two_one_mega_wall(me, foe):
+            # T3 Mega on the empty Active. T5 Zone on the leftover Clefairy after Mega
+            # has been in play a turn (first Demolish lands T4).
+            if self._mega_mon(me) is None:
+                evolve_named("Mega Clefable ex", prefer_active=True)
+            elif not self._has_lunar_zone(me):
+                mega = self._mega_mon(me)
+                if mega is not None and (mega.damage > 0 or mega.played_turn < self.turn):
+                    evolve_named("Clefable ex", prefer_active=False, require_used=False)
             return
         if self._want_mega_rush(me, foe, who) and self._mega_mon(me) is None:
             evolve_named("Mega Clefable ex", prefer_active=True)
@@ -4772,6 +4850,12 @@ class Game:
                 ):
                     self._swap_to_bench(me, who, idx, allow_paid=True)
                     return
+        if self._want_two_one_mega_wall(me, foe) and not self._photon_ko(me, foe):
+            if me.active and self._is_clefairy(me.card(me.active.card_i)):
+                return
+            if self._ogerpon_threat(foe):
+                self._end_on_tank(me, foe, who)
+            return
         if self._want_four_one_line(me, foe) and not self._photon_ko(me, foe):
             if self._four_one_keep_partying(me, foe):
                 if me.active and self._is_clefairy(me.card(me.active.card_i)):

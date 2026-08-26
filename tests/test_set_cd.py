@@ -1606,3 +1606,139 @@ def test_going_first_two_two_harvest_evolves_zone_and_swaps_to_full_hp_main():
     assert me.active.damage == 0
     assert game._photon_ko(me, foe)
 
+
+def test_going_first_two_one_mega_keeps_one_mewtwo_without_second_in_hand():
+    game = _cd_game()
+    game.first = "a"
+    me = game.players["a"]
+    mewtwos = [i for i, card in enumerate(me.cards) if card.name == "Mewtwo ex"]
+    clefs = [i for i, card in enumerate(me.cards) if card.name == "Clefairy"]
+    exs = [i for i, card in enumerate(me.cards) if card.name == "Clefable ex"]
+    mega = next(i for i, card in enumerate(me.cards) if "Mega Clefable" in card.name)
+    belt = next(i for i, card in enumerate(me.cards) if card.name == "Maximum Belt")
+    me.active = Pokemon(card_i=clefs[0], played_turn=0)
+    me.bench = [
+        Pokemon(card_i=clefs[1], played_turn=0),
+        Pokemon(card_i=mewtwos[0], played_turn=0),
+    ]
+    me.hand = [mega, exs[0], belt]
+    me.deck = [mewtwos[1]]
+    strat = StrategySpec.from_dict("party")
+    assert game._want_two_one_mega_wall(me, game.players["b"])
+    assert game._mewtwo_play_cap(me) == 1
+    assert game._clefairy_play_cap(me) == 2
+    assert game._wants_in_play(me, me.card(mewtwos[1]), strat) is False
+    fable = next(i for i, card in enumerate(me.cards) if card.name == "Clefable")
+    me.hand = [mega, exs[0], belt, mewtwos[1], fable]
+    me.deck = []
+    assert game._mewtwo_play_cap(me) == 2
+    assert game._wants_in_play(me, me.card(mewtwos[1]), strat) is True
+
+
+def test_going_first_two_one_evolves_mega_not_zone_on_t3():
+    game = _cd_game()
+    game.first = "a"
+    game.turn = 3
+    me = game.players["a"]
+    foe = game.players["b"]
+    clefs = [i for i, card in enumerate(me.cards) if card.name == "Clefairy"]
+    exs = [i for i, card in enumerate(me.cards) if card.name == "Clefable ex"]
+    mewtwo = next(i for i, card in enumerate(me.cards) if card.name == "Mewtwo ex")
+    mega = next(i for i, card in enumerate(me.cards) if "Mega Clefable" in card.name)
+    fuels = [i for i, card in enumerate(me.cards) if card.name == "Clefable"]
+    belt = next(i for i, card in enumerate(me.cards) if card.name == "Maximum Belt")
+    oger = next(i for i, card in enumerate(foe.cards) if "Ogerpon" in card.name)
+    fighting = next(i for i, card in enumerate(foe.cards) if card.name == "Fighting Energy")
+    me.active = Pokemon(card_i=clefs[0], ability_used=True, played_turn=0)
+    me.bench = [
+        Pokemon(card_i=clefs[1], energy=[fuels[0]], played_turn=0),
+        Pokemon(card_i=mewtwo, tool=belt, played_turn=0),
+    ]
+    me.hand = [mega, exs[0]]
+    foe.active = Pokemon(card_i=oger, energy=[fighting])
+    assert game._want_two_one_mega_wall(me, foe)
+    game._evolve_party(me, foe, "a")
+    assert "mega clefable" in me.card(me.active.card_i).name.lower()
+    assert not game._has_lunar_zone(me)
+    game._maybe_retreat(me, foe, "a")
+    assert "mega clefable" in me.card(me.active.card_i).name.lower()
+
+
+def test_going_first_two_one_evolves_zone_after_mega_soaks_one():
+    game = _cd_game()
+    game.first = "a"
+    game.turn = 5
+    me = game.players["a"]
+    foe = game.players["b"]
+    clefs = [i for i, card in enumerate(me.cards) if card.name == "Clefairy"]
+    exs = [i for i, card in enumerate(me.cards) if card.name == "Clefable ex"]
+    mewtwo = next(i for i, card in enumerate(me.cards) if card.name == "Mewtwo ex")
+    mega = next(i for i, card in enumerate(me.cards) if "Mega Clefable" in card.name)
+    fuels = [i for i, card in enumerate(me.cards) if card.name == "Clefable"]
+    belt = next(i for i, card in enumerate(me.cards) if card.name == "Maximum Belt")
+    oger = next(i for i, card in enumerate(foe.cards) if "Ogerpon" in card.name)
+    fighting = next(i for i, card in enumerate(foe.cards) if card.name == "Fighting Energy")
+    dce = next(i for i, card in enumerate(foe.cards) if card.name == "Double Colorless Energy")
+    charm = next(i for i, card in enumerate(foe.cards) if card.name == "Bravery Charm")
+    me.active = Pokemon(card_i=mega, damage=140, played_turn=3)
+    me.bench = [
+        Pokemon(card_i=clefs[0], energy=[fuels[0]], played_turn=0),
+        Pokemon(card_i=mewtwo, energy=[exs[1]], tool=belt, played_turn=0),
+    ]
+    me.hand = [exs[0]]
+    foe.active = Pokemon(card_i=oger, energy=[fighting, dce], tool=charm)
+    assert game._survives_demolish(me, me.active)
+    assert game._want_two_one_mega_wall(me, foe)
+    game._evolve_party(me, foe, "a")
+    assert game._has_lunar_zone(me)
+    game._maybe_retreat(me, foe, "a")
+    assert "mega clefable" in me.card(me.active.card_i).name.lower()
+
+
+def test_going_first_two_one_leaves_dying_mega_for_ex_then_mewtwo():
+    """T7 Mega is at 40 HP: attach, Zone-retreat onto ex. T9 Photon on full-HP Mewtwo."""
+    game = _cd_game()
+    game.first = "a"
+    game.turn = 7
+    me = game.players["a"]
+    foe = game.players["b"]
+    clefs = [i for i, card in enumerate(me.cards) if card.name == "Clefairy"]
+    exs = [i for i, card in enumerate(me.cards) if card.name == "Clefable ex"]
+    mewtwo = next(i for i, card in enumerate(me.cards) if card.name == "Mewtwo ex")
+    mega = next(i for i, card in enumerate(me.cards) if "Mega Clefable" in card.name)
+    fuels = [i for i, card in enumerate(me.cards) if card.name == "Clefable"]
+    belt = next(i for i, card in enumerate(me.cards) if card.name == "Maximum Belt")
+    oger = next(i for i, card in enumerate(foe.cards) if "Ogerpon" in card.name)
+    fighting = next(i for i, card in enumerate(foe.cards) if card.name == "Fighting Energy")
+    dce = next(i for i, card in enumerate(foe.cards) if card.name == "Double Colorless Energy")
+    charm = next(i for i, card in enumerate(foe.cards) if card.name == "Bravery Charm")
+    me.active = Pokemon(card_i=mega, damage=280, played_turn=3)
+    me.bench = [
+        Pokemon(card_i=exs[0], played_turn=0),
+        Pokemon(card_i=mewtwo, energy=[fuels[0], fuels[1], fuels[2], exs[1]], tool=belt, played_turn=0),
+    ]
+    me.hand = [exs[2]]
+    me.energy_attached = False
+    me.retreated = False
+    foe.active = Pokemon(card_i=oger, energy=[fighting, dce], tool=charm)
+    assert game._mega_dies_to_next_demolish(me)
+    assert game._want_two_one_mega_wall(me, foe)
+    assert not game._photon_ko(me, foe)
+    game._attach_energy(me, "a")
+    assert me.active.energy
+    game._maybe_retreat(me, foe, "a")
+    assert me.card(me.active.card_i).name.lower() == "clefable ex"
+    assert game._survives_demolish(me, me.active)
+
+    game.turn = 9
+    me.retreated = False
+    me.energy_attached = False
+    me.hand = [next(i for i, card in enumerate(me.cards) if "Mega Clefable" in card.name and i != mega)]
+    main = next(m for m in me.in_play() if game._is_mewtwo(me.card(m.card_i)))
+    main.energy = [fuels[0], fuels[1], fuels[2], fuels[3], exs[1], exs[3]]
+    assert game._photon_ko(me, foe)
+    game._attach_energy(me, "a")
+    game._maybe_retreat(me, foe, "a")
+    assert game._is_mewtwo(me.card(me.active.card_i))
+    assert me.active.damage == 0
+
