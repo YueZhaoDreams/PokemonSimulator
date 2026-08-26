@@ -137,4 +137,17 @@ Locked C still has **no Switch**. Replacing 1–2 LOR 62 with MEW 035 (`Moon-Vie
 
 The dump costs the attack and leaves 60 HP Active. Without Switch you cannot Party-then-tank the same turn, so vs D it is still a turn short. Cutting Party engines is the rest of the hole (−13 then −10 vs D) even when Invitation almost never fires (~2% vs D). Vs S it helps a winning matchup; that does not buy the D race. Stay on 4× LOR 62.
 
+## Going-first 2+2+Prankish+ex (2026-08-26)
+
+Human line vs D, going first, when the board is **2 Clefairy + 2 Mewtwo + Rebel Clash Clefable + Clefable ex + Belt** (not 4+1, not 3+2):
+
+1. T1 Party + hand attach.
+2. T3 Party, evolve **Prankish** on the empty Active Clefairy — bounce T2 Fighting so Demolish cannot land T4.
+3. T5 another attach. T6 Demolish KOs Clefable (1 prize); the Clefairy underneath and Clefable hit discard. Promote the **support** Mewtwo.
+4. T7 Transfer Charge +2 onto the Belted closer, stay to tank.
+5. T8 support (230 HP) eats 140 and lives.
+6. T9 evolve Lunar Zone, attach, free-retreat onto the full-HP closer, Photon for 2 prizes.
+
+The engine now plays this Charge combo at 2 Party engines going first; going second still wants 3 Clefairy. This does not replace locked 4× LOR 62.
+
 

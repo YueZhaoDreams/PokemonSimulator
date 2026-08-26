@@ -341,7 +341,8 @@ class Game:
         if name in closers:
             closer_out = any(n in closers for n in self._in_play_names(player))
             if strat.name == "party":
-                # Vs D: 3+2 combo plays both; 4+1 and the Mega-wall fallback keep one.
+                # Vs D: Charge combo (3+2 or going-first 2+2+Prankish) plays both;
+                # 4+1 and the Mega-wall fallback keep one.
                 return self._count_named_in_play(player, name) < self._mewtwo_play_cap(player)
             return (ace_out or not ace_reachable) and not closer_out
 
@@ -1481,9 +1482,9 @@ class Game:
         strat = self.strats[who]
         if strat.name == "party":
             prefer: list[str] = []
-            # Vs D: 4+1 searches Party first; 3+2 also needs the second Mewtwo once
-            # three Clefairy and the Charge pieces are ready. Vs A/B keep Mewtwo
-            # tutor only while none is in play or hand.
+            # Vs D: 4+1 searches Party first; Charge combo also needs the second
+            # Mewtwo once the engines and Belt/Zone/fodder pieces are ready.
+            # Vs A/B keep Mewtwo tutor only while none is in play or hand.
             if self._clefairy_play_cap(me) > 0 and not self._invitation_held_for_dump(me, who):
                 prefer.append("Clefairy")
             mewtwo_out = self._count_named_in_play(me, "Mewtwo ex")
@@ -3524,12 +3525,18 @@ class Game:
         return self.strats["b" if who == "a" else "a"].name == "demolish"
 
     def _mewtwo_play_cap(self, me: Player) -> int:
-        """Vs D: 2 only for the 3+2 Charge line. 4+1 and the Mega-wall fallback keep one."""
+        """Vs D: 2 for the Charge lines. 4+1 and the Mega-wall fallback keep one."""
         if not self._facing_demolish(me):
             return 1
         if self._four_one_assembled(me):
             return 1
-        if self._count_named_in_play(me, "clefairy") >= 3 and self._three_two_pieces_ready(me):
+        if not self._three_two_pieces_ready(me):
+            return 1
+        n_clef = self._count_named_in_play(me, "clefairy")
+        if n_clef >= 3:
+            return 2
+        # Going first 2+2+Prankish+ex: two Party engines are enough if fodder+Zone+Belt are ready.
+        if not self._went_second(me) and n_clef >= 2:
             return 2
         return 1
 
@@ -3612,24 +3619,43 @@ class Game:
             return False
         return self._clefairy_discarded(me) < self._four_one_chumps_needed(me)
 
-    def _want_three_two_combo(self, me: Player, foe: Player | None = None) -> bool:
-        """3 Clefairy + 2 Mewtwo + Belt + Clefable/ex fodder + Clefable ex Zone.
+    def _clefable_discarded(self, me: Player) -> int:
+        return sum(1 for i in me.discard if self._is_clefable(me.card(i)))
 
-        After the evolutions land, Clefairy count drops; stay on the line while the
-        pieces are still in play.
+    def _three_two_combo_pieces_ok(self, me: Player) -> bool:
+        if self._three_two_pieces_ready(me):
+            return True
+        # Going first 2+2: after Prankish/Clefable is KO'd, Belt+Zone still harvest.
+        return (
+            not self._went_second(me)
+            and self._has_belt_in_hand_or_play(me)
+            and self._zone_piece_available(me)
+            and self._clefable_discarded(me) >= 1
+        )
+
+    def _want_three_two_combo(self, me: Player, foe: Player | None = None) -> bool:
+        """Charge combo: 3+2, or going-first 2 Clefairy + 2 Mewtwo + Prankish + Zone.
+
+        After the evolutions land (or the fodder is KO'd), Clefairy count drops;
+        stay on the line while Belt, Zone, and both Mewtwo are still available.
         """
-        if not self._facing_demolish(me) or not me.active:
+        if not self._facing_demolish(me):
             return False
         if len(self._mewtwo_mons(me)) < 2:
             return False
-        if not self._three_two_pieces_ready(me):
+        if not self._three_two_combo_pieces_ok(me):
             return False
         if any(
             self._is_clefable(me.card(m.card_i)) or self._is_clefable_ex(me.card(m.card_i))
             for m in me.in_play()
         ):
             return True
-        return self._count_named_in_play(me, "clefairy") >= 3
+        n_clef = self._count_named_in_play(me, "clefairy")
+        if n_clef >= 3:
+            return True
+        if not self._went_second(me) and n_clef >= 2:
+            return True
+        return not self._went_second(me) and n_clef >= 1 and self._clefable_discarded(me) >= 1
 
     def _want_empty_clefairy_chump(self, me: Player, foe: Player) -> bool:
         if not self._four_one_keep_partying(me, foe):
@@ -3683,6 +3709,17 @@ class Game:
     def _can_pay_transfer(self, me: Player, mon: Pokemon) -> bool:
         atk = self._transfer_attack(me.card(mon.card_i))
         return bool(atk) and can_pay_energy(self._energy_pool(me, mon), atk.cost)
+
+    def _need_zone_for_harvest(self, me: Player, foe: Player) -> bool:
+        """Going-first 2+2: evolve Lunar Zone only when the closer is ready to swing."""
+        if self._has_lunar_zone(me):
+            return False
+        if not me.active or not self._is_mewtwo(me.card(me.active.card_i)):
+            return False
+        main = self._main_mewtwo(me)
+        if main is None or main is me.active:
+            return False
+        return bool(self._photon_ko(me, foe, main))
 
     def _support_transfer_turn(self, me: Player, foe: Player) -> bool:
         if not self._facing_demolish(me) or not me.active:
@@ -3813,8 +3850,11 @@ class Game:
         if foe_strat == "thrifty":
             return 1
         if foe_strat == "demolish":
-            # 3+2 keeps three Party engines; otherwise assemble four for the empty-chump T3 line.
+            # Charge combo keeps three Party engines, or two once the going-first
+            # 2+2+Prankish board is locked. Otherwise assemble four for 4+1.
             if len(self._mewtwo_mons(me)) >= 2:
+                if not self._went_second(me) and self._count_named_in_play(me, "clefairy") < 3:
+                    return 2
                 return 3
             return 4
         return 3
@@ -4590,17 +4630,28 @@ class Game:
             # Keep all four Clefairy. The empty Active is the 1-prize sacrifice.
             return
         if self._want_three_two_combo(me, foe):
-            # Zone on the bench (free retreat). Going first: Active Clefable/ex is Charge fodder.
-            # Going second: keep Clefairy engines; support Transfers, then free-retreat to the closer.
-            if not self._has_lunar_zone(me) and len(engines) >= 2:
-                evolve_named("Clefable ex", prefer_active=False, require_used=False)
+            # Zone on the bench (free retreat). Going first with 3 engines: Zone now.
+            # Going first 2+2: keep the last Party Clefairy until the harvest turn, then
+            # evolve Zone so Retreat 2 does not dump Photon energy after the tank.
+            # Going second: keep Clefairy engines; support Transfers, then free-retreat.
+            if not self._has_lunar_zone(me):
+                if self._went_second(me) and len(engines) >= 2:
+                    evolve_named("Clefable ex", prefer_active=False, require_used=False)
+                elif not self._went_second(me) and len(engines) >= 3:
+                    evolve_named("Clefable ex", prefer_active=False, require_used=False)
+                elif not self._went_second(me) and self._need_zone_for_harvest(me, foe):
+                    evolve_named("Clefable ex", prefer_active=False, require_used=False)
             if not self._went_second(me):
-                if not any(self._is_clefable(me.card(m.card_i)) for m in me.in_play()):
+                # One Prankish/Clefable sponge. After it is KO'd, hold the last
+                # Clefairy for Lunar Zone on the harvest turn.
+                need_fodder = self._clefable_discarded(me) == 0
+                if need_fodder and not any(self._is_clefable(me.card(m.card_i)) for m in me.in_play()):
                     if not evolve_named("Clefable", prefer_active=True, require_used=False):
                         if self._has_lunar_zone(me) and len(engines) >= 2:
                             evolve_named("Clefable ex", prefer_active=True, require_used=False)
                 if (
-                    foe.active
+                    need_fodder
+                    and foe.active
                     and self._is_ogerpon(foe.card(foe.active.card_i))
                     and foe.active.energy
                     and self._prankish_stops_demolish(foe)
