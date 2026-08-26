@@ -3,7 +3,7 @@ from random import Random
 from app.engine.game import Game, Pokemon, play_game
 from app.engine.models import default_family_rules
 from app.engine.strategies import StrategySpec
-from app.seed_data import SET_D_NAMES, SET_S_NAMES, build_fallback_deck
+from app.seed_data import SET_C_NAMES, SET_D_NAMES, SET_S_NAMES, build_fallback_deck
 
 
 def test_set_s_is_30_grass_and_ace_legal():
@@ -179,3 +179,73 @@ def test_slash_vs_demolish_completes():
     )
     assert result.winner in {"a", "b", "tie"}
     assert result.turns >= 1
+
+
+def _party_vs_slash_game(seed: int = 1) -> Game:
+    c = build_fallback_deck(list(SET_C_NAMES))
+    s = build_fallback_deck(list(SET_S_NAMES))
+    return Game(
+        c,
+        s,
+        default_family_rules(),
+        StrategySpec.from_dict("party"),
+        StrategySpec.from_dict("slash"),
+        Random(seed),
+    )
+
+
+def test_party_vs_slash_opens_on_mewtwo():
+    """Going first, empty Clefairy is KO'd on S's T2 Claw. Open the 230 HP closer."""
+    game = _party_vs_slash_game()
+    me = game.players["a"]
+    clef = next(i for i, card in enumerate(me.cards) if card.name == "Clefairy")
+    mewtwo = next(i for i, card in enumerate(me.cards) if card.name == "Mewtwo ex")
+    picked = game._pick_starter(me, [clef, mewtwo], StrategySpec.from_dict("party"))
+    assert picked == mewtwo
+    game = _party_vs_slash_game()
+    me = game.players["a"]
+    assert game._facing_slash(me)
+    assert game._clefairy_play_cap(me) == 3
+    assert game._want_four_one_line(me, game.players["b"]) is False
+
+
+def test_party_vs_slash_pays_clefairy_retreat_then_hides_on_mega():
+    """Slashing Claw 90 farms empty 60 HP Clefairy. Attach for Retreat 2, hide on Mega."""
+    game = _party_vs_slash_game()
+    me = game.players["a"]
+    foe = game.players["b"]
+    clefs = [i for i, card in enumerate(me.cards) if card.name == "Clefairy"]
+    mega = next(i for i, card in enumerate(me.cards) if "Mega Clefable" in card.name)
+    flora = next(i for i, card in enumerate(foe.cards) if card.name == "Floragato")
+    fuels = [i for i, card in enumerate(foe.cards) if card.name in {"Tangela", "Grass Energy", "Sprigatito"}]
+    me.active = Pokemon(card_i=clefs[0], energy=[], played_turn=0)
+    me.bench = [
+        Pokemon(card_i=clefs[1], played_turn=0),
+        Pokemon(card_i=mega, played_turn=0),
+    ]
+    foe.active = Pokemon(card_i=flora, energy=fuels[:2])
+    target = game._energy_target(me, StrategySpec.from_dict("party"))
+    assert target is me.active
+    me.active.energy = [clefs[2], clefs[3]]
+    game._maybe_retreat(me, foe, "a")
+    assert "mega clefable" in me.card(me.active.card_i).name.lower()
+
+
+def test_party_vs_slash_photon_finish_brings_mewtwo():
+    game = _party_vs_slash_game(3)
+    me = game.players["a"]
+    foe = game.players["b"]
+    clef = next(i for i, card in enumerate(me.cards) if card.name == "Clefairy")
+    mewtwo = next(i for i, card in enumerate(me.cards) if card.name == "Mewtwo ex")
+    mega = next(i for i, card in enumerate(me.cards) if "Mega Clefable" in card.name)
+    flora = next(i for i, card in enumerate(foe.cards) if card.name == "Floragato")
+    psychics = [i for i, card in enumerate(me.cards) if card.types == ["Psychic"] and card.name != "Clefairy"][:6]
+    me.active = Pokemon(card_i=clef, energy=psychics[:2], played_turn=0)
+    me.bench = [
+        Pokemon(card_i=mewtwo, energy=psychics[2:], played_turn=0),
+        Pokemon(card_i=mega, played_turn=0),
+    ]
+    foe.active = Pokemon(card_i=flora)
+    assert game._photon_finish(me, foe, "a")
+    game._maybe_retreat(me, foe, "a")
+    assert game._is_mewtwo(me.card(me.active.card_i))
