@@ -1496,6 +1496,30 @@ def test_going_first_two_two_combo_survives_prankish_ko():
     assert me.bench[idx].card_i == mewtwos[0]
 
 
+def test_going_first_two_two_keeps_mewtwo_cap_after_prankish_ko():
+    """After fodder is discarded, still search/play the second Mewtwo."""
+    game = _cd_game()
+    game.first = "a"
+    me = game.players["a"]
+    mewtwos = [i for i, card in enumerate(me.cards) if card.name == "Mewtwo ex"]
+    clefs = [i for i, card in enumerate(me.cards) if card.name == "Clefairy"]
+    exs = [i for i, card in enumerate(me.cards) if card.name == "Clefable ex"]
+    fuels = [i for i, card in enumerate(me.cards) if card.name == "Clefable"]
+    belt = next(i for i, card in enumerate(me.cards) if card.name == "Maximum Belt")
+    me.active = None
+    me.discard = [fuels[0], clefs[0]]
+    me.bench = [
+        Pokemon(card_i=clefs[1], played_turn=0),
+        Pokemon(card_i=mewtwos[0], played_turn=0),
+    ]
+    me.hand = [mewtwos[1], belt, exs[0]]
+    strat = StrategySpec.from_dict("party")
+    assert game._three_two_pieces_ready(me) is False
+    assert game._three_two_combo_pieces_ok(me)
+    assert game._mewtwo_play_cap(me) == 2
+    assert game._wants_in_play(me, me.card(mewtwos[1]), strat) is True
+
+
 def test_going_first_two_two_does_not_evolve_last_clefairy_after_prankish_ko():
     """Spare Clefable in hand must not eat the last Party engine before Zone."""
     game = _cd_game()

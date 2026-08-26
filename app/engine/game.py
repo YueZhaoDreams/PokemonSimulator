@@ -3545,14 +3545,22 @@ class Game:
         if self._four_one_assembled(me):
             return 1
         n_clef = self._count_named_in_play(me, "clefairy")
-        if n_clef >= 3 and self._three_two_pieces_ready(me):
-            return 2
-        if not self._went_second(me) and n_clef >= 2:
-            if self._three_two_pieces_ready(me) and self._second_mewtwo_in_hand(me):
+        # Going-first Mega wall: one Mewtwo while the second copy is not in hand
+        # and Charge fodder has not already been spent.
+        if (
+            not self._went_second(me)
+            and n_clef >= 2
+            and self._two_one_mega_pieces_ready(me)
+            and not self._second_mewtwo_in_hand(me)
+            and self._clefable_discarded(me) == 0
+            and len(self._mewtwo_mons(me)) < 2
+        ):
+            return 1
+        # Stay at 2 while the Charge combo is live — including after Prankish/Clefable is KO'd.
+        if self._three_two_combo_pieces_ok(me):
+            if n_clef >= 3:
                 return 2
-            if self._two_one_mega_pieces_ready(me) and not self._second_mewtwo_in_hand(me):
-                return 1
-            if self._three_two_pieces_ready(me):
+            if not self._went_second(me) and (n_clef >= 2 or self._clefable_discarded(me) >= 1):
                 return 2
         return 1
 
