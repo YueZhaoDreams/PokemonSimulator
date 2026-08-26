@@ -1934,6 +1934,8 @@ class Game:
                 need = self._retreat_cost(me, me.active)
                 if need > 0 and len(me.active.energy) < need:
                     return me.active
+            if self._facing_phantom(me):
+                return self._party_vs_phantom_energy_target(me)
             if self._want_four_one_line(me, foe):
                 # Empty Active Clefairy is the 1-prize chump; every attach goes on Mewtwo.
                 mewtwo = self._mewtwo_mon(me)
@@ -2310,6 +2312,8 @@ class Game:
                 self._log(f"{attacker.name} prevents damage from Basic Pokémon next turn")
             elif effect.get("kind") == "discard_energy":
                 self._discard_attack_energy(me, me.active, int(effect.get("count") or 1))
+            elif effect.get("kind") == "move_psychic_energy":
+                self._move_psychic_energy(me, me.active)
 
     def _mill_opponent(self, me: Player, foe: Player, count: int = 1) -> None:
         milled = 0
@@ -2634,6 +2638,11 @@ class Game:
                 if strat.name == "party" and any(e.get("kind") == "psychic_energy_times" for e in resolved.effects):
                     # Wonder Storm is the glass-cannon plan: fire whenever it chips or KOs.
                     score += 40 if effective >= foe_hp > 0 else 25
+            if strat.name == "party" and self._facing_phantom(me) and "wondrous moon" in atk.name.lower():
+                # Prize-only: two 170s still need the first hit to KO something, or a
+                # leftover dragon already at ≤170. Do not boost a chip into Photon.
+                if effective >= foe_hp > 0:
+                    score += 200
             if any(e.get("kind") == "transfer_charge" for e in atk.effects):
                 who = "a" if me.name == "A" else "b"
                 if strat.name == "party" and self._want_storm_line(me, foe, who):
@@ -2719,6 +2728,11 @@ class Game:
             setup = any(
                 e.get("kind") in {"transfer_charge", "call_family"} for e in best.effects
             )
+            moon_ko = (
+                self._facing_phantom(me)
+                and "wondrous moon" in best.name.lower()
+                and effective >= foe_hp > 0
+            )
             if effective <= 0 and not setup:
                 return None
             if (
@@ -2727,6 +2741,20 @@ class Game:
                 and "mewtwo" in card.name.lower()
             ):
                 return None
+            if (
+                self._facing_phantom(me)
+                and "wondrous moon" in best.name.lower()
+                and effective < foe_hp
+            ):
+                return None
+            if (
+                self._facing_phantom(me)
+                and "shooting moons" in best.name.lower()
+                and effective < foe_hp
+            ):
+                return None
+            if moon_ko:
+                return best
         if strat.name == "slash" and best is not None:
             effective = self._effective_damage(me, foe, best)
             # Acerola resets a non-KO; 90 HP Floragato then dies to Demolish.
@@ -2850,6 +2878,23 @@ class Game:
                         return 2
                     if self._is_clefairy(player.card(mon.card_i)):
                         return 11
+                    return 12
+                if self._facing_phantom(player):
+                    if self._moon_ko(player, foe, mon):
+                        return 0
+                    if self._photon_ko(player, foe) or self._photon_finish(player, foe, who):
+                        if "mewtwo" in name:
+                            return 0
+                        return 9
+                    survives = self._survives_dive(player, mon)
+                    if "mega clefable" in name:
+                        return 0 if survives else 10
+                    if "mewtwo" in name:
+                        return 1 if survives else 9
+                    if name == "clefable ex":
+                        return 2 if survives else 8
+                    if self._is_clefairy(player.card(mon.card_i)):
+                        return 6
                     return 12
                 if self._want_four_one_line(player, foe):
                     if self._photon_ko(player, foe) or not self._four_one_keep_partying(player, foe):
@@ -3575,6 +3620,10 @@ class Game:
     def _facing_slash(self, me: Player) -> bool:
         return self._foe_strat_name(me) == "slash"
 
+    def _facing_phantom(self, me: Player) -> bool:
+        """Dragapult Phantom Dive 200 + 6 counters: 60 HP Clefairy is a double snack."""
+        return self._foe_strat_name(me) == "phantom"
+
     def _slash_hit_damage(self, foe: Player) -> int:
         """Floragato Claw 90 (+Belt 50) or Wo-Chien Forest Blast 220."""
         if not foe.active:
@@ -3623,6 +3672,126 @@ class Game:
         if idx is None:
             return False
         return self._swap_to_bench(me, who, idx, allow_paid=True)
+
+    def _survives_dive(self, me: Player, mon: Pokemon) -> bool:
+        """Phantom Dive deals 200 to Active. A tank must still be standing after that hit."""
+        return self._max_hp(me, mon) - mon.damage > 200
+
+    def _wondrous_moon_attack(self, card):
+        return next((a for a in card.attacks if "wondrous moon" in a.name.lower()), None)
+
+    def _can_pay_wondrous_moon(self, me: Player, mon: Pokemon) -> bool:
+        atk = self._wondrous_moon_attack(me.card(mon.card_i))
+        return bool(atk) and can_pay_energy(self._energy_pool(me, mon), atk.cost)
+
+    def _moon_ko(self, me: Player, foe: Player, mon: Pokemon | None = None) -> bool:
+        mon = mon or me.active
+        if mon is None or not foe.active:
+            return False
+        atk = self._wondrous_moon_attack(me.card(mon.card_i))
+        if atk is None or not can_pay_energy(self._energy_pool(me, mon), atk.cost):
+            return False
+        hp = self._max_hp(foe, foe.active) - foe.active.damage
+        return self._raw_attack_damage(me, foe, mon, atk) >= hp > 0
+
+    def _moon_cannon(self, me: Player) -> Pokemon | None:
+        for mon in me.in_play():
+            if self._is_clefable_ex(me.card(mon.card_i)):
+                return mon
+        return None
+
+    def _best_dive_tank_idx(self, me: Player, require_survive: bool = False) -> int | None:
+        scored: list[tuple[int, int, int, int]] = []
+        for idx, mon in enumerate(me.bench):
+            if not self._is_tank_mon(me, mon):
+                continue
+            survives = 1 if self._survives_dive(me, mon) else 0
+            if require_survive and not survives:
+                continue
+            scored.append((survives, self._tank_role(me, mon), self._max_hp(me, mon) - mon.damage, idx))
+        if not scored:
+            return None
+        scored.sort(reverse=True)
+        return scored[0][3]
+
+    def _end_on_dive_tank(self, me: Player, foe: Player, who: str) -> bool:
+        """Hide 60 HP Clefairy / a 60 HP leftover ex from Phantom Dive."""
+        if not me.active or not me.bench:
+            return False
+        if self._moon_ko(me, foe) or self._photon_ko(me, foe):
+            return False
+        if self._is_tank_mon(me, me.active) and self._survives_dive(me, me.active):
+            return True
+        idx = self._best_dive_tank_idx(me, require_survive=True)
+        if idx is not None:
+            return self._swap_to_bench(me, who, idx, allow_paid=True)
+        # No body survives 200. Do not gift Mega (3) or an ex (2); keep a 1-prize snack.
+        if self._prizes_for_ko(me.card(me.active.card_i)) <= 1:
+            return True
+        cheap = next(
+            (
+                i
+                for i, mon in enumerate(me.bench)
+                if self._prizes_for_ko(me.card(mon.card_i)) <= 1
+            ),
+            None,
+        )
+        if cheap is None:
+            return False
+        return self._swap_to_bench(me, who, cheap, allow_paid=True)
+
+    def _retreat_party_vs_phantom(self, me: Player, foe: Player, who: str) -> None:
+        """Moon only to take prizes this turn. Otherwise hide on a Dive tank."""
+        if not me.active or not me.bench:
+            return
+        if self._moon_ko(me, foe):
+            return
+        cannon = self._moon_cannon(me)
+        if cannon is not None and cannon is not me.active and self._moon_ko(me, foe, cannon):
+            for idx, mon in enumerate(me.bench):
+                if mon is cannon:
+                    if self._swap_to_bench(me, who, idx, allow_paid=True):
+                        return
+                    break
+        self._end_on_dive_tank(me, foe, who)
+
+    def _party_vs_phantom_energy_target(self, me: Player) -> Pokemon:
+        """Pay Clefairy Retreat, then Photon, then PPP on a Moon cannon that already exists."""
+        assert me.active
+        if me.active and self._is_clefairy(me.card(me.active.card_i)):
+            need = self._retreat_cost(me, me.active)
+            if need > 0 and len(me.active.energy) < need:
+                return me.active
+        unpaid = [m for m in self._mewtwo_mons(me) if not self._mewtwo_can_pay_photon(me, m)]
+        if unpaid:
+            return max(unpaid, key=lambda m: len(m.energy))
+        cannon = self._moon_cannon(me)
+        if cannon is not None and not self._can_pay_wondrous_moon(me, cannon):
+            return cannon
+        fueled = self._mewtwo_mons(me)
+        if fueled:
+            return max(fueled, key=lambda m: len(m.energy))
+        return me.active
+
+    def _move_psychic_energy(self, me: Player, attacker: Pokemon) -> None:
+        """Wondrous Moon: keep 3 Psychic on the cannon, dump surplus onto Mewtwo."""
+        dest = self._mewtwo_mon(me)
+        if dest is None or dest is attacker:
+            dest = self._mega_mon(me)
+        if dest is None or dest is attacker:
+            return
+        psychics = [i for i in list(attacker.energy) if self._is_psychic_energy_card(me.card(i))]
+        extra = psychics[3:]
+        moved = 0
+        for card_i in extra:
+            if card_i not in attacker.energy:
+                continue
+            attacker.energy.remove(card_i)
+            dest.energy.append(card_i)
+            moved += 1
+        if moved:
+            self._bump("wondrous_moon_move", moved)
+            self._log(f"{me.card(attacker.card_i).name} moves {moved} Psychic Energy")
 
     def _mewtwo_play_cap(self, me: Player) -> int:
         """Vs D: 2 for Charge. 4+1 and the Mega-wall fallback keep one.
@@ -4042,8 +4211,9 @@ class Game:
         Vs Lightning (shock): 0 — Thunder Shock para-locks Wonder Storm into deck-out.
         Vs Dondozo (thrifty): at most 1 — Hydro Splash still prizes 60 HP bodies; one engine
         is enough while Mewtwo Photons. Vs Floragato (slash): 3 on the bench for Party,
-        but never leave a 60 HP Active into Slashing Claw. Vs Ogerpon: up to 4 for the
-        empty-chump T3 line, or 3 once both Mewtwo are down for the Charge combo.
+        but never leave a 60 HP Active into Slashing Claw. Vs Dragapult (phantom): 3 for
+        T1 Party +1+1; leftover unevolved Clefairy still dies to 60 spread. Vs Ogerpon:
+        up to 4 for the empty-chump T3 line, or 3 once both Mewtwo are down for the Charge combo.
         """
         who = "a" if me.name == "A" else "b"
         foe_who = "b" if who == "a" else "a"
@@ -4206,6 +4376,10 @@ class Game:
         if self.strats[who].name != "party" or not foe.active:
             return False
         if self._photon_ko(me, foe):
+            return False
+        if self._facing_phantom(me):
+            # Wondrous Moon is the 2-prize dragon trade. Shooting Moons from Mega is a
+            # 3-prize gift if Phantom Dive replies.
             return False
         mega_card = next((c for c in me.cards if "mega clefable" in c.name.lower()), None)
         if mega_card is None:
@@ -4688,6 +4862,11 @@ class Game:
             if self._is_clefairy(me.card(me.active.card_i)) and not me.active.ability_used:
                 self._moon_watching_party(me, me.active)
             return
+        if self._facing_phantom(me):
+            # Same as vs Floragato: one Party. Extra Active Clefairy is a Dive snack.
+            if self._is_clefairy(me.card(me.active.card_i)) and not me.active.ability_used:
+                self._moon_watching_party(me, me.active)
+            return
         for _ in range(6):
             if not me.active:
                 return
@@ -4817,6 +4996,13 @@ class Game:
                 ):
                     # Vs D, evolve the Active Clefairy into Mega (320 HP Demolish sponge).
                     target = me.active
+                elif self._facing_phantom(me):
+                    # Keep the most-fueled Clefairy for Clefable ex (Moon needs PPP).
+                    ranked = sorted(
+                        candidates,
+                        key=lambda m: (0 if m is not me.active else 1, len(m.energy)),
+                    )
+                    target = ranked[0]
                 else:
                     ranked = sorted(
                         candidates,
@@ -4909,6 +5095,17 @@ class Game:
                 evolve_named("Clefable ex", prefer_active=False, require_used=False)
             if self._want_mega_rush(me, foe, who) and self._mega_mon(me) is not None:
                 return
+            return
+        if self._facing_phantom(me):
+            # Clefable ex on a fueled bench Clefairy (Moon / Lunar Zone). Mega on
+            # another Clefairy only when Mewtwo is already the second Dive tank —
+            # otherwise Mega is a 3-prize gift.
+            if not self._has_lunar_zone(me):
+                evolve_named("Clefable ex", prefer_active=False, require_used=False)
+            if self._mega_mon(me) is None and self._mewtwo_mon(me) is not None:
+                evolve_named("Mega Clefable ex", prefer_active=False)
+            if self._has_lunar_zone(me):
+                evolve_named("Clefable", prefer_active=False, require_used=False)
             return
         if self._want_mega_rush(me, foe, who) and self._mega_mon(me) is None:
             evolve_named("Mega Clefable ex", prefer_active=True)
@@ -5103,6 +5300,16 @@ class Game:
                         self._swap_to_bench(me, who, idx, allow_paid=True)
                         return
             self._end_on_slash_tank(me, foe, who)
+            return
+        if self._facing_phantom(me):
+            if self._photon_finish(me, foe, who):
+                if self._is_mewtwo(me.card(me.active.card_i)):
+                    return
+                for idx, mon in enumerate(me.bench):
+                    if self._is_mewtwo(me.card(mon.card_i)):
+                        self._swap_to_bench(me, who, idx, allow_paid=True)
+                        return
+            self._retreat_party_vs_phantom(me, foe, who)
             return
         if self._ogerpon_threat(foe):
             self._end_on_tank(me, foe, who)

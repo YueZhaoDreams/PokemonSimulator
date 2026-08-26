@@ -328,4 +328,26 @@ C-row vs the D-script table (same seed / 3k):
 
 C vs S is first 85.5% / second 95.8%. C vs D stays 58.1% (first 59.4 / second 56.9).
 
+## Party vs Dragapult (2026-08-26)
+
+`party` branches on the opponent: D scripts stay vs Ogerpon; vs Floragato hide from Claw; vs Dragapult Party once, hide from Phantom Dive 200, Moon when it takes prizes, Photon as the closer. Same seed `20260819`, 3,000 / ordered pair. Raw: `data/lab/family-cup-30-matrix.json`.
+
+|  | A | B | C | D | S | T |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| **A** | — | 68.3% | 11.3% | 4.2% | 67.7% | 47.5% |
+| **B** | 32.3% | — | 10.4% | 1.2% | 23.2% | 50.4% |
+| **C** | 88.2% | 89.6% | — | **58.1%** | **90.6%** | **62.4%** |
+| **D** | 95.7% | 98.7% | 41.8% | — | 39.1% | 70.4% |
+| **S** | 31.1% | 75.5% | **9.7%** | 60.9% | — | 59.7% |
+| **T** | 51.7% | 49.6% | **37.1%** | 31.0% | 41.1% | — |
+
+C-row vs the Floragato-branch table (same seed / 3k):
+
+|  | vs A | vs B | vs D | vs S | vs T | C avg |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| vs Floragato branch | 88.2% | 89.6% | 58.1% | 90.6% | 54.5% | 76.2% |
+| vs Dragapult branch | 88.2% | 89.6% | **58.1%** | **90.6%** | **62.4%** | **77.8%** |
+
+C vs T is first 63.0% / second 61.8%. C vs D and C vs S are unchanged.
+
 

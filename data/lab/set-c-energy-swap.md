@@ -214,4 +214,25 @@ C vs S **90.6%** (first **85.5%** / second **95.8%**), above the wall-rotate 86.
 pre-D-script 88.5%. C vs D **58.1%** (first **59.4%** / second **56.9%**) holds. C mean vs
 A/B/D/S/T **76.2%**.
 
+## Party vs Dragapult (2026-08-26)
+
+D scripts stay vs Ogerpon; Floragato hide stays vs `slash`. Vs `phantom`, `party` Parties
+once, pays Retreat onto a body that still survives Phantom Dive **200**, and never gifts a
+120 HP Mega (3 prizes) or a leftover 60 HP ex. Clefable ex on a fueled bench Clefairy for
+Lunar Zone / **Wondrous Moon 170** when that attack takes prizes this turn. Mega only if
+Mewtwo is already the second Dive tank. Photon stays the closer. Same seed `20260819`,
+3,000 / cell. Raw: `data/lab/family-cup-30-matrix.json`.
+
+|  | A | B | C | D | S | T |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| **A** | — | 68.3% | 11.3% | 4.2% | 67.7% | 47.5% |
+| **B** | 32.3% | — | 10.4% | 1.2% | 23.2% | 50.4% |
+| **C** | 88.2% | 89.6% | — | **58.1%** | **90.6%** | **62.4%** |
+| **D** | 95.7% | 98.7% | 41.8% | — | 39.1% | 70.4% |
+| **S** | 31.1% | 75.5% | **9.7%** | 60.9% | — | 59.7% |
+| **T** | 51.7% | 49.6% | **37.1%** | 31.0% | 41.1% | — |
+
+C vs T **62.4%** (first **63.0%** / second **61.8%**), up from the Floragato-branch **54.5%**.
+C vs D **58.1%** and C vs S **90.6%** hold. C mean vs A/B/D/S/T **77.8%**.
+
 
