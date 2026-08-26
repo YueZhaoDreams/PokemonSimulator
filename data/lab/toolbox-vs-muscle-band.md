@@ -262,4 +262,48 @@ B is the big gain. D dips about 1 point. Set C locks 2 Hop / 1 Lillie.
 
 D does not move. A/T pick up a bit. S drops ~2 points (early Boss vs 60 HP cats is gone).
 
+## Rotate dying walls; Photon last hit (2026-08-25)
+
+Vs D: keep Mega / Clefable ex in front, pay retreat, swap a dying sponge to the next body that survives 140. Mewtwo only for Photon finish (or if no sponge is left). Same lists, seed `20260819`, 3,000 / ordered pair. Raw: `data/lab/family-cup-30-matrix.json`.
+
+|  | A | B | C | D | S | T |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| **A** | — | 68.3% | 9.5% | 4.2% | 67.7% | 47.5% |
+| **B** | 32.3% | — | 11.1% | 1.2% | 23.2% | 50.4% |
+| **C** | 90.6% | 88.4% | — | 51.0% | **86.2%** | 51.6% |
+| **D** | 95.7% | 98.7% | 48.0% | — | 39.1% | 70.4% |
+| **S** | 31.1% | 75.5% | 14.8% | 60.9% | — | 59.7% |
+| **T** | 51.7% | 49.6% | 47.9% | 31.0% | 41.1% | — |
+
+C-row vs the Boss-close lock (same seed / 3k):
+
+|  | vs A | vs B | vs D | vs S | vs T | C avg |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Boss last prize | 90.7% | 88.7% | **51.3%** | 80.2% | **52.5%** | 72.7% |
+| wall rotate | 90.6% | 88.4% | 51.0% | **86.2%** | 51.6% | **73.6%** |
+
+D does not move (noise). The C-row lift is vs S (80.2% → 86.2%); S vs C 21.1% → 14.8%.
+
+## Going-first/second D scripts (2026-08-26)
+
+`party` vs D uses the 4+1 and 3+2 lines only when the board is assembled; otherwise it keeps the Mega / Clefable ex wall. Going first: one empty Clefairy chump, or Clefable/ex Charge fodder + Zone. Going second: two empty Clefairy chumps while Party keeps firing, or support Transfer Charge then free-retreat onto the Belted closer. Same lists, seed `20260819`, 3,000 / ordered pair. Raw: `data/lab/family-cup-30-matrix.json`.
+
+|  | A | B | C | D | S | T |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| **A** | — | 68.3% | 11.3% | 4.2% | 67.7% | 47.5% |
+| **B** | 32.3% | — | 10.4% | 1.2% | 23.2% | 50.4% |
+| **C** | 88.2% | 89.6% | — | **57.5%** | 78.2% | **54.5%** |
+| **D** | 95.7% | 98.7% | **41.4%** | — | 39.1% | 70.4% |
+| **S** | 31.1% | 75.5% | 20.8% | 60.9% | — | 59.7% |
+| **T** | 51.7% | 49.6% | 44.6% | 31.0% | 41.1% | — |
+
+C-row vs the wall-rotate table (same seed / 3k):
+
+|  | vs A | vs B | vs D | vs S | vs T | C avg |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| wall rotate | 90.6% | 88.4% | 51.0% | **86.2%** | 51.6% | 73.6% |
+| D scripts | 88.2% | **89.6%** | **57.5%** | 78.2% | **54.5%** | 73.6% |
+
+C vs D is first 58.2% / second 56.8%. The vs-D lift is paid for vs S (86.2% → 78.2%); S vs C 14.8% → 20.8%. D vs C 48.0% → 41.4%.
+
 
