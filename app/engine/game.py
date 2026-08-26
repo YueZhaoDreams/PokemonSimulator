@@ -341,7 +341,7 @@ class Game:
         if name in closers:
             closer_out = any(n in closers for n in self._in_play_names(player))
             if strat.name == "party":
-                # Vs D: main attacker + Transfer support. Vs others: one closer.
+                # Vs D: 3+2 combo plays both; 4+1 and the Mega-wall fallback keep one.
                 return self._count_named_in_play(player, name) < self._mewtwo_play_cap(player)
             return (ace_out or not ace_reachable) and not closer_out
 
@@ -1481,7 +1481,8 @@ class Game:
         strat = self.strats[who]
         if strat.name == "party":
             prefer: list[str] = []
-            # Vs D Party first (3 Clefairy), then the second Mewtwo. Vs A/B keep Mewtwo
+            # Vs D: 4+1 searches Party first; 3+2 also needs the second Mewtwo once
+            # three Clefairy and the Charge pieces are ready. Vs A/B keep Mewtwo
             # tutor only while none is in play or hand.
             if self._clefairy_play_cap(me) > 0 and not self._invitation_held_for_dump(me, who):
                 prefer.append("Clefairy")
@@ -1921,24 +1922,23 @@ class Game:
                         return me.active
             # Wall Retreat: Mega 1, Clefable ex 2, Mewtwo 2. Set C has no Switch.
             # Lunar Zone zeros cost only after this Pokémon already has a Psychic.
-            if self._want_ex_tank_line(me, foe):
+            if self._want_four_one_line(me, foe):
+                # Empty Active Clefairy is the 1-prize chump; every attach goes on Mewtwo.
                 mewtwo = self._mewtwo_mon(me)
-                if mewtwo is not None and not self._mewtwo_can_pay_photon(me, mewtwo):
-                    return mewtwo
-                if self._is_clefable_ex(me.card(me.active.card_i)) and not self._has_psychic_energy_on(me, me.active):
-                    return me.active
                 if mewtwo is not None:
                     return mewtwo
-            if self._want_clefairy_battery(me, foe):
-                if len(me.active.energy) < 2:
-                    return me.active
+            if self._want_three_two_combo(me, foe):
+                fodder = me.active if self._is_fodder_mon(me, me.active) else None
+                if fodder is not None and self._is_clefable(me.card(fodder.card_i)) and len(fodder.energy) < 2:
+                    return fodder
                 main = self._main_mewtwo(me)
                 if main is not None and not self._mewtwo_can_pay_photon(me, main):
                     return main
-                clef_bench = [m for m in me.bench if self._is_clefairy(me.card(m.card_i))]
-                if clef_bench:
-                    return min(clef_bench, key=lambda m: len(m.energy))
-                return me.active
+                support = self._support_mewtwo(me)
+                if support is not None and not self._can_pay_transfer(me, support):
+                    return support
+                if main is not None:
+                    return main
             if self._support_transfer_turn(me, foe):
                 if not self._can_pay_transfer(me, me.active):
                     return me.active
@@ -2802,6 +2802,20 @@ class Game:
                     return 2
                 return 9
             if strat.name == "party":
+                if self._want_four_one_line(player, foe):
+                    if "mewtwo" in name:
+                        return 0
+                    if "mega clefable" in name:
+                        return 1
+                    return 9
+                if self._want_three_two_combo(player, foe):
+                    if "mewtwo" in name:
+                        return 1 + (5 if self._belt_on(player, mon) else 0) + min(len(mon.energy), 3)
+                    if name == "clefable":
+                        return 8
+                    if name == "clefable ex":
+                        return 9
+                    return 12
                 if "mega clefable" in name:
                     return 0
                 if "mewtwo" in name:
@@ -3497,36 +3511,97 @@ class Game:
         return self.strats["b" if who == "a" else "a"].name == "demolish"
 
     def _mewtwo_play_cap(self, me: Player) -> int:
-        """Vs D: one closer if the 4-Clefairy Active-ex tank is open; else both copies."""
+        """Vs D: 2 only for the 3+2 Charge line. 4+1 and the Mega-wall fallback keep one."""
         if not self._facing_demolish(me):
             return 1
         if self._count_named_in_play(me, "clefairy") >= 4:
             return 1
-        return 2
+        if self._count_named_in_play(me, "clefairy") >= 3 and self._three_two_pieces_ready(me):
+            return 2
+        return 1
+
+    def _is_clefable(self, card) -> bool:
+        return card.name.lower() == "clefable"
 
     def _is_clefable_ex(self, card) -> bool:
         return card.name.lower() == "clefable ex"
 
-    def _want_ex_tank_line(self, me: Player, foe: Player) -> bool:
-        """4 Clefairy + 1 Mewtwo: Active Clefable ex soaks one 140, then Photon."""
+    def _has_belt_in_hand_or_play(self, me: Player) -> bool:
+        if any(self._belt_on(me, m) for m in me.in_play()):
+            return True
+        return any("maximum belt" in me.card(i).name.lower() for i in me.hand)
+
+    def _zone_piece_available(self, me: Player) -> bool:
+        if self._has_lunar_zone(me):
+            return True
+        return any(self._is_clefable_ex(me.card(i)) for i in me.hand)
+
+    def _fodder_piece_available(self, me: Player) -> bool:
+        """Clefable, or a second Clefable ex once Zone is spoken for."""
+        if any(self._is_clefable(me.card(m.card_i)) for m in me.in_play()):
+            return True
+        if any(self._is_clefable(me.card(i)) for i in me.hand):
+            return True
+        ex_play = sum(1 for m in me.in_play() if self._is_clefable_ex(me.card(m.card_i)))
+        ex_hand = sum(1 for i in me.hand if self._is_clefable_ex(me.card(i)))
+        need = 1 if self._has_lunar_zone(me) else 2
+        return ex_play + ex_hand >= need
+
+    def _three_two_pieces_ready(self, me: Player) -> bool:
+        return self._has_belt_in_hand_or_play(me) and self._zone_piece_available(me) and self._fodder_piece_available(me)
+
+    def _want_four_one_line(self, me: Player, foe: Player | None = None) -> bool:
+        """4 Clefairy + 1 Mewtwo: empty Active Clefairy chump, Photon after the 1-prize KO."""
         if not self._facing_demolish(me) or not me.active:
             return False
         if len(self._mewtwo_mons(me)) != 1:
             return False
-        clef = self._count_named_in_play(me, "clefairy")
-        if clef >= 4:
-            return True
-        return self._is_clefable_ex(me.card(me.active.card_i)) and clef >= 3
+        return self._count_named_in_play(me, "clefairy") >= 4
 
-    def _want_clefairy_battery(self, me: Player, foe: Player) -> bool:
-        """Vs D keep Active Clefairy as the 1-prize Demolish chump (2 energy → discard)."""
-        if not self._facing_demolish(me) or not me.active or not foe.active:
+    def _want_three_two_combo(self, me: Player, foe: Player | None = None) -> bool:
+        """3 Clefairy + 2 Mewtwo + Belt + Clefable/ex fodder + Clefable ex Zone.
+
+        After the evolutions land, Clefairy count drops; stay on the line while the
+        pieces are still in play.
+        """
+        if not self._facing_demolish(me) or not me.active:
             return False
-        if self._want_ex_tank_line(me, foe):
+        if len(self._mewtwo_mons(me)) < 2:
+            return False
+        if not self._three_two_pieces_ready(me):
+            return False
+        if any(
+            self._is_clefable(me.card(m.card_i)) or self._is_clefable_ex(me.card(m.card_i))
+            for m in me.in_play()
+        ):
+            return True
+        return self._count_named_in_play(me, "clefairy") >= 3
+
+    def _want_empty_clefairy_chump(self, me: Player, foe: Player) -> bool:
+        if not self._want_four_one_line(me, foe):
             return False
         if self._photon_ko(me, foe):
             return False
         return self._is_clefairy(me.card(me.active.card_i))
+
+    def _is_fodder_mon(self, me: Player, mon: Pokemon) -> bool:
+        if self._is_clefable(me.card(mon.card_i)):
+            return True
+        if not self._is_clefable_ex(me.card(mon.card_i)):
+            return False
+        return sum(1 for m in me.in_play() if self._is_clefable_ex(me.card(m.card_i))) >= 2
+
+    def _best_fodder_idx(self, me: Player) -> int | None:
+        scored: list[tuple[int, int, int, int]] = []
+        for idx, mon in enumerate(me.bench):
+            if not self._is_fodder_mon(me, mon):
+                continue
+            is_clefable = 1 if self._is_clefable(me.card(mon.card_i)) else 0
+            scored.append((is_clefable, len(mon.energy), self._max_hp(me, mon), idx))
+        if not scored:
+            return None
+        scored.sort(reverse=True)
+        return scored[0][3]
 
     def _main_mewtwo(self, me: Player) -> Pokemon | None:
         mons = self._mewtwo_mons(me)
@@ -3629,6 +3704,10 @@ class Game:
             return False
         if self._photon_ko(me, foe):
             return False
+        if self._want_empty_clefairy_chump(me, foe):
+            return True
+        if self._want_three_two_combo(me, foe):
+            return False
         if not self._ogerpon_threat(foe):
             return False
         live = self._best_tank_idx(me, require_survive=True)
@@ -3665,7 +3744,8 @@ class Game:
 
         Vs Lightning (shock): 0 — Thunder Shock para-locks Wonder Storm into deck-out.
         Vs Dondozo (thrifty): at most 1 — Hydro Splash still prizes 60 HP bodies; one engine
-        is enough while Mewtwo Photons. Vs Ogerpon: up to 4 for the Active-ex tank line.
+        is enough while Mewtwo Photons. Vs Ogerpon: up to 4 for the empty-chump T3 line,
+        or 3 once both Mewtwo are down for the Charge combo.
         """
         who = "a" if me.name == "A" else "b"
         foe_who = "b" if who == "a" else "a"
@@ -3675,6 +3755,9 @@ class Game:
         if foe_strat == "thrifty":
             return 1
         if foe_strat == "demolish":
+            # 3+2 keeps three Party engines; otherwise assemble four for the empty-chump T3 line.
+            if len(self._mewtwo_mons(me)) >= 2:
+                return 3
             return 4
         return 3
 
@@ -3944,7 +4027,11 @@ class Game:
             return False
         # Vs D Clefairy-battery line: do not Transfer onto a Mewtwo that still has
         # to soak Demolish — the support copy Transfers after the 1-prize KO.
-        if self._want_clefairy_battery(me, foe) or self._support_transfer_turn(me, foe):
+        if (
+            self._want_empty_clefairy_chump(me, foe)
+            or self._want_three_two_combo(me, foe)
+            or self._support_transfer_turn(me, foe)
+        ):
             return False
         return bool(
             self._ogerpon_threat(foe)
@@ -4282,12 +4369,11 @@ class Game:
             return
         walling = any(self._is_tank_mon(me, mon) for mon in me.in_play())
         storm = self._want_storm_line(me, foe, who)
-        if self._want_clefairy_battery(me, foe) or (
-            self._want_ex_tank_line(me, foe) and self._is_clefairy(me.card(me.active.card_i))
+        if self._want_empty_clefairy_chump(me, foe) or (
+            self._want_three_two_combo(me, foe) and self._is_clefairy(me.card(me.active.card_i))
         ):
-            # Printed Party fuels every benched Clefairy in one use. Do not spend
-            # retreat rotating, and do not hide behind Mega/Mewtwo while the
-            # Active Clefairy is the 1-prize discard battery.
+            # Printed Party fuels every benched Clefairy in one use. Stay Active
+            # on Clefairy while the 4+1 chump or 3+2 engines are still firing.
             if not me.active.ability_used:
                 self._moon_watching_party(me, me.active)
             return
@@ -4438,18 +4524,21 @@ class Game:
             return
 
         if can_kill:
-            if self._want_ex_tank_line(me, foe) and me.active and self._is_clefairy(me.card(me.active.card_i)):
-                evolve_named("Clefable ex", prefer_active=True, require_used=False)
-            elif self._facing_demolish(me) and not self._has_lunar_zone(me) and len(engines) >= 1:
+            if self._facing_demolish(me) and not self._has_lunar_zone(me) and len(engines) >= 1:
+                if not self._want_four_one_line(me, foe):
+                    evolve_named("Clefable ex", prefer_active=False, require_used=False)
+            return
+        if self._want_four_one_line(me, foe):
+            # Keep all four Clefairy. The empty Active is the 1-prize sacrifice.
+            return
+        if self._want_three_two_combo(me, foe):
+            # Zone on the bench (free retreat). Clefable / extra ex is the Charge fodder.
+            if not self._has_lunar_zone(me) and len(engines) >= 2:
                 evolve_named("Clefable ex", prefer_active=False, require_used=False)
-            return
-        if self._want_ex_tank_line(me, foe):
-            # T2: Active Clefairy → Clefable ex so 260 HP soaks Demolish; Zone is now up.
-            if me.active and self._is_clefairy(me.card(me.active.card_i)):
-                evolve_named("Clefable ex", prefer_active=True, require_used=False)
-            return
-        if self._want_clefairy_battery(me, foe):
-            # Prankish on a benched engine; keep Active Clefairy unevolved for the 1-prize KO.
+            if not any(self._is_clefable(me.card(m.card_i)) for m in me.in_play()):
+                if not evolve_named("Clefable", prefer_active=False, require_used=False):
+                    if self._has_lunar_zone(me) and len(engines) >= 2:
+                        evolve_named("Clefable ex", prefer_active=False, require_used=False)
             if (
                 foe.active
                 and self._is_ogerpon(foe.card(foe.active.card_i))
@@ -4458,10 +4547,6 @@ class Game:
                 and len(engines) >= 2
             ):
                 evolve_named("Clefable", prefer_active=False, require_used=False)
-            # Bench Clefable ex now: Lunar Zone zeros the support Mewtwo's Retreat 2
-            # after it attaches 1 Psychic to Transfer Charge.
-            if not self._has_lunar_zone(me) and len(engines) >= 2:
-                evolve_named("Clefable ex", prefer_active=False, require_used=False)
             return
         if self._want_mega_rush(me, foe, who) and self._mega_mon(me) is None:
             evolve_named("Mega Clefable ex", prefer_active=True)
@@ -4520,7 +4605,7 @@ class Game:
 
     def _should_transfer_combo(self, me: Player, foe: Player) -> bool:
         who = "a" if me.name == "A" else "b"
-        if self._want_clefairy_battery(me, foe) or self._support_transfer_turn(me, foe):
+        if self._want_empty_clefairy_chump(me, foe) or self._support_transfer_turn(me, foe):
             return False
         if self._photon_ko(me, foe):
             return False
@@ -4576,24 +4661,40 @@ class Game:
                 ):
                     self._swap_to_bench(me, who, idx, allow_paid=True)
                     return
-        if self._want_ex_tank_line(me, foe):
+        if self._want_four_one_line(me, foe) and not self._photon_ko(me, foe):
             if self._is_clefairy(me.card(me.active.card_i)):
                 return
-            if self._is_clefable_ex(me.card(me.active.card_i)):
-                mewtwo_idx = next(
-                    (idx for idx, mon in enumerate(me.bench) if self._is_mewtwo(me.card(mon.card_i))),
-                    None,
-                )
-                if mewtwo_idx is None:
-                    return
-                dest = me.bench[mewtwo_idx]
-                if me.active.damage > 0 and (
-                    self._photon_ko(me, foe, dest) or self._mewtwo_can_pay_photon(me, dest)
-                ):
-                    self._swap_to_bench(me, who, mewtwo_idx, allow_paid=True)
+            empty = next(
+                (idx for idx, mon in enumerate(me.bench) if self._is_clefairy(me.card(mon.card_i)) and not mon.energy),
+                None,
+            )
+            if empty is not None:
+                self._swap_to_bench(me, who, empty, allow_paid=True)
                 return
-        if self._want_clefairy_battery(me, foe):
+            clef = next((idx for idx, mon in enumerate(me.bench) if self._is_clefairy(me.card(mon.card_i))), None)
+            if clef is not None:
+                self._swap_to_bench(me, who, clef, allow_paid=True)
             return
+        if self._want_three_two_combo(me, foe):
+            if self._photon_ko(me, foe):
+                killer = self._photon_killer(me, foe)
+                if killer is not None and killer is not me.active:
+                    for idx, mon in enumerate(me.bench):
+                        if mon is killer:
+                            self._swap_to_bench(me, who, idx, allow_paid=True)
+                            return
+                return
+            if self._support_transfer_turn(me, foe):
+                return
+            if self._ogerpon_threat(foe) and not self._is_fodder_mon(me, me.active):
+                fodder_idx = self._best_fodder_idx(me)
+                if fodder_idx is not None:
+                    self._swap_to_bench(me, who, fodder_idx, allow_paid=True)
+                    return
+            if self._is_fodder_mon(me, me.active):
+                return
+            if me.active and self._is_clefairy(me.card(me.active.card_i)):
+                return
         if self._support_transfer_turn(me, foe):
             return
         # Photon this turn only. 死保 Mewtwo: do not park it for a maybe-next KO.
@@ -4609,20 +4710,6 @@ class Game:
             if me.active and self._is_mewtwo(me.card(me.active.card_i)) and not self._survives_demolish(me, me.active):
                 for idx, mon in enumerate(me.bench):
                     if self._is_mewtwo(me.card(mon.card_i)) and self._survives_demolish(me, mon):
-                        self._swap_to_bench(me, who, idx, allow_paid=True)
-                        return
-                for idx, mon in enumerate(me.bench):
-                    if self._is_clefairy(me.card(mon.card_i)):
-                        self._swap_to_bench(me, who, idx, allow_paid=True)
-                        return
-            main = self._main_mewtwo(me)
-            if (
-                main is not None
-                and main is not me.active
-                and self._mewtwo_can_pay_photon(me, main)
-            ):
-                for idx, mon in enumerate(me.bench):
-                    if mon is main:
                         self._swap_to_bench(me, who, idx, allow_paid=True)
                         return
             if self._ogerpon_threat(foe):

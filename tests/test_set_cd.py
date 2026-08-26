@@ -364,16 +364,28 @@ def test_dying_mewtwo_retreats_to_mega():
     assert me.retreated is True
 
 
-def test_party_plays_second_mewtwo_vs_ogerpon():
-    """Vs D both copies: Transfer support + Belted Photon attacker."""
+def test_party_plays_second_mewtwo_only_for_three_two_combo():
+    """Vs D the second Mewtwo comes out only with 3 Clefairy + Belt + Zone + fodder."""
     game = _cd_game()
     me = game.players["a"]
     mewtwos = [i for i, card in enumerate(me.cards) if card.name == "Mewtwo ex"]
+    clefs = [i for i, card in enumerate(me.cards) if card.name == "Clefairy"]
+    exs = [i for i, card in enumerate(me.cards) if card.name == "Clefable ex"]
+    fable = next(i for i, card in enumerate(me.cards) if card.name == "Clefable")
+    belt = next(i for i, card in enumerate(me.cards) if card.name == "Maximum Belt")
     me.active = Pokemon(card_i=mewtwos[0], played_turn=0)
     me.bench = []
     me.hand = [mewtwos[1]]
     strat = StrategySpec.from_dict("party")
     card = me.card(mewtwos[1])
+    assert game._mewtwo_play_cap(me) == 1
+    assert game._wants_in_play(me, card, strat) is False
+    me.bench = [
+        Pokemon(card_i=clefs[0], played_turn=0),
+        Pokemon(card_i=clefs[1], played_turn=0),
+        Pokemon(card_i=clefs[2], played_turn=0),
+    ]
+    me.hand = [mewtwos[1], belt, exs[0], fable]
     assert game._mewtwo_play_cap(me) == 2
     assert game._wants_in_play(me, card, strat) is True
     assert game._is_protected_from_energy(me, card, strat) is True
@@ -544,8 +556,8 @@ def test_second_player_can_play_supporter_but_not_evolve_on_their_first_turn():
     assert game._can_play_supporter("b") is True
 
 
-def test_end_turn_on_clefairy_battery_when_demolish_is_coming():
-    """1-prize Active Clefairy with 2 energy is the discard battery, not a Mewtwo wall."""
+def test_incomplete_board_hides_behind_mewtwo_not_clefairy():
+    """Without 4+1 or 3+2 assembled, Clefairy is not a Demolish chump — use the wall."""
     game = _cd_game()
     me = game.players["a"]
     foe = game.players["b"]
@@ -560,9 +572,10 @@ def test_end_turn_on_clefairy_battery_when_demolish_is_coming():
     me.bench = [Pokemon(card_i=mewtwo, played_turn=0)]
     foe.active = Pokemon(card_i=oger, energy=[fighting, dce])
     assert game._foe_can_demolish(foe)
-    assert game._want_clefairy_battery(me, foe)
+    assert game._want_four_one_line(me, foe) is False
+    assert game._want_three_two_combo(me, foe) is False
     game._retreat_party(me, foe, "a")
-    assert game._is_clefairy(me.card(me.active.card_i))
+    assert game._is_mewtwo(me.card(me.active.card_i))
 
 
 def test_play_mewtwo_before_clefairy_is_in_play():
@@ -578,7 +591,7 @@ def test_play_mewtwo_before_clefairy_is_in_play():
     assert game._mewtwo_mon(me) is not None
 
 
-def test_fast_line_does_not_pull_mewtwo_in_front_of_clefairy_battery():
+def test_fast_line_does_not_pull_mewtwo_in_front_of_empty_clefairy_chump():
     game = _cd_game()
     me = game.players["a"]
     foe = game.players["b"]
@@ -586,20 +599,29 @@ def test_fast_line_does_not_pull_mewtwo_in_front_of_clefairy_battery():
     game.first = "b"
     clefs = [i for i, card in enumerate(me.cards) if card.name == "Clefairy"]
     mewtwo = next(i for i, card in enumerate(me.cards) if card.name == "Mewtwo ex")
-    fuels = [i for i, card in enumerate(me.cards) if card.types == ["Psychic"] and card.name != "Clefairy"]
+    extras = [i for i, card in enumerate(me.cards) if card.name == "Clefable"]
+    exs = [i for i, card in enumerate(me.cards) if card.name == "Clefable ex"]
     belt = next(i for i, card in enumerate(me.cards) if card.name == "Maximum Belt")
     oger = next(i for i, card in enumerate(foe.cards) if "Ogerpon" in card.name)
     charm = next(i for i, card in enumerate(foe.cards) if card.name == "Bravery Charm")
     fighting = next(i for i, card in enumerate(foe.cards) if card.name == "Fighting Energy")
     dce = next(i for i, card in enumerate(foe.cards) if card.name == "Double Colorless Energy")
-    me.active = Pokemon(card_i=clefs[0], energy=fuels[:2], ability_used=True, played_turn=0)
-    me.bench = [Pokemon(card_i=mewtwo, tool=belt), Pokemon(card_i=clefs[1], ability_used=True, played_turn=0)]
-    me.hand = [clefs[2]]
+    me.active = Pokemon(card_i=clefs[0], energy=[], ability_used=True, played_turn=0)
+    me.bench = [
+        Pokemon(card_i=clefs[1], energy=[extras[0]], ability_used=True, played_turn=0),
+        Pokemon(card_i=clefs[2], energy=[extras[1]], ability_used=True, played_turn=0),
+        Pokemon(card_i=clefs[3], energy=[extras[2]], ability_used=True, played_turn=0),
+        Pokemon(card_i=mewtwo, energy=[exs[0], exs[1]], tool=belt, played_turn=0),
+    ]
+    me.hand = []
     me.discard = []
     foe.active = Pokemon(card_i=oger, energy=[fighting, dce], tool=charm)
     assert game._foe_can_demolish(foe)
-    assert game._want_clefairy_battery(me, foe)
+    assert game._want_four_one_line(me, foe)
+    assert game._want_empty_clefairy_chump(me, foe)
     assert game._should_transfer_combo(me, foe) is False
+    game._maybe_retreat(me, foe, "a")
+    assert game._is_clefairy(me.card(me.active.card_i))
 
 
 def test_vs_shock_fuels_mewtwo_not_clefairy():
@@ -1030,29 +1052,34 @@ def test_party_holds_boss_until_it_closes_the_game():
     assert me.card(picked).name == "Boss's Orders"
 
 
-def test_clefairy_battery_gets_hand_energy_and_stays_active():
+def test_three_two_loads_mewtwo_not_active_clefairy():
+    """3+2: hand energy goes on Mewtwo; Clefairy stays the Party engine until fodder is up."""
     game = _cd_game()
     me = game.players["a"]
     foe = game.players["b"]
     clefs = [i for i, card in enumerate(me.cards) if card.name == "Clefairy"]
     mewtwos = [i for i, card in enumerate(me.cards) if card.name == "Mewtwo ex"]
     fuels = [i for i, card in enumerate(me.cards) if card.name == "Clefable"]
+    exs = [i for i, card in enumerate(me.cards) if card.name == "Clefable ex"]
+    belt = next(i for i, card in enumerate(me.cards) if card.name == "Maximum Belt")
     oger = next(i for i, card in enumerate(foe.cards) if "Ogerpon" in card.name)
     fighting = next(i for i, card in enumerate(foe.cards) if card.name == "Fighting Energy")
     dce = next(i for i, card in enumerate(foe.cards) if card.name == "Double Colorless Energy")
-    me.active = Pokemon(card_i=clefs[0], energy=[fuels[0]], ability_used=True, played_turn=0)
+    me.active = Pokemon(card_i=clefs[0], energy=[], ability_used=True, played_turn=0)
     me.bench = [
         Pokemon(card_i=clefs[1], energy=[fuels[1]], played_turn=0),
         Pokemon(card_i=clefs[2], energy=[fuels[2]], played_turn=0),
         Pokemon(card_i=mewtwos[0], played_turn=0),
-        Pokemon(card_i=mewtwos[1], played_turn=0),
+        Pokemon(card_i=mewtwos[1], tool=belt, played_turn=0),
     ]
-    me.hand = [clefs[3]]
+    me.hand = [clefs[3], exs[0], fuels[0]]
     me.energy_attached = False
     foe.active = Pokemon(card_i=oger, energy=[fighting, dce])
-    assert game._energy_target(me, StrategySpec.from_dict("party")) is me.active
+    assert game._want_three_two_combo(me, foe)
+    assert game._energy_target(me, StrategySpec.from_dict("party")) is me.bench[3]
     game._attach_energy(me, "a")
-    assert len(me.active.energy) == 2
+    assert game._is_mewtwo(me.card(me.bench[3].card_i))
+    assert len(me.bench[3].energy) == 1
     game._maybe_retreat(me, foe, "a")
     assert me.active.card_i == clefs[0]
 
@@ -1135,8 +1162,8 @@ def test_bench_clefable_ex_zeros_support_retreat():
     assert me.discard == []
 
 
-def test_four_clef_loads_mewtwo_and_evolves_active_to_ex():
-    """4 Clefairy + 1 Mewtwo: Party, [P][P] on Mewtwo, T2 Active Clefable ex soaks 140."""
+def test_four_clef_loads_mewtwo_and_keeps_empty_active_chump():
+    """4 Clefairy + 1 Mewtwo: Party, [P][P] on Mewtwo, empty Active Clefairy takes Demolish."""
     game = _cd_game()
     game.turn = 4
     game.first = "b"
@@ -1162,49 +1189,73 @@ def test_four_clef_loads_mewtwo_and_evolves_active_to_ex():
     foe.active = Pokemon(card_i=oger, energy=[fighting, dce], tool=charm)
     assert game._clefairy_play_cap(me) == 4
     assert game._mewtwo_play_cap(me) == 1
-    assert game._want_ex_tank_line(me, foe)
-    assert game._want_clefairy_battery(me, foe) is False
+    assert game._want_four_one_line(me, foe)
+    assert game._want_empty_clefairy_chump(me, foe)
     assert game._energy_target(me, StrategySpec.from_dict("party")) is me.bench[3]
     game._evolve_party(me, foe, "a")
-    assert game._is_clefable_ex(me.card(me.active.card_i))
-    assert game._has_lunar_zone(me)
+    assert game._is_clefairy(me.card(me.active.card_i))
+    assert not game._has_lunar_zone(me)
     game._maybe_retreat(me, foe, "a")
-    assert game._is_clefable_ex(me.card(me.active.card_i))
+    assert game._is_clefairy(me.card(me.active.card_i))
+    assert not me.active.energy
 
 
-def test_four_clef_ex_attaches_then_free_retreats_to_loaded_mewtwo():
+def test_four_clef_promotes_loaded_mewtwo_after_empty_chump():
+    """After the empty Clefairy is KO'd, the Belted Mewtwo is the closer."""
     game = _cd_game()
-    game.turn = 5
-    game.first = "b"
     me = game.players["a"]
     foe = game.players["b"]
     clefs = [i for i, card in enumerate(me.cards) if card.name == "Clefairy"]
-    exs = [i for i, card in enumerate(me.cards) if card.name == "Clefable ex"]
     mewtwo = next(i for i, card in enumerate(me.cards) if card.name == "Mewtwo ex")
     extras = [i for i, card in enumerate(me.cards) if card.name == "Clefable"]
+    exs = [i for i, card in enumerate(me.cards) if card.name == "Clefable ex"]
     belt = next(i for i, card in enumerate(me.cards) if card.name == "Maximum Belt")
     oger = next(i for i, card in enumerate(foe.cards) if "Ogerpon" in card.name)
     fighting = next(i for i, card in enumerate(foe.cards) if card.name == "Fighting Energy")
     dce = next(i for i, card in enumerate(foe.cards) if card.name == "Double Colorless Energy")
     charm = next(i for i, card in enumerate(foe.cards) if card.name == "Bravery Charm")
-    me.active = Pokemon(card_i=exs[0], damage=140, played_turn=0)
+    me.active = None
     me.bench = [
         Pokemon(card_i=clefs[0], energy=[extras[0]], played_turn=0),
         Pokemon(card_i=clefs[1], energy=[extras[1]], played_turn=0),
         Pokemon(card_i=clefs[2], energy=[extras[2]], played_turn=0),
-        Pokemon(card_i=mewtwo, energy=[extras[3], clefs[3]], tool=belt, played_turn=0),
+        Pokemon(card_i=mewtwo, energy=[exs[0], exs[1]], tool=belt, played_turn=0),
     ]
-    me.hand = [exs[1], exs[2]]
-    me.energy_attached = False
-    me.retreated = False
-    me.discard = []
     foe.active = Pokemon(card_i=oger, energy=[fighting, dce], tool=charm)
-    assert game._want_ex_tank_line(me, foe)
-    assert game._energy_target(me, StrategySpec.from_dict("party")) is me.active
-    game._attach_energy(me, "a")
-    assert game._has_psychic_energy_on(me, me.active)
-    assert game._retreat_cost(me, me.active) == 0
+    idx = game._promote_idx(me, "a")
+    assert me.bench[idx].card_i == mewtwo
+
+
+def test_three_two_evolves_bench_zone_and_clefable_fodder():
+    """3+2: Clefable is the Charge fodder, Clefable ex is Lunar Zone, Active Clefairy stays."""
+    game = _cd_game()
+    game.turn = 4
+    game.first = "b"
+    me = game.players["a"]
+    foe = game.players["b"]
+    clefs = [i for i, card in enumerate(me.cards) if card.name == "Clefairy"]
+    exs = [i for i, card in enumerate(me.cards) if card.name == "Clefable ex"]
+    mewtwos = [i for i, card in enumerate(me.cards) if card.name == "Mewtwo ex"]
+    fuels = [i for i, card in enumerate(me.cards) if card.name == "Clefable"]
+    belt = next(i for i, card in enumerate(me.cards) if card.name == "Maximum Belt")
+    oger = next(i for i, card in enumerate(foe.cards) if "Ogerpon" in card.name)
+    fighting = next(i for i, card in enumerate(foe.cards) if card.name == "Fighting Energy")
+    dce = next(i for i, card in enumerate(foe.cards) if card.name == "Double Colorless Energy")
+    charm = next(i for i, card in enumerate(foe.cards) if card.name == "Bravery Charm")
+    me.active = Pokemon(card_i=clefs[0], ability_used=True, played_turn=0)
+    me.bench = [
+        Pokemon(card_i=clefs[1], energy=[fuels[1]], played_turn=0),
+        Pokemon(card_i=clefs[2], energy=[fuels[2]], played_turn=0),
+        Pokemon(card_i=mewtwos[0], played_turn=0),
+        Pokemon(card_i=mewtwos[1], tool=belt, energy=[exs[1]], played_turn=0),
+    ]
+    me.hand = [exs[0], fuels[0]]
+    foe.active = Pokemon(card_i=oger, energy=[fighting, dce], tool=charm)
+    assert game._want_three_two_combo(me, foe)
+    game._evolve_party(me, foe, "a")
+    assert game._is_clefairy(me.card(me.active.card_i))
+    assert game._has_lunar_zone(me)
+    assert any(game._is_clefable(me.card(m.card_i)) for m in me.bench)
     game._maybe_retreat(me, foe, "a")
-    assert game._is_mewtwo(me.card(me.active.card_i))
-    assert me.discard == []
+    assert game._is_clefable(me.card(me.active.card_i))
 
