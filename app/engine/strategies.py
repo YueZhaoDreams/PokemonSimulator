@@ -204,7 +204,7 @@ STRATEGY_LIBRARY = {
             "1-prize KO, support Charge +2 then tanks one 140, then Zone and swap to the "
             "full-HP Belted closer for the 2-prize Photon. "
             "(4) Going first 2 Clefairy + 1 Mewtwo + Mega + Clefable ex + Belt: Party, "
-            "evolve Mega on the empty Active (320 HP soaks T4 and T6), evolve Zone after "
+            "evolve the Active Clefairy into Mega (320 HP soaks T4 and T6), evolve Zone after "
             "the first 140, leave Mega for the ex sponge, then Photon from the full-HP closer. "
             "If those boards are not assembled, hide behind Mega / Clefable ex and keep one Mewtwo. "
             "151 Invitation Clefairy (if mixed in) dumps Party engines in one attack when "

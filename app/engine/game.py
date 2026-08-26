@@ -3551,7 +3551,7 @@ class Game:
             not self._went_second(me)
             and n_clef >= 2
             and self._two_one_mega_pieces_ready(me)
-            and not self._second_mewtwo_in_hand(me)
+            and not self._mewtwo_copy_in_hand(me)
             and self._clefable_discarded(me) == 0
             and len(self._mewtwo_mons(me)) < 2
         ):
@@ -3686,8 +3686,13 @@ class Game:
             return True
         return any("mega clefable" in me.card(i).name.lower() for i in me.hand)
 
-    def _second_mewtwo_in_hand(self, me: Player) -> bool:
-        return sum(1 for i in me.hand if self._is_mewtwo(me.card(i))) > 0
+    def _mewtwo_copy_in_hand(self, me: Player) -> bool:
+        """True if a Mewtwo is still in hand (the extra copy for 2+2 Charge).
+
+        On the 2+1 Mega wall the in-play Mewtwo is already out, so any hand copy
+        is the second one and Charge takes priority over the wall.
+        """
+        return any(self._is_mewtwo(me.card(i)) for i in me.hand)
 
     def _two_one_mega_pieces_ready(self, me: Player) -> bool:
         return (
@@ -3918,7 +3923,7 @@ class Game:
                 not self._went_second(me)
                 and self._two_one_mega_pieces_ready(me)
                 and self._count_named_in_play(me, "clefairy") >= 2
-                and not self._second_mewtwo_in_hand(me)
+                and not self._mewtwo_copy_in_hand(me)
             ):
                 return 2
             return 4
@@ -4670,7 +4675,7 @@ class Game:
                     and self._facing_demolish(me)
                     and me.active in candidates
                 ):
-                    # Vs D Mega is a 320 HP sponge; keep the empty Active as the chump.
+                    # Vs D, evolve the Active Clefairy into Mega (320 HP Demolish sponge).
                     target = me.active
                 else:
                     ranked = sorted(
@@ -4736,8 +4741,8 @@ class Game:
                     evolve_named("Clefable", prefer_active=False, require_used=False)
             return
         if self._want_two_one_mega_wall(me, foe):
-            # T3 Mega on the empty Active. T5 Zone on the leftover Clefairy after Mega
-            # has been in play a turn (first Demolish lands T4).
+            # T3: evolve Active Clefairy into Mega (320 HP sponge). T5 Zone on the
+            # leftover Clefairy after Mega has been in play a turn (first Demolish T4).
             if self._mega_mon(me) is None:
                 evolve_named("Mega Clefable ex", prefer_active=True)
             elif not self._has_lunar_zone(me):
