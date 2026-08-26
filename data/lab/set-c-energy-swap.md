@@ -162,4 +162,19 @@ Human line vs D, going first, when the board is **2 Clefairy + 1 Mewtwo + Mega C
 
 If the second Mewtwo is already in hand, the 2+2 Charge line still takes priority. This does not replace locked 4× LOR 62.
 
+## A–T matrix after 2+2 / 2+1 scripts (2026-08-26)
+
+Seed `20260819`, 3,000 games / ordered pair. Engine after going-first **2+2+Prankish+ex** and **2+1+Mega+ex+Belt**. Raw: `data/lab/family-cup-30-matrix.json`.
+
+|  | A | B | C | D | S | T |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| **A** | — | 68.3% | 11.3% | 4.2% | 67.7% | 47.5% |
+| **B** | 32.3% | — | 10.4% | 1.2% | 23.2% | 50.4% |
+| **C** | **88.2%** | **89.6%** | — | **52.8%** | 78.2% | **54.5%** |
+| **D** | 95.7% | 98.7% | 48.3% | — | 39.1% | 70.4% |
+| **S** | 31.1% | 75.5% | 20.8% | **60.9%** | — | 59.7% |
+| **T** | 51.7% | 49.6% | 44.6% | 31.0% | 41.1% | — |
+
+C vs D **52.8%** (first **48.2%** / second **57.2%**). The two human first-player lines are rare openings; going second’s 4+1 two-chump and 3+2 Transfer still carry the matchup. C vs T 45.9% → **54.5%**. C vs S 88.5% → 78.2% (locking two Party engines when Mega+ex+Belt are in hand under-Parties vs Floragato). C mean vs A/B/D/S/T **72.7%**.
+
 
