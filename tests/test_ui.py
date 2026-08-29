@@ -50,6 +50,13 @@ REQUIRED_IDS = [
     "labDetail",
     "sfxToggle",
     "busyMask",
+    "authGate",
+    "authEmail",
+    "authPassword",
+    "authLogin",
+    "authRegister",
+    "logoutBtn",
+    "userList",
 ]
 
 
@@ -100,8 +107,18 @@ def test_styles_keep_stadium_tokens_and_reduced_motion():
 def test_app_js_keeps_simulator_contracts():
     js = _read("app.js")
     assert "async function boot" in js
-    assert "/api/simulate" in js
+    assert "function loadApp" in js
+    assert "function showAuthGate" in js
+    assert "function clearClientSession" in js
     assert "/api/chat/stream" in js
+    assert "Sign in required" in js
+    assert "rememberChat(null)" in js
+    assert "/api/auth/login" in js
+    assert "/api/auth/register" in js
+    assert "/api/auth/me" in js
+    assert "/api/auth/logout" in js
+    assert "/api/users" in js
+    assert "/api/simulate" in js
     assert "/api/trades" in js
     assert "function classifyLog" in js
     assert "function paintArena" in js

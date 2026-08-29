@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from contextvars import ContextVar, Token
 from typing import Any
 
 from app.catalog import search_local
@@ -10,6 +11,8 @@ from app.engine.montecarlo import run_simulation
 from app.engine.probability import draw_probability
 from app.engine.strategies import StrategySpec, list_strategies
 from app.engine.trades import suggest_trades
+
+_VIEWER: ContextVar[dict | None] = ContextVar("deck_viewer", default=None)
 
 TOOL_SCHEMAS = [
     {
@@ -95,14 +98,57 @@ TOOL_SCHEMAS = [
 ]
 
 
+def use_viewer(user: dict | None) -> Token:
+    return _VIEWER.set(user)
+
+
+def reset_viewer(token: Token) -> None:
+    _VIEWER.reset(token)
+
+
+def current_viewer() -> dict | None:
+    return _VIEWER.get()
+
+
+def chat_visible(chat: dict | None) -> bool:
+    if not chat:
+        return False
+    user = _VIEWER.get()
+    if not user or user.get("role") == "admin":
+        return True
+    return chat.get("owner_id") == user["id"]
+
+
+def _visible_decks() -> list[dict]:
+    user = _VIEWER.get()
+    if user and user.get("role") != "admin":
+        return list_decks(owner_id=user["id"])
+    return list_decks()
+
+
+def _usable_deck(deck_id: str) -> dict | None:
+    deck = get_deck(deck_id)
+    if not deck:
+        return None
+    user = _VIEWER.get()
+    if user and user.get("role") != "admin" and deck.get("owner_id") != user["id"]:
+        return None
+    return deck
+
+
 def _cards(deck: dict) -> list[Card]:
     return [Card.from_dict(c) for c in deck["cards"]]
 
 
 def _default_ids() -> tuple[str, str]:
-    decks = list_decks()
+    decks = _visible_decks()
     if len(decks) >= 2:
         return decks[0]["id"], decks[1]["id"]
+    if len(decks) == 1:
+        return decks[0]["id"], decks[0]["id"]
+    user = _VIEWER.get()
+    if user and user.get("role") != "admin":
+        return "", ""
     return "seed-a", "seed-b"
 
 
@@ -122,10 +168,10 @@ def run_tool(name: str, args: dict[str, Any]) -> Any:
     if name == "list_decks":
         return [
             {"id": d["id"], "name": d["name"], "count": d["count"], "cards": [c["name"] for c in d["cards"]]}
-            for d in list_decks()
+            for d in _visible_decks()
         ]
     if name == "get_deck":
-        deck = get_deck(args["deck_id"])
+        deck = _usable_deck(args["deck_id"])
         if not deck:
             return {"error": "deck not found"}
         return {"id": deck["id"], "name": deck["name"], "cards": [c["name"] for c in deck["cards"]]}
@@ -136,14 +182,14 @@ def run_tool(name: str, args: dict[str, Any]) -> Any:
     if name == "list_strategies":
         return list_strategies()
     if name == "draw_odds":
-        deck = get_deck(args["deck_id"])
+        deck = _usable_deck(args["deck_id"])
         if not deck:
             return {"error": "deck not found"}
         names = [c["name"] for c in deck["cards"]]
         return draw_probability(args["card_name"], names, int(args.get("draw") or 7))
     if name == "simulate_match":
-        deck_a = get_deck(args["deck_a_id"])
-        deck_b = get_deck(args["deck_b_id"])
+        deck_a = _usable_deck(args["deck_a_id"])
+        deck_b = _usable_deck(args["deck_b_id"])
         if not deck_a or not deck_b:
             return {"error": "need two saved decks"}
         rules = get_rules()
@@ -182,8 +228,8 @@ def run_tool(name: str, args: dict[str, Any]) -> Any:
             "learning": record["learning"],
         }
     if name == "suggest_trades":
-        deck_a = get_deck(args["deck_a_id"])
-        deck_b = get_deck(args["deck_b_id"])
+        deck_a = _usable_deck(args["deck_a_id"])
+        deck_b = _usable_deck(args["deck_b_id"])
         if not deck_a or not deck_b:
             return {"error": "need two saved decks"}
         rules = get_rules()

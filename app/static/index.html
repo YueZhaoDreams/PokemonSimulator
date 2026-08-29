@@ -38,6 +38,10 @@
       <div id="ruleStrip" class="rule-strip" aria-label="Family Cup rules"></div>
       <button id="sfxToggle" class="ghost quiet" type="button" aria-pressed="false" title="Stadium sounds">SFX off</button>
       <div id="aiPill" class="pill">Local coach</div>
+      <div id="accountBox" class="account-box hidden">
+        <span id="accountEmail" class="pill"></span>
+        <button id="logoutBtn" class="ghost quiet" type="button">Log out</button>
+      </div>
     </div>
   </header>
 
@@ -73,6 +77,11 @@
     <section id="view-decks" class="hidden">
       <h2 class="screen-title">Card sets</h2>
       <p class="lede">Every scanned pile becomes a 30-card Family Cup roster. Tap art to zoom.</p>
+      <div id="userPanel" class="panel hidden">
+        <h3>Registered trainers</h3>
+        <p class="tiny">Admin can see every email that signed up. Seed sets stay on this account.</p>
+        <div id="userList"></div>
+      </div>
       <div id="deckList"></div>
     </section>
 
@@ -171,6 +180,22 @@
       <div id="labDetail"></div>
     </section>
   </main>
+
+  <div id="authGate" class="auth-gate" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+    <form id="authForm" class="panel auth-card">
+      <h2 id="authTitle">Sign in to ComboCub</h2>
+      <p class="lede">Register with email, or use the household admin account.</p>
+      <label for="authEmail">Email</label>
+      <input id="authEmail" type="email" autocomplete="username" required placeholder="you@example.com" />
+      <label for="authPassword">Password</label>
+      <input id="authPassword" type="password" autocomplete="current-password" required />
+      <p id="authError" class="tiny auth-error hidden" role="alert"></p>
+      <div class="row" style="margin-top:12px">
+        <button id="authLogin" type="submit">Sign in</button>
+        <button id="authRegister" class="secondary" type="button">Register</button>
+      </div>
+    </form>
+  </div>
 
   <div id="lightbox" class="lightbox hidden" role="dialog" aria-modal="true" aria-label="Card art" tabindex="-1">
     <button id="lightboxClose" class="ghost" type="button">Close</button>
