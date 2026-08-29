@@ -1,6 +1,6 @@
 const $ = (sel) => document.querySelector(sel);
 const $$ = (sel) => [...document.querySelectorAll(sel)];
-let state = { decks: [], strategies: [], scanCards: [], scanCrops: [], chatId: null, history: [], chatMode: "list", chatLang: "zh", chatOpened: false, speakReplies: true, rules: null };
+let state = { decks: [], strategies: [], scanCards: [], scanCrops: [], chatId: null, history: [], chatMode: "list", chatLang: "zh", chatOpened: false, speakReplies: true, rules: null, user: null, users: [] };
 const CHAT_STORE = "family-cup-chat-id";
 const CHAT_LANG_STORE = "family-cup-chat-lang";
 const CHAT_SPEAK_STORE = "family-cup-chat-speak";
@@ -49,8 +49,69 @@ const THEATER_BEATS = [
 
 async function api(path, opts = {}) {
   const res = await fetch(path, opts);
+  if (res.status === 401 && path !== "/api/auth/me" && path !== "/api/auth/login") {
+    showAuthGate();
+  }
   if (!res.ok) throw new Error(await res.text());
   return res.json();
+}
+
+function showAuthGate() {
+  document.body.classList.add("signed-out");
+  $("#authGate")?.classList.remove("hidden");
+  $("#accountBox")?.classList.add("hidden");
+}
+
+function hideAuthGate() {
+  document.body.classList.remove("signed-out");
+  $("#authGate")?.classList.add("hidden");
+}
+
+function paintAccount() {
+  const user = state.user;
+  if (!user) {
+    showAuthGate();
+    return;
+  }
+  hideAuthGate();
+  $("#accountBox")?.classList.remove("hidden");
+  if ($("#accountEmail")) $("#accountEmail").textContent = user.email;
+}
+
+function clearClientSession() {
+  state.user = null;
+  state.decks = [];
+  state.users = [];
+  state.chatId = null;
+  state.history = [];
+  state.chatOpened = false;
+  state.chatMode = "list";
+  rememberChat(null);
+}
+
+async function submitAuth(register) {
+  const email = $("#authEmail")?.value.trim();
+  const password = $("#authPassword")?.value || "";
+  $("#authError")?.classList.add("hidden");
+  try {
+    const user = await api(register ? "/api/auth/register" : "/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
+    state.chatId = null;
+    state.history = [];
+    state.chatOpened = false;
+    state.chatMode = "list";
+    rememberChat(null);
+    state.user = user;
+    await loadApp();
+  } catch (err) {
+    if ($("#authError")) {
+      $("#authError").textContent = String(err.message || err).replace(/[{}"[\]]/g, " ").trim();
+      $("#authError").classList.remove("hidden");
+    }
+  }
 }
 
 function show(view) {
@@ -65,7 +126,10 @@ function show(view) {
     if (on) b.setAttribute("aria-current", "page");
     else b.removeAttribute("aria-current");
   });
-  if (view === "decks") renderDecks();
+  if (view === "decks") {
+    renderDecks();
+    renderUsers();
+  }
   if (view === "fight") fillFight();
   if (view === "lab") renderLab();
   if (view === "chat") renderChat();
@@ -613,6 +677,41 @@ function paintArena() {
   }
 }
 
+async function loadApp() {
+  paintAccount();
+  const health = await api("/api/health");
+  $("#aiPill").textContent = aiLabel(health.ai);
+  paintRules(health.rules);
+  state.decks = await api("/api/decks");
+  state.strategies = await api("/api/strategies");
+  if (state.user?.role === "admin") {
+    try {
+      state.users = await api("/api/users");
+    } catch {
+      state.users = [];
+    }
+  } else {
+    state.users = [];
+  }
+  fillFight();
+  renderEditor();
+  renderUsers();
+}
+
+function renderUsers() {
+  const panel = $("#userPanel");
+  const list = $("#userList");
+  if (!panel || !list) return;
+  if (state.user?.role !== "admin") {
+    panel.classList.add("hidden");
+    return;
+  }
+  panel.classList.remove("hidden");
+  list.innerHTML = (state.users || []).map((u) =>
+    `<div class="tiny">${esc(u.email)} · ${esc(u.role)}</div>`
+  ).join("") || `<p class="tiny">No other trainers yet.</p>`;
+}
+
 async function boot() {
   try {
     if (localStorage.getItem(SHINY_STORE) === "1") document.body.classList.add("shiny");
@@ -624,11 +723,6 @@ async function boot() {
   loadChatLang();
   loadSpeakReplies();
   paintChatLang();
-  const health = await api("/api/health");
-  $("#aiPill").textContent = aiLabel(health.ai);
-  paintRules(health.rules);
-  state.decks = await api("/api/decks");
-  state.strategies = await api("/api/strategies");
   CHIPS.forEach((q) => {
     const b = document.createElement("button");
     b.type = "button";
@@ -641,8 +735,26 @@ async function boot() {
     };
     $("#chips").appendChild(b);
   });
-  fillFight();
-  renderEditor();
+  $("#authForm")?.addEventListener("submit", (e) => {
+    e.preventDefault();
+    submitAuth(false);
+  });
+  $("#authRegister")?.addEventListener("click", () => submitAuth(true));
+  $("#logoutBtn")?.addEventListener("click", async () => {
+    try {
+      await api("/api/auth/logout", { method: "POST" });
+    } catch {
+      /* already signed out */
+    }
+    clearClientSession();
+    showAuthGate();
+  });
+  try {
+    state.user = await api("/api/auth/me");
+    await loadApp();
+  } catch {
+    showAuthGate();
+  }
 }
 
 function fillFight() {
@@ -1124,6 +1236,11 @@ async function sendChat() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ message, chat_id: state.chatId, history: state.history, language: state.chatLang }),
     });
+    if (res.status === 401) {
+      clearClientSession();
+      showAuthGate();
+      throw new Error("Sign in required");
+    }
     if (!res.ok || !res.body) throw new Error(await res.text());
     const reader = res.body.getReader();
     const decoder = new TextDecoder();

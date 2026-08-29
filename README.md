@@ -48,6 +48,8 @@ chmod +x run.sh
 
 Open http://127.0.0.1:8000 on the computer, or `http://<your-lan-ip>:8000` on a phone on the same Wi-Fi. Add to Home Screen for a standalone app.
 
+Sign in with email. The household admin account is `dancedfire@gmail.com` (password from `ADMIN_PASSWORD`, default `1013`). Every existing / seeded card set is owned by that admin. New trainers register their own email and only see sets they save.
+
 Chat is Cursor, defaulting to **Grok 4.6 Extra High**. Mint a key at [Cursor Dashboard → Integrations](https://cursor.com/dashboard/integrations) and put it in `.env`. Without `CURSOR_API_KEY`, the **local coach** still answers the example questions by calling the same simulator tools.
 
 ```bash

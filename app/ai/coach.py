@@ -8,8 +8,8 @@ from typing import Any
 from app.ai.chat_language import alias_card_in_text, reply_language
 from app.ai.cursor_agent import cursor_configured, runtime_ready, stream_cursor_turn
 from app.ai.llm import provider_status
-from app.ai.tools import _default_ids, fill_default_args, run_tool
-from app.db import get_chat, get_rules, list_decks, save_chat
+from app.ai.tools import _default_ids, chat_visible, current_viewer, fill_default_args, run_tool, _visible_decks
+from app.db import get_chat, get_rules, save_chat
 
 
 async def ask_coach_events(
@@ -19,6 +19,9 @@ async def ask_coach_events(
     language: str | None = None,
 ) -> AsyncIterator[dict[str, Any]]:
     stored = get_chat(chat_id) if chat_id else None
+    if stored and not chat_visible(stored):
+        stored = None
+        chat_id = None
     thread = list(history or (stored["messages"] if stored else []))
     agent_id = (stored or {}).get("agent_id")
     tool_trace: list[dict[str, Any]] = []
@@ -111,7 +114,13 @@ def _save_turn(
 ) -> dict:
     thread.append({"role": "user", "content": message})
     thread.append({"role": "assistant", "content": answer})
-    return save_chat(thread, chat_id=chat_id, agent_id=agent_id)
+    viewer = current_viewer()
+    return save_chat(
+        thread,
+        chat_id=chat_id,
+        agent_id=agent_id,
+        owner_id=viewer["id"] if viewer else None,
+    )
 
 
 def _done(saved: dict, answer: str, tool_trace: list[dict], coach: str) -> dict[str, Any]:
@@ -131,7 +140,7 @@ def _local_coach(message: str, tool_trace: list[dict], language: str | None = No
     lang = reply_language(message, language)
     intent = _intent(message)
     a_id, b_id = _default_ids()
-    decks = list_decks()
+    decks = _visible_decks()
     rules = get_rules()
 
     if intent == "talk":
@@ -147,6 +156,12 @@ def _local_coach(message: str, tool_trace: list[dict], language: str | None = No
         args = fill_default_args({"deck_id": deck_id, "card_name": card, "draw": draw})
         result = run_tool("draw_odds", args)
         tool_trace.append({"tool": "draw_odds", "args": args, "output_preview": result})
+        if result.get("error"):
+            return (
+                "还没有可用套牌。请先在扫描页保存一套牌，我再帮你算起手概率。"
+                if lang == "zh"
+                else "Save a card set first, then I can calculate opening-hand odds."
+            )
         p = result.get("p_at_least_one", 0)
         copies = result.get("copies")
         if lang == "zh":
@@ -373,9 +388,9 @@ def _card_in_text(message: str, decks: list[dict]) -> str | None:
 
 
 def _name_in_deck(name: str, deck_id: str) -> bool:
-    from app.db import get_deck
+    from app.ai.tools import _usable_deck
 
-    deck = get_deck(deck_id)
+    deck = _usable_deck(deck_id)
     if not deck:
         return False
     return any(c["name"].lower() == name.lower() for c in deck["cards"])

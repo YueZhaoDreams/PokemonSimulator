@@ -43,6 +43,12 @@ POKEMONTCG_API_KEY = os.getenv("POKEMONTCG_API_KEY", "").strip()
 HOST = os.getenv("HOST", "0.0.0.0")
 PORT = int(os.getenv("PORT", "8000"))
 
+ADMIN_EMAIL = os.getenv("ADMIN_EMAIL", "dancedfire@gmail.com").strip() or "dancedfire@gmail.com"
+ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "1013")
+SESSION_COOKIE = os.getenv("SESSION_COOKIE", "combocub_session")
+SESSION_SECURE = os.getenv("SESSION_SECURE", "").strip().lower() in ("1", "true", "yes")
+SESSION_DAYS = int(os.getenv("SESSION_DAYS", "30"))
+
 
 def llm_provider() -> str | None:
     if XAI_API_KEY:
