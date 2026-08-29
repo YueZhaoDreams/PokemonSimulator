@@ -81,6 +81,17 @@ def test_admin_owns_seed_decks_and_members_are_isolated(tmp_path, monkeypatch):
         assert steal.status_code == 409
         assert get_deck("seed-a")["name"] != "Hijack"
 
+        from app.db import save_chat, save_deck
+
+        blank = save_deck("Orphan", [{"name": "Cubone"}], deck_id="orphan-deck")
+        assert not blank["owner_id"]
+        filled = save_deck("Orphan", [{"name": "Cubone"}], deck_id="orphan-deck", owner_id=member["id"])
+        assert filled["owner_id"] == member["id"]
+        chat = save_chat([{"role": "user", "content": "hi"}], chat_id="orphan-chat")
+        assert not chat["owner_id"]
+        owned = save_chat([{"role": "user", "content": "hi"}], chat_id="orphan-chat", owner_id=member["id"])
+        assert owned["owner_id"] == member["id"]
+
     from app.ai.tools import reset_viewer, run_tool, use_viewer
 
     init_db()

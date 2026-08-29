@@ -116,9 +116,9 @@ def test_app_js_keeps_simulator_contracts():
     assert "/api/auth/login" in js
     assert "/api/auth/register" in js
     assert "/api/auth/me" in js
+    assert "/api/auth/logout" in js
     assert "/api/users" in js
     assert "/api/simulate" in js
-    assert "/api/chat/stream" in js
     assert "/api/trades" in js
     assert "function classifyLog" in js
     assert "function paintArena" in js

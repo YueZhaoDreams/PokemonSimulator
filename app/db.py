@@ -243,8 +243,8 @@ def save_deck(
         existing = conn.execute("SELECT id FROM decks WHERE id=?", (deck_id,)).fetchone()
         if existing:
             conn.execute(
-                "UPDATE decks SET name=?, source=?, cards_json=? WHERE id=?",
-                (name, source, json.dumps(cards), deck_id),
+                "UPDATE decks SET name=?, source=?, cards_json=?, owner_id=COALESCE(owner_id, ?) WHERE id=?",
+                (name, source, json.dumps(cards), owner_id, deck_id),
             )
         else:
             conn.execute(
@@ -381,8 +381,8 @@ def save_chat(
         if existing:
             stored_agent = agent_id if agent_id is not None else existing["agent_id"]
             conn.execute(
-                "UPDATE chats SET title=?, messages_json=?, updated_at=?, agent_id=? WHERE id=?",
-                (title, json.dumps(messages), now, stored_agent, chat_id),
+                "UPDATE chats SET title=?, messages_json=?, updated_at=?, agent_id=?, owner_id=COALESCE(owner_id, ?) WHERE id=?",
+                (title, json.dumps(messages), now, stored_agent, owner_id, chat_id),
             )
         else:
             conn.execute(
