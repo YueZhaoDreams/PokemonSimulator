@@ -1,6 +1,8 @@
-# Family Pokémon TCG Simulator
+# Combo Cub
 
 Phone-friendly web app for a household Pokémon TCG format. Photograph a set of cards, ask questions, simulate thousands of games, and record what the AI tried and learned.
+
+Public name **Combo Cub** (招式小熊); domain **combocub.com**. Brand notes: [docs/combo-cub.md](docs/combo-cub.md).
 
 This is a fan-made simulator. It is not affiliated with Nintendo, Game Freak, or The Pokémon Company.
 
