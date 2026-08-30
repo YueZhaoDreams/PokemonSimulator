@@ -98,10 +98,13 @@ function closeSettings() {
 function toggleSettings() {
   const menu = $("#settingsMenu");
   if (!menu) return;
-  const open = menu.classList.contains("hidden");
-  menu.classList.toggle("hidden", !open);
-  $("#accountEmail")?.setAttribute("aria-expanded", open ? "true" : "false");
-  if (open) $("#sfxToggle")?.focus();
+  if (!menu.classList.contains("hidden")) {
+    closeSettings();
+    return;
+  }
+  menu.classList.remove("hidden");
+  $("#accountEmail")?.setAttribute("aria-expanded", "true");
+  $("#sfxToggle")?.focus();
 }
 
 function clearClientSession() {
@@ -142,6 +145,7 @@ async function submitAuth(register) {
 }
 
 function show(view) {
+  closeSettings();
   if (view === "chat") {
     openAgent();
     return;

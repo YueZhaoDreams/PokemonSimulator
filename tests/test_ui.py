@@ -220,6 +220,7 @@ def test_app_js_keeps_simulator_contracts():
     show_fn = js[js.index("function show(view)") : js.index("function md")]
     assert "agent-open" in show_fn
     assert "stopVoiceSession" in show_fn
+    assert "closeSettings" in show_fn
     assert "function openAgent" in js
     assert 'agentShrink")?.focus()' in js
     assert "function shrinkAgent" in js

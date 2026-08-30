@@ -78,7 +78,7 @@ async def ask_coach_events(
             prefix = "本地助手。" if lang == "zh" else "On-device helper."
             answer = _local_coach(message, tool_trace, language=lang) + f"\n\n({prefix})"
             saved = _save_turn(thread, message, answer, chat_id=chat_id, agent_id=agent_id)
-            yield _done(saved, answer, tool_trace, "cursor-fallback")
+            yield _done(saved, answer, tool_trace, "local")
             return
 
     answer = _local_coach(message, tool_trace, language=lang)
