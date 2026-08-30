@@ -306,6 +306,7 @@ label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 6px
 }
 #cubLauncher img { width: 52px; height: 52px; display: block; }
 #cubLauncher:hover { filter: brightness(1.08); }
+#cubLauncher:focus-visible { outline: 3px solid var(--yellow); outline-offset: 3px; }
 body.agent-open #cubLauncher { display: none; }
 .agent-panel {
   display: none;

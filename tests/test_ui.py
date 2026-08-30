@@ -100,7 +100,7 @@ def test_index_keeps_family_cup_controls():
     assert "Talk 语音" not in html
     assert 'id="cubLauncher"' in html
     assert 'src="/static/cub.svg"' in html
-    assert 'id="agentPanel"' in html
+    assert "Chat language and spoken replies" in html
     assert "Sets for this rule only" in html
     assert "keep at least one" in html
     assert 'class="rule-banner"' in html
@@ -120,7 +120,7 @@ def test_styles_keep_stadium_tokens_and_reduced_motion():
     assert ".scan-btn input { display: none; }" not in css
     assert ".scan-btn input" in css
     assert "opacity: 0" in css
-    assert "#cubLauncher" in css
+    assert "#cubLauncher:focus-visible" in css
     assert "body.agent-open" in css
     assert "body.agent-full" in css
     assert "body.agent-open .nav" in css
