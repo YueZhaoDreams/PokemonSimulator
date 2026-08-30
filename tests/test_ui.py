@@ -137,6 +137,7 @@ def test_styles_keep_stadium_tokens_and_reduced_motion():
     assert "opacity: 0" in css
     assert ".card-sheet" in css
     assert ".hit-add" in css
+    assert "body.card-sheet-open" in css
     assert "#cubLauncher:focus-visible" in css
     assert "body.agent-open" in css
     assert "body.agent-full" in css
@@ -249,6 +250,7 @@ def test_app_js_keeps_simulator_contracts():
     assert "state.decks.map" not in chunk
     assert "function openCardPicker" in js
     assert "function closeCardSheet" in js
+    assert "cardSheetOpener" in js
     assert "function startAddCard" in js
     replace_fn = js[js.index("function startReplace") : js.index("function startAddCard")]
     assert 'show("decks")' not in replace_fn

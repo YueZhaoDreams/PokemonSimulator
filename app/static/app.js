@@ -1050,6 +1050,7 @@ function bindReplace(root) {
 }
 
 let pickerTarget = null;
+let pickerSeq = 0;
 let cardSearchTimer = 0;
 let searchSeq = 0;
 
@@ -1197,10 +1198,15 @@ function paintCardPickerChrome() {
   syncNewSetWrap();
 }
 
+let cardSheetOpener = null;
+
 function openCardPicker(target) {
-  pickerTarget = target;
+  pickerTarget = { ...target, seq: ++pickerSeq };
   if (target?.deckId) fillAddToSet(target.deckId);
   else fillAddToSet($("#addToSet")?.value);
+  if ($("#cardSheet")?.classList.contains("hidden")) {
+    cardSheetOpener = document.activeElement;
+  }
   parkCardsPanel($("#cardSheetHost"));
   $("#cardSheet")?.classList.remove("hidden");
   document.body.classList.add("card-sheet-open");
@@ -1217,6 +1223,10 @@ function closeCardSheet() {
   if (sel) sel.disabled = false;
   parkCardsPanel($("#cardsHost"));
   paintCardPickerChrome();
+  if (wasOpen && cardSheetOpener && typeof cardSheetOpener.focus === "function") {
+    cardSheetOpener.focus();
+  }
+  cardSheetOpener = null;
   return wasOpen;
 }
 
@@ -1239,15 +1249,16 @@ function clearReplace() {
 }
 
 async function takeCard(card) {
-  const inSheet = Boolean(pickerTarget);
-  if (pickerTarget?.kind === "replace") {
-    await replaceDeckCard(pickerTarget.deckId, pickerTarget.index, card);
-    closeCardSheet();
+  const session = pickerTarget;
+  const seq = session?.seq;
+  if (session?.kind === "replace") {
+    await replaceDeckCard(session.deckId, session.index, card);
+    if (pickerTarget?.seq === seq) closeCardSheet();
     toast(`Replaced with ${card.name}`);
     return;
   }
   await addCardsToSet([card]);
-  if (inSheet) closeCardSheet();
+  if (session && pickerTarget?.seq === seq) closeCardSheet();
 }
 
 async function addCardsToSet(cards) {
@@ -1486,9 +1497,9 @@ $("#findScan")?.addEventListener("change", async (e) => {
     const result = await api("/api/recognize", { method: "POST", body: fd });
     const cards = (result.cards || []).filter((c) => c.name && c.name !== "Unknown");
     if (!cards.length) throw new Error("Could not read that photo. Search by name instead.");
-    const fromSheet = Boolean(pickerTarget);
+    const seq = pickerTarget?.seq;
     await addCardsToSet(cards);
-    if (fromSheet) closeCardSheet();
+    if (seq != null && pickerTarget?.seq === seq) closeCardSheet();
   } catch (err) {
     toast(err.message, "bad");
   } finally {

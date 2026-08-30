@@ -250,6 +250,7 @@ label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 6px
   display: flex; align-items: flex-end; justify-content: center;
   padding: 12px 12px calc(12px + var(--safe-bottom));
 }
+body.card-sheet-open { overflow: hidden; }
 .card-sheet-panel {
   width: min(720px, 100%);
   max-height: min(88vh, 880px);
