@@ -100,13 +100,18 @@ def load_seed_payload() -> dict:
 
         nuzzle = _fallback_named("pikachu-nuzzle")
         shock = _fallback_named("Pikachu")
+        want_ids = ["sm12-66", "sm3-40"]
         for key in ("b", "e"):
-            if key in data:
-                assigned = _assign_named_prints(data[key]["cards"], "Pikachu", [nuzzle, shock])
-                as_dicts = [c.to_dict() if isinstance(c, Card) else c for c in assigned]
-                if as_dicts != data[key]["cards"]:
-                    data[key]["cards"] = as_dicts
-                    dirty = True
+            if key not in data:
+                continue
+            have_ids = [c.get("catalog_id") for c in data[key]["cards"] if c.get("name") == "Pikachu"]
+            if have_ids[:2] == want_ids:
+                continue
+            assigned = _assign_named_prints(data[key]["cards"], "Pikachu", [nuzzle, shock])
+            as_dicts = [c.to_dict() if isinstance(c, Card) else c for c in assigned]
+            if as_dicts != data[key]["cards"]:
+                data[key]["cards"] = as_dicts
+                dirty = True
         if dirty:
             SEED_PATH.write_text(json.dumps(data, indent=2))
         _refresh_hashes(data)

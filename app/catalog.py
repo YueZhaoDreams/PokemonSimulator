@@ -854,7 +854,12 @@ def _merge_search_hits(
             merged[key] = {**prev, "image": hit["image"], "id": hit.get("id") or prev.get("id")}
     ranked = sorted(
         merged.values(),
-        key=lambda hit: (_name_match_rank(hit["name"], query), _fold_name(hit["name"]), hit.get("id") or ""),
+        key=lambda hit: (
+            _name_match_rank(hit["name"], query),
+            _fold_name(hit["name"]),
+            0 if (hit.get("id") or "") == (PREFERRED_IDS.get(hit.get("name") or "") or "") else 1,
+            hit.get("id") or "",
+        ),
     )
     return ranked[:limit]
 
@@ -885,9 +890,13 @@ def pick_search_hit(typed: str, hits: list[dict[str, str]] | None) -> dict[str, 
     rows = [h for h in (hits or []) if (h.get("name") or "").strip()]
     folded = _fold_name(q)
     if folded:
-        for hit in rows:
-            if _fold_name(hit.get("name") or "") == folded:
-                return hit
+        matches = [h for h in rows if _fold_name(h.get("name") or "") == folded]
+        if matches:
+            pin = PREFERRED_IDS.get(matches[0].get("name") or "")
+            for hit in matches:
+                if pin and (hit.get("id") or "") == pin:
+                    return hit
+            return matches[0]
     if rows:
         return rows[0]
     if q:

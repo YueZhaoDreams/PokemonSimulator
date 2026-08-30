@@ -160,12 +160,12 @@ def _normalize_name(name: str) -> str:
 
 
 def _resolve_identified(item: dict, crop=None) -> Card:
-    from app.catalog import PRINT_PREFER, fetch_full, normalize_card
+    from app.catalog import PRINT_PREFER, fetch_full, normalize_card, _names_match
 
     if item.get("catalog_id"):
         try:
             card = normalize_card(fetch_full(item["catalog_id"]))
-            if card.name.lower() == (item.get("name") or "").lower():
+            if _names_match(card.name, item.get("name") or ""):
                 return card
         except Exception:
             pass

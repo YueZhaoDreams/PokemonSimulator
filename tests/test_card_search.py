@@ -32,6 +32,7 @@ def test_search_local_offers_both_household_pikachu_prints(monkeypatch):
     ids = {h["id"] for h in pika}
     assert "sm3-40" in ids
     assert "sm12-66" in ids
+    assert hits[0]["id"] == "sm3-40"
     assert all(h.get("image") for h in pika)
     monkeypatch.setattr("app.catalog._remote_search_briefs", lambda q: [])
     hits = search_local("pikachu", remote=False)
