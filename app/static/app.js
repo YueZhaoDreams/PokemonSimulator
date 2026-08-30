@@ -1027,6 +1027,7 @@ async function runCardSearch(q) {
   if (query.length < 2) {
     box.hidden = true;
     box.innerHTML = "";
+    box.dataset.query = "";
     return;
   }
   box.hidden = false;
@@ -1057,6 +1058,7 @@ async function resolvePick(hit) {
 function paintHits(box, hits) {
   if (!box) return;
   box.hidden = false;
+  box.dataset.query = ($("#addName")?.value || "").trim();
   box.innerHTML = searchHitHtml(hits);
   box.querySelectorAll("[data-card-name]").forEach((b) => {
     b.onclick = () => applyPickedCard({ id: b.dataset.cardId, name: b.dataset.cardName });
@@ -1167,16 +1169,18 @@ function foldName(s) {
 
 function selectedSearchHit() {
   const typed = $("#addName")?.value.trim() || "";
+  const bound = foldName($("#addHits")?.dataset.query || "");
   const rows = $$("#addHits [data-card-name]").map((b) => ({
     id: b.dataset.cardId || "",
     name: b.dataset.cardName || "",
   })).filter((h) => h.name);
   const folded = foldName(typed);
-  if (folded) {
+  const live = Boolean(folded && bound === folded);
+  if (live) {
     const exact = rows.find((h) => foldName(h.name) === folded);
     if (exact) return exact;
+    if (rows[0]) return rows[0];
   }
-  if (rows[0]) return rows[0];
   if (typed) return { name: typed };
   return null;
 }
@@ -1323,6 +1327,8 @@ $("#addCard").onclick = async () => {
 
 $("#addName")?.addEventListener("input", () => {
   clearTimeout(cardSearchTimer);
+  const box = $("#addHits");
+  if (box) box.dataset.query = "";
   const q = $("#addName").value.trim();
   cardSearchTimer = setTimeout(() => runCardSearch(q), 120);
 });

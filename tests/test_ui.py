@@ -181,6 +181,7 @@ def test_app_js_keeps_simulator_contracts():
     assert "function replaceDeckCard" in js
     assert "function addCardsToSet" in js
     assert "function selectedSearchHit" in js
+    assert "dataset.query" in js
     assert "function cardCount" in js
     assert "function runCardSearch" in js
     assert 'lookupCards(query, "local")' in js
