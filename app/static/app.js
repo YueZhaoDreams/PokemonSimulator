@@ -170,8 +170,8 @@ function show(view) {
     renderUsers();
   }
   if (view === "cards") {
-    fillAddToSet($("#addToSet")?.value);
     paintCardPickerChrome();
+    renderCollection();
   }
   if (view === "fight") fillFight();
   if (view === "lab") renderLab();
@@ -256,21 +256,34 @@ function classifyLog(line) {
   return "note";
 }
 
+function cardKey(card) {
+  const id = String(card?.id || "").trim();
+  if (id) return id;
+  return foldName(card?.name);
+}
+
 function cardTile(card, opts = {}) {
   const tint = TYPE_TINT[typeOf(card)] || TYPE_TINT.Colorless;
   const name = esc(card.name || "Unknown");
   const hp = card.hp ? `${card.hp} HP` : "";
+  const zoom = card.image && !opts.openDetail
+    ? ` data-zoom="${esc(card.image)}" data-zoom-name="${name}"`
+    : "";
   const img = card.image
-    ? `<img src="${esc(card.image)}" alt="${name}" data-zoom="${esc(card.image)}" data-zoom-name="${name}">`
+    ? `<img src="${esc(card.image)}" alt="${name}"${zoom}>`
     : "";
   const replace = opts.deckId != null && opts.index != null
     ? `<button type="button" class="ghost quiet card-replace" data-replace-deck="${esc(opts.deckId)}" data-replace-idx="${opts.index}">Replace</button>`
     : "";
-  return `<div class="card-tile holo" style="border-color:${tint}">
+  const open = opts.openDetail
+    ? ` role="button" tabindex="0" data-open-card="${esc(cardKey(card))}" data-card-name="${esc(card.name || "")}" data-card-id="${esc(card.id || "")}"`
+    : "";
+  const setsNote = opts.setsNote ? `<span>${esc(opts.setsNote)}</span>` : `<span>${esc(card.category || "")} ${esc(card.stage || "")} ${hp}</span>`;
+  return `<div class="card-tile holo" style="border-color:${tint}"${open}>
     ${hp ? `<span class="hp-pip">${esc(hp)}</span>` : ""}
     ${replace}
     ${img}
-    <div class="meta"><b>${name}</b><span>${esc(card.category || "")} ${esc(card.stage || "")} ${hp}</span></div>
+    <div class="meta"><b>${name}</b>${setsNote}</div>
   </div>`;
 }
 
@@ -668,7 +681,7 @@ function paintRules(rules) {
       `${rules.deck_size} cards`,
       `${rules.prize_count} prizes`,
       `hand ${rules.opening_hand}`,
-      rules.pokemon_as_energy ? "Pokémon = energy" : "No Pokémon energy",
+      rules.pokemon_as_energy ? "Pokémon = energy" : "Standard 30 cards",
     ];
     if (rules.extra_prize_for_ex) {
       chips.push("ex = 2 prizes · Mega ex = 3");
@@ -874,16 +887,22 @@ function rememberRule(key) {
   try { localStorage.setItem(RULE_STORE, key); } catch { /* private mode */ }
 }
 
+function rulePresetLabel(preset, fallback) {
+  if (preset === "c") return "Standard 30 cards";
+  if (preset === "b") return "Pokémon = energy";
+  return fallback || preset || "";
+}
+
 function ruleChoices() {
   const presets = state.rulePresets?.length
     ? state.rulePresets
     : [
         { preset: "b", label: "Pokémon = energy" },
-        { preset: "c", label: "No Pokémon energy" },
+        { preset: "c", label: "Standard 30 cards" },
       ];
   return presets.map((p) => ({
     preset: p.preset,
-    label: p.preset === "c" ? "No Pokémon energy" : p.preset === "b" ? "Pokémon = energy" : (p.label || p.preset),
+    label: rulePresetLabel(p.preset, p.label),
   }));
 }
 
@@ -931,17 +950,10 @@ function fillFight() {
       ? state.rulePresets
       : [
           { preset: "b", label: "Pokémon = energy" },
-          { preset: "c", label: "No Pokémon energy" },
+          { preset: "c", label: "Standard 30 cards" },
         ];
     ruleSel.innerHTML = presets
-      .map((p) => {
-        const label = p.preset === "c"
-          ? "No Pokémon energy"
-          : p.preset === "b"
-            ? "Pokémon = energy"
-            : (p.label || p.preset);
-        return `<option value="${esc(p.preset)}">${esc(label)}</option>`;
-      })
+      .map((p) => `<option value="${esc(p.preset)}">${esc(rulePresetLabel(p.preset, p.label))}</option>`)
       .join("");
     const fallbackRule = state.rules?.pokemon_as_energy === false ? "c" : "b";
     pick(ruleSel, keep.rule, fallbackRule);
@@ -1081,8 +1093,8 @@ let cardSearchTimer = 0;
 let searchSeq = 0;
 
 function searchHitHtml(hits) {
-  if (!hits.length) return `<p class="tiny">No matches yet. Keep typing, or Add to set with the name in the box.</p>`;
-  const action = pickerTarget?.kind === "replace" ? "Replace" : "+";
+  if (!hits.length) return `<p class="tiny">No matches yet. Keep typing, then tap a card.</p>`;
+  const action = pickerTarget?.kind === "replace" ? "Replace" : pickerTarget?.kind === "add" ? "+" : "View";
   return hits.map((h) => `
     <button type="button" class="search-hit" data-card-id="${esc(h.id || "")}" data-card-name="${esc(h.name || "")}">
       ${h.image ? `<img src="${esc(h.image)}" alt="${esc(h.name || "")}">` : ""}
@@ -1166,11 +1178,15 @@ function fillViewSet(preferred) {
   $("#openAddCard")?.toggleAttribute("disabled", !sel.value);
 }
 
+function playableSets() {
+  return (state.decks || []).filter((d) => d.kind !== "spare");
+}
+
 function fillAddToSet(preferred) {
   const sel = $("#addToSet");
   if (!sel) return;
   const keep = pickerTarget?.deckId || preferred || sel.value;
-  const lists = ruleSets();
+  const lists = playableSets();
   sel.innerHTML = `<option value="__new__">New set…</option>`
     + lists.map((d) => `<option value="${esc(d.id)}">${esc(d.name)} (${cardCount(d)})</option>`).join("");
   if (keep && [...sel.options].some((o) => o.value === keep)) sel.value = keep;
@@ -1178,7 +1194,7 @@ function fillAddToSet(preferred) {
   else sel.value = "__new__";
   sel.disabled = Boolean(pickerTarget?.deckId);
   syncNewSetWrap();
-  if (pickerTarget?.deckId && sel.value !== pickerTarget.deckId) closeCardSheet();
+  if (pickerTarget?.kind !== "detail" && pickerTarget?.deckId && sel.value !== pickerTarget.deckId) closeCardSheet();
 }
 
 function syncNewSetWrap() {
@@ -1202,13 +1218,16 @@ function paintCardPickerChrome() {
     : null;
   const replacing = pickerTarget?.kind === "replace";
   const adding = pickerTarget?.kind === "add";
+  const detailing = pickerTarget?.kind === "detail";
   $("#findPanel")?.classList.toggle("replacing", replacing);
   $("#cancelReplace")?.classList.toggle("hidden", !replacing);
+  $("#cardDetailHost")?.classList.toggle("hidden", !detailing);
+  $("#addToSetBar")?.classList.toggle("hidden", !(replacing || adding || (detailing && pickerTarget?.pickingSet)));
   if ($("#addCard")) $("#addCard").textContent = replacing ? "Replace card" : "Add to set";
   if ($("#cardSheetTitle")) {
     $("#cardSheetTitle").textContent = replacing
       ? (current ? `Replace ${current.name}` : "Replace a card")
-      : (adding ? `Add to ${deck?.name || "this set"}` : "Add a card");
+      : (adding ? `Add to ${deck?.name || "this set"}` : (detailing ? (pickerTarget?.card?.name || "Card") : "Add a card"));
   }
   if ($("#findHint")) {
     if (replacing) {
@@ -1218,7 +1237,7 @@ function paintCardPickerChrome() {
     } else if (adding) {
       $("#findHint").textContent = `Search or scan, then tap + to add a card to ${deck?.name || "this set"}.`;
     } else {
-      $("#findHint").textContent = "Search a name or photograph cards. Tap + to add it to a set.";
+      $("#findHint").textContent = "Search or scan. Tap a card to see details and add it to a set.";
     }
   }
   syncNewSetWrap();
@@ -1238,8 +1257,118 @@ function openCardPicker(target) {
   parkCardsPanel($("#cardSheetHost"));
   $("#cardSheet")?.classList.remove("hidden");
   document.body.classList.add("card-sheet-open");
+  $(".app-shell")?.setAttribute("inert", "");
+  $("#cubLauncher")?.setAttribute("inert", "");
   paintCardPickerChrome();
   $("#addName")?.focus();
+}
+
+function setsHoldingCard(card) {
+  const key = cardKey(card);
+  const name = foldName(card?.name);
+  const seen = [];
+  for (const d of state.decks || []) {
+    const hits = (d.cards || []).filter((c) => cardKey(c) === key || (name && foldName(c.name) === name));
+    if (hits.length) seen.push({ id: d.id, name: d.name, copies: hits.length });
+  }
+  return seen;
+}
+
+function ownedCardEntries() {
+  const map = new Map();
+  for (const d of state.decks || []) {
+    for (const c of d.cards || []) {
+      if (!c?.name) continue;
+      const key = cardKey(c);
+      let rec = map.get(key);
+      if (!rec) {
+        rec = { key, card: c, sets: [], copies: 0 };
+        map.set(key, rec);
+      }
+      rec.copies += 1;
+      if (!rec.sets.some((s) => s.id === d.id)) rec.sets.push({ id: d.id, name: d.name });
+    }
+  }
+  return [...map.values()].sort((a, b) => String(a.card.name || "").localeCompare(String(b.card.name || "")));
+}
+
+function renderCollection() {
+  const host = $("#ownedGrid");
+  if (!host) return;
+  const entries = ownedCardEntries();
+  if (!entries.length) {
+    host.innerHTML = `<div class="panel"><p class="tiny">No cards in your sets yet. Search or scan, tap a card, then Add to set.</p></div>`;
+    return;
+  }
+  host.innerHTML = entries.map((e) => cardTile(e.card, {
+    openDetail: true,
+    setsNote: e.sets.length === 1 ? `In ${e.sets[0].name}` : `In ${e.sets.length} sets`,
+  })).join("");
+  host.querySelectorAll("[data-open-card]").forEach((el) => {
+    const open = () => openCardDetail({ id: el.dataset.cardId, name: el.dataset.cardName });
+    el.onclick = open;
+    el.onkeydown = (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        open();
+      }
+    };
+  });
+}
+
+function paintCardDetail(card) {
+  const host = $("#cardDetailHost");
+  if (!host || !card) return;
+  const sets = setsHoldingCard(card);
+  const hp = card.hp ? `${card.hp} HP` : "";
+  host.innerHTML = `
+    <div class="card-detail">
+      ${card.image ? `<img src="${esc(card.image)}" alt="${esc(card.name || "")}">` : ""}
+      <div>
+        <b>${esc(card.name || "")}</b>
+        <p class="tiny">${esc(card.category || "")} ${esc(card.stage || "")} ${esc(hp)} ${esc(typeOf(card))}</p>
+        ${sets.length
+          ? `<p class="tiny">In these sets</p><ul class="set-list">${sets.map((s) => `<li>${esc(s.name)}${s.copies > 1 ? ` ×${s.copies}` : ""}</li>`).join("")}</ul>`
+          : `<p class="tiny">Not in a set yet.</p>`}
+        <button id="openAddToSet" type="button">Add to set</button>
+      </div>
+    </div>`;
+  $("#openAddToSet")?.addEventListener("click", () => {
+    if (pickerTarget) pickerTarget.pickingSet = true;
+    fillAddToSet();
+    paintCardPickerChrome();
+    $("#addToSet")?.focus();
+  });
+}
+
+async function openCardDetail(hit) {
+  if (!hit?.name) return;
+  if ($("#cardSheet")?.classList.contains("hidden")) {
+    cardSheetOpener = document.activeElement;
+  }
+  const seq = ++pickerSeq;
+  pickerTarget = { kind: "detail", seq, pickingSet: false, card: hit };
+  parkCardsPanel($("#cardsHost"));
+  $("#cardSheet")?.classList.remove("hidden");
+  document.body.classList.add("card-sheet-open");
+  if ($("#cardDetailHost")) $("#cardDetailHost").innerHTML = `<p class="tiny">Loading ${esc(hit.name)}…</p>`;
+  paintCardPickerChrome();
+  $(".app-shell")?.setAttribute("inert", "");
+  $("#cubLauncher")?.setAttribute("inert", "");
+  $("#closeCardSheet")?.focus();
+  try {
+    const card = await resolvePick(hit);
+    if (pickerTarget?.kind !== "detail" || pickerTarget?.seq !== seq) return;
+    pickerTarget.card = card;
+    paintCardDetail(card);
+    paintCardPickerChrome();
+    $("#openAddToSet")?.focus();
+  } catch (err) {
+    if (pickerTarget?.seq === seq) {
+      toast(err.message, "bad");
+      if ($("#cardDetailHost")) $("#cardDetailHost").innerHTML = `<p class="tiny">Could not load that card.</p>`;
+    }
+  }
 }
 
 function closeCardSheet() {
@@ -1249,12 +1378,22 @@ function closeCardSheet() {
   pickerTarget = null;
   $("#cardSheet")?.classList.add("hidden");
   document.body.classList.remove("card-sheet-open");
+  $(".app-shell")?.removeAttribute("inert");
+  $("#cubLauncher")?.removeAttribute("inert");
   const sel = $("#addToSet");
   if (sel) sel.disabled = false;
+  const openerKey = cardSheetOpener?.dataset?.openCard || "";
+  const openerEl = cardSheetOpener;
   parkCardsPanel($("#cardsHost"));
+  $("#cardDetailHost")?.classList.add("hidden");
+  if ($("#cardDetailHost")) $("#cardDetailHost").innerHTML = "";
+  $("#addToSetBar")?.classList.add("hidden");
   paintCardPickerChrome();
-  if (wasOpen && focusInSheet && cardSheetOpener && typeof cardSheetOpener.focus === "function") {
-    cardSheetOpener.focus();
+  renderCollection();
+  if (wasOpen && focusInSheet) {
+    const tile = openerKey ? document.querySelector(`[data-open-card="${CSS.escape(openerKey)}"]`) : null;
+    if (tile && typeof tile.focus === "function") tile.focus();
+    else if (openerEl && document.contains(openerEl) && typeof openerEl.focus === "function") openerEl.focus();
   }
   cardSheetOpener = null;
   return wasOpen;
@@ -1283,7 +1422,7 @@ async function takeCard(card, session = pickerTarget) {
     return;
   }
   await addCardsToSet([card], session);
-  if (session && pickerTarget?.seq === seq) closeCardSheet();
+  if (session?.kind !== "detail" && session && pickerTarget?.seq === seq) closeCardSheet();
 }
 
 async function addCardsToSet(cards, session = pickerTarget) {
@@ -1305,6 +1444,12 @@ async function addCardsToSet(cards, session = pickerTarget) {
     fillAddToSet(saved.id);
     fillViewSet(saved.id);
     renderDecks();
+    renderCollection();
+    if (session?.kind === "detail") {
+      session.pickingSet = false;
+      paintCardDetail(named[0]);
+      paintCardPickerChrome();
+    }
     toast(`Started ${saved.name} with ${named.length === 1 ? named[0].name : named.length + " cards"}`);
     return;
   }
@@ -1321,6 +1466,12 @@ async function addCardsToSet(cards, session = pickerTarget) {
   fillAddToSet(saved.id);
   fillViewSet(saved.id);
   renderDecks();
+  renderCollection();
+  if (session?.kind === "detail") {
+    session.pickingSet = false;
+    paintCardDetail(named[0]);
+    paintCardPickerChrome();
+  }
   toast(`Added ${named.length === 1 ? named[0].name : named.length + " cards"} to ${saved.name}`);
 }
 
@@ -1349,6 +1500,10 @@ function selectedSearchHit() {
 let addBusy = false;
 async function applyPickedCard(hit) {
   if (!hit || !hit.name || addBusy) return;
+  if (!pickerTarget || pickerTarget.kind === "detail") {
+    await openCardDetail(hit);
+    return;
+  }
   const session = pickerTarget;
   addBusy = true;
   $("#addCard")?.setAttribute("disabled", "true");
@@ -1377,6 +1532,7 @@ async function replaceDeckCard(deckId, index, card) {
   const i = state.decks.findIndex((d) => d.id === deckId);
   if (i >= 0) state.decks[i] = saved;
   renderDecks();
+  renderCollection();
 }
 
 function selectedSet() {
@@ -1394,7 +1550,7 @@ function renderDecks() {
     return;
   }
   const have = deckRulePresets(d);
-  const ruleNames = have.map((k) => (k === "c" ? "No Pokémon energy" : "Pokémon = energy")).join(" · ");
+  const ruleNames = have.map((k) => rulePresetLabel(k)).join(" · ");
   box.innerHTML = `
     <div class="panel">
       <div class="list-item">
@@ -1451,6 +1607,7 @@ async function toggleDeckRule(deckId, key, on) {
     fillViewSet(saved.id);
     fillFight();
     renderDecks();
+    renderCollection();
     if (!deckRulePresets(saved).includes(currentRule())) {
       toast(`${saved.name} is no longer under this rule`);
     }
@@ -1480,10 +1637,25 @@ async function deleteSelectedSet(deckId) {
   fillViewSet();
   fillFight();
   renderDecks();
+  renderCollection();
   toast(`${deck.name} deleted`);
 }
 
 $("#addCard").onclick = async () => {
+  if (pickerTarget?.kind === "detail") {
+    if (!pickerTarget.pickingSet || !pickerTarget.card?.name || addBusy) return;
+    addBusy = true;
+    $("#addCard")?.setAttribute("disabled", "true");
+    try {
+      await takeCard(pickerTarget.card, pickerTarget);
+    } catch (err) {
+      toast(err.message, "bad");
+    } finally {
+      addBusy = false;
+      $("#addCard")?.removeAttribute("disabled");
+    }
+    return;
+  }
   const hit = selectedSearchHit();
   if (!hit) return toast("Search a card first.", "bad");
   await applyPickedCard(hit);
@@ -1524,8 +1696,15 @@ $("#findScan")?.addEventListener("change", async (e) => {
     const cards = (result.cards || []).filter((c) => c.name && c.name !== "Unknown");
     if (!cards.length) throw new Error("Could not read that photo. Search by name instead.");
     const session = pickerTarget;
-    await addCardsToSet(cards, session);
-    if (session && pickerTarget?.seq === session.seq) closeCardSheet();
+    if (session?.kind === "add" || session?.kind === "replace") {
+      await addCardsToSet(cards, session);
+      if (session && pickerTarget?.seq === session.seq) closeCardSheet();
+    } else if (cards.length === 1) {
+      await openCardDetail(cards[0]);
+    } else {
+      paintHits($("#addHits"), cards);
+      toast(`Found ${cards.length} cards. Tap one for details.`);
+    }
   } catch (err) {
     toast(err.message, "bad");
   } finally {
@@ -2077,6 +2256,7 @@ $("#lightbox").addEventListener("click", (e) => {
       fillAddToSet($("#addToSet")?.value);
       fillViewSet($("#viewSet")?.value);
       renderDecks();
+      renderCollection();
     }
     resetArenaResult();
     paintArena();
