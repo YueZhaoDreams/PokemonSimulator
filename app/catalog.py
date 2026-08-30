@@ -630,6 +630,15 @@ ART_ONLY_IDS = {
 }
 
 
+def _looks_like_tcgdex_id(card_id: str) -> bool:
+    if not card_id or not isinstance(card_id, str) or card_id.startswith("fallback"):
+        return False
+    if "-" not in card_id:
+        return False
+    series = card_id.split("-", 1)[0].lower()
+    return series.startswith(("sv", "swsh", "sm", "xy", "me", "base"))
+
+
 def _tcgdex_low(card_id: str) -> str:
     series, number = card_id.split("-", 1)
     folder = "swsh" if series.startswith("swsh") else "sv" if series.startswith("sv") else "sm" if series.startswith("sm") else series
@@ -715,7 +724,7 @@ def _local_name_catalog() -> tuple[tuple[str, str, str], ...]:
             return
         seen.add(key)
         image = ""
-        if cid and "-" in cid and not cid.startswith("fallback"):
+        if _looks_like_tcgdex_id(cid):
             try:
                 image = _tcgdex_low(cid)
             except Exception:

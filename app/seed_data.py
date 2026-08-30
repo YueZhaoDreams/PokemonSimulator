@@ -256,11 +256,11 @@ def _pkm(name, stage, types, hp, attacks, evolves_from=None, retreat=1, catalog_
 
 
 def _trn(name, kind, text="", catalog_id=None, image=None):
-    from app.catalog import PREFERRED_IDS, _tcgdex_low
+    from app.catalog import PREFERRED_IDS, _looks_like_tcgdex_id, _tcgdex_low
 
     cid = catalog_id or PREFERRED_IDS.get(name) or name.lower().replace(" ", "-")
     art = image
-    if not art and isinstance(cid, str) and "-" in cid and not cid.startswith("fallback"):
+    if not art and _looks_like_tcgdex_id(str(cid or "")):
         try:
             art = _tcgdex_low(cid)
         except Exception:

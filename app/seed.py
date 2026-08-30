@@ -156,6 +156,7 @@ def _ensure_card_images(cards: list[dict]) -> list[dict]:
         fetch_full,
         normalize_card,
         _names_match,
+        _looks_like_tcgdex_id,
         _tcgdex_low,
     )
     from app.seed_data import fallback_named
@@ -189,7 +190,7 @@ def _ensure_card_images(cards: list[dict]) -> list[dict]:
                 cache[cache_key] = energy_card(name.split()[0]).to_dict()
             elif name in EXTRA_PRINT_IDS and cid in (allowed or set()):
                 patched = dict(card)
-                if not patched.get("image") and "-" in cid:
+                if not patched.get("image") and _looks_like_tcgdex_id(cid):
                     patched["image"] = _tcgdex_low(cid)
                     patched["catalog_id"] = cid
                 cache[cache_key] = patched
@@ -215,7 +216,7 @@ def _ensure_card_images(cards: list[dict]) -> list[dict]:
                         cache[cache_key] = fb
                 if not cache[cache_key].get("image"):
                     pin = PREFERRED_IDS.get(name)
-                    if pin and isinstance(pin, str) and "-" in pin and not str(pin).startswith("fallback"):
+                    if pin and _looks_like_tcgdex_id(pin):
                         patched = dict(cache[cache_key])
                         patched["image"] = _tcgdex_low(pin)
                         patched["catalog_id"] = pin
@@ -231,7 +232,7 @@ def _ensure_card_images(cards: list[dict]) -> list[dict]:
             out.append(merged)
         else:
             pin = PREFERRED_IDS.get(name) or card.get("catalog_id")
-            if pin and isinstance(pin, str) and "-" in pin and not pin.startswith("fallback"):
+            if pin and _looks_like_tcgdex_id(str(pin)):
                 patched = dict(card)
                 patched["image"] = _tcgdex_low(pin)
                 patched["catalog_id"] = pin
