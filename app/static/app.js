@@ -1202,8 +1202,10 @@ let cardSheetOpener = null;
 
 function openCardPicker(target) {
   pickerTarget = { ...target, seq: ++pickerSeq };
+  const seq = pickerTarget.seq;
   if (target?.deckId) fillAddToSet(target.deckId);
   else fillAddToSet($("#addToSet")?.value);
+  if (pickerTarget?.seq !== seq) return;
   if ($("#cardSheet")?.classList.contains("hidden")) {
     cardSheetOpener = document.activeElement;
   }
@@ -1217,6 +1219,7 @@ function openCardPicker(target) {
 function closeCardSheet() {
   const sheet = $("#cardSheet");
   const wasOpen = Boolean(sheet && !sheet.classList.contains("hidden"));
+  const focusInSheet = Boolean(sheet && document.activeElement && sheet.contains(document.activeElement));
   pickerTarget = null;
   $("#cardSheet")?.classList.add("hidden");
   document.body.classList.remove("card-sheet-open");
@@ -1224,7 +1227,7 @@ function closeCardSheet() {
   if (sel) sel.disabled = false;
   parkCardsPanel($("#cardsHost"));
   paintCardPickerChrome();
-  if (wasOpen && cardSheetOpener && typeof cardSheetOpener.focus === "function") {
+  if (wasOpen && focusInSheet && cardSheetOpener && typeof cardSheetOpener.focus === "function") {
     cardSheetOpener.focus();
   }
   cardSheetOpener = null;
