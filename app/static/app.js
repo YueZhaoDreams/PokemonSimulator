@@ -83,7 +83,8 @@ function paintAccount() {
 }
 
 function settingsOpen() {
-  return !$("#settingsMenu")?.classList.contains("hidden");
+  const menu = $("#settingsMenu");
+  return !!(menu && !menu.classList.contains("hidden"));
 }
 
 function closeSettings() {
@@ -97,6 +98,7 @@ function toggleSettings() {
   const open = menu.classList.contains("hidden");
   menu.classList.toggle("hidden", !open);
   $("#accountEmail")?.setAttribute("aria-expanded", open ? "true" : "false");
+  if (open) $("#sfxToggle")?.focus();
 }
 
 function clearClientSession() {

@@ -145,6 +145,8 @@ def test_app_js_keeps_simulator_contracts():
     assert "function loadApp" in js
     assert "function toggleSettings" in js
     assert "function closeSettings" in js
+    assert "menu && !menu.classList.contains" in js
+    assert '$("#sfxToggle")?.focus()' in js
     assert 'return "Agent"' in js
     assert "Local coach" not in js
     assert '$("#aiPill")' not in js
