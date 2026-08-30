@@ -99,7 +99,11 @@ def test_index_keeps_family_cup_controls():
     assert 'data-view="scan"' not in html
     assert "Talk 语音" not in html
     assert 'id="cubLauncher"' in html
-    assert 'src="/static/cub.svg"' in html
+    assert 'src="/static/cub.png"' in html
+    assert "<strong>Combo Cub</strong>" in html
+    assert 'title="Combo Cub"' in html
+    assert ">Scan · fight · chat<" in html
+    assert "<strong>Family Cup</strong>" not in html
     assert "Chat language and spoken replies" in html
     assert "Sets for this rule only" in html
     assert "keep at least one" in html
@@ -156,9 +160,10 @@ def test_app_js_keeps_simulator_contracts():
     assert "p_at_least_one" in js
     assert "thrifty" in js
     assert "shock" in js
-    assert "pokemon_as_energy ? \"Pokémon are energy\"" in js or "pokemon_as_energy ? 'Pokémon are energy'" in js or 'pokemon_as_energy ? "Pokémon are energy"' in js
     assert "No Pokémon energy" in js
     assert "Pokémon = energy" in js
+    paint = js[js.index("function paintRules") : js.index("function syncRulePreset")]
+    assert "brandTag" not in paint
     assert "Rule B (Pokémon = energy)" not in js
     assert "function decksMatchingRule" in js
     assert "function currentRule" in js
@@ -170,7 +175,6 @@ def test_app_js_keeps_simulator_contracts():
     assert "rule_preset" in js
     assert "ex = 2 prizes · Mega ex = 3" in js
     assert "max ${rules.max_copies_except_basic_energy} of a name" in js
-    assert "standard energy" in js
     assert 'bindReplay($("#simOut"), "watchReplay")' in js
     assert "in opening ${hand}" in js
     assert "Looking for win-win trades" in js

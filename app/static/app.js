@@ -627,7 +627,6 @@ function theaterNames() {
 function paintRules(rules) {
   state.rules = rules;
   if (!rules) return;
-  const energy = rules.pokemon_as_energy ? "Pokémon are energy" : "standard energy";
   const strip = $("#ruleStrip");
   if (strip) {
     const chips = [
@@ -644,8 +643,6 @@ function paintRules(rules) {
     }
     strip.innerHTML = chips.map((c) => `<span class="chip">${esc(c)}</span>`).join("");
   }
-  const tag = $("#brandTag");
-  if (tag) tag.textContent = `${rules.deck_size} cards · ${rules.prize_count} prizes · ${energy}`;
   ensurePrizePips();
   syncRulePreset(rules);
 }
