@@ -457,6 +457,7 @@ function paintAgentChrome() {
 }
 
 function openAgent() {
+  closeCardSheet();
   document.body.classList.add("agent-open");
   const panel = $("#agentPanel");
   if (panel) panel.hidden = false;
