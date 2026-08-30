@@ -125,7 +125,7 @@ def test_styles_keep_stadium_tokens_and_reduced_motion():
     assert "body.agent-full" in css
     assert "body.agent-open .nav" in css
     assert "position: fixed" in css
-    assert ".chat-voice { display: none !important; }" in css
+    assert ".chat-voice { display: none !important; }" not in css
     assert "grid-template-columns: minmax(0, 1fr) min(440px, 42vw)" in css
     assert "minmax(220px, 46vh)" in css
 
@@ -193,12 +193,15 @@ def test_app_js_keeps_simulator_contracts():
     assert "CHAT_WELCOME" in js
     assert "function setChatLang" in js
     assert "function startNewChat" in js
+    show_fn = js[js.index("function show(view)") : js.index("function md")]
+    assert "agent-open" in show_fn
+    assert "stopVoiceSession" in show_fn
     assert "function openAgent" in js
     assert 'agentShrink")?.focus()' in js
     assert "function shrinkAgent" in js
     assert "function toggleAgentFull" in js
-    assert "function isBrowserDesktop" in js
-    assert "function voiceUiEnabled" in js
+    assert "function isBrowserDesktop" not in js
+    assert "function voiceUiEnabled" not in js
     start_401 = js.index("if (res.status === 401)")
     chunk_401 = js[start_401 : start_401 + 220]
     assert "shrinkAgent" in chunk_401

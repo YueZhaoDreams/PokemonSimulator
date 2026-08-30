@@ -387,9 +387,6 @@ body.agent-full .agent-panel {
   max-height: none;
   border-left: 0;
 }
-@media (hover: hover) and (pointer: fine) {
-  .chat-voice { display: none !important; }
-}
 .thread { cursor: pointer; }
 .thread.active { border-color: var(--yellow); }
 .thread .list-item { border-bottom: 0; padding: 0; }

@@ -34,8 +34,8 @@ const CHIPS = [
   "Which cards should we trade so both sets get stronger?",
 ];
 
-const CHAT_WELCOME = `你好！我是招式小熊 Combo Cub，可以在这里打字问我。
-Hi! I’m Combo Cub — type here and I’ll help with Family Cup.
+const CHAT_WELCOME = `你好！我是招式小熊 Combo Cub，可以直接跟我说话，也可以打字。
+Hi! I’m Combo Cub — talk or type here and I’ll help with Family Cup.
 
 中文和英文都可以。English or 中文 is fine.`;
 
@@ -122,7 +122,7 @@ function show(view) {
     openAgent();
     return;
   }
-  stopVoiceSession(false);
+  if (!document.body.classList.contains("agent-open")) stopVoiceSession(false);
 
   if (view === "scan") view = "decks";
   $$("main > section").forEach((s) => s.classList.add("hidden"));
@@ -438,14 +438,6 @@ function stopVoiceSession(keepLoop) {
   paintTalkButton();
 }
 
-function isBrowserDesktop() {
-  return window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-}
-
-function voiceUiEnabled() {
-  return !isBrowserDesktop();
-}
-
 function paintAgentChrome() {
   const full = $("#agentFull");
   const on = document.body.classList.contains("agent-full");
@@ -487,7 +479,7 @@ function toggleAgentFull() {
 
 function speakReply(text) {
   return new Promise((resolve) => {
-    if (!voiceUiEnabled() || !state.speakReplies || !ttsSupported() || REDUCE) {
+    if (!state.speakReplies || !ttsSupported() || REDUCE) {
       resolve();
       return;
     }
@@ -516,7 +508,7 @@ function speakReply(text) {
 }
 
 function startVoiceListen() {
-  if (!voiceUiEnabled() || !speechSupported() || sendChat.streaming || voice.rec) return;
+  if (!speechSupported() || sendChat.streaming || voice.rec) return;
   stopSpeech();
   const Ctor = window.SpeechRecognition || window.webkitSpeechRecognition;
   const rec = new Ctor();
@@ -569,7 +561,6 @@ function startVoiceListen() {
 }
 
 function toggleChatMic() {
-  if (!voiceUiEnabled()) return;
   if (voice.speaking) {
     voice.loop = true;
     stopSpeech();
@@ -1988,7 +1979,9 @@ $("#brandTap").onclick = () => {
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") {
     clearReplace();
+    const lightboxOpen = !$("#lightbox")?.classList.contains("hidden");
     closeLightbox();
+    if (lightboxOpen) return;
     if (document.body.classList.contains("agent-full")) {
       document.body.classList.remove("agent-full");
       paintAgentChrome();
