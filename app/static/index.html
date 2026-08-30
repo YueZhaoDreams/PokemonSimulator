@@ -35,7 +35,6 @@
       </div>
     </div>
     <div class="header-tools">
-      <div id="ruleStrip" class="rule-strip" aria-label="Family Cup rules"></div>
       <button id="sfxToggle" class="ghost quiet" type="button" aria-pressed="false" title="Stadium sounds">SFX off</button>
       <div id="aiPill" class="pill">Local coach</div>
       <div id="accountBox" class="account-box hidden">
@@ -43,40 +42,41 @@
         <button id="logoutBtn" class="ghost quiet" type="button">Log out</button>
       </div>
     </div>
+    <div class="rule-banner" aria-label="Active Family Cup rule">
+      <div class="rule-banner-pick">
+        <label for="rulePreset">Rule</label>
+        <select id="rulePreset"></select>
+      </div>
+      <div id="ruleStrip" class="rule-strip"></div>
+    </div>
   </header>
 
   <main id="main" class="wrap">
-    <section id="view-scan">
-      <h2 class="screen-title">Scan a set</h2>
-      <p class="lede">Drop a floor photo onto the viewfinder. Each card is cropped first, then read. Tap a thumbnail to fix a name.</p>
-      <div class="panel drop viewfinder">
-        <div class="finder-frame" aria-hidden="true"></div>
-        <p>Photograph a pile of cards on the floor, or use the two sample photos already in this project.</p>
-        <input id="file" type="file" accept="image/*,.heic,.HEIC" capture="environment" />
-        <div class="row" style="margin-top:10px; justify-content:center">
-          <button class="secondary" data-sample="a" type="button">Load sample A</button>
-          <button class="secondary" data-sample="b" type="button">Load sample B</button>
-        </div>
-      </div>
-      <img id="preview" class="preview hidden" alt="Preview" />
-      <div id="scanNotes" class="panel hidden"></div>
-      <div class="panel">
-        <label for="deckName">Set name</label>
-        <input id="deckName" value="Scanned set" />
-        <div id="editor"></div>
-        <div class="row">
-          <input id="addName" class="grow" placeholder="Add a card name" />
-          <button id="addCard" type="button">Add</button>
-        </div>
-        <div class="row" style="margin-top:10px">
-          <button id="saveDeck" type="button">Save this set</button>
-        </div>
-      </div>
-    </section>
-
-    <section id="view-decks" class="hidden">
+    <section id="view-decks">
       <h2 class="screen-title">Card sets</h2>
-      <p class="lede">Every scanned pile becomes a 30-card Family Cup roster. Tap art to zoom.</p>
+      <p class="lede">Sets for this rule only. Add or remove rules on a set — keep at least one.</p>
+      <div class="panel" id="findPanel">
+        <div class="row">
+          <div class="grow"><label for="addToSet">Set</label><select id="addToSet"></select></div>
+          <div class="grow" id="newSetWrap">
+            <label for="newSetName">New set name</label>
+            <input id="newSetName" value="New set" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="grow">
+            <label for="addName">Find a card</label>
+            <input id="addName" placeholder="Pikachu, Nest Ball, Water Energy…" autocomplete="off" />
+          </div>
+          <label class="scan-btn" for="findScan">Scan photo
+            <input id="findScan" type="file" accept="image/*,.heic,.HEIC" capture="environment" />
+          </label>
+          <button id="addCard" type="button">Add to set</button>
+          <button id="cancelReplace" class="ghost hidden" type="button">Cancel replace</button>
+        </div>
+        <p id="findHint" class="tiny">Search a name or photograph cards. Tap a result to add it.</p>
+        <div id="addHits" class="search-hits" hidden></div>
+      </div>
       <div id="userPanel" class="panel hidden">
         <h3>Registered trainers</h3>
         <p class="tiny">Admin can see every email that signed up. Seed sets stay on this account.</p>
@@ -120,9 +120,6 @@
         <div class="row">
           <div class="grow"><label for="deckA">Deck A</label><select id="deckA"></select></div>
           <div class="grow"><label for="deckB">Deck B</label><select id="deckB"></select></div>
-        </div>
-        <div class="row">
-          <div class="grow"><label for="rulePreset">Rules</label><select id="rulePreset"></select></div>
         </div>
         <div class="row">
           <div class="grow"><label for="stratA">A strategy</label><select id="stratA"></select></div>
@@ -214,8 +211,7 @@
   </div>
 
   <nav class="nav" aria-label="Main">
-    <button data-view="scan" class="active" type="button"><span class="nav-ico" aria-hidden="true">📷</span><span>Scan</span></button>
-    <button data-view="decks" type="button"><span class="nav-ico" aria-hidden="true">🃏</span><span>Sets</span></button>
+    <button data-view="decks" class="active" type="button"><span class="nav-ico" aria-hidden="true">🃏</span><span>Sets</span></button>
     <button data-view="fight" type="button"><span class="nav-ico" aria-hidden="true">⚡</span><span>Fight</span></button>
     <button data-view="chat" type="button"><span class="nav-ico" aria-hidden="true">💬</span><span>Talk 语音</span></button>
     <button data-view="lab" type="button"><span class="nav-ico" aria-hidden="true">🧪</span><span>Lab</span></button>

@@ -157,7 +157,7 @@ class Card:
 
 @dataclass
 class FamilyRules:
-    name: str = "Family Cup (Rule B)"
+    name: str = "Family Cup"
     deck_size: int = 30
     opening_hand: int = 7
     prize_count: int = 3
@@ -228,8 +228,65 @@ RULE_PRESETS: dict[str, FamilyRules] = {
     "no_pokemon_energy": no_pokemon_energy_family_rules(),
 }
 
+CANONICAL_RULE_PRESETS = ("b", "c")
+
+
+def canonical_rule_key(raw: str | None) -> str | None:
+    key = str(raw or "").lower().strip().replace("rule_", "").replace("-", "_")
+    if key in {"c", "no_pokemon_energy"}:
+        return "c"
+    if key == "b":
+        return "b"
+    return None
+
+
+def normalize_rule_presets(raw: Any, fallback: list[str] | None = None) -> list[str]:
+    if raw is None:
+        items = list(fallback or [])
+    elif isinstance(raw, str):
+        items = [raw]
+    elif isinstance(raw, (list, tuple, set)):
+        items = list(raw)
+    else:
+        items = list(fallback or [])
+    out: list[str] = []
+    for item in items:
+        key = canonical_rule_key(item if isinstance(item, str) else str(item or ""))
+        if key and key not in out:
+            out.append(key)
+    return out
+
+
+def default_rule_presets_for(deck_id: str | None) -> list[str]:
+    did = str(deck_id or "")
+    if did in {"seed-e", "seed-f"}:
+        return ["c"]
+    if did.startswith("seed-"):
+        return ["b"]
+    return ["b"]
+
+
+def legacy_rule_presets_for(deck_id: str | None) -> list[str]:
+    """Pre-column sets: seeds stay B/C; household lists used to match every filter."""
+    did = str(deck_id or "")
+    if did in {"seed-e", "seed-f"}:
+        return ["c"]
+    if did.startswith("seed-"):
+        return ["b"]
+    return ["b", "c"]
+
+
+def rule_preset_summary(presets: list[str]) -> str:
+    keys = normalize_rule_presets(presets)
+    if keys == ["c"]:
+        return "c"
+    if keys == ["b"]:
+        return "b"
+    return "any"
+
 
 def rules_from_preset(key: str | None) -> FamilyRules:
     if not key:
         return default_family_rules()
-    return RULE_PRESETS.get(str(key).lower().strip(), default_family_rules())
+    canon = canonical_rule_key(key) or str(key).lower().strip()
+    return RULE_PRESETS.get(canon, default_family_rules())

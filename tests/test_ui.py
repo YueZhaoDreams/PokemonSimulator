@@ -5,22 +5,22 @@ from app.config import STATIC_DIR
 
 REQUIRED_IDS = [
     "aiPill",
-    "view-scan",
-    "file",
-    "preview",
-    "scanNotes",
-    "deckName",
-    "editor",
-    "addName",
-    "addCard",
-    "saveDeck",
     "view-decks",
+    "findPanel",
+    "addToSet",
+    "newSetName",
+    "addName",
+    "addHits",
+    "addCard",
+    "findScan",
+    "cancelReplace",
+    "findHint",
     "deckList",
+    "rulePreset",
     "view-fight",
     "arenaStage",
     "deckA",
     "deckB",
-    "rulePreset",
     "stratA",
     "stratB",
     "games",
@@ -89,10 +89,14 @@ def test_index_keeps_family_cup_controls():
     html = _read("index.html")
     for ident in REQUIRED_IDS:
         assert f'id="{ident}"' in html, ident
-    for view in ("scan", "decks", "fight", "chat", "lab"):
+    for view in ("decks", "fight", "chat", "lab"):
         assert f'data-view="{view}"' in html
-    assert 'data-sample="a"' in html
-    assert 'data-sample="b"' in html
+    assert 'data-view="scan"' not in html
+    assert "Sets for this rule only" in html
+    assert "keep at least one" in html
+    assert 'class="rule-banner"' in html
+    assert 'id="rulePreset"' in html
+    assert 'id="deckRuleFilter"' not in html
 
 
 def test_styles_keep_stadium_tokens_and_reduced_motion():
@@ -131,6 +135,15 @@ def test_app_js_keeps_simulator_contracts():
     assert "shock" in js
     assert "pokemon_as_energy ? \"Pokémon are energy\"" in js or "pokemon_as_energy ? 'Pokémon are energy'" in js or 'pokemon_as_energy ? "Pokémon are energy"' in js
     assert "No Pokémon energy" in js
+    assert "Pokémon = energy" in js
+    assert "Rule B (Pokémon = energy)" not in js
+    assert "function decksMatchingRule" in js
+    assert "function currentRule" in js
+    assert "function toggleDeckRule" in js
+    assert "function deckRulePresets" in js
+    assert "Keep at least one rule." in js
+    assert "rule_presets" in js
+    assert "deckRuleFilter" not in js
     assert "rule_preset" in js
     assert "ex = 2 prizes · Mega ex = 3" in js
     assert "max ${rules.max_copies_except_basic_energy} of a name" in js
@@ -160,6 +173,24 @@ def test_app_js_keeps_simulator_contracts():
     assert "function setChatLang" in js
     assert "function startNewChat" in js
     assert "state.chatOpened" in js
+    assert "function startReplace" in js
+    assert "function replaceDeckCard" in js
+    assert "function addCardsToSet" in js
+    assert "function selectedSearchHit" in js
+    assert "function cardCount" in js
+    assert "function runCardSearch" in js
+    assert 'lookupCards(query, "local")' in js
+    assert "data-replace-deck" in js
+    assert "/api/cards/search" in js
+    assert "findScan" in js
+    assert "function deleteSelectedSet" in js
+    assert "data-delete-set" in js
+    assert "function selectedSet" in js
+    start = js.index("function renderDecks")
+    chunk = js[start : js.index("async function deleteSelectedSet")]
+    assert "selectedSet()" in chunk
+    assert "state.decks.map" not in chunk
+    assert "function openCardPicker" not in js
 
 
 def test_classify_log_labels_printed_engine_lines():

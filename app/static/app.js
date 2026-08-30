@@ -6,6 +6,7 @@ const CHAT_LANG_STORE = "family-cup-chat-lang";
 const CHAT_SPEAK_STORE = "family-cup-chat-speak";
 const SFX_STORE = "family-cup-sfx";
 const SHINY_STORE = "family-cup-shiny";
+const RULE_STORE = "family-cup-rule";
 const REDUCE = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 const TYPE_TINT = {
@@ -118,6 +119,7 @@ function show(view) {
   if (view !== "chat") stopVoiceSession(false);
   else sendChat.muteSpeak = false;
 
+  if (view === "scan") view = "decks";
   $$("main > section").forEach((s) => s.classList.add("hidden"));
   $(`#view-${view}`).classList.remove("hidden");
   $$(".nav button").forEach((b) => {
@@ -127,6 +129,7 @@ function show(view) {
     else b.removeAttribute("aria-current");
   });
   if (view === "decks") {
+    fillAddToSet($("#addToSet")?.value);
     renderDecks();
     renderUsers();
   }
@@ -214,15 +217,19 @@ function classifyLog(line) {
   return "note";
 }
 
-function cardTile(card) {
+function cardTile(card, opts = {}) {
   const tint = TYPE_TINT[typeOf(card)] || TYPE_TINT.Colorless;
   const name = esc(card.name || "Unknown");
   const hp = card.hp ? `${card.hp} HP` : "";
   const img = card.image
     ? `<img src="${esc(card.image)}" alt="${name}" data-zoom="${esc(card.image)}" data-zoom-name="${name}">`
     : "";
+  const replace = opts.deckId != null && opts.index != null
+    ? `<button type="button" class="ghost quiet card-replace" data-replace-deck="${esc(opts.deckId)}" data-replace-idx="${opts.index}">Replace</button>`
+    : "";
   return `<div class="card-tile holo" style="border-color:${tint}">
     ${hp ? `<span class="hp-pip">${esc(hp)}</span>` : ""}
+    ${replace}
     ${img}
     <div class="meta"><b>${name}</b><span>${esc(card.category || "")} ${esc(card.stage || "")} ${hp}</span></div>
   </div>`;
@@ -583,8 +590,7 @@ function paintRules(rules) {
       `${rules.deck_size} cards`,
       `${rules.prize_count} prizes`,
       `hand ${rules.opening_hand}`,
-      rules.pokemon_as_energy ? "Pokémon = energy" : "standard energy",
-      rules.pokemon_as_energy ? "Rule B" : "No Pokémon energy",
+      rules.pokemon_as_energy ? "Pokémon = energy" : "No Pokémon energy",
     ];
     if (rules.extra_prize_for_ex) {
       chips.push("ex = 2 prizes · Mega ex = 3");
@@ -690,7 +696,6 @@ async function loadApp() {
   paintAccount();
   const health = await api("/api/health");
   $("#aiPill").textContent = aiLabel(health.ai);
-  paintRules(health.rules);
   state.decks = await api("/api/decks");
   state.strategies = await api("/api/strategies");
   try {
@@ -708,8 +713,17 @@ async function loadApp() {
     state.users = [];
   }
   fillFight();
-  renderEditor();
+  const remembered = rememberedRule();
+  if (remembered && $("#rulePreset") && [...$("#rulePreset").options].some((o) => o.value === remembered)) {
+    $("#rulePreset").value = remembered;
+    const preset = state.rulePresets?.find((p) => p.preset === remembered);
+    paintRules(preset || health.rules);
+    fillFight();
+  } else {
+    paintRules(health.rules);
+  }
   renderUsers();
+  show("decks");
 }
 
 function renderUsers() {
@@ -771,6 +785,56 @@ async function boot() {
   }
 }
 
+function rememberedRule() {
+  try { return localStorage.getItem(RULE_STORE) || ""; } catch { return ""; }
+}
+
+function currentRule() {
+  return $("#rulePreset")?.value || rememberedRule() || "b";
+}
+
+function rememberRule(key) {
+  try { localStorage.setItem(RULE_STORE, key); } catch { /* private mode */ }
+}
+
+function ruleChoices() {
+  const presets = state.rulePresets?.length
+    ? state.rulePresets
+    : [
+        { preset: "b", label: "Pokémon = energy" },
+        { preset: "c", label: "No Pokémon energy" },
+      ];
+  return presets.map((p) => ({
+    preset: p.preset,
+    label: p.preset === "c" ? "No Pokémon energy" : p.preset === "b" ? "Pokémon = energy" : (p.label || p.preset),
+  }));
+}
+
+function deckRulePresets(d) {
+  if (Array.isArray(d?.rule_presets) && d.rule_presets.length) {
+    return d.rule_presets.filter((k) => k === "b" || k === "c");
+  }
+  const r = d?.rule_preset;
+  if (r === "c") return ["c"];
+  if (r === "b") return ["b"];
+  return ["b", "c"];
+}
+
+function deckRulePreset(d) {
+  const keys = deckRulePresets(d);
+  if (keys.length === 1) return keys[0];
+  if (d?.rule_preset) return d.rule_preset;
+  return "any";
+}
+
+function decksMatchingRule(preset, { includeSpare = true } = {}) {
+  const key = preset || currentRule();
+  return (state.decks || []).filter((d) => {
+    if (!includeSpare && d.kind === "spare") return false;
+    return deckRulePresets(d).includes(key);
+  });
+}
+
 function fillFight() {
   const keep = {
     a: $("#deckA")?.value,
@@ -779,33 +843,48 @@ function fillFight() {
     sb: $("#stratB")?.value,
     rule: $("#rulePreset")?.value,
   };
-  for (const id of ["deckA", "deckB"]) {
-    const sel = $(`#${id}`);
-    if (!sel) continue;
-    sel.innerHTML = state.decks.map((d) => `<option value="${esc(d.id)}">${esc(d.name)} (${d.count})</option>`).join("");
-  }
-  const lists = state.decks.filter((d) => d.kind !== "spare");
   const pick = (sel, preferred, fallback) => {
     if (!sel) return;
     if (preferred && [...sel.options].some((o) => o.value === preferred)) sel.value = preferred;
     else if (fallback) sel.value = fallback;
   };
-  pick($("#deckA"), keep.a, lists[0]?.id);
-  pick($("#deckB"), keep.b, lists[1]?.id);
   const ruleSel = $("#rulePreset");
   if (ruleSel) {
     const presets = state.rulePresets?.length
       ? state.rulePresets
       : [
-          { preset: "b", label: "Rule B (Pokémon = energy)" },
+          { preset: "b", label: "Pokémon = energy" },
           { preset: "c", label: "No Pokémon energy" },
         ];
     ruleSel.innerHTML = presets
-      .map((p) => `<option value="${esc(p.preset)}">${esc(p.label || p.preset)}</option>`)
+      .map((p) => {
+        const label = p.preset === "c"
+          ? "No Pokémon energy"
+          : p.preset === "b"
+            ? "Pokémon = energy"
+            : (p.label || p.preset);
+        return `<option value="${esc(p.preset)}">${esc(label)}</option>`;
+      })
       .join("");
     const fallbackRule = state.rules?.pokemon_as_energy === false ? "c" : "b";
     pick(ruleSel, keep.rule, fallbackRule);
   }
+  const rule = currentRule();
+  const visible = decksMatchingRule(rule);
+  for (const id of ["deckA", "deckB"]) {
+    const sel = $(`#${id}`);
+    if (!sel) continue;
+    sel.innerHTML = visible.map((d) => `<option value="${esc(d.id)}">${esc(d.name)} (${d.count})</option>`).join("");
+  }
+  const lists = visible.filter((d) => d.kind !== "spare");
+  const fallbackA = rule === "c"
+    ? (lists.find((d) => d.id === "seed-e") || lists[0])
+    : lists[0];
+  const fallbackB = rule === "c"
+    ? (lists.find((d) => d.id === "seed-f") || lists[1] || lists[0])
+    : (lists[1] || lists[0]);
+  pick($("#deckA"), keep.a, fallbackA?.id);
+  pick($("#deckB"), keep.b, fallbackB?.id);
   for (const id of ["stratA", "stratB"]) {
     const sel = $(`#${id}`);
     if (!sel) continue;
@@ -829,6 +908,7 @@ function fillFight() {
 
 function renderEditor() {
   const box = $("#editor");
+  if (!box) return;
   const crops = (state.scanCrops || []).filter((c) => !c.removed);
   if (!crops.length && !state.scanCards.length) {
     box.innerHTML = `<p class="tiny">No cards yet. Scan a photo or load a sample.</p>`;
@@ -909,89 +989,369 @@ function bindZoom(root) {
   });
 }
 
+function bindReplace(root) {
+  root.querySelectorAll("[data-replace-deck]").forEach((btn) => {
+    btn.onclick = (e) => {
+      e.stopPropagation();
+      startReplace(btn.dataset.replaceDeck, +btn.dataset.replaceIdx);
+    };
+  });
+}
+
+let pickerTarget = null;
+let cardSearchTimer = 0;
+let searchSeq = 0;
+
+function searchHitHtml(hits) {
+  if (!hits.length) return `<p class="tiny">No matches yet. Keep typing, or Add to set with the name in the box.</p>`;
+  const action = pickerTarget?.kind === "replace" ? "Replace" : "Add";
+  return hits.map((h) => `
+    <button type="button" class="search-hit" data-card-id="${esc(h.id || "")}" data-card-name="${esc(h.name || "")}">
+      ${h.image ? `<img src="${esc(h.image)}" alt="">` : ""}
+      <span>${esc(h.name || "")}</span>
+      <span class="tiny">${action}</span>
+    </button>`).join("");
+}
+
+async function lookupCards(q, scope = "all") {
+  const query = (q || "").trim();
+  if (query.length < 2) return [];
+  return api(`/api/cards/search?q=${encodeURIComponent(query)}&scope=${encodeURIComponent(scope)}`);
+}
+
+async function runCardSearch(q) {
+  const box = $("#addHits");
+  if (!box) return;
+  const query = (q || "").trim();
+  const seq = ++searchSeq;
+  if (query.length < 2) {
+    box.hidden = true;
+    box.innerHTML = "";
+    return;
+  }
+  box.hidden = false;
+  box.innerHTML = `<p class="tiny">Looking up ${esc(query)}…</p>`;
+  try {
+    const local = await lookupCards(query, "local");
+    if (seq !== searchSeq) return;
+    paintHits(box, local);
+    const all = await lookupCards(query, "all");
+    if (seq !== searchSeq) return;
+    paintHits(box, all);
+  } catch (err) {
+    if (seq !== searchSeq) return;
+    toast(err.message, "bad");
+  }
+}
+
+async function resolvePick(hit) {
+  const payload = { name: hit.name };
+  if (hit.id) payload.id = hit.id;
+  return api("/api/cards/resolve", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+}
+
+function paintHits(box, hits) {
+  if (!box) return;
+  box.hidden = false;
+  box.innerHTML = searchHitHtml(hits);
+  box.querySelectorAll("[data-card-name]").forEach((b) => {
+    b.onclick = () => applyPickedCard({ id: b.dataset.cardId, name: b.dataset.cardName });
+  });
+}
+
+function cardCount(d) {
+  if (!d) return 0;
+  if (Number.isFinite(d.count)) return d.count;
+  return (d.cards || []).length;
+}
+
+function fillAddToSet(preferred) {
+  const sel = $("#addToSet");
+  if (!sel) return;
+  const keep = preferred || sel.value;
+  const filter = currentRule();
+  const lists = decksMatchingRule(filter, { includeSpare: false });
+  sel.innerHTML = `<option value="__new__">New set…</option>`
+    + lists.map((d) => `<option value="${esc(d.id)}">${esc(d.name)} (${cardCount(d)})</option>`).join("");
+  if (keep && [...sel.options].some((o) => o.value === keep)) sel.value = keep;
+  else if (lists[0]) sel.value = lists[0].id;
+  else sel.value = "__new__";
+  syncNewSetWrap();
+}
+
+function syncNewSetWrap() {
+  const wrap = $("#newSetWrap");
+  if (!wrap) return;
+  wrap.classList.toggle("hidden", $("#addToSet")?.value !== "__new__");
+}
+
+function startReplace(deckId, index) {
+  pickerTarget = { kind: "replace", deckId, index };
+  const deck = state.decks.find((d) => d.id === deckId);
+  const current = deck?.cards?.[index];
+  $("#findPanel")?.classList.add("replacing");
+  if ($("#findHint")) {
+    $("#findHint").textContent = current
+      ? `Replacing ${current.name} in ${deck?.name || "this set"}. Search or scan, then tap a card.`
+      : "Search or scan, then tap a card to replace.";
+  }
+  $("#cancelReplace")?.classList.remove("hidden");
+  if ($("#addToSet") && deckId) $("#addToSet").value = deckId;
+  if ($("#addCard")) $("#addCard").textContent = "Replace card";
+  syncNewSetWrap();
+  show("decks");
+  $("#addName")?.focus();
+}
+
+function clearReplace() {
+  pickerTarget = null;
+  $("#findPanel")?.classList.remove("replacing");
+  if ($("#findHint")) $("#findHint").textContent = "Search a name or photograph cards. Tap a result to add it.";
+  $("#cancelReplace")?.classList.add("hidden");
+  if ($("#addCard")) $("#addCard").textContent = "Add to set";
+}
+
+async function takeCard(card) {
+  if (pickerTarget?.kind === "replace") {
+    await replaceDeckCard(pickerTarget.deckId, pickerTarget.index, card);
+    clearReplace();
+    toast(`Replaced with ${card.name}`);
+    return;
+  }
+  await addCardsToSet([card]);
+}
+
+async function addCardsToSet(cards) {
+  const named = (cards || []).filter((c) => c && c.name && c.name !== "Unknown");
+  if (!named.length) throw new Error("No named cards to add");
+  if (pickerTarget?.kind === "replace") {
+    await takeCard(named[0]);
+    return;
+  }
+  const sel = $("#addToSet")?.value;
+  if (!sel || sel === "__new__") {
+    const name = ($("#newSetName")?.value || "New set").trim() || "New set";
+    const saved = await api("/api/decks", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, cards: named, source: named.length > 1 ? "scan" : "search", rule_presets: [currentRule()] }),
+    });
+    state.decks = await api("/api/decks");
+    fillAddToSet(saved.id);
+    renderDecks();
+    toast(`Started ${saved.name} with ${named.length === 1 ? named[0].name : named.length + " cards"}`);
+    return;
+  }
+  const deck = state.decks.find((d) => d.id === sel);
+  if (!deck) throw new Error("Pick a set first");
+  const next = (deck.cards || []).concat(named);
+  const saved = await api(`/api/decks/${encodeURIComponent(deck.id)}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ name: deck.name, cards: next, source: deck.source }),
+  });
+  const i = state.decks.findIndex((d) => d.id === deck.id);
+  if (i >= 0) state.decks[i] = saved;
+  fillAddToSet(saved.id);
+  renderDecks();
+  toast(`Added ${named.length === 1 ? named[0].name : named.length + " cards"} to ${saved.name}`);
+}
+
+function foldName(s) {
+  return String(s || "").normalize("NFKD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+}
+
+function selectedSearchHit() {
+  const typed = $("#addName")?.value.trim() || "";
+  const rows = $$("#addHits [data-card-name]").map((b) => ({
+    id: b.dataset.cardId || "",
+    name: b.dataset.cardName || "",
+  })).filter((h) => h.name);
+  const folded = foldName(typed);
+  if (folded) {
+    const exact = rows.find((h) => foldName(h.name) === folded);
+    if (exact) return exact;
+  }
+  if (rows[0]) return rows[0];
+  if (typed) return { name: typed };
+  return null;
+}
+
+let addBusy = false;
+async function applyPickedCard(hit) {
+  if (!hit || !hit.name || addBusy) return;
+  addBusy = true;
+  $("#addCard")?.setAttribute("disabled", "true");
+  try {
+    await takeCard(await resolvePick(hit));
+  } catch (err) {
+    toast(err.message, "bad");
+  } finally {
+    addBusy = false;
+    $("#addCard")?.removeAttribute("disabled");
+  }
+}
+
+async function replaceDeckCard(deckId, index, card) {
+  const deck = state.decks.find((d) => d.id === deckId);
+  if (!deck || !deck.cards || index < 0 || index >= deck.cards.length) {
+    throw new Error("Card not found in that set");
+  }
+  const cards = deck.cards.slice();
+  cards[index] = card;
+  const saved = await api(`/api/decks/${encodeURIComponent(deckId)}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ name: deck.name, cards, source: deck.source }),
+  });
+  const i = state.decks.findIndex((d) => d.id === deckId);
+  if (i >= 0) state.decks[i] = saved;
+  renderDecks();
+}
+
+function selectedSet() {
+  const id = $("#addToSet")?.value;
+  if (!id || id === "__new__") return null;
+  return (state.decks || []).find((d) => d.id === id) || null;
+}
+
 function renderDecks() {
-  $("#deckList").innerHTML = state.decks.map((d) => `
+  const d = selectedSet();
+  const box = $("#deckList");
+  if (!box) return;
+  if (!d) {
+    box.innerHTML = `<div class="panel"><p class="tiny">No set for this rule yet. Choose New set and add a card.</p></div>`;
+    return;
+  }
+  const have = deckRulePresets(d);
+  const ruleNames = have.map((k) => (k === "c" ? "No Pokémon energy" : "Pokémon = energy")).join(" · ");
+  box.innerHTML = `
     <div class="panel">
       <div class="list-item">
         <div>
           <b>${esc(d.name)}</b>
-          <div class="tiny">${d.count} cards · ${d.kind === "spare" ? "leftover pile" : esc(d.id)}</div>
+          <div class="tiny">${cardCount(d)} cards · ${esc(ruleNames)} · ${d.kind === "spare" ? "leftover pile" : esc(d.id)}</div>
+          ${ruleToggleHtml(d)}
           <div class="type-mix" style="justify-content:flex-start;margin-top:6px">${mixHtml(d.cards)}</div>
         </div>
+        <button class="danger" type="button" data-delete-set="${esc(d.id)}">Delete set</button>
       </div>
       <div class="grid">
-        ${(d.cards || []).map((c) => cardTile(c)).join("")}
+        ${(d.cards || []).map((c, i) => cardTile(c, { deckId: d.id, index: i })).join("")}
       </div>
-    </div>`).join("") || `<div class="panel"><p class="tiny">No sets yet. Scan a pile on the Scan tab.</p></div>`;
-  bindZoom($("#deckList"));
+    </div>`;
+  bindZoom(box);
+  bindReplace(box);
+  box.querySelectorAll("[data-delete-set]").forEach((btn) => {
+    btn.onclick = () => deleteSelectedSet(btn.dataset.deleteSet);
+  });
+  box.querySelectorAll("[data-rule-key]").forEach((input) => {
+    input.onchange = () => toggleDeckRule(d.id, input.dataset.ruleKey, input.checked);
+  });
 }
 
-async function recognizeFile(file) {
-  $("#preview").src = URL.createObjectURL(file);
-  $("#preview").classList.remove("hidden");
-  const fd = new FormData();
-  fd.append("file", file);
-  setBusy(true, "Reading the floor photo…", true);
+function ruleToggleHtml(d) {
+  const have = new Set(deckRulePresets(d));
+  return `<div class="rule-tags" role="group" aria-label="Rules this set follows">${ruleChoices().map((p) => `
+    <label class="rule-tag"><input type="checkbox" data-rule-key="${esc(p.preset)}" ${have.has(p.preset) ? "checked" : ""} /> ${esc(p.label)}</label>
+  `).join("")}</div>`;
+}
+
+async function toggleDeckRule(deckId, key, on) {
+  const deck = (state.decks || []).find((d) => d.id === deckId);
+  if (!deck) return;
+  const have = new Set(deckRulePresets(deck));
+  if (on) have.add(key);
+  else have.delete(key);
+  const next = ruleChoices().map((p) => p.preset).filter((k) => have.has(k));
+  if (!next.length) {
+    toast("Keep at least one rule.", "bad");
+    renderDecks();
+    return;
+  }
   try {
-    const result = await api("/api/recognize", { method: "POST", body: fd });
-    state.scanCrops = (result.crops || []).map((c, i) => ({
-      ...c,
-      card: (result.cards || []).find((card, idx) => idx === i && card.name === c.name) || { name: c.name },
-    }));
-    let ci = 0;
-    state.scanCrops.forEach((crop) => {
-      if (crop.name && crop.name !== "Unknown" && result.cards && result.cards[ci] && result.cards[ci].name === crop.name) {
-        crop.card = result.cards[ci];
-        ci += 1;
-      }
+    const saved = await api(`/api/decks/${encodeURIComponent(deckId)}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name: deck.name, source: deck.source, rule_presets: next }),
     });
-    syncCardsFromCrops();
-    $("#deckName").value = file.name.replace(/\.[^.]+$/, "");
-    $("#scanNotes").classList.remove("hidden");
-    $("#scanNotes").innerHTML = `<b>${esc(result.source)}</b><p>${(result.notes || []).map((n) => esc(n)).join("<br>")}</p><p class="tiny">${result.detected_regions || 0} card-shaped regions found.</p>`;
-    renderEditor();
-    toast(`${state.scanCards.length} cards named`);
-  } finally {
-    setBusy(false);
+    const i = state.decks.findIndex((d) => d.id === deckId);
+    if (i >= 0) state.decks[i] = saved;
+    fillAddToSet(saved.id);
+    fillFight();
+    renderDecks();
+    if (!deckRulePresets(saved).includes(currentRule())) {
+      toast(`${saved.name} is no longer under this rule`);
+    }
+  } catch (err) {
+    toast(err.message, "bad");
+    renderDecks();
   }
 }
 
-async function loadSample(which) {
-  const name = which === "a" ? "set-a.jpg" : "set-b.jpg";
-  const blob = await fetch(`/samples/${name}`).then((r) => r.blob());
-  const file = new File([blob], which === "a" ? "Carpet Set A.jpg" : "Carpet Set B.jpg", { type: "image/jpeg" });
-  await recognizeFile(file);
+async function deleteSelectedSet(deckId) {
+  const deck = (state.decks || []).find((d) => d.id === deckId);
+  if (!deck) return;
+  if (!window.confirm(`Delete ${deck.name}? This cannot be undone.`)) return;
+  try {
+    await api(`/api/decks/${encodeURIComponent(deckId)}`, { method: "DELETE" });
+  } catch (err) {
+    toast(err.message, "bad");
+    return;
+  }
+  state.decks = state.decks.filter((d) => d.id !== deckId);
+  clearReplace();
+  fillAddToSet();
+  fillFight();
+  renderDecks();
+  toast(`${deck.name} deleted`);
 }
 
-$("#file").addEventListener("change", (e) => {
-  if (e.target.files[0]) recognizeFile(e.target.files[0]);
-});
-$$("[data-sample]").forEach((b) => b.onclick = () => loadSample(b.dataset.sample));
-
 $("#addCard").onclick = async () => {
-  const name = $("#addName").value.trim();
-  if (!name) return;
-  const card = await api("/api/cards/resolve", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ name }),
-  });
-  state.scanCards.push(card);
-  $("#addName").value = "";
-  renderEditor();
+  const hit = selectedSearchHit();
+  if (!hit) return toast("Search a card first.", "bad");
+  await applyPickedCard(hit);
 };
 
-$("#saveDeck").onclick = async () => {
-  if (!state.scanCards.length) return toast("Add some cards first.", "bad");
-  await api("/api/decks", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ name: $("#deckName").value, cards: state.scanCards, source: "scan" }),
-  });
-  state.decks = await api("/api/decks");
-  toast("Set saved — see you in Fight");
-  show("decks");
-};
+$("#addName")?.addEventListener("input", () => {
+  clearTimeout(cardSearchTimer);
+  const q = $("#addName").value.trim();
+  cardSearchTimer = setTimeout(() => runCardSearch(q), 120);
+});
+$("#addName")?.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    e.preventDefault();
+    $("#addCard")?.click();
+  }
+});
+$("#addToSet")?.addEventListener("change", () => {
+  syncNewSetWrap();
+  clearReplace();
+  renderDecks();
+});
+$("#cancelReplace")?.addEventListener("click", () => clearReplace());
+$("#findScan")?.addEventListener("change", async (e) => {
+  const file = e.target.files?.[0];
+  e.target.value = "";
+  if (!file) return;
+  setBusy(true, "Reading the photo…", true);
+  try {
+    const fd = new FormData();
+    fd.append("file", file);
+    const result = await api("/api/recognize", { method: "POST", body: fd });
+    const cards = (result.cards || []).filter((c) => c.name && c.name !== "Unknown");
+    if (!cards.length) throw new Error("Could not read that photo. Search by name instead.");
+    await addCardsToSet(cards);
+  } catch (err) {
+    toast(err.message, "bad");
+  } finally {
+    setBusy(false);
+  }
+});
 
 function pct(n) {
   return Math.round((n || 0) * 100);
@@ -1524,10 +1884,14 @@ $("#lightbox").addEventListener("click", (e) => {
 });
 
 ["deckA", "deckB", "stratA", "stratB", "rulePreset"].forEach((id) => {
-  $(`#${id}`).addEventListener("change", () => {
+  $(`#${id}`)?.addEventListener("change", () => {
     if (id === "rulePreset") {
+      rememberRule($("#rulePreset").value);
       const preset = state.rulePresets?.find((p) => p.preset === $("#rulePreset").value);
       if (preset) paintRules(preset);
+      fillFight();
+      fillAddToSet($("#addToSet")?.value);
+      renderDecks();
     }
     resetArenaResult();
     paintArena();
@@ -1555,11 +1919,12 @@ $("#brandTap").onclick = () => {
 
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") {
+    clearReplace();
     closeLightbox();
     return;
   }
   if (e.target && /input|textarea|select/i.test(e.target.tagName)) return;
-  const map = { 1: "scan", 2: "decks", 3: "fight", 4: "chat", 5: "lab" };
+  const map = { 1: "decks", 2: "fight", 3: "chat", 4: "lab" };
   if (map[e.key]) show(map[e.key]);
 });
 

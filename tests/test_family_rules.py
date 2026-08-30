@@ -143,6 +143,24 @@ def test_seed_decks_have_images():
     assert flora["catalog_id"] == "sv01-014"
 
 
+def test_seed_e_and_f_use_no_pokemon_energy_preset():
+    from app.db import _deck_rule_preset
+
+    assert _deck_rule_preset("seed-e") == "c"
+    assert _deck_rule_preset("seed-f") == "c"
+    assert _deck_rule_preset("seed-a") == "b"
+    assert _deck_rule_preset("seed-spare") == "b"
+    assert _deck_rule_preset("scanned-uuid") == "any"
+    from app.engine.models import default_rule_presets_for, legacy_rule_presets_for, normalize_rule_presets
+
+    assert default_rule_presets_for("seed-e") == ["c"]
+    assert default_rule_presets_for("seed-a") == ["b"]
+    assert default_rule_presets_for(None) == ["b"]
+    assert legacy_rule_presets_for("household") == ["b", "c"]
+    assert normalize_rule_presets(["c", "b", "c", "nope"]) == ["c", "b"]
+    assert normalize_rule_presets([]) == []
+
+
 def test_seed_decks_include_set_c_and_d():
     from app.seed import load_seed_payload
 
