@@ -26,6 +26,8 @@
   </div>
   <canvas id="confetti" class="confetti hidden" aria-hidden="true"></canvas>
 
+  <div class="stage">
+  <div class="app-shell">
   <header class="top">
     <div class="brand" id="brandTap" title="Family Cup">
       <img src="/static/icon.svg" alt="" />
@@ -146,33 +148,6 @@
       <div id="simOut" aria-live="polite"></div>
     </section>
 
-    <section id="view-chat" class="hidden">
-      <h2 class="screen-title">Voice chat · 语音对话</h2>
-      <p class="tiny">Tap Talk and speak. I answer out loud in 中文 or English. 点「说话」，用中文或英文讲，我会念给你听。</p>
-      <div class="row">
-        <input id="chatSearch" class="grow" placeholder="Search threads · 搜索对话" />
-        <button id="newChat" class="secondary" type="button">New · 新对话</button>
-      </div>
-      <div id="chatLang" class="chips lang-toggle" role="group" aria-label="Voice language">
-        <button id="chatLangZh" type="button" data-lang="zh">中文</button>
-        <button id="chatLangEn" type="button" data-lang="en">English</button>
-        <button id="chatSpeak" type="button" aria-pressed="true">🔊 Speak replies · 朗读</button>
-      </div>
-      <div id="chatThreads"></div>
-      <div id="chatThread" class="hidden">
-        <button id="backToThreads" class="ghost" type="button">All threads · 全部对话</button>
-        <h3 id="chatTitle" class="chat-title"></h3>
-        <div class="chips" id="chips"></div>
-        <div id="chatLog"></div>
-        <div class="panel">
-          <button id="chatMic" class="talk-btn" type="button" aria-pressed="false">🎤 Talk · 说话</button>
-          <p id="chatVoiceHint" class="tiny">Listening uses the phone mic. 说话时请靠近麦克风。</p>
-          <textarea id="chatInput" placeholder="Or type here… / 也可以打字…"></textarea>
-          <button id="sendChat" type="button" style="margin-top:8px">Send · 发送</button>
-        </div>
-      </div>
-    </section>
-
     <section id="view-lab" class="hidden">
       <h2 class="screen-title">Simulation lab</h2>
       <p>Every run stores the method, strategies, results, and what the AI learned. Open a run to replay a sample game on the stadium floor.</p>
@@ -180,6 +155,50 @@
       <div id="labDetail"></div>
     </section>
   </main>
+
+  <nav class="nav" aria-label="Main">
+    <button data-view="decks" class="active" type="button"><span class="nav-ico" aria-hidden="true">🃏</span><span>Sets</span></button>
+    <button data-view="fight" type="button"><span class="nav-ico" aria-hidden="true">⚡</span><span>Fight</span></button>
+    <button data-view="lab" type="button"><span class="nav-ico" aria-hidden="true">🧪</span><span>Lab</span></button>
+  </nav>
+  </div>
+
+  <aside id="agentPanel" class="agent-panel" hidden>
+    <div class="agent-chrome">
+      <img src="/static/cub.svg" alt="" />
+      <div class="agent-chrome-title">
+        <strong>Combo Cub</strong>
+        <small id="agentModel">Agent</small>
+      </div>
+      <button id="agentFull" class="ghost quiet" type="button" aria-pressed="false" title="Fullscreen">Fullscreen</button>
+      <button id="agentShrink" class="ghost quiet" type="button" title="Shrink">Shrink</button>
+    </div>
+    <section id="view-chat">
+      <div class="row agent-toolbar">
+        <input id="chatSearch" class="grow" placeholder="Search threads · 搜索对话" />
+        <button id="newChat" class="secondary" type="button">New · 新对话</button>
+      </div>
+      <div id="chatLang" class="chips lang-toggle" role="group" aria-label="Chat language and spoken replies">
+        <button id="chatLangZh" type="button" data-lang="zh">中文</button>
+        <button id="chatLangEn" type="button" data-lang="en">English</button>
+        <button id="chatSpeak" class="chat-voice" type="button" aria-pressed="true">🔊 Speak replies · 朗读</button>
+      </div>
+      <div id="chatThreads"></div>
+      <div id="chatThread" class="hidden">
+        <button id="backToThreads" class="ghost" type="button">All threads · 全部对话</button>
+        <h3 id="chatTitle" class="chat-title"></h3>
+        <div class="chips" id="chips"></div>
+        <div id="chatLog"></div>
+        <div class="agent-composer">
+          <button id="chatMic" class="talk-btn chat-voice" type="button" aria-pressed="false">🎤 Talk · 说话</button>
+          <p id="chatVoiceHint" class="tiny chat-voice">Listening uses the phone mic. 说话时请靠近麦克风。</p>
+          <textarea id="chatInput" placeholder="Ask Combo Cub… / 问招式小熊…"></textarea>
+          <button id="sendChat" type="button">Send · 发送</button>
+        </div>
+      </div>
+    </section>
+  </aside>
+  </div>
 
   <div id="authGate" class="auth-gate" role="dialog" aria-modal="true" aria-labelledby="authTitle">
     <form id="authForm" class="panel auth-card">
@@ -210,12 +229,9 @@
     <p id="theaterLine" class="tiny theater"></p>
   </div>
 
-  <nav class="nav" aria-label="Main">
-    <button data-view="decks" class="active" type="button"><span class="nav-ico" aria-hidden="true">🃏</span><span>Sets</span></button>
-    <button data-view="fight" type="button"><span class="nav-ico" aria-hidden="true">⚡</span><span>Fight</span></button>
-    <button data-view="chat" type="button"><span class="nav-ico" aria-hidden="true">💬</span><span>Talk 语音</span></button>
-    <button data-view="lab" type="button"><span class="nav-ico" aria-hidden="true">🧪</span><span>Lab</span></button>
-  </nav>
+  <button id="cubLauncher" type="button" aria-expanded="false" aria-controls="agentPanel" title="Combo Cub">
+    <img src="/static/cub.svg" alt="Combo Cub" />
+  </button>
   <script src="/static/app.js"></script>
 </body>
 </html>
