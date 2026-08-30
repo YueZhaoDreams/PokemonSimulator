@@ -1346,13 +1346,17 @@ function closeCardSheet() {
   document.body.classList.remove("card-sheet-open");
   const sel = $("#addToSet");
   if (sel) sel.disabled = false;
+  const openerKey = cardSheetOpener?.dataset?.openCard || "";
+  const openerEl = cardSheetOpener;
   parkCardsPanel($("#cardsHost"));
   $("#cardDetailHost")?.classList.add("hidden");
   $("#addToSetBar")?.classList.add("hidden");
   paintCardPickerChrome();
   renderCollection();
-  if (wasOpen && focusInSheet && cardSheetOpener && typeof cardSheetOpener.focus === "function") {
-    cardSheetOpener.focus();
+  if (wasOpen && focusInSheet) {
+    const tile = openerKey ? document.querySelector(`[data-open-card="${CSS.escape(openerKey)}"]`) : null;
+    if (tile && typeof tile.focus === "function") tile.focus();
+    else if (openerEl && document.contains(openerEl) && typeof openerEl.focus === "function") openerEl.focus();
   }
   cardSheetOpener = null;
   return wasOpen;
