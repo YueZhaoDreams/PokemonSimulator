@@ -287,10 +287,12 @@ def save_deck(
             presets = normalize_rule_presets(rule_presets)
             if not presets:
                 raise ValueError("Keep at least one rule.")
-        elif existing and existing["rules_json"]:
+        elif not existing:
+            presets = default_rule_presets_for(deck_id)
+        elif existing["rules_json"]:
             presets = None
         else:
-            presets = default_rule_presets_for(deck_id)
+            presets = legacy_rule_presets_for(deck_id)
         if existing:
             if presets is None:
                 conn.execute(

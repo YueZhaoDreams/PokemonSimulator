@@ -53,3 +53,16 @@ def test_create_defaults_to_pokemon_as_energy(tmp_path, monkeypatch):
             json={"rule_preset": "c"},
         )
         assert under_c.json()["rule_presets"] == ["c"]
+
+
+def test_save_deck_does_not_shrink_legacy_household_rules(tmp_path, monkeypatch):
+    monkeypatch.setattr("app.db.DB_PATH", tmp_path / "app.db")
+    from app.db import connect, init_db, save_deck
+
+    init_db()
+    deck = save_deck("Old household", [{"name": "Cubone"}])
+    with connect() as conn:
+        conn.execute("UPDATE decks SET rules_json=NULL WHERE id=?", (deck["id"],))
+    again = save_deck("Old household", [{"name": "Cubone"}, {"name": "Pikachu"}], deck_id=deck["id"])
+    assert again["rule_presets"] == ["b", "c"]
+    assert again["rule_preset"] == "any"
