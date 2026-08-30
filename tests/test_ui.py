@@ -133,6 +133,7 @@ def test_styles_keep_stadium_tokens_and_reduced_motion():
     assert "body.agent-open .nav" in css
     assert ".settings-menu" in css
     assert "button.account-email" in css
+    assert css.count("button.account-email") >= 2
     nav_open = css[css.index("body.agent-open .nav") : css.index("body.agent-open .nav") + 220]
     assert "position: fixed" in nav_open
     assert ".chat-voice { display: none !important; }" not in css
@@ -146,6 +147,8 @@ def test_app_js_keeps_simulator_contracts():
     assert "function loadApp" in js
     assert "function toggleSettings" in js
     assert "function closeSettings" in js
+    assert "box.contains(e.target)" in js
+    assert "Could not load the stadium." in js
     assert "menu && !menu.classList.contains" in js
     assert "menu.contains(document.activeElement)" in js
     assert '$("#sfxToggle")?.focus()' in js

@@ -1985,8 +1985,11 @@ $("#accountEmail")?.addEventListener("click", (e) => {
   e.stopPropagation();
   toggleSettings();
 });
-$("#settingsMenu")?.addEventListener("click", (e) => e.stopPropagation());
-document.addEventListener("click", () => closeSettings());
+document.addEventListener("click", (e) => {
+  const box = $("#accountBox");
+  if (box && box.contains(e.target)) return;
+  closeSettings();
+}, true);
 
 $("#sfxToggle").onclick = () => {
   sfx.on = !sfx.on;
@@ -2031,4 +2034,7 @@ document.addEventListener("keydown", (e) => {
 });
 
 $$(".nav button").forEach((b) => b.onclick = () => show(b.dataset.view));
-boot().catch((err) => { console.error(err); });
+boot().catch((err) => {
+  console.error(err);
+  toast("Could not load the stadium.");
+});

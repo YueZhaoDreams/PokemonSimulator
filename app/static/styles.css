@@ -193,6 +193,15 @@ button.ghost { background: transparent; color: var(--yellow); border: 1px solid 
 button.quiet { padding: 6px 10px; font-size: 11px; }
 button.danger { background: var(--red); color: white; box-shadow: 0 4px 0 #8b0e0e; }
 button:disabled { opacity: 0.5; }
+button.account-email {
+  background: #0f1724;
+  color: var(--yellow);
+  border: 1px solid #3d4d6b;
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 12px;
+  box-shadow: none;
+}
 select, input, textarea {
   width: 100%; background: #121826; color: var(--ink);
   border: 1px solid var(--line); border-radius: 12px; padding: 12px;
