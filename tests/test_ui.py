@@ -6,6 +6,7 @@ from app.config import STATIC_DIR
 REQUIRED_IDS = [
     "accountEmail",
     "settingsMenu",
+    "gameSoundsLabel",
     "view-decks",
     "findPanel",
     "addToSet",
@@ -108,7 +109,7 @@ def test_index_keeps_family_cup_controls():
     assert "SFX off" not in html
     assert "Game sounds" in html
     assert 'id="aiPill"' not in html
-    assert 'aria-controls="settingsMenu"' in html
+    assert 'aria-labelledby="gameSoundsLabel"' in html
     assert 'class="rule-banner"' in html
     assert 'class="grow search-wrap"' in html
     assert 'id="addHits"' in html
@@ -146,6 +147,7 @@ def test_app_js_keeps_simulator_contracts():
     assert "function toggleSettings" in js
     assert "function closeSettings" in js
     assert "menu && !menu.classList.contains" in js
+    assert "menu.contains(document.activeElement)" in js
     assert '$("#sfxToggle")?.focus()' in js
     assert 'return "Agent"' in js
     assert "Local coach" not in js

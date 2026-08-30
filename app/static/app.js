@@ -88,8 +88,11 @@ function settingsOpen() {
 }
 
 function closeSettings() {
-  $("#settingsMenu")?.classList.add("hidden");
+  const menu = $("#settingsMenu");
+  const inside = !!(menu && document.activeElement && menu.contains(document.activeElement));
+  menu?.classList.add("hidden");
   $("#accountEmail")?.setAttribute("aria-expanded", "false");
+  if (inside) $("#accountEmail")?.focus();
 }
 
 function toggleSettings() {
