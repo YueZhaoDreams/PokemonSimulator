@@ -157,13 +157,14 @@ class Card:
 
 @dataclass
 class FamilyRules:
-    name: str = "Family Cup"
+    name: str = "Family Cup (Rule B)"
     deck_size: int = 30
     opening_hand: int = 7
     prize_count: int = 3
     bench_size: int = 5
     max_turns: int = 40
     pokemon_as_energy: bool = True
+    any_stage_playable: bool = False
     first_player_no_attack: bool = True
     first_player_no_draw: bool = True
     first_player_no_supporter: bool = True
@@ -172,7 +173,7 @@ class FamilyRules:
     extra_prize_for_ex: bool = True
     max_copies_except_basic_energy: int = 4
     notes: str = (
-        "30-card decks, 3 prize cards, and every Pokémon can be attached as a "
+        "Rule B: 30-card decks, 3 prize cards, and every Pokémon can be attached as a "
         "Basic Energy of its type (so Energy Search may also fetch a Pokémon). "
         "A deck may include at most 4 copies of a card with the same name, except "
         "basic Energy (unlimited). Same name includes every printing; Clefable, "
@@ -201,3 +202,35 @@ class FamilyRules:
 
 def default_family_rules() -> FamilyRules:
     return FamilyRules()
+
+
+def open_stage_family_rules() -> FamilyRules:
+    """Rule C: Rule B energy plus any-stage starters (Pokémon need not be Basic)."""
+    return FamilyRules(
+        name="Family Cup (Open Stage)",
+        pokemon_as_energy=True,
+        any_stage_playable=True,
+        notes=(
+            "Open Stage (on top of Rule B): 30-card decks, 3 prizes, Pokémon attach as "
+            "matching Basic Energy, and any Pokémon — Basic, Stage 1, or Stage 2 — may "
+            "be put into play from the hand as Active or Bench. Mulligans until any "
+            "Pokémon is in the opening hand. Printed card text still wins for Nest Ball "
+            "and other effects that say Basic Pokémon. Knocking Out a Pokémon ex takes "
+            "2 prize cards; Knocking Out a Mega ex takes 3."
+        ),
+    )
+
+
+RULE_PRESETS: dict[str, FamilyRules] = {
+    "b": default_family_rules(),
+    "rule_b": default_family_rules(),
+    "c": open_stage_family_rules(),
+    "rule_c": open_stage_family_rules(),
+    "open_stage": open_stage_family_rules(),
+}
+
+
+def rules_from_preset(key: str | None) -> FamilyRules:
+    if not key:
+        return default_family_rules()
+    return RULE_PRESETS.get(str(key).lower().strip(), default_family_rules())

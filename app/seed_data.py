@@ -152,6 +152,76 @@ SET_T_NAMES = (
     + ["Darkness Energy"]
 )
 
+# Carpet Set E — Aug 2026 beige-carpet photo (data/samples/set-e-carpet.jpg).
+# Walrein / dual Pikachu under Rule B. Irida + Surfer tutors; Fighting sponges.
+SET_E_NAMES = [
+    "Trekking Shoes",
+    "Energy Search",
+    "Energy Retrieval",
+    "Surfer",
+    "Lake Acuity",
+    "Irida",
+    "Pikachu",
+    "Pikachu",
+    "Emolga",
+    "Plusle",
+    "Electrike",
+    "Lightning Energy",
+    "Lightning Energy",
+    "Lightning Energy",
+    "Lightning Energy",
+    "Spheal",
+    "Sealeo",
+    "Walrein",
+    "Wailmer",
+    "Water Energy",
+    "Water Energy",
+    "Water Energy",
+    "Water Energy",
+    "Water Energy",
+    "Sudowoodo",
+    "Relicanth",
+    "Glimmet",
+    "Fighting Energy",
+    "Fighting Energy",
+    "Fighting Energy",
+]
+
+# Carpet Set F — Aug 2026 beige-carpet photo (data/samples/set-f-carpet.jpg).
+# Open Stage showcase: Quaquaval without Quaxly/Quaxwell; Staraptor + Gengar lines.
+SET_F_NAMES = [
+    "Lacey",
+    "Drayton",
+    "Ultra Ball",
+    "Energy Search",
+    "Nest Ball",
+    "Quaquaval",
+    "Orthworm",
+    "Starly",
+    "Starly",
+    "Staravia",
+    "Staravia",
+    "Staraptor",
+    "Staraptor",
+    "Gastly",
+    "Haunter",
+    "Haunter",
+    "Gengar",
+    "Fezandipiti ex",
+    "Water Energy",
+    "Water Energy",
+    "Water Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Metal Energy",
+    "Metal Energy",
+    "Metal Energy",
+]
+
 # Spare Cards — leftover pile, not a 30-card Family Cup list.
 # Aipom returned to Carpet Set A with the Starly line.
 SET_SPARE_NAMES = [
@@ -273,6 +343,54 @@ _register(
         "Super Rod",
         "item",
         "Shuffle up to 3 in any combination of Pokémon and Basic Energy cards from your discard pile into your deck.",
+    )
+)
+_register(
+    Card(
+        catalog_id="sv08-191",
+        name="Surfer",
+        category="Trainer",
+        stage="Supporter",
+        trainer_kind="supporter",
+        text="Switch your Active Pokémon with 1 of your Benched Pokémon. If you do, draw cards until you have 5 cards in your hand.",
+        image="https://assets.tcgdex.net/en/sv/sv08/191/low.webp",
+        retreat=0,
+    )
+)
+_register(
+    Card(
+        catalog_id="swsh10-147",
+        name="Irida",
+        category="Trainer",
+        stage="Supporter",
+        trainer_kind="supporter",
+        text="Search your deck for a Water Pokémon and an Item card, reveal them, and put them into your hand. Then, shuffle your deck.",
+        image="https://assets.tcgdex.net/en/swsh/swsh10/147/low.webp",
+        retreat=0,
+    )
+)
+_register(
+    Card(
+        catalog_id="sv07-139",
+        name="Lacey",
+        category="Trainer",
+        stage="Supporter",
+        trainer_kind="supporter",
+        text="Shuffle your hand into your deck. Then, draw 4 cards. If your opponent has 3 or fewer Prize cards remaining, draw 8 cards instead.",
+        image="https://assets.tcgdex.net/en/sv/sv07/139/low.webp",
+        retreat=0,
+    )
+)
+_register(
+    Card(
+        catalog_id="sv08-174",
+        name="Drayton",
+        category="Trainer",
+        stage="Supporter",
+        trainer_kind="supporter",
+        text="Look at the top 7 cards of your deck. You may reveal a Pokémon and a Trainer card you find there and put them into your hand. Shuffle the other cards back into your deck.",
+        image="https://assets.tcgdex.net/en/sv/sv08/174/low.webp",
+        retreat=0,
     )
 )
 _register(
@@ -1040,6 +1158,82 @@ for card in [
         catalog_id="sv08.5-004",
         image="https://assets.tcgdex.net/en/sv/sv08.5/004/low.webp",
         set_name="Prismatic Evolutions",
+    ),
+    _pkm(
+        "Glimmet",
+        "Basic",
+        ["Psychic"],
+        50,
+        [
+            _atk("Ascension", ["Psychic"], 0, "Search your deck for a card that evolves from this Pokémon and put it onto this Pokémon to evolve it. Then, shuffle your deck."),
+            _atk("Poison Shard", ["Psychic", "Colorless"], 20, "Your opponent's Active Pokémon is now Poisoned."),
+        ],
+        weakness="Darkness",
+        catalog_id="sv02-124",
+        image="https://assets.tcgdex.net/en/sv/sv02/124/low.webp",
+    ),
+    _pkm(
+        "Gastly",
+        "Basic",
+        ["Psychic"],
+        50,
+        [_atk("Astonish", ["Psychic"], 10, "Choose a random card from your opponent's hand. Your opponent reveals that card and shuffles it into their deck.")],
+        weakness="Darkness",
+        catalog_id="sv06-055",
+        image="https://assets.tcgdex.net/en/sv/sv06/055/low.webp",
+    ),
+    _pkm(
+        "Haunter",
+        "Stage1",
+        ["Psychic"],
+        80,
+        [
+            _atk("Pain Amplifier", ["Psychic"], 0, "Put 2 damage counters on each of your opponent's Pokémon that has any damage counters on it."),
+            _atk("Spooky Shot", ["Psychic", "Colorless"], 40),
+        ],
+        evolves_from="Gastly",
+        weakness="Darkness",
+        catalog_id="sv06-056",
+        image="https://assets.tcgdex.net/en/sv/sv06/056/low.webp",
+    ),
+    _pkm(
+        "Gengar",
+        "Stage2",
+        ["Psychic"],
+        130,
+        [
+            _atk(
+                "Poltergeist",
+                ["Psychic"],
+                50,
+                "Your opponent reveals their hand. This attack does 50 damage for each Trainer card you find there.",
+            ),
+            _atk("Deep Dive Haunt", ["Psychic", "Colorless"], 110),
+        ],
+        evolves_from="Haunter",
+        weakness="Darkness",
+        catalog_id="sv06-057",
+        image="https://assets.tcgdex.net/en/sv/sv06/057/low.webp",
+    ),
+    _pkm(
+        "Quaquaval",
+        "Stage2",
+        ["Water"],
+        170,
+        [
+            _atk("Hydro Kick", ["Water", "Colorless", "Colorless"], 140),
+        ],
+        evolves_from="Quaxwell",
+        abilities=[
+            Ability(
+                name="Energy Carnival",
+                text="Once during your turn, you may attach a Basic Energy card from your hand to 1 of your Pokémon.",
+            )
+        ],
+        weakness="Lightning",
+        retreat=2,
+        catalog_id="sv01-054",
+        image="https://assets.tcgdex.net/en/sv/sv01/054/low.webp",
     ),
 ]:
     _register(card)

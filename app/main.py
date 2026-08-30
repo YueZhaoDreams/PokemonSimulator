@@ -37,7 +37,7 @@ from app.db import (
     save_simulation,
     user_from_session,
 )
-from app.engine.models import Card, FamilyRules
+from app.engine.models import Card, FamilyRules, RULE_PRESETS, rules_from_preset
 from app.engine.montecarlo import run_simulation
 from app.engine.probability import draw_probability
 from app.engine.strategies import list_strategies, StrategySpec
@@ -175,8 +175,25 @@ def api_rules(_user: dict = Depends(require_user)) -> dict:
     return get_rules().to_dict()
 
 
+@app.get("/api/rule-presets")
+def api_rule_presets(_user: dict = Depends(require_user)) -> list:
+    # Deduplicate aliases so the UI only shows Rule B and Open Stage.
+    seen: set[str] = set()
+    out = []
+    for key in ("b", "c"):
+        rules = RULE_PRESETS[key]
+        blob = rules.to_dict()
+        blob["preset"] = key
+        blob["label"] = "Rule B (Pokémon = energy)" if key == "b" else "Open Stage (any Pokémon playable)"
+        out.append(blob)
+        seen.add(rules.name)
+    return out
+
+
 @app.put("/api/rules")
 def api_put_rules(payload: dict, _admin: dict = Depends(require_admin)) -> dict:
+    if payload.get("preset"):
+        return save_rules(rules_from_preset(str(payload["preset"]))).to_dict()
     return save_rules(FamilyRules.from_dict(payload)).to_dict()
 
 
@@ -300,7 +317,12 @@ def api_simulate(payload: dict, user: dict = Depends(require_user)) -> dict:
     deck_b = get_deck(payload.get("deck_b_id") or "")
     if not _can_use_deck(user, deck_a) or not _can_use_deck(user, deck_b):
         raise HTTPException(400, "Need two decks")
-    rules = FamilyRules.from_dict(payload.get("rules")) if payload.get("rules") else get_rules()
+    if payload.get("rules"):
+        rules = FamilyRules.from_dict(payload.get("rules"))
+    elif payload.get("rule_preset"):
+        rules = rules_from_preset(str(payload.get("rule_preset")))
+    else:
+        rules = get_rules()
     record = run_simulation(
         [Card.from_dict(c) for c in deck_a["cards"]],
         [Card.from_dict(c) for c in deck_b["cards"]],

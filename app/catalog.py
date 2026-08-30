@@ -71,6 +71,10 @@ TRAINER_KIND_HINTS = {
     "lillie's determination": "supporter",
     "boss's orders": "supporter",
     "crispin": "supporter",
+    "surfer": "supporter",
+    "irida": "supporter",
+    "lacey": "supporter",
+    "drayton": "supporter",
     "poké pad": "item",
     "poke pad": "item",
     "crushing hammer": "item",
@@ -153,6 +157,17 @@ PREFERRED_IDS = {
     "Staravia": "sv01-149",  # Wing Attack / Speed Dive
     "Staraptor": "sv01-150",  # Tailspin Away 60 / Power Blast 180
     "Gligar": "sv04-091",  # Toxic (Paradox Rift)
+    "Surfer": "sv08-191",
+    "Irida": "swsh10-147",
+    "Lacey": "sv07-139",
+    "Drayton": "sv08-174",
+    "Quaquaval": "sv01-054",
+    "Glimmet": "sv02-124",
+    "Gastly": "sv06-055",
+    "Haunter": "sv06-056",
+    "Gengar": "sv06-057",
+    "Ultra Ball": "sv01-196",
+    "Lake Acuity": "swsh10-160",
     "Boomerang Energy": "sv06-166",
     "Dragapult ex": "sv06-130",
     "Dreepy": "sv06-128",

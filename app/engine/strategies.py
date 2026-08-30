@@ -306,6 +306,41 @@ STRATEGY_LIBRARY = {
         insurance_bench=1,
         max_ace_copies=1,
     ),
+    "carnival": StrategySpec(
+        name="carnival",
+        description=(
+            "Set F Open Stage: play Quaquaval / Staraptor / Gengar straight from hand "
+            "(no Basic required). Energy Carnival attaches Water / Psychic / Metal from "
+            "hand. Hydro Kick 140 and Power Blast 180 close. Orthworm and Fezandipiti ex "
+            "are KO insurance / Flip the Script. Lacey redraws 8 under 3-prize Family Cup; "
+            "Drayton digs top 7 for a Pokémon + Trainer. Nest Ball still only finds Basics."
+        ),
+        prefer_damage=0.95,
+        prefer_status=0.2,
+        bench_fill=0.0,
+        evolve_asap=0.85,
+        attach_pokemon_as_energy=0.7,
+        item_spend=1.0,
+        hold_as_energy=True,
+        protect=[
+            "Quaquaval",
+            "Staraptor",
+            "Gengar",
+            "Starly",
+            "Staravia",
+            "Gastly",
+            "Haunter",
+            "Fezandipiti ex",
+            "Orthworm",
+        ],
+        search_aces=["Quaquaval", "Staraptor", "Gengar"],
+        closers=["Quaquaval", "Staraptor", "Gengar"],
+        backups=["Orthworm", "Fezandipiti ex"],
+        insurance=["Orthworm", "Fezandipiti ex"],
+        insurance_bench=1,
+        insurance_non_fuel=True,
+        max_ace_copies=1,
+    ),
     "invisible": StrategySpec(
         name="invisible",
         description=(

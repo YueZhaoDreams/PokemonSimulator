@@ -1,7 +1,18 @@
 from app.engine.models import default_family_rules
 from app.engine.strategies import StrategySpec
 from app.engine.trades import _needs, suggest_trades
-from app.seed_data import SET_A_NAMES, SET_B_NAMES, SET_C_NAMES, SET_D_NAMES, SET_S_NAMES, SET_T_NAMES, SET_SPARE_NAMES, build_fallback_deck
+from app.seed_data import (
+    SET_A_NAMES,
+    SET_B_NAMES,
+    SET_C_NAMES,
+    SET_D_NAMES,
+    SET_E_NAMES,
+    SET_F_NAMES,
+    SET_S_NAMES,
+    SET_T_NAMES,
+    SET_SPARE_NAMES,
+    build_fallback_deck,
+)
 
 
 def test_seed_counts():
@@ -9,11 +20,15 @@ def test_seed_counts():
     assert len(SET_B_NAMES) == 30
     assert len(SET_C_NAMES) == 30
     assert len(SET_D_NAMES) == 30
+    assert len(SET_E_NAMES) == 30
+    assert len(SET_F_NAMES) == 30
     assert len(SET_S_NAMES) == 30
     assert len(SET_T_NAMES) == 30
     assert len(SET_SPARE_NAMES) == 4
     a = build_fallback_deck(SET_A_NAMES)
     b = build_fallback_deck(SET_B_NAMES)
+    e = build_fallback_deck(SET_E_NAMES)
+    f = build_fallback_deck(SET_F_NAMES)
     assert sum(1 for c in a if c.name == "Dondozo") == 1
     assert any(c.name == "Tulip" for c in a)
     assert any(c.name == "Staraptor" for c in a)
@@ -49,6 +64,22 @@ def test_seed_counts():
     assert any(
         c.name == "Pikachu" and any("paralyze" in (atk.text or "").lower() for atk in c.attacks) for c in b
     )
+    assert sum(1 for c in e if c.name == "Pikachu") == 2
+    assert sum(1 for c in e if c.name == "Water Energy") == 5
+    assert sum(1 for c in e if c.name == "Lightning Energy") == 4
+    assert sum(1 for c in e if c.name == "Fighting Energy") == 3
+    assert any(c.name == "Irida" for c in e)
+    assert any(c.name == "Surfer" for c in e)
+    assert any(c.name == "Walrein" for c in e)
+    assert any(c.name == "Glimmet" for c in e)
+    assert sum(1 for c in f if c.name == "Staraptor") == 2
+    assert sum(1 for c in f if c.name == "Haunter") == 2
+    assert sum(1 for c in f if c.name == "Psychic Energy") == 6
+    assert any(c.name == "Quaquaval" for c in f)
+    assert any(c.name == "Lacey" for c in f)
+    assert any(c.name == "Drayton" for c in f)
+    assert any(c.name == "Quaquaval" and c.stage.lower() == "stage2" for c in f)
+    assert not any(c.name in {"Quaxly", "Quaxwell"} for c in f)
 
 
 def test_seed_decks_record_pikachu_tulip_trade():
@@ -99,7 +130,7 @@ def test_seed_decks_have_images():
     from app.seed import load_seed_payload
 
     data = load_seed_payload()
-    for key in ("a", "b", "c", "d", "s", "t", "spare"):
+    for key in ("a", "b", "c", "d", "e", "f", "s", "t", "spare"):
         for card in data[key]["cards"]:
             assert card.get("image"), f"{key} {card['name']} {card.get('catalog_id')} has no image"
             assert str(card["image"]).startswith("http")
@@ -114,13 +145,18 @@ def test_seed_decks_include_set_c_and_d():
     data = load_seed_payload()
     c_names = [c["name"] for c in data["c"]["cards"]]
     d_names = [c["name"] for c in data["d"]["cards"]]
+    e_names = [c["name"] for c in data["e"]["cards"]]
+    f_names = [c["name"] for c in data["f"]["cards"]]
     s_names = [c["name"] for c in data["s"]["cards"]]
     t_names = [c["name"] for c in data["t"]["cards"]]
-    assert "e" not in data
     assert data["c"]["id"] == "seed-c"
     assert data["d"]["id"] == "seed-d"
+    assert data["e"]["id"] == "seed-e"
+    assert data["f"]["id"] == "seed-f"
     assert data["s"]["id"] == "seed-s"
     assert data["t"]["id"] == "seed-t"
+    assert data["e"]["name"] == "Carpet Set E (Walrein / Irida)"
+    assert data["f"]["name"] == "Carpet Set F (Quaquaval open-stage)"
     assert data["t"]["name"] == "Set T (Dragapult ex)"
     assert data["spare"]["id"] == "seed-spare"
     assert data["spare"]["kind"] == "spare"
@@ -129,6 +165,16 @@ def test_seed_decks_include_set_c_and_d():
     assert spare_names == ["Tool Box", "Lickilicky", "Fighting Energy", "Gimmighoul"]
     assert len(c_names) == 30
     assert len(d_names) == 30
+    assert len(e_names) == 30
+    assert len(f_names) == 30
+    assert e_names.count("Pikachu") == 2
+    assert e_names.count("Water Energy") == 5
+    assert "Irida" in e_names
+    assert "Surfer" in e_names
+    assert "Quaquaval" in f_names
+    assert f_names.count("Staraptor") == 2
+    assert f_names.count("Psychic Energy") == 6
+    assert "Quaxly" not in f_names
     assert len(s_names) == 30
     assert s_names.count("Sprigatito") == 4
     assert s_names.count("Floragato") == 4

@@ -12,13 +12,15 @@ from app.seed_data import (
     SET_B_NAMES,
     SET_C_NAMES,
     SET_D_NAMES,
+    SET_E_NAMES,
+    SET_F_NAMES,
     SET_S_NAMES,
     SET_T_NAMES,
     SET_SPARE_NAMES,
     build_fallback_deck,
 )
 
-LIST_KEYS = ("a", "b", "c", "d", "s", "t")
+LIST_KEYS = ("a", "b", "c", "d", "e", "f", "s", "t")
 SEED_KEYS = (*LIST_KEYS, "spare")
 
 SEED_PATH = DATA_DIR / "seed_decks.json"
@@ -47,7 +49,7 @@ def _try_enrich(names: list[str], prefer: dict[str, list[str]] | None = None) ->
 def load_seed_deck(which: str) -> dict:
     decks = load_seed_payload()
     key = which.lower().replace("set-", "").replace("seed-", "")
-    key = {"1": "a", "2": "b", "3": "c", "4": "d", "5": "s", "6": "spare", "7": "t", "spare-cards": "spare", "p": "spare"}.get(
+    key = {"1": "a", "2": "b", "3": "c", "4": "d", "5": "s", "6": "spare", "7": "t", "8": "e", "9": "f", "spare-cards": "spare", "p": "spare"}.get(
         key, key
     )
     if key not in decks:
@@ -64,10 +66,6 @@ def load_seed_payload() -> dict:
             if key not in data:
                 data[key] = blob
                 dirty = True
-        # Set E was folded into Set C — drop any leftover seed.
-        if "e" in data:
-            del data["e"]
-            dirty = True
         spare = data.get("spare") or {}
         if spare.get("kind") != "spare" or spare.get("name") != "Spare Cards" or spare.get("id") != "seed-spare":
             spare = {**spare, "id": "seed-spare", "name": "Spare Cards", "kind": "spare", "sample": spare.get("sample")}
@@ -78,6 +76,8 @@ def load_seed_payload() -> dict:
             ("b", SET_B_NAMES),
             ("c", SET_C_NAMES),
             ("d", SET_D_NAMES),
+            ("e", SET_E_NAMES),
+            ("f", SET_F_NAMES),
             ("s", SET_S_NAMES),
             ("t", SET_T_NAMES),
             ("spare", SET_SPARE_NAMES),
@@ -126,7 +126,7 @@ def _align_named_cards(existing: list, names: list[str]) -> list[dict]:
 
 def _ensure_card_images(cards: list[dict]) -> list[dict]:
     """Fill missing TCGDex art. Floragato keeps Slashing Claw; only the picture is swapped."""
-    from app.catalog import ART_ONLY_IDS, PREFERRED_IDS, energy_card, fetch_full, normalize_card
+    from app.catalog import ART_ONLY_IDS, PREFERRED_IDS, energy_card, fetch_full, normalize_card, _tcgdex_low
     from app.seed_data import fallback_named
 
     cache: dict[str, dict] = {}
@@ -146,7 +146,7 @@ def _ensure_card_images(cards: list[dict]) -> list[dict]:
                 except Exception:
                     cache[name] = base.to_dict()
             else:
-                cid = PREFERRED_IDS.get(name)
+                cid = PREFERRED_IDS.get(name) or card.get("catalog_id")
                 try:
                     fetched = normalize_card(fetch_full(cid)).to_dict() if cid else None
                     if fetched and (fetched.get("name") or "").lower() == name.lower() and fetched.get("image"):
@@ -155,11 +155,27 @@ def _ensure_card_images(cards: list[dict]) -> list[dict]:
                         cache[name] = card
                 except Exception:
                     cache[name] = card
+                if not cache[name].get("image") and cid and isinstance(cid, str) and "-" in cid and not str(cid).startswith("fallback"):
+                    patched = dict(cache[name])
+                    patched["image"] = _tcgdex_low(cid)
+                    patched["catalog_id"] = cid
+                    cache[name] = patched
         src = cache[name]
         if src.get("image"):
-            out.append(src)
+            merged = dict(card)
+            merged["image"] = src["image"]
+            if src.get("catalog_id"):
+                merged["catalog_id"] = src["catalog_id"]
+            out.append(merged)
         else:
-            out.append(card)
+            # Last resort: keep fallback print art URL when we already know the catalog id.
+            cid = card.get("catalog_id")
+            if cid and isinstance(cid, str) and "-" in cid and not cid.startswith("fallback"):
+                patched = dict(card)
+                patched["image"] = _tcgdex_low(cid)
+                out.append(patched)
+            else:
+                out.append(card)
     return out
 
 
@@ -208,6 +224,8 @@ def _repeat_named_cards(names: list[str], enrich: bool) -> list[Card]:
 def _cd_payload(enrich: bool = True) -> dict:
     cards_c = _repeat_named_cards(list(SET_C_NAMES), enrich)
     cards_d = _repeat_named_cards(list(SET_D_NAMES), enrich)
+    cards_e = _repeat_named_cards(list(SET_E_NAMES), enrich)
+    cards_f = _repeat_named_cards(list(SET_F_NAMES), enrich)
     cards_s = _repeat_named_cards(list(SET_S_NAMES), enrich)
     cards_t = _repeat_named_cards(list(SET_T_NAMES), enrich)
     return {
@@ -224,6 +242,20 @@ def _cd_payload(enrich: bool = True) -> dict:
             "sample": None,
             "kind": "list",
             "cards": [c.to_dict() if isinstance(c, Card) else c for c in cards_d],
+        },
+        "e": {
+            "id": "seed-e",
+            "name": "Carpet Set E (Walrein / Irida)",
+            "sample": "set-e-carpet.jpg",
+            "kind": "list",
+            "cards": [c.to_dict() if isinstance(c, Card) else c for c in cards_e],
+        },
+        "f": {
+            "id": "seed-f",
+            "name": "Carpet Set F (Quaquaval open-stage)",
+            "sample": "set-f-carpet.jpg",
+            "kind": "list",
+            "cards": [c.to_dict() if isinstance(c, Card) else c for c in cards_f],
         },
         "s": {
             "id": "seed-s",

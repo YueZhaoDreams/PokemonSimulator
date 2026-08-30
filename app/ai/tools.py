@@ -22,7 +22,7 @@ TOOL_SCHEMAS = [
     },
     {
         "name": "get_deck",
-        "description": "Get the full card list for a deck id (seed-a, seed-b, seed-c, seed-d, seed-s, seed-t Dragapult, seed-spare leftover pile, or a scanned deck).",
+        "description": "Get the full card list for a deck id (seed-a…seed-f, seed-s, seed-t Dragapult, seed-spare leftover pile, or a scanned deck).",
         "parameters": {
             "type": "object",
             "properties": {"deck_id": {"type": "string"}},
