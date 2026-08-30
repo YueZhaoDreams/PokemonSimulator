@@ -261,6 +261,7 @@ def test_app_js_keeps_simulator_contracts():
     assert "role=\"button\" tabindex=\"0\"" in js
     assert "$(\"#closeCardSheet\")?.focus()" in js
     assert "CSS.escape(openerKey)" in js
+    assert 'setAttribute("inert", "")' in js
     assert "pickerTarget?.deckId" in js
     assert "function selectedSearchHit" in js
     assert "dataset.query" in js

@@ -1231,6 +1231,8 @@ function openCardPicker(target) {
   parkCardsPanel($("#cardSheetHost"));
   $("#cardSheet")?.classList.remove("hidden");
   document.body.classList.add("card-sheet-open");
+  $(".app-shell")?.setAttribute("inert", "");
+  $("#cubLauncher")?.setAttribute("inert", "");
   paintCardPickerChrome();
   $("#addName")?.focus();
 }
@@ -1324,6 +1326,8 @@ async function openCardDetail(hit) {
   $("#cardSheet")?.classList.remove("hidden");
   document.body.classList.add("card-sheet-open");
   paintCardPickerChrome();
+  $(".app-shell")?.setAttribute("inert", "");
+  $("#cubLauncher")?.setAttribute("inert", "");
   $("#closeCardSheet")?.focus();
   try {
     const card = await resolvePick(hit);
@@ -1344,6 +1348,8 @@ function closeCardSheet() {
   pickerTarget = null;
   $("#cardSheet")?.classList.add("hidden");
   document.body.classList.remove("card-sheet-open");
+  $(".app-shell")?.removeAttribute("inert");
+  $("#cubLauncher")?.removeAttribute("inert");
   const sel = $("#addToSet");
   if (sel) sel.disabled = false;
   const openerKey = cardSheetOpener?.dataset?.openCard || "";
