@@ -38,6 +38,10 @@ REQUIRED_IDS = [
     "runTrades",
     "simOut",
     "view-chat",
+    "agentPanel",
+    "agentFull",
+    "agentShrink",
+    "cubLauncher",
     "chatSearch",
     "newChat",
     "chatLang",
@@ -97,11 +101,16 @@ def test_index_keeps_family_cup_controls():
     html = _read("index.html")
     for ident in REQUIRED_IDS:
         assert f'id="{ident}"' in html, ident
-    for view in ("decks", "cards", "fight", "chat", "lab"):
+    for view in ("decks", "cards", "fight", "lab"):
         assert f'data-view="{view}"' in html
+    assert 'data-view="chat"' not in html
     assert 'data-view="scan"' not in html
     nav = html[html.index("<nav") : html.index("</nav>")]
     assert nav.index('data-view="cards"') < nav.index('data-view="decks"')
+    assert "Talk 语音" not in html
+    assert 'id="cubLauncher"' in html
+    assert 'src="/static/cub.svg"' in html
+    assert "Chat language and spoken replies" in html
     assert "Sets for this rule only" in html
     assert "keep at least one" in html
     assert 'class="rule-banner"' in html
@@ -125,15 +134,26 @@ def test_styles_keep_stadium_tokens_and_reduced_motion():
     assert ".scan-btn input { display: none; }" not in css
     assert ".scan-btn input" in css
     assert "opacity: 0" in css
+    assert "opacity: 0" in css
     assert ".card-sheet" in css
     assert ".hit-add" in css
+    assert "#cubLauncher:focus-visible" in css
+    assert "body.agent-open" in css
+    assert "body.agent-full" in css
+    assert "body.agent-open .nav" in css
+    nav_open = css[css.index("body.agent-open .nav") : css.index("body.agent-open .nav") + 220]
+    assert "position: fixed" in nav_open
+    assert ".chat-voice { display: none !important; }" not in css
+    assert "grid-template-columns: minmax(0, 1fr) min(440px, 42vw)" in css
+    assert "minmax(220px, 46vh)" in css
 
 
 def test_app_js_keeps_simulator_contracts():
     js = _read("app.js")
     assert "async function boot" in js
     assert "function loadApp" in js
-    assert "function showAuthGate" in js
+    gate = js[js.index("function showAuthGate") : js.index("function hideAuthGate")]
+    assert "shrinkAgent" in gate
     assert "function clearClientSession" in js
     assert "/api/chat/stream" in js
     assert "Sign in required" in js
@@ -192,6 +212,18 @@ def test_app_js_keeps_simulator_contracts():
     assert "CHAT_WELCOME" in js
     assert "function setChatLang" in js
     assert "function startNewChat" in js
+    show_fn = js[js.index("function show(view)") : js.index("function md")]
+    assert "agent-open" in show_fn
+    assert "stopVoiceSession" in show_fn
+    assert "function openAgent" in js
+    assert 'agentShrink")?.focus()' in js
+    assert "function shrinkAgent" in js
+    assert "function toggleAgentFull" in js
+    assert "function isBrowserDesktop" not in js
+    assert "function voiceUiEnabled" not in js
+    start_401 = js.index("if (res.status === 401)")
+    chunk_401 = js[start_401 : start_401 + 220]
+    assert "shrinkAgent" in chunk_401
     assert "state.chatOpened" in js
     assert "function searchHitHtml" in js
     assert 'alt="${esc(h.name || "")}"' in js
