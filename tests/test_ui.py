@@ -192,13 +192,14 @@ def test_app_js_keeps_simulator_contracts():
     assert "function setChatLang" in js
     assert "function startNewChat" in js
     assert "function openAgent" in js
+    assert 'agentShrink")?.focus()' in js
     assert "function shrinkAgent" in js
     assert "function toggleAgentFull" in js
     assert "function isBrowserDesktop" in js
     assert "function voiceUiEnabled" in js
     start_401 = js.index("if (res.status === 401)")
     chunk_401 = js[start_401 : start_401 + 220]
-    assert "shrinkAgent()" in chunk_401
+    assert "shrinkAgent" in chunk_401
     assert "state.chatOpened" in js
     assert "function searchHitHtml" in js
     assert 'alt="${esc(h.name || "")}"' in js

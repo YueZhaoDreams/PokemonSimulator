@@ -61,6 +61,7 @@ function showAuthGate() {
   document.body.classList.add("signed-out");
   $("#authGate")?.classList.remove("hidden");
   $("#accountBox")?.classList.add("hidden");
+  $("#authEmail")?.focus();
 }
 
 function hideAuthGate() {
@@ -463,15 +464,19 @@ function openAgent() {
   paintAgentChrome();
   renderChat();
   ping("click");
+  $("#agentShrink")?.focus();
 }
 
-function shrinkAgent() {
+function shrinkAgent(opts = {}) {
   document.body.classList.remove("agent-open", "agent-full");
   const panel = $("#agentPanel");
   if (panel) panel.hidden = true;
   $("#cubLauncher")?.setAttribute("aria-expanded", "false");
   stopVoiceSession(false);
   paintAgentChrome();
+  if (opts.focusLauncher !== false && !document.body.classList.contains("signed-out")) {
+    $("#cubLauncher")?.focus();
+  }
 }
 
 function toggleAgentFull() {
@@ -822,8 +827,8 @@ async function boot() {
       /* already signed out */
     }
     clearClientSession();
-    shrinkAgent();
     showAuthGate();
+    shrinkAgent({ focusLauncher: false });
   });
   try {
     state.user = await api("/api/auth/me");
@@ -1687,8 +1692,8 @@ async function sendChat() {
     });
     if (res.status === 401) {
       clearClientSession();
-      shrinkAgent();
       showAuthGate();
+      shrinkAgent({ focusLauncher: false });
       throw new Error("Sign in required");
     }
     if (!res.ok || !res.body) throw new Error(await res.text());
