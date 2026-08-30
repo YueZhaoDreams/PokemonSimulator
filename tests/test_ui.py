@@ -180,7 +180,8 @@ def test_app_js_keeps_simulator_contracts():
     assert "function searchHitHtml" in js
     assert 'alt="${esc(h.name || "")}"' in js
     assert "function replaceDeckCard" in js
-    assert "function addCardsToSet" in js
+    assert "function fillAddToSet" in js
+    assert "pickerTarget?.deckId" in js
     assert "function selectedSearchHit" in js
     assert "dataset.query" in js
     assert "function cardCount" in js

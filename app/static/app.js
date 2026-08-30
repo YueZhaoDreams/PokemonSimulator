@@ -1083,6 +1083,7 @@ function fillAddToSet(preferred) {
   else if (lists[0]) sel.value = lists[0].id;
   else sel.value = "__new__";
   syncNewSetWrap();
+  if (pickerTarget?.deckId && sel.value !== pickerTarget.deckId) clearReplace();
 }
 
 function syncNewSetWrap() {
