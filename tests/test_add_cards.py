@@ -116,3 +116,5 @@ def test_admin_can_delete_created_set(tmp_path, monkeypatch):
         assert client.delete(f"/api/decks/{deck_id}").json() == {"ok": True}
         ids = {d["id"] for d in client.get("/api/decks").json()}
         assert deck_id not in ids
+        blocked = client.delete("/api/decks/seed-a")
+        assert blocked.status_code == 400

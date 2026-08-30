@@ -287,6 +287,8 @@ def api_delete_deck(deck_id: str, user: dict = Depends(require_user)) -> dict:
     existing = get_deck(deck_id)
     if not _can_use_deck(user, existing):
         raise HTTPException(404, "Deck not found")
+    if str(deck_id).startswith("seed-"):
+        raise HTTPException(400, "Starter sets cannot be deleted")
     delete_deck(deck_id)
     return {"ok": True}
 

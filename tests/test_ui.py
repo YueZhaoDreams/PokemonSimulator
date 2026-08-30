@@ -107,6 +107,9 @@ def test_styles_keep_stadium_tokens_and_reduced_motion():
     assert ".arena" in css
     assert ".pokeball-spin" in css
     assert ".busy-mask" in css
+    assert ".scan-btn input { display: none; }" not in css
+    assert ".scan-btn input" in css
+    assert "opacity: 0" in css
 
 
 def test_app_js_keeps_simulator_contracts():
@@ -185,6 +188,7 @@ def test_app_js_keeps_simulator_contracts():
     assert "/api/cards/search" in js
     assert "findScan" in js
     assert "function deleteSelectedSet" in js
+    assert "startsWith(\"seed-\")" in js
     assert "data-delete-set" in js
     assert "function selectedSet" in js
     start = js.index("function renderDecks")

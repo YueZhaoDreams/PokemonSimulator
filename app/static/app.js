@@ -1238,7 +1238,7 @@ function renderDecks() {
           ${ruleToggleHtml(d)}
           <div class="type-mix" style="justify-content:flex-start;margin-top:6px">${mixHtml(d.cards)}</div>
         </div>
-        <button class="danger" type="button" data-delete-set="${esc(d.id)}">Delete set</button>
+        ${String(d.id || "").startsWith("seed-") ? "" : `<button class="danger" type="button" data-delete-set="${esc(d.id)}">Delete set</button>`}
       </div>
       <div class="grid">
         ${(d.cards || []).map((c, i) => cardTile(c, { deckId: d.id, index: i })).join("")}
@@ -1296,6 +1296,10 @@ async function toggleDeckRule(deckId, key, on) {
 async function deleteSelectedSet(deckId) {
   const deck = (state.decks || []).find((d) => d.id === deckId);
   if (!deck) return;
+  if (String(deckId).startsWith("seed-")) {
+    toast("Starter sets cannot be deleted.", "bad");
+    return;
+  }
   if (!window.confirm(`Delete ${deck.name}? This cannot be undone.`)) return;
   try {
     await api(`/api/decks/${encodeURIComponent(deckId)}`, { method: "DELETE" });
