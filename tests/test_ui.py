@@ -15,6 +15,14 @@ REQUIRED_IDS = [
     "findScan",
     "cancelReplace",
     "findHint",
+    "viewSet",
+    "openAddCard",
+    "view-cards",
+    "cardsHost",
+    "cardSheet",
+    "cardSheetTitle",
+    "closeCardSheet",
+    "cardSheetHost",
     "deckList",
     "rulePreset",
     "view-fight",
@@ -93,10 +101,12 @@ def test_index_keeps_family_cup_controls():
     html = _read("index.html")
     for ident in REQUIRED_IDS:
         assert f'id="{ident}"' in html, ident
-    for view in ("decks", "fight", "lab"):
+    for view in ("decks", "cards", "fight", "lab"):
         assert f'data-view="{view}"' in html
     assert 'data-view="chat"' not in html
     assert 'data-view="scan"' not in html
+    nav = html[html.index("<nav") : html.index("</nav>")]
+    assert nav.index('data-view="cards"') < nav.index('data-view="decks"')
     assert "Talk 语音" not in html
     assert 'id="cubLauncher"' in html
     assert 'src="/static/cub.svg"' in html
@@ -107,6 +117,10 @@ def test_index_keeps_family_cup_controls():
     assert 'class="grow search-wrap"' in html
     assert 'id="addHits"' in html
     assert 'id="deckRuleFilter"' not in html
+    decks = html[html.index('id="view-decks"') : html.index('id="view-cards"')]
+    assert "Find a card" not in decks
+    assert "Add a card" in decks
+    assert "Search or scan, then tap +" in html
 
 
 def test_styles_keep_stadium_tokens_and_reduced_motion():
@@ -120,6 +134,9 @@ def test_styles_keep_stadium_tokens_and_reduced_motion():
     assert ".scan-btn input { display: none; }" not in css
     assert ".scan-btn input" in css
     assert "opacity: 0" in css
+    assert ".card-sheet" in css
+    assert ".hit-add" in css
+    assert "body.card-sheet-open" in css
     assert "#cubLauncher:focus-visible" in css
     assert "body.agent-open" in css
     assert "body.agent-full" in css
@@ -212,6 +229,7 @@ def test_app_js_keeps_simulator_contracts():
     assert 'alt="${esc(h.name || "")}"' in js
     assert "function replaceDeckCard" in js
     assert "function fillAddToSet" in js
+    assert "function fillViewSet" in js
     assert "pickerTarget?.deckId" in js
     assert "function selectedSearchHit" in js
     assert "dataset.query" in js
@@ -229,7 +247,13 @@ def test_app_js_keeps_simulator_contracts():
     chunk = js[start : js.index("async function deleteSelectedSet")]
     assert "selectedSet()" in chunk
     assert "state.decks.map" not in chunk
-    assert "function openCardPicker" not in js
+    assert "function openCardPicker" in js
+    assert "function closeCardSheet" in js
+    assert "cardSheetOpener" in js
+    assert "function startAddCard" in js
+    replace_fn = js[js.index("function startReplace") : js.index("function startAddCard")]
+    assert 'show("decks")' not in replace_fn
+    assert "openCardPicker" in replace_fn
 
 
 def test_classify_log_labels_printed_engine_lines():

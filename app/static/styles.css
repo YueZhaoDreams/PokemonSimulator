@@ -227,23 +227,44 @@ label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 6px
   cursor: pointer;
   margin: 0;
 }
-#addCard, #cancelReplace { align-self: end; }
+#addCard, #cancelReplace, #openAddCard { align-self: end; }
 .search-hits {
   display: grid; grid-template-columns: repeat(auto-fill, minmax(88px, 1fr));
   gap: 8px; margin-top: 8px;
-}
-.search-wrap .search-hits {
-  position: absolute; left: 0; right: 0; top: 100%; z-index: 8;
-  background: #121826; border: 1px solid var(--line); border-radius: 12px;
-  padding: 8px; max-height: 280px; overflow: auto;
 }
 .search-hit {
   background: #0f1724; border: 1px solid #3d4d6b; border-radius: 10px;
   padding: 6px; cursor: pointer; text-align: left; color: var(--ink);
   box-shadow: none; font-weight: 700; font-size: 11px;
+  position: relative;
 }
 .search-hit img { width: 100%; aspect-ratio: 63/88; object-fit: cover; border-radius: 6px; background: #0b0f16; }
 .search-hit:hover { border-color: var(--yellow); }
+.hit-add {
+  display: block; margin-top: 4px; color: var(--yellow);
+  font-size: 16px; font-weight: 900; line-height: 1;
+}
+.card-sheet {
+  position: fixed; inset: 0; z-index: 45;
+  background: rgba(8, 12, 20, 0.72);
+  display: flex; align-items: flex-end; justify-content: center;
+  padding: 12px 12px calc(12px + var(--safe-bottom));
+}
+body.card-sheet-open { overflow: hidden; }
+.card-sheet-panel {
+  width: min(720px, 100%);
+  max-height: min(88vh, 880px);
+  overflow: auto;
+  background: #121826;
+  border: 1px solid var(--line);
+  border-radius: 18px 18px 12px 12px;
+  padding: 12px;
+}
+.card-sheet-head {
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 8px;
+}
+.card-sheet-head h2 { flex: 1; margin: 0; font-size: 18px; }
 .picker-card { width: min(520px, 100%); max-height: 80vh; overflow: auto; margin: 0; }
 .picker-hits { min-height: 48px; }
 .type-badge {
@@ -253,7 +274,7 @@ label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 6px
 }
 .nav {
   position: fixed; left: 0; right: 0; bottom: 0;
-  display: grid; grid-template-columns: repeat(3, 1fr);
+  display: grid; grid-template-columns: repeat(4, 1fr);
   background: rgba(12, 16, 24, 0.96);
   border-top: 1px solid var(--line);
   padding-bottom: var(--safe-bottom);

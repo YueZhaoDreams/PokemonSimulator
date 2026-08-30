@@ -54,30 +54,14 @@
   </header>
 
   <main id="main" class="wrap">
-    <section id="view-decks">
+    <section id="view-decks" class="hidden">
       <h2 class="screen-title">Card sets</h2>
       <p class="lede">Sets for this rule only. Add or remove rules on a set — keep at least one.</p>
-      <div class="panel" id="findPanel">
+      <div class="panel">
         <div class="row">
-          <div class="grow"><label for="addToSet">Set</label><select id="addToSet"></select></div>
-          <div class="grow" id="newSetWrap">
-            <label for="newSetName">New set name</label>
-            <input id="newSetName" value="New set" />
-          </div>
+          <div class="grow"><label for="viewSet">Set</label><select id="viewSet"></select></div>
+          <button id="openAddCard" type="button">Add a card</button>
         </div>
-        <div class="row">
-          <div class="grow search-wrap">
-            <label for="addName">Find a card</label>
-            <input id="addName" placeholder="Pikachu, Nest Ball, Water Energy…" autocomplete="off" />
-            <div id="addHits" class="search-hits" hidden></div>
-          </div>
-          <label class="scan-btn" for="findScan">Scan photo
-            <input id="findScan" type="file" accept="image/*,.heic,.HEIC" capture="environment" />
-          </label>
-          <button id="addCard" type="button">Add to set</button>
-          <button id="cancelReplace" class="ghost hidden" type="button">Cancel replace</button>
-        </div>
-        <p id="findHint" class="tiny">Search a name or photograph cards. Tap a result to add it.</p>
       </div>
       <div id="userPanel" class="panel hidden">
         <h3>Registered trainers</h3>
@@ -85,6 +69,35 @@
         <div id="userList"></div>
       </div>
       <div id="deckList"></div>
+    </section>
+
+    <section id="view-cards">
+      <h2 class="screen-title">Cards</h2>
+      <p class="lede">Search or scan, then tap + to put a card in a set.</p>
+      <div id="cardsHost">
+        <div id="findPanel" class="panel">
+          <div class="row">
+            <div class="grow"><label for="addToSet">Set</label><select id="addToSet"></select></div>
+            <div class="grow" id="newSetWrap">
+              <label for="newSetName">New set name</label>
+              <input id="newSetName" value="New set" />
+            </div>
+          </div>
+          <div class="row">
+            <div class="grow search-wrap">
+              <label for="addName">Find a card</label>
+              <input id="addName" placeholder="Pikachu, Nest Ball, Water Energy…" autocomplete="off" />
+            </div>
+            <label class="scan-btn" for="findScan">Scan photo
+              <input id="findScan" type="file" accept="image/*,.heic,.HEIC" capture="environment" />
+            </label>
+            <button id="addCard" type="button">Add to set</button>
+            <button id="cancelReplace" class="ghost hidden" type="button">Cancel replace</button>
+          </div>
+          <p id="findHint" class="tiny">Search a name or photograph cards. Tap + to add it to a set.</p>
+          <div id="addHits" class="search-hits" hidden></div>
+        </div>
+      </div>
     </section>
 
     <section id="view-fight" class="hidden">
@@ -157,7 +170,8 @@
   </main>
 
   <nav class="nav" aria-label="Main">
-    <button data-view="decks" class="active" type="button"><span class="nav-ico" aria-hidden="true">🃏</span><span>Sets</span></button>
+    <button data-view="cards" class="active" type="button"><span class="nav-ico" aria-hidden="true">🔎</span><span>Cards</span></button>
+    <button data-view="decks" type="button"><span class="nav-ico" aria-hidden="true">🃏</span><span>Sets</span></button>
     <button data-view="fight" type="button"><span class="nav-ico" aria-hidden="true">⚡</span><span>Fight</span></button>
     <button data-view="lab" type="button"><span class="nav-ico" aria-hidden="true">🧪</span><span>Lab</span></button>
   </nav>
@@ -214,6 +228,16 @@
         <button id="authRegister" class="secondary" type="button">Register</button>
       </div>
     </form>
+  </div>
+
+  <div id="cardSheet" class="card-sheet hidden" role="dialog" aria-modal="true" aria-labelledby="cardSheetTitle">
+    <div class="card-sheet-panel">
+      <div class="card-sheet-head">
+        <h2 id="cardSheetTitle">Add a card</h2>
+        <button id="closeCardSheet" class="ghost" type="button">Close</button>
+      </div>
+      <div id="cardSheetHost"></div>
+    </div>
   </div>
 
   <div id="lightbox" class="lightbox hidden" role="dialog" aria-modal="true" aria-label="Card art" tabindex="-1">

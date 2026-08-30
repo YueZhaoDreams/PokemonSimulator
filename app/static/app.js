@@ -59,6 +59,7 @@ async function api(path, opts = {}) {
 
 function showAuthGate() {
   document.body.classList.add("signed-out");
+  closeCardSheet();
   $("#authGate")?.classList.remove("hidden");
   $("#accountBox")?.classList.add("hidden");
   shrinkAgent({ focusLauncher: false });
@@ -120,12 +121,14 @@ async function submitAuth(register) {
 
 function show(view) {
   if (view === "chat") {
+    closeCardSheet();
     openAgent();
     return;
   }
   if (!document.body.classList.contains("agent-open")) stopVoiceSession(false);
 
-  if (view === "scan") view = "decks";
+  if (view === "scan") view = "cards";
+  closeCardSheet();
   $$("main > section").forEach((s) => s.classList.add("hidden"));
   $(`#view-${view}`).classList.remove("hidden");
   $$(".nav button").forEach((b) => {
@@ -135,9 +138,13 @@ function show(view) {
     else b.removeAttribute("aria-current");
   });
   if (view === "decks") {
-    fillAddToSet($("#addToSet")?.value);
+    fillViewSet($("#viewSet")?.value);
     renderDecks();
     renderUsers();
+  }
+  if (view === "cards") {
+    fillAddToSet($("#addToSet")?.value);
+    paintCardPickerChrome();
   }
   if (view === "fight") fillFight();
   if (view === "lab") renderLab();
@@ -450,6 +457,7 @@ function paintAgentChrome() {
 }
 
 function openAgent() {
+  closeCardSheet();
   document.body.classList.add("agent-open");
   const panel = $("#agentPanel");
   if (panel) panel.hidden = false;
@@ -768,7 +776,7 @@ async function loadApp() {
     paintRules(health.rules);
   }
   renderUsers();
-  show("decks");
+  show("cards");
 }
 
 function renderUsers() {
@@ -1045,17 +1053,18 @@ function bindReplace(root) {
 }
 
 let pickerTarget = null;
+let pickerSeq = 0;
 let cardSearchTimer = 0;
 let searchSeq = 0;
 
 function searchHitHtml(hits) {
   if (!hits.length) return `<p class="tiny">No matches yet. Keep typing, or Add to set with the name in the box.</p>`;
-  const action = pickerTarget?.kind === "replace" ? "Replace" : "Add";
+  const action = pickerTarget?.kind === "replace" ? "Replace" : "+";
   return hits.map((h) => `
     <button type="button" class="search-hit" data-card-id="${esc(h.id || "")}" data-card-name="${esc(h.name || "")}">
       ${h.image ? `<img src="${esc(h.image)}" alt="${esc(h.name || "")}">` : ""}
       <span>${esc(h.name || "")}</span>
-      <span class="tiny">${action}</span>
+      <span class="hit-add">${action}</span>
     </button>`).join("");
 }
 
@@ -1117,68 +1126,148 @@ function cardCount(d) {
   return (d.cards || []).length;
 }
 
+function ruleSets() {
+  return decksMatchingRule(currentRule(), { includeSpare: false });
+}
+
+function fillViewSet(preferred) {
+  const sel = $("#viewSet");
+  if (!sel) return;
+  const keep = preferred || sel.value;
+  const lists = ruleSets();
+  sel.innerHTML = lists.map((d) =>
+    `<option value="${esc(d.id)}">${esc(d.name)} (${cardCount(d)})</option>`
+  ).join("");
+  if (keep && [...sel.options].some((o) => o.value === keep)) sel.value = keep;
+  else if (lists[0]) sel.value = lists[0].id;
+  $("#openAddCard")?.toggleAttribute("disabled", !sel.value);
+}
+
 function fillAddToSet(preferred) {
   const sel = $("#addToSet");
   if (!sel) return;
-  const keep = preferred || sel.value;
-  const filter = currentRule();
-  const lists = decksMatchingRule(filter, { includeSpare: false });
+  const keep = pickerTarget?.deckId || preferred || sel.value;
+  const lists = ruleSets();
   sel.innerHTML = `<option value="__new__">New set…</option>`
     + lists.map((d) => `<option value="${esc(d.id)}">${esc(d.name)} (${cardCount(d)})</option>`).join("");
   if (keep && [...sel.options].some((o) => o.value === keep)) sel.value = keep;
   else if (lists[0]) sel.value = lists[0].id;
   else sel.value = "__new__";
+  sel.disabled = Boolean(pickerTarget?.deckId);
   syncNewSetWrap();
-  if (pickerTarget?.deckId && sel.value !== pickerTarget.deckId) clearReplace();
+  if (pickerTarget?.deckId && sel.value !== pickerTarget.deckId) closeCardSheet();
 }
 
 function syncNewSetWrap() {
   const wrap = $("#newSetWrap");
   if (!wrap) return;
-  wrap.classList.toggle("hidden", $("#addToSet")?.value !== "__new__");
+  const locked = Boolean(pickerTarget?.deckId);
+  wrap.classList.toggle("hidden", locked || $("#addToSet")?.value !== "__new__");
 }
 
-function startReplace(deckId, index) {
-  pickerTarget = { kind: "replace", deckId, index };
-  const deck = state.decks.find((d) => d.id === deckId);
-  const current = deck?.cards?.[index];
-  $("#findPanel")?.classList.add("replacing");
-  if ($("#findHint")) {
-    $("#findHint").textContent = current
-      ? `Replacing ${current.name} in ${deck?.name || "this set"}. Search or scan, then tap a card.`
-      : "Search or scan, then tap a card to replace.";
+function parkCardsPanel(host) {
+  const panel = $("#findPanel");
+  if (panel && host && panel.parentElement !== host) host.appendChild(panel);
+}
+
+function paintCardPickerChrome() {
+  const deck = pickerTarget?.deckId
+    ? state.decks.find((d) => d.id === pickerTarget.deckId)
+    : null;
+  const current = deck && pickerTarget?.kind === "replace"
+    ? deck.cards?.[pickerTarget.index]
+    : null;
+  const replacing = pickerTarget?.kind === "replace";
+  const adding = pickerTarget?.kind === "add";
+  $("#findPanel")?.classList.toggle("replacing", replacing);
+  $("#cancelReplace")?.classList.toggle("hidden", !replacing);
+  if ($("#addCard")) $("#addCard").textContent = replacing ? "Replace card" : "Add to set";
+  if ($("#cardSheetTitle")) {
+    $("#cardSheetTitle").textContent = replacing
+      ? (current ? `Replace ${current.name}` : "Replace a card")
+      : (adding ? `Add to ${deck?.name || "this set"}` : "Add a card");
   }
-  $("#cancelReplace")?.classList.remove("hidden");
-  if ($("#addToSet") && deckId) $("#addToSet").value = deckId;
-  if ($("#addCard")) $("#addCard").textContent = "Replace card";
+  if ($("#findHint")) {
+    if (replacing) {
+      $("#findHint").textContent = current
+        ? `Replacing ${current.name} in ${deck?.name || "this set"}. Search or scan, then tap a card.`
+        : "Search or scan, then tap a card to replace.";
+    } else if (adding) {
+      $("#findHint").textContent = `Search or scan, then tap + to add a card to ${deck?.name || "this set"}.`;
+    } else {
+      $("#findHint").textContent = "Search a name or photograph cards. Tap + to add it to a set.";
+    }
+  }
   syncNewSetWrap();
-  show("decks");
+}
+
+let cardSheetOpener = null;
+
+function openCardPicker(target) {
+  pickerTarget = { ...target, seq: ++pickerSeq };
+  const seq = pickerTarget.seq;
+  if (target?.deckId) fillAddToSet(target.deckId);
+  else fillAddToSet($("#addToSet")?.value);
+  if (pickerTarget?.seq !== seq) return;
+  if ($("#cardSheet")?.classList.contains("hidden")) {
+    cardSheetOpener = document.activeElement;
+  }
+  parkCardsPanel($("#cardSheetHost"));
+  $("#cardSheet")?.classList.remove("hidden");
+  document.body.classList.add("card-sheet-open");
+  paintCardPickerChrome();
   $("#addName")?.focus();
 }
 
-function clearReplace() {
+function closeCardSheet() {
+  const sheet = $("#cardSheet");
+  const wasOpen = Boolean(sheet && !sheet.classList.contains("hidden"));
+  const focusInSheet = Boolean(sheet && document.activeElement && sheet.contains(document.activeElement));
   pickerTarget = null;
-  $("#findPanel")?.classList.remove("replacing");
-  if ($("#findHint")) $("#findHint").textContent = "Search a name or photograph cards. Tap a result to add it.";
-  $("#cancelReplace")?.classList.add("hidden");
-  if ($("#addCard")) $("#addCard").textContent = "Add to set";
+  $("#cardSheet")?.classList.add("hidden");
+  document.body.classList.remove("card-sheet-open");
+  const sel = $("#addToSet");
+  if (sel) sel.disabled = false;
+  parkCardsPanel($("#cardsHost"));
+  paintCardPickerChrome();
+  if (wasOpen && focusInSheet && cardSheetOpener && typeof cardSheetOpener.focus === "function") {
+    cardSheetOpener.focus();
+  }
+  cardSheetOpener = null;
+  return wasOpen;
 }
 
-async function takeCard(card) {
-  if (pickerTarget?.kind === "replace") {
-    await replaceDeckCard(pickerTarget.deckId, pickerTarget.index, card);
-    clearReplace();
+function startReplace(deckId, index) {
+  fillViewSet(deckId);
+  openCardPicker({ kind: "replace", deckId, index });
+}
+
+function startAddCard(deckId) {
+  if (!deckId) {
+    toast("Pick a set first.", "bad");
+    return;
+  }
+  fillViewSet(deckId);
+  openCardPicker({ kind: "add", deckId });
+}
+
+async function takeCard(card, session = pickerTarget) {
+  const seq = session?.seq;
+  if (session?.kind === "replace") {
+    await replaceDeckCard(session.deckId, session.index, card);
+    if (pickerTarget?.seq === seq) closeCardSheet();
     toast(`Replaced with ${card.name}`);
     return;
   }
-  await addCardsToSet([card]);
+  await addCardsToSet([card], session);
+  if (session && pickerTarget?.seq === seq) closeCardSheet();
 }
 
-async function addCardsToSet(cards) {
+async function addCardsToSet(cards, session = pickerTarget) {
   const named = (cards || []).filter((c) => c && c.name && c.name !== "Unknown");
   if (!named.length) throw new Error("No named cards to add");
-  if (pickerTarget?.kind === "replace") {
-    await takeCard(named[0]);
+  if (session?.kind === "replace") {
+    await takeCard(named[0], session);
     return;
   }
   const sel = $("#addToSet")?.value;
@@ -1191,6 +1280,7 @@ async function addCardsToSet(cards) {
     });
     state.decks = await api("/api/decks");
     fillAddToSet(saved.id);
+    fillViewSet(saved.id);
     renderDecks();
     toast(`Started ${saved.name} with ${named.length === 1 ? named[0].name : named.length + " cards"}`);
     return;
@@ -1206,6 +1296,7 @@ async function addCardsToSet(cards) {
   const i = state.decks.findIndex((d) => d.id === deck.id);
   if (i >= 0) state.decks[i] = saved;
   fillAddToSet(saved.id);
+  fillViewSet(saved.id);
   renderDecks();
   toast(`Added ${named.length === 1 ? named[0].name : named.length + " cards"} to ${saved.name}`);
 }
@@ -1235,10 +1326,11 @@ function selectedSearchHit() {
 let addBusy = false;
 async function applyPickedCard(hit) {
   if (!hit || !hit.name || addBusy) return;
+  const session = pickerTarget;
   addBusy = true;
   $("#addCard")?.setAttribute("disabled", "true");
   try {
-    await takeCard(await resolvePick(hit));
+    await takeCard(await resolvePick(hit), session);
   } catch (err) {
     toast(err.message, "bad");
   } finally {
@@ -1265,8 +1357,8 @@ async function replaceDeckCard(deckId, index, card) {
 }
 
 function selectedSet() {
-  const id = $("#addToSet")?.value;
-  if (!id || id === "__new__") return null;
+  const id = $("#viewSet")?.value;
+  if (!id) return null;
   return (state.decks || []).find((d) => d.id === id) || null;
 }
 
@@ -1275,7 +1367,7 @@ function renderDecks() {
   const box = $("#deckList");
   if (!box) return;
   if (!d) {
-    box.innerHTML = `<div class="panel"><p class="tiny">No set for this rule yet. Choose New set and add a card.</p></div>`;
+    box.innerHTML = `<div class="panel"><p class="tiny">No set for this rule yet. Open Cards and start a new set, or tap Add a card after you have one.</p></div>`;
     return;
   }
   const have = deckRulePresets(d);
@@ -1333,6 +1425,7 @@ async function toggleDeckRule(deckId, key, on) {
     const i = state.decks.findIndex((d) => d.id === deckId);
     if (i >= 0) state.decks[i] = saved;
     fillAddToSet(saved.id);
+    fillViewSet(saved.id);
     fillFight();
     renderDecks();
     if (!deckRulePresets(saved).includes(currentRule())) {
@@ -1359,8 +1452,9 @@ async function deleteSelectedSet(deckId) {
     return;
   }
   state.decks = state.decks.filter((d) => d.id !== deckId);
-  clearReplace();
+  closeCardSheet();
   fillAddToSet();
+  fillViewSet();
   fillFight();
   renderDecks();
   toast(`${deck.name} deleted`);
@@ -1387,10 +1481,14 @@ $("#addName")?.addEventListener("keydown", (e) => {
 });
 $("#addToSet")?.addEventListener("change", () => {
   syncNewSetWrap();
-  clearReplace();
-  renderDecks();
 });
-$("#cancelReplace")?.addEventListener("click", () => clearReplace());
+$("#viewSet")?.addEventListener("change", () => renderDecks());
+$("#openAddCard")?.addEventListener("click", () => startAddCard($("#viewSet")?.value));
+$("#closeCardSheet")?.addEventListener("click", () => closeCardSheet());
+$("#cardSheet")?.addEventListener("click", (e) => {
+  if (e.target.id === "cardSheet") closeCardSheet();
+});
+$("#cancelReplace")?.addEventListener("click", () => closeCardSheet());
 $("#findScan")?.addEventListener("change", async (e) => {
   const file = e.target.files?.[0];
   e.target.value = "";
@@ -1402,7 +1500,9 @@ $("#findScan")?.addEventListener("change", async (e) => {
     const result = await api("/api/recognize", { method: "POST", body: fd });
     const cards = (result.cards || []).filter((c) => c.name && c.name !== "Unknown");
     if (!cards.length) throw new Error("Could not read that photo. Search by name instead.");
-    await addCardsToSet(cards);
+    const session = pickerTarget;
+    await addCardsToSet(cards, session);
+    if (session && pickerTarget?.seq === session.seq) closeCardSheet();
   } catch (err) {
     toast(err.message, "bad");
   } finally {
@@ -1952,6 +2052,7 @@ $("#lightbox").addEventListener("click", (e) => {
       if (preset) paintRules(preset);
       fillFight();
       fillAddToSet($("#addToSet")?.value);
+      fillViewSet($("#viewSet")?.value);
       renderDecks();
     }
     resetArenaResult();
@@ -1980,7 +2081,10 @@ $("#brandTap").onclick = () => {
 
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") {
-    clearReplace();
+    if (!$("#cardSheet")?.classList.contains("hidden")) {
+      closeCardSheet();
+      return;
+    }
     const lightboxOpen = !$("#lightbox")?.classList.contains("hidden");
     closeLightbox();
     if (lightboxOpen) return;
@@ -1993,7 +2097,7 @@ document.addEventListener("keydown", (e) => {
     return;
   }
   if (e.target && /input|textarea|select/i.test(e.target.tagName)) return;
-  const map = { 1: "decks", 2: "fight", 3: "lab" };
+  const map = { 1: "cards", 2: "decks", 3: "fight", 4: "lab" };
   if (map[e.key]) show(map[e.key]);
 });
 
