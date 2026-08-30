@@ -121,12 +121,13 @@ async function submitAuth(register) {
 
 function show(view) {
   if (view === "chat") {
+    closeCardSheet();
     openAgent();
     return;
   }
   if (!document.body.classList.contains("agent-open")) stopVoiceSession(false);
 
-  if (view === "scan") view = "decks";
+  if (view === "scan") view = "cards";
   closeCardSheet();
   $$("main > section").forEach((s) => s.classList.add("hidden"));
   $(`#view-${view}`).classList.remove("hidden");
