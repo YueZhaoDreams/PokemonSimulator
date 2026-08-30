@@ -258,7 +258,8 @@ def test_app_js_keeps_simulator_contracts():
     assert "function openCardDetail" in js
     assert "pickerTarget.pickingSet" in js
     assert "pickerTarget?.seq !== seq" in js
-    assert "data-open-card" in js
+    assert "role=\"button\" tabindex=\"0\"" in js
+    assert "$(\"#closeCardSheet\")?.focus()" in js
     assert "pickerTarget?.deckId" in js
     assert "function selectedSearchHit" in js
     assert "dataset.query" in js

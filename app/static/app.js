@@ -239,14 +239,17 @@ function cardTile(card, opts = {}) {
   const tint = TYPE_TINT[typeOf(card)] || TYPE_TINT.Colorless;
   const name = esc(card.name || "Unknown");
   const hp = card.hp ? `${card.hp} HP` : "";
+  const zoom = card.image && !opts.openDetail
+    ? ` data-zoom="${esc(card.image)}" data-zoom-name="${name}"`
+    : "";
   const img = card.image
-    ? `<img src="${esc(card.image)}" alt="${name}" ${opts.openDetail ? "" : `data-zoom="${esc(card.image)}" data-zoom-name="${name}"`}>`
+    ? `<img src="${esc(card.image)}" alt="${name}"${zoom}>`
     : "";
   const replace = opts.deckId != null && opts.index != null
     ? `<button type="button" class="ghost quiet card-replace" data-replace-deck="${esc(opts.deckId)}" data-replace-idx="${opts.index}">Replace</button>`
     : "";
   const open = opts.openDetail
-    ? ` data-open-card="${esc(cardKey(card))}" data-card-name="${esc(card.name || "")}" data-card-id="${esc(card.id || "")}"`
+    ? ` role="button" tabindex="0" data-open-card="${esc(cardKey(card))}" data-card-name="${esc(card.name || "")}" data-card-id="${esc(card.id || "")}"`
     : "";
   const setsNote = opts.setsNote ? `<span>${esc(opts.setsNote)}</span>` : `<span>${esc(card.category || "")} ${esc(card.stage || "")} ${hp}</span>`;
   return `<div class="card-tile holo" style="border-color:${tint}"${open}>
@@ -1274,7 +1277,14 @@ function renderCollection() {
     setsNote: e.sets.length === 1 ? `In ${e.sets[0].name}` : `In ${e.sets.length} sets`,
   })).join("");
   host.querySelectorAll("[data-open-card]").forEach((el) => {
-    el.onclick = () => openCardDetail({ id: el.dataset.cardId, name: el.dataset.cardName });
+    const open = () => openCardDetail({ id: el.dataset.cardId, name: el.dataset.cardName });
+    el.onclick = open;
+    el.onkeydown = (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        open();
+      }
+    };
   });
 }
 
@@ -1299,6 +1309,7 @@ function paintCardDetail(card) {
     if (pickerTarget) pickerTarget.pickingSet = true;
     fillAddToSet();
     paintCardPickerChrome();
+    $("#addToSet")?.focus();
   });
 }
 
@@ -1313,12 +1324,14 @@ async function openCardDetail(hit) {
   $("#cardSheet")?.classList.remove("hidden");
   document.body.classList.add("card-sheet-open");
   paintCardPickerChrome();
+  $("#closeCardSheet")?.focus();
   try {
     const card = await resolvePick(hit);
     if (pickerTarget?.kind !== "detail" || pickerTarget?.seq !== seq) return;
     pickerTarget.card = card;
     paintCardDetail(card);
     paintCardPickerChrome();
+    $("#openAddToSet")?.focus();
   } catch (err) {
     if (pickerTarget?.seq === seq) toast(err.message, "bad");
   }
