@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import logging
 import re
 from collections.abc import AsyncIterator
 from typing import Any
@@ -10,6 +11,8 @@ from app.ai.cursor_agent import cursor_configured, runtime_ready, stream_cursor_
 from app.ai.llm import provider_status
 from app.ai.tools import _default_ids, chat_visible, current_viewer, fill_default_args, run_tool, _visible_decks
 from app.db import get_chat, get_rules, save_chat
+
+log = logging.getLogger(__name__)
 
 
 async def ask_coach_events(
@@ -66,12 +69,16 @@ async def ask_coach_events(
                     }
                     return
                 yield event
-        except Exception as exc:
-            yield {"type": "status", "text": f"改用本地助手 / Local coach: {exc}"}
-            prefix = "本地助手：" if lang == "zh" else "Cursor fallback: "
-            answer = _local_coach(message, tool_trace, language=lang) + f"\n\n({prefix}{exc})"
+        except Exception:
+            log.exception("Cursor stream failed; using on-device helper")
+            yield {
+                "type": "status",
+                "text": "改用本地助手" if lang == "zh" else "Using on-device helper",
+            }
+            prefix = "本地助手。" if lang == "zh" else "On-device helper."
+            answer = _local_coach(message, tool_trace, language=lang) + f"\n\n({prefix})"
             saved = _save_turn(thread, message, answer, chat_id=chat_id, agent_id=agent_id)
-            yield _done(saved, answer, tool_trace, "cursor-fallback")
+            yield _done(saved, answer, tool_trace, "local")
             return
 
     answer = _local_coach(message, tool_trace, language=lang)

@@ -4,7 +4,9 @@ from app.config import STATIC_DIR
 
 
 REQUIRED_IDS = [
-    "aiPill",
+    "accountEmail",
+    "settingsMenu",
+    "gameSoundsLabel",
     "view-decks",
     "findPanel",
     "addToSet",
@@ -117,6 +119,11 @@ def test_index_keeps_combo_cub_controls():
     assert "Chat language and spoken replies" in html
     assert "Sets for this rule only" in html
     assert "keep at least one" in html
+    assert "Local coach" not in html
+    assert "SFX off" not in html
+    assert "Game sounds" in html
+    assert 'id="aiPill"' not in html
+    assert 'aria-labelledby="gameSoundsLabel"' in html
     assert 'class="rule-banner"' in html
     assert 'aria-label="Active format rule"' in html
     assert 'class="grow search-wrap"' in html
@@ -146,6 +153,9 @@ def test_styles_keep_stadium_tokens_and_reduced_motion():
     assert "body.agent-open" in css
     assert "body.agent-full" in css
     assert "body.agent-open .nav" in css
+    assert ".settings-menu" in css
+    assert "button.account-email" in css
+    assert css.count("button.account-email") >= 2
     nav_open = css[css.index("body.agent-open .nav") : css.index("body.agent-open .nav") + 220]
     assert "position: fixed" in nav_open
     assert ".chat-voice { display: none !important; }" not in css
@@ -157,6 +167,18 @@ def test_app_js_keeps_simulator_contracts():
     js = _read("app.js")
     assert "async function boot" in js
     assert "function loadApp" in js
+    assert "function toggleSettings" in js
+    assert "function closeSettings" in js
+    assert "box.contains(e.target)" in js
+    assert "Could not load the stadium." in js
+    assert "menu && !menu.classList.contains" in js
+    assert "menu.contains(document.activeElement)" in js
+    assert '$("#sfxToggle")?.focus()' in js
+    assert 'return "Agent"' in js
+    assert "Local coach" not in js
+    assert '$("#aiPill")' not in js
+    assert "SFX on" not in js
+    assert "SFX off" not in js
     gate = js[js.index("function showAuthGate") : js.index("function hideAuthGate")]
     assert "shrinkAgent" in gate
     assert "function clearClientSession" in js
@@ -220,6 +242,7 @@ def test_app_js_keeps_simulator_contracts():
     show_fn = js[js.index("function show(view)") : js.index("function md")]
     assert "agent-open" in show_fn
     assert "stopVoiceSession" in show_fn
+    assert "closeSettings" in show_fn
     assert "function openAgent" in js
     assert 'agentShrink")?.focus()' in js
     assert "function shrinkAgent" in js

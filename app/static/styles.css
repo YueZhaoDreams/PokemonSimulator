@@ -130,7 +130,37 @@ p { color: var(--muted); line-height: 1.45; }
 .rule-tag:has(input:checked) { border-color: var(--yellow); color: var(--yellow); }
 .rule-tag input { accent-color: var(--yellow); }
 .pill { background: #0f1724; color: var(--yellow); border: 1px solid #3d4d6b; border-radius: 999px; padding: 6px 10px; font-size: 12px; }
-.account-box { display: flex; align-items: center; gap: 6px; }
+.account-box { position: relative; display: flex; align-items: center; gap: 6px; }
+button.account-email {
+  cursor: pointer;
+  font: inherit;
+  max-width: min(42vw, 220px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.settings-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  z-index: 25;
+  min-width: 220px;
+  padding: 12px;
+  background: linear-gradient(180deg, rgba(31, 39, 54, 0.98), rgba(18, 26, 43, 0.98));
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+}
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 13px;
+  font-weight: 700;
+}
+.settings-menu .tiny { margin: 6px 0 12px; }
+.settings-menu #logoutBtn { width: 100%; }
 .auth-gate {
   position: fixed; inset: 0; z-index: 65;
   display: grid; place-items: center;
@@ -165,6 +195,15 @@ button.ghost { background: transparent; color: var(--yellow); border: 1px solid 
 button.quiet { padding: 6px 10px; font-size: 11px; }
 button.danger { background: var(--red); color: white; box-shadow: 0 4px 0 #8b0e0e; }
 button:disabled { opacity: 0.5; }
+button.account-email {
+  background: #0f1724;
+  color: var(--yellow);
+  border: 1px solid #3d4d6b;
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 12px;
+  box-shadow: none;
+}
 select, input, textarea {
   width: 100%; background: #121826; color: var(--ink);
   border: 1px solid var(--line); border-radius: 12px; padding: 12px;

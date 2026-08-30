@@ -62,6 +62,7 @@ function showAuthGate() {
   closeCardSheet();
   $("#authGate")?.classList.remove("hidden");
   $("#accountBox")?.classList.add("hidden");
+  closeSettings();
   shrinkAgent({ focusLauncher: false });
   $("#authEmail")?.focus();
 }
@@ -80,6 +81,31 @@ function paintAccount() {
   hideAuthGate();
   $("#accountBox")?.classList.remove("hidden");
   if ($("#accountEmail")) $("#accountEmail").textContent = user.email;
+}
+
+function settingsOpen() {
+  const menu = $("#settingsMenu");
+  return !!(menu && !menu.classList.contains("hidden"));
+}
+
+function closeSettings() {
+  const menu = $("#settingsMenu");
+  const inside = !!(menu && document.activeElement && menu.contains(document.activeElement));
+  menu?.classList.add("hidden");
+  $("#accountEmail")?.setAttribute("aria-expanded", "false");
+  if (inside) $("#accountEmail")?.focus();
+}
+
+function toggleSettings() {
+  const menu = $("#settingsMenu");
+  if (!menu) return;
+  if (!menu.classList.contains("hidden")) {
+    closeSettings();
+    return;
+  }
+  menu.classList.remove("hidden");
+  $("#accountEmail")?.setAttribute("aria-expanded", "true");
+  $("#sfxToggle")?.focus();
 }
 
 function clearClientSession() {
@@ -120,6 +146,7 @@ async function submitAuth(register) {
 }
 
 function show(view) {
+  closeSettings();
   if (view === "chat") {
     closeCardSheet();
     openAgent();
@@ -181,7 +208,7 @@ function aiLabel(ai) {
   }
   if (ai?.vision?.configured) return `Vision · ${ai.vision.provider}`;
   if (ai?.configured) return `${ai.provider} · ${ai.model}`;
-  return "Local coach";
+  return "Agent";
 }
 
 function typeOf(card) {
@@ -293,8 +320,8 @@ function ping(kind) {
 function paintSfx() {
   const btn = $("#sfxToggle");
   if (!btn) return;
-  btn.textContent = sfx.on ? "SFX on" : "SFX off";
-  btn.setAttribute("aria-pressed", sfx.on ? "true" : "false");
+  btn.textContent = sfx.on ? "On" : "Off";
+  btn.setAttribute("aria-checked", sfx.on ? "true" : "false");
 }
 
 function loadChatLang() {
@@ -744,7 +771,6 @@ function paintArena() {
 async function loadApp() {
   paintAccount();
   const health = await api("/api/health");
-  $("#aiPill").textContent = aiLabel(health.ai);
   if ($("#agentModel")) $("#agentModel").textContent = aiLabel(health.ai);
   state.decks = await api("/api/decks");
   state.strategies = await api("/api/strategies");
@@ -1816,8 +1842,8 @@ async function sendChat() {
             answer = event.answer || answer;
             body.innerHTML = md(answer);
             $("#chatTitle").textContent = threadTitle(event.messages);
-            if (event.coach && event.coach !== "cursor") {
-              trace.textContent = event.coach === "local" ? "Local coach" : event.coach;
+            if (event.coach && event.coach !== "cursor" && event.coach !== "local") {
+              trace.textContent = event.coach;
             } else {
               trace.remove();
             }
@@ -2057,6 +2083,16 @@ $("#lightbox").addEventListener("click", (e) => {
   });
 });
 
+$("#accountEmail")?.addEventListener("click", (e) => {
+  e.stopPropagation();
+  toggleSettings();
+});
+document.addEventListener("click", (e) => {
+  const box = $("#accountBox");
+  if (box && box.contains(e.target)) return;
+  closeSettings();
+}, true);
+
 $("#sfxToggle").onclick = () => {
   sfx.on = !sfx.on;
   try { localStorage.setItem(SFX_STORE, sfx.on ? "1" : "0"); } catch { /* private mode */ }
@@ -2085,6 +2121,10 @@ document.addEventListener("keydown", (e) => {
     const lightboxOpen = !$("#lightbox")?.classList.contains("hidden");
     closeLightbox();
     if (lightboxOpen) return;
+    if (settingsOpen()) {
+      closeSettings();
+      return;
+    }
     if (document.body.classList.contains("agent-full")) {
       document.body.classList.remove("agent-full");
       paintAgentChrome();
@@ -2099,4 +2139,7 @@ document.addEventListener("keydown", (e) => {
 });
 
 $$(".nav button").forEach((b) => b.onclick = () => show(b.dataset.view));
-boot().catch((err) => { $("#aiPill").textContent = "Error"; console.error(err); });
+boot().catch((err) => {
+  console.error(err);
+  toast("Could not load the stadium.");
+});
