@@ -1,4 +1,10 @@
-from app.catalog import search_local
+from app.catalog import _pretty_catalog_name, search_local
+
+
+def test_pretty_catalog_name_capitalizes_accented_words():
+    assert _pretty_catalog_name("poké ball") == "Poké Ball"
+    assert _pretty_catalog_name("Poké Ball") == "Poké Ball"
+    assert _pretty_catalog_name("energy switch") == "Energy Switch"
 
 
 def test_search_local_ignores_short_query():
@@ -15,7 +21,8 @@ def test_search_hits_seed_and_energy_without_network(monkeypatch):
     switch = search_local("energy switch", remote=False)
     assert any(h["name"] == "Energy Switch" for h in switch)
     ball = search_local("poke ball", remote=False)
-    assert any("ball" in h["name"].lower() for h in ball)
+    assert any(h["name"] == "Poké Ball" for h in ball)
+    assert not any(h["name"] == "poké ball" for h in ball)
 
 
 def test_search_ranks_exact_name_first(monkeypatch):

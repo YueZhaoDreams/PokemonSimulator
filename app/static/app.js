@@ -1007,7 +1007,7 @@ function searchHitHtml(hits) {
   const action = pickerTarget?.kind === "replace" ? "Replace" : "Add";
   return hits.map((h) => `
     <button type="button" class="search-hit" data-card-id="${esc(h.id || "")}" data-card-name="${esc(h.name || "")}">
-      ${h.image ? `<img src="${esc(h.image)}" alt="">` : ""}
+      ${h.image ? `<img src="${esc(h.image)}" alt="${esc(h.name || "")}">` : ""}
       <span>${esc(h.name || "")}</span>
       <span class="tiny">${action}</span>
     </button>`).join("");

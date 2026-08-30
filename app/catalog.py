@@ -666,7 +666,7 @@ def _fold_name(text: str) -> str:
 
 
 def _pretty_catalog_name(raw: str) -> str:
-    if raw[:1].isupper() or "é" in raw.lower():
+    if raw[:1].isupper():
         return raw
     return " ".join(part.capitalize() for part in raw.replace("_", " ").split())
 

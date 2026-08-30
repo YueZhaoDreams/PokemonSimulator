@@ -173,7 +173,8 @@ def test_app_js_keeps_simulator_contracts():
     assert "function setChatLang" in js
     assert "function startNewChat" in js
     assert "state.chatOpened" in js
-    assert "function startReplace" in js
+    assert "function searchHitHtml" in js
+    assert 'alt="${esc(h.name || "")}"' in js
     assert "function replaceDeckCard" in js
     assert "function addCardsToSet" in js
     assert "function selectedSearchHit" in js
