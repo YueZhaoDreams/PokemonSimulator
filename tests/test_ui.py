@@ -89,7 +89,7 @@ def classify_log(line: str) -> str:
     return "note"
 
 
-def test_index_keeps_family_cup_controls():
+def test_index_keeps_combo_cub_controls():
     html = _read("index.html")
     for ident in REQUIRED_IDS:
         assert f'id="{ident}"' in html, ident
@@ -108,6 +108,7 @@ def test_index_keeps_family_cup_controls():
     assert "Sets for this rule only" in html
     assert "keep at least one" in html
     assert 'class="rule-banner"' in html
+    assert 'aria-label="Active format rule"' in html
     assert 'class="grow search-wrap"' in html
     assert 'id="addHits"' in html
     assert 'id="deckRuleFilter"' not in html
