@@ -147,11 +147,22 @@ class Game:
             drawn.append(card_i)
         return drawn
 
+    def _is_playable_pokemon(self, card: Card) -> bool:
+        """True if this card may enter play from hand (Active/Bench)."""
+        if not card.is_pokemon:
+            return False
+        if card.is_basic:
+            return True
+        return bool(self.rules.any_stage_playable)
+
     def _has_basic(self, player: Player, zone: list[int]) -> bool:
-        return any(player.card(i).is_basic for i in zone)
+        return any(self._is_playable_pokemon(player.card(i)) for i in zone)
+
+    def _hand_playables(self, player: Player) -> list[int]:
+        return [i for i in player.hand if self._is_playable_pokemon(player.card(i))]
 
     def _opening(self, player: Player, strat: StrategySpec) -> None:
-        # Standard TCG: draw 7; if there is no Basic Pokémon, shuffle and draw again.
+        # Standard TCG: draw 7; mulligan until a playable Pokémon (Basic, or any stage under Open Stage).
         hand_n = self.rules.opening_hand
         while True:
             self._draw(player, hand_n)
@@ -165,7 +176,7 @@ class Game:
         for _ in range(prize_n):
             player.prizes.append(player.deck.pop())
         player._opening_prizes = list(player.prizes)  # type: ignore[attr-defined]
-        basics = [i for i in player.hand if player.card(i).is_basic]
+        basics = self._hand_playables(player)
         if not basics:
             _capture_opening(player)
             return
@@ -173,7 +184,7 @@ class Game:
         player.hand.remove(active_i)
         player.active = Pokemon(card_i=active_i, played_turn=0)
         self._bump(f"saw_play:{player.card(active_i).name}")
-        remaining = [i for i in player.hand if player.card(i).is_basic]
+        remaining = self._hand_playables(player)
         if strat.hold_as_energy:
             # Family Cup: Pokémon on the field cannot be attached as energy.
             # Opening puts down only the Active — extras stay in hand as fuel.
@@ -312,8 +323,8 @@ class Game:
         return self._count_named_in_play(me, name) == 0
 
     def _wants_in_play(self, player: Player, card, strat: StrategySpec, ace_out: bool | None = None) -> bool:
-        """True if this Basic should occupy the field instead of staying in hand as energy."""
-        if not card.is_basic:
+        """True if this Pokémon should occupy the field instead of staying in hand as energy."""
+        if not self._is_playable_pokemon(card):
             return False
         name = card.name.lower()
         aces = {n.lower() for n in strat.search_aces}
@@ -366,6 +377,11 @@ class Game:
         if strat.name == "thrifty" and name == "starly":
             # One Staraptor engine; Boomerang Energy returns after Power Blast.
             return copies < 1
+        if strat.name == "carnival" and name in {"starly", "gastly"}:
+            # Prefer open-stage Quaquaval / Staraptor / Gengar; one line Basic only.
+            return copies < 1 and not any(
+                n in {"quaquaval", "staraptor", "gengar"} for n in self._in_play_names(player)
+            )
         if strat.name == "shock" and name == "spinarak":
             # One Poison Sting; Darkness Energy pays it.
             return copies < 1
@@ -449,6 +465,16 @@ class Game:
                 return 850 if water else 160
             if strat.name == "thrifty" and name == "starly":
                 return 850
+            if strat.name == "carnival" and name == "quaquaval":
+                return 2000
+            if strat.name == "carnival" and name == "staraptor":
+                return 1900
+            if strat.name == "carnival" and name == "gengar":
+                return 1800
+            if strat.name == "carnival" and name == "fezandipiti ex":
+                return 1200
+            if strat.name == "carnival" and name == "orthworm":
+                return 1100
             if strat.name == "phantom" and name == "budew":
                 return 900
             if strat.name == "phantom" and name == "dreepy":
@@ -497,10 +523,12 @@ class Game:
         result_opening_a = getattr(a, "_opening_names", self.names(a, a.hand))
         result_opening_b = getattr(b, "_opening_names", self.names(b, b.hand))
 
+        no_starter = "a had no playable Pokémon" if self.rules.any_stage_playable else "a had no Basic Pokémon"
+        no_starter_b = "b had no playable Pokémon" if self.rules.any_stage_playable else "b had no Basic Pokémon"
         if not a.active:
-            return self._finish("b", "a had no Basic Pokémon")
+            return self._finish("b", no_starter)
         if not b.active:
-            return self._finish("a", "b had no Basic Pokémon")
+            return self._finish("a", no_starter_b)
 
         self._log(f"First player: {self.first.upper()}")
         for _ in range(self.rules.max_turns):
@@ -593,13 +621,13 @@ class Game:
         self._play_basics(me)
         self._play_trainers(me, foe, who)
         self._play_basics(me)
-        if self.strats[who].name in {"party", "demolish", "slash", "shock", "thrifty", "phantom"}:
+        if self.strats[who].name in {"party", "demolish", "slash", "shock", "thrifty", "phantom", "carnival"}:
             self._play_trainers(me, foe, who)
             self._play_basics(me)
         self._use_abilities(me, foe, who)
         self._evolve(me, foe, who)
         self._play_basics(me)
-        if self.strats[who].name in {"party", "demolish", "slash", "shock", "thrifty", "phantom"}:
+        if self.strats[who].name in {"party", "demolish", "slash", "shock", "thrifty", "phantom", "carnival"}:
             self._play_trainers(me, foe, who)
         self._use_abilities(me, foe, who)
         if self.strats[who].name == "party" and self._should_transfer_combo(me, foe):
@@ -696,7 +724,7 @@ class Game:
             return (9, 0)
 
         # Aces, then fallback attackers, then KO insurance — never random fuel.
-        ordered = sorted((i for i in list(me.hand) if me.card(i).is_basic), key=prio)
+        ordered = sorted((i for i in list(me.hand) if self._is_playable_pokemon(me.card(i))), key=prio)
         for card_i in ordered:
             card = me.card(card_i)
             if card_i not in me.hand:
@@ -720,7 +748,7 @@ class Game:
         reserve = 0 if ace_out else 1
         if self.rng.random() > strat.bench_fill and len(me.bench) >= 1:
             return
-        basics = [i for i in list(me.hand) if me.card(i).is_basic]
+        basics = [i for i in list(me.hand) if self._is_playable_pokemon(me.card(i))]
         while basics and len(me.bench) < self.rules.bench_size - reserve:
             card_i = basics.pop(0)
             if card_i not in me.hand:
@@ -1208,6 +1236,21 @@ class Game:
                 score += 12 if me.ko_since_opp_turn else -20
             elif name == "judge":
                 score += 6 if len(me.hand) <= 3 else 1
+            elif name == "irida":
+                score += 14 if any(c.is_pokemon and "Water" in (c.types or []) for c in (me.card(i) for i in me.deck)) else 4
+            elif name == "surfer":
+                score += 12 if me.bench else -4
+            elif name == "switch cart":
+                score += 11 if me.bench else -4
+            elif "iris" in name and "fighting spirit" in name:
+                score += 15 if len(me.hand) >= 2 and len(me.hand) < 6 else 4
+            elif name == "iono":
+                score += 10 if len(me.hand) <= 3 else 2
+            elif name == "drayton":
+                score += 13 if me.deck else -2
+            elif name == "lacey":
+                # Family Cup starts with 3 prizes remaining → Lacey draws 8.
+                score += 16 if len(me.deck) > 8 else -8
             else:
                 score += 0.5
             # Greedy Family Cup: Energy Search is also a Pokémon tutor.
@@ -1298,6 +1341,59 @@ class Game:
             me.hand.clear()
             self.rng.shuffle(me.deck)
             self._draw(me, 5)
+        elif name == "lacey":
+            me.deck.extend(me.hand)
+            me.hand.clear()
+            self.rng.shuffle(me.deck)
+            # Printed: draw 4, or 8 if opponent has 3 or fewer Prize cards remaining.
+            prizes_left = len(foe.prizes)
+            self._draw(me, 8 if prizes_left <= 3 else 4)
+        elif name == "surfer":
+            if self._play_switch(me, who):
+                self._draw(me, max(0, 5 - len(me.hand)))
+        elif name == "switch cart":
+            self._play_switch(me, who)
+        elif "iris" in name and "fighting spirit" in name:
+            if not me.hand:
+                return
+            junk = self._iris_discard_choice(me, who)
+            if junk is None:
+                return
+            me.hand.remove(junk)
+            me.discard.append(junk)
+            spec = parse_draw_until_hand(card.text or "")
+            target = int((spec or {}).get("count") or 6)
+            self._draw(me, max(0, target - len(me.hand)))
+        elif name == "iono":
+            self._iono(me, foe)
+        elif name == "irida":
+            prefer_pkm = [p.lower() for p in self._pokemon_search_prefer(me, who)]
+            water_in_deck = [
+                me.card(i).name.lower()
+                for i in me.deck
+                if me.card(i).is_pokemon and "Water" in (me.card(i).types or [])
+            ]
+            prefer_water = [n for n in prefer_pkm if n in set(water_in_deck)] or water_in_deck
+            self._search(
+                me,
+                lambda c: c.is_pokemon and "Water" in (c.types or []),
+                prefer=prefer_water,
+                n=1,
+                source="irida",
+            )
+            self._search_items(
+                me,
+                count=1,
+                prefer_names=[
+                    "energy search",
+                    "energy retrieval",
+                    "nest ball",
+                    "ultra ball",
+                    "trekking shoes",
+                ],
+            )
+        elif name == "drayton":
+            self._drayton(me, who)
         elif name in {"quick ball", "great ball", "poké ball", "poke ball"}:
             if name in {"poké ball", "poke ball"} and self.rng.random() < 0.5:
                 self._bump("poke_ball_miss")
@@ -4674,6 +4770,47 @@ class Game:
                         mon.ability_used = True
                         self._bump("flip_the_script")
                         self._log(f"{card.name} Flip the Script draws")
+                    elif kind == "attach_basic_energy_from_hand":
+                        if self._attach_basic_energy_from_hand(me, who, mon):
+                            mon.ability_used = True
+                            self._bump("energy_carnival")
+                            self._log(f"{card.name} Energy Carnival attaches from hand")
+
+    def _attach_basic_energy_from_hand(self, me: Player, who: str, source_mon: Pokemon) -> bool:
+        """Printed Energy Carnival: attach one Basic Energy from hand to 1 of your Pokémon."""
+        fuel: list[int] = []
+        protect = {n.lower() for n in self.strats[who].protect}
+        for i in list(me.hand):
+            card = me.card(i)
+            if is_basic_energy(card, pokemon_as_energy=False):
+                fuel.append(i)
+            elif (
+                self.rules.pokemon_as_energy
+                and card.is_pokemon
+                and card.as_energy_type
+                and card.name.lower() not in protect
+                and not self._wants_in_play(me, card, self.strats[who])
+            ):
+                fuel.append(i)
+        if not fuel:
+            return False
+        targets = list(me.in_play())
+        if not targets:
+            return False
+        # Prefer Active ace / Quaquaval, then lowest energy count.
+        aces = {n.lower() for n in self.strats[who].search_aces}
+
+        def tscore(mon: Pokemon) -> tuple:
+            name = me.card(mon.card_i).name.lower()
+            return (0 if name in aces else 1, len(mon.energy), -(me.card(mon.card_i).hp or 0))
+
+        target = sorted(targets, key=tscore)[0]
+        card_i = fuel[0]
+        me.hand.remove(card_i)
+        target.energy.append(card_i)
+        if me.card(card_i).is_pokemon:
+            self._bump("pokemon_as_energy")
+        return True
 
     def _look_top_put_hand(self, me: Player, mon: Pokemon, look: int, rest: str) -> None:
         look = int(look or 0)
@@ -4709,6 +4846,85 @@ class Game:
         mon.ability_used = True
         self._bump("recon_directive")
         self._log(f"{me.card(mon.card_i).name} Recon Directive takes {me.card(keep).name}")
+
+    def _drayton(self, me: Player, who: str) -> None:
+        """Printed Drayton: look at the top 7; put a Pokémon and a Trainer into the hand."""
+        if not me.deck:
+            return
+        n = min(7, len(me.deck))
+        seen = [me.deck.pop(0) for _ in range(n)]
+        prefer = [p.lower() for p in self._pokemon_search_prefer(me, who)]
+        pokemon = [i for i in seen if me.card(i).is_pokemon]
+        trainers = [i for i in seen if me.card(i).is_trainer]
+        take: list[int] = []
+        if pokemon:
+            pokemon.sort(
+                key=lambda i: (
+                    prefer.index(me.card(i).name.lower())
+                    if me.card(i).name.lower() in prefer
+                    else 40,
+                    -(me.card(i).hp or 0),
+                )
+            )
+            take.append(pokemon[0])
+        if trainers:
+            item_prefer = [
+                "nest ball",
+                "ultra ball",
+                "energy search",
+                "energy retrieval",
+                "trekking shoes",
+                "lacey",
+                "drayton",
+            ]
+            trainers.sort(
+                key=lambda i: (
+                    item_prefer.index(me.card(i).name.lower())
+                    if me.card(i).name.lower() in item_prefer
+                    else 40
+                )
+            )
+            take.append(trainers[0])
+        for card_i in take:
+            me.hand.append(card_i)
+            self._bump(f"tutor:{me.card(card_i).name}:drayton")
+            self._log(f"{me.name} Drayton finds {me.card(card_i).name}")
+        leftover = [i for i in seen if i not in take]
+        me.deck.extend(leftover)
+        self.rng.shuffle(me.deck)
+        self._bump("drayton")
+
+    def _iris_discard_choice(self, me: Player, who: str) -> int | None:
+        """Printed Iris's Fighting Spirit: discard another card from the hand."""
+        if not me.hand:
+            return None
+        protect = {n.lower() for n in self.strats[who].protect}
+        scored: list[tuple[int, int]] = []
+        for i in me.hand:
+            card = me.card(i)
+            name = card.name.lower()
+            score = 0
+            if name in protect:
+                score += 8
+            if card.is_pokemon:
+                score += 4
+            if card.is_energy:
+                score += 3
+            scored.append((score, i))
+        scored.sort()
+        return scored[0][1]
+
+    def _iono(self, me: Player, foe: Player) -> None:
+        """Printed Iono: shuffle hands; draw 1 per remaining Prize card."""
+        me.deck.extend(me.hand)
+        me.hand.clear()
+        self.rng.shuffle(me.deck)
+        foe.deck.extend(foe.hand)
+        foe.hand.clear()
+        self.rng.shuffle(foe.deck)
+        self._draw(me, len(me.prizes))
+        self._draw(foe, len(foe.prizes))
+        self._bump("iono")
 
     def _benched_named(self, me: Player, name: str) -> list[Pokemon]:
         want = (name or "").lower()

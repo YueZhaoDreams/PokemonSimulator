@@ -1,0 +1,49 @@
+{
+  "games": 3000,
+  "seed": 20260830,
+  "elapsed": 12.71411400099987,
+  "rules": {
+    "name": "Family Cup (no Pok\u00e9mon energy)",
+    "deck_size": 30,
+    "opening_hand": 7,
+    "prize_count": 3,
+    "bench_size": 5,
+    "max_turns": 40,
+    "pokemon_as_energy": false,
+    "any_stage_playable": false,
+    "first_player_no_attack": true,
+    "first_player_no_draw": true,
+    "first_player_no_supporter": true,
+    "first_turn_no_evolve": true,
+    "one_retreat_per_turn": true,
+    "extra_prize_for_ex": true,
+    "max_copies_except_basic_energy": 4,
+    "notes": "Rule B without Pok\u00e9mon-as-energy: 30-card decks, 3 prize cards, standard Basic Energy only (Pok\u00e9mon in hand are not Basic Energy). Energy Search finds Energy cards, not Pok\u00e9mon. Copy cap 4 except basic Energy. Knocking Out a Pok\u00e9mon ex takes 2 prize cards; Knocking Out a Mega ex takes 3. Opening mulligans until a Basic Pok\u00e9mon."
+  },
+  "strats": {
+    "e": "shock",
+    "f": "carnival"
+  },
+  "results": {
+    "e_vs_f": {
+      "win_rate_a": 0.7273333333333334,
+      "win_rate_b": 0.27266666666666667,
+      "tie_rate": 0.0,
+      "first": 0.7277027027027027,
+      "second": 0.7269736842105263,
+      "wins_a": 2182,
+      "wins_b": 818,
+      "ties": 0
+    },
+    "f_vs_e": {
+      "win_rate_a": 0.25066666666666665,
+      "win_rate_b": 0.7493333333333333,
+      "tie_rate": 0.0,
+      "first": 0.24835309617918314,
+      "second": 0.25303643724696356,
+      "wins_a": 752,
+      "wins_b": 2248,
+      "ties": 0
+    }
+  }
+}

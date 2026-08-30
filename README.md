@@ -10,10 +10,13 @@ This is a fan-made simulator. It is not affiliated with Nintendo, Game Freak, or
 - Opening hand of **7**
 - **3 prize cards**
 - **Pokémon ex = 2 prizes; Mega ex = 3 prizes**
-- **Any Pokémon can be attached as a Basic Energy of its type**
+- **Rule B:** Any Pokémon can be attached as a Basic Energy of its type
+- **No Pokémon energy (Rule C, selectable):** same 30 / 3-prize Family Cup, but Pokémon are **not** Basic Energy. Energy Search finds Energy only.
 - Otherwise: standard Pokémon TCG turn structure (mulligans until a Basic, opponent draws one per mulligan, bench of 5, one energy attach per turn, first player does not draw or attack on turn 1)
 
-Rules are editable in the API (`PUT /api/rules`).
+Rule presets are available in the Fight tab and via `GET /api/rule-presets`. Existing Rule B decks stay selectable. Carpet Sets E and F are the new 30-card lists.
+
+Rules are also editable in the API (`PUT /api/rules`).
 
 ## What it does
 

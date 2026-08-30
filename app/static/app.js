@@ -1,6 +1,6 @@
 const $ = (sel) => document.querySelector(sel);
 const $$ = (sel) => [...document.querySelectorAll(sel)];
-let state = { decks: [], strategies: [], scanCards: [], scanCrops: [], chatId: null, history: [], chatMode: "list", chatLang: "zh", chatOpened: false, speakReplies: true, rules: null, user: null, users: [] };
+let state = { decks: [], strategies: [], rulePresets: [], scanCards: [], scanCrops: [], chatId: null, history: [], chatMode: "list", chatLang: "zh", chatOpened: false, speakReplies: true, rules: null, user: null, users: [] };
 const CHAT_STORE = "family-cup-chat-id";
 const CHAT_LANG_STORE = "family-cup-chat-lang";
 const CHAT_SPEAK_STORE = "family-cup-chat-speak";
@@ -584,6 +584,7 @@ function paintRules(rules) {
       `${rules.prize_count} prizes`,
       `hand ${rules.opening_hand}`,
       rules.pokemon_as_energy ? "Pokémon = energy" : "standard energy",
+      rules.pokemon_as_energy ? "Rule B" : "No Pokémon energy",
     ];
     if (rules.extra_prize_for_ex) {
       chips.push("ex = 2 prizes · Mega ex = 3");
@@ -596,6 +597,14 @@ function paintRules(rules) {
   const tag = $("#brandTag");
   if (tag) tag.textContent = `${rules.deck_size} cards · ${rules.prize_count} prizes · ${energy}`;
   ensurePrizePips();
+  syncRulePreset(rules);
+}
+
+function syncRulePreset(rules) {
+  const sel = $("#rulePreset");
+  if (!sel || !sel.options.length) return;
+  const want = rules?.pokemon_as_energy === false ? "c" : "b";
+  if ([...sel.options].some((o) => o.value === want)) sel.value = want;
 }
 
 function prizeCount() {
@@ -684,6 +693,11 @@ async function loadApp() {
   paintRules(health.rules);
   state.decks = await api("/api/decks");
   state.strategies = await api("/api/strategies");
+  try {
+    state.rulePresets = await api("/api/rule-presets");
+  } catch {
+    state.rulePresets = [];
+  }
   if (state.user?.role === "admin") {
     try {
       state.users = await api("/api/users");
@@ -763,6 +777,7 @@ function fillFight() {
     b: $("#deckB")?.value,
     sa: $("#stratA")?.value,
     sb: $("#stratB")?.value,
+    rule: $("#rulePreset")?.value,
   };
   for (const id of ["deckA", "deckB"]) {
     const sel = $(`#${id}`);
@@ -777,6 +792,20 @@ function fillFight() {
   };
   pick($("#deckA"), keep.a, lists[0]?.id);
   pick($("#deckB"), keep.b, lists[1]?.id);
+  const ruleSel = $("#rulePreset");
+  if (ruleSel) {
+    const presets = state.rulePresets?.length
+      ? state.rulePresets
+      : [
+          { preset: "b", label: "Rule B (Pokémon = energy)" },
+          { preset: "c", label: "No Pokémon energy" },
+        ];
+    ruleSel.innerHTML = presets
+      .map((p) => `<option value="${esc(p.preset)}">${esc(p.label || p.preset)}</option>`)
+      .join("");
+    const fallbackRule = state.rules?.pokemon_as_energy === false ? "c" : "b";
+    pick(ruleSel, keep.rule, fallbackRule);
+  }
   for (const id of ["stratA", "stratB"]) {
     const sel = $(`#${id}`);
     if (!sel) continue;
@@ -1131,6 +1160,7 @@ function simPayload(games) {
     deck_b_id: $("#deckB").value,
     strategy_a: $("#stratA").value,
     strategy_b: $("#stratB").value,
+    rule_preset: $("#rulePreset")?.value || "b",
     games,
     question: $("#simQuestion").value,
   };
@@ -1493,8 +1523,12 @@ $("#lightbox").addEventListener("click", (e) => {
   if (e.target.id === "lightbox") closeLightbox();
 });
 
-["deckA", "deckB", "stratA", "stratB"].forEach((id) => {
+["deckA", "deckB", "stratA", "stratB", "rulePreset"].forEach((id) => {
   $(`#${id}`).addEventListener("change", () => {
+    if (id === "rulePreset") {
+      const preset = state.rulePresets?.find((p) => p.preset === $("#rulePreset").value);
+      if (preset) paintRules(preset);
+    }
     resetArenaResult();
     paintArena();
   });

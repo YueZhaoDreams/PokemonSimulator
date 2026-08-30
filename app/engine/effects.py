@@ -137,6 +137,15 @@ def parse_ability_effects(text: str) -> list[dict[str, Any]]:
             }
         )
 
+    # Energy Carnival-style: attach a Basic Energy from hand to 1 of your Pokémon.
+    if (
+        "attach" in t
+        and "basic energy" in t
+        and "from your hand" in t
+        and "to 1 of your" in t
+    ):
+        effects.append({"kind": "attach_basic_energy_from_hand", "once_per_turn": "once during your turn" in t})
+
     # Lillie's Clefairy ex Fairy Zone: opponent Dragon Weakness becomes Psychic ×2.
     if "dragon" in t and "weakness" in t and "psychic" in t and "opponent" in t:
         effects.append(

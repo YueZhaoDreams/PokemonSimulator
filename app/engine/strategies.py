@@ -306,6 +306,39 @@ STRATEGY_LIBRARY = {
         insurance_bench=1,
         max_ace_copies=1,
     ),
+    "carnival": StrategySpec(
+        name="carnival",
+        description=(
+            "Set F Staraptor / Gengar: evolve Starly → Staravia → Staraptor. "
+            "Dedicated Water / Psychic / Metal Energy pay attacks (Pokémon are not energy). "
+            "Gengar / Scream Tail as Psychic backup. Orthworm as Metal sponge. "
+            "Iono shuffles; Nest / Ultra Ball hunt Starly. Switch Cart rotates."
+        ),
+        prefer_damage=0.95,
+        prefer_status=0.2,
+        bench_fill=0.0,
+        evolve_asap=0.95,
+        attach_pokemon_as_energy=0.0,
+        item_spend=1.0,
+        hold_as_energy=True,
+        protect=[
+            "Staraptor",
+            "Starly",
+            "Staravia",
+            "Gengar",
+            "Gastly",
+            "Haunter",
+            "Scream Tail",
+            "Orthworm",
+        ],
+        search_aces=["Starly", "Gastly"],
+        closers=["Staraptor", "Gengar"],
+        backups=["Orthworm", "Scream Tail"],
+        insurance=["Orthworm", "Wailmer"],
+        insurance_bench=1,
+        insurance_non_fuel=True,
+        max_ace_copies=1,
+    ),
     "invisible": StrategySpec(
         name="invisible",
         description=(
