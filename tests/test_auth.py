@@ -1,6 +1,6 @@
 from app.auth import hash_password, verify_password
 from app.config import ADMIN_EMAIL, ADMIN_PASSWORD
-from app.db import get_deck, init_db, list_decks, list_users
+from app.db import get_deck, init_db, list_decks, list_users, save_deck
 from app.main import app
 from fastapi.testclient import TestClient
 
@@ -39,8 +39,19 @@ def test_admin_owns_seed_decks_and_members_are_isolated(tmp_path, monkeypatch):
         assert me.json()["role"] == "admin"
 
         decks = client.get("/api/decks").json()
-        assert {d["id"] for d in decks} >= {"seed-a", "seed-b", "seed-c"}
+        assert {d["id"] for d in decks} >= {"seed-a", "seed-b", "seed-c", "seed-e", "seed-f"}
+        by_id = {d["id"]: d for d in decks}
+        assert by_id["seed-e"]["rule_preset"] == "c"
+        assert by_id["seed-e"]["rule_presets"] == ["c"]
+        assert by_id["seed-f"]["rule_preset"] == "c"
+        assert by_id["seed-a"]["rule_preset"] == "b"
+        assert by_id["seed-a"]["rule_presets"] == ["b"]
         assert all(d["owner_id"] == admin["id"] for d in decks)
+        presets = client.get("/api/rule-presets").json()
+        assert [p["preset"] for p in presets] == ["b", "c"]
+        assert presets[0]["label"] == "Pokémon = energy"
+        assert "Rule B" not in presets[0]["label"]
+        assert presets[1]["label"] == "No Pokémon energy"
 
         users = client.get("/api/users").json()
         assert any(u["email"] == ADMIN_EMAIL.lower() for u in users)
@@ -64,6 +75,12 @@ def test_admin_owns_seed_decks_and_members_are_isolated(tmp_path, monkeypatch):
         )
         assert created.status_code == 200
         assert created.json()["owner_id"] == member["id"]
+        swapped = client.put(
+            f"/api/decks/{created.json()['id']}",
+            json={"cards": [{"name": "Dondozo"}]},
+        )
+        assert swapped.status_code == 200
+        assert swapped.json()["cards"][0]["name"] == "Dondozo"
         assert client.get("/api/decks").json()[0]["name"] == "Kid set"
         assert client.get("/api/decks/seed-a").status_code == 404
         assert client.get("/api/users").status_code == 403
@@ -114,3 +131,14 @@ def test_init_assigns_existing_decks_to_admin(tmp_path, monkeypatch):
         assert deck["owner_id"] == admin["id"]
     seed = get_deck("seed-a")
     assert seed["owner_id"] == admin["id"]
+
+
+def test_replaced_seed_card_survives_init(tmp_path, monkeypatch):
+    monkeypatch.setattr("app.db.DB_PATH", tmp_path / "app.db")
+    init_db()
+    seed = get_deck("seed-a")
+    cards = list(seed["cards"])
+    cards[0] = {**cards[0], "name": "Replacement Mon"}
+    save_deck(seed["name"], cards, source=seed.get("source"), deck_id="seed-a", owner_id=seed.get("owner_id"))
+    init_db()
+    assert get_deck("seed-a")["cards"][0]["name"] == "Replacement Mon"

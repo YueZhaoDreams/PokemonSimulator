@@ -6,7 +6,14 @@ import uuid
 from datetime import datetime, timedelta, timezone
 
 from app.config import ADMIN_EMAIL, ADMIN_PASSWORD, DB_PATH
-from app.engine.models import FamilyRules, default_family_rules
+from app.engine.models import (
+    FamilyRules,
+    default_family_rules,
+    default_rule_presets_for,
+    legacy_rule_presets_for,
+    normalize_rule_presets,
+    rule_preset_summary,
+)
 
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS users (
@@ -28,7 +35,8 @@ CREATE TABLE IF NOT EXISTS decks (
     source TEXT,
     cards_json TEXT NOT NULL,
     created_at TEXT NOT NULL,
-    owner_id TEXT
+    owner_id TEXT,
+    rules_json TEXT
 );
 CREATE TABLE IF NOT EXISTS chats (
     id TEXT PRIMARY KEY,
@@ -81,6 +89,9 @@ def init_db() -> None:
             if stored.get("max_copies_except_basic_energy") != 4:
                 stored["max_copies_except_basic_energy"] = 4
                 changed = True
+            if stored.get("name") == "Family Cup (Rule B)":
+                stored["name"] = fresh.name
+                changed = True
             if "one card per mulligan" not in (stored.get("notes") or ""):
                 stored["notes"] = fresh.notes
                 changed = True
@@ -92,6 +103,7 @@ def init_db() -> None:
                 )
         _ensure_chat_agent_id(conn)
         _ensure_owner_columns(conn)
+        _ensure_deck_rules_column(conn)
         admin_id = _ensure_admin(conn)
         _upsert_seed_decks(conn, owner_id=admin_id)
         conn.execute(
@@ -117,6 +129,18 @@ def _ensure_owner_columns(conn: sqlite3.Connection) -> None:
     chat_cols = {row[1] for row in conn.execute("PRAGMA table_info(chats)")}
     if "owner_id" not in chat_cols:
         conn.execute("ALTER TABLE chats ADD COLUMN owner_id TEXT")
+
+
+def _ensure_deck_rules_column(conn: sqlite3.Connection) -> None:
+    cols = {row[1] for row in conn.execute("PRAGMA table_info(decks)")}
+    if "rules_json" not in cols:
+        conn.execute("ALTER TABLE decks ADD COLUMN rules_json TEXT")
+    rows = conn.execute("SELECT id, rules_json FROM decks").fetchall()
+    for row in rows:
+        if row["rules_json"]:
+            continue
+        presets = legacy_rule_presets_for(row["id"])
+        conn.execute("UPDATE decks SET rules_json=? WHERE id=?", (json.dumps(presets), row["id"]))
 
 
 def _ensure_admin(conn: sqlite3.Connection) -> str:
@@ -147,16 +171,19 @@ def _upsert_seed_decks(conn: sqlite3.Connection, owner_id: str | None = None) ->
         if key not in payload:
             continue
         deck = payload[key]
-        existing = conn.execute("SELECT id FROM decks WHERE id=?", (deck["id"],)).fetchone()
+        existing = conn.execute("SELECT id, rules_json FROM decks WHERE id=?", (deck["id"],)).fetchone()
+        presets_json = json.dumps(default_rule_presets_for(deck["id"]))
         if existing:
             conn.execute(
-                "UPDATE decks SET name=?, source=?, cards_json=?, owner_id=COALESCE(owner_id, ?) WHERE id=?",
-                (deck["name"], deck.get("sample"), json.dumps(deck["cards"]), owner_id, deck["id"]),
+                "UPDATE decks SET name=?, source=?, owner_id=COALESCE(owner_id, ?), "
+                "rules_json=COALESCE(rules_json, ?) WHERE id=?",
+                (deck["name"], deck.get("sample"), owner_id, presets_json, deck["id"]),
             )
         else:
             conn.execute(
-                "INSERT INTO decks(id, name, source, cards_json, created_at, owner_id) VALUES (?,?,?,?,?,?)",
-                (deck["id"], deck["name"], deck.get("sample"), json.dumps(deck["cards"]), now, owner_id),
+                "INSERT INTO decks(id, name, source, cards_json, created_at, owner_id, rules_json) "
+                "VALUES (?,?,?,?,?,?,?)",
+                (deck["id"], deck["name"], deck.get("sample"), json.dumps(deck["cards"]), now, owner_id, presets_json),
             )
 
 
@@ -183,29 +210,18 @@ def list_decks(owner_id: str | None = None) -> list[dict]:
     with connect() as conn:
         if owner_id:
             rows = conn.execute(
-                "SELECT id, name, source, cards_json, created_at, owner_id FROM decks "
+                "SELECT id, name, source, cards_json, created_at, owner_id, rules_json FROM decks "
                 "WHERE owner_id=? ORDER BY created_at",
                 (owner_id,),
             ).fetchall()
         else:
             rows = conn.execute(
-                "SELECT id, name, source, cards_json, created_at, owner_id FROM decks ORDER BY created_at"
+                "SELECT id, name, source, cards_json, created_at, owner_id, rules_json FROM decks ORDER BY created_at"
             ).fetchall()
     decks = []
     for row in rows:
         cards = json.loads(row["cards_json"])
-        decks.append(
-            {
-                "id": row["id"],
-                "name": row["name"],
-                "source": row["source"],
-                "created_at": row["created_at"],
-                "owner_id": row["owner_id"] if "owner_id" in row.keys() else None,
-                "count": len(cards),
-                "kind": _deck_kind(row["id"]),
-                "cards": cards,
-            }
-        )
+        decks.append(_deck_dict(row, cards))
     return decks
 
 
@@ -214,20 +230,45 @@ def get_deck(deck_id: str) -> dict | None:
         row = conn.execute("SELECT * FROM decks WHERE id=?", (deck_id,)).fetchone()
     if not row:
         return None
+    cards = json.loads(row["cards_json"])
+    return _deck_dict(row, cards)
+
+
+def _deck_dict(row: sqlite3.Row, cards: list) -> dict:
     keys = row.keys()
+    presets = _rule_presets_from_row(row)
     return {
         "id": row["id"],
         "name": row["name"],
         "source": row["source"],
         "created_at": row["created_at"],
         "owner_id": row["owner_id"] if "owner_id" in keys else None,
+        "count": len(cards),
         "kind": _deck_kind(row["id"]),
-        "cards": json.loads(row["cards_json"]),
+        "rule_preset": rule_preset_summary(presets),
+        "rule_presets": presets,
+        "cards": cards,
     }
+
+
+def _rule_presets_from_row(row: sqlite3.Row) -> list[str]:
+    raw = None
+    if "rules_json" in row.keys() and row["rules_json"]:
+        try:
+            raw = json.loads(row["rules_json"])
+        except (TypeError, json.JSONDecodeError):
+            raw = None
+    presets = normalize_rule_presets(raw, fallback=legacy_rule_presets_for(row["id"]))
+    return presets or legacy_rule_presets_for(row["id"])
 
 
 def _deck_kind(deck_id: str) -> str:
     return "spare" if deck_id == "seed-spare" else "list"
+
+
+def _deck_rule_preset(deck_id: str) -> str:
+    """Carpet E/F are the no-Pokémon-energy lists; other seeds are Pokémon-as-energy."""
+    return rule_preset_summary(legacy_rule_presets_for(deck_id))
 
 
 def save_deck(
@@ -236,20 +277,45 @@ def save_deck(
     source: str | None = None,
     deck_id: str | None = None,
     owner_id: str | None = None,
+    rule_presets: list[str] | None = None,
 ) -> dict:
     deck_id = deck_id or str(uuid.uuid4())
     now = _now()
     with connect() as conn:
-        existing = conn.execute("SELECT id FROM decks WHERE id=?", (deck_id,)).fetchone()
+        existing = conn.execute("SELECT id, rules_json FROM decks WHERE id=?", (deck_id,)).fetchone()
+        if rule_presets is not None:
+            presets = normalize_rule_presets(rule_presets)
+            if not presets:
+                raise ValueError("Keep at least one rule.")
+        elif not existing:
+            presets = default_rule_presets_for(deck_id)
+        elif existing["rules_json"]:
+            presets = None
+        else:
+            presets = legacy_rule_presets_for(deck_id)
         if existing:
-            conn.execute(
-                "UPDATE decks SET name=?, source=?, cards_json=?, owner_id=COALESCE(owner_id, ?) WHERE id=?",
-                (name, source, json.dumps(cards), owner_id, deck_id),
-            )
+            if presets is None:
+                conn.execute(
+                    "UPDATE decks SET name=?, source=?, cards_json=?, owner_id=COALESCE(owner_id, ?) WHERE id=?",
+                    (name, source, json.dumps(cards), owner_id, deck_id),
+                )
+            else:
+                conn.execute(
+                    "UPDATE decks SET name=?, source=?, cards_json=?, owner_id=COALESCE(owner_id, ?), rules_json=? WHERE id=?",
+                    (name, source, json.dumps(cards), owner_id, json.dumps(presets), deck_id),
+                )
         else:
             conn.execute(
-                "INSERT INTO decks(id, name, source, cards_json, created_at, owner_id) VALUES (?,?,?,?,?,?)",
-                (deck_id, name, source, json.dumps(cards), now, owner_id),
+                "INSERT INTO decks(id, name, source, cards_json, created_at, owner_id, rules_json) VALUES (?,?,?,?,?,?,?)",
+                (
+                    deck_id,
+                    name,
+                    source,
+                    json.dumps(cards),
+                    now,
+                    owner_id,
+                    json.dumps(presets or default_rule_presets_for(deck_id)),
+                ),
             )
     return get_deck(deck_id)
 

@@ -11,7 +11,10 @@ def test_no_pokemon_energy_rules_preset():
     assert rules.pokemon_as_energy is False
     assert rules.deck_size == 30
     assert rules.prize_count == 3
+    assert "Rule B" not in rules.name
     assert default_family_rules().pokemon_as_energy is True
+    assert default_family_rules().name == "Family Cup"
+    assert "Rule B" not in default_family_rules().name
 
 
 def test_rule_b_still_treats_pokemon_as_energy():

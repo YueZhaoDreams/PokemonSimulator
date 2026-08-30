@@ -6,6 +6,7 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Any
 from urllib.parse import quote
+import unicodedata
 
 import httpx
 
@@ -15,6 +16,7 @@ from app.engine.models import Ability, Card
 
 CACHE_DIR.mkdir(parents=True, exist_ok=True)
 _CLIENT = httpx.Client(timeout=20.0, headers={"User-Agent": "PokemonFamilySimulator/1.0"})
+_SEARCH_CLIENT = httpx.Client(timeout=2.5, headers={"User-Agent": "PokemonFamilySimulator/1.0"})
 
 ENERGY_NAME_TO_TYPE = {
     "grass energy": "Grass",
@@ -659,19 +661,194 @@ def popular_names() -> list[str]:
     return []
 
 
-def search_local(query: str, limit: int = 12) -> list[dict[str, str]]:
+def _fold_name(text: str) -> str:
+    return unicodedata.normalize("NFKD", text or "").encode("ascii", "ignore").decode("ascii").lower().strip()
+
+
+def _pretty_catalog_name(raw: str) -> str:
+    if raw[:1].isupper():
+        return raw
+    return " ".join(part.capitalize() for part in raw.replace("_", " ").split())
+
+
+@lru_cache(maxsize=1)
+def _local_name_catalog() -> tuple[tuple[str, str, str], ...]:
+    rows: list[tuple[str, str, str]] = []
+    seen: set[str] = set()
+
+    def add(name: str, cid: str = "") -> None:
+        key = _fold_name(name)
+        if not key or key in seen:
+            return
+        seen.add(key)
+        image = ""
+        if cid and "-" in cid and not cid.startswith("fallback"):
+            try:
+                image = _tcgdex_low(cid)
+            except Exception:
+                image = ""
+        rows.append((cid, name.strip(), image))
+
+    for name, cid in PREFERRED_IDS.items():
+        add(name, cid)
+    for name in PRINT_PREFER:
+        add(name, PREFERRED_IDS.get(name, ""))
+    for raw in ENERGY_NAME_TO_TYPE:
+        if raw.startswith("basic "):
+            continue
+        add(_pretty_catalog_name(raw))
+    for raw in TRAINER_KIND_HINTS:
+        add(_pretty_catalog_name(raw), PREFERRED_IDS.get(_pretty_catalog_name(raw), ""))
+    for name in popular_names():
+        add(name, PREFERRED_IDS.get(name, ""))
+    try:
+        from app.seed_data import (
+            SET_A_NAMES,
+            SET_B_NAMES,
+            SET_C_NAMES,
+            SET_D_NAMES,
+            SET_E_NAMES,
+            SET_F_NAMES,
+            SET_S_NAMES,
+            SET_T_NAMES,
+            SET_SPARE_NAMES,
+        )
+
+        for group in (
+            SET_A_NAMES,
+            SET_B_NAMES,
+            SET_C_NAMES,
+            SET_D_NAMES,
+            SET_E_NAMES,
+            SET_F_NAMES,
+            SET_S_NAMES,
+            SET_T_NAMES,
+            SET_SPARE_NAMES,
+        ):
+            for name in group:
+                add(name, PREFERRED_IDS.get(name, ""))
+    except Exception:
+        pass
+    return tuple(rows)
+
+
+def _name_match_rank(name: str, query: str) -> int:
+    n = _fold_name(name)
+    q = _fold_name(query)
+    if not q:
+        return 9
+    if n == q:
+        return 0
+    if n.startswith(q):
+        return 1
+    if f" {q}" in f" {n}":
+        return 2
+    if q in n:
+        return 3
+    return 9
+
+
+def _hits_from_briefs(briefs: list[dict[str, Any]], limit: int) -> list[dict[str, str]]:
+    out: list[dict[str, str]] = []
+    seen: set[str] = set()
+    for brief in briefs:
+        name = (brief.get("name") or "").strip()
+        key = _fold_name(name)
+        if not key or key in seen:
+            continue
+        seen.add(key)
+        out.append(
+            {
+                "id": brief.get("id") or "",
+                "name": name,
+                "image": _image_url(brief) or "",
+            }
+        )
+        if len(out) >= limit:
+            break
+    return out
+
+
+def _remote_search_briefs(name: str) -> list[dict[str, Any]]:
+    """TCGDex name lookup with a short timeout so typing stays usable."""
+    cache_key = f"search-{name.lower().strip()}"
+    path = _cache_path("http", cache_key)
+    if path.exists():
+        try:
+            data = json.loads(path.read_text())
+        except Exception:
+            data = []
+    else:
+        url = f"{TCGDEX_BASE}/cards?name={quote(name)}"
+        try:
+            response = _SEARCH_CLIENT.get(url)
+            response.raise_for_status()
+            data = response.json()
+            path.write_text(json.dumps(data))
+        except Exception:
+            return []
+    if isinstance(data, list):
+        return data
+    return data.get("data") or []
+
+
+def _merge_search_hits(
+    local: list[dict[str, str]],
+    remote: list[dict[str, str]],
+    query: str,
+    limit: int,
+) -> list[dict[str, str]]:
+    merged: dict[str, dict[str, str]] = {}
+    for hit in local + remote:
+        key = _fold_name(hit.get("name") or "")
+        if not key:
+            continue
+        prev = merged.get(key)
+        if not prev:
+            merged[key] = hit
+            continue
+        if not prev.get("id") and hit.get("id"):
+            merged[key] = hit
+        elif not prev.get("image") and hit.get("image"):
+            merged[key] = {**prev, "image": hit["image"], "id": hit.get("id") or prev.get("id")}
+    ranked = sorted(
+        merged.values(),
+        key=lambda hit: (_name_match_rank(hit["name"], query), _fold_name(hit["name"])),
+    )
+    return ranked[:limit]
+
+
+def search_local(query: str, limit: int = 12, remote: bool = True) -> list[dict[str, str]]:
     q = query.strip()
     if len(q) < 2:
         return []
-    try:
-        briefs = search_briefs(q)[:limit]
-        return [
-            {
-                "id": b.get("id") or "",
-                "name": b.get("name") or q,
-                "image": _image_url(b) or "",
-            }
-            for b in briefs
-        ]
-    except Exception:
-        return [{"id": "", "name": q, "image": ""}]
+    local = [
+        {"id": cid, "name": name, "image": image}
+        for cid, name, image in _local_name_catalog()
+        if _name_match_rank(name, q) < 9
+    ]
+    local.sort(key=lambda hit: (_name_match_rank(hit["name"], q), _fold_name(hit["name"])))
+    local = local[: max(limit, 12)]
+    extra: list[dict[str, str]] = []
+    if remote:
+        extra = _hits_from_briefs(_remote_search_briefs(q), limit * 2)
+    merged = _merge_search_hits(local, extra, q, limit)
+    if merged:
+        return merged
+    return [{"id": "", "name": q, "image": ""}]
+
+
+def pick_search_hit(typed: str, hits: list[dict[str, str]] | None) -> dict[str, str] | None:
+    """What Add to set should resolve: exact typed name, else the top hit, else the typed string."""
+    q = (typed or "").strip()
+    rows = [h for h in (hits or []) if (h.get("name") or "").strip()]
+    folded = _fold_name(q)
+    if folded:
+        for hit in rows:
+            if _fold_name(hit.get("name") or "") == folded:
+                return hit
+    if rows:
+        return rows[0]
+    if q:
+        return {"id": "", "name": q, "image": ""}
+    return None

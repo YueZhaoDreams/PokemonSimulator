@@ -14,7 +14,7 @@ from app.ai.cursor_agent import start_cursor_runtime, stop_cursor_runtime
 from app.ai.llm import provider_status
 from app.ai.tools import reset_viewer, use_viewer
 from app.auth import hash_password, normalize_email, valid_email, verify_password
-from app.catalog import resolve_name, search_local
+from app.catalog import resolve_name, search_local, fetch_full, normalize_card
 from app.config import SAMPLES_DIR, SESSION_COOKIE, SESSION_DAYS, SESSION_SECURE, STATIC_DIR, UPLOADS_DIR
 from app.db import (
     create_session,
@@ -37,7 +37,14 @@ from app.db import (
     save_simulation,
     user_from_session,
 )
-from app.engine.models import Card, FamilyRules, RULE_PRESETS, rules_from_preset
+from app.engine.models import (
+    Card,
+    FamilyRules,
+    RULE_PRESETS,
+    default_rule_presets_for,
+    normalize_rule_presets,
+    rules_from_preset,
+)
 from app.engine.montecarlo import run_simulation
 from app.engine.probability import draw_probability
 from app.engine.strategies import list_strategies, StrategySpec
@@ -90,6 +97,21 @@ def _visible_decks(user: dict) -> list[dict]:
     if user.get("role") == "admin":
         return list_decks()
     return list_decks(owner_id=user["id"])
+
+
+def _rule_presets_from_payload(payload: dict, *, default: list[str] | None = None) -> list[str] | None:
+    if "rule_presets" in payload:
+        raw = payload.get("rule_presets")
+    elif payload.get("rule_preset") and str(payload.get("rule_preset")).lower() != "any":
+        raw = [payload.get("rule_preset")]
+    elif default is not None:
+        raw = default
+    else:
+        return None
+    presets = normalize_rule_presets(raw)
+    if not presets:
+        raise HTTPException(400, "Keep at least one rule.")
+    return presets
 
 
 @asynccontextmanager
@@ -184,7 +206,7 @@ def api_rule_presets(_user: dict = Depends(require_user)) -> list:
         rules = RULE_PRESETS[key]
         blob = rules.to_dict()
         blob["preset"] = key
-        blob["label"] = "Rule B (Pokémon = energy)" if key == "b" else "No Pokémon energy"
+        blob["label"] = "Pokémon = energy" if key == "b" else "No Pokémon energy"
         out.append(blob)
         seen.add(rules.name)
     return out
@@ -218,20 +240,31 @@ def api_deck(deck_id: str, user: dict = Depends(require_user)) -> dict:
 @app.post("/api/decks")
 def api_create_deck(payload: dict, user: dict = Depends(require_user)) -> dict:
     name = payload.get("name") or "Untitled set"
-    cards = payload.get("cards") or []
     requested_id = payload.get("id")
     if requested_id:
         existing = get_deck(requested_id)
         if existing:
             if not _can_use_deck(user, existing):
                 raise HTTPException(409, "Deck id already exists")
+            cards = existing["cards"]
+            if "cards" in payload and payload["cards"] is not None:
+                cards = payload["cards"]
             return save_deck(
                 name,
                 cards,
                 source=payload.get("source", existing.get("source")),
                 deck_id=requested_id,
+                rule_presets=_rule_presets_from_payload(payload),
             )
-    return save_deck(name, cards, source=payload.get("source"), deck_id=requested_id, owner_id=user["id"])
+    cards = payload.get("cards") or []
+    return save_deck(
+        name,
+        cards,
+        source=payload.get("source"),
+        deck_id=requested_id,
+        owner_id=user["id"],
+        rule_presets=_rule_presets_from_payload(payload, default=["b"]),
+    )
 
 
 @app.put("/api/decks/{deck_id}")
@@ -239,12 +272,16 @@ def api_update_deck(deck_id: str, payload: dict, user: dict = Depends(require_us
     existing = get_deck(deck_id)
     if not _can_use_deck(user, existing):
         raise HTTPException(404, "Deck not found")
+    cards = existing["cards"]
+    if "cards" in payload and payload["cards"] is not None:
+        cards = payload["cards"]
     return save_deck(
         payload.get("name") or existing["name"],
-        payload.get("cards") or existing["cards"],
+        cards,
         source=payload.get("source", existing.get("source")),
         deck_id=deck_id,
         owner_id=existing.get("owner_id") or user["id"],
+        rule_presets=_rule_presets_from_payload(payload),
     )
 
 
@@ -253,17 +290,26 @@ def api_delete_deck(deck_id: str, user: dict = Depends(require_user)) -> dict:
     existing = get_deck(deck_id)
     if not _can_use_deck(user, existing):
         raise HTTPException(404, "Deck not found")
+    if str(deck_id).startswith("seed-"):
+        raise HTTPException(400, "Starter sets cannot be deleted")
     delete_deck(deck_id)
     return {"ok": True}
 
 
 @app.get("/api/cards/search")
-def api_card_search(q: str, _user: dict = Depends(require_user)) -> list:
-    return search_local(q)
+def api_card_search(q: str, scope: str = "all", _user: dict = Depends(require_user)) -> list:
+    remote = str(scope or "all").lower() != "local"
+    return search_local(q, remote=remote)
 
 
 @app.post("/api/cards/resolve")
 def api_resolve(payload: dict, _user: dict = Depends(require_user)) -> dict:
+    cid = str(payload.get("id") or payload.get("catalog_id") or "").strip()
+    if cid:
+        try:
+            return normalize_card(fetch_full(cid)).to_dict()
+        except Exception:
+            pass
     name = payload.get("name") or ""
     if not name:
         raise HTTPException(400, "name required")
@@ -283,7 +329,13 @@ async def api_recognize(
     stored.write_bytes(raw)
     result = recognize_image(raw, filename=file.filename or stored.name)
     if save_as and result.get("cards"):
-        deck = save_deck(save_as, result["cards"], source=str(stored.name), owner_id=user["id"])
+        deck = save_deck(
+            save_as,
+            result["cards"],
+            source=str(stored.name),
+            owner_id=user["id"],
+            rule_presets=default_rule_presets_for(None),
+        )
         result["saved_deck"] = deck
     return result
 
