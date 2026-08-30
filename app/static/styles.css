@@ -338,7 +338,7 @@ body.agent-open .agent-panel { display: flex; }
   overflow: hidden;
 }
 #view-chat .agent-toolbar { flex-shrink: 0; }
-#chatThreads { overflow: auto; min-height: 0; }
+#chatThreads { flex: 1; overflow: auto; min-height: 0; }
 #chatThread:not(.hidden) {
   display: flex; flex-direction: column; flex: 1; min-height: 0;
 }
@@ -362,8 +362,10 @@ body.agent-open .app-shell {
   position: relative;
 }
 body.agent-open .nav {
-  position: absolute;
-  left: 0; right: 0;
+  position: fixed;
+  left: 0;
+  right: min(440px, 42vw);
+  width: auto;
   transform: none;
   max-width: none;
   border-radius: 0;
@@ -574,6 +576,7 @@ body.shiny .brand img { animation: spin 4s linear infinite; }
     border-bottom: 1px solid #2a3648;
   }
   body.agent-open .app-shell { grid-row: 2; min-height: 0; }
+  body.agent-open .nav { right: 0; }
   body.agent-full .stage { grid-template-rows: 1fr; }
   body.agent-full .agent-panel { grid-row: 1; max-height: none; }
 }

@@ -123,6 +123,8 @@ def test_styles_keep_stadium_tokens_and_reduced_motion():
     assert "#cubLauncher" in css
     assert "body.agent-open" in css
     assert "body.agent-full" in css
+    assert "body.agent-open .nav" in css
+    assert "position: fixed" in css
     assert ".chat-voice { display: none !important; }" in css
     assert "grid-template-columns: minmax(0, 1fr) min(440px, 42vw)" in css
     assert "minmax(220px, 46vh)" in css
