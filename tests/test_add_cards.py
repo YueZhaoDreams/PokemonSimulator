@@ -124,3 +124,43 @@ def test_admin_can_delete_created_set(tmp_path, monkeypatch):
         assert deck_id not in ids
         blocked = client.delete("/api/decks/seed-a")
         assert blocked.status_code == 400
+
+
+def test_resolve_uses_catalog_id_and_pinned_name_without_full_search(tmp_path, monkeypatch):
+    monkeypatch.setattr("app.db.DB_PATH", tmp_path / "app.db")
+    fetched = []
+
+    def fake_fetch(cid):
+        fetched.append(cid)
+        return {
+            "id": cid,
+            "name": "Cornerstone Mask Ogerpon ex",
+            "category": "Pokemon",
+            "hp": 210,
+            "types": ["Fighting"],
+            "attacks": [],
+        }
+
+    monkeypatch.setattr("app.main.fetch_full", fake_fetch)
+    monkeypatch.setattr(
+        "app.main.resolve_name",
+        lambda *a, **k: (_ for _ in ()).throw(AssertionError("name search should not run")),
+    )
+
+    async def _noop():
+        return None
+
+    monkeypatch.setattr("app.main.start_cursor_runtime", _noop)
+    monkeypatch.setattr("app.main.stop_cursor_runtime", _noop)
+
+    with TestClient(app) as client:
+        client.post("/api/auth/login", json={"email": ADMIN_EMAIL, "password": ADMIN_PASSWORD})
+        by_id = client.post("/api/cards/resolve", json={"id": "sv06-112", "name": "Cornerstone Mask Ogerpon ex"})
+        assert by_id.status_code == 200
+        assert by_id.json()["catalog_id"] == "sv06-112"
+        assert by_id.json()["name"] == "Cornerstone Mask Ogerpon ex"
+        fetched.clear()
+        by_name = client.post("/api/cards/resolve", json={"name": "Cornerstone Mask Ogerpon ex"})
+        assert by_name.status_code == 200
+        assert fetched == ["sv06-112"]
+        assert by_name.json()["catalog_id"] == "sv06-112"

@@ -14,7 +14,7 @@ from app.ai.cursor_agent import start_cursor_runtime, stop_cursor_runtime
 from app.ai.llm import provider_status
 from app.ai.tools import reset_viewer, use_viewer
 from app.auth import hash_password, normalize_email, valid_email, verify_password
-from app.catalog import resolve_name, search_local, fetch_full, normalize_card
+from app.catalog import PREFERRED_IDS, resolve_name, search_local, fetch_full, normalize_card
 from app.config import SAMPLES_DIR, SESSION_COOKIE, SESSION_DAYS, SESSION_SECURE, STATIC_DIR, UPLOADS_DIR
 from app.db import (
     create_session,
@@ -310,9 +310,15 @@ def api_resolve(payload: dict, _user: dict = Depends(require_user)) -> dict:
             return normalize_card(fetch_full(cid)).to_dict()
         except Exception:
             pass
-    name = payload.get("name") or ""
+    name = str(payload.get("name") or "").strip()
     if not name:
         raise HTTPException(400, "name required")
+    pin = PREFERRED_IDS.get(name)
+    if pin and pin != cid:
+        try:
+            return normalize_card(fetch_full(pin)).to_dict()
+        except Exception:
+            pass
     return resolve_name(name, payload.get("prefer")).to_dict()
 
 

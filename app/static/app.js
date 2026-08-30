@@ -256,8 +256,12 @@ function classifyLog(line) {
   return "note";
 }
 
+function catalogId(card) {
+  return String(card?.id || card?.catalog_id || "").trim();
+}
+
 function cardKey(card) {
-  const id = String(card?.id || "").trim();
+  const id = catalogId(card);
   if (id) return id;
   return foldName(card?.name);
 }
@@ -276,7 +280,7 @@ function cardTile(card, opts = {}) {
     ? `<button type="button" class="ghost quiet card-replace" data-replace-deck="${esc(opts.deckId)}" data-replace-idx="${opts.index}">Replace</button>`
     : "";
   const open = opts.openDetail
-    ? ` role="button" tabindex="0" data-open-card="${esc(cardKey(card))}" data-card-name="${esc(card.name || "")}" data-card-id="${esc(card.id || "")}"`
+    ? ` role="button" tabindex="0" data-open-card="${esc(cardKey(card))}" data-card-name="${esc(card.name || "")}" data-card-id="${esc(catalogId(card))}"`
     : "";
   const setsNote = opts.setsNote ? `<span>${esc(opts.setsNote)}</span>` : `<span>${esc(card.category || "")} ${esc(card.stage || "")} ${hp}</span>`;
   return `<div class="card-tile holo" style="border-color:${tint}"${open}>
@@ -1137,7 +1141,8 @@ async function runCardSearch(q) {
 
 async function resolvePick(hit) {
   const payload = { name: hit.name };
-  if (hit.id) payload.id = hit.id;
+  const id = catalogId(hit);
+  if (id) payload.id = id;
   return api("/api/cards/resolve", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -1305,7 +1310,8 @@ function renderCollection() {
     setsNote: e.sets.length === 1 ? `In ${e.sets[0].name}` : `In ${e.sets.length} sets`,
   })).join("");
   host.querySelectorAll("[data-open-card]").forEach((el) => {
-    const open = () => openCardDetail({ id: el.dataset.cardId, name: el.dataset.cardName });
+    const rec = entries.find((e) => e.key === el.dataset.openCard);
+    const open = () => openCardDetail(rec?.card || { id: el.dataset.cardId, name: el.dataset.cardName });
     el.onclick = open;
     el.onkeydown = (e) => {
       if (e.key === "Enter" || e.key === " ") {
@@ -1341,6 +1347,26 @@ function paintCardDetail(card) {
   });
 }
 
+function isLocalDetailCard(card) {
+  return Boolean(
+    card
+    && card.name
+    && (card.category || card.hp || (Array.isArray(card.attacks) && card.attacks.length)),
+  );
+}
+
+function findOwnedCard(hit) {
+  const id = catalogId(hit);
+  const name = foldName(hit?.name);
+  for (const d of state.decks || []) {
+    for (const c of d.cards || []) {
+      if (id && catalogId(c) === id) return c;
+      if (!id && name && foldName(c.name) === name) return c;
+    }
+  }
+  return null;
+}
+
 async function openCardDetail(hit) {
   if (!hit?.name) return;
   if ($("#cardSheet")?.classList.contains("hidden")) {
@@ -1351,6 +1377,16 @@ async function openCardDetail(hit) {
   parkCardsPanel($("#cardsHost"));
   $("#cardSheet")?.classList.remove("hidden");
   document.body.classList.add("card-sheet-open");
+  const local = isLocalDetailCard(hit) ? hit : findOwnedCard(hit);
+  if (local && isLocalDetailCard(local)) {
+    pickerTarget.card = local;
+    paintCardDetail(local);
+    paintCardPickerChrome();
+    $(".app-shell")?.setAttribute("inert", "");
+    $("#cubLauncher")?.setAttribute("inert", "");
+    $("#openAddToSet")?.focus();
+    return;
+  }
   if ($("#cardDetailHost")) $("#cardDetailHost").innerHTML = `<p class="tiny">Loading ${esc(hit.name)}…</p>`;
   paintCardPickerChrome();
   $(".app-shell")?.setAttribute("inert", "");

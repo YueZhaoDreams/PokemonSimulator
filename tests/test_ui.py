@@ -278,7 +278,15 @@ def test_app_js_keeps_simulator_contracts():
     assert "function fillViewSet" in js
     assert "function playableSets" in js
     assert "function renderCollection" in js
+    assert "function catalogId" in js
+    assert "card?.id || card?.catalog_id" in js
+    assert "function isLocalDetailCard" in js
+    assert "function findOwnedCard" in js
     assert "function openCardDetail" in js
+    detail_fn = js[js.index("async function openCardDetail") : js.index("function closeCardSheet")]
+    assert "isLocalDetailCard" in detail_fn
+    assert "findOwnedCard" in detail_fn
+    assert "resolvePick" in detail_fn
     assert "pickerTarget.pickingSet" in js
     assert "pickerTarget?.seq !== seq" in js
     assert "role=\"button\" tabindex=\"0\"" in js
