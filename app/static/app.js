@@ -1325,6 +1325,7 @@ async function openCardDetail(hit) {
   parkCardsPanel($("#cardsHost"));
   $("#cardSheet")?.classList.remove("hidden");
   document.body.classList.add("card-sheet-open");
+  if ($("#cardDetailHost")) $("#cardDetailHost").innerHTML = `<p class="tiny">Loading ${esc(hit.name)}…</p>`;
   paintCardPickerChrome();
   $(".app-shell")?.setAttribute("inert", "");
   $("#cubLauncher")?.setAttribute("inert", "");
@@ -1337,7 +1338,10 @@ async function openCardDetail(hit) {
     paintCardPickerChrome();
     $("#openAddToSet")?.focus();
   } catch (err) {
-    if (pickerTarget?.seq === seq) toast(err.message, "bad");
+    if (pickerTarget?.seq === seq) {
+      toast(err.message, "bad");
+      if ($("#cardDetailHost")) $("#cardDetailHost").innerHTML = `<p class="tiny">Could not load that card.</p>`;
+    }
   }
 }
 
@@ -1356,6 +1360,7 @@ function closeCardSheet() {
   const openerEl = cardSheetOpener;
   parkCardsPanel($("#cardsHost"));
   $("#cardDetailHost")?.classList.add("hidden");
+  if ($("#cardDetailHost")) $("#cardDetailHost").innerHTML = "";
   $("#addToSetBar")?.classList.add("hidden");
   paintCardPickerChrome();
   renderCollection();
