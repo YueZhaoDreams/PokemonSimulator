@@ -55,6 +55,17 @@ def test_create_defaults_to_pokemon_as_energy(tmp_path, monkeypatch):
         assert under_c.json()["rule_presets"] == ["c"]
 
 
+def test_post_existing_id_keeps_cards_when_omitted(tmp_path, monkeypatch):
+    with _client(tmp_path, monkeypatch) as client:
+        client.post("/api/auth/login", json={"email": ADMIN_EMAIL, "password": ADMIN_PASSWORD})
+        created = client.post("/api/decks", json={"name": "Keep", "cards": [{"name": "Cubone"}]})
+        deck_id = created.json()["id"]
+        again = client.post("/api/decks", json={"id": deck_id, "name": "Kept"})
+        assert again.status_code == 200
+        assert again.json()["name"] == "Kept"
+        assert [c["name"] for c in again.json()["cards"]] == ["Cubone"]
+
+
 def test_save_deck_does_not_shrink_legacy_household_rules(tmp_path, monkeypatch):
     monkeypatch.setattr("app.db.DB_PATH", tmp_path / "app.db")
     from app.db import connect, init_db, save_deck

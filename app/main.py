@@ -240,13 +240,15 @@ def api_deck(deck_id: str, user: dict = Depends(require_user)) -> dict:
 @app.post("/api/decks")
 def api_create_deck(payload: dict, user: dict = Depends(require_user)) -> dict:
     name = payload.get("name") or "Untitled set"
-    cards = payload.get("cards") or []
     requested_id = payload.get("id")
     if requested_id:
         existing = get_deck(requested_id)
         if existing:
             if not _can_use_deck(user, existing):
                 raise HTTPException(409, "Deck id already exists")
+            cards = existing["cards"]
+            if "cards" in payload and payload["cards"] is not None:
+                cards = payload["cards"]
             return save_deck(
                 name,
                 cards,
@@ -254,6 +256,7 @@ def api_create_deck(payload: dict, user: dict = Depends(require_user)) -> dict:
                 deck_id=requested_id,
                 rule_presets=_rule_presets_from_payload(payload),
             )
+    cards = payload.get("cards") or []
     return save_deck(
         name,
         cards,

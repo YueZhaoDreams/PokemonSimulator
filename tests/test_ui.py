@@ -95,7 +95,8 @@ def test_index_keeps_family_cup_controls():
     assert "Sets for this rule only" in html
     assert "keep at least one" in html
     assert 'class="rule-banner"' in html
-    assert 'id="rulePreset"' in html
+    assert 'class="grow search-wrap"' in html
+    assert 'id="addHits"' in html
     assert 'id="deckRuleFilter"' not in html
 
 

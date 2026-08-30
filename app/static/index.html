@@ -64,9 +64,10 @@
           </div>
         </div>
         <div class="row">
-          <div class="grow">
+          <div class="grow search-wrap">
             <label for="addName">Find a card</label>
             <input id="addName" placeholder="Pikachu, Nest Ball, Water Energy…" autocomplete="off" />
+            <div id="addHits" class="search-hits" hidden></div>
           </div>
           <label class="scan-btn" for="findScan">Scan photo
             <input id="findScan" type="file" accept="image/*,.heic,.HEIC" capture="environment" />
@@ -75,7 +76,6 @@
           <button id="cancelReplace" class="ghost hidden" type="button">Cancel replace</button>
         </div>
         <p id="findHint" class="tiny">Search a name or photograph cards. Tap a result to add it.</p>
-        <div id="addHits" class="search-hits" hidden></div>
       </div>
       <div id="userPanel" class="panel hidden">
         <h3>Registered trainers</h3>
