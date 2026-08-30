@@ -1215,7 +1215,8 @@ function openCardPicker(target) {
 }
 
 function closeCardSheet() {
-  const wasOpen = !$("#cardSheet")?.classList.contains("hidden");
+  const sheet = $("#cardSheet");
+  const wasOpen = Boolean(sheet && !sheet.classList.contains("hidden"));
   pickerTarget = null;
   $("#cardSheet")?.classList.add("hidden");
   document.body.classList.remove("card-sheet-open");

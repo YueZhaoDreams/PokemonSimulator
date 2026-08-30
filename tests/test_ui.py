@@ -134,7 +134,6 @@ def test_styles_keep_stadium_tokens_and_reduced_motion():
     assert ".scan-btn input { display: none; }" not in css
     assert ".scan-btn input" in css
     assert "opacity: 0" in css
-    assert "opacity: 0" in css
     assert ".card-sheet" in css
     assert ".hit-add" in css
     assert "body.card-sheet-open" in css
