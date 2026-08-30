@@ -171,7 +171,11 @@ def _ensure_card_images(cards: list[dict]) -> list[dict]:
                 if got_atk != want_atk or int(card.get("hp") or 0) != int(fb_card.hp or 0):
                     stale_body = True
         replace_body = mismatched or stale_body
-        if card.get("image") and name not in ART_ONLY_IDS and not replace_body:
+        if (
+            card.get("image")
+            and not replace_body
+            and (name not in ART_ONLY_IDS or cid == ART_ONLY_IDS.get(name))
+        ):
             out.append(card)
             continue
         cache_key = cid if cid in (allowed or set()) else name
@@ -185,7 +189,11 @@ def _ensure_card_images(cards: list[dict]) -> list[dict]:
                     patched["catalog_id"] = cid
                 cache[cache_key] = patched
             elif name in ART_ONLY_IDS:
-                cache[cache_key] = fallback_named(name).to_dict()
+                base = fallback_named(name)
+                try:
+                    cache[cache_key] = _overlay_art(base, ART_ONLY_IDS[name]).to_dict()
+                except Exception:
+                    cache[cache_key] = base.to_dict()
             else:
                 fb = fallback_named(name).to_dict()
                 if replace_body or fb.get("image"):
