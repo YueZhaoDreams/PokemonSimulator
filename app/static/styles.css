@@ -86,6 +86,8 @@ p { color: var(--muted); line-height: 1.45; }
 .brand { display: flex; align-items: center; gap: 10px; cursor: pointer; }
 .brand img {
   width: 40px; height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
   filter: drop-shadow(0 0 10px rgba(255, 203, 5, 0.45));
 }
 .brand small { display: block; color: #c9d7ee; font-weight: 400; }
@@ -325,7 +327,7 @@ body.card-sheet-open { overflow: hidden; }
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45), 0 0 0 2px #ffcb05;
   display: grid; place-items: center;
 }
-#cubLauncher img { width: 52px; height: 52px; display: block; }
+#cubLauncher img { width: 52px; height: 52px; display: block; border-radius: 50%; object-fit: cover; }
 #cubLauncher:hover { filter: brightness(1.08); }
 #cubLauncher:focus-visible { outline: 3px solid var(--yellow); outline-offset: 3px; }
 body.agent-open #cubLauncher { display: none; }
@@ -347,7 +349,7 @@ body.agent-open .agent-panel { display: flex; }
   background: #101826;
   flex-shrink: 0;
 }
-.agent-chrome img { width: 32px; height: 32px; }
+.agent-chrome img { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; }
 .agent-chrome-title { flex: 1; min-width: 0; }
 .agent-chrome-title strong { display: block; font-size: 13px; }
 .agent-chrome-title small { display: block; color: var(--muted); font-size: 11px; }
