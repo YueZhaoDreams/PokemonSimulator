@@ -4,7 +4,13 @@ from app.main import app
 from fastapi.testclient import TestClient
 
 
-def test_pick_search_hit_prefers_exact_typed_name():
+def test_pick_search_hit_prefers_pinned_print_when_names_collide():
+    hits = [
+        {"id": "sm12-66", "name": "Pikachu", "image": "nuzzle"},
+        {"id": "sm3-40", "name": "Pikachu", "image": "shock"},
+    ]
+    pick = pick_search_hit("Pikachu", hits)
+    assert pick["id"] == "sm3-40"
     hits = [
         {"id": "x", "name": "Picnic Basket", "image": ""},
         {"id": "sm3-40", "name": "Pikachu", "image": ""},

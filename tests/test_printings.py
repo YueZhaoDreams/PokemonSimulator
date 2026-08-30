@@ -1,10 +1,102 @@
-from app.catalog import resolve_name
+from app.catalog import PREFERRED_IDS, allowed_print_ids, resolve_name
 from app.engine.effects import parse_effects
 from app.engine.game import play_game
 from app.engine.models import default_family_rules
 from app.engine.strategies import StrategySpec
 from app.seed_data import build_fallback_deck, fallback_named
 from random import Random
+
+
+def test_set_e_pins_are_the_named_cards_not_neighbor_numbers():
+    """TCGDex local ids are not unique across names — pin the print, then refuse a mismatched fetch."""
+    assert PREFERRED_IDS["Surfer"] == "sv08-187"
+    assert PREFERRED_IDS["Lake Acuity"] == "swsh11-160"
+    assert PREFERRED_IDS["Hippopotas"] == "swsh7-084"
+    assert allowed_print_ids("Pikachu") == {"sm3-40", "sm12-66"}
+    surf = fallback_named("Surfer")
+    assert surf.catalog_id == "sv08-187"
+    assert "sv08/187" in (surf.image or "")
+    lake = fallback_named("Lake Acuity")
+    assert lake.catalog_id == "swsh11-160"
+    assert lake.image
+    hip = fallback_named("Hippopotas")
+    assert hip.name == "Hippopotas"
+    assert hip.catalog_id == "swsh7-084"
+    assert [a.name for a in hip.attacks] == ["Tackle", "Mud Shot"]
+
+
+def test_ensure_card_images_replaces_wrong_catalog_art(monkeypatch):
+    from app.seed import _ensure_card_images
+
+    monkeypatch.setattr("app.catalog.fetch_full", lambda cid: (_ for _ in ()).throw(RuntimeError("offline")))
+    out = _ensure_card_images(
+        [
+            {
+                "name": "Hippopotas",
+                "catalog_id": "sv01-112",
+                "image": "https://assets.tcgdex.net/en/sv/sv01/112/low.webp",
+            },
+            {
+                "name": "Surfer",
+                "catalog_id": "sv08-191",
+                "image": "https://assets.tcgdex.net/en/sv/sv08/191/low.webp",
+            },
+            {
+                "name": "Lake Acuity",
+                "catalog_id": "swsh10-160",
+                "image": "https://assets.tcgdex.net/en/swsh/swsh10/160/low.webp",
+            },
+        ]
+    )
+    assert out[0]["catalog_id"] == "swsh7-084"
+    assert out[0]["hp"] == 100
+    assert [a["name"] for a in out[0]["attacks"]] == ["Tackle", "Mud Shot"]
+    assert out[1]["catalog_id"] == "sv08-187"
+    assert "sv08/191" not in (out[1].get("image") or "")
+    assert out[2]["catalog_id"] == "swsh11-160"
+    assert "swsh10/160" not in (out[2].get("image") or "")
+    stale = _ensure_card_images(
+        [
+            {
+                "name": "Hippopotas",
+                "catalog_id": "swsh7-084",
+                "hp": 90,
+                "attacks": [{"name": "Take Down"}],
+                "image": "https://assets.tcgdex.net/en/swsh/swsh7/084/low.webp",
+            }
+        ]
+    )
+    assert stale[0]["hp"] == 100
+    assert [a["name"] for a in stale[0]["attacks"]] == ["Tackle", "Mud Shot"]
+    ruff = _ensure_card_images(
+        [
+            {
+                "name": "Rockruff",
+                "catalog_id": "swsh11-109",
+                "hp": 70,
+                "attacks": [{"name": "Double Draw"}, {"name": "Rear Kick"}],
+            }
+        ]
+    )
+    assert ruff[0]["catalog_id"] == "swsh11-109"
+    assert [a["name"] for a in ruff[0]["attacks"]] == ["Double Draw", "Rear Kick"]
+    assert "swsh11/109" in (ruff[0].get("image") or "")
+
+
+def test_resolve_name_skips_pinned_id_when_fetch_is_a_different_card(monkeypatch):
+
+    def fake_fetch(card_id: str):
+        if card_id == "swsh7-084":
+            return {"id": "swsh7-084", "name": "Hippopotas", "category": "Pokemon", "hp": 100, "attacks": []}
+        if card_id == "sv01-112":
+            return {"id": "sv01-112", "name": "Riolu", "category": "Pokemon", "hp": 70, "attacks": []}
+        raise AssertionError(card_id)
+
+    monkeypatch.setattr("app.catalog.fetch_full", fake_fetch)
+    monkeypatch.setattr("app.catalog.search_briefs", lambda n: [{"id": "sv01-112", "name": "Riolu"}])
+    card = resolve_name("Hippopotas")
+    assert card.name == "Hippopotas"
+    assert card.catalog_id == "swsh7-084"
 
 
 def test_dondozo_is_paradox_rift_swallow_up():

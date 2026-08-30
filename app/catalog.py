@@ -160,18 +160,18 @@ PREFERRED_IDS = {
     "Staravia": "sv01-149",  # Wing Attack / Speed Dive
     "Staraptor": "sv01-150",  # Tailspin Away 60 / Power Blast 180
     "Gligar": "sv04-091",  # Toxic (Paradox Rift)
-    "Surfer": "sv08-191",
+    "Surfer": "sv08-187",  # Regular Surging Sparks 187 — not 191 Enriching Energy
     "Iris's Fighting Spirit": "sv09-149",
     "Iono": "sv01-185",
     "Switch Cart": "sv02-178",
-    "Hippopotas": "sv01-112",
+    "Hippopotas": "swsh7-084",  # Evolving Skies Hippopotas — not sv01-112 Riolu
     "Skwovet": "sv01-151",
     "Scream Tail": "sv04-086",
     "Gengar": "sv06-057",
     "Haunter": "sv06-056",
     "Gastly": "sv06-055",
     "Ultra Ball": "sv01-196",
-    "Lake Acuity": "swsh10-160",
+    "Lake Acuity": "swsh11-160",  # Lost Origin 160/196 — not Astral Radiance 160 Beedrill V
     "Boomerang Energy": "sv06-166",
     "Dragapult ex": "sv06-130",
     "Dreepy": "sv06-128",
@@ -195,6 +195,24 @@ PREFERRED_IDS = {
     "Galarian Meowth": "swsh12.5-084",  # Fasten Claws (Crown Zenith)
     # Rockruff is NOT pinned globally: Set A is Crown Zenith Invite Out, Set B is Lost Origin Double Draw.
 }
+
+# Extra household printings of the same name (search / scan / replace). PREFERRED_IDS is the default.
+EXTRA_PRINT_IDS: dict[str, tuple[str, ...]] = {
+    "Pikachu": ("sm3-40", "sm12-66"),
+    "Rockruff": ("swsh12.5-073", "swsh11-109"),
+}
+
+
+def allowed_print_ids(name: str) -> set[str] | None:
+    extra = EXTRA_PRINT_IDS.get(name)
+    if extra:
+        return set(extra)
+    pinned = PREFERRED_IDS.get(name)
+    return {pinned} if pinned else None
+
+
+def _names_match(got: str, wanted: str) -> bool:
+    return (got or "").strip().lower() == (wanted or "").strip().lower()
 
 # When resolving by name, prefer candidates whose attacks/text match these phrases.
 PRINT_PREFER = {
@@ -251,6 +269,9 @@ PRINT_PREFER = {
     "Staravia": ["wing attack", "speed dive"],
     "Staraptor": ["tailspin away", "power blast"],
     "Gligar": ["toxic"],
+    "Surfer": ["benched", "until you have 5"],
+    "Lake Acuity": ["water", "fighting", "20 less"],
+    "Hippopotas": ["mud shot", "tackle"],
     "Boomerang Energy": ["provides", "discarded by an effect"],
     "Galarian Meowth": ["fasten claws"],
     "Corphish": ["water gun", "crabhammer"],
@@ -434,8 +455,11 @@ def _score_print(
     art: float = 0.0,
     best_art: float = 0.0,
     crop_yellow: float = 0.0,
+    wanted_name: str = "",
 ) -> float:
     """Rank a fully fetched printing. Coverage beats first-match on a shared attack name."""
+    if wanted_name and not _names_match(card.name, wanted_name):
+        return -100.0
     blob = json.dumps(card.to_dict()).lower()
     attack_blob = " ".join(f"{a.name} {a.damage} {a.text}" for a in card.attacks).lower()
     ocr = _norm_alnum(ocr_text)
@@ -534,11 +558,16 @@ def resolve_name(name: str, prefer: list[str] | None = None, ocr_text: str | Non
             return
         seen.add(card_id)
         try:
-            candidates.append(normalize_card(fetch_full(card_id)))
+            card = normalize_card(fetch_full(card_id))
         except Exception:
-            pass
+            return
+        if not _names_match(card.name, name):
+            return
+        candidates.append(card)
 
     _add(preferred_id)
+    for extra_id in EXTRA_PRINT_IDS.get(name) or ():
+        _add(extra_id)
     for brief in ranked[:16]:
         _add(brief.get("id"))
     for brief in exact:
@@ -570,6 +599,7 @@ def resolve_name(name: str, prefer: list[str] | None = None, ocr_text: str | Non
             art_scores.get(card.catalog_id, 0.0),
             best_art,
             crop_yellow,
+            wanted_name=name,
         )
 
     best = max(candidates, key=_key)
@@ -598,6 +628,15 @@ ENERGY_PRINTS = {
 ART_ONLY_IDS = {
     "Floragato": "sv01-014",
 }
+
+
+def _looks_like_tcgdex_id(card_id: str) -> bool:
+    if not card_id or not isinstance(card_id, str) or card_id.startswith("fallback"):
+        return False
+    if "-" not in card_id:
+        return False
+    series = card_id.split("-", 1)[0].lower()
+    return series.startswith(("sv", "swsh", "sm", "xy", "me", "base"))
 
 
 def _tcgdex_low(card_id: str) -> str:
@@ -674,15 +713,18 @@ def _pretty_catalog_name(raw: str) -> str:
 @lru_cache(maxsize=1)
 def _local_name_catalog() -> tuple[tuple[str, str, str], ...]:
     rows: list[tuple[str, str, str]] = []
-    seen: set[str] = set()
+    seen: set[tuple[str, str]] = set()
 
     def add(name: str, cid: str = "") -> None:
-        key = _fold_name(name)
-        if not key or key in seen:
+        fold = _fold_name(name)
+        key = (fold, cid or "")
+        if not fold or key in seen:
+            return
+        if not cid and any(_fold_name(existing) == fold and existing_cid for existing_cid, existing, _img in rows):
             return
         seen.add(key)
         image = ""
-        if cid and "-" in cid and not cid.startswith("fallback"):
+        if _looks_like_tcgdex_id(cid):
             try:
                 image = _tcgdex_low(cid)
             except Exception:
@@ -691,6 +733,11 @@ def _local_name_catalog() -> tuple[tuple[str, str, str], ...]:
 
     for name, cid in PREFERRED_IDS.items():
         add(name, cid)
+        for extra in EXTRA_PRINT_IDS.get(name) or ():
+            add(name, extra)
+    for name, extras in EXTRA_PRINT_IDS.items():
+        for extra in extras:
+            add(name, extra)
     for name in PRINT_PREFER:
         add(name, PREFERRED_IDS.get(name, ""))
     for raw in ENERGY_NAME_TO_TYPE:
@@ -753,13 +800,14 @@ def _hits_from_briefs(briefs: list[dict[str, Any]], limit: int) -> list[dict[str
     seen: set[str] = set()
     for brief in briefs:
         name = (brief.get("name") or "").strip()
-        key = _fold_name(name)
-        if not key or key in seen:
+        cid = str(brief.get("id") or "")
+        key = cid or f"name:{_fold_name(name)}"
+        if not name or key in seen:
             continue
         seen.add(key)
         out.append(
             {
-                "id": brief.get("id") or "",
+                "id": cid,
                 "name": name,
                 "image": _image_url(brief) or "",
             }
@@ -800,8 +848,10 @@ def _merge_search_hits(
 ) -> list[dict[str, str]]:
     merged: dict[str, dict[str, str]] = {}
     for hit in local + remote:
-        key = _fold_name(hit.get("name") or "")
-        if not key:
+        name = hit.get("name") or ""
+        cid = str(hit.get("id") or "").strip()
+        key = f"id:{cid}" if cid else f"name:{_fold_name(name)}"
+        if not _fold_name(name):
             continue
         prev = merged.get(key)
         if not prev:
@@ -813,7 +863,12 @@ def _merge_search_hits(
             merged[key] = {**prev, "image": hit["image"], "id": hit.get("id") or prev.get("id")}
     ranked = sorted(
         merged.values(),
-        key=lambda hit: (_name_match_rank(hit["name"], query), _fold_name(hit["name"])),
+        key=lambda hit: (
+            _name_match_rank(hit["name"], query),
+            _fold_name(hit["name"]),
+            0 if (hit.get("id") or "") == (PREFERRED_IDS.get(hit.get("name") or "") or "") else 1,
+            hit.get("id") or "",
+        ),
     )
     return ranked[:limit]
 
@@ -844,9 +899,13 @@ def pick_search_hit(typed: str, hits: list[dict[str, str]] | None) -> dict[str, 
     rows = [h for h in (hits or []) if (h.get("name") or "").strip()]
     folded = _fold_name(q)
     if folded:
-        for hit in rows:
-            if _fold_name(hit.get("name") or "") == folded:
-                return hit
+        matches = [h for h in rows if _fold_name(h.get("name") or "") == folded]
+        if matches:
+            pin = PREFERRED_IDS.get(matches[0].get("name") or "")
+            for hit in matches:
+                if pin and (hit.get("id") or "") == pin:
+                    return hit
+            return matches[0]
     if rows:
         return rows[0]
     if q:

@@ -25,7 +25,15 @@ def test_search_hits_seed_and_energy_without_network(monkeypatch):
     assert not any(h["name"] == "poké ball" for h in ball)
 
 
-def test_search_ranks_exact_name_first(monkeypatch):
+def test_search_local_offers_both_household_pikachu_prints(monkeypatch):
+    monkeypatch.setattr("app.catalog._remote_search_briefs", lambda q: [])
+    hits = search_local("pikachu", remote=False)
+    pika = [h for h in hits if h["name"] == "Pikachu"]
+    ids = {h["id"] for h in pika}
+    assert "sm3-40" in ids
+    assert "sm12-66" in ids
+    assert hits[0]["id"] == "sm3-40"
+    assert all(h.get("image") for h in pika)
     monkeypatch.setattr("app.catalog._remote_search_briefs", lambda q: [])
     hits = search_local("pikachu", remote=False)
     assert hits[0]["name"] == "Pikachu"

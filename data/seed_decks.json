@@ -1284,7 +1284,7 @@
         "types": [
           "Lightning"
         ],
-        "hp": 70,
+        "hp": 60,
         "attacks": [
           {
             "name": "Nuzzle",
@@ -1292,7 +1292,7 @@
               "Lightning"
             ],
             "damage": 0,
-            "text": "Flip a coin. If heads, your opponent\u2019s Active Pok\u00e9mon is now Paralyzed.",
+            "text": "Flip a coin. If heads, your opponent's Active Pok\u00e9mon is now Paralyzed.",
             "effects": [
               {
                 "kind": "status",
@@ -1325,20 +1325,15 @@
             "value": "\u00d72"
           }
         ],
-        "resistances": [
-          {
-            "type": "Metal",
-            "value": "-20"
-          }
-        ],
+        "resistances": [],
         "retreat": 1,
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": null,
         "image": "https://assets.tcgdex.net/en/sm/sm12/66/low.webp",
-        "set_name": "Cosmic Eclipse",
-        "text": "Its nature is to store up electricity. Forests where nests of Pikachu live are dangerous, since the trees are so often struck by lightning.",
-        "dex_id": 25
+        "set_name": null,
+        "text": "",
+        "dex_id": null
       },
       {
         "catalog_id": "swsh11-054",
@@ -1414,7 +1409,7 @@
               "Colorless"
             ],
             "damage": 20,
-            "text": "Flip a coin. If heads, your opponent\u2019s Active Pok\u00e9mon is now Paralyzed.",
+            "text": "Flip a coin. If heads, your opponent's Active Pok\u00e9mon is now Paralyzed.",
             "effects": [
               {
                 "kind": "status",
@@ -1431,20 +1426,15 @@
             "value": "\u00d72"
           }
         ],
-        "resistances": [
-          {
-            "type": "Metal",
-            "value": "-20"
-          }
-        ],
+        "resistances": [],
         "retreat": 1,
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": null,
         "image": "https://assets.tcgdex.net/en/sm/sm3/40/low.webp",
-        "set_name": "Burning Shadows",
-        "text": "A plan was recently announced to gather many Pikachu and make an electric power plant.",
-        "dex_id": 25
+        "set_name": null,
+        "text": "",
+        "dex_id": null
       },
       {
         "catalog_id": "swsh12.5-155",
@@ -4173,7 +4163,7 @@
         "types": [
           "Grass"
         ],
-        "hp": 70,
+        "hp": 60,
         "attacks": [
           {
             "name": "Scratch",
@@ -4187,8 +4177,7 @@
           {
             "name": "Leafage",
             "cost": [
-              "Grass",
-              "Colorless"
+              "Grass"
             ],
             "damage": 20,
             "text": "",
@@ -4208,9 +4197,9 @@
         "trainer_kind": null,
         "energy_type": null,
         "image": "https://assets.tcgdex.net/en/sv/sv01/013/low.webp",
-        "set_name": "Scarlet & Violet",
-        "text": "Its fluffy fur is similar in composition to plants. This Pok\u00e9mon frequently washes its face to keep it from drying out.",
-        "dex_id": 906
+        "set_name": "Paldea Evolved",
+        "text": "",
+        "dex_id": null
       },
       {
         "catalog_id": "sv01-013",
@@ -4220,7 +4209,7 @@
         "types": [
           "Grass"
         ],
-        "hp": 70,
+        "hp": 60,
         "attacks": [
           {
             "name": "Scratch",
@@ -4234,8 +4223,7 @@
           {
             "name": "Leafage",
             "cost": [
-              "Grass",
-              "Colorless"
+              "Grass"
             ],
             "damage": 20,
             "text": "",
@@ -4255,9 +4243,9 @@
         "trainer_kind": null,
         "energy_type": null,
         "image": "https://assets.tcgdex.net/en/sv/sv01/013/low.webp",
-        "set_name": "Scarlet & Violet",
-        "text": "Its fluffy fur is similar in composition to plants. This Pok\u00e9mon frequently washes its face to keep it from drying out.",
-        "dex_id": 906
+        "set_name": "Paldea Evolved",
+        "text": "",
+        "dex_id": null
       },
       {
         "catalog_id": "sv01-013",
@@ -4267,7 +4255,7 @@
         "types": [
           "Grass"
         ],
-        "hp": 70,
+        "hp": 60,
         "attacks": [
           {
             "name": "Scratch",
@@ -4281,8 +4269,7 @@
           {
             "name": "Leafage",
             "cost": [
-              "Grass",
-              "Colorless"
+              "Grass"
             ],
             "damage": 20,
             "text": "",
@@ -4302,9 +4289,9 @@
         "trainer_kind": null,
         "energy_type": null,
         "image": "https://assets.tcgdex.net/en/sv/sv01/013/low.webp",
-        "set_name": "Scarlet & Violet",
-        "text": "Its fluffy fur is similar in composition to plants. This Pok\u00e9mon frequently washes its face to keep it from drying out.",
-        "dex_id": 906
+        "set_name": "Paldea Evolved",
+        "text": "",
+        "dex_id": null
       },
       {
         "catalog_id": "sv01-013",
@@ -4314,7 +4301,7 @@
         "types": [
           "Grass"
         ],
-        "hp": 70,
+        "hp": 60,
         "attacks": [
           {
             "name": "Scratch",
@@ -4328,8 +4315,7 @@
           {
             "name": "Leafage",
             "cost": [
-              "Grass",
-              "Colorless"
+              "Grass"
             ],
             "damage": 20,
             "text": "",
@@ -4349,9 +4335,9 @@
         "trainer_kind": null,
         "energy_type": null,
         "image": "https://assets.tcgdex.net/en/sv/sv01/013/low.webp",
-        "set_name": "Scarlet & Violet",
-        "text": "Its fluffy fur is similar in composition to plants. This Pok\u00e9mon frequently washes its face to keep it from drying out.",
-        "dex_id": 906
+        "set_name": "Paldea Evolved",
+        "text": "",
+        "dex_id": null
       },
       {
         "catalog_id": "sv01-014",
@@ -6138,7 +6124,7 @@
         "dex_id": null
       },
       {
-        "catalog_id": "sv08-191",
+        "catalog_id": "sv08-187",
         "name": "Surfer",
         "category": "Trainer",
         "stage": "Supporter",
@@ -6152,13 +6138,13 @@
         "evolves_from": null,
         "trainer_kind": "supporter",
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv08/191/low.webp",
+        "image": "https://assets.tcgdex.net/en/sv/sv08/187/low.webp",
         "set_name": null,
         "text": "Switch your Active Pok\u00e9mon with 1 of your Benched Pok\u00e9mon. If you do, draw cards until you have 5 cards in your hand.",
         "dex_id": null
       },
       {
-        "catalog_id": "swsh10-160",
+        "catalog_id": "swsh11-160",
         "name": "Lake Acuity",
         "category": "Trainer",
         "stage": "Stadium",
@@ -6172,7 +6158,7 @@
         "evolves_from": null,
         "trainer_kind": "stadium",
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh10/160/low.webp",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh11/160/low.webp",
         "set_name": null,
         "text": "Water and Fighting Pok\u00e9mon take 20 less damage from attacks.",
         "dex_id": null
@@ -6198,7 +6184,7 @@
         "dex_id": null
       },
       {
-        "catalog_id": "sm3-40",
+        "catalog_id": "sm12-66",
         "name": "Pikachu",
         "category": "Pokemon",
         "stage": "Basic",
@@ -6208,27 +6194,33 @@
         "hp": 60,
         "attacks": [
           {
-            "name": "Tail Whap",
+            "name": "Nuzzle",
             "cost": [
-              "Colorless"
+              "Lightning"
             ],
-            "damage": 10,
-            "text": "",
-            "effects": []
-          },
-          {
-            "name": "Thunder Shock",
-            "cost": [
-              "Lightning",
-              "Colorless"
-            ],
-            "damage": 20,
+            "damage": 0,
             "text": "Flip a coin. If heads, your opponent's Active Pok\u00e9mon is now Paralyzed.",
             "effects": [
               {
                 "kind": "status",
                 "status": "paralyzed",
                 "coin": true
+              }
+            ]
+          },
+          {
+            "name": "Volt Tackle",
+            "cost": [
+              "Lightning",
+              "Lightning",
+              "Colorless"
+            ],
+            "damage": 70,
+            "text": "This Pok\u00e9mon does 10 damage to itself.",
+            "effects": [
+              {
+                "kind": "recoil",
+                "amount": 10
               }
             ]
           }
@@ -6245,7 +6237,7 @@
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sm/sm3/40/low.webp",
+        "image": "https://assets.tcgdex.net/en/sm/sm12/66/low.webp",
         "set_name": null,
         "text": "",
         "dex_id": null
@@ -6896,39 +6888,35 @@
         "dex_id": null
       },
       {
-        "catalog_id": "sv01-112",
+        "catalog_id": "swsh7-084",
         "name": "Hippopotas",
         "category": "Pokemon",
         "stage": "Basic",
         "types": [
           "Fighting"
         ],
-        "hp": 90,
+        "hp": 100,
         "attacks": [
           {
             "name": "Tackle",
             "cost": [
-              "Fighting"
+              "Fighting",
+              "Colorless"
             ],
-            "damage": 20,
+            "damage": 30,
             "text": "",
             "effects": []
           },
           {
-            "name": "Take Down",
+            "name": "Mud Shot",
             "cost": [
               "Fighting",
               "Fighting",
               "Colorless"
             ],
             "damage": 50,
-            "text": "This Pok\u00e9mon also does 10 damage to itself.",
-            "effects": [
-              {
-                "kind": "recoil",
-                "amount": 10
-              }
-            ]
+            "text": "",
+            "effects": []
           }
         ],
         "abilities": [],
@@ -6939,11 +6927,11 @@
           }
         ],
         "resistances": [],
-        "retreat": 3,
+        "retreat": 4,
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv01/112/low.webp",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh7/084/low.webp",
         "set_name": null,
         "text": "",
         "dex_id": null

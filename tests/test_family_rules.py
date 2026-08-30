@@ -190,6 +190,19 @@ def test_seed_decks_include_set_c_and_d():
     assert len(e_names) == 30
     assert len(f_names) == 30
     assert e_names.count("Pikachu") == 2
+    e_ids = [c.get("catalog_id") for c in data["e"]["cards"]]
+    assert "sm3-40" in e_ids
+    assert "sm12-66" in e_ids
+    surf = next(c for c in data["e"]["cards"] if c["name"] == "Surfer")
+    assert surf["catalog_id"] == "sv08-187"
+    assert "sv08/187" in (surf.get("image") or "")
+    lake = next(c for c in data["e"]["cards"] if c["name"] == "Lake Acuity")
+    assert lake["catalog_id"] == "swsh11-160"
+    assert "swsh11/160" in (lake.get("image") or "")
+    hip = next(c for c in data["e"]["cards"] if c["name"] == "Hippopotas")
+    assert hip["catalog_id"] == "swsh7-084"
+    assert hip["hp"] == 100
+    assert [a["name"] for a in hip["attacks"]] == ["Tackle", "Mud Shot"]
     assert e_names.count("Water Energy") == 5
     assert "Iris's Fighting Spirit" in e_names
     assert "Surfer" in e_names

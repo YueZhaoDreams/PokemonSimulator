@@ -96,6 +96,22 @@ def load_seed_payload() -> dict:
             if filled != data[key]["cards"]:
                 data[key]["cards"] = filled
                 dirty = True
+        from app.seed_data import fallback_named as _fallback_named
+
+        nuzzle = _fallback_named("pikachu-nuzzle")
+        shock = _fallback_named("Pikachu")
+        want_ids = ["sm12-66", "sm3-40"]
+        for key in ("b", "e"):
+            if key not in data:
+                continue
+            have_ids = [c.get("catalog_id") for c in data[key]["cards"] if c.get("name") == "Pikachu"]
+            if have_ids[:2] == want_ids:
+                continue
+            assigned = _assign_named_prints(data[key]["cards"], "Pikachu", [nuzzle, shock])
+            as_dicts = [c.to_dict() if isinstance(c, Card) else c for c in assigned]
+            if as_dicts != data[key]["cards"]:
+                data[key]["cards"] = as_dicts
+                dirty = True
         if dirty:
             SEED_PATH.write_text(json.dumps(data, indent=2))
         _refresh_hashes(data)
@@ -131,53 +147,95 @@ def _align_named_cards(existing: list, names: list[str]) -> list[dict]:
 
 def _ensure_card_images(cards: list[dict]) -> list[dict]:
     """Fill missing TCGDex art. Floragato keeps Slashing Claw; only the picture is swapped."""
-    from app.catalog import ART_ONLY_IDS, PREFERRED_IDS, energy_card, fetch_full, normalize_card, _tcgdex_low
+    from app.catalog import (
+        ART_ONLY_IDS,
+        EXTRA_PRINT_IDS,
+        PREFERRED_IDS,
+        allowed_print_ids,
+        energy_card,
+        fetch_full,
+        normalize_card,
+        _names_match,
+        _looks_like_tcgdex_id,
+        _tcgdex_low,
+    )
     from app.seed_data import fallback_named
 
     cache: dict[str, dict] = {}
     out: list[dict] = []
     for card in cards:
         name = card.get("name") or ""
-        if card.get("image") and name not in ART_ONLY_IDS:
+        cid = str(card.get("catalog_id") or "")
+        allowed = allowed_print_ids(name)
+        mismatched = bool(allowed and cid and not cid.startswith("fallback") and cid not in allowed)
+        stale_body = False
+        if not mismatched and allowed and cid in allowed and name not in EXTRA_PRINT_IDS:
+            fb_card = fallback_named(name)
+            if fb_card.catalog_id == cid:
+                got_atk = [a.get("name") for a in (card.get("attacks") or [])]
+                want_atk = [a.name for a in fb_card.attacks]
+                if got_atk != want_atk or int(card.get("hp") or 0) != int(fb_card.hp or 0):
+                    stale_body = True
+        replace_body = mismatched or stale_body
+        if (
+            card.get("image")
+            and not replace_body
+            and (name not in ART_ONLY_IDS or cid == ART_ONLY_IDS.get(name))
+        ):
             out.append(card)
             continue
-        if name not in cache:
+        cache_key = cid if cid in (allowed or set()) else name
+        if cache_key not in cache:
             if name.lower().endswith(" energy") and "double" not in name.lower():
-                cache[name] = energy_card(name.split()[0]).to_dict()
+                cache[cache_key] = energy_card(name.split()[0]).to_dict()
+            elif name in EXTRA_PRINT_IDS and cid in (allowed or set()):
+                patched = dict(card)
+                if not patched.get("image") and _looks_like_tcgdex_id(cid):
+                    patched["image"] = _tcgdex_low(cid)
+                    patched["catalog_id"] = cid
+                cache[cache_key] = patched
             elif name in ART_ONLY_IDS:
                 base = fallback_named(name)
                 try:
-                    cache[name] = _overlay_art(base, ART_ONLY_IDS[name]).to_dict()
+                    cache[cache_key] = _overlay_art(base, ART_ONLY_IDS[name]).to_dict()
                 except Exception:
-                    cache[name] = base.to_dict()
+                    cache[cache_key] = base.to_dict()
             else:
-                cid = PREFERRED_IDS.get(name) or card.get("catalog_id")
-                try:
-                    fetched = normalize_card(fetch_full(cid)).to_dict() if cid else None
-                    if fetched and (fetched.get("name") or "").lower() == name.lower() and fetched.get("image"):
-                        cache[name] = fetched
-                    else:
-                        cache[name] = card
-                except Exception:
-                    cache[name] = card
-                if not cache[name].get("image") and cid and isinstance(cid, str) and "-" in cid and not str(cid).startswith("fallback"):
-                    patched = dict(cache[name])
-                    patched["image"] = _tcgdex_low(cid)
-                    patched["catalog_id"] = cid
-                    cache[name] = patched
-        src = cache[name]
-        if src.get("image"):
+                fb = fallback_named(name).to_dict()
+                if replace_body or fb.get("image"):
+                    cache[cache_key] = fb
+                else:
+                    want = (cid if allowed and cid in allowed else None) or PREFERRED_IDS.get(name) or (cid if "-" in cid else "")
+                    try:
+                        fetched = normalize_card(fetch_full(want)).to_dict() if want else None
+                        if fetched and _names_match(fetched.get("name") or "", name) and fetched.get("image"):
+                            cache[cache_key] = fetched
+                        else:
+                            cache[cache_key] = fb
+                    except Exception:
+                        cache[cache_key] = fb
+                if not cache[cache_key].get("image"):
+                    pin = PREFERRED_IDS.get(name)
+                    if pin and _looks_like_tcgdex_id(pin):
+                        patched = dict(cache[cache_key])
+                        patched["image"] = _tcgdex_low(pin)
+                        patched["catalog_id"] = pin
+                        cache[cache_key] = patched
+        src = cache[cache_key]
+        if replace_body and src.get("name"):
+            out.append(src)
+        elif src.get("image"):
             merged = dict(card)
             merged["image"] = src["image"]
             if src.get("catalog_id"):
                 merged["catalog_id"] = src["catalog_id"]
             out.append(merged)
         else:
-            # Last resort: keep fallback print art URL when we already know the catalog id.
-            cid = card.get("catalog_id")
-            if cid and isinstance(cid, str) and "-" in cid and not cid.startswith("fallback"):
+            pin = PREFERRED_IDS.get(name) or card.get("catalog_id")
+            if pin and _looks_like_tcgdex_id(str(pin)):
                 patched = dict(card)
-                patched["image"] = _tcgdex_low(cid)
+                patched["image"] = _tcgdex_low(pin)
+                patched["catalog_id"] = pin
                 out.append(patched)
             else:
                 out.append(card)
@@ -230,6 +288,19 @@ def _cd_payload(enrich: bool = True) -> dict:
     cards_c = _repeat_named_cards(list(SET_C_NAMES), enrich)
     cards_d = _repeat_named_cards(list(SET_D_NAMES), enrich)
     cards_e = _repeat_named_cards(list(SET_E_NAMES), enrich)
+    from app.seed_data import fallback_named
+
+    nuzzle = fallback_named("pikachu-nuzzle")
+    shock = fallback_named("Pikachu")
+    if enrich:
+        try:
+            from app.catalog import fetch_full, normalize_card
+
+            nuzzle = normalize_card(fetch_full("sm12-66"))
+            shock = normalize_card(fetch_full("sm3-40"))
+        except Exception:
+            pass
+    cards_e = _assign_named_prints(cards_e, "Pikachu", [nuzzle, shock])
     cards_f = _repeat_named_cards(list(SET_F_NAMES), enrich)
     cards_s = _repeat_named_cards(list(SET_S_NAMES), enrich)
     cards_t = _repeat_named_cards(list(SET_T_NAMES), enrich)

@@ -255,14 +255,24 @@ def _pkm(name, stage, types, hp, attacks, evolves_from=None, retreat=1, catalog_
     )
 
 
-def _trn(name, kind, text=""):
+def _trn(name, kind, text="", catalog_id=None, image=None):
+    from app.catalog import PREFERRED_IDS, _looks_like_tcgdex_id, _tcgdex_low
+
+    cid = catalog_id or PREFERRED_IDS.get(name) or name.lower().replace(" ", "-")
+    art = image
+    if not art and _looks_like_tcgdex_id(str(cid or "")):
+        try:
+            art = _tcgdex_low(cid)
+        except Exception:
+            art = None
     return Card(
-        catalog_id=name.lower().replace(" ", "-"),
+        catalog_id=cid,
         name=name,
         category="Trainer",
         stage=kind.title(),
         trainer_kind=kind,
         text=text,
+        image=art,
         retreat=0,
     )
 
@@ -347,13 +357,13 @@ _register(
 )
 _register(
     Card(
-        catalog_id="sv08-191",
+        catalog_id="sv08-187",
         name="Surfer",
         category="Trainer",
         stage="Supporter",
         trainer_kind="supporter",
         text="Switch your Active Pokémon with 1 of your Benched Pokémon. If you do, draw cards until you have 5 cards in your hand.",
-        image="https://assets.tcgdex.net/en/sv/sv08/191/low.webp",
+        image="https://assets.tcgdex.net/en/sv/sv08/187/low.webp",
         retreat=0,
     )
 )
@@ -1263,12 +1273,12 @@ for card in [
         "Hippopotas",
         "Basic",
         ["Fighting"],
-        90,
-        [_atk("Tackle", ["Fighting"], 20), _atk("Take Down", ["Fighting", "Fighting", "Colorless"], 50, "This Pokémon also does 10 damage to itself.")],
-        retreat=3,
+        100,
+        [_atk("Tackle", ["Fighting", "Colorless"], 30), _atk("Mud Shot", ["Fighting", "Fighting", "Colorless"], 50)],
+        retreat=4,
         weakness="Grass",
-        catalog_id="sv01-112",
-        image="https://assets.tcgdex.net/en/sv/sv01/112/low.webp",
+        catalog_id="swsh7-084",
+        image="https://assets.tcgdex.net/en/swsh/swsh7/084/low.webp",
     ),
     _pkm(
         "Skwovet",
@@ -1394,6 +1404,7 @@ _register(_pkm(
     ],
     catalog_id="sm3-40",
     weakness="Fighting",
+    image="https://assets.tcgdex.net/en/sm/sm3/40/low.webp",
 ))
 
 # Set A carpet Pikachu (traded to B): Nuzzle / Volt Tackle.
@@ -1418,6 +1429,7 @@ FALLBACK_BY_NAME["pikachu-nuzzle"] = _pkm(
     ],
     catalog_id="sm12-66",
     weakness="Fighting",
+    image="https://assets.tcgdex.net/en/sm/sm12/66/low.webp",
 )
 
 
