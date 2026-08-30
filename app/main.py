@@ -199,14 +199,14 @@ def api_rules(_user: dict = Depends(require_user)) -> dict:
 
 @app.get("/api/rule-presets")
 def api_rule_presets(_user: dict = Depends(require_user)) -> list:
-    # Deduplicate aliases so the UI only shows Rule B and no-Pokémon-energy.
+    # Deduplicate aliases so the UI only shows Rule B and Standard 30 cards.
     seen: set[str] = set()
     out = []
     for key in ("b", "c"):
         rules = RULE_PRESETS[key]
         blob = rules.to_dict()
         blob["preset"] = key
-        blob["label"] = "Pokémon = energy" if key == "b" else "No Pokémon energy"
+        blob["label"] = "Pokémon = energy" if key == "b" else "Standard 30 cards"
         out.append(blob)
         seen.add(rules.name)
     return out

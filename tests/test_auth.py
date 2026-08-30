@@ -51,7 +51,7 @@ def test_admin_owns_seed_decks_and_members_are_isolated(tmp_path, monkeypatch):
         assert [p["preset"] for p in presets] == ["b", "c"]
         assert presets[0]["label"] == "Pokémon = energy"
         assert "Rule B" not in presets[0]["label"]
-        assert presets[1]["label"] == "No Pokémon energy"
+        assert presets[1]["label"] == "Standard 30 cards"
 
         users = client.get("/api/users").json()
         assert any(u["email"] == ADMIN_EMAIL.lower() for u in users)

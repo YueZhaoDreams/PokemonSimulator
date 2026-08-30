@@ -36,6 +36,13 @@
         <small id="brandTag">Scan · fight · chat</small>
       </div>
     </div>
+    <div class="rule-banner" aria-label="Active format rule">
+      <div class="rule-banner-pick">
+        <label for="rulePreset">Rule</label>
+        <select id="rulePreset"></select>
+      </div>
+      <div id="ruleStrip" class="rule-strip"></div>
+    </div>
     <div class="header-tools">
       <button id="sfxToggle" class="ghost quiet" type="button" aria-pressed="false" title="Stadium sounds">SFX off</button>
       <div id="aiPill" class="pill">Local coach</div>
@@ -43,13 +50,6 @@
         <span id="accountEmail" class="pill"></span>
         <button id="logoutBtn" class="ghost quiet" type="button">Log out</button>
       </div>
-    </div>
-    <div class="rule-banner" aria-label="Active format rule">
-      <div class="rule-banner-pick">
-        <label for="rulePreset">Rule</label>
-        <select id="rulePreset"></select>
-      </div>
-      <div id="ruleStrip" class="rule-strip"></div>
     </div>
   </header>
 
@@ -73,16 +73,9 @@
 
     <section id="view-cards">
       <h2 class="screen-title">Cards</h2>
-      <p class="lede">Search or scan, then tap + to put a card in a set.</p>
+      <p class="lede">Every card you own, from every set. Tap a card for details.</p>
       <div id="cardsHost">
         <div id="findPanel" class="panel">
-          <div class="row">
-            <div class="grow"><label for="addToSet">Set</label><select id="addToSet"></select></div>
-            <div class="grow" id="newSetWrap">
-              <label for="newSetName">New set name</label>
-              <input id="newSetName" value="New set" />
-            </div>
-          </div>
           <div class="row">
             <div class="grow search-wrap">
               <label for="addName">Find a card</label>
@@ -91,12 +84,12 @@
             <label class="scan-btn" for="findScan">Scan photo
               <input id="findScan" type="file" accept="image/*,.heic,.HEIC" capture="environment" />
             </label>
-            <button id="addCard" type="button">Add to set</button>
             <button id="cancelReplace" class="ghost hidden" type="button">Cancel replace</button>
           </div>
-          <p id="findHint" class="tiny">Search a name or photograph cards. Tap + to add it to a set.</p>
+          <p id="findHint" class="tiny">Search or scan. Tap a card to see details and add it to a set.</p>
           <div id="addHits" class="search-hits" hidden></div>
         </div>
+        <div id="ownedGrid" class="grid"></div>
       </div>
     </section>
 
@@ -236,7 +229,18 @@
         <h2 id="cardSheetTitle">Add a card</h2>
         <button id="closeCardSheet" class="ghost" type="button">Close</button>
       </div>
+      <div id="cardDetailHost" class="hidden"></div>
       <div id="cardSheetHost"></div>
+      <div id="addToSetBar" class="hidden">
+        <div class="row">
+          <div class="grow"><label for="addToSet">Set</label><select id="addToSet"></select></div>
+          <div class="grow" id="newSetWrap">
+            <label for="newSetName">New set name</label>
+            <input id="newSetName" value="New set" />
+          </div>
+          <button id="addCard" type="button">Add to set</button>
+        </div>
+      </div>
     </div>
   </div>
 

@@ -19,10 +19,13 @@ REQUIRED_IDS = [
     "openAddCard",
     "view-cards",
     "cardsHost",
+    "ownedGrid",
     "cardSheet",
     "cardSheetTitle",
     "closeCardSheet",
     "cardSheetHost",
+    "cardDetailHost",
+    "addToSetBar",
     "deckList",
     "rulePreset",
     "view-fight",
@@ -97,6 +100,15 @@ def classify_log(line: str) -> str:
     return "note"
 
 
+def test_cub_logo_corners_are_transparent():
+    from PIL import Image
+
+    im = Image.open(STATIC_DIR / "cub.png").convert("RGBA")
+    w, h = im.size
+    for x, y in ((0, 0), (w - 1, 0), (0, h - 1), (w - 1, h - 1)):
+        assert im.getpixel((x, y))[3] == 0, (x, y)
+
+
 def test_index_keeps_combo_cub_controls():
     html = _read("index.html")
     for ident in REQUIRED_IDS:
@@ -122,10 +134,14 @@ def test_index_keeps_combo_cub_controls():
     assert 'class="grow search-wrap"' in html
     assert 'id="addHits"' in html
     assert 'id="deckRuleFilter"' not in html
+    assert "Every card you own" in html
     decks = html[html.index('id="view-decks"') : html.index('id="view-cards"')]
     assert "Find a card" not in decks
     assert "Add a card" in decks
-    assert "Search or scan, then tap +" in html
+    cards = html[html.index('id="view-cards"') : html.index('id="view-fight"')]
+    assert 'id="addToSet"' not in cards
+    assert 'id="ownedGrid"' in cards
+    assert "Add to set" in html[html.index('id="addToSetBar"') : html.index("id=\"lightbox\"")]
 
 
 def test_styles_keep_stadium_tokens_and_reduced_motion():
@@ -143,7 +159,8 @@ def test_styles_keep_stadium_tokens_and_reduced_motion():
     assert ".hit-add" in css
     assert "body.card-sheet-open" in css
     assert "#cubLauncher:focus-visible" in css
-    assert "body.agent-open" in css
+    assert "flex-direction: row" in css
+    assert "flex-wrap: nowrap" in css
     assert "body.agent-full" in css
     assert "body.agent-open .nav" in css
     nav_open = css[css.index("body.agent-open .nav") : css.index("body.agent-open .nav") + 220]
@@ -178,8 +195,9 @@ def test_app_js_keeps_simulator_contracts():
     assert "p_at_least_one" in js
     assert "thrifty" in js
     assert "shock" in js
-    assert "No Pokémon energy" in js
+    assert "Standard 30 cards" in js
     assert "Pokémon = energy" in js
+    assert "No Pokémon energy" not in js
     paint = js[js.index("function paintRules") : js.index("function syncRulePreset")]
     assert "brandTag" not in paint
     assert "Rule B (Pokémon = energy)" not in js
@@ -235,6 +253,10 @@ def test_app_js_keeps_simulator_contracts():
     assert "function replaceDeckCard" in js
     assert "function fillAddToSet" in js
     assert "function fillViewSet" in js
+    assert "function playableSets" in js
+    assert "function renderCollection" in js
+    assert "function openCardDetail" in js
+    assert "data-open-card" in js
     assert "pickerTarget?.deckId" in js
     assert "function selectedSearchHit" in js
     assert "dataset.query" in js
