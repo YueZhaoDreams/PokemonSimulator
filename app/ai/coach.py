@@ -67,7 +67,10 @@ async def ask_coach_events(
                     return
                 yield event
         except Exception as exc:
-            yield {"type": "status", "text": f"改用本地助手 / Local coach: {exc}"}
+            yield {
+                "type": "status",
+                "text": f"改用本地助手: {exc}" if lang == "zh" else f"Using on-device helper: {exc}",
+            }
             prefix = "本地助手：" if lang == "zh" else "Cursor fallback: "
             answer = _local_coach(message, tool_trace, language=lang) + f"\n\n({prefix}{exc})"
             saved = _save_turn(thread, message, answer, chat_id=chat_id, agent_id=agent_id)

@@ -37,11 +37,16 @@
       </div>
     </div>
     <div class="header-tools">
-      <button id="sfxToggle" class="ghost quiet" type="button" aria-pressed="false" title="Stadium sounds">SFX off</button>
-      <div id="aiPill" class="pill">Local coach</div>
       <div id="accountBox" class="account-box hidden">
-        <span id="accountEmail" class="pill"></span>
-        <button id="logoutBtn" class="ghost quiet" type="button">Log out</button>
+        <button id="accountEmail" class="pill account-email" type="button" aria-expanded="false" aria-controls="settingsMenu" title="Settings"></button>
+        <div id="settingsMenu" class="settings-menu hidden" role="dialog" aria-label="Settings">
+          <div class="settings-row">
+            <span>Game sounds</span>
+            <button id="sfxToggle" class="ghost quiet" type="button" role="switch" aria-checked="false">Off</button>
+          </div>
+          <p class="tiny">Beeps on taps, knockouts, and wins.</p>
+          <button id="logoutBtn" class="ghost quiet" type="button">Log out</button>
+        </div>
       </div>
     </div>
     <div class="rule-banner" aria-label="Active Family Cup rule">

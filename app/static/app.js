@@ -61,6 +61,7 @@ function showAuthGate() {
   document.body.classList.add("signed-out");
   $("#authGate")?.classList.remove("hidden");
   $("#accountBox")?.classList.add("hidden");
+  closeSettings();
   shrinkAgent({ focusLauncher: false });
   $("#authEmail")?.focus();
 }
@@ -79,6 +80,23 @@ function paintAccount() {
   hideAuthGate();
   $("#accountBox")?.classList.remove("hidden");
   if ($("#accountEmail")) $("#accountEmail").textContent = user.email;
+}
+
+function settingsOpen() {
+  return !$("#settingsMenu")?.classList.contains("hidden");
+}
+
+function closeSettings() {
+  $("#settingsMenu")?.classList.add("hidden");
+  $("#accountEmail")?.setAttribute("aria-expanded", "false");
+}
+
+function toggleSettings() {
+  const menu = $("#settingsMenu");
+  if (!menu) return;
+  const open = menu.classList.contains("hidden");
+  menu.classList.toggle("hidden", !open);
+  $("#accountEmail")?.setAttribute("aria-expanded", open ? "true" : "false");
 }
 
 function clearClientSession() {
@@ -174,7 +192,7 @@ function aiLabel(ai) {
   }
   if (ai?.vision?.configured) return `Vision · ${ai.vision.provider}`;
   if (ai?.configured) return `${ai.provider} · ${ai.model}`;
-  return "Local coach";
+  return "Agent";
 }
 
 function typeOf(card) {
@@ -286,8 +304,8 @@ function ping(kind) {
 function paintSfx() {
   const btn = $("#sfxToggle");
   if (!btn) return;
-  btn.textContent = sfx.on ? "SFX on" : "SFX off";
-  btn.setAttribute("aria-pressed", sfx.on ? "true" : "false");
+  btn.textContent = sfx.on ? "On" : "Off";
+  btn.setAttribute("aria-checked", sfx.on ? "true" : "false");
 }
 
 function loadChatLang() {
@@ -739,7 +757,6 @@ function paintArena() {
 async function loadApp() {
   paintAccount();
   const health = await api("/api/health");
-  $("#aiPill").textContent = aiLabel(health.ai);
   if ($("#agentModel")) $("#agentModel").textContent = aiLabel(health.ai);
   state.decks = await api("/api/decks");
   state.strategies = await api("/api/strategies");
@@ -1719,8 +1736,8 @@ async function sendChat() {
             answer = event.answer || answer;
             body.innerHTML = md(answer);
             $("#chatTitle").textContent = threadTitle(event.messages);
-            if (event.coach && event.coach !== "cursor") {
-              trace.textContent = event.coach === "local" ? "Local coach" : event.coach;
+            if (event.coach && event.coach !== "cursor" && event.coach !== "local") {
+              trace.textContent = event.coach;
             } else {
               trace.remove();
             }
@@ -1959,6 +1976,13 @@ $("#lightbox").addEventListener("click", (e) => {
   });
 });
 
+$("#accountEmail")?.addEventListener("click", (e) => {
+  e.stopPropagation();
+  toggleSettings();
+});
+$("#settingsMenu")?.addEventListener("click", (e) => e.stopPropagation());
+document.addEventListener("click", () => closeSettings());
+
 $("#sfxToggle").onclick = () => {
   sfx.on = !sfx.on;
   try { localStorage.setItem(SFX_STORE, sfx.on ? "1" : "0"); } catch { /* private mode */ }
@@ -1984,6 +2008,10 @@ document.addEventListener("keydown", (e) => {
     const lightboxOpen = !$("#lightbox")?.classList.contains("hidden");
     closeLightbox();
     if (lightboxOpen) return;
+    if (settingsOpen()) {
+      closeSettings();
+      return;
+    }
     if (document.body.classList.contains("agent-full")) {
       document.body.classList.remove("agent-full");
       paintAgentChrome();
@@ -1998,4 +2026,4 @@ document.addEventListener("keydown", (e) => {
 });
 
 $$(".nav button").forEach((b) => b.onclick = () => show(b.dataset.view));
-boot().catch((err) => { $("#aiPill").textContent = "Error"; console.error(err); });
+boot().catch((err) => { console.error(err); });
