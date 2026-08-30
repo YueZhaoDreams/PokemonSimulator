@@ -257,6 +257,7 @@ def test_app_js_keeps_simulator_contracts():
     assert "function renderCollection" in js
     assert "function openCardDetail" in js
     assert "pickerTarget.pickingSet" in js
+    assert "pickerTarget?.seq !== seq" in js
     assert "data-open-card" in js
     assert "pickerTarget?.deckId" in js
     assert "function selectedSearchHit" in js

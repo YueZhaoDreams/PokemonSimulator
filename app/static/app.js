@@ -1307,20 +1307,20 @@ async function openCardDetail(hit) {
   if ($("#cardSheet")?.classList.contains("hidden")) {
     cardSheetOpener = document.activeElement;
   }
-  pickerTarget = { kind: "detail", seq: ++pickerSeq, pickingSet: false, card: hit };
+  const seq = ++pickerSeq;
+  pickerTarget = { kind: "detail", seq, pickingSet: false, card: hit };
   parkCardsPanel($("#cardsHost"));
   $("#cardSheet")?.classList.remove("hidden");
   document.body.classList.add("card-sheet-open");
   paintCardPickerChrome();
   try {
     const card = await resolvePick(hit);
-    if (pickerTarget?.kind === "detail") {
-      pickerTarget.card = card;
-      paintCardDetail(card);
-      paintCardPickerChrome();
-    }
+    if (pickerTarget?.kind !== "detail" || pickerTarget?.seq !== seq) return;
+    pickerTarget.card = card;
+    paintCardDetail(card);
+    paintCardPickerChrome();
   } catch (err) {
-    toast(err.message, "bad");
+    if (pickerTarget?.seq === seq) toast(err.message, "bad");
   }
 }
 
@@ -1589,8 +1589,17 @@ async function deleteSelectedSet(deckId) {
 
 $("#addCard").onclick = async () => {
   if (pickerTarget?.kind === "detail") {
-    if (!pickerTarget.pickingSet || !pickerTarget.card?.name) return;
-    await takeCard(pickerTarget.card, pickerTarget);
+    if (!pickerTarget.pickingSet || !pickerTarget.card?.name || addBusy) return;
+    addBusy = true;
+    $("#addCard")?.setAttribute("disabled", "true");
+    try {
+      await takeCard(pickerTarget.card, pickerTarget);
+    } catch (err) {
+      toast(err.message, "bad");
+    } finally {
+      addBusy = false;
+      $("#addCard")?.removeAttribute("disabled");
+    }
     return;
   }
   const hit = selectedSearchHit();
