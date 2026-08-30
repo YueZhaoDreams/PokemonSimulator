@@ -34,8 +34,8 @@ const CHIPS = [
   "Which cards should we trade so both sets get stronger?",
 ];
 
-const CHAT_WELCOME = `你好！我是家庭杯小助手，可以直接跟我说话。
-Hi! I’m the Family Cup helper — talk to me here.
+const CHAT_WELCOME = `你好！我是招式小熊 Combo Cub，可以在这里打字问我。
+Hi! I’m Combo Cub — type here and I’ll help with Family Cup.
 
 中文和英文都可以。English or 中文 is fine.`;
 
@@ -106,6 +106,7 @@ async function submitAuth(register) {
     state.chatMode = "list";
     rememberChat(null);
     state.user = user;
+    shrinkAgent();
     await loadApp();
   } catch (err) {
     if ($("#authError")) {
@@ -116,8 +117,11 @@ async function submitAuth(register) {
 }
 
 function show(view) {
-  if (view !== "chat") stopVoiceSession(false);
-  else sendChat.muteSpeak = false;
+  if (view === "chat") {
+    openAgent();
+    return;
+  }
+  stopVoiceSession(false);
 
   if (view === "scan") view = "decks";
   $$("main > section").forEach((s) => s.classList.add("hidden"));
@@ -135,7 +139,6 @@ function show(view) {
   }
   if (view === "fight") fillFight();
   if (view === "lab") renderLab();
-  if (view === "chat") renderChat();
   ping("click");
 }
 
@@ -422,8 +425,7 @@ function stopVoiceListen() {
 }
 
 function chatViewOpen() {
-  const view = $("#view-chat");
-  return !!(view && !view.classList.contains("hidden"));
+  return document.body.classList.contains("agent-open");
 }
 
 function stopVoiceSession(keepLoop) {
@@ -435,9 +437,52 @@ function stopVoiceSession(keepLoop) {
   paintTalkButton();
 }
 
+function isBrowserDesktop() {
+  return window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+}
+
+function voiceUiEnabled() {
+  return !isBrowserDesktop();
+}
+
+function paintAgentChrome() {
+  const full = $("#agentFull");
+  const on = document.body.classList.contains("agent-full");
+  if (full) {
+    full.setAttribute("aria-pressed", on ? "true" : "false");
+    full.textContent = on ? "Split" : "Fullscreen";
+  }
+}
+
+function openAgent() {
+  document.body.classList.add("agent-open");
+  const panel = $("#agentPanel");
+  if (panel) panel.hidden = false;
+  $("#cubLauncher")?.setAttribute("aria-expanded", "true");
+  sendChat.muteSpeak = false;
+  paintAgentChrome();
+  renderChat();
+  ping("click");
+}
+
+function shrinkAgent() {
+  document.body.classList.remove("agent-open", "agent-full");
+  const panel = $("#agentPanel");
+  if (panel) panel.hidden = true;
+  $("#cubLauncher")?.setAttribute("aria-expanded", "false");
+  stopVoiceSession(false);
+  paintAgentChrome();
+}
+
+function toggleAgentFull() {
+  if (!document.body.classList.contains("agent-open")) openAgent();
+  document.body.classList.toggle("agent-full");
+  paintAgentChrome();
+}
+
 function speakReply(text) {
   return new Promise((resolve) => {
-    if (!state.speakReplies || !ttsSupported() || REDUCE) {
+    if (!voiceUiEnabled() || !state.speakReplies || !ttsSupported() || REDUCE) {
       resolve();
       return;
     }
@@ -466,7 +511,7 @@ function speakReply(text) {
 }
 
 function startVoiceListen() {
-  if (!speechSupported() || sendChat.streaming || voice.rec) return;
+  if (!voiceUiEnabled() || !speechSupported() || sendChat.streaming || voice.rec) return;
   stopSpeech();
   const Ctor = window.SpeechRecognition || window.webkitSpeechRecognition;
   const rec = new Ctor();
@@ -519,6 +564,7 @@ function startVoiceListen() {
 }
 
 function toggleChatMic() {
+  if (!voiceUiEnabled()) return;
   if (voice.speaking) {
     voice.loop = true;
     stopSpeech();
@@ -696,6 +742,7 @@ async function loadApp() {
   paintAccount();
   const health = await api("/api/health");
   $("#aiPill").textContent = aiLabel(health.ai);
+  if ($("#agentModel")) $("#agentModel").textContent = aiLabel(health.ai);
   state.decks = await api("/api/decks");
   state.strategies = await api("/api/strategies");
   try {
@@ -757,7 +804,7 @@ async function boot() {
     b.textContent = q;
     b.onclick = () => {
       startNewChat();
-      show("chat");
+      openAgent();
       $("#chatInput").value = q;
       sendChat();
     };
@@ -775,6 +822,7 @@ async function boot() {
       /* already signed out */
     }
     clearClientSession();
+    shrinkAgent();
     showAuthGate();
   });
   try {
@@ -1639,6 +1687,7 @@ async function sendChat() {
     });
     if (res.status === 401) {
       clearClientSession();
+      shrinkAgent();
       showAuthGate();
       throw new Error("Sign in required");
     }
@@ -1838,6 +1887,9 @@ $("#chatLangZh").onclick = () => setChatLang("zh");
 $("#chatLangEn").onclick = () => setChatLang("en");
 $("#chatSpeak").onclick = toggleSpeakReplies;
 $("#chatMic").onclick = toggleChatMic;
+$("#cubLauncher").onclick = () => openAgent();
+$("#agentShrink").onclick = () => shrinkAgent();
+$("#agentFull").onclick = () => toggleAgentFull();
 if (ttsSupported()) {
   window.speechSynthesis.onvoiceschanged = () => {};
 }
@@ -1932,10 +1984,16 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") {
     clearReplace();
     closeLightbox();
+    if (document.body.classList.contains("agent-full")) {
+      document.body.classList.remove("agent-full");
+      paintAgentChrome();
+    } else if (document.body.classList.contains("agent-open")) {
+      shrinkAgent();
+    }
     return;
   }
   if (e.target && /input|textarea|select/i.test(e.target.tagName)) return;
-  const map = { 1: "decks", 2: "fight", 3: "chat", 4: "lab" };
+  const map = { 1: "decks", 2: "fight", 3: "lab" };
   if (map[e.key]) show(map[e.key]);
 });
 

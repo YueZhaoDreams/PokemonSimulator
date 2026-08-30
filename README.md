@@ -24,7 +24,7 @@ Rules are also editable in the API (`PUT /api/rules`).
 
 1. **Scan** a floor photo of a card set (iPhone HEIC works). Sample photos from this repo are auto-recognized.
 2. **Look up** card data via [TCGdex](https://tcgdex.dev/) (free, no key). Optional Grok / OpenAI / Claude vision for new photos.
-3. **Ask Cursor** — the Chat tab is a local Cursor agent in this repo. It can run simulations, pytest, and lab scripts, and it can edit the app when you ask.
+3. **Ask Cursor** — tap the Combo Cub mark (bottom-right). Chat opens as a split agent panel (right on desktop, top on a phone). On a computer there is no Talk/voice control; type instead. The agent can run simulations, pytest, and lab scripts, and it can edit the app when you ask.
 4. **Simulate 10,000 games** with named strategies. Every run is stored in the **Lab**: method, strategy, results, sample game logs, and learning notes (which cards mattered, status rates, prize bricks).
 
 ## Reused vs built here
