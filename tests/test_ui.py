@@ -130,8 +130,7 @@ def test_app_js_keeps_simulator_contracts():
     assert "thrifty" in js
     assert "shock" in js
     assert "pokemon_as_energy ? \"Pokémon are energy\"" in js or "pokemon_as_energy ? 'Pokémon are energy'" in js or 'pokemon_as_energy ? "Pokémon are energy"' in js
-    assert "any_stage_playable" in js
-    assert "Open Stage" in js
+    assert "No Pokémon energy" in js
     assert "rule_preset" in js
     assert "ex = 2 prizes · Mega ex = 3" in js
     assert "max ${rules.max_copies_except_basic_energy} of a name" in js

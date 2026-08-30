@@ -6073,7 +6073,7 @@
   },
   "e": {
     "id": "seed-e",
-    "name": "Carpet Set E (Walrein / Irida)",
+    "name": "Carpet Set E (Walrein / Iris)",
     "sample": "set-e-carpet.jpg",
     "kind": "list",
     "cards": [
@@ -6178,8 +6178,8 @@
         "dex_id": null
       },
       {
-        "catalog_id": "swsh10-147",
-        "name": "Irida",
+        "catalog_id": "sv09-149",
+        "name": "Iris's Fighting Spirit",
         "category": "Trainer",
         "stage": "Supporter",
         "types": [],
@@ -6192,9 +6192,9 @@
         "evolves_from": null,
         "trainer_kind": "supporter",
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh10/147/low.webp",
+        "image": "https://assets.tcgdex.net/en/sv/sv09/149/low.webp",
         "set_name": null,
-        "text": "Search your deck for a Water Pok\u00e9mon and an Item card, reveal them, and put them into your hand. Then, shuffle your deck.",
+        "text": "You can use this card only if you discard another card from your hand. Draw cards until you have 6 cards in your hand.",
         "dex_id": null
       },
       {
@@ -6896,8 +6896,8 @@
         "dex_id": null
       },
       {
-        "catalog_id": "swsh11-101",
-        "name": "Relicanth",
+        "catalog_id": "sv01-112",
+        "name": "Hippopotas",
         "category": "Pokemon",
         "stage": "Basic",
         "types": [
@@ -6906,23 +6906,29 @@
         "hp": 90,
         "attacks": [
           {
-            "name": "Into the Deep",
+            "name": "Tackle",
             "cost": [
-              "Colorless"
+              "Fighting"
             ],
-            "damage": 0,
+            "damage": 20,
             "text": "",
             "effects": []
           },
           {
-            "name": "Tackle",
+            "name": "Take Down",
             "cost": [
+              "Fighting",
               "Fighting",
               "Colorless"
             ],
-            "damage": 80,
-            "text": "",
-            "effects": []
+            "damage": 50,
+            "text": "This Pok\u00e9mon also does 10 damage to itself.",
+            "effects": [
+              {
+                "kind": "recoil",
+                "amount": 10
+              }
+            ]
           }
         ],
         "abilities": [],
@@ -6933,49 +6939,48 @@
           }
         ],
         "resistances": [],
-        "retreat": 1,
+        "retreat": 3,
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh11/101/low.webp",
+        "image": "https://assets.tcgdex.net/en/sv/sv01/112/low.webp",
         "set_name": null,
         "text": "",
         "dex_id": null
       },
       {
-        "catalog_id": "sv02-124",
-        "name": "Glimmet",
+        "catalog_id": "sv06-057",
+        "name": "Gengar",
         "category": "Pokemon",
-        "stage": "Basic",
+        "stage": "Stage2",
         "types": [
           "Psychic"
         ],
-        "hp": 50,
+        "hp": 130,
         "attacks": [
           {
-            "name": "Ascension",
+            "name": "Poltergeist",
             "cost": [
               "Psychic"
             ],
-            "damage": 0,
-            "text": "Search your deck for a card that evolves from this Pok\u00e9mon and put it onto this Pok\u00e9mon to evolve it. Then, shuffle your deck.",
-            "effects": []
+            "damage": 50,
+            "text": "Your opponent reveals their hand. This attack does 50 damage for each Trainer card you find there.",
+            "effects": [
+              {
+                "kind": "times",
+                "note": "50"
+              }
+            ]
           },
           {
-            "name": "Poison Shard",
+            "name": "Deep Dive Haunt",
             "cost": [
               "Psychic",
               "Colorless"
             ],
-            "damage": 20,
-            "text": "Your opponent's Active Pok\u00e9mon is now Poisoned.",
-            "effects": [
-              {
-                "kind": "status",
-                "status": "poisoned",
-                "coin": false
-              }
-            ]
+            "damage": 110,
+            "text": "",
+            "effects": []
           }
         ],
         "abilities": [],
@@ -6987,10 +6992,10 @@
         ],
         "resistances": [],
         "retreat": 1,
-        "evolves_from": null,
+        "evolves_from": "Haunter",
         "trainer_kind": null,
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv02/124/low.webp",
+        "image": "https://assets.tcgdex.net/en/sv/sv06/057/low.webp",
         "set_name": null,
         "text": "",
         "dex_id": null
@@ -7065,13 +7070,13 @@
   },
   "f": {
     "id": "seed-f",
-    "name": "Carpet Set F (Quaquaval open-stage)",
+    "name": "Carpet Set F (Staraptor / Gengar)",
     "sample": "set-f-carpet.jpg",
     "kind": "list",
     "cards": [
       {
-        "catalog_id": "sv07-139",
-        "name": "Lacey",
+        "catalog_id": "sv01-185",
+        "name": "Iono",
         "category": "Trainer",
         "stage": "Supporter",
         "types": [],
@@ -7084,29 +7089,9 @@
         "evolves_from": null,
         "trainer_kind": "supporter",
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv07/139/low.webp",
+        "image": "https://assets.tcgdex.net/en/sv/sv01/185/low.webp",
         "set_name": null,
-        "text": "Shuffle your hand into your deck. Then, draw 4 cards. If your opponent has 3 or fewer Prize cards remaining, draw 8 cards instead.",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "sv08-174",
-        "name": "Drayton",
-        "category": "Trainer",
-        "stage": "Supporter",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "supporter",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv08/174/low.webp",
-        "set_name": null,
-        "text": "Look at the top 7 cards of your deck. You may reveal a Pok\u00e9mon and a Trainer card you find there and put them into your hand. Shuffle the other cards back into your deck.",
+        "text": "Each player shuffles their hand into their deck. Then, you draw a card for each of your remaining Prize cards, and your opponent does the same.",
         "dex_id": null
       },
       {
@@ -7130,26 +7115,6 @@
         "dex_id": null
       },
       {
-        "catalog_id": "sv01-172",
-        "name": "Energy Search",
-        "category": "Trainer",
-        "stage": "Item",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "item",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv01/172/low.webp",
-        "set_name": null,
-        "text": "Search your deck for a Basic Energy card.",
-        "dex_id": null
-      },
-      {
         "catalog_id": "sv01-181",
         "name": "Nest Ball",
         "category": "Trainer",
@@ -7170,130 +7135,77 @@
         "dex_id": null
       },
       {
-        "catalog_id": "sv01-054",
-        "name": "Quaquaval",
+        "catalog_id": "sv02-178",
+        "name": "Switch Cart",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv02/178/low.webp",
+        "set_name": null,
+        "text": "Switch your Active Pok\u00e9mon with 1 of your Benched Pok\u00e9mon. If you do, put this Pok\u00e9mon on the bottom of your deck.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv01-172",
+        "name": "Energy Search",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/172/low.webp",
+        "set_name": null,
+        "text": "Search your deck for a Basic Energy card.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-031",
+        "name": "Wailmer",
         "category": "Pokemon",
-        "stage": "Stage2",
+        "stage": "Basic",
         "types": [
           "Water"
         ],
-        "hp": 170,
+        "hp": 120,
         "attacks": [
           {
-            "name": "Hydro Kick",
+            "name": "Nap",
             "cost": [
-              "Water",
-              "Colorless",
               "Colorless"
             ],
-            "damage": 140,
-            "text": "",
-            "effects": []
-          }
-        ],
-        "abilities": [
-          {
-            "name": "Energy Carnival",
-            "text": "Once during your turn, you may attach a Basic Energy card from your hand to 1 of your Pok\u00e9mon.",
+            "damage": 0,
+            "text": "Heal 30 damage from this Pok\u00e9mon.",
             "effects": [
               {
-                "kind": "attach_basic_energy_from_hand",
-                "once_per_turn": true
-              }
-            ]
-          }
-        ],
-        "weaknesses": [
-          {
-            "type": "Lightning",
-            "value": "\u00d72"
-          }
-        ],
-        "resistances": [],
-        "retreat": 2,
-        "evolves_from": "Quaxwell",
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv01/054/low.webp",
-        "set_name": null,
-        "text": "",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "sv04-138",
-        "name": "Orthworm",
-        "category": "Pokemon",
-        "stage": "Basic",
-        "types": [
-          "Metal"
-        ],
-        "hp": 140,
-        "attacks": [
-          {
-            "name": "Punch and Draw",
-            "cost": [
-              "Metal"
-            ],
-            "damage": 20,
-            "text": "Draw 2 cards.",
-            "effects": [
-              {
-                "kind": "draw",
-                "amount": 2
+                "kind": "heal",
+                "amount": 30
               }
             ]
           },
           {
-            "name": "Crunch-Time Rush",
+            "name": "Water Gun",
             "cost": [
-              "Metal",
+              "Colorless",
               "Colorless",
               "Colorless"
             ],
-            "damage": 90,
-            "text": "If there are 3 or fewer cards in your deck, this attack does 150 more damage.",
-            "effects": [
-              {
-                "kind": "deck_count_bonus",
-                "max_deck": 3,
-                "bonus": 150
-              }
-            ]
-          }
-        ],
-        "abilities": [],
-        "weaknesses": [
-          {
-            "type": "Fire",
-            "value": "\u00d72"
-          }
-        ],
-        "resistances": [],
-        "retreat": 3,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv04/138/low.webp",
-        "set_name": null,
-        "text": "",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "sv01-148",
-        "name": "Starly",
-        "category": "Pokemon",
-        "stage": "Basic",
-        "types": [
-          "Colorless"
-        ],
-        "hp": 60,
-        "attacks": [
-          {
-            "name": "Flap",
-            "cost": [
-              "Colorless"
-            ],
-            "damage": 20,
+            "damage": 70,
             "text": "",
             "effects": []
           }
@@ -7310,259 +7222,74 @@
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv01/148/low.webp",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/031/low.webp",
         "set_name": null,
         "text": "",
         "dex_id": null
       },
       {
-        "catalog_id": "sv01-148",
-        "name": "Starly",
-        "category": "Pokemon",
+        "catalog_id": "swsh12.5-154",
+        "name": "Water Energy",
+        "category": "Energy",
         "stage": "Basic",
         "types": [
-          "Colorless"
+          "Water"
         ],
-        "hp": 60,
-        "attacks": [
-          {
-            "name": "Flap",
-            "cost": [
-              "Colorless"
-            ],
-            "damage": 20,
-            "text": "",
-            "effects": []
-          }
-        ],
+        "hp": 0,
+        "attacks": [],
         "abilities": [],
-        "weaknesses": [
-          {
-            "type": "Lightning",
-            "value": "\u00d72"
-          }
-        ],
+        "weaknesses": [],
         "resistances": [],
-        "retreat": 1,
+        "retreat": 0,
         "evolves_from": null,
         "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv01/148/low.webp",
-        "set_name": null,
+        "energy_type": "Water",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/154/low.webp",
+        "set_name": "Crown Zenith",
         "text": "",
         "dex_id": null
       },
       {
-        "catalog_id": "sv01-149",
-        "name": "Staravia",
-        "category": "Pokemon",
-        "stage": "Stage1",
+        "catalog_id": "swsh12.5-154",
+        "name": "Water Energy",
+        "category": "Energy",
+        "stage": "Basic",
         "types": [
-          "Colorless"
+          "Water"
         ],
-        "hp": 80,
-        "attacks": [
-          {
-            "name": "Wing Attack",
-            "cost": [
-              "Colorless",
-              "Colorless"
-            ],
-            "damage": 40,
-            "text": "",
-            "effects": []
-          },
-          {
-            "name": "Speed Dive",
-            "cost": [
-              "Colorless",
-              "Colorless",
-              "Colorless"
-            ],
-            "damage": 80,
-            "text": "",
-            "effects": []
-          }
-        ],
+        "hp": 0,
+        "attacks": [],
         "abilities": [],
-        "weaknesses": [
-          {
-            "type": "Lightning",
-            "value": "\u00d72"
-          }
-        ],
+        "weaknesses": [],
         "resistances": [],
-        "retreat": 1,
-        "evolves_from": "Starly",
+        "retreat": 0,
+        "evolves_from": null,
         "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv01/149/low.webp",
-        "set_name": null,
+        "energy_type": "Water",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/154/low.webp",
+        "set_name": "Crown Zenith",
         "text": "",
         "dex_id": null
       },
       {
-        "catalog_id": "sv01-149",
-        "name": "Staravia",
-        "category": "Pokemon",
-        "stage": "Stage1",
+        "catalog_id": "swsh12.5-154",
+        "name": "Water Energy",
+        "category": "Energy",
+        "stage": "Basic",
         "types": [
-          "Colorless"
+          "Water"
         ],
-        "hp": 80,
-        "attacks": [
-          {
-            "name": "Wing Attack",
-            "cost": [
-              "Colorless",
-              "Colorless"
-            ],
-            "damage": 40,
-            "text": "",
-            "effects": []
-          },
-          {
-            "name": "Speed Dive",
-            "cost": [
-              "Colorless",
-              "Colorless",
-              "Colorless"
-            ],
-            "damage": 80,
-            "text": "",
-            "effects": []
-          }
-        ],
+        "hp": 0,
+        "attacks": [],
         "abilities": [],
-        "weaknesses": [
-          {
-            "type": "Lightning",
-            "value": "\u00d72"
-          }
-        ],
+        "weaknesses": [],
         "resistances": [],
-        "retreat": 1,
-        "evolves_from": "Starly",
+        "retreat": 0,
+        "evolves_from": null,
         "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv01/149/low.webp",
-        "set_name": null,
-        "text": "",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "sv01-150",
-        "name": "Staraptor",
-        "category": "Pokemon",
-        "stage": "Stage2",
-        "types": [
-          "Colorless"
-        ],
-        "hp": 150,
-        "attacks": [
-          {
-            "name": "Tailspin Away",
-            "cost": [
-              "Colorless",
-              "Colorless"
-            ],
-            "damage": 60,
-            "text": "During your opponent's next turn, prevent all damage done to this Pok\u00e9mon by attacks from Basic Pok\u00e9mon.",
-            "effects": [
-              {
-                "kind": "prevent_basic_damage"
-              }
-            ]
-          },
-          {
-            "name": "Power Blast",
-            "cost": [
-              "Colorless",
-              "Colorless",
-              "Colorless"
-            ],
-            "damage": 180,
-            "text": "Discard an Energy from this Pok\u00e9mon.",
-            "effects": [
-              {
-                "kind": "discard_energy",
-                "count": 1
-              }
-            ]
-          }
-        ],
-        "abilities": [],
-        "weaknesses": [
-          {
-            "type": "Lightning",
-            "value": "\u00d72"
-          }
-        ],
-        "resistances": [],
-        "retreat": 1,
-        "evolves_from": "Staravia",
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv01/150/low.webp",
-        "set_name": null,
-        "text": "",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "sv01-150",
-        "name": "Staraptor",
-        "category": "Pokemon",
-        "stage": "Stage2",
-        "types": [
-          "Colorless"
-        ],
-        "hp": 150,
-        "attacks": [
-          {
-            "name": "Tailspin Away",
-            "cost": [
-              "Colorless",
-              "Colorless"
-            ],
-            "damage": 60,
-            "text": "During your opponent's next turn, prevent all damage done to this Pok\u00e9mon by attacks from Basic Pok\u00e9mon.",
-            "effects": [
-              {
-                "kind": "prevent_basic_damage"
-              }
-            ]
-          },
-          {
-            "name": "Power Blast",
-            "cost": [
-              "Colorless",
-              "Colorless",
-              "Colorless"
-            ],
-            "damage": 180,
-            "text": "Discard an Energy from this Pok\u00e9mon.",
-            "effects": [
-              {
-                "kind": "discard_energy",
-                "count": 1
-              }
-            ]
-          }
-        ],
-        "abilities": [],
-        "weaknesses": [
-          {
-            "type": "Lightning",
-            "value": "\u00d72"
-          }
-        ],
-        "resistances": [],
-        "retreat": 1,
-        "evolves_from": "Staravia",
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv01/150/low.webp",
-        "set_name": null,
+        "energy_type": "Water",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/154/low.webp",
+        "set_name": "Crown Zenith",
         "text": "",
         "dex_id": null
       },
@@ -7750,45 +7477,588 @@
         "dex_id": null
       },
       {
-        "catalog_id": "sv06.5-038",
-        "name": "Fezandipiti ex",
+        "catalog_id": "sv04-086",
+        "name": "Scream Tail",
         "category": "Pokemon",
         "stage": "Basic",
         "types": [
-          "Darkness"
+          "Psychic"
         ],
-        "hp": 210,
+        "hp": 90,
         "attacks": [
           {
-            "name": "Cruel Arrow",
+            "name": "Slap",
+            "cost": [
+              "Psychic"
+            ],
+            "damage": 30,
+            "text": "",
+            "effects": []
+          },
+          {
+            "name": "Roaring Scream",
+            "cost": [
+              "Psychic",
+              "Colorless"
+            ],
+            "damage": 0,
+            "text": "This attack does 20 damage to 1 of your opponent's Pok\u00e9mon for each damage counter on this Pok\u00e9mon. (Don't apply Weakness and Resistance for Benched Pok\u00e9mon.)",
+            "effects": [
+              {
+                "kind": "damage_one_pokemon",
+                "amount": 20
+              },
+              {
+                "kind": "times",
+                "note": "This attack does 20 damage to 1 of your opponent's Pok\u00e9mon for each damage counter on this Pok\u00e9mon. (Don't apply Weakness and Resistance for Benched Pok\u00e9mon.)"
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Darkness",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv04/086/low.webp",
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-156",
+        "name": "Psychic Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Psychic",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/156/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-156",
+        "name": "Psychic Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Psychic",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/156/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-156",
+        "name": "Psychic Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Psychic",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/156/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-156",
+        "name": "Psychic Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Psychic",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/156/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-156",
+        "name": "Psychic Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Psychic",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/156/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-156",
+        "name": "Psychic Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Psychic",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/156/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv04-138",
+        "name": "Orthworm",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Metal"
+        ],
+        "hp": 140,
+        "attacks": [
+          {
+            "name": "Punch and Draw",
+            "cost": [
+              "Metal"
+            ],
+            "damage": 20,
+            "text": "Draw 2 cards.",
+            "effects": [
+              {
+                "kind": "draw",
+                "amount": 2
+              }
+            ]
+          },
+          {
+            "name": "Crunch-Time Rush",
+            "cost": [
+              "Metal",
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 90,
+            "text": "If there are 3 or fewer cards in your deck, this attack does 150 more damage.",
+            "effects": [
+              {
+                "kind": "deck_count_bonus",
+                "max_deck": 3,
+                "bonus": 150
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Fire",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 3,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv04/138/low.webp",
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-159",
+        "name": "Metal Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Metal"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Metal",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/159/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-159",
+        "name": "Metal Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Metal"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Metal",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/159/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-159",
+        "name": "Metal Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Metal"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Metal",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/159/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv01-148",
+        "name": "Starly",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Colorless"
+        ],
+        "hp": 60,
+        "attacks": [
+          {
+            "name": "Flap",
+            "cost": [
+              "Colorless"
+            ],
+            "damage": 20,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Lightning",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/148/low.webp",
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv01-148",
+        "name": "Starly",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Colorless"
+        ],
+        "hp": 60,
+        "attacks": [
+          {
+            "name": "Flap",
+            "cost": [
+              "Colorless"
+            ],
+            "damage": 20,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Lightning",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/148/low.webp",
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv01-149",
+        "name": "Staravia",
+        "category": "Pokemon",
+        "stage": "Stage1",
+        "types": [
+          "Colorless"
+        ],
+        "hp": 80,
+        "attacks": [
+          {
+            "name": "Wing Attack",
+            "cost": [
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 40,
+            "text": "",
+            "effects": []
+          },
+          {
+            "name": "Speed Dive",
             "cost": [
               "Colorless",
               "Colorless",
               "Colorless"
             ],
-            "damage": 0,
-            "text": "This attack does 100 damage to 1 of your opponent's Pok\u00e9mon. (Don't apply Weakness and Resistance for Benched Pok\u00e9mon.)",
-            "effects": [
-              {
-                "kind": "damage_one_pokemon",
-                "amount": 100
-              }
-            ]
+            "damage": 80,
+            "text": "",
+            "effects": []
           }
         ],
-        "abilities": [
+        "abilities": [],
+        "weaknesses": [
           {
-            "name": "Flip the Script",
-            "text": "Once during your turn, if any of your Pok\u00e9mon were Knocked Out during your opponent's last turn, you may draw 3 cards. You can't use more than 1 Flip the Script Ability each turn.",
+            "type": "Lightning",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": "Starly",
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/149/low.webp",
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv01-150",
+        "name": "Staraptor",
+        "category": "Pokemon",
+        "stage": "Stage2",
+        "types": [
+          "Colorless"
+        ],
+        "hp": 150,
+        "attacks": [
+          {
+            "name": "Tailspin Away",
+            "cost": [
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 60,
+            "text": "During your opponent's next turn, prevent all damage done to this Pok\u00e9mon by attacks from Basic Pok\u00e9mon.",
             "effects": [
               {
-                "kind": "draw_if_ko_last_turn",
-                "amount": 3,
-                "once_per_turn": true
+                "kind": "prevent_basic_damage"
+              }
+            ]
+          },
+          {
+            "name": "Power Blast",
+            "cost": [
+              "Colorless",
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 180,
+            "text": "Discard an Energy from this Pok\u00e9mon.",
+            "effects": [
+              {
+                "kind": "discard_energy",
+                "count": 1
               }
             ]
           }
         ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Lightning",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": "Staravia",
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/150/low.webp",
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv01-150",
+        "name": "Staraptor",
+        "category": "Pokemon",
+        "stage": "Stage2",
+        "types": [
+          "Colorless"
+        ],
+        "hp": 150,
+        "attacks": [
+          {
+            "name": "Tailspin Away",
+            "cost": [
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 60,
+            "text": "During your opponent's next turn, prevent all damage done to this Pok\u00e9mon by attacks from Basic Pok\u00e9mon.",
+            "effects": [
+              {
+                "kind": "prevent_basic_damage"
+              }
+            ]
+          },
+          {
+            "name": "Power Blast",
+            "cost": [
+              "Colorless",
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 180,
+            "text": "Discard an Energy from this Pok\u00e9mon.",
+            "effects": [
+              {
+                "kind": "discard_energy",
+                "count": 1
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Lightning",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": "Staravia",
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/150/low.webp",
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv01-151",
+        "name": "Skwovet",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Colorless"
+        ],
+        "hp": 60,
+        "attacks": [
+          {
+            "name": "Gnaw",
+            "cost": [
+              "Colorless"
+            ],
+            "damage": 10,
+            "text": "",
+            "effects": []
+          },
+          {
+            "name": "Bite",
+            "cost": [
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 20,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [],
         "weaknesses": [
           {
             "type": "Fighting",
@@ -7800,272 +8070,8 @@
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv06.5/038/low.webp",
-        "set_name": "Shrouded Fable",
-        "text": "",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "swsh12.5-154",
-        "name": "Water Energy",
-        "category": "Energy",
-        "stage": "Basic",
-        "types": [
-          "Water"
-        ],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": "Water",
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/154/low.webp",
-        "set_name": "Crown Zenith",
-        "text": "",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "swsh12.5-154",
-        "name": "Water Energy",
-        "category": "Energy",
-        "stage": "Basic",
-        "types": [
-          "Water"
-        ],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": "Water",
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/154/low.webp",
-        "set_name": "Crown Zenith",
-        "text": "",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "swsh12.5-154",
-        "name": "Water Energy",
-        "category": "Energy",
-        "stage": "Basic",
-        "types": [
-          "Water"
-        ],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": "Water",
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/154/low.webp",
-        "set_name": "Crown Zenith",
-        "text": "",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "swsh12.5-156",
-        "name": "Psychic Energy",
-        "category": "Energy",
-        "stage": "Basic",
-        "types": [
-          "Psychic"
-        ],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": "Psychic",
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/156/low.webp",
-        "set_name": "Crown Zenith",
-        "text": "",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "swsh12.5-156",
-        "name": "Psychic Energy",
-        "category": "Energy",
-        "stage": "Basic",
-        "types": [
-          "Psychic"
-        ],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": "Psychic",
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/156/low.webp",
-        "set_name": "Crown Zenith",
-        "text": "",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "swsh12.5-156",
-        "name": "Psychic Energy",
-        "category": "Energy",
-        "stage": "Basic",
-        "types": [
-          "Psychic"
-        ],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": "Psychic",
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/156/low.webp",
-        "set_name": "Crown Zenith",
-        "text": "",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "swsh12.5-156",
-        "name": "Psychic Energy",
-        "category": "Energy",
-        "stage": "Basic",
-        "types": [
-          "Psychic"
-        ],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": "Psychic",
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/156/low.webp",
-        "set_name": "Crown Zenith",
-        "text": "",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "swsh12.5-156",
-        "name": "Psychic Energy",
-        "category": "Energy",
-        "stage": "Basic",
-        "types": [
-          "Psychic"
-        ],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": "Psychic",
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/156/low.webp",
-        "set_name": "Crown Zenith",
-        "text": "",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "swsh12.5-156",
-        "name": "Psychic Energy",
-        "category": "Energy",
-        "stage": "Basic",
-        "types": [
-          "Psychic"
-        ],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": "Psychic",
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/156/low.webp",
-        "set_name": "Crown Zenith",
-        "text": "",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "swsh12.5-159",
-        "name": "Metal Energy",
-        "category": "Energy",
-        "stage": "Basic",
-        "types": [
-          "Metal"
-        ],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": "Metal",
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/159/low.webp",
-        "set_name": "Crown Zenith",
-        "text": "",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "swsh12.5-159",
-        "name": "Metal Energy",
-        "category": "Energy",
-        "stage": "Basic",
-        "types": [
-          "Metal"
-        ],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": "Metal",
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/159/low.webp",
-        "set_name": "Crown Zenith",
-        "text": "",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "swsh12.5-159",
-        "name": "Metal Energy",
-        "category": "Energy",
-        "stage": "Basic",
-        "types": [
-          "Metal"
-        ],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": "Metal",
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/159/low.webp",
-        "set_name": "Crown Zenith",
+        "image": "https://assets.tcgdex.net/en/sv/sv01/151/low.webp",
+        "set_name": null,
         "text": "",
         "dex_id": null
       }

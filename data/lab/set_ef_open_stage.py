@@ -1,7 +1,6 @@
-"""Open Stage Rule C — Carpet Set E vs Set F win rates.
+"""Rule C = Rule B without Pokémon-as-energy — Carpet Set E vs Set F win rates.
 
-Rule B decks (A–T) stay selectable. Sets E/F are the new 30-card carpet lists.
-Open Stage: any Pokémon stage may enter play from hand (mulligan until any Pokémon).
+Existing Rule B decks (A–T) stay selectable.
 """
 
 from __future__ import annotations
@@ -10,7 +9,7 @@ import json
 import time
 from pathlib import Path
 
-from app.engine.models import Card, open_stage_family_rules
+from app.engine.models import Card, no_pokemon_energy_family_rules
 from app.engine.montecarlo import run_simulation
 from app.engine.strategies import StrategySpec
 from app.seed import load_seed_payload
@@ -25,7 +24,7 @@ def main() -> None:
     payload = load_seed_payload()
     e = [Card.from_dict(c) for c in payload["e"]["cards"]]
     f = [Card.from_dict(c) for c in payload["f"]["cards"]]
-    rules = open_stage_family_rules()
+    rules = no_pokemon_energy_family_rules()
     started = time.perf_counter()
     cells = {}
     for left, right in (("e", "f"), ("f", "e")):
@@ -74,15 +73,14 @@ def main() -> None:
     e_rate = cells["e_vs_f"]["win_rate_a"]
     f_rate = cells["f_vs_e"]["win_rate_a"]
     md.write_text(
-        f"""# Carpet Set E vs Set F — Open Stage
+        f"""# Carpet Set E vs Set F — no Pokémon energy
 
-Rule C (**Open Stage**): Rule B energy plus any Pokémon stage may enter play from hand.
-Existing Rule B decks (A–T) remain selectable.
+Rule C: **Rule B minus Pokémon-as-energy**. Existing Rule B decks stay selectable.
 
 | Side | List | Strategy |
 | --- | --- | --- |
-| E | Walrein / Irida / dual Pikachu | `shock` |
-| F | Quaquaval (no Quaxly) / Staraptor / Gengar | `carnival` |
+| E | Walrein / Iris's Fighting Spirit / dual Pikachu | `shock` |
+| F | Staraptor / Gengar / dedicated Energy | `carnival` |
 
 ## Results ({GAMES} games / ordered pair, seed `{SEED}`)
 

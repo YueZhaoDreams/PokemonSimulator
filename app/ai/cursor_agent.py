@@ -48,8 +48,8 @@ Family Cup:
 - 30-card decks, opening hand of 7, 3 prize cards
 - Knocking Out a Pokémon ex takes 2 prize cards; Knocking Out a Mega ex takes 3
 - Rule B: Any Pokémon can be attached as a Basic Energy of its type
-- Open Stage (Rule C, selectable alongside Rule B): any Pokémon stage may enter play from hand; Nest Ball still searches Basics per printed text
-- Existing Rule B seed decks stay available; Carpet Sets E and F showcase Open Stage
+- Rule C (selectable): same Family Cup, but Pokémon are not Basic Energy
+- Existing Rule B seed decks stay available; Carpet Sets E and F are the new 30-card lists
 - Otherwise follow standard Pokémon TCG
 - Printed card text wins over lab notes or memory. Never invent a look size such as "top 6".
 

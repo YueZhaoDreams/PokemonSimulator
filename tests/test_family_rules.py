@@ -68,18 +68,22 @@ def test_seed_counts():
     assert sum(1 for c in e if c.name == "Water Energy") == 5
     assert sum(1 for c in e if c.name == "Lightning Energy") == 4
     assert sum(1 for c in e if c.name == "Fighting Energy") == 3
-    assert any(c.name == "Irida" for c in e)
+    assert any(c.name == "Iris's Fighting Spirit" for c in e)
     assert any(c.name == "Surfer" for c in e)
     assert any(c.name == "Walrein" for c in e)
-    assert any(c.name == "Glimmet" for c in e)
+    assert any(c.name == "Hippopotas" for c in e)
+    assert any(c.name == "Gengar" for c in e)
+    assert not any(c.name == "Irida" for c in e)
+    assert not any(c.name == "Relicanth" for c in e)
+    assert not any(c.name == "Glimmet" for c in e)
     assert sum(1 for c in f if c.name == "Staraptor") == 2
     assert sum(1 for c in f if c.name == "Haunter") == 2
     assert sum(1 for c in f if c.name == "Psychic Energy") == 6
-    assert any(c.name == "Quaquaval" for c in f)
-    assert any(c.name == "Lacey" for c in f)
-    assert any(c.name == "Drayton" for c in f)
-    assert any(c.name == "Quaquaval" and c.stage.lower() == "stage2" for c in f)
-    assert not any(c.name in {"Quaxly", "Quaxwell"} for c in f)
+    assert any(c.name == "Iono" for c in f)
+    assert any(c.name == "Switch Cart" for c in f)
+    assert any(c.name == "Skwovet" for c in f)
+    assert not any(c.name == "Quaquaval" for c in f)
+    assert not any(c.name == "Lacey" for c in f)
 
 
 def test_seed_decks_record_pikachu_tulip_trade():
@@ -155,8 +159,8 @@ def test_seed_decks_include_set_c_and_d():
     assert data["f"]["id"] == "seed-f"
     assert data["s"]["id"] == "seed-s"
     assert data["t"]["id"] == "seed-t"
-    assert data["e"]["name"] == "Carpet Set E (Walrein / Irida)"
-    assert data["f"]["name"] == "Carpet Set F (Quaquaval open-stage)"
+    assert data["e"]["name"] == "Carpet Set E (Walrein / Iris)"
+    assert data["f"]["name"] == "Carpet Set F (Staraptor / Gengar)"
     assert data["t"]["name"] == "Set T (Dragapult ex)"
     assert data["spare"]["id"] == "seed-spare"
     assert data["spare"]["kind"] == "spare"
@@ -169,12 +173,14 @@ def test_seed_decks_include_set_c_and_d():
     assert len(f_names) == 30
     assert e_names.count("Pikachu") == 2
     assert e_names.count("Water Energy") == 5
-    assert "Irida" in e_names
+    assert "Iris's Fighting Spirit" in e_names
     assert "Surfer" in e_names
-    assert "Quaquaval" in f_names
+    assert "Quaquaval" not in f_names
+    assert "Iono" in f_names
     assert f_names.count("Staraptor") == 2
     assert f_names.count("Psychic Energy") == 6
     assert "Quaxly" not in f_names
+    assert "Lacey" not in f_names
     assert len(s_names) == 30
     assert s_names.count("Sprigatito") == 4
     assert s_names.count("Floragato") == 4

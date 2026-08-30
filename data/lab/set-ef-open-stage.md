@@ -1,18 +1,17 @@
-# Carpet Set E vs Set F — Open Stage
+# Carpet Set E vs Set F — no Pokémon energy
 
-Rule C (**Open Stage**): Rule B energy plus any Pokémon stage may enter play from hand.
-Existing Rule B decks (A–T) remain selectable.
+Rule C: **Rule B minus Pokémon-as-energy**. Existing Rule B decks stay selectable.
 
 | Side | List | Strategy |
 | --- | --- | --- |
-| E | Walrein / Irida / dual Pikachu | `shock` |
-| F | Quaquaval (no Quaxly) / Staraptor / Gengar | `carnival` |
+| E | Walrein / Iris's Fighting Spirit / dual Pikachu | `shock` |
+| F | Staraptor / Gengar / dedicated Energy | `carnival` |
 
 ## Results (3000 games / ordered pair, seed `20260830`)
 
 | Matchup | A win rate | first / second |
 | --- | --- | --- |
-| **E vs F** | **46.2%** | 48.9% / 43.6% |
-| **F vs E** | **54.6%** | 58.7% / 50.1% |
+| **E vs F** | **72.7%** | 72.8% / 72.7% |
+| **F vs E** | **25.1%** | 24.8% / 25.3% |
 
-Raw: `data/lab/set-ef-open-stage.json` (elapsed 14.2s).
+Raw: `data/lab/set-ef-open-stage.json` (elapsed 12.7s).

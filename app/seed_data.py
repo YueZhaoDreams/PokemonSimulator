@@ -152,15 +152,15 @@ SET_T_NAMES = (
     + ["Darkness Energy"]
 )
 
-# Carpet Set E — Aug 2026 beige-carpet photo (data/samples/set-e-carpet.jpg).
-# Walrein / dual Pikachu under Rule B. Irida + Surfer tutors; Fighting sponges.
+# Carpet Set E — new beige-carpet photo (data/samples/set-e-carpet.jpg).
+# Dual Pikachu + Surging Sparks Spheal line. Trainers: Surfer + Iris's Fighting Spirit.
 SET_E_NAMES = [
     "Trekking Shoes",
     "Energy Search",
     "Energy Retrieval",
     "Surfer",
     "Lake Acuity",
-    "Irida",
+    "Iris's Fighting Spirit",
     "Pikachu",
     "Pikachu",
     "Emolga",
@@ -180,46 +180,46 @@ SET_E_NAMES = [
     "Water Energy",
     "Water Energy",
     "Sudowoodo",
-    "Relicanth",
-    "Glimmet",
+    "Hippopotas",
+    "Gengar",
     "Fighting Energy",
     "Fighting Energy",
     "Fighting Energy",
 ]
 
-# Carpet Set F — Aug 2026 beige-carpet photo (data/samples/set-f-carpet.jpg).
-# Open Stage showcase: Quaquaval without Quaxly/Quaxwell; Staraptor + Gengar lines.
+# Carpet Set F — second beige-carpet photo (data/samples/set-f-carpet.jpg).
+# Staraptor line + ghost line; dedicated Water / Psychic / Metal Energy (no Pokémon-as-energy).
 SET_F_NAMES = [
-    "Lacey",
-    "Drayton",
+    "Iono",
     "Ultra Ball",
-    "Energy Search",
     "Nest Ball",
-    "Quaquaval",
-    "Orthworm",
-    "Starly",
-    "Starly",
-    "Staravia",
-    "Staravia",
-    "Staraptor",
-    "Staraptor",
+    "Switch Cart",
+    "Energy Search",
+    "Wailmer",
+    "Water Energy",
+    "Water Energy",
+    "Water Energy",
     "Gastly",
     "Haunter",
     "Haunter",
     "Gengar",
-    "Fezandipiti ex",
-    "Water Energy",
-    "Water Energy",
-    "Water Energy",
+    "Scream Tail",
     "Psychic Energy",
     "Psychic Energy",
     "Psychic Energy",
     "Psychic Energy",
     "Psychic Energy",
     "Psychic Energy",
+    "Orthworm",
     "Metal Energy",
     "Metal Energy",
     "Metal Energy",
+    "Starly",
+    "Starly",
+    "Staravia",
+    "Staraptor",
+    "Staraptor",
+    "Skwovet",
 ]
 
 # Spare Cards — leftover pile, not a 30-card Family Cup list.
@@ -359,13 +359,37 @@ _register(
 )
 _register(
     Card(
-        catalog_id="swsh10-147",
-        name="Irida",
+        catalog_id="sv09-149",
+        name="Iris's Fighting Spirit",
         category="Trainer",
         stage="Supporter",
         trainer_kind="supporter",
-        text="Search your deck for a Water Pokémon and an Item card, reveal them, and put them into your hand. Then, shuffle your deck.",
-        image="https://assets.tcgdex.net/en/swsh/swsh10/147/low.webp",
+        text="You can use this card only if you discard another card from your hand. Draw cards until you have 6 cards in your hand.",
+        image="https://assets.tcgdex.net/en/sv/sv09/149/low.webp",
+        retreat=0,
+    )
+)
+_register(
+    Card(
+        catalog_id="sv01-185",
+        name="Iono",
+        category="Trainer",
+        stage="Supporter",
+        trainer_kind="supporter",
+        text="Each player shuffles their hand into their deck. Then, you draw a card for each of your remaining Prize cards, and your opponent does the same.",
+        image="https://assets.tcgdex.net/en/sv/sv01/185/low.webp",
+        retreat=0,
+    )
+)
+_register(
+    Card(
+        catalog_id="sv02-178",
+        name="Switch Cart",
+        category="Trainer",
+        stage="Item",
+        trainer_kind="item",
+        text="Switch your Active Pokémon with 1 of your Benched Pokémon. If you do, put this Pokémon on the bottom of your deck.",
+        image="https://assets.tcgdex.net/en/sv/sv02/178/low.webp",
         retreat=0,
     )
 )
@@ -1234,6 +1258,40 @@ for card in [
         retreat=2,
         catalog_id="sv01-054",
         image="https://assets.tcgdex.net/en/sv/sv01/054/low.webp",
+    ),
+    _pkm(
+        "Hippopotas",
+        "Basic",
+        ["Fighting"],
+        90,
+        [_atk("Tackle", ["Fighting"], 20), _atk("Take Down", ["Fighting", "Fighting", "Colorless"], 50, "This Pokémon also does 10 damage to itself.")],
+        retreat=3,
+        weakness="Grass",
+        catalog_id="sv01-112",
+        image="https://assets.tcgdex.net/en/sv/sv01/112/low.webp",
+    ),
+    _pkm(
+        "Skwovet",
+        "Basic",
+        ["Colorless"],
+        60,
+        [_atk("Gnaw", ["Colorless"], 10), _atk("Bite", ["Colorless", "Colorless"], 20)],
+        weakness="Fighting",
+        catalog_id="sv01-151",
+        image="https://assets.tcgdex.net/en/sv/sv01/151/low.webp",
+    ),
+    _pkm(
+        "Scream Tail",
+        "Basic",
+        ["Psychic"],
+        90,
+        [
+            _atk("Slap", ["Psychic"], 30),
+            _atk("Roaring Scream", ["Psychic", "Colorless"], 0, "This attack does 20 damage to 1 of your opponent's Pokémon for each damage counter on this Pokémon. (Don't apply Weakness and Resistance for Benched Pokémon.)"),
+        ],
+        weakness="Darkness",
+        catalog_id="sv04-086",
+        image="https://assets.tcgdex.net/en/sv/sv04/086/low.webp",
     ),
 ]:
     _register(card)

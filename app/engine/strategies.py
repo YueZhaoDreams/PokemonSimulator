@@ -309,34 +309,32 @@ STRATEGY_LIBRARY = {
     "carnival": StrategySpec(
         name="carnival",
         description=(
-            "Set F Open Stage: play Quaquaval / Staraptor / Gengar straight from hand "
-            "(no Basic required). Energy Carnival attaches Water / Psychic / Metal from "
-            "hand. Hydro Kick 140 and Power Blast 180 close. Orthworm and Fezandipiti ex "
-            "are KO insurance / Flip the Script. Lacey redraws 8 under 3-prize Family Cup; "
-            "Drayton digs top 7 for a Pokémon + Trainer. Nest Ball still only finds Basics."
+            "Set F Staraptor / Gengar: evolve Starly → Staravia → Staraptor. "
+            "Dedicated Water / Psychic / Metal Energy pay attacks (Pokémon are not energy). "
+            "Gengar / Scream Tail as Psychic backup. Orthworm as Metal sponge. "
+            "Iono shuffles; Nest / Ultra Ball hunt Starly. Switch Cart rotates."
         ),
         prefer_damage=0.95,
         prefer_status=0.2,
         bench_fill=0.0,
-        evolve_asap=0.85,
-        attach_pokemon_as_energy=0.7,
+        evolve_asap=0.95,
+        attach_pokemon_as_energy=0.0,
         item_spend=1.0,
         hold_as_energy=True,
         protect=[
-            "Quaquaval",
             "Staraptor",
-            "Gengar",
             "Starly",
             "Staravia",
+            "Gengar",
             "Gastly",
             "Haunter",
-            "Fezandipiti ex",
+            "Scream Tail",
             "Orthworm",
         ],
-        search_aces=["Quaquaval", "Staraptor", "Gengar"],
-        closers=["Quaquaval", "Staraptor", "Gengar"],
-        backups=["Orthworm", "Fezandipiti ex"],
-        insurance=["Orthworm", "Fezandipiti ex"],
+        search_aces=["Starly", "Gastly"],
+        closers=["Staraptor", "Gengar"],
+        backups=["Orthworm", "Scream Tail"],
+        insurance=["Orthworm", "Wailmer"],
         insurance_bench=1,
         insurance_non_fuel=True,
         max_ace_copies=1,

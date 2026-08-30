@@ -1240,6 +1240,12 @@ class Game:
                 score += 14 if any(c.is_pokemon and "Water" in (c.types or []) for c in (me.card(i) for i in me.deck)) else 4
             elif name == "surfer":
                 score += 12 if me.bench else -4
+            elif name == "switch cart":
+                score += 11 if me.bench else -4
+            elif "iris" in name and "fighting spirit" in name:
+                score += 15 if len(me.hand) >= 2 and len(me.hand) < 6 else 4
+            elif name == "iono":
+                score += 10 if len(me.hand) <= 3 else 2
             elif name == "drayton":
                 score += 13 if me.deck else -2
             elif name == "lacey":
@@ -1345,6 +1351,21 @@ class Game:
         elif name == "surfer":
             if self._play_switch(me, who):
                 self._draw(me, max(0, 5 - len(me.hand)))
+        elif name == "switch cart":
+            self._play_switch(me, who)
+        elif "iris" in name and "fighting spirit" in name:
+            if not me.hand:
+                return
+            junk = self._iris_discard_choice(me, who)
+            if junk is None:
+                return
+            me.hand.remove(junk)
+            me.discard.append(junk)
+            spec = parse_draw_until_hand(card.text or "")
+            target = int((spec or {}).get("count") or 6)
+            self._draw(me, max(0, target - len(me.hand)))
+        elif name == "iono":
+            self._iono(me, foe)
         elif name == "irida":
             prefer_pkm = [p.lower() for p in self._pokemon_search_prefer(me, who)]
             water_in_deck = [
@@ -4872,6 +4893,38 @@ class Game:
         me.deck.extend(leftover)
         self.rng.shuffle(me.deck)
         self._bump("drayton")
+
+    def _iris_discard_choice(self, me: Player, who: str) -> int | None:
+        """Printed Iris's Fighting Spirit: discard another card from the hand."""
+        if not me.hand:
+            return None
+        protect = {n.lower() for n in self.strats[who].protect}
+        scored: list[tuple[int, int]] = []
+        for i in me.hand:
+            card = me.card(i)
+            name = card.name.lower()
+            score = 0
+            if name in protect:
+                score += 8
+            if card.is_pokemon:
+                score += 4
+            if card.is_energy:
+                score += 3
+            scored.append((score, i))
+        scored.sort()
+        return scored[0][1]
+
+    def _iono(self, me: Player, foe: Player) -> None:
+        """Printed Iono: shuffle hands; draw 1 per remaining Prize card."""
+        me.deck.extend(me.hand)
+        me.hand.clear()
+        self.rng.shuffle(me.deck)
+        foe.deck.extend(foe.hand)
+        foe.hand.clear()
+        self.rng.shuffle(foe.deck)
+        self._draw(me, len(me.prizes))
+        self._draw(foe, len(foe.prizes))
+        self._bump("iono")
 
     def _benched_named(self, me: Player, name: str) -> list[Pokemon]:
         want = (name or "").lower()

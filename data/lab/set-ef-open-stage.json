@@ -1,16 +1,16 @@
 {
   "games": 3000,
   "seed": 20260830,
-  "elapsed": 14.155896273000508,
+  "elapsed": 12.71411400099987,
   "rules": {
-    "name": "Family Cup (Open Stage)",
+    "name": "Family Cup (no Pok\u00e9mon energy)",
     "deck_size": 30,
     "opening_hand": 7,
     "prize_count": 3,
     "bench_size": 5,
     "max_turns": 40,
-    "pokemon_as_energy": true,
-    "any_stage_playable": true,
+    "pokemon_as_energy": false,
+    "any_stage_playable": false,
     "first_player_no_attack": true,
     "first_player_no_draw": true,
     "first_player_no_supporter": true,
@@ -18,7 +18,7 @@
     "one_retreat_per_turn": true,
     "extra_prize_for_ex": true,
     "max_copies_except_basic_energy": 4,
-    "notes": "Open Stage (on top of Rule B): 30-card decks, 3 prizes, Pok\u00e9mon attach as matching Basic Energy, and any Pok\u00e9mon \u2014 Basic, Stage 1, or Stage 2 \u2014 may be put into play from the hand as Active or Bench. Mulligans until any Pok\u00e9mon is in the opening hand. Printed card text still wins for Nest Ball and other effects that say Basic Pok\u00e9mon. Knocking Out a Pok\u00e9mon ex takes 2 prize cards; Knocking Out a Mega ex takes 3."
+    "notes": "Rule B without Pok\u00e9mon-as-energy: 30-card decks, 3 prize cards, standard Basic Energy only (Pok\u00e9mon in hand are not Basic Energy). Energy Search finds Energy cards, not Pok\u00e9mon. Copy cap 4 except basic Energy. Knocking Out a Pok\u00e9mon ex takes 2 prize cards; Knocking Out a Mega ex takes 3. Opening mulligans until a Basic Pok\u00e9mon."
   },
   "strats": {
     "e": "shock",
@@ -26,23 +26,23 @@
   },
   "results": {
     "e_vs_f": {
-      "win_rate_a": 0.4623333333333333,
-      "win_rate_b": 0.5376666666666666,
+      "win_rate_a": 0.7273333333333334,
+      "win_rate_b": 0.27266666666666667,
       "tie_rate": 0.0,
-      "first": 0.4886968085106383,
-      "second": 0.4358288770053476,
-      "wins_a": 1387,
-      "wins_b": 1613,
+      "first": 0.7277027027027027,
+      "second": 0.7269736842105263,
+      "wins_a": 2182,
+      "wins_b": 818,
       "ties": 0
     },
     "f_vs_e": {
-      "win_rate_a": 0.546,
-      "win_rate_b": 0.454,
+      "win_rate_a": 0.25066666666666665,
+      "win_rate_b": 0.7493333333333333,
       "tie_rate": 0.0,
-      "first": 0.5874035989717223,
-      "second": 0.5013850415512465,
-      "wins_a": 1638,
-      "wins_b": 1362,
+      "first": 0.24835309617918314,
+      "second": 0.25303643724696356,
+      "wins_a": 752,
+      "wins_b": 2248,
       "ties": 0
     }
   }

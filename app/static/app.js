@@ -577,7 +577,6 @@ function paintRules(rules) {
   state.rules = rules;
   if (!rules) return;
   const energy = rules.pokemon_as_energy ? "Pokémon are energy" : "standard energy";
-  const stage = rules.any_stage_playable ? "any stage playable" : "Basic starters";
   const strip = $("#ruleStrip");
   if (strip) {
     const chips = [
@@ -585,7 +584,7 @@ function paintRules(rules) {
       `${rules.prize_count} prizes`,
       `hand ${rules.opening_hand}`,
       rules.pokemon_as_energy ? "Pokémon = energy" : "standard energy",
-      rules.any_stage_playable ? "Open Stage" : "Rule B",
+      rules.pokemon_as_energy ? "Rule B" : "No Pokémon energy",
     ];
     if (rules.extra_prize_for_ex) {
       chips.push("ex = 2 prizes · Mega ex = 3");
@@ -596,7 +595,7 @@ function paintRules(rules) {
     strip.innerHTML = chips.map((c) => `<span class="chip">${esc(c)}</span>`).join("");
   }
   const tag = $("#brandTag");
-  if (tag) tag.textContent = `${rules.deck_size} cards · ${rules.prize_count} prizes · ${energy} · ${stage}`;
+  if (tag) tag.textContent = `${rules.deck_size} cards · ${rules.prize_count} prizes · ${energy}`;
   ensurePrizePips();
   syncRulePreset(rules);
 }
@@ -604,7 +603,7 @@ function paintRules(rules) {
 function syncRulePreset(rules) {
   const sel = $("#rulePreset");
   if (!sel || !sel.options.length) return;
-  const want = rules?.any_stage_playable ? "c" : "b";
+  const want = rules?.pokemon_as_energy === false ? "c" : "b";
   if ([...sel.options].some((o) => o.value === want)) sel.value = want;
 }
 
@@ -799,12 +798,12 @@ function fillFight() {
       ? state.rulePresets
       : [
           { preset: "b", label: "Rule B (Pokémon = energy)" },
-          { preset: "c", label: "Open Stage (any Pokémon playable)" },
+          { preset: "c", label: "No Pokémon energy" },
         ];
     ruleSel.innerHTML = presets
       .map((p) => `<option value="${esc(p.preset)}">${esc(p.label || p.preset)}</option>`)
       .join("");
-    const fallbackRule = state.rules?.any_stage_playable ? "c" : "b";
+    const fallbackRule = state.rules?.pokemon_as_energy === false ? "c" : "b";
     pick(ruleSel, keep.rule, fallbackRule);
   }
   for (const id of ["stratA", "stratB"]) {

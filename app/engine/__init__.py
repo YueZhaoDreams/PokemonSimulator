@@ -2,7 +2,7 @@ from app.engine.models import (
     Card,
     FamilyRules,
     default_family_rules,
-    open_stage_family_rules,
+    no_pokemon_energy_family_rules,
     rules_from_preset,
 )
 from app.engine.montecarlo import run_simulation
@@ -13,7 +13,7 @@ __all__ = [
     "Card",
     "FamilyRules",
     "default_family_rules",
-    "open_stage_family_rules",
+    "no_pokemon_energy_family_rules",
     "rules_from_preset",
     "run_simulation",
     "draw_probability",

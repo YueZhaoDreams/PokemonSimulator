@@ -66,6 +66,11 @@ def load_seed_payload() -> dict:
             if key not in data:
                 data[key] = blob
                 dirty = True
+            elif blob.get("name") and data[key].get("name") != blob["name"]:
+                data[key]["name"] = blob["name"]
+                if blob.get("sample"):
+                    data[key]["sample"] = blob["sample"]
+                dirty = True
         spare = data.get("spare") or {}
         if spare.get("kind") != "spare" or spare.get("name") != "Spare Cards" or spare.get("id") != "seed-spare":
             spare = {**spare, "id": "seed-spare", "name": "Spare Cards", "kind": "spare", "sample": spare.get("sample")}
@@ -245,14 +250,14 @@ def _cd_payload(enrich: bool = True) -> dict:
         },
         "e": {
             "id": "seed-e",
-            "name": "Carpet Set E (Walrein / Irida)",
+            "name": "Carpet Set E (Walrein / Iris)",
             "sample": "set-e-carpet.jpg",
             "kind": "list",
             "cards": [c.to_dict() if isinstance(c, Card) else c for c in cards_e],
         },
         "f": {
             "id": "seed-f",
-            "name": "Carpet Set F (Quaquaval open-stage)",
+            "name": "Carpet Set F (Staraptor / Gengar)",
             "sample": "set-f-carpet.jpg",
             "kind": "list",
             "cards": [c.to_dict() if isinstance(c, Card) else c for c in cards_f],

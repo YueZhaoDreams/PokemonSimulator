@@ -204,19 +204,18 @@ def default_family_rules() -> FamilyRules:
     return FamilyRules()
 
 
-def open_stage_family_rules() -> FamilyRules:
-    """Rule C: Rule B energy plus any-stage starters (Pokémon need not be Basic)."""
+def no_pokemon_energy_family_rules() -> FamilyRules:
+    """Rule C: Family Cup 30 / 3 prizes, but Pokémon do not count as Basic Energy."""
     return FamilyRules(
-        name="Family Cup (Open Stage)",
-        pokemon_as_energy=True,
-        any_stage_playable=True,
+        name="Family Cup (no Pokémon energy)",
+        pokemon_as_energy=False,
+        any_stage_playable=False,
         notes=(
-            "Open Stage (on top of Rule B): 30-card decks, 3 prizes, Pokémon attach as "
-            "matching Basic Energy, and any Pokémon — Basic, Stage 1, or Stage 2 — may "
-            "be put into play from the hand as Active or Bench. Mulligans until any "
-            "Pokémon is in the opening hand. Printed card text still wins for Nest Ball "
-            "and other effects that say Basic Pokémon. Knocking Out a Pokémon ex takes "
-            "2 prize cards; Knocking Out a Mega ex takes 3."
+            "Rule B without Pokémon-as-energy: 30-card decks, 3 prize cards, standard "
+            "Basic Energy only (Pokémon in hand are not Basic Energy). Energy Search "
+            "finds Energy cards, not Pokémon. Copy cap 4 except basic Energy. Knocking "
+            "Out a Pokémon ex takes 2 prize cards; Knocking Out a Mega ex takes 3. "
+            "Opening mulligans until a Basic Pokémon."
         ),
     )
 
@@ -224,9 +223,9 @@ def open_stage_family_rules() -> FamilyRules:
 RULE_PRESETS: dict[str, FamilyRules] = {
     "b": default_family_rules(),
     "rule_b": default_family_rules(),
-    "c": open_stage_family_rules(),
-    "rule_c": open_stage_family_rules(),
-    "open_stage": open_stage_family_rules(),
+    "c": no_pokemon_energy_family_rules(),
+    "rule_c": no_pokemon_energy_family_rules(),
+    "no_pokemon_energy": no_pokemon_energy_family_rules(),
 }
 
 
