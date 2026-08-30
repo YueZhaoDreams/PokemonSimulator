@@ -59,6 +59,7 @@ async function api(path, opts = {}) {
 
 function showAuthGate() {
   document.body.classList.add("signed-out");
+  closeCardSheet();
   $("#authGate")?.classList.remove("hidden");
   $("#accountBox")?.classList.add("hidden");
   shrinkAgent({ focusLauncher: false });
@@ -1248,12 +1249,7 @@ function startAddCard(deckId) {
   openCardPicker({ kind: "add", deckId });
 }
 
-function clearReplace() {
-  closeCardSheet();
-}
-
-async function takeCard(card) {
-  const session = pickerTarget;
+async function takeCard(card, session = pickerTarget) {
   const seq = session?.seq;
   if (session?.kind === "replace") {
     await replaceDeckCard(session.deckId, session.index, card);
@@ -1261,15 +1257,15 @@ async function takeCard(card) {
     toast(`Replaced with ${card.name}`);
     return;
   }
-  await addCardsToSet([card]);
+  await addCardsToSet([card], session);
   if (session && pickerTarget?.seq === seq) closeCardSheet();
 }
 
-async function addCardsToSet(cards) {
+async function addCardsToSet(cards, session = pickerTarget) {
   const named = (cards || []).filter((c) => c && c.name && c.name !== "Unknown");
   if (!named.length) throw new Error("No named cards to add");
-  if (pickerTarget?.kind === "replace") {
-    await takeCard(named[0]);
+  if (session?.kind === "replace") {
+    await takeCard(named[0], session);
     return;
   }
   const sel = $("#addToSet")?.value;
@@ -1328,10 +1324,11 @@ function selectedSearchHit() {
 let addBusy = false;
 async function applyPickedCard(hit) {
   if (!hit || !hit.name || addBusy) return;
+  const session = pickerTarget;
   addBusy = true;
   $("#addCard")?.setAttribute("disabled", "true");
   try {
-    await takeCard(await resolvePick(hit));
+    await takeCard(await resolvePick(hit), session);
   } catch (err) {
     toast(err.message, "bad");
   } finally {
@@ -1501,9 +1498,9 @@ $("#findScan")?.addEventListener("change", async (e) => {
     const result = await api("/api/recognize", { method: "POST", body: fd });
     const cards = (result.cards || []).filter((c) => c.name && c.name !== "Unknown");
     if (!cards.length) throw new Error("Could not read that photo. Search by name instead.");
-    const seq = pickerTarget?.seq;
-    await addCardsToSet(cards);
-    if (seq != null && pickerTarget?.seq === seq) closeCardSheet();
+    const session = pickerTarget;
+    await addCardsToSet(cards, session);
+    if (session && pickerTarget?.seq === session.seq) closeCardSheet();
   } catch (err) {
     toast(err.message, "bad");
   } finally {
