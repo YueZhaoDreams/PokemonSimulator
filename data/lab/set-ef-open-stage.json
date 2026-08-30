@@ -1,0 +1,49 @@
+{
+  "games": 3000,
+  "seed": 20260830,
+  "elapsed": 14.155896273000508,
+  "rules": {
+    "name": "Family Cup (Open Stage)",
+    "deck_size": 30,
+    "opening_hand": 7,
+    "prize_count": 3,
+    "bench_size": 5,
+    "max_turns": 40,
+    "pokemon_as_energy": true,
+    "any_stage_playable": true,
+    "first_player_no_attack": true,
+    "first_player_no_draw": true,
+    "first_player_no_supporter": true,
+    "first_turn_no_evolve": true,
+    "one_retreat_per_turn": true,
+    "extra_prize_for_ex": true,
+    "max_copies_except_basic_energy": 4,
+    "notes": "Open Stage (on top of Rule B): 30-card decks, 3 prizes, Pok\u00e9mon attach as matching Basic Energy, and any Pok\u00e9mon \u2014 Basic, Stage 1, or Stage 2 \u2014 may be put into play from the hand as Active or Bench. Mulligans until any Pok\u00e9mon is in the opening hand. Printed card text still wins for Nest Ball and other effects that say Basic Pok\u00e9mon. Knocking Out a Pok\u00e9mon ex takes 2 prize cards; Knocking Out a Mega ex takes 3."
+  },
+  "strats": {
+    "e": "shock",
+    "f": "carnival"
+  },
+  "results": {
+    "e_vs_f": {
+      "win_rate_a": 0.4623333333333333,
+      "win_rate_b": 0.5376666666666666,
+      "tie_rate": 0.0,
+      "first": 0.4886968085106383,
+      "second": 0.4358288770053476,
+      "wins_a": 1387,
+      "wins_b": 1613,
+      "ties": 0
+    },
+    "f_vs_e": {
+      "win_rate_a": 0.546,
+      "win_rate_b": 0.454,
+      "tie_rate": 0.0,
+      "first": 0.5874035989717223,
+      "second": 0.5013850415512465,
+      "wins_a": 1638,
+      "wins_b": 1362,
+      "ties": 0
+    }
+  }
+}
