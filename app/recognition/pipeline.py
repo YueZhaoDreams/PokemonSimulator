@@ -164,7 +164,9 @@ def _resolve_identified(item: dict, crop=None) -> Card:
 
     if item.get("catalog_id"):
         try:
-            return normalize_card(fetch_full(item["catalog_id"]))
+            card = normalize_card(fetch_full(item["catalog_id"]))
+            if card.name.lower() == (item.get("name") or "").lower():
+                return card
         except Exception:
             pass
     name = item["name"]
