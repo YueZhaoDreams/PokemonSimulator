@@ -61,6 +61,7 @@ function showAuthGate() {
   document.body.classList.add("signed-out");
   $("#authGate")?.classList.remove("hidden");
   $("#accountBox")?.classList.add("hidden");
+  shrinkAgent({ focusLauncher: false });
   $("#authEmail")?.focus();
 }
 
@@ -443,6 +444,7 @@ function paintAgentChrome() {
   const on = document.body.classList.contains("agent-full");
   if (full) {
     full.setAttribute("aria-pressed", on ? "true" : "false");
+    full.title = on ? "Split" : "Fullscreen";
     full.textContent = on ? "Split" : "Fullscreen";
   }
 }

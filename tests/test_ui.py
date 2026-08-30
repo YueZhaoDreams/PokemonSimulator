@@ -124,7 +124,8 @@ def test_styles_keep_stadium_tokens_and_reduced_motion():
     assert "body.agent-open" in css
     assert "body.agent-full" in css
     assert "body.agent-open .nav" in css
-    assert "position: fixed" in css
+    nav_open = css[css.index("body.agent-open .nav") : css.index("body.agent-open .nav") + 220]
+    assert "position: fixed" in nav_open
     assert ".chat-voice { display: none !important; }" not in css
     assert "grid-template-columns: minmax(0, 1fr) min(440px, 42vw)" in css
     assert "minmax(220px, 46vh)" in css
@@ -134,7 +135,8 @@ def test_app_js_keeps_simulator_contracts():
     js = _read("app.js")
     assert "async function boot" in js
     assert "function loadApp" in js
-    assert "function showAuthGate" in js
+    gate = js[js.index("function showAuthGate") : js.index("function hideAuthGate")]
+    assert "shrinkAgent" in gate
     assert "function clearClientSession" in js
     assert "/api/chat/stream" in js
     assert "Sign in required" in js
