@@ -1588,7 +1588,8 @@ async function deleteSelectedSet(deckId) {
 }
 
 $("#addCard").onclick = async () => {
-  if (pickerTarget?.kind === "detail" && pickerTarget.card?.name) {
+  if (pickerTarget?.kind === "detail") {
+    if (!pickerTarget.pickingSet || !pickerTarget.card?.name) return;
     await takeCard(pickerTarget.card, pickerTarget);
     return;
   }
