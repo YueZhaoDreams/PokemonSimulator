@@ -1,4 +1,4 @@
-from app.ai.tools import reset_viewer, run_tool, use_viewer
+from app.ai.tools import TOOL_SCHEMAS, reset_viewer, run_tool, use_viewer
 from app.config import ADMIN_EMAIL, ADMIN_PASSWORD, ROOT
 from app.db import LAB_SCRIPT_MAX_CHARS, list_simulations
 from app.main import app
@@ -134,3 +134,8 @@ def test_lab_script_text_rejects_blobs(tmp_path, monkeypatch):
         )
         assert nul.status_code == 400
         assert "must be text" in nul.json()["detail"]
+
+
+def test_save_lab_experiment_tool_schema_includes_results_and_lock():
+    schema = next(item for item in TOOL_SCHEMAS if item["name"] == "save_lab_experiment")
+    assert {"results", "locked_cell_id", "lock_reason"} <= set(schema["parameters"]["properties"])
