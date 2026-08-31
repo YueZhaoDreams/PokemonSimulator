@@ -35,6 +35,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 import app.engine.game as game_mod
+from app.engine.effects import is_basic_energy
 from app.engine.models import Card, no_pokemon_energy_family_rules
 from app.engine.montecarlo import run_simulation
 from app.engine.strategies import StrategySpec
@@ -184,7 +185,7 @@ def load_f_cards() -> list[Card]:
 
 
 def is_basic_energy_card(card: Card) -> bool:
-    return bool(card.is_energy)
+    return is_basic_energy(card, pokemon_as_energy=False)
 
 
 def swap_energy(cards: list[Card], mix: tuple[tuple[str, int], ...]) -> list[Card]:

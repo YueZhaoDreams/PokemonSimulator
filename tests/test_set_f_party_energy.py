@@ -10,7 +10,7 @@ import pytest
 from app.engine.game import Game, play_game
 from app.engine.models import no_pokemon_energy_family_rules
 from app.engine.strategies import StrategySpec
-from app.seed_data import SET_E_NAMES, build_fallback_deck
+from app.seed_data import SET_E_NAMES, build_fallback_deck, fallback_named
 
 LAB = Path(__file__).resolve().parents[1] / "data/lab/set_f_party_energy.py"
 
@@ -47,6 +47,17 @@ def test_energy_swap_keeps_thirty():
     assert all(c.name != "Clefairy" for c in cut)
     with pytest.raises(ValueError, match="expected 11 Energy"):
         lab.swap_energy(f, (("Water", 11),))
+    with_dce = []
+    inserted = False
+    for c in f:
+        if (not inserted) and c.name == "Psychic Energy":
+            with_dce.append(fallback_named("Double Colorless Energy"))
+            inserted = True
+        else:
+            with_dce.append(c)
+    assert len(with_dce) == 30
+    with pytest.raises(ValueError, match="expected 12 Energy, deck has 11"):
+        lab.swap_energy(with_dce, (("Water", 12),))
 
 
 def test_carnival_does_not_fire_moon_watching_party():
