@@ -275,7 +275,7 @@ def test_app_js_keeps_simulator_contracts():
     assert "function searchHitHtml" in js
     assert 'alt="${esc(h.name || "")}"' in js
     assert "hit-code" in js
-    assert "h.code || h.local_id" in js in js
+    assert "h.code || h.local_id" in js
     assert "function replaceDeckCard" in js
     assert "function fillAddToSet" in js
     assert "function fillViewSet" in js

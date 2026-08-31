@@ -1053,9 +1053,9 @@ def _tcgdex_list_cards(params: list[tuple[str, str]]) -> list[dict[str, Any]]:
     return rows
 
 
-def _remote_search_briefs(query: str) -> list[dict[str, Any]]:
+def _remote_search_briefs(query: str, parsed: dict[str, str] | None = None) -> list[dict[str, Any]]:
     """TCGDex lookup by name, collector number, catalog id, HP, or attack."""
-    parsed = _parse_search_query(query)
+    parsed = parsed or _parse_search_query(query)
     params: list[tuple[str, str]] = []
     if parsed["name"]:
         params.append(("name", parsed["name"]))
@@ -1105,8 +1105,9 @@ def _merge_search_hits(
     remote: list[dict[str, str]],
     query: str,
     limit: int,
+    parsed: dict[str, str] | None = None,
 ) -> list[dict[str, str]]:
-    parsed = _parse_search_query(query)
+    parsed = parsed or _parse_search_query(query)
     name_q = parsed["name"] or query
     merged: dict[str, dict[str, str]] = {}
     for hit in local + remote:
@@ -1188,7 +1189,7 @@ def search_local(query: str, limit: int = 12, remote: bool = True) -> list[dict[
     if remote:
         cap = _REMOTE_HIT_CAP if parsed["local_id"] else _PRINTING_HIT_CAP
         extra = _hits_from_briefs(_remote_search_briefs(q), cap)
-    merged = _merge_search_hits(local, extra, q, limit)
+    merged = _merge_search_hits(local, extra, q, limit, parsed)
     if merged:
         return merged
     return [{"id": "", "name": q, "image": "", "local_id": parsed["local_id"], "code": _hit_code(parsed["local_id"], parsed["set_size"])}]
@@ -1213,7 +1214,7 @@ def pick_search_hit(typed: str, hits: list[dict[str, str]] | None) -> dict[str, 
             named = [h for h in numbered if _name_match_rank(h.get("name") or "", parsed["name"]) <= 1]
             if named:
                 return named[0]
-        if numbered:
+        elif numbered:
             return numbered[0]
     folded = _fold_name(parsed["name"] or q)
     if folded:
@@ -1224,6 +1225,8 @@ def pick_search_hit(typed: str, hits: list[dict[str, str]] | None) -> dict[str, 
                 if pin and (hit.get("id") or "") == pin:
                     return hit
             return matches[0]
+        if parsed["name"] and parsed["local_id"]:
+            return {"id": "", "name": parsed["name"], "image": ""}
     if rows:
         return rows[0]
     if q:
