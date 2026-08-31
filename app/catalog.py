@@ -823,7 +823,6 @@ _CATALOG_TOKEN_RE = re.compile(r"\b([A-Za-z][A-Za-z0-9.]*-\d+[A-Za-z0-9]*)\b")
 # Pikachu-class names have 100+ English printings. Cap after ranking exact names,
 # never by raw TCGDex list order (oldest ids first — drops Silver Tempest Raichu).
 _PRINTING_HIT_CAP = 250
-_REMOTE_HIT_CAP = 250
 _NAME_STAGE_SUFFIXES = {"ex", "v", "vmax", "vstar", "gx", "tag team"}
 
 
@@ -1155,7 +1154,10 @@ def _tcgdex_list_cards(params: list[tuple[str, str]]) -> list[dict[str, Any]]:
 
 
 def _remote_search_briefs(query: str, parsed: dict[str, str] | None = None) -> list[dict[str, Any]]:
-    """TCGDex lookup by name, collector number, or catalog id."""
+    """TCGDex lookup by name, HP, collector number, or catalog id.
+
+    HP and collector number are fetched as separate queries (OR), never AND'd.
+    """
     parsed = parsed or _parse_search_query(query)
     name = parsed["name"]
     local_id = parsed["local_id"]
