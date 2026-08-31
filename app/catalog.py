@@ -1189,14 +1189,11 @@ def _remote_search_briefs(query: str, parsed: dict[str, str] | None = None) -> l
     # HP and collector number must not be AND'd — "Raichu 120" is HP 120, SIT 50/195.
     if name and hp:
         _fetch([("name", name), ("hp", f"eq:{hp}")], inject_hp=hp)
-    if name and local_id and local_id != hp:
+    if name and local_id:
         _fetch([("name", name), ("localId", f"eq:{local_id}")])
     elif local_id and not name:
         _fetch([("localId", f"eq:{local_id}")])
-    if name and not hp:
-        _fetch([("name", name)])
-    elif name and hp and local_id == hp:
-        # Ambiguous leftover: also pull same-name printings so HP hits are not the only page.
+    if name:
         _fetch([("name", name)])
     if not briefs and name and local_id:
         _fetch([("name", name)])
@@ -1277,13 +1274,17 @@ def _merge_search_hits(
         hit for hit in ranked if parsed["local_id"] and _local_ids_equal(_hit_local_id(hit), parsed["local_id"])
     ]
     hp_hits = [hit for hit in ranked if parsed["hp"] and str(hit.get("hp") or "") == parsed["hp"]]
+
+    def _keep_exact_then_related(pinned: list[dict[str, str]]) -> list[dict[str, str]]:
+        rest = [hit for hit in ranked if hit not in pinned]
+        extra = [hit for hit in rest if name_q and _name_match_rank(hit.get("name") or "", name_q) == 0]
+        related = [hit for hit in rest if hit not in extra]
+        return pinned[:cap] + extra[:cap] + related[:limit]
+
     if hp_hits:
-        others = [hit for hit in ranked if hit not in hp_hits]
-        pinned = hp_hits[:cap]
-        return pinned + others[:limit]
+        return _keep_exact_then_related(hp_hits)
     if number_hits:
-        others = [hit for hit in ranked if hit not in number_hits]
-        return (number_hits[:cap] + others)[: max(limit, min(len(number_hits), cap), limit + min(len(others), limit))]
+        return _keep_exact_then_related(number_hits)
     if exact:
         others = [hit for hit in ranked if hit not in exact]
         extra = exact[:cap]

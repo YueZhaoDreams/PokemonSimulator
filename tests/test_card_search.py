@@ -294,6 +294,33 @@ def test_search_raichu_120_hp_ranks_silver_tempest(monkeypatch):
     assert by_number[0]["id"] == "swsh12-050"
 
 
+def test_search_hp_query_keeps_other_exact_printings(monkeypatch):
+    monkeypatch.setattr("app.catalog._remote_search_briefs", _many_raichu_briefs)
+    hits = search_local("Raichu 120 hp")
+    ids = [h["id"] for h in hits if h["name"] == "Raichu"]
+    assert hits[0]["id"] == "swsh12-050"
+    assert "base1-45" in ids
+    assert len(ids) > 40
+
+
+def test_remote_search_ors_hp_and_collector_when_number_is_ambiguous(monkeypatch):
+    from app.catalog import _remote_search_briefs
+
+    seen: list[list[tuple[str, str]]] = []
+
+    def capture(params):
+        seen.append(list(params))
+        return [{"id": "swsh12-050", "name": "Raichu", "localId": "050", "hp": 50}]
+
+    monkeypatch.setattr("app.catalog._tcgdex_list_cards", capture)
+    _remote_search_briefs("Raichu 50")
+    assert any(("hp", "eq:50") in params for params in seen)
+    assert any(("localId", "eq:50") in params for params in seen)
+    assert not any(
+        ("hp", "eq:50") in params and any(key == "localId" for key, _ in params) for params in seen
+    )
+
+
 def test_remote_search_uses_hp_filter_not_anded_with_collector(monkeypatch):
     from app.catalog import _remote_search_briefs
 
