@@ -1,4 +1,13 @@
-from app.catalog import _parse_search_query, _pretty_catalog_name, pick_search_hit, search_local
+import json
+
+from app.catalog import (
+    _parse_search_query,
+    _pretty_catalog_name,
+    _read_json_list,
+    lookup_seed_card,
+    pick_search_hit,
+    search_local,
+)
 
 
 def test_pretty_catalog_name_capitalizes_accented_words():
@@ -64,10 +73,84 @@ def test_search_remote_miss_keeps_typed_name(monkeypatch):
     assert hits[0]["name"] == "zzzyxnever"
 
 
-def test_search_local_scope_does_not_touch_network(monkeypatch):
-    monkeypatch.setattr("app.catalog._remote_search_briefs", lambda q: (_ for _ in ()).throw(AssertionError(q)))
-    hits = search_local("dondozo", remote=False)
-    assert hits[0]["name"] == "Dondozo"
+def test_search_starly_reuses_legacy_name_cache(tmp_path, monkeypatch):
+    monkeypatch.setattr("app.catalog.CACHE_DIR", tmp_path)
+    folder = tmp_path / "http"
+    folder.mkdir()
+    (folder / "search-starly.json").write_text(
+        json.dumps(
+            [
+                {"id": "swsh9-117", "name": "Starly", "localId": "117"},
+                {"id": "dp1-101", "name": "Starly", "localId": "101"},
+                {"id": "sm4-81", "name": "Starly", "localId": "81"},
+                {"id": "swsh9-118", "name": "Staravia", "localId": "118"},
+            ]
+        )
+    )
+
+    def _block(*_a, **_k):
+        raise AssertionError("network")
+
+    monkeypatch.setattr("app.catalog._SEARCH_CLIENT.get", _block)
+    monkeypatch.setattr("app.catalog._CLIENT.get", _block)
+    hits = search_local("Starly")
+    ids = [h["id"] for h in hits]
+    assert "swsh9-117" in ids
+    assert "dp1-101" in ids
+    assert "sv01-148" in ids
+    names = [h["name"] for h in hits]
+    assert "Staravia" in names
+
+
+def test_empty_search_cache_is_not_refetched(tmp_path, monkeypatch):
+    monkeypatch.setattr("app.catalog.CACHE_DIR", tmp_path)
+    from app.catalog import _search_cache_paths, _tcgdex_list_cards
+
+    paths = _search_cache_paths([("name", "Starly")])
+    paths[0].parent.mkdir(parents=True, exist_ok=True)
+    paths[0].write_text("[]")
+
+    def _block(*_a, **_k):
+        raise AssertionError("network")
+
+    monkeypatch.setattr("app.catalog._SEARCH_CLIENT.get", _block)
+    monkeypatch.setattr("app.catalog._CLIENT.get", _block)
+    assert _tcgdex_list_cards([("name", "Starly")]) == []
+
+
+def test_search_prefix_keeps_related_names(monkeypatch):
+    monkeypatch.setattr("app.catalog._remote_search_briefs", lambda q: [])
+    names = [h["name"] for h in search_local("star", remote=False)]
+    assert "Starly" in names
+    assert "Staravia" in names
+    assert "Staraptor" in names
+
+
+def test_lookup_seed_card_falls_back_to_name_when_id_misses():
+    card = lookup_seed_card("Drayton", "not-a-real-id")
+    assert card is not None
+    assert card.name == "Drayton"
+    assert card.catalog_id == "sv08-174"
+
+
+def test_read_json_list_tolerates_null_cache(tmp_path):
+    path = tmp_path / "empty.json"
+    path.write_text("null")
+    assert _read_json_list(path) == []
+    path.write_text('"nope"')
+    assert _read_json_list(path) == []
+
+
+def test_search_finds_seed_supporter_drayton(monkeypatch):
+    monkeypatch.setattr("app.catalog._remote_search_briefs", lambda q: [])
+    from app.catalog import _local_name_catalog
+
+    _local_name_catalog.cache_clear()
+    hits = search_local("drayton", remote=False)
+    assert any(h["name"] == "Drayton" and h["id"] == "sv08-174" for h in hits)
+    assert any(h.get("image") for h in hits if h["name"] == "Drayton")
+    prefix = search_local("dray", remote=False)
+    assert any(h["name"] == "Drayton" and h["id"] == "sv08-174" for h in prefix)
 
 
 def test_search_local_finds_brilliant_stars_starly_by_collector_code(monkeypatch):

@@ -84,6 +84,8 @@ TRAINER_KIND_HINTS = {
     "night stretcher": "item",
     "unfair stamp": "item",
     "judge": "supporter",
+    "drayton": "supporter",
+    "lacey": "supporter",
 }
 
 # Carpet-photo printings confirmed via attack OCR phrases / user correction.
@@ -182,6 +184,8 @@ PREFERRED_IDS = {
     "Lillie's Clefairy ex": "sv09-056",
     "Boss's Orders": "sv02-172",
     "Crispin": "sv07-133",
+    "Drayton": "sv08-174",  # Surging Sparks — look at the top 7 for a Pokémon and a Trainer
+    "Lacey": "sv07-139",
     "Poké Pad": "me02.5-198",
     "Crushing Hammer": "swsh12.5-125",
     "Night Stretcher": "sv06.5-061",
@@ -546,7 +550,10 @@ def resolve_name(name: str, prefer: list[str] | None = None, ocr_text: str | Non
     prefer = list(prefer or []) or list(PRINT_PREFER.get(name) or [])
     preferred_id = PREFERRED_IDS.get(name)
 
-    briefs = search_briefs(name)
+    try:
+        briefs = search_briefs(name)
+    except Exception:
+        briefs = []
     exact = [b for b in briefs if (b.get("name") or "").lower() == name.lower()]
     pool = exact or briefs
     ranked = sorted(pool, key=lambda b: _score_candidate(b, name, prefer), reverse=True)
@@ -577,6 +584,9 @@ def resolve_name(name: str, prefer: list[str] | None = None, ocr_text: str | Non
             _add(cid)
 
     if not candidates:
+        seed = lookup_seed_card(name)
+        if seed:
+            return seed
         return fallback_card(name)
 
     art_scores: dict[str, float] = {}
@@ -661,7 +671,27 @@ def energy_card(energy_type: str) -> Card:
     )
 
 
+def lookup_seed_card(name: str = "", catalog_id: str = "") -> Card | None:
+    """Household prints from seed_data — used when TCGDex is down or skipped."""
+    try:
+        from app.seed_data import FALLBACK_BY_NAME
+    except Exception:
+        return None
+    cid = str(catalog_id or "").strip()
+    if cid:
+        for card in FALLBACK_BY_NAME.values():
+            if (card.catalog_id or "") == cid:
+                return Card.from_dict(card.to_dict())
+    raw = FALLBACK_BY_NAME.get(_fold_name(name)) or FALLBACK_BY_NAME.get(str(name or "").lower())
+    if raw:
+        return Card.from_dict(raw.to_dict())
+    return None
+
+
 def fallback_card(name: str) -> Card:
+    seed = lookup_seed_card(name)
+    if seed:
+        return seed
     lower = name.lower()
     if lower in TRAINER_KIND_HINTS:
         kind = TRAINER_KIND_HINTS[lower]
@@ -775,6 +805,13 @@ def _local_name_catalog() -> tuple[tuple[str, str, str], ...]:
         ):
             for name in group:
                 add(name, PREFERRED_IDS.get(name, ""))
+        from app.seed_data import FALLBACK_BY_NAME
+
+        for card in FALLBACK_BY_NAME.values():
+            cid = card.catalog_id or ""
+            if not _looks_like_tcgdex_id(cid):
+                cid = PREFERRED_IDS.get(card.name, "")
+            add(card.name, cid)
     except Exception:
         pass
     return tuple(rows)
@@ -992,6 +1029,34 @@ def _catalog_row_hit(cid: str, name: str, image: str) -> dict[str, str]:
     return {"id": cid, "name": name, "image": image, "local_id": local_id, "code": local_id}
 
 
+def _read_json_list(path: Path) -> list[dict[str, Any]]:
+    try:
+        data = json.loads(path.read_text())
+    except Exception:
+        return []
+    if isinstance(data, list):
+        return data
+    if isinstance(data, dict):
+        inner = data.get("data") or []
+        return inner if isinstance(inner, list) else []
+    return []
+
+
+def _search_cache_paths(params: list[tuple[str, str]]) -> list[Path]:
+    """New param keys plus the pre-collector-search `search-{name}` files."""
+    joined = "search-" + "&".join(f"{key}={value}" for key, value in params)
+    paths = [_cache_path("http", joined)]
+    seen = {paths[0]}
+    if len(params) == 1 and params[0][0] == "name":
+        raw = (params[0][1] or "").strip()
+        for key in (f"search-{raw.lower()}", f"search-{raw}"):
+            path = _cache_path("http", key)
+            if path not in seen:
+                paths.append(path)
+                seen.add(path)
+    return paths
+
+
 def _hits_from_briefs(briefs: list[dict[str, Any]], limit: int) -> list[dict[str, str]]:
     out: list[dict[str, str]] = []
     seen: set[str] = set()
@@ -1020,26 +1085,29 @@ def _tcgdex_list_cards(params: list[tuple[str, str]]) -> list[dict[str, Any]]:
             page_params.extend(
                 [("pagination:itemsPerPage", "100"), ("pagination:page", str(page))]
             )
-        cache_key = "search-" + "&".join(f"{key}={value}" for key, value in page_params)
-        path = _cache_path("http", cache_key)
-        if path.exists():
-            try:
-                data = json.loads(path.read_text())
-            except Exception:
-                data = []
-        else:
+        data: list[dict[str, Any]] = []
+        cache_paths = _search_cache_paths(page_params)
+        saw_cache = False
+        for path in cache_paths:
+            if not path.exists():
+                continue
+            saw_cache = True
+            loaded = _read_json_list(path)
+            if loaded:
+                data = loaded
+                break
+        if not saw_cache:
             url = f"{TCGDEX_BASE}/cards?{urlencode(page_params)}"
             try:
-                client = _CLIENT if any(key == "localId" for key, _value in page_params) else _SEARCH_CLIENT
-                response = client.get(url)
+                response = _SEARCH_CLIENT.get(url)
                 response.raise_for_status()
                 data = response.json()
-                path.write_text(json.dumps(data))
+                cache_paths[0].write_text(json.dumps(data))
             except Exception:
                 break
         if not isinstance(data, list):
-            data = data.get("data") or []
-        if not data:
+            data = (data.get("data") or []) if isinstance(data, dict) else []
+        if not isinstance(data, list) or not data:
             break
         for brief in data:
             cid = str(brief.get("id") or "")
@@ -1054,20 +1122,17 @@ def _tcgdex_list_cards(params: list[tuple[str, str]]) -> list[dict[str, Any]]:
 
 
 def _remote_search_briefs(query: str, parsed: dict[str, str] | None = None) -> list[dict[str, Any]]:
-    """TCGDex lookup by name, collector number, catalog id, HP, or attack."""
+    """TCGDex lookup by name, collector number, or catalog id."""
     parsed = parsed or _parse_search_query(query)
     params: list[tuple[str, str]] = []
     if parsed["name"]:
         params.append(("name", parsed["name"]))
     if parsed["local_id"]:
         params.append(("localId", f"eq:{parsed['local_id']}"))
-    if parsed["hp"]:
-        params.append(("hp", f"eq:{parsed['hp']}"))
-    if parsed["attack"]:
-        params.append(("attacks.name", parsed["attack"]))
 
     briefs: list[dict[str, Any]] = []
     seen: set[str] = set()
+    tried: set[tuple[tuple[str, str], ...]] = set()
 
     def _absorb(rows: list[dict[str, Any]]) -> None:
         for brief in rows:
@@ -1078,13 +1143,23 @@ def _remote_search_briefs(query: str, parsed: dict[str, str] | None = None) -> l
             seen.add(key)
             briefs.append(brief)
 
+    def _fetch(page_params: list[tuple[str, str]]) -> None:
+        key = tuple(page_params)
+        if not page_params or key in tried:
+            return
+        tried.add(key)
+        _absorb(_tcgdex_list_cards(page_params))
+
     if params:
-        _absorb(_tcgdex_list_cards(params))
+        _fetch(params)
         if not briefs and parsed["name"] and parsed["local_id"]:
-            _absorb(_tcgdex_list_cards([("name", parsed["name"])]))
-            _absorb(_tcgdex_list_cards([("localId", f"eq:{parsed['local_id']}")]))
+            _fetch([("name", parsed["name"])])
+            _fetch([("localId", f"eq:{parsed['local_id']}")])
+        raw_name = query.strip()
+        if not briefs and raw_name and raw_name != parsed["name"]:
+            _fetch([("name", raw_name)])
     elif not parsed["catalog_id"]:
-        _absorb(_tcgdex_list_cards([("name", query.strip())]))
+        _fetch([("name", query.strip())])
 
     if parsed["catalog_id"] and parsed["catalog_id"] not in seen:
         cid = parsed["catalog_id"]
@@ -1153,10 +1228,11 @@ def _merge_search_hits(
     ]
     if number_hits:
         others = [hit for hit in ranked if hit not in number_hits]
-        return (number_hits[:cap] + others)[: max(limit, min(len(number_hits), cap))]
+        return (number_hits[:cap] + others)[: max(limit, min(len(number_hits), cap), limit + min(len(others), limit))]
     if exact:
         others = [hit for hit in ranked if hit not in exact]
-        return (exact[:_PRINTING_HIT_CAP] + others)[: max(limit, min(len(exact), _PRINTING_HIT_CAP))]
+        extra = exact[:_PRINTING_HIT_CAP]
+        return (extra[:8] + others[:limit] + extra[8:])[: max(limit, min(len(extra), _PRINTING_HIT_CAP), 8 + min(len(others), limit))]
     return ranked[:limit]
 
 
