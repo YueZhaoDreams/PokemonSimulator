@@ -1,12 +1,12 @@
 {
   "epic_slug": "open-trainer-labs",
   "comments": [],
-  "passed_gates": [],
+  "passed_gates": ["coach-isolated"],
   "gate_reports": {
     "coach-isolated": {
       "verified_at": "2026-08-31T13:56:09.965676+00:00",
       "verifier_agent": "cursor-verify-gate",
-      "overall_status": "partial",
+      "overall_status": "pass",
       "steps": [
         {
           "step": "Product chat AgentOptions expose tools=[\"mcp\"] only (no shell, edit, delete, or task) and setting_sources is empty.",

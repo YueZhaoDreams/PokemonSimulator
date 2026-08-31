@@ -22,6 +22,7 @@ from app.db import (
     delete_deck,
     delete_session,
     get_deck,
+    get_lab_experiment,
     get_rules,
     get_simulation,
     get_user_by_email,
@@ -30,9 +31,11 @@ from app.db import (
     get_chat,
     list_chats,
     list_decks,
+    list_lab_experiments,
     list_simulations,
     list_users,
     save_deck,
+    save_lab_experiment,
     save_rules,
     save_simulation,
     user_from_session,
@@ -91,6 +94,14 @@ def _can_use_chat(user: dict, chat: dict | None) -> bool:
     if user.get("role") == "admin":
         return True
     return chat.get("owner_id") == user["id"]
+
+
+def _can_use_experiment(user: dict, experiment: dict | None) -> bool:
+    if not experiment:
+        return False
+    if user.get("role") == "admin":
+        return True
+    return experiment.get("owner_id") == user["id"]
 
 
 def _visible_decks(user: dict) -> list[dict]:
@@ -451,6 +462,53 @@ def api_sim(sim_id: str, _user: dict = Depends(require_user)) -> dict:
     if not record:
         raise HTTPException(404, "Not found")
     return record
+
+
+def _save_experiment_from_payload(payload: dict, user: dict, *, existing: dict | None = None) -> dict:
+    try:
+        return save_lab_experiment(
+            owner_id=existing["owner_id"] if existing else user["id"],
+            question=payload.get("question") if "question" in payload or not existing else existing.get("question"),
+            cells=payload["cells"] if "cells" in payload else (existing or {}).get("cells"),
+            queries=payload["queries"] if "queries" in payload else (existing or {}).get("queries"),
+            games=payload["games"] if "games" in payload else (existing or {}).get("games"),
+            seed=payload["seed"] if "seed" in payload else (existing or {}).get("seed"),
+            results=payload["results"] if "results" in payload else (existing or {}).get("results"),
+            locked_cell_id=payload["locked_cell_id"] if "locked_cell_id" in payload else (existing or {}).get("locked_cell_id"),
+            lock_reason=payload["lock_reason"] if "lock_reason" in payload else (existing or {}).get("lock_reason"),
+            script_text=payload["script_text"] if "script_text" in payload else (existing or {}).get("script_text"),
+            exp_id=existing["id"] if existing else None,
+        )
+    except ValueError as exc:
+        raise HTTPException(400, str(exc)) from exc
+
+
+@app.get("/api/lab/experiments")
+def api_list_lab_experiments(user: dict = Depends(require_user)) -> list:
+    if user.get("role") == "admin":
+        return list_lab_experiments()
+    return list_lab_experiments(owner_id=user["id"])
+
+
+@app.post("/api/lab/experiments")
+def api_create_lab_experiment(payload: dict, user: dict = Depends(require_user)) -> dict:
+    return _save_experiment_from_payload(payload or {}, user)
+
+
+@app.get("/api/lab/experiments/{exp_id}")
+def api_get_lab_experiment(exp_id: str, user: dict = Depends(require_user)) -> dict:
+    experiment = get_lab_experiment(exp_id)
+    if not _can_use_experiment(user, experiment):
+        raise HTTPException(404, "Not found")
+    return experiment
+
+
+@app.put("/api/lab/experiments/{exp_id}")
+def api_put_lab_experiment(exp_id: str, payload: dict, user: dict = Depends(require_user)) -> dict:
+    existing = get_lab_experiment(exp_id)
+    if not _can_use_experiment(user, existing):
+        raise HTTPException(404, "Not found")
+    return _save_experiment_from_payload(payload or {}, user, existing=existing)
 
 
 @app.post("/api/chat")

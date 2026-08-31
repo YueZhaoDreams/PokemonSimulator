@@ -57,7 +57,24 @@ CREATE TABLE IF NOT EXISTS settings (
     key TEXT PRIMARY KEY,
     value_json TEXT NOT NULL
 );
+CREATE TABLE IF NOT EXISTS lab_experiments (
+    id TEXT PRIMARY KEY,
+    owner_id TEXT NOT NULL,
+    question TEXT,
+    cells_json TEXT NOT NULL,
+    queries_json TEXT NOT NULL,
+    games INTEGER,
+    seed INTEGER,
+    results_json TEXT,
+    locked_cell_id TEXT,
+    lock_reason TEXT,
+    script_text TEXT,
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL
+);
 """
+
+LAB_SCRIPT_MAX_CHARS = 65_536
 
 
 def connect() -> sqlite3.Connection:
@@ -104,6 +121,7 @@ def init_db() -> None:
         _ensure_chat_agent_id(conn)
         _ensure_owner_columns(conn)
         _ensure_deck_rules_column(conn)
+        _ensure_lab_experiments(conn)
         admin_id = _ensure_admin(conn)
         _upsert_seed_decks(conn, owner_id=admin_id)
         conn.execute(
@@ -141,6 +159,28 @@ def _ensure_deck_rules_column(conn: sqlite3.Connection) -> None:
             continue
         presets = legacy_rule_presets_for(row["id"])
         conn.execute("UPDATE decks SET rules_json=? WHERE id=?", (json.dumps(presets), row["id"]))
+
+
+def _ensure_lab_experiments(conn: sqlite3.Connection) -> None:
+    conn.execute(
+        """
+        CREATE TABLE IF NOT EXISTS lab_experiments (
+            id TEXT PRIMARY KEY,
+            owner_id TEXT NOT NULL,
+            question TEXT,
+            cells_json TEXT NOT NULL,
+            queries_json TEXT NOT NULL,
+            games INTEGER,
+            seed INTEGER,
+            results_json TEXT,
+            locked_cell_id TEXT,
+            lock_reason TEXT,
+            script_text TEXT,
+            created_at TEXT NOT NULL,
+            updated_at TEXT NOT NULL
+        )
+        """
+    )
 
 
 def _ensure_admin(conn: sqlite3.Connection) -> str:
@@ -360,6 +400,137 @@ def get_simulation(sim_id: str) -> dict | None:
     with connect() as conn:
         row = conn.execute("SELECT record_json FROM simulations WHERE id=?", (sim_id,)).fetchone()
     return json.loads(row["record_json"]) if row else None
+
+
+def validate_lab_script_text(script_text: object) -> str | None:
+    if script_text is None:
+        return None
+    if not isinstance(script_text, str):
+        raise ValueError("script_text must be text")
+    if "\x00" in script_text:
+        raise ValueError("script_text must be text")
+    if len(script_text) > LAB_SCRIPT_MAX_CHARS:
+        raise ValueError(f"script_text must be at most {LAB_SCRIPT_MAX_CHARS} characters")
+    return script_text or None
+
+
+def _lab_experiment_from_row(row: sqlite3.Row, *, include_script: bool) -> dict:
+    blob = {
+        "id": row["id"],
+        "owner_id": row["owner_id"],
+        "question": row["question"],
+        "cells": json.loads(row["cells_json"] or "[]"),
+        "queries": json.loads(row["queries_json"] or "[]"),
+        "games": row["games"],
+        "seed": row["seed"],
+        "results": json.loads(row["results_json"]) if row["results_json"] else None,
+        "locked_cell_id": row["locked_cell_id"],
+        "lock_reason": row["lock_reason"],
+        "script_present": bool(row["script_text"]),
+        "created_at": row["created_at"],
+        "updated_at": row["updated_at"],
+    }
+    if include_script:
+        blob["script_text"] = row["script_text"]
+    return blob
+
+
+def get_lab_experiment(exp_id: str) -> dict | None:
+    with connect() as conn:
+        row = conn.execute("SELECT * FROM lab_experiments WHERE id=?", (exp_id,)).fetchone()
+    if not row:
+        return None
+    return _lab_experiment_from_row(row, include_script=True)
+
+
+def list_lab_experiments(owner_id: str | None = None, limit: int = 50) -> list[dict]:
+    with connect() as conn:
+        if owner_id:
+            rows = conn.execute(
+                "SELECT * FROM lab_experiments WHERE owner_id=? ORDER BY updated_at DESC LIMIT ?",
+                (owner_id, limit),
+            ).fetchall()
+        else:
+            rows = conn.execute(
+                "SELECT * FROM lab_experiments ORDER BY updated_at DESC LIMIT ?",
+                (limit,),
+            ).fetchall()
+    return [_lab_experiment_from_row(row, include_script=False) for row in rows]
+
+
+def save_lab_experiment(
+    *,
+    owner_id: str,
+    question: str | None = None,
+    cells: list | dict | None = None,
+    queries: list | dict | None = None,
+    games: int | None = None,
+    seed: int | None = None,
+    results: dict | list | None = None,
+    locked_cell_id: str | None = None,
+    lock_reason: str | None = None,
+    script_text: str | None = None,
+    exp_id: str | None = None,
+) -> dict:
+    if not owner_id:
+        raise ValueError("owner_id is required")
+    script = validate_lab_script_text(script_text)
+    cells_json = json.dumps(cells if cells is not None else [])
+    queries_json = json.dumps(queries if queries is not None else [])
+    results_json = json.dumps(results) if results is not None else None
+    exp_id = exp_id or str(uuid.uuid4())
+    now = _now()
+    with connect() as conn:
+        existing = conn.execute("SELECT id FROM lab_experiments WHERE id=?", (exp_id,)).fetchone()
+        if existing:
+            conn.execute(
+                """
+                UPDATE lab_experiments SET question=?, cells_json=?, queries_json=?, games=?, seed=?,
+                    results_json=?, locked_cell_id=?, lock_reason=?, script_text=?, updated_at=?
+                WHERE id=?
+                """,
+                (
+                    question,
+                    cells_json,
+                    queries_json,
+                    games,
+                    seed,
+                    results_json,
+                    locked_cell_id,
+                    lock_reason,
+                    script,
+                    now,
+                    exp_id,
+                ),
+            )
+        else:
+            conn.execute(
+                """
+                INSERT INTO lab_experiments(
+                    id, owner_id, question, cells_json, queries_json, games, seed,
+                    results_json, locked_cell_id, lock_reason, script_text, created_at, updated_at
+                ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)
+                """,
+                (
+                    exp_id,
+                    owner_id,
+                    question,
+                    cells_json,
+                    queries_json,
+                    games,
+                    seed,
+                    results_json,
+                    locked_cell_id,
+                    lock_reason,
+                    script,
+                    now,
+                    now,
+                ),
+            )
+    saved = get_lab_experiment(exp_id)
+    if not saved:
+        raise RuntimeError("lab experiment was not saved")
+    return saved
 
 
 def get_chat(chat_id: str) -> dict | None:
