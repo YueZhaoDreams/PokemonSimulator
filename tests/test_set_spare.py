@@ -1,7 +1,7 @@
-from app.catalog import energy_card, resolve_name
+from app.catalog import energy_card, lookup_seed_card, resolve_name
 from app.db import _deck_kind
 from app.seed import load_seed_deck, load_seed_payload
-from app.seed_data import SET_SPARE_NAMES, build_fallback_deck
+from app.seed_data import SET_SPARE_NAMES, build_fallback_deck, fallback_named
 
 
 def test_spare_is_a_leftover_pile_not_a_thirty():
@@ -17,6 +17,19 @@ def test_spare_is_a_leftover_pile_not_a_thirty():
     assert pile[0].category == "Trainer"
     assert pile[1].name == "Lickilicky"
     assert pile[2].energy_type == "Fighting"
+
+
+def test_gimmighoul_household_print_has_paradox_rift_art():
+    """Resolve/add uses lookup_seed_card; missing fallback art left Set E tiles blank."""
+    card = fallback_named("Gimmighoul")
+    assert card.catalog_id == "sv04-087"
+    assert card.image
+    assert "sv04/087" in card.image
+    seed = lookup_seed_card(catalog_id="sv04-087")
+    assert seed is not None
+    assert seed.name == "Gimmighoul"
+    assert seed.image
+    assert "sv04/087" in seed.image
 
 
 def test_dark_energy_alias_is_darkness():

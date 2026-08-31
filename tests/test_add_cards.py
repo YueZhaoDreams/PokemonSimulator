@@ -217,3 +217,30 @@ def test_resolve_and_replace_drayton_without_network(tmp_path, monkeypatch):
         assert replaced.status_code == 200
         assert replaced.json()["cards"][0]["name"] == "Drayton"
         assert replaced.json()["cards"][0]["catalog_id"] == "sv08-174"
+
+
+def test_resolve_gimmighoul_keeps_art_without_network(tmp_path, monkeypatch):
+    monkeypatch.setattr("app.db.DB_PATH", tmp_path / "app.db")
+    monkeypatch.setattr("app.catalog._remote_search_briefs", lambda q: [])
+
+    def _timeout(*_a, **_k):
+        raise TimeoutError("timed out")
+
+    monkeypatch.setattr("app.catalog._CLIENT.get", _timeout)
+    monkeypatch.setattr("app.main.fetch_full", _timeout)
+
+    async def _noop():
+        return None
+
+    monkeypatch.setattr("app.main.start_cursor_runtime", _noop)
+    monkeypatch.setattr("app.main.stop_cursor_runtime", _noop)
+
+    with TestClient(app) as client:
+        client.post("/api/auth/login", json={"email": ADMIN_EMAIL, "password": ADMIN_PASSWORD})
+        resolved = client.post("/api/cards/resolve", json={"id": "sv04-087", "name": "Gimmighoul"})
+        assert resolved.status_code == 200
+        card = resolved.json()
+        assert card["catalog_id"] == "sv04-087"
+        assert card["name"] == "Gimmighoul"
+        assert card.get("image")
+        assert "sv04/087" in card["image"]
