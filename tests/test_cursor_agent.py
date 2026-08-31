@@ -1,5 +1,18 @@
-from app.ai.cursor_agent import FAMILY_CUP_BRIEF, cursor_model_label, cursor_model_selection, family_cup_tools, opening_prompt
-from app.config import CURSOR_MODEL, CURSOR_MODEL_EFFORT
+from pathlib import Path
+import sys
+
+from app.ai.cursor_agent import (
+    FAMILY_CUP_BRIEF,
+    PRODUCT_CHAT_DISALLOWED_TOOLS,
+    PRODUCT_CHAT_TOOLS,
+    cursor_model_label,
+    cursor_model_selection,
+    family_cup_tools,
+    opening_prompt,
+    product_chat_agent_options,
+    product_chat_workspace,
+)
+from app.config import COACH_SANDBOX_DIR, CURSOR_MODEL, CURSOR_MODEL_EFFORT, ROOT
 from app.ai.tools import TOOL_SCHEMAS
 from app.db import init_db
 
@@ -53,3 +66,36 @@ def test_family_cup_tools_match_schemas_and_run():
     names = [item["name"] for item in tools["list_strategies"].execute({}, None)]
     assert "thrifty" in names
     assert "shock" in names
+
+
+def test_product_chat_workspace_is_not_the_git_root():
+    workspace = Path(product_chat_workspace()).resolve()
+    assert workspace == COACH_SANDBOX_DIR.resolve()
+    assert workspace != ROOT.resolve()
+    assert workspace.is_dir()
+
+
+def test_product_chat_agent_options_are_mcp_only_and_off_repo():
+    opts = product_chat_agent_options(name="Family Cup chat")
+    payload = opts.to_json()
+    assert payload["tools"]["names"] == list(PRODUCT_CHAT_TOOLS)
+    disallowed = set(payload["disallowedTools"])
+    assert disallowed >= set(PRODUCT_CHAT_DISALLOWED_TOOLS)
+    local = opts.local
+    assert Path(str(local.cwd)).resolve() == COACH_SANDBOX_DIR.resolve()
+    assert Path(str(local.cwd)).resolve() != ROOT.resolve()
+    assert list(local.setting_sources or []) == []
+    sandbox = getattr(local, "sandbox_options", None)
+    if sys.platform == "win32":
+        assert sandbox is None or sandbox.enabled is not True
+    else:
+        assert sandbox is not None
+        assert sandbox.enabled is True
+
+
+def test_family_cup_brief_does_not_invite_repo_edits():
+    lowered = FAMILY_CUP_BRIEF.lower()
+    assert "you may edit files" not in FAMILY_CUP_BRIEF
+    assert "pytest" not in lowered
+    assert "in-process tool" in lowered
+    assert "cannot edit the git checkout" in lowered

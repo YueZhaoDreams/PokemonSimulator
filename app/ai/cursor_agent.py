@@ -2,17 +2,17 @@ from __future__ import annotations
 
 import asyncio
 import json
+import sys
 from collections.abc import AsyncIterator
 from typing import Any
 
 from app.ai.tools import TOOL_SCHEMAS, fill_default_args, run_tool
 from app.config import (
+    COACH_SANDBOX_DIR,
     CURSOR_API_KEY,
     CURSOR_MODEL,
     CURSOR_MODEL_EFFORT,
-    CURSOR_SETTING_SOURCES,
     CURSOR_STATE_DIR,
-    ROOT,
 )
 
 try:
@@ -26,6 +26,7 @@ try:
         LocalSendOptions,
         ModelParameterValue,
         ModelSelection,
+        SandboxOptions,
         SendOptions,
     )
 
@@ -54,10 +55,9 @@ Family Cup:
 - Printed card text wins over lab notes or memory. Never invent a look size such as "top 6".
 
 How to do work:
-- Prefer the in-process tools (list_decks, get_deck, simulate_match, draw_odds, suggest_trades, list_lab, list_strategies, search_cards, get_rules) for engine numbers.
-- Use the shell for pytest, lab scripts under data/lab/, and other repo commands. Activate with `.venv/bin/pytest -q` from the repo root.
-- You may edit files when the user wants the simulator changed.
-- Never invent a win rate or probability. Run the tool or script.
+- Use only the in-process tools (list_decks, get_deck, simulate_match, draw_odds, suggest_trades, list_lab, list_strategies, search_cards, get_rules) for engine numbers.
+- You cannot edit the git checkout, run a shell, write data/lab/, or change app/engine. Do not cat .env or git push.
+- Never invent a win rate or probability. Run an in-process tool.
 - Do not run a match simulation just because someone said hello.
 
 Be concrete and short. Name cards. Mention Family Cup energy when it matters.
@@ -142,22 +142,42 @@ def family_cup_tools() -> dict[str, Any]:
     return tools
 
 
+PRODUCT_CHAT_TOOLS = ("mcp",)
+PRODUCT_CHAT_DISALLOWED_TOOLS = ("shell", "edit", "delete", "task")
+
+
+def product_chat_workspace() -> str:
+    COACH_SANDBOX_DIR.mkdir(parents=True, exist_ok=True)
+    return str(COACH_SANDBOX_DIR)
+
+
 def _local_options() -> Any:
-    sources = CURSOR_SETTING_SOURCES or ("project",)
-    return LocalAgentOptions(
-        cwd=str(ROOT),
-        setting_sources=list(sources),
-        custom_tools=family_cup_tools(),
-    )
+    kwargs: dict[str, Any] = {
+        "cwd": product_chat_workspace(),
+        "setting_sources": [],
+        "custom_tools": family_cup_tools(),
+    }
+    if HAS_SDK and sys.platform != "win32":
+        kwargs["sandbox_options"] = SandboxOptions(enabled=True)
+    return LocalAgentOptions(**kwargs)
 
 
-def _agent_options(*, name: str | None = None) -> Any:
+def product_chat_agent_options(*, name: str | None = None) -> Any:
+    """Local agent options for Combo Cub chat: custom tools only, off the git root."""
+    if not HAS_SDK:
+        raise RuntimeError("Cursor SDK is not installed")
     return AgentOptions(
         model=cursor_model_selection(),
         api_key=CURSOR_API_KEY,
         name=name,
+        tools=list(PRODUCT_CHAT_TOOLS),
+        disallowed_tools=list(PRODUCT_CHAT_DISALLOWED_TOOLS),
         local=_local_options(),
     )
+
+
+def _agent_options(*, name: str | None = None) -> Any:
+    return product_chat_agent_options(name=name)
 
 
 async def start_cursor_runtime() -> None:
@@ -167,7 +187,7 @@ async def start_cursor_runtime() -> None:
         return
     try:
         owner = await AsyncClient.launch_bridge(
-            workspace=str(ROOT),
+            workspace=product_chat_workspace(),
             state_root=str(CURSOR_STATE_DIR),
             timeout=60,
         )

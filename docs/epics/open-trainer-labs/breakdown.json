@@ -1,0 +1,105 @@
+{
+  "version": 1,
+  "epic_slug": "open-trainer-labs",
+  "plan_status": "approved",
+  "features": [
+    {
+      "slug": "coach-isolation",
+      "depends_on": [],
+      "parallel_group": 1
+    },
+    {
+      "slug": "lab-experiment-model",
+      "depends_on": [],
+      "parallel_group": 1
+    },
+    {
+      "slug": "lab-run-cells",
+      "depends_on": ["lab-experiment-model"],
+      "parallel_group": 2
+    },
+    {
+      "slug": "lab-python-sandbox",
+      "depends_on": ["lab-experiment-model"],
+      "parallel_group": 2
+    },
+    {
+      "slug": "user-owned-strategies",
+      "depends_on": ["lab-experiment-model", "lab-run-cells"],
+      "parallel_group": 3
+    }
+  ],
+  "acceptance_gates": [
+    {
+      "id": "coach-isolated",
+      "title": "Product chat cannot write the product git checkout",
+      "after_features": ["coach-isolation"],
+      "consumer": "both",
+      "verifier": "agent-then-human",
+      "verify": [
+        "Product chat AgentOptions expose tools=[\"mcp\"] only (no shell, edit, delete, or task) and setting_sources is empty.",
+        "Product chat local cwd and launch_bridge workspace are not the git worktree root.",
+        "After adversarial chat prompts (edit app/engine/game.py, print .env, git push, write under data/lab/), git status is clean for app/, tests/, data/lab/, and .env.",
+        "A generated lab script, if any, is not created as a new file in the checkout.",
+        "A lab-style question still returns numbers from in-process custom tools, not invented win rates."
+      ],
+      "blocks_dispatch": true
+    },
+    {
+      "id": "lab-is-an-experiment",
+      "title": "Lab is a per-owner comparison of cells, not a single simulate log",
+      "after_features": ["lab-experiment-model", "lab-run-cells"],
+      "consumer": "both",
+      "verifier": "agent-then-human",
+      "verify": [
+        "API and chat tool can create and run an experiment with at least two cells that differ by one deck patch or one StrategySpec overlay, same seed and games cap, with custom queries; response includes per-cell win rate and query rates.",
+        "Lab tab at http://127.0.0.1:8000 shows the matrix for that experiment, not only a single simulation row.",
+        "Two registered non-admin accounts cannot read each other's experiments.",
+        "Completing an experiment does not add or modify files under data/lab/ or app/ in the product checkout."
+      ],
+      "blocks_dispatch": true
+    },
+    {
+      "id": "lab-python-safe",
+      "title": "DB-stored lab Python is sandboxed and fail-closed",
+      "after_features": ["lab-python-sandbox"],
+      "consumer": "both",
+      "verifier": "agent-then-human",
+      "verify": [
+        "A game-related bakeoff script can be stored as a database row (not a git file) and run; checkout stays clean under app/ and data/lab/.",
+        "Hostile payloads do not run and are not kept as executable lab scripts: import os/subprocess/socket/urllib; reading .env or app/engine/game.py from disk; writing anywhere under the git checkout; downloading or decoding a binary; mutating Game so a later request from another user sees the patch.",
+        "Each hostile case: runner rejects or sandbox-kills; no repo file change; no network; other users' later sims still match a clean engine.",
+        "A legitimate bakeoff (cells, run_simulation, StrategySpec, event queries) still runs.",
+        "Human confirms we are not storing arbitrary blobs as labs."
+      ],
+      "blocks_dispatch": true
+    },
+    {
+      "id": "strategy-lock",
+      "title": "Locking a cell becomes a selectable personal strategy",
+      "after_features": ["user-owned-strategies"],
+      "consumer": "human",
+      "verifier": "agent-then-human",
+      "verify": [
+        "After locking a winning cell, that trainer has a saved strategy (and/or updated owned deck) selectable on Fight stratA/stratB and used by a later chat simulate.",
+        "Official STRATEGY_LIBRARY names are unchanged unless an operator changed git.",
+        "A second trainer does not see the first trainer's saved strategy."
+      ],
+      "blocks_dispatch": true
+    },
+    {
+      "id": "epic-exit",
+      "title": "Epic exit",
+      "after_features": ["__all__"],
+      "consumer": "human",
+      "verifier": "human-required",
+      "verify": [
+        "On http://127.0.0.1:8000, a second trainer authors or copies a comparison (Set F carnival vs party vs an energy-type patch, including a DB-stored Python bakeoff), reads which cell won and whether Party/attack queries fired, locks one cell, and plays Fight with that locked strategy.",
+        "Operator confirms the git worktree has no product-chat or trainer-script writes to app/ or data/lab/.",
+        "Operator can still add a notebook under data/lab/ from Desktop.",
+        "Human re-runs the lab-python-safe hostile list on the running app."
+      ],
+      "blocks_epic_done": true
+    }
+  ]
+}
