@@ -106,11 +106,14 @@ TOOL_SCHEMAS = [
     },
     {
         "name": "save_lab_experiment",
-        "description": "Create or update a lab experiment in the database. Do not write data/lab/ or app/.",
+        "description": "Create a new lab experiment, or update one this trainer owns. Pass experiment_id only to update; unknown ids are rejected. Do not write data/lab/ or app/.",
         "parameters": {
             "type": "object",
             "properties": {
-                "experiment_id": {"type": "string"},
+                "experiment_id": {
+                    "type": "string",
+                    "description": "Existing experiment to update. Omit to create a new row.",
+                },
                 "question": {"type": "string"},
                 "cells": {"type": "array"},
                 "queries": {"type": "array"},

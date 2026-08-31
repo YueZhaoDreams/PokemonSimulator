@@ -162,6 +162,7 @@ def _ensure_deck_rules_column(conn: sqlite3.Connection) -> None:
 
 
 def _ensure_lab_experiments(conn: sqlite3.Connection) -> None:
+    """Idempotent create for DBs whose SCHEMA ran before lab_experiments existed."""
     conn.execute(
         """
         CREATE TABLE IF NOT EXISTS lab_experiments (
