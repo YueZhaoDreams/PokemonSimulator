@@ -682,7 +682,6 @@ def lookup_seed_card(name: str = "", catalog_id: str = "") -> Card | None:
         for card in FALLBACK_BY_NAME.values():
             if (card.catalog_id or "") == cid:
                 return Card.from_dict(card.to_dict())
-        return None
     raw = FALLBACK_BY_NAME.get(_fold_name(name)) or FALLBACK_BY_NAME.get(str(name or "").lower())
     if raw:
         return Card.from_dict(raw.to_dict())
@@ -1037,7 +1036,10 @@ def _read_json_list(path: Path) -> list[dict[str, Any]]:
         return []
     if isinstance(data, list):
         return data
-    return data.get("data") or []
+    if isinstance(data, dict):
+        inner = data.get("data") or []
+        return inner if isinstance(inner, list) else []
+    return []
 
 
 def _search_cache_paths(params: list[tuple[str, str]]) -> list[Path]:
@@ -1104,8 +1106,8 @@ def _tcgdex_list_cards(params: list[tuple[str, str]]) -> list[dict[str, Any]]:
             except Exception:
                 break
         if not isinstance(data, list):
-            data = data.get("data") or []
-        if not data:
+            data = (data.get("data") or []) if isinstance(data, dict) else []
+        if not isinstance(data, list) or not data:
             break
         for brief in data:
             cid = str(brief.get("id") or "")
@@ -1120,7 +1122,7 @@ def _tcgdex_list_cards(params: list[tuple[str, str]]) -> list[dict[str, Any]]:
 
 
 def _remote_search_briefs(query: str, parsed: dict[str, str] | None = None) -> list[dict[str, Any]]:
-    """TCGDex lookup by name, collector number, catalog id, HP, or attack."""
+    """TCGDex lookup by name, collector number, or catalog id."""
     parsed = parsed or _parse_search_query(query)
     params: list[tuple[str, str]] = []
     if parsed["name"]:
@@ -1130,6 +1132,7 @@ def _remote_search_briefs(query: str, parsed: dict[str, str] | None = None) -> l
 
     briefs: list[dict[str, Any]] = []
     seen: set[str] = set()
+    tried: set[tuple[tuple[str, str], ...]] = set()
 
     def _absorb(rows: list[dict[str, Any]]) -> None:
         for brief in rows:
@@ -1140,17 +1143,23 @@ def _remote_search_briefs(query: str, parsed: dict[str, str] | None = None) -> l
             seen.add(key)
             briefs.append(brief)
 
+    def _fetch(page_params: list[tuple[str, str]]) -> None:
+        key = tuple(page_params)
+        if not page_params or key in tried:
+            return
+        tried.add(key)
+        _absorb(_tcgdex_list_cards(page_params))
+
     if params:
-        _absorb(_tcgdex_list_cards(params))
+        _fetch(params)
         if not briefs and parsed["name"] and parsed["local_id"]:
-            _absorb(_tcgdex_list_cards([("name", parsed["name"])]))
-            _absorb(_tcgdex_list_cards([("localId", f"eq:{parsed['local_id']}")]))
-        if not briefs and parsed["name"]:
-            _absorb(_tcgdex_list_cards([("name", parsed["name"])]))
-        if not briefs:
-            _absorb(_tcgdex_list_cards([("name", query.strip())]))
+            _fetch([("name", parsed["name"])])
+            _fetch([("localId", f"eq:{parsed['local_id']}")])
+        raw_name = query.strip()
+        if not briefs and raw_name and raw_name != parsed["name"]:
+            _fetch([("name", raw_name)])
     elif not parsed["catalog_id"]:
-        _absorb(_tcgdex_list_cards([("name", query.strip())]))
+        _fetch([("name", query.strip())])
 
     if parsed["catalog_id"] and parsed["catalog_id"] not in seen:
         cid = parsed["catalog_id"]

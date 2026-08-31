@@ -1,6 +1,13 @@
 import json
 
-from app.catalog import _parse_search_query, _pretty_catalog_name, pick_search_hit, search_local
+from app.catalog import (
+    _parse_search_query,
+    _pretty_catalog_name,
+    _read_json_list,
+    lookup_seed_card,
+    pick_search_hit,
+    search_local,
+)
 
 
 def test_pretty_catalog_name_capitalizes_accented_words():
@@ -117,6 +124,21 @@ def test_search_prefix_keeps_related_names(monkeypatch):
     assert "Starly" in names
     assert "Staravia" in names
     assert "Staraptor" in names
+
+
+def test_lookup_seed_card_falls_back_to_name_when_id_misses():
+    card = lookup_seed_card("Drayton", "not-a-real-id")
+    assert card is not None
+    assert card.name == "Drayton"
+    assert card.catalog_id == "sv08-174"
+
+
+def test_read_json_list_tolerates_null_cache(tmp_path):
+    path = tmp_path / "empty.json"
+    path.write_text("null")
+    assert _read_json_list(path) == []
+    path.write_text('"nope"')
+    assert _read_json_list(path) == []
 
 
 def test_search_finds_seed_supporter_drayton(monkeypatch):

@@ -201,6 +201,10 @@ def test_resolve_and_replace_drayton_without_network(tmp_path, monkeypatch):
         assert card["trainer_kind"] == "supporter"
         assert "top 7" in (card.get("text") or "").lower()
 
+        stale = client.post("/api/cards/resolve", json={"id": "missing-print", "name": "Drayton"})
+        assert stale.status_code == 200
+        assert stale.json()["catalog_id"] == "sv08-174"
+
         created = client.post(
             "/api/decks",
             json={"name": "Replace probe", "cards": [{"name": "Cubone"}], "source": "search"},
