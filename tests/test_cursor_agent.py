@@ -95,7 +95,7 @@ def test_product_chat_agent_options_are_mcp_only_and_off_repo():
 
 def test_family_cup_brief_does_not_invite_repo_edits():
     lowered = FAMILY_CUP_BRIEF.lower()
-    assert "you may edit files" not in FAMILY_CUP_BRIEF
+    assert "you may edit files" not in lowered
     assert "pytest" not in lowered
     assert "in-process tool" in lowered
     assert "cannot edit the git checkout" in lowered
