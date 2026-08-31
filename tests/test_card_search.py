@@ -165,7 +165,7 @@ def test_search_local_finds_brilliant_stars_starly_by_collector_code(monkeypatch
     assert by_id[0]["id"] == "swsh9-117"
 
 
-def _starly_briefs(_q):
+def _starly_briefs(*_a, **_k):
     others = [{"id": f"sv01-{n:03d}", "name": "Starly", "localId": str(n)} for n in range(130, 148)]
     claw = {
         "id": "swsh9-117",
@@ -245,6 +245,107 @@ def test_parse_search_query_keeps_ex_suffix_as_name():
     claw = _parse_search_query("starly claw")
     assert claw["name"] == "Starly"
     assert claw["attack"] == "claw"
+
+
+def test_parse_search_query_treats_round_hp_as_hp_and_collector():
+    raichu = _parse_search_query("Raichu 120")
+    assert raichu["name"] == "Raichu"
+    assert raichu["hp"] == "120"
+    assert raichu["local_id"] == "120"
+    labeled = _parse_search_query("Raichu 120 hp")
+    assert labeled["name"] == "Raichu"
+    assert labeled["hp"] == "120"
+    assert labeled["local_id"] == ""
+    starly = _parse_search_query("starly 117")
+    assert starly["name"] == "Starly"
+    assert starly["local_id"] == "117"
+    assert starly["hp"] == ""
+
+
+def _many_raichu_briefs(*_a, **_k):
+    crowd = [{"id": f"base1-{n}", "name": "Raichu", "localId": str(n)} for n in range(1, 46)]
+    crowd.append(
+        {
+            "id": "swsh12-050",
+            "name": "Raichu",
+            "localId": "050",
+            "hp": 120,
+            "set": {"name": "Silver Tempest", "cardCount": {"official": 195}},
+        }
+    )
+    crowd.append({"id": "swsh9-180", "name": "Raichu VSTAR", "localId": "180"})
+    return crowd
+
+
+def test_search_keeps_later_same_name_printings(monkeypatch):
+    monkeypatch.setattr("app.catalog._remote_search_briefs", _many_raichu_briefs)
+    hits = search_local("Raichu")
+    ids = [h["id"] for h in hits if h["name"] == "Raichu"]
+    assert "swsh12-050" in ids
+    assert len(ids) > 40
+
+
+def test_search_raichu_120_hp_ranks_silver_tempest(monkeypatch):
+    monkeypatch.setattr("app.catalog._remote_search_briefs", _many_raichu_briefs)
+    hits = search_local("Raichu 120 hp")
+    assert hits[0]["id"] == "swsh12-050"
+    assert pick_search_hit("Raichu 120 hp", hits)["id"] == "swsh12-050"
+    by_number = search_local("Raichu 120")
+    assert by_number[0]["id"] == "swsh12-050"
+
+
+def test_search_hp_query_keeps_other_exact_printings(monkeypatch):
+    monkeypatch.setattr("app.catalog._remote_search_briefs", _many_raichu_briefs)
+    hits = search_local("Raichu 120 hp")
+    ids = [h["id"] for h in hits if h["name"] == "Raichu"]
+    assert hits[0]["id"] == "swsh12-050"
+    assert "base1-45" in ids
+    assert len(ids) > 40
+
+
+def test_remote_search_ors_hp_and_collector_when_number_is_ambiguous(monkeypatch):
+    from app.catalog import _remote_search_briefs
+
+    seen: list[list[tuple[str, str]]] = []
+
+    def capture(params):
+        seen.append(list(params))
+        return [{"id": "swsh12-050", "name": "Raichu", "localId": "050", "hp": 50}]
+
+    monkeypatch.setattr("app.catalog._tcgdex_list_cards", capture)
+    _remote_search_briefs("Raichu 50")
+    assert any(("hp", "eq:50") in params for params in seen)
+    assert any(("localId", "eq:50") in params for params in seen)
+    assert not any(
+        ("hp", "eq:50") in params and any(key == "localId" for key, _ in params) for params in seen
+    )
+
+
+def test_remote_search_uses_hp_filter_not_anded_with_collector(monkeypatch):
+    from app.catalog import _remote_search_briefs
+
+    seen: list[list[tuple[str, str]]] = []
+
+    def capture(params):
+        seen.append(list(params))
+        if any(key == "hp" for key, _ in params):
+            return [
+                {
+                    "id": "swsh12-050",
+                    "name": "Raichu",
+                    "localId": "050",
+                    "hp": 120,
+                }
+            ]
+        return [{"id": "base1-14", "name": "Raichu", "localId": "14"}]
+
+    monkeypatch.setattr("app.catalog._tcgdex_list_cards", capture)
+    rows = _remote_search_briefs("Raichu 120 hp")
+    assert any(row["id"] == "swsh12-050" for row in rows)
+    assert any(("hp", "eq:120") in params for params in seen)
+    assert not any(
+        ("hp", "eq:120") in params and any(key == "localId" for key, _ in params) for params in seen
+    )
 
 
 def test_remote_search_uses_exact_collector_local_id(monkeypatch):

@@ -1106,6 +1106,7 @@ function searchHitHtml(hits) {
       ${h.image ? `<img src="${esc(h.image)}" alt="${esc(h.name || "")}">` : ""}
       <span>${esc(h.name || "")}</span>
       ${code ? `<span class="hit-code">${esc(code)}</span>` : ""}
+      ${h.hp ? `<span class="hit-code">${esc(String(h.hp))} HP</span>` : ""}
       <span class="hit-add">${action}</span>
     </button>`;
   }).join("");

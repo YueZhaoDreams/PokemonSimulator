@@ -279,6 +279,8 @@ label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 6px
 .search-hits {
   display: grid; grid-template-columns: repeat(auto-fill, minmax(88px, 1fr));
   gap: 8px; margin-top: 8px;
+  max-height: min(70vh, 560px);
+  overflow: auto;
 }
 .search-hit {
   background: #0f1724; border: 1px solid #3d4d6b; border-radius: 10px;
