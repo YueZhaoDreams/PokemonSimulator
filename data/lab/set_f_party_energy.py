@@ -176,7 +176,7 @@ def load_f_cards() -> list[Card]:
 
         deck = get_deck("seed-f")
         names = [c["name"] for c in (deck or {}).get("cards") or []]
-        if names == list(APP_F_NAMES):
+        if Counter(names) == Counter(APP_F_NAMES):
             return [Card.from_dict(c) for c in deck["cards"]]
     except Exception:
         pass
@@ -191,6 +191,9 @@ def swap_energy(cards: list[Card], mix: tuple[tuple[str, int], ...]) -> list[Car
     names: list[str] = []
     for energy_type, count in mix:
         names.extend([f"{energy_type} Energy"] * count)
+    have = sum(1 for card in cards if is_basic_energy_card(card))
+    if have != len(names):
+        raise ValueError(f"energy mix {mix} expected {len(names)} Energy, deck has {have}")
     out: list[Card] = []
     used = 0
     for card in cards:
@@ -199,8 +202,6 @@ def swap_energy(cards: list[Card], mix: tuple[tuple[str, int], ...]) -> list[Car
             used += 1
         else:
             out.append(card)
-    if used != len(names):
-        raise ValueError(f"energy mix {mix} expected {len(names)} Energy, deck has {used}")
     return out
 
 

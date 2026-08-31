@@ -5,6 +5,8 @@ from importlib.util import module_from_spec, spec_from_file_location
 from pathlib import Path
 from random import Random
 
+import pytest
+
 from app.engine.game import Game, play_game
 from app.engine.models import no_pokemon_energy_family_rules
 from app.engine.strategies import StrategySpec
@@ -43,6 +45,8 @@ def test_energy_swap_keeps_thirty():
     cut = lab.drop_clefairy_add_energy(f)
     assert len(cut) == 30
     assert all(c.name != "Clefairy" for c in cut)
+    with pytest.raises(ValueError, match="expected 11 Energy"):
+        lab.swap_energy(f, (("Water", 11),))
 
 
 def test_carnival_does_not_fire_moon_watching_party():
@@ -62,10 +66,14 @@ def test_carnival_does_not_fire_moon_watching_party():
 
 def test_forced_party_caps_clefairy_at_four():
     lab = _lab()
+    game = lab.game_mod.Game
+    orig = (game._clefairy_play_cap, game._vs_lightning_glass, game._want_storm_line)
+    dummy = object()
     with lab.force_clefairy_party():
-        dummy = object()
-        assert lab.game_mod.Game._clefairy_play_cap(dummy, dummy) == 4
-        assert lab.game_mod.Game._want_storm_line(dummy, dummy, dummy, dummy) is True
+        assert game._clefairy_play_cap(dummy, dummy) == 4
+        assert game._vs_lightning_glass(dummy, dummy) is False
+        assert game._want_storm_line(dummy, dummy, dummy, dummy) is True
+    assert (game._clefairy_play_cap, game._vs_lightning_glass, game._want_storm_line) == orig
 
     e = build_fallback_deck(list(SET_E_NAMES))
     f = build_fallback_deck(list(lab.APP_F_NAMES))
