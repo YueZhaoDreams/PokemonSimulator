@@ -14,7 +14,7 @@ from app.ai.cursor_agent import start_cursor_runtime, stop_cursor_runtime
 from app.ai.llm import provider_status
 from app.ai.tools import reset_viewer, use_viewer
 from app.auth import hash_password, normalize_email, valid_email, verify_password
-from app.catalog import PREFERRED_IDS, resolve_name, search_local, fetch_full, normalize_card
+from app.catalog import PREFERRED_IDS, lookup_seed_card, resolve_name, search_local, fetch_full, normalize_card
 from app.config import SAMPLES_DIR, SESSION_COOKIE, SESSION_DAYS, SESSION_SECURE, STATIC_DIR, UPLOADS_DIR
 from app.db import (
     create_session,
@@ -305,21 +305,30 @@ def api_card_search(q: str, scope: str = "all", _user: dict = Depends(require_us
 @app.post("/api/cards/resolve")
 def api_resolve(payload: dict, _user: dict = Depends(require_user)) -> dict:
     cid = str(payload.get("id") or payload.get("catalog_id") or "").strip()
+    name = str(payload.get("name") or "").strip()
+    seed = lookup_seed_card(name, cid)
+    if seed:
+        return seed.to_dict()
     if cid:
         try:
             return normalize_card(fetch_full(cid)).to_dict()
         except Exception:
             pass
-    name = str(payload.get("name") or "").strip()
     if not name:
         raise HTTPException(400, "name required")
     pin = PREFERRED_IDS.get(name)
     if pin and pin != cid:
+        seed = lookup_seed_card(name, pin)
+        if seed:
+            return seed.to_dict()
         try:
             return normalize_card(fetch_full(pin)).to_dict()
         except Exception:
             pass
-    return resolve_name(name, payload.get("prefer")).to_dict()
+    try:
+        return resolve_name(name, payload.get("prefer")).to_dict()
+    except Exception as exc:
+        raise HTTPException(502, "Could not resolve that card") from exc
 
 
 @app.post("/api/recognize")

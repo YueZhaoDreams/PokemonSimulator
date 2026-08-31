@@ -550,7 +550,10 @@ def resolve_name(name: str, prefer: list[str] | None = None, ocr_text: str | Non
     prefer = list(prefer or []) or list(PRINT_PREFER.get(name) or [])
     preferred_id = PREFERRED_IDS.get(name)
 
-    briefs = search_briefs(name)
+    try:
+        briefs = search_briefs(name)
+    except Exception:
+        briefs = []
     exact = [b for b in briefs if (b.get("name") or "").lower() == name.lower()]
     pool = exact or briefs
     ranked = sorted(pool, key=lambda b: _score_candidate(b, name, prefer), reverse=True)
@@ -581,6 +584,9 @@ def resolve_name(name: str, prefer: list[str] | None = None, ocr_text: str | Non
             _add(cid)
 
     if not candidates:
+        seed = lookup_seed_card(name)
+        if seed:
+            return seed
         return fallback_card(name)
 
     art_scores: dict[str, float] = {}
@@ -665,7 +671,28 @@ def energy_card(energy_type: str) -> Card:
     )
 
 
+def lookup_seed_card(name: str = "", catalog_id: str = "") -> Card | None:
+    """Household prints from seed_data — used when TCGDex is down or skipped."""
+    try:
+        from app.seed_data import FALLBACK_BY_NAME
+    except Exception:
+        return None
+    cid = str(catalog_id or "").strip()
+    if cid:
+        for card in FALLBACK_BY_NAME.values():
+            if (card.catalog_id or "") == cid:
+                return Card.from_dict(card.to_dict())
+        return None
+    raw = FALLBACK_BY_NAME.get(_fold_name(name)) or FALLBACK_BY_NAME.get(str(name or "").lower())
+    if raw:
+        return Card.from_dict(raw.to_dict())
+    return None
+
+
 def fallback_card(name: str) -> Card:
+    seed = lookup_seed_card(name)
+    if seed:
+        return seed
     lower = name.lower()
     if lower in TRAINER_KIND_HINTS:
         kind = TRAINER_KIND_HINTS[lower]
