@@ -5,7 +5,7 @@ import re
 from functools import lru_cache
 from pathlib import Path
 from typing import Any
-from urllib.parse import quote
+from urllib.parse import quote, urlencode
 import unicodedata
 
 import httpx
@@ -200,6 +200,7 @@ PREFERRED_IDS = {
 EXTRA_PRINT_IDS: dict[str, tuple[str, ...]] = {
     "Pikachu": ("sm3-40", "sm12-66"),
     "Rockruff": ("swsh12.5-073", "swsh11-109"),
+    "Starly": ("sv01-148", "swsh9-117"),  # Flap 20 Paldea Evolved; Claw 30 Brilliant Stars 117/172
 }
 
 
@@ -779,6 +780,183 @@ def _local_name_catalog() -> tuple[tuple[str, str, str], ...]:
     return tuple(rows)
 
 
+_COLLECTOR_RE = re.compile(r"\b(\d{1,3})\s*/\s*(\d{2,3})\b")
+_HP_RE = re.compile(r"\b(\d{2,3})\s*hp\b", re.I)
+_CATALOG_TOKEN_RE = re.compile(r"\b([A-Za-z][A-Za-z0-9.]*-\d+[A-Za-z0-9]*)\b")
+_PRINTING_HIT_CAP = 40
+_REMOTE_HIT_CAP = 250
+_NAME_STAGE_SUFFIXES = {"ex", "v", "vmax", "vstar", "gx", "tag team"}
+
+
+def _local_id_from_catalog_id(cid: str) -> str:
+    if not cid or "-" not in str(cid):
+        return ""
+    return str(cid).split("-", 1)[1]
+
+
+def _norm_local_id(value: str) -> str:
+    text = str(value or "").strip()
+    if text.isdigit():
+        return str(int(text))
+    return text.lower()
+
+
+def _local_ids_equal(left: str, right: str) -> bool:
+    a, b = _norm_local_id(left), _norm_local_id(right)
+    return bool(a) and a == b
+
+
+def _hit_local_id(hit: dict[str, Any]) -> str:
+    return str(hit.get("local_id") or hit.get("localId") or _local_id_from_catalog_id(str(hit.get("id") or "")))
+
+
+def _set_size_from_brief(brief: dict[str, Any]) -> str:
+    set_info = brief.get("set") if isinstance(brief, dict) else None
+    if not isinstance(set_info, dict):
+        return ""
+    counts = set_info.get("cardCount") if isinstance(set_info.get("cardCount"), dict) else {}
+    for key in ("official", "total", "printed"):
+        raw = counts.get(key)
+        if raw:
+            return str(raw)
+    return ""
+
+
+def _hit_code(local_id: str, set_size: str = "") -> str:
+    if local_id and set_size:
+        return f"{local_id}/{set_size}"
+    return local_id or ""
+
+
+def _leftover_is_name_suffix(leftover: str) -> bool:
+    fold = _fold_name(leftover)
+    if not fold:
+        return False
+    first = fold.split()[0]
+    return first in _NAME_STAGE_SUFFIXES or fold in _NAME_STAGE_SUFFIXES
+
+
+_SET_OFFICIAL_COUNTS: dict[str, str] | None = None
+
+
+def _set_official_counts() -> dict[str, str]:
+    global _SET_OFFICIAL_COUNTS
+    if _SET_OFFICIAL_COUNTS:
+        return _SET_OFFICIAL_COUNTS
+    path = _cache_path("http", "sets-en")
+    data: Any = []
+    if path.exists():
+        try:
+            data = json.loads(path.read_text())
+        except Exception:
+            data = []
+    if not data:
+        try:
+            response = _CLIENT.get(f"{TCGDEX_BASE}/sets")
+            response.raise_for_status()
+            data = response.json()
+            path.write_text(json.dumps(data))
+        except Exception:
+            return {}
+    if not isinstance(data, list):
+        data = data.get("data") or []
+    out: dict[str, str] = {}
+    for row in data:
+        sid = str(row.get("id") or "")
+        counts = row.get("cardCount") if isinstance(row.get("cardCount"), dict) else {}
+        official = counts.get("official") or counts.get("total")
+        if sid and official:
+            out[sid] = str(official)
+    if out:
+        _SET_OFFICIAL_COUNTS = out
+    return out
+
+
+def _hit_set_size(hit: dict[str, Any]) -> str:
+    code = str(hit.get("code") or "")
+    if "/" in code:
+        return code.split("/", 1)[1]
+    cid = str(hit.get("id") or "")
+    set_id = cid.split("-", 1)[0] if "-" in cid else ""
+    if not set_id:
+        return ""
+    counts = _SET_OFFICIAL_COUNTS
+    if not counts:
+        path = _cache_path("http", "sets-en")
+        if not path.exists():
+            return ""
+        counts = _set_official_counts()
+    return str(counts.get(set_id) or "")
+
+
+def _hit_matches_set_size(hit: dict[str, Any], set_size: str) -> bool:
+    if not set_size:
+        return False
+    got = _hit_set_size(hit)
+    return bool(got) and str(got) == str(set_size)
+
+
+def _parse_search_query(query: str) -> dict[str, str]:
+    rest = (query or "").strip()
+    catalog_id = ""
+    local_id = ""
+    set_size = ""
+    hp = ""
+    name = ""
+    attack = ""
+
+    cat = _CATALOG_TOKEN_RE.search(rest)
+    if cat and _looks_like_tcgdex_id(cat.group(1)):
+        catalog_id = cat.group(1)
+        rest = f"{rest[: cat.start()]} {rest[cat.end() :]}".strip()
+
+    col = _COLLECTOR_RE.search(rest)
+    if col:
+        local_id = col.group(1)
+        set_size = col.group(2)
+        rest = f"{rest[: col.start()]} {rest[col.end() :]}".strip()
+
+    hp_m = _HP_RE.search(rest)
+    if hp_m:
+        hp = hp_m.group(1)
+        rest = f"{rest[: hp_m.start()]} {rest[hp_m.end() :]}".strip()
+
+    folded_rest = _fold_name(rest)
+    best = ""
+    for _cid, catalog_name, _image in _local_name_catalog():
+        folded_name = _fold_name(catalog_name)
+        if not folded_name:
+            continue
+        if folded_rest == folded_name or folded_rest.startswith(f"{folded_name} "):
+            if len(folded_name) >= len(best):
+                best = folded_name
+                name = catalog_name
+                leftover = folded_rest[len(folded_name) :].strip()
+                if leftover.isdigit() and 1 <= len(leftover) <= 3 and not local_id:
+                    local_id = leftover
+                    attack = ""
+                elif _leftover_is_name_suffix(leftover):
+                    name = rest
+                    attack = ""
+                else:
+                    attack = re.sub(r"\s+\d{1,3}$", "", leftover).strip()
+    if not best:
+        name = rest
+        if not local_id and re.fullmatch(r"\d{1,3}", rest.strip() or ""):
+            local_id = rest.strip()
+            name = ""
+
+    return {
+        "raw": (query or "").strip(),
+        "name": name.strip(),
+        "local_id": local_id,
+        "set_size": set_size,
+        "catalog_id": catalog_id,
+        "hp": hp,
+        "attack": attack,
+    }
+
+
 def _name_match_rank(name: str, query: str) -> int:
     n = _fold_name(name)
     q = _fold_name(query)
@@ -795,6 +973,25 @@ def _name_match_rank(name: str, query: str) -> int:
     return 9
 
 
+def _brief_as_hit(brief: dict[str, Any]) -> dict[str, str]:
+    name = (brief.get("name") or "").strip()
+    cid = str(brief.get("id") or "")
+    local_id = str(brief.get("localId") or brief.get("local_id") or _local_id_from_catalog_id(cid))
+    set_size = _set_size_from_brief(brief)
+    return {
+        "id": cid,
+        "name": name,
+        "image": _image_url(brief) or "",
+        "local_id": local_id,
+        "code": _hit_code(local_id, set_size),
+    }
+
+
+def _catalog_row_hit(cid: str, name: str, image: str) -> dict[str, str]:
+    local_id = _local_id_from_catalog_id(cid)
+    return {"id": cid, "name": name, "image": image, "local_id": local_id, "code": local_id}
+
+
 def _hits_from_briefs(briefs: list[dict[str, Any]], limit: int) -> list[dict[str, str]]:
     out: list[dict[str, str]] = []
     seen: set[str] = set()
@@ -805,39 +1002,102 @@ def _hits_from_briefs(briefs: list[dict[str, Any]], limit: int) -> list[dict[str
         if not name or key in seen:
             continue
         seen.add(key)
-        out.append(
-            {
-                "id": cid,
-                "name": name,
-                "image": _image_url(brief) or "",
-            }
-        )
+        out.append(_brief_as_hit(brief))
         if len(out) >= limit:
             break
     return out
 
 
-def _remote_search_briefs(name: str) -> list[dict[str, Any]]:
-    """TCGDex name lookup with a short timeout so typing stays usable."""
-    cache_key = f"search-{name.lower().strip()}"
-    path = _cache_path("http", cache_key)
-    if path.exists():
-        try:
-            data = json.loads(path.read_text())
-        except Exception:
-            data = []
-    else:
-        url = f"{TCGDEX_BASE}/cards?name={quote(name)}"
-        try:
-            response = _SEARCH_CLIENT.get(url)
-            response.raise_for_status()
-            data = response.json()
-            path.write_text(json.dumps(data))
-        except Exception:
-            return []
-    if isinstance(data, list):
-        return data
-    return data.get("data") or []
+def _tcgdex_list_cards(params: list[tuple[str, str]]) -> list[dict[str, Any]]:
+    exact_id = any(key == "localId" and str(value).startswith("eq:") for key, value in params)
+    paginate = any(key == "localId" for key, _value in params) and not exact_id
+    pages = 3 if paginate else 1
+    rows: list[dict[str, Any]] = []
+    seen: set[str] = set()
+    for page in range(1, pages + 1):
+        page_params = list(params)
+        if paginate:
+            page_params.extend(
+                [("pagination:itemsPerPage", "100"), ("pagination:page", str(page))]
+            )
+        cache_key = "search-" + "&".join(f"{key}={value}" for key, value in page_params)
+        path = _cache_path("http", cache_key)
+        if path.exists():
+            try:
+                data = json.loads(path.read_text())
+            except Exception:
+                data = []
+        else:
+            url = f"{TCGDEX_BASE}/cards?{urlencode(page_params)}"
+            try:
+                client = _CLIENT if any(key == "localId" for key, _value in page_params) else _SEARCH_CLIENT
+                response = client.get(url)
+                response.raise_for_status()
+                data = response.json()
+                path.write_text(json.dumps(data))
+            except Exception:
+                break
+        if not isinstance(data, list):
+            data = data.get("data") or []
+        if not data:
+            break
+        for brief in data:
+            cid = str(brief.get("id") or "")
+            key = cid or f"name:{_fold_name(str(brief.get('name') or ''))}"
+            if key in seen:
+                continue
+            seen.add(key)
+            rows.append(brief)
+        if len(data) < 100:
+            break
+    return rows
+
+
+def _remote_search_briefs(query: str, parsed: dict[str, str] | None = None) -> list[dict[str, Any]]:
+    """TCGDex lookup by name, collector number, catalog id, HP, or attack."""
+    parsed = parsed or _parse_search_query(query)
+    params: list[tuple[str, str]] = []
+    if parsed["name"]:
+        params.append(("name", parsed["name"]))
+    if parsed["local_id"]:
+        params.append(("localId", f"eq:{parsed['local_id']}"))
+    if parsed["hp"]:
+        params.append(("hp", f"eq:{parsed['hp']}"))
+    if parsed["attack"]:
+        params.append(("attacks.name", parsed["attack"]))
+
+    briefs: list[dict[str, Any]] = []
+    seen: set[str] = set()
+
+    def _absorb(rows: list[dict[str, Any]]) -> None:
+        for brief in rows:
+            cid = str(brief.get("id") or "")
+            key = cid or f"name:{_fold_name(str(brief.get('name') or ''))}"
+            if key in seen:
+                continue
+            seen.add(key)
+            briefs.append(brief)
+
+    if params:
+        _absorb(_tcgdex_list_cards(params))
+        if not briefs and parsed["name"] and parsed["local_id"]:
+            _absorb(_tcgdex_list_cards([("name", parsed["name"])]))
+            _absorb(_tcgdex_list_cards([("localId", f"eq:{parsed['local_id']}")]))
+    elif not parsed["catalog_id"]:
+        _absorb(_tcgdex_list_cards([("name", query.strip())]))
+
+    if parsed["catalog_id"] and parsed["catalog_id"] not in seen:
+        cid = parsed["catalog_id"]
+        briefs.insert(
+            0,
+            {
+                "id": cid,
+                "name": parsed["name"] or cid,
+                "localId": _local_id_from_catalog_id(cid),
+                "image": _tcgdex_low(cid) if _looks_like_tcgdex_id(cid) else "",
+            },
+        )
+    return briefs
 
 
 def _merge_search_hits(
@@ -845,31 +1105,58 @@ def _merge_search_hits(
     remote: list[dict[str, str]],
     query: str,
     limit: int,
+    parsed: dict[str, str] | None = None,
 ) -> list[dict[str, str]]:
+    parsed = parsed or _parse_search_query(query)
+    name_q = parsed["name"] or query
     merged: dict[str, dict[str, str]] = {}
     for hit in local + remote:
         name = hit.get("name") or ""
         cid = str(hit.get("id") or "").strip()
         key = f"id:{cid}" if cid else f"name:{_fold_name(name)}"
-        if not _fold_name(name):
+        if not _fold_name(name) and not cid:
             continue
         prev = merged.get(key)
         if not prev:
             merged[key] = hit
             continue
+        richer_code = hit.get("code") or ""
+        prev_code = prev.get("code") or ""
+        code = richer_code if "/" in richer_code and "/" not in prev_code else prev_code or richer_code
         if not prev.get("id") and hit.get("id"):
-            merged[key] = hit
+            merged[key] = {**prev, **hit, "code": code}
         elif not prev.get("image") and hit.get("image"):
-            merged[key] = {**prev, "image": hit["image"], "id": hit.get("id") or prev.get("id")}
+            merged[key] = {**prev, "image": hit["image"], "id": hit.get("id") or prev.get("id"), "code": code}
+        else:
+            merged[key] = {
+                **hit,
+                **prev,
+                "local_id": prev.get("local_id") or hit.get("local_id") or "",
+                "code": code,
+            }
     ranked = sorted(
         merged.values(),
         key=lambda hit: (
-            _name_match_rank(hit["name"], query),
-            _fold_name(hit["name"]),
+            0 if parsed["catalog_id"] and (hit.get("id") or "") == parsed["catalog_id"] else 1,
+            0 if parsed["set_size"] and _hit_matches_set_size(hit, parsed["set_size"]) else 1,
+            0 if parsed["local_id"] and _local_ids_equal(_hit_local_id(hit), parsed["local_id"]) else 1,
+            _name_match_rank(hit.get("name") or "", name_q) if name_q else 9,
             0 if (hit.get("id") or "") == (PREFERRED_IDS.get(hit.get("name") or "") or "") else 1,
+            _fold_name(hit.get("name") or ""),
             hit.get("id") or "",
         ),
     )
+    cap = _REMOTE_HIT_CAP if parsed["local_id"] else _PRINTING_HIT_CAP
+    exact = [hit for hit in ranked if name_q and _name_match_rank(hit.get("name") or "", name_q) == 0]
+    number_hits = [
+        hit for hit in ranked if parsed["local_id"] and _local_ids_equal(_hit_local_id(hit), parsed["local_id"])
+    ]
+    if number_hits:
+        others = [hit for hit in ranked if hit not in number_hits]
+        return (number_hits[:cap] + others)[: max(limit, min(len(number_hits), cap))]
+    if exact:
+        others = [hit for hit in ranked if hit not in exact]
+        return (exact[:_PRINTING_HIT_CAP] + others)[: max(limit, min(len(exact), _PRINTING_HIT_CAP))]
     return ranked[:limit]
 
 
@@ -877,27 +1164,59 @@ def search_local(query: str, limit: int = 12, remote: bool = True) -> list[dict[
     q = query.strip()
     if len(q) < 2:
         return []
-    local = [
-        {"id": cid, "name": name, "image": image}
-        for cid, name, image in _local_name_catalog()
-        if _name_match_rank(name, q) < 9
-    ]
-    local.sort(key=lambda hit: (_name_match_rank(hit["name"], q), _fold_name(hit["name"])))
-    local = local[: max(limit, 12)]
+    parsed = _parse_search_query(q)
+    name_q = parsed["name"] or (q if not parsed["local_id"] else "")
+    local = []
+    for cid, name, image in _local_name_catalog():
+        name_hit = bool(name_q) and _name_match_rank(name, name_q) < 9
+        number_hit = bool(parsed["local_id"]) and _local_ids_equal(_local_id_from_catalog_id(cid), parsed["local_id"])
+        id_hit = bool(parsed["catalog_id"]) and cid == parsed["catalog_id"]
+        if name_hit or number_hit or id_hit:
+            local.append(_catalog_row_hit(cid, name, image))
+    if parsed["catalog_id"] and not any(hit.get("id") == parsed["catalog_id"] for hit in local):
+        cid = parsed["catalog_id"]
+        image = _tcgdex_low(cid) if _looks_like_tcgdex_id(cid) else ""
+        local.insert(0, _catalog_row_hit(cid, parsed["name"] or cid, image))
+    local.sort(
+        key=lambda hit: (
+            0 if parsed["local_id"] and _local_ids_equal(_hit_local_id(hit), parsed["local_id"]) else 1,
+            _name_match_rank(hit["name"], name_q) if name_q else 9,
+            _fold_name(hit["name"]),
+        )
+    )
+    local = local[: max(limit, 12, _PRINTING_HIT_CAP if parsed["local_id"] else 12)]
     extra: list[dict[str, str]] = []
     if remote:
-        extra = _hits_from_briefs(_remote_search_briefs(q), limit * 2)
-    merged = _merge_search_hits(local, extra, q, limit)
+        cap = _REMOTE_HIT_CAP if parsed["local_id"] else _PRINTING_HIT_CAP
+        extra = _hits_from_briefs(_remote_search_briefs(q), cap)
+    merged = _merge_search_hits(local, extra, q, limit, parsed)
     if merged:
         return merged
-    return [{"id": "", "name": q, "image": ""}]
+    return [{"id": "", "name": q, "image": "", "local_id": parsed["local_id"], "code": _hit_code(parsed["local_id"], parsed["set_size"])}]
 
 
 def pick_search_hit(typed: str, hits: list[dict[str, str]] | None) -> dict[str, str] | None:
-    """What Add to set should resolve: exact typed name, else the top hit, else the typed string."""
+    """What Add to set should resolve: numbered print, exact typed name, else the top hit."""
     q = (typed or "").strip()
     rows = [h for h in (hits or []) if (h.get("name") or "").strip()]
-    folded = _fold_name(q)
+    parsed = _parse_search_query(q)
+    if parsed["catalog_id"]:
+        for hit in rows:
+            if (hit.get("id") or "") == parsed["catalog_id"]:
+                return hit
+    if parsed["local_id"]:
+        numbered = [h for h in rows if _local_ids_equal(_hit_local_id(h), parsed["local_id"])]
+        if parsed["set_size"]:
+            sized = [h for h in numbered if _hit_matches_set_size(h, parsed["set_size"])]
+            if sized:
+                numbered = sized
+        if parsed["name"]:
+            named = [h for h in numbered if _name_match_rank(h.get("name") or "", parsed["name"]) <= 1]
+            if named:
+                return named[0]
+        elif numbered:
+            return numbered[0]
+    folded = _fold_name(parsed["name"] or q)
     if folded:
         matches = [h for h in rows if _fold_name(h.get("name") or "") == folded]
         if matches:
@@ -906,6 +1225,8 @@ def pick_search_hit(typed: str, hits: list[dict[str, str]] | None) -> dict[str, 
                 if pin and (hit.get("id") or "") == pin:
                     return hit
             return matches[0]
+        if parsed["name"] and parsed["local_id"]:
+            return {"id": "", "name": parsed["name"], "image": ""}
     if rows:
         return rows[0]
     if q:

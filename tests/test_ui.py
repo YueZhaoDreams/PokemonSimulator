@@ -164,6 +164,7 @@ def test_styles_keep_stadium_tokens_and_reduced_motion():
     assert "opacity: 0" in css
     assert ".card-sheet" in css
     assert ".hit-add" in css
+    assert ".hit-code" in css
     assert "body.card-sheet-open" in css
     assert "#cubLauncher:focus-visible" in css
     assert "flex-direction: row" in css
@@ -273,6 +274,8 @@ def test_app_js_keeps_simulator_contracts():
     assert "state.chatOpened" in js
     assert "function searchHitHtml" in js
     assert 'alt="${esc(h.name || "")}"' in js
+    assert "hit-code" in js
+    assert "h.code || h.local_id" in js
     assert "function replaceDeckCard" in js
     assert "function fillAddToSet" in js
     assert "function fillViewSet" in js

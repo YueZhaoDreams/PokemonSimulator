@@ -1099,12 +1099,16 @@ let searchSeq = 0;
 function searchHitHtml(hits) {
   if (!hits.length) return `<p class="tiny">No matches yet. Keep typing, then tap a card.</p>`;
   const action = pickerTarget?.kind === "replace" ? "Replace" : pickerTarget?.kind === "add" ? "+" : "View";
-  return hits.map((h) => `
+  return hits.map((h) => {
+    const code = h.code || h.local_id || "";
+    return `
     <button type="button" class="search-hit" data-card-id="${esc(h.id || "")}" data-card-name="${esc(h.name || "")}">
       ${h.image ? `<img src="${esc(h.image)}" alt="${esc(h.name || "")}">` : ""}
       <span>${esc(h.name || "")}</span>
+      ${code ? `<span class="hit-code">${esc(code)}</span>` : ""}
       <span class="hit-add">${action}</span>
-    </button>`).join("");
+    </button>`;
+  }).join("");
 }
 
 async function lookupCards(q, scope = "all") {
