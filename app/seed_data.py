@@ -911,6 +911,7 @@ for card in [
         ],
         weakness="Darkness",
         catalog_id="sv04-087",
+        image="https://assets.tcgdex.net/en/sv/sv04/087/low.webp",
     ),
     _pkm("Plusle", "Basic", ["Lightning"], 70, [_atk(
         "Plus Damage",
