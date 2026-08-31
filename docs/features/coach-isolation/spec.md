@@ -1,6 +1,6 @@
 # Coach isolation
 
-Status: in_progress
+Status: in_review
 
 Epic: open-trainer-labs
 
