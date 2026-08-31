@@ -1085,12 +1085,16 @@ def _tcgdex_list_cards(params: list[tuple[str, str]]) -> list[dict[str, Any]]:
             )
         data: list[dict[str, Any]] = []
         cache_paths = _search_cache_paths(page_params)
+        saw_cache = False
         for path in cache_paths:
-            if path.exists():
-                data = _read_json_list(path)
-                if data:
-                    break
-        if not data:
+            if not path.exists():
+                continue
+            saw_cache = True
+            loaded = _read_json_list(path)
+            if loaded:
+                data = loaded
+                break
+        if not saw_cache:
             url = f"{TCGDEX_BASE}/cards?{urlencode(page_params)}"
             try:
                 response = _SEARCH_CLIENT.get(url)

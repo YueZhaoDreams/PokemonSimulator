@@ -95,6 +95,22 @@ def test_search_starly_reuses_legacy_name_cache(tmp_path, monkeypatch):
     assert "Staravia" in names
 
 
+def test_empty_search_cache_is_not_refetched(tmp_path, monkeypatch):
+    monkeypatch.setattr("app.catalog.CACHE_DIR", tmp_path)
+    from app.catalog import _search_cache_paths, _tcgdex_list_cards
+
+    paths = _search_cache_paths([("name", "Starly")])
+    paths[0].parent.mkdir(parents=True, exist_ok=True)
+    paths[0].write_text("[]")
+
+    def _block(*_a, **_k):
+        raise AssertionError("network")
+
+    monkeypatch.setattr("app.catalog._SEARCH_CLIENT.get", _block)
+    monkeypatch.setattr("app.catalog._CLIENT.get", _block)
+    assert _tcgdex_list_cards([("name", "Starly")]) == []
+
+
 def test_search_prefix_keeps_related_names(monkeypatch):
     monkeypatch.setattr("app.catalog._remote_search_briefs", lambda q: [])
     names = [h["name"] for h in search_local("star", remote=False)]
