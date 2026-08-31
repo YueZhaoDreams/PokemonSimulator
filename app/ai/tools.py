@@ -165,7 +165,9 @@ def _experiment_visible(experiment: dict | None) -> bool:
     if not experiment:
         return False
     user = _VIEWER.get()
-    if not user or user.get("role") == "admin":
+    if not user:
+        return False
+    if user.get("role") == "admin":
         return True
     return experiment.get("owner_id") == user["id"]
 
@@ -232,7 +234,9 @@ def run_tool(name: str, args: dict[str, Any]) -> Any:
         return list_simulations()
     if name == "list_lab_experiments":
         user = _VIEWER.get()
-        if user and user.get("role") != "admin":
+        if not user:
+            return {"error": "sign in required"}
+        if user.get("role") != "admin":
             return list_lab_experiments(owner_id=user["id"])
         return list_lab_experiments()
     if name == "get_lab_experiment":

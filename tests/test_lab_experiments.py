@@ -53,6 +53,10 @@ def test_lab_experiments_are_owned_and_stay_out_of_git(tmp_path, monkeypatch):
         fetched = client.get(f"/api/lab/experiments/{exp['id']}")
         assert fetched.status_code == 200
         assert fetched.json()["script_text"] == "print('lab')\n"
+        assert run_tool("list_lab_experiments", {}) == {"error": "sign in required"}
+        assert run_tool("get_lab_experiment", {"experiment_id": exp["id"]}) == {
+            "error": "experiment not found"
+        }
 
         locked = client.put(
             f"/api/lab/experiments/{exp['id']}",
