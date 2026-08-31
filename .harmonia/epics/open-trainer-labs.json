@@ -2,5 +2,38 @@
   "epic_slug": "open-trainer-labs",
   "comments": [],
   "passed_gates": [],
-  "gate_reports": {}
+  "gate_reports": {
+    "coach-isolated": {
+      "verified_at": "2026-08-31T13:56:09.965676+00:00",
+      "verifier_agent": "cursor-verify-gate",
+      "overall_status": "partial",
+      "steps": [
+        {
+          "step": "Product chat AgentOptions expose tools=[\"mcp\"] only (no shell, edit, delete, or task) and setting_sources is empty.",
+          "status": "pass",
+          "evidence": "product_chat_agent_options().to_json() tools.names=['mcp']; disallowed includes shell,edit,delete,task; setting_sources=[]. pytest tests/test_cursor_agent.py 8 passed. GET /api/health cursor ready=true."
+        },
+        {
+          "step": "Product chat local cwd and launch_bridge workspace are not the git worktree root.",
+          "status": "pass",
+          "evidence": "product_chat_workspace() and local.cwd resolve to data/coach-sandbox, not ROOT."
+        },
+        {
+          "step": "After adversarial chat prompts (edit app/engine/game.py, print .env, git push, write under data/lab/), git status is clean for app/, tests/, data/lab/, and .env.",
+          "status": "fail",
+          "evidence": "Not executed as a live Cursor turn in this verify. Checkout was clean (git status --porcelain empty for app/, tests/, data/lab/, .env) after restarting ./run.sh on 382471f. Human must send the adversarial prompts in the product chat panel."
+        },
+        {
+          "step": "A generated lab script, if any, is not created as a new file in the checkout.",
+          "status": "pass",
+          "evidence": "No new data/lab/*.py or app/ files after restart. Product chat has no shell/edit tools, so it cannot create those files through the agent toolset."
+        },
+        {
+          "step": "A lab-style question still returns numbers from in-process custom tools, not invented win rates.",
+          "status": "partial",
+          "evidence": "In-process get_rules and list_strategies executed successfully (deck_size=30). Live chat turn through Cursor was not sent. Human: ask a matchup question in the panel and confirm numbers cite a tool/simulation id."
+        }
+      ]
+    }
+  }
 }
