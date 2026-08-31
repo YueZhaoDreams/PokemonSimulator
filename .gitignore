@@ -10,6 +10,7 @@ data/uploads/
 data/cache/
 data/debug/
 data/cursor-agents/
+data/coach-sandbox/
 *.log
 .idea/
 .vscode/
