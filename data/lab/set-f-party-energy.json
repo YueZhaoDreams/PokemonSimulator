@@ -1,0 +1,670 @@
+{
+  "games": 2000,
+  "seed": 20260831,
+  "elapsed": 34.00919600017369,
+  "rules": {
+    "name": "Family Cup (no Pok\u00e9mon energy)",
+    "deck_size": 30,
+    "opening_hand": 7,
+    "prize_count": 3,
+    "bench_size": 5,
+    "max_turns": 40,
+    "pokemon_as_energy": false,
+    "any_stage_playable": false,
+    "first_player_no_attack": true,
+    "first_player_no_draw": true,
+    "first_player_no_supporter": true,
+    "first_turn_no_evolve": true,
+    "one_retreat_per_turn": true,
+    "extra_prize_for_ex": true,
+    "max_copies_except_basic_energy": 4,
+    "notes": "Rule B without Pok\u00e9mon-as-energy: 30-card decks, 3 prize cards, standard Basic Energy only (Pok\u00e9mon in hand are not Basic Energy). Energy Search finds Energy cards, not Pok\u00e9mon. Copy cap 4 except basic Energy. Knocking Out a Pok\u00e9mon ex takes 2 prize cards; Knocking Out a Mega ex takes 3. Opening mulligans until a Basic Pok\u00e9mon."
+  },
+  "strategy_e": "shock",
+  "app_f_names": [
+    "Iono",
+    "Ultra Ball",
+    "Energy Switch",
+    "Tulip",
+    "Energy Search",
+    "Dondozo",
+    "Water Energy",
+    "Water Energy",
+    "Water Energy",
+    "Flutter Mane",
+    "Clefairy",
+    "Clefairy",
+    "Clefairy",
+    "Clefairy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Orthworm",
+    "Metal Energy",
+    "Metal Energy",
+    "Metal Energy",
+    "Starly",
+    "Starly",
+    "Staravia",
+    "Staraptor",
+    "Staraptor",
+    "Staravia"
+  ],
+  "loaded_f_names": [
+    "Iono",
+    "Ultra Ball",
+    "Energy Switch",
+    "Tulip",
+    "Energy Search",
+    "Dondozo",
+    "Water Energy",
+    "Water Energy",
+    "Water Energy",
+    "Flutter Mane",
+    "Clefairy",
+    "Clefairy",
+    "Clefairy",
+    "Clefairy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Orthworm",
+    "Metal Energy",
+    "Metal Energy",
+    "Metal Energy",
+    "Starly",
+    "Starly",
+    "Staravia",
+    "Staraptor",
+    "Staraptor",
+    "Staravia"
+  ],
+  "cells": {
+    "carnival_baseline": {
+      "win_rate_e": 0.657,
+      "win_rate_f": 0.343,
+      "tie_rate": 0.0,
+      "first_e": 0.6486486486486487,
+      "second_e": 0.6653346653346653,
+      "wins_e": 1314,
+      "wins_f": 686,
+      "ties": 0,
+      "queries": {
+        "clef_play": 0.626,
+        "ko_clef": 0.464,
+        "ko_starly": 0.4295,
+        "starly_play": 0.834,
+        "blast": 0.163,
+        "crunch": 0.1255,
+        "storm": 0.1505,
+        "hydro": 0.0575
+      },
+      "moon_watching_party": 0,
+      "party_energy": 0,
+      "insights": [
+        "Deck A won 66% of games \u2014 it is currently the stronger set.",
+        "Dondozo reached play in 31% of games (tutored from deck in 11%; started in prizes in 0%).",
+        "Paralysis landed 1.98 times per game. Status is a real lever in this format because 3 prizes end the game quickly.",
+        "Games lasted 17.2 turns on average with 0.11 mulligans per game.",
+        "Most common Knock Outs: Clefairy (1012), Starly (943), Pikachu (605), Dondozo (372), Staravia (371).",
+        "Pikachu paralyzed Dondozo in 9.0% of games (0.15 successful shocks per game; coin-flip misses 303)."
+      ],
+      "title": "current 6P/3W/3M, carnival",
+      "strategy_f": "carnival",
+      "force_party": false,
+      "energy": {
+        "Water Energy": 3,
+        "Psychic Energy": 6,
+        "Metal Energy": 3
+      },
+      "pokemon": {
+        "Dondozo": 1,
+        "Flutter Mane": 1,
+        "Clefairy": 4,
+        "Orthworm": 1,
+        "Starly": 2,
+        "Staravia": 2,
+        "Staraptor": 2
+      }
+    },
+    "energy_12w": {
+      "win_rate_e": 0.7405,
+      "win_rate_f": 0.2595,
+      "tie_rate": 0.0,
+      "first_e": 0.7357001972386588,
+      "second_e": 0.7454361054766734,
+      "wins_e": 1481,
+      "wins_f": 519,
+      "ties": 0,
+      "queries": {
+        "clef_play": 0.644,
+        "ko_starly": 0.4015,
+        "starly_play": 0.804,
+        "blast": 0.134,
+        "ko_clef": 0.53,
+        "storm": 0.155,
+        "hydro": 0.0665
+      },
+      "moon_watching_party": 0,
+      "party_energy": 0,
+      "insights": [
+        "Deck A won 74% of games \u2014 it is currently the stronger set.",
+        "Dondozo reached play in 31% of games (tutored from deck in 11%; started in prizes in 0%).",
+        "Paralysis landed 2.17 times per game. Status is a real lever in this format because 3 prizes end the game quickly.",
+        "Games lasted 18.0 turns on average with 0.11 mulligans per game.",
+        "Most common Knock Outs: Clefairy (1148), Starly (880), Orthworm (513), Staravia (382), Dondozo (378).",
+        "Pikachu paralyzed Dondozo in 9.8% of games (0.17 successful shocks per game; coin-flip misses 300)."
+      ],
+      "title": "12 Water, carnival",
+      "strategy_f": "carnival",
+      "force_party": false,
+      "energy": {
+        "Water Energy": 12
+      },
+      "pokemon": {
+        "Dondozo": 1,
+        "Flutter Mane": 1,
+        "Clefairy": 4,
+        "Orthworm": 1,
+        "Starly": 2,
+        "Staravia": 2,
+        "Staraptor": 2
+      }
+    },
+    "energy_9w3m": {
+      "win_rate_e": 0.6935,
+      "win_rate_f": 0.3065,
+      "tie_rate": 0.0,
+      "first_e": 0.6923076923076923,
+      "second_e": 0.6946640316205533,
+      "wins_e": 1387,
+      "wins_f": 613,
+      "ties": 0,
+      "queries": {
+        "clef_play": 0.6475,
+        "ko_clef": 0.512,
+        "ko_starly": 0.42,
+        "starly_play": 0.815,
+        "blast": 0.1405,
+        "crunch": 0.104,
+        "storm": 0.1445,
+        "hydro": 0.048
+      },
+      "moon_watching_party": 0,
+      "party_energy": 0,
+      "insights": [
+        "Deck A won 69% of games \u2014 it is currently the stronger set.",
+        "Dondozo reached play in 32% of games (tutored from deck in 13%; started in prizes in 0%).",
+        "Paralysis landed 2.00 times per game. Status is a real lever in this format because 3 prizes end the game quickly.",
+        "Games lasted 17.3 turns on average with 0.11 mulligans per game.",
+        "Most common Knock Outs: Clefairy (1114), Starly (932), Pikachu (454), Staravia (363), Dondozo (361).",
+        "Pikachu paralyzed Dondozo in 8.8% of games (0.16 successful shocks per game; coin-flip misses 297)."
+      ],
+      "title": "9 Water + 3 Metal, carnival",
+      "strategy_f": "carnival",
+      "force_party": false,
+      "energy": {
+        "Water Energy": 9,
+        "Metal Energy": 3
+      },
+      "pokemon": {
+        "Dondozo": 1,
+        "Flutter Mane": 1,
+        "Clefairy": 4,
+        "Orthworm": 1,
+        "Starly": 2,
+        "Staravia": 2,
+        "Staraptor": 2
+      }
+    },
+    "energy_10w2m": {
+      "win_rate_e": 0.715,
+      "win_rate_f": 0.285,
+      "tie_rate": 0.0,
+      "first_e": 0.6998992950654582,
+      "second_e": 0.7298907646474677,
+      "wins_e": 1430,
+      "wins_f": 570,
+      "ties": 0,
+      "queries": {
+        "clef_play": 0.6465,
+        "ko_clef": 0.5275,
+        "ko_starly": 0.4335,
+        "starly_play": 0.8195,
+        "blast": 0.1245,
+        "crunch": 0.091,
+        "storm": 0.158,
+        "hydro": 0.05
+      },
+      "moon_watching_party": 0,
+      "party_energy": 0,
+      "insights": [
+        "Deck A won 72% of games \u2014 it is currently the stronger set.",
+        "Dondozo reached play in 32% of games (tutored from deck in 12%; started in prizes in 0%).",
+        "Paralysis landed 2.05 times per game. Status is a real lever in this format because 3 prizes end the game quickly.",
+        "Games lasted 17.4 turns on average with 0.13 mulligans per game.",
+        "Most common Knock Outs: Clefairy (1150), Starly (972), Pikachu (408), Orthworm (371), Dondozo (370).",
+        "Pikachu paralyzed Dondozo in 9.7% of games (0.17 successful shocks per game; coin-flip misses 332)."
+      ],
+      "title": "10 Water + 2 Metal, carnival",
+      "strategy_f": "carnival",
+      "force_party": false,
+      "energy": {
+        "Water Energy": 10,
+        "Metal Energy": 2
+      },
+      "pokemon": {
+        "Dondozo": 1,
+        "Flutter Mane": 1,
+        "Clefairy": 4,
+        "Orthworm": 1,
+        "Starly": 2,
+        "Staravia": 2,
+        "Staraptor": 2
+      }
+    },
+    "energy_6p6w": {
+      "win_rate_e": 0.725,
+      "win_rate_f": 0.275,
+      "tie_rate": 0.0,
+      "first_e": 0.7271805273833671,
+      "second_e": 0.722879684418146,
+      "wins_e": 1450,
+      "wins_f": 550,
+      "ties": 0,
+      "queries": {
+        "clef_play": 0.634,
+        "ko_starly": 0.4435,
+        "starly_play": 0.8325,
+        "blast": 0.1345,
+        "ko_clef": 0.497,
+        "storm": 0.1265,
+        "hydro": 0.067
+      },
+      "moon_watching_party": 0,
+      "party_energy": 0,
+      "insights": [
+        "Deck A won 72% of games \u2014 it is currently the stronger set.",
+        "Dondozo reached play in 31% of games (tutored from deck in 13%; started in prizes in 0%).",
+        "Paralysis landed 2.12 times per game. Status is a real lever in this format because 3 prizes end the game quickly.",
+        "Games lasted 18.0 turns on average with 0.12 mulligans per game.",
+        "Most common Knock Outs: Clefairy (1091), Starly (985), Orthworm (531), Pikachu (387), Staravia (386).",
+        "Pikachu paralyzed Dondozo in 8.8% of games (0.16 successful shocks per game; coin-flip misses 322)."
+      ],
+      "title": "6 Psychic + 6 Water, carnival",
+      "strategy_f": "carnival",
+      "force_party": false,
+      "energy": {
+        "Psychic Energy": 6,
+        "Water Energy": 6
+      },
+      "pokemon": {
+        "Dondozo": 1,
+        "Flutter Mane": 1,
+        "Clefairy": 4,
+        "Orthworm": 1,
+        "Starly": 2,
+        "Staravia": 2,
+        "Staraptor": 2
+      }
+    },
+    "energy_6w6m": {
+      "win_rate_e": 0.6845,
+      "win_rate_f": 0.3155,
+      "tie_rate": 0.0,
+      "first_e": 0.6789168278529981,
+      "second_e": 0.6904761904761905,
+      "wins_e": 1369,
+      "wins_f": 631,
+      "ties": 0,
+      "queries": {
+        "clef_play": 0.651,
+        "ko_clef": 0.509,
+        "ko_starly": 0.436,
+        "starly_play": 0.8195,
+        "blast": 0.1475,
+        "crunch": 0.1185,
+        "storm": 0.143,
+        "hydro": 0.059
+      },
+      "moon_watching_party": 0,
+      "party_energy": 0,
+      "insights": [
+        "Deck A won 68% of games \u2014 it is currently the stronger set.",
+        "Dondozo reached play in 33% of games (tutored from deck in 13%; started in prizes in 0%).",
+        "Paralysis landed 2.00 times per game. Status is a real lever in this format because 3 prizes end the game quickly.",
+        "Games lasted 17.0 turns on average with 0.12 mulligans per game.",
+        "Most common Knock Outs: Clefairy (1114), Starly (964), Pikachu (508), Dondozo (374), Staravia (351).",
+        "Pikachu paralyzed Dondozo in 9.4% of games (0.16 successful shocks per game; coin-flip misses 317)."
+      ],
+      "title": "6 Water + 6 Metal, carnival",
+      "strategy_f": "carnival",
+      "force_party": false,
+      "energy": {
+        "Water Energy": 6,
+        "Metal Energy": 6
+      },
+      "pokemon": {
+        "Dondozo": 1,
+        "Flutter Mane": 1,
+        "Clefairy": 4,
+        "Orthworm": 1,
+        "Starly": 2,
+        "Staravia": 2,
+        "Staraptor": 2
+      }
+    },
+    "energy_4p4w4m": {
+      "win_rate_e": 0.67,
+      "win_rate_f": 0.33,
+      "tie_rate": 0.0,
+      "first_e": 0.684156378600823,
+      "second_e": 0.6566147859922179,
+      "wins_e": 1340,
+      "wins_f": 660,
+      "ties": 0,
+      "queries": {
+        "clef_play": 0.666,
+        "ko_clef": 0.5025,
+        "ko_starly": 0.422,
+        "starly_play": 0.823,
+        "blast": 0.1615,
+        "crunch": 0.114,
+        "storm": 0.159,
+        "hydro": 0.0605
+      },
+      "moon_watching_party": 0,
+      "party_energy": 0,
+      "insights": [
+        "Deck A won 67% of games \u2014 it is currently the stronger set.",
+        "Dondozo reached play in 31% of games (tutored from deck in 12%; started in prizes in 0%).",
+        "Paralysis landed 1.91 times per game. Status is a real lever in this format because 3 prizes end the game quickly.",
+        "Games lasted 17.2 turns on average with 0.12 mulligans per game.",
+        "Most common Knock Outs: Clefairy (1103), Starly (929), Pikachu (556), Staravia (372), Dondozo (354).",
+        "Pikachu paralyzed Dondozo in 9.2% of games (0.15 successful shocks per game; coin-flip misses 313)."
+      ],
+      "title": "4P/4W/4M, carnival",
+      "strategy_f": "carnival",
+      "force_party": false,
+      "energy": {
+        "Psychic Energy": 4,
+        "Water Energy": 4,
+        "Metal Energy": 4
+      },
+      "pokemon": {
+        "Dondozo": 1,
+        "Flutter Mane": 1,
+        "Clefairy": 4,
+        "Orthworm": 1,
+        "Starly": 2,
+        "Staravia": 2,
+        "Staraptor": 2
+      }
+    },
+    "no_clef_plus4w": {
+      "win_rate_e": 0.51,
+      "win_rate_f": 0.49,
+      "tie_rate": 0.0,
+      "first_e": 0.5119521912350598,
+      "second_e": 0.5080321285140562,
+      "wins_e": 1020,
+      "wins_f": 980,
+      "ties": 0,
+      "queries": {
+        "starly_play": 0.8875,
+        "blast": 0.218,
+        "ko_starly": 0.5035,
+        "crunch": 0.1495,
+        "hydro": 0.1955
+      },
+      "moon_watching_party": 0,
+      "party_energy": 0,
+      "insights": [
+        "The matchup is close (51% for A). Family play should stay fun.",
+        "Dondozo reached play in 50% of games (tutored from deck in 15%; started in prizes in 0%).",
+        "Paralysis landed 1.74 times per game. Status is a real lever in this format because 3 prizes end the game quickly.",
+        "Games lasted 16.4 turns on average with 0.37 mulligans per game.",
+        "Most common Knock Outs: Starly (1119), Pikachu (872), Plusle (488), Dondozo (454), Electrike (410).",
+        "Pikachu paralyzed Dondozo in 13.5% of games (0.22 successful shocks per game; coin-flip misses 480)."
+      ],
+      "title": "no Clefairy +4 Water, keep other types",
+      "strategy_f": "carnival",
+      "force_party": false,
+      "energy": {
+        "Water Energy": 7,
+        "Psychic Energy": 6,
+        "Metal Energy": 3
+      },
+      "pokemon": {
+        "Dondozo": 1,
+        "Flutter Mane": 1,
+        "Orthworm": 1,
+        "Starly": 2,
+        "Staravia": 2,
+        "Staraptor": 2
+      }
+    },
+    "no_clef_13w3m": {
+      "win_rate_e": 0.4995,
+      "win_rate_f": 0.5005,
+      "tie_rate": 0.0,
+      "first_e": 0.4984984984984985,
+      "second_e": 0.5004995004995005,
+      "wins_e": 999,
+      "wins_f": 1001,
+      "ties": 0,
+      "queries": {
+        "starly_play": 0.8925,
+        "blast": 0.227,
+        "ko_starly": 0.49,
+        "hydro": 0.17,
+        "crunch": 0.143
+      },
+      "moon_watching_party": 0,
+      "party_energy": 0,
+      "insights": [
+        "The matchup is close (50% for A). Family play should stay fun.",
+        "Dondozo reached play in 49% of games (tutored from deck in 14%; started in prizes in 0%).",
+        "Paralysis landed 1.74 times per game. Status is a real lever in this format because 3 prizes end the game quickly.",
+        "Games lasted 16.5 turns on average with 0.37 mulligans per game.",
+        "Most common Knock Outs: Starly (1093), Pikachu (830), Plusle (498), Dondozo (476), Electrike (423).",
+        "Pikachu paralyzed Dondozo in 14.2% of games (0.23 successful shocks per game; coin-flip misses 504)."
+      ],
+      "title": "no Clefairy, 13 Water + 3 Metal",
+      "strategy_f": "carnival",
+      "force_party": false,
+      "energy": {
+        "Water Energy": 13,
+        "Metal Energy": 3
+      },
+      "pokemon": {
+        "Dondozo": 1,
+        "Flutter Mane": 1,
+        "Orthworm": 1,
+        "Starly": 2,
+        "Staravia": 2,
+        "Staraptor": 2
+      }
+    },
+    "no_clef_16w": {
+      "win_rate_e": 0.5995,
+      "win_rate_f": 0.4005,
+      "tie_rate": 0.0,
+      "first_e": 0.5993852459016393,
+      "second_e": 0.599609375,
+      "wins_e": 1199,
+      "wins_f": 801,
+      "ties": 0,
+      "queries": {
+        "starly_play": 0.8585,
+        "blast": 0.184,
+        "hydro": 0.171,
+        "ko_starly": 0.5005
+      },
+      "moon_watching_party": 0,
+      "party_energy": 0,
+      "insights": [
+        "The matchup is close (60% for A). Family play should stay fun.",
+        "Dondozo reached play in 46% of games (tutored from deck in 14%; started in prizes in 0%).",
+        "Paralysis landed 1.88 times per game. Status is a real lever in this format because 3 prizes end the game quickly.",
+        "Games lasted 17.0 turns on average with 0.34 mulligans per game.",
+        "Most common Knock Outs: Starly (1102), Orthworm (621), Pikachu (615), Dondozo (487), Staravia (366).",
+        "Pikachu paralyzed Dondozo in 14.3% of games (0.23 successful shocks per game; coin-flip misses 484)."
+      ],
+      "title": "no Clefairy, 16 Water",
+      "strategy_f": "carnival",
+      "force_party": false,
+      "energy": {
+        "Water Energy": 16
+      },
+      "pokemon": {
+        "Dondozo": 1,
+        "Flutter Mane": 1,
+        "Orthworm": 1,
+        "Starly": 2,
+        "Staravia": 2,
+        "Staraptor": 2
+      }
+    },
+    "no_clef_10p6w": {
+      "win_rate_e": 0.601,
+      "win_rate_f": 0.399,
+      "tie_rate": 0.0,
+      "first_e": 0.6039215686274509,
+      "second_e": 0.5979591836734693,
+      "wins_e": 1202,
+      "wins_f": 798,
+      "ties": 0,
+      "queries": {
+        "starly_play": 0.8845,
+        "blast": 0.203,
+        "hydro": 0.174,
+        "ko_starly": 0.4895
+      },
+      "moon_watching_party": 0,
+      "party_energy": 0,
+      "insights": [
+        "Deck A won 60% of games \u2014 it is currently the stronger set.",
+        "Dondozo reached play in 46% of games (tutored from deck in 13%; started in prizes in 0%).",
+        "Paralysis landed 1.97 times per game. Status is a real lever in this format because 3 prizes end the game quickly.",
+        "Games lasted 17.3 turns on average with 0.35 mulligans per game.",
+        "Most common Knock Outs: Starly (1092), Pikachu (643), Orthworm (610), Dondozo (496), Staravia (396).",
+        "Pikachu paralyzed Dondozo in 14.6% of games (0.25 successful shocks per game; coin-flip misses 479)."
+      ],
+      "title": "no Clefairy, 10 Psychic + 6 Water",
+      "strategy_f": "carnival",
+      "force_party": false,
+      "energy": {
+        "Psychic Energy": 10,
+        "Water Energy": 6
+      },
+      "pokemon": {
+        "Dondozo": 1,
+        "Flutter Mane": 1,
+        "Orthworm": 1,
+        "Starly": 2,
+        "Staravia": 2,
+        "Staraptor": 2
+      }
+    },
+    "party_vanilla": {
+      "win_rate_e": 0.8415,
+      "win_rate_f": 0.1585,
+      "tie_rate": 0.0,
+      "first_e": 0.868421052631579,
+      "second_e": 0.8152173913043478,
+      "wins_e": 1683,
+      "wins_f": 317,
+      "ties": 0,
+      "queries": {
+        "storm": 0.451,
+        "clef_play": 0.7285,
+        "ko_clef": 0.6465,
+        "ko_starly": 0.14,
+        "starly_play": 0.1435,
+        "crunch": 0.038,
+        "hydro": 0.0135
+      },
+      "moon_watching_party": 0,
+      "party_energy": 0,
+      "insights": [
+        "Deck A won 84% of games \u2014 it is currently the stronger set.",
+        "Dondozo reached play in 3% of games (tutored from deck in 25%; started in prizes in 0%).",
+        "Paralysis landed 0.87 times per game. Status is a real lever in this format because 3 prizes end the game quickly.",
+        "Games lasted 9.1 turns on average with 0.11 mulligans per game.",
+        "Most common Knock Outs: Clefairy (1293), Pikachu (357), Starly (280), Plusle (210), Electrike (176).",
+        "Pikachu paralyzed Dondozo in 1.6% of games (0.03 successful shocks per game; coin-flip misses 64)."
+      ],
+      "title": "current list, named party",
+      "strategy_f": "party",
+      "force_party": false,
+      "energy": {
+        "Water Energy": 3,
+        "Psychic Energy": 6,
+        "Metal Energy": 3
+      },
+      "pokemon": {
+        "Dondozo": 1,
+        "Flutter Mane": 1,
+        "Clefairy": 4,
+        "Orthworm": 1,
+        "Starly": 2,
+        "Staravia": 2,
+        "Staraptor": 2
+      }
+    },
+    "party_forced": {
+      "win_rate_e": 0.5225,
+      "win_rate_f": 0.4775,
+      "tie_rate": 0.0,
+      "first_e": 0.5454545454545454,
+      "second_e": 0.5,
+      "wins_e": 1045,
+      "wins_f": 955,
+      "ties": 0,
+      "queries": {
+        "storm": 0.784,
+        "clef_play": 0.931,
+        "ko_clef": 0.5765,
+        "party": 0.6245,
+        "ko_starly": 0.1465,
+        "starly_play": 0.1605,
+        "crunch": 0.004,
+        "hydro": 0.0015
+      },
+      "moon_watching_party": 3512,
+      "party_energy": 3949,
+      "insights": [
+        "The matchup is close (52% for A). Family play should stay fun.",
+        "Dondozo reached play in 3% of games (tutored from deck in 23%; started in prizes in 0%).",
+        "Paralysis landed 1.09 times per game. Status is a real lever in this format because 3 prizes end the game quickly.",
+        "Games lasted 12.4 turns on average with 0.11 mulligans per game.",
+        "Most common Knock Outs: Clefairy (1784), Pikachu (863), Plusle (531), Electrike (434), Starly (293).",
+        "Pikachu paralyzed Dondozo in 1.7% of games (0.03 successful shocks per game; coin-flip misses 53)."
+      ],
+      "title": "current list, forced Moon-Watching Party",
+      "strategy_f": "party",
+      "force_party": true,
+      "energy": {
+        "Water Energy": 3,
+        "Psychic Energy": 6,
+        "Metal Energy": 3
+      },
+      "pokemon": {
+        "Dondozo": 1,
+        "Flutter Mane": 1,
+        "Clefairy": 4,
+        "Orthworm": 1,
+        "Starly": 2,
+        "Staravia": 2,
+        "Staraptor": 2
+      }
+    }
+  }
+}
