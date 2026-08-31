@@ -356,7 +356,7 @@ def main() -> None:
     e = load_e_cards()
     f_base = load_f_cards()
     f_names = [c.name for c in f_base]
-    if f_names != list(APP_F_NAMES):
+    if Counter(f_names) != Counter(APP_F_NAMES):
         print(f"warning: live F names differ from APP_F_NAMES ({f_names[:8]}...)", flush=True)
     rules = no_pokemon_energy_family_rules()
     started = time.perf_counter()
