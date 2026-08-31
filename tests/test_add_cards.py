@@ -20,6 +20,18 @@ def test_pick_search_hit_prefers_pinned_print_when_names_collide():
     assert pick_search_hit("poke ball", [{"name": "Poké Ball"}])["name"] == "Poké Ball"
     assert pick_search_hit("Cubone", [])["name"] == "Cubone"
     assert pick_search_hit("  ", []) is None
+    numbered = [
+        {"id": "sv01-148", "name": "Starly", "local_id": "148"},
+        {
+            "id": "swsh9-117",
+            "name": "Starly",
+            "local_id": "117",
+            "code": "117/172",
+        },
+    ]
+    assert pick_search_hit("117/172", numbered)["id"] == "swsh9-117"
+    assert pick_search_hit("starly 117", numbered)["id"] == "swsh9-117"
+    assert pick_search_hit("Starly", numbered)["id"] == "sv01-148"
 
 
 def test_add_cards_via_search_resolve_and_put(tmp_path, monkeypatch):
