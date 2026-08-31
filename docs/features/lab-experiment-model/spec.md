@@ -1,6 +1,6 @@
 # Lab experiment model
 
-Status: ready
+Status: in_review
 
 Epic: open-trainer-labs
 
@@ -42,11 +42,11 @@ The Lab tab is a list of `simulations` rows. Trainers need a first-class **exper
 
 ## Acceptance Criteria
 
-- [ ] A logged-in trainer can create and fetch their experiment JSON (cells, queries, optional script text).
-- [ ] A second non-admin cannot GET the first trainer’s experiment.
-- [ ] Creating an experiment does not write `data/lab/` or `app/`.
-- [ ] Oversized or non-text `script_text` is rejected.
-- [ ] `simulate_match` / `simulations` still persist as today.
+- [x] A logged-in trainer can create and fetch their experiment JSON (cells, queries, optional script text).
+- [x] A second non-admin cannot GET the first trainer’s experiment.
+- [x] Creating an experiment does not write `data/lab/` or `app/`.
+- [x] Oversized or non-text `script_text` is rejected.
+- [x] `simulate_match` / `simulations` still persist as today.
 
 ## Validation Plan
 

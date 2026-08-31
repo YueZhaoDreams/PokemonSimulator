@@ -5,7 +5,16 @@ from contextvars import ContextVar, Token
 from typing import Any
 
 from app.catalog import search_local
-from app.db import get_deck, get_rules, list_decks, list_simulations, save_simulation
+from app.db import (
+    get_deck,
+    get_lab_experiment,
+    get_rules,
+    list_decks,
+    list_lab_experiments,
+    list_simulations,
+    save_lab_experiment,
+    save_simulation,
+)
 from app.engine.models import Card
 from app.engine.montecarlo import run_simulation
 from app.engine.probability import draw_probability
@@ -82,6 +91,42 @@ TOOL_SCHEMAS = [
         "parameters": {"type": "object", "properties": {}},
     },
     {
+        "name": "list_lab_experiments",
+        "description": "List this trainer's lab experiments (question, cells, queries). Not git files.",
+        "parameters": {"type": "object", "properties": {}},
+    },
+    {
+        "name": "get_lab_experiment",
+        "description": "Get one lab experiment this trainer owns, including script_text if stored.",
+        "parameters": {
+            "type": "object",
+            "properties": {"experiment_id": {"type": "string"}},
+            "required": ["experiment_id"],
+        },
+    },
+    {
+        "name": "save_lab_experiment",
+        "description": "Create a new lab experiment, or update one this trainer owns. Pass experiment_id only to update; unknown ids are rejected. Do not write data/lab/ or app/.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "experiment_id": {
+                    "type": "string",
+                    "description": "Existing experiment to update. Omit to create a new row.",
+                },
+                "question": {"type": "string"},
+                "cells": {"type": "array"},
+                "queries": {"type": "array"},
+                "games": {"type": "integer"},
+                "seed": {"type": "integer"},
+                "script_text": {"type": ["string", "null"]},
+                "results": {"type": ["object", "array", "null"]},
+                "locked_cell_id": {"type": ["string", "null"]},
+                "lock_reason": {"type": ["string", "null"]},
+            },
+        },
+    },
+    {
         "name": "list_strategies",
         "description": "List named Family Cup strategies the engine can run (thrifty, shock, party, demolish, slash, …).",
         "parameters": {"type": "object", "properties": {}},
@@ -117,6 +162,17 @@ def chat_visible(chat: dict | None) -> bool:
     if not user or user.get("role") == "admin":
         return True
     return chat.get("owner_id") == user["id"]
+
+
+def _experiment_visible(experiment: dict | None) -> bool:
+    if not experiment:
+        return False
+    user = _VIEWER.get()
+    if not user:
+        return False
+    if user.get("role") == "admin":
+        return True
+    return experiment.get("owner_id") == user["id"]
 
 
 def _visible_decks() -> list[dict]:
@@ -179,6 +235,46 @@ def run_tool(name: str, args: dict[str, Any]) -> Any:
         return get_rules().to_dict()
     if name == "list_lab":
         return list_simulations()
+    if name == "list_lab_experiments":
+        user = _VIEWER.get()
+        if not user:
+            return {"error": "sign in required"}
+        if user.get("role") != "admin":
+            return list_lab_experiments(owner_id=user["id"])
+        return list_lab_experiments()
+    if name == "get_lab_experiment":
+        experiment = get_lab_experiment(args.get("experiment_id") or "")
+        if not _experiment_visible(experiment):
+            return {"error": "experiment not found"}
+        return experiment
+    if name == "save_lab_experiment":
+        user = _VIEWER.get()
+        if not user:
+            return {"error": "sign in required"}
+        existing = None
+        exp_id = args.get("experiment_id")
+        if exp_id:
+            existing = get_lab_experiment(exp_id)
+            if existing and not _experiment_visible(existing):
+                return {"error": "experiment not found"}
+            if existing is None:
+                return {"error": "experiment not found"}
+        try:
+            return save_lab_experiment(
+                owner_id=existing["owner_id"] if existing else user["id"],
+                question=args.get("question") if "question" in args or not existing else existing.get("question"),
+                cells=args["cells"] if "cells" in args else (existing or {}).get("cells"),
+                queries=args["queries"] if "queries" in args else (existing or {}).get("queries"),
+                games=args["games"] if "games" in args else (existing or {}).get("games"),
+                seed=args["seed"] if "seed" in args else (existing or {}).get("seed"),
+                results=args["results"] if "results" in args else (existing or {}).get("results"),
+                locked_cell_id=args["locked_cell_id"] if "locked_cell_id" in args else (existing or {}).get("locked_cell_id"),
+                lock_reason=args["lock_reason"] if "lock_reason" in args else (existing or {}).get("lock_reason"),
+                script_text=args["script_text"] if "script_text" in args else (existing or {}).get("script_text"),
+                exp_id=existing["id"] if existing else None,
+            )
+        except ValueError as exc:
+            return {"error": str(exc)}
     if name == "list_strategies":
         return list_strategies()
     if name == "draw_odds":
