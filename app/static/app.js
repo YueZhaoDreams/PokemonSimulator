@@ -2272,15 +2272,25 @@ async function renderLab() {
     ? `<div class="panel">No runs yet. Save an experiment or Fight a matchup and it will land here.</div>`
     : "";
   $("#labList").innerHTML = (experimentCards ? `<h3 class="screen-title">Experiments</h3>${experimentCards}` : "")
-    + (simCards ? `<h3 class="screen-title">Fight runs</h3>${simCards}` : "")
-    + empty;
-  $$("[data-exp]").forEach((b) => b.onclick = () => openLabExperiment(b.dataset.exp));
-  $$("[data-lab]").forEach((b) => b.onclick = async () => {
-    const rec = await api(`/api/simulations/${b.dataset.lab}`);
-    $("#labDetail").innerHTML = resultPanel(rec, { replayHtml: replayHtml(rec, "labReplay") })
-      + `<div class="panel"><b>Sample game</b><p class="tiny">${(rec.sample_games?.[0]?.log || []).map((l) => esc(l)).join("<br>")}</p></div>`;
-    bindReplay($("#labDetail"), "labReplay");
+    + ((!experimentCards && empty) ? empty : "");
+  $("#labSims").innerHTML = (simCards ? `<h3 class="screen-title">Fight runs</h3>${simCards}` : "")
+    + ((experimentCards && !simCards && empty) ? empty : "");
+  $$("#labList [data-exp]").forEach((b) => {
+    b.onclick = () => openLabExperiment(b.dataset.exp);
   });
+  $$("#labSims [data-lab]").forEach((b) => {
+    b.onclick = async () => {
+      const rec = await api(`/api/simulations/${b.dataset.lab}`);
+      $("#labDetail").innerHTML = resultPanel(rec, { replayHtml: replayHtml(rec, "labReplay") })
+        + `<div class="panel"><b>Sample game</b><p class="tiny">${(rec.sample_games?.[0]?.log || []).map((l) => esc(l)).join("<br>")}</p></div>`;
+      bindReplay($("#labDetail"), "labReplay");
+      showLabDetail();
+    };
+  });
+}
+
+function showLabDetail() {
+  $("#labDetail")?.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 function queryRateLine(queries) {
@@ -2309,7 +2319,14 @@ function experimentMatrixHtml(exp) {
 }
 
 async function openLabExperiment(expId) {
-  const exp = await api(`/api/lab/experiments/${expId}`);
+  let exp;
+  try {
+    exp = await api(`/api/lab/experiments/${expId}`);
+  } catch (err) {
+    $("#labDetail").innerHTML = `<div class="panel">${esc(err.message)}</div>`;
+    showLabDetail();
+    return;
+  }
   $("#labDetail").innerHTML = `
     <div class="panel">
       <b>${esc(exp.question || "Lab experiment")}</b>
@@ -2318,7 +2335,8 @@ async function openLabExperiment(expId) {
         <button type="button" data-run-exp="${esc(exp.id)}">Run cells</button>
       </div>
     </div>`;
-  $("[data-run-exp]")?.addEventListener("click", async (ev) => {
+  showLabDetail();
+  $("#labDetail [data-run-exp]")?.addEventListener("click", async (ev) => {
     const btn = ev.currentTarget;
     btn.disabled = true;
     btn.textContent = "Running…";

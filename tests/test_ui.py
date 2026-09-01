@@ -66,6 +66,7 @@ REQUIRED_IDS = [
     "view-lab",
     "labList",
     "labDetail",
+    "labSims",
     "sfxToggle",
     "busyMask",
     "authGate",
@@ -142,6 +143,8 @@ def test_index_keeps_combo_cub_controls():
     assert 'id="addHits"' in html
     assert 'id="deckRuleFilter"' not in html
     assert "Every card you own" in html
+    lab = html[html.index('id="view-lab"') : html.index("<nav")]
+    assert lab.index('id="labList"') < lab.index('id="labDetail"') < lab.index('id="labSims"')
     decks = html[html.index('id="view-decks"') : html.index('id="view-cards"')]
     assert "Find a card" not in decks
     assert "Add a card" in decks
@@ -313,6 +316,9 @@ def test_app_js_keeps_simulator_contracts():
     chunk = js[start : js.index("async function deleteSelectedSet")]
     assert "selectedSet()" in chunk
     assert "state.decks.map" not in chunk
+    lab_js = js[js.index("async function renderLab") : js.index("function queryRateLine")]
+    assert '$("#labSims").innerHTML' in lab_js
+    assert "function showLabDetail" in js
     assert "function openCardPicker" in js
     assert "function closeCardSheet" in js
     assert "cardSheetOpener" in js

@@ -46,6 +46,7 @@ from app.engine.models import (
     RULE_PRESETS,
     default_rule_presets_for,
     normalize_rule_presets,
+    resolve_simulation_rules,
     rules_from_preset,
 )
 from app.engine.montecarlo import run_simulation
@@ -400,12 +401,17 @@ def api_simulate(payload: dict, user: dict = Depends(require_user)) -> dict:
     deck_b = get_deck(payload.get("deck_b_id") or "")
     if not _can_use_deck(user, deck_a) or not _can_use_deck(user, deck_b):
         raise HTTPException(400, "Need two decks")
-    if payload.get("rules"):
-        rules = FamilyRules.from_dict(payload.get("rules"))
-    elif payload.get("rule_preset"):
-        rules = rules_from_preset(str(payload.get("rule_preset")))
-    else:
-        rules = get_rules()
+    try:
+        if payload.get("rules"):
+            rules = FamilyRules.from_dict(payload.get("rules"))
+        else:
+            rules = resolve_simulation_rules(
+                rule_preset=payload.get("rule_preset"),
+                decks=[deck_a, deck_b],
+                fallback=get_rules(),
+            )
+    except ValueError as exc:
+        raise HTTPException(400, str(exc)) from exc
     sim_kw: dict = {
         "games": int(payload.get("games") or 2000),
         "seed": payload.get("seed"),
@@ -433,10 +439,18 @@ def api_trades(payload: dict, user: dict = Depends(require_user)) -> dict:
     deck_b = get_deck(payload.get("deck_b_id") or "")
     if not _can_use_deck(user, deck_a) or not _can_use_deck(user, deck_b):
         raise HTTPException(400, "Need two decks")
+    try:
+        rules = resolve_simulation_rules(
+            rule_preset=payload.get("rule_preset"),
+            decks=[deck_a, deck_b],
+            fallback=get_rules(),
+        )
+    except ValueError as exc:
+        raise HTTPException(400, str(exc)) from exc
     return suggest_trades(
         [Card.from_dict(c) for c in deck_a["cards"]],
         [Card.from_dict(c) for c in deck_b["cards"]],
-        get_rules(),
+        rules,
         StrategySpec.from_dict(payload.get("strategy_a") or "thrifty"),
         StrategySpec.from_dict(payload.get("strategy_b") or "shock"),
         games=int(payload.get("games") or 240),
@@ -516,10 +530,21 @@ def api_run_lab_experiment(exp_id: str, payload: dict = Body(default_factory=dic
         return deck
 
     try:
+        cell_decks: list[dict | None] = []
+        for cell in existing.get("cells") or []:
+            if not isinstance(cell, dict):
+                continue
+            cell_decks.append(deck_for(str(cell.get("deck_a_id") or "")))
+            cell_decks.append(deck_for(str(cell.get("deck_b_id") or "")))
+        rules = resolve_simulation_rules(
+            rule_preset=payload.get("rule_preset"),
+            decks=cell_decks,
+            fallback=get_rules(),
+        )
         return run_lab_experiment(
             existing,
             deck_for=deck_for,
-            rules=get_rules(),
+            rules=rules,
             games=payload.get("games"),
             seed=payload.get("seed"),
         )

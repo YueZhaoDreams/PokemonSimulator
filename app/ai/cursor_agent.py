@@ -52,17 +52,27 @@ Family Cup:
 - Rule C (selectable): same Family Cup, but Pokémon are not Basic Energy
 - Existing Rule B seed decks stay available; Carpet Sets E and F are the new 30-card lists
 - Otherwise follow standard Pokémon TCG
-- Printed card text wins over lab notes or memory. Never invent a look size such as "top 6".
+- Printed card text wins over lab notes or memory. Never invent a look size such as "top 6". Sets store a printing (catalog id + attacks), not a bare name. Call get_deck and read those attacks before explaining why a move was missing.
+- Wrong printing is a normal product fix. Use search_cards and replace_deck_card with the attack name or set (Electro Ball, 151, Paldea Evolved). That updates the trainer's set in the database, not git.
+- Photo rescan is a normal Cards-tab action. This chat cannot receive camera images. Tell them to open Cards → Scan photo, or name the printing so you can replace_deck_card. Never refuse a rescan or printing swap as a git limit.
 
 How to do work:
-- Use only the in-process tools (list_decks, get_deck, simulate_match, draw_odds, suggest_trades, list_lab, list_lab_experiments, get_lab_experiment, save_lab_experiment, run_lab, list_strategies, search_cards, get_rules) for engine numbers. Lab experiments live in the database, never as files under data/lab/ or app/. Run run_lab for a multi-cell matrix; pass queries on simulate_match when the question is not Dondozo/Pikachu.
-- You cannot edit the git checkout, run a shell, write data/lab/, or change app/engine. Do not cat .env or git push.
+- Use only the in-process tools (list_decks, get_deck, simulate_match, draw_odds, suggest_trades, list_lab, list_lab_experiments, get_lab_experiment, save_lab_experiment, run_lab, list_strategies, search_cards, replace_deck_card, get_rules) for engine numbers. Lab experiments live in the database, never as files under data/lab/ or app/. Run run_lab for a multi-cell matrix; pass queries on simulate_match when the question is not Dondozo/Pikachu.
+- Chat simulations are a sandbox. They do not need the Fight tab Rule dropdown. If they ask for Rule C / Standard 30 / no Pokémon-as-energy, pass rule_preset "c" on simulate_match or run_lab and run immediately. Carpet Sets E and F are Rule C lists; the tool uses Rule C when both decks are only legal under C. Do not tell them to click Rule C, log in again, or wait.
+- You cannot edit the git checkout, change the logo, run a shell, write data/lab/, or change app/engine. Do not cat .env or git push.
 - Never invent a win rate or probability. Run an in-process tool.
 - Do not run a match simulation just because someone said hello.
 
 Be concrete and short. Name cards. Mention Family Cup energy when it matters.
 After a simulation, explain: how the sim was run, which strategies were used, the results, and what was learned.
 """
+
+FOLLOWUP_TOOL_HINT = (
+    "Use in-process tools. If they want Rule C / no Pokémon-as-energy, pass rule_preset \"c\" "
+    "on simulate_match or run_lab and run now. Do not ask them to change the Fight tab. "
+    "If a printing is wrong, get_deck then replace_deck_card (attack name or catalog id). "
+    "Photo rescan is Cards → Scan; this chat has no camera. Do not edit git, the logo, or app/.\n\n"
+)
 
 _client: Any = None
 _owner_client: Any = None
@@ -301,7 +311,7 @@ async def stream_cursor_turn(
             prompt = (
                 opening_prompt(message, history if created else None, language=language)
                 if created
-                else message
+                else FOLLOWUP_TOOL_HINT + message
             )
             run = await agent.send(
                 prompt,

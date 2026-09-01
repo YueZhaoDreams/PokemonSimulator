@@ -232,12 +232,51 @@ CANONICAL_RULE_PRESETS = ("b", "c")
 
 
 def canonical_rule_key(raw: str | None) -> str | None:
-    key = str(raw or "").lower().strip().replace("rule_", "").replace("-", "_")
-    if key in {"c", "no_pokemon_energy"}:
+    key = str(raw or "").lower().strip().replace("-", "_").replace("rule_", "").replace("rule ", "")
+    if key in {"c", "no_pokemon_energy", "standard", "standard_30"}:
         return "c"
-    if key == "b":
+    if key in {"b"}:
         return "b"
     return None
+
+
+def infer_rule_preset_from_decks(decks: list[dict | None]) -> str | None:
+    """If every named deck is legal under exactly one shared preset, use that preset."""
+    sets: list[set[str]] = []
+    for deck in decks:
+        if not deck:
+            continue
+        presets = normalize_rule_presets(deck.get("rule_presets"))
+        if not presets:
+            summary = deck.get("rule_preset")
+            if summary in CANONICAL_RULE_PRESETS:
+                presets = [summary]
+        if presets:
+            sets.append(set(presets))
+    if not sets:
+        return None
+    common = set.intersection(*sets)
+    if len(common) == 1:
+        return next(iter(common))
+    return None
+
+
+def resolve_simulation_rules(
+    *,
+    rule_preset: str | None = None,
+    decks: list[dict | None] | None = None,
+    fallback: FamilyRules | None = None,
+) -> FamilyRules:
+    raw = rule_preset
+    if raw not in (None, ""):
+        key = canonical_rule_key(str(raw))
+        if not key:
+            raise ValueError("unknown rule_preset (use b or c)")
+        return rules_from_preset(key)
+    inferred = infer_rule_preset_from_decks(list(decks or []))
+    if inferred:
+        return rules_from_preset(inferred)
+    return fallback if fallback is not None else default_family_rules()
 
 
 def normalize_rule_presets(raw: Any, fallback: list[str] | None = None) -> list[str]:

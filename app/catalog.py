@@ -94,6 +94,7 @@ PREFERRED_IDS = {
     "Orthworm": "sv04-138",  # Punch and Draw / Crunch-Time Rush
     "Flutter Mane": "sv05-078",  # Hex Hurl
     "Pikachu": "sm3-40",  # Set B original: Tail Whap / Thunder Shock. sm12-66 (Nuzzle) is B's second copy after the Tulip trade.
+    "Raichu": "swsh12-050",  # Silver Tempest: Ambushing Spark 40 / Electric Ball 120 (not “Electro Ball”)
     "Baltoy": "swsh12.5-070",  # Fighting — Carbink Power Gem fuel under Family Cup
     "Tulip": "sv04-181",
     "Plusle": "sv04-060",
@@ -225,6 +226,7 @@ PRINT_PREFER = {
     "Orthworm": ["crunch-time", "punch and draw"],
     "Flutter Mane": ["hex hurl"],
     "Pikachu": ["thunder shock", "tail whap", "paralyze"],
+    "Raichu": ["electric ball", "electro ball"],
     "Roselia": ["soothing scent"],
     "Salazzle": ["tail trickery", "super singe"],
     "Carbink": ["lucky find", "power gem"],
