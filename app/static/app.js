@@ -549,17 +549,22 @@ function speakReply(text) {
     if (chosen) utter.voice = chosen;
     utter.rate = utter.lang.startsWith("zh") ? 1 : 1.02;
     let settled = false;
-    const done = () => {
+    let safety;
+    const done = (fromSafety) => {
       if (settled) return;
+      if (fromSafety && ttsSupported() && window.speechSynthesis.speaking) {
+        safety = setTimeout(() => done(true), 2000);
+        return;
+      }
       settled = true;
       clearTimeout(safety);
       voice.speaking = false;
       paintTalkButton();
       resolve();
     };
-    const safety = setTimeout(done, Math.min(60000, 2500 + spoken.length * 80));
-    utter.onend = done;
-    utter.onerror = done;
+    safety = setTimeout(() => done(true), Math.min(60000, 2500 + spoken.length * 80));
+    utter.onend = () => done(false);
+    utter.onerror = () => done(false);
     voice.speaking = true;
     paintTalkButton();
     window.speechSynthesis.speak(utter);
@@ -2098,7 +2103,8 @@ async function sendChat() {
         $("#chatInput").value = pending.message;
         sendChat.fromVoice = !!pending.fromVoice;
         sendChat();
-      } else if (voice.loop && fromVoice && chatViewOpen() && !voice.rec) {
+      } else if (voice.loop && fromVoice && chatViewOpen() && !voice.rec
+          && !(ttsSupported() && window.speechSynthesis.speaking)) {
         startVoiceListen();
       }
     }

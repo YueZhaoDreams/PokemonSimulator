@@ -256,7 +256,9 @@ def test_app_js_keeps_simulator_contracts():
     unlock = send_fn.index('$("#sendChat").disabled = false')
     speak = send_fn.index("await speakReply")
     assert unlock != -1 and speak != -1 and unlock < speak
-    assert "settled" in js[js.index("function speakReply") : js.index("function startVoiceListen")]
+    speak_fn = js[js.index("function speakReply") : js.index("function startVoiceListen")]
+    assert "settled" in speak_fn
+    assert "speechSynthesis.speaking" in speak_fn
     assert "language: state.chatLang" in js
     assert "webkitSpeechRecognition" in js
     assert "speechSynthesis" in js
