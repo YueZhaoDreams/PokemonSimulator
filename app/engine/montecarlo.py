@@ -135,13 +135,19 @@ def run_simulation(
     return record
 
 
+def query_key(query: dict[str, Any]) -> str:
+    qtype = query.get("type")
+    card = query.get("card") or query.get("name")
+    return str(query.get("key") or f"{qtype}:{card}")
+
+
 def _apply_queries(result, queries: list[dict[str, Any]], hits: dict[str, int]) -> None:
     opening_a = set(result.opening_a)
     opening_b = set(result.opening_b)
     for q in queries:
         qtype = q.get("type")
         card = q.get("card") or q.get("name")
-        key = q.get("key") or f"{qtype}:{card}"
+        key = query_key(q)
         ok = False
         if qtype == "opening_hand_contains":
             side = q.get("side", "a")

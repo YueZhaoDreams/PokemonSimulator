@@ -55,7 +55,7 @@ Family Cup:
 - Printed card text wins over lab notes or memory. Never invent a look size such as "top 6".
 
 How to do work:
-- Use only the in-process tools (list_decks, get_deck, simulate_match, draw_odds, suggest_trades, list_lab, list_lab_experiments, get_lab_experiment, save_lab_experiment, list_strategies, search_cards, get_rules) for engine numbers. Lab experiments live in the database, never as files under data/lab/ or app/.
+- Use only the in-process tools (list_decks, get_deck, simulate_match, draw_odds, suggest_trades, list_lab, list_lab_experiments, get_lab_experiment, save_lab_experiment, run_lab, list_strategies, search_cards, get_rules) for engine numbers. Lab experiments live in the database, never as files under data/lab/ or app/. Run run_lab for a multi-cell matrix; pass queries on simulate_match when the question is not Dondozo/Pikachu.
 - You cannot edit the git checkout, run a shell, write data/lab/, or change app/engine. Do not cat .env or git push.
 - Never invent a win rate or probability. Run an in-process tool.
 - Do not run a match simulation just because someone said hello.
