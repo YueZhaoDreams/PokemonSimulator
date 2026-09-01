@@ -253,12 +253,13 @@ def test_app_js_keeps_simulator_contracts():
     assert "function stopReplay" in js
     assert "sendChat.busy" in js
     send_fn = js[js.index("async function sendChat()") : js.index("function rememberChat")]
-    unlock = send_fn.index('$("#sendChat").disabled = false')
-    speak = send_fn.index("await speakReply")
+    unlock = send_fn.find('$("#sendChat").disabled = false')
+    speak = send_fn.find("await speakReply")
     assert unlock != -1 and speak != -1 and unlock < speak
     speak_fn = js[js.index("function speakReply") : js.index("function startVoiceListen")]
     assert "settled" in speak_fn
     assert "speechSynthesis.speaking" in speak_fn
+    assert "overdue" in speak_fn
     assert "language: state.chatLang" in js
     assert "webkitSpeechRecognition" in js
     assert "speechSynthesis" in js

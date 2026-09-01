@@ -550,16 +550,20 @@ function speakReply(text) {
     utter.rate = utter.lang.startsWith("zh") ? 1 : 1.02;
     let settled = false;
     let safety;
+    const started = Date.now();
     const done = (fromSafety) => {
       if (settled) return;
-      if (fromSafety && ttsSupported() && window.speechSynthesis.speaking) {
+      const overdue = Date.now() - started >= 90000;
+      if (fromSafety && !overdue && ttsSupported() && window.speechSynthesis.speaking) {
         safety = setTimeout(() => done(true), 2000);
         return;
       }
       settled = true;
       clearTimeout(safety);
-      voice.speaking = false;
-      paintTalkButton();
+      if (!(ttsSupported() && window.speechSynthesis.speaking)) {
+        voice.speaking = false;
+        paintTalkButton();
+      }
       resolve();
     };
     safety = setTimeout(() => done(true), Math.min(60000, 2500 + spoken.length * 80));
