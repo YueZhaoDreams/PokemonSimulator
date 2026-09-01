@@ -34,6 +34,35 @@
           "evidence": "In-process get_rules and list_strategies executed successfully (deck_size=30). Live chat turn through Cursor was not sent. Human: ask a matchup question in the panel and confirm numbers cite a tool/simulation id."
         }
       ]
+    },
+    "lab-is-an-experiment": {
+      "verified_at": "2026-09-01T00:40:07Z",
+      "verifier_agent": "cursor-verify-gate",
+      "overall_status": "partial",
+      "notes": "Machine steps passed on http://127.0.0.1:8000 after merge of #56 and #59. Do not append this gate to passed_gates until a human spots the Lab tab UX. Do not start lab-python-sandbox or user-owned-strategies until then.",
+      "steps": [
+        {
+          "step": "API and chat tool can create and run an experiment with at least two cells that differ by one deck patch or StrategySpec overlay, same seed and games, and custom queries. Response includes per-cell win rate and query rates.",
+          "status": "pass",
+          "evidence": "POST /api/lab/experiments created 3d412f87-b41b-49f5-b45f-b0426a4ac25d (title 'gate two-cell carnival vs shock'). Two cells on seed-c vs seed-b, seed 20260831, 8 games, query key party: shock overlay vs carnival overlay. POST /run returned shock win_a=0.875, carnival win_a=0.0, both cells include queries.party. Chat tool run_lab on the same experiment returned two cells."
+        },
+        {
+          "step": "Lab tab at http://127.0.0.1:8000 shows the matrix, not only a simulation row.",
+          "status": "pass",
+          "evidence": "Lab tab copy: 'Experiments compare several cells at one seed.' List shows 'gate two-cell carnival vs shock' with '2 cells · matrix ready' and Open matrix (Fight runs listed separately below). After Open matrix, #labDetail table: shock party vs shock 100.0% / party 0.0%; carnival carnival vs shock 0.0% / party 0.0%; Seed 20260831 · 6 games; Run cells. Human should still glance at the matrix vs Fight-run list.",
+          "human_required": true
+        },
+        {
+          "step": "Two registered non-admins cannot read each other's experiments.",
+          "status": "pass",
+          "evidence": "Second registered user GET /api/lab/experiments/3d412f87-b41b-49f5-b45f-b0426a4ac25d and POST .../run both returned 404. Owner (admin) still reads the row."
+        },
+        {
+          "step": "Completing an experiment does not add or modify files under data/lab/ or app/.",
+          "status": "pass",
+          "evidence": "git status --porcelain for app/, tests/, data/lab/, and .env stayed empty after create, run, chat tool, isolation check, and Lab tab open. LIVE_OK on those paths."
+        }
+      ]
     }
   }
 }
