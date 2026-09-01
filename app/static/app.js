@@ -560,10 +560,11 @@ function speakReply(text) {
       }
       settled = true;
       clearTimeout(safety);
-      if (!fromSafety || !(ttsSupported() && window.speechSynthesis.speaking)) {
-        voice.speaking = false;
-        paintTalkButton();
+      if (fromSafety && ttsSupported() && window.speechSynthesis.speaking) {
+        window.speechSynthesis.cancel();
       }
+      voice.speaking = false;
+      paintTalkButton();
       resolve();
     };
     safety = setTimeout(() => done(true), Math.min(60000, 2500 + spoken.length * 80));
