@@ -80,10 +80,10 @@ TOOL_SCHEMAS = [
         "parameters": {
             "type": "object",
             "properties": {
-            "deck_a_id": {"type": "string"},
-            "deck_b_id": {"type": "string"},
-            "games": {"type": "integer", "default": 300},
-            "rule_preset": {"type": "string"},
+                "deck_a_id": {"type": "string"},
+                "deck_b_id": {"type": "string"},
+                "games": {"type": "integer", "default": 300},
+                "rule_preset": {"type": "string"},
             },
             "required": ["deck_a_id", "deck_b_id"],
         },
