@@ -548,11 +548,16 @@ function speakReply(text) {
     const chosen = pickVoice(utter.lang);
     if (chosen) utter.voice = chosen;
     utter.rate = utter.lang.startsWith("zh") ? 1 : 1.02;
+    let settled = false;
     const done = () => {
+      if (settled) return;
+      settled = true;
+      clearTimeout(safety);
       voice.speaking = false;
       paintTalkButton();
       resolve();
     };
+    const safety = setTimeout(done, Math.min(60000, 2500 + spoken.length * 80));
     utter.onend = done;
     utter.onerror = done;
     voice.speaking = true;
@@ -2078,7 +2083,9 @@ async function sendChat() {
     bot.classList.remove("live");
   } finally {
     sendChat.streaming = false;
+    sendChat.busy = false;
     setBusy(false);
+    if ($("#sendChat")) $("#sendChat").disabled = false;
     renderChatThreads();
     const pending = sendChat.pending;
     sendChat.pending = null;
@@ -2087,8 +2094,6 @@ async function sendChat() {
       if (chatViewOpen() && !sendChat.muteSpeak) await speakReply(spoken);
     } finally {
       sendChat.muteSpeak = false;
-      sendChat.busy = false;
-      if ($("#sendChat")) $("#sendChat").disabled = false;
       if (pending?.message) {
         $("#chatInput").value = pending.message;
         sendChat.fromVoice = !!pending.fromVoice;

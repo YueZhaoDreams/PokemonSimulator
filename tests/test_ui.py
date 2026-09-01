@@ -181,7 +181,11 @@ def test_styles_keep_stadium_tokens_and_reduced_motion():
     assert "position: fixed" in nav_open
     assert ".chat-voice { display: none !important; }" not in css
     assert "grid-template-columns: minmax(0, 1fr) min(440px, 42vw)" in css
-    assert "minmax(220px, 46vh)" in css
+    phone = css[css.index("@media (max-width: 800px)") : css.index("@media (max-width: 640px)")]
+    assert "minmax(220px, 46vh)" not in phone
+    assert "body.agent-open .app-shell { display: none; }" in phone
+    assert "#agentFull { display: none; }" in phone
+    assert "chat is always fullscreen" in phone
 
 
 def test_app_js_keeps_simulator_contracts():
@@ -248,6 +252,11 @@ def test_app_js_keeps_simulator_contracts():
     assert 'classList.toggle("busy", !!(on && withMask))' in js
     assert "function stopReplay" in js
     assert "sendChat.busy" in js
+    send_fn = js[js.index("async function sendChat()") : js.index("function rememberChat")]
+    unlock = send_fn.index('$("#sendChat").disabled = false')
+    speak = send_fn.index("await speakReply")
+    assert unlock != -1 and speak != -1 and unlock < speak
+    assert "settled" in js[js.index("function speakReply") : js.index("function startVoiceListen")]
     assert "language: state.chatLang" in js
     assert "webkitSpeechRecognition" in js
     assert "speechSynthesis" in js
