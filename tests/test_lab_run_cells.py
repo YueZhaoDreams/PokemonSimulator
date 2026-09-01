@@ -129,3 +129,4 @@ def test_lab_tab_script_lists_experiment_matrix():
     assert "/api/lab/experiments" in text
     assert "lab-matrix" in text
     assert "Open matrix" in text
+    assert "function showLabDetail" in text

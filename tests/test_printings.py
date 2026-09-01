@@ -12,6 +12,7 @@ def test_set_e_pins_are_the_named_cards_not_neighbor_numbers():
     assert PREFERRED_IDS["Surfer"] == "sv08-187"
     assert PREFERRED_IDS["Lake Acuity"] == "swsh11-160"
     assert PREFERRED_IDS["Hippopotas"] == "swsh7-084"
+    assert PREFERRED_IDS["Raichu"] == "swsh12-050"
     assert allowed_print_ids("Pikachu") == {"sm3-40", "sm12-66"}
     surf = fallback_named("Surfer")
     assert surf.catalog_id == "sv08-187"
@@ -139,6 +140,39 @@ def test_rockruff_prints_split_by_attack_hints():
     assert howl.catalog_id == "swsh12.5-073"
     assert roll.catalog_id == "swsh11-109"
     assert howl.catalog_id != roll.catalog_id
+
+
+def test_raichu_default_print_prefers_electro_ball_over_ambushing_spark(monkeypatch):
+    def fake_fetch(card_id: str):
+        if card_id == "spark":
+            return {
+                "id": "spark",
+                "name": "Raichu",
+                "category": "Pokemon",
+                "hp": 110,
+                "attacks": [{"name": "Ambushing Spark", "damage": 50, "text": ""}],
+            }
+        if card_id == "ball":
+            return {
+                "id": "ball",
+                "name": "Raichu",
+                "category": "Pokemon",
+                "hp": 130,
+                "attacks": [{"name": "Electro Ball", "damage": 70, "text": ""}],
+            }
+        raise AssertionError(card_id)
+
+    monkeypatch.setattr("app.catalog.fetch_full", fake_fetch)
+    monkeypatch.setattr(
+        "app.catalog.search_briefs",
+        lambda n: [{"id": "spark", "name": "Raichu"}, {"id": "ball", "name": "Raichu"}],
+    )
+    monkeypatch.setattr("app.catalog.PREFERRED_IDS", {k: v for k, v in PREFERRED_IDS.items() if k != "Raichu"})
+    default = resolve_name("Raichu")
+    assert default.catalog_id == "ball"
+    assert [a.name for a in default.attacks] == ["Electro Ball"]
+    spark = resolve_name("Raichu", ["ambushing spark"])
+    assert spark.catalog_id == "spark"
 
 
 def test_ocr_blob_picks_corphish_crown_zenith_over_crimson_invasion():

@@ -159,6 +159,20 @@ def test_seed_e_and_f_use_no_pokemon_energy_preset():
     assert legacy_rule_presets_for("household") == ["b", "c"]
     assert normalize_rule_presets(["c", "b", "c", "nope"]) == ["c", "b"]
     assert normalize_rule_presets([]) == []
+    from app.engine.models import canonical_rule_key, infer_rule_preset_from_decks, resolve_simulation_rules
+
+    assert canonical_rule_key("Rule C") == "c"
+    assert canonical_rule_key("standard_30") == "c"
+    assert infer_rule_preset_from_decks(
+        [{"rule_presets": ["c"]}, {"rule_presets": ["c"]}]
+    ) == "c"
+    assert infer_rule_preset_from_decks(
+        [{"rule_presets": ["b"]}, {"rule_presets": ["c"]}]
+    ) is None
+    assert resolve_simulation_rules(
+        decks=[{"rule_presets": ["c"]}, {"rule_presets": ["c"]}]
+    ).pokemon_as_energy is False
+    assert resolve_simulation_rules(rule_preset="c", decks=[{"rule_presets": ["b"]}]).pokemon_as_energy is False
 
 
 def test_seed_decks_include_set_c_and_d():

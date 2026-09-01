@@ -3,6 +3,7 @@ import sys
 
 from app.ai.cursor_agent import (
     FAMILY_CUP_BRIEF,
+    FOLLOWUP_TOOL_HINT,
     PRODUCT_CHAT_DISALLOWED_TOOLS,
     PRODUCT_CHAT_TOOLS,
     cursor_model_label,
@@ -63,6 +64,8 @@ def test_family_cup_tools_match_schemas_and_run():
     rules = tools["get_rules"].execute({}, None)
     assert rules["deck_size"] == 30
     assert rules["prize_count"] == 3
+    assert {p["id"] for p in rules["selectable_presets"]} == {"b", "c"}
+    assert "rule_preset" in rules["note"]
     names = [item["name"] for item in tools["list_strategies"].execute({}, None)]
     assert "thrifty" in names
     assert "shock" in names
@@ -99,3 +102,11 @@ def test_family_cup_brief_does_not_invite_repo_edits():
     assert "pytest" not in lowered
     assert "in-process tool" in lowered
     assert "cannot edit the git checkout" in lowered
+    assert "rule_preset" in FAMILY_CUP_BRIEF
+    assert "Fight tab" in FAMILY_CUP_BRIEF
+    assert "change the logo" in FAMILY_CUP_BRIEF
+    assert "rule_preset" in FOLLOWUP_TOOL_HINT
+    assert "replace_deck_card" in FAMILY_CUP_BRIEF
+    assert "Scan photo" in FAMILY_CUP_BRIEF
+    assert "cannot rescan" not in FAMILY_CUP_BRIEF.lower()
+    assert "replace_deck_card" in FOLLOWUP_TOOL_HINT

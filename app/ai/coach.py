@@ -242,6 +242,12 @@ def _local_coach(message: str, tool_trace: list[dict], language: str | None = No
             "question": message,
         }
     )
+    if re.search(
+        r"rule\s*c|规则\s*c|standard 30|no pok[eé]mon energy|不要.*能量|不当能量",
+        message,
+        re.I,
+    ):
+        args["rule_preset"] = "c"
     result = run_tool("simulate_match", args)
     tool_trace.append({"tool": "simulate_match", "args": args, "output_preview": _preview(result)})
     return _narrate_sim(result, lang)
