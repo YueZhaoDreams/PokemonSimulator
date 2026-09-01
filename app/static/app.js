@@ -490,14 +490,28 @@ function stopVoiceSession(keepLoop) {
   paintTalkButton();
 }
 
+const AGENT_SPLIT = window.matchMedia("(min-width: 1101px) and (hover: hover) and (pointer: fine)");
+
+function agentSplitAllowed() {
+  return AGENT_SPLIT.matches;
+}
+
 function paintAgentChrome() {
   const full = $("#agentFull");
   const on = document.body.classList.contains("agent-full");
   if (full) {
+    full.hidden = !agentSplitAllowed();
     full.setAttribute("aria-pressed", on ? "true" : "false");
     full.title = on ? "Split" : "Fullscreen";
     full.textContent = on ? "Split" : "Fullscreen";
   }
+}
+
+function syncAgentLayout() {
+  if (document.body.classList.contains("agent-open") && !agentSplitAllowed()) {
+    document.body.classList.add("agent-full");
+  }
+  paintAgentChrome();
 }
 
 function openAgent() {
@@ -507,7 +521,7 @@ function openAgent() {
   if (panel) panel.hidden = false;
   $("#cubLauncher")?.setAttribute("aria-expanded", "true");
   sendChat.muteSpeak = false;
-  paintAgentChrome();
+  syncAgentLayout();
   renderChat();
   ping("click");
   $("#agentShrink")?.focus();
@@ -526,6 +540,11 @@ function shrinkAgent(opts = {}) {
 }
 
 function toggleAgentFull() {
+  if (!agentSplitAllowed()) {
+    if (!document.body.classList.contains("agent-open")) openAgent();
+    else syncAgentLayout();
+    return;
+  }
   if (!document.body.classList.contains("agent-open")) openAgent();
   document.body.classList.toggle("agent-full");
   paintAgentChrome();
@@ -2143,12 +2162,14 @@ function showThread() {
   state.chatMode = "thread";
   $("#chatThreads").classList.add("hidden");
   $("#chatThread").classList.remove("hidden");
+  $("#view-chat")?.classList.add("thread-open");
 }
 
 function showThreadList() {
   state.chatMode = "list";
   $("#chatThread").classList.add("hidden");
   $("#chatThreads").classList.remove("hidden");
+  $("#view-chat")?.classList.remove("thread-open");
   renderChatThreads();
 }
 
@@ -2247,6 +2268,11 @@ $("#chatMic").onclick = toggleChatMic;
 $("#cubLauncher").onclick = () => openAgent();
 $("#agentShrink").onclick = () => shrinkAgent();
 $("#agentFull").onclick = () => toggleAgentFull();
+if (typeof AGENT_SPLIT.addEventListener === "function") {
+  AGENT_SPLIT.addEventListener("change", syncAgentLayout);
+} else if (typeof AGENT_SPLIT.addListener === "function") {
+  AGENT_SPLIT.addListener(syncAgentLayout);
+}
 if (ttsSupported()) {
   window.speechSynthesis.onvoiceschanged = () => {};
 }
@@ -2451,11 +2477,13 @@ document.addEventListener("keydown", (e) => {
       closeSettings();
       return;
     }
-    if (document.body.classList.contains("agent-full")) {
-      document.body.classList.remove("agent-full");
-      paintAgentChrome();
-    } else if (document.body.classList.contains("agent-open")) {
-      shrinkAgent();
+    if (document.body.classList.contains("agent-open")) {
+      if (agentSplitAllowed() && document.body.classList.contains("agent-full")) {
+        document.body.classList.remove("agent-full");
+        paintAgentChrome();
+      } else {
+        shrinkAgent();
+      }
     }
     return;
   }

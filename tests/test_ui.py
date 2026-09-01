@@ -125,6 +125,8 @@ def test_index_keeps_combo_cub_controls():
     assert "Talk 语音" not in html
     assert 'id="cubLauncher"' in html
     assert 'src="/static/cub.png"' in html
+    assert 'href="/static/styles.css?v=agent-overlay-2"' in html
+    assert 'src="/static/app.js?v=agent-overlay-2"' in html
     assert "<strong>Combo Cub</strong>" in html
     assert 'title="Combo Cub"' in html
     assert ">Scan · fight · chat<" in html
@@ -181,11 +183,14 @@ def test_styles_keep_stadium_tokens_and_reduced_motion():
     assert "position: fixed" in nav_open
     assert ".chat-voice { display: none !important; }" not in css
     assert "grid-template-columns: minmax(0, 1fr) min(440px, 42vw)" in css
-    phone = css[css.index("@media (max-width: 800px)") : css.index("@media (max-width: 640px)")]
-    assert "minmax(220px, 46vh)" not in phone
-    assert "body.agent-open .app-shell { display: none; }" in phone
-    assert "#agentFull { display: none; }" in phone
-    assert "chat is always fullscreen" in phone
+    phone = css[css.index("@media (max-width: 1100px)") : css.index("@media (max-width: 640px)")]
+    assert "minmax(220px, 46vh)" not in css
+    assert "(hover: none) and (pointer: coarse)" in phone
+    assert "position: fixed" in phone
+    assert "inset: 0" in phone
+    assert "display: none !important" in phone
+    assert "#agentFull { display: none !important; }" in phone
+    assert "#view-chat.thread-open .agent-toolbar" in phone
 
 
 def test_app_js_keeps_simulator_contracts():
@@ -274,6 +279,8 @@ def test_app_js_keeps_simulator_contracts():
     assert "CHAT_WELCOME" in js
     assert "function setChatLang" in js
     assert "function startNewChat" in js
+    assert "function showThread" in js
+    assert 'classList.add("thread-open")' in js
     show_fn = js[js.index("function show(view)") : js.index("function md")]
     assert "agent-open" in show_fn
     assert "stopVoiceSession" in show_fn
@@ -282,6 +289,8 @@ def test_app_js_keeps_simulator_contracts():
     assert 'agentShrink")?.focus()' in js
     assert "function shrinkAgent" in js
     assert "function toggleAgentFull" in js
+    assert "function agentSplitAllowed" in js
+    assert "function syncAgentLayout" in js
     assert "function isBrowserDesktop" not in js
     assert "function voiceUiEnabled" not in js
     start_401 = js.index("if (res.status === 401)")
