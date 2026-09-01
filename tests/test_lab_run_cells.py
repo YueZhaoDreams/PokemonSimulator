@@ -43,8 +43,9 @@ def test_apply_deck_patch_swaps_basic_energy_and_drops_names():
 
 
 def test_lab_query_key_matches_montecarlo_default():
-    assert query_key({"type": "opening_hand_contains", "side": "a", "card": "Cubone"}) == "opening_hand_contains:Cubone"
+    assert query_key({"type": "opening_hand_contains", "side": "a", "card": "Cubone"}) == "opening_hand_contains:a:Cubone"
     assert query_key({"type": "event_prefix", "prefix": "saw_play:Cubone", "key": "cubone_play"}) == "cubone_play"
+    assert query_key({"type": "event_prefix", "prefix": "saw_play:Cubone"}) == "event_prefix:saw_play:Cubone"
 
 
 def test_two_cell_lab_run_uses_custom_queries_and_stays_out_of_git(tmp_path, monkeypatch):

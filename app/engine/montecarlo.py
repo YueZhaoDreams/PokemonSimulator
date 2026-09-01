@@ -136,9 +136,19 @@ def run_simulation(
 
 
 def query_key(query: dict[str, Any]) -> str:
-    qtype = query.get("type")
+    if query.get("key"):
+        return str(query["key"])
+    qtype = query.get("type") or "query"
+    if qtype == "event_prefix":
+        return f"event_prefix:{query.get('prefix')}"
+    if qtype == "status":
+        return f"status:{query.get('attacker')}:{query.get('defender')}:{query.get('status')}"
+    if qtype == "opening_hand_contains":
+        side = query.get("side", "a")
+        card = query.get("card") or query.get("name")
+        return f"opening_hand_contains:{side}:{card}"
     card = query.get("card") or query.get("name")
-    return str(query.get("key") or f"{qtype}:{card}")
+    return f"{qtype}:{card}"
 
 
 def _apply_queries(result, queries: list[dict[str, Any]], hits: dict[str, int]) -> None:

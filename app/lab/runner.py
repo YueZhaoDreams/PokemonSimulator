@@ -76,13 +76,14 @@ def run_lab_experiment(
                 "queries": query_rates,
             }
         )
-    blob = {"seed": seed_n, "games": record["method"]["games"], "cells": matrix}
+    actual_games = record["method"]["games"]
+    blob = {"seed": seed_n, "games": actual_games, "cells": matrix}
     return save_lab_experiment(
         owner_id=experiment["owner_id"],
         question=experiment.get("question"),
         cells=experiment.get("cells"),
         queries=queries,
-        games=games_n,
+        games=actual_games,
         seed=seed_n,
         results=blob,
         locked_cell_id=experiment.get("locked_cell_id"),
