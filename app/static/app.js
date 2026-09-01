@@ -560,7 +560,7 @@ function speakReply(text) {
       }
       settled = true;
       clearTimeout(safety);
-      if (!(ttsSupported() && window.speechSynthesis.speaking)) {
+      if (!fromSafety || !(ttsSupported() && window.speechSynthesis.speaking)) {
         voice.speaking = false;
         paintTalkButton();
       }

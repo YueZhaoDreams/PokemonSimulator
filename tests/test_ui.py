@@ -260,6 +260,7 @@ def test_app_js_keeps_simulator_contracts():
     assert "settled" in speak_fn
     assert "speechSynthesis.speaking" in speak_fn
     assert "overdue" in speak_fn
+    assert "fromSafety" in speak_fn
     assert "language: state.chatLang" in js
     assert "webkitSpeechRecognition" in js
     assert "speechSynthesis" in js
