@@ -548,13 +548,28 @@ function speakReply(text) {
     const chosen = pickVoice(utter.lang);
     if (chosen) utter.voice = chosen;
     utter.rate = utter.lang.startsWith("zh") ? 1 : 1.02;
-    const done = () => {
+    let settled = false;
+    let safety;
+    const started = Date.now();
+    const done = (fromSafety) => {
+      if (settled) return;
+      const overdue = Date.now() - started >= 90000;
+      if (fromSafety && !overdue && ttsSupported() && window.speechSynthesis.speaking) {
+        safety = setTimeout(() => done(true), 2000);
+        return;
+      }
+      settled = true;
+      clearTimeout(safety);
+      if (fromSafety && ttsSupported() && window.speechSynthesis.speaking) {
+        window.speechSynthesis.cancel();
+      }
       voice.speaking = false;
       paintTalkButton();
       resolve();
     };
-    utter.onend = done;
-    utter.onerror = done;
+    safety = setTimeout(() => done(true), Math.min(60000, 2500 + spoken.length * 80));
+    utter.onend = () => done(false);
+    utter.onerror = () => done(false);
     voice.speaking = true;
     paintTalkButton();
     window.speechSynthesis.speak(utter);
@@ -2078,7 +2093,9 @@ async function sendChat() {
     bot.classList.remove("live");
   } finally {
     sendChat.streaming = false;
+    sendChat.busy = false;
     setBusy(false);
+    if ($("#sendChat")) $("#sendChat").disabled = false;
     renderChatThreads();
     const pending = sendChat.pending;
     sendChat.pending = null;
@@ -2087,13 +2104,12 @@ async function sendChat() {
       if (chatViewOpen() && !sendChat.muteSpeak) await speakReply(spoken);
     } finally {
       sendChat.muteSpeak = false;
-      sendChat.busy = false;
-      if ($("#sendChat")) $("#sendChat").disabled = false;
       if (pending?.message) {
         $("#chatInput").value = pending.message;
         sendChat.fromVoice = !!pending.fromVoice;
         sendChat();
-      } else if (voice.loop && fromVoice && chatViewOpen() && !voice.rec) {
+      } else if (voice.loop && fromVoice && chatViewOpen() && !voice.rec
+          && !(ttsSupported() && window.speechSynthesis.speaking)) {
         startVoiceListen();
       }
     }

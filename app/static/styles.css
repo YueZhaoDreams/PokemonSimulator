@@ -641,21 +641,20 @@ body.shiny .brand img { animation: spin 4s linear infinite; }
 .lab-matrix th { color: var(--muted); font-weight: 600; font-size: 0.8rem; }
 
 @media (max-width: 800px) {
+  /* Phone: chat is always fullscreen. Split is desktop-only. */
   body.agent-open .stage {
-    grid-template-columns: 1fr;
-    grid-template-rows: minmax(220px, 46vh) minmax(0, 1fr);
+    display: block;
+    grid-template-columns: none;
   }
+  body.agent-open .app-shell { display: none; }
   body.agent-open .agent-panel {
-    grid-row: 1;
-    height: auto;
-    max-height: 46vh;
+    height: 100vh;
+    height: 100dvh;
+    max-height: none;
     border-left: 0;
-    border-bottom: 1px solid #2a3648;
+    position: relative;
   }
-  body.agent-open .app-shell { grid-row: 2; min-height: 0; }
-  body.agent-open .nav { right: 0; }
-  body.agent-full .stage { grid-template-rows: 1fr; }
-  body.agent-full .agent-panel { grid-row: 1; max-height: none; }
+  #agentFull { display: none; }
 }
 @media (max-width: 640px) {
   .ace-frame { width: 72px; height: 100px; }
