@@ -12,6 +12,15 @@ from app.lab.patches import apply_deck_patch
 LAB_CELL_MAX = 12
 
 
+def _as_int(value: object, *, default: int, field: str) -> int:
+    if value is None:
+        return default
+    try:
+        return int(value)
+    except (TypeError, ValueError) as exc:
+        raise ValueError(f"{field} must be an integer") from exc
+
+
 def run_lab_experiment(
     experiment: dict,
     *,
@@ -25,8 +34,8 @@ def run_lab_experiment(
         raise ValueError("experiment needs at least one cell")
     if len(cells) > LAB_CELL_MAX:
         raise ValueError(f"at most {LAB_CELL_MAX} cells")
-    games_n = int(games if games is not None else experiment.get("games") or 200)
-    seed_n = int(seed if seed is not None else experiment.get("seed") if experiment.get("seed") is not None else 20260831)
+    games_n = _as_int(games if games is not None else experiment.get("games"), default=200, field="games")
+    seed_n = _as_int(seed if seed is not None else experiment.get("seed"), default=20260831, field="seed")
     queries = experiment.get("queries")
     if queries is None:
         queries = []

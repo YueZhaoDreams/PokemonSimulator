@@ -155,6 +155,8 @@ def _apply_queries(result, queries: list[dict[str, Any]], hits: dict[str, int]) 
     opening_a = set(result.opening_a)
     opening_b = set(result.opening_b)
     for q in queries:
+        if not isinstance(q, dict):
+            continue
         qtype = q.get("type")
         card = q.get("card") or q.get("name")
         key = query_key(q)
@@ -167,6 +169,8 @@ def _apply_queries(result, queries: list[dict[str, Any]], hits: dict[str, int]) 
             attacker = (q.get("attacker") or "").lower()
             defender = (q.get("defender") or "").lower()
             status = (q.get("status") or "").lower()
+            if not attacker or not defender or not status:
+                continue
             ok = any(
                 k.lower().startswith("status:")
                 and attacker in k.lower()
@@ -177,6 +181,8 @@ def _apply_queries(result, queries: list[dict[str, Any]], hits: dict[str, int]) 
             )
         elif qtype == "event_prefix":
             prefix = q.get("prefix") or ""
+            if not prefix:
+                continue
             ok = any(k.startswith(prefix) for k in result.events)
         if ok:
             hits[key] = hits.get(key, 0) + 1
