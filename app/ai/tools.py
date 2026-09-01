@@ -20,6 +20,7 @@ from app.engine.montecarlo import run_simulation
 from app.engine.probability import draw_probability
 from app.engine.strategies import StrategySpec, list_strategies
 from app.engine.trades import suggest_trades
+from app.lab.runner import run_lab_experiment
 
 _VIEWER: ContextVar[dict | None] = ContextVar("deck_viewer", default=None)
 
@@ -63,6 +64,7 @@ TOOL_SCHEMAS = [
                 "strategy_a": {"type": "string", "description": "thrifty|shock|nuzzle|party|demolish|slash|phantom|aggressive|setup|control|balanced"},
                 "strategy_b": {"type": "string"},
                 "question": {"type": "string"},
+                "queries": {"type": "array"},
             },
             "required": ["deck_a_id", "deck_b_id"],
         },
@@ -124,6 +126,19 @@ TOOL_SCHEMAS = [
                 "locked_cell_id": {"type": ["string", "null"]},
                 "lock_reason": {"type": ["string", "null"]},
             },
+        },
+    },
+    {
+        "name": "run_lab",
+        "description": "Run this trainer's lab experiment cells at the shared seed and games. Persists the matrix in the database. Do not write data/lab/ or app/.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "experiment_id": {"type": "string"},
+                "games": {"type": "integer"},
+                "seed": {"type": "integer"},
+            },
+            "required": ["experiment_id"],
         },
     },
     {
@@ -275,6 +290,23 @@ def run_tool(name: str, args: dict[str, Any]) -> Any:
             )
         except ValueError as exc:
             return {"error": str(exc)}
+    if name == "run_lab":
+        user = _VIEWER.get()
+        if not user:
+            return {"error": "sign in required"}
+        experiment = get_lab_experiment(args.get("experiment_id") or "")
+        if not _experiment_visible(experiment):
+            return {"error": "experiment not found"}
+        try:
+            return run_lab_experiment(
+                experiment,
+                deck_for=_usable_deck,
+                rules=get_rules(),
+                games=args.get("games"),
+                seed=args.get("seed"),
+            )
+        except ValueError as exc:
+            return {"error": str(exc)}
     if name == "list_strategies":
         return list_strategies()
     if name == "draw_odds":
@@ -290,30 +322,21 @@ def run_tool(name: str, args: dict[str, Any]) -> Any:
             return {"error": "need two saved decks"}
         rules = get_rules()
         games = int(args.get("games") or 2000)
+        sim_kw: dict = {
+            "games": games,
+            "question": args.get("question"),
+            "deck_a_meta": {"id": deck_a["id"], "name": deck_a["name"]},
+            "deck_b_meta": {"id": deck_b["id"], "name": deck_b["name"]},
+        }
+        if "queries" in args:
+            sim_kw["queries"] = args.get("queries") or []
         record = run_simulation(
             _cards(deck_a),
             _cards(deck_b),
             rules,
             StrategySpec.from_dict(args.get("strategy_a") or "thrifty"),
             StrategySpec.from_dict(args.get("strategy_b") or "shock"),
-            games=games,
-            question=args.get("question"),
-            queries=[
-                {"type": "opening_hand_contains", "side": "a", "card": "Dondozo", "key": "dondozo_opening_a"},
-                {"type": "event_prefix", "prefix": "saw_play:Dondozo", "key": "dondozo_saw_play"},
-                {"type": "event_prefix", "prefix": "tutor:Dondozo", "key": "dondozo_tutored"},
-                {"type": "event_prefix", "prefix": "saw_play:Pikachu", "key": "pikachu_saw_play"},
-                {"type": "event_prefix", "prefix": "attack:Pikachu:Volt Tackle", "key": "volt_tackle"},
-                {
-                    "type": "status",
-                    "attacker": "Pikachu",
-                    "defender": "Dondozo",
-                    "status": "paralyzed",
-                    "key": "pikachu_paralyze_dondozo",
-                },
-            ],
-            deck_a_meta={"id": deck_a["id"], "name": deck_a["name"]},
-            deck_b_meta={"id": deck_b["id"], "name": deck_b["name"]},
+            **sim_kw,
         )
         save_simulation(record)
         return {

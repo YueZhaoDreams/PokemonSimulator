@@ -2249,8 +2249,17 @@ $("#chatInput").addEventListener("keydown", (e) => {
 });
 
 async function renderLab() {
-  const rows = await api("/api/simulations");
-  $("#labList").innerHTML = rows.map((r) => `
+  const experiments = await api("/api/lab/experiments").catch(() => []);
+  const rows = await api("/api/simulations").catch(() => []);
+  const experimentCards = (experiments || []).map((exp) => `
+    <div class="panel">
+      <div class="list-item">
+        <div><b>${esc(exp.question || "Lab experiment")}</b>
+        <div class="tiny">${esc(exp.updated_at || exp.created_at || "")} · ${(exp.cells || []).length} cells${exp.results ? " · matrix ready" : ""}</div></div>
+        <button class="secondary" data-exp="${esc(exp.id)}">Open matrix</button>
+      </div>
+    </div>`).join("");
+  const simCards = (rows || []).map((r) => `
     <div class="panel">
       <div class="list-item">
         <div><b>${esc(r.question || "Match simulation")}</b>
@@ -2258,12 +2267,74 @@ async function renderLab() {
         <div class="tiny">${esc((r.learning || []).join(" · "))}</div></div>
         <button class="secondary" data-lab="${esc(r.id)}">Open</button>
       </div>
-    </div>`).join("") || `<div class="panel">No runs yet. Fight a matchup and it will land here.</div>`;
+    </div>`).join("");
+  const empty = !experimentCards && !simCards
+    ? `<div class="panel">No runs yet. Save an experiment or Fight a matchup and it will land here.</div>`
+    : "";
+  $("#labList").innerHTML = (experimentCards ? `<h3 class="screen-title">Experiments</h3>${experimentCards}` : "")
+    + (simCards ? `<h3 class="screen-title">Fight runs</h3>${simCards}` : "")
+    + empty;
+  $$("[data-exp]").forEach((b) => b.onclick = () => openLabExperiment(b.dataset.exp));
   $$("[data-lab]").forEach((b) => b.onclick = async () => {
     const rec = await api(`/api/simulations/${b.dataset.lab}`);
     $("#labDetail").innerHTML = resultPanel(rec, { replayHtml: replayHtml(rec, "labReplay") })
       + `<div class="panel"><b>Sample game</b><p class="tiny">${(rec.sample_games?.[0]?.log || []).map((l) => esc(l)).join("<br>")}</p></div>`;
     bindReplay($("#labDetail"), "labReplay");
+  });
+}
+
+function queryRateLine(queries) {
+  const entries = Object.entries(queries || {});
+  if (!entries.length) return "—";
+  return entries.map(([key, value]) => `${esc(key)} ${(((Number(value) || 0) * 100).toFixed(1))}%`).join("<br>");
+}
+
+function experimentMatrixHtml(exp) {
+  const cells = exp.results?.cells || [];
+  if (!cells.length) {
+    return `<p class="tiny">No matrix yet. Run the cells at seed ${esc(exp.seed ?? "—")} (${esc(exp.games ?? "—")} games).</p>`;
+  }
+  const rows = cells.map((cell) => `
+    <tr>
+      <td>${esc(cell.title || cell.id)}</td>
+      <td>${esc(cell.strategy_a?.name || "")} vs ${esc(cell.strategy_b?.name || "")}</td>
+      <td>${(((cell.win_rate_a || 0) * 100).toFixed(1))}%</td>
+      <td>${queryRateLine(cell.queries)}</td>
+    </tr>`).join("");
+  return `<table class="lab-matrix">
+    <thead><tr><th>Cell</th><th>Strategies</th><th>A win</th><th>Queries</th></tr></thead>
+    <tbody>${rows}</tbody>
+  </table>
+  <p class="tiny">Seed ${esc(exp.results?.seed ?? exp.seed)} · ${esc(exp.results?.games ?? exp.games)} games</p>`;
+}
+
+async function openLabExperiment(expId) {
+  const exp = await api(`/api/lab/experiments/${expId}`);
+  $("#labDetail").innerHTML = `
+    <div class="panel">
+      <b>${esc(exp.question || "Lab experiment")}</b>
+      ${experimentMatrixHtml(exp)}
+      <div class="row" style="margin-top:12px">
+        <button type="button" data-run-exp="${esc(exp.id)}">Run cells</button>
+      </div>
+    </div>`;
+  $("[data-run-exp]")?.addEventListener("click", async (ev) => {
+    const btn = ev.currentTarget;
+    btn.disabled = true;
+    btn.textContent = "Running…";
+    try {
+      const ran = await api(`/api/lab/experiments/${exp.id}/run`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({}),
+      });
+      await openLabExperiment(ran.id);
+      renderLab();
+    } catch (err) {
+      btn.disabled = false;
+      btn.textContent = "Run cells";
+      $("#labDetail").insertAdjacentHTML("beforeend", `<div class="panel">${esc(err.message)}</div>`);
+    }
   });
 }
 

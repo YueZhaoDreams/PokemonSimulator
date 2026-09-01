@@ -1,6 +1,6 @@
 # Lab run cells
 
-Status: ready
+Status: in_review
 
 Epic: open-trainer-labs
 
@@ -44,11 +44,11 @@ Operator bakeoffs compare several cells at one seed. Product chat only runs one 
 
 ## Acceptance Criteria
 
-- [ ] Two-cell run returns per-cell win rates and query rates at the requested seed.
-- [ ] Custom queries are used (not only the hardcoded Dondozo/Pikachu list).
-- [ ] Lab tab shows the matrix for that experiment.
-- [ ] Non-admin cannot run or view another trainer’s experiment.
-- [ ] Run does not create or modify files under `data/lab/` or `app/`.
+- [x] Two-cell run returns per-cell win rates and query rates at the requested seed.
+- [x] Custom queries are used (not only the hardcoded Dondozo/Pikachu list).
+- [x] Lab tab shows the matrix for that experiment.
+- [x] Non-admin cannot run or view another trainer’s experiment.
+- [x] Run does not create or modify files under `data/lab/` or `app/`.
 
 ## Validation Plan
 

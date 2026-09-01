@@ -5,7 +5,7 @@ import uuid
 from contextlib import asynccontextmanager
 from pathlib import Path
 
-from fastapi import Depends, FastAPI, File, Form, HTTPException, Request, Response, UploadFile
+from fastapi import Body, Depends, FastAPI, File, Form, HTTPException, Request, Response, UploadFile
 from fastapi.responses import FileResponse, HTMLResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 
@@ -52,6 +52,7 @@ from app.engine.montecarlo import run_simulation
 from app.engine.probability import draw_probability
 from app.engine.strategies import list_strategies, StrategySpec
 from app.engine.trades import suggest_trades
+from app.lab.runner import run_lab_experiment
 from app.recognition.pipeline import recognize_image
 
 
@@ -405,31 +406,22 @@ def api_simulate(payload: dict, user: dict = Depends(require_user)) -> dict:
         rules = rules_from_preset(str(payload.get("rule_preset")))
     else:
         rules = get_rules()
+    sim_kw: dict = {
+        "games": int(payload.get("games") or 2000),
+        "seed": payload.get("seed"),
+        "question": payload.get("question"),
+        "deck_a_meta": {"id": deck_a["id"], "name": deck_a["name"]},
+        "deck_b_meta": {"id": deck_b["id"], "name": deck_b["name"]},
+    }
+    if "queries" in payload:
+        sim_kw["queries"] = payload.get("queries") or []
     record = run_simulation(
         [Card.from_dict(c) for c in deck_a["cards"]],
         [Card.from_dict(c) for c in deck_b["cards"]],
         rules,
         StrategySpec.from_dict(payload.get("strategy_a") or "thrifty"),
         StrategySpec.from_dict(payload.get("strategy_b") or "shock"),
-        games=int(payload.get("games") or 2000),
-        seed=payload.get("seed"),
-        question=payload.get("question"),
-        queries=payload.get("queries") or [
-            {"type": "opening_hand_contains", "side": "a", "card": "Dondozo", "key": "dondozo_opening_a"},
-            {"type": "event_prefix", "prefix": "saw_play:Dondozo", "key": "dondozo_saw_play"},
-            {"type": "event_prefix", "prefix": "tutor:Dondozo", "key": "dondozo_tutored"},
-            {"type": "event_prefix", "prefix": "saw_play:Pikachu", "key": "pikachu_saw_play"},
-            {"type": "event_prefix", "prefix": "attack:Pikachu:Volt Tackle", "key": "volt_tackle"},
-            {
-                "type": "status",
-                "attacker": "Pikachu",
-                "defender": "Dondozo",
-                "status": "paralyzed",
-                "key": "pikachu_paralyze_dondozo",
-            },
-        ],
-        deck_a_meta={"id": deck_a["id"], "name": deck_a["name"]},
-        deck_b_meta={"id": deck_b["id"], "name": deck_b["name"]},
+        **sim_kw,
     )
     save_simulation(record)
     return record
@@ -509,6 +501,30 @@ def api_put_lab_experiment(exp_id: str, payload: dict, user: dict = Depends(requ
     if not _can_use_experiment(user, existing):
         raise HTTPException(404, "Not found")
     return _save_experiment_from_payload(payload or {}, user, existing=existing)
+
+
+@app.post("/api/lab/experiments/{exp_id}/run")
+def api_run_lab_experiment(exp_id: str, payload: dict = Body(default_factory=dict), user: dict = Depends(require_user)) -> dict:
+    existing = get_lab_experiment(exp_id)
+    if not _can_use_experiment(user, existing):
+        raise HTTPException(404, "Not found")
+
+    def deck_for(deck_id: str) -> dict | None:
+        deck = get_deck(deck_id or "")
+        if not _can_use_deck(user, deck):
+            return None
+        return deck
+
+    try:
+        return run_lab_experiment(
+            existing,
+            deck_for=deck_for,
+            rules=get_rules(),
+            games=payload.get("games"),
+            seed=payload.get("seed"),
+        )
+    except ValueError as exc:
+        raise HTTPException(400, str(exc)) from exc
 
 
 @app.post("/api/chat")
