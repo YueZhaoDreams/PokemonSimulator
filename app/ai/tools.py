@@ -22,6 +22,7 @@ from app.engine.overlay import OverlayError
 from app.engine.probability import draw_probability
 from app.engine.strategies import StrategySpec, list_strategies
 from app.engine.trades import suggest_trades
+from app.lab.report import payload_cells, payload_conclusion, payload_results
 from app.lab.runner import run_lab_experiment
 
 _VIEWER: ContextVar[dict | None] = ContextVar("deck_viewer", default=None)
@@ -112,17 +113,17 @@ TOOL_SCHEMAS = [
     },
     {
         "name": "list_lab",
-        "description": "List recent simulation lab records.",
+        "description": "List recent Fight simulation records (one matchup each).",
         "parameters": {"type": "object", "properties": {}},
     },
     {
         "name": "list_lab_experiments",
-        "description": "List this trainer's lab experiments (question, cells, queries). Not git files.",
+        "description": "List this trainer's lab questions (question, attempts, conclusion). Not git files.",
         "parameters": {"type": "object", "properties": {}},
     },
     {
         "name": "get_lab_experiment",
-        "description": "Get one lab experiment this trainer owns, including script_text if stored.",
+        "description": "Get one lab question this trainer owns, including attempts, conclusion, and script_text if stored.",
         "parameters": {
             "type": "object",
             "properties": {"experiment_id": {"type": "string"}},
@@ -131,16 +132,25 @@ TOOL_SCHEMAS = [
     },
     {
         "name": "save_lab_experiment",
-        "description": "Create a new lab experiment, or update one this trainer owns. Pass experiment_id only to update; unknown ids are rejected. Do not write data/lab/ or app/.",
+        "description": (
+            "Create a lab question or update one this trainer owns. "
+            "Pass experiment_id to add another run on the same question (send the full attempts list). "
+            "attempts is the customer shape; cells still works. Do not write data/lab/ or app/."
+        ),
         "parameters": {
             "type": "object",
             "properties": {
                 "experiment_id": {
                     "type": "string",
-                    "description": "Existing experiment to update. Omit to create a new row.",
+                    "description": "Existing question to update. Omit to create a new row.",
                 },
                 "question": {"type": "string"},
-                "cells": {"type": "array"},
+                "conclusion": {"type": ["string", "null"], "description": "Current written conclusion for this question."},
+                "attempts": {
+                    "type": "array",
+                    "description": "Runs to try (id, title, input with decks/strategies/patch/overlay). Replaces cells when sent.",
+                },
+                "cells": {"type": "array", "description": "Compatibility alias for attempts input. Ignored if attempts is sent."},
                 "queries": {"type": "array"},
                 "games": {"type": "integer"},
                 "seed": {"type": "integer"},
@@ -153,14 +163,14 @@ TOOL_SCHEMAS = [
     },
     {
         "name": "run_lab",
-        "description": "Run this trainer's lab experiment cells at the shared seed and games. Persists the matrix in the database. Do not write data/lab/ or app/.",
+        "description": "Run this trainer's lab question (every attempt) at the shared seed and games. Persists the report. Do not write data/lab/ or app/.",
         "parameters": {
             "type": "object",
             "properties": {
                 "experiment_id": {"type": "string"},
                 "games": {"type": "integer"},
                 "seed": {"type": "integer"},
-                "rule_preset": {"type": "string", "description": "b or c; omit to infer from the cells' decks."},
+                "rule_preset": {"type": "string", "description": "b or c; omit to infer from the runs' decks."},
             },
             "required": ["experiment_id"],
         },
@@ -463,14 +473,15 @@ def run_tool(name: str, args: dict[str, Any]) -> Any:
             return save_lab_experiment(
                 owner_id=existing["owner_id"] if existing else user["id"],
                 question=args.get("question") if "question" in args or not existing else existing.get("question"),
-                cells=args["cells"] if "cells" in args else (existing or {}).get("cells"),
+                cells=payload_cells(args, existing),
                 queries=args["queries"] if "queries" in args else (existing or {}).get("queries"),
                 games=args["games"] if "games" in args else (existing or {}).get("games"),
                 seed=args["seed"] if "seed" in args else (existing or {}).get("seed"),
-                results=args["results"] if "results" in args else (existing or {}).get("results"),
+                results=payload_results(args, existing),
                 locked_cell_id=args["locked_cell_id"] if "locked_cell_id" in args else (existing or {}).get("locked_cell_id"),
                 lock_reason=args["lock_reason"] if "lock_reason" in args else (existing or {}).get("lock_reason"),
                 script_text=args["script_text"] if "script_text" in args else (existing or {}).get("script_text"),
+                conclusion=payload_conclusion(args, existing),
                 exp_id=existing["id"] if existing else None,
             )
         except ValueError as exc:

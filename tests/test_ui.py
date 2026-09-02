@@ -147,6 +147,8 @@ def test_index_keeps_combo_cub_controls():
     assert "Every card you own" in html
     lab = html[html.index('id="view-lab"') : html.index("<nav")]
     assert lab.index('id="labList"') < lab.index('id="labDetail"') < lab.index('id="labSims"')
+    assert "current conclusion" in lab
+    assert "Experiments compare several cells" not in lab
     decks = html[html.index('id="view-decks"') : html.index('id="view-cards"')]
     assert "Find a card" not in decks
     assert "Add a card" in decks
@@ -340,6 +342,8 @@ def test_app_js_keeps_simulator_contracts():
     assert "state.decks.map" not in chunk
     lab_js = js[js.index("async function renderLab") : js.index("function queryRateLine")]
     assert '$("#labSims").innerHTML' in lab_js
+    assert "Open report" in lab_js
+    assert "Open matrix" not in js
     assert "function showLabDetail" in js
     assert "function openCardPicker" in js
     assert "function closeCardSheet" in js
