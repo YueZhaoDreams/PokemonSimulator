@@ -1,6 +1,17 @@
 {
   "epic_slug": "open-trainer-labs",
-  "comments": [],
+  "comments": [
+    {
+      "at": "2026-09-01T23:50:00Z",
+      "author": "operator-chat",
+      "text": "Engine v2 design and A–F/S/T/spare card survey landed under docs/features/cursor-access-control (planned). Isolation remains the deny list; this slice is the Card-object allow list. Do not add to breakdown.json or set Status ready until a human approves. Do not start lab-python-sandbox from this."
+    },
+    {
+      "at": "2026-09-02T03:20:00Z",
+      "author": "operator-chat",
+      "text": "Operator approved implementing cursor-access-control (overlay allow list, depends on coach-isolation). Do not start lab-python-sandbox or user-owned-strategies. Do not append lab-is-an-experiment to passed_gates."
+    }
+  ],
   "passed_gates": ["coach-isolated"],
   "gate_reports": {
     "coach-isolated": {

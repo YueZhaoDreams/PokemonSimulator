@@ -16,7 +16,8 @@ class StrategySpec:
     evolve_asap: float = 0.9
     attach_pokemon_as_energy: float = 0.65
     item_spend: float = 1.0
-    swallow_look: int | None = None
+    self_preserve: float = 0.45
+    when: list[dict[str, Any]] = field(default_factory=list)
     hold_as_energy: bool = False
     protect: list[str] = field(default_factory=list)
     search_aces: list[str] = field(default_factory=list)
@@ -39,7 +40,8 @@ class StrategySpec:
             "evolve_asap": self.evolve_asap,
             "attach_pokemon_as_energy": self.attach_pokemon_as_energy,
             "item_spend": self.item_spend,
-            "swallow_look": self.swallow_look,
+            "self_preserve": self.self_preserve,
+            "when": [dict(clause) for clause in self.when],
             "hold_as_energy": self.hold_as_energy,
             "protect": list(self.protect),
             "search_aces": list(self.search_aces),
@@ -115,7 +117,8 @@ STRATEGY_LIBRARY = {
             "after Power Blast discards it. Tailspin Away prevents damage from Basic Pokémon "
             "(Pikachu, Ogerpon, Mewtwo). Water / Metal Basics stay in hand as energy. After "
             "Dondozo is out, bench Orthworm so a single KO does not end the game. Swallow-Up "
-            "looks at 3; balls hunt Dondozo."
+            "looks at the printed top N; how many Energy to attach is a decision. Balls hunt "
+            "Dondozo."
         ),
         prefer_damage=0.85,
         prefer_status=0.2,
@@ -123,7 +126,7 @@ STRATEGY_LIBRARY = {
         evolve_asap=1.0,
         attach_pokemon_as_energy=0.9,
         item_spend=0.2,
-        swallow_look=3,
+        self_preserve=0.85,
         hold_as_energy=True,
         protect=["Dondozo", "Starly", "Staravia", "Staraptor"],
         search_aces=["Dondozo"],

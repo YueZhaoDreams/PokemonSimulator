@@ -110,3 +110,5 @@ def test_family_cup_brief_does_not_invite_repo_edits():
     assert "Scan photo" in FAMILY_CUP_BRIEF
     assert "cannot rescan" not in FAMILY_CUP_BRIEF.lower()
     assert "replace_deck_card" in FOLLOWUP_TOOL_HINT
+    assert "card_overlay" in FAMILY_CUP_BRIEF
+    assert "card_overlay" in FOLLOWUP_TOOL_HINT
