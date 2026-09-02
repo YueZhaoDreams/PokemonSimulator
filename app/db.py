@@ -288,8 +288,14 @@ def _deck_dict(row: sqlite3.Row, cards: list) -> dict:
         "kind": _deck_kind(row["id"]),
         "rule_preset": rule_preset_summary(presets),
         "rule_presets": presets,
-        "cards": cards,
+        "cards": _fill_deck_card_images(cards),
     }
+
+
+def _fill_deck_card_images(cards: list) -> list:
+    from app.catalog import fill_missing_card_images
+
+    return fill_missing_card_images(cards)
 
 
 def _rule_presets_from_row(row: sqlite3.Row) -> list[str]:
@@ -320,8 +326,11 @@ def save_deck(
     owner_id: str | None = None,
     rule_presets: list[str] | None = None,
 ) -> dict:
+    from app.catalog import fill_missing_card_images
+
     deck_id = deck_id or str(uuid.uuid4())
     now = _now()
+    cards = fill_missing_card_images(cards)
     with connect() as conn:
         existing = conn.execute("SELECT id, rules_json FROM decks WHERE id=?", (deck_id,)).fetchone()
         if rule_presets is not None:

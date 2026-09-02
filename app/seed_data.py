@@ -237,8 +237,17 @@ def _atk(name, cost, damage=0, text=""):
 
 
 def _pkm(name, stage, types, hp, attacks, evolves_from=None, retreat=1, catalog_id=None, abilities=None, weakness=None, image=None, set_name=None, resistances=None):
+    from app.catalog import _looks_like_tcgdex_id, _tcgdex_low
+
+    cid = catalog_id or name.lower().replace(" ", "-")
+    art = image
+    if not art and _looks_like_tcgdex_id(str(cid or "")):
+        try:
+            art = _tcgdex_low(cid)
+        except Exception:
+            art = None
     return Card(
-        catalog_id=catalog_id or name.lower().replace(" ", "-"),
+        catalog_id=cid,
         name=name,
         category="Pokemon",
         stage=stage,
@@ -250,7 +259,7 @@ def _pkm(name, stage, types, hp, attacks, evolves_from=None, retreat=1, catalog_
         resistances=list(resistances) if resistances else [],
         retreat=retreat,
         evolves_from=evolves_from,
-        image=image,
+        image=art,
         set_name=set_name,
     )
 

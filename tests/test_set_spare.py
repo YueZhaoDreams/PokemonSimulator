@@ -32,6 +32,19 @@ def test_gimmighoul_household_print_has_paradox_rift_art():
     assert "sv04/087" in seed.image
 
 
+def test_orthworm_household_print_has_paradox_rift_art():
+    """Replace/resolve used lookup_seed_card; Orthworm had catalog_id but no fallback art."""
+    card = fallback_named("Orthworm")
+    assert card.catalog_id == "sv04-138"
+    assert card.image
+    assert "sv04/138" in card.image
+    seed = lookup_seed_card(catalog_id="sv04-138")
+    assert seed is not None
+    assert seed.name == "Orthworm"
+    assert seed.image
+    assert "sv04/138" in seed.image
+
+
 def test_dark_energy_alias_is_darkness():
     card = resolve_name("Dark Energy")
     assert card.name == "Darkness Energy"

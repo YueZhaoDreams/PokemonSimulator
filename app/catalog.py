@@ -658,6 +658,30 @@ def _tcgdex_low(card_id: str) -> str:
     return f"https://assets.tcgdex.net/en/{folder}/{series}/{number}/low.webp"
 
 
+def fill_missing_card_image(card: dict[str, Any]) -> dict[str, Any]:
+    """Attach TCGDex art when a stored/resolved card has a print id but no picture."""
+    if str(card.get("image") or "").strip():
+        return card
+    cid = str(card.get("catalog_id") or card.get("id") or "").strip()
+    name = str(card.get("name") or "").strip()
+    if _looks_like_tcgdex_id(cid):
+        patched = dict(card)
+        patched["image"] = _tcgdex_low(cid)
+        return patched
+    if cid and "-" in cid:
+        return card
+    pin = PREFERRED_IDS.get(name) or ""
+    if not _looks_like_tcgdex_id(pin):
+        return card
+    patched = dict(card)
+    patched["image"] = _tcgdex_low(pin)
+    return patched
+
+
+def fill_missing_card_images(cards: list[dict] | None) -> list[dict]:
+    return [fill_missing_card_image(card) for card in (cards or [])]
+
+
 def energy_card(energy_type: str) -> Card:
     print_id = ENERGY_PRINTS.get(energy_type)
     return Card(
