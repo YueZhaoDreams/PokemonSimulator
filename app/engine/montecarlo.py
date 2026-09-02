@@ -106,13 +106,13 @@ def run_simulation(
             "games": games,
             "seed": seed,
             "card_overlay": {
-                k: v
-                for k, v in {
-                    "shared": card_overlay or {},
-                    "a": card_overlay_a or {},
-                    "b": card_overlay_b or {},
-                }.items()
-                if v
+                key: value
+                for key, value in (
+                    ("shared", card_overlay),
+                    ("a", card_overlay_a),
+                    ("b", card_overlay_b),
+                )
+                if value is not None
             },
             "rules": rules.to_dict(),
             "how": (

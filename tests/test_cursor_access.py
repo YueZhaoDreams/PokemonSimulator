@@ -88,6 +88,31 @@ def test_empty_side_overlay_overrides_shared():
     assert overlay_for_side(shared, {}) == {}
 
 
+def test_overlay_params_look_wins_after_program():
+    original = FALLBACK_BY_NAME["dondozo"]
+    patched = apply_card_overlay(
+        [original],
+        {
+            "sv04-055": {
+                "program": [{"kind": "swallow_energy", "look": 4}],
+                "params": {"look": 3},
+            }
+        },
+    )
+    assert _swallow_look(patched[0]) == 3
+
+
+def test_overlay_requires_look_on_swallow_energy():
+    dondozo = FALLBACK_BY_NAME["dondozo"]
+    with pytest.raises(OverlayError, match="swallow_energy.look"):
+        apply_card_overlay([dondozo], {"sv04-055": {"effects": [{"kind": "swallow_energy"}]}})
+
+
+def test_malformed_self_preserve_falls_back_to_preset():
+    strat = StrategySpec.from_dict({"name": "thrifty", "self_preserve": "high"})
+    assert strat.self_preserve == 0.85
+
+
 def test_overlay_rejects_non_integer_swallow_look():
     dondozo = FALLBACK_BY_NAME["dondozo"]
     with pytest.raises(OverlayError, match="must be an integer"):

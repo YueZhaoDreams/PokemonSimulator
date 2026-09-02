@@ -67,8 +67,9 @@ def run_lab_experiment(
                 queries=queries,
                 deck_a_meta={"id": deck_a["id"], "name": deck_a["name"]},
                 deck_b_meta={"id": deck_b["id"], "name": deck_b["name"]},
-                card_overlay_a=cell["card_overlay_a"] if "card_overlay_a" in cell else cell.get("card_overlay"),
-                card_overlay_b=cell["card_overlay_b"] if "card_overlay_b" in cell else cell.get("card_overlay"),
+                card_overlay=cell.get("card_overlay") if "card_overlay" in cell else None,
+                card_overlay_a=cell["card_overlay_a"] if "card_overlay_a" in cell else None,
+                card_overlay_b=cell["card_overlay_b"] if "card_overlay_b" in cell else None,
             )
         except OverlayError as exc:
             raise ValueError(str(exc)) from exc

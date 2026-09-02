@@ -102,20 +102,20 @@ def _apply_printing_patch(card: Card, cid: str, patch: dict[str, Any]) -> None:
         effects = patch.get("program")
     attack_name = str(patch.get("attack") or "").strip().lower()
     printed_look = _printed_swallow_look(card)
+    if effects is not None:
+        if not isinstance(effects, list) or not effects:
+            raise OverlayError(f"overlay effects for {cid} must be a non-empty list")
+        checked = [_validate_effect(cid, item) for item in effects]
+        overlay_look = next((int(e["look"]) for e in checked if e.get("kind") == "swallow_energy"), None)
+        if overlay_look is not None and printed_look is not None and overlay_look > printed_look:
+            raise OverlayError(f"overlay look {overlay_look} is above printed look {printed_look} on {cid}")
+        target = _target_attack(card, attack_name, checked)
+        target.effects = checked
     if "look" in params:
         look = _as_positive_int(params.get("look"), f"{cid} params.look")
         if printed_look is not None and look > printed_look:
             raise OverlayError(f"overlay look {look} is above printed look {printed_look} on {cid}")
         _set_swallow_look(card, look, attack_name)
-    if effects is not None:
-        if not isinstance(effects, list) or not effects:
-            raise OverlayError(f"overlay effects for {cid} must be a non-empty list")
-        checked = [_validate_effect(cid, item) for item in effects]
-        overlay_look = next((int(e["look"]) for e in checked if e.get("kind") == "swallow_energy" and "look" in e), None)
-        if overlay_look is not None and printed_look is not None and overlay_look > printed_look:
-            raise OverlayError(f"overlay look {overlay_look} is above printed look {printed_look} on {cid}")
-        target = _target_attack(card, attack_name, checked)
-        target.effects = checked
 
 
 def _printed_swallow_look(card: Card) -> int | None:
@@ -156,7 +156,7 @@ def _validate_effect(cid: str, item: Any) -> dict[str, Any]:
     if kind not in PUBLISHED_EFFECT_KINDS:
         raise OverlayError(f"overlay on {cid} uses unpublished kind {kind}")
     out = dict(item)
-    if kind == "swallow_energy" and "look" in out:
+    if kind == "swallow_energy":
         out["look"] = _as_positive_int(out.get("look"), f"{cid} swallow_energy.look")
     return out
 

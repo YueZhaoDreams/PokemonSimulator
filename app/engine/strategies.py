@@ -75,6 +75,24 @@ class StrategySpec:
             merged["when"] = []
         else:
             merged["when"] = [dict(clause) for clause in when if isinstance(clause, dict)]
+        for field in (
+            "prefer_damage",
+            "prefer_status",
+            "bench_fill",
+            "evolve_asap",
+            "attach_pokemon_as_energy",
+            "item_spend",
+            "self_preserve",
+        ):
+            try:
+                merged[field] = float(merged[field])
+            except (TypeError, ValueError):
+                merged[field] = getattr(base, field)
+        for field in ("insurance_bench", "max_ace_copies"):
+            try:
+                merged[field] = int(merged[field])
+            except (TypeError, ValueError):
+                merged[field] = getattr(base, field)
         return cls(**{k: merged[k] for k in cls.__dataclass_fields__})
 
 
