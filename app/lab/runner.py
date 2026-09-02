@@ -5,6 +5,7 @@ from typing import Any
 
 from app.db import save_lab_experiment
 from app.engine.models import Card, FamilyRules, default_family_rules
+from app.engine.overlay import OverlayError
 from app.engine.montecarlo import query_key, run_simulation
 from app.engine.strategies import StrategySpec
 from app.lab.patches import apply_deck_patch
@@ -53,19 +54,25 @@ def run_lab_experiment(
         cards_b = apply_deck_patch(deck_b["cards"], cell.get("patch_b"))
         strat_a = StrategySpec.from_dict(cell.get("strategy_a") or "thrifty")
         strat_b = StrategySpec.from_dict(cell.get("strategy_b") or "shock")
-        record = run_simulation(
-            [Card.from_dict(c) for c in cards_a],
-            [Card.from_dict(c) for c in cards_b],
-            rules,
-            strat_a,
-            strat_b,
-            games=games_n,
-            seed=seed_n,
-            question=experiment.get("question"),
-            queries=queries,
-            deck_a_meta={"id": deck_a["id"], "name": deck_a["name"]},
-            deck_b_meta={"id": deck_b["id"], "name": deck_b["name"]},
-        )
+        try:
+            record = run_simulation(
+                [Card.from_dict(c) for c in cards_a],
+                [Card.from_dict(c) for c in cards_b],
+                rules,
+                strat_a,
+                strat_b,
+                games=games_n,
+                seed=seed_n,
+                question=experiment.get("question"),
+                queries=queries,
+                deck_a_meta={"id": deck_a["id"], "name": deck_a["name"]},
+                deck_b_meta={"id": deck_b["id"], "name": deck_b["name"]},
+                card_overlay=cell.get("card_overlay") if "card_overlay" in cell else None,
+                card_overlay_a=cell["card_overlay_a"] if "card_overlay_a" in cell else None,
+                card_overlay_b=cell["card_overlay_b"] if "card_overlay_b" in cell else None,
+            )
+        except OverlayError as exc:
+            raise ValueError(str(exc)) from exc
         results = record["results"]
         keyed = results.get("queries") or {}
         query_rates = {}

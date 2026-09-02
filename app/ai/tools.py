@@ -18,6 +18,7 @@ from app.db import (
 )
 from app.engine.models import Card, resolve_simulation_rules
 from app.engine.montecarlo import run_simulation
+from app.engine.overlay import OverlayError
 from app.engine.probability import draw_probability
 from app.engine.strategies import StrategySpec, list_strategies
 from app.engine.trades import suggest_trades
@@ -62,14 +63,30 @@ TOOL_SCHEMAS = [
                 "deck_a_id": {"type": "string"},
                 "deck_b_id": {"type": "string"},
                 "games": {"type": "integer", "default": 2000},
-                "strategy_a": {"type": "string", "description": "thrifty|shock|nuzzle|party|demolish|slash|phantom|aggressive|setup|control|balanced"},
-                "strategy_b": {"type": "string"},
+                "strategy_a": {
+                    "type": ["string", "object"],
+                    "description": "Preset name (thrifty|shock|nuzzle|party|demolish|slash|phantom|aggressive|setup|control|balanced) or a StrategySpec overlay (weights, when-clauses). Not printed look-N."
+                },
+                "strategy_b": {
+                    "type": ["string", "object"],
+                    "description": "Preset name or StrategySpec overlay.",
+                },
                 "question": {"type": "string"},
                 "queries": {"type": "array"},
                 "rule_preset": {
                     "type": "string",
                     "description": "b or c. Omit to infer from the two decks (E/F → c) or use household rules.",
                 },
+                "card_overlay": {
+                    "type": "object",
+                    "description": (
+                        "Catalog-id keyed overlay for this match only (both decks). "
+                        "Each value may include params, effects or program, attack, decisions. "
+                        "Published effect kinds only. Cannot raise a parsed look above print. Does not write git."
+                    ),
+                },
+                "card_overlay_a": {"type": "object", "description": "Same overlay shape, deck A only."},
+                "card_overlay_b": {"type": "object", "description": "Same overlay shape, deck B only."},
             },
             "required": ["deck_a_id", "deck_b_id"],
         },
@@ -509,14 +526,26 @@ def run_tool(name: str, args: dict[str, Any]) -> Any:
         }
         if "queries" in args:
             sim_kw["queries"] = args.get("queries") or []
-        record = run_simulation(
-            _cards(deck_a),
-            _cards(deck_b),
-            rules,
-            StrategySpec.from_dict(args.get("strategy_a") or "thrifty"),
-            StrategySpec.from_dict(args.get("strategy_b") or "shock"),
-            **sim_kw,
-        )
+        overlay = args.get("card_overlay")
+        overlay_a = args.get("card_overlay_a")
+        overlay_b = args.get("card_overlay_b")
+        for field, blob in (("card_overlay", overlay), ("card_overlay_a", overlay_a), ("card_overlay_b", overlay_b)):
+            if blob is not None and not isinstance(blob, dict):
+                return {"error": f"{field} must be an object keyed by catalog_id"}
+        try:
+            record = run_simulation(
+                _cards(deck_a),
+                _cards(deck_b),
+                rules,
+                StrategySpec.from_dict(args.get("strategy_a") or "thrifty"),
+                StrategySpec.from_dict(args.get("strategy_b") or "shock"),
+                card_overlay=overlay,
+                card_overlay_a=overlay_a,
+                card_overlay_b=overlay_b,
+                **sim_kw,
+            )
+        except OverlayError as exc:
+            return {"error": str(exc)}
         save_simulation(record)
         return {
             "simulation_id": record["id"],

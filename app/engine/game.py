@@ -5,6 +5,7 @@ import re
 from dataclasses import dataclass, field
 from typing import Any
 
+from app.engine.decisions import LOOK_THEN_ATTACH, DecisionContext, decide
 from app.engine.effects import (
     can_pay_energy,
     energy_provided,
@@ -2377,11 +2378,9 @@ class Game:
                 prefer = ["Ultra Ball", "Poké Ball", "Poke Ball", "Energy Search", "Energy Switch", "Trekking Shoes"]
                 self._search_items(me, count=int(effect.get("count") or 2), prefer_names=prefer)
             elif effect.get("kind") == "swallow_energy":
-                look = int(effect.get("look") or 5)
-                strat = self.strats[who]
-                if strat.swallow_look:
-                    look = min(look, int(strat.swallow_look))
-                self._swallow_energy(me, look, stop_when_powered=strat.item_spend < 0.75)
+                look = int(effect.get("look") or 0)
+                if look > 0:
+                    self._swallow_energy(me, look)
             elif effect.get("kind") == "bench_damage_counters":
                 self._bench_damage_counters(foe, int(effect.get("counters") or 1))
             elif effect.get("kind") == "lock_items":
@@ -2440,10 +2439,9 @@ class Game:
         return total
 
     def _swallow_energy(self, me: Player, look: int, stop_when_powered: bool = False) -> None:
-        """Supplemental Swallow-Up: attach Basic Energy from the top of the deck.
+        """Supplemental Swallow-Up: look at printed N, then ask Strategy how many to attach.
 
-        Under Family Cup, Pokémon may also be attached as matching Basic Energy.
-        Thrifty play looks at fewer cards and stops once a big attack is payable.
+        stop_when_powered is ignored leftover from v1; attach count is look_then_attach.how_many.
         """
         if not me.active:
             return
@@ -2451,33 +2449,53 @@ class Game:
         strat = self.strats[who]
         taken = min(look, len(me.deck))
         top = [me.deck.pop(0) for _ in range(taken)]
-        keep: list[int] = []
-        attached = 0
-        powered = stop_when_powered and self._active_can_pay_damage(me)
+        attachable: list[int] = []
+        rest: list[int] = []
         for card_i in top:
             card = me.card(card_i)
-            attachable = (not powered) and (
-                is_basic_energy(card, pokemon_as_energy=False)
-                or (
-                    self.rules.pokemon_as_energy
-                    and card.is_pokemon
-                    and card.as_energy_type
-                    and not self._is_protected_from_energy(me, card, strat)
-                )
+            can_attach = is_basic_energy(card, pokemon_as_energy=False) or (
+                self.rules.pokemon_as_energy
+                and card.is_pokemon
+                and card.as_energy_type
+                and not self._is_protected_from_energy(me, card, strat)
             )
-            if attachable:
+            if can_attach:
+                attachable.append(card_i)
+            else:
+                rest.append(card_i)
+        observe = {
+            "deck_len": len(me.deck) + taken,
+            "hand_attachable": self._hand_has_attachable_energy(me, who),
+            "can_pay": self._active_can_pay_damage(me),
+        }
+        chosen = decide(
+            strat,
+            DecisionContext(
+                id=LOOK_THEN_ATTACH,
+                source="card",
+                legal=list(attachable),
+                observe=observe,
+                default=list(attachable),
+            ),
+        )
+        chosen_list = [i for i in (chosen or []) if i in attachable]
+        attached = 0
+        chosen_set = set(chosen_list)
+        for card_i in attachable:
+            if card_i in chosen_set:
                 me.active.energy.append(card_i)
                 attached += 1
+                card = me.card(card_i)
                 if card.is_pokemon:
                     self._bump("pokemon_as_energy")
                 self._bump("swallow_energy")
                 self._log(f"{me.name} swallows {card.name} onto {me.card(me.active.card_i).name}")
-                if stop_when_powered and self._active_can_pay_damage(me):
-                    powered = True
             else:
-                keep.append(card_i)
-        me.deck.extend(keep)
+                rest.append(card_i)
+        me.deck.extend(rest)
         self.rng.shuffle(me.deck)
+        self._bump(f"decision:{LOOK_THEN_ATTACH}")
+        self._log(f"{me.name} {LOOK_THEN_ATTACH} attached {attached} of {len(attachable)} (looked at {taken})")
         if attached:
             self._log(f"{me.name} Supplemental Swallow-Up attached {attached} energy (looked at {taken})")
 

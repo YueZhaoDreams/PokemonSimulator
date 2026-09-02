@@ -19,7 +19,9 @@ def _carpet_game(strat_a: StrategySpec, seed: int = 1) -> Game:
 def test_thrifty_strategy_knobs():
     strat = StrategySpec.from_dict("thrifty")
     assert strat.item_spend == 0.2
-    assert strat.swallow_look == 3
+    assert not hasattr(strat, "swallow_look")
+    assert "swallow_look" not in strat.to_dict()
+    assert strat.self_preserve == 0.85
     assert strat.search_aces == ["Dondozo"]
     assert strat.hold_as_energy is True
     assert strat.bench_fill == 0
@@ -116,6 +118,35 @@ def test_balanced_still_plays_filler_items():
     picked = game._pick_trainer(me)
     assert picked is not None
     assert me.card(picked).name in {"Energy Switch", "Poké Ball"}
+
+
+def test_thrifty_swallow_uses_printed_look_five():
+    game = _carpet_game(StrategySpec.from_dict("thrifty"))
+    me = game.players["a"]
+    dondozo = _idx(me, "Dondozo")
+    card = me.card(dondozo)
+    look = next(int(e["look"]) for a in card.attacks for e in a.effects if e.get("kind") == "swallow_energy")
+    assert look == 5
+    psychic = _idx(me, "Water Energy")
+    seel = _idx(me, "Corphish")
+    bronzor = _idx(me, "Bronzor")
+    oddish = _idx(me, "Oddish")
+    gloom = _idx(me, "Aipom")
+    me.active = Pokemon(card_i=dondozo, played_turn=0)
+    me.hand = []
+    me.bench = []
+    me.deck = [psychic, seel, bronzor, oddish, gloom]
+    game.trace_on = True
+    game._swallow_energy(me, look)
+    assert any("looked at 5" in line for line in game.trace)
+    assert game.events.get("decision:look_then_attach.how_many") == 1
+
+
+def test_strategy_from_dict_ignores_legacy_swallow_look():
+    strat = StrategySpec.from_dict({"name": "thrifty", "swallow_look": 3})
+    assert strat.name == "thrifty"
+    assert strat.self_preserve == 0.85
+    assert "swallow_look" not in strat.to_dict()
 
 
 def test_swallow_look_three_leaves_the_rest_in_deck():

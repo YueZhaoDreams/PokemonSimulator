@@ -50,6 +50,7 @@ from app.engine.models import (
     rules_from_preset,
 )
 from app.engine.montecarlo import run_simulation
+from app.engine.overlay import OverlayError
 from app.engine.probability import draw_probability
 from app.engine.strategies import list_strategies, StrategySpec
 from app.engine.trades import suggest_trades
@@ -421,14 +422,26 @@ def api_simulate(payload: dict, user: dict = Depends(require_user)) -> dict:
     }
     if "queries" in payload:
         sim_kw["queries"] = payload.get("queries") or []
-    record = run_simulation(
-        [Card.from_dict(c) for c in deck_a["cards"]],
-        [Card.from_dict(c) for c in deck_b["cards"]],
-        rules,
-        StrategySpec.from_dict(payload.get("strategy_a") or "thrifty"),
-        StrategySpec.from_dict(payload.get("strategy_b") or "shock"),
-        **sim_kw,
-    )
+    overlay = payload.get("card_overlay")
+    overlay_a = payload.get("card_overlay_a")
+    overlay_b = payload.get("card_overlay_b")
+    for field, blob in (("card_overlay", overlay), ("card_overlay_a", overlay_a), ("card_overlay_b", overlay_b)):
+        if blob is not None and not isinstance(blob, dict):
+            raise HTTPException(400, f"{field} must be an object keyed by catalog_id")
+    try:
+        record = run_simulation(
+            [Card.from_dict(c) for c in deck_a["cards"]],
+            [Card.from_dict(c) for c in deck_b["cards"]],
+            rules,
+            StrategySpec.from_dict(payload.get("strategy_a") or "thrifty"),
+            StrategySpec.from_dict(payload.get("strategy_b") or "shock"),
+            card_overlay=overlay,
+            card_overlay_a=overlay_a,
+            card_overlay_b=overlay_b,
+            **sim_kw,
+        )
+    except OverlayError as exc:
+        raise HTTPException(400, str(exc)) from exc
     save_simulation(record)
     return record
 

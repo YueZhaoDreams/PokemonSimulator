@@ -9,6 +9,11 @@
       "parallel_group": 1
     },
     {
+      "slug": "cursor-access-control",
+      "depends_on": ["coach-isolation"],
+      "parallel_group": 1
+    },
+    {
       "slug": "lab-experiment-model",
       "depends_on": [],
       "parallel_group": 1

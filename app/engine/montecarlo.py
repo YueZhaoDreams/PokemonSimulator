@@ -10,6 +10,7 @@ from app.engine.game import play_game
 from app.engine.learn import learn_from_games
 from app.engine.models import Card, FamilyRules
 from app.engine.probability import draw_probability
+from app.engine.overlay import apply_card_overlay, overlay_for_side
 from app.engine.strategies import StrategySpec
 
 
@@ -26,6 +27,9 @@ def run_simulation(
     deck_a_meta: dict[str, Any] | None = None,
     deck_b_meta: dict[str, Any] | None = None,
     first_player: str | None = None,
+    card_overlay: dict[str, Any] | None = None,
+    card_overlay_a: dict[str, Any] | None = None,
+    card_overlay_b: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     games = max(1, min(int(games), 25000))
     seed = int(seed if seed is not None else random.randrange(1, 10**9))
@@ -34,6 +38,10 @@ def run_simulation(
     results = []
     query_hits: dict[str, int] = {}
     sample_traces = []
+    overlay_a = overlay_for_side(card_overlay, card_overlay_a)
+    overlay_b = overlay_for_side(card_overlay, card_overlay_b)
+    cards_a = apply_card_overlay(cards_a, overlay_a)
+    cards_b = apply_card_overlay(cards_b, overlay_b)
     if queries is None:
         queries = [
             {"type": "opening_hand_contains", "side": "a", "card": "Dondozo", "key": "dondozo_opening_a"},
@@ -97,6 +105,15 @@ def run_simulation(
             "engine": "family-tcg-monte-carlo",
             "games": games,
             "seed": seed,
+            "card_overlay": {
+                key: value
+                for key, value in (
+                    ("shared", card_overlay),
+                    ("a", card_overlay_a),
+                    ("b", card_overlay_b),
+                )
+                if value is not None
+            },
             "rules": rules.to_dict(),
             "how": (
                 f"Shuffled both decks, drew {rules.opening_hand}, mulliganed until a "

@@ -55,6 +55,10 @@ Product chat is a Cursor local agent pointed at the git checkout. Other trainers
 - Broader validation: `pytest -q`
 - Manual review: confirm `.env` is not under the sandbox cwd
 
+## Follow-on (not this slice)
+
+Isolation is the **deny list**. Engine v2 — Card object as program, named decision points, product-chat overlay — is the **allow list**. Design and the household set survey live in [cursor-access-control](../cursor-access-control/spec.md). Do not reopen this slice to implement that.
+
 ## Status Update Checklist
 
 When work starts or changes state, update the linked issue with:

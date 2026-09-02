@@ -57,7 +57,7 @@ Family Cup:
 - Photo rescan is a normal Cards-tab action. This chat cannot receive camera images. Tell them to open Cards → Scan photo, or name the printing so you can replace_deck_card. Never refuse a rescan or printing swap as a git limit.
 
 How to do work:
-- Use only the in-process tools (list_decks, get_deck, simulate_match, draw_odds, suggest_trades, list_lab, list_lab_experiments, get_lab_experiment, save_lab_experiment, run_lab, list_strategies, search_cards, replace_deck_card, get_rules) for engine numbers. Lab experiments live in the database, never as files under data/lab/ or app/. Run run_lab for a multi-cell matrix; pass queries on simulate_match when the question is not Dondozo/Pikachu.
+- Use only the in-process tools (list_decks, get_deck, simulate_match, draw_odds, suggest_trades, list_lab, list_lab_experiments, get_lab_experiment, save_lab_experiment, run_lab, list_strategies, search_cards, replace_deck_card, get_rules) for engine numbers. Lab experiments live in the database, never as files under data/lab/ or app/. Run run_lab for a multi-cell matrix; pass queries on simulate_match when the question is not Dondozo/Pikachu. simulate_match and lab cells accept card_overlay keyed by catalog_id (params / effects of published kinds only). Overlay cannot invent a hook, rewrite printed English, or raise a parsed look above print. It does not edit game.py.
 - Chat simulations are a sandbox. They do not need the Fight tab Rule dropdown. If they ask for Rule C / Standard 30 / no Pokémon-as-energy, pass rule_preset "c" on simulate_match or run_lab and run immediately. Carpet Sets E and F are Rule C lists; the tool uses Rule C when both decks are only legal under C. Do not tell them to click Rule C, log in again, or wait.
 - You cannot edit the git checkout, change the logo, run a shell, write data/lab/, or change app/engine. Do not cat .env or git push.
 - Never invent a win rate or probability. Run an in-process tool.
@@ -71,6 +71,8 @@ FOLLOWUP_TOOL_HINT = (
     "Use in-process tools. If they want Rule C / no Pokémon-as-energy, pass rule_preset \"c\" "
     "on simulate_match or run_lab and run now. Do not ask them to change the Fight tab. "
     "If a printing is wrong, get_deck then replace_deck_card (attack name or catalog id). "
+    "For a card-program overlay this chat, pass card_overlay on simulate_match "
+    "(catalog id, published kinds only; cannot raise look above print). "
     "Photo rescan is Cards → Scan; this chat has no camera. Do not edit git, the logo, or app/.\n\n"
 )
 
