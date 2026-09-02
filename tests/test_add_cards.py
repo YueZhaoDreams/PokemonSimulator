@@ -246,6 +246,15 @@ def test_resolve_gimmighoul_keeps_art_without_network(tmp_path, monkeypatch):
         assert "sv04/087" in card["image"]
 
 
+def test_fill_missing_card_image_does_not_paste_household_art_on_other_prints():
+    from app.catalog import fill_missing_card_image
+
+    other = fill_missing_card_image({"name": "Clefable", "catalog_id": "clc-014"})
+    assert other.get("image") in (None, "")
+    named = fill_missing_card_image({"name": "Orthworm"})
+    assert "sv04/138" in (named.get("image") or "")
+
+
 def test_resolve_and_replace_orthworm_keeps_art_without_network(tmp_path, monkeypatch):
     """Replace PUT used resolve output; Orthworm fallback had a print id but no image."""
     monkeypatch.setattr("app.db.DB_PATH", tmp_path / "app.db")
@@ -291,6 +300,7 @@ def test_resolve_and_replace_orthworm_keeps_art_without_network(tmp_path, monkey
             f"/api/decks/{deck['id']}",
             json={"cards": [{"name": "Orthworm", "catalog_id": "sv04-138"}]},
         )
+        assert blanked.status_code == 200
         assert "sv04/138" in (blanked.json()["cards"][0].get("image") or "")
 
 

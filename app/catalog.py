@@ -660,18 +660,21 @@ def _tcgdex_low(card_id: str) -> str:
 
 def fill_missing_card_image(card: dict[str, Any]) -> dict[str, Any]:
     """Attach TCGDex art when a stored/resolved card has a print id but no picture."""
-    if not isinstance(card, dict):
-        return card
     if str(card.get("image") or "").strip():
         return card
     cid = str(card.get("catalog_id") or card.get("id") or "").strip()
     name = str(card.get("name") or "").strip()
-    if not _looks_like_tcgdex_id(cid):
-        cid = PREFERRED_IDS.get(name) or cid
-    if not _looks_like_tcgdex_id(cid):
+    if _looks_like_tcgdex_id(cid):
+        patched = dict(card)
+        patched["image"] = _tcgdex_low(cid)
+        return patched
+    if cid and "-" in cid:
+        return card
+    pin = PREFERRED_IDS.get(name) or ""
+    if not _looks_like_tcgdex_id(pin):
         return card
     patched = dict(card)
-    patched["image"] = _tcgdex_low(cid)
+    patched["image"] = _tcgdex_low(pin)
     return patched
 
 
