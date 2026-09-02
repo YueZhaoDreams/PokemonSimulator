@@ -4,7 +4,7 @@
     {
       "at": "2026-09-01T23:50:00Z",
       "author": "operator-chat",
-      "text": "Engine v2 design and A–F/S/T/spare card survey landed under docs/features/cursor-access-control (planned). Isolation remains the deny list; this slice is the Card-object allow list. Do not add to breakdown.json or set Status ready until a human approves. Do not start lab-python-sandbox from this."
+      "text": "Engine v2 design and A\u2013F/S/T/spare card survey landed under docs/features/cursor-access-control (planned). Isolation remains the deny list; this slice is the Card-object allow list. Do not add to breakdown.json or set Status ready until a human approves. Do not start lab-python-sandbox from this."
     },
     {
       "at": "2026-09-02T03:20:00Z",
@@ -12,7 +12,9 @@
       "text": "Operator approved implementing cursor-access-control (overlay allow list, depends on coach-isolation). Do not start lab-python-sandbox or user-owned-strategies. Do not append lab-is-an-experiment to passed_gates."
     }
   ],
-  "passed_gates": ["coach-isolated"],
+  "passed_gates": [
+    "coach-isolated"
+  ],
   "gate_reports": {
     "coach-isolated": {
       "verified_at": "2026-08-31T13:56:09.965676+00:00",
@@ -47,31 +49,31 @@
       ]
     },
     "lab-is-an-experiment": {
-      "verified_at": "2026-09-01T00:40:07Z",
+      "verified_at": "2026-09-02T04:37:32.257244+00:00",
       "verifier_agent": "cursor-verify-gate",
       "overall_status": "partial",
-      "notes": "Machine steps passed on http://127.0.0.1:8000 after merge of #56 and #59. Do not append this gate to passed_gates until a human spots the Lab tab UX. Do not start lab-python-sandbox or user-owned-strategies until then.",
+      "notes": "Re-verified on http://127.0.0.1:8000 after merge of #63 (cursor-access-control). Machine steps passed. Do not append this gate to passed_gates until a human spots the Lab tab UX. Do not start lab-python-sandbox or user-owned-strategies. Overlay on POST /api/simulate is extra evidence for #63, not a step of this gate.",
       "steps": [
         {
-          "step": "API and chat tool can create and run an experiment with at least two cells that differ by one deck patch or StrategySpec overlay, same seed and games, and custom queries. Response includes per-cell win rate and query rates.",
+          "step": "API and chat tool can create and run an experiment with at least two cells that differ by one deck patch or one StrategySpec overlay, same seed and games cap, with custom queries; response includes per-cell win rate and query rates.",
           "status": "pass",
-          "evidence": "POST /api/lab/experiments created 3d412f87-b41b-49f5-b45f-b0426a4ac25d (title 'gate two-cell carnival vs shock'). Two cells on seed-c vs seed-b, seed 20260831, 8 games, query key party: shock overlay vs carnival overlay. POST /run returned shock win_a=0.875, carnival win_a=0.0, both cells include queries.party. Chat tool run_lab on the same experiment returned two cells."
+          "evidence": "POST /api/lab/experiments created 94e245ee-5bd9-4839-8c4a-7861814fff37 ('gate two-cell overlay vs shock'). Two cells, seed 20260831, 6 games, query cubone_play; strategy_a thrifty vs carnival overlay. POST /run returned both cells win_rate_a=1.0 and queries.cubone_play=0.5. Chat tool run_lab as admin viewer returned the same two cells."
         },
         {
-          "step": "Lab tab at http://127.0.0.1:8000 shows the matrix, not only a simulation row.",
+          "step": "Lab tab at http://127.0.0.1:8000 shows the matrix for that experiment, not only a single simulation row.",
           "status": "pass",
-          "evidence": "Lab tab copy: 'Experiments compare several cells at one seed.' List shows 'gate two-cell carnival vs shock' with '2 cells · matrix ready' and Open matrix (Fight runs listed separately below). After Open matrix, #labDetail table: shock party vs shock 100.0% / party 0.0%; carnival carnival vs shock 0.0% / party 0.0%; Seed 20260831 · 6 games; Run cells. Human should still glance at the matrix vs Fight-run list.",
+          "evidence": "Lab copy: 'Experiments compare several cells at one seed.' #labList lists 'gate two-cell overlay vs shock' with '2 cells \u00b7 matrix ready' and Open matrix (Fight runs listed separately in #labSims). After Open matrix, #labDetail table: shock thrifty vs shock 100.0% cubone_play 50.0%; carnival carnival vs shock 100.0% cubone_play 50.0%; Seed 20260831 \u00b7 6 games; Run cells. Human should still glance at the matrix vs Fight-run list.",
           "human_required": true
         },
         {
-          "step": "Two registered non-admins cannot read each other's experiments.",
+          "step": "Two registered non-admin accounts cannot read each other's experiments.",
           "status": "pass",
-          "evidence": "Second registered user GET /api/lab/experiments/3d412f87-b41b-49f5-b45f-b0426a4ac25d and POST .../run both returned 404. Owner (admin) still reads the row."
+          "evidence": "Second registered user GET /api/lab/experiments/94e245ee-5bd9-4839-8c4a-7861814fff37 and POST .../run both returned 404."
         },
         {
-          "step": "Completing an experiment does not add or modify files under data/lab/ or app/.",
+          "step": "Completing an experiment does not add or modify files under data/lab/ or app/ in the product checkout.",
           "status": "pass",
-          "evidence": "git status --porcelain for app/, tests/, data/lab/, and .env stayed empty after create, run, chat tool, isolation check, and Lab tab open. LIVE_OK on those paths."
+          "evidence": "git status --porcelain for app/, tests/, data/lab/, and .env was empty after create, run, chat tool, overlay simulate, and Lab tab open."
         }
       ]
     }
