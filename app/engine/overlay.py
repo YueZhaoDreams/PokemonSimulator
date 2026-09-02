@@ -155,7 +155,10 @@ def _validate_effect(cid: str, item: Any) -> dict[str, Any]:
     kind = str(item["kind"])
     if kind not in PUBLISHED_EFFECT_KINDS:
         raise OverlayError(f"overlay on {cid} uses unpublished kind {kind}")
-    return dict(item)
+    out = dict(item)
+    if kind == "swallow_energy" and "look" in out:
+        out["look"] = _as_positive_int(out.get("look"), f"{cid} swallow_energy.look")
+    return out
 
 
 def _as_positive_int(value: Any, field: str) -> int:

@@ -41,7 +41,11 @@ class StrategySpec:
             "attach_pokemon_as_energy": self.attach_pokemon_as_energy,
             "item_spend": self.item_spend,
             "self_preserve": self.self_preserve,
-            "when": [dict(clause) for clause in self.when],
+            "when": [
+                dict(clause)
+                for clause in (self.when if isinstance(self.when, list) else [])
+                if isinstance(clause, dict)
+            ],
             "hold_as_energy": self.hold_as_energy,
             "protect": list(self.protect),
             "search_aces": list(self.search_aces),
@@ -66,6 +70,11 @@ class StrategySpec:
         merged = base.to_dict()
         merged.update({k: v for k, v in data.items() if v is not None})
         merged["name"] = data.get("name") or base.name
+        when = merged.get("when")
+        if not isinstance(when, list):
+            merged["when"] = []
+        else:
+            merged["when"] = [dict(clause) for clause in when if isinstance(clause, dict)]
         return cls(**{k: merged[k] for k in cls.__dataclass_fields__})
 
 

@@ -44,7 +44,8 @@ def _decide_look_then_attach(strat: StrategySpec, ctx: DecisionContext) -> list[
             want = min(want, 1)
         if deck_len <= 8:
             want = min(want, 0 if obs.get("can_pay") else 1)
-    for clause in strat.when or []:
+    clauses = strat.when if isinstance(strat.when, list) else []
+    for clause in clauses:
         if not isinstance(clause, dict):
             continue
         if not _when_matches(clause.get("if"), obs):

@@ -88,6 +88,28 @@ def test_empty_side_overlay_overrides_shared():
     assert overlay_for_side(shared, {}) == {}
 
 
+def test_overlay_rejects_non_integer_swallow_look():
+    dondozo = FALLBACK_BY_NAME["dondozo"]
+    with pytest.raises(OverlayError, match="must be an integer"):
+        apply_card_overlay(
+            [dondozo],
+            {"sv04-055": {"effects": [{"kind": "swallow_energy", "look": "five"}]}},
+        )
+
+
+def test_malformed_when_does_not_crash_decide_or_to_dict():
+    from app.engine.decisions import LOOK_THEN_ATTACH, DecisionContext, decide
+
+    strat = StrategySpec.from_dict({"name": "thrifty", "when": "not-a-list"})
+    assert strat.when == []
+    assert strat.to_dict()["when"] == []
+    picked = decide(
+        strat,
+        DecisionContext(id=LOOK_THEN_ATTACH, source="card", legal=[1, 2], default=[1, 2]),
+    )
+    assert picked in ([1, 2], [1], [])
+
+
 def test_simulate_match_strategy_schema_declares_string_or_object():
     from app.ai.tools import TOOL_SCHEMAS
 
