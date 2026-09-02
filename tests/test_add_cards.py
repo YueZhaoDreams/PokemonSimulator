@@ -244,3 +244,69 @@ def test_resolve_gimmighoul_keeps_art_without_network(tmp_path, monkeypatch):
         assert card["name"] == "Gimmighoul"
         assert card.get("image")
         assert "sv04/087" in card["image"]
+
+
+def test_resolve_and_replace_orthworm_keeps_art_without_network(tmp_path, monkeypatch):
+    """Replace PUT used resolve output; Orthworm fallback had a print id but no image."""
+    monkeypatch.setattr("app.db.DB_PATH", tmp_path / "app.db")
+    monkeypatch.setattr("app.catalog._remote_search_briefs", lambda q: [])
+
+    def _timeout(*_a, **_k):
+        raise TimeoutError("timed out")
+
+    monkeypatch.setattr("app.catalog._CLIENT.get", _timeout)
+    monkeypatch.setattr("app.main.fetch_full", _timeout)
+
+    async def _noop():
+        return None
+
+    monkeypatch.setattr("app.main.start_cursor_runtime", _noop)
+    monkeypatch.setattr("app.main.stop_cursor_runtime", _noop)
+
+    with TestClient(app) as client:
+        client.post("/api/auth/login", json={"email": ADMIN_EMAIL, "password": ADMIN_PASSWORD})
+        resolved = client.post("/api/cards/resolve", json={"id": "sv04-138", "name": "Orthworm"})
+        assert resolved.status_code == 200
+        card = resolved.json()
+        assert card["catalog_id"] == "sv04-138"
+        assert card["name"] == "Orthworm"
+        assert card.get("image")
+        assert "sv04/138" in card["image"]
+
+        created = client.post(
+            "/api/decks",
+            json={"name": "Orthworm replace", "cards": [{"name": "Cubone"}], "source": "search"},
+        )
+        deck = created.json()
+        replaced = client.put(
+            f"/api/decks/{deck['id']}",
+            json={"cards": [card]},
+        )
+        assert replaced.status_code == 200
+        saved = replaced.json()["cards"][0]
+        assert saved["name"] == "Orthworm"
+        assert "sv04/138" in (saved.get("image") or "")
+
+        blanked = client.put(
+            f"/api/decks/{deck['id']}",
+            json={"cards": [{"name": "Orthworm", "catalog_id": "sv04-138"}]},
+        )
+        assert "sv04/138" in (blanked.json()["cards"][0].get("image") or "")
+
+
+def test_get_deck_fills_stored_orthworm_without_image(tmp_path, monkeypatch):
+    import json
+
+    from app.db import connect, get_deck, init_db, save_deck
+
+    monkeypatch.setattr("app.db.DB_PATH", tmp_path / "app.db")
+    init_db()
+    saved = save_deck("Set F probe", [{"name": "Cubone"}], deck_id="test-set-f-orthworm")
+    with connect() as conn:
+        conn.execute(
+            "UPDATE decks SET cards_json=? WHERE id=?",
+            (json.dumps([{"name": "Orthworm", "catalog_id": "sv04-138"}]), saved["id"]),
+        )
+    loaded = get_deck(saved["id"])
+    assert loaded["cards"][0]["name"] == "Orthworm"
+    assert "sv04/138" in (loaded["cards"][0].get("image") or "")
