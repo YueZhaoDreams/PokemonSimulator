@@ -10,7 +10,7 @@ from app.engine.game import play_game
 from app.engine.learn import learn_from_games
 from app.engine.models import Card, FamilyRules
 from app.engine.probability import draw_probability
-from app.engine.overlay import apply_card_overlay
+from app.engine.overlay import apply_card_overlay, overlay_for_side
 from app.engine.strategies import StrategySpec
 
 
@@ -38,8 +38,8 @@ def run_simulation(
     results = []
     query_hits: dict[str, int] = {}
     sample_traces = []
-    overlay_a = card_overlay_a or card_overlay
-    overlay_b = card_overlay_b or card_overlay
+    overlay_a = overlay_for_side(card_overlay, card_overlay_a)
+    overlay_b = overlay_for_side(card_overlay, card_overlay_b)
     cards_a = apply_card_overlay(cards_a, overlay_a)
     cards_b = apply_card_overlay(cards_b, overlay_b)
     if queries is None:

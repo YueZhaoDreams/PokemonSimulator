@@ -64,9 +64,13 @@ TOOL_SCHEMAS = [
                 "deck_b_id": {"type": "string"},
                 "games": {"type": "integer", "default": 2000},
                 "strategy_a": {
+                    "type": ["string", "object"],
                     "description": "Preset name (thrifty|shock|nuzzle|party|demolish|slash|phantom|aggressive|setup|control|balanced) or a StrategySpec overlay (weights, when-clauses). Not printed look-N."
                 },
-                "strategy_b": {"description": "Preset name or StrategySpec overlay."},
+                "strategy_b": {
+                    "type": ["string", "object"],
+                    "description": "Preset name or StrategySpec overlay.",
+                },
                 "question": {"type": "string"},
                 "queries": {"type": "array"},
                 "rule_preset": {

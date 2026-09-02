@@ -54,6 +54,11 @@ class OverlayError(ValueError):
     """Reject an overlay that would invent a hook or rewrite print."""
 
 
+def overlay_for_side(shared: dict[str, Any] | None, side: dict[str, Any] | None) -> dict[str, Any] | None:
+    """Per-side overlay wins whenever it is provided, including {}."""
+    return shared if side is None else side
+
+
 def apply_card_overlay(cards: list[Card], overlay: dict[str, Any] | None) -> list[Card]:
     """Return copies with catalog_id-keyed JSON programs applied.
 
@@ -88,6 +93,10 @@ def _apply_printing_patch(card: Card, cid: str, patch: dict[str, Any]) -> None:
     decisions = patch.get("decisions")
     if decisions is not None and not isinstance(decisions, dict):
         raise OverlayError(f"overlay decisions for {cid} must be an object")
+    if decisions:
+        raise OverlayError(
+            f"overlay decisions for {cid} are not applied; put when-clauses on the strategy overlay"
+        )
     effects = patch.get("effects")
     if effects is None and patch.get("program") is not None:
         effects = patch.get("program")

@@ -71,6 +71,31 @@ def test_overlay_program_alias_uses_published_kinds_only():
     assert _swallow_look(original) == 5
 
 
+def test_overlay_decisions_fail_closed_until_applied():
+    dondozo = FALLBACK_BY_NAME["dondozo"]
+    with pytest.raises(OverlayError, match="not applied"):
+        apply_card_overlay(
+            [dondozo],
+            {"sv04-055": {"decisions": {"look_then_attach.how_many": {"max_attach": 1}}}},
+        )
+
+
+def test_empty_side_overlay_overrides_shared():
+    from app.engine.overlay import overlay_for_side
+
+    shared = {"sv04-055": {"params": {"look": 3}}}
+    assert overlay_for_side(shared, None) == shared
+    assert overlay_for_side(shared, {}) == {}
+
+
+def test_simulate_match_strategy_schema_declares_string_or_object():
+    from app.ai.tools import TOOL_SCHEMAS
+
+    sim = next(item for item in TOOL_SCHEMAS if item["name"] == "simulate_match")
+    assert sim["parameters"]["properties"]["strategy_a"]["type"] == ["string", "object"]
+    assert sim["parameters"]["properties"]["strategy_b"]["type"] == ["string", "object"]
+
+
 def test_balanced_swallow_attaches_the_looked_energy():
     a = build_fallback_deck(SET_A_NAMES)
     b = build_fallback_deck(SET_B_NAMES)
