@@ -1,6 +1,6 @@
 # Lab Python sandbox
 
-Status: ready
+Status: blocked
 
 Epic: open-trainer-labs
 
