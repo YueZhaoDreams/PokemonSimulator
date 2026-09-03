@@ -24,7 +24,7 @@ Rules are also editable in the API (`PUT /api/rules`).
 
 1. **Scan** a floor photo of a card set (iPhone HEIC works). Sample photos from this repo are auto-recognized.
 2. **Look up** card data via [TCGdex](https://tcgdex.dev/) (free, no key). Optional Grok / OpenAI / Claude vision for new photos.
-3. **Ask Combo Cub** — tap the Combo Cub mark (bottom-right). On a phone or tablet the chat covers the whole screen. Split with the stadium is only for a wide desktop mouse layout. Typed replies stay silent; Talk uses the mic and reads the answer aloud. The agent runs in-process lab tools (simulate, odds, decks). It cannot edit the git checkout or write `data/lab/`.
+3. **Ask Combo Cub** — tap the Combo Cub mark (bottom-right). On a phone or tablet the chat covers the whole screen. Split with the stadium is only for a wide desktop mouse layout. Type a question and Combo Cub answers in text only. Use Talk to speak a question and hear the answer. The agent runs in-process lab tools (simulate, odds, decks). It cannot edit the git checkout or write `data/lab/`.
 4. **Simulate 10,000 games** with named strategies. Every run is stored in the **Lab**: method, strategy, results, sample game logs, and learning notes (which cards mattered, status rates, prize bricks).
 
 ## Reused vs built here

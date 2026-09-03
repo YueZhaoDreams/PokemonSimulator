@@ -371,6 +371,8 @@ const voice = { rec: null, loop: false, speaking: false };
 
 function paintTalkButton() {
   const mic = $("#chatMic");
+  const hint = $("#chatVoiceHint");
+  if (hint) hint.classList.toggle("hidden", !speechSupported());
   if (!mic) return;
   if (!speechSupported()) {
     mic.disabled = true;
@@ -574,7 +576,6 @@ function startVoiceListen() {
     if (finalText.trim()) {
       if (/[\u3400-\u9fff]/.test(finalText)) setChatLang("zh");
       else if (/[A-Za-z]/.test(finalText)) setChatLang("en");
-      sendChat.fromVoice = true;
       rec.onend = () => {
         voice.rec = null;
         paintTalkButton();
@@ -584,6 +585,7 @@ function startVoiceListen() {
         sendChat.pending = { message: finalText.trim(), fromVoice: true };
         stopSpeech();
       } else {
+        sendChat.fromVoice = true;
         sendChat();
       }
     }
