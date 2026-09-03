@@ -14,13 +14,15 @@ from app.config import DATA_DIR
 
 try:
     import pytesseract
+    import shutil
 
     tcmd = Path(str(pytesseract.pytesseract.tesseract_cmd or ""))
     if not tcmd.exists():
         brew = Path("/opt/homebrew/bin/tesseract")
         if brew.exists():
             pytesseract.pytesseract.tesseract_cmd = str(brew)
-    HAS_TESSERACT = True
+            tcmd = brew
+    HAS_TESSERACT = tcmd.exists() or shutil.which("tesseract") is not None
 except Exception:
     HAS_TESSERACT = False
 
@@ -156,7 +158,10 @@ def _ocr_text(gray: np.ndarray, psm: int = 7) -> str:
     blobs = []
     config = f"--oem 3 --psm {psm} -c tessedit_char_whitelist=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-"
     for img in _prepare(gray):
-        text = pytesseract.image_to_string(img, config=config) or ""
+        try:
+            text = pytesseract.image_to_string(img, config=config) or ""
+        except Exception:
+            text = ""
         blobs.append(text)
     blob = " ".join(blobs)
     blob = re.sub(r"[^A-Za-z0-9éÉ' \-]", " ", blob)

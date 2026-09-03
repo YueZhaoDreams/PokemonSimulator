@@ -23,6 +23,9 @@ def recognize_image(source, filename: str = "") -> dict:
     image = load_image(source)
     notes: list[str] = []
     crops = detect_card_crops(image, max_cards=40)
+    if not crops:
+        notes.append("No card grid found; reading the whole photo as one card.")
+        crops = [image]
     notes.append(f"Cropped {len(crops)} card-shaped regions, then read each one.")
 
     identified: list[dict] = []
@@ -38,7 +41,11 @@ def recognize_image(source, filename: str = "") -> dict:
             oriented = crop
             gallery_id = None
         else:
-            result = identify_crop(crop)
+            try:
+                result = identify_crop(crop)
+            except Exception as exc:
+                notes.append(f"OCR skipped ({exc}).")
+                result = {"name": None, "confidence": 0.0, "ocr": "", "oriented": crop}
             oriented = result["oriented"] if isinstance(result.get("oriented"), Image.Image) else crop
             if gallery_name is None:
                 gallery_name, gallery_conf, _dist, gallery_id = match_crop(oriented)
