@@ -43,6 +43,7 @@ def test_lab_experiments_are_owned_and_stay_out_of_git(tmp_path, monkeypatch):
         assert exp["question"] == "carnival vs party"
         assert exp["cells"][0]["id"] == "baseline"
         assert exp["script_text"] == "print('lab')\n"
+        assert exp["script_executable"] is False
 
         listed = client.get("/api/lab/experiments").json()
         assert len(listed) == 1

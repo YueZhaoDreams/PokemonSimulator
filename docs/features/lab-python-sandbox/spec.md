@@ -1,6 +1,6 @@
 # Lab Python sandbox
 
-Status: ready
+Status: in_review
 
 Epic: open-trainer-labs
 
@@ -46,11 +46,11 @@ Trainers should generate bakeoff Python like operator `data/lab/*.py`, but that 
 
 ## Acceptance Criteria
 
-- [ ] Legitimate bakeoff Python stored in DB runs and returns cell-like results.
-- [ ] Documented hostile imports and filesystem/network/Git writes do not execute; script is not kept executable.
-- [ ] Monkeypatching `Game` in a script does not affect a subsequent simulation in another request.
-- [ ] No new files under `app/` or `data/lab/` after save or run.
-- [ ] Other trainers cannot run or read this script.
+- [x] Legitimate bakeoff Python stored in DB runs and returns cell-like results.
+- [x] Documented hostile imports and filesystem/network/Git writes do not execute; script is not kept executable.
+- [x] Monkeypatching `Game` in a script does not affect a subsequent simulation in another request.
+- [x] No new files under `app/` or `data/lab/` after save or run.
+- [x] Other trainers cannot run or read this script.
 
 ## Validation Plan
 

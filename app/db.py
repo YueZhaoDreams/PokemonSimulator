@@ -70,6 +70,7 @@ CREATE TABLE IF NOT EXISTS lab_experiments (
     locked_cell_id TEXT,
     lock_reason TEXT,
     script_text TEXT,
+    script_executable INTEGER NOT NULL DEFAULT 0,
     created_at TEXT NOT NULL,
     updated_at TEXT NOT NULL
 );
@@ -189,6 +190,7 @@ def _ensure_lab_experiments(conn: sqlite3.Connection) -> None:
             locked_cell_id TEXT,
             lock_reason TEXT,
             script_text TEXT,
+            script_executable INTEGER NOT NULL DEFAULT 0,
             created_at TEXT NOT NULL,
             updated_at TEXT NOT NULL
         )
@@ -197,6 +199,8 @@ def _ensure_lab_experiments(conn: sqlite3.Connection) -> None:
     cols = {row[1] for row in conn.execute("PRAGMA table_info(lab_experiments)")}
     if "conclusion" not in cols:
         conn.execute("ALTER TABLE lab_experiments ADD COLUMN conclusion TEXT")
+    if "script_executable" not in cols:
+        conn.execute("ALTER TABLE lab_experiments ADD COLUMN script_executable INTEGER NOT NULL DEFAULT 0")
 
 
 def _ensure_admin(conn: sqlite3.Connection) -> str:
@@ -454,6 +458,7 @@ def _lab_experiment_from_row(row: sqlite3.Row, *, include_script: bool) -> dict:
         "locked_cell_id": row["locked_cell_id"],
         "lock_reason": row["lock_reason"],
         "script_present": bool(row["script_text"]),
+        "script_executable": bool(row["script_executable"]) if "script_executable" in keys else False,
         "created_at": row["created_at"],
         "updated_at": row["updated_at"],
     }
@@ -505,6 +510,9 @@ def save_lab_experiment(
     if not owner_id:
         raise ValueError("owner_id is required")
     script = validate_lab_script_text(script_text)
+    from app.lab.sandbox import classify_lab_script
+
+    executable = 1 if classify_lab_script(script).executable else 0
     cells_json = json.dumps(cells if cells is not None else [])
     queries_json = json.dumps(queries if queries is not None else [])
     results_json = json.dumps(results) if results is not None else None
@@ -516,7 +524,7 @@ def save_lab_experiment(
             conn.execute(
                 """
                 UPDATE lab_experiments SET question=?, conclusion=?, cells_json=?, queries_json=?, games=?, seed=?,
-                    results_json=?, locked_cell_id=?, lock_reason=?, script_text=?, updated_at=?
+                    results_json=?, locked_cell_id=?, lock_reason=?, script_text=?, script_executable=?, updated_at=?
                 WHERE id=?
                 """,
                 (
@@ -530,6 +538,7 @@ def save_lab_experiment(
                     locked_cell_id,
                     lock_reason,
                     script,
+                    executable,
                     now,
                     exp_id,
                 ),
@@ -539,8 +548,8 @@ def save_lab_experiment(
                 """
                 INSERT INTO lab_experiments(
                     id, owner_id, question, conclusion, cells_json, queries_json, games, seed,
-                    results_json, locked_cell_id, lock_reason, script_text, created_at, updated_at
-                ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+                    results_json, locked_cell_id, lock_reason, script_text, script_executable, created_at, updated_at
+                ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
                 """,
                 (
                     exp_id,
@@ -555,6 +564,7 @@ def save_lab_experiment(
                     locked_cell_id,
                     lock_reason,
                     script,
+                    executable,
                     now,
                     now,
                 ),
