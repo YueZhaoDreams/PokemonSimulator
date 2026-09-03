@@ -2,7 +2,6 @@ const $ = (sel) => document.querySelector(sel);
 const $$ = (sel) => [...document.querySelectorAll(sel)];
 let state = { decks: [], strategies: [], rulePresets: [], scanCards: [], scanCrops: [], chatId: null, history: [], chatMode: "list", chatLang: "zh", chatOpened: false, rules: null, user: null, users: [] };
 const CHAT_STORE = "family-cup-chat-id";
-const CHAT_LANG_STORE = "family-cup-chat-lang";
 const SFX_STORE = "family-cup-sfx";
 const SHINY_STORE = "family-cup-shiny";
 const RULE_STORE = "family-cup-rule";
@@ -341,22 +340,12 @@ function paintSfx() {
 }
 
 function loadChatLang() {
-  try {
-    const stored = localStorage.getItem(CHAT_LANG_STORE);
-    if (stored === "zh" || stored === "en") {
-      state.chatLang = stored;
-      return;
-    }
-  } catch {
-    /* private mode */
-  }
   const nav = (navigator.language || "").toLowerCase();
   state.chatLang = nav.startsWith("zh") ? "zh" : "en";
 }
 
 function setChatLang(lang) {
   state.chatLang = lang === "en" ? "en" : "zh";
-  try { localStorage.setItem(CHAT_LANG_STORE, state.chatLang); } catch { /* private mode */ }
   if (voice.rec) voice.rec.lang = speechLang();
 }
 
@@ -2026,7 +2015,7 @@ async function sendChat() {
     const res = await fetch("/api/chat/stream", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message, chat_id: state.chatId, history: state.history, language: state.chatLang }),
+      body: JSON.stringify({ message, chat_id: state.chatId, history: state.history }),
     });
     if (res.status === 401) {
       clearClientSession();

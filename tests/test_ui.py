@@ -122,7 +122,7 @@ def test_index_keeps_combo_cub_controls():
     assert 'id="cubLauncher"' in html
     assert 'src="/static/cub.png"' in html
     assert 'href="/static/styles.css?v=talk-only-speech"' in html
-    assert 'src="/static/app.js?v=talk-only-speech"' in html
+    assert 'src="/static/app.js?v=talk-only-speech-2"' in html
     assert "<strong>Combo Cub</strong>" in html
     assert 'title="Combo Cub"' in html
     assert ">Scan · fight · chat<" in html
@@ -275,7 +275,8 @@ def test_app_js_keeps_simulator_contracts():
     assert "speechSynthesis.speaking" in speak_fn
     assert "overdue" in speak_fn
     assert "fromSafety" in speak_fn
-    assert "language: state.chatLang" in js
+    assert "language: state.chatLang" not in js
+    assert "CHAT_LANG_STORE" not in js
     assert "webkitSpeechRecognition" in js
     assert "speechSynthesis" in js
     assert "function speakReply" in js
