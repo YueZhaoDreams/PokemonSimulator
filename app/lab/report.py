@@ -39,7 +39,7 @@ def human_title(cell: dict, index: int) -> str:
     if cell.get("patch_a") or cell.get("patch_b"):
         parts.append("deck patch")
     if cell.get("card_overlay") or cell.get("card_overlay_a") or cell.get("card_overlay_b"):
-        parts.append("overlay")
+        parts.append("card overlay")
     if parts:
         return " · ".join(parts)
     return str(cell.get("id") or f"This run {index + 1}")
@@ -50,9 +50,15 @@ def insights_list(value: object) -> list[str]:
         raw = value.get("insights") or []
     elif isinstance(value, list):
         raw = value
+    elif isinstance(value, str):
+        raw = [value] if value else []
     else:
         raw = []
-    return [str(item) for item in raw if item]
+    if isinstance(raw, str):
+        raw = [raw] if raw else []
+    if not isinstance(raw, list):
+        return []
+    return [str(item) for item in raw if isinstance(item, str) and item]
 
 
 def cells_from_attempts(attempts: object) -> list[dict]:

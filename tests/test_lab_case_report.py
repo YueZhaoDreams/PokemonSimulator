@@ -1,5 +1,5 @@
 from app.config import ROOT
-from app.lab.report import cells_from_attempts, human_title
+from app.lab.report import cells_from_attempts, human_title, insights_list
 from app.main import app
 from fastapi.testclient import TestClient
 
@@ -35,6 +35,9 @@ def test_cells_from_attempts_uses_nested_input_and_titles():
     assert cells[0]["strategy_b"] == "carnival"
     assert cells[1]["id"] == "run-2"
     assert "deck patch" in human_title(cells[1], 1)
+    assert "card overlay" in human_title({"id": "x", "card_overlay": {"sv3-1": {}}}, 0)
+    assert insights_list({"insights": "Deck A won."}) == ["Deck A won."]
+    assert insights_list("Deck A won.") == ["Deck A won."]
 
 
 def test_save_attempts_and_conclusion_round_trip(tmp_path, monkeypatch):
