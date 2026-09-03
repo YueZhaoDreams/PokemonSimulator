@@ -23,10 +23,20 @@ def detect_card_boxes(image: Image.Image, max_cards: int = 40) -> list[np.ndarra
         work = bgr
         scale = 1.0
     holes = _nms(_yellow_hole_boxes(work), iou_thr=0.40)
-    filled = _fill_grid_gaps(work, holes)
-    boxes = _split_double_boxes(holes + filled)
-    boxes = _drop_contained(boxes)
-    boxes = _nms(boxes, iou_thr=0.40)
+    closeups = _nms(_closeup_frame_boxes(work), iou_thr=0.40)
+    if closeups:
+        # Phone photos of one or two cards fill the frame. Those yellow
+        # borders are outer contours, not the small inner holes a carpet grid makes.
+        boxes = closeups
+    elif len(holes) >= 4:
+        filled = _fill_grid_gaps(work, holes)
+        boxes = _split_double_boxes(holes + filled)
+        boxes = _drop_contained(boxes)
+        boxes = _nms(boxes, iou_thr=0.40)
+    else:
+        # One phone photo of a single card: a yellow energy symbol can look like a
+        # hole, but it is not a carpet grid. Read the whole frame instead.
+        boxes = [_inset_full_frame(work)]
     if scale != 1:
         boxes = [box / scale for box in boxes]
     boxes.sort(key=lambda b: (b[:, 1].mean() // 90, b[:, 0].mean()))
@@ -38,7 +48,13 @@ def detect_card_crops(image: Image.Image, max_cards: int = 40, target_h: int = C
     rgb = np.array(image.convert("RGB"))
     bgr = cv2.cvtColor(rgb, cv2.COLOR_RGB2BGR)
     crops = []
+    h0, w0 = rgb.shape[:2]
+    img_area = float(h0 * w0)
     for box in boxes:
+        x1, y1, x2, y2 = _aabb(box)
+        if ((x2 - x1) * (y2 - y1)) >= img_area * 0.70:
+            crops.append(image)
+            continue
         crop = warp_card(bgr, box, target_h=target_h)
         if crop is None:
             continue
@@ -96,6 +112,48 @@ def _yellow_hole_boxes(bgr: np.ndarray) -> list[np.ndarray]:
         box = _expand_box(cv2.boxPoints(rect), 1.10, w, h)
         boxes.append(box)
     return boxes
+
+
+def _closeup_frame_boxes(bgr: np.ndarray) -> list[np.ndarray]:
+    """Yellow card frames that fill a phone photo (outer contours, not grid holes)."""
+    hsv = cv2.cvtColor(bgr, cv2.COLOR_BGR2HSV)
+    h, w = bgr.shape[:2]
+    img_area = float(h * w)
+    yellow = cv2.inRange(hsv, (14, 80, 80), (42, 255, 255))
+    yellow = cv2.morphologyEx(yellow, cv2.MORPH_CLOSE, np.ones((3, 3), np.uint8))
+    contours, hierarchy = cv2.findContours(yellow, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_SIMPLE)
+    boxes: list[np.ndarray] = []
+    if hierarchy is None:
+        return boxes
+    parents = hierarchy[0]
+    for i, contour in enumerate(contours):
+        if parents[i][3] >= 0:
+            continue
+        rect = cv2.minAreaRect(contour)
+        rw, rh = rect[1]
+        if min(rw, rh) < 48:
+            continue
+        ratio = max(rw, rh) / max(1.0, min(rw, rh))
+        if not (1.05 <= ratio <= 2.15):
+            continue
+        if (rw * rh) < img_area * 0.12:
+            continue
+        boxes.append(_expand_box(cv2.boxPoints(rect), 1.04, w, h))
+    return boxes
+
+
+def _inset_full_frame(bgr: np.ndarray) -> np.ndarray:
+    h, w = bgr.shape[:2]
+    pad_x, pad_y = max(2.0, w * 0.02), max(2.0, h * 0.02)
+    return np.array(
+        [
+            [pad_x, pad_y],
+            [w - 1 - pad_x, pad_y],
+            [w - 1 - pad_x, h - 1 - pad_y],
+            [pad_x, h - 1 - pad_y],
+        ],
+        dtype=np.float32,
+    )
 
 
 def _fill_grid_gaps(work: np.ndarray, boxes: list[np.ndarray]) -> list[np.ndarray]:

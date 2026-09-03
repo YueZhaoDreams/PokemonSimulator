@@ -1,4 +1,4 @@
-from app.recognition.ocr import _match_lexicon
+from app.recognition.ocr import HAS_TESSERACT, _match_lexicon
 from app.recognition.images import load_image
 from app.recognition.detector import detect_card_boxes
 from app.recognition.gallery import match_crop, remember_crop, _load_index
@@ -26,6 +26,63 @@ def test_detector_finds_many_cards_on_sample_a():
     image = load_image(SAMPLES_DIR / "set-a.jpg")
     boxes = detect_card_boxes(image)
     assert len(boxes) >= 18
+
+
+def _phone_closeup_from_sample():
+    """A single card filling a phone-sized frame — how Scan photo is used on iOS."""
+    import cv2
+    import numpy as np
+    from app.recognition.detector import warp_card
+
+    image = load_image(SAMPLES_DIR / "set-e-carpet.jpg")
+    boxes = detect_card_boxes(image)
+    assert boxes, "carpet sample produced no card boxes"
+    bgr = cv2.cvtColor(np.array(image.convert("RGB")), cv2.COLOR_RGB2BGR)
+    crop = warp_card(bgr, boxes[0], target_h=720)
+    assert crop is not None, "could not warp the first carpet card"
+    card = Image.fromarray(cv2.cvtColor(crop, cv2.COLOR_BGR2RGB)).resize((900, 1260))
+    phone = Image.new("RGB", (1200, 1600), (36, 48, 36))
+    phone.paste(card, (150, 170))
+    return phone
+
+
+def test_detector_finds_phone_closeup_card():
+    from app.recognition.detector import detect_card_crops
+
+    phone = _phone_closeup_from_sample()
+    boxes = detect_card_boxes(phone)
+    crops = detect_card_crops(phone)
+    assert len(boxes) >= 1
+    assert len(crops) >= 1
+    assert len(boxes) <= 4
+
+
+def test_recognize_phone_closeup_names_a_card():
+    from app.config import DATA_DIR
+    from app.recognition.pipeline import recognize_image
+    from app.recognition.images import to_jpeg_bytes
+
+    gallery = DATA_DIR / "gallery"
+    sample = next(gallery.glob("dondozo__*.jpg"))
+    phone = Image.open(sample).convert("RGB").resize((1200, 1680))
+    result = recognize_image(to_jpeg_bytes(phone), filename="iphone-closeup.jpg")
+    names = [c.get("name") for c in result.get("cards") or [] if c.get("name") and c.get("name") != "Unknown"]
+    assert "Dondozo" in names, result.get("notes")
+
+
+def test_has_tesseract_requires_a_real_binary():
+    import shutil
+    from pathlib import Path
+
+    import pytesseract
+
+    # Path("") is the cwd; that must not count as a tesseract install.
+    assert not Path("").is_file()
+    cmd = str(pytesseract.pytesseract.tesseract_cmd or "").strip()
+    if shutil.which("tesseract") or (cmd and Path(cmd).is_file()):
+        assert HAS_TESSERACT is True
+    else:
+        assert HAS_TESSERACT is False
 
 
 def test_gallery_contains_labeled_family_cards():
