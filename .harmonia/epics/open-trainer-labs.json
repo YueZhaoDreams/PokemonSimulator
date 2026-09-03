@@ -10,10 +10,16 @@
       "at": "2026-09-02T03:20:00Z",
       "author": "operator-chat",
       "text": "Operator approved implementing cursor-access-control (overlay allow list, depends on coach-isolation). Do not start lab-python-sandbox or user-owned-strategies. Do not append lab-is-an-experiment to passed_gates."
+    },
+    {
+      "at": "2026-09-03T00:22:32.796902+00:00",
+      "author": "operator-chat",
+      "text": "Operator passed lab-is-an-experiment after Lab report UX (#65) on http://127.0.0.1:8000. Recorded in passed_gates. Next implement-epic-features session may start lab-python-sandbox and user-owned-strategies."
     }
   ],
   "passed_gates": [
-    "coach-isolated"
+    "coach-isolated",
+    "lab-is-an-experiment"
   ],
   "gate_reports": {
     "coach-isolated": {
@@ -49,31 +55,31 @@
       ]
     },
     "lab-is-an-experiment": {
-      "verified_at": "2026-09-02T04:37:32.257244+00:00",
+      "verified_at": "2026-09-03T00:22:32.796902+00:00",
       "verifier_agent": "cursor-verify-gate",
-      "overall_status": "partial",
-      "notes": "Re-verified on http://127.0.0.1:8000 after merge of #63 (cursor-access-control). Machine steps passed. Do not append this gate to passed_gates until a human spots the Lab tab UX. Do not start lab-python-sandbox or user-owned-strategies. Overlay on POST /api/simulate is extra evidence for #63, not a step of this gate.",
+      "overall_status": "pass",
+      "notes": "Re-verified on http://127.0.0.1:8000 after merge of #65 (lab-case-report) and ./run.sh restart serving 1ac7e1a/eb0e676. Operator said 'ok, pass' in this session. Do not dispatch lab-python-sandbox in the same session as this checkpoint.",
       "steps": [
         {
-          "step": "API and chat tool can create and run an experiment with at least two cells that differ by one deck patch or one StrategySpec overlay, same seed and games cap, with custom queries; response includes per-cell win rate and query rates.",
+          "step": "API and chat tool can create and run a question with at least two attempts that differ by one deck patch or one StrategySpec overlay, same seed and games cap, with custom queries; response includes per-run win rate, query rates, and learning insights.",
           "status": "pass",
-          "evidence": "POST /api/lab/experiments created 94e245ee-5bd9-4839-8c4a-7861814fff37 ('gate two-cell overlay vs shock'). Two cells, seed 20260831, 6 games, query cubone_play; strategy_a thrifty vs carnival overlay. POST /run returned both cells win_rate_a=1.0 and queries.cubone_play=0.5. Chat tool run_lab as admin viewer returned the same two cells."
+          "evidence": "POST /api/lab/experiments created 72880af9-f330-4c5b-80bc-1e4316c3c70f ('gate two-attempt carnival overlay vs shock') with attempts shock vs carnival overlay, seed 20260831, 6 games, query cubone_play, conclusion set. POST .../run returned both attempts win_rate_a=1.0, queries.cubone_play=0.5, insights present. Chat tool run_lab as the owner viewer returned the same two attempts with insights."
         },
         {
-          "step": "Lab tab at http://127.0.0.1:8000 shows the matrix for that experiment, not only a single simulation row.",
+          "step": "Lab tab at http://127.0.0.1:8000 shows a report for that question (what the question is, the current conclusion, and what each run changed), not a cell/matrix spreadsheet and not only a Fight simulation row.",
           "status": "pass",
-          "evidence": "Lab copy: 'Experiments compare several cells at one seed.' #labList lists 'gate two-cell overlay vs shock' with '2 cells \u00b7 matrix ready' and Open matrix (Fight runs listed separately in #labSims). After Open matrix, #labDetail table: shock thrifty vs shock 100.0% cubone_play 50.0%; carnival carnival vs shock 100.0% cubone_play 50.0%; Seed 20260831 \u00b7 6 games; Run cells. Human should still glance at the matrix vs Fight-run list.",
-          "human_required": true
+          "human_required": true,
+          "evidence": "After restart, /static/app.js serves Open report / Run this again (no Open matrix). Lab copy: 'Each question is a report...'. Unified list (no Experiments/Fight runs headings). Opened 72880af9: question 'gate two-attempt carnival overlay vs shock', conclusion 'Checking whether carnival overlay changes the matchup.', What we tried: tried shock and tried carnival overlay, 100%/0%, seed 20260831, cubone_play 50.0%, no .lab-matrix table. Operator signed the UX in this session."
         },
         {
           "step": "Two registered non-admin accounts cannot read each other's experiments.",
           "status": "pass",
-          "evidence": "Second registered user GET /api/lab/experiments/94e245ee-5bd9-4839-8c4a-7861814fff37 and POST .../run both returned 404."
+          "evidence": "Second registered user GET /api/lab/experiments/72880af9-f330-4c5b-80bc-1e4316c3c70f and POST .../run both returned 404. GET /api/lab/experiments for that user did not include the id."
         },
         {
-          "step": "Completing an experiment does not add or modify files under data/lab/ or app/ in the product checkout.",
+          "step": "Completing a question does not add or modify files under data/lab/ or app/ in the product checkout.",
           "status": "pass",
-          "evidence": "git status --porcelain for app/, tests/, data/lab/, and .env was empty after create, run, chat tool, overlay simulate, and Lab tab open."
+          "evidence": "git status --porcelain for app/, tests/, data/lab/, and .env was empty before and after create, run, chat tool, and Lab tab open."
         }
       ]
     }

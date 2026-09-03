@@ -1,10 +1,10 @@
 # Lab Python sandbox
 
-Status: blocked
+Status: ready
 
 Epic: open-trainer-labs
 
-**Blocked:** do not start this slice until a human puts `lab-is-an-experiment` in `passed_gates` after the `lab-case-report` Lab UX.
+**Unblocked:** `lab-is-an-experiment` is in `passed_gates` after the Lab report UX. Dispatch this slice in a new `/implement-epic-features` session — not in the gate checkpoint session.
 
 Jira Issue: TBD
 
