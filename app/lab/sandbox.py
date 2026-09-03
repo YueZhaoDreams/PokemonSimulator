@@ -115,10 +115,16 @@ def classify_lab_script(script_text: str | None) -> ScriptVerdict:
         _assert_safe_ast(tree)
     except ValueError as exc:
         return ScriptVerdict(False, str(exc))
-    names = {node.id for node in ast.walk(tree) if isinstance(node, ast.Name)}
-    if "run_simulation" not in names:
+    if not _calls_run_simulation(tree):
         return ScriptVerdict(False, "script is not a Family Cup bakeoff (need run_simulation)")
     return ScriptVerdict(True)
+
+
+def _calls_run_simulation(tree: ast.AST) -> bool:
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Call) and isinstance(node.func, ast.Name) and node.func.id == "run_simulation":
+            return True
+    return False
 
 
 def _assert_safe_ast(tree: ast.AST) -> None:

@@ -544,7 +544,8 @@ def run_tool(name: str, args: dict[str, Any]) -> Any:
                     continue
                 cell_decks.append(_usable_deck(str(cell.get("deck_a_id") or "")))
                 cell_decks.append(_usable_deck(str(cell.get("deck_b_id") or "")))
-            rules = _match_rules(rule_preset=args.get("rule_preset"), decks=cell_decks or _visible_decks())
+            usable_cell_decks = [deck for deck in cell_decks if deck]
+            rules = _match_rules(rule_preset=args.get("rule_preset"), decks=usable_cell_decks or _visible_decks())
             if isinstance(rules, dict) and rules.get("error"):
                 return rules
             return run_lab_script(

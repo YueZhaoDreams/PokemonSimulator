@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import builtins
 import json
 import sys
 from io import StringIO
@@ -38,7 +39,7 @@ def _safe_builtins() -> dict[str, Any]:
         "tuple",
         "zip",
     )
-    return {name: getattr(__builtins__, name) for name in allowed}
+    return {name: getattr(builtins, name) for name in allowed}
 
 
 def _capped_run_simulation(*args: Any, **kwargs: Any) -> dict:

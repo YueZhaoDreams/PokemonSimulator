@@ -592,12 +592,13 @@ def api_run_lab_script(exp_id: str, payload: dict = Body(default_factory=dict), 
                 continue
             cell_decks.append(deck_for(str(cell.get("deck_a_id") or "")))
             cell_decks.append(deck_for(str(cell.get("deck_b_id") or "")))
+        usable_cell_decks = [deck for deck in cell_decks if deck]
         return run_lab_script(
             existing,
             decks=_visible_decks(user),
             rules=resolve_simulation_rules(
                 rule_preset=payload.get("rule_preset"),
-                decks=cell_decks or _visible_decks(user),
+                decks=usable_cell_decks or _visible_decks(user),
                 fallback=get_rules(),
             ),
             games=payload.get("games"),
