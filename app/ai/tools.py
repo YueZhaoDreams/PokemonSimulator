@@ -24,6 +24,7 @@ from app.engine.strategies import StrategySpec, list_strategies
 from app.engine.trades import suggest_trades
 from app.lab.report import payload_cells, payload_conclusion, payload_results
 from app.lab.runner import run_lab_experiment
+from app.lab.sandbox import run_lab_script
 
 _VIEWER: ContextVar[dict | None] = ContextVar("deck_viewer", default=None)
 
@@ -171,6 +172,24 @@ TOOL_SCHEMAS = [
                 "games": {"type": "integer"},
                 "seed": {"type": "integer"},
                 "rule_preset": {"type": "string", "description": "b, c, s30, or s60; omit to infer from the runs' decks."},
+            },
+            "required": ["experiment_id"],
+        },
+    },
+    {
+        "name": "run_lab_script",
+        "description": (
+            "Run this trainer's stored lab Python in the game sandbox. "
+            "The script must already be a Family Cup bakeoff (run_simulation / StrategySpec / Card). "
+            "Hostile imports are not executable. Results stay in the database, never in git."
+        ),
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "experiment_id": {"type": "string"},
+                "games": {"type": "integer"},
+                "seed": {"type": "integer"},
+                "rule_preset": {"type": "string", "description": "b or c; omit to infer from saved decks."},
             },
             "required": ["experiment_id"],
         },
@@ -505,6 +524,34 @@ def run_tool(name: str, args: dict[str, Any]) -> Any:
             return run_lab_experiment(
                 experiment,
                 deck_for=_usable_deck,
+                rules=rules,
+                games=args.get("games"),
+                seed=args.get("seed"),
+            )
+        except ValueError as exc:
+            return {"error": str(exc)}
+    if name == "run_lab_script":
+        user = _VIEWER.get()
+        if not user:
+            return {"error": "sign in required"}
+        experiment = get_lab_experiment(args.get("experiment_id") or "")
+        if not _experiment_visible(experiment):
+            return {"error": "experiment not found"}
+        try:
+            cell_decks: list[dict | None] = []
+            for cell in experiment.get("cells") or []:
+                if not isinstance(cell, dict):
+                    continue
+                cell_decks.append(_usable_deck(str(cell.get("deck_a_id") or "")))
+                cell_decks.append(_usable_deck(str(cell.get("deck_b_id") or "")))
+            usable_cell_decks = [deck for deck in cell_decks if deck]
+            visible = _visible_decks()
+            rules = _match_rules(rule_preset=args.get("rule_preset"), decks=usable_cell_decks or visible)
+            if isinstance(rules, dict) and rules.get("error"):
+                return rules
+            return run_lab_script(
+                experiment,
+                decks=visible,
                 rules=rules,
                 games=args.get("games"),
                 seed=args.get("seed"),

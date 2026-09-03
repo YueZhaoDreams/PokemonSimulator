@@ -59,6 +59,7 @@ from app.engine.strategies import list_strategies, StrategySpec
 from app.engine.trades import suggest_trades
 from app.lab.report import payload_cells, payload_conclusion, payload_results
 from app.lab.runner import run_lab_experiment
+from app.lab.sandbox import run_lab_script
 from app.recognition.pipeline import recognize_image
 
 
@@ -565,6 +566,42 @@ def api_run_lab_experiment(exp_id: str, payload: dict = Body(default_factory=dic
             existing,
             deck_for=deck_for,
             rules=rules,
+            games=payload.get("games"),
+            seed=payload.get("seed"),
+        )
+    except ValueError as exc:
+        raise HTTPException(400, str(exc)) from exc
+
+
+@app.post("/api/lab/experiments/{exp_id}/run-script")
+def api_run_lab_script(exp_id: str, payload: dict = Body(default_factory=dict), user: dict = Depends(require_user)) -> dict:
+    existing = get_lab_experiment(exp_id)
+    if not _can_use_experiment(user, existing):
+        raise HTTPException(404, "Not found")
+
+    def deck_for(deck_id: str) -> dict | None:
+        deck = get_deck(deck_id or "")
+        if not _can_use_deck(user, deck):
+            return None
+        return deck
+
+    try:
+        cell_decks: list[dict | None] = []
+        for cell in existing.get("cells") or []:
+            if not isinstance(cell, dict):
+                continue
+            cell_decks.append(deck_for(str(cell.get("deck_a_id") or "")))
+            cell_decks.append(deck_for(str(cell.get("deck_b_id") or "")))
+        usable_cell_decks = [deck for deck in cell_decks if deck]
+        visible = _visible_decks(user)
+        return run_lab_script(
+            existing,
+            decks=visible,
+            rules=resolve_simulation_rules(
+                rule_preset=payload.get("rule_preset"),
+                decks=usable_cell_decks or visible,
+                fallback=get_rules(),
+            ),
             games=payload.get("games"),
             seed=payload.get("seed"),
         )

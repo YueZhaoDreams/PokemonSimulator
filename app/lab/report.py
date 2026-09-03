@@ -168,22 +168,31 @@ def attach_report(exp: dict | None) -> dict | None:
         for row in result_cells
         if isinstance(row, dict) and row.get("id") is not None
     }
+    by_cell = {
+        str(cell.get("id") or f"run-{index + 1}"): cell
+        for index, cell in enumerate(cells)
+        if isinstance(cell, dict)
+    }
     attempts: list[dict[str, Any]] = []
-    for index, cell in enumerate(cells):
-        if not isinstance(cell, dict):
+    iterable = result_cells if result_cells else cells
+    from_results = bool(result_cells)
+    for index, item in enumerate(iterable):
+        if not isinstance(item, dict):
             continue
-        cell_id = str(cell.get("id") or f"run-{index + 1}")
-        row = by_id.get(cell_id) or {}
-        if row and not result_matches_cell(row, cell):
+        cell_id = str(item.get("id") or f"run-{index + 1}")
+        cell = by_cell.get(cell_id) or ({} if from_results else item)
+        row = item if from_results else (by_id.get(cell_id) or {})
+        if cell and row and not result_matches_cell(row, cell):
             row = {}
         insights = row.get("insights")
         if not isinstance(insights, list):
             insights = insights_list(row.get("learning"))
+        title_src = cell if cell else {"id": cell_id, "title": item.get("title")}
         attempts.append(
             {
                 "id": cell_id,
-                "title": human_title(cell, index),
-                "input": cell,
+                "title": human_title(title_src, index),
+                "input": cell if cell else (row.get("input") if isinstance(row.get("input"), dict) else {}),
                 "win_rate_a": row.get("win_rate_a"),
                 "win_rate_b": row.get("win_rate_b"),
                 "tie_rate": row.get("tie_rate"),
