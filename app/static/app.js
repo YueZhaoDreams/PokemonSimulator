@@ -1,9 +1,7 @@
 const $ = (sel) => document.querySelector(sel);
 const $$ = (sel) => [...document.querySelectorAll(sel)];
-let state = { decks: [], strategies: [], rulePresets: [], scanCards: [], scanCrops: [], chatId: null, history: [], chatMode: "list", chatLang: "zh", chatOpened: false, speakReplies: true, rules: null, user: null, users: [] };
+let state = { decks: [], strategies: [], rulePresets: [], scanCards: [], scanCrops: [], chatId: null, history: [], chatMode: "list", chatLang: "zh", chatOpened: false, rules: null, user: null, users: [] };
 const CHAT_STORE = "family-cup-chat-id";
-const CHAT_LANG_STORE = "family-cup-chat-lang";
-const CHAT_SPEAK_STORE = "family-cup-chat-speak";
 const SFX_STORE = "family-cup-sfx";
 const SHINY_STORE = "family-cup-shiny";
 const RULE_STORE = "family-cup-rule";
@@ -342,53 +340,13 @@ function paintSfx() {
 }
 
 function loadChatLang() {
-  try {
-    const stored = localStorage.getItem(CHAT_LANG_STORE);
-    if (stored === "zh" || stored === "en") {
-      state.chatLang = stored;
-      return;
-    }
-  } catch {
-    /* private mode */
-  }
   const nav = (navigator.language || "").toLowerCase();
   state.chatLang = nav.startsWith("zh") ? "zh" : "en";
 }
 
-function loadSpeakReplies() {
-  try {
-    const stored = localStorage.getItem(CHAT_SPEAK_STORE);
-    if (stored === "0") state.speakReplies = false;
-    if (stored === "1") state.speakReplies = true;
-  } catch {
-    /* private mode */
-  }
-}
-
 function setChatLang(lang) {
   state.chatLang = lang === "en" ? "en" : "zh";
-  try { localStorage.setItem(CHAT_LANG_STORE, state.chatLang); } catch { /* private mode */ }
-  paintChatLang();
   if (voice.rec) voice.rec.lang = speechLang();
-}
-
-function toggleSpeakReplies() {
-  state.speakReplies = !state.speakReplies;
-  try { localStorage.setItem(CHAT_SPEAK_STORE, state.speakReplies ? "1" : "0"); } catch { /* private mode */ }
-  if (!state.speakReplies) stopSpeech();
-  paintChatLang();
-}
-
-function paintChatLang() {
-  $("#chatLangZh")?.classList.toggle("active", state.chatLang === "zh");
-  $("#chatLangEn")?.classList.toggle("active", state.chatLang === "en");
-  const speak = $("#chatSpeak");
-  if (speak) {
-    speak.classList.toggle("active", state.speakReplies);
-    speak.setAttribute("aria-pressed", state.speakReplies ? "true" : "false");
-    speak.textContent = state.speakReplies ? "🔊 Speak replies · 朗读" : "🔇 Replies muted · 静音";
-  }
-  paintTalkButton();
 }
 
 function speechSupported() {
@@ -413,10 +371,12 @@ const voice = { rec: null, loop: false, speaking: false };
 
 function paintTalkButton() {
   const mic = $("#chatMic");
+  const hint = $("#chatVoiceHint");
+  if (hint) hint.classList.toggle("hidden", !speechSupported());
   if (!mic) return;
   if (!speechSupported()) {
     mic.disabled = true;
-    mic.textContent = "Mic unavailable · 无法语音";
+    mic.textContent = "Mic unavailable";
     mic.setAttribute("aria-pressed", "false");
     return;
   }
@@ -424,15 +384,15 @@ function paintTalkButton() {
   if (voice.rec) {
     mic.classList.add("active");
     mic.setAttribute("aria-pressed", "true");
-    mic.textContent = state.chatLang === "zh" ? "🎤 正在听… 点一下停止" : "🎤 Listening… tap to stop";
+    mic.textContent = "🎤 Listening… tap to stop";
   } else if (voice.speaking) {
     mic.classList.add("active");
     mic.setAttribute("aria-pressed", "true");
-    mic.textContent = state.chatLang === "zh" ? "🔊 正在说… 点一下打断" : "🔊 Speaking… tap to interrupt";
+    mic.textContent = "🔊 Speaking… tap to interrupt";
   } else {
     mic.classList.remove("active");
     mic.setAttribute("aria-pressed", "false");
-    mic.textContent = state.chatLang === "zh" ? "🎤 说话" : "🎤 Talk";
+    mic.textContent = "🎤 Talk";
   }
 }
 
@@ -550,9 +510,9 @@ function toggleAgentFull() {
   paintAgentChrome();
 }
 
-function speakReply(text) {
+function speakReply(text, fromVoice) {
   return new Promise((resolve) => {
-    if (!state.speakReplies || !ttsSupported() || REDUCE) {
+    if (!fromVoice || !ttsSupported() || REDUCE) {
       resolve();
       return;
     }
@@ -616,7 +576,6 @@ function startVoiceListen() {
     if (finalText.trim()) {
       if (/[\u3400-\u9fff]/.test(finalText)) setChatLang("zh");
       else if (/[A-Za-z]/.test(finalText)) setChatLang("en");
-      sendChat.fromVoice = true;
       rec.onend = () => {
         voice.rec = null;
         paintTalkButton();
@@ -626,6 +585,7 @@ function startVoiceListen() {
         sendChat.pending = { message: finalText.trim(), fromVoice: true };
         stopSpeech();
       } else {
+        sendChat.fromVoice = true;
         sendChat();
       }
     }
@@ -876,8 +836,7 @@ async function boot() {
   }
   paintSfx();
   loadChatLang();
-  loadSpeakReplies();
-  paintChatLang();
+  paintTalkButton();
   CHIPS.forEach((q) => {
     const b = document.createElement("button");
     b.type = "button";
@@ -2058,7 +2017,7 @@ async function sendChat() {
     const res = await fetch("/api/chat/stream", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message, chat_id: state.chatId, history: state.history, language: state.chatLang }),
+      body: JSON.stringify({ message, chat_id: state.chatId, history: state.history }),
     });
     if (res.status === 401) {
       clearClientSession();
@@ -2120,7 +2079,7 @@ async function sendChat() {
     sendChat.pending = null;
     const spoken = answer || body.textContent || "";
     try {
-      if (chatViewOpen() && !sendChat.muteSpeak) await speakReply(spoken);
+      if (chatViewOpen() && !sendChat.muteSpeak) await speakReply(spoken, fromVoice);
     } finally {
       sendChat.muteSpeak = false;
       if (pending?.message) {
@@ -2146,7 +2105,7 @@ function rememberChat(chatId) {
 
 function threadTitle(messages) {
   const first = (messages || []).find((m) => m.role === "user" && m.content);
-  const text = (first?.content || (state.chatLang === "zh" ? "新对话" : "New chat")).replace(/\s+/g, " ").trim();
+  const text = (first?.content || "New chat · 新对话").replace(/\s+/g, " ").trim();
   return text.length > 60 ? `${text.slice(0, 57)}…` : text;
 }
 
@@ -2177,7 +2136,7 @@ function startNewChat() {
   state.chatId = null;
   state.history = [];
   rememberChat(null);
-  $("#chatTitle").textContent = state.chatLang === "zh" ? "新对话" : "New chat";
+  $("#chatTitle").textContent = "New chat · 新对话";
   $("#chatLog").innerHTML = `<div class="msg bot welcome">${md(CHAT_WELCOME)}</div>`;
   $("#chatInput").value = "";
   showThread();
@@ -2261,9 +2220,6 @@ $("#newChat").onclick = () => {
   $("#chatInput").focus();
 };
 $("#backToThreads").onclick = () => showThreadList();
-$("#chatLangZh").onclick = () => setChatLang("zh");
-$("#chatLangEn").onclick = () => setChatLang("en");
-$("#chatSpeak").onclick = toggleSpeakReplies;
 $("#chatMic").onclick = toggleChatMic;
 $("#cubLauncher").onclick = () => openAgent();
 $("#agentShrink").onclick = () => shrinkAgent();
