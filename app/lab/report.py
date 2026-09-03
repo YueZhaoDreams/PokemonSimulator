@@ -192,7 +192,7 @@ def attach_report(exp: dict | None) -> dict | None:
             {
                 "id": cell_id,
                 "title": human_title(title_src, index),
-                "input": cell if cell else {},
+                "input": cell if cell else (row.get("input") if isinstance(row.get("input"), dict) else {}),
                 "win_rate_a": row.get("win_rate_a"),
                 "win_rate_b": row.get("win_rate_b"),
                 "tie_rate": row.get("tie_rate"),

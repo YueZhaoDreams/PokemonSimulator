@@ -142,6 +142,12 @@ def _rebinds_run_simulation(tree: ast.AST) -> bool:
             return True
         if isinstance(node, ast.NamedExpr) and _name_is_run_simulation(node.target):
             return True
+        if isinstance(node, ast.AugAssign) and _name_is_run_simulation(node.target):
+            return True
+        if isinstance(node, ast.comprehension) and _name_is_run_simulation(node.target):
+            return True
+        if isinstance(node, ast.ExceptHandler) and node.name == "run_simulation":
+            return True
         if isinstance(node, ast.arg) and node.arg == "run_simulation":
             return True
     return False
