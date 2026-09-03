@@ -13,16 +13,20 @@ from rapidfuzz import fuzz, process
 from app.config import DATA_DIR
 
 try:
-    import pytesseract
     import shutil
 
-    tcmd = Path(str(pytesseract.pytesseract.tesseract_cmd or ""))
-    if not tcmd.exists():
+    import pytesseract
+
+    cmd = str(pytesseract.pytesseract.tesseract_cmd or "").strip()
+    tcmd = Path(cmd) if cmd else None
+    if tcmd is None or not tcmd.is_file():
         brew = Path("/opt/homebrew/bin/tesseract")
-        if brew.exists():
+        if brew.is_file():
             pytesseract.pytesseract.tesseract_cmd = str(brew)
             tcmd = brew
-    HAS_TESSERACT = tcmd.exists() or shutil.which("tesseract") is not None
+        else:
+            tcmd = None
+    HAS_TESSERACT = (tcmd is not None and tcmd.is_file()) or shutil.which("tesseract") is not None
 except Exception:
     HAS_TESSERACT = False
 

@@ -44,7 +44,7 @@ def recognize_image(source, filename: str = "") -> dict:
             try:
                 result = identify_crop(crop)
             except Exception as exc:
-                notes.append(f"OCR skipped ({exc}).")
+                notes.append(f"OCR skipped ({type(exc).__name__}).")
                 result = {"name": None, "confidence": 0.0, "ocr": "", "oriented": crop}
             oriented = result["oriented"] if isinstance(result.get("oriented"), Image.Image) else crop
             if gallery_name is None:
@@ -65,7 +65,7 @@ def recognize_image(source, filename: str = "") -> dict:
                     conf = max(conf, 92)
                     source_tag = "crop-vision"
             except Exception as exc:
-                notes.append(f"Per-card vision skipped ({exc}).")
+                notes.append(f"Per-card vision skipped ({type(exc).__name__}).")
         oriented_crops.append(oriented)
         if not name:
             identified.append(
