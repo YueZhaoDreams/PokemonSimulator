@@ -691,9 +691,12 @@ function paintRules(rules) {
 
 function inferRulePreset(rules) {
   if (!rules) return "b";
-  if (Number(rules.deck_size) === 60) return "s60";
-  if (Number(rules.max_copies_except_basic_energy) === 2) return "s30";
-  if (rules.pokemon_as_energy === false) return "c";
+  const size = Number(rules.deck_size);
+  const copies = Number(rules.max_copies_except_basic_energy);
+  const prizes = Number(rules.prize_count);
+  if (size === 60 && copies === 4 && prizes === 6 && rules.pokemon_as_energy === false) return "s60";
+  if (size === 30 && copies === 2 && rules.pokemon_as_energy === false) return "s30";
+  if (size === 30 && copies === 4 && rules.pokemon_as_energy === false) return "c";
   return "b";
 }
 
@@ -973,6 +976,8 @@ function fillFight() {
   const lists = visible.filter((d) => d.kind !== "spare");
   const fallbackA = rule === "c"
     ? (lists.find((d) => d.id === "seed-e") || lists[0])
+    : rule === "s30"
+    ? (lists.find((d) => d.id === "seed-t") || lists[0])
     : lists[0];
   const fallbackB = rule === "c"
     ? (lists.find((d) => d.id === "seed-f") || lists[1] || lists[0])

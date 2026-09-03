@@ -359,16 +359,20 @@ def default_rule_presets_for(deck_id: str | None) -> list[str]:
     did = str(deck_id or "")
     if did in {"seed-e", "seed-f"}:
         return ["c"]
+    if did == "seed-t":
+        return ["s30"]
     if did.startswith("seed-"):
         return ["b"]
     return ["b"]
 
 
 def legacy_rule_presets_for(deck_id: str | None) -> list[str]:
-    """Pre-column sets: seeds stay B/C; household lists used to match every filter."""
+    """Pre-column sets: seeds stay B/C/s30; household lists used to match every filter."""
     did = str(deck_id or "")
     if did in {"seed-e", "seed-f"}:
         return ["c"]
+    if did == "seed-t":
+        return ["s30"]
     if did.startswith("seed-"):
         return ["b"]
     return ["b", "c"]
@@ -393,10 +397,14 @@ def infer_rule_preset_from_rules(rules: FamilyRules | dict[str, Any] | None) -> 
     if not rules:
         return "b"
     data = rules.to_dict() if isinstance(rules, FamilyRules) else dict(rules)
-    if int(data.get("deck_size") or 0) == 60:
+    size = int(data.get("deck_size") or 0)
+    copies = int(data.get("max_copies_except_basic_energy") or 0)
+    prizes = int(data.get("prize_count") or 0)
+    poke_energy = data.get("pokemon_as_energy")
+    if size == 60 and copies == 4 and prizes == 6 and poke_energy is False:
         return "s60"
-    if int(data.get("max_copies_except_basic_energy") or 0) == 2:
+    if size == 30 and copies == 2 and poke_energy is False:
         return "s30"
-    if data.get("pokemon_as_energy") is False:
+    if size == 30 and copies == 4 and poke_energy is False:
         return "c"
     return "b"

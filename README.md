@@ -18,7 +18,7 @@ This is a fan-made simulator. It is not affiliated with Nintendo, Game Freak, or
 - **Standard 60 cards (preset s60):** 60-card Standard, **4 of a name**, 6 prizes. Pokémon are not energy.
 - Otherwise: standard Pokémon TCG turn structure (mulligans until a Basic, opponent draws one per mulligan, bench of 5, one energy attach per turn, first player does not draw or attack on turn 1)
 
-Rule presets are available in the Fight tab and via `GET /api/rule-presets`. Existing Rule B decks stay selectable. Carpet Sets E and F are Rule C lists.
+Rule presets are available in the Fight tab and via `GET /api/rule-presets`. Existing Rule B decks stay selectable. Carpet Sets E and F are Rule C lists. Set T (Dragapult ex) is the official 30-card Standard seed (`s30`).
 
 Rules are also editable in the API (`PUT /api/rules`).
 

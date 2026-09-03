@@ -102,4 +102,6 @@ def test_preset_from_chat_message_does_not_treat_160_as_standard_60():
     assert preset_from_chat_message("60-card Standard please") == "s60"
     assert preset_from_chat_message("I have 160 cards in the box") is None
     assert preset_from_chat_message("Standard 30 cards") == "s30"
+    assert preset_from_chat_message("30-card Standard please") == "s30"
+    assert preset_from_chat_message("Run 30-card Family Cup") is None
     assert preset_from_chat_message("Rule C, no Pokémon energy") == "c"

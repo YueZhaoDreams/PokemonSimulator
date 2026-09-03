@@ -18,7 +18,11 @@ log = logging.getLogger(__name__)
 def preset_from_chat_message(message: str) -> str | None:
     if re.search(r"standard\s*60\b|(?<!\d)60[\s-]?cards?\b", message, re.I):
         return "s60"
-    if re.search(r"standard\s*30\b", message, re.I):
+    if re.search(
+        r"standard\s*30\b|(?<!\d)30[\s-]?cards?\s*standard\b",
+        message,
+        re.I,
+    ):
         return "s30"
     if re.search(
         r"rule\s*c|规则\s*c|no pok[eé]mon energy|不要.*能量|不当能量",

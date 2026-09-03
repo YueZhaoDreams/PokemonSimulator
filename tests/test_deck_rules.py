@@ -83,3 +83,14 @@ def test_save_deck_does_not_shrink_legacy_household_rules(tmp_path, monkeypatch)
     again = save_deck("Old household", [{"name": "Cubone"}, {"name": "Pikachu"}], deck_id=deck["id"])
     assert again["rule_presets"] == ["b", "c"]
     assert again["rule_preset"] == "any"
+
+
+def test_seed_t_moves_from_rule_b_to_standard_30(tmp_path, monkeypatch):
+    monkeypatch.setattr("app.db.DB_PATH", tmp_path / "app.db")
+    from app.db import connect, get_deck, init_db
+
+    init_db()
+    with connect() as conn:
+        conn.execute("UPDATE decks SET rules_json=? WHERE id='seed-t'", ('["b"]',))
+    init_db()
+    assert get_deck("seed-t")["rule_presets"] == ["s30"]
