@@ -675,7 +675,7 @@ function paintRules(rules) {
       `${rules.deck_size} cards`,
       `${rules.prize_count} prizes`,
       `hand ${rules.opening_hand}`,
-      rulePresetLabel(currentRule() || inferRulePreset(rules)),
+      rulePresetLabel(inferRulePreset(rules)),
     ];
     if (rules.extra_prize_for_ex) {
       chips.push("ex = 2 prizes · Mega ex = 3");

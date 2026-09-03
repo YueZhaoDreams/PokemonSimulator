@@ -93,3 +93,13 @@ def test_local_coach_greeting_plus_match_still_simulates():
     zh = _local_coach("嗨，帮我对打", trace_zh)
     assert "%" in zh or "胜" in zh
     assert trace_zh and trace_zh[0]["tool"] == "simulate_match"
+
+
+def test_preset_from_chat_message_does_not_treat_160_as_standard_60():
+    from app.ai.coach import preset_from_chat_message
+
+    assert preset_from_chat_message("Run Standard 60") == "s60"
+    assert preset_from_chat_message("60-card Standard please") == "s60"
+    assert preset_from_chat_message("I have 160 cards in the box") is None
+    assert preset_from_chat_message("Standard 30 cards") == "s30"
+    assert preset_from_chat_message("Rule C, no Pokémon energy") == "c"

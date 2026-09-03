@@ -15,6 +15,20 @@ from app.db import get_chat, get_rules, save_chat
 log = logging.getLogger(__name__)
 
 
+def preset_from_chat_message(message: str) -> str | None:
+    if re.search(r"standard\s*60\b|(?<!\d)60[\s-]?cards?\b", message, re.I):
+        return "s60"
+    if re.search(r"standard\s*30\b", message, re.I):
+        return "s30"
+    if re.search(
+        r"rule\s*c|规则\s*c|no pok[eé]mon energy|不要.*能量|不当能量",
+        message,
+        re.I,
+    ):
+        return "c"
+    return None
+
+
 async def ask_coach_events(
     message: str,
     chat_id: str | None = None,
@@ -242,16 +256,9 @@ def _local_coach(message: str, tool_trace: list[dict], language: str | None = No
             "question": message,
         }
     )
-    if re.search(r"standard\s*60|60.?card", message, re.I):
-        args["rule_preset"] = "s60"
-    elif re.search(r"standard\s*30", message, re.I):
-        args["rule_preset"] = "s30"
-    elif re.search(
-        r"rule\s*c|规则\s*c|no pok[eé]mon energy|不要.*能量|不当能量",
-        message,
-        re.I,
-    ):
-        args["rule_preset"] = "c"
+    preset = preset_from_chat_message(message)
+    if preset:
+        args["rule_preset"] = preset
     result = run_tool("simulate_match", args)
     tool_trace.append({"tool": "simulate_match", "args": args, "output_preview": _preview(result)})
     return _narrate_sim(result, lang)

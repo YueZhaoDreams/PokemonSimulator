@@ -241,6 +241,8 @@ def test_app_js_keeps_simulator_contracts():
     assert "No Pokémon energy" not in js
     paint = js[js.index("function paintRules") : js.index("function syncRulePreset")]
     assert "brandTag" not in paint
+    assert "inferRulePreset(rules)" in paint
+    assert "currentRule()" not in paint
     assert "Rule B (Pokémon = energy)" not in js
     assert "function decksMatchingRule" in js
     assert "function currentRule" in js
