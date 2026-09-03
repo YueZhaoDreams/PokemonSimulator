@@ -49,13 +49,13 @@ This slice is the Lab UX and the customer-facing API language. It does **not** s
 
 ## Acceptance Criteria
 
-- [ ] A family trainer can point at the Lab tab and say which question it is, what the current conclusion is, and what the next run changed.
-- [ ] English UI does not use Experiments / cells / matrix as primary labels (Question / report / this run).
-- [ ] Multi-run comparison shows win rates and query rates as “what we tried,” not a spreadsheet of Cell / Strategies.
-- [ ] Saving `attempts` still produces readable `cells`; old `cells` payloads still run.
-- [ ] Run results include per-run insights; question `conclusion` round-trips.
-- [ ] Isolation: run/save does not write `data/lab/` or `app/`.
-- [ ] `lab-python-sandbox` is not started; `passed_gates` does not gain `lab-is-an-experiment` from this slice.
+- [x] A family trainer can point at the Lab tab and say which question it is, what the current conclusion is, and what the next run changed.
+- [x] English UI does not use Experiments / cells / matrix as primary labels (Question / report / this run).
+- [x] Multi-run comparison shows win rates and query rates as “what we tried,” not a spreadsheet of Cell / Strategies.
+- [x] Saving `attempts` still produces readable `cells`; old `cells` payloads still run.
+- [x] Run results include per-run insights; question `conclusion` round-trips.
+- [x] Isolation: run/save does not write `data/lab/` or `app/`.
+- [x] `lab-python-sandbox` is not started; `passed_gates` does not gain `lab-is-an-experiment` from this slice.
 
 ## Validation Plan
 
