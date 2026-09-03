@@ -235,7 +235,9 @@ def test_app_js_keeps_simulator_contracts():
     assert "thrifty" in js
     assert "shock" in js
     assert "Standard 30 cards" in js
-    assert "Pokémon = energy" in js
+    assert "Standard 60 cards" in js
+    assert "30 Cards 4 of a name" in js
+    assert "Pokémon = Energy" in js
     assert "No Pokémon energy" not in js
     paint = js[js.index("function paintRules") : js.index("function syncRulePreset")]
     assert "brandTag" not in paint

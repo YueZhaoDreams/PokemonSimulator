@@ -53,6 +53,12 @@ def test_create_defaults_to_pokemon_as_energy(tmp_path, monkeypatch):
             json={"rule_preset": "c"},
         )
         assert under_c.json()["rule_presets"] == ["c"]
+        std = client.put(
+            f"/api/decks/{created.json()['id']}",
+            json={"rule_presets": ["s30", "s60"]},
+        )
+        assert std.json()["rule_presets"] == ["s30", "s60"]
+        assert std.json()["rule_preset"] == "any"
 
 
 def test_post_existing_id_keeps_cards_when_omitted(tmp_path, monkeypatch):

@@ -242,8 +242,12 @@ def _local_coach(message: str, tool_trace: list[dict], language: str | None = No
             "question": message,
         }
     )
-    if re.search(
-        r"rule\s*c|规则\s*c|standard 30|no pok[eé]mon energy|不要.*能量|不当能量",
+    if re.search(r"standard\s*60|60.?card", message, re.I):
+        args["rule_preset"] = "s60"
+    elif re.search(r"standard\s*30", message, re.I):
+        args["rule_preset"] = "s30"
+    elif re.search(
+        r"rule\s*c|规则\s*c|no pok[eé]mon energy|不要.*能量|不当能量",
         message,
         re.I,
     ):

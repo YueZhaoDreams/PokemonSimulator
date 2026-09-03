@@ -675,7 +675,7 @@ function paintRules(rules) {
       `${rules.deck_size} cards`,
       `${rules.prize_count} prizes`,
       `hand ${rules.opening_hand}`,
-      rules.pokemon_as_energy ? "Pokémon = energy" : "Standard 30 cards",
+      rulePresetLabel(currentRule() || inferRulePreset(rules)),
     ];
     if (rules.extra_prize_for_ex) {
       chips.push("ex = 2 prizes · Mega ex = 3");
@@ -689,10 +689,18 @@ function paintRules(rules) {
   syncRulePreset(rules);
 }
 
+function inferRulePreset(rules) {
+  if (!rules) return "b";
+  if (Number(rules.deck_size) === 60) return "s60";
+  if (Number(rules.max_copies_except_basic_energy) === 2) return "s30";
+  if (rules.pokemon_as_energy === false) return "c";
+  return "b";
+}
+
 function syncRulePreset(rules) {
   const sel = $("#rulePreset");
   if (!sel || !sel.options.length) return;
-  const want = rules?.pokemon_as_energy === false ? "c" : "b";
+  const want = inferRulePreset(rules);
   if ([...sel.options].some((o) => o.value === want)) sel.value = want;
 }
 
@@ -880,17 +888,26 @@ function rememberRule(key) {
 }
 
 function rulePresetLabel(preset, fallback) {
-  if (preset === "c") return "Standard 30 cards";
-  if (preset === "b") return "Pokémon = energy";
+  if (preset === "s60") return "Standard 60 cards";
+  if (preset === "s30") return "Standard 30 cards";
+  if (preset === "c") return "30 Cards 4 of a name";
+  if (preset === "b") return "30 Cards 4 of a name, Pokémon = Energy";
   return fallback || preset || "";
+}
+
+function knownRuleKeys() {
+  const fromApi = (state.rulePresets || []).map((p) => p.preset).filter(Boolean);
+  return fromApi.length ? fromApi : ["b", "c", "s30", "s60"];
 }
 
 function ruleChoices() {
   const presets = state.rulePresets?.length
     ? state.rulePresets
     : [
-        { preset: "b", label: "Pokémon = energy" },
-        { preset: "c", label: "Standard 30 cards" },
+        { preset: "b", label: "30 Cards 4 of a name, Pokémon = Energy" },
+        { preset: "c", label: "30 Cards 4 of a name" },
+        { preset: "s30", label: "Standard 30 cards" },
+        { preset: "s60", label: "Standard 60 cards" },
       ];
   return presets.map((p) => ({
     preset: p.preset,
@@ -899,8 +916,9 @@ function ruleChoices() {
 }
 
 function deckRulePresets(d) {
+  const allowed = new Set(knownRuleKeys());
   if (Array.isArray(d?.rule_presets) && d.rule_presets.length) {
-    return d.rule_presets.filter((k) => k === "b" || k === "c");
+    return d.rule_presets.filter((k) => allowed.has(k));
   }
   const r = d?.rule_preset;
   if (r === "c") return ["c"];
@@ -938,16 +956,11 @@ function fillFight() {
   };
   const ruleSel = $("#rulePreset");
   if (ruleSel) {
-    const presets = state.rulePresets?.length
-      ? state.rulePresets
-      : [
-          { preset: "b", label: "Pokémon = energy" },
-          { preset: "c", label: "Standard 30 cards" },
-        ];
+    const presets = ruleChoices();
     ruleSel.innerHTML = presets
-      .map((p) => `<option value="${esc(p.preset)}">${esc(rulePresetLabel(p.preset, p.label))}</option>`)
+      .map((p) => `<option value="${esc(p.preset)}">${esc(p.label)}</option>`)
       .join("");
-    const fallbackRule = state.rules?.pokemon_as_energy === false ? "c" : "b";
+    const fallbackRule = inferRulePreset(state.rules);
     pick(ruleSel, keep.rule, fallbackRule);
   }
   const rule = currentRule();
