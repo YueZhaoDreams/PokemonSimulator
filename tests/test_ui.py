@@ -122,7 +122,7 @@ def test_index_keeps_combo_cub_controls():
     assert 'id="cubLauncher"' in html
     assert 'src="/static/cub.png"' in html
     assert 'href="/static/styles.css?v=talk-only-speech"' in html
-    assert 'src="/static/app.js?v=talk-only-speech-4"' in html
+    assert 'src="/static/app.js?v=talk-zh-stt"' in html
     assert "<strong>Combo Cub</strong>" in html
     assert 'title="Combo Cub"' in html
     assert ">Scan · fight · chat<" in html
@@ -284,6 +284,11 @@ def test_app_js_keeps_simulator_contracts():
     assert "function speakableText" in js
     assert "function speechLang" in js
     assert "function speechLangFor" in js
+    speech_lang = js[js.index("function speechLang()") : js.index("function speechLangFor")]
+    assert 'return "zh-CN"' in speech_lang
+    assert "en-US" not in speech_lang
+    assert "loadChatLang" not in js
+    assert 'nav.startsWith("zh")' not in js
     listen_fn = js[js.index("function startVoiceListen") : js.index("function toggleChatMic")]
     busy = listen_fn[listen_fn.index("if (sendChat.busy") : listen_fn.index("} else {")]
     assert "fromVoice: true" in busy
