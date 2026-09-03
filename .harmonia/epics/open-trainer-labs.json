@@ -82,6 +82,40 @@
           "evidence": "git status --porcelain for app/, tests/, data/lab/, and .env was empty before and after create, run, chat tool, and Lab tab open."
         }
       ]
+    },
+    "lab-python-safe": {
+      "verified_at": "2026-09-03T23:58:39.503067+00:00",
+      "verifier_agent": "cursor-verify-gate",
+      "overall_status": "pass",
+      "notes": "Verified on http://127.0.0.1:8000 after merge of #70 and ./run.sh restart serving 9dcb6a1/dc5aa17. verifier is agent-then-human: do not append passed_gates until the human signs the hostile checklist and confirms we are not storing arbitrary blobs as labs. Do not dispatch user-owned-strategies in this checkpoint session.",
+      "steps": [
+        {
+          "step": "A game-related bakeoff script can be stored as a database row (not a git file) and run; checkout stays clean under app/ and data/lab/.",
+          "status": "pass",
+          "evidence": "POST /api/lab/experiments stored script_text on 9ed6e65e-fc0f-45f6-abce-f4a283679bc8 with script_executable=true. POST .../run-script 200 with results.cells shock/carnival. git status --porcelain for app/, data/lab/, .env empty; file mtimes under app/ and data/lab/ unchanged."
+        },
+        {
+          "step": "Hostile payloads do not run and are not kept as executable lab scripts: import os/subprocess/socket/urllib; reading .env or app/engine/game.py from disk; writing anywhere under the git checkout; downloading or decoding a binary; mutating Game so a later request from another user sees the patch.",
+          "status": "pass",
+          "evidence": "Each listed import/open/binary/Game-import saved with script_executable=false and POST run-script 400. Card.from_dict monkeypatch script ran in the child (200); a later POST /api/simulate still returned win_rate_a from a clean engine."
+        },
+        {
+          "step": "Each hostile case: runner rejects or sandbox-kills; no repo file change; no network; other users' later sims still match a clean engine.",
+          "status": "pass",
+          "evidence": "Hostile run 400 (Import/open/binary). Second registered user GET and POST run-script on 9ed6e65e returned 404. Checkout stamps unchanged. Later simulate 200."
+        },
+        {
+          "step": "A legitimate bakeoff (cells, run_simulation, StrategySpec, event queries) still runs.",
+          "status": "pass",
+          "evidence": "Script bakeoff returned shock/carnival attempts. POST /api/lab/experiments/{id}/run for a one-cell shock overlay returned results.cells ['shock'] with cubone_play query."
+        },
+        {
+          "step": "Human confirms we are not storing arbitrary blobs as labs.",
+          "status": "partial",
+          "human_required": true,
+          "evidence": "Hostile text is stored as script_text but not executable. Binary literals are rejected as executable. Lab tab copy still describes a question report. Human must nod that keeping non-executable hostile text in the DB is acceptable (not a virus library)."
+        }
+      ]
     }
   }
 }
