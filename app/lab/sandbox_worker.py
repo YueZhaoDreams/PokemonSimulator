@@ -129,6 +129,7 @@ def main() -> int:
         exec(compile(script, "<lab-script>", "exec"), env, env)  # noqa: S102 — AST-gated bakeoff only
     finally:
         sys.stdout = old_stdout
+    # Prints are discarded on purpose: stdout is the JSON protocol to the parent.
     result = reported or env.get("RESULT")
     if not isinstance(result, dict):
         json.dump({"ok": False, "error": "script must call report({...}) or set RESULT"}, sys.stdout)

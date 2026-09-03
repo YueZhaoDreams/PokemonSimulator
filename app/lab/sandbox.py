@@ -115,9 +115,34 @@ def classify_lab_script(script_text: str | None) -> ScriptVerdict:
         _assert_safe_ast(tree)
     except ValueError as exc:
         return ScriptVerdict(False, str(exc))
+    if _rebinds_run_simulation(tree):
+        return ScriptVerdict(False, "script may not redefine run_simulation")
     if not _calls_run_simulation(tree):
         return ScriptVerdict(False, "script is not a Family Cup bakeoff (need run_simulation)")
     return ScriptVerdict(True)
+
+
+def _name_is_run_simulation(node: ast.AST) -> bool:
+    if isinstance(node, ast.Name) and node.id == "run_simulation":
+        return True
+    if isinstance(node, (ast.Tuple, ast.List)):
+        return any(_name_is_run_simulation(item) for item in node.elts)
+    return False
+
+
+def _rebinds_run_simulation(tree: ast.AST) -> bool:
+    for node in ast.walk(tree):
+        if isinstance(node, ast.FunctionDef) and node.name == "run_simulation":
+            return True
+        if isinstance(node, ast.Assign) and any(_name_is_run_simulation(target) for target in node.targets):
+            return True
+        if isinstance(node, ast.AnnAssign) and _name_is_run_simulation(node.target):
+            return True
+        if isinstance(node, ast.For) and _name_is_run_simulation(node.target):
+            return True
+        if isinstance(node, ast.arg) and node.arg == "run_simulation":
+            return True
+    return False
 
 
 def _calls_run_simulation(tree: ast.AST) -> bool:

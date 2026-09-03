@@ -61,6 +61,9 @@ def test_classify_rejects_hostile_and_accepts_bakeoff():
     ok = classify_lab_script(_bakeoff("seed-a", "seed-b"))
     assert ok.executable
     assert not classify_lab_script("run_simulation = 0\nreport({'cells': []})\n").executable
+    assert not classify_lab_script(
+        "def run_simulation(*a, **k):\n    return {'results': {}}\nrun_simulation()\nreport({'cells': []})\n"
+    ).executable
     for name, src in HOSTILE.items():
         verdict = classify_lab_script(src)
         assert not verdict.executable, name
