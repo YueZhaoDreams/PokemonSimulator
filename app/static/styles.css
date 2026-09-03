@@ -351,8 +351,6 @@ body.card-sheet-open { overflow: hidden; }
 .stat { font-size: 28px; font-weight: 900; color: var(--yellow); }
 .chips { display: flex; gap: 8px; overflow: auto; padding-bottom: 6px; }
 .chips button { white-space: nowrap; background: #2a3548; color: var(--ink); font-size: 12px; padding: 8px 10px; box-shadow: none; }
-.lang-toggle { margin: 8px 0; }
-.lang-toggle button.active { background: #1b3a6b; border: 1px solid var(--yellow); }
 .talk-btn {
   width: 100%;
   min-height: 56px;
@@ -660,8 +658,7 @@ body.shiny .brand img { animation: spin 4s linear infinite; }
     border-left: 0;
   }
   #agentFull { display: none !important; }
-  #view-chat.thread-open .agent-toolbar,
-  #view-chat.thread-open .lang-toggle {
+  #view-chat.thread-open .agent-toolbar {
     display: none;
   }
 }

@@ -49,10 +49,6 @@ REQUIRED_IDS = [
     "cubLauncher",
     "chatSearch",
     "newChat",
-    "chatLang",
-    "chatLangZh",
-    "chatLangEn",
-    "chatSpeak",
     "chatThreads",
     "chatThread",
     "backToThreads",
@@ -125,13 +121,18 @@ def test_index_keeps_combo_cub_controls():
     assert "Talk 语音" not in html
     assert 'id="cubLauncher"' in html
     assert 'src="/static/cub.png"' in html
-    assert 'href="/static/styles.css?v=agent-overlay-2"' in html
-    assert 'src="/static/app.js?v=agent-overlay-2"' in html
+    assert 'href="/static/styles.css?v=talk-only-speech"' in html
+    assert 'src="/static/app.js?v=talk-only-speech"' in html
     assert "<strong>Combo Cub</strong>" in html
     assert 'title="Combo Cub"' in html
     assert ">Scan · fight · chat<" in html
     assert "<strong>Family Cup</strong>" not in html
-    assert "Chat language and spoken replies" in html
+    assert "Chat language and spoken replies" not in html
+    assert 'id="chatLangZh"' not in html
+    assert 'id="chatLangEn"' not in html
+    assert 'id="chatSpeak"' not in html
+    assert "Speak replies" not in html
+    assert ">🎤 Talk<" in html
     assert "Sets for this rule only" in html
     assert "keep at least one" in html
     assert "Local coach" not in html
@@ -193,6 +194,7 @@ def test_styles_keep_stadium_tokens_and_reduced_motion():
     assert "display: none !important" in phone
     assert "#agentFull { display: none !important; }" in phone
     assert "#view-chat.thread-open .agent-toolbar" in phone
+    assert ".lang-toggle" not in css
 
 
 def test_app_js_keeps_simulator_contracts():
@@ -264,6 +266,11 @@ def test_app_js_keeps_simulator_contracts():
     speak = send_fn.find("await speakReply")
     assert unlock != -1 and speak != -1 and unlock < speak
     speak_fn = js[js.index("function speakReply") : js.index("function startVoiceListen")]
+    assert "function speakReply(text, fromVoice)" in js
+    assert "!fromVoice" in speak_fn
+    assert "speakReplies" not in js
+    assert "toggleSpeakReplies" not in js
+    assert "await speakReply(spoken, fromVoice)" in send_fn
     assert "settled" in speak_fn
     assert "speechSynthesis.speaking" in speak_fn
     assert "overdue" in speak_fn
@@ -276,6 +283,8 @@ def test_app_js_keeps_simulator_contracts():
     assert "function speakableText" in js
     assert "function speechLang" in js
     assert "function speechLangFor" in js
+    boot_fn = js[js.index("async function boot") : js.index("function rememberedRule")]
+    assert "paintTalkButton();" in boot_fn
     assert "sendChat.pending" in js
     assert "function chatViewOpen" in js
     assert "CHAT_WELCOME" in js

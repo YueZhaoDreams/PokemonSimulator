@@ -9,7 +9,7 @@
   <title>Family Pokémon Cup</title>
   <link rel="manifest" href="/static/manifest.json" />
   <link rel="icon" href="/static/icon.svg" />
-  <link rel="stylesheet" href="/static/styles.css?v=agent-overlay-2" />
+  <link rel="stylesheet" href="/static/styles.css?v=talk-only-speech" />
 </head>
 <body>
   <a class="skip" href="#main">Skip to the arena</a>
@@ -191,11 +191,6 @@
         <input id="chatSearch" class="grow" placeholder="Search threads · 搜索对话" />
         <button id="newChat" class="secondary" type="button">New · 新对话</button>
       </div>
-      <div id="chatLang" class="chips lang-toggle" role="group" aria-label="Chat language and spoken replies">
-        <button id="chatLangZh" type="button" data-lang="zh">中文</button>
-        <button id="chatLangEn" type="button" data-lang="en">English</button>
-        <button id="chatSpeak" class="chat-voice" type="button" aria-pressed="true">🔊 Speak replies · 朗读</button>
-      </div>
       <div id="chatThreads"></div>
       <div id="chatThread" class="hidden">
         <button id="backToThreads" class="ghost" type="button">All threads · 全部对话</button>
@@ -203,7 +198,7 @@
         <div class="chips" id="chips"></div>
         <div id="chatLog"></div>
         <div class="agent-composer">
-          <button id="chatMic" class="talk-btn chat-voice" type="button" aria-pressed="false">🎤 Talk · 说话</button>
+          <button id="chatMic" class="talk-btn chat-voice" type="button" aria-pressed="false">🎤 Talk</button>
           <p id="chatVoiceHint" class="tiny chat-voice">Listening uses the phone mic. 说话时请靠近麦克风。</p>
           <textarea id="chatInput" placeholder="Ask Combo Cub… / 问招式小熊…"></textarea>
           <button id="sendChat" type="button">Send · 发送</button>
@@ -266,6 +261,6 @@
   <button id="cubLauncher" type="button" aria-expanded="false" aria-controls="agentPanel" title="Combo Cub">
     <img src="/static/cub.png" alt="Combo Cub" />
   </button>
-  <script src="/static/app.js?v=agent-overlay-2"></script>
+  <script src="/static/app.js?v=talk-only-speech"></script>
 </body>
 </html>
