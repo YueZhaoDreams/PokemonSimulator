@@ -112,3 +112,5 @@ def test_family_cup_brief_does_not_invite_repo_edits():
     assert "replace_deck_card" in FOLLOWUP_TOOL_HINT
     assert "card_overlay" in FAMILY_CUP_BRIEF
     assert "card_overlay" in FOLLOWUP_TOOL_HINT
+    assert "attempts + conclusion" in FAMILY_CUP_BRIEF
+    assert "multi-cell matrix" not in FAMILY_CUP_BRIEF

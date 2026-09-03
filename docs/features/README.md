@@ -4,7 +4,9 @@ This directory contains delivery slice specs (typically one PR each). Large outc
 
 Draft new slices from `docs/features/_template/spec.md`. Draft epics from `docs/epics/_template/spec.md`.
 
-`cursor-access-control` is the engine-v2 allow list for product chat (Card programs and decision points). Status: `done` after #63. Do not start `lab-python-sandbox` until `lab-is-an-experiment` is in `passed_gates`.
+`cursor-access-control` is the engine-v2 allow list for product chat (Card programs and decision points). Status: `done` after #63.
+
+`lab-case-report` is the Lab tab UX: one question, a report with a conclusion and attempt history (not Experiments / cells / matrix). Do not start `lab-python-sandbox` until a human puts `lab-is-an-experiment` in `passed_gates`.
 
 ## Status Values
 

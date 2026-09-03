@@ -69,7 +69,7 @@ Define where acceptance must be verified before dispatch continues or the epic c
 - **consumer:** `human` (UI/UX), `agent` (API/dispatch consumers), or `both`
 - **verifier:** `agent-auto`, `agent-then-human`, or `human-required`
 
-Child slices: `coach-isolation`, `lab-experiment-model`, `lab-run-cells`, `lab-python-sandbox`, `user-owned-strategies`.
+Child slices: `coach-isolation`, `cursor-access-control`, `lab-experiment-model`, `lab-run-cells`, `lab-case-report`, `lab-python-sandbox`, `user-owned-strategies`. Do not start `lab-python-sandbox` until a human signs `lab-is-an-experiment`.
 
 ### Milestone: `coach-isolated`
 
@@ -85,15 +85,15 @@ Child slices: `coach-isolation`, `lab-experiment-model`, `lab-run-cells`, `lab-p
 
 ### Milestone: `lab-is-an-experiment`
 
-- **After features:** `lab-experiment-model`, `lab-run-cells`
+- **After features:** `lab-experiment-model`, `lab-run-cells`, `lab-case-report`
 - **Consumer:** `both`
 - **Verifier:** `agent-then-human`
 - **Verify:**
-  - API (and chat tool) can create/run an experiment with at least two cells that differ by one deck patch **or** one strategy overlay, same seed and games cap, and custom queries; response includes a per-cell win rate and query rates.
-  - A trainer can store a game-related Python bakeoff in the database and run it; the checkout still has no new `data/lab/` or `app/` files.
-  - Lab tab at `http://127.0.0.1:8000` shows the matrix for that experiment, not only a single simulation row.
+  - API (and chat tool) can create/run a question with at least two attempts that differ by one deck patch **or** one strategy overlay, same seed and games cap, and custom queries; response includes per-run win rate, query rates, and learning insights.
+  - Lab tab at `http://127.0.0.1:8000` shows a report for that question (what the question is, the current conclusion, and what each run changed), not a cell/matrix spreadsheet and not only a Fight simulation row.
   - Two registered non-admin accounts cannot read each other’s experiments or scripts.
-- **Blocks dispatch until passed:** yes
+  - Completing a question does not add or modify files under `data/lab/` or `app/` in the product checkout.
+- **Blocks dispatch until passed:** yes — do not start `lab-python-sandbox` and do not append this id to `passed_gates` until a human nods at the Lab report UX.
 
 ### Milestone: `lab-python-safe`
 

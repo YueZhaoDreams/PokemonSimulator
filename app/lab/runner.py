@@ -9,6 +9,7 @@ from app.engine.overlay import OverlayError
 from app.engine.montecarlo import query_key, run_simulation
 from app.engine.strategies import StrategySpec
 from app.lab.patches import apply_deck_patch
+from app.lab.report import cells_from_attempts, insights_list, input_fingerprint
 
 LAB_CELL_MAX = 12
 
@@ -31,10 +32,12 @@ def run_lab_experiment(
     seed: int | None = None,
 ) -> dict:
     cells = experiment.get("cells") or []
+    if not cells:
+        cells = cells_from_attempts(experiment.get("attempts") or [])
     if not isinstance(cells, list) or not cells:
-        raise ValueError("experiment needs at least one cell")
+        raise ValueError("this question needs at least one run")
     if len(cells) > LAB_CELL_MAX:
-        raise ValueError(f"at most {LAB_CELL_MAX} cells")
+        raise ValueError(f"at most {LAB_CELL_MAX} runs")
     games_n = _as_int(games if games is not None else experiment.get("games"), default=200, field="games")
     seed_n = _as_int(seed if seed is not None else experiment.get("seed"), default=20260831, field="seed")
     queries = experiment.get("queries")
@@ -46,8 +49,8 @@ def run_lab_experiment(
     matrix: list[dict[str, Any]] = []
     for index, cell in enumerate(cells):
         if not isinstance(cell, dict):
-            raise ValueError(f"cell {index} must be an object")
-        cell_id = str(cell.get("id") or f"cell-{index + 1}")
+            raise ValueError(f"run {index + 1} must be an object")
+        cell_id = str(cell.get("id") or f"run-{index + 1}")
         deck_a = _require_deck(deck_for, cell.get("deck_a_id"), cell_id, "deck_a_id")
         deck_b = _require_deck(deck_for, cell.get("deck_b_id"), cell_id, "deck_b_id")
         cards_a = apply_deck_patch(deck_a["cards"], cell.get("patch_a"))
@@ -90,6 +93,9 @@ def run_lab_experiment(
                 "win_rate_b": results["win_rate_b"],
                 "tie_rate": results["tie_rate"],
                 "queries": query_rates,
+                "insights": insights_list(record.get("learning")),
+                "decks": record.get("decks"),
+                "input": input_fingerprint(cell),
             }
         )
     actual_games = record["method"]["games"]
@@ -97,7 +103,7 @@ def run_lab_experiment(
     return save_lab_experiment(
         owner_id=experiment["owner_id"],
         question=experiment.get("question"),
-        cells=experiment.get("cells"),
+        cells=cells,
         queries=queries,
         games=actual_games,
         seed=seed_n,
@@ -105,6 +111,7 @@ def run_lab_experiment(
         locked_cell_id=experiment.get("locked_cell_id"),
         lock_reason=experiment.get("lock_reason"),
         script_text=experiment.get("script_text"),
+        conclusion=experiment.get("conclusion"),
         exp_id=experiment["id"],
     )
 
@@ -112,5 +119,5 @@ def run_lab_experiment(
 def _require_deck(deck_for: Callable[[str], dict | None], deck_id: object, cell_id: str, field: str) -> dict:
     deck = deck_for(str(deck_id or ""))
     if not deck:
-        raise ValueError(f"cell {cell_id} {field} is missing or not usable")
+        raise ValueError(f"run {cell_id} {field} is missing or not usable")
     return deck

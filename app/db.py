@@ -61,6 +61,7 @@ CREATE TABLE IF NOT EXISTS lab_experiments (
     id TEXT PRIMARY KEY,
     owner_id TEXT NOT NULL,
     question TEXT,
+    conclusion TEXT,
     cells_json TEXT NOT NULL,
     queries_json TEXT NOT NULL,
     games INTEGER,
@@ -169,6 +170,7 @@ def _ensure_lab_experiments(conn: sqlite3.Connection) -> None:
             id TEXT PRIMARY KEY,
             owner_id TEXT NOT NULL,
             question TEXT,
+            conclusion TEXT,
             cells_json TEXT NOT NULL,
             queries_json TEXT NOT NULL,
             games INTEGER,
@@ -182,6 +184,9 @@ def _ensure_lab_experiments(conn: sqlite3.Connection) -> None:
         )
         """
     )
+    cols = {row[1] for row in conn.execute("PRAGMA table_info(lab_experiments)")}
+    if "conclusion" not in cols:
+        conn.execute("ALTER TABLE lab_experiments ADD COLUMN conclusion TEXT")
 
 
 def _ensure_admin(conn: sqlite3.Connection) -> str:
@@ -425,10 +430,12 @@ def validate_lab_script_text(script_text: object) -> str | None:
 
 
 def _lab_experiment_from_row(row: sqlite3.Row, *, include_script: bool) -> dict:
+    keys = row.keys()
     blob = {
         "id": row["id"],
         "owner_id": row["owner_id"],
         "question": row["question"],
+        "conclusion": row["conclusion"] if "conclusion" in keys else None,
         "cells": json.loads(row["cells_json"] or "[]"),
         "queries": json.loads(row["queries_json"] or "[]"),
         "games": row["games"],
@@ -442,7 +449,9 @@ def _lab_experiment_from_row(row: sqlite3.Row, *, include_script: bool) -> dict:
     }
     if include_script:
         blob["script_text"] = row["script_text"]
-    return blob
+    from app.lab.report import attach_report
+
+    return attach_report(blob)
 
 
 def get_lab_experiment(exp_id: str) -> dict | None:
@@ -480,6 +489,7 @@ def save_lab_experiment(
     locked_cell_id: str | None = None,
     lock_reason: str | None = None,
     script_text: str | None = None,
+    conclusion: str | None = None,
     exp_id: str | None = None,
 ) -> dict:
     if not owner_id:
@@ -495,12 +505,13 @@ def save_lab_experiment(
         if existing:
             conn.execute(
                 """
-                UPDATE lab_experiments SET question=?, cells_json=?, queries_json=?, games=?, seed=?,
+                UPDATE lab_experiments SET question=?, conclusion=?, cells_json=?, queries_json=?, games=?, seed=?,
                     results_json=?, locked_cell_id=?, lock_reason=?, script_text=?, updated_at=?
                 WHERE id=?
                 """,
                 (
                     question,
+                    conclusion,
                     cells_json,
                     queries_json,
                     games,
@@ -517,14 +528,15 @@ def save_lab_experiment(
             conn.execute(
                 """
                 INSERT INTO lab_experiments(
-                    id, owner_id, question, cells_json, queries_json, games, seed,
+                    id, owner_id, question, conclusion, cells_json, queries_json, games, seed,
                     results_json, locked_cell_id, lock_reason, script_text, created_at, updated_at
-                ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)
+                ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)
                 """,
                 (
                     exp_id,
                     owner_id,
                     question,
+                    conclusion,
                     cells_json,
                     queries_json,
                     games,

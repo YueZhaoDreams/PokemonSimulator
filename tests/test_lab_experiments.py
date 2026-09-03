@@ -143,8 +143,9 @@ def test_lab_script_text_rejects_blobs(tmp_path, monkeypatch):
 def test_save_lab_experiment_tool_schema_includes_results_and_lock():
     schema = next(item for item in TOOL_SCHEMAS if item["name"] == "save_lab_experiment")
     props = schema["parameters"]["properties"]
-    assert {"results", "locked_cell_id", "lock_reason"} <= set(props)
+    assert {"results", "locked_cell_id", "lock_reason", "attempts", "conclusion"} <= set(props)
     assert "null" in props["script_text"]["type"]
     assert "null" in props["locked_cell_id"]["type"]
     assert "null" in props["lock_reason"]["type"]
     assert "null" in props["results"]["type"]
+    assert "null" in props["conclusion"]["type"]

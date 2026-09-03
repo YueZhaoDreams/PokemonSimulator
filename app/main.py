@@ -54,6 +54,7 @@ from app.engine.overlay import OverlayError
 from app.engine.probability import draw_probability
 from app.engine.strategies import list_strategies, StrategySpec
 from app.engine.trades import suggest_trades
+from app.lab.report import payload_cells, payload_conclusion, payload_results
 from app.lab.runner import run_lab_experiment
 from app.recognition.pipeline import recognize_image
 
@@ -488,14 +489,15 @@ def _save_experiment_from_payload(payload: dict, user: dict, *, existing: dict |
         return save_lab_experiment(
             owner_id=existing["owner_id"] if existing else user["id"],
             question=payload.get("question") if "question" in payload or not existing else existing.get("question"),
-            cells=payload["cells"] if "cells" in payload else (existing or {}).get("cells"),
+            cells=payload_cells(payload, existing),
             queries=payload["queries"] if "queries" in payload else (existing or {}).get("queries"),
             games=payload["games"] if "games" in payload else (existing or {}).get("games"),
             seed=payload["seed"] if "seed" in payload else (existing or {}).get("seed"),
-            results=payload["results"] if "results" in payload else (existing or {}).get("results"),
+            results=payload_results(payload, existing),
             locked_cell_id=payload["locked_cell_id"] if "locked_cell_id" in payload else (existing or {}).get("locked_cell_id"),
             lock_reason=payload["lock_reason"] if "lock_reason" in payload else (existing or {}).get("lock_reason"),
             script_text=payload["script_text"] if "script_text" in payload else (existing or {}).get("script_text"),
+            conclusion=payload_conclusion(payload, existing),
             exp_id=existing["id"] if existing else None,
         )
     except ValueError as exc:

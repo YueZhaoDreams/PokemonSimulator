@@ -1,8 +1,10 @@
 # Lab Python sandbox
 
-Status: ready
+Status: blocked
 
 Epic: open-trainer-labs
+
+**Blocked:** do not start this slice until a human puts `lab-is-an-experiment` in `passed_gates` after the `lab-case-report` Lab UX.
 
 Jira Issue: TBD
 

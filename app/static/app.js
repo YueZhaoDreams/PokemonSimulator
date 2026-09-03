@@ -2290,45 +2290,83 @@ $("#chatInput").addEventListener("keydown", (e) => {
   }
 });
 
+function insightPreview(learning) {
+  if (Array.isArray(learning)) return learning.filter(Boolean).join(" · ");
+  if (learning && Array.isArray(learning.insights)) return learning.insights.filter(Boolean).join(" · ");
+  return "";
+}
+
+function lastAttemptInsight(exp) {
+  const attempts = exp.attempts || [];
+  for (let i = attempts.length - 1; i >= 0; i -= 1) {
+    const first = (attempts[i].insights || []).find(Boolean);
+    if (first) return String(first);
+  }
+  return "";
+}
+
+function questionConclusion(exp) {
+  const stored = (exp.conclusion || "").trim();
+  if (stored) return { text: stored, from: "written" };
+  const fromRun = lastAttemptInsight(exp);
+  if (fromRun) return { text: fromRun, from: "last-run" };
+  return { text: "", from: "none" };
+}
+
 async function renderLab() {
   const experiments = await api("/api/lab/experiments").catch(() => []);
   const rows = await api("/api/simulations").catch(() => []);
-  const experimentCards = (experiments || []).map((exp) => `
-    <div class="panel">
-      <div class="list-item">
-        <div><b>${esc(exp.question || "Lab experiment")}</b>
-        <div class="tiny">${esc(exp.updated_at || exp.created_at || "")} · ${(exp.cells || []).length} cells${exp.results ? " · matrix ready" : ""}</div></div>
-        <button class="secondary" data-exp="${esc(exp.id)}">Open matrix</button>
-      </div>
-    </div>`).join("");
-  const simCards = (rows || []).map((r) => `
-    <div class="panel">
-      <div class="list-item">
-        <div><b>${esc(r.question || "Match simulation")}</b>
-        <div class="tiny">${esc(r.created_at)} · ${r.games} games · A win ${((r.win_rate_a || 0) * 100).toFixed(1)}%</div>
-        <div class="tiny">${esc((r.learning || []).join(" · "))}</div></div>
-        <button class="secondary" data-lab="${esc(r.id)}">Open</button>
-      </div>
-    </div>`).join("");
-  const empty = !experimentCards && !simCards
-    ? `<div class="panel">No runs yet. Save an experiment or Fight a matchup and it will land here.</div>`
-    : "";
-  $("#labList").innerHTML = (experimentCards ? `<h3 class="screen-title">Experiments</h3>${experimentCards}` : "")
-    + ((!experimentCards && empty) ? empty : "");
-  $("#labSims").innerHTML = (simCards ? `<h3 class="screen-title">Fight runs</h3>${simCards}` : "")
-    + ((experimentCards && !simCards && empty) ? empty : "");
-  $$("#labList [data-exp]").forEach((b) => {
-    b.onclick = () => openLabExperiment(b.dataset.exp);
-  });
-  $$("#labSims [data-lab]").forEach((b) => {
-    b.onclick = async () => {
-      const rec = await api(`/api/simulations/${b.dataset.lab}`);
-      $("#labDetail").innerHTML = resultPanel(rec, { replayHtml: replayHtml(rec, "labReplay") })
-        + `<div class="panel"><b>Sample game</b><p class="tiny">${(rec.sample_games?.[0]?.log || []).map((l) => esc(l)).join("<br>")}</p></div>`;
-      bindReplay($("#labDetail"), "labReplay");
-      showLabDetail();
+  const questions = (experiments || []).map((exp) => {
+    const n = (exp.attempts || exp.cells || []).length;
+    const conc = questionConclusion(exp);
+    return {
+      kind: "question",
+      id: exp.id,
+      at: exp.updated_at || exp.created_at || "",
+      question: exp.question || "Untitled question",
+      meta: `${n} ${n === 1 ? "run" : "runs"}`,
+      preview: conc.text,
     };
   });
+  const fights = (rows || []).map((r) => ({
+    kind: "fight",
+    id: r.id,
+    at: r.created_at || "",
+    question: r.question || "Fight matchup",
+    meta: `${r.games} games · A win ${((r.win_rate_a || 0) * 100).toFixed(1)}%`,
+    preview: insightPreview(r.learning),
+  }));
+  const items = [...questions, ...fights].sort((a, b) => String(b.at).localeCompare(String(a.at)));
+  const cards = items.map((item) => `
+    <div class="panel">
+      <div class="list-item">
+        <div><b>${esc(item.question)}</b>
+        <div class="tiny">${esc(item.at)} · ${esc(item.meta)}</div>
+        ${item.preview ? `<div class="tiny">${esc(item.preview)}</div>` : ""}</div>
+        <button class="secondary" data-lab-kind="${esc(item.kind)}" data-lab-id="${esc(item.id)}">Open report</button>
+      </div>
+    </div>`).join("");
+  $("#labList").innerHTML = cards || `<div class="panel">No questions yet. Ask Combo Cub, or Fight a matchup — it will land here.</div>`;
+  $("#labSims").innerHTML = "";
+  $$("#labList [data-lab-id]").forEach((b) => {
+    b.onclick = () => {
+      if (b.dataset.labKind === "question") openLabExperiment(b.dataset.labId);
+      else openLabFight(b.dataset.labId);
+    };
+  });
+}
+
+async function openLabFight(simId) {
+  try {
+    const rec = await api(`/api/simulations/${simId}`);
+    $("#labDetail").innerHTML = resultPanel(rec, { replayHtml: replayHtml(rec, "labReplay") })
+      + `<div class="panel"><b>Sample game</b><p class="tiny">${(rec.sample_games?.[0]?.log || []).map((l) => esc(l)).join("<br>")}</p></div>`;
+    bindReplay($("#labDetail"), "labReplay");
+    showLabDetail();
+  } catch (err) {
+    $("#labDetail").innerHTML = `<div class="panel">${esc(err.message)}</div>`;
+    showLabDetail();
+  }
 }
 
 function showLabDetail() {
@@ -2341,23 +2379,64 @@ function queryRateLine(queries) {
   return entries.map(([key, value]) => `${esc(key)} ${(((Number(value) || 0) * 100).toFixed(1))}%`).join("<br>");
 }
 
-function experimentMatrixHtml(exp) {
-  const cells = exp.results?.cells || [];
-  if (!cells.length) {
-    return `<p class="tiny">No matrix yet. Run the cells at seed ${esc(exp.seed ?? "—")} (${esc(exp.games ?? "—")} games).</p>`;
+function stratLabel(spec) {
+  if (!spec) return "";
+  if (typeof spec === "string") return spec;
+  return spec.name || "";
+}
+
+function attemptSetupHtml(input) {
+  if (!input) return "";
+  const sa = stratLabel(input.strategy_a) || "thrifty";
+  const sb = stratLabel(input.strategy_b) || "shock";
+  const bits = [`A ${esc(sa)} vs B ${esc(sb)}`];
+  if (input.patch_a || input.patch_b) bits.push("deck patch");
+  if (input.card_overlay || input.card_overlay_a || input.card_overlay_b) bits.push("card overlay");
+  return `<details><summary>How this run was set up</summary><p class="tiny">${bits.join(" · ")}</p></details>`;
+}
+
+function attemptReportHtml(attempt, seed, games) {
+  const ran = attempt.win_rate_a != null;
+  const a = Math.round((attempt.win_rate_a || 0) * 100);
+  const b = Math.round((attempt.win_rate_b || 0) * 100);
+  const t = Math.round((attempt.tie_rate || 0) * 100);
+  const insights = (attempt.insights || []).map((line) => `<div class="insight">${esc(line)}</div>`).join("");
+  const bar = ran
+    ? `<div class="stat">${a}% / ${b}%</div>
+       <p>A wins vs B wins · ${esc(games ?? "—")} games · seed ${esc(seed ?? "—")}</p>
+       <div class="bar"><div class="a" style="width:${a}%"></div><div class="b" style="width:${b}%"></div><div class="t" style="width:${t}%"></div></div>`
+    : `<p class="tiny">Not run yet.</p>`;
+  const queries = ran ? `<p class="tiny">${queryRateLine(attempt.queries)}</p>` : "";
+  return `<div class="panel lab-attempt">
+    <h4>${esc(attempt.title || "This run")}</h4>
+    ${bar}
+    ${insights ? `<p><b>What we learned</b></p>${insights}` : ""}
+    ${queries}
+    ${attemptSetupHtml(attempt.input)}
+  </div>`;
+}
+
+function experimentReportHtml(exp) {
+  const attempts = exp.attempts || [];
+  const conc = questionConclusion(exp);
+  const seed = exp.results?.seed ?? exp.seed;
+  const games = exp.results?.games ?? exp.games;
+  let conclusionNote = "";
+  if (conc.from === "last-run") {
+    conclusionNote = `<p class="tiny">From the last run — ask Combo Cub to rewrite it if that was wrong.</p>`;
+  } else if (conc.from === "none") {
+    conclusionNote = `<p class="tiny">No conclusion yet. Ask Combo Cub to write one after a run.</p>`;
   }
-  const rows = cells.map((cell) => `
-    <tr>
-      <td>${esc(cell.title || cell.id)}</td>
-      <td>${esc(cell.strategy_a?.name || "")} vs ${esc(cell.strategy_b?.name || "")}</td>
-      <td>${(((cell.win_rate_a || 0) * 100).toFixed(1))}%</td>
-      <td>${queryRateLine(cell.queries)}</td>
-    </tr>`).join("");
-  return `<table class="lab-matrix">
-    <thead><tr><th>Cell</th><th>Strategies</th><th>A win</th><th>Queries</th></tr></thead>
-    <tbody>${rows}</tbody>
-  </table>
-  <p class="tiny">Seed ${esc(exp.results?.seed ?? exp.seed)} · ${esc(exp.results?.games ?? exp.games)} games</p>`;
+  const history = attempts.length
+    ? attempts.map((attempt) => attemptReportHtml(attempt, seed, games)).join("")
+    : `<p class="tiny">No runs yet. Ask Combo Cub to add one, then run this.</p>`;
+  return `
+    <p><b>Conclusion</b></p>
+    <div class="lab-conclusion">${esc(conc.text || "No conclusion yet.")}</div>
+    ${conclusionNote}
+    <p><b>What we tried</b></p>
+    ${history}
+  `;
 }
 
 async function openLabExperiment(expId) {
@@ -2369,12 +2448,14 @@ async function openLabExperiment(expId) {
     showLabDetail();
     return;
   }
+  const ranBefore = (exp.attempts || []).some((attempt) => attempt.win_rate_a != null);
+  const runLabel = ranBefore ? "Run this again" : "Run this";
   $("#labDetail").innerHTML = `
     <div class="panel">
-      <b>${esc(exp.question || "Lab experiment")}</b>
-      ${experimentMatrixHtml(exp)}
+      <b>${esc(exp.question || "Untitled question")}</b>
+      ${experimentReportHtml(exp)}
       <div class="row" style="margin-top:12px">
-        <button type="button" data-run-exp="${esc(exp.id)}">Run cells</button>
+        <button type="button" data-run-exp="${esc(exp.id)}">${runLabel}</button>
       </div>
     </div>`;
   showLabDetail();
@@ -2392,7 +2473,7 @@ async function openLabExperiment(expId) {
       renderLab();
     } catch (err) {
       btn.disabled = false;
-      btn.textContent = "Run cells";
+      btn.textContent = runLabel;
       $("#labDetail").insertAdjacentHTML("beforeend", `<div class="panel">${esc(err.message)}</div>`);
     }
   });

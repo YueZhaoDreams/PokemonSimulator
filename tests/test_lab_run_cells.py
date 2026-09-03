@@ -98,6 +98,11 @@ def test_two_cell_lab_run_uses_custom_queries_and_stays_out_of_git(tmp_path, mon
             assert "win_rate_a" in cell
             assert "cubone_play" in cell["queries"]
             assert "dondozo_opening_a" not in cell["queries"]
+            assert cell["insights"]
+        attempts = ran.json()["attempts"]
+        assert [row["id"] for row in attempts] == ["baseline", "lightning"]
+        assert all(row["insights"] for row in attempts)
+        assert "conclusion" in ran.json()
 
         client.post("/api/auth/logout")
         client.post("/api/auth/register", json={"email": "kid-other@example.com", "password": "play"})
@@ -124,9 +129,16 @@ def test_two_cell_lab_run_uses_custom_queries_and_stays_out_of_git(tmp_path, mon
     assert after == before
 
 
-def test_lab_tab_script_lists_experiment_matrix():
+def test_lab_tab_script_lists_question_report():
     text = (ROOT / "app" / "static" / "app.js").read_text()
+    html = (ROOT / "app" / "static" / "index.html").read_text()
     assert "/api/lab/experiments" in text
-    assert "lab-matrix" in text
-    assert "Open matrix" in text
+    assert "Open report" in text
+    assert "Run this again" in text
+    assert "function experimentReportHtml" in text
     assert "function showLabDetail" in text
+    assert "Open matrix" not in text
+    assert "Run cells" not in text
+    assert "lab-matrix" not in text
+    assert "Experiments compare several cells" not in html
+    assert "current conclusion" in html
