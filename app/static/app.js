@@ -339,11 +339,6 @@ function paintSfx() {
   btn.setAttribute("aria-checked", sfx.on ? "true" : "false");
 }
 
-function loadChatLang() {
-  const nav = (navigator.language || "").toLowerCase();
-  state.chatLang = nav.startsWith("zh") ? "zh" : "en";
-}
-
 function setChatLang(lang) {
   state.chatLang = lang === "en" ? "en" : "zh";
   if (voice.rec) voice.rec.lang = speechLang();
@@ -358,7 +353,8 @@ function ttsSupported() {
 }
 
 function speechLang() {
-  return state.chatLang === "zh" ? "zh-CN" : "en-US";
+  // Talk listens in Chinese so an English browser locale does not drop 中文.
+  return "zh-CN";
 }
 
 function speechLangFor(text) {
@@ -835,7 +831,6 @@ async function boot() {
     /* private mode */
   }
   paintSfx();
-  loadChatLang();
   paintTalkButton();
   CHIPS.forEach((q) => {
     const b = document.createElement("button");
