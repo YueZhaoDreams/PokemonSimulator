@@ -44,10 +44,12 @@ from app.db import (
 from app.engine.models import (
     Card,
     FamilyRules,
+    CANONICAL_RULE_PRESETS,
     RULE_PRESETS,
     default_rule_presets_for,
     normalize_rule_presets,
     resolve_simulation_rules,
+    rule_preset_label,
     rules_from_preset,
 )
 from app.engine.montecarlo import run_simulation
@@ -215,16 +217,13 @@ def api_rules(_user: dict = Depends(require_user)) -> dict:
 
 @app.get("/api/rule-presets")
 def api_rule_presets(_user: dict = Depends(require_user)) -> list:
-    # Deduplicate aliases so the UI only shows Rule B and Standard 30 cards.
-    seen: set[str] = set()
     out = []
-    for key in ("b", "c"):
+    for key in CANONICAL_RULE_PRESETS:
         rules = RULE_PRESETS[key]
         blob = rules.to_dict()
         blob["preset"] = key
-        blob["label"] = "Pokémon = energy" if key == "b" else "Standard 30 cards"
+        blob["label"] = rule_preset_label(key)
         out.append(blob)
-        seen.add(rules.name)
     return out
 
 

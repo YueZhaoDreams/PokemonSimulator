@@ -12,11 +12,13 @@ This is a fan-made simulator. It is not affiliated with Nintendo, Game Freak, or
 - Opening hand of **7**
 - **3 prize cards**
 - **Pokémon ex = 2 prizes; Mega ex = 3 prizes**
-- **Rule B:** Any Pokémon can be attached as a Basic Energy of its type
-- **Standard 30 cards (Rule C, selectable):** same 30 / 3-prize Family Cup, but Pokémon are **not** Basic Energy. Energy Search finds Energy only.
+- **30 Cards 4 of a name, Pokémon = Energy (preset b):** Any Pokémon can be attached as a Basic Energy of its type
+- **30 Cards 4 of a name (preset c):** same 30 / 3-prize Family Cup, but Pokémon are **not** Basic Energy. Energy Search finds Energy only.
+- **Standard 30 cards (preset s30):** 30-card Standard, **2 of a name** except basic Energy. Pokémon are not energy.
+- **Standard 60 cards (preset s60):** 60-card Standard, **4 of a name**, 6 prizes. Pokémon are not energy.
 - Otherwise: standard Pokémon TCG turn structure (mulligans until a Basic, opponent draws one per mulligan, bench of 5, one energy attach per turn, first player does not draw or attack on turn 1)
 
-Rule presets are available in the Fight tab and via `GET /api/rule-presets`. Existing Rule B decks stay selectable. Carpet Sets E and F are the new 30-card lists.
+Rule presets are available in the Fight tab and via `GET /api/rule-presets`. Existing Rule B decks stay selectable. Carpet Sets E and F are Rule C lists. Set T (Dragapult ex) is the official 30-card Standard seed (`s30`).
 
 Rules are also editable in the API (`PUT /api/rules`).
 

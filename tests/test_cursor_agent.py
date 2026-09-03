@@ -64,7 +64,7 @@ def test_family_cup_tools_match_schemas_and_run():
     rules = tools["get_rules"].execute({}, None)
     assert rules["deck_size"] == 30
     assert rules["prize_count"] == 3
-    assert {p["id"] for p in rules["selectable_presets"]} == {"b", "c"}
+    assert {p["id"] for p in rules["selectable_presets"]} == {"b", "c", "s30", "s60"}
     assert "rule_preset" in rules["note"]
     names = [item["name"] for item in tools["list_strategies"].execute({}, None)]
     assert "thrifty" in names

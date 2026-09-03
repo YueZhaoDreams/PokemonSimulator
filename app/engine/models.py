@@ -173,17 +173,18 @@ class FamilyRules:
     extra_prize_for_ex: bool = True
     max_copies_except_basic_energy: int = 4
     notes: str = (
-        "Rule B: 30-card decks, 3 prize cards, and every Pokémon can be attached as a "
-        "Basic Energy of its type (so Energy Search may also fetch a Pokémon). "
-        "A deck may include at most 4 copies of a card with the same name, except "
-        "basic Energy (unlimited). Same name includes every printing; Clefable, "
-        "Clefable ex, and Mega Clefable ex are different names. Knocking Out a "
-        "Pokémon ex takes 2 prize cards; Knocking Out a Mega ex takes 3. Other "
-        "play follows standard Pokémon TCG: going first cannot draw, attack, or "
-        "play a Supporter on the first turn; neither player may evolve on their "
-        "first turn; a Pokémon cannot evolve the turn it entered play; one manual "
-        "retreat per turn (Switch does not count). Opening mulligans until a Basic "
-        "Pokémon; the opponent then draws one card per mulligan (always taken)."
+        "30 Cards 4 of a name, Pokémon = Energy: 30-card decks, 3 prize cards, and "
+        "every Pokémon can be attached as a Basic Energy of its type (so Energy "
+        "Search may also fetch a Pokémon). A deck may include at most 4 copies of "
+        "a card with the same name, except basic Energy (unlimited). Same name "
+        "includes every printing; Clefable, Clefable ex, and Mega Clefable ex are "
+        "different names. Knocking Out a Pokémon ex takes 2 prize cards; Knocking "
+        "Out a Mega ex takes 3. Other play follows standard Pokémon TCG: going "
+        "first cannot draw, attack, or play a Supporter on the first turn; neither "
+        "player may evolve on their first turn; a Pokémon cannot evolve the turn "
+        "it entered play; one manual retreat per turn (Switch does not count). "
+        "Opening mulligans until a Basic Pokémon; the opponent then draws one card "
+        "per mulligan (always taken)."
     )
 
     def to_dict(self) -> dict[str, Any]:
@@ -205,20 +206,63 @@ def default_family_rules() -> FamilyRules:
 
 
 def no_pokemon_energy_family_rules() -> FamilyRules:
-    """Rule C: Family Cup 30 / 3 prizes, but Pokémon do not count as Basic Energy."""
+    """30 Cards 4 of a name: Family Cup 30 / 3 prizes, Pokémon are not Basic Energy."""
     return FamilyRules(
-        name="Family Cup (no Pokémon energy)",
+        name="30 Cards 4 of a name",
         pokemon_as_energy=False,
         any_stage_playable=False,
         notes=(
-            "Rule B without Pokémon-as-energy: 30-card decks, 3 prize cards, standard "
-            "Basic Energy only (Pokémon in hand are not Basic Energy). Energy Search "
-            "finds Energy cards, not Pokémon. Copy cap 4 except basic Energy. Knocking "
-            "Out a Pokémon ex takes 2 prize cards; Knocking Out a Mega ex takes 3. "
+            "30 Cards 4 of a name: 30-card decks, 3 prize cards, standard Basic Energy "
+            "only (Pokémon in hand are not Basic Energy). Energy Search finds Energy "
+            "cards, not Pokémon. Copy cap 4 except basic Energy. Knocking Out a "
+            "Pokémon ex takes 2 prize cards; Knocking Out a Mega ex takes 3. "
             "Opening mulligans until a Basic Pokémon."
         ),
     )
 
+
+def standard_30_rules() -> FamilyRules:
+    """Official-style 30-card Standard: 2 of a name, Pokémon are not energy."""
+    return FamilyRules(
+        name="Standard 30 cards",
+        deck_size=30,
+        prize_count=3,
+        pokemon_as_energy=False,
+        any_stage_playable=False,
+        max_copies_except_basic_energy=2,
+        notes=(
+            "Standard 30 cards: 30-card decks, 3 prize cards, at most 2 copies of a "
+            "card with the same name except basic Energy (unlimited). Pokémon are not "
+            "Basic Energy. Energy Search finds Energy cards, not Pokémon. Knocking Out "
+            "a Pokémon ex takes 2 prize cards; Knocking Out a Mega ex takes 3."
+        ),
+    )
+
+
+def standard_60_rules() -> FamilyRules:
+    """Official Standard constructed: 60 cards, 4 of a name, 6 prizes."""
+    return FamilyRules(
+        name="Standard 60 cards",
+        deck_size=60,
+        prize_count=6,
+        pokemon_as_energy=False,
+        any_stage_playable=False,
+        max_copies_except_basic_energy=4,
+        notes=(
+            "Standard 60 cards: 60-card decks, 6 prize cards, at most 4 copies of a "
+            "card with the same name except basic Energy (unlimited). Pokémon are not "
+            "Basic Energy. Energy Search finds Energy cards, not Pokémon. Knocking Out "
+            "a Pokémon ex takes 2 prize cards; Knocking Out a Mega ex takes 3."
+        ),
+    )
+
+
+RULE_PRESET_LABELS: dict[str, str] = {
+    "b": "30 Cards 4 of a name, Pokémon = Energy",
+    "c": "30 Cards 4 of a name",
+    "s30": "Standard 30 cards",
+    "s60": "Standard 60 cards",
+}
 
 RULE_PRESETS: dict[str, FamilyRules] = {
     "b": default_family_rules(),
@@ -226,14 +270,29 @@ RULE_PRESETS: dict[str, FamilyRules] = {
     "c": no_pokemon_energy_family_rules(),
     "rule_c": no_pokemon_energy_family_rules(),
     "no_pokemon_energy": no_pokemon_energy_family_rules(),
+    "s30": standard_30_rules(),
+    "standard_30": standard_30_rules(),
+    "s60": standard_60_rules(),
+    "standard_60": standard_60_rules(),
 }
 
-CANONICAL_RULE_PRESETS = ("b", "c")
+CANONICAL_RULE_PRESETS = ("b", "c", "s30", "s60")
+
+
+def rule_preset_label(key: str | None, fallback: str | None = None) -> str:
+    canon = canonical_rule_key(key) if key else None
+    if canon and canon in RULE_PRESET_LABELS:
+        return RULE_PRESET_LABELS[canon]
+    return fallback or (key or "")
 
 
 def canonical_rule_key(raw: str | None) -> str | None:
     key = str(raw or "").lower().strip().replace("-", "_").replace("rule_", "").replace("rule ", "")
-    if key in {"c", "no_pokemon_energy", "standard", "standard_30"}:
+    if key in {"s30", "standard_30", "std30", "std_30"}:
+        return "s30"
+    if key in {"s60", "standard_60", "std60", "std_60", "standard"}:
+        return "s60"
+    if key in {"c", "no_pokemon_energy"}:
         return "c"
     if key in {"b"}:
         return "b"
@@ -271,7 +330,7 @@ def resolve_simulation_rules(
     if raw not in (None, ""):
         key = canonical_rule_key(str(raw))
         if not key:
-            raise ValueError("unknown rule_preset (use b or c)")
+            raise ValueError("unknown rule_preset (use b, c, s30, or s60)")
         return rules_from_preset(key)
     inferred = infer_rule_preset_from_decks(list(decks or []))
     if inferred:
@@ -300,16 +359,20 @@ def default_rule_presets_for(deck_id: str | None) -> list[str]:
     did = str(deck_id or "")
     if did in {"seed-e", "seed-f"}:
         return ["c"]
+    if did == "seed-t":
+        return ["s30"]
     if did.startswith("seed-"):
         return ["b"]
     return ["b"]
 
 
 def legacy_rule_presets_for(deck_id: str | None) -> list[str]:
-    """Pre-column sets: seeds stay B/C; household lists used to match every filter."""
+    """Pre-column sets: seeds stay B/C/s30; household lists used to match every filter."""
     did = str(deck_id or "")
     if did in {"seed-e", "seed-f"}:
         return ["c"]
+    if did == "seed-t":
+        return ["s30"]
     if did.startswith("seed-"):
         return ["b"]
     return ["b", "c"]
@@ -317,10 +380,8 @@ def legacy_rule_presets_for(deck_id: str | None) -> list[str]:
 
 def rule_preset_summary(presets: list[str]) -> str:
     keys = normalize_rule_presets(presets)
-    if keys == ["c"]:
-        return "c"
-    if keys == ["b"]:
-        return "b"
+    if len(keys) == 1:
+        return keys[0]
     return "any"
 
 
@@ -329,3 +390,23 @@ def rules_from_preset(key: str | None) -> FamilyRules:
         return default_family_rules()
     canon = canonical_rule_key(key) or str(key).lower().strip()
     return RULE_PRESETS.get(canon, default_family_rules())
+
+
+def infer_rule_preset_from_rules(rules: FamilyRules | dict[str, Any] | None) -> str:
+    """Map a rules blob to the closest selectable preset."""
+    if not rules:
+        return "b"
+    data = rules.to_dict() if isinstance(rules, FamilyRules) else dict(rules)
+    size = int(data.get("deck_size") or 0)
+    copies = int(data.get("max_copies_except_basic_energy") or 0)
+    prizes = int(data.get("prize_count") or 0)
+    poke_energy = data.get("pokemon_as_energy")
+    if size == 60 and copies == 4 and prizes == 6 and poke_energy is False:
+        return "s60"
+    if size == 30 and copies == 2 and prizes == 3 and poke_energy is False:
+        return "s30"
+    if size == 30 and copies == 4 and prizes == 3 and poke_energy is False:
+        return "c"
+    if poke_energy is False:
+        return "c"
+    return "b"

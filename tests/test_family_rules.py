@@ -148,12 +148,14 @@ def test_seed_e_and_f_use_no_pokemon_energy_preset():
 
     assert _deck_rule_preset("seed-e") == "c"
     assert _deck_rule_preset("seed-f") == "c"
+    assert _deck_rule_preset("seed-t") == "s30"
     assert _deck_rule_preset("seed-a") == "b"
     assert _deck_rule_preset("seed-spare") == "b"
     assert _deck_rule_preset("scanned-uuid") == "any"
     from app.engine.models import default_rule_presets_for, legacy_rule_presets_for, normalize_rule_presets
 
     assert default_rule_presets_for("seed-e") == ["c"]
+    assert default_rule_presets_for("seed-t") == ["s30"]
     assert default_rule_presets_for("seed-a") == ["b"]
     assert default_rule_presets_for(None) == ["b"]
     assert legacy_rule_presets_for("household") == ["b", "c"]
@@ -162,7 +164,8 @@ def test_seed_e_and_f_use_no_pokemon_energy_preset():
     from app.engine.models import canonical_rule_key, infer_rule_preset_from_decks, resolve_simulation_rules
 
     assert canonical_rule_key("Rule C") == "c"
-    assert canonical_rule_key("standard_30") == "c"
+    assert canonical_rule_key("standard_30") == "s30"
+    assert canonical_rule_key("standard_60") == "s60"
     assert infer_rule_preset_from_decks(
         [{"rule_presets": ["c"]}, {"rule_presets": ["c"]}]
     ) == "c"
@@ -317,3 +320,30 @@ def test_family_decks_respect_four_of_same_name():
         + ["Psychic Energy"] * 14
     )
     assert copy_violations(split_line) == []
+
+
+def test_standard_presets_copy_caps_and_deck_size():
+    from dataclasses import replace
+    from app.engine.legality import copy_violations
+    from app.engine.models import infer_rule_preset_from_rules, rules_from_preset
+
+    s30 = rules_from_preset("s30")
+    s60 = rules_from_preset("s60")
+    assert s30.deck_size == 30
+    assert s30.max_copies_except_basic_energy == 2
+    assert s30.pokemon_as_energy is False
+    assert s30.prize_count == 3
+    assert s60.deck_size == 60
+    assert s60.max_copies_except_basic_energy == 4
+    assert s60.prize_count == 6
+    assert s60.pokemon_as_energy is False
+    assert infer_rule_preset_from_rules(s30) == "s30"
+    assert infer_rule_preset_from_rules(s60) == "s60"
+    assert infer_rule_preset_from_rules(replace(s60, prize_count=3)) == "c"
+    assert infer_rule_preset_from_rules(replace(s30, prize_count=6)) == "c"
+    two = build_fallback_deck(["Clefable"] * 2 + ["Psychic Energy"] * 28)
+    assert copy_violations(two, s30) == []
+    three = build_fallback_deck(["Clefable"] * 3 + ["Psychic Energy"] * 27)
+    assert copy_violations(three, s30) == [{"name": "Clefable", "count": 3, "max": 2}]
+    four = build_fallback_deck(["Clefable"] * 4 + ["Psychic Energy"] * 56)
+    assert copy_violations(four, s60) == []

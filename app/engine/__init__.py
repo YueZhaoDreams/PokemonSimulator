@@ -4,6 +4,8 @@ from app.engine.models import (
     default_family_rules,
     no_pokemon_energy_family_rules,
     rules_from_preset,
+    standard_30_rules,
+    standard_60_rules,
 )
 from app.engine.montecarlo import run_simulation
 from app.engine.probability import draw_probability
@@ -15,6 +17,8 @@ __all__ = [
     "default_family_rules",
     "no_pokemon_energy_family_rules",
     "rules_from_preset",
+    "standard_30_rules",
+    "standard_60_rules",
     "run_simulation",
     "draw_probability",
     "suggest_trades",

@@ -8,12 +8,12 @@ from app.engine.models import Card, FamilyRules, default_family_rules
 
 
 def copy_limit_for(card: Card, rules: FamilyRules | None = None) -> int | None:
-    """Family Cup uses Standard constructed caps: 4 of a name, basic Energy unlimited.
+    """Copy cap from the selected rules: Family Cup 4 of a name, Standard 30 is 2 of a name.
 
+    Basic Energy is unlimited. Special Energy (Double Colorless, Boomerang) is not unlimited.
     Pokémon of the same printed name share the cap even across printings
     (Rebel Clash / TWM / CLC Clefable are all \"Clefable\").
     Clefable, Clefable ex, and Mega Clefable ex are different names.
-    Special Energy (Double Colorless, Boomerang) is not unlimited.
     """
     rules = rules or default_family_rules()
     if card.is_energy and not is_special_energy(card):

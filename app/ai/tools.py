@@ -16,7 +16,7 @@ from app.db import (
     save_lab_experiment,
     save_simulation,
 )
-from app.engine.models import Card, resolve_simulation_rules
+from app.engine.models import CANONICAL_RULE_PRESETS, Card, resolve_simulation_rules, rule_preset_label
 from app.engine.montecarlo import run_simulation
 from app.engine.overlay import OverlayError
 from app.engine.probability import draw_probability
@@ -57,7 +57,7 @@ TOOL_SCHEMAS = [
     },
     {
         "name": "simulate_match",
-        "description": "Run a Monte Carlo match between two decks. Use 1000-10000 games. Pass rule_preset b (Pokémon = energy) or c (Standard 30, no Pokémon energy). Does not change the Fight tab or git.",
+        "description": "Run a Monte Carlo match between two decks. Use 1000-10000 games. Pass rule_preset b (30 cards 4 of a name, Pokémon = energy), c (30 cards 4 of a name), s30 (Standard 30, 2 of a name), or s60 (Standard 60). Does not change the Fight tab or git.",
         "parameters": {
             "type": "object",
             "properties": {
@@ -76,7 +76,7 @@ TOOL_SCHEMAS = [
                 "queries": {"type": "array"},
                 "rule_preset": {
                     "type": "string",
-                    "description": "b or c. Omit to infer from the two decks (E/F → c) or use household rules.",
+                    "description": "b, c, s30, or s60. Omit to infer from the two decks (E/F → c) or use household rules.",
                 },
                 "card_overlay": {
                     "type": "object",
@@ -108,7 +108,7 @@ TOOL_SCHEMAS = [
     },
     {
         "name": "get_rules",
-        "description": "Show the household default Family Cup rules plus selectable presets b and c. Simulations may override with rule_preset; this does not change git.",
+        "description": "Show the household default Family Cup rules plus selectable presets b, c, s30, and s60. Simulations may override with rule_preset; this does not change git.",
         "parameters": {"type": "object", "properties": {}},
     },
     {
@@ -170,7 +170,7 @@ TOOL_SCHEMAS = [
                 "experiment_id": {"type": "string"},
                 "games": {"type": "integer"},
                 "seed": {"type": "integer"},
-                "rule_preset": {"type": "string", "description": "b or c; omit to infer from the runs' decks."},
+                "rule_preset": {"type": "string", "description": "b, c, s30, or s60; omit to infer from the runs' decks."},
             },
             "required": ["experiment_id"],
         },
@@ -435,11 +435,10 @@ def run_tool(name: str, args: dict[str, Any]) -> Any:
     if name == "get_rules":
         body = get_rules().to_dict()
         body["selectable_presets"] = [
-            {"id": "b", "label": "Pokémon = energy"},
-            {"id": "c", "label": "Standard 30 cards (no Pokémon energy)"},
+            {"id": key, "label": rule_preset_label(key)} for key in CANONICAL_RULE_PRESETS
         ]
         body["note"] = (
-            "Pass rule_preset b or c on simulate_match or run_lab. "
+            "Pass rule_preset b, c, s30, or s60 on simulate_match or run_lab. "
             "That runs in the chat sandbox and does not change the Fight tab or git."
         )
         return body
