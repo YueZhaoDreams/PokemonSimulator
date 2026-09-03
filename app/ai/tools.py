@@ -545,12 +545,13 @@ def run_tool(name: str, args: dict[str, Any]) -> Any:
                 cell_decks.append(_usable_deck(str(cell.get("deck_a_id") or "")))
                 cell_decks.append(_usable_deck(str(cell.get("deck_b_id") or "")))
             usable_cell_decks = [deck for deck in cell_decks if deck]
-            rules = _match_rules(rule_preset=args.get("rule_preset"), decks=usable_cell_decks or _visible_decks())
+            visible = _visible_decks()
+            rules = _match_rules(rule_preset=args.get("rule_preset"), decks=usable_cell_decks or visible)
             if isinstance(rules, dict) and rules.get("error"):
                 return rules
             return run_lab_script(
                 experiment,
-                decks=_visible_decks(),
+                decks=visible,
                 rules=rules,
                 games=args.get("games"),
                 seed=args.get("seed"),

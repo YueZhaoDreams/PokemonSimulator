@@ -5,7 +5,6 @@ from __future__ import annotations
 import builtins
 import json
 import sys
-from io import StringIO
 from typing import Any
 
 from app.engine.models import Card, FamilyRules
@@ -38,8 +37,23 @@ def _safe_builtins() -> dict[str, Any]:
         "sum",
         "tuple",
         "zip",
+        "Exception",
+        "ValueError",
+        "TypeError",
+        "RuntimeError",
+        "KeyError",
     )
     return {name: getattr(builtins, name) for name in allowed}
+
+
+class _DiscardIO:
+    def write(self, data: object) -> int:
+        if isinstance(data, (bytes, bytearray)):
+            return len(data)
+        return len(str(data))
+
+    def flush(self) -> None:
+        return None
 
 
 def _capped_run_simulation(*args: Any, **kwargs: Any) -> dict:
@@ -122,14 +136,14 @@ def main() -> int:
         "cells": payload.get("cells") or [],
         "report": report,
     }
-    captured = StringIO()
+    discarded = _DiscardIO()
     old_stdout = sys.stdout
-    sys.stdout = captured
+    sys.stdout = discarded
     try:
         exec(compile(script, "<lab-script>", "exec"), env, env)  # noqa: S102 — AST-gated bakeoff only
     finally:
         sys.stdout = old_stdout
-    # Prints are discarded on purpose: stdout is the JSON protocol to the parent.
+    # Prints are discarded: stdout is the JSON protocol to the parent.
     result = reported or env.get("RESULT")
     if not isinstance(result, dict):
         json.dump({"ok": False, "error": "script must call report({...}) or set RESULT"}, sys.stdout)
