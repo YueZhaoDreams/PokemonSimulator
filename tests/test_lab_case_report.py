@@ -109,6 +109,14 @@ def test_save_attempts_and_conclusion_round_trip(tmp_path, monkeypatch):
         assert same_runs.json()["results"] is not None
         assert same_runs.json()["attempts"][0]["win_rate_a"] is not None
 
+        reversed_runs = client.put(
+            f"/api/lab/experiments/{exp['id']}",
+            json={"attempts": list(reversed(same_runs.json()["attempts"]))},
+        )
+        assert reversed_runs.status_code == 200
+        assert reversed_runs.json()["results"] is not None
+        assert all(row["win_rate_a"] is not None for row in reversed_runs.json()["attempts"])
+
         relabeled = client.put(
             f"/api/lab/experiments/{exp['id']}",
             json={
@@ -129,7 +137,8 @@ def test_save_attempts_and_conclusion_round_trip(tmp_path, monkeypatch):
                         "strategy_a": "thrifty",
                         "strategy_b": "carnival",
                     },
-                ]
+                ],
+                "results": report["results"],
             },
         )
         assert relabeled.status_code == 200
@@ -160,3 +169,5 @@ def test_attempts_win_over_cells_and_reject_bad_payload(tmp_path, monkeypatch):
         assert created.json()["cells"][0]["id"] == "new"
         bad = client.post("/api/lab/experiments", json={"question": "bad", "attempts": "nope"})
         assert bad.status_code == 400
+        not_list = client.post("/api/lab/experiments", json={"question": "bad-cells", "cells": {"id": "x"}})
+        assert not_list.status_code == 400

@@ -85,7 +85,12 @@ def payload_cells(payload: dict, existing: dict | None = None) -> list | dict | 
     if "attempts" in payload:
         return cells_from_attempts(payload.get("attempts"))
     if "cells" in payload:
-        return payload["cells"]
+        cells = payload["cells"]
+        if cells is None:
+            return []
+        if not isinstance(cells, list):
+            raise ValueError("cells must be a list")
+        return cells
     if existing is not None:
         return existing.get("cells")
     return []
@@ -128,19 +133,20 @@ def cells_run_key(cells: object) -> list[dict]:
         item = input_fingerprint(cell)
         item["id"] = str(cell.get("id") or f"run-{index + 1}")
         out.append(item)
+    out.sort(key=lambda item: item["id"])
     return out
 
 
 def payload_results(payload: dict, existing: dict | None = None):
-    if "results" in payload:
-        return payload["results"]
-    if existing is None:
-        return None
-    if "attempts" in payload or "cells" in payload:
+    if existing is not None and ("attempts" in payload or "cells" in payload):
         incoming = cells_run_key(payload_cells(payload, existing))
         stored = cells_run_key(existing.get("cells") or [])
         if _canonical(incoming) != _canonical(stored):
             return None
+    if "results" in payload:
+        return payload["results"]
+    if existing is None:
+        return None
     return existing.get("results")
 
 
