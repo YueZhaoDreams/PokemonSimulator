@@ -1,6 +1,6 @@
 # Lab Python sandbox
 
-Status: in_review
+Status: done
 
 Epic: open-trainer-labs
 
