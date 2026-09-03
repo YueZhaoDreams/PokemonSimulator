@@ -2103,7 +2103,7 @@ function rememberChat(chatId) {
 
 function threadTitle(messages) {
   const first = (messages || []).find((m) => m.role === "user" && m.content);
-  const text = (first?.content || "New chat").replace(/\s+/g, " ").trim();
+  const text = (first?.content || "New chat · 新对话").replace(/\s+/g, " ").trim();
   return text.length > 60 ? `${text.slice(0, 57)}…` : text;
 }
 
@@ -2134,7 +2134,7 @@ function startNewChat() {
   state.chatId = null;
   state.history = [];
   rememberChat(null);
-  $("#chatTitle").textContent = "New chat";
+  $("#chatTitle").textContent = "New chat · 新对话";
   $("#chatLog").innerHTML = `<div class="msg bot welcome">${md(CHAT_WELCOME)}</div>`;
   $("#chatInput").value = "";
   showThread();
