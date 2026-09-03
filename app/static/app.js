@@ -695,8 +695,8 @@ function inferRulePreset(rules) {
   const copies = Number(rules.max_copies_except_basic_energy);
   const prizes = Number(rules.prize_count);
   if (size === 60 && copies === 4 && prizes === 6 && rules.pokemon_as_energy === false) return "s60";
-  if (size === 30 && copies === 2 && rules.pokemon_as_energy === false) return "s30";
-  if (size === 30 && copies === 4 && rules.pokemon_as_energy === false) return "c";
+  if (size === 30 && copies === 2 && prizes === 3 && rules.pokemon_as_energy === false) return "s30";
+  if (size === 30 && copies === 4 && prizes === 3 && rules.pokemon_as_energy === false) return "c";
   return "b";
 }
 

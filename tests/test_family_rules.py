@@ -340,6 +340,7 @@ def test_standard_presets_copy_caps_and_deck_size():
     assert infer_rule_preset_from_rules(s30) == "s30"
     assert infer_rule_preset_from_rules(s60) == "s60"
     assert infer_rule_preset_from_rules(replace(s60, prize_count=3)) == "b"
+    assert infer_rule_preset_from_rules(replace(s30, prize_count=6)) == "b"
     two = build_fallback_deck(["Clefable"] * 2 + ["Psychic Energy"] * 28)
     assert copy_violations(two, s30) == []
     three = build_fallback_deck(["Clefable"] * 3 + ["Psychic Energy"] * 27)

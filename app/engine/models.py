@@ -403,8 +403,8 @@ def infer_rule_preset_from_rules(rules: FamilyRules | dict[str, Any] | None) -> 
     poke_energy = data.get("pokemon_as_energy")
     if size == 60 and copies == 4 and prizes == 6 and poke_energy is False:
         return "s60"
-    if size == 30 and copies == 2 and poke_energy is False:
+    if size == 30 and copies == 2 and prizes == 3 and poke_energy is False:
         return "s30"
-    if size == 30 and copies == 4 and poke_energy is False:
+    if size == 30 and copies == 4 and prizes == 3 and poke_energy is False:
         return "c"
     return "b"
