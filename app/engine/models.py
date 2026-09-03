@@ -407,4 +407,6 @@ def infer_rule_preset_from_rules(rules: FamilyRules | dict[str, Any] | None) -> 
         return "s30"
     if size == 30 and copies == 4 and prizes == 3 and poke_energy is False:
         return "c"
+    if poke_energy is False:
+        return "c"
     return "b"

@@ -697,6 +697,7 @@ function inferRulePreset(rules) {
   if (size === 60 && copies === 4 && prizes === 6 && rules.pokemon_as_energy === false) return "s60";
   if (size === 30 && copies === 2 && prizes === 3 && rules.pokemon_as_energy === false) return "s30";
   if (size === 30 && copies === 4 && prizes === 3 && rules.pokemon_as_energy === false) return "c";
+  if (rules.pokemon_as_energy === false) return "c";
   return "b";
 }
 
