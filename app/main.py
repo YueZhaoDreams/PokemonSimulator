@@ -649,7 +649,7 @@ def api_lock_lab_experiment(exp_id: str, payload: dict = Body(default_factory=di
         )
     except ValueError as exc:
         msg = str(exc)
-        if msg in {"experiment not found", "strategy not found", "deck not found"}:
+        if msg.casefold() in {"experiment not found", "strategy not found", "deck not found"}:
             raise HTTPException(404, msg) from exc
         raise HTTPException(400, msg) from exc
 

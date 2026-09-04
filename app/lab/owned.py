@@ -112,11 +112,12 @@ def lock_lab_cell(
         spec_src = cell.get("strategy_b") or "shock"
     spec = resolve_strategy_spec(spec_src, viewer).to_dict()
     title = str(cell.get("title") or cell_id)
+    owner_id = experiment["owner_id"]
     saved = save_user_strategy(
-        owner_id=viewer["id"],
+        owner_id=owner_id,
         name=title,
         spec=spec,
-        strategy_id=lock_strategy_id(viewer["id"], experiment["id"], cell_id),
+        strategy_id=lock_strategy_id(owner_id, experiment["id"], cell_id),
     )
     deck_out = None
     if apply_deck_id:

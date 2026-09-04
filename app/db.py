@@ -647,7 +647,12 @@ def save_user_strategy(
     from app.engine.strategies import StrategySpec
 
     blob = StrategySpec.from_dict(spec).to_dict()
-    raw_id = (strategy_id or "").strip()
+    if strategy_id is None or strategy_id == "":
+        raw_id = ""
+    elif not isinstance(strategy_id, str):
+        raise ValueError("id must be a string")
+    else:
+        raw_id = strategy_id.strip()
     if raw_id.startswith("user:"):
         raw_id = raw_id[5:]
     strategy_id = raw_id or str(uuid.uuid4())
