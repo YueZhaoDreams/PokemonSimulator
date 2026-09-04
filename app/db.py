@@ -74,6 +74,14 @@ CREATE TABLE IF NOT EXISTS lab_experiments (
     created_at TEXT NOT NULL,
     updated_at TEXT NOT NULL
 );
+CREATE TABLE IF NOT EXISTS user_strategies (
+    id TEXT PRIMARY KEY,
+    owner_id TEXT NOT NULL,
+    name TEXT NOT NULL,
+    spec_json TEXT NOT NULL,
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL
+);
 """
 
 LAB_SCRIPT_MAX_CHARS = 65_536
@@ -124,6 +132,7 @@ def init_db() -> None:
         _ensure_owner_columns(conn)
         _ensure_deck_rules_column(conn)
         _ensure_lab_experiments(conn)
+        _ensure_user_strategies(conn)
         admin_id = _ensure_admin(conn)
         _upsert_seed_decks(conn, owner_id=admin_id)
         conn.execute(
@@ -201,6 +210,21 @@ def _ensure_lab_experiments(conn: sqlite3.Connection) -> None:
         conn.execute("ALTER TABLE lab_experiments ADD COLUMN conclusion TEXT")
     if "script_executable" not in cols:
         conn.execute("ALTER TABLE lab_experiments ADD COLUMN script_executable INTEGER NOT NULL DEFAULT 0")
+
+
+def _ensure_user_strategies(conn: sqlite3.Connection) -> None:
+    conn.execute(
+        """
+        CREATE TABLE IF NOT EXISTS user_strategies (
+            id TEXT PRIMARY KEY,
+            owner_id TEXT NOT NULL,
+            name TEXT NOT NULL,
+            spec_json TEXT NOT NULL,
+            created_at TEXT NOT NULL,
+            updated_at TEXT NOT NULL
+        )
+        """
+    )
 
 
 def _ensure_admin(conn: sqlite3.Connection) -> str:
@@ -572,6 +596,88 @@ def save_lab_experiment(
     saved = get_lab_experiment(exp_id)
     if not saved:
         raise RuntimeError("lab experiment was not saved")
+    return saved
+
+
+def _user_strategy_from_row(row: sqlite3.Row) -> dict:
+    return {
+        "id": row["id"],
+        "owner_id": row["owner_id"],
+        "name": row["name"],
+        "spec": json.loads(row["spec_json"]),
+        "created_at": row["created_at"],
+        "updated_at": row["updated_at"],
+    }
+
+
+def get_user_strategy(strategy_id: str) -> dict | None:
+    raw = (strategy_id or "").strip()
+    if raw.startswith("user:"):
+        raw = raw[5:]
+    if not raw:
+        return None
+    with connect() as conn:
+        row = conn.execute("SELECT * FROM user_strategies WHERE id=?", (raw,)).fetchone()
+    return _user_strategy_from_row(row) if row else None
+
+
+def list_user_strategies(owner_id: str, limit: int = 50) -> list[dict]:
+    if not owner_id:
+        return []
+    with connect() as conn:
+        rows = conn.execute(
+            "SELECT * FROM user_strategies WHERE owner_id=? ORDER BY updated_at DESC LIMIT ?",
+            (owner_id, limit),
+        ).fetchall()
+    return [_user_strategy_from_row(row) for row in rows]
+
+
+def save_user_strategy(
+    *,
+    owner_id: str,
+    name: str,
+    spec: dict,
+    strategy_id: str | None = None,
+) -> dict:
+    if not owner_id:
+        raise ValueError("owner_id is required")
+    title = (name or "").strip() or "Saved strategy"
+    if not isinstance(spec, dict):
+        raise ValueError("spec must be an object")
+    from app.engine.strategies import StrategySpec
+
+    blob = StrategySpec.from_dict(spec).to_dict()
+    if strategy_id is None or strategy_id == "":
+        raw_id = ""
+    elif not isinstance(strategy_id, str):
+        raise ValueError("id must be a string")
+    else:
+        raw_id = strategy_id.strip()
+    if raw_id.startswith("user:"):
+        raw_id = raw_id[5:]
+    strategy_id = raw_id or str(uuid.uuid4())
+    now = _now()
+    spec_json = json.dumps(blob)
+    with connect() as conn:
+        existing = conn.execute("SELECT id, owner_id FROM user_strategies WHERE id=?", (strategy_id,)).fetchone()
+        if existing:
+            if existing["owner_id"] != owner_id:
+                raise ValueError("strategy not found")
+            conn.execute(
+                "UPDATE user_strategies SET name=?, spec_json=?, updated_at=? WHERE id=?",
+                (title, spec_json, now, strategy_id),
+            )
+        else:
+            conn.execute(
+                """
+                INSERT INTO user_strategies(id, owner_id, name, spec_json, created_at, updated_at)
+                VALUES (?,?,?,?,?,?)
+                """,
+                (strategy_id, owner_id, title, spec_json, now, now),
+            )
+    saved = get_user_strategy(strategy_id)
+    if not saved:
+        raise RuntimeError("strategy was not saved")
     return saved
 
 

@@ -39,6 +39,7 @@ from app.db import (
     save_lab_experiment,
     save_rules,
     save_simulation,
+    save_user_strategy,
     user_from_session,
 )
 from app.engine.models import (
@@ -55,7 +56,7 @@ from app.engine.models import (
 from app.engine.montecarlo import run_simulation
 from app.engine.overlay import OverlayError
 from app.engine.probability import draw_probability
-from app.engine.strategies import list_strategies, StrategySpec
+from app.lab.owned import listed_strategies_for, lock_lab_cell, resolve_strategy_spec, user_strategy_option_id
 from app.engine.trades import suggest_trades
 from app.lab.report import payload_cells, payload_conclusion, payload_results
 from app.lab.runner import run_lab_experiment
@@ -236,8 +237,8 @@ def api_put_rules(payload: dict, _admin: dict = Depends(require_admin)) -> dict:
 
 
 @app.get("/api/strategies")
-def api_strategies(_user: dict = Depends(require_user)) -> list:
-    return list_strategies()
+def api_strategies(user: dict = Depends(require_user)) -> list:
+    return listed_strategies_for(user)
 
 
 @app.get("/api/decks")
@@ -440,14 +441,14 @@ def api_simulate(payload: dict, user: dict = Depends(require_user)) -> dict:
             [Card.from_dict(c) for c in deck_a["cards"]],
             [Card.from_dict(c) for c in deck_b["cards"]],
             rules,
-            StrategySpec.from_dict(payload.get("strategy_a") or "thrifty"),
-            StrategySpec.from_dict(payload.get("strategy_b") or "shock"),
+            resolve_strategy_spec(payload.get("strategy_a") or "thrifty", user),
+            resolve_strategy_spec(payload.get("strategy_b") or "shock", user),
             card_overlay=overlay,
             card_overlay_a=overlay_a,
             card_overlay_b=overlay_b,
             **sim_kw,
         )
-    except OverlayError as exc:
+    except (OverlayError, ValueError) as exc:
         raise HTTPException(400, str(exc)) from exc
     save_simulation(record)
     return record
@@ -465,16 +466,16 @@ def api_trades(payload: dict, user: dict = Depends(require_user)) -> dict:
             decks=[deck_a, deck_b],
             fallback=get_rules(),
         )
+        return suggest_trades(
+            [Card.from_dict(c) for c in deck_a["cards"]],
+            [Card.from_dict(c) for c in deck_b["cards"]],
+            rules,
+            resolve_strategy_spec(payload.get("strategy_a") or "thrifty", user),
+            resolve_strategy_spec(payload.get("strategy_b") or "shock", user),
+            games=int(payload.get("games") or 240),
+        )
     except ValueError as exc:
         raise HTTPException(400, str(exc)) from exc
-    return suggest_trades(
-        [Card.from_dict(c) for c in deck_a["cards"]],
-        [Card.from_dict(c) for c in deck_b["cards"]],
-        rules,
-        StrategySpec.from_dict(payload.get("strategy_a") or "thrifty"),
-        StrategySpec.from_dict(payload.get("strategy_b") or "shock"),
-        games=int(payload.get("games") or 240),
-    )
 
 
 @app.get("/api/simulations")
@@ -568,6 +569,7 @@ def api_run_lab_experiment(exp_id: str, payload: dict = Body(default_factory=dic
             rules=rules,
             games=payload.get("games"),
             seed=payload.get("seed"),
+            viewer=user,
         )
     except ValueError as exc:
         raise HTTPException(400, str(exc)) from exc
@@ -607,6 +609,49 @@ def api_run_lab_script(exp_id: str, payload: dict = Body(default_factory=dict), 
         )
     except ValueError as exc:
         raise HTTPException(400, str(exc)) from exc
+
+
+@app.post("/api/strategies")
+def api_save_strategy(payload: dict, user: dict = Depends(require_user)) -> dict:
+    spec = payload.get("spec")
+    if not isinstance(spec, dict):
+        raise HTTPException(400, "spec must be an object")
+    try:
+        saved = save_user_strategy(
+            owner_id=user["id"],
+            name=str(payload.get("name") or ""),
+            spec=spec,
+            strategy_id=payload.get("id"),
+        )
+    except ValueError as exc:
+        raise HTTPException(400, str(exc)) from exc
+    return {
+        "id": user_strategy_option_id(saved["id"]),
+        "name": saved["name"],
+        "spec": saved["spec"],
+        "source": "user",
+    }
+
+
+@app.post("/api/lab/experiments/{exp_id}/lock")
+def api_lock_lab_experiment(exp_id: str, payload: dict = Body(default_factory=dict), user: dict = Depends(require_user)) -> dict:
+    existing = get_lab_experiment(exp_id)
+    if not _can_use_experiment(user, existing):
+        raise HTTPException(404, "Not found")
+    try:
+        return lock_lab_cell(
+            existing,
+            viewer=user,
+            cell_id=str(payload.get("cell_id") or payload.get("locked_cell_id") or ""),
+            reason=payload.get("reason") or payload.get("lock_reason"),
+            side=str(payload.get("side") or "b"),
+            apply_deck_id=payload.get("apply_deck_id") or payload.get("deck_id"),
+        )
+    except ValueError as exc:
+        msg = str(exc)
+        if msg.casefold() in {"experiment not found", "strategy not found", "deck not found"}:
+            raise HTTPException(404, msg) from exc
+        raise HTTPException(400, msg) from exc
 
 
 @app.post("/api/chat")

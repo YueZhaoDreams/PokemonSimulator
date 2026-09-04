@@ -132,6 +132,7 @@ def test_two_cell_lab_run_uses_custom_queries_and_stays_out_of_git(tmp_path, mon
 def test_lab_tab_script_lists_question_report():
     text = (ROOT / "app" / "static" / "app.js").read_text()
     html = (ROOT / "app" / "static" / "index.html").read_text()
+    assert "Lock this run" in text
     assert "/api/lab/experiments" in text
     assert "Open report" in text
     assert "Run this again" in text

@@ -770,8 +770,10 @@ function paintArena() {
   if ($("#nameB")) $("#nameB").textContent = b?.name || "Deck B";
   if ($("#mixA")) $("#mixA").innerHTML = mixHtml(a?.cards);
   if ($("#mixB")) $("#mixB").innerHTML = mixHtml(b?.cards);
-  const sa = state.strategies.find((s) => s.name === $("#stratA")?.value);
-  const sb = state.strategies.find((s) => s.name === $("#stratB")?.value);
+  const sa = state.strategies.find((s) => (s.id || s.name) === $("#stratA")?.value)
+    || state.strategies.find((s) => s.name === $("#stratA")?.value);
+  const sb = state.strategies.find((s) => (s.id || s.name) === $("#stratB")?.value)
+    || state.strategies.find((s) => s.name === $("#stratB")?.value);
   if ($("#stratBlurb")) {
     $("#stratBlurb").textContent = [sa?.description, sb?.description].filter(Boolean).join("  ·  ");
   }
@@ -990,7 +992,11 @@ function fillFight() {
   for (const id of ["stratA", "stratB"]) {
     const sel = $(`#${id}`);
     if (!sel) continue;
-    sel.innerHTML = state.strategies.map((s) => `<option value="${esc(s.name)}">${esc(s.name)}</option>`).join("");
+    sel.innerHTML = state.strategies.map((s) => {
+      const value = s.id || s.name;
+      const label = s.source === "user" ? `${s.name} (saved)` : s.name;
+      return `<option value="${esc(value)}">${esc(label)}</option>`;
+    }).join("");
   }
   const stratFallbackA = [...($("#stratA")?.options || [])].some((o) => o.value === "thrifty") ? "thrifty" : null;
   const stratFallbackB = [...($("#stratB")?.options || [])].some((o) => o.value === "shock") ? "shock" : null;
@@ -2367,7 +2373,7 @@ function attemptSetupHtml(input) {
   return `<details><summary>How this run was set up</summary><p class="tiny">${bits.join(" · ")}</p></details>`;
 }
 
-function attemptReportHtml(attempt, seed, games) {
+function attemptReportHtml(attempt, seed, games, exp) {
   const ran = attempt.win_rate_a != null;
   const a = Math.round((attempt.win_rate_a || 0) * 100);
   const b = Math.round((attempt.win_rate_b || 0) * 100);
@@ -2379,12 +2385,17 @@ function attemptReportHtml(attempt, seed, games) {
        <div class="bar"><div class="a" style="width:${a}%"></div><div class="b" style="width:${b}%"></div><div class="t" style="width:${t}%"></div></div>`
     : `<p class="tiny">Not run yet.</p>`;
   const queries = ran ? `<p class="tiny">${queryRateLine(attempt.queries)}</p>` : "";
+  const locked = exp?.locked_cell_id && String(exp.locked_cell_id) === String(attempt.id);
+  const lockBtn = ran && exp?.id
+    ? `<button type="button" class="secondary" data-lock-exp="${esc(exp.id)}" data-lock-cell="${esc(attempt.id)}">${locked ? "Locked" : "Lock this run"}</button>`
+    : "";
   return `<div class="panel lab-attempt">
     <h4>${esc(attempt.title || "This run")}</h4>
     ${bar}
     ${insights ? `<p><b>What we learned</b></p>${insights}` : ""}
     ${queries}
     ${attemptSetupHtml(attempt.input)}
+    ${lockBtn}
   </div>`;
 }
 
@@ -2400,7 +2411,7 @@ function experimentReportHtml(exp) {
     conclusionNote = `<p class="tiny">No conclusion yet. Ask Combo Cub to write one after a run.</p>`;
   }
   const history = attempts.length
-    ? attempts.map((attempt) => attemptReportHtml(attempt, seed, games)).join("")
+    ? attempts.map((attempt) => attemptReportHtml(attempt, seed, games, exp)).join("")
     : `<p class="tiny">No runs yet. Ask Combo Cub to add one, then run this.</p>`;
   return `
     <p><b>Conclusion</b></p>
@@ -2448,6 +2459,26 @@ async function openLabExperiment(expId) {
       btn.textContent = runLabel;
       $("#labDetail").insertAdjacentHTML("beforeend", `<div class="panel">${esc(err.message)}</div>`);
     }
+  });
+  $$("#labDetail [data-lock-cell]").forEach((btn) => {
+    btn.addEventListener("click", async (ev) => {
+      const lockBtn = ev.currentTarget;
+      lockBtn.disabled = true;
+      try {
+        await api(`/api/lab/experiments/${lockBtn.dataset.lockExp}/lock`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ cell_id: lockBtn.dataset.lockCell }),
+        });
+        state.strategies = await api("/api/strategies");
+        fillFight();
+        await openLabExperiment(exp.id);
+        renderLab();
+      } catch (err) {
+        lockBtn.disabled = false;
+        $("#labDetail").insertAdjacentHTML("beforeend", `<div class="panel">${esc(err.message)}</div>`);
+      }
+    });
   });
 }
 

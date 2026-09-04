@@ -1,6 +1,6 @@
 # User-owned strategies
 
-Status: ready
+Status: in_review
 
 Epic: open-trainer-labs
 
@@ -42,10 +42,10 @@ Locking a lab cell is useless if Fight and chat can only pick shipped `STRATEGY_
 
 ## Acceptance Criteria
 
-- [ ] After lock, the trainer sees the saved strategy on Fight and a later simulate uses that overlay.
-- [ ] Second trainer does not see it.
-- [ ] Shipped strategy names in code/`STRATEGY_LIBRARY` are unchanged by lock.
-- [ ] Lock does not write `data/lab/` or `app/`.
+- [x] After lock, the trainer sees the saved strategy on Fight and a later simulate uses that overlay.
+- [x] Second trainer does not see it.
+- [x] Shipped strategy names in code/`STRATEGY_LIBRARY` are unchanged by lock.
+- [x] Lock does not write `data/lab/` or `app/`.
 
 ## Validation Plan
 

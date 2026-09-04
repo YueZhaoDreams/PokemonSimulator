@@ -15,13 +15,14 @@ from app.db import (
     save_deck,
     save_lab_experiment,
     save_simulation,
+    save_user_strategy,
 )
 from app.engine.models import CANONICAL_RULE_PRESETS, Card, resolve_simulation_rules, rule_preset_label
 from app.engine.montecarlo import run_simulation
 from app.engine.overlay import OverlayError
 from app.engine.probability import draw_probability
-from app.engine.strategies import StrategySpec, list_strategies
 from app.engine.trades import suggest_trades
+from app.lab.owned import listed_strategies_for, lock_lab_cell, resolve_strategy_spec, user_strategy_option_id
 from app.lab.report import payload_cells, payload_conclusion, payload_results
 from app.lab.runner import run_lab_experiment
 from app.lab.sandbox import run_lab_script
@@ -67,11 +68,11 @@ TOOL_SCHEMAS = [
                 "games": {"type": "integer", "default": 2000},
                 "strategy_a": {
                     "type": ["string", "object"],
-                    "description": "Preset name (thrifty|shock|nuzzle|party|demolish|slash|phantom|aggressive|setup|control|balanced) or a StrategySpec overlay (weights, when-clauses). Not printed look-N."
+                    "description": "Preset name, user:<id> this trainer owns, or a StrategySpec overlay. Not printed look-N."
                 },
                 "strategy_b": {
                     "type": ["string", "object"],
-                    "description": "Preset name or StrategySpec overlay.",
+                    "description": "Preset name, owned user strategy id, or StrategySpec overlay.",
                 },
                 "question": {"type": "string"},
                 "queries": {"type": "array"},
@@ -196,8 +197,36 @@ TOOL_SCHEMAS = [
     },
     {
         "name": "list_strategies",
-        "description": "List named Family Cup strategies the engine can run (thrifty, shock, party, demolish, slash, …).",
+        "description": "List shipped Family Cup strategies plus this trainer's saved overlays (id starts with user:).",
         "parameters": {"type": "object", "properties": {}},
+    },
+    {
+        "name": "save_strategy",
+        "description": "Save a StrategySpec overlay this trainer owns. Does not change STRATEGY_LIBRARY or git.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {"type": "string"},
+                "spec": {"type": "object", "description": "StrategySpec overlay (weights, when-clauses)."},
+                "id": {"type": "string", "description": "Existing user strategy id to update."},
+            },
+            "required": ["spec"],
+        },
+    },
+    {
+        "name": "lock_lab_cell",
+        "description": "Lock one run on this trainer's lab question: save that run's strategy overlay and record locked_cell_id. Optional apply_deck_id applies the run's data patch to an owned deck. Does not write data/lab/ or app/.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "experiment_id": {"type": "string"},
+                "cell_id": {"type": "string"},
+                "reason": {"type": "string"},
+                "side": {"type": "string", "description": "a or b (default b)."},
+                "apply_deck_id": {"type": "string"},
+            },
+            "required": ["experiment_id", "cell_id"],
+        },
     },
     {
         "name": "search_cards",
@@ -527,6 +556,7 @@ def run_tool(name: str, args: dict[str, Any]) -> Any:
                 rules=rules,
                 games=args.get("games"),
                 seed=args.get("seed"),
+                viewer=user,
             )
         except ValueError as exc:
             return {"error": str(exc)}
@@ -559,7 +589,47 @@ def run_tool(name: str, args: dict[str, Any]) -> Any:
         except ValueError as exc:
             return {"error": str(exc)}
     if name == "list_strategies":
-        return list_strategies()
+        return listed_strategies_for(_VIEWER.get())
+    if name == "save_strategy":
+        user = _VIEWER.get()
+        if not user:
+            return {"error": "sign in required"}
+        spec = args.get("spec")
+        if not isinstance(spec, dict):
+            return {"error": "spec must be an object"}
+        try:
+            saved = save_user_strategy(
+                owner_id=user["id"],
+                name=str(args.get("name") or ""),
+                spec=spec,
+                strategy_id=args.get("id"),
+            )
+        except ValueError as exc:
+            return {"error": str(exc)}
+        return {
+            "id": user_strategy_option_id(saved["id"]),
+            "name": saved["name"],
+            "spec": saved["spec"],
+            "source": "user",
+        }
+    if name == "lock_lab_cell":
+        user = _VIEWER.get()
+        if not user:
+            return {"error": "sign in required"}
+        experiment = get_lab_experiment(args.get("experiment_id") or "")
+        if not _experiment_visible(experiment):
+            return {"error": "experiment not found"}
+        try:
+            return lock_lab_cell(
+                experiment,
+                viewer=user,
+                cell_id=str(args.get("cell_id") or args.get("locked_cell_id") or ""),
+                reason=args.get("reason") or args.get("lock_reason"),
+                side=str(args.get("side") or "b"),
+                apply_deck_id=args.get("apply_deck_id") or args.get("deck_id"),
+            )
+        except ValueError as exc:
+            return {"error": str(exc)}
     if name == "draw_odds":
         deck = _usable_deck(args["deck_id"])
         if not deck:
@@ -594,14 +664,16 @@ def run_tool(name: str, args: dict[str, Any]) -> Any:
                 _cards(deck_a),
                 _cards(deck_b),
                 rules,
-                StrategySpec.from_dict(args.get("strategy_a") or "thrifty"),
-                StrategySpec.from_dict(args.get("strategy_b") or "shock"),
+                resolve_strategy_spec(args.get("strategy_a") or "thrifty", _VIEWER.get()),
+                resolve_strategy_spec(args.get("strategy_b") or "shock", _VIEWER.get()),
                 card_overlay=overlay,
                 card_overlay_a=overlay_a,
                 card_overlay_b=overlay_b,
                 **sim_kw,
             )
         except OverlayError as exc:
+            return {"error": str(exc)}
+        except ValueError as exc:
             return {"error": str(exc)}
         save_simulation(record)
         return {
@@ -623,8 +695,8 @@ def run_tool(name: str, args: dict[str, Any]) -> Any:
             _cards(deck_a),
             _cards(deck_b),
             rules,
-            StrategySpec.from_dict("balanced"),
-            StrategySpec.from_dict("control"),
+            resolve_strategy_spec("balanced", _VIEWER.get()),
+            resolve_strategy_spec("control", _VIEWER.get()),
             games=int(args.get("games") or 240),
         )
         return rec
