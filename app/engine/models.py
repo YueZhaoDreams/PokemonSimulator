@@ -224,7 +224,7 @@ def no_pokemon_energy_family_rules() -> FamilyRules:
 def standard_30_rules() -> FamilyRules:
     """Official-style 30-card Standard: 2 of a name, Pokémon are not energy."""
     return FamilyRules(
-        name="Standard 30 cards",
+        name="Standard 30 cards, 2 of a name",
         deck_size=30,
         prize_count=3,
         pokemon_as_energy=False,
@@ -242,7 +242,7 @@ def standard_30_rules() -> FamilyRules:
 def standard_60_rules() -> FamilyRules:
     """Official Standard constructed: 60 cards, 4 of a name, 6 prizes."""
     return FamilyRules(
-        name="Standard 60 cards",
+        name="Standard 60 cards, 4 of a name",
         deck_size=60,
         prize_count=6,
         pokemon_as_energy=False,
@@ -260,8 +260,8 @@ def standard_60_rules() -> FamilyRules:
 RULE_PRESET_LABELS: dict[str, str] = {
     "b": "30 Cards 4 of a name, Pokémon = Energy",
     "c": "30 Cards 4 of a name",
-    "s30": "Standard 30 cards",
-    "s60": "Standard 60 cards",
+    "s30": "Standard 30 cards, 2 of a name",
+    "s60": "Standard 60 cards, 4 of a name",
 }
 
 RULE_PRESETS: dict[str, FamilyRules] = {

@@ -118,7 +118,12 @@ p { color: var(--muted); line-height: 1.45; }
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
-.rule-banner-pick select { min-width: 160px; font-weight: 800; }
+.rule-banner-pick select {
+  min-width: 22rem;
+  width: max-content;
+  max-width: none;
+  font-weight: 800;
+}
 .rule-strip { display: flex; gap: 6px; flex-wrap: nowrap; overflow-x: auto; min-width: 0; }
 .rule-strip .chip {
   background: #0f1724; color: #c9d7ee; border: 1px solid #3d4d6b;
@@ -665,7 +670,7 @@ body.shiny .brand img { animation: spin 4s linear infinite; }
 @media (max-width: 640px) {
   .ace-frame { width: 72px; height: 100px; }
   .split { grid-template-columns: 1fr; }
-  .rule-banner-pick select { min-width: 0; width: 148px; }
+  .rule-banner-pick select { min-width: 0; width: max-content; max-width: 100%; }
   .rule-strip, #aiPill, #accountEmail { display: none; }
   .brand small { display: none; }
 }
