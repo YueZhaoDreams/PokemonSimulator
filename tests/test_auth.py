@@ -54,9 +54,9 @@ def test_admin_owns_seed_decks_and_members_are_isolated(tmp_path, monkeypatch):
         assert presets[0]["label"] == "30 Cards 4 of a name, Pokémon = Energy"
         assert "Rule B" not in presets[0]["label"]
         assert presets[1]["label"] == "30 Cards 4 of a name"
-        assert presets[2]["label"] == "Standard 30 cards"
+        assert presets[2]["label"] == "Standard 30 cards, 2 of a name"
         assert presets[2]["max_copies_except_basic_energy"] == 2
-        assert presets[3]["label"] == "Standard 60 cards"
+        assert presets[3]["label"] == "Standard 60 cards, 4 of a name"
         assert presets[3]["deck_size"] == 60
         assert presets[3]["max_copies_except_basic_energy"] == 4
 

@@ -121,8 +121,8 @@ def test_index_keeps_combo_cub_controls():
     assert "Talk 语音" not in html
     assert 'id="cubLauncher"' in html
     assert 'src="/static/cub.png"' in html
-    assert 'href="/static/styles.css?v=talk-only-speech"' in html
-    assert 'src="/static/app.js?v=talk-zh-stt"' in html
+    assert 'href="/static/styles.css?v=rule-labels-uncached"' in html
+    assert 'src="/static/app.js?v=rule-labels-uncached"' in html
     assert "<strong>Combo Cub</strong>" in html
     assert 'title="Combo Cub"' in html
     assert ">Scan · fight · chat<" in html
@@ -234,11 +234,16 @@ def test_app_js_keeps_simulator_contracts():
     assert "p_at_least_one" in js
     assert "thrifty" in js
     assert "shock" in js
-    assert "Standard 30 cards" in js
-    assert "Standard 60 cards" in js
+    assert "Standard 30 cards, 2 of a name" in js
+    assert "Standard 60 cards, 4 of a name" in js
     assert "30 Cards 4 of a name" in js
     assert "Pokémon = Energy" in js
     assert "No Pokémon energy" not in js
+    labels = js[js.index("function rulePresetLabel") : js.index("function knownRuleKeys")]
+    assert "fromApi" in labels
+    assert 'if (preset === "c") return "Standard 30 cards"' not in js
+    css = _read("styles.css")
+    assert "width: 148px" not in css
     paint = js[js.index("function paintRules") : js.index("function syncRulePreset")]
     assert "brandTag" not in paint
     assert "inferRulePreset(rules)" in paint

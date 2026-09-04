@@ -892,8 +892,10 @@ function rememberRule(key) {
 }
 
 function rulePresetLabel(preset, fallback) {
-  if (preset === "s60") return "Standard 60 cards";
-  if (preset === "s30") return "Standard 30 cards";
+  const fromApi = (state.rulePresets || []).find((p) => p.preset === preset)?.label;
+  if (fromApi) return fromApi;
+  if (preset === "s60") return "Standard 60 cards, 4 of a name";
+  if (preset === "s30") return "Standard 30 cards, 2 of a name";
   if (preset === "c") return "30 Cards 4 of a name";
   if (preset === "b") return "30 Cards 4 of a name, Pokémon = Energy";
   return fallback || preset || "";
@@ -910,12 +912,12 @@ function ruleChoices() {
     : [
         { preset: "b", label: "30 Cards 4 of a name, Pokémon = Energy" },
         { preset: "c", label: "30 Cards 4 of a name" },
-        { preset: "s30", label: "Standard 30 cards" },
-        { preset: "s60", label: "Standard 60 cards" },
+        { preset: "s30", label: "Standard 30 cards, 2 of a name" },
+        { preset: "s60", label: "Standard 60 cards, 4 of a name" },
       ];
   return presets.map((p) => ({
     preset: p.preset,
-    label: rulePresetLabel(p.preset, p.label),
+    label: p.label || rulePresetLabel(p.preset, p.label),
   }));
 }
 
