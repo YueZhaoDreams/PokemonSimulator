@@ -7,7 +7,7 @@ from app.db import save_lab_experiment
 from app.engine.models import Card, FamilyRules, default_family_rules
 from app.engine.overlay import OverlayError
 from app.engine.montecarlo import query_key, run_simulation
-from app.engine.strategies import StrategySpec
+from app.lab.owned import resolve_strategy_spec
 from app.lab.patches import apply_deck_patch
 from app.lab.report import cells_from_attempts, insights_list, input_fingerprint
 
@@ -30,6 +30,7 @@ def run_lab_experiment(
     rules: FamilyRules | None = None,
     games: int | None = None,
     seed: int | None = None,
+    viewer: dict | None = None,
 ) -> dict:
     cells = experiment.get("cells") or []
     if not cells:
@@ -55,8 +56,8 @@ def run_lab_experiment(
         deck_b = _require_deck(deck_for, cell.get("deck_b_id"), cell_id, "deck_b_id")
         cards_a = apply_deck_patch(deck_a["cards"], cell.get("patch_a"))
         cards_b = apply_deck_patch(deck_b["cards"], cell.get("patch_b"))
-        strat_a = StrategySpec.from_dict(cell.get("strategy_a") or "thrifty")
-        strat_b = StrategySpec.from_dict(cell.get("strategy_b") or "shock")
+        strat_a = resolve_strategy_spec(cell.get("strategy_a") or "thrifty", viewer)
+        strat_b = resolve_strategy_spec(cell.get("strategy_b") or "shock", viewer)
         try:
             record = run_simulation(
                 [Card.from_dict(c) for c in cards_a],
