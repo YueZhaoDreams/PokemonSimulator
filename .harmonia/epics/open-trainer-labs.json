@@ -15,11 +15,17 @@
       "at": "2026-09-03T00:22:32.796902+00:00",
       "author": "operator-chat",
       "text": "Operator passed lab-is-an-experiment after Lab report UX (#65) on http://127.0.0.1:8000. Recorded in passed_gates. Next implement-epic-features session may start lab-python-sandbox and user-owned-strategies."
+    },
+    {
+      "at": "2026-09-04T01:25:44.035511+00:00",
+      "author": "operator-chat",
+      "text": "Operator passed lab-python-safe (hostile checklist / non-executable hostile text is acceptable). Recorded in passed_gates. This implement-epic-features session may start user-owned-strategies."
     }
   ],
   "passed_gates": [
     "coach-isolated",
-    "lab-is-an-experiment"
+    "lab-is-an-experiment",
+    "lab-python-safe"
   ],
   "gate_reports": {
     "coach-isolated": {
@@ -87,7 +93,7 @@
       "verified_at": "2026-09-03T23:58:39.503067+00:00",
       "verifier_agent": "cursor-verify-gate",
       "overall_status": "pass",
-      "notes": "Verified on http://127.0.0.1:8000 after merge of #70 and ./run.sh restart serving 9dcb6a1/dc5aa17. verifier is agent-then-human: do not append passed_gates until the human signs the hostile checklist and confirms we are not storing arbitrary blobs as labs. Do not dispatch user-owned-strategies in this checkpoint session.",
+      "notes": "Verified on http://127.0.0.1:8000 after merge of #70. Operator passed the gate in a new session ('Pass the gate'). Hostile text may be stored as non-executable script_text. user-owned-strategies is unblocked.",
       "steps": [
         {
           "step": "A game-related bakeoff script can be stored as a database row (not a git file) and run; checkout stays clean under app/ and data/lab/.",
@@ -111,9 +117,9 @@
         },
         {
           "step": "Human confirms we are not storing arbitrary blobs as labs.",
-          "status": "partial",
+          "status": "pass",
           "human_required": true,
-          "evidence": "Hostile text is stored as script_text but not executable. Binary literals are rejected as executable. Lab tab copy still describes a question report. Human must nod that keeping non-executable hostile text in the DB is acceptable (not a virus library)."
+          "evidence": "Hostile text is stored as script_text but not executable. Binary literals are rejected as executable. Lab tab copy still describes a question report. Human must nod that keeping non-executable hostile text in the DB is acceptable (not a virus library). Operator passed the gate explicitly in chat (2026-09-03)."
         }
       ]
     }
