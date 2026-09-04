@@ -613,12 +613,14 @@ def api_run_lab_script(exp_id: str, payload: dict = Body(default_factory=dict), 
 
 @app.post("/api/strategies")
 def api_save_strategy(payload: dict, user: dict = Depends(require_user)) -> dict:
-
+    spec = payload.get("spec")
+    if not isinstance(spec, dict):
+        raise HTTPException(400, "spec must be an object")
     try:
         saved = save_user_strategy(
             owner_id=user["id"],
             name=str(payload.get("name") or ""),
-            spec=payload.get("spec") if isinstance(payload.get("spec"), dict) else {},
+            spec=spec,
             strategy_id=payload.get("id"),
         )
     except ValueError as exc:
@@ -647,7 +649,7 @@ def api_lock_lab_experiment(exp_id: str, payload: dict = Body(default_factory=di
         )
     except ValueError as exc:
         msg = str(exc)
-        if "not found" in msg:
+        if msg in {"experiment not found", "strategy not found", "deck not found"}:
             raise HTTPException(404, msg) from exc
         raise HTTPException(400, msg) from exc
 

@@ -106,7 +106,10 @@ def lock_lab_cell(
         raise ValueError("experiment not found")
     cell = _cell_for_lock(experiment, cell_id)
     side_key = "a" if str(side).lower() == "a" else "b"
-    spec_src = cell.get(f"strategy_{side_key}") or cell.get("strategy_b") or cell.get("strategy_a") or "balanced"
+    if side_key == "a":
+        spec_src = cell.get("strategy_a") or "thrifty"
+    else:
+        spec_src = cell.get("strategy_b") or "shock"
     spec = resolve_strategy_spec(spec_src, viewer).to_dict()
     title = str(cell.get("title") or cell_id)
     saved = save_user_strategy(

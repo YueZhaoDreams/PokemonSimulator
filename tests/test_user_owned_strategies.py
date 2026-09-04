@@ -136,6 +136,8 @@ def test_lock_saves_personal_strategy_hidden_from_second_trainer(tmp_path, monke
             },
         )
         assert denied_own_decks.status_code == 400
+        bad_spec = client.post("/api/strategies", json={"name": "nope", "spec": "shock"})
+        assert bad_spec.status_code == 400
 
         token_b = use_viewer(client.get("/api/auth/me").json())
         try:

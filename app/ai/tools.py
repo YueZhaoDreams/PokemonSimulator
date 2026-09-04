@@ -594,11 +594,14 @@ def run_tool(name: str, args: dict[str, Any]) -> Any:
         user = _VIEWER.get()
         if not user:
             return {"error": "sign in required"}
+        spec = args.get("spec")
+        if not isinstance(spec, dict):
+            return {"error": "spec must be an object"}
         try:
             saved = save_user_strategy(
                 owner_id=user["id"],
                 name=str(args.get("name") or ""),
-                spec=args.get("spec") if isinstance(args.get("spec"), dict) else {},
+                spec=spec,
                 strategy_id=args.get("id"),
             )
         except ValueError as exc:
