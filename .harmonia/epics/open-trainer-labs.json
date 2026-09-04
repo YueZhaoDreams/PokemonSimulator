@@ -122,6 +122,30 @@
           "evidence": "Hostile text is stored as script_text but not executable. Binary literals are rejected as executable. Lab tab copy still describes a question report. Human must nod that keeping non-executable hostile text in the DB is acceptable (not a virus library). Operator passed the gate explicitly in chat (2026-09-03)."
         }
       ]
+    },
+    "strategy-lock": {
+      "verified_at": "2026-09-04T02:43:02.955201+00:00",
+      "verifier_agent": "cursor-verify-gate",
+      "overall_status": "pass",
+      "notes": "Verified on http://127.0.0.1:8000 after merge of #72 (0eec928) and ./run.sh restart. consumer is human; verifier is agent-then-human. Do not append strategy-lock to passed_gates until the operator signs Fight UX. Do not dispatch epic-exit in this session.",
+      "steps": [
+        {
+          "step": "After locking a winning cell, that trainer has a saved strategy (and/or updated owned deck) selectable on Fight stratA/stratB and used by a later chat simulate.",
+          "status": "pass",
+          "human_required": true,
+          "evidence": "Registered trainer POST /api/lab/experiments cabb4f24 then /run then /lock mill-run \u2192 strategy user:e631329e (prefer_damage 0.17). GET /api/strategies included that id. POST /api/simulate with strategy_b=user:e631329e returned strategies.b.prefer_damage=0.17. /static/app.js contains Lock this run and option value s.id||s.name. Lab report 2ccfa6b9 on admin session showed heading tried mill overlay and a Locked button. Human: sign in as the locking trainer and confirm Fight B strategy lists 'tried mill overlay (saved)'."
+        },
+        {
+          "step": "Official STRATEGY_LIBRARY names are unchanged unless an operator changed git.",
+          "status": "pass",
+          "evidence": "GET /api/strategies library source still 14 names including thrifty, shock, carnival, party. app/engine/strategies.py mtime unchanged across lock. git log shows no STRATEGY_LIBRARY edit in #72."
+        },
+        {
+          "step": "A second trainer does not see the first trainer's saved strategy.",
+          "status": "pass",
+          "evidence": "Second registered user GET /api/strategies omitted user:e631329e. POST lock on cabb4f24 returned 404. POST /api/simulate with that id on their own decks returned 400. Admin Fight stratA/stratB options were library names only (no mill overlay)."
+        }
+      ]
     }
   }
 }
