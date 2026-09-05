@@ -3,6 +3,7 @@ from __future__ import annotations
 import asyncio
 import json
 import uuid
+from concurrent.futures import ThreadPoolExecutor
 from contextlib import asynccontextmanager
 from pathlib import Path
 
@@ -20,12 +21,15 @@ from app.catalog import PREFERRED_IDS, fill_missing_card_image, lookup_seed_card
 from app.config import SAMPLES_DIR, SESSION_COOKIE, SESSION_DAYS, SESSION_SECURE, STATIC_DIR, UPLOADS_DIR
 from app.db import (
     create_session,
+    create_scan_job,
     create_user,
     delete_deck,
     delete_session,
+    finish_scan_job,
     get_deck,
     get_lab_experiment,
     get_rules,
+    get_scan_job,
     get_simulation,
     get_user_by_email,
     init_db,
@@ -63,6 +67,8 @@ from app.lab.report import payload_cells, payload_conclusion, payload_results
 from app.lab.runner import run_lab_experiment
 from app.lab.sandbox import run_lab_script
 from app.recognition.pipeline import recognize_image
+
+_SCAN_JOBS = ThreadPoolExecutor(max_workers=1)
 
 
 def _set_session_cookie(response: Response, token: str) -> None:
@@ -366,20 +372,36 @@ async def api_recognize(
     suffix = Path(file.filename or "upload.jpg").suffix or ".jpg"
     stored = UPLOADS_DIR / f"{uuid.uuid4()}{suffix}"
     await asyncio.to_thread(stored.write_bytes, raw)
+    job_id = create_scan_job(user["id"])
+    _SCAN_JOBS.submit(_run_scan_job, job_id, raw, file.filename or stored.name, user["id"], save_as)
+    return {"job_id": job_id, "status": "pending"}
+
+
+@app.get("/api/recognize/jobs/{job_id}")
+def api_recognize_job(job_id: str, user: dict = Depends(require_user)) -> dict:
+    job = get_scan_job(job_id, user["id"])
+    if not job:
+        raise HTTPException(404, "Scan not found")
+    return job
+
+
+def _run_scan_job(job_id: str, raw: bytes, filename: str, owner_id: str, save_as: str | None) -> None:
     try:
-        result = await asyncio.to_thread(recognize_image, raw, file.filename or stored.name)
-    except UnidentifiedImageError as exc:
-        raise HTTPException(400, "Could not read that photo. Search by name instead.") from exc
-    if save_as and result.get("cards"):
-        deck = save_deck(
-            save_as,
-            result["cards"],
-            source=str(stored.name),
-            owner_id=user["id"],
-            rule_presets=default_rule_presets_for(None),
-        )
-        result["saved_deck"] = deck
-    return result
+        result = recognize_image(raw, filename=filename)
+        result["cards"] = [fill_missing_card_image(c) for c in result.get("cards") or []]
+        if save_as and result.get("cards"):
+            result["saved_deck"] = save_deck(
+                save_as,
+                result["cards"],
+                source=filename,
+                owner_id=owner_id,
+                rule_presets=default_rule_presets_for(None),
+            )
+        finish_scan_job(job_id, "done", result)
+    except UnidentifiedImageError:
+        finish_scan_job(job_id, "error", {"error": "Could not read that photo. Search by name instead."})
+    except Exception:
+        finish_scan_job(job_id, "error", {"error": "Could not read that photo. Search by name instead."})
 
 
 @app.post("/api/recognize/learn")

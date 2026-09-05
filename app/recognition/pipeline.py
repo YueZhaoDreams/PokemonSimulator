@@ -7,7 +7,7 @@ from functools import partial
 
 from PIL import Image
 
-from app.catalog import resolve_name
+from app.catalog import fallback_card, lookup_seed_card, resolve_name, search_local
 from app.config import llm_provider
 from app.engine.models import Card
 from app.recognition.detector import CROP_HEIGHT, detect_card_boxes, detect_card_crops
@@ -23,7 +23,7 @@ except Exception:  # pragma: no cover
 # Per-card vision and catalog art matching are too slow for a carpet of cards;
 # Safari then shows a long-running-script warning while the request sits open.
 BULK_CROP_COUNT = 4
-SCAN_MAX_SIDE = 2400
+SCAN_MAX_SIDE = 1600
 _OCR_POOL = ThreadPoolExecutor(max_workers=8)
 
 
@@ -32,8 +32,8 @@ def recognize_image(source, filename: str = "", include_previews: bool = False) 
     if max(image.size) > SCAN_MAX_SIDE:
         image = resize_for_vision(image, SCAN_MAX_SIDE)
     notes: list[str] = []
-    boxes = detect_card_boxes(image, max_cards=40)
-    crops = detect_card_crops(image, max_cards=40, target_h=CROP_HEIGHT, boxes=boxes)
+    boxes = detect_card_boxes(image, max_cards=30)
+    crops = detect_card_crops(image, max_cards=30, target_h=CROP_HEIGHT, boxes=boxes)
     if not crops:
         notes.append("No card grid found; reading the whole photo as one card.")
         crops = [image]
@@ -54,7 +54,7 @@ def recognize_image(source, filename: str = "", include_previews: bool = False) 
         identified.append(item)
 
     cards = [
-        _resolve_identified(item, None if bulk else crop)
+        _resolve_identified(item, None if bulk else crop, cheap=bulk)
         for item, crop in zip(identified, oriented_crops)
         if item["name"] != "Unknown"
     ]
@@ -62,7 +62,7 @@ def recognize_image(source, filename: str = "", include_previews: bool = False) 
     if unknown_n:
         notes.append(f"{unknown_n} crops still need a name — search to add the rest.")
     if bulk:
-        notes.append("Read the carpet quickly (no per-card vision) so the phone stays responsive.")
+        notes.append("Read the carpet quickly (no per-card vision or catalog lookups) so Cloudflare does not time out.")
     if cards:
         notes.append(f"Named {len(cards)} cards from individual crops (not the whole photo).")
         source_tag = "crops"
@@ -203,17 +203,32 @@ def _normalize_name(name: str) -> str:
     return aliases.get(name, name)
 
 
-def _resolve_identified(item: dict, crop=None) -> Card:
+def _resolve_identified(item: dict, crop=None, *, cheap: bool = False) -> Card:
     from app.catalog import PRINT_PREFER, fetch_full, normalize_card, _names_match
+
+    name = item["name"]
+    if cheap:
+        seed = lookup_seed_card(name, catalog_id=item.get("catalog_id") or "")
+        if seed:
+            return seed
+        hits = search_local(name, limit=4, remote=False)
+        exact = next((h for h in hits if (h.get("name") or "").lower() == name.lower()), None)
+        if exact:
+            card = fallback_card(name)
+            if exact.get("id"):
+                card.catalog_id = exact["id"]
+            if exact.get("image"):
+                card.image = exact["image"]
+            return card
+        return fallback_card(name)
 
     if item.get("catalog_id"):
         try:
             card = normalize_card(fetch_full(item["catalog_id"]))
-            if _names_match(card.name, item.get("name") or ""):
+            if _names_match(card.name, name or ""):
                 return card
         except Exception:
             pass
-    name = item["name"]
     prefer = list(PRINT_PREFER.get(name) or [])
     if name.lower() == "pikachu":
         prefer = ["paralyze", "Nuzzle", "Thunder Shock", "Tail Whap", "Volt Tackle"]

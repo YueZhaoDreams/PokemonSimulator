@@ -121,8 +121,8 @@ def test_index_keeps_combo_cub_controls():
     assert "Talk 语音" not in html
     assert 'id="cubLauncher"' in html
     assert 'src="/static/cub.png"' in html
-    assert 'href="/static/styles.css?v=scan-multi-card"' in html
-    assert 'src="/static/app.js?v=scan-multi-card"' in html
+    assert 'href="/static/styles.css?v=scan-cf-524"' in html
+    assert 'src="/static/app.js?v=scan-cf-524"' in html
     assert "<strong>Combo Cub</strong>" in html
     assert 'title="Combo Cub"' in html
     assert ">Scan · fight · chat<" in html
@@ -364,6 +364,8 @@ def test_app_js_keeps_simulator_contracts():
     assert "/api/cards/search" in js
     assert "findScan" in js
     assert "async function photoForScan" in js
+    assert "async function recognizePhoto" in js
+    assert "/api/recognize/jobs/" in js
     assert "forceNew: true" in js
     assert 'show("decks")' in js[js.index('$("#findScan")') : js.index("async function photoForScan")]
     assert "function deleteSelectedSet" in js

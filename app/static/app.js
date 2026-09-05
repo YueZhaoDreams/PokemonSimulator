@@ -1745,11 +1745,9 @@ $("#findScan")?.addEventListener("change", async (e) => {
   const file = e.target.files?.[0];
   e.target.value = "";
   if (!file) return;
-  setBusy(true, "Reading the photo…", true);
+    setBusy(true, "Reading the photo…", true);
   try {
-    const fd = new FormData();
-    fd.append("file", await photoForScan(file));
-    const result = await api("/api/recognize", { method: "POST", body: fd });
+    const result = await recognizePhoto(file);
     const cards = (result.cards || []).filter((c) => c.name && c.name !== "Unknown");
     if (!cards.length) throw new Error("Could not read that photo. Search by name instead.");
     const session = pickerTarget;
@@ -1769,13 +1767,31 @@ $("#findScan")?.addEventListener("change", async (e) => {
   }
 });
 
+async function recognizePhoto(file) {
+  const fd = new FormData();
+  fd.append("file", await photoForScan(file));
+  const started = await api("/api/recognize", { method: "POST", body: fd });
+  if (started.cards) return started;
+  const jobId = started.job_id;
+  if (!jobId) throw new Error("Could not start that scan.");
+  const deadline = Date.now() + 180000;
+  while (Date.now() < deadline) {
+    await new Promise((resolve) => setTimeout(resolve, 900));
+    const job = await api(`/api/recognize/jobs/${encodeURIComponent(jobId)}`);
+    if (job.status === "done") return job;
+    if (job.status === "error") throw new Error(job.error || "Could not read that photo. Search by name instead.");
+    setBusy(true, "Still reading the photo…", true);
+  }
+  throw new Error("That photo took too long. Try a closer shot or search by name.");
+}
+
 async function photoForScan(file) {
-  const type = String(file.type || "").toLowerCase();
-  if (type.includes("heic") || type.includes("heif")) return file;
-  if (file.size < 1_200_000) return file;
+  if (file.size < 1_200_000 && !String(file.type || "").toLowerCase().includes("heic") && !String(file.type || "").toLowerCase().includes("heif") && !/\.heic$/i.test(file.name || "")) {
+    return file;
+  }
   try {
     const bmp = await createImageBitmap(file);
-    const maxSide = 2000;
+    const maxSide = 1600;
     const scale = Math.min(1, maxSide / Math.max(bmp.width, bmp.height));
     if (scale >= 1 && file.size < 2_500_000) {
       bmp.close?.();
@@ -1793,7 +1809,7 @@ async function photoForScan(file) {
     }
     ctx.drawImage(bmp, 0, 0, w, h);
     bmp.close?.();
-    const blob = await new Promise((resolve) => canvas.toBlob(resolve, "image/jpeg", 0.82));
+    const blob = await new Promise((resolve) => canvas.toBlob(resolve, "image/jpeg", 0.8));
     if (!blob) return file;
     const base = String(file.name || "scan").replace(/\.[^.]+$/, "");
     return new File([blob], `${base}.jpg`, { type: "image/jpeg" });
