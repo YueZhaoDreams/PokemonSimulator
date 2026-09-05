@@ -69,7 +69,7 @@ def recognize_image(source, filename: str = "", include_previews: bool = False) 
         source_tag = "crops"
     else:
         source_tag = "manual"
-        notes.append("Could not read names automatically. Tap a crop or type a name.")
+        notes.append("Could not read names automatically. Search by name instead.")
 
     previews = []
     preview_b64 = ""
