@@ -82,6 +82,13 @@ CREATE TABLE IF NOT EXISTS user_strategies (
     created_at TEXT NOT NULL,
     updated_at TEXT NOT NULL
 );
+CREATE TABLE IF NOT EXISTS scan_jobs (
+    id TEXT PRIMARY KEY,
+    owner_id TEXT NOT NULL,
+    status TEXT NOT NULL,
+    result_json TEXT,
+    created_at TEXT NOT NULL
+);
 """
 
 LAB_SCRIPT_MAX_CHARS = 65_536
@@ -133,6 +140,7 @@ def init_db() -> None:
         _ensure_deck_rules_column(conn)
         _ensure_lab_experiments(conn)
         _ensure_user_strategies(conn)
+        _ensure_scan_jobs(conn)
         admin_id = _ensure_admin(conn)
         _upsert_seed_decks(conn, owner_id=admin_id)
         conn.execute(
@@ -227,6 +235,20 @@ def _ensure_user_strategies(conn: sqlite3.Connection) -> None:
     )
 
 
+def _ensure_scan_jobs(conn: sqlite3.Connection) -> None:
+    conn.execute(
+        """
+        CREATE TABLE IF NOT EXISTS scan_jobs (
+            id TEXT PRIMARY KEY,
+            owner_id TEXT NOT NULL,
+            status TEXT NOT NULL,
+            result_json TEXT,
+            created_at TEXT NOT NULL
+        )
+        """
+    )
+
+
 def _ensure_admin(conn: sqlite3.Connection) -> str:
     from app.auth import hash_password, normalize_email
 
@@ -273,6 +295,36 @@ def _upsert_seed_decks(conn: sqlite3.Connection, owner_id: str | None = None) ->
 
 def _now() -> str:
     return datetime.now(timezone.utc).isoformat()
+
+
+def create_scan_job(owner_id: str) -> str:
+    job_id = str(uuid.uuid4())
+    with connect() as conn:
+        conn.execute(
+            "INSERT INTO scan_jobs(id, owner_id, status, result_json, created_at) VALUES (?,?,?,?,?)",
+            (job_id, owner_id, "pending", None, _now()),
+        )
+    return job_id
+
+
+def get_scan_job(job_id: str, owner_id: str) -> dict | None:
+    with connect() as conn:
+        row = conn.execute(
+            "SELECT id, owner_id, status, result_json FROM scan_jobs WHERE id=? AND owner_id=?",
+            (job_id, owner_id),
+        ).fetchone()
+    if not row:
+        return None
+    payload = json.loads(row["result_json"]) if row["result_json"] else {}
+    return {"id": row["id"], "status": row["status"], **payload}
+
+
+def finish_scan_job(job_id: str, status: str, payload: dict) -> None:
+    with connect() as conn:
+        conn.execute(
+            "UPDATE scan_jobs SET status=?, result_json=? WHERE id=?",
+            (status, json.dumps(payload), job_id),
+        )
 
 
 def get_rules() -> FamilyRules:

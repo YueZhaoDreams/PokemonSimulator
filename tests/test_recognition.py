@@ -123,7 +123,7 @@ def test_bulk_recognize_skips_vision_and_omits_previews(monkeypatch):
         def to_dict(self):
             return {"name": "Pikachu", "category": "Pokemon"}
 
-    monkeypatch.setattr(pipeline_mod, "_resolve_identified", lambda item, crop=None: _Card())
+    monkeypatch.setattr(pipeline_mod, "_resolve_identified", lambda item, crop=None, cheap=False: _Card())
 
     result = pipeline_mod.recognize_image(b"not-used", filename="carpet.jpg")
     assert vision_calls == []
