@@ -32,14 +32,13 @@ def recognize_image(source, filename: str = "", include_previews: bool = False) 
         image = resize_for_vision(image, SCAN_MAX_SIDE)
     notes: list[str] = []
     boxes = detect_card_boxes(image, max_cards=40)
-    bulk = len(boxes) >= BULK_CROP_COUNT
-    crops = detect_card_crops(image, max_cards=40, target_h=480 if bulk else CROP_HEIGHT)
+    maybe_bulk = len(boxes) >= BULK_CROP_COUNT
+    crops = detect_card_crops(image, max_cards=40, target_h=480 if maybe_bulk else CROP_HEIGHT, boxes=boxes)
     if not crops:
         notes.append("No card grid found; reading the whole photo as one card.")
         crops = [image]
-        bulk = False
     notes.append(f"Cropped {len(crops)} card-shaped regions, then read each one.")
-    bulk = bulk or len(crops) >= BULK_CROP_COUNT
+    bulk = len(crops) >= BULK_CROP_COUNT
 
     scan = partial(_scan_crop, bulk=bulk, filename=filename)
     if bulk and len(crops) > 1:
@@ -51,10 +50,9 @@ def recognize_image(source, filename: str = "", include_previews: bool = False) 
 
     identified: list[dict] = []
     oriented_crops: list[Image.Image] = []
-    for oriented, item, note in parts:
+    for oriented, item, crop_notes in parts:
         oriented_crops.append(oriented)
-        if note:
-            notes.append(note)
+        notes.extend(crop_notes)
         identified.append(item)
 
     cards = [
@@ -111,10 +109,10 @@ def learn_crop(image: Image.Image, name: str, source: str = "") -> dict:
     return card.to_dict()
 
 
-def _scan_crop(crop: Image.Image, *, bulk: bool, filename: str) -> tuple[Image.Image, dict, str]:
+def _scan_crop(crop: Image.Image, *, bulk: bool, filename: str) -> tuple[Image.Image, dict, list[str]]:
     gallery_name, gallery_conf, _dist, gallery_id = match_crop(crop)
     result = {"name": None, "confidence": 0.0, "ocr": "", "oriented": crop}
-    note = ""
+    crop_notes: list[str] = []
     if gallery_name and gallery_conf >= 88:
         name, conf, source_tag = gallery_name, gallery_conf, "gallery"
         oriented = crop
@@ -126,7 +124,7 @@ def _scan_crop(crop: Image.Image, *, bulk: bool, filename: str) -> tuple[Image.I
         try:
             result = identify_crop(crop, quick=bulk)
         except Exception as exc:
-            note = f"OCR skipped ({type(exc).__name__})."
+            crop_notes.append(f"OCR skipped ({type(exc).__name__}).")
             result = {"name": None, "confidence": 0.0, "ocr": "", "oriented": crop}
         oriented = result["oriented"] if isinstance(result.get("oriented"), Image.Image) else crop
         if gallery_name is None:
@@ -152,7 +150,7 @@ def _scan_crop(crop: Image.Image, *, bulk: bool, filename: str) -> tuple[Image.I
                 conf = max(conf, 92)
                 source_tag = "crop-vision"
         except Exception as exc:
-            note = f"Per-card vision skipped ({type(exc).__name__})."
+            crop_notes.append(f"Per-card vision skipped ({type(exc).__name__}).")
     if not name:
         return (
             oriented,
@@ -163,7 +161,7 @@ def _scan_crop(crop: Image.Image, *, bulk: bool, filename: str) -> tuple[Image.I
                 "needs_review": True,
                 "ocr": result.get("ocr") or "",
             },
-            note,
+            crop_notes,
         )
     clean = _normalize_name(name)
     item = {
@@ -179,7 +177,7 @@ def _scan_crop(crop: Image.Image, *, bulk: bool, filename: str) -> tuple[Image.I
             remember_crop(oriented, clean, source=filename)
         except Exception:
             pass
-    return oriented, item, note
+    return oriented, item, crop_notes
 
 
 def _dull_background(image: Image.Image) -> bool:

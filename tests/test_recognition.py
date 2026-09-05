@@ -133,6 +133,41 @@ def test_bulk_recognize_skips_vision_and_omits_previews(monkeypatch):
     assert any("no per-card vision" in note for note in result["notes"])
 
 
+def test_detect_card_crops_reuses_passed_boxes(monkeypatch):
+    from PIL import Image
+
+    from app.recognition import detector as detector_mod
+
+    calls = []
+    monkeypatch.setattr(detector_mod, "detect_card_boxes", lambda *_a, **_k: calls.append(True) or [])
+    dummy = Image.new("RGB", (80, 80), (10, 10, 10))
+    assert detector_mod.detect_card_crops(dummy, boxes=[]) == []
+    assert calls == []
+
+
+def test_scan_crop_keeps_ocr_and_vision_notes(monkeypatch):
+    from PIL import Image
+
+    from app.recognition import pipeline as pipeline_mod
+
+    dummy = Image.new("RGB", (40, 60), (80, 80, 80))
+    monkeypatch.setattr(pipeline_mod, "match_crop", lambda *_a, **_k: (None, 0.0, 99, None))
+    monkeypatch.setattr(pipeline_mod, "_dull_background", lambda *_a, **_k: False)
+
+    def _ocr(*_a, **_k):
+        raise RuntimeError("ocr")
+
+    def _vision(*_a, **_k):
+        raise RuntimeError("vision")
+
+    monkeypatch.setattr(pipeline_mod, "identify_crop", _ocr)
+    monkeypatch.setattr(pipeline_mod, "llm_provider", lambda: "grok")
+    monkeypatch.setattr(pipeline_mod, "identify_one_card_with_vision", _vision)
+    _oriented, _item, notes = pipeline_mod._scan_crop(dummy, bulk=False, filename="x")
+    assert any("OCR skipped" in n for n in notes)
+    assert any("vision skipped" in n for n in notes)
+
+
 def test_gallery_roundtrip(tmp_path, monkeypatch):
     from app.recognition import gallery as gallery_mod
 
