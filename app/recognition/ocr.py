@@ -35,6 +35,7 @@ ENERGY_WORDS = {
     "fire": "Fire Energy",
     "water": "Water Energy",
     "lightning": "Lightning Energy",
+    "electric": "Lightning Energy",
     "psychic": "Psychic Energy",
     "fighting": "Fighting Energy",
     "darkness": "Darkness Energy",
@@ -60,6 +61,8 @@ PHRASE_HINTS = {
     "gentle slap": "Hisuian Sliggoo",
     "rigidify": "Hisuian Sliggoo",
     "trekking shoes": "Trekking Shoes",
+    "redeemable ticket": "Redeemable Ticket",
+    "boomerang energy": "Boomerang Energy",
     "energy switch": "Energy Switch",
     "energy search": "Energy Search",
     "energy retrieval": "Energy Retrieval",
@@ -114,6 +117,9 @@ def name_lexicon() -> list[str]:
         "Energy Switch",
         "Energy Search",
         "Energy Retrieval",
+        "Redeemable Ticket",
+        "Boomerang Energy",
+        "Iono",
         "Lake Acuity",
         "Trekking Shoes",
         "Tool Box",
@@ -154,14 +160,17 @@ def _prepare(gray: np.ndarray) -> list[np.ndarray]:
     return [clahe, 255 - otsu, otsu]
 
 
-def _ocr_text(gray: np.ndarray, psm: int = 7) -> str:
+def _ocr_text(gray: np.ndarray, psm: int = 7, quick: bool = False) -> str:
     if not HAS_TESSERACT:
         return ""
     import pytesseract
 
     blobs = []
     config = f"--oem 3 --psm {psm} -c tessedit_char_whitelist=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-"
-    for img in _prepare(gray):
+    prepared = _prepare(gray)
+    if quick:
+        prepared = prepared[:1]
+    for img in prepared:
         try:
             text = pytesseract.image_to_string(img, config=config) or ""
         except Exception:
@@ -234,17 +243,18 @@ def _match_phrases(blob: str) -> tuple[str | None, float]:
     return None, 0.0
 
 
-def identify_crop(image: Image.Image) -> dict:
+def identify_crop(image: Image.Image, quick: bool = False) -> dict:
     bgr = _to_bgr(image)
     gray = cv2.cvtColor(bgr, cv2.COLOR_BGR2GRAY)
     best_name, best_score, best_rot, raw = None, 0.0, 0, ""
+    done_at = 90 if quick else 99
     for rot in range(4):
         rotated = np.rot90(gray, rot)
         h, w = rotated.shape
         band_h = max(28, int(h * 0.24))
-        text = _ocr_text(rotated[:band_h, :], psm=7)
+        text = _ocr_text(rotated[:band_h, :], psm=7, quick=quick)
         name, score = _match_lexicon(text)
-        if (not name or score < 90) and min(h, w) >= 60:
+        if (not name or score < 90) and min(h, w) >= 60 and not quick:
             full = _ocr_text(rotated, psm=6)
             n2, s2 = _match_lexicon(full)
             if s2 > score:
@@ -253,18 +263,19 @@ def identify_crop(image: Image.Image) -> dict:
             raw = text
         if name and score > best_score:
             best_name, best_score, best_rot, raw = name, score, rot, text
-        if best_score >= 99:
+        if best_score >= done_at:
             break
     oriented = image
     if best_rot:
         oriented = Image.fromarray(np.rot90(np.array(image.convert("RGB")), best_rot))
-    elif best_name is None:
+    elif best_name is None and not quick:
         # Prefer the rotation whose top band looks most like a title (letters, not carpet).
         oriented = _guess_upright(image, gray)
         best_rot = 0
-    attack_ocr = _ocr_attack_band(oriented)
-    if attack_ocr:
-        raw = f"{raw} {attack_ocr}".strip()
+    if not quick:
+        attack_ocr = _ocr_attack_band(oriented)
+        if attack_ocr:
+            raw = f"{raw} {attack_ocr}".strip()
     return {
         "name": best_name,
         "confidence": round(best_score, 1),
