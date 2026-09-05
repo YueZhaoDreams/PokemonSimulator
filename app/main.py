@@ -365,7 +365,7 @@ async def api_recognize(
     UPLOADS_DIR.mkdir(parents=True, exist_ok=True)
     suffix = Path(file.filename or "upload.jpg").suffix or ".jpg"
     stored = UPLOADS_DIR / f"{uuid.uuid4()}{suffix}"
-    stored.write_bytes(raw)
+    await asyncio.to_thread(stored.write_bytes, raw)
     try:
         result = await asyncio.to_thread(recognize_image, raw, file.filename or stored.name)
     except UnidentifiedImageError as exc:

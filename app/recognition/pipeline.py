@@ -24,6 +24,7 @@ except Exception:  # pragma: no cover
 # Safari then shows a long-running-script warning while the request sits open.
 BULK_CROP_COUNT = 4
 SCAN_MAX_SIDE = 2400
+_OCR_POOL = ThreadPoolExecutor(max_workers=8)
 
 
 def recognize_image(source, filename: str = "", include_previews: bool = False) -> dict:
@@ -42,9 +43,7 @@ def recognize_image(source, filename: str = "", include_previews: bool = False) 
 
     scan = partial(_scan_crop, bulk=bulk, filename=filename)
     if bulk and len(crops) > 1:
-        workers = min(8, len(crops))
-        with ThreadPoolExecutor(max_workers=workers) as pool:
-            parts = list(pool.map(scan, crops))
+        parts = list(_OCR_POOL.map(scan, crops))
     else:
         parts = [scan(crop) for crop in crops]
 
@@ -62,7 +61,7 @@ def recognize_image(source, filename: str = "", include_previews: bool = False) 
     ]
     unknown_n = sum(1 for item in identified if item["name"] == "Unknown")
     if unknown_n:
-        notes.append(f"{unknown_n} crops still need a name — tap a thumbnail to fix it.")
+        notes.append(f"{unknown_n} crops still need a name — search to add the rest.")
     if bulk:
         notes.append("Read the carpet quickly (no per-card vision) so the phone stays responsive.")
     if cards:
