@@ -94,6 +94,81 @@ def test_gallery_contains_labeled_family_cards():
     assert "Metang" in names
 
 
+def test_lexicon_reads_electric_energy_as_lightning():
+    name, score = _match_lexicon("Basic Electric Energy")
+    assert name == "Lightning Energy"
+    assert score >= 90
+
+
+def test_bulk_recognize_skips_vision_and_omits_previews(monkeypatch):
+    from PIL import Image
+
+    from app.recognition import pipeline as pipeline_mod
+
+    dummy = Image.new("RGB", (120, 168), (40, 80, 200))
+    vision_calls = []
+
+    monkeypatch.setattr(pipeline_mod, "load_image", lambda *_a, **_k: dummy)
+    monkeypatch.setattr(pipeline_mod, "detect_card_boxes", lambda *_a, **_k: [object()] * 8)
+    monkeypatch.setattr(pipeline_mod, "detect_card_crops", lambda *_a, **_k: [dummy] * 8)
+    monkeypatch.setattr(pipeline_mod, "match_crop", lambda *_a, **_k: ("Pikachu", 95.0, 0, "sv-pikachu"))
+    monkeypatch.setattr(pipeline_mod, "llm_provider", lambda: "grok")
+    monkeypatch.setattr(
+        pipeline_mod,
+        "identify_one_card_with_vision",
+        lambda *_a, **_k: vision_calls.append(True) or "Raichu",
+    )
+
+    class _Card:
+        def to_dict(self):
+            return {"name": "Pikachu", "category": "Pokemon"}
+
+    monkeypatch.setattr(pipeline_mod, "_resolve_identified", lambda item, crop=None: _Card())
+
+    result = pipeline_mod.recognize_image(b"not-used", filename="carpet.jpg")
+    assert vision_calls == []
+    assert result["detected_regions"] == 8
+    assert len(result["cards"]) == 8
+    assert result["crops"] == []
+    assert result["preview_jpeg_b64"] == ""
+    assert any("no per-card vision" in note for note in result["notes"])
+
+
+def test_detect_card_crops_reuses_passed_boxes(monkeypatch):
+    from PIL import Image
+
+    from app.recognition import detector as detector_mod
+
+    calls = []
+    monkeypatch.setattr(detector_mod, "detect_card_boxes", lambda *_a, **_k: calls.append(True) or [])
+    dummy = Image.new("RGB", (80, 80), (10, 10, 10))
+    assert detector_mod.detect_card_crops(dummy, boxes=[]) == []
+    assert calls == []
+
+
+def test_scan_crop_keeps_ocr_and_vision_notes(monkeypatch):
+    from PIL import Image
+
+    from app.recognition import pipeline as pipeline_mod
+
+    dummy = Image.new("RGB", (40, 60), (80, 80, 80))
+    monkeypatch.setattr(pipeline_mod, "match_crop", lambda *_a, **_k: (None, 0.0, 99, None))
+    monkeypatch.setattr(pipeline_mod, "_dull_background", lambda *_a, **_k: False)
+
+    def _ocr(*_a, **_k):
+        raise RuntimeError("ocr")
+
+    def _vision(*_a, **_k):
+        raise RuntimeError("vision")
+
+    monkeypatch.setattr(pipeline_mod, "identify_crop", _ocr)
+    monkeypatch.setattr(pipeline_mod, "llm_provider", lambda: "grok")
+    monkeypatch.setattr(pipeline_mod, "identify_one_card_with_vision", _vision)
+    _oriented, _item, notes = pipeline_mod._scan_crop(dummy, bulk=False, filename="x")
+    assert any("OCR skipped" in n for n in notes)
+    assert any("vision skipped" in n for n in notes)
+
+
 def test_gallery_roundtrip(tmp_path, monkeypatch):
     from app.recognition import gallery as gallery_mod
 

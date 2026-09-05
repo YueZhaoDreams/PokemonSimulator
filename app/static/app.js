@@ -1262,7 +1262,7 @@ function paintCardPickerChrome() {
     } else if (adding) {
       $("#findHint").textContent = `Search or scan, then tap + to add a card to ${deck?.name || "this set"}.`;
     } else {
-      $("#findHint").textContent = "Search or scan. Tap a card to see details and add it to a set.";
+      $("#findHint").textContent = "Search or scan. A photo of several cards starts a new set.";
     }
   }
   syncNewSetWrap();
@@ -1481,16 +1481,17 @@ async function takeCard(card, session = pickerTarget) {
   if (session?.kind !== "detail" && session && pickerTarget?.seq === seq) closeCardSheet();
 }
 
-async function addCardsToSet(cards, session = pickerTarget) {
+async function addCardsToSet(cards, session = pickerTarget, opts = {}) {
   const named = (cards || []).filter((c) => c && c.name && c.name !== "Unknown");
   if (!named.length) throw new Error("No named cards to add");
   if (session?.kind === "replace") {
     await takeCard(named[0], session);
     return;
   }
-  const sel = $("#addToSet")?.value;
+  const sel = opts.forceNew ? "__new__" : $("#addToSet")?.value;
   if (!sel || sel === "__new__") {
-    const name = ($("#newSetName")?.value || "New set").trim() || "New set";
+    const fallback = named.length > 1 ? "Scanned set" : "New set";
+    const name = ($("#newSetName")?.value || fallback).trim() || fallback;
     const saved = await api("/api/decks", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -1747,7 +1748,7 @@ $("#findScan")?.addEventListener("change", async (e) => {
   setBusy(true, "Reading the photo…", true);
   try {
     const fd = new FormData();
-    fd.append("file", file);
+    fd.append("file", await photoForScan(file));
     const result = await api("/api/recognize", { method: "POST", body: fd });
     const cards = (result.cards || []).filter((c) => c.name && c.name !== "Unknown");
     if (!cards.length) throw new Error("Could not read that photo. Search by name instead.");
@@ -1758,8 +1759,8 @@ $("#findScan")?.addEventListener("change", async (e) => {
     } else if (cards.length === 1) {
       await openCardDetail(cards[0]);
     } else {
-      paintHits($("#addHits"), cards);
-      toast(`Found ${cards.length} cards. Tap one for details.`);
+      await addCardsToSet(cards, null, { forceNew: true });
+      show("decks");
     }
   } catch (err) {
     toast(err.message, "bad");
@@ -1767,6 +1768,39 @@ $("#findScan")?.addEventListener("change", async (e) => {
     setBusy(false);
   }
 });
+
+async function photoForScan(file) {
+  const type = String(file.type || "").toLowerCase();
+  if (type.includes("heic") || type.includes("heif")) return file;
+  if (file.size < 1_200_000) return file;
+  try {
+    const bmp = await createImageBitmap(file);
+    const maxSide = 2000;
+    const scale = Math.min(1, maxSide / Math.max(bmp.width, bmp.height));
+    if (scale >= 1 && file.size < 2_500_000) {
+      bmp.close?.();
+      return file;
+    }
+    const w = Math.max(1, Math.round(bmp.width * scale));
+    const h = Math.max(1, Math.round(bmp.height * scale));
+    const canvas = document.createElement("canvas");
+    canvas.width = w;
+    canvas.height = h;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) {
+      bmp.close?.();
+      return file;
+    }
+    ctx.drawImage(bmp, 0, 0, w, h);
+    bmp.close?.();
+    const blob = await new Promise((resolve) => canvas.toBlob(resolve, "image/jpeg", 0.82));
+    if (!blob) return file;
+    const base = String(file.name || "scan").replace(/\.[^.]+$/, "");
+    return new File([blob], `${base}.jpg`, { type: "image/jpeg" });
+  } catch {
+    return file;
+  }
+}
 
 function pct(n) {
   return Math.round((n || 0) * 100);

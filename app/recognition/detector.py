@@ -43,8 +43,16 @@ def detect_card_boxes(image: Image.Image, max_cards: int = 40) -> list[np.ndarra
     return boxes[:max_cards]
 
 
-def detect_card_crops(image: Image.Image, max_cards: int = 40, target_h: int = CROP_HEIGHT) -> list[Image.Image]:
-    boxes = detect_card_boxes(image, max_cards=max_cards)
+def detect_card_crops(
+    image: Image.Image,
+    max_cards: int = 40,
+    target_h: int = CROP_HEIGHT,
+    boxes: list[np.ndarray] | None = None,
+) -> list[Image.Image]:
+    if boxes is None:
+        boxes = detect_card_boxes(image, max_cards=max_cards)
+    else:
+        boxes = boxes[:max_cards]
     rgb = np.array(image.convert("RGB"))
     bgr = cv2.cvtColor(rgb, cv2.COLOR_RGB2BGR)
     crops = []

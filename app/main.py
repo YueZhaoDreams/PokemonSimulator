@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import asyncio
 import json
 import uuid
 from contextlib import asynccontextmanager
@@ -364,9 +365,9 @@ async def api_recognize(
     UPLOADS_DIR.mkdir(parents=True, exist_ok=True)
     suffix = Path(file.filename or "upload.jpg").suffix or ".jpg"
     stored = UPLOADS_DIR / f"{uuid.uuid4()}{suffix}"
-    stored.write_bytes(raw)
+    await asyncio.to_thread(stored.write_bytes, raw)
     try:
-        result = recognize_image(raw, filename=file.filename or stored.name)
+        result = await asyncio.to_thread(recognize_image, raw, file.filename or stored.name)
     except UnidentifiedImageError as exc:
         raise HTTPException(400, "Could not read that photo. Search by name instead.") from exc
     if save_as and result.get("cards"):
