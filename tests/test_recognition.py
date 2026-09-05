@@ -109,6 +109,7 @@ def test_bulk_recognize_skips_vision_and_omits_previews(monkeypatch):
     vision_calls = []
 
     monkeypatch.setattr(pipeline_mod, "load_image", lambda *_a, **_k: dummy)
+    monkeypatch.setattr(pipeline_mod, "detect_card_boxes", lambda *_a, **_k: [object()] * 8)
     monkeypatch.setattr(pipeline_mod, "detect_card_crops", lambda *_a, **_k: [dummy] * 8)
     monkeypatch.setattr(pipeline_mod, "match_crop", lambda *_a, **_k: ("Pikachu", 95.0, 0, "sv-pikachu"))
     monkeypatch.setattr(pipeline_mod, "llm_provider", lambda: "grok")

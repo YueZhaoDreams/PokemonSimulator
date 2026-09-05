@@ -33,8 +33,7 @@ def recognize_image(source, filename: str = "", include_previews: bool = False) 
         image = resize_for_vision(image, SCAN_MAX_SIDE)
     notes: list[str] = []
     boxes = detect_card_boxes(image, max_cards=40)
-    maybe_bulk = len(boxes) >= BULK_CROP_COUNT
-    crops = detect_card_crops(image, max_cards=40, target_h=480 if maybe_bulk else CROP_HEIGHT, boxes=boxes)
+    crops = detect_card_crops(image, max_cards=40, target_h=CROP_HEIGHT, boxes=boxes)
     if not crops:
         notes.append("No card grid found; reading the whole photo as one card.")
         crops = [image]
