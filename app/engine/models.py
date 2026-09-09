@@ -361,18 +361,22 @@ def default_rule_presets_for(deck_id: str | None) -> list[str]:
         return ["c"]
     if did == "seed-t":
         return ["s30"]
+    if did == "seed-g":
+        return ["s60"]
     if did.startswith("seed-"):
         return ["b"]
     return ["b"]
 
 
 def legacy_rule_presets_for(deck_id: str | None) -> list[str]:
-    """Pre-column sets: seeds stay B/C/s30; household lists used to match every filter."""
+    """Pre-column sets: seeds stay B/C/s30/s60; household lists used to match every filter."""
     did = str(deck_id or "")
     if did in {"seed-e", "seed-f"}:
         return ["c"]
     if did == "seed-t":
         return ["s30"]
+    if did == "seed-g":
+        return ["s60"]
     if did.startswith("seed-"):
         return ["b"]
     return ["b", "c"]

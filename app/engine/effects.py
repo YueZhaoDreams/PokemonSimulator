@@ -200,7 +200,28 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
     if "discard an energy" in t or "discard 1 energy" in t or "discard a energy" in t:
         n = re.search(r"discard (\d+) energy", t)
         effects.append({"kind": "discard_energy", "count": int(n.group(1)) if n else 1})
-    if "confus" in t:
+    prize_swing = re.search(
+        r"exactly (\d+) prize cards? remaining.*?(\d+) more damage",
+        t,
+    )
+    if prize_swing:
+        effects.append(
+            {
+                "kind": "opponent_prize_bonus",
+                "prizes": int(prize_swing.group(1)),
+                "bonus": int(prize_swing.group(2)),
+            }
+        )
+        if "confus" in t:
+            effects.append(
+                {
+                    "kind": "status",
+                    "status": "confused",
+                    "coin": coin,
+                    "if_opponent_prizes": int(prize_swing.group(1)),
+                }
+            )
+    elif "confus" in t:
         effects.append({"kind": "status", "status": "confused", "coin": coin})
 
     heal = re.search(r"heal (\d+)", t)
@@ -245,7 +266,10 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
         effects.append({"kind": "mill_opponent", "count": int(top.group(1)) if top else 1})
 
     if "this attack does nothing" in t:
-        effects.append({"kind": "coin_whiff"})
+        if "same number of cards in your hand" in t:
+            effects.append({"kind": "require_equal_hands"})
+        else:
+            effects.append({"kind": "coin_whiff"})
 
     # Mewtwo Transfer Charge: attach Basic Psychic Energy from discard.
     if "discard pile" in t and "attach" in t and "energy" in t and "up to" in t:
@@ -310,7 +334,17 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
         if psychic_ref and "attached" in t and "discarded" not in t:
             effects.append({"kind": "psychic_energy_times", "per": parse_damage(damage_raw) or 20})
         elif "discarded" not in t:
-            effects.append({"kind": "times", "note": damage_raw or text})
+            coin_times = re.search(r"flip (\d+) coins?.*?for each heads", t)
+            if coin_times:
+                effects.append(
+                    {
+                        "kind": "coin_times",
+                        "flips": int(coin_times.group(1)),
+                        "per": parse_damage(damage_raw) or 10,
+                    }
+                )
+            else:
+                effects.append({"kind": "times", "note": damage_raw or text})
 
     # Dondozo (Paradox Rift): Supplemental Swallow-Up
     if "attach any number of basic energy" in t and "top" in t:
@@ -329,7 +363,10 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
         )
 
     # Flutter Mane Hex Hurl: damage counters on benched Pokémon
-    bench = re.search(r"put (\d+) damage counters? on your opponent'?s? benched", t)
+    bench = re.search(
+        r"put (\d+) damage counters? on (?:1 of )?your opponent'?s? benched",
+        t,
+    )
     if bench:
         effects.append({"kind": "bench_damage_counters", "counters": int(bench.group(1))})
 

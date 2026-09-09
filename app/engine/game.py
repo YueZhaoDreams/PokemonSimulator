@@ -2325,6 +2325,9 @@ class Game:
             if effect.get("kind") == "coin_whiff" and self.rng.random() < 0.5:
                 self._log(f"{attacker.name} used {atk.name} but it did nothing")
                 return
+            if effect.get("kind") == "require_equal_hands" and len(me.hand) != len(foe.hand):
+                self._log(f"{attacker.name} used {atk.name} but it did nothing")
+                return
 
         dmg = self._raw_attack_damage(me, foe, me.active, atk)
         moons = next((e for e in atk.effects if e.get("kind") == "discard_hand_energy_bonus"), None)
@@ -2357,6 +2360,9 @@ class Game:
 
         for effect in atk.effects:
             if effect.get("kind") == "status":
+                need = effect.get("if_opponent_prizes")
+                if need is not None and len(foe.prizes) != int(need):
+                    continue
                 if effect.get("coin") and self.rng.random() < 0.5:
                     self._bump(f"status_fail:{attacker.name}:{defender.name}:{effect['status']}")
                     continue
@@ -3343,7 +3349,19 @@ class Game:
             dmg = atk.damage + self._damage_counter_bonus(atk) * (foe.active.damage // 10)
         elif any(e.get("kind") == "times" for e in atk.effects):
             dmg = atk.damage * max(1, sum(1 for i in me.discard if "tatsu" in me.card(i).name.lower()))
+        elif any(e.get("kind") == "coin_times" for e in atk.effects):
+            flips = 1
+            per = atk.damage or 10
+            for effect in atk.effects:
+                if effect.get("kind") == "coin_times":
+                    flips = int(effect.get("flips") or 1)
+                    per = int(effect.get("per") or atk.damage or 10)
+            dmg = per * sum(1 for _ in range(flips) if self.rng.random() < 0.5)
         for effect in atk.effects:
+            if effect.get("kind") == "opponent_prize_bonus":
+                need = int(effect.get("prizes") or 1)
+                if len(foe.prizes) == need:
+                    dmg += int(effect.get("bonus") or 0)
             if effect.get("kind") == "deck_count_bonus" and len(me.deck) <= int(effect.get("max_deck") or 0):
                 dmg += int(effect.get("bonus") or 0)
             if effect.get("kind") == "discard_hand_energy_bonus":

@@ -222,6 +222,40 @@ SET_F_NAMES = [
     "Skwovet",
 ]
 
+# Carpet Set G — 60-card beige-carpet photo (data/samples/set-g-carpet.jpg), Standard s60.
+# Photo had 4 Staravia / 3 Staraptor / 2 Drifblim; those four came out for 3 Psychic Energy
+# plus Twilight Masquerade Boomerang Energy (returns after an attack discards it).
+# Remaining birds: Brilliant Stars Starly (Claw) x2, one 90 HP Staravia + one Paldea Evolved
+# 80 HP Staravia, two Power Blast Staraptor. Mega Clefable ex is not in this list yet.
+SET_G_NAMES = (
+    ["Clefairy"] * 4
+    + ["Ledyba"] * 4
+    + ["Ledian"] * 4
+    + ["Starly"] * 2
+    + ["Staravia"] * 2
+    + ["Staraptor"] * 2
+    + ["Misdreavus"] * 2
+    + ["Mismagius"] * 2
+    + ["Munkidori"] * 2
+    + ["Scatterbug"] * 2
+    + ["Drifloon"]
+    + ["Drifblim"]
+    + ["Mewtwo"]
+    + ["Flutter Mane"]
+    + ["Iron Boulder"]
+    + ["Dedenne"]
+    + ["Jacq"]
+    + ["Arven"]
+    + ["Drayton"]
+    + ["Energy Search"]
+    + ["Energy Switch"]
+    + ["Poké Ball"]
+    + ["Ultra Ball"]
+    + ["Psychic Energy"] * 17
+    + ["Darkness Energy"] * 3
+    + ["Boomerang Energy"]
+)
+
 # Spare Cards — leftover pile, not a 30-card Family Cup list.
 # Aipom returned to Carpet Set A with the Starly line.
 SET_SPARE_NAMES = [
@@ -443,7 +477,7 @@ _register(
         "Search your deck for up to 2 Basic Energy cards, reveal them, and put them into your hand. Then, shuffle your deck. You must discard a card from your hand in order to use this.",
     )
 )
-_register(_trn("Poké Ball", "item", "Flip a coin. If heads, search your deck for a Pokémon."))
+_register(_trn("Poké Ball", "item", "Flip a coin. If heads, search your deck for a Pokémon.", catalog_id="swsh3.5-59", image="https://assets.tcgdex.net/en/swsh/swsh3.5/59/low.webp"))
 _register(_trn("Ultra Ball", "item", "Discard 2 cards from your hand. Search your deck for a Pokémon."))
 _register(_trn("Tool Box", "item", "Look at the top 7 cards of your deck. You may put any Pokémon Tool cards you find there into your hand."))
 _register(_trn("Trekking Shoes", "item", "Look at the top card of your deck. You may put it into your hand, or discard it and draw a card."))
@@ -892,6 +926,15 @@ for card in [
         ],
         catalog_id="sv05-078",
         weakness="Metal",
+        abilities=[
+            Ability(
+                name="Midnight Fluttering",
+                text=(
+                    "As long as this Pokémon is in the Active Spot, your opponent's Active Pokémon "
+                    "has no Abilities, except for Midnight Fluttering."
+                ),
+            )
+        ],
     ),
     _pkm("Hisuian Sliggoo", "Stage1", ["Dragon"], 90, [_atk("Rigidify", ["Colorless"], 0), _atk("Gentle Slap", ["Water", "Metal"], 40)], evolves_from="Goomy", weakness="Dragon"),
     _pkm("Sudowoodo", "Basic", ["Fighting"], 110, [
@@ -979,7 +1022,23 @@ for card in [
         weakness="Fighting",
         catalog_id="sv10.5b-029",
     ),
-    _pkm("Dedenne", "Basic", ["Psychic"], 70, [_atk("Call for Family", ["Colorless"], 0, "Search your deck for a Basic Pokémon."), _atk("Voltish Pulse", ["Psychic"], 30, "Flip a coin. If heads, your opponent's Active Pokémon is now Paralyzed.")], weakness="Metal"),
+    _pkm(
+        "Dedenne",
+        "Basic",
+        ["Psychic"],
+        70,
+        [
+            _atk(
+                "Dede-Flash",
+                ["Psychic"],
+                20,
+                "If your opponent has exactly 1 Prize card remaining, this attack does 60 more damage, and your opponent's Active Pokémon is now Confused.",
+            )
+        ],
+        weakness="Metal",
+        catalog_id="swsh9-067",
+        image="https://assets.tcgdex.net/en/swsh/swsh9/067/low.webp",
+    ),
     _pkm(
         "Gligar",
         "Basic",
@@ -995,6 +1054,200 @@ for card in [
         ],
         weakness="Grass",
         catalog_id="sv04-091",
+    ),
+    _pkm(
+        "Ledyba",
+        "Basic",
+        ["Grass"],
+        60,
+        [_atk("Headbutt Bounce", ["Colorless", "Colorless"], 30)],
+        weakness="Fire",
+        catalog_id="sv07-002",
+        image="https://assets.tcgdex.net/en/sv/sv07/002/low.webp",
+    ),
+    _pkm(
+        "Ledian",
+        "Stage1",
+        ["Grass"],
+        90,
+        [
+            _atk(
+                "Swift",
+                ["Colorless", "Colorless"],
+                70,
+                "This attack's damage isn't affected by Weakness or Resistance, or by any effects on your opponent's Active Pokémon.",
+            )
+        ],
+        evolves_from="Ledyba",
+        retreat=0,
+        weakness="Fire",
+        catalog_id="sv07-003",
+        image="https://assets.tcgdex.net/en/sv/sv07/003/low.webp",
+        abilities=[
+            Ability(
+                name="Glittering Star Pattern",
+                text=(
+                    "When you play this Pokémon from your hand to evolve 1 of your Pokémon during your turn, "
+                    "you may switch in 1 of your opponent's Benched Pokémon that has 90 HP or less remaining "
+                    "to the Active Spot."
+                ),
+            )
+        ],
+    ),
+    _pkm(
+        "Misdreavus",
+        "Basic",
+        ["Psychic"],
+        70,
+        [
+            _atk(
+                "Hypnoblast",
+                ["Psychic", "Colorless"],
+                10,
+                "Your opponent's Active Pokémon is now Asleep.",
+            )
+        ],
+        weakness="Darkness",
+        resistances=[{"type": "Fighting", "value": "-30"}],
+        catalog_id="sv02-087",
+        image="https://assets.tcgdex.net/en/sv/sv02/087/low.webp",
+    ),
+    _pkm(
+        "Mismagius",
+        "Stage1",
+        ["Psychic"],
+        90,
+        [
+            _atk(
+                "Ominous Prose",
+                ["Psychic"],
+                0,
+                "Your opponent reveals their hand. If they have 4 or more cards in their hand, choose all but 3, and your opponent shuffles the chosen cards into their deck.",
+            ),
+            _atk(
+                "Psybeam",
+                ["Psychic", "Colorless"],
+                50,
+                "Your opponent's Active Pokémon is now Confused.",
+            ),
+        ],
+        evolves_from="Misdreavus",
+        weakness="Darkness",
+        resistances=[{"type": "Fighting", "value": "-30"}],
+        catalog_id="swsh10-059",
+        image="https://assets.tcgdex.net/en/swsh/swsh10/059/low.webp",
+    ),
+    _pkm(
+        "Munkidori",
+        "Basic",
+        ["Psychic"],
+        110,
+        [
+            _atk(
+                "Mind Bend",
+                ["Psychic", "Colorless"],
+                60,
+                "Your opponent's Active Pokémon is now Confused.",
+            )
+        ],
+        weakness="Darkness",
+        resistances=[{"type": "Fighting", "value": "-30"}],
+        catalog_id="sv06-095",
+        image="https://assets.tcgdex.net/en/sv/sv06/095/low.webp",
+        abilities=[
+            Ability(
+                name="Adrena-Brain",
+                text=(
+                    "Once during your turn, if this Pokémon has any {D} Energy attached, "
+                    "you may move up to 3 damage counters from 1 of your Pokémon to 1 of your opponent's Pokémon."
+                ),
+            )
+        ],
+    ),
+    _pkm(
+        "Scatterbug",
+        "Basic",
+        ["Grass"],
+        40,
+        [
+            _atk(
+                "Call for Family",
+                ["Colorless"],
+                0,
+                "Search your deck for a Basic Pokémon and put it onto your Bench. Then, shuffle your deck.",
+            )
+        ],
+        weakness="Fire",
+        catalog_id="sv08-005",
+        image="https://assets.tcgdex.net/en/sv/sv08/005/low.webp",
+    ),
+    _pkm(
+        "Drifloon",
+        "Basic",
+        ["Psychic"],
+        60,
+        [
+            _atk(
+                "Triple Spin",
+                ["Psychic"],
+                10,
+                "Flip 3 coins. This attack does 10 damage for each heads.",
+            )
+        ],
+        weakness="Darkness",
+        resistances=[{"type": "Fighting", "value": "-30"}],
+        catalog_id="swsh10-063",
+        image="https://assets.tcgdex.net/en/swsh/swsh10/063/low.webp",
+    ),
+    _pkm(
+        "Drifblim",
+        "Stage1",
+        ["Psychic"],
+        110,
+        [
+            _atk(
+                "Spooky Balloon",
+                ["Psychic"],
+                50,
+                "Put 2 damage counters on 1 of your opponent's Benched Pokémon.",
+            )
+        ],
+        evolves_from="Drifloon",
+        weakness="Darkness",
+        resistances=[{"type": "Fighting", "value": "-30"}],
+        catalog_id="swsh10-064",
+        image="https://assets.tcgdex.net/en/swsh/swsh10/064/low.webp",
+    ),
+    _pkm(
+        "Iron Boulder",
+        "Basic",
+        ["Psychic"],
+        140,
+        [
+            _atk(
+                "Adjusted Horn",
+                ["Psychic", "Colorless"],
+                170,
+                "If you don't have the same number of cards in your hand as your opponent, this attack does nothing.",
+            )
+        ],
+        retreat=3,
+        weakness="Darkness",
+        resistances=[{"type": "Fighting", "value": "-30"}],
+        catalog_id="sv07-071",
+        image="https://assets.tcgdex.net/en/sv/sv07/071/low.webp",
+    ),
+    _pkm(
+        "Mewtwo",
+        "Basic",
+        ["Psychic"],
+        130,
+        [_atk("Super Psy Bolt", ["Psychic", "Psychic", "Colorless"], 100)],
+        retreat=2,
+        weakness="Darkness",
+        resistances=[{"type": "Fighting", "value": "-30"}],
+        catalog_id="sv07-059",
+        image="https://assets.tcgdex.net/en/sv/sv07/059/low.webp",
     ),
     _pkm(
         "Starly",
@@ -1440,6 +1693,40 @@ FALLBACK_BY_NAME["pikachu-nuzzle"] = _pkm(
     catalog_id="sm12-66",
     weakness="Fighting",
     image="https://assets.tcgdex.net/en/sm/sm12/66/low.webp",
+)
+
+# Set G carpet Starly: Brilliant Stars Claw 30 (Set A/F keep Paldea Evolved Flap).
+FALLBACK_BY_NAME["starly-claw"] = _pkm(
+    "Starly",
+    "Basic",
+    ["Colorless"],
+    60,
+    [
+        _atk(
+            "Claw",
+            ["Colorless"],
+            30,
+            "Flip a coin. If tails, this attack does nothing.",
+        )
+    ],
+    weakness="Lightning",
+    catalog_id="swsh9-117",
+    image="https://assets.tcgdex.net/en/swsh/swsh9/117/low.webp",
+    resistances=[{"type": "Fighting", "value": "-30"}],
+)
+
+# Set G remaining 90 HP Staravia (Brilliant Stars). Paldea Evolved 80 HP stays the default.
+FALLBACK_BY_NAME["staravia-brilliant"] = _pkm(
+    "Staravia",
+    "Stage1",
+    ["Colorless"],
+    90,
+    [_atk("Wing Attack", ["Colorless", "Colorless"], 50)],
+    evolves_from="Starly",
+    weakness="Lightning",
+    catalog_id="swsh9-118",
+    image="https://assets.tcgdex.net/en/swsh/swsh9/118/low.webp",
+    resistances=[{"type": "Fighting", "value": "-30"}],
 )
 
 

@@ -39,7 +39,7 @@ def test_admin_owns_seed_decks_and_members_are_isolated(tmp_path, monkeypatch):
         assert me.json()["role"] == "admin"
 
         decks = client.get("/api/decks").json()
-        assert {d["id"] for d in decks} >= {"seed-a", "seed-b", "seed-c", "seed-e", "seed-f"}
+        assert {d["id"] for d in decks} >= {"seed-a", "seed-b", "seed-c", "seed-e", "seed-f", "seed-g"}
         by_id = {d["id"]: d for d in decks}
         assert by_id["seed-e"]["rule_preset"] == "c"
         assert by_id["seed-e"]["rule_presets"] == ["c"]
@@ -48,6 +48,9 @@ def test_admin_owns_seed_decks_and_members_are_isolated(tmp_path, monkeypatch):
         assert by_id["seed-a"]["rule_presets"] == ["b"]
         assert by_id["seed-t"]["rule_preset"] == "s30"
         assert by_id["seed-t"]["rule_presets"] == ["s30"]
+        assert by_id["seed-g"]["rule_preset"] == "s60"
+        assert by_id["seed-g"]["rule_presets"] == ["s60"]
+        assert by_id["seed-g"]["count"] == 60
         assert all(d["owner_id"] == admin["id"] for d in decks)
         presets = client.get("/api/rule-presets").json()
         assert [p["preset"] for p in presets] == ["b", "c", "s30", "s60"]

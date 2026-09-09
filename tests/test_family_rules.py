@@ -134,7 +134,7 @@ def test_seed_decks_have_images():
     from app.seed import load_seed_payload
 
     data = load_seed_payload()
-    for key in ("a", "b", "c", "d", "e", "f", "s", "t", "spare"):
+    for key in ("a", "b", "c", "d", "e", "f", "g", "s", "t", "spare"):
         for card in data[key]["cards"]:
             assert card.get("image"), f"{key} {card['name']} {card.get('catalog_id')} has no image"
             assert str(card["image"]).startswith("http")
@@ -149,6 +149,7 @@ def test_seed_e_and_f_use_no_pokemon_energy_preset():
     assert _deck_rule_preset("seed-e") == "c"
     assert _deck_rule_preset("seed-f") == "c"
     assert _deck_rule_preset("seed-t") == "s30"
+    assert _deck_rule_preset("seed-g") == "s60"
     assert _deck_rule_preset("seed-a") == "b"
     assert _deck_rule_preset("seed-spare") == "b"
     assert _deck_rule_preset("scanned-uuid") == "any"
@@ -156,6 +157,7 @@ def test_seed_e_and_f_use_no_pokemon_energy_preset():
 
     assert default_rule_presets_for("seed-e") == ["c"]
     assert default_rule_presets_for("seed-t") == ["s30"]
+    assert default_rule_presets_for("seed-g") == ["s60"]
     assert default_rule_presets_for("seed-a") == ["b"]
     assert default_rule_presets_for(None) == ["b"]
     assert legacy_rule_presets_for("household") == ["b", "c"]
@@ -188,12 +190,15 @@ def test_seed_decks_include_set_c_and_d():
     f_names = [c["name"] for c in data["f"]["cards"]]
     s_names = [c["name"] for c in data["s"]["cards"]]
     t_names = [c["name"] for c in data["t"]["cards"]]
+    g_names = [c["name"] for c in data["g"]["cards"]]
     assert data["c"]["id"] == "seed-c"
     assert data["d"]["id"] == "seed-d"
     assert data["e"]["id"] == "seed-e"
     assert data["f"]["id"] == "seed-f"
     assert data["s"]["id"] == "seed-s"
     assert data["t"]["id"] == "seed-t"
+    assert data["g"]["id"] == "seed-g"
+    assert data["g"]["name"] == "Carpet Set G (Clefairy / Ledian 60)"
     assert data["e"]["name"] == "Carpet Set E (Walrein / Iris)"
     assert data["f"]["name"] == "Carpet Set F (Staraptor / Gengar)"
     assert data["t"]["name"] == "Set T (Dragapult ex)"
@@ -239,6 +244,10 @@ def test_seed_decks_include_set_c_and_d():
     assert s_names.count("Muscle Band") == 0
     assert s_names.count("Grass Energy") == 2
     assert len(t_names) == 30
+    assert len(g_names) == 60
+    assert g_names.count("Boomerang Energy") == 1
+    assert g_names.count("Staraptor") == 2
+    assert g_names.count("Clefairy") == 4
     assert t_names.count("Dreepy") == 2
     assert t_names.count("Drakloak") == 2
     assert t_names.count("Dragapult ex") == 2

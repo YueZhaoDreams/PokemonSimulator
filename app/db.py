@@ -185,6 +185,16 @@ def _ensure_deck_rules_column(conn: sqlite3.Connection) -> None:
                         "UPDATE decks SET rules_json=? WHERE id=?",
                         (json.dumps(["s30"]), row["id"]),
                     )
+            elif row["id"] == "seed-g":
+                try:
+                    stored = json.loads(row["rules_json"])
+                except (TypeError, json.JSONDecodeError):
+                    stored = None
+                if normalize_rule_presets(stored) == ["b"]:
+                    conn.execute(
+                        "UPDATE decks SET rules_json=? WHERE id=?",
+                        (json.dumps(["s60"]), row["id"]),
+                    )
             continue
         presets = legacy_rule_presets_for(row["id"])
         conn.execute("UPDATE decks SET rules_json=? WHERE id=?", (json.dumps(presets), row["id"]))
