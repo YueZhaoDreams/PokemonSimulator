@@ -14,17 +14,23 @@ from app.seed_data import (
     SET_D_NAMES,
     SET_E_NAMES,
     SET_F_NAMES,
+    SET_G_NAMES,
     SET_S_NAMES,
     SET_T_NAMES,
     SET_SPARE_NAMES,
     build_fallback_deck,
 )
 
-LIST_KEYS = ("a", "b", "c", "d", "e", "f", "s", "t")
+LIST_KEYS = ("a", "b", "c", "d", "e", "f", "g", "s", "t")
 SEED_KEYS = (*LIST_KEYS, "spare")
 
 SEED_PATH = DATA_DIR / "seed_decks.json"
 SAMPLE_HASHES: dict[str, int] = {}
+
+
+def _is_basic_energy_name(name: str) -> bool:
+    key = name.lower()
+    return key.endswith(" energy") and "double" not in key and "boomerang" not in key
 
 
 def _try_enrich(names: list[str], prefer: dict[str, list[str]] | None = None) -> list[Card]:
@@ -49,7 +55,7 @@ def _try_enrich(names: list[str], prefer: dict[str, list[str]] | None = None) ->
 def load_seed_deck(which: str) -> dict:
     decks = load_seed_payload()
     key = which.lower().replace("set-", "").replace("seed-", "")
-    key = {"1": "a", "2": "b", "3": "c", "4": "d", "5": "s", "6": "spare", "7": "t", "8": "e", "9": "f", "spare-cards": "spare", "p": "spare"}.get(
+    key = {"1": "a", "2": "b", "3": "c", "4": "d", "5": "s", "6": "spare", "7": "t", "8": "e", "9": "f", "10": "g", "spare-cards": "spare", "p": "spare"}.get(
         key, key
     )
     if key not in decks:
@@ -83,6 +89,7 @@ def load_seed_payload() -> dict:
             ("d", SET_D_NAMES),
             ("e", SET_E_NAMES),
             ("f", SET_F_NAMES),
+            ("g", SET_G_NAMES),
             ("s", SET_S_NAMES),
             ("t", SET_T_NAMES),
             ("spare", SET_SPARE_NAMES),
@@ -112,6 +119,34 @@ def load_seed_payload() -> dict:
             if as_dicts != data[key]["cards"]:
                 data[key]["cards"] = as_dicts
                 dirty = True
+        if "g" in data:
+            claw = _fallback_named("starly-claw")
+            staravia_90 = _fallback_named("staravia-brilliant")
+            staravia_80 = _fallback_named("Staravia")
+            want_starly = ["swsh9-117", "swsh9-117"]
+            want_staravia = ["swsh9-118", "sv01-149"]
+            have_starly = [c.get("catalog_id") for c in data["g"]["cards"] if c.get("name") == "Starly"]
+            have_staravia = [c.get("catalog_id") for c in data["g"]["cards"] if c.get("name") == "Staravia"]
+            cards_g = data["g"]["cards"]
+            if have_starly[:2] != want_starly:
+                cards_g = _assign_named_prints(cards_g, "Starly", [claw, claw])
+            if have_staravia[:2] != want_staravia:
+                cards_g = _assign_named_prints(cards_g, "Staravia", [staravia_90, staravia_80])
+            ib = _fallback_named("Iron Boulder")
+            refresh = {
+                "Iron Boulder": ib,
+                "Drifloon": _fallback_named("Drifloon"),
+                "Drifblim": _fallback_named("Drifblim"),
+                "Dedenne": _fallback_named("Dedenne"),
+            }
+            cards_g = [
+                refresh.get((c.name if isinstance(c, Card) else c.get("name")), c)
+                for c in cards_g
+            ]
+            as_dicts = [c.to_dict() if isinstance(c, Card) else c for c in cards_g]
+            if as_dicts != data["g"]["cards"]:
+                data["g"]["cards"] = as_dicts
+                dirty = True
         if dirty:
             SEED_PATH.write_text(json.dumps(data, indent=2))
         _refresh_hashes(data)
@@ -138,7 +173,7 @@ def _align_named_cards(existing: list, names: list[str]) -> list[dict]:
             out.append(q.popleft())
         elif name.lower() == "boomerang energy":
             out.append(fallback_named(name).to_dict())
-        elif name.lower().endswith(" energy") and "double" not in name.lower():
+        elif _is_basic_energy_name(name):
             out.append(energy_card(name.split()[0]).to_dict())
         else:
             out.append(fallback_named(name).to_dict())
@@ -186,7 +221,7 @@ def _ensure_card_images(cards: list[dict]) -> list[dict]:
             continue
         cache_key = cid if cid in (allowed or set()) else name
         if cache_key not in cache:
-            if name.lower().endswith(" energy") and "double" not in name.lower():
+            if _is_basic_energy_name(name):
                 cache[cache_key] = energy_card(name.split()[0]).to_dict()
             elif name in EXTRA_PRINT_IDS and cid in (allowed or set()):
                 patched = dict(card)
@@ -261,7 +296,7 @@ def _repeat_named_cards(names: list[str], enrich: bool) -> list[Card]:
     out: list[Card] = []
     for name in names:
         if name not in cache:
-            if name.lower().endswith(" energy") and "double" not in name.lower():
+            if _is_basic_energy_name(name):
                 cache[name] = energy_card(name.split()[0])
             elif name in ART_ONLY_IDS:
                 card = fallback_named(name)
@@ -302,6 +337,13 @@ def _cd_payload(enrich: bool = True) -> dict:
             pass
     cards_e = _assign_named_prints(cards_e, "Pikachu", [nuzzle, shock])
     cards_f = _repeat_named_cards(list(SET_F_NAMES), enrich)
+    cards_g = _repeat_named_cards(list(SET_G_NAMES), enrich)
+    cards_g = _assign_named_prints(cards_g, "Starly", [fallback_named("starly-claw"), fallback_named("starly-claw")])
+    cards_g = _assign_named_prints(
+        cards_g,
+        "Staravia",
+        [fallback_named("staravia-brilliant"), fallback_named("Staravia")],
+    )
     cards_s = _repeat_named_cards(list(SET_S_NAMES), enrich)
     cards_t = _repeat_named_cards(list(SET_T_NAMES), enrich)
     return {
@@ -332,6 +374,13 @@ def _cd_payload(enrich: bool = True) -> dict:
             "sample": "set-f-carpet.jpg",
             "kind": "list",
             "cards": [c.to_dict() if isinstance(c, Card) else c for c in cards_f],
+        },
+        "g": {
+            "id": "seed-g",
+            "name": "Carpet Set G (Clefairy / Ledian 60)",
+            "sample": "set-g-carpet.jpg",
+            "kind": "list",
+            "cards": [c.to_dict() if isinstance(c, Card) else c for c in cards_g],
         },
         "s": {
             "id": "seed-s",

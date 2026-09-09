@@ -2803,14 +2803,18 @@
               "Psychic"
             ],
             "damage": 170,
-            "text": "You may move any amount of {P} Energy from your Pok\u00e9mon to your other Pok\u00e9mon in any way you like.",
-            "effects": []
+            "text": "You may move any amount of Psychic Energy from your Pok\u00e9mon to your other Pok\u00e9mon in any way you like.",
+            "effects": [
+              {
+                "kind": "move_psychic_energy"
+              }
+            ]
           }
         ],
         "abilities": [
           {
             "name": "Lunar Zone",
-            "text": "All of your Pok\u00e9mon that have {P} Energy attached have no Retreat Cost.",
+            "text": "All of your Pok\u00e9mon that have Psychic Energy attached have no Retreat Cost.",
             "effects": []
           }
         ],
@@ -2826,9 +2830,9 @@
         "trainer_kind": null,
         "energy_type": null,
         "image": "https://assets.tcgdex.net/en/sv/sv03/082/low.webp",
-        "set_name": "Obsidian Flames",
+        "set_name": null,
         "text": "",
-        "dex_id": 36
+        "dex_id": null
       },
       {
         "catalog_id": "sv03-082",
@@ -2848,14 +2852,18 @@
               "Psychic"
             ],
             "damage": 170,
-            "text": "You may move any amount of {P} Energy from your Pok\u00e9mon to your other Pok\u00e9mon in any way you like.",
-            "effects": []
+            "text": "You may move any amount of Psychic Energy from your Pok\u00e9mon to your other Pok\u00e9mon in any way you like.",
+            "effects": [
+              {
+                "kind": "move_psychic_energy"
+              }
+            ]
           }
         ],
         "abilities": [
           {
             "name": "Lunar Zone",
-            "text": "All of your Pok\u00e9mon that have {P} Energy attached have no Retreat Cost.",
+            "text": "All of your Pok\u00e9mon that have Psychic Energy attached have no Retreat Cost.",
             "effects": []
           }
         ],
@@ -2871,9 +2879,9 @@
         "trainer_kind": null,
         "energy_type": null,
         "image": "https://assets.tcgdex.net/en/sv/sv03/082/low.webp",
-        "set_name": "Obsidian Flames",
+        "set_name": null,
         "text": "",
-        "dex_id": 36
+        "dex_id": null
       },
       {
         "catalog_id": "sv03-082",
@@ -2893,14 +2901,18 @@
               "Psychic"
             ],
             "damage": 170,
-            "text": "You may move any amount of {P} Energy from your Pok\u00e9mon to your other Pok\u00e9mon in any way you like.",
-            "effects": []
+            "text": "You may move any amount of Psychic Energy from your Pok\u00e9mon to your other Pok\u00e9mon in any way you like.",
+            "effects": [
+              {
+                "kind": "move_psychic_energy"
+              }
+            ]
           }
         ],
         "abilities": [
           {
             "name": "Lunar Zone",
-            "text": "All of your Pok\u00e9mon that have {P} Energy attached have no Retreat Cost.",
+            "text": "All of your Pok\u00e9mon that have Psychic Energy attached have no Retreat Cost.",
             "effects": []
           }
         ],
@@ -2916,9 +2928,9 @@
         "trainer_kind": null,
         "energy_type": null,
         "image": "https://assets.tcgdex.net/en/sv/sv03/082/low.webp",
-        "set_name": "Obsidian Flames",
+        "set_name": null,
         "text": "",
-        "dex_id": 36
+        "dex_id": null
       },
       {
         "catalog_id": "sv03-082",
@@ -2938,14 +2950,18 @@
               "Psychic"
             ],
             "damage": 170,
-            "text": "You may move any amount of {P} Energy from your Pok\u00e9mon to your other Pok\u00e9mon in any way you like.",
-            "effects": []
+            "text": "You may move any amount of Psychic Energy from your Pok\u00e9mon to your other Pok\u00e9mon in any way you like.",
+            "effects": [
+              {
+                "kind": "move_psychic_energy"
+              }
+            ]
           }
         ],
         "abilities": [
           {
             "name": "Lunar Zone",
-            "text": "All of your Pok\u00e9mon that have {P} Energy attached have no Retreat Cost.",
+            "text": "All of your Pok\u00e9mon that have Psychic Energy attached have no Retreat Cost.",
             "effects": []
           }
         ],
@@ -2961,9 +2977,9 @@
         "trainer_kind": null,
         "energy_type": null,
         "image": "https://assets.tcgdex.net/en/sv/sv03/082/low.webp",
-        "set_name": "Obsidian Flames",
+        "set_name": null,
         "text": "",
-        "dex_id": 36
+        "dex_id": null
       },
       {
         "catalog_id": "me03-031",
@@ -2983,7 +2999,13 @@
             ],
             "damage": 120,
             "text": "You may discard up to 4 Energy cards from your hand, and this attack does 40 more damage for each card you discarded in this way.",
-            "effects": []
+            "effects": [
+              {
+                "kind": "discard_hand_energy_bonus",
+                "max": 4,
+                "per": 40
+              }
+            ]
           }
         ],
         "abilities": [
@@ -3005,9 +3027,9 @@
         "trainer_kind": null,
         "energy_type": null,
         "image": "https://assets.tcgdex.net/en/me/me03/031/low.webp",
-        "set_name": "Perfect Order",
+        "set_name": null,
         "text": "",
-        "dex_id": 36
+        "dex_id": null
       },
       {
         "catalog_id": "me03-031",
@@ -3027,7 +3049,13 @@
             ],
             "damage": 120,
             "text": "You may discard up to 4 Energy cards from your hand, and this attack does 40 more damage for each card you discarded in this way.",
-            "effects": []
+            "effects": [
+              {
+                "kind": "discard_hand_energy_bonus",
+                "max": 4,
+                "per": 40
+              }
+            ]
           }
         ],
         "abilities": [
@@ -3049,9 +3077,9 @@
         "trainer_kind": null,
         "energy_type": null,
         "image": "https://assets.tcgdex.net/en/me/me03/031/low.webp",
-        "set_name": "Perfect Order",
+        "set_name": null,
         "text": "",
-        "dex_id": 36
+        "dex_id": null
       },
       {
         "catalog_id": "me03-031",
@@ -3071,7 +3099,13 @@
             ],
             "damage": 120,
             "text": "You may discard up to 4 Energy cards from your hand, and this attack does 40 more damage for each card you discarded in this way.",
-            "effects": []
+            "effects": [
+              {
+                "kind": "discard_hand_energy_bonus",
+                "max": 4,
+                "per": 40
+              }
+            ]
           }
         ],
         "abilities": [
@@ -3093,9 +3127,9 @@
         "trainer_kind": null,
         "energy_type": null,
         "image": "https://assets.tcgdex.net/en/me/me03/031/low.webp",
-        "set_name": "Perfect Order",
+        "set_name": null,
         "text": "",
-        "dex_id": 36
+        "dex_id": null
       },
       {
         "catalog_id": "me03-031",
@@ -5538,14 +5572,25 @@
             ],
             "damage": 0,
             "text": "This attack does 100 damage to 1 of your opponent's Pok\u00e9mon. (Don't apply Weakness and Resistance for Benched Pok\u00e9mon.)",
-            "effects": []
+            "effects": [
+              {
+                "kind": "damage_one_pokemon",
+                "amount": 100
+              }
+            ]
           }
         ],
         "abilities": [
           {
             "name": "Flip the Script",
             "text": "Once during your turn, if any of your Pok\u00e9mon were Knocked Out during your opponent's last turn, you may draw 3 cards. You can't use more than 1 Flip the Script Ability each turn.",
-            "effects": []
+            "effects": [
+              {
+                "kind": "draw_if_ko_last_turn",
+                "amount": 3,
+                "once_per_turn": true
+              }
+            ]
           }
         ],
         "weaknesses": [
@@ -8061,6 +8106,2193 @@
         "image": "https://assets.tcgdex.net/en/sv/sv01/151/low.webp",
         "set_name": null,
         "text": "",
+        "dex_id": null
+      }
+    ]
+  },
+  "g": {
+    "id": "seed-g",
+    "name": "Carpet Set G (Clefairy / Ledian 60)",
+    "sample": "set-g-carpet.jpg",
+    "kind": "list",
+    "cards": [
+      {
+        "catalog_id": "swsh11-062",
+        "name": "Clefairy",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 60,
+        "attacks": [
+          {
+            "name": "Wonder Storm",
+            "cost": [
+              "Colorless",
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 20,
+            "text": "This attack does 20 damage for each Psychic Energy attached to all of your Pok\u00e9mon.",
+            "effects": [
+              {
+                "kind": "psychic_energy_times",
+                "per": 20
+              }
+            ]
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Moon-Watching Party",
+            "text": "Once during your turn, if this Pok\u00e9mon is in the Active Spot, for each of your Benched Clefairy, you may search your deck for a Psychic Energy card and attach it to that Clefairy. Then, shuffle your deck.",
+            "effects": [
+              {
+                "kind": "attach_energy_from_deck_per_benched",
+                "benched_name": "clefairy",
+                "energy_type": "Psychic",
+                "require_active": true
+              }
+            ]
+          }
+        ],
+        "weaknesses": [
+          {
+            "type": "Metal",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 2,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/swsh/swsh11/062/low.webp",
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh11-062",
+        "name": "Clefairy",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 60,
+        "attacks": [
+          {
+            "name": "Wonder Storm",
+            "cost": [
+              "Colorless",
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 20,
+            "text": "This attack does 20 damage for each Psychic Energy attached to all of your Pok\u00e9mon.",
+            "effects": [
+              {
+                "kind": "psychic_energy_times",
+                "per": 20
+              }
+            ]
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Moon-Watching Party",
+            "text": "Once during your turn, if this Pok\u00e9mon is in the Active Spot, for each of your Benched Clefairy, you may search your deck for a Psychic Energy card and attach it to that Clefairy. Then, shuffle your deck.",
+            "effects": [
+              {
+                "kind": "attach_energy_from_deck_per_benched",
+                "benched_name": "clefairy",
+                "energy_type": "Psychic",
+                "require_active": true
+              }
+            ]
+          }
+        ],
+        "weaknesses": [
+          {
+            "type": "Metal",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 2,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/swsh/swsh11/062/low.webp",
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh11-062",
+        "name": "Clefairy",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 60,
+        "attacks": [
+          {
+            "name": "Wonder Storm",
+            "cost": [
+              "Colorless",
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 20,
+            "text": "This attack does 20 damage for each Psychic Energy attached to all of your Pok\u00e9mon.",
+            "effects": [
+              {
+                "kind": "psychic_energy_times",
+                "per": 20
+              }
+            ]
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Moon-Watching Party",
+            "text": "Once during your turn, if this Pok\u00e9mon is in the Active Spot, for each of your Benched Clefairy, you may search your deck for a Psychic Energy card and attach it to that Clefairy. Then, shuffle your deck.",
+            "effects": [
+              {
+                "kind": "attach_energy_from_deck_per_benched",
+                "benched_name": "clefairy",
+                "energy_type": "Psychic",
+                "require_active": true
+              }
+            ]
+          }
+        ],
+        "weaknesses": [
+          {
+            "type": "Metal",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 2,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/swsh/swsh11/062/low.webp",
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh11-062",
+        "name": "Clefairy",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 60,
+        "attacks": [
+          {
+            "name": "Wonder Storm",
+            "cost": [
+              "Colorless",
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 20,
+            "text": "This attack does 20 damage for each Psychic Energy attached to all of your Pok\u00e9mon.",
+            "effects": [
+              {
+                "kind": "psychic_energy_times",
+                "per": 20
+              }
+            ]
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Moon-Watching Party",
+            "text": "Once during your turn, if this Pok\u00e9mon is in the Active Spot, for each of your Benched Clefairy, you may search your deck for a Psychic Energy card and attach it to that Clefairy. Then, shuffle your deck.",
+            "effects": [
+              {
+                "kind": "attach_energy_from_deck_per_benched",
+                "benched_name": "clefairy",
+                "energy_type": "Psychic",
+                "require_active": true
+              }
+            ]
+          }
+        ],
+        "weaknesses": [
+          {
+            "type": "Metal",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 2,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/swsh/swsh11/062/low.webp",
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv07-002",
+        "name": "Ledyba",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Grass"
+        ],
+        "hp": 60,
+        "attacks": [
+          {
+            "name": "Headbutt Bounce",
+            "cost": [
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 30,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Fire",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv07/002/low.webp",
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv07-002",
+        "name": "Ledyba",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Grass"
+        ],
+        "hp": 60,
+        "attacks": [
+          {
+            "name": "Headbutt Bounce",
+            "cost": [
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 30,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Fire",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv07/002/low.webp",
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv07-002",
+        "name": "Ledyba",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Grass"
+        ],
+        "hp": 60,
+        "attacks": [
+          {
+            "name": "Headbutt Bounce",
+            "cost": [
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 30,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Fire",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv07/002/low.webp",
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv07-002",
+        "name": "Ledyba",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Grass"
+        ],
+        "hp": 60,
+        "attacks": [
+          {
+            "name": "Headbutt Bounce",
+            "cost": [
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 30,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Fire",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv07/002/low.webp",
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv07-003",
+        "name": "Ledian",
+        "category": "Pokemon",
+        "stage": "Stage1",
+        "types": [
+          "Grass"
+        ],
+        "hp": 90,
+        "attacks": [
+          {
+            "name": "Swift",
+            "cost": [
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 70,
+            "text": "This attack's damage isn't affected by Weakness or Resistance, or by any effects on your opponent's Active Pok\u00e9mon.",
+            "effects": [
+              {
+                "kind": "ignore_wr"
+              },
+              {
+                "kind": "ignore_active_effects"
+              }
+            ]
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Glittering Star Pattern",
+            "text": "When you play this Pok\u00e9mon from your hand to evolve 1 of your Pok\u00e9mon during your turn, you may switch in 1 of your opponent's Benched Pok\u00e9mon that has 90 HP or less remaining to the Active Spot.",
+            "effects": []
+          }
+        ],
+        "weaknesses": [
+          {
+            "type": "Fire",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": "Ledyba",
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv07/003/low.webp",
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv07-003",
+        "name": "Ledian",
+        "category": "Pokemon",
+        "stage": "Stage1",
+        "types": [
+          "Grass"
+        ],
+        "hp": 90,
+        "attacks": [
+          {
+            "name": "Swift",
+            "cost": [
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 70,
+            "text": "This attack's damage isn't affected by Weakness or Resistance, or by any effects on your opponent's Active Pok\u00e9mon.",
+            "effects": [
+              {
+                "kind": "ignore_wr"
+              },
+              {
+                "kind": "ignore_active_effects"
+              }
+            ]
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Glittering Star Pattern",
+            "text": "When you play this Pok\u00e9mon from your hand to evolve 1 of your Pok\u00e9mon during your turn, you may switch in 1 of your opponent's Benched Pok\u00e9mon that has 90 HP or less remaining to the Active Spot.",
+            "effects": []
+          }
+        ],
+        "weaknesses": [
+          {
+            "type": "Fire",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": "Ledyba",
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv07/003/low.webp",
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv07-003",
+        "name": "Ledian",
+        "category": "Pokemon",
+        "stage": "Stage1",
+        "types": [
+          "Grass"
+        ],
+        "hp": 90,
+        "attacks": [
+          {
+            "name": "Swift",
+            "cost": [
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 70,
+            "text": "This attack's damage isn't affected by Weakness or Resistance, or by any effects on your opponent's Active Pok\u00e9mon.",
+            "effects": [
+              {
+                "kind": "ignore_wr"
+              },
+              {
+                "kind": "ignore_active_effects"
+              }
+            ]
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Glittering Star Pattern",
+            "text": "When you play this Pok\u00e9mon from your hand to evolve 1 of your Pok\u00e9mon during your turn, you may switch in 1 of your opponent's Benched Pok\u00e9mon that has 90 HP or less remaining to the Active Spot.",
+            "effects": []
+          }
+        ],
+        "weaknesses": [
+          {
+            "type": "Fire",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": "Ledyba",
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv07/003/low.webp",
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv07-003",
+        "name": "Ledian",
+        "category": "Pokemon",
+        "stage": "Stage1",
+        "types": [
+          "Grass"
+        ],
+        "hp": 90,
+        "attacks": [
+          {
+            "name": "Swift",
+            "cost": [
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 70,
+            "text": "This attack's damage isn't affected by Weakness or Resistance, or by any effects on your opponent's Active Pok\u00e9mon.",
+            "effects": [
+              {
+                "kind": "ignore_wr"
+              },
+              {
+                "kind": "ignore_active_effects"
+              }
+            ]
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Glittering Star Pattern",
+            "text": "When you play this Pok\u00e9mon from your hand to evolve 1 of your Pok\u00e9mon during your turn, you may switch in 1 of your opponent's Benched Pok\u00e9mon that has 90 HP or less remaining to the Active Spot.",
+            "effects": []
+          }
+        ],
+        "weaknesses": [
+          {
+            "type": "Fire",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": "Ledyba",
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv07/003/low.webp",
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh9-117",
+        "name": "Starly",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Colorless"
+        ],
+        "hp": 60,
+        "attacks": [
+          {
+            "name": "Claw",
+            "cost": [
+              "Colorless"
+            ],
+            "damage": 30,
+            "text": "Flip a coin. If tails, this attack does nothing.",
+            "effects": [
+              {
+                "kind": "coin_whiff"
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Lightning",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [
+          {
+            "type": "Fighting",
+            "value": "-30"
+          }
+        ],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/swsh/swsh9/117/low.webp",
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh9-117",
+        "name": "Starly",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Colorless"
+        ],
+        "hp": 60,
+        "attacks": [
+          {
+            "name": "Claw",
+            "cost": [
+              "Colorless"
+            ],
+            "damage": 30,
+            "text": "Flip a coin. If tails, this attack does nothing.",
+            "effects": [
+              {
+                "kind": "coin_whiff"
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Lightning",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [
+          {
+            "type": "Fighting",
+            "value": "-30"
+          }
+        ],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/swsh/swsh9/117/low.webp",
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh9-118",
+        "name": "Staravia",
+        "category": "Pokemon",
+        "stage": "Stage1",
+        "types": [
+          "Colorless"
+        ],
+        "hp": 90,
+        "attacks": [
+          {
+            "name": "Wing Attack",
+            "cost": [
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 50,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Lightning",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [
+          {
+            "type": "Fighting",
+            "value": "-30"
+          }
+        ],
+        "retreat": 1,
+        "evolves_from": "Starly",
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/swsh/swsh9/118/low.webp",
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv01-149",
+        "name": "Staravia",
+        "category": "Pokemon",
+        "stage": "Stage1",
+        "types": [
+          "Colorless"
+        ],
+        "hp": 80,
+        "attacks": [
+          {
+            "name": "Wing Attack",
+            "cost": [
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 40,
+            "text": "",
+            "effects": []
+          },
+          {
+            "name": "Speed Dive",
+            "cost": [
+              "Colorless",
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 80,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Lightning",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": "Starly",
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/149/low.webp",
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv01-150",
+        "name": "Staraptor",
+        "category": "Pokemon",
+        "stage": "Stage2",
+        "types": [
+          "Colorless"
+        ],
+        "hp": 150,
+        "attacks": [
+          {
+            "name": "Tailspin Away",
+            "cost": [
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 60,
+            "text": "During your opponent's next turn, prevent all damage done to this Pok\u00e9mon by attacks from Basic Pok\u00e9mon.",
+            "effects": [
+              {
+                "kind": "prevent_basic_damage"
+              }
+            ]
+          },
+          {
+            "name": "Power Blast",
+            "cost": [
+              "Colorless",
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 180,
+            "text": "Discard an Energy from this Pok\u00e9mon.",
+            "effects": [
+              {
+                "kind": "discard_energy",
+                "count": 1
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Lightning",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": "Staravia",
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/150/low.webp",
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv01-150",
+        "name": "Staraptor",
+        "category": "Pokemon",
+        "stage": "Stage2",
+        "types": [
+          "Colorless"
+        ],
+        "hp": 150,
+        "attacks": [
+          {
+            "name": "Tailspin Away",
+            "cost": [
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 60,
+            "text": "During your opponent's next turn, prevent all damage done to this Pok\u00e9mon by attacks from Basic Pok\u00e9mon.",
+            "effects": [
+              {
+                "kind": "prevent_basic_damage"
+              }
+            ]
+          },
+          {
+            "name": "Power Blast",
+            "cost": [
+              "Colorless",
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 180,
+            "text": "Discard an Energy from this Pok\u00e9mon.",
+            "effects": [
+              {
+                "kind": "discard_energy",
+                "count": 1
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Lightning",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": "Staravia",
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/150/low.webp",
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv02-087",
+        "name": "Misdreavus",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 70,
+        "attacks": [
+          {
+            "name": "Hypnoblast",
+            "cost": [
+              "Psychic",
+              "Colorless"
+            ],
+            "damage": 10,
+            "text": "Your opponent's Active Pok\u00e9mon is now Asleep.",
+            "effects": [
+              {
+                "kind": "status",
+                "status": "asleep",
+                "coin": false
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Darkness",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [
+          {
+            "type": "Fighting",
+            "value": "-30"
+          }
+        ],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv02/087/low.webp",
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv02-087",
+        "name": "Misdreavus",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 70,
+        "attacks": [
+          {
+            "name": "Hypnoblast",
+            "cost": [
+              "Psychic",
+              "Colorless"
+            ],
+            "damage": 10,
+            "text": "Your opponent's Active Pok\u00e9mon is now Asleep.",
+            "effects": [
+              {
+                "kind": "status",
+                "status": "asleep",
+                "coin": false
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Darkness",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [
+          {
+            "type": "Fighting",
+            "value": "-30"
+          }
+        ],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv02/087/low.webp",
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh10-059",
+        "name": "Mismagius",
+        "category": "Pokemon",
+        "stage": "Stage1",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 90,
+        "attacks": [
+          {
+            "name": "Ominous Prose",
+            "cost": [
+              "Psychic"
+            ],
+            "damage": 0,
+            "text": "Your opponent reveals their hand. If they have 4 or more cards in their hand, choose all but 3, and your opponent shuffles the chosen cards into their deck.",
+            "effects": []
+          },
+          {
+            "name": "Psybeam",
+            "cost": [
+              "Psychic",
+              "Colorless"
+            ],
+            "damage": 50,
+            "text": "Your opponent's Active Pok\u00e9mon is now Confused.",
+            "effects": [
+              {
+                "kind": "status",
+                "status": "confused",
+                "coin": false
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Darkness",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [
+          {
+            "type": "Fighting",
+            "value": "-30"
+          }
+        ],
+        "retreat": 1,
+        "evolves_from": "Misdreavus",
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/swsh/swsh10/059/low.webp",
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh10-059",
+        "name": "Mismagius",
+        "category": "Pokemon",
+        "stage": "Stage1",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 90,
+        "attacks": [
+          {
+            "name": "Ominous Prose",
+            "cost": [
+              "Psychic"
+            ],
+            "damage": 0,
+            "text": "Your opponent reveals their hand. If they have 4 or more cards in their hand, choose all but 3, and your opponent shuffles the chosen cards into their deck.",
+            "effects": []
+          },
+          {
+            "name": "Psybeam",
+            "cost": [
+              "Psychic",
+              "Colorless"
+            ],
+            "damage": 50,
+            "text": "Your opponent's Active Pok\u00e9mon is now Confused.",
+            "effects": [
+              {
+                "kind": "status",
+                "status": "confused",
+                "coin": false
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Darkness",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [
+          {
+            "type": "Fighting",
+            "value": "-30"
+          }
+        ],
+        "retreat": 1,
+        "evolves_from": "Misdreavus",
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/swsh/swsh10/059/low.webp",
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv06-095",
+        "name": "Munkidori",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 110,
+        "attacks": [
+          {
+            "name": "Mind Bend",
+            "cost": [
+              "Psychic",
+              "Colorless"
+            ],
+            "damage": 60,
+            "text": "Your opponent's Active Pok\u00e9mon is now Confused.",
+            "effects": [
+              {
+                "kind": "status",
+                "status": "confused",
+                "coin": false
+              }
+            ]
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Adrena-Brain",
+            "text": "Once during your turn, if this Pok\u00e9mon has any {D} Energy attached, you may move up to 3 damage counters from 1 of your Pok\u00e9mon to 1 of your opponent's Pok\u00e9mon.",
+            "effects": []
+          }
+        ],
+        "weaknesses": [
+          {
+            "type": "Darkness",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [
+          {
+            "type": "Fighting",
+            "value": "-30"
+          }
+        ],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv06/095/low.webp",
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv06-095",
+        "name": "Munkidori",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 110,
+        "attacks": [
+          {
+            "name": "Mind Bend",
+            "cost": [
+              "Psychic",
+              "Colorless"
+            ],
+            "damage": 60,
+            "text": "Your opponent's Active Pok\u00e9mon is now Confused.",
+            "effects": [
+              {
+                "kind": "status",
+                "status": "confused",
+                "coin": false
+              }
+            ]
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Adrena-Brain",
+            "text": "Once during your turn, if this Pok\u00e9mon has any {D} Energy attached, you may move up to 3 damage counters from 1 of your Pok\u00e9mon to 1 of your opponent's Pok\u00e9mon.",
+            "effects": []
+          }
+        ],
+        "weaknesses": [
+          {
+            "type": "Darkness",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [
+          {
+            "type": "Fighting",
+            "value": "-30"
+          }
+        ],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv06/095/low.webp",
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv08-005",
+        "name": "Scatterbug",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Grass"
+        ],
+        "hp": 40,
+        "attacks": [
+          {
+            "name": "Call for Family",
+            "cost": [
+              "Colorless"
+            ],
+            "damage": 0,
+            "text": "Search your deck for a Basic Pok\u00e9mon and put it onto your Bench. Then, shuffle your deck.",
+            "effects": [
+              {
+                "kind": "call_family",
+                "count": 1
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Fire",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv08/005/low.webp",
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv08-005",
+        "name": "Scatterbug",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Grass"
+        ],
+        "hp": 40,
+        "attacks": [
+          {
+            "name": "Call for Family",
+            "cost": [
+              "Colorless"
+            ],
+            "damage": 0,
+            "text": "Search your deck for a Basic Pok\u00e9mon and put it onto your Bench. Then, shuffle your deck.",
+            "effects": [
+              {
+                "kind": "call_family",
+                "count": 1
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Fire",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv08/005/low.webp",
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh10-063",
+        "name": "Drifloon",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 60,
+        "attacks": [
+          {
+            "name": "Triple Spin",
+            "cost": [
+              "Psychic"
+            ],
+            "damage": 10,
+            "text": "Flip 3 coins. This attack does 10 damage for each heads.",
+            "effects": [
+              {
+                "kind": "coin_times",
+                "flips": 3,
+                "per": 10
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Darkness",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [
+          {
+            "type": "Fighting",
+            "value": "-30"
+          }
+        ],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/swsh/swsh10/063/low.webp",
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh10-064",
+        "name": "Drifblim",
+        "category": "Pokemon",
+        "stage": "Stage1",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 110,
+        "attacks": [
+          {
+            "name": "Spooky Balloon",
+            "cost": [
+              "Psychic"
+            ],
+            "damage": 50,
+            "text": "Put 2 damage counters on 1 of your opponent's Benched Pok\u00e9mon.",
+            "effects": [
+              {
+                "kind": "bench_damage_counters",
+                "counters": 2
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Darkness",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [
+          {
+            "type": "Fighting",
+            "value": "-30"
+          }
+        ],
+        "retreat": 1,
+        "evolves_from": "Drifloon",
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/swsh/swsh10/064/low.webp",
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv07-059",
+        "name": "Mewtwo",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 130,
+        "attacks": [
+          {
+            "name": "Super Psy Bolt",
+            "cost": [
+              "Psychic",
+              "Psychic",
+              "Colorless"
+            ],
+            "damage": 100,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Darkness",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [
+          {
+            "type": "Fighting",
+            "value": "-30"
+          }
+        ],
+        "retreat": 2,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv07/059/low.webp",
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv05-078",
+        "name": "Flutter Mane",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 90,
+        "attacks": [
+          {
+            "name": "Hex Hurl",
+            "cost": [
+              "Colorless",
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 90,
+            "text": "Put 2 damage counters on your opponent's Benched Pok\u00e9mon in any way you like.",
+            "effects": [
+              {
+                "kind": "bench_damage_counters",
+                "counters": 2
+              }
+            ]
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Midnight Fluttering",
+            "text": "As long as this Pok\u00e9mon is in the Active Spot, your opponent's Active Pok\u00e9mon has no Abilities, except for Midnight Fluttering.",
+            "effects": []
+          }
+        ],
+        "weaknesses": [
+          {
+            "type": "Metal",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv05/078/low.webp",
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv07-071",
+        "name": "Iron Boulder",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 140,
+        "attacks": [
+          {
+            "name": "Adjusted Horn",
+            "cost": [
+              "Psychic",
+              "Colorless"
+            ],
+            "damage": 170,
+            "text": "If you don't have the same number of cards in your hand as your opponent, this attack does nothing.",
+            "effects": [
+              {
+                "kind": "require_equal_hands"
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Darkness",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [
+          {
+            "type": "Fighting",
+            "value": "-30"
+          }
+        ],
+        "retreat": 3,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv07/071/low.webp",
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh9-067",
+        "name": "Dedenne",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 70,
+        "attacks": [
+          {
+            "name": "Dede-Flash",
+            "cost": [
+              "Psychic"
+            ],
+            "damage": 20,
+            "text": "If your opponent has exactly 1 Prize card remaining, this attack does 60 more damage, and your opponent's Active Pok\u00e9mon is now Confused.",
+            "effects": [
+              {
+                "kind": "opponent_prize_bonus",
+                "prizes": 1,
+                "bonus": 60
+              },
+              {
+                "kind": "status",
+                "status": "confused",
+                "coin": false,
+                "if_opponent_prizes": 1
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Metal",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/swsh/swsh9/067/low.webp",
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv01-175",
+        "name": "Jacq",
+        "category": "Trainer",
+        "stage": "Supporter",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "supporter",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/175/low.webp",
+        "set_name": null,
+        "text": "Search your deck for up to 2 Evolution Pok\u00e9mon.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv01-166",
+        "name": "Arven",
+        "category": "Trainer",
+        "stage": "Supporter",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "supporter",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/166/low.webp",
+        "set_name": null,
+        "text": "Search your deck for an Item card and a Pok\u00e9mon Tool card, reveal them, and put them into your hand. Then, shuffle your deck.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv08-174",
+        "name": "Drayton",
+        "category": "Trainer",
+        "stage": "Supporter",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "supporter",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv08/174/low.webp",
+        "set_name": null,
+        "text": "Look at the top 7 cards of your deck. You may reveal a Pok\u00e9mon and a Trainer card you find there and put them into your hand. Shuffle the other cards back into your deck.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv01-172",
+        "name": "Energy Search",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/172/low.webp",
+        "set_name": null,
+        "text": "Search your deck for a Basic Energy card.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-129",
+        "name": "Energy Switch",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/129/low.webp",
+        "set_name": null,
+        "text": "Move a Basic Energy from 1 of your Pok\u00e9mon to another of your Pok\u00e9mon.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh3.5-59",
+        "name": "Pok\u00e9 Ball",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/swsh/swsh3.5/59/low.webp",
+        "set_name": null,
+        "text": "Flip a coin. If heads, search your deck for a Pok\u00e9mon.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv04.5-091",
+        "name": "Ultra Ball",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv04.5/091/low.webp",
+        "set_name": null,
+        "text": "Discard 2 cards from your hand. Search your deck for a Pok\u00e9mon.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-156",
+        "name": "Psychic Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Psychic",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/156/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-156",
+        "name": "Psychic Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Psychic",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/156/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-156",
+        "name": "Psychic Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Psychic",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/156/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-156",
+        "name": "Psychic Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Psychic",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/156/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-156",
+        "name": "Psychic Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Psychic",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/156/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-156",
+        "name": "Psychic Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Psychic",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/156/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-156",
+        "name": "Psychic Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Psychic",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/156/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-156",
+        "name": "Psychic Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Psychic",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/156/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-156",
+        "name": "Psychic Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Psychic",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/156/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-156",
+        "name": "Psychic Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Psychic",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/156/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-156",
+        "name": "Psychic Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Psychic",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/156/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-156",
+        "name": "Psychic Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Psychic",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/156/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-156",
+        "name": "Psychic Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Psychic",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/156/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-156",
+        "name": "Psychic Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Psychic",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/156/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-156",
+        "name": "Psychic Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Psychic",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/156/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-156",
+        "name": "Psychic Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Psychic",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/156/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-156",
+        "name": "Psychic Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Psychic",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/156/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-158",
+        "name": "Darkness Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Darkness"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Darkness",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/158/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-158",
+        "name": "Darkness Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Darkness"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Darkness",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/158/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-158",
+        "name": "Darkness Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Darkness"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Darkness",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/158/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv06-166",
+        "name": "Boomerang Energy",
+        "category": "Energy",
+        "stage": "Special",
+        "types": [
+          "Colorless"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Colorless",
+        "image": "https://assets.tcgdex.net/en/sv/sv06/166/low.webp",
+        "set_name": "Twilight Masquerade",
+        "text": "As long as this card is attached to a Pok\u00e9mon, it provides Colorless Energy. If this card is discarded by an effect of an attack used by the Pok\u00e9mon this card is attached to, attach this card from your discard pile to that Pok\u00e9mon after attacking.",
         "dex_id": null
       }
     ]

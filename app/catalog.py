@@ -116,11 +116,24 @@ PREFERRED_IDS = {
     "Clefable": "swsh2-75",
     "Clefable ex": "sv03-082",
     "Mega Clefable ex": "me03-031",
+    "Mewtwo": "sv07-059",  # Stellar Crown Super Psy Bolt (not Mewtwo ex)
     "Mewtwo ex": "sv04-058",
     "Wo-Chien ex": "sv02-027",
     "Sprigatito": "sv01-013",  # Paldea Evolved Scratch / Leafage
     "Floragato": "sv01-014",  # Paldea Evolved art; engine keeps Slashing Claw 90
     "Jacq": "sv01-175",
+    "Ledyba": "sv07-002",
+    "Ledian": "sv07-003",
+    "Misdreavus": "sv02-087",
+    "Mismagius": "swsh10-059",
+    "Munkidori": "sv06-095",
+    "Scatterbug": "sv08-005",
+    "Drifloon": "swsh10-063",
+    "Drifblim": "swsh10-064",
+    "Iron Boulder": "sv07-071",
+    "Dedenne": "swsh9-067",
+    "Energy Switch": "swsh12.5-129",
+    "Poké Ball": "swsh3.5-59",
     "Buddy-Buddy Poffin": "sv05-144",
     "Maximum Belt": "sv05-154",
     "Muscle Band": "xy1-121",
@@ -206,6 +219,7 @@ EXTRA_PRINT_IDS: dict[str, tuple[str, ...]] = {
     "Pikachu": ("sm3-40", "sm12-66"),
     "Rockruff": ("swsh12.5-073", "swsh11-109"),
     "Starly": ("sv01-148", "swsh9-117"),  # Flap 20 Paldea Evolved; Claw 30 Brilliant Stars 117/172
+    "Staravia": ("sv01-149", "swsh9-118"),  # Speed Dive 80 HP; Brilliant Stars 90 HP Wing Attack
 }
 
 
@@ -224,7 +238,8 @@ def _names_match(got: str, wanted: str) -> bool:
 PRINT_PREFER = {
     "Dondozo": ["supplemental swallow", "hydro splash"],
     "Orthworm": ["crunch-time", "punch and draw"],
-    "Flutter Mane": ["hex hurl"],
+    "Flutter Mane": ["hex hurl", "midnight fluttering"],
+    "Mewtwo": ["super psy bolt"],
     "Pikachu": ["thunder shock", "tail whap", "paralyze"],
     "Raichu": ["electric ball", "electro ball"],
     "Roselia": ["soothing scent"],
@@ -275,6 +290,16 @@ PRINT_PREFER = {
     "Starly": ["flap"],
     "Staravia": ["wing attack", "speed dive"],
     "Staraptor": ["tailspin away", "power blast"],
+    "Ledyba": ["headbutt bounce"],
+    "Ledian": ["glittering star", "swift"],
+    "Misdreavus": ["hypnoblast"],
+    "Mismagius": ["psybeam", "ominous prose"],
+    "Munkidori": ["adrena-brain", "mind bend"],
+    "Scatterbug": ["call for family"],
+    "Drifloon": ["triple spin"],
+    "Drifblim": ["spooky balloon"],
+    "Iron Boulder": ["adjusted horn"],
+    "Dedenne": ["dede-flash"],
     "Gligar": ["toxic"],
     "Surfer": ["benched", "until you have 5"],
     "Lake Acuity": ["water", "fighting", "20 less"],
@@ -654,7 +679,16 @@ def _looks_like_tcgdex_id(card_id: str) -> bool:
 
 def _tcgdex_low(card_id: str) -> str:
     series, number = card_id.split("-", 1)
-    folder = "swsh" if series.startswith("swsh") else "sv" if series.startswith("sv") else "sm" if series.startswith("sm") else series
+    if series.startswith("swsh"):
+        folder = "swsh"
+    elif series.startswith("sv"):
+        folder = "sv"
+    elif series.startswith("sm"):
+        folder = "sm"
+    elif series.startswith("me"):
+        folder = "me"
+    else:
+        folder = series
     return f"https://assets.tcgdex.net/en/{folder}/{series}/{number}/low.webp"
 
 
