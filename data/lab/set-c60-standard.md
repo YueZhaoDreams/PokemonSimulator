@@ -16,7 +16,7 @@ The 30-card identity is LOR 62 Moon-Watching Party → load Psychic onto benched
 
 | 30-card Set C (Rule B) | Standard 60 rewrite |
 | --- | --- |
-| 4 Clefairy / 2 Mewtwo ex / 4 Clefable / 4 Clefable ex / 4 Mega | 4 Clefairy / **3** Mewtwo ex / **2 CLC Metronome Clefable** / **3** Clefable ex / **2** Mega |
+| 4 Clefairy / 2 Mewtwo ex / 4 Clefable / 4 Clefable ex / 4 Mega | 4 Clefairy / **3** Mewtwo ex / **2 Rebel Clash Prankish Clefable** / **3** Clefable ex / **2** Mega |
 | 0 Energy (Pokémon pay Party) | **14 Psychic Energy** |
 | 2 Nest, 0 Poffin, 0 Switch | 4 Nest, **4 Poffin** (Clefairy is 60 HP), **2 Switch** (Party is Active-only) |
 | 1 Boss | **3 Boss** (6-prize race) |
@@ -31,7 +31,7 @@ Locked C60 list (`SET_C60_NAMES`):
 | ---: | --- | --- |
 | 4 | Clefairy (LOR 62) | Party engine |
 | 3 | Mewtwo ex | Photon closer / 230 HP tank |
-| 2 | Clefable (CLC 014 Metronome `[C]`) | Copy Phantom Dive / other Active attacks |
+| 2 | Clefable (RCL 75 Prankish) | On evolve, bounce an Energy off the opponent's Active; 110 HP sponge |
 | 3 | Clefable ex | Lunar Zone + Wondrous Moon 170 |
 | 2 | Mega Clefable ex | 320 HP sponge / Shooting Moons |
 | 4 | Nest Ball | Bench Mewtwo / Clefairy |
@@ -71,18 +71,18 @@ G's AI is the Staraptor carnival script, not a dedicated Ledian/Party hybrid, so
 
 | Foe | Overall | C60 first | C60 second |
 | --- | ---: | ---: | ---: |
-| Charm Ogerpon 60 (D60) | **72.5%** | 72.6% | 72.3% |
-| Carpet Set G | **97.7%** | 97.5% | 97.9% |
-| Dragapult 60 (T60) | **52.3%** | 55.3% | 49.3% |
-| Floragato hunter 60 (S60) | **99.4%** | 99.4% | 99.4% |
+| Charm Ogerpon 60 (D60) | **72.5%** | 75.5% | 69.4% |
+| Carpet Set G | **97.4%** | 97.6% | 97.2% |
+| Dragapult 60 (T60) | **53.6%** | 56.2% | 51.0% |
+| Floragato hunter 60 (S60) | **99.4%** | 99.4% | 99.3% |
 
 `pokemon_as_energy_per_game` is 0 on s60 (Party attaches **cards** named Psychic Energy).
 
 ### Read
 
-- **Vs Ogerpon:** 30-card Rule B C vs D sat near 50%. With real Energy + Switch + three Boss, Photon still outraces Demolish 140. Charm 260 is 2 prizes; empty Clefairy is 1. Overall **72.5%**.
-- **Vs Dragapult:** Sitting out Photon / Moon chips was the hole. After Party, C60 now Photons, Moons, and Metronome-copies Dive for whatever they pay. Same seed: RCL list 29.0% → CLC-only 34.7% → **swing after Party 52.3%** (first 55.3% / second 49.3%). Ogerpon / G / Floragato cells did not move. See [CLC Metronome](#clc-metronome).
-- **Vs Worlds Hedrick Dragapult:** Limitless Unlimited #1 is still Dragapult. The printed Worlds 2026 60 is now `SET_T_META_NAMES`. Same seed: C60 **60.6%** (first 61.1% / second 60.0%). Household T60 (4 Candy) remains harder. Write-up: `data/lab/set-c60-vs-hedrick.md`.
+- **Vs Ogerpon:** 30-card Rule B C vs D sat near 50%. With real Energy + Switch + three Boss, Photon still outraces Demolish 140. Charm 260 is 2 prizes; empty Clefairy is 1. Overall **72.5%** (Prankish bouncing Fighting helps going first: 75.5%).
+- **Vs Dragapult:** Sitting out Photon / Moon chips was the hole. After Party, C60 Photons and Moons for whatever they pay. The 2-of Clefable slot is **Prankish** (110 HP), not CLC Metronome. Same seed: **53.6%** vs household T60 (first 56.2% / second 51.0%). CLC-on-this-list was 52.3% — within noise on T60, worse on Hedrick (70 HP snacks). See [Prankish vs CLC](#prankish-vs-clc).
+- **Vs Worlds Hedrick Dragapult:** Printed Worlds 2026 60 is `SET_T_META_NAMES`. Same seed with Prankish C60: **65.9%** (first 65.9% / second 66.0%). Household T60 (4 Candy) remains harder. Write-up: `data/lab/set-c60-vs-hedrick.md`.
 - **Vs G / Floragato:** Carnival and slash do not assemble a 6-prize closer before Photon. Those cells are blowouts, not a claim that C60 is a tournament deck.
 
 ## How C60 loses to Dragapult
@@ -111,28 +111,26 @@ C60's wins look the opposite: Photon fires ~3 times, Dragapult dies (~0.45 KO / 
 
 The 30-card Family Cup matchup hid this: 3 prizes and a half-list Dragapult. Standard 60 gives Dragapult Rare Candy ×4 and six prizes to spend on the Party board.
 
-## CLC Metronome
+## Prankish vs CLC
 
-Classic **CLC 014** Clefable: Colorless, 70 HP, Metronome costs **one Colorless**. Printed text is still *Choose 1 of your opponent's Active Pokémon's attacks and use it as this attack.* TWM 79 is the same text at `[C][C]` — too slow for a 1-attach surprise.
+Rebel Clash **Clefable** (`swsh2-75`): Psychic, 110 HP, Prankish — when you evolve, you may put an Energy attached to the opponent's Active on top of their deck. Moon Kick `[P][C]` 60.
 
-The 30-card Family Cup bakeoff did not lock Metronome: TWM/CLC share the **Clefable** name with Rebel Clash, so they cannot be a fifth copy. Here the two RCL Prankish copies **are** the two CLC prints (legal 2-of).
+Classic **CLC 014** is still in the catalog (`Clefable CLC`) for Metronome tests. It is Colorless 70 HP, Metronome `[C]`. Same printed name as RCL, so it cannot sit beside Prankish as extra copies.
 
-Party used to evolve Metronome only when the copy **KOs**, and used to **pass** Photon / Wondrous Moon / Shooting Moons unless they KO'd 320 HP Dragapult. Both are gone: copy Dive whenever Dragapult is Active, and after Party fire any payable hit. Transfer Charge no longer stalls a chip.
+s60 does not treat Pokémon as energy, so Prankish is not Party fuel. The remaining edge is **110 HP** plus bouncing an attach (Fighting vs Demolish; Fire/Psychic can delay Dive). CLC's edge is copying Dive when Dragapult is Active; the 70 HP body is a Munkidori / Risky Ruins snack.
 
-Same seed, vs Dragapult 60:
+Same seed `20260911`, 3,000 games, locked C60 otherwise:
 
-| Script | C60 win |
-| --- | ---: |
-| 2× RCL, KO-only attacks | 29.0% |
-| 2× CLC, copy Dive, still pass chips | 34.7% |
-| **2× CLC, Party then chip** | **52.3%** |
+| 2-of Clefable | vs T60 | vs Hedrick | vs D60 |
+| --- | ---: | ---: | ---: |
+| CLC Metronome (previous lock) | 52.3% | 60.6% | 72.5% |
+| **Prankish (this lock)** | **53.6%** | **65.9%** | **72.5%** |
 
-Ogerpon / G / Floragato stayed at 72.5% / 97.7% / 99.4%. Locked table uses the swing script.
+Ogerpon / G / Floragato stay blowouts or the same D60 overall. Do not add TWM Metronome (`[C][C]`) into this 2-of slot.
 
 ## What I would not do
 
 - Do not keep 4/4/4 Clefable / ex / Mega. Copy-cap legal, but the deck becomes 18 Stage 1s and bricky under real Energy.
 - Do not leave 0 Switch. Moon-Watching Party only fires from Active; the 30-card list leaned on Rule B chump sequences.
-- Do not add TWM Metronome (`[C][C]`) instead of CLC. The surprise is the single attach.
-- Do not evolve CLC onto Budew — Metronome then copies Itchy Pollen, not Dive.
+- Do not put CLC Metronome back in this 2-of slot unless the plan is specifically to copy Dive on a 70 HP body.
 - Do not treat this as a replacement for Family Cup Set C. Rule B Clefable-as-energy is a different game.

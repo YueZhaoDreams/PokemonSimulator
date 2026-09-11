@@ -29,8 +29,8 @@ def test_set_c60_is_standard_sixty_with_psychic_energy():
     assert len(names) == 60
     assert names.count("Clefairy") == 4
     assert names.count("Mewtwo ex") == 3
-    assert names.count("Clefable CLC") == 2
-    assert names.count("Clefable") == 0
+    assert names.count("Clefable") == 2
+    assert names.count("Clefable CLC") == 0
     assert names.count("Clefable ex") == 3
     assert names.count("Mega Clefable ex") == 2
     assert names.count("Psychic Energy") == 14
@@ -41,7 +41,8 @@ def test_set_c60_is_standard_sixty_with_psychic_energy():
     pile = build_fallback_deck(names)
     rules = standard_60_rules()
     assert copy_violations(pile, rules) == []
-    assert sum(1 for c in pile if c.catalog_id == "clc-014") == 2
+    assert sum(1 for c in pile if c.catalog_id == "swsh2-75") == 2
+    assert all(any(a.name == "Prankish" for a in c.abilities) for c in pile if c.name == "Clefable")
     assert any(c.is_energy and c.name == "Psychic Energy" for c in pile)
     assert rules.pokemon_as_energy is False
     assert rules.deck_size == 60
