@@ -36,12 +36,12 @@ class Attack:
         damage = int(data.get("damage") or 0)
         stored = list(data.get("effects") or [])
         # Printed text wins over stale seed JSON (empty or outdated effects).
-        from app.engine.effects import parse_effects
+        from app.engine.effects import parse_attack_cost, parse_effects
 
         parsed = parse_effects(text, str(data.get("damage") or damage or ""))
         return cls(
             name=data.get("name", "Attack"),
-            cost=list(data.get("cost") or ["Colorless"]),
+            cost=parse_attack_cost(data.get("cost")),
             damage=damage,
             text=text,
             effects=parsed if parsed else stored,

@@ -145,4 +145,5 @@ Household Candy Dragapult and Ogerpon go up; Hedrick (Munkidori / Risky Ruins, s
 - Do not leave 0 Switch. Moon-Watching Party only fires from Active; the 30-card list leaned on Rule B chump sequences.
 - Do not put CLC Metronome back in this 2-of slot unless the plan is specifically to copy Dive on a 70 HP body.
 - Do not put Energy Search back unless you want the Hedrick cell more than T60 / D60.
+- Do not add Budew for Item lock. Itchy Pollen is Items only; 1-of for 1 Psychic lost T60 / Hedrick / D60 even with a sit-and-Pollen party path (see [set-c60-budew-item-lock.md](set-c60-budew-item-lock.md)).
 - Do not treat this as a replacement for Family Cup Set C. Rule B Clefable-as-energy is a different game.
