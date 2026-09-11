@@ -43,3 +43,21 @@ def test_lillie_clefairy_is_not_a_party_engine():
         Random(1),
     )
     assert game._is_clefairy(card) is False
+
+
+def test_party_does_not_open_on_lillie_clefairy_when_mewtwo_is_a_basic():
+    names = list(SET_C60_NAMES)
+    names[names.index("Psychic Energy")] = "Lillie's Clefairy ex"
+    game = Game(
+        build_fallback_deck(names),
+        build_fallback_deck(list(SET_T60_NAMES)),
+        standard_60_rules(),
+        StrategySpec.from_dict("party"),
+        StrategySpec.from_dict("phantom"),
+        Random(1),
+    )
+    me = game.players["a"]
+    lillie = next(i for i, c in enumerate(me.cards) if c.name == "Lillie's Clefairy ex")
+    mewtwo = next(i for i, c in enumerate(me.cards) if c.name == "Mewtwo ex")
+    pick = game._pick_starter(me, [lillie, mewtwo], game.strats["a"])
+    assert pick == mewtwo
