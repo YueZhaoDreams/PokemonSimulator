@@ -165,8 +165,8 @@ def test_party_vs_phantom_does_not_gift_chipped_mega():
     assert game._is_clefairy(me.card(me.active.card_i))
 
 
-def test_party_vs_phantom_skips_wondrous_moon_chip():
-    """Moon is prize-only vs T. 170 into a 320 HP Dragapult is a chip — sit it out."""
+def test_party_vs_phantom_wondrous_moon_chips_after_party():
+    """Vs T, Moon 170 is a chip we take. Two hits plus Dive leftovers close 320."""
     game = _party_vs_phantom_game(5)
     me = game.players["a"]
     foe = game.players["b"]
@@ -178,7 +178,8 @@ def test_party_vs_phantom_skips_wondrous_moon_chip():
     assert game._can_pay_wondrous_moon(me, me.active)
     assert not game._moon_ko(me, foe)
     atk = game._choose_attack(me, foe, StrategySpec.from_dict("party"))
-    assert atk is None
+    assert atk is not None
+    assert atk.name == "Wondrous Moon"
 
 
 def test_party_vs_phantom_wondrous_moon_when_it_kos():
@@ -195,7 +196,7 @@ def test_party_vs_phantom_wondrous_moon_when_it_kos():
     assert atk.name == "Wondrous Moon"
 
 
-def test_party_vs_phantom_skips_shooting_moons_chip():
+def test_party_vs_phantom_shooting_moons_chips():
     game = _party_vs_phantom_game(7)
     me = game.players["a"]
     foe = game.players["b"]
@@ -205,7 +206,24 @@ def test_party_vs_phantom_skips_shooting_moons_chip():
     me.active = Pokemon(card_i=mega, energy=fuels, played_turn=0)
     foe.active = Pokemon(card_i=pult)
     atk = game._choose_attack(me, foe, StrategySpec.from_dict("party"))
-    assert atk is None
+    assert atk is not None
+    assert atk.name == "Shooting Moons"
+
+
+def test_party_vs_phantom_photon_chips_instead_of_passing():
+    game = _party_vs_phantom_game(8)
+    me = game.players["a"]
+    foe = game.players["b"]
+    mewtwo = next(i for i, card in enumerate(me.cards) if card.name == "Mewtwo ex")
+    fuels = [i for i, card in enumerate(me.cards) if card.name == "Clefable"][:2]
+    pult = next(i for i, card in enumerate(foe.cards) if card.name == "Dragapult ex")
+    me.active = Pokemon(card_i=mewtwo, energy=fuels, played_turn=0)
+    foe.active = Pokemon(card_i=pult)
+    atk = game._choose_attack(me, foe, StrategySpec.from_dict("party"))
+    assert atk is not None
+    assert "kinesis" in atk.name.lower()
+    assert game._effective_damage(me, foe, atk) > 0
+    assert game._effective_damage(me, foe, atk) < game._max_hp(foe, foe.active)
 
 
 def test_party_vs_demolish_four_one_still_chumps():

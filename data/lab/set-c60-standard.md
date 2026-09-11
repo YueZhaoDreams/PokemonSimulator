@@ -72,7 +72,7 @@ G's AI is the Staraptor carnival script, not a dedicated Ledian/Party hybrid, so
 | --- | ---: | ---: | ---: |
 | Charm Ogerpon 60 (D60) | **72.5%** | 72.6% | 72.3% |
 | Carpet Set G | **97.7%** | 97.5% | 97.9% |
-| Dragapult 60 (T60) | **34.7%** | 37.6% | 31.9% |
+| Dragapult 60 (T60) | **52.3%** | 55.3% | 49.3% |
 | Floragato hunter 60 (S60) | **99.4%** | 99.4% | 99.4% |
 
 `pokemon_as_energy_per_game` is 0 on s60 (Party attaches **cards** named Psychic Energy).
@@ -80,7 +80,7 @@ G's AI is the Staraptor carnival script, not a dedicated Ledian/Party hybrid, so
 ### Read
 
 - **Vs Ogerpon:** 30-card Rule B C vs D sat near 50%. With real Energy + Switch + three Boss, Photon still outraces Demolish 140. Charm 260 is 2 prizes; empty Clefairy is 1. Overall **72.5%**.
-- **Vs Dragapult:** Still the Standard problem, but CLC Metronome is a real chip. Same seed, Rebel Clash Clefable sat at **29.0%**; two CLC 014 (`[C]` Metronome) plus copying Dive even when it is not a KO reach **34.7%** (Dragapult **65.3%**). 800-game screen: Metronome copied Phantom Dive in **15.6%** of games. See [How C60 loses to Dragapult](#how-c60-loses-to-dragapult) and [CLC Metronome](#clc-metronome).
+- **Vs Dragapult:** Sitting out Photon / Moon chips was the hole. After Party, C60 now Photons, Moons, and Metronome-copies Dive for whatever they pay. Same seed: RCL list 29.0% → CLC-only 34.7% → **swing after Party 52.3%** (first 55.3% / second 49.3%). Ogerpon / G / Floragato cells did not move. See [CLC Metronome](#clc-metronome).
 - **Vs G / Floragato:** Carnival and slash do not assemble a 6-prize closer before Photon. Those cells are blowouts, not a claim that C60 is a tournament deck.
 
 ## How C60 loses to Dragapult
@@ -115,16 +115,17 @@ Classic **CLC 014** Clefable: Colorless, 70 HP, Metronome costs **one Colorless*
 
 The 30-card Family Cup bakeoff did not lock Metronome: TWM/CLC share the **Clefable** name with Rebel Clash, so they cannot be a fifth copy. Here the two RCL Prankish copies **are** the two CLC prints (legal 2-of).
 
-Party used to evolve Metronome only when the copy **KOs**. Phantom Dive 200 does not KO 320 HP Dragapult, so CLC never came down. The s60 script now copies Dive whenever Dragapult is Active (200 + 6 bench counters), then Photon takes the 120 leftover. It still refuses Budew (Itchy Pollen).
+Party used to evolve Metronome only when the copy **KOs**, and used to **pass** Photon / Wondrous Moon / Shooting Moons unless they KO'd 320 HP Dragapult. Both are gone: copy Dive whenever Dragapult is Active, and after Party fire any payable hit. Transfer Charge no longer stalls a chip.
 
-800-game same-seed screen vs the previous 2× RCL C60:
+Same seed, vs Dragapult 60:
 
-| Package | vs Dragapult | vs Ogerpon | vs G | vs Floragato |
-| --- | ---: | ---: | ---: | ---: |
-| 2× RCL Prankish | 29.9% | 70.9% | 98.0% | 99.6% |
-| **2× CLC Metronome** | **34.6%** | 72.9% | 97.8% | 99.4% |
+| Script | C60 win |
+| --- | ---: |
+| 2× RCL, KO-only attacks | 29.0% |
+| 2× CLC, copy Dive, still pass chips | 34.7% |
+| **2× CLC, Party then chip** | **52.3%** |
 
-Locked 3,000-game table uses CLC. It is not an upset: Dragapult still wins ~2 of 3. It is the only household 60 that C60 loses, and Metronome is the only lever that moved that cell.
+Ogerpon / G / Floragato stayed at 72.5% / 97.7% / 99.4%. Locked table uses the swing script.
 
 ## What I would not do
 

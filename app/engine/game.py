@@ -2746,7 +2746,10 @@ class Game:
                 score += 1000
             elif strat.name == "party" and "mewtwo" in card.name.lower() and effective > 0:
                 # Acerola resets a non-KO. Wait for 260+ unless Transfer Charge is setting up.
-                if any(e.get("kind") == "transfer_charge" for e in atk.effects):
+                # Vs Dragapult there is no Acerola: Photon chip after Party instead of passing.
+                if self._facing_phantom(me):
+                    score += 80
+                elif any(e.get("kind") == "transfer_charge" for e in atk.effects):
                     score += 80
                 else:
                     score -= 400
@@ -2773,14 +2776,14 @@ class Game:
                     # Wonder Storm is the glass-cannon plan: fire whenever it chips or KOs.
                     score += 40 if effective >= foe_hp > 0 else 25
             if strat.name == "party" and self._facing_phantom(me) and "wondrous moon" in atk.name.lower():
-                # Prize-only: two 170s still need the first hit to KO something, or a
-                # leftover dragon already at ≤170. Do not boost a chip into Photon.
-                if effective >= foe_hp > 0:
-                    score += 200
+                # After Party, 170 chips Dragapult toward two-hit range (and 6-prize math).
+                score += 80 if effective >= foe_hp > 0 else 40
             if any(e.get("kind") == "transfer_charge" for e in atk.effects):
                 who = "a" if me.name == "A" else "b"
                 if strat.name == "party" and self._want_storm_line(me, foe, who):
                     # Do not stall on Transfer Charge when Clefairy should be storming.
+                    score -= 80
+                elif strat.name == "party" and self._facing_phantom(me):
                     score -= 80
                 elif strat.name == "party" and self._support_transfer_turn(me, foe):
                     score += 500
@@ -2873,18 +2876,19 @@ class Game:
                 effective < foe_hp
                 and not setup
                 and "mewtwo" in card.name.lower()
+                and not self._facing_phantom(me)
             ):
                 return None
             if (
                 self._facing_phantom(me)
                 and "wondrous moon" in best.name.lower()
-                and effective < foe_hp
+                and effective <= 0
             ):
                 return None
             if (
                 self._facing_phantom(me)
                 and "shooting moons" in best.name.lower()
-                and effective < foe_hp
+                and effective <= 0
             ):
                 return None
             if moon_ko:
@@ -3820,6 +3824,30 @@ class Game:
         """Dragapult Phantom Dive 200 + 6 counters: 60 HP Clefairy is a double snack."""
         return self._foe_strat_name(me) == "phantom"
 
+    def _party_swing_damage(self, me: Player, foe: Player, mon: Pokemon) -> int:
+        """Best payable non-setup hit from this Pokémon (vs Dragapult: chip counts)."""
+        if not foe.active:
+            return 0
+        card = me.card(mon.card_i)
+        pool = self._energy_pool(me, mon)
+        best = 0
+        for atk in card.attacks:
+            if not can_pay_energy(pool, atk.cost):
+                continue
+            if any(e.get("kind") == "transfer_charge" for e in atk.effects):
+                continue
+            resolved = self._resolved_attack(me, foe, atk)
+            best = max(best, self._raw_attack_damage(me, foe, mon, resolved))
+        return best
+
+    def _party_best_swing_mon(self, me: Player, foe: Player) -> Pokemon | None:
+        scored = [(self._party_swing_damage(me, foe, mon), mon) for mon in me.in_play()]
+        scored = [row for row in scored if row[0] > 0]
+        if not scored:
+            return None
+        scored.sort(key=lambda row: row[0], reverse=True)
+        return scored[0][1]
+
     def _slash_hit_damage(self, foe: Player) -> int:
         """Floragato Claw 90 (+Belt 50) or Wo-Chien Forest Blast 220."""
         if not foe.active:
@@ -3944,7 +3972,7 @@ class Game:
         return self._swap_to_bench(me, who, cheap, allow_paid=True)
 
     def _retreat_party_vs_phantom(self, me: Player, foe: Player, who: str) -> None:
-        """Moon only to take prizes this turn. Otherwise hide on a Dive tank."""
+        """Moon / Photon / Metronome chip after Party; otherwise hide on a Dive tank."""
         if not me.active or not me.bench:
             return
         if self._moon_ko(me, foe):
@@ -3953,6 +3981,15 @@ class Game:
         if cannon is not None and cannon is not me.active and self._moon_ko(me, foe, cannon):
             for idx, mon in enumerate(me.bench):
                 if mon is cannon:
+                    if self._swap_to_bench(me, who, idx, allow_paid=True):
+                        return
+                    break
+        swinger = self._party_best_swing_mon(me, foe)
+        if swinger is not None:
+            if swinger is me.active:
+                return
+            for idx, mon in enumerate(me.bench):
+                if mon is swinger:
                     if self._swap_to_bench(me, who, idx, allow_paid=True):
                         return
                     break
