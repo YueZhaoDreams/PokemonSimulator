@@ -1,0 +1,123 @@
+{
+  "games": 3000,
+  "seed": 20260911,
+  "elapsed": 26.140979913998308,
+  "rule_preset": "s60",
+  "swap": "1 Lillie's Clefairy ex for 1 Psychic Energy",
+  "lillie_list": [
+    "Clefairy",
+    "Clefairy",
+    "Clefairy",
+    "Clefairy",
+    "Mewtwo ex",
+    "Mewtwo ex",
+    "Mewtwo ex",
+    "Clefable",
+    "Clefable",
+    "Clefable ex",
+    "Clefable ex",
+    "Clefable ex",
+    "Mega Clefable ex",
+    "Mega Clefable ex",
+    "Nest Ball",
+    "Nest Ball",
+    "Nest Ball",
+    "Nest Ball",
+    "Buddy-Buddy Poffin",
+    "Buddy-Buddy Poffin",
+    "Buddy-Buddy Poffin",
+    "Buddy-Buddy Poffin",
+    "Ultra Ball",
+    "Ultra Ball",
+    "Hop",
+    "Hop",
+    "Lillie",
+    "Lillie",
+    "Lillie's Determination",
+    "Lillie's Determination",
+    "Arven",
+    "Jacq",
+    "Boss's Orders",
+    "Boss's Orders",
+    "Boss's Orders",
+    "Iono",
+    "Iono",
+    "Switch",
+    "Switch",
+    "Energy Switch",
+    "Energy Switch",
+    "Energy Retrieval",
+    "Night Stretcher",
+    "Maximum Belt",
+    "Tool Box",
+    "Lillie's Clefairy ex",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy"
+  ],
+  "cells": {
+    "energy": {
+      "t60": {
+        "a": 0.487,
+        "b": 0.513,
+        "tie": 0.0,
+        "first": 0.5052562417871223,
+        "second": 0.46820027063599456,
+        "foe_strat": "phantom"
+      },
+      "hedrick": {
+        "a": 0.5816666666666667,
+        "b": 0.41833333333333333,
+        "tie": 0.0,
+        "first": 0.5964673913043478,
+        "second": 0.5674083769633508,
+        "foe_strat": "phantom"
+      },
+      "d60": {
+        "a": 0.742,
+        "b": 0.258,
+        "tie": 0.0,
+        "first": 0.7636244254760342,
+        "second": 0.7197020988490183,
+        "foe_strat": "demolish"
+      }
+    },
+    "lillie": {
+      "t60": {
+        "a": 0.505,
+        "b": 0.495,
+        "tie": 0.0,
+        "first": 0.5153294194390085,
+        "second": 0.4942058623040218,
+        "foe_strat": "phantom"
+      },
+      "hedrick": {
+        "a": 0.602,
+        "b": 0.398,
+        "tie": 0.0,
+        "first": 0.6027681660899654,
+        "second": 0.6012861736334405,
+        "foe_strat": "phantom"
+      },
+      "d60": {
+        "a": 0.6956666666666667,
+        "b": 0.30433333333333334,
+        "tie": 0.0,
+        "first": 0.7320675105485233,
+        "second": 0.6628643852978454,
+        "foe_strat": "demolish"
+      }
+    }
+  }
+}

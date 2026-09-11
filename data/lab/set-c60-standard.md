@@ -147,4 +147,5 @@ Household Candy Dragapult and Ogerpon go up; Hedrick (Munkidori / Risky Ruins, s
 - Do not put Energy Search back unless you want the Hedrick cell more than T60 / D60.
 - Do not add Budew for Item lock. Itchy Pollen is Items only; 1-of for 1 Psychic lost T60 / Hedrick / D60 even with a sit-and-Pollen party path (see [set-c60-budew-item-lock.md](set-c60-budew-item-lock.md)).
 - Do not swap Night Stretcher for Tulip. 1-for-1 is a wash / Stretcher slightly better vs Hedrick (see [set-c60-tulip-vs-stretcher.md](set-c60-tulip-vs-stretcher.md)). 2 Tulip −2 Hop already lost T60.
+- Do not cut a Psychic Energy for Lillie's Clefairy ex. Fairy Zone helps T60 / Hedrick a little and costs ~5 points vs D60 (see [set-c60-lillie-clefairy-ex.md](set-c60-lillie-clefairy-ex.md)).
 - Do not treat this as a replacement for Family Cup Set C. Rule B Clefable-as-energy is a different game.

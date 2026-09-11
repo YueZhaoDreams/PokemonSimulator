@@ -368,6 +368,10 @@ class Game:
             # One attacker to evolve; extras are Grass energy.
             return copies < 1
 
+        if strat.name == "party" and "lillie's clefairy" in name:
+            # One Fairy Zone (Dragon Weakness → Psychic ×2). 190 HP, 2 prizes.
+            return copies < 1
+
         if strat.name == "phantom" and name == "dreepy":
             return copies < 2
         if strat.name == "phantom" and name == "budew":
@@ -504,6 +508,9 @@ class Game:
                 return 2000 + self._print_value(card, strat)
             if glass and name in closers:
                 return 2000 + self._print_value(card, strat)
+            if strat.name == "party" and "lillie's clefairy" in name:
+                # Fairy Zone is a bench card. Do not open on a 2-prize 190 HP body.
+                return 120
             if name in aces:
                 bonus = 10 if glass else 1000
                 if vs_claw:
@@ -1881,6 +1888,11 @@ class Game:
             need = self._mewtwo_play_cap(me) - mewtwo_out
             if need > 0 and mewtwo_hand < need:
                 prefer.append("Mewtwo ex")
+            if (
+                self._facing_phantom(me)
+                and not any("lillie's clefairy" in me.card(m.card_i).name.lower() for m in me.in_play())
+            ):
+                prefer.append("Lillie's Clefairy ex")
             return list(dict.fromkeys(prefer))
         if strat.name == "slash":
             prefer: list[str] = []
