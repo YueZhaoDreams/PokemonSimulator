@@ -627,12 +627,14 @@ class Game:
         if self.strats[who].name in {"party", "demolish", "slash", "shock", "thrifty", "phantom", "carnival"}:
             self._play_trainers(me, foe, who)
             self._play_basics(me)
-        self._use_abilities(me, foe, who)
+        if self._use_abilities(me, foe, who):
+            return True
         self._evolve(me, foe, who)
         self._play_basics(me)
         if self.strats[who].name in {"party", "demolish", "slash", "shock", "thrifty", "phantom", "carnival"}:
             self._play_trainers(me, foe, who)
-        self._use_abilities(me, foe, who)
+        if self._use_abilities(me, foe, who):
+            return True
         if self.strats[who].name == "party" and self._should_transfer_combo(me, foe):
             self._retreat_for_transfer(me, who)
             self._attach_energy(me, who)
@@ -642,7 +644,8 @@ class Game:
             # Setup on Clefairy → Party → attach. Swing with Wonder Storm, else end on Mewtwo
             # so Thunder Shock cannot para-lock a 60 HP body into a slow deck-out.
             self._retreat_party_storm(me, foe, who, phase="setup")
-            self._use_abilities(me, foe, who)
+            if self._use_abilities(me, foe, who):
+                return True
             self._attach_energy(me, who)
             if me.active and self._can_pay_wonder_storm(me, me.active):
                 pass
@@ -655,7 +658,8 @@ class Game:
         if self.strats[who].name == "party":
             # After attach, Mewtwo/Mega can pay retreat and Party again, then return to the tank.
             if not (self._want_storm_line(me, foe, who)):
-                self._use_abilities(me, foe, who)
+                if self._use_abilities(me, foe, who):
+                    return True
             self._note_party_progress(me, who)
         if getattr(self, "winner", None):
             return True
@@ -4969,8 +4973,8 @@ class Game:
                             mon.ability_used = True
                             self._bump("adrena_brain")
                             self._log(f"{card.name} Adrena-Brain moves damage counters")
-                            self._check_ko(foe, me, "b" if who == "a" else "a")
-                            self._check_ko(me, foe, who)
+                            if self._check_ko(foe, me, "b" if who == "a" else "a") or self._check_ko(me, foe, who):
+                                return
 
     def _attach_basic_energy_from_hand(self, me: Player, who: str, source_mon: Pokemon) -> bool:
         """Printed Energy Carnival: attach one Basic Energy from hand to 1 of your Pokémon."""
@@ -5247,12 +5251,14 @@ class Game:
                 return False
         return False
 
-    def _use_abilities(self, me: Player, foe: Player, who: str) -> None:
+    def _use_abilities(self, me: Player, foe: Player, who: str) -> bool:
         self._use_passive_abilities(me, who, foe)
+        if getattr(self, "winner", None):
+            return True
         if self.strats[who].name != "party":
-            return
+            return False
         if not me.active:
-            return
+            return False
         walling = any(self._is_tank_mon(me, mon) for mon in me.in_play())
         storm = self._want_storm_line(me, foe, who)
         if self._want_empty_clefairy_chump(me, foe) or (
@@ -5267,21 +5273,21 @@ class Game:
             # on Clefairy while the 4+1 / 3+2 / 2+1 engines are still firing.
             if not me.active.ability_used:
                 self._moon_watching_party(me, me.active)
-            return
+            return False
         if self._facing_slash(me):
             # One Party from Active Clefairy fuels every benched copy. Do not spend
             # the retreat rotating more 60 HP bodies into Slashing Claw.
             if self._is_clefairy(me.card(me.active.card_i)) and not me.active.ability_used:
                 self._moon_watching_party(me, me.active)
-            return
+            return False
         if self._facing_phantom(me):
             # Same as vs Floragato: one Party. Extra Active Clefairy is a Dive snack.
             if self._is_clefairy(me.card(me.active.card_i)) and not me.active.ability_used:
                 self._moon_watching_party(me, me.active)
-            return
+            return False
         for _ in range(6):
             if not me.active:
-                return
+                return False
             if not me.active.ability_used:
                 before = self.events.get("moon_watching_party", 0)
                 self._moon_watching_party(me, me.active)
@@ -5356,11 +5362,12 @@ class Game:
                     or (not self._can_pay_wonder_storm(me, me.active) and len(me.active.energy) < best[0])
                 ):
                     self._swap_to_bench(me, who, best[1], allow_paid=False)
-            return
+            return False
         if self._photon_ko(me, foe):
-            return
+            return False
         if self._ogerpon_threat(foe):
             self._end_on_tank(me, foe, who)
+        return False
 
     def _evolve_party(self, me: Player, foe: Player, who: str) -> None:
         if self.rules.first_turn_no_evolve and self._is_players_first_turn(who):

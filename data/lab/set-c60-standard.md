@@ -62,6 +62,7 @@ The engine does not have a full 2026 Limitless field (Gardevoir, Charizard, etc.
 | G | Carpet Set G (already 60: Clefairy / Ledian / Staraptor) | `carnival` |
 | D60 | Set D Charm Ogerpon stretched to 60 (4 Ogerpon, 14 Fighting, 4 DCE, 4 Charm) | `demolish` |
 | T60 | Set T Dragapult stretched to 60 (4 Dreepy / 3 Drakloak / 3 Dragapult, Rare Candy 4) | `phantom` |
+| T meta | Worlds 2026 Hedrick-shaped Dragapult (`SET_T_META_NAMES`) | `phantom` |
 | S60 | Set S Floragato hunter stretched to 60 | `slash` |
 
 G's AI is the Staraptor carnival script, not a dedicated Ledian/Party hybrid, so C60 vs G overstates a tuned bird list.
@@ -81,6 +82,7 @@ G's AI is the Staraptor carnival script, not a dedicated Ledian/Party hybrid, so
 
 - **Vs Ogerpon:** 30-card Rule B C vs D sat near 50%. With real Energy + Switch + three Boss, Photon still outraces Demolish 140. Charm 260 is 2 prizes; empty Clefairy is 1. Overall **72.5%**.
 - **Vs Dragapult:** Sitting out Photon / Moon chips was the hole. After Party, C60 now Photons, Moons, and Metronome-copies Dive for whatever they pay. Same seed: RCL list 29.0% → CLC-only 34.7% → **swing after Party 52.3%** (first 55.3% / second 49.3%). Ogerpon / G / Floragato cells did not move. See [CLC Metronome](#clc-metronome).
+- **Vs Worlds Hedrick-shaped Dragapult:** Limitless Unlimited #1 is still Dragapult, but the 2026 list is Hedrick's Worlds 60. Engine-legal substitute list: C60 **68.1%** (first 70.9% / second 65.3%). Household T60 (4 Candy) is the harder cell. Write-up: `data/lab/set-c60-vs-hedrick.md`.
 - **Vs G / Floragato:** Carnival and slash do not assemble a 6-prize closer before Photon. Those cells are blowouts, not a claim that C60 is a tournament deck.
 
 ## How C60 loses to Dragapult
