@@ -2021,8 +2021,19 @@ class Game:
                 card = me.card(me.active.card_i)
                 metro = next((a for a in card.attacks if self._is_copy_attack(a)), None)
                 if metro is not None and not can_pay_energy(self._energy_pool(me, me.active), metro.cost):
-                    if self._copy_would_ko(me, foe, me.active, card, extra_colorless=1):
+                    if self._metronome_copy_worth_attacking(me, foe, me.active, card, extra_colorless=1):
                         return me.active
+            evo_i = self._metronome_clefable_in_hand(me)
+            if evo_i is not None and not self._photon_ko(me, foe):
+                evo = me.card(evo_i)
+                extra = 0 if me.energy_attached else 1
+                for mon in me.in_play():
+                    if not self._is_clefairy(me.card(mon.card_i)):
+                        continue
+                    if self._metronome_copy_worth_attacking(
+                        me, foe, mon, evo, extra_colorless=extra, as_card_i=evo_i
+                    ) and len(mon.energy) == 0:
+                        return mon
             # Wall Retreat: Mega 1, Clefable ex 2, Mewtwo 2. Set C has no Switch.
             # Lunar Zone zeros cost only after this Pokémon already has a Psychic.
             if self._facing_slash(me) and me.active and self._is_clefairy(me.card(me.active.card_i)):
@@ -2229,8 +2240,9 @@ class Game:
         if strat.name == "party":
             if me.active:
                 card = me.card(me.active.card_i)
-                if any(self._is_copy_attack(a) for a in card.attacks) and self._copy_would_ko(
-                    me, foe, me.active, card
+                extra = 0 if me.energy_attached else 1
+                if any(self._is_copy_attack(a) for a in card.attacks) and self._metronome_copy_worth_attacking(
+                    me, foe, me.active, card, extra_colorless=extra
                 ):
                     return
             self._retreat_party(me, foe, who)
@@ -2750,6 +2762,8 @@ class Game:
                     score += 45
             if any(e.get("kind") == "bench_damage_counters" for e in resolved.effects):
                 score += 20
+                if strat.name == "party" and self._facing_phantom(me) and "phantom dive" in resolved.name.lower():
+                    score += 180
             # 0-damage Nuzzle loses to a real hit once Volt Tackle / Thunder Shock is online.
             if atk.damage == 0 and has_status and any(self._effective_damage(me, foe, a) >= 40 for a in legal):
                 score -= 80
@@ -3150,20 +3164,70 @@ class Game:
         finally:
             mon.card_i = old
 
+    def _metronome_copy_worth_attacking(
+        self,
+        me: Player,
+        foe: Player,
+        mon: Pokemon,
+        evo: Card,
+        extra_colorless: int = 0,
+        as_card_i: int | None = None,
+    ) -> bool:
+        """Fire Metronome on a KO, or copy Phantom Dive into Dragapult for 200 + bench counters."""
+        if self._copy_would_ko(me, foe, mon, evo, extra_colorless=extra_colorless, as_card_i=as_card_i):
+            return True
+        if not foe.active or not self._facing_phantom(me):
+            return False
+        if "dragapult" not in foe.card(foe.active.card_i).name.lower():
+            return False
+        metro = next((a for a in evo.attacks if self._is_copy_attack(a)), None)
+        pool = self._energy_pool(me, mon) + ["Colorless"] * extra_colorless
+        if metro is None or not can_pay_energy(pool, metro.cost):
+            return False
+        old = mon.card_i
+        if as_card_i is not None:
+            mon.card_i = as_card_i
+        try:
+            copied = self._resolved_attack(me, foe, metro)
+            if not any(e.get("kind") == "bench_damage_counters" for e in copied.effects):
+                return False
+            return self._raw_attack_damage(me, foe, mon, copied) >= copied.damage > 0
+        finally:
+            mon.card_i = old
+
+    def _metronome_ready_mon(self, me: Player, foe: Player) -> Pokemon | None:
+        extra = 0 if me.energy_attached else 1
+        for mon in me.in_play():
+            card = me.card(mon.card_i)
+            if not any(self._is_copy_attack(a) for a in card.attacks):
+                continue
+            if self._metronome_copy_worth_attacking(me, foe, mon, card, extra_colorless=extra):
+                return mon
+        return None
+
     def _try_evolve_metronome(self, me: Player, foe: Player) -> bool:
-        """Evolve Metronome Clefable onto Active Clefairy when the copy would KO."""
+        """Evolve 1-energy CLC Metronome onto a Clefairy when the copy KOs or copies Dive."""
         evo_i = self._metronome_clefable_in_hand(me)
         if evo_i is None or not me.active:
             return False
-        target = me.active
-        if not self._is_clefairy(me.card(target.card_i)):
+        if self._photon_ko(me, foe):
             return False
-        if not self._can_evolve_now(me, "a" if me.name == "A" else "b", target):
-            return False
+        who = "a" if me.name == "A" else "b"
         evo = me.card(evo_i)
         extra = 0 if me.energy_attached else 1
-        if not self._copy_would_ko(me, foe, target, evo, extra_colorless=extra, as_card_i=evo_i):
+        candidates: list[Pokemon] = []
+        for mon in me.in_play():
+            if not self._is_clefairy(me.card(mon.card_i)):
+                continue
+            if not self._can_evolve_now(me, who, mon):
+                continue
+            if self._metronome_copy_worth_attacking(
+                me, foe, mon, evo, extra_colorless=extra, as_card_i=evo_i
+            ):
+                candidates.append(mon)
+        if not candidates:
             return False
+        target = max(candidates, key=lambda m: (len(m.energy), 1 if m is me.active else 0))
         self._do_evolve(me, target, evo_i)
         self._bump("metronome_evolve")
         return True
@@ -3852,6 +3916,13 @@ class Game:
             return False
         if self._moon_ko(me, foe) or self._photon_ko(me, foe):
             return False
+        metro = self._metronome_ready_mon(me, foe)
+        if metro is not None:
+            if metro is me.active:
+                return True
+            for idx, mon in enumerate(me.bench):
+                if mon is metro:
+                    return self._swap_to_bench(me, who, idx, allow_paid=True)
         if self._is_tank_mon(me, me.active) and self._survives_dive(me, me.active):
             return True
         idx = self._best_dive_tank_idx(me, require_survive=True)
@@ -3890,6 +3961,12 @@ class Game:
     def _party_vs_phantom_energy_target(self, me: Player) -> Pokemon:
         """Pay Clefairy Retreat, then Photon, then PPP on a Moon cannon that already exists."""
         assert me.active
+        foe = self.players["b" if me.name == "A" else "a"]
+        ready = self._metronome_ready_mon(me, foe)
+        if ready is not None:
+            metro = next(a for a in me.card(ready.card_i).attacks if self._is_copy_attack(a))
+            if not can_pay_energy(self._energy_pool(me, ready), metro.cost):
+                return ready
         if me.active and self._is_clefairy(me.card(me.active.card_i)):
             need = self._retreat_cost(me, me.active)
             if need > 0 and len(me.active.energy) < need:

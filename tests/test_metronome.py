@@ -142,3 +142,46 @@ def test_clc_copies_hydro_splash_and_party_evolves_for_the_ko():
     game._attack(me, foe, "a")
     assert foe.active.damage >= 160
     assert game.events.get("metronome:Hydro Splash")
+
+
+def test_clc_copies_dive_chip_is_worth_evolving_without_a_ko():
+    game = Game(
+        build_fallback_deck(
+            ["Clefable CLC", "Clefairy", "Psychic Energy", "Mewtwo ex", "Switch"] + ["Hop"] * 25
+        ),
+        build_fallback_deck(["Dragapult ex", "Dreepy", "Budew"] + ["Cubone"] * 27),
+        default_family_rules(),
+        StrategySpec.from_dict("party"),
+        StrategySpec.from_dict("phantom"),
+        Random(1),
+        trace=True,
+    )
+    me, foe = game.players["a"], game.players["b"]
+    fairy = next(i for i, c in enumerate(me.cards) if c.name == "Clefairy")
+    clc_i = next(i for i, c in enumerate(me.cards) if c.catalog_id == "clc-014")
+    fuel = next(i for i, c in enumerate(me.cards) if c.name == "Psychic Energy")
+    mewtwo = next(i for i, c in enumerate(me.cards) if c.name == "Mewtwo ex")
+    switch = next(i for i, c in enumerate(me.cards) if c.name == "Switch")
+    drap = next(i for i, c in enumerate(foe.cards) if c.name == "Dragapult ex")
+    dreepy = next(i for i, c in enumerate(foe.cards) if c.name == "Dreepy")
+    me.active = Pokemon(card_i=mewtwo, played_turn=0)
+    me.bench = [Pokemon(card_i=fairy, energy=[fuel], played_turn=0)]
+    me.hand = [clc_i, switch]
+    foe.active = Pokemon(card_i=drap)
+    foe.bench = [Pokemon(card_i=dreepy)]
+    game.turn = 4
+    evo = me.card(clc_i)
+    assert not game._copy_would_ko(me, foe, me.bench[0], evo, extra_colorless=0, as_card_i=clc_i)
+    assert game._metronome_copy_worth_attacking(me, foe, me.bench[0], evo, extra_colorless=0, as_card_i=clc_i)
+    budew = next(i for i, c in enumerate(foe.cards) if c.name == "Budew")
+    foe.active = Pokemon(card_i=budew)
+    assert not game._metronome_copy_worth_attacking(me, foe, me.bench[0], evo, extra_colorless=0, as_card_i=clc_i)
+    foe.active = Pokemon(card_i=drap)
+    game._evolve_party(me, foe, "a")
+    assert game.events.get("metronome_evolve")
+    game._maybe_retreat(me, foe, "a")
+    assert me.card(me.active.card_i).catalog_id == "clc-014"
+    game._attack(me, foe, "a")
+    assert game.events.get("metronome:Phantom Dive")
+    assert foe.active.damage == 200
+    assert foe.bench[0].damage == 60

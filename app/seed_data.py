@@ -100,10 +100,12 @@ SET_C_NAMES = (
 # Clefable pile is thinned and 14 Psychic Energy pay Party / Photon / Zone.
 # Keep LOR 62 Clefairy as the engine; add Switch so Party can fire from Active;
 # Poffin benches 60 HP Clefairy; more Boss for a 6-prize race.
+# Two Classic CLC 014 Clefable (Metronome for [C]) replace Rebel Clash Prankish:
+# copy Phantom Dive when Dragapult is Active. Same printed name as RCL, so 2-of.
 SET_C60_NAMES = (
     ["Clefairy"] * 4
     + ["Mewtwo ex"] * 3
-    + ["Clefable"] * 2
+    + ["Clefable CLC"] * 2
     + ["Clefable ex"] * 3
     + ["Mega Clefable ex"] * 2
     + ["Nest Ball"] * 4
