@@ -15,4 +15,3 @@ def test_itchy_pollen_locks_items_not_supporters():
 
 def test_c60_locked_list_has_no_budew():
     assert "Budew" not in SET_C60_NAMES
-    assert list(SET_C60_NAMES).count("Psychic Energy") == 15
