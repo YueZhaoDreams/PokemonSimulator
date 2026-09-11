@@ -169,6 +169,28 @@ def parse_ability_effects(text: str) -> list[dict[str, Any]]:
         if n:
             threshold = int(n.group(1))
         effects.append({"kind": "invisible_wall", "threshold": threshold})
+
+    # Munkidori Adrena-Brain: move up to N damage counters, often gated on Darkness Energy.
+    move_counters = re.search(
+        r"move up to (\d+) damage counters from 1 of your pokemon to 1 of your opponent's pokemon",
+        t,
+    )
+    if move_counters:
+        require = None
+        gated = re.search(
+            r"if this pokemon has any (grass|fire|water|lightning|psychic|fighting|darkness|metal|fairy|colorless) energy attached",
+            t,
+        )
+        if gated:
+            require = gated.group(1).title()
+        effects.append(
+            {
+                "kind": "move_damage_counters",
+                "counters": int(move_counters.group(1)),
+                "require_energy": require,
+                "once_per_turn": "once during your turn" in t,
+            }
+        )
     return effects
 
 

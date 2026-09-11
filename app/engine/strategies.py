@@ -319,11 +319,13 @@ STRATEGY_LIBRARY = {
     "phantom": StrategySpec(
         name="phantom",
         description=(
-            "Set T Dragapult ex half-deck: Poffin Dreepy (and Budew). Evolve "
+            "Set T Dragapult ex: Poffin Dreepy (and Budew). Evolve "
             "Drakloak for Recon Directive (look top N from printed text), Rare Candy "
             "to Dragapult ex. Fire + Psychic pay Phantom Dive 200 plus 6 bench "
             "counters. Budew Itchy Pollen locks Items. Fezandipiti Flip the Script "
-            "draws after a KO. Do not spend the line as Family Cup energy."
+            "draws after a KO. Munkidori Adrena-Brain (printed: Darkness attached, "
+            "move up to 3 damage counters) snipes a leftover 60 HP prize. "
+            "Do not spend the line as Family Cup energy."
         ),
         prefer_damage=1.0,
         prefer_status=0.15,
@@ -332,7 +334,7 @@ STRATEGY_LIBRARY = {
         attach_pokemon_as_energy=0.2,
         item_spend=1.0,
         hold_as_energy=True,
-        protect=["Dreepy", "Drakloak", "Dragapult ex", "Fezandipiti ex", "Budew"],
+        protect=["Dreepy", "Drakloak", "Dragapult ex", "Fezandipiti ex", "Budew", "Munkidori"],
         search_aces=["Dreepy"],
         closers=["Dragapult ex"],
         backups=["Budew"],

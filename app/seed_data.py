@@ -248,6 +248,36 @@ SET_T60_NAMES = (
     + ["Darkness Energy"] * 2
 )
 
+# Worlds 2026 Andrew Hedrick Dragapult (Limitless #28752), engine-playable.
+# Printed Dunsparce / Dudunsparce / Meowth ex / Rosa's Encouragement /
+# Special Red Card / Risky Ruins are not in the fallback catalog; those seven
+# slots become Nest / Candy / Judge / Iono / extra Ultra / extra Stretcher.
+# Unlimited's older Pidgeot / Rotom V / Counter Catcher package is the same gap.
+SET_T_META_NAMES = (
+    ["Dreepy"] * 4
+    + ["Drakloak"] * 4
+    + ["Dragapult ex"] * 3
+    + ["Munkidori"] * 2
+    + ["Budew"] * 2
+    + ["Fezandipiti ex"]
+    + ["Lillie's Determination"] * 4
+    + ["Boss's Orders"] * 3
+    + ["Crispin"] * 2
+    + ["Poké Pad"] * 4
+    + ["Crushing Hammer"] * 4
+    + ["Buddy-Buddy Poffin"] * 4
+    + ["Night Stretcher"] * 4
+    + ["Ultra Ball"] * 4
+    + ["Rare Candy"] * 2
+    + ["Unfair Stamp"]
+    + ["Judge"]
+    + ["Iono"]
+    + ["Nest Ball"]
+    + ["Fire Energy"] * 3
+    + ["Darkness Energy"] * 3
+    + ["Psychic Energy"] * 3
+)
+
 # Carpet Set E — new beige-carpet photo (data/samples/set-e-carpet.jpg).
 # Dual Pikachu + Surging Sparks Spheal line. Trainers: Surfer + Iris's Fighting Spirit.
 SET_E_NAMES = [

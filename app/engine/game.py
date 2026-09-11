@@ -365,7 +365,9 @@ class Game:
         if strat.name == "phantom" and name == "dreepy":
             return copies < 1
         if strat.name == "phantom" and name == "budew":
-            return copies < 1
+            return copies < 2
+        if strat.name == "phantom" and name == "munkidori":
+            return copies < 2
         if strat.name == "phantom" and "fezandipiti" in name:
             return copies < 1
 
@@ -655,6 +657,8 @@ class Game:
             if not (self._want_storm_line(me, foe, who)):
                 self._use_abilities(me, foe, who)
             self._note_party_progress(me, who)
+        if getattr(self, "winner", None):
+            return True
         can_attack = not (first_turn and who == self.first and self.rules.first_player_no_attack)
         if can_attack and me.active and not (me.active.status & (ST_PARALYZED | ST_ASLEEP)):
             if self._energy_attack_blocked(me, who):
@@ -1700,7 +1704,7 @@ class Game:
                 me.card(i).name.lower() == "dreepy" for i in me.hand
             ):
                 prefer.insert(0, "Dreepy")
-            prefer.extend(["Fire Energy", "Psychic Energy", "Darkness Energy", "Dreepy", "Budew"])
+            prefer.extend(["Fire Energy", "Psychic Energy", "Darkness Energy", "Dreepy", "Budew", "Munkidori"])
             return list(dict.fromkeys(prefer))
         if me.active:
             need = self._needed_types(me, me.active)
@@ -2674,6 +2678,10 @@ class Game:
             if not can_pay_energy(self._energy_pool(me, mon), dive):
                 return mon
         for mon in me.in_play():
+            if me.card(mon.card_i).name.lower() == "munkidori":
+                if "Darkness" not in self._energy_pool(me, mon):
+                    return mon
+        for mon in me.in_play():
             if me.card(mon.card_i).name.lower() in {"drakloak", "dreepy"}:
                 if not can_pay_energy(self._energy_pool(me, mon), dive):
                     return mon
@@ -3586,7 +3594,7 @@ class Game:
                 name = card.name.lower()
                 if strat.name == "slash" and name not in {"wo-chien ex", "sprigatito"}:
                     continue
-                if strat.name == "phantom" and name not in {"dreepy", "budew"}:
+                if strat.name == "phantom" and name not in {"dreepy", "budew", "munkidori"}:
                     continue
                 score = 0.0
                 if name in prefer:
@@ -4900,7 +4908,38 @@ class Game:
         """Always parse the printed ability text. Stored effect lists can be stale."""
         return parse_ability_effects(abi.text)
 
-    def _use_passive_abilities(self, me: Player, who: str) -> None:
+    def _move_damage_counters(self, me: Player, foe: Player, src_mon: Pokemon, eff: dict[str, Any]) -> bool:
+        """Printed Adrena-Brain: move up to N counters from one of yours to one of theirs."""
+        need = eff.get("require_energy")
+        if need and str(need) not in self._energy_pool(me, src_mon):
+            return False
+        max_counters = int(eff.get("counters") or 0)
+        if max_counters <= 0:
+            return False
+        donors = [m for m in me.in_play() if m.damage >= 10]
+        if not donors or not foe.in_play():
+            return False
+        donor = max(donors, key=lambda m: m.damage)
+        moved = min(max_counters * 10, donor.damage)
+
+        def prize_if_ko(mon: Pokemon) -> int:
+            leftover = self._max_hp(foe, mon) - mon.damage
+            if leftover <= moved:
+                return self._prizes_for_ko(foe.card(mon.card_i))
+            return 0
+
+        targets = list(foe.in_play())
+        targets.sort(key=lambda m: (prize_if_ko(m), 1 if m is foe.active else 0, m.damage), reverse=True)
+        dest = targets[0]
+        if prize_if_ko(dest) <= 0 and dest.damage == 0 and donor.damage < 30:
+            # Nothing to snipe and no meaningful chip — keep the counters.
+            return False
+        donor.damage -= moved
+        dest.damage += moved
+        return True
+
+    def _use_passive_abilities(self, me: Player, who: str, foe: Player | None = None) -> None:
+        foe = foe or self.players["b" if who == "a" else "a"]
         for mon in me.in_play():
             if mon.ability_used:
                 continue
@@ -4925,6 +4964,13 @@ class Game:
                             mon.ability_used = True
                             self._bump("energy_carnival")
                             self._log(f"{card.name} Energy Carnival attaches from hand")
+                    elif kind == "move_damage_counters":
+                        if self._move_damage_counters(me, foe, mon, eff):
+                            mon.ability_used = True
+                            self._bump("adrena_brain")
+                            self._log(f"{card.name} Adrena-Brain moves damage counters")
+                            self._check_ko(foe, me, "b" if who == "a" else "a")
+                            self._check_ko(me, foe, who)
 
     def _attach_basic_energy_from_hand(self, me: Player, who: str, source_mon: Pokemon) -> bool:
         """Printed Energy Carnival: attach one Basic Energy from hand to 1 of your Pokémon."""
@@ -5202,7 +5248,7 @@ class Game:
         return False
 
     def _use_abilities(self, me: Player, foe: Player, who: str) -> None:
-        self._use_passive_abilities(me, who)
+        self._use_passive_abilities(me, who, foe)
         if self.strats[who].name != "party":
             return
         if not me.active:

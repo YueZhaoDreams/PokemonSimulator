@@ -47,6 +47,7 @@ PUBLISHED_EFFECT_KINDS = frozenset(
         "swallow_energy",
         "deck_count_bonus",
         "bench_damage_counters",
+        "move_damage_counters",
     }
 )
 

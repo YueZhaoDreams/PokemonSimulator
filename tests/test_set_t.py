@@ -2,9 +2,18 @@ from random import Random
 
 from app.engine.effects import parse_ability_effects, parse_effects
 from app.engine.game import Game, Pokemon, play_game
-from app.engine.models import default_family_rules
+from app.engine.legality import copy_violations
+from app.engine.models import default_family_rules, standard_60_rules
 from app.engine.strategies import StrategySpec
-from app.seed_data import SET_C_NAMES, SET_D_NAMES, SET_T_NAMES, build_fallback_deck, fallback_named
+from app.seed_data import (
+    SET_C_NAMES,
+    SET_C60_NAMES,
+    SET_D_NAMES,
+    SET_T_NAMES,
+    SET_T_META_NAMES,
+    build_fallback_deck,
+    fallback_named,
+)
 
 
 def test_set_t_is_30_and_two_of():
@@ -265,3 +274,83 @@ def test_party_vs_demolish_four_one_still_chumps():
     assert game._want_four_one_line(me, foe)
     game._maybe_retreat(me, foe, "a")
     assert game._is_clefairy(me.card(me.active.card_i))
+
+
+def _party_vs_meta_pult_game(seed: int = 1) -> Game:
+    c = build_fallback_deck(list(SET_C60_NAMES))
+    t = build_fallback_deck(list(SET_T_META_NAMES))
+    return Game(
+        c,
+        t,
+        standard_60_rules(),
+        StrategySpec.from_dict("party"),
+        StrategySpec.from_dict("phantom"),
+        Random(seed),
+    )
+
+
+def test_adrena_brain_parses_printed_wording():
+    munk = fallback_named("Munkidori")
+    abi = next(a for a in munk.abilities if a.name == "Adrena-Brain")
+    effects = parse_ability_effects(abi.text)
+    assert effects[0]["kind"] == "move_damage_counters"
+    assert effects[0]["counters"] == 3
+    assert effects[0]["require_energy"] == "Darkness"
+
+
+def test_adrena_brain_snipes_clefairy_when_darkness_is_attached():
+    game = _party_vs_meta_pult_game(9)
+    me = game.players["b"]
+    foe = game.players["a"]
+    munk = next(i for i, card in enumerate(me.cards) if card.name == "Munkidori")
+    dark = next(i for i, card in enumerate(me.cards) if card.name == "Darkness Energy")
+    pult = next(i for i, card in enumerate(me.cards) if card.name == "Dragapult ex")
+    clef = next(i for i, card in enumerate(foe.cards) if card.name == "Clefairy")
+    me.active = Pokemon(card_i=pult, damage=30, played_turn=0)
+    me.bench = [Pokemon(card_i=munk, energy=[dark], played_turn=0)]
+    foe.active = Pokemon(card_i=clef, damage=30, played_turn=0)
+    game._use_passive_abilities(me, "b", foe)
+    assert game.events.get("adrena_brain") == 1
+    assert me.active.damage == 0
+    assert game.events.get("ko:Clefairy") == 1
+
+
+def test_adrena_brain_needs_darkness_energy():
+    game = _party_vs_meta_pult_game(10)
+    me = game.players["b"]
+    foe = game.players["a"]
+    munk = next(i for i, card in enumerate(me.cards) if card.name == "Munkidori")
+    pult = next(i for i, card in enumerate(me.cards) if card.name == "Dragapult ex")
+    clef = next(i for i, card in enumerate(foe.cards) if card.name == "Clefairy")
+    me.active = Pokemon(card_i=pult, damage=30, played_turn=0)
+    me.bench = [Pokemon(card_i=munk, energy=[], played_turn=0)]
+    foe.active = Pokemon(card_i=clef, damage=30, played_turn=0)
+    game._use_passive_abilities(me, "b", foe)
+    assert not game.events.get("adrena_brain")
+    assert me.active.damage == 30
+
+
+def test_hedrick_shaped_dragapult_is_legal_sixty():
+    names = list(SET_T_META_NAMES)
+    assert len(names) == 60
+    assert names.count("Dragapult ex") == 3
+    assert names.count("Munkidori") == 2
+    assert names.count("Drakloak") == 4
+    pile = build_fallback_deck(names)
+    assert copy_violations(pile, standard_60_rules()) == []
+
+
+def test_c60_vs_hedrick_shaped_dragapult_completes():
+    c = build_fallback_deck(list(SET_C60_NAMES))
+    t = build_fallback_deck(list(SET_T_META_NAMES))
+    result = play_game(
+        c,
+        t,
+        standard_60_rules(),
+        StrategySpec.from_dict("party"),
+        StrategySpec.from_dict("phantom"),
+        Random(11),
+        trace=True,
+    )
+    assert result.winner in {"a", "b", "tie"}
+    assert result.turns >= 1
