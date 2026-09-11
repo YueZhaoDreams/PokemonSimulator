@@ -9,7 +9,7 @@ Raw: `data/lab/set-c60-budew-item-lock.json`
 
 Printed **Item** lock is **Budew** PRE 4, Itchy Pollen `[]` 10: “During your opponent's next turn, they can't play any Item cards from their hand.” That is Nest / Poffin / Ultra / Candy / Switch / Hammer. It does **not** lock Supporters (Boss, Iono, Tulip, Hop).
 
-Swap: **1 Budew for 1 Psychic Energy** on locked C60 (still 15−1 Energy). Family Cup Set C stays 30 and still has no Budew.
+Swap: **1 Budew for 1 Psychic Energy** on locked C60, so the trial list has **14 Psychic Energy** (locked C60 keeps 15). Family Cup Set C stays 30 and still has no Budew.
 
 The 1,500-game cells used a temporary party path: Moon-Watching Party from Active Clefairy, then Switch onto Budew to Pollen, and skip Pollen when Photon / Moon can KO or Dive is paid. That path is **not** in locked `party` — C60 has no Budew, and sitting a 30 HP Grass body still lost even when the AI tried to use it.
 
