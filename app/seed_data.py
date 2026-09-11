@@ -96,6 +96,36 @@ SET_C_NAMES = (
     + ["Boss's Orders"]
 )
 
+# Set C → Standard 60 (preset s60). Pokémon are not energy, so the 30-card
+# Clefable pile is thinned and 14 Psychic Energy pay Party / Photon / Zone.
+# Keep LOR 62 Clefairy as the engine; add Switch so Party can fire from Active;
+# Poffin benches 60 HP Clefairy; more Boss for a 6-prize race.
+SET_C60_NAMES = (
+    ["Clefairy"] * 4
+    + ["Mewtwo ex"] * 3
+    + ["Clefable"] * 2
+    + ["Clefable ex"] * 3
+    + ["Mega Clefable ex"] * 2
+    + ["Nest Ball"] * 4
+    + ["Buddy-Buddy Poffin"] * 4
+    + ["Ultra Ball"] * 2
+    + ["Hop"] * 2
+    + ["Lillie"] * 2
+    + ["Lillie's Determination"] * 2
+    + ["Arven"]
+    + ["Jacq"]
+    + ["Boss's Orders"] * 3
+    + ["Iono"] * 2
+    + ["Switch"] * 2
+    + ["Energy Switch"] * 2
+    + ["Energy Retrieval"]
+    + ["Energy Search"]
+    + ["Night Stretcher"]
+    + ["Maximum Belt"]
+    + ["Tool Box"]
+    + ["Psychic Energy"] * 14
+)
+
 SET_D_NAMES = (  # 30: Fighting Energy 6 → 8
     ["Cornerstone Mask Ogerpon ex"] * 4
     + ["Fighting Energy"] * 8
@@ -128,6 +158,45 @@ SET_S_NAMES = (
     + ["Grass Energy"] * 2
 )
 
+# Set D / S / T stretched to Standard 60 for s60 bakeoffs (Pokémon are not energy).
+SET_D60_NAMES = (
+    ["Cornerstone Mask Ogerpon ex"] * 4
+    + ["Nest Ball"] * 4
+    + ["Energy Search"] * 4
+    + ["Ultra Ball"] * 4
+    + ["Switch"] * 4
+    + ["Bravery Charm"] * 4
+    + ["Boss's Orders"] * 4
+    + ["Iono"] * 4
+    + ["Acerola"] * 2
+    + ["Hop"] * 2
+    + ["Lillie"] * 2
+    + ["Night Stretcher"] * 2
+    + ["Energy Retrieval"] * 2
+    + ["Fighting Energy"] * 14
+    + ["Double Colorless Energy"] * 4
+)
+
+SET_S60_NAMES = (
+    ["Sprigatito"] * 4
+    + ["Floragato"] * 4
+    + ["Wo-Chien ex"] * 3
+    + ["Tangela"] * 2
+    + ["Nest Ball"] * 4
+    + ["Energy Search"] * 4
+    + ["Switch"] * 4
+    + ["Ultra Ball"] * 4
+    + ["Iono"] * 4
+    + ["Boss's Orders"] * 2
+    + ["Hop"] * 2
+    + ["Night Stretcher"] * 2
+    + ["Jacq"]
+    + ["Maximum Belt"]
+    + ["Tool Box"]
+    + ["Arven"]
+    + ["Grass Energy"] * 17
+)
+
 # Set T — official 30-card constructed (max 2 copies except basic Energy, 3 prizes).
 # Compressed August 2026 Standard Dragapult ex (Phantom Dive) half-deck.
 SET_T_NAMES = (
@@ -150,6 +219,31 @@ SET_T_NAMES = (
     + ["Psychic Energy"] * 2
     + ["Fire Energy"] * 2
     + ["Darkness Energy"]
+)
+
+SET_T60_NAMES = (
+    ["Dreepy"] * 4
+    + ["Drakloak"] * 3
+    + ["Dragapult ex"] * 3
+    + ["Fezandipiti ex"] * 2
+    + ["Budew"] * 2
+    + ["Buddy-Buddy Poffin"] * 4
+    + ["Ultra Ball"] * 4
+    + ["Rare Candy"] * 4
+    + ["Lillie's Determination"] * 4
+    + ["Boss's Orders"] * 4
+    + ["Iono"] * 2
+    + ["Judge"] * 2
+    + ["Crispin"] * 2
+    + ["Night Stretcher"] * 2
+    + ["Poké Pad"] * 2
+    + ["Crushing Hammer"] * 2
+    + ["Nest Ball"]
+    + ["Energy Search"]
+    + ["Unfair Stamp"]
+    + ["Fire Energy"] * 5
+    + ["Psychic Energy"] * 4
+    + ["Darkness Energy"] * 2
 )
 
 # Carpet Set E — new beige-carpet photo (data/samples/set-e-carpet.jpg).
