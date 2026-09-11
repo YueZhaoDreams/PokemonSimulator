@@ -169,6 +169,107 @@ def parse_ability_effects(text: str) -> list[dict[str, Any]]:
         if n:
             threshold = int(n.group(1))
         effects.append({"kind": "invisible_wall", "threshold": threshold})
+
+    # Munkidori Adrena-Brain: move up to N damage counters, often gated on Darkness Energy.
+    move_counters = re.search(
+        r"move up to (\d+) damage counters from 1 of your pokemon to 1 of your opponent's pokemon",
+        t,
+    )
+    if move_counters:
+        require = None
+        gated = re.search(
+            r"if this pokemon has any (grass|fire|water|lightning|psychic|fighting|darkness|metal|fairy|colorless) energy attached",
+            t,
+        )
+        if gated:
+            require = gated.group(1).title()
+        effects.append(
+            {
+                "kind": "move_damage_counters",
+                "counters": int(move_counters.group(1)),
+                "require_energy": require,
+                "once_per_turn": "once during your turn" in t,
+            }
+        )
+
+    # Dudunsparce Run Away Draw: draw N, then shuffle this Pokémon into the deck.
+    if "shuffle this pokemon" in t and "into your deck" in t and "draw" in t:
+        n = re.search(r"draw (\d+)", t)
+        effects.append(
+            {
+                "kind": "draw_then_shuffle_self",
+                "amount": int(n.group(1) if n else 3),
+                "once_per_turn": "once during your turn" in t,
+            }
+        )
+
+    # Meowth ex Last-Ditch Catch: play from hand onto Bench, search a Supporter.
+    if (
+        "from your hand onto your bench" in t
+        and "supporter" in t
+        and "search your deck" in t
+    ):
+        lock = "last-ditch" if "last-ditch" in t else None
+        effects.append(
+            {
+                "kind": "search_supporter_on_bench",
+                "once_per_turn": True,
+                "name_lock": lock,
+            }
+        )
+
+    # Risky Ruins: chip Basics that hit the Bench.
+    stadium_chip = re.search(
+        r"puts a basic(?: non-(\w+))? pokemon onto their bench.*?place (\d+) damage counters",
+        t,
+    )
+    if stadium_chip:
+        excl = stadium_chip.group(1)
+        effects.append(
+            {
+                "kind": "stadium_bench_damage",
+                "counters": int(stadium_chip.group(2)),
+                "exclude_type": excl.title() if excl else None,
+            }
+        )
+
+    # Pidgeot Quick Search / Forest Seal Star Alchemy: search any one card.
+    if "search your deck for a card" in t and "into your hand" in t:
+        effects.append(
+            {
+                "kind": "search_any_card",
+                "once_per_turn": "more than 1" in t and "in a game" not in t,
+                "once_per_game": "in a game" in t or "vstar" in t,
+                "require_attached_v": "attached" in t and "pokemon v" in t,
+                "ability_lock": "quick search" if "quick search" in t else None,
+            }
+        )
+
+    # Rotom V Instant Charge: draw, then the turn ends.
+    if "your turn ends" in t and "draw" in t:
+        n = re.search(r"draw (\d+)", t)
+        effects.append(
+            {
+                "kind": "draw_end_turn",
+                "amount": int(n.group(1) if n else 3),
+                "once_per_turn": "once during your turn" in t,
+            }
+        )
+
+    # Manaphy Wave Veil: prevent attack damage to your Bench.
+    if "prevent all damage" in t and "benched" in t and "attack" in t:
+        effects.append({"kind": "prevent_bench_attack_damage"})
+
+    # Collapsed Stadium: bench size 4; opponent discards first when it enters.
+    bench_cap = re.search(r"can't have more than (\d+) benched", t)
+    if bench_cap:
+        effects.append(
+            {
+                "kind": "stadium_bench_limit",
+                "limit": int(bench_cap.group(1)),
+                "opponent_discards_first": "opponent discards first" in t,
+            }
+        )
     return effects
 
 
@@ -326,6 +427,8 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
         )
     elif counter_bonus and ("opponent" in t or "defending" in t):
         effects.append({"kind": "damage_counter_bonus", "per": int(counter_bonus.group(1))})
+    elif "lost zone" in t and "tool" in t:
+        pass
     elif psychic_ref and "more damage" in t and "for each" in t:
         n = re.search(r"(\d+) more damage for each", t)
         effects.append({"kind": "psychic_energy_bonus", "per": int(n.group(1)) if n else 30})
@@ -362,6 +465,25 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
             }
         )
 
+    # Rotom V Scrap Short: Tools to the Lost Zone, +N per card.
+    lost_tools = re.search(
+        r"(\d+) more damage for each card (?:you )?put in the lost zone",
+        t,
+    )
+    if "lost zone" in t and "tool" in t:
+        effects.append(
+            {
+                "kind": "tools_to_lost_zone_bonus",
+                "per": int(lost_tools.group(1) if lost_tools else 40),
+            }
+        )
+
+    if "discard a stadium" in t:
+        effects.append({"kind": "may_discard_stadium"})
+
+    if "shuffle this pokemon" in t and "into your deck" in t:
+        effects.append({"kind": "shuffle_self_into_deck"})
+
     # Flutter Mane Hex Hurl: damage counters on benched Pokémon
     bench = re.search(
         r"put (\d+) damage counters? on (?:1 of )?your opponent'?s? benched",
@@ -369,6 +491,14 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
     )
     if bench:
         effects.append({"kind": "bench_damage_counters", "counters": int(bench.group(1))})
+
+    if "switch this pokemon with 1 of your benched" in t:
+        effects.append({"kind": "switch_with_benched"})
+    if (
+        "put this pokemon and all attached cards into your hand" in t
+        or "put this pokemon and all cards attached to it back into your hand" in t
+    ):
+        effects.append({"kind": "return_self_to_hand"})
 
     return effects
 

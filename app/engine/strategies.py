@@ -247,8 +247,12 @@ STRATEGY_LIBRARY = {
             "Vs Dragapult: Party once, hide on a body that still survives Phantom Dive 200 "
             "(full Mega / full Mewtwo / undamaged Clefable ex). Never gift a 120 HP Mega (3 prizes) "
             "or a leftover 60 HP ex. Lunar Zone on a fueled bench Clefairy; Mega only if Mewtwo is "
-            "already the second tank. Wondrous Moon 170 when it takes prizes this turn (two hits KO "
-            "320 HP Dragapult). Photon remains the closer; do not starve it to chip. "
+            "already the second tank. Classic CLC 014 Clefable (Metronome [C]) copies Phantom Dive "
+            "when Dragapult is Active — 200 plus 6 bench counters even if that is not a KO. "
+            "After Party, Photon / Wondrous Moon / Shooting Moons chip for whatever they pay "
+            "(no sitting out a 170 into 320). Transfer Charge does not stall a payable hit. "
+            "Still hide a 60 HP Clefairy that cannot attack. Do not evolve CLC onto Budew "
+            "(Itchy Pollen). "
             "151 Invitation Clefairy (if mixed in) dumps Party engines in one attack when "
             "there is no Switch to rotate Party. One Boss's Orders to pull a prize. "
             "Trainer order: hunt Maximum Belt (Arven before Tool Box), then Hop or "
@@ -315,11 +319,22 @@ STRATEGY_LIBRARY = {
     "phantom": StrategySpec(
         name="phantom",
         description=(
-            "Set T Dragapult ex half-deck: Poffin Dreepy (and Budew). Evolve "
+            "Set T Dragapult ex: Poffin Dreepy / Budew / Dunsparce. Evolve "
             "Drakloak for Recon Directive (look top N from printed text), Rare Candy "
-            "to Dragapult ex. Fire + Psychic pay Phantom Dive 200 plus 6 bench "
+            "to Dragapult ex when the list has Candy. Fire + Psychic pay Phantom Dive 200 plus 6 bench "
             "counters. Budew Itchy Pollen locks Items. Fezandipiti Flip the Script "
-            "draws after a KO. Do not spend the line as Family Cup energy."
+            "draws after a KO. Munkidori Adrena-Brain (printed: Darkness attached, "
+            "move up to 3 damage counters) snipes a leftover 60 HP prize. "
+            "Meowth ex Last-Ditch Catch searches a Supporter when benched from hand. "
+            "Dudunsparce Run Away Draw draws 3 then shuffles itself. "
+            "Pidgeot ex Quick Search finds any card (once per turn). Rotom V Instant Charge "
+            "draws 3 and ends the turn. Lumineon V Luminous Sign searches a Supporter from hand. "
+            "Manaphy Wave Veil blocks attack damage to the Bench. Forest Seal Stone Star Alchemy "
+            "is one VSTAR search per game. Counter Catcher gusts when ahead on remaining prizes. "
+            "Rosa's Encouragement fuels a Stage 2 from discard when behind on prizes. "
+            "Special Red Card puts the opponent to 3 when they have 3 prizes left. "
+            "Risky Ruins chips non-Darkness Basics that hit the Bench. "
+            "Do not spend the line as Family Cup energy."
         ),
         prefer_damage=1.0,
         prefer_status=0.15,
@@ -328,7 +343,7 @@ STRATEGY_LIBRARY = {
         attach_pokemon_as_energy=0.2,
         item_spend=1.0,
         hold_as_energy=True,
-        protect=["Dreepy", "Drakloak", "Dragapult ex", "Fezandipiti ex", "Budew"],
+        protect=["Dreepy", "Drakloak", "Dragapult ex", "Fezandipiti ex", "Budew", "Munkidori", "Dunsparce", "Dudunsparce", "Meowth ex", "Pidgey", "Pidgeotto", "Pidgeot ex", "Rotom V", "Lumineon V", "Manaphy"],
         search_aces=["Dreepy"],
         closers=["Dragapult ex"],
         backups=["Budew"],

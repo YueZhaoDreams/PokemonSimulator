@@ -47,6 +47,19 @@ PUBLISHED_EFFECT_KINDS = frozenset(
         "swallow_energy",
         "deck_count_bonus",
         "bench_damage_counters",
+        "move_damage_counters",
+        "draw_then_shuffle_self",
+        "search_supporter_on_bench",
+        "stadium_bench_damage",
+        "switch_with_benched",
+        "return_self_to_hand",
+        "search_any_card",
+        "draw_end_turn",
+        "prevent_bench_attack_damage",
+        "stadium_bench_limit",
+        "tools_to_lost_zone_bonus",
+        "may_discard_stadium",
+        "shuffle_self_into_deck",
     }
 )
 

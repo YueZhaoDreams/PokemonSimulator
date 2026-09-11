@@ -96,6 +96,38 @@ SET_C_NAMES = (
     + ["Boss's Orders"]
 )
 
+# Set C → Standard 60 (preset s60). Pokémon are not energy, so the 30-card
+# Clefable pile is thinned and 14 Psychic Energy pay Party / Photon / Zone.
+# Keep LOR 62 Clefairy as the engine; add Switch so Party can fire from Active;
+# Poffin benches 60 HP Clefairy; more Boss for a 6-prize race.
+# Two Classic CLC 014 Clefable (Metronome for [C]) replace Rebel Clash Prankish:
+# copy Phantom Dive when Dragapult is Active. Same printed name as RCL, so 2-of.
+SET_C60_NAMES = (
+    ["Clefairy"] * 4
+    + ["Mewtwo ex"] * 3
+    + ["Clefable CLC"] * 2
+    + ["Clefable ex"] * 3
+    + ["Mega Clefable ex"] * 2
+    + ["Nest Ball"] * 4
+    + ["Buddy-Buddy Poffin"] * 4
+    + ["Ultra Ball"] * 2
+    + ["Hop"] * 2
+    + ["Lillie"] * 2
+    + ["Lillie's Determination"] * 2
+    + ["Arven"]
+    + ["Jacq"]
+    + ["Boss's Orders"] * 3
+    + ["Iono"] * 2
+    + ["Switch"] * 2
+    + ["Energy Switch"] * 2
+    + ["Energy Retrieval"]
+    + ["Energy Search"]
+    + ["Night Stretcher"]
+    + ["Maximum Belt"]
+    + ["Tool Box"]
+    + ["Psychic Energy"] * 14
+)
+
 SET_D_NAMES = (  # 30: Fighting Energy 6 → 8
     ["Cornerstone Mask Ogerpon ex"] * 4
     + ["Fighting Energy"] * 8
@@ -128,6 +160,45 @@ SET_S_NAMES = (
     + ["Grass Energy"] * 2
 )
 
+# Set D / S / T stretched to Standard 60 for s60 bakeoffs (Pokémon are not energy).
+SET_D60_NAMES = (
+    ["Cornerstone Mask Ogerpon ex"] * 4
+    + ["Nest Ball"] * 4
+    + ["Energy Search"] * 4
+    + ["Ultra Ball"] * 4
+    + ["Switch"] * 4
+    + ["Bravery Charm"] * 4
+    + ["Boss's Orders"] * 4
+    + ["Iono"] * 4
+    + ["Acerola"] * 2
+    + ["Hop"] * 2
+    + ["Lillie"] * 2
+    + ["Night Stretcher"] * 2
+    + ["Energy Retrieval"] * 2
+    + ["Fighting Energy"] * 14
+    + ["Double Colorless Energy"] * 4
+)
+
+SET_S60_NAMES = (
+    ["Sprigatito"] * 4
+    + ["Floragato"] * 4
+    + ["Wo-Chien ex"] * 3
+    + ["Tangela"] * 2
+    + ["Nest Ball"] * 4
+    + ["Energy Search"] * 4
+    + ["Switch"] * 4
+    + ["Ultra Ball"] * 4
+    + ["Iono"] * 4
+    + ["Boss's Orders"] * 2
+    + ["Hop"] * 2
+    + ["Night Stretcher"] * 2
+    + ["Jacq"]
+    + ["Maximum Belt"]
+    + ["Tool Box"]
+    + ["Arven"]
+    + ["Grass Energy"] * 17
+)
+
 # Set T — official 30-card constructed (max 2 copies except basic Energy, 3 prizes).
 # Compressed August 2026 Standard Dragapult ex (Phantom Dive) half-deck.
 SET_T_NAMES = (
@@ -150,6 +221,91 @@ SET_T_NAMES = (
     + ["Psychic Energy"] * 2
     + ["Fire Energy"] * 2
     + ["Darkness Energy"]
+)
+
+SET_T60_NAMES = (
+    ["Dreepy"] * 4
+    + ["Drakloak"] * 3
+    + ["Dragapult ex"] * 3
+    + ["Fezandipiti ex"] * 2
+    + ["Budew"] * 2
+    + ["Buddy-Buddy Poffin"] * 4
+    + ["Ultra Ball"] * 4
+    + ["Rare Candy"] * 4
+    + ["Lillie's Determination"] * 4
+    + ["Boss's Orders"] * 4
+    + ["Iono"] * 2
+    + ["Judge"] * 2
+    + ["Crispin"] * 2
+    + ["Night Stretcher"] * 2
+    + ["Poké Pad"] * 2
+    + ["Crushing Hammer"] * 2
+    + ["Nest Ball"]
+    + ["Energy Search"]
+    + ["Unfair Stamp"]
+    + ["Fire Energy"] * 5
+    + ["Psychic Energy"] * 4
+    + ["Darkness Energy"] * 2
+)
+
+# Worlds 2026 Andrew Hedrick Dragapult (Limitless #28752). Printed 60.
+SET_T_META_NAMES = (
+    ["Dreepy"] * 4
+    + ["Drakloak"] * 4
+    + ["Dragapult ex"] * 3
+    + ["Munkidori"] * 2
+    + ["Budew"] * 2
+    + ["Dunsparce"]
+    + ["Dudunsparce"]
+    + ["Meowth ex"]
+    + ["Fezandipiti ex"]
+    + ["Lillie's Determination"] * 4
+    + ["Boss's Orders"] * 3
+    + ["Crispin"] * 2
+    + ["Rosa's Encouragement"]
+    + ["Poké Pad"] * 4
+    + ["Crushing Hammer"] * 4
+    + ["Buddy-Buddy Poffin"] * 4
+    + ["Night Stretcher"] * 3
+    + ["Ultra Ball"] * 3
+    + ["Unfair Stamp"]
+    + ["Special Red Card"]
+    + ["Risky Ruins"] * 2
+    + ["Fire Energy"] * 3
+    + ["Darkness Energy"] * 3
+    + ["Psychic Energy"] * 3
+)
+
+# Unlimited Dragapult extras (Pidgeot / Rotom V / Counter Catcher package). Printed 60.
+SET_T_UNL_NAMES = (
+    ["Dreepy"] * 4
+    + ["Drakloak"] * 2
+    + ["Dragapult ex"] * 3
+    + ["Pidgey"] * 2
+    + ["Pidgeotto"]
+    + ["Pidgeot ex"] * 2
+    + ["Rotom V"]
+    + ["Fezandipiti ex"]
+    + ["Lumineon V"]
+    + ["Manaphy"]
+    + ["Arven"] * 4
+    + ["Iono"] * 4
+    + ["Boss's Orders"] * 2
+    + ["Crispin"]
+    + ["Nest Ball"] * 4
+    + ["Buddy-Buddy Poffin"] * 4
+    + ["Rare Candy"] * 4
+    + ["Ultra Ball"] * 4
+    + ["Counter Catcher"] * 2
+    + ["Night Stretcher"]
+    + ["Earthen Vessel"]
+    + ["Switch"]
+    + ["Forest Seal Stone"]
+    + ["Super Rod"]
+    + ["Professor Turo's Scenario"]
+    + ["Collapsed Stadium"]
+    + ["Fire Energy"] * 3
+    + ["Psychic Energy"] * 3
 )
 
 # Carpet Set E — new beige-carpet photo (data/samples/set-e-carpet.jpg).
@@ -531,6 +687,74 @@ _register(
         "Judge",
         "supporter",
         "Each player shuffles their hand into their deck and draws 4 cards.",
+    )
+)
+_register(
+    _trn(
+        "Rosa's Encouragement",
+        "supporter",
+        "You can use this card only if you have more Prize cards remaining than your opponent. Attach up to 2 Basic Energy cards from your discard pile to 1 of your Stage 2 Pokémon.",
+        catalog_id="me03-084",
+        image="https://assets.tcgdex.net/en/me/me03/084/low.webp",
+    )
+)
+_register(
+    _trn(
+        "Special Red Card",
+        "item",
+        "You can use this card only if your opponent has 3 or fewer Prize cards remaining. Your opponent shuffles their hand and puts it on the bottom of their deck. If they put any cards on the bottom of their deck in this way, they draw 3 cards.",
+        catalog_id="me04-082",
+        image="https://assets.tcgdex.net/en/me/me04/082/low.webp",
+    )
+)
+_register(
+    _trn(
+        "Risky Ruins",
+        "stadium",
+        "Whenever any player puts a Basic non-Darkness Pokémon onto their Bench during their turn, place 2 damage counters on that Pokémon.",
+        catalog_id="me01-127",
+        image="https://assets.tcgdex.net/en/me/me01/127/low.webp",
+    )
+)
+_register(
+    _trn(
+        "Counter Catcher",
+        "item",
+        "You can use this card only if you have more Prize cards remaining than your opponent.\n\n"
+        "Switch in 1 of your opponent's Benched Pokémon to the Active Spot.",
+        catalog_id="sv04-160",
+        image="https://assets.tcgdex.net/en/sv/sv04/160/low.webp",
+    )
+)
+_register(
+    _trn(
+        "Forest Seal Stone",
+        "item",
+        "The Pokémon V this card is attached to can use the VSTAR Power on this card.\n\n"
+        "Star Alchemy: During your turn, you may search your deck for a card and put it "
+        "into your hand. Then, shuffle your deck. (You can't use more than 1 VSTAR Power in a game.)",
+        catalog_id="swsh12-156",
+        image="https://assets.tcgdex.net/en/swsh/swsh12/156/low.webp",
+    )
+)
+_register(
+    _trn(
+        "Professor Turo's Scenario",
+        "supporter",
+        "Put 1 of your Pokémon in play and all attached cards into your hand.",
+        catalog_id="sv04-171",
+        image="https://assets.tcgdex.net/en/sv/sv04/171/low.webp",
+    )
+)
+_register(
+    _trn(
+        "Collapsed Stadium",
+        "stadium",
+        "Each player can't have more than 4 Benched Pokémon. If a player has 5 or more "
+        "Benched Pokémon, they discard Benched Pokémon until they have 4 Pokémon on the Bench. "
+        "Your opponent discards first.",
+        catalog_id="swsh9-137",
+        image="https://assets.tcgdex.net/en/swsh/swsh9/137/low.webp",
     )
 )
 _register(
@@ -1455,6 +1679,207 @@ for card in [
         catalog_id="sv08.5-004",
         image="https://assets.tcgdex.net/en/sv/sv08.5/004/low.webp",
         set_name="Prismatic Evolutions",
+    ),
+    _pkm(
+        "Dunsparce",
+        "Basic",
+        ["Colorless"],
+        70,
+        [
+            _atk(
+                "Trading Places",
+                ["Colorless"],
+                0,
+                "Switch this Pokémon with 1 of your Benched Pokémon.",
+            ),
+            _atk("Ram", ["Colorless", "Colorless"], 20),
+        ],
+        weakness="Fighting",
+        catalog_id="sv09-120",
+        image="https://assets.tcgdex.net/en/sv/sv09/120/low.webp",
+        set_name="Journey Together",
+    ),
+    _pkm(
+        "Dudunsparce",
+        "Stage1",
+        ["Colorless"],
+        140,
+        [_atk("Land Crush", ["Colorless", "Colorless", "Colorless"], 90)],
+        evolves_from="Dunsparce",
+        retreat=3,
+        abilities=[
+            Ability(
+                name="Run Away Draw",
+                text=(
+                    "Once during your turn, you may draw 3 cards. If you drew any cards "
+                    "in this way, shuffle this Pokémon and all attached cards into your deck."
+                ),
+            )
+        ],
+        weakness="Fighting",
+        catalog_id="sv05-129",
+        image="https://assets.tcgdex.net/en/sv/sv05/129/low.webp",
+        set_name="Temporal Forces",
+    ),
+    _pkm(
+        "Meowth ex",
+        "Basic",
+        ["Colorless"],
+        170,
+        [
+            _atk(
+                "Tuck Tail",
+                ["Colorless", "Colorless", "Colorless"],
+                60,
+                "Put this Pokémon and all attached cards into your hand.",
+            )
+        ],
+        abilities=[
+            Ability(
+                name="Last-Ditch Catch",
+                text=(
+                    "Once during your turn, when you play this Pokémon from your hand onto your Bench, "
+                    "you may use this Ability. Search your deck for a Supporter card, reveal it, "
+                    "and put it into your hand. Then, shuffle your deck. You can't use more than 1 "
+                    "Ability that has \"Last-Ditch\" in its name each turn."
+                ),
+            )
+        ],
+        weakness="Fighting",
+        catalog_id="me03-062",
+        image="https://assets.tcgdex.net/en/me/me03/062/low.webp",
+        set_name="Perfect Order",
+    ),
+    _pkm(
+        "Pidgey",
+        "Basic",
+        ["Colorless"],
+        60,
+        [_atk("Gust", ["Colorless"], 20)],
+        weakness="Lightning",
+        resistances=[{"type": "Fighting", "value": "-30"}],
+        catalog_id="sv03-162",
+        image="https://assets.tcgdex.net/en/sv/sv03/162/low.webp",
+        set_name="Obsidian Flames",
+    ),
+    _pkm(
+        "Pidgeotto",
+        "Stage1",
+        ["Colorless"],
+        80,
+        [_atk("Wing Attack", ["Colorless", "Colorless"], 40)],
+        evolves_from="Pidgey",
+        weakness="Lightning",
+        resistances=[{"type": "Fighting", "value": "-30"}],
+        catalog_id="sv03-163",
+        image="https://assets.tcgdex.net/en/sv/sv03/163/low.webp",
+        set_name="Obsidian Flames",
+    ),
+    _pkm(
+        "Pidgeot ex",
+        "Stage2",
+        ["Colorless"],
+        280,
+        [
+            _atk(
+                "Blustery Wind",
+                ["Colorless", "Colorless"],
+                120,
+                "You may discard a Stadium in play.",
+            )
+        ],
+        evolves_from="Pidgeotto",
+        retreat=0,
+        abilities=[
+            Ability(
+                name="Quick Search",
+                text=(
+                    "Once during your turn, you may search your deck for a card, reveal it, "
+                    "and put it into your hand. Then, shuffle your deck. You can't use more "
+                    "than 1 Quick Search Ability during your turn."
+                ),
+            )
+        ],
+        weakness="Lightning",
+        resistances=[{"type": "Fighting", "value": "-30"}],
+        catalog_id="sv03-164",
+        image="https://assets.tcgdex.net/en/sv/sv03/164/low.webp",
+        set_name="Obsidian Flames",
+    ),
+    _pkm(
+        "Rotom V",
+        "Basic",
+        ["Lightning"],
+        190,
+        [
+            _atk(
+                "Scrap Short",
+                ["Lightning", "Colorless"],
+                40,
+                "Put any number of Pokémon Tools attached to your Pokémon in the Lost Zone. "
+                "This attack does 40 more damage for each card you put in the Lost Zone in this way.",
+            )
+        ],
+        abilities=[
+            Ability(
+                name="Instant Charge",
+                text=(
+                    "Once during your turn, you may draw 3 cards. If you do, your turn ends."
+                ),
+            )
+        ],
+        weakness="Fighting",
+        catalog_id="swsh11-058",
+        image="https://assets.tcgdex.net/en/swsh/swsh11/058/low.webp",
+        set_name="Lost Origin",
+    ),
+    _pkm(
+        "Lumineon V",
+        "Basic",
+        ["Water"],
+        170,
+        [
+            _atk(
+                "Aqua Return",
+                ["Colorless", "Colorless", "Colorless"],
+                40,
+                "Shuffle this Pokémon and all attached cards into your deck.",
+            )
+        ],
+        abilities=[
+            Ability(
+                name="Luminous Sign",
+                text=(
+                    "When you play this Pokémon from your hand onto your Bench during your turn, "
+                    "you may search your deck for a Supporter card, reveal it, and put it into "
+                    "your hand. Then, shuffle your deck."
+                ),
+            )
+        ],
+        weakness="Lightning",
+        catalog_id="swsh9-040",
+        image="https://assets.tcgdex.net/en/swsh/swsh9/040/low.webp",
+        set_name="Brilliant Stars",
+    ),
+    _pkm(
+        "Manaphy",
+        "Basic",
+        ["Water"],
+        70,
+        [_atk("Rain Splash", ["Water"], 20)],
+        abilities=[
+            Ability(
+                name="Wave Veil",
+                text=(
+                    "Prevent all damage done to your Benched Pokémon by attacks from "
+                    "your opponent's Pokémon."
+                ),
+            )
+        ],
+        weakness="Lightning",
+        catalog_id="swsh9-041",
+        image="https://assets.tcgdex.net/en/swsh/swsh9/041/low.webp",
+        set_name="Brilliant Stars",
     ),
     _pkm(
         "Glimmet",

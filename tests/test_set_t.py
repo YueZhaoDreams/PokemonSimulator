@@ -2,9 +2,18 @@ from random import Random
 
 from app.engine.effects import parse_ability_effects, parse_effects
 from app.engine.game import Game, Pokemon, play_game
-from app.engine.models import default_family_rules
+from app.engine.legality import copy_violations
+from app.engine.models import default_family_rules, standard_60_rules
 from app.engine.strategies import StrategySpec
-from app.seed_data import SET_C_NAMES, SET_D_NAMES, SET_T_NAMES, build_fallback_deck, fallback_named
+from app.seed_data import (
+    SET_C_NAMES,
+    SET_C60_NAMES,
+    SET_D_NAMES,
+    SET_T_NAMES,
+    SET_T_META_NAMES,
+    build_fallback_deck,
+    fallback_named,
+)
 
 
 def test_set_t_is_30_and_two_of():
@@ -165,8 +174,8 @@ def test_party_vs_phantom_does_not_gift_chipped_mega():
     assert game._is_clefairy(me.card(me.active.card_i))
 
 
-def test_party_vs_phantom_skips_wondrous_moon_chip():
-    """Moon is prize-only vs T. 170 into a 320 HP Dragapult is a chip — sit it out."""
+def test_party_vs_phantom_wondrous_moon_chips_after_party():
+    """Vs T, Moon 170 is a chip we take. Two hits plus Dive leftovers close 320."""
     game = _party_vs_phantom_game(5)
     me = game.players["a"]
     foe = game.players["b"]
@@ -178,7 +187,8 @@ def test_party_vs_phantom_skips_wondrous_moon_chip():
     assert game._can_pay_wondrous_moon(me, me.active)
     assert not game._moon_ko(me, foe)
     atk = game._choose_attack(me, foe, StrategySpec.from_dict("party"))
-    assert atk is None
+    assert atk is not None
+    assert atk.name == "Wondrous Moon"
 
 
 def test_party_vs_phantom_wondrous_moon_when_it_kos():
@@ -195,7 +205,7 @@ def test_party_vs_phantom_wondrous_moon_when_it_kos():
     assert atk.name == "Wondrous Moon"
 
 
-def test_party_vs_phantom_skips_shooting_moons_chip():
+def test_party_vs_phantom_shooting_moons_chips():
     game = _party_vs_phantom_game(7)
     me = game.players["a"]
     foe = game.players["b"]
@@ -205,7 +215,24 @@ def test_party_vs_phantom_skips_shooting_moons_chip():
     me.active = Pokemon(card_i=mega, energy=fuels, played_turn=0)
     foe.active = Pokemon(card_i=pult)
     atk = game._choose_attack(me, foe, StrategySpec.from_dict("party"))
-    assert atk is None
+    assert atk is not None
+    assert atk.name == "Shooting Moons"
+
+
+def test_party_vs_phantom_photon_chips_instead_of_passing():
+    game = _party_vs_phantom_game(8)
+    me = game.players["a"]
+    foe = game.players["b"]
+    mewtwo = next(i for i, card in enumerate(me.cards) if card.name == "Mewtwo ex")
+    fuels = [i for i, card in enumerate(me.cards) if card.name == "Clefable"][:2]
+    pult = next(i for i, card in enumerate(foe.cards) if card.name == "Dragapult ex")
+    me.active = Pokemon(card_i=mewtwo, energy=fuels, played_turn=0)
+    foe.active = Pokemon(card_i=pult)
+    atk = game._choose_attack(me, foe, StrategySpec.from_dict("party"))
+    assert atk is not None
+    assert "kinesis" in atk.name.lower()
+    assert game._effective_damage(me, foe, atk) > 0
+    assert game._effective_damage(me, foe, atk) < game._max_hp(foe, foe.active)
 
 
 def test_party_vs_demolish_four_one_still_chumps():
@@ -247,3 +274,89 @@ def test_party_vs_demolish_four_one_still_chumps():
     assert game._want_four_one_line(me, foe)
     game._maybe_retreat(me, foe, "a")
     assert game._is_clefairy(me.card(me.active.card_i))
+
+
+def _party_vs_meta_pult_game(seed: int = 1) -> Game:
+    c = build_fallback_deck(list(SET_C60_NAMES))
+    t = build_fallback_deck(list(SET_T_META_NAMES))
+    return Game(
+        c,
+        t,
+        standard_60_rules(),
+        StrategySpec.from_dict("party"),
+        StrategySpec.from_dict("phantom"),
+        Random(seed),
+    )
+
+
+def test_adrena_brain_parses_printed_wording():
+    munk = fallback_named("Munkidori")
+    abi = next(a for a in munk.abilities if a.name == "Adrena-Brain")
+    effects = parse_ability_effects(abi.text)
+    assert effects[0]["kind"] == "move_damage_counters"
+    assert effects[0]["counters"] == 3
+    assert effects[0]["require_energy"] == "Darkness"
+
+
+def test_adrena_brain_snipes_clefairy_when_darkness_is_attached():
+    game = _party_vs_meta_pult_game(9)
+    me = game.players["b"]
+    foe = game.players["a"]
+    munk = next(i for i, card in enumerate(me.cards) if card.name == "Munkidori")
+    dark = next(i for i, card in enumerate(me.cards) if card.name == "Darkness Energy")
+    pult = next(i for i, card in enumerate(me.cards) if card.name == "Dragapult ex")
+    clef = next(i for i, card in enumerate(foe.cards) if card.name == "Clefairy")
+    me.active = Pokemon(card_i=pult, damage=30, played_turn=0)
+    me.bench = [Pokemon(card_i=munk, energy=[dark], played_turn=0)]
+    foe.active = Pokemon(card_i=clef, damage=30, played_turn=0)
+    game._use_passive_abilities(me, "b", foe)
+    assert game.events.get("adrena_brain") == 1
+    assert me.active.damage == 0
+    assert game.events.get("ko:Clefairy") == 1
+
+
+def test_adrena_brain_needs_darkness_energy():
+    game = _party_vs_meta_pult_game(10)
+    me = game.players["b"]
+    foe = game.players["a"]
+    munk = next(i for i, card in enumerate(me.cards) if card.name == "Munkidori")
+    pult = next(i for i, card in enumerate(me.cards) if card.name == "Dragapult ex")
+    clef = next(i for i, card in enumerate(foe.cards) if card.name == "Clefairy")
+    me.active = Pokemon(card_i=pult, damage=30, played_turn=0)
+    me.bench = [Pokemon(card_i=munk, energy=[], played_turn=0)]
+    foe.active = Pokemon(card_i=clef, damage=30, played_turn=0)
+    game._use_passive_abilities(me, "b", foe)
+    assert not game.events.get("adrena_brain")
+    assert me.active.damage == 30
+
+
+def test_hedrick_shaped_dragapult_is_legal_sixty():
+    names = list(SET_T_META_NAMES)
+    assert len(names) == 60
+    assert names.count("Dragapult ex") == 3
+    assert names.count("Munkidori") == 2
+    assert names.count("Drakloak") == 4
+    assert names.count("Dunsparce") == 1
+    assert names.count("Meowth ex") == 1
+    assert names.count("Rosa's Encouragement") == 1
+    assert names.count("Special Red Card") == 1
+    assert names.count("Risky Ruins") == 2
+    assert names.count("Rare Candy") == 0
+    pile = build_fallback_deck(names)
+    assert copy_violations(pile, standard_60_rules()) == []
+
+
+def test_c60_vs_hedrick_shaped_dragapult_completes():
+    c = build_fallback_deck(list(SET_C60_NAMES))
+    t = build_fallback_deck(list(SET_T_META_NAMES))
+    result = play_game(
+        c,
+        t,
+        standard_60_rules(),
+        StrategySpec.from_dict("party"),
+        StrategySpec.from_dict("phantom"),
+        Random(11),
+        trace=True,
+    )
+    assert result.winner in {"a", "b", "tie"}
+    assert result.turns >= 1
