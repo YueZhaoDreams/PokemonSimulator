@@ -509,8 +509,8 @@ class Game:
             if glass and name in closers:
                 return 2000 + self._print_value(card, strat)
             if strat.name == "party" and "lillie's clefairy" in name:
-                # Fairy Zone is a bench card. Worse than the hold_as_energy
-                # placeholder (50 − HP), so Mewtwo / Clefairy always open first.
+                # Fairy Zone is a bench card. Score below the hold_as_energy
+                # placeholder (50 − HP) so any other Basic opens instead.
                 return -1000
             if name in aces:
                 bonus = 10 if glass else 1000
