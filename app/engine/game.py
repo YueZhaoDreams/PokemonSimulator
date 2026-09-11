@@ -1316,7 +1316,7 @@ class Game:
                 score += 6 if has_nrg else -3
             elif name == "night stretcher":
                 rec_pkm = any(me.card(i).is_pokemon for i in me.discard)
-                rec_nrg = any(me.card(i).is_energy for i in me.discard)
+                rec_nrg = any(is_basic_energy(me.card(i)) for i in me.discard)
                 if rec_pkm:
                     score += 10 if strat.name == "party" else 8
                 elif rec_nrg:
