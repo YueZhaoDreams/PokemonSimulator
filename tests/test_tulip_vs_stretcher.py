@@ -60,3 +60,21 @@ def test_party_tulip_beats_hop_when_discard_is_fat():
     assert tulip in me.discard
     assert hop in me.hand
     assert all(i in me.hand for i in fairies)
+
+
+def test_party_does_not_play_stretcher_for_special_energy_only():
+    game = _game()
+    me, foe = game.players["a"], game.players["b"]
+    dce = fallback_named("Double Colorless Energy")
+    me.cards.append(dce)
+    dce_i = len(me.cards) - 1
+    stretcher = next(i for i, c in enumerate(me.cards) if c.name == "Night Stretcher")
+    me.discard = [dce_i]
+    me.hand = [stretcher]
+    me.active = Pokemon(
+        card_i=next(i for i, c in enumerate(me.cards) if c.name == "Mewtwo ex"),
+        played_turn=0,
+    )
+    game._play_trainers(me, foe, "a")
+    assert stretcher in me.hand
+    assert dce_i in me.discard
