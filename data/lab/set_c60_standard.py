@@ -2,7 +2,7 @@
 """Set C constructed Standard 60 vs household 60-card lists.
 
 Rule: s60 (60 cards, 4 of a name, 6 prizes, Pokémon are not energy).
-Seed 20260911. 3,000 games / ordered pair (C60 is always player A).
+Seed 20260911. 3,000 games / cell (C60 is always player A; who goes first is random).
 """
 
 from __future__ import annotations
@@ -78,13 +78,14 @@ def main() -> None:
                 flush=True,
             )
     elapsed = time.perf_counter() - started
+    ordered = {key: cells[key] for key, _names, _strat in FOES}
     out = {
         "games": GAMES,
         "seed": SEED,
         "elapsed": elapsed,
         "rule_preset": "s60",
         "c60": list(SET_C60_NAMES),
-        "cells": cells,
+        "cells": ordered,
     }
     dest = ROOT / "data/lab/set-c60-standard.json"
     dest.write_text(json.dumps(out, indent=2))

@@ -70,3 +70,11 @@ def test_set_c60_vs_ogerpon60_completes_under_s60():
     )
     assert result.winner in {"a", "b", "tie"}
     assert result.turns >= 1
+
+
+def test_set_c60_lab_json_cells_follow_foe_order():
+    import json
+    from pathlib import Path
+
+    blob = json.loads((Path(__file__).resolve().parents[1] / "data/lab/set-c60-standard.json").read_text())
+    assert list(blob["cells"]) == ["g", "d60", "t60", "s60"]

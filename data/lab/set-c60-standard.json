@@ -66,17 +66,6 @@
     "Psychic Energy"
   ],
   "cells": {
-    "d60": {
-      "a": 0.725,
-      "b": 0.275,
-      "tie": 0.0,
-      "first": 0.7553050397877984,
-      "second": 0.6943699731903485,
-      "foe_strat": "demolish",
-      "pokemon_as_energy": false,
-      "deck_size": 60,
-      "prize_count": 6
-    },
     "g": {
       "a": 0.978,
       "b": 0.022,
@@ -84,6 +73,17 @@
       "first": 0.9814077025232404,
       "second": 0.9745649263721553,
       "foe_strat": "carnival",
+      "pokemon_as_energy": false,
+      "deck_size": 60,
+      "prize_count": 6
+    },
+    "d60": {
+      "a": 0.725,
+      "b": 0.275,
+      "tie": 0.0,
+      "first": 0.7553050397877984,
+      "second": 0.6943699731903485,
+      "foe_strat": "demolish",
       "pokemon_as_energy": false,
       "deck_size": 60,
       "prize_count": 6
