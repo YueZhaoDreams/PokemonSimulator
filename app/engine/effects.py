@@ -191,6 +191,47 @@ def parse_ability_effects(text: str) -> list[dict[str, Any]]:
                 "once_per_turn": "once during your turn" in t,
             }
         )
+
+    # Dudunsparce Run Away Draw: draw N, then shuffle this Pokémon into the deck.
+    if "shuffle this pokemon" in t and "into your deck" in t and "draw" in t:
+        n = re.search(r"draw (\d+)", t)
+        effects.append(
+            {
+                "kind": "draw_then_shuffle_self",
+                "amount": int(n.group(1) if n else 3),
+                "once_per_turn": "once during your turn" in t,
+            }
+        )
+
+    # Meowth ex Last-Ditch Catch: play from hand onto Bench, search a Supporter.
+    if (
+        "from your hand onto your bench" in t
+        and "supporter" in t
+        and "search your deck" in t
+    ):
+        lock = "last-ditch" if "last-ditch" in t else None
+        effects.append(
+            {
+                "kind": "search_supporter_on_bench",
+                "once_per_turn": True,
+                "name_lock": lock,
+            }
+        )
+
+    # Risky Ruins: chip Basics that hit the Bench.
+    stadium_chip = re.search(
+        r"puts a basic(?: non-(\w+))? pokemon onto their bench.*?place (\d+) damage counters",
+        t,
+    )
+    if stadium_chip:
+        excl = stadium_chip.group(1)
+        effects.append(
+            {
+                "kind": "stadium_bench_damage",
+                "counters": int(stadium_chip.group(2)),
+                "exclude_type": excl.title() if excl else None,
+            }
+        )
     return effects
 
 
@@ -391,6 +432,14 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
     )
     if bench:
         effects.append({"kind": "bench_damage_counters", "counters": int(bench.group(1))})
+
+    if "switch this pokemon with 1 of your benched" in t:
+        effects.append({"kind": "switch_with_benched"})
+    if (
+        "put this pokemon and all attached cards into your hand" in t
+        or "put this pokemon and all cards attached to it back into your hand" in t
+    ):
+        effects.append({"kind": "return_self_to_hand"})
 
     return effects
 

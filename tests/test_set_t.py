@@ -336,6 +336,12 @@ def test_hedrick_shaped_dragapult_is_legal_sixty():
     assert names.count("Dragapult ex") == 3
     assert names.count("Munkidori") == 2
     assert names.count("Drakloak") == 4
+    assert names.count("Dunsparce") == 1
+    assert names.count("Meowth ex") == 1
+    assert names.count("Rosa's Encouragement") == 1
+    assert names.count("Special Red Card") == 1
+    assert names.count("Risky Ruins") == 2
+    assert names.count("Rare Candy") == 0
     pile = build_fallback_deck(names)
     assert copy_violations(pile, standard_60_rules()) == []
 

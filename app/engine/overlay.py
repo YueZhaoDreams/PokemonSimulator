@@ -48,6 +48,11 @@ PUBLISHED_EFFECT_KINDS = frozenset(
         "deck_count_bonus",
         "bench_damage_counters",
         "move_damage_counters",
+        "draw_then_shuffle_self",
+        "search_supporter_on_bench",
+        "stadium_bench_damage",
+        "switch_with_benched",
+        "return_self_to_hand",
     }
 )
 

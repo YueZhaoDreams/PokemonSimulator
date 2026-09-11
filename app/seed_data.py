@@ -248,31 +248,29 @@ SET_T60_NAMES = (
     + ["Darkness Energy"] * 2
 )
 
-# Worlds 2026 Andrew Hedrick Dragapult (Limitless #28752), engine-playable.
-# Printed Dunsparce / Dudunsparce / Meowth ex / Rosa's Encouragement /
-# Special Red Card / Risky Ruins are not in the fallback catalog; those seven
-# slots become Nest / Candy / Judge / Iono / extra Ultra / extra Stretcher.
-# Unlimited's older Pidgeot / Rotom V / Counter Catcher package is the same gap.
+# Worlds 2026 Andrew Hedrick Dragapult (Limitless #28752). Printed 60.
 SET_T_META_NAMES = (
     ["Dreepy"] * 4
     + ["Drakloak"] * 4
     + ["Dragapult ex"] * 3
     + ["Munkidori"] * 2
     + ["Budew"] * 2
+    + ["Dunsparce"]
+    + ["Dudunsparce"]
+    + ["Meowth ex"]
     + ["Fezandipiti ex"]
     + ["Lillie's Determination"] * 4
     + ["Boss's Orders"] * 3
     + ["Crispin"] * 2
+    + ["Rosa's Encouragement"]
     + ["Poké Pad"] * 4
     + ["Crushing Hammer"] * 4
     + ["Buddy-Buddy Poffin"] * 4
-    + ["Night Stretcher"] * 4
-    + ["Ultra Ball"] * 4
-    + ["Rare Candy"] * 2
+    + ["Night Stretcher"] * 3
+    + ["Ultra Ball"] * 3
     + ["Unfair Stamp"]
-    + ["Judge"]
-    + ["Iono"]
-    + ["Nest Ball"]
+    + ["Special Red Card"]
+    + ["Risky Ruins"] * 2
     + ["Fire Energy"] * 3
     + ["Darkness Energy"] * 3
     + ["Psychic Energy"] * 3
@@ -657,6 +655,33 @@ _register(
         "Judge",
         "supporter",
         "Each player shuffles their hand into their deck and draws 4 cards.",
+    )
+)
+_register(
+    _trn(
+        "Rosa's Encouragement",
+        "supporter",
+        "You can use this card only if you have more Prize cards remaining than your opponent. Attach up to 2 Basic Energy cards from your discard pile to 1 of your Stage 2 Pokémon.",
+        catalog_id="me03-084",
+        image="https://assets.tcgdex.net/en/me/me03/084/low.webp",
+    )
+)
+_register(
+    _trn(
+        "Special Red Card",
+        "item",
+        "You can use this card only if your opponent has 3 or fewer Prize cards remaining. Your opponent shuffles their hand and puts it on the bottom of their deck. If they put any cards on the bottom of their deck in this way, they draw 3 cards.",
+        catalog_id="me04-082",
+        image="https://assets.tcgdex.net/en/me/me04/082/low.webp",
+    )
+)
+_register(
+    _trn(
+        "Risky Ruins",
+        "stadium",
+        "Whenever any player puts a Basic non-Darkness Pokémon onto their Bench during their turn, place 2 damage counters on that Pokémon.",
+        catalog_id="me01-127",
+        image="https://assets.tcgdex.net/en/me/me01/127/low.webp",
     )
 )
 _register(
@@ -1581,6 +1606,76 @@ for card in [
         catalog_id="sv08.5-004",
         image="https://assets.tcgdex.net/en/sv/sv08.5/004/low.webp",
         set_name="Prismatic Evolutions",
+    ),
+    _pkm(
+        "Dunsparce",
+        "Basic",
+        ["Colorless"],
+        70,
+        [
+            _atk(
+                "Trading Places",
+                ["Colorless"],
+                0,
+                "Switch this Pokémon with 1 of your Benched Pokémon.",
+            ),
+            _atk("Ram", ["Colorless", "Colorless"], 20),
+        ],
+        weakness="Fighting",
+        catalog_id="sv09-120",
+        image="https://assets.tcgdex.net/en/sv/sv09/120/low.webp",
+        set_name="Journey Together",
+    ),
+    _pkm(
+        "Dudunsparce",
+        "Stage1",
+        ["Colorless"],
+        140,
+        [_atk("Land Crush", ["Colorless", "Colorless", "Colorless"], 90)],
+        evolves_from="Dunsparce",
+        retreat=3,
+        abilities=[
+            Ability(
+                name="Run Away Draw",
+                text=(
+                    "Once during your turn, you may draw 3 cards. If you drew any cards "
+                    "in this way, shuffle this Pokémon and all attached cards into your deck."
+                ),
+            )
+        ],
+        weakness="Fighting",
+        catalog_id="sv05-129",
+        image="https://assets.tcgdex.net/en/sv/sv05/129/low.webp",
+        set_name="Temporal Forces",
+    ),
+    _pkm(
+        "Meowth ex",
+        "Basic",
+        ["Colorless"],
+        170,
+        [
+            _atk(
+                "Tuck Tail",
+                ["Colorless", "Colorless", "Colorless"],
+                60,
+                "Put this Pokémon and all attached cards into your hand.",
+            )
+        ],
+        abilities=[
+            Ability(
+                name="Last-Ditch Catch",
+                text=(
+                    "Once during your turn, when you play this Pokémon from your hand onto your Bench, "
+                    "you may use this Ability. Search your deck for a Supporter card, reveal it, "
+                    "and put it into your hand. Then, shuffle your deck. You can't use more than 1 "
+                    "Ability that has \"Last-Ditch\" in its name each turn."
+                ),
+            )
+        ],
+        weakness="Fighting",
+        catalog_id="me03-062",
+        image="https://assets.tcgdex.net/en/me/me03/062/low.webp",
+        set_name="Perfect Order",
     ),
     _pkm(
         "Glimmet",

@@ -84,6 +84,9 @@ TRAINER_KIND_HINTS = {
     "night stretcher": "item",
     "unfair stamp": "item",
     "judge": "supporter",
+    "rosa's encouragement": "supporter",
+    "special red card": "item",
+    "risky ruins": "stadium",
     "drayton": "supporter",
     "lacey": "supporter",
 }
@@ -205,6 +208,12 @@ PREFERRED_IDS = {
     "Night Stretcher": "sv06.5-061",
     "Unfair Stamp": "sv06-165",
     "Judge": "sv01-176",
+    "Rosa's Encouragement": "me03-084",
+    "Special Red Card": "me04-082",
+    "Risky Ruins": "me01-127",
+    "Dunsparce": "sv09-120",
+    "Dudunsparce": "sv05-129",
+    "Meowth ex": "me03-062",
     "Ultra Ball": "sv04.5-091",
     "Rare Candy": "sv04.5-089",
     "Ivysaur": "sv03.5-002",  # Leech Seed / Vine Whip (151)
@@ -332,6 +341,12 @@ PRINT_PREFER = {
     "Night Stretcher": ["discard pile"],
     "Unfair Stamp": ["knocked out during your opponent's last turn"],
     "Judge": ["draws 4"],
+    "Rosa's Encouragement": ["more prize cards remaining"],
+    "Special Red Card": ["3 or fewer prize"],
+    "Risky Ruins": ["non-darkness"],
+    "Dunsparce": ["trading places"],
+    "Dudunsparce": ["run away draw"],
+    "Meowth ex": ["last-ditch catch"],
 }
 
 

@@ -123,6 +123,8 @@ class Game:
         # Frigid Fangs: player key → max attached Energy that still cannot attack.
         self.energy_attack_lock: dict[str, int] = {}
         self.flip_script_used = False
+        self.last_ditch_used = False
+        self.stadium_effects: list[dict[str, Any]] = []
 
     def _log(self, message: str) -> None:
         if self.trace_on:
@@ -363,11 +365,15 @@ class Game:
             return copies < 1
 
         if strat.name == "phantom" and name == "dreepy":
-            return copies < 1
+            return copies < 2
         if strat.name == "phantom" and name == "budew":
             return copies < 2
         if strat.name == "phantom" and name == "munkidori":
             return copies < 2
+        if strat.name == "phantom" and name == "dunsparce":
+            return copies < 1
+        if strat.name == "phantom" and name == "meowth ex":
+            return copies < 1
         if strat.name == "phantom" and "fezandipiti" in name:
             return copies < 1
 
@@ -482,6 +488,10 @@ class Game:
                 return 900
             if strat.name == "phantom" and name == "dreepy":
                 return 950
+            if strat.name == "phantom" and name == "meowth ex":
+                return 880
+            if strat.name == "phantom" and name == "dunsparce":
+                return 700
             if vs_claw and name in closers:
                 return 2000 + self._print_value(card, strat)
             if glass and name in closers:
@@ -617,6 +627,7 @@ class Game:
                 return True
 
         self.flip_script_used = False
+        self.last_ditch_used = False
         if me.pending_item_lock:
             me.item_lock = True
             me.pending_item_lock = False
@@ -750,6 +761,7 @@ class Game:
                 me.bench.append(Pokemon(card_i=card_i, played_turn=self.turn))
                 self._bump(f"saw_play:{card.name}")
                 self._log(f"{me.name} benches {card.name}")
+                self._on_benched(me, me.bench[-1], from_hand=True)
             if card.name.lower() in aces:
                 ace_out = True
         if strat.hold_as_energy:
@@ -766,6 +778,7 @@ class Game:
             me.bench.append(Pokemon(card_i=card_i, played_turn=self.turn))
             self._bump(f"saw_play:{me.card(card_i).name}")
             self._log(f"{me.name} benches {me.card(card_i).name}")
+            self._on_benched(me, me.bench[-1], from_hand=True)
 
     def _evolve(self, me: Player, foe: Player | None = None, who: str | None = None) -> None:
         who = who or ("a" if me.name == "A" else "b")
@@ -1153,6 +1166,17 @@ class Game:
                 score += 9 if self._acerola_helps(me, foe, who) else -8
             elif name == "beach court":
                 score += 8 if strat.name == "party" and self.stadium_name != "Beach Court" else (3 if self.stadium_name != "Beach Court" else -4)
+            elif name == "risky ruins":
+                if self.stadium_name == "Risky Ruins":
+                    score -= 6
+                elif strat.name == "phantom":
+                    score += 10
+                else:
+                    score += 3
+            elif name == "rosa's encouragement":
+                score += 14 if self._rosa_can_play(me, foe) else -8
+            elif name == "special red card":
+                score += 12 if self._special_red_card_can_play(foe) else -8
             elif self._is_tool_card(card):
                 if self._tool_target(me, who, card) is None:
                     score -= 6
@@ -1424,8 +1448,13 @@ class Game:
         elif name == "acerola":
             self._acerola(me, who)
         elif name == "beach court":
-            self.stadium_name = "Beach Court"
-            self._bump("stadium:Beach Court")
+            self._set_stadium(card)
+        elif name == "risky ruins":
+            self._set_stadium(card)
+        elif name == "rosa's encouragement":
+            self._rosa_encouragement(me, foe)
+        elif name == "special red card":
+            self._special_red_card(foe)
         elif name == "ultra ball":
             # Cost: discard Ultra Ball + 2 other cards from hand.
             if card_i is not None:
@@ -1505,7 +1534,7 @@ class Game:
         elif name == "crispin":
             self._crispin(me, who)
         elif name in {"poké pad", "poke pad"}:
-            prefer = ["Dreepy", "Drakloak", "Budew"]
+            prefer = ["Dreepy", "Drakloak", "Budew", "Dunsparce"]
             found = self._search(
                 me,
                 lambda c: c.is_pokemon and not self._has_rule_box(c),
@@ -1559,6 +1588,133 @@ class Game:
         else:
             self._bump("tool_box_miss")
             self._log(f"{me.name} Tool Box finds no Tools")
+
+    def _set_stadium(self, card: Card) -> None:
+        self.stadium_name = card.name
+        self.stadium_effects = parse_ability_effects(card.text)
+        self._bump(f"stadium:{card.name}")
+
+    def _is_stage2(self, card: Card) -> bool:
+        return (card.stage or "").lower() in {"stage2", "stage 2"}
+
+    def _rosa_can_play(self, me: Player, foe: Player) -> bool:
+        if len(me.prizes) <= len(foe.prizes):
+            return False
+        if not any(self._is_stage2(me.card(m.card_i)) for m in me.in_play()):
+            return False
+        return any(is_basic_energy(me.card(i), pokemon_as_energy=False) for i in me.discard)
+
+    def _rosa_encouragement(self, me: Player, foe: Player) -> None:
+        """Printed Rosa: more prizes remaining, attach up to 2 Basic Energy from discard to a Stage 2."""
+        if not self._rosa_can_play(me, foe):
+            self._bump("rosa_fail")
+            return
+        fuels = [i for i in list(me.discard) if is_basic_energy(me.card(i), pokemon_as_energy=False)]
+        targets = [m for m in me.in_play() if self._is_stage2(me.card(m.card_i))]
+        dest = next((m for m in targets if me.card(m.card_i).name.lower() == "dragapult ex"), targets[0])
+        moved = 0
+        for card_i in fuels[:2]:
+            me.discard.remove(card_i)
+            dest.energy.append(card_i)
+            moved += 1
+        self._bump("rosa_attach", moved)
+        self._log(f"{me.name} Rosa's Encouragement attaches {moved} Energy to {me.card(dest.card_i).name}")
+
+    def _special_red_card_can_play(self, foe: Player) -> bool:
+        return len(foe.prizes) <= 3 and bool(foe.hand)
+
+    def _special_red_card(self, foe: Player) -> None:
+        """Printed Special Red Card: opponent has ≤3 prizes; hand to bottom, then draw 3."""
+        if not self._special_red_card_can_play(foe):
+            self._bump("special_red_card_fail")
+            return
+        n = len(foe.hand)
+        cards = list(foe.hand)
+        foe.hand.clear()
+        self.rng.shuffle(cards)
+        foe.deck.extend(cards)
+        self._draw(foe, 3)
+        self._bump("special_red_card")
+        self._log(f"{foe.name} Special Red Card sends {n} to the bottom and draws 3")
+
+    def _on_benched(self, me: Player, mon: Pokemon, from_hand: bool) -> None:
+        self._apply_stadium_bench(me, mon)
+        if from_hand:
+            self._try_last_ditch_catch(me, mon)
+
+    def _apply_stadium_bench(self, me: Player, mon: Pokemon) -> None:
+        card = me.card(mon.card_i)
+        if not card.is_basic:
+            return
+        for eff in self.stadium_effects:
+            if eff.get("kind") != "stadium_bench_damage":
+                continue
+            excl = (eff.get("exclude_type") or "")
+            types = [t.lower() for t in (card.types or [])]
+            if excl and excl.lower() in types:
+                continue
+            dmg = 10 * int(eff.get("counters") or 0)
+            if dmg <= 0:
+                continue
+            mon.damage += dmg
+            self._bump("risky_ruins", dmg)
+            self._log(f"Risky Ruins puts {dmg} on {card.name}")
+
+    def _try_last_ditch_catch(self, me: Player, mon: Pokemon) -> None:
+        if self.last_ditch_used:
+            return
+        for abi in me.card(mon.card_i).abilities:
+            for eff in self._ability_effects(abi):
+                if eff.get("kind") != "search_supporter_on_bench":
+                    continue
+                lock = (eff.get("name_lock") or "").lower()
+                if lock and lock not in (abi.name or "").lower() and lock not in (abi.text or "").lower():
+                    continue
+                prefer = ["Rosa's Encouragement", "Lillie's Determination", "Boss's Orders", "Crispin"]
+                found = self._search(me, lambda c: c.is_supporter, prefer=prefer, source="last-ditch catch")
+                self.last_ditch_used = True
+                mon.ability_used = True
+                if found:
+                    self._bump("last_ditch_catch")
+                    self._log(f"{me.card(mon.card_i).name} Last-Ditch Catch finds {me.card(found).name}")
+                return
+
+    def _shuffle_mon_into_deck(self, me: Player, mon: Pokemon) -> None:
+        pile = [mon.card_i, *list(mon.energy)]
+        if mon.tool is not None:
+            pile.append(mon.tool)
+        mon.energy.clear()
+        mon.tool = None
+        if me.active is mon:
+            me.active = None
+        elif mon in me.bench:
+            me.bench.remove(mon)
+        me.deck.extend(pile)
+        self.rng.shuffle(me.deck)
+        if me.active is None and me.bench:
+            me.active = me.bench.pop(0)
+
+    def _switch_with_benched(self, me: Player) -> None:
+        if not me.active or not me.bench:
+            return
+        who = "a" if me.name == "A" else "b"
+        idx = self._switch_target_idx(me, who)
+        if idx is None:
+            idx = 0
+        me.active, me.bench[idx] = me.bench[idx], me.active
+
+    def _return_active_to_hand(self, me: Player) -> None:
+        if not me.active:
+            return
+        mon = me.active
+        pile = [mon.card_i, *list(mon.energy)]
+        if mon.tool is not None:
+            pile.append(mon.tool)
+        me.hand.extend(pile)
+        me.active = None
+        if me.bench:
+            me.active = me.bench.pop(0)
+        self._bump("tuck_tail")
 
     def _discard_for_ultra_ball(self, me: Player, n: int = 2) -> int:
         protect = {n.lower() for n in self.strats["a" if me.name == "A" else "b"].protect}
@@ -1708,7 +1864,7 @@ class Game:
                 me.card(i).name.lower() == "dreepy" for i in me.hand
             ):
                 prefer.insert(0, "Dreepy")
-            prefer.extend(["Fire Energy", "Psychic Energy", "Darkness Energy", "Dreepy", "Budew", "Munkidori"])
+            prefer.extend(["Fire Energy", "Psychic Energy", "Darkness Energy", "Dreepy", "Budew", "Munkidori", "Dunsparce", "Meowth ex"])
             return list(dict.fromkeys(prefer))
         if me.active:
             need = self._needed_types(me, me.active)
@@ -2435,6 +2591,10 @@ class Game:
                 self._discard_attack_energy(me, me.active, int(effect.get("count") or 1))
             elif effect.get("kind") == "move_psychic_energy":
                 self._move_psychic_energy(me, me.active)
+            elif effect.get("kind") == "switch_with_benched":
+                self._switch_with_benched(me)
+            elif effect.get("kind") == "return_self_to_hand":
+                self._return_active_to_hand(me)
 
     def _mill_opponent(self, me: Player, foe: Player, count: int = 1) -> None:
         milled = 0
@@ -3598,7 +3758,7 @@ class Game:
                 name = card.name.lower()
                 if strat.name == "slash" and name not in {"wo-chien ex", "sprigatito"}:
                     continue
-                if strat.name == "phantom" and name not in {"dreepy", "budew", "munkidori"}:
+                if strat.name == "phantom" and name not in {"dreepy", "budew", "munkidori", "dunsparce", "meowth ex"}:
                     continue
                 score = 0.0
                 if name in prefer:
@@ -3622,6 +3782,7 @@ class Game:
             self._bump(f"saw_play:{me.card(card_i).name}")
             self._bump(f"tutor:{me.card(card_i).name}:{source}")
             self._log(f"{me.name} {source} benches {me.card(card_i).name}")
+            self._on_benched(me, me.bench[-1], from_hand=False)
             self.rng.shuffle(me.deck)
 
     def _switch_target_idx(self, me: Player, who: str) -> int | None:
@@ -4975,6 +5136,17 @@ class Game:
                             self._log(f"{card.name} Adrena-Brain moves damage counters")
                             if self._check_ko(foe, me, "b" if who == "a" else "a") or self._check_ko(me, foe, who):
                                 return
+                    elif kind == "draw_then_shuffle_self":
+                        if len(me.in_play()) < 2:
+                            continue
+                        if len(me.hand) >= 6:
+                            continue
+                        drawn = self._draw(me, int(eff.get("amount") or 3))
+                        if drawn:
+                            self._shuffle_mon_into_deck(me, mon)
+                            self._bump("run_away_draw")
+                            self._log(f"{card.name} Run Away Draw")
+                            return
 
     def _attach_basic_energy_from_hand(self, me: Player, who: str, source_mon: Pokemon) -> bool:
         """Printed Energy Carnival: attach one Basic Energy from hand to 1 of your Pokémon."""
