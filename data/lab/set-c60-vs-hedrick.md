@@ -23,7 +23,7 @@ Engine now plays the printed techs:
 | Risky Ruins | Bench a Basic that is not Darkness: 2 damage counters |
 | Munkidori | Adrena-Brain: Darkness attached, move up to 3 counters |
 
-Pidgeot / Rotom V / Counter Catcher Unlimited extras are still out of the catalog.
+Pidgeot / Rotom V / Counter Catcher Unlimited extras are in the catalog as `SET_T_UNL_NAMES` — see `set-c60-vs-unl.md`.
 
 ## Result
 
