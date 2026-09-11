@@ -232,6 +232,44 @@ def parse_ability_effects(text: str) -> list[dict[str, Any]]:
                 "exclude_type": excl.title() if excl else None,
             }
         )
+
+    # Pidgeot Quick Search / Forest Seal Star Alchemy: search any one card.
+    if "search your deck for a card" in t and "into your hand" in t:
+        effects.append(
+            {
+                "kind": "search_any_card",
+                "once_per_turn": "more than 1" in t and "in a game" not in t,
+                "once_per_game": "in a game" in t or "vstar" in t,
+                "require_attached_v": "attached" in t and "pokemon v" in t,
+                "ability_lock": "quick search" if "quick search" in t else None,
+            }
+        )
+
+    # Rotom V Instant Charge: draw, then the turn ends.
+    if "your turn ends" in t and "draw" in t:
+        n = re.search(r"draw (\d+)", t)
+        effects.append(
+            {
+                "kind": "draw_end_turn",
+                "amount": int(n.group(1) if n else 3),
+                "once_per_turn": "once during your turn" in t,
+            }
+        )
+
+    # Manaphy Wave Veil: prevent attack damage to your Bench.
+    if "prevent all damage" in t and "benched" in t and "attack" in t:
+        effects.append({"kind": "prevent_bench_attack_damage"})
+
+    # Collapsed Stadium: bench size 4; opponent discards first when it enters.
+    bench_cap = re.search(r"can't have more than (\d+) benched", t)
+    if bench_cap:
+        effects.append(
+            {
+                "kind": "stadium_bench_limit",
+                "limit": int(bench_cap.group(1)),
+                "opponent_discards_first": "opponent discards first" in t,
+            }
+        )
     return effects
 
 
@@ -389,6 +427,8 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
         )
     elif counter_bonus and ("opponent" in t or "defending" in t):
         effects.append({"kind": "damage_counter_bonus", "per": int(counter_bonus.group(1))})
+    elif "lost zone" in t and "tool" in t:
+        pass
     elif psychic_ref and "more damage" in t and "for each" in t:
         n = re.search(r"(\d+) more damage for each", t)
         effects.append({"kind": "psychic_energy_bonus", "per": int(n.group(1)) if n else 30})
@@ -424,6 +464,25 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
                 "bonus": int(more.group(2)),
             }
         )
+
+    # Rotom V Scrap Short: Tools to the Lost Zone, +N per card.
+    lost_tools = re.search(
+        r"(\d+) more damage for each card (?:you )?put in the lost zone",
+        t,
+    )
+    if "lost zone" in t and "tool" in t:
+        effects.append(
+            {
+                "kind": "tools_to_lost_zone_bonus",
+                "per": int(lost_tools.group(1) if lost_tools else 40),
+            }
+        )
+
+    if "discard a stadium" in t:
+        effects.append({"kind": "may_discard_stadium"})
+
+    if "shuffle this pokemon" in t and "into your deck" in t:
+        effects.append({"kind": "shuffle_self_into_deck"})
 
     # Flutter Mane Hex Hurl: damage counters on benched Pokémon
     bench = re.search(

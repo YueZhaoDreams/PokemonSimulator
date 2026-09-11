@@ -327,6 +327,10 @@ STRATEGY_LIBRARY = {
             "move up to 3 damage counters) snipes a leftover 60 HP prize. "
             "Meowth ex Last-Ditch Catch searches a Supporter when benched from hand. "
             "Dudunsparce Run Away Draw draws 3 then shuffles itself. "
+            "Pidgeot ex Quick Search finds any card (once per turn). Rotom V Instant Charge "
+            "draws 3 and ends the turn. Lumineon V Luminous Sign searches a Supporter from hand. "
+            "Manaphy Wave Veil blocks attack damage to the Bench. Forest Seal Stone Star Alchemy "
+            "is one VSTAR search per game. Counter Catcher gusts when ahead on remaining prizes. "
             "Rosa's Encouragement fuels a Stage 2 from discard when behind on prizes. "
             "Special Red Card puts the opponent to 3 when they have 3 prizes left. "
             "Risky Ruins chips non-Darkness Basics that hit the Bench. "
@@ -339,7 +343,7 @@ STRATEGY_LIBRARY = {
         attach_pokemon_as_energy=0.2,
         item_spend=1.0,
         hold_as_energy=True,
-        protect=["Dreepy", "Drakloak", "Dragapult ex", "Fezandipiti ex", "Budew", "Munkidori", "Dunsparce", "Dudunsparce", "Meowth ex"],
+        protect=["Dreepy", "Drakloak", "Dragapult ex", "Fezandipiti ex", "Budew", "Munkidori", "Dunsparce", "Dudunsparce", "Meowth ex", "Pidgey", "Pidgeotto", "Pidgeot ex", "Rotom V", "Lumineon V", "Manaphy"],
         search_aces=["Dreepy"],
         closers=["Dragapult ex"],
         backups=["Budew"],

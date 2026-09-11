@@ -276,6 +276,38 @@ SET_T_META_NAMES = (
     + ["Psychic Energy"] * 3
 )
 
+# Unlimited Dragapult extras (Pidgeot / Rotom V / Counter Catcher package). Printed 60.
+SET_T_UNL_NAMES = (
+    ["Dreepy"] * 4
+    + ["Drakloak"] * 2
+    + ["Dragapult ex"] * 3
+    + ["Pidgey"] * 2
+    + ["Pidgeotto"]
+    + ["Pidgeot ex"] * 2
+    + ["Rotom V"]
+    + ["Fezandipiti ex"]
+    + ["Lumineon V"]
+    + ["Manaphy"]
+    + ["Arven"] * 4
+    + ["Iono"] * 4
+    + ["Boss's Orders"] * 2
+    + ["Crispin"]
+    + ["Nest Ball"] * 4
+    + ["Buddy-Buddy Poffin"] * 4
+    + ["Rare Candy"] * 4
+    + ["Ultra Ball"] * 4
+    + ["Counter Catcher"] * 2
+    + ["Night Stretcher"]
+    + ["Earthen Vessel"]
+    + ["Switch"]
+    + ["Forest Seal Stone"]
+    + ["Super Rod"]
+    + ["Professor Turo's Scenario"]
+    + ["Collapsed Stadium"]
+    + ["Fire Energy"] * 3
+    + ["Psychic Energy"] * 3
+)
+
 # Carpet Set E — new beige-carpet photo (data/samples/set-e-carpet.jpg).
 # Dual Pikachu + Surging Sparks Spheal line. Trainers: Surfer + Iris's Fighting Spirit.
 SET_E_NAMES = [
@@ -682,6 +714,47 @@ _register(
         "Whenever any player puts a Basic non-Darkness Pokémon onto their Bench during their turn, place 2 damage counters on that Pokémon.",
         catalog_id="me01-127",
         image="https://assets.tcgdex.net/en/me/me01/127/low.webp",
+    )
+)
+_register(
+    _trn(
+        "Counter Catcher",
+        "item",
+        "You can use this card only if you have more Prize cards remaining than your opponent.\n\n"
+        "Switch in 1 of your opponent's Benched Pokémon to the Active Spot.",
+        catalog_id="sv04-160",
+        image="https://assets.tcgdex.net/en/sv/sv04/160/low.webp",
+    )
+)
+_register(
+    _trn(
+        "Forest Seal Stone",
+        "item",
+        "The Pokémon V this card is attached to can use the VSTAR Power on this card.\n\n"
+        "Star Alchemy: During your turn, you may search your deck for a card and put it "
+        "into your hand. Then, shuffle your deck. (You can't use more than 1 VSTAR Power in a game.)",
+        catalog_id="swsh12-156",
+        image="https://assets.tcgdex.net/en/swsh/swsh12/156/low.webp",
+    )
+)
+_register(
+    _trn(
+        "Professor Turo's Scenario",
+        "supporter",
+        "Put 1 of your Pokémon in play and all attached cards into your hand.",
+        catalog_id="sv04-171",
+        image="https://assets.tcgdex.net/en/sv/sv04/171/low.webp",
+    )
+)
+_register(
+    _trn(
+        "Collapsed Stadium",
+        "stadium",
+        "Each player can't have more than 4 Benched Pokémon. If a player has 5 or more "
+        "Benched Pokémon, they discard Benched Pokémon until they have 4 Pokémon on the Bench. "
+        "Your opponent discards first.",
+        catalog_id="swsh9-137",
+        image="https://assets.tcgdex.net/en/swsh/swsh9/137/low.webp",
     )
 )
 _register(
@@ -1676,6 +1749,137 @@ for card in [
         catalog_id="me03-062",
         image="https://assets.tcgdex.net/en/me/me03/062/low.webp",
         set_name="Perfect Order",
+    ),
+    _pkm(
+        "Pidgey",
+        "Basic",
+        ["Colorless"],
+        60,
+        [_atk("Gust", ["Colorless"], 20)],
+        weakness="Lightning",
+        resistances=[{"type": "Fighting", "value": "-30"}],
+        catalog_id="sv03-162",
+        image="https://assets.tcgdex.net/en/sv/sv03/162/low.webp",
+        set_name="Obsidian Flames",
+    ),
+    _pkm(
+        "Pidgeotto",
+        "Stage1",
+        ["Colorless"],
+        80,
+        [_atk("Wing Attack", ["Colorless", "Colorless"], 40)],
+        evolves_from="Pidgey",
+        weakness="Lightning",
+        resistances=[{"type": "Fighting", "value": "-30"}],
+        catalog_id="sv03-163",
+        image="https://assets.tcgdex.net/en/sv/sv03/163/low.webp",
+        set_name="Obsidian Flames",
+    ),
+    _pkm(
+        "Pidgeot ex",
+        "Stage2",
+        ["Colorless"],
+        280,
+        [
+            _atk(
+                "Blustery Wind",
+                ["Colorless", "Colorless"],
+                120,
+                "You may discard a Stadium in play.",
+            )
+        ],
+        evolves_from="Pidgeotto",
+        retreat=0,
+        abilities=[
+            Ability(
+                name="Quick Search",
+                text=(
+                    "Once during your turn, you may search your deck for a card, reveal it, "
+                    "and put it into your hand. Then, shuffle your deck. You can't use more "
+                    "than 1 Quick Search Ability during your turn."
+                ),
+            )
+        ],
+        weakness="Lightning",
+        resistances=[{"type": "Fighting", "value": "-30"}],
+        catalog_id="sv03-164",
+        image="https://assets.tcgdex.net/en/sv/sv03/164/low.webp",
+        set_name="Obsidian Flames",
+    ),
+    _pkm(
+        "Rotom V",
+        "Basic",
+        ["Lightning"],
+        190,
+        [
+            _atk(
+                "Scrap Short",
+                ["Lightning", "Colorless"],
+                40,
+                "Put any number of Pokémon Tools attached to your Pokémon in the Lost Zone. "
+                "This attack does 40 more damage for each card you put in the Lost Zone in this way.",
+            )
+        ],
+        abilities=[
+            Ability(
+                name="Instant Charge",
+                text=(
+                    "Once during your turn, you may draw 3 cards. If you do, your turn ends."
+                ),
+            )
+        ],
+        weakness="Fighting",
+        catalog_id="swsh11-058",
+        image="https://assets.tcgdex.net/en/swsh/swsh11/058/low.webp",
+        set_name="Lost Origin",
+    ),
+    _pkm(
+        "Lumineon V",
+        "Basic",
+        ["Water"],
+        170,
+        [
+            _atk(
+                "Aqua Return",
+                ["Colorless", "Colorless", "Colorless"],
+                40,
+                "Shuffle this Pokémon and all attached cards into your deck.",
+            )
+        ],
+        abilities=[
+            Ability(
+                name="Luminous Sign",
+                text=(
+                    "When you play this Pokémon from your hand onto your Bench during your turn, "
+                    "you may search your deck for a Supporter card, reveal it, and put it into "
+                    "your hand. Then, shuffle your deck."
+                ),
+            )
+        ],
+        weakness="Lightning",
+        catalog_id="swsh9-040",
+        image="https://assets.tcgdex.net/en/swsh/swsh9/040/low.webp",
+        set_name="Brilliant Stars",
+    ),
+    _pkm(
+        "Manaphy",
+        "Basic",
+        ["Water"],
+        70,
+        [_atk("Rain Splash", ["Water"], 20)],
+        abilities=[
+            Ability(
+                name="Wave Veil",
+                text=(
+                    "Prevent all damage done to your Benched Pokémon by attacks from "
+                    "your opponent's Pokémon."
+                ),
+            )
+        ],
+        weakness="Lightning",
+        catalog_id="swsh9-041",
+        image="https://assets.tcgdex.net/en/swsh/swsh9/041/low.webp",
+        set_name="Brilliant Stars",
     ),
     _pkm(
         "Glimmet",
