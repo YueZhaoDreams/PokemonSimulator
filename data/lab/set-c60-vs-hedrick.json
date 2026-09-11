@@ -1,7 +1,7 @@
 {
   "games": 3000,
   "seed": 20260911,
-  "elapsed": 15.871675664999202,
+  "elapsed": 16.076041581000027,
   "rule_preset": "s60",
   "c60": [
     "Clefairy",
@@ -81,6 +81,9 @@
     "Munkidori",
     "Budew",
     "Budew",
+    "Dunsparce",
+    "Dudunsparce",
+    "Meowth ex",
     "Fezandipiti ex",
     "Lillie's Determination",
     "Lillie's Determination",
@@ -91,6 +94,7 @@
     "Boss's Orders",
     "Crispin",
     "Crispin",
+    "Rosa's Encouragement",
     "Pok\u00e9 Pad",
     "Pok\u00e9 Pad",
     "Pok\u00e9 Pad",
@@ -106,17 +110,13 @@
     "Night Stretcher",
     "Night Stretcher",
     "Night Stretcher",
-    "Night Stretcher",
     "Ultra Ball",
     "Ultra Ball",
     "Ultra Ball",
-    "Ultra Ball",
-    "Rare Candy",
-    "Rare Candy",
     "Unfair Stamp",
-    "Judge",
-    "Iono",
-    "Nest Ball",
+    "Special Red Card",
+    "Risky Ruins",
+    "Risky Ruins",
     "Fire Energy",
     "Fire Energy",
     "Fire Energy",
@@ -128,11 +128,11 @@
     "Psychic Energy"
   ],
   "cell": {
-    "a": 0.6813333333333333,
-    "b": 0.31866666666666665,
+    "a": 0.6056666666666667,
+    "b": 0.3943333333333333,
     "tie": 0.0,
-    "first": 0.7094414893617021,
-    "second": 0.6530748663101604,
+    "first": 0.6108537392455328,
+    "second": 0.6004029550033579,
     "foe_strat": "phantom"
   }
 }
