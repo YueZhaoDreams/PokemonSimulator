@@ -28,8 +28,8 @@ Pokémon V take 2 prizes. Scrap Short puts Tools in the Lost Zone.
 
 | Opponent | C60 win |
 | --- | ---: |
-| Household T60 (4 Candy, 5 Fire / 4 Psychic) | **53.6%** |
-| Printed Hedrick 60 (no Candy) | **65.9%** |
-| **Unlimited-shaped Pidgeot/Rotom 60** | **82.7%** (first 83.5% / second 81.9%) |
+| Household T60 (4 Candy, 5 Fire / 4 Psychic) | **54.3%** |
+| Printed Hedrick 60 (no Candy) | **62.9%** |
+| **Unlimited-shaped Pidgeot/Rotom 60** | **83.8%** (first 84.6% / second 83.0%) |
 
-This UNL shape is easier for C60 in the phantom AI than Hedrick or household T60: 2 Drakloak instead of 4, Instant Charge spends whole turns drawing, and Wave Veil only protects *Pult's* bench. C60's Clefable slot is Prankish, not CLC Metronome.
+This UNL shape is easier for C60 in the phantom AI than Hedrick or household T60: 2 Drakloak instead of 4, Instant Charge spends whole turns drawing, and Wave Veil only protects *Pult's* bench. C60's Clefable slot is Prankish; the energy line is 15 Psychic, no Energy Search.

@@ -1,7 +1,7 @@
 {
   "games": 3000,
   "seed": 20260911,
-  "elapsed": 17.52618381600041,
+  "elapsed": 17.21795398100039,
   "rule_preset": "s60",
   "c60": [
     "Clefairy",
@@ -46,10 +46,10 @@
     "Energy Switch",
     "Energy Switch",
     "Energy Retrieval",
-    "Energy Search",
     "Night Stretcher",
     "Maximum Belt",
     "Tool Box",
+    "Psychic Energy",
     "Psychic Energy",
     "Psychic Energy",
     "Psychic Energy",
@@ -128,11 +128,11 @@
     "Psychic Energy"
   ],
   "cell": {
-    "a": 0.6593333333333333,
-    "b": 0.3406666666666667,
+    "a": 0.6286666666666667,
+    "b": 0.37133333333333335,
     "tie": 0.0,
-    "first": 0.6588881262868909,
-    "second": 0.659753726506805,
+    "first": 0.638,
+    "second": 0.6193333333333333,
     "foe_strat": "phantom"
   }
 }

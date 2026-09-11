@@ -29,10 +29,10 @@ Pidgeot / Rotom V / Counter Catcher Unlimited extras are in the catalog as `SET_
 
 | Opponent | C60 win |
 | --- | ---: |
-| Household T60 (4 Candy, 5 Fire / 4 Psychic) | **53.6%** |
+| Household T60 (4 Candy, 5 Fire / 4 Psychic) | **54.3%** |
 | Substitute Hedrick (before these cards) | 68.1% |
-| **Printed Hedrick 60** | **65.9%** (first 65.9% / second 66.0%) |
+| **Printed Hedrick 60** | **62.9%** (first 63.8% / second 61.9%) |
 
-Risky Ruins and Last-Ditch Catch still matter. C60's two Clefable are Rebel Clash **Prankish** (110 HP), not CLC Metronome. Household T60 is still the harder engine opponent because Candy + 5/4 energy pays Dive sooner.
+Risky Ruins and Last-Ditch Catch still matter. C60 runs **15 Psychic Energy** and no Energy Search. Household T60 is still the harder engine opponent because Candy + 5/4 energy pays Dive sooner.
 
 One traced game (seed `20260911`): Dragapult took all 6 prizes in 12 turns (C60 0). Last-Ditch Catch 1, Risky Ruins 40 damage, Dive ×4, Photon ×1.

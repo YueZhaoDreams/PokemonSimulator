@@ -17,7 +17,7 @@ The 30-card identity is LOR 62 Moon-Watching Party → load Psychic onto benched
 | 30-card Set C (Rule B) | Standard 60 rewrite |
 | --- | --- |
 | 4 Clefairy / 2 Mewtwo ex / 4 Clefable / 4 Clefable ex / 4 Mega | 4 Clefairy / **3** Mewtwo ex / **2 Rebel Clash Prankish Clefable** / **3** Clefable ex / **2** Mega |
-| 0 Energy (Pokémon pay Party) | **14 Psychic Energy** |
+| 0 Energy (Pokémon pay Party) | **15 Psychic Energy** |
 | 2 Nest, 0 Poffin, 0 Switch | 4 Nest, **4 Poffin** (Clefairy is 60 HP), **2 Switch** (Party is Active-only) |
 | 1 Boss | **3 Boss** (6-prize race) |
 | 2 Hop / 1 Lillie | 2 Hop / 2 Lillie / 2 Lillie's Determination / 2 Iono |
@@ -47,11 +47,10 @@ Locked C60 list (`SET_C60_NAMES`):
 | 2 | Switch | Rotate Party Active |
 | 2 | Energy Switch | Party Energy → Mewtwo |
 | 1 | Energy Retrieval | Hand fuel for Shooting Moons |
-| 1 | Energy Search | Psychic tutor |
 | 1 | Night Stretcher | Recycle Pokémon or Energy |
 | 1 | Maximum Belt | ACE SPEC +50 vs ex |
 | 1 | Tool Box | Top-7 Tool |
-| 14 | Psychic Energy | Pays Party / Photon / Zone |
+| 15 | Psychic Energy | Pays Party / Photon / Zone |
 
 ## Foes (household Standard 60, not Limitless meta)
 
@@ -71,18 +70,18 @@ G's AI is the Staraptor carnival script, not a dedicated Ledian/Party hybrid, so
 
 | Foe | Overall | C60 first | C60 second |
 | --- | ---: | ---: | ---: |
-| Charm Ogerpon 60 (D60) | **72.5%** | 75.5% | 69.4% |
-| Carpet Set G | **97.4%** | 97.6% | 97.2% |
-| Dragapult 60 (T60) | **53.6%** | 56.2% | 51.0% |
-| Floragato hunter 60 (S60) | **99.4%** | 99.4% | 99.3% |
+| Charm Ogerpon 60 (D60) | **75.3%** | 76.8% | 73.8% |
+| Carpet Set G | **98.0%** | 98.2% | 97.8% |
+| Dragapult 60 (T60) | **54.3%** | 56.1% | 52.5% |
+| Floragato hunter 60 (S60) | **99.6%** | 99.7% | 99.4% |
 
 `pokemon_as_energy_per_game` is 0 on s60 (Party attaches **cards** named Psychic Energy).
 
 ### Read
 
-- **Vs Ogerpon:** 30-card Rule B C vs D sat near 50%. With real Energy + Switch + three Boss, Photon still outraces Demolish 140. Charm 260 is 2 prizes; empty Clefairy is 1. Overall **72.5%** (Prankish bouncing Fighting helps going first: 75.5%).
-- **Vs Dragapult:** Sitting out Photon / Moon chips was the hole. After Party, C60 Photons and Moons for whatever they pay. The 2-of Clefable slot is **Prankish** (110 HP), not CLC Metronome. Same seed: **53.6%** vs household T60 (first 56.2% / second 51.0%). CLC-on-this-list was 52.3% — within noise on T60, worse on Hedrick (70 HP snacks). See [Prankish vs CLC](#prankish-vs-clc).
-- **Vs Worlds Hedrick Dragapult:** Printed Worlds 2026 60 is `SET_T_META_NAMES`. Same seed with Prankish C60: **65.9%** (first 65.9% / second 66.0%). Household T60 (4 Candy) remains harder. Write-up: `data/lab/set-c60-vs-hedrick.md`.
+- **Vs Ogerpon:** 30-card Rule B C vs D sat near 50%. With real Energy + Switch + three Boss, Photon still outraces Demolish 140. Charm 260 is 2 prizes; empty Clefairy is 1. Overall **75.3%**.
+- **Vs Dragapult:** After Party, C60 Photons and Moons for whatever they pay. Clefable is **Prankish** (110 HP). Energy Search is gone: s60 Search is a delayed energy that Budew can lock, so the slot is a **15th Psychic Energy**. Same seed: **54.3%** vs household T60 (first 56.1% / second 52.5%).
+- **Vs Worlds Hedrick Dragapult:** Printed Worlds 2026 60 is `SET_T_META_NAMES`. Same seed: **62.9%** (first 63.8% / second 61.9%). Household T60 (4 Candy) remains harder. Write-up: `data/lab/set-c60-vs-hedrick.md`.
 - **Vs G / Floragato:** Carnival and slash do not assemble a 6-prize closer before Photon. Those cells are blowouts, not a claim that C60 is a tournament deck.
 
 ## How C60 loses to Dragapult
@@ -119,18 +118,31 @@ Classic **CLC 014** is still in the catalog (`Clefable CLC`) for Metronome tests
 
 s60 does not treat Pokémon as energy, so Prankish is not Party fuel. The remaining edge is **110 HP** plus bouncing an attach (Fighting vs Demolish; Fire/Psychic can delay Dive). CLC's edge is copying Dive when Dragapult is Active; the 70 HP body is a Munkidori / Risky Ruins snack.
 
-Same seed `20260911`, 3,000 games, locked C60 otherwise:
+Same seed `20260911`, 3,000 games, C60 otherwise as then locked (14 Psychic + Energy Search):
 
 | 2-of Clefable | vs T60 | vs Hedrick | vs D60 |
 | --- | ---: | ---: | ---: |
-| CLC Metronome (previous lock) | 52.3% | 60.6% | 72.5% |
-| **Prankish (this lock)** | **53.6%** | **65.9%** | **72.5%** |
+| CLC Metronome | 52.3% | 60.6% | 72.5% |
+| Prankish | 53.6% | 65.9% | 72.5% |
 
-Ogerpon / G / Floragato stay blowouts or the same D60 overall. Do not add TWM Metronome (`[C][C]`) into this 2-of slot.
+## Energy Search → 15th Psychic
+
+s60 Energy Search only finds a Basic Energy and does not attach it. Budew can lock the Item. The slot is now a **15th Psychic Energy**.
+
+Same seed, 3,000 games, Prankish C60:
+
+| Foe | 14 Psychic + Search | **15 Psychic (this lock)** |
+| --- | ---: | ---: |
+| T60 | 53.6% | **54.3%** |
+| Hedrick | 65.9% | **62.9%** |
+| D60 | 72.5% | **75.3%** |
+
+Household Candy Dragapult and Ogerpon go up; Hedrick (Munkidori / Risky Ruins, slower Dive) likes the extra trainer more than the extra brick.
 
 ## What I would not do
 
 - Do not keep 4/4/4 Clefable / ex / Mega. Copy-cap legal, but the deck becomes 18 Stage 1s and bricky under real Energy.
 - Do not leave 0 Switch. Moon-Watching Party only fires from Active; the 30-card list leaned on Rule B chump sequences.
 - Do not put CLC Metronome back in this 2-of slot unless the plan is specifically to copy Dive on a 70 HP body.
+- Do not put Energy Search back unless you want the Hedrick cell more than T60 / D60.
 - Do not treat this as a replacement for Family Cup Set C. Rule B Clefable-as-energy is a different game.
