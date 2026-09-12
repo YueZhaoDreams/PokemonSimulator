@@ -1,4 +1,5 @@
 import re
+import unicodedata
 
 from app.config import STATIC_DIR
 
@@ -132,6 +133,14 @@ def stage_sort_rank(card: dict) -> int:
     return 3
 
 
+def fold_sort_name(name: str) -> str:
+    """Approximate Intl.Collator('en', { sensitivity: 'base' }) for tests."""
+    stripped = "".join(
+        ch for ch in unicodedata.normalize("NFKD", str(name or "")) if not unicodedata.combining(ch)
+    )
+    return stripped.casefold()
+
+
 def sorted_set_cards(cards: list[dict]) -> list[tuple[int, dict]]:
     """Keep in lockstep with sortedSetCards() in app/static/app.js."""
     indexed = list(enumerate(cards or []))
@@ -141,7 +150,7 @@ def sorted_set_cards(cards: list[dict]) -> list[tuple[int, dict]]:
         return (
             category_sort_rank(card),
             stage_sort_rank(card),
-            str(card.get("name") or "").casefold(),
+            fold_sort_name(card.get("name") or ""),
             index,
         )
 
@@ -410,6 +419,8 @@ def test_app_js_keeps_simulator_contracts():
     assert "function categorySortRank" in js
     assert "function stageSortRank" in js
     assert "function sortedSetCards" in js
+    assert 'new Intl.Collator("en", { sensitivity: "base" })' in js
+    assert "SET_CARD_COLLATOR.compare" in js
     assert "function runCardSearch" in js
     assert 'lookupCards(query, "local")' in js
     assert "data-replace-deck" in js
@@ -496,3 +507,13 @@ def test_set_cards_sort_keeps_original_index_for_replace():
     assert [index for index, _ in ordered] == [1, 2, 0]
     assert ordered[0][1] is cards[1]
     assert ordered[1][1] is cards[2]
+
+
+def test_set_cards_sort_treats_accented_names_as_base_letters():
+    cards = [
+        {"name": "Poké Pad", "category": "Trainer", "stage": "Item"},
+        {"name": "Poke Ball", "category": "Trainer", "stage": "Item"},
+        {"name": "Poké Ball", "category": "Trainer", "stage": "Item"},
+    ]
+    names = [card["name"] for _, card in sorted_set_cards(cards)]
+    assert names == ["Poke Ball", "Poké Ball", "Poké Pad"]

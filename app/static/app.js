@@ -1625,13 +1625,15 @@ function stageSortRank(card) {
   return 3;
 }
 
+const SET_CARD_COLLATOR = new Intl.Collator("en", { sensitivity: "base" });
+
 function sortedSetCards(cards) {
   return (cards || []).map((card, index) => ({ card, index })).sort((a, b) => {
     const cat = categorySortRank(a.card) - categorySortRank(b.card);
     if (cat) return cat;
     const stage = stageSortRank(a.card) - stageSortRank(b.card);
     if (stage) return stage;
-    const name = String(a.card?.name || "").localeCompare(String(b.card?.name || ""), undefined, { sensitivity: "base" });
+    const name = SET_CARD_COLLATOR.compare(String(a.card?.name || ""), String(b.card?.name || ""));
     if (name) return name;
     return a.index - b.index;
   });
