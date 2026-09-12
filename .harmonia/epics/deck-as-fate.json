@@ -10,6 +10,31 @@
       "at": "2026-09-08T16:25:00Z",
       "author": "operator-chat",
       "text": "还有就是确实有好牌和坏牌之分。同样的能量数目，有的只有50攻击力，有的有100。有一些牌，如果没有跟其他牌的联动关系，就是真垃圾牌了。牌跟牌之间会形成一种网络关系，Knowledge Graph。组牌组的时候可以利用这个KG"
+    },
+    {
+      "at": "2026-09-08T16:54:00Z",
+      "author": "operator-chat",
+      "text": "我觉得有根本的一些指标。攻击能量比，100/2；招式平均能量，代表了多少轮次；进化我还不知道怎么Model。（后续：进化是一种它牌dependence。）"
+    },
+    {
+      "at": "2026-09-09T00:19:00Z",
+      "author": "operator-chat",
+      "text": "牌组决定了Choice，而Decision是临场做的，但是可以穷尽所有的Decision来看最高胜率。选牌组和用牌组是两个函数，用牌组依赖于选牌组。"
+    },
+    {
+      "at": "2026-09-10T02:24:00Z",
+      "author": "operator-chat",
+      "text": "Set G (PR #76) + Mega Clefable ex hand ranking. Operator facts: Iron Boulder is genuinely strong early (hands are equal early and can be managed) so it must not be the cut; Ledian depends on Ledyba bodies so cut Ledian not Ledyba; Ledian's evolve-gust is this 60's only Boss-like Choice. Throwaway ecology-weighted script (/tmp) ranked Ledian ~ Mewtwo top, Iron Boulder bottom. That table is the product feature deck-fate-score, not a chat artefact."
+    },
+    {
+      "at": "2026-09-12T23:37:00Z",
+      "author": "operator-chat",
+      "text": "两张图：所有牌的超大 KG，和一个牌组的 KG（每张宝可梦有最高/最低/平均能量比、热机、依赖、可用张数）。Hop 摸 3 提高可用张数（agent note: raises effective seen n, exactly +3/60 only for a 1-of). 用 KG + 指标按权重/公式推出一个牌组整体评分，用来快速评估换牌。"
+    },
+    {
+      "at": "2026-09-12T23:41:00Z",
+      "author": "operator-chat",
+      "text": "Operator: 可以了 /create-epic and /create-features-for-epic. Epic refined to plan_review; breakdown.json (plan_status draft) and seven planned slices written. Human must approve before any implementation."
     }
   ],
   "passed_gates": [],
