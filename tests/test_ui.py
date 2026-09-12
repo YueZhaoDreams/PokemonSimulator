@@ -99,6 +99,55 @@ def classify_log(line: str) -> str:
     return "note"
 
 
+def category_sort_rank(card: dict) -> int:
+    """Keep in lockstep with categorySortRank() in app/static/app.js."""
+    cat = str(card.get("category") or "").lower()
+    if cat == "pokemon":
+        return 0
+    if cat == "trainer":
+        return 1
+    if cat == "energy":
+        return 2
+    return 3
+
+
+def stage_sort_rank(card: dict) -> int:
+    """Keep in lockstep with stageSortRank() in app/static/app.js."""
+    cat = str(card.get("category") or "").lower()
+    stage = re.sub(r"[\s_-]+", "", str(card.get("stage") or "").lower())
+    if cat == "energy":
+        if not stage or stage == "basic":
+            return 0
+        if stage == "special":
+            return 1
+        return 2
+    if cat != "pokemon":
+        return 0
+    if not stage or stage in {"basic", "baby"}:
+        return 0
+    if stage == "stage1":
+        return 1
+    if stage == "stage2":
+        return 2
+    return 3
+
+
+def sorted_set_cards(cards: list[dict]) -> list[tuple[int, dict]]:
+    """Keep in lockstep with sortedSetCards() in app/static/app.js."""
+    indexed = list(enumerate(cards or []))
+
+    def key(item: tuple[int, dict]) -> tuple:
+        index, card = item
+        return (
+            category_sort_rank(card),
+            stage_sort_rank(card),
+            str(card.get("name") or "").casefold(),
+            index,
+        )
+
+    return sorted(indexed, key=key)
+
+
 def test_cub_logo_corners_are_transparent():
     from PIL import Image
 
@@ -121,8 +170,8 @@ def test_index_keeps_combo_cub_controls():
     assert "Talk 语音" not in html
     assert 'id="cubLauncher"' in html
     assert 'src="/static/cub.png"' in html
-    assert 'href="/static/styles.css?v=scan-cf-524"' in html
-    assert 'src="/static/app.js?v=scan-cf-524"' in html
+    assert 'href="/static/styles.css?v=scan-cf-525"' in html
+    assert 'src="/static/app.js?v=scan-cf-525"' in html
     assert "<strong>Combo Cub</strong>" in html
     assert 'title="Combo Cub"' in html
     assert ">Scan · fight · chat<" in html
@@ -358,6 +407,9 @@ def test_app_js_keeps_simulator_contracts():
     assert "function selectedSearchHit" in js
     assert "dataset.query" in js
     assert "function cardCount" in js
+    assert "function categorySortRank" in js
+    assert "function stageSortRank" in js
+    assert "function sortedSetCards" in js
     assert "function runCardSearch" in js
     assert 'lookupCards(query, "local")' in js
     assert "data-replace-deck" in js
@@ -375,6 +427,8 @@ def test_app_js_keeps_simulator_contracts():
     start = js.index("function renderDecks")
     chunk = js[start : js.index("async function deleteSelectedSet")]
     assert "selectedSet()" in chunk
+    assert "sortedSetCards(d.cards)" in chunk
+    assert "cardTile(card, { deckId: d.id, index })" in chunk
     assert "state.decks.map" not in chunk
     lab_js = js[js.index("async function renderLab") : js.index("function queryRateLine")]
     assert '$("#labSims").innerHTML' in lab_js
@@ -404,3 +458,41 @@ def test_classify_log_labels_printed_engine_lines():
     assert classify_log("First player: A") == "setup"
     assert classify_log("A benches Pikachu") == "play"
     assert classify_log("A used Thunder Shock and Dondozo is paralyzed") == "status"
+
+
+def test_set_cards_sort_by_category_then_lower_stage_then_name():
+    cards = [
+        {"name": "Nest Ball", "category": "Trainer", "stage": "Item"},
+        {"name": "Luminous Energy", "category": "Energy", "stage": "Special"},
+        {"name": "Charizard", "category": "Pokemon", "stage": "Stage2"},
+        {"name": "Pikachu", "category": "Pokemon", "stage": "Basic"},
+        {"name": "Water Energy", "category": "Energy", "stage": "Basic"},
+        {"name": "Charmeleon", "category": "Pokemon", "stage": "Stage 1"},
+        {"name": "Charmander", "category": "Pokemon", "stage": "Basic"},
+        {"name": "Boss's Orders", "category": "Trainer", "stage": "Supporter"},
+        {"name": "Fire Energy", "category": "Energy", "stage": "Basic"},
+    ]
+    names = [card["name"] for _, card in sorted_set_cards(cards)]
+    assert names == [
+        "Charmander",
+        "Pikachu",
+        "Charmeleon",
+        "Charizard",
+        "Boss's Orders",
+        "Nest Ball",
+        "Fire Energy",
+        "Water Energy",
+        "Luminous Energy",
+    ]
+
+
+def test_set_cards_sort_keeps_original_index_for_replace():
+    cards = [
+        {"name": "Charizard", "category": "Pokemon", "stage": "Stage2"},
+        {"name": "Charmander", "category": "Pokemon", "stage": "Basic"},
+        {"name": "Charmander", "category": "Pokemon", "stage": "Basic"},
+    ]
+    ordered = sorted_set_cards(cards)
+    assert [index for index, _ in ordered] == [1, 2, 0]
+    assert ordered[0][1] is cards[1]
+    assert ordered[1][1] is cards[2]

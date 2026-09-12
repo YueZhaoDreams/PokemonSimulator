@@ -1602,6 +1602,41 @@ function selectedSet() {
   return (state.decks || []).find((d) => d.id === id) || null;
 }
 
+function categorySortRank(card) {
+  const cat = String(card?.category || "").toLowerCase();
+  if (cat === "pokemon") return 0;
+  if (cat === "trainer") return 1;
+  if (cat === "energy") return 2;
+  return 3;
+}
+
+function stageSortRank(card) {
+  const cat = String(card?.category || "").toLowerCase();
+  const stage = String(card?.stage || "").toLowerCase().replace(/[\s_-]+/g, "");
+  if (cat === "energy") {
+    if (!stage || stage === "basic") return 0;
+    if (stage === "special") return 1;
+    return 2;
+  }
+  if (cat !== "pokemon") return 0;
+  if (!stage || stage === "basic" || stage === "baby") return 0;
+  if (stage === "stage1") return 1;
+  if (stage === "stage2") return 2;
+  return 3;
+}
+
+function sortedSetCards(cards) {
+  return (cards || []).map((card, index) => ({ card, index })).sort((a, b) => {
+    const cat = categorySortRank(a.card) - categorySortRank(b.card);
+    if (cat) return cat;
+    const stage = stageSortRank(a.card) - stageSortRank(b.card);
+    if (stage) return stage;
+    const name = String(a.card?.name || "").localeCompare(String(b.card?.name || ""), undefined, { sensitivity: "base" });
+    if (name) return name;
+    return a.index - b.index;
+  });
+}
+
 function renderDecks() {
   const d = selectedSet();
   const box = $("#deckList");
@@ -1612,6 +1647,9 @@ function renderDecks() {
   }
   const have = deckRulePresets(d);
   const ruleNames = have.map((k) => rulePresetLabel(k)).join(" · ");
+  const tiles = sortedSetCards(d.cards).map(({ card, index }) =>
+    cardTile(card, { deckId: d.id, index })
+  ).join("");
   box.innerHTML = `
     <div class="panel">
       <div class="list-item">
@@ -1624,7 +1662,7 @@ function renderDecks() {
         ${String(d.id || "").startsWith("seed-") ? "" : `<button class="danger" type="button" data-delete-set="${esc(d.id)}">Delete set</button>`}
       </div>
       <div class="grid">
-        ${(d.cards || []).map((c, i) => cardTile(c, { deckId: d.id, index: i })).join("")}
+        ${tiles}
       </div>
     </div>`;
   bindZoom(box);
