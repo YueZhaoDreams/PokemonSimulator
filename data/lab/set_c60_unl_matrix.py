@@ -93,7 +93,7 @@ def main() -> None:
     dest = ROOT / "data/lab/set-c60-unl-matrix.json"
     dest.write_text(json.dumps(out, indent=2))
     print(f"\nelapsed {elapsed:.1f}s -> {dest}")
-    header = ["A \\ B", *keys]
+    header = ["A \\\\ B", *keys]
     print("| " + " | ".join(header) + " |")
     print("| " + " | ".join(["---"] * len(header)) + " |")
     for row in keys:
