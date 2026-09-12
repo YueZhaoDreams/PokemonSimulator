@@ -1,0 +1,128 @@
+{
+  "games": 3000,
+  "seed": 20260911,
+  "elapsed": 26.7937390219995,
+  "rule_preset": "s60",
+  "swap": "1 Tulip for 1 Night Stretcher",
+  "tulip_list": [
+    "Clefairy",
+    "Clefairy",
+    "Clefairy",
+    "Clefairy",
+    "Mewtwo ex",
+    "Mewtwo ex",
+    "Mewtwo ex",
+    "Clefable",
+    "Clefable",
+    "Clefable ex",
+    "Clefable ex",
+    "Clefable ex",
+    "Mega Clefable ex",
+    "Mega Clefable ex",
+    "Nest Ball",
+    "Nest Ball",
+    "Nest Ball",
+    "Nest Ball",
+    "Buddy-Buddy Poffin",
+    "Buddy-Buddy Poffin",
+    "Buddy-Buddy Poffin",
+    "Buddy-Buddy Poffin",
+    "Ultra Ball",
+    "Ultra Ball",
+    "Hop",
+    "Hop",
+    "Lillie",
+    "Lillie",
+    "Lillie's Determination",
+    "Lillie's Determination",
+    "Arven",
+    "Jacq",
+    "Boss's Orders",
+    "Boss's Orders",
+    "Boss's Orders",
+    "Iono",
+    "Iono",
+    "Switch",
+    "Switch",
+    "Energy Switch",
+    "Energy Switch",
+    "Energy Retrieval",
+    "Tulip",
+    "Maximum Belt",
+    "Tool Box",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy"
+  ],
+  "cells": {
+    "stretcher": {
+      "t60": {
+        "a": 0.487,
+        "b": 0.513,
+        "tie": 0.0,
+        "first": 0.5052562417871223,
+        "second": 0.46820027063599456,
+        "foe_strat": "phantom"
+      },
+      "hedrick": {
+        "a": 0.5816666666666667,
+        "b": 0.41833333333333333,
+        "tie": 0.0,
+        "first": 0.5964673913043478,
+        "second": 0.5674083769633508,
+        "foe_strat": "phantom"
+      },
+      "d60": {
+        "a": 0.7476666666666667,
+        "b": 0.25233333333333335,
+        "tie": 0.0,
+        "first": 0.770446735395189,
+        "second": 0.7262135922330097,
+        "foe_strat": "demolish"
+      }
+    },
+    "tulip": {
+      "t60": {
+        "a": 0.4886666666666667,
+        "b": 0.5113333333333333,
+        "tie": 0.0,
+        "first": 0.5023632680621202,
+        "second": 0.47531270572745227,
+        "foe_strat": "phantom"
+      },
+      "hedrick": {
+        "a": 0.5746666666666667,
+        "b": 0.42533333333333334,
+        "tie": 0.0,
+        "first": 0.5965277777777778,
+        "second": 0.5544871794871795,
+        "foe_strat": "phantom"
+      },
+      "d60": {
+        "a": 0.7443333333333333,
+        "b": 0.25566666666666665,
+        "tie": 0.0,
+        "first": 0.7759674134419552,
+        "second": 0.7138179436804192,
+        "foe_strat": "demolish"
+      }
+    }
+  },
+  "baseline_3000_seed_20260911": {
+    "t60": 0.543,
+    "hedrick": 0.629,
+    "d60": 0.753
+  }
+}

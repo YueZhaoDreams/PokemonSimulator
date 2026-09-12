@@ -368,6 +368,10 @@ class Game:
             # One attacker to evolve; extras are Grass energy.
             return copies < 1
 
+        if strat.name == "party" and "lillie's clefairy" in name:
+            # One Fairy Zone (Dragon Weakness → Psychic ×2). 190 HP, 2 prizes.
+            return copies < 1
+
         if strat.name == "phantom" and name == "dreepy":
             return copies < 2
         if strat.name == "phantom" and name == "budew":
@@ -504,6 +508,10 @@ class Game:
                 return 2000 + self._print_value(card, strat)
             if glass and name in closers:
                 return 2000 + self._print_value(card, strat)
+            if strat.name == "party" and "lillie's clefairy" in name:
+                # Fairy Zone is a bench card. Score below the hold_as_energy
+                # placeholder (50 − HP) so any other Basic opens instead.
+                return -1000
             if name in aces:
                 bonus = 10 if glass else 1000
                 if vs_claw:
@@ -1242,7 +1250,10 @@ class Game:
                     if (me.card(i).is_pokemon and me.card(i).types and me.card(i).types[0] == "Psychic")
                     or (me.card(i).is_energy and (me.card(i).energy_type or "") == "Psychic")
                 )
-                if strat.name == "party" and psychic_discard >= 2:
+                if strat.name == "party" and psychic_discard >= 3:
+                    # Beat Hop 17: recovering 3–4 engines/energy is the turn.
+                    score += 20
+                elif strat.name == "party" and psychic_discard >= 2:
                     score += 8
                 elif psychic_discard >= 2 and (not me.active or not me.active.energy):
                     score += 5
@@ -1312,8 +1323,14 @@ class Game:
                 has_nrg = foe.active is not None and bool(foe.active.energy)
                 score += 6 if has_nrg else -3
             elif name == "night stretcher":
-                rec = sum(1 for i in me.discard if me.card(i).is_pokemon or me.card(i).is_energy)
-                score += 8 if rec else -4
+                rec_pkm = any(me.card(i).is_pokemon for i in me.discard)
+                rec_nrg = any(is_basic_energy(me.card(i)) for i in me.discard)
+                if rec_pkm:
+                    score += 10 if strat.name == "party" else 8
+                elif rec_nrg:
+                    score += 6
+                else:
+                    score -= 4
             elif name == "unfair stamp":
                 score += 12 if me.ko_since_opp_turn else -20
             elif name == "judge":
@@ -1606,7 +1623,7 @@ class Game:
             else:
                 self._bump("crushing_hammer_tails")
         elif name == "night stretcher":
-            self._night_stretcher(me)
+            self._night_stretcher(me, who)
         elif name == "unfair stamp":
             if not me.ko_since_opp_turn:
                 self._bump("unfair_stamp_fail")
@@ -1872,6 +1889,11 @@ class Game:
             need = self._mewtwo_play_cap(me) - mewtwo_out
             if need > 0 and mewtwo_hand < need:
                 prefer.append("Mewtwo ex")
+            if (
+                self._facing_phantom(me)
+                and not any("lillie's clefairy" in me.card(m.card_i).name.lower() for m in me.in_play())
+            ):
+                prefer.append("Lillie's Clefairy ex")
             return list(dict.fromkeys(prefer))
         if strat.name == "slash":
             prefer: list[str] = []
@@ -2987,8 +3009,27 @@ class Game:
         foe.discard.append(energy_i)
         self._log(f"Crushing Hammer discards energy from {foe.card(target.card_i).name}")
 
-    def _night_stretcher(self, me: Player) -> None:
-        prefer = ["dragapult ex", "drakloak", "dreepy", "fezandipiti ex", "fire energy", "psychic energy", "darkness energy"]
+    def _night_stretcher(self, me: Player, who: str | None = None) -> None:
+        strat_name = self.strats[who].name if who else ""
+        if strat_name == "party":
+            prefer = [
+                "mewtwo ex",
+                "clefable ex",
+                "mega clefable ex",
+                "psychic energy",
+                "clefable",
+                "clefairy",
+            ]
+        else:
+            prefer = [
+                "dragapult ex",
+                "drakloak",
+                "dreepy",
+                "fezandipiti ex",
+                "fire energy",
+                "psychic energy",
+                "darkness energy",
+            ]
         scored: list[tuple[int, int]] = []
         for i in me.discard:
             card = me.card(i)

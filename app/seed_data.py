@@ -97,7 +97,7 @@ SET_C_NAMES = (
 )
 
 # Set C → Standard 60 (preset s60). Pokémon are not energy, so the 30-card
-# Clefable pile is thinned and 14 Psychic Energy pay Party / Photon / Zone.
+# Clefable pile is thinned and 15 Psychic Energy pay Party / Photon / Zone.
 # Keep LOR 62 Clefairy as the engine; add Switch so Party can fire from Active;
 # Poffin benches 60 HP Clefairy; more Boss for a 6-prize race.
 # Two Rebel Clash Clefable (Prankish) — 110 HP Psychic Stage 1. On evolve, may put
@@ -122,11 +122,10 @@ SET_C60_NAMES = (
     + ["Switch"] * 2
     + ["Energy Switch"] * 2
     + ["Energy Retrieval"]
-    + ["Energy Search"]
     + ["Night Stretcher"]
     + ["Maximum Belt"]
     + ["Tool Box"]
-    + ["Psychic Energy"] * 14
+    + ["Psychic Energy"] * 15
 )
 
 SET_D_NAMES = (  # 30: Fighting Energy 6 → 8

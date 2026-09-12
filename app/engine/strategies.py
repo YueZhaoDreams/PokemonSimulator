@@ -252,6 +252,8 @@ STRATEGY_LIBRARY = {
             "After Party, Photon / Wondrous Moon / Shooting Moons chip for whatever they pay "
             "(no sitting out a 170 into 320). Transfer Charge does not stall a payable hit. "
             "Still hide a 60 HP Clefairy that cannot attack. "
+            "If Lillie's Clefairy ex is in the list: bench one for Fairy Zone so Dragon "
+            "Weakness is Psychic ×2; do not open on the 190 HP 2-prize body. "
             "151 Invitation Clefairy (if mixed in) dumps Party engines in one attack when "
             "there is no Switch to rotate Party. One Boss's Orders to pull a prize. "
             "Trainer order: hunt Maximum Belt (Arven before Tool Box), then Hop or "

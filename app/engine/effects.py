@@ -59,12 +59,19 @@ def parse_damage(raw: Any) -> int:
     return int(match.group(1)) if match else 0
 
 
+def parse_attack_cost(raw_cost: Any) -> list[str]:
+    """Printed 0-cost attacks use []. Missing cost still defaults to one Colorless."""
+    if raw_cost is None:
+        return ["Colorless"]
+    return [c for c in raw_cost if c]
+
+
 def parse_attack(raw: dict[str, Any]) -> Attack:
     text = raw.get("effect") or raw.get("text") or ""
     damage_raw = raw.get("damage")
     return Attack(
         name=raw.get("name") or "Attack",
-        cost=[c for c in (raw.get("cost") or ["Colorless"]) if c],
+        cost=parse_attack_cost(raw.get("cost")),
         damage=parse_damage(damage_raw),
         text=text,
         effects=parse_effects(text, str(damage_raw or "")),

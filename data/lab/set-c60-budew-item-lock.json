@@ -1,9 +1,10 @@
 {
-  "games": 3000,
+  "games": 1500,
   "seed": 20260911,
-  "elapsed": 16.57020619799914,
+  "elapsed": 8.980166184999689,
   "rule_preset": "s60",
-  "c60": [
+  "swap": "1 Budew for 1 Psychic Energy",
+  "c60_plus_budew": [
     "Clefairy",
     "Clefairy",
     "Clefairy",
@@ -49,7 +50,7 @@
     "Night Stretcher",
     "Maximum Belt",
     "Tool Box",
-    "Psychic Energy",
+    "Budew",
     "Psychic Energy",
     "Psychic Energy",
     "Psychic Energy",
@@ -66,49 +67,35 @@
     "Psychic Energy"
   ],
   "cells": {
-    "g": {
-      "a": 0.98,
-      "b": 0.02,
+    "t60": {
+      "a": 0.4533333333333333,
+      "b": 0.5466666666666666,
       "tie": 0.0,
-      "first": 0.9817567567567568,
-      "second": 0.9782894736842105,
-      "foe_strat": "carnival",
-      "pokemon_as_energy": false,
-      "deck_size": 60,
-      "prize_count": 6
+      "first": 0.4743243243243243,
+      "second": 0.4328947368421053,
+      "foe_strat": "phantom"
+    },
+    "hedrick": {
+      "a": 0.5586666666666666,
+      "b": 0.44133333333333336,
+      "tie": 0.0,
+      "first": 0.5551020408163265,
+      "second": 0.5620915032679739,
+      "foe_strat": "phantom"
     },
     "d60": {
-      "a": 0.7526666666666667,
-      "b": 0.24733333333333332,
+      "a": 0.69,
+      "b": 0.31,
       "tie": 0.0,
-      "first": 0.7675962815405046,
-      "second": 0.7376171352074966,
-      "foe_strat": "demolish",
-      "pokemon_as_energy": false,
-      "deck_size": 60,
-      "prize_count": 6
-    },
-    "t60": {
-      "a": 0.543,
-      "b": 0.457,
-      "tie": 0.0,
-      "first": 0.5614035087719298,
-      "second": 0.5250329380764164,
-      "foe_strat": "phantom",
-      "pokemon_as_energy": false,
-      "deck_size": 60,
-      "prize_count": 6
-    },
-    "s60": {
-      "a": 0.9956666666666667,
-      "b": 0.004333333333333333,
-      "tie": 0.0,
-      "first": 0.9974143503555268,
-      "second": 0.993805918788713,
-      "foe_strat": "slash",
-      "pokemon_as_energy": false,
-      "deck_size": 60,
-      "prize_count": 6
+      "first": 0.7237851662404092,
+      "second": 0.6532033426183844,
+      "foe_strat": "demolish"
     }
-  }
+  },
+  "baseline_3000_seed_20260911": {
+    "t60": 0.543,
+    "hedrick": 0.629,
+    "d60": 0.753
+  },
+  "notes": "Cells used a temporary party sit-and-Pollen path. Do not lock Budew into SET_C60_NAMES."
 }
