@@ -355,13 +355,27 @@ def normalize_rule_presets(raw: Any, fallback: list[str] | None = None) -> list[
     return out
 
 
+S60_SEED_IDS = frozenset(
+    {
+        "seed-g",
+        "seed-h",
+        "seed-c60",
+        "seed-d60",
+        "seed-s60",
+        "seed-t60",
+        "seed-t-meta",
+        "seed-t-unl",
+    }
+)
+
+
 def default_rule_presets_for(deck_id: str | None) -> list[str]:
     did = str(deck_id or "")
     if did in {"seed-e", "seed-f"}:
         return ["c"]
     if did == "seed-t":
         return ["s30"]
-    if did == "seed-g":
+    if did in S60_SEED_IDS:
         return ["s60"]
     if did.startswith("seed-"):
         return ["b"]
@@ -375,7 +389,7 @@ def legacy_rule_presets_for(deck_id: str | None) -> list[str]:
         return ["c"]
     if did == "seed-t":
         return ["s30"]
-    if did == "seed-g":
+    if did in S60_SEED_IDS:
         return ["s60"]
     if did.startswith("seed-"):
         return ["b"]

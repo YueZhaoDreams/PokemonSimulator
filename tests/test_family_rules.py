@@ -134,7 +134,7 @@ def test_seed_decks_have_images():
     from app.seed import load_seed_payload
 
     data = load_seed_payload()
-    for key in ("a", "b", "c", "d", "e", "f", "g", "s", "t", "spare"):
+    for key in ("a", "b", "c", "d", "e", "f", "g", "h", "s", "t", "spare"):
         for card in data[key]["cards"]:
             assert card.get("image"), f"{key} {card['name']} {card.get('catalog_id')} has no image"
             assert str(card["image"]).startswith("http")
@@ -150,6 +150,10 @@ def test_seed_e_and_f_use_no_pokemon_energy_preset():
     assert _deck_rule_preset("seed-f") == "c"
     assert _deck_rule_preset("seed-t") == "s30"
     assert _deck_rule_preset("seed-g") == "s60"
+    assert _deck_rule_preset("seed-h") == "s60"
+    assert _deck_rule_preset("seed-c60") == "s60"
+    assert _deck_rule_preset("seed-t-meta") == "s60"
+    assert _deck_rule_preset("seed-t-unl") == "s60"
     assert _deck_rule_preset("seed-a") == "b"
     assert _deck_rule_preset("seed-spare") == "b"
     assert _deck_rule_preset("scanned-uuid") == "any"
@@ -158,6 +162,10 @@ def test_seed_e_and_f_use_no_pokemon_energy_preset():
     assert default_rule_presets_for("seed-e") == ["c"]
     assert default_rule_presets_for("seed-t") == ["s30"]
     assert default_rule_presets_for("seed-g") == ["s60"]
+    assert default_rule_presets_for("seed-h") == ["s60"]
+    assert default_rule_presets_for("seed-c60") == ["s60"]
+    assert default_rule_presets_for("seed-d60") == ["s60"]
+    assert default_rule_presets_for("seed-t-meta") == ["s60"]
     assert default_rule_presets_for("seed-a") == ["b"]
     assert default_rule_presets_for(None) == ["b"]
     assert legacy_rule_presets_for("household") == ["b", "c"]
@@ -198,7 +206,18 @@ def test_seed_decks_include_set_c_and_d():
     assert data["s"]["id"] == "seed-s"
     assert data["t"]["id"] == "seed-t"
     assert data["g"]["id"] == "seed-g"
+    assert data["h"]["id"] == "seed-h"
+    assert data["c60"]["id"] == "seed-c60"
+    assert data["d60"]["id"] == "seed-d60"
+    assert data["s60"]["id"] == "seed-s60"
+    assert data["t60"]["id"] == "seed-t60"
+    assert data["t-meta"]["id"] == "seed-t-meta"
+    assert data["t-unl"]["id"] == "seed-t-unl"
+    assert data["c60"]["name"] == "Set C Standard 60 (Clefairy / Mewtwo)"
+    assert data["t-meta"]["name"] == "Worlds 2026 Hedrick Dragapult"
+    assert data["t-unl"]["name"] == "Unlimited Dragapult (Pidgeot / Rotom V)"
     assert data["g"]["name"] == "Carpet Set G (Clefairy / Ledian 60)"
+    assert data["h"]["name"] == "Carpet Set H (Zapdos / Pikachu 60)"
     assert data["e"]["name"] == "Carpet Set E (Walrein / Iris)"
     assert data["f"]["name"] == "Carpet Set F (Staraptor / Gengar)"
     assert data["t"]["name"] == "Set T (Dragapult ex)"

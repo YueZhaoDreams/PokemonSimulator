@@ -422,6 +422,41 @@ STRATEGY_LIBRARY = {
         closers=["Orthworm"],
         max_ace_copies=1,
     ),
+    "g": StrategySpec(
+        name="g",
+        description=(
+            "Carpet Set G: keep Clefairy Active for Moon-Watching Party, load Psychic, "
+            "Wonder Storm. Evolve Ledyba for Glittering Star Pattern, Starly into Power Blast "
+            "Staraptor, Misdreavus into Upper Hand Mismagius. Darkness on Munkidori for "
+            "Adrena-Brain. Flutter Mane Active shuts opponent Abilities. Tulip / Surfer / Drayton."
+        ),
+        prefer_damage=0.95,
+        prefer_status=0.25,
+        bench_fill=0.55,
+        evolve_asap=0.95,
+        attach_pokemon_as_energy=0.0,
+        item_spend=1.0,
+        hold_as_energy=True,
+        protect=[
+            "Clefairy",
+            "Ledyba",
+            "Ledian",
+            "Starly",
+            "Staravia",
+            "Staraptor",
+            "Mewtwo",
+            "Munkidori",
+            "Flutter Mane",
+            "Misdreavus",
+            "Mismagius",
+        ],
+        search_aces=["Clefairy", "Starly", "Ledyba"],
+        closers=["Staraptor", "Mewtwo", "Ledian", "Mismagius"],
+        backups=["Flutter Mane", "Munkidori", "Dedenne"],
+        insurance=["Flutter Mane"],
+        insurance_bench=1,
+        max_ace_copies=4,
+    ),
 }
 
 

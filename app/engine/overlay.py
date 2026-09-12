@@ -60,6 +60,10 @@ PUBLISHED_EFFECT_KINDS = frozenset(
         "tools_to_lost_zone_bonus",
         "may_discard_stadium",
         "shuffle_self_into_deck",
+        "recycle_trainer_from_discard",
+        "disable_attack",
+        "gust_low_hp_on_evolve",
+        "suppress_opponent_active_abilities",
     }
 )
 

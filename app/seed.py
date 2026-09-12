@@ -11,17 +11,24 @@ from app.seed_data import (
     SET_A_NAMES,
     SET_B_NAMES,
     SET_C_NAMES,
+    SET_C60_NAMES,
     SET_D_NAMES,
+    SET_D60_NAMES,
     SET_E_NAMES,
     SET_F_NAMES,
     SET_G_NAMES,
+    SET_H_NAMES,
     SET_S_NAMES,
+    SET_S60_NAMES,
     SET_T_NAMES,
+    SET_T60_NAMES,
+    SET_T_META_NAMES,
+    SET_T_UNL_NAMES,
     SET_SPARE_NAMES,
     build_fallback_deck,
 )
 
-LIST_KEYS = ("a", "b", "c", "d", "e", "f", "g", "s", "t")
+LIST_KEYS = ("a", "b", "c", "d", "e", "f", "g", "h", "s", "t", "c60", "d60", "s60", "t60", "t-meta", "t-unl")
 SEED_KEYS = (*LIST_KEYS, "spare")
 
 SEED_PATH = DATA_DIR / "seed_decks.json"
@@ -55,9 +62,31 @@ def _try_enrich(names: list[str], prefer: dict[str, list[str]] | None = None) ->
 def load_seed_deck(which: str) -> dict:
     decks = load_seed_payload()
     key = which.lower().replace("set-", "").replace("seed-", "")
-    key = {"1": "a", "2": "b", "3": "c", "4": "d", "5": "s", "6": "spare", "7": "t", "8": "e", "9": "f", "10": "g", "spare-cards": "spare", "p": "spare"}.get(
-        key, key
-    )
+    key = {
+        "1": "a",
+        "2": "b",
+        "3": "c",
+        "4": "d",
+        "5": "s",
+        "6": "spare",
+        "7": "t",
+        "8": "e",
+        "9": "f",
+        "10": "g",
+        "11": "c60",
+        "12": "d60",
+        "13": "s60",
+        "14": "t60",
+        "15": "t-meta",
+        "16": "t-unl",
+        "17": "h",
+        "hedrick": "t-meta",
+        "tmeta": "t-meta",
+        "unl": "t-unl",
+        "tunl": "t-unl",
+        "spare-cards": "spare",
+        "p": "spare",
+    }.get(key, key)
     if key not in decks:
         raise KeyError(f"unknown seed deck {which}")
     return decks[key]
@@ -90,8 +119,15 @@ def load_seed_payload() -> dict:
             ("e", SET_E_NAMES),
             ("f", SET_F_NAMES),
             ("g", SET_G_NAMES),
+            ("h", SET_H_NAMES),
             ("s", SET_S_NAMES),
             ("t", SET_T_NAMES),
+            ("c60", SET_C60_NAMES),
+            ("d60", SET_D60_NAMES),
+            ("s60", SET_S60_NAMES),
+            ("t60", SET_T60_NAMES),
+            ("t-meta", SET_T_META_NAMES),
+            ("t-unl", SET_T_UNL_NAMES),
             ("spare", SET_SPARE_NAMES),
         ):
             have = [c.get("name") for c in (data.get(key) or {}).get("cards") or []]
@@ -138,6 +174,8 @@ def load_seed_payload() -> dict:
                 "Drifloon": _fallback_named("Drifloon"),
                 "Drifblim": _fallback_named("Drifblim"),
                 "Dedenne": _fallback_named("Dedenne"),
+                "Misdreavus": _fallback_named("Misdreavus"),
+                "Mismagius": _fallback_named("Mismagius"),
             }
             cards_g = [
                 refresh.get((c.name if isinstance(c, Card) else c.get("name")), c)
@@ -344,8 +382,15 @@ def _cd_payload(enrich: bool = True) -> dict:
         "Staravia",
         [fallback_named("staravia-brilliant"), fallback_named("Staravia")],
     )
+    cards_h = _repeat_named_cards(list(SET_H_NAMES), enrich)
     cards_s = _repeat_named_cards(list(SET_S_NAMES), enrich)
     cards_t = _repeat_named_cards(list(SET_T_NAMES), enrich)
+    cards_c60 = _repeat_named_cards(list(SET_C60_NAMES), enrich)
+    cards_d60 = _repeat_named_cards(list(SET_D60_NAMES), enrich)
+    cards_s60 = _repeat_named_cards(list(SET_S60_NAMES), enrich)
+    cards_t60 = _repeat_named_cards(list(SET_T60_NAMES), enrich)
+    cards_t_meta = _repeat_named_cards(list(SET_T_META_NAMES), enrich)
+    cards_t_unl = _repeat_named_cards(list(SET_T_UNL_NAMES), enrich)
     return {
         "c": {
             "id": "seed-c",
@@ -382,6 +427,13 @@ def _cd_payload(enrich: bool = True) -> dict:
             "kind": "list",
             "cards": [c.to_dict() if isinstance(c, Card) else c for c in cards_g],
         },
+        "h": {
+            "id": "seed-h",
+            "name": "Carpet Set H (Zapdos / Pikachu 60)",
+            "sample": "set-h-carpet.jpg",
+            "kind": "list",
+            "cards": [c.to_dict() if isinstance(c, Card) else c for c in cards_h],
+        },
         "s": {
             "id": "seed-s",
             "name": "Set S (Floragato hunter)",
@@ -395,6 +447,48 @@ def _cd_payload(enrich: bool = True) -> dict:
             "sample": None,
             "kind": "list",
             "cards": [c.to_dict() if isinstance(c, Card) else c for c in cards_t],
+        },
+        "c60": {
+            "id": "seed-c60",
+            "name": "Set C Standard 60 (Clefairy / Mewtwo)",
+            "sample": None,
+            "kind": "list",
+            "cards": [c.to_dict() if isinstance(c, Card) else c for c in cards_c60],
+        },
+        "d60": {
+            "id": "seed-d60",
+            "name": "Set D Standard 60 (Charm Ogerpon)",
+            "sample": None,
+            "kind": "list",
+            "cards": [c.to_dict() if isinstance(c, Card) else c for c in cards_d60],
+        },
+        "s60": {
+            "id": "seed-s60",
+            "name": "Set S Standard 60 (Floragato hunter)",
+            "sample": None,
+            "kind": "list",
+            "cards": [c.to_dict() if isinstance(c, Card) else c for c in cards_s60],
+        },
+        "t60": {
+            "id": "seed-t60",
+            "name": "Set T Standard 60 (Dragapult ex)",
+            "sample": None,
+            "kind": "list",
+            "cards": [c.to_dict() if isinstance(c, Card) else c for c in cards_t60],
+        },
+        "t-meta": {
+            "id": "seed-t-meta",
+            "name": "Worlds 2026 Hedrick Dragapult",
+            "sample": None,
+            "kind": "list",
+            "cards": [c.to_dict() if isinstance(c, Card) else c for c in cards_t_meta],
+        },
+        "t-unl": {
+            "id": "seed-t-unl",
+            "name": "Unlimited Dragapult (Pidgeot / Rotom V)",
+            "sample": None,
+            "kind": "list",
+            "cards": [c.to_dict() if isinstance(c, Card) else c for c in cards_t_unl],
         },
     }
 
@@ -481,6 +575,12 @@ def build_seed_payload(enrich: bool = True) -> dict:
         "d": cd["d"],
         "s": cd["s"],
         "t": cd["t"],
+        "c60": cd["c60"],
+        "d60": cd["d60"],
+        "s60": cd["s60"],
+        "t60": cd["t60"],
+        "t-meta": cd["t-meta"],
+        "t-unl": cd["t-unl"],
         "spare": spare["spare"],
         "hashes": {},
     }

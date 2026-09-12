@@ -131,8 +131,8 @@ PREFERRED_IDS = {
     "Jacq": "sv01-175",
     "Ledyba": "sv07-002",
     "Ledian": "sv07-003",
-    "Misdreavus": "sv02-087",
-    "Mismagius": "swsh10-059",
+    "Misdreavus": "pl1-83",  # Platinum Take Back / Tackle — not Paldea Evolved Hypnoblast
+    "Mismagius": "pl1-55",  # Platinum Upper Hand / Psybeam — not Astral Radiance Ominous Prose
     "Munkidori": "sv06-095",
     "Scatterbug": "sv08-005",
     "Drifloon": "swsh10-063",
@@ -185,6 +185,26 @@ PREFERRED_IDS = {
     "Gligar": "sv04-091",  # Toxic (Paradox Rift)
     "Surfer": "sv08-187",  # Regular Surging Sparks 187 — not 191 Enriching Energy
     "Iris's Fighting Spirit": "sv09-149",
+    "Zapdos": "xy6-23",  # Roaring Skies Drill Peck / Raging Thunder 120
+    "Wattrel": "sv01-077",  # Paldea Evolved Collect / Glide
+    "Jolteon": "sv08.5-029",  # Prismatic Evolutions 110 HP Fighting Lightning
+    "Tynamo": "sm3-44",  # Burning Shadows Aqua Shock 40, water art
+    "Eelektrik": "sm3-45",
+    "Shinx": "swsh12.5-039",  # Crown Zenith Rear Kick
+    "Helioptile": "xy2-36",  # Flashfire grass-field Pound
+    "Magby": "sv04-019",
+    "Houndour": "sv01-033",  # Paldea Evolved 70 HP Bite / Flare
+    "Cramorant": "sv06-058",
+    "Oranguru": "sm1-113",
+    "Grookey": "swsh1-11",  # Sword & Shield Scratch / Beat 70
+    "Treecko": "sm7-8",  # Celestial Storm 70 HP Smack / Tail Whap
+    "Zekrom": "sm3.5-35",  # Hidden Fates Outrage / Storm Blade 130
+    "Dubwool": "swsh1-154",
+    "Togedemaru": "me02-073",
+    "Hisuian Electrode": "swsh10-003",
+    "Trapinch": "xy3-53",  # Furious Fists Mountain Munch / Mud-Slap
+    "Gogoat": "swsh4-18",  # Vivid Voltage Razor Leaf / Take Down
+    "Lechonk": "sv01-154",
     "Iono": "sv01-185",
     "Switch Cart": "sv02-178",
     "Hippopotas": "swsh7-084",  # Evolving Skies Hippopotas — not sv01-112 Riolu
@@ -315,8 +335,8 @@ PRINT_PREFER = {
     "Staraptor": ["tailspin away", "power blast"],
     "Ledyba": ["headbutt bounce"],
     "Ledian": ["glittering star", "swift"],
-    "Misdreavus": ["hypnoblast"],
-    "Mismagius": ["psybeam", "ominous prose"],
+    "Misdreavus": ["take back", "tackle"],
+    "Mismagius": ["upper hand", "psybeam"],
     "Munkidori": ["adrena-brain", "mind bend"],
     "Scatterbug": ["call for family"],
     "Drifloon": ["triple spin"],
@@ -713,7 +733,7 @@ def _looks_like_tcgdex_id(card_id: str) -> bool:
     if "-" not in card_id:
         return False
     series = card_id.split("-", 1)[0].lower()
-    return series.startswith(("sv", "swsh", "sm", "xy", "me", "base"))
+    return series.startswith(("sv", "swsh", "sm", "xy", "me", "base", "pl"))
 
 
 def _tcgdex_low(card_id: str) -> str:
@@ -726,6 +746,8 @@ def _tcgdex_low(card_id: str) -> str:
         folder = "sm"
     elif series.startswith("me"):
         folder = "me"
+    elif series.startswith("pl"):
+        folder = "pl"
     else:
         folder = series
     return f"https://assets.tcgdex.net/en/{folder}/{series}/{number}/low.webp"
