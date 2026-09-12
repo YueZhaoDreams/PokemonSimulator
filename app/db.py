@@ -8,6 +8,7 @@ from datetime import datetime, timedelta, timezone
 from app.config import ADMIN_EMAIL, ADMIN_PASSWORD, DB_PATH
 from app.engine.models import (
     FamilyRules,
+    S60_SEED_IDS,
     default_family_rules,
     default_rule_presets_for,
     legacy_rule_presets_for,
@@ -185,7 +186,7 @@ def _ensure_deck_rules_column(conn: sqlite3.Connection) -> None:
                         "UPDATE decks SET rules_json=? WHERE id=?",
                         (json.dumps(["s30"]), row["id"]),
                     )
-            elif row["id"] == "seed-g":
+            elif row["id"] in S60_SEED_IDS:
                 try:
                     stored = json.loads(row["rules_json"])
                 except (TypeError, json.JSONDecodeError):

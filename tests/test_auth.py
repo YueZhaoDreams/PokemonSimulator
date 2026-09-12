@@ -39,7 +39,21 @@ def test_admin_owns_seed_decks_and_members_are_isolated(tmp_path, monkeypatch):
         assert me.json()["role"] == "admin"
 
         decks = client.get("/api/decks").json()
-        assert {d["id"] for d in decks} >= {"seed-a", "seed-b", "seed-c", "seed-e", "seed-f", "seed-g"}
+        assert {d["id"] for d in decks} >= {
+            "seed-a",
+            "seed-b",
+            "seed-c",
+            "seed-e",
+            "seed-f",
+            "seed-g",
+            "seed-h",
+            "seed-c60",
+            "seed-d60",
+            "seed-s60",
+            "seed-t60",
+            "seed-t-meta",
+            "seed-t-unl",
+        }
         by_id = {d["id"]: d for d in decks}
         assert by_id["seed-e"]["rule_preset"] == "c"
         assert by_id["seed-e"]["rule_presets"] == ["c"]
@@ -51,6 +65,14 @@ def test_admin_owns_seed_decks_and_members_are_isolated(tmp_path, monkeypatch):
         assert by_id["seed-g"]["rule_preset"] == "s60"
         assert by_id["seed-g"]["rule_presets"] == ["s60"]
         assert by_id["seed-g"]["count"] == 60
+        assert by_id["seed-h"]["rule_preset"] == "s60"
+        assert by_id["seed-h"]["rule_presets"] == ["s60"]
+        assert by_id["seed-h"]["count"] == 60
+        assert by_id["seed-h"]["name"] == "Carpet Set H (Zapdos / Pikachu 60)"
+        assert by_id["seed-c60"]["rule_presets"] == ["s60"]
+        assert by_id["seed-c60"]["count"] == 60
+        assert by_id["seed-t-meta"]["name"] == "Worlds 2026 Hedrick Dragapult"
+        assert by_id["seed-t-unl"]["count"] == 60
         assert all(d["owner_id"] == admin["id"] for d in decks)
         presets = client.get("/api/rule-presets").json()
         assert [p["preset"] for p in presets] == ["b", "c", "s30", "s60"]

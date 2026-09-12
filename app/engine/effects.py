@@ -199,6 +199,18 @@ def parse_ability_effects(text: str) -> list[dict[str, Any]]:
             }
         )
 
+    # Ledian Glittering Star Pattern: on evolve, gust a ≤N remaining HP bench Pokémon.
+    gust = re.search(
+        r"switch in 1 of your opponent's benched pokemon that has (\d+) hp or less remaining",
+        t,
+    )
+    if gust and "evolve" in t:
+        effects.append({"kind": "gust_low_hp_on_evolve", "max_remaining": int(gust.group(1))})
+
+    # Flutter Mane Midnight Fluttering: opponent's Active has no Abilities.
+    if "has no abilities" in t and "active" in t:
+        effects.append({"kind": "suppress_opponent_active_abilities"})
+
     # Dudunsparce Run Away Draw: draw N, then shuffle this Pokémon into the deck.
     if "shuffle this pokemon" in t and "into your deck" in t and "draw" in t:
         n = re.search(r"draw (\d+)", t)
@@ -372,6 +384,14 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
     if "discard the top" in t and "opponent" in t and "deck" in t:
         top = re.search(r"top (\d+)", t)
         effects.append({"kind": "mill_opponent", "count": int(top.group(1)) if top else 1})
+
+    # Platinum Misdreavus Take Back: coin, then a Trainer from discard to hand.
+    if "discard pile" in t and "trainer" in t and "into your hand" in t:
+        effects.append({"kind": "recycle_trainer_from_discard", "coin": coin})
+
+    # Platinum Mismagius Upper Hand: lock one named attack on the defender.
+    if "can't use that attack" in t or "cannot use that attack" in t:
+        effects.append({"kind": "disable_attack"})
 
     if "this attack does nothing" in t:
         if "same number of cards in your hand" in t:

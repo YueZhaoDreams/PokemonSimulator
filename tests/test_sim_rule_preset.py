@@ -2,8 +2,13 @@ from app.ai.tools import run_tool
 from app.db import init_db
 
 
-def test_simulate_match_infers_rule_c_for_carpet_e_vs_f():
+def _fresh_db(tmp_path, monkeypatch):
+    monkeypatch.setattr("app.db.DB_PATH", tmp_path / "app.db")
     init_db()
+
+
+def test_simulate_match_infers_rule_c_for_carpet_e_vs_f(tmp_path, monkeypatch):
+    _fresh_db(tmp_path, monkeypatch)
     rec = run_tool(
         "simulate_match",
         {
@@ -18,8 +23,8 @@ def test_simulate_match_infers_rule_c_for_carpet_e_vs_f():
     assert rec["learning"]["status"].get("pokemon_as_energy_per_game", 0) == 0
 
 
-def test_simulate_match_keeps_rule_b_for_seed_a_vs_b():
-    init_db()
+def test_simulate_match_keeps_rule_b_for_seed_a_vs_b(tmp_path, monkeypatch):
+    _fresh_db(tmp_path, monkeypatch)
     rec = run_tool(
         "simulate_match",
         {"deck_a_id": "seed-a", "deck_b_id": "seed-b", "games": 8, "queries": []},
@@ -27,8 +32,8 @@ def test_simulate_match_keeps_rule_b_for_seed_a_vs_b():
     assert rec["method"]["rules"]["pokemon_as_energy"] is True
 
 
-def test_simulate_match_rule_preset_c_overrides_rule_b_decks():
-    init_db()
+def test_simulate_match_rule_preset_c_overrides_rule_b_decks(tmp_path, monkeypatch):
+    _fresh_db(tmp_path, monkeypatch)
     rec = run_tool(
         "simulate_match",
         {
@@ -43,8 +48,8 @@ def test_simulate_match_rule_preset_c_overrides_rule_b_decks():
     assert rec["learning"]["status"].get("pokemon_as_energy_per_game", 0) == 0
 
 
-def test_simulate_match_rejects_unknown_rule_preset():
-    init_db()
+def test_simulate_match_rejects_unknown_rule_preset(tmp_path, monkeypatch):
+    _fresh_db(tmp_path, monkeypatch)
     rec = run_tool(
         "simulate_match",
         {"deck_a_id": "seed-a", "deck_b_id": "seed-b", "games": 4, "rule_preset": "zzz"},

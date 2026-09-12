@@ -18,8 +18,11 @@ def test_set_g_is_sixty_after_staraptor_energy_swap():
     assert names.count("Ledyba") == 4
     assert names.count("Ledian") == 4
     assert names.count("Mega Clefable ex") == 0
-    assert "Jacq" in names
+    assert "Tulip" in names
+    assert "Surfer" in names
     assert "Drayton" in names
+    assert "Jacq" not in names
+    assert "Arven" not in names
     pile = build_fallback_deck(names)
     assert [c.name for c in pile] == names
     assert any(c.name == "Boomerang Energy" for c in pile)
@@ -54,6 +57,14 @@ def test_set_g_seed_payload_and_s60_preset():
     mewtwo = next(c for c in g["cards"] if c["name"] == "Mewtwo")
     assert mewtwo["catalog_id"] == "sv07-059"
     assert any(a["name"] == "Super Psy Bolt" for a in mewtwo["attacks"])
+    ghosts = [c for c in g["cards"] if c["name"] == "Misdreavus"]
+    magi = [c for c in g["cards"] if c["name"] == "Mismagius"]
+    assert [c["catalog_id"] for c in ghosts] == ["pl1-83", "pl1-83"]
+    assert [c["catalog_id"] for c in magi] == ["pl1-55", "pl1-55"]
+    assert all(any(a["name"] == "Take Back" for a in c["attacks"]) for c in ghosts)
+    assert all(any(a["name"] == "Upper Hand" for a in c["attacks"]) for c in magi)
+    supporters = [c["name"] for c in g["cards"] if c["name"] in {"Tulip", "Surfer", "Drayton", "Jacq", "Arven"}]
+    assert supporters == ["Tulip", "Surfer", "Drayton"]
     assert default_rule_presets_for("seed-g") == ["s60"]
     assert standard_60_rules().deck_size == 60
     loaded = load_seed_deck("g")
@@ -98,3 +109,115 @@ def test_set_g_printings_match_carpet_attacks():
     assert spin.text == "Flip 3 coins. This attack does 10 damage for each heads."
     assert parse_effects(spin.text, "10×") == [{"kind": "coin_times", "flips": 3, "per": 10}]
     assert _tcgdex_low("me03-031") == "https://assets.tcgdex.net/en/me/me03/031/low.webp"
+    assert _tcgdex_low("pl1-83") == "https://assets.tcgdex.net/en/pl/pl1/83/low.webp"
+    missy = fallback_named("Misdreavus")
+    assert missy.catalog_id == "pl1-83"
+    assert missy.hp == 50
+    assert [a.name for a in missy.attacks] == ["Take Back", "Tackle"]
+    take = next(a for a in missy.attacks if a.name == "Take Back")
+    assert take.cost == []
+    assert take.text == (
+        "Flip a coin. If heads, search your discard pile for a Trainer card, "
+        "show it to your opponent, and put it into your hand."
+    )
+    assert parse_effects(take.text) == [{"kind": "recycle_trainer_from_discard", "coin": True}]
+    mag = fallback_named("Mismagius")
+    assert mag.catalog_id == "pl1-55"
+    assert mag.hp == 90
+    assert [a.name for a in mag.attacks] == ["Upper Hand", "Psybeam"]
+    hand = next(a for a in mag.attacks if a.name == "Upper Hand")
+    assert hand.damage == 30
+    assert hand.text == (
+        "Choose 1 of the Defending Pokémon's attacks. "
+        "That Pokémon can't use that attack during your opponent's next turn."
+    )
+    assert parse_effects(hand.text) == [{"kind": "disable_attack"}]
+    beam = next(a for a in mag.attacks if a.name == "Psybeam")
+    assert beam.damage == 60
+    assert beam.cost == ["Psychic", "Colorless", "Colorless"]
+    assert parse_effects(beam.text) == [{"kind": "status", "status": "confused", "coin": True}]
+    tulip = next(c for c in load_seed_payload()["g"]["cards"] if c["name"] == "Tulip")
+    surf = next(c for c in load_seed_payload()["g"]["cards"] if c["name"] == "Surfer")
+    assert tulip["catalog_id"] == "sv04-181"
+    assert surf["catalog_id"] == "sv08-187"
+
+
+def _ghost_game():
+    from random import Random
+
+    from app.engine.game import Game
+    from app.engine.models import default_family_rules
+    from app.engine.strategies import StrategySpec
+
+    a = build_fallback_deck(["Misdreavus", "Mismagius", "Ultra Ball"] + ["Psychic Energy"] * 4 + ["Hop"] * 4 + ["Cubone"] * 19)
+    b = build_fallback_deck(["Staraptor", "Starly"] + ["Psychic Energy"] * 4 + ["Hop"] * 4 + ["Cubone"] * 20)
+    return Game(
+        a,
+        b,
+        default_family_rules(),
+        StrategySpec.from_dict("balanced"),
+        StrategySpec.from_dict("thrifty"),
+        Random(1),
+        trace=True,
+    )
+
+
+def test_take_back_recycles_trainer_on_heads():
+    from app.engine.game import Pokemon
+
+    game = _ghost_game()
+    me = game.players["a"]
+    foe = game.players["b"]
+    missy = next(i for i, c in enumerate(me.cards) if c.name == "Misdreavus")
+    ball = next(i for i, c in enumerate(me.cards) if c.name == "Ultra Ball")
+    me.active = Pokemon(card_i=missy, played_turn=0)
+    foe.active = Pokemon(card_i=next(i for i, c in enumerate(foe.cards) if c.name == "Starly"), played_turn=0)
+    me.discard = [ball]
+    me.hand = []
+    game.rng.random = lambda: 0.9
+    game._attack(me, foe, "a")
+    assert ball in me.hand
+    assert ball not in me.discard
+    assert game.events.get("take_back") == 1
+
+
+def test_take_back_tails_leaves_discard():
+    from app.engine.game import Pokemon
+
+    game = _ghost_game()
+    me = game.players["a"]
+    foe = game.players["b"]
+    missy = next(i for i, c in enumerate(me.cards) if c.name == "Misdreavus")
+    ball = next(i for i, c in enumerate(me.cards) if c.name == "Ultra Ball")
+    me.active = Pokemon(card_i=missy, played_turn=0)
+    foe.active = Pokemon(card_i=next(i for i, c in enumerate(foe.cards) if c.name == "Starly"), played_turn=0)
+    me.discard = [ball]
+    me.hand = []
+    game.rng.random = lambda: 0.1
+    game._attack(me, foe, "a")
+    assert ball in me.discard
+    assert ball not in me.hand
+    assert game.events.get("take_back_tails") == 1
+
+
+def test_upper_hand_locks_strongest_attack_until_end_of_next_turn():
+    from app.engine.game import Pokemon
+    from app.engine.strategies import StrategySpec
+
+    game = _ghost_game()
+    me = game.players["a"]
+    foe = game.players["b"]
+    mag = next(i for i, c in enumerate(me.cards) if c.name == "Mismagius")
+    raptor = next(i for i, c in enumerate(foe.cards) if c.name == "Staraptor")
+    fuels = [i for i, c in enumerate(foe.cards) if c.name == "Psychic Energy"][:3]
+    psychic = next(i for i, c in enumerate(me.cards) if c.name == "Psychic Energy")
+    me.active = Pokemon(card_i=mag, energy=[psychic], played_turn=0)
+    foe.active = Pokemon(card_i=raptor, energy=list(fuels), played_turn=0)
+    game._attack(me, foe, "a")
+    assert foe.active.disabled_attack == "Power Blast"
+    picked = game._choose_attack(foe, me, StrategySpec.from_dict("thrifty"))
+    assert picked is not None
+    assert picked.name == "Tailspin Away"
+    game._expire_disabled_attacks(foe)
+    assert foe.active.disabled_attack is None
+

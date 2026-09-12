@@ -984,10 +984,12 @@ function fillFight() {
     : rule === "s30"
     ? (lists.find((d) => d.id === "seed-t") || lists[0])
     : rule === "s60"
-    ? (lists.find((d) => d.id === "seed-g") || lists[0])
+    ? (lists.find((d) => d.id === "seed-c60") || lists.find((d) => d.id === "seed-g") || lists[0])
     : lists[0];
   const fallbackB = rule === "c"
     ? (lists.find((d) => d.id === "seed-f") || lists[1] || lists[0])
+    : rule === "s60"
+    ? (lists.find((d) => d.id === "seed-g") || lists.find((d) => d.id === "seed-t60") || lists[1] || lists[0])
     : (lists[1] || lists[0]);
   pick($("#deckA"), keep.a, fallbackA?.id);
   pick($("#deckB"), keep.b, fallbackB?.id);

@@ -9,6 +9,7 @@ from app.seed_data import (
     SET_C60_NAMES,
     SET_D60_NAMES,
     SET_G_NAMES,
+    SET_H_NAMES,
     SET_S60_NAMES,
     SET_T60_NAMES,
     SET_T_META_NAMES,
@@ -59,6 +60,7 @@ def test_s60_foe_lists_are_legal_sixty():
         SET_T60_NAMES,
         SET_S60_NAMES,
         SET_G_NAMES,
+        SET_H_NAMES,
         SET_T_META_NAMES,
         SET_T_UNL_NAMES,
     ):

@@ -38,6 +38,7 @@ class Pokemon:
     tool: int | None = None
     ability_used: bool = False
     prevent_basic_damage: bool = False
+    disabled_attack: str | None = None
 
     @property
     def remaining(self) -> int:
@@ -496,6 +497,14 @@ class Game:
                 return 1200
             if strat.name == "carnival" and name == "orthworm":
                 return 1100
+            if strat.name == "g" and name == "clefairy":
+                return 2200
+            if strat.name == "g" and name == "starly":
+                return 1900
+            if strat.name == "g" and name == "ledyba":
+                return 1700
+            if strat.name == "g" and name == "flutter mane":
+                return 1400
             if strat.name == "phantom" and name == "budew":
                 return 900
             if strat.name == "phantom" and name == "dreepy":
@@ -653,14 +662,14 @@ class Game:
         self._play_basics(me)
         self._play_trainers(me, foe, who)
         self._play_basics(me)
-        if self.strats[who].name in {"party", "demolish", "slash", "shock", "thrifty", "phantom", "carnival"}:
+        if self.strats[who].name in {"party", "demolish", "slash", "shock", "thrifty", "phantom", "carnival", "g"}:
             self._play_trainers(me, foe, who)
             self._play_basics(me)
         if self._use_abilities(me, foe, who):
             return True
         self._evolve(me, foe, who)
         self._play_basics(me)
-        if self.strats[who].name in {"party", "demolish", "slash", "shock", "thrifty", "phantom", "carnival"}:
+        if self.strats[who].name in {"party", "demolish", "slash", "shock", "thrifty", "phantom", "carnival", "g"}:
             self._play_trainers(me, foe, who)
         if self._use_abilities(me, foe, who):
             return True
@@ -690,6 +699,9 @@ class Game:
                 if self._use_abilities(me, foe, who):
                     return True
             self._note_party_progress(me, who)
+        elif self.strats[who].name == "g":
+            if self._use_abilities(me, foe, who):
+                return True
         if getattr(self, "winner", None):
             return True
         if self._try_draw_end_turn(me, who):
@@ -702,14 +714,17 @@ class Game:
             else:
                 self._attack(me, foe, who)
                 if self._check_ko(foe, me, "b" if who == "a" else "a"):
+                    self._expire_disabled_attacks(me)
                     self.energy_attack_lock.pop(who, None)
                     return True
                 if self._check_ko(me, foe, who):
+                    self._expire_disabled_attacks(me)
                     self.energy_attack_lock.pop(who, None)
                     return True
 
         if me.active:
             me.active.status &= ~ST_PARALYZED
+        self._expire_disabled_attacks(me)
         self.energy_attack_lock.pop(who, None)
         other = "b" if who == "a" else "a"
         for mon in self.players[other].in_play():
@@ -1250,10 +1265,10 @@ class Game:
                     if (me.card(i).is_pokemon and me.card(i).types and me.card(i).types[0] == "Psychic")
                     or (me.card(i).is_energy and (me.card(i).energy_type or "") == "Psychic")
                 )
-                if strat.name == "party" and psychic_discard >= 3:
+                if strat.name in {"party", "g"} and psychic_discard >= 3:
                     # Beat Hop 17: recovering 3–4 engines/energy is the turn.
                     score += 20
-                elif strat.name == "party" and psychic_discard >= 2:
+                elif strat.name in {"party", "g"} and psychic_discard >= 2:
                     score += 8
                 elif psychic_discard >= 2 and (not me.active or not me.active.energy):
                     score += 5
@@ -2440,6 +2455,13 @@ class Game:
                 if self._is_orthworm(me.card(mon.card_i)):
                     return mon
             return me.active
+        if strat.name == "g":
+            for mon in me.in_play():
+                if me.card(mon.card_i).name.lower() != "munkidori":
+                    continue
+                if "Darkness" not in self._energy_pool(me, mon):
+                    if any((me.card(i).as_energy_type or "") == "Darkness" for i in me.hand):
+                        return mon
         closers = {n.lower() for n in strat.closers}
         if closers and self._active_can_chip(me, strat):
             for mon in me.bench:
@@ -2726,6 +2748,13 @@ class Game:
                 self.energy_attack_lock[foe_who] = int(effect.get("max_energy") or 2)
                 self._bump("frigid_fangs_lock")
                 self._log(f"{attacker.name} locks Pokémon with {self.energy_attack_lock[foe_who]} or less Energy")
+            elif effect.get("kind") == "recycle_trainer_from_discard":
+                if effect.get("coin") and self.rng.random() < 0.5:
+                    self._bump("take_back_tails")
+                    continue
+                self._recycle_trainer_from_discard(me)
+            elif effect.get("kind") == "disable_attack":
+                self._disable_attack(foe, attacker.name)
             elif effect.get("kind") == "prevent_basic_damage":
                 me.active.prevent_basic_damage = True
                 self._bump("tailspin_away")
@@ -3137,7 +3166,12 @@ class Game:
         assert me.active and foe.active
         card = me.card(me.active.card_i)
         attached = self._energy_pool(me, me.active)
-        legal = [atk for atk in card.attacks if can_pay_energy(attached, atk.cost)]
+        locked = me.active.disabled_attack
+        legal = [
+            atk
+            for atk in card.attacks
+            if can_pay_energy(attached, atk.cost) and atk.name != locked
+        ]
         if not legal:
             return None
         foe_name = foe.card(foe.active.card_i).name
@@ -3182,7 +3216,7 @@ class Game:
                 score -= 80
             if any(e.get("kind") in {"psychic_energy_times", "psychic_energy_bonus"} for e in resolved.effects):
                 score = max(score, float(effective) * max(0.6, strat.prefer_damage))
-                if strat.name == "party" and any(e.get("kind") == "psychic_energy_times" for e in resolved.effects):
+                if strat.name in {"party", "g"} and any(e.get("kind") == "psychic_energy_times" for e in resolved.effects):
                     # Wonder Storm is the glass-cannon plan: fire whenever it chips or KOs.
                     score += 40 if effective >= foe_hp > 0 else 25
             if strat.name == "party" and self._facing_phantom(me) and "wondrous moon" in atk.name.lower():
@@ -3261,6 +3295,13 @@ class Game:
                 max_e = next(int(e.get("max_energy") or 2) for e in atk.effects if e.get("kind") == "energy_attack_lock")
                 if foe.active and len(foe.active.energy) <= max_e:
                     score += 80 * strat.prefer_status
+            if any(e.get("kind") == "recycle_trainer_from_discard" for e in atk.effects):
+                trainers = sum(1 for i in me.discard if me.card(i).is_trainer)
+                score += 45 if trainers else -25
+            if any(e.get("kind") == "disable_attack" for e in atk.effects) and foe.active:
+                best_foe = max((a.damage for a in foe.card(foe.active.card_i).attacks), default=0)
+                if best_foe >= 80 and effective < foe_hp:
+                    score += 35
             if any(e.get("kind") == "prevent_basic_damage" for e in atk.effects):
                 if foe.active and foe.card(foe.active.card_i).is_basic and effective < foe_hp:
                     score += 70
@@ -3663,6 +3704,8 @@ class Game:
 
     def _fairy_zone_in_play(self, me: Player) -> bool:
         for mon in me.in_play():
+            if self._abilities_suppressed(me, mon):
+                continue
             for abi in me.card(mon.card_i).abilities:
                 if any(e.get("kind") == "fairy_zone" for e in self._ability_effects(abi)):
                     return True
@@ -4200,17 +4243,65 @@ class Game:
         return not can_pay_energy(pool, atk.cost)
 
     def _on_evolve(self, me: Player, foe: Player, evolved: Pokemon) -> None:
+        if self._abilities_suppressed(me, evolved):
+            return
         card = me.card(evolved.card_i)
-        if not any("prankish" in (a.name or "").lower() for a in card.abilities):
-            return
-        energy_i = self._prankish_pick(foe)
-        if energy_i is None or not foe.active:
-            return
-        foe.active.energy.remove(energy_i)
-        foe.deck.insert(0, energy_i)
-        self._bump("prankish")
-        self._bump("prankish_evo_eligible_turn")
-        self._log(f"{me.name} Prankish puts {foe.card(energy_i).name} on top of {foe.name}'s deck")
+        if any("prankish" in (a.name or "").lower() for a in card.abilities):
+            energy_i = self._prankish_pick(foe)
+            if energy_i is not None and foe.active:
+                foe.active.energy.remove(energy_i)
+                foe.deck.insert(0, energy_i)
+                self._bump("prankish")
+                self._bump("prankish_evo_eligible_turn")
+                self._log(f"{me.name} Prankish puts {foe.card(energy_i).name} on top of {foe.name}'s deck")
+        for abi in card.abilities:
+            for eff in self._ability_effects(abi):
+                if eff.get("kind") == "gust_low_hp_on_evolve":
+                    self._gust_low_hp_bench(foe, int(eff.get("max_remaining") or 90))
+
+    def _gust_low_hp_bench(self, foe: Player, max_remaining: int) -> bool:
+        if not foe.active or not foe.bench:
+            return False
+        cands = [m for m in foe.bench if self._max_hp(foe, m) - m.damage <= max_remaining]
+        if not cands:
+            return False
+
+        def score(mon: Pokemon) -> tuple:
+            card = foe.card(mon.card_i)
+            rem = self._max_hp(foe, mon) - mon.damage
+            name = card.name.lower()
+            snack = 1 if name in {
+                "clefairy",
+                "budew",
+                "dreepy",
+                "sprigatito",
+                "starly",
+                "ledyba",
+                "pidgey",
+                "misdreavus",
+            } else 0
+            return (self._prizes_for_ko(card), snack, -rem)
+
+        pick = max(cands, key=score)
+        idx = foe.bench.index(pick)
+        outgoing = foe.active
+        foe.active = foe.bench.pop(idx)
+        foe.bench.append(outgoing)
+        self._bump("glittering_star")
+        self._log(f"Glittering Star Pattern gusts {foe.card(foe.active.card_i).name}")
+        return True
+
+    def _abilities_suppressed(self, owner: Player, mon: Pokemon) -> bool:
+        """Flutter Mane: opponent's Active Pokémon has no Abilities."""
+        if mon is not owner.active:
+            return False
+        foe = self.players["b" if owner.name == "A" else "a"]
+        if not foe.active:
+            return False
+        for abi in foe.card(foe.active.card_i).abilities:
+            if any(e.get("kind") == "suppress_opponent_active_abilities" for e in self._ability_effects(abi)):
+                return True
+        return False
 
     def _party_engines(self, me: Player) -> list[Pokemon]:
         return [m for m in me.in_play() if self._is_clefairy(me.card(m.card_i))]
@@ -5369,6 +5460,8 @@ class Game:
         for mon in me.in_play():
             if mon.ability_used:
                 continue
+            if self._abilities_suppressed(me, mon):
+                continue
             card = me.card(mon.card_i)
             for abi in card.abilities:
                 for eff in self._ability_effects(abi):
@@ -5630,6 +5723,8 @@ class Game:
 
     def _moon_watching_party(self, me: Player, active: Pokemon) -> None:
         """Run attach-energy abilities printed on the Active Pokémon. No hardcoded look-N."""
+        if self._abilities_suppressed(me, active):
+            return
         attached = 0
         found = False
         for abi in me.card(active.card_i).abilities:
@@ -5710,6 +5805,18 @@ class Game:
         self._use_passive_abilities(me, who, foe)
         if getattr(self, "winner", None):
             return True
+        if (
+            me.active
+            and not me.active.ability_used
+            and not self._abilities_suppressed(me, me.active)
+            and any(
+                "moon-watching" in (abi.name or "").lower()
+                for abi in me.card(me.active.card_i).abilities
+            )
+            and any(self._is_clefairy(me.card(m.card_i)) for m in me.bench)
+            and self.strats[who].name == "g"
+        ):
+            self._moon_watching_party(me, me.active)
         if self.strats[who].name != "party":
             return False
         if not me.active:
@@ -6376,6 +6483,48 @@ class Game:
             if can_pay_energy(attached, atk.cost) and self._effective_damage_for(me, foe, mon, atk) >= foe_hp > 0:
                 return True
         return False
+
+    def _expire_disabled_attacks(self, me: Player) -> None:
+        if me.active:
+            me.active.disabled_attack = None
+        for mon in me.bench:
+            mon.disabled_attack = None
+
+    def _recycle_trainer_from_discard(self, me: Player) -> None:
+        trainers = [i for i in me.discard if me.card(i).is_trainer]
+        if not trainers:
+            return
+        prefer = [
+            "ultra ball",
+            "poké ball",
+            "poke ball",
+            "energy search",
+            "tulip",
+            "surfer",
+            "drayton",
+            "energy switch",
+        ]
+
+        def rank(idx: int) -> int:
+            name = me.card(idx).name.lower()
+            return prefer.index(name) if name in prefer else 20
+
+        card_i = min(trainers, key=rank)
+        me.discard.remove(card_i)
+        me.hand.append(card_i)
+        self._bump("take_back")
+        self._log(f"{me.name} Take Back finds {me.card(card_i).name}")
+
+    def _disable_attack(self, foe: Player, attacker_name: str) -> None:
+        if not foe.active:
+            return
+        card = foe.card(foe.active.card_i)
+        if not card.attacks:
+            return
+        pick = max(card.attacks, key=lambda a: a.damage)
+        foe.active.disabled_attack = pick.name
+        self._bump("disable_attack")
+        self._log(f"{attacker_name} Upper Hand locks {card.name}'s {pick.name}")
 
     def _energy_attack_blocked(self, me: Player, who: str) -> bool:
         if not me.active:

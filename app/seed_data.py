@@ -383,6 +383,8 @@ SET_F_NAMES = [
 # plus Twilight Masquerade Boomerang Energy (returns after an attack discards it).
 # Remaining birds: Brilliant Stars Starly (Claw) x2, one 90 HP Staravia + one Paldea Evolved
 # 80 HP Staravia, two Power Blast Staraptor. Mega Clefable ex is not in this list yet.
+# Ghosts are Platinum Take Back / Tackle Misdreavus and Upper Hand / Psybeam Mismagius.
+# Supporters on the carpet: Tulip / Surfer / Drayton (not Jacq / Arven).
 SET_G_NAMES = (
     ["Clefairy"] * 4
     + ["Ledyba"] * 4
@@ -400,8 +402,8 @@ SET_G_NAMES = (
     + ["Flutter Mane"]
     + ["Iron Boulder"]
     + ["Dedenne"]
-    + ["Jacq"]
-    + ["Arven"]
+    + ["Tulip"]
+    + ["Surfer"]
     + ["Drayton"]
     + ["Energy Search"]
     + ["Energy Switch"]
@@ -410,6 +412,43 @@ SET_G_NAMES = (
     + ["Psychic Energy"] * 17
     + ["Darkness Energy"] * 3
     + ["Boomerang Energy"]
+)
+
+# Carpet Set H — 60-card beige-carpet photo (data/samples/set-h-carpet.jpg), Standard s60.
+# Lightning kitchen-sink: Zapdos / Pikachu plus Tynamo, Helioptile, Grookey leftovers.
+# Photo had a fifth Zapdos and 17 Lightning Energy; the extra Zapdos came out and
+# Energy was stretched to 22 so the list is 60 and 4-of-a-name legal.
+SET_H_NAMES = (
+    ["Zapdos"] * 4
+    + ["Pikachu"] * 4
+    + ["Helioptile"] * 2
+    + ["Grookey"] * 2
+    + ["Zekrom"] * 2
+    + ["Wattrel"]
+    + ["Raichu"]
+    + ["Jolteon"]
+    + ["Tynamo"]
+    + ["Eelektrik"]
+    + ["Emolga"]
+    + ["Shinx"]
+    + ["Magby"]
+    + ["Houndour"]
+    + ["Cramorant"]
+    + ["Oranguru"]
+    + ["Treecko"]
+    + ["Dubwool"]
+    + ["Togedemaru"]
+    + ["Drifloon"]
+    + ["Hisuian Electrode"]
+    + ["Trapinch"]
+    + ["Gogoat"]
+    + ["Lechonk"]
+    + ["Surfer"]
+    + ["Iris's Fighting Spirit"]
+    + ["Energy Retrieval"]
+    + ["Nest Ball"]
+    + ["Double Colorless Energy"]
+    + ["Lightning Energy"] * 22
 )
 
 # Spare Cards — leftover pile, not a 30-card Family Cup list.
@@ -1322,19 +1361,21 @@ for card in [
         "Misdreavus",
         "Basic",
         ["Psychic"],
-        70,
+        50,
         [
             _atk(
-                "Hypnoblast",
-                ["Psychic", "Colorless"],
-                10,
-                "Your opponent's Active Pokémon is now Asleep.",
-            )
+                "Take Back",
+                [],
+                0,
+                "Flip a coin. If heads, search your discard pile for a Trainer card, show it to your opponent, and put it into your hand.",
+            ),
+            _atk("Tackle", ["Colorless"], 10),
         ],
         weakness="Darkness",
-        resistances=[{"type": "Fighting", "value": "-30"}],
-        catalog_id="sv02-087",
-        image="https://assets.tcgdex.net/en/sv/sv02/087/low.webp",
+        resistances=[{"type": "Colorless", "value": "-20"}],
+        catalog_id="pl1-83",
+        image="https://assets.tcgdex.net/en/pl/pl1/83/low.webp",
+        set_name="Platinum",
     ),
     _pkm(
         "Mismagius",
@@ -1343,23 +1384,24 @@ for card in [
         90,
         [
             _atk(
-                "Ominous Prose",
+                "Upper Hand",
                 ["Psychic"],
-                0,
-                "Your opponent reveals their hand. If they have 4 or more cards in their hand, choose all but 3, and your opponent shuffles the chosen cards into their deck.",
+                30,
+                "Choose 1 of the Defending Pokémon's attacks. That Pokémon can't use that attack during your opponent's next turn.",
             ),
             _atk(
                 "Psybeam",
-                ["Psychic", "Colorless"],
-                50,
-                "Your opponent's Active Pokémon is now Confused.",
+                ["Psychic", "Colorless", "Colorless"],
+                60,
+                "Flip a coin. If heads, the Defending Pokémon is now Confused.",
             ),
         ],
         evolves_from="Misdreavus",
         weakness="Darkness",
-        resistances=[{"type": "Fighting", "value": "-30"}],
-        catalog_id="swsh10-059",
-        image="https://assets.tcgdex.net/en/swsh/swsh10/059/low.webp",
+        resistances=[{"type": "Colorless", "value": "-20"}],
+        catalog_id="pl1-55",
+        image="https://assets.tcgdex.net/en/pl/pl1/55/low.webp",
+        set_name="Platinum",
     ),
     _pkm(
         "Munkidori",
