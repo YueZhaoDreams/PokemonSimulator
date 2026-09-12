@@ -93,8 +93,9 @@ def main() -> None:
     dest = ROOT / "data/lab/set-c60-unl-matrix.json"
     dest.write_text(json.dumps(out, indent=2))
     print(f"\nelapsed {elapsed:.1f}s -> {dest}")
-    print("\n" + " | ".join([""] + keys))
-    print("|".join(["---"] * (len(keys) + 1)))
+    header = ["A \\ B", *keys]
+    print("| " + " | ".join(header) + " |")
+    print("| " + " | ".join(["---"] * len(header)) + " |")
     for row in keys:
         bits = [row]
         for col in keys:
@@ -102,7 +103,7 @@ def main() -> None:
                 bits.append("—")
             else:
                 bits.append(f"{cells[row][col]['a']:.1%}")
-        print("| " + " | ".join(bits))
+        print("| " + " | ".join(bits) + " |")
 
 
 if __name__ == "__main__":
