@@ -11,6 +11,8 @@ from app.seed_data import (
     SET_G_NAMES,
     SET_S60_NAMES,
     SET_T60_NAMES,
+    SET_T_META_NAMES,
+    SET_T_UNL_NAMES,
     build_fallback_deck,
 )
 
@@ -52,7 +54,14 @@ def test_set_c60_is_standard_sixty_with_psychic_energy():
 
 def test_s60_foe_lists_are_legal_sixty():
     rules = standard_60_rules()
-    for names in (SET_D60_NAMES, SET_T60_NAMES, SET_S60_NAMES, SET_G_NAMES):
+    for names in (
+        SET_D60_NAMES,
+        SET_T60_NAMES,
+        SET_S60_NAMES,
+        SET_G_NAMES,
+        SET_T_META_NAMES,
+        SET_T_UNL_NAMES,
+    ):
         listed = list(names)
         assert len(listed) == 60, len(listed)
         pile = build_fallback_deck(listed)
@@ -82,3 +91,15 @@ def test_set_c60_lab_json_cells_follow_foe_order():
 
     blob = json.loads((Path(__file__).resolve().parents[1] / "data/lab/set-c60-standard.json").read_text())
     assert list(blob["cells"]) == ["g", "d60", "t60", "s60"]
+
+
+def test_set_c60_unl_matrix_json_is_square():
+    import json
+    from pathlib import Path
+
+    blob = json.loads((Path(__file__).resolve().parents[1] / "data/lab/set-c60-unl-matrix.json").read_text())
+    keys = blob["decks"]
+    assert keys == ["c60", "t60", "hedrick", "unl", "d60", "s60", "g"]
+    for row in keys:
+        assert row not in blob["cells"][row]
+        assert set(blob["cells"][row]) == set(keys) - {row}
