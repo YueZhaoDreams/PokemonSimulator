@@ -1,0 +1,146 @@
+{
+  "version": 1,
+  "epic_slug": "deck-as-fate",
+  "plan_status": "draft",
+  "features": [
+    {
+      "slug": "deck-copy-ceilings",
+      "depends_on": [],
+      "parallel_group": 1
+    },
+    {
+      "slug": "card-kg-from-print",
+      "depends_on": [],
+      "parallel_group": 1
+    },
+    {
+      "slug": "deck-kg-metrics",
+      "depends_on": ["deck-copy-ceilings", "card-kg-from-print"],
+      "parallel_group": 2
+    },
+    {
+      "slug": "deck-fate-score",
+      "depends_on": ["deck-kg-metrics"],
+      "parallel_group": 3
+    },
+    {
+      "slug": "uncertainty-tiebreak",
+      "depends_on": ["deck-copy-ceilings"],
+      "parallel_group": 3
+    },
+    {
+      "slug": "bounded-fate-search",
+      "depends_on": ["deck-fate-score", "uncertainty-tiebreak"],
+      "parallel_group": 4
+    },
+    {
+      "slug": "fate-report-ux",
+      "depends_on": ["deck-fate-score", "bounded-fate-search"],
+      "parallel_group": 5
+    }
+  ],
+  "acceptance_gates": [
+    {
+      "id": "copy-ceilings",
+      "title": "Whole-list copy ceilings come from rules and the existing hypergeometric helper",
+      "after_features": ["deck-copy-ceilings"],
+      "consumer": "agent",
+      "verifier": "agent-auto",
+      "verify": [
+        "For the Carpet Set G s60 fixture, GET /api/decks/{id}/fate/ceilings (or the in-process lab tool) returns per-name copies, copy cap 4, and P(at least one) at the active opening hand size, equal to draw_probability for the same name within 1e-9.",
+        "A 4-copy name reports a higher P(at least one) than a 1-copy name; a name absent from the list is absent or P = 0.",
+        "Under a 30-card preset the same endpoint reports deck size 30 and that preset's copy cap; no literal 60 or 4 appears in app/engine/game.py from this slice.",
+        "With a printed +3 draw operator present, the response includes effective_seen = opening_hand + 3 and a P(at least one) at that count; for a 1-of the delta over the opening-hand figure equals 3/60 within 1e-6, for a 4-of it exceeds 3/60."
+      ],
+      "blocks_dispatch": true
+    },
+    {
+      "id": "network-from-print",
+      "title": "KG edges exist only where printed parse supports them",
+      "after_features": ["card-kg-from-print"],
+      "consumer": "both",
+      "verifier": "agent-then-human",
+      "verify": [
+        "For a fixture containing Clefairy LOR 62, the KG has an attach_energy_from_deck_per_benched edge from Clefairy to Psychic Energy with no look-N attribute.",
+        "Ledian's printed Glittering Star Pattern sentence parses to the same hook kind as Boss's Orders (force_opponent_active) with trigger on_evolve and max_remaining_hp 90; the test uses the exact printed wording.",
+        "A printing with no search/draw/tutor/evolve/named-partner text has zero non-energy edges; adding a data/lab/*.md note does not change the edge set.",
+        "Human: on http://127.0.0.1:8000 (or chat), asking why two cards are linked returns the printed sentence that created the edge."
+      ],
+      "blocks_dispatch": true
+    },
+    {
+      "id": "kg-card-quality",
+      "title": "Deck KG carries print-derived node metrics, dependence, energy budget, and junk flags",
+      "after_features": ["deck-kg-metrics"],
+      "consumer": "both",
+      "verifier": "agent-then-human",
+      "verify": [
+        "Two fixture printings with the same attack cost and 50 vs 100 damage report lead damage_per_energy 25 vs 50; the 100-damage node ranks higher with no name table in app/engine/game.py.",
+        "Mega Clefable ex reports min damage_per_energy 60 (0 discards) and max 140 (4 discards) and warm_up_turns 2 at attach rate 1.",
+        "For 4 Ledyba / 4 Ledian the line reports charges 4 and stranded false; 3 Ledyba / 4 Ledian reports charges 3 and stranded true; 4 Ledyba / 3 Ledian reports charges 3 and stranded false.",
+        "Energy budget reports Psychic supply separately from Darkness and Boomerang; a [P][P] attacker is not marked payable by Colorless special Energy.",
+        "A fixture printing with only generic energy-pay edges is flagged isolated; a printing on an evolve line or with a printed tutor/partner is not.",
+        "Human: the quality / junk explanation is readable (cost, damage, links, dependence)."
+      ],
+      "blocks_dispatch": true
+    },
+    {
+      "id": "fast-swap-score",
+      "title": "Delta-S ranks 1-for-1 swaps without Monte Carlo and explains per ecology",
+      "after_features": ["deck-fate-score"],
+      "consumer": "both",
+      "verifier": "agent-then-human",
+      "verify": [
+        "POST /api/decks/{id}/fate/swaps with add = Mega Clefable ex on the Carpet Set G fixture returns one row per distinct cut with net delta_s and a per-ecology breakdown, in under 2 seconds and without calling run_simulation.",
+        "The row for cutting Ledian ranks above the row for cutting Ledyba, and its explanation cites dependence (bodies vs evolutions).",
+        "The row for cutting Clefairy ranks below the row for cutting Ledian and cites the added Mega's body dependence and Party charges.",
+        "Ecology weights are loaded from data (preset default plus optional trainer overlay); posting a different early_equal_hands weight changes the rank of the conditional 170/2 attacker, and the response echoes the weights used.",
+        "The Boss-equivalent metric returns 1.0 per copy for a printed Boss's Orders supporter and a value derived from charges = min(evolution, body) for the Ledian line; removing one Ledian reduces it by one marginal charge, not to zero.",
+        "Human: the table is labelled a fast estimate, not a win rate, and is readable (rank, cut, copies, net, per-ecology deltas)."
+      ],
+      "blocks_dispatch": true
+    },
+    {
+      "id": "prefer-less-uncertainty",
+      "title": "Similar mean, lower variance wins the tie",
+      "after_features": ["uncertainty-tiebreak"],
+      "consumer": "both",
+      "verifier": "agent-then-human",
+      "verify": [
+        "For two fixture lists whose capped Monte Carlo means on a named output differ by less than the documented tolerance, the ranking prefers the list with lower variance / lower brick rate and says so.",
+        "Reported means and variances carry the simulation id they came from; no number is produced without a run.",
+        "Human: the explanation reads as ceiling / broken chain / variance, not a raw matrix."
+      ],
+      "blocks_dispatch": true
+    },
+    {
+      "id": "bounded-fate-search",
+      "title": "Neighborhood search prunes with delta-S and confirms with capped Monte Carlo",
+      "after_features": ["bounded-fate-search"],
+      "consumer": "both",
+      "verifier": "agent-then-human",
+      "verify": [
+        "From the Carpet Set G seed and a bounded pool, the search returns at least one legal neighbor (60 cards, copy cap respected) with a written reason from the KG metrics.",
+        "When the pool contains a linked higher-quality substitute for an isolated weaker attacker of comparable cost, that swap outranks keeping the junk node unless the trainer locked it.",
+        "The response shows delta_s and the confirming Monte Carlo win rate side by side for each surviving candidate; pruned candidates carry delta_s only.",
+        "The documented budget (max candidates x games per candidate) is enforced; the search never enumerates the full catalog.",
+        "Human: the result is labelled a relative improvement, never 'the best 60'."
+      ],
+      "blocks_dispatch": true
+    },
+    {
+      "id": "epic-exit",
+      "title": "Epic exit",
+      "after_features": ["__all__"],
+      "consumer": "human",
+      "verifier": "human-required",
+      "verify": [
+        "On http://127.0.0.1:8000 with preset s60, load Carpet Set G, read copy ceilings and effective seen cards, KG links and junk flags, and the same-cost quality comparison.",
+        "Ask 'what do I cut for Mega Clefable ex?' in chat and in the Lab/deck view; both cite the same per-ecology delta-S table with weights shown.",
+        "Compare two neighbors on variance, run a bounded search, accept or reject its suggestion; a capped Monte Carlo of the chosen fate is still available.",
+        "Operator confirms app/engine/game.py gained no look-N, no name table for quality, and no score coefficient from this epic."
+      ],
+      "blocks_epic_done": true
+    }
+  ]
+}
