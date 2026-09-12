@@ -62,6 +62,7 @@ The engine does not have a full 2026 Limitless field (Gardevoir, Charizard, etc.
 | D60 | Set D Charm Ogerpon stretched to 60 (4 Ogerpon, 14 Fighting, 4 DCE, 4 Charm) | `demolish` |
 | T60 | Set T Dragapult stretched to 60 (4 Dreepy / 3 Drakloak / 3 Dragapult, Rare Candy 4) | `phantom` |
 | T meta | Worlds 2026 Hedrick Dragapult (printed 60) | `phantom` |
+| T UNL | Unlimited-shaped Pidgeot / Rotom Dragapult 60 | `phantom` |
 | S60 | Set S Floragato hunter stretched to 60 | `slash` |
 
 G's AI is the Staraptor carnival script, not a dedicated Ledian/Party hybrid, so C60 vs G overstates a tuned bird list.
@@ -76,6 +77,8 @@ G's AI is the Staraptor carnival script, not a dedicated Ledian/Party hybrid, so
 | Floragato hunter 60 (S60) | **99.6%** | 99.7% | 99.4% |
 
 `pokemon_as_energy_per_game` is 0 on s60 (Party attaches **cards** named Psychic Energy).
+
+Full pairwise matrix including Hedrick and the Unlimited-shaped Pidgeot/Rotom 60: [set-c60-unl-matrix.md](set-c60-unl-matrix.md). On this branch C60 vs T60 is **48.7%** (printed 0-cost Itchy Pollen).
 
 ### Read
 
