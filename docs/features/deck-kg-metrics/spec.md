@@ -1,6 +1,6 @@
 # Deck KG metrics
 
-Status: planned
+Status: ready
 
 Epic: deck-as-fate
 

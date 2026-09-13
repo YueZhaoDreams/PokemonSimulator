@@ -1,6 +1,6 @@
 # Card Knowledge Graph from print
 
-Status: planned
+Status: ready
 
 Epic: deck-as-fate
 

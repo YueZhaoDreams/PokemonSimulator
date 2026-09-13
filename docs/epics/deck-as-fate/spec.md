@@ -1,6 +1,6 @@
 # Deck as fate
 
-Status: plan_review
+Status: approved
 
 GitHub Issue: TBD
 

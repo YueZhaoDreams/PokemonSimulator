@@ -1,7 +1,7 @@
 {
   "version": 1,
   "epic_slug": "deck-as-fate",
-  "plan_status": "draft",
+  "plan_status": "approved",
   "features": [
     {
       "slug": "deck-copy-ceilings",

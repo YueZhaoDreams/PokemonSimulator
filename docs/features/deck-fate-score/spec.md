@@ -1,6 +1,6 @@
 # Deck fate score and fast swap ranking
 
-Status: planned
+Status: ready
 
 Epic: deck-as-fate
 

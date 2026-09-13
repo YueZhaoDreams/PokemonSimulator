@@ -1,6 +1,6 @@
 # Fate report UX
 
-Status: planned
+Status: ready
 
 Epic: deck-as-fate
 

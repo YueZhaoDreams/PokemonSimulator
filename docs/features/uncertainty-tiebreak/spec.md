@@ -1,6 +1,6 @@
 # Uncertainty tie-break
 
-Status: planned
+Status: ready
 
 Epic: deck-as-fate
 

@@ -1,6 +1,6 @@
 # Deck copy ceilings
 
-Status: planned
+Status: ready
 
 Epic: deck-as-fate
 
