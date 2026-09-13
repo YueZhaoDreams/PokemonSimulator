@@ -378,13 +378,10 @@ SET_F_NAMES = [
     "Skwovet",
 ]
 
-# Carpet Set G — 60-card beige-carpet photo (data/samples/set-g-carpet.jpg), Standard s60.
-# Photo had 4 Staravia / 3 Staraptor / 2 Drifblim; those four came out for 3 Psychic Energy
-# plus Twilight Masquerade Boomerang Energy (returns after an attack discards it).
-# Remaining birds: Brilliant Stars Starly (Claw) x2, one 90 HP Staravia + one Paldea Evolved
-# 80 HP Staravia, two Power Blast Staraptor. Mega Clefable ex is not in this list yet.
-# Ghosts are Platinum Take Back / Tackle Misdreavus and Upper Hand / Psybeam Mismagius.
-# Supporters on the carpet: Tulip / Surfer / Drayton (not Jacq / Arven).
+# Carpet Set G plus — live seed-g 10-for-10 from live seed-h. Cut Scatterbug×2,
+# Misdreavus×2, Mismagius×2, Drifloon, Drifblim, Iron Boulder, Dedenne. Add Indeedee,
+# Relicanth, Emolga, Plusle (not Trapinch), Hop's Cramorant, Kecleon, Iris's Fighting
+# Spirit, Energy Retrieval, Trekking Shoes, Potion×1. Clefairy is still LOR 62.
 SET_G_NAMES = (
     ["Clefairy"] * 4
     + ["Ledyba"] * 4
@@ -392,19 +389,22 @@ SET_G_NAMES = (
     + ["Starly"] * 2
     + ["Staravia"] * 2
     + ["Staraptor"] * 2
-    + ["Misdreavus"] * 2
-    + ["Mismagius"] * 2
     + ["Munkidori"] * 2
-    + ["Scatterbug"] * 2
-    + ["Drifloon"]
-    + ["Drifblim"]
     + ["Mewtwo"]
     + ["Flutter Mane"]
-    + ["Iron Boulder"]
-    + ["Dedenne"]
+    + ["Indeedee"]
+    + ["Relicanth"]
+    + ["Emolga"]
+    + ["Plusle"]
+    + ["Hop's Cramorant"]
+    + ["Kecleon"]
     + ["Tulip"]
     + ["Surfer"]
     + ["Drayton"]
+    + ["Iris's Fighting Spirit"]
+    + ["Energy Retrieval"]
+    + ["Trekking Shoes"]
+    + ["Potion"]
     + ["Energy Search"]
     + ["Energy Switch"]
     + ["Poké Ball"]
@@ -415,40 +415,40 @@ SET_G_NAMES = (
 )
 
 # Carpet Set H — 60-card beige-carpet photo (data/samples/set-h-carpet.jpg), Standard s60.
-# Lightning kitchen-sink: Zapdos / Pikachu plus Tynamo, Helioptile, Grookey leftovers.
-# Photo had a fifth Zapdos and 17 Lightning Energy; the extra Zapdos came out and
-# Energy was stretched to 22 so the list is 60 and 4-of-a-name legal.
+# Destined Rivals Team Rocket's Zapdos (not Roaring Skies Zapdos). Two Pikachu prints.
+# One Paradox Rift Zekrom (Hidden Fates sm3.5-35 has no TCGDex art). Photo extras were
+# Plusle / Ledyba-Ledian / Minun / Kecleon / Zoroark, not Helioptile / Grookey / Tynamo.
+# Six TR Zapdos on the carpet; 4-of keeps four. Energy fills the rest to 60.
 SET_H_NAMES = (
-    ["Zapdos"] * 4
-    + ["Pikachu"] * 4
-    + ["Helioptile"] * 2
-    + ["Grookey"] * 2
-    + ["Zekrom"] * 2
+    ["Team Rocket's Zapdos"] * 4
+    + ["Pikachu"] * 2
+    + ["Zekrom"]
     + ["Wattrel"]
     + ["Raichu"]
     + ["Jolteon"]
-    + ["Tynamo"]
-    + ["Eelektrik"]
     + ["Emolga"]
     + ["Shinx"]
-    + ["Magby"]
-    + ["Houndour"]
-    + ["Cramorant"]
-    + ["Oranguru"]
-    + ["Treecko"]
-    + ["Dubwool"]
-    + ["Togedemaru"]
-    + ["Drifloon"]
-    + ["Hisuian Electrode"]
-    + ["Trapinch"]
-    + ["Gogoat"]
+    + ["Electrike"]
+    + ["Pawmi"]
+    + ["Rotom"]
+    + ["Plusle"] * 2
+    + ["Ledyba"]
+    + ["Ledian"]
+    + ["Minun"]
+    + ["Kecleon"]
+    + ["Zoroark"] * 3
+    + ["Hisuian Voltorb"]
+    + ["Drifblim"]
+    + ["Sandygast"]
+    + ["Skiddo"]
     + ["Lechonk"]
+    + ["Oranguru"]
     + ["Surfer"]
     + ["Iris's Fighting Spirit"]
     + ["Energy Retrieval"]
     + ["Nest Ball"]
     + ["Double Colorless Energy"]
-    + ["Lightning Energy"] * 22
+    + ["Lightning Energy"] * 25
 )
 
 # Spare Cards — leftover pile, not a 30-card Family Cup list.
@@ -585,6 +585,14 @@ _register(
     )
 )
 _register(_trn("Energy Retrieval", "item", "Put up to 2 Basic Energy cards from your discard pile into your hand."))
+_register(
+    _trn(
+        "Potion",
+        "item",
+        "Remove 2 damage counters from 1 of your Pokémon (remove 1 damage counter if that Pokémon has only 1).",
+        catalog_id="dp7-92",
+    )
+)
 _register(_trn("Energy Switch", "item", "Move a Basic Energy from 1 of your Pokémon to another of your Pokémon."))
 _register(
     _trn(
@@ -1205,7 +1213,93 @@ for card in [
         _atk("Impound", ["Fighting", "Colorless"], 50, "During your opponent's next turn, the Defending Pokémon can't retreat."),
     ], weakness="Water", catalog_id="swsh11-094"),
     _pkm("Gible", "Basic", ["Fighting"], 70, [_atk("Bite", ["Fighting"], 20)], weakness="Grass", catalog_id="sv04-094"),
-    _pkm("Relicanth", "Basic", ["Fighting"], 90, [_atk("Into the Deep", ["Colorless"], 0), _atk("Tackle", ["Fighting", "Colorless"], 80)], weakness="Grass"),
+    _pkm("Relicanth", "Basic", ["Fighting"], 90, [
+        _atk(
+            "Into the Deep",
+            ["Colorless"],
+            0,
+            "Put up to 2 basic Energy cards from your discard pile into your hand.",
+        ),
+        _atk("Tackle", ["Colorless", "Colorless", "Colorless"], 80),
+    ], weakness="Grass", catalog_id="swsh11-101"),
+    _pkm(
+        "Indeedee",
+        "Basic",
+        ["Colorless"],
+        90,
+        [
+            _atk(
+                "Expert Nurturer",
+                ["Colorless"],
+                0,
+                "Search your deck for a card that evolves from 1 of your Pokémon and put it onto that "
+                "Pokémon to evolve it. Then, shuffle your deck.",
+            ),
+            _atk(
+                "Hypnoblast",
+                ["Colorless", "Colorless"],
+                30,
+                "Your opponent's Active Pokémon is now Asleep.",
+            ),
+        ],
+        weakness="Fighting",
+        catalog_id="sv01-153",
+    ),
+    _pkm(
+        "Trapinch",
+        "Basic",
+        ["Fighting"],
+        60,
+        [
+            _atk(
+                "Call for Family",
+                ["Colorless"],
+                0,
+                "Search your deck for up to 2 Basic Pokémon and put them onto your Bench. Then, shuffle your deck.",
+            ),
+            _atk("Bite", ["Fighting", "Colorless"], 20),
+        ],
+        weakness="Grass",
+        catalog_id="sv08-104",
+    ),
+    _pkm(
+        "Kecleon",
+        "Basic",
+        ["Colorless"],
+        70,
+        [
+            _atk(
+                "Lick Whip",
+                ["Colorless", "Colorless"],
+                0,
+                "This attack does 30 damage to 1 of your opponent's Pokémon. (Don't apply Weakness and Resistance for Benched Pokémon.)",
+            )
+        ],
+        weakness="Fighting",
+        catalog_id="sv08-150",
+        abilities=[
+            Ability(
+                name="Expert Hider",
+                text="If any damage is done to this Pokémon by attacks, flip a coin. If heads, prevent that damage.",
+            )
+        ],
+    ),
+    _pkm(
+        "Hop's Cramorant",
+        "Basic",
+        ["Colorless"],
+        110,
+        [
+            _atk(
+                "Fickle Spitting",
+                ["Colorless"],
+                120,
+                "If your opponent doesn't have exactly 3 or 4 Prize cards remaining, this attack does nothing.",
+            )
+        ],
+        weakness="Lightning",
+        catalog_id="me02.5-177",
+    ),
     _pkm("Tangela", "Basic", ["Grass"], 80, [
         _atk("Beat", ["Colorless"], 10),
         _atk("Vine Whip", ["Grass", "Grass", "Colorless"], 60),
@@ -1233,7 +1327,7 @@ for card in [
         ["Colorless", "Colorless"],
         10,
         "This attack does 10 more damage for each damage counter on your opponent's Active Pokémon.",
-    )], weakness="Fighting"),
+    )], weakness="Fighting", catalog_id="sv04-060"),
     _pkm("Lickilicky", "Stage1", ["Colorless"], 140, [_atk("Tongue Slap", ["Colorless"], 40), _atk("Heavy Impact", ["Colorless", "Colorless", "Colorless"], 90)], evolves_from="Lickitung", weakness="Fighting"),
     _pkm("Slugma", "Basic", ["Fire"], 70, [
         _atk("Draw In", ["Fire"], 0, "Attach a Fire Energy card from your discard pile to this Pokémon."),
@@ -2161,6 +2255,57 @@ FALLBACK_BY_NAME["pikachu-nuzzle"] = _pkm(
     weakness="Fighting",
     image="https://assets.tcgdex.net/en/sm/sm12/66/low.webp",
 )
+
+# Carpet Set H: Destined Rivals Team Rocket's Zapdos (printed name is not Zapdos).
+_register(_pkm(
+    "Team Rocket's Zapdos",
+    "Basic",
+    ["Lightning"],
+    120,
+    [
+        _atk(
+            "Jamming Wing",
+            ["Colorless", "Colorless"],
+            30,
+            "You may move an Energy from your opponent's Active Pokémon to 1 of their Benched Pokémon.",
+        ),
+        _atk(
+            "Wicked Thunder",
+            ["Lightning", "Colorless", "Colorless"],
+            60,
+            "If this Pokémon has any Team Rocket's Energy attached, this attack does 60 more damage.",
+        ),
+    ],
+    catalog_id="sv10-070",
+    weakness="Lightning",
+    image="https://assets.tcgdex.net/en/sv/sv10/070/low.webp",
+    resistances=[{"type": "Fighting", "value": "-30"}],
+))
+
+# Carpet Set H: Paradox Rift Zekrom — Hidden Fates sm3.5-35 has no TCGDex picture.
+_register(_pkm(
+    "Zekrom",
+    "Basic",
+    ["Lightning"],
+    130,
+    [
+        _atk(
+            "Crushing Short",
+            ["Lightning"],
+            20,
+            "Before doing damage, discard all Pokémon Tools from your opponent's Active Pokémon.",
+        ),
+        _atk(
+            "Raging Thunder",
+            ["Lightning", "Lightning", "Colorless"],
+            130,
+            "This attack also does 40 damage to 1 of your Benched Pokémon. (Don't apply Weakness and Resistance for Benched Pokémon.)",
+        ),
+    ],
+    catalog_id="sv04-066",
+    weakness="Fighting",
+    image="https://assets.tcgdex.net/en/sv/sv04/066/low.webp",
+))
 
 # Set G carpet Starly: Brilliant Stars Claw 30 (Set A/F keep Paldea Evolved Flap).
 FALLBACK_BY_NAME["starly-claw"] = _pkm(

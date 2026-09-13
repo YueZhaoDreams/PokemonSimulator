@@ -64,12 +64,17 @@ class StrategySpec:
         if data is None:
             return STRATEGY_LIBRARY["balanced"]
         if isinstance(data, str):
-            return STRATEGY_LIBRARY.get(data.lower(), STRATEGY_LIBRARY["balanced"])
-        name = (data.get("name") or "custom").lower()
+            key = data.lower().replace(" ", "").replace("_", "-")
+            if key in {"gplus", "g-plus"}:
+                key = "g"
+            return STRATEGY_LIBRARY.get(key, STRATEGY_LIBRARY["balanced"])
+        name = (data.get("name") or "custom").lower().replace(" ", "").replace("_", "-")
+        if name in {"gplus", "g-plus"}:
+            name = "g"
         base = STRATEGY_LIBRARY.get(name, STRATEGY_LIBRARY["balanced"])
         merged = base.to_dict()
         merged.update({k: v for k, v in data.items() if v is not None})
-        merged["name"] = data.get("name") or base.name
+        merged["name"] = name if name in STRATEGY_LIBRARY else (data.get("name") or base.name)
         when = merged.get("when")
         if not isinstance(when, list):
             merged["when"] = []
@@ -449,13 +454,21 @@ STRATEGY_LIBRARY = {
             "Flutter Mane",
             "Misdreavus",
             "Mismagius",
+            "Indeedee",
+            "Relicanth",
+            "Emolga",
+            "Trapinch",
+            "Hop's Cramorant",
+            "Plusle",
+            "Iron Boulder",
+            "Kecleon",
         ],
-        search_aces=["Clefairy", "Starly", "Ledyba"],
-        closers=["Staraptor", "Mewtwo", "Ledian", "Mismagius"],
-        backups=["Flutter Mane", "Munkidori", "Dedenne"],
+        search_aces=["Clefairy"],
+        closers=["Staraptor", "Mewtwo", "Ledian", "Mismagius", "Hop's Cramorant"],
+        backups=["Flutter Mane", "Munkidori", "Dedenne", "Indeedee", "Relicanth", "Plusle"],
         insurance=["Flutter Mane"],
         insurance_bench=1,
-        max_ace_copies=4,
+        max_ace_copies=3,
     ),
 }
 

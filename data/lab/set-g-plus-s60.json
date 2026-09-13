@@ -1,0 +1,778 @@
+{
+  "games": 2000,
+  "seed": 20260912,
+  "elapsed": 32.04977574991062,
+  "rule_preset": "s60",
+  "g_strategy": "g",
+  "source": "live data/app.db",
+  "foes": [
+    "c60",
+    "d60",
+    "t60",
+    "hedrick",
+    "unl",
+    "s60"
+  ],
+  "locked_kecleon_trapinch": {
+    "elapsed": 15.95128195779398,
+    "swap": {
+      "cut": [
+        "Scatterbug sv08-005",
+        "Scatterbug sv08-005",
+        "Misdreavus pl1-83",
+        "Misdreavus pl1-83",
+        "Mismagius pl1-55",
+        "Mismagius pl1-55",
+        "Drifloon swsh10-063",
+        "Drifblim swsh10-064",
+        "Iron Boulder sv07-071",
+        "Dedenne swsh9-067"
+      ],
+      "add": [
+        "Indeedee sv01-153",
+        "Relicanth swsh11-101",
+        "Emolga sv10.5b-029",
+        "Trapinch sv08-104",
+        "Hop's Cramorant me02.5-177",
+        "Kecleon sv08-150",
+        "Iris's Fighting Spirit sv09-149",
+        "Energy Retrieval sv01-171",
+        "Trekking Shoes swsh12.5-145",
+        "Potion dp7-92"
+      ],
+      "counts": [
+        [
+          "Psychic Energy",
+          17
+        ],
+        [
+          "Clefairy",
+          4
+        ],
+        [
+          "Ledyba",
+          4
+        ],
+        [
+          "Ledian",
+          4
+        ],
+        [
+          "Darkness Energy",
+          3
+        ],
+        [
+          "Starly",
+          2
+        ],
+        [
+          "Staravia",
+          2
+        ],
+        [
+          "Staraptor",
+          2
+        ],
+        [
+          "Munkidori",
+          2
+        ],
+        [
+          "Mewtwo",
+          1
+        ],
+        [
+          "Flutter Mane",
+          1
+        ],
+        [
+          "Tulip",
+          1
+        ],
+        [
+          "Surfer",
+          1
+        ],
+        [
+          "Drayton",
+          1
+        ],
+        [
+          "Energy Search",
+          1
+        ],
+        [
+          "Energy Switch",
+          1
+        ],
+        [
+          "Pok\u00e9 Ball",
+          1
+        ],
+        [
+          "Ultra Ball",
+          1
+        ],
+        [
+          "Boomerang Energy",
+          1
+        ],
+        [
+          "Indeedee",
+          1
+        ],
+        [
+          "Relicanth",
+          1
+        ],
+        [
+          "Emolga",
+          1
+        ],
+        [
+          "Trapinch",
+          1
+        ],
+        [
+          "Hop's Cramorant",
+          1
+        ],
+        [
+          "Kecleon",
+          1
+        ],
+        [
+          "Iris's Fighting Spirit",
+          1
+        ],
+        [
+          "Energy Retrieval",
+          1
+        ],
+        [
+          "Trekking Shoes",
+          1
+        ],
+        [
+          "Potion",
+          1
+        ]
+      ],
+      "g_count": 60,
+      "h_count": 60
+    },
+    "cells": {
+      "c60": {
+        "a": 0.0925,
+        "b": 0.9075,
+        "tie": 0.0,
+        "first": 0.09560229445506692,
+        "second": 0.08909853249475891,
+        "foe_strat": "party",
+        "party_games": 1784,
+        "gust_games": 1252,
+        "adrena_games": 2,
+        "nurturer_games": 141,
+        "deep_games": 165,
+        "cramorant_games": 177,
+        "plusle_games": 0,
+        "kecleon_games": 123
+      },
+      "d60": {
+        "a": 0.0615,
+        "b": 0.9385,
+        "tie": 0.0,
+        "first": 0.0658682634730539,
+        "second": 0.05711422845691383,
+        "foe_strat": "demolish",
+        "party_games": 696,
+        "gust_games": 0,
+        "adrena_games": 25,
+        "nurturer_games": 117,
+        "deep_games": 155,
+        "cramorant_games": 133,
+        "plusle_games": 0,
+        "kecleon_games": 77
+      },
+      "t60": {
+        "a": 0.214,
+        "b": 0.786,
+        "tie": 0.0,
+        "first": 0.229,
+        "second": 0.199,
+        "foe_strat": "phantom",
+        "party_games": 610,
+        "gust_games": 902,
+        "adrena_games": 347,
+        "nurturer_games": 120,
+        "deep_games": 171,
+        "cramorant_games": 160,
+        "plusle_games": 0,
+        "kecleon_games": 77
+      },
+      "hedrick": {
+        "a": 0.302,
+        "b": 0.698,
+        "tie": 0.0,
+        "first": 0.3005893909626719,
+        "second": 0.3034623217922607,
+        "foe_strat": "phantom",
+        "party_games": 619,
+        "gust_games": 1027,
+        "adrena_games": 863,
+        "nurturer_games": 102,
+        "deep_games": 138,
+        "cramorant_games": 140,
+        "plusle_games": 0,
+        "kecleon_games": 66
+      },
+      "unl": {
+        "a": 0.415,
+        "b": 0.585,
+        "tie": 0.0,
+        "first": 0.43987975951903807,
+        "second": 0.3902195608782435,
+        "foe_strat": "phantom",
+        "party_games": 673,
+        "gust_games": 1126,
+        "adrena_games": 234,
+        "nurturer_games": 119,
+        "deep_games": 127,
+        "cramorant_games": 144,
+        "plusle_games": 0,
+        "kecleon_games": 73
+      },
+      "s60": {
+        "a": 0.533,
+        "b": 0.467,
+        "tie": 0.0,
+        "first": 0.555441478439425,
+        "second": 0.5116959064327485,
+        "foe_strat": "slash",
+        "party_games": 875,
+        "gust_games": 1343,
+        "adrena_games": 23,
+        "nurturer_games": 150,
+        "deep_games": 119,
+        "cramorant_games": 197,
+        "plusle_games": 0,
+        "kecleon_games": 122
+      }
+    },
+    "win_rate_a": [
+      0.0925,
+      0.0615,
+      0.214,
+      0.302,
+      0.415,
+      0.533
+    ]
+  },
+  "plusle_for_trapinch": {
+    "elapsed": 16.098493792116642,
+    "swap": {
+      "cut": [
+        "Scatterbug sv08-005",
+        "Scatterbug sv08-005",
+        "Misdreavus pl1-83",
+        "Misdreavus pl1-83",
+        "Mismagius pl1-55",
+        "Mismagius pl1-55",
+        "Drifloon swsh10-063",
+        "Drifblim swsh10-064",
+        "Iron Boulder sv07-071",
+        "Dedenne swsh9-067"
+      ],
+      "add": [
+        "Indeedee sv01-153",
+        "Relicanth swsh11-101",
+        "Emolga sv10.5b-029",
+        "Plusle sv04-060",
+        "Hop's Cramorant me02.5-177",
+        "Kecleon sv08-150",
+        "Iris's Fighting Spirit sv09-149",
+        "Energy Retrieval sv01-171",
+        "Trekking Shoes swsh12.5-145",
+        "Potion dp7-92"
+      ],
+      "counts": [
+        [
+          "Psychic Energy",
+          17
+        ],
+        [
+          "Clefairy",
+          4
+        ],
+        [
+          "Ledyba",
+          4
+        ],
+        [
+          "Ledian",
+          4
+        ],
+        [
+          "Darkness Energy",
+          3
+        ],
+        [
+          "Starly",
+          2
+        ],
+        [
+          "Staravia",
+          2
+        ],
+        [
+          "Staraptor",
+          2
+        ],
+        [
+          "Munkidori",
+          2
+        ],
+        [
+          "Mewtwo",
+          1
+        ],
+        [
+          "Flutter Mane",
+          1
+        ],
+        [
+          "Tulip",
+          1
+        ],
+        [
+          "Surfer",
+          1
+        ],
+        [
+          "Drayton",
+          1
+        ],
+        [
+          "Energy Search",
+          1
+        ],
+        [
+          "Energy Switch",
+          1
+        ],
+        [
+          "Pok\u00e9 Ball",
+          1
+        ],
+        [
+          "Ultra Ball",
+          1
+        ],
+        [
+          "Boomerang Energy",
+          1
+        ],
+        [
+          "Indeedee",
+          1
+        ],
+        [
+          "Relicanth",
+          1
+        ],
+        [
+          "Emolga",
+          1
+        ],
+        [
+          "Plusle",
+          1
+        ],
+        [
+          "Hop's Cramorant",
+          1
+        ],
+        [
+          "Kecleon",
+          1
+        ],
+        [
+          "Iris's Fighting Spirit",
+          1
+        ],
+        [
+          "Energy Retrieval",
+          1
+        ],
+        [
+          "Trekking Shoes",
+          1
+        ],
+        [
+          "Potion",
+          1
+        ]
+      ],
+      "g_count": 60,
+      "h_count": 60
+    },
+    "cells": {
+      "c60": {
+        "a": 0.097,
+        "b": 0.903,
+        "tie": 0.0,
+        "first": 0.10412371134020619,
+        "second": 0.09029126213592233,
+        "foe_strat": "party",
+        "party_games": 1794,
+        "gust_games": 1250,
+        "adrena_games": 2,
+        "nurturer_games": 144,
+        "deep_games": 172,
+        "cramorant_games": 167,
+        "plusle_games": 97,
+        "kecleon_games": 149
+      },
+      "d60": {
+        "a": 0.0735,
+        "b": 0.9265,
+        "tie": 0.0,
+        "first": 0.07392996108949416,
+        "second": 0.07304526748971193,
+        "foe_strat": "demolish",
+        "party_games": 638,
+        "gust_games": 0,
+        "adrena_games": 27,
+        "nurturer_games": 111,
+        "deep_games": 172,
+        "cramorant_games": 114,
+        "plusle_games": 68,
+        "kecleon_games": 102
+      },
+      "t60": {
+        "a": 0.22,
+        "b": 0.78,
+        "tie": 0.0,
+        "first": 0.23837209302325582,
+        "second": 0.20041322314049587,
+        "foe_strat": "phantom",
+        "party_games": 535,
+        "gust_games": 904,
+        "adrena_games": 369,
+        "nurturer_games": 129,
+        "deep_games": 181,
+        "cramorant_games": 186,
+        "plusle_games": 76,
+        "kecleon_games": 86
+      },
+      "hedrick": {
+        "a": 0.313,
+        "b": 0.687,
+        "tie": 0.0,
+        "first": 0.31462925851703405,
+        "second": 0.31137724550898205,
+        "foe_strat": "phantom",
+        "party_games": 552,
+        "gust_games": 1000,
+        "adrena_games": 836,
+        "nurturer_games": 111,
+        "deep_games": 143,
+        "cramorant_games": 155,
+        "plusle_games": 115,
+        "kecleon_games": 72
+      },
+      "unl": {
+        "a": 0.4495,
+        "b": 0.5505,
+        "tie": 0.0,
+        "first": 0.4459183673469388,
+        "second": 0.45294117647058824,
+        "foe_strat": "phantom",
+        "party_games": 619,
+        "gust_games": 1118,
+        "adrena_games": 233,
+        "nurturer_games": 106,
+        "deep_games": 153,
+        "cramorant_games": 142,
+        "plusle_games": 118,
+        "kecleon_games": 89
+      },
+      "s60": {
+        "a": 0.528,
+        "b": 0.472,
+        "tie": 0.0,
+        "first": 0.5379310344827586,
+        "second": 0.5177664974619289,
+        "foe_strat": "slash",
+        "party_games": 881,
+        "gust_games": 1369,
+        "adrena_games": 21,
+        "nurturer_games": 118,
+        "deep_games": 102,
+        "cramorant_games": 192,
+        "plusle_games": 209,
+        "kecleon_games": 125
+      }
+    },
+    "win_rate_a": [
+      0.097,
+      0.0735,
+      0.22,
+      0.313,
+      0.4495,
+      0.528
+    ]
+  },
+  "swap": {
+    "cut": [
+      "Scatterbug sv08-005",
+      "Scatterbug sv08-005",
+      "Misdreavus pl1-83",
+      "Misdreavus pl1-83",
+      "Mismagius pl1-55",
+      "Mismagius pl1-55",
+      "Drifloon swsh10-063",
+      "Drifblim swsh10-064",
+      "Iron Boulder sv07-071",
+      "Dedenne swsh9-067"
+    ],
+    "add": [
+      "Indeedee sv01-153",
+      "Relicanth swsh11-101",
+      "Emolga sv10.5b-029",
+      "Plusle sv04-060",
+      "Hop's Cramorant me02.5-177",
+      "Kecleon sv08-150",
+      "Iris's Fighting Spirit sv09-149",
+      "Energy Retrieval sv01-171",
+      "Trekking Shoes swsh12.5-145",
+      "Potion dp7-92"
+    ],
+    "counts": [
+      [
+        "Psychic Energy",
+        17
+      ],
+      [
+        "Clefairy",
+        4
+      ],
+      [
+        "Ledyba",
+        4
+      ],
+      [
+        "Ledian",
+        4
+      ],
+      [
+        "Darkness Energy",
+        3
+      ],
+      [
+        "Starly",
+        2
+      ],
+      [
+        "Staravia",
+        2
+      ],
+      [
+        "Staraptor",
+        2
+      ],
+      [
+        "Munkidori",
+        2
+      ],
+      [
+        "Mewtwo",
+        1
+      ],
+      [
+        "Flutter Mane",
+        1
+      ],
+      [
+        "Tulip",
+        1
+      ],
+      [
+        "Surfer",
+        1
+      ],
+      [
+        "Drayton",
+        1
+      ],
+      [
+        "Energy Search",
+        1
+      ],
+      [
+        "Energy Switch",
+        1
+      ],
+      [
+        "Pok\u00e9 Ball",
+        1
+      ],
+      [
+        "Ultra Ball",
+        1
+      ],
+      [
+        "Boomerang Energy",
+        1
+      ],
+      [
+        "Indeedee",
+        1
+      ],
+      [
+        "Relicanth",
+        1
+      ],
+      [
+        "Emolga",
+        1
+      ],
+      [
+        "Plusle",
+        1
+      ],
+      [
+        "Hop's Cramorant",
+        1
+      ],
+      [
+        "Kecleon",
+        1
+      ],
+      [
+        "Iris's Fighting Spirit",
+        1
+      ],
+      [
+        "Energy Retrieval",
+        1
+      ],
+      [
+        "Trekking Shoes",
+        1
+      ],
+      [
+        "Potion",
+        1
+      ]
+    ],
+    "g_count": 60,
+    "h_count": 60
+  },
+  "cells": {
+    "c60": {
+      "a": 0.097,
+      "b": 0.903,
+      "tie": 0.0,
+      "first": 0.10412371134020619,
+      "second": 0.09029126213592233,
+      "foe_strat": "party",
+      "party_games": 1794,
+      "gust_games": 1250,
+      "adrena_games": 2,
+      "nurturer_games": 144,
+      "deep_games": 172,
+      "cramorant_games": 167,
+      "plusle_games": 97,
+      "kecleon_games": 149
+    },
+    "d60": {
+      "a": 0.0735,
+      "b": 0.9265,
+      "tie": 0.0,
+      "first": 0.07392996108949416,
+      "second": 0.07304526748971193,
+      "foe_strat": "demolish",
+      "party_games": 638,
+      "gust_games": 0,
+      "adrena_games": 27,
+      "nurturer_games": 111,
+      "deep_games": 172,
+      "cramorant_games": 114,
+      "plusle_games": 68,
+      "kecleon_games": 102
+    },
+    "t60": {
+      "a": 0.22,
+      "b": 0.78,
+      "tie": 0.0,
+      "first": 0.23837209302325582,
+      "second": 0.20041322314049587,
+      "foe_strat": "phantom",
+      "party_games": 535,
+      "gust_games": 904,
+      "adrena_games": 369,
+      "nurturer_games": 129,
+      "deep_games": 181,
+      "cramorant_games": 186,
+      "plusle_games": 76,
+      "kecleon_games": 86
+    },
+    "hedrick": {
+      "a": 0.313,
+      "b": 0.687,
+      "tie": 0.0,
+      "first": 0.31462925851703405,
+      "second": 0.31137724550898205,
+      "foe_strat": "phantom",
+      "party_games": 552,
+      "gust_games": 1000,
+      "adrena_games": 836,
+      "nurturer_games": 111,
+      "deep_games": 143,
+      "cramorant_games": 155,
+      "plusle_games": 115,
+      "kecleon_games": 72
+    },
+    "unl": {
+      "a": 0.4495,
+      "b": 0.5505,
+      "tie": 0.0,
+      "first": 0.4459183673469388,
+      "second": 0.45294117647058824,
+      "foe_strat": "phantom",
+      "party_games": 619,
+      "gust_games": 1118,
+      "adrena_games": 233,
+      "nurturer_games": 106,
+      "deep_games": 153,
+      "cramorant_games": 142,
+      "plusle_games": 118,
+      "kecleon_games": 89
+    },
+    "s60": {
+      "a": 0.528,
+      "b": 0.472,
+      "tie": 0.0,
+      "first": 0.5379310344827586,
+      "second": 0.5177664974619289,
+      "foe_strat": "slash",
+      "party_games": 881,
+      "gust_games": 1369,
+      "adrena_games": 21,
+      "nurturer_games": 118,
+      "deep_games": 102,
+      "cramorant_games": 192,
+      "plusle_games": 209,
+      "kecleon_games": 125
+    }
+  },
+  "win_rate_a": [
+    0.097,
+    0.0735,
+    0.22,
+    0.313,
+    0.4495,
+    0.528
+  ]
+}

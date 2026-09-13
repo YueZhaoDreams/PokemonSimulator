@@ -186,24 +186,20 @@ PREFERRED_IDS = {
     "Surfer": "sv08-187",  # Regular Surging Sparks 187 — not 191 Enriching Energy
     "Iris's Fighting Spirit": "sv09-149",
     "Zapdos": "xy6-23",  # Roaring Skies Drill Peck / Raging Thunder 120
+    "Team Rocket's Zapdos": "sv10-070",  # Destined Rivals Jamming Wing / Wicked Thunder
     "Wattrel": "sv01-077",  # Paldea Evolved Collect / Glide
     "Jolteon": "sv08.5-029",  # Prismatic Evolutions 110 HP Fighting Lightning
-    "Tynamo": "sm3-44",  # Burning Shadows Aqua Shock 40, water art
-    "Eelektrik": "sm3-45",
     "Shinx": "swsh12.5-039",  # Crown Zenith Rear Kick
-    "Helioptile": "xy2-36",  # Flashfire grass-field Pound
-    "Magby": "sv04-019",
-    "Houndour": "sv01-033",  # Paldea Evolved 70 HP Bite / Flare
-    "Cramorant": "sv06-058",
     "Oranguru": "sm1-113",
-    "Grookey": "swsh1-11",  # Sword & Shield Scratch / Beat 70
-    "Treecko": "sm7-8",  # Celestial Storm 70 HP Smack / Tail Whap
-    "Zekrom": "sm3.5-35",  # Hidden Fates Outrage / Storm Blade 130
-    "Dubwool": "swsh1-154",
-    "Togedemaru": "me02-073",
-    "Hisuian Electrode": "swsh10-003",
-    "Trapinch": "xy3-53",  # Furious Fists Mountain Munch / Mud-Slap
-    "Gogoat": "swsh4-18",  # Vivid Voltage Razor Leaf / Take Down
+    "Zekrom": "sv04-066",  # Paradox Rift Crushing Short / Raging Thunder — Hidden Fates has no art
+    "Minun": "xy3-32",  # Furious Fists Negative Discard / Static Shock
+    "Kecleon": "sv09-122",  # Journey Together Stealth Attack
+    "Zoroark": "sv10.5w-062",  # White Flare Mind Jack / Foul Play
+    "Hisuian Voltorb": "swsh10-002",
+    "Sandygast": "sv02-095",  # Paldea Evolved Mumble / Mud Shot
+    "Skiddo": "sv01-011",  # Paldea Evolved Vine Whip / Smash Kick
+    "Pawmi": "sv01-073",  # Paldea Evolved Jolt
+    "Rotom": "swsh4.5-34",  # Shining Fates
     "Lechonk": "sv01-154",
     "Iono": "sv01-185",
     "Switch Cart": "sv02-178",
@@ -325,6 +321,12 @@ PRINT_PREFER = {
     "Slugma": ["draw in", "combustion"],
     "Ferroseed": ["spike sting"],
     "Electrike": ["zap kick", "thunder fang"],
+    "Team Rocket's Zapdos": ["jamming wing", "wicked thunder"],
+    "Zekrom": ["crushing short", "raging thunder"],
+    "Zoroark": ["foul play", "mind jack"],
+    "Minun": ["negative discard", "static shock"],
+    "Kecleon": ["stealth attack"],
+    "Pawmi": ["jolt"],
     "Wailmer": ["nap", "water gun"],
     "Aron": ["slight intrusion", "ram"],
     "Ivysaur": ["leech seed", "vine whip"],

@@ -1,0 +1,91 @@
+{
+  "games": 2000,
+  "seed": 20260912,
+  "elapsed": 14.482657375279814,
+  "rule_preset": "s60",
+  "g_strategy": "g",
+  "cells": {
+    "c60": {
+      "a": 0.075,
+      "b": 0.925,
+      "tie": 0.0,
+      "first": 0.07992007992007992,
+      "second": 0.07007007007007007,
+      "foe_strat": "party",
+      "party_games": 1753,
+      "gust_games": 1140,
+      "adrena_games": 3
+    },
+    "d60": {
+      "a": 0.0685,
+      "b": 0.9315,
+      "tie": 0.0,
+      "first": 0.07524752475247524,
+      "second": 0.06161616161616162,
+      "foe_strat": "demolish",
+      "party_games": 633,
+      "gust_games": 0,
+      "adrena_games": 20
+    },
+    "t60": {
+      "a": 0.182,
+      "b": 0.818,
+      "tie": 0.0,
+      "first": 0.19601990049751244,
+      "second": 0.1678391959798995,
+      "foe_strat": "phantom",
+      "party_games": 538,
+      "gust_games": 885,
+      "adrena_games": 320
+    },
+    "hedrick": {
+      "a": 0.2715,
+      "b": 0.7285,
+      "tie": 0.0,
+      "first": 0.26586102719033233,
+      "second": 0.2770605759682224,
+      "foe_strat": "phantom",
+      "party_games": 555,
+      "gust_games": 985,
+      "adrena_games": 798
+    },
+    "unl": {
+      "a": 0.381,
+      "b": 0.619,
+      "tie": 0.0,
+      "first": 0.3820335636722606,
+      "second": 0.3799392097264438,
+      "foe_strat": "phantom",
+      "party_games": 631,
+      "gust_games": 1108,
+      "adrena_games": 194
+    },
+    "s60": {
+      "a": 0.486,
+      "b": 0.5135,
+      "tie": 0.0005,
+      "first": 0.4834170854271357,
+      "second": 0.48855721393034823,
+      "foe_strat": "slash",
+      "party_games": 891,
+      "gust_games": 1313,
+      "adrena_games": 28
+    }
+  },
+  "win_rate_a": [
+    0.075,
+    0.0685,
+    0.182,
+    0.2715,
+    0.381,
+    0.486
+  ],
+  "foes": [
+    "c60",
+    "d60",
+    "t60",
+    "hedrick",
+    "unl",
+    "s60"
+  ]
+}
