@@ -144,7 +144,7 @@ def load_seed_payload() -> dict:
         nuzzle = _fallback_named("pikachu-nuzzle")
         shock = _fallback_named("Pikachu")
         want_ids = ["sm12-66", "sm3-40"]
-        for key in ("b", "e"):
+        for key in ("b", "e", "h"):
             if key not in data:
                 continue
             have_ids = [c.get("catalog_id") for c in data[key]["cards"] if c.get("name") == "Pikachu"]
@@ -168,19 +168,6 @@ def load_seed_payload() -> dict:
                 cards_g = _assign_named_prints(cards_g, "Starly", [claw, claw])
             if have_staravia[:2] != want_staravia:
                 cards_g = _assign_named_prints(cards_g, "Staravia", [staravia_90, staravia_80])
-            ib = _fallback_named("Iron Boulder")
-            refresh = {
-                "Iron Boulder": ib,
-                "Drifloon": _fallback_named("Drifloon"),
-                "Drifblim": _fallback_named("Drifblim"),
-                "Dedenne": _fallback_named("Dedenne"),
-                "Misdreavus": _fallback_named("Misdreavus"),
-                "Mismagius": _fallback_named("Mismagius"),
-            }
-            cards_g = [
-                refresh.get((c.name if isinstance(c, Card) else c.get("name")), c)
-                for c in cards_g
-            ]
             as_dicts = [c.to_dict() if isinstance(c, Card) else c for c in cards_g]
             if as_dicts != data["g"]["cards"]:
                 data["g"]["cards"] = as_dicts
@@ -383,6 +370,7 @@ def _cd_payload(enrich: bool = True) -> dict:
         [fallback_named("staravia-brilliant"), fallback_named("Staravia")],
     )
     cards_h = _repeat_named_cards(list(SET_H_NAMES), enrich)
+    cards_h = _assign_named_prints(cards_h, "Pikachu", [nuzzle, shock])
     cards_s = _repeat_named_cards(list(SET_S_NAMES), enrich)
     cards_t = _repeat_named_cards(list(SET_T_NAMES), enrich)
     cards_c60 = _repeat_named_cards(list(SET_C60_NAMES), enrich)
@@ -429,7 +417,7 @@ def _cd_payload(enrich: bool = True) -> dict:
         },
         "h": {
             "id": "seed-h",
-            "name": "Carpet Set H (Zapdos / Pikachu 60)",
+            "name": "Carpet Set H (Team Rocket's Zapdos / Pikachu 60)",
             "sample": "set-h-carpet.jpg",
             "kind": "list",
             "cards": [c.to_dict() if isinstance(c, Card) else c for c in cards_h],

@@ -64,6 +64,16 @@ PUBLISHED_EFFECT_KINDS = frozenset(
         "disable_attack",
         "gust_low_hp_on_evolve",
         "suppress_opponent_active_abilities",
+        "coin_prevent_attack_damage",
+        "require_opponent_prizes",
+        "recycle_energy_from_discard",
+        "evolve_from_deck",
+        "self_bench_damage",
+        "move_opp_active_energy_to_bench",
+        "discard_defender_tools",
+        "energy_in_play_bonus",
+        "coin_damage_bonus",
+        "attached_named_energy_bonus",
     }
 )
 

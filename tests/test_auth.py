@@ -68,7 +68,7 @@ def test_admin_owns_seed_decks_and_members_are_isolated(tmp_path, monkeypatch):
         assert by_id["seed-h"]["rule_preset"] == "s60"
         assert by_id["seed-h"]["rule_presets"] == ["s60"]
         assert by_id["seed-h"]["count"] == 60
-        assert by_id["seed-h"]["name"] == "Carpet Set H (Zapdos / Pikachu 60)"
+        assert by_id["seed-h"]["name"] == "Carpet Set H (Team Rocket's Zapdos / Pikachu 60)"
         assert by_id["seed-c60"]["rule_presets"] == ["s60"]
         assert by_id["seed-c60"]["count"] == 60
         assert by_id["seed-t-meta"]["name"] == "Worlds 2026 Hedrick Dragapult"

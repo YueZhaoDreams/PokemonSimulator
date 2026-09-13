@@ -252,6 +252,10 @@ def parse_ability_effects(text: str) -> list[dict[str, Any]]:
             }
         )
 
+    # Kecleon Expert Hider: coin-flip prevent attack damage.
+    if "prevent that damage" in t and "flip a coin" in t and "attack" in t:
+        effects.append({"kind": "coin_prevent_attack_damage"})
+
     # Pidgeot Quick Search / Forest Seal Star Alchemy: search any one card.
     if "search your deck for a card" in t and "into your hand" in t:
         effects.append(
@@ -396,10 +400,35 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
     if "this attack does nothing" in t:
         if "same number of cards in your hand" in t:
             effects.append({"kind": "require_equal_hands"})
+        elif "prize" in t:
+            pair = re.search(r"exactly (\d+) or (\d+) prize", t)
+            one = re.search(r"exactly (\d+) prize", t)
+            if pair:
+                effects.append(
+                    {
+                        "kind": "require_opponent_prizes",
+                        "values": [int(pair.group(1)), int(pair.group(2))],
+                    }
+                )
+            elif one:
+                effects.append({"kind": "require_opponent_prizes", "values": [int(one.group(1))]})
         else:
             effects.append({"kind": "coin_whiff"})
 
-    # Mewtwo Transfer Charge: attach Basic Psychic Energy from discard.
+    # Relicanth Into the Deep: basic Energy from discard to hand (not attach).
+    if (
+        "discard pile" in t
+        and "energy" in t
+        and "into your hand" in t
+        and "trainer" not in t
+        and "attach" not in t
+    ):
+        n = re.search(r"up to (\d+)", t)
+        effects.append({"kind": "recycle_energy_from_discard", "count": int(n.group(1) if n else 2)})
+
+    # Indeedee Expert Nurturer: search an Evolution and put it onto the matching Pokémon.
+    if "evolves from 1 of your pokemon" in t and "put it onto that pokemon" in t:
+        effects.append({"kind": "evolve_from_deck"})
     if "discard pile" in t and "attach" in t and "energy" in t and "up to" in t:
         up = re.search(r"up to (\d+)", t)
         effects.append({"kind": "transfer_charge", "count": int(up.group(1)) if up else 2})
@@ -426,6 +455,16 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
     if one_poke:
         effects.append({"kind": "damage_one_pokemon", "amount": int(one_poke.group(1))})
 
+    own_bench = re.search(r"does (\d+) damage to 1 of your benched pokemon", t)
+    if own_bench and "opponent" not in t.split("benched")[0][-24:]:
+        effects.append({"kind": "self_bench_damage", "amount": int(own_bench.group(1))})
+
+    if "move an energy from your opponent's active" in t and "benched" in t:
+        effects.append({"kind": "move_opp_active_energy_to_bench"})
+
+    if "discard all pokemon tools from your opponent's active" in t:
+        effects.append({"kind": "discard_defender_tools"})
+
     # Mega Clefable ex Shooting Moons: discard Energy from hand for bonus damage.
     hand_discard = re.search(
         r"discard up to (\d+) energy cards? from your hand.*?(\d+) more damage",
@@ -444,7 +483,29 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
     counter_bonus = re.search(r"(\d+) more damage for each damage counter", t)
     psychic_ref = "psychic energy" in t or "{p} energy" in t or "{p}" in t
     both_bench = re.search(r"(\d+) more damage for each benched pokemon", t)
-    if both_bench and ("both" in t or "yours and" in t):
+    opp_bench = re.search(r"(\d+) more damage for each of your opponent's benched pokemon", t)
+    in_play_nrg = re.search(
+        r"at least (\d+) (grass|fire|water|lightning|psychic|fighting|darkness|metal|fairy|colorless) energy in play.*?(\d+) more damage",
+        t,
+    )
+    fewer_prizes = re.search(
+        r"(\d+) or fewer prize cards? remaining.*?(\d+) more damage",
+        t,
+    )
+    heads_bonus = re.search(r"if heads, this attack does (\d+) more damage", t)
+    named_nrg = re.search(
+        r"has any ([a-z][a-z' ]+?) energy attached, this attack does (\d+) more damage",
+        t,
+    )
+    if opp_bench:
+        effects.append(
+            {
+                "kind": "benched_pokemon_bonus",
+                "per": int(opp_bench.group(1)),
+                "sides": "opponent",
+            }
+        )
+    elif both_bench and ("both" in t or "yours and" in t):
         effects.append(
             {
                 "kind": "benched_pokemon_bonus",
@@ -454,6 +515,34 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
         )
     elif counter_bonus and ("opponent" in t or "defending" in t):
         effects.append({"kind": "damage_counter_bonus", "per": int(counter_bonus.group(1))})
+    elif in_play_nrg:
+        effects.append(
+            {
+                "kind": "energy_in_play_bonus",
+                "count": int(in_play_nrg.group(1)),
+                "energy_type": in_play_nrg.group(2).title(),
+                "bonus": int(in_play_nrg.group(3)),
+            }
+        )
+    elif fewer_prizes:
+        effects.append(
+            {
+                "kind": "opponent_prize_bonus",
+                "prizes": int(fewer_prizes.group(1)),
+                "bonus": int(fewer_prizes.group(2)),
+                "op": "at_most",
+            }
+        )
+    elif heads_bonus and coin:
+        effects.append({"kind": "coin_damage_bonus", "bonus": int(heads_bonus.group(1))})
+    elif named_nrg:
+        effects.append(
+            {
+                "kind": "attached_named_energy_bonus",
+                "name": named_nrg.group(1).strip(),
+                "bonus": int(named_nrg.group(2)),
+            }
+        )
     elif "lost zone" in t and "tool" in t:
         pass
     elif psychic_ref and "more damage" in t and "for each" in t:

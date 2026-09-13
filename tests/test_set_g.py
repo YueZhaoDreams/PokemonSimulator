@@ -1,5 +1,5 @@
 from app.catalog import _tcgdex_low
-from app.engine.effects import parse_effects
+from app.engine.effects import parse_ability_effects, parse_effects
 from app.engine.models import default_rule_presets_for, standard_60_rules
 from app.seed import load_seed_deck, load_seed_payload
 from app.seed_data import SET_G_NAMES, build_fallback_deck, fallback_named
@@ -10,7 +10,13 @@ def test_set_g_is_sixty_after_staraptor_energy_swap():
     names = list(SET_G_NAMES)
     assert names.count("Staravia") == 2
     assert names.count("Staraptor") == 2
-    assert names.count("Drifblim") == 1
+    assert names.count("Plusle") == 1
+    assert names.count("Kecleon") == 1
+    assert names.count("Potion") == 1
+    assert names.count("Trapinch") == 0
+    assert names.count("Iron Boulder") == 0
+    assert names.count("Scatterbug") == 0
+    assert names.count("Misdreavus") == 0
     assert names.count("Psychic Energy") == 17
     assert names.count("Darkness Energy") == 3
     assert names.count("Boomerang Energy") == 1
@@ -57,12 +63,13 @@ def test_set_g_seed_payload_and_s60_preset():
     mewtwo = next(c for c in g["cards"] if c["name"] == "Mewtwo")
     assert mewtwo["catalog_id"] == "sv07-059"
     assert any(a["name"] == "Super Psy Bolt" for a in mewtwo["attacks"])
-    ghosts = [c for c in g["cards"] if c["name"] == "Misdreavus"]
-    magi = [c for c in g["cards"] if c["name"] == "Mismagius"]
-    assert [c["catalog_id"] for c in ghosts] == ["pl1-83", "pl1-83"]
-    assert [c["catalog_id"] for c in magi] == ["pl1-55", "pl1-55"]
-    assert all(any(a["name"] == "Take Back" for a in c["attacks"]) for c in ghosts)
-    assert all(any(a["name"] == "Upper Hand" for a in c["attacks"]) for c in magi)
+    plusle = next(c for c in g["cards"] if c["name"] == "Plusle")
+    assert plusle["catalog_id"] == "sv04-060"
+    assert plusle["attacks"][0]["name"] == "Plus Damage"
+    kecleon = next(c for c in g["cards"] if c["name"] == "Kecleon")
+    assert kecleon["catalog_id"] == "sv08-150"
+    indeedee = next(c for c in g["cards"] if c["name"] == "Indeedee")
+    assert indeedee["catalog_id"] == "sv01-153"
     supporters = [c["name"] for c in g["cards"] if c["name"] in {"Tulip", "Surfer", "Drayton", "Jacq", "Arven"}]
     assert supporters == ["Tulip", "Surfer", "Drayton"]
     assert default_rule_presets_for("seed-g") == ["s60"]
@@ -220,4 +227,150 @@ def test_upper_hand_locks_strongest_attack_until_end_of_next_turn():
     assert picked.name == "Tailspin Away"
     game._expire_disabled_attacks(foe)
     assert foe.active.disabled_attack is None
+
+
+def _skill_game(strat_a="g", strat_b="party"):
+    from random import Random
+
+    from app.engine.game import Game
+    from app.engine.models import default_family_rules
+    from app.engine.strategies import StrategySpec
+
+    a = build_fallback_deck(
+        ["Clefairy"] * 4
+        + ["Ledyba", "Ledian", "Flutter Mane", "Munkidori", "Surfer"]
+        + ["Psychic Energy"] * 8
+        + ["Darkness Energy"] * 3
+        + ["Hop"] * 4
+        + ["Cubone"] * 6
+    )
+    b = build_fallback_deck(
+        ["Clefairy"] * 4
+        + ["Clefable ex", "Starly", "Staraptor", "Flutter Mane", "Munkidori"]
+        + ["Psychic Energy"] * 8
+        + ["Darkness Energy"] * 2
+        + ["Hop"] * 4
+        + ["Cubone"] * 7
+    )
+    return Game(
+        a,
+        b,
+        default_family_rules(),
+        StrategySpec.from_dict(strat_a),
+        StrategySpec.from_dict(strat_b),
+        Random(1),
+        trace=True,
+    )
+
+
+def test_ledian_and_flutter_mane_abilities_parse_printed_text():
+    ledian = fallback_named("Ledian")
+    gust = parse_ability_effects(ledian.abilities[0].text)
+    assert gust == [{"kind": "gust_low_hp_on_evolve", "max_remaining": 90}]
+    flutter = fallback_named("Flutter Mane")
+    kinds = [e.get("kind") for abi in flutter.abilities for e in parse_ability_effects(abi.text)]
+    assert "suppress_opponent_active_abilities" in kinds
+
+
+def test_g_strategy_fires_moon_watching_party():
+    from app.engine.game import Pokemon
+
+    game = _skill_game("g", "party")
+    me = game.players["a"]
+    foe = game.players["b"]
+    clefs = [i for i, c in enumerate(me.cards) if c.name == "Clefairy"]
+    fuels = [i for i, c in enumerate(me.cards) if c.name == "Psychic Energy"]
+    me.active = Pokemon(card_i=clefs[0], played_turn=0)
+    me.bench = [Pokemon(card_i=clefs[1], played_turn=0), Pokemon(card_i=clefs[2], played_turn=0)]
+    me.deck = list(fuels[:4])
+    me.hand = []
+    foe.active = Pokemon(card_i=next(i for i, c in enumerate(foe.cards) if c.name == "Starly"), played_turn=0)
+    game._use_abilities(me, foe, "a")
+    assert game.events.get("moon_watching_party") == 1
+    assert [len(m.energy) for m in me.bench] == [1, 1]
+
+
+def test_carnival_still_skips_party_on_the_same_board():
+    from app.engine.game import Pokemon
+
+    game = _skill_game("carnival", "party")
+    me = game.players["a"]
+    foe = game.players["b"]
+    clefs = [i for i, c in enumerate(me.cards) if c.name == "Clefairy"]
+    fuels = [i for i, c in enumerate(me.cards) if c.name == "Psychic Energy"]
+    me.active = Pokemon(card_i=clefs[0], played_turn=0)
+    me.bench = [Pokemon(card_i=clefs[1], played_turn=0)]
+    me.deck = list(fuels[:3])
+    foe.active = Pokemon(card_i=next(i for i, c in enumerate(foe.cards) if c.name == "Starly"), played_turn=0)
+    game._use_abilities(me, foe, "a")
+    assert game.events.get("moon_watching_party", 0) == 0
+    assert me.bench[0].energy == []
+
+
+def test_ledian_gusts_low_hp_bench_on_evolve():
+    from app.engine.game import Pokemon
+
+    game = _skill_game("g", "party")
+    me = game.players["a"]
+    foe = game.players["b"]
+    ledyba = next(i for i, c in enumerate(me.cards) if c.name == "Ledyba")
+    ledian = next(i for i, c in enumerate(me.cards) if c.name == "Ledian")
+    raptor = next(i for i, c in enumerate(foe.cards) if c.name == "Staraptor")
+    snack = next(i for i, c in enumerate(foe.cards) if c.name == "Clefairy")
+    me.active = Pokemon(card_i=ledyba, played_turn=0)
+    me.hand = [ledian]
+    foe.active = Pokemon(card_i=raptor, played_turn=0)
+    foe.bench = [Pokemon(card_i=snack, played_turn=0)]
+    game.turn = 2
+    game._do_evolve(me, me.active, ledian)
+    assert me.card(me.active.card_i).name == "Ledian"
+    assert foe.card(foe.active.card_i).name == "Clefairy"
+    assert game.events.get("glittering_star") == 1
+
+
+def test_flutter_mane_shuts_active_party_but_not_benched_adrena_brain():
+    from app.engine.game import Pokemon
+
+    game = _skill_game("party", "g")
+    me = game.players["a"]
+    foe = game.players["b"]
+    clefs = [i for i, c in enumerate(me.cards) if c.name == "Clefairy"]
+    fuels = [i for i, c in enumerate(me.cards) if c.name == "Psychic Energy"]
+    flutter = next(i for i, c in enumerate(foe.cards) if c.name == "Flutter Mane")
+    munk = next(i for i, c in enumerate(foe.cards) if c.name == "Munkidori")
+    dark = next(i for i, c in enumerate(foe.cards) if c.name == "Darkness Energy")
+    me.active = Pokemon(card_i=clefs[0], played_turn=0)
+    me.bench = [Pokemon(card_i=clefs[1], played_turn=0)]
+    me.deck = list(fuels[:3])
+    foe.active = Pokemon(card_i=flutter, damage=30, played_turn=0)
+    foe.bench = [Pokemon(card_i=munk, energy=[dark], played_turn=0)]
+    game._use_abilities(me, foe, "a")
+    assert game.events.get("moon_watching_party", 0) == 0
+    assert me.bench[0].energy == []
+    assert game._abilities_suppressed(me, me.active) is True
+    game._use_abilities(foe, me, "b")
+    assert game.events.get("adrena_brain") == 1
+    assert me.active.damage == 30
+    assert foe.active.damage == 0
+
+
+def test_surfer_holds_until_g_wants_the_loaded_clefairy():
+    from app.engine.game import Pokemon
+
+    game = _skill_game("g", "party")
+    me = game.players["a"]
+    foe = game.players["b"]
+    clefs = [i for i, c in enumerate(me.cards) if c.name == "Clefairy"]
+    fuels = [i for i, c in enumerate(me.cards) if c.name == "Psychic Energy"]
+    surf = next(i for i, c in enumerate(me.cards) if c.name == "Surfer")
+    me.active = Pokemon(card_i=clefs[0], played_turn=0)
+    me.bench = [Pokemon(card_i=clefs[1], energy=list(fuels[:3]), played_turn=0)]
+    me.hand = [surf]
+    foe.active = Pokemon(card_i=next(i for i, c in enumerate(foe.cards) if c.name == "Staraptor"), played_turn=0)
+    assert game._g_incoming_idx(me, "a") is None
+    me.active.ability_used = True
+    assert game._g_incoming_idx(me, "a") == 0
+    game._resolve_trainer(me, foe, me.card(surf), "a", surf)
+    assert me.card(me.active.card_i).name == "Clefairy"
+    assert len(me.active.energy) == 3
 
