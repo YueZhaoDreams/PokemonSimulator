@@ -98,9 +98,10 @@ def _draw_operator(name: str, text: str) -> dict[str, Any] | None:
 
 
 def effective_seen_cards(cards: list[Card], rules: FamilyRules) -> tuple[int, list[dict[str, Any]]]:
+    """Opening hand plus counted draw operators, never more cards than the list holds."""
     operators = printed_draw_operators(cards)
     extra = sum(int(op["amount"]) * int(op["copies"]) for op in operators if op["counted"])
-    return int(rules.opening_hand) + extra, operators
+    return min(int(rules.opening_hand) + extra, len(cards)), operators
 
 
 def compute_ceilings(

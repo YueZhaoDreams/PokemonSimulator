@@ -130,6 +130,14 @@ def test_two_hops_count_per_copy_and_conditional_draws_do_not():
         assert not listed or listed[0]["counted"] is False
 
 
+def test_effective_seen_never_exceeds_the_list():
+    cards = [fallback_named("Hop")] * 4 + [fallback_named("Clefairy")] * 2
+    report = compute_ceilings(cards, rules_from_preset("b"))
+    assert report["deck_size"] == 6
+    assert report["effective_seen"] == 6
+    assert _row(report, "Clefairy")["p_seen"] == 1.0
+
+
 def test_optional_draw_branch_is_not_counted():
     shoes = fallback_named("Trekking Shoes")
     assert "or discard it and draw a card" in shoes.text
