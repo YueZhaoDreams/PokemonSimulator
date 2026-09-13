@@ -130,6 +130,13 @@ def test_two_hops_count_per_copy_and_conditional_draws_do_not():
         assert not listed or listed[0]["counted"] is False
 
 
+def test_optional_draw_branch_is_not_counted():
+    shoes = fallback_named("Trekking Shoes")
+    assert "or discard it and draw a card" in shoes.text
+    listed = printed_draw_operators([shoes])
+    assert listed and listed[0]["counted"] is False and listed[0]["amount"] is None
+
+
 def test_shuffle_draw_supporters_are_listed_but_not_counted():
     youngster = fallback_named("Youngster")
     assert youngster.text == "Shuffle your hand into your deck and draw 5 cards."

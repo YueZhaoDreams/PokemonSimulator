@@ -18,7 +18,7 @@ from app.engine.models import Card, FamilyRules
 from app.engine.probability import hypergeometric_at_least_one
 
 _FIXED_DRAW = re.compile(r"\bdraw (a|\d+) cards?\b")
-_CONDITIONAL_MARKERS = ("for each", "until", "instead", "if ", "that many")
+_CONDITIONAL_MARKERS = ("for each", "until", "instead", "if ", "that many", "you may", " or ")
 # Shuffle-draw / discard-draw supporters replace the hand; they are not a plain +N seen.
 _HAND_REPLACEMENT = re.compile(r"(shuffle|discard|put) (all of )?your hand")
 
