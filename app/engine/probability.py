@@ -17,7 +17,7 @@ def hypergeometric_at_least_one(copies: int, deck_size: int, draw: int) -> float
 
 
 def hypergeometric_exact(copies: int, deck_size: int, draw: int, k: int) -> float:
-    if k < 0 or k > copies or draw > deck_size:
+    if k < 0 or k > copies or k > draw or draw > deck_size:
         return 0.0
     return comb(copies, k) * comb(deck_size - copies, draw - k) / comb(deck_size, draw)
 
