@@ -19,6 +19,8 @@ from app.engine.probability import hypergeometric_at_least_one
 
 _FIXED_DRAW = re.compile(r"\bdraw (a|\d+) cards?\b")
 _CONDITIONAL_MARKERS = ("for each", "until", "instead", "if ", "that many")
+# Shuffle-draw / discard-draw supporters replace the hand; they are not a plain +N seen.
+_HAND_REPLACEMENT = re.compile(r"(shuffle|discard|put) (all of )?your hand")
 
 
 def printed_draw_operators(cards: list[Card]) -> list[dict[str, Any]]:
@@ -61,6 +63,16 @@ def _draw_operator(name: str, text: str) -> dict[str, Any] | None:
     draw = next((e for e in parse_effects(text) if e.get("kind") == "draw"), None)
     if draw is None:
         return None
+    if _HAND_REPLACEMENT.search(normalized):
+        return {
+            "name": name,
+            "copies": 1,
+            "kind": "replace_hand",
+            "amount": None,
+            "counted": False,
+            "note": "shuffle-draw / discard-draw replaces the hand; not added to seen cards",
+            "source": text,
+        }
     fixed = _FIXED_DRAW.search(normalized)
     conditional = any(marker in normalized for marker in _CONDITIONAL_MARKERS)
     if fixed and not conditional:

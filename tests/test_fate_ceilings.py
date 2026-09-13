@@ -130,6 +130,21 @@ def test_two_hops_count_per_copy_and_conditional_draws_do_not():
         assert not listed or listed[0]["counted"] is False
 
 
+def test_shuffle_draw_supporters_are_listed_but_not_counted():
+    youngster = fallback_named("Youngster")
+    assert youngster.text == "Shuffle your hand into your deck and draw 5 cards."
+    cards = _set_g()
+    cut = next(i for i, c in enumerate(cards) if c.name == "Psychic Energy")
+    cards[cut] = youngster
+
+    report = compute_ceilings(cards, rules_from_preset("s60"))
+    assert report["effective_seen"] == 7
+    listed = next(op for op in report["draw_operators"] if op["name"] == "Youngster")
+    assert listed["counted"] is False
+    assert listed["amount"] is None
+    assert listed["kind"] == "replace_hand"
+
+
 def _client(tmp_path, monkeypatch):
     monkeypatch.setattr("app.db.DB_PATH", tmp_path / "app.db")
 
