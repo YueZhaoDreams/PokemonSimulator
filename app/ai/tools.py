@@ -17,7 +17,14 @@ from app.db import (
     save_simulation,
     save_user_strategy,
 )
-from app.engine.models import CANONICAL_RULE_PRESETS, Card, resolve_simulation_rules, rule_preset_label
+from app.engine.fate import compute_ceilings
+from app.engine.models import (
+    CANONICAL_RULE_PRESETS,
+    Card,
+    infer_rule_preset_from_rules,
+    resolve_simulation_rules,
+    rule_preset_label,
+)
 from app.engine.montecarlo import run_simulation
 from app.engine.overlay import OverlayError
 from app.engine.probability import draw_probability
@@ -55,6 +62,22 @@ TOOL_SCHEMAS = [
                 "draw": {"type": "integer", "default": 7},
             },
             "required": ["deck_id", "card_name"],
+        },
+    },
+    {
+        "name": "deck_ceilings",
+        "description": (
+            "Whole-list copy ceilings for a saved deck under its rules: per name copies, legal copy cap, "
+            "P(at least one) in the opening hand and at effective seen cards (opening hand plus printed "
+            "'Draw N cards' operators in the list). Hypergeometric, pre-mulligan; not a win rate."
+        ),
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "deck_id": {"type": "string"},
+                "rule_preset": {"type": "string", "description": "b, c, s30, or s60. Omit to use the deck's own rule."},
+            },
+            "required": ["deck_id"],
         },
     },
     {
@@ -636,6 +659,17 @@ def run_tool(name: str, args: dict[str, Any]) -> Any:
             return {"error": "deck not found"}
         names = [c["name"] for c in deck["cards"]]
         return draw_probability(args["card_name"], names, int(args.get("draw") or 7))
+    if name == "deck_ceilings":
+        deck = _usable_deck(str(args.get("deck_id") or ""))
+        if not deck:
+            return {"error": "deck not found"}
+        rules = _match_rules(rule_preset=args.get("rule_preset"), decks=[deck])
+        if isinstance(rules, dict) and rules.get("error"):
+            return rules
+        report = compute_ceilings(_cards(deck), rules, preset=infer_rule_preset_from_rules(rules))
+        report["deck_id"] = deck["id"]
+        report["deck_name"] = deck["name"]
+        return report
     if name == "simulate_match":
         deck_a = _usable_deck(args["deck_a_id"])
         deck_b = _usable_deck(args["deck_b_id"])

@@ -53,11 +53,13 @@ from app.engine.models import (
     CANONICAL_RULE_PRESETS,
     RULE_PRESETS,
     default_rule_presets_for,
+    infer_rule_preset_from_rules,
     normalize_rule_presets,
     resolve_simulation_rules,
     rule_preset_label,
     rules_from_preset,
 )
+from app.engine.fate import compute_ceilings
 from app.engine.montecarlo import run_simulation
 from app.engine.overlay import OverlayError
 from app.engine.probability import draw_probability
@@ -425,6 +427,25 @@ def api_probability(payload: dict, user: dict = Depends(require_user)) -> dict:
         raise HTTPException(404, "Deck not found")
     names = [c["name"] for c in deck["cards"]]
     return draw_probability(payload.get("card_name") or "", names, int(payload.get("draw") or 7))
+
+
+@app.get("/api/decks/{deck_id}/fate/ceilings")
+def api_fate_ceilings(deck_id: str, rule_preset: str | None = None, user: dict = Depends(require_user)) -> dict:
+    deck = get_deck(deck_id)
+    if not _can_use_deck(user, deck):
+        raise HTTPException(404, "Deck not found")
+    try:
+        rules = resolve_simulation_rules(rule_preset=rule_preset, decks=[deck], fallback=get_rules())
+    except ValueError as exc:
+        raise HTTPException(400, str(exc)) from exc
+    report = compute_ceilings(
+        [Card.from_dict(c) for c in deck["cards"]],
+        rules,
+        preset=infer_rule_preset_from_rules(rules),
+    )
+    report["deck_id"] = deck["id"]
+    report["deck_name"] = deck["name"]
+    return report
 
 
 @app.post("/api/simulate")
