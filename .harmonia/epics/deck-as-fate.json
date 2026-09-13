@@ -43,5 +43,38 @@
     }
   ],
   "passed_gates": [],
-  "gate_reports": {}
+  "gate_reports": {
+    "copy-ceilings": {
+      "verified_at": "2026-09-13T01:00:09.286832+00:00",
+      "verifier_agent": "cursor-verify-gate",
+      "consumer": "agent",
+      "verifier": "agent-auto",
+      "environment": "http://127.0.0.1:8000 serving main 7926c1a (includes #93 squash a833d3f and #92 Carpet G plus); ./run.sh restarted after merge",
+      "overall_status": "pass",
+      "steps": [
+        {
+          "step": "1 Set G ceilings equal draw_probability within 1e-9, cap 4 from rules",
+          "status": "pass",
+          "evidence": "GET /api/decks/seed-g/fate/ceilings (4 ms): preset=s60 deck_size=60 opening_hand=7 names=26 max|p_opening-draw_probability|=0.00e+00 non-basic-energy caps=[4]"
+        },
+        {
+          "step": "2 four-copy name outranks one-copy name; absent name absent",
+          "status": "pass",
+          "evidence": "Ledian copies=4 p_opening=0.3995; Mewtwo copies=1 p_opening=0.1167; 'Mega Clefable ex' in names: False"
+        },
+        {
+          "step": "3 30-card preset reports deck size 30 and its cap; game.py untouched",
+          "status": "pass",
+          "evidence": "seed-c count=30; preset b: deck_size=30 cap=4; s30 override cap=2; git diff a833d3f~1 a833d3f -- app/engine/game.py (slice squash commit): 'empty'"
+        },
+        {
+          "step": "4 printed +3 draw raises effective_seen to opening+3; 1-of gains 3/60, 4-of gains more",
+          "status": "pass",
+          "evidence": "Hop text='Draw 3 cards.'; effective_seen=10 opening=7; Mewtwo p_gain=0.050000 (3/60=0.050000); Ledian p_gain=0.128221; counted operators=[('Hop', 3, 1)]; not counted=[('Surfer', 'draw_until_hand')]"
+        }
+      ],
+      "also": ".venv/bin/pytest -q -> 452 passed on the merged branch; tests/test_fate_ceilings.py + tests/test_probability.py -> 14 passed",
+      "recommendation": "pass (agent-auto, all steps passed). Not appended to passed_gates: operator did not request auto-pass in this session."
+    }
+  }
 }
