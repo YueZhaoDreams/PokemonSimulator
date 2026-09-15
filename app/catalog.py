@@ -776,7 +776,7 @@ def _is_tcgdex_asset_url(url: str) -> bool:
 
 
 def fill_missing_card_image(card: dict[str, Any]) -> dict[str, Any]:
-    """Attach TCGDex art when a stored/resolved card has a print id but no picture."""
+    """Fill missing TCGDex art, and rewrite stale TCGDex asset URLs for the same print."""
     cid = str(card.get("catalog_id") or card.get("id") or "").strip()
     name = str(card.get("name") or "").strip()
     image = str(card.get("image") or "").strip()

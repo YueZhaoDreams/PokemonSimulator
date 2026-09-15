@@ -277,6 +277,24 @@ def _ensure_admin(conn: sqlite3.Connection) -> str:
     return user_id
 
 
+def _card_names(cards) -> list:
+    if not isinstance(cards, list):
+        return []
+    names: list = []
+    for card in cards:
+        if not isinstance(card, dict):
+            return []
+        names.append(card.get("name"))
+    return names
+
+
+def _card_names_from_json(cards_json: str | None) -> list:
+    try:
+        return _card_names(json.loads(cards_json or "[]"))
+    except (TypeError, json.JSONDecodeError):
+        return []
+
+
 def _upsert_seed_decks(conn: sqlite3.Connection, owner_id: str | None = None) -> None:
     from app.seed import load_seed_payload
 
@@ -295,11 +313,8 @@ def _upsert_seed_decks(conn: sqlite3.Connection, owner_id: str | None = None) ->
         presets_json = json.dumps(default_rule_presets_for(deck["id"]))
         want_cards = deck["cards"]
         if existing:
-            try:
-                have_names = [c.get("name") for c in json.loads(existing["cards_json"] or "[]")]
-            except (TypeError, json.JSONDecodeError):
-                have_names = []
-            want_names = [c.get("name") for c in want_cards]
+            have_names = _card_names_from_json(existing["cards_json"])
+            want_names = _card_names(want_cards)
             # Locked seed names refresh; same-name print swaps stay.
             if have_names != want_names:
                 conn.execute(

@@ -213,3 +213,16 @@ def test_stale_seed_list_refreshes_on_init(tmp_path, monkeypatch):
     assert names.count("Telepathic Psychic Energy") == 2
     assert names.count("Psychic Energy") == 14
     assert names.count("Tool Box") == 0
+
+
+def test_malformed_seed_cards_json_refreshes_on_init(tmp_path, monkeypatch):
+    from app.db import connect
+
+    monkeypatch.setattr("app.db.DB_PATH", tmp_path / "app.db")
+    init_db()
+    with connect() as conn:
+        conn.execute("UPDATE decks SET cards_json=? WHERE id='seed-g'", ('["Emolga"]',))
+    init_db()
+    names = [c["name"] for c in get_deck("seed-g")["cards"]]
+    assert names.count("Mega Clefable ex") == 1
+    assert names.count("Emolga") == 0
