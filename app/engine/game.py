@@ -1038,8 +1038,6 @@ class Game:
             if parent is None:
                 break
             name = (parent.evolves_from or "").lower()
-        if basic.types and evo.types and basic.types[0] == evo.types[0] and basic.types[0] != "Colorless":
-            return bool(basic.is_basic)
         return False
 
     def _candy_skip(self, me: Player, target: Pokemon, evo: Card | None) -> bool:
@@ -1145,7 +1143,7 @@ class Game:
                 if "mega clefable" in evo.name.lower():
                     continue
                 target = self._find_evolve_target(me, evo)
-                if target is None or not self._can_evolve_now(me, who, target):
+                if target is None or not self._can_evolve_now(me, who, target, evo):
                     continue
                 self._do_evolve(me, target, evo_i)
                 changed = True
@@ -1154,7 +1152,7 @@ class Game:
         if mega_i is None or not self._g_mega_evolve_ok(me, foe, who):
             return
         target = self._g_mega_evolve_target(me)
-        if target is None or not self._can_evolve_now(me, who, target):
+        if target is None or not self._can_evolve_now(me, who, target, me.card(mega_i)):
             return
         self._do_evolve(me, target, mega_i)
 
@@ -4483,7 +4481,7 @@ class Game:
         for mon in me.in_play():
             if not self._is_clefairy(me.card(mon.card_i)):
                 continue
-            if not self._can_evolve_now(me, who, mon):
+            if not self._can_evolve_now(me, who, mon, evo):
                 continue
             if self._metronome_copy_worth_attacking(
                 me, foe, mon, evo, extra_colorless=extra, as_card_i=evo_i
@@ -5989,7 +5987,8 @@ class Game:
         if self._facing_phantom(me):
             return False
         target = self._g_mega_evolve_target(me)
-        if target is None or not self._can_evolve_now(me, who, target):
+        mega = next((me.card(i) for i in me.hand if "mega clefable" in me.card(i).name.lower()), None)
+        if target is None or mega is None or not self._can_evolve_now(me, who, target, mega):
             return False
         if self._g_moons_would_ko(me, foe, target):
             return True
@@ -6910,7 +6909,7 @@ class Game:
             for mon in me.in_play():
                 if me.card(mon.card_i).name.lower() != (evo.evolves_from or "").lower():
                     continue
-                if not self._can_evolve_now(me, who, mon):
+                if not self._can_evolve_now(me, who, mon, evo):
                     continue
                 candidates.append(mon)
             if not candidates:
@@ -7311,7 +7310,7 @@ class Game:
             mon
             for mon in me.in_play()
             if me.card(mon.card_i).name.lower() == (evo.evolves_from or "").lower()
-            and self._can_evolve_now(me, who, mon)
+            and self._can_evolve_now(me, who, mon, evo)
         ]
         if not candidates:
             return

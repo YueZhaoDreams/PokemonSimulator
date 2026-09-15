@@ -756,6 +756,18 @@ def test_rare_candy_skips_porygon_to_z_without_porygon2_in_sixty():
     assert "Porygon2" not in {c.name for c in me.cards}
 
 
+def test_same_line_does_not_guess_by_shared_type():
+    game = _game()
+    me = game.players["a"]
+    used: set[int] = set()
+    porygon = _take(me, "Porygon", used)
+    poryz = _take(me, "Porygon-Z", used)
+    assert game._same_line(me.card(porygon), me.card(poryz))
+    assert game._same_line(fallback_named("Tinkatink"), fallback_named("Tinkaton"))
+    assert not game._same_line(fallback_named("Clefairy"), fallback_named("Tinkaton"))
+    assert not game._same_line(fallback_named("Tinkatink"), fallback_named("Porygon-Z"))
+
+
 def test_rare_candy_blocked_same_turn_even_with_bts():
     game = _game()
     me = game.players["a"]
@@ -771,6 +783,32 @@ def test_rare_candy_blocked_same_turn_even_with_bts():
     game._set_stadium(me.card(bts))
     assert game._stadium_allows_immediate_evolve()
     assert not game._can_evolve_now(me, "a", me.active, me.card(poryz))
+    game._evolve(me, game.players["b"], "a")
+    assert me.card(me.active.card_i).name == "Porygon"
+    assert candy in me.hand
+
+
+def test_evolve_g_does_not_candy_same_turn_basic_with_bts():
+    game = Game(
+        build_g30_deck(),
+        build_fallback_deck(list(SET_C60_NAMES)),
+        standard_60_rules(),
+        StrategySpec.from_dict("g"),
+        StrategySpec.from_dict("party"),
+        Random(1),
+    )
+    me = game.players["a"]
+    used: set[int] = set()
+    porygon = _take(me, "Porygon", used)
+    poryz = _take(me, "Porygon-Z", used)
+    candy = _take(me, "Rare Candy", used)
+    bts = _take(me, "Broken Time-Space", used)
+    me.active = Pokemon(card_i=porygon, played_turn=3)
+    me.hand = [poryz, candy]
+    game.turn = 3
+    game.first = "b"
+    game.strats["a"].evolve_asap = 1.0
+    game._set_stadium(me.card(bts))
     game._evolve(me, game.players["b"], "a")
     assert me.card(me.active.card_i).name == "Porygon"
     assert candy in me.hand
