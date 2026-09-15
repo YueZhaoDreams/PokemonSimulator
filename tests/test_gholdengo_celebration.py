@@ -621,16 +621,17 @@ def test_forest_seal_on_raikou_searches_any_card():
     me = game.players["a"]
     used: set[int] = set()
     raikou = _take(me, "Raikou V", used)
+    ambipom = _take(me, "Ambipom", used)
     stone = _take(me, "Forest Seal Stone", used)
     candy = _take(me, "Rare Candy", used)
-    rest = [i for i in range(len(me.cards)) if i not in used]
-    me.active = Pokemon(card_i=raikou, played_turn=0, tool=stone)
+    me.active = Pokemon(card_i=ambipom, played_turn=0)
+    me.bench = [Pokemon(card_i=raikou, played_turn=0, tool=stone)]
     me.hand = []
-    me.deck = [candy, *rest]
+    me.deck = [candy]
     game._use_passive_abilities(me, "a")
     assert game.events.get("star_alchemy") == 1
     assert candy in me.hand
-    assert game.players["a"].vstar_used is True
+    assert me.vstar_used is True
 
 
 def test_rare_candy_skips_porygon_to_z_without_porygon2_in_sixty():
