@@ -154,4 +154,5 @@ Household Candy Dragapult and Ogerpon go up; Hedrick (Munkidori / Risky Ruins, s
 - Do not cut a Psychic Energy for Lillie's Clefairy ex. Fairy Zone helps T60 / Hedrick a little and costs ~5 points vs D60 (see [set-c60-lillie-clefairy-ex.md](set-c60-lillie-clefairy-ex.md)).
 - Energy line is **13 Psychic + 2 Telepathic Psychic Energy**. Do not go to 3 or 4 Telepathic: T60 going second collapses (see [set-c60-telepathic-energy.md](set-c60-telepathic-energy.md)).
 - Do not cut Maximum Belt + Tool Box + Arven for 2 more Telepathic plus a free slot. Dragapult rises ~3–5 points; Charm Ogerpon drops ~14 because Photon 7 + Belt is the 270 OHKO on 260 Charm (see [set-c60-belt-vs-telepathic.md](set-c60-belt-vs-telepathic.md)).
+- If only Tool Box is cut (Belt + Arven stay), the open slot is a **14th Psychic Energy**, not a 3rd Telepathic: T60 going second falls to 46.4% with the extra special (see [set-c60-toolbox-swap.md](set-c60-toolbox-swap.md)). 4th Boss / 3rd Iono also lose T60. Locked C60 still has Tool Box until that 14th Psychic is accepted as a lock.
 - Do not treat this as a replacement for Family Cup Set C. Rule B Clefable-as-energy is a different game.
