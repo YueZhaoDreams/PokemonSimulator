@@ -94,10 +94,14 @@ CUT_ONE = (
     "Ultra Ball",
 )
 
+# Locked Friday 3-for-3 after the bakeoff: 3 Boss for Potion / Poké Ball / Plusle.
+# Confirmed 3,000 games on t60 / Hedrick / D60 / UNL (seed 20260915).
+FRIDAY_CUTS = ("Potion", "Poké Ball", "Plusle")
+
 # Named 3-for-3 packages (3 Boss in). Auto top-3 from the screen is added at run.
 PACKAGES = (
     ("junk", ("Potion", "Poké Ball", "Hop's Cramorant")),
-    ("plusle", ("Potion", "Poké Ball", "Plusle")),
+    ("plusle", FRIDAY_CUTS),
     ("relicanth", ("Potion", "Poké Ball", "Relicanth")),
     ("kecleon", ("Potion", "Poké Ball", "Kecleon")),
     ("ledian3", ("Ledian", "Ledian", "Ledian")),
@@ -125,6 +129,10 @@ def live_g_names() -> list[str]:
     for old, new in LIVE_G_SWAPS:
         names[names.index(old)] = new
     return names
+
+
+def friday_g_names() -> list[str]:
+    return add_boss(live_g_names(), 3, FRIDAY_CUTS)
 
 
 def apply_cuts_adds(names: list[str], cuts: tuple[str, ...] | list[str], adds: tuple[str, ...] | list[str]) -> list[str]:

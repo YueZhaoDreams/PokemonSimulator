@@ -59,3 +59,42 @@ def test_one_boss_cut_each_candidate():
         assert len(names) == 60
         assert names.count("Boss's Orders") == 1
         assert names.count(cut) == base.count(cut) - 1
+
+
+def test_friday_g_is_live_plus_three_boss_for_potion_ball_plusle():
+    names = LAB.friday_g_names()
+    live = Counter(LAB.live_g_names())
+    friday = Counter(names)
+    assert len(names) == 60
+    assert friday["Boss's Orders"] == 3
+    assert friday["Potion"] == 0
+    assert friday["Poké Ball"] == 0
+    assert friday["Plusle"] == 0
+    assert friday["Mega Clefable ex"] == 1
+    assert friday["Tornadus"] == 1
+    assert friday["Clefairy"] == 4
+    assert friday["Energy Switch"] == 1
+    assert live - friday == Counter({"Potion": 1, "Poké Ball": 1, "Plusle": 1})
+    assert friday - live == Counter({"Boss's Orders": 3})
+    assert copy_violations(build_fallback_deck(names), standard_60_rules()) == []
+
+
+def test_friday_json_plusle_beats_baseline_on_dragapult():
+    import json
+    from pathlib import Path
+
+    blob = json.loads(
+        (Path(__file__).resolve().parents[1] / "data/lab/set-g-boss-friday.json").read_text()
+    )
+    plusle = blob["cells"]["plusle"]
+    base = blob["cells"]["baseline"]
+    assert plusle["t60"]["a"] > base["t60"]["a"]
+    assert plusle["hedrick"]["a"] > base["hedrick"]["a"]
+    assert plusle["unl"]["a"] > base["unl"]["a"]
+    assert Counter(blob["lists"]["plusle"]) == Counter(LAB.friday_g_names())
+    confirm = json.loads(
+        (Path(__file__).resolve().parents[1] / "data/lab/set-g-boss-friday-confirm.json").read_text()
+    )
+    assert confirm["games"] == 3000
+    assert confirm["weighted"]["plusle"] > confirm["weighted"]["junk"]
+    assert confirm["weighted"]["plusle"] > confirm["weighted"]["baseline"]
