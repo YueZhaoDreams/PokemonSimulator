@@ -40,6 +40,8 @@ Puzzle of Time, Scoop Up Net, Forest of Giant Plants, Broken Time-Space, Lysandr
 
 停手：手牌 28 再转一圈到 30，或 29 时用 Trade +1 / 多打一张 Item −1。然后 **[M] Celebration** 拿 2 奖，手牌洗回库。
 
+**考虑了：2 奖 / 枪，Unlimited 6 奖，不是一轮杀。** 6 ÷ 2 = **至少 3 次 Celebration**（一回合一次攻击）。后手最早 T1/T2/T3；先手 T1 不能攻击，最早 T2/T3/T4（**4 个我方回合**）。Ambipom 600 也占一次攻击，替不掉枪数。上一版 60 只写了第一枪；这版把 Octillery / Junk Arm / Sableye 写进 60，专门接第二、第三枪。见 **Three Celebrations**。
+
 同回合再进化用 **Broken Time-Space**（Platinum 体育场）：本回合刚打出或刚进化的宝可梦可以再进化。Porygon → Porygon2 → Porygon-Z、Gimmighoul → Gholdengo、Dunsparce → Dudunsparce 都可以在同一回合完成。Wally ROS 是一次性支援者备份。Forest of Vitality 在 Unlimited 里比 Forest of Giant Plants / BTS 弱，不是这副的体育场。
 
 Abra Teleporter 把 Energy 洗进 **牌库**，不如 Scoop Up Net 把 Energy 送进 **弃牌** 再被 Puzzle of Time 拿回手。Speed Lightning Energy 贴 Abra（Psychic）不抽牌；Speed L 循环在付完 Scoop/重放成本后净 **0**，不要当增长引擎。
@@ -48,47 +50,105 @@ Abra Teleporter 把 Energy 洗进 **牌库**，不如 Scoop Up Net 把 Energy �
 
 ---
 
-## The 60 (Unlimited constructed)
+## Three Celebrations (6 prizes)
 
-This is the pile to test. Counts are 4-of / ACE SPEC 1. Printings are the ones whose text this lab uses; any earlier print of the same English name plays with the latest wording.
+Celebration takes **2** prizes and then shuffles **the hand** into the deck. It does not win the game. Board, attached cards, and the discard pile stay.
+
+| | |
+|---|---|
+| Prizes to win | 6 |
+| Per Celebration | 2 |
+| Attacks required | **3** (2+2+2). One attack per turn, so **3 of our attack turns** |
+| Going second | Earliest calendar: our T1, T2, T3 if every attack is a Celebration |
+| Going first | T1 cannot attack. Earliest: T2, T3, T4 (**4 of our turns**) |
+| If Junk Hunt is needed between shots | Extra non-Celebration turns. 3 shots + 2 rebuilds = 5 of our turns |
+
+After each successful Celebration the next turn starts at **hand = 1** (the draw). The +2 loop only restarts if Enriching Energy, Scoop Up Net, and two Puzzle of Time are reachable from **play + discard**, not from the vanished hand.
+
+**End the loop like this, or the second shot dies:**
+
+1. Leave Enriching Energy **attached** to Bench Abra (last action is attach, not Net). It is not in the 30-card hand, so Celebration does not shuffle it away.
+2. Leave Metal attached to Mew / Gholdengo. Same reason.
+3. Leave Porygon-Z and Octillery in play. Abyssal Hand is how turn 2 and turn 3 start.
+4. Prefer Puzzle of Time / Scoop Up Net in the **discard** (play the last Puzzle pair retrieving other cards, not the last two Puzzles). Cards in hand get shuffled; cards in discard do not.
+5. Do not Research / Iono / N yourself on a 30-hand.
+
+**Turn after Celebration:**
+
+1. Draw 1. Octillery **Abyssal Hand** → 5.
+2. Need two Puzzle of Time in hand. They are Items in discard.
+   - **Junk Arm** TM 87: discard **2**, put a Trainer (Item) from discard into hand. Cannot retrieve Junk Arm. From Octillery’s 5 this usually buys **one** Puzzle, not two.
+   - **Sableye Junk Hunt** `[D]`: put **2** Items from discard into hand. Reliable, but **spends the attack**, so that turn is not a Celebration.
+3. Scoop Up Net the Abra that still holds Enriching → Energy to discard, Abra to hand.
+4. Replay Abra. Crazy Code attach. +2 loop back to 30. Celebration again.
+
+Junk Hunt is the reliable retrieve and the reason the calendar is **3–4+ of our turns**, not 3 guaranteed Celebrations. Junk Arm tries to retrieve without spending the attack, so a going-second T1/T2/T3 triple Celebration stays possible if the 5-card Octillery hand contains Junk Arm / Net.
+
+**On a Junk Hunt turn, do not pass with 30 in hand.** You already spent the attack. Loop only far enough to re-park Enriching on Bench Abra and Puzzle / Net in discard, then end small. Passing 30 invites N / Iono / Judge; the next turn would start at the wrong count.
+
+Opponent gets a full turn after shot 1 and shot 2. Gust Porygon-Z or Octillery, or N / Judge, can stop the rebuild. N after our hand is already empty can accidentally refill us (draw equal to remaining prizes).
+
+---
+
+## The 60 (Unlimited constructed, three-shot)
+
+Built to fire Celebration **three times**, not once. Printings are the text this lab uses.
 
 | Qty | Card | Set | Why |
 |---:|---|---|---|
-| 4 | Abra | TWM 80 | Enriching host. 40 HP → Poffin. Scoop Up Net legal. Teleporter is backup only. |
-| 4 | Porygon | UNB 154 | 50 HP → Poffin. BTS into Porygon2 the turn it is played. |
-| 2 | Porygon2 | UNB 156 | BTS into Porygon-Z the turn it evolves. |
-| 2 | Porygon-Z | UNB 157 | **Crazy Code** |
-| 4 | Gimmighoul | 30th Celebration 81 | 60 HP → Poffin. BTS into Gholdengo. |
-| 3 | Gholdengo | 30th Celebration 108 | **[M] Celebration** |
-| 1 | Mew ex | 30th Celebration 66 | Memory Helix copies benched Celebration. 0 retreat. Keep this Active; loop Abra on the Bench. |
-| 4 | Puzzle of Time | BKP 109 | Play 2: any 2 cards from discard to hand. The recycle. |
-| 4 | Scoop Up Net | RCL 165 | Host to hand, Enriching to discard. |
-| 4 | Broken Time-Space | PL 104 | Same-turn evolution stadium. |
-| 4 | Nest Ball | SVI 181 (or any Nest Ball) | Basic to Bench (Abra / Porygon / Gimmighoul). |
-| 4 | Buddy-Buddy Poffin | TEF 144 | Up to 2 Basics ≤70 HP to Bench. |
-| 4 | Ultra Ball | MEG reprint | Any Pokémon to hand. |
-| 4 | VS Seeker | PHF 109 | Wally / Research back from discard. |
-| 2 | Wally | ROS 94 | Evolve a Pokémon played this turn if BTS is not in play. |
-| 2 | Professor's Research | I reprint | Setup only. Never after the hand is large. |
-| 2 | Battle Compressor | FCO 137 / UNB 223 | Mill Puzzle of Time into discard so the pair in hand can start retrieving. |
-| 1 | Switch | MEG reprint | If Mew is not Active and Gholdengo must attack. |
-| 1 | Enriching Energy | SSP 191 | ACE SPEC. +4 on attach from hand. |
-| 4 | Basic Metal Energy | any | Rule-attach onto Mew / Gholdengo for Celebration. Crazy Code does not attach Basic Metal. |
+| 3 | Abra | TWM 80 | Enriching host. 40 HP → Poffin. |
+| 3 | Porygon | UNB 154 | 50 HP → Poffin. |
+| 2 | Porygon2 | UNB 156 | BTS into Porygon-Z. |
+| 2 | Porygon-Z | UNB 157 | Crazy Code. Must survive all three shots. |
+| 2 | Remoraid | BKT 32 | 60 HP → Poffin. |
+| 2 | Octillery | BKT 33 | **Abyssal Hand**: every post-Celebration turn, 1 card → 5. Bench, stays in play. One copy is enough; two for prizes / KO. |
+| 2 | Sableye | DEX 62 | 70 HP → Poffin. **Junk Hunt** `[D]`: 2 Items from discard to hand. Rebuild turn when Junk Arm misses. |
+| 3 | Gimmighoul | 30th Celebration 81 | BTS into Gholdengo. |
+| 2 | Gholdengo | 30th Celebration 108 | Celebration. Two copies because the attacker must live three turns. |
+| 1 | Mew ex | 30th Celebration 66 | Active copy of Celebration. 0 retreat. Metal stays attached between shots. |
+| 4 | Puzzle of Time | BKP 109 | Loop recycle. Park in discard before Celebration. |
+| 4 | Scoop Up Net | RCL 165 | Park in discard before Celebration. |
+| 4 | Junk Arm | TM 87 | Discard 2, one Item from discard (not Junk Arm). Helps a Celebration restart if the Octillery 5 already has fuel. |
+| 3 | Broken Time-Space | PL 104 | Same-turn evo. After the board is built, keep it or lose re-evolve if something is KO’d. |
+| 3 | Nest Ball | any | |
+| 3 | Buddy-Buddy Poffin | TEF 144 | Abra, Porygon, Gimmighoul, Remoraid, Sableye all ≤70. |
+| 3 | Ultra Ball | any | |
+| 4 | VS Seeker | PHF 109 | |
+| 2 | Wally | ROS 94 | |
+| 1 | Professor's Research | any | Setup only. |
+| 1 | Battle Compressor | FCO / UNB | Mill Puzzle into discard. |
+| 1 | Switch | any | Sableye Active for Junk Hunt ↔ Mew Active for Celebration. |
+| 1 | Enriching Energy | SSP 191 | ACE SPEC. Leave **attached** through Celebration. |
+| 3 | Basic Metal Energy | any | Attach to Mew / Gholdengo on the first combo turn; leave it there. |
+| 1 | Basic Darkness Energy | any | Junk Hunt cost on a Sableye turn. |
 
-**20 Pokémon + 35 Trainers + 5 Energy = 60.**
+**22 Pokémon + 33 Trainers + 5 Energy = 60.**
 
-Not in this 60 (on purpose): Forest of Vitality, Speed Lightning Energy, Dudunsparce, Scoop Up Cyclone, Grand Tree, Precious Trolley, Computer Search, Shaymin-EX, Dedenne-GX, Iono, N, Jirachi ex.
+This is **not** the one-shot 60 from the previous pass. The rebuild package is 2 Remoraid, 2 Octillery, 2 Sableye, 4 Junk Arm (+10). Paid for by −1 Abra, −1 Porygon, −1 Gimmighoul, −1 Gholdengo, −1 Broken Time-Space, −1 Nest, −1 Poffin, −1 Ultra Ball, −1 Research, −1 Battle Compressor (−10). Metal 4→3; +1 Darkness for Junk Hunt. Net Pokémon 20→22, Trainers 35→33, Energy 5.
 
-**Ambipom backup (swap 4):** −1 Gholdengo, −1 Porygon2, −1 Nest Ball, −1 Poffin, +2 Aipom PAR, +2 Ambipom PAR 146 (Hand Fling 20×). 30 cards in hand → 600. Same loop.
+| | One-shot 60 (previous commit) | Three-shot 60 (this list) |
+|---|---|---|
+| Win condition | First 30-hand Celebration | **Three** Celebrations (or 2 + one KO — still 3 attacks) |
+| After Celebration | Lab stopped | Engine still on board + discard |
+| Persistent draw | None | Octillery Abyssal Hand → 5 |
+| Puzzle / Net retrieve | None | Junk Arm (Item turn) and/or Sableye Junk Hunt (attack turn) |
+| Stadium | 4 Broken Time-Space | 3 Broken Time-Space |
+| Combo Cub stop | First Celebration | Third Celebration / 6 prizes taken |
 
-Goldfish once the board is up (going second, not a guaranteed opener):
+Not in this 60: Forest of Vitality, Speed L Energy, Dudunsparce, Shaymin-EX (Set Up caps at 6; GX so Net cannot bounce it), Dedenne-GX (discards the 30-hand), Iono / N as our own closer.
 
-1. Play Broken Time-Space.
-2. Poffin / Nest Abra, Porygon, Gimmighoul. BTS: Porygon → Porygon2 → Porygon-Z; Gimmighoul → Gholdengo. Play Mew ex Active if you have it.
-3. Rule-attach Metal to Mew or Gholdengo.
-4. Crazy Code Enriching Energy onto **Bench Abra** (+4).
-5. Scoop Up Net that Abra. Puzzle of Time ×2 → Enriching + Net. Replay Abra. Repeat. Net **+2** per cycle.
-6. Stop on **30**. Celebration (or Mew copies it). Take 2 of 6 prizes.
+**Ambipom backup (swap 4):** −1 Gholdengo, −1 Porygon2, −1 Nest, −1 Poffin, +2 Aipom PAR, +2 Ambipom PAR 146. Does **not** reduce the number of attacks: 600 damage is still one attack. At best 2 Celebrations (4 prizes) + one Ambipom KO of a 2-prize Pokémon (2) = still **3 attacks**.
+
+Goldfish (going second, board already up):
+
+1. BTS, build Porygon-Z, Gholdengo, Octillery, Abra. Mew Active. Metal on Mew.
+2. Loop to 30. **Stop with Enriching on Abra and Puzzle/Net in discard.** Celebration. 6→4 prizes. Hand gone.
+3. Opponent’s turn.
+4. Draw 1. Octillery to 5. If that 5 can Junk Arm a Net and still assemble two Puzzle, scoop Abra and Celebration the same turn (4→2 prizes). If not, Switch Sableye Active, Junk Hunt 2 Puzzle, **skip Celebration**.
+5. Opponent’s turn.
+6. Repeat until three Celebrations. 2→0 prizes.
+
+Honest calendar: **3 Celebration attacks** is the prize floor. **3 of our turns** only if every post-reset hand restarts without Junk Hunt. **4 of our turns** if we go first, or if one rebuild spends Sableye. **5** if both rebuilds need Junk Hunt.
 
 ---
 
@@ -321,9 +381,10 @@ Pick **Enriching Energy**. Scoop Up Cyclone would return Energy to hand without 
 ## Combo Cub
 
 - Simulate on **`s60`** (60 cards, 6 prizes, 4-of). That is the Unlimited constructed skeleton.
-- The list must include Unlimited cards (Puzzle of Time, Scoop Up Net, Broken Time-Space, Porygon-Z, Enriching Energy, 30th Gholdengo). A Standard-rotated 60 is the wrong pool.
+- The list must include Unlimited cards (Puzzle of Time, Scoop Up Net, Broken Time-Space, Porygon-Z, Enriching Energy, 30th Gholdengo, Octillery, Sableye Junk Hunt, Junk Arm). A Standard-rotated 60 is the wrong pool.
 - Do not test this win condition on Family Cup 30-card presets.
-- Engine today already parses Dudunsparce-style “draw then shuffle this Pokémon into your deck.” It does not parse Celebration, Crazy Code, Teleporter, Enriching Energy attach-from-hand, Puzzle of Time’s two-card discard search, or Scoop Up Net. A later feature needs tests that quote those printed sentences. Do not hardcode a look size from Puzzle of Time’s single-card mode.
+- **Do not stop the goldfish at the first Celebration.** Two stop conditions: (a) time-to-first-30 / first Celebration, (b) turns until **three** Celebrations / 6 prizes, including the Octillery → Junk Arm / Junk Hunt rebuild. Report how often the second and third shots spend a Sableye attack (that is the 3-turn vs 4-turn vs 5-turn split).
+- Engine today already parses Dudunsparce-style “draw then shuffle this Pokémon into your deck.” It does not parse Celebration, Crazy Code, Teleporter, Enriching Energy attach-from-hand, Puzzle of Time’s two-card discard search, Scoop Up Net, Octillery Abyssal Hand, Sableye Junk Hunt, or Junk Arm. A later feature needs tests that quote those printed sentences. Do not hardcode a look size from Puzzle of Time’s single-card mode.
 
 ---
 
