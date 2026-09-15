@@ -1,4 +1,4 @@
-import sys
+import importlib.util
 from pathlib import Path
 from random import Random
 
@@ -8,8 +8,25 @@ from app.engine.models import standard_60_rules
 from app.engine.strategies import StrategySpec
 from app.seed_data import SET_C60_NAMES, SET_T60_NAMES, build_fallback_deck
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "data" / "lab"))
-from set_c60_belt_vs_telepathic import extra, variant_lists
+
+def _load_lab():
+    path = Path(__file__).resolve().parents[1] / "data" / "lab" / "set_c60_belt_vs_telepathic.py"
+    spec = importlib.util.spec_from_file_location(path.stem, path)
+    module = importlib.util.module_from_spec(spec)
+    assert spec.loader is not None
+    spec.loader.exec_module(module)
+    return module
+
+
+LAB = _load_lab()
+
+
+def extra(*cards: str) -> list[str]:
+    return LAB.extra(*cards)
+
+
+def variant_lists() -> list[tuple[str, list[str]]]:
+    return LAB.variant_lists()
 
 
 def test_locked_c60_still_has_belt_package_and_two_telepathic():
