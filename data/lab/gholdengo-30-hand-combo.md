@@ -154,11 +154,27 @@ Honest calendar: **3 Celebration attacks** is the prize floor. **3 of our turns*
 
 ## Win-rate array
 
-G30 (`celebration`) as player A vs the household 60s. Not a full NxN remake of `set-c60-unl-matrix`. Rules preset `s60` (60 / 6 prizes / 4-of). First player random. **3,000 games / cell, seed 20260911** — same as `data/lab/set_c60_unl_matrix.py`.
+G30 (`celebration`) as player A vs the household 60s. Not a full NxN remake of `set-c60-unl-matrix`. Rules preset `s60` (60 / 6 prizes / 4-of). First player random. **3,000 games / cell, seed 20260911** — same as `data/lab/set_c60_unl_matrix.py`. Elapsed **75.7s**.
 
 Script: `data/lab/gholdengo-30-array.py`. Numbers: `data/lab/gholdengo-30-array.json`.
 
-The engine must assemble the printed loop (Crazy Code + Enriching + Scoop Up Net + Puzzle of Time) and fire Celebration three times for a prize win. Household 60s still get a full turn after shot 1 and shot 2.
+| A \\ B | c60 | t60 | hedrick | unl | d60 | s60 | g |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| g30 win | 3.3% | 3.9% | 2.9% | 18.1% | 0.9% | 1.7% | 1.0% |
+| first | 3.8% | 4.6% | 3.0% | 20.0% | 1.0% | 1.6% | 1.0% |
+| second | 2.8% | 3.3% | 2.8% | 16.2% | 0.7% | 1.9% | 1.0% |
+| Crazy Code | 19.9% | 11.5% | 15.6% | 20.8% | 9.0% | 32.8% | 21.2% |
+| Puzzle pair | 11.9% | 4.6% | 9.5% | 9.8% | 3.4% | 20.1% | 14.3% |
+| 30-hand | 0 | 1/3000 | 1/3000 | 0 | 0 | 0 | 1/3000 |
+| Celebration | 0 | 1/3000 | 1/3000 | 0 | 0 | 0 | 1/3000 |
+
+Goldfish from a **25-card** board still parks Enriching on Bench Abra at exactly 30 and Celebration takes 2 prizes. Live vs household 60s the 30-hand almost never appears.
+
+Puzzle of Time’s two-card mode returns **two** cards. One pair can retrieve Enriching + Scoop Up Net, or two Puzzle, not all four. The +2 bounce is real but not an infinite same-turn mill-to-30 from a 7-card hand. After the pair, Puzzle sits in discard; Sableye Junk Hunt is the reload (and spends the attack). Junk Arm is net −2 and does not replace that.
+
+Household 60s also kill the board first. C60 Photon Kinesis KOs 160 HP Mew ex for two prizes and 130 HP Porygon-Z / Gholdengo for one. The engine now opens a 1-prize Basic, passes Sharpshooting, and Double Draws on Porygon2, but three Celebrations still need the attacker alive across opponent turns.
+
+Wins in this array are almost all incidental KOs / deck-out, not prize math from Celebration. The 18% vs `unl` is the same: Crazy Code in ~21% of games, Celebration in 0.
 
 ---
 
@@ -394,7 +410,7 @@ Pick **Enriching Energy**. Scoop Up Cyclone would return Energy to hand without 
 - The list must include Unlimited cards (Puzzle of Time, Scoop Up Net, Broken Time-Space, Porygon-Z, Enriching Energy, 30th Gholdengo, Octillery, Sableye Junk Hunt, Junk Arm). A Standard-rotated 60 is the wrong pool.
 - Do not test this win condition on Family Cup 30-card presets.
 - **Do not stop the goldfish at the first Celebration.** Two stop conditions: (a) time-to-first-30 / first Celebration, (b) turns until **three** Celebrations / 6 prizes, including the Octillery → Junk Arm / Junk Hunt rebuild. Report how often the second and third shots spend a Sableye attack (that is the 3-turn vs 4-turn vs 5-turn split).
-- Engine today already parses Dudunsparce-style “draw then shuffle this Pokémon into your deck.” It does not parse Celebration, Crazy Code, Teleporter, Enriching Energy attach-from-hand, Puzzle of Time’s two-card discard search, Scoop Up Net, Octillery Abyssal Hand, Sableye Junk Hunt, or Junk Arm. A later feature needs tests that quote those printed sentences. Do not hardcode a look size from Puzzle of Time’s single-card mode.
+- Engine parses those printed sentences (`tests/test_gholdengo_celebration.py`). Puzzle of Time look-N comes from print, not a hardcoded top-6 in `app/engine/game.py`. Goldfish parks at 30; the household array is in `data/lab/gholdengo-30-array.json`.
 
 ---
 
