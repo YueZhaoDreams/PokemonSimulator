@@ -771,16 +771,24 @@ def _tcgdex_low(card_id: str) -> str:
     return f"https://assets.tcgdex.net/en/{folder}/{series}/{number}/low.webp"
 
 
+def _is_tcgdex_asset_url(url: str) -> bool:
+    return "assets.tcgdex.net/" in url
+
+
 def fill_missing_card_image(card: dict[str, Any]) -> dict[str, Any]:
     """Attach TCGDex art when a stored/resolved card has a print id but no picture."""
-    if str(card.get("image") or "").strip():
-        return card
     cid = str(card.get("catalog_id") or card.get("id") or "").strip()
     name = str(card.get("name") or "").strip()
+    image = str(card.get("image") or "").strip()
     if _looks_like_tcgdex_id(cid):
-        patched = dict(card)
-        patched["image"] = _tcgdex_low(cid)
-        return patched
+        want = _tcgdex_low(cid)
+        if not image or (_is_tcgdex_asset_url(image) and image != want):
+            patched = dict(card)
+            patched["image"] = want
+            return patched
+        return card
+    if image:
+        return card
     if cid and "-" in cid:
         return card
     pin = PREFERRED_IDS.get(name) or ""

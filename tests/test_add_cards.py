@@ -253,6 +253,14 @@ def test_fill_missing_card_image_does_not_paste_household_art_on_other_prints():
     assert other.get("image") in (None, "")
     named = fill_missing_card_image({"name": "Orthworm"})
     assert "sv04/138" in (named.get("image") or "")
+    stale = fill_missing_card_image(
+        {
+            "name": "Telepathic Psychic Energy",
+            "catalog_id": "me03-088",
+            "image": "https://assets.tcgdex.net/en/me03/me03/088/low.webp",
+        }
+    )
+    assert stale["image"] == "https://assets.tcgdex.net/en/me/me03/088/low.webp"
 
 
 def test_resolve_and_replace_orthworm_keeps_art_without_network(tmp_path, monkeypatch):

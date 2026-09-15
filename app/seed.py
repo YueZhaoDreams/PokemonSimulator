@@ -257,9 +257,15 @@ def _ensure_card_images(cards: list[dict]) -> list[dict]:
                 if got_atk != want_atk or int(card.get("hp") or 0) != int(fb_card.hp or 0):
                     stale_body = True
         replace_body = mismatched or stale_body
+        have_art = str(card.get("image") or "")
+        want_art = _tcgdex_low(cid) if _looks_like_tcgdex_id(cid) else ""
+        wrong_art = bool(
+            want_art and have_art and "assets.tcgdex.net/" in have_art and have_art != want_art
+        )
         if (
             card.get("image")
             and not replace_body
+            and not wrong_art
             and (name not in ART_ONLY_IDS or cid == ART_ONLY_IDS.get(name))
         ):
             out.append(card)

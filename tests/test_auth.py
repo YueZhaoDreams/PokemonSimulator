@@ -53,6 +53,7 @@ def test_admin_owns_seed_decks_and_members_are_isolated(tmp_path, monkeypatch):
             "seed-t60",
             "seed-t-meta",
             "seed-t-unl",
+            "seed-g30",
         }
         by_id = {d["id"]: d for d in decks}
         assert by_id["seed-e"]["rule_preset"] == "c"
@@ -73,6 +74,18 @@ def test_admin_owns_seed_decks_and_members_are_isolated(tmp_path, monkeypatch):
         assert by_id["seed-c60"]["count"] == 60
         assert by_id["seed-t-meta"]["name"] == "Worlds 2026 Hedrick Dragapult"
         assert by_id["seed-t-unl"]["count"] == 60
+        assert by_id["seed-g30"]["rule_presets"] == ["s60"]
+        assert by_id["seed-g30"]["count"] == 60
+        assert by_id["seed-g30"]["name"] == "Unlimited 60 (Ambipom Hand Fling)"
+        c60_names = [c["name"] for c in get_deck("seed-c60")["cards"]]
+        assert c60_names.count("Telepathic Psychic Energy") == 2
+        assert c60_names.count("Psychic Energy") == 14
+        assert c60_names.count("Tool Box") == 0
+        teles = [c for c in get_deck("seed-c60")["cards"] if c["name"] == "Telepathic Psychic Energy"]
+        assert all("me/me03/088" in (c.get("image") or "") for c in teles)
+        g_names = [c["name"] for c in get_deck("seed-g")["cards"]]
+        assert g_names.count("Mega Clefable ex") == 1
+        assert g_names.count("Emolga") == 0
         assert all(d["owner_id"] == admin["id"] for d in decks)
         presets = client.get("/api/rule-presets").json()
         assert [p["preset"] for p in presets] == ["b", "c", "s30", "s60"]
@@ -170,7 +183,33 @@ def test_replaced_seed_card_survives_init(tmp_path, monkeypatch):
     init_db()
     seed = get_deck("seed-a")
     cards = list(seed["cards"])
-    cards[0] = {**cards[0], "name": "Replacement Mon"}
+    cards[0] = {**cards[0], "catalog_id": "print-swap-test"}
     save_deck(seed["name"], cards, source=seed.get("source"), deck_id="seed-a", owner_id=seed.get("owner_id"))
     init_db()
-    assert get_deck("seed-a")["cards"][0]["name"] == "Replacement Mon"
+    assert get_deck("seed-a")["cards"][0]["catalog_id"] == "print-swap-test"
+    assert get_deck("seed-a")["cards"][0]["name"] == seed["cards"][0]["name"]
+
+
+def test_stale_seed_list_refreshes_on_init(tmp_path, monkeypatch):
+    monkeypatch.setattr("app.db.DB_PATH", tmp_path / "app.db")
+    init_db()
+    seed = get_deck("seed-c60")
+    stale = []
+    swapped_toolbox = False
+    for card in seed["cards"]:
+        if card["name"] == "Telepathic Psychic Energy":
+            stale.append({**card, "name": "Psychic Energy"})
+        elif card["name"] == "Psychic Energy" and not swapped_toolbox:
+            stale.append({**card, "name": "Tool Box"})
+            swapped_toolbox = True
+        else:
+            stale.append(card)
+    save_deck(seed["name"], stale, source=seed.get("source"), deck_id="seed-c60", owner_id=seed.get("owner_id"))
+    before = [c["name"] for c in get_deck("seed-c60")["cards"]]
+    assert before.count("Tool Box") == 1
+    assert before.count("Telepathic Psychic Energy") == 0
+    init_db()
+    names = [c["name"] for c in get_deck("seed-c60")["cards"]]
+    assert names.count("Telepathic Psychic Energy") == 2
+    assert names.count("Psychic Energy") == 14
+    assert names.count("Tool Box") == 0

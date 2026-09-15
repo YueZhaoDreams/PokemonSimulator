@@ -9348,52 +9348,51 @@
         "dex_id": 369
       },
       {
-        "catalog_id": "sv10.5b-029",
-        "name": "Emolga",
+        "catalog_id": "me03-031",
+        "name": "Mega Clefable ex",
         "category": "Pokemon",
-        "stage": "Basic",
+        "stage": "Stage1",
         "types": [
-          "Lightning"
+          "Psychic"
         ],
-        "hp": 70,
+        "hp": 320,
         "attacks": [
           {
-            "name": "Call for Family",
+            "name": "Shooting Moons",
             "cost": [
-              "Colorless"
+              "Psychic",
+              "Psychic"
             ],
-            "damage": 0,
-            "text": "Search your deck for up to 2 Basic Pok\u00e9mon and put them onto your Bench. Then, shuffle your deck.",
+            "damage": 120,
+            "text": "You may discard up to 4 Energy cards from your hand, and this attack does 40 more damage for each card you discarded in this way.",
             "effects": [
               {
-                "kind": "call_family",
-                "count": 2
+                "kind": "discard_hand_energy_bonus",
+                "max": 4,
+                "per": 40
               }
             ]
-          },
+          }
+        ],
+        "abilities": [
           {
-            "name": "Static Shock",
-            "cost": [
-              "Lightning"
-            ],
-            "damage": 40,
-            "text": "",
+            "name": "Luminous Wing",
+            "text": "Prevent all effects of your opponent's Pok\u00e9mon's Abilities done to this Pok\u00e9mon.",
             "effects": []
           }
         ],
-        "abilities": [],
         "weaknesses": [
           {
-            "type": "Fighting",
+            "type": "Metal",
             "value": "\u00d72"
           }
         ],
         "resistances": [],
         "retreat": 1,
-        "evolves_from": null,
+        "evolves_from": "Clefairy",
         "trainer_kind": null,
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv10.5b/029/low.webp",
+        "image": "https://assets.tcgdex.net/en/me/me03/031/low.webp",
         "set_name": null,
         "text": "",
         "dex_id": null
@@ -11585,7 +11584,7 @@
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": "Psychic",
-        "image": "https://assets.tcgdex.net/en/me03/me03/088/low.webp",
+        "image": "https://assets.tcgdex.net/en/me/me03/088/low.webp",
         "set_name": "Perfect Order",
         "text": "As long as this card is attached to a Pok\u00e9mon, it provides Psychic Energy. When you attach this card from your hand to a Psychic Pok\u00e9mon, search your deck for up to 2 Basic Psychic Pok\u00e9mon and put them onto your Bench. Then, shuffle your deck.",
         "dex_id": null
@@ -11607,7 +11606,7 @@
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": "Psychic",
-        "image": "https://assets.tcgdex.net/en/me03/me03/088/low.webp",
+        "image": "https://assets.tcgdex.net/en/me/me03/088/low.webp",
         "set_name": "Perfect Order",
         "text": "As long as this card is attached to a Pok\u00e9mon, it provides Psychic Energy. When you attach this card from your hand to a Psychic Pok\u00e9mon, search your deck for up to 2 Basic Psychic Pok\u00e9mon and put them onto your Bench. Then, shuffle your deck.",
         "dex_id": null

@@ -288,19 +288,51 @@ def _upsert_seed_decks(conn: sqlite3.Connection, owner_id: str | None = None) ->
         if key not in payload:
             continue
         deck = payload[key]
-        existing = conn.execute("SELECT id, rules_json FROM decks WHERE id=?", (deck["id"],)).fetchone()
+        existing = conn.execute(
+            "SELECT id, rules_json, cards_json FROM decks WHERE id=?",
+            (deck["id"],),
+        ).fetchone()
         presets_json = json.dumps(default_rule_presets_for(deck["id"]))
+        want_cards = deck["cards"]
         if existing:
-            conn.execute(
-                "UPDATE decks SET name=?, source=?, owner_id=COALESCE(owner_id, ?), "
-                "rules_json=COALESCE(rules_json, ?) WHERE id=?",
-                (deck["name"], deck.get("sample"), owner_id, presets_json, deck["id"]),
-            )
+            try:
+                have_names = [c.get("name") for c in json.loads(existing["cards_json"] or "[]")]
+            except (TypeError, json.JSONDecodeError):
+                have_names = []
+            want_names = [c.get("name") for c in want_cards]
+            # Locked seed names refresh; same-name print swaps stay.
+            if have_names != want_names:
+                conn.execute(
+                    "UPDATE decks SET name=?, source=?, cards_json=?, owner_id=COALESCE(owner_id, ?), "
+                    "rules_json=COALESCE(rules_json, ?) WHERE id=?",
+                    (
+                        deck["name"],
+                        deck.get("sample"),
+                        json.dumps(want_cards),
+                        owner_id,
+                        presets_json,
+                        deck["id"],
+                    ),
+                )
+            else:
+                conn.execute(
+                    "UPDATE decks SET name=?, source=?, owner_id=COALESCE(owner_id, ?), "
+                    "rules_json=COALESCE(rules_json, ?) WHERE id=?",
+                    (deck["name"], deck.get("sample"), owner_id, presets_json, deck["id"]),
+                )
         else:
             conn.execute(
                 "INSERT INTO decks(id, name, source, cards_json, created_at, owner_id, rules_json) "
                 "VALUES (?,?,?,?,?,?,?)",
-                (deck["id"], deck["name"], deck.get("sample"), json.dumps(deck["cards"]), now, owner_id, presets_json),
+                (
+                    deck["id"],
+                    deck["name"],
+                    deck.get("sample"),
+                    json.dumps(want_cards),
+                    now,
+                    owner_id,
+                    presets_json,
+                ),
             )
 
 

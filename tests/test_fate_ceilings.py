@@ -52,7 +52,9 @@ def test_set_g_matches_draw_probability_and_caps_from_s60():
     boomerang = _row(report, "Boomerang Energy")
     assert boomerang["copy_cap"] == 4
 
-    assert all(row["name"] != "Mega Clefable ex" for row in report["names"])
+    mega = _row(report, "Mega Clefable ex")
+    assert mega["copies"] == 1 and mega["at_cap"] is False
+    assert all(row["name"] != "Emolga" for row in report["names"])
 
 
 def test_thirty_card_presets_report_their_own_size_and_cap():

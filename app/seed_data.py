@@ -413,8 +413,9 @@ SET_F_NAMES = [
 
 # Carpet Set G plus — live seed-g 10-for-10 from live seed-h. Cut Scatterbug×2,
 # Misdreavus×2, Mismagius×2, Drifloon, Drifblim, Iron Boulder, Dedenne. Add Indeedee,
-# Relicanth, Emolga, Plusle (not Trapinch), Hop's Cramorant, Kecleon, Iris's Fighting
+# Relicanth, Plusle (not Trapinch), Hop's Cramorant, Kecleon, Iris's Fighting
 # Spirit, Energy Retrieval, Trekking Shoes, Potion×1. Clefairy is still LOR 62.
+# Emolga 1-for-1 is Mega Clefable ex (evolves from Clefairy); do not keep both.
 SET_G_NAMES = (
     ["Clefairy"] * 4
     + ["Ledyba"] * 4
@@ -427,7 +428,7 @@ SET_G_NAMES = (
     + ["Flutter Mane"]
     + ["Indeedee"]
     + ["Relicanth"]
-    + ["Emolga"]
+    + ["Mega Clefable ex"]
     + ["Plusle"]
     + ["Hop's Cramorant"]
     + ["Kecleon"]
@@ -905,7 +906,7 @@ _TELEPATHIC = _register(
             "When you attach this card from your hand to a Psychic Pokémon, search your deck "
             "for up to 2 Basic Psychic Pokémon and put them onto your Bench. Then, shuffle your deck."
         ),
-        image="https://assets.tcgdex.net/en/me03/me03/088/low.webp",
+        image="https://assets.tcgdex.net/en/me/me03/088/low.webp",
         set_name="Perfect Order",
         retreat=0,
     )

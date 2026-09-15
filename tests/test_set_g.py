@@ -23,7 +23,8 @@ def test_set_g_is_sixty_after_staraptor_energy_swap():
     assert names.count("Clefairy") == 4
     assert names.count("Ledyba") == 4
     assert names.count("Ledian") == 4
-    assert names.count("Mega Clefable ex") == 0
+    assert names.count("Mega Clefable ex") == 1
+    assert names.count("Emolga") == 0
     assert "Tulip" in names
     assert "Surfer" in names
     assert "Drayton" in names
@@ -70,6 +71,10 @@ def test_set_g_seed_payload_and_s60_preset():
     assert kecleon["catalog_id"] == "sv08-150"
     indeedee = next(c for c in g["cards"] if c["name"] == "Indeedee")
     assert indeedee["catalog_id"] == "sv01-153"
+    mega = next(c for c in g["cards"] if c["name"] == "Mega Clefable ex")
+    assert mega["catalog_id"] == "me03-031"
+    assert "me/me03/031" in (mega.get("image") or "")
+    assert all(c["name"] != "Emolga" for c in g["cards"])
     supporters = [c["name"] for c in g["cards"] if c["name"] in {"Tulip", "Surfer", "Drayton", "Jacq", "Arven"}]
     assert supporters == ["Tulip", "Surfer", "Drayton"]
     assert default_rule_presets_for("seed-g") == ["s60"]
