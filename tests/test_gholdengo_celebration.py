@@ -3,6 +3,7 @@ from random import Random
 from app.engine.effects import (
     energy_provided,
     is_draw_energy,
+    is_enriching_energy,
     is_special_energy,
     is_speed_lightning_energy,
     parse_ability_effects,
@@ -360,7 +361,8 @@ def test_engine_grows_hand_and_pays_hand_fling():
     assert any(is_speed_lightning_energy(me.card(i)) for i in host.energy)
     assert game.events.get("speed_l_draw")
     assert game.events.get("draw_energy_draw")
-    assert game.events.get("big_jump") or game.events.get("return_self_to_hand")
+    # 4/4 Aipom–Ambipom draws Switch earlier; once Hand Fling already KOs, skip Big Jump.
+    assert game.events.get("big_jump") or game.events.get("return_self_to_hand") or game._hand_fling_would_ko(me, foe)
     assert game._ambipom_can_pay(me, attacker)
     assert len(me.hand) > start
     assert game._hand_fling_would_ko(me, foe)
@@ -616,6 +618,37 @@ def test_celebration_benches_replacement_aipom_after_ambipom():
     names = [me.card(m.card_i).name for m in me.in_play()]
     assert names.count("Aipom") == 1
     assert names.count("Ambipom") == 1
+
+
+def test_celebration_big_jump_when_hand_fling_not_ready():
+    game = _game()
+    me = game.players["a"]
+    foe = game.players["b"]
+    used: set[int] = set()
+    ambipom = _take(me, "Ambipom", used)
+    poryz = _take(me, "Porygon-Z", used)
+    buneary = _take(me, "Buneary", used)
+    lopunny = _take(me, "Lopunny", used)
+    enrich = _take(me, "Enriching Energy", used)
+    draw = _take(me, "Draw Energy", used)
+    bts = _take(me, "Broken Time-Space", used)
+    mewtwo = next(i for i, c in enumerate(foe.cards) if c.name == "Mewtwo ex")
+    rest = [i for i in range(len(me.cards)) if i not in used]
+    me.active = Pokemon(card_i=poryz, played_turn=0)
+    me.bench = [
+        Pokemon(card_i=ambipom, played_turn=0),
+        Pokemon(card_i=lopunny, played_turn=0, underneath=[buneary]),
+    ]
+    me.hand = [enrich, draw]
+    me.deck = rest
+    me.discard = []
+    foe.active = Pokemon(card_i=mewtwo, played_turn=0)
+    game.turn = 2
+    game._set_stadium(me.card(bts))
+    assert not game._hand_fling_would_ko(me, foe)
+    game._celebration_engine(me, "a")
+    assert game.events.get("big_jump") or game.events.get("return_self_to_hand")
+    assert any(is_enriching_energy(me.card(i)) for i in me.hand) or game._enriching_on_bounce_host(me)
 
 
 def test_draw_energy_parses_draw_a_card():
