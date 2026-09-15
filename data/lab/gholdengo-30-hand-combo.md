@@ -36,6 +36,8 @@ Puzzle of Time, Scoop Up Net, Forest of Giant Plants, Broken Time-Space, Lysandr
 
 家庭组 3000 盘数组（seed 20260911）里 **Big Jump 会发动**（s60 11.4% / c60 9.3% / unl 8.5%），Hand Fling 也比 Abra+Net 版多（c60 4.9→7.3，unl 2.4→5.5）。胜率仍低：2.7 / 3.2 / 2.7 / 18.4 / 1.6 / 6.8 / 7.6% vs c60/t60/hedrick/unl/d60/s60/g。比 Abra 循环在 unl/s60/g/d60/c60 略好，t60/hedrick 略差（Stage 1 宿主比 Basic Abra 慢一拍）。100 HP Ambipom 还是会被 Photon / Dive 先打掉。
 
+**那组数字是打法还没改对的时候跑的。** 引擎仍按 Abra 循环搜牌：Poffin / Nest / Ultra Ball 优先 Aipom / Pikachu / Remoraid / Sableye，Wally 不进化 Buneary，Enriching 贴在 Lopunny 上时循环门槛看不见它，Sableye 还会抢攻击去 Junk Hunt。牌组里有 Buneary / Lopunny，但经常不上场。下面这版把搜索和坐席改成 Big Jump 线后再重跑数组。
+
 ---
 
 ## Three Celebrations (6 prizes)
@@ -107,7 +109,7 @@ Printings are the text this lab uses. Aipom is Paradox Rift 145 (Filch / Smack),
 | 1 | Professor's Research | any | Setup only. |
 | 1 | Battle Compressor | FCO / UNB | |
 | 1 | Switch | any | Into Ambipom when Hand Fling is still lethal after −1 card. |
-| 1 | Enriching Energy | SSP 191 | ACE SPEC. Loop on Abra. |
+| 1 | Enriching Energy | SSP 191 | ACE SPEC. Loop on Lopunny (Big Jump). |
 | 4 | Speed Lightning Energy | RCL 173 | Draw 2 only on Lightning. Extra copies stay on Pikachu; reserve 3 for Ambipom’s Colorless cost. |
 | 3 | Lightning Energy | any | Pays Colorless on Ambipom. Once-per-turn attach. |
 | 1 | Darkness Energy | any | Junk Hunt. |

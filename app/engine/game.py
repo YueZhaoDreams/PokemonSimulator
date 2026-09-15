@@ -211,6 +211,8 @@ class Game:
         aces = {n.lower() for n in strat.search_aces}
         ace_cards = [i for i in remaining if player.card(i).name.lower() in aces]
         fillers = [i for i in remaining if i not in ace_cards]
+        if strat.name == "celebration":
+            ace_cards.sort(key=lambda i: self._celebration_bench_rank(player.card(i).name.lower()))
         for card_i in ace_cards:
             if len(player.bench) >= self.rules.bench_size:
                 break
@@ -526,11 +528,13 @@ class Game:
             if strat.name == "celebration":
                 rank = {
                     "porygon": 3000,
+                    "buneary": 2900,
+                    "hoppip": 2850,
                     "aipom": 2800,
                     "pikachu": 2700,
                     "remoraid": 2600,
-                    "abra": 2400,
                     "sableye": 2200,
+                    "abra": 2000,
                 }
                 return rank.get(name, 0)
             if slash and name in closers:
@@ -879,15 +883,7 @@ class Game:
             card = me.card(card_i)
             name = card.name.lower()
             if strat.name == "celebration":
-                rank = {
-                    "abra": 0,
-                    "porygon": 1,
-                    "aipom": 2,
-                    "pikachu": 3,
-                    "remoraid": 4,
-                    "sableye": 5,
-                }
-                return (rank.get(name, 20), -(card.hp or 0))
+                return (self._celebration_bench_rank(name), -(card.hp or 0))
             if strat.name == "g":
                 rank = {
                     "clefairy": 0,
@@ -1171,7 +1167,9 @@ class Game:
         in_play = {me.card(m.card_i).name.lower() for m in me.in_play()}
         in_hand = {me.card(i).name.lower() for i in me.hand}
         hunt = [n.lower() for n in (strat.search_aces or strat.protect)]
-        if strat.hold_as_energy and hunt:
+        if strat.name == "celebration":
+            missing_ace = self._celebration_missing_hunt(me, in_play, in_hand)
+        elif strat.hold_as_energy and hunt:
             missing_ace = [] if any(n in in_play or n in in_hand for n in hunt) else hunt
         else:
             missing_ace = [n for n in hunt if n not in in_play and n not in in_hand]
@@ -2239,20 +2237,30 @@ class Game:
             prefer: list[str] = []
             in_play = {me.card(m.card_i).name.lower() for m in me.in_play()}
             in_hand = {me.card(i).name.lower() for i in me.hand}
+            bounce_out = any(self._has_return_self_to_hand(me, mon) for mon in me.in_play())
+            if not bounce_out:
+                if "buneary" in in_play or "buneary" in in_hand:
+                    prefer.append("Lopunny")
+                else:
+                    prefer.append("Buneary")
+                if "hoppip" in in_play or "skiploom" in in_play or "hoppip" in in_hand:
+                    if "skiploom" not in in_play and "skiploom" not in in_hand and "hoppip" in in_play:
+                        prefer.append("Skiploom")
+                    prefer.append("Jumpluff")
             if "porygon" in in_play and "porygon-z" not in in_play:
-                if "porygon2" in in_play:
+                if "porygon2" in in_play or "porygon2" in in_hand:
                     prefer.append("Porygon-Z")
                 else:
                     prefer.extend(["Porygon2", "Porygon-Z"])
-            if "aipom" in in_play and "ambipom" not in in_play:
+            if "aipom" in in_play and "ambipom" not in in_play and "ambipom" not in in_hand:
                 prefer.append("Ambipom")
-            if "remoraid" in in_play and "octillery" not in in_play:
+            if "remoraid" in in_play and "octillery" not in in_play and "octillery" not in in_hand:
                 prefer.append("Octillery")
-            for name in ("Porygon", "Aipom", "Pikachu", "Remoraid", "Abra", "Sableye"):
+            for name in ("Porygon", "Aipom", "Pikachu", "Buneary", "Remoraid", "Sableye"):
                 key = name.lower()
                 if key not in in_play and key not in in_hand:
                     prefer.append(name)
-            prefer.extend(["Porygon-Z", "Ambipom", "Octillery", "Porygon2"])
+            prefer.extend(["Lopunny", "Jumpluff", "Porygon-Z", "Ambipom", "Octillery", "Porygon2", "Buneary"])
             return list(dict.fromkeys(prefer))
         if strat.hold_as_energy:
             prefer = list(strat.search_aces)
@@ -2407,7 +2415,17 @@ class Game:
                 score += 1
             if card.hp >= 140:
                 score += 3
-            if strat.name == "celebration" and name in {"porygon-z", "ambipom", "octillery", "porygon2", "pikachu"}:
+            if strat.name == "celebration" and name in {
+                "lopunny",
+                "jumpluff",
+                "buneary",
+                "hoppip",
+                "porygon-z",
+                "ambipom",
+                "octillery",
+                "porygon2",
+                "pikachu",
+            }:
                 score += 20
             scored.append((score, idx, card_i))
         if not scored:
@@ -8163,6 +8181,47 @@ class Game:
                 seen.add(id(atk))
         return attacks
 
+    def _celebration_bench_rank(self, name: str) -> int:
+        return {
+            "buneary": 0,
+            "hoppip": 1,
+            "porygon": 2,
+            "aipom": 3,
+            "pikachu": 4,
+            "remoraid": 5,
+            "sableye": 6,
+            "abra": 7,
+        }.get(name, 20)
+
+    def _celebration_bounce_host_in_play(self, me: Player) -> bool:
+        return any(self._has_return_self_to_hand(me, mon) for mon in me.in_play())
+
+    def _celebration_has_bounce_line(self, me: Player) -> bool:
+        if self._celebration_bounce_host_in_play(me):
+            return True
+        play = {me.card(m.card_i).name.lower() for m in me.in_play()}
+        hand = {me.card(i).name.lower() for i in me.hand}
+        if "buneary" in play and "lopunny" in hand:
+            return True
+        if "hoppip" in play and ("skiploom" in hand or "jumpluff" in hand):
+            return True
+        if "skiploom" in play and "jumpluff" in hand:
+            return True
+        return False
+
+    def _celebration_missing_hunt(self, me: Player, in_play: set[str], in_hand: set[str]) -> list[str]:
+        missing: list[str] = []
+        if not self._celebration_has_bounce_line(me):
+            if "buneary" not in in_play and "buneary" not in in_hand and "lopunny" not in in_hand:
+                missing.append("buneary")
+        if "ambipom" not in in_play and "aipom" not in in_play and "aipom" not in in_hand and "ambipom" not in in_hand:
+            missing.append("aipom")
+        if "porygon-z" not in in_play and "porygon" not in in_play and "porygon" not in in_hand:
+            missing.append("porygon")
+        if "pikachu" not in in_play and "pikachu" not in in_hand:
+            missing.append("pikachu")
+        return missing
+
     def _celebration_keep_names(self) -> set[str]:
         return {"porygon-z", "octillery", "ambipom", "pikachu", "lopunny", "jumpluff"}
 
@@ -8294,6 +8353,8 @@ class Game:
         foe = self.players["b" if who == "a" else "a"]
         if self._hand_fling_ready(me, foe):
             return False
+        if self._celebration_has_bounce_line(me):
+            return False
         if not any(me.card(m.card_i).name.lower() == "sableye" for m in me.in_play()):
             return False
         if not self._celebration_needs_loop_items(me):
@@ -8306,6 +8367,8 @@ class Game:
         return len(disc_items) >= 2
 
     def _celebration_needs_loop_items(self, me: Player) -> bool:
+        if self._celebration_has_bounce_line(me) or self._enriching_on_bounce_host(me):
+            return False
         puzzles = sum(1 for i in me.hand if me.card(i).name.lower() == "puzzle of time")
         nets = sum(1 for i in me.hand if me.card(i).name.lower() == "scoop up net")
         if puzzles >= 2 and (nets >= 1 or self._enriching_on_scoopable(me)):
@@ -8329,15 +8392,21 @@ class Game:
             return False
         if "ambipom" not in names:
             return False
-        if "abra" not in names and not any(me.card(i).name.lower() == "abra" for i in me.hand):
-            return False
-        return True
+        if self._celebration_has_bounce_line(me):
+            return True
+        return bool(names & {"buneary", "hoppip", "abra"})
 
     def _celebration_wally_helps(self, me: Player) -> bool:
         in_play = {me.card(m.card_i).name.lower() for m in me.in_play()}
         in_deck = {me.card(i).name.lower() for i in me.deck}
         checks = (
-            ("porygon-z" in in_deck and "porygon2" in in_play)
+            ("lopunny" in in_deck and "buneary" in in_play and "lopunny" not in in_play)
+            or (
+                "jumpluff" in in_deck
+                and ("hoppip" in in_play or "skiploom" in in_play)
+                and "jumpluff" not in in_play
+            )
+            or ("porygon-z" in in_deck and "porygon2" in in_play)
             or ("porygon2" in in_deck and "porygon" in in_play and "porygon-z" not in in_play)
             or ("ambipom" in in_deck and "aipom" in in_play and "ambipom" not in in_play)
             or ("octillery" in in_deck and "remoraid" in in_play and "octillery" not in in_play)
@@ -8361,7 +8430,16 @@ class Game:
     def _celebration_can_loop(self, me: Player) -> bool:
         if not self._has_crazy_code(me):
             return False
-        if self._enriching_on_scoopable(me) or any(is_enriching_energy(me.card(i)) for i in me.hand):
+        if self._enriching_on_bounce_host(me):
+            return True
+        enrich_hand = any(is_enriching_energy(me.card(i)) for i in me.hand)
+        if enrich_hand and (
+            self._celebration_bounce_host_in_play(me)
+            or self._named_mon(me, "Buneary") is not None
+            or self._named_mon(me, "Hoppip") is not None
+        ):
+            return True
+        if self._enriching_on_scoopable(me) or enrich_hand:
             return True
         puzzles = self._celebration_zone_count(me, "Puzzle of Time", me.hand) + self._celebration_zone_count(
             me, "Puzzle of Time", me.discard
@@ -8382,14 +8460,15 @@ class Game:
         if name in {"nest ball", "nesting ball", "buddy-buddy poffin", "buddy buddy poffin"} and not wants_bench:
             return -25.0
         attacker_ready = "ambipom" in names_in_play
-        if looping and attacker_ready and name not in {"broken time-space", "switch"}:
+        bounce_out = self._celebration_bounce_host_in_play(me)
+        if looping and attacker_ready and bounce_out and name not in {"broken time-space", "switch"}:
             return -40.0
         if (
             ready
             and name == "ultra ball"
             and "ambipom" in names_in_play
             and "porygon-z" in names_in_play
-            and "octillery" in names_in_play
+            and bounce_out
         ):
             return -25.0
         if ready and name == "wally" and not self._celebration_wally_helps(me):
@@ -8398,11 +8477,20 @@ class Game:
         if name == "broken time-space":
             score += -8 if self.stadium_name == "Broken Time-Space" else 22
         elif name in {"buddy-buddy poffin", "buddy buddy poffin"}:
-            score += 16 if slots > 0 and wants_bench else -10
+            if slots > 0 and not bounce_out:
+                score += 24
+            else:
+                score += 16 if slots > 0 and wants_bench else -10
         elif name in {"nest ball", "nesting ball"}:
-            score += 12 if slots > 0 and wants_bench else -8
+            if slots > 0 and not bounce_out and "buneary" not in names_in_play:
+                score += 18
+            else:
+                score += 12 if slots > 0 and wants_bench else -8
         elif name == "ultra ball":
-            score += 8 if len(me.hand) >= 3 else -12
+            if not bounce_out and len(me.hand) >= 3:
+                score += 14
+            else:
+                score += 8 if len(me.hand) >= 3 else -12
         elif name == "junk arm":
             score -= 20
         elif name == "switch":
@@ -8496,6 +8584,8 @@ class Game:
                 "puzzle of time",
                 "scoop up net",
                 "enriching energy",
+                "buneary",
+                "lopunny",
                 "junk arm",
                 "porygon-z",
                 "porygon2",
@@ -8566,6 +8656,10 @@ class Game:
             "scoop up net",
             "enriching energy",
             "speed lightning energy",
+            "buneary",
+            "lopunny",
+            "hoppip",
+            "jumpluff",
         }
         fodder = []
         extras = []
@@ -8900,16 +8994,30 @@ class Game:
         if not me.bench:
             return None
         prefer = ("porygon2", "porygon", "remoraid", "aipom", "sableye", "abra")
+
+        def ok(mon: Pokemon) -> bool:
+            name = me.card(mon.card_i).name.lower()
+            if self._has_return_self_to_hand(me, mon):
+                return False
+            if name in {"buneary", "hoppip", "skiploom"}:
+                return False
+            if any(is_enriching_energy(me.card(i)) for i in mon.energy):
+                return False
+            if any(is_speed_lightning_energy(me.card(i)) for i in mon.energy):
+                return False
+            return True
+
         for want in prefer:
             for idx, mon in enumerate(me.bench):
                 if me.card(mon.card_i).name.lower() != want:
                     continue
-                if any(is_enriching_energy(me.card(i)) for i in mon.energy):
-                    continue
-                if any(is_speed_lightning_energy(me.card(i)) for i in mon.energy):
+                if not ok(mon):
                     continue
                 return idx
-        return 0
+        for idx, mon in enumerate(me.bench):
+            if ok(mon):
+                return idx
+        return None
 
     def _celebration_align_attacker(self, me: Player, who: str) -> None:
         if not me.active or not me.bench:

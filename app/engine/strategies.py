@@ -487,7 +487,8 @@ STRATEGY_LIBRARY = {
             "replay + evolve. Scoop Up Net + Puzzle of Time is the discard fallback. "
             "Speed Lightning Energy draws 2 only on a Lightning host (Pikachu). "
             "Hand Fling does 20 damage for each card in your hand; attack when that "
-            "KO's. Do not Teleporter Enriching into the deck."
+            "KO's. Search Buneary / Lopunny before the Octillery rebuild. Do not "
+            "Teleporter Enriching into the deck."
         ),
         prefer_damage=0.2,
         prefer_status=0.0,
@@ -495,7 +496,7 @@ STRATEGY_LIBRARY = {
         evolve_asap=1.0,
         attach_pokemon_as_energy=0.0,
         item_spend=1.0,
-        hold_as_energy=True,
+        hold_as_energy=False,
         protect=[
             "Buneary",
             "Lopunny",

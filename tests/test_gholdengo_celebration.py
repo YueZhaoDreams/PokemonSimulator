@@ -409,3 +409,111 @@ def test_g30_vs_c60_completes():
     )
     assert result.winner in {"a", "b", "tie"}
     assert result.turns >= 1
+
+
+def test_celebration_does_not_hold_basics_as_energy():
+    spec = StrategySpec.from_dict("celebration")
+    assert spec.hold_as_energy is False
+    assert spec.search_aces[0] == "Buneary"
+
+
+def test_celebration_starter_prefers_porygon_then_buneary():
+    game = _game()
+    me = game.players["a"]
+    used: set[int] = set()
+    porygon = _take(me, "Porygon", used)
+    buneary = _take(me, "Buneary", used)
+    aipom = _take(me, "Aipom", used)
+    sableye = _take(me, "Sableye", used)
+    strat = game.strats["a"]
+    pick = game._pick_starter(me, [sableye, buneary, aipom, porygon], strat)
+    assert me.card(pick).name == "Porygon"
+    pick = game._pick_starter(me, [sableye, aipom, buneary], strat)
+    assert me.card(pick).name == "Buneary"
+
+
+def test_celebration_benches_buneary_before_sableye_on_last_slot():
+    game = _game()
+    me = game.players["a"]
+    used: set[int] = set()
+    porygon = _take(me, "Porygon", used)
+    extra_porygon = _take(me, "Porygon", used)
+    aipom = _take(me, "Aipom", used)
+    pikachu = _take(me, "Pikachu", used)
+    remoraid = _take(me, "Remoraid", used)
+    sableye = _take(me, "Sableye", used)
+    buneary = _take(me, "Buneary", used)
+    me.active = Pokemon(card_i=porygon, played_turn=0)
+    me.bench = [
+        Pokemon(card_i=extra_porygon, played_turn=0),
+        Pokemon(card_i=aipom, played_turn=0),
+        Pokemon(card_i=pikachu, played_turn=0),
+        Pokemon(card_i=remoraid, played_turn=0),
+    ]
+    me.hand = [sableye, buneary]
+    game._play_basics(me)
+    names = {me.card(m.card_i).name for m in me.in_play()}
+    assert "Buneary" in names
+    assert "Sableye" not in names
+
+
+def test_celebration_poffin_benches_buneary_ahead_of_aipom():
+    game = _game()
+    me = game.players["a"]
+    used: set[int] = set()
+    porygon = _take(me, "Porygon", used)
+    buneary = _take(me, "Buneary", used)
+    aipom = _take(me, "Aipom", used)
+    rest = [i for i in range(len(me.cards)) if i not in used]
+    me.active = Pokemon(card_i=porygon, played_turn=0)
+    me.bench = []
+    me.hand = []
+    me.deck = [aipom, buneary, *rest]
+    game.turn = 1
+    prefer = [n.lower() for n in game._pokemon_search_prefer(me, "a")]
+    assert prefer[0] == "buneary"
+    game._bench_basic_from_deck(me, "a", count=1, max_hp=70, source="poffin")
+    assert me.bench
+    assert me.card(me.bench[0].card_i).name == "Buneary"
+
+
+def test_celebration_loop_gate_sees_enriching_on_lopunny():
+    game = _game()
+    me = game.players["a"]
+    used: set[int] = set()
+    poryz = _take(me, "Porygon-Z", used)
+    lopunny = _take(me, "Lopunny", used)
+    buneary = _take(me, "Buneary", used)
+    enrich = _take(me, "Enriching Energy", used)
+    sableye = _take(me, "Sableye", used)
+    ambipom = _take(me, "Ambipom", used)
+    puzzles = [_take(me, "Puzzle of Time", used) for _ in range(2)]
+    net = _take(me, "Scoop Up Net", used)
+    me.active = Pokemon(card_i=poryz, played_turn=0)
+    me.bench = [
+        Pokemon(card_i=lopunny, played_turn=0, underneath=[buneary], energy=[enrich]),
+        Pokemon(card_i=sableye, played_turn=0),
+        Pokemon(card_i=ambipom, played_turn=0),
+    ]
+    me.hand = []
+    me.discard = [*puzzles, net]
+    assert game._celebration_can_loop(me)
+    assert not game._celebration_needs_loop_items(me)
+    assert not game._celebration_needs_junk_hunt(me)
+    assert game._celebration_combo_ready(me)
+
+
+def test_celebration_wally_helps_buneary_into_lopunny():
+    game = _game()
+    me = game.players["a"]
+    used: set[int] = set()
+    buneary = _take(me, "Buneary", used)
+    lopunny = _take(me, "Lopunny", used)
+    porygon = _take(me, "Porygon", used)
+    me.active = Pokemon(card_i=porygon, played_turn=0)
+    me.bench = [Pokemon(card_i=buneary, played_turn=0)]
+    me.hand = []
+    me.deck = [lopunny]
+    assert game._celebration_wally_helps(me)
+    prefer = [n.lower() for n in game._pokemon_search_prefer(me, "a")]
+    assert prefer[0] == "lopunny"
