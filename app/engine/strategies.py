@@ -477,6 +477,43 @@ STRATEGY_LIBRARY = {
         insurance_bench=1,
         max_ace_copies=3,
     ),
+    "celebration": StrategySpec(
+        name="celebration",
+        description=(
+            "Unlimited 60 Ambipom PAR Hand Fling: Broken Time-Space into Ambipom / "
+            "Lopunny; Rare Candy skips Porygon to Porygon-Z. Crazy Code attaches "
+            "Enriching Energy and Draw Energy as often as you like. Lopunny FLF Big "
+            "Jump returns this Pokémon and all attached cards to the hand — net +4 "
+            "with replay + evolve. Scoop Up Net + Puzzle of Time is the discard "
+            "fallback. Four Aipom / four Ambipom race 2-prize KOs against 1-prize "
+            "Ambipom deaths. Raikou V is the Lightning host: Fleet-Footed draws 1 "
+            "while Active; Forest Seal Stone Star Alchemy searches any one card once "
+            "per game; Speed Lightning Energy draws 2 only on a Lightning host. Hand "
+            "Fling does 20 damage for each card in your hand; attack when that KO's."
+        ),
+        prefer_damage=0.2,
+        prefer_status=0.0,
+        bench_fill=0.0,
+        evolve_asap=1.0,
+        attach_pokemon_as_energy=0.0,
+        item_spend=1.0,
+        hold_as_energy=False,
+        protect=[
+            "Buneary",
+            "Lopunny",
+            "Porygon",
+            "Porygon-Z",
+            "Aipom",
+            "Ambipom",
+            "Raikou V",
+        ],
+        search_aces=["Buneary", "Porygon", "Aipom", "Raikou V"],
+        closers=["Ambipom"],
+        backups=["Porygon-Z", "Raikou V"],
+        insurance=["Raikou V"],
+        insurance_bench=1,
+        max_ace_copies=3,
+    ),
 }
 
 

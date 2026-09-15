@@ -245,6 +245,8 @@ PREFERRED_IDS = {
     "Manaphy": "swsh9-041",
     "Counter Catcher": "sv04-160",
     "Forest Seal Stone": "swsh12-156",
+    "Raikou V": "swsh9-48",  # Brilliant Stars Fleet-Footed / Lightning Streak
+    "Draw Energy": "sm12-209",  # Cosmic Eclipse: attach from hand, draw a card
     "Professor Turo's Scenario": "sv04-171",
     "Collapsed Stadium": "swsh9-137",
     "Ultra Ball": "sv04.5-091",
@@ -252,6 +254,11 @@ PREFERRED_IDS = {
     "Ivysaur": "sv03.5-002",  # Leech Seed / Vine Whip (151)
     "Tangela": "swsh12.5-004",  # Beat 10 / Vine Whip 60, Razz berries (Crown Zenith) — not TWM meadow
     "Aipom": "swsh11-144",  # Mischievous Tail / Scratch 10 (Lost Origin) — not Pokémon GO
+    "Buneary": "xy2-84",  # Flashfire Bounce — evolves into FLF 85 Lopunny
+    "Lopunny": "xy2-85",  # Flashfire Big Jump (return this Pokémon and attachments to hand)
+    "Hoppip": "bw6-1",  # Dragons Exalted line into Jumpluff Leave It to the Wind
+    "Skiploom": "bw6-2",
+    "Jumpluff": "bw6-3",  # Dragons Exalted Leave It to the Wind
     "Galarian Meowth": "swsh12.5-084",  # Fasten Claws (Crown Zenith)
     # Rockruff is NOT pinned globally: Set A is Crown Zenith Invite Out, Set B is Lost Origin Double Draw.
 }
@@ -398,6 +405,8 @@ PRINT_PREFER = {
     "Manaphy": ["wave veil"],
     "Counter Catcher": ["more prize cards remaining"],
     "Forest Seal Stone": ["star alchemy"],
+    "Raikou V": ["fleet-footed", "lightning streak"],
+    "Draw Energy": ["draw a card"],
     "Professor Turo's Scenario": ["all attached cards into your hand"],
     "Collapsed Stadium": ["4 benched"],
 }

@@ -17,6 +17,7 @@ from app.seed_data import (
     SET_E_NAMES,
     SET_F_NAMES,
     SET_G_NAMES,
+    SET_G30_NAMES,
     SET_H_NAMES,
     SET_S_NAMES,
     SET_S60_NAMES,
@@ -26,9 +27,10 @@ from app.seed_data import (
     SET_T_UNL_NAMES,
     SET_SPARE_NAMES,
     build_fallback_deck,
+    build_g30_deck,
 )
 
-LIST_KEYS = ("a", "b", "c", "d", "e", "f", "g", "h", "s", "t", "c60", "d60", "s60", "t60", "t-meta", "t-unl")
+LIST_KEYS = ("a", "b", "c", "d", "e", "f", "g", "h", "s", "t", "c60", "d60", "s60", "t60", "t-meta", "t-unl", "g30")
 SEED_KEYS = (*LIST_KEYS, "spare")
 
 SEED_PATH = DATA_DIR / "seed_decks.json"
@@ -40,7 +42,7 @@ def _is_basic_energy_name(name: str) -> bool:
     if not key.endswith(" energy"):
         return False
     # Special Energy names also end with "Energy".
-    if any(token in key for token in ("double", "boomerang", "telepathic")):
+    if any(token in key for token in ("double", "boomerang", "telepathic", "enriching", "speed")):
         return False
     return True
 
@@ -85,10 +87,16 @@ def load_seed_deck(which: str) -> dict:
         "15": "t-meta",
         "16": "t-unl",
         "17": "h",
+        "18": "g30",
         "hedrick": "t-meta",
         "tmeta": "t-meta",
         "unl": "t-unl",
         "tunl": "t-unl",
+        "gholdengo": "g30",
+        "celebration": "g30",
+        "ambipom": "g30",
+        "lopunny": "g30",
+        "raikou": "g30",
         "spare-cards": "spare",
         "p": "spare",
     }.get(key, key)
@@ -177,6 +185,13 @@ def load_seed_payload() -> dict:
             if as_dicts != data["g"]["cards"]:
                 data["g"]["cards"] = as_dicts
                 dirty = True
+        g30 = _g30_blob()
+        have_g30 = [c.get("name") for c in (data.get("g30") or {}).get("cards") or []]
+        have_g30_ids = [c.get("catalog_id") for c in (data.get("g30") or {}).get("cards") or []]
+        want_g30_ids = [c.get("catalog_id") for c in g30["cards"]]
+        if have_g30 != list(SET_G30_NAMES) or have_g30_ids != want_g30_ids or (data.get("g30") or {}).get("id") != "seed-g30":
+            data["g30"] = g30
+            dirty = True
         if dirty:
             SEED_PATH.write_text(json.dumps(data, indent=2))
         _refresh_hashes(data)
@@ -483,6 +498,18 @@ def _cd_payload(enrich: bool = True) -> dict:
             "kind": "list",
             "cards": [c.to_dict() if isinstance(c, Card) else c for c in cards_t_unl],
         },
+        "g30": _g30_blob(),
+    }
+
+
+def _g30_blob() -> dict:
+    """Printed Ambipom PAR Hand Fling 60. Never TCGDex-enrich the closer print."""
+    return {
+        "id": "seed-g30",
+        "name": "Unlimited 60 (Ambipom Hand Fling)",
+        "sample": None,
+        "kind": "list",
+        "cards": [c.to_dict() for c in build_g30_deck()],
     }
 
 
@@ -574,6 +601,7 @@ def build_seed_payload(enrich: bool = True) -> dict:
         "t60": cd["t60"],
         "t-meta": cd["t-meta"],
         "t-unl": cd["t-unl"],
+        "g30": cd["g30"],
         "spare": spare["spare"],
         "hashes": {},
     }
