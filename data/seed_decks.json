@@ -11569,26 +11569,6 @@
         "dex_id": null
       },
       {
-        "catalog_id": "swsh11-168",
-        "name": "Tool Box",
-        "category": "Trainer",
-        "stage": "Item",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "item",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh11/168/low.webp",
-        "set_name": null,
-        "text": "Look at the top 7 cards of your deck. You may put any Pok\u00e9mon Tool cards you find there into your hand.",
-        "dex_id": null
-      },
-      {
         "catalog_id": "me03-088",
         "name": "Telepathic Psychic Energy",
         "category": "Energy",
@@ -11630,6 +11610,28 @@
         "image": "https://assets.tcgdex.net/en/me03/me03/088/low.webp",
         "set_name": "Perfect Order",
         "text": "As long as this card is attached to a Pok\u00e9mon, it provides Psychic Energy. When you attach this card from your hand to a Psychic Pok\u00e9mon, search your deck for up to 2 Basic Psychic Pok\u00e9mon and put them onto your Bench. Then, shuffle your deck.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-156",
+        "name": "Psychic Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Psychic",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/156/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
         "dex_id": null
       },
       {

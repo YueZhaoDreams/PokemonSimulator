@@ -97,9 +97,10 @@ SET_C_NAMES = (
 )
 
 # Set C → Standard 60 (preset s60). Pokémon are not energy, so the 30-card
-# Clefable pile is thinned and 13 Psychic Energy + 2 Telepathic Psychic Energy
+# Clefable pile is thinned and 14 Psychic Energy + 2 Telepathic Psychic Energy
 # pay Party / Photon / Zone. Telepathic attaches from hand onto a Psychic
 # Pokémon, then benches up to 2 Basic Psychic; Party cannot search it from the deck.
+# Arven still tutors Maximum Belt; Tool Box (top 7) lost the 1-for-1 to a 14th Psychic.
 # Keep LOR 62 Clefairy as the engine; add Switch so Party can fire from Active;
 # Poffin benches 60 HP Clefairy; more Boss for a 6-prize race.
 # Two Rebel Clash Clefable (Prankish) — 110 HP Psychic Stage 1. On evolve, may put
@@ -126,9 +127,8 @@ SET_C60_NAMES = (
     + ["Energy Retrieval"]
     + ["Night Stretcher"]
     + ["Maximum Belt"]
-    + ["Tool Box"]
     + ["Telepathic Psychic Energy"] * 2
-    + ["Psychic Energy"] * 13
+    + ["Psychic Energy"] * 14
 )
 
 SET_D_NAMES = (  # 30: Fighting Energy 6 → 8

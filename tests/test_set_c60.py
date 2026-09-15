@@ -37,13 +37,15 @@ def test_set_c60_is_standard_sixty_with_psychic_energy():
     assert names.count("Clefable CLC") == 0
     assert names.count("Clefable ex") == 3
     assert names.count("Mega Clefable ex") == 2
-    assert names.count("Psychic Energy") == 13
+    assert names.count("Psychic Energy") == 14
     assert names.count("Telepathic Psychic Energy") == 2
     assert names.count("Energy Search") == 0
     assert names.count("Switch") == 2
     assert names.count("Buddy-Buddy Poffin") == 4
     assert names.count("Boss's Orders") == 3
     assert names.count("Maximum Belt") == 1
+    assert names.count("Tool Box") == 0
+    assert names.count("Arven") == 1
     pile = build_fallback_deck(names)
     rules = standard_60_rules()
     assert copy_violations(pile, rules) == []
