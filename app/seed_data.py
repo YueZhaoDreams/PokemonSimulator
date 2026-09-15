@@ -313,18 +313,19 @@ SET_T_UNL_NAMES = (
 
 # Unlimited 60: Ambipom PAR Hand Fling, Lopunny FLF Big Jump recycle,
 # Raikou V Fleet-Footed + Forest Seal Stone Star Alchemy, Draw Energy, Rare Candy.
+# 4/4 Aipom–Ambipom is the 2-for-1 prize race (100 HP / 1 prize vs household 2-prizers).
 SET_G30_NAMES = (
     ["Buneary"] * 3
     + ["Lopunny"] * 2
     + ["Porygon"] * 3
     + ["Porygon-Z"] * 2
-    + ["Aipom"] * 3
-    + ["Ambipom"] * 2
-    + ["Raikou V"] * 2
+    + ["Aipom"] * 4
+    + ["Ambipom"] * 4
+    + ["Raikou V"]
     + ["Puzzle of Time"] * 4
     + ["Scoop Up Net"] * 2
     + ["Broken Time-Space"] * 3
-    + ["Nest Ball"] * 2
+    + ["Nest Ball"]
     + ["Buddy-Buddy Poffin"] * 3
     + ["Ultra Ball"] * 3
     + ["VS Seeker"] * 3
@@ -333,7 +334,7 @@ SET_G30_NAMES = (
     + ["Battle Compressor"]
     + ["Switch"]
     + ["Rare Candy"] * 4
-    + ["Forest Seal Stone"] * 2
+    + ["Forest Seal Stone"]
     + ["Enriching Energy"]
     + ["Speed Lightning Energy"] * 4
     + ["Lightning Energy"] * 3

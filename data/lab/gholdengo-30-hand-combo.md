@@ -30,13 +30,15 @@ Puzzle of Time, Scoop Up Net, Forest of Giant Plants, Broken Time-Space, Lysandr
 
 主循环改成 **Lopunny FLF 85 Big Jump**：印刷 `Once during your turn (before your attack), you may return this Pokémon and all cards attached to it to your hand.` Jumpluff DRX 3 Leave It to the Wind 是同一句，但是 Stage 2（Hoppip→Skiploom→Jumpluff），这副 60 用 Stage 1 Lopunny。附着卡回**手牌**，不是洗回牌库（Abra Teleporter / Dudunsparce RAD），也不是进弃牌再 Puzzle（Scoop Up Net）。Crazy Code 贴 Enriching（+3）→ Big Jump 把 Buneary+Lopunny+Enriching 回手（+3）→ 重放 Buneary −1 → BTS 进化 −1，净 **+4** / 圈。Draw Energy CEC 209 贴上摸 1，净 0，Crazy Code 可以连贴，给 Ambipom 付无色。12 张手牌 = 240，够打家庭组常见 2 奖（Mewtwo 230 / Ogerpon 210 / Wo-Chien）；Dragapult 320 要 16 张。还是一回合一次攻击，6 奖至少 3 枪。
 
-**电系位换成 Raikou V（BRS 48）**，不再用 Pikachu / Tynamo。Fleet-Footed：在场上前位时摸 1。Forest Seal Stone 贴在 V 上开 Star Alchemy，**从牌组找任意一张**（Rare Candy / Porygon-Z / Lopunny / Draw Energy），一局一次 VSTAR。Speed Lightning Energy 只有贴到雷宝可梦才抽 2，贴 Raikou V 才算。
+**电系位换成 Raikou V（BRS 48）**，不再用 Pikachu / Tynamo。Fleet-Footed：在场上前位时摸 1。Forest Seal Stone 贴在 V 上开 Star Alchemy，**从牌组找任意一张**（Rare Candy / Porygon-Z / Lopunny / Draw Energy），一局一次 VSTAR。Speed Lightning Energy 只有贴到雷宝可梦才抽 2，贴 Raikou V 才算。这版 Raikou / Seal / Nest 各留 1：Star Alchemy 一局一次，第二只 V 是 2 奖诱饵。
 
 **砍掉 Sableye / Remoraid / Octillery / Porygon2 / Pikachu。** Rare Candy 比 Porygon2：跳过 Stage 1 直接 Porygon → Porygon-Z。印刷写明不能第一回合、不能对这回合放下的 Basic 用，Broken Time-Space **不能**覆盖这句。
 
 同回合再进化 Stage 1（Aipom / Buneary）用 **Broken Time-Space**。Abra Teleporter 仍把 Energy 洗进牌库，不要当这副的宿主。
 
-家庭组 3000 盘数组（seed 20260911）这一版 **Raikou V + Draw Energy + Rare Candy + Forest Seal Stone**：胜率 **3.5 / 5.2 / 6.1 / 20.5 / 5.5 / 28.0 / 26.5%** vs c60/t60/hedrick/unl/d60/s60/g。上一版 Pikachu / Octillery / Sableye 是 **2.8 / 3.6 / 2.7 / 19.0 / 2.3 / 6.7 / 6.4%**。s60 / g 明显起来（Hand Fling 37.8% / 38.4%），c60 Photon 和 t60 Dive 还是先打掉 100 HP Ambipom。Draw Energy 约 80–94% 的对局里会贴；Rare Candy 约 45–94%；Star Alchemy 约 38–87%；Fleet-Footed 约 53–64%。
+**Ambipom 不抗揍，走 2 换 1。** 100 HP 挡不住 Photon / Dive，但只给 1 奖。家庭组 closer 是 2 奖，Hand Fling 先 KO 再死 = 净 +1 奖。所以把线加厚成 **4 Aipom / 4 Ambipom**：大接手更容易抽出第二只，Wally / Ultra Ball 在场上已有一只 Ambipom 时仍会找备用。不换 Mew 墙，也不占 Enriching 的 ACE SPEC 位。
+
+家庭组 3000 盘数组（seed 20260911）上一版 **2 Raikou V + 2 Forest Seal + 3/2 Aipom/Ambipom**：胜率 **3.5 / 5.2 / 6.1 / 20.5 / 5.5 / 28.0 / 26.5%** vs c60/t60/hedrick/unl/d60/s60/g。再上一版 Pikachu / Octillery / Sableye 是 **2.8 / 3.6 / 2.7 / 19.0 / 2.3 / 6.7 / 6.4%**。s60 / g 明显起来（Hand Fling 37.8% / 38.4%），c60 Photon 和 t60 Dive 还是先打掉 100 HP Ambipom。4/4 Ambipom 线的新数组见下面 Win-rate array。
 
 ---
 
@@ -90,13 +92,13 @@ Printings are the text this lab uses. Aipom is Paradox Rift 145 (Filch / Smack),
 | 2 | Lopunny | FLF 85 | **Big Jump**: this Pokémon + attachments to **hand**. Sitdown Bounce is not the closer. |
 | 3 | Porygon | UNB 154 | 50 HP → Poffin. Rare Candy into Porygon-Z. |
 | 2 | Porygon-Z | UNB 157 | Crazy Code. |
-| 3 | Aipom | PAR 145 | BTS into Ambipom. 60 HP → Poffin. Filch draws 1. |
-| 2 | Ambipom | PAR 146 | **Hand Fling** 20×hand, `[C][C][C]`. Collect draws 2. No Ability (Stance does not block). 100 HP, 1 prize. |
-| 2 | Raikou V | BRS 48 | Lightning host for Speed L draw 2. **Fleet-Footed** draws 1 if Active. Pokémon V for Forest Seal Stone. 200 HP, 2 prizes — do not open on it. |
+| 4 | Aipom | PAR 145 | BTS into Ambipom. 60 HP → Poffin. Filch draws 1. Spare Basic after the first closer dies. |
+| 4 | Ambipom | PAR 146 | **Hand Fling** 20×hand, `[C][C][C]`. Collect draws 2. No Ability (Stance does not block). 100 HP, **1 prize**. Second copy is the 2-for-1 race. |
+| 1 | Raikou V | BRS 48 | Lightning host for Speed L draw 2. **Fleet-Footed** draws 1 if Active. Pokémon V for Forest Seal Stone. 200 HP, 2 prizes — do not open on it. Star Alchemy is once per game. |
 | 4 | Puzzle of Time | BKP 109 | Discard retrieve backup. |
 | 2 | Scoop Up Net | RCL 165 | Backup if Big Jump is not in play. Cannot Net Raikou V. Do **not** Net Ambipom / Lopunny. |
 | 3 | Broken Time-Space | PL 104 | Same-turn Stage 1 evo. Does **not** override Rare Candy. |
-| 2 | Nest Ball | any | Raikou V is 200 HP — Poffin cannot fetch it. |
+| 1 | Nest Ball | any | Raikou V is 200 HP — Poffin cannot fetch it. One copy: only one V left. |
 | 3 | Buddy-Buddy Poffin | TEF 144 | Buneary / Porygon / Aipom. |
 | 3 | Ultra Ball | any | |
 | 3 | VS Seeker | PHF 109 | |
@@ -105,17 +107,17 @@ Printings are the text this lab uses. Aipom is Paradox Rift 145 (Filch / Smack),
 | 1 | Battle Compressor | FCO / UNB | |
 | 1 | Switch | any | Into Ambipom when Hand Fling is still lethal after −1 card. |
 | 4 | Rare Candy | PAF 89 | Skip Porygon → Porygon-Z. Not first turn; not a Basic played this turn. |
-| 2 | Forest Seal Stone | SIT 156 | Tool on Raikou V. **Star Alchemy**: search any one card, one VSTAR Power per game. |
+| 1 | Forest Seal Stone | SIT 156 | Tool on Raikou V. **Star Alchemy**: search any one card, one VSTAR Power per game. |
 | 1 | Enriching Energy | SSP 191 | ACE SPEC. Loop on Lopunny (Big Jump). |
 | 4 | Speed Lightning Energy | RCL 173 | Draw 2 only on Lightning. Extra copies stay on Raikou V; reserve 3 Colorless for Ambipom. |
 | 3 | Lightning Energy | any | Pays Colorless on Ambipom. Once-per-turn attach. |
 | 4 | Draw Energy | CEC 209 | Colorless; attach from hand, draw 1. Net 0. Crazy Code can spam it. |
 
-**17 Pokémon + 31 Trainers + 12 Energy = 60.**
+**19 Pokémon + 29 Trainers + 12 Energy = 60.**
 
-Cut Sableye, Remoraid, Octillery, Pikachu, Porygon2, Junk Arm, Darkness. Jumpluff DRX 3 is the same bounce sentence but Stage 2 — not in this 60.
+Cut Sableye, Remoraid, Octillery, Pikachu, Porygon2, Junk Arm, Darkness. Jumpluff DRX 3 is the same bounce sentence but Stage 2 — not in this 60. Cut the second Raikou V / Forest Seal / Nest for two extra Ambipom and one extra Aipom.
 
-Goldfish (board already up, going second): Rare Candy Porygon into Z, BTS into Ambipom + Lopunny, Nest Raikou V. Forest Seal Stone on Raikou → Star Alchemy. Crazy Code Speed L onto Raikou (draw 2), Enriching onto Lopunny (draw 4), Draw Energy onto Ambipom / bounce host. Big Jump returns Buneary + Lopunny + Enriching. Replay Buneary, BTS evolve, attach again. Fleet-Footed if Raikou is Active on a setup turn. Hand Fling when `20 × (hand − pay − Switch)` KOs.
+Goldfish (board already up, going second): Rare Candy Porygon into Z, BTS into Ambipom + Lopunny, Nest Raikou V. Forest Seal Stone on Raikou → Star Alchemy. Crazy Code Speed L onto Raikou (draw 2), Enriching onto Lopunny (draw 4), Draw Energy onto Ambipom / bounce host. Big Jump returns Buneary + Lopunny + Enriching. Replay Buneary, BTS evolve, attach again. Fleet-Footed if Raikou is Active on a setup turn. After the first Ambipom is in play, Nest / Wally / Ultra Ball still fetch a spare Aipom → Ambipom. Hand Fling when `20 × (hand − pay − Switch)` KOs.
 
 ---
 
@@ -183,7 +185,7 @@ Honest calendar: **3 Celebration attacks** is the prize floor. **3 of our turns*
 
 ## Win-rate array
 
-G30 (`celebration` strategy, Ambipom PAR Hand Fling + Lopunny FLF Big Jump + Raikou V / Draw Energy / Rare Candy) as player A vs the household 60s. Not a full NxN remake of `set-c60-unl-matrix`. Rules preset `s60` (60 / 6 prizes / 4-of). First player random. **3,000 games / cell, seed 20260911**. Elapsed **81.7s** after the Raikou V rebuild.
+G30 (`celebration` strategy, Ambipom PAR Hand Fling + Lopunny FLF Big Jump + 4/4 Aipom/Ambipom + 1 Raikou V) as player A vs the household 60s. Not a full NxN remake of `set-c60-unl-matrix`. Rules preset `s60` (60 / 6 prizes / 4-of). First player random. **3,000 games / cell, seed 20260911**. Elapsed **81.7s** on the previous 2 Raikou / 3+2 Aipom list; 4/4 rerun pending in `gholdengo-30-array.json`.
 
 Script: `data/lab/gholdengo-30-array.py`. Numbers: `data/lab/gholdengo-30-array.json`.
 
@@ -202,6 +204,8 @@ Script: `data/lab/gholdengo-30-array.py`. Numbers: `data/lab/gholdengo-30-array.
 | Fleet-Footed | 61.7% | 58.2% | 53.0% | 56.0% | 63.6% | 58.5% | 55.6% |
 | Star Alchemy | 55.6% | 37.7% | 41.6% | 87.3% | 41.1% | 70.0% | 61.6% |
 | Celebration | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+
+Same seed, 2 Raikou V / 3 Aipom / 2 Ambipom (before the 4/4 prize-race thicken): g30 win **3.5 / 5.2 / 6.1 / 20.5 / 5.5 / 28.0 / 26.5%**, Hand Fling **22.9 / 9.4 / 15.8 / 14.6 / 4.3 / 37.8 / 38.4%**.
 
 Same seed, previous Pikachu / Octillery / Sableye 60 (play-script fix): g30 win **2.8 / 3.6 / 2.7 / 19.0 / 2.3 / 6.7 / 6.4%**. Raikou V + Draw Energy + Candy + Forest Seal Stone lifts s60 and g the most (Hand Fling 10% → 38%). c60 Photon and t60 Dive still KO 100 HP Ambipom before three prize shots.
 
@@ -222,7 +226,7 @@ Household 60s also kill the board first. C60 Photon Kinesis KOs 100 HP Ambipom f
 - **[C] Collect** — Draw 2 cards.
 - **[C][C][C] Hand Fling** — This attack does 20 damage for each card in your hand.
 
-12 cards = 240 (Mewtwo 230 / Wo-Chien 230). 11 = 220 (Ogerpon 210). 16 = 320 (Dragapult). Hand stays after the attack. Six prizes still need three KOs.
+12 cards = 240 (Mewtwo 230 / Wo-Chien 230). 11 = 220 (Ogerpon 210). 16 = 320 (Dragapult). Hand stays after the attack. Six prizes still need three KOs of 2-prize Pokémon. Ambipom itself is 1 prize, so a post-attack death is a 2-for-1 if a spare Aipom → Ambipom is already on the bench.
 
 **Recycle — Lopunny FLF 85 Big Jump.** Same printed sentence as Jumpluff DRX Leave It to the Wind. Returns this Pokémon **and all cards attached to it** (including Buneary underneath) to the hand.
 

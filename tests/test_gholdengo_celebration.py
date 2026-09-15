@@ -119,15 +119,16 @@ def test_g30_list_is_printed_sixty():
     assert names.count("Octillery") == 0
     assert names.count("Remoraid") == 0
     assert names.count("Sableye") == 0
-    assert names.count("Aipom") == 3
-    assert names.count("Ambipom") == 2
+    assert names.count("Aipom") == 4
+    assert names.count("Ambipom") == 4
     assert names.count("Pikachu") == 0
-    assert names.count("Raikou V") == 2
+    assert names.count("Raikou V") == 1
     assert names.count("Gholdengo") == 0
     assert names.count("Puzzle of Time") == 4
     assert names.count("Scoop Up Net") == 2
+    assert names.count("Nest Ball") == 1
     assert names.count("Rare Candy") == 4
-    assert names.count("Forest Seal Stone") == 2
+    assert names.count("Forest Seal Stone") == 1
     assert names.count("Enriching Energy") == 1
     assert names.count("Speed Lightning Energy") == 4
     assert names.count("Lightning Energy") == 3
@@ -135,7 +136,7 @@ def test_g30_list_is_printed_sixty():
     pile = build_g30_deck()
     assert copy_violations(pile, standard_60_rules()) == []
     aipom = [c for c in pile if c.name == "Aipom"]
-    assert len(aipom) == 3
+    assert len(aipom) == 4
     assert all(c.catalog_id == "sv04-145" for c in aipom)
     assert fallback_named("Aipom").catalog_id == "swsh11-144"
     ambipom = next(c for c in pile if c.name == "Ambipom")
@@ -474,7 +475,7 @@ def test_celebration_benches_buneary_before_raikou_on_last_slot():
     aipom = _take(me, "Aipom", used)
     raikou = _take(me, "Raikou V", used)
     extra_aipom = _take(me, "Aipom", used)
-    extra_raikou = _take(me, "Raikou V", used)
+    spare_aipom = _take(me, "Aipom", used)
     buneary = _take(me, "Buneary", used)
     me.active = Pokemon(card_i=porygon, played_turn=0)
     me.bench = [
@@ -483,11 +484,12 @@ def test_celebration_benches_buneary_before_raikou_on_last_slot():
         Pokemon(card_i=raikou, played_turn=0),
         Pokemon(card_i=extra_aipom, played_turn=0),
     ]
-    me.hand = [extra_raikou, buneary]
+    me.hand = [spare_aipom, buneary]
     game._play_basics(me)
     names = [me.card(m.card_i).name for m in me.in_play()]
     assert "Buneary" in names
     assert names.count("Raikou V") == 1
+    assert names.count("Aipom") == 2
 
 
 def test_celebration_poffin_benches_buneary_ahead_of_aipom():
@@ -550,6 +552,70 @@ def test_celebration_wally_helps_buneary_into_lopunny():
     assert game._celebration_wally_helps(me)
     prefer = [n.lower() for n in game._pokemon_search_prefer(me, "a")]
     assert prefer[0] == "lopunny"
+
+
+def test_celebration_searches_second_ambipom_while_one_in_play():
+    game = _game()
+    me = game.players["a"]
+    used: set[int] = set()
+    porygon = _take(me, "Porygon", used)
+    poryz = _take(me, "Porygon-Z", used)
+    aipom = _take(me, "Aipom", used)
+    ambipom = _take(me, "Ambipom", used)
+    ambipom2 = _take(me, "Ambipom", used)
+    buneary = _take(me, "Buneary", used)
+    lopunny = _take(me, "Lopunny", used)
+    me.active = Pokemon(card_i=ambipom, played_turn=0)
+    me.bench = [
+        Pokemon(card_i=poryz, played_turn=0, underneath=[porygon]),
+        Pokemon(card_i=lopunny, played_turn=0, underneath=[buneary]),
+        Pokemon(card_i=aipom, played_turn=0),
+    ]
+    me.hand = []
+    me.deck = [ambipom2]
+    assert game._celebration_needs_ambipom(me)
+    assert game._celebration_wally_helps(me)
+    prefer = [n.lower() for n in game._pokemon_search_prefer(me, "a")]
+    assert prefer[0] == "ambipom"
+
+
+def test_celebration_hunts_backup_aipom_after_first_ambipom():
+    game = _game()
+    me = game.players["a"]
+    used: set[int] = set()
+    ambipom = _take(me, "Ambipom", used)
+    poryz = _take(me, "Porygon-Z", used)
+    buneary = _take(me, "Buneary", used)
+    lopunny = _take(me, "Lopunny", used)
+    aipom = _take(me, "Aipom", used)
+    me.active = Pokemon(card_i=ambipom, played_turn=0)
+    me.bench = [
+        Pokemon(card_i=poryz, played_turn=0),
+        Pokemon(card_i=lopunny, played_turn=0, underneath=[buneary]),
+    ]
+    me.hand = []
+    me.deck = [aipom]
+    in_play = {me.card(m.card_i).name.lower() for m in me.in_play()}
+    in_hand = {me.card(i).name.lower() for i in me.hand}
+    assert "aipom" in game._celebration_missing_hunt(me, in_play, in_hand)
+    prefer = [n.lower() for n in game._pokemon_search_prefer(me, "a")]
+    assert prefer[0] == "aipom"
+
+
+def test_celebration_benches_replacement_aipom_after_ambipom():
+    game = _game()
+    me = game.players["a"]
+    used: set[int] = set()
+    ambipom = _take(me, "Ambipom", used)
+    aipom = _take(me, "Aipom", used)
+    poryz = _take(me, "Porygon-Z", used)
+    me.active = Pokemon(card_i=ambipom, played_turn=0)
+    me.bench = [Pokemon(card_i=poryz, played_turn=0)]
+    me.hand = [aipom]
+    game._play_basics(me)
+    names = [me.card(m.card_i).name for m in me.in_play()]
+    assert names.count("Aipom") == 1
+    assert names.count("Ambipom") == 1
 
 
 def test_draw_energy_parses_draw_a_card():

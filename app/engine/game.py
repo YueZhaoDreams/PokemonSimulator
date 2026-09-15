@@ -2282,8 +2282,10 @@ class Game:
                     prefer.append("Jumpluff")
             if "porygon" in in_play and "porygon-z" not in in_play:
                 prefer.append("Porygon-Z")
-            if "aipom" in in_play and "ambipom" not in in_play and "ambipom" not in in_hand:
+            if self._celebration_needs_ambipom(me):
                 prefer.append("Ambipom")
+            if self._count_named_in_play(me, "Ambipom") >= 1 and self._celebration_needs_aipom(me):
+                prefer.append("Aipom")
             if "tynamo" in in_play and "eelektrik" not in in_play and "eelektrik" not in in_hand:
                 prefer.append("Eelektrik")
             for name in ("Porygon", "Aipom", "Raikou V", "Buneary"):
@@ -8265,12 +8267,35 @@ class Game:
             return True
         return False
 
+    def _celebration_needs_ambipom(self, me: Player) -> bool:
+        """True while an Aipom in play still needs a Hand Fling evolution from deck/hand.
+
+        First closer: one Ambipom. After that closer is already in play, a second
+        Ambipom on a spare Aipom is the 2-for-1 prize-race backup.
+        """
+        if self._count_named_in_play(me, "Aipom") == 0:
+            return False
+        play = self._count_named_in_play(me, "Ambipom")
+        hand = self._celebration_zone_count(me, "Ambipom", me.hand)
+        need = 2 if play else 1
+        return play + hand < need
+
+    def _celebration_needs_aipom(self, me: Player) -> bool:
+        """Hunt Aipom when the line is empty, or when the first Ambipom needs a spare Basic."""
+        play_a = self._count_named_in_play(me, "Aipom")
+        play_m = self._count_named_in_play(me, "Ambipom")
+        hand_a = self._celebration_zone_count(me, "Aipom", me.hand)
+        hand_m = self._celebration_zone_count(me, "Ambipom", me.hand)
+        if play_a + play_m + hand_a + hand_m == 0:
+            return True
+        return play_m >= 1 and play_a + hand_a == 0
+
     def _celebration_missing_hunt(self, me: Player, in_play: set[str], in_hand: set[str]) -> list[str]:
         missing: list[str] = []
         if not self._celebration_has_bounce_line(me):
             if "buneary" not in in_play and "buneary" not in in_hand and "lopunny" not in in_hand:
                 missing.append("buneary")
-        if "ambipom" not in in_play and "aipom" not in in_play and "aipom" not in in_hand and "ambipom" not in in_hand:
+        if self._celebration_needs_aipom(me):
             missing.append("aipom")
         if "porygon-z" not in in_play and "porygon" not in in_play and "porygon" not in in_hand:
             missing.append("porygon")
@@ -8451,7 +8476,7 @@ class Game:
                 and "jumpluff" not in in_play
             )
             or ("porygon-z" in in_deck and "porygon2" in in_play)
-            or ("ambipom" in in_deck and "aipom" in in_play and "ambipom" not in in_play)
+            or ("ambipom" in in_deck and self._celebration_needs_ambipom(me))
         )
         return bool(checks)
 
@@ -8503,18 +8528,21 @@ class Game:
             return -25.0
         attacker_ready = "ambipom" in names_in_play
         bounce_out = self._celebration_bounce_host_in_play(me)
+        needs_backup = self._celebration_needs_ambipom(me) or self._celebration_needs_aipom(me)
         if looping and attacker_ready and bounce_out and name not in {
             "broken time-space",
             "switch",
             "forest seal stone",
         }:
-            return -40.0
+            if not needs_backup:
+                return -40.0
         if (
             ready
             and name == "ultra ball"
             and "ambipom" in names_in_play
             and "porygon-z" in names_in_play
             and bounce_out
+            and not needs_backup
         ):
             return -25.0
         if ready and name == "wally" and not self._celebration_wally_helps(me):
