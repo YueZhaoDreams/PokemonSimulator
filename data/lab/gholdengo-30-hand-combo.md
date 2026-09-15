@@ -1,7 +1,7 @@
-# 30th Celebration Gholdengo — 60-card Unlimited, exactly 30 in hand
+# Ambipom PAR Hand Fling — 60-card Unlimited (G30 lab)
 
-Date: 2026-09-15 (format restated 2026-09-15)
-Status: engine plays the three-shot 60. Win-rate array vs household 60s is in `data/lab/gholdengo-30-array.json`.
+Date: 2026-09-15
+Status: engine plays Ambipom PAR 146 Hand Fling with Speed Lightning Energy draws. Win-rate array vs household 60s is in `data/lab/gholdengo-30-array.json`.
 
 **This lab is Unlimited constructed. Not Standard. Not Expanded. Not Family Cup 30.**
 
@@ -28,25 +28,13 @@ Puzzle of Time, Scoop Up Net, Forest of Giant Plants, Broken Time-Space, Lysandr
 
 研究目标从一开始就是：**60 张牌组 + Unlimited 卡池 + 6 奖**。Standard / Expanded 的轮换和禁卡表只用来对照「离开 Unlimited 会丢掉哪些循环」，不是这副牌的规则。
 
-在这个规则下，**同回合无限循环是存在的**。
+主循环仍是 Enriching + Crazy Code + Scoop Up Net + Puzzle of Time（净 **+2** / 圈）。**当前主攻是 Ambipom PAR 146 Hand Fling**（印刷：`This attack does 20 damage for each card in your hand.`），不再停在恰好 30、也不洗回手牌。12 张手牌 = 240，够打家庭组常见 2 奖（Mewtwo 230 / Ogerpon 210 / Wo-Chien）；Dragapult 320 要 16 张。还是一回合一次攻击，6 奖至少 3 枪。
 
-主循环（净 **+2** 手牌 / 圈，可停在恰好 30）：
+**Speed Lightning Energy（RCL 173）**：贴在身上提供雷；**只有从手牌贴到雷宝可梦才抽 2**。Ambipom 是无色，贴上去付无色但不抽。Net+Puzzle 循环 Speed L 净 **0**，不要当增长引擎。引擎把多出来的 Speed L 贴 Pikachu 抽 2，并留够 3 个给 Ambipom 付 Hand Fling。
 
-`Enriching Energy 从手牌贴上（+4）`
-`→ Porygon-Z Crazy Code（Unlimited 任意次贴 Special Energy）`
-`→ Scoop Up Net（非 V/GX 的宝可梦回手，附属牌进弃牌；官方点名可以捞 Pokémon ex）`
-`→ Puzzle of Time 打出 2 张（从弃牌拿回任意 2 张牌，含 Special Energy 和 Scoop Up Net）`
-`→ 再把 Abra / 宿主打出 → 再贴`
+同回合再进化用 **Broken Time-Space**。Abra 仍是 Enriching 宿主（Scoop Up Net 把 Energy 送进弃牌，Puzzle 拿回）。
 
-停手：手牌 28 再转一圈到 30，或 29 时用 Trade +1 / 多打一张 Item −1。然后 **[M] Celebration** 拿 2 奖，手牌洗回库。
-
-**考虑了：2 奖 / 枪，Unlimited 6 奖，不是一轮杀。** 6 ÷ 2 = **至少 3 次 Celebration**（一回合一次攻击）。后手最早 T1/T2/T3；先手 T1 不能攻击，最早 T2/T3/T4（**4 个我方回合**）。Ambipom 600 也占一次攻击，替不掉枪数。上一版 60 只写了第一枪；这版把 Octillery / Junk Arm / Sableye 写进 60，专门接第二、第三枪。见 **Three Celebrations**。
-
-同回合再进化用 **Broken Time-Space**（Platinum 体育场）：本回合刚打出或刚进化的宝可梦可以再进化。Porygon → Porygon2 → Porygon-Z、Gimmighoul → Gholdengo、Dunsparce → Dudunsparce 都可以在同一回合完成。Wally ROS 是一次性支援者备份。Forest of Vitality 在 Unlimited 里比 Forest of Giant Plants / BTS 弱，不是这副的体育场。
-
-Abra Teleporter 把 Energy 洗进 **牌库**，不如 Scoop Up Net 把 Energy 送进 **弃牌** 再被 Puzzle of Time 拿回手。Speed Lightning Energy 贴 Abra（Psychic）不抽牌；Speed L 循环在付完 Scoop/重放成本后净 **0**，不要当增长引擎。
-
-备用赢法在 Unlimited 全合法：Ambipom PAR Hand Fling **20×手牌**（30 张 = 600），Ambipom DRX / Meowstic BUS 是 **10×**（300）。
+家庭组 3000 盘数组（seed 20260911）里 Hand Fling 会打出来（s60 10% / g 11.5% / c60 4.9%），Speed L 抽牌 8–23%，胜率仍低：2.5 / 4.6 / 3.6 / 16.5 / 1.1 / 5.8 / 7.1% vs c60/t60/hedrick/unl/d60/s60/g。100 HP 1 奖 Ambipom 还是会被 Photon / Dive 先打掉。比 Celebration 版在 s60（1.7→5.8）和 g（1.0→7.1）好一些，因为不必凑恰好 30。
 
 ---
 
@@ -90,9 +78,50 @@ Opponent gets a full turn after shot 1 and shot 2. Gust Porygon-Z or Octillery, 
 
 ---
 
-## The 60 (Unlimited constructed, three-shot)
+## The 60 (Unlimited constructed, Hand Fling)
 
-Built to fire Celebration **three times**, not once. Printings are the text this lab uses.
+Printings are the text this lab uses. Aipom is Paradox Rift 145 (Filch / Smack), not Lost Origin, so it evolves into Ambipom PAR 146.
+
+| Qty | Card | Set | Why |
+|---:|---|---|---|
+| 3 | Abra | TWM 80 | Enriching host. 40 HP → Poffin. |
+| 3 | Porygon | UNB 154 | 50 HP → Poffin. |
+| 2 | Porygon2 | UNB 156 | BTS into Porygon-Z. Double Draw. |
+| 2 | Porygon-Z | UNB 157 | Crazy Code. |
+| 2 | Remoraid | BKT 32 | 60 HP → Poffin. |
+| 2 | Octillery | BKT 33 | Abyssal Hand → 5. |
+| 1 | Sableye | DEX 62 | Junk Hunt `[D]` reload. |
+| 3 | Aipom | PAR 145 | BTS into Ambipom. 60 HP → Poffin. Filch draws 1. |
+| 2 | Ambipom | PAR 146 | **Hand Fling** 20×hand, `[C][C][C]`. Collect draws 2. No Ability (Stance does not block). 100 HP, 1 prize. |
+| 2 | Pikachu | BUS 40 | Lightning host for Speed L draw 2. 60 HP → Poffin. |
+| 4 | Puzzle of Time | BKP 109 | Loop recycle. |
+| 4 | Scoop Up Net | RCL 165 | Bounce Abra. Do **not** Net Pikachu / Ambipom. |
+| 2 | Junk Arm | TM 87 | Fetch Net. |
+| 3 | Broken Time-Space | PL 104 | Same-turn evo. |
+| 2 | Nest Ball | any | |
+| 3 | Buddy-Buddy Poffin | TEF 144 | |
+| 3 | Ultra Ball | any | |
+| 3 | VS Seeker | PHF 109 | |
+| 2 | Wally | ROS 94 | |
+| 1 | Professor's Research | any | Setup only. |
+| 1 | Battle Compressor | FCO / UNB | |
+| 1 | Switch | any | Into Ambipom when Hand Fling is still lethal after −1 card. |
+| 1 | Enriching Energy | SSP 191 | ACE SPEC. Loop on Abra. |
+| 4 | Speed Lightning Energy | RCL 173 | Draw 2 only on Lightning. Extra copies stay on Pikachu; reserve 3 for Ambipom’s Colorless cost. |
+| 3 | Lightning Energy | any | Pays Colorless on Ambipom. Once-per-turn attach. |
+| 1 | Darkness Energy | any | Junk Hunt. |
+
+**22 Pokémon + 29 Trainers + 9 Energy = 60.**
+
+Cut from the Celebration 60: 3 Gimmighoul, 2 Gholdengo, 1 Mew ex, 3 Metal, 2 Junk Arm, 1 Nest, 1 Poffin, 1 Ultra, 1 VS Seeker (−16). Added: 3 Aipom, 2 Ambipom, 2 Pikachu, 4 Speed L, 3 Lightning (+14). Net Sableye 2→1.
+
+Goldfish (board already up, going second): BTS into Z + Ambipom + Pikachu + Abra. Crazy Code one extra Speed L onto Pikachu (draw 2). Enriching +2 loop until `20 × (hand − remaining Speed L cost − Switch)` KOs. Dump reserved Speed L onto Ambipom (no draw). Switch in. Hand Fling. Hand stays; next attack does not rebuild from 1.
+
+---
+
+## The previous 60 (Gholdengo Celebration)
+
+Recorded for comparison. This closer needed exactly 30 cards and shuffled the hand; the household array below is **not** this list.
 
 | Qty | Card | Set | Why |
 |---:|---|---|---|
@@ -154,33 +183,41 @@ Honest calendar: **3 Celebration attacks** is the prize floor. **3 of our turns*
 
 ## Win-rate array
 
-G30 (`celebration`) as player A vs the household 60s. Not a full NxN remake of `set-c60-unl-matrix`. Rules preset `s60` (60 / 6 prizes / 4-of). First player random. **3,000 games / cell, seed 20260911** — same as `data/lab/set_c60_unl_matrix.py`. Elapsed **75.7s**.
+G30 (`celebration` strategy, Ambipom PAR Hand Fling closer) as player A vs the household 60s. Not a full NxN remake of `set-c60-unl-matrix`. Rules preset `s60` (60 / 6 prizes / 4-of). First player random. **3,000 games / cell, seed 20260911** — same as `data/lab/set_c60_unl_matrix.py`. Elapsed **68.2s**.
 
 Script: `data/lab/gholdengo-30-array.py`. Numbers: `data/lab/gholdengo-30-array.json`.
 
 | A \\ B | c60 | t60 | hedrick | unl | d60 | s60 | g |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| g30 win | 3.3% | 3.9% | 2.9% | 18.1% | 0.9% | 1.7% | 1.0% |
-| first | 3.8% | 4.6% | 3.0% | 20.0% | 1.0% | 1.6% | 1.0% |
-| second | 2.8% | 3.3% | 2.8% | 16.2% | 0.7% | 1.9% | 1.0% |
-| Crazy Code | 19.9% | 11.5% | 15.6% | 20.8% | 9.0% | 32.8% | 21.2% |
-| Puzzle pair | 11.9% | 4.6% | 9.5% | 9.8% | 3.4% | 20.1% | 14.3% |
-| 30-hand | 0 | 1/3000 | 1/3000 | 0 | 0 | 0 | 1/3000 |
-| Celebration | 0 | 1/3000 | 1/3000 | 0 | 0 | 0 | 1/3000 |
+| g30 win | 2.5% | 4.6% | 3.6% | 16.5% | 1.1% | 5.8% | 7.1% |
+| first | 3.2% | 4.8% | 3.9% | 15.7% | 1.2% | 5.9% | 6.5% |
+| second | 1.9% | 4.3% | 3.3% | 17.2% | 1.0% | 5.7% | 7.7% |
+| Crazy Code | 32.4% | 19.0% | 26.2% | 29.8% | 12.6% | 38.9% | 36.7% |
+| Puzzle pair | 10.5% | 4.7% | 8.7% | 8.4% | 2.9% | 16.1% | 11.5% |
+| Speed L draw | 15.1% | 10.2% | 12.2% | 16.1% | 7.9% | 22.8% | 17.7% |
+| Hand Fling | 4.9% | 1.7% | 4.4% | 2.4% | 1/3000 | 10.0% | 11.5% |
+| Celebration | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 
-Goldfish from a **25-card** board still parks Enriching on Bench Abra at exactly 30 and Celebration takes 2 prizes. Live vs household 60s the 30-hand almost never appears.
+Previous Celebration closer (same seed, 3000/cell): g30 win **3.3 / 3.9 / 2.9 / 18.1 / 0.9 / 1.7 / 1.0%**. Hand Fling improved **s60 1.7→5.8** and **g 1.0→7.1**; **c60 3.3→2.5** and **unl 18.1→16.5** are slightly worse. **d60** stays ~1% (Ogerpon usually KOs first; Hand Fling 1/3000).
 
-Puzzle of Time’s two-card mode returns **two** cards. One pair can retrieve Enriching + Scoop Up Net, or two Puzzle, not all four. The +2 bounce is real but not an infinite same-turn mill-to-30 from a 7-card hand. After the pair, Puzzle sits in discard; Sableye Junk Hunt is the reload (and spends the attack). Junk Arm is net −2 and does not replace that.
+Goldfish from a ready board still grows the hand and Hand Fling KOs Mewtwo at 12 cards. Live vs household 60s the gun fires more often than Celebration (s60 10%, g 11.5%, c60 4.9%), but 100 HP Ambipom still dies to Photon / Dive before three prize shots. Wins remain mostly incidental KOs / deck-out; the 16.5% vs `unl` is still the softest household 60, not prize math from a completed combo.
 
-Household 60s also kill the board first. C60 Photon Kinesis KOs 160 HP Mew ex for two prizes and 130 HP Porygon-Z / Gholdengo for one. The engine now opens a 1-prize Basic, passes Sharpshooting, and Double Draws on Porygon2, but three Celebrations still need the attacker alive across opponent turns.
+Puzzle of Time’s two-card mode returns **two** cards. One pair can retrieve Enriching + Scoop Up Net, or two Puzzle, not all four. The +2 bounce is real but not an infinite same-turn mill from a 7-card hand. After the pair, Puzzle sits in discard; Sableye Junk Hunt is the reload (and spends the attack). Junk Arm is net −2 and does not replace that.
 
-Wins in this array are almost all incidental KOs / deck-out, not prize math from Celebration. The 18% vs `unl` is the same: Crazy Code in ~21% of games, Celebration in 0.
+Household 60s also kill the board first. C60 Photon Kinesis KOs 100 HP Ambipom for one prize and 130 HP Porygon-Z for one. d60 Dive / Ogerpon is faster than assembling `[C][C][C]` plus a 12-card hand.
 
 ---
 
 ## Win condition
 
-**Gholdengo** (30th Celebration 108 / AR 142) — Metal Stage 1, 130 HP, evolves from Gimmighoul, retreat 2.
+**Current closer — Ambipom PAR 146.** Colorless Stage 1, 100 HP, evolves from Aipom PAR 145, no Ability.
+
+- **[C] Collect** — Draw 2 cards.
+- **[C][C][C] Hand Fling** — This attack does 20 damage for each card in your hand.
+
+12 cards = 240 (Mewtwo 230 / Wo-Chien 230). 11 = 220 (Ogerpon 210). 16 = 320 (Dragapult). Hand stays after the attack. Six prizes still need three KOs.
+
+**Previous closer — Gholdengo** (30th Celebration 108 / AR 142) — Metal Stage 1, 130 HP, evolves from Gimmighoul, retreat 2.
 
 - **[M] Celebration** — If you have exactly 30 cards in your hand, take 2 Prize cards. If you do, shuffle your hand into your deck.
 - **[M] Triple Smash 50×** — Flip 3 coins. 50 damage for each heads.
@@ -407,10 +444,10 @@ Pick **Enriching Energy**. Scoop Up Cyclone would return Energy to hand without 
 ## Combo Cub
 
 - Simulate on **`s60`** (60 cards, 6 prizes, 4-of). That is the Unlimited constructed skeleton.
-- The list must include Unlimited cards (Puzzle of Time, Scoop Up Net, Broken Time-Space, Porygon-Z, Enriching Energy, 30th Gholdengo, Octillery, Sableye Junk Hunt, Junk Arm). A Standard-rotated 60 is the wrong pool.
+- The list must include Unlimited cards (Puzzle of Time, Scoop Up Net, Broken Time-Space, Porygon-Z, Enriching Energy, Ambipom PAR, Speed Lightning Energy, Octillery, Sableye Junk Hunt, Junk Arm). A Standard-rotated 60 is the wrong pool.
 - Do not test this win condition on Family Cup 30-card presets.
-- **Do not stop the goldfish at the first Celebration.** Two stop conditions: (a) time-to-first-30 / first Celebration, (b) turns until **three** Celebrations / 6 prizes, including the Octillery → Junk Arm / Junk Hunt rebuild. Report how often the second and third shots spend a Sableye attack (that is the 3-turn vs 4-turn vs 5-turn split).
-- Engine parses those printed sentences (`tests/test_gholdengo_celebration.py`). Puzzle of Time look-N comes from print, not a hardcoded top-6 in `app/engine/game.py`. Goldfish parks at 30; the household array is in `data/lab/gholdengo-30-array.json`.
+- Goldfish stop: Hand Fling lethal vs a household 2-prizer (12 cards vs Mewtwo 230 / 16 vs Dragapult 320), not exactly 30. Six prizes still need **three** attacks.
+- Engine parses those printed sentences (`tests/test_gholdengo_celebration.py`). Puzzle of Time look-N comes from print, not a hardcoded top-6 in `app/engine/game.py`. The household array is in `data/lab/gholdengo-30-array.json`.
 
 ---
 
