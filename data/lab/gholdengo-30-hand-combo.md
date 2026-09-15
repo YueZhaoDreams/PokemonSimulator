@@ -34,7 +34,7 @@ Puzzle of Time, Scoop Up Net, Forest of Giant Plants, Broken Time-Space, Lysandr
 
 同回合再进化用 **Broken Time-Space**。Abra Teleporter 仍把 Energy 洗进牌库，不要当这副的宿主。
 
-家庭组 3000 盘数组（seed 20260911）里 Hand Fling 会打出来（s60 10% / g 11.5% / c60 4.9%），Speed L 抽牌 8–23%，胜率仍低：2.5 / 4.6 / 3.6 / 16.5 / 1.1 / 5.8 / 7.1% vs c60/t60/hedrick/unl/d60/s60/g。100 HP 1 奖 Ambipom 还是会被 Photon / Dive 先打掉。比 Celebration 版在 s60（1.7→5.8）和 g（1.0→7.1）好一些，因为不必凑恰好 30。
+家庭组 3000 盘数组（seed 20260911）里 **Big Jump 会发动**（s60 11.4% / c60 9.3% / unl 8.5%），Hand Fling 也比 Abra+Net 版多（c60 4.9→7.3，unl 2.4→5.5）。胜率仍低：2.7 / 3.2 / 2.7 / 18.4 / 1.6 / 6.8 / 7.6% vs c60/t60/hedrick/unl/d60/s60/g。比 Abra 循环在 unl/s60/g/d60/c60 略好，t60/hedrick 略差（Stage 1 宿主比 Basic Abra 慢一拍）。100 HP Ambipom 还是会被 Photon / Dive 先打掉。
 
 ---
 
@@ -184,28 +184,27 @@ Honest calendar: **3 Celebration attacks** is the prize floor. **3 of our turns*
 
 ## Win-rate array
 
-G30 (`celebration` strategy, Ambipom PAR Hand Fling closer) as player A vs the household 60s. Not a full NxN remake of `set-c60-unl-matrix`. Rules preset `s60` (60 / 6 prizes / 4-of). First player random. **3,000 games / cell, seed 20260911** — same as `data/lab/set_c60_unl_matrix.py`. Elapsed **68.2s**.
+G30 (`celebration` strategy, Ambipom PAR Hand Fling + Lopunny FLF Big Jump) as player A vs the household 60s. Not a full NxN remake of `set-c60-unl-matrix`. Rules preset `s60` (60 / 6 prizes / 4-of). First player random. **3,000 games / cell, seed 20260911**. Elapsed **64.5s**.
 
 Script: `data/lab/gholdengo-30-array.py`. Numbers: `data/lab/gholdengo-30-array.json`.
 
 | A \\ B | c60 | t60 | hedrick | unl | d60 | s60 | g |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| g30 win | 2.5% | 4.6% | 3.6% | 16.5% | 1.1% | 5.8% | 7.1% |
-| first | 3.2% | 4.8% | 3.9% | 15.7% | 1.2% | 5.9% | 6.5% |
-| second | 1.9% | 4.3% | 3.3% | 17.2% | 1.0% | 5.7% | 7.7% |
-| Crazy Code | 32.4% | 19.0% | 26.2% | 29.8% | 12.6% | 38.9% | 36.7% |
-| Puzzle pair | 10.5% | 4.7% | 8.7% | 8.4% | 2.9% | 16.1% | 11.5% |
-| Speed L draw | 15.1% | 10.2% | 12.2% | 16.1% | 7.9% | 22.8% | 17.7% |
-| Hand Fling | 4.9% | 1.7% | 4.4% | 2.4% | 1/3000 | 10.0% | 11.5% |
+| g30 win | 2.7% | 3.2% | 2.7% | 18.4% | 1.6% | 6.8% | 7.6% |
+| first | 2.7% | 3.4% | 2.9% | 19.0% | 1.7% | 6.2% | 7.5% |
+| second | 2.7% | 3.1% | 2.5% | 17.9% | 1.5% | 7.4% | 7.8% |
+| Crazy Code | 31.1% | 17.5% | 23.4% | 26.9% | 12.4% | 33.8% | 36.8% |
+| Puzzle pair | 6.3% | 3.2% | 5.8% | 5.0% | 2.4% | 8.9% | 7.6% |
+| Speed L draw | 15.4% | 9.0% | 11.0% | 14.0% | 7.6% | 20.0% | 17.2% |
+| Big Jump | 9.3% | 4.2% | 5.6% | 8.5% | 2.2% | 11.4% | 8.3% |
+| Hand Fling | 7.3% | 2.4% | 4.3% | 5.5% | 0.7% | 10.5% | 12.6% |
 | Celebration | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 
-Previous Celebration closer (same seed, 3000/cell): g30 win **3.3 / 3.9 / 2.9 / 18.1 / 0.9 / 1.7 / 1.0%**. Hand Fling improved **s60 1.7→5.8** and **g 1.0→7.1**; **c60 3.3→2.5** and **unl 18.1→16.5** are slightly worse. **d60** stays ~1% (Ogerpon usually KOs first; Hand Fling 1/3000).
+Previous Abra + Net closer (same seed): g30 win **2.5 / 4.6 / 3.6 / 16.5 / 1.1 / 5.8 / 7.1%**. Big Jump improved **unl 16.5→18.4**, **s60 5.8→6.8**, **g 7.1→7.6**, **c60 2.5→2.7**, **d60 1.1→1.6**; **t60 4.6→3.2** and **hedrick 3.6→2.7** are slower (Stage 1 host vs Basic Abra). Celebration 30-hand was **3.3 / 3.9 / 2.9 / 18.1 / 0.9 / 1.7 / 1.0%**.
 
-Goldfish from a ready board still grows the hand and Hand Fling KOs Mewtwo at 12 cards. Live vs household 60s the gun fires more often than Celebration (s60 10%, g 11.5%, c60 4.9%), but 100 HP Ambipom still dies to Photon / Dive before three prize shots. Wins remain mostly incidental KOs / deck-out; the 16.5% vs `unl` is still the softest household 60, not prize math from a completed combo.
+Goldfish from a ready board still grows the hand (Big Jump returns Buneary + Lopunny + Enriching) and Hand Fling KOs Mewtwo at 12 cards. Live vs household 60s the bounce fires (s60 11.4%, c60 9.3%) and the gun fires more than the Abra loop, but 100 HP Ambipom still dies to Photon / Dive before three prize shots. Puzzle pair dropped because Big Jump does not need discard retrieve.
 
-Puzzle of Time’s two-card mode returns **two** cards. One pair can retrieve Enriching + Scoop Up Net, or two Puzzle, not all four. The +2 bounce is real but not an infinite same-turn mill from a 7-card hand. After the pair, Puzzle sits in discard; Sableye Junk Hunt is the reload (and spends the attack). Junk Arm is net −2 and does not replace that.
-
-Household 60s also kill the board first. C60 Photon Kinesis KOs 100 HP Ambipom for one prize and 130 HP Porygon-Z for one. d60 Dive / Ogerpon is faster than assembling `[C][C][C]` plus a 12-card hand.
+Household 60s also kill the board first. C60 Photon Kinesis KOs 100 HP Ambipom for one prize and 90 HP Lopunny / 130 HP Porygon-Z for one. d60 Dive / Ogerpon is faster than assembling `[C][C][C]` plus a 12-card hand.
 
 ---
 
@@ -217,6 +216,8 @@ Household 60s also kill the board first. C60 Photon Kinesis KOs 100 HP Ambipom f
 - **[C][C][C] Hand Fling** — This attack does 20 damage for each card in your hand.
 
 12 cards = 240 (Mewtwo 230 / Wo-Chien 230). 11 = 220 (Ogerpon 210). 16 = 320 (Dragapult). Hand stays after the attack. Six prizes still need three KOs.
+
+**Recycle — Lopunny FLF 85 Big Jump.** Same printed sentence as Jumpluff DRX Leave It to the Wind. Returns this Pokémon **and all cards attached to it** (including Buneary underneath) to the hand.
 
 **Previous closer — Gholdengo** (30th Celebration 108 / AR 142) — Metal Stage 1, 130 HP, evolves from Gimmighoul, retreat 2.
 
