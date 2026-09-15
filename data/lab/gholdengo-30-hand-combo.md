@@ -1,7 +1,7 @@
 # 30th Celebration Gholdengo — 60-card Unlimited, exactly 30 in hand
 
 Date: 2026-09-15 (format restated 2026-09-15)
-Status: card-text survey. No Monte Carlo yet.
+Status: engine plays the three-shot 60. Win-rate array vs household 60s is in `data/lab/gholdengo-30-array.json`.
 
 **This lab is Unlimited constructed. Not Standard. Not Expanded. Not Family Cup 30.**
 
@@ -149,6 +149,16 @@ Goldfish (going second, board already up):
 6. Repeat until three Celebrations. 2→0 prizes.
 
 Honest calendar: **3 Celebration attacks** is the prize floor. **3 of our turns** only if every post-reset hand restarts without Junk Hunt. **4 of our turns** if we go first, or if one rebuild spends Sableye. **5** if both rebuilds need Junk Hunt.
+
+---
+
+## Win-rate array
+
+G30 (`celebration`) as player A vs the household 60s. Not a full NxN remake of `set-c60-unl-matrix`. Rules preset `s60` (60 / 6 prizes / 4-of). First player random. **3,000 games / cell, seed 20260911** — same as `data/lab/set_c60_unl_matrix.py`.
+
+Script: `data/lab/gholdengo-30-array.py`. Numbers: `data/lab/gholdengo-30-array.json`.
+
+The engine must assemble the printed loop (Crazy Code + Enriching + Scoop Up Net + Puzzle of Time) and fire Celebration three times for a prize win. Household 60s still get a full turn after shot 1 and shot 2.
 
 ---
 

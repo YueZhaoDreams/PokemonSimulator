@@ -12,11 +12,13 @@ from app.engine.effects import (
     is_basic_energy,
     is_boomerang_energy,
     is_double_colorless,
+    is_enriching_energy,
     is_special_energy,
     is_telepathic_energy,
     parse_ability_effects,
     parse_draw_until_hand,
     parse_energy_effects,
+    parse_trainer_effects,
     resistance_reduce,
     weakness_multiplier,
 )
@@ -346,6 +348,19 @@ class Game:
         insurance = {n.lower() for n in (strat.insurance or strat.backups)}
         copies = self._count_named_in_play(player, name)
 
+        if strat.name == "celebration":
+            caps = {
+                "abra": 1,
+                "porygon": 1,
+                "remoraid": 1,
+                "sableye": 1,
+                "gimmighoul": 1,
+                "mew ex": 1,
+            }
+            if name in caps:
+                return copies < caps[name]
+            return False
+
         if name in aces:
             if strat.hold_as_energy:
                 if strat.name == "slash":
@@ -488,6 +503,16 @@ class Game:
         def score(i: int) -> float:
             card = player.card(i)
             name = card.name.lower()
+            if strat.name == "celebration":
+                rank = {
+                    "mew ex": 3000,
+                    "porygon": 2000,
+                    "gimmighoul": 1800,
+                    "remoraid": 1600,
+                    "abra": 1500,
+                    "sableye": 1400,
+                }
+                return rank.get(name, 0)
             if slash and name in closers:
                 return 500 + self._print_value(card, strat)
             if slash and self._is_slash_tank(card):
@@ -706,7 +731,7 @@ class Game:
         self._play_basics(me)
         self._play_trainers(me, foe, who)
         self._play_basics(me)
-        if self.strats[who].name in {"party", "demolish", "slash", "shock", "thrifty", "phantom", "carnival", "g"}:
+        if self.strats[who].name in {"party", "demolish", "slash", "shock", "thrifty", "phantom", "carnival", "g", "celebration"}:
             self._play_trainers(me, foe, who)
             self._play_basics(me)
         if self.strats[who].name == "party":
@@ -717,8 +742,10 @@ class Game:
             return True
         self._evolve(me, foe, who)
         self._play_basics(me)
-        if self.strats[who].name in {"party", "demolish", "slash", "shock", "thrifty", "phantom", "carnival", "g"}:
+        if self.strats[who].name in {"party", "demolish", "slash", "shock", "thrifty", "phantom", "carnival", "g", "celebration"}:
             self._play_trainers(me, foe, who)
+        if self.strats[who].name == "celebration":
+            self._evolve(me, foe, who)
         if self._use_abilities(me, foe, who):
             return True
         if self.strats[who].name == "party" and self._should_transfer_combo(me, foe):
@@ -739,7 +766,15 @@ class Game:
                 self._retreat_party_storm(me, foe, who, phase="finish")
         else:
             self._attach_energy(me, who)
-            self._maybe_retreat(me, foe, who)
+            if self.strats[who].name == "celebration":
+                if self._use_abilities(me, foe, who):
+                    return True
+                self._celebration_engine(me, who)
+                if getattr(self, "winner", None):
+                    return True
+                self._celebration_align_attacker(me, who)
+            else:
+                self._maybe_retreat(me, foe, who)
 
         if self.strats[who].name == "party":
             # After attach, Mewtwo/Mega can pay retreat and Party again, then return to the tank.
@@ -762,6 +797,10 @@ class Game:
                 self._log(f"{me.card(me.active.card_i).name} cannot attack (Frigid Fangs)")
             else:
                 self._attack(me, foe, who)
+                if getattr(self, "winner", None):
+                    self._expire_disabled_attacks(me)
+                    self.energy_attack_lock.pop(who, None)
+                    return True
                 if self._check_ko(foe, me, "b" if who == "a" else "a"):
                     self._expire_disabled_attacks(me)
                     self.energy_attack_lock.pop(who, None)
@@ -819,6 +858,16 @@ class Game:
         def prio(card_i: int) -> tuple:
             card = me.card(card_i)
             name = card.name.lower()
+            if strat.name == "celebration":
+                rank = {
+                    "mew ex": 0,
+                    "abra": 1,
+                    "porygon": 2,
+                    "gimmighoul": 3,
+                    "remoraid": 4,
+                    "sableye": 5,
+                }
+                return (rank.get(name, 20), -(card.hp or 0))
             if strat.name == "g":
                 rank = {
                     "clefairy": 0,
@@ -1028,11 +1077,16 @@ class Game:
         return not (who == self.first and self.turn == 1)
 
     def _can_evolve_now(self, me: Player, who: str, target: Pokemon) -> bool:
+        if self._stadium_allows_immediate_evolve() and target.played_turn == self.turn:
+            return True
         if self.rules.first_turn_no_evolve and self._is_players_first_turn(who):
             return False
         if target.played_turn == self.turn and not self._has_named(me, "Rare Candy"):
             return False
         return True
+
+    def _stadium_allows_immediate_evolve(self) -> bool:
+        return any(e.get("kind") == "evolve_just_played_or_evolved" for e in (self.stadium_effects or []))
 
     def _evolve_g(self, me: Player, foe: Player, who: str) -> None:
         if self.rules.first_turn_no_evolve and self._is_players_first_turn(who):
@@ -1512,6 +1566,8 @@ class Game:
                 score += 3
             if strat.name == "g" and self._g_wants_horn_swing(me, foe, who):
                 score += self._g_horn_trainer_score(me, foe, who, card_i)
+            if strat.name == "celebration":
+                score += self._celebration_trainer_score(me, who, name)
             candidates.append((score, card_i))
         if not candidates:
             return None
@@ -1824,7 +1880,12 @@ class Game:
             self._draw(me, 4)
             self._draw(foe, 4)
         else:
-            self._draw(me, 1)
+            handled = False
+            for eff in parse_trainer_effects(card.text or ""):
+                self._resolve_parsed_trainer(me, foe, who, card, card_i, eff)
+                handled = True
+            if not handled:
+                self._draw(me, 1)
 
     def _tool_box(self, me: Player) -> None:
         """Printed Tool Box: look at the top 7; put any Pokémon Tools into the hand."""
@@ -2127,6 +2188,15 @@ class Game:
             if not any(me.card(m.card_i).name.lower() == "budew" for m in me.in_play()):
                 prefer.append("Budew")
             prefer.extend(["Drakloak", "Dragapult ex", "Pidgeot ex", "Rare Candy", "Pidgey"])
+            return list(dict.fromkeys(prefer))
+        if strat.name == "celebration":
+            prefer: list[str] = []
+            for name in ("Mew ex", "Abra", "Porygon", "Gimmighoul", "Remoraid", "Sableye"):
+                if not any(me.card(m.card_i).name.lower() == name.lower() for m in me.in_play()) and not any(
+                    me.card(i).name.lower() == name.lower() for i in me.hand
+                ):
+                    prefer.append(name)
+            prefer.extend(["Porygon2", "Porygon-Z", "Octillery", "Gholdengo", "Abra"])
             return list(dict.fromkeys(prefer))
         if strat.hold_as_energy:
             prefer = list(strat.search_aces)
@@ -2588,6 +2658,12 @@ class Game:
     def _resolve_energy_attach_from_hand(self, me: Player, who: str, target: Pokemon, energy_i: int) -> None:
         src = me.card(energy_i)
         for eff in parse_energy_effects(src.text):
+            if eff.get("kind") == "draw_on_attach_from_hand":
+                n = int(eff.get("amount") or 0)
+                if n:
+                    self._draw(me, n)
+                    self._bump("enriching_draw", n)
+                    self._log(f"{me.name} draws {n} from {src.name}")
             if eff.get("kind") != "call_family":
                 continue
             req = str(eff.get("require_attach_type") or "").title()
@@ -2680,6 +2756,9 @@ class Game:
 
     def _energy_target(self, me: Player, strat: StrategySpec) -> Pokemon:
         assert me.active
+        if strat.name == "celebration":
+            dest = self._celebration_energy_target(me)
+            return dest or me.active
         if strat.name == "party":
             who = "a" if me.name == "A" else "b"
             foe = self.players["b" if who == "a" else "a"]
@@ -2945,6 +3024,8 @@ class Game:
             if fighting_ok:
                 return dce[0]
         energies = [i for i in me.hand if me.card(i).is_energy]
+        if strat.name == "celebration" and self._has_crazy_code(me):
+            energies = [i for i in energies if not is_enriching_energy(me.card(i))]
         matching_nrg = [
             i
             for i in energies
@@ -2980,6 +3061,13 @@ class Game:
 
     def _needed_types(self, me: Player, target: Pokemon) -> set[str]:
         card = me.card(target.card_i)
+        who = "a" if me.name == "A" else "b"
+        if self.strats[who].name == "celebration":
+            name = card.name.lower()
+            if name in {"mew ex", "gholdengo"}:
+                return {"Metal"}
+            if name == "sableye":
+                return {"Darkness"}
         attached = self._energy_pool(me, target)
         needed: set[str] = set()
         for atk in card.attacks:
@@ -3031,6 +3119,8 @@ class Game:
             return
         if strat.name == "g":
             self._retreat_g(me, foe, who)
+            return
+        if strat.name == "celebration":
             return
         incoming_idx = None
         aces = {n.lower() for n in strat.search_aces}
@@ -3254,6 +3344,20 @@ class Game:
                 self._self_bench_damage(me, int(effect.get("amount") or 0))
             elif effect.get("kind") == "move_opp_active_energy_to_bench":
                 self._move_opp_active_energy_to_bench(foe)
+            elif effect.get("kind") == "take_prizes_if_hand":
+                need = int(effect.get("hand") or 0)
+                n = int(effect.get("prizes") or 0)
+                if len(me.hand) == need and n > 0:
+                    got = self._take_prizes(me, n)
+                    self._bump("celebration", got)
+                    self._bump("take_prizes_if_hand", got)
+                    self._log(f"{attacker.name} Celebration takes {got} Prize cards")
+                    if effect.get("shuffle_hand"):
+                        self._shuffle_hand_into_deck(me)
+                    if me.prizes_taken >= self.rules.prize_count or not me.prizes:
+                        self.winner, self.reason = who, "took all prize cards"
+            elif effect.get("kind") == "recycle_items_from_discard":
+                self._recycle_items_from_discard(me, int(effect.get("count") or 0))
 
     def _mill_opponent(self, me: Player, foe: Player, count: int = 1) -> None:
         milled = 0
@@ -3646,7 +3750,7 @@ class Game:
         locked = me.active.disabled_attack
         legal = [
             atk
-            for atk in card.attacks
+            for atk in self._attacks_for(me, me.active)
             if can_pay_energy(attached, atk.cost) and atk.name != locked
         ]
         if not legal:
@@ -3822,6 +3926,19 @@ class Game:
                 score += 15 if strat.hold_as_energy else 55
             if any(e.get("kind") == "draw" for e in atk.effects) and atk.damage <= 30:
                 score += 15
+            if any(e.get("kind") == "take_prizes_if_hand" for e in resolved.effects):
+                spec = next(e for e in resolved.effects if e.get("kind") == "take_prizes_if_hand")
+                if len(me.hand) == int(spec.get("hand") or -1):
+                    score += 10000
+                else:
+                    score -= 10000
+            if strat.name == "celebration" and any(
+                e.get("kind") == "recycle_items_from_discard" for e in resolved.effects
+            ):
+                if self._celebration_needs_junk_hunt(me) and len(me.hand) != 30:
+                    score += 800
+            if strat.name == "celebration" and "tantrum" in atk.name.lower():
+                score -= 900
             if best is None or score > best_score:
                 best, best_score = atk, score
         if strat.name == "party" and best is not None:
@@ -4625,6 +4742,8 @@ class Game:
                 if max_hp is not None and (card.hp or 0) > max_hp:
                     continue
                 name = card.name.lower()
+                if strat.name == "celebration" and not self._wants_in_play(me, card, strat):
+                    continue
                 if strat.name == "slash" and name not in {"wo-chien ex", "sprigatito"}:
                     continue
                 if strat.name == "phantom" and name not in {
@@ -4693,6 +4812,8 @@ class Game:
             return None
         if strat.name == "g":
             return self._g_incoming_idx(me, who)
+        if strat.name == "celebration":
+            return self._celebration_switch_idx(me)
         return 0
 
     def _play_switch(self, me: Player, who: str, target_idx: int | None = None) -> bool:
@@ -6083,6 +6204,7 @@ class Game:
 
     def _use_passive_abilities(self, me: Player, who: str, foe: Player | None = None) -> None:
         foe = foe or self.players["b" if who == "a" else "a"]
+        self._crazy_code_attach(me, who)
         for mon in me.in_play():
             if mon.ability_used:
                 continue
@@ -6135,6 +6257,25 @@ class Game:
                             mon.ability_used = True
                             self._bump("quick_search")
                             self._log(f"{card.name} Quick Search")
+                    elif kind == "draw_until_hand":
+                        target = int(eff.get("count") or 0)
+                        if target <= 0 or len(me.hand) >= target:
+                            continue
+                        self._draw(me, max(0, target - len(me.hand)))
+                        mon.ability_used = True
+                        self._bump("abyssal_hand")
+                        self._log(f"{card.name} draws until {target}")
+                    elif kind == "shuffle_self_into_deck":
+                        if self.strats[who].name == "celebration":
+                            continue
+                        if eff.get("require_active") and mon is not me.active:
+                            continue
+                        if len(me.in_play()) < 2:
+                            continue
+                        self._shuffle_mon_into_deck(me, mon)
+                        self._bump("teleporter")
+                        self._log(f"{card.name} Teleporter")
+                        return
         for mon in me.in_play():
             if mon.tool is None or me.vstar_used:
                 continue
@@ -7878,6 +8019,598 @@ class Game:
             psychic = self._count_psychic_energy_in_play(me)
             if psychic >= 7 and self._mewtwo_can_pay_photon(me, target) and self._belt_on(me, target):
                 self._bump("fast_line_7p_belt")
+
+    def _is_pokemon_gx(self, card: Card) -> bool:
+        name = (card.name or "").lower().rstrip()
+        return name.endswith(" gx") or name.endswith("-gx")
+
+    def _scoop_legal(self, card: Card) -> bool:
+        return not self._is_pokemon_v(card) and not self._is_pokemon_gx(card)
+
+    def _has_crazy_code(self, me: Player) -> bool:
+        for mon in me.in_play():
+            if self._abilities_suppressed(me, mon):
+                continue
+            for abi in me.card(mon.card_i).abilities:
+                if any(e.get("kind") == "attach_special_energy_from_hand" for e in self._ability_effects(abi)):
+                    return True
+        return False
+
+    def _copies_benched_attacks(self, me: Player, mon: Pokemon) -> bool:
+        if self._abilities_suppressed(me, mon):
+            return False
+        for abi in me.card(mon.card_i).abilities:
+            if any(e.get("kind") == "copy_benched_attacks" for e in self._ability_effects(abi)):
+                return True
+        return False
+
+    def _attacks_for(self, me: Player, mon: Pokemon) -> list[Attack]:
+        attacks = list(me.card(mon.card_i).attacks)
+        if not self._copies_benched_attacks(me, mon):
+            return attacks
+        seen = {id(atk) for atk in attacks}
+        for bench in me.bench:
+            for atk in me.card(bench.card_i).attacks:
+                if self._is_copy_attack(atk) or id(atk) in seen:
+                    continue
+                attacks.append(atk)
+                seen.add(id(atk))
+        return attacks
+
+    def _celebration_energy_target(self, me: Player) -> Pokemon | None:
+        if self._celebration_needs_junk_hunt(me):
+            for mon in me.in_play():
+                if me.card(mon.card_i).name.lower() == "sableye":
+                    return mon
+        for want in ("mew ex", "gholdengo"):
+            for mon in me.in_play():
+                if me.card(mon.card_i).name.lower() == want:
+                    return mon
+        return me.active
+
+    def _celebration_switch_idx(self, me: Player) -> int | None:
+        if not me.bench:
+            return None
+        if self._celebration_needs_junk_hunt(me):
+            for idx, mon in enumerate(me.bench):
+                if me.card(mon.card_i).name.lower() == "sableye":
+                    return idx
+        if len(me.hand) == 30:
+            for want in ("mew ex", "gholdengo"):
+                for idx, mon in enumerate(me.bench):
+                    if me.card(mon.card_i).name.lower() == want:
+                        return idx
+        for want in ("mew ex", "gholdengo"):
+            for idx, mon in enumerate(me.bench):
+                if me.card(mon.card_i).name.lower() == want:
+                    return idx
+        return 0
+
+    def _celebration_needs_junk_hunt(self, me: Player) -> bool:
+        if len(me.hand) == 30:
+            return False
+        if not any(me.card(m.card_i).name.lower() == "sableye" for m in me.in_play()):
+            return False
+        if not self._celebration_needs_loop_items(me):
+            return False
+        disc_items = [
+            i
+            for i in me.discard
+            if me.card(i).is_item and me.card(i).name.lower() in {"puzzle of time", "scoop up net"}
+        ]
+        return len(disc_items) >= 2
+
+    def _celebration_needs_loop_items(self, me: Player) -> bool:
+        puzzles = sum(1 for i in me.hand if me.card(i).name.lower() == "puzzle of time")
+        nets = sum(1 for i in me.hand if me.card(i).name.lower() == "scoop up net")
+        if puzzles >= 2 and (nets >= 1 or self._enriching_on_scoopable(me)):
+            return False
+        return True
+
+    def _enriching_on_scoopable(self, me: Player) -> Pokemon | None:
+        for mon in me.in_play():
+            if not self._scoop_legal(me.card(mon.card_i)):
+                continue
+            if me.card(mon.card_i).name.lower() in {"porygon-z", "octillery", "mew ex", "gholdengo"}:
+                continue
+            if any(is_enriching_energy(me.card(i)) for i in mon.energy):
+                return mon
+        return None
+
+    def _celebration_trainer_score(self, me: Player, who: str, name: str) -> float:
+        if name in {"puzzle of time", "scoop up net"}:
+            return -80.0
+        score = 0.0
+        slots = self.rules.bench_size - len(me.bench)
+        if name == "broken time-space":
+            score += -8 if self.stadium_name == "Broken Time-Space" else 22
+        elif name in {"buddy-buddy poffin", "buddy buddy poffin"}:
+            score += 16 if slots > 0 else -10
+        elif name in {"nest ball", "nesting ball"}:
+            score += 12 if slots > 0 else -8
+        elif name == "ultra ball":
+            score += 8 if len(me.hand) >= 3 else -12
+        elif name == "junk arm":
+            if self._celebration_needs_loop_items(me) and len(me.hand) >= 3:
+                score += 18
+            else:
+                score -= 10
+        elif name == "switch":
+            idx = self._celebration_switch_idx(me)
+            if idx is not None and me.active and me.card(me.active.card_i).name.lower() == "sableye" and len(me.hand) == 30:
+                score += 14
+            elif self._celebration_needs_junk_hunt(me) and me.active and me.card(me.active.card_i).name.lower() != "sableye":
+                score += 16
+            elif me.active and me.card(me.active.card_i).name.lower() not in {"mew ex", "gholdengo"}:
+                score += 6
+            else:
+                score -= 8
+        elif name == "vs seeker":
+            score += 10 if any(me.card(i).is_supporter for i in me.discard) else -6
+        elif name == "wally":
+            if self._stadium_allows_immediate_evolve():
+                score -= 4
+            elif any(me.card(m.card_i).evolves_from for m in []) or any(
+                bool(me.card(m.card_i).is_basic) for m in me.in_play()
+            ):
+                score += 12
+        elif name == "battle compressor":
+            score += 9 if any(me.card(i).name.lower() == "puzzle of time" for i in me.deck) else 2
+        elif "professor" in name:
+            score += 10 if len(me.hand) <= 4 else -20
+        return score
+
+    def _resolve_parsed_trainer(
+        self,
+        me: Player,
+        foe: Player,
+        who: str,
+        card: Card,
+        card_i: int | None,
+        eff: dict,
+    ) -> None:
+        kind = eff.get("kind")
+        if kind == "puzzle_of_time":
+            self._puzzle_of_time(me, who, card, int(eff.get("look") or 0), int(eff.get("pair_count") or 0))
+        elif kind == "scoop_non_v_gx_to_hand":
+            self._scoop_up_net(me, who)
+        elif kind == "junk_arm":
+            self._junk_arm(me, who, card, int(eff.get("discard") or 2), bool(eff.get("exclude_self")))
+        elif kind == "mill_own_deck":
+            self._battle_compressor(me, int(eff.get("count") or 0))
+        elif kind == "recycle_supporter_from_discard":
+            self._vs_seeker(me)
+        elif kind == "wally_evolve":
+            self._wally_evolve(me, who, bool(eff.get("first_turn_ok")), bool(eff.get("just_played_ok")))
+        elif kind == "evolve_just_played_or_evolved":
+            self._play_stadium(me, foe, card)
+
+    def _puzzle_of_time(self, me: Player, who: str, card: Card, look: int, pair_count: int) -> None:
+        second = next((i for i in me.hand if me.card(i).name.lower() == card.name.lower()), None)
+        if second is not None and pair_count > 0:
+            me.hand.remove(second)
+            me.discard.append(second)
+            self._retrieve_from_discard(
+                me,
+                pair_count,
+                prefer=("enriching energy", "scoop up net", "puzzle of time", "junk arm"),
+            )
+            self._bump("puzzle_pair")
+            return
+        if look > 0 and me.deck:
+            n = min(look, len(me.deck))
+            seen = me.deck[:n]
+            me.deck = me.deck[n:] + seen
+            self._bump("puzzle_look", n)
+            self._log(f"{me.name} Puzzle of Time looks at {n}")
+
+    def _retrieve_from_discard(self, me: Player, count: int, prefer: tuple[str, ...] = ()) -> None:
+        ranked: list[tuple[int, int]] = []
+        for i in me.discard:
+            name = me.card(i).name.lower()
+            rank = prefer.index(name) if name in prefer else 40
+            ranked.append((rank, i))
+        ranked.sort()
+        taken = 0
+        for _, card_i in ranked:
+            if taken >= count:
+                break
+            if card_i not in me.discard:
+                continue
+            me.discard.remove(card_i)
+            me.hand.append(card_i)
+            taken += 1
+            self._bump("puzzle_retrieve")
+            self._log(f"{me.name} Puzzle retrieves {me.card(card_i).name}")
+
+    def _scoop_up_net(self, me: Player, who: str) -> None:
+        target = self._enriching_on_scoopable(me)
+        if target is None:
+            for mon in list(me.in_play()):
+                card = me.card(mon.card_i)
+                if not self._scoop_legal(card):
+                    continue
+                if card.name.lower() in {"porygon-z", "octillery", "mew ex", "gholdengo"}:
+                    continue
+                if len(me.in_play()) < 2:
+                    continue
+                target = mon
+                break
+        if target is None or len(me.in_play()) < 2:
+            self._bump("scoop_net_fail")
+            return
+        me.hand.append(target.card_i)
+        me.discard.extend(list(target.energy))
+        if target.tool is not None:
+            me.discard.append(target.tool)
+        target.energy.clear()
+        target.tool = None
+        if me.active is target:
+            me.active = None
+        elif target in me.bench:
+            me.bench.remove(target)
+        if me.active is None and me.bench:
+            me.active = me.bench.pop(0)
+        self._bump("scoop_net")
+        self._log(f"{me.name} Scoop Up Net {me.card(me.hand[-1]).name}")
+
+    def _junk_arm(self, me: Player, who: str, card: Card, discard_n: int, exclude_self: bool) -> None:
+        protect = {
+            "puzzle of time",
+            "scoop up net",
+            "enriching energy",
+        }
+        fodder = []
+        extras = []
+        for i in list(me.hand):
+            c = me.card(i)
+            name = c.name.lower()
+            if name in protect:
+                continue
+            if name == "junk arm" or c.is_pokemon:
+                extras.append(i)
+            else:
+                fodder.append(i)
+        fodder.extend(extras)
+        if len(fodder) < discard_n:
+            self._bump("junk_arm_fail")
+            return
+        for i in fodder[:discard_n]:
+            me.hand.remove(i)
+            me.discard.append(i)
+        trainers = [
+            i
+            for i in me.discard
+            if me.card(i).is_trainer and not (exclude_self and me.card(i).name.lower() == "junk arm")
+        ]
+        prefer = ["puzzle of time", "scoop up net", "broken time-space", "switch", "wally"]
+
+        def rank(idx: int) -> int:
+            name = me.card(idx).name.lower()
+            return prefer.index(name) if name in prefer else 20
+
+        if not trainers:
+            self._bump("junk_arm_miss")
+            return
+        pick = min(trainers, key=rank)
+        me.discard.remove(pick)
+        me.hand.append(pick)
+        self._bump("junk_arm")
+        self._log(f"{me.name} Junk Arm finds {me.card(pick).name}")
+
+    def _battle_compressor(self, me: Player, count: int) -> None:
+        prefer = ["puzzle of time", "scoop up net", "junk arm"]
+        ranked = []
+        for i in me.deck:
+            name = me.card(i).name.lower()
+            ranked.append((prefer.index(name) if name in prefer else 40, i))
+        ranked.sort()
+        taken = 0
+        for _, card_i in ranked:
+            if taken >= count:
+                break
+            if card_i not in me.deck:
+                continue
+            me.deck.remove(card_i)
+            me.discard.append(card_i)
+            taken += 1
+            self._bump("battle_compressor")
+        self.rng.shuffle(me.deck)
+
+    def _vs_seeker(self, me: Player) -> None:
+        supporters = [i for i in me.discard if me.card(i).is_supporter]
+        if not supporters:
+            self._bump("vs_seeker_miss")
+            return
+        prefer = ["wally", "professor's research"]
+
+        def rank(idx: int) -> int:
+            name = me.card(idx).name.lower()
+            return prefer.index(name) if name in prefer else 10
+
+        pick = min(supporters, key=rank)
+        me.discard.remove(pick)
+        me.hand.append(pick)
+        self._bump("vs_seeker")
+
+    def _wally_evolve(self, me: Player, who: str, first_turn_ok: bool, just_played_ok: bool) -> None:
+        if self._is_players_first_turn(who) and not first_turn_ok and not self._stadium_allows_immediate_evolve():
+            if not just_played_ok:
+                self._bump("wally_fail")
+                return
+        in_play = {me.card(m.card_i).name.lower(): m for m in me.in_play()}
+        prefer = ["porygon-z", "gholdengo", "octillery", "porygon2"]
+        scored: list[tuple[int, Pokemon, int]] = []
+        for evo_i in me.deck:
+            evo = me.card(evo_i)
+            parent = (evo.evolves_from or "").lower()
+            if not parent or parent not in in_play:
+                continue
+            target = in_play[parent]
+            if target.played_turn != self.turn and not just_played_ok and not self._stadium_allows_immediate_evolve():
+                if self.rules.first_turn_no_evolve and self._is_players_first_turn(who) and not first_turn_ok:
+                    continue
+            rank = prefer.index(evo.name.lower()) if evo.name.lower() in prefer else 20
+            scored.append((rank, target, evo_i))
+        if not scored:
+            self._bump("wally_miss")
+            return
+        scored.sort()
+        target, evo_i = scored[0][1], scored[0][2]
+        me.deck.remove(evo_i)
+        me.hand.append(evo_i)
+        self._do_evolve(me, target, evo_i)
+        self.rng.shuffle(me.deck)
+        self._bump("wally")
+
+    def _recycle_items_from_discard(self, me: Player, count: int) -> None:
+        items = [i for i in me.discard if me.card(i).is_item]
+        prefer = ["puzzle of time", "scoop up net", "junk arm", "switch"]
+
+        def rank(idx: int) -> int:
+            name = me.card(idx).name.lower()
+            return prefer.index(name) if name in prefer else 20
+
+        items.sort(key=rank)
+        taken = 0
+        for card_i in items:
+            if taken >= count:
+                break
+            me.discard.remove(card_i)
+            me.hand.append(card_i)
+            taken += 1
+            self._bump("junk_hunt")
+            self._log(f"{me.name} Junk Hunt takes {me.card(card_i).name}")
+
+    def _crazy_code_attach(self, me: Player, who: str) -> None:
+        if not self._has_crazy_code(me):
+            return
+        # Celebration engine drives Enriching attaches; still allow a single attach
+        # if the engine is not running this strat.
+        if self.strats[who].name == "celebration":
+            return
+        specials = [i for i in list(me.hand) if is_special_energy(me.card(i))]
+        if not specials or not me.in_play():
+            return
+        target = me.active or me.in_play()[0]
+        card_i = specials[0]
+        me.hand.remove(card_i)
+        target.energy.append(card_i)
+        self._log(f"{me.name} Crazy Code attaches {me.card(card_i).name}")
+        self._bump("crazy_code")
+        self._resolve_energy_attach_from_hand(me, who, target, card_i)
+
+    def _celebration_attach_enriching(self, me: Player, who: str) -> bool:
+        if not self._has_crazy_code(me):
+            return False
+        enrich = next((i for i in me.hand if is_enriching_energy(me.card(i))), None)
+        if enrich is None:
+            return False
+        host = None
+        for mon in me.in_play():
+            name = me.card(mon.card_i).name.lower()
+            if name == "abra" and mon is not me.active and self._scoop_legal(me.card(mon.card_i)):
+                host = mon
+                break
+        if host is None:
+            for mon in me.in_play():
+                name = me.card(mon.card_i).name.lower()
+                if name == "abra" and self._scoop_legal(me.card(mon.card_i)):
+                    host = mon
+                    break
+        if host is None:
+            for mon in me.in_play():
+                if mon is me.active:
+                    continue
+                if self._scoop_legal(me.card(mon.card_i)) and me.card(mon.card_i).name.lower() not in {
+                    "porygon-z",
+                    "octillery",
+                    "mew ex",
+                    "gholdengo",
+                }:
+                    host = mon
+                    break
+        if host is None:
+            return False
+        me.hand.remove(enrich)
+        host.energy.append(enrich)
+        self._bump("crazy_code")
+        self._log(f"{me.name} Crazy Code attaches Enriching Energy to {me.card(host.card_i).name}")
+        self._resolve_energy_attach_from_hand(me, who, host, enrich)
+        return True
+
+    def _hand_named(self, me: Player, name: str) -> list[int]:
+        key = name.lower()
+        return [i for i in me.hand if me.card(i).name.lower() == key]
+
+    def _play_named_item(self, me: Player, foe: Player, who: str, name: str) -> bool:
+        found = self._first_named(me, name)
+        if found is None:
+            return False
+        card = me.card(found)
+        me.hand.remove(found)
+        me.discard.append(found)
+        self._resolve_trainer(me, foe, card, who=who, card_i=found)
+        self._log(f"{me.name} plays {card.name}")
+        return True
+
+    def _replay_host(self, me: Player, who: str) -> bool:
+        host = next((i for i in me.hand if me.card(i).name.lower() == "abra" and self._is_playable_pokemon(me.card(i))), None)
+        if host is None:
+            host = next((i for i in me.hand if self._is_playable_pokemon(me.card(i))), None)
+        if host is None:
+            return False
+        if me.active is None:
+            me.hand.remove(host)
+            me.active = Pokemon(card_i=host, played_turn=self.turn)
+            return True
+        if len(me.bench) >= self._bench_limit():
+            return False
+        me.hand.remove(host)
+        me.bench.append(Pokemon(card_i=host, played_turn=self.turn))
+        self._on_benched(me, me.bench[-1], from_hand=True)
+        return True
+
+    def _celebration_park(self, me: Player) -> None:
+        self._bump("hand_thirty")
+
+    def _celebration_trim(self, me: Player, who: str) -> None:
+        foe = self.players["b" if who == "a" else "a"]
+        while len(me.hand) > 30:
+            extra = next(
+                (
+                    i
+                    for i in me.hand
+                    if me.card(i).is_item
+                    and me.card(i).name.lower()
+                    not in {"puzzle of time", "scoop up net", "junk arm", "ultra ball", "switch"}
+                ),
+                None,
+            )
+            if extra is not None:
+                card = me.card(extra)
+                me.hand.remove(extra)
+                me.discard.append(extra)
+                self._resolve_trainer(me, foe, card, who=who, card_i=extra)
+                continue
+            basic = next((i for i in me.hand if self._is_playable_pokemon(me.card(i))), None)
+            if basic is None:
+                break
+            if me.active is None:
+                me.hand.remove(basic)
+                me.active = Pokemon(card_i=basic, played_turn=self.turn)
+            elif len(me.bench) < self._bench_limit():
+                me.hand.remove(basic)
+                me.bench.append(Pokemon(card_i=basic, played_turn=self.turn))
+            else:
+                break
+
+    def _celebration_can_pay_metal(self, me: Player, mon: Pokemon) -> bool:
+        return can_pay_energy(self._energy_pool(me, mon), ["Metal"])
+
+    def _celebration_can_pay_junk_hunt(self, me: Player) -> bool:
+        if not me.active:
+            return False
+        if me.card(me.active.card_i).name.lower() != "sableye":
+            return False
+        return can_pay_energy(self._energy_pool(me, me.active), ["Darkness"])
+
+    def _gholdengo_in_play(self, me: Player) -> bool:
+        return any(me.card(m.card_i).name.lower() == "gholdengo" for m in me.in_play())
+
+    def _celebration_can_attack(self, me: Player) -> bool:
+        if not me.active:
+            return False
+        name = me.card(me.active.card_i).name.lower()
+        if name == "gholdengo":
+            return self._celebration_can_pay_metal(me, me.active)
+        if name == "mew ex":
+            return self._gholdengo_in_play(me) and self._celebration_can_pay_metal(me, me.active)
+        return False
+
+    def _celebration_attacker_idx(self, me: Player) -> int | None:
+        if not me.bench:
+            return None
+        for want in ("mew ex", "gholdengo"):
+            for idx, mon in enumerate(me.bench):
+                if me.card(mon.card_i).name.lower() != want:
+                    continue
+                if want == "mew ex" and not self._gholdengo_in_play(me):
+                    continue
+                if self._celebration_can_pay_metal(me, mon) or want == "mew ex":
+                    return idx
+        return None
+
+    def _celebration_align_attacker(self, me: Player, who: str) -> None:
+        if not me.active or not me.bench:
+            return
+        if len(me.hand) == 30 and self._celebration_can_attack(me):
+            return
+        idx = None
+        if self._celebration_needs_junk_hunt(me):
+            if me.card(me.active.card_i).name.lower() == "sableye":
+                return
+            for i, mon in enumerate(me.bench):
+                if me.card(mon.card_i).name.lower() == "sableye":
+                    idx = i
+                    break
+        elif len(me.hand) == 30 or not self._celebration_can_attack(me):
+            if me.card(me.active.card_i).name.lower() in {"mew ex", "gholdengo"} and self._celebration_can_attack(me):
+                return
+            idx = self._celebration_attacker_idx(me)
+        if idx is None:
+            return
+        self._celebration_move_into(me, who, idx)
+
+    def _celebration_move_into(self, me: Player, who: str, idx: int) -> bool:
+        switch_i = self._first_named(me, "Switch")
+        if switch_i is not None:
+            me.hand.remove(switch_i)
+            me.discard.append(switch_i)
+            return self._play_switch(me, who, idx)
+        if me.active and any(is_enriching_energy(me.card(i)) for i in me.active.energy):
+            return False
+        if self._retreat_cost(me, me.active) == 0:
+            return self._do_retreat_into(me, idx)
+        return self._do_retreat_into(me, idx)
+
+    def _celebration_engine(self, me: Player, who: str) -> None:
+        foe = self.players["b" if who == "a" else "a"]
+        for _ in range(28):
+            if getattr(self, "winner", None):
+                return
+            if len(me.hand) == 30 and self._enriching_on_scoopable(me):
+                self._celebration_park(me)
+                return
+            if self._celebration_attach_enriching(me, who):
+                if len(me.hand) >= 30:
+                    self._celebration_trim(me, who)
+                    if len(me.hand) == 30:
+                        self._celebration_park(me)
+                    return
+                continue
+            host = self._enriching_on_scoopable(me)
+            puzzles = self._hand_named(me, "Puzzle of Time")
+            net = self._first_named(me, "Scoop Up Net")
+            if (host is None or net is None or len(puzzles) < 2) and self._first_named(me, "Junk Arm") is not None:
+                if not self._play_named_item(me, foe, who, "Junk Arm"):
+                    break
+                puzzles = self._hand_named(me, "Puzzle of Time")
+                net = self._first_named(me, "Scoop Up Net")
+                host = self._enriching_on_scoopable(me)
+            if host is None or net is None or len(puzzles) < 2:
+                break
+            if not self._play_named_item(me, foe, who, "Scoop Up Net"):
+                break
+            if not self._replay_host(me, who):
+                break
+            if not self._play_named_item(me, foe, who, "Puzzle of Time"):
+                break
+            if len(self._hand_named(me, "Puzzle of Time")) >= 2:
+                self._play_named_item(me, foe, who, "Puzzle of Time")
+        self._celebration_trim(me, who)
+        if len(me.hand) == 30:
+            self._celebration_park(me)
 
 
 def _capture_opening(player: Player) -> None:

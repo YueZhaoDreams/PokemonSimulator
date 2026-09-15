@@ -293,6 +293,55 @@ def parse_ability_effects(text: str) -> list[dict[str, Any]]:
                 "opponent_discards_first": "opponent discards first" in t,
             }
         )
+
+    # Octillery Abyssal Hand / draw-until abilities. Count comes from print.
+    until = parse_draw_until_hand(text)
+    if until and "search your deck" not in t:
+        until = dict(until)
+        until["once_per_turn"] = "once during your turn" in t
+        effects.append(until)
+
+    # Porygon-Z Crazy Code: extra Special Energy attaches, as often as you like.
+    if (
+        "special energy" in t
+        and "from your hand" in t
+        and "attach" in t
+        and "as often as you like" in t
+    ):
+        effects.append(
+            {
+                "kind": "attach_special_energy_from_hand",
+                "as_often_as_you_like": True,
+                "once_per_turn": False,
+            }
+        )
+
+    # Abra Teleporter: shuffle this Pokémon (Ability). RAD already matched draw+shuffle.
+    shuffled_self = "shuffle this pokemon" in t or (
+        "shuffle it" in t and "attached" in t and "into your deck" in t
+    )
+    if (
+        shuffled_self
+        and "into your deck" in t
+        and "draw" not in t
+        and not any(e.get("kind") == "draw_then_shuffle_self" for e in effects)
+    ):
+        effects.append(
+            {
+                "kind": "shuffle_self_into_deck",
+                "require_active": "active" in t,
+                "once_per_turn": "once during your turn" in t,
+            }
+        )
+
+    # Mew ex Memory Helix: copy attacks of any of your Benched Pokémon.
+    if "can use the attacks of any of your benched pokemon" in t:
+        effects.append({"kind": "copy_benched_attacks"})
+
+    # Broken Time-Space: evolve a Pokémon just played or just evolved this turn.
+    if "just played" in t and "evolved" in t and "evolve" in t:
+        effects.append({"kind": "evolve_just_played_or_evolved"})
+
     return effects
 
 
@@ -300,6 +349,32 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
     t = _normalize_card_text(text)
     effects: list[dict[str, Any]] = []
     coin = "flip a coin" in t or ("flip" in t and "heads" in t)
+
+    hand_prizes = re.search(
+        r"if you have exactly (\d+) cards in your hand, take (\d+) prize cards",
+        t,
+    )
+    if hand_prizes:
+        effects.append(
+            {
+                "kind": "take_prizes_if_hand",
+                "hand": int(hand_prizes.group(1)),
+                "prizes": int(hand_prizes.group(2)),
+                "shuffle_hand": "shuffle your hand into your deck" in t,
+            }
+        )
+
+    items_from_discard = re.search(
+        r"put (\d+) item cards from your discard pile into your hand",
+        t,
+    )
+    if items_from_discard:
+        effects.append(
+            {
+                "kind": "recycle_items_from_discard",
+                "count": int(items_from_discard.group(1)),
+            }
+        )
 
     if "paralyze" in t:
         effects.append({"kind": "status", "status": "paralyzed", "coin": coin})
@@ -659,6 +734,96 @@ def parse_energy_effects(text: str) -> list[dict[str, Any]]:
                 "require_attach_type": attach_search.group(1).title(),
             }
         )
+    # Enriching Energy: draw N when attached from hand. N comes from print.
+    attach_draw = re.search(
+        r"when you attach this card from your hand to a pokemon, draw (\d+) cards",
+        t,
+    )
+    if attach_draw:
+        effects.append(
+            {
+                "kind": "draw_on_attach_from_hand",
+                "amount": int(attach_draw.group(1)),
+            }
+        )
+    return effects
+
+
+def parse_trainer_effects(text: str) -> list[dict[str, Any]]:
+    """Parse Item/Supporter/Stadium sentences. Printed numbers stay in the effect dict."""
+    t = _normalize_card_text(text)
+    effects: list[dict[str, Any]] = []
+    if not t:
+        return effects
+
+    look = re.search(r"look at the top (\d+)", t)
+    pair = re.search(r"put (\d+) cards from your discard pile into your hand", t)
+    if "you may play 2" in t and look and pair:
+        effects.append(
+            {
+                "kind": "puzzle_of_time",
+                "look": int(look.group(1)),
+                "pair_count": int(pair.group(1)),
+            }
+        )
+        return effects
+
+    if (
+        "isn't a pokemon v" in t
+        and ("pokemon-gx" in t or "pokemon gx" in t)
+        and "into your hand" in t
+    ):
+        effects.append(
+            {
+                "kind": "scoop_non_v_gx_to_hand",
+                "discard_attached": "discard all attached" in t,
+            }
+        )
+        return effects
+
+    if "junk arm" in t and "discard pile" in t and "trainer" in t:
+        n = re.search(r"discard (\d+) cards from your hand", t)
+        effects.append(
+            {
+                "kind": "junk_arm",
+                "discard": int(n.group(1) if n else 2),
+                "exclude_self": "can't choose junk arm" in t or "cannot choose junk arm" in t,
+            }
+        )
+        return effects
+
+    mill = re.search(
+        r"search your deck for up to (\d+) cards and discard them",
+        t,
+    )
+    if mill:
+        effects.append({"kind": "mill_own_deck", "count": int(mill.group(1))})
+        return effects
+
+    if (
+        "supporter" in t
+        and "discard pile" in t
+        and "into your hand" in t
+        and "search your deck" not in t
+        and "item" not in t
+    ):
+        effects.append({"kind": "recycle_supporter_from_discard"})
+        return effects
+
+    if "evolves from 1 of your pokemon" in t and "put it onto that pokemon" in t:
+        effects.append(
+            {
+                "kind": "wally_evolve",
+                "first_turn_ok": "first turn" in t,
+                "just_played_ok": "put into play this turn" in t,
+            }
+        )
+        return effects
+
+    if "just played" in t and "evolved" in t and "evolve" in t:
+        effects.append({"kind": "evolve_just_played_or_evolved"})
+        return effects
+
     return effects
 
 
@@ -674,10 +839,19 @@ def is_telepathic_energy(card: Any) -> bool:
     return "telepathic" in (getattr(card, "name", "") or "").lower() and getattr(card, "is_energy", False)
 
 
+def is_enriching_energy(card: Any) -> bool:
+    return "enriching" in (getattr(card, "name", "") or "").lower() and getattr(card, "is_energy", False)
+
+
 def is_special_energy(card: Any) -> bool:
     if not getattr(card, "is_energy", False):
         return False
-    if is_double_colorless(card) or is_boomerang_energy(card) or is_telepathic_energy(card):
+    if (
+        is_double_colorless(card)
+        or is_boomerang_energy(card)
+        or is_telepathic_energy(card)
+        or is_enriching_energy(card)
+    ):
         return True
     return (getattr(card, "stage", "") or "").lower() == "special"
 
@@ -690,6 +864,8 @@ def energy_provided(card: Any) -> list[str]:
         return ["Colorless"]
     if is_telepathic_energy(card):
         return ["Psychic"]
+    if is_enriching_energy(card):
+        return ["Colorless"]
     et = getattr(card, "as_energy_type", None)
     if callable(et):
         et = card.as_energy_type

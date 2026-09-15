@@ -76,6 +76,19 @@ PUBLISHED_EFFECT_KINDS = frozenset(
         "energy_in_play_bonus",
         "coin_damage_bonus",
         "attached_named_energy_bonus",
+        "take_prizes_if_hand",
+        "recycle_items_from_discard",
+        "attach_special_energy_from_hand",
+        "draw_on_attach_from_hand",
+        "evolve_just_played_or_evolved",
+        "copy_benched_attacks",
+        "puzzle_of_time",
+        "scoop_non_v_gx_to_hand",
+        "junk_arm",
+        "mill_own_deck",
+        "recycle_supporter_from_discard",
+        "wally_evolve",
+        "draw_until_hand",
     }
 )
 

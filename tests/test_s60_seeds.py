@@ -4,11 +4,13 @@ from app.seed import load_seed_deck, load_seed_payload
 from app.seed_data import (
     SET_C60_NAMES,
     SET_D60_NAMES,
+    SET_G30_NAMES,
     SET_S60_NAMES,
     SET_T60_NAMES,
     SET_T_META_NAMES,
     SET_T_UNL_NAMES,
     build_fallback_deck,
+    build_g30_deck,
 )
 
 
@@ -21,6 +23,7 @@ def test_s60_lab_lists_are_seed_decks():
         "t60": ("seed-t60", "Set T Standard 60 (Dragapult ex)", SET_T60_NAMES),
         "t-meta": ("seed-t-meta", "Worlds 2026 Hedrick Dragapult", SET_T_META_NAMES),
         "t-unl": ("seed-t-unl", "Unlimited Dragapult (Pidgeot / Rotom V)", SET_T_UNL_NAMES),
+        "g30": ("seed-g30", "Unlimited 60 (Gholdengo Celebration)", SET_G30_NAMES),
     }
     rules = standard_60_rules()
     for key, (deck_id, name, names) in want.items():
@@ -35,7 +38,15 @@ def test_s60_lab_lists_are_seed_decks():
         assert deck_id in S60_SEED_IDS
         for card in blob["cards"]:
             assert card.get("image"), f"{deck_id} {card['name']} {card.get('catalog_id')} has no image"
-        assert copy_violations(build_fallback_deck(list(names)), rules) == []
+        if key == "g30":
+            assert copy_violations(build_g30_deck(), rules) == []
+            gimmighoul = [c for c in blob["cards"] if c["name"] == "Gimmighoul"]
+            assert len(gimmighoul) == 3
+            assert all(c.get("catalog_id") == "me04-081" for c in gimmighoul)
+            gholdengo = next(c for c in blob["cards"] if c["name"] == "Gholdengo")
+            assert any(a.get("name") == "Celebration" for a in (gholdengo.get("attacks") or []))
+        else:
+            assert copy_violations(build_fallback_deck(list(names)), rules) == []
 
 
 def test_s60_seed_aliases_and_prankish_c60():
@@ -60,3 +71,8 @@ def test_s60_seed_aliases_and_prankish_c60():
     unl = load_seed_deck("t-unl")
     assert [c["name"] for c in unl["cards"]].count("Pidgeot ex") == 2
     assert [c["name"] for c in unl["cards"]].count("Rotom V") == 1
+    assert load_seed_deck("g30")["id"] == "seed-g30"
+    assert load_seed_deck("gholdengo")["id"] == "seed-g30"
+    g30 = load_seed_deck("g30")
+    assert [c["name"] for c in g30["cards"]].count("Gholdengo") == 2
+    assert [c["name"] for c in g30["cards"]].count("Enriching Energy") == 1

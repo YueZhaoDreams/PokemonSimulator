@@ -311,6 +311,36 @@ SET_T_UNL_NAMES = (
     + ["Psychic Energy"] * 3
 )
 
+# Unlimited 60: 30th Celebration Gholdengo, three Celebration shots.
+# Gimmighoul copies use the 30th Metal print (see build_g30_deck), not PAL Psychic.
+SET_G30_NAMES = (
+    ["Abra"] * 3
+    + ["Porygon"] * 3
+    + ["Porygon2"] * 2
+    + ["Porygon-Z"] * 2
+    + ["Remoraid"] * 2
+    + ["Octillery"] * 2
+    + ["Sableye"] * 2
+    + ["Gimmighoul"] * 3
+    + ["Gholdengo"] * 2
+    + ["Mew ex"]
+    + ["Puzzle of Time"] * 4
+    + ["Scoop Up Net"] * 4
+    + ["Junk Arm"] * 4
+    + ["Broken Time-Space"] * 3
+    + ["Nest Ball"] * 3
+    + ["Buddy-Buddy Poffin"] * 3
+    + ["Ultra Ball"] * 3
+    + ["VS Seeker"] * 4
+    + ["Wally"] * 2
+    + ["Professor's Research"]
+    + ["Battle Compressor"]
+    + ["Switch"]
+    + ["Enriching Energy"]
+    + ["Metal Energy"] * 3
+    + ["Darkness Energy"]
+)
+
 # Carpet Set E — new beige-carpet photo (data/samples/set-e-carpet.jpg).
 # Dual Pikachu + Surging Sparks Spheal line. Trainers: Surfer + Iris's Fighting Spirit.
 SET_E_NAMES = [
@@ -547,6 +577,8 @@ _register(
         "Professor's Research",
         "supporter",
         "Discard your hand and draw 7 cards.",
+        catalog_id="sv01-189",
+        image="https://assets.tcgdex.net/en/sv/sv01/189/low.webp",
     )
 )
 _register(_trn("Rare Candy", "item", "Evolve a Pokémon, skipping the middle stage."))
@@ -2247,6 +2279,313 @@ FALLBACK_BY_NAME["clefable clc"] = _CLEFABLE_CLC
 FALLBACK_BY_NAME["clefable (clc 014)"] = _CLEFABLE_CLC
 FALLBACK_BY_NAME["clefable cmc 014"] = _CLEFABLE_CLC
 
+_CELEBRATION_TEXT = (
+    "If you have exactly 30 cards in your hand, take 2 Prize cards. If you do, shuffle your hand into your deck."
+)
+_CRAZY_CODE_TEXT = (
+    "As often as you like during your turn (before your attack), you may attach a "
+    "Special Energy card from your hand to 1 of your Pokémon."
+)
+_TELEPORTER_TEXT = (
+    "Once during your turn, if this Pokémon is in the Active Spot, you may shuffle it "
+    "and all attached cards into your deck."
+)
+_ENRICHING_TEXT = (
+    "As long as this card is attached to a Pokémon, it provides Colorless Energy. "
+    "When you attach this card from your hand to a Pokémon, draw 4 cards."
+)
+_PUZZLE_TEXT = (
+    "You may play 2 Puzzle of Time cards at once.\n"
+    "• If you played 1 card, look at the top 3 cards of your deck and put them back in any order.\n"
+    "• If you played 2 cards, put 2 cards from your discard pile into your hand."
+)
+_NET_TEXT = (
+    "Put 1 of your Pokémon that isn't a Pokémon V or a Pokémon-GX into your hand. "
+    "(Discard all attached cards.)"
+)
+_BTS_TEXT = (
+    "Each player may evolve a Pokémon that he or she just played or evolved during that turn."
+)
+_WALLY_TEXT = (
+    "Search your deck for a card that evolves from 1 of your Pokémon (excluding Pokémon-EX) "
+    "and put it onto that Pokémon. (This counts as evolving that Pokémon.) Shuffle your deck afterward. "
+    "You can use this card during your first turn or on a Pokémon that was put into play this turn."
+)
+_ABYSSAL_TEXT = (
+    "Once during your turn (before your attack), you may draw cards until you have 5 cards in your hand."
+)
+_JUNK_HUNT_TEXT = "Put 2 Item cards from your discard pile into your hand."
+_JUNK_ARM_TEXT = (
+    "Discard 2 cards from your hand. Search your discard pile for a Trainer card, show it to your "
+    "opponent, and put it in your hand. You can't choose Junk Arm with this effect."
+)
+_MEMORY_HELIX_TEXT = (
+    "This Pokémon can use the attacks of any of your Benched Pokémon. "
+    "(You still need the necessary Energy to use each attack.)"
+)
+_VS_SEEKER_TEXT = "Put a Supporter card from your discard pile into your hand."
+_COMPRESSOR_TEXT = "Search your deck for up to 3 cards and discard them. Shuffle your deck afterward."
+
+_register(
+    _pkm(
+        "Abra",
+        "Basic",
+        ["Psychic"],
+        40,
+        [_atk("Psyshot", ["Psychic"], 10)],
+        retreat=1,
+        catalog_id="sv06-080",
+        weakness="Darkness",
+        abilities=[Ability(name="Teleporter", text=_TELEPORTER_TEXT)],
+        image="https://assets.tcgdex.net/en/sv/sv06/080/low.webp",
+        set_name="Twilight Masquerade",
+    )
+)
+_register(
+    _pkm(
+        "Porygon",
+        "Basic",
+        ["Colorless"],
+        50,
+        [_atk("Sharpshooting", ["Colorless"], 20)],
+        catalog_id="sm10-154",
+        weakness="Fighting",
+        image="https://assets.tcgdex.net/en/sm/sm10/154/low.webp",
+        set_name="Unbroken Bonds",
+    )
+)
+_register(
+    _pkm(
+        "Porygon2",
+        "Stage1",
+        ["Colorless"],
+        80,
+        [_atk("Double Draw", ["Colorless"], 0, "Draw 2 cards.")],
+        evolves_from="Porygon",
+        catalog_id="sm10-156",
+        weakness="Fighting",
+        image="https://assets.tcgdex.net/en/sm/sm10/156/low.webp",
+        set_name="Unbroken Bonds",
+    )
+)
+_register(
+    _pkm(
+        "Porygon-Z",
+        "Stage2",
+        ["Colorless"],
+        130,
+        [
+            _atk(
+                "Tantrum",
+                ["Colorless", "Colorless", "Colorless"],
+                120,
+                "This Pokémon is now Confused.",
+            )
+        ],
+        evolves_from="Porygon2",
+        catalog_id="sm10-157",
+        weakness="Fighting",
+        retreat=2,
+        abilities=[Ability(name="Crazy Code", text=_CRAZY_CODE_TEXT)],
+        image="https://assets.tcgdex.net/en/sm/sm10/157/low.webp",
+        set_name="Unbroken Bonds",
+    )
+)
+_register(
+    _pkm(
+        "Remoraid",
+        "Basic",
+        ["Water"],
+        60,
+        [_atk("Water Gun", ["Water"], 10)],
+        catalog_id="xy5-32",
+        weakness="Grass",
+        image="https://assets.tcgdex.net/en/xy/xy5/32/low.webp",
+        set_name="Primal Clash",
+    )
+)
+_register(
+    _pkm(
+        "Octillery",
+        "Stage1",
+        ["Water"],
+        90,
+        [_atk("Ink Cannon", ["Water", "Colorless"], 30)],
+        evolves_from="Remoraid",
+        catalog_id="xy5-33",
+        weakness="Grass",
+        abilities=[Ability(name="Abyssal Hand", text=_ABYSSAL_TEXT)],
+        image="https://assets.tcgdex.net/en/xy/xy5/33/low.webp",
+        set_name="Primal Clash",
+    )
+)
+_register(
+    _pkm(
+        "Sableye",
+        "Basic",
+        ["Darkness"],
+        70,
+        [_atk("Junk Hunt", ["Darkness"], 0, _JUNK_HUNT_TEXT)],
+        catalog_id="bw6-62",
+        weakness="Fighting",
+        image="https://assets.tcgdex.net/en/bw/bw6/62/low.webp",
+        set_name="Dark Explorers",
+    )
+)
+_GIMMIGHOUL_30TH = _pkm(
+    "Gimmighoul",
+    "Basic",
+    ["Metal"],
+    60,
+    [_atk("Astonish", ["Colorless"], 10)],
+    catalog_id="me04-081",
+    weakness="Fire",
+    resistances=[{"type": "Grass", "value": "-30"}],
+    image="https://assets.tcgdex.net/en/me04/me04/081/low.webp",
+    set_name="30th Celebration",
+)
+FALLBACK_BY_NAME["gimmighoul 30th"] = _GIMMIGHOUL_30TH
+FALLBACK_BY_NAME["gimmighoul celebration"] = _GIMMIGHOUL_30TH
+_register(
+    _pkm(
+        "Gholdengo",
+        "Stage1",
+        ["Metal"],
+        130,
+        [
+            _atk("Celebration", ["Metal"], 0, _CELEBRATION_TEXT),
+            _atk(
+                "Triple Smash",
+                ["Metal"],
+                50,
+                "Flip 3 coins. This attack does 50 damage for each heads.",
+            ),
+        ],
+        evolves_from="Gimmighoul",
+        catalog_id="me04-108",
+        weakness="Fire",
+        resistances=[{"type": "Grass", "value": "-30"}],
+        retreat=2,
+        image="https://assets.tcgdex.net/en/me04/me04/108/low.webp",
+        set_name="30th Celebration",
+    )
+)
+_register(
+    _pkm(
+        "Mew ex",
+        "Basic",
+        ["Psychic"],
+        160,
+        [
+            _atk(
+                "Teleportation Burst",
+                ["Psychic"],
+                30,
+                "You may switch this Pokémon with 1 of your Benched Pokémon.",
+            )
+        ],
+        catalog_id="me04-066",
+        weakness="Darkness",
+        resistances=[{"type": "Fighting", "value": "-30"}],
+        retreat=0,
+        abilities=[Ability(name="Memory Helix", text=_MEMORY_HELIX_TEXT)],
+        image="https://assets.tcgdex.net/en/me04/me04/066/low.webp",
+        set_name="30th Celebration",
+    )
+)
+_register(
+    _trn(
+        "Puzzle of Time",
+        "item",
+        _PUZZLE_TEXT,
+        catalog_id="xy8-109",
+        image="https://assets.tcgdex.net/en/xy/xy8/109/low.webp",
+    )
+)
+_register(
+    _trn(
+        "Scoop Up Net",
+        "item",
+        _NET_TEXT,
+        catalog_id="swsh5-165",
+        image="https://assets.tcgdex.net/en/swsh/swsh5/165/low.webp",
+    )
+)
+_register(
+    _trn(
+        "Junk Arm",
+        "item",
+        _JUNK_ARM_TEXT,
+        catalog_id="hgss4-87",
+        image="https://assets.tcgdex.net/en/hgss/hgss4/87/low.webp",
+    )
+)
+_register(
+    _trn(
+        "Broken Time-Space",
+        "stadium",
+        _BTS_TEXT,
+        catalog_id="pl1-104",
+        image="https://assets.tcgdex.net/en/pl/pl1/104/low.webp",
+    )
+)
+_register(
+    _trn(
+        "Wally",
+        "supporter",
+        _WALLY_TEXT,
+        catalog_id="xy6-94",
+        image="https://assets.tcgdex.net/en/xy/xy6/94/low.webp",
+    )
+)
+_register(
+    _trn(
+        "VS Seeker",
+        "item",
+        _VS_SEEKER_TEXT,
+        catalog_id="xy4-109",
+        image="https://assets.tcgdex.net/en/xy/xy4/109/low.webp",
+    )
+)
+_register(
+    _trn(
+        "Battle Compressor",
+        "item",
+        _COMPRESSOR_TEXT,
+        catalog_id="xy3-92",
+        image="https://assets.tcgdex.net/en/xy/xy3/92/low.webp",
+    )
+)
+_ENRICHING = _register(
+    Card(
+        catalog_id="sv08-191",
+        name="Enriching Energy",
+        category="Energy",
+        stage="Special",
+        types=["Colorless"],
+        energy_type="Colorless",
+        text=_ENRICHING_TEXT,
+        image="https://assets.tcgdex.net/en/sv/sv08/191/low.webp",
+        set_name="Surging Sparks",
+        retreat=0,
+    )
+)
+FALLBACK_BY_NAME["enriching energy"] = _ENRICHING
+
+
+def build_g30_deck() -> list[Card]:
+    """30th Gimmighoul print; other names use the registered Celebration fallbacks."""
+    out: list[Card] = []
+    gimmighoul_left = 3
+    for name in SET_G30_NAMES:
+        if name == "Gimmighoul" and gimmighoul_left:
+            out.append(fallback_named("gimmighoul 30th"))
+            gimmighoul_left -= 1
+        else:
+            out.append(fallback_named(name))
+    return out
+
+
 # 151 / MEW 035 keeps the printed name "Clefairy" so it shares the 4-of cap
 # with LOR 62 Moon-Watching Party. Alias keys so it does not overwrite Party.
 _CLEFAIRY_MEW = _pkm(
@@ -2412,6 +2751,8 @@ def fallback_named(name: str) -> Card:
         key = "double colorless energy"
     if "boomerang" in key:
         key = "boomerang energy"
+    if "enriching" in key:
+        key = "enriching energy"
     if key in FALLBACK_BY_NAME:
         card = FALLBACK_BY_NAME[key]
         return Card.from_dict(card.to_dict())
@@ -2420,6 +2761,7 @@ def fallback_named(name: str) -> Card:
         and "double" not in key
         and "boomerang" not in key
         and "telepathic" not in key
+        and "enriching" not in key
     ):
         return _nrg(name.split()[0].title())
     from app.catalog import fallback_card

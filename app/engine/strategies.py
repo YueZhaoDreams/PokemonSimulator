@@ -477,6 +477,44 @@ STRATEGY_LIBRARY = {
         insurance_bench=1,
         max_ace_copies=3,
     ),
+    "celebration": StrategySpec(
+        name="celebration",
+        description=(
+            "Unlimited 60 Gholdengo Celebration: Broken Time-Space into Porygon-Z / "
+            "Gholdengo / Octillery. Crazy Code attaches Enriching Energy as often as "
+            "you like. Scoop Up Net + Puzzle of Time recycle Enriching for net +2 until "
+            "the hand is exactly 30. Celebration takes 2 prizes and shuffles the hand "
+            "away; park Enriching on Bench Abra and Puzzle/Net in discard. Next turn "
+            "Octillery draws to 5, then Junk Arm or Sableye Junk Hunt rebuilds. Mew ex "
+            "Memory Helix copies benched Celebration. Do not Teleporter Enriching into "
+            "the deck. Research only on a small setup hand."
+        ),
+        prefer_damage=0.2,
+        prefer_status=0.0,
+        bench_fill=0.0,
+        evolve_asap=1.0,
+        attach_pokemon_as_energy=0.0,
+        item_spend=1.0,
+        hold_as_energy=True,
+        protect=[
+            "Abra",
+            "Porygon",
+            "Porygon2",
+            "Porygon-Z",
+            "Remoraid",
+            "Octillery",
+            "Sableye",
+            "Gimmighoul",
+            "Gholdengo",
+            "Mew ex",
+        ],
+        search_aces=["Abra", "Porygon", "Gimmighoul", "Mew ex", "Remoraid", "Sableye"],
+        closers=["Mew ex", "Gholdengo"],
+        backups=["Octillery", "Porygon-Z"],
+        insurance=["Sableye"],
+        insurance_bench=1,
+        max_ace_copies=3,
+    ),
 }
 
 
