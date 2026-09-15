@@ -276,7 +276,7 @@ def _ensure_card_images(cards: list[dict]) -> list[dict]:
                 cache[cache_key] = energy_card(name.split()[0]).to_dict()
             elif name in EXTRA_PRINT_IDS and cid in (allowed or set()):
                 patched = dict(card)
-                if not patched.get("image") and _looks_like_tcgdex_id(cid):
+                if _looks_like_tcgdex_id(cid) and (not patched.get("image") or wrong_art):
                     patched["image"] = _tcgdex_low(cid)
                     patched["catalog_id"] = cid
                 cache[cache_key] = patched
