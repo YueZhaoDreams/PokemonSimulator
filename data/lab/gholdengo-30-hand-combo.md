@@ -1,7 +1,7 @@
 # Ambipom PAR Hand Fling — 60-card Unlimited (G30 lab)
 
 Date: 2026-09-15
-Status: engine plays Ambipom PAR 146 Hand Fling with Lopunny FLF Big Jump recycle (attachments to **hand**) and Speed Lightning Energy draws. Win-rate array vs household 60s is in `data/lab/gholdengo-30-array.json`.
+Status: engine plays Ambipom PAR 146 Hand Fling with Lopunny FLF Big Jump, Raikou V Fleet-Footed + Forest Seal Stone Star Alchemy, Draw Energy, and Rare Candy. Win-rate array vs household 60s is in `data/lab/gholdengo-30-array.json`.
 
 **This lab is Unlimited constructed. Not Standard. Not Expanded. Not Family Cup 30.**
 
@@ -36,7 +36,7 @@ Puzzle of Time, Scoop Up Net, Forest of Giant Plants, Broken Time-Space, Lysandr
 
 同回合再进化 Stage 1（Aipom / Buneary）用 **Broken Time-Space**。Abra Teleporter 仍把 Energy 洗进牌库，不要当这副的宿主。
 
-家庭组 3000 盘数组（seed 20260911）上一版 Big Jump 打法改对之后：胜率仍低 **2.8 / 3.6 / 2.7 / 19.0 / 2.3 / 6.7 / 6.4%** vs c60/t60/hedrick/unl/d60/s60/g。这一版换成 Raikou V + Draw Energy + Rare Candy 后再跑。
+家庭组 3000 盘数组（seed 20260911）这一版 **Raikou V + Draw Energy + Rare Candy + Forest Seal Stone**：胜率 **3.5 / 5.2 / 6.1 / 20.5 / 5.5 / 28.0 / 26.5%** vs c60/t60/hedrick/unl/d60/s60/g。上一版 Pikachu / Octillery / Sableye 是 **2.8 / 3.6 / 2.7 / 19.0 / 2.3 / 6.7 / 6.4%**。s60 / g 明显起来（Hand Fling 37.8% / 38.4%），c60 Photon 和 t60 Dive 还是先打掉 100 HP Ambipom。Draw Energy 约 80–94% 的对局里会贴；Rare Candy 约 45–94%；Star Alchemy 约 38–87%；Fleet-Footed 约 53–64%。
 
 ---
 
@@ -183,30 +183,35 @@ Honest calendar: **3 Celebration attacks** is the prize floor. **3 of our turns*
 
 ## Win-rate array
 
-G30 (`celebration` strategy, Ambipom PAR Hand Fling + Lopunny FLF Big Jump) as player A vs the household 60s. Not a full NxN remake of `set-c60-unl-matrix`. Rules preset `s60` (60 / 6 prizes / 4-of). First player random. **3,000 games / cell, seed 20260911**. Elapsed **72.8s** after the play-script fix.
+G30 (`celebration` strategy, Ambipom PAR Hand Fling + Lopunny FLF Big Jump + Raikou V / Draw Energy / Rare Candy) as player A vs the household 60s. Not a full NxN remake of `set-c60-unl-matrix`. Rules preset `s60` (60 / 6 prizes / 4-of). First player random. **3,000 games / cell, seed 20260911**. Elapsed **81.7s** after the Raikou V rebuild.
 
 Script: `data/lab/gholdengo-30-array.py`. Numbers: `data/lab/gholdengo-30-array.json`.
 
 | A \\ B | c60 | t60 | hedrick | unl | d60 | s60 | g |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| g30 win | 2.8% | 3.6% | 2.7% | 19.0% | 2.3% | 6.7% | 6.4% |
-| first | 3.0% | 4.2% | 2.9% | 19.6% | 2.9% | 6.0% | 5.8% |
-| second | 2.6% | 2.9% | 2.6% | 18.5% | 1.8% | 7.4% | 7.0% |
-| Crazy Code | 28.4% | 13.1% | 21.1% | 24.3% | 9.2% | 28.2% | 33.0% |
-| Puzzle pair | 4.3% | 1.6% | 4.7% | 3.8% | 1.3% | 5.2% | 6.2% |
-| Speed L draw | 14.5% | 7.1% | 11.0% | 12.2% | 5.3% | 16.1% | 15.4% |
-| Big Jump | 12.0% | 5.8% | 9.1% | 12.7% | 3.7% | 14.3% | 11.4% |
-| Hand Fling | 7.1% | 3.2% | 4.9% | 5.9% | 1.3% | 10.1% | 10.2% |
-| Junk Hunt | 0.1% | 0.1% | 0.1% | 0.1% | 0.1% | 0.2% | 0.1% |
+| g30 win | 3.5% | 5.2% | 6.1% | 20.5% | 5.5% | 28.0% | 26.5% |
+| first | 3.5% | 4.5% | 5.9% | 19.3% | 5.0% | 28.3% | 24.4% |
+| second | 3.5% | 5.9% | 6.3% | 21.6% | 6.1% | 27.6% | 28.6% |
+| Crazy Code | 45.4% | 22.5% | 32.1% | 34.8% | 23.4% | 60.8% | 58.1% |
+| Puzzle pair | 6.5% | 3.4% | 6.4% | 6.4% | 3.9% | 8.0% | 7.0% |
+| Speed L draw | 31.9% | 15.3% | 21.8% | 25.9% | 18.2% | 50.2% | 40.1% |
+| Big Jump | 20.3% | 8.7% | 12.0% | 16.6% | 8.3% | 27.9% | 18.3% |
+| Hand Fling | 22.9% | 9.4% | 15.8% | 14.6% | 4.3% | 37.8% | 38.4% |
+| Draw Energy | 86.6% | 80.0% | 79.2% | 87.1% | 80.0% | 93.8% | 89.4% |
+| Rare Candy | 66.6% | 69.7% | 44.8% | 94.0% | 47.8% | 76.9% | 71.2% |
+| Fleet-Footed | 61.7% | 58.2% | 53.0% | 56.0% | 63.6% | 58.5% | 55.6% |
+| Star Alchemy | 55.6% | 37.7% | 41.6% | 87.3% | 41.1% | 70.0% | 61.6% |
 | Celebration | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 
-Same seed, Abra-era search script (Buneary not tutored): g30 win **2.7 / 3.2 / 2.7 / 18.4 / 1.6 / 6.8 / 7.6%**, Big Jump **9.3 / 4.2 / 5.6 / 8.5 / 2.2 / 11.4 / 8.3%**. After the play fix Big Jump is up on every column; Junk Hunt collapsed. Wins moved little because 100 HP Ambipom still dies to Photon / Dive.
+Same seed, previous Pikachu / Octillery / Sableye 60 (play-script fix): g30 win **2.8 / 3.6 / 2.7 / 19.0 / 2.3 / 6.7 / 6.4%**. Raikou V + Draw Energy + Candy + Forest Seal Stone lifts s60 and g the most (Hand Fling 10% → 38%). c60 Photon and t60 Dive still KO 100 HP Ambipom before three prize shots.
+
+Same seed, Abra-era search script (Buneary not tutored): g30 win **2.7 / 3.2 / 2.7 / 18.4 / 1.6 / 6.8 / 7.6%**, Big Jump **9.3 / 4.2 / 5.6 / 8.5 / 2.2 / 11.4 / 8.3%**.
 
 Previous Abra + Net closer (same seed): g30 win **2.5 / 4.6 / 3.6 / 16.5 / 1.1 / 5.8 / 7.1%**. Celebration 30-hand was **3.3 / 3.9 / 2.9 / 18.1 / 0.9 / 1.7 / 1.0%**.
 
-Goldfish from a ready board still grows the hand (Big Jump returns Buneary + Lopunny + Enriching) and Hand Fling KOs Mewtwo at 12 cards. Live vs household 60s the bounce now fires (s60 14.3%, c60 12.0%, unl 12.7%) and Junk Hunt almost never steals the attack, but three prize shots still lose the race to Photon / Dive.
+Goldfish from a ready board still grows the hand (Big Jump returns Buneary + Lopunny + Enriching; Draw Energy is net 0; Speed L on Raikou V is +2) and Hand Fling KOs Mewtwo at 12 cards. Live vs household 60s Draw Energy / Candy / Star Alchemy actually fire. Three prize shots still lose the race to Photon / Dive on the fast 60s.
 
-Household 60s also kill the board first. C60 Photon Kinesis KOs 100 HP Ambipom for one prize and 90 HP Lopunny / 130 HP Porygon-Z for one. d60 Dive / Ogerpon is faster than assembling `[C][C][C]` plus a 12-card hand.
+Household 60s also kill the board first. C60 Photon Kinesis KOs 100 HP Ambipom for one prize and 90 HP Lopunny / 130 HP Porygon-Z for one; Raikou V is 200 HP but **two prizes**. d60 Dive / Ogerpon is faster than assembling `[C][C][C]` plus a 12-card hand.
 
 ---
 
