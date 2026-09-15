@@ -42,7 +42,7 @@ def _is_basic_energy_name(name: str) -> bool:
     if not key.endswith(" energy"):
         return False
     # Special Energy names also end with "Energy".
-    if any(token in key for token in ("double", "boomerang", "telepathic", "enriching")):
+    if any(token in key for token in ("double", "boomerang", "telepathic", "enriching", "speed")):
         return False
     return True
 
@@ -94,6 +94,7 @@ def load_seed_deck(which: str) -> dict:
         "tunl": "t-unl",
         "gholdengo": "g30",
         "celebration": "g30",
+        "ambipom": "g30",
         "spare-cards": "spare",
         "p": "spare",
     }.get(key, key)
@@ -500,10 +501,10 @@ def _cd_payload(enrich: bool = True) -> dict:
 
 
 def _g30_blob() -> dict:
-    """Printed 30th Gholdengo 60. Never TCGDex-enrich: Paldea Gholdengo is Make It Rain."""
+    """Printed Ambipom PAR Hand Fling 60. Never TCGDex-enrich the closer print."""
     return {
         "id": "seed-g30",
-        "name": "Unlimited 60 (Gholdengo Celebration)",
+        "name": "Unlimited 60 (Ambipom Hand Fling)",
         "sample": None,
         "kind": "list",
         "cards": [c.to_dict() for c in build_g30_deck()],

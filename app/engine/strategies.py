@@ -480,14 +480,14 @@ STRATEGY_LIBRARY = {
     "celebration": StrategySpec(
         name="celebration",
         description=(
-            "Unlimited 60 Gholdengo Celebration: Broken Time-Space into Porygon-Z / "
-            "Gholdengo / Octillery. Crazy Code attaches Enriching Energy as often as "
-            "you like. Scoop Up Net + Puzzle of Time recycle Enriching for net +2 until "
-            "the hand is exactly 30. Celebration takes 2 prizes and shuffles the hand "
-            "away; park Enriching on Bench Abra and Puzzle/Net in discard. Next turn "
-            "Octillery draws to 5, then Junk Arm or Sableye Junk Hunt rebuilds. Mew ex "
-            "Memory Helix copies benched Celebration. Do not Teleporter Enriching into "
-            "the deck. Research only on a small setup hand."
+            "Unlimited 60 Ambipom PAR Hand Fling: Broken Time-Space into Porygon-Z / "
+            "Ambipom / Octillery. Crazy Code attaches Enriching Energy as often as "
+            "you like. Scoop Up Net + Puzzle of Time recycle Enriching for net +2. "
+            "Speed Lightning Energy draws 2 only on a Lightning host (Pikachu); leave "
+            "it attached (Net+Puzzle recycle is net 0). Hand Fling does 20 damage for "
+            "each card in your hand; attack when that KO's. Do not park or shuffle at "
+            "30. Do not Teleporter Enriching into the deck. Research only on a small "
+            "setup hand."
         ),
         prefer_damage=0.2,
         prefer_status=0.0,
@@ -504,12 +504,12 @@ STRATEGY_LIBRARY = {
             "Remoraid",
             "Octillery",
             "Sableye",
-            "Gimmighoul",
-            "Gholdengo",
-            "Mew ex",
+            "Aipom",
+            "Ambipom",
+            "Pikachu",
         ],
-        search_aces=["Abra", "Porygon", "Gimmighoul", "Mew ex", "Remoraid", "Sableye"],
-        closers=["Mew ex", "Gholdengo"],
+        search_aces=["Abra", "Porygon", "Aipom", "Pikachu", "Remoraid", "Sableye"],
+        closers=["Ambipom"],
         backups=["Octillery", "Porygon-Z"],
         insurance=["Sableye"],
         insurance_bench=1,

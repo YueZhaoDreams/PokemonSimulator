@@ -1,6 +1,14 @@
 from random import Random
 
-from app.engine.effects import parse_ability_effects, parse_effects, parse_energy_effects, parse_trainer_effects
+from app.engine.effects import (
+    energy_provided,
+    is_special_energy,
+    is_speed_lightning_energy,
+    parse_ability_effects,
+    parse_effects,
+    parse_energy_effects,
+    parse_trainer_effects,
+)
 from app.engine.game import Game, Pokemon, play_game
 from app.engine.legality import copy_violations
 from app.engine.models import standard_60_rules
@@ -24,6 +32,11 @@ ENRICHING_TEXT = (
     "As long as this card is attached to a Pokémon, it provides Colorless Energy. "
     "When you attach this card from your hand to a Pokémon, draw 4 cards."
 )
+SPEED_L_TEXT = (
+    "As long as this card is attached to a Pokémon, it provides Lightning Energy. "
+    "When you attach this card from your hand to a Lightning Pokémon, draw 2 cards."
+)
+HAND_FLING_TEXT = "This attack does 20 damage for each card in your hand."
 PUZZLE_TEXT = (
     "You may play 2 Puzzle of Time cards at once.\n"
     "• If you played 1 card, look at the top 3 cards of your deck and put them back in any order.\n"
@@ -83,26 +96,32 @@ def test_g30_list_is_printed_sixty():
     assert names.count("Abra") == 3
     assert names.count("Porygon-Z") == 2
     assert names.count("Octillery") == 2
-    assert names.count("Sableye") == 2
-    assert names.count("Gimmighoul") == 3
-    assert names.count("Gholdengo") == 2
-    assert names.count("Mew ex") == 1
+    assert names.count("Sableye") == 1
+    assert names.count("Aipom") == 3
+    assert names.count("Ambipom") == 2
+    assert names.count("Pikachu") == 2
+    assert names.count("Gholdengo") == 0
     assert names.count("Puzzle of Time") == 4
     assert names.count("Scoop Up Net") == 4
-    assert names.count("Junk Arm") == 4
-    assert names.count("Broken Time-Space") == 3
     assert names.count("Enriching Energy") == 1
-    assert names.count("Metal Energy") == 3
-    assert names.count("Darkness Energy") == 1
+    assert names.count("Speed Lightning Energy") == 4
+    assert names.count("Lightning Energy") == 3
     pile = build_g30_deck()
     assert copy_violations(pile, standard_60_rules()) == []
-    gimmighoul = [c for c in pile if c.name == "Gimmighoul"]
-    assert len(gimmighoul) == 3
-    assert all(c.types == ["Metal"] and c.hp == 60 for c in gimmighoul)
-    assert fallback_named("Gimmighoul").types == ["Psychic"]
-    gholdengo = next(c for c in pile if c.name == "Gholdengo")
-    assert gholdengo.attacks[0].name == "Celebration"
-    assert "exactly 30" in gholdengo.attacks[0].text
+    aipom = [c for c in pile if c.name == "Aipom"]
+    assert len(aipom) == 3
+    assert all(c.catalog_id == "sv04-145" for c in aipom)
+    assert fallback_named("Aipom").catalog_id == "swsh11-144"
+    ambipom = next(c for c in pile if c.name == "Ambipom")
+    assert ambipom.attacks[-1].name == "Hand Fling"
+    assert ambipom.attacks[-1].text == HAND_FLING_TEXT
+    pikachu = next(c for c in pile if c.name == "Pikachu")
+    assert "Lightning" in pikachu.types
+    speed = next(c for c in pile if c.name == "Speed Lightning Energy")
+    assert speed.catalog_id == "swsh2-173"
+    assert is_speed_lightning_energy(speed)
+    assert is_special_energy(speed)
+    assert energy_provided(speed) == ["Lightning"]
 
 
 def test_celebration_parses_printed_wording():
@@ -111,6 +130,16 @@ def test_celebration_parses_printed_wording():
     assert spec["hand"] == 30
     assert spec["prizes"] == 2
     assert spec["shuffle_hand"] is True
+
+
+def test_hand_fling_parses_printed_wording():
+    effects = parse_effects(HAND_FLING_TEXT, "20×")
+    spec = next(e for e in effects if e["kind"] == "hand_count_times")
+    assert spec["per"] == 20
+    assert not any(e["kind"] == "times" for e in effects)
+    collect = parse_effects("Draw 2 cards.")
+    assert collect[0]["kind"] == "draw"
+    assert collect[0]["amount"] == 2
 
 
 def test_crazy_code_and_teleporter_and_memory_helix_parse():
@@ -128,11 +157,22 @@ def test_enriching_and_abyssal_and_bts_parse():
     enrich = parse_energy_effects(ENRICHING_TEXT)
     draw = next(e for e in enrich if e["kind"] == "draw_on_attach_from_hand")
     assert draw["amount"] == 4
+    assert "require_attach_type" not in draw
     until = parse_ability_effects(ABYSSAL_TEXT)
     assert until[0]["kind"] == "draw_until_hand"
     assert until[0]["count"] == 5
     bts = parse_ability_effects(BTS_TEXT)
     assert bts[0]["kind"] == "evolve_just_played_or_evolved"
+
+
+def test_speed_lightning_parses_typed_attach_draw():
+    effects = parse_energy_effects(SPEED_L_TEXT)
+    draw = next(e for e in effects if e["kind"] == "draw_on_attach_from_hand")
+    assert draw["amount"] == 2
+    assert draw["require_attach_type"] == "Lightning"
+    card = fallback_named("Speed Lightning Energy")
+    assert card.text == SPEED_L_TEXT
+    assert parse_energy_effects(card.text) == effects
 
 
 def test_puzzle_net_junk_arm_wally_parse_from_print():
@@ -155,151 +195,139 @@ def test_puzzle_net_junk_arm_wally_parse_from_print():
 
 
 def test_fallback_prints_use_lab_wording():
-    assert fallback_named("Gholdengo").attacks[0].text == CELEBRATION_TEXT
+    assert fallback_named("Ambipom").attacks[-1].text == HAND_FLING_TEXT
+    assert fallback_named("aipom par").attacks[0].name == "Filch"
     assert next(a.text for a in fallback_named("Porygon-Z").abilities) == CRAZY_CODE_TEXT
     assert fallback_named("Puzzle of Time").text == PUZZLE_TEXT
     assert fallback_named("Scoop Up Net").text == NET_TEXT
     assert fallback_named("Enriching Energy").text == ENRICHING_TEXT
+    assert fallback_named("Speed Lightning Energy").text == SPEED_L_TEXT
     assert fallback_named("Broken Time-Space").text == BTS_TEXT
-    assert next(a.text for a in fallback_named("Mew ex").abilities) == MEMORY_HELIX_TEXT
 
 
-def test_loop_parks_enriching_at_exactly_thirty():
+def test_speed_l_draws_only_on_lightning():
     game = _game()
     me = game.players["a"]
     used: set[int] = set()
-    mew = _take(me, "Mew ex", used)
-    gholdengo = _take(me, "Gholdengo", used)
-    poryz = _take(me, "Porygon-Z", used)
-    octillery = _take(me, "Octillery", used)
-    abra = _take(me, "Abra", used)
-    enrich = _take(me, "Enriching Energy", used)
-    metal = _take(me, "Metal Energy", used)
-    puzzles = [_take(me, "Puzzle of Time", used) for _ in range(4)]
-    nets = [_take(me, "Scoop Up Net", used) for _ in range(2)]
+    pikachu = _take(me, "Pikachu", used)
+    ambipom = _take(me, "Ambipom", used)
+    speed = _take(me, "Speed Lightning Energy", used)
     rest = [i for i in range(len(me.cards)) if i not in used]
-    me.active = Pokemon(card_i=mew, energy=[metal], played_turn=0)
-    me.bench = [
-        Pokemon(card_i=gholdengo, played_turn=0),
-        Pokemon(card_i=poryz, played_turn=0),
-        Pokemon(card_i=octillery, played_turn=0),
-        Pokemon(card_i=abra, played_turn=0),
-    ]
-    me.prizes = rest[:6]
-    rest = rest[6:]
-    # 25 in hand: attach (+3) → bounce (+2 net from start) → attach parks at 30.
-    me.hand = [enrich, *puzzles, *nets, *rest[:18]]
-    me.deck = rest[18:]
-    me.discard = []
-    game.turn = 2
-    game._celebration_engine(me, "a")
-    assert len(me.hand) == 30
-    assert game.events.get("hand_thirty")
-    host = next(m for m in me.in_play() if me.card(m.card_i).name == "Abra")
-    assert any("enriching" in me.card(i).name.lower() for i in host.energy)
-    assert host is not me.active
+    me.active = Pokemon(card_i=pikachu, played_turn=0)
+    me.bench = [Pokemon(card_i=ambipom, played_turn=0)]
+    me.hand = []
+    me.deck = rest
+    before = len(me.hand)
+    game._resolve_energy_attach_from_hand(me, "a", me.active, speed)
+    assert len(me.hand) == before + 2
+    assert game.events.get("speed_l_draw") == 2
+
+    game2 = _game()
+    me2 = game2.players["a"]
+    used2: set[int] = set()
+    pikachu2 = _take(me2, "Pikachu", used2)
+    ambipom2 = _take(me2, "Ambipom", used2)
+    speed2 = _take(me2, "Speed Lightning Energy", used2)
+    rest2 = [i for i in range(len(me2.cards)) if i not in used2]
+    me2.active = Pokemon(card_i=ambipom2, played_turn=0)
+    me2.bench = [Pokemon(card_i=pikachu2, played_turn=0)]
+    me2.hand = []
+    me2.deck = rest2
+    game2._resolve_energy_attach_from_hand(me2, "a", me2.active, speed2)
+    assert me2.hand == []
+    assert not game2.events.get("speed_l_draw")
 
 
-def test_two_puzzles_from_twenty_five_parks_at_thirty():
-    game = _game()
-    me = game.players["a"]
-    used: set[int] = set()
-    mew = _take(me, "Mew ex", used)
-    gholdengo = _take(me, "Gholdengo", used)
-    poryz = _take(me, "Porygon-Z", used)
-    octillery = _take(me, "Octillery", used)
-    abra = _take(me, "Abra", used)
-    enrich = _take(me, "Enriching Energy", used)
-    metal = _take(me, "Metal Energy", used)
-    puzzles = [_take(me, "Puzzle of Time", used) for _ in range(2)]
-    nets = [_take(me, "Scoop Up Net", used) for _ in range(2)]
-    rest = [i for i in range(len(me.cards)) if i not in used]
-    me.active = Pokemon(card_i=mew, energy=[metal], played_turn=0)
-    me.bench = [
-        Pokemon(card_i=gholdengo, played_turn=0),
-        Pokemon(card_i=poryz, played_turn=0),
-        Pokemon(card_i=octillery, played_turn=0),
-        Pokemon(card_i=abra, played_turn=0),
-    ]
-    me.prizes = rest[:6]
-    rest = rest[6:]
-    me.hand = [enrich, *puzzles, *nets, *rest[:20]]
-    me.deck = rest[20:]
-    me.discard = []
-    game.turn = 2
-    assert len(me.hand) == 25
-    game._celebration_engine(me, "a")
-    assert len(me.hand) == 30
-    assert game.events.get("hand_thirty")
-    host = next(m for m in me.in_play() if me.card(m.card_i).name == "Abra")
-    assert any("enriching" in me.card(i).name.lower() for i in host.energy)
-
-
-def test_celebration_takes_two_prizes_and_shuffles_hand():
+def test_hand_fling_scales_with_hand_size():
     game = _game()
     me = game.players["a"]
     foe = game.players["b"]
     used: set[int] = set()
-    mew = _take(me, "Mew ex", used)
-    gholdengo = _take(me, "Gholdengo", used)
-    metal = _take(me, "Metal Energy", used)
+    ambipom = _take(me, "Ambipom", used)
+    mewtwo = next(i for i, c in enumerate(foe.cards) if c.name == "Mewtwo ex")
+    me.active = Pokemon(card_i=ambipom, played_turn=0)
+    foe.active = Pokemon(card_i=mewtwo, played_turn=0)
     rest = [i for i in range(len(me.cards)) if i not in used]
-    me.active = Pokemon(card_i=mew, energy=[metal], played_turn=0)
-    me.bench = [Pokemon(card_i=gholdengo, played_turn=0)]
-    me.prizes = rest[:6]
-    me.hand = rest[6:36]
-    me.deck = rest[36:]
-    me.discard = []
-    foe.active = Pokemon(card_i=0, played_turn=0)
-    assert len(me.hand) == 30
-    game.turn = 2
-    game._attack(me, foe, "a")
-    assert me.prizes_taken == 2
-    assert len(me.prizes) == 4
-    assert not me.hand
-    assert game.events.get("celebration") == 2
+    me.hand = rest[:12]
+    atk = next(a for a in me.card(ambipom).attacks if a.name == "Hand Fling")
+    assert game._raw_attack_damage(me, foe, me.active, atk) == 20 * 12
+    me.hand = rest[:16]
+    assert game._raw_attack_damage(me, foe, me.active, atk) == 20 * 16
 
 
-def test_memory_helix_copies_benched_celebration():
+def test_engine_grows_hand_and_pays_hand_fling():
     game = _game()
     me = game.players["a"]
+    foe = game.players["b"]
     used: set[int] = set()
-    mew = _take(me, "Mew ex", used)
-    gholdengo = _take(me, "Gholdengo", used)
-    me.active = Pokemon(card_i=mew, played_turn=0)
-    me.bench = [Pokemon(card_i=gholdengo, played_turn=0)]
-    names = {atk.name for atk in game._attacks_for(me, me.active)}
-    assert "Celebration" in names
-    assert "Teleportation Burst" in names
-
-
-def test_bts_allows_same_turn_porygon_line():
-    game = _game()
-    me = game.players["a"]
-    used: set[int] = set()
-    pory = _take(me, "Porygon", used)
-    pory2 = _take(me, "Porygon2", used)
+    ambipom = _take(me, "Ambipom", used)
     poryz = _take(me, "Porygon-Z", used)
+    octillery = _take(me, "Octillery", used)
+    abra = _take(me, "Abra", used)
+    pikachu = _take(me, "Pikachu", used)
+    enrich = _take(me, "Enriching Energy", used)
+    speeds = [_take(me, "Speed Lightning Energy", used) for _ in range(4)]
+    puzzles = [_take(me, "Puzzle of Time", used) for _ in range(4)]
+    nets = [_take(me, "Scoop Up Net", used) for _ in range(2)]
+    mewtwo = next(i for i, c in enumerate(foe.cards) if c.name == "Mewtwo ex")
+    rest = [i for i in range(len(me.cards)) if i not in used]
+    me.active = Pokemon(card_i=poryz, played_turn=0)
+    me.bench = [
+        Pokemon(card_i=ambipom, played_turn=0),
+        Pokemon(card_i=octillery, played_turn=0),
+        Pokemon(card_i=abra, played_turn=0),
+        Pokemon(card_i=pikachu, played_turn=0),
+    ]
+    me.prizes = rest[:6]
+    rest = rest[6:]
+    me.hand = [enrich, *speeds, *puzzles, *nets]
+    me.deck = rest
+    me.discard = []
+    foe.active = Pokemon(card_i=mewtwo, played_turn=0)
+    game.turn = 2
+    start = len(me.hand)
+    game._celebration_engine(me, "a")
+    host = next(m for m in me.in_play() if me.card(m.card_i).name == "Pikachu")
+    attacker = next(m for m in me.in_play() if me.card(m.card_i).name == "Ambipom")
+    assert any(is_speed_lightning_energy(me.card(i)) for i in host.energy)
+    assert game.events.get("speed_l_draw")
+    assert game._ambipom_can_pay(me, attacker)
+    assert len(me.hand) > start
+    assert game._hand_fling_would_ko(me, foe)
+    game._celebration_align_attacker(me, "a")
+    assert me.card(me.active.card_i).name == "Ambipom"
+    game._attack(me, foe, "a")
+    assert game.events.get("hand_fling")
+    assert foe.active is None or foe.active.damage >= foe.card(mewtwo).hp
+
+
+def test_bts_allows_same_turn_aipom_line():
+    game = _game()
+    me = game.players["a"]
+    used: set[int] = set()
+    aipom = _take(me, "Aipom", used)
+    ambipom = _take(me, "Ambipom", used)
     bts = _take(me, "Broken Time-Space", used)
-    me.active = Pokemon(card_i=pory, played_turn=2)
+    me.active = Pokemon(card_i=aipom, played_turn=2)
     me.bench = []
-    me.hand = [pory2, poryz]
+    me.hand = [ambipom]
     me.deck = []
     game.turn = 2
     game._set_stadium(me.card(bts))
     assert game._stadium_allows_immediate_evolve()
     assert game._can_evolve_now(me, "a", me.active)
     game._evolve(me, game.players["b"], "a")
-    assert me.card(me.active.card_i).name == "Porygon-Z"
+    assert me.card(me.active.card_i).name == "Ambipom"
 
 
-def test_scoop_net_is_legal_on_mew_ex_not_required():
+def test_scoop_net_skips_speed_l_host():
     game = _game()
-    mew = fallback_named("Mew ex")
-    gholdengo = fallback_named("Gholdengo")
-    assert game._scoop_legal(mew)
-    assert game._scoop_legal(gholdengo)
-    assert game._scoop_legal(fallback_named("Abra"))
+    pikachu = fallback_named("Pikachu")
+    ambipom = fallback_named("Ambipom")
+    abra = fallback_named("Abra")
+    assert game._scoop_legal(pikachu)
+    assert game._scoop_legal(ambipom)
+    assert game._scoop_legal(abra)
 
 
 def test_g30_vs_c60_completes():

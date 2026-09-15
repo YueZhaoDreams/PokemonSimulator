@@ -43,6 +43,7 @@ PUBLISHED_EFFECT_KINDS = frozenset(
         "damage_counter_bonus",
         "psychic_energy_bonus",
         "psychic_energy_times",
+        "hand_count_times",
         "times",
         "coin_times",
         "opponent_prize_bonus",

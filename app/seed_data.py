@@ -311,8 +311,7 @@ SET_T_UNL_NAMES = (
     + ["Psychic Energy"] * 3
 )
 
-# Unlimited 60: 30th Celebration Gholdengo, three Celebration shots.
-# Gimmighoul copies use the 30th Metal print (see build_g30_deck), not PAL Psychic.
+# Unlimited 60: Ambipom PAR Hand Fling, Speed Lightning Energy draws, Enriching +2 loop.
 SET_G30_NAMES = (
     ["Abra"] * 3
     + ["Porygon"] * 3
@@ -320,24 +319,25 @@ SET_G30_NAMES = (
     + ["Porygon-Z"] * 2
     + ["Remoraid"] * 2
     + ["Octillery"] * 2
-    + ["Sableye"] * 2
-    + ["Gimmighoul"] * 3
-    + ["Gholdengo"] * 2
-    + ["Mew ex"]
+    + ["Sableye"]
+    + ["Aipom"] * 3
+    + ["Ambipom"] * 2
+    + ["Pikachu"] * 2
     + ["Puzzle of Time"] * 4
     + ["Scoop Up Net"] * 4
-    + ["Junk Arm"] * 4
+    + ["Junk Arm"] * 2
     + ["Broken Time-Space"] * 3
-    + ["Nest Ball"] * 3
+    + ["Nest Ball"] * 2
     + ["Buddy-Buddy Poffin"] * 3
     + ["Ultra Ball"] * 3
-    + ["VS Seeker"] * 4
+    + ["VS Seeker"] * 3
     + ["Wally"] * 2
     + ["Professor's Research"]
     + ["Battle Compressor"]
     + ["Switch"]
     + ["Enriching Energy"]
-    + ["Metal Energy"] * 3
+    + ["Speed Lightning Energy"] * 4
+    + ["Lightning Energy"] * 3
     + ["Darkness Energy"]
 )
 
@@ -2294,6 +2294,11 @@ _ENRICHING_TEXT = (
     "As long as this card is attached to a Pokémon, it provides Colorless Energy. "
     "When you attach this card from your hand to a Pokémon, draw 4 cards."
 )
+_SPEED_L_TEXT = (
+    "As long as this card is attached to a Pokémon, it provides Lightning Energy. "
+    "When you attach this card from your hand to a Lightning Pokémon, draw 2 cards."
+)
+_HAND_FLING_TEXT = "This attack does 20 damage for each card in your hand."
 _PUZZLE_TEXT = (
     "You may play 2 Puzzle of Time cards at once.\n"
     "• If you played 1 card, look at the top 3 cards of your deck and put them back in any order.\n"
@@ -2571,16 +2576,69 @@ _ENRICHING = _register(
     )
 )
 FALLBACK_BY_NAME["enriching energy"] = _ENRICHING
+_SPEED_L = _register(
+    Card(
+        catalog_id="swsh2-173",
+        name="Speed Lightning Energy",
+        category="Energy",
+        stage="Special",
+        types=["Lightning"],
+        energy_type="Lightning",
+        text=_SPEED_L_TEXT,
+        image="https://assets.tcgdex.net/en/swsh/swsh2/173/low.webp",
+        set_name="Rebel Clash",
+        retreat=0,
+    )
+)
+FALLBACK_BY_NAME["speed lightning energy"] = _SPEED_L
+FALLBACK_BY_NAME["speed l energy"] = _SPEED_L
+
+_AIPOM_PAR = _pkm(
+    "Aipom",
+    "Basic",
+    ["Colorless"],
+    60,
+    [
+        _atk("Filch", ["Colorless"], 0, "Draw a card."),
+        _atk("Smack", ["Colorless", "Colorless"], 20),
+    ],
+    catalog_id="sv04-145",
+    weakness="Fighting",
+    image="https://assets.tcgdex.net/en/sv/sv04/145/low.webp",
+    set_name="Paradox Rift",
+)
+FALLBACK_BY_NAME["aipom par"] = _AIPOM_PAR
+FALLBACK_BY_NAME["aipom paradox"] = _AIPOM_PAR
+_register(
+    _pkm(
+        "Ambipom",
+        "Stage1",
+        ["Colorless"],
+        100,
+        [
+            _atk("Collect", ["Colorless"], 0, "Draw 2 cards."),
+            _atk(
+                "Hand Fling",
+                ["Colorless", "Colorless", "Colorless"],
+                20,
+                _HAND_FLING_TEXT,
+            ),
+        ],
+        evolves_from="Aipom",
+        catalog_id="sv04-146",
+        weakness="Fighting",
+        image="https://assets.tcgdex.net/en/sv/sv04/146/low.webp",
+        set_name="Paradox Rift",
+    )
+)
 
 
 def build_g30_deck() -> list[Card]:
-    """30th Gimmighoul print; other names use the registered Celebration fallbacks."""
+    """Ambipom PAR 146 closer; Aipom uses the Paradox Rift print, not Lost Origin."""
     out: list[Card] = []
-    gimmighoul_left = 3
     for name in SET_G30_NAMES:
-        if name == "Gimmighoul" and gimmighoul_left:
-            out.append(fallback_named("gimmighoul 30th"))
-            gimmighoul_left -= 1
+        if name == "Aipom":
+            out.append(fallback_named("aipom par"))
         else:
             out.append(fallback_named(name))
     return out
@@ -2753,6 +2811,8 @@ def fallback_named(name: str) -> Card:
         key = "boomerang energy"
     if "enriching" in key:
         key = "enriching energy"
+    if "speed lightning" in key or key in {"speed l energy", "speed l"}:
+        key = "speed lightning energy"
     if key in FALLBACK_BY_NAME:
         card = FALLBACK_BY_NAME[key]
         return Card.from_dict(card.to_dict())
@@ -2762,6 +2822,8 @@ def fallback_named(name: str) -> Card:
         and "boomerang" not in key
         and "telepathic" not in key
         and "enriching" not in key
+        and "speed lightning" not in key
+        and "speed l" not in key
     ):
         return _nrg(name.split()[0].title())
     from app.catalog import fallback_card

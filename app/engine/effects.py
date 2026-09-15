@@ -646,8 +646,11 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
         if psychic_ref and "attached" in t and "discarded" not in t:
             effects.append({"kind": "psychic_energy_times", "per": parse_damage(damage_raw) or 20})
         elif "discarded" not in t:
+            hand_times = re.search(r"does (\d+) damage for each card in your hand", t)
             coin_times = re.search(r"flip (\d+) coins?.*?for each heads", t)
-            if coin_times:
+            if hand_times:
+                effects.append({"kind": "hand_count_times", "per": int(hand_times.group(1))})
+            elif coin_times:
                 effects.append(
                     {
                         "kind": "coin_times",
@@ -734,12 +737,27 @@ def parse_energy_effects(text: str) -> list[dict[str, Any]]:
                 "require_attach_type": attach_search.group(1).title(),
             }
         )
+    # Speed Lightning Energy: draw N only if attached from hand to a typed Pokémon.
+    typed_attach_draw = re.search(
+        r"when you attach this card from your hand to (?:one of your )?a "
+        r"(grass|fire|water|lightning|psychic|fighting|darkness|metal|fairy|dragon|colorless) "
+        r"pokemon, draw (\d+) cards",
+        t,
+    )
+    if typed_attach_draw:
+        effects.append(
+            {
+                "kind": "draw_on_attach_from_hand",
+                "amount": int(typed_attach_draw.group(2)),
+                "require_attach_type": typed_attach_draw.group(1).title(),
+            }
+        )
     # Enriching Energy: draw N when attached from hand. N comes from print.
     attach_draw = re.search(
         r"when you attach this card from your hand to a pokemon, draw (\d+) cards",
         t,
     )
-    if attach_draw:
+    if attach_draw and not typed_attach_draw:
         effects.append(
             {
                 "kind": "draw_on_attach_from_hand",
@@ -843,6 +861,11 @@ def is_enriching_energy(card: Any) -> bool:
     return "enriching" in (getattr(card, "name", "") or "").lower() and getattr(card, "is_energy", False)
 
 
+def is_speed_lightning_energy(card: Any) -> bool:
+    name = (getattr(card, "name", "") or "").lower()
+    return "speed lightning" in name and getattr(card, "is_energy", False)
+
+
 def is_special_energy(card: Any) -> bool:
     if not getattr(card, "is_energy", False):
         return False
@@ -851,6 +874,7 @@ def is_special_energy(card: Any) -> bool:
         or is_boomerang_energy(card)
         or is_telepathic_energy(card)
         or is_enriching_energy(card)
+        or is_speed_lightning_energy(card)
     ):
         return True
     return (getattr(card, "stage", "") or "").lower() == "special"
@@ -866,6 +890,8 @@ def energy_provided(card: Any) -> list[str]:
         return ["Psychic"]
     if is_enriching_energy(card):
         return ["Colorless"]
+    if is_speed_lightning_energy(card):
+        return ["Lightning"]
     et = getattr(card, "as_energy_type", None)
     if callable(et):
         et = card.as_energy_type
