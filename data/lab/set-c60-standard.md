@@ -17,11 +17,11 @@ The 30-card identity is LOR 62 Moon-Watching Party → load Psychic onto benched
 | 30-card Set C (Rule B) | Standard 60 rewrite |
 | --- | --- |
 | 4 Clefairy / 2 Mewtwo ex / 4 Clefable / 4 Clefable ex / 4 Mega | 4 Clefairy / **3** Mewtwo ex / **2 Rebel Clash Prankish Clefable** / **3** Clefable ex / **2** Mega |
-| 0 Energy (Pokémon pay Party) | **13 Psychic Energy + 2 Telepathic Psychic Energy** |
+| 0 Energy (Pokémon pay Party) | **14 Psychic Energy + 2 Telepathic Psychic Energy** |
 | 2 Nest, 0 Poffin, 0 Switch | 4 Nest, **4 Poffin** (Clefairy is 60 HP), **2 Switch** (Party is Active-only) |
 | 1 Boss | **3 Boss** (6-prize race) |
 | 2 Hop / 1 Lillie | 2 Hop / 2 Lillie / 2 Lillie's Determination / 2 Iono |
-| Arven + Belt + Tool Box | kept (ACE SPEC Belt still 1) |
+| Arven + Belt | kept (ACE SPEC Belt still 1; Tool Box cut for a 14th Psychic) |
 
 Thinned Stage 1 pile: four Mega in a 6-prize format is three-prize suicide. Two Mega sponge Phantom Dive / Demolish; three Clefable ex keep Lunar Zone. Third Mewtwo is a second closer after the first 2-prize KO.
 
@@ -49,9 +49,8 @@ Locked C60 list (`SET_C60_NAMES`):
 | 1 | Energy Retrieval | Hand fuel for Shooting Moons |
 | 1 | Night Stretcher | Recycle Pokémon or Energy |
 | 1 | Maximum Belt | ACE SPEC +50 vs ex |
-| 1 | Tool Box | Top-7 Tool |
 | 2 | Telepathic Psychic Energy | From-hand attach benches up to 2 Basic Psychic; then Party |
-| 13 | Psychic Energy | Pays Party / Photon / Zone |
+| 14 | Psychic Energy | Pays Party / Photon / Zone |
 
 ## Foes (household Standard 60, not Limitless meta)
 
@@ -152,7 +151,7 @@ Household Candy Dragapult and Ogerpon go up; Hedrick (Munkidori / Risky Ruins, s
 - Do not add Budew for Item lock. Itchy Pollen is Items only; 1-of for 1 Psychic lost T60 / Hedrick / D60 even with a sit-and-Pollen party path (see [set-c60-budew-item-lock.md](set-c60-budew-item-lock.md)).
 - Do not swap Night Stretcher for Tulip. 1-for-1 is a wash / Stretcher slightly better vs Hedrick (see [set-c60-tulip-vs-stretcher.md](set-c60-tulip-vs-stretcher.md)). 2 Tulip −2 Hop already lost T60.
 - Do not cut a Psychic Energy for Lillie's Clefairy ex. Fairy Zone helps T60 / Hedrick a little and costs ~5 points vs D60 (see [set-c60-lillie-clefairy-ex.md](set-c60-lillie-clefairy-ex.md)).
-- Energy line is **13 Psychic + 2 Telepathic Psychic Energy**. Do not go to 3 or 4 Telepathic: T60 going second collapses (see [set-c60-telepathic-energy.md](set-c60-telepathic-energy.md)).
-- Do not cut Maximum Belt + Tool Box + Arven for 2 more Telepathic plus a free slot. Dragapult rises ~3–5 points; Charm Ogerpon drops ~14 because Photon 7 + Belt is the 270 OHKO on 260 Charm (see [set-c60-belt-vs-telepathic.md](set-c60-belt-vs-telepathic.md)).
-- If only Tool Box is cut (Belt + Arven stay), the open slot is a **14th Psychic Energy**, not a 3rd Telepathic: T60 going second falls to 46.4% with the extra special (see [set-c60-toolbox-swap.md](set-c60-toolbox-swap.md)). 4th Boss / 3rd Iono also lose T60. Locked C60 still has Tool Box until that 14th Psychic is accepted as a lock.
+- Energy line is **14 Psychic + 2 Telepathic Psychic Energy**. Do not go to 3 or 4 Telepathic: T60 going second collapses (see [set-c60-telepathic-energy.md](set-c60-telepathic-energy.md)).
+- Do not cut Maximum Belt + Arven for 2 more Telepathic plus a free slot. Dragapult rises ~3–5 points; Charm Ogerpon drops ~14 because Photon 7 + Belt is the 270 OHKO on 260 Charm (see [set-c60-belt-vs-telepathic.md](set-c60-belt-vs-telepathic.md)).
+- Tool Box is out: the 1-for-1 is a **14th Psychic Energy**, not a 3rd Telepathic (T60 going second 46.4% with the extra special; see [set-c60-toolbox-swap.md](set-c60-toolbox-swap.md)). 4th Boss / 3rd Iono also lose T60. Arven still searches Belt.
 - Do not treat this as a replacement for Family Cup Set C. Rule B Clefable-as-energy is a different game.

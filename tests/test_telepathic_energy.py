@@ -72,7 +72,7 @@ def test_c60_locked_list_has_two_telepathic():
     from app.seed import _is_basic_energy_name, load_seed_deck
 
     assert SET_C60_NAMES.count("Telepathic Psychic Energy") == 2
-    assert SET_C60_NAMES.count("Psychic Energy") == 13
+    assert SET_C60_NAMES.count("Psychic Energy") == 14
     assert list(SET_C60_NAMES) == _c60_with_telepathic(2)
     assert not _is_basic_energy_name("Telepathic Psychic Energy")
     seed_names = [c["name"] for c in load_seed_deck("c60")["cards"]]

@@ -34,6 +34,19 @@ from app.seed_data import (
 ROOT = Path(__file__).resolve().parents[2]
 GAMES = 3000
 SEED = 20260911
+
+
+def c60_at_toolbox_bakeoff() -> list[str]:
+    """C60 when this bakeoff ran: 13 Psychic + Tool Box.
+
+    Locked C60 later cut Tool Box for a 14th Psychic. Re-runs keep that baseline.
+    """
+    names = list(SET_C60_NAMES)
+    if "Tool Box" not in names:
+        names[names.index("Psychic Energy")] = "Tool Box"
+    return names
+
+
 FOES = (
     ("t60", SET_T60_NAMES, "phantom"),
     ("hedrick", SET_T_META_NAMES, "phantom"),
@@ -56,7 +69,7 @@ REPLACEMENTS = (
 
 
 def cut_toolbox(names: list[str] | None = None) -> list[str]:
-    out = list(names if names is not None else SET_C60_NAMES)
+    out = list(names if names is not None else c60_at_toolbox_bakeoff())
     out.remove("Tool Box")
     return out
 
@@ -70,7 +83,7 @@ def swap_toolbox(card: str, names: list[str] | None = None) -> list[str]:
 
 
 def variant_lists() -> list[tuple[str, list[str]]]:
-    variants = [("toolbox", list(SET_C60_NAMES))]
+    variants = [("toolbox", c60_at_toolbox_bakeoff())]
     for key, card in REPLACEMENTS:
         variants.append((key, swap_toolbox(card)))
     return variants

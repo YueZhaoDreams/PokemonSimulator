@@ -21,7 +21,8 @@ LAB = _load_lab()
 def test_toolbox_trials_keep_belt_and_arven():
     rules = standard_60_rules()
     by_key = dict(LAB.variant_lists())
-    assert by_key["toolbox"] == list(SET_C60_NAMES)
+    bakeoff = LAB.c60_at_toolbox_bakeoff()
+    assert by_key["toolbox"] == bakeoff
     assert by_key["toolbox"].count("Tool Box") == 1
     for key, names in by_key.items():
         assert len(names) == 60, key
@@ -34,6 +35,11 @@ def test_toolbox_trials_keep_belt_and_arven():
     assert by_key["tele"].count("Telepathic Psychic Energy") == 3
     assert by_key["energy"].count("Psychic Energy") == 14
     assert by_key["boss"].count("Boss's Orders") == 4
+    from collections import Counter
+
+    assert Counter(SET_C60_NAMES) == Counter(by_key["energy"])
+    assert SET_C60_NAMES.count("Tool Box") == 0
+    assert SET_C60_NAMES.count("Psychic Energy") == 14
 
 
 def test_toolbox_swap_json_cells_follow_foe_order():
@@ -47,7 +53,9 @@ def test_toolbox_swap_json_cells_follow_foe_order():
     assert blob["seed"] == 20260911
     assert list(blob["foes"]) == foes
     assert list(blob["cells"])[0] == "toolbox"
-    assert blob["lists"]["toolbox"] == list(SET_C60_NAMES)
+    from collections import Counter
+
+    assert Counter(blob["lists"]["toolbox"]) == Counter(LAB.c60_at_toolbox_bakeoff())
     for row in blob["cells"].values():
         assert list(row) == foes
     energy = blob["cells"]["energy"]

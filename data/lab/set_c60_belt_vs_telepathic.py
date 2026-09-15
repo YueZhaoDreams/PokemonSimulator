@@ -39,6 +39,18 @@ ROOT = Path(__file__).resolve().parents[2]
 GAMES = 3000
 SEED = 20260911
 BELT_PACKAGE = ("Maximum Belt", "Tool Box", "Arven")
+
+
+def c60_at_toolbox_bakeoff() -> list[str]:
+    """C60 when the Belt/Tool Box labs ran: 13 Psychic + Tool Box.
+
+    Locked C60 later cut Tool Box for a 14th Psychic. Re-runs of this script keep
+    the bakeoff baseline so the JSON stays comparable.
+    """
+    names = list(SET_C60_NAMES)
+    if "Tool Box" not in names:
+        names[names.index("Psychic Energy")] = "Tool Box"
+    return names
 FOES = (
     ("t60", SET_T60_NAMES, "phantom"),
     ("hedrick", SET_T_META_NAMES, "phantom"),
@@ -60,7 +72,7 @@ THIRD = (
 
 
 def cut_belt_package(names: list[str] | None = None) -> list[str]:
-    out = list(names if names is not None else SET_C60_NAMES)
+    out = list(names if names is not None else c60_at_toolbox_bakeoff())
     for card in BELT_PACKAGE:
         out.remove(card)
     return out
@@ -75,7 +87,7 @@ def extra(first: str, second: str, third: str, names: list[str] | None = None) -
 
 
 def variant_lists() -> list[tuple[str, list[str]]]:
-    locked = list(SET_C60_NAMES)
+    locked = c60_at_toolbox_bakeoff()
     tele = "Telepathic Psychic Energy"
     psychic = "Psychic Energy"
     variants = [

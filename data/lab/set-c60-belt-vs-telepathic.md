@@ -53,4 +53,4 @@ Dragapult likes the cut. Best trial is **tele2_energy** (4 Telepathic + 14 Psych
 
 3000-game noise on a 50% cell is about ±0.9 points. Blowouts (S60 / G / H) do not move.
 
-Do not lock this swap. Keep **Maximum Belt + Tool Box + Arven** in C60. Keep the energy line at **13 Psychic + 2 Telepathic**. Do not spend trainer slots on a 3rd/4th Telepathic. Family Cup Set C stays 30 with Belt.
+Do not lock this three-slot swap. Keep **Maximum Belt + Arven** in C60. The energy line later became **14 Psychic + 2 Telepathic** by cutting Tool Box only (see [set-c60-toolbox-swap.md](set-c60-toolbox-swap.md)). Do not spend trainer slots on a 3rd/4th Telepathic. Family Cup Set C stays 30 with Belt.

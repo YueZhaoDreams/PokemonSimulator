@@ -1,4 +1,4 @@
-# C60 Tool Box 1-for-1 (keep Belt + Arven)
+# C60 Tool Box 1-for-1 (lock 14th Psychic)
 
 Date: 2026-09-15
 Seed: `20260911`
@@ -9,7 +9,7 @@ Raw: `data/lab/set-c60-toolbox-swap.json`
 
 **Tool Box** is printed top 7, any Tools into hand. **Arven** is still the full-deck Tool + Item search, so Maximum Belt (ACE SPEC +50 vs ex) stays findable. This is not the three-slot Belt cut: Charm Ogerpon's Photon 7 + Belt = 270 OHKO on 260 Charm remains.
 
-Swap: **1 Tool Box → 1 other**. Locked C60 stays 13 Psychic + 2 Telepathic + Belt + Arven. Family Cup Set C stays 30 with Tool Box.
+Swap: **1 Tool Box → 1 other**. Locked C60 is **14 Psychic + 2 Telepathic + Belt + Arven**. Family Cup Set C stays 30 with Tool Box.
 
 Field: every s60 60-card seed list except C60 itself. G uses dedicated `g`. H has no Zapdos script — `nuzzle` is the Lightning stand-in.
 
@@ -41,4 +41,6 @@ A 3rd Telepathic in that slot is the trap from the energy-count lab in a milder 
 
 3000-game noise on a 50% cell is about ±0.9 points. Energy's Hedrick / UNL gaps are outside that; T60 is on the edge and every competitive cell moves the same way.
 
-If Tool Box is cut, the slot is a **14th Psychic Energy** (14 Psychic + 2 Telepathic, Belt + Arven kept). Do not put a 3rd Telepathic there. Family Cup Set C stays 30 with Tool Box. Locked C60 is unchanged until that 14th Psychic is accepted as a lock.
+If Tool Box is cut, the slot is a **14th Psychic Energy** (14 Psychic + 2 Telepathic, Belt + Arven kept). Do not put a 3rd Telepathic there. Family Cup Set C stays 30 with Tool Box.
+
+**Lock the 14th Psychic into C60** (`SET_C60_NAMES`). Tool Box is out. Arven still searches Maximum Belt.

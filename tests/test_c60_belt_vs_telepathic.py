@@ -32,10 +32,10 @@ def variant_lists() -> list[tuple[str, list[str]]]:
 def test_locked_c60_still_has_belt_package_and_two_telepathic():
     names = list(SET_C60_NAMES)
     assert names.count("Maximum Belt") == 1
-    assert names.count("Tool Box") == 1
+    assert names.count("Tool Box") == 0
     assert names.count("Arven") == 1
     assert names.count("Telepathic Psychic Energy") == 2
-    assert names.count("Psychic Energy") == 13
+    assert names.count("Psychic Energy") == 14
 
 
 def test_trial_lists_are_legal_sixty_without_belt_package():
@@ -83,7 +83,9 @@ def test_belt_vs_telepathic_json_cells_follow_foe_order():
     assert blob["seed"] == 20260911
     assert list(blob["foes"]) == foes
     assert list(blob["cells"])[0] == "belt"
-    assert blob["lists"]["belt"] == list(SET_C60_NAMES)
+    from collections import Counter
+
+    assert Counter(blob["lists"]["belt"]) == Counter(LAB.c60_at_toolbox_bakeoff())
     for row in blob["cells"].values():
         assert list(row) == foes
     belt_d60 = blob["cells"]["belt"]["d60"]["a"]
