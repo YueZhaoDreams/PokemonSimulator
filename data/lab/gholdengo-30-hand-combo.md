@@ -38,7 +38,7 @@ Puzzle of Time, Scoop Up Net, Forest of Giant Plants, Broken Time-Space, Lysandr
 
 **Ambipom 不抗揍，走 2 换 1。** 100 HP 挡不住 Photon / Dive，但只给 1 奖。家庭组 closer 是 2 奖，Hand Fling 先 KO 再死 = 净 +1 奖。所以把线加厚成 **4 Aipom / 4 Ambipom**：大接手更容易抽出第二只，Wally / Ultra Ball 在场上已有一只 Ambipom 时仍会找备用。不换 Mew 墙，也不占 Enriching 的 ACE SPEC 位。
 
-家庭组 3000 盘数组（seed 20260911）上一版 **2 Raikou V + 2 Forest Seal + 3/2 Aipom/Ambipom**：胜率 **3.5 / 5.2 / 6.1 / 20.5 / 5.5 / 28.0 / 26.5%** vs c60/t60/hedrick/unl/d60/s60/g。再上一版 Pikachu / Octillery / Sableye 是 **2.8 / 3.6 / 2.7 / 19.0 / 2.3 / 6.7 / 6.4%**。s60 / g 明显起来（Hand Fling 37.8% / 38.4%），c60 Photon 和 t60 Dive 还是先打掉 100 HP Ambipom。4/4 Ambipom 线的新数组见下面 Win-rate array。
+家庭组 3000 盘数组（seed 20260911）这版 **4 Aipom / 4 Ambipom / 1 Raikou**：胜率 **3.7 / 4.9 / 6.7 / 22.1 / 4.2 / 28.5 / 30.4%** vs c60/t60/hedrick/unl/d60/s60/g。上一版 2 Raikou / 3+2 是 **3.5 / 5.2 / 6.1 / 20.5 / 5.5 / 28.0 / 26.5%**。g 从 26.5% 到 30.4%（Hand Fling 38.4% → 42.5%），c60 / t60 / d60 几乎不动——Photon / Dive 仍先打掉 100 HP。砍成 1 只 Raikou 之后 Speed L / Fleet-Footed / Star Alchemy 都掉了。
 
 ---
 
@@ -185,27 +185,27 @@ Honest calendar: **3 Celebration attacks** is the prize floor. **3 of our turns*
 
 ## Win-rate array
 
-G30 (`celebration` strategy, Ambipom PAR Hand Fling + Lopunny FLF Big Jump + 4/4 Aipom/Ambipom + 1 Raikou V) as player A vs the household 60s. Not a full NxN remake of `set-c60-unl-matrix`. Rules preset `s60` (60 / 6 prizes / 4-of). First player random. **3,000 games / cell, seed 20260911**. Elapsed **81.7s** on the previous 2 Raikou / 3+2 Aipom list; 4/4 rerun pending in `gholdengo-30-array.json`.
+G30 (`celebration` strategy, Ambipom PAR Hand Fling + Lopunny FLF Big Jump + 4/4 Aipom/Ambipom + 1 Raikou V) as player A vs the household 60s. Not a full NxN remake of `set-c60-unl-matrix`. Rules preset `s60` (60 / 6 prizes / 4-of). First player random. **3,000 games / cell, seed 20260911**. Elapsed **71.9s** after the 4/4 Ambipom thicken.
 
 Script: `data/lab/gholdengo-30-array.py`. Numbers: `data/lab/gholdengo-30-array.json`.
 
 | A \\ B | c60 | t60 | hedrick | unl | d60 | s60 | g |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| g30 win | 3.5% | 5.2% | 6.1% | 20.5% | 5.5% | 28.0% | 26.5% |
-| first | 3.5% | 4.5% | 5.9% | 19.3% | 5.0% | 28.3% | 24.4% |
-| second | 3.5% | 5.9% | 6.3% | 21.6% | 6.1% | 27.6% | 28.6% |
-| Crazy Code | 45.4% | 22.5% | 32.1% | 34.8% | 23.4% | 60.8% | 58.1% |
-| Puzzle pair | 6.5% | 3.4% | 6.4% | 6.4% | 3.9% | 8.0% | 7.0% |
-| Speed L draw | 31.9% | 15.3% | 21.8% | 25.9% | 18.2% | 50.2% | 40.1% |
-| Big Jump | 20.3% | 8.7% | 12.0% | 16.6% | 8.3% | 27.9% | 18.3% |
-| Hand Fling | 22.9% | 9.4% | 15.8% | 14.6% | 4.3% | 37.8% | 38.4% |
-| Draw Energy | 86.6% | 80.0% | 79.2% | 87.1% | 80.0% | 93.8% | 89.4% |
-| Rare Candy | 66.6% | 69.7% | 44.8% | 94.0% | 47.8% | 76.9% | 71.2% |
-| Fleet-Footed | 61.7% | 58.2% | 53.0% | 56.0% | 63.6% | 58.5% | 55.6% |
-| Star Alchemy | 55.6% | 37.7% | 41.6% | 87.3% | 41.1% | 70.0% | 61.6% |
+| g30 win | 3.7% | 4.9% | 6.7% | 22.1% | 4.2% | 28.5% | 30.4% |
+| first | 3.7% | 4.5% | 6.5% | 23.2% | 3.9% | 28.4% | 28.6% |
+| second | 3.6% | 5.3% | 6.9% | 21.0% | 4.4% | 28.6% | 32.3% |
+| Crazy Code | 38.1% | 20.5% | 29.2% | 28.3% | 15.1% | 50.9% | 48.9% |
+| Puzzle pair | 6.0% | 3.0% | 5.3% | 5.8% | 2.6% | 7.5% | 5.8% |
+| Speed L draw | 17.9% | 9.5% | 13.4% | 15.7% | 8.6% | 32.4% | 23.9% |
+| Big Jump | 16.5% | 8.3% | 10.5% | 14.7% | 5.7% | 25.0% | 12.8% |
+| Hand Fling | 23.7% | 11.4% | 17.6% | 15.0% | 3.4% | 37.8% | 42.5% |
+| Draw Energy | 84.9% | 78.1% | 78.5% | 85.0% | 78.9% | 93.6% | 88.1% |
+| Rare Candy | 61.2% | 69.5% | 43.3% | 94.4% | 41.5% | 72.7% | 64.6% |
+| Fleet-Footed | 43.8% | 38.8% | 38.4% | 39.3% | 47.0% | 40.4% | 37.9% |
+| Star Alchemy | 27.4% | 17.6% | 19.7% | 79.9% | 19.0% | 39.7% | 33.3% |
 | Celebration | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 
-Same seed, 2 Raikou V / 3 Aipom / 2 Ambipom (before the 4/4 prize-race thicken): g30 win **3.5 / 5.2 / 6.1 / 20.5 / 5.5 / 28.0 / 26.5%**, Hand Fling **22.9 / 9.4 / 15.8 / 14.6 / 4.3 / 37.8 / 38.4%**.
+Same seed, 2 Raikou V / 3 Aipom / 2 Ambipom (before the 4/4 prize-race thicken): g30 win **3.5 / 5.2 / 6.1 / 20.5 / 5.5 / 28.0 / 26.5%**, Hand Fling **22.9 / 9.4 / 15.8 / 14.6 / 4.3 / 37.8 / 38.4%**. Thickening the closer line lifts g the most (26.5% → 30.4%, Hand Fling 38.4% → 42.5%). c60 / t60 / d60 stay ~4–5%: Photon and Dive still KO 100 HP Ambipom before three 2-prize shots. Cutting to one Raikou V drops Speed L / Fleet-Footed / Star Alchemy.
 
 Same seed, previous Pikachu / Octillery / Sableye 60 (play-script fix): g30 win **2.8 / 3.6 / 2.7 / 19.0 / 2.3 / 6.7 / 6.4%**. Raikou V + Draw Energy + Candy + Forest Seal Stone lifts s60 and g the most (Hand Fling 10% → 38%). c60 Photon and t60 Dive still KO 100 HP Ambipom before three prize shots.
 
