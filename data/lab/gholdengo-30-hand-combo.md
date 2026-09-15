@@ -48,6 +48,50 @@ Abra Teleporter 把 Energy 洗进 **牌库**，不如 Scoop Up Net 把 Energy �
 
 ---
 
+## The 60 (Unlimited constructed)
+
+This is the pile to test. Counts are 4-of / ACE SPEC 1. Printings are the ones whose text this lab uses; any earlier print of the same English name plays with the latest wording.
+
+| Qty | Card | Set | Why |
+|---:|---|---|---|
+| 4 | Abra | TWM 80 | Enriching host. 40 HP → Poffin. Scoop Up Net legal. Teleporter is backup only. |
+| 4 | Porygon | UNB 154 | 50 HP → Poffin. BTS into Porygon2 the turn it is played. |
+| 2 | Porygon2 | UNB 156 | BTS into Porygon-Z the turn it evolves. |
+| 2 | Porygon-Z | UNB 157 | **Crazy Code** |
+| 4 | Gimmighoul | 30th Celebration 81 | 60 HP → Poffin. BTS into Gholdengo. |
+| 3 | Gholdengo | 30th Celebration 108 | **[M] Celebration** |
+| 1 | Mew ex | 30th Celebration 66 | Memory Helix copies benched Celebration. 0 retreat. Keep this Active; loop Abra on the Bench. |
+| 4 | Puzzle of Time | BKP 109 | Play 2: any 2 cards from discard to hand. The recycle. |
+| 4 | Scoop Up Net | RCL 165 | Host to hand, Enriching to discard. |
+| 4 | Broken Time-Space | PL 104 | Same-turn evolution stadium. |
+| 4 | Nest Ball | SVI 181 (or any Nest Ball) | Basic to Bench (Abra / Porygon / Gimmighoul). |
+| 4 | Buddy-Buddy Poffin | TEF 144 | Up to 2 Basics ≤70 HP to Bench. |
+| 4 | Ultra Ball | MEG reprint | Any Pokémon to hand. |
+| 4 | VS Seeker | PHF 109 | Wally / Research back from discard. |
+| 2 | Wally | ROS 94 | Evolve a Pokémon played this turn if BTS is not in play. |
+| 2 | Professor's Research | I reprint | Setup only. Never after the hand is large. |
+| 2 | Battle Compressor | FCO 137 / UNB 223 | Mill Puzzle of Time into discard so the pair in hand can start retrieving. |
+| 1 | Switch | MEG reprint | If Mew is not Active and Gholdengo must attack. |
+| 1 | Enriching Energy | SSP 191 | ACE SPEC. +4 on attach from hand. |
+| 4 | Basic Metal Energy | any | Rule-attach onto Mew / Gholdengo for Celebration. Crazy Code does not attach Basic Metal. |
+
+**20 Pokémon + 35 Trainers + 5 Energy = 60.**
+
+Not in this 60 (on purpose): Forest of Vitality, Speed Lightning Energy, Dudunsparce, Scoop Up Cyclone, Grand Tree, Precious Trolley, Computer Search, Shaymin-EX, Dedenne-GX, Iono, N, Jirachi ex.
+
+**Ambipom backup (swap 4):** −1 Gholdengo, −1 Porygon2, −1 Nest Ball, −1 Poffin, +2 Aipom PAR, +2 Ambipom PAR 146 (Hand Fling 20×). 30 cards in hand → 600. Same loop.
+
+Goldfish once the board is up (going second, not a guaranteed opener):
+
+1. Play Broken Time-Space.
+2. Poffin / Nest Abra, Porygon, Gimmighoul. BTS: Porygon → Porygon2 → Porygon-Z; Gimmighoul → Gholdengo. Play Mew ex Active if you have it.
+3. Rule-attach Metal to Mew or Gholdengo.
+4. Crazy Code Enriching Energy onto **Bench Abra** (+4).
+5. Scoop Up Net that Abra. Puzzle of Time ×2 → Enriching + Net. Replay Abra. Repeat. Net **+2** per cycle.
+6. Stop on **30**. Celebration (or Mew copies it). Take 2 of 6 prizes.
+
+---
+
 ## Win condition
 
 **Gholdengo** (30th Celebration 108 / AR 142) — Metal Stage 1, 130 HP, evolves from Gimmighoul, retreat 2.
