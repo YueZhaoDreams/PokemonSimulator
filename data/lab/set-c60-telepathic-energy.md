@@ -34,3 +34,5 @@ Competitive pair (T60 + Hedrick) mean: 15-Psychic 53.5%, tele2 **54.1%**, tele3 
 tele2 is the only count that does not lose T60. tele4 is a D60 specialist (empty Clefairy is already the 1-prize chump; extra Party outruns Demolish) and collapses T60 going second (43.6% vs 15-Psychic 46.8%).
 
 Lock **2 Telepathic Psychic Energy** into C60 (`SET_C60_NAMES`). Do not go to 3 or 4. Family Cup Set C stays 30 with 0. The field ranking does not change: coin vs Candy Dragapult, favorite vs Hedrick, crush vs UNL / Ogerpon / Floragato / G / H.
+
+Do not spend the Belt package (Maximum Belt + Tool Box + Arven) on a 3rd/4th Telepathic either. That swap helps Dragapult and dumps Charm Ogerpon (see [set-c60-belt-vs-telepathic.md](set-c60-belt-vs-telepathic.md)).

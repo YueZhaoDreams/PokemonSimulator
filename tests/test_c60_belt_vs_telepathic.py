@@ -55,6 +55,25 @@ def test_tele2_trials_are_four_telepathic_psy2_keep_two():
     ).count("Boss's Orders") == 4
 
 
+def test_belt_vs_telepathic_json_cells_follow_foe_order():
+    import json
+
+    blob = json.loads(
+        (Path(__file__).resolve().parents[1] / "data/lab/set-c60-belt-vs-telepathic.json").read_text()
+    )
+    foes = ["t60", "hedrick", "unl", "d60", "s60", "g", "h"]
+    assert blob["games"] == 3000
+    assert blob["seed"] == 20260911
+    assert list(blob["foes"]) == foes
+    assert list(blob["cells"])[0] == "belt"
+    assert blob["lists"]["belt"] == list(SET_C60_NAMES)
+    for row in blob["cells"].values():
+        assert list(row) == foes
+    belt_d60 = blob["cells"]["belt"]["d60"]["a"]
+    cut_d60 = blob["cells"]["tele2_energy"]["d60"]["a"]
+    assert belt_d60 > cut_d60 + 0.10
+
+
 def test_photon_counts_telepathic_and_belt_is_fifty_vs_ex():
     game = Game(
         build_fallback_deck(list(SET_C60_NAMES)),
