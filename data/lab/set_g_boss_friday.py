@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Live Carpet Set G: 3 Boss's Orders arriving before Friday.
 
-Source of truth: combocub.com seed-g on 2026-09-15 (dancedfire). Live G is
-locked G-plus with Mewtwo / Emolga already swapped for Mega Clefable ex /
+Source of truth: combocub.com seed-g on 2026-09-15 (household admin). Live G
+is locked G-plus with Mewtwo / Emolga already swapped for Mega Clefable ex /
 Tornadus. Zero Boss. Three Boss's Orders are incoming; stay at 60.
 
 Rule: s60. Seed 20260915. G is always player A; first player is random.
@@ -268,7 +268,7 @@ def main() -> None:
         "seed": SEED,
         "elapsed": elapsed,
         "rule_preset": "s60",
-        "source": "combocub.com seed-g 2026-09-15 dancedfire",
+        "source": "combocub.com seed-g 2026-09-15 household admin",
         "live_g": base,
         "live_g_counts": Counter(base).most_common(),
         "live_vs_seed": {"add": ["Mega Clefable ex", "Tornadus"], "cut": ["Mewtwo", "Emolga"]},

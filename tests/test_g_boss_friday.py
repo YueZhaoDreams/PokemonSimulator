@@ -11,8 +11,8 @@ def _load():
 
     path = Path(__file__).resolve().parents[1] / "data" / "lab" / "set_g_boss_friday.py"
     spec = importlib.util.spec_from_file_location(path.stem, path)
+    assert spec and spec.loader
     module = importlib.util.module_from_spec(spec)
-    assert spec.loader is not None
     spec.loader.exec_module(module)
     return module
 

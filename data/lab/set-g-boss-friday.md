@@ -8,7 +8,7 @@ Script: `data/lab/set_g_boss_friday.py`
 Raw: `data/lab/set-g-boss-friday.json`
 Confirm: `data/lab/set-g-boss-friday-confirm.json` (3,000 games)
 
-Source of truth: **combocub.com** `seed-g` for `dancedfire@gmail.com` on 2026-09-15 (password checked). Live G is not the repo G-plus lock.
+Source of truth: **combocub.com** `seed-g` on 2026-09-15 (household admin session). Live G is not the repo G-plus lock.
 
 ## Live G vs repo seed-g
 
