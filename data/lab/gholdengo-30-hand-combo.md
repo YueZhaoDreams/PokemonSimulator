@@ -28,15 +28,15 @@ Puzzle of Time, Scoop Up Net, Forest of Giant Plants, Broken Time-Space, Lysandr
 
 研究目标从一开始就是：**60 张牌组 + Unlimited 卡池 + 6 奖**。Standard / Expanded 的轮换和禁卡表只用来对照「离开 Unlimited 会丢掉哪些循环」，不是这副牌的规则。
 
-主循环改成 **Lopunny FLF 85 Big Jump**：印刷 `Once during your turn (before your attack), you may return this Pokémon and all cards attached to it to your hand.` Jumpluff DRX 3 Leave It to the Wind 是同一句，但是 Stage 2（Hoppip→Skiploom→Jumpluff），这副 60 用 Stage 1 Lopunny。附着卡回**手牌**，不是洗回牌库（Abra Teleporter / Dudunsparce RAD），也不是进弃牌再 Puzzle（Scoop Up Net）。Crazy Code 贴 Enriching（+3）→ Big Jump 把 Buneary+Lopunny+Enriching 回手（+3）→ 重放 Buneary −1 → BTS 进化 −1，净 **+4** / 圈。12 张手牌 = 240，够打家庭组常见 2 奖（Mewtwo 230 / Ogerpon 210 / Wo-Chien）；Dragapult 320 要 16 张。还是一回合一次攻击，6 奖至少 3 枪。
+主循环改成 **Lopunny FLF 85 Big Jump**：印刷 `Once during your turn (before your attack), you may return this Pokémon and all cards attached to it to your hand.` Jumpluff DRX 3 Leave It to the Wind 是同一句，但是 Stage 2（Hoppip→Skiploom→Jumpluff），这副 60 用 Stage 1 Lopunny。附着卡回**手牌**，不是洗回牌库（Abra Teleporter / Dudunsparce RAD），也不是进弃牌再 Puzzle（Scoop Up Net）。Crazy Code 贴 Enriching（+3）→ Big Jump 把 Buneary+Lopunny+Enriching 回手（+3）→ 重放 Buneary −1 → BTS 进化 −1，净 **+4** / 圈。Draw Energy CEC 209 贴上摸 1，净 0，Crazy Code 可以连贴，给 Ambipom 付无色。12 张手牌 = 240，够打家庭组常见 2 奖（Mewtwo 230 / Ogerpon 210 / Wo-Chien）；Dragapult 320 要 16 张。还是一回合一次攻击，6 奖至少 3 枪。
 
-**Speed Lightning Energy（RCL 173）**：贴在身上提供雷；**只有从手牌贴到雷宝可梦才抽 2**。Lopunny 是无色，贴上去不抽。引擎把多出来的 Speed L 贴 Pikachu。
+**电系位换成 Raikou V（BRS 48）**，不再用 Pikachu / Tynamo。Fleet-Footed：在场上前位时摸 1。Forest Seal Stone 贴在 V 上开 Star Alchemy，**从牌组找任意一张**（Rare Candy / Porygon-Z / Lopunny / Draw Energy），一局一次 VSTAR。Speed Lightning Energy 只有贴到雷宝可梦才抽 2，贴 Raikou V 才算。
 
-同回合再进化用 **Broken Time-Space**。Abra Teleporter 仍把 Energy 洗进牌库，不要当这副的宿主。
+**砍掉 Sableye / Remoraid / Octillery / Porygon2 / Pikachu。** Rare Candy 比 Porygon2：跳过 Stage 1 直接 Porygon → Porygon-Z。印刷写明不能第一回合、不能对这回合放下的 Basic 用，Broken Time-Space **不能**覆盖这句。
 
-家庭组 3000 盘数组（seed 20260911）**打法改对之后**再跑：Big Jump **c60 12.0% / t60 5.8% / hedrick 9.1% / unl 12.7% / d60 3.7% / s60 14.3% / g 11.4%**（上一版错误脚本是 9.3 / 4.2 / 5.6 / 8.5 / 2.2 / 11.4 / 8.3%）。Junk Hunt 掉到约 0.1%。胜率仍低：**2.8 / 3.6 / 2.7 / 19.0 / 2.3 / 6.7 / 6.4%** vs c60/t60/hedrick/unl/d60/s60/g。循环会发动，但 100 HP Ambipom 还是会被 Photon / Dive 先打掉。
+同回合再进化 Stage 1（Aipom / Buneary）用 **Broken Time-Space**。Abra Teleporter 仍把 Energy 洗进牌库，不要当这副的宿主。
 
-上一版引擎按 Abra 循环搜牌：Poffin / Nest / Ultra Ball 优先 Aipom / Pikachu / Remoraid / Sableye，Wally 不进化 Buneary，Enriching 贴在 Lopunny 上时循环门槛看不见它。牌组里有 Buneary / Lopunny，但经常不上场。现在搜索和坐席跟 Big Jump 线走。
+家庭组 3000 盘数组（seed 20260911）上一版 Big Jump 打法改对之后：胜率仍低 **2.8 / 3.6 / 2.7 / 19.0 / 2.3 / 6.7 / 6.4%** vs c60/t60/hedrick/unl/d60/s60/g。这一版换成 Raikou V + Draw Energy + Rare Candy 后再跑。
 
 ---
 
@@ -82,43 +82,40 @@ Opponent gets a full turn after shot 1 and shot 2. Gust Porygon-Z or Octillery, 
 
 ## The 60 (Unlimited constructed, Hand Fling)
 
-Printings are the text this lab uses. Aipom is Paradox Rift 145 (Filch / Smack), not Lost Origin, so it evolves into Ambipom PAR 146.
+Printings are the text this lab uses. Aipom is Paradox Rift 145 (Filch / Smack), not Lost Origin, so it evolves into Ambipom PAR 146. Raikou V is Brilliant Stars 48 (Fleet-Footed). Draw Energy is Cosmic Eclipse 209.
 
 | Qty | Card | Set | Why |
 |---:|---|---|---|
 | 3 | Buneary | FLF 84 | 60 HP → Poffin. Big Jump stack. |
 | 2 | Lopunny | FLF 85 | **Big Jump**: this Pokémon + attachments to **hand**. Sitdown Bounce is not the closer. |
-| 3 | Porygon | UNB 154 | 50 HP → Poffin. |
-| 2 | Porygon2 | UNB 156 | BTS into Porygon-Z. Double Draw. |
+| 3 | Porygon | UNB 154 | 50 HP → Poffin. Rare Candy into Porygon-Z. |
 | 2 | Porygon-Z | UNB 157 | Crazy Code. |
-| 2 | Remoraid | BKT 32 | 60 HP → Poffin. |
-| 2 | Octillery | BKT 33 | Abyssal Hand → 5. |
-| 1 | Sableye | DEX 62 | Junk Hunt `[D]` reload. |
 | 3 | Aipom | PAR 145 | BTS into Ambipom. 60 HP → Poffin. Filch draws 1. |
 | 2 | Ambipom | PAR 146 | **Hand Fling** 20×hand, `[C][C][C]`. Collect draws 2. No Ability (Stance does not block). 100 HP, 1 prize. |
-| 2 | Pikachu | BUS 40 | Lightning host for Speed L draw 2. 60 HP → Poffin. |
+| 2 | Raikou V | BRS 48 | Lightning host for Speed L draw 2. **Fleet-Footed** draws 1 if Active. Pokémon V for Forest Seal Stone. 200 HP, 2 prizes — do not open on it. |
 | 4 | Puzzle of Time | BKP 109 | Discard retrieve backup. |
-| 2 | Scoop Up Net | RCL 165 | Backup if Big Jump is not in play. Do **not** Net Pikachu / Ambipom / Lopunny. |
-| 2 | Junk Arm | TM 87 | Fetch Net. |
-| 3 | Broken Time-Space | PL 104 | Same-turn evo. |
-| 2 | Nest Ball | any | |
-| 3 | Buddy-Buddy Poffin | TEF 144 | |
+| 2 | Scoop Up Net | RCL 165 | Backup if Big Jump is not in play. Cannot Net Raikou V. Do **not** Net Ambipom / Lopunny. |
+| 3 | Broken Time-Space | PL 104 | Same-turn Stage 1 evo. Does **not** override Rare Candy. |
+| 2 | Nest Ball | any | Raikou V is 200 HP — Poffin cannot fetch it. |
+| 3 | Buddy-Buddy Poffin | TEF 144 | Buneary / Porygon / Aipom. |
 | 3 | Ultra Ball | any | |
 | 3 | VS Seeker | PHF 109 | |
-| 2 | Wally | ROS 94 | |
+| 2 | Wally | ROS 94 | Buneary→Lopunny, Aipom→Ambipom. Cannot skip to Porygon-Z. |
 | 1 | Professor's Research | any | Setup only. |
 | 1 | Battle Compressor | FCO / UNB | |
 | 1 | Switch | any | Into Ambipom when Hand Fling is still lethal after −1 card. |
+| 4 | Rare Candy | PAF 89 | Skip Porygon → Porygon-Z. Not first turn; not a Basic played this turn. |
+| 2 | Forest Seal Stone | SIT 156 | Tool on Raikou V. **Star Alchemy**: search any one card, one VSTAR Power per game. |
 | 1 | Enriching Energy | SSP 191 | ACE SPEC. Loop on Lopunny (Big Jump). |
-| 4 | Speed Lightning Energy | RCL 173 | Draw 2 only on Lightning. Extra copies stay on Pikachu; reserve 3 for Ambipom’s Colorless cost. |
+| 4 | Speed Lightning Energy | RCL 173 | Draw 2 only on Lightning. Extra copies stay on Raikou V; reserve 3 Colorless for Ambipom. |
 | 3 | Lightning Energy | any | Pays Colorless on Ambipom. Once-per-turn attach. |
-| 1 | Darkness Energy | any | Junk Hunt. |
+| 4 | Draw Energy | CEC 209 | Colorless; attach from hand, draw 1. Net 0. Crazy Code can spam it. |
 
-**24 Pokémon + 27 Trainers + 9 Energy = 60.**
+**17 Pokémon + 31 Trainers + 12 Energy = 60.**
 
-Cut Abra (Teleporter puts Energy in the **deck**). Jumpluff DRX 3 is the same bounce sentence but Stage 2 — not in this 60.
+Cut Sableye, Remoraid, Octillery, Pikachu, Porygon2, Junk Arm, Darkness. Jumpluff DRX 3 is the same bounce sentence but Stage 2 — not in this 60.
 
-Goldfish (board already up, going second): BTS into Z + Ambipom + Lopunny + Pikachu. Crazy Code Enriching onto Lopunny (draw 4). Big Jump returns Buneary + Lopunny + Enriching. Replay Buneary, BTS evolve, attach again. Extra Speed L onto Pikachu. Hand Fling when `20 × (hand − pay − Switch)` KOs.
+Goldfish (board already up, going second): Rare Candy Porygon into Z, BTS into Ambipom + Lopunny, Nest Raikou V. Forest Seal Stone on Raikou → Star Alchemy. Crazy Code Speed L onto Raikou (draw 2), Enriching onto Lopunny (draw 4), Draw Energy onto Ambipom / bounce host. Big Jump returns Buneary + Lopunny + Enriching. Replay Buneary, BTS evolve, attach again. Fleet-Footed if Raikou is Active on a setup turn. Hand Fling when `20 × (hand − pay − Switch)` KOs.
 
 ---
 

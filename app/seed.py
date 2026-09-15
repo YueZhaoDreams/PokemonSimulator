@@ -96,6 +96,7 @@ def load_seed_deck(which: str) -> dict:
         "celebration": "g30",
         "ambipom": "g30",
         "lopunny": "g30",
+        "raikou": "g30",
         "spare-cards": "spare",
         "p": "spare",
     }.get(key, key)

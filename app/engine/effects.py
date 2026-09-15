@@ -268,6 +268,28 @@ def parse_ability_effects(text: str) -> list[dict[str, Any]]:
             }
         )
 
+    # Raikou V Fleet-Footed: Active only, draw a card. Printed Active gate is required
+    # so Prankish-style "if you do, draw a card" does not match.
+    if (
+        "once during your turn" in t
+        and "draw a card" in t
+        and "search your deck" not in t
+        and "your turn ends" not in t
+        and "attach" not in t
+        and (
+            "if this pokemon is in the active spot" in t
+            or "if this pokemon is your active" in t
+        )
+    ):
+        effects.append(
+            {
+                "kind": "draw",
+                "amount": 1,
+                "once_per_turn": True,
+                "require_active": True,
+            }
+        )
+
     # Rotom V Instant Charge: draw, then the turn ends.
     if "your turn ends" in t and "draw" in t:
         n = re.search(r"draw (\d+)", t)
@@ -771,16 +793,16 @@ def parse_energy_effects(text: str) -> list[dict[str, Any]]:
                 "require_attach_type": typed_attach_draw.group(1).title(),
             }
         )
-    # Enriching Energy: draw N when attached from hand. N comes from print.
+    # Enriching Energy / Draw Energy: draw N (or "a card" = 1) when attached from hand.
     attach_draw = re.search(
-        r"when you attach this card from your hand to a pokemon, draw (\d+) cards",
+        r"when you attach this card from your hand to a pokemon, draw (?:(\d+) cards|a card)",
         t,
     )
     if attach_draw and not typed_attach_draw:
         effects.append(
             {
                 "kind": "draw_on_attach_from_hand",
-                "amount": int(attach_draw.group(1)),
+                "amount": int(attach_draw.group(1) or 1),
             }
         )
     return effects
@@ -885,6 +907,11 @@ def is_speed_lightning_energy(card: Any) -> bool:
     return "speed lightning" in name and getattr(card, "is_energy", False)
 
 
+def is_draw_energy(card: Any) -> bool:
+    name = (getattr(card, "name", "") or "").lower()
+    return name == "draw energy" and getattr(card, "is_energy", False)
+
+
 def is_special_energy(card: Any) -> bool:
     if not getattr(card, "is_energy", False):
         return False
@@ -894,6 +921,7 @@ def is_special_energy(card: Any) -> bool:
         or is_telepathic_energy(card)
         or is_enriching_energy(card)
         or is_speed_lightning_energy(card)
+        or is_draw_energy(card)
     ):
         return True
     return (getattr(card, "stage", "") or "").lower() == "special"
@@ -911,6 +939,8 @@ def energy_provided(card: Any) -> list[str]:
         return ["Colorless"]
     if is_speed_lightning_energy(card):
         return ["Lightning"]
+    if is_draw_energy(card):
+        return ["Colorless"]
     et = getattr(card, "as_energy_type", None)
     if callable(et):
         et = card.as_energy_type

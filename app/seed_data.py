@@ -311,22 +311,18 @@ SET_T_UNL_NAMES = (
     + ["Psychic Energy"] * 3
 )
 
-# Unlimited 60: Ambipom PAR Hand Fling, Lopunny FLF Big Jump recycle, Speed L draws.
+# Unlimited 60: Ambipom PAR Hand Fling, Lopunny FLF Big Jump recycle,
+# Raikou V Fleet-Footed + Forest Seal Stone Star Alchemy, Draw Energy, Rare Candy.
 SET_G30_NAMES = (
     ["Buneary"] * 3
     + ["Lopunny"] * 2
     + ["Porygon"] * 3
-    + ["Porygon2"] * 2
     + ["Porygon-Z"] * 2
-    + ["Remoraid"] * 2
-    + ["Octillery"] * 2
-    + ["Sableye"]
     + ["Aipom"] * 3
     + ["Ambipom"] * 2
-    + ["Pikachu"] * 2
+    + ["Raikou V"] * 2
     + ["Puzzle of Time"] * 4
     + ["Scoop Up Net"] * 2
-    + ["Junk Arm"] * 2
     + ["Broken Time-Space"] * 3
     + ["Nest Ball"] * 2
     + ["Buddy-Buddy Poffin"] * 3
@@ -336,10 +332,12 @@ SET_G30_NAMES = (
     + ["Professor's Research"]
     + ["Battle Compressor"]
     + ["Switch"]
+    + ["Rare Candy"] * 4
+    + ["Forest Seal Stone"] * 2
     + ["Enriching Energy"]
     + ["Speed Lightning Energy"] * 4
     + ["Lightning Energy"] * 3
-    + ["Darkness Energy"]
+    + ["Draw Energy"] * 4
 )
 
 # Carpet Set E — new beige-carpet photo (data/samples/set-e-carpet.jpg).
@@ -582,7 +580,13 @@ _register(
         image="https://assets.tcgdex.net/en/sv/sv01/189/low.webp",
     )
 )
-_register(_trn("Rare Candy", "item", "Evolve a Pokémon, skipping the middle stage."))
+_RARE_CANDY_TEXT = (
+    "Choose 1 of your Basic Pokémon in play. If you have a Stage 2 card that evolves "
+    "from that Pokémon in your hand, put that card onto the Basic Pokémon to evolve it, "
+    "skipping the Stage 1. You can't use this card during your first turn or on a Basic "
+    "Pokémon that was put into play this turn."
+)
+_register(_trn("Rare Candy", "item", _RARE_CANDY_TEXT))
 _register(_trn("Quick Ball", "item", "Search your deck for a Pokémon."))
 _register(_trn("Great Ball", "item", "Search your deck for a Pokémon."))
 _register(_trn("Nest Ball", "item", "Search your deck for a Basic Pokémon and put it onto your Bench. Then, shuffle your deck."))
@@ -2299,6 +2303,14 @@ _SPEED_L_TEXT = (
     "As long as this card is attached to a Pokémon, it provides Lightning Energy. "
     "When you attach this card from your hand to a Lightning Pokémon, draw 2 cards."
 )
+_DRAW_ENERGY_TEXT = (
+    "This card provides Colorless Energy. "
+    "When you attach this card from your hand to a Pokémon, draw a card."
+)
+_FLEET_FOOTED_TEXT = (
+    "Once during your turn, if this Pokémon is in the Active Spot, you may draw a card."
+)
+_LIGHTNING_STREAK_TEXT = "You may switch this Pokémon with 1 of your Benched Pokémon."
 _HAND_FLING_TEXT = "This attack does 20 damage for each card in your hand."
 _PUZZLE_TEXT = (
     "You may play 2 Puzzle of Time cards at once.\n"
@@ -2707,6 +2719,43 @@ _SPEED_L = _register(
 )
 FALLBACK_BY_NAME["speed lightning energy"] = _SPEED_L
 FALLBACK_BY_NAME["speed l energy"] = _SPEED_L
+_DRAW_ENERGY = _register(
+    Card(
+        catalog_id="sm12-209",
+        name="Draw Energy",
+        category="Energy",
+        stage="Special",
+        types=["Colorless"],
+        energy_type="Colorless",
+        text=_DRAW_ENERGY_TEXT,
+        image="https://assets.tcgdex.net/en/sm/sm12/209/low.webp",
+        set_name="Cosmic Eclipse",
+        retreat=0,
+    )
+)
+FALLBACK_BY_NAME["draw energy"] = _DRAW_ENERGY
+_register(
+    _pkm(
+        "Raikou V",
+        "Basic",
+        ["Lightning"],
+        200,
+        [
+            _atk(
+                "Lightning Streak",
+                ["Lightning", "Colorless"],
+                40,
+                _LIGHTNING_STREAK_TEXT,
+            )
+        ],
+        retreat=1,
+        catalog_id="swsh9-48",
+        weakness="Fighting",
+        abilities=[Ability(name="Fleet-Footed", text=_FLEET_FOOTED_TEXT)],
+        image="https://assets.tcgdex.net/en/swsh/swsh9/48/low.webp",
+        set_name="Brilliant Stars",
+    )
+)
 
 _AIPOM_PAR = _pkm(
     "Aipom",
@@ -2928,6 +2977,8 @@ def fallback_named(name: str) -> Card:
         key = "enriching energy"
     if "speed lightning" in key or key in {"speed l energy", "speed l"}:
         key = "speed lightning energy"
+    if key == "draw energy":
+        key = "draw energy"
     if key in FALLBACK_BY_NAME:
         card = FALLBACK_BY_NAME[key]
         return Card.from_dict(card.to_dict())
@@ -2939,6 +2990,7 @@ def fallback_named(name: str) -> Card:
         and "enriching" not in key
         and "speed lightning" not in key
         and "speed l" not in key
+        and key != "draw energy"
     ):
         return _nrg(name.split()[0].title())
     from app.catalog import fallback_card

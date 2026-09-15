@@ -480,15 +480,15 @@ STRATEGY_LIBRARY = {
     "celebration": StrategySpec(
         name="celebration",
         description=(
-            "Unlimited 60 Ambipom PAR Hand Fling: Broken Time-Space into Porygon-Z / "
-            "Ambipom / Lopunny. Crazy Code attaches Enriching Energy as often as "
-            "you like. Lopunny FLF Big Jump (or Jumpluff DRX Leave It to the Wind) "
-            "returns this Pokémon and all attached cards to the hand — net +4 with "
-            "replay + evolve. Scoop Up Net + Puzzle of Time is the discard fallback. "
-            "Speed Lightning Energy draws 2 only on a Lightning host (Pikachu). "
-            "Hand Fling does 20 damage for each card in your hand; attack when that "
-            "KO's. Search Buneary / Lopunny before the Octillery rebuild. Do not "
-            "Teleporter Enriching into the deck."
+            "Unlimited 60 Ambipom PAR Hand Fling: Broken Time-Space into Ambipom / "
+            "Lopunny; Rare Candy skips Porygon to Porygon-Z. Crazy Code attaches "
+            "Enriching Energy and Draw Energy as often as you like. Lopunny FLF Big "
+            "Jump returns this Pokémon and all attached cards to the hand — net +4 "
+            "with replay + evolve. Scoop Up Net + Puzzle of Time is the discard "
+            "fallback. Raikou V is the Lightning host: Fleet-Footed draws 1 while "
+            "Active; Forest Seal Stone Star Alchemy searches any one card once per "
+            "game; Speed Lightning Energy draws 2 only on a Lightning host. Hand "
+            "Fling does 20 damage for each card in your hand; attack when that KO's."
         ),
         prefer_damage=0.2,
         prefer_status=0.0,
@@ -501,19 +501,15 @@ STRATEGY_LIBRARY = {
             "Buneary",
             "Lopunny",
             "Porygon",
-            "Porygon2",
             "Porygon-Z",
-            "Remoraid",
-            "Octillery",
-            "Sableye",
             "Aipom",
             "Ambipom",
-            "Pikachu",
+            "Raikou V",
         ],
-        search_aces=["Buneary", "Porygon", "Aipom", "Pikachu", "Remoraid", "Sableye"],
+        search_aces=["Buneary", "Porygon", "Aipom", "Raikou V"],
         closers=["Ambipom"],
-        backups=["Octillery", "Porygon-Z"],
-        insurance=["Sableye"],
+        backups=["Porygon-Z", "Raikou V"],
+        insurance=["Raikou V"],
         insurance_bench=1,
         max_ace_copies=3,
     ),

@@ -48,6 +48,12 @@ def test_s60_lab_lists_are_seed_decks():
             speed = [c for c in blob["cards"] if c["name"] == "Speed Lightning Energy"]
             assert len(speed) == 4
             assert all(c.get("catalog_id") == "swsh2-173" for c in speed)
+            assert [c["name"] for c in blob["cards"]].count("Raikou V") == 2
+            assert [c["name"] for c in blob["cards"]].count("Draw Energy") == 4
+            assert [c["name"] for c in blob["cards"]].count("Rare Candy") == 4
+            assert [c["name"] for c in blob["cards"]].count("Forest Seal Stone") == 2
+            assert [c["name"] for c in blob["cards"]].count("Porygon2") == 0
+            assert [c["name"] for c in blob["cards"]].count("Sableye") == 0
         else:
             assert copy_violations(build_fallback_deck(list(names)), rules) == []
 
@@ -82,5 +88,9 @@ def test_s60_seed_aliases_and_prankish_c60():
     assert [c["name"] for c in g30["cards"]].count("Buneary") == 3
     assert [c["name"] for c in g30["cards"]].count("Speed Lightning Energy") == 4
     assert [c["name"] for c in g30["cards"]].count("Enriching Energy") == 1
+    assert [c["name"] for c in g30["cards"]].count("Raikou V") == 2
+    assert [c["name"] for c in g30["cards"]].count("Draw Energy") == 4
+    assert [c["name"] for c in g30["cards"]].count("Rare Candy") == 4
+    assert load_seed_deck("raikou")["id"] == "seed-g30"
     assert load_seed_deck("ambipom")["id"] == "seed-g30"
     assert load_seed_deck("lopunny")["id"] == "seed-g30"

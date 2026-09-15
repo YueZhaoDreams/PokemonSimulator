@@ -245,6 +245,8 @@ PREFERRED_IDS = {
     "Manaphy": "swsh9-041",
     "Counter Catcher": "sv04-160",
     "Forest Seal Stone": "swsh12-156",
+    "Raikou V": "swsh9-48",  # Brilliant Stars Fleet-Footed / Lightning Streak
+    "Draw Energy": "sm12-209",  # Cosmic Eclipse: attach from hand, draw a card
     "Professor Turo's Scenario": "sv04-171",
     "Collapsed Stadium": "swsh9-137",
     "Ultra Ball": "sv04.5-091",
@@ -403,6 +405,8 @@ PRINT_PREFER = {
     "Manaphy": ["wave veil"],
     "Counter Catcher": ["more prize cards remaining"],
     "Forest Seal Stone": ["star alchemy"],
+    "Raikou V": ["fleet-footed", "lightning streak"],
+    "Draw Energy": ["draw a card"],
     "Professor Turo's Scenario": ["all attached cards into your hand"],
     "Collapsed Stadium": ["4 benched"],
 }

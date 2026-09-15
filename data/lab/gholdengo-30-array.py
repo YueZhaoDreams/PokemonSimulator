@@ -53,6 +53,10 @@ QUERIES = [
     {"type": "event_prefix", "prefix": "junk_hunt", "key": "junk_hunt"},
     {"type": "event_prefix", "prefix": "puzzle_pair", "key": "puzzle_pair"},
     {"type": "event_prefix", "prefix": "crazy_code", "key": "crazy_code"},
+    {"type": "event_prefix", "prefix": "draw_energy_draw", "key": "draw_energy_draw"},
+    {"type": "event_prefix", "prefix": "rare_candy", "key": "rare_candy"},
+    {"type": "event_prefix", "prefix": "fleet_footed", "key": "fleet_footed"},
+    {"type": "event_prefix", "prefix": "star_alchemy", "key": "star_alchemy"},
 ]
 
 
@@ -86,6 +90,10 @@ def _run(opp: str) -> tuple[str, dict]:
         "junk_hunt": r["queries"].get("junk_hunt", 0.0),
         "puzzle_pair": r["queries"].get("puzzle_pair", 0.0),
         "crazy_code": r["queries"].get("crazy_code", 0.0),
+        "draw_energy_draw": r["queries"].get("draw_energy_draw", 0.0),
+        "rare_candy": r["queries"].get("rare_candy", 0.0),
+        "fleet_footed": r["queries"].get("fleet_footed", 0.0),
+        "star_alchemy": r["queries"].get("star_alchemy", 0.0),
     }
 
 

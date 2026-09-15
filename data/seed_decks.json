@@ -22161,90 +22161,6 @@
         "dex_id": null
       },
       {
-        "catalog_id": "sm10-156",
-        "name": "Porygon2",
-        "category": "Pokemon",
-        "stage": "Stage1",
-        "types": [
-          "Colorless"
-        ],
-        "hp": 80,
-        "attacks": [
-          {
-            "name": "Double Draw",
-            "cost": [
-              "Colorless"
-            ],
-            "damage": 0,
-            "text": "Draw 2 cards.",
-            "effects": [
-              {
-                "kind": "draw",
-                "amount": 2
-              }
-            ]
-          }
-        ],
-        "abilities": [],
-        "weaknesses": [
-          {
-            "type": "Fighting",
-            "value": "\u00d72"
-          }
-        ],
-        "resistances": [],
-        "retreat": 1,
-        "evolves_from": "Porygon",
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sm/sm10/156/low.webp",
-        "set_name": "Unbroken Bonds",
-        "text": "",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "sm10-156",
-        "name": "Porygon2",
-        "category": "Pokemon",
-        "stage": "Stage1",
-        "types": [
-          "Colorless"
-        ],
-        "hp": 80,
-        "attacks": [
-          {
-            "name": "Double Draw",
-            "cost": [
-              "Colorless"
-            ],
-            "damage": 0,
-            "text": "Draw 2 cards.",
-            "effects": [
-              {
-                "kind": "draw",
-                "amount": 2
-              }
-            ]
-          }
-        ],
-        "abilities": [],
-        "weaknesses": [
-          {
-            "type": "Fighting",
-            "value": "\u00d72"
-          }
-        ],
-        "resistances": [],
-        "retreat": 1,
-        "evolves_from": "Porygon",
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sm/sm10/156/low.webp",
-        "set_name": "Unbroken Bonds",
-        "text": "",
-        "dex_id": null
-      },
-      {
         "catalog_id": "sm10-157",
         "name": "Porygon-Z",
         "category": "Pokemon",
@@ -22355,222 +22271,6 @@
         "energy_type": null,
         "image": "https://assets.tcgdex.net/en/sm/sm10/157/low.webp",
         "set_name": "Unbroken Bonds",
-        "text": "",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "xy5-32",
-        "name": "Remoraid",
-        "category": "Pokemon",
-        "stage": "Basic",
-        "types": [
-          "Water"
-        ],
-        "hp": 60,
-        "attacks": [
-          {
-            "name": "Water Gun",
-            "cost": [
-              "Water"
-            ],
-            "damage": 10,
-            "text": "",
-            "effects": []
-          }
-        ],
-        "abilities": [],
-        "weaknesses": [
-          {
-            "type": "Grass",
-            "value": "\u00d72"
-          }
-        ],
-        "resistances": [],
-        "retreat": 1,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/xy/xy5/32/low.webp",
-        "set_name": "Primal Clash",
-        "text": "",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "xy5-32",
-        "name": "Remoraid",
-        "category": "Pokemon",
-        "stage": "Basic",
-        "types": [
-          "Water"
-        ],
-        "hp": 60,
-        "attacks": [
-          {
-            "name": "Water Gun",
-            "cost": [
-              "Water"
-            ],
-            "damage": 10,
-            "text": "",
-            "effects": []
-          }
-        ],
-        "abilities": [],
-        "weaknesses": [
-          {
-            "type": "Grass",
-            "value": "\u00d72"
-          }
-        ],
-        "resistances": [],
-        "retreat": 1,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/xy/xy5/32/low.webp",
-        "set_name": "Primal Clash",
-        "text": "",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "xy5-33",
-        "name": "Octillery",
-        "category": "Pokemon",
-        "stage": "Stage1",
-        "types": [
-          "Water"
-        ],
-        "hp": 90,
-        "attacks": [
-          {
-            "name": "Ink Cannon",
-            "cost": [
-              "Water",
-              "Colorless"
-            ],
-            "damage": 30,
-            "text": "",
-            "effects": []
-          }
-        ],
-        "abilities": [
-          {
-            "name": "Abyssal Hand",
-            "text": "Once during your turn (before your attack), you may draw cards until you have 5 cards in your hand.",
-            "effects": [
-              {
-                "kind": "draw_until_hand",
-                "count": 5,
-                "once_per_turn": true
-              }
-            ]
-          }
-        ],
-        "weaknesses": [
-          {
-            "type": "Grass",
-            "value": "\u00d72"
-          }
-        ],
-        "resistances": [],
-        "retreat": 1,
-        "evolves_from": "Remoraid",
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/xy/xy5/33/low.webp",
-        "set_name": "Primal Clash",
-        "text": "",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "xy5-33",
-        "name": "Octillery",
-        "category": "Pokemon",
-        "stage": "Stage1",
-        "types": [
-          "Water"
-        ],
-        "hp": 90,
-        "attacks": [
-          {
-            "name": "Ink Cannon",
-            "cost": [
-              "Water",
-              "Colorless"
-            ],
-            "damage": 30,
-            "text": "",
-            "effects": []
-          }
-        ],
-        "abilities": [
-          {
-            "name": "Abyssal Hand",
-            "text": "Once during your turn (before your attack), you may draw cards until you have 5 cards in your hand.",
-            "effects": [
-              {
-                "kind": "draw_until_hand",
-                "count": 5,
-                "once_per_turn": true
-              }
-            ]
-          }
-        ],
-        "weaknesses": [
-          {
-            "type": "Grass",
-            "value": "\u00d72"
-          }
-        ],
-        "resistances": [],
-        "retreat": 1,
-        "evolves_from": "Remoraid",
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/xy/xy5/33/low.webp",
-        "set_name": "Primal Clash",
-        "text": "",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "bw6-62",
-        "name": "Sableye",
-        "category": "Pokemon",
-        "stage": "Basic",
-        "types": [
-          "Darkness"
-        ],
-        "hp": 70,
-        "attacks": [
-          {
-            "name": "Junk Hunt",
-            "cost": [
-              "Darkness"
-            ],
-            "damage": 0,
-            "text": "Put 2 Item cards from your discard pile into your hand.",
-            "effects": [
-              {
-                "kind": "recycle_items_from_discard",
-                "count": 2
-              }
-            ]
-          }
-        ],
-        "abilities": [],
-        "weaknesses": [
-          {
-            "type": "Fighting",
-            "value": "\u00d72"
-          }
-        ],
-        "resistances": [],
-        "retreat": 1,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/bw/bw6/62/low.webp",
-        "set_name": "Dark Explorers",
         "text": "",
         "dex_id": null
       },
@@ -22847,42 +22547,44 @@
         "dex_id": null
       },
       {
-        "catalog_id": "sm3-40",
-        "name": "Pikachu",
+        "catalog_id": "swsh9-48",
+        "name": "Raikou V",
         "category": "Pokemon",
         "stage": "Basic",
         "types": [
           "Lightning"
         ],
-        "hp": 60,
+        "hp": 200,
         "attacks": [
           {
-            "name": "Tail Whap",
-            "cost": [
-              "Colorless"
-            ],
-            "damage": 10,
-            "text": "",
-            "effects": []
-          },
-          {
-            "name": "Thunder Shock",
+            "name": "Lightning Streak",
             "cost": [
               "Lightning",
               "Colorless"
             ],
-            "damage": 20,
-            "text": "Flip a coin. If heads, your opponent's Active Pok\u00e9mon is now Paralyzed.",
+            "damage": 40,
+            "text": "You may switch this Pok\u00e9mon with 1 of your Benched Pok\u00e9mon.",
             "effects": [
               {
-                "kind": "status",
-                "status": "paralyzed",
-                "coin": true
+                "kind": "switch_with_benched"
               }
             ]
           }
         ],
-        "abilities": [],
+        "abilities": [
+          {
+            "name": "Fleet-Footed",
+            "text": "Once during your turn, if this Pok\u00e9mon is in the Active Spot, you may draw a card.",
+            "effects": [
+              {
+                "kind": "draw",
+                "amount": 1,
+                "once_per_turn": true,
+                "require_active": true
+              }
+            ]
+          }
+        ],
         "weaknesses": [
           {
             "type": "Fighting",
@@ -22894,48 +22596,50 @@
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sm/sm3/40/low.webp",
-        "set_name": null,
+        "image": "https://assets.tcgdex.net/en/swsh/swsh9/48/low.webp",
+        "set_name": "Brilliant Stars",
         "text": "",
         "dex_id": null
       },
       {
-        "catalog_id": "sm3-40",
-        "name": "Pikachu",
+        "catalog_id": "swsh9-48",
+        "name": "Raikou V",
         "category": "Pokemon",
         "stage": "Basic",
         "types": [
           "Lightning"
         ],
-        "hp": 60,
+        "hp": 200,
         "attacks": [
           {
-            "name": "Tail Whap",
-            "cost": [
-              "Colorless"
-            ],
-            "damage": 10,
-            "text": "",
-            "effects": []
-          },
-          {
-            "name": "Thunder Shock",
+            "name": "Lightning Streak",
             "cost": [
               "Lightning",
               "Colorless"
             ],
-            "damage": 20,
-            "text": "Flip a coin. If heads, your opponent's Active Pok\u00e9mon is now Paralyzed.",
+            "damage": 40,
+            "text": "You may switch this Pok\u00e9mon with 1 of your Benched Pok\u00e9mon.",
             "effects": [
               {
-                "kind": "status",
-                "status": "paralyzed",
-                "coin": true
+                "kind": "switch_with_benched"
               }
             ]
           }
         ],
-        "abilities": [],
+        "abilities": [
+          {
+            "name": "Fleet-Footed",
+            "text": "Once during your turn, if this Pok\u00e9mon is in the Active Spot, you may draw a card.",
+            "effects": [
+              {
+                "kind": "draw",
+                "amount": 1,
+                "once_per_turn": true,
+                "require_active": true
+              }
+            ]
+          }
+        ],
         "weaknesses": [
           {
             "type": "Fighting",
@@ -22947,8 +22651,8 @@
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sm/sm3/40/low.webp",
-        "set_name": null,
+        "image": "https://assets.tcgdex.net/en/swsh/swsh9/48/low.webp",
+        "set_name": "Brilliant Stars",
         "text": "",
         "dex_id": null
       },
@@ -23070,46 +22774,6 @@
         "image": "https://assets.tcgdex.net/en/swsh/swsh5/165/low.webp",
         "set_name": null,
         "text": "Put 1 of your Pok\u00e9mon that isn't a Pok\u00e9mon V or a Pok\u00e9mon-GX into your hand. (Discard all attached cards.)",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "hgss4-87",
-        "name": "Junk Arm",
-        "category": "Trainer",
-        "stage": "Item",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "item",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/hgss/hgss4/87/low.webp",
-        "set_name": null,
-        "text": "Discard 2 cards from your hand. Search your discard pile for a Trainer card, show it to your opponent, and put it in your hand. You can't choose Junk Arm with this effect.",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "hgss4-87",
-        "name": "Junk Arm",
-        "category": "Trainer",
-        "stage": "Item",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "item",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/hgss/hgss4/87/low.webp",
-        "set_name": null,
-        "text": "Discard 2 cards from your hand. Search your discard pile for a Trainer card, show it to your opponent, and put it in your hand. You can't choose Junk Arm with this effect.",
         "dex_id": null
       },
       {
@@ -23493,6 +23157,126 @@
         "dex_id": null
       },
       {
+        "catalog_id": "sv04.5-089",
+        "name": "Rare Candy",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv04.5/089/low.webp",
+        "set_name": null,
+        "text": "Choose 1 of your Basic Pok\u00e9mon in play. If you have a Stage 2 card that evolves from that Pok\u00e9mon in your hand, put that card onto the Basic Pok\u00e9mon to evolve it, skipping the Stage 1. You can't use this card during your first turn or on a Basic Pok\u00e9mon that was put into play this turn.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv04.5-089",
+        "name": "Rare Candy",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv04.5/089/low.webp",
+        "set_name": null,
+        "text": "Choose 1 of your Basic Pok\u00e9mon in play. If you have a Stage 2 card that evolves from that Pok\u00e9mon in your hand, put that card onto the Basic Pok\u00e9mon to evolve it, skipping the Stage 1. You can't use this card during your first turn or on a Basic Pok\u00e9mon that was put into play this turn.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv04.5-089",
+        "name": "Rare Candy",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv04.5/089/low.webp",
+        "set_name": null,
+        "text": "Choose 1 of your Basic Pok\u00e9mon in play. If you have a Stage 2 card that evolves from that Pok\u00e9mon in your hand, put that card onto the Basic Pok\u00e9mon to evolve it, skipping the Stage 1. You can't use this card during your first turn or on a Basic Pok\u00e9mon that was put into play this turn.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv04.5-089",
+        "name": "Rare Candy",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv04.5/089/low.webp",
+        "set_name": null,
+        "text": "Choose 1 of your Basic Pok\u00e9mon in play. If you have a Stage 2 card that evolves from that Pok\u00e9mon in your hand, put that card onto the Basic Pok\u00e9mon to evolve it, skipping the Stage 1. You can't use this card during your first turn or on a Basic Pok\u00e9mon that was put into play this turn.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12-156",
+        "name": "Forest Seal Stone",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12/156/low.webp",
+        "set_name": null,
+        "text": "The Pok\u00e9mon V this card is attached to can use the VSTAR Power on this card.\n\nStar Alchemy: During your turn, you may search your deck for a card and put it into your hand. Then, shuffle your deck. (You can't use more than 1 VSTAR Power in a game.)",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12-156",
+        "name": "Forest Seal Stone",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12/156/low.webp",
+        "set_name": null,
+        "text": "The Pok\u00e9mon V this card is attached to can use the VSTAR Power on this card.\n\nStar Alchemy: During your turn, you may search your deck for a card and put it into your hand. Then, shuffle your deck. (You can't use more than 1 VSTAR Power in a game.)",
+        "dex_id": null
+      },
+      {
         "catalog_id": "sv08-191",
         "name": "Enriching Energy",
         "category": "Energy",
@@ -23669,12 +23453,12 @@
         "dex_id": null
       },
       {
-        "catalog_id": "swsh12.5-158",
-        "name": "Darkness Energy",
+        "catalog_id": "sm12-209",
+        "name": "Draw Energy",
         "category": "Energy",
-        "stage": "Basic",
+        "stage": "Special",
         "types": [
-          "Darkness"
+          "Colorless"
         ],
         "hp": 0,
         "attacks": [],
@@ -23684,10 +23468,76 @@
         "retreat": 0,
         "evolves_from": null,
         "trainer_kind": null,
-        "energy_type": "Darkness",
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/158/low.webp",
-        "set_name": "Crown Zenith",
-        "text": "",
+        "energy_type": "Colorless",
+        "image": "https://assets.tcgdex.net/en/sm/sm12/209/low.webp",
+        "set_name": "Cosmic Eclipse",
+        "text": "This card provides Colorless Energy. When you attach this card from your hand to a Pok\u00e9mon, draw a card.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sm12-209",
+        "name": "Draw Energy",
+        "category": "Energy",
+        "stage": "Special",
+        "types": [
+          "Colorless"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Colorless",
+        "image": "https://assets.tcgdex.net/en/sm/sm12/209/low.webp",
+        "set_name": "Cosmic Eclipse",
+        "text": "This card provides Colorless Energy. When you attach this card from your hand to a Pok\u00e9mon, draw a card.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sm12-209",
+        "name": "Draw Energy",
+        "category": "Energy",
+        "stage": "Special",
+        "types": [
+          "Colorless"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Colorless",
+        "image": "https://assets.tcgdex.net/en/sm/sm12/209/low.webp",
+        "set_name": "Cosmic Eclipse",
+        "text": "This card provides Colorless Energy. When you attach this card from your hand to a Pok\u00e9mon, draw a card.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sm12-209",
+        "name": "Draw Energy",
+        "category": "Energy",
+        "stage": "Special",
+        "types": [
+          "Colorless"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Colorless",
+        "image": "https://assets.tcgdex.net/en/sm/sm12/209/low.webp",
+        "set_name": "Cosmic Eclipse",
+        "text": "This card provides Colorless Energy. When you attach this card from your hand to a Pok\u00e9mon, draw a card.",
         "dex_id": null
       }
     ]
