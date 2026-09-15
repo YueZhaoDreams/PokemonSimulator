@@ -357,9 +357,19 @@ class Game:
                 "gimmighoul": 1,
                 "mew ex": 1,
             }
-            if name in caps:
-                return copies < caps[name]
-            return False
+            if name not in caps:
+                return False
+            if copies < caps[name]:
+                return True
+            # Opening Basics are played_turn 0 and cannot BTS-evolve. Nest a
+            # same-turn copy so Porygon-Z / Gholdengo / Octillery can come down.
+            if name not in {"porygon", "gimmighoul", "remoraid"} or copies != 1:
+                return False
+            evo = {"porygon": "porygon-z", "gimmighoul": "gholdengo", "remoraid": "octillery"}[name]
+            if any(player.card(m.card_i).name.lower() == evo for m in player.in_play()):
+                return False
+            existing = next(m for m in player.in_play() if player.card(m.card_i).name.lower() == name)
+            return existing.played_turn != self.turn
 
         if name in aces:
             if strat.hold_as_energy:
@@ -1034,6 +1044,7 @@ class Game:
         target.played_turn = self.turn
         target.ability_used = False
         evo_name = me.card(evo_i).name.lower()
+        self._bump(f"saw_play:{me.card(evo_i).name}")
         if "mega clefable" in evo_name:
             self._bump("mega_in_play")
         if evo_name == "clefable ex":
@@ -2102,6 +2113,8 @@ class Game:
             score = 0.0
             if card.name.lower() in protect:
                 score -= 10
+            if card.name.lower() in {"puzzle of time", "scoop up net", "enriching energy", "junk arm"}:
+                score -= 40
             if card.name.lower() in {"ultra ball", "poké ball", "poke ball"}:
                 score -= 5
             if card.is_energy:
@@ -2191,12 +2204,22 @@ class Game:
             return list(dict.fromkeys(prefer))
         if strat.name == "celebration":
             prefer: list[str] = []
-            for name in ("Mew ex", "Abra", "Porygon", "Gimmighoul", "Remoraid", "Sableye"):
-                if not any(me.card(m.card_i).name.lower() == name.lower() for m in me.in_play()) and not any(
-                    me.card(i).name.lower() == name.lower() for i in me.hand
-                ):
+            in_play = {me.card(m.card_i).name.lower() for m in me.in_play()}
+            in_hand = {me.card(i).name.lower() for i in me.hand}
+            if "porygon" in in_play and "porygon-z" not in in_play:
+                if "porygon2" in in_play:
+                    prefer.append("Porygon-Z")
+                else:
+                    prefer.extend(["Porygon2", "Porygon-Z"])
+            if "gimmighoul" in in_play and "gholdengo" not in in_play:
+                prefer.append("Gholdengo")
+            if "remoraid" in in_play and "octillery" not in in_play:
+                prefer.append("Octillery")
+            for name in ("Mew ex", "Porygon", "Gimmighoul", "Remoraid", "Abra", "Sableye"):
+                key = name.lower()
+                if key not in in_play and key not in in_hand:
                     prefer.append(name)
-            prefer.extend(["Porygon2", "Porygon-Z", "Octillery", "Gholdengo", "Abra"])
+            prefer.extend(["Porygon-Z", "Gholdengo", "Octillery", "Porygon2"])
             return list(dict.fromkeys(prefer))
         if strat.hold_as_energy:
             prefer = list(strat.search_aces)
@@ -2351,6 +2374,8 @@ class Game:
                 score += 1
             if card.hp >= 140:
                 score += 3
+            if strat.name == "celebration" and name in {"porygon-z", "gholdengo", "octillery", "porygon2"}:
+                score += 20
             scored.append((score, idx, card_i))
         if not scored:
             return None
@@ -3024,17 +3049,20 @@ class Game:
             if fighting_ok:
                 return dce[0]
         energies = [i for i in me.hand if me.card(i).is_energy]
-        if strat.name == "celebration" and self._has_crazy_code(me):
+        if strat.name == "celebration":
             energies = [i for i in energies if not is_enriching_energy(me.card(i))]
         matching_nrg = [
             i
             for i in energies
-            if (me.card(i).as_energy_type in need or me.card(i).as_energy_type == "Colorless" or not need)
+            if (me.card(i).as_energy_type in need or not need)
             and not is_double_colorless(me.card(i))
+            and not (strat.name == "celebration" and me.card(i).as_energy_type == "Colorless" and need and "Colorless" not in need)
         ]
         if matching_nrg:
             typed = [i for i in matching_nrg if me.card(i).as_energy_type in need]
             return (typed or matching_nrg)[0]
+        if strat.name == "celebration":
+            return None
         if dce and (not need or "Colorless" in need or not need):
             return dce[0]
         if not self.rules.pokemon_as_energy:
@@ -3064,7 +3092,7 @@ class Game:
         who = "a" if me.name == "A" else "b"
         if self.strats[who].name == "celebration":
             name = card.name.lower()
-            if name in {"mew ex", "gholdengo"}:
+            if name in {"mew ex", "gholdengo", "gimmighoul"}:
                 return {"Metal"}
             if name == "sableye":
                 return {"Darkness"}
@@ -8062,7 +8090,7 @@ class Game:
             for mon in me.in_play():
                 if me.card(mon.card_i).name.lower() == "sableye":
                     return mon
-        for want in ("mew ex", "gholdengo"):
+        for want in ("mew ex", "gholdengo", "gimmighoul"):
             for mon in me.in_play():
                 if me.card(mon.card_i).name.lower() == want:
                     return mon
@@ -8117,24 +8145,71 @@ class Game:
                 return mon
         return None
 
+    def _celebration_combo_ready(self, me: Player) -> bool:
+        names = {me.card(m.card_i).name.lower() for m in me.in_play()}
+        if "porygon-z" not in names:
+            return False
+        if "gholdengo" not in names:
+            return False
+        if "abra" not in names and not any(me.card(i).name.lower() == "abra" for i in me.hand):
+            return False
+        return True
+
+    def _celebration_wally_helps(self, me: Player) -> bool:
+        in_play = {me.card(m.card_i).name.lower() for m in me.in_play()}
+        in_deck = {me.card(i).name.lower() for i in me.deck}
+        checks = (
+            ("porygon-z" in in_deck and "porygon2" in in_play)
+            or ("porygon2" in in_deck and "porygon" in in_play and "porygon-z" not in in_play)
+            or ("gholdengo" in in_deck and "gimmighoul" in in_play and "gholdengo" not in in_play)
+            or ("octillery" in in_deck and "remoraid" in in_play and "octillery" not in in_play)
+        )
+        return bool(checks)
+
+    def _celebration_wants_bench(self, me: Player) -> bool:
+        if len(me.bench) >= self._bench_limit():
+            return False
+        who = "a" if me.name == "A" else "b"
+        strat = self.strats[who]
+        for card in me.cards:
+            if card.is_basic and self._wants_in_play(me, card, strat):
+                return True
+        return False
+
+    def _celebration_zone_count(self, me: Player, name: str, zone: list[int]) -> int:
+        key = name.lower()
+        return sum(1 for i in zone if me.card(i).name.lower() == key)
+
     def _celebration_trainer_score(self, me: Player, who: str, name: str) -> float:
         if name in {"puzzle of time", "scoop up net"}:
             return -80.0
         score = 0.0
+        ready = self._has_crazy_code(me)
+        names_in_play = {me.card(m.card_i).name.lower() for m in me.in_play()}
+        wants_bench = self._celebration_wants_bench(me)
+        if name in {"nest ball", "nesting ball", "buddy-buddy poffin", "buddy buddy poffin"} and not wants_bench:
+            return -25.0
+        if (
+            ready
+            and name == "ultra ball"
+            and "gholdengo" in names_in_play
+            and "mew ex" in names_in_play
+            and "octillery" in names_in_play
+        ):
+            return -25.0
+        if ready and name == "wally" and not self._celebration_wally_helps(me):
+            return -25.0
         slots = self.rules.bench_size - len(me.bench)
         if name == "broken time-space":
             score += -8 if self.stadium_name == "Broken Time-Space" else 22
         elif name in {"buddy-buddy poffin", "buddy buddy poffin"}:
-            score += 16 if slots > 0 else -10
+            score += 16 if slots > 0 and wants_bench else -10
         elif name in {"nest ball", "nesting ball"}:
-            score += 12 if slots > 0 else -8
+            score += 12 if slots > 0 and wants_bench else -8
         elif name == "ultra ball":
             score += 8 if len(me.hand) >= 3 else -12
         elif name == "junk arm":
-            if self._celebration_needs_loop_items(me) and len(me.hand) >= 3:
-                score += 18
-            else:
-                score -= 10
+            score -= 20
         elif name == "switch":
             idx = self._celebration_switch_idx(me)
             if idx is not None and me.active and me.card(me.active.card_i).name.lower() == "sableye" and len(me.hand) == 30:
@@ -8146,18 +8221,34 @@ class Game:
             else:
                 score -= 8
         elif name == "vs seeker":
-            score += 10 if any(me.card(i).is_supporter for i in me.discard) else -6
+            if any(me.card(i).name.lower() == "wally" for i in me.discard) and self._celebration_wally_helps(me):
+                score += 16
+            elif any(me.card(i).is_supporter for i in me.discard):
+                score += 10
+            else:
+                score -= 6
         elif name == "wally":
-            if self._stadium_allows_immediate_evolve():
+            if self._celebration_wally_helps(me):
+                score += 26
+            elif self._stadium_allows_immediate_evolve():
                 score -= 4
-            elif any(me.card(m.card_i).evolves_from for m in []) or any(
-                bool(me.card(m.card_i).is_basic) for m in me.in_play()
-            ):
+            elif any(me.card(m.card_i).is_basic for m in me.in_play()):
                 score += 12
         elif name == "battle compressor":
-            score += 9 if any(me.card(i).name.lower() == "puzzle of time" for i in me.deck) else 2
+            puzzles_hand = self._celebration_zone_count(me, "Puzzle of Time", me.hand)
+            puzzles_deck = self._celebration_zone_count(me, "Puzzle of Time", me.deck)
+            if puzzles_hand >= 2 and puzzles_deck >= 1 and puzzles_hand < 4:
+                score += 20
+            else:
+                score -= 8
         elif "professor" in name:
-            score += 10 if len(me.hand) <= 4 else -20
+            if ready or any(
+                me.card(i).name.lower() in {"puzzle of time", "scoop up net", "enriching energy"}
+                for i in me.hand
+            ):
+                score -= 40
+            else:
+                score += 10 if len(me.hand) <= 4 else -20
         return score
 
     def _resolve_parsed_trainer(
@@ -8200,7 +8291,25 @@ class Game:
         if look > 0 and me.deck:
             n = min(look, len(me.deck))
             seen = me.deck[:n]
-            me.deck = me.deck[n:] + seen
+            rest = me.deck[n:]
+            prefer = (
+                "puzzle of time",
+                "scoop up net",
+                "enriching energy",
+                "junk arm",
+                "porygon-z",
+                "porygon2",
+                "gholdengo",
+                "octillery",
+                "wally",
+            )
+
+            def _look_rank(card_i: int) -> int:
+                name = me.card(card_i).name.lower()
+                return prefer.index(name) if name in prefer else 40
+
+            seen.sort(key=_look_rank)
+            me.deck = seen + rest
             self._bump("puzzle_look", n)
             self._log(f"{me.name} Puzzle of Time looks at {n}")
 
@@ -8339,7 +8448,7 @@ class Game:
                 self._bump("wally_fail")
                 return
         in_play = {me.card(m.card_i).name.lower(): m for m in me.in_play()}
-        prefer = ["porygon-z", "gholdengo", "octillery", "porygon2"]
+        prefer = ["porygon-z", "porygon2", "gholdengo", "octillery"]
         scored: list[tuple[int, Pokemon, int]] = []
         for evo_i in me.deck:
             evo = me.card(evo_i)
@@ -8574,6 +8683,34 @@ class Game:
             return self._do_retreat_into(me, idx)
         return self._do_retreat_into(me, idx)
 
+    def _celebration_discard_named(self, me: Player, name: str) -> int:
+        key = name.lower()
+        return sum(1 for i in me.discard if me.card(i).name.lower() == key)
+
+    def _celebration_should_bounce(self, me: Player, puzzles: list[int], net: int | None, host: Pokemon | None) -> bool:
+        if host is None or net is None or len(puzzles) < 2:
+            return False
+        if len(puzzles) >= 4:
+            return True
+        # Two Puzzle of Time cannot recycle themselves. Only bounce to finish
+        # a 30-hand after the remaining attach.
+        hand = len(me.hand)
+        if any(is_enriching_energy(me.card(i)) for i in me.hand):
+            after_attach = hand + 3
+            if after_attach >= 30:
+                return False
+            return after_attach >= 27
+        return hand >= 27
+
+    def _celebration_junk_arm_helps(self, me: Player, puzzles: list[int], net: int | None) -> bool:
+        if self._first_named(me, "Junk Arm") is None:
+            return False
+        if len(puzzles) < 4 and self._celebration_discard_named(me, "Puzzle of Time") > 0:
+            return True
+        if net is None and self._celebration_discard_named(me, "Scoop Up Net") > 0:
+            return True
+        return False
+
     def _celebration_engine(self, me: Player, who: str) -> None:
         foe = self.players["b" if who == "a" else "a"]
         for _ in range(28):
@@ -8592,13 +8729,22 @@ class Game:
             host = self._enriching_on_scoopable(me)
             puzzles = self._hand_named(me, "Puzzle of Time")
             net = self._first_named(me, "Scoop Up Net")
-            if (host is None or net is None or len(puzzles) < 2) and self._first_named(me, "Junk Arm") is not None:
+            while self._celebration_junk_arm_helps(me, puzzles, net):
+                before = self.events.get("junk_arm", 0)
                 if not self._play_named_item(me, foe, who, "Junk Arm"):
+                    break
+                if self.events.get("junk_arm", 0) == before:
                     break
                 puzzles = self._hand_named(me, "Puzzle of Time")
                 net = self._first_named(me, "Scoop Up Net")
                 host = self._enriching_on_scoopable(me)
-            if host is None or net is None or len(puzzles) < 2:
+            if host is None and not any(is_enriching_energy(me.card(i)) for i in me.hand):
+                if len(puzzles) >= 2 and any(is_enriching_energy(me.card(i)) for i in me.discard):
+                    if self._play_named_item(me, foe, who, "Puzzle of Time"):
+                        if len(self._hand_named(me, "Puzzle of Time")) >= 2:
+                            self._play_named_item(me, foe, who, "Puzzle of Time")
+                        continue
+            if not self._celebration_should_bounce(me, puzzles, net, host):
                 break
             if not self._play_named_item(me, foe, who, "Scoop Up Net"):
                 break

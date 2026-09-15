@@ -200,6 +200,75 @@ def test_loop_parks_enriching_at_exactly_thirty():
     assert host is not me.active
 
 
+def test_engine_assembles_four_puzzles_with_junk_arm_then_parks():
+    game = _game()
+    me = game.players["a"]
+    used: set[int] = set()
+    mew = _take(me, "Mew ex", used)
+    gholdengo = _take(me, "Gholdengo", used)
+    poryz = _take(me, "Porygon-Z", used)
+    octillery = _take(me, "Octillery", used)
+    abra = _take(me, "Abra", used)
+    enrich = _take(me, "Enriching Energy", used)
+    metal = _take(me, "Metal Energy", used)
+    puzzles = [_take(me, "Puzzle of Time", used) for _ in range(4)]
+    nets = [_take(me, "Scoop Up Net", used) for _ in range(2)]
+    arms = [_take(me, "Junk Arm", used) for _ in range(2)]
+    seekers = [_take(me, "VS Seeker", used) for _ in range(4)]
+    rest = [i for i in range(len(me.cards)) if i not in used]
+    me.active = Pokemon(card_i=mew, energy=[metal], played_turn=0)
+    me.bench = [
+        Pokemon(card_i=gholdengo, played_turn=0),
+        Pokemon(card_i=poryz, played_turn=0),
+        Pokemon(card_i=octillery, played_turn=0),
+        Pokemon(card_i=abra, played_turn=0),
+    ]
+    me.prizes = rest[:6]
+    rest = rest[6:]
+    me.hand = [enrich, puzzles[0], puzzles[1], *nets, *arms, *seekers, *rest[:8]]
+    me.discard = [puzzles[2], puzzles[3]]
+    me.deck = rest[8:]
+    game.turn = 2
+    game._celebration_engine(me, "a")
+    assert len(me.hand) == 30
+    assert game.events.get("hand_thirty")
+    assert game.events.get("junk_arm", 0) >= 2
+    host = next(m for m in me.in_play() if me.card(m.card_i).name == "Abra")
+    assert any("enriching" in me.card(i).name.lower() for i in host.energy)
+
+
+def test_engine_holds_two_puzzles_when_the_loop_cannot_reach_thirty():
+    game = _game()
+    me = game.players["a"]
+    used: set[int] = set()
+    mew = _take(me, "Mew ex", used)
+    gholdengo = _take(me, "Gholdengo", used)
+    poryz = _take(me, "Porygon-Z", used)
+    abra = _take(me, "Abra", used)
+    enrich = _take(me, "Enriching Energy", used)
+    puzzles = [_take(me, "Puzzle of Time", used) for _ in range(2)]
+    net = _take(me, "Scoop Up Net", used)
+    rest = [i for i in range(len(me.cards)) if i not in used]
+    me.active = Pokemon(card_i=mew, played_turn=0)
+    me.bench = [
+        Pokemon(card_i=gholdengo, played_turn=0),
+        Pokemon(card_i=poryz, played_turn=0),
+        Pokemon(card_i=abra, played_turn=0),
+    ]
+    me.prizes = rest[:6]
+    rest = rest[6:]
+    me.hand = [enrich, *puzzles, net, *rest[:4]]
+    me.deck = rest[4:]
+    me.discard = []
+    game.turn = 2
+    game._celebration_engine(me, "a")
+    assert sum(1 for i in me.hand if me.card(i).name.lower() == "puzzle of time") == 2
+    host = next(m for m in me.in_play() if me.card(m.card_i).name == "Abra")
+    assert any("enriching" in me.card(i).name.lower() for i in host.energy)
+    assert not game.events.get("hand_thirty")
+    assert not game.events.get("puzzle_pair")
+
+
 def test_celebration_takes_two_prizes_and_shuffles_hand():
     game = _game()
     me = game.players["a"]
