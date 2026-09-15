@@ -34,9 +34,9 @@ Puzzle of Time, Scoop Up Net, Forest of Giant Plants, Broken Time-Space, Lysandr
 
 同回合再进化用 **Broken Time-Space**。Abra Teleporter 仍把 Energy 洗进牌库，不要当这副的宿主。
 
-家庭组 3000 盘数组（seed 20260911）里 **Big Jump 会发动**（s60 11.4% / c60 9.3% / unl 8.5%），Hand Fling 也比 Abra+Net 版多（c60 4.9→7.3，unl 2.4→5.5）。胜率仍低：2.7 / 3.2 / 2.7 / 18.4 / 1.6 / 6.8 / 7.6% vs c60/t60/hedrick/unl/d60/s60/g。比 Abra 循环在 unl/s60/g/d60/c60 略好，t60/hedrick 略差（Stage 1 宿主比 Basic Abra 慢一拍）。100 HP Ambipom 还是会被 Photon / Dive 先打掉。
+家庭组 3000 盘数组（seed 20260911）**打法改对之后**再跑：Big Jump **c60 12.0% / t60 5.8% / hedrick 9.1% / unl 12.7% / d60 3.7% / s60 14.3% / g 11.4%**（上一版错误脚本是 9.3 / 4.2 / 5.6 / 8.5 / 2.2 / 11.4 / 8.3%）。Junk Hunt 掉到约 0.1%。胜率仍低：**2.8 / 3.6 / 2.7 / 19.0 / 2.3 / 6.7 / 6.4%** vs c60/t60/hedrick/unl/d60/s60/g。循环会发动，但 100 HP Ambipom 还是会被 Photon / Dive 先打掉。
 
-**那组数字是打法还没改对的时候跑的。** 引擎仍按 Abra 循环搜牌：Poffin / Nest / Ultra Ball 优先 Aipom / Pikachu / Remoraid / Sableye，Wally 不进化 Buneary，Enriching 贴在 Lopunny 上时循环门槛看不见它，Sableye 还会抢攻击去 Junk Hunt。牌组里有 Buneary / Lopunny，但经常不上场。下面这版把搜索和坐席改成 Big Jump 线后再重跑数组。
+上一版引擎按 Abra 循环搜牌：Poffin / Nest / Ultra Ball 优先 Aipom / Pikachu / Remoraid / Sableye，Wally 不进化 Buneary，Enriching 贴在 Lopunny 上时循环门槛看不见它。牌组里有 Buneary / Lopunny，但经常不上场。现在搜索和坐席跟 Big Jump 线走。
 
 ---
 
@@ -186,25 +186,28 @@ Honest calendar: **3 Celebration attacks** is the prize floor. **3 of our turns*
 
 ## Win-rate array
 
-G30 (`celebration` strategy, Ambipom PAR Hand Fling + Lopunny FLF Big Jump) as player A vs the household 60s. Not a full NxN remake of `set-c60-unl-matrix`. Rules preset `s60` (60 / 6 prizes / 4-of). First player random. **3,000 games / cell, seed 20260911**. Elapsed **64.5s**.
+G30 (`celebration` strategy, Ambipom PAR Hand Fling + Lopunny FLF Big Jump) as player A vs the household 60s. Not a full NxN remake of `set-c60-unl-matrix`. Rules preset `s60` (60 / 6 prizes / 4-of). First player random. **3,000 games / cell, seed 20260911**. Elapsed **72.8s** after the play-script fix.
 
 Script: `data/lab/gholdengo-30-array.py`. Numbers: `data/lab/gholdengo-30-array.json`.
 
 | A \\ B | c60 | t60 | hedrick | unl | d60 | s60 | g |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| g30 win | 2.7% | 3.2% | 2.7% | 18.4% | 1.6% | 6.8% | 7.6% |
-| first | 2.7% | 3.4% | 2.9% | 19.0% | 1.7% | 6.2% | 7.5% |
-| second | 2.7% | 3.1% | 2.5% | 17.9% | 1.5% | 7.4% | 7.8% |
-| Crazy Code | 31.1% | 17.5% | 23.4% | 26.9% | 12.4% | 33.8% | 36.8% |
-| Puzzle pair | 6.3% | 3.2% | 5.8% | 5.0% | 2.4% | 8.9% | 7.6% |
-| Speed L draw | 15.4% | 9.0% | 11.0% | 14.0% | 7.6% | 20.0% | 17.2% |
-| Big Jump | 9.3% | 4.2% | 5.6% | 8.5% | 2.2% | 11.4% | 8.3% |
-| Hand Fling | 7.3% | 2.4% | 4.3% | 5.5% | 0.7% | 10.5% | 12.6% |
+| g30 win | 2.8% | 3.6% | 2.7% | 19.0% | 2.3% | 6.7% | 6.4% |
+| first | 3.0% | 4.2% | 2.9% | 19.6% | 2.9% | 6.0% | 5.8% |
+| second | 2.6% | 2.9% | 2.6% | 18.5% | 1.8% | 7.4% | 7.0% |
+| Crazy Code | 28.4% | 13.1% | 21.1% | 24.3% | 9.2% | 28.2% | 33.0% |
+| Puzzle pair | 4.3% | 1.6% | 4.7% | 3.8% | 1.3% | 5.2% | 6.2% |
+| Speed L draw | 14.5% | 7.1% | 11.0% | 12.2% | 5.3% | 16.1% | 15.4% |
+| Big Jump | 12.0% | 5.8% | 9.1% | 12.7% | 3.7% | 14.3% | 11.4% |
+| Hand Fling | 7.1% | 3.2% | 4.9% | 5.9% | 1.3% | 10.1% | 10.2% |
+| Junk Hunt | 0.1% | 0.1% | 0.1% | 0.1% | 0.1% | 0.2% | 0.1% |
 | Celebration | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 
-Previous Abra + Net closer (same seed): g30 win **2.5 / 4.6 / 3.6 / 16.5 / 1.1 / 5.8 / 7.1%**. Big Jump improved **unl 16.5→18.4**, **s60 5.8→6.8**, **g 7.1→7.6**, **c60 2.5→2.7**, **d60 1.1→1.6**; **t60 4.6→3.2** and **hedrick 3.6→2.7** are slower (Stage 1 host vs Basic Abra). Celebration 30-hand was **3.3 / 3.9 / 2.9 / 18.1 / 0.9 / 1.7 / 1.0%**.
+Same seed, Abra-era search script (Buneary not tutored): g30 win **2.7 / 3.2 / 2.7 / 18.4 / 1.6 / 6.8 / 7.6%**, Big Jump **9.3 / 4.2 / 5.6 / 8.5 / 2.2 / 11.4 / 8.3%**. After the play fix Big Jump is up on every column; Junk Hunt collapsed. Wins moved little because 100 HP Ambipom still dies to Photon / Dive.
 
-Goldfish from a ready board still grows the hand (Big Jump returns Buneary + Lopunny + Enriching) and Hand Fling KOs Mewtwo at 12 cards. Live vs household 60s the bounce fires (s60 11.4%, c60 9.3%) and the gun fires more than the Abra loop, but 100 HP Ambipom still dies to Photon / Dive before three prize shots. Puzzle pair dropped because Big Jump does not need discard retrieve.
+Previous Abra + Net closer (same seed): g30 win **2.5 / 4.6 / 3.6 / 16.5 / 1.1 / 5.8 / 7.1%**. Celebration 30-hand was **3.3 / 3.9 / 2.9 / 18.1 / 0.9 / 1.7 / 1.0%**.
+
+Goldfish from a ready board still grows the hand (Big Jump returns Buneary + Lopunny + Enriching) and Hand Fling KOs Mewtwo at 12 cards. Live vs household 60s the bounce now fires (s60 14.3%, c60 12.0%, unl 12.7%) and Junk Hunt almost never steals the attack, but three prize shots still lose the race to Photon / Dive.
 
 Household 60s also kill the board first. C60 Photon Kinesis KOs 100 HP Ambipom for one prize and 90 HP Lopunny / 130 HP Porygon-Z for one. d60 Dive / Ogerpon is faster than assembling `[C][C][C]` plus a 12-card hand.
 
