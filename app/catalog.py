@@ -190,7 +190,8 @@ PREFERRED_IDS = {
     "Wattrel": "sv01-077",  # Paldea Evolved Collect / Glide
     "Jolteon": "sv08.5-029",  # Prismatic Evolutions 110 HP Fighting Lightning
     "Shinx": "swsh12.5-039",  # Crown Zenith Rear Kick
-    "Oranguru": "sm1-113",
+    "Oranguru": "sv08-156",  # Surging Sparks Now You're in My Power / Smack
+    "Tornadus": "sv07-120",  # Stellar Crown Knuckle Punch / Storm Barrier
     "Zekrom": "sv04-066",  # Paradox Rift Crushing Short / Raging Thunder — Hidden Fates has no art
     "Minun": "xy3-32",  # Furious Fists Negative Discard / Static Shock
     "Kecleon": "sv09-122",  # Journey Together Stealth Attack
@@ -212,6 +213,8 @@ PREFERRED_IDS = {
     "Ultra Ball": "sv01-196",
     "Lake Acuity": "swsh11-160",  # Lost Origin 160/196 — not Astral Radiance 160 Beedrill V
     "Boomerang Energy": "sv06-166",
+    "Telepathic Psychic Energy": "me03-088",
+    "Telepathic Energy": "me03-088",
     "Dragapult ex": "sv06-130",
     "Dreepy": "sv06-128",
     "Drakloak": "sv06-129",
@@ -259,6 +262,7 @@ EXTRA_PRINT_IDS: dict[str, tuple[str, ...]] = {
     "Rockruff": ("swsh12.5-073", "swsh11-109"),
     "Starly": ("sv01-148", "swsh9-117"),  # Flap 20 Paldea Evolved; Claw 30 Brilliant Stars 117/172
     "Staravia": ("sv01-149", "swsh9-118"),  # Speed Dive 80 HP; Brilliant Stars 90 HP Wing Attack
+    "Oranguru": ("sv08-156", "sm1-113"),
 }
 
 
@@ -304,6 +308,8 @@ PRINT_PREFER = {
     "Tool Box": ["top 7", "pokemon tool"],
     "Acerola": ["damage counters"],
     "Relicanth": ["into the deep"],
+    "Tornadus": ["knuckle punch", "storm barrier"],
+    "Oranguru": ["now you're in my power", "smack"],
     "Plusle": ["plus damage"],
     "Emolga": ["static shock", "call for family"],
     "Spheal": ["powder snow"],
@@ -350,6 +356,7 @@ PRINT_PREFER = {
     "Lake Acuity": ["water", "fighting", "20 less"],
     "Hippopotas": ["mud shot", "tackle"],
     "Boomerang Energy": ["provides", "discarded by an effect"],
+    "Telepathic Psychic Energy": ["provides psychic", "basic psychic pokemon"],
     "Galarian Meowth": ["fasten claws"],
     "Corphish": ["water gun", "crabhammer"],
     "Bronzor": ["spinning attack"],

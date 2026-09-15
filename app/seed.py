@@ -37,7 +37,12 @@ SAMPLE_HASHES: dict[str, int] = {}
 
 def _is_basic_energy_name(name: str) -> bool:
     key = name.lower()
-    return key.endswith(" energy") and "double" not in key and "boomerang" not in key
+    if not key.endswith(" energy"):
+        return False
+    # Special Energy names also end with "Energy".
+    if any(token in key for token in ("double", "boomerang", "telepathic")):
+        return False
+    return True
 
 
 def _try_enrich(names: list[str], prefer: dict[str, list[str]] | None = None) -> list[Card]:

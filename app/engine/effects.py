@@ -321,6 +321,24 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
     if "prevent all damage" in t and "basic" in t:
         effects.append({"kind": "prevent_basic_damage"})
 
+    less = re.search(r"takes (\d+) less damage from attacks", t)
+    if less and "next turn" in t:
+        effects.append({"kind": "reduce_damage_next_turn", "amount": int(less.group(1))})
+
+    weak_now = re.search(
+        r"weakness is now (grass|fire|water|lightning|psychic|fighting|darkness|metal|fairy|dragon|colorless)",
+        t,
+    )
+    if weak_now:
+        until = "end_of_your_next_turn" if "until the end of your next turn" in t else "opponent_next_turn"
+        effects.append(
+            {
+                "kind": "set_defender_weakness",
+                "weakness": weak_now.group(1).title(),
+                "until": until,
+            }
+        )
+
     if "discard an energy" in t or "discard 1 energy" in t or "discard a energy" in t:
         n = re.search(r"discard (\d+) energy", t)
         effects.append({"kind": "discard_energy", "count": int(n.group(1)) if n else 1})
@@ -619,6 +637,31 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
     return effects
 
 
+def parse_energy_effects(text: str) -> list[dict[str, Any]]:
+    """Parse Special Energy printed text. The sentence is the only source of truth."""
+    t = _normalize_card_text(text)
+    effects: list[dict[str, Any]] = []
+    if not t:
+        return effects
+    # POR 88 / ME03 88 Telepathic Psychic Energy: attach from hand, then bench Basics.
+    attach_search = re.search(
+        r"when you attach this card from your hand to (?:one of your )?a? ?(\w+) pokemon,?\s*"
+        r"(?:you may )?search your deck for up to (\d+) basic (\w+) pokemon",
+        t,
+    )
+    if attach_search:
+        effects.append(
+            {
+                "kind": "call_family",
+                "count": int(attach_search.group(2)),
+                "pokemon_type": attach_search.group(3).title(),
+                "from_hand": True,
+                "require_attach_type": attach_search.group(1).title(),
+            }
+        )
+    return effects
+
+
 def is_double_colorless(card: Any) -> bool:
     return "double colorless" in (getattr(card, "name", "") or "").lower()
 
@@ -627,10 +670,14 @@ def is_boomerang_energy(card: Any) -> bool:
     return "boomerang energy" in (getattr(card, "name", "") or "").lower()
 
 
+def is_telepathic_energy(card: Any) -> bool:
+    return "telepathic" in (getattr(card, "name", "") or "").lower() and getattr(card, "is_energy", False)
+
+
 def is_special_energy(card: Any) -> bool:
     if not getattr(card, "is_energy", False):
         return False
-    if is_double_colorless(card) or is_boomerang_energy(card):
+    if is_double_colorless(card) or is_boomerang_energy(card) or is_telepathic_energy(card):
         return True
     return (getattr(card, "stage", "") or "").lower() == "special"
 
@@ -641,6 +688,8 @@ def energy_provided(card: Any) -> list[str]:
         return ["Colorless", "Colorless"]
     if is_boomerang_energy(card):
         return ["Colorless"]
+    if is_telepathic_energy(card):
+        return ["Psychic"]
     et = getattr(card, "as_energy_type", None)
     if callable(et):
         et = card.as_energy_type

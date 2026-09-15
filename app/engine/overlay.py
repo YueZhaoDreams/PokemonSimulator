@@ -21,6 +21,8 @@ PUBLISHED_EFFECT_KINDS = frozenset(
         "recoil",
         "energy_attack_lock",
         "prevent_basic_damage",
+        "reduce_damage_next_turn",
+        "set_defender_weakness",
         "discard_energy",
         "heal",
         "draw",

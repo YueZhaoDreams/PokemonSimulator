@@ -257,6 +257,10 @@ STRATEGY_LIBRARY = {
             "After Party, Photon / Wondrous Moon / Shooting Moons chip for whatever they pay "
             "(no sitting out a 170 into 320). Transfer Charge does not stall a payable hit. "
             "Still hide a 60 HP Clefairy that cannot attack. "
+            "If Telepathic Psychic Energy is in hand, attach it to a Psychic Pokémon before "
+            "Party: the printed from-hand attach benches up to 2 Basic Psychic (Clefairy / "
+            "Mewtwo), then Party loads Basic Psychic onto those Clefairy. Party cannot search "
+            "Telepathic from the deck (it is Special; it only provides Psychic while attached). "
             "If Lillie's Clefairy ex is in the list: bench one for Fairy Zone so Dragon "
             "Weakness is Psychic ×2; do not open on the 190 HP 2-prize body. "
             "151 Invitation Clefairy (if mixed in) dumps Party engines in one attack when "
@@ -462,10 +466,13 @@ STRATEGY_LIBRARY = {
             "Plusle",
             "Iron Boulder",
             "Kecleon",
+            "Mega Clefable ex",
+            "Tornadus",
+            "Oranguru",
         ],
         search_aces=["Clefairy"],
-        closers=["Staraptor", "Mewtwo", "Ledian", "Mismagius", "Hop's Cramorant"],
-        backups=["Flutter Mane", "Munkidori", "Dedenne", "Indeedee", "Relicanth", "Plusle"],
+        closers=["Staraptor", "Tornadus", "Mewtwo", "Ledian", "Mismagius", "Hop's Cramorant"],
+        backups=["Flutter Mane", "Munkidori", "Dedenne", "Indeedee", "Relicanth", "Plusle", "Oranguru"],
         insurance=["Flutter Mane"],
         insurance_bench=1,
         max_ace_copies=3,
