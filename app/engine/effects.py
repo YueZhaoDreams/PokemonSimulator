@@ -316,6 +316,21 @@ def parse_ability_effects(text: str) -> list[dict[str, Any]]:
             }
         )
 
+    # Lopunny FLF Big Jump / Jumpluff DRX Leave It to the Wind: attachments to *hand*.
+    if re.search(
+        r"return this (?:pokemon|card) and all cards attached to it to your hand",
+        t,
+    ) or (
+        "put this pokemon and all cards attached to it into your hand" in t
+        or "put this pokemon and all attached cards into your hand" in t
+    ):
+        effects.append(
+            {
+                "kind": "return_self_to_hand",
+                "once_per_turn": "once during your turn" in t,
+            }
+        )
+
     # Abra Teleporter: shuffle this Pokémon (Ability). RAD already matched draw+shuffle.
     shuffled_self = "shuffle this pokemon" in t or (
         "shuffle it" in t and "attached" in t and "into your deck" in t
@@ -709,6 +724,10 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
     if (
         "put this pokemon and all attached cards into your hand" in t
         or "put this pokemon and all cards attached to it back into your hand" in t
+        or re.search(
+            r"return this (?:pokemon|card) and all cards attached to it to your hand",
+            t,
+        )
     ):
         effects.append({"kind": "return_self_to_hand"})
 

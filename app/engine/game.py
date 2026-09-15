@@ -39,6 +39,7 @@ class Pokemon:
     card_i: int
     damage: int = 0
     energy: list[int] = field(default_factory=list)
+    underneath: list[int] = field(default_factory=list)
     status: int = 0
     played_turn: int = 0
     tool: int | None = None
@@ -351,6 +352,8 @@ class Game:
 
         if strat.name == "celebration":
             caps = {
+                "buneary": 1,
+                "hoppip": 1,
                 "abra": 1,
                 "porygon": 1,
                 "aipom": 1,
@@ -363,10 +366,16 @@ class Game:
             if copies < caps[name]:
                 return True
             # Opening Basics are played_turn 0 and cannot BTS-evolve. Nest a
-            # same-turn copy so Porygon-Z / Ambipom / Octillery can come down.
-            if name not in {"porygon", "aipom", "remoraid"} or copies != 1:
+            # same-turn copy so Porygon-Z / Ambipom / Octillery / Lopunny can come down.
+            if name not in {"porygon", "aipom", "remoraid", "buneary", "hoppip"} or copies != 1:
                 return False
-            evo = {"porygon": "porygon-z", "aipom": "ambipom", "remoraid": "octillery"}[name]
+            evo = {
+                "porygon": "porygon-z",
+                "aipom": "ambipom",
+                "remoraid": "octillery",
+                "buneary": "lopunny",
+                "hoppip": "jumpluff",
+            }[name]
             if any(player.card(m.card_i).name.lower() == evo for m in player.in_play()):
                 return False
             existing = next(m for m in player.in_play() if player.card(m.card_i).name.lower() == name)
@@ -1034,7 +1043,7 @@ class Game:
 
     def _do_evolve(self, me: Player, target: Pokemon, evo_i: int) -> None:
         me.hand.remove(evo_i)
-        me.discard.append(target.card_i)
+        target.underneath.append(target.card_i)
         if self._has_named(me, "Rare Candy") and (me.card(evo_i).stage or "").lower() in {"stage2", "stage 2"}:
             candy = self._first_named(me, "Rare Candy")
             if candy is not None:
@@ -1950,10 +1959,9 @@ class Game:
                 key=lambda i: (player.card(player.bench[i].card_i).hp or 0, i),
             )
             mon = player.bench.pop(idx)
-            player.discard.append(mon.card_i)
-            player.discard.extend(list(mon.energy))
-            if mon.tool is not None:
-                player.discard.append(mon.tool)
+            player.discard.extend(self._pokemon_stack(mon))
+            player.discard.extend(self._detach_cards(mon))
+            mon.underneath.clear()
             self._bump("collapsed_discard")
             self._log(f"{player.name} discards benched {player.card(mon.card_i).name}")
 
@@ -1966,10 +1974,9 @@ class Game:
             return
         idx = min(range(len(me.bench)), key=lambda i: me.card(me.bench[i].card_i).hp or 0)
         mon = me.bench.pop(idx)
-        me.hand.append(mon.card_i)
-        me.hand.extend(list(mon.energy))
-        if mon.tool is not None:
-            me.hand.append(mon.tool)
+        me.hand.extend(self._pokemon_stack(mon))
+        me.hand.extend(self._detach_cards(mon))
+        mon.underneath.clear()
         self._bump("turo")
         self._log(f"{me.name} Turo returns {me.card(mon.card_i).name}")
 
@@ -2069,20 +2076,34 @@ class Game:
                     self._log(f"{me.card(mon.card_i).name} finds {me.card(found).name}")
                 return
 
-    def _shuffle_mon_into_deck(self, me: Player, mon: Pokemon) -> None:
-        pile = [mon.card_i, *list(mon.energy)]
+    def _pokemon_stack(self, mon: Pokemon) -> list[int]:
+        return [mon.card_i, *list(mon.underneath)]
+
+    def _detach_cards(self, mon: Pokemon) -> list[int]:
+        pile = list(mon.energy)
         if mon.tool is not None:
             pile.append(mon.tool)
         mon.energy.clear()
         mon.tool = None
+        return pile
+
+    def _unseat_mon(self, me: Player, mon: Pokemon) -> None:
         if me.active is mon:
             me.active = None
         elif mon in me.bench:
             me.bench.remove(mon)
-        me.deck.extend(pile)
-        self.rng.shuffle(me.deck)
+
+    def _promote_if_empty(self, me: Player) -> None:
         if me.active is None and me.bench:
             me.active = me.bench.pop(0)
+
+    def _shuffle_mon_into_deck(self, me: Player, mon: Pokemon) -> None:
+        pile = self._pokemon_stack(mon) + self._detach_cards(mon)
+        mon.underneath.clear()
+        self._unseat_mon(me, mon)
+        me.deck.extend(pile)
+        self.rng.shuffle(me.deck)
+        self._promote_if_empty(me)
 
     def _switch_with_benched(self, me: Player) -> None:
         if not me.active or not me.bench:
@@ -2096,15 +2117,26 @@ class Game:
     def _return_active_to_hand(self, me: Player) -> None:
         if not me.active:
             return
-        mon = me.active
-        pile = [mon.card_i, *list(mon.energy)]
-        if mon.tool is not None:
-            pile.append(mon.tool)
+        self._return_mon_to_hand(me, me.active, event="tuck_tail", require_other=False)
+
+    def _return_mon_to_hand(
+        self,
+        me: Player,
+        mon: Pokemon,
+        event: str = "return_self_to_hand",
+        require_other: bool = True,
+    ) -> bool:
+        if require_other and len(me.in_play()) < 2:
+            return False
+        pile = self._pokemon_stack(mon) + self._detach_cards(mon)
+        mon.underneath.clear()
+        self._unseat_mon(me, mon)
         me.hand.extend(pile)
-        me.active = None
-        if me.bench:
-            me.active = me.bench.pop(0)
-        self._bump("tuck_tail")
+        self._promote_if_empty(me)
+        self._bump(event)
+        if event != "return_self_to_hand":
+            self._bump("return_self_to_hand")
+        return True
 
     def _discard_for_ultra_ball(self, me: Player, n: int = 2) -> int:
         protect = {n.lower() for n in self.strats["a" if me.name == "A" else "b"].protect}
@@ -4237,11 +4269,9 @@ class Game:
         return min(range(len(player.bench)), key=prio)
 
     def _discard_mon(self, player: Player, mon: Pokemon) -> None:
-        player.discard.append(mon.card_i)
-        player.discard.extend(mon.energy)
-        if mon.tool is not None:
-            player.discard.append(mon.tool)
-            mon.tool = None
+        player.discard.extend(self._pokemon_stack(mon))
+        player.discard.extend(self._detach_cards(mon))
+        mon.underneath.clear()
         if player.active is mon:
             player.active = None
 
@@ -8134,7 +8164,23 @@ class Game:
         return attacks
 
     def _celebration_keep_names(self) -> set[str]:
-        return {"porygon-z", "octillery", "ambipom", "pikachu"}
+        return {"porygon-z", "octillery", "ambipom", "pikachu", "lopunny", "jumpluff"}
+
+    def _has_return_self_to_hand(self, me: Player, mon: Pokemon) -> bool:
+        card = me.card(mon.card_i)
+        for abi in card.abilities:
+            for eff in self._ability_effects(abi):
+                if eff.get("kind") == "return_self_to_hand":
+                    return True
+        return False
+
+    def _enriching_on_bounce_host(self, me: Player) -> Pokemon | None:
+        for mon in me.in_play():
+            if not self._has_return_self_to_hand(me, mon):
+                continue
+            if any(is_enriching_energy(me.card(i)) for i in mon.energy):
+                return mon
+        return None
 
     def _named_mon(self, me: Player, name: str) -> Pokemon | None:
         key = name.lower()
@@ -8504,20 +8550,15 @@ class Game:
         if target is None or len(me.in_play()) < 2:
             self._bump("scoop_net_fail")
             return
-        me.hand.append(target.card_i)
-        me.discard.extend(list(target.energy))
-        if target.tool is not None:
-            me.discard.append(target.tool)
-        target.energy.clear()
-        target.tool = None
-        if me.active is target:
-            me.active = None
-        elif target in me.bench:
-            me.bench.remove(target)
-        if me.active is None and me.bench:
-            me.active = me.bench.pop(0)
+        stack = self._pokemon_stack(target)
+        attached = self._detach_cards(target)
+        target.underneath.clear()
+        me.hand.extend(stack)
+        me.discard.extend(attached)
+        self._unseat_mon(me, target)
+        self._promote_if_empty(me)
         self._bump("scoop_net")
-        self._log(f"{me.name} Scoop Up Net {me.card(me.hand[-1]).name}")
+        self._log(f"{me.name} Scoop Up Net {me.card(stack[0]).name}")
 
     def _junk_arm(self, me: Player, who: str, card: Card, discard_n: int, exclude_self: bool) -> None:
         protect = {
@@ -8605,7 +8646,7 @@ class Game:
                 self._bump("wally_fail")
                 return
         in_play = {me.card(m.card_i).name.lower(): m for m in me.in_play()}
-        prefer = ["ambipom", "porygon-z", "porygon2", "octillery"]
+        prefer = ["ambipom", "lopunny", "jumpluff", "porygon-z", "porygon2", "octillery"]
         scored: list[tuple[int, Pokemon, int]] = []
         for evo_i in me.deck:
             evo = me.card(evo_i)
@@ -8672,12 +8713,15 @@ class Game:
         enrich = next((i for i in me.hand if is_enriching_energy(me.card(i))), None)
         if enrich is None:
             return False
-        host = None
-        for mon in me.in_play():
-            name = me.card(mon.card_i).name.lower()
-            if name == "abra" and mon is not me.active and self._scoop_legal(me.card(mon.card_i)):
-                host = mon
-                break
+        hosts = [mon for mon in me.in_play() if self._has_return_self_to_hand(me, mon)]
+        hosts.sort(key=lambda mon: 0 if mon is not me.active else 1)
+        host = hosts[0] if hosts else None
+        if host is None:
+            for mon in me.in_play():
+                name = me.card(mon.card_i).name.lower()
+                if name == "abra" and mon is not me.active and self._scoop_legal(me.card(mon.card_i)):
+                    host = mon
+                    break
         if host is None:
             for mon in me.in_play():
                 name = me.card(mon.card_i).name.lower()
@@ -8753,7 +8797,19 @@ class Game:
         return True
 
     def _replay_host(self, me: Player, who: str) -> bool:
-        host = next((i for i in me.hand if me.card(i).name.lower() == "abra" and self._is_playable_pokemon(me.card(i))), None)
+        prefer = ("buneary", "hoppip", "abra")
+        host = None
+        for name in prefer:
+            host = next(
+                (
+                    i
+                    for i in me.hand
+                    if me.card(i).name.lower() == name and self._is_playable_pokemon(me.card(i))
+                ),
+                None,
+            )
+            if host is not None:
+                break
         if host is None:
             skip = self._celebration_keep_names()
             host = next(
@@ -8929,6 +8985,14 @@ class Game:
                 continue
             if self._hand_fling_ready(me, foe):
                 return
+            bounce = self._enriching_on_bounce_host(me)
+            if bounce is not None and len(me.in_play()) >= 2:
+                name = me.card(bounce.card_i).name.lower()
+                event = "big_jump" if name == "lopunny" else "leave_it_to_the_wind" if name == "jumpluff" else "return_self_to_hand"
+                if self._return_mon_to_hand(me, bounce, event=event):
+                    self._replay_host(me, who)
+                    self._evolve(me, foe, who)
+                    continue
             host = self._enriching_on_scoopable(me)
             puzzles = self._hand_named(me, "Puzzle of Time")
             net = self._first_named(me, "Scoop Up Net")

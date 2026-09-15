@@ -252,6 +252,11 @@ PREFERRED_IDS = {
     "Ivysaur": "sv03.5-002",  # Leech Seed / Vine Whip (151)
     "Tangela": "swsh12.5-004",  # Beat 10 / Vine Whip 60, Razz berries (Crown Zenith) — not TWM meadow
     "Aipom": "swsh11-144",  # Mischievous Tail / Scratch 10 (Lost Origin) — not Pokémon GO
+    "Buneary": "xy2-84",  # Flashfire Bounce — evolves into FLF 85 Lopunny
+    "Lopunny": "xy2-85",  # Flashfire Big Jump (return this Pokémon and attachments to hand)
+    "Hoppip": "bw6-1",  # Dragons Exalted line into Jumpluff Leave It to the Wind
+    "Skiploom": "bw6-2",
+    "Jumpluff": "bw6-3",  # Dragons Exalted Leave It to the Wind
     "Galarian Meowth": "swsh12.5-084",  # Fasten Claws (Crown Zenith)
     # Rockruff is NOT pinned globally: Set A is Crown Zenith Invite Out, Set B is Lost Origin Double Draw.
 }

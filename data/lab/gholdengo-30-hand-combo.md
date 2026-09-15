@@ -1,7 +1,7 @@
 # Ambipom PAR Hand Fling — 60-card Unlimited (G30 lab)
 
 Date: 2026-09-15
-Status: engine plays Ambipom PAR 146 Hand Fling with Speed Lightning Energy draws. Win-rate array vs household 60s is in `data/lab/gholdengo-30-array.json`.
+Status: engine plays Ambipom PAR 146 Hand Fling with Lopunny FLF Big Jump recycle (attachments to **hand**) and Speed Lightning Energy draws. Win-rate array vs household 60s is in `data/lab/gholdengo-30-array.json`.
 
 **This lab is Unlimited constructed. Not Standard. Not Expanded. Not Family Cup 30.**
 
@@ -28,11 +28,11 @@ Puzzle of Time, Scoop Up Net, Forest of Giant Plants, Broken Time-Space, Lysandr
 
 研究目标从一开始就是：**60 张牌组 + Unlimited 卡池 + 6 奖**。Standard / Expanded 的轮换和禁卡表只用来对照「离开 Unlimited 会丢掉哪些循环」，不是这副牌的规则。
 
-主循环仍是 Enriching + Crazy Code + Scoop Up Net + Puzzle of Time（净 **+2** / 圈）。**当前主攻是 Ambipom PAR 146 Hand Fling**（印刷：`This attack does 20 damage for each card in your hand.`），不再停在恰好 30、也不洗回手牌。12 张手牌 = 240，够打家庭组常见 2 奖（Mewtwo 230 / Ogerpon 210 / Wo-Chien）；Dragapult 320 要 16 张。还是一回合一次攻击，6 奖至少 3 枪。
+主循环改成 **Lopunny FLF 85 Big Jump**：印刷 `Once during your turn (before your attack), you may return this Pokémon and all cards attached to it to your hand.` Jumpluff DRX 3 Leave It to the Wind 是同一句，但是 Stage 2（Hoppip→Skiploom→Jumpluff），这副 60 用 Stage 1 Lopunny。附着卡回**手牌**，不是洗回牌库（Abra Teleporter / Dudunsparce RAD），也不是进弃牌再 Puzzle（Scoop Up Net）。Crazy Code 贴 Enriching（+3）→ Big Jump 把 Buneary+Lopunny+Enriching 回手（+3）→ 重放 Buneary −1 → BTS 进化 −1，净 **+4** / 圈。12 张手牌 = 240，够打家庭组常见 2 奖（Mewtwo 230 / Ogerpon 210 / Wo-Chien）；Dragapult 320 要 16 张。还是一回合一次攻击，6 奖至少 3 枪。
 
-**Speed Lightning Energy（RCL 173）**：贴在身上提供雷；**只有从手牌贴到雷宝可梦才抽 2**。Ambipom 是无色，贴上去付无色但不抽。Net+Puzzle 循环 Speed L 净 **0**，不要当增长引擎。引擎把多出来的 Speed L 贴 Pikachu 抽 2，并留够 3 个给 Ambipom 付 Hand Fling。
+**Speed Lightning Energy（RCL 173）**：贴在身上提供雷；**只有从手牌贴到雷宝可梦才抽 2**。Lopunny 是无色，贴上去不抽。引擎把多出来的 Speed L 贴 Pikachu。
 
-同回合再进化用 **Broken Time-Space**。Abra 仍是 Enriching 宿主（Scoop Up Net 把 Energy 送进弃牌，Puzzle 拿回）。
+同回合再进化用 **Broken Time-Space**。Abra Teleporter 仍把 Energy 洗进牌库，不要当这副的宿主。
 
 家庭组 3000 盘数组（seed 20260911）里 Hand Fling 会打出来（s60 10% / g 11.5% / c60 4.9%），Speed L 抽牌 8–23%，胜率仍低：2.5 / 4.6 / 3.6 / 16.5 / 1.1 / 5.8 / 7.1% vs c60/t60/hedrick/unl/d60/s60/g。100 HP 1 奖 Ambipom 还是会被 Photon / Dive 先打掉。比 Celebration 版在 s60（1.7→5.8）和 g（1.0→7.1）好一些，因为不必凑恰好 30。
 
@@ -84,7 +84,8 @@ Printings are the text this lab uses. Aipom is Paradox Rift 145 (Filch / Smack),
 
 | Qty | Card | Set | Why |
 |---:|---|---|---|
-| 3 | Abra | TWM 80 | Enriching host. 40 HP → Poffin. |
+| 3 | Buneary | FLF 84 | 60 HP → Poffin. Big Jump stack. |
+| 2 | Lopunny | FLF 85 | **Big Jump**: this Pokémon + attachments to **hand**. Sitdown Bounce is not the closer. |
 | 3 | Porygon | UNB 154 | 50 HP → Poffin. |
 | 2 | Porygon2 | UNB 156 | BTS into Porygon-Z. Double Draw. |
 | 2 | Porygon-Z | UNB 157 | Crazy Code. |
@@ -94,8 +95,8 @@ Printings are the text this lab uses. Aipom is Paradox Rift 145 (Filch / Smack),
 | 3 | Aipom | PAR 145 | BTS into Ambipom. 60 HP → Poffin. Filch draws 1. |
 | 2 | Ambipom | PAR 146 | **Hand Fling** 20×hand, `[C][C][C]`. Collect draws 2. No Ability (Stance does not block). 100 HP, 1 prize. |
 | 2 | Pikachu | BUS 40 | Lightning host for Speed L draw 2. 60 HP → Poffin. |
-| 4 | Puzzle of Time | BKP 109 | Loop recycle. |
-| 4 | Scoop Up Net | RCL 165 | Bounce Abra. Do **not** Net Pikachu / Ambipom. |
+| 4 | Puzzle of Time | BKP 109 | Discard retrieve backup. |
+| 2 | Scoop Up Net | RCL 165 | Backup if Big Jump is not in play. Do **not** Net Pikachu / Ambipom / Lopunny. |
 | 2 | Junk Arm | TM 87 | Fetch Net. |
 | 3 | Broken Time-Space | PL 104 | Same-turn evo. |
 | 2 | Nest Ball | any | |
@@ -111,11 +112,11 @@ Printings are the text this lab uses. Aipom is Paradox Rift 145 (Filch / Smack),
 | 3 | Lightning Energy | any | Pays Colorless on Ambipom. Once-per-turn attach. |
 | 1 | Darkness Energy | any | Junk Hunt. |
 
-**22 Pokémon + 29 Trainers + 9 Energy = 60.**
+**24 Pokémon + 27 Trainers + 9 Energy = 60.**
 
-Cut from the Celebration 60: 3 Gimmighoul, 2 Gholdengo, 1 Mew ex, 3 Metal, 2 Junk Arm, 1 Nest, 1 Poffin, 1 Ultra, 1 VS Seeker (−16). Added: 3 Aipom, 2 Ambipom, 2 Pikachu, 4 Speed L, 3 Lightning (+14). Net Sableye 2→1.
+Cut Abra (Teleporter puts Energy in the **deck**). Jumpluff DRX 3 is the same bounce sentence but Stage 2 — not in this 60.
 
-Goldfish (board already up, going second): BTS into Z + Ambipom + Pikachu + Abra. Crazy Code one extra Speed L onto Pikachu (draw 2). Enriching +2 loop until `20 × (hand − remaining Speed L cost − Switch)` KOs. Dump reserved Speed L onto Ambipom (no draw). Switch in. Hand Fling. Hand stays; next attack does not rebuild from 1.
+Goldfish (board already up, going second): BTS into Z + Ambipom + Lopunny + Pikachu. Crazy Code Enriching onto Lopunny (draw 4). Big Jump returns Buneary + Lopunny + Enriching. Replay Buneary, BTS evolve, attach again. Extra Speed L onto Pikachu. Hand Fling when `20 × (hand − pay − Switch)` KOs.
 
 ---
 
@@ -320,10 +321,12 @@ Attach from hand, draw 1. Net **0** per attach. Four copies, no ACE SPEC. Cycle,
 
 | Pokémon | Kind | Energy goes | Same-turn return |
 |---|---|---|---|
-| Abra Teleporter | Ability, Active, once per copy | **Deck** | Play another Basic (Poffin / Nest). No evolution. |
-| Dudunsparce RAD | Ability, any slot, +3 then leave | **Deck** | Broken Time-Space evolve a new Dunsparce |
+| **Lopunny FLF Big Jump** | Ability, any slot, once per copy | **Hand** | Replay Buneary, BTS into Lopunny. **This 60.** |
+| **Jumpluff DRX Leave It to the Wind** | Same sentence as Big Jump | **Hand** | Stage 2: Hoppip → Skiploom → Jumpluff. Same net, more pieces. |
+| Scoop Up Net host | Item, not V/GX | **Discard** (attachments) | Replay Basic. Puzzle to take Energy back. Net +2. |
+| Abra Teleporter | Ability, Active, once per copy | **Deck** | Worse than Big Jump. Do not use. |
+| Dudunsparce RAD | Ability, any slot, +3 then leave | **Deck** | BTS re-evolve a new Dunsparce |
 | Suicune-GX Phantom Wind | Ability, Bench | Deck | GX (Scoop Up Net cannot target it) |
-| Scoop Up Net host | Item, not V/GX | **Discard** (attachments) | Replay from hand. This is the Unlimited Energy path. |
 
 ---
 
@@ -361,8 +364,9 @@ Attach from hand, draw 1. Net **0** per attach. Four copies, no ACE SPEC. Cycle,
 
 | Net | Source | Unlimited note |
 |---|---|---|
+| **+4 per loop** | Enriching + Big Jump + replay Buneary + BTS evolve | **The infinite for this 60.** Attachments stay in hand. |
 | **+3** per attach | Enriching Energy | 1 copy; Crazy Code reattaches it each loop |
-| **+2 per loop** | Enriching + Net + Puzzle + replay host | **The infinite.** Stop at 28, one more loop → 30 |
+| **+2 per loop** | Enriching + Net + Puzzle + replay host | Discard path. Backup if Lopunny is not in play. |
 | +3 then leave | Dudunsparce RAD | BTS re-evolve; tutor cost can eat the +3 |
 | +1 per attach | Speed L on Lightning | Recycle nets 0 |
 | +1 each, once | N’s Zoroark Trade | Scoop-and-replay Trade is net 0 (filter, not growth) |
@@ -378,30 +382,27 @@ Trade after the loop is the **+1** trim. An extra Poffin/Switch is the **−1** 
 
 ## Loop math (Unlimited)
 
-### Primary infinite — Enriching Energy (net +2 / cycle)
+### Primary infinite — Lopunny Big Jump (net +4 / cycle)
 
-Board: Porygon-Z, a non-V/GX host (Abra is enough), Bench not empty after Net (keep a pivot).
+Board: Porygon-Z, Lopunny (Buneary underneath), a pivot so the board is not empty after Big Jump, Broken Time-Space.
 
-1. Crazy Code: attach Enriching Energy. Hand **−1 +4 = +3**. Energy on the host.
-2. Scoop Up Net. Hand **−1**, host **+1**. Energy to discard. Net 0 this step.
-3. Play the host. Hand **−1**.
-4. Play 2 Puzzle of Time. Hand **−2**, take Enriching Energy + Scoop Up Net (**+2**). Net 0. The two Puzzles hit discard.
-5. Play the other 2 Puzzle of Time. Take the first 2 Puzzles back. Net 0.
+1. Crazy Code: attach Enriching Energy. Hand **−1 +4 = +3**. Energy on Lopunny.
+2. Big Jump: Buneary + Lopunny + Enriching to **hand** (**+3**). No Item.
+3. Play Buneary. Hand **−1**.
+4. BTS evolve Lopunny. Hand **−1**.
 
-**Cycle net: +2.** Repeat until 28 or 30. Attach a Basic Metal (one rule-attach, or Magnezone UPR Magnetic Circuit as often as you like from hand) onto Gholdengo or Mew. Attack Celebration.
+**Cycle net: +4.** Jumpluff DRX is the same sentence; the cycle spends Hoppip + Skiploom + Jumpluff (−3) and bounces those three plus Enriching (+4), still +4, but three evolution cards have to come back every lap.
 
-Scoop Up Net on Abra does **not** require Abra to be Active. Teleporter does. Net is the better recycle.
-
-If the opening hand already has Enriching + Net + 2 Puzzle, the first attach does not need Puzzle yet. Puzzle comes online the moment Energy hits discard.
+Scoop Up Net + Puzzle is **+2** and sends Energy to discard. Abra Teleporter / RAD send Energy to the **deck**. Big Jump is strictly better for Enriching.
 
 ### Same-turn setup (going second, turn 1)
 
 Broken Time-Space in play:
 
 - Porygon → Porygon2 → Porygon-Z
-- Gimmighoul → Gholdengo (or Mew in Active, Gholdengo on Bench)
-- Abra to Bench/Active as the Enriching host
-- Then the +2 loop to 30, then Celebration
+- Buneary → Lopunny (nest a same-turn Buneary if the opener was played_turn 0)
+- Aipom → Ambipom
+- Then the +4 loop, then Hand Fling when 20×hand KOs
 
 This is a **consistency** problem (opening 8 cards plus tutors), not a **rules** problem. Shaymin-EX Set Up draws **until 6** — useless once the hand is already large; do not play it during the loop. Dedenne-GX Dedechange discards the hand — setup only, never at 20+ cards.
 
@@ -444,7 +445,7 @@ Pick **Enriching Energy**. Scoop Up Cyclone would return Energy to hand without 
 ## Combo Cub
 
 - Simulate on **`s60`** (60 cards, 6 prizes, 4-of). That is the Unlimited constructed skeleton.
-- The list must include Unlimited cards (Puzzle of Time, Scoop Up Net, Broken Time-Space, Porygon-Z, Enriching Energy, Ambipom PAR, Speed Lightning Energy, Octillery, Sableye Junk Hunt, Junk Arm). A Standard-rotated 60 is the wrong pool.
+- The list must include Unlimited cards (Lopunny FLF Big Jump, Puzzle of Time, Scoop Up Net, Broken Time-Space, Porygon-Z, Enriching Energy, Ambipom PAR, Speed Lightning Energy, Octillery, Sableye Junk Hunt, Junk Arm). A Standard-rotated 60 is the wrong pool.
 - Do not test this win condition on Family Cup 30-card presets.
 - Goldfish stop: Hand Fling lethal vs a household 2-prizer (12 cards vs Mewtwo 230 / 16 vs Dragapult 320), not exactly 30. Six prizes still need **three** attacks.
 - Engine parses those printed sentences (`tests/test_gholdengo_celebration.py`). Puzzle of Time look-N comes from print, not a hardcoded top-6 in `app/engine/game.py`. The household array is in `data/lab/gholdengo-30-array.json`.
@@ -465,6 +466,6 @@ Kept only as a warning. **Not the format of this lab.**
 ## Sources
 
 - Play! Pokémon: Unlimited constructed = 60 cards, 4-of except basic Energy, 6 prizes, no banned cards; latest printing.
-- Pokémon.com / Serebii / pkmncards / Limitless: Gholdengo 30th Celebration, Enriching Energy SSP 191, Porygon-Z UNB 157, Puzzle of Time BKP 109, Scoop Up Net RCL 165, Broken Time-Space PL 104, Forest of Giant Plants AOR 74, Abra TWM 80, Dudunsparce TEF 129, Speed L Energy RCL 173, Wally ROS 94, VS Seeker PHF 109, Lysandre’s Trump Card PHF 118, Ambipom PAR 146 / DRX 100, Meowstic BUS 60, Mew ex 30th, Jirachi ex 30th.
+- Pokémon.com / Serebii / pkmncards / Limitless: Gholdengo 30th Celebration, Enriching Energy SSP 191, Porygon-Z UNB 157, Puzzle of Time BKP 109, Scoop Up Net RCL 165, Broken Time-Space PL 104, Forest of Giant Plants AOR 74, Abra TWM 80, Lopunny FLF 85 Big Jump, Jumpluff DRX 3 Leave It to the Wind, Dudunsparce TEF 129, Speed L Energy RCL 173, Wally ROS 94, VS Seeker PHF 109, Lysandre’s Trump Card PHF 118, Ambipom PAR 146 / DRX 100, Meowstic BUS 60, Mew ex 30th, Jirachi ex 30th.
 - Pokémon Rulings Compendium: VS Seeker same-turn Supporter; Rare Candy wording vs Broken Time-Space; Hilda may search Special Energy; N’s Zoroark Trade vs empty deck.
 - PokeBeach / TPCi Expanded ban note: Scoop Up Net scoops Pokémon ex (not V/GX).

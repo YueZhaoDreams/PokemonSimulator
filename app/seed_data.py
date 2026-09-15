@@ -311,9 +311,10 @@ SET_T_UNL_NAMES = (
     + ["Psychic Energy"] * 3
 )
 
-# Unlimited 60: Ambipom PAR Hand Fling, Speed Lightning Energy draws, Enriching +2 loop.
+# Unlimited 60: Ambipom PAR Hand Fling, Lopunny FLF Big Jump recycle, Speed L draws.
 SET_G30_NAMES = (
-    ["Abra"] * 3
+    ["Buneary"] * 3
+    + ["Lopunny"] * 2
     + ["Porygon"] * 3
     + ["Porygon2"] * 2
     + ["Porygon-Z"] * 2
@@ -324,7 +325,7 @@ SET_G30_NAMES = (
     + ["Ambipom"] * 2
     + ["Pikachu"] * 2
     + ["Puzzle of Time"] * 4
-    + ["Scoop Up Net"] * 4
+    + ["Scoop Up Net"] * 2
     + ["Junk Arm"] * 2
     + ["Broken Time-Space"] * 3
     + ["Nest Ball"] * 2
@@ -2328,6 +2329,10 @@ _MEMORY_HELIX_TEXT = (
     "This Pokémon can use the attacks of any of your Benched Pokémon. "
     "(You still need the necessary Energy to use each attack.)"
 )
+_BIG_JUMP_TEXT = (
+    "Once during your turn (before your attack), you may return this Pokémon "
+    "and all cards attached to it to your hand."
+)
 _VS_SEEKER_TEXT = "Put a Supporter card from your discard pile into your hand."
 _COMPRESSOR_TEXT = "Search your deck for up to 3 cards and discard them. Shuffle your deck afterward."
 
@@ -2344,6 +2349,116 @@ _register(
         abilities=[Ability(name="Teleporter", text=_TELEPORTER_TEXT)],
         image="https://assets.tcgdex.net/en/sv/sv06/080/low.webp",
         set_name="Twilight Masquerade",
+    )
+)
+_register(
+    _pkm(
+        "Buneary",
+        "Basic",
+        ["Colorless"],
+        60,
+        [
+            _atk(
+                "Bounce",
+                ["Colorless", "Colorless"],
+                10,
+                "Switch this Pokémon with 1 of your Benched Pokémon.",
+            )
+        ],
+        catalog_id="xy2-84",
+        weakness="Fighting",
+        image="https://assets.tcgdex.net/en/xy/xy2/84/low.webp",
+        set_name="Flashfire",
+    )
+)
+_register(
+    _pkm(
+        "Lopunny",
+        "Stage1",
+        ["Colorless"],
+        90,
+        [
+            _atk(
+                "Sitdown Bounce",
+                ["Colorless", "Colorless", "Colorless"],
+                80,
+                "Flip a coin. If tails, this Pokémon can't attack during your next turn.",
+            )
+        ],
+        evolves_from="Buneary",
+        catalog_id="xy2-85",
+        weakness="Fighting",
+        abilities=[Ability(name="Big Jump", text=_BIG_JUMP_TEXT)],
+        image="https://assets.tcgdex.net/en/xy/xy2/85/low.webp",
+        set_name="Flashfire",
+    )
+)
+_register(
+    _pkm(
+        "Hoppip",
+        "Basic",
+        ["Grass"],
+        30,
+        [
+            _atk(
+                "Flail Around",
+                ["Grass"],
+                10,
+                "Flip 3 coins. This attack does 10 damage times the number of heads.",
+            )
+        ],
+        catalog_id="bw6-1",
+        weakness="Fire",
+        resistances=[{"type": "Water", "value": "-20"}],
+        image="https://assets.tcgdex.net/en/bw/bw6/1/low.webp",
+        set_name="Dragons Exalted",
+    )
+)
+_register(
+    _pkm(
+        "Skiploom",
+        "Stage1",
+        ["Grass"],
+        60,
+        [
+            _atk(
+                "Bullet Seed",
+                ["Grass"],
+                10,
+                "Flip 4 coins. This attack does 10 damage times the number of heads.",
+            )
+        ],
+        evolves_from="Hoppip",
+        catalog_id="bw6-2",
+        weakness="Fire",
+        resistances=[{"type": "Water", "value": "-20"}],
+        retreat=0,
+        image="https://assets.tcgdex.net/en/bw/bw6/2/low.webp",
+        set_name="Dragons Exalted",
+    )
+)
+_register(
+    _pkm(
+        "Jumpluff",
+        "Stage2",
+        ["Grass"],
+        90,
+        [
+            _atk(
+                "Acrobatics",
+                ["Grass"],
+                20,
+                "Flip 2 coins. This attack does 30 more damage for each heads.",
+            )
+        ],
+        evolves_from="Skiploom",
+        catalog_id="bw6-3",
+        weakness="Fire",
+        resistances=[{"type": "Water", "value": "-20"}],
+        retreat=0,
+        abilities=[Ability(name="Leave It to the Wind", text=_BIG_JUMP_TEXT)],
+        image="https://assets.tcgdex.net/en/bw/bw6/3/low.webp",
+        set_name="Dragons Exalted",
     )
 )
 _register(

@@ -78,6 +78,9 @@ def test_s60_seed_aliases_and_prankish_c60():
     assert load_seed_deck("gholdengo")["id"] == "seed-g30"
     g30 = load_seed_deck("g30")
     assert [c["name"] for c in g30["cards"]].count("Ambipom") == 2
+    assert [c["name"] for c in g30["cards"]].count("Lopunny") == 2
+    assert [c["name"] for c in g30["cards"]].count("Buneary") == 3
     assert [c["name"] for c in g30["cards"]].count("Speed Lightning Energy") == 4
     assert [c["name"] for c in g30["cards"]].count("Enriching Energy") == 1
     assert load_seed_deck("ambipom")["id"] == "seed-g30"
+    assert load_seed_deck("lopunny")["id"] == "seed-g30"

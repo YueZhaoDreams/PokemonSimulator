@@ -46,6 +46,8 @@ OPPONENTS = (
 QUERIES = [
     {"type": "event_prefix", "prefix": "hand_fling", "key": "hand_fling"},
     {"type": "event_prefix", "prefix": "speed_l_draw", "key": "speed_l_draw"},
+    {"type": "event_prefix", "prefix": "return_self_to_hand", "key": "return_self_to_hand"},
+    {"type": "event_prefix", "prefix": "big_jump", "key": "big_jump"},
     {"type": "event_prefix", "prefix": "celebration", "key": "celebration"},
     {"type": "event_prefix", "prefix": "hand_thirty", "key": "hand_thirty"},
     {"type": "event_prefix", "prefix": "junk_hunt", "key": "junk_hunt"},
@@ -77,6 +79,8 @@ def _run(opp: str) -> tuple[str, dict]:
         "second": r["win_rate_a_going_second"],
         "hand_fling": r["queries"].get("hand_fling", 0.0),
         "speed_l_draw": r["queries"].get("speed_l_draw", 0.0),
+        "return_self_to_hand": r["queries"].get("return_self_to_hand", 0.0),
+        "big_jump": r["queries"].get("big_jump", 0.0),
         "celebration": r["queries"].get("celebration", 0.0),
         "hand_thirty": r["queries"].get("hand_thirty", 0.0),
         "junk_hunt": r["queries"].get("junk_hunt", 0.0),
@@ -97,7 +101,8 @@ def main() -> None:
             print(
                 f"g30 vs {opp}: {detail['a']:.1%} "
                 f"(first {detail['first']:.1%} second {detail['second']:.1%} "
-                f"hand_fling {detail['hand_fling']:.1%} speed_l {detail['speed_l_draw']:.1%})",
+                f"hand_fling {detail['hand_fling']:.1%} speed_l {detail['speed_l_draw']:.1%} "
+                f"jump {detail['big_jump']:.1%})",
                 flush=True,
             )
     elapsed = time.perf_counter() - started
@@ -122,6 +127,7 @@ def main() -> None:
     print("| second | " + " | ".join(f"{cells[k]['second']:.1%}" for k in keys) + " |")
     print("| Hand Fling | " + " | ".join(f"{cells[k]['hand_fling']:.1%}" for k in keys) + " |")
     print("| Speed L draw | " + " | ".join(f"{cells[k]['speed_l_draw']:.1%}" for k in keys) + " |")
+    print("| Big Jump | " + " | ".join(f"{cells[k]['big_jump']:.1%}" for k in keys) + " |")
 
 
 if __name__ == "__main__":

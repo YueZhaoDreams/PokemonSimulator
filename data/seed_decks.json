@@ -21824,41 +21824,34 @@
     "kind": "list",
     "cards": [
       {
-        "catalog_id": "sv06-080",
-        "name": "Abra",
+        "catalog_id": "xy2-84",
+        "name": "Buneary",
         "category": "Pokemon",
         "stage": "Basic",
         "types": [
-          "Psychic"
+          "Colorless"
         ],
-        "hp": 40,
+        "hp": 60,
         "attacks": [
           {
-            "name": "Psyshot",
+            "name": "Bounce",
             "cost": [
-              "Psychic"
+              "Colorless",
+              "Colorless"
             ],
             "damage": 10,
-            "text": "",
-            "effects": []
-          }
-        ],
-        "abilities": [
-          {
-            "name": "Teleporter",
-            "text": "Once during your turn, if this Pok\u00e9mon is in the Active Spot, you may shuffle it and all attached cards into your deck.",
+            "text": "Switch this Pok\u00e9mon with 1 of your Benched Pok\u00e9mon.",
             "effects": [
               {
-                "kind": "shuffle_self_into_deck",
-                "require_active": true,
-                "once_per_turn": true
+                "kind": "switch_with_benched"
               }
             ]
           }
         ],
+        "abilities": [],
         "weaknesses": [
           {
-            "type": "Darkness",
+            "type": "Fighting",
             "value": "\u00d72"
           }
         ],
@@ -21867,47 +21860,40 @@
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv06/080/low.webp",
-        "set_name": "Twilight Masquerade",
+        "image": "https://assets.tcgdex.net/en/xy/xy2/84/low.webp",
+        "set_name": "Flashfire",
         "text": "",
         "dex_id": null
       },
       {
-        "catalog_id": "sv06-080",
-        "name": "Abra",
+        "catalog_id": "xy2-84",
+        "name": "Buneary",
         "category": "Pokemon",
         "stage": "Basic",
         "types": [
-          "Psychic"
+          "Colorless"
         ],
-        "hp": 40,
+        "hp": 60,
         "attacks": [
           {
-            "name": "Psyshot",
+            "name": "Bounce",
             "cost": [
-              "Psychic"
+              "Colorless",
+              "Colorless"
             ],
             "damage": 10,
-            "text": "",
-            "effects": []
-          }
-        ],
-        "abilities": [
-          {
-            "name": "Teleporter",
-            "text": "Once during your turn, if this Pok\u00e9mon is in the Active Spot, you may shuffle it and all attached cards into your deck.",
+            "text": "Switch this Pok\u00e9mon with 1 of your Benched Pok\u00e9mon.",
             "effects": [
               {
-                "kind": "shuffle_self_into_deck",
-                "require_active": true,
-                "once_per_turn": true
+                "kind": "switch_with_benched"
               }
             ]
           }
         ],
+        "abilities": [],
         "weaknesses": [
           {
-            "type": "Darkness",
+            "type": "Fighting",
             "value": "\u00d72"
           }
         ],
@@ -21916,47 +21902,40 @@
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv06/080/low.webp",
-        "set_name": "Twilight Masquerade",
+        "image": "https://assets.tcgdex.net/en/xy/xy2/84/low.webp",
+        "set_name": "Flashfire",
         "text": "",
         "dex_id": null
       },
       {
-        "catalog_id": "sv06-080",
-        "name": "Abra",
+        "catalog_id": "xy2-84",
+        "name": "Buneary",
         "category": "Pokemon",
         "stage": "Basic",
         "types": [
-          "Psychic"
+          "Colorless"
         ],
-        "hp": 40,
+        "hp": 60,
         "attacks": [
           {
-            "name": "Psyshot",
+            "name": "Bounce",
             "cost": [
-              "Psychic"
+              "Colorless",
+              "Colorless"
             ],
             "damage": 10,
-            "text": "",
-            "effects": []
-          }
-        ],
-        "abilities": [
-          {
-            "name": "Teleporter",
-            "text": "Once during your turn, if this Pok\u00e9mon is in the Active Spot, you may shuffle it and all attached cards into your deck.",
+            "text": "Switch this Pok\u00e9mon with 1 of your Benched Pok\u00e9mon.",
             "effects": [
               {
-                "kind": "shuffle_self_into_deck",
-                "require_active": true,
-                "once_per_turn": true
+                "kind": "switch_with_benched"
               }
             ]
           }
         ],
+        "abilities": [],
         "weaknesses": [
           {
-            "type": "Darkness",
+            "type": "Fighting",
             "value": "\u00d72"
           }
         ],
@@ -21965,8 +21944,108 @@
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv06/080/low.webp",
-        "set_name": "Twilight Masquerade",
+        "image": "https://assets.tcgdex.net/en/xy/xy2/84/low.webp",
+        "set_name": "Flashfire",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "xy2-85",
+        "name": "Lopunny",
+        "category": "Pokemon",
+        "stage": "Stage1",
+        "types": [
+          "Colorless"
+        ],
+        "hp": 90,
+        "attacks": [
+          {
+            "name": "Sitdown Bounce",
+            "cost": [
+              "Colorless",
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 80,
+            "text": "Flip a coin. If tails, this Pok\u00e9mon can't attack during your next turn.",
+            "effects": []
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Big Jump",
+            "text": "Once during your turn (before your attack), you may return this Pok\u00e9mon and all cards attached to it to your hand.",
+            "effects": [
+              {
+                "kind": "return_self_to_hand",
+                "once_per_turn": true
+              }
+            ]
+          }
+        ],
+        "weaknesses": [
+          {
+            "type": "Fighting",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": "Buneary",
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/xy/xy2/85/low.webp",
+        "set_name": "Flashfire",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "xy2-85",
+        "name": "Lopunny",
+        "category": "Pokemon",
+        "stage": "Stage1",
+        "types": [
+          "Colorless"
+        ],
+        "hp": 90,
+        "attacks": [
+          {
+            "name": "Sitdown Bounce",
+            "cost": [
+              "Colorless",
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 80,
+            "text": "Flip a coin. If tails, this Pok\u00e9mon can't attack during your next turn.",
+            "effects": []
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Big Jump",
+            "text": "Once during your turn (before your attack), you may return this Pok\u00e9mon and all cards attached to it to your hand.",
+            "effects": [
+              {
+                "kind": "return_self_to_hand",
+                "once_per_turn": true
+              }
+            ]
+          }
+        ],
+        "weaknesses": [
+          {
+            "type": "Fighting",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": "Buneary",
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/xy/xy2/85/low.webp",
+        "set_name": "Flashfire",
         "text": "",
         "dex_id": null
       },
@@ -22951,46 +23030,6 @@
         "image": "https://assets.tcgdex.net/en/xy/xy8/109/low.webp",
         "set_name": null,
         "text": "You may play 2 Puzzle of Time cards at once.\n\u2022 If you played 1 card, look at the top 3 cards of your deck and put them back in any order.\n\u2022 If you played 2 cards, put 2 cards from your discard pile into your hand.",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "swsh5-165",
-        "name": "Scoop Up Net",
-        "category": "Trainer",
-        "stage": "Item",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "item",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh5/165/low.webp",
-        "set_name": null,
-        "text": "Put 1 of your Pok\u00e9mon that isn't a Pok\u00e9mon V or a Pok\u00e9mon-GX into your hand. (Discard all attached cards.)",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "swsh5-165",
-        "name": "Scoop Up Net",
-        "category": "Trainer",
-        "stage": "Item",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "item",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh5/165/low.webp",
-        "set_name": null,
-        "text": "Put 1 of your Pok\u00e9mon that isn't a Pok\u00e9mon V or a Pok\u00e9mon-GX into your hand. (Discard all attached cards.)",
         "dex_id": null
       },
       {

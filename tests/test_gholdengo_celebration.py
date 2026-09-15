@@ -28,6 +28,10 @@ TELEPORTER_TEXT = (
     "Once during your turn, if this Pokémon is in the Active Spot, you may shuffle it "
     "and all attached cards into your deck."
 )
+BIG_JUMP_TEXT = (
+    "Once during your turn (before your attack), you may return this Pokémon "
+    "and all cards attached to it to your hand."
+)
 ENRICHING_TEXT = (
     "As long as this card is attached to a Pokémon, it provides Colorless Energy. "
     "When you attach this card from your hand to a Pokémon, draw 4 cards."
@@ -93,7 +97,9 @@ def _take(me, name: str, used: set[int]) -> int:
 def test_g30_list_is_printed_sixty():
     names = list(SET_G30_NAMES)
     assert len(names) == 60
-    assert names.count("Abra") == 3
+    assert names.count("Buneary") == 3
+    assert names.count("Lopunny") == 2
+    assert names.count("Abra") == 0
     assert names.count("Porygon-Z") == 2
     assert names.count("Octillery") == 2
     assert names.count("Sableye") == 1
@@ -102,7 +108,7 @@ def test_g30_list_is_printed_sixty():
     assert names.count("Pikachu") == 2
     assert names.count("Gholdengo") == 0
     assert names.count("Puzzle of Time") == 4
-    assert names.count("Scoop Up Net") == 4
+    assert names.count("Scoop Up Net") == 2
     assert names.count("Enriching Energy") == 1
     assert names.count("Speed Lightning Energy") == 4
     assert names.count("Lightning Energy") == 3
@@ -115,6 +121,13 @@ def test_g30_list_is_printed_sixty():
     ambipom = next(c for c in pile if c.name == "Ambipom")
     assert ambipom.attacks[-1].name == "Hand Fling"
     assert ambipom.attacks[-1].text == HAND_FLING_TEXT
+    lopunny = next(c for c in pile if c.name == "Lopunny")
+    assert lopunny.catalog_id == "xy2-85"
+    assert lopunny.abilities[0].name == "Big Jump"
+    assert lopunny.abilities[0].text == BIG_JUMP_TEXT
+    buneary = next(c for c in pile if c.name == "Buneary")
+    assert buneary.catalog_id == "xy2-84"
+    assert buneary.hp == 60
     pikachu = next(c for c in pile if c.name == "Pikachu")
     assert "Lightning" in pikachu.types
     speed = next(c for c in pile if c.name == "Speed Lightning Energy")
@@ -151,6 +164,25 @@ def test_crazy_code_and_teleporter_and_memory_helix_parse():
     assert tele[0]["require_active"] is True
     helix = parse_ability_effects(MEMORY_HELIX_TEXT)
     assert helix[0]["kind"] == "copy_benched_attacks"
+
+
+def test_big_jump_and_leave_it_to_the_wind_parse_printed_wording():
+    effects = parse_ability_effects(BIG_JUMP_TEXT)
+    assert effects[0]["kind"] == "return_self_to_hand"
+    assert effects[0]["once_per_turn"] is True
+    lopunny = fallback_named("Lopunny")
+    jumpluff = fallback_named("Jumpluff")
+    assert lopunny.abilities[0].name == "Big Jump"
+    assert lopunny.abilities[0].text == BIG_JUMP_TEXT
+    assert jumpluff.abilities[0].name == "Leave It to the Wind"
+    assert jumpluff.abilities[0].text == BIG_JUMP_TEXT
+    assert parse_ability_effects(lopunny.abilities[0].text) == effects
+    assert parse_ability_effects(jumpluff.abilities[0].text) == effects
+    serebii = parse_ability_effects(
+        "Once during your turn (before you attack), you may return this card "
+        "and all cards attached to it to your hand."
+    )
+    assert serebii[0]["kind"] == "return_self_to_hand"
 
 
 def test_enriching_and_abyssal_and_bts_parse():
@@ -203,6 +235,8 @@ def test_fallback_prints_use_lab_wording():
     assert fallback_named("Enriching Energy").text == ENRICHING_TEXT
     assert fallback_named("Speed Lightning Energy").text == SPEED_L_TEXT
     assert fallback_named("Broken Time-Space").text == BTS_TEXT
+    assert fallback_named("Lopunny").abilities[0].text == BIG_JUMP_TEXT
+    assert fallback_named("Jumpluff").abilities[0].text == BIG_JUMP_TEXT
 
 
 def test_speed_l_draws_only_on_lightning():
@@ -263,34 +297,36 @@ def test_engine_grows_hand_and_pays_hand_fling():
     ambipom = _take(me, "Ambipom", used)
     poryz = _take(me, "Porygon-Z", used)
     octillery = _take(me, "Octillery", used)
-    abra = _take(me, "Abra", used)
+    buneary = _take(me, "Buneary", used)
+    lopunny = _take(me, "Lopunny", used)
     pikachu = _take(me, "Pikachu", used)
     enrich = _take(me, "Enriching Energy", used)
+    bts = _take(me, "Broken Time-Space", used)
     speeds = [_take(me, "Speed Lightning Energy", used) for _ in range(4)]
-    puzzles = [_take(me, "Puzzle of Time", used) for _ in range(4)]
-    nets = [_take(me, "Scoop Up Net", used) for _ in range(2)]
     mewtwo = next(i for i, c in enumerate(foe.cards) if c.name == "Mewtwo ex")
     rest = [i for i in range(len(me.cards)) if i not in used]
     me.active = Pokemon(card_i=poryz, played_turn=0)
     me.bench = [
         Pokemon(card_i=ambipom, played_turn=0),
         Pokemon(card_i=octillery, played_turn=0),
-        Pokemon(card_i=abra, played_turn=0),
+        Pokemon(card_i=lopunny, played_turn=0, underneath=[buneary]),
         Pokemon(card_i=pikachu, played_turn=0),
     ]
     me.prizes = rest[:6]
     rest = rest[6:]
-    me.hand = [enrich, *speeds, *puzzles, *nets]
+    me.hand = [enrich, *speeds]
     me.deck = rest
     me.discard = []
     foe.active = Pokemon(card_i=mewtwo, played_turn=0)
     game.turn = 2
+    game._set_stadium(me.card(bts))
     start = len(me.hand)
     game._celebration_engine(me, "a")
     host = next(m for m in me.in_play() if me.card(m.card_i).name == "Pikachu")
     attacker = next(m for m in me.in_play() if me.card(m.card_i).name == "Ambipom")
     assert any(is_speed_lightning_energy(me.card(i)) for i in host.energy)
     assert game.events.get("speed_l_draw")
+    assert game.events.get("big_jump") or game.events.get("return_self_to_hand")
     assert game._ambipom_can_pay(me, attacker)
     assert len(me.hand) > start
     assert game._hand_fling_would_ko(me, foe)
@@ -299,6 +335,37 @@ def test_engine_grows_hand_and_pays_hand_fling():
     game._attack(me, foe, "a")
     assert game.events.get("hand_fling")
     assert foe.active is None or foe.active.damage >= foe.card(mewtwo).hp
+
+
+def test_evolve_keeps_buneary_under_lopunny_and_big_jump_returns_stack():
+    game = _game()
+    me = game.players["a"]
+    used: set[int] = set()
+    buneary = _take(me, "Buneary", used)
+    lopunny = _take(me, "Lopunny", used)
+    pikachu = _take(me, "Pikachu", used)
+    enrich = _take(me, "Enriching Energy", used)
+    bts = _take(me, "Broken Time-Space", used)
+    rest = [i for i in range(len(me.cards)) if i not in used]
+    me.active = Pokemon(card_i=buneary, played_turn=2)
+    me.bench = [Pokemon(card_i=pikachu, played_turn=0)]
+    me.hand = [lopunny, enrich]
+    me.deck = rest
+    me.discard = []
+    game.turn = 2
+    game._set_stadium(me.card(bts))
+    game._evolve(me, game.players["b"], "a")
+    assert me.card(me.active.card_i).name == "Lopunny"
+    assert me.active.underneath == [buneary]
+    assert buneary not in me.discard
+    me.active.energy.append(enrich)
+    me.hand.remove(enrich)
+    assert game._return_mon_to_hand(me, me.active, event="big_jump")
+    names = [me.card(i).name for i in me.hand]
+    assert names.count("Lopunny") == 1
+    assert names.count("Buneary") == 1
+    assert names.count("Enriching Energy") == 1
+    assert me.card(me.active.card_i).name == "Pikachu"
 
 
 def test_bts_allows_same_turn_aipom_line():

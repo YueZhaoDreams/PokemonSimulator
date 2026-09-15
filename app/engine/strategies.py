@@ -481,13 +481,13 @@ STRATEGY_LIBRARY = {
         name="celebration",
         description=(
             "Unlimited 60 Ambipom PAR Hand Fling: Broken Time-Space into Porygon-Z / "
-            "Ambipom / Octillery. Crazy Code attaches Enriching Energy as often as "
-            "you like. Scoop Up Net + Puzzle of Time recycle Enriching for net +2. "
-            "Speed Lightning Energy draws 2 only on a Lightning host (Pikachu); leave "
-            "it attached (Net+Puzzle recycle is net 0). Hand Fling does 20 damage for "
-            "each card in your hand; attack when that KO's. Do not park or shuffle at "
-            "30. Do not Teleporter Enriching into the deck. Research only on a small "
-            "setup hand."
+            "Ambipom / Lopunny. Crazy Code attaches Enriching Energy as often as "
+            "you like. Lopunny FLF Big Jump (or Jumpluff DRX Leave It to the Wind) "
+            "returns this Pokémon and all attached cards to the hand — net +4 with "
+            "replay + evolve. Scoop Up Net + Puzzle of Time is the discard fallback. "
+            "Speed Lightning Energy draws 2 only on a Lightning host (Pikachu). "
+            "Hand Fling does 20 damage for each card in your hand; attack when that "
+            "KO's. Do not Teleporter Enriching into the deck."
         ),
         prefer_damage=0.2,
         prefer_status=0.0,
@@ -497,7 +497,8 @@ STRATEGY_LIBRARY = {
         item_spend=1.0,
         hold_as_energy=True,
         protect=[
-            "Abra",
+            "Buneary",
+            "Lopunny",
             "Porygon",
             "Porygon2",
             "Porygon-Z",
@@ -508,7 +509,7 @@ STRATEGY_LIBRARY = {
             "Ambipom",
             "Pikachu",
         ],
-        search_aces=["Abra", "Porygon", "Aipom", "Pikachu", "Remoraid", "Sableye"],
+        search_aces=["Buneary", "Porygon", "Aipom", "Pikachu", "Remoraid", "Sableye"],
         closers=["Ambipom"],
         backups=["Octillery", "Porygon-Z"],
         insurance=["Sableye"],
