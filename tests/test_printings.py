@@ -82,6 +82,17 @@ def test_ensure_card_images_replaces_wrong_catalog_art(monkeypatch):
     assert ruff[0]["catalog_id"] == "swsh11-109"
     assert [a["name"] for a in ruff[0]["attacks"]] == ["Double Draw", "Rear Kick"]
     assert "swsh11/109" in (ruff[0].get("image") or "")
+    starly = _ensure_card_images(
+        [
+            {
+                "name": "Starly",
+                "catalog_id": "swsh9-117",
+                "image": "https://assets.tcgdex.net/en/swsh9/swsh9/117/low.webp",
+            }
+        ]
+    )
+    assert starly[0]["catalog_id"] == "swsh9-117"
+    assert starly[0]["image"] == "https://assets.tcgdex.net/en/swsh/swsh9/117/low.webp"
 
 
 def test_resolve_name_skips_pinned_id_when_fetch_is_a_different_card(monkeypatch):

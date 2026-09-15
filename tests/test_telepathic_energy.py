@@ -60,6 +60,8 @@ def test_telepathic_print_parses_hand_attach_bench():
     card = fallback_named("Telepathic Energy")
     assert card.name == "Telepathic Psychic Energy"
     assert card.catalog_id == "me03-088"
+    assert card.image == "https://assets.tcgdex.net/en/me/me03/088/low.webp"
+    assert "me03/me03" not in (card.image or "")
     assert card.stage.lower() == "special"
     assert is_telepathic_energy(card)
     assert is_special_energy(card)
@@ -78,6 +80,8 @@ def test_c60_locked_list_has_two_telepathic():
     seed_names = [c["name"] for c in load_seed_deck("c60")["cards"]]
     assert seed_names.count("Telepathic Psychic Energy") == 2
     assert seed_names.count("Telepathic Energy") == 0
+    teles = [c for c in load_seed_deck("c60")["cards"] if c["name"] == "Telepathic Psychic Energy"]
+    assert all(c.get("image") == "https://assets.tcgdex.net/en/me/me03/088/low.webp" for c in teles)
 
 
 def test_four_telepathic_is_legal_five_is_not():
