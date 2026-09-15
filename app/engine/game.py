@@ -12,8 +12,11 @@ from app.engine.effects import (
     is_basic_energy,
     is_boomerang_energy,
     is_double_colorless,
+    is_special_energy,
+    is_telepathic_energy,
     parse_ability_effects,
     parse_draw_until_hand,
+    parse_energy_effects,
     resistance_reduce,
     weakness_multiplier,
 )
@@ -38,6 +41,9 @@ class Pokemon:
     tool: int | None = None
     ability_used: bool = False
     prevent_basic_damage: bool = False
+    reduce_damage_next_turn: int = 0
+    weakness_override: dict[str, str] | None = None
+    weakness_override_expires: tuple[int, str] | None = None
     disabled_attack: str | None = None
 
     @property
@@ -423,6 +429,8 @@ class Game:
                 "trapinch": 1,
                 "hop's cramorant": 1,
                 "kecleon": 1,
+                "tornadus": 1,
+                "oranguru": 1,
                 "gimmighoul": 1,
             }
             if name in caps:
@@ -701,6 +709,10 @@ class Game:
         if self.strats[who].name in {"party", "demolish", "slash", "shock", "thrifty", "phantom", "carnival", "g"}:
             self._play_trainers(me, foe, who)
             self._play_basics(me)
+        if self.strats[who].name == "party":
+            # Telepathic Psychic Energy benches Basics on attach-from-hand. Party is once
+            # per Clefairy, so attach first or the new engines miss this turn's search.
+            self._maybe_attach_telepathic_before_party(me, who)
         if self._use_abilities(me, foe, who):
             return True
         self._evolve(me, foe, who)
@@ -763,12 +775,21 @@ class Game:
             me.active.status &= ~ST_PARALYZED
         self._expire_disabled_attacks(me)
         self.energy_attack_lock.pop(who, None)
-        other = "b" if who == "a" else "a"
-        for mon in self.players[other].in_play():
-            mon.prevent_basic_damage = False
+        self._expire_turn_markers(who)
         me.item_lock = False
         me.ko_since_opp_turn = False
         return False
+
+    def _expire_turn_markers(self, who: str) -> None:
+        other = "b" if who == "a" else "a"
+        for mon in self.players[other].in_play():
+            mon.prevent_basic_damage = False
+            mon.reduce_damage_next_turn = 0
+        for side in self.players.values():
+            for mon in side.in_play():
+                if mon.weakness_override_expires == (self.turn, who):
+                    mon.weakness_override = None
+                    mon.weakness_override_expires = None
 
     def _between_turns(self, me: Player) -> None:
         if not me.active:
@@ -809,11 +830,13 @@ class Game:
                     "flutter mane": 5,
                     "munkidori": 6,
                     "hop's cramorant": 7,
+                    "oranguru": 7,
                     "plusle": 8,
                     "iron boulder": 9,
                     "relicanth": 10,
                     "kecleon": 11,
                     "mewtwo": 12,
+                    "tornadus": 12,
                     "misdreavus": 12,
                     "gimmighoul": 13,
                     "dedenne": 14,
@@ -889,6 +912,9 @@ class Game:
             return
         if strat.name == "slash":
             self._evolve_slash(me, who)
+            return
+        if strat.name == "g":
+            self._evolve_g(me, foe, who)
             return
         if self.rng.random() > strat.evolve_asap:
             return
@@ -1007,6 +1033,34 @@ class Game:
         if target.played_turn == self.turn and not self._has_named(me, "Rare Candy"):
             return False
         return True
+
+    def _evolve_g(self, me: Player, foe: Player, who: str) -> None:
+        if self.rules.first_turn_no_evolve and self._is_players_first_turn(who):
+            return
+        if self.rng.random() > self.strats[who].evolve_asap:
+            return
+        changed = True
+        while changed:
+            changed = False
+            for evo_i in list(me.hand):
+                evo = me.card(evo_i)
+                if not evo.is_pokemon or not evo.evolves_from:
+                    continue
+                if "mega clefable" in evo.name.lower():
+                    continue
+                target = self._find_evolve_target(me, evo)
+                if target is None or not self._can_evolve_now(me, who, target):
+                    continue
+                self._do_evolve(me, target, evo_i)
+                changed = True
+                break
+        mega_i = next((i for i in me.hand if "mega clefable" in me.card(i).name.lower()), None)
+        if mega_i is None or not self._g_mega_evolve_ok(me, foe, who):
+            return
+        target = self._g_mega_evolve_target(me)
+        if target is None or not self._can_evolve_now(me, who, target):
+            return
+        self._do_evolve(me, target, mega_i)
 
     def _play_trainers(self, me: Player, foe: Player, who: str) -> None:
         strat = self.strats[who]
@@ -2038,7 +2092,19 @@ class Game:
             if not any(me.card(m.card_i).name.lower() == "flutter mane" for m in me.in_play()):
                 prefer.append("Flutter Mane")
             prefer.extend(
-                ["Staravia", "Staraptor", "Ledian", "Mismagius", "Munkidori", "Indeedee", "Plusle", "Iron Boulder"]
+                [
+                    "Staravia",
+                    "Staraptor",
+                    "Ledian",
+                    "Mismagius",
+                    "Mega Clefable ex",
+                    "Munkidori",
+                    "Indeedee",
+                    "Plusle",
+                    "Iron Boulder",
+                    "Tornadus",
+                    "Oranguru",
+                ]
             )
             return list(dict.fromkeys(prefer))
         if strat.name == "slash":
@@ -2271,11 +2337,19 @@ class Game:
         self.rng.shuffle(me.deck)
         return found
 
-    def _call_family(self, me: Player, who: str, count: int = 1, name: str | None = None) -> None:
+    def _call_family(
+        self,
+        me: Player,
+        who: str,
+        count: int = 1,
+        name: str | None = None,
+        pokemon_type: str | None = None,
+    ) -> None:
         strat = self.strats[who]
         prefer = [p.lower() for p in self._pokemon_search_prefer(me, who)]
         allow = {n.lower() for n in strat.search_aces}
         want = (name or "").lower()
+        want_type = (pokemon_type or "").title()
         if strat.hold_as_energy:
             aces = {n.lower() for n in strat.search_aces}
             if aces and not self._name_in_zones(me, aces, "play+hand+deck"):
@@ -2285,7 +2359,7 @@ class Game:
         if want == "clefairy" and strat.name == "party":
             cap_left = max(0, self._clefairy_play_cap(me) - self._count_named_in_play(me, "Clefairy"))
             take = min(take, cap_left)
-        if strat.name == "g":
+        if strat.name == "g" and not want_type:
             allow = {
                 "clefairy",
                 "starly",
@@ -2302,6 +2376,7 @@ class Game:
                 "munkidori",
                 "gimmighoul",
             }
+        benched = 0
         for _ in range(take):
             scored: list[tuple[float, int]] = []
             in_play = {me.card(m.card_i).name.lower() for m in me.in_play()}
@@ -2310,13 +2385,32 @@ class Game:
                 if not card.is_basic:
                     continue
                 card_name = card.name.lower()
+                if want_type and want_type not in (card.types or []):
+                    continue
                 if want and card_name != want:
                     continue
-                if not want and strat.hold_as_energy and allow and card_name not in allow:
+                if (
+                    not want
+                    and not want_type
+                    and strat.hold_as_energy
+                    and allow
+                    and card_name not in allow
+                ):
                     continue
+                if want_type and strat.name == "party":
+                    if self._is_clefairy(card) and self._count_named_in_play(
+                        me, "Clefairy"
+                    ) >= self._clefairy_play_cap(me):
+                        continue
+                    if self._is_mewtwo(card) and len(self._mewtwo_mons(me)) >= self._mewtwo_play_cap(me):
+                        continue
                 score = 0.0
                 if card_name in prefer:
                     score += 20 - prefer.index(card_name)
+                if want_type and self._is_clefairy(card):
+                    score += 12
+                if want_type and self._is_mewtwo(card):
+                    score += 8
                 if card_name in in_play:
                     score -= 4
                 if card.hp >= 140:
@@ -2332,10 +2426,13 @@ class Game:
             card_i = scored[0][1]
             me.deck.remove(card_i)
             me.bench.append(Pokemon(card_i=card_i, played_turn=self.turn))
+            benched += 1
             self._bump("call_family")
             if want:
                 self._bump("moon_viewing_invitation")
             self._log(f"{me.name} Call for Family benches {me.card(card_i).name}")
+            self.rng.shuffle(me.deck)
+        if want_type and take > 0 and benched == 0:
             self.rng.shuffle(me.deck)
 
     def _energy_switch(self, me: Player) -> None:
@@ -2346,7 +2443,12 @@ class Game:
                 for mon in me.in_play():
                     if mon is mewtwo:
                         continue
-                    fuels = [i for i in mon.energy if self._is_psychic_energy_card(me.card(i))]
+                    fuels = [
+                        i
+                        for i in mon.energy
+                        if self._is_psychic_energy_card(me.card(i))
+                        and is_basic_energy(me.card(i), pokemon_as_energy=self.rules.pokemon_as_energy)
+                    ]
                     if not fuels:
                         continue
                     energy_i = fuels[0]
@@ -2369,7 +2471,15 @@ class Game:
                 return
             # Prefer charging active: take from bench instead.
             donor = max(others, key=lambda m: len(m.energy))
-        energy_i = donor.energy.pop()
+        fuels = [
+            i
+            for i in donor.energy
+            if is_basic_energy(me.card(i), pokemon_as_energy=self.rules.pokemon_as_energy)
+        ]
+        if not fuels:
+            return
+        energy_i = fuels[-1]
+        donor.energy.remove(energy_i)
         me.active.energy.append(energy_i)
         self._log(f"{me.name} Energy Switch onto {me.card(me.active.card_i).name}")
 
@@ -2378,7 +2488,11 @@ class Game:
         for i in list(me.discard):
             card = me.card(i)
             is_psychic_pkm = card.is_pokemon and card.types and card.types[0] == "Psychic"
-            is_psychic_nrg = card.is_energy and (card.energy_type or "") == "Psychic"
+            is_psychic_nrg = (
+                card.is_energy
+                and (card.energy_type or "") == "Psychic"
+                and is_basic_energy(card)
+            )
             if is_psychic_pkm or is_psychic_nrg:
                 picked.append(i)
             if len(picked) >= 4:
@@ -2469,6 +2583,94 @@ class Game:
         self._log(f"{me.name} attaches {src.name} as {src.as_energy_type} energy to {me.card(target.card_i).name}")
         if src.is_pokemon:
             self._bump("pokemon_as_energy")
+        self._resolve_energy_attach_from_hand(me, who, target, energy_i)
+
+    def _resolve_energy_attach_from_hand(self, me: Player, who: str, target: Pokemon, energy_i: int) -> None:
+        src = me.card(energy_i)
+        for eff in parse_energy_effects(src.text):
+            if eff.get("kind") != "call_family":
+                continue
+            req = str(eff.get("require_attach_type") or "").title()
+            if req and req not in (me.card(target.card_i).types or []):
+                continue
+            if len(me.bench) >= self.rules.bench_size:
+                continue
+            before = len(me.bench)
+            self._call_family(
+                me,
+                who,
+                count=int(eff.get("count") or 1),
+                pokemon_type=eff.get("pokemon_type"),
+            )
+            added = len(me.bench) - before
+            if added:
+                self._bump("telepathic_bench", added)
+            self._bump("telepathic_attach")
+
+    def _telepathic_worth_attach(self, me: Player, who: str) -> bool:
+        if len(me.bench) >= self.rules.bench_size:
+            return False
+        slots = min(2, self.rules.bench_size - len(me.bench))
+        if slots <= 0:
+            return False
+        strat = self.strats[who]
+        found = 0
+        for i in me.deck:
+            card = me.card(i)
+            if not card.is_basic or "Psychic" not in (card.types or []):
+                continue
+            if strat.name == "party":
+                if self._is_clefairy(card) and self._count_named_in_play(
+                    me, "Clefairy"
+                ) >= self._clefairy_play_cap(me):
+                    continue
+                if self._is_mewtwo(card) and len(self._mewtwo_mons(me)) >= self._mewtwo_play_cap(me):
+                    continue
+            found += 1
+            if found >= 1:
+                return True
+        return False
+
+    def _telepathic_attach_target(self, me: Player) -> Pokemon | None:
+        """Printed trigger needs a Psychic Pokémon. Seed Mewtwo ex is Lightning."""
+        psych = [m for m in me.in_play() if "Psychic" in (me.card(m.card_i).types or [])]
+        if not psych:
+            return None
+
+        def score(mon: Pokemon) -> tuple[int, int]:
+            card = me.card(mon.card_i)
+            name = card.name.lower()
+            if "mega clefable" in name:
+                return (4, len(mon.energy))
+            if name == "clefable ex":
+                return (3, len(mon.energy))
+            if name == "clefable":
+                return (2, len(mon.energy))
+            if self._is_clefairy(card) and mon is me.active:
+                return (1, len(mon.energy))
+            if self._is_clefairy(card):
+                return (0, len(mon.energy))
+            return (-1, len(mon.energy))
+
+        return max(psych, key=score)
+
+    def _maybe_attach_telepathic_before_party(self, me: Player, who: str) -> None:
+        if me.energy_attached or not me.active:
+            return
+        tele = next((i for i in me.hand if is_telepathic_energy(me.card(i))), None)
+        if tele is None:
+            return
+        if not self._telepathic_worth_attach(me, who):
+            return
+        target = self._telepathic_attach_target(me)
+        if target is None:
+            return
+        me.hand.remove(tele)
+        target.energy.append(tele)
+        me.energy_attached = True
+        src = me.card(tele)
+        self._log(f"{me.name} attaches {src.name} as {src.as_energy_type} energy to {me.card(target.card_i).name}")
+        self._resolve_energy_attach_from_hand(me, who, target, tele)
 
     def _energy_pool(self, me: Player, mon: Pokemon) -> list[str]:
         pool: list[str] = []
@@ -2625,6 +2827,14 @@ class Game:
                     and not self._g_storm_would_ko(me, foe)
                 ):
                     return plusle
+            mega = self._mega_mon(me)
+            if mega is not None and not self._can_pay_shooting_moons(me, mega) and not self._g_storm_would_ko(me, foe):
+                if (
+                    self._g_moons_would_ko(me, foe, mega, extra_energy=1)
+                    or self._facing_demolish(me)
+                    or self._facing_slash(me)
+                ):
+                    return mega
             boulder = self._iron_boulder_mon(me)
             horn = self._adjusted_horn(me.card(boulder.card_i)) if boulder is not None else None
             if boulder is not None and horn is not None:
@@ -2636,6 +2846,41 @@ class Game:
                 if "Darkness" not in self._energy_pool(me, mon):
                     if any((me.card(i).as_energy_type or "") == "Darkness" for i in me.hand):
                         return mon
+            storm_ready = any(
+                self._is_clefairy(me.card(m.card_i)) and self._can_pay_wonder_storm(me, m) for m in me.in_play()
+            )
+            colorless_weak = self._colorless_weakness_on(foe)
+            if colorless_weak:
+                for mon in me.in_play():
+                    card = me.card(mon.card_i)
+                    if "Colorless" not in (card.types or []):
+                        continue
+                    attached = self._energy_pool(me, mon)
+                    for atk in card.attacks:
+                        if atk.damage < 80 or can_pay_energy(attached, atk.cost):
+                            continue
+                        if can_pay_energy(attached + ["Colorless"], atk.cost):
+                            return mon
+            oranguru = next((m for m in me.in_play() if me.card(m.card_i).name.lower() == "oranguru"), None)
+            if (
+                oranguru is not None
+                and not colorless_weak
+                and not can_pay_energy(self._energy_pool(me, oranguru), ["Colorless"])
+                and (storm_ready or not any(self._is_clefairy(me.card(m.card_i)) for m in me.in_play()))
+            ):
+                return oranguru
+            tornadus = next((m for m in me.in_play() if me.card(m.card_i).name.lower() == "tornadus"), None)
+            if tornadus is not None and (colorless_weak or oranguru is not None) and not self._g_storm_would_ko(me, foe):
+                barrier = next(
+                    (
+                        a
+                        for a in me.card(tornadus.card_i).attacks
+                        if any(e.get("kind") == "reduce_damage_next_turn" for e in a.effects)
+                    ),
+                    None,
+                )
+                if barrier and not can_pay_energy(self._energy_pool(me, tornadus), barrier.cost):
+                    return tornadus
             for mon in me.in_play():
                 if not self._is_clefairy(me.card(mon.card_i)):
                     continue
@@ -2688,6 +2933,11 @@ class Game:
             boom = [i for i in me.hand if is_boomerang_energy(me.card(i))]
             if boom and not any(is_boomerang_energy(me.card(i)) for i in target.energy):
                 return boom[0]
+        tele = [i for i in me.hand if is_telepathic_energy(me.card(i))]
+        if tele and "Psychic" in (card.types or []):
+            who = "a" if me.name == "A" else "b"
+            if self._telepathic_worth_attach(me, who):
+                return tele[0]
         # DCE completes [F][C][C] after a Fighting is attached.
         dce = [i for i in me.hand if is_double_colorless(me.card(i))]
         if dce and any(atk.cost.count("Colorless") >= 2 and not can_pay_energy(pool, atk.cost) for atk in card.attacks):
@@ -2923,6 +3173,7 @@ class Game:
                     who,
                     count=int(effect.get("count") or 1),
                     name=effect.get("name"),
+                    pokemon_type=effect.get("pokemon_type"),
                 )
             elif effect.get("kind") == "search_item":
                 prefer = ["Ultra Ball", "Poké Ball", "Poke Ball", "Energy Search", "Energy Switch", "Trekking Shoes"]
@@ -2962,6 +3213,21 @@ class Game:
                 me.active.prevent_basic_damage = True
                 self._bump("tailspin_away")
                 self._log(f"{attacker.name} prevents damage from Basic Pokémon next turn")
+            elif effect.get("kind") == "reduce_damage_next_turn":
+                me.active.reduce_damage_next_turn = int(effect.get("amount") or 0)
+                self._bump("storm_barrier")
+                self._log(
+                    f"{attacker.name} takes {me.active.reduce_damage_next_turn} less damage from attacks next turn"
+                )
+            elif effect.get("kind") == "set_defender_weakness":
+                if foe.active:
+                    wtype = str(effect.get("weakness") or "Colorless")
+                    printed = foe.card(foe.active.card_i).weaknesses or []
+                    value = (printed[0].get("value") if printed else "×2") or "×2"
+                    foe.active.weakness_override = {"type": wtype, "value": value}
+                    foe.active.weakness_override_expires = (self.turn + 2, who)
+                    self._bump("now_youre_in_my_power")
+                    self._log(f"{attacker.name} sets {foe.card(foe.active.card_i).name} Weakness to {wtype}")
             elif effect.get("kind") == "discard_energy":
                 self._discard_attack_energy(me, me.active, int(effect.get("count") or 1))
             elif effect.get("kind") == "move_psychic_energy":
@@ -3542,6 +3808,16 @@ class Game:
             if any(e.get("kind") == "prevent_basic_damage" for e in atk.effects):
                 if foe.active and foe.card(foe.active.card_i).is_basic and effective < foe_hp:
                     score += 70
+            if any(e.get("kind") == "reduce_damage_next_turn" for e in atk.effects):
+                score += 25 if not me.active.reduce_damage_next_turn else 8
+            if any(e.get("kind") == "set_defender_weakness" for e in atk.effects):
+                if self._colorless_weakness_on(foe):
+                    score -= 50
+                elif effective >= foe_hp > 0:
+                    score += 10
+                else:
+                    follow = any("Colorless" in (me.card(m.card_i).types or []) for m in me.in_play())
+                    score += 90 if follow else 45
             if any(e.get("kind") == "mill_opponent" for e in atk.effects):
                 score += 15 if strat.hold_as_energy else 55
             if any(e.get("kind") == "draw" for e in atk.effects) and atk.damage <= 30:
@@ -3756,6 +4032,17 @@ class Game:
                 if name == "clefable":
                     return 9
                 return 12
+            if strat.name == "g":
+                ko, _dmg = self._g_best_hit(player, foe, mon)
+                if ko:
+                    return 0
+                if "mega clefable" in name and (self._facing_demolish(player) or self._facing_slash(player)):
+                    return 1
+                if name == "flutter mane" and self._g_wants_flutter_shutoff(foe):
+                    return 2
+                if self._is_clefairy(player.card(mon.card_i)) and not mon.ability_used:
+                    return 3
+                return 5
             if strat.name == "demolish" and "ogerpon" in name:
                 return 0
             return 5
@@ -3957,12 +4244,27 @@ class Game:
 
     def _defender_weaknesses(self, me: Player, foe: Player, defender: Card) -> list[dict[str, str]]:
         if (
+            foe.active
+            and foe.card(foe.active.card_i) is defender
+            and foe.active.weakness_override
+        ):
+            ov = foe.active.weakness_override
+            return [{"type": ov.get("type") or "Colorless", "value": ov.get("value") or "×2"}]
+        if (
             self._is_dragon(defender)
             and self._fairy_zone_in_play(me)
             and not self._ability_blocks_ability_effects(defender)
         ):
             return [{"type": "Psychic", "value": "×2"}]
         return list(defender.weaknesses or [])
+
+    def _colorless_weakness_on(self, foe: Player) -> bool:
+        if not foe.active:
+            return False
+        weaks = self._defender_weaknesses(
+            self.players["a" if foe.name == "B" else "b"], foe, foe.card(foe.active.card_i)
+        )
+        return any((w.get("type") or "") == "Colorless" for w in weaks)
 
     def _is_mewtwo(self, card: Card) -> bool:
         return "mewtwo" in card.name.lower()
@@ -4174,6 +4476,9 @@ class Game:
         if not ignore_wr:
             dmg *= weakness_multiplier(self._defender_weaknesses(me, foe, defender), attacker.types)
             dmg = max(0, dmg - resistance_reduce(defender.resistances, attacker.types))
+        shield = int(foe.active.reduce_damage_next_turn or 0)
+        if shield:
+            dmg = max(0, dmg - shield)
         if self._stance_prevents(attacker, defender):
             self._bump("stance_block")
             return 0
@@ -4579,7 +4884,12 @@ class Game:
         return [m for m in me.in_play() if self._is_clefairy(me.card(m.card_i))]
 
     def _party_fuel_ok(self, me: Player, card_i: int, energy_type: str = "Psychic") -> bool:
-        if not self._is_type_energy_card(me.card(card_i), energy_type):
+        card = me.card(card_i)
+        # Party searches a Psychic Energy card from the deck. Telepathic only
+        # provides Psychic while attached, so it is not Party fuel.
+        if is_special_energy(card):
+            return False
+        if not self._is_type_energy_card(card, energy_type):
             return False
         name = me.card(card_i).name.lower()
         if "mewtwo" in name:
@@ -5353,6 +5663,43 @@ class Game:
             if "mega clefable" in me.card(mon.card_i).name.lower():
                 return mon
         return None
+
+    def _g_mega_evolve_target(self, me: Player) -> Pokemon | None:
+        cands = [m for m in me.in_play() if self._is_clefairy(me.card(m.card_i))]
+        if not cands:
+            return None
+        bench = [m for m in cands if m is not me.active]
+        pool = bench or cands
+        return max(pool, key=lambda m: (1 if m.ability_used else 0, len(m.energy)))
+
+    def _g_moons_would_ko(self, me: Player, foe: Player, mon: Pokemon, extra_energy: int = 0) -> bool:
+        if not foe.active:
+            return False
+        mega_i = next((i for i, card in enumerate(me.cards) if "mega clefable" in card.name.lower()), None)
+        if mega_i is None:
+            return False
+        atk = self._shooting_moons_attack(me.card(mega_i))
+        if atk is None:
+            return False
+        pool = self._energy_pool(me, mon) + (["Psychic"] * max(0, extra_energy))
+        if not can_pay_energy(pool, atk.cost):
+            return False
+        probe = Pokemon(card_i=mega_i, energy=list(mon.energy), tool=mon.tool, damage=mon.damage)
+        hp = self._max_hp(foe, foe.active) - foe.active.damage
+        return self._raw_attack_damage(me, foe, probe, atk) >= hp > 0
+
+    def _g_mega_evolve_ok(self, me: Player, foe: Player, who: str) -> bool:
+        if not foe.active or self._mega_mon(me) is not None:
+            return False
+        if self._facing_phantom(me):
+            return False
+        target = self._g_mega_evolve_target(me)
+        if target is None or not self._can_evolve_now(me, who, target):
+            return False
+        if self._g_moons_would_ko(me, foe, target):
+            return True
+        extras = sum(1 for m in me.in_play() if self._is_clefairy(me.card(m.card_i))) >= 2
+        return extras and (self._facing_demolish(me) or self._facing_slash(me))
 
     def _shooting_moons_attack(self, card: Card):
         return next((a for a in card.attacks if "shooting moons" in a.name.lower()), None)
@@ -6836,16 +7183,23 @@ class Game:
             self._bump("into_the_deep", taken)
             self._log(f"{me.name} Into the Deep recovers {taken} Energy")
 
-    def _g_nurturer_target(self, me: Player) -> tuple[Pokemon, int] | None:
+    def _g_nurturer_target(self, me: Player, foe: Player | None = None, who: str | None = None) -> tuple[Pokemon, int] | None:
         in_play = {me.card(m.card_i).name.lower(): m for m in me.in_play()}
         prefer = ["staraptor", "ledian", "staravia", "mismagius", "kilowattrel"]
         scored: list[tuple[int, Pokemon, int]] = []
+        foe = foe or self.players["b" if me.name == "A" else "a"]
+        who = who or ("a" if me.name == "A" else "b")
         for evo_i in me.deck:
             evo = me.card(evo_i)
             parent = (evo.evolves_from or "").lower()
             if not parent or parent not in in_play:
                 continue
-            rank = prefer.index(evo.name.lower()) if evo.name.lower() in prefer else 20
+            if "mega clefable" in evo.name.lower():
+                if not self._g_mega_evolve_ok(me, foe, who):
+                    continue
+                rank = 8
+            else:
+                rank = prefer.index(evo.name.lower()) if evo.name.lower() in prefer else 20
             scored.append((rank, in_play[parent], evo_i))
         if not scored:
             return None
@@ -6853,7 +7207,7 @@ class Game:
         return scored[0][1], scored[0][2]
 
     def _evolve_from_deck(self, me: Player, foe: Player, who: str) -> None:
-        hit = self._g_nurturer_target(me)
+        hit = self._g_nurturer_target(me, foe, who)
         if hit is None:
             return
         target, evo_i = hit
@@ -7270,6 +7624,33 @@ class Game:
             active_fuel = self._psychic_on(me, me.active) + len(me.active.energy)
             if storm[0][0] > active_fuel + 1:
                 return storm[0][1]
+        if (
+            not self._colorless_weakness_on(foe)
+            and not self._g_best_hit(me, foe, me.active)[0]
+        ):
+            follow = any(
+                me.card(m.card_i).name.lower() in {"tornadus", "staraptor", "hop's cramorant", "oranguru"}
+                for m in me.in_play()
+            )
+            if follow:
+                for idx, mon in enumerate(me.bench):
+                    if me.card(mon.card_i).name.lower() != "oranguru":
+                        continue
+                    if can_pay_energy(self._energy_pool(me, mon), ["Colorless"]):
+                        return idx
+        if self._colorless_weakness_on(foe):
+            best_idx = None
+            best_dmg = -1
+            active_dmg = self._g_best_hit(me, foe, me.active)[1]
+            for idx, mon in enumerate(me.bench):
+                if "Colorless" not in (me.card(mon.card_i).types or []):
+                    continue
+                _ko, dmg = self._g_best_hit(me, foe, mon)
+                if dmg > best_dmg:
+                    best_dmg = dmg
+                    best_idx = idx
+            if best_idx is not None and best_dmg > active_dmg + 20:
+                return best_idx
         if self._g_wants_flutter_shutoff(foe) and me.card(me.active.card_i).name.lower() != "flutter mane":
             for idx, mon in enumerate(me.bench):
                 if me.card(mon.card_i).name.lower() == "flutter mane":
@@ -7283,7 +7664,12 @@ class Game:
         incoming = me.bench[idx]
         ko, _dmg = self._g_best_hit(me, foe, incoming)
         cost = self._retreat_cost(me, me.active)
-        if ko or cost == 0:
+        incoming_name = me.card(incoming.card_i).name.lower()
+        setup = incoming_name == "oranguru" and not self._colorless_weakness_on(foe)
+        colorless_swing = self._colorless_weakness_on(foe) and "Colorless" in (
+            me.card(incoming.card_i).types or []
+        )
+        if ko or cost == 0 or setup or colorless_swing:
             self._swap_to_bench(me, who, idx, allow_paid=True)
             return
         if cost >= 2:

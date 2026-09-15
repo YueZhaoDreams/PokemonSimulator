@@ -67,7 +67,10 @@ def test_gplus_alias_uses_g_strategy():
     assert "Hop's Cramorant" in spec.closers
     assert "Plusle" in spec.protect
     assert "Kecleon" in spec.protect
-    assert "Iron Boulder" in spec.protect
+    assert "Mega Clefable ex" in spec.protect
+    assert "Tornadus" in spec.protect
+    assert "Oranguru" in spec.protect
+    assert "Tornadus" in spec.closers
 
 
 def test_gplus_fallback_prints_match_live_db_wording():
@@ -82,10 +85,10 @@ def test_gplus_fallback_prints_match_live_db_wording():
     assert spit.attacks[0].effects == [{"kind": "require_opponent_prizes", "values": [3, 4]}]
 
 
-def _plus_game():
+def _plus_game(strat_b: str = "party"):
     a = build_fallback_deck(
         ["Clefairy"] * 4
-        + ["Ledyba", "Ledian", "Starly", "Staravia", "Staraptor", "Indeedee", "Relicanth", "Emolga", "Hop's Cramorant", "Iron Boulder", "Plusle", "Kecleon"]
+        + ["Ledyba", "Ledian", "Starly", "Staravia", "Staraptor", "Indeedee", "Relicanth", "Emolga", "Hop's Cramorant", "Iron Boulder", "Plusle", "Kecleon", "Mega Clefable ex"]
         + ["Potion", "Energy Retrieval"]
         + ["Psychic Energy"] * 10
         + ["Hop"] * 4
@@ -99,7 +102,7 @@ def _plus_game():
         b,
         default_family_rules(),
         StrategySpec.from_dict("g"),
-        StrategySpec.from_dict("party"),
+        StrategySpec.from_dict(strat_b),
         Random(1),
         trace=True,
     )
@@ -353,4 +356,94 @@ def test_fallback_plusle_is_live_h_print():
     assert card.catalog_id == "sv04-060"
     assert card.attacks[0].name == "Plus Damage"
     assert "damage counter" in (card.attacks[0].text or "").lower()
+
+
+def test_g_evolves_mega_when_shooting_moons_would_ko():
+    game = _plus_game()
+    me = game.players["a"]
+    foe = game.players["b"]
+    mega = next(i for i, c in enumerate(me.cards) if "Mega Clefable" in c.name)
+    clef = next(i for i, c in enumerate(me.cards) if c.name == "Clefairy")
+    fuels = [i for i, c in enumerate(me.cards) if c.name == "Psychic Energy"]
+    snack = next(i for i, c in enumerate(foe.cards) if c.name == "Starly")
+    me.active = Pokemon(card_i=clef, energy=[fuels[0], fuels[1]], played_turn=0)
+    me.bench = []
+    me.hand = [mega]
+    foe.active = Pokemon(card_i=snack, played_turn=0)
+    game.turn = 2
+    game.first = "a"
+    game.strats["a"].evolve_asap = 1.0
+    game._evolve(me, foe, "a")
+    assert "mega clefable" in me.card(me.active.card_i).name.lower()
+
+
+def test_g_does_not_wall_evolve_the_only_clefairy():
+    game = _plus_game("demolish")
+    me = game.players["a"]
+    foe = game.players["b"]
+    mega = next(i for i, c in enumerate(me.cards) if "Mega Clefable" in c.name)
+    clef = next(i for i, c in enumerate(me.cards) if c.name == "Clefairy")
+    oger = next(i for i, c in enumerate(foe.cards) if "Ogerpon" in c.name)
+    me.active = Pokemon(card_i=clef, played_turn=0)
+    me.bench = []
+    me.hand = [mega]
+    foe.active = Pokemon(card_i=oger, played_turn=0)
+    game.turn = 2
+    game.first = "a"
+    game.strats["a"].evolve_asap = 1.0
+    game._evolve(me, foe, "a")
+    assert me.card(me.active.card_i).name == "Clefairy"
+
+
+def test_g_wall_evolves_benched_clefairy_vs_demolish():
+    game = _plus_game("demolish")
+    me = game.players["a"]
+    foe = game.players["b"]
+    mega = next(i for i, c in enumerate(me.cards) if "Mega Clefable" in c.name)
+    clefs = [i for i, c in enumerate(me.cards) if c.name == "Clefairy"]
+    oger = next(i for i, c in enumerate(foe.cards) if "Ogerpon" in c.name)
+    me.active = Pokemon(card_i=clefs[0], played_turn=0)
+    me.bench = [Pokemon(card_i=clefs[1], played_turn=0)]
+    me.hand = [mega]
+    foe.active = Pokemon(card_i=oger, played_turn=0)
+    game.turn = 2
+    game.first = "a"
+    game.strats["a"].evolve_asap = 1.0
+    game._evolve(me, foe, "a")
+    assert me.card(me.active.card_i).name == "Clefairy"
+    assert "mega clefable" in me.card(me.bench[0].card_i).name.lower()
+
+
+def test_g_nurturer_prefers_ledian_over_mega():
+    game = _plus_game()
+    me = game.players["a"]
+    foe = game.players["b"]
+    indeedee = next(i for i, c in enumerate(me.cards) if c.name == "Indeedee")
+    ledyba = next(i for i, c in enumerate(me.cards) if c.name == "Ledyba")
+    ledian = next(i for i, c in enumerate(me.cards) if c.name == "Ledian")
+    mega = next(i for i, c in enumerate(me.cards) if "Mega Clefable" in c.name)
+    nrg = next(i for i, c in enumerate(me.cards) if c.name == "Psychic Energy")
+    snack = next(i for i, c in enumerate(foe.cards) if c.name == "Starly")
+    me.active = Pokemon(card_i=indeedee, energy=[nrg], played_turn=0)
+    me.bench = [Pokemon(card_i=ledyba, played_turn=0)]
+    me.deck = [mega, ledian]
+    me.hand = []
+    foe.active = Pokemon(card_i=snack, played_turn=0)
+    game.turn = 2
+    game._attack(me, foe, "a")
+    assert me.card(me.bench[0].card_i).name == "Ledian"
+
+
+def test_shooting_moons_blocked_by_cornerstone_stance():
+    game = _plus_game()
+    me = game.players["a"]
+    foe = game.players["b"]
+    mega = next(i for i, c in enumerate(me.cards) if "Mega Clefable" in c.name)
+    oger = next(i for i, c in enumerate(foe.cards) if "Ogerpon" in c.name)
+    fuels = [i for i, c in enumerate(me.cards) if c.name == "Psychic Energy"]
+    me.active = Pokemon(card_i=mega, energy=[fuels[0], fuels[1]], played_turn=0)
+    foe.active = Pokemon(card_i=oger, played_turn=0)
+    moons = next(a for a in me.card(mega).attacks if a.name == "Shooting Moons")
+    assert me.card(mega).abilities
+    assert game._raw_attack_damage(me, foe, me.active, moons) == 0
 

@@ -97,7 +97,9 @@ SET_C_NAMES = (
 )
 
 # Set C → Standard 60 (preset s60). Pokémon are not energy, so the 30-card
-# Clefable pile is thinned and 15 Psychic Energy pay Party / Photon / Zone.
+# Clefable pile is thinned and 13 Psychic Energy + 2 Telepathic Psychic Energy
+# pay Party / Photon / Zone. Telepathic attaches from hand onto a Psychic
+# Pokémon, then benches up to 2 Basic Psychic; Party cannot search it from the deck.
 # Keep LOR 62 Clefairy as the engine; add Switch so Party can fire from Active;
 # Poffin benches 60 HP Clefairy; more Boss for a 6-prize race.
 # Two Rebel Clash Clefable (Prankish) — 110 HP Psychic Stage 1. On evolve, may put
@@ -125,7 +127,8 @@ SET_C60_NAMES = (
     + ["Night Stretcher"]
     + ["Maximum Belt"]
     + ["Tool Box"]
-    + ["Psychic Energy"] * 15
+    + ["Telepathic Psychic Energy"] * 2
+    + ["Psychic Energy"] * 13
 )
 
 SET_D_NAMES = (  # 30: Fighting Energy 6 → 8
@@ -851,6 +854,26 @@ _register(
         retreat=0,
     )
 )
+_TELEPATHIC = _register(
+    Card(
+        catalog_id="me03-088",
+        name="Telepathic Psychic Energy",
+        category="Energy",
+        stage="Special",
+        types=["Psychic"],
+        energy_type="Psychic",
+        text=(
+            "As long as this card is attached to a Pokémon, it provides Psychic Energy. "
+            "When you attach this card from your hand to a Psychic Pokémon, search your deck "
+            "for up to 2 Basic Psychic Pokémon and put them onto your Bench. Then, shuffle your deck."
+        ),
+        image="https://assets.tcgdex.net/en/me03/me03/088/low.webp",
+        set_name="Perfect Order",
+        retreat=0,
+    )
+)
+FALLBACK_BY_NAME["telepathic energy"] = _TELEPATHIC
+FALLBACK_BY_NAME["telepathic psychic energy"] = _TELEPATHIC
 
 for card in [
     _pkm("Sobble", "Basic", ["Water"], 60, [_atk("Water Gun", ["Water"], 20)], weakness="Lightning"),
@@ -1610,6 +1633,45 @@ for card in [
         image="https://assets.tcgdex.net/en/sv/sv07/059/low.webp",
     ),
     _pkm(
+        "Tornadus",
+        "Basic",
+        ["Colorless"],
+        110,
+        [
+            _atk("Knuckle Punch", ["Colorless", "Colorless"], 50),
+            _atk(
+                "Storm Barrier",
+                ["Colorless", "Colorless", "Colorless"],
+                100,
+                "During your opponent's next turn, this Pokémon takes 50 less damage from attacks (after applying Weakness and Resistance).",
+            ),
+        ],
+        retreat=1,
+        weakness="Lightning",
+        resistances=[{"type": "Fighting", "value": "-30"}],
+        catalog_id="sv07-120",
+        image="https://assets.tcgdex.net/en/sv/sv07/120/low.webp",
+    ),
+    _pkm(
+        "Oranguru",
+        "Basic",
+        ["Colorless"],
+        120,
+        [
+            _atk(
+                "Now You're in My Power",
+                ["Colorless"],
+                0,
+                "Until the end of your next turn, the Defending Pokémon's Weakness is now Colorless. (The amount of Weakness doesn't change.)",
+            ),
+            _atk("Smack", ["Colorless", "Colorless", "Colorless"], 80),
+        ],
+        retreat=2,
+        weakness="Fighting",
+        catalog_id="sv08-156",
+        image="https://assets.tcgdex.net/en/sv/sv08/156/low.webp",
+    ),
+    _pkm(
         "Starly",
         "Basic",
         ["Colorless"],
@@ -2344,6 +2406,8 @@ FALLBACK_BY_NAME["staravia-brilliant"] = _pkm(
 
 def fallback_named(name: str) -> Card:
     key = name.lower()
+    if "telepathic" in key:
+        key = "telepathic psychic energy"
     if "double colorless" in key:
         key = "double colorless energy"
     if "boomerang" in key:
@@ -2351,7 +2415,12 @@ def fallback_named(name: str) -> Card:
     if key in FALLBACK_BY_NAME:
         card = FALLBACK_BY_NAME[key]
         return Card.from_dict(card.to_dict())
-    if key.endswith(" energy") and "double" not in key:
+    if (
+        key.endswith(" energy")
+        and "double" not in key
+        and "boomerang" not in key
+        and "telepathic" not in key
+    ):
         return _nrg(name.split()[0].title())
     from app.catalog import fallback_card
 

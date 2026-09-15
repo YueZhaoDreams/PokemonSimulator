@@ -47,7 +47,8 @@ def test_s60_seed_aliases_and_prankish_c60():
     assert load_seed_deck("unl")["id"] == "seed-t-unl"
     c60 = load_seed_deck("c60")
     names = [c["name"] for c in c60["cards"]]
-    assert names.count("Psychic Energy") == 15
+    assert names.count("Psychic Energy") == 13
+    assert names.count("Telepathic Psychic Energy") == 2
     assert names.count("Energy Search") == 0
     fables = [c for c in c60["cards"] if c["name"] == "Clefable"]
     assert len(fables) == 2

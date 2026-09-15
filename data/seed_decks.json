@@ -11589,10 +11589,10 @@
         "dex_id": null
       },
       {
-        "catalog_id": "swsh12.5-156",
-        "name": "Psychic Energy",
+        "catalog_id": "me03-088",
+        "name": "Telepathic Psychic Energy",
         "category": "Energy",
-        "stage": "Basic",
+        "stage": "Special",
         "types": [
           "Psychic"
         ],
@@ -11605,16 +11605,16 @@
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": "Psychic",
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/156/low.webp",
-        "set_name": "Crown Zenith",
-        "text": "",
+        "image": "https://assets.tcgdex.net/en/me03/me03/088/low.webp",
+        "set_name": "Perfect Order",
+        "text": "As long as this card is attached to a Pok\u00e9mon, it provides Psychic Energy. When you attach this card from your hand to a Psychic Pok\u00e9mon, search your deck for up to 2 Basic Psychic Pok\u00e9mon and put them onto your Bench. Then, shuffle your deck.",
         "dex_id": null
       },
       {
-        "catalog_id": "swsh12.5-156",
-        "name": "Psychic Energy",
+        "catalog_id": "me03-088",
+        "name": "Telepathic Psychic Energy",
         "category": "Energy",
-        "stage": "Basic",
+        "stage": "Special",
         "types": [
           "Psychic"
         ],
@@ -11627,9 +11627,9 @@
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": "Psychic",
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/156/low.webp",
-        "set_name": "Crown Zenith",
-        "text": "",
+        "image": "https://assets.tcgdex.net/en/me03/me03/088/low.webp",
+        "set_name": "Perfect Order",
+        "text": "As long as this card is attached to a Pok\u00e9mon, it provides Psychic Energy. When you attach this card from your hand to a Psychic Pok\u00e9mon, search your deck for up to 2 Basic Psychic Pok\u00e9mon and put them onto your Bench. Then, shuffle your deck.",
         "dex_id": null
       },
       {

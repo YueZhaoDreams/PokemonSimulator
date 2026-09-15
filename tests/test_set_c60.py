@@ -25,6 +25,7 @@ def _energy_names(names: list[str]) -> list[str]:
 def test_family_cup_set_c_stays_thirty_without_energy():
     assert len(SET_C_NAMES) == 30
     assert "Psychic Energy" not in SET_C_NAMES
+    assert "Telepathic Psychic Energy" not in SET_C_NAMES
 
 
 def test_set_c60_is_standard_sixty_with_psychic_energy():
@@ -36,7 +37,8 @@ def test_set_c60_is_standard_sixty_with_psychic_energy():
     assert names.count("Clefable CLC") == 0
     assert names.count("Clefable ex") == 3
     assert names.count("Mega Clefable ex") == 2
-    assert names.count("Psychic Energy") == 15
+    assert names.count("Psychic Energy") == 13
+    assert names.count("Telepathic Psychic Energy") == 2
     assert names.count("Energy Search") == 0
     assert names.count("Switch") == 2
     assert names.count("Buddy-Buddy Poffin") == 4
@@ -48,6 +50,7 @@ def test_set_c60_is_standard_sixty_with_psychic_energy():
     assert sum(1 for c in pile if c.catalog_id == "swsh2-75") == 2
     assert all(any(a.name == "Prankish" for a in c.abilities) for c in pile if c.name == "Clefable")
     assert any(c.is_energy and c.name == "Psychic Energy" for c in pile)
+    assert sum(1 for c in pile if c.name == "Telepathic Psychic Energy") == 2
     assert rules.pokemon_as_energy is False
     assert rules.deck_size == 60
     assert rules.prize_count == 6
