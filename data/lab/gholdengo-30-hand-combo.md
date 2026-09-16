@@ -34,13 +34,13 @@ Puzzle of Time, Scoop Up Net, Forest of Giant Plants, Broken Time-Space, Lysandr
 
 **砍掉 2 Raikou V + 2 Forest Seal Stone。电系位改 3 Iron Hands ex（PAR 70, `sv04-070`）。** Lightning Basic ex 230 HP，退 4，不吃 Poffin，所以 Nest 1→2。**Arm Press** `[L][L][C]` 160；**Amp You Very Much** `[L][C][C][C]` 120，印刷「If your opponent's Pokémon is Knocked Out by damage from this attack, take 1 more Prize card.」对 Clefairy 60 Amp 拿 **2 奖**（1+1），Rush 只拿 1。160/120 秒不了 Mewtwo 230 / Ogerpon 210 / Dragapult 320，胖子仍靠 Meowth Rush。Speed Lightning Energy 贴 Hands 才抽 2。刷牌不靠 Fleet-Footed / Star Alchemy。场上最多 **1** 只 Hands（2 奖，Net 能捞 ex，keep-names 拦住；Penny 也别捞）。
 
-**加 3 Shuckle HGSS Promo 15（`hgssp-HGSS15`）。** Fighting Basic 60 HP → Poffin。Poké-BODY **Fermenting Liquid**：印刷 `Whenever you attach an Energy card from your hand to Shuckle, draw a card.` Crazy Code 把 Draw Energy 贴上：电自己抽 1 + Fermenting 抽 1 = 净 **+1** / 张（贴 Lopunny 是净 0）。Enriching 在 Wind 准备好时也先贴 Shuckle（+4+1），再 Wind 到 Lopunny，Big Jump 回收。Wind 是 **move** 不是 from-hand attach，不会再触发 Fermenting。Speed L 仍贴 Hands（Shuckle 不是 Lightning）。场上最多 **1** 只 Shuckle（给 Shaymin 留座位）。为了塞 3 只：Shaymin 4→3，Ultra 2→1，VS 2→1。
+**加 2 Shuckle HGSS Promo 15（`hgssp-HGSS15`），Shaymin 仍 4。** Fighting Basic 60 HP → Poffin。Poké-BODY **Fermenting Liquid**：印刷 `Whenever you attach an Energy card from your hand to Shuckle, draw a card.` Crazy Code 把 Draw Energy 贴上：电自己抽 1 + Fermenting 抽 1 = 净 **+1** / 张（贴 Lopunny 是净 0）。Enriching 在 Wind 准备好时也先贴 Shuckle（+4+1），再 Wind 到 Lopunny，Big Jump 回收。Wind 是 **move** 不是 from-hand attach，不会再触发 Fermenting。Speed L 仍贴 Hands（Shuckle 不是 Lightning）。场上最多 **1** 只 Shuckle。Poffin / 开场 **不** 提前 bench：等 Crazy Code 或手牌 Draw/Enriching + Lopunny 再上。引擎先 bench 再贴电。Shaymin 4 从 Shuckle 3→2 换回来；Ultra/VS 仍 1。
 
 **砍掉 Aipom / Ambipom / Sableye / Remoraid / Octillery / Porygon2 / Pikachu。** Rare Candy 仍跳 Porygon → Porygon-Z。Wally 只给 Buneary→Lopunny。场上最多 **1** 只 Meowth，给 Shaymin 留座位。
 
 **刷牌：Shuckle Fermenting + Shaymin UL 8 Celebration Wind + Penny。** Crazy Code 把 Speed L 贴到 Iron Hands（最多 +8），Draw Energy 贴 Shuckle（每张净 +1），Wind 准备好时 Enriching 也先贴 Shuckle（+5 抽 −1），手牌打出 Shaymin 把电系/Shuckle 身上的特殊电挪到 Lopunny（钢能量留在 Meowth 上）。Hands 已经能付招并 KO 时不要 Wind。Big Jump 整叠回手后再贴。Scoop Up Net（物品，可连用）或 Penny（支援者，每回合 1 张）把 Shaymin 拿回手再打，Wind 再触发。不用 Shaymin-EX Set Up（摸到 6 就停）。Enriching 仍是唯一 ACE SPEC。不用苹果龙。
 
-家庭组 3000 盘数组（seed 20260911）这版 **3 Shuckle Fermenting**：胜率 **2.6 / 7.2 / 9.8 / 20.8 / 3.2 / 22.5 / 38.8%** vs c60/t60/hedrick/unl/d60/s60/g。上一版 Hands、无 Shuckle 是 **2.6 / 7.7 / 9.3 / 22.2 / 3.2 / 20.5 / 38.2%**。s60 20.5→22.5，g 38.2→38.8；unl 22.2→20.8。Fermenting 实战很勤（s60 83.4%，c60 57.5%），但 Big Jump 少了（s60 76→58.5）——Shuckle 占座位，Shaymin 4→3。c60 Photon 仍秒 70 HP。Goldfish 场上齐了能摸到 30。
+家庭组 3000 盘数组（seed 20260911）上一版 **3 Shuckle、马上 bench**：胜率 **2.6 / 7.2 / 9.8 / 20.8 / 3.2 / 22.5 / 38.8%** vs c60/t60/hedrick/unl/d60/s60/g。Fermenting 勤（s60 83.4%）但 Big Jump 掉（s60 76→58.5）——Shuckle 抢座位，Shaymin 4→3。这版改 **2 Shuckle / 4 Shaymin、attach-ready 才 bench**，数组重跑见下表。Hands、无 Shuckle 是 **2.6 / 7.7 / 9.3 / 22.2 / 3.2 / 20.5 / 38.2%**。c60 Photon 仍秒 70 HP。Goldfish 场上齐了能摸到 30。
 
 ---
 
@@ -96,8 +96,8 @@ Printings are the text this lab uses. Galarian Meowth in this 60 is **30th Celeb
 | 2 | Porygon-Z | UNB 157 | Crazy Code. |
 | 4 | Galarian Meowth | 30th 101 | **Treasure Rush** 10×hand, **`[M]`**. Pay Day `[C]` draws 1 when neither closer would KO. Basic, 70 HP → Poffin. **1 prize**. Cap **1** in play (bench seat for Shaymin). Hunt still wants a spare in hand. Fat 210–320 HP still needs Rush. |
 | 3 | Iron Hands ex | PAR 70 | Lightning host for Speed L draw 2. **Amp You Very Much** 120 + printed extra prize on KO. **Arm Press** 160. 230 HP, **2 prizes** — do not open on it. Cap **1** in play. Nest-legal, not Poffin. Retreat 4 → Switch. Net *can* scoop ex; keep-names block it. |
-| 3 | Shuckle | HGSS Promo 15 | **Fermenting Liquid**: whenever you attach an Energy card from your hand to Shuckle, draw a card. 60 HP → Poffin. Fighting, retreat 1. Cap **1** in play. Crazy Code parks Draw Energy here (net +1). Wind moves it to Lopunny; move does not retrigger. Do not attach Speed L (not Lightning) or Metal (Rush needs it). |
-| 3 | Shaymin | UL 8 | **Celebration Wind**: when put from **hand** onto the Bench, move any Energy to Lopunny. Not from Nest/Poffin. 70 HP → Poffin-legal, but the engine holds it in hand until Speed L is on Hands or Draw/Enriching is on Shuckle, and skips Wind if Hands can already pay+KO. |
+| 2 | Shuckle | HGSS Promo 15 | **Fermenting Liquid**: whenever you attach an Energy card from your hand to Shuckle, draw a card. 60 HP → Poffin. Fighting, retreat 1. Cap **1** in play, and only after Crazy Code or Draw/Enriching + bounce is ready. Crazy Code parks Draw Energy here (net +1). Wind moves it to Lopunny; move does not retrigger. Do not attach Speed L (not Lightning) or Metal (Rush needs it). |
+| 4 | Shaymin | UL 8 | **Celebration Wind**: when put from **hand** onto the Bench, move any Energy to Lopunny. Not from Nest/Poffin. 70 HP → Poffin-legal, but the engine holds it in hand until Speed L is on Hands or Draw/Enriching is on Shuckle, and skips Wind if Hands can already pay+KO. |
 | 4 | Puzzle of Time | BKP 109 | Discard retrieve backup. |
 | 2 | Scoop Up Net | RCL 165 | Replay Shaymin the same turn (Item). Do **not** Net Meowth / Lopunny / Iron Hands / Shuckle. |
 | 3 | Broken Time-Space | PL 104 | Same-turn Stage 1 evo (Lopunny). Does **not** override Rare Candy. |
@@ -116,9 +116,9 @@ Printings are the text this lab uses. Galarian Meowth in this 60 is **30th Celeb
 
 **23 Pokémon + 24 Trainers + 13 Energy = 60.**
 
-Cut Aipom, Ambipom, Sableye, Remoraid, Octillery, Pikachu, Porygon2, Junk Arm, Darkness, Lightning Energy, Professor's Research, Battle Compressor, Raikou V, Forest Seal Stone. The 8 Aipom/Ambipom slots plus trainer cuts become 4 Meowth + 3 Iron Hands + 3 Shuckle + Nest + 3 Shaymin + 2 Penny.
+Cut Aipom, Ambipom, Sableye, Remoraid, Octillery, Pikachu, Porygon2, Junk Arm, Darkness, Lightning Energy, Professor's Research, Battle Compressor, Raikou V, Forest Seal Stone. The 8 Aipom/Ambipom slots plus trainer cuts become 4 Meowth + 3 Iron Hands + 2 Shuckle + Nest + 4 Shaymin + 2 Penny.
 
-Goldfish (board already up, going second): Rare Candy Porygon into Z, BTS into Lopunny, Nest Iron Hands ex, Poffin Shuckle, Meowth is already Basic. Attach one Metal to Meowth. Crazy Code Speed L onto Hands (draw 2 each, up to +8), Draw Energy onto Shuckle (draw 1+1 each), Enriching onto Shuckle if Shaymin is in hand (draw 4+1) else Lopunny (draw 4). Play Shaymin from hand: Celebration Wind moves Speed L / Draw / Enriching (not Metal) onto Lopunny — skip Wind if Amp already KOs. Big Jump returns Buneary + Lopunny + Speed L + Enriching + Draw Energy. Replay Buneary, BTS evolve, Net or Penny Shaymin, attach again. Amp Clefairy for 2 prizes. Treasure Rush when `10 × hand` KOs (23 vs Mewtwo 230) and `[M]` is attached.
+Goldfish (board already up, going second): Rare Candy Porygon into Z, BTS into Lopunny, Nest Iron Hands ex, Meowth is already Basic. Hold Shuckle until Crazy Code can attach Draw Energy (or Enriching + Wind). Attach one Metal to Meowth. Crazy Code Speed L onto Hands (draw 2 each, up to +8), Draw Energy onto Shuckle (draw 1+1 each), Enriching onto Shuckle if Shaymin is in hand (draw 4+1) else Lopunny (draw 4). Play Shaymin from hand: Celebration Wind moves Speed L / Draw / Enriching (not Metal) onto Lopunny — skip Wind if Amp already KOs. Big Jump returns Buneary + Lopunny + Speed L + Enriching + Draw Energy. Replay Buneary, BTS evolve, Net or Penny Shaymin, attach again. Amp Clefairy for 2 prizes. Treasure Rush when `10 × hand` KOs (23 vs Mewtwo 230) and `[M]` is attached.
 
 ---
 
@@ -186,7 +186,7 @@ Honest calendar: **3 Celebration attacks** is the prize floor. **3 of our turns*
 
 ## Win-rate array
 
-G30 (`celebration` strategy, 30th Galarian Meowth Treasure Rush `[M]` + 4 Metal + Lopunny FLF Big Jump + Shuckle HGSS Promo 15 Fermenting Liquid + Shaymin UL Celebration Wind + Penny + 4 Meowth + 3 Iron Hands ex Amp; **0 Raikou V**, **0 Forest Seal Stone**) as player A vs the household 60s. Not a full NxN remake of `set-c60-unl-matrix`. Rules preset `s60` (60 / 6 prizes / 4-of). First player random. **3,000 games / cell, seed 20260911**. Elapsed **101.0s**.
+G30 (`celebration` strategy, 30th Galarian Meowth Treasure Rush `[M]` + 4 Metal + Lopunny FLF Big Jump + 2 Shuckle HGSS Promo 15 Fermenting Liquid, attach-ready bench + Shaymin UL Celebration Wind + Penny + 4 Meowth + 3 Iron Hands ex Amp; **0 Raikou V**, **0 Forest Seal Stone**) as player A vs the household 60s. Not a full NxN remake of `set-c60-unl-matrix`. Rules preset `s60` (60 / 6 prizes / 4-of). First player random. **3,000 games / cell, seed 20260911**. Table below is the previous **3 Shuckle, bench ASAP** run (elapsed **101.0s**); this pass re-runs after delaying Shuckle and restoring 4 Shaymin.
 
 Script: `data/lab/gholdengo-30-array.py`. Numbers: `data/lab/gholdengo-30-array.json`.
 
@@ -258,6 +258,8 @@ Household 60s also kill the board first. C60 Photon Kinesis KOs 70 HP Meowth for
 12 cards = 240 (Mewtwo 230 / Wo-Chien 230). 11 = 220 (Ogerpon 210). 16 = 320 (Dragapult).
 
 **Recycle — Lopunny FLF 85 Big Jump.** Same printed sentence as Jumpluff DRX Leave It to the Wind. Returns this Pokémon **and all cards attached to it** (including Buneary underneath) to the hand.
+
+**Draw magnet — Shuckle HGSS Promo 15.** Fighting Basic, 60 HP. Poké-BODY Fermenting Liquid: whenever you attach an Energy card from your hand to Shuckle, draw a card. Crazy Code Draw Energy is net +1. Celebration Wind moves that Energy onto Lopunny; the move is not a from-hand attach.
 
 **Previous closer — Gholdengo** (30th Celebration 108 / AR 142) — Metal Stage 1, 130 HP, evolves from Gimmighoul, retreat 2.
 

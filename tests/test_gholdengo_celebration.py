@@ -145,8 +145,8 @@ def test_g30_list_is_printed_sixty():
     assert names.count("Pikachu") == 0
     assert names.count("Raikou V") == 0
     assert names.count("Iron Hands ex") == 3
-    assert names.count("Shuckle") == 3
-    assert names.count("Shaymin") == 3
+    assert names.count("Shuckle") == 2
+    assert names.count("Shaymin") == 4
     assert names.count("Gholdengo") == 0
     assert names.count("Puzzle of Time") == 4
     assert names.count("Scoop Up Net") == 2
@@ -1329,5 +1329,56 @@ def test_play_shaymin_skips_when_one_already_in_play():
     assert not game._celebration_play_shaymin(me, "a")
     assert me.hand == [second]
     assert sum(1 for m in me.in_play() if me.card(m.card_i).name == "Shaymin") == 1
+
+
+def test_shuckle_stays_in_hand_until_attach_ready():
+    game = _game()
+    me = game.players["a"]
+    used: set[int] = set()
+    meowth = _take(me, "Galarian Meowth", used)
+    shuckle = _take(me, "Shuckle", used)
+    strat = game.strats["a"]
+    me.active = Pokemon(card_i=meowth, played_turn=0)
+    me.hand = [shuckle]
+    assert not game._celebration_shuckle_ready(me)
+    assert not game._wants_in_play(me, me.card(shuckle), strat)
+    assert not game._celebration_play_shuckle(me, "a")
+    assert me.hand == [shuckle]
+    poryz = _take(me, "Porygon-Z", used)
+    draw = _take(me, "Draw Energy", used)
+    me.active = Pokemon(card_i=poryz, played_turn=0)
+    me.bench = [Pokemon(card_i=meowth, played_turn=0)]
+    me.hand = [shuckle, draw]
+    assert game._has_crazy_code(me)
+    assert game._celebration_shuckle_ready(me)
+    assert game._wants_in_play(me, me.card(shuckle), strat)
+    assert game._celebration_play_shuckle(me, "a")
+    assert shuckle not in me.hand
+    assert any(me.card(m.card_i).name == "Shuckle" for m in me.in_play())
+
+
+def test_engine_benches_shuckle_before_draw_energy():
+    game = _game()
+    me = game.players["a"]
+    used: set[int] = set()
+    poryz = _take(me, "Porygon-Z", used)
+    shuckle = _take(me, "Shuckle", used)
+    meowth = _take(me, "Galarian Meowth", used)
+    metal = _take(me, "Metal Energy", used)
+    draws = [_take(me, "Draw Energy", used) for _ in range(4)]
+    rest = [i for i in range(len(me.cards)) if i not in used]
+    me.active = Pokemon(card_i=poryz, played_turn=0)
+    me.bench = [Pokemon(card_i=meowth, played_turn=0, energy=[metal])]
+    me.hand = [shuckle, *draws]
+    me.deck = rest
+    game._celebration_engine(me, "a")
+    host = next(m for m in me.in_play() if me.card(m.card_i).name == "Shuckle")
+    attacker = next(m for m in me.in_play() if me.card(m.card_i).name == "Galarian Meowth")
+    assert len(host.energy) == 4
+    assert all(is_draw_energy(me.card(i)) for i in host.energy)
+    assert attacker.energy == [metal]
+    assert game.events.get("draw_energy_draw") == 4
+    assert game.events.get("fermenting_liquid") == 4
+    assert game.events.get("crazy_code") == 4
 
 

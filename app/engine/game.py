@@ -359,6 +359,10 @@ class Game:
         copies = self._count_named_in_play(player, name)
 
         if strat.name == "celebration":
+            if name == "shuckle":
+                if copies >= 1:
+                    return False
+                return self._celebration_shuckle_ready(player)
             caps = {
                 "buneary": 1,
                 "hoppip": 1,
@@ -367,7 +371,6 @@ class Game:
                 "galarian meowth": 1,
                 "iron hands ex": 1,
                 "raikou v": 1,
-                "shuckle": 1,
             }
             if name not in caps:
                 return False
@@ -8629,6 +8632,20 @@ class Game:
             for e in self._ability_effects(abi)
         )
 
+    def _celebration_shuckle_ready(self, me: Player) -> bool:
+        """Bench Shuckle only when a from-hand attach can trigger Fermenting Liquid."""
+        if self._fermenting_host(me) is not None:
+            return False
+        has_draw = any(is_draw_energy(me.card(i)) for i in me.hand)
+        has_enrich = any(is_enriching_energy(me.card(i)) for i in me.hand)
+        if not has_draw and not has_enrich:
+            return False
+        bounce = self._celebration_bounce_host_in_play(me)
+        crazy = self._has_crazy_code(me)
+        if has_draw and (crazy or bounce):
+            return True
+        return bool(has_enrich and bounce and self._celebration_can_wind(me))
+
     def _celebration_can_wind(self, me: Player) -> bool:
         if self._first_named(me, "Shaymin") is not None:
             return len(me.bench) < self._bench_limit()
@@ -9289,6 +9306,23 @@ class Game:
         self._log(f"{me.name} plays {card.name}")
         return True
 
+    def _celebration_play_shuckle(self, me: Player, who: str) -> bool:
+        if not self._celebration_shuckle_ready(me):
+            return False
+        found = self._first_named(me, "Shuckle")
+        if found is None or me.active is None:
+            return False
+        if self._named_mon(me, "Shuckle") is not None:
+            return False
+        if len(me.bench) >= self._bench_limit():
+            return False
+        me.hand.remove(found)
+        me.bench.append(Pokemon(card_i=found, played_turn=self.turn))
+        self._bump("saw_play:Shuckle")
+        self._log(f"{me.name} benches Shuckle")
+        self._on_benched(me, me.bench[-1], from_hand=True)
+        return True
+
     def _celebration_play_shaymin(self, me: Player, who: str) -> bool:
         found = self._first_named(me, "Shaymin")
         if found is None or me.active is None:
@@ -9536,6 +9570,8 @@ class Game:
         for _ in range(64):
             if getattr(self, "winner", None):
                 return
+            if self._celebration_play_shuckle(me, who):
+                continue
             if self._celebration_attach_speed_l(me, who, foe):
                 continue
             if self._celebration_attach_enriching(me, who):

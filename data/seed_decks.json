@@ -22778,51 +22778,56 @@
         "dex_id": null
       },
       {
-        "catalog_id": "hgssp-HGSS15",
-        "name": "Shuckle",
+        "catalog_id": "hgss2-8",
+        "name": "Shaymin",
         "category": "Pokemon",
         "stage": "Basic",
         "types": [
-          "Fighting"
+          "Grass"
         ],
-        "hp": 60,
+        "hp": 70,
         "attacks": [
           {
-            "name": "Shell Stunner",
+            "name": "Energy Bloom",
             "cost": [
               "Grass",
               "Colorless"
             ],
-            "damage": 20,
-            "text": "Flip a coin. If heads, prevent all damage done to Shuckle by attacks during your opponent's next turn.",
+            "damage": 30,
+            "text": "Remove 3 damage counters from each of your Pok\u00e9mon that has any Energy attached to it.",
             "effects": []
           }
         ],
         "abilities": [
           {
-            "name": "Fermenting Liquid",
-            "text": "Whenever you attach an Energy card from your hand to Shuckle, draw a card.",
+            "name": "Celebration Wind",
+            "text": "Once during your turn, when you put Shaymin from your hand onto your Bench, you may move as many Energy cards attached to your Pok\u00e9mon as you like to any of your other Pok\u00e9mon.",
             "effects": [
               {
-                "kind": "draw_on_energy_attach_from_hand",
-                "amount": 1
+                "kind": "move_any_energy_when_benched_from_hand",
+                "once_per_turn": true
               }
             ]
           }
         ],
         "weaknesses": [
           {
-            "type": "Water",
+            "type": "Fire",
             "value": "\u00d72"
           }
         ],
-        "resistances": [],
+        "resistances": [
+          {
+            "type": "Fighting",
+            "value": "-20"
+          }
+        ],
         "retreat": 1,
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/hgss/hgssp/HGSS15/low.webp",
-        "set_name": "HGSS Black Star Promos",
+        "image": "https://assets.tcgdex.net/en/hgss/hgss2/8/low.webp",
+        "set_name": "Unleashed",
         "text": "",
         "dex_id": null
       },

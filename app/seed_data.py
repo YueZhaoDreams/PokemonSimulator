@@ -323,8 +323,8 @@ SET_G30_NAMES = (
     + ["Porygon-Z"] * 2
     + ["Galarian Meowth"] * 4
     + ["Iron Hands ex"] * 3
-    + ["Shuckle"] * 3
-    + ["Shaymin"] * 3
+    + ["Shuckle"] * 2
+    + ["Shaymin"] * 4
     + ["Puzzle of Time"] * 4
     + ["Scoop Up Net"] * 2
     + ["Broken Time-Space"] * 3
