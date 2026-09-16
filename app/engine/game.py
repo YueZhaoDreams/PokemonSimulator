@@ -9293,6 +9293,8 @@ class Game:
         found = self._first_named(me, "Shaymin")
         if found is None or me.active is None:
             return False
+        if self._named_mon(me, "Shaymin") is not None:
+            return False
         if len(me.bench) >= self._bench_limit():
             return False
         me.hand.remove(found)

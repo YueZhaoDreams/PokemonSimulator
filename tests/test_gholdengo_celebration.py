@@ -1316,3 +1316,18 @@ def test_enriching_on_shuckle_when_wind_ready():
     assert game.events.get("fermenting_liquid") == 1
 
 
+def test_play_shaymin_skips_when_one_already_in_play():
+    game = _game()
+    me = game.players["a"]
+    used: set[int] = set()
+    poryz = _take(me, "Porygon-Z", used)
+    first = _take(me, "Shaymin", used)
+    second = _take(me, "Shaymin", used)
+    me.active = Pokemon(card_i=poryz, played_turn=0)
+    me.bench = [Pokemon(card_i=first, played_turn=0)]
+    me.hand = [second]
+    assert not game._celebration_play_shaymin(me, "a")
+    assert me.hand == [second]
+    assert sum(1 for m in me.in_play() if me.card(m.card_i).name == "Shaymin") == 1
+
+
