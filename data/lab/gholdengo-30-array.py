@@ -63,6 +63,8 @@ QUERIES = [
     {"type": "event_prefix", "prefix": "celebration_wind", "key": "celebration_wind"},
     {"type": "event_prefix", "prefix": "penny", "key": "penny"},
     {"type": "event_prefix", "prefix": "scoop_net", "key": "scoop_net"},
+    {"type": "event_prefix", "prefix": "fermenting_liquid", "key": "fermenting_liquid"},
+    {"type": "event_prefix", "prefix": "draw_on_energy_attach_from_hand", "key": "draw_on_energy_attach_from_hand"},
 ]
 
 
@@ -106,6 +108,8 @@ def _run(opp: str) -> tuple[str, dict]:
         "celebration_wind": r["queries"].get("celebration_wind", 0.0),
         "penny": r["queries"].get("penny", 0.0),
         "scoop_net": r["queries"].get("scoop_net", 0.0),
+        "fermenting_liquid": r["queries"].get("fermenting_liquid", 0.0),
+        "draw_on_energy_attach_from_hand": r["queries"].get("draw_on_energy_attach_from_hand", 0.0),
     }
 
 
@@ -153,6 +157,7 @@ def main() -> None:
     print("| Extra prize on KO | " + " | ".join(f"{cells[k]['extra_prize_on_ko']:.1%}" for k in keys) + " |")
     print("| Penny | " + " | ".join(f"{cells[k]['penny']:.1%}" for k in keys) + " |")
     print("| Scoop Up Net | " + " | ".join(f"{cells[k]['scoop_net']:.1%}" for k in keys) + " |")
+    print("| Fermenting Liquid | " + " | ".join(f"{cells[k]['fermenting_liquid']:.1%}" for k in keys) + " |")
 
 
 if __name__ == "__main__":

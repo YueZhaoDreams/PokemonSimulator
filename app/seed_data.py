@@ -313,7 +313,9 @@ SET_T_UNL_NAMES = (
 
 # Unlimited 60: 30th Galarian Meowth Treasure Rush (Basic, skips Aipom→Ambipom),
 # Lopunny FLF Big Jump recycle, Iron Hands ex Amp extra prize + Speed L host,
-# Draw Energy, Rare Candy. Fasten Claws Crown Zenith stays the name default.
+# Shuckle HGSS Promo 15 Fermenting Liquid (Draw Energy / Enriching from hand
+# draws extra), Shaymin Wind, Draw Energy, Rare Candy. Fasten Claws Crown
+# Zenith stays the name default.
 SET_G30_NAMES = (
     ["Buneary"] * 3
     + ["Lopunny"] * 2
@@ -321,14 +323,15 @@ SET_G30_NAMES = (
     + ["Porygon-Z"] * 2
     + ["Galarian Meowth"] * 4
     + ["Iron Hands ex"] * 3
+    + ["Shuckle"] * 2
     + ["Shaymin"] * 4
     + ["Puzzle of Time"] * 4
     + ["Scoop Up Net"] * 2
     + ["Broken Time-Space"] * 3
     + ["Nest Ball"] * 2
     + ["Buddy-Buddy Poffin"] * 3
-    + ["Ultra Ball"] * 2
-    + ["VS Seeker"] * 2
+    + ["Ultra Ball"]
+    + ["VS Seeker"]
     + ["Wally"]
     + ["Penny"] * 2
     + ["Switch"]
@@ -2352,6 +2355,12 @@ _PENNY_TEXT = "Put 1 of your Basic Pokémon and all attached cards into your han
 _AMP_YOU_VERY_MUCH_TEXT = (
     "If your opponent's Pokémon is Knocked Out by damage from this attack, take 1 more Prize card."
 )
+_FERMENTING_LIQUID_TEXT = (
+    "Whenever you attach an Energy card from your hand to Shuckle, draw a card."
+)
+_SHELL_STUNNER_TEXT = (
+    "Flip a coin. If heads, prevent all damage done to Shuckle by attacks during your opponent's next turn."
+)
 _ENERGY_BLOOM_TEXT = (
     "Remove 3 damage counters from each of your Pokémon that has any Energy attached to it."
 )
@@ -2829,6 +2838,21 @@ _register(
         weakness="Fighting",
         image="https://assets.tcgdex.net/en/sv/sv04/070/low.webp",
         set_name="Paradox Rift",
+    )
+)
+_register(
+    _pkm(
+        "Shuckle",
+        "Basic",
+        ["Fighting"],
+        60,
+        [_atk("Shell Stunner", ["Grass", "Colorless"], 20, _SHELL_STUNNER_TEXT)],
+        retreat=1,
+        catalog_id="hgssp-HGSS15",
+        weakness="Water",
+        abilities=[Ability(name="Fermenting Liquid", text=_FERMENTING_LIQUID_TEXT)],
+        image="https://assets.tcgdex.net/en/hgss/hgssp/HGSS15/low.webp",
+        set_name="HGSS Black Star Promos",
     )
 )
 

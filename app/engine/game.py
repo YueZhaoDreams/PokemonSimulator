@@ -359,6 +359,10 @@ class Game:
         copies = self._count_named_in_play(player, name)
 
         if strat.name == "celebration":
+            if name == "shuckle":
+                if copies >= 1:
+                    return False
+                return self._celebration_shuckle_ready(player)
             caps = {
                 "buneary": 1,
                 "hoppip": 1,
@@ -2105,7 +2109,9 @@ class Game:
             if self._hand_fling_attack(me, mon):
                 continue
             if any(
-                is_speed_lightning_energy(me.card(i)) or is_draw_energy(me.card(i))
+                is_speed_lightning_energy(me.card(i))
+                or is_draw_energy(me.card(i))
+                or is_enriching_energy(me.card(i))
                 for i in mon.energy
             ):
                 return True
@@ -2269,6 +2275,7 @@ class Game:
                 "junk arm",
                 "penny",
                 "shaymin",
+                "shuckle",
                 "speed lightning energy",
                 "metal energy",
             }:
@@ -2382,13 +2389,15 @@ class Game:
                 prefer.append("Iron Hands ex")
             if "shaymin" not in in_play and "shaymin" not in in_hand:
                 prefer.append("Shaymin")
+            if self._celebration_needs_fermenting(me):
+                prefer.append("Shuckle")
             if "tynamo" in in_play and "eelektrik" not in in_play and "eelektrik" not in in_hand:
                 prefer.append("Eelektrik")
-            for name in ("Porygon", "Galarian Meowth", "Iron Hands ex", "Buneary", "Shaymin"):
+            for name in ("Porygon", "Galarian Meowth", "Iron Hands ex", "Buneary", "Shaymin", "Shuckle"):
                 key = name.lower()
                 if key not in in_play and key not in in_hand:
                     prefer.append(name)
-            prefer.extend(["Lopunny", "Jumpluff", "Porygon-Z", "Galarian Meowth", "Iron Hands ex", "Buneary", "Shaymin"])
+            prefer.extend(["Lopunny", "Jumpluff", "Porygon-Z", "Galarian Meowth", "Iron Hands ex", "Buneary", "Shaymin", "Shuckle"])
             return list(dict.fromkeys(prefer))
         if strat.hold_as_energy:
             prefer = list(strat.search_aces)
@@ -2552,6 +2561,7 @@ class Game:
                 "galarian meowth",
                 "iron hands ex",
                 "raikou v",
+                "shuckle",
             }:
                 score += 20
             scored.append((score, idx, card_i))
@@ -2876,6 +2886,19 @@ class Game:
                     else:
                         self._bump("enriching_draw", n)
                     self._log(f"{me.name} draws {n} from {src.name}")
+        if not self._abilities_suppressed(me, target):
+            for abi in me.card(target.card_i).abilities:
+                for eff in self._ability_effects(abi):
+                    if eff.get("kind") != "draw_on_energy_attach_from_hand":
+                        continue
+                    n = int(eff.get("amount") or 0)
+                    if not n:
+                        continue
+                    self._draw(me, n)
+                    self._bump("draw_on_energy_attach_from_hand", n)
+                    self._bump("fermenting_liquid", n)
+                    self._log(f"{me.name} draws {n} from {me.card(target.card_i).name}")
+        for eff in parse_energy_effects(src.text):
             if eff.get("kind") != "call_family":
                 continue
             req = str(eff.get("require_attach_type") or "").title()
@@ -3242,6 +3265,9 @@ class Game:
                 for i in energies
                 if not is_enriching_energy(me.card(i)) and not is_speed_lightning_energy(me.card(i))
             ]
+            if self._has_draw_on_energy_attach(me, target):
+                draws = [i for i in energies if is_draw_energy(me.card(i))]
+                return draws[0] if draws else None
             if need:
                 typed = [i for i in energies if me.card(i).as_energy_type in need]
                 if typed:
@@ -3290,6 +3316,8 @@ class Game:
         card = me.card(target.card_i)
         who = "a" if me.name == "A" else "b"
         if self.strats[who].name == "celebration":
+            if self._has_draw_on_energy_attach(me, target):
+                return set()
             atk = self._hand_fling_attack(me, target)
             if atk is not None:
                 typed = {c for c in atk.cost if c != "Colorless"}
@@ -5295,7 +5323,10 @@ class Game:
         """Flutter Mane: opponent's Active Pokémon has no Abilities."""
         if mon is not owner.active:
             return False
-        foe = self.players["b" if owner.name == "A" else "a"]
+        players = getattr(self, "players", None)
+        if not players:
+            return False
+        foe = players["b" if owner.name == "A" else "a"]
         if not foe.active:
             return False
         for abi in foe.card(foe.active.card_i).abilities:
@@ -8378,6 +8409,7 @@ class Game:
             "galarian meowth": 3,
             "iron hands ex": 4,
             "raikou v": 5,
+            "shuckle": 6,
             "abra": 7,
         }.get(name, 20)
 
@@ -8427,10 +8459,12 @@ class Game:
             missing.append("porygon")
         if "shaymin" not in in_play and "shaymin" not in in_hand:
             missing.append("shaymin")
+        if self._celebration_needs_fermenting(me):
+            missing.append("shuckle")
         return missing
 
     def _celebration_keep_names(self) -> set[str]:
-        return {"porygon-z", "galarian meowth", "ambipom", "iron hands ex", "raikou v", "lopunny", "jumpluff"}
+        return {"porygon-z", "galarian meowth", "ambipom", "iron hands ex", "raikou v", "lopunny", "jumpluff", "shuckle"}
 
     def _has_return_self_to_hand(self, me: Player, mon: Pokemon) -> bool:
         card = me.card(mon.card_i)
@@ -8575,10 +8609,68 @@ class Game:
                 return mon
         return None
 
+    def _has_draw_on_energy_attach(self, me: Player, mon: Pokemon) -> bool:
+        if self._abilities_suppressed(me, mon):
+            return False
+        card = me.card(mon.card_i)
+        return any(
+            e.get("kind") == "draw_on_energy_attach_from_hand"
+            for abi in card.abilities
+            for e in self._ability_effects(abi)
+        )
+
+    def _fermenting_host(self, me: Player) -> Pokemon | None:
+        for mon in me.in_play():
+            if self._has_draw_on_energy_attach(me, mon):
+                return mon
+        return None
+
+    def _celebration_needs_fermenting(self, me: Player) -> bool:
+        if self._fermenting_host(me) is not None:
+            return False
+        return not any(
+            e.get("kind") == "draw_on_energy_attach_from_hand"
+            for i in me.hand
+            for abi in me.card(i).abilities
+            for e in self._ability_effects(abi)
+        )
+
+    def _celebration_shuckle_ready(self, me: Player) -> bool:
+        """Bench Shuckle only when a from-hand attach can trigger Fermenting Liquid."""
+        if self._fermenting_host(me) is not None:
+            return False
+        has_draw = any(is_draw_energy(me.card(i)) for i in me.hand)
+        has_enrich = any(is_enriching_energy(me.card(i)) for i in me.hand)
+        if not has_draw and not has_enrich:
+            return False
+        bounce = self._celebration_bounce_host_in_play(me)
+        crazy = self._has_crazy_code(me)
+        if has_draw and (crazy or bounce):
+            return True
+        return bool(has_enrich and bounce and self._celebration_can_wind(me))
+
+    def _celebration_can_wind(self, me: Player) -> bool:
+        """True only if Shaymin can actually enter the Bench from hand this turn."""
+        in_play = self._named_mon(me, "Shaymin") is not None
+        in_hand = self._first_named(me, "Shaymin") is not None
+        if in_play:
+            if self._first_named(me, "Scoop Up Net") is not None:
+                return True
+            if self._first_named(me, "Penny") is None:
+                return False
+            who = "a" if me.name == "A" else "b"
+            return (not me.supporter_used) and self._can_play_supporter(who)
+        if in_hand:
+            return len(me.bench) < self._bench_limit()
+        return False
+
     def _celebration_energy_target(self, me: Player) -> Pokemon | None:
         scaler = next((m for m in me.in_play() if self._hand_fling_attack(me, m)), None)
         if scaler is not None and not self._ambipom_can_pay(me, scaler):
             return scaler
+        ferment = self._fermenting_host(me)
+        if ferment is not None and any(is_draw_energy(me.card(i)) for i in me.hand):
+            return ferment
         if any(is_draw_energy(me.card(i)) for i in me.hand):
             bounce = next((m for m in me.in_play() if self._has_return_self_to_hand(me, m)), None)
             if bounce is not None:
@@ -8831,7 +8923,7 @@ class Game:
             self._retrieve_from_discard(
                 me,
                 pair_count,
-                prefer=("enriching energy", "metal energy", "draw energy", "scoop up net", "penny", "shaymin", "puzzle of time", "rare candy", "iron hands ex"),
+                prefer=("enriching energy", "metal energy", "draw energy", "scoop up net", "penny", "shaymin", "shuckle", "puzzle of time", "rare candy", "iron hands ex"),
             )
             self._bump("puzzle_pair")
             return
@@ -8844,6 +8936,7 @@ class Game:
                 "scoop up net",
                 "penny",
                 "shaymin",
+                "shuckle",
                 "enriching energy",
                 "metal energy",
                 "draw energy",
@@ -8934,6 +9027,7 @@ class Game:
             "jumpluff",
             "penny",
             "shaymin",
+            "shuckle",
         }
         fodder = []
         extras = []
@@ -9081,9 +9175,12 @@ class Game:
         enrich = next((i for i in me.hand if is_enriching_energy(me.card(i))), None)
         if enrich is None:
             return False
-        hosts = [mon for mon in me.in_play() if self._has_return_self_to_hand(me, mon)]
-        hosts.sort(key=lambda mon: 0 if mon is not me.active else 1)
-        host = hosts[0] if hosts else None
+        ferment = self._fermenting_host(me)
+        host = ferment if ferment is not None and self._celebration_can_wind(me) else None
+        if host is None:
+            hosts = [mon for mon in me.in_play() if self._has_return_self_to_hand(me, mon)]
+            hosts.sort(key=lambda mon: 0 if mon is not me.active else 1)
+            host = hosts[0] if hosts else None
         if host is None:
             for mon in me.in_play():
                 name = me.card(mon.card_i).name.lower()
@@ -9163,16 +9260,16 @@ class Game:
             return False
         scaler = next((m for m in me.in_play() if self._hand_fling_attack(me, m)), None)
         hosts = [mon for mon in me.in_play() if self._has_return_self_to_hand(me, mon)]
-        unpaid = scaler is not None and not self._ambipom_can_pay(me, scaler)
         hands = self._named_mon(me, "Iron Hands ex")
         unpaid_hands = hands is not None and not any(
             can_pay_energy(self._energy_pool(me, hands), atk.cost) for atk in self._attacks_for(me, hands)
         )
+        ferment = self._fermenting_host(me)
         host = None
-        if unpaid:
-            host = scaler
-        elif unpaid_hands:
+        if unpaid_hands:
             host = hands
+        elif ferment is not None:
+            host = ferment
         elif hosts:
             host = hosts[0]
         elif scaler is not None:
@@ -9217,9 +9314,28 @@ class Game:
         self._log(f"{me.name} plays {card.name}")
         return True
 
+    def _celebration_play_shuckle(self, me: Player, who: str) -> bool:
+        if not self._celebration_shuckle_ready(me):
+            return False
+        found = self._first_named(me, "Shuckle")
+        if found is None or me.active is None:
+            return False
+        if self._named_mon(me, "Shuckle") is not None:
+            return False
+        if len(me.bench) >= self._bench_limit():
+            return False
+        me.hand.remove(found)
+        me.bench.append(Pokemon(card_i=found, played_turn=self.turn))
+        self._bump("saw_play:Shuckle")
+        self._log(f"{me.name} benches Shuckle")
+        self._on_benched(me, me.bench[-1], from_hand=True)
+        return True
+
     def _celebration_play_shaymin(self, me: Player, who: str) -> bool:
         found = self._first_named(me, "Shaymin")
         if found is None or me.active is None:
+            return False
+        if self._named_mon(me, "Shaymin") is not None:
             return False
         if len(me.bench) >= self._bench_limit():
             return False
@@ -9308,7 +9424,7 @@ class Game:
                     i
                     for i in me.hand
                     if self._is_playable_pokemon(me.card(i))
-                    and me.card(i).name.lower() != "shaymin"
+                    and me.card(i).name.lower() not in {"shaymin", "shuckle"}
                 ),
                 None,
             )
@@ -9374,6 +9490,7 @@ class Game:
                 "galarian meowth",
                 "ambipom",
                 "shaymin",
+                "shuckle",
             }:
                 return False
             if self._is_pokemon_v(me.card(mon.card_i)):
@@ -9461,6 +9578,8 @@ class Game:
         for _ in range(64):
             if getattr(self, "winner", None):
                 return
+            if self._celebration_play_shuckle(me, who):
+                continue
             if self._celebration_attach_speed_l(me, who, foe):
                 continue
             if self._celebration_attach_enriching(me, who):

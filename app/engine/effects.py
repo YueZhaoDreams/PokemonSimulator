@@ -389,6 +389,20 @@ def parse_ability_effects(text: str) -> list[dict[str, Any]]:
             }
         )
 
+    # HGSS Promo 15 Shuckle Fermenting Liquid: attach Energy from hand, draw.
+    ferment = re.search(
+        r"whenever you attach an energy card from your hand to (?:this pokemon|\w+), "
+        r"draw (?:(\d+) cards|a card)",
+        t,
+    )
+    if ferment:
+        effects.append(
+            {
+                "kind": "draw_on_energy_attach_from_hand",
+                "amount": int(ferment.group(1) or 1),
+            }
+        )
+
     # Broken Time-Space: evolve a Pokémon just played or just evolved this turn.
     if "just played" in t and "evolved" in t and "evolve" in t:
         effects.append({"kind": "evolve_just_played_or_evolved"})

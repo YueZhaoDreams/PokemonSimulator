@@ -22680,6 +22680,104 @@
         "dex_id": null
       },
       {
+        "catalog_id": "hgssp-HGSS15",
+        "name": "Shuckle",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Fighting"
+        ],
+        "hp": 60,
+        "attacks": [
+          {
+            "name": "Shell Stunner",
+            "cost": [
+              "Grass",
+              "Colorless"
+            ],
+            "damage": 20,
+            "text": "Flip a coin. If heads, prevent all damage done to Shuckle by attacks during your opponent's next turn.",
+            "effects": []
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Fermenting Liquid",
+            "text": "Whenever you attach an Energy card from your hand to Shuckle, draw a card.",
+            "effects": [
+              {
+                "kind": "draw_on_energy_attach_from_hand",
+                "amount": 1
+              }
+            ]
+          }
+        ],
+        "weaknesses": [
+          {
+            "type": "Water",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/hgss/hgssp/HGSS15/low.webp",
+        "set_name": "HGSS Black Star Promos",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "hgssp-HGSS15",
+        "name": "Shuckle",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Fighting"
+        ],
+        "hp": 60,
+        "attacks": [
+          {
+            "name": "Shell Stunner",
+            "cost": [
+              "Grass",
+              "Colorless"
+            ],
+            "damage": 20,
+            "text": "Flip a coin. If heads, prevent all damage done to Shuckle by attacks during your opponent's next turn.",
+            "effects": []
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Fermenting Liquid",
+            "text": "Whenever you attach an Energy card from your hand to Shuckle, draw a card.",
+            "effects": [
+              {
+                "kind": "draw_on_energy_attach_from_hand",
+                "amount": 1
+              }
+            ]
+          }
+        ],
+        "weaknesses": [
+          {
+            "type": "Water",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/hgss/hgssp/HGSS15/low.webp",
+        "set_name": "HGSS Black Star Promos",
+        "text": "",
+        "dex_id": null
+      },
+      {
         "catalog_id": "hgss2-8",
         "name": "Shaymin",
         "category": "Pokemon",
@@ -23193,46 +23291,6 @@
         "image": "https://assets.tcgdex.net/en/sv/sv04.5/091/low.webp",
         "set_name": null,
         "text": "Discard 2 cards from your hand. Search your deck for a Pok\u00e9mon.",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "sv04.5-091",
-        "name": "Ultra Ball",
-        "category": "Trainer",
-        "stage": "Item",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "item",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv04.5/091/low.webp",
-        "set_name": null,
-        "text": "Discard 2 cards from your hand. Search your deck for a Pok\u00e9mon.",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "xy4-109",
-        "name": "VS Seeker",
-        "category": "Trainer",
-        "stage": "Item",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "item",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/xy/xy4/109/low.webp",
-        "set_name": null,
-        "text": "Put a Supporter card from your discard pile into your hand.",
         "dex_id": null
       },
       {
