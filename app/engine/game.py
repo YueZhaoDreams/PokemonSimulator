@@ -8647,14 +8647,19 @@ class Game:
         return bool(has_enrich and bounce and self._celebration_can_wind(me))
 
     def _celebration_can_wind(self, me: Player) -> bool:
-        if self._first_named(me, "Shaymin") is not None:
+        """True only if Shaymin can actually enter the Bench from hand this turn."""
+        in_play = self._named_mon(me, "Shaymin") is not None
+        in_hand = self._first_named(me, "Shaymin") is not None
+        if in_play:
+            if self._first_named(me, "Scoop Up Net") is not None:
+                return True
+            if self._first_named(me, "Penny") is None:
+                return False
+            who = "a" if me.name == "A" else "b"
+            return (not me.supporter_used) and self._can_play_supporter(who)
+        if in_hand:
             return len(me.bench) < self._bench_limit()
-        if self._named_mon(me, "Shaymin") is None:
-            return False
-        return (
-            self._first_named(me, "Scoop Up Net") is not None
-            or self._first_named(me, "Penny") is not None
-        )
+        return False
 
     def _celebration_energy_target(self, me: Player) -> Pokemon | None:
         scaler = next((m for m in me.in_play() if self._hand_fling_attack(me, m)), None)

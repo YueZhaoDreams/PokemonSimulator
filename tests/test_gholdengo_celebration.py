@@ -1357,6 +1357,25 @@ def test_shuckle_stays_in_hand_until_attach_ready():
     assert any(me.card(m.card_i).name == "Shuckle" for m in me.in_play())
 
 
+def test_can_wind_false_when_penny_already_spent():
+    game = _game()
+    me = game.players["a"]
+    used: set[int] = set()
+    poryz = _take(me, "Porygon-Z", used)
+    shaymin = _take(me, "Shaymin", used)
+    penny = _take(me, "Penny", used)
+    me.active = Pokemon(card_i=poryz, played_turn=0)
+    me.bench = [Pokemon(card_i=shaymin, played_turn=0)]
+    me.hand = [penny]
+    me.supporter_used = True
+    assert not game._celebration_can_wind(me)
+    extra = _take(me, "Shaymin", used)
+    me.hand = [penny, extra]
+    assert not game._celebration_can_wind(me)
+    me.supporter_used = False
+    assert game._celebration_can_wind(me)
+
+
 def test_engine_benches_shuckle_before_draw_energy():
     game = _game()
     me = game.players["a"]
