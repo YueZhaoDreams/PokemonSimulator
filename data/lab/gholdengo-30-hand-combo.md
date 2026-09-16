@@ -38,7 +38,7 @@ Puzzle of Time, Scoop Up Net, Forest of Giant Plants, Broken Time-Space, Lysandr
 
 **刷牌：Shaymin UL 8 Celebration Wind + Penny。** Crazy Code 把 Speed L 贴到 Raikou（最多 +8），Enriching 贴大兔子（+4），手牌打出 Shaymin 把电系身上的特殊电挪到 Lopunny（钢能量留在 Meowth 上）。Big Jump 整叠回手后再贴。Scoop Up Net（物品，可连用）或 Penny（支援者，每回合 1 张）把 Shaymin 拿回手再打，Wind 再触发。不用 Shaymin-EX Set Up（摸到 6 就停）。Enriching 仍是唯一 ACE SPEC。不用苹果龙。
 
-家庭组 3000 盘数组（seed 20260911）这版 **4 Galarian Meowth / 2 Raikou**：胜率 **2.5 / 7.0 / 8.5 / 17.3 / 5.3 / 15.2 / 28.9%** vs c60/t60/hedrick/unl/d60/s60/g。上一版 4 Aipom / 4 Ambipom / 1 Raikou 是 **3.7 / 4.9 / 6.7 / 22.1 / 4.2 / 28.5 / 30.4%**。不用进化换来 t60/hedrick 小涨（Dive 线稍慢），2 只 Raikou 把 Speed L / Star Alchemy 拉回来；c60 Photon 和 s60 更差——70 HP + 23 张手牌比 100 HP + 12 张更难打完三枪。
+家庭组 3000 盘数组（seed 20260911）这版 **Shaymin Wind + Penny**：胜率 **2.2 / 6.8 / 8.0 / 17.2 / 5.2 / 11.5 / 30.1%** vs c60/t60/hedrick/unl/d60/s60/g。上一版无 Shaymin 的 `[M]` + 4 钢是 **2.6 / 6.9 / 9.6 / 17.0 / 2.8 / 10.4 / 24.7%**。Big Jump 大约翻倍；g 24.7→30.1，d60 2.8→5.2。Wind 只在约 9–28% 的对局里打出（要 Shaymin 上手 + Raikou + 大兔子）。c60 Photon 仍秒 70 HP。Goldfish 场上齐了能摸到 30。
 
 ---
 
@@ -184,27 +184,31 @@ Honest calendar: **3 Celebration attacks** is the prize floor. **3 of our turns*
 
 ## Win-rate array
 
-G30 (`celebration` strategy, 30th Galarian Meowth Treasure Rush `[M]` + 4 Metal Energy + Lopunny FLF Big Jump + 4 Meowth + 2 Raikou V) as player A vs the household 60s. Not a full NxN remake of `set-c60-unl-matrix`. Rules preset `s60` (60 / 6 prizes / 4-of). First player random. **3,000 games / cell, seed 20260911**. Elapsed **83.6s**.
+G30 (`celebration` strategy, 30th Galarian Meowth Treasure Rush `[M]` + 4 Metal Energy + Lopunny FLF Big Jump + Shaymin UL Celebration Wind + Penny + 4 Meowth + 2 Raikou V) as player A vs the household 60s. Not a full NxN remake of `set-c60-unl-matrix`. Rules preset `s60` (60 / 6 prizes / 4-of). First player random. **3,000 games / cell, seed 20260911**. Elapsed **80.4s**.
 
 Script: `data/lab/gholdengo-30-array.py`. Numbers: `data/lab/gholdengo-30-array.json`.
 
 | A \\ B | c60 | t60 | hedrick | unl | d60 | s60 | g |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| g30 win | 2.6% | 6.9% | 9.6% | 17.0% | 2.8% | 10.4% | 24.7% |
-| first | 2.8% | 7.5% | 9.0% | 16.0% | 2.3% | 10.5% | 22.8% |
-| second | 2.3% | 6.2% | 10.3% | 17.9% | 3.4% | 10.2% | 26.7% |
-| Crazy Code | 44.5% | 26.2% | 37.3% | 40.4% | 26.8% | 65.8% | 47.7% |
-| Puzzle pair | 5.8% | 2.6% | 6.2% | 5.1% | 2.8% | 8.5% | 5.5% |
-| Speed L draw | 35.2% | 18.5% | 28.3% | 30.5% | 19.1% | 56.1% | 39.2% |
-| Big Jump | 18.3% | 10.9% | 15.5% | 17.9% | 8.0% | 35.6% | 14.9% |
-| Treasure Rush | 25.5% | 27.4% | 32.6% | 13.8% | 1.9% | 22.7% | 45.5% |
-| Draw Energy | 74.0% | 59.8% | 65.4% | 70.9% | 62.3% | 87.7% | 75.6% |
-| Rare Candy | 57.2% | 69.9% | 45.1% | 93.7% | 39.6% | 72.7% | 56.7% |
-| Fleet-Footed | 62.5% | 57.2% | 51.3% | 55.8% | 66.5% | 58.8% | 54.8% |
-| Star Alchemy | 52.6% | 39.0% | 41.8% | 85.7% | 42.7% | 68.7% | 51.5% |
-| Celebration | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| g30 win | 2.2% | 6.8% | 8.0% | 17.2% | 5.2% | 11.5% | 30.1% |
+| first | 1.9% | 7.5% | 8.5% | 17.5% | 5.4% | 10.4% | 29.5% |
+| second | 2.6% | 6.1% | 7.6% | 16.9% | 5.0% | 12.6% | 30.7% |
+| Crazy Code | 40.0% | 21.7% | 32.6% | 35.8% | 21.1% | 59.8% | 38.9% |
+| Puzzle pair | 3.5% | 2.1% | 5.3% | 4.1% | 2.0% | 5.7% | 3.4% |
+| Speed L draw | 31.8% | 16.7% | 26.5% | 28.5% | 14.9% | 52.7% | 32.2% |
+| Big Jump | 41.3% | 29.6% | 34.9% | 45.1% | 28.0% | 62.0% | 33.9% |
+| Treasure Rush | 29.6% | 27.0% | 33.5% | 18.2% | 4.1% | 32.5% | 49.3% |
+| Draw Energy | 71.8% | 59.8% | 64.4% | 70.2% | 60.8% | 84.8% | 71.1% |
+| Rare Candy | 48.5% | 67.3% | 38.1% | 92.5% | 30.4% | 65.9% | 45.3% |
+| Fleet-Footed | 55.6% | 51.2% | 47.5% | 50.1% | 55.1% | 54.3% | 48.8% |
+| Star Alchemy | 43.5% | 30.4% | 37.1% | 84.5% | 32.5% | 62.4% | 42.1% |
+| Celebration Wind | 14.4% | 8.8% | 14.8% | 15.5% | 7.4% | 27.9% | 14.0% |
+| Penny | 17.5% | 10.8% | 16.7% | 16.1% | 11.6% | 26.0% | 16.9% |
+| Scoop Up Net | 20.0% | 12.1% | 19.4% | 18.7% | 12.8% | 31.4% | 19.0% |
 
-Same seed, previous **wrong `[C][C]` cost + 4 Lightning Energy**: g30 win **2.5 / 7.0 / 8.5 / 17.3 / 5.3 / 15.2 / 28.9%**, Treasure Rush **30.1 / 25.2 / 32.2 / 18.5 / 4.2 / 33.9 / 50.1%**. Printed `[M]` is easier to *count* (one energy) but harder to *pay*: Crazy Code cannot dump Colorless onto a Metal cost, and once-per-turn attach waits for a Metal from a 4-of. Draw Energy fire drops (~80–95% → 60–88%) because Colorless attach is skipped while Rush is unpaid. Rush fire and wins drop on s60 (15.2→10.4), g (28.9→24.7), and d60 (5.3→2.8). Hedrick ticks up (8.5→9.6). c60 stays ~2.5%.
+Same seed, previous **`[M]` + 4 Metal, no Shaymin/Penny**: g30 win **2.6 / 6.9 / 9.6 / 17.0 / 2.8 / 10.4 / 24.7%**, Treasure Rush **25.5 / 27.4 / 32.6 / 13.8 / 1.9 / 22.7 / 45.5%**, Big Jump **18.3 / 10.9 / 15.5 / 17.9 / 8.0 / 35.6 / 14.9%**. Wind recycle roughly **doubles Big Jump** (c60 18→41, s60 36→62, g 15→34). Wins move most on **g** (24.7→30.1) and **d60** (2.8→5.2); s60 10.4→11.5; unl 17.0→17.2. Hedrick 9.6→8.0 and c60 2.6→2.2: Photon / Dive still KO 70 HP before three 2-prize shots, and Wind only fires in ~9–28% of games (need Shaymin in hand plus Raikou + Lopunny). Goldfish with the board already up still reaches 30.
+
+Same seed, previous **wrong `[C][C]` cost + 4 Lightning Energy**: g30 win **2.5 / 7.0 / 8.5 / 17.3 / 5.3 / 15.2 / 28.9%**, Treasure Rush **30.1 / 25.2 / 32.2 / 18.5 / 4.2 / 33.9 / 50.1%**. Printed `[M]` is easier to *count* (one energy) but harder to *pay*: Crazy Code cannot dump Colorless onto a Metal cost, and once-per-turn attach waits for a Metal from a 4-of.
 
 Same seed, previous **4 Aipom / 4 Ambipom / 1 Raikou**: g30 win **3.7 / 4.9 / 6.7 / 22.1 / 4.2 / 28.5 / 30.4%**, Hand Fling **23.7 / 11.4 / 17.6 / 15.0 / 3.4 / 37.8 / 42.5%**. Skipping evolve lifts t60 vs Ambipom (4.9→6.9) and hedrick (6.7→9.6); 2 Raikou lifts Speed L / Fleet-Footed / Star Alchemy. c60 stays ~2.5: Photon still KOs, and 70 HP Meowth dies even faster. s60 drops hard (28.5→10.4): 10× needs ~23 cards vs 20× at 12, `[M]` is once-per-turn, and 70 HP does not survive the prize race the way 100 HP Ambipom did. unl 22.1→17.0, g 30.4→24.7.
 
