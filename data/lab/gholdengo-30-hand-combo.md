@@ -1,7 +1,7 @@
 # 30th Galarian Meowth Treasure Rush — 60-card Unlimited (G30 lab)
 
 Date: 2026-09-16
-Status: engine plays 30th Celebration Galarian Meowth Treasure Rush (Basic, no evolve) with Lopunny FLF Big Jump, 2 Raikou V Fleet-Footed + Forest Seal Stone Star Alchemy, Draw Energy, and Rare Candy. Win-rate array vs household 60s is in `data/lab/gholdengo-30-array.json`. Crown Zenith Fasten Claws stays the catalog default for the name Galarian Meowth.
+Status: engine plays 30th Celebration Galarian Meowth Treasure Rush (Basic, no evolve) with Lopunny FLF Big Jump, Shaymin UL Celebration Wind recycling Speed Lightning Energy, Penny / Scoop Up Net to replay Shaymin, 2 Raikou V Fleet-Footed + Forest Seal Stone Star Alchemy, Draw Energy, and Rare Candy. Win-rate array vs household 60s is in `data/lab/gholdengo-30-array.json`. Crown Zenith Fasten Claws stays the catalog default for the name Galarian Meowth.
 
 **This lab is Unlimited constructed. Not Standard. Not Expanded. Not Family Cup 30.**
 
@@ -34,9 +34,9 @@ Puzzle of Time, Scoop Up Net, Forest of Giant Plants, Broken Time-Space, Lysandr
 
 **电系位 2 Raikou V（BRS 48）。** Fleet-Footed：前位摸 1。Forest Seal Stone 贴 V 开 Star Alchemy。Speed Lightning Energy 只有贴到雷宝可梦才抽 2；贴 Meowth（钢）不抽。一次贴能优先钢给 Meowth，Crazy Code 的 Draw Energy 只负责摸牌。
 
-**砍掉 Aipom / Ambipom / Sableye / Remoraid / Octillery / Porygon2 / Pikachu。** Rare Candy 仍跳 Porygon → Porygon-Z。Wally 只给 Buneary→Lopunny。场上最多 2 只 Meowth。
+**砍掉 Aipom / Ambipom / Sableye / Remoraid / Octillery / Porygon2 / Pikachu。** Rare Candy 仍跳 Porygon → Porygon-Z。Wally 只给 Buneary→Lopunny。场上最多 **1** 只 Meowth，给 Shaymin 留座位。
 
-Enriching 仍是唯一 ACE SPEC。不用苹果龙。
+**刷牌：Shaymin UL 8 Celebration Wind + Penny。** Crazy Code 把 Speed L 贴到 Raikou（最多 +8），Enriching 贴大兔子（+4），手牌打出 Shaymin 把电系身上的特殊电挪到 Lopunny（钢能量留在 Meowth 上）。Big Jump 整叠回手后再贴。Scoop Up Net（物品，可连用）或 Penny（支援者，每回合 1 张）把 Shaymin 拿回手再打，Wind 再触发。不用 Shaymin-EX Set Up（摸到 6 就停）。Enriching 仍是唯一 ACE SPEC。不用苹果龙。
 
 家庭组 3000 盘数组（seed 20260911）这版 **4 Galarian Meowth / 2 Raikou**：胜率 **2.5 / 7.0 / 8.5 / 17.3 / 5.3 / 15.2 / 28.9%** vs c60/t60/hedrick/unl/d60/s60/g。上一版 4 Aipom / 4 Ambipom / 1 Raikou 是 **3.7 / 4.9 / 6.7 / 22.1 / 4.2 / 28.5 / 30.4%**。不用进化换来 t60/hedrick 小涨（Dive 线稍慢），2 只 Raikou 把 Speed L / Star Alchemy 拉回来；c60 Photon 和 s60 更差——70 HP + 23 张手牌比 100 HP + 12 张更难打完三枪。
 
@@ -92,31 +92,31 @@ Printings are the text this lab uses. Galarian Meowth in this 60 is **30th Celeb
 | 2 | Lopunny | FLF 85 | **Big Jump**: this Pokémon + attachments to **hand**. Sitdown Bounce is not the closer. |
 | 3 | Porygon | UNB 154 | 50 HP → Poffin. Rare Candy into Porygon-Z. |
 | 2 | Porygon-Z | UNB 157 | Crazy Code. |
-| 4 | Galarian Meowth | 30th 101 | **Treasure Rush** 10×hand, **`[M]`**. Pay Day `[C]` draws 1 when Rush would not KO. Basic, 70 HP → Poffin. **1 prize**. Cap 2 in play. |
+| 4 | Galarian Meowth | 30th 101 | **Treasure Rush** 10×hand, **`[M]`**. Pay Day `[C]` draws 1 when Rush would not KO. Basic, 70 HP → Poffin. **1 prize**. Cap **1** in play (bench seat for Shaymin). Hunt still wants a spare in hand. |
 | 2 | Raikou V | BRS 48 | Lightning host for Speed L draw 2. **Fleet-Footed** draws 1 if Active. Pokémon V for Forest Seal Stone. 200 HP, 2 prizes — do not open on it. |
+| 4 | Shaymin | UL 8 | **Celebration Wind**: when put from **hand** onto the Bench, move any Energy to Lopunny. Not from Nest/Poffin. 70 HP → Poffin-legal, but the engine holds it in hand until Speed L is on Raikou. |
 | 4 | Puzzle of Time | BKP 109 | Discard retrieve backup. |
-| 2 | Scoop Up Net | RCL 165 | Backup if Big Jump is not in play. Cannot Net Raikou V. Do **not** Net Meowth / Lopunny. |
+| 2 | Scoop Up Net | RCL 165 | Replay Shaymin the same turn (Item). Cannot Net Raikou V. Do **not** Net Meowth / Lopunny. |
 | 3 | Broken Time-Space | PL 104 | Same-turn Stage 1 evo (Lopunny). Does **not** override Rare Candy. |
-| 2 | Nest Ball | any | Raikou V is 200 HP — Poffin cannot fetch it. |
-| 3 | Buddy-Buddy Poffin | TEF 144 | Buneary / Porygon / Galarian Meowth (70). |
-| 3 | Ultra Ball | any | |
-| 3 | VS Seeker | PHF 109 | |
-| 2 | Wally | ROS 94 | Buneary→Lopunny. Meowth does not evolve. Cannot skip to Porygon-Z. |
-| 1 | Professor's Research | any | Setup only. |
-| 1 | Battle Compressor | FCO / UNB | |
+| 1 | Nest Ball | any | Raikou V is 200 HP — Poffin cannot fetch it. |
+| 3 | Buddy-Buddy Poffin | TEF 144 | Buneary / Porygon / Galarian Meowth / Shaymin (70). |
+| 2 | Ultra Ball | any | |
+| 2 | VS Seeker | PHF 109 | Recycle Penny / Wally. |
+| 1 | Wally | ROS 94 | Buneary→Lopunny. Meowth does not evolve. Cannot skip to Porygon-Z. |
+| 2 | Penny | SVI 183 | **Put 1 of your Basic Pokémon and all attached cards into your hand.** Shaymin only here. Supporter, 1/turn. Cannot Penny Lopunny. |
 | 1 | Switch | any | Into Meowth when Treasure Rush is still lethal after −1 card. |
 | 4 | Rare Candy | PAF 89 | Skip Porygon → Porygon-Z. Not first turn; not a Basic played this turn. |
 | 2 | Forest Seal Stone | SIT 156 | Tool on Raikou V. **Star Alchemy**: search any one card, one VSTAR Power per game. |
 | 1 | Enriching Energy | SSP 191 | ACE SPEC. Loop on Lopunny (Big Jump). |
-| 4 | Speed Lightning Energy | RCL 173 | Draw 2 only on Lightning. Stay on Raikou V; do not spend on Metal Meowth. |
-| 4 | Metal Energy | any | Pays Treasure Rush `[M]`. Once-per-turn attach. Colorless cannot pay Metal. |
+| 4 | Speed Lightning Energy | RCL 173 | Draw 2 only on Lightning. Attach to Raikou V, Wind onto Lopunny, Big Jump recycles. Do not spend on Metal Meowth. |
+| 4 | Metal Energy | any | Pays Treasure Rush `[M]`. Once-per-turn attach. Colorless cannot pay Metal. Stay on Meowth through Wind. |
 | 4 | Draw Energy | CEC 209 | Colorless; attach from hand, draw 1. Net 0. Crazy Code can spam it. Does **not** pay Rush. |
 
-**16 Pokémon + 31 Trainers + 13 Energy = 60.**
+**20 Pokémon + 27 Trainers + 13 Energy = 60.**
 
-Cut Aipom, Ambipom, Sableye, Remoraid, Octillery, Pikachu, Porygon2, Junk Arm, Darkness, Lightning Energy. The 8 Aipom/Ambipom slots become 4 Meowth + 1 Raikou + 1 Seal + 1 Nest + 1 Metal (Lightning converted to Metal).
+Cut Aipom, Ambipom, Sableye, Remoraid, Octillery, Pikachu, Porygon2, Junk Arm, Darkness, Lightning Energy, Professor's Research, Battle Compressor. The 8 Aipom/Ambipom slots plus trainer cuts become 4 Meowth + 1 extra Raikou + Forest Seal + 4 Shaymin + 2 Penny.
 
-Goldfish (board already up, going second): Rare Candy Porygon into Z, BTS into Lopunny, Nest Raikou V, Meowth is already Basic. Attach one Metal to Meowth. Forest Seal Stone on Raikou → Star Alchemy. Crazy Code Speed L onto Raikou (draw 2), Enriching onto Lopunny (draw 4), Draw Energy onto bounce host. Big Jump returns Buneary + Lopunny + Enriching. Replay Buneary, BTS evolve, attach again. Treasure Rush when `10 × hand` KOs (23 vs Mewtwo 230) and `[M]` is attached.
+Goldfish (board already up, going second): Rare Candy Porygon into Z, BTS into Lopunny, Nest Raikou V, Meowth is already Basic. Attach one Metal to Meowth. Forest Seal Stone on Raikou → Star Alchemy. Crazy Code Speed L onto Raikou (draw 2 each, up to +8), Enriching onto Lopunny (draw 4), Draw Energy onto bounce host. Play Shaymin from hand: Celebration Wind moves Speed L (not Metal) onto Lopunny. Big Jump returns Buneary + Lopunny + Speed L + Enriching. Replay Buneary, BTS evolve, Net or Penny Shaymin, attach again. Treasure Rush when `10 × hand` KOs (23 vs Mewtwo 230) and `[M]` is attached.
 
 ---
 

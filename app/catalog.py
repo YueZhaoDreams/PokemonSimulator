@@ -89,10 +89,12 @@ TRAINER_KIND_HINTS = {
     "risky ruins": "stadium",
     "counter catcher": "item",
     "forest seal stone": "item",
+    "penny": "supporter",
     "professor turo's scenario": "supporter",
     "collapsed stadium": "stadium",
     "drayton": "supporter",
     "lacey": "supporter",
+    "penny": "supporter",
 }
 
 # Carpet-photo printings confirmed via attack OCR phrases / user correction.
@@ -260,6 +262,8 @@ PREFERRED_IDS = {
     "Skiploom": "bw6-2",
     "Jumpluff": "bw6-3",  # Dragons Exalted Leave It to the Wind
     "Galarian Meowth": "swsh12.5-084",  # Fasten Claws (Crown Zenith). 30th Treasure Rush is extra.
+    "Shaymin": "hgss2-8",  # Unleashed Celebration Wind (from-hand bench energy move)
+    "Penny": "sv01-183",  # Basic Pokémon + attachments to hand
     # Rockruff is NOT pinned globally: Set A is Crown Zenith Invite Out, Set B is Lost Origin Double Draw.
 }
 
@@ -408,6 +412,8 @@ PRINT_PREFER = {
     "Counter Catcher": ["more prize cards remaining"],
     "Forest Seal Stone": ["star alchemy"],
     "Raikou V": ["fleet-footed", "lightning streak"],
+    "Shaymin": ["celebration wind"],
+    "Penny": ["basic pokémon and all attached cards into your hand", "basic pokemon and all attached cards into your hand"],
     "Draw Energy": ["draw a card"],
     "Professor Turo's Scenario": ["all attached cards into your hand"],
     "Collapsed Stadium": ["4 benched"],

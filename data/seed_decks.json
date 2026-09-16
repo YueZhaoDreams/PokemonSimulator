@@ -22622,6 +22622,222 @@
         "dex_id": null
       },
       {
+        "catalog_id": "hgss2-8",
+        "name": "Shaymin",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Grass"
+        ],
+        "hp": 70,
+        "attacks": [
+          {
+            "name": "Energy Bloom",
+            "cost": [
+              "Grass",
+              "Colorless"
+            ],
+            "damage": 30,
+            "text": "Remove 3 damage counters from each of your Pok\u00e9mon that has any Energy attached to it.",
+            "effects": []
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Celebration Wind",
+            "text": "Once during your turn, when you put Shaymin from your hand onto your Bench, you may move as many Energy cards attached to your Pok\u00e9mon as you like to any of your other Pok\u00e9mon.",
+            "effects": [
+              {
+                "kind": "move_any_energy_when_benched_from_hand",
+                "once_per_turn": true
+              }
+            ]
+          }
+        ],
+        "weaknesses": [
+          {
+            "type": "Fire",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [
+          {
+            "type": "Fighting",
+            "value": "-20"
+          }
+        ],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/hgss/hgss2/8/low.webp",
+        "set_name": "Unleashed",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "hgss2-8",
+        "name": "Shaymin",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Grass"
+        ],
+        "hp": 70,
+        "attacks": [
+          {
+            "name": "Energy Bloom",
+            "cost": [
+              "Grass",
+              "Colorless"
+            ],
+            "damage": 30,
+            "text": "Remove 3 damage counters from each of your Pok\u00e9mon that has any Energy attached to it.",
+            "effects": []
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Celebration Wind",
+            "text": "Once during your turn, when you put Shaymin from your hand onto your Bench, you may move as many Energy cards attached to your Pok\u00e9mon as you like to any of your other Pok\u00e9mon.",
+            "effects": [
+              {
+                "kind": "move_any_energy_when_benched_from_hand",
+                "once_per_turn": true
+              }
+            ]
+          }
+        ],
+        "weaknesses": [
+          {
+            "type": "Fire",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [
+          {
+            "type": "Fighting",
+            "value": "-20"
+          }
+        ],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/hgss/hgss2/8/low.webp",
+        "set_name": "Unleashed",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "hgss2-8",
+        "name": "Shaymin",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Grass"
+        ],
+        "hp": 70,
+        "attacks": [
+          {
+            "name": "Energy Bloom",
+            "cost": [
+              "Grass",
+              "Colorless"
+            ],
+            "damage": 30,
+            "text": "Remove 3 damage counters from each of your Pok\u00e9mon that has any Energy attached to it.",
+            "effects": []
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Celebration Wind",
+            "text": "Once during your turn, when you put Shaymin from your hand onto your Bench, you may move as many Energy cards attached to your Pok\u00e9mon as you like to any of your other Pok\u00e9mon.",
+            "effects": [
+              {
+                "kind": "move_any_energy_when_benched_from_hand",
+                "once_per_turn": true
+              }
+            ]
+          }
+        ],
+        "weaknesses": [
+          {
+            "type": "Fire",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [
+          {
+            "type": "Fighting",
+            "value": "-20"
+          }
+        ],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/hgss/hgss2/8/low.webp",
+        "set_name": "Unleashed",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "hgss2-8",
+        "name": "Shaymin",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Grass"
+        ],
+        "hp": 70,
+        "attacks": [
+          {
+            "name": "Energy Bloom",
+            "cost": [
+              "Grass",
+              "Colorless"
+            ],
+            "damage": 30,
+            "text": "Remove 3 damage counters from each of your Pok\u00e9mon that has any Energy attached to it.",
+            "effects": []
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Celebration Wind",
+            "text": "Once during your turn, when you put Shaymin from your hand onto your Bench, you may move as many Energy cards attached to your Pok\u00e9mon as you like to any of your other Pok\u00e9mon.",
+            "effects": [
+              {
+                "kind": "move_any_energy_when_benched_from_hand",
+                "once_per_turn": true
+              }
+            ]
+          }
+        ],
+        "weaknesses": [
+          {
+            "type": "Fire",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [
+          {
+            "type": "Fighting",
+            "value": "-20"
+          }
+        ],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/hgss/hgss2/8/low.webp",
+        "set_name": "Unleashed",
+        "text": "",
+        "dex_id": null
+      },
+      {
         "catalog_id": "xy8-109",
         "name": "Puzzle of Time",
         "category": "Trainer",
@@ -22822,26 +23038,6 @@
         "dex_id": null
       },
       {
-        "catalog_id": "sv01-181",
-        "name": "Nest Ball",
-        "category": "Trainer",
-        "stage": "Item",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "item",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv01/181/low.webp",
-        "set_name": null,
-        "text": "Search your deck for a Basic Pok\u00e9mon and put it onto your Bench. Then, shuffle your deck.",
-        "dex_id": null
-      },
-      {
         "catalog_id": "sv05-144",
         "name": "Buddy-Buddy Poffin",
         "category": "Trainer",
@@ -22939,46 +23135,6 @@
         "image": "https://assets.tcgdex.net/en/sv/sv04.5/091/low.webp",
         "set_name": null,
         "text": "Discard 2 cards from your hand. Search your deck for a Pok\u00e9mon.",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "sv04.5-091",
-        "name": "Ultra Ball",
-        "category": "Trainer",
-        "stage": "Item",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "item",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv04.5/091/low.webp",
-        "set_name": null,
-        "text": "Discard 2 cards from your hand. Search your deck for a Pok\u00e9mon.",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "xy4-109",
-        "name": "VS Seeker",
-        "category": "Trainer",
-        "stage": "Item",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "item",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/xy/xy4/109/low.webp",
-        "set_name": null,
-        "text": "Put a Supporter card from your discard pile into your hand.",
         "dex_id": null
       },
       {
@@ -23042,8 +23198,8 @@
         "dex_id": null
       },
       {
-        "catalog_id": "xy6-94",
-        "name": "Wally",
+        "catalog_id": "sv01-183",
+        "name": "Penny",
         "category": "Trainer",
         "stage": "Supporter",
         "types": [],
@@ -23056,14 +23212,14 @@
         "evolves_from": null,
         "trainer_kind": "supporter",
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/xy/xy6/94/low.webp",
+        "image": "https://assets.tcgdex.net/en/sv/sv01/183/low.webp",
         "set_name": null,
-        "text": "Search your deck for a card that evolves from 1 of your Pok\u00e9mon (excluding Pok\u00e9mon-EX) and put it onto that Pok\u00e9mon. (This counts as evolving that Pok\u00e9mon.) Shuffle your deck afterward. You can use this card during your first turn or on a Pok\u00e9mon that was put into play this turn.",
+        "text": "Put 1 of your Basic Pok\u00e9mon and all attached cards into your hand.",
         "dex_id": null
       },
       {
-        "catalog_id": "sv01-189",
-        "name": "Professor's Research",
+        "catalog_id": "sv01-183",
+        "name": "Penny",
         "category": "Trainer",
         "stage": "Supporter",
         "types": [],
@@ -23076,29 +23232,9 @@
         "evolves_from": null,
         "trainer_kind": "supporter",
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv01/189/low.webp",
+        "image": "https://assets.tcgdex.net/en/sv/sv01/183/low.webp",
         "set_name": null,
-        "text": "Discard your hand and draw 7 cards.",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "xy3-92",
-        "name": "Battle Compressor",
-        "category": "Trainer",
-        "stage": "Item",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "item",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/xy/xy3/92/low.webp",
-        "set_name": null,
-        "text": "Search your deck for up to 3 cards and discard them. Shuffle your deck afterward.",
+        "text": "Put 1 of your Basic Pok\u00e9mon and all attached cards into your hand.",
         "dex_id": null
       },
       {

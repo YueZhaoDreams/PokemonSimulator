@@ -484,7 +484,10 @@ STRATEGY_LIBRARY = {
             "no evolve. Rare Candy skips Porygon to Porygon-Z. Crazy Code attaches "
             "Enriching Energy and Draw Energy as often as you like. Lopunny FLF Big "
             "Jump returns this Pokémon and all attached cards to the hand — net +4 "
-            "with replay + evolve. Scoop Up Net + Puzzle of Time is the discard "
+            "with replay + evolve. Shaymin UL Celebration Wind moves Speed Lightning "
+            "Energy from Raikou V onto Lopunny when played from hand to the Bench; "
+            "Scoop Up Net or Penny returns Shaymin so the attach-draw can fire again. "
+            "Scoop Up Net + Puzzle of Time is the discard "
             "fallback. Four Galarian Meowth race 2-prize KOs against 1-prize deaths. "
             "Two Raikou V are Lightning hosts: Fleet-Footed draws 1 while Active; "
             "Forest Seal Stone Star Alchemy searches any one card once per game; "
@@ -506,8 +509,9 @@ STRATEGY_LIBRARY = {
             "Porygon-Z",
             "Galarian Meowth",
             "Raikou V",
+            "Shaymin",
         ],
-        search_aces=["Buneary", "Porygon", "Galarian Meowth", "Raikou V"],
+        search_aces=["Buneary", "Porygon", "Galarian Meowth", "Raikou V", "Shaymin"],
         closers=["Galarian Meowth"],
         backups=["Porygon-Z", "Raikou V"],
         insurance=["Raikou V"],

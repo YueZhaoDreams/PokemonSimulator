@@ -88,6 +88,11 @@ MEMORY_HELIX_TEXT = (
     "This Pokémon can use the attacks of any of your Benched Pokémon. "
     "(You still need the necessary Energy to use each attack.)"
 )
+CELEBRATION_WIND_TEXT = (
+    "Once during your turn, when you put Shaymin from your hand onto your Bench, "
+    "you may move as many Energy cards attached to your Pokémon as you like to any of your other Pokémon."
+)
+PENNY_TEXT = "Put 1 of your Basic Pokémon and all attached cards into your hand."
 
 
 def _game() -> Game:
@@ -128,10 +133,17 @@ def test_g30_list_is_printed_sixty():
     assert names.count("Galarian Meowth") == 4
     assert names.count("Pikachu") == 0
     assert names.count("Raikou V") == 2
+    assert names.count("Shaymin") == 4
     assert names.count("Gholdengo") == 0
     assert names.count("Puzzle of Time") == 4
     assert names.count("Scoop Up Net") == 2
-    assert names.count("Nest Ball") == 2
+    assert names.count("Nest Ball") == 1
+    assert names.count("Ultra Ball") == 2
+    assert names.count("VS Seeker") == 2
+    assert names.count("Wally") == 1
+    assert names.count("Penny") == 2
+    assert names.count("Professor's Research") == 0
+    assert names.count("Battle Compressor") == 0
     assert names.count("Rare Candy") == 4
     assert names.count("Forest Seal Stone") == 2
     assert names.count("Enriching Energy") == 1
@@ -179,6 +191,13 @@ def test_g30_list_is_printed_sixty():
     assert candy.text == RARE_CANDY_TEXT
     stone = next(c for c in pile if c.name == "Forest Seal Stone")
     assert stone.catalog_id == "swsh12-156"
+    shaymin = next(c for c in pile if c.name == "Shaymin")
+    assert shaymin.catalog_id == "hgss2-8"
+    assert shaymin.hp == 70
+    assert shaymin.abilities[0].name == "Celebration Wind"
+    penny = next(c for c in pile if c.name == "Penny")
+    assert penny.catalog_id == "sv01-183"
+    assert penny.is_supporter
 
 
 def test_celebration_parses_printed_wording():
@@ -280,6 +299,21 @@ def test_puzzle_net_junk_arm_wally_parse_from_print():
     assert rec["count"] == 2
 
 
+def test_celebration_wind_and_penny_parse_printed_wording():
+    wind = parse_ability_effects(CELEBRATION_WIND_TEXT)
+    assert wind[0]["kind"] == "move_any_energy_when_benched_from_hand"
+    shaymin = fallback_named("Shaymin")
+    assert shaymin.catalog_id == "hgss2-8"
+    assert shaymin.abilities[0].name == "Celebration Wind"
+    assert shaymin.abilities[0].text == CELEBRATION_WIND_TEXT
+    assert parse_ability_effects(shaymin.abilities[0].text) == wind
+    penny = parse_trainer_effects(PENNY_TEXT)
+    assert penny[0]["kind"] == "return_one_basic_and_attached_to_hand"
+    card = fallback_named("Penny")
+    assert card.text == PENNY_TEXT
+    assert parse_trainer_effects(card.text) == penny
+
+
 def test_fallback_prints_use_lab_wording():
     assert fallback_named("Ambipom").attacks[-1].text == HAND_FLING_TEXT
     assert fallback_named("galarian meowth 30th").attacks[-1].text == TREASURE_RUSH_TEXT
@@ -298,6 +332,8 @@ def test_fallback_prints_use_lab_wording():
     assert fallback_named("Broken Time-Space").text == BTS_TEXT
     assert fallback_named("Lopunny").abilities[0].text == BIG_JUMP_TEXT
     assert fallback_named("Jumpluff").abilities[0].text == BIG_JUMP_TEXT
+    assert fallback_named("Shaymin").abilities[0].text == CELEBRATION_WIND_TEXT
+    assert fallback_named("Penny").text == PENNY_TEXT
 
 
 def test_speed_l_draws_only_on_lightning():
@@ -697,7 +733,8 @@ def test_celebration_benches_replacement_meowth_after_first():
     me.hand = [meowth2]
     game._play_basics(me)
     names = [me.card(m.card_i).name for m in me.in_play()]
-    assert names.count("Galarian Meowth") == 2
+    assert names.count("Galarian Meowth") == 1
+    assert any(me.card(i).name == "Galarian Meowth" for i in me.hand)
 
 
 def test_celebration_big_jump_when_hand_fling_not_ready():
@@ -892,3 +929,251 @@ def test_evolve_g_does_not_candy_same_turn_basic_with_bts():
     game._evolve(me, game.players["b"], "a")
     assert me.card(me.active.card_i).name == "Porygon"
     assert candy in me.hand
+
+
+def test_celebration_wind_moves_speed_l_and_keeps_metal_on_meowth():
+    game = _game()
+    me = game.players["a"]
+    used: set[int] = set()
+    poryz = _take(me, "Porygon-Z", used)
+    meowth = _take(me, "Galarian Meowth", used)
+    metal = _take(me, "Metal Energy", used)
+    raikou = _take(me, "Raikou V", used)
+    buneary = _take(me, "Buneary", used)
+    lopunny = _take(me, "Lopunny", used)
+    shaymin = _take(me, "Shaymin", used)
+    speeds = [_take(me, "Speed Lightning Energy", used) for _ in range(4)]
+    rest = [i for i in range(len(me.cards)) if i not in used]
+    me.active = Pokemon(card_i=poryz, played_turn=0)
+    me.bench = [
+        Pokemon(card_i=meowth, played_turn=0, energy=[metal]),
+        Pokemon(card_i=lopunny, played_turn=0, underneath=[buneary]),
+        Pokemon(card_i=raikou, played_turn=0, energy=list(speeds)),
+    ]
+    me.hand = [shaymin]
+    me.deck = rest
+    before_draw = game.events.get("speed_l_draw", 0)
+    assert game._celebration_play_shaymin(me, "a")
+    attacker = next(m for m in me.in_play() if me.card(m.card_i).name == "Galarian Meowth")
+    bounce = next(m for m in me.in_play() if me.card(m.card_i).name == "Lopunny")
+    host = next(m for m in me.in_play() if me.card(m.card_i).name == "Raikou V")
+    assert metal in attacker.energy
+    assert all(i in bounce.energy for i in speeds)
+    assert host.energy == []
+    assert game.events.get("celebration_wind") == 4
+    assert game.events.get("speed_l_draw", 0) == before_draw
+
+
+def test_celebration_wind_does_not_fire_when_benched_from_deck():
+    game = _game()
+    me = game.players["a"]
+    used: set[int] = set()
+    poryz = _take(me, "Porygon-Z", used)
+    raikou = _take(me, "Raikou V", used)
+    lopunny = _take(me, "Lopunny", used)
+    buneary = _take(me, "Buneary", used)
+    shaymin = _take(me, "Shaymin", used)
+    speed = _take(me, "Speed Lightning Energy", used)
+    me.active = Pokemon(card_i=poryz, played_turn=0)
+    me.bench = [
+        Pokemon(card_i=lopunny, played_turn=0, underneath=[buneary]),
+        Pokemon(card_i=raikou, played_turn=0, energy=[speed]),
+        Pokemon(card_i=shaymin, played_turn=0),
+    ]
+    me.hand = []
+    game._on_benched(me, me.bench[-1], from_hand=False)
+    assert speed in me.bench[1].energy
+    assert not game.events.get("celebration_wind")
+    game._on_benched(me, me.bench[-1], from_hand=True)
+    bounce = next(m for m in me.in_play() if me.card(m.card_i).name == "Lopunny")
+    assert speed in bounce.energy
+    assert game.events.get("celebration_wind") == 1
+
+
+def test_penny_returns_shaymin_with_attachments():
+    game = _game()
+    me = game.players["a"]
+    used: set[int] = set()
+    poryz = _take(me, "Porygon-Z", used)
+    shaymin = _take(me, "Shaymin", used)
+    draw = _take(me, "Draw Energy", used)
+    penny = _take(me, "Penny", used)
+    me.active = Pokemon(card_i=poryz, played_turn=0)
+    me.bench = [Pokemon(card_i=shaymin, played_turn=0, energy=[draw])]
+    me.hand = [penny]
+    assert game._play_named_supporter(me, game.players["b"], "a", "Penny")
+    names = [me.card(i).name for i in me.hand]
+    assert names.count("Shaymin") == 1
+    assert names.count("Draw Energy") == 1
+    assert game.events.get("penny") == 1
+    assert all(me.card(m.card_i).name != "Shaymin" for m in me.in_play())
+
+
+def test_shaymin_net_replay_recycles_speed_l_to_thirty():
+    game = _game()
+    me = game.players["a"]
+    foe = game.players["b"]
+    used: set[int] = set()
+    poryz = _take(me, "Porygon-Z", used)
+    meowth = _take(me, "Galarian Meowth", used)
+    buneary = _take(me, "Buneary", used)
+    lopunny = _take(me, "Lopunny", used)
+    raikou = _take(me, "Raikou V", used)
+    shaymin = _take(me, "Shaymin", used)
+    enrich = _take(me, "Enriching Energy", used)
+    speeds = [_take(me, "Speed Lightning Energy", used) for _ in range(4)]
+    draws = [_take(me, "Draw Energy", used) for _ in range(4)]
+    nets = [_take(me, "Scoop Up Net", used) for _ in range(2)]
+    penny = _take(me, "Penny", used)
+    bts = _take(me, "Broken Time-Space", used)
+    rest = [i for i in range(len(me.cards)) if i not in used]
+    me.active = Pokemon(card_i=poryz, played_turn=0)
+    me.bench = [
+        Pokemon(card_i=meowth, played_turn=0),
+        Pokemon(card_i=lopunny, played_turn=0, underneath=[buneary]),
+        Pokemon(card_i=raikou, played_turn=0),
+    ]
+    me.hand = [shaymin, enrich, *speeds, *draws, *nets, penny]
+    me.deck = rest
+    me.discard = []
+    me.prizes = []
+    foe.active = Pokemon(
+        card_i=next(i for i, c in enumerate(foe.cards) if c.name == "Mewtwo ex"),
+        played_turn=0,
+    )
+    game.turn = 2
+    game._set_stadium(me.card(bts))
+    start = len(me.hand)
+    game._celebration_engine(me, "a")
+    attacker = next(m for m in me.in_play() if me.card(m.card_i).name == "Galarian Meowth")
+    assert game.events.get("celebration_wind")
+    assert game.events.get("big_jump") or game.events.get("return_self_to_hand")
+    assert game.events.get("scoop_net") or game.events.get("penny")
+    assert game.events.get("speed_l_draw", 0) >= 8
+    assert not any(is_speed_lightning_energy(me.card(i)) for i in attacker.energy)
+    assert len(me.hand) >= 30
+    assert len(me.hand) > start
+
+
+def test_celebration_wind_moves_speed_l_and_keeps_metal_on_meowth():
+    game = _game()
+    me = game.players["a"]
+    used: set[int] = set()
+    poryz = _take(me, "Porygon-Z", used)
+    meowth = _take(me, "Galarian Meowth", used)
+    metal = _take(me, "Metal Energy", used)
+    raikou = _take(me, "Raikou V", used)
+    buneary = _take(me, "Buneary", used)
+    lopunny = _take(me, "Lopunny", used)
+    shaymin = _take(me, "Shaymin", used)
+    speeds = [_take(me, "Speed Lightning Energy", used) for _ in range(4)]
+    rest = [i for i in range(len(me.cards)) if i not in used]
+    me.active = Pokemon(card_i=poryz, played_turn=0)
+    me.bench = [
+        Pokemon(card_i=meowth, played_turn=0, energy=[metal]),
+        Pokemon(card_i=lopunny, played_turn=0, underneath=[buneary]),
+        Pokemon(card_i=raikou, played_turn=0, energy=list(speeds)),
+    ]
+    me.hand = [shaymin]
+    me.deck = rest
+    before_draw = game.events.get("speed_l_draw", 0)
+    assert game._celebration_play_shaymin(me, "a")
+    attacker = next(m for m in me.in_play() if me.card(m.card_i).name == "Galarian Meowth")
+    bounce = next(m for m in me.in_play() if me.card(m.card_i).name == "Lopunny")
+    host = next(m for m in me.in_play() if me.card(m.card_i).name == "Raikou V")
+    assert metal in attacker.energy
+    assert all(i in bounce.energy for i in speeds)
+    assert host.energy == []
+    assert game.events.get("celebration_wind") == 4
+    assert game.events.get("speed_l_draw", 0) == before_draw
+
+
+def test_celebration_wind_does_not_fire_when_benched_from_deck():
+    game = _game()
+    me = game.players["a"]
+    used: set[int] = set()
+    poryz = _take(me, "Porygon-Z", used)
+    raikou = _take(me, "Raikou V", used)
+    lopunny = _take(me, "Lopunny", used)
+    buneary = _take(me, "Buneary", used)
+    shaymin = _take(me, "Shaymin", used)
+    speed = _take(me, "Speed Lightning Energy", used)
+    me.active = Pokemon(card_i=poryz, played_turn=0)
+    me.bench = [
+        Pokemon(card_i=lopunny, played_turn=0, underneath=[buneary]),
+        Pokemon(card_i=raikou, played_turn=0, energy=[speed]),
+        Pokemon(card_i=shaymin, played_turn=0),
+    ]
+    me.hand = []
+    game._on_benched(me, me.bench[-1], from_hand=False)
+    assert speed in me.bench[1].energy
+    assert not game.events.get("celebration_wind")
+    game._on_benched(me, me.bench[-1], from_hand=True)
+    bounce = next(m for m in me.in_play() if me.card(m.card_i).name == "Lopunny")
+    assert speed in bounce.energy
+    assert game.events.get("celebration_wind") == 1
+
+
+def test_penny_returns_shaymin_with_attachments():
+    game = _game()
+    me = game.players["a"]
+    used: set[int] = set()
+    poryz = _take(me, "Porygon-Z", used)
+    shaymin = _take(me, "Shaymin", used)
+    draw = _take(me, "Draw Energy", used)
+    penny = _take(me, "Penny", used)
+    me.active = Pokemon(card_i=poryz, played_turn=0)
+    me.bench = [Pokemon(card_i=shaymin, played_turn=0, energy=[draw])]
+    me.hand = [penny]
+    assert game._play_named_supporter(me, game.players["b"], "a", "Penny")
+    names = [me.card(i).name for i in me.hand]
+    assert names.count("Shaymin") == 1
+    assert names.count("Draw Energy") == 1
+    assert game.events.get("penny") == 1
+    assert all(me.card(m.card_i).name != "Shaymin" for m in me.in_play())
+
+
+def test_shaymin_net_replay_recycles_speed_l_to_thirty():
+    game = _game()
+    me = game.players["a"]
+    foe = game.players["b"]
+    used: set[int] = set()
+    poryz = _take(me, "Porygon-Z", used)
+    meowth = _take(me, "Galarian Meowth", used)
+    buneary = _take(me, "Buneary", used)
+    lopunny = _take(me, "Lopunny", used)
+    raikou = _take(me, "Raikou V", used)
+    shaymin = _take(me, "Shaymin", used)
+    enrich = _take(me, "Enriching Energy", used)
+    speeds = [_take(me, "Speed Lightning Energy", used) for _ in range(4)]
+    draws = [_take(me, "Draw Energy", used) for _ in range(4)]
+    nets = [_take(me, "Scoop Up Net", used) for _ in range(2)]
+    penny = _take(me, "Penny", used)
+    bts = _take(me, "Broken Time-Space", used)
+    rest = [i for i in range(len(me.cards)) if i not in used]
+    me.active = Pokemon(card_i=poryz, played_turn=0)
+    me.bench = [
+        Pokemon(card_i=meowth, played_turn=0),
+        Pokemon(card_i=lopunny, played_turn=0, underneath=[buneary]),
+        Pokemon(card_i=raikou, played_turn=0),
+    ]
+    me.hand = [shaymin, enrich, *speeds, *draws, *nets, penny]
+    me.deck = rest
+    me.discard = []
+    me.prizes = []
+    foe.active = Pokemon(
+        card_i=next(i for i, c in enumerate(foe.cards) if c.name == "Mewtwo ex"),
+        played_turn=0,
+    )
+    game.turn = 2
+    game._set_stadium(me.card(bts))
+    start = len(me.hand)
+    game._celebration_engine(me, "a")
+    attacker = next(m for m in me.in_play() if me.card(m.card_i).name == "Galarian Meowth")
+    assert game.events.get("celebration_wind")
+    assert game.events.get("big_jump") or game.events.get("return_self_to_hand")
+    assert game.events.get("scoop_net") or game.events.get("penny")
+    assert game.events.get("speed_l_draw", 0) >= 8
+    assert not any(is_speed_lightning_energy(me.card(i)) for i in attacker.energy)
+    assert len(me.hand) >= 30
+    assert len(me.hand) > start

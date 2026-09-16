@@ -321,16 +321,16 @@ SET_G30_NAMES = (
     + ["Porygon-Z"] * 2
     + ["Galarian Meowth"] * 4
     + ["Raikou V"] * 2
+    + ["Shaymin"] * 4
     + ["Puzzle of Time"] * 4
     + ["Scoop Up Net"] * 2
     + ["Broken Time-Space"] * 3
-    + ["Nest Ball"] * 2
+    + ["Nest Ball"]
     + ["Buddy-Buddy Poffin"] * 3
-    + ["Ultra Ball"] * 3
-    + ["VS Seeker"] * 3
-    + ["Wally"] * 2
-    + ["Professor's Research"]
-    + ["Battle Compressor"]
+    + ["Ultra Ball"] * 2
+    + ["VS Seeker"] * 2
+    + ["Wally"]
+    + ["Penny"] * 2
     + ["Switch"]
     + ["Rare Candy"] * 4
     + ["Forest Seal Stone"] * 2
@@ -2345,6 +2345,14 @@ _BIG_JUMP_TEXT = (
 )
 _VS_SEEKER_TEXT = "Put a Supporter card from your discard pile into your hand."
 _COMPRESSOR_TEXT = "Search your deck for up to 3 cards and discard them. Shuffle your deck afterward."
+_CELEBRATION_WIND_TEXT = (
+    "Once during your turn, when you put Shaymin from your hand onto your Bench, "
+    "you may move as many Energy cards attached to your Pokémon as you like to any of your other Pokémon."
+)
+_PENNY_TEXT = "Put 1 of your Basic Pokémon and all attached cards into your hand."
+_ENERGY_BLOOM_TEXT = (
+    "Remove 3 damage counters from each of your Pokémon that has any Energy attached to it."
+)
 
 _register(
     _pkm(
@@ -2705,6 +2713,30 @@ _register(
         _COMPRESSOR_TEXT,
         catalog_id="xy3-92",
         image="https://assets.tcgdex.net/en/xy/xy3/92/low.webp",
+    )
+)
+_register(
+    _trn(
+        "Penny",
+        "supporter",
+        _PENNY_TEXT,
+        catalog_id="sv01-183",
+        image="https://assets.tcgdex.net/en/sv/sv01/183/low.webp",
+    )
+)
+_register(
+    _pkm(
+        "Shaymin",
+        "Basic",
+        ["Grass"],
+        70,
+        [_atk("Energy Bloom", ["Grass", "Colorless"], 30, _ENERGY_BLOOM_TEXT)],
+        catalog_id="hgss2-8",
+        weakness="Fire",
+        resistances=[{"type": "Fighting", "value": "-20"}],
+        abilities=[Ability(name="Celebration Wind", text=_CELEBRATION_WIND_TEXT)],
+        image="https://assets.tcgdex.net/en/hgss/hgss2/8/low.webp",
+        set_name="Unleashed",
     )
 )
 _ENRICHING = _register(

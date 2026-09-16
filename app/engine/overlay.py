@@ -90,6 +90,8 @@ PUBLISHED_EFFECT_KINDS = frozenset(
         "recycle_supporter_from_discard",
         "wally_evolve",
         "draw_until_hand",
+        "move_any_energy_when_benched_from_hand",
+        "return_one_basic_and_attached_to_hand",
     }
 )
 
