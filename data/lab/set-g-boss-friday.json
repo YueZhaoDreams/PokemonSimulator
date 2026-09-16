@@ -185,14 +185,16 @@
       1
     ]
   ],
-  "live_vs_seed": {
+  "friday_vs_live": {
     "add": [
-      "Mega Clefable ex",
-      "Tornadus"
+      "Boss's Orders",
+      "Boss's Orders",
+      "Boss's Orders"
     ],
     "cut": [
-      "Mewtwo",
-      "Emolga"
+      "Potion",
+      "Poké Ball",
+      "Plusle"
     ]
   },
   "screen_ranked": [

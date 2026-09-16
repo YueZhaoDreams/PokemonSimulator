@@ -98,6 +98,7 @@ def test_friday_json_plusle_beats_baseline_on_dragapult():
     assert plusle["hedrick"]["a"] > base["hedrick"]["a"]
     assert plusle["unl"]["a"] > base["unl"]["a"]
     assert Counter(blob["lists"]["plusle"]) == Counter(LAB.friday_g_names())
+    assert blob["friday_vs_live"] == {"add": ["Boss's Orders"] * 3, "cut": list(LAB.FRIDAY_CUTS)}
     confirm = json.loads(
         (Path(__file__).resolve().parents[1] / "data/lab/set-g-boss-friday-confirm.json").read_text()
     )
