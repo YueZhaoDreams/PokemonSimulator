@@ -38,7 +38,7 @@ Puzzle of Time, Scoop Up Net, Forest of Giant Plants, Broken Time-Space, Lysandr
 
 **刷牌：Shaymin UL 8 Celebration Wind + Penny。** Crazy Code 把 Speed L 贴到 Iron Hands（最多 +8），Enriching 贴大兔子（+4），手牌打出 Shaymin 把电系身上的特殊电挪到 Lopunny（钢能量留在 Meowth 上）。Hands 已经能付招并 KO 时不要 Wind。Big Jump 整叠回手后再贴。Scoop Up Net（物品，可连用）或 Penny（支援者，每回合 1 张）把 Shaymin 拿回手再打，Wind 再触发。不用 Shaymin-EX Set Up（摸到 6 就停）。Enriching 仍是唯一 ACE SPEC。不用苹果龙。
 
-家庭组 3000 盘数组（seed 20260911）这版 **Shaymin Wind + Penny**：胜率 **2.2 / 6.8 / 8.0 / 17.2 / 5.2 / 11.5 / 30.1%** vs c60/t60/hedrick/unl/d60/s60/g。上一版无 Shaymin 的 `[M]` + 4 钢是 **2.6 / 6.9 / 9.6 / 17.0 / 2.8 / 10.4 / 24.7%**。Big Jump 大约翻倍；g 24.7→30.1，d60 2.8→5.2。Wind 只在约 9–28% 的对局里打出（要 Shaymin 上手 + Raikou + 大兔子）。c60 Photon 仍秒 70 HP。Goldfish 场上齐了能摸到 30。
+家庭组 3000 盘数组（seed 20260911）这版 **砍 Raikou、3 Iron Hands ex Amp**：胜率 **2.6 / 7.7 / 9.3 / 22.2 / 3.2 / 20.5 / 38.2%** vs c60/t60/hedrick/unl/d60/s60/g。上一版 Shaymin Wind + Raikou 是 **2.2 / 6.8 / 8.0 / 17.2 / 5.2 / 11.5 / 30.1%**。s60 11.5→20.5，g 30.1→38.2，unl 17.2→22.2；d60 5.2→3.2（Dive 仍更快）。c60 Photon 仍秒 70 HP。Amp 只在约 0–4% 的对局里打出（c60 1.2%）；胖子仍靠 Treasure Rush。Speed L s60 70.1%；Wind s60 35.9%。Goldfish 场上齐了能摸到 30。
 
 ---
 
@@ -183,27 +183,32 @@ Honest calendar: **3 Celebration attacks** is the prize floor. **3 of our turns*
 
 ## Win-rate array
 
-G30 (`celebration` strategy, 30th Galarian Meowth Treasure Rush `[M]` + 4 Metal Energy + Lopunny FLF Big Jump + Shaymin UL Celebration Wind + Penny + 4 Meowth + 2 Raikou V) as player A vs the household 60s. Not a full NxN remake of `set-c60-unl-matrix`. Rules preset `s60` (60 / 6 prizes / 4-of). First player random. **3,000 games / cell, seed 20260911**. Elapsed **80.4s**.
+G30 (`celebration` strategy, 30th Galarian Meowth Treasure Rush `[M]` + 4 Metal + Lopunny FLF Big Jump + Shaymin UL Celebration Wind + Penny + 4 Meowth + 3 Iron Hands ex Amp; **0 Raikou V**, **0 Forest Seal Stone**) as player A vs the household 60s. Not a full NxN remake of `set-c60-unl-matrix`. Rules preset `s60` (60 / 6 prizes / 4-of). First player random. **3,000 games / cell, seed 20260911**. Elapsed **79.9s**.
 
 Script: `data/lab/gholdengo-30-array.py`. Numbers: `data/lab/gholdengo-30-array.json`.
 
 | A \\ B | c60 | t60 | hedrick | unl | d60 | s60 | g |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| g30 win | 2.2% | 6.8% | 8.0% | 17.2% | 5.2% | 11.5% | 30.1% |
-| first | 1.9% | 7.5% | 8.5% | 17.5% | 5.4% | 10.4% | 29.5% |
-| second | 2.6% | 6.1% | 7.6% | 16.9% | 5.0% | 12.6% | 30.7% |
-| Crazy Code | 40.0% | 21.7% | 32.6% | 35.8% | 21.1% | 59.8% | 38.9% |
-| Puzzle pair | 3.5% | 2.1% | 5.3% | 4.1% | 2.0% | 5.7% | 3.4% |
-| Speed L draw | 31.8% | 16.7% | 26.5% | 28.5% | 14.9% | 52.7% | 32.2% |
-| Big Jump | 41.3% | 29.6% | 34.9% | 45.1% | 28.0% | 62.0% | 33.9% |
-| Treasure Rush | 29.6% | 27.0% | 33.5% | 18.2% | 4.1% | 32.5% | 49.3% |
-| Draw Energy | 71.8% | 59.8% | 64.4% | 70.2% | 60.8% | 84.8% | 71.1% |
-| Rare Candy | 48.5% | 67.3% | 38.1% | 92.5% | 30.4% | 65.9% | 45.3% |
-| Fleet-Footed | 55.6% | 51.2% | 47.5% | 50.1% | 55.1% | 54.3% | 48.8% |
-| Star Alchemy | 43.5% | 30.4% | 37.1% | 84.5% | 32.5% | 62.4% | 42.1% |
-| Celebration Wind | 14.4% | 8.8% | 14.8% | 15.5% | 7.4% | 27.9% | 14.0% |
-| Penny | 17.5% | 10.8% | 16.7% | 16.1% | 11.6% | 26.0% | 16.9% |
-| Scoop Up Net | 20.0% | 12.1% | 19.4% | 18.7% | 12.8% | 31.4% | 19.0% |
+| g30 win | 2.6% | 7.7% | 9.3% | 22.2% | 3.2% | 20.5% | 38.2% |
+| first | 3.1% | 7.8% | 8.9% | 22.7% | 3.7% | 19.3% | 36.2% |
+| second | 2.0% | 7.6% | 9.8% | 21.6% | 2.8% | 21.6% | 40.2% |
+| Crazy Code | 32.5% | 20.0% | 28.1% | 30.1% | 18.5% | 72.9% | 33.0% |
+| Puzzle pair | 1.9% | 1.6% | 3.5% | 3.5% | 1.5% | 4.9% | 1.5% |
+| Speed L draw | 27.9% | 17.4% | 25.2% | 26.6% | 13.9% | 70.1% | 29.3% |
+| Big Jump | 36.7% | 29.4% | 31.8% | 42.4% | 26.9% | 76.0% | 28.6% |
+| Treasure Rush | 30.3% | 26.2% | 33.1% | 17.4% | 2.1% | 41.9% | 48.2% |
+| Amp You Very Much | 1.2% | 0.4% | 1.0% | 1.7% | 0.0% | 3.9% | 4.4% |
+| Extra prize on KO | 1.2% | 0.4% | 1.0% | 1.7% | 0.0% | 3.9% | 4.3% |
+| Arm Press | 2.5% | 0.7% | 2.4% | 3.6% | 0.0% | 3.8% | 8.1% |
+| Draw Energy | 69.2% | 58.0% | 61.2% | 70.6% | 61.4% | 94.1% | 69.9% |
+| Rare Candy | 38.4% | 67.0% | 30.9% | 93.1% | 24.7% | 75.4% | 36.8% |
+| Fleet-Footed | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
+| Star Alchemy | 0.0% | 0.0% | 0.0% | 76.6% | 0.0% | 0.0% | 0.0% |
+| Celebration Wind | 12.5% | 9.5% | 12.5% | 14.1% | 6.7% | 35.9% | 8.6% |
+| Penny | 14.7% | 10.9% | 14.4% | 14.9% | 9.8% | 31.8% | 11.1% |
+| Scoop Up Net | 16.0% | 11.5% | 15.9% | 16.5% | 11.5% | 37.8% | 12.0% |
+
+Same seed, previous **Shaymin Wind + 2 Raikou V + Forest Seal**: g30 win **2.2 / 6.8 / 8.0 / 17.2 / 5.2 / 11.5 / 30.1%**, Treasure Rush **29.6 / 27.0 / 33.5 / 18.2 / 4.1 / 32.5 / 49.3%**, Speed L **31.8 / 16.7 / 26.5 / 28.5 / 14.9 / 52.7 / 32.2%**, Big Jump **41.3 / 29.6 / 34.9 / 45.1 / 28.0 / 62.0 / 33.9%**, Wind **14.4 / 8.8 / 14.8 / 15.5 / 7.4 / 27.9 / 14.0%**. Cutting Raikou for Hands lifts **s60** 11.5→20.5, **g** 30.1→38.2, **unl** 17.2→22.2; **d60** 5.2→3.2 (Dive still races). Amp extra prize is rare live (c60 1.2%, s60 3.9%, g 4.4%) — Photon still KO 70 HP Meowth before Hands can Amp Clefairy. Speed L on Hands (s60 70.1%) and Wind (s60 35.9%) fire more often than with Raikou. Fleet-Footed / Star Alchemy on our side are gone (unl 76.6% is the opponent). Goldfish with the board already up still reaches 30.
 
 Same seed, previous **`[M]` + 4 Metal, no Shaymin/Penny**: g30 win **2.6 / 6.9 / 9.6 / 17.0 / 2.8 / 10.4 / 24.7%**, Treasure Rush **25.5 / 27.4 / 32.6 / 13.8 / 1.9 / 22.7 / 45.5%**, Big Jump **18.3 / 10.9 / 15.5 / 17.9 / 8.0 / 35.6 / 14.9%**. Wind recycle roughly **doubles Big Jump** (c60 18→41, s60 36→62, g 15→34). Wins move most on **g** (24.7→30.1) and **d60** (2.8→5.2); s60 10.4→11.5; unl 17.0→17.2. Hedrick 9.6→8.0 and c60 2.6→2.2: Photon / Dive still KO 70 HP before three 2-prize shots, and Wind only fires in ~9–28% of games (need Shaymin in hand plus Raikou + Lopunny). Goldfish with the board already up still reaches 30.
 
@@ -219,9 +224,9 @@ Same seed, Abra-era search script (Buneary not tutored): g30 win **2.7 / 3.2 / 2
 
 Previous Abra + Net closer (same seed): g30 win **2.5 / 4.6 / 3.6 / 16.5 / 1.1 / 5.8 / 7.1%**. Celebration 30-hand was **3.3 / 3.9 / 2.9 / 18.1 / 0.9 / 1.7 / 1.0%**.
 
-Goldfish from a ready board still grows the hand (Big Jump returns Buneary + Lopunny + Enriching; Draw Energy is net 0; Speed L on Raikou V is +2) and Treasure Rush KOs Mewtwo at 23 cards **if one Metal is already attached**. Live vs household 60s Draw Energy / Candy / Star Alchemy still fire, but Draw Energy does not pay Rush, so the once-per-turn attach has to find Metal. Three prize shots still lose the race to Photon / Dive on the fast 60s; 70 HP makes that race worse than 100 HP Ambipom except against slower Dragapult piles.
+Goldfish from a ready board still grows the hand (Big Jump returns Buneary + Lopunny + Enriching; Draw Energy is net 0; Speed L on Iron Hands ex is +2) and Treasure Rush KOs Mewtwo at 23 cards **if one Metal is already attached**. Live vs household 60s Draw Energy / Candy still fire; Fleet-Footed / Star Alchemy are gone with Raikou. Draw Energy does not pay Rush, so the once-per-turn attach has to find Metal. Three prize shots still lose the race to Photon / Dive on the fast 60s; 70 HP Meowth makes that race worse than 100 HP Ambipom except against slower Dragapult piles. Hands is 230 HP / 2 prizes — do not open on it.
 
-Household 60s also kill the board first. C60 Photon Kinesis KOs 70 HP Meowth for one prize and 90 HP Lopunny / 130 HP Porygon-Z for one; Raikou V is 200 HP but **two prizes**. d60 Dive / Ogerpon is faster than assembling `[M]` plus a 23-card hand.
+Household 60s also kill the board first. C60 Photon Kinesis KOs 70 HP Meowth for one prize and 90 HP Lopunny / 130 HP Porygon-Z for one. d60 Dive / Ogerpon is faster than assembling `[M]` plus a 23-card hand. Amp extra prize barely fires vs those piles.
 
 ---
 
