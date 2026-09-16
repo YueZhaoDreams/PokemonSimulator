@@ -78,6 +78,7 @@ PUBLISHED_EFFECT_KINDS = frozenset(
         "coin_damage_bonus",
         "attached_named_energy_bonus",
         "take_prizes_if_hand",
+        "extra_prize_on_ko",
         "recycle_items_from_discard",
         "attach_special_energy_from_hand",
         "draw_on_attach_from_hand",

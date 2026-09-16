@@ -99,6 +99,8 @@ def load_seed_deck(which: str) -> dict:
         "galarian meowth": "g30",
         "lopunny": "g30",
         "raikou": "g30",
+        "iron hands": "g30",
+        "iron hands ex": "g30",
         "spare-cards": "spare",
         "p": "spare",
     }.get(key, key)

@@ -312,7 +312,7 @@ SET_T_UNL_NAMES = (
 )
 
 # Unlimited 60: 30th Galarian Meowth Treasure Rush (Basic, skips Aipom→Ambipom),
-# Lopunny FLF Big Jump recycle, 2 Raikou V Fleet-Footed + Forest Seal Stone,
+# Lopunny FLF Big Jump recycle, Iron Hands ex Amp extra prize + Speed L host,
 # Draw Energy, Rare Candy. Fasten Claws Crown Zenith stays the name default.
 SET_G30_NAMES = (
     ["Buneary"] * 3
@@ -320,12 +320,12 @@ SET_G30_NAMES = (
     + ["Porygon"] * 3
     + ["Porygon-Z"] * 2
     + ["Galarian Meowth"] * 4
-    + ["Raikou V"] * 2
+    + ["Iron Hands ex"] * 3
     + ["Shaymin"] * 4
     + ["Puzzle of Time"] * 4
     + ["Scoop Up Net"] * 2
     + ["Broken Time-Space"] * 3
-    + ["Nest Ball"]
+    + ["Nest Ball"] * 2
     + ["Buddy-Buddy Poffin"] * 3
     + ["Ultra Ball"] * 2
     + ["VS Seeker"] * 2
@@ -333,7 +333,6 @@ SET_G30_NAMES = (
     + ["Penny"] * 2
     + ["Switch"]
     + ["Rare Candy"] * 4
-    + ["Forest Seal Stone"] * 2
     + ["Enriching Energy"]
     + ["Speed Lightning Energy"] * 4
     + ["Metal Energy"] * 4
@@ -2350,6 +2349,9 @@ _CELEBRATION_WIND_TEXT = (
     "you may move as many Energy cards attached to your Pokémon as you like to any of your other Pokémon."
 )
 _PENNY_TEXT = "Put 1 of your Basic Pokémon and all attached cards into your hand."
+_AMP_YOU_VERY_MUCH_TEXT = (
+    "If your opponent's Pokémon is Knocked Out by damage from this attack, take 1 more Prize card."
+)
 _ENERGY_BLOOM_TEXT = (
     "Remove 3 damage counters from each of your Pokémon that has any Energy attached to it."
 )
@@ -2805,6 +2807,28 @@ _register(
         abilities=[Ability(name="Fleet-Footed", text=_FLEET_FOOTED_TEXT)],
         image="https://assets.tcgdex.net/en/swsh/swsh9/48/low.webp",
         set_name="Brilliant Stars",
+    )
+)
+_register(
+    _pkm(
+        "Iron Hands ex",
+        "Basic",
+        ["Lightning"],
+        230,
+        [
+            _atk("Arm Press", ["Lightning", "Lightning", "Colorless"], 160),
+            _atk(
+                "Amp You Very Much",
+                ["Lightning", "Colorless", "Colorless", "Colorless"],
+                120,
+                _AMP_YOU_VERY_MUCH_TEXT,
+            ),
+        ],
+        retreat=4,
+        catalog_id="sv04-070",
+        weakness="Fighting",
+        image="https://assets.tcgdex.net/en/sv/sv04/070/low.webp",
+        set_name="Paradox Rift",
     )
 )
 

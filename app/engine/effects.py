@@ -415,6 +415,13 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
             }
         )
 
+    extra_prize = re.search(
+        r"knocked out by damage from this attack.*?take (\d+) more prize",
+        t,
+    )
+    if extra_prize:
+        effects.append({"kind": "extra_prize_on_ko", "count": int(extra_prize.group(1))})
+
     items_from_discard = re.search(
         r"put (\d+) item cards from your discard pile into your hand",
         t,

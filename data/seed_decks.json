@@ -22512,44 +22512,45 @@
         "dex_id": null
       },
       {
-        "catalog_id": "swsh9-48",
-        "name": "Raikou V",
+        "catalog_id": "sv04-070",
+        "name": "Iron Hands ex",
         "category": "Pokemon",
         "stage": "Basic",
         "types": [
           "Lightning"
         ],
-        "hp": 200,
+        "hp": 230,
         "attacks": [
           {
-            "name": "Lightning Streak",
+            "name": "Arm Press",
             "cost": [
+              "Lightning",
               "Lightning",
               "Colorless"
             ],
-            "damage": 40,
-            "text": "You may switch this Pok\u00e9mon with 1 of your Benched Pok\u00e9mon.",
-            "effects": [
-              {
-                "kind": "switch_with_benched"
-              }
-            ]
-          }
-        ],
-        "abilities": [
+            "damage": 160,
+            "text": "",
+            "effects": []
+          },
           {
-            "name": "Fleet-Footed",
-            "text": "Once during your turn, if this Pok\u00e9mon is in the Active Spot, you may draw a card.",
+            "name": "Amp You Very Much",
+            "cost": [
+              "Lightning",
+              "Colorless",
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 120,
+            "text": "If your opponent's Pok\u00e9mon is Knocked Out by damage from this attack, take 1 more Prize card.",
             "effects": [
               {
-                "kind": "draw",
-                "amount": 1,
-                "once_per_turn": true,
-                "require_active": true
+                "kind": "extra_prize_on_ko",
+                "count": 1
               }
             ]
           }
         ],
+        "abilities": [],
         "weaknesses": [
           {
             "type": "Fighting",
@@ -22557,54 +22558,55 @@
           }
         ],
         "resistances": [],
-        "retreat": 1,
+        "retreat": 4,
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh9/48/low.webp",
-        "set_name": "Brilliant Stars",
+        "image": "https://assets.tcgdex.net/en/sv/sv04/070/low.webp",
+        "set_name": "Paradox Rift",
         "text": "",
         "dex_id": null
       },
       {
-        "catalog_id": "swsh9-48",
-        "name": "Raikou V",
+        "catalog_id": "sv04-070",
+        "name": "Iron Hands ex",
         "category": "Pokemon",
         "stage": "Basic",
         "types": [
           "Lightning"
         ],
-        "hp": 200,
+        "hp": 230,
         "attacks": [
           {
-            "name": "Lightning Streak",
+            "name": "Arm Press",
             "cost": [
+              "Lightning",
               "Lightning",
               "Colorless"
             ],
-            "damage": 40,
-            "text": "You may switch this Pok\u00e9mon with 1 of your Benched Pok\u00e9mon.",
-            "effects": [
-              {
-                "kind": "switch_with_benched"
-              }
-            ]
-          }
-        ],
-        "abilities": [
+            "damage": 160,
+            "text": "",
+            "effects": []
+          },
           {
-            "name": "Fleet-Footed",
-            "text": "Once during your turn, if this Pok\u00e9mon is in the Active Spot, you may draw a card.",
+            "name": "Amp You Very Much",
+            "cost": [
+              "Lightning",
+              "Colorless",
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 120,
+            "text": "If your opponent's Pok\u00e9mon is Knocked Out by damage from this attack, take 1 more Prize card.",
             "effects": [
               {
-                "kind": "draw",
-                "amount": 1,
-                "once_per_turn": true,
-                "require_active": true
+                "kind": "extra_prize_on_ko",
+                "count": 1
               }
             ]
           }
         ],
+        "abilities": [],
         "weaknesses": [
           {
             "type": "Fighting",
@@ -22612,12 +22614,68 @@
           }
         ],
         "resistances": [],
-        "retreat": 1,
+        "retreat": 4,
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh9/48/low.webp",
-        "set_name": "Brilliant Stars",
+        "image": "https://assets.tcgdex.net/en/sv/sv04/070/low.webp",
+        "set_name": "Paradox Rift",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv04-070",
+        "name": "Iron Hands ex",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Lightning"
+        ],
+        "hp": 230,
+        "attacks": [
+          {
+            "name": "Arm Press",
+            "cost": [
+              "Lightning",
+              "Lightning",
+              "Colorless"
+            ],
+            "damage": 160,
+            "text": "",
+            "effects": []
+          },
+          {
+            "name": "Amp You Very Much",
+            "cost": [
+              "Lightning",
+              "Colorless",
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 120,
+            "text": "If your opponent's Pok\u00e9mon is Knocked Out by damage from this attack, take 1 more Prize card.",
+            "effects": [
+              {
+                "kind": "extra_prize_on_ko",
+                "count": 1
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Fighting",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 4,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv04/070/low.webp",
+        "set_name": "Paradox Rift",
         "text": "",
         "dex_id": null
       },
@@ -23038,6 +23096,26 @@
         "dex_id": null
       },
       {
+        "catalog_id": "sv01-181",
+        "name": "Nest Ball",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/181/low.webp",
+        "set_name": null,
+        "text": "Search your deck for a Basic Pok\u00e9mon and put it onto your Bench. Then, shuffle your deck.",
+        "dex_id": null
+      },
+      {
         "catalog_id": "sv05-144",
         "name": "Buddy-Buddy Poffin",
         "category": "Trainer",
@@ -23335,46 +23413,6 @@
         "image": "https://assets.tcgdex.net/en/sv/sv04.5/089/low.webp",
         "set_name": null,
         "text": "Choose 1 of your Basic Pok\u00e9mon in play. If you have a Stage 2 card that evolves from that Pok\u00e9mon in your hand, put that card onto the Basic Pok\u00e9mon to evolve it, skipping the Stage 1. You can't use this card during your first turn or on a Basic Pok\u00e9mon that was put into play this turn.",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "swsh12-156",
-        "name": "Forest Seal Stone",
-        "category": "Trainer",
-        "stage": "Item",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "item",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12/156/low.webp",
-        "set_name": null,
-        "text": "The Pok\u00e9mon V this card is attached to can use the VSTAR Power on this card.\n\nStar Alchemy: During your turn, you may search your deck for a card and put it into your hand. Then, shuffle your deck. (You can't use more than 1 VSTAR Power in a game.)",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "swsh12-156",
-        "name": "Forest Seal Stone",
-        "category": "Trainer",
-        "stage": "Item",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "item",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12/156/low.webp",
-        "set_name": null,
-        "text": "The Pok\u00e9mon V this card is attached to can use the VSTAR Power on this card.\n\nStar Alchemy: During your turn, you may search your deck for a card and put it into your hand. Then, shuffle your deck. (You can't use more than 1 VSTAR Power in a game.)",
         "dex_id": null
       },
       {

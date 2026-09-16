@@ -1,7 +1,7 @@
 # 30th Galarian Meowth Treasure Rush — 60-card Unlimited (G30 lab)
 
 Date: 2026-09-16
-Status: engine plays 30th Celebration Galarian Meowth Treasure Rush (Basic, no evolve) with Lopunny FLF Big Jump, Shaymin UL Celebration Wind recycling Speed Lightning Energy, Penny / Scoop Up Net to replay Shaymin, 2 Raikou V Fleet-Footed + Forest Seal Stone Star Alchemy, Draw Energy, and Rare Candy. Win-rate array vs household 60s is in `data/lab/gholdengo-30-array.json`. Crown Zenith Fasten Claws stays the catalog default for the name Galarian Meowth.
+Status: engine plays 30th Celebration Galarian Meowth Treasure Rush (Basic, no evolve) with Lopunny FLF Big Jump, Shaymin UL Celebration Wind recycling Speed Lightning Energy, Penny / Scoop Up Net to replay Shaymin, Iron Hands ex Amp extra prize + Speed L host, Draw Energy, and Rare Candy. Win-rate array vs household 60s is in `data/lab/gholdengo-30-array.json`. Crown Zenith Fasten Claws stays the catalog default for the name Galarian Meowth.
 
 **This lab is Unlimited constructed. Not Standard. Not Expanded. Not Family Cup 30.**
 
@@ -30,13 +30,13 @@ Puzzle of Time, Scoop Up Net, Forest of Giant Plants, Broken Time-Space, Lysandr
 
 主循环仍是 **Lopunny FLF 85 Big Jump**：印刷 `Once during your turn (before your attack), you may return this Pokémon and all cards attached to it to your hand.` Jumpluff DRX 3 Leave It to the Wind 是同一句，但是 Stage 2，这副 60 用 Stage 1 Lopunny。Crazy Code 贴 Enriching（+3）→ Big Jump 把 Buneary+Lopunny+Enriching 回手（+3）→ 重放 Buneary −1 → BTS 进化 −1，净 **+4** / 圈。Draw Energy CEC 209 贴上摸 1，净 0。
 
-**主攻换成 30th Galarian Meowth（J 101/128, `me04-101`）。** Basic 钢 70 HP，**不用进化**。印刷 Pay Day `[C]` 10「Draw a card.」；Treasure Rush **`[M]`** 10×「This attack does 10 damage for each card in your hand.」钢能量符号不是无色星。无色能量付不了 Rush。Crown Zenith Fasten Claws（`swsh12.5-084`）仍是名字默认。4 只 Basic 腾出的槽：Raikou V / Forest Seal / Nest 2/2/2，4 闪电换成 **4 基本钢**。70 HP 可 Poffin。1 奖身体。10× 打 Mewtwo 230 要 **23 张手牌**。Pay Day 不能在 Rush 能 KO 时抢走攻击。
+**主攻仍是 30th Galarian Meowth（J 101/128, `me04-101`）。** Basic 钢 70 HP，**不用进化**。印刷 Pay Day `[C]` 10「Draw a card.」；Treasure Rush **`[M]`** 10×「This attack does 10 damage for each card in your hand.」钢能量符号不是无色星。无色能量付不了 Rush。Crown Zenith Fasten Claws（`swsh12.5-084`）仍是名字默认。70 HP 可 Poffin。1 奖身体。10× 打 Mewtwo 230 要 **23 张手牌**。Pay Day 不能在 Rush 能 KO 时抢走攻击。
 
-**电系位 2 Raikou V（BRS 48）。** Fleet-Footed：前位摸 1。Forest Seal Stone 贴 V 开 Star Alchemy。Speed Lightning Energy 只有贴到雷宝可梦才抽 2；贴 Meowth（钢）不抽。一次贴能优先钢给 Meowth，Crazy Code 的 Draw Energy 只负责摸牌。
+**砍掉 2 Raikou V + 2 Forest Seal Stone。电系位改 3 Iron Hands ex（PAR 70, `sv04-070`）。** Lightning Basic ex 230 HP，退 4，不吃 Poffin，所以 Nest 1→2。**Arm Press** `[L][L][C]` 160；**Amp You Very Much** `[L][C][C][C]` 120，印刷「If your opponent's Pokémon is Knocked Out by damage from this attack, take 1 more Prize card.」对 Clefairy 60 Amp 拿 **2 奖**（1+1），Rush 只拿 1。160/120 秒不了 Mewtwo 230 / Ogerpon 210 / Dragapult 320，胖子仍靠 Meowth Rush。Speed Lightning Energy 贴 Hands 才抽 2。刷牌不靠 Fleet-Footed / Star Alchemy。场上最多 **1** 只 Hands（2 奖，Net 能捞 ex，keep-names 拦住；Penny 也别捞）。
 
 **砍掉 Aipom / Ambipom / Sableye / Remoraid / Octillery / Porygon2 / Pikachu。** Rare Candy 仍跳 Porygon → Porygon-Z。Wally 只给 Buneary→Lopunny。场上最多 **1** 只 Meowth，给 Shaymin 留座位。
 
-**刷牌：Shaymin UL 8 Celebration Wind + Penny。** Crazy Code 把 Speed L 贴到 Raikou（最多 +8），Enriching 贴大兔子（+4），手牌打出 Shaymin 把电系身上的特殊电挪到 Lopunny（钢能量留在 Meowth 上）。Big Jump 整叠回手后再贴。Scoop Up Net（物品，可连用）或 Penny（支援者，每回合 1 张）把 Shaymin 拿回手再打，Wind 再触发。不用 Shaymin-EX Set Up（摸到 6 就停）。Enriching 仍是唯一 ACE SPEC。不用苹果龙。
+**刷牌：Shaymin UL 8 Celebration Wind + Penny。** Crazy Code 把 Speed L 贴到 Iron Hands（最多 +8），Enriching 贴大兔子（+4），手牌打出 Shaymin 把电系身上的特殊电挪到 Lopunny（钢能量留在 Meowth 上）。Hands 已经能付招并 KO 时不要 Wind。Big Jump 整叠回手后再贴。Scoop Up Net（物品，可连用）或 Penny（支援者，每回合 1 张）把 Shaymin 拿回手再打，Wind 再触发。不用 Shaymin-EX Set Up（摸到 6 就停）。Enriching 仍是唯一 ACE SPEC。不用苹果龙。
 
 家庭组 3000 盘数组（seed 20260911）这版 **Shaymin Wind + Penny**：胜率 **2.2 / 6.8 / 8.0 / 17.2 / 5.2 / 11.5 / 30.1%** vs c60/t60/hedrick/unl/d60/s60/g。上一版无 Shaymin 的 `[M]` + 4 钢是 **2.6 / 6.9 / 9.6 / 17.0 / 2.8 / 10.4 / 24.7%**。Big Jump 大约翻倍；g 24.7→30.1，d60 2.8→5.2。Wind 只在约 9–28% 的对局里打出（要 Shaymin 上手 + Raikou + 大兔子）。c60 Photon 仍秒 70 HP。Goldfish 场上齐了能摸到 30。
 
@@ -84,7 +84,7 @@ Opponent gets a full turn after shot 1 and shot 2. Gust Porygon-Z or Octillery, 
 
 ## The 60 (Unlimited constructed, Treasure Rush)
 
-Printings are the text this lab uses. Galarian Meowth in this 60 is **30th Celebration 101** (Pay Day / Treasure Rush), not Crown Zenith Fasten Claws. Raikou V is Brilliant Stars 48 (Fleet-Footed). Draw Energy is Cosmic Eclipse 209.
+Printings are the text this lab uses. Galarian Meowth in this 60 is **30th Celebration 101** (Pay Day / Treasure Rush), not Crown Zenith Fasten Claws. Iron Hands ex is Paradox Rift 70 (Arm Press / Amp You Very Much). Draw Energy is Cosmic Eclipse 209.
 
 | Qty | Card | Set | Why |
 |---:|---|---|---|
@@ -92,31 +92,30 @@ Printings are the text this lab uses. Galarian Meowth in this 60 is **30th Celeb
 | 2 | Lopunny | FLF 85 | **Big Jump**: this Pokémon + attachments to **hand**. Sitdown Bounce is not the closer. |
 | 3 | Porygon | UNB 154 | 50 HP → Poffin. Rare Candy into Porygon-Z. |
 | 2 | Porygon-Z | UNB 157 | Crazy Code. |
-| 4 | Galarian Meowth | 30th 101 | **Treasure Rush** 10×hand, **`[M]`**. Pay Day `[C]` draws 1 when Rush would not KO. Basic, 70 HP → Poffin. **1 prize**. Cap **1** in play (bench seat for Shaymin). Hunt still wants a spare in hand. |
-| 2 | Raikou V | BRS 48 | Lightning host for Speed L draw 2. **Fleet-Footed** draws 1 if Active. Pokémon V for Forest Seal Stone. 200 HP, 2 prizes — do not open on it. |
-| 4 | Shaymin | UL 8 | **Celebration Wind**: when put from **hand** onto the Bench, move any Energy to Lopunny. Not from Nest/Poffin. 70 HP → Poffin-legal, but the engine holds it in hand until Speed L is on Raikou. |
+| 4 | Galarian Meowth | 30th 101 | **Treasure Rush** 10×hand, **`[M]`**. Pay Day `[C]` draws 1 when neither closer would KO. Basic, 70 HP → Poffin. **1 prize**. Cap **1** in play (bench seat for Shaymin). Hunt still wants a spare in hand. Fat 210–320 HP still needs Rush. |
+| 3 | Iron Hands ex | PAR 70 | Lightning host for Speed L draw 2. **Amp You Very Much** 120 + printed extra prize on KO. **Arm Press** 160. 230 HP, **2 prizes** — do not open on it. Cap **1** in play. Nest-legal, not Poffin. Retreat 4 → Switch. Net *can* scoop ex; keep-names block it. |
+| 4 | Shaymin | UL 8 | **Celebration Wind**: when put from **hand** onto the Bench, move any Energy to Lopunny. Not from Nest/Poffin. 70 HP → Poffin-legal, but the engine holds it in hand until Speed L is on Hands, and skips Wind if Hands can already pay+KO. |
 | 4 | Puzzle of Time | BKP 109 | Discard retrieve backup. |
-| 2 | Scoop Up Net | RCL 165 | Replay Shaymin the same turn (Item). Cannot Net Raikou V. Do **not** Net Meowth / Lopunny. |
+| 2 | Scoop Up Net | RCL 165 | Replay Shaymin the same turn (Item). Do **not** Net Meowth / Lopunny / Iron Hands. |
 | 3 | Broken Time-Space | PL 104 | Same-turn Stage 1 evo (Lopunny). Does **not** override Rare Candy. |
-| 1 | Nest Ball | any | Raikou V is 200 HP — Poffin cannot fetch it. |
+| 2 | Nest Ball | any | Iron Hands is 230 HP — Poffin cannot fetch it. |
 | 3 | Buddy-Buddy Poffin | TEF 144 | Buneary / Porygon / Galarian Meowth / Shaymin (70). |
 | 2 | Ultra Ball | any | |
 | 2 | VS Seeker | PHF 109 | Recycle Penny / Wally. |
 | 1 | Wally | ROS 94 | Buneary→Lopunny. Meowth does not evolve. Cannot skip to Porygon-Z. |
-| 2 | Penny | SVI 183 | **Put 1 of your Basic Pokémon and all attached cards into your hand.** Shaymin only here. Supporter, 1/turn. Cannot Penny Lopunny. |
-| 1 | Switch | any | Into Meowth when Treasure Rush is still lethal after −1 card. |
+| 2 | Penny | SVI 183 | **Put 1 of your Basic Pokémon and all attached cards into your hand.** Shaymin only here. Supporter, 1/turn. Cannot Penny Lopunny or Iron Hands. |
+| 1 | Switch | any | Into Hands when Amp takes more prizes; into Meowth when Treasure Rush is still lethal after −1 card. Do not retreat Hands (cost 4 dumps Speed L). |
 | 4 | Rare Candy | PAF 89 | Skip Porygon → Porygon-Z. Not first turn; not a Basic played this turn. |
-| 2 | Forest Seal Stone | SIT 156 | Tool on Raikou V. **Star Alchemy**: search any one card, one VSTAR Power per game. |
 | 1 | Enriching Energy | SSP 191 | ACE SPEC. Loop on Lopunny (Big Jump). |
-| 4 | Speed Lightning Energy | RCL 173 | Draw 2 only on Lightning. Attach to Raikou V, Wind onto Lopunny, Big Jump recycles. Do not spend on Metal Meowth. |
+| 4 | Speed Lightning Energy | RCL 173 | Draw 2 only on Lightning. Attach to Iron Hands ex, Wind onto Lopunny, Big Jump recycles. Do not spend on Metal Meowth. |
 | 4 | Metal Energy | any | Pays Treasure Rush `[M]`. Once-per-turn attach. Colorless cannot pay Metal. Stay on Meowth through Wind. |
-| 4 | Draw Energy | CEC 209 | Colorless; attach from hand, draw 1. Net 0. Crazy Code can spam it. Does **not** pay Rush. |
+| 4 | Draw Energy | CEC 209 | Colorless; attach from hand, draw 1. Net 0. Crazy Code can spam it. Does **not** pay Rush. Pays Amp Colorless if Hands is still unpaid. |
 
-**20 Pokémon + 27 Trainers + 13 Energy = 60.**
+**21 Pokémon + 26 Trainers + 13 Energy = 60.**
 
-Cut Aipom, Ambipom, Sableye, Remoraid, Octillery, Pikachu, Porygon2, Junk Arm, Darkness, Lightning Energy, Professor's Research, Battle Compressor. The 8 Aipom/Ambipom slots plus trainer cuts become 4 Meowth + 1 extra Raikou + Forest Seal + 4 Shaymin + 2 Penny.
+Cut Aipom, Ambipom, Sableye, Remoraid, Octillery, Pikachu, Porygon2, Junk Arm, Darkness, Lightning Energy, Professor's Research, Battle Compressor, Raikou V, Forest Seal Stone. The 8 Aipom/Ambipom slots plus trainer cuts become 4 Meowth + 3 Iron Hands + Nest + 4 Shaymin + 2 Penny.
 
-Goldfish (board already up, going second): Rare Candy Porygon into Z, BTS into Lopunny, Nest Raikou V, Meowth is already Basic. Attach one Metal to Meowth. Forest Seal Stone on Raikou → Star Alchemy. Crazy Code Speed L onto Raikou (draw 2 each, up to +8), Enriching onto Lopunny (draw 4), Draw Energy onto bounce host. Play Shaymin from hand: Celebration Wind moves Speed L (not Metal) onto Lopunny. Big Jump returns Buneary + Lopunny + Speed L + Enriching. Replay Buneary, BTS evolve, Net or Penny Shaymin, attach again. Treasure Rush when `10 × hand` KOs (23 vs Mewtwo 230) and `[M]` is attached.
+Goldfish (board already up, going second): Rare Candy Porygon into Z, BTS into Lopunny, Nest Iron Hands ex, Meowth is already Basic. Attach one Metal to Meowth. Crazy Code Speed L onto Hands (draw 2 each, up to +8), Enriching onto Lopunny (draw 4), Draw Energy onto bounce host (or Hands if Amp is unpaid). Play Shaymin from hand: Celebration Wind moves Speed L (not Metal) onto Lopunny — skip Wind if Amp already KOs. Big Jump returns Buneary + Lopunny + Speed L + Enriching. Replay Buneary, BTS evolve, Net or Penny Shaymin, attach again. Amp Clefairy for 2 prizes. Treasure Rush when `10 × hand` KOs (23 vs Mewtwo 230) and `[M]` is attached.
 
 ---
 
@@ -234,6 +233,11 @@ Household 60s also kill the board first. C60 Photon Kinesis KOs 70 HP Meowth for
 - **[M] Treasure Rush 10×** — This attack does 10 damage for each card in your hand. One Metal Energy. Colorless specials do not pay this cost.
 
 23 cards = 230 (Mewtwo). 21 = 210 (Ogerpon). 32 = 320 (Dragapult). Hand stays after the attack. Six prizes still need three KOs of 2-prize Pokémon. Meowth itself is 1 prize, so a post-attack death is a 2-for-1 if a spare Meowth is already on the bench. 70 HP dies to almost every household attack; that is the cost of skipping Aipom→Ambipom.
+
+**Lightning closer — Iron Hands ex PAR 70.** Lightning Basic ex, 230 HP, Fighting ×2, retreat 4, **2 prizes**. Catalog `sv04-070`. Speed L host. Do not open on it.
+
+- **[L][L][C] Arm Press 160** — Pays with Speed L. Misses Mewtwo 230 / Ogerpon 210 / Dragapult 320.
+- **[L][C][C][C] Amp You Very Much 120** — If your opponent's Pokémon is Knocked Out by damage from this attack, take 1 more Prize card. vs Clefairy 60: **2 prizes** (1+1). Prefer Amp over Rush when both KO a 1-prize body. Prefer Rush when 10× actually KOs a tank.
 
 **Previous closer — Ambipom PAR 146.** Colorless Stage 1, 100 HP, evolves from Aipom PAR 145, no Ability.
 

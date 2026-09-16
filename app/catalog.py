@@ -248,6 +248,7 @@ PREFERRED_IDS = {
     "Counter Catcher": "sv04-160",
     "Forest Seal Stone": "swsh12-156",
     "Raikou V": "swsh9-48",  # Brilliant Stars Fleet-Footed / Lightning Streak
+    "Iron Hands ex": "sv04-070",  # Paradox Rift Arm Press / Amp You Very Much
     "Draw Energy": "sm12-209",  # Cosmic Eclipse: attach from hand, draw a card
     "Professor Turo's Scenario": "sv04-171",
     "Collapsed Stadium": "swsh9-137",
@@ -412,6 +413,7 @@ PRINT_PREFER = {
     "Counter Catcher": ["more prize cards remaining"],
     "Forest Seal Stone": ["star alchemy"],
     "Raikou V": ["fleet-footed", "lightning streak"],
+    "Iron Hands ex": ["amp you very much", "arm press"],
     "Shaymin": ["celebration wind"],
     "Penny": ["basic pokémon and all attached cards into your hand", "basic pokemon and all attached cards into your hand"],
     "Draw Energy": ["draw a card"],
