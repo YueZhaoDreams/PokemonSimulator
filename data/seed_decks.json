@@ -9145,31 +9145,46 @@
         "dex_id": null
       },
       {
-        "catalog_id": "sv07-059",
-        "name": "Mewtwo",
+        "catalog_id": "sv07-120",
+        "name": "Tornadus",
         "category": "Pokemon",
         "stage": "Basic",
         "types": [
-          "Psychic"
+          "Colorless"
         ],
-        "hp": 130,
+        "hp": 110,
         "attacks": [
           {
-            "name": "Super Psy Bolt",
+            "name": "Knuckle Punch",
             "cost": [
-              "Psychic",
-              "Psychic",
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 50,
+            "text": "",
+            "effects": []
+          },
+          {
+            "name": "Storm Barrier",
+            "cost": [
+              "Colorless",
+              "Colorless",
               "Colorless"
             ],
             "damage": 100,
-            "text": "",
-            "effects": []
+            "text": "During your opponent's next turn, this Pok\u00e9mon takes 50 less damage from attacks (after applying Weakness and Resistance).",
+            "effects": [
+              {
+                "kind": "reduce_damage_next_turn",
+                "amount": 50
+              }
+            ]
           }
         ],
         "abilities": [],
         "weaknesses": [
           {
-            "type": "Darkness",
+            "type": "Lightning",
             "value": "\u00d72"
           }
         ],
@@ -9179,11 +9194,11 @@
             "value": "-30"
           }
         ],
-        "retreat": 2,
+        "retreat": 1,
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv07/059/low.webp",
+        "image": "https://assets.tcgdex.net/en/sv/sv07/120/low.webp",
         "set_name": null,
         "text": "",
         "dex_id": null
@@ -9393,49 +9408,6 @@
         "trainer_kind": null,
         "energy_type": null,
         "image": "https://assets.tcgdex.net/en/me/me03/031/low.webp",
-        "set_name": null,
-        "text": "",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "sv04-060",
-        "name": "Plusle",
-        "category": "Pokemon",
-        "stage": "Basic",
-        "types": [
-          "Lightning"
-        ],
-        "hp": 70,
-        "attacks": [
-          {
-            "name": "Plus Damage",
-            "cost": [
-              "Colorless",
-              "Colorless"
-            ],
-            "damage": 10,
-            "text": "This attack does 10 more damage for each damage counter on your opponent's Active Pok\u00e9mon.",
-            "effects": [
-              {
-                "kind": "damage_counter_bonus",
-                "per": 10
-              }
-            ]
-          }
-        ],
-        "abilities": [],
-        "weaknesses": [
-          {
-            "type": "Fighting",
-            "value": "\u00d72"
-          }
-        ],
-        "resistances": [],
-        "retreat": 1,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv04/060/low.webp",
         "set_name": null,
         "text": "",
         "dex_id": null
@@ -9664,26 +9636,6 @@
         "dex_id": null
       },
       {
-        "catalog_id": "dp7-92",
-        "name": "Potion",
-        "category": "Trainer",
-        "stage": "Item",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "item",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/dp/dp7/92/low.webp",
-        "set_name": "Stormfront",
-        "text": "Remove 2 damage counters from 1 of your Pok\u00e9mon (remove 1 damage counter if that Pok\u00e9mon has only 1).",
-        "dex_id": null
-      },
-      {
         "catalog_id": "sv01-172",
         "name": "Energy Search",
         "category": "Trainer",
@@ -9724,26 +9676,6 @@
         "dex_id": null
       },
       {
-        "catalog_id": "swsh3.5-59",
-        "name": "Pok\u00e9 Ball",
-        "category": "Trainer",
-        "stage": "Item",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "item",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh3.5/59/low.webp",
-        "set_name": null,
-        "text": "Flip a coin. If heads, search your deck for a Pok\u00e9mon.",
-        "dex_id": null
-      },
-      {
         "catalog_id": "sv04.5-091",
         "name": "Ultra Ball",
         "category": "Trainer",
@@ -9761,6 +9693,66 @@
         "image": "https://assets.tcgdex.net/en/sv/sv04.5/091/low.webp",
         "set_name": null,
         "text": "Discard 2 cards from your hand. Search your deck for a Pok\u00e9mon.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv02-172",
+        "name": "Boss's Orders",
+        "category": "Trainer",
+        "stage": "Supporter",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "supporter",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv02/172/low.webp",
+        "set_name": null,
+        "text": "Switch in 1 of your opponent's Benched Pok\u00e9mon to the Active Spot.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv02-172",
+        "name": "Boss's Orders",
+        "category": "Trainer",
+        "stage": "Supporter",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "supporter",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv02/172/low.webp",
+        "set_name": null,
+        "text": "Switch in 1 of your opponent's Benched Pok\u00e9mon to the Active Spot.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv02-172",
+        "name": "Boss's Orders",
+        "category": "Trainer",
+        "stage": "Supporter",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "supporter",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv02/172/low.webp",
+        "set_name": null,
+        "text": "Switch in 1 of your opponent's Benched Pok\u00e9mon to the Active Spot.",
         "dex_id": null
       },
       {

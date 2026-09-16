@@ -411,11 +411,10 @@ SET_F_NAMES = [
     "Skwovet",
 ]
 
-# Carpet Set G plus — live seed-g 10-for-10 from live seed-h. Cut Scatterbug×2,
-# Misdreavus×2, Mismagius×2, Drifloon, Drifblim, Iron Boulder, Dedenne. Add Indeedee,
-# Relicanth, Plusle (not Trapinch), Hop's Cramorant, Kecleon, Iris's Fighting
-# Spirit, Energy Retrieval, Trekking Shoes, Potion×1. Clefairy is still LOR 62.
-# Emolga 1-for-1 is Mega Clefable ex (evolves from Clefairy); do not keep both.
+# Carpet Set G — Friday lock. Clefairy is still LOR 62. Mega Clefable ex evolves
+# from Clefairy (was Emolga); Tornadus was Mewtwo. Three Boss's Orders replace
+# Potion / Poké Ball / Plusle. Indeedee, Relicanth, Hop's Cramorant, Kecleon,
+# Iris's Fighting Spirit, Energy Retrieval, Trekking Shoes stay.
 SET_G_NAMES = (
     ["Clefairy"] * 4
     + ["Ledyba"] * 4
@@ -424,12 +423,11 @@ SET_G_NAMES = (
     + ["Staravia"] * 2
     + ["Staraptor"] * 2
     + ["Munkidori"] * 2
-    + ["Mewtwo"]
+    + ["Tornadus"]
     + ["Flutter Mane"]
     + ["Indeedee"]
     + ["Relicanth"]
     + ["Mega Clefable ex"]
-    + ["Plusle"]
     + ["Hop's Cramorant"]
     + ["Kecleon"]
     + ["Tulip"]
@@ -438,11 +436,10 @@ SET_G_NAMES = (
     + ["Iris's Fighting Spirit"]
     + ["Energy Retrieval"]
     + ["Trekking Shoes"]
-    + ["Potion"]
     + ["Energy Search"]
     + ["Energy Switch"]
-    + ["Poké Ball"]
     + ["Ultra Ball"]
+    + ["Boss's Orders"] * 3
     + ["Psychic Energy"] * 17
     + ["Darkness Energy"] * 3
     + ["Boomerang Energy"]

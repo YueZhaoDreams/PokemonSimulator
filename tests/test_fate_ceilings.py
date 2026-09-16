@@ -41,11 +41,11 @@ def test_set_g_matches_draw_probability_and_caps_from_s60():
         assert abs(row["p_opening"] - expected["p_at_least_one"]) < 1e-9
 
     ledian = _row(report, "Ledian")
-    mewtwo = _row(report, "Mewtwo")
+    tornadus = _row(report, "Tornadus")
     assert ledian["copies"] == 4 and ledian["copy_cap"] == 4 and ledian["at_cap"] is True
-    assert mewtwo["copies"] == 1 and mewtwo["at_cap"] is False
-    assert ledian["p_opening"] > mewtwo["p_opening"]
-    assert abs(mewtwo["p_opening"] - 7 / 60) < 1e-9
+    assert tornadus["copies"] == 1 and tornadus["at_cap"] is False
+    assert ledian["p_opening"] > tornadus["p_opening"]
+    assert abs(tornadus["p_opening"] - 7 / 60) < 1e-9
 
     psychic = _row(report, "Psychic Energy")
     assert psychic["copies"] == 17 and psychic["copy_cap"] is None and psychic["over_cap"] is False
@@ -107,7 +107,7 @@ def test_printed_draw_three_raises_seen_cards_by_three():
         "source": "Draw 3 cards.",
     }
 
-    one_of = _row(report, "Mewtwo")
+    one_of = _row(report, "Tornadus")
     assert abs(one_of["p_gain"] - 3 / 60) < 1e-6
 
     four_of = _row(report, "Ledian")

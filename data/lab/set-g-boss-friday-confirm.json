@@ -1,0 +1,284 @@
+{
+  "games": 3000,
+  "seed": 20260915,
+  "elapsed": 86.18195257600019,
+  "cells": {
+    "baseline": {
+      "d60": {
+        "a": 0.08733333333333333,
+        "b": 0.9126666666666666,
+        "tie": 0.0,
+        "first": 0.10221354166666667,
+        "second": 0.07172131147540983,
+        "party_games": 943,
+        "gust_games": 0,
+        "boss_games": 2233,
+        "adrena_games": 68,
+        "mega_games": 155,
+        "tornadus_games": 67
+      },
+      "t60": {
+        "a": 0.22733333333333333,
+        "b": 0.7726666666666666,
+        "tie": 0.0,
+        "first": 0.24093959731543624,
+        "second": 0.2139072847682119,
+        "party_games": 894,
+        "gust_games": 1264,
+        "boss_games": 2439,
+        "adrena_games": 570,
+        "mega_games": 0,
+        "tornadus_games": 99
+      },
+      "hedrick": {
+        "a": 0.314,
+        "b": 0.686,
+        "tie": 0.0,
+        "first": 0.3203230148048452,
+        "second": 0.30779392338177014,
+        "party_games": 958,
+        "gust_games": 1525,
+        "boss_games": 2556,
+        "adrena_games": 1308,
+        "mega_games": 0,
+        "tornadus_games": 94
+      },
+      "unl": {
+        "a": 0.451,
+        "b": 0.549,
+        "tie": 0.0,
+        "first": 0.46318607764390896,
+        "second": 0.4389110225763612,
+        "party_games": 1051,
+        "gust_games": 1707,
+        "boss_games": 2510,
+        "adrena_games": 420,
+        "mega_games": 0,
+        "tornadus_games": 97
+      }
+    },
+    "plusle": {
+      "t60": {
+        "a": 0.25266666666666665,
+        "b": 0.7473333333333333,
+        "tie": 0.0,
+        "first": 0.27197802197802196,
+        "second": 0.2344559585492228,
+        "party_games": 989,
+        "gust_games": 1358,
+        "boss_games": 2683,
+        "adrena_games": 553,
+        "mega_games": 0,
+        "tornadus_games": 128
+      },
+      "d60": {
+        "a": 0.069,
+        "b": 0.931,
+        "tie": 0.0,
+        "first": 0.08157715839564922,
+        "second": 0.05689993459777633,
+        "party_games": 936,
+        "gust_games": 0,
+        "boss_games": 2130,
+        "adrena_games": 53,
+        "mega_games": 133,
+        "tornadus_games": 68
+      },
+      "hedrick": {
+        "a": 0.3446666666666667,
+        "b": 0.6553333333333333,
+        "tie": 0.0,
+        "first": 0.3603723404255319,
+        "second": 0.32887700534759357,
+        "party_games": 975,
+        "gust_games": 1487,
+        "boss_games": 2747,
+        "adrena_games": 1291,
+        "mega_games": 0,
+        "tornadus_games": 116
+      },
+      "unl": {
+        "a": 0.5046666666666667,
+        "b": 0.49533333333333335,
+        "tie": 0.0,
+        "first": 0.509829619921363,
+        "second": 0.4993215739484396,
+        "party_games": 1123,
+        "gust_games": 1673,
+        "boss_games": 2807,
+        "adrena_games": 456,
+        "mega_games": 0,
+        "tornadus_games": 94
+      }
+    },
+    "junk": {
+      "t60": {
+        "a": 0.24033333333333334,
+        "b": 0.7596666666666667,
+        "tie": 0.0,
+        "first": 0.24010554089709762,
+        "second": 0.24056603773584906,
+        "party_games": 989,
+        "gust_games": 1365,
+        "boss_games": 2701,
+        "adrena_games": 604,
+        "mega_games": 0,
+        "tornadus_games": 124
+      },
+      "d60": {
+        "a": 0.08,
+        "b": 0.92,
+        "tie": 0.0,
+        "first": 0.08187919463087248,
+        "second": 0.0781456953642384,
+        "party_games": 903,
+        "gust_games": 0,
+        "boss_games": 2186,
+        "adrena_games": 54,
+        "mega_games": 140,
+        "tornadus_games": 75
+      },
+      "hedrick": {
+        "a": 0.33,
+        "b": 0.67,
+        "tie": 0.0,
+        "first": 0.35290193462308206,
+        "second": 0.30712858094603596,
+        "party_games": 990,
+        "gust_games": 1517,
+        "boss_games": 2797,
+        "adrena_games": 1295,
+        "mega_games": 0,
+        "tornadus_games": 104
+      },
+      "unl": {
+        "a": 0.4766666666666667,
+        "b": 0.5233333333333333,
+        "tie": 0.0,
+        "first": 0.4927055702917772,
+        "second": 0.460455764075067,
+        "party_games": 1150,
+        "gust_games": 1687,
+        "boss_games": 2779,
+        "adrena_games": 428,
+        "mega_games": 0,
+        "tornadus_games": 132
+      }
+    },
+    "boss2_balls": {
+      "t60": {
+        "a": 0.23566666666666666,
+        "b": 0.7643333333333333,
+        "tie": 0.0,
+        "first": 0.23247978436657682,
+        "second": 0.23878627968337732,
+        "party_games": 949,
+        "gust_games": 1366,
+        "boss_games": 2680,
+        "adrena_games": 577,
+        "mega_games": 0,
+        "tornadus_games": 106
+      },
+      "d60": {
+        "a": 0.09,
+        "b": 0.91,
+        "tie": 0.0,
+        "first": 0.09267965077233042,
+        "second": 0.08735936465916612,
+        "party_games": 933,
+        "gust_games": 0,
+        "boss_games": 2174,
+        "adrena_games": 42,
+        "mega_games": 112,
+        "tornadus_games": 62
+      },
+      "hedrick": {
+        "a": 0.3263333333333333,
+        "b": 0.6736666666666666,
+        "tie": 0.0,
+        "first": 0.3197596795727637,
+        "second": 0.33288948069241014,
+        "party_games": 924,
+        "gust_games": 1477,
+        "boss_games": 2750,
+        "adrena_games": 1315,
+        "mega_games": 0,
+        "tornadus_games": 114
+      },
+      "unl": {
+        "a": 0.4806666666666667,
+        "b": 0.5193333333333333,
+        "tie": 0.0,
+        "first": 0.5159401431359791,
+        "second": 0.44360902255639095,
+        "party_games": 1093,
+        "gust_games": 1635,
+        "boss_games": 2725,
+        "adrena_games": 467,
+        "mega_games": 0,
+        "tornadus_games": 108
+      }
+    },
+    "boss1_kecleon": {
+      "d60": {
+        "a": 0.08133333333333333,
+        "b": 0.9186666666666666,
+        "tie": 0.0,
+        "first": 0.08535784635587657,
+        "second": 0.07718348002708192,
+        "party_games": 897,
+        "gust_games": 0,
+        "boss_games": 2165,
+        "adrena_games": 45,
+        "mega_games": 127,
+        "tornadus_games": 73
+      },
+      "t60": {
+        "a": 0.226,
+        "b": 0.774,
+        "tie": 0.0,
+        "first": 0.24031516743269862,
+        "second": 0.21123899796885579,
+        "party_games": 1020,
+        "gust_games": 1296,
+        "boss_games": 2582,
+        "adrena_games": 552,
+        "mega_games": 0,
+        "tornadus_games": 103
+      },
+      "hedrick": {
+        "a": 0.31566666666666665,
+        "b": 0.6843333333333333,
+        "tie": 0.0,
+        "first": 0.32402995234853643,
+        "second": 0.3076420640104507,
+        "party_games": 1004,
+        "gust_games": 1519,
+        "boss_games": 2641,
+        "adrena_games": 1329,
+        "mega_games": 0,
+        "tornadus_games": 91
+      },
+      "unl": {
+        "a": 0.4633333333333333,
+        "b": 0.5366666666666666,
+        "tie": 0.0,
+        "first": 0.476062036412677,
+        "second": 0.45088991430454844,
+        "party_games": 1113,
+        "gust_games": 1742,
+        "boss_games": 2644,
+        "adrena_games": 422,
+        "mega_games": 0,
+        "tornadus_games": 101
+      }
+    }
+  },
+  "weighted": {
+    "baseline": 0.24598634098086214,
+    "plusle": 0.26425217821405467,
+    "junk": 0.25571768823954644,
+    "boss2_balls": 0.25749883955408437,
+    "boss1_kecleon": 0.24646851577065024
+  }
+}
