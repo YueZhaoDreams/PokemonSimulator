@@ -8,19 +8,19 @@ Script: `data/lab/set_g_boss_friday.py`
 Raw: `data/lab/set-g-boss-friday.json`
 Confirm: `data/lab/set-g-boss-friday-confirm.json` (3,000 games)
 
-Source of truth: **combocub.com** `seed-g` on 2026-09-15 (household admin session). Live G is not the repo G-plus lock.
+Source of truth after this lock: repo `SET_G_NAMES` / `seed-g`. Bakeoff still used **combocub.com** `seed-g` on 2026-09-15 as live G (Mega + Tornadus, 0 Boss).
 
-## Live G vs repo seed-g
+## Live G vs Friday lock
 
-Repo `SET_G_NAMES` is still G-plus (Plusle for Trapinch). Production already moved two C60-shaped pieces in:
+Live combocub G on 2026-09-15 already had Mega and Tornadus. The Friday lock then swaps the three junk 1-ofs for Boss.
 
-| | Repo G-plus | Live combocub G |
+| | Live combocub G (bakeoff) | Repo Friday lock |
 | --- | --- | --- |
-| Mewtwo (sv07-059 Super Psy Bolt) | 1 | **0** |
-| Emolga | 1 | **0** |
-| Mega Clefable ex (me03-031, Stage 1 from Clefairy) | 0 | **1** |
-| Tornadus (sv07-120) | 0 | **1** |
-| Boss's Orders | 0 | **0** |
+| Mega Clefable ex (me03-031, Stage 1 from Clefairy) | 1 | **1** |
+| Tornadus (sv07-120) | 1 | **1** |
+| Potion / Poké Ball / Plusle | 1 each | **0** |
+| Boss's Orders | 0 | **3** |
+| Mewtwo / Emolga | 0 | **0** |
 | Psychic Energy | 17 | 17 |
 
 Mega is playable: printed `evolves_from = Clefairy`, 320 HP, Shooting Moons. Not a brick.
@@ -110,4 +110,4 @@ Ledian gust is still this 60's printed Boss-like hook until the 3 supporters are
 
 Live G vs Dragapult is still a losing matchup. Three Boss copies buy about three points vs household T60 and Hedrick, and they are exactly the C60 gust package. Potion never heals a 6-prize race. Coin Poké Ball is worse than Ultra Ball. Plusle's Plus Damage almost never fires in this 60 (`g-plus` already saw 0 Plusle games on several cells). Hop's Cramorant is the next 1-of to cut when the fourth C60 card arrives; it was the runner-up 3-cut.
 
-Repo `SET_G_NAMES` is left as G-plus so historical C60-vs-G cells stay comparable. Apply the Friday list on combocub `seed-g` by hand (upsert does not overwrite `cards_json`).
+Repo `SET_G_NAMES` is this Friday list. Restart upserts `seed-g` so Mega Clefable ex and the three Boss's Orders land in the database.

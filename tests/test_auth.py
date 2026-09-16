@@ -86,6 +86,12 @@ def test_admin_owns_seed_decks_and_members_are_isolated(tmp_path, monkeypatch):
         g_names = [c["name"] for c in get_deck("seed-g")["cards"]]
         assert g_names.count("Mega Clefable ex") == 1
         assert g_names.count("Emolga") == 0
+        assert g_names.count("Tornadus") == 1
+        assert g_names.count("Boss's Orders") == 3
+        assert g_names.count("Plusle") == 0
+        assert g_names.count("Potion") == 0
+        assert g_names.count("Poké Ball") == 0
+        assert g_names.count("Mewtwo") == 0
         assert all(d["owner_id"] == admin["id"] for d in decks)
         presets = client.get("/api/rule-presets").json()
         assert [p["preset"] for p in presets] == ["b", "c", "s30", "s60"]
@@ -226,3 +232,4 @@ def test_malformed_seed_cards_json_refreshes_on_init(tmp_path, monkeypatch):
     names = [c["name"] for c in get_deck("seed-g")["cards"]]
     assert names.count("Mega Clefable ex") == 1
     assert names.count("Emolga") == 0
+    assert names.count("Boss's Orders") == 3

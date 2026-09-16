@@ -1,14 +1,12 @@
 #!/usr/bin/env python3
-"""Live Carpet Set G: 3 Boss's Orders arriving before Friday.
+"""Carpet Set G Friday lock: 3 Boss's Orders for Potion, Poké Ball, Plusle.
 
-Source of truth: combocub.com seed-g on 2026-09-15 (household admin). Live G
-is locked G-plus with Mewtwo / Emolga already swapped for Mega Clefable ex /
-Tornadus. Zero Boss. Three Boss's Orders are incoming; stay at 60.
+Live combocub seed-g on 2026-09-15 already had Mega Clefable ex and Tornadus
+(Mewtwo / Emolga out) and 0 Boss. The bakeoff locked −Potion −Poké Ball
+−Plusle +3 Boss. Repo SET_G_NAMES is that Friday list so seed-g upserts.
 
 Rule: s60. Seed 20260915. G is always player A; first player is random.
-G uses dedicated `g`. Foes that match live combocub use the repo seeds.
-Live C60 on the site still has Tool Box + 15 Psychic (no Telepathic); the
-destination list is locked SET_C60_NAMES. Foe `c60` uses the locked list.
+G uses dedicated `g`. Foe `c60` uses locked SET_C60_NAMES.
 """
 
 from __future__ import annotations
@@ -43,12 +41,6 @@ GAMES_SCREEN = 1500
 GAMES_FINAL = 2000
 SEED = 20260915
 WORKERS = 4
-
-# combocub.com seed-g 2026-09-15: G-plus minus Mewtwo/Emolga plus Mega/Tornadus.
-LIVE_G_SWAPS = (
-    ("Mewtwo", "Mega Clefable ex"),
-    ("Emolga", "Tornadus"),
-)
 
 FOES = (
     ("t60", SET_T60_NAMES, "phantom"),
@@ -124,17 +116,6 @@ QUERIES = [
 ]
 
 
-def live_g_names() -> list[str]:
-    names = list(SET_G_NAMES)
-    for old, new in LIVE_G_SWAPS:
-        names[names.index(old)] = new
-    return names
-
-
-def friday_g_names() -> list[str]:
-    return add_boss(live_g_names(), 3, FRIDAY_CUTS)
-
-
 def apply_cuts_adds(names: list[str], cuts: tuple[str, ...] | list[str], adds: tuple[str, ...] | list[str]) -> list[str]:
     out = list(names)
     for name in cuts:
@@ -146,6 +127,15 @@ def apply_cuts_adds(names: list[str], cuts: tuple[str, ...] | list[str], adds: t
     if bad:
         raise ValueError(f"copy cap: {bad}")
     return out
+
+
+def friday_g_names() -> list[str]:
+    return list(SET_G_NAMES)
+
+
+def live_g_names() -> list[str]:
+    """Pre-Friday live G: Mega + Tornadus, Potion / Poké Ball / Plusle, 0 Boss."""
+    return apply_cuts_adds(list(SET_G_NAMES), ["Boss's Orders"] * 3, list(FRIDAY_CUTS))
 
 
 def add_boss(names: list[str] | None, n: int, cuts: tuple[str, ...] | list[str]) -> list[str]:
@@ -271,7 +261,7 @@ def main() -> None:
         "source": "combocub.com seed-g 2026-09-15 household admin",
         "live_g": base,
         "live_g_counts": Counter(base).most_common(),
-        "live_vs_seed": {"add": ["Mega Clefable ex", "Tornadus"], "cut": ["Mewtwo", "Emolga"]},
+        "friday_vs_live": {"add": ["Boss's Orders"] * 3, "cut": list(FRIDAY_CUTS)},
         "screen_ranked": [
             {
                 "cut": k.split(":", 1)[1],

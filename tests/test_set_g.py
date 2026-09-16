@@ -10,9 +10,13 @@ def test_set_g_is_sixty_after_staraptor_energy_swap():
     names = list(SET_G_NAMES)
     assert names.count("Staravia") == 2
     assert names.count("Staraptor") == 2
-    assert names.count("Plusle") == 1
+    assert names.count("Plusle") == 0
     assert names.count("Kecleon") == 1
-    assert names.count("Potion") == 1
+    assert names.count("Potion") == 0
+    assert names.count("Poké Ball") == 0
+    assert names.count("Boss's Orders") == 3
+    assert names.count("Tornadus") == 1
+    assert names.count("Mewtwo") == 0
     assert names.count("Trapinch") == 0
     assert names.count("Iron Boulder") == 0
     assert names.count("Scatterbug") == 0
@@ -59,14 +63,16 @@ def test_set_g_seed_payload_and_s60_preset():
     assert staravia[1]["hp"] == 80
     boom = next(c for c in g["cards"] if c["name"] == "Boomerang Energy")
     assert boom["catalog_id"] == "sv06-166"
-    poke = next(c for c in g["cards"] if c["name"] == "Poké Ball")
-    assert poke.get("image")
-    mewtwo = next(c for c in g["cards"] if c["name"] == "Mewtwo")
-    assert mewtwo["catalog_id"] == "sv07-059"
-    assert any(a["name"] == "Super Psy Bolt" for a in mewtwo["attacks"])
-    plusle = next(c for c in g["cards"] if c["name"] == "Plusle")
-    assert plusle["catalog_id"] == "sv04-060"
-    assert plusle["attacks"][0]["name"] == "Plus Damage"
+    tornadus = next(c for c in g["cards"] if c["name"] == "Tornadus")
+    assert tornadus["catalog_id"] == "sv07-120"
+    bosses = [c for c in g["cards"] if c["name"] == "Boss's Orders"]
+    assert len(bosses) == 3
+    assert all(c.get("catalog_id") == "sv02-172" for c in bosses)
+    assert all(c.get("image") for c in bosses)
+    assert all(c["name"] != "Poké Ball" for c in g["cards"])
+    assert all(c["name"] != "Potion" for c in g["cards"])
+    assert all(c["name"] != "Plusle" for c in g["cards"])
+    assert all(c["name"] != "Mewtwo" for c in g["cards"])
     kecleon = next(c for c in g["cards"] if c["name"] == "Kecleon")
     assert kecleon["catalog_id"] == "sv08-150"
     indeedee = next(c for c in g["cards"] if c["name"] == "Indeedee")
