@@ -55,15 +55,16 @@ def test_s60_lab_lists_are_seed_decks():
             assert [c["name"] for c in blob["cards"]].count("Ambipom") == 0
             assert [c["name"] for c in blob["cards"]].count("Raikou V") == 0
             assert [c["name"] for c in blob["cards"]].count("Iron Hands ex") == 3
+            assert [c["name"] for c in blob["cards"]].count("Shuckle") == 3
             assert [c["name"] for c in blob["cards"]].count("Draw Energy") == 4
             assert [c["name"] for c in blob["cards"]].count("Rare Candy") == 4
             assert [c["name"] for c in blob["cards"]].count("Forest Seal Stone") == 0
             assert [c["name"] for c in blob["cards"]].count("Nest Ball") == 2
-            assert [c["name"] for c in blob["cards"]].count("Ultra Ball") == 2
-            assert [c["name"] for c in blob["cards"]].count("VS Seeker") == 2
+            assert [c["name"] for c in blob["cards"]].count("Ultra Ball") == 1
+            assert [c["name"] for c in blob["cards"]].count("VS Seeker") == 1
             assert [c["name"] for c in blob["cards"]].count("Wally") == 1
             assert [c["name"] for c in blob["cards"]].count("Penny") == 2
-            assert [c["name"] for c in blob["cards"]].count("Shaymin") == 4
+            assert [c["name"] for c in blob["cards"]].count("Shaymin") == 3
             assert [c["name"] for c in blob["cards"]].count("Professor's Research") == 0
             assert [c["name"] for c in blob["cards"]].count("Metal Energy") == 4
             assert [c["name"] for c in blob["cards"]].count("Lightning Energy") == 0
@@ -107,19 +108,21 @@ def test_s60_seed_aliases_and_prankish_c60():
     assert [c["name"] for c in g30["cards"]].count("Enriching Energy") == 1
     assert [c["name"] for c in g30["cards"]].count("Raikou V") == 0
     assert [c["name"] for c in g30["cards"]].count("Iron Hands ex") == 3
+    assert [c["name"] for c in g30["cards"]].count("Shuckle") == 3
     assert [c["name"] for c in g30["cards"]].count("Forest Seal Stone") == 0
     assert [c["name"] for c in g30["cards"]].count("Nest Ball") == 2
     assert [c["name"] for c in g30["cards"]].count("Draw Energy") == 4
     assert [c["name"] for c in g30["cards"]].count("Rare Candy") == 4
     assert [c["name"] for c in g30["cards"]].count("Metal Energy") == 4
     assert [c["name"] for c in g30["cards"]].count("Lightning Energy") == 0
-    assert [c["name"] for c in g30["cards"]].count("Shaymin") == 4
+    assert [c["name"] for c in g30["cards"]].count("Shaymin") == 3
     assert [c["name"] for c in g30["cards"]].count("Penny") == 2
     assert [c["name"] for c in g30["cards"]].count("Wally") == 1
-    assert [c["name"] for c in g30["cards"]].count("Ultra Ball") == 2
-    assert [c["name"] for c in g30["cards"]].count("VS Seeker") == 2
+    assert [c["name"] for c in g30["cards"]].count("Ultra Ball") == 1
+    assert [c["name"] for c in g30["cards"]].count("VS Seeker") == 1
     assert load_seed_deck("raikou")["id"] == "seed-g30"
     assert load_seed_deck("iron hands")["id"] == "seed-g30"
+    assert load_seed_deck("shuckle")["id"] == "seed-g30"
     assert load_seed_deck("meowth")["id"] == "seed-g30"
     assert load_seed_deck("ambipom")["id"] == "seed-g30"
     assert load_seed_deck("lopunny")["id"] == "seed-g30"

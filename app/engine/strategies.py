@@ -490,11 +490,14 @@ STRATEGY_LIBRARY = {
             "Scoop Up Net + Puzzle of Time is the discard "
             "fallback. Four Galarian Meowth race fat 210–320 HP with 10×hand. "
             "Iron Hands ex is the Lightning host and extra-prize closer: Amp You Very "
-            "Much takes 1 more prize when it KOs; Arm Press is 160. Speed Lightning "
-            "Energy draws 2 only on a Lightning host. Treasure Rush costs one Metal "
-            "Energy and does 10 damage for each card in your hand; attack when that "
-            "KO's, unless Amp already KOs for more prizes. Pay Day draws a card only "
-            "when neither closer would KO."
+            "Much takes 1 more prize when it KOs; Arm Press is 160. Shuckle HGSS Promo "
+            "15 Fermenting Liquid draws a card whenever Energy is attached from hand; "
+            "Crazy Code parks Draw Energy (and Enriching when Wind is ready) there, "
+            "then Celebration Wind moves it onto Lopunny so Big Jump recycles. "
+            "Speed Lightning Energy draws 2 only on a Lightning host. Treasure Rush "
+            "costs one Metal Energy and does 10 damage for each card in your hand; "
+            "attack when that KO's, unless Amp already KOs for more prizes. Pay Day "
+            "draws a card only when neither closer would KO."
         ),
         prefer_damage=0.2,
         prefer_status=0.0,
@@ -510,9 +513,10 @@ STRATEGY_LIBRARY = {
             "Porygon-Z",
             "Galarian Meowth",
             "Iron Hands ex",
+            "Shuckle",
             "Shaymin",
         ],
-        search_aces=["Buneary", "Porygon", "Galarian Meowth", "Iron Hands ex", "Shaymin"],
+        search_aces=["Buneary", "Porygon", "Galarian Meowth", "Iron Hands ex", "Shuckle", "Shaymin"],
         closers=["Galarian Meowth", "Iron Hands ex"],
         backups=["Porygon-Z", "Iron Hands ex"],
         insurance=["Porygon-Z"],

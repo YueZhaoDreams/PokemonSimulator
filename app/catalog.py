@@ -249,6 +249,7 @@ PREFERRED_IDS = {
     "Forest Seal Stone": "swsh12-156",
     "Raikou V": "swsh9-48",  # Brilliant Stars Fleet-Footed / Lightning Streak
     "Iron Hands ex": "sv04-070",  # Paradox Rift Arm Press / Amp You Very Much
+    "Shuckle": "hgssp-HGSS15",  # HGSS Promo 15 Fermenting Liquid
     "Draw Energy": "sm12-209",  # Cosmic Eclipse: attach from hand, draw a card
     "Professor Turo's Scenario": "sv04-171",
     "Collapsed Stadium": "swsh9-137",
@@ -414,6 +415,7 @@ PRINT_PREFER = {
     "Forest Seal Stone": ["star alchemy"],
     "Raikou V": ["fleet-footed", "lightning streak"],
     "Iron Hands ex": ["amp you very much", "arm press"],
+    "Shuckle": ["fermenting liquid", "shell stunner"],
     "Shaymin": ["celebration wind"],
     "Penny": ["basic pokémon and all attached cards into your hand", "basic pokemon and all attached cards into your hand"],
     "Draw Energy": ["draw a card"],
