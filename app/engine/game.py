@@ -217,6 +217,8 @@ class Game:
         for card_i in ace_cards:
             if len(player.bench) >= self.rules.bench_size:
                 break
+            if strat.name == "celebration" and not self._wants_in_play(player, player.card(card_i), strat):
+                continue
             player.hand.remove(card_i)
             player.bench.append(Pokemon(card_i=card_i, played_turn=0))
             self._bump(f"saw_play:{player.card(card_i).name}")
@@ -359,7 +361,7 @@ class Game:
                 "hoppip": 1,
                 "abra": 1,
                 "porygon": 1,
-                "aipom": 1,
+                "galarian meowth": 2,
                 "raikou v": 1,
             }
             if name not in caps:
@@ -367,13 +369,12 @@ class Game:
             if copies < caps[name]:
                 return True
             # Opening Basics are played_turn 0 and cannot BTS-evolve. Nest a
-            # same-turn copy so Porygon-Z / Ambipom / Lopunny can come down.
+            # same-turn copy so Porygon-Z / Lopunny can come down.
             # Rare Candy cannot skip a Basic put into play this turn.
-            if name not in {"porygon", "aipom", "buneary", "hoppip"} or copies != 1:
+            if name not in {"porygon", "buneary", "hoppip"} or copies != 1:
                 return False
             evo = {
                 "porygon": "porygon-z",
-                "aipom": "ambipom",
                 "buneary": "lopunny",
                 "hoppip": "jumpluff",
             }[name]
@@ -529,7 +530,7 @@ class Game:
                     "porygon": 3000,
                     "buneary": 2900,
                     "hoppip": 2850,
-                    "aipom": 2800,
+                    "galarian meowth": 2800,
                     "raikou v": 2100,
                     "abra": 2000,
                 }
@@ -2280,17 +2281,15 @@ class Game:
                     prefer.append("Jumpluff")
             if "porygon" in in_play and "porygon-z" not in in_play:
                 prefer.append("Porygon-Z")
-            if self._celebration_needs_ambipom(me):
-                prefer.append("Ambipom")
-            if self._count_named_in_play(me, "Ambipom") >= 1 and self._celebration_needs_aipom(me):
-                prefer.append("Aipom")
+            if self._celebration_needs_closer(me):
+                prefer.append("Galarian Meowth")
             if "tynamo" in in_play and "eelektrik" not in in_play and "eelektrik" not in in_hand:
                 prefer.append("Eelektrik")
-            for name in ("Porygon", "Aipom", "Raikou V", "Buneary"):
+            for name in ("Porygon", "Galarian Meowth", "Raikou V", "Buneary"):
                 key = name.lower()
                 if key not in in_play and key not in in_hand:
                     prefer.append(name)
-            prefer.extend(["Lopunny", "Jumpluff", "Porygon-Z", "Ambipom", "Raikou V", "Buneary"])
+            prefer.extend(["Lopunny", "Jumpluff", "Porygon-Z", "Galarian Meowth", "Raikou V", "Buneary"])
             return list(dict.fromkeys(prefer))
         if strat.hold_as_energy:
             prefer = list(strat.search_aces)
@@ -2451,7 +2450,7 @@ class Game:
                 "buneary",
                 "hoppip",
                 "porygon-z",
-                "ambipom",
+                "galarian meowth",
                 "raikou v",
             }:
                 score += 20
@@ -3187,7 +3186,7 @@ class Game:
         who = "a" if me.name == "A" else "b"
         if self.strats[who].name == "celebration":
             name = card.name.lower()
-            if name == "ambipom":
+            if name in self._celebration_closer_names() or self._hand_fling_attack(me, target):
                 return set()
             if "raikou" in name:
                 return {"Lightning"}
@@ -3614,7 +3613,7 @@ class Game:
                 "Enriching Energy",
                 "Draw Energy",
                 "Raikou V",
-                "Ambipom",
+                "Galarian Meowth",
                 "Buneary",
                 "Broken Time-Space",
                 "Wally",
@@ -4091,6 +4090,11 @@ class Game:
             if strat.name == "celebration" and "collect" in atk.name.lower():
                 if effective < foe_hp:
                     score += 200
+            if strat.name == "celebration" and "pay day" in atk.name.lower():
+                if self._hand_fling_would_ko(me, foe):
+                    score -= 900
+                elif effective < foe_hp:
+                    score += 150
             if strat.name == "celebration" and "double draw" in atk.name.lower() and not self._hand_fling_would_ko(me, foe):
                 score += 500
             if best is None or score > best_score:
@@ -4138,6 +4142,8 @@ class Game:
             ):
                 return best
             if "collect" in best.name.lower() and effective < foe_hp:
+                return best
+            if "pay day" in best.name.lower() and not self._hand_fling_would_ko(me, foe):
                 return best
             if "double draw" in best.name.lower() and not self._hand_fling_would_ko(me, foe):
                 return best
@@ -8245,7 +8251,7 @@ class Game:
             "buneary": 0,
             "hoppip": 1,
             "porygon": 2,
-            "aipom": 3,
+            "galarian meowth": 3,
             "raikou v": 4,
             "abra": 7,
         }.get(name, 20)
@@ -8266,36 +8272,30 @@ class Game:
             return True
         return False
 
-    def _celebration_needs_ambipom(self, me: Player) -> bool:
-        """True while an Aipom in play still needs a Hand Fling evolution from deck/hand.
+    def _celebration_closer_names(self) -> set[str]:
+        return {"galarian meowth", "ambipom"}
 
-        First closer: one Ambipom. After that closer is already in play, a second
-        Ambipom on a spare Aipom is the 2-for-1 prize-race backup.
-        """
-        if self._count_named_in_play(me, "Aipom") == 0:
-            return False
-        play = self._count_named_in_play(me, "Ambipom")
-        hand = self._celebration_zone_count(me, "Ambipom", me.hand)
-        need = 2 if play else 1
-        return play + hand < need
+    def _celebration_needs_closer(self, me: Player) -> bool:
+        """Hunt Galarian Meowth until two bodies are in play or hand (2-for-1 spare)."""
+        play = self._count_named_in_play(me, "Galarian Meowth")
+        hand = self._celebration_zone_count(me, "Galarian Meowth", me.hand)
+        if play + hand == 0:
+            return True
+        return play + hand < 2
+
+    def _celebration_needs_ambipom(self, me: Player) -> bool:
+        return self._celebration_needs_closer(me)
 
     def _celebration_needs_aipom(self, me: Player) -> bool:
-        """Hunt Aipom when the line is empty, or when the first Ambipom needs a spare Basic."""
-        play_a = self._count_named_in_play(me, "Aipom")
-        play_m = self._count_named_in_play(me, "Ambipom")
-        hand_a = self._celebration_zone_count(me, "Aipom", me.hand)
-        hand_m = self._celebration_zone_count(me, "Ambipom", me.hand)
-        if play_a + play_m + hand_a + hand_m == 0:
-            return True
-        return play_m >= 1 and play_a + hand_a == 0
+        return self._celebration_needs_closer(me)
 
     def _celebration_missing_hunt(self, me: Player, in_play: set[str], in_hand: set[str]) -> list[str]:
         missing: list[str] = []
         if not self._celebration_has_bounce_line(me):
             if "buneary" not in in_play and "buneary" not in in_hand and "lopunny" not in in_hand:
                 missing.append("buneary")
-        if self._celebration_needs_aipom(me):
-            missing.append("aipom")
+        if self._celebration_needs_closer(me):
+            missing.append("galarian meowth")
         if "porygon-z" not in in_play and "porygon" not in in_play and "porygon" not in in_hand:
             missing.append("porygon")
         if "raikou v" not in in_play and "raikou v" not in in_hand:
@@ -8303,7 +8303,7 @@ class Game:
         return missing
 
     def _celebration_keep_names(self) -> set[str]:
-        return {"porygon-z", "ambipom", "raikou v", "lopunny", "jumpluff"}
+        return {"porygon-z", "galarian meowth", "ambipom", "raikou v", "lopunny", "jumpluff"}
 
     def _has_return_self_to_hand(self, me: Player, mon: Pokemon) -> bool:
         card = me.card(mon.card_i)
@@ -8359,7 +8359,7 @@ class Game:
 
     def _ambipom_can_pay(self, me: Player, mon: Pokemon | None = None) -> bool:
         hosts = [mon] if mon is not None else [
-            m for m in me.in_play() if me.card(m.card_i).name.lower() == "ambipom"
+            m for m in me.in_play() if self._hand_fling_attack(me, m)
         ]
         for host in hosts:
             atk = self._hand_fling_attack(me, host)
@@ -8370,7 +8370,7 @@ class Game:
         return False
 
     def _hand_fling_align_spent(self, me: Player) -> int:
-        if me.active and me.card(me.active.card_i).name.lower() == "ambipom":
+        if me.active and self._hand_fling_attack(me, me.active):
             return 0
         if me.active:
             cost = self._retreat_cost(me, me.active)
@@ -8394,16 +8394,16 @@ class Game:
         return None
 
     def _celebration_energy_target(self, me: Player) -> Pokemon | None:
-        ambipom = self._named_mon(me, "Ambipom")
-        if ambipom is not None and not self._ambipom_can_pay(me, ambipom):
-            return ambipom
+        scaler = next((m for m in me.in_play() if self._hand_fling_attack(me, m)), None)
+        if scaler is not None and not self._ambipom_can_pay(me, scaler):
+            return scaler
         if any(is_draw_energy(me.card(i)) for i in me.hand):
             bounce = next((m for m in me.in_play() if self._has_return_self_to_hand(me, m)), None)
             if bounce is not None:
                 return bounce
-            if ambipom is not None:
-                return ambipom
-        return ambipom or me.active
+            if scaler is not None:
+                return scaler
+        return scaler or me.active
 
     def _celebration_switch_idx(self, me: Player) -> int | None:
         if not me.bench:
@@ -8412,7 +8412,7 @@ class Game:
         foe = self.players["b" if who == "a" else "a"]
         if self._hand_fling_ready(me, foe):
             for idx, mon in enumerate(me.bench):
-                if me.card(mon.card_i).name.lower() == "ambipom" and self._ambipom_can_pay(me, mon):
+                if self._hand_fling_attack(me, mon) and self._ambipom_can_pay(me, mon):
                     return idx
         return None
 
@@ -8458,7 +8458,7 @@ class Game:
         names = {me.card(m.card_i).name.lower() for m in me.in_play()}
         if "porygon-z" not in names:
             return False
-        if "ambipom" not in names:
+        if not any(self._hand_fling_attack(me, mon) for mon in me.in_play()):
             return False
         if self._celebration_has_bounce_line(me):
             return True
@@ -8475,7 +8475,6 @@ class Game:
                 and "jumpluff" not in in_play
             )
             or ("porygon-z" in in_deck and "porygon2" in in_play)
-            or ("ambipom" in in_deck and self._celebration_needs_ambipom(me))
         )
         return bool(checks)
 
@@ -8525,9 +8524,9 @@ class Game:
         looping = self._celebration_can_loop(me)
         if name in {"nest ball", "nesting ball", "buddy-buddy poffin", "buddy buddy poffin"} and not wants_bench:
             return -25.0
-        attacker_ready = "ambipom" in names_in_play
+        attacker_ready = any(self._hand_fling_attack(me, mon) for mon in me.in_play())
         bounce_out = self._celebration_bounce_host_in_play(me)
-        needs_backup = self._celebration_needs_ambipom(me) or self._celebration_needs_aipom(me)
+        needs_backup = self._celebration_needs_closer(me)
         if looping and attacker_ready and bounce_out and name not in {
             "broken time-space",
             "switch",
@@ -8538,7 +8537,7 @@ class Game:
         if (
             ready
             and name == "ultra ball"
-            and "ambipom" in names_in_play
+            and attacker_ready
             and "porygon-z" in names_in_play
             and bounce_out
             and not needs_backup
@@ -8574,10 +8573,10 @@ class Game:
         elif name == "switch":
             who = "a" if me.name == "A" else "b"
             foe = self.players["b" if who == "a" else "a"]
-            active_name = me.card(me.active.card_i).name.lower() if me.active else ""
-            if self._hand_fling_ready(me, foe) and active_name != "ambipom":
+            closer_active = bool(me.active and self._hand_fling_attack(me, me.active))
+            if self._hand_fling_ready(me, foe) and not closer_active:
                 score += 18
-            elif active_name == "ambipom" and not self._hand_fling_ready(me, foe):
+            elif closer_active and not self._hand_fling_ready(me, foe):
                 score += 6
             else:
                 score -= 8
@@ -8663,7 +8662,7 @@ class Game:
                 "rare candy",
                 "raikou v",
                 "porygon-z",
-                "ambipom",
+                "galarian meowth",
                 "speed lightning energy",
                 "wally",
                 "forest seal stone",
@@ -8814,7 +8813,7 @@ class Game:
                 self._bump("wally_fail")
                 return
         in_play = {me.card(m.card_i).name.lower(): m for m in me.in_play()}
-        prefer = ["ambipom", "lopunny", "jumpluff", "porygon-z"]
+        prefer = ["lopunny", "jumpluff", "porygon-z"]
         scored: list[tuple[int, Pokemon, int]] = []
         for evo_i in me.deck:
             evo = me.card(evo_i)
@@ -8913,13 +8912,16 @@ class Game:
         return True
 
     def _speed_l_reserve_for_ambipom(self, me: Player) -> int:
-        ambipom = self._named_mon(me, "Ambipom")
-        if ambipom is None:
+        scaler = next((m for m in me.in_play() if self._hand_fling_attack(me, m)), None)
+        if scaler is None:
             return 0
-        atk = self._hand_fling_attack(me, ambipom)
+        # Speed L draws 2 only on Lightning. Metal Meowth should not eat the reserve.
+        if "Lightning" not in (me.card(scaler.card_i).types or []):
+            return 0
+        atk = self._hand_fling_attack(me, scaler)
         if atk is None:
             return 0
-        have = len(self._energy_pool(me, ambipom))
+        have = len(self._energy_pool(me, scaler))
         return max(0, len(atk.cost) - have)
 
     def _celebration_attach_speed_l(self, me: Player, who: str, foe: Player) -> bool:
@@ -8928,16 +8930,19 @@ class Game:
         speed = next((i for i in me.hand if is_speed_lightning_energy(me.card(i))), None)
         if speed is None:
             return False
-        ambipom = self._named_mon(me, "Ambipom")
+        scaler = next((m for m in me.in_play() if self._hand_fling_attack(me, m)), None)
         lightning = self._speed_l_host(me)
-        unpaid = ambipom is not None and not self._ambipom_can_pay(me, ambipom)
+        unpaid = scaler is not None and not self._ambipom_can_pay(me, scaler)
+        lightning_scaler = bool(
+            scaler is not None and "Lightning" in (me.card(scaler.card_i).types or [])
+        )
         speed_left = sum(1 for i in me.hand if is_speed_lightning_energy(me.card(i)))
         reserve = self._speed_l_reserve_for_ambipom(me)
         align = self._hand_fling_align_spent(me)
         buffered = (not unpaid) or self._hand_fling_would_ko(me, foe, spent=reserve + align)
         host = None
-        if unpaid and buffered:
-            host = ambipom
+        if unpaid and buffered and lightning_scaler:
+            host = scaler
         elif lightning is not None and speed_left > reserve:
             host = lightning
         if host is None:
@@ -8955,16 +8960,16 @@ class Game:
         draw = next((i for i in me.hand if is_draw_energy(me.card(i))), None)
         if draw is None:
             return False
-        ambipom = self._named_mon(me, "Ambipom")
+        scaler = next((m for m in me.in_play() if self._hand_fling_attack(me, m)), None)
         hosts = [mon for mon in me.in_play() if self._has_return_self_to_hand(me, mon)]
-        unpaid = ambipom is not None and not self._ambipom_can_pay(me, ambipom)
+        unpaid = scaler is not None and not self._ambipom_can_pay(me, scaler)
         host = None
         if unpaid:
-            host = ambipom
+            host = scaler
         elif hosts:
             host = hosts[0]
-        elif ambipom is not None:
-            host = ambipom
+        elif scaler is not None:
+            host = scaler
         if host is None:
             return False
         me.hand.remove(draw)
@@ -9070,7 +9075,7 @@ class Game:
     def _celebration_can_attack(self, me: Player, foe: Player | None = None) -> bool:
         if not me.active:
             return False
-        if me.card(me.active.card_i).name.lower() != "ambipom":
+        if self._hand_fling_attack(me, me.active) is None:
             return False
         if not self._ambipom_can_pay(me, me.active):
             return False
@@ -9083,7 +9088,7 @@ class Game:
         if not me.bench:
             return None
         for idx, mon in enumerate(me.bench):
-            if me.card(mon.card_i).name.lower() != "ambipom":
+            if self._hand_fling_attack(me, mon) is None:
                 continue
             if self._ambipom_can_pay(me, mon):
                 return idx
@@ -9092,13 +9097,13 @@ class Game:
     def _celebration_chump_idx(self, me: Player) -> int | None:
         if not me.bench:
             return None
-        prefer = ("porygon", "aipom", "abra")
+        prefer = ("porygon", "abra")
 
         def ok(mon: Pokemon) -> bool:
             name = me.card(mon.card_i).name.lower()
             if self._has_return_self_to_hand(me, mon):
                 return False
-            if name in {"buneary", "hoppip", "skiploom", "raikou v", "porygon-z", "ambipom"}:
+            if name in {"buneary", "hoppip", "skiploom", "raikou v", "porygon-z", "galarian meowth", "ambipom"}:
                 return False
             if self._is_pokemon_v(me.card(mon.card_i)):
                 return False
@@ -9130,10 +9135,9 @@ class Game:
         if self._hand_fling_ready(me, foe):
             idx = self._celebration_attacker_idx(me)
         else:
-            active_name = me.card(me.active.card_i).name.lower()
-            if active_name == "ambipom":
+            if me.active and self._hand_fling_attack(me, me.active):
                 idx = self._celebration_chump_idx(me)
-            elif active_name == "raikou v":
+            elif me.card(me.active.card_i).name.lower() == "raikou v":
                 idx = None
         if idx is None:
             return

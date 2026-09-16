@@ -480,16 +480,17 @@ STRATEGY_LIBRARY = {
     "celebration": StrategySpec(
         name="celebration",
         description=(
-            "Unlimited 60 Ambipom PAR Hand Fling: Broken Time-Space into Ambipom / "
-            "Lopunny; Rare Candy skips Porygon to Porygon-Z. Crazy Code attaches "
+            "Unlimited 60 Galarian Meowth 30th Treasure Rush: Basic Metal closer, "
+            "no evolve. Rare Candy skips Porygon to Porygon-Z. Crazy Code attaches "
             "Enriching Energy and Draw Energy as often as you like. Lopunny FLF Big "
             "Jump returns this Pokémon and all attached cards to the hand — net +4 "
             "with replay + evolve. Scoop Up Net + Puzzle of Time is the discard "
-            "fallback. Four Aipom / four Ambipom race 2-prize KOs against 1-prize "
-            "Ambipom deaths. Raikou V is the Lightning host: Fleet-Footed draws 1 "
-            "while Active; Forest Seal Stone Star Alchemy searches any one card once "
-            "per game; Speed Lightning Energy draws 2 only on a Lightning host. Hand "
-            "Fling does 20 damage for each card in your hand; attack when that KO's."
+            "fallback. Four Galarian Meowth race 2-prize KOs against 1-prize deaths. "
+            "Two Raikou V are Lightning hosts: Fleet-Footed draws 1 while Active; "
+            "Forest Seal Stone Star Alchemy searches any one card once per game; "
+            "Speed Lightning Energy draws 2 only on a Lightning host. Treasure Rush "
+            "does 10 damage for each card in your hand; attack when that KO's. "
+            "Pay Day draws a card only when Rush would not KO."
         ),
         prefer_damage=0.2,
         prefer_status=0.0,
@@ -503,12 +504,11 @@ STRATEGY_LIBRARY = {
             "Lopunny",
             "Porygon",
             "Porygon-Z",
-            "Aipom",
-            "Ambipom",
+            "Galarian Meowth",
             "Raikou V",
         ],
-        search_aces=["Buneary", "Porygon", "Aipom", "Raikou V"],
-        closers=["Ambipom"],
+        search_aces=["Buneary", "Porygon", "Galarian Meowth", "Raikou V"],
+        closers=["Galarian Meowth"],
         backups=["Porygon-Z", "Raikou V"],
         insurance=["Raikou V"],
         insurance_bench=1,

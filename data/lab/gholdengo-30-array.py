@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Ambipom PAR Hand Fling 60 vs household 60s. Directed array, not a full NxN remake.
+"""30th Galarian Meowth Treasure Rush 60 vs household 60s. Directed array, not a full NxN remake.
 
 Row is G30 (strategy celebration) as player A. Columns are the household 60s from
 data/lab/set_c60_unl_matrix.py. First player is random. Seed 20260911.

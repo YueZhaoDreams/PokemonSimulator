@@ -259,7 +259,7 @@ PREFERRED_IDS = {
     "Hoppip": "bw6-1",  # Dragons Exalted line into Jumpluff Leave It to the Wind
     "Skiploom": "bw6-2",
     "Jumpluff": "bw6-3",  # Dragons Exalted Leave It to the Wind
-    "Galarian Meowth": "swsh12.5-084",  # Fasten Claws (Crown Zenith)
+    "Galarian Meowth": "swsh12.5-084",  # Fasten Claws (Crown Zenith). 30th Treasure Rush is extra.
     # Rockruff is NOT pinned globally: Set A is Crown Zenith Invite Out, Set B is Lost Origin Double Draw.
 }
 
@@ -270,6 +270,8 @@ EXTRA_PRINT_IDS: dict[str, tuple[str, ...]] = {
     "Starly": ("sv01-148", "swsh9-117"),  # Flap 20 Paldea Evolved; Claw 30 Brilliant Stars 117/172
     "Staravia": ("sv01-149", "swsh9-118"),  # Speed Dive 80 HP; Brilliant Stars 90 HP Wing Attack
     "Oranguru": ("sv08-156", "sm1-113"),
+    # Crown Zenith Fasten Claws stays PREFERRED. 30th Celebration Treasure Rush is G30.
+    "Galarian Meowth": ("swsh12.5-084", "me04-101"),
 }
 
 

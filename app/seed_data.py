@@ -311,21 +311,20 @@ SET_T_UNL_NAMES = (
     + ["Psychic Energy"] * 3
 )
 
-# Unlimited 60: Ambipom PAR Hand Fling, Lopunny FLF Big Jump recycle,
-# Raikou V Fleet-Footed + Forest Seal Stone Star Alchemy, Draw Energy, Rare Candy.
-# 4/4 Aipom–Ambipom is the 2-for-1 prize race (100 HP / 1 prize vs household 2-prizers).
+# Unlimited 60: 30th Galarian Meowth Treasure Rush (Basic, skips Aipom→Ambipom),
+# Lopunny FLF Big Jump recycle, 2 Raikou V Fleet-Footed + Forest Seal Stone,
+# Draw Energy, Rare Candy. Fasten Claws Crown Zenith stays the name default.
 SET_G30_NAMES = (
     ["Buneary"] * 3
     + ["Lopunny"] * 2
     + ["Porygon"] * 3
     + ["Porygon-Z"] * 2
-    + ["Aipom"] * 4
-    + ["Ambipom"] * 4
-    + ["Raikou V"]
+    + ["Galarian Meowth"] * 4
+    + ["Raikou V"] * 2
     + ["Puzzle of Time"] * 4
     + ["Scoop Up Net"] * 2
     + ["Broken Time-Space"] * 3
-    + ["Nest Ball"]
+    + ["Nest Ball"] * 2
     + ["Buddy-Buddy Poffin"] * 3
     + ["Ultra Ball"] * 3
     + ["VS Seeker"] * 3
@@ -334,10 +333,10 @@ SET_G30_NAMES = (
     + ["Battle Compressor"]
     + ["Switch"]
     + ["Rare Candy"] * 4
-    + ["Forest Seal Stone"]
+    + ["Forest Seal Stone"] * 2
     + ["Enriching Energy"]
     + ["Speed Lightning Energy"] * 4
-    + ["Lightning Energy"] * 3
+    + ["Lightning Energy"] * 4
     + ["Draw Energy"] * 4
 )
 
@@ -2577,6 +2576,27 @@ _GIMMIGHOUL_30TH = _pkm(
 )
 FALLBACK_BY_NAME["gimmighoul 30th"] = _GIMMIGHOUL_30TH
 FALLBACK_BY_NAME["gimmighoul celebration"] = _GIMMIGHOUL_30TH
+# 30th Celebration 101/128 Treasure Rush. Do not _register — Set A Fasten Claws
+# (swsh12.5-084) stays FALLBACK_BY_NAME["galarian meowth"].
+_PAY_DAY_TEXT = "Draw a card."
+_TREASURE_RUSH_TEXT = "This attack does 10 damage for each card in your hand."
+_GALARIAN_MEOWTH_30TH = _pkm(
+    "Galarian Meowth",
+    "Basic",
+    ["Metal"],
+    70,
+    [
+        _atk("Pay Day", ["Colorless"], 10, _PAY_DAY_TEXT),
+        _atk("Treasure Rush", ["Colorless", "Colorless"], 10, _TREASURE_RUSH_TEXT),
+    ],
+    catalog_id="me04-101",
+    weakness="Fire",
+    resistances=[{"type": "Grass", "value": "-30"}],
+    set_name="30th Celebration",
+)
+FALLBACK_BY_NAME["galarian meowth 30th"] = _GALARIAN_MEOWTH_30TH
+FALLBACK_BY_NAME["galarian meowth celebration"] = _GALARIAN_MEOWTH_30TH
+FALLBACK_BY_NAME["meowth 30th"] = _GALARIAN_MEOWTH_30TH
 _register(
     _pkm(
         "Gholdengo",
@@ -2797,11 +2817,11 @@ _register(
 
 
 def build_g30_deck() -> list[Card]:
-    """Ambipom PAR 146 closer; Aipom uses the Paradox Rift print, not Lost Origin."""
+    """30th Galarian Meowth Treasure Rush closer; Fasten Claws stays the name default."""
     out: list[Card] = []
     for name in SET_G30_NAMES:
-        if name == "Aipom":
-            out.append(fallback_named("aipom par"))
+        if name == "Galarian Meowth":
+            out.append(fallback_named("galarian meowth 30th"))
         else:
             out.append(fallback_named(name))
     return out

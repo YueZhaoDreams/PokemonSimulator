@@ -43,6 +43,8 @@ SPEED_L_TEXT = (
     "When you attach this card from your hand to a Lightning Pokémon, draw 2 cards."
 )
 HAND_FLING_TEXT = "This attack does 20 damage for each card in your hand."
+TREASURE_RUSH_TEXT = "This attack does 10 damage for each card in your hand."
+PAY_DAY_TEXT = "Draw a card."
 DRAW_ENERGY_TEXT = (
     "This card provides Colorless Energy. "
     "When you attach this card from your hand to a Pokémon, draw a card."
@@ -120,29 +122,33 @@ def test_g30_list_is_printed_sixty():
     assert names.count("Octillery") == 0
     assert names.count("Remoraid") == 0
     assert names.count("Sableye") == 0
-    assert names.count("Aipom") == 4
-    assert names.count("Ambipom") == 4
+    assert names.count("Aipom") == 0
+    assert names.count("Ambipom") == 0
+    assert names.count("Galarian Meowth") == 4
     assert names.count("Pikachu") == 0
-    assert names.count("Raikou V") == 1
+    assert names.count("Raikou V") == 2
     assert names.count("Gholdengo") == 0
     assert names.count("Puzzle of Time") == 4
     assert names.count("Scoop Up Net") == 2
-    assert names.count("Nest Ball") == 1
+    assert names.count("Nest Ball") == 2
     assert names.count("Rare Candy") == 4
-    assert names.count("Forest Seal Stone") == 1
+    assert names.count("Forest Seal Stone") == 2
     assert names.count("Enriching Energy") == 1
     assert names.count("Speed Lightning Energy") == 4
-    assert names.count("Lightning Energy") == 3
+    assert names.count("Lightning Energy") == 4
     assert names.count("Draw Energy") == 4
     pile = build_g30_deck()
     assert copy_violations(pile, standard_60_rules()) == []
-    aipom = [c for c in pile if c.name == "Aipom"]
-    assert len(aipom) == 4
-    assert all(c.catalog_id == "sv04-145" for c in aipom)
-    assert fallback_named("Aipom").catalog_id == "swsh11-144"
-    ambipom = next(c for c in pile if c.name == "Ambipom")
-    assert ambipom.attacks[-1].name == "Hand Fling"
-    assert ambipom.attacks[-1].text == HAND_FLING_TEXT
+    meowth = [c for c in pile if c.name == "Galarian Meowth"]
+    assert len(meowth) == 4
+    assert all(c.catalog_id == "me04-101" for c in meowth)
+    assert all(c.attacks[-1].name == "Treasure Rush" for c in meowth)
+    assert all(c.attacks[-1].text == TREASURE_RUSH_TEXT for c in meowth)
+    assert all(c.attacks[0].name == "Pay Day" for c in meowth)
+    assert all(c.attacks[0].text == PAY_DAY_TEXT for c in meowth)
+    assert fallback_named("Galarian Meowth").catalog_id == "swsh12.5-084"
+    assert fallback_named("Galarian Meowth").attacks[0].name == "Fasten Claws"
+    assert fallback_named("galarian meowth 30th").catalog_id == "me04-101"
     lopunny = next(c for c in pile if c.name == "Lopunny")
     assert lopunny.catalog_id == "xy2-85"
     assert lopunny.abilities[0].name == "Big Jump"
@@ -177,6 +183,16 @@ def test_celebration_parses_printed_wording():
     assert spec["hand"] == 30
     assert spec["prizes"] == 2
     assert spec["shuffle_hand"] is True
+
+
+def test_treasure_rush_parses_printed_wording():
+    effects = parse_effects(TREASURE_RUSH_TEXT, "10×")
+    spec = next(e for e in effects if e["kind"] == "hand_count_times")
+    assert spec["per"] == 10
+    assert not any(e["kind"] == "times" for e in effects)
+    pay = parse_effects(PAY_DAY_TEXT)
+    assert pay[0]["kind"] == "draw"
+    assert pay[0]["amount"] == 1
 
 
 def test_hand_fling_parses_printed_wording():
@@ -262,6 +278,8 @@ def test_puzzle_net_junk_arm_wally_parse_from_print():
 
 def test_fallback_prints_use_lab_wording():
     assert fallback_named("Ambipom").attacks[-1].text == HAND_FLING_TEXT
+    assert fallback_named("galarian meowth 30th").attacks[-1].text == TREASURE_RUSH_TEXT
+    assert fallback_named("galarian meowth 30th").attacks[0].text == PAY_DAY_TEXT
     assert fallback_named("aipom par").attacks[0].name == "Filch"
     assert next(a.text for a in fallback_named("Porygon-Z").abilities) == CRAZY_CODE_TEXT
     assert fallback_named("Puzzle of Time").text == PUZZLE_TEXT
@@ -279,7 +297,7 @@ def test_speed_l_draws_only_on_lightning():
     me = game.players["a"]
     used: set[int] = set()
     raikou = _take(me, "Raikou V", used)
-    ambipom = _take(me, "Ambipom", used)
+    ambipom = _take(me, "Galarian Meowth", used)
     speed = _take(me, "Speed Lightning Energy", used)
     rest = [i for i in range(len(me.cards)) if i not in used]
     me.active = Pokemon(card_i=raikou, played_turn=0)
@@ -295,10 +313,10 @@ def test_speed_l_draws_only_on_lightning():
     me2 = game2.players["a"]
     used2: set[int] = set()
     raikou2 = _take(me2, "Raikou V", used2)
-    ambipom2 = _take(me2, "Ambipom", used2)
+    meowth2 = _take(me2, "Galarian Meowth", used2)
     speed2 = _take(me2, "Speed Lightning Energy", used2)
     rest2 = [i for i in range(len(me2.cards)) if i not in used2]
-    me2.active = Pokemon(card_i=ambipom2, played_turn=0)
+    me2.active = Pokemon(card_i=meowth2, played_turn=0)
     me2.bench = [Pokemon(card_i=raikou2, played_turn=0)]
     me2.hand = []
     me2.deck = rest2
@@ -312,16 +330,33 @@ def test_hand_fling_scales_with_hand_size():
     me = game.players["a"]
     foe = game.players["b"]
     used: set[int] = set()
-    ambipom = _take(me, "Ambipom", used)
+    meowth = _take(me, "Galarian Meowth", used)
     mewtwo = next(i for i, c in enumerate(foe.cards) if c.name == "Mewtwo ex")
-    me.active = Pokemon(card_i=ambipom, played_turn=0)
+    me.active = Pokemon(card_i=meowth, played_turn=0)
     foe.active = Pokemon(card_i=mewtwo, played_turn=0)
     rest = [i for i in range(len(me.cards)) if i not in used]
-    me.hand = rest[:12]
-    atk = next(a for a in me.card(ambipom).attacks if a.name == "Hand Fling")
-    assert game._raw_attack_damage(me, foe, me.active, atk) == 20 * 12
-    me.hand = rest[:16]
-    assert game._raw_attack_damage(me, foe, me.active, atk) == 20 * 16
+    me.hand = rest[:23]
+    atk = next(a for a in me.card(meowth).attacks if a.name == "Treasure Rush")
+    assert game._raw_attack_damage(me, foe, me.active, atk) == 10 * 23
+    me.hand = rest[:32]
+    assert game._raw_attack_damage(me, foe, me.active, atk) == 10 * 32
+
+
+def test_pay_day_does_not_steal_treasure_rush_when_lethal():
+    game = _game()
+    me = game.players["a"]
+    foe = game.players["b"]
+    used: set[int] = set()
+    meowth = _take(me, "Galarian Meowth", used)
+    draw = [_take(me, "Draw Energy", used) for _ in range(2)]
+    mewtwo = next(i for i, c in enumerate(foe.cards) if c.name == "Mewtwo ex")
+    rest = [i for i in range(len(me.cards)) if i not in used]
+    me.active = Pokemon(card_i=meowth, played_turn=0, energy=list(draw))
+    foe.active = Pokemon(card_i=mewtwo, played_turn=0)
+    me.hand = rest[:23]
+    atk = game._choose_attack(me, foe, game.strats["a"])
+    assert atk is not None
+    assert atk.name == "Treasure Rush"
 
 
 def test_engine_grows_hand_and_pays_hand_fling():
@@ -329,7 +364,7 @@ def test_engine_grows_hand_and_pays_hand_fling():
     me = game.players["a"]
     foe = game.players["b"]
     used: set[int] = set()
-    ambipom = _take(me, "Ambipom", used)
+    ambipom = _take(me, "Galarian Meowth", used)
     poryz = _take(me, "Porygon-Z", used)
     buneary = _take(me, "Buneary", used)
     lopunny = _take(me, "Lopunny", used)
@@ -357,17 +392,17 @@ def test_engine_grows_hand_and_pays_hand_fling():
     start = len(me.hand)
     game._celebration_engine(me, "a")
     host = next(m for m in me.in_play() if me.card(m.card_i).name == "Raikou V")
-    attacker = next(m for m in me.in_play() if me.card(m.card_i).name == "Ambipom")
+    attacker = next(m for m in me.in_play() if me.card(m.card_i).name == "Galarian Meowth")
     assert any(is_speed_lightning_energy(me.card(i)) for i in host.energy)
     assert game.events.get("speed_l_draw")
     assert game.events.get("draw_energy_draw")
-    # 4/4 Aipom–Ambipom draws Switch earlier; once Hand Fling already KOs, skip Big Jump.
+    # Treasure Rush needs ~23 cards vs Mewtwo; skip Big Jump once that already KOs.
     assert game.events.get("big_jump") or game.events.get("return_self_to_hand") or game._hand_fling_would_ko(me, foe)
     assert game._ambipom_can_pay(me, attacker)
     assert len(me.hand) > start
     assert game._hand_fling_would_ko(me, foe)
     game._celebration_align_attacker(me, "a")
-    assert me.card(me.active.card_i).name == "Ambipom"
+    assert me.card(me.active.card_i).name == "Galarian Meowth"
     game._attack(me, foe, "a")
     assert game.events.get("hand_fling")
     assert foe.active is None or foe.active.damage >= foe.card(mewtwo).hp
@@ -404,23 +439,23 @@ def test_evolve_keeps_buneary_under_lopunny_and_big_jump_returns_stack():
     assert me.card(me.active.card_i).name == "Raikou V"
 
 
-def test_bts_allows_same_turn_aipom_line():
+def test_bts_allows_same_turn_buneary_line():
     game = _game()
     me = game.players["a"]
     used: set[int] = set()
-    aipom = _take(me, "Aipom", used)
-    ambipom = _take(me, "Ambipom", used)
+    buneary = _take(me, "Buneary", used)
+    lopunny = _take(me, "Lopunny", used)
     bts = _take(me, "Broken Time-Space", used)
-    me.active = Pokemon(card_i=aipom, played_turn=2)
+    me.active = Pokemon(card_i=buneary, played_turn=2)
     me.bench = []
-    me.hand = [ambipom]
+    me.hand = [lopunny]
     me.deck = []
     game.turn = 2
     game._set_stadium(me.card(bts))
     assert game._stadium_allows_immediate_evolve()
     assert game._can_evolve_now(me, "a", me.active)
     game._evolve(me, game.players["b"], "a")
-    assert me.card(me.active.card_i).name == "Ambipom"
+    assert me.card(me.active.card_i).name == "Lopunny"
 
 
 def test_scoop_net_skips_speed_l_host():
@@ -459,12 +494,12 @@ def test_celebration_starter_prefers_porygon_then_buneary():
     used: set[int] = set()
     porygon = _take(me, "Porygon", used)
     buneary = _take(me, "Buneary", used)
-    aipom = _take(me, "Aipom", used)
+    meowth = _take(me, "Galarian Meowth", used)
     raikou = _take(me, "Raikou V", used)
     strat = game.strats["a"]
-    pick = game._pick_starter(me, [raikou, buneary, aipom, porygon], strat)
+    pick = game._pick_starter(me, [raikou, buneary, meowth, porygon], strat)
     assert me.card(pick).name == "Porygon"
-    pick = game._pick_starter(me, [raikou, aipom, buneary], strat)
+    pick = game._pick_starter(me, [raikou, meowth, buneary], strat)
     assert me.card(pick).name == "Buneary"
 
 
@@ -474,38 +509,38 @@ def test_celebration_benches_buneary_before_raikou_on_last_slot():
     used: set[int] = set()
     porygon = _take(me, "Porygon", used)
     extra_porygon = _take(me, "Porygon", used)
-    aipom = _take(me, "Aipom", used)
+    meowth = _take(me, "Galarian Meowth", used)
     raikou = _take(me, "Raikou V", used)
-    extra_aipom = _take(me, "Aipom", used)
-    spare_aipom = _take(me, "Aipom", used)
+    extra_meowth = _take(me, "Galarian Meowth", used)
+    spare_meowth = _take(me, "Galarian Meowth", used)
     buneary = _take(me, "Buneary", used)
     me.active = Pokemon(card_i=porygon, played_turn=0)
     me.bench = [
         Pokemon(card_i=extra_porygon, played_turn=0),
-        Pokemon(card_i=aipom, played_turn=0),
+        Pokemon(card_i=meowth, played_turn=0),
         Pokemon(card_i=raikou, played_turn=0),
-        Pokemon(card_i=extra_aipom, played_turn=0),
+        Pokemon(card_i=extra_meowth, played_turn=0),
     ]
-    me.hand = [spare_aipom, buneary]
+    me.hand = [spare_meowth, buneary]
     game._play_basics(me)
     names = [me.card(m.card_i).name for m in me.in_play()]
     assert "Buneary" in names
     assert names.count("Raikou V") == 1
-    assert names.count("Aipom") == 2
+    assert names.count("Galarian Meowth") == 2
 
 
-def test_celebration_poffin_benches_buneary_ahead_of_aipom():
+def test_celebration_poffin_benches_buneary_ahead_of_meowth():
     game = _game()
     me = game.players["a"]
     used: set[int] = set()
     porygon = _take(me, "Porygon", used)
     buneary = _take(me, "Buneary", used)
-    aipom = _take(me, "Aipom", used)
+    meowth = _take(me, "Galarian Meowth", used)
     rest = [i for i in range(len(me.cards)) if i not in used]
     me.active = Pokemon(card_i=porygon, played_turn=0)
     me.bench = []
     me.hand = []
-    me.deck = [aipom, buneary, *rest]
+    me.deck = [meowth, buneary, *rest]
     game.turn = 1
     prefer = [n.lower() for n in game._pokemon_search_prefer(me, "a")]
     assert prefer[0] == "buneary"
@@ -523,7 +558,7 @@ def test_celebration_loop_gate_sees_enriching_on_lopunny():
     buneary = _take(me, "Buneary", used)
     enrich = _take(me, "Enriching Energy", used)
     extra_porygon = _take(me, "Porygon", used)
-    ambipom = _take(me, "Ambipom", used)
+    ambipom = _take(me, "Galarian Meowth", used)
     puzzles = [_take(me, "Puzzle of Time", used) for _ in range(2)]
     net = _take(me, "Scoop Up Net", used)
     me.active = Pokemon(card_i=poryz, played_turn=0)
@@ -556,68 +591,65 @@ def test_celebration_wally_helps_buneary_into_lopunny():
     assert prefer[0] == "lopunny"
 
 
-def test_celebration_searches_second_ambipom_while_one_in_play():
+def test_celebration_searches_second_meowth_while_one_in_play():
     game = _game()
     me = game.players["a"]
     used: set[int] = set()
     porygon = _take(me, "Porygon", used)
     poryz = _take(me, "Porygon-Z", used)
-    aipom = _take(me, "Aipom", used)
-    ambipom = _take(me, "Ambipom", used)
-    ambipom2 = _take(me, "Ambipom", used)
+    meowth = _take(me, "Galarian Meowth", used)
+    meowth2 = _take(me, "Galarian Meowth", used)
     buneary = _take(me, "Buneary", used)
     lopunny = _take(me, "Lopunny", used)
-    me.active = Pokemon(card_i=ambipom, played_turn=0)
+    me.active = Pokemon(card_i=meowth, played_turn=0)
     me.bench = [
         Pokemon(card_i=poryz, played_turn=0, underneath=[porygon]),
         Pokemon(card_i=lopunny, played_turn=0, underneath=[buneary]),
-        Pokemon(card_i=aipom, played_turn=0),
     ]
     me.hand = []
-    me.deck = [ambipom2]
-    assert game._celebration_needs_ambipom(me)
-    assert game._celebration_wally_helps(me)
+    me.deck = [meowth2]
+    assert game._celebration_needs_closer(me)
+    assert not game._celebration_wally_helps(me)
     prefer = [n.lower() for n in game._pokemon_search_prefer(me, "a")]
-    assert prefer[0] == "ambipom"
+    assert prefer[0] == "galarian meowth"
 
 
-def test_celebration_hunts_backup_aipom_after_first_ambipom():
+def test_celebration_hunts_backup_meowth_after_first_closer():
     game = _game()
     me = game.players["a"]
     used: set[int] = set()
-    ambipom = _take(me, "Ambipom", used)
+    meowth = _take(me, "Galarian Meowth", used)
     poryz = _take(me, "Porygon-Z", used)
     buneary = _take(me, "Buneary", used)
     lopunny = _take(me, "Lopunny", used)
-    aipom = _take(me, "Aipom", used)
-    me.active = Pokemon(card_i=ambipom, played_turn=0)
+    meowth2 = _take(me, "Galarian Meowth", used)
+    me.active = Pokemon(card_i=meowth, played_turn=0)
     me.bench = [
         Pokemon(card_i=poryz, played_turn=0),
         Pokemon(card_i=lopunny, played_turn=0, underneath=[buneary]),
     ]
     me.hand = []
-    me.deck = [aipom]
+    me.deck = [meowth2]
     in_play = {me.card(m.card_i).name.lower() for m in me.in_play()}
     in_hand = {me.card(i).name.lower() for i in me.hand}
-    assert "aipom" in game._celebration_missing_hunt(me, in_play, in_hand)
+    assert "galarian meowth" in game._celebration_missing_hunt(me, in_play, in_hand)
     prefer = [n.lower() for n in game._pokemon_search_prefer(me, "a")]
-    assert prefer[0] == "aipom"
+    assert prefer[0] == "galarian meowth"
 
 
-def test_celebration_benches_replacement_aipom_after_ambipom():
+def test_celebration_benches_replacement_meowth_after_first():
     game = _game()
     me = game.players["a"]
     used: set[int] = set()
-    ambipom = _take(me, "Ambipom", used)
-    aipom = _take(me, "Aipom", used)
+    meowth = _take(me, "Galarian Meowth", used)
+    meowth2 = _take(me, "Galarian Meowth", used)
     poryz = _take(me, "Porygon-Z", used)
-    me.active = Pokemon(card_i=ambipom, played_turn=0)
+    me.active = Pokemon(card_i=meowth, played_turn=0)
     me.bench = [Pokemon(card_i=poryz, played_turn=0)]
-    me.hand = [aipom]
+    me.hand = [meowth2]
     game._play_basics(me)
     names = [me.card(m.card_i).name for m in me.in_play()]
-    assert names.count("Aipom") == 1
-    assert names.count("Ambipom") == 1
+    assert names.count("Galarian Meowth") == 2
 
 
 def test_celebration_big_jump_when_hand_fling_not_ready():
@@ -625,7 +657,7 @@ def test_celebration_big_jump_when_hand_fling_not_ready():
     me = game.players["a"]
     foe = game.players["b"]
     used: set[int] = set()
-    ambipom = _take(me, "Ambipom", used)
+    ambipom = _take(me, "Galarian Meowth", used)
     poryz = _take(me, "Porygon-Z", used)
     buneary = _take(me, "Buneary", used)
     lopunny = _take(me, "Lopunny", used)
@@ -665,7 +697,7 @@ def test_draw_energy_attach_draws_one():
     game = _game()
     me = game.players["a"]
     used: set[int] = set()
-    ambipom = _take(me, "Ambipom", used)
+    ambipom = _take(me, "Galarian Meowth", used)
     draw = _take(me, "Draw Energy", used)
     rest = [i for i in range(len(me.cards)) if i not in used]
     me.active = Pokemon(card_i=ambipom, played_turn=0)
@@ -691,7 +723,7 @@ def test_fleet_footed_draws_only_when_active():
     me = game.players["a"]
     used: set[int] = set()
     raikou = _take(me, "Raikou V", used)
-    ambipom = _take(me, "Ambipom", used)
+    ambipom = _take(me, "Galarian Meowth", used)
     rest = [i for i in range(len(me.cards)) if i not in used]
     me.active = Pokemon(card_i=raikou, played_turn=0)
     me.bench = [Pokemon(card_i=ambipom, played_turn=0)]
@@ -705,9 +737,9 @@ def test_fleet_footed_draws_only_when_active():
     me2 = game2.players["a"]
     used2: set[int] = set()
     raikou2 = _take(me2, "Raikou V", used2)
-    ambipom2 = _take(me2, "Ambipom", used2)
+    meowth2 = _take(me2, "Galarian Meowth", used2)
     rest2 = [i for i in range(len(me2.cards)) if i not in used2]
-    me2.active = Pokemon(card_i=ambipom2, played_turn=0)
+    me2.active = Pokemon(card_i=meowth2, played_turn=0)
     me2.bench = [Pokemon(card_i=raikou2, played_turn=0)]
     me2.hand = []
     me2.deck = rest2
@@ -720,7 +752,7 @@ def test_forest_seal_on_raikou_searches_any_card():
     me = game.players["a"]
     used: set[int] = set()
     raikou = _take(me, "Raikou V", used)
-    ambipom = _take(me, "Ambipom", used)
+    ambipom = _take(me, "Galarian Meowth", used)
     stone = _take(me, "Forest Seal Stone", used)
     candy = _take(me, "Rare Candy", used)
     me.active = Pokemon(card_i=ambipom, played_turn=0)
