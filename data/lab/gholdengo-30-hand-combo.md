@@ -184,29 +184,29 @@ Honest calendar: **3 Celebration attacks** is the prize floor. **3 of our turns*
 
 ## Win-rate array
 
-G30 (`celebration` strategy, 30th Galarian Meowth Treasure Rush + Lopunny FLF Big Jump + 4 Meowth + 2 Raikou V) as player A vs the household 60s. Not a full NxN remake of `set-c60-unl-matrix`. Rules preset `s60` (60 / 6 prizes / 4-of). First player random. **3,000 games / cell, seed 20260911**. Elapsed **84.1s**.
-
-The table below is the previous **`[C][C]` Treasure Rush + 4 Lightning Energy** run. Printed cost is **`[M]`** with 4 Metal Energy; rerun numbers replace this table.
+G30 (`celebration` strategy, 30th Galarian Meowth Treasure Rush `[M]` + 4 Metal Energy + Lopunny FLF Big Jump + 4 Meowth + 2 Raikou V) as player A vs the household 60s. Not a full NxN remake of `set-c60-unl-matrix`. Rules preset `s60` (60 / 6 prizes / 4-of). First player random. **3,000 games / cell, seed 20260911**. Elapsed **83.6s**.
 
 Script: `data/lab/gholdengo-30-array.py`. Numbers: `data/lab/gholdengo-30-array.json`.
 
 | A \\ B | c60 | t60 | hedrick | unl | d60 | s60 | g |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| g30 win | 2.5% | 7.0% | 8.5% | 17.3% | 5.3% | 15.2% | 28.9% |
-| first | 3.1% | 7.2% | 8.8% | 16.8% | 5.6% | 14.6% | 27.4% |
-| second | 1.8% | 6.8% | 8.1% | 17.8% | 5.0% | 15.9% | 30.4% |
-| Crazy Code | 43.4% | 24.8% | 34.1% | 38.6% | 27.1% | 67.5% | 45.9% |
-| Puzzle pair | 5.1% | 3.0% | 6.1% | 5.8% | 3.8% | 9.1% | 5.0% |
-| Speed L draw | 39.1% | 21.1% | 30.1% | 34.0% | 23.8% | 61.4% | 41.5% |
-| Big Jump | 20.7% | 11.2% | 16.8% | 18.8% | 10.8% | 39.4% | 15.7% |
-| Treasure Rush | 30.1% | 25.2% | 32.2% | 18.5% | 4.2% | 33.9% | 50.1% |
-| Draw Energy | 86.6% | 80.0% | 79.5% | 87.7% | 81.4% | 94.8% | 86.6% |
-| Rare Candy | 61.4% | 72.3% | 46.8% | 94.3% | 47.6% | 78.9% | 59.5% |
-| Fleet-Footed | 63.3% | 56.1% | 54.1% | 55.4% | 65.6% | 54.7% | 55.9% |
-| Star Alchemy | 54.8% | 38.9% | 45.0% | 87.4% | 45.4% | 72.4% | 54.7% |
+| g30 win | 2.6% | 6.9% | 9.6% | 17.0% | 2.8% | 10.4% | 24.7% |
+| first | 2.8% | 7.5% | 9.0% | 16.0% | 2.3% | 10.5% | 22.8% |
+| second | 2.3% | 6.2% | 10.3% | 17.9% | 3.4% | 10.2% | 26.7% |
+| Crazy Code | 44.5% | 26.2% | 37.3% | 40.4% | 26.8% | 65.8% | 47.7% |
+| Puzzle pair | 5.8% | 2.6% | 6.2% | 5.1% | 2.8% | 8.5% | 5.5% |
+| Speed L draw | 35.2% | 18.5% | 28.3% | 30.5% | 19.1% | 56.1% | 39.2% |
+| Big Jump | 18.3% | 10.9% | 15.5% | 17.9% | 8.0% | 35.6% | 14.9% |
+| Treasure Rush | 25.5% | 27.4% | 32.6% | 13.8% | 1.9% | 22.7% | 45.5% |
+| Draw Energy | 74.0% | 59.8% | 65.4% | 70.9% | 62.3% | 87.7% | 75.6% |
+| Rare Candy | 57.2% | 69.9% | 45.1% | 93.7% | 39.6% | 72.7% | 56.7% |
+| Fleet-Footed | 62.5% | 57.2% | 51.3% | 55.8% | 66.5% | 58.8% | 54.8% |
+| Star Alchemy | 52.6% | 39.0% | 41.8% | 85.7% | 42.7% | 68.7% | 51.5% |
 | Celebration | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 
-Same seed, previous **4 Aipom / 4 Ambipom / 1 Raikou**: g30 win **3.7 / 4.9 / 6.7 / 22.1 / 4.2 / 28.5 / 30.4%**, Hand Fling **23.7 / 11.4 / 17.6 / 15.0 / 3.4 / 37.8 / 42.5%**. Skipping evolve lifts t60 (4.9→7.0) and hedrick (6.7→8.5); 2 Raikou lifts Speed L / Fleet-Footed / Star Alchemy. c60 drops (3.7→2.5): Photon still KOs, and 70 HP Meowth dies even faster. s60 drops hard (28.5→15.2): 10× needs ~23 cards vs 20× at 12, and 70 HP does not survive the prize race the way 100 HP Ambipom did. unl 22.1→17.3, g 30.4→28.9.
+Same seed, previous **wrong `[C][C]` cost + 4 Lightning Energy**: g30 win **2.5 / 7.0 / 8.5 / 17.3 / 5.3 / 15.2 / 28.9%**, Treasure Rush **30.1 / 25.2 / 32.2 / 18.5 / 4.2 / 33.9 / 50.1%**. Printed `[M]` is easier to *count* (one energy) but harder to *pay*: Crazy Code cannot dump Colorless onto a Metal cost, and once-per-turn attach waits for a Metal from a 4-of. Draw Energy fire drops (~80–95% → 60–88%) because Colorless attach is skipped while Rush is unpaid. Rush fire and wins drop on s60 (15.2→10.4), g (28.9→24.7), and d60 (5.3→2.8). Hedrick ticks up (8.5→9.6). c60 stays ~2.5%.
+
+Same seed, previous **4 Aipom / 4 Ambipom / 1 Raikou**: g30 win **3.7 / 4.9 / 6.7 / 22.1 / 4.2 / 28.5 / 30.4%**, Hand Fling **23.7 / 11.4 / 17.6 / 15.0 / 3.4 / 37.8 / 42.5%**. Skipping evolve lifts t60 vs Ambipom (4.9→6.9) and hedrick (6.7→9.6); 2 Raikou lifts Speed L / Fleet-Footed / Star Alchemy. c60 stays ~2.5: Photon still KOs, and 70 HP Meowth dies even faster. s60 drops hard (28.5→10.4): 10× needs ~23 cards vs 20× at 12, `[M]` is once-per-turn, and 70 HP does not survive the prize race the way 100 HP Ambipom did. unl 22.1→17.0, g 30.4→24.7.
 
 Same seed, 2 Raikou V / 3 Aipom / 2 Ambipom (before the 4/4 prize-race thicken): g30 win **3.5 / 5.2 / 6.1 / 20.5 / 5.5 / 28.0 / 26.5%**, Hand Fling **22.9 / 9.4 / 15.8 / 14.6 / 4.3 / 37.8 / 38.4%**.
 
@@ -216,7 +216,7 @@ Same seed, Abra-era search script (Buneary not tutored): g30 win **2.7 / 3.2 / 2
 
 Previous Abra + Net closer (same seed): g30 win **2.5 / 4.6 / 3.6 / 16.5 / 1.1 / 5.8 / 7.1%**. Celebration 30-hand was **3.3 / 3.9 / 2.9 / 18.1 / 0.9 / 1.7 / 1.0%**.
 
-Goldfish from a ready board still grows the hand (Big Jump returns Buneary + Lopunny + Enriching; Draw Energy is net 0; Speed L on Raikou V is +2) and Treasure Rush KOs Mewtwo at 23 cards. Live vs household 60s Draw Energy / Candy / Star Alchemy actually fire. Three prize shots still lose the race to Photon / Dive on the fast 60s; 70 HP makes that race worse than 100 HP Ambipom except against slower Dragapult piles.
+Goldfish from a ready board still grows the hand (Big Jump returns Buneary + Lopunny + Enriching; Draw Energy is net 0; Speed L on Raikou V is +2) and Treasure Rush KOs Mewtwo at 23 cards **if one Metal is already attached**. Live vs household 60s Draw Energy / Candy / Star Alchemy still fire, but Draw Energy does not pay Rush, so the once-per-turn attach has to find Metal. Three prize shots still lose the race to Photon / Dive on the fast 60s; 70 HP makes that race worse than 100 HP Ambipom except against slower Dragapult piles.
 
 Household 60s also kill the board first. C60 Photon Kinesis KOs 70 HP Meowth for one prize and 90 HP Lopunny / 130 HP Porygon-Z for one; Raikou V is 200 HP but **two prizes**. d60 Dive / Ogerpon is faster than assembling `[M]` plus a 23-card hand.
 
