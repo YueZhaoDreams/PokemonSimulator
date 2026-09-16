@@ -1,6 +1,7 @@
 from random import Random
 
 from app.engine.effects import (
+    can_pay_energy,
     energy_provided,
     is_draw_energy,
     is_enriching_energy,
@@ -135,7 +136,8 @@ def test_g30_list_is_printed_sixty():
     assert names.count("Forest Seal Stone") == 2
     assert names.count("Enriching Energy") == 1
     assert names.count("Speed Lightning Energy") == 4
-    assert names.count("Lightning Energy") == 4
+    assert names.count("Metal Energy") == 4
+    assert names.count("Lightning Energy") == 0
     assert names.count("Draw Energy") == 4
     pile = build_g30_deck()
     assert copy_violations(pile, standard_60_rules()) == []
@@ -143,8 +145,10 @@ def test_g30_list_is_printed_sixty():
     assert len(meowth) == 4
     assert all(c.catalog_id == "me04-101" for c in meowth)
     assert all(c.attacks[-1].name == "Treasure Rush" for c in meowth)
+    assert all(c.attacks[-1].cost == ["Metal"] for c in meowth)
     assert all(c.attacks[-1].text == TREASURE_RUSH_TEXT for c in meowth)
     assert all(c.attacks[0].name == "Pay Day" for c in meowth)
+    assert all(c.attacks[0].cost == ["Colorless"] for c in meowth)
     assert all(c.attacks[0].text == PAY_DAY_TEXT for c in meowth)
     assert fallback_named("Galarian Meowth").catalog_id == "swsh12.5-084"
     assert fallback_named("Galarian Meowth").attacks[0].name == "Fasten Claws"
@@ -279,7 +283,11 @@ def test_puzzle_net_junk_arm_wally_parse_from_print():
 def test_fallback_prints_use_lab_wording():
     assert fallback_named("Ambipom").attacks[-1].text == HAND_FLING_TEXT
     assert fallback_named("galarian meowth 30th").attacks[-1].text == TREASURE_RUSH_TEXT
+    assert fallback_named("galarian meowth 30th").attacks[-1].cost == ["Metal"]
     assert fallback_named("galarian meowth 30th").attacks[0].text == PAY_DAY_TEXT
+    rush = fallback_named("galarian meowth 30th").attacks[-1]
+    assert not can_pay_energy(["Colorless", "Colorless"], rush.cost)
+    assert can_pay_energy(["Metal"], rush.cost)
     assert fallback_named("aipom par").attacks[0].name == "Filch"
     assert next(a.text for a in fallback_named("Porygon-Z").abilities) == CRAZY_CODE_TEXT
     assert fallback_named("Puzzle of Time").text == PUZZLE_TEXT
@@ -348,15 +356,54 @@ def test_pay_day_does_not_steal_treasure_rush_when_lethal():
     foe = game.players["b"]
     used: set[int] = set()
     meowth = _take(me, "Galarian Meowth", used)
-    draw = [_take(me, "Draw Energy", used) for _ in range(2)]
+    metal = _take(me, "Metal Energy", used)
     mewtwo = next(i for i, c in enumerate(foe.cards) if c.name == "Mewtwo ex")
     rest = [i for i in range(len(me.cards)) if i not in used]
-    me.active = Pokemon(card_i=meowth, played_turn=0, energy=list(draw))
+    me.active = Pokemon(card_i=meowth, played_turn=0, energy=[metal])
     foe.active = Pokemon(card_i=mewtwo, played_turn=0)
     me.hand = rest[:23]
     atk = game._choose_attack(me, foe, game.strats["a"])
     assert atk is not None
     assert atk.name == "Treasure Rush"
+
+
+def test_celebration_attaches_metal_to_pay_treasure_rush():
+    game = _game()
+    me = game.players["a"]
+    used: set[int] = set()
+    meowth = _take(me, "Galarian Meowth", used)
+    metal = _take(me, "Metal Energy", used)
+    draw = _take(me, "Draw Energy", used)
+    me.active = Pokemon(card_i=meowth, played_turn=0)
+    me.hand = [metal, draw]
+    game._attach_energy(me, "a")
+    assert metal in me.active.energy
+    assert draw in me.hand
+    assert game._ambipom_can_pay(me, me.active)
+
+
+def test_draw_energy_does_not_pay_treasure_rush():
+    game = _game()
+    me = game.players["a"]
+    used: set[int] = set()
+    meowth = _take(me, "Galarian Meowth", used)
+    draw = _take(me, "Draw Energy", used)
+    me.active = Pokemon(card_i=meowth, played_turn=0, energy=[draw])
+    assert not game._ambipom_can_pay(me, me.active)
+
+
+def test_celebration_skips_colorless_attach_until_metal_pays_rush():
+    game = _game()
+    me = game.players["a"]
+    used: set[int] = set()
+    meowth = _take(me, "Galarian Meowth", used)
+    draw = _take(me, "Draw Energy", used)
+    me.active = Pokemon(card_i=meowth, played_turn=0)
+    me.hand = [draw]
+    game._attach_energy(me, "a")
+    assert draw in me.hand
+    assert me.active.energy == []
+    assert not me.energy_attached
 
 
 def test_engine_grows_hand_and_pays_hand_fling():
@@ -365,6 +412,7 @@ def test_engine_grows_hand_and_pays_hand_fling():
     foe = game.players["b"]
     used: set[int] = set()
     ambipom = _take(me, "Galarian Meowth", used)
+    metal = _take(me, "Metal Energy", used)
     poryz = _take(me, "Porygon-Z", used)
     buneary = _take(me, "Buneary", used)
     lopunny = _take(me, "Lopunny", used)
@@ -377,7 +425,7 @@ def test_engine_grows_hand_and_pays_hand_fling():
     rest = [i for i in range(len(me.cards)) if i not in used]
     me.active = Pokemon(card_i=poryz, played_turn=0)
     me.bench = [
-        Pokemon(card_i=ambipom, played_turn=0),
+        Pokemon(card_i=ambipom, played_turn=0, energy=[metal]),
         Pokemon(card_i=lopunny, played_turn=0, underneath=[buneary]),
         Pokemon(card_i=raikou, played_turn=0),
     ]

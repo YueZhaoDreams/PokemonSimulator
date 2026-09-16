@@ -30,9 +30,9 @@ Puzzle of Time, Scoop Up Net, Forest of Giant Plants, Broken Time-Space, Lysandr
 
 主循环仍是 **Lopunny FLF 85 Big Jump**：印刷 `Once during your turn (before your attack), you may return this Pokémon and all cards attached to it to your hand.` Jumpluff DRX 3 Leave It to the Wind 是同一句，但是 Stage 2，这副 60 用 Stage 1 Lopunny。Crazy Code 贴 Enriching（+3）→ Big Jump 把 Buneary+Lopunny+Enriching 回手（+3）→ 重放 Buneary −1 → BTS 进化 −1，净 **+4** / 圈。Draw Energy CEC 209 贴上摸 1，净 0。
 
-**主攻换成 30th Galarian Meowth（J 101/128, `me04-101`）。** Basic 钢 70 HP，**不用进化**。印刷 Pay Day `[C]` 10「Draw a card.」；Treasure Rush `[C][C]` 10×「This attack does 10 damage for each card in your hand.」官网图是两颗无色星，不是钢能量。Crown Zenith Fasten Claws（`swsh12.5-084`）仍是名字默认，Set A 不能被盖掉。4 只 Basic 腾出 4 个槽：Raikou V / Forest Seal / Nest / Lightning 回到 **2/2/2/4**。70 HP 可 Poffin。1 奖身体，2 换 1 仍成立，但 10× 打 Mewtwo 230 要 **23 张手牌**（Ambipom 20× 只要 12）。Pay Day 不能在 Rush 能 KO 时抢走攻击。
+**主攻换成 30th Galarian Meowth（J 101/128, `me04-101`）。** Basic 钢 70 HP，**不用进化**。印刷 Pay Day `[C]` 10「Draw a card.」；Treasure Rush **`[M]`** 10×「This attack does 10 damage for each card in your hand.」钢能量符号不是无色星。无色能量付不了 Rush。Crown Zenith Fasten Claws（`swsh12.5-084`）仍是名字默认。4 只 Basic 腾出的槽：Raikou V / Forest Seal / Nest 2/2/2，4 闪电换成 **4 基本钢**。70 HP 可 Poffin。1 奖身体。10× 打 Mewtwo 230 要 **23 张手牌**。Pay Day 不能在 Rush 能 KO 时抢走攻击。
 
-**电系位 2 Raikou V（BRS 48）。** Fleet-Footed：前位摸 1。Forest Seal Stone 贴 V 开 Star Alchemy，从牌组找任意一张，一局一次。Speed Lightning Energy 只有贴到雷宝可梦才抽 2；贴 Meowth（钢）不抽，所以 Speed L 留给 Raikou，Draw Energy 付给 Meowth 的无色。
+**电系位 2 Raikou V（BRS 48）。** Fleet-Footed：前位摸 1。Forest Seal Stone 贴 V 开 Star Alchemy。Speed Lightning Energy 只有贴到雷宝可梦才抽 2；贴 Meowth（钢）不抽。一次贴能优先钢给 Meowth，Crazy Code 的 Draw Energy 只负责摸牌。
 
 **砍掉 Aipom / Ambipom / Sableye / Remoraid / Octillery / Porygon2 / Pikachu。** Rare Candy 仍跳 Porygon → Porygon-Z。Wally 只给 Buneary→Lopunny。场上最多 2 只 Meowth。
 
@@ -92,7 +92,7 @@ Printings are the text this lab uses. Galarian Meowth in this 60 is **30th Celeb
 | 2 | Lopunny | FLF 85 | **Big Jump**: this Pokémon + attachments to **hand**. Sitdown Bounce is not the closer. |
 | 3 | Porygon | UNB 154 | 50 HP → Poffin. Rare Candy into Porygon-Z. |
 | 2 | Porygon-Z | UNB 157 | Crazy Code. |
-| 4 | Galarian Meowth | 30th 101 | **Treasure Rush** 10×hand, `[C][C]`. Pay Day draws 1 when Rush would not KO. Basic, 70 HP → Poffin. **1 prize**. Cap 2 in play. |
+| 4 | Galarian Meowth | 30th 101 | **Treasure Rush** 10×hand, **`[M]`**. Pay Day `[C]` draws 1 when Rush would not KO. Basic, 70 HP → Poffin. **1 prize**. Cap 2 in play. |
 | 2 | Raikou V | BRS 48 | Lightning host for Speed L draw 2. **Fleet-Footed** draws 1 if Active. Pokémon V for Forest Seal Stone. 200 HP, 2 prizes — do not open on it. |
 | 4 | Puzzle of Time | BKP 109 | Discard retrieve backup. |
 | 2 | Scoop Up Net | RCL 165 | Backup if Big Jump is not in play. Cannot Net Raikou V. Do **not** Net Meowth / Lopunny. |
@@ -109,14 +109,14 @@ Printings are the text this lab uses. Galarian Meowth in this 60 is **30th Celeb
 | 2 | Forest Seal Stone | SIT 156 | Tool on Raikou V. **Star Alchemy**: search any one card, one VSTAR Power per game. |
 | 1 | Enriching Energy | SSP 191 | ACE SPEC. Loop on Lopunny (Big Jump). |
 | 4 | Speed Lightning Energy | RCL 173 | Draw 2 only on Lightning. Stay on Raikou V; do not spend on Metal Meowth. |
-| 4 | Lightning Energy | any | Pays Colorless on Meowth. Once-per-turn attach. |
-| 4 | Draw Energy | CEC 209 | Colorless; attach from hand, draw 1. Net 0. Crazy Code can spam it onto Meowth. |
+| 4 | Metal Energy | any | Pays Treasure Rush `[M]`. Once-per-turn attach. Colorless cannot pay Metal. |
+| 4 | Draw Energy | CEC 209 | Colorless; attach from hand, draw 1. Net 0. Crazy Code can spam it. Does **not** pay Rush. |
 
 **16 Pokémon + 31 Trainers + 13 Energy = 60.**
 
-Cut Aipom, Ambipom, Sableye, Remoraid, Octillery, Pikachu, Porygon2, Junk Arm, Darkness. The 8 Aipom/Ambipom slots become 4 Meowth + 1 Raikou + 1 Seal + 1 Nest + 1 Lightning.
+Cut Aipom, Ambipom, Sableye, Remoraid, Octillery, Pikachu, Porygon2, Junk Arm, Darkness, Lightning Energy. The 8 Aipom/Ambipom slots become 4 Meowth + 1 Raikou + 1 Seal + 1 Nest + 1 Metal (Lightning converted to Metal).
 
-Goldfish (board already up, going second): Rare Candy Porygon into Z, BTS into Lopunny, Nest Raikou V, Meowth is already Basic. Forest Seal Stone on Raikou → Star Alchemy. Crazy Code Speed L onto Raikou (draw 2), Enriching onto Lopunny (draw 4), Draw Energy onto Meowth / bounce host. Big Jump returns Buneary + Lopunny + Enriching. Replay Buneary, BTS evolve, attach again. Treasure Rush when `10 × (hand − pay − Switch)` KOs (23 vs Mewtwo 230).
+Goldfish (board already up, going second): Rare Candy Porygon into Z, BTS into Lopunny, Nest Raikou V, Meowth is already Basic. Attach one Metal to Meowth. Forest Seal Stone on Raikou → Star Alchemy. Crazy Code Speed L onto Raikou (draw 2), Enriching onto Lopunny (draw 4), Draw Energy onto bounce host. Big Jump returns Buneary + Lopunny + Enriching. Replay Buneary, BTS evolve, attach again. Treasure Rush when `10 × hand` KOs (23 vs Mewtwo 230) and `[M]` is attached.
 
 ---
 
@@ -186,6 +186,8 @@ Honest calendar: **3 Celebration attacks** is the prize floor. **3 of our turns*
 
 G30 (`celebration` strategy, 30th Galarian Meowth Treasure Rush + Lopunny FLF Big Jump + 4 Meowth + 2 Raikou V) as player A vs the household 60s. Not a full NxN remake of `set-c60-unl-matrix`. Rules preset `s60` (60 / 6 prizes / 4-of). First player random. **3,000 games / cell, seed 20260911**. Elapsed **84.1s**.
 
+The table below is the previous **`[C][C]` Treasure Rush + 4 Lightning Energy** run. Printed cost is **`[M]`** with 4 Metal Energy; rerun numbers replace this table.
+
 Script: `data/lab/gholdengo-30-array.py`. Numbers: `data/lab/gholdengo-30-array.json`.
 
 | A \\ B | c60 | t60 | hedrick | unl | d60 | s60 | g |
@@ -216,7 +218,7 @@ Previous Abra + Net closer (same seed): g30 win **2.5 / 4.6 / 3.6 / 16.5 / 1.1 /
 
 Goldfish from a ready board still grows the hand (Big Jump returns Buneary + Lopunny + Enriching; Draw Energy is net 0; Speed L on Raikou V is +2) and Treasure Rush KOs Mewtwo at 23 cards. Live vs household 60s Draw Energy / Candy / Star Alchemy actually fire. Three prize shots still lose the race to Photon / Dive on the fast 60s; 70 HP makes that race worse than 100 HP Ambipom except against slower Dragapult piles.
 
-Household 60s also kill the board first. C60 Photon Kinesis KOs 70 HP Meowth for one prize and 90 HP Lopunny / 130 HP Porygon-Z for one; Raikou V is 200 HP but **two prizes**. d60 Dive / Ogerpon is faster than assembling `[C][C]` plus a 23-card hand.
+Household 60s also kill the board first. C60 Photon Kinesis KOs 70 HP Meowth for one prize and 90 HP Lopunny / 130 HP Porygon-Z for one; Raikou V is 200 HP but **two prizes**. d60 Dive / Ogerpon is faster than assembling `[M]` plus a 23-card hand.
 
 ---
 
@@ -225,7 +227,7 @@ Household 60s also kill the board first. C60 Photon Kinesis KOs 70 HP Meowth for
 **Current closer — 30th Galarian Meowth 101.** Metal Basic, 70 HP, Fire ×2, Grass −30. No evolve. Catalog alias `galarian meowth 30th` / `me04-101`. Set A Fasten Claws (`swsh12.5-084`) stays the name default.
 
 - **[C] Pay Day 10** — Draw a card. Must not steal the attack when Treasure Rush would KO.
-- **[C][C] Treasure Rush 10×** — This attack does 10 damage for each card in your hand.
+- **[M] Treasure Rush 10×** — This attack does 10 damage for each card in your hand. One Metal Energy. Colorless specials do not pay this cost.
 
 23 cards = 230 (Mewtwo). 21 = 210 (Ogerpon). 32 = 320 (Dragapult). Hand stays after the attack. Six prizes still need three KOs of 2-prize Pokémon. Meowth itself is 1 prize, so a post-attack death is a 2-for-1 if a spare Meowth is already on the bench. 70 HP dies to almost every household attack; that is the cost of skipping Aipom→Ambipom.
 

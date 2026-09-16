@@ -3142,6 +3142,11 @@ class Game:
                 for i in energies
                 if not is_enriching_energy(me.card(i)) and not is_speed_lightning_energy(me.card(i))
             ]
+            if need:
+                typed = [i for i in energies if me.card(i).as_energy_type in need]
+                if typed:
+                    return typed[0]
+                return None
             draws = [i for i in energies if is_draw_energy(me.card(i))]
             if draws:
                 return draws[0]
@@ -3185,10 +3190,13 @@ class Game:
         card = me.card(target.card_i)
         who = "a" if me.name == "A" else "b"
         if self.strats[who].name == "celebration":
-            name = card.name.lower()
-            if name in self._celebration_closer_names() or self._hand_fling_attack(me, target):
+            atk = self._hand_fling_attack(me, target)
+            if atk is not None:
+                typed = {c for c in atk.cost if c != "Colorless"}
+                if typed and not can_pay_energy(self._energy_pool(me, target), atk.cost):
+                    return typed
                 return set()
-            if "raikou" in name:
+            if "raikou" in card.name.lower():
                 return {"Lightning"}
         attached = self._energy_pool(me, target)
         needed: set[str] = set()
@@ -3611,6 +3619,7 @@ class Game:
                 "Porygon-Z",
                 "Lopunny",
                 "Enriching Energy",
+                "Metal Energy",
                 "Draw Energy",
                 "Raikou V",
                 "Galarian Meowth",
@@ -8644,7 +8653,7 @@ class Game:
             self._retrieve_from_discard(
                 me,
                 pair_count,
-                prefer=("enriching energy", "draw energy", "scoop up net", "puzzle of time", "rare candy", "forest seal stone"),
+                prefer=("enriching energy", "metal energy", "draw energy", "scoop up net", "puzzle of time", "rare candy", "forest seal stone"),
             )
             self._bump("puzzle_pair")
             return
@@ -8656,6 +8665,7 @@ class Game:
                 "puzzle of time",
                 "scoop up net",
                 "enriching energy",
+                "metal energy",
                 "draw energy",
                 "buneary",
                 "lopunny",

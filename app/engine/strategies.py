@@ -489,8 +489,8 @@ STRATEGY_LIBRARY = {
             "Two Raikou V are Lightning hosts: Fleet-Footed draws 1 while Active; "
             "Forest Seal Stone Star Alchemy searches any one card once per game; "
             "Speed Lightning Energy draws 2 only on a Lightning host. Treasure Rush "
-            "does 10 damage for each card in your hand; attack when that KO's. "
-            "Pay Day draws a card only when Rush would not KO."
+            "costs one Metal Energy and does 10 damage for each card in your hand; "
+            "attack when that KO's. Pay Day draws a card only when Rush would not KO."
         ),
         prefer_damage=0.2,
         prefer_status=0.0,

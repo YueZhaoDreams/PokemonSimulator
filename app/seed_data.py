@@ -336,7 +336,7 @@ SET_G30_NAMES = (
     + ["Forest Seal Stone"] * 2
     + ["Enriching Energy"]
     + ["Speed Lightning Energy"] * 4
-    + ["Lightning Energy"] * 4
+    + ["Metal Energy"] * 4
     + ["Draw Energy"] * 4
 )
 
@@ -2587,7 +2587,7 @@ _GALARIAN_MEOWTH_30TH = _pkm(
     70,
     [
         _atk("Pay Day", ["Colorless"], 10, _PAY_DAY_TEXT),
-        _atk("Treasure Rush", ["Colorless", "Colorless"], 10, _TREASURE_RUSH_TEXT),
+        _atk("Treasure Rush", ["Metal"], 10, _TREASURE_RUSH_TEXT),
     ],
     catalog_id="me04-101",
     weakness="Fire",

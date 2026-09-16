@@ -22294,8 +22294,7 @@
           {
             "name": "Treasure Rush",
             "cost": [
-              "Colorless",
-              "Colorless"
+              "Metal"
             ],
             "damage": 10,
             "text": "This attack does 10 damage for each card in your hand.",
@@ -22356,8 +22355,7 @@
           {
             "name": "Treasure Rush",
             "cost": [
-              "Colorless",
-              "Colorless"
+              "Metal"
             ],
             "damage": 10,
             "text": "This attack does 10 damage for each card in your hand.",
@@ -22418,8 +22416,7 @@
           {
             "name": "Treasure Rush",
             "cost": [
-              "Colorless",
-              "Colorless"
+              "Metal"
             ],
             "damage": 10,
             "text": "This attack does 10 damage for each card in your hand.",
@@ -22480,8 +22477,7 @@
           {
             "name": "Treasure Rush",
             "cost": [
-              "Colorless",
-              "Colorless"
+              "Metal"
             ],
             "damage": 10,
             "text": "This attack does 10 damage for each card in your hand.",
@@ -23356,12 +23352,12 @@
         "dex_id": null
       },
       {
-        "catalog_id": "swsh12.5-155",
-        "name": "Lightning Energy",
+        "catalog_id": "swsh12.5-159",
+        "name": "Metal Energy",
         "category": "Energy",
         "stage": "Basic",
         "types": [
-          "Lightning"
+          "Metal"
         ],
         "hp": 0,
         "attacks": [],
@@ -23371,19 +23367,19 @@
         "retreat": 0,
         "evolves_from": null,
         "trainer_kind": null,
-        "energy_type": "Lightning",
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/155/low.webp",
+        "energy_type": "Metal",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/159/low.webp",
         "set_name": "Crown Zenith",
         "text": "",
         "dex_id": null
       },
       {
-        "catalog_id": "swsh12.5-155",
-        "name": "Lightning Energy",
+        "catalog_id": "swsh12.5-159",
+        "name": "Metal Energy",
         "category": "Energy",
         "stage": "Basic",
         "types": [
-          "Lightning"
+          "Metal"
         ],
         "hp": 0,
         "attacks": [],
@@ -23393,19 +23389,19 @@
         "retreat": 0,
         "evolves_from": null,
         "trainer_kind": null,
-        "energy_type": "Lightning",
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/155/low.webp",
+        "energy_type": "Metal",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/159/low.webp",
         "set_name": "Crown Zenith",
         "text": "",
         "dex_id": null
       },
       {
-        "catalog_id": "swsh12.5-155",
-        "name": "Lightning Energy",
+        "catalog_id": "swsh12.5-159",
+        "name": "Metal Energy",
         "category": "Energy",
         "stage": "Basic",
         "types": [
-          "Lightning"
+          "Metal"
         ],
         "hp": 0,
         "attacks": [],
@@ -23415,19 +23411,19 @@
         "retreat": 0,
         "evolves_from": null,
         "trainer_kind": null,
-        "energy_type": "Lightning",
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/155/low.webp",
+        "energy_type": "Metal",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/159/low.webp",
         "set_name": "Crown Zenith",
         "text": "",
         "dex_id": null
       },
       {
-        "catalog_id": "swsh12.5-155",
-        "name": "Lightning Energy",
+        "catalog_id": "swsh12.5-159",
+        "name": "Metal Energy",
         "category": "Energy",
         "stage": "Basic",
         "types": [
-          "Lightning"
+          "Metal"
         ],
         "hp": 0,
         "attacks": [],
@@ -23437,8 +23433,8 @@
         "retreat": 0,
         "evolves_from": null,
         "trainer_kind": null,
-        "energy_type": "Lightning",
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/155/low.webp",
+        "energy_type": "Metal",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/159/low.webp",
         "set_name": "Crown Zenith",
         "text": "",
         "dex_id": null

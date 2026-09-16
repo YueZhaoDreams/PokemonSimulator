@@ -331,4 +331,6 @@ def test_galarian_meowth_30th_is_extra_print_not_fasten_claws():
     rush = fallback_named("galarian meowth 30th")
     assert rush.catalog_id == "me04-101"
     assert [a.name for a in rush.attacks] == ["Pay Day", "Treasure Rush"]
+    assert rush.attacks[0].cost == ["Colorless"]
+    assert rush.attacks[-1].cost == ["Metal"]
     assert rush.attacks[-1].text == "This attack does 10 damage for each card in your hand."
