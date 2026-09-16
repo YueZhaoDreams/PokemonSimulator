@@ -38,7 +38,7 @@ Puzzle of Time, Scoop Up Net, Forest of Giant Plants, Broken Time-Space, Lysandr
 
 Enriching 仍是唯一 ACE SPEC。不用苹果龙。
 
-家庭组 3000 盘数组（seed 20260911）上一版 **4 Aipom / 4 Ambipom / 1 Raikou** 是 **3.7 / 4.9 / 6.7 / 22.1 / 4.2 / 28.5 / 30.4%** vs c60/t60/hedrick/unl/d60/s60/g。这版改 Basic Meowth + 2 Raikou 的数字写在下面 Win-rate array。
+家庭组 3000 盘数组（seed 20260911）这版 **4 Galarian Meowth / 2 Raikou**：胜率 **2.5 / 7.0 / 8.5 / 17.3 / 5.3 / 15.2 / 28.9%** vs c60/t60/hedrick/unl/d60/s60/g。上一版 4 Aipom / 4 Ambipom / 1 Raikou 是 **3.7 / 4.9 / 6.7 / 22.1 / 4.2 / 28.5 / 30.4%**。不用进化换来 t60/hedrick 小涨（Dive 线稍慢），2 只 Raikou 把 Speed L / Star Alchemy 拉回来；c60 Photon 和 s60 更差——70 HP + 23 张手牌比 100 HP + 12 张更难打完三枪。
 
 ---
 
@@ -184,35 +184,29 @@ Honest calendar: **3 Celebration attacks** is the prize floor. **3 of our turns*
 
 ## Win-rate array
 
-G30 (`celebration` strategy, 30th Galarian Meowth Treasure Rush + Lopunny FLF Big Jump + 4 Meowth + 2 Raikou V) as player A vs the household 60s. Not a full NxN remake of `set-c60-unl-matrix`. Rules preset `s60` (60 / 6 prizes / 4-of). First player random. **3,000 games / cell, seed 20260911**.
-
-Script: `data/lab/gholdengo-30-array.py`. Numbers: `data/lab/gholdengo-30-array.json`.
-
-The table below is the previous **Ambipom 4/4 / 1 Raikou** pile (2026-09-15). Meowth rerun numbers replace it after the 3000-game array.
-
-| A \\ B | c60 | t60 | hedrick | unl | d60 | s60 | g |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| g30 win (Ambipom 4/4) | 3.7% | 4.9% | 6.7% | 22.1% | 4.2% | 28.5% | 30.4% |
+G30 (`celebration` strategy, 30th Galarian Meowth Treasure Rush + Lopunny FLF Big Jump + 4 Meowth + 2 Raikou V) as player A vs the household 60s. Not a full NxN remake of `set-c60-unl-matrix`. Rules preset `s60` (60 / 6 prizes / 4-of). First player random. **3,000 games / cell, seed 20260911**. Elapsed **84.1s**.
 
 Script: `data/lab/gholdengo-30-array.py`. Numbers: `data/lab/gholdengo-30-array.json`.
 
 | A \\ B | c60 | t60 | hedrick | unl | d60 | s60 | g |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| g30 win | 3.7% | 4.9% | 6.7% | 22.1% | 4.2% | 28.5% | 30.4% |
-| first | 3.7% | 4.5% | 6.5% | 23.2% | 3.9% | 28.4% | 28.6% |
-| second | 3.6% | 5.3% | 6.9% | 21.0% | 4.4% | 28.6% | 32.3% |
-| Crazy Code | 38.1% | 20.5% | 29.2% | 28.3% | 15.1% | 50.9% | 48.9% |
-| Puzzle pair | 6.0% | 3.0% | 5.3% | 5.8% | 2.6% | 7.5% | 5.8% |
-| Speed L draw | 17.9% | 9.5% | 13.4% | 15.7% | 8.6% | 32.4% | 23.9% |
-| Big Jump | 16.5% | 8.3% | 10.5% | 14.7% | 5.7% | 25.0% | 12.8% |
-| Hand Fling | 23.7% | 11.4% | 17.6% | 15.0% | 3.4% | 37.8% | 42.5% |
-| Draw Energy | 84.9% | 78.1% | 78.5% | 85.0% | 78.9% | 93.6% | 88.1% |
-| Rare Candy | 61.2% | 69.5% | 43.3% | 94.4% | 41.5% | 72.7% | 64.6% |
-| Fleet-Footed | 43.8% | 38.8% | 38.4% | 39.3% | 47.0% | 40.4% | 37.9% |
-| Star Alchemy | 27.4% | 17.6% | 19.7% | 79.9% | 19.0% | 39.7% | 33.3% |
+| g30 win | 2.5% | 7.0% | 8.5% | 17.3% | 5.3% | 15.2% | 28.9% |
+| first | 3.1% | 7.2% | 8.8% | 16.8% | 5.6% | 14.6% | 27.4% |
+| second | 1.8% | 6.8% | 8.1% | 17.8% | 5.0% | 15.9% | 30.4% |
+| Crazy Code | 43.4% | 24.8% | 34.1% | 38.6% | 27.1% | 67.5% | 45.9% |
+| Puzzle pair | 5.1% | 3.0% | 6.1% | 5.8% | 3.8% | 9.1% | 5.0% |
+| Speed L draw | 39.1% | 21.1% | 30.1% | 34.0% | 23.8% | 61.4% | 41.5% |
+| Big Jump | 20.7% | 11.2% | 16.8% | 18.8% | 10.8% | 39.4% | 15.7% |
+| Treasure Rush | 30.1% | 25.2% | 32.2% | 18.5% | 4.2% | 33.9% | 50.1% |
+| Draw Energy | 86.6% | 80.0% | 79.5% | 87.7% | 81.4% | 94.8% | 86.6% |
+| Rare Candy | 61.4% | 72.3% | 46.8% | 94.3% | 47.6% | 78.9% | 59.5% |
+| Fleet-Footed | 63.3% | 56.1% | 54.1% | 55.4% | 65.6% | 54.7% | 55.9% |
+| Star Alchemy | 54.8% | 38.9% | 45.0% | 87.4% | 45.4% | 72.4% | 54.7% |
 | Celebration | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 
-Same seed, 2 Raikou V / 3 Aipom / 2 Ambipom (before the 4/4 prize-race thicken): g30 win **3.5 / 5.2 / 6.1 / 20.5 / 5.5 / 28.0 / 26.5%**, Hand Fling **22.9 / 9.4 / 15.8 / 14.6 / 4.3 / 37.8 / 38.4%**. Thickening the closer line lifts g the most (26.5% → 30.4%, Hand Fling 38.4% → 42.5%). c60 / t60 / d60 stay ~4–5%: Photon and Dive still KO 100 HP Ambipom before three 2-prize shots. Cutting to one Raikou V drops Speed L / Fleet-Footed / Star Alchemy.
+Same seed, previous **4 Aipom / 4 Ambipom / 1 Raikou**: g30 win **3.7 / 4.9 / 6.7 / 22.1 / 4.2 / 28.5 / 30.4%**, Hand Fling **23.7 / 11.4 / 17.6 / 15.0 / 3.4 / 37.8 / 42.5%**. Skipping evolve lifts t60 (4.9→7.0) and hedrick (6.7→8.5); 2 Raikou lifts Speed L / Fleet-Footed / Star Alchemy. c60 drops (3.7→2.5): Photon still KOs, and 70 HP Meowth dies even faster. s60 drops hard (28.5→15.2): 10× needs ~23 cards vs 20× at 12, and 70 HP does not survive the prize race the way 100 HP Ambipom did. unl 22.1→17.3, g 30.4→28.9.
+
+Same seed, 2 Raikou V / 3 Aipom / 2 Ambipom (before the 4/4 prize-race thicken): g30 win **3.5 / 5.2 / 6.1 / 20.5 / 5.5 / 28.0 / 26.5%**, Hand Fling **22.9 / 9.4 / 15.8 / 14.6 / 4.3 / 37.8 / 38.4%**.
 
 Same seed, previous Pikachu / Octillery / Sableye 60 (play-script fix): g30 win **2.8 / 3.6 / 2.7 / 19.0 / 2.3 / 6.7 / 6.4%**. Raikou V + Draw Energy + Candy + Forest Seal Stone lifts s60 and g the most (Hand Fling 10% → 38%). c60 Photon and t60 Dive still KO 100 HP Ambipom before three prize shots.
 
@@ -220,9 +214,9 @@ Same seed, Abra-era search script (Buneary not tutored): g30 win **2.7 / 3.2 / 2
 
 Previous Abra + Net closer (same seed): g30 win **2.5 / 4.6 / 3.6 / 16.5 / 1.1 / 5.8 / 7.1%**. Celebration 30-hand was **3.3 / 3.9 / 2.9 / 18.1 / 0.9 / 1.7 / 1.0%**.
 
-Goldfish from a ready board still grows the hand (Big Jump returns Buneary + Lopunny + Enriching; Draw Energy is net 0; Speed L on Raikou V is +2) and Hand Fling KOs Mewtwo at 12 cards. Live vs household 60s Draw Energy / Candy / Star Alchemy actually fire. Three prize shots still lose the race to Photon / Dive on the fast 60s.
+Goldfish from a ready board still grows the hand (Big Jump returns Buneary + Lopunny + Enriching; Draw Energy is net 0; Speed L on Raikou V is +2) and Treasure Rush KOs Mewtwo at 23 cards. Live vs household 60s Draw Energy / Candy / Star Alchemy actually fire. Three prize shots still lose the race to Photon / Dive on the fast 60s; 70 HP makes that race worse than 100 HP Ambipom except against slower Dragapult piles.
 
-Household 60s also kill the board first. C60 Photon Kinesis KOs 100 HP Ambipom for one prize and 90 HP Lopunny / 130 HP Porygon-Z for one; Raikou V is 200 HP but **two prizes**. d60 Dive / Ogerpon is faster than assembling `[C][C][C]` plus a 12-card hand.
+Household 60s also kill the board first. C60 Photon Kinesis KOs 70 HP Meowth for one prize and 90 HP Lopunny / 130 HP Porygon-Z for one; Raikou V is 200 HP but **two prizes**. d60 Dive / Ogerpon is faster than assembling `[C][C]` plus a 23-card hand.
 
 ---
 
