@@ -411,12 +411,10 @@ SET_F_NAMES = [
     "Skwovet",
 ]
 
-# Carpet Set G plus — live seed-g 10-for-10 from live seed-h. Cut Scatterbug×2,
-# Misdreavus×2, Mismagius×2, Drifloon, Drifblim, Iron Boulder, Dedenne. Add Indeedee,
-# Relicanth, Plusle (not Trapinch), Hop's Cramorant, Kecleon, Iris's Fighting
-# Spirit, Energy Retrieval, Trekking Shoes. Clefairy is still LOR 62.
-# Emolga 1-for-1 is Mega Clefable ex (evolves from Clefairy); Mewtwo 1-for-1 is
-# Tornadus. Friday: 3 Boss's Orders for Potion / Poké Ball / Plusle.
+# Carpet Set G — Friday lock. Clefairy is still LOR 62. Mega Clefable ex evolves
+# from Clefairy (was Emolga); Tornadus was Mewtwo. Three Boss's Orders replace
+# Potion / Poké Ball / Plusle. Indeedee, Relicanth, Hop's Cramorant, Kecleon,
+# Iris's Fighting Spirit, Energy Retrieval, Trekking Shoes stay.
 SET_G_NAMES = (
     ["Clefairy"] * 4
     + ["Ledyba"] * 4

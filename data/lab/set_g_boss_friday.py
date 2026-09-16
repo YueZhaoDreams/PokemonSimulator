@@ -18,7 +18,9 @@ from collections import Counter
 from concurrent.futures import ProcessPoolExecutor, as_completed
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+ROOT = Path(__file__).resolve().parents[2]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 
 from app.engine.legality import copy_violations
 from app.engine.models import standard_60_rules
@@ -36,7 +38,6 @@ from app.seed_data import (
     build_fallback_deck,
 )
 
-ROOT = Path(__file__).resolve().parents[2]
 GAMES_SCREEN = 1500
 GAMES_FINAL = 2000
 SEED = 20260915
