@@ -1,4 +1,4 @@
-# Live G: 3 Boss's Orders before Friday
+# Friday G: 3 Boss's Orders for Potion, Poké Ball, Plusle
 
 Date: 2026-09-15
 Seed: `20260915`
