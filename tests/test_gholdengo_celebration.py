@@ -1331,6 +1331,20 @@ def test_play_shaymin_skips_when_one_already_in_play():
     assert sum(1 for m in me.in_play() if me.card(m.card_i).name == "Shaymin") == 1
 
 
+def test_opening_holds_shuckle_off_the_bench():
+    for seed in range(80):
+        game = Game(
+            build_g30_deck(),
+            build_fallback_deck(list(SET_C60_NAMES)),
+            standard_60_rules(),
+            StrategySpec.from_dict("celebration"),
+            StrategySpec.from_dict("party"),
+            Random(seed),
+        )
+        me = game.players["a"]
+        assert "Shuckle" not in [me.card(m.card_i).name for m in me.bench]
+
+
 def test_shuckle_stays_in_hand_until_attach_ready():
     game = _game()
     me = game.players["a"]

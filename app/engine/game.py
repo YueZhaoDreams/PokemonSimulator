@@ -5323,7 +5323,10 @@ class Game:
         """Flutter Mane: opponent's Active Pokémon has no Abilities."""
         if mon is not owner.active:
             return False
-        foe = self.players["b" if owner.name == "A" else "a"]
+        players = getattr(self, "players", None)
+        if not players:
+            return False
+        foe = players["b" if owner.name == "A" else "a"]
         if not foe.active:
             return False
         for abi in foe.card(foe.active.card_i).abilities:
