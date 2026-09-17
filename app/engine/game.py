@@ -860,6 +860,50 @@ class Game:
                     mon.weakness_override = None
                     mon.weakness_override_expires = None
 
+    def _electrify_worth_it(self, me: Player) -> bool:
+        if not me.bench:
+            return False
+        return any(
+            is_basic_energy(me.card(i), pokemon_as_energy=False)
+            and energy_provided(me.card(i)) == ["Lightning"]
+            for i in me.deck
+        )
+
+    def _electrify_attach(self, me: Player, count: int, energy_type: str, basic_only: bool) -> None:
+        if count <= 0 or not me.bench:
+            return
+        et = (energy_type or "Lightning").title()
+        found: list[int] = []
+        for card_i in list(me.deck):
+            if len(found) >= count:
+                break
+            card = me.card(card_i)
+            if not card.is_energy:
+                continue
+            if basic_only and is_special_energy(card):
+                continue
+            if et not in energy_provided(card):
+                continue
+            found.append(card_i)
+        if not found:
+            return
+
+        def rank(mon: Pokemon) -> int:
+            name = me.card(mon.card_i).name.lower()
+            if name == "boltund v":
+                return 0
+            if "Lightning" in (me.card(mon.card_i).types or []):
+                return 1
+            return 2
+
+        target = min(me.bench, key=rank)
+        for card_i in found:
+            me.deck.remove(card_i)
+            target.energy.append(card_i)
+        self.rng.shuffle(me.deck)
+        self._bump("electrify_attach", len(found))
+        self._log(f"{me.name} Electrify attaches {len(found)} {et} Energy to {me.card(target.card_i).name}")
+
     def _between_turns(self, me: Player) -> None:
         if not me.active:
             return
@@ -3271,6 +3315,12 @@ class Game:
                 typed = [i for i in energies if me.card(i).as_energy_type in need]
                 if typed:
                     return typed[0]
+                # Bolt Storm [L][C]: Draw Energy pays the Colorless part, so an
+                # unpaid Boltund V still wants it when no typed Lightning is held.
+                if self._is_boltund_v(me, target) and self._boltund_unpaid(me, target):
+                    storm_draws = [i for i in energies if is_draw_energy(me.card(i))]
+                    if storm_draws:
+                        return storm_draws[0]
                 return None
             draws = [i for i in energies if is_draw_energy(me.card(i))]
             if draws:
@@ -3538,6 +3588,13 @@ class Game:
                 look = int(effect.get("look") or 0)
                 if look > 0:
                     self._swallow_energy(me, look)
+            elif effect.get("kind") == "attach_energy_from_deck_to_bench":
+                self._electrify_attach(
+                    me,
+                    count=int(effect.get("count") or 0),
+                    energy_type=str(effect.get("energy_type") or "Lightning"),
+                    basic_only=bool(effect.get("basic_only", True)),
+                )
             elif effect.get("kind") == "bench_damage_counters":
                 self._bench_damage_counters(foe, int(effect.get("counters") or 1))
             elif effect.get("kind") == "lock_items":
@@ -4296,6 +4353,16 @@ class Game:
                 return best
             if "double draw" in best.name.lower() and not self._celebration_closer_ready(me, foe):
                 return best
+            # RCL Boltund V: Electrify ramps Basic Lightning from the deck when
+            # Bolt Storm would not KO. Only worth it with a bench to receive it.
+            elect = next((a for a in legal if "electrify" in a.name.lower()), None)
+            if elect is not None and self._electrify_worth_it(me):
+                return elect
+            # Bolt Storm has no downside: chip for the 2HKO rather than pass
+            # once Electrify has nothing left to ramp.
+            storm = next((a for a in legal if "bolt storm" in a.name.lower()), None)
+            if storm is not None:
+                return storm
             return None
         if strat.name == "slash" and best is not None:
             effective = self._effective_damage(me, foe, best)
@@ -4860,6 +4927,17 @@ class Game:
                 if effect.get("kind") == "psychic_energy_bonus":
                     per = int(effect.get("per") or 30)
             dmg = atk.damage + per * self._count_psychic_energy_in_play(me)
+        elif any(e.get("kind") == "energy_type_in_play_bonus" for e in atk.effects):
+            per = 30
+            et = "Lightning"
+            for effect in atk.effects:
+                if effect.get("kind") == "energy_type_in_play_bonus":
+                    per = int(effect.get("per") or 30)
+                    et = str(effect.get("energy_type") or "Lightning")
+            have = 0
+            for m in me.in_play():
+                have += sum(1 for tok in self._energy_pool(me, m) if tok == et)
+            dmg = atk.damage + per * have
         elif any(e.get("kind") == "benched_pokemon_bonus" for e in atk.effects):
             per = 20
             sides = "both"
@@ -8676,7 +8754,7 @@ class Game:
 
     def _boltund_unpaid(self, me: Player, mon: Pokemon) -> bool:
         pool = self._energy_pool(me, mon)
-        main = next((a for a in self._attacks_for(me, mon) if a.name.lower() == "electrobullet"), None)
+        main = next((a for a in self._attacks_for(me, mon) if a.name.lower() == "bolt storm"), None)
         if main is not None:
             return not can_pay_energy(pool, main.cost)
         return not any(can_pay_energy(pool, atk.cost) for atk in self._attacks_for(me, mon))
@@ -8686,7 +8764,14 @@ class Game:
         if scaler is not None and not self._ambipom_can_pay(me, scaler):
             return scaler
         boltund = self._named_mon(me, "Boltund V")
-        if boltund is not None and self._boltund_unpaid(me, boltund):
+        if boltund is not None and (
+            self._boltund_unpaid(me, boltund)
+            or any(
+                "Lightning" in energy_provided(me.card(i))
+                for i in me.hand
+                if me.card(i).is_energy
+            )
+        ):
             return boltund
         ferment = self._fermenting_host(me)
         if ferment is not None and any(is_draw_energy(me.card(i)) for i in me.hand):

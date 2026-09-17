@@ -517,10 +517,10 @@ def _cd_payload(enrich: bool = True) -> dict:
 
 
 def _g30_blob() -> dict:
-    """Printed Boltund V Electrobullet 60 with Voltaic Lightning Energy."""
+    """Printed Boltund V Bolt Storm 60 with Voltaic Lightning Energy."""
     return {
         "id": "seed-g30",
-        "name": "Unlimited 60 (Boltund V Electrobullet)",
+        "name": "Unlimited 60 (Boltund V Bolt Storm)",
         "sample": None,
         "kind": "list",
         "cards": [c.to_dict() for c in build_g30_deck()],

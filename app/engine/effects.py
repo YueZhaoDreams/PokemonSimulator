@@ -549,6 +549,25 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
         up_to = re.search(r"up to (\d+)", t)
         effects.append({"kind": "search_item", "count": int(up_to.group(1)) if up_to else 1})
 
+    # Boltund V Electrify: typed Energy from deck to the Bench. Special Energy
+    # provides no type in the deck, so only Basic Energy of that type qualifies.
+    electrify = re.search(
+        r"search your deck for up to (\d+) "
+        r"(grass|fire|water|lightning|psychic|fighting|darkness|metal|fairy|dragon|colorless) "
+        r"energy cards? and attach them to your benched pokemon",
+        t,
+    )
+    if electrify:
+        effects.append(
+            {
+                "kind": "attach_energy_from_deck_to_bench",
+                "count": int(electrify.group(1)),
+                "energy_type": electrify.group(2).title(),
+                "basic_only": True,
+            }
+        )
+
+
     # Litwick Kindling Panic / opponent deck mill
     if "discard the top" in t and "opponent" in t and "deck" in t:
         top = re.search(r"top (\d+)", t)
@@ -647,6 +666,12 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
     # Plusle Plus Damage / Jungle Meditate: N more for each damage counter on the defender.
     counter_bonus = re.search(r"(\d+) more damage for each damage counter", t)
     psychic_ref = "psychic energy" in t or "{p} energy" in t or "{p}" in t
+    type_in_play = re.search(
+        r"(\d+) more damage for each "
+        r"(grass|fire|water|lightning|psychic|fighting|darkness|metal|fairy|dragon|colorless) "
+        r"energy attached to all of your pokemon",
+        t,
+    )
     both_bench = re.search(r"(\d+) more damage for each benched pokemon", t)
     opp_bench = re.search(r"(\d+) more damage for each of your opponent's benched pokemon", t)
     in_play_nrg = re.search(
@@ -713,6 +738,14 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
     elif psychic_ref and "more damage" in t and "for each" in t:
         n = re.search(r"(\d+) more damage for each", t)
         effects.append({"kind": "psychic_energy_bonus", "per": int(n.group(1)) if n else 30})
+    elif type_in_play:
+        effects.append(
+            {
+                "kind": "energy_type_in_play_bonus",
+                "energy_type": type_in_play.group(2).title(),
+                "per": int(type_in_play.group(1)),
+            }
+        )
     elif "×" in damage_raw or "x" in damage_raw.lower() or "for each" in t:
         # Clefairy Wonder Storm style: scale by Psychic Energy in play.
         if psychic_ref and "attached" in t and "discarded" not in t:
