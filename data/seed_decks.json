@@ -9145,65 +9145,6 @@
         "dex_id": null
       },
       {
-        "catalog_id": "sv07-120",
-        "name": "Tornadus",
-        "category": "Pokemon",
-        "stage": "Basic",
-        "types": [
-          "Colorless"
-        ],
-        "hp": 110,
-        "attacks": [
-          {
-            "name": "Knuckle Punch",
-            "cost": [
-              "Colorless",
-              "Colorless"
-            ],
-            "damage": 50,
-            "text": "",
-            "effects": []
-          },
-          {
-            "name": "Storm Barrier",
-            "cost": [
-              "Colorless",
-              "Colorless",
-              "Colorless"
-            ],
-            "damage": 100,
-            "text": "During your opponent's next turn, this Pok\u00e9mon takes 50 less damage from attacks (after applying Weakness and Resistance).",
-            "effects": [
-              {
-                "kind": "reduce_damage_next_turn",
-                "amount": 50
-              }
-            ]
-          }
-        ],
-        "abilities": [],
-        "weaknesses": [
-          {
-            "type": "Lightning",
-            "value": "\u00d72"
-          }
-        ],
-        "resistances": [
-          {
-            "type": "Fighting",
-            "value": "-30"
-          }
-        ],
-        "retreat": 1,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv07/120/low.webp",
-        "set_name": null,
-        "text": "",
-        "dex_id": null
-      },
-      {
         "catalog_id": "sv05-078",
         "name": "Flutter Mane",
         "category": "Pokemon",
@@ -9258,111 +9199,6 @@
         "dex_id": null
       },
       {
-        "catalog_id": "sv01-153",
-        "name": "Indeedee",
-        "category": "Pokemon",
-        "stage": "Basic",
-        "types": [
-          "Colorless"
-        ],
-        "hp": 90,
-        "attacks": [
-          {
-            "name": "Expert Nurturer",
-            "cost": [
-              "Colorless"
-            ],
-            "damage": 0,
-            "text": "Search your deck for a card that evolves from 1 of your Pok\u00e9mon and put it onto that Pok\u00e9mon to evolve it. Then, shuffle your deck.",
-            "effects": [
-              {
-                "kind": "evolve_from_deck"
-              }
-            ]
-          },
-          {
-            "name": "Hypnoblast",
-            "cost": [
-              "Colorless",
-              "Colorless"
-            ],
-            "damage": 30,
-            "text": "Your opponent's Active Pok\u00e9mon is now Asleep.",
-            "effects": [
-              {
-                "kind": "status",
-                "status": "asleep",
-                "coin": false
-              }
-            ]
-          }
-        ],
-        "abilities": [],
-        "weaknesses": [
-          {
-            "type": "Fighting",
-            "value": "\u00d72"
-          }
-        ],
-        "resistances": [],
-        "retreat": 1,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv01/153/low.webp",
-        "set_name": "Scarlet & Violet",
-        "text": "In search of happy feelings\u2014such as joy and gratitude\u2014Indeedee bustles around, taking diligent care of people and other Pok\u00e9mon.",
-        "dex_id": 876
-      },
-      {
-        "catalog_id": "swsh11-101",
-        "name": "Relicanth",
-        "category": "Pokemon",
-        "stage": "Basic",
-        "types": [
-          "Fighting"
-        ],
-        "hp": 90,
-        "attacks": [
-          {
-            "name": "Into the Deep",
-            "cost": [
-              "Colorless"
-            ],
-            "damage": 0,
-            "text": "Put up to 2 basic Energy cards from your discard pile into your hand.",
-            "effects": [
-              {
-                "kind": "recycle_energy_from_discard",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "name": "Tackle",
-            "cost": [
-              "Colorless",
-              "Colorless",
-              "Colorless"
-            ],
-            "damage": 80,
-            "text": "",
-            "effects": []
-          }
-        ],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 1,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh11/101/low.webp",
-        "set_name": "Lost Origin",
-        "text": "",
-        "dex_id": 369
-      },
-      {
         "catalog_id": "me03-031",
         "name": "Mega Clefable ex",
         "category": "Pokemon",
@@ -9411,56 +9247,6 @@
         "set_name": null,
         "text": "",
         "dex_id": null
-      },
-      {
-        "catalog_id": "me02.5-177",
-        "name": "Hop's Cramorant",
-        "category": "Pokemon",
-        "stage": "Basic",
-        "types": [
-          "Colorless"
-        ],
-        "hp": 110,
-        "attacks": [
-          {
-            "name": "Fickle Spitting",
-            "cost": [
-              "Colorless"
-            ],
-            "damage": 120,
-            "text": "If your opponent doesn't have exactly 3 or 4 Prize cards remaining, this attack does nothing.",
-            "effects": [
-              {
-                "kind": "require_opponent_prizes",
-                "values": [
-                  3,
-                  4
-                ]
-              }
-            ]
-          }
-        ],
-        "abilities": [],
-        "weaknesses": [
-          {
-            "type": "Lightning",
-            "value": "\u00d72"
-          }
-        ],
-        "resistances": [
-          {
-            "type": "Fighting",
-            "value": "-30"
-          }
-        ],
-        "retreat": 1,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/me/me02.5/177/low.webp",
-        "set_name": "Ascended Heroes",
-        "text": "Cramorant instinctively swallow everything whole. They\u2019re at their most formidable when they\u2019re struggling to swallow overly large prey.",
-        "dex_id": 845
       },
       {
         "catalog_id": "sv08-150",
@@ -9693,6 +9479,86 @@
         "image": "https://assets.tcgdex.net/en/sv/sv04.5/091/low.webp",
         "set_name": null,
         "text": "Discard 2 cards from your hand. Search your deck for a Pok\u00e9mon.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv05-144",
+        "name": "Buddy-Buddy Poffin",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv05/144/low.webp",
+        "set_name": null,
+        "text": "Search your deck for up to 2 Basic Pok\u00e9mon with 70 HP or less and put them onto your Bench. Then, shuffle your deck.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv05-144",
+        "name": "Buddy-Buddy Poffin",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv05/144/low.webp",
+        "set_name": null,
+        "text": "Search your deck for up to 2 Basic Pok\u00e9mon with 70 HP or less and put them onto your Bench. Then, shuffle your deck.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv05-144",
+        "name": "Buddy-Buddy Poffin",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv05/144/low.webp",
+        "set_name": null,
+        "text": "Search your deck for up to 2 Basic Pok\u00e9mon with 70 HP or less and put them onto your Bench. Then, shuffle your deck.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv05-144",
+        "name": "Buddy-Buddy Poffin",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv05/144/low.webp",
+        "set_name": null,
+        "text": "Search your deck for up to 2 Basic Pok\u00e9mon with 70 HP or less and put them onto your Bench. Then, shuffle your deck.",
         "dex_id": null
       },
       {

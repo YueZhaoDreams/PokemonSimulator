@@ -2,7 +2,7 @@ from collections import Counter
 
 from app.engine.legality import copy_violations
 from app.engine.models import standard_60_rules
-from app.seed_data import SET_G_NAMES, build_fallback_deck
+from app.seed_data import SET_G_FRIDAY_NAMES, build_fallback_deck
 
 
 def _load():
@@ -37,7 +37,7 @@ def test_live_g_is_friday_minus_three_boss():
     assert counts["Mewtwo"] == 0
     assert counts["Emolga"] == 0
     assert counts["Mewtwo ex"] == 0
-    seed = Counter(SET_G_NAMES)
+    seed = Counter(SET_G_FRIDAY_NAMES)
     live = Counter(names)
     assert live - seed == Counter({"Potion": 1, "Poké Ball": 1, "Plusle": 1})
     assert seed - live == Counter({"Boss's Orders": 3})
@@ -64,11 +64,11 @@ def test_one_boss_cut_each_candidate():
         assert names.count(cut) == base.count(cut) - 1
 
 
-def test_friday_g_is_locked_set_g_names():
+def test_friday_g_is_frozen_friday_list():
     names = LAB.friday_g_names()
     live = Counter(LAB.live_g_names())
     friday = Counter(names)
-    assert names == list(SET_G_NAMES)
+    assert names == list(SET_G_FRIDAY_NAMES)
     assert len(names) == 60
     assert friday["Boss's Orders"] == 3
     assert friday["Potion"] == 0

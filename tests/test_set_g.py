@@ -15,7 +15,11 @@ def test_set_g_is_sixty_after_staraptor_energy_swap():
     assert names.count("Potion") == 0
     assert names.count("Poké Ball") == 0
     assert names.count("Boss's Orders") == 3
-    assert names.count("Tornadus") == 1
+    assert names.count("Tornadus") == 0
+    assert names.count("Hop's Cramorant") == 0
+    assert names.count("Relicanth") == 0
+    assert names.count("Indeedee") == 0
+    assert names.count("Buddy-Buddy Poffin") == 4
     assert names.count("Mewtwo") == 0
     assert names.count("Trapinch") == 0
     assert names.count("Iron Boulder") == 0
@@ -63,8 +67,14 @@ def test_set_g_seed_payload_and_s60_preset():
     assert staravia[1]["hp"] == 80
     boom = next(c for c in g["cards"] if c["name"] == "Boomerang Energy")
     assert boom["catalog_id"] == "sv06-166"
-    tornadus = next(c for c in g["cards"] if c["name"] == "Tornadus")
-    assert tornadus["catalog_id"] == "sv07-120"
+    poffins = [c for c in g["cards"] if c["name"] == "Buddy-Buddy Poffin"]
+    assert len(poffins) == 4
+    assert all(c.get("catalog_id") == "sv05-144" for c in poffins)
+    assert all(c.get("image") for c in poffins)
+    assert all(c["name"] != "Tornadus" for c in g["cards"])
+    assert all(c["name"] != "Hop's Cramorant" for c in g["cards"])
+    assert all(c["name"] != "Relicanth" for c in g["cards"])
+    assert all(c["name"] != "Indeedee" for c in g["cards"])
     bosses = [c for c in g["cards"] if c["name"] == "Boss's Orders"]
     assert len(bosses) == 3
     assert all(c.get("catalog_id") == "sv02-172" for c in bosses)
@@ -75,8 +85,6 @@ def test_set_g_seed_payload_and_s60_preset():
     assert all(c["name"] != "Mewtwo" for c in g["cards"])
     kecleon = next(c for c in g["cards"] if c["name"] == "Kecleon")
     assert kecleon["catalog_id"] == "sv08-150"
-    indeedee = next(c for c in g["cards"] if c["name"] == "Indeedee")
-    assert indeedee["catalog_id"] == "sv01-153"
     mega = next(c for c in g["cards"] if c["name"] == "Mega Clefable ex")
     assert mega["catalog_id"] == "me03-031"
     assert "me/me03/031" in (mega.get("image") or "")
