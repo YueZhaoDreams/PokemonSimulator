@@ -1,7 +1,7 @@
-# 30th Galarian Meowth Treasure Rush — 60-card Unlimited (G30 lab)
+# Boltund V Electrobullet — 60-card Unlimited (G30 lab)
 
-Date: 2026-09-16
-Status: engine plays 30th Celebration Galarian Meowth Treasure Rush (Basic, no evolve) with Lopunny FLF Big Jump, Shuckle HGSS Promo 15 Fermenting Liquid (Draw Energy / Enriching from hand draws extra), Shaymin UL Celebration Wind recycling Speed Lightning Energy, Penny / Scoop Up Net to replay Shaymin, Iron Hands ex Amp extra prize + Speed L host, Draw Energy, and Rare Candy. Win-rate array vs household 60s is in `data/lab/gholdengo-30-array.json`. Crown Zenith Fasten Claws stays the catalog default for the name Galarian Meowth.
+Date: 2026-09-17
+Status: engine plays Boltund V Fusion Strike 103 Electrobullet (Lightning Basic V, Smash Turn / Electrobullet 120 + 30 bench) with Voltaic Lightning Energy Pitch Black 84 (+20 each on a Lightning host), Lopunny FLF Big Jump, Shuckle HGSS Promo 15 Fermenting Liquid (every from-hand attach draws extra), Shaymin UL Celebration Wind recycling Speed Lightning Energy, Penny / Scoop Up Net to replay Shaymin, Porygon BTS line (Porygon2, Candy backup), and Draw Energy. No Galarian Meowth, no Metal Energy, no Iron Hands ex. Win-rate array vs household 60s is in `data/lab/gholdengo-30-array.json`.
 
 **This lab is Unlimited constructed. Not Standard. Not Expanded. Not Family Cup 30.**
 
@@ -38,7 +38,11 @@ Puzzle of Time, Scoop Up Net, Forest of Giant Plants, Broken Time-Space, Lysandr
 
 **砍掉 Aipom / Ambipom / Sableye / Remoraid / Octillery / Porygon2 / Pikachu。** Rare Candy 仍跳 Porygon → Porygon-Z。Wally 只给 Buneary→Lopunny。场上最多 **1** 只 Meowth，给 Shaymin 留座位。
 
-**刷牌：Shuckle Fermenting + Shaymin UL 8 Celebration Wind + Penny。** Crazy Code 把 Speed L 贴到 Iron Hands（最多 +8），Draw Energy 贴 Shuckle（每张净 +1），Wind 准备好时 Enriching 也先贴 Shuckle（+5 抽 −1），手牌打出 Shaymin 把电系/Shuckle 身上的特殊电挪到 Lopunny（钢能量留在 Meowth 上）。Hands 已经能付招并 KO 时不要 Wind。Big Jump 整叠回手后再贴。Scoop Up Net（物品，可连用）或 Penny（支援者，每回合 1 张）把 Shaymin 拿回手再打，Wind 再触发。不用 Shaymin-EX Set Up（摸到 6 就停）。Enriching 仍是唯一 ACE SPEC。不用苹果龙。
+**主攻大改：Boltund V FST 103（`swsh8-103`）+ Voltaic Lightning Energy PBL 84（`me5-84`）。砍掉 4 Galarian Meowth、4 Metal Energy、3 Iron Hands ex。** Boltund V 是 Lightning Basic V 200 HP，退 1，2 奖，不吃 Poffin，Nest 找。**Smash Turn** `[L]` 30「You may switch this Pokémon with 1 of your Benched Pokémon.」；**Electrobullet** `[L][L][C]` 120「This attack also does 30 damage to 1 of your opponent's Benched Pokémon. (Don't apply Weakness and Resistance for Benched Pokémon.)」Voltaic 贴着算 Lightning，Lightning 宝可梦的招式对 Active +20（Weakness/Resistance 之前），4 张拉满 Electrobullet **120→200**。Crazy Code 把 Voltaic 直接贴 Boltund V（Shuckle 贴了也没加成，Wind 又不挪 Voltaic）。手牌数不再是伤害，刷牌只为找组件和付 `[L][L][C]`。**Rare Candy 4→2，加 2 Porygon2（`sm10-156`），BTS 正常进化 Porygon→Porygon2→Porygon-Z 同回合，Wally 也能拿 Porygon2。** 能量 13→16：Enriching 1 + Speed L 4 + Voltaic 4 + Draw 4 + Lightning 3。场上最多 **1** 只 Boltund V（2 奖，Net 本来就捞不了 V）。
+
+**刷牌：Shuckle Fermenting + Shaymin UL 8 Celebration Wind + Penny。** Crazy Code 把 Speed L 贴到 Boltund V（最多 +8），Draw Energy 贴 Shuckle（每张净 +1），Wind 准备好时 Enriching 也先贴 Shuckle（+5 抽 −1），手牌打出 Shaymin 把 Speed L/Draw/Enriching 挪到 Lopunny（**Voltaic 和基础 Lightning 留在 Boltund V 上，Wind 不挪**）。Boltund V 已经能付招并 KO 时不要 Wind。Big Jump 整叠回手后再贴。Scoop Up Net（物品，可连用）或 Penny（支援者，每回合 1 张）把 Shaymin 拿回手再打，Wind 再触发。不用 Shaymin-EX Set Up（摸到 6 就停）。Enriching 仍是唯一 ACE SPEC。不用苹果龙。
+
+Boltund V 版家庭组 3000 盘数组（seed 20260911）：胜率 **1.3 / 7.5 / 10.4 / 22.0 / 1.0 / 2.5 / 36.5%** vs c60/t60/hedrick/unl/d60/s60/g。上一版 Meowth Rush（2 Shuckle / 4 Shaymin）是 **3.3 / 8.1 / 8.8 / 21.4 / 3.3 / 24.4 / 39.8%**。结论很直接：**Electrobullet 上限 200（4 Voltaic），Ogerpon 210 / Mewtwo 230 / Dragapult 320 一个都秒不掉，只能靠 30 点狙击偷小怪，胜率崩到 1–3%（c60/d60/s60）**。FST Boltund V 不是倍率怪——要靠「堆电能量加攻」，得换 RCL Boltund V（Bolt Storm 10+30×全场 Lightning）或 Boltund VMAX（Bolt Storm 30+30×），或者上 Maximum Belt 打 ex（120+80+50=250）。循环本身还在转（Jump/Wind/Fermenting 都触发），是伤害天花板不够。
 
 家庭组 3000 盘数组（seed 20260911）这版 **2 Shuckle / 4 Shaymin、attach-ready 才 bench**：胜率 **3.3 / 8.1 / 8.8 / 21.4 / 3.3 / 24.4 / 39.8%** vs c60/t60/hedrick/unl/d60/s60/g。上一版 **3 Shuckle、马上 bench** 是 **2.6 / 7.2 / 9.8 / 20.8 / 3.2 / 22.5 / 38.8%**。Hands、无 Shuckle 是 **2.6 / 7.7 / 9.3 / 22.2 / 3.2 / 20.5 / 38.2%**。s60 22.5→24.4，g 38.8→39.8，c60 2.6→3.3；hedrick 9.8→8.8。Big Jump 回一点（s60 58.5→66.6，Hands 曾 76）。Fermenting 少了（s60 83.4→45.3）因为开场不再占座位。c60 Photon 仍秒 70 HP。Goldfish 场上齐了能摸到 30。
 
@@ -84,41 +88,42 @@ Opponent gets a full turn after shot 1 and shot 2. Gust Porygon-Z or Octillery, 
 
 ---
 
-## The 60 (Unlimited constructed, Treasure Rush)
+## The 60 (Unlimited constructed, Electrobullet)
 
-Printings are the text this lab uses. Galarian Meowth in this 60 is **30th Celebration 101** (Pay Day / Treasure Rush), not Crown Zenith Fasten Claws. Iron Hands ex is Paradox Rift 70 (Arm Press / Amp You Very Much). Draw Energy is Cosmic Eclipse 209.
+Printings are the text this lab uses. Boltund V in this 60 is **Fusion Strike 103** (Smash Turn / Electrobullet), not Rebel Clash Bolt Storm. Voltaic Lightning Energy is **Pitch Black 84**. Draw Energy is Cosmic Eclipse 209.
 
 | Qty | Card | Set | Why |
 |---:|---|---|---|
 | 3 | Buneary | FLF 84 | 60 HP → Poffin. Big Jump stack. |
 | 2 | Lopunny | FLF 85 | **Big Jump**: this Pokémon + attachments to **hand**. Sitdown Bounce is not the closer. |
-| 3 | Porygon | UNB 154 | 50 HP → Poffin. Rare Candy into Porygon-Z. |
+| 3 | Porygon | UNB 154 | 50 HP → Poffin. BTS into Porygon2 into Porygon-Z (Candy backup). |
+| 2 | Porygon2 | UNB 156 | Stage 1 middle for BTS normal evolution. Wally can fetch it. |
 | 2 | Porygon-Z | UNB 157 | Crazy Code. |
-| 4 | Galarian Meowth | 30th 101 | **Treasure Rush** 10×hand, **`[M]`**. Pay Day `[C]` draws 1 when neither closer would KO. Basic, 70 HP → Poffin. **1 prize**. Cap **1** in play (bench seat for Shaymin). Hunt still wants a spare in hand. Fat 210–320 HP still needs Rush. |
-| 3 | Iron Hands ex | PAR 70 | Lightning host for Speed L draw 2. **Amp You Very Much** 120 + printed extra prize on KO. **Arm Press** 160. 230 HP, **2 prizes** — do not open on it. Cap **1** in play. Nest-legal, not Poffin. Retreat 4 → Switch. Net *can* scoop ex; keep-names block it. |
-| 2 | Shuckle | HGSS Promo 15 | **Fermenting Liquid**: whenever you attach an Energy card from your hand to Shuckle, draw a card. 60 HP → Poffin. Fighting, retreat 1. Cap **1** in play, and only after Crazy Code or Draw/Enriching + bounce is ready. Crazy Code parks Draw Energy here (net +1). Wind moves it to Lopunny; move does not retrigger. Do not attach Speed L (not Lightning) or Metal (Rush needs it). |
-| 4 | Shaymin | UL 8 | **Celebration Wind**: when put from **hand** onto the Bench, move any Energy to Lopunny. Not from Nest/Poffin. 70 HP → Poffin-legal, but the engine holds it in hand until Speed L is on Hands or Draw/Enriching is on Shuckle, and skips Wind if Hands can already pay+KO. |
+| 4 | Boltund V | FST 103 | **Electrobullet** `[L][L][C]` 120 + 30 bench snipe (no Weakness/Resistance). Smash Turn `[L]` 30 switches. Lightning Basic V, 200 HP, retreat 1, **2 prizes** — do not open on it. Cap **1** in play (bench seat for Shaymin). Hunt still wants a spare in hand. 4 Voltaic caps at **200** — misses Ogerpon 210 / Mewtwo 230 / Dragapult 320. |
+| 2 | Shuckle | HGSS Promo 15 | **Fermenting Liquid**: whenever you attach an Energy card from your hand to Shuckle, draw a card. 60 HP → Poffin. Fighting, retreat 1. Cap **1** in play, and only after Crazy Code or Draw/Enriching + bounce is ready. Crazy Code parks Draw Energy here (net +1). Wind moves it to Lopunny; move does not retrigger. Do not attach Speed L (not Lightning) or Voltaic (no bonus on Fighting, Wind never moves it). |
+| 4 | Shaymin | UL 8 | **Celebration Wind**: when put from **hand** onto the Bench, move Speed L / Draw / Enriching to Lopunny (Voltaic and basic Lightning stay on Boltund V). Not from Nest/Poffin. 70 HP → Poffin-legal, but the engine holds it in hand until Speed L is on Boltund or Draw/Enriching is on Shuckle, and skips Wind if Boltund can already pay+KO. |
 | 4 | Puzzle of Time | BKP 109 | Discard retrieve backup. |
-| 2 | Scoop Up Net | RCL 165 | Replay Shaymin the same turn (Item). Do **not** Net Meowth / Lopunny / Iron Hands / Shuckle. |
-| 3 | Broken Time-Space | PL 104 | Same-turn Stage 1 evo (Lopunny). Does **not** override Rare Candy. |
-| 2 | Nest Ball | any | Iron Hands is 230 HP — Poffin cannot fetch it. |
-| 3 | Buddy-Buddy Poffin | TEF 144 | Buneary / Porygon / Galarian Meowth / Shaymin / Shuckle (60). |
-| 1 | Ultra Ball | any | |
+| 2 | Scoop Up Net | RCL 165 | Replay Shaymin the same turn (Item). Cannot Net Boltund V (it is a V). Do **not** Net Lopunny / Shuckle. |
+| 3 | Broken Time-Space | PL 104 | Same-turn evo: Buneary→Lopunny, Porygon→Porygon2→Porygon-Z. Does **not** override Rare Candy. |
+| 2 | Nest Ball | any | Boltund V is 200 HP — Poffin cannot fetch it. |
+| 3 | Buddy-Buddy Poffin | TEF 144 | Buneary / Porygon / Shaymin / Shuckle (60). |
+| 1 | Ultra Ball | any | Porygon2 is Stage 1 — Nest cannot fetch it. |
 | 1 | VS Seeker | PHF 109 | Recycle Penny / Wally. |
-| 1 | Wally | ROS 94 | Buneary→Lopunny. Meowth does not evolve. Cannot skip to Porygon-Z. |
-| 2 | Penny | SVI 183 | **Put 1 of your Basic Pokémon and all attached cards into your hand.** Shaymin only here. Supporter, 1/turn. Cannot Penny Lopunny, Iron Hands, or Shuckle. |
-| 1 | Switch | any | Into Hands when Amp takes more prizes; into Meowth when Treasure Rush is still lethal after −1 card. Do not retreat Hands (cost 4 dumps Speed L). |
-| 4 | Rare Candy | PAF 89 | Skip Porygon → Porygon-Z. Not first turn; not a Basic played this turn. |
+| 1 | Wally | ROS 94 | Buneary→Lopunny, Porygon→Porygon2. Boltund V does not evolve. |
+| 2 | Penny | SVI 183 | **Put 1 of your Basic Pokémon and all attached cards into your hand.** Shaymin only here. Supporter, 1/turn. Cannot Penny Lopunny or Shuckle. |
+| 1 | Switch | any | Into paid Boltund V when Electrobullet KOs. Do not retreat Boltund V with Voltaic attached (dumps +20s). |
+| 2 | Rare Candy | PAF 89 | Skip Porygon → Porygon-Z when BTS is missing. Not first turn; not a Basic played this turn. |
 | 1 | Enriching Energy | SSP 191 | ACE SPEC. Loop on Lopunny (Big Jump). |
-| 4 | Speed Lightning Energy | RCL 173 | Draw 2 only on Lightning. Attach to Iron Hands ex, Wind onto Lopunny, Big Jump recycles. Do not spend on Metal Meowth or Fighting Shuckle. |
-| 4 | Metal Energy | any | Pays Treasure Rush `[M]`. Once-per-turn attach. Colorless cannot pay Metal. Stay on Meowth through Wind. |
-| 4 | Draw Energy | CEC 209 | Colorless; attach from hand, draw 1. On Shuckle, Fermenting adds 1 more (net **+1**). Crazy Code can spam it. Does **not** pay Rush. Pays Amp Colorless if Hands is still unpaid. |
+| 4 | Speed Lightning Energy | RCL 173 | Draw 2 only on Lightning. Attach to Boltund V, Wind onto Lopunny, Big Jump recycles. Do not spend on Fighting Shuckle. |
+| 4 | Voltaic Lightning Energy | PBL 84 | Provides Lightning. Attacks by the attached Lightning Pokémon do **20 more** (before Weakness/Resistance). Crazy Code parks it on Boltund V. Wind never moves it. |
+| 4 | Draw Energy | CEC 209 | Colorless; attach from hand, draw 1. On Shuckle, Fermenting adds 1 more (net **+1**). Crazy Code can spam it. Pays the Colorless part of Electrobullet if Boltund V is still unpaid. |
+| 3 | Lightning Energy | any | Basic Lightning. Pays `[L]` parts; stays on Boltund V through Wind. Cannot Crazy Code. |
 
-**23 Pokémon + 24 Trainers + 13 Energy = 60.**
+**22 Pokémon + 22 Trainers + 16 Energy = 60.**
 
-Cut Aipom, Ambipom, Sableye, Remoraid, Octillery, Pikachu, Porygon2, Junk Arm, Darkness, Lightning Energy, Professor's Research, Battle Compressor, Raikou V, Forest Seal Stone. The 8 Aipom/Ambipom slots plus trainer cuts become 4 Meowth + 3 Iron Hands + 2 Shuckle + Nest + 4 Shaymin + 2 Penny.
+Cut Galarian Meowth, Metal Energy, Iron Hands ex, Aipom, Ambipom, Sableye, Remoraid, Octillery, Pikachu, Junk Arm, Darkness, Professor's Research, Battle Compressor, Raikou V, Forest Seal Stone. Meowth/Hands/Candy slots become 4 Boltund V + 2 Porygon2 + 4 Voltaic + 3 Lightning.
 
-Goldfish (board already up, going second): Rare Candy Porygon into Z, BTS into Lopunny, Nest Iron Hands ex, Meowth is already Basic. Hold Shuckle until Crazy Code can attach Draw Energy (or Enriching + Wind). Attach one Metal to Meowth. Crazy Code Speed L onto Hands (draw 2 each, up to +8), Draw Energy onto Shuckle (draw 1+1 each), Enriching onto Shuckle if Shaymin is in hand (draw 4+1) else Lopunny (draw 4). Play Shaymin from hand: Celebration Wind moves Speed L / Draw / Enriching (not Metal) onto Lopunny — skip Wind if Amp already KOs. Big Jump returns Buneary + Lopunny + Speed L + Enriching + Draw Energy. Replay Buneary, BTS evolve, Net or Penny Shaymin, attach again. Amp Clefairy for 2 prizes. Treasure Rush when `10 × hand` KOs (23 vs Mewtwo 230) and `[M]` is attached.
+Goldfish (board already up, going second): BTS Porygon into Porygon2 into Z (or Candy), BTS into Lopunny, Nest Boltund V. Hold Shuckle until Crazy Code can attach Draw Energy (or Enriching + Wind). Attach Lightning to Boltund V. Crazy Code Speed L onto Boltund (draw 2 each, up to +8), Voltaic onto Boltund (+20 each), Draw Energy onto Shuckle (draw 1+1 each), Enriching onto Shuckle if Shaymin is in hand (draw 4+1) else Lopunny (draw 4). Play Shaymin from hand: Celebration Wind moves Speed L / Draw / Enriching (not Voltaic/Lightning) onto Lopunny — skip Wind if Electrobullet already KOs. Big Jump returns Buneary + Lopunny + Speed L + Enriching + Draw Energy. Replay Buneary, BTS evolve, Net or Penny Shaymin, attach again. Electrobullet 120 (+20/Voltaic) plus 30 bench; Smash Turn 30 only when it KOs and Electrobullet cannot pay.
 
 ---
 
@@ -186,31 +191,29 @@ Honest calendar: **3 Celebration attacks** is the prize floor. **3 of our turns*
 
 ## Win-rate array
 
-G30 (`celebration` strategy, 30th Galarian Meowth Treasure Rush `[M]` + 4 Metal + Lopunny FLF Big Jump + 2 Shuckle HGSS Promo 15 Fermenting Liquid, attach-ready bench + 4 Shaymin UL Celebration Wind + Penny + 4 Meowth + 3 Iron Hands ex Amp; **0 Raikou V**, **0 Forest Seal Stone**) as player A vs the household 60s. Not a full NxN remake of `set-c60-unl-matrix`. Rules preset `s60` (60 / 6 prizes / 4-of). First player random. **3,000 games / cell, seed 20260911**. Elapsed **96.5s**.
+G30 (`celebration` strategy, Boltund V FST Electrobullet + 4 Voltaic Lightning Energy + Lopunny FLF Big Jump + 2 Shuckle HGSS Promo 15 Fermenting Liquid, attach-ready bench + 4 Shaymin UL Celebration Wind + Penny + 2 Porygon2 BTS line; **0 Galarian Meowth**, **0 Metal Energy**, **0 Iron Hands ex**) as player A vs the household 60s. Not a full NxN remake of `set-c60-unl-matrix`. Rules preset `s60` (60 / 6 prizes / 4-of). First player random. **3,000 games / cell, seed 20260911**. Elapsed **93.8s**.
 
 Script: `data/lab/gholdengo-30-array.py`. Numbers: `data/lab/gholdengo-30-array.json`.
 
 | A \\ B | c60 | t60 | hedrick | unl | d60 | s60 | g |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| g30 win | 3.3% | 8.1% | 8.8% | 21.4% | 3.3% | 24.4% | 39.8% |
-| first | 2.6% | 7.7% | 8.8% | 21.4% | 3.1% | 23.8% | 39.2% |
-| second | 4.0% | 8.5% | 8.8% | 21.5% | 3.5% | 25.0% | 40.3% |
-| Crazy Code | 33.4% | 18.6% | 26.8% | 26.8% | 17.9% | 68.3% | 31.8% |
-| Puzzle pair | 3.0% | 1.8% | 3.7% | 2.8% | 1.3% | 6.0% | 1.1% |
-| Speed L draw | 26.9% | 15.6% | 23.4% | 23.3% | 12.5% | 64.3% | 27.2% |
-| Big Jump | 31.3% | 25.3% | 28.5% | 36.2% | 22.9% | 66.6% | 25.1% |
-| Treasure Rush | 30.2% | 28.3% | 33.5% | 16.7% | 2.3% | 41.7% | 50.0% |
-| Amp You Very Much | 1.7% | 0.4% | 1.7% | 1.3% | 0.0% | 3.2% | 5.5% |
-| Extra prize on KO | 1.7% | 0.4% | 1.7% | 1.3% | 0.0% | 3.2% | 5.4% |
-| Arm Press | 2.8% | 0.7% | 2.8% | 3.0% | 0.0% | 3.8% | 7.2% |
-| Draw Energy | 71.5% | 57.9% | 62.1% | 69.9% | 60.9% | 92.7% | 68.6% |
-| Rare Candy | 39.1% | 66.5% | 29.9% | 93.1% | 24.2% | 71.1% | 36.3% |
-| Fermenting Liquid | 26.2% | 17.2% | 21.8% | 24.9% | 18.3% | 45.3% | 26.6% |
-| Fleet-Footed | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
-| Star Alchemy | 0.0% | 0.0% | 0.0% | 75.0% | 0.0% | 0.0% | 0.0% |
-| Celebration Wind | 17.0% | 12.1% | 15.4% | 17.9% | 12.4% | 36.6% | 12.8% |
-| Penny | 19.1% | 11.0% | 15.1% | 15.7% | 13.4% | 35.0% | 12.9% |
-| Scoop Up Net | 21.3% | 12.8% | 17.2% | 16.8% | 15.4% | 41.5% | 14.9% |
+| g30 win | 1.3% | 7.5% | 10.4% | 22.0% | 1.0% | 2.5% | 36.5% |
+| first | 1.6% | 7.8% | 10.2% | 22.1% | 1.2% | 2.6% | 36.7% |
+| second | 0.9% | 7.2% | 10.5% | 21.9% | 0.8% | 2.4% | 36.3% |
+| Crazy Code | 34.8% | 23.4% | 31.4% | 31.8% | 17.9% | 50.5% | 31.1% |
+| Puzzle pair | 2.7% | 2.2% | 4.1% | 2.1% | 1.3% | 4.1% | 0.8% |
+| Speed L draw | 28.5% | 19.6% | 27.5% | 27.5% | 13.4% | 45.5% | 26.2% |
+| Big Jump | 30.7% | 21.6% | 26.4% | 28.1% | 16.8% | 48.1% | 16.6% |
+| Electrobullet | 20.1% | 6.8% | 16.0% | 15.2% | 0.0% | 19.8% | 41.1% |
+| Smash Turn | 5.4% | 25.9% | 28.9% | 12.4% | 0.0% | 0.2% | 36.2% |
+| Draw Energy | 60.1% | 44.1% | 50.4% | 52.3% | 44.4% | 71.4% | 51.5% |
+| Rare Candy | 18.9% | 57.5% | 15.4% | 89.8% | 10.4% | 24.7% | 16.3% |
+| Fermenting Liquid | 29.4% | 18.7% | 26.0% | 26.2% | 15.1% | 46.7% | 26.2% |
+| Celebration Wind | 21.6% | 13.9% | 18.2% | 18.4% | 10.5% | 36.7% | 10.4% |
+| Penny | 25.2% | 15.5% | 19.6% | 18.6% | 14.8% | 40.0% | 13.8% |
+| Scoop Up Net | 26.0% | 16.2% | 22.1% | 20.8% | 15.9% | 43.4% | 14.1% |
+
+Same seed, previous **Meowth Rush + 3 Iron Hands, 2 Shuckle attach-ready, 4 Shaymin**: g30 win **3.3 / 8.1 / 8.8 / 21.4 / 3.3 / 24.4 / 39.8%**, Treasure Rush **30.2 / 28.3 / 33.5 / 16.7 / 2.3 / 41.7 / 50.0%**, Big Jump **31.3 / 25.3 / 28.5 / 36.2 / 22.9 / 66.6 / 25.1%**, Amp **1.7 / 0.4 / 1.7 / 1.3 / 0.0 / 3.2 / 5.5%**. Swapping to Boltund V collapses **s60** 24.4→2.5 (no more 10× scaling into tanks), **c60** 3.3→1.9, **d60** 3.3→1.1; **hedrick** 8.8→10.3 is the only lift (Smash Turn 29.1% picks off small bodies). Electrobullet fires (c60 21.1%, s60 21.4%, g 40.2%) but 120–200 never KOs 210–320 HP. The loop still turns (Jump/Wind/Fermenting all live) — the ceiling is damage, not cards.
 
 Same seed, previous **3 Shuckle, bench ASAP, Shaymin 3**: g30 win **2.6 / 7.2 / 9.8 / 20.8 / 3.2 / 22.5 / 38.8%**, Treasure Rush **29.4 / 24.9 / 31.7 / 16.2 / 2.0 / 39.4 / 50.8%**, Speed L **27.3 / 14.7 / 21.9 / 22.2 / 11.8 / 61.0 / 29.2%**, Big Jump **28.1 / 20.9 / 24.6 / 29.9 / 20.5 / 58.5 / 20.8%**, Wind **17.2 / 11.3 / 14.1 / 18.5 / 13.2 / 37.8 / 11.9%**, Fermenting **57.5 / 44.0 / 45.3 / 55.1 / 45.9 / 83.4 / 53.4%**. Delaying Shuckle and restoring 4 Shaymin lifts **s60** 22.5→24.4, **g** 38.8→39.8, **c60** 2.6→3.3, **t60** 7.2→8.1, **unl** 20.8→21.4; **hedrick** 9.8→8.8. Big Jump recovers (s60 58.5→66.6) but stays below the no-Shuckle Hands list (76). Fermenting fires less (s60 83.4→45.3) because Poffin no longer benches it on sight.
 
@@ -232,22 +235,27 @@ Same seed, Abra-era search script (Buneary not tutored): g30 win **2.7 / 3.2 / 2
 
 Previous Abra + Net closer (same seed): g30 win **2.5 / 4.6 / 3.6 / 16.5 / 1.1 / 5.8 / 7.1%**. Celebration 30-hand was **3.3 / 3.9 / 2.9 / 18.1 / 0.9 / 1.7 / 1.0%**.
 
-Goldfish from a ready board still grows the hand (Big Jump returns Buneary + Lopunny + Enriching + Draw Energy after Wind; Draw Energy on Shuckle is net +1; Speed L on Iron Hands ex is +2) and Treasure Rush KOs Mewtwo at 23 cards **if one Metal is already attached**. Live vs household 60s Draw Energy / Candy / Fermenting still fire; Fleet-Footed / Star Alchemy are gone with Raikou. Draw Energy does not pay Rush, so the once-per-turn attach has to find Metal. Three prize shots still lose the race to Photon / Dive on the fast 60s; 70 HP Meowth makes that race worse than 100 HP Ambipom except against slower Dragapult piles. Hands is 230 HP / 2 prizes — do not open on it.
+Goldfish from a ready board still grows the hand (Big Jump returns Buneary + Lopunny + Enriching + Draw Energy after Wind; Draw Energy on Shuckle is net +1; Speed L on Boltund V is +2) and Electrobullet fires **if `[L][L][C]` is attached**, but 120 (+20/Voltaic, cap 200) never KOs Mewtwo 230. Live vs household 60s Draw Energy / Candy / Fermenting still fire. Six 1-prize KOs lose the race to Photon / Dive on the fast 60s; Boltund V is 200 HP / 2 prizes — do not open on it.
 
-Household 60s also kill the board first. C60 Photon Kinesis KOs 70 HP Meowth for one prize and 90 HP Lopunny / 130 HP Porygon-Z for one. d60 Dive / Ogerpon is faster than assembling `[M]` plus a 23-card hand. Amp extra prize barely fires vs those piles.
+Household 60s also kill the board first. C60 Photon Kinesis KOs 90 HP Lopunny / 130 HP Porygon-Z for one prize each and 2-shots Boltund V while we take 1 prize per small KO. d60 Dive / Ogerpon is faster than assembling `[L][L][C]` plus 4 Voltaic. Bench snipe 30 steals damaged small bodies at best.
 
 ---
 
 ## Win condition
 
-**Current closer — 30th Galarian Meowth 101.** Metal Basic, 70 HP, Fire ×2, Grass −30. No evolve. Catalog alias `galarian meowth 30th` / `me04-101`. Set A Fasten Claws (`swsh12.5-084`) stays the name default.
+**Current closer — Boltund V FST 103.** Lightning Basic V, 200 HP, Fighting ×2, retreat 1, **2 prizes**. Catalog `swsh8-103`. Not the Rebel Clash Bolt Storm print. Speed L host. Do not open on it.
+
+- **[L] Smash Turn 30** — You may switch this Pokémon with 1 of your Benched Pokémon. Only when it KOs and Electrobullet cannot pay.
+- **[L][L][C] Electrobullet 120** — This attack also does 30 damage to 1 of your opponent's Benched Pokémon. (Don't apply Weakness and Resistance for Benched Pokémon.) Voltaic Lightning Energy adds 20 each on a Lightning host: 4 Voltaic = **200**. Still misses Ogerpon 210 / Mewtwo 230 / Dragapult 320. Six prizes need six 1-prize KOs or bench-snipes; tanks cannot be one-shot.
+
+**Previous closer — 30th Galarian Meowth 101.** Metal Basic, 70 HP, Fire ×2, Grass −30. No evolve. Catalog alias `galarian meowth 30th` / `me04-101`. Set A Fasten Claws (`swsh12.5-084`) stays the name default.
 
 - **[C] Pay Day 10** — Draw a card. Must not steal the attack when Treasure Rush would KO.
 - **[M] Treasure Rush 10×** — This attack does 10 damage for each card in your hand. One Metal Energy. Colorless specials do not pay this cost.
 
 23 cards = 230 (Mewtwo). 21 = 210 (Ogerpon). 32 = 320 (Dragapult). Hand stays after the attack. Six prizes still need three KOs of 2-prize Pokémon. Meowth itself is 1 prize, so a post-attack death is a 2-for-1 if a spare Meowth is already on the bench. 70 HP dies to almost every household attack; that is the cost of skipping Aipom→Ambipom.
 
-**Lightning closer — Iron Hands ex PAR 70.** Lightning Basic ex, 230 HP, Fighting ×2, retreat 4, **2 prizes**. Catalog `sv04-070`. Speed L host. Do not open on it.
+**Previous Lightning closer — Iron Hands ex PAR 70.** Lightning Basic ex, 230 HP, Fighting ×2, retreat 4, **2 prizes**. Catalog `sv04-070`. Speed L host. Do not open on it.
 
 - **[L][L][C] Arm Press 160** — Pays with Speed L. Misses Mewtwo 230 / Ogerpon 210 / Dragapult 320.
 - **[L][C][C][C] Amp You Very Much 120** — If your opponent's Pokémon is Knocked Out by damage from this attack, take 1 more Prize card. vs Clefairy 60: **2 prizes** (1+1). Prefer Amp over Rush when both KO a 1-prize body. Prefer Rush when 10× actually KOs a tank.

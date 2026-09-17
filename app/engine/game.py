@@ -8769,6 +8769,7 @@ class Game:
                 and ("hoppip" in in_play or "skiploom" in in_play)
                 and "jumpluff" not in in_play
             )
+            or ("porygon2" in in_deck and "porygon" in in_play and "porygon2" not in in_play)
             or ("porygon-z" in in_deck and "porygon2" in in_play)
         )
         return bool(checks)
