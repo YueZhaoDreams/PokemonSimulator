@@ -411,11 +411,12 @@ SET_F_NAMES = [
     "Skwovet",
 ]
 
-# Carpet Set G — Friday lock. Clefairy is still LOR 62. Mega Clefable ex evolves
-# from Clefairy (was Emolga); Tornadus was Mewtwo. Three Boss's Orders replace
-# Potion / Poké Ball / Plusle. Indeedee, Relicanth, Hop's Cramorant, Kecleon,
-# Iris's Fighting Spirit, Energy Retrieval, Trekking Shoes stay.
-SET_G_NAMES = (
+# Carpet Set G — Friday lock (historical). Base for the boss-friday and poffin
+# labs. Clefairy is still LOR 62. Mega Clefable ex evolves from Clefairy (was
+# Emolga); Tornadus was Mewtwo. Three Boss's Orders replace Potion / Poké Ball
+# / Plusle. Indeedee, Relicanth, Hop's Cramorant, Kecleon, Iris's Fighting
+# Spirit, Energy Retrieval, Trekking Shoes stay.
+SET_G_FRIDAY_NAMES = (
     ["Clefairy"] * 4
     + ["Ledyba"] * 4
     + ["Ledian"] * 4
@@ -439,6 +440,38 @@ SET_G_NAMES = (
     + ["Energy Search"]
     + ["Energy Switch"]
     + ["Ultra Ball"]
+    + ["Boss's Orders"] * 3
+    + ["Psychic Energy"] * 17
+    + ["Darkness Energy"] * 3
+    + ["Boomerang Energy"]
+)
+
+# Carpet Set G — Poffin lock. Friday list minus Tornadus / Hop's Cramorant /
+# Relicanth / Indeedee, plus the 4 Buddy-Buddy Poffin playset (C60 staple).
+# Keeps Kecleon as the 11th Poffin target, the bird line, 4/4 Ledian,
+# 3 Darkness, 17 Psychic, Mega, Ultra Ball, Energy Switch, all 4 supporters.
+# See data/lab/set-g-poffin-c60.md.
+SET_G_NAMES = (
+    ["Clefairy"] * 4
+    + ["Ledyba"] * 4
+    + ["Ledian"] * 4
+    + ["Starly"] * 2
+    + ["Staravia"] * 2
+    + ["Staraptor"] * 2
+    + ["Munkidori"] * 2
+    + ["Flutter Mane"]
+    + ["Mega Clefable ex"]
+    + ["Kecleon"]
+    + ["Tulip"]
+    + ["Surfer"]
+    + ["Drayton"]
+    + ["Iris's Fighting Spirit"]
+    + ["Energy Retrieval"]
+    + ["Trekking Shoes"]
+    + ["Energy Search"]
+    + ["Energy Switch"]
+    + ["Ultra Ball"]
+    + ["Buddy-Buddy Poffin"] * 4
     + ["Boss's Orders"] * 3
     + ["Psychic Energy"] * 17
     + ["Darkness Energy"] * 3

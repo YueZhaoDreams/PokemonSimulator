@@ -86,7 +86,11 @@ def test_admin_owns_seed_decks_and_members_are_isolated(tmp_path, monkeypatch):
         g_names = [c["name"] for c in get_deck("seed-g")["cards"]]
         assert g_names.count("Mega Clefable ex") == 1
         assert g_names.count("Emolga") == 0
-        assert g_names.count("Tornadus") == 1
+        assert g_names.count("Tornadus") == 0
+        assert g_names.count("Hop's Cramorant") == 0
+        assert g_names.count("Relicanth") == 0
+        assert g_names.count("Indeedee") == 0
+        assert g_names.count("Buddy-Buddy Poffin") == 4
         assert g_names.count("Boss's Orders") == 3
         assert g_names.count("Plusle") == 0
         assert g_names.count("Potion") == 0
