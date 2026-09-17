@@ -1,0 +1,1160 @@
+{
+  "games": 3000,
+  "seed": 20260915,
+  "elapsed": 177.2443930840002,
+  "rule_preset": "s60",
+  "stages": [
+    "s0_none",
+    "s1_mega",
+    "s2_boss",
+    "s3_poffin"
+  ],
+  "lists": {
+    "s0_none": [
+      "Clefairy",
+      "Clefairy",
+      "Clefairy",
+      "Clefairy",
+      "Ledyba",
+      "Ledyba",
+      "Ledyba",
+      "Ledyba",
+      "Ledian",
+      "Ledian",
+      "Ledian",
+      "Ledian",
+      "Starly",
+      "Starly",
+      "Staravia",
+      "Staravia",
+      "Staraptor",
+      "Staraptor",
+      "Munkidori",
+      "Munkidori",
+      "Tornadus",
+      "Flutter Mane",
+      "Indeedee",
+      "Relicanth",
+      "Hop's Cramorant",
+      "Kecleon",
+      "Tulip",
+      "Surfer",
+      "Drayton",
+      "Iris's Fighting Spirit",
+      "Energy Retrieval",
+      "Trekking Shoes",
+      "Energy Search",
+      "Energy Switch",
+      "Ultra Ball",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Darkness Energy",
+      "Darkness Energy",
+      "Darkness Energy",
+      "Boomerang Energy",
+      "Potion",
+      "Pok\u00e9 Ball",
+      "Plusle",
+      "Emolga"
+    ],
+    "s1_mega": [
+      "Clefairy",
+      "Clefairy",
+      "Clefairy",
+      "Clefairy",
+      "Ledyba",
+      "Ledyba",
+      "Ledyba",
+      "Ledyba",
+      "Ledian",
+      "Ledian",
+      "Ledian",
+      "Ledian",
+      "Starly",
+      "Starly",
+      "Staravia",
+      "Staravia",
+      "Staraptor",
+      "Staraptor",
+      "Munkidori",
+      "Munkidori",
+      "Tornadus",
+      "Flutter Mane",
+      "Indeedee",
+      "Relicanth",
+      "Mega Clefable ex",
+      "Hop's Cramorant",
+      "Kecleon",
+      "Tulip",
+      "Surfer",
+      "Drayton",
+      "Iris's Fighting Spirit",
+      "Energy Retrieval",
+      "Trekking Shoes",
+      "Energy Search",
+      "Energy Switch",
+      "Ultra Ball",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Darkness Energy",
+      "Darkness Energy",
+      "Darkness Energy",
+      "Boomerang Energy",
+      "Potion",
+      "Pok\u00e9 Ball",
+      "Plusle"
+    ],
+    "s2_boss": [
+      "Clefairy",
+      "Clefairy",
+      "Clefairy",
+      "Clefairy",
+      "Ledyba",
+      "Ledyba",
+      "Ledyba",
+      "Ledyba",
+      "Ledian",
+      "Ledian",
+      "Ledian",
+      "Ledian",
+      "Starly",
+      "Starly",
+      "Staravia",
+      "Staravia",
+      "Staraptor",
+      "Staraptor",
+      "Munkidori",
+      "Munkidori",
+      "Tornadus",
+      "Flutter Mane",
+      "Indeedee",
+      "Relicanth",
+      "Mega Clefable ex",
+      "Hop's Cramorant",
+      "Kecleon",
+      "Tulip",
+      "Surfer",
+      "Drayton",
+      "Iris's Fighting Spirit",
+      "Energy Retrieval",
+      "Trekking Shoes",
+      "Energy Search",
+      "Energy Switch",
+      "Ultra Ball",
+      "Boss's Orders",
+      "Boss's Orders",
+      "Boss's Orders",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Darkness Energy",
+      "Darkness Energy",
+      "Darkness Energy",
+      "Boomerang Energy"
+    ],
+    "s3_poffin": [
+      "Clefairy",
+      "Clefairy",
+      "Clefairy",
+      "Clefairy",
+      "Ledyba",
+      "Ledyba",
+      "Ledyba",
+      "Ledyba",
+      "Ledian",
+      "Ledian",
+      "Ledian",
+      "Ledian",
+      "Starly",
+      "Starly",
+      "Staravia",
+      "Staravia",
+      "Staraptor",
+      "Staraptor",
+      "Munkidori",
+      "Munkidori",
+      "Flutter Mane",
+      "Mega Clefable ex",
+      "Kecleon",
+      "Tulip",
+      "Surfer",
+      "Drayton",
+      "Iris's Fighting Spirit",
+      "Energy Retrieval",
+      "Trekking Shoes",
+      "Energy Search",
+      "Energy Switch",
+      "Ultra Ball",
+      "Buddy-Buddy Poffin",
+      "Buddy-Buddy Poffin",
+      "Buddy-Buddy Poffin",
+      "Buddy-Buddy Poffin",
+      "Boss's Orders",
+      "Boss's Orders",
+      "Boss's Orders",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Darkness Energy",
+      "Darkness Energy",
+      "Darkness Energy",
+      "Boomerang Energy"
+    ]
+  },
+  "counts": {
+    "s0_none": [
+      [
+        "Psychic Energy",
+        17
+      ],
+      [
+        "Clefairy",
+        4
+      ],
+      [
+        "Ledyba",
+        4
+      ],
+      [
+        "Ledian",
+        4
+      ],
+      [
+        "Darkness Energy",
+        3
+      ],
+      [
+        "Starly",
+        2
+      ],
+      [
+        "Staravia",
+        2
+      ],
+      [
+        "Staraptor",
+        2
+      ],
+      [
+        "Munkidori",
+        2
+      ],
+      [
+        "Tornadus",
+        1
+      ],
+      [
+        "Flutter Mane",
+        1
+      ],
+      [
+        "Indeedee",
+        1
+      ],
+      [
+        "Relicanth",
+        1
+      ],
+      [
+        "Hop's Cramorant",
+        1
+      ],
+      [
+        "Kecleon",
+        1
+      ],
+      [
+        "Tulip",
+        1
+      ],
+      [
+        "Surfer",
+        1
+      ],
+      [
+        "Drayton",
+        1
+      ],
+      [
+        "Iris's Fighting Spirit",
+        1
+      ],
+      [
+        "Energy Retrieval",
+        1
+      ],
+      [
+        "Trekking Shoes",
+        1
+      ],
+      [
+        "Energy Search",
+        1
+      ],
+      [
+        "Energy Switch",
+        1
+      ],
+      [
+        "Ultra Ball",
+        1
+      ],
+      [
+        "Boomerang Energy",
+        1
+      ],
+      [
+        "Potion",
+        1
+      ],
+      [
+        "Pok\u00e9 Ball",
+        1
+      ],
+      [
+        "Plusle",
+        1
+      ],
+      [
+        "Emolga",
+        1
+      ]
+    ],
+    "s1_mega": [
+      [
+        "Psychic Energy",
+        17
+      ],
+      [
+        "Clefairy",
+        4
+      ],
+      [
+        "Ledyba",
+        4
+      ],
+      [
+        "Ledian",
+        4
+      ],
+      [
+        "Darkness Energy",
+        3
+      ],
+      [
+        "Starly",
+        2
+      ],
+      [
+        "Staravia",
+        2
+      ],
+      [
+        "Staraptor",
+        2
+      ],
+      [
+        "Munkidori",
+        2
+      ],
+      [
+        "Tornadus",
+        1
+      ],
+      [
+        "Flutter Mane",
+        1
+      ],
+      [
+        "Indeedee",
+        1
+      ],
+      [
+        "Relicanth",
+        1
+      ],
+      [
+        "Mega Clefable ex",
+        1
+      ],
+      [
+        "Hop's Cramorant",
+        1
+      ],
+      [
+        "Kecleon",
+        1
+      ],
+      [
+        "Tulip",
+        1
+      ],
+      [
+        "Surfer",
+        1
+      ],
+      [
+        "Drayton",
+        1
+      ],
+      [
+        "Iris's Fighting Spirit",
+        1
+      ],
+      [
+        "Energy Retrieval",
+        1
+      ],
+      [
+        "Trekking Shoes",
+        1
+      ],
+      [
+        "Energy Search",
+        1
+      ],
+      [
+        "Energy Switch",
+        1
+      ],
+      [
+        "Ultra Ball",
+        1
+      ],
+      [
+        "Boomerang Energy",
+        1
+      ],
+      [
+        "Potion",
+        1
+      ],
+      [
+        "Pok\u00e9 Ball",
+        1
+      ],
+      [
+        "Plusle",
+        1
+      ]
+    ],
+    "s2_boss": [
+      [
+        "Psychic Energy",
+        17
+      ],
+      [
+        "Clefairy",
+        4
+      ],
+      [
+        "Ledyba",
+        4
+      ],
+      [
+        "Ledian",
+        4
+      ],
+      [
+        "Boss's Orders",
+        3
+      ],
+      [
+        "Darkness Energy",
+        3
+      ],
+      [
+        "Starly",
+        2
+      ],
+      [
+        "Staravia",
+        2
+      ],
+      [
+        "Staraptor",
+        2
+      ],
+      [
+        "Munkidori",
+        2
+      ],
+      [
+        "Tornadus",
+        1
+      ],
+      [
+        "Flutter Mane",
+        1
+      ],
+      [
+        "Indeedee",
+        1
+      ],
+      [
+        "Relicanth",
+        1
+      ],
+      [
+        "Mega Clefable ex",
+        1
+      ],
+      [
+        "Hop's Cramorant",
+        1
+      ],
+      [
+        "Kecleon",
+        1
+      ],
+      [
+        "Tulip",
+        1
+      ],
+      [
+        "Surfer",
+        1
+      ],
+      [
+        "Drayton",
+        1
+      ],
+      [
+        "Iris's Fighting Spirit",
+        1
+      ],
+      [
+        "Energy Retrieval",
+        1
+      ],
+      [
+        "Trekking Shoes",
+        1
+      ],
+      [
+        "Energy Search",
+        1
+      ],
+      [
+        "Energy Switch",
+        1
+      ],
+      [
+        "Ultra Ball",
+        1
+      ],
+      [
+        "Boomerang Energy",
+        1
+      ]
+    ],
+    "s3_poffin": [
+      [
+        "Psychic Energy",
+        17
+      ],
+      [
+        "Clefairy",
+        4
+      ],
+      [
+        "Ledyba",
+        4
+      ],
+      [
+        "Ledian",
+        4
+      ],
+      [
+        "Buddy-Buddy Poffin",
+        4
+      ],
+      [
+        "Boss's Orders",
+        3
+      ],
+      [
+        "Darkness Energy",
+        3
+      ],
+      [
+        "Starly",
+        2
+      ],
+      [
+        "Staravia",
+        2
+      ],
+      [
+        "Staraptor",
+        2
+      ],
+      [
+        "Munkidori",
+        2
+      ],
+      [
+        "Flutter Mane",
+        1
+      ],
+      [
+        "Mega Clefable ex",
+        1
+      ],
+      [
+        "Kecleon",
+        1
+      ],
+      [
+        "Tulip",
+        1
+      ],
+      [
+        "Surfer",
+        1
+      ],
+      [
+        "Drayton",
+        1
+      ],
+      [
+        "Iris's Fighting Spirit",
+        1
+      ],
+      [
+        "Energy Retrieval",
+        1
+      ],
+      [
+        "Trekking Shoes",
+        1
+      ],
+      [
+        "Energy Search",
+        1
+      ],
+      [
+        "Energy Switch",
+        1
+      ],
+      [
+        "Ultra Ball",
+        1
+      ],
+      [
+        "Boomerang Energy",
+        1
+      ]
+    ]
+  },
+  "foes": {
+    "t60": "phantom",
+    "hedrick": "phantom",
+    "d60": "demolish",
+    "unl": "phantom",
+    "c60": "party",
+    "s60": "slash",
+    "h": "nuzzle"
+  },
+  "cells": {
+    "s0_none": {
+      "t60": {
+        "a": 0.187,
+        "b": 0.813,
+        "tie": 0.0,
+        "first": 0.1940500338066261,
+        "second": 0.18014464168310323,
+        "party_games": 938,
+        "gust_games": 1321,
+        "boss_games": 2546,
+        "adrena_games": 587,
+        "mega_games": 0,
+        "tornadus_games": 93,
+        "poffin_games": 0
+      },
+      "hedrick": {
+        "a": 0.2823333333333333,
+        "b": 0.7176666666666667,
+        "tie": 0.0,
+        "first": 0.28763440860215056,
+        "second": 0.2771164021164021,
+        "party_games": 899,
+        "gust_games": 1468,
+        "boss_games": 2605,
+        "adrena_games": 1316,
+        "mega_games": 0,
+        "tornadus_games": 101,
+        "poffin_games": 0
+      },
+      "d60": {
+        "a": 0.07733333333333334,
+        "b": 0.9226666666666666,
+        "tie": 0.0,
+        "first": 0.08106355382619974,
+        "second": 0.07338820301783265,
+        "party_games": 983,
+        "gust_games": 0,
+        "boss_games": 2257,
+        "adrena_games": 24,
+        "mega_games": 0,
+        "tornadus_games": 70,
+        "poffin_games": 0
+      },
+      "unl": {
+        "a": 0.40066666666666667,
+        "b": 0.5993333333333334,
+        "tie": 0.0,
+        "first": 0.39080459770114945,
+        "second": 0.41025641025641024,
+        "party_games": 1042,
+        "gust_games": 1597,
+        "boss_games": 2481,
+        "adrena_games": 443,
+        "mega_games": 0,
+        "tornadus_games": 94,
+        "poffin_games": 0
+      },
+      "c60": {
+        "a": 0.07833333333333334,
+        "b": 0.9216666666666666,
+        "tie": 0.0,
+        "first": 0.07297297297297298,
+        "second": 0.08355263157894736,
+        "party_games": 2683,
+        "gust_games": 1833,
+        "boss_games": 71,
+        "adrena_games": 3,
+        "mega_games": 511,
+        "tornadus_games": 67,
+        "poffin_games": 2153
+      },
+      "s60": {
+        "a": 0.5406666666666666,
+        "b": 0.459,
+        "tie": 0.0003333333333333333,
+        "first": 0.5403389830508475,
+        "second": 0.5409836065573771,
+        "party_games": 1311,
+        "gust_games": 1996,
+        "boss_games": 1946,
+        "adrena_games": 36,
+        "mega_games": 0,
+        "tornadus_games": 139,
+        "poffin_games": 0
+      },
+      "h": {
+        "a": 0.961,
+        "b": 0.039,
+        "tie": 0.0,
+        "first": 0.957418496340652,
+        "second": 0.9645958583834335,
+        "party_games": 929,
+        "gust_games": 1031,
+        "boss_games": 0,
+        "adrena_games": 635,
+        "mega_games": 0,
+        "tornadus_games": 42,
+        "poffin_games": 0
+      }
+    },
+    "s1_mega": {
+      "t60": {
+        "a": 0.175,
+        "b": 0.825,
+        "tie": 0.0,
+        "first": 0.20133779264214047,
+        "second": 0.14883720930232558,
+        "party_games": 914,
+        "gust_games": 1319,
+        "boss_games": 2482,
+        "adrena_games": 579,
+        "mega_games": 0,
+        "tornadus_games": 106,
+        "poffin_games": 0
+      },
+      "hedrick": {
+        "a": 0.2823333333333333,
+        "b": 0.7176666666666667,
+        "tie": 0.0,
+        "first": 0.30085022890778285,
+        "second": 0.26308633582596874,
+        "party_games": 896,
+        "gust_games": 1495,
+        "boss_games": 2517,
+        "adrena_games": 1267,
+        "mega_games": 0,
+        "tornadus_games": 97,
+        "poffin_games": 0
+      },
+      "d60": {
+        "a": 0.07733333333333334,
+        "b": 0.9226666666666666,
+        "tie": 0.0,
+        "first": 0.07942708333333333,
+        "second": 0.07513661202185792,
+        "party_games": 884,
+        "gust_games": 0,
+        "boss_games": 2210,
+        "adrena_games": 50,
+        "mega_games": 141,
+        "tornadus_games": 68,
+        "poffin_games": 0
+      },
+      "unl": {
+        "a": 0.4116666666666667,
+        "b": 0.5883333333333334,
+        "tie": 0.0,
+        "first": 0.4342895263509006,
+        "second": 0.38907395069953365,
+        "party_games": 1032,
+        "gust_games": 1672,
+        "boss_games": 2470,
+        "adrena_games": 437,
+        "mega_games": 0,
+        "tornadus_games": 121,
+        "poffin_games": 0
+      },
+      "c60": {
+        "a": 0.135,
+        "b": 0.865,
+        "tie": 0.0,
+        "first": 0.13571910871033085,
+        "second": 0.13429888084265965,
+        "party_games": 2638,
+        "gust_games": 1761,
+        "boss_games": 80,
+        "adrena_games": 25,
+        "mega_games": 802,
+        "tornadus_games": 65,
+        "poffin_games": 2097
+      },
+      "s60": {
+        "a": 0.6253333333333333,
+        "b": 0.37433333333333335,
+        "tie": 0.0003333333333333333,
+        "first": 0.6305220883534136,
+        "second": 0.6201859229747676,
+        "party_games": 1235,
+        "gust_games": 1944,
+        "boss_games": 1845,
+        "adrena_games": 30,
+        "mega_games": 603,
+        "tornadus_games": 117,
+        "poffin_games": 0
+      },
+      "h": {
+        "a": 0.959,
+        "b": 0.041,
+        "tie": 0.0,
+        "first": 0.9576999339061467,
+        "second": 0.9603227975790182,
+        "party_games": 747,
+        "gust_games": 980,
+        "boss_games": 0,
+        "adrena_games": 618,
+        "mega_games": 456,
+        "tornadus_games": 53,
+        "poffin_games": 0
+      }
+    },
+    "s2_boss": {
+      "t60": {
+        "a": 0.236,
+        "b": 0.764,
+        "tie": 0.0,
+        "first": 0.2419035029742234,
+        "second": 0.22999327505043712,
+        "party_games": 1013,
+        "gust_games": 1341,
+        "boss_games": 2725,
+        "adrena_games": 640,
+        "mega_games": 0,
+        "tornadus_games": 116,
+        "poffin_games": 0
+      },
+      "hedrick": {
+        "a": 0.31666666666666665,
+        "b": 0.6833333333333333,
+        "tie": 0.0,
+        "first": 0.32061579651941097,
+        "second": 0.31274900398406374,
+        "party_games": 941,
+        "gust_games": 1514,
+        "boss_games": 2786,
+        "adrena_games": 1335,
+        "mega_games": 0,
+        "tornadus_games": 115,
+        "poffin_games": 0
+      },
+      "d60": {
+        "a": 0.06766666666666667,
+        "b": 0.9323333333333333,
+        "tie": 0.0,
+        "first": 0.06908115358819585,
+        "second": 0.06626905235255136,
+        "party_games": 934,
+        "gust_games": 0,
+        "boss_games": 2177,
+        "adrena_games": 57,
+        "mega_games": 147,
+        "tornadus_games": 78,
+        "poffin_games": 0
+      },
+      "unl": {
+        "a": 0.4563333333333333,
+        "b": 0.5436666666666666,
+        "tie": 0.0,
+        "first": 0.44346648612051454,
+        "second": 0.46881155613919895,
+        "party_games": 1082,
+        "gust_games": 1611,
+        "boss_games": 2735,
+        "adrena_games": 464,
+        "mega_games": 0,
+        "tornadus_games": 113,
+        "poffin_games": 0
+      },
+      "c60": {
+        "a": 0.16766666666666666,
+        "b": 0.832,
+        "tie": 0.0003333333333333333,
+        "first": 0.17714672075726842,
+        "second": 0.15844838921762,
+        "party_games": 2711,
+        "gust_games": 1739,
+        "boss_games": 2095,
+        "adrena_games": 29,
+        "mega_games": 862,
+        "tornadus_games": 86,
+        "poffin_games": 2166
+      },
+      "s60": {
+        "a": 0.6626666666666666,
+        "b": 0.337,
+        "tie": 0.0003333333333333333,
+        "first": 0.6808510638297872,
+        "second": 0.6443850267379679,
+        "party_games": 1181,
+        "gust_games": 1783,
+        "boss_games": 2600,
+        "adrena_games": 48,
+        "mega_games": 605,
+        "tornadus_games": 118,
+        "poffin_games": 0
+      },
+      "h": {
+        "a": 0.9493333333333334,
+        "b": 0.050666666666666665,
+        "tie": 0.0,
+        "first": 0.948076923076923,
+        "second": 0.9506944444444444,
+        "party_games": 806,
+        "gust_games": 996,
+        "boss_games": 1168,
+        "adrena_games": 636,
+        "mega_games": 426,
+        "tornadus_games": 47,
+        "poffin_games": 0
+      }
+    },
+    "s3_poffin": {
+      "t60": {
+        "a": 0.205,
+        "b": 0.795,
+        "tie": 0.0,
+        "first": 0.22904290429042903,
+        "second": 0.18047138047138048,
+        "party_games": 1582,
+        "gust_games": 1646,
+        "boss_games": 2739,
+        "adrena_games": 571,
+        "mega_games": 0,
+        "tornadus_games": 0,
+        "poffin_games": 4632
+      },
+      "hedrick": {
+        "a": 0.32966666666666666,
+        "b": 0.6703333333333333,
+        "tie": 0.0,
+        "first": 0.3404114134041141,
+        "second": 0.31882116543871397,
+        "party_games": 1605,
+        "gust_games": 1859,
+        "boss_games": 2812,
+        "adrena_games": 1302,
+        "mega_games": 0,
+        "tornadus_games": 0,
+        "poffin_games": 4694
+      },
+      "d60": {
+        "a": 0.066,
+        "b": 0.934,
+        "tie": 0.0,
+        "first": 0.07586657946370176,
+        "second": 0.0557443915703603,
+        "party_games": 1651,
+        "gust_games": 0,
+        "boss_games": 2289,
+        "adrena_games": 134,
+        "mega_games": 347,
+        "tornadus_games": 0,
+        "poffin_games": 5007
+      },
+      "unl": {
+        "a": 0.454,
+        "b": 0.546,
+        "tie": 0.0,
+        "first": 0.4551901998710509,
+        "second": 0.4527260179434092,
+        "party_games": 1803,
+        "gust_games": 2039,
+        "boss_games": 2804,
+        "adrena_games": 349,
+        "mega_games": 0,
+        "tornadus_games": 0,
+        "poffin_games": 4781
+      },
+      "c60": {
+        "a": 0.21,
+        "b": 0.7896666666666666,
+        "tie": 0.0003333333333333333,
+        "first": 0.21900269541778974,
+        "second": 0.2011873350923483,
+        "party_games": 2806,
+        "gust_games": 2121,
+        "boss_games": 2269,
+        "adrena_games": 44,
+        "mega_games": 1015,
+        "tornadus_games": 0,
+        "poffin_games": 5935
+      },
+      "s60": {
+        "a": 0.6836666666666666,
+        "b": 0.31633333333333336,
+        "tie": 0.0,
+        "first": 0.6994645247657296,
+        "second": 0.6679946879150066,
+        "party_games": 1860,
+        "gust_games": 2049,
+        "boss_games": 2604,
+        "adrena_games": 34,
+        "mega_games": 825,
+        "tornadus_games": 0,
+        "poffin_games": 5075
+      },
+      "h": {
+        "a": 0.9633333333333334,
+        "b": 0.03666666666666667,
+        "tie": 0.0,
+        "first": 0.9608355091383812,
+        "second": 0.9659400544959128,
+        "party_games": 1313,
+        "gust_games": 1157,
+        "boss_games": 1111,
+        "adrena_games": 595,
+        "mega_games": 524,
+        "tornadus_games": 0,
+        "poffin_games": 4011
+      }
+    }
+  },
+  "deltas_vs_prev": {
+    "s1_mega": {
+      "t60": -0.012,
+      "hedrick": 0.0,
+      "d60": 0.0,
+      "unl": 0.011,
+      "c60": 0.0567,
+      "s60": 0.0847,
+      "h": -0.002
+    },
+    "s2_boss": {
+      "t60": 0.061,
+      "hedrick": 0.0343,
+      "d60": -0.0097,
+      "unl": 0.0447,
+      "c60": 0.0327,
+      "s60": 0.0373,
+      "h": -0.0097
+    },
+    "s3_poffin": {
+      "t60": -0.031,
+      "hedrick": 0.013,
+      "d60": -0.0017,
+      "unl": -0.0023,
+      "c60": 0.0423,
+      "s60": 0.021,
+      "h": 0.014
+    }
+  },
+  "weighted_all_vs_s0": {
+    "s0_none": 0.2289820638942714,
+    "s1_mega": 0.24862955234262432,
+    "s2_boss": 0.27969898643613056,
+    "s3_poffin": 0.286495751974959
+  },
+  "weighted_competitive_vs_s0": {
+    "s0_none": 0.17364338768115944,
+    "s1_mega": 0.16966675724637684,
+    "s2_boss": 0.19628922101449275,
+    "s3_poffin": 0.1891923007246377
+  }
+}
