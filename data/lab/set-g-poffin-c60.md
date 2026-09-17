@@ -7,7 +7,7 @@ G-side always A; first player random
 Script: `data/lab/set_g_poffin_c60.py` + `data/lab/set_g_poffin_followup.py`
 Raw: `data/lab/set-g-poffin-c60.json`, `data/lab/set-g-poffin-followup.json`
 
-Base is Friday-lock `SET_G_NAMES` (3 Boss, Mega, Tornadus, 0 Poffin, 0 Mewtwo).
+Base is frozen Friday-lock `SET_G_FRIDAY_NAMES` (3 Boss, Mega, Tornadus, 0 Poffin, 0 Mewtwo).
 Mewtwo ex is not arriving; the earlier Mewtwo engine work was reverted.
 Poffin is printed "Search your deck for up to 2 Basic Pokémon with 70 HP or
 less and put them onto your Bench" — engine already plays exactly that.
