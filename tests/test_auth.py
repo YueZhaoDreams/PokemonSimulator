@@ -76,7 +76,7 @@ def test_admin_owns_seed_decks_and_members_are_isolated(tmp_path, monkeypatch):
         assert by_id["seed-t-unl"]["count"] == 60
         assert by_id["seed-g30"]["rule_presets"] == ["s60"]
         assert by_id["seed-g30"]["count"] == 60
-        assert by_id["seed-g30"]["name"] == "Unlimited 60 (Galarian Meowth Treasure Rush)"
+        assert by_id["seed-g30"]["name"] == "Unlimited 60 (Boltund V Electrobullet)"
         c60_names = [c["name"] for c in get_deck("seed-c60")["cards"]]
         assert c60_names.count("Telepathic Psychic Energy") == 2
         assert c60_names.count("Psychic Energy") == 14

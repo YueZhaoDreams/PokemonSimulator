@@ -250,6 +250,8 @@ PREFERRED_IDS = {
     "Raikou V": "swsh9-48",  # Brilliant Stars Fleet-Footed / Lightning Streak
     "Iron Hands ex": "sv04-070",  # Paradox Rift Arm Press / Amp You Very Much
     "Shuckle": "hgssp-HGSS15",  # HGSS Promo 15 Fermenting Liquid
+    "Boltund V": "swsh8-103",  # Fusion Strike Smash Turn / Electrobullet 120+30
+    "Voltaic Lightning Energy": "me5-84",  # Pitch Black: Lightning +20 on Lightning
     "Draw Energy": "sm12-209",  # Cosmic Eclipse: attach from hand, draw a card
     "Professor Turo's Scenario": "sv04-171",
     "Collapsed Stadium": "swsh9-137",
@@ -416,6 +418,8 @@ PRINT_PREFER = {
     "Raikou V": ["fleet-footed", "lightning streak"],
     "Iron Hands ex": ["amp you very much", "arm press"],
     "Shuckle": ["fermenting liquid", "shell stunner"],
+    "Boltund V": ["electrobullet", "smash turn"],
+    "Voltaic Lightning Energy": ["20 more damage", "lightning pokemon"],
     "Shaymin": ["celebration wind"],
     "Penny": ["basic pokémon and all attached cards into your hand", "basic pokemon and all attached cards into your hand"],
     "Draw Energy": ["draw a card"],

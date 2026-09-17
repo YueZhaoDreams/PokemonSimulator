@@ -218,7 +218,7 @@ def test_seed_decks_include_set_c_and_d():
     assert data["c60"]["name"] == "Set C Standard 60 (Clefairy / Mewtwo)"
     assert data["t-meta"]["name"] == "Worlds 2026 Hedrick Dragapult"
     assert data["t-unl"]["name"] == "Unlimited Dragapult (Pidgeot / Rotom V)"
-    assert data["g30"]["name"] == "Unlimited 60 (Galarian Meowth Treasure Rush)"
+    assert data["g30"]["name"] == "Unlimited 60 (Boltund V Electrobullet)"
     assert data["g"]["name"] == "Carpet Set G (Clefairy / Ledian 60)"
     assert data["h"]["name"] == "Carpet Set H (Team Rocket's Zapdos / Pikachu 60)"
     assert data["e"]["name"] == "Carpet Set E (Walrein / Iris)"
