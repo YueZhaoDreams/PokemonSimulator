@@ -311,18 +311,18 @@ SET_T_UNL_NAMES = (
     + ["Psychic Energy"] * 3
 )
 
-# Unlimited 60: 30th Galarian Meowth Treasure Rush (Basic, skips Aipom→Ambipom),
-# Lopunny FLF Big Jump recycle, Iron Hands ex Amp extra prize + Speed L host,
-# Shuckle HGSS Promo 15 Fermenting Liquid (Draw Energy / Enriching from hand
-# draws extra), Shaymin Wind, Draw Energy, Rare Candy. Fasten Claws Crown
-# Zenith stays the name default.
+# Unlimited 60: Boltund V Fusion Strike Electrobullet (Lightning, Smash Turn /
+# Electrobullet 120 + 30 bench) with Voltaic Lightning Energy (+20 each),
+# Lopunny FLF Big Jump recycle, Porygon BTS line (no full Candy), Shuckle HGSS
+# Promo 15 Fermenting Liquid (every from-hand attach draws extra), Shaymin
+# Wind, Draw Energy. No Galarian Meowth, no Metal, no Iron Hands ex.
 SET_G30_NAMES = (
     ["Buneary"] * 3
     + ["Lopunny"] * 2
     + ["Porygon"] * 3
+    + ["Porygon2"] * 2
     + ["Porygon-Z"] * 2
-    + ["Galarian Meowth"] * 4
-    + ["Iron Hands ex"] * 3
+    + ["Boltund V"] * 4
     + ["Shuckle"] * 2
     + ["Shaymin"] * 4
     + ["Puzzle of Time"] * 4
@@ -335,11 +335,12 @@ SET_G30_NAMES = (
     + ["Wally"]
     + ["Penny"] * 2
     + ["Switch"]
-    + ["Rare Candy"] * 4
+    + ["Rare Candy"] * 2
     + ["Enriching Energy"]
     + ["Speed Lightning Energy"] * 4
-    + ["Metal Energy"] * 4
+    + ["Voltaic Lightning Energy"] * 4
     + ["Draw Energy"] * 4
+    + ["Lightning Energy"] * 3
 )
 
 # Carpet Set E — new beige-carpet photo (data/samples/set-e-carpet.jpg).
@@ -2358,6 +2359,16 @@ _AMP_YOU_VERY_MUCH_TEXT = (
 _FERMENTING_LIQUID_TEXT = (
     "Whenever you attach an Energy card from your hand to Shuckle, draw a card."
 )
+_VOLTAIC_TEXT = (
+    "As long as this card is attached to a Pokémon, it provides Lightning Energy. "
+    "Attacks used by the Lightning Pokémon this card is attached to do 20 more damage "
+    "to your opponent's Active Pokémon (before applying Weakness and Resistance)."
+)
+_SMASH_TURN_TEXT = "You may switch this Pokémon with 1 of your Benched Pokémon."
+_ELECTROBULLET_TEXT = (
+    "This attack also does 30 damage to 1 of your opponent's Benched Pokémon. "
+    "(Don't apply Weakness and Resistance for Benched Pokémon.)"
+)
 _SHELL_STUNNER_TEXT = (
     "Flip a coin. If heads, prevent all damage done to Shuckle by attacks during your opponent's next turn."
 )
@@ -2855,6 +2866,44 @@ _register(
         set_name="HGSS Black Star Promos",
     )
 )
+_VOLTAIC = _register(
+    Card(
+        catalog_id="me5-84",
+        name="Voltaic Lightning Energy",
+        category="Energy",
+        stage="Special",
+        types=["Lightning"],
+        energy_type="Lightning",
+        text=_VOLTAIC_TEXT,
+        image="https://assets.tcgdex.net/en/me/me5/84/low.webp",
+        set_name="Pitch Black",
+        retreat=0,
+    )
+)
+FALLBACK_BY_NAME["voltaic energy"] = _VOLTAIC
+FALLBACK_BY_NAME["voltaic"] = _VOLTAIC
+_register(
+    _pkm(
+        "Boltund V",
+        "Basic",
+        ["Lightning"],
+        200,
+        [
+            _atk("Smash Turn", ["Lightning"], 30, _SMASH_TURN_TEXT),
+            _atk(
+                "Electrobullet",
+                ["Lightning", "Lightning", "Colorless"],
+                120,
+                _ELECTROBULLET_TEXT,
+            ),
+        ],
+        retreat=1,
+        catalog_id="swsh8-103",
+        weakness="Fighting",
+        image="https://assets.tcgdex.net/en/swsh/swsh8/103/low.webp",
+        set_name="Fusion Strike",
+    )
+)
 
 _AIPOM_PAR = _pkm(
     "Aipom",
@@ -2897,14 +2946,8 @@ _register(
 
 
 def build_g30_deck() -> list[Card]:
-    """30th Galarian Meowth Treasure Rush closer; Fasten Claws stays the name default."""
-    out: list[Card] = []
-    for name in SET_G30_NAMES:
-        if name == "Galarian Meowth":
-            out.append(fallback_named("galarian meowth 30th"))
-        else:
-            out.append(fallback_named(name))
-    return out
+    """Boltund V Fusion Strike Electrobullet closer with Voltaic Lightning Energy."""
+    return [fallback_named(name) for name in SET_G30_NAMES]
 
 
 # 151 / MEW 035 keeps the printed name "Clefairy" so it shares the 4-of cap
@@ -3078,6 +3121,8 @@ def fallback_named(name: str) -> Card:
         key = "speed lightning energy"
     if key == "draw energy":
         key = "draw energy"
+    if "voltaic" in key:
+        key = "voltaic lightning energy"
     if key in FALLBACK_BY_NAME:
         card = FALLBACK_BY_NAME[key]
         return Card.from_dict(card.to_dict())
@@ -3089,6 +3134,7 @@ def fallback_named(name: str) -> Card:
         and "enriching" not in key
         and "speed lightning" not in key
         and "speed l" not in key
+        and "voltaic" not in key
         and key != "draw energy"
     ):
         return _nrg(name.split()[0].title())

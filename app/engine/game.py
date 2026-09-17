@@ -17,6 +17,7 @@ from app.engine.effects import (
     is_special_energy,
     is_speed_lightning_energy,
     is_telepathic_energy,
+    is_voltaic_energy,
     parse_ability_effects,
     parse_draw_until_hand,
     parse_energy_effects,
@@ -368,9 +369,7 @@ class Game:
                 "hoppip": 1,
                 "abra": 1,
                 "porygon": 1,
-                "galarian meowth": 1,
-                "iron hands ex": 1,
-                "raikou v": 1,
+                "boltund v": 1,
             }
             if name not in caps:
                 return False
@@ -538,9 +537,7 @@ class Game:
                     "porygon": 3000,
                     "buneary": 2900,
                     "hoppip": 2850,
-                    "galarian meowth": 2800,
-                    "iron hands ex": 2100,
-                    "raikou v": 2100,
+                    "boltund v": 2100,
                     "abra": 2000,
                 }
                 return rank.get(name, 0)
@@ -2099,6 +2096,10 @@ class Game:
         src = me.card(energy_i)
         if is_speed_lightning_energy(src) or is_draw_energy(src) or is_enriching_energy(src):
             return False
+        if self._is_boltund_v(me, mon) and (
+            is_voltaic_energy(src) or (is_basic_energy(src) and "Lightning" in energy_provided(src))
+        ):
+            return True
         return self._hand_fling_attack(me, mon) is not None
 
     def _energy_waiting_on_lightning(self, me: Player) -> bool:
@@ -2277,7 +2278,8 @@ class Game:
                 "shaymin",
                 "shuckle",
                 "speed lightning energy",
-                "metal energy",
+                "voltaic lightning energy",
+                "lightning energy",
             }:
                 score -= 40
             if card.name.lower() in {"ultra ball", "poké ball", "poke ball"}:
@@ -2381,23 +2383,21 @@ class Game:
                     if "skiploom" not in in_play and "skiploom" not in in_hand and "hoppip" in in_play:
                         prefer.append("Skiploom")
                     prefer.append("Jumpluff")
-            if "porygon" in in_play and "porygon-z" not in in_play:
+            if "porygon" in in_play and "porygon2" not in in_play and "porygon2" not in in_hand and "porygon-z" not in in_play:
+                prefer.append("Porygon2")
+            if ("porygon" in in_play or "porygon2" in in_play) and "porygon-z" not in in_play:
                 prefer.append("Porygon-Z")
             if self._celebration_needs_closer(me):
-                prefer.append("Galarian Meowth")
-            if self._celebration_needs_lightning_closer(me):
-                prefer.append("Iron Hands ex")
+                prefer.append("Boltund V")
             if "shaymin" not in in_play and "shaymin" not in in_hand:
                 prefer.append("Shaymin")
             if self._celebration_needs_fermenting(me):
                 prefer.append("Shuckle")
-            if "tynamo" in in_play and "eelektrik" not in in_play and "eelektrik" not in in_hand:
-                prefer.append("Eelektrik")
-            for name in ("Porygon", "Galarian Meowth", "Iron Hands ex", "Buneary", "Shaymin", "Shuckle"):
+            for name in ("Porygon", "Porygon2", "Boltund V", "Buneary", "Shaymin", "Shuckle"):
                 key = name.lower()
                 if key not in in_play and key not in in_hand:
                     prefer.append(name)
-            prefer.extend(["Lopunny", "Jumpluff", "Porygon-Z", "Galarian Meowth", "Iron Hands ex", "Buneary", "Shaymin", "Shuckle"])
+            prefer.extend(["Lopunny", "Jumpluff", "Porygon2", "Porygon-Z", "Boltund V", "Buneary", "Shaymin", "Shuckle"])
             return list(dict.fromkeys(prefer))
         if strat.hold_as_energy:
             prefer = list(strat.search_aces)
@@ -2557,10 +2557,9 @@ class Game:
                 "jumpluff",
                 "buneary",
                 "hoppip",
+                "porygon2",
                 "porygon-z",
-                "galarian meowth",
-                "iron hands ex",
-                "raikou v",
+                "boltund v",
                 "shuckle",
             }:
                 score += 20
@@ -3324,7 +3323,7 @@ class Game:
                 if typed and not can_pay_energy(self._energy_pool(me, target), atk.cost):
                     return typed
                 return set()
-            if "iron hands" in card.name.lower() or "raikou" in card.name.lower():
+            if "boltund" in card.name.lower():
                 return {"Lightning"}
         attached = self._energy_pool(me, target)
         needed: set[str] = set()
@@ -3750,16 +3749,16 @@ class Game:
         strat = self.strats[who]
         if strat.name == "celebration":
             prefer = [
-                "Rare Candy",
+                "Porygon2",
                 "Porygon-Z",
                 "Lopunny",
                 "Enriching Energy",
-                "Metal Energy",
+                "Voltaic Lightning Energy",
+                "Lightning Energy",
                 "Shaymin",
                 "Penny",
                 "Draw Energy",
-                "Iron Hands ex",
-                "Galarian Meowth",
+                "Boltund V",
                 "Buneary",
                 "Broken Time-Space",
                 "Wally",
@@ -4739,6 +4738,20 @@ class Game:
             or "pokemon v this card is attached" in text
         )
 
+    def _energy_damage_bonus(self, me: Player, mon: Pokemon) -> int:
+        """Bonus from printed Special Energy text on `mon` (before Weakness / Resistance)."""
+        types = me.card(mon.card_i).types or []
+        total = 0
+        for energy_i in mon.energy:
+            for eff in parse_energy_effects(me.card(energy_i).text):
+                if eff.get("kind") != "energy_damage_bonus":
+                    continue
+                req = str(eff.get("require_pokemon_type") or "").title()
+                if req and req not in types:
+                    continue
+                total += int(eff.get("amount") or 0)
+        return total
+
     def _tool_damage_bonus(self, me: Player, mon: Pokemon, defender: Card) -> int:
         """Bonus from the printed Tool text on `mon` (before Weakness / Resistance)."""
         if mon.tool is None:
@@ -4915,6 +4928,7 @@ class Game:
                 if n is None:
                     n = sum(1 for m in me.in_play() if m.tool is not None)
                 dmg += per * int(n)
+        dmg += self._energy_damage_bonus(me, mon)
         if mon.tool is not None:
             dmg += self._tool_damage_bonus(me, mon, defender)
         ignore_wr = any(e.get("kind") == "ignore_wr" for e in atk.effects) or "isn't affected by weakness" in (
@@ -8406,9 +8420,7 @@ class Game:
             "buneary": 0,
             "hoppip": 1,
             "porygon": 2,
-            "galarian meowth": 3,
-            "iron hands ex": 4,
-            "raikou v": 5,
+            "boltund v": 3,
             "shuckle": 6,
             "abra": 7,
         }.get(name, 20)
@@ -8430,12 +8442,12 @@ class Game:
         return False
 
     def _celebration_closer_names(self) -> set[str]:
-        return {"galarian meowth", "ambipom"}
+        return {"boltund v"}
 
     def _celebration_needs_closer(self, me: Player) -> bool:
-        """Hunt Galarian Meowth until two bodies are in play or hand (2-for-1 spare)."""
-        play = self._count_named_in_play(me, "Galarian Meowth")
-        hand = self._celebration_zone_count(me, "Galarian Meowth", me.hand)
+        """Hunt Boltund V until two bodies are in play or hand (2-prize spare)."""
+        play = self._count_named_in_play(me, "Boltund V")
+        hand = self._celebration_zone_count(me, "Boltund V", me.hand)
         if play + hand == 0:
             return True
         return play + hand < 2
@@ -8452,9 +8464,7 @@ class Game:
             if "buneary" not in in_play and "buneary" not in in_hand and "lopunny" not in in_hand:
                 missing.append("buneary")
         if self._celebration_needs_closer(me):
-            missing.append("galarian meowth")
-        if self._celebration_needs_lightning_closer(me):
-            missing.append("iron hands ex")
+            missing.append("boltund v")
         if "porygon-z" not in in_play and "porygon" not in in_play and "porygon" not in in_hand:
             missing.append("porygon")
         if "shaymin" not in in_play and "shaymin" not in in_hand:
@@ -8464,7 +8474,7 @@ class Game:
         return missing
 
     def _celebration_keep_names(self) -> set[str]:
-        return {"porygon-z", "galarian meowth", "ambipom", "iron hands ex", "raikou v", "lopunny", "jumpluff", "shuckle"}
+        return {"porygon-z", "boltund v", "lopunny", "jumpluff", "shuckle"}
 
     def _has_return_self_to_hand(self, me: Player, mon: Pokemon) -> bool:
         card = me.card(mon.card_i)
@@ -8593,17 +8603,17 @@ class Game:
         return self._celebration_best_ko_prizes(me, foe) > 0
 
     def _celebration_needs_lightning_closer(self, me: Player) -> bool:
-        play = self._count_named_in_play(me, "Iron Hands ex")
-        hand = self._celebration_zone_count(me, "Iron Hands ex", me.hand)
+        play = self._count_named_in_play(me, "Boltund V")
+        hand = self._celebration_zone_count(me, "Boltund V", me.hand)
         return play + hand == 0
 
+    def _is_boltund_v(self, me: Player, mon: Pokemon) -> bool:
+        return me.card(mon.card_i).name.lower() == "boltund v"
+
     def _speed_l_host(self, me: Player) -> Pokemon | None:
-        hands = self._named_mon(me, "Iron Hands ex")
-        if hands is not None:
-            return hands
-        raikou = self._named_mon(me, "Raikou V")
-        if raikou is not None:
-            return raikou
+        boltund = self._named_mon(me, "Boltund V")
+        if boltund is not None:
+            return boltund
         for mon in me.in_play():
             if "Lightning" in (me.card(mon.card_i).types or []):
                 return mon
@@ -8664,10 +8674,20 @@ class Game:
             return len(me.bench) < self._bench_limit()
         return False
 
+    def _boltund_unpaid(self, me: Player, mon: Pokemon) -> bool:
+        pool = self._energy_pool(me, mon)
+        main = next((a for a in self._attacks_for(me, mon) if a.name.lower() == "electrobullet"), None)
+        if main is not None:
+            return not can_pay_energy(pool, main.cost)
+        return not any(can_pay_energy(pool, atk.cost) for atk in self._attacks_for(me, mon))
+
     def _celebration_energy_target(self, me: Player) -> Pokemon | None:
         scaler = next((m for m in me.in_play() if self._hand_fling_attack(me, m)), None)
         if scaler is not None and not self._ambipom_can_pay(me, scaler):
             return scaler
+        boltund = self._named_mon(me, "Boltund V")
+        if boltund is not None and self._boltund_unpaid(me, boltund):
+            return boltund
         ferment = self._fermenting_host(me)
         if ferment is not None and any(is_draw_energy(me.card(i)) for i in me.hand):
             return ferment
@@ -8677,7 +8697,7 @@ class Game:
                 return bounce
             if scaler is not None:
                 return scaler
-        return scaler or me.active
+        return scaler or boltund or me.active
 
     def _celebration_switch_idx(self, me: Player) -> int | None:
         if not me.bench:
@@ -8733,7 +8753,7 @@ class Game:
         names = {me.card(m.card_i).name.lower() for m in me.in_play()}
         if "porygon-z" not in names:
             return False
-        if not any(self._hand_fling_attack(me, mon) or self._is_iron_hands(me, mon) for mon in me.in_play()):
+        if not any(self._hand_fling_attack(me, mon) or self._is_boltund_v(me, mon) or self._is_iron_hands(me, mon) for mon in me.in_play()):
             return False
         if self._celebration_has_bounce_line(me):
             return True
@@ -8800,7 +8820,7 @@ class Game:
         if name in {"nest ball", "nesting ball", "buddy-buddy poffin", "buddy buddy poffin"} and not wants_bench:
             return -25.0
         attacker_ready = any(
-            self._hand_fling_attack(me, mon) or self._is_iron_hands(me, mon) for mon in me.in_play()
+            self._hand_fling_attack(me, mon) or self._is_boltund_v(me, mon) or self._is_iron_hands(me, mon) for mon in me.in_play()
         )
         bounce_out = self._celebration_bounce_host_in_play(me)
         needs_backup = self._celebration_needs_closer(me)
@@ -8923,7 +8943,7 @@ class Game:
             self._retrieve_from_discard(
                 me,
                 pair_count,
-                prefer=("enriching energy", "metal energy", "draw energy", "scoop up net", "penny", "shaymin", "shuckle", "puzzle of time", "rare candy", "iron hands ex"),
+                prefer=("enriching energy", "voltaic lightning energy", "lightning energy", "draw energy", "scoop up net", "penny", "shaymin", "shuckle", "puzzle of time", "boltund v", "porygon2"),
             )
             self._bump("puzzle_pair")
             return
@@ -8938,14 +8958,14 @@ class Game:
                 "shaymin",
                 "shuckle",
                 "enriching energy",
-                "metal energy",
+                "voltaic lightning energy",
+                "lightning energy",
                 "draw energy",
                 "buneary",
                 "lopunny",
-                "rare candy",
-                "iron hands ex",
+                "porygon2",
+                "boltund v",
                 "porygon-z",
-                "galarian meowth",
                 "speed lightning energy",
                 "wally",
             )
@@ -9260,14 +9280,12 @@ class Game:
             return False
         scaler = next((m for m in me.in_play() if self._hand_fling_attack(me, m)), None)
         hosts = [mon for mon in me.in_play() if self._has_return_self_to_hand(me, mon)]
-        hands = self._named_mon(me, "Iron Hands ex")
-        unpaid_hands = hands is not None and not any(
-            can_pay_energy(self._energy_pool(me, hands), atk.cost) for atk in self._attacks_for(me, hands)
-        )
+        boltund = self._named_mon(me, "Boltund V")
+        unpaid_boltund = boltund is not None and self._boltund_unpaid(me, boltund)
         ferment = self._fermenting_host(me)
         host = None
-        if unpaid_hands:
-            host = hands
+        if unpaid_boltund:
+            host = boltund
         elif ferment is not None:
             host = ferment
         elif hosts:
@@ -9281,6 +9299,22 @@ class Game:
         self._bump("crazy_code")
         self._log(f"{me.name} Crazy Code attaches Draw Energy to {me.card(host.card_i).name}")
         self._resolve_energy_attach_from_hand(me, who, host, draw)
+        return True
+
+    def _celebration_attach_voltaic(self, me: Player, who: str) -> bool:
+        if not self._has_crazy_code(me):
+            return False
+        voltaic = next((i for i in me.hand if is_voltaic_energy(me.card(i))), None)
+        if voltaic is None:
+            return False
+        boltund = self._named_mon(me, "Boltund V")
+        if boltund is None:
+            return False
+        me.hand.remove(voltaic)
+        boltund.energy.append(voltaic)
+        self._bump("crazy_code")
+        self._log(f"{me.name} Crazy Code attaches Voltaic Lightning Energy to {me.card(boltund.card_i).name}")
+        self._resolve_energy_attach_from_hand(me, who, boltund, voltaic)
         return True
 
     def _hand_named(self, me: Player, name: str) -> list[int]:
@@ -9484,11 +9518,9 @@ class Game:
                 "buneary",
                 "hoppip",
                 "skiploom",
-                "iron hands ex",
-                "raikou v",
+                "boltund v",
+                "porygon2",
                 "porygon-z",
-                "galarian meowth",
-                "ambipom",
                 "shaymin",
                 "shuckle",
             }:
@@ -9525,7 +9557,7 @@ class Game:
         else:
             if me.active and self._hand_fling_attack(me, me.active):
                 idx = self._celebration_chump_idx(me)
-            elif self._is_iron_hands(me, me.active) or me.card(me.active.card_i).name.lower() == "raikou v":
+            elif self._is_boltund_v(me, me.active) or self._is_iron_hands(me, me.active):
                 idx = None
         if idx is None:
             return
@@ -9544,7 +9576,9 @@ class Game:
                 me.discard.append(switch_i)
                 return self._play_switch(me, who, idx)
         if me.active and (
-            self._hand_fling_attack(me, me.active) is not None or self._is_iron_hands(me, me.active)
+            self._hand_fling_attack(me, me.active) is not None
+            or self._is_boltund_v(me, me.active)
+            or self._is_iron_hands(me, me.active)
         ):
             return False
         if me.active and any(is_enriching_energy(me.card(i)) for i in me.active.energy):
@@ -9552,6 +9586,8 @@ class Game:
         if me.active and any(is_speed_lightning_energy(me.card(i)) for i in me.active.energy):
             return False
         if me.active and any(is_draw_energy(me.card(i)) for i in me.active.energy):
+            return False
+        if me.active and any(is_voltaic_energy(me.card(i)) for i in me.active.energy):
             return False
         return self._do_retreat_into(me, idx)
 
@@ -9585,6 +9621,8 @@ class Game:
             if self._celebration_attach_enriching(me, who):
                 continue
             if self._celebration_attach_draw_energy(me, who):
+                continue
+            if self._celebration_attach_voltaic(me, who):
                 continue
             if self._celebration_closer_ready(me, foe):
                 return

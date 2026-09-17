@@ -776,6 +776,14 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
     if bench:
         effects.append({"kind": "bench_damage_counters", "counters": int(bench.group(1))})
 
+    # Boltund V Electrobullet: main damage plus a bench snipe, no Weakness/Resistance.
+    snipe = re.search(
+        r"also does (\d+) damage to 1 of your opponent'?s? benched pokemon",
+        t,
+    )
+    if snipe:
+        effects.append({"kind": "bench_damage_counters", "counters": int(snipe.group(1)) // 10})
+
     if "switch this pokemon with 1 of your benched" in t:
         effects.append({"kind": "switch_with_benched"})
     if (
@@ -838,6 +846,20 @@ def parse_energy_effects(text: str) -> list[dict[str, Any]]:
             {
                 "kind": "draw_on_attach_from_hand",
                 "amount": int(attach_draw.group(1) or 1),
+            }
+        )
+    # Voltaic Lightning Energy: attacks by the attached typed Pokémon do N more.
+    energy_bonus = re.search(
+        r"attacks used by the (grass|fire|water|lightning|psychic|fighting|darkness|metal|fairy|dragon|colorless) "
+        r"pokemon this card is attached to do (\d+) more damage",
+        t,
+    )
+    if energy_bonus:
+        effects.append(
+            {
+                "kind": "energy_damage_bonus",
+                "require_pokemon_type": energy_bonus.group(1).title(),
+                "amount": int(energy_bonus.group(2)),
             }
         )
     return effects
@@ -954,6 +976,11 @@ def is_draw_energy(card: Any) -> bool:
     return name == "draw energy" and getattr(card, "is_energy", False)
 
 
+def is_voltaic_energy(card: Any) -> bool:
+    name = (getattr(card, "name", "") or "").lower()
+    return "voltaic" in name and getattr(card, "is_energy", False)
+
+
 def is_special_energy(card: Any) -> bool:
     if not getattr(card, "is_energy", False):
         return False
@@ -964,6 +991,7 @@ def is_special_energy(card: Any) -> bool:
         or is_enriching_energy(card)
         or is_speed_lightning_energy(card)
         or is_draw_energy(card)
+        or is_voltaic_energy(card)
     ):
         return True
     return (getattr(card, "stage", "") or "").lower() == "special"
@@ -980,6 +1008,8 @@ def energy_provided(card: Any) -> list[str]:
     if is_enriching_energy(card):
         return ["Colorless"]
     if is_speed_lightning_energy(card):
+        return ["Lightning"]
+    if is_voltaic_energy(card):
         return ["Lightning"]
     if is_draw_energy(card):
         return ["Colorless"]

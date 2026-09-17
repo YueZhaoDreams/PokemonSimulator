@@ -480,25 +480,22 @@ STRATEGY_LIBRARY = {
     "celebration": StrategySpec(
         name="celebration",
         description=(
-            "Unlimited 60 Galarian Meowth 30th Treasure Rush: Basic Metal closer, "
-            "no evolve. Rare Candy skips Porygon to Porygon-Z. Crazy Code attaches "
-            "Enriching Energy and Draw Energy as often as you like. Lopunny FLF Big "
+            "Unlimited 60 Boltund V Electrobullet: Lightning Basic V closer, "
+            "no evolve. BTS evolves Porygon to Porygon2 to Porygon-Z (Candy backup). "
+            "Crazy Code attaches Special Energy as often as you like. Lopunny FLF Big "
             "Jump returns this Pokémon and all attached cards to the hand — net +4 "
             "with replay + evolve. Shaymin UL Celebration Wind moves Speed Lightning "
-            "Energy from Iron Hands ex onto Lopunny when played from hand to the Bench; "
+            "Energy from Boltund V onto Lopunny when played from hand to the Bench; "
             "Scoop Up Net or Penny returns Shaymin so the attach-draw can fire again. "
             "Scoop Up Net + Puzzle of Time is the discard "
-            "fallback. Four Galarian Meowth race fat 210–320 HP with 10×hand. "
-            "Iron Hands ex is the Lightning host and extra-prize closer: Amp You Very "
-            "Much takes 1 more prize when it KOs; Arm Press is 160. Shuckle HGSS Promo "
+            "fallback. Four Boltund V race with Electrobullet 120 plus 30 bench snipe; "
+            "Voltaic Lightning Energy adds 20 each on a Lightning host. Shuckle HGSS Promo "
             "15 Fermenting Liquid draws a card whenever Energy is attached from hand; "
             "Crazy Code parks Draw Energy (and Enriching when Wind is ready) there "
             "only after Shuckle is attach-ready, then Celebration Wind moves it onto "
             "Lopunny so Big Jump recycles. "
-            "Speed Lightning Energy draws 2 only on a Lightning host. Treasure Rush "
-            "costs one Metal Energy and does 10 damage for each card in your hand; "
-            "attack when that KO's, unless Amp already KOs for more prizes. Pay Day "
-            "draws a card only when neither closer would KO."
+            "Speed Lightning Energy draws 2 only on a Lightning host. Voltaic stays "
+            "on Boltund V for damage; Wind never moves it. Smash Turn switches on demand."
         ),
         prefer_damage=0.2,
         prefer_status=0.0,
@@ -511,15 +508,15 @@ STRATEGY_LIBRARY = {
             "Buneary",
             "Lopunny",
             "Porygon",
+            "Porygon2",
             "Porygon-Z",
-            "Galarian Meowth",
-            "Iron Hands ex",
+            "Boltund V",
             "Shuckle",
             "Shaymin",
         ],
-        search_aces=["Buneary", "Porygon", "Galarian Meowth", "Iron Hands ex", "Shuckle", "Shaymin"],
-        closers=["Galarian Meowth", "Iron Hands ex"],
-        backups=["Porygon-Z", "Iron Hands ex"],
+        search_aces=["Buneary", "Porygon", "Boltund V", "Shuckle", "Shaymin"],
+        closers=["Boltund V"],
+        backups=["Porygon-Z", "Boltund V"],
         insurance=["Porygon-Z"],
         insurance_bench=1,
         max_ace_copies=3,

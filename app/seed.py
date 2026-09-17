@@ -101,6 +101,9 @@ def load_seed_deck(which: str) -> dict:
         "raikou": "g30",
         "iron hands": "g30",
         "iron hands ex": "g30",
+        "boltund": "g30",
+        "boltund v": "g30",
+        "voltaic": "g30",
         "shuckle": "g30",
         "spare-cards": "spare",
         "p": "spare",
@@ -514,10 +517,10 @@ def _cd_payload(enrich: bool = True) -> dict:
 
 
 def _g30_blob() -> dict:
-    """Printed 30th Galarian Meowth Treasure Rush 60. Never TCGDex-enrich the closer print."""
+    """Printed Boltund V Electrobullet 60 with Voltaic Lightning Energy."""
     return {
         "id": "seed-g30",
-        "name": "Unlimited 60 (Galarian Meowth Treasure Rush)",
+        "name": "Unlimited 60 (Boltund V Electrobullet)",
         "sample": None,
         "kind": "list",
         "cards": [c.to_dict() for c in build_g30_deck()],

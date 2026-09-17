@@ -21812,7 +21812,7 @@
   },
   "g30": {
     "id": "seed-g30",
-    "name": "Unlimited 60 (Galarian Meowth Treasure Rush)",
+    "name": "Unlimited 60 (Boltund V Electrobullet)",
     "sample": null,
     "kind": "list",
     "cards": [
@@ -22154,46 +22154,31 @@
         "dex_id": null
       },
       {
-        "catalog_id": "sm10-157",
-        "name": "Porygon-Z",
+        "catalog_id": "sm10-156",
+        "name": "Porygon2",
         "category": "Pokemon",
-        "stage": "Stage2",
+        "stage": "Stage1",
         "types": [
           "Colorless"
         ],
-        "hp": 130,
+        "hp": 80,
         "attacks": [
           {
-            "name": "Tantrum",
+            "name": "Double Draw",
             "cost": [
-              "Colorless",
-              "Colorless",
               "Colorless"
             ],
-            "damage": 120,
-            "text": "This Pok\u00e9mon is now Confused.",
+            "damage": 0,
+            "text": "Draw 2 cards.",
             "effects": [
               {
-                "kind": "status",
-                "status": "confused",
-                "coin": false
+                "kind": "draw",
+                "amount": 2
               }
             ]
           }
         ],
-        "abilities": [
-          {
-            "name": "Crazy Code",
-            "text": "As often as you like during your turn (before your attack), you may attach a Special Energy card from your hand to 1 of your Pok\u00e9mon.",
-            "effects": [
-              {
-                "kind": "attach_special_energy_from_hand",
-                "as_often_as_you_like": true,
-                "once_per_turn": false
-              }
-            ]
-          }
-        ],
+        "abilities": [],
         "weaknesses": [
           {
             "type": "Fighting",
@@ -22201,11 +22186,53 @@
           }
         ],
         "resistances": [],
-        "retreat": 2,
-        "evolves_from": "Porygon2",
+        "retreat": 1,
+        "evolves_from": "Porygon",
         "trainer_kind": null,
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sm/sm10/157/low.webp",
+        "image": "https://assets.tcgdex.net/en/sm/sm10/156/low.webp",
+        "set_name": "Unbroken Bonds",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sm10-156",
+        "name": "Porygon2",
+        "category": "Pokemon",
+        "stage": "Stage1",
+        "types": [
+          "Colorless"
+        ],
+        "hp": 80,
+        "attacks": [
+          {
+            "name": "Double Draw",
+            "cost": [
+              "Colorless"
+            ],
+            "damage": 0,
+            "text": "Draw 2 cards.",
+            "effects": [
+              {
+                "kind": "draw",
+                "amount": 2
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Fighting",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": "Porygon",
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sm/sm10/156/low.webp",
         "set_name": "Unbroken Bonds",
         "text": "",
         "dex_id": null
@@ -22268,284 +22295,98 @@
         "dex_id": null
       },
       {
-        "catalog_id": "me04-101",
-        "name": "Galarian Meowth",
+        "catalog_id": "sm10-157",
+        "name": "Porygon-Z",
         "category": "Pokemon",
-        "stage": "Basic",
+        "stage": "Stage2",
         "types": [
-          "Metal"
+          "Colorless"
         ],
-        "hp": 70,
+        "hp": 130,
         "attacks": [
           {
-            "name": "Pay Day",
+            "name": "Tantrum",
             "cost": [
-              "Colorless"
-            ],
-            "damage": 10,
-            "text": "Draw a card.",
-            "effects": [
-              {
-                "kind": "draw",
-                "amount": 1
-              }
-            ]
-          },
-          {
-            "name": "Treasure Rush",
-            "cost": [
-              "Metal"
-            ],
-            "damage": 10,
-            "text": "This attack does 10 damage for each card in your hand.",
-            "effects": [
-              {
-                "kind": "hand_count_times",
-                "per": 10
-              }
-            ]
-          }
-        ],
-        "abilities": [],
-        "weaknesses": [
-          {
-            "type": "Fire",
-            "value": "\u00d72"
-          }
-        ],
-        "resistances": [
-          {
-            "type": "Grass",
-            "value": "-30"
-          }
-        ],
-        "retreat": 1,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/me/me04/101/low.webp",
-        "set_name": "30th Celebration",
-        "text": "",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "me04-101",
-        "name": "Galarian Meowth",
-        "category": "Pokemon",
-        "stage": "Basic",
-        "types": [
-          "Metal"
-        ],
-        "hp": 70,
-        "attacks": [
-          {
-            "name": "Pay Day",
-            "cost": [
-              "Colorless"
-            ],
-            "damage": 10,
-            "text": "Draw a card.",
-            "effects": [
-              {
-                "kind": "draw",
-                "amount": 1
-              }
-            ]
-          },
-          {
-            "name": "Treasure Rush",
-            "cost": [
-              "Metal"
-            ],
-            "damage": 10,
-            "text": "This attack does 10 damage for each card in your hand.",
-            "effects": [
-              {
-                "kind": "hand_count_times",
-                "per": 10
-              }
-            ]
-          }
-        ],
-        "abilities": [],
-        "weaknesses": [
-          {
-            "type": "Fire",
-            "value": "\u00d72"
-          }
-        ],
-        "resistances": [
-          {
-            "type": "Grass",
-            "value": "-30"
-          }
-        ],
-        "retreat": 1,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/me/me04/101/low.webp",
-        "set_name": "30th Celebration",
-        "text": "",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "me04-101",
-        "name": "Galarian Meowth",
-        "category": "Pokemon",
-        "stage": "Basic",
-        "types": [
-          "Metal"
-        ],
-        "hp": 70,
-        "attacks": [
-          {
-            "name": "Pay Day",
-            "cost": [
-              "Colorless"
-            ],
-            "damage": 10,
-            "text": "Draw a card.",
-            "effects": [
-              {
-                "kind": "draw",
-                "amount": 1
-              }
-            ]
-          },
-          {
-            "name": "Treasure Rush",
-            "cost": [
-              "Metal"
-            ],
-            "damage": 10,
-            "text": "This attack does 10 damage for each card in your hand.",
-            "effects": [
-              {
-                "kind": "hand_count_times",
-                "per": 10
-              }
-            ]
-          }
-        ],
-        "abilities": [],
-        "weaknesses": [
-          {
-            "type": "Fire",
-            "value": "\u00d72"
-          }
-        ],
-        "resistances": [
-          {
-            "type": "Grass",
-            "value": "-30"
-          }
-        ],
-        "retreat": 1,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/me/me04/101/low.webp",
-        "set_name": "30th Celebration",
-        "text": "",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "me04-101",
-        "name": "Galarian Meowth",
-        "category": "Pokemon",
-        "stage": "Basic",
-        "types": [
-          "Metal"
-        ],
-        "hp": 70,
-        "attacks": [
-          {
-            "name": "Pay Day",
-            "cost": [
-              "Colorless"
-            ],
-            "damage": 10,
-            "text": "Draw a card.",
-            "effects": [
-              {
-                "kind": "draw",
-                "amount": 1
-              }
-            ]
-          },
-          {
-            "name": "Treasure Rush",
-            "cost": [
-              "Metal"
-            ],
-            "damage": 10,
-            "text": "This attack does 10 damage for each card in your hand.",
-            "effects": [
-              {
-                "kind": "hand_count_times",
-                "per": 10
-              }
-            ]
-          }
-        ],
-        "abilities": [],
-        "weaknesses": [
-          {
-            "type": "Fire",
-            "value": "\u00d72"
-          }
-        ],
-        "resistances": [
-          {
-            "type": "Grass",
-            "value": "-30"
-          }
-        ],
-        "retreat": 1,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/me/me04/101/low.webp",
-        "set_name": "30th Celebration",
-        "text": "",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "sv04-070",
-        "name": "Iron Hands ex",
-        "category": "Pokemon",
-        "stage": "Basic",
-        "types": [
-          "Lightning"
-        ],
-        "hp": 230,
-        "attacks": [
-          {
-            "name": "Arm Press",
-            "cost": [
-              "Lightning",
-              "Lightning",
-              "Colorless"
-            ],
-            "damage": 160,
-            "text": "",
-            "effects": []
-          },
-          {
-            "name": "Amp You Very Much",
-            "cost": [
-              "Lightning",
               "Colorless",
               "Colorless",
               "Colorless"
             ],
             "damage": 120,
-            "text": "If your opponent's Pok\u00e9mon is Knocked Out by damage from this attack, take 1 more Prize card.",
+            "text": "This Pok\u00e9mon is now Confused.",
             "effects": [
               {
-                "kind": "extra_prize_on_ko",
-                "count": 1
+                "kind": "status",
+                "status": "confused",
+                "coin": false
+              }
+            ]
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Crazy Code",
+            "text": "As often as you like during your turn (before your attack), you may attach a Special Energy card from your hand to 1 of your Pok\u00e9mon.",
+            "effects": [
+              {
+                "kind": "attach_special_energy_from_hand",
+                "as_often_as_you_like": true,
+                "once_per_turn": false
+              }
+            ]
+          }
+        ],
+        "weaknesses": [
+          {
+            "type": "Fighting",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 2,
+        "evolves_from": "Porygon2",
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sm/sm10/157/low.webp",
+        "set_name": "Unbroken Bonds",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh8-103",
+        "name": "Boltund V",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Lightning"
+        ],
+        "hp": 200,
+        "attacks": [
+          {
+            "name": "Smash Turn",
+            "cost": [
+              "Lightning"
+            ],
+            "damage": 30,
+            "text": "You may switch this Pok\u00e9mon with 1 of your Benched Pok\u00e9mon.",
+            "effects": [
+              {
+                "kind": "switch_with_benched"
+              }
+            ]
+          },
+          {
+            "name": "Electrobullet",
+            "cost": [
+              "Lightning",
+              "Lightning",
+              "Colorless"
+            ],
+            "damage": 120,
+            "text": "This attack also does 30 damage to 1 of your opponent's Benched Pok\u00e9mon. (Don't apply Weakness and Resistance for Benched Pok\u00e9mon.)",
+            "effects": [
+              {
+                "kind": "bench_damage_counters",
+                "counters": 3
               }
             ]
           }
@@ -22558,50 +22399,51 @@
           }
         ],
         "resistances": [],
-        "retreat": 4,
+        "retreat": 1,
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv04/070/low.webp",
-        "set_name": "Paradox Rift",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh8/103/low.webp",
+        "set_name": "Fusion Strike",
         "text": "",
         "dex_id": null
       },
       {
-        "catalog_id": "sv04-070",
-        "name": "Iron Hands ex",
+        "catalog_id": "swsh8-103",
+        "name": "Boltund V",
         "category": "Pokemon",
         "stage": "Basic",
         "types": [
           "Lightning"
         ],
-        "hp": 230,
+        "hp": 200,
         "attacks": [
           {
-            "name": "Arm Press",
+            "name": "Smash Turn",
             "cost": [
-              "Lightning",
-              "Lightning",
-              "Colorless"
+              "Lightning"
             ],
-            "damage": 160,
-            "text": "",
-            "effects": []
+            "damage": 30,
+            "text": "You may switch this Pok\u00e9mon with 1 of your Benched Pok\u00e9mon.",
+            "effects": [
+              {
+                "kind": "switch_with_benched"
+              }
+            ]
           },
           {
-            "name": "Amp You Very Much",
+            "name": "Electrobullet",
             "cost": [
               "Lightning",
-              "Colorless",
-              "Colorless",
+              "Lightning",
               "Colorless"
             ],
             "damage": 120,
-            "text": "If your opponent's Pok\u00e9mon is Knocked Out by damage from this attack, take 1 more Prize card.",
+            "text": "This attack also does 30 damage to 1 of your opponent's Benched Pok\u00e9mon. (Don't apply Weakness and Resistance for Benched Pok\u00e9mon.)",
             "effects": [
               {
-                "kind": "extra_prize_on_ko",
-                "count": 1
+                "kind": "bench_damage_counters",
+                "counters": 3
               }
             ]
           }
@@ -22614,50 +22456,51 @@
           }
         ],
         "resistances": [],
-        "retreat": 4,
+        "retreat": 1,
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv04/070/low.webp",
-        "set_name": "Paradox Rift",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh8/103/low.webp",
+        "set_name": "Fusion Strike",
         "text": "",
         "dex_id": null
       },
       {
-        "catalog_id": "sv04-070",
-        "name": "Iron Hands ex",
+        "catalog_id": "swsh8-103",
+        "name": "Boltund V",
         "category": "Pokemon",
         "stage": "Basic",
         "types": [
           "Lightning"
         ],
-        "hp": 230,
+        "hp": 200,
         "attacks": [
           {
-            "name": "Arm Press",
+            "name": "Smash Turn",
             "cost": [
-              "Lightning",
-              "Lightning",
-              "Colorless"
+              "Lightning"
             ],
-            "damage": 160,
-            "text": "",
-            "effects": []
+            "damage": 30,
+            "text": "You may switch this Pok\u00e9mon with 1 of your Benched Pok\u00e9mon.",
+            "effects": [
+              {
+                "kind": "switch_with_benched"
+              }
+            ]
           },
           {
-            "name": "Amp You Very Much",
+            "name": "Electrobullet",
             "cost": [
               "Lightning",
-              "Colorless",
-              "Colorless",
+              "Lightning",
               "Colorless"
             ],
             "damage": 120,
-            "text": "If your opponent's Pok\u00e9mon is Knocked Out by damage from this attack, take 1 more Prize card.",
+            "text": "This attack also does 30 damage to 1 of your opponent's Benched Pok\u00e9mon. (Don't apply Weakness and Resistance for Benched Pok\u00e9mon.)",
             "effects": [
               {
-                "kind": "extra_prize_on_ko",
-                "count": 1
+                "kind": "bench_damage_counters",
+                "counters": 3
               }
             ]
           }
@@ -22670,12 +22513,69 @@
           }
         ],
         "resistances": [],
-        "retreat": 4,
+        "retreat": 1,
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv04/070/low.webp",
-        "set_name": "Paradox Rift",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh8/103/low.webp",
+        "set_name": "Fusion Strike",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh8-103",
+        "name": "Boltund V",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Lightning"
+        ],
+        "hp": 200,
+        "attacks": [
+          {
+            "name": "Smash Turn",
+            "cost": [
+              "Lightning"
+            ],
+            "damage": 30,
+            "text": "You may switch this Pok\u00e9mon with 1 of your Benched Pok\u00e9mon.",
+            "effects": [
+              {
+                "kind": "switch_with_benched"
+              }
+            ]
+          },
+          {
+            "name": "Electrobullet",
+            "cost": [
+              "Lightning",
+              "Lightning",
+              "Colorless"
+            ],
+            "damage": 120,
+            "text": "This attack also does 30 damage to 1 of your opponent's Benched Pok\u00e9mon. (Don't apply Weakness and Resistance for Benched Pok\u00e9mon.)",
+            "effects": [
+              {
+                "kind": "bench_damage_counters",
+                "counters": 3
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Fighting",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/swsh/swsh8/103/low.webp",
+        "set_name": "Fusion Strike",
         "text": "",
         "dex_id": null
       },
@@ -23434,46 +23334,6 @@
         "dex_id": null
       },
       {
-        "catalog_id": "sv04.5-089",
-        "name": "Rare Candy",
-        "category": "Trainer",
-        "stage": "Item",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "item",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv04.5/089/low.webp",
-        "set_name": null,
-        "text": "Choose 1 of your Basic Pok\u00e9mon in play. If you have a Stage 2 card that evolves from that Pok\u00e9mon in your hand, put that card onto the Basic Pok\u00e9mon to evolve it, skipping the Stage 1. You can't use this card during your first turn or on a Basic Pok\u00e9mon that was put into play this turn.",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "sv04.5-089",
-        "name": "Rare Candy",
-        "category": "Trainer",
-        "stage": "Item",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "item",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv04.5/089/low.webp",
-        "set_name": null,
-        "text": "Choose 1 of your Basic Pok\u00e9mon in play. If you have a Stage 2 card that evolves from that Pok\u00e9mon in your hand, put that card onto the Basic Pok\u00e9mon to evolve it, skipping the Stage 1. You can't use this card during your first turn or on a Basic Pok\u00e9mon that was put into play this turn.",
-        "dex_id": null
-      },
-      {
         "catalog_id": "sv08-191",
         "name": "Enriching Energy",
         "category": "Energy",
@@ -23584,12 +23444,12 @@
         "dex_id": null
       },
       {
-        "catalog_id": "swsh12.5-159",
-        "name": "Metal Energy",
+        "catalog_id": "me5-84",
+        "name": "Voltaic Lightning Energy",
         "category": "Energy",
-        "stage": "Basic",
+        "stage": "Special",
         "types": [
-          "Metal"
+          "Lightning"
         ],
         "hp": 0,
         "attacks": [],
@@ -23599,19 +23459,19 @@
         "retreat": 0,
         "evolves_from": null,
         "trainer_kind": null,
-        "energy_type": "Metal",
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/159/low.webp",
-        "set_name": "Crown Zenith",
-        "text": "",
+        "energy_type": "Lightning",
+        "image": "https://assets.tcgdex.net/en/me/me5/84/low.webp",
+        "set_name": "Pitch Black",
+        "text": "As long as this card is attached to a Pok\u00e9mon, it provides Lightning Energy. Attacks used by the Lightning Pok\u00e9mon this card is attached to do 20 more damage to your opponent's Active Pok\u00e9mon (before applying Weakness and Resistance).",
         "dex_id": null
       },
       {
-        "catalog_id": "swsh12.5-159",
-        "name": "Metal Energy",
+        "catalog_id": "me5-84",
+        "name": "Voltaic Lightning Energy",
         "category": "Energy",
-        "stage": "Basic",
+        "stage": "Special",
         "types": [
-          "Metal"
+          "Lightning"
         ],
         "hp": 0,
         "attacks": [],
@@ -23621,19 +23481,19 @@
         "retreat": 0,
         "evolves_from": null,
         "trainer_kind": null,
-        "energy_type": "Metal",
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/159/low.webp",
-        "set_name": "Crown Zenith",
-        "text": "",
+        "energy_type": "Lightning",
+        "image": "https://assets.tcgdex.net/en/me/me5/84/low.webp",
+        "set_name": "Pitch Black",
+        "text": "As long as this card is attached to a Pok\u00e9mon, it provides Lightning Energy. Attacks used by the Lightning Pok\u00e9mon this card is attached to do 20 more damage to your opponent's Active Pok\u00e9mon (before applying Weakness and Resistance).",
         "dex_id": null
       },
       {
-        "catalog_id": "swsh12.5-159",
-        "name": "Metal Energy",
+        "catalog_id": "me5-84",
+        "name": "Voltaic Lightning Energy",
         "category": "Energy",
-        "stage": "Basic",
+        "stage": "Special",
         "types": [
-          "Metal"
+          "Lightning"
         ],
         "hp": 0,
         "attacks": [],
@@ -23643,19 +23503,19 @@
         "retreat": 0,
         "evolves_from": null,
         "trainer_kind": null,
-        "energy_type": "Metal",
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/159/low.webp",
-        "set_name": "Crown Zenith",
-        "text": "",
+        "energy_type": "Lightning",
+        "image": "https://assets.tcgdex.net/en/me/me5/84/low.webp",
+        "set_name": "Pitch Black",
+        "text": "As long as this card is attached to a Pok\u00e9mon, it provides Lightning Energy. Attacks used by the Lightning Pok\u00e9mon this card is attached to do 20 more damage to your opponent's Active Pok\u00e9mon (before applying Weakness and Resistance).",
         "dex_id": null
       },
       {
-        "catalog_id": "swsh12.5-159",
-        "name": "Metal Energy",
+        "catalog_id": "me5-84",
+        "name": "Voltaic Lightning Energy",
         "category": "Energy",
-        "stage": "Basic",
+        "stage": "Special",
         "types": [
-          "Metal"
+          "Lightning"
         ],
         "hp": 0,
         "attacks": [],
@@ -23665,10 +23525,10 @@
         "retreat": 0,
         "evolves_from": null,
         "trainer_kind": null,
-        "energy_type": "Metal",
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/159/low.webp",
-        "set_name": "Crown Zenith",
-        "text": "",
+        "energy_type": "Lightning",
+        "image": "https://assets.tcgdex.net/en/me/me5/84/low.webp",
+        "set_name": "Pitch Black",
+        "text": "As long as this card is attached to a Pok\u00e9mon, it provides Lightning Energy. Attacks used by the Lightning Pok\u00e9mon this card is attached to do 20 more damage to your opponent's Active Pok\u00e9mon (before applying Weakness and Resistance).",
         "dex_id": null
       },
       {
@@ -23757,6 +23617,72 @@
         "image": "https://assets.tcgdex.net/en/sm/sm12/209/low.webp",
         "set_name": "Cosmic Eclipse",
         "text": "This card provides Colorless Energy. When you attach this card from your hand to a Pok\u00e9mon, draw a card.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-155",
+        "name": "Lightning Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Lightning"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Lightning",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/155/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-155",
+        "name": "Lightning Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Lightning"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Lightning",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/155/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-155",
+        "name": "Lightning Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Lightning"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Lightning",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/155/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
         "dex_id": null
       }
     ]
