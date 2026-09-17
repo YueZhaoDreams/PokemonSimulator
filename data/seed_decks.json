@@ -21812,7 +21812,7 @@
   },
   "g30": {
     "id": "seed-g30",
-    "name": "Unlimited 60 (Boltund V Electrobullet)",
+    "name": "Unlimited 60 (Boltund V Bolt Storm)",
     "sample": null,
     "kind": "list",
     "cards": [
@@ -22352,7 +22352,7 @@
         "dex_id": null
       },
       {
-        "catalog_id": "swsh8-103",
+        "catalog_id": "swsh2-67",
         "name": "Boltund V",
         "category": "Pokemon",
         "stage": "Basic",
@@ -22362,31 +22362,34 @@
         "hp": 200,
         "attacks": [
           {
-            "name": "Smash Turn",
+            "name": "Electrify",
             "cost": [
               "Lightning"
             ],
-            "damage": 30,
-            "text": "You may switch this Pok\u00e9mon with 1 of your Benched Pok\u00e9mon.",
+            "damage": 0,
+            "text": "Search your deck for up to 2 Lightning Energy cards and attach them to your Benched Pok\u00e9mon in any way you like. Then, shuffle your deck.",
             "effects": [
               {
-                "kind": "switch_with_benched"
+                "kind": "attach_energy_from_deck_to_bench",
+                "count": 2,
+                "energy_type": "Lightning",
+                "basic_only": true
               }
             ]
           },
           {
-            "name": "Electrobullet",
+            "name": "Bolt Storm",
             "cost": [
-              "Lightning",
               "Lightning",
               "Colorless"
             ],
-            "damage": 120,
-            "text": "This attack also does 30 damage to 1 of your opponent's Benched Pok\u00e9mon. (Don't apply Weakness and Resistance for Benched Pok\u00e9mon.)",
+            "damage": 10,
+            "text": "This attack does 30 more damage for each Lightning Energy attached to all of your Pok\u00e9mon.",
             "effects": [
               {
-                "kind": "bench_damage_counters",
-                "counters": 3
+                "kind": "energy_type_in_play_bonus",
+                "energy_type": "Lightning",
+                "per": 30
               }
             ]
           }
@@ -22399,17 +22402,17 @@
           }
         ],
         "resistances": [],
-        "retreat": 1,
+        "retreat": 2,
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh8/103/low.webp",
-        "set_name": "Fusion Strike",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh2/67/low.webp",
+        "set_name": "Rebel Clash",
         "text": "",
         "dex_id": null
       },
       {
-        "catalog_id": "swsh8-103",
+        "catalog_id": "swsh2-67",
         "name": "Boltund V",
         "category": "Pokemon",
         "stage": "Basic",
@@ -22419,31 +22422,34 @@
         "hp": 200,
         "attacks": [
           {
-            "name": "Smash Turn",
+            "name": "Electrify",
             "cost": [
               "Lightning"
             ],
-            "damage": 30,
-            "text": "You may switch this Pok\u00e9mon with 1 of your Benched Pok\u00e9mon.",
+            "damage": 0,
+            "text": "Search your deck for up to 2 Lightning Energy cards and attach them to your Benched Pok\u00e9mon in any way you like. Then, shuffle your deck.",
             "effects": [
               {
-                "kind": "switch_with_benched"
+                "kind": "attach_energy_from_deck_to_bench",
+                "count": 2,
+                "energy_type": "Lightning",
+                "basic_only": true
               }
             ]
           },
           {
-            "name": "Electrobullet",
+            "name": "Bolt Storm",
             "cost": [
-              "Lightning",
               "Lightning",
               "Colorless"
             ],
-            "damage": 120,
-            "text": "This attack also does 30 damage to 1 of your opponent's Benched Pok\u00e9mon. (Don't apply Weakness and Resistance for Benched Pok\u00e9mon.)",
+            "damage": 10,
+            "text": "This attack does 30 more damage for each Lightning Energy attached to all of your Pok\u00e9mon.",
             "effects": [
               {
-                "kind": "bench_damage_counters",
-                "counters": 3
+                "kind": "energy_type_in_play_bonus",
+                "energy_type": "Lightning",
+                "per": 30
               }
             ]
           }
@@ -22456,17 +22462,17 @@
           }
         ],
         "resistances": [],
-        "retreat": 1,
+        "retreat": 2,
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh8/103/low.webp",
-        "set_name": "Fusion Strike",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh2/67/low.webp",
+        "set_name": "Rebel Clash",
         "text": "",
         "dex_id": null
       },
       {
-        "catalog_id": "swsh8-103",
+        "catalog_id": "swsh2-67",
         "name": "Boltund V",
         "category": "Pokemon",
         "stage": "Basic",
@@ -22476,31 +22482,34 @@
         "hp": 200,
         "attacks": [
           {
-            "name": "Smash Turn",
+            "name": "Electrify",
             "cost": [
               "Lightning"
             ],
-            "damage": 30,
-            "text": "You may switch this Pok\u00e9mon with 1 of your Benched Pok\u00e9mon.",
+            "damage": 0,
+            "text": "Search your deck for up to 2 Lightning Energy cards and attach them to your Benched Pok\u00e9mon in any way you like. Then, shuffle your deck.",
             "effects": [
               {
-                "kind": "switch_with_benched"
+                "kind": "attach_energy_from_deck_to_bench",
+                "count": 2,
+                "energy_type": "Lightning",
+                "basic_only": true
               }
             ]
           },
           {
-            "name": "Electrobullet",
+            "name": "Bolt Storm",
             "cost": [
-              "Lightning",
               "Lightning",
               "Colorless"
             ],
-            "damage": 120,
-            "text": "This attack also does 30 damage to 1 of your opponent's Benched Pok\u00e9mon. (Don't apply Weakness and Resistance for Benched Pok\u00e9mon.)",
+            "damage": 10,
+            "text": "This attack does 30 more damage for each Lightning Energy attached to all of your Pok\u00e9mon.",
             "effects": [
               {
-                "kind": "bench_damage_counters",
-                "counters": 3
+                "kind": "energy_type_in_play_bonus",
+                "energy_type": "Lightning",
+                "per": 30
               }
             ]
           }
@@ -22513,17 +22522,17 @@
           }
         ],
         "resistances": [],
-        "retreat": 1,
+        "retreat": 2,
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh8/103/low.webp",
-        "set_name": "Fusion Strike",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh2/67/low.webp",
+        "set_name": "Rebel Clash",
         "text": "",
         "dex_id": null
       },
       {
-        "catalog_id": "swsh8-103",
+        "catalog_id": "swsh2-67",
         "name": "Boltund V",
         "category": "Pokemon",
         "stage": "Basic",
@@ -22533,31 +22542,34 @@
         "hp": 200,
         "attacks": [
           {
-            "name": "Smash Turn",
+            "name": "Electrify",
             "cost": [
               "Lightning"
             ],
-            "damage": 30,
-            "text": "You may switch this Pok\u00e9mon with 1 of your Benched Pok\u00e9mon.",
+            "damage": 0,
+            "text": "Search your deck for up to 2 Lightning Energy cards and attach them to your Benched Pok\u00e9mon in any way you like. Then, shuffle your deck.",
             "effects": [
               {
-                "kind": "switch_with_benched"
+                "kind": "attach_energy_from_deck_to_bench",
+                "count": 2,
+                "energy_type": "Lightning",
+                "basic_only": true
               }
             ]
           },
           {
-            "name": "Electrobullet",
+            "name": "Bolt Storm",
             "cost": [
-              "Lightning",
               "Lightning",
               "Colorless"
             ],
-            "damage": 120,
-            "text": "This attack also does 30 damage to 1 of your opponent's Benched Pok\u00e9mon. (Don't apply Weakness and Resistance for Benched Pok\u00e9mon.)",
+            "damage": 10,
+            "text": "This attack does 30 more damage for each Lightning Energy attached to all of your Pok\u00e9mon.",
             "effects": [
               {
-                "kind": "bench_damage_counters",
-                "counters": 3
+                "kind": "energy_type_in_play_bonus",
+                "energy_type": "Lightning",
+                "per": 30
               }
             ]
           }
@@ -22570,12 +22582,12 @@
           }
         ],
         "resistances": [],
-        "retreat": 1,
+        "retreat": 2,
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh8/103/low.webp",
-        "set_name": "Fusion Strike",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh2/67/low.webp",
+        "set_name": "Rebel Clash",
         "text": "",
         "dex_id": null
       },

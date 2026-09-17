@@ -480,7 +480,7 @@ STRATEGY_LIBRARY = {
     "celebration": StrategySpec(
         name="celebration",
         description=(
-            "Unlimited 60 Boltund V Electrobullet: Lightning Basic V closer, "
+            "Unlimited 60 Boltund V Bolt Storm: Lightning Basic V closer, "
             "no evolve. BTS evolves Porygon to Porygon2 to Porygon-Z (Candy backup). "
             "Crazy Code attaches Special Energy as often as you like. Lopunny FLF Big "
             "Jump returns this Pokémon and all attached cards to the hand — net +4 "
@@ -488,14 +488,18 @@ STRATEGY_LIBRARY = {
             "Energy from Boltund V onto Lopunny when played from hand to the Bench; "
             "Scoop Up Net or Penny returns Shaymin so the attach-draw can fire again. "
             "Scoop Up Net + Puzzle of Time is the discard "
-            "fallback. Four Boltund V race with Electrobullet 120 plus 30 bench snipe; "
-            "Voltaic Lightning Energy adds 20 each on a Lightning host. Shuckle HGSS Promo "
+            "fallback. Four Boltund V race with Bolt Storm 10 plus 30 per Lightning "
+            "in play; Voltaic Lightning Energy adds 20 each on a Lightning host and "
+            "counts as Lightning once attached. Electrify attaches up to 2 Basic "
+            "Lightning from the deck to the Bench when Bolt Storm would not KO. "
+            "Shuckle HGSS Promo "
             "15 Fermenting Liquid draws a card whenever Energy is attached from hand; "
             "Crazy Code parks Draw Energy (and Enriching when Wind is ready) there "
             "only after Shuckle is attach-ready, then Celebration Wind moves it onto "
             "Lopunny so Big Jump recycles. "
             "Speed Lightning Energy draws 2 only on a Lightning host. Voltaic stays "
-            "on Boltund V for damage; Wind never moves it. Smash Turn switches on demand."
+            "on Boltund V for damage; Wind never moves it. Keep stacking Lightning "
+            "even after Bolt Storm is paid."
         ),
         prefer_damage=0.2,
         prefer_status=0.0,

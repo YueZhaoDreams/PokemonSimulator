@@ -23,7 +23,7 @@ def test_s60_lab_lists_are_seed_decks():
         "t60": ("seed-t60", "Set T Standard 60 (Dragapult ex)", SET_T60_NAMES),
         "t-meta": ("seed-t-meta", "Worlds 2026 Hedrick Dragapult", SET_T_META_NAMES),
         "t-unl": ("seed-t-unl", "Unlimited Dragapult (Pidgeot / Rotom V)", SET_T_UNL_NAMES),
-        "g30": ("seed-g30", "Unlimited 60 (Boltund V Electrobullet)", SET_G30_NAMES),
+        "g30": ("seed-g30", "Unlimited 60 (Boltund V Bolt Storm)", SET_G30_NAMES),
     }
     rules = standard_60_rules()
     for key, (deck_id, name, names) in want.items():
@@ -42,10 +42,10 @@ def test_s60_lab_lists_are_seed_decks():
             assert copy_violations(build_g30_deck(), rules) == []
             boltund = [c for c in blob["cards"] if c["name"] == "Boltund V"]
             assert len(boltund) == 4
-            assert all(c.get("catalog_id") == "swsh8-103" for c in boltund)
-            assert all(any(a.get("name") == "Electrobullet" for a in (c.get("attacks") or [])) for c in boltund)
+            assert all(c.get("catalog_id") == "swsh2-67" for c in boltund)
+            assert all(any(a.get("name") == "Electrify" for a in (c.get("attacks") or [])) for c in boltund)
             assert all(
-                any(a.get("name") == "Electrobullet" and a.get("cost") == ["Lightning", "Lightning", "Colorless"] for a in (c.get("attacks") or []))
+                any(a.get("name") == "Bolt Storm" and a.get("cost") == ["Lightning", "Colorless"] for a in (c.get("attacks") or []))
                 for c in boltund
             )
             voltaic = [c for c in blob["cards"] if c["name"] == "Voltaic Lightning Energy"]

@@ -3,6 +3,7 @@ from random import Random
 from app.engine.effects import (
     can_pay_energy,
     energy_provided,
+    is_basic_energy,
     is_draw_energy,
     is_enriching_energy,
     is_special_energy,
@@ -110,6 +111,13 @@ ELECTROBULLET_TEXT = (
     "This attack also does 30 damage to 1 of your opponent's Benched Pokémon. "
     "(Don't apply Weakness and Resistance for Benched Pokémon.)"
 )
+ELECTRIFY_TEXT = (
+    "Search your deck for up to 2 Lightning Energy cards and attach them "
+    "to your Benched Pokémon in any way you like. Then, shuffle your deck."
+)
+BOLT_STORM_TEXT = (
+    "This attack does 30 more damage for each Lightning Energy attached to all of your Pokémon."
+)
 
 
 def _game() -> Game:
@@ -182,18 +190,21 @@ def test_g30_list_is_printed_sixty():
     assert copy_violations(pile, standard_60_rules()) == []
     boltund = [c for c in pile if c.name == "Boltund V"]
     assert len(boltund) == 4
-    assert all(c.catalog_id == "swsh8-103" for c in boltund)
+    assert all(c.catalog_id == "swsh2-67" for c in boltund)
     assert all(c.hp == 200 for c in boltund)
     assert all("Lightning" in c.types for c in boltund)
-    assert all(c.retreat == 1 for c in boltund)
-    assert all(c.attacks[0].name == "Smash Turn" for c in boltund)
+    assert all(c.retreat == 2 for c in boltund)
+    assert all(c.attacks[0].name == "Electrify" for c in boltund)
     assert all(c.attacks[0].cost == ["Lightning"] for c in boltund)
-    assert all(c.attacks[0].damage == 30 for c in boltund)
-    assert all(c.attacks[0].text == SMASH_TURN_TEXT for c in boltund)
-    assert all(c.attacks[1].name == "Electrobullet" for c in boltund)
-    assert all(c.attacks[1].cost == ["Lightning", "Lightning", "Colorless"] for c in boltund)
-    assert all(c.attacks[1].damage == 120 for c in boltund)
-    assert all(c.attacks[1].text == ELECTROBULLET_TEXT for c in boltund)
+    assert all(c.attacks[0].damage == 0 for c in boltund)
+    assert all(c.attacks[0].text == ELECTRIFY_TEXT for c in boltund)
+    assert all(c.attacks[1].name == "Bolt Storm" for c in boltund)
+    assert all(c.attacks[1].cost == ["Lightning", "Colorless"] for c in boltund)
+    assert all(c.attacks[1].damage == 10 for c in boltund)
+    assert all(c.attacks[1].text == BOLT_STORM_TEXT for c in boltund)
+    fst = fallback_named("Boltund V FST")
+    assert fst.catalog_id == "swsh8-103"
+    assert [a.name for a in fst.attacks] == ["Smash Turn", "Electrobullet"]
     voltaic = [c for c in pile if c.name == "Voltaic Lightning Energy"]
     assert len(voltaic) == 4
     assert all(c.catalog_id == "me5-84" for c in voltaic)
@@ -373,8 +384,11 @@ def test_fallback_prints_use_lab_wording():
     assert fallback_named("Penny").text == PENNY_TEXT
     assert fallback_named("Shuckle").abilities[0].text == FERMENTING_LIQUID_TEXT
     assert fallback_named("Shuckle").catalog_id == "hgssp-HGSS15"
-    assert fallback_named("Boltund V").catalog_id == "swsh8-103"
-    assert fallback_named("Boltund V").attacks[1].text == ELECTROBULLET_TEXT
+    assert fallback_named("Boltund V").catalog_id == "swsh2-67"
+    assert fallback_named("Boltund V").attacks[0].text == ELECTRIFY_TEXT
+    assert fallback_named("Boltund V").attacks[1].text == BOLT_STORM_TEXT
+    assert fallback_named("Boltund V FST").catalog_id == "swsh8-103"
+    assert fallback_named("Boltund V FST").attacks[1].text == ELECTROBULLET_TEXT
     assert fallback_named("Voltaic Lightning Energy").text == VOLTAIC_TEXT
     assert fallback_named("voltaic").text == VOLTAIC_TEXT
 
@@ -395,6 +409,29 @@ def test_electrobullet_parses_bench_snipe():
     assert snipe["counters"] == 3
     switch = parse_effects(SMASH_TURN_TEXT, "30")
     assert any(e["kind"] == "switch_with_benched" for e in switch)
+
+
+def test_electrify_parses_deck_attach_to_bench():
+    effects = parse_effects(ELECTRIFY_TEXT, "0")
+    spec = next(e for e in effects if e["kind"] == "attach_energy_from_deck_to_bench")
+    assert spec["count"] == 2
+    assert spec["energy_type"] == "Lightning"
+    assert spec["basic_only"] is True
+    card = fallback_named("Boltund V")
+    assert card.attacks[0].name == "Electrify"
+    assert card.attacks[0].text == ELECTRIFY_TEXT
+    assert parse_effects(card.attacks[0].text, "0") == effects
+
+
+def test_bolt_storm_parses_lightning_times_in_play():
+    effects = parse_effects(BOLT_STORM_TEXT, "10+")
+    spec = next(e for e in effects if e["kind"] == "energy_type_in_play_bonus")
+    assert spec["per"] == 30
+    assert spec["energy_type"] == "Lightning"
+    card = fallback_named("Boltund V")
+    assert card.attacks[1].name == "Bolt Storm"
+    assert card.attacks[1].text == BOLT_STORM_TEXT
+    assert parse_effects(card.attacks[1].text, "10+") == effects
 
 
 def test_speed_l_draws_only_on_lightning():
@@ -446,7 +483,7 @@ def test_hand_fling_scales_with_hand_size():
     assert game._raw_attack_damage(me, foe, me.active, atk) == 10 * 32
 
 
-def test_electrobullet_beats_smash_turn_when_lethal():
+def test_bolt_storm_beats_electrify_when_lethal():
     game = _game()
     me = game.players["a"]
     foe = game.players["b"]
@@ -455,12 +492,13 @@ def test_electrobullet_beats_smash_turn_when_lethal():
     speeds = [_take(me, "Speed Lightning Energy", used) for _ in range(2)]
     draw = _take(me, "Draw Energy", used)
     clefairy = next(i for i, c in enumerate(foe.cards) if c.name == "Clefairy")
+    # Two Lightning in play: Bolt Storm 10 + 60 = 70 KOs 60-HP Clefairy.
     me.active = Pokemon(card_i=boltund, played_turn=0, energy=[*speeds, draw])
     foe.active = Pokemon(card_i=clefairy, played_turn=0)
     me.hand = []
     atk = game._choose_attack(me, foe, game.strats["a"])
     assert atk is not None
-    assert atk.name == "Electrobullet"
+    assert atk.name == "Bolt Storm"
 
     game2 = _game()
     me2 = game2.players["a"]
@@ -468,13 +506,40 @@ def test_electrobullet_beats_smash_turn_when_lethal():
     used2: set[int] = set()
     boltund2 = _take(me2, "Boltund V", used2)
     light2 = _take(me2, "Lightning Energy", used2)
-    clefairy2 = next(i for i, c in enumerate(foe2.cards) if c.name == "Clefairy")
+    pory2 = _take(me2, "Porygon", used2)
+    mewtwo2 = next(i for i, c in enumerate(foe2.cards) if c.name == "Mewtwo ex")
+    rest2 = [i for i in range(len(me2.cards)) if i not in used2]
+    # One Lightning: Storm unpaid and too weak vs Mewtwo, so Electrify ramps.
     me2.active = Pokemon(card_i=boltund2, played_turn=0, energy=[light2])
-    foe2.active = Pokemon(card_i=clefairy2, played_turn=0, damage=30)
+    me2.bench = [Pokemon(card_i=pory2, played_turn=0)]
+    me2.deck = rest2
     me2.hand = []
+    foe2.active = Pokemon(card_i=mewtwo2, played_turn=0)
     atk2 = game2._choose_attack(me2, foe2, game2.strats["a"])
     assert atk2 is not None
-    assert atk2.name == "Smash Turn"
+    assert atk2.name == "Electrify"
+
+
+def test_bolt_storm_chips_when_electrify_has_no_basics():
+    game = _game()
+    me = game.players["a"]
+    foe = game.players["b"]
+    used: set[int] = set()
+    boltund = _take(me, "Boltund V", used)
+    light = _take(me, "Lightning Energy", used)
+    draw = _take(me, "Draw Energy", used)
+    mewtwo = next(i for i, c in enumerate(foe.cards) if c.name == "Mewtwo ex")
+    rest = [i for i in range(len(me.cards)) if i not in used]
+    me.active = Pokemon(card_i=boltund, played_turn=0, energy=[light, draw])
+    me.bench = []
+    # No basics left in the deck: Electrify would attach nothing.
+    me.deck = [i for i in rest if me.card(i).name != "Lightning Energy"]
+    me.hand = []
+    foe.active = Pokemon(card_i=mewtwo, played_turn=0)
+    assert not game._electrify_worth_it(me)
+    atk = game._choose_attack(me, foe, game.strats["a"])
+    assert atk is not None
+    assert atk.name == "Bolt Storm"
 
 
 def test_voltaic_bonus_adds_twenty_per_copy_on_lightning():
@@ -489,12 +554,13 @@ def test_voltaic_bonus_adds_twenty_per_copy_on_lightning():
     mewtwo = next(i for i, c in enumerate(foe.cards) if c.name == "Mewtwo ex")
     me.active = Pokemon(card_i=boltund, played_turn=0, energy=[*speeds, draw])
     foe.active = Pokemon(card_i=mewtwo, played_turn=0)
-    atk = next(a for a in me.card(boltund).attacks if a.name == "Electrobullet")
-    assert game._raw_attack_damage(me, foe, me.active, atk) == 120
+    atk = next(a for a in me.card(boltund).attacks if a.name == "Bolt Storm")
+    # Two Speed: 10 + 30x2 = 70. Each Voltaic adds 30 (as Lightning) + 20 (bonus).
+    assert game._raw_attack_damage(me, foe, me.active, atk) == 70
     me.active.energy.extend(voltaics[:2])
-    assert game._raw_attack_damage(me, foe, me.active, atk) == 160
+    assert game._raw_attack_damage(me, foe, me.active, atk) == 170
     me.active.energy.extend(voltaics[2:])
-    assert game._raw_attack_damage(me, foe, me.active, atk) == 200
+    assert game._raw_attack_damage(me, foe, me.active, atk) == 270
 
 
 def test_voltaic_bonus_skips_non_lightning_host():
@@ -507,7 +573,7 @@ def test_voltaic_bonus_skips_non_lightning_host():
     assert game._energy_damage_bonus(me, me.active) == 0
 
 
-def test_celebration_attaches_lightning_to_pay_electrobullet():
+def test_celebration_attaches_lightning_to_pay_bolt_storm():
     game = _game()
     me = game.players["a"]
     used: set[int] = set()
@@ -522,7 +588,7 @@ def test_celebration_attaches_lightning_to_pay_electrobullet():
     assert game._boltund_unpaid(me, me.active)
 
 
-def test_draw_energy_pays_only_colorless_part_of_electrobullet():
+def test_draw_energy_pays_only_colorless_part_of_bolt_storm():
     game = _game()
     me = game.players["a"]
     used: set[int] = set()
@@ -535,7 +601,7 @@ def test_draw_energy_pays_only_colorless_part_of_electrobullet():
     assert not game._boltund_unpaid(me, me.active)
 
 
-def test_celebration_skips_draw_attach_until_lightning_pays_boltund():
+def test_celebration_attaches_draw_to_pay_storm_colorless():
     game = _game()
     me = game.players["a"]
     used: set[int] = set()
@@ -544,12 +610,28 @@ def test_celebration_skips_draw_attach_until_lightning_pays_boltund():
     me.active = Pokemon(card_i=boltund, played_turn=0)
     me.hand = [draw]
     game._attach_energy(me, "a")
-    assert draw in me.hand
-    assert me.active.energy == []
+    assert draw in me.active.energy
+    assert me.energy_attached
+    assert game._boltund_unpaid(me, me.active)
+
+
+def test_celebration_skips_draw_attach_when_bolt_storm_paid():
+    game = _game()
+    me = game.players["a"]
+    used: set[int] = set()
+    boltund = _take(me, "Boltund V", used)
+    light = _take(me, "Lightning Energy", used)
+    draw = _take(me, "Draw Energy", used)
+    draws = [_take(me, "Draw Energy", used) for _ in range(1)]
+    me.active = Pokemon(card_i=boltund, played_turn=0, energy=[light, draw])
+    me.hand = draws
+    assert not game._boltund_unpaid(me, me.active)
+    game._attach_energy(me, "a")
+    assert draws[0] in me.hand
     assert not me.energy_attached
 
 
-def test_engine_grows_hand_and_pays_electrobullet():
+def test_engine_grows_hand_and_pays_bolt_storm():
     game = _game()
     me = game.players["a"]
     foe = game.players["b"]
@@ -591,7 +673,7 @@ def test_engine_grows_hand_and_pays_electrobullet():
     game._celebration_align_attacker(me, "a")
     assert me.card(me.active.card_i).name == "Boltund V"
     game._attack(me, foe, "a")
-    assert game.events.get("attack:Boltund V:Electrobullet")
+    assert game.events.get("attack:Boltund V:Bolt Storm")
     assert foe.active is None or foe.active.damage >= foe.card(clefairy).hp
 
 
@@ -844,7 +926,7 @@ def test_celebration_benches_replacement_boltund_after_first():
     assert any(me.card(i).name == "Boltund V" for i in me.hand)
 
 
-def test_celebration_big_jump_when_electrobullet_not_ready():
+def test_celebration_big_jump_when_bolt_storm_not_ready():
     game = _game()
     me = game.players["a"]
     foe = game.players["b"]
@@ -1151,6 +1233,10 @@ def test_shaymin_net_replay_recycles_speed_l_to_thirty():
     nets = [_take(me, "Scoop Up Net", used) for _ in range(2)]
     penny = _take(me, "Penny", used)
     bts = _take(me, "Broken Time-Space", used)
+    # Prize the Voltaics (plus two Basics) so stacked Bolt Storm (max 10+30x5
+    # here) cannot KO Mewtwo ex: the engine must loop instead of attacking.
+    prized_volt = [_take(me, "Voltaic Lightning Energy", used) for _ in range(4)]
+    prized_light = [_take(me, "Lightning Energy", used) for _ in range(2)]
     rest = [i for i in range(len(me.cards)) if i not in used]
     me.active = Pokemon(card_i=poryz, played_turn=0)
     me.bench = [
@@ -1160,7 +1246,7 @@ def test_shaymin_net_replay_recycles_speed_l_to_thirty():
     me.hand = [shaymin, enrich, *speeds, *draws, *nets, penny]
     me.deck = rest
     me.discard = []
-    me.prizes = []
+    me.prizes = [*prized_volt, *prized_light]
     foe.active = Pokemon(
         card_i=next(i for i, c in enumerate(foe.cards) if c.name == "Mewtwo ex"),
         played_turn=0,
@@ -1236,30 +1322,34 @@ def test_paid_boltund_moves_in_over_unpaid_bench():
     assert me.card(me.active.card_i).name == "Boltund V"
     atk = game._choose_attack(me, foe, game.strats["a"])
     assert atk is not None
-    assert atk.name == "Electrobullet"
+    assert atk.name == "Bolt Storm"
 
 
-def test_electrobullet_snipes_bench_for_thirty():
+def test_electrify_attaches_up_to_two_basics_to_bench():
     game = _game()
     me = game.players["a"]
     foe = game.players["b"]
     used: set[int] = set()
     boltund = _take(me, "Boltund V", used)
-    speeds = [_take(me, "Speed Lightning Energy", used) for _ in range(2)]
-    draw = _take(me, "Draw Energy", used)
+    light = _take(me, "Lightning Energy", used)
+    poryz = _take(me, "Porygon-Z", used)
     mewtwo = next(i for i, c in enumerate(foe.cards) if c.name == "Mewtwo ex")
-    spare = next(i for i, c in enumerate(foe.cards) if c.name == "Clefairy")
-    me.active = Pokemon(card_i=boltund, played_turn=0, energy=[*speeds, draw])
+    rest = [i for i in range(len(me.cards)) if i not in used]
+    me.active = Pokemon(card_i=boltund, played_turn=0, energy=[light])
+    me.bench = [Pokemon(card_i=poryz, played_turn=0)]
+    me.deck = rest
     me.hand = []
-    foe.active = Pokemon(card_i=mewtwo, played_turn=0, damage=110)
-    foe.bench = [Pokemon(card_i=spare, played_turn=0)]
+    foe.active = Pokemon(card_i=mewtwo, played_turn=0)
     atk = game._choose_attack(me, foe, game.strats["a"])
     assert atk is not None
-    assert atk.name == "Electrobullet"
+    assert atk.name == "Electrify"
     game._attack(me, foe, "a")
-    assert foe.active.damage == 230
-    assert foe.bench[0].damage == 30
-    assert game.events.get("bench_damage") == 30
+    assert foe.active.damage == 0
+    assert game.events.get("electrify_attach") == 2
+    attached = [me.card(i) for i in me.bench[0].energy]
+    assert len(attached) == 2
+    assert all(c.name == "Lightning Energy" for c in attached)
+    assert all(is_basic_energy(c, pokemon_as_energy=False) for c in attached)
 
 
 def test_fermenting_liquid_parses_printed_wording():

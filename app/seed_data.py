@@ -2369,6 +2369,13 @@ _ELECTROBULLET_TEXT = (
     "This attack also does 30 damage to 1 of your opponent's Benched Pokémon. "
     "(Don't apply Weakness and Resistance for Benched Pokémon.)"
 )
+_ELECTRIFY_TEXT = (
+    "Search your deck for up to 2 Lightning Energy cards and attach them "
+    "to your Benched Pokémon in any way you like. Then, shuffle your deck."
+)
+_BOLT_STORM_TEXT = (
+    "This attack does 30 more damage for each Lightning Energy attached to all of your Pokémon."
+)
 _SHELL_STUNNER_TEXT = (
     "Flip a coin. If heads, prevent all damage done to Shuckle by attacks during your opponent's next turn."
 )
@@ -2882,6 +2889,29 @@ _VOLTAIC = _register(
 )
 FALLBACK_BY_NAME["voltaic energy"] = _VOLTAIC
 FALLBACK_BY_NAME["voltaic"] = _VOLTAIC
+_BOLTUND_V_FST = _pkm(
+    "Boltund V",
+    "Basic",
+    ["Lightning"],
+    200,
+    [
+        _atk("Smash Turn", ["Lightning"], 30, _SMASH_TURN_TEXT),
+        _atk(
+            "Electrobullet",
+            ["Lightning", "Lightning", "Colorless"],
+            120,
+            _ELECTROBULLET_TEXT,
+        ),
+    ],
+    retreat=1,
+    catalog_id="swsh8-103",
+    weakness="Fighting",
+    image="https://assets.tcgdex.net/en/swsh/swsh8/103/low.webp",
+    set_name="Fusion Strike",
+)
+# Fusion Strike stays reachable by alias; Rebel Clash Bolt Storm is the name default.
+FALLBACK_BY_NAME["boltund v fst"] = _BOLTUND_V_FST
+FALLBACK_BY_NAME["boltund v fusion strike"] = _BOLTUND_V_FST
 _register(
     _pkm(
         "Boltund V",
@@ -2889,19 +2919,14 @@ _register(
         ["Lightning"],
         200,
         [
-            _atk("Smash Turn", ["Lightning"], 30, _SMASH_TURN_TEXT),
-            _atk(
-                "Electrobullet",
-                ["Lightning", "Lightning", "Colorless"],
-                120,
-                _ELECTROBULLET_TEXT,
-            ),
+            _atk("Electrify", ["Lightning"], 0, _ELECTRIFY_TEXT),
+            _atk("Bolt Storm", ["Lightning", "Colorless"], "10+", _BOLT_STORM_TEXT),
         ],
-        retreat=1,
-        catalog_id="swsh8-103",
+        retreat=2,
+        catalog_id="swsh2-67",
         weakness="Fighting",
-        image="https://assets.tcgdex.net/en/swsh/swsh8/103/low.webp",
-        set_name="Fusion Strike",
+        image="https://assets.tcgdex.net/en/swsh/swsh2/67/low.webp",
+        set_name="Rebel Clash",
     )
 )
 

@@ -84,6 +84,8 @@ PUBLISHED_EFFECT_KINDS = frozenset(
         "draw_on_attach_from_hand",
         "draw_on_energy_attach_from_hand",
         "energy_damage_bonus",
+        "energy_type_in_play_bonus",
+        "attach_energy_from_deck_to_bench",
         "evolve_just_played_or_evolved",
         "copy_benched_attacks",
         "puzzle_of_time",

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Boltund V Electrobullet 60 vs household 60s. Directed array, not a full NxN remake.
+"""Boltund V Bolt Storm 60 vs household 60s. Directed array, not a full NxN remake.
 
 Row is G30 (strategy celebration) as player A. Columns are the household 60s from
 data/lab/set_c60_unl_matrix.py. First player is random. Seed 20260911.
@@ -58,9 +58,9 @@ QUERIES = [
     {"type": "event_prefix", "prefix": "fleet_footed", "key": "fleet_footed"},
     {"type": "event_prefix", "prefix": "star_alchemy", "key": "star_alchemy"},
     {"type": "event_prefix", "prefix": "extra_prize_on_ko", "key": "extra_prize_on_ko"},
-    {"type": "event_prefix", "prefix": "attack:Boltund V:Electrobullet", "key": "electrobullet"},
-    {"type": "event_prefix", "prefix": "attack:Boltund V:Smash Turn", "key": "smash_turn"},
-    {"type": "event_prefix", "prefix": "bench_damage", "key": "bench_damage"},
+    {"type": "event_prefix", "prefix": "attack:Boltund V:Bolt Storm", "key": "bolt_storm"},
+    {"type": "event_prefix", "prefix": "attack:Boltund V:Electrify", "key": "electrify"},
+    {"type": "event_prefix", "prefix": "electrify_attach", "key": "electrify_attach"},
     {"type": "event_prefix", "prefix": "celebration_wind", "key": "celebration_wind"},
     {"type": "event_prefix", "prefix": "penny", "key": "penny"},
     {"type": "event_prefix", "prefix": "scoop_net", "key": "scoop_net"},
@@ -104,9 +104,9 @@ def _run(opp: str) -> tuple[str, dict]:
         "fleet_footed": r["queries"].get("fleet_footed", 0.0),
         "star_alchemy": r["queries"].get("star_alchemy", 0.0),
         "extra_prize_on_ko": r["queries"].get("extra_prize_on_ko", 0.0),
-        "electrobullet": r["queries"].get("electrobullet", 0.0),
-        "smash_turn": r["queries"].get("smash_turn", 0.0),
-        "bench_damage": r["queries"].get("bench_damage", 0.0),
+        "bolt_storm": r["queries"].get("bolt_storm", 0.0),
+        "electrify": r["queries"].get("electrify", 0.0),
+        "electrify_attach": r["queries"].get("electrify_attach", 0.0),
         "celebration_wind": r["queries"].get("celebration_wind", 0.0),
         "penny": r["queries"].get("penny", 0.0),
         "scoop_net": r["queries"].get("scoop_net", 0.0),
@@ -155,9 +155,9 @@ def main() -> None:
     print("| Speed L draw | " + " | ".join(f"{cells[k]['speed_l_draw']:.1%}" for k in keys) + " |")
     print("| Big Jump | " + " | ".join(f"{cells[k]['big_jump']:.1%}" for k in keys) + " |")
     print("| Celebration Wind | " + " | ".join(f"{cells[k]['celebration_wind']:.1%}" for k in keys) + " |")
-    print("| Electrobullet | " + " | ".join(f"{cells[k]['electrobullet']:.1%}" for k in keys) + " |")
-    print("| Smash Turn | " + " | ".join(f"{cells[k]['smash_turn']:.1%}" for k in keys) + " |")
-    print("| Bench damage | " + " | ".join(f"{cells[k]['bench_damage']:.1%}" for k in keys) + " |")
+    print("| Bolt Storm | " + " | ".join(f"{cells[k]['bolt_storm']:.1%}" for k in keys) + " |")
+    print("| Electrify | " + " | ".join(f"{cells[k]['electrify']:.1%}" for k in keys) + " |")
+    print("| Electrify attach | " + " | ".join(f"{cells[k]['electrify_attach']:.1%}" for k in keys) + " |")
     print("| Penny | " + " | ".join(f"{cells[k]['penny']:.1%}" for k in keys) + " |")
     print("| Scoop Up Net | " + " | ".join(f"{cells[k]['scoop_net']:.1%}" for k in keys) + " |")
     print("| Fermenting Liquid | " + " | ".join(f"{cells[k]['fermenting_liquid']:.1%}" for k in keys) + " |")
