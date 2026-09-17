@@ -411,10 +411,11 @@ SET_F_NAMES = [
     "Skwovet",
 ]
 
-# Carpet Set G — Friday lock. Clefairy is still LOR 62. Mega Clefable ex evolves
-# from Clefairy (was Emolga); Tornadus was Mewtwo. Three Boss's Orders replace
-# Potion / Poké Ball / Plusle. Indeedee, Relicanth, Hop's Cramorant, Kecleon,
-# Iris's Fighting Spirit, Energy Retrieval, Trekking Shoes stay.
+# Carpet Set G — Poffin lock (Boss not in hand yet). Clefairy is still LOR 62.
+# Mega Clefable ex evolves from Clefairy (was Emolga); Tornadus was Mewtwo.
+# Four Buddy-Buddy Poffin replace Potion / Poké Ball / Plusle / Hop's Cramorant.
+# Indeedee, Relicanth, Kecleon, Iris's Fighting Spirit, Energy Retrieval,
+# Trekking Shoes stay. Re-add 3 Boss's Orders when they physically arrive.
 SET_G_NAMES = (
     ["Clefairy"] * 4
     + ["Ledyba"] * 4
@@ -428,7 +429,6 @@ SET_G_NAMES = (
     + ["Indeedee"]
     + ["Relicanth"]
     + ["Mega Clefable ex"]
-    + ["Hop's Cramorant"]
     + ["Kecleon"]
     + ["Tulip"]
     + ["Surfer"]
@@ -439,7 +439,7 @@ SET_G_NAMES = (
     + ["Energy Search"]
     + ["Energy Switch"]
     + ["Ultra Ball"]
-    + ["Boss's Orders"] * 3
+    + ["Buddy-Buddy Poffin"] * 4
     + ["Psychic Energy"] * 17
     + ["Darkness Energy"] * 3
     + ["Boomerang Energy"]

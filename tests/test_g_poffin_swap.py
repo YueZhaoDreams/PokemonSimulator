@@ -59,3 +59,50 @@ def test_poffin_packages_stay_sixty_and_legal():
         assert copy_violations(build_fallback_deck(names), standard_60_rules()) == []
         for cut in set(cuts):
             assert Counter(names)[cut] == Counter(base)[cut] - cuts.count(cut), (key, cut)
+
+
+def test_poffin_g_is_locked_set_g_names():
+    from app.seed_data import SET_G_NAMES
+
+    names = LAB.poffin_g_names()
+    assert names == list(SET_G_NAMES)
+    assert len(names) == 60
+    counts = Counter(names)
+    assert counts["Buddy-Buddy Poffin"] == 4
+    assert counts["Boss's Orders"] == 0
+    assert counts["Potion"] == 0
+    assert counts["Poké Ball"] == 0
+    assert counts["Plusle"] == 0
+    assert counts["Hop's Cramorant"] == 0
+    assert counts["Mega Clefable ex"] == 1
+    assert counts["Tornadus"] == 1
+    assert counts["Clefairy"] == 4
+    assert counts["Psychic Energy"] == 17
+    base = Counter(LAB.baseline_g_names())
+    assert base - counts == Counter({c: 1 for c in LAB.POFFIN_CUTS})
+    assert counts - base == Counter({"Buddy-Buddy Poffin": 4})
+    assert copy_violations(build_fallback_deck(names), standard_60_rules()) == []
+
+
+def test_poffin_json_junk4_beats_baseline_where_it_should():
+    import json
+    from pathlib import Path
+
+    blob = json.loads(
+        (Path(__file__).resolve().parents[1] / "data/lab/set-g-poffin-swap.json").read_text()
+    )
+    assert Counter(blob["lists"]["junk4"]) == Counter(LAB.poffin_g_names())
+    assert blob["packages"]["junk4"] == list(LAB.POFFIN_CUTS)
+    assert max(blob["weighted_all"], key=blob["weighted_all"].get) == "junk4"
+    assert max(blob["weighted_competitive"], key=blob["weighted_competitive"].get) == "junk4"
+    junk4 = blob["cells"]["junk4"]
+    base = blob["cells"]["baseline"]
+    assert junk4["c60"]["a"] > base["c60"]["a"]
+    assert junk4["s60"]["a"] > base["s60"]["a"]
+    assert junk4["h"]["a"] > base["h"]["a"]
+    confirm = json.loads(
+        (Path(__file__).resolve().parents[1] / "data/lab/set-g-poffin-swap-confirm.json").read_text()
+    )
+    assert confirm["games"] == 3000
+    assert confirm["cells"]["junk4"]["hedrick"]["a"] > confirm["cells"]["baseline"]["hedrick"]["a"]
+    assert confirm["weighted"]["junk4"] > confirm["weighted"]["baseline"] - 0.01

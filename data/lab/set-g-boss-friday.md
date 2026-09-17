@@ -110,4 +110,7 @@ Ledian gust is still this 60's printed Boss-like hook until the 3 supporters are
 
 Live G vs Dragapult is still a losing matchup. Three Boss copies buy about three points vs household T60 and Hedrick, and they are exactly the C60 gust package. Potion never heals a 6-prize race. Coin Poké Ball is worse than Ultra Ball. Plusle's Plus Damage almost never fires in this 60 (`g-plus` already saw 0 Plusle games on several cells). Hop's Cramorant is the next 1-of to cut when the fourth C60 card arrives; it was the runner-up 3-cut.
 
-Repo `SET_G_NAMES` is this Friday list. Restart upserts `seed-g` so Mega Clefable ex and the three Boss's Orders land in the database.
+2026-09-17: Boss is not in hand, so `SET_G_NAMES` moved to the Poffin lock
+(`data/lab/set-g-poffin-swap.md`): 4 Poffin for Potion / Ball / Plusle /
+Cramorant, 0 Boss. This Friday bakeoff stays valid for when Boss arrives, but
+re-run the cut order on the Poffin list instead of applying these cuts blind.

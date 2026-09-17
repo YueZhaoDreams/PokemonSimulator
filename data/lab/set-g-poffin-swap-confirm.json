@@ -1,0 +1,431 @@
+{
+  "games": 3000,
+  "seed": 20260917,
+  "elapsed": 201.2528205590006,
+  "cells": {
+    "baseline": {
+      "d60": {
+        "a": 0.075,
+        "b": 0.925,
+        "tie": 0.0,
+        "first": 0.0822826808228268,
+        "second": 0.06764902880107167,
+        "party_games": 936,
+        "gust_games": 0,
+        "adrena_games": 50,
+        "mega_games": 152,
+        "tornadus_games": 55,
+        "tutor_games": 2917
+      },
+      "t60": {
+        "a": 0.19433333333333333,
+        "b": 0.8056666666666666,
+        "tie": 0.0,
+        "first": 0.20218579234972678,
+        "second": 0.18684895833333334,
+        "party_games": 935,
+        "gust_games": 1399,
+        "adrena_games": 592,
+        "mega_games": 0,
+        "tornadus_games": 95,
+        "tutor_games": 2984
+      },
+      "hedrick": {
+        "a": 0.2876666666666667,
+        "b": 0.7123333333333334,
+        "tie": 0.0,
+        "first": 0.29742547425474253,
+        "second": 0.2782152230971129,
+        "party_games": 937,
+        "gust_games": 1510,
+        "adrena_games": 1336,
+        "mega_games": 0,
+        "tornadus_games": 105,
+        "tutor_games": 2986
+      },
+      "unl": {
+        "a": 0.418,
+        "b": 0.582,
+        "tie": 0.0,
+        "first": 0.41574495770982434,
+        "second": 0.4203691045796309,
+        "party_games": 1087,
+        "gust_games": 1615,
+        "adrena_games": 407,
+        "mega_games": 0,
+        "tornadus_games": 114,
+        "tutor_games": 2995
+      }
+    },
+    "junk4": {
+      "t60": {
+        "a": 0.187,
+        "b": 0.813,
+        "tie": 0.0,
+        "first": 0.2105978260869565,
+        "second": 0.1642670157068063,
+        "party_games": 1443,
+        "gust_games": 1565,
+        "adrena_games": 562,
+        "mega_games": 0,
+        "tornadus_games": 99,
+        "tutor_games": 2993
+      },
+      "d60": {
+        "a": 0.07166666666666667,
+        "b": 0.9283333333333333,
+        "tie": 0.0,
+        "first": 0.08377659574468085,
+        "second": 0.05949197860962567,
+        "party_games": 1606,
+        "gust_games": 0,
+        "adrena_games": 125,
+        "mega_games": 284,
+        "tornadus_games": 57,
+        "tutor_games": 2946
+      },
+      "hedrick": {
+        "a": 0.30233333333333334,
+        "b": 0.6976666666666667,
+        "tie": 0.0,
+        "first": 0.2964190981432361,
+        "second": 0.30831099195710454,
+        "party_games": 1390,
+        "gust_games": 1818,
+        "adrena_games": 1294,
+        "mega_games": 0,
+        "tornadus_games": 96,
+        "tutor_games": 2995
+      },
+      "unl": {
+        "a": 0.394,
+        "b": 0.606,
+        "tie": 0.0,
+        "first": 0.399734395750332,
+        "second": 0.38821954484605087,
+        "party_games": 1503,
+        "gust_games": 1953,
+        "adrena_games": 399,
+        "mega_games": 0,
+        "tornadus_games": 89,
+        "tutor_games": 2999
+      }
+    },
+    "surfer4": {
+      "t60": {
+        "a": 0.19033333333333333,
+        "b": 0.8096666666666666,
+        "tie": 0.0,
+        "first": 0.19369973190348524,
+        "second": 0.1870026525198939,
+        "party_games": 1361,
+        "gust_games": 1563,
+        "adrena_games": 510,
+        "mega_games": 0,
+        "tornadus_games": 80,
+        "tutor_games": 2986
+      },
+      "d60": {
+        "a": 0.07233333333333333,
+        "b": 0.9276666666666666,
+        "tie": 0.0,
+        "first": 0.07374830852503383,
+        "second": 0.07095926412614981,
+        "party_games": 1561,
+        "gust_games": 0,
+        "adrena_games": 110,
+        "mega_games": 309,
+        "tornadus_games": 51,
+        "tutor_games": 2945
+      },
+      "hedrick": {
+        "a": 0.3,
+        "b": 0.7,
+        "tie": 0.0,
+        "first": 0.3098773402194964,
+        "second": 0.2894555478980014,
+        "party_games": 1358,
+        "gust_games": 1750,
+        "adrena_games": 1290,
+        "mega_games": 0,
+        "tornadus_games": 79,
+        "tutor_games": 2986
+      },
+      "unl": {
+        "a": 0.3993333333333333,
+        "b": 0.6006666666666667,
+        "tie": 0.0,
+        "first": 0.41424802110817943,
+        "second": 0.38409703504043125,
+        "party_games": 1430,
+        "gust_games": 1908,
+        "adrena_games": 356,
+        "mega_games": 0,
+        "tornadus_games": 76,
+        "tutor_games": 2999
+      }
+    },
+    "tulip4": {
+      "t60": {
+        "a": 0.177,
+        "b": 0.823,
+        "tie": 0.0,
+        "first": 0.18783068783068782,
+        "second": 0.16599462365591397,
+        "party_games": 1379,
+        "gust_games": 1685,
+        "adrena_games": 577,
+        "mega_games": 0,
+        "tornadus_games": 67,
+        "tutor_games": 2989
+      },
+      "d60": {
+        "a": 0.074,
+        "b": 0.926,
+        "tie": 0.0,
+        "first": 0.07417582417582418,
+        "second": 0.07383419689119171,
+        "party_games": 1501,
+        "gust_games": 0,
+        "adrena_games": 106,
+        "mega_games": 271,
+        "tornadus_games": 39,
+        "tutor_games": 2945
+      },
+      "hedrick": {
+        "a": 0.28733333333333333,
+        "b": 0.7126666666666667,
+        "tie": 0.0,
+        "first": 0.3098404255319149,
+        "second": 0.2647058823529412,
+        "party_games": 1387,
+        "gust_games": 1766,
+        "adrena_games": 1213,
+        "mega_games": 0,
+        "tornadus_games": 96,
+        "tutor_games": 2988
+      },
+      "unl": {
+        "a": 0.4073333333333333,
+        "b": 0.5926666666666667,
+        "tie": 0.0,
+        "first": 0.4170951156812339,
+        "second": 0.39681440443213295,
+        "party_games": 1464,
+        "gust_games": 1943,
+        "adrena_games": 409,
+        "mega_games": 0,
+        "tornadus_games": 80,
+        "tutor_games": 2997
+      }
+    },
+    "relicanth4": {
+      "t60": {
+        "a": 0.18966666666666668,
+        "b": 0.8103333333333333,
+        "tie": 0.0,
+        "first": 0.2084967320261438,
+        "second": 0.17006802721088435,
+        "party_games": 1432,
+        "gust_games": 1644,
+        "adrena_games": 512,
+        "mega_games": 0,
+        "tornadus_games": 78,
+        "tutor_games": 2986
+      },
+      "d60": {
+        "a": 0.065,
+        "b": 0.935,
+        "tie": 0.0,
+        "first": 0.07441253263707572,
+        "second": 0.055177111716621256,
+        "party_games": 1533,
+        "gust_games": 0,
+        "adrena_games": 99,
+        "mega_games": 309,
+        "tornadus_games": 50,
+        "tutor_games": 2938
+      },
+      "hedrick": {
+        "a": 0.2836666666666667,
+        "b": 0.7163333333333334,
+        "tie": 0.0,
+        "first": 0.30184940554821665,
+        "second": 0.2651413189771198,
+        "party_games": 1519,
+        "gust_games": 1786,
+        "adrena_games": 1299,
+        "mega_games": 0,
+        "tornadus_games": 101,
+        "tutor_games": 2989
+      },
+      "unl": {
+        "a": 0.41133333333333333,
+        "b": 0.5886666666666667,
+        "tie": 0.0,
+        "first": 0.4241192411924119,
+        "second": 0.3989501312335958,
+        "party_games": 1533,
+        "gust_games": 1994,
+        "adrena_games": 357,
+        "mega_games": 0,
+        "tornadus_games": 72,
+        "tutor_games": 2997
+      }
+    },
+    "indeedee4": {
+      "t60": {
+        "a": 0.182,
+        "b": 0.818,
+        "tie": 0.0,
+        "first": 0.199864956110736,
+        "second": 0.16458196181698487,
+        "party_games": 1419,
+        "gust_games": 1592,
+        "adrena_games": 556,
+        "mega_games": 0,
+        "tornadus_games": 82,
+        "tutor_games": 2986
+      },
+      "d60": {
+        "a": 0.067,
+        "b": 0.933,
+        "tie": 0.0,
+        "first": 0.06671204901293397,
+        "second": 0.06727629000653168,
+        "party_games": 1595,
+        "gust_games": 0,
+        "adrena_games": 92,
+        "mega_games": 291,
+        "tornadus_games": 49,
+        "tutor_games": 2946
+      },
+      "hedrick": {
+        "a": 0.2876666666666667,
+        "b": 0.7123333333333334,
+        "tie": 0.0,
+        "first": 0.289350301406564,
+        "second": 0.2859986728599867,
+        "party_games": 1492,
+        "gust_games": 1751,
+        "adrena_games": 1296,
+        "mega_games": 0,
+        "tornadus_games": 85,
+        "tutor_games": 2991
+      },
+      "unl": {
+        "a": 0.4246666666666667,
+        "b": 0.5753333333333334,
+        "tie": 0.0,
+        "first": 0.42504996668887407,
+        "second": 0.4242828552368246,
+        "party_games": 1594,
+        "gust_games": 1973,
+        "adrena_games": 364,
+        "mega_games": 0,
+        "tornadus_games": 83,
+        "tutor_games": 2997
+      }
+    },
+    "poffin3": {
+      "t60": {
+        "a": 0.18633333333333332,
+        "b": 0.8136666666666666,
+        "tie": 0.0,
+        "first": 0.19438877755511022,
+        "second": 0.17831004657351962,
+        "party_games": 1315,
+        "gust_games": 1518,
+        "adrena_games": 566,
+        "mega_games": 0,
+        "tornadus_games": 91,
+        "tutor_games": 2984
+      },
+      "d60": {
+        "a": 0.07133333333333333,
+        "b": 0.9286666666666666,
+        "tie": 0.0,
+        "first": 0.08002602472348731,
+        "second": 0.06220095693779904,
+        "party_games": 1385,
+        "gust_games": 0,
+        "adrena_games": 88,
+        "mega_games": 244,
+        "tornadus_games": 50,
+        "tutor_games": 2941
+      },
+      "hedrick": {
+        "a": 0.28833333333333333,
+        "b": 0.7116666666666667,
+        "tie": 0.0,
+        "first": 0.3039348710990502,
+        "second": 0.2732634338138925,
+        "party_games": 1278,
+        "gust_games": 1730,
+        "adrena_games": 1284,
+        "mega_games": 0,
+        "tornadus_games": 98,
+        "tutor_games": 2993
+      },
+      "unl": {
+        "a": 0.4116666666666667,
+        "b": 0.5883333333333334,
+        "tie": 0.0,
+        "first": 0.4197127937336815,
+        "second": 0.4032697547683924,
+        "party_games": 1370,
+        "gust_games": 1915,
+        "adrena_games": 395,
+        "mega_games": 0,
+        "tornadus_games": 102,
+        "tutor_games": 2996
+      }
+    }
+  },
+  "weighted": {
+    "baseline": 0.22285403122130396,
+    "junk4": 0.21871783287419652,
+    "surfer4": 0.22028613406795225,
+    "tulip4": 0.215801028466483,
+    "relicanth4": 0.21632870523415978,
+    "indeedee4": 0.21840558310376496,
+    "poffin3": 0.21854060606060605
+  },
+  "cuts": {
+    "junk4": [
+      "Potion",
+      "Pok\u00e9 Ball",
+      "Plusle",
+      "Hop's Cramorant"
+    ],
+    "surfer4": [
+      "Potion",
+      "Pok\u00e9 Ball",
+      "Plusle",
+      "Surfer"
+    ],
+    "tulip4": [
+      "Potion",
+      "Pok\u00e9 Ball",
+      "Plusle",
+      "Tulip"
+    ],
+    "relicanth4": [
+      "Potion",
+      "Pok\u00e9 Ball",
+      "Plusle",
+      "Relicanth"
+    ],
+    "indeedee4": [
+      "Potion",
+      "Pok\u00e9 Ball",
+      "Plusle",
+      "Indeedee"
+    ],
+    "poffin3": [
+      "Potion",
+      "Pok\u00e9 Ball",
+      "Plusle"
+    ]
+  }
+}

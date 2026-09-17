@@ -35,6 +35,7 @@ from app.engine.strategies import StrategySpec
 from app.seed_data import (
     SET_C60_NAMES,
     SET_D60_NAMES,
+    SET_G_NAMES,
     SET_H_NAMES,
     SET_S60_NAMES,
     SET_T60_NAMES,
@@ -57,10 +58,14 @@ FOES = (
     ("h", SET_H_NAMES, "nuzzle"),
 )
 
+# Locked Poffin 4-for-4 after the bakeoff: Potion / Poké Ball / Plusle /
+# Hop's Cramorant out, 4 Buddy-Buddy Poffin in. Boss stays out until in hand.
+POFFIN_CUTS = ("Potion", "Poké Ball", "Plusle", "Hop's Cramorant")
+
 # 4 Poffin in (poffin2 is the 2-Poffin fallback). Potion + Poke Ball + Plusle
 # was the Friday Boss 3-cut; the 4th slot is the open question.
 PACKAGES = (
-    ("junk4", ("Potion", "Poké Ball", "Plusle", "Hop's Cramorant")),
+    ("junk4", POFFIN_CUTS),
     ("relicanth4", ("Potion", "Poké Ball", "Plusle", "Relicanth")),
     ("kecleon4", ("Potion", "Poké Ball", "Plusle", "Kecleon")),
     ("indeedee4", ("Potion", "Poké Ball", "Plusle", "Indeedee")),
@@ -76,6 +81,8 @@ PACKAGES = (
     ("energy4", ("Psychic Energy", "Potion", "Poké Ball", "Plusle")),
     ("keep_plusle4", ("Potion", "Poké Ball", "Relicanth", "Kecleon")),
     ("poffin2", ("Potion", "Poké Ball")),
+    ("poffin3", ("Potion", "Poké Ball", "Plusle")),
+    ("rel_cram4", ("Potion", "Poké Ball", "Hop's Cramorant", "Relicanth")),
 )
 
 QUERIES = [
@@ -114,6 +121,10 @@ def apply_cuts_adds(names: list[str], cuts: tuple[str, ...] | list[str], adds: t
     if bad:
         raise ValueError(f"copy cap: {bad}")
     return out
+
+
+def poffin_g_names() -> list[str]:
+    return list(SET_G_NAMES)
 
 
 def add_poffin(names: list[str] | None, cuts: tuple[str, ...] | list[str]) -> list[str]:

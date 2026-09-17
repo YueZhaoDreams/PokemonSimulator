@@ -87,7 +87,9 @@ def test_admin_owns_seed_decks_and_members_are_isolated(tmp_path, monkeypatch):
         assert g_names.count("Mega Clefable ex") == 1
         assert g_names.count("Emolga") == 0
         assert g_names.count("Tornadus") == 1
-        assert g_names.count("Boss's Orders") == 3
+        assert g_names.count("Boss's Orders") == 0
+        assert g_names.count("Buddy-Buddy Poffin") == 4
+        assert g_names.count("Hop's Cramorant") == 0
         assert g_names.count("Plusle") == 0
         assert g_names.count("Potion") == 0
         assert g_names.count("Poké Ball") == 0
@@ -232,4 +234,5 @@ def test_malformed_seed_cards_json_refreshes_on_init(tmp_path, monkeypatch):
     names = [c["name"] for c in get_deck("seed-g")["cards"]]
     assert names.count("Mega Clefable ex") == 1
     assert names.count("Emolga") == 0
-    assert names.count("Boss's Orders") == 3
+    assert names.count("Boss's Orders") == 0
+    assert names.count("Buddy-Buddy Poffin") == 4

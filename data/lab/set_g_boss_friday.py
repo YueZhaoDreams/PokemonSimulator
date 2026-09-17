@@ -132,13 +132,15 @@ def apply_cuts_adds(names: list[str], cuts: tuple[str, ...] | list[str], adds: t
     return out
 
 
-def friday_g_names() -> list[str]:
-    return list(SET_G_NAMES)
-
-
 def live_g_names() -> list[str]:
-    """Pre-Friday live G: Mega + Tornadus, Potion / Poké Ball / Plusle, 0 Boss."""
-    return apply_cuts_adds(list(SET_G_NAMES), ["Boss's Orders"] * 3, list(FRIDAY_CUTS))
+    """Pre-Friday live G, frozen: Mega + Tornadus, Potion / Ball / Plusle, 0 Boss."""
+    blob = json.loads((ROOT / "data/lab/set-g-boss-friday.json").read_text())
+    return list(blob["live_g"])
+
+
+def friday_g_names() -> list[str]:
+    """Friday Boss lock: live G minus Potion / Ball / Plusle plus 3 Boss."""
+    return apply_cuts_adds(live_g_names(), list(FRIDAY_CUTS), ["Boss's Orders"] * 3)
 
 
 def add_boss(names: list[str] | None, n: int, cuts: tuple[str, ...] | list[str]) -> list[str]:

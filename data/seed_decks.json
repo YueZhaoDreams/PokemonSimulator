@@ -9413,56 +9413,6 @@
         "dex_id": null
       },
       {
-        "catalog_id": "me02.5-177",
-        "name": "Hop's Cramorant",
-        "category": "Pokemon",
-        "stage": "Basic",
-        "types": [
-          "Colorless"
-        ],
-        "hp": 110,
-        "attacks": [
-          {
-            "name": "Fickle Spitting",
-            "cost": [
-              "Colorless"
-            ],
-            "damage": 120,
-            "text": "If your opponent doesn't have exactly 3 or 4 Prize cards remaining, this attack does nothing.",
-            "effects": [
-              {
-                "kind": "require_opponent_prizes",
-                "values": [
-                  3,
-                  4
-                ]
-              }
-            ]
-          }
-        ],
-        "abilities": [],
-        "weaknesses": [
-          {
-            "type": "Lightning",
-            "value": "\u00d72"
-          }
-        ],
-        "resistances": [
-          {
-            "type": "Fighting",
-            "value": "-30"
-          }
-        ],
-        "retreat": 1,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/me/me02.5/177/low.webp",
-        "set_name": "Ascended Heroes",
-        "text": "Cramorant instinctively swallow everything whole. They\u2019re at their most formidable when they\u2019re struggling to swallow overly large prey.",
-        "dex_id": 845
-      },
-      {
         "catalog_id": "sv08-150",
         "name": "Kecleon",
         "category": "Pokemon",
@@ -9696,10 +9646,10 @@
         "dex_id": null
       },
       {
-        "catalog_id": "sv02-172",
-        "name": "Boss's Orders",
+        "catalog_id": "sv05-144",
+        "name": "Buddy-Buddy Poffin",
         "category": "Trainer",
-        "stage": "Supporter",
+        "stage": "Item",
         "types": [],
         "hp": 0,
         "attacks": [],
@@ -9708,18 +9658,18 @@
         "resistances": [],
         "retreat": 0,
         "evolves_from": null,
-        "trainer_kind": "supporter",
+        "trainer_kind": "item",
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv02/172/low.webp",
+        "image": "https://assets.tcgdex.net/en/sv/sv05/144/low.webp",
         "set_name": null,
-        "text": "Switch in 1 of your opponent's Benched Pok\u00e9mon to the Active Spot.",
+        "text": "Search your deck for up to 2 Basic Pok\u00e9mon with 70 HP or less and put them onto your Bench. Then, shuffle your deck.",
         "dex_id": null
       },
       {
-        "catalog_id": "sv02-172",
-        "name": "Boss's Orders",
+        "catalog_id": "sv05-144",
+        "name": "Buddy-Buddy Poffin",
         "category": "Trainer",
-        "stage": "Supporter",
+        "stage": "Item",
         "types": [],
         "hp": 0,
         "attacks": [],
@@ -9728,18 +9678,18 @@
         "resistances": [],
         "retreat": 0,
         "evolves_from": null,
-        "trainer_kind": "supporter",
+        "trainer_kind": "item",
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv02/172/low.webp",
+        "image": "https://assets.tcgdex.net/en/sv/sv05/144/low.webp",
         "set_name": null,
-        "text": "Switch in 1 of your opponent's Benched Pok\u00e9mon to the Active Spot.",
+        "text": "Search your deck for up to 2 Basic Pok\u00e9mon with 70 HP or less and put them onto your Bench. Then, shuffle your deck.",
         "dex_id": null
       },
       {
-        "catalog_id": "sv02-172",
-        "name": "Boss's Orders",
+        "catalog_id": "sv05-144",
+        "name": "Buddy-Buddy Poffin",
         "category": "Trainer",
-        "stage": "Supporter",
+        "stage": "Item",
         "types": [],
         "hp": 0,
         "attacks": [],
@@ -9748,11 +9698,31 @@
         "resistances": [],
         "retreat": 0,
         "evolves_from": null,
-        "trainer_kind": "supporter",
+        "trainer_kind": "item",
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv02/172/low.webp",
+        "image": "https://assets.tcgdex.net/en/sv/sv05/144/low.webp",
         "set_name": null,
-        "text": "Switch in 1 of your opponent's Benched Pok\u00e9mon to the Active Spot.",
+        "text": "Search your deck for up to 2 Basic Pok\u00e9mon with 70 HP or less and put them onto your Bench. Then, shuffle your deck.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv05-144",
+        "name": "Buddy-Buddy Poffin",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv05/144/low.webp",
+        "set_name": null,
+        "text": "Search your deck for up to 2 Basic Pok\u00e9mon with 70 HP or less and put them onto your Bench. Then, shuffle your deck.",
         "dex_id": null
       },
       {

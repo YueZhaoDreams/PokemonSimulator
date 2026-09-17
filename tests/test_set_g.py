@@ -14,7 +14,9 @@ def test_set_g_is_sixty_after_staraptor_energy_swap():
     assert names.count("Kecleon") == 1
     assert names.count("Potion") == 0
     assert names.count("Poké Ball") == 0
-    assert names.count("Boss's Orders") == 3
+    assert names.count("Boss's Orders") == 0
+    assert names.count("Buddy-Buddy Poffin") == 4
+    assert names.count("Hop's Cramorant") == 0
     assert names.count("Tornadus") == 1
     assert names.count("Mewtwo") == 0
     assert names.count("Trapinch") == 0
@@ -65,13 +67,15 @@ def test_set_g_seed_payload_and_s60_preset():
     assert boom["catalog_id"] == "sv06-166"
     tornadus = next(c for c in g["cards"] if c["name"] == "Tornadus")
     assert tornadus["catalog_id"] == "sv07-120"
-    bosses = [c for c in g["cards"] if c["name"] == "Boss's Orders"]
-    assert len(bosses) == 3
-    assert all(c.get("catalog_id") == "sv02-172" for c in bosses)
-    assert all(c.get("image") for c in bosses)
+    poffins = [c for c in g["cards"] if c["name"] == "Buddy-Buddy Poffin"]
+    assert len(poffins) == 4
+    assert all(c.get("catalog_id") == "sv05-144" for c in poffins)
+    assert all(c.get("image") for c in poffins)
+    assert all(c["name"] != "Boss's Orders" for c in g["cards"])
     assert all(c["name"] != "Poké Ball" for c in g["cards"])
     assert all(c["name"] != "Potion" for c in g["cards"])
     assert all(c["name"] != "Plusle" for c in g["cards"])
+    assert all(c["name"] != "Hop's Cramorant" for c in g["cards"])
     assert all(c["name"] != "Mewtwo" for c in g["cards"])
     kecleon = next(c for c in g["cards"] if c["name"] == "Kecleon")
     assert kecleon["catalog_id"] == "sv08-150"
