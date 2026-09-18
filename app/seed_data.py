@@ -107,8 +107,8 @@ SET_C_NAMES = (
 # an Energy from the opponent's Active on top of their deck. Same printed name as
 # CLC Metronome, so this is the 2-of Clefable slot (not a fifth copy).
 # 3 Battle Cage (both benches ignore opp counter placement; damage still taken)
-# for -Jacq -Energy Retrieval -1 Iono: T60 51.3 -> 68.5, Hedrick 59.0 -> 66.4,
-# UNL 82.8 -> 91.2, D60 holds 75.3. Rabsca 1-1 does nothing (+0-1, fragile 1-1);
+# for -Jacq -Energy Retrieval -1 Iono: T60 51.3 -> 69.1, Hedrick 59.0 -> 64.6,
+# UNL 82.8 -> 89.5, D60 holds 76.1. Rabsca 1-1 does nothing (+0-1, fragile 1-1);
 # Shaymin blocks damage only, not Dive counters. See set-c60-bench-shield.md.
 SET_C60_NAMES = (
     ["Clefairy"] * 4
