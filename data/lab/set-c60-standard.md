@@ -22,6 +22,7 @@ The 30-card identity is LOR 62 Moon-Watching Party → load Psychic onto benched
 | 1 Boss | **3 Boss** (6-prize race) |
 | 2 Hop / 1 Lillie | 2 Hop / 2 Lillie / 2 Lillie's Determination / 2 Iono |
 | Arven + Belt | kept (ACE SPEC Belt still 1; Tool Box cut for a 14th Psychic) |
+| — | **3 Battle Cage** (−Jacq −Energy Retrieval −1 Iono; see [bench shields](set-c60-bench-shield.md)) |
 
 Thinned Stage 1 pile: four Mega in a 6-prize format is three-prize suicide. Two Mega sponge Phantom Dive / Demolish; three Clefable ex keep Lunar Zone. Third Mewtwo is a second closer after the first 2-prize KO.
 
@@ -41,14 +42,13 @@ Locked C60 list (`SET_C60_NAMES`):
 | 2 | Lillie | Draw until 6 (8 on first turn) |
 | 2 | Lillie's Determination | Shuffle draw 6 / 8 |
 | 1 | Arven | Belt + Item |
-| 1 | Jacq | Evolution tutor |
 | 3 | Boss's Orders | Pull a prize |
-| 2 | Iono | Hand disruption |
+| 1 | Iono | Hand disruption |
 | 2 | Switch | Rotate Party Active |
 | 2 | Energy Switch | Party Energy → Mewtwo |
-| 1 | Energy Retrieval | Hand fuel for Shooting Moons |
 | 1 | Night Stretcher | Recycle Pokémon or Energy |
 | 1 | Maximum Belt | ACE SPEC +50 vs ex |
+| 3 | Battle Cage | Stadium: both benches ignore opp counter placement (Dive) |
 | 2 | Telepathic Psychic Energy | From-hand attach benches up to 2 Basic Psychic; then Party |
 | 14 | Psychic Energy | Pays Party / Photon / Zone |
 
@@ -79,6 +79,10 @@ G's AI is the Staraptor carnival script, not a dedicated Ledian/Party hybrid, so
 `pokemon_as_energy_per_game` is 0 on s60 (Party attaches **cards** named Psychic Energy).
 
 Full pairwise matrix including Hedrick and the Unlimited-shaped Pidgeot/Rotom 60: [set-c60-unl-matrix.md](set-c60-unl-matrix.md). On this branch C60 vs T60 is **48.7%** (printed 0-cost Itchy Pollen).
+
+Lock update 2026-09-18: **3 Battle Cage** (−Jacq −Retrieval −1 Iono) moves T60
+51.3 → **69.1**, Hedrick 59.0 → **64.6**, UNL 82.8 → **89.5**, D60 holds 76.1.
+Full bakeoff + locked array: [set-c60-bench-shield.md](set-c60-bench-shield.md).
 
 ### Read
 

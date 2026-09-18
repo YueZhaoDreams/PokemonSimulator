@@ -415,6 +415,14 @@ class Game:
             # One Fairy Zone (Dragon Weakness → Psychic ×2). 190 HP, 2 prizes.
             return copies < 1
 
+        if strat.name == "party" and name in {"rellor", "shaymin"}:
+            # Bench-shield Basics vs Dragapult only. One copy; Rellor evolves into
+            # Rabsca (Spherical Shield blocks Dive counters), Shaymin sits as Flower
+            # Curtain (damage only, no-Rule-Box). Dead cards vs Ogerpon/slash.
+            if not self._facing_phantom(player):
+                return False
+            return copies < 1
+
         if strat.name == "phantom" and name == "dreepy":
             return copies < 2
         if strat.name == "phantom" and name == "budew":
@@ -610,6 +618,9 @@ class Game:
             if strat.name == "party" and "lillie's clefairy" in name:
                 # Fairy Zone is a bench card. Score below the hold_as_energy
                 # placeholder (50 − HP) so any other Basic opens instead.
+                return -1000
+            if strat.name == "party" and name in {"rellor", "shaymin"}:
+                # Bench shields never open: 50/80 HP gifts vs Dive/Boss.
                 return -1000
             if name in aces:
                 bonus = 10 if glass else 1000
@@ -1445,7 +1456,8 @@ class Game:
                 if self.stadium_name == "Collapsed Stadium":
                     score -= 6
                 elif strat.name == "phantom":
-                    score += 8
+                    # Bump an enemy Battle Cage before Diving: bench counters are the plan.
+                    score += 14 if self.stadium_name == "Battle Cage" else 8
                 else:
                     score += 2
             elif "professor" in name:
@@ -1461,7 +1473,17 @@ class Game:
                 if self.stadium_name == "Risky Ruins":
                     score -= 6
                 elif strat.name == "phantom":
-                    score += 10
+                    score += 14 if self.stadium_name == "Battle Cage" else 10
+                else:
+                    score += 3
+            elif name == "battle cage":
+                if self.stadium_name == "Battle Cage":
+                    score -= 6
+                elif strat.name == "party" and self._facing_phantom(me):
+                    # Bench-counter shield vs Dive: above Hop/Lillie 17, below Belt 21.
+                    score += 19
+                elif strat.name == "party":
+                    score += 1
                 else:
                     score += 3
             elif name == "rosa's encouragement":
@@ -1683,6 +1705,8 @@ class Game:
             self._draw(me, max(0, target - len(me.hand)))
         elif name == "jacq":
             prefer = ["Mega Clefable ex", "Clefable ex", "Clefable"]
+            if self.strats[who].name == "party" and self._facing_phantom(me):
+                prefer = ["Rabsca", "Clefable ex", "Mega Clefable ex", "Clefable"]
             if self.strats[who].name == "slash":
                 prefer = ["Floragato"]
             self._search(
@@ -2179,6 +2203,8 @@ class Game:
                 score -= 40
             if card.name.lower() in {"ultra ball", "poké ball", "poke ball"}:
                 score -= 5
+            if card.name.lower() in {"rellor", "rabsca", "shaymin", "battle cage"} and self._facing_phantom(me):
+                score -= 8
             if card.is_energy:
                 score -= 1
             if card.hp and card.hp >= 140:
@@ -2216,6 +2242,21 @@ class Game:
                 and not any("lillie's clefairy" in me.card(m.card_i).name.lower() for m in me.in_play())
             ):
                 prefer.append("Lillie's Clefairy ex")
+            if self._facing_phantom(me):
+                # Bench-shield tutors vs Dive. Rellor (Poffin-legal 50 HP) before
+                # Rabsca; Shaymin only via Nest/Ultra (80 HP misses Poffin).
+                in_play = {me.card(m.card_i).name.lower() for m in me.in_play()}
+                in_hand = {me.card(i).name.lower() for i in me.hand}
+                if "rellor" not in in_play and "rellor" not in in_hand and "rabsca" not in in_play:
+                    prefer.append("Rellor")
+                if (
+                    "rabsca" not in in_play
+                    and "rabsca" not in in_hand
+                    and ("rellor" in in_play or "rellor" in in_hand)
+                ):
+                    prefer.append("Rabsca")
+                if "shaymin" not in in_play and "shaymin" not in in_hand:
+                    prefer.append("Shaymin")
             return list(dict.fromkeys(prefer))
         if strat.name == "g":
             prefer: list[str] = []
@@ -3573,12 +3614,36 @@ class Game:
         if attached:
             self._log(f"{me.name} Supplemental Swallow-Up attached {attached} energy (looked at {taken})")
 
+    def _stadium_blocks_bench_counters(self) -> bool:
+        """Battle Cage: both benches ignore counter-placement from opp attack/ability effects."""
+        return any(
+            e.get("kind") == "stadium_prevent_bench_counters" for e in (self.stadium_effects or [])
+        )
+
+    def _has_bench_shield(self, owner: Player, kind: str) -> bool:
+        for mon in owner.in_play():
+            if self._abilities_suppressed(owner, mon):
+                continue
+            for abi in owner.card(mon.card_i).abilities:
+                if any(e.get("kind") == kind for e in self._ability_effects(abi)):
+                    return True
+        return False
+
     def _bench_damage_counters(self, foe: Player, counters: int) -> None:
+        """Attack effect placing counters on the bench (Phantom Dive, Hex Hurl).
+
+        Damage-prevention shields (Manaphy, Shaymin) do NOT block counters; only
+        Rabsca (attack effects) and Battle Cage (counter placement) do.
+        """
         if not foe.bench:
             return
-        if self._bench_attack_damage_prevented(foe):
-            self._bump("wave_veil")
-            self._log("Wave Veil prevents bench attack damage")
+        if self._stadium_blocks_bench_counters():
+            self._bump("battle_cage")
+            self._log("Battle Cage prevents bench damage counters")
+            return
+        if self._has_bench_shield(foe, "prevent_bench_damage_and_attack_effects"):
+            self._bump("spherical_shield")
+            self._log("Spherical Shield prevents bench attack effects")
             return
         damage = 10 * max(1, counters)
         # Dump all counters onto the lowest-HP bench Pokémon (simple AI).
@@ -3589,6 +3654,8 @@ class Game:
 
     def _bench_attack_damage_prevented(self, owner: Player) -> bool:
         for mon in owner.in_play():
+            if self._abilities_suppressed(owner, mon):
+                continue
             for abi in owner.card(mon.card_i).abilities:
                 if any(e.get("kind") == "prevent_bench_attack_damage" for e in self._ability_effects(abi)):
                     return True
@@ -3774,6 +3841,8 @@ class Game:
                 "clefable",
                 "clefairy",
             ]
+            if self._facing_phantom(me):
+                prefer.extend(["rabsca", "rellor", "shaymin"])
         else:
             prefer = [
                 "dragapult ex",
@@ -3817,8 +3886,33 @@ class Game:
             self._bump("damage_dealt", dmg)
             self._log(f"Cruel Arrow hits Active {foe.card(foe.active.card_i).name} for {dmg}")
             return
+        # Bench damage shields (Cruel Arrow "does damage", not counters). Battle Cage
+        # explicitly still takes attack damage, so it never blocks here. When the bench
+        # is shielded the attacker pivots to the Active instead of fizzling.
+        if self._has_bench_shield(foe, "prevent_bench_damage_and_attack_effects"):
+            foe.active.damage += dmg
+            self._bump("spherical_shield")
+            self._bump("damage_dealt", dmg)
+            self._log("Spherical Shield redirects bench damage to Active")
+            return
         if self._bench_attack_damage_prevented(foe):
+            foe.active.damage += dmg
             self._bump("wave_veil")
+            self._bump("damage_dealt", dmg)
+            self._log("Wave Veil redirects bench damage to Active")
+            return
+        if self._has_bench_shield(foe, "prevent_bench_attack_damage_no_rulebox"):
+            rulebox_bench = [m for m in foe.bench if self._has_rule_box(foe.card(m.card_i))]
+            if not rulebox_bench:
+                foe.active.damage += dmg
+                self._bump("flower_curtain")
+                self._bump("damage_dealt", dmg)
+                self._log("Flower Curtain redirects bench damage to Active")
+                return
+            target = min(rulebox_bench, key=lambda m: self._max_hp(foe, m) - m.damage)
+            target.damage += amount
+            self._bump("bench_damage", amount)
+            self._log(f"Cruel Arrow hits Bench {foe.card(target.card_i).name} for {amount}")
             return
         target = min(foe.bench, key=lambda m: self._max_hp(foe, m) - m.damage)
         target.damage += amount
@@ -6366,12 +6460,25 @@ class Game:
             return 0
 
         targets = list(foe.in_play())
+        if self._stadium_blocks_bench_counters():
+            # Battle Cage: bench placement vanishes, so a smart Munkidori aims Active.
+            # Rabsca does not block Abilities, so only the stadium filters here.
+            active_only = [m for m in targets if m is foe.active]
+            if active_only:
+                targets = active_only
+            elif donor.damage < 30:
+                return False
         targets.sort(key=lambda m: (prize_if_ko(m), 1 if m is foe.active else 0, m.damage), reverse=True)
         dest = targets[0]
         if prize_if_ko(dest) <= 0 and dest.damage == 0 and donor.damage < 30:
             # Nothing to snipe and no meaningful chip — keep the counters.
             return False
         donor.damage -= moved
+        if dest is not foe.active and self._stadium_blocks_bench_counters():
+            # Printed Battle Cage ruling: removed counters vanish instead of landing.
+            self._bump("battle_cage")
+            self._log("Battle Cage vanishes moved bench counters")
+            return True
         dest.damage += moved
         return True
 
@@ -7028,9 +7135,11 @@ class Game:
                 return
             return
         if self._facing_phantom(me):
-            # Clefable ex on a fueled bench Clefairy (Moon / Lunar Zone). Mega on
-            # another Clefairy only when Mewtwo is already the second Dive tank —
-            # otherwise Mega is a 3-prize gift.
+            # Rabsca first: Spherical Shield blocks Dive bench counters and costs no
+            # Clefairy engine (evolves from Rellor). Then Clefable ex on a fueled
+            # bench Clefairy (Moon / Lunar Zone). Mega on another Clefairy only when
+            # Mewtwo is already the second Dive tank — otherwise Mega is a 3-prize gift.
+            evolve_named("Rabsca", prefer_active=False, require_used=False)
             if not self._has_lunar_zone(me):
                 evolve_named("Clefable ex", prefer_active=False, require_used=False)
             if self._mega_mon(me) is None and self._mewtwo_mon(me) is not None:

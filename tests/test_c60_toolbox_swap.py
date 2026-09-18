@@ -35,9 +35,9 @@ def test_toolbox_trials_keep_belt_and_arven():
     assert by_key["tele"].count("Telepathic Psychic Energy") == 3
     assert by_key["energy"].count("Psychic Energy") == 14
     assert by_key["boss"].count("Boss's Orders") == 4
-    from collections import Counter
-
-    assert Counter(SET_C60_NAMES) == Counter(by_key["energy"])
+    # The lock has since moved on (Battle Cage x3 for bench shields); the toolbox
+    # finding it keeps is Tool Box 0 + 14 Psychic. Full-list pin lives in
+    # test_bench_shields.py::test_locked_c60_has_three_cages_and_stays_legal.
     assert SET_C60_NAMES.count("Tool Box") == 0
     assert SET_C60_NAMES.count("Psychic Energy") == 14
 

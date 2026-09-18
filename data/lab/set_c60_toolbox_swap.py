@@ -39,9 +39,14 @@ SEED = 20260911
 def c60_at_toolbox_bakeoff() -> list[str]:
     """C60 when this bakeoff ran: 13 Psychic + Tool Box.
 
-    Locked C60 later cut Tool Box for a 14th Psychic. Re-runs keep that baseline.
+    Locked C60 later cut Tool Box for a 14th Psychic, then -Jacq -Retrieval
+    -1 Iono +3 Battle Cage (bench shields). Re-runs undo that drift so the
+    JSON stays comparable.
     """
     names = list(SET_C60_NAMES)
+    for _ in range(names.count("Battle Cage")):
+        names.remove("Battle Cage")
+    names.extend(["Jacq", "Energy Retrieval", "Iono"])
     if "Tool Box" not in names:
         names[names.index("Psychic Energy")] = "Tool Box"
     return names

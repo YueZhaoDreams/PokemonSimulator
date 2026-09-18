@@ -106,6 +106,10 @@ SET_C_NAMES = (
 # Two Rebel Clash Clefable (Prankish) — 110 HP Psychic Stage 1. On evolve, may put
 # an Energy from the opponent's Active on top of their deck. Same printed name as
 # CLC Metronome, so this is the 2-of Clefable slot (not a fifth copy).
+# 3 Battle Cage (both benches ignore opp counter placement; damage still taken)
+# for -Jacq -Energy Retrieval -1 Iono: T60 51.3 -> 69.1, Hedrick 59.0 -> 64.6,
+# UNL 82.8 -> 89.5, D60 holds 76.1. Rabsca 1-1 does nothing (+0-1, fragile 1-1);
+# Shaymin blocks damage only, not Dive counters. See set-c60-bench-shield.md.
 SET_C60_NAMES = (
     ["Clefairy"] * 4
     + ["Mewtwo ex"] * 3
@@ -119,14 +123,13 @@ SET_C60_NAMES = (
     + ["Lillie"] * 2
     + ["Lillie's Determination"] * 2
     + ["Arven"]
-    + ["Jacq"]
     + ["Boss's Orders"] * 3
-    + ["Iono"] * 2
+    + ["Iono"]
     + ["Switch"] * 2
     + ["Energy Switch"] * 2
-    + ["Energy Retrieval"]
     + ["Night Stretcher"]
     + ["Maximum Belt"]
+    + ["Battle Cage"] * 3
     + ["Telepathic Psychic Energy"] * 2
     + ["Psychic Energy"] * 14
 )
@@ -2825,6 +2828,81 @@ _register(
         weakness="Fighting",
         image="https://assets.tcgdex.net/en/sv/sv04/146/low.webp",
         set_name="Paradox Rift",
+    )
+)
+
+
+# Bench-shield package for C60 vs Dragapult (printed Standard text).
+# Rellor TEF 23 / Rabsca TEF 24: Spherical Shield blocks bench damage AND attack
+# effects (Phantom Dive counters). Shaymin DRI 10: Flower Curtain blocks bench
+# damage to non-Rule-Box only (not counters). Battle Cage ME02 85: both benches
+# ignore counter placement from opp attack/ability effects; damage still taken.
+_register(
+    _pkm(
+        "Rellor",
+        "Basic",
+        ["Grass"],
+        50,
+        [_atk("Slight Intrusion", ["Colorless"], 30, "This Pokémon also does 10 damage to itself.")],
+        catalog_id="sv05-023",
+        weakness="Fire",
+        retreat=1,
+        set_name="Temporal Forces",
+    )
+)
+_register(
+    _pkm(
+        "Rabsca",
+        "Stage1",
+        ["Grass"],
+        70,
+        [
+            _atk(
+                "Psychic",
+                ["Grass"],
+                "10+",
+                "This attack does 30 more damage for each Energy attached to your opponent's Active Pokémon.",
+            )
+        ],
+        evolves_from="Rellor",
+        catalog_id="sv05-024",
+        weakness="Fire",
+        retreat=1,
+        abilities=[
+            Ability(
+                name="Spherical Shield",
+                text="Prevent all damage from and effects of attacks from your opponent's Pokémon done to your Benched Pokémon.",
+            )
+        ],
+        set_name="Temporal Forces",
+    )
+)
+_register(
+    _pkm(
+        "Shaymin",
+        "Basic",
+        ["Grass"],
+        80,
+        [_atk("Smash Kick", ["Colorless", "Colorless"], 30)],
+        catalog_id="sv10-010",
+        weakness="Fire",
+        retreat=1,
+        abilities=[
+            Ability(
+                name="Flower Curtain",
+                text="Prevent all damage done to your Benched Pokémon that don't have a Rule Box by attacks from your opponent's Pokémon. (Pokémon ex, Pokémon V, etc. have Rule Boxes.)",
+            )
+        ],
+        set_name="Destined Rivals",
+    )
+)
+_register(
+    _trn(
+        "Battle Cage",
+        "stadium",
+        "Prevent all damage counters from being placed on Benched Pokémon (both yours and your opponent's) by effects of attacks and Abilities from the opponent's Pokémon. (Damage from attacks is still taken.)",
+        catalog_id="me02-085",
+        image="https://assets.tcgdex.net/en/me/me02/085/low.webp",
     )
 )
 

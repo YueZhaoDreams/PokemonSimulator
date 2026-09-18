@@ -257,6 +257,9 @@ STRATEGY_LIBRARY = {
             "After Party, Photon / Wondrous Moon / Shooting Moons chip for whatever they pay "
             "(no sitting out a 170 into 320). Transfer Charge does not stall a payable hit. "
             "Still hide a 60 HP Clefairy that cannot attack. "
+            "Battle Cage (3-of) lands before the first Dive vs Dragapult: both benches "
+            "ignore counter placement. Rellor/Rabsca and Shaymin are tested but not "
+            "locked (fragile 1-1, damage-only). "
             "If Telepathic Psychic Energy is in hand, attach it to a Psychic Pokémon before "
             "Party: the printed from-hand attach benches up to 2 Basic Psychic (Clefairy / "
             "Mewtwo), then Party loads Basic Psychic onto those Clefairy. Party cannot search "
@@ -344,6 +347,7 @@ STRATEGY_LIBRARY = {
             "Rosa's Encouragement fuels a Stage 2 from discard when behind on prizes. "
             "Special Red Card puts the opponent to 3 when they have 3 prizes left. "
             "Risky Ruins chips non-Darkness Basics that hit the Bench. "
+            "Bump an enemy Battle Cage with Risky Ruins / Collapsed Stadium before Diving. "
             "Do not spend the line as Family Cup energy."
         ),
         prefer_damage=1.0,

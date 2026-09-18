@@ -102,7 +102,9 @@ def test_rotom_v_is_two_prizes():
     assert game._prizes_for_ko(rotom) == 2
 
 
-def test_wave_veil_blocks_dive_bench_not_ability_chip():
+def test_wave_veil_does_not_block_dive_counters():
+    # Printed Wave Veil prevents damage, not counter placement. Phantom Dive's
+    # 6 bench counters are an attack effect, so they still land through Manaphy.
     game = _game()
     me = game.players["b"]
     foe = game.players["a"]
@@ -112,8 +114,8 @@ def test_wave_veil_blocks_dive_bench_not_ability_chip():
     me.active = Pokemon(card_i=pult, played_turn=0)
     me.bench = [Pokemon(card_i=mana, played_turn=0), Pokemon(card_i=dreepy, played_turn=0)]
     game._bench_damage_counters(me, 6)
-    assert me.bench[1].damage == 0
-    assert game.events.get("wave_veil") == 1
+    assert sum(m.damage for m in me.bench) == 60
+    assert game.events.get("wave_veil") is None
 
 
 def test_lumineon_still_searches_after_last_ditch():
