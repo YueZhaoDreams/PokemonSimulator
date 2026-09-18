@@ -301,9 +301,43 @@ def parse_ability_effects(text: str) -> list[dict[str, Any]]:
             }
         )
 
-    # Manaphy Wave Veil: prevent attack damage to your Bench.
-    if "prevent all damage" in t and "benched" in t and "attack" in t:
-        effects.append({"kind": "prevent_bench_attack_damage"})
+    # Bench shields. Damage and damage counters are different layers:
+    # "does damage to benched" is damage; "put damage counters on benched" is an effect.
+    # Rabsca Spherical Shield (TEF 24): "Prevent all damage from and effects of attacks
+    # from your opponent's Pokémon done to your Benched Pokémon." Blocks both layers
+    # vs attacks (Phantom Dive counters included), but not Abilities.
+    if (
+        "prevent all damage" in t
+        and "benched" in t
+        and "effects of attacks" in t
+        and "damage counters" not in t
+    ):
+        effects.append({"kind": "prevent_bench_damage_and_attack_effects"})
+    elif "prevent all damage" in t and "benched" in t and "attack" in t and "damage counters" not in t:
+        # Shaymin Flower Curtain (DRI 10): "... to your Benched Pokémon that don't have
+        # a Rule Box by attacks ..." Damage only, non-Rule-Box only. Does not stop counters.
+        if "rule box" in t:
+            effects.append({"kind": "prevent_bench_attack_damage_no_rulebox"})
+        else:
+            # Manaphy Wave Veil (BRS 41): damage only, all bench. Does not stop counters.
+            effects.append({"kind": "prevent_bench_attack_damage"})
+
+    # Battle Cage (ME02 85): "Prevent all damage counters from being placed on Benched
+    # Pokémon (both yours and your opponent's) by effects of attacks and Abilities from
+    # the opponent's Pokémon. (Damage from attacks is still taken.)" Blocks counter
+    # effects (Phantom Dive, Adrena-Brain onto bench) for both benches, not damage.
+    if (
+        "prevent all damage counters from being placed" in t
+        and "benched" in t
+        and "effects of attacks" in t
+    ):
+        effects.append(
+            {
+                "kind": "stadium_prevent_bench_counters",
+                "both_benches": "both yours and your opponent" in t,
+                "attack_and_ability": "abilities" in t,
+            }
+        )
 
     # Collapsed Stadium: bench size 4; opponent discards first when it enters.
     bench_cap = re.search(r"can't have more than (\d+) benched", t)

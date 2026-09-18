@@ -2829,6 +2829,81 @@ _register(
 )
 
 
+# Bench-shield package for C60 vs Dragapult (printed Standard text).
+# Rellor TEF 23 / Rabsca TEF 24: Spherical Shield blocks bench damage AND attack
+# effects (Phantom Dive counters). Shaymin DRI 10: Flower Curtain blocks bench
+# damage to non-Rule-Box only (not counters). Battle Cage ME02 85: both benches
+# ignore counter placement from opp attack/ability effects; damage still taken.
+_register(
+    _pkm(
+        "Rellor",
+        "Basic",
+        ["Grass"],
+        50,
+        [_atk("Slight Intrusion", ["Colorless"], 30, "This Pokémon also does 10 damage to itself.")],
+        catalog_id="sv05-023",
+        weakness="Fire",
+        retreat=1,
+        set_name="Temporal Forces",
+    )
+)
+_register(
+    _pkm(
+        "Rabsca",
+        "Stage1",
+        ["Grass"],
+        70,
+        [
+            _atk(
+                "Psychic",
+                ["Grass"],
+                "10+",
+                "This attack does 30 more damage for each Energy attached to your opponent's Active Pokémon.",
+            )
+        ],
+        evolves_from="Rellor",
+        catalog_id="sv05-024",
+        weakness="Fire",
+        retreat=1,
+        abilities=[
+            Ability(
+                name="Spherical Shield",
+                text="Prevent all damage from and effects of attacks from your opponent's Pokémon done to your Benched Pokémon.",
+            )
+        ],
+        set_name="Temporal Forces",
+    )
+)
+_register(
+    _pkm(
+        "Shaymin",
+        "Basic",
+        ["Grass"],
+        80,
+        [_atk("Smash Kick", ["Colorless", "Colorless"], 30)],
+        catalog_id="sv10-010",
+        weakness="Fire",
+        retreat=1,
+        abilities=[
+            Ability(
+                name="Flower Curtain",
+                text="Prevent all damage done to your Benched Pokémon that don't have a Rule Box by attacks from your opponent's Pokémon. (Pokémon ex, Pokémon V, etc. have Rule Boxes.)",
+            )
+        ],
+        set_name="Destined Rivals",
+    )
+)
+_register(
+    _trn(
+        "Battle Cage",
+        "stadium",
+        "Prevent all damage counters from being placed on Benched Pokémon (both yours and your opponent's) by effects of attacks and Abilities from the opponent's Pokémon. (Damage from attacks is still taken.)",
+        catalog_id="me02-085",
+        image="https://assets.tcgdex.net/en/me/me02/085/low.webp",
+    )
+)
+
+
 def build_g30_deck() -> list[Card]:
     """Ambipom PAR 146 closer; Aipom uses the Paradox Rift print, not Lost Origin."""
     out: list[Card] = []
