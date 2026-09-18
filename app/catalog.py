@@ -89,10 +89,12 @@ TRAINER_KIND_HINTS = {
     "risky ruins": "stadium",
     "counter catcher": "item",
     "forest seal stone": "item",
+    "penny": "supporter",
     "professor turo's scenario": "supporter",
     "collapsed stadium": "stadium",
     "drayton": "supporter",
     "lacey": "supporter",
+    "penny": "supporter",
 }
 
 # Carpet-photo printings confirmed via attack OCR phrases / user correction.
@@ -246,6 +248,7 @@ PREFERRED_IDS = {
     "Counter Catcher": "sv04-160",
     "Forest Seal Stone": "swsh12-156",
     "Raikou V": "swsh9-48",  # Brilliant Stars Fleet-Footed / Lightning Streak
+    "Iron Hands ex": "sv04-070",  # Paradox Rift Arm Press / Amp You Very Much
     "Draw Energy": "sm12-209",  # Cosmic Eclipse: attach from hand, draw a card
     "Professor Turo's Scenario": "sv04-171",
     "Collapsed Stadium": "swsh9-137",
@@ -259,7 +262,9 @@ PREFERRED_IDS = {
     "Hoppip": "bw6-1",  # Dragons Exalted line into Jumpluff Leave It to the Wind
     "Skiploom": "bw6-2",
     "Jumpluff": "bw6-3",  # Dragons Exalted Leave It to the Wind
-    "Galarian Meowth": "swsh12.5-084",  # Fasten Claws (Crown Zenith)
+    "Galarian Meowth": "swsh12.5-084",  # Fasten Claws (Crown Zenith). 30th Treasure Rush is extra.
+    "Shaymin": "hgss2-8",  # Unleashed Celebration Wind (from-hand bench energy move)
+    "Penny": "sv01-183",  # Basic Pokémon + attachments to hand
     # Rockruff is NOT pinned globally: Set A is Crown Zenith Invite Out, Set B is Lost Origin Double Draw.
 }
 
@@ -270,6 +275,8 @@ EXTRA_PRINT_IDS: dict[str, tuple[str, ...]] = {
     "Starly": ("sv01-148", "swsh9-117"),  # Flap 20 Paldea Evolved; Claw 30 Brilliant Stars 117/172
     "Staravia": ("sv01-149", "swsh9-118"),  # Speed Dive 80 HP; Brilliant Stars 90 HP Wing Attack
     "Oranguru": ("sv08-156", "sm1-113"),
+    # Crown Zenith Fasten Claws stays PREFERRED. 30th Celebration Treasure Rush is G30.
+    "Galarian Meowth": ("swsh12.5-084", "me04-101"),
 }
 
 
@@ -406,6 +413,9 @@ PRINT_PREFER = {
     "Counter Catcher": ["more prize cards remaining"],
     "Forest Seal Stone": ["star alchemy"],
     "Raikou V": ["fleet-footed", "lightning streak"],
+    "Iron Hands ex": ["amp you very much", "arm press"],
+    "Shaymin": ["celebration wind"],
+    "Penny": ["basic pokémon and all attached cards into your hand", "basic pokemon and all attached cards into your hand"],
     "Draw Energy": ["draw a card"],
     "Professor Turo's Scenario": ["all attached cards into your hand"],
     "Collapsed Stadium": ["4 benched"],

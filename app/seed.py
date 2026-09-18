@@ -95,8 +95,12 @@ def load_seed_deck(which: str) -> dict:
         "gholdengo": "g30",
         "celebration": "g30",
         "ambipom": "g30",
+        "meowth": "g30",
+        "galarian meowth": "g30",
         "lopunny": "g30",
         "raikou": "g30",
+        "iron hands": "g30",
+        "iron hands ex": "g30",
         "spare-cards": "spare",
         "p": "spare",
     }.get(key, key)
@@ -509,10 +513,10 @@ def _cd_payload(enrich: bool = True) -> dict:
 
 
 def _g30_blob() -> dict:
-    """Printed Ambipom PAR Hand Fling 60. Never TCGDex-enrich the closer print."""
+    """Printed 30th Galarian Meowth Treasure Rush 60. Never TCGDex-enrich the closer print."""
     return {
         "id": "seed-g30",
-        "name": "Unlimited 60 (Ambipom Hand Fling)",
+        "name": "Unlimited 60 (Galarian Meowth Treasure Rush)",
         "sample": None,
         "kind": "list",
         "cards": [c.to_dict() for c in build_g30_deck()],

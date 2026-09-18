@@ -78,6 +78,7 @@ PUBLISHED_EFFECT_KINDS = frozenset(
         "coin_damage_bonus",
         "attached_named_energy_bonus",
         "take_prizes_if_hand",
+        "extra_prize_on_ko",
         "recycle_items_from_discard",
         "attach_special_energy_from_hand",
         "draw_on_attach_from_hand",
@@ -90,6 +91,8 @@ PUBLISHED_EFFECT_KINDS = frozenset(
         "recycle_supporter_from_discard",
         "wally_evolve",
         "draw_until_hand",
+        "move_any_energy_when_benched_from_hand",
+        "return_one_basic_and_attached_to_hand",
     }
 )
 

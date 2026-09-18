@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Ambipom PAR Hand Fling 60 vs household 60s. Directed array, not a full NxN remake.
+"""30th Galarian Meowth Treasure Rush 60 vs household 60s. Directed array, not a full NxN remake.
 
 Row is G30 (strategy celebration) as player A. Columns are the household 60s from
 data/lab/set_c60_unl_matrix.py. First player is random. Seed 20260911.
@@ -57,6 +57,12 @@ QUERIES = [
     {"type": "event_prefix", "prefix": "rare_candy", "key": "rare_candy"},
     {"type": "event_prefix", "prefix": "fleet_footed", "key": "fleet_footed"},
     {"type": "event_prefix", "prefix": "star_alchemy", "key": "star_alchemy"},
+    {"type": "event_prefix", "prefix": "extra_prize_on_ko", "key": "extra_prize_on_ko"},
+    {"type": "event_prefix", "prefix": "attack:Iron Hands ex:Amp You Very Much", "key": "amp_you_very_much"},
+    {"type": "event_prefix", "prefix": "attack:Iron Hands ex:Arm Press", "key": "arm_press"},
+    {"type": "event_prefix", "prefix": "celebration_wind", "key": "celebration_wind"},
+    {"type": "event_prefix", "prefix": "penny", "key": "penny"},
+    {"type": "event_prefix", "prefix": "scoop_net", "key": "scoop_net"},
 ]
 
 
@@ -94,6 +100,12 @@ def _run(opp: str) -> tuple[str, dict]:
         "rare_candy": r["queries"].get("rare_candy", 0.0),
         "fleet_footed": r["queries"].get("fleet_footed", 0.0),
         "star_alchemy": r["queries"].get("star_alchemy", 0.0),
+        "extra_prize_on_ko": r["queries"].get("extra_prize_on_ko", 0.0),
+        "amp_you_very_much": r["queries"].get("amp_you_very_much", 0.0),
+        "arm_press": r["queries"].get("arm_press", 0.0),
+        "celebration_wind": r["queries"].get("celebration_wind", 0.0),
+        "penny": r["queries"].get("penny", 0.0),
+        "scoop_net": r["queries"].get("scoop_net", 0.0),
     }
 
 
@@ -136,6 +148,11 @@ def main() -> None:
     print("| Hand Fling | " + " | ".join(f"{cells[k]['hand_fling']:.1%}" for k in keys) + " |")
     print("| Speed L draw | " + " | ".join(f"{cells[k]['speed_l_draw']:.1%}" for k in keys) + " |")
     print("| Big Jump | " + " | ".join(f"{cells[k]['big_jump']:.1%}" for k in keys) + " |")
+    print("| Celebration Wind | " + " | ".join(f"{cells[k]['celebration_wind']:.1%}" for k in keys) + " |")
+    print("| Amp You Very Much | " + " | ".join(f"{cells[k]['amp_you_very_much']:.1%}" for k in keys) + " |")
+    print("| Extra prize on KO | " + " | ".join(f"{cells[k]['extra_prize_on_ko']:.1%}" for k in keys) + " |")
+    print("| Penny | " + " | ".join(f"{cells[k]['penny']:.1%}" for k in keys) + " |")
+    print("| Scoop Up Net | " + " | ".join(f"{cells[k]['scoop_net']:.1%}" for k in keys) + " |")
 
 
 if __name__ == "__main__":

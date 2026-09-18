@@ -21678,7 +21678,7 @@
   },
   "g30": {
     "id": "seed-g30",
-    "name": "Unlimited 60 (Ambipom Hand Fling)",
+    "name": "Unlimited 60 (Galarian Meowth Treasure Rush)",
     "sample": null,
     "kind": "list",
     "cards": [
@@ -22134,21 +22134,21 @@
         "dex_id": null
       },
       {
-        "catalog_id": "sv04-145",
-        "name": "Aipom",
+        "catalog_id": "me04-101",
+        "name": "Galarian Meowth",
         "category": "Pokemon",
         "stage": "Basic",
         "types": [
-          "Colorless"
+          "Metal"
         ],
-        "hp": 60,
+        "hp": 70,
         "attacks": [
           {
-            "name": "Filch",
+            "name": "Pay Day",
             "cost": [
               "Colorless"
             ],
-            "damage": 0,
+            "damage": 10,
             "text": "Draw a card.",
             "effects": [
               {
@@ -22158,49 +22158,58 @@
             ]
           },
           {
-            "name": "Smack",
+            "name": "Treasure Rush",
             "cost": [
-              "Colorless",
-              "Colorless"
+              "Metal"
             ],
-            "damage": 20,
-            "text": "",
-            "effects": []
+            "damage": 10,
+            "text": "This attack does 10 damage for each card in your hand.",
+            "effects": [
+              {
+                "kind": "hand_count_times",
+                "per": 10
+              }
+            ]
           }
         ],
         "abilities": [],
         "weaknesses": [
           {
-            "type": "Fighting",
+            "type": "Fire",
             "value": "\u00d72"
           }
         ],
-        "resistances": [],
+        "resistances": [
+          {
+            "type": "Grass",
+            "value": "-30"
+          }
+        ],
         "retreat": 1,
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv04/145/low.webp",
-        "set_name": "Paradox Rift",
+        "image": "https://assets.tcgdex.net/en/me/me04/101/low.webp",
+        "set_name": "30th Celebration",
         "text": "",
         "dex_id": null
       },
       {
-        "catalog_id": "sv04-145",
-        "name": "Aipom",
+        "catalog_id": "me04-101",
+        "name": "Galarian Meowth",
         "category": "Pokemon",
         "stage": "Basic",
         "types": [
-          "Colorless"
+          "Metal"
         ],
-        "hp": 60,
+        "hp": 70,
         "attacks": [
           {
-            "name": "Filch",
+            "name": "Pay Day",
             "cost": [
               "Colorless"
             ],
-            "damage": 0,
+            "damage": 10,
             "text": "Draw a card.",
             "effects": [
               {
@@ -22210,49 +22219,58 @@
             ]
           },
           {
-            "name": "Smack",
+            "name": "Treasure Rush",
             "cost": [
-              "Colorless",
-              "Colorless"
+              "Metal"
             ],
-            "damage": 20,
-            "text": "",
-            "effects": []
+            "damage": 10,
+            "text": "This attack does 10 damage for each card in your hand.",
+            "effects": [
+              {
+                "kind": "hand_count_times",
+                "per": 10
+              }
+            ]
           }
         ],
         "abilities": [],
         "weaknesses": [
           {
-            "type": "Fighting",
+            "type": "Fire",
             "value": "\u00d72"
           }
         ],
-        "resistances": [],
+        "resistances": [
+          {
+            "type": "Grass",
+            "value": "-30"
+          }
+        ],
         "retreat": 1,
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv04/145/low.webp",
-        "set_name": "Paradox Rift",
+        "image": "https://assets.tcgdex.net/en/me/me04/101/low.webp",
+        "set_name": "30th Celebration",
         "text": "",
         "dex_id": null
       },
       {
-        "catalog_id": "sv04-145",
-        "name": "Aipom",
+        "catalog_id": "me04-101",
+        "name": "Galarian Meowth",
         "category": "Pokemon",
         "stage": "Basic",
         "types": [
-          "Colorless"
+          "Metal"
         ],
-        "hp": 60,
+        "hp": 70,
         "attacks": [
           {
-            "name": "Filch",
+            "name": "Pay Day",
             "cost": [
               "Colorless"
             ],
-            "damage": 0,
+            "damage": 10,
             "text": "Draw a card.",
             "effects": [
               {
@@ -22262,49 +22280,58 @@
             ]
           },
           {
-            "name": "Smack",
+            "name": "Treasure Rush",
             "cost": [
-              "Colorless",
-              "Colorless"
+              "Metal"
             ],
-            "damage": 20,
-            "text": "",
-            "effects": []
+            "damage": 10,
+            "text": "This attack does 10 damage for each card in your hand.",
+            "effects": [
+              {
+                "kind": "hand_count_times",
+                "per": 10
+              }
+            ]
           }
         ],
         "abilities": [],
         "weaknesses": [
           {
-            "type": "Fighting",
+            "type": "Fire",
             "value": "\u00d72"
           }
         ],
-        "resistances": [],
+        "resistances": [
+          {
+            "type": "Grass",
+            "value": "-30"
+          }
+        ],
         "retreat": 1,
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv04/145/low.webp",
-        "set_name": "Paradox Rift",
+        "image": "https://assets.tcgdex.net/en/me/me04/101/low.webp",
+        "set_name": "30th Celebration",
         "text": "",
         "dex_id": null
       },
       {
-        "catalog_id": "sv04-145",
-        "name": "Aipom",
+        "catalog_id": "me04-101",
+        "name": "Galarian Meowth",
         "category": "Pokemon",
         "stage": "Basic",
         "types": [
-          "Colorless"
+          "Metal"
         ],
-        "hp": 60,
+        "hp": 70,
         "attacks": [
           {
-            "name": "Filch",
+            "name": "Pay Day",
             "cost": [
               "Colorless"
             ],
-            "damage": 0,
+            "damage": 10,
             "text": "Draw a card.",
             "effects": [
               {
@@ -22314,304 +22341,82 @@
             ]
           },
           {
-            "name": "Smack",
+            "name": "Treasure Rush",
             "cost": [
-              "Colorless",
-              "Colorless"
+              "Metal"
             ],
-            "damage": 20,
-            "text": "",
-            "effects": []
+            "damage": 10,
+            "text": "This attack does 10 damage for each card in your hand.",
+            "effects": [
+              {
+                "kind": "hand_count_times",
+                "per": 10
+              }
+            ]
           }
         ],
         "abilities": [],
         "weaknesses": [
           {
-            "type": "Fighting",
+            "type": "Fire",
             "value": "\u00d72"
           }
         ],
-        "resistances": [],
+        "resistances": [
+          {
+            "type": "Grass",
+            "value": "-30"
+          }
+        ],
         "retreat": 1,
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv04/145/low.webp",
-        "set_name": "Paradox Rift",
+        "image": "https://assets.tcgdex.net/en/me/me04/101/low.webp",
+        "set_name": "30th Celebration",
         "text": "",
         "dex_id": null
       },
       {
-        "catalog_id": "sv04-146",
-        "name": "Ambipom",
-        "category": "Pokemon",
-        "stage": "Stage1",
-        "types": [
-          "Colorless"
-        ],
-        "hp": 100,
-        "attacks": [
-          {
-            "name": "Collect",
-            "cost": [
-              "Colorless"
-            ],
-            "damage": 0,
-            "text": "Draw 2 cards.",
-            "effects": [
-              {
-                "kind": "draw",
-                "amount": 2
-              }
-            ]
-          },
-          {
-            "name": "Hand Fling",
-            "cost": [
-              "Colorless",
-              "Colorless",
-              "Colorless"
-            ],
-            "damage": 20,
-            "text": "This attack does 20 damage for each card in your hand.",
-            "effects": [
-              {
-                "kind": "hand_count_times",
-                "per": 20
-              }
-            ]
-          }
-        ],
-        "abilities": [],
-        "weaknesses": [
-          {
-            "type": "Fighting",
-            "value": "\u00d72"
-          }
-        ],
-        "resistances": [],
-        "retreat": 1,
-        "evolves_from": "Aipom",
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv04/146/low.webp",
-        "set_name": "Paradox Rift",
-        "text": "",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "sv04-146",
-        "name": "Ambipom",
-        "category": "Pokemon",
-        "stage": "Stage1",
-        "types": [
-          "Colorless"
-        ],
-        "hp": 100,
-        "attacks": [
-          {
-            "name": "Collect",
-            "cost": [
-              "Colorless"
-            ],
-            "damage": 0,
-            "text": "Draw 2 cards.",
-            "effects": [
-              {
-                "kind": "draw",
-                "amount": 2
-              }
-            ]
-          },
-          {
-            "name": "Hand Fling",
-            "cost": [
-              "Colorless",
-              "Colorless",
-              "Colorless"
-            ],
-            "damage": 20,
-            "text": "This attack does 20 damage for each card in your hand.",
-            "effects": [
-              {
-                "kind": "hand_count_times",
-                "per": 20
-              }
-            ]
-          }
-        ],
-        "abilities": [],
-        "weaknesses": [
-          {
-            "type": "Fighting",
-            "value": "\u00d72"
-          }
-        ],
-        "resistances": [],
-        "retreat": 1,
-        "evolves_from": "Aipom",
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv04/146/low.webp",
-        "set_name": "Paradox Rift",
-        "text": "",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "sv04-146",
-        "name": "Ambipom",
-        "category": "Pokemon",
-        "stage": "Stage1",
-        "types": [
-          "Colorless"
-        ],
-        "hp": 100,
-        "attacks": [
-          {
-            "name": "Collect",
-            "cost": [
-              "Colorless"
-            ],
-            "damage": 0,
-            "text": "Draw 2 cards.",
-            "effects": [
-              {
-                "kind": "draw",
-                "amount": 2
-              }
-            ]
-          },
-          {
-            "name": "Hand Fling",
-            "cost": [
-              "Colorless",
-              "Colorless",
-              "Colorless"
-            ],
-            "damage": 20,
-            "text": "This attack does 20 damage for each card in your hand.",
-            "effects": [
-              {
-                "kind": "hand_count_times",
-                "per": 20
-              }
-            ]
-          }
-        ],
-        "abilities": [],
-        "weaknesses": [
-          {
-            "type": "Fighting",
-            "value": "\u00d72"
-          }
-        ],
-        "resistances": [],
-        "retreat": 1,
-        "evolves_from": "Aipom",
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv04/146/low.webp",
-        "set_name": "Paradox Rift",
-        "text": "",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "sv04-146",
-        "name": "Ambipom",
-        "category": "Pokemon",
-        "stage": "Stage1",
-        "types": [
-          "Colorless"
-        ],
-        "hp": 100,
-        "attacks": [
-          {
-            "name": "Collect",
-            "cost": [
-              "Colorless"
-            ],
-            "damage": 0,
-            "text": "Draw 2 cards.",
-            "effects": [
-              {
-                "kind": "draw",
-                "amount": 2
-              }
-            ]
-          },
-          {
-            "name": "Hand Fling",
-            "cost": [
-              "Colorless",
-              "Colorless",
-              "Colorless"
-            ],
-            "damage": 20,
-            "text": "This attack does 20 damage for each card in your hand.",
-            "effects": [
-              {
-                "kind": "hand_count_times",
-                "per": 20
-              }
-            ]
-          }
-        ],
-        "abilities": [],
-        "weaknesses": [
-          {
-            "type": "Fighting",
-            "value": "\u00d72"
-          }
-        ],
-        "resistances": [],
-        "retreat": 1,
-        "evolves_from": "Aipom",
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv04/146/low.webp",
-        "set_name": "Paradox Rift",
-        "text": "",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "swsh9-48",
-        "name": "Raikou V",
+        "catalog_id": "sv04-070",
+        "name": "Iron Hands ex",
         "category": "Pokemon",
         "stage": "Basic",
         "types": [
           "Lightning"
         ],
-        "hp": 200,
+        "hp": 230,
         "attacks": [
           {
-            "name": "Lightning Streak",
+            "name": "Arm Press",
             "cost": [
+              "Lightning",
               "Lightning",
               "Colorless"
             ],
-            "damage": 40,
-            "text": "You may switch this Pok\u00e9mon with 1 of your Benched Pok\u00e9mon.",
-            "effects": [
-              {
-                "kind": "switch_with_benched"
-              }
-            ]
-          }
-        ],
-        "abilities": [
+            "damage": 160,
+            "text": "",
+            "effects": []
+          },
           {
-            "name": "Fleet-Footed",
-            "text": "Once during your turn, if this Pok\u00e9mon is in the Active Spot, you may draw a card.",
+            "name": "Amp You Very Much",
+            "cost": [
+              "Lightning",
+              "Colorless",
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 120,
+            "text": "If your opponent's Pok\u00e9mon is Knocked Out by damage from this attack, take 1 more Prize card.",
             "effects": [
               {
-                "kind": "draw",
-                "amount": 1,
-                "once_per_turn": true,
-                "require_active": true
+                "kind": "extra_prize_on_ko",
+                "count": 1
               }
             ]
           }
         ],
+        "abilities": [],
         "weaknesses": [
           {
             "type": "Fighting",
@@ -22619,12 +22424,340 @@
           }
         ],
         "resistances": [],
+        "retreat": 4,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv04/070/low.webp",
+        "set_name": "Paradox Rift",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv04-070",
+        "name": "Iron Hands ex",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Lightning"
+        ],
+        "hp": 230,
+        "attacks": [
+          {
+            "name": "Arm Press",
+            "cost": [
+              "Lightning",
+              "Lightning",
+              "Colorless"
+            ],
+            "damage": 160,
+            "text": "",
+            "effects": []
+          },
+          {
+            "name": "Amp You Very Much",
+            "cost": [
+              "Lightning",
+              "Colorless",
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 120,
+            "text": "If your opponent's Pok\u00e9mon is Knocked Out by damage from this attack, take 1 more Prize card.",
+            "effects": [
+              {
+                "kind": "extra_prize_on_ko",
+                "count": 1
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Fighting",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 4,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv04/070/low.webp",
+        "set_name": "Paradox Rift",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv04-070",
+        "name": "Iron Hands ex",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Lightning"
+        ],
+        "hp": 230,
+        "attacks": [
+          {
+            "name": "Arm Press",
+            "cost": [
+              "Lightning",
+              "Lightning",
+              "Colorless"
+            ],
+            "damage": 160,
+            "text": "",
+            "effects": []
+          },
+          {
+            "name": "Amp You Very Much",
+            "cost": [
+              "Lightning",
+              "Colorless",
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 120,
+            "text": "If your opponent's Pok\u00e9mon is Knocked Out by damage from this attack, take 1 more Prize card.",
+            "effects": [
+              {
+                "kind": "extra_prize_on_ko",
+                "count": 1
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Fighting",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 4,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv04/070/low.webp",
+        "set_name": "Paradox Rift",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "hgss2-8",
+        "name": "Shaymin",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Grass"
+        ],
+        "hp": 70,
+        "attacks": [
+          {
+            "name": "Energy Bloom",
+            "cost": [
+              "Grass",
+              "Colorless"
+            ],
+            "damage": 30,
+            "text": "Remove 3 damage counters from each of your Pok\u00e9mon that has any Energy attached to it.",
+            "effects": []
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Celebration Wind",
+            "text": "Once during your turn, when you put Shaymin from your hand onto your Bench, you may move as many Energy cards attached to your Pok\u00e9mon as you like to any of your other Pok\u00e9mon.",
+            "effects": [
+              {
+                "kind": "move_any_energy_when_benched_from_hand",
+                "once_per_turn": true
+              }
+            ]
+          }
+        ],
+        "weaknesses": [
+          {
+            "type": "Fire",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [
+          {
+            "type": "Fighting",
+            "value": "-20"
+          }
+        ],
         "retreat": 1,
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh9/48/low.webp",
-        "set_name": "Brilliant Stars",
+        "image": "https://assets.tcgdex.net/en/hgss/hgss2/8/low.webp",
+        "set_name": "Unleashed",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "hgss2-8",
+        "name": "Shaymin",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Grass"
+        ],
+        "hp": 70,
+        "attacks": [
+          {
+            "name": "Energy Bloom",
+            "cost": [
+              "Grass",
+              "Colorless"
+            ],
+            "damage": 30,
+            "text": "Remove 3 damage counters from each of your Pok\u00e9mon that has any Energy attached to it.",
+            "effects": []
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Celebration Wind",
+            "text": "Once during your turn, when you put Shaymin from your hand onto your Bench, you may move as many Energy cards attached to your Pok\u00e9mon as you like to any of your other Pok\u00e9mon.",
+            "effects": [
+              {
+                "kind": "move_any_energy_when_benched_from_hand",
+                "once_per_turn": true
+              }
+            ]
+          }
+        ],
+        "weaknesses": [
+          {
+            "type": "Fire",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [
+          {
+            "type": "Fighting",
+            "value": "-20"
+          }
+        ],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/hgss/hgss2/8/low.webp",
+        "set_name": "Unleashed",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "hgss2-8",
+        "name": "Shaymin",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Grass"
+        ],
+        "hp": 70,
+        "attacks": [
+          {
+            "name": "Energy Bloom",
+            "cost": [
+              "Grass",
+              "Colorless"
+            ],
+            "damage": 30,
+            "text": "Remove 3 damage counters from each of your Pok\u00e9mon that has any Energy attached to it.",
+            "effects": []
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Celebration Wind",
+            "text": "Once during your turn, when you put Shaymin from your hand onto your Bench, you may move as many Energy cards attached to your Pok\u00e9mon as you like to any of your other Pok\u00e9mon.",
+            "effects": [
+              {
+                "kind": "move_any_energy_when_benched_from_hand",
+                "once_per_turn": true
+              }
+            ]
+          }
+        ],
+        "weaknesses": [
+          {
+            "type": "Fire",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [
+          {
+            "type": "Fighting",
+            "value": "-20"
+          }
+        ],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/hgss/hgss2/8/low.webp",
+        "set_name": "Unleashed",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "hgss2-8",
+        "name": "Shaymin",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Grass"
+        ],
+        "hp": 70,
+        "attacks": [
+          {
+            "name": "Energy Bloom",
+            "cost": [
+              "Grass",
+              "Colorless"
+            ],
+            "damage": 30,
+            "text": "Remove 3 damage counters from each of your Pok\u00e9mon that has any Energy attached to it.",
+            "effects": []
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Celebration Wind",
+            "text": "Once during your turn, when you put Shaymin from your hand onto your Bench, you may move as many Energy cards attached to your Pok\u00e9mon as you like to any of your other Pok\u00e9mon.",
+            "effects": [
+              {
+                "kind": "move_any_energy_when_benched_from_hand",
+                "once_per_turn": true
+              }
+            ]
+          }
+        ],
+        "weaknesses": [
+          {
+            "type": "Fire",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [
+          {
+            "type": "Fighting",
+            "value": "-20"
+          }
+        ],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/hgss/hgss2/8/low.webp",
+        "set_name": "Unleashed",
         "text": "",
         "dex_id": null
       },
@@ -22829,6 +22962,26 @@
         "dex_id": null
       },
       {
+        "catalog_id": "sv01-181",
+        "name": "Nest Ball",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/181/low.webp",
+        "set_name": null,
+        "text": "Search your deck for a Basic Pok\u00e9mon and put it onto your Bench. Then, shuffle your deck.",
+        "dex_id": null
+      },
+      {
         "catalog_id": "sv05-144",
         "name": "Buddy-Buddy Poffin",
         "category": "Trainer",
@@ -22926,46 +23079,6 @@
         "image": "https://assets.tcgdex.net/en/sv/sv04.5/091/low.webp",
         "set_name": null,
         "text": "Discard 2 cards from your hand. Search your deck for a Pok\u00e9mon.",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "sv04.5-091",
-        "name": "Ultra Ball",
-        "category": "Trainer",
-        "stage": "Item",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "item",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv04.5/091/low.webp",
-        "set_name": null,
-        "text": "Discard 2 cards from your hand. Search your deck for a Pok\u00e9mon.",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "xy4-109",
-        "name": "VS Seeker",
-        "category": "Trainer",
-        "stage": "Item",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "item",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/xy/xy4/109/low.webp",
-        "set_name": null,
-        "text": "Put a Supporter card from your discard pile into your hand.",
         "dex_id": null
       },
       {
@@ -23029,8 +23142,8 @@
         "dex_id": null
       },
       {
-        "catalog_id": "xy6-94",
-        "name": "Wally",
+        "catalog_id": "sv01-183",
+        "name": "Penny",
         "category": "Trainer",
         "stage": "Supporter",
         "types": [],
@@ -23043,14 +23156,14 @@
         "evolves_from": null,
         "trainer_kind": "supporter",
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/xy/xy6/94/low.webp",
+        "image": "https://assets.tcgdex.net/en/sv/sv01/183/low.webp",
         "set_name": null,
-        "text": "Search your deck for a card that evolves from 1 of your Pok\u00e9mon (excluding Pok\u00e9mon-EX) and put it onto that Pok\u00e9mon. (This counts as evolving that Pok\u00e9mon.) Shuffle your deck afterward. You can use this card during your first turn or on a Pok\u00e9mon that was put into play this turn.",
+        "text": "Put 1 of your Basic Pok\u00e9mon and all attached cards into your hand.",
         "dex_id": null
       },
       {
-        "catalog_id": "sv01-189",
-        "name": "Professor's Research",
+        "catalog_id": "sv01-183",
+        "name": "Penny",
         "category": "Trainer",
         "stage": "Supporter",
         "types": [],
@@ -23063,29 +23176,9 @@
         "evolves_from": null,
         "trainer_kind": "supporter",
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv01/189/low.webp",
+        "image": "https://assets.tcgdex.net/en/sv/sv01/183/low.webp",
         "set_name": null,
-        "text": "Discard your hand and draw 7 cards.",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "xy3-92",
-        "name": "Battle Compressor",
-        "category": "Trainer",
-        "stage": "Item",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "item",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/xy/xy3/92/low.webp",
-        "set_name": null,
-        "text": "Search your deck for up to 3 cards and discard them. Shuffle your deck afterward.",
+        "text": "Put 1 of your Basic Pok\u00e9mon and all attached cards into your hand.",
         "dex_id": null
       },
       {
@@ -23186,26 +23279,6 @@
         "image": "https://assets.tcgdex.net/en/sv/sv04.5/089/low.webp",
         "set_name": null,
         "text": "Choose 1 of your Basic Pok\u00e9mon in play. If you have a Stage 2 card that evolves from that Pok\u00e9mon in your hand, put that card onto the Basic Pok\u00e9mon to evolve it, skipping the Stage 1. You can't use this card during your first turn or on a Basic Pok\u00e9mon that was put into play this turn.",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "swsh12-156",
-        "name": "Forest Seal Stone",
-        "category": "Trainer",
-        "stage": "Item",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "item",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12/156/low.webp",
-        "set_name": null,
-        "text": "The Pok\u00e9mon V this card is attached to can use the VSTAR Power on this card.\n\nStar Alchemy: During your turn, you may search your deck for a card and put it into your hand. Then, shuffle your deck. (You can't use more than 1 VSTAR Power in a game.)",
         "dex_id": null
       },
       {
@@ -23319,12 +23392,12 @@
         "dex_id": null
       },
       {
-        "catalog_id": "swsh12.5-155",
-        "name": "Lightning Energy",
+        "catalog_id": "swsh12.5-159",
+        "name": "Metal Energy",
         "category": "Energy",
         "stage": "Basic",
         "types": [
-          "Lightning"
+          "Metal"
         ],
         "hp": 0,
         "attacks": [],
@@ -23334,19 +23407,19 @@
         "retreat": 0,
         "evolves_from": null,
         "trainer_kind": null,
-        "energy_type": "Lightning",
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/155/low.webp",
+        "energy_type": "Metal",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/159/low.webp",
         "set_name": "Crown Zenith",
         "text": "",
         "dex_id": null
       },
       {
-        "catalog_id": "swsh12.5-155",
-        "name": "Lightning Energy",
+        "catalog_id": "swsh12.5-159",
+        "name": "Metal Energy",
         "category": "Energy",
         "stage": "Basic",
         "types": [
-          "Lightning"
+          "Metal"
         ],
         "hp": 0,
         "attacks": [],
@@ -23356,19 +23429,19 @@
         "retreat": 0,
         "evolves_from": null,
         "trainer_kind": null,
-        "energy_type": "Lightning",
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/155/low.webp",
+        "energy_type": "Metal",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/159/low.webp",
         "set_name": "Crown Zenith",
         "text": "",
         "dex_id": null
       },
       {
-        "catalog_id": "swsh12.5-155",
-        "name": "Lightning Energy",
+        "catalog_id": "swsh12.5-159",
+        "name": "Metal Energy",
         "category": "Energy",
         "stage": "Basic",
         "types": [
-          "Lightning"
+          "Metal"
         ],
         "hp": 0,
         "attacks": [],
@@ -23378,8 +23451,30 @@
         "retreat": 0,
         "evolves_from": null,
         "trainer_kind": null,
-        "energy_type": "Lightning",
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/155/low.webp",
+        "energy_type": "Metal",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/159/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-159",
+        "name": "Metal Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Metal"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Metal",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/159/low.webp",
         "set_name": "Crown Zenith",
         "text": "",
         "dex_id": null

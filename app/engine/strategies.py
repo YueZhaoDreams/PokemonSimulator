@@ -484,16 +484,21 @@ STRATEGY_LIBRARY = {
     "celebration": StrategySpec(
         name="celebration",
         description=(
-            "Unlimited 60 Ambipom PAR Hand Fling: Broken Time-Space into Ambipom / "
-            "Lopunny; Rare Candy skips Porygon to Porygon-Z. Crazy Code attaches "
+            "Unlimited 60 Galarian Meowth 30th Treasure Rush: Basic Metal closer, "
+            "no evolve. Rare Candy skips Porygon to Porygon-Z. Crazy Code attaches "
             "Enriching Energy and Draw Energy as often as you like. Lopunny FLF Big "
             "Jump returns this Pokémon and all attached cards to the hand — net +4 "
-            "with replay + evolve. Scoop Up Net + Puzzle of Time is the discard "
-            "fallback. Four Aipom / four Ambipom race 2-prize KOs against 1-prize "
-            "Ambipom deaths. Raikou V is the Lightning host: Fleet-Footed draws 1 "
-            "while Active; Forest Seal Stone Star Alchemy searches any one card once "
-            "per game; Speed Lightning Energy draws 2 only on a Lightning host. Hand "
-            "Fling does 20 damage for each card in your hand; attack when that KO's."
+            "with replay + evolve. Shaymin UL Celebration Wind moves Speed Lightning "
+            "Energy from Iron Hands ex onto Lopunny when played from hand to the Bench; "
+            "Scoop Up Net or Penny returns Shaymin so the attach-draw can fire again. "
+            "Scoop Up Net + Puzzle of Time is the discard "
+            "fallback. Four Galarian Meowth race fat 210–320 HP with 10×hand. "
+            "Iron Hands ex is the Lightning host and extra-prize closer: Amp You Very "
+            "Much takes 1 more prize when it KOs; Arm Press is 160. Speed Lightning "
+            "Energy draws 2 only on a Lightning host. Treasure Rush costs one Metal "
+            "Energy and does 10 damage for each card in your hand; attack when that "
+            "KO's, unless Amp already KOs for more prizes. Pay Day draws a card only "
+            "when neither closer would KO."
         ),
         prefer_damage=0.2,
         prefer_status=0.0,
@@ -507,14 +512,14 @@ STRATEGY_LIBRARY = {
             "Lopunny",
             "Porygon",
             "Porygon-Z",
-            "Aipom",
-            "Ambipom",
-            "Raikou V",
+            "Galarian Meowth",
+            "Iron Hands ex",
+            "Shaymin",
         ],
-        search_aces=["Buneary", "Porygon", "Aipom", "Raikou V"],
-        closers=["Ambipom"],
-        backups=["Porygon-Z", "Raikou V"],
-        insurance=["Raikou V"],
+        search_aces=["Buneary", "Porygon", "Galarian Meowth", "Iron Hands ex", "Shaymin"],
+        closers=["Galarian Meowth", "Iron Hands ex"],
+        backups=["Porygon-Z", "Iron Hands ex"],
+        insurance=["Porygon-Z"],
         insurance_bench=1,
         max_ace_copies=3,
     ),

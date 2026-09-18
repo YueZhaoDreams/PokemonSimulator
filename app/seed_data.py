@@ -314,33 +314,31 @@ SET_T_UNL_NAMES = (
     + ["Psychic Energy"] * 3
 )
 
-# Unlimited 60: Ambipom PAR Hand Fling, Lopunny FLF Big Jump recycle,
-# Raikou V Fleet-Footed + Forest Seal Stone Star Alchemy, Draw Energy, Rare Candy.
-# 4/4 Aipom–Ambipom is the 2-for-1 prize race (100 HP / 1 prize vs household 2-prizers).
+# Unlimited 60: 30th Galarian Meowth Treasure Rush (Basic, skips Aipom→Ambipom),
+# Lopunny FLF Big Jump recycle, Iron Hands ex Amp extra prize + Speed L host,
+# Draw Energy, Rare Candy. Fasten Claws Crown Zenith stays the name default.
 SET_G30_NAMES = (
     ["Buneary"] * 3
     + ["Lopunny"] * 2
     + ["Porygon"] * 3
     + ["Porygon-Z"] * 2
-    + ["Aipom"] * 4
-    + ["Ambipom"] * 4
-    + ["Raikou V"]
+    + ["Galarian Meowth"] * 4
+    + ["Iron Hands ex"] * 3
+    + ["Shaymin"] * 4
     + ["Puzzle of Time"] * 4
     + ["Scoop Up Net"] * 2
     + ["Broken Time-Space"] * 3
-    + ["Nest Ball"]
+    + ["Nest Ball"] * 2
     + ["Buddy-Buddy Poffin"] * 3
-    + ["Ultra Ball"] * 3
-    + ["VS Seeker"] * 3
-    + ["Wally"] * 2
-    + ["Professor's Research"]
-    + ["Battle Compressor"]
+    + ["Ultra Ball"] * 2
+    + ["VS Seeker"] * 2
+    + ["Wally"]
+    + ["Penny"] * 2
     + ["Switch"]
     + ["Rare Candy"] * 4
-    + ["Forest Seal Stone"]
     + ["Enriching Energy"]
     + ["Speed Lightning Energy"] * 4
-    + ["Lightning Energy"] * 3
+    + ["Metal Energy"] * 4
     + ["Draw Energy"] * 4
 )
 
@@ -2382,6 +2380,17 @@ _BIG_JUMP_TEXT = (
 )
 _VS_SEEKER_TEXT = "Put a Supporter card from your discard pile into your hand."
 _COMPRESSOR_TEXT = "Search your deck for up to 3 cards and discard them. Shuffle your deck afterward."
+_CELEBRATION_WIND_TEXT = (
+    "Once during your turn, when you put Shaymin from your hand onto your Bench, "
+    "you may move as many Energy cards attached to your Pokémon as you like to any of your other Pokémon."
+)
+_PENNY_TEXT = "Put 1 of your Basic Pokémon and all attached cards into your hand."
+_AMP_YOU_VERY_MUCH_TEXT = (
+    "If your opponent's Pokémon is Knocked Out by damage from this attack, take 1 more Prize card."
+)
+_ENERGY_BLOOM_TEXT = (
+    "Remove 3 damage counters from each of your Pokémon that has any Energy attached to it."
+)
 
 _register(
     _pkm(
@@ -2613,6 +2622,27 @@ _GIMMIGHOUL_30TH = _pkm(
 )
 FALLBACK_BY_NAME["gimmighoul 30th"] = _GIMMIGHOUL_30TH
 FALLBACK_BY_NAME["gimmighoul celebration"] = _GIMMIGHOUL_30TH
+# 30th Celebration 101/128 Treasure Rush. Do not _register — Set A Fasten Claws
+# (swsh12.5-084) stays FALLBACK_BY_NAME["galarian meowth"].
+_PAY_DAY_TEXT = "Draw a card."
+_TREASURE_RUSH_TEXT = "This attack does 10 damage for each card in your hand."
+_GALARIAN_MEOWTH_30TH = _pkm(
+    "Galarian Meowth",
+    "Basic",
+    ["Metal"],
+    70,
+    [
+        _atk("Pay Day", ["Colorless"], 10, _PAY_DAY_TEXT),
+        _atk("Treasure Rush", ["Metal"], 10, _TREASURE_RUSH_TEXT),
+    ],
+    catalog_id="me04-101",
+    weakness="Fire",
+    resistances=[{"type": "Grass", "value": "-30"}],
+    set_name="30th Celebration",
+)
+FALLBACK_BY_NAME["galarian meowth 30th"] = _GALARIAN_MEOWTH_30TH
+FALLBACK_BY_NAME["galarian meowth celebration"] = _GALARIAN_MEOWTH_30TH
+FALLBACK_BY_NAME["meowth 30th"] = _GALARIAN_MEOWTH_30TH
 _register(
     _pkm(
         "Gholdengo",
@@ -2723,6 +2753,30 @@ _register(
         image="https://assets.tcgdex.net/en/xy/xy3/92/low.webp",
     )
 )
+_register(
+    _trn(
+        "Penny",
+        "supporter",
+        _PENNY_TEXT,
+        catalog_id="sv01-183",
+        image="https://assets.tcgdex.net/en/sv/sv01/183/low.webp",
+    )
+)
+_register(
+    _pkm(
+        "Shaymin",
+        "Basic",
+        ["Grass"],
+        70,
+        [_atk("Energy Bloom", ["Grass", "Colorless"], 30, _ENERGY_BLOOM_TEXT)],
+        catalog_id="hgss2-8",
+        weakness="Fire",
+        resistances=[{"type": "Fighting", "value": "-20"}],
+        abilities=[Ability(name="Celebration Wind", text=_CELEBRATION_WIND_TEXT)],
+        image="https://assets.tcgdex.net/en/hgss/hgss2/8/low.webp",
+        set_name="Unleashed",
+    )
+)
 _ENRICHING = _register(
     Card(
         catalog_id="sv08-191",
@@ -2789,6 +2843,28 @@ _register(
         abilities=[Ability(name="Fleet-Footed", text=_FLEET_FOOTED_TEXT)],
         image="https://assets.tcgdex.net/en/swsh/swsh9/48/low.webp",
         set_name="Brilliant Stars",
+    )
+)
+_register(
+    _pkm(
+        "Iron Hands ex",
+        "Basic",
+        ["Lightning"],
+        230,
+        [
+            _atk("Arm Press", ["Lightning", "Lightning", "Colorless"], 160),
+            _atk(
+                "Amp You Very Much",
+                ["Lightning", "Colorless", "Colorless", "Colorless"],
+                120,
+                _AMP_YOU_VERY_MUCH_TEXT,
+            ),
+        ],
+        retreat=4,
+        catalog_id="sv04-070",
+        weakness="Fighting",
+        image="https://assets.tcgdex.net/en/sv/sv04/070/low.webp",
+        set_name="Paradox Rift",
     )
 )
 
@@ -2908,11 +2984,11 @@ _register(
 
 
 def build_g30_deck() -> list[Card]:
-    """Ambipom PAR 146 closer; Aipom uses the Paradox Rift print, not Lost Origin."""
+    """30th Galarian Meowth Treasure Rush closer; Fasten Claws stays the name default."""
     out: list[Card] = []
     for name in SET_G30_NAMES:
-        if name == "Aipom":
-            out.append(fallback_named("aipom par"))
+        if name == "Galarian Meowth":
+            out.append(fallback_named("galarian meowth 30th"))
         else:
             out.append(fallback_named(name))
     return out

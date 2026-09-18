@@ -1,7 +1,7 @@
-# Ambipom PAR Hand Fling — 60-card Unlimited (G30 lab)
+# 30th Galarian Meowth Treasure Rush — 60-card Unlimited (G30 lab)
 
-Date: 2026-09-15
-Status: engine plays Ambipom PAR 146 Hand Fling with Lopunny FLF Big Jump, Raikou V Fleet-Footed + Forest Seal Stone Star Alchemy, Draw Energy, and Rare Candy. Win-rate array vs household 60s is in `data/lab/gholdengo-30-array.json`.
+Date: 2026-09-16
+Status: engine plays 30th Celebration Galarian Meowth Treasure Rush (Basic, no evolve) with Lopunny FLF Big Jump, Shaymin UL Celebration Wind recycling Speed Lightning Energy, Penny / Scoop Up Net to replay Shaymin, Iron Hands ex Amp extra prize + Speed L host, Draw Energy, and Rare Candy. Win-rate array vs household 60s is in `data/lab/gholdengo-30-array.json`. Crown Zenith Fasten Claws stays the catalog default for the name Galarian Meowth.
 
 **This lab is Unlimited constructed. Not Standard. Not Expanded. Not Family Cup 30.**
 
@@ -28,17 +28,17 @@ Puzzle of Time, Scoop Up Net, Forest of Giant Plants, Broken Time-Space, Lysandr
 
 研究目标从一开始就是：**60 张牌组 + Unlimited 卡池 + 6 奖**。Standard / Expanded 的轮换和禁卡表只用来对照「离开 Unlimited 会丢掉哪些循环」，不是这副牌的规则。
 
-主循环改成 **Lopunny FLF 85 Big Jump**：印刷 `Once during your turn (before your attack), you may return this Pokémon and all cards attached to it to your hand.` Jumpluff DRX 3 Leave It to the Wind 是同一句，但是 Stage 2（Hoppip→Skiploom→Jumpluff），这副 60 用 Stage 1 Lopunny。附着卡回**手牌**，不是洗回牌库（Abra Teleporter / Dudunsparce RAD），也不是进弃牌再 Puzzle（Scoop Up Net）。Crazy Code 贴 Enriching（+3）→ Big Jump 把 Buneary+Lopunny+Enriching 回手（+3）→ 重放 Buneary −1 → BTS 进化 −1，净 **+4** / 圈。Draw Energy CEC 209 贴上摸 1，净 0，Crazy Code 可以连贴，给 Ambipom 付无色。12 张手牌 = 240，够打家庭组常见 2 奖（Mewtwo 230 / Ogerpon 210 / Wo-Chien）；Dragapult 320 要 16 张。还是一回合一次攻击，6 奖至少 3 枪。
+主循环仍是 **Lopunny FLF 85 Big Jump**：印刷 `Once during your turn (before your attack), you may return this Pokémon and all cards attached to it to your hand.` Jumpluff DRX 3 Leave It to the Wind 是同一句，但是 Stage 2，这副 60 用 Stage 1 Lopunny。Crazy Code 贴 Enriching（+3）→ Big Jump 把 Buneary+Lopunny+Enriching 回手（+3）→ 重放 Buneary −1 → BTS 进化 −1，净 **+4** / 圈。Draw Energy CEC 209 贴上摸 1，净 0。
 
-**电系位换成 Raikou V（BRS 48）**，不再用 Pikachu / Tynamo。Fleet-Footed：在场上前位时摸 1。Forest Seal Stone 贴在 V 上开 Star Alchemy，**从牌组找任意一张**（Rare Candy / Porygon-Z / Lopunny / Draw Energy），一局一次 VSTAR。Speed Lightning Energy 只有贴到雷宝可梦才抽 2，贴 Raikou V 才算。这版 Raikou / Seal / Nest 各留 1：Star Alchemy 一局一次，第二只 V 是 2 奖诱饵。
+**主攻仍是 30th Galarian Meowth（J 101/128, `me04-101`）。** Basic 钢 70 HP，**不用进化**。印刷 Pay Day `[C]` 10「Draw a card.」；Treasure Rush **`[M]`** 10×「This attack does 10 damage for each card in your hand.」钢能量符号不是无色星。无色能量付不了 Rush。Crown Zenith Fasten Claws（`swsh12.5-084`）仍是名字默认。70 HP 可 Poffin。1 奖身体。10× 打 Mewtwo 230 要 **23 张手牌**。Pay Day 不能在 Rush 能 KO 时抢走攻击。
 
-**砍掉 Sableye / Remoraid / Octillery / Porygon2 / Pikachu。** Rare Candy 比 Porygon2：跳过 Stage 1 直接 Porygon → Porygon-Z。印刷写明不能第一回合、不能对这回合放下的 Basic 用，Broken Time-Space **不能**覆盖这句。
+**砍掉 2 Raikou V + 2 Forest Seal Stone。电系位改 3 Iron Hands ex（PAR 70, `sv04-070`）。** Lightning Basic ex 230 HP，退 4，不吃 Poffin，所以 Nest 1→2。**Arm Press** `[L][L][C]` 160；**Amp You Very Much** `[L][C][C][C]` 120，印刷「If your opponent's Pokémon is Knocked Out by damage from this attack, take 1 more Prize card.」对 Clefairy 60 Amp 拿 **2 奖**（1+1），Rush 只拿 1。160/120 秒不了 Mewtwo 230 / Ogerpon 210 / Dragapult 320，胖子仍靠 Meowth Rush。Speed Lightning Energy 贴 Hands 才抽 2。刷牌不靠 Fleet-Footed / Star Alchemy。场上最多 **1** 只 Hands（2 奖，Net 能捞 ex，keep-names 拦住；Penny 也别捞）。
 
-同回合再进化 Stage 1（Aipom / Buneary）用 **Broken Time-Space**。Abra Teleporter 仍把 Energy 洗进牌库，不要当这副的宿主。
+**砍掉 Aipom / Ambipom / Sableye / Remoraid / Octillery / Porygon2 / Pikachu。** Rare Candy 仍跳 Porygon → Porygon-Z。Wally 只给 Buneary→Lopunny。场上最多 **1** 只 Meowth，给 Shaymin 留座位。
 
-**Ambipom 不抗揍，走 2 换 1。** 100 HP 挡不住 Photon / Dive，但只给 1 奖。家庭组 closer 是 2 奖，Hand Fling 先 KO 再死 = 净 +1 奖。所以把线加厚成 **4 Aipom / 4 Ambipom**：大接手更容易抽出第二只，Wally / Ultra Ball 在场上已有一只 Ambipom 时仍会找备用。不换 Mew 墙，也不占 Enriching 的 ACE SPEC 位。
+**刷牌：Shaymin UL 8 Celebration Wind + Penny。** Crazy Code 把 Speed L 贴到 Iron Hands（最多 +8），Enriching 贴大兔子（+4），手牌打出 Shaymin 把电系身上的特殊电挪到 Lopunny（钢能量留在 Meowth 上）。Hands 已经能付招并 KO 时不要 Wind。Big Jump 整叠回手后再贴。Scoop Up Net（物品，可连用）或 Penny（支援者，每回合 1 张）把 Shaymin 拿回手再打，Wind 再触发。不用 Shaymin-EX Set Up（摸到 6 就停）。Enriching 仍是唯一 ACE SPEC。不用苹果龙。
 
-家庭组 3000 盘数组（seed 20260911）这版 **4 Aipom / 4 Ambipom / 1 Raikou**：胜率 **3.7 / 4.9 / 6.7 / 22.1 / 4.2 / 28.5 / 30.4%** vs c60/t60/hedrick/unl/d60/s60/g。上一版 2 Raikou / 3+2 是 **3.5 / 5.2 / 6.1 / 20.5 / 5.5 / 28.0 / 26.5%**。g 从 26.5% 到 30.4%（Hand Fling 38.4% → 42.5%），c60 / t60 / d60 几乎不动——Photon / Dive 仍先打掉 100 HP。砍成 1 只 Raikou 之后 Speed L / Fleet-Footed / Star Alchemy 都掉了。
+家庭组 3000 盘数组（seed 20260911）这版 **砍 Raikou、3 Iron Hands ex Amp**：胜率 **2.6 / 7.7 / 9.3 / 22.2 / 3.2 / 20.5 / 38.2%** vs c60/t60/hedrick/unl/d60/s60/g。上一版 Shaymin Wind + Raikou 是 **2.2 / 6.8 / 8.0 / 17.2 / 5.2 / 11.5 / 30.1%**。s60 11.5→20.5，g 30.1→38.2，unl 17.2→22.2；d60 5.2→3.2（Dive 仍更快）。c60 Photon 仍秒 70 HP。Amp 只在约 0–4% 的对局里打出（c60 1.2%）；胖子仍靠 Treasure Rush。Speed L s60 70.1%；Wind s60 35.9%。Goldfish 场上齐了能摸到 30。
 
 ---
 
@@ -82,9 +82,9 @@ Opponent gets a full turn after shot 1 and shot 2. Gust Porygon-Z or Octillery, 
 
 ---
 
-## The 60 (Unlimited constructed, Hand Fling)
+## The 60 (Unlimited constructed, Treasure Rush)
 
-Printings are the text this lab uses. Aipom is Paradox Rift 145 (Filch / Smack), not Lost Origin, so it evolves into Ambipom PAR 146. Raikou V is Brilliant Stars 48 (Fleet-Footed). Draw Energy is Cosmic Eclipse 209.
+Printings are the text this lab uses. Galarian Meowth in this 60 is **30th Celebration 101** (Pay Day / Treasure Rush), not Crown Zenith Fasten Claws. Iron Hands ex is Paradox Rift 70 (Arm Press / Amp You Very Much). Draw Energy is Cosmic Eclipse 209.
 
 | Qty | Card | Set | Why |
 |---:|---|---|---|
@@ -92,32 +92,30 @@ Printings are the text this lab uses. Aipom is Paradox Rift 145 (Filch / Smack),
 | 2 | Lopunny | FLF 85 | **Big Jump**: this Pokémon + attachments to **hand**. Sitdown Bounce is not the closer. |
 | 3 | Porygon | UNB 154 | 50 HP → Poffin. Rare Candy into Porygon-Z. |
 | 2 | Porygon-Z | UNB 157 | Crazy Code. |
-| 4 | Aipom | PAR 145 | BTS into Ambipom. 60 HP → Poffin. Filch draws 1. Spare Basic after the first closer dies. |
-| 4 | Ambipom | PAR 146 | **Hand Fling** 20×hand, `[C][C][C]`. Collect draws 2. No Ability (Stance does not block). 100 HP, **1 prize**. Second copy is the 2-for-1 race. |
-| 1 | Raikou V | BRS 48 | Lightning host for Speed L draw 2. **Fleet-Footed** draws 1 if Active. Pokémon V for Forest Seal Stone. 200 HP, 2 prizes — do not open on it. Star Alchemy is once per game. |
+| 4 | Galarian Meowth | 30th 101 | **Treasure Rush** 10×hand, **`[M]`**. Pay Day `[C]` draws 1 when neither closer would KO. Basic, 70 HP → Poffin. **1 prize**. Cap **1** in play (bench seat for Shaymin). Hunt still wants a spare in hand. Fat 210–320 HP still needs Rush. |
+| 3 | Iron Hands ex | PAR 70 | Lightning host for Speed L draw 2. **Amp You Very Much** 120 + printed extra prize on KO. **Arm Press** 160. 230 HP, **2 prizes** — do not open on it. Cap **1** in play. Nest-legal, not Poffin. Retreat 4 → Switch. Net *can* scoop ex; keep-names block it. |
+| 4 | Shaymin | UL 8 | **Celebration Wind**: when put from **hand** onto the Bench, move any Energy to Lopunny. Not from Nest/Poffin. 70 HP → Poffin-legal, but the engine holds it in hand until Speed L is on Hands, and skips Wind if Hands can already pay+KO. |
 | 4 | Puzzle of Time | BKP 109 | Discard retrieve backup. |
-| 2 | Scoop Up Net | RCL 165 | Backup if Big Jump is not in play. Cannot Net Raikou V. Do **not** Net Ambipom / Lopunny. |
-| 3 | Broken Time-Space | PL 104 | Same-turn Stage 1 evo. Does **not** override Rare Candy. |
-| 1 | Nest Ball | any | Raikou V is 200 HP — Poffin cannot fetch it. One copy: only one V left. |
-| 3 | Buddy-Buddy Poffin | TEF 144 | Buneary / Porygon / Aipom. |
-| 3 | Ultra Ball | any | |
-| 3 | VS Seeker | PHF 109 | |
-| 2 | Wally | ROS 94 | Buneary→Lopunny, Aipom→Ambipom. Cannot skip to Porygon-Z. |
-| 1 | Professor's Research | any | Setup only. |
-| 1 | Battle Compressor | FCO / UNB | |
-| 1 | Switch | any | Into Ambipom when Hand Fling is still lethal after −1 card. |
+| 2 | Scoop Up Net | RCL 165 | Replay Shaymin the same turn (Item). Do **not** Net Meowth / Lopunny / Iron Hands. |
+| 3 | Broken Time-Space | PL 104 | Same-turn Stage 1 evo (Lopunny). Does **not** override Rare Candy. |
+| 2 | Nest Ball | any | Iron Hands is 230 HP — Poffin cannot fetch it. |
+| 3 | Buddy-Buddy Poffin | TEF 144 | Buneary / Porygon / Galarian Meowth / Shaymin (70). |
+| 2 | Ultra Ball | any | |
+| 2 | VS Seeker | PHF 109 | Recycle Penny / Wally. |
+| 1 | Wally | ROS 94 | Buneary→Lopunny. Meowth does not evolve. Cannot skip to Porygon-Z. |
+| 2 | Penny | SVI 183 | **Put 1 of your Basic Pokémon and all attached cards into your hand.** Shaymin only here. Supporter, 1/turn. Cannot Penny Lopunny or Iron Hands. |
+| 1 | Switch | any | Into Hands when Amp takes more prizes; into Meowth when Treasure Rush is still lethal after −1 card. Do not retreat Hands (cost 4 dumps Speed L). |
 | 4 | Rare Candy | PAF 89 | Skip Porygon → Porygon-Z. Not first turn; not a Basic played this turn. |
-| 1 | Forest Seal Stone | SIT 156 | Tool on Raikou V. **Star Alchemy**: search any one card, one VSTAR Power per game. |
 | 1 | Enriching Energy | SSP 191 | ACE SPEC. Loop on Lopunny (Big Jump). |
-| 4 | Speed Lightning Energy | RCL 173 | Draw 2 only on Lightning. Extra copies stay on Raikou V; reserve 3 Colorless for Ambipom. |
-| 3 | Lightning Energy | any | Pays Colorless on Ambipom. Once-per-turn attach. |
-| 4 | Draw Energy | CEC 209 | Colorless; attach from hand, draw 1. Net 0. Crazy Code can spam it. |
+| 4 | Speed Lightning Energy | RCL 173 | Draw 2 only on Lightning. Attach to Iron Hands ex, Wind onto Lopunny, Big Jump recycles. Do not spend on Metal Meowth. |
+| 4 | Metal Energy | any | Pays Treasure Rush `[M]`. Once-per-turn attach. Colorless cannot pay Metal. Stay on Meowth through Wind. |
+| 4 | Draw Energy | CEC 209 | Colorless; attach from hand, draw 1. Net 0. Crazy Code can spam it. Does **not** pay Rush. Pays Amp Colorless if Hands is still unpaid. |
 
-**19 Pokémon + 29 Trainers + 12 Energy = 60.**
+**21 Pokémon + 26 Trainers + 13 Energy = 60.**
 
-Cut Sableye, Remoraid, Octillery, Pikachu, Porygon2, Junk Arm, Darkness. Jumpluff DRX 3 is the same bounce sentence but Stage 2 — not in this 60. Cut the second Raikou V / Forest Seal / Nest for two extra Ambipom and one extra Aipom.
+Cut Aipom, Ambipom, Sableye, Remoraid, Octillery, Pikachu, Porygon2, Junk Arm, Darkness, Lightning Energy, Professor's Research, Battle Compressor, Raikou V, Forest Seal Stone. The 8 Aipom/Ambipom slots plus trainer cuts become 4 Meowth + 3 Iron Hands + Nest + 4 Shaymin + 2 Penny.
 
-Goldfish (board already up, going second): Rare Candy Porygon into Z, BTS into Ambipom + Lopunny, Nest Raikou V. Forest Seal Stone on Raikou → Star Alchemy. Crazy Code Speed L onto Raikou (draw 2), Enriching onto Lopunny (draw 4), Draw Energy onto Ambipom / bounce host. Big Jump returns Buneary + Lopunny + Enriching. Replay Buneary, BTS evolve, attach again. Fleet-Footed if Raikou is Active on a setup turn. After the first Ambipom is in play, Nest / Wally / Ultra Ball still fetch a spare Aipom → Ambipom. Hand Fling when `20 × (hand − pay − Switch)` KOs.
+Goldfish (board already up, going second): Rare Candy Porygon into Z, BTS into Lopunny, Nest Iron Hands ex, Meowth is already Basic. Attach one Metal to Meowth. Crazy Code Speed L onto Hands (draw 2 each, up to +8), Enriching onto Lopunny (draw 4), Draw Energy onto bounce host (or Hands if Amp is unpaid). Play Shaymin from hand: Celebration Wind moves Speed L (not Metal) onto Lopunny — skip Wind if Amp already KOs. Big Jump returns Buneary + Lopunny + Speed L + Enriching. Replay Buneary, BTS evolve, Net or Penny Shaymin, attach again. Amp Clefairy for 2 prizes. Treasure Rush when `10 × hand` KOs (23 vs Mewtwo 230) and `[M]` is attached.
 
 ---
 
@@ -185,27 +183,40 @@ Honest calendar: **3 Celebration attacks** is the prize floor. **3 of our turns*
 
 ## Win-rate array
 
-G30 (`celebration` strategy, Ambipom PAR Hand Fling + Lopunny FLF Big Jump + 4/4 Aipom/Ambipom + 1 Raikou V) as player A vs the household 60s. Not a full NxN remake of `set-c60-unl-matrix`. Rules preset `s60` (60 / 6 prizes / 4-of). First player random. **3,000 games / cell, seed 20260911**. Elapsed **71.9s** after the 4/4 Ambipom thicken.
+G30 (`celebration` strategy, 30th Galarian Meowth Treasure Rush `[M]` + 4 Metal + Lopunny FLF Big Jump + Shaymin UL Celebration Wind + Penny + 4 Meowth + 3 Iron Hands ex Amp; **0 Raikou V**, **0 Forest Seal Stone**) as player A vs the household 60s. Not a full NxN remake of `set-c60-unl-matrix`. Rules preset `s60` (60 / 6 prizes / 4-of). First player random. **3,000 games / cell, seed 20260911**. Elapsed **79.9s**.
 
 Script: `data/lab/gholdengo-30-array.py`. Numbers: `data/lab/gholdengo-30-array.json`.
 
 | A \\ B | c60 | t60 | hedrick | unl | d60 | s60 | g |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| g30 win | 3.7% | 4.9% | 6.7% | 22.1% | 4.2% | 28.5% | 30.4% |
-| first | 3.7% | 4.5% | 6.5% | 23.2% | 3.9% | 28.4% | 28.6% |
-| second | 3.6% | 5.3% | 6.9% | 21.0% | 4.4% | 28.6% | 32.3% |
-| Crazy Code | 38.1% | 20.5% | 29.2% | 28.3% | 15.1% | 50.9% | 48.9% |
-| Puzzle pair | 6.0% | 3.0% | 5.3% | 5.8% | 2.6% | 7.5% | 5.8% |
-| Speed L draw | 17.9% | 9.5% | 13.4% | 15.7% | 8.6% | 32.4% | 23.9% |
-| Big Jump | 16.5% | 8.3% | 10.5% | 14.7% | 5.7% | 25.0% | 12.8% |
-| Hand Fling | 23.7% | 11.4% | 17.6% | 15.0% | 3.4% | 37.8% | 42.5% |
-| Draw Energy | 84.9% | 78.1% | 78.5% | 85.0% | 78.9% | 93.6% | 88.1% |
-| Rare Candy | 61.2% | 69.5% | 43.3% | 94.4% | 41.5% | 72.7% | 64.6% |
-| Fleet-Footed | 43.8% | 38.8% | 38.4% | 39.3% | 47.0% | 40.4% | 37.9% |
-| Star Alchemy | 27.4% | 17.6% | 19.7% | 79.9% | 19.0% | 39.7% | 33.3% |
-| Celebration | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| g30 win | 2.6% | 7.7% | 9.3% | 22.2% | 3.2% | 20.5% | 38.2% |
+| first | 3.1% | 7.8% | 8.9% | 22.7% | 3.7% | 19.3% | 36.2% |
+| second | 2.0% | 7.6% | 9.8% | 21.6% | 2.8% | 21.6% | 40.2% |
+| Crazy Code | 32.5% | 20.0% | 28.1% | 30.1% | 18.5% | 72.9% | 33.0% |
+| Puzzle pair | 1.9% | 1.6% | 3.5% | 3.5% | 1.5% | 4.9% | 1.5% |
+| Speed L draw | 27.9% | 17.4% | 25.2% | 26.6% | 13.9% | 70.1% | 29.3% |
+| Big Jump | 36.7% | 29.4% | 31.8% | 42.4% | 26.9% | 76.0% | 28.6% |
+| Treasure Rush | 30.3% | 26.2% | 33.1% | 17.4% | 2.1% | 41.9% | 48.2% |
+| Amp You Very Much | 1.2% | 0.4% | 1.0% | 1.7% | 0.0% | 3.9% | 4.4% |
+| Extra prize on KO | 1.2% | 0.4% | 1.0% | 1.7% | 0.0% | 3.9% | 4.3% |
+| Arm Press | 2.5% | 0.7% | 2.4% | 3.6% | 0.0% | 3.8% | 8.1% |
+| Draw Energy | 69.2% | 58.0% | 61.2% | 70.6% | 61.4% | 94.1% | 69.9% |
+| Rare Candy | 38.4% | 67.0% | 30.9% | 93.1% | 24.7% | 75.4% | 36.8% |
+| Fleet-Footed | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% |
+| Star Alchemy | 0.0% | 0.0% | 0.0% | 76.6% | 0.0% | 0.0% | 0.0% |
+| Celebration Wind | 12.5% | 9.5% | 12.5% | 14.1% | 6.7% | 35.9% | 8.6% |
+| Penny | 14.7% | 10.9% | 14.4% | 14.9% | 9.8% | 31.8% | 11.1% |
+| Scoop Up Net | 16.0% | 11.5% | 15.9% | 16.5% | 11.5% | 37.8% | 12.0% |
 
-Same seed, 2 Raikou V / 3 Aipom / 2 Ambipom (before the 4/4 prize-race thicken): g30 win **3.5 / 5.2 / 6.1 / 20.5 / 5.5 / 28.0 / 26.5%**, Hand Fling **22.9 / 9.4 / 15.8 / 14.6 / 4.3 / 37.8 / 38.4%**. Thickening the closer line lifts g the most (26.5% → 30.4%, Hand Fling 38.4% → 42.5%). c60 / t60 / d60 stay ~4–5%: Photon and Dive still KO 100 HP Ambipom before three 2-prize shots. Cutting to one Raikou V drops Speed L / Fleet-Footed / Star Alchemy.
+Same seed, previous **Shaymin Wind + 2 Raikou V + Forest Seal**: g30 win **2.2 / 6.8 / 8.0 / 17.2 / 5.2 / 11.5 / 30.1%**, Treasure Rush **29.6 / 27.0 / 33.5 / 18.2 / 4.1 / 32.5 / 49.3%**, Speed L **31.8 / 16.7 / 26.5 / 28.5 / 14.9 / 52.7 / 32.2%**, Big Jump **41.3 / 29.6 / 34.9 / 45.1 / 28.0 / 62.0 / 33.9%**, Wind **14.4 / 8.8 / 14.8 / 15.5 / 7.4 / 27.9 / 14.0%**. Cutting Raikou for Hands lifts **s60** 11.5→20.5, **g** 30.1→38.2, **unl** 17.2→22.2; **d60** 5.2→3.2 (Dive still races). Amp extra prize is rare live (c60 1.2%, s60 3.9%, g 4.4%) — Photon still KO 70 HP Meowth before Hands can Amp Clefairy. Speed L on Hands (s60 70.1%) and Wind (s60 35.9%) fire more often than with Raikou. Fleet-Footed / Star Alchemy on our side are gone (unl 76.6% is the opponent). Goldfish with the board already up still reaches 30.
+
+Same seed, previous **`[M]` + 4 Metal, no Shaymin/Penny**: g30 win **2.6 / 6.9 / 9.6 / 17.0 / 2.8 / 10.4 / 24.7%**, Treasure Rush **25.5 / 27.4 / 32.6 / 13.8 / 1.9 / 22.7 / 45.5%**, Big Jump **18.3 / 10.9 / 15.5 / 17.9 / 8.0 / 35.6 / 14.9%**. Wind recycle roughly **doubles Big Jump** (c60 18→41, s60 36→62, g 15→34). Wins move most on **g** (24.7→30.1) and **d60** (2.8→5.2); s60 10.4→11.5; unl 17.0→17.2. Hedrick 9.6→8.0 and c60 2.6→2.2: Photon / Dive still KO 70 HP before three 2-prize shots, and Wind only fires in ~9–28% of games (need Shaymin in hand plus Raikou + Lopunny). Goldfish with the board already up still reaches 30.
+
+Same seed, previous **wrong `[C][C]` cost + 4 Lightning Energy**: g30 win **2.5 / 7.0 / 8.5 / 17.3 / 5.3 / 15.2 / 28.9%**, Treasure Rush **30.1 / 25.2 / 32.2 / 18.5 / 4.2 / 33.9 / 50.1%**. Printed `[M]` is easier to *count* (one energy) but harder to *pay*: Crazy Code cannot dump Colorless onto a Metal cost, and once-per-turn attach waits for a Metal from a 4-of.
+
+Same seed, previous **4 Aipom / 4 Ambipom / 1 Raikou**: g30 win **3.7 / 4.9 / 6.7 / 22.1 / 4.2 / 28.5 / 30.4%**, Hand Fling **23.7 / 11.4 / 17.6 / 15.0 / 3.4 / 37.8 / 42.5%**. Skipping evolve lifts t60 vs Ambipom (4.9→6.9) and hedrick (6.7→9.6); 2 Raikou lifts Speed L / Fleet-Footed / Star Alchemy. c60 stays ~2.5: Photon still KOs, and 70 HP Meowth dies even faster. s60 drops hard (28.5→10.4): 10× needs ~23 cards vs 20× at 12, `[M]` is once-per-turn, and 70 HP does not survive the prize race the way 100 HP Ambipom did. unl 22.1→17.0, g 30.4→24.7.
+
+Same seed, 2 Raikou V / 3 Aipom / 2 Ambipom (before the 4/4 prize-race thicken): g30 win **3.5 / 5.2 / 6.1 / 20.5 / 5.5 / 28.0 / 26.5%**, Hand Fling **22.9 / 9.4 / 15.8 / 14.6 / 4.3 / 37.8 / 38.4%**.
 
 Same seed, previous Pikachu / Octillery / Sableye 60 (play-script fix): g30 win **2.8 / 3.6 / 2.7 / 19.0 / 2.3 / 6.7 / 6.4%**. Raikou V + Draw Energy + Candy + Forest Seal Stone lifts s60 and g the most (Hand Fling 10% → 38%). c60 Photon and t60 Dive still KO 100 HP Ambipom before three prize shots.
 
@@ -213,20 +224,32 @@ Same seed, Abra-era search script (Buneary not tutored): g30 win **2.7 / 3.2 / 2
 
 Previous Abra + Net closer (same seed): g30 win **2.5 / 4.6 / 3.6 / 16.5 / 1.1 / 5.8 / 7.1%**. Celebration 30-hand was **3.3 / 3.9 / 2.9 / 18.1 / 0.9 / 1.7 / 1.0%**.
 
-Goldfish from a ready board still grows the hand (Big Jump returns Buneary + Lopunny + Enriching; Draw Energy is net 0; Speed L on Raikou V is +2) and Hand Fling KOs Mewtwo at 12 cards. Live vs household 60s Draw Energy / Candy / Star Alchemy actually fire. Three prize shots still lose the race to Photon / Dive on the fast 60s.
+Goldfish from a ready board still grows the hand (Big Jump returns Buneary + Lopunny + Enriching; Draw Energy is net 0; Speed L on Iron Hands ex is +2) and Treasure Rush KOs Mewtwo at 23 cards **if one Metal is already attached**. Live vs household 60s Draw Energy / Candy still fire; Fleet-Footed / Star Alchemy are gone with Raikou. Draw Energy does not pay Rush, so the once-per-turn attach has to find Metal. Three prize shots still lose the race to Photon / Dive on the fast 60s; 70 HP Meowth makes that race worse than 100 HP Ambipom except against slower Dragapult piles. Hands is 230 HP / 2 prizes — do not open on it.
 
-Household 60s also kill the board first. C60 Photon Kinesis KOs 100 HP Ambipom for one prize and 90 HP Lopunny / 130 HP Porygon-Z for one; Raikou V is 200 HP but **two prizes**. d60 Dive / Ogerpon is faster than assembling `[C][C][C]` plus a 12-card hand.
+Household 60s also kill the board first. C60 Photon Kinesis KOs 70 HP Meowth for one prize and 90 HP Lopunny / 130 HP Porygon-Z for one. d60 Dive / Ogerpon is faster than assembling `[M]` plus a 23-card hand. Amp extra prize barely fires vs those piles.
 
 ---
 
 ## Win condition
 
-**Current closer — Ambipom PAR 146.** Colorless Stage 1, 100 HP, evolves from Aipom PAR 145, no Ability.
+**Current closer — 30th Galarian Meowth 101.** Metal Basic, 70 HP, Fire ×2, Grass −30. No evolve. Catalog alias `galarian meowth 30th` / `me04-101`. Set A Fasten Claws (`swsh12.5-084`) stays the name default.
+
+- **[C] Pay Day 10** — Draw a card. Must not steal the attack when Treasure Rush would KO.
+- **[M] Treasure Rush 10×** — This attack does 10 damage for each card in your hand. One Metal Energy. Colorless specials do not pay this cost.
+
+23 cards = 230 (Mewtwo). 21 = 210 (Ogerpon). 32 = 320 (Dragapult). Hand stays after the attack. Six prizes still need three KOs of 2-prize Pokémon. Meowth itself is 1 prize, so a post-attack death is a 2-for-1 if a spare Meowth is already on the bench. 70 HP dies to almost every household attack; that is the cost of skipping Aipom→Ambipom.
+
+**Lightning closer — Iron Hands ex PAR 70.** Lightning Basic ex, 230 HP, Fighting ×2, retreat 4, **2 prizes**. Catalog `sv04-070`. Speed L host. Do not open on it.
+
+- **[L][L][C] Arm Press 160** — Pays with Speed L. Misses Mewtwo 230 / Ogerpon 210 / Dragapult 320.
+- **[L][C][C][C] Amp You Very Much 120** — If your opponent's Pokémon is Knocked Out by damage from this attack, take 1 more Prize card. vs Clefairy 60: **2 prizes** (1+1). Prefer Amp over Rush when both KO a 1-prize body. Prefer Rush when 10× actually KOs a tank.
+
+**Previous closer — Ambipom PAR 146.** Colorless Stage 1, 100 HP, evolves from Aipom PAR 145, no Ability.
 
 - **[C] Collect** — Draw 2 cards.
 - **[C][C][C] Hand Fling** — This attack does 20 damage for each card in your hand.
 
-12 cards = 240 (Mewtwo 230 / Wo-Chien 230). 11 = 220 (Ogerpon 210). 16 = 320 (Dragapult). Hand stays after the attack. Six prizes still need three KOs of 2-prize Pokémon. Ambipom itself is 1 prize, so a post-attack death is a 2-for-1 if a spare Aipom → Ambipom is already on the bench.
+12 cards = 240 (Mewtwo 230 / Wo-Chien 230). 11 = 220 (Ogerpon 210). 16 = 320 (Dragapult).
 
 **Recycle — Lopunny FLF 85 Big Jump.** Same printed sentence as Jumpluff DRX Leave It to the Wind. Returns this Pokémon **and all cards attached to it** (including Buneary underneath) to the hand.
 

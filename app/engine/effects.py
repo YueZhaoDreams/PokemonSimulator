@@ -409,6 +409,20 @@ def parse_ability_effects(text: str) -> list[dict[str, Any]]:
     if "can use the attacks of any of your benched pokemon" in t:
         effects.append({"kind": "copy_benched_attacks"})
 
+    # Shaymin UL 8 Celebration Wind: on-play-to-bench energy move.
+    if (
+        "when you put" in t
+        and "from your hand" in t
+        and "bench" in t
+        and "move as many energy" in t
+    ):
+        effects.append(
+            {
+                "kind": "move_any_energy_when_benched_from_hand",
+                "once_per_turn": "once during your turn" in t,
+            }
+        )
+
     # Broken Time-Space: evolve a Pokémon just played or just evolved this turn.
     if "just played" in t and "evolved" in t and "evolve" in t:
         effects.append({"kind": "evolve_just_played_or_evolved"})
@@ -434,6 +448,13 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
                 "shuffle_hand": "shuffle your hand into your deck" in t,
             }
         )
+
+    extra_prize = re.search(
+        r"knocked out by damage from this attack.*?take (\d+) more prize",
+        t,
+    )
+    if extra_prize:
+        effects.append({"kind": "extra_prize_on_ko", "count": int(extra_prize.group(1))})
 
     items_from_discard = re.search(
         r"put (\d+) item cards from your discard pile into your hand",
@@ -911,6 +932,13 @@ def parse_trainer_effects(text: str) -> list[dict[str, Any]]:
                 "just_played_ok": "put into play this turn" in t,
             }
         )
+        return effects
+
+    if re.search(
+        r"put 1 of your basic pokemon(?: in play)? and all attached cards into your hand",
+        t,
+    ):
+        effects.append({"kind": "return_one_basic_and_attached_to_hand"})
         return effects
 
     if "just played" in t and "evolved" in t and "evolve" in t:
