@@ -46,6 +46,10 @@ def test_set_c60_is_standard_sixty_with_psychic_energy():
     assert names.count("Maximum Belt") == 1
     assert names.count("Tool Box") == 0
     assert names.count("Arven") == 1
+    assert names.count("Battle Cage") == 3
+    assert names.count("Iono") == 1
+    assert names.count("Jacq") == 0
+    assert names.count("Energy Retrieval") == 0
     pile = build_fallback_deck(names)
     rules = standard_60_rules()
     assert copy_violations(pile, rules) == []

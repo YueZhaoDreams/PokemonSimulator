@@ -248,10 +248,45 @@ def test_rabsca_does_not_block_adrena_brain():
     assert clef.damage == 70
 
 
-def test_cage_variant_stays_legal_sixty():
+def test_bench_shield_jsons_follow_schema():
+    import json
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1] / "data" / "lab"
+    bake = json.loads((root / "set-c60-bench-shield.json").read_text())
+    assert bake["games"] == 3000
+    assert bake["seed"] == 20260911
+    assert list(bake["variants"]) == [
+        "base",
+        "cage2-hop-iono",
+        "cage2-jacq-retr",
+        "cage1-iono",
+        "rabsca-hop-iono",
+        "rabsca-jacq-retr",
+        "shaymin-iono",
+    ]
+    for row in bake["cells"].values():
+        assert set(row) == {"t60", "hedrick", "unl", "d60"}
+    final = json.loads((root / "set-c60-bench-shield-final.json").read_text())
+    assert final["games"] == 3000
+    assert final["seed"] == 20260911
+    assert list(final["cells"]) == [
+        "base(pre-shield)",
+        "cage2(-Jacq-Retrieval+2Cage)",
+        "LOCKED(-Jacq-Retrieval-Iono+3Cage)",
+    ]
+    for row in final["cells"].values():
+        assert set(row) == {"g", "d60", "t60", "hedrick", "unl", "s60"}
+    from collections import Counter
+
+    assert Counter(final["variants"]["LOCKED(-Jacq-Retrieval-Iono+3Cage)"]) == Counter(SET_C60_NAMES)
+
+
+def test_locked_c60_has_three_cages_and_stays_legal():
     names = list(SET_C60_NAMES)
-    names.remove("Hop")
-    names.remove("Iono")
-    names.extend(["Battle Cage", "Battle Cage"])
     assert len(names) == 60
+    assert names.count("Battle Cage") == 3
+    assert names.count("Iono") == 1
+    assert names.count("Jacq") == 0
+    assert names.count("Energy Retrieval") == 0
     assert copy_violations(build_fallback_deck(names), standard_60_rules()) == []
