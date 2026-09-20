@@ -45,10 +45,10 @@ def test_load_seed_deck_m():
     assert default_rule_presets_for("seed-m60") == ["s60"]
     assert "seed-m60" in S60_SEED_IDS
 
+    # "m" and "mew" alias to seed-m60
     deck_m = load_seed_deck("m")
+    assert deck_m["id"] == "seed-m60"
     assert len(deck_m["cards"]) == 60
-    assert default_rule_presets_for("seed-m") == ["s60"]
-    assert "seed-m" in S60_SEED_IDS
 
     deck_alias = load_seed_deck("mew")
     assert deck_alias["id"] == deck_m60["id"]

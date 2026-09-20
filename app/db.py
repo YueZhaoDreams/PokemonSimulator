@@ -349,6 +349,7 @@ def _upsert_seed_decks(conn: sqlite3.Connection, owner_id: str | None = None) ->
                     presets_json,
                 ),
             )
+    conn.execute("DELETE FROM decks WHERE id='seed-m'")
 
 
 def _now() -> str:
