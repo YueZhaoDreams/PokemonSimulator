@@ -316,7 +316,7 @@ def _upsert_seed_decks(conn: sqlite3.Connection, owner_id: str | None = None) ->
             have_names = _card_names_from_json(existing["cards_json"])
             want_names = _card_names(want_cards)
             # Locked seed names refresh; same-name print swaps stay.
-            if have_names != want_names:
+            if have_names != want_names or "/me04/me04/" in (existing["cards_json"] or ""):
                 conn.execute(
                     "UPDATE decks SET name=?, source=?, cards_json=?, owner_id=COALESCE(owner_id, ?), "
                     "rules_json=COALESCE(rules_json, ?) WHERE id=?",
