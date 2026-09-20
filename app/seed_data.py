@@ -314,11 +314,11 @@ SET_T_UNL_NAMES = (
     + ["Psychic Energy"] * 3
 )
 
-# Set M Standard 60: Zero-Energy Mew ex & Igglybuff Baby Box (Optimized Champion: 2 Mime Jr.).
+# Set M Standard 60: Zero-Energy Mew ex & Igglybuff Baby Box (Optimized Option C: 4 Mew ex, 4 Igglybuff, 4 Charm, 1 Switch).
 SET_M60_NAMES = (
-    ["Mew ex"] * 3
+    ["Mew ex"] * 4
     + ["Mime Jr."] * 2
-    + ["Igglybuff"] * 3
+    + ["Igglybuff"] * 4
     + ["Budew"] * 3
     + ["Cleffa"] * 2
     + ["Buddy-Buddy Poffin"] * 4
@@ -326,14 +326,14 @@ SET_M60_NAMES = (
     + ["Ultra Ball"] * 4
     + ["Night Stretcher"] * 4
     + ["Battle Cage"] * 4
-    + ["Bravery Charm"] * 3
+    + ["Bravery Charm"] * 4
     + ["Maximum Belt"]
     + ["Arven"] * 4
     + ["Iono"] * 4
     + ["Professor's Research"] * 2
     + ["Boss's Orders"] * 3
     + ["Crushing Hammer"] * 4
-    + ["Switch"] * 4
+    + ["Switch"] * 1
     + ["Counter Catcher"] * 2
 )
 SET_M_NAMES = SET_M60_NAMES
