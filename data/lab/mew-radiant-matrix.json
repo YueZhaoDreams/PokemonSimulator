@@ -1,0 +1,850 @@
+{
+  "timestamp": "2026-09-20T13:52:35Z",
+  "games_per_cell": 1000,
+  "leaderboard": [
+    {
+      "rank": 1,
+      "variant": "baseline_v5",
+      "name": "Phase 1 Champion: V5 Hybrid Baseline (Pure Baby)",
+      "overall_win_rate": 0.3593,
+      "matchups": {
+        "t60": 0.456,
+        "hedrick": 0.423,
+        "c60": 0.317,
+        "d60": 0.241
+      }
+    },
+    {
+      "rank": 2,
+      "variant": "rc_v5_2fire_heavy",
+      "name": "RC-V5: 2-Fire Heavy Charizard Finisher",
+      "overall_win_rate": 0.2348,
+      "matchups": {
+        "t60": 0.326,
+        "hedrick": 0.274,
+        "c60": 0.196,
+        "d60": 0.143
+      }
+    },
+    {
+      "rank": 3,
+      "variant": "rc_v2_1fire_hybrid",
+      "name": "RC-V2: 1-Fire Hybrid Finisher",
+      "overall_win_rate": 0.2117,
+      "matchups": {
+        "t60": 0.294,
+        "hedrick": 0.262,
+        "c60": 0.177,
+        "d60": 0.114
+      }
+    },
+    {
+      "rank": 4,
+      "variant": "rc_v4_midrange",
+      "name": "RC-V4: Focused Snorlax & Slaking Midrange (0 Energy)",
+      "overall_win_rate": 0.202,
+      "matchups": {
+        "t60": 0.293,
+        "hedrick": 0.255,
+        "c60": 0.147,
+        "d60": 0.113
+      }
+    },
+    {
+      "rank": 5,
+      "variant": "rc_v1_pure_slaking",
+      "name": "RC-V1: Pure 0-Energy Slaking & Dunsparce Turbo",
+      "overall_win_rate": 0.1678,
+      "matchups": {
+        "t60": 0.242,
+        "hedrick": 0.211,
+        "c60": 0.117,
+        "d60": 0.101
+      }
+    },
+    {
+      "rank": 6,
+      "variant": "rc_v3_full_arsenal",
+      "name": "RC-V3: Full 1-5 Colorless Arsenal (0 Energy)",
+      "overall_win_rate": 0.1333,
+      "matchups": {
+        "t60": 0.209,
+        "hedrick": 0.173,
+        "c60": 0.101,
+        "d60": 0.05
+      }
+    }
+  ],
+  "variants": {
+    "baseline_v5": {
+      "name": "Phase 1 Champion: V5 Hybrid Baseline (Pure Baby)",
+      "description": "Winning list from Phase 1: 3 Mew ex, 4 Igglybuff, 3 Budew, 2 Cleffa, 1 Mime Jr., 4 Poffin, 4 Nest, 4 Ultra, 4 Stretcher, 4 Cage, 3 Charm, 1 Belt, 4 Arven, 4 Iono, 2 Research, 3 Boss, 4 Hammer, 4 Switch, 2 CC.",
+      "overall_win_rate": 0.3593,
+      "matchups": {
+        "t60": 0.456,
+        "hedrick": 0.423,
+        "c60": 0.317,
+        "d60": 0.241
+      },
+      "details": {
+        "d60": {
+          "variant": "baseline_v5",
+          "foe": "d60",
+          "win_rate": 0.241,
+          "wins_a": 241,
+          "total_games": 1000,
+          "win_rate_first": 0.2222,
+          "win_rate_second": 0.2601,
+          "avg_turns": 0.0,
+          "key_attacks": {
+            "event_prefix:attack:Mew ex:": 897
+          }
+        },
+        "t60": {
+          "variant": "baseline_v5",
+          "foe": "t60",
+          "win_rate": 0.456,
+          "wins_a": 456,
+          "total_games": 1000,
+          "win_rate_first": 0.4393,
+          "win_rate_second": 0.474,
+          "avg_turns": 0.0,
+          "key_attacks": {
+            "event_prefix:attack:Mew ex:": 913
+          }
+        },
+        "hedrick": {
+          "variant": "baseline_v5",
+          "foe": "hedrick",
+          "win_rate": 0.423,
+          "wins_a": 423,
+          "total_games": 1000,
+          "win_rate_first": 0.4109,
+          "win_rate_second": 0.4348,
+          "avg_turns": 0.0,
+          "key_attacks": {
+            "event_prefix:attack:Mew ex:": 918
+          }
+        },
+        "c60": {
+          "variant": "baseline_v5",
+          "foe": "c60",
+          "win_rate": 0.317,
+          "wins_a": 317,
+          "total_games": 1000,
+          "win_rate_first": 0.2829,
+          "win_rate_second": 0.3514,
+          "avg_turns": 0.0,
+          "key_attacks": {
+            "event_prefix:attack:Mew ex:": 971
+          }
+        }
+      },
+      "cards": [
+        "Mew ex",
+        "Mew ex",
+        "Mew ex",
+        "Igglybuff",
+        "Igglybuff",
+        "Igglybuff",
+        "Igglybuff",
+        "Budew",
+        "Budew",
+        "Budew",
+        "Cleffa",
+        "Cleffa",
+        "Mime Jr.",
+        "Buddy-Buddy Poffin",
+        "Buddy-Buddy Poffin",
+        "Buddy-Buddy Poffin",
+        "Buddy-Buddy Poffin",
+        "Nest Ball",
+        "Nest Ball",
+        "Nest Ball",
+        "Nest Ball",
+        "Ultra Ball",
+        "Ultra Ball",
+        "Ultra Ball",
+        "Ultra Ball",
+        "Night Stretcher",
+        "Night Stretcher",
+        "Night Stretcher",
+        "Night Stretcher",
+        "Battle Cage",
+        "Battle Cage",
+        "Battle Cage",
+        "Battle Cage",
+        "Maximum Belt",
+        "Bravery Charm",
+        "Bravery Charm",
+        "Bravery Charm",
+        "Arven",
+        "Arven",
+        "Arven",
+        "Arven",
+        "Iono",
+        "Iono",
+        "Iono",
+        "Iono",
+        "Professor's Research",
+        "Professor's Research",
+        "Boss's Orders",
+        "Boss's Orders",
+        "Boss's Orders",
+        "Crushing Hammer",
+        "Crushing Hammer",
+        "Crushing Hammer",
+        "Crushing Hammer",
+        "Switch",
+        "Switch",
+        "Switch",
+        "Switch",
+        "Counter Catcher",
+        "Counter Catcher"
+      ]
+    },
+    "rc_v1_pure_slaking": {
+      "name": "RC-V1: Pure 0-Energy Slaking & Dunsparce Turbo",
+      "description": "100% 0-energy. 1 Radiant Charizard for Excited Heart cost reduction aura + 1 Slaking V (260 dmg at 4 prizes) + 1 Dunsparce (10 dmg + 100% Paralyze at 1 prize) + Baby engine.",
+      "overall_win_rate": 0.1678,
+      "matchups": {
+        "t60": 0.242,
+        "hedrick": 0.211,
+        "c60": 0.117,
+        "d60": 0.101
+      },
+      "details": {
+        "d60": {
+          "variant": "rc_v1_pure_slaking",
+          "foe": "d60",
+          "win_rate": 0.101,
+          "wins_a": 101,
+          "total_games": 1000,
+          "win_rate_first": 0.0911,
+          "win_rate_second": 0.1111,
+          "avg_turns": 0.0,
+          "key_attacks": {
+            "event_prefix:attack:Mew ex:": 713
+          }
+        },
+        "t60": {
+          "variant": "rc_v1_pure_slaking",
+          "foe": "t60",
+          "win_rate": 0.242,
+          "wins_a": 242,
+          "total_games": 1000,
+          "win_rate_first": 0.2093,
+          "win_rate_second": 0.2769,
+          "avg_turns": 0.0,
+          "key_attacks": {
+            "event_prefix:attack:Mew ex:": 739
+          }
+        },
+        "hedrick": {
+          "variant": "rc_v1_pure_slaking",
+          "foe": "hedrick",
+          "win_rate": 0.211,
+          "wins_a": 211,
+          "total_games": 1000,
+          "win_rate_first": 0.1747,
+          "win_rate_second": 0.247,
+          "avg_turns": 0.0,
+          "key_attacks": {
+            "event_prefix:attack:Mew ex:": 674
+          }
+        },
+        "c60": {
+          "variant": "rc_v1_pure_slaking",
+          "foe": "c60",
+          "win_rate": 0.117,
+          "wins_a": 117,
+          "total_games": 1000,
+          "win_rate_first": 0.1075,
+          "win_rate_second": 0.1273,
+          "avg_turns": 0.0,
+          "key_attacks": {
+            "event_prefix:attack:Mew ex:": 722
+          }
+        }
+      },
+      "cards": [
+        "Mew ex",
+        "Mew ex",
+        "Mew ex",
+        "Radiant Charizard",
+        "Slaking V",
+        "Dunsparce",
+        "Igglybuff",
+        "Igglybuff",
+        "Igglybuff",
+        "Igglybuff",
+        "Budew",
+        "Budew",
+        "Budew",
+        "Cleffa",
+        "Cleffa",
+        "Mime Jr.",
+        "Buddy-Buddy Poffin",
+        "Buddy-Buddy Poffin",
+        "Buddy-Buddy Poffin",
+        "Buddy-Buddy Poffin",
+        "Nest Ball",
+        "Nest Ball",
+        "Nest Ball",
+        "Nest Ball",
+        "Ultra Ball",
+        "Ultra Ball",
+        "Ultra Ball",
+        "Ultra Ball",
+        "Night Stretcher",
+        "Night Stretcher",
+        "Night Stretcher",
+        "Night Stretcher",
+        "Battle Cage",
+        "Battle Cage",
+        "Battle Cage",
+        "Battle Cage",
+        "Maximum Belt",
+        "Bravery Charm",
+        "Bravery Charm",
+        "Bravery Charm",
+        "Arven",
+        "Arven",
+        "Arven",
+        "Arven",
+        "Iono",
+        "Iono",
+        "Iono",
+        "Iono",
+        "Professor's Research",
+        "Professor's Research",
+        "Boss's Orders",
+        "Boss's Orders",
+        "Boss's Orders",
+        "Crushing Hammer",
+        "Crushing Hammer",
+        "Crushing Hammer",
+        "Crushing Hammer",
+        "Switch",
+        "Switch",
+        "Switch"
+      ]
+    },
+    "rc_v2_1fire_hybrid": {
+      "name": "RC-V2: 1-Fire Hybrid Finisher",
+      "description": "Adds 1 Basic Fire Energy so Radiant Charizard itself can promote and unleash 250 dmg Combustion Blast for 1 Fire at 3+ prizes taken, as an alternate late-game win condition.",
+      "overall_win_rate": 0.2117,
+      "matchups": {
+        "t60": 0.294,
+        "hedrick": 0.262,
+        "c60": 0.177,
+        "d60": 0.114
+      },
+      "details": {
+        "d60": {
+          "variant": "rc_v2_1fire_hybrid",
+          "foe": "d60",
+          "win_rate": 0.114,
+          "wins_a": 114,
+          "total_games": 1000,
+          "win_rate_first": 0.1078,
+          "win_rate_second": 0.1204,
+          "avg_turns": 0.0,
+          "key_attacks": {
+            "event_prefix:attack:Mew ex:": 698,
+            "event_prefix:attack:Radiant Charizard:": 46
+          }
+        },
+        "t60": {
+          "variant": "rc_v2_1fire_hybrid",
+          "foe": "t60",
+          "win_rate": 0.294,
+          "wins_a": 294,
+          "total_games": 1000,
+          "win_rate_first": 0.2562,
+          "win_rate_second": 0.3288,
+          "avg_turns": 0.0,
+          "key_attacks": {
+            "event_prefix:attack:Mew ex:": 736,
+            "event_prefix:attack:Radiant Charizard:": 21
+          }
+        },
+        "hedrick": {
+          "variant": "rc_v2_1fire_hybrid",
+          "foe": "hedrick",
+          "win_rate": 0.262,
+          "wins_a": 262,
+          "total_games": 1000,
+          "win_rate_first": 0.2253,
+          "win_rate_second": 0.294,
+          "avg_turns": 0.0,
+          "key_attacks": {
+            "event_prefix:attack:Mew ex:": 655,
+            "event_prefix:attack:Radiant Charizard:": 21
+          }
+        },
+        "c60": {
+          "variant": "rc_v2_1fire_hybrid",
+          "foe": "c60",
+          "win_rate": 0.177,
+          "wins_a": 177,
+          "total_games": 1000,
+          "win_rate_first": 0.1362,
+          "win_rate_second": 0.2132,
+          "avg_turns": 0.0,
+          "key_attacks": {
+            "event_prefix:attack:Mew ex:": 703,
+            "event_prefix:attack:Radiant Charizard:": 22
+          }
+        }
+      },
+      "cards": [
+        "Mew ex",
+        "Mew ex",
+        "Mew ex",
+        "Radiant Charizard",
+        "Slaking V",
+        "Dunsparce",
+        "Igglybuff",
+        "Igglybuff",
+        "Igglybuff",
+        "Igglybuff",
+        "Budew",
+        "Budew",
+        "Budew",
+        "Cleffa",
+        "Cleffa",
+        "Mime Jr.",
+        "Buddy-Buddy Poffin",
+        "Buddy-Buddy Poffin",
+        "Buddy-Buddy Poffin",
+        "Buddy-Buddy Poffin",
+        "Nest Ball",
+        "Nest Ball",
+        "Nest Ball",
+        "Nest Ball",
+        "Ultra Ball",
+        "Ultra Ball",
+        "Ultra Ball",
+        "Ultra Ball",
+        "Night Stretcher",
+        "Night Stretcher",
+        "Night Stretcher",
+        "Night Stretcher",
+        "Battle Cage",
+        "Battle Cage",
+        "Battle Cage",
+        "Battle Cage",
+        "Maximum Belt",
+        "Bravery Charm",
+        "Bravery Charm",
+        "Bravery Charm",
+        "Arven",
+        "Arven",
+        "Arven",
+        "Arven",
+        "Iono",
+        "Iono",
+        "Iono",
+        "Iono",
+        "Professor's Research",
+        "Professor's Research",
+        "Boss's Orders",
+        "Boss's Orders",
+        "Boss's Orders",
+        "Crushing Hammer",
+        "Crushing Hammer",
+        "Crushing Hammer",
+        "Crushing Hammer",
+        "Switch",
+        "Switch",
+        "Fire Energy"
+      ]
+    },
+    "rc_v3_full_arsenal": {
+      "name": "RC-V3: Full 1-5 Colorless Arsenal (0 Energy)",
+      "description": "Full scaling arsenal: 1 Dunsparce (1[C] Para), 1 Snorlax (3[C] 100 dmg), 1 Slaking V (4[C] 260 dmg), 1 Regigigas (5[C] 230 dmg) + 1 Radiant Charizard.",
+      "overall_win_rate": 0.1333,
+      "matchups": {
+        "t60": 0.209,
+        "hedrick": 0.173,
+        "c60": 0.101,
+        "d60": 0.05
+      },
+      "details": {
+        "t60": {
+          "variant": "rc_v3_full_arsenal",
+          "foe": "t60",
+          "win_rate": 0.209,
+          "wins_a": 209,
+          "total_games": 1000,
+          "win_rate_first": 0.1906,
+          "win_rate_second": 0.2281,
+          "avg_turns": 0.0,
+          "key_attacks": {
+            "event_prefix:attack:Mew ex:": 698
+          }
+        },
+        "d60": {
+          "variant": "rc_v3_full_arsenal",
+          "foe": "d60",
+          "win_rate": 0.05,
+          "wins_a": 50,
+          "total_games": 1000,
+          "win_rate_first": 0.0529,
+          "win_rate_second": 0.0469,
+          "avg_turns": 0.0,
+          "key_attacks": {
+            "event_prefix:attack:Mew ex:": 697
+          }
+        },
+        "hedrick": {
+          "variant": "rc_v3_full_arsenal",
+          "foe": "hedrick",
+          "win_rate": 0.173,
+          "wins_a": 173,
+          "total_games": 1000,
+          "win_rate_first": 0.1562,
+          "win_rate_second": 0.1885,
+          "avg_turns": 0.0,
+          "key_attacks": {
+            "event_prefix:attack:Mew ex:": 609
+          }
+        },
+        "c60": {
+          "variant": "rc_v3_full_arsenal",
+          "foe": "c60",
+          "win_rate": 0.101,
+          "wins_a": 101,
+          "total_games": 1000,
+          "win_rate_first": 0.0916,
+          "win_rate_second": 0.11,
+          "avg_turns": 0.0,
+          "key_attacks": {
+            "event_prefix:attack:Mew ex:": 663
+          }
+        }
+      },
+      "cards": [
+        "Mew ex",
+        "Mew ex",
+        "Mew ex",
+        "Radiant Charizard",
+        "Dunsparce",
+        "Snorlax",
+        "Slaking V",
+        "Regigigas",
+        "Igglybuff",
+        "Igglybuff",
+        "Igglybuff",
+        "Budew",
+        "Budew",
+        "Cleffa",
+        "Cleffa",
+        "Buddy-Buddy Poffin",
+        "Buddy-Buddy Poffin",
+        "Buddy-Buddy Poffin",
+        "Buddy-Buddy Poffin",
+        "Nest Ball",
+        "Nest Ball",
+        "Nest Ball",
+        "Nest Ball",
+        "Ultra Ball",
+        "Ultra Ball",
+        "Ultra Ball",
+        "Ultra Ball",
+        "Night Stretcher",
+        "Night Stretcher",
+        "Night Stretcher",
+        "Night Stretcher",
+        "Battle Cage",
+        "Battle Cage",
+        "Battle Cage",
+        "Battle Cage",
+        "Maximum Belt",
+        "Bravery Charm",
+        "Bravery Charm",
+        "Bravery Charm",
+        "Arven",
+        "Arven",
+        "Arven",
+        "Arven",
+        "Iono",
+        "Iono",
+        "Iono",
+        "Iono",
+        "Professor's Research",
+        "Professor's Research",
+        "Boss's Orders",
+        "Boss's Orders",
+        "Boss's Orders",
+        "Crushing Hammer",
+        "Crushing Hammer",
+        "Crushing Hammer",
+        "Crushing Hammer",
+        "Switch",
+        "Switch",
+        "Switch",
+        "Switch"
+      ]
+    },
+    "rc_v4_midrange": {
+      "name": "RC-V4: Focused Snorlax & Slaking Midrange (0 Energy)",
+      "description": "Streamlined 0-energy attacker core: 1 Snorlax (100 dmg at 3 prizes) + 1 Slaking V (260 dmg at 4 prizes), keeping 4 Igglybuff for max Bouncy Circle synergy.",
+      "overall_win_rate": 0.202,
+      "matchups": {
+        "t60": 0.293,
+        "hedrick": 0.255,
+        "c60": 0.147,
+        "d60": 0.113
+      },
+      "details": {
+        "t60": {
+          "variant": "rc_v4_midrange",
+          "foe": "t60",
+          "win_rate": 0.293,
+          "wins_a": 293,
+          "total_games": 1000,
+          "win_rate_first": 0.2788,
+          "win_rate_second": 0.3059,
+          "avg_turns": 0.0,
+          "key_attacks": {
+            "event_prefix:attack:Mew ex:": 728
+          }
+        },
+        "d60": {
+          "variant": "rc_v4_midrange",
+          "foe": "d60",
+          "win_rate": 0.113,
+          "wins_a": 113,
+          "total_games": 1000,
+          "win_rate_first": 0.0962,
+          "win_rate_second": 0.1297,
+          "avg_turns": 0.0,
+          "key_attacks": {
+            "event_prefix:attack:Mew ex:": 712
+          }
+        },
+        "hedrick": {
+          "variant": "rc_v4_midrange",
+          "foe": "hedrick",
+          "win_rate": 0.255,
+          "wins_a": 255,
+          "total_games": 1000,
+          "win_rate_first": 0.243,
+          "win_rate_second": 0.2671,
+          "avg_turns": 0.0,
+          "key_attacks": {
+            "event_prefix:attack:Mew ex:": 673
+          }
+        },
+        "c60": {
+          "variant": "rc_v4_midrange",
+          "foe": "c60",
+          "win_rate": 0.147,
+          "wins_a": 147,
+          "total_games": 1000,
+          "win_rate_first": 0.1294,
+          "win_rate_second": 0.1631,
+          "avg_turns": 0.0,
+          "key_attacks": {
+            "event_prefix:attack:Mew ex:": 704
+          }
+        }
+      },
+      "cards": [
+        "Mew ex",
+        "Mew ex",
+        "Mew ex",
+        "Radiant Charizard",
+        "Slaking V",
+        "Snorlax",
+        "Igglybuff",
+        "Igglybuff",
+        "Igglybuff",
+        "Igglybuff",
+        "Budew",
+        "Budew",
+        "Budew",
+        "Cleffa",
+        "Cleffa",
+        "Buddy-Buddy Poffin",
+        "Buddy-Buddy Poffin",
+        "Buddy-Buddy Poffin",
+        "Buddy-Buddy Poffin",
+        "Nest Ball",
+        "Nest Ball",
+        "Nest Ball",
+        "Nest Ball",
+        "Ultra Ball",
+        "Ultra Ball",
+        "Ultra Ball",
+        "Ultra Ball",
+        "Night Stretcher",
+        "Night Stretcher",
+        "Night Stretcher",
+        "Night Stretcher",
+        "Battle Cage",
+        "Battle Cage",
+        "Battle Cage",
+        "Battle Cage",
+        "Maximum Belt",
+        "Bravery Charm",
+        "Bravery Charm",
+        "Bravery Charm",
+        "Arven",
+        "Arven",
+        "Arven",
+        "Arven",
+        "Iono",
+        "Iono",
+        "Iono",
+        "Iono",
+        "Professor's Research",
+        "Professor's Research",
+        "Boss's Orders",
+        "Boss's Orders",
+        "Boss's Orders",
+        "Crushing Hammer",
+        "Crushing Hammer",
+        "Crushing Hammer",
+        "Crushing Hammer",
+        "Switch",
+        "Switch",
+        "Switch",
+        "Counter Catcher"
+      ]
+    },
+    "rc_v5_2fire_heavy": {
+      "name": "RC-V5: 2-Fire Heavy Charizard Finisher",
+      "description": "Runs 2 Fire Energy for maximum reliability of drawing and attaching Fire Energy to Radiant Charizard, ensuring 250 Combustion Blast is always online.",
+      "overall_win_rate": 0.2348,
+      "matchups": {
+        "t60": 0.326,
+        "hedrick": 0.274,
+        "c60": 0.196,
+        "d60": 0.143
+      },
+      "details": {
+        "d60": {
+          "variant": "rc_v5_2fire_heavy",
+          "foe": "d60",
+          "win_rate": 0.143,
+          "wins_a": 143,
+          "total_games": 1000,
+          "win_rate_first": 0.1329,
+          "win_rate_second": 0.1532,
+          "avg_turns": 0.0,
+          "key_attacks": {
+            "event_prefix:attack:Mew ex:": 726,
+            "event_prefix:attack:Radiant Charizard:": 83
+          }
+        },
+        "t60": {
+          "variant": "rc_v5_2fire_heavy",
+          "foe": "t60",
+          "win_rate": 0.326,
+          "wins_a": 326,
+          "total_games": 1000,
+          "win_rate_first": 0.2822,
+          "win_rate_second": 0.3668,
+          "avg_turns": 0.0,
+          "key_attacks": {
+            "event_prefix:attack:Mew ex:": 766,
+            "event_prefix:attack:Radiant Charizard:": 54
+          }
+        },
+        "hedrick": {
+          "variant": "rc_v5_2fire_heavy",
+          "foe": "hedrick",
+          "win_rate": 0.274,
+          "wins_a": 274,
+          "total_games": 1000,
+          "win_rate_first": 0.2816,
+          "win_rate_second": 0.2667,
+          "avg_turns": 0.0,
+          "key_attacks": {
+            "event_prefix:attack:Mew ex:": 722,
+            "event_prefix:attack:Radiant Charizard:": 40
+          }
+        },
+        "c60": {
+          "variant": "rc_v5_2fire_heavy",
+          "foe": "c60",
+          "win_rate": 0.196,
+          "wins_a": 196,
+          "total_games": 1000,
+          "win_rate_first": 0.1686,
+          "win_rate_second": 0.2245,
+          "avg_turns": 0.0,
+          "key_attacks": {
+            "event_prefix:attack:Mew ex:": 768,
+            "event_prefix:attack:Radiant Charizard:": 58
+          }
+        }
+      },
+      "cards": [
+        "Mew ex",
+        "Mew ex",
+        "Mew ex",
+        "Radiant Charizard",
+        "Slaking V",
+        "Igglybuff",
+        "Igglybuff",
+        "Igglybuff",
+        "Igglybuff",
+        "Budew",
+        "Budew",
+        "Budew",
+        "Cleffa",
+        "Cleffa",
+        "Mime Jr.",
+        "Buddy-Buddy Poffin",
+        "Buddy-Buddy Poffin",
+        "Buddy-Buddy Poffin",
+        "Buddy-Buddy Poffin",
+        "Nest Ball",
+        "Nest Ball",
+        "Nest Ball",
+        "Nest Ball",
+        "Ultra Ball",
+        "Ultra Ball",
+        "Ultra Ball",
+        "Ultra Ball",
+        "Night Stretcher",
+        "Night Stretcher",
+        "Night Stretcher",
+        "Night Stretcher",
+        "Battle Cage",
+        "Battle Cage",
+        "Battle Cage",
+        "Battle Cage",
+        "Maximum Belt",
+        "Bravery Charm",
+        "Bravery Charm",
+        "Bravery Charm",
+        "Arven",
+        "Arven",
+        "Arven",
+        "Arven",
+        "Iono",
+        "Iono",
+        "Iono",
+        "Iono",
+        "Professor's Research",
+        "Professor's Research",
+        "Boss's Orders",
+        "Boss's Orders",
+        "Boss's Orders",
+        "Crushing Hammer",
+        "Crushing Hammer",
+        "Crushing Hammer",
+        "Crushing Hammer",
+        "Switch",
+        "Switch",
+        "Fire Energy",
+        "Fire Energy"
+      ]
+    }
+  }
+}

@@ -67,11 +67,12 @@ class StrategySpec:
             key = data.lower().replace(" ", "").replace("_", "-")
             if key in {"gplus", "g-plus"}:
                 key = "g"
-            return STRATEGY_LIBRARY.get(key, STRATEGY_LIBRARY["balanced"])
+            found = STRATEGY_LIBRARY.get(key) or STRATEGY_LIBRARY.get(key.replace("-", "_"))
+            return found if found is not None else STRATEGY_LIBRARY["balanced"]
         name = (data.get("name") or "custom").lower().replace(" ", "").replace("_", "-")
         if name in {"gplus", "g-plus"}:
             name = "g"
-        base = STRATEGY_LIBRARY.get(name, STRATEGY_LIBRARY["balanced"])
+        base = STRATEGY_LIBRARY.get(name) or STRATEGY_LIBRARY.get(name.replace("-", "_")) or STRATEGY_LIBRARY["balanced"]
         merged = base.to_dict()
         merged.update({k: v for k, v in data.items() if v is not None})
         merged["name"] = name if name in STRATEGY_LIBRARY else (data.get("name") or base.name)
@@ -517,6 +518,42 @@ STRATEGY_LIBRARY = {
         insurance=["Raikou V"],
         insurance_bench=1,
         max_ace_copies=3,
+    ),
+    "mew_baby": StrategySpec(
+        name="mew_baby",
+        description=(
+            "Mew ex (160 HP) in Active Spot copies benched 30-HP Baby Pokémon attacks for 0 energy: "
+            "Igglybuff Bouncy Circle for 30x benched 30-HP (up to 150, or 200 with Maximum Belt vs ex), "
+            "Budew Itchy Pollen for Item lock, Cleffa Grasping Draw to refill hand, Mime Jr. Mimed Games. "
+            "Buddy-Buddy Poffin and Nest Ball swarm 5 babies on bench. Battle Cage prevents bench damage counters. "
+            "Night Stretcher recovers KO'd Mew ex or babies."
+        ),
+        prefer_damage=0.9,
+        prefer_status=0.2,
+        bench_fill=1.0,
+        evolve_asap=0.0,
+        attach_pokemon_as_energy=0.0,
+        item_spend=1.0,
+        self_preserve=0.5,
+        hold_as_energy=False,
+        protect=["Mew ex", "Igglybuff", "Budew", "Battle Cage"],
+        search_aces=["Mew ex", "Igglybuff"],
+        closers=["Mew ex"],
+    ),
+    "baby": StrategySpec(
+        name="baby",
+        description="Alias for mew_baby strategy.",
+        prefer_damage=0.9,
+        prefer_status=0.2,
+        bench_fill=1.0,
+        evolve_asap=0.0,
+        attach_pokemon_as_energy=0.0,
+        item_spend=1.0,
+        self_preserve=0.5,
+        hold_as_energy=False,
+        protect=["Mew ex", "Igglybuff", "Budew", "Battle Cage"],
+        search_aces=["Mew ex", "Igglybuff"],
+        closers=["Mew ex"],
     ),
 }
 

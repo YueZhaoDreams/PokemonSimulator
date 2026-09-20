@@ -23473,5 +23473,3045 @@
         "dex_id": null
       }
     ]
+  },
+  "m": {
+    "id": "seed-m",
+    "name": "Set M (Zero-Energy Mew ex / Baby Box)",
+    "sample": null,
+    "kind": "list",
+    "cards": [
+      {
+        "catalog_id": "me04-066",
+        "name": "Mew ex",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 160,
+        "attacks": [
+          {
+            "name": "Teleportation Burst",
+            "cost": [
+              "Psychic"
+            ],
+            "damage": 30,
+            "text": "You may switch this Pok\u00e9mon with 1 of your Benched Pok\u00e9mon.",
+            "effects": [
+              {
+                "kind": "switch_with_benched"
+              }
+            ]
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Memory Helix",
+            "text": "This Pok\u00e9mon can use the attacks of any of your Benched Pok\u00e9mon. (You still need the necessary Energy to use each attack.)",
+            "effects": [
+              {
+                "kind": "copy_benched_attacks"
+              }
+            ]
+          }
+        ],
+        "weaknesses": [
+          {
+            "type": "Darkness",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [
+          {
+            "type": "Fighting",
+            "value": "-30"
+          }
+        ],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/me04/me04/066/low.webp",
+        "set_name": "30th Celebration",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "me04-066",
+        "name": "Mew ex",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 160,
+        "attacks": [
+          {
+            "name": "Teleportation Burst",
+            "cost": [
+              "Psychic"
+            ],
+            "damage": 30,
+            "text": "You may switch this Pok\u00e9mon with 1 of your Benched Pok\u00e9mon.",
+            "effects": [
+              {
+                "kind": "switch_with_benched"
+              }
+            ]
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Memory Helix",
+            "text": "This Pok\u00e9mon can use the attacks of any of your Benched Pok\u00e9mon. (You still need the necessary Energy to use each attack.)",
+            "effects": [
+              {
+                "kind": "copy_benched_attacks"
+              }
+            ]
+          }
+        ],
+        "weaknesses": [
+          {
+            "type": "Darkness",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [
+          {
+            "type": "Fighting",
+            "value": "-30"
+          }
+        ],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/me04/me04/066/low.webp",
+        "set_name": "30th Celebration",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "me04-066",
+        "name": "Mew ex",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 160,
+        "attacks": [
+          {
+            "name": "Teleportation Burst",
+            "cost": [
+              "Psychic"
+            ],
+            "damage": 30,
+            "text": "You may switch this Pok\u00e9mon with 1 of your Benched Pok\u00e9mon.",
+            "effects": [
+              {
+                "kind": "switch_with_benched"
+              }
+            ]
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Memory Helix",
+            "text": "This Pok\u00e9mon can use the attacks of any of your Benched Pok\u00e9mon. (You still need the necessary Energy to use each attack.)",
+            "effects": [
+              {
+                "kind": "copy_benched_attacks"
+              }
+            ]
+          }
+        ],
+        "weaknesses": [
+          {
+            "type": "Darkness",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [
+          {
+            "type": "Fighting",
+            "value": "-30"
+          }
+        ],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/me04/me04/066/low.webp",
+        "set_name": "30th Celebration",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv04.5-031",
+        "name": "Mime Jr.",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 30,
+        "attacks": [
+          {
+            "name": "Mimed Games",
+            "cost": [],
+            "damage": 0,
+            "text": "Your opponent chooses an attack from 1 of their Pok\u00e9mon in play. Use the chosen attack as this attack.",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Darkness",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [
+          {
+            "type": "Fighting",
+            "value": "-30"
+          }
+        ],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv04.5/031/low.webp",
+        "set_name": "Paldean Fates",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv04.5-031",
+        "name": "Mime Jr.",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 30,
+        "attacks": [
+          {
+            "name": "Mimed Games",
+            "cost": [],
+            "damage": 0,
+            "text": "Your opponent chooses an attack from 1 of their Pok\u00e9mon in play. Use the chosen attack as this attack.",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Darkness",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [
+          {
+            "type": "Fighting",
+            "value": "-30"
+          }
+        ],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv04.5/031/low.webp",
+        "set_name": "Paldean Fates",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "me04-120",
+        "name": "Igglybuff",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Colorless"
+        ],
+        "hp": 30,
+        "attacks": [
+          {
+            "name": "Bouncy Circle",
+            "cost": [],
+            "damage": 0,
+            "text": "This attack does 30 damage for each of your Benched Pok\u00e9mon that has a maximum HP of 30.",
+            "effects": [
+              {
+                "kind": "benched_30hp_pokemon_times",
+                "per": 30
+              },
+              {
+                "kind": "times",
+                "note": "This attack does 30 damage for each of your Benched Pok\u00e9mon that has a maximum HP of 30."
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/me04/me04/120/low.webp",
+        "set_name": "30th Celebration",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "me04-120",
+        "name": "Igglybuff",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Colorless"
+        ],
+        "hp": 30,
+        "attacks": [
+          {
+            "name": "Bouncy Circle",
+            "cost": [],
+            "damage": 0,
+            "text": "This attack does 30 damage for each of your Benched Pok\u00e9mon that has a maximum HP of 30.",
+            "effects": [
+              {
+                "kind": "benched_30hp_pokemon_times",
+                "per": 30
+              },
+              {
+                "kind": "times",
+                "note": "This attack does 30 damage for each of your Benched Pok\u00e9mon that has a maximum HP of 30."
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/me04/me04/120/low.webp",
+        "set_name": "30th Celebration",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "me04-120",
+        "name": "Igglybuff",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Colorless"
+        ],
+        "hp": 30,
+        "attacks": [
+          {
+            "name": "Bouncy Circle",
+            "cost": [],
+            "damage": 0,
+            "text": "This attack does 30 damage for each of your Benched Pok\u00e9mon that has a maximum HP of 30.",
+            "effects": [
+              {
+                "kind": "benched_30hp_pokemon_times",
+                "per": 30
+              },
+              {
+                "kind": "times",
+                "note": "This attack does 30 damage for each of your Benched Pok\u00e9mon that has a maximum HP of 30."
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/me04/me04/120/low.webp",
+        "set_name": "30th Celebration",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv08.5-004",
+        "name": "Budew",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Grass"
+        ],
+        "hp": 30,
+        "attacks": [
+          {
+            "name": "Itchy Pollen",
+            "cost": [],
+            "damage": 10,
+            "text": "During your opponent's next turn, they can't play any Item cards from their hand.",
+            "effects": [
+              {
+                "kind": "lock_items"
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Fire",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv08.5/004/low.webp",
+        "set_name": "Prismatic Evolutions",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv08.5-004",
+        "name": "Budew",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Grass"
+        ],
+        "hp": 30,
+        "attacks": [
+          {
+            "name": "Itchy Pollen",
+            "cost": [],
+            "damage": 10,
+            "text": "During your opponent's next turn, they can't play any Item cards from their hand.",
+            "effects": [
+              {
+                "kind": "lock_items"
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Fire",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv08.5/004/low.webp",
+        "set_name": "Prismatic Evolutions",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv08.5-004",
+        "name": "Budew",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Grass"
+        ],
+        "hp": 30,
+        "attacks": [
+          {
+            "name": "Itchy Pollen",
+            "cost": [],
+            "damage": 10,
+            "text": "During your opponent's next turn, they can't play any Item cards from their hand.",
+            "effects": [
+              {
+                "kind": "lock_items"
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Fire",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv08.5/004/low.webp",
+        "set_name": "Prismatic Evolutions",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv03-080",
+        "name": "Cleffa",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 30,
+        "attacks": [
+          {
+            "name": "Grasping Draw",
+            "cost": [],
+            "damage": 0,
+            "text": "Draw cards until you have 7 cards in your hand.",
+            "effects": [
+              {
+                "kind": "draw_until_hand",
+                "count": 7
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Darkness",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [
+          {
+            "type": "Fighting",
+            "value": "-30"
+          }
+        ],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv03/080/low.webp",
+        "set_name": "Obsidian Flames",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv03-080",
+        "name": "Cleffa",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 30,
+        "attacks": [
+          {
+            "name": "Grasping Draw",
+            "cost": [],
+            "damage": 0,
+            "text": "Draw cards until you have 7 cards in your hand.",
+            "effects": [
+              {
+                "kind": "draw_until_hand",
+                "count": 7
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Darkness",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [
+          {
+            "type": "Fighting",
+            "value": "-30"
+          }
+        ],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv03/080/low.webp",
+        "set_name": "Obsidian Flames",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv05-144",
+        "name": "Buddy-Buddy Poffin",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv05/144/low.webp",
+        "set_name": null,
+        "text": "Search your deck for up to 2 Basic Pok\u00e9mon with 70 HP or less and put them onto your Bench. Then, shuffle your deck.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv05-144",
+        "name": "Buddy-Buddy Poffin",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv05/144/low.webp",
+        "set_name": null,
+        "text": "Search your deck for up to 2 Basic Pok\u00e9mon with 70 HP or less and put them onto your Bench. Then, shuffle your deck.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv05-144",
+        "name": "Buddy-Buddy Poffin",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv05/144/low.webp",
+        "set_name": null,
+        "text": "Search your deck for up to 2 Basic Pok\u00e9mon with 70 HP or less and put them onto your Bench. Then, shuffle your deck.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv05-144",
+        "name": "Buddy-Buddy Poffin",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv05/144/low.webp",
+        "set_name": null,
+        "text": "Search your deck for up to 2 Basic Pok\u00e9mon with 70 HP or less and put them onto your Bench. Then, shuffle your deck.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv01-181",
+        "name": "Nest Ball",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/181/low.webp",
+        "set_name": null,
+        "text": "Search your deck for a Basic Pok\u00e9mon and put it onto your Bench. Then, shuffle your deck.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv01-181",
+        "name": "Nest Ball",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/181/low.webp",
+        "set_name": null,
+        "text": "Search your deck for a Basic Pok\u00e9mon and put it onto your Bench. Then, shuffle your deck.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv01-181",
+        "name": "Nest Ball",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/181/low.webp",
+        "set_name": null,
+        "text": "Search your deck for a Basic Pok\u00e9mon and put it onto your Bench. Then, shuffle your deck.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv01-181",
+        "name": "Nest Ball",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/181/low.webp",
+        "set_name": null,
+        "text": "Search your deck for a Basic Pok\u00e9mon and put it onto your Bench. Then, shuffle your deck.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv04.5-091",
+        "name": "Ultra Ball",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv04.5/091/low.webp",
+        "set_name": null,
+        "text": "Discard 2 cards from your hand. Search your deck for a Pok\u00e9mon.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv04.5-091",
+        "name": "Ultra Ball",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv04.5/091/low.webp",
+        "set_name": null,
+        "text": "Discard 2 cards from your hand. Search your deck for a Pok\u00e9mon.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv04.5-091",
+        "name": "Ultra Ball",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv04.5/091/low.webp",
+        "set_name": null,
+        "text": "Discard 2 cards from your hand. Search your deck for a Pok\u00e9mon.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv04.5-091",
+        "name": "Ultra Ball",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv04.5/091/low.webp",
+        "set_name": null,
+        "text": "Discard 2 cards from your hand. Search your deck for a Pok\u00e9mon.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv06.5-061",
+        "name": "Night Stretcher",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv06.5/061/low.webp",
+        "set_name": null,
+        "text": "Put a Pok\u00e9mon or a Basic Energy card from your discard pile into your hand.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv06.5-061",
+        "name": "Night Stretcher",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv06.5/061/low.webp",
+        "set_name": null,
+        "text": "Put a Pok\u00e9mon or a Basic Energy card from your discard pile into your hand.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv06.5-061",
+        "name": "Night Stretcher",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv06.5/061/low.webp",
+        "set_name": null,
+        "text": "Put a Pok\u00e9mon or a Basic Energy card from your discard pile into your hand.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv06.5-061",
+        "name": "Night Stretcher",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv06.5/061/low.webp",
+        "set_name": null,
+        "text": "Put a Pok\u00e9mon or a Basic Energy card from your discard pile into your hand.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "me02-085",
+        "name": "Battle Cage",
+        "category": "Trainer",
+        "stage": "Stadium",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "stadium",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/me/me02/085/low.webp",
+        "set_name": null,
+        "text": "Prevent all damage counters from being placed on Benched Pok\u00e9mon (both yours and your opponent's) by effects of attacks and Abilities from the opponent's Pok\u00e9mon. (Damage from attacks is still taken.)",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "me02-085",
+        "name": "Battle Cage",
+        "category": "Trainer",
+        "stage": "Stadium",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "stadium",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/me/me02/085/low.webp",
+        "set_name": null,
+        "text": "Prevent all damage counters from being placed on Benched Pok\u00e9mon (both yours and your opponent's) by effects of attacks and Abilities from the opponent's Pok\u00e9mon. (Damage from attacks is still taken.)",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "me02-085",
+        "name": "Battle Cage",
+        "category": "Trainer",
+        "stage": "Stadium",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "stadium",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/me/me02/085/low.webp",
+        "set_name": null,
+        "text": "Prevent all damage counters from being placed on Benched Pok\u00e9mon (both yours and your opponent's) by effects of attacks and Abilities from the opponent's Pok\u00e9mon. (Damage from attacks is still taken.)",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "me02-085",
+        "name": "Battle Cage",
+        "category": "Trainer",
+        "stage": "Stadium",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "stadium",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/me/me02/085/low.webp",
+        "set_name": null,
+        "text": "Prevent all damage counters from being placed on Benched Pok\u00e9mon (both yours and your opponent's) by effects of attacks and Abilities from the opponent's Pok\u00e9mon. (Damage from attacks is still taken.)",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv02-173",
+        "name": "Bravery Charm",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv02/173/low.webp",
+        "set_name": null,
+        "text": "The Basic Pok\u00e9mon this card is attached to gets +50 HP.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv02-173",
+        "name": "Bravery Charm",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv02/173/low.webp",
+        "set_name": null,
+        "text": "The Basic Pok\u00e9mon this card is attached to gets +50 HP.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv02-173",
+        "name": "Bravery Charm",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv02/173/low.webp",
+        "set_name": null,
+        "text": "The Basic Pok\u00e9mon this card is attached to gets +50 HP.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv05-154",
+        "name": "Maximum Belt",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv05/154/low.webp",
+        "set_name": null,
+        "text": "Attacks used by the Pok\u00e9mon this card is attached to do 50 more damage to your opponent's Active Pok\u00e9mon ex (before applying Weakness and Resistance).",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv01-166",
+        "name": "Arven",
+        "category": "Trainer",
+        "stage": "Supporter",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "supporter",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/166/low.webp",
+        "set_name": null,
+        "text": "Search your deck for an Item card and a Pok\u00e9mon Tool card, reveal them, and put them into your hand. Then, shuffle your deck.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv01-166",
+        "name": "Arven",
+        "category": "Trainer",
+        "stage": "Supporter",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "supporter",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/166/low.webp",
+        "set_name": null,
+        "text": "Search your deck for an Item card and a Pok\u00e9mon Tool card, reveal them, and put them into your hand. Then, shuffle your deck.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv01-166",
+        "name": "Arven",
+        "category": "Trainer",
+        "stage": "Supporter",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "supporter",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/166/low.webp",
+        "set_name": null,
+        "text": "Search your deck for an Item card and a Pok\u00e9mon Tool card, reveal them, and put them into your hand. Then, shuffle your deck.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv01-166",
+        "name": "Arven",
+        "category": "Trainer",
+        "stage": "Supporter",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "supporter",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/166/low.webp",
+        "set_name": null,
+        "text": "Search your deck for an Item card and a Pok\u00e9mon Tool card, reveal them, and put them into your hand. Then, shuffle your deck.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv01-185",
+        "name": "Iono",
+        "category": "Trainer",
+        "stage": "Supporter",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "supporter",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/185/low.webp",
+        "set_name": null,
+        "text": "Each player shuffles their hand into their deck. Then, you draw a card for each of your remaining Prize cards, and your opponent does the same.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv01-185",
+        "name": "Iono",
+        "category": "Trainer",
+        "stage": "Supporter",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "supporter",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/185/low.webp",
+        "set_name": null,
+        "text": "Each player shuffles their hand into their deck. Then, you draw a card for each of your remaining Prize cards, and your opponent does the same.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv01-185",
+        "name": "Iono",
+        "category": "Trainer",
+        "stage": "Supporter",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "supporter",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/185/low.webp",
+        "set_name": null,
+        "text": "Each player shuffles their hand into their deck. Then, you draw a card for each of your remaining Prize cards, and your opponent does the same.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv01-185",
+        "name": "Iono",
+        "category": "Trainer",
+        "stage": "Supporter",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "supporter",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/185/low.webp",
+        "set_name": null,
+        "text": "Each player shuffles their hand into their deck. Then, you draw a card for each of your remaining Prize cards, and your opponent does the same.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv01-189",
+        "name": "Professor's Research",
+        "category": "Trainer",
+        "stage": "Supporter",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "supporter",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/189/low.webp",
+        "set_name": null,
+        "text": "Discard your hand and draw 7 cards.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv01-189",
+        "name": "Professor's Research",
+        "category": "Trainer",
+        "stage": "Supporter",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "supporter",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/189/low.webp",
+        "set_name": null,
+        "text": "Discard your hand and draw 7 cards.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv02-172",
+        "name": "Boss's Orders",
+        "category": "Trainer",
+        "stage": "Supporter",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "supporter",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv02/172/low.webp",
+        "set_name": null,
+        "text": "Switch in 1 of your opponent's Benched Pok\u00e9mon to the Active Spot.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv02-172",
+        "name": "Boss's Orders",
+        "category": "Trainer",
+        "stage": "Supporter",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "supporter",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv02/172/low.webp",
+        "set_name": null,
+        "text": "Switch in 1 of your opponent's Benched Pok\u00e9mon to the Active Spot.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv02-172",
+        "name": "Boss's Orders",
+        "category": "Trainer",
+        "stage": "Supporter",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "supporter",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv02/172/low.webp",
+        "set_name": null,
+        "text": "Switch in 1 of your opponent's Benched Pok\u00e9mon to the Active Spot.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-125",
+        "name": "Crushing Hammer",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/125/low.webp",
+        "set_name": null,
+        "text": "Flip a coin. If heads, discard an Energy from 1 of your opponent's Pok\u00e9mon.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-125",
+        "name": "Crushing Hammer",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/125/low.webp",
+        "set_name": null,
+        "text": "Flip a coin. If heads, discard an Energy from 1 of your opponent's Pok\u00e9mon.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-125",
+        "name": "Crushing Hammer",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/125/low.webp",
+        "set_name": null,
+        "text": "Flip a coin. If heads, discard an Energy from 1 of your opponent's Pok\u00e9mon.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-125",
+        "name": "Crushing Hammer",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/125/low.webp",
+        "set_name": null,
+        "text": "Flip a coin. If heads, discard an Energy from 1 of your opponent's Pok\u00e9mon.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv01-194",
+        "name": "Switch",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/194/low.webp",
+        "set_name": null,
+        "text": "Switch your Active Pok\u00e9mon with 1 of your Benched Pok\u00e9mon.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv01-194",
+        "name": "Switch",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/194/low.webp",
+        "set_name": null,
+        "text": "Switch your Active Pok\u00e9mon with 1 of your Benched Pok\u00e9mon.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv01-194",
+        "name": "Switch",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/194/low.webp",
+        "set_name": null,
+        "text": "Switch your Active Pok\u00e9mon with 1 of your Benched Pok\u00e9mon.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv01-194",
+        "name": "Switch",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/194/low.webp",
+        "set_name": null,
+        "text": "Switch your Active Pok\u00e9mon with 1 of your Benched Pok\u00e9mon.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv04-160",
+        "name": "Counter Catcher",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv04/160/low.webp",
+        "set_name": null,
+        "text": "You can use this card only if you have more Prize cards remaining than your opponent.\n\nSwitch in 1 of your opponent's Benched Pok\u00e9mon to the Active Spot.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv04-160",
+        "name": "Counter Catcher",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv04/160/low.webp",
+        "set_name": null,
+        "text": "You can use this card only if you have more Prize cards remaining than your opponent.\n\nSwitch in 1 of your opponent's Benched Pok\u00e9mon to the Active Spot.",
+        "dex_id": null
+      }
+    ]
+  },
+  "m60": {
+    "id": "seed-m60",
+    "name": "Set M Standard 60 (Zero-Energy Mew ex / Baby Box)",
+    "sample": null,
+    "kind": "list",
+    "cards": [
+      {
+        "catalog_id": "me04-066",
+        "name": "Mew ex",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 160,
+        "attacks": [
+          {
+            "name": "Teleportation Burst",
+            "cost": [
+              "Psychic"
+            ],
+            "damage": 30,
+            "text": "You may switch this Pok\u00e9mon with 1 of your Benched Pok\u00e9mon.",
+            "effects": [
+              {
+                "kind": "switch_with_benched"
+              }
+            ]
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Memory Helix",
+            "text": "This Pok\u00e9mon can use the attacks of any of your Benched Pok\u00e9mon. (You still need the necessary Energy to use each attack.)",
+            "effects": [
+              {
+                "kind": "copy_benched_attacks"
+              }
+            ]
+          }
+        ],
+        "weaknesses": [
+          {
+            "type": "Darkness",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [
+          {
+            "type": "Fighting",
+            "value": "-30"
+          }
+        ],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/me04/me04/066/low.webp",
+        "set_name": "30th Celebration",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "me04-066",
+        "name": "Mew ex",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 160,
+        "attacks": [
+          {
+            "name": "Teleportation Burst",
+            "cost": [
+              "Psychic"
+            ],
+            "damage": 30,
+            "text": "You may switch this Pok\u00e9mon with 1 of your Benched Pok\u00e9mon.",
+            "effects": [
+              {
+                "kind": "switch_with_benched"
+              }
+            ]
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Memory Helix",
+            "text": "This Pok\u00e9mon can use the attacks of any of your Benched Pok\u00e9mon. (You still need the necessary Energy to use each attack.)",
+            "effects": [
+              {
+                "kind": "copy_benched_attacks"
+              }
+            ]
+          }
+        ],
+        "weaknesses": [
+          {
+            "type": "Darkness",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [
+          {
+            "type": "Fighting",
+            "value": "-30"
+          }
+        ],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/me04/me04/066/low.webp",
+        "set_name": "30th Celebration",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "me04-066",
+        "name": "Mew ex",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 160,
+        "attacks": [
+          {
+            "name": "Teleportation Burst",
+            "cost": [
+              "Psychic"
+            ],
+            "damage": 30,
+            "text": "You may switch this Pok\u00e9mon with 1 of your Benched Pok\u00e9mon.",
+            "effects": [
+              {
+                "kind": "switch_with_benched"
+              }
+            ]
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Memory Helix",
+            "text": "This Pok\u00e9mon can use the attacks of any of your Benched Pok\u00e9mon. (You still need the necessary Energy to use each attack.)",
+            "effects": [
+              {
+                "kind": "copy_benched_attacks"
+              }
+            ]
+          }
+        ],
+        "weaknesses": [
+          {
+            "type": "Darkness",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [
+          {
+            "type": "Fighting",
+            "value": "-30"
+          }
+        ],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/me04/me04/066/low.webp",
+        "set_name": "30th Celebration",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv04.5-031",
+        "name": "Mime Jr.",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 30,
+        "attacks": [
+          {
+            "name": "Mimed Games",
+            "cost": [],
+            "damage": 0,
+            "text": "Your opponent chooses an attack from 1 of their Pok\u00e9mon in play. Use the chosen attack as this attack.",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Darkness",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [
+          {
+            "type": "Fighting",
+            "value": "-30"
+          }
+        ],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv04.5/031/low.webp",
+        "set_name": "Paldean Fates",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv04.5-031",
+        "name": "Mime Jr.",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 30,
+        "attacks": [
+          {
+            "name": "Mimed Games",
+            "cost": [],
+            "damage": 0,
+            "text": "Your opponent chooses an attack from 1 of their Pok\u00e9mon in play. Use the chosen attack as this attack.",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Darkness",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [
+          {
+            "type": "Fighting",
+            "value": "-30"
+          }
+        ],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv04.5/031/low.webp",
+        "set_name": "Paldean Fates",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "me04-120",
+        "name": "Igglybuff",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Colorless"
+        ],
+        "hp": 30,
+        "attacks": [
+          {
+            "name": "Bouncy Circle",
+            "cost": [],
+            "damage": 0,
+            "text": "This attack does 30 damage for each of your Benched Pok\u00e9mon that has a maximum HP of 30.",
+            "effects": [
+              {
+                "kind": "benched_30hp_pokemon_times",
+                "per": 30
+              },
+              {
+                "kind": "times",
+                "note": "This attack does 30 damage for each of your Benched Pok\u00e9mon that has a maximum HP of 30."
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/me04/me04/120/low.webp",
+        "set_name": "30th Celebration",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "me04-120",
+        "name": "Igglybuff",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Colorless"
+        ],
+        "hp": 30,
+        "attacks": [
+          {
+            "name": "Bouncy Circle",
+            "cost": [],
+            "damage": 0,
+            "text": "This attack does 30 damage for each of your Benched Pok\u00e9mon that has a maximum HP of 30.",
+            "effects": [
+              {
+                "kind": "benched_30hp_pokemon_times",
+                "per": 30
+              },
+              {
+                "kind": "times",
+                "note": "This attack does 30 damage for each of your Benched Pok\u00e9mon that has a maximum HP of 30."
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/me04/me04/120/low.webp",
+        "set_name": "30th Celebration",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "me04-120",
+        "name": "Igglybuff",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Colorless"
+        ],
+        "hp": 30,
+        "attacks": [
+          {
+            "name": "Bouncy Circle",
+            "cost": [],
+            "damage": 0,
+            "text": "This attack does 30 damage for each of your Benched Pok\u00e9mon that has a maximum HP of 30.",
+            "effects": [
+              {
+                "kind": "benched_30hp_pokemon_times",
+                "per": 30
+              },
+              {
+                "kind": "times",
+                "note": "This attack does 30 damage for each of your Benched Pok\u00e9mon that has a maximum HP of 30."
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/me04/me04/120/low.webp",
+        "set_name": "30th Celebration",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv08.5-004",
+        "name": "Budew",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Grass"
+        ],
+        "hp": 30,
+        "attacks": [
+          {
+            "name": "Itchy Pollen",
+            "cost": [],
+            "damage": 10,
+            "text": "During your opponent's next turn, they can't play any Item cards from their hand.",
+            "effects": [
+              {
+                "kind": "lock_items"
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Fire",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv08.5/004/low.webp",
+        "set_name": "Prismatic Evolutions",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv08.5-004",
+        "name": "Budew",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Grass"
+        ],
+        "hp": 30,
+        "attacks": [
+          {
+            "name": "Itchy Pollen",
+            "cost": [],
+            "damage": 10,
+            "text": "During your opponent's next turn, they can't play any Item cards from their hand.",
+            "effects": [
+              {
+                "kind": "lock_items"
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Fire",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv08.5/004/low.webp",
+        "set_name": "Prismatic Evolutions",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv08.5-004",
+        "name": "Budew",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Grass"
+        ],
+        "hp": 30,
+        "attacks": [
+          {
+            "name": "Itchy Pollen",
+            "cost": [],
+            "damage": 10,
+            "text": "During your opponent's next turn, they can't play any Item cards from their hand.",
+            "effects": [
+              {
+                "kind": "lock_items"
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Fire",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv08.5/004/low.webp",
+        "set_name": "Prismatic Evolutions",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv03-080",
+        "name": "Cleffa",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 30,
+        "attacks": [
+          {
+            "name": "Grasping Draw",
+            "cost": [],
+            "damage": 0,
+            "text": "Draw cards until you have 7 cards in your hand.",
+            "effects": [
+              {
+                "kind": "draw_until_hand",
+                "count": 7
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Darkness",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [
+          {
+            "type": "Fighting",
+            "value": "-30"
+          }
+        ],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv03/080/low.webp",
+        "set_name": "Obsidian Flames",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv03-080",
+        "name": "Cleffa",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 30,
+        "attacks": [
+          {
+            "name": "Grasping Draw",
+            "cost": [],
+            "damage": 0,
+            "text": "Draw cards until you have 7 cards in your hand.",
+            "effects": [
+              {
+                "kind": "draw_until_hand",
+                "count": 7
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Darkness",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [
+          {
+            "type": "Fighting",
+            "value": "-30"
+          }
+        ],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv03/080/low.webp",
+        "set_name": "Obsidian Flames",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv05-144",
+        "name": "Buddy-Buddy Poffin",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv05/144/low.webp",
+        "set_name": null,
+        "text": "Search your deck for up to 2 Basic Pok\u00e9mon with 70 HP or less and put them onto your Bench. Then, shuffle your deck.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv05-144",
+        "name": "Buddy-Buddy Poffin",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv05/144/low.webp",
+        "set_name": null,
+        "text": "Search your deck for up to 2 Basic Pok\u00e9mon with 70 HP or less and put them onto your Bench. Then, shuffle your deck.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv05-144",
+        "name": "Buddy-Buddy Poffin",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv05/144/low.webp",
+        "set_name": null,
+        "text": "Search your deck for up to 2 Basic Pok\u00e9mon with 70 HP or less and put them onto your Bench. Then, shuffle your deck.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv05-144",
+        "name": "Buddy-Buddy Poffin",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv05/144/low.webp",
+        "set_name": null,
+        "text": "Search your deck for up to 2 Basic Pok\u00e9mon with 70 HP or less and put them onto your Bench. Then, shuffle your deck.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv01-181",
+        "name": "Nest Ball",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/181/low.webp",
+        "set_name": null,
+        "text": "Search your deck for a Basic Pok\u00e9mon and put it onto your Bench. Then, shuffle your deck.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv01-181",
+        "name": "Nest Ball",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/181/low.webp",
+        "set_name": null,
+        "text": "Search your deck for a Basic Pok\u00e9mon and put it onto your Bench. Then, shuffle your deck.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv01-181",
+        "name": "Nest Ball",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/181/low.webp",
+        "set_name": null,
+        "text": "Search your deck for a Basic Pok\u00e9mon and put it onto your Bench. Then, shuffle your deck.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv01-181",
+        "name": "Nest Ball",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/181/low.webp",
+        "set_name": null,
+        "text": "Search your deck for a Basic Pok\u00e9mon and put it onto your Bench. Then, shuffle your deck.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv04.5-091",
+        "name": "Ultra Ball",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv04.5/091/low.webp",
+        "set_name": null,
+        "text": "Discard 2 cards from your hand. Search your deck for a Pok\u00e9mon.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv04.5-091",
+        "name": "Ultra Ball",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv04.5/091/low.webp",
+        "set_name": null,
+        "text": "Discard 2 cards from your hand. Search your deck for a Pok\u00e9mon.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv04.5-091",
+        "name": "Ultra Ball",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv04.5/091/low.webp",
+        "set_name": null,
+        "text": "Discard 2 cards from your hand. Search your deck for a Pok\u00e9mon.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv04.5-091",
+        "name": "Ultra Ball",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv04.5/091/low.webp",
+        "set_name": null,
+        "text": "Discard 2 cards from your hand. Search your deck for a Pok\u00e9mon.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv06.5-061",
+        "name": "Night Stretcher",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv06.5/061/low.webp",
+        "set_name": null,
+        "text": "Put a Pok\u00e9mon or a Basic Energy card from your discard pile into your hand.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv06.5-061",
+        "name": "Night Stretcher",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv06.5/061/low.webp",
+        "set_name": null,
+        "text": "Put a Pok\u00e9mon or a Basic Energy card from your discard pile into your hand.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv06.5-061",
+        "name": "Night Stretcher",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv06.5/061/low.webp",
+        "set_name": null,
+        "text": "Put a Pok\u00e9mon or a Basic Energy card from your discard pile into your hand.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv06.5-061",
+        "name": "Night Stretcher",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv06.5/061/low.webp",
+        "set_name": null,
+        "text": "Put a Pok\u00e9mon or a Basic Energy card from your discard pile into your hand.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "me02-085",
+        "name": "Battle Cage",
+        "category": "Trainer",
+        "stage": "Stadium",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "stadium",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/me/me02/085/low.webp",
+        "set_name": null,
+        "text": "Prevent all damage counters from being placed on Benched Pok\u00e9mon (both yours and your opponent's) by effects of attacks and Abilities from the opponent's Pok\u00e9mon. (Damage from attacks is still taken.)",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "me02-085",
+        "name": "Battle Cage",
+        "category": "Trainer",
+        "stage": "Stadium",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "stadium",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/me/me02/085/low.webp",
+        "set_name": null,
+        "text": "Prevent all damage counters from being placed on Benched Pok\u00e9mon (both yours and your opponent's) by effects of attacks and Abilities from the opponent's Pok\u00e9mon. (Damage from attacks is still taken.)",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "me02-085",
+        "name": "Battle Cage",
+        "category": "Trainer",
+        "stage": "Stadium",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "stadium",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/me/me02/085/low.webp",
+        "set_name": null,
+        "text": "Prevent all damage counters from being placed on Benched Pok\u00e9mon (both yours and your opponent's) by effects of attacks and Abilities from the opponent's Pok\u00e9mon. (Damage from attacks is still taken.)",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "me02-085",
+        "name": "Battle Cage",
+        "category": "Trainer",
+        "stage": "Stadium",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "stadium",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/me/me02/085/low.webp",
+        "set_name": null,
+        "text": "Prevent all damage counters from being placed on Benched Pok\u00e9mon (both yours and your opponent's) by effects of attacks and Abilities from the opponent's Pok\u00e9mon. (Damage from attacks is still taken.)",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv02-173",
+        "name": "Bravery Charm",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv02/173/low.webp",
+        "set_name": null,
+        "text": "The Basic Pok\u00e9mon this card is attached to gets +50 HP.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv02-173",
+        "name": "Bravery Charm",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv02/173/low.webp",
+        "set_name": null,
+        "text": "The Basic Pok\u00e9mon this card is attached to gets +50 HP.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv02-173",
+        "name": "Bravery Charm",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv02/173/low.webp",
+        "set_name": null,
+        "text": "The Basic Pok\u00e9mon this card is attached to gets +50 HP.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv05-154",
+        "name": "Maximum Belt",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv05/154/low.webp",
+        "set_name": null,
+        "text": "Attacks used by the Pok\u00e9mon this card is attached to do 50 more damage to your opponent's Active Pok\u00e9mon ex (before applying Weakness and Resistance).",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv01-166",
+        "name": "Arven",
+        "category": "Trainer",
+        "stage": "Supporter",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "supporter",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/166/low.webp",
+        "set_name": null,
+        "text": "Search your deck for an Item card and a Pok\u00e9mon Tool card, reveal them, and put them into your hand. Then, shuffle your deck.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv01-166",
+        "name": "Arven",
+        "category": "Trainer",
+        "stage": "Supporter",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "supporter",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/166/low.webp",
+        "set_name": null,
+        "text": "Search your deck for an Item card and a Pok\u00e9mon Tool card, reveal them, and put them into your hand. Then, shuffle your deck.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv01-166",
+        "name": "Arven",
+        "category": "Trainer",
+        "stage": "Supporter",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "supporter",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/166/low.webp",
+        "set_name": null,
+        "text": "Search your deck for an Item card and a Pok\u00e9mon Tool card, reveal them, and put them into your hand. Then, shuffle your deck.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv01-166",
+        "name": "Arven",
+        "category": "Trainer",
+        "stage": "Supporter",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "supporter",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/166/low.webp",
+        "set_name": null,
+        "text": "Search your deck for an Item card and a Pok\u00e9mon Tool card, reveal them, and put them into your hand. Then, shuffle your deck.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv01-185",
+        "name": "Iono",
+        "category": "Trainer",
+        "stage": "Supporter",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "supporter",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/185/low.webp",
+        "set_name": null,
+        "text": "Each player shuffles their hand into their deck. Then, you draw a card for each of your remaining Prize cards, and your opponent does the same.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv01-185",
+        "name": "Iono",
+        "category": "Trainer",
+        "stage": "Supporter",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "supporter",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/185/low.webp",
+        "set_name": null,
+        "text": "Each player shuffles their hand into their deck. Then, you draw a card for each of your remaining Prize cards, and your opponent does the same.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv01-185",
+        "name": "Iono",
+        "category": "Trainer",
+        "stage": "Supporter",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "supporter",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/185/low.webp",
+        "set_name": null,
+        "text": "Each player shuffles their hand into their deck. Then, you draw a card for each of your remaining Prize cards, and your opponent does the same.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv01-185",
+        "name": "Iono",
+        "category": "Trainer",
+        "stage": "Supporter",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "supporter",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/185/low.webp",
+        "set_name": null,
+        "text": "Each player shuffles their hand into their deck. Then, you draw a card for each of your remaining Prize cards, and your opponent does the same.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv01-189",
+        "name": "Professor's Research",
+        "category": "Trainer",
+        "stage": "Supporter",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "supporter",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/189/low.webp",
+        "set_name": null,
+        "text": "Discard your hand and draw 7 cards.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv01-189",
+        "name": "Professor's Research",
+        "category": "Trainer",
+        "stage": "Supporter",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "supporter",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/189/low.webp",
+        "set_name": null,
+        "text": "Discard your hand and draw 7 cards.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv02-172",
+        "name": "Boss's Orders",
+        "category": "Trainer",
+        "stage": "Supporter",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "supporter",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv02/172/low.webp",
+        "set_name": null,
+        "text": "Switch in 1 of your opponent's Benched Pok\u00e9mon to the Active Spot.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv02-172",
+        "name": "Boss's Orders",
+        "category": "Trainer",
+        "stage": "Supporter",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "supporter",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv02/172/low.webp",
+        "set_name": null,
+        "text": "Switch in 1 of your opponent's Benched Pok\u00e9mon to the Active Spot.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv02-172",
+        "name": "Boss's Orders",
+        "category": "Trainer",
+        "stage": "Supporter",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "supporter",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv02/172/low.webp",
+        "set_name": null,
+        "text": "Switch in 1 of your opponent's Benched Pok\u00e9mon to the Active Spot.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-125",
+        "name": "Crushing Hammer",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/125/low.webp",
+        "set_name": null,
+        "text": "Flip a coin. If heads, discard an Energy from 1 of your opponent's Pok\u00e9mon.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-125",
+        "name": "Crushing Hammer",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/125/low.webp",
+        "set_name": null,
+        "text": "Flip a coin. If heads, discard an Energy from 1 of your opponent's Pok\u00e9mon.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-125",
+        "name": "Crushing Hammer",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/125/low.webp",
+        "set_name": null,
+        "text": "Flip a coin. If heads, discard an Energy from 1 of your opponent's Pok\u00e9mon.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-125",
+        "name": "Crushing Hammer",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/125/low.webp",
+        "set_name": null,
+        "text": "Flip a coin. If heads, discard an Energy from 1 of your opponent's Pok\u00e9mon.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv01-194",
+        "name": "Switch",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/194/low.webp",
+        "set_name": null,
+        "text": "Switch your Active Pok\u00e9mon with 1 of your Benched Pok\u00e9mon.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv01-194",
+        "name": "Switch",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/194/low.webp",
+        "set_name": null,
+        "text": "Switch your Active Pok\u00e9mon with 1 of your Benched Pok\u00e9mon.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv01-194",
+        "name": "Switch",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/194/low.webp",
+        "set_name": null,
+        "text": "Switch your Active Pok\u00e9mon with 1 of your Benched Pok\u00e9mon.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv01-194",
+        "name": "Switch",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/194/low.webp",
+        "set_name": null,
+        "text": "Switch your Active Pok\u00e9mon with 1 of your Benched Pok\u00e9mon.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv04-160",
+        "name": "Counter Catcher",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv04/160/low.webp",
+        "set_name": null,
+        "text": "You can use this card only if you have more Prize cards remaining than your opponent.\n\nSwitch in 1 of your opponent's Benched Pok\u00e9mon to the Active Spot.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv04-160",
+        "name": "Counter Catcher",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv04/160/low.webp",
+        "set_name": null,
+        "text": "You can use this card only if you have more Prize cards remaining than your opponent.\n\nSwitch in 1 of your opponent's Benched Pok\u00e9mon to the Active Spot.",
+        "dex_id": null
+      }
+    ]
   }
 }
