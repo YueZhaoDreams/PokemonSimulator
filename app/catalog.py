@@ -751,7 +751,7 @@ def _looks_like_tcgdex_id(card_id: str) -> bool:
     if "-" not in card_id:
         return False
     series = card_id.split("-", 1)[0].lower()
-    return series.startswith(("sv", "swsh", "sm", "xy", "me", "base", "pl"))
+    return series.startswith(("sv", "swsh", "sm", "xy", "me", "base", "pl", "30th"))
 
 
 def _tcgdex_low(card_id: str) -> str:
@@ -762,7 +762,7 @@ def _tcgdex_low(card_id: str) -> str:
         folder = "sv"
     elif series.startswith("sm"):
         folder = "sm"
-    elif series.startswith("me"):
+    elif series.startswith("me") or series.startswith("30th"):
         folder = "me"
     elif series.startswith("pl"):
         folder = "pl"

@@ -2630,10 +2630,10 @@ _GIMMIGHOUL_30TH = _pkm(
     ["Metal"],
     60,
     [_atk("Astonish", ["Colorless"], 10)],
-    catalog_id="me04-081",
+    catalog_id="30th-081",
     weakness="Fire",
     resistances=[{"type": "Grass", "value": "-30"}],
-    image="https://assets.tcgdex.net/en/me/me04/081/low.webp",
+    image="https://assets.tcgdex.net/en/me/30th/081/low.webp",
     set_name="30th Celebration",
 )
 FALLBACK_BY_NAME["gimmighoul 30th"] = _GIMMIGHOUL_30TH
@@ -2654,11 +2654,11 @@ _register(
             ),
         ],
         evolves_from="Gimmighoul",
-        catalog_id="me04-108",
+        catalog_id="30th-108",
         weakness="Fire",
         resistances=[{"type": "Grass", "value": "-30"}],
         retreat=2,
-        image="https://assets.tcgdex.net/en/me/me04/108/low.webp",
+        image="https://assets.tcgdex.net/en/me/30th/108/low.webp",
         set_name="30th Celebration",
     )
 )
@@ -2676,12 +2676,12 @@ _register(
                 "You may switch this Pokémon with 1 of your Benched Pokémon.",
             )
         ],
-        catalog_id="me04-066",
+        catalog_id="30th-066",
         weakness="Darkness",
         resistances=[{"type": "Fighting", "value": "-30"}],
         retreat=0,
         abilities=[Ability(name="Memory Helix", text=_MEMORY_HELIX_TEXT)],
-        image="https://assets.tcgdex.net/en/me/me04/066/low.webp",
+        image="https://assets.tcgdex.net/en/me/30th/066/low.webp",
         set_name="30th Celebration",
     )
 )
@@ -2699,9 +2699,9 @@ _register(
                 "This attack does 30 damage for each of your Benched Pokémon that has a maximum HP of 30.",
             )
         ],
-        catalog_id="me04-120",
+        catalog_id="30th-120",
         retreat=0,
-        image="https://assets.tcgdex.net/en/me/me04/120/low.webp",
+        image="https://assets.tcgdex.net/en/me/30th/120/low.webp",
         set_name="30th Celebration",
     )
 )
