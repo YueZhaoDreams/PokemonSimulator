@@ -202,7 +202,7 @@ PREFERRED_IDS = {
     "Pawmi": "sv01-073",  # Paldea Evolved Jolt
     "Rotom": "swsh4.5-34",  # Shining Fates
     "Lechonk": "sv01-154",
-    "Iono": "sv01-185",
+    "Iono": "sv02-185",
     "Switch Cart": "sv02-178",
     "Hippopotas": "swsh7-084",  # Evolving Skies Hippopotas — not sv01-112 Riolu
     "Skwovet": "sv01-151",
