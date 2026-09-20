@@ -114,3 +114,18 @@ def test_set_c60_unl_matrix_json_is_square():
     for row in keys:
         assert row not in blob["cells"][row]
         assert set(blob["cells"][row]) == set(keys) - {row}
+
+
+def test_set_c60_dimension_valley_bakeoff_json():
+    import json
+    from pathlib import Path
+
+    blob = json.loads(
+        (Path(__file__).resolve().parents[1] / "data/lab/set-c60-dimension-valley.json").read_text()
+    )
+    assert blob["games"] == 3000
+    assert set(blob["variants"]) == {"cage3_dv0", "cage2_dv1", "cage1_dv2", "cage0_dv3"}
+    assert list(blob["cells"]["cage3_dv0"]) == ["t60", "hedrick", "unl", "d60", "g", "s60"]
+    # Verify baseline 3 Battle Cage outperforms 0 Battle Cage / 3 DV vs T60 Dragapult
+    assert blob["cells"]["cage3_dv0"]["t60"]["a"] > blob["cells"]["cage0_dv3"]["t60"]["a"]
+

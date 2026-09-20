@@ -532,6 +532,16 @@ class Game:
         def score(i: int) -> float:
             card = player.card(i)
             name = card.name.lower()
+            if strat.name in {"mew_baby", "baby"}:
+                rank = {
+                    "mew ex": 5000,
+                    "budew": 3500,
+                    "cleffa": 3000,
+                    "igglybuff": 2000,
+                    "mime jr.": 1500,
+                    "mime jr": 1500,
+                }
+                return rank.get(name, 500)
             if strat.name == "celebration":
                 rank = {
                     "porygon": 3000,
@@ -853,6 +863,12 @@ class Game:
 
     def _expire_turn_markers(self, who: str) -> None:
         other = "b" if who == "a" else "a"
+        for mon in self.players[who].in_play():
+            if getattr(mon, "disabled_self", None):
+                mon.disabled_self = None
+            if getattr(mon, "disabled_self_pending", None):
+                mon.disabled_self = mon.disabled_self_pending
+                mon.disabled_self_pending = None
         for mon in self.players[other].in_play():
             mon.prevent_basic_damage = False
             mon.reduce_damage_next_turn = 0
@@ -1290,7 +1306,9 @@ class Game:
                     score -= 5
             elif name in {"buddy-buddy poffin", "buddy buddy poffin"}:
                 slots = self.rules.bench_size - len(me.bench)
-                if strat.name == "phantom":
+                if strat.name in {"mew_baby", "baby"}:
+                    score += 25 if slots > 0 else -10
+                elif strat.name == "phantom":
                     have_dreepy = any(me.card(m.card_i).name.lower() == "dreepy" for m in me.in_play()) or any(
                         me.card(i).name.lower() == "dreepy" for i in me.hand
                     )
@@ -1479,6 +1497,8 @@ class Game:
             elif name == "battle cage":
                 if self.stadium_name == "Battle Cage":
                     score -= 6
+                elif strat.name in {"mew_baby", "baby"}:
+                    score += 22 if self._facing_phantom(me) else 15
                 elif strat.name == "party" and self._facing_phantom(me):
                     # Bench-counter shield vs Dive: above Hop/Lillie 17, below Belt 21.
                     score += 19
@@ -1589,7 +1609,12 @@ class Game:
                 rec_pkm = any(me.card(i).is_pokemon for i in me.discard)
                 rec_nrg = any(is_basic_energy(me.card(i)) for i in me.discard)
                 if rec_pkm:
-                    score += 10 if strat.name == "party" else 8
+                    if strat.name in {"mew_baby", "baby"}:
+                        score += 18
+                    elif strat.name == "party":
+                        score += 10
+                    else:
+                        score += 8
                 elif rec_nrg:
                     score += 6
                 else:
@@ -2225,6 +2250,53 @@ class Game:
 
     def _pokemon_search_prefer(self, me: Player, who: str) -> list[str]:
         strat = self.strats[who]
+        if strat.name in {"mew_baby", "baby"}:
+            prefer = []
+            have_mew = any(me.card(m.card_i).name.lower() == "mew ex" for m in me.in_play())
+            have_iggly = any(me.card(m.card_i).name.lower() == "igglybuff" for m in me.in_play())
+            have_budew = any(me.card(m.card_i).name.lower() == "budew" for m in me.in_play())
+            have_mime = any("mime jr." in me.card(m.card_i).name.lower() for m in me.in_play())
+            have_cleffa = any("cleffa" in me.card(m.card_i).name.lower() for m in me.in_play())
+            have_zard = any("radiant charizard" in me.card(m.card_i).name.lower() for m in me.in_play())
+            have_slaking = any("slaking v" in me.card(m.card_i).name.lower() for m in me.in_play())
+
+            foe = self.players.get("b" if who == "a" else "a")
+            foe_has_stance = foe is not None and any(
+                "cornerstone" in foe.card(m.card_i).name.lower()
+                or (me.active and self._stance_prevents(me.card(me.active.card_i), foe.card(m.card_i)))
+                for m in foe.in_play()
+            )
+
+            if not have_mew:
+                prefer.append("Mew ex")
+            # If facing Cornerstone Ogerpon or stance immunity, Mime Jr. (to copy Demolish) is the top priority!
+            if foe_has_stance and not have_mime:
+                prefer.append("Mime Jr.")
+            if not have_iggly:
+                prefer.append("Igglybuff")
+            if not have_budew:
+                prefer.append("Budew")
+            if not have_mime:
+                prefer.append("Mime Jr.")
+            if not have_cleffa:
+                prefer.append("Cleffa")
+            if not have_zard:
+                prefer.append("Radiant Charizard")
+            if not have_slaking:
+                prefer.append("Slaking V")
+            prefer.extend([
+                "Mime Jr.",
+                "Igglybuff",
+                "Budew",
+                "Cleffa",
+                "Radiant Charizard",
+                "Slaking V",
+                "Snorlax",
+                "Dunsparce",
+                "Regigigas",
+                "Blissey ex",
+            ])
+            return list(dict.fromkeys(prefer))
         if strat.name == "party":
             prefer: list[str] = []
             # Vs D: 4+1 searches Party first; Charge combo also needs the second
@@ -2910,6 +2982,11 @@ class Game:
 
     def _energy_target(self, me: Player, strat: StrategySpec) -> Pokemon:
         assert me.active
+        if strat.name in {"mew_baby", "baby"}:
+            for mon in me.in_play():
+                if "radiant charizard" in me.card(mon.card_i).name.lower() and not mon.energy:
+                    return mon
+            return me.active
         if strat.name == "celebration":
             dest = self._celebration_energy_target(me)
             return dest or me.active
@@ -3286,6 +3363,9 @@ class Game:
             return
         if strat.name == "celebration":
             return
+        if strat.name in {"mew_baby", "baby"}:
+            self._retreat_baby(me, foe, who)
+            return
         incoming_idx = None
         aces = {n.lower() for n in strat.search_aces}
         active_is_ace = me.card(me.active.card_i).name.lower() in aces
@@ -3423,6 +3503,13 @@ class Game:
                 me.active.damage = max(0, me.active.damage - int(effect.get("amount") or 0))
             elif effect.get("kind") == "draw":
                 self._draw(me, int(effect.get("amount") or 1))
+            elif effect.get("kind") == "draw_until_hand":
+                target = int(effect.get("count") or 7)
+                needed = max(0, target - len(me.hand))
+                if needed > 0:
+                    self._draw(me, needed)
+                    self._bump("grasping_draw")
+                    self._log(f"{attacker.name} drew {needed} cards (hand now {len(me.hand)})")
             elif effect.get("kind") == "call_family":
                 self._call_family(
                     me,
@@ -3465,6 +3552,9 @@ class Game:
                 self._recycle_trainer_from_discard(me)
             elif effect.get("kind") == "disable_attack":
                 self._disable_attack(foe, attacker.name)
+            elif effect.get("kind") == "disable_self_attack_next_turn":
+                me.active.disabled_self_pending = atk.name
+                self._bump("disable_self_attack")
             elif effect.get("kind") == "prevent_basic_damage":
                 me.active.prevent_basic_damage = True
                 self._bump("tailspin_away")
@@ -3832,7 +3922,22 @@ class Game:
 
     def _night_stretcher(self, me: Player, who: str | None = None) -> None:
         strat_name = self.strats[who].name if who else ""
-        if strat_name == "party":
+        if strat_name in {"mew_baby", "baby"}:
+            prefer = [
+                "mew ex",
+                "radiant charizard",
+                "slaking v",
+                "igglybuff",
+                "budew",
+                "cleffa",
+                "mime jr.",
+                "mime jr",
+                "snorlax",
+                "dunsparce",
+                "regigigas",
+                "blissey ex",
+            ]
+        elif strat_name == "party":
             prefer = [
                 "mewtwo ex",
                 "clefable ex",
@@ -3985,11 +4090,11 @@ class Game:
         assert me.active and foe.active
         card = me.card(me.active.card_i)
         attached = self._energy_pool(me, me.active)
-        locked = me.active.disabled_attack
+        locked = me.active.disabled_attack or getattr(me.active, "disabled_self", None)
         legal = [
             atk
             for atk in self._attacks_for(me, me.active)
-            if can_pay_energy(attached, atk.cost) and atk.name != locked
+            if can_pay_energy(attached, self._attack_cost(me, me.active, atk, foe)) and atk.name != locked
         ]
         if not legal:
             return None
@@ -4026,6 +4131,38 @@ class Game:
             if any(e.get("kind") == "lock_items" for e in resolved.effects):
                 if not foe.pending_item_lock and not foe.item_lock:
                     score += 45
+            if any(e.get("kind") == "benched_30hp_pokemon_times" for e in resolved.effects):
+                score += 50
+                if effective >= foe_hp > 0:
+                    score += 1000
+            if any(e.get("kind") == "draw_until_hand" for e in resolved.effects):
+                if len(me.hand) <= 2 and effective < foe_hp:
+                    score += 80
+            if strat.name in {"mew_baby", "baby"}:
+                if any(e.get("kind") == "lock_items" for e in resolved.effects):
+                    if not foe.pending_item_lock and not foe.item_lock and effective < foe_hp:
+                        score += 35
+                if self._is_mimed_games(atk):
+                    bouncy = next((a for a in legal if any(e.get("kind") == "benched_30hp_pokemon_times" for e in a.effects)), None)
+                    bouncy_dmg = self._effective_damage(me, foe, bouncy) if bouncy else 0
+                    foe_available = [
+                        a
+                        for mon in foe.in_play()
+                        for a in foe.card(mon.card_i).attacks
+                        if not self._is_copy_attack(a) and not self._is_mimed_games(a)
+                    ]
+                    foe_forced = (
+                        len(foe_available) <= 1
+                        or (foe_available and min(self._effective_damage_for(me, foe, me.active, a) for a in foe_available) >= 70)
+                    )
+                    if effective >= foe_hp > 0 and bouncy_dmg < foe_hp:
+                        score += 150
+                    elif bouncy_dmg == 0 and effective > 0:
+                        score += 120
+                    elif effective > bouncy_dmg:
+                        score += 85 if foe_forced else 65
+                    elif effective == bouncy_dmg and effective > 0:
+                        score += 10
             if any(e.get("kind") == "bench_damage_counters" for e in resolved.effects):
                 score += 20
                 if strat.name == "party" and self._facing_phantom(me) and "phantom dive" in resolved.name.lower():
@@ -4310,6 +4447,18 @@ class Game:
         def prio(i: int) -> int:
             mon = player.bench[i]
             name = player.card(mon.card_i).name.lower()
+            if strat.name in {"mew_baby", "baby"}:
+                if name == "mew ex":
+                    return 0
+                if "radiant charizard" in name and bool(mon.energy):
+                    return 1
+                if name == "budew":
+                    return 2
+                if name == "cleffa":
+                    return 3
+                if name == "igglybuff":
+                    return 4
+                return 5
             if strat.name == "slash":
                 if self._slash_ko(player, foe, mon):
                     return 0
@@ -4468,14 +4617,55 @@ class Game:
             "use it as this attack" in (atk.text or "").lower()
         )
 
+    def _is_mimed_games(self, atk) -> bool:
+        name = (atk.name or "").lower()
+        text = (atk.text or "").lower()
+        return name == "mimed games" or "use the chosen attack as this attack" in text
+
+    def _resolved_mimed_games(self, me: Player, foe: Player, atk):
+        if not self._is_mimed_games(atk) or not foe.active:
+            return atk
+        available = []
+        for mon in foe.in_play():
+            card = foe.card(mon.card_i)
+            for a in card.attacks:
+                if not self._is_copy_attack(a) and not self._is_mimed_games(a):
+                    available.append(a)
+        if not available:
+            return atk
+
+        def foe_cost(cand) -> float:
+            dmg = self._effective_damage_for(me, foe, me.active, cand)
+            foe_hp = max(0, self._max_hp(foe, foe.active) - foe.active.damage)
+            score = float(dmg)
+            if dmg >= foe_hp > 0:
+                score += 1000.0  # Foe avoids choosing an attack that knocks out their own active!
+            for e in (cand.effects or []):
+                kind = e.get("kind")
+                if kind == "bench_damage_counters":
+                    score += float(int(e.get("counters") or 1) * 10)
+                elif kind == "recoil":
+                    score -= 50.0  # Foe prefers recoil on user
+                elif kind == "status" and e.get("status") in {"paralyzed", "asleep"}:
+                    score += 40.0
+                elif kind == "lock_items":
+                    score += 35.0
+                elif kind in {"draw", "draw_until_hand"}:
+                    score += 25.0
+            return score
+
+        return min(available, key=foe_cost)
+
     def _resolved_attack(self, me: Player, foe: Player, atk):
-        """Pay Metronome's cost; resolve the copied Active attack's damage and effects."""
+        """Pay Metronome or Mimed Games cost; resolve copied attack's damage and effects."""
+        if self._is_mimed_games(atk):
+            return self._resolved_mimed_games(me, foe, atk)
         if not self._is_copy_attack(atk) or not foe.active:
             return atk
         copies = [
             cand
             for cand in foe.card(foe.active.card_i).attacks
-            if not self._is_copy_attack(cand)
+            if not self._is_copy_attack(cand) and not self._is_mimed_games(cand)
         ]
         if not copies:
             return atk
@@ -4796,8 +4986,22 @@ class Game:
             elif sides == "opponent":
                 n = len(foe.bench)
             dmg = atk.damage + per * n
+        elif any(e.get("kind") == "benched_30hp_pokemon_times" for e in atk.effects):
+            per = 30
+            for effect in atk.effects:
+                if effect.get("kind") == "benched_30hp_pokemon_times":
+                    per = int(effect.get("per") or 30)
+            count = sum(1 for b in me.bench if (me.card(b.card_i).hp or 0) == 30)
+            dmg = atk.damage + per * count
         elif self._damage_counter_bonus(atk) is not None:
             dmg = atk.damage + self._damage_counter_bonus(atk) * (foe.active.damage // 10)
+        elif any(e.get("kind") == "damage_counter_on_self_bonus" for e in atk.effects):
+            per = 30
+            for effect in atk.effects:
+                if effect.get("kind") == "damage_counter_on_self_bonus":
+                    per = int(effect.get("per") or 30)
+            counters = (mon.damage or 0) // 10
+            dmg = atk.damage + per * counters
         elif any(e.get("kind") == "hand_count_times" for e in atk.effects):
             per = 0
             for effect in atk.effects:
@@ -4859,21 +5063,22 @@ class Game:
         if not ignore_wr:
             dmg *= weakness_multiplier(self._defender_weaknesses(me, foe, defender), attacker.types)
             dmg = max(0, dmg - resistance_reduce(defender.resistances, attacker.types))
-        shield = int(foe.active.reduce_damage_next_turn or 0)
-        if shield:
-            dmg = max(0, dmg - shield)
-        if self._stance_prevents(attacker, defender):
-            self._bump("stance_block")
-            return 0
-        if foe.active.prevent_basic_damage and attacker.is_basic:
-            self._bump("prevent_basic_damage")
-            return 0
-        if dmg > 0 and self._coin_prevents_attack_damage(foe, foe.active):
-            self._bump("expert_hider")
-            return 0
         ignore_effects = any(e.get("kind") == "ignore_active_effects" for e in atk.effects) or (
             "effects" in (atk.text or "").lower() and "isn't affected" in (atk.text or "").lower()
         )
+        if not ignore_effects:
+            shield = int(foe.active.reduce_damage_next_turn or 0)
+            if shield:
+                dmg = max(0, dmg - shield)
+            if self._stance_prevents(attacker, defender):
+                self._bump("stance_block")
+                return 0
+            if foe.active.prevent_basic_damage and attacker.is_basic:
+                self._bump("prevent_basic_damage")
+                return 0
+            if dmg > 0 and self._coin_prevents_attack_damage(foe, foe.active):
+                self._bump("expert_hider")
+                return 0
         wall = None if ignore_effects else self._invisible_wall_threshold(foe.active, defender)
         if wall is not None and dmg >= wall:
             self._bump("invisible_wall")
@@ -4924,6 +5129,9 @@ class Game:
             return None
         if name == "bravery charm":
             for mon in me.in_play():
+                if mon.tool is None and me.card(mon.card_i).name.lower() == "mew ex":
+                    return mon
+            for mon in me.in_play():
                 if mon.tool is None and me.card(mon.card_i).is_basic:
                     if (
                         self._is_ogerpon(me.card(mon.card_i))
@@ -4937,6 +5145,9 @@ class Game:
                     return mon
             return None
         if name == "maximum belt":
+            for mon in me.in_play():
+                if mon.tool is None and me.card(mon.card_i).name.lower() == "mew ex":
+                    return mon
             for mon in me.in_play():
                 if mon.tool is None and self._is_floragato(me.card(mon.card_i)):
                     return mon
@@ -7368,6 +7579,16 @@ class Game:
                 self._do_retreat_into(me, idx)
                 return
 
+    def _retreat_baby(self, me: Player, foe: Player, who: str) -> None:
+        if not me.active or not me.bench:
+            return
+        if me.card(me.active.card_i).name.lower() == "mew ex":
+            return
+        for idx, mon in enumerate(me.bench):
+            if me.card(mon.card_i).name.lower() == "mew ex":
+                self._do_retreat_into(me, idx)
+                return
+
     def _slash_ko(self, me: Player, foe: Player, mon: Pokemon | None = None) -> bool:
         if not foe.active:
             return False
@@ -8343,11 +8564,49 @@ class Game:
         seen = {id(atk) for atk in attacks}
         for bench in me.bench:
             for atk in me.card(bench.card_i).attacks:
-                if self._is_copy_attack(atk) or id(atk) in seen:
+                if id(atk) in seen:
                     continue
                 attacks.append(atk)
                 seen.add(id(atk))
         return attacks
+
+    def _attack_cost(self, me: Player, mon: Pokemon, atk: Attack, foe: Player | None = None) -> list[str]:
+        cost = list(atk.cost)
+        if not cost:
+            return cost
+        has_excited_heart = False
+        if not self._abilities_suppressed(me, mon):
+            for abi in me.card(mon.card_i).abilities:
+                if any(e.get("kind") == "cost_less_colorless_per_opponent_prize" for e in self._ability_effects(abi)):
+                    has_excited_heart = True
+                    break
+        if not has_excited_heart and self._copies_benched_attacks(me, mon):
+            for bench in me.in_play():
+                if not self._abilities_suppressed(me, bench):
+                    for abi in me.card(bench.card_i).abilities:
+                        if any(e.get("kind") == "cost_less_colorless_per_opponent_prize" for e in self._ability_effects(abi)):
+                            has_excited_heart = True
+                            break
+                if has_excited_heart:
+                    break
+
+        if has_excited_heart and foe is not None:
+            prizes_taken = foe.prizes_taken
+            while prizes_taken > 0 and "Colorless" in cost:
+                cost.remove("Colorless")
+                prizes_taken -= 1
+
+        # Dimension Valley: attacks of each Psychic Pokémon cost [C] less
+        is_psychic = "Psychic" in (me.card(mon.card_i).types or [])
+        if is_psychic and "Colorless" in cost:
+            has_dim_valley = (
+                self.stadium_name == "Dimension Valley"
+                or any(e.get("kind") == "stadium_psychic_cost_less_colorless" for e in (self.stadium_effects or []))
+            )
+            if has_dim_valley:
+                cost.remove("Colorless")
+
+        return cost
 
     def _celebration_bench_rank(self, name: str) -> int:
         return {

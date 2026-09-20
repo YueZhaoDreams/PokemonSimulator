@@ -1,0 +1,290 @@
+{
+  "metadata": {
+    "title": "Smart Mime Jr. Optimization Matrix (Mew ex Baby Box)",
+    "games_per_cell": 1000,
+    "total_games": 16000,
+    "elapsed_seconds": 8.4,
+    "seed": 20260920,
+    "date": "2026-09-20"
+  },
+  "rankings": [
+    {
+      "variant": "v5_2mime_iggly3",
+      "name": "V5-Mime2-I3: 2 Mime Jr. / 3 Igglybuff / 3 Budew",
+      "overall_win_rate": 0.799,
+      "matchups": {
+        "t60": 0.765,
+        "hedrick": 0.742,
+        "c60": 0.711,
+        "d60": 0.978
+      },
+      "rank": 1
+    },
+    {
+      "variant": "v5_2mime_budew2",
+      "name": "V5-Mime2-B2: 2 Mime Jr. / 2 Budew (Prize-Safe)",
+      "overall_win_rate": 0.7888,
+      "matchups": {
+        "t60": 0.743,
+        "hedrick": 0.728,
+        "c60": 0.716,
+        "d60": 0.968
+      },
+      "rank": 2
+    },
+    {
+      "variant": "v5_1mime_smart",
+      "name": "V5-Mime1: 1 Mime Jr. (Smart AI & Tutor)",
+      "overall_win_rate": 0.7727,
+      "matchups": {
+        "t60": 0.778,
+        "hedrick": 0.748,
+        "c60": 0.702,
+        "d60": 0.863
+      },
+      "rank": 3
+    },
+    {
+      "variant": "v5_0mime_control",
+      "name": "V5-Mime0-Control: 0 Mime Jr. (No Mimed Games)",
+      "overall_win_rate": 0.556,
+      "matchups": {
+        "t60": 0.773,
+        "hedrick": 0.731,
+        "c60": 0.693,
+        "d60": 0.027
+      },
+      "rank": 4
+    }
+  ],
+  "variants": {
+    "v5_1mime_smart": {
+      "name": "V5-Mime1: 1 Mime Jr. (Smart AI & Tutor)",
+      "description": "Standard Baby Box with 1 Mime Jr., 4 Igglybuff, 3 Budew, 2 Cleffa, 3 Mew ex. Uses smart tutor prioritization and forced-choice detection.",
+      "overall_win_rate": 0.7727,
+      "matchups": {
+        "t60": 0.778,
+        "hedrick": 0.748,
+        "c60": 0.702,
+        "d60": 0.863
+      },
+      "details": {
+        "d60": {
+          "variant": "v5_1mime_smart",
+          "foe": "d60",
+          "win_rate": 0.863,
+          "wins_a": 863,
+          "total_games": 1000,
+          "win_rate_first": 0.8705,
+          "win_rate_second": 0.8554,
+          "avg_turns": 0.0,
+          "key_attacks": {}
+        },
+        "t60": {
+          "variant": "v5_1mime_smart",
+          "foe": "t60",
+          "win_rate": 0.778,
+          "wins_a": 778,
+          "total_games": 1000,
+          "win_rate_first": 0.7416,
+          "win_rate_second": 0.8197,
+          "avg_turns": 0.0,
+          "key_attacks": {}
+        },
+        "hedrick": {
+          "variant": "v5_1mime_smart",
+          "foe": "hedrick",
+          "win_rate": 0.748,
+          "wins_a": 748,
+          "total_games": 1000,
+          "win_rate_first": 0.6957,
+          "win_rate_second": 0.8016,
+          "avg_turns": 0.0,
+          "key_attacks": {}
+        },
+        "c60": {
+          "variant": "v5_1mime_smart",
+          "foe": "c60",
+          "win_rate": 0.702,
+          "wins_a": 702,
+          "total_games": 1000,
+          "win_rate_first": 0.6494,
+          "win_rate_second": 0.751,
+          "avg_turns": 0.0,
+          "key_attacks": {}
+        }
+      }
+    },
+    "v5_2mime_budew2": {
+      "name": "V5-Mime2-B2: 2 Mime Jr. / 2 Budew (Prize-Safe)",
+      "description": "Increases Mime Jr. to 2 copies for prize protection and opening consistency. 4 Igglybuff, 2 Budew, 2 Cleffa, 3 Mew ex.",
+      "overall_win_rate": 0.7888,
+      "matchups": {
+        "t60": 0.743,
+        "hedrick": 0.728,
+        "c60": 0.716,
+        "d60": 0.968
+      },
+      "details": {
+        "d60": {
+          "variant": "v5_2mime_budew2",
+          "foe": "d60",
+          "win_rate": 0.968,
+          "wins_a": 968,
+          "total_games": 1000,
+          "win_rate_first": 0.9689,
+          "win_rate_second": 0.9671,
+          "avg_turns": 0.0,
+          "key_attacks": {}
+        },
+        "t60": {
+          "variant": "v5_2mime_budew2",
+          "foe": "t60",
+          "win_rate": 0.743,
+          "wins_a": 743,
+          "total_games": 1000,
+          "win_rate_first": 0.7149,
+          "win_rate_second": 0.7717,
+          "avg_turns": 0.0,
+          "key_attacks": {}
+        },
+        "hedrick": {
+          "variant": "v5_2mime_budew2",
+          "foe": "hedrick",
+          "win_rate": 0.728,
+          "wins_a": 728,
+          "total_games": 1000,
+          "win_rate_first": 0.6784,
+          "win_rate_second": 0.7748,
+          "avg_turns": 0.0,
+          "key_attacks": {}
+        },
+        "c60": {
+          "variant": "v5_2mime_budew2",
+          "foe": "c60",
+          "win_rate": 0.716,
+          "wins_a": 716,
+          "total_games": 1000,
+          "win_rate_first": 0.6809,
+          "win_rate_second": 0.7536,
+          "avg_turns": 0.0,
+          "key_attacks": {}
+        }
+      }
+    },
+    "v5_2mime_iggly3": {
+      "name": "V5-Mime2-I3: 2 Mime Jr. / 3 Igglybuff / 3 Budew",
+      "description": "2 Mime Jr. while maintaining 3 Budew for turn 1 item lock disruption. 3 Igglybuff, 2 Cleffa, 3 Mew ex.",
+      "overall_win_rate": 0.799,
+      "matchups": {
+        "t60": 0.765,
+        "hedrick": 0.742,
+        "c60": 0.711,
+        "d60": 0.978
+      },
+      "details": {
+        "d60": {
+          "variant": "v5_2mime_iggly3",
+          "foe": "d60",
+          "win_rate": 0.978,
+          "wins_a": 978,
+          "total_games": 1000,
+          "win_rate_first": 0.9754,
+          "win_rate_second": 0.9805,
+          "avg_turns": 0.0,
+          "key_attacks": {}
+        },
+        "t60": {
+          "variant": "v5_2mime_iggly3",
+          "foe": "t60",
+          "win_rate": 0.765,
+          "wins_a": 765,
+          "total_games": 1000,
+          "win_rate_first": 0.7267,
+          "win_rate_second": 0.804,
+          "avg_turns": 0.0,
+          "key_attacks": {}
+        },
+        "hedrick": {
+          "variant": "v5_2mime_iggly3",
+          "foe": "hedrick",
+          "win_rate": 0.742,
+          "wins_a": 742,
+          "total_games": 1000,
+          "win_rate_first": 0.7385,
+          "win_rate_second": 0.7455,
+          "avg_turns": 0.0,
+          "key_attacks": {}
+        },
+        "c60": {
+          "variant": "v5_2mime_iggly3",
+          "foe": "c60",
+          "win_rate": 0.711,
+          "wins_a": 711,
+          "total_games": 1000,
+          "win_rate_first": 0.673,
+          "win_rate_second": 0.7457,
+          "avg_turns": 0.0,
+          "key_attacks": {}
+        }
+      }
+    },
+    "v5_0mime_control": {
+      "name": "V5-Mime0-Control: 0 Mime Jr. (No Mimed Games)",
+      "description": "Control baseline with 0 Mime Jr. (4 Igglybuff, 4 Budew, 2 Cleffa, 3 Mew ex) to measure the exact value add of Mime Jr.",
+      "overall_win_rate": 0.556,
+      "matchups": {
+        "t60": 0.773,
+        "hedrick": 0.731,
+        "c60": 0.693,
+        "d60": 0.027
+      },
+      "details": {
+        "t60": {
+          "variant": "v5_0mime_control",
+          "foe": "t60",
+          "win_rate": 0.773,
+          "wins_a": 773,
+          "total_games": 1000,
+          "win_rate_first": 0.7315,
+          "win_rate_second": 0.8169,
+          "avg_turns": 0.0,
+          "key_attacks": {}
+        },
+        "hedrick": {
+          "variant": "v5_0mime_control",
+          "foe": "hedrick",
+          "win_rate": 0.731,
+          "wins_a": 731,
+          "total_games": 1000,
+          "win_rate_first": 0.7017,
+          "win_rate_second": 0.7659,
+          "avg_turns": 0.0,
+          "key_attacks": {}
+        },
+        "d60": {
+          "variant": "v5_0mime_control",
+          "foe": "d60",
+          "win_rate": 0.027,
+          "wins_a": 27,
+          "total_games": 1000,
+          "win_rate_first": 0.0343,
+          "win_rate_second": 0.0189,
+          "avg_turns": 0.0,
+          "key_attacks": {}
+        },
+        "c60": {
+          "variant": "v5_0mime_control",
+          "foe": "c60",
+          "win_rate": 0.693,
+          "wins_a": 693,
+          "total_games": 1000,
+          "win_rate_first": 0.6556,
+          "win_rate_second": 0.7325,
+          "avg_turns": 0.0,
+          "key_attacks": {}
+        }
+      }
+    }
+  }
+}

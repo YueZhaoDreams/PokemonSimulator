@@ -314,6 +314,31 @@ SET_T_UNL_NAMES = (
     + ["Psychic Energy"] * 3
 )
 
+# Set M Standard 60: Zero-Energy Mew ex & Igglybuff Baby Box (Optimized Champion: 2 Mime Jr.).
+SET_M60_NAMES = (
+    ["Mew ex"] * 3
+    + ["Mime Jr."] * 2
+    + ["Igglybuff"] * 3
+    + ["Budew"] * 3
+    + ["Cleffa"] * 2
+    + ["Buddy-Buddy Poffin"] * 4
+    + ["Nest Ball"] * 4
+    + ["Ultra Ball"] * 4
+    + ["Night Stretcher"] * 4
+    + ["Battle Cage"] * 4
+    + ["Bravery Charm"] * 3
+    + ["Maximum Belt"]
+    + ["Arven"] * 4
+    + ["Iono"] * 4
+    + ["Professor's Research"] * 2
+    + ["Boss's Orders"] * 3
+    + ["Crushing Hammer"] * 4
+    + ["Switch"] * 4
+    + ["Counter Catcher"] * 2
+)
+SET_M_NAMES = SET_M60_NAMES
+SET_MEW_BABY_60_NAMES = SET_M60_NAMES
+
 # Unlimited 60: Ambipom PAR Hand Fling, Lopunny FLF Big Jump recycle,
 # Raikou V Fleet-Footed + Forest Seal Stone Star Alchemy, Draw Energy, Rare Candy.
 # 4/4 Aipom–Ambipom is the 2-for-1 prize race (100 HP / 1 prize vs household 2-prizers).
@@ -2661,6 +2686,272 @@ _register(
     )
 )
 _register(
+    _pkm(
+        "Igglybuff",
+        "Basic",
+        ["Colorless"],
+        30,
+        [
+            _atk(
+                "Bouncy Circle",
+                [],
+                0,
+                "This attack does 30 damage for each of your Benched Pokémon that has a maximum HP of 30.",
+            )
+        ],
+        catalog_id="me04-120",
+        retreat=0,
+        image="https://assets.tcgdex.net/en/me04/me04/120/low.webp",
+        set_name="30th Celebration",
+    )
+)
+_register(
+    _pkm(
+        "Mime Jr.",
+        "Basic",
+        ["Psychic"],
+        30,
+        [
+            _atk(
+                "Mimed Games",
+                [],
+                0,
+                "Your opponent chooses an attack from 1 of their Pokémon in play. Use the chosen attack as this attack.",
+            )
+        ],
+        catalog_id="sv04.5-031",
+        weakness="Darkness",
+        resistances=[{"type": "Fighting", "value": "-30"}],
+        retreat=0,
+        image="https://assets.tcgdex.net/en/sv/sv04.5/031/low.webp",
+        set_name="Paldean Fates",
+    )
+)
+_register(
+    _pkm(
+        "Cleffa",
+        "Basic",
+        ["Psychic"],
+        30,
+        [
+            _atk(
+                "Grasping Draw",
+                [],
+                0,
+                "Draw cards until you have 7 cards in your hand.",
+            )
+        ],
+        catalog_id="sv03-080",
+        weakness="Darkness",
+        resistances=[{"type": "Fighting", "value": "-30"}],
+        retreat=0,
+        image="https://assets.tcgdex.net/en/sv/sv03/080/low.webp",
+        set_name="Obsidian Flames",
+    )
+)
+_register(
+    _pkm(
+        "Radiant Charizard",
+        "Basic",
+        ["Fire"],
+        160,
+        [
+            _atk(
+                "Combustion Blast",
+                ["Fire", "Colorless", "Colorless", "Colorless"],
+                250,
+                "During your next turn, this Pokémon can't use Combustion Blast.",
+            )
+        ],
+        catalog_id="pgo-011",
+        weakness="Water",
+        retreat=3,
+        abilities=[
+            Ability(
+                name="Excited Heart",
+                text="This Pokémon's attacks cost Colorless less for each Prize card your opponent has taken.",
+            )
+        ],
+        image="https://assets.tcgdex.net/en/pgo/pgo/011/low.webp",
+        set_name="Pokémon GO",
+    )
+)
+_register(
+    _pkm(
+        "Slaking V",
+        "Basic",
+        ["Colorless"],
+        230,
+        [
+            _atk(
+                "Heavy Impact",
+                ["Colorless", "Colorless", "Colorless", "Colorless"],
+                260,
+                "",
+            )
+        ],
+        catalog_id="pgo-058",
+        weakness="Fighting",
+        retreat=3,
+        image="https://assets.tcgdex.net/en/pgo/pgo/058/low.webp",
+        set_name="Pokémon GO",
+    )
+)
+_register(
+    _pkm(
+        "Snorlax",
+        "Basic",
+        ["Colorless"],
+        150,
+        [
+            _atk(
+                "Rolling Tackle",
+                ["Colorless", "Colorless", "Colorless"],
+                100,
+                "",
+            )
+        ],
+        catalog_id="pgo-055",
+        weakness="Fighting",
+        retreat=4,
+        image="https://assets.tcgdex.net/en/pgo/pgo/055/low.webp",
+        set_name="Pokémon GO",
+    )
+)
+_register(
+    _pkm(
+        "Dunsparce",
+        "Basic",
+        ["Colorless"],
+        60,
+        [
+            _atk(
+                "Sudden Flash",
+                ["Colorless"],
+                10,
+                "Your opponent's Active Pokémon is now Paralyzed.",
+            )
+        ],
+        catalog_id="mew-156",
+        weakness="Fighting",
+        retreat=1,
+        image="https://assets.tcgdex.net/en/sv/sv03.5/156/low.webp",
+        set_name="151",
+    )
+)
+_register(
+    _pkm(
+        "Regigigas",
+        "Basic",
+        ["Colorless"],
+        150,
+        [
+            _atk(
+                "Giga Impact",
+                ["Colorless", "Colorless", "Colorless", "Colorless", "Colorless"],
+                230,
+                "During your next turn, this Pokémon can't attack.",
+            )
+        ],
+        catalog_id="crz-113",
+        weakness="Fighting",
+        retreat=4,
+        image="https://assets.tcgdex.net/en/swsh/swsh12.5/113/low.webp",
+        set_name="Crown Zenith",
+    )
+)
+_register(
+    _pkm(
+        "Blissey ex",
+        "Stage1",
+        ["Colorless"],
+        300,
+        [
+            _atk(
+                "Return",
+                ["Colorless", "Colorless", "Colorless"],
+                180,
+                "Draw cards until you have 6 cards in your hand.",
+            )
+        ],
+        catalog_id="twm-134",
+        weakness="Fighting",
+        retreat=4,
+        image="https://assets.tcgdex.net/en/sv/sv06/134/low.webp",
+        set_name="Twilight Masquerade",
+    )
+)
+_register(
+    _trn(
+        "Dimension Valley",
+        "stadium",
+        "The attacks of each Psychic Pokémon in play (both yours and your opponent's) cost Colorless less.",
+        catalog_id="phf-093",
+        image="https://assets.tcgdex.net/en/xy/xy4/093/low.webp",
+    )
+)
+_register(
+    _pkm(
+        "Dodrio",
+        "Stage1",
+        ["Colorless"],
+        100,
+        [
+            _atk(
+                "Ballistic Beak",
+                ["Colorless"],
+                10,
+                "This attack does 30 more damage for each damage counter on this Pokémon.",
+            )
+        ],
+        catalog_id="me01-085",
+        weakness="Lightning",
+        resistances=[{"type": "Fighting", "value": "-30"}],
+        retreat=1,
+        image="https://assets.tcgdex.net/en/sv/sv03.5/085/low.webp",
+        set_name="151",
+    )
+)
+_register(
+    _pkm(
+        "Hisuian Zorua",
+        "Basic",
+        ["Psychic"],
+        60,
+        [
+            _atk("Collect", [], 0, "Draw a card.")
+        ],
+        catalog_id="lor-075",
+        weakness="Darkness",
+        resistances=[{"type": "Fighting", "value": "-30"}],
+        retreat=1,
+        image="https://assets.tcgdex.net/en/swsh/swsh11/075/low.webp",
+        set_name="Lost Origin",
+    )
+)
+_register(
+    _pkm(
+        "Hisuian Zoroark",
+        "Stage1",
+        ["Psychic"],
+        100,
+        [
+            _atk(
+                "Doom Curse",
+                [],
+                0,
+                "At the end of your opponent's next turn, the Defending Pokémon will be Knocked Out.",
+            )
+        ],
+        catalog_id="lor-076",
+        weakness="Darkness",
+        resistances=[{"type": "Fighting", "value": "-30"}],
+        retreat=2,
+        image="https://assets.tcgdex.net/en/swsh/swsh11/076/low.webp",
+        set_name="Lost Origin",
+    )
+)
+_register(
     _trn(
         "Puzzle of Time",
         "item",
@@ -3073,6 +3364,7 @@ FALLBACK_BY_NAME["staravia-brilliant"] = _pkm(
     image="https://assets.tcgdex.net/en/swsh/swsh9/118/low.webp",
     resistances=[{"type": "Fighting", "value": "-30"}],
 )
+FALLBACK_BY_NAME["mime jr"] = FALLBACK_BY_NAME["mime jr."]
 
 
 def fallback_named(name: str) -> Card:

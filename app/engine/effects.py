@@ -350,6 +350,13 @@ def parse_ability_effects(text: str) -> list[dict[str, Any]]:
             }
         )
 
+    # Dimension Valley: attacks of each Psychic Pokémon in play cost [C] less
+    if (
+        "dimension valley" in t
+        or ("attacks of each" in t and "pokemon in play" in t and "cost" in t and "less" in t)
+    ):
+        effects.append({"kind": "stadium_psychic_cost_less_colorless"})
+
     # Octillery Abyssal Hand / draw-until abilities. Count comes from print.
     until = parse_draw_until_hand(text)
     if until and "search your deck" not in t:
@@ -408,6 +415,14 @@ def parse_ability_effects(text: str) -> list[dict[str, Any]]:
     # Mew ex Memory Helix: copy attacks of any of your Benched Pokémon.
     if "can use the attacks of any of your benched pokemon" in t:
         effects.append({"kind": "copy_benched_attacks"})
+
+    # Radiant Charizard Excited Heart: attacks cost [C] less for each Prize card your opponent has taken.
+    if (
+        "attacks cost [c] less for each prize card your opponent has taken" in t
+        or ("attacks cost" in t and "less for each prize card" in t)
+        or "excited heart" in t
+    ):
+        effects.append({"kind": "cost_less_colorless_per_opponent_prize"})
 
     # Broken Time-Space: evolve a Pokémon just played or just evolved this turn.
     if "just played" in t and "evolved" in t and "evolve" in t:
@@ -516,9 +531,21 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
     if heal:
         effects.append({"kind": "heal", "amount": int(heal.group(1))})
 
+    # Igglybuff Bouncy Circle: 30 damage for each benched Pokémon with 30 HP
+    if "benched pok" in t and ("30 hp" in t or "maximum hp of 30" in t):
+        per = 30
+        n = re.search(r"(\d+) damage for each", t)
+        if n:
+            per = int(n.group(1))
+        effects.append({"kind": "benched_30hp_pokemon_times", "per": per})
+
     if "draw" in t and "search your deck" not in t:
-        n = re.search(r"draw (\d+)", t)
-        effects.append({"kind": "draw", "amount": int(n.group(1)) if n else 1})
+        until = parse_draw_until_hand(t)
+        if until:
+            effects.append(until)
+        else:
+            n = re.search(r"draw (\d+)", t)
+            effects.append({"kind": "draw", "amount": int(n.group(1)) if n else 1})
 
     # MEW 035 Moon-Viewing Invitation: bench a named Pokémon (not any Basic).
     named_bench = re.search(
@@ -560,6 +587,10 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
     # Platinum Mismagius Upper Hand: lock one named attack on the defender.
     if "can't use that attack" in t or "cannot use that attack" in t:
         effects.append({"kind": "disable_attack"})
+
+    # Radiant Charizard / Regigigas: can't use attack or can't attack during next turn
+    if "during your next turn, this pokemon can't" in t or "during your next turn, this pokemon cannot" in t:
+        effects.append({"kind": "disable_self_attack_next_turn"})
 
     if "this attack does nothing" in t:
         if "same number of cards in your hand" in t:
@@ -679,6 +710,8 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
         )
     elif counter_bonus and ("opponent" in t or "defending" in t):
         effects.append({"kind": "damage_counter_bonus", "per": int(counter_bonus.group(1))})
+    elif counter_bonus and "this pokemon" in t:
+        effects.append({"kind": "damage_counter_on_self_bonus", "per": int(counter_bonus.group(1))})
     elif in_play_nrg:
         effects.append(
             {

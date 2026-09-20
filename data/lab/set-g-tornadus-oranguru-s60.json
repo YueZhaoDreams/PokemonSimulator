@@ -1,0 +1,2598 @@
+{
+  "games": 2000,
+  "seeds": [
+    20260912,
+    20260913,
+    20260914
+  ],
+  "rule_preset": "s60",
+  "g_strategy": "g",
+  "source": "live data/app.db seed-g + fallback Tornadus/Oranguru",
+  "foes": [
+    "c60",
+    "d60",
+    "t60",
+    "hedrick",
+    "unl",
+    "s60"
+  ],
+  "variants": {
+    "baseline": {
+      "seeds": {
+        "20260912": {
+          "elapsed": 15.464710250031203,
+          "win_rate_a": [
+            0.1045,
+            0.0815,
+            0.216,
+            0.319,
+            0.4555,
+            0.5365
+          ],
+          "cells": {
+            "c60": {
+              "a": 0.1045,
+              "b": 0.8955,
+              "tie": 0.0,
+              "first": 0.09852216748768473,
+              "second": 0.11065989847715736,
+              "party_games": 1801,
+              "gust_games": 1259,
+              "power_games": 0,
+              "barrier_games": 0,
+              "tornadus_games": 0,
+              "oranguru_games": 0,
+              "mewtwo_games": 1936
+            },
+            "d60": {
+              "a": 0.0815,
+              "b": 0.9185,
+              "tie": 0.0,
+              "first": 0.0891089108910891,
+              "second": 0.07373737373737374,
+              "party_games": 636,
+              "gust_games": 0,
+              "power_games": 0,
+              "barrier_games": 0,
+              "tornadus_games": 0,
+              "oranguru_games": 0,
+              "mewtwo_games": 10
+            },
+            "t60": {
+              "a": 0.216,
+              "b": 0.784,
+              "tie": 0.0,
+              "first": 0.20923076923076922,
+              "second": 0.2224390243902439,
+              "party_games": 626,
+              "gust_games": 911,
+              "power_games": 0,
+              "barrier_games": 0,
+              "tornadus_games": 0,
+              "oranguru_games": 0,
+              "mewtwo_games": 23
+            },
+            "hedrick": {
+              "a": 0.319,
+              "b": 0.681,
+              "tie": 0.0,
+              "first": 0.323943661971831,
+              "second": 0.31411530815109345,
+              "party_games": 661,
+              "gust_games": 1006,
+              "power_games": 0,
+              "barrier_games": 0,
+              "tornadus_games": 0,
+              "oranguru_games": 0,
+              "mewtwo_games": 33
+            },
+            "unl": {
+              "a": 0.4555,
+              "b": 0.5445,
+              "tie": 0.0,
+              "first": 0.4750733137829912,
+              "second": 0.43500511770726713,
+              "party_games": 672,
+              "gust_games": 1166,
+              "power_games": 0,
+              "barrier_games": 0,
+              "tornadus_games": 0,
+              "oranguru_games": 0,
+              "mewtwo_games": 44
+            },
+            "s60": {
+              "a": 0.5365,
+              "b": 0.4635,
+              "tie": 0.0,
+              "first": 0.5520628683693517,
+              "second": 0.5203665987780041,
+              "party_games": 876,
+              "gust_games": 1362,
+              "power_games": 0,
+              "barrier_games": 0,
+              "tornadus_games": 0,
+              "oranguru_games": 0,
+              "mewtwo_games": 83
+            }
+          }
+        },
+        "20260913": {
+          "elapsed": 15.35568012483418,
+          "win_rate_a": [
+            0.0955,
+            0.0715,
+            0.222,
+            0.299,
+            0.4295,
+            0.5515
+          ],
+          "cells": {
+            "c60": {
+              "a": 0.0955,
+              "b": 0.9045,
+              "tie": 0.0,
+              "first": 0.1018981018981019,
+              "second": 0.0890890890890891,
+              "party_games": 1742,
+              "gust_games": 1214,
+              "power_games": 0,
+              "barrier_games": 0,
+              "tornadus_games": 0,
+              "oranguru_games": 0,
+              "mewtwo_games": 1948
+            },
+            "d60": {
+              "a": 0.0715,
+              "b": 0.9285,
+              "tie": 0.0,
+              "first": 0.08425275827482448,
+              "second": 0.058823529411764705,
+              "party_games": 675,
+              "gust_games": 0,
+              "power_games": 0,
+              "barrier_games": 0,
+              "tornadus_games": 0,
+              "oranguru_games": 0,
+              "mewtwo_games": 15
+            },
+            "t60": {
+              "a": 0.222,
+              "b": 0.778,
+              "tie": 0.0,
+              "first": 0.23566214807090718,
+              "second": 0.20941402497598463,
+              "party_games": 621,
+              "gust_games": 870,
+              "power_games": 0,
+              "barrier_games": 0,
+              "tornadus_games": 0,
+              "oranguru_games": 0,
+              "mewtwo_games": 23
+            },
+            "hedrick": {
+              "a": 0.299,
+              "b": 0.701,
+              "tie": 0.0,
+              "first": 0.29689067201604813,
+              "second": 0.30109670987038883,
+              "party_games": 605,
+              "gust_games": 1030,
+              "power_games": 0,
+              "barrier_games": 0,
+              "tornadus_games": 0,
+              "oranguru_games": 0,
+              "mewtwo_games": 35
+            },
+            "unl": {
+              "a": 0.4295,
+              "b": 0.5705,
+              "tie": 0.0,
+              "first": 0.4317718940936864,
+              "second": 0.42730844793713163,
+              "party_games": 704,
+              "gust_games": 1129,
+              "power_games": 0,
+              "barrier_games": 0,
+              "tornadus_games": 0,
+              "oranguru_games": 0,
+              "mewtwo_games": 37
+            },
+            "s60": {
+              "a": 0.5515,
+              "b": 0.448,
+              "tie": 0.0005,
+              "first": 0.5527093596059113,
+              "second": 0.550253807106599,
+              "party_games": 883,
+              "gust_games": 1348,
+              "power_games": 0,
+              "barrier_games": 0,
+              "tornadus_games": 0,
+              "oranguru_games": 0,
+              "mewtwo_games": 88
+            }
+          }
+        },
+        "20260914": {
+          "elapsed": 15.76716283429414,
+          "win_rate_a": [
+            0.094,
+            0.08,
+            0.21,
+            0.31,
+            0.429,
+            0.5475
+          ],
+          "cells": {
+            "c60": {
+              "a": 0.094,
+              "b": 0.9055,
+              "tie": 0.0005,
+              "first": 0.09295499021526418,
+              "second": 0.0950920245398773,
+              "party_games": 1779,
+              "gust_games": 1261,
+              "power_games": 0,
+              "barrier_games": 0,
+              "tornadus_games": 0,
+              "oranguru_games": 0,
+              "mewtwo_games": 1946
+            },
+            "d60": {
+              "a": 0.08,
+              "b": 0.92,
+              "tie": 0.0,
+              "first": 0.0916754478398314,
+              "second": 0.06945765937202664,
+              "party_games": 691,
+              "gust_games": 0,
+              "power_games": 0,
+              "barrier_games": 0,
+              "tornadus_games": 0,
+              "oranguru_games": 0,
+              "mewtwo_games": 9
+            },
+            "t60": {
+              "a": 0.21,
+              "b": 0.79,
+              "tie": 0.0,
+              "first": 0.21232876712328766,
+              "second": 0.20756646216768918,
+              "party_games": 614,
+              "gust_games": 891,
+              "power_games": 0,
+              "barrier_games": 0,
+              "tornadus_games": 0,
+              "oranguru_games": 0,
+              "mewtwo_games": 33
+            },
+            "hedrick": {
+              "a": 0.31,
+              "b": 0.69,
+              "tie": 0.0,
+              "first": 0.30823293172690763,
+              "second": 0.31175298804780877,
+              "party_games": 628,
+              "gust_games": 1046,
+              "power_games": 0,
+              "barrier_games": 0,
+              "tornadus_games": 0,
+              "oranguru_games": 0,
+              "mewtwo_games": 33
+            },
+            "unl": {
+              "a": 0.429,
+              "b": 0.571,
+              "tie": 0.0,
+              "first": 0.42458677685950413,
+              "second": 0.4331395348837209,
+              "party_games": 702,
+              "gust_games": 1127,
+              "power_games": 0,
+              "barrier_games": 0,
+              "tornadus_games": 0,
+              "oranguru_games": 0,
+              "mewtwo_games": 48
+            },
+            "s60": {
+              "a": 0.5475,
+              "b": 0.452,
+              "tie": 0.0005,
+              "first": 0.555440414507772,
+              "second": 0.5400966183574879,
+              "party_games": 889,
+              "gust_games": 1334,
+              "power_games": 0,
+              "barrier_games": 0,
+              "tornadus_games": 0,
+              "oranguru_games": 0,
+              "mewtwo_games": 76
+            }
+          }
+        }
+      },
+      "swap": {
+        "cut": [],
+        "add": [],
+        "counts": [
+          [
+            "Psychic Energy",
+            17
+          ],
+          [
+            "Clefairy",
+            4
+          ],
+          [
+            "Ledyba",
+            4
+          ],
+          [
+            "Ledian",
+            4
+          ],
+          [
+            "Darkness Energy",
+            3
+          ],
+          [
+            "Starly",
+            2
+          ],
+          [
+            "Staravia",
+            2
+          ],
+          [
+            "Staraptor",
+            2
+          ],
+          [
+            "Munkidori",
+            2
+          ],
+          [
+            "Mewtwo",
+            1
+          ],
+          [
+            "Flutter Mane",
+            1
+          ],
+          [
+            "Indeedee",
+            1
+          ],
+          [
+            "Relicanth",
+            1
+          ],
+          [
+            "Emolga",
+            1
+          ],
+          [
+            "Plusle",
+            1
+          ],
+          [
+            "Hop's Cramorant",
+            1
+          ],
+          [
+            "Kecleon",
+            1
+          ],
+          [
+            "Tulip",
+            1
+          ],
+          [
+            "Surfer",
+            1
+          ],
+          [
+            "Drayton",
+            1
+          ],
+          [
+            "Iris's Fighting Spirit",
+            1
+          ],
+          [
+            "Energy Retrieval",
+            1
+          ],
+          [
+            "Trekking Shoes",
+            1
+          ],
+          [
+            "Potion",
+            1
+          ],
+          [
+            "Energy Search",
+            1
+          ],
+          [
+            "Energy Switch",
+            1
+          ],
+          [
+            "Pok\u00e9 Ball",
+            1
+          ],
+          [
+            "Ultra Ball",
+            1
+          ],
+          [
+            "Boomerang Energy",
+            1
+          ]
+        ]
+      },
+      "mean_win_rate_a": [
+        0.09799999999999999,
+        0.07766666666666666,
+        0.216,
+        0.3093333333333333,
+        0.438,
+        0.5451666666666667
+      ]
+    },
+    "tornadus": {
+      "seeds": {
+        "20260912": {
+          "elapsed": 16.004614375066012,
+          "win_rate_a": [
+            0.096,
+            0.077,
+            0.2195,
+            0.3195,
+            0.444,
+            0.5505
+          ],
+          "cells": {
+            "c60": {
+              "a": 0.096,
+              "b": 0.904,
+              "tie": 0.0,
+              "first": 0.09881422924901186,
+              "second": 0.0931174089068826,
+              "party_games": 1750,
+              "gust_games": 1198,
+              "power_games": 0,
+              "barrier_games": 8,
+              "tornadus_games": 35,
+              "oranguru_games": 0,
+              "mewtwo_games": 1942
+            },
+            "d60": {
+              "a": 0.077,
+              "b": 0.923,
+              "tie": 0.0,
+              "first": 0.07804878048780488,
+              "second": 0.0758974358974359,
+              "party_games": 650,
+              "gust_games": 0,
+              "power_games": 0,
+              "barrier_games": 5,
+              "tornadus_games": 36,
+              "oranguru_games": 0,
+              "mewtwo_games": 0
+            },
+            "t60": {
+              "a": 0.2195,
+              "b": 0.7805,
+              "tie": 0.0,
+              "first": 0.23517382413087934,
+              "second": 0.2045009784735812,
+              "party_games": 627,
+              "gust_games": 851,
+              "power_games": 0,
+              "barrier_games": 25,
+              "tornadus_games": 65,
+              "oranguru_games": 0,
+              "mewtwo_games": 0
+            },
+            "hedrick": {
+              "a": 0.3195,
+              "b": 0.6805,
+              "tie": 0.0,
+              "first": 0.3101391650099404,
+              "second": 0.3289738430583501,
+              "party_games": 631,
+              "gust_games": 1026,
+              "power_games": 0,
+              "barrier_games": 18,
+              "tornadus_games": 59,
+              "oranguru_games": 0,
+              "mewtwo_games": 0
+            },
+            "unl": {
+              "a": 0.444,
+              "b": 0.556,
+              "tie": 0.0,
+              "first": 0.4527720739219713,
+              "second": 0.43567251461988304,
+              "party_games": 732,
+              "gust_games": 1120,
+              "power_games": 0,
+              "barrier_games": 20,
+              "tornadus_games": 65,
+              "oranguru_games": 0,
+              "mewtwo_games": 0
+            },
+            "s60": {
+              "a": 0.5505,
+              "b": 0.4495,
+              "tie": 0.0,
+              "first": 0.5614035087719298,
+              "second": 0.5390143737166324,
+              "party_games": 895,
+              "gust_games": 1341,
+              "power_games": 0,
+              "barrier_games": 38,
+              "tornadus_games": 97,
+              "oranguru_games": 0,
+              "mewtwo_games": 0
+            }
+          }
+        },
+        "20260913": {
+          "elapsed": 15.92708933306858,
+          "win_rate_a": [
+            0.091,
+            0.075,
+            0.2225,
+            0.3215,
+            0.4445,
+            0.545
+          ],
+          "cells": {
+            "c60": {
+              "a": 0.091,
+              "b": 0.909,
+              "tie": 0.0,
+              "first": 0.08517034068136273,
+              "second": 0.0968063872255489,
+              "party_games": 1760,
+              "gust_games": 1233,
+              "power_games": 0,
+              "barrier_games": 10,
+              "tornadus_games": 42,
+              "oranguru_games": 0,
+              "mewtwo_games": 1938
+            },
+            "d60": {
+              "a": 0.075,
+              "b": 0.925,
+              "tie": 0.0,
+              "first": 0.08878048780487804,
+              "second": 0.06051282051282051,
+              "party_games": 655,
+              "gust_games": 0,
+              "power_games": 0,
+              "barrier_games": 9,
+              "tornadus_games": 42,
+              "oranguru_games": 0,
+              "mewtwo_games": 0
+            },
+            "t60": {
+              "a": 0.2225,
+              "b": 0.7775,
+              "tie": 0.0,
+              "first": 0.23980099502487562,
+              "second": 0.2050251256281407,
+              "party_games": 638,
+              "gust_games": 906,
+              "power_games": 0,
+              "barrier_games": 20,
+              "tornadus_games": 74,
+              "oranguru_games": 0,
+              "mewtwo_games": 0
+            },
+            "hedrick": {
+              "a": 0.3215,
+              "b": 0.6785,
+              "tie": 0.0,
+              "first": 0.3051506316812439,
+              "second": 0.3388259526261586,
+              "party_games": 634,
+              "gust_games": 1019,
+              "power_games": 0,
+              "barrier_games": 13,
+              "tornadus_games": 57,
+              "oranguru_games": 0,
+              "mewtwo_games": 0
+            },
+            "unl": {
+              "a": 0.4445,
+              "b": 0.5555,
+              "tie": 0.0,
+              "first": 0.4579533941236069,
+              "second": 0.43139190523198423,
+              "party_games": 683,
+              "gust_games": 1154,
+              "power_games": 0,
+              "barrier_games": 11,
+              "tornadus_games": 61,
+              "oranguru_games": 0,
+              "mewtwo_games": 0
+            },
+            "s60": {
+              "a": 0.545,
+              "b": 0.455,
+              "tie": 0.0,
+              "first": 0.5514485514485514,
+              "second": 0.5385385385385385,
+              "party_games": 892,
+              "gust_games": 1379,
+              "power_games": 0,
+              "barrier_games": 50,
+              "tornadus_games": 102,
+              "oranguru_games": 0,
+              "mewtwo_games": 0
+            }
+          }
+        },
+        "20260914": {
+          "elapsed": 15.839249124750495,
+          "win_rate_a": [
+            0.1015,
+            0.089,
+            0.208,
+            0.316,
+            0.4335,
+            0.547
+          ],
+          "cells": {
+            "c60": {
+              "a": 0.1015,
+              "b": 0.8985,
+              "tie": 0.0,
+              "first": 0.11402623612512613,
+              "second": 0.08919722497522299,
+              "party_games": 1774,
+              "gust_games": 1232,
+              "power_games": 0,
+              "barrier_games": 14,
+              "tornadus_games": 49,
+              "oranguru_games": 0,
+              "mewtwo_games": 1944
+            },
+            "d60": {
+              "a": 0.089,
+              "b": 0.911,
+              "tie": 0.0,
+              "first": 0.09566968781470292,
+              "second": 0.08242303872889771,
+              "party_games": 668,
+              "gust_games": 0,
+              "power_games": 0,
+              "barrier_games": 11,
+              "tornadus_games": 46,
+              "oranguru_games": 0,
+              "mewtwo_games": 0
+            },
+            "t60": {
+              "a": 0.208,
+              "b": 0.792,
+              "tie": 0.0,
+              "first": 0.21009268795056643,
+              "second": 0.20602526724975703,
+              "party_games": 582,
+              "gust_games": 883,
+              "power_games": 0,
+              "barrier_games": 11,
+              "tornadus_games": 56,
+              "oranguru_games": 0,
+              "mewtwo_games": 0
+            },
+            "hedrick": {
+              "a": 0.316,
+              "b": 0.684,
+              "tie": 0.0,
+              "first": 0.32004089979550104,
+              "second": 0.312133072407045,
+              "party_games": 616,
+              "gust_games": 1006,
+              "power_games": 0,
+              "barrier_games": 17,
+              "tornadus_games": 65,
+              "oranguru_games": 0,
+              "mewtwo_games": 0
+            },
+            "unl": {
+              "a": 0.4335,
+              "b": 0.5665,
+              "tie": 0.0,
+              "first": 0.4611503531786075,
+              "second": 0.40634291377601583,
+              "party_games": 748,
+              "gust_games": 1110,
+              "power_games": 0,
+              "barrier_games": 17,
+              "tornadus_games": 51,
+              "oranguru_games": 0,
+              "mewtwo_games": 0
+            },
+            "s60": {
+              "a": 0.547,
+              "b": 0.453,
+              "tie": 0.0,
+              "first": 0.5364173228346457,
+              "second": 0.5579268292682927,
+              "party_games": 882,
+              "gust_games": 1379,
+              "power_games": 0,
+              "barrier_games": 45,
+              "tornadus_games": 108,
+              "oranguru_games": 0,
+              "mewtwo_games": 0
+            }
+          }
+        }
+      },
+      "swap": {
+        "cut": [
+          "Mewtwo sv07-059"
+        ],
+        "add": [
+          "Tornadus sv07-120"
+        ],
+        "counts": [
+          [
+            "Psychic Energy",
+            17
+          ],
+          [
+            "Clefairy",
+            4
+          ],
+          [
+            "Ledyba",
+            4
+          ],
+          [
+            "Ledian",
+            4
+          ],
+          [
+            "Darkness Energy",
+            3
+          ],
+          [
+            "Starly",
+            2
+          ],
+          [
+            "Staravia",
+            2
+          ],
+          [
+            "Staraptor",
+            2
+          ],
+          [
+            "Munkidori",
+            2
+          ],
+          [
+            "Flutter Mane",
+            1
+          ],
+          [
+            "Indeedee",
+            1
+          ],
+          [
+            "Relicanth",
+            1
+          ],
+          [
+            "Emolga",
+            1
+          ],
+          [
+            "Plusle",
+            1
+          ],
+          [
+            "Hop's Cramorant",
+            1
+          ],
+          [
+            "Kecleon",
+            1
+          ],
+          [
+            "Tulip",
+            1
+          ],
+          [
+            "Surfer",
+            1
+          ],
+          [
+            "Drayton",
+            1
+          ],
+          [
+            "Iris's Fighting Spirit",
+            1
+          ],
+          [
+            "Energy Retrieval",
+            1
+          ],
+          [
+            "Trekking Shoes",
+            1
+          ],
+          [
+            "Potion",
+            1
+          ],
+          [
+            "Energy Search",
+            1
+          ],
+          [
+            "Energy Switch",
+            1
+          ],
+          [
+            "Pok\u00e9 Ball",
+            1
+          ],
+          [
+            "Ultra Ball",
+            1
+          ],
+          [
+            "Boomerang Energy",
+            1
+          ],
+          [
+            "Tornadus",
+            1
+          ]
+        ]
+      },
+      "mean_win_rate_a": [
+        0.09616666666666666,
+        0.08033333333333333,
+        0.21666666666666667,
+        0.319,
+        0.4406666666666667,
+        0.5475
+      ]
+    },
+    "oranguru": {
+      "seeds": {
+        "20260912": {
+          "elapsed": 15.96473649982363,
+          "win_rate_a": [
+            0.088,
+            0.074,
+            0.2,
+            0.292,
+            0.4245,
+            0.5995
+          ],
+          "cells": {
+            "c60": {
+              "a": 0.088,
+              "b": 0.912,
+              "tie": 0.0,
+              "first": 0.08307692307692308,
+              "second": 0.09268292682926829,
+              "party_games": 1776,
+              "gust_games": 1240,
+              "power_games": 604,
+              "barrier_games": 0,
+              "tornadus_games": 0,
+              "oranguru_games": 604,
+              "mewtwo_games": 1949
+            },
+            "d60": {
+              "a": 0.074,
+              "b": 0.926,
+              "tie": 0.0,
+              "first": 0.08069164265129683,
+              "second": 0.0667361835245047,
+              "party_games": 682,
+              "gust_games": 0,
+              "power_games": 534,
+              "barrier_games": 0,
+              "tornadus_games": 0,
+              "oranguru_games": 534,
+              "mewtwo_games": 0
+            },
+            "t60": {
+              "a": 0.2,
+              "b": 0.8,
+              "tie": 0.0,
+              "first": 0.2198233562315996,
+              "second": 0.17940876656472987,
+              "party_games": 630,
+              "gust_games": 884,
+              "power_games": 534,
+              "barrier_games": 0,
+              "tornadus_games": 0,
+              "oranguru_games": 534,
+              "mewtwo_games": 0
+            },
+            "hedrick": {
+              "a": 0.292,
+              "b": 0.708,
+              "tie": 0.0,
+              "first": 0.28709055876685935,
+              "second": 0.2972972972972973,
+              "party_games": 596,
+              "gust_games": 1026,
+              "power_games": 489,
+              "barrier_games": 0,
+              "tornadus_games": 0,
+              "oranguru_games": 489,
+              "mewtwo_games": 0
+            },
+            "unl": {
+              "a": 0.4245,
+              "b": 0.5755,
+              "tie": 0.0,
+              "first": 0.425,
+              "second": 0.42403846153846153,
+              "party_games": 689,
+              "gust_games": 1129,
+              "power_games": 550,
+              "barrier_games": 0,
+              "tornadus_games": 0,
+              "oranguru_games": 550,
+              "mewtwo_games": 0
+            },
+            "s60": {
+              "a": 0.5995,
+              "b": 0.4,
+              "tie": 0.0005,
+              "first": 0.627906976744186,
+              "second": 0.5692148760330579,
+              "party_games": 847,
+              "gust_games": 1362,
+              "power_games": 659,
+              "barrier_games": 0,
+              "tornadus_games": 0,
+              "oranguru_games": 659,
+              "mewtwo_games": 0
+            }
+          }
+        },
+        "20260913": {
+          "elapsed": 16.023094082716852,
+          "win_rate_a": [
+            0.0895,
+            0.0785,
+            0.2165,
+            0.276,
+            0.416,
+            0.56
+          ],
+          "cells": {
+            "c60": {
+              "a": 0.0895,
+              "b": 0.9105,
+              "tie": 0.0,
+              "first": 0.0781563126252505,
+              "second": 0.10079840319361277,
+              "party_games": 1773,
+              "gust_games": 1225,
+              "power_games": 581,
+              "barrier_games": 0,
+              "tornadus_games": 0,
+              "oranguru_games": 581,
+              "mewtwo_games": 1946
+            },
+            "d60": {
+              "a": 0.0785,
+              "b": 0.9215,
+              "tie": 0.0,
+              "first": 0.08221993833504625,
+              "second": 0.07497565725413827,
+              "party_games": 664,
+              "gust_games": 0,
+              "power_games": 488,
+              "barrier_games": 0,
+              "tornadus_games": 0,
+              "oranguru_games": 488,
+              "mewtwo_games": 0
+            },
+            "t60": {
+              "a": 0.2165,
+              "b": 0.7835,
+              "tie": 0.0,
+              "first": 0.24110671936758893,
+              "second": 0.19129554655870445,
+              "party_games": 620,
+              "gust_games": 909,
+              "power_games": 545,
+              "barrier_games": 0,
+              "tornadus_games": 0,
+              "oranguru_games": 545,
+              "mewtwo_games": 0
+            },
+            "hedrick": {
+              "a": 0.276,
+              "b": 0.724,
+              "tie": 0.0,
+              "first": 0.25992063492063494,
+              "second": 0.2923387096774194,
+              "party_games": 623,
+              "gust_games": 977,
+              "power_games": 495,
+              "barrier_games": 0,
+              "tornadus_games": 0,
+              "oranguru_games": 496,
+              "mewtwo_games": 0
+            },
+            "unl": {
+              "a": 0.416,
+              "b": 0.584,
+              "tie": 0.0,
+              "first": 0.4152284263959391,
+              "second": 0.41674876847290643,
+              "party_games": 689,
+              "gust_games": 1130,
+              "power_games": 560,
+              "barrier_games": 0,
+              "tornadus_games": 0,
+              "oranguru_games": 560,
+              "mewtwo_games": 0
+            },
+            "s60": {
+              "a": 0.56,
+              "b": 0.4395,
+              "tie": 0.0005,
+              "first": 0.5629335976214074,
+              "second": 0.557013118062563,
+              "party_games": 864,
+              "gust_games": 1388,
+              "power_games": 655,
+              "barrier_games": 0,
+              "tornadus_games": 0,
+              "oranguru_games": 655,
+              "mewtwo_games": 0
+            }
+          }
+        },
+        "20260914": {
+          "elapsed": 16.117826957721263,
+          "win_rate_a": [
+            0.089,
+            0.0705,
+            0.213,
+            0.286,
+            0.396,
+            0.5585
+          ],
+          "cells": {
+            "c60": {
+              "a": 0.089,
+              "b": 0.911,
+              "tie": 0.0,
+              "first": 0.09081934846989141,
+              "second": 0.08713272543059777,
+              "party_games": 1787,
+              "gust_games": 1234,
+              "power_games": 585,
+              "barrier_games": 0,
+              "tornadus_games": 0,
+              "oranguru_games": 585,
+              "mewtwo_games": 1948
+            },
+            "d60": {
+              "a": 0.0705,
+              "b": 0.9295,
+              "tie": 0.0,
+              "first": 0.07955689828801611,
+              "second": 0.06156901688182721,
+              "party_games": 685,
+              "gust_games": 0,
+              "power_games": 542,
+              "barrier_games": 0,
+              "tornadus_games": 0,
+              "oranguru_games": 542,
+              "mewtwo_games": 0
+            },
+            "t60": {
+              "a": 0.213,
+              "b": 0.787,
+              "tie": 0.0,
+              "first": 0.2296368989205103,
+              "second": 0.19571865443425077,
+              "party_games": 575,
+              "gust_games": 899,
+              "power_games": 552,
+              "barrier_games": 0,
+              "tornadus_games": 0,
+              "oranguru_games": 552,
+              "mewtwo_games": 0
+            },
+            "hedrick": {
+              "a": 0.286,
+              "b": 0.714,
+              "tie": 0.0,
+              "first": 0.2862903225806452,
+              "second": 0.2857142857142857,
+              "party_games": 633,
+              "gust_games": 1003,
+              "power_games": 517,
+              "barrier_games": 0,
+              "tornadus_games": 0,
+              "oranguru_games": 517,
+              "mewtwo_games": 0
+            },
+            "unl": {
+              "a": 0.396,
+              "b": 0.604,
+              "tie": 0.0,
+              "first": 0.40388548057259716,
+              "second": 0.388454011741683,
+              "party_games": 699,
+              "gust_games": 1114,
+              "power_games": 504,
+              "barrier_games": 0,
+              "tornadus_games": 0,
+              "oranguru_games": 504,
+              "mewtwo_games": 0
+            },
+            "s60": {
+              "a": 0.5585,
+              "b": 0.4405,
+              "tie": 0.001,
+              "first": 0.5636540330417882,
+              "second": 0.553038105046344,
+              "party_games": 862,
+              "gust_games": 1368,
+              "power_games": 621,
+              "barrier_games": 0,
+              "tornadus_games": 0,
+              "oranguru_games": 621,
+              "mewtwo_games": 0
+            }
+          }
+        }
+      },
+      "swap": {
+        "cut": [
+          "Mewtwo sv07-059"
+        ],
+        "add": [
+          "Oranguru sv08-156"
+        ],
+        "counts": [
+          [
+            "Psychic Energy",
+            17
+          ],
+          [
+            "Clefairy",
+            4
+          ],
+          [
+            "Ledyba",
+            4
+          ],
+          [
+            "Ledian",
+            4
+          ],
+          [
+            "Darkness Energy",
+            3
+          ],
+          [
+            "Starly",
+            2
+          ],
+          [
+            "Staravia",
+            2
+          ],
+          [
+            "Staraptor",
+            2
+          ],
+          [
+            "Munkidori",
+            2
+          ],
+          [
+            "Flutter Mane",
+            1
+          ],
+          [
+            "Indeedee",
+            1
+          ],
+          [
+            "Relicanth",
+            1
+          ],
+          [
+            "Emolga",
+            1
+          ],
+          [
+            "Plusle",
+            1
+          ],
+          [
+            "Hop's Cramorant",
+            1
+          ],
+          [
+            "Kecleon",
+            1
+          ],
+          [
+            "Tulip",
+            1
+          ],
+          [
+            "Surfer",
+            1
+          ],
+          [
+            "Drayton",
+            1
+          ],
+          [
+            "Iris's Fighting Spirit",
+            1
+          ],
+          [
+            "Energy Retrieval",
+            1
+          ],
+          [
+            "Trekking Shoes",
+            1
+          ],
+          [
+            "Potion",
+            1
+          ],
+          [
+            "Energy Search",
+            1
+          ],
+          [
+            "Energy Switch",
+            1
+          ],
+          [
+            "Pok\u00e9 Ball",
+            1
+          ],
+          [
+            "Ultra Ball",
+            1
+          ],
+          [
+            "Boomerang Energy",
+            1
+          ],
+          [
+            "Oranguru",
+            1
+          ]
+        ]
+      },
+      "mean_win_rate_a": [
+        0.08883333333333332,
+        0.07433333333333332,
+        0.20983333333333332,
+        0.2846666666666667,
+        0.4121666666666666,
+        0.5726666666666667
+      ]
+    },
+    "both-flutter": {
+      "seeds": {
+        "20260912": {
+          "elapsed": 14.775687749963254,
+          "win_rate_a": [
+            0.0845,
+            0.09,
+            0.206,
+            0.305,
+            0.4245,
+            0.603
+          ],
+          "cells": {
+            "c60": {
+              "a": 0.0845,
+              "b": 0.9155,
+              "tie": 0.0,
+              "first": 0.08504098360655737,
+              "second": 0.083984375,
+              "party_games": 1814,
+              "gust_games": 1238,
+              "power_games": 552,
+              "barrier_games": 46,
+              "tornadus_games": 88,
+              "oranguru_games": 552,
+              "mewtwo_games": 1943
+            },
+            "d60": {
+              "a": 0.09,
+              "b": 0.91,
+              "tie": 0.0,
+              "first": 0.10125361620057859,
+              "second": 0.0778816199376947,
+              "party_games": 677,
+              "gust_games": 0,
+              "power_games": 478,
+              "barrier_games": 24,
+              "tornadus_games": 59,
+              "oranguru_games": 479,
+              "mewtwo_games": 0
+            },
+            "t60": {
+              "a": 0.206,
+              "b": 0.794,
+              "tie": 0.0,
+              "first": 0.21337266470009833,
+              "second": 0.19837232960325535,
+              "party_games": 701,
+              "gust_games": 943,
+              "power_games": 520,
+              "barrier_games": 41,
+              "tornadus_games": 85,
+              "oranguru_games": 520,
+              "mewtwo_games": 0
+            },
+            "hedrick": {
+              "a": 0.305,
+              "b": 0.695,
+              "tie": 0.0,
+              "first": 0.30903490759753593,
+              "second": 0.30116959064327486,
+              "party_games": 642,
+              "gust_games": 1042,
+              "power_games": 516,
+              "barrier_games": 37,
+              "tornadus_games": 77,
+              "oranguru_games": 517,
+              "mewtwo_games": 0
+            },
+            "unl": {
+              "a": 0.4245,
+              "b": 0.5755,
+              "tie": 0.0,
+              "first": 0.4121557454890788,
+              "second": 0.4382259767687434,
+              "party_games": 688,
+              "gust_games": 1133,
+              "power_games": 551,
+              "barrier_games": 47,
+              "tornadus_games": 83,
+              "oranguru_games": 551,
+              "mewtwo_games": 0
+            },
+            "s60": {
+              "a": 0.603,
+              "b": 0.3965,
+              "tie": 0.0005,
+              "first": 0.6069600818833163,
+              "second": 0.5992179863147605,
+              "party_games": 886,
+              "gust_games": 1356,
+              "power_games": 630,
+              "barrier_games": 77,
+              "tornadus_games": 110,
+              "oranguru_games": 630,
+              "mewtwo_games": 0
+            }
+          }
+        },
+        "20260913": {
+          "elapsed": 14.526473250240088,
+          "win_rate_a": [
+            0.09,
+            0.095,
+            0.2205,
+            0.292,
+            0.437,
+            0.6005
+          ],
+          "cells": {
+            "c60": {
+              "a": 0.09,
+              "b": 0.91,
+              "tie": 0.0,
+              "first": 0.08930323846908735,
+              "second": 0.09072375127421,
+              "party_games": 1814,
+              "gust_games": 1212,
+              "power_games": 558,
+              "barrier_games": 32,
+              "tornadus_games": 75,
+              "oranguru_games": 558,
+              "mewtwo_games": 1942
+            },
+            "d60": {
+              "a": 0.095,
+              "b": 0.905,
+              "tie": 0.0,
+              "first": 0.09337349397590361,
+              "second": 0.09661354581673307,
+              "party_games": 665,
+              "gust_games": 0,
+              "power_games": 504,
+              "barrier_games": 19,
+              "tornadus_games": 71,
+              "oranguru_games": 504,
+              "mewtwo_games": 0
+            },
+            "t60": {
+              "a": 0.2205,
+              "b": 0.7795,
+              "tie": 0.0,
+              "first": 0.24113475177304963,
+              "second": 0.20039486673247778,
+              "party_games": 663,
+              "gust_games": 904,
+              "power_games": 531,
+              "barrier_games": 39,
+              "tornadus_games": 89,
+              "oranguru_games": 531,
+              "mewtwo_games": 0
+            },
+            "hedrick": {
+              "a": 0.292,
+              "b": 0.708,
+              "tie": 0.0,
+              "first": 0.29158316633266534,
+              "second": 0.29241516966067865,
+              "party_games": 641,
+              "gust_games": 1022,
+              "power_games": 488,
+              "barrier_games": 46,
+              "tornadus_games": 89,
+              "oranguru_games": 488,
+              "mewtwo_games": 0
+            },
+            "unl": {
+              "a": 0.437,
+              "b": 0.563,
+              "tie": 0.0,
+              "first": 0.45966958211856174,
+              "second": 0.4129763130792997,
+              "party_games": 754,
+              "gust_games": 1159,
+              "power_games": 565,
+              "barrier_games": 45,
+              "tornadus_games": 91,
+              "oranguru_games": 565,
+              "mewtwo_games": 0
+            },
+            "s60": {
+              "a": 0.6005,
+              "b": 0.399,
+              "tie": 0.0005,
+              "first": 0.5995995995995996,
+              "second": 0.6013986013986014,
+              "party_games": 898,
+              "gust_games": 1404,
+              "power_games": 608,
+              "barrier_games": 97,
+              "tornadus_games": 144,
+              "oranguru_games": 608,
+              "mewtwo_games": 0
+            }
+          }
+        },
+        "20260914": {
+          "elapsed": 15.14554729219526,
+          "win_rate_a": [
+            0.102,
+            0.0775,
+            0.1895,
+            0.3015,
+            0.4195,
+            0.5835
+          ],
+          "cells": {
+            "c60": {
+              "a": 0.102,
+              "b": 0.898,
+              "tie": 0.0,
+              "first": 0.10149253731343283,
+              "second": 0.10251256281407035,
+              "party_games": 1825,
+              "gust_games": 1231,
+              "power_games": 561,
+              "barrier_games": 33,
+              "tornadus_games": 78,
+              "oranguru_games": 561,
+              "mewtwo_games": 1953
+            },
+            "d60": {
+              "a": 0.0775,
+              "b": 0.9225,
+              "tie": 0.0,
+              "first": 0.07776669990029911,
+              "second": 0.07723169508525576,
+              "party_games": 680,
+              "gust_games": 0,
+              "power_games": 515,
+              "barrier_games": 20,
+              "tornadus_games": 57,
+              "oranguru_games": 515,
+              "mewtwo_games": 0
+            },
+            "t60": {
+              "a": 0.1895,
+              "b": 0.8105,
+              "tie": 0.0,
+              "first": 0.20773930753564154,
+              "second": 0.1719056974459725,
+              "party_games": 660,
+              "gust_games": 911,
+              "power_games": 492,
+              "barrier_games": 24,
+              "tornadus_games": 67,
+              "oranguru_games": 492,
+              "mewtwo_games": 0
+            },
+            "hedrick": {
+              "a": 0.3015,
+              "b": 0.6985,
+              "tie": 0.0,
+              "first": 0.30632411067193677,
+              "second": 0.2965587044534413,
+              "party_games": 609,
+              "gust_games": 1084,
+              "power_games": 493,
+              "barrier_games": 37,
+              "tornadus_games": 83,
+              "oranguru_games": 493,
+              "mewtwo_games": 0
+            },
+            "unl": {
+              "a": 0.4195,
+              "b": 0.5805,
+              "tie": 0.0,
+              "first": 0.42200956937799045,
+              "second": 0.4167539267015707,
+              "party_games": 721,
+              "gust_games": 1124,
+              "power_games": 494,
+              "barrier_games": 44,
+              "tornadus_games": 82,
+              "oranguru_games": 494,
+              "mewtwo_games": 0
+            },
+            "s60": {
+              "a": 0.5835,
+              "b": 0.4165,
+              "tie": 0.0,
+              "first": 0.596,
+              "second": 0.571,
+              "party_games": 952,
+              "gust_games": 1404,
+              "power_games": 630,
+              "barrier_games": 100,
+              "tornadus_games": 152,
+              "oranguru_games": 630,
+              "mewtwo_games": 0
+            }
+          }
+        }
+      },
+      "swap": {
+        "cut": [
+          "Mewtwo sv07-059",
+          "Flutter Mane sv05-078"
+        ],
+        "add": [
+          "Tornadus sv07-120",
+          "Oranguru sv08-156"
+        ],
+        "counts": [
+          [
+            "Psychic Energy",
+            17
+          ],
+          [
+            "Clefairy",
+            4
+          ],
+          [
+            "Ledyba",
+            4
+          ],
+          [
+            "Ledian",
+            4
+          ],
+          [
+            "Darkness Energy",
+            3
+          ],
+          [
+            "Starly",
+            2
+          ],
+          [
+            "Staravia",
+            2
+          ],
+          [
+            "Staraptor",
+            2
+          ],
+          [
+            "Munkidori",
+            2
+          ],
+          [
+            "Indeedee",
+            1
+          ],
+          [
+            "Relicanth",
+            1
+          ],
+          [
+            "Emolga",
+            1
+          ],
+          [
+            "Plusle",
+            1
+          ],
+          [
+            "Hop's Cramorant",
+            1
+          ],
+          [
+            "Kecleon",
+            1
+          ],
+          [
+            "Tulip",
+            1
+          ],
+          [
+            "Surfer",
+            1
+          ],
+          [
+            "Drayton",
+            1
+          ],
+          [
+            "Iris's Fighting Spirit",
+            1
+          ],
+          [
+            "Energy Retrieval",
+            1
+          ],
+          [
+            "Trekking Shoes",
+            1
+          ],
+          [
+            "Potion",
+            1
+          ],
+          [
+            "Energy Search",
+            1
+          ],
+          [
+            "Energy Switch",
+            1
+          ],
+          [
+            "Pok\u00e9 Ball",
+            1
+          ],
+          [
+            "Ultra Ball",
+            1
+          ],
+          [
+            "Boomerang Energy",
+            1
+          ],
+          [
+            "Tornadus",
+            1
+          ],
+          [
+            "Oranguru",
+            1
+          ]
+        ]
+      },
+      "mean_win_rate_a": [
+        0.09216666666666666,
+        0.08750000000000001,
+        0.20533333333333334,
+        0.2995,
+        0.427,
+        0.5956666666666667
+      ]
+    },
+    "both-kecleon": {
+      "seeds": {
+        "20260912": {
+          "elapsed": 14.385889125056565,
+          "win_rate_a": [
+            0.0775,
+            0.072,
+            0.194,
+            0.293,
+            0.4495,
+            0.5615
+          ],
+          "cells": {
+            "c60": {
+              "a": 0.0775,
+              "b": 0.9225,
+              "tie": 0.0,
+              "first": 0.0771484375,
+              "second": 0.0778688524590164,
+              "party_games": 1756,
+              "gust_games": 1215,
+              "power_games": 554,
+              "barrier_games": 36,
+              "tornadus_games": 73,
+              "oranguru_games": 554,
+              "mewtwo_games": 1937
+            },
+            "d60": {
+              "a": 0.072,
+              "b": 0.928,
+              "tie": 0.0,
+              "first": 0.06739345887016848,
+              "second": 0.07669021190716448,
+              "party_games": 648,
+              "gust_games": 0,
+              "power_games": 500,
+              "barrier_games": 25,
+              "tornadus_games": 56,
+              "oranguru_games": 500,
+              "mewtwo_games": 0
+            },
+            "t60": {
+              "a": 0.194,
+              "b": 0.806,
+              "tie": 0.0,
+              "first": 0.20969337289812068,
+              "second": 0.17795753286147623,
+              "party_games": 615,
+              "gust_games": 872,
+              "power_games": 506,
+              "barrier_games": 35,
+              "tornadus_games": 77,
+              "oranguru_games": 506,
+              "mewtwo_games": 0
+            },
+            "hedrick": {
+              "a": 0.293,
+              "b": 0.707,
+              "tie": 0.0,
+              "first": 0.27165354330708663,
+              "second": 0.3150406504065041,
+              "party_games": 599,
+              "gust_games": 1009,
+              "power_games": 532,
+              "barrier_games": 41,
+              "tornadus_games": 88,
+              "oranguru_games": 532,
+              "mewtwo_games": 0
+            },
+            "unl": {
+              "a": 0.4495,
+              "b": 0.5505,
+              "tie": 0.0,
+              "first": 0.4701789264413519,
+              "second": 0.42857142857142855,
+              "party_games": 735,
+              "gust_games": 1146,
+              "power_games": 525,
+              "barrier_games": 46,
+              "tornadus_games": 87,
+              "oranguru_games": 525,
+              "mewtwo_games": 0
+            },
+            "s60": {
+              "a": 0.5615,
+              "b": 0.4385,
+              "tie": 0.0,
+              "first": 0.5705824284304047,
+              "second": 0.5521783181357649,
+              "party_games": 841,
+              "gust_games": 1353,
+              "power_games": 585,
+              "barrier_games": 101,
+              "tornadus_games": 139,
+              "oranguru_games": 585,
+              "mewtwo_games": 0
+            }
+          }
+        },
+        "20260913": {
+          "elapsed": 14.288276458159089,
+          "win_rate_a": [
+            0.0635,
+            0.091,
+            0.22,
+            0.2985,
+            0.409,
+            0.5805
+          ],
+          "cells": {
+            "c60": {
+              "a": 0.0635,
+              "b": 0.9365,
+              "tie": 0.0,
+              "first": 0.06528189910979229,
+              "second": 0.06167846309403438,
+              "party_games": 1765,
+              "gust_games": 1188,
+              "power_games": 576,
+              "barrier_games": 24,
+              "tornadus_games": 60,
+              "oranguru_games": 576,
+              "mewtwo_games": 1939
+            },
+            "d60": {
+              "a": 0.091,
+              "b": 0.909,
+              "tie": 0.0,
+              "first": 0.10134436401240951,
+              "second": 0.08131655372700872,
+              "party_games": 684,
+              "gust_games": 0,
+              "power_games": 493,
+              "barrier_games": 20,
+              "tornadus_games": 46,
+              "oranguru_games": 493,
+              "mewtwo_games": 0
+            },
+            "t60": {
+              "a": 0.22,
+              "b": 0.78,
+              "tie": 0.0,
+              "first": 0.2323733862959285,
+              "second": 0.20745216515609266,
+              "party_games": 638,
+              "gust_games": 913,
+              "power_games": 503,
+              "barrier_games": 35,
+              "tornadus_games": 81,
+              "oranguru_games": 503,
+              "mewtwo_games": 0
+            },
+            "hedrick": {
+              "a": 0.2985,
+              "b": 0.7015,
+              "tie": 0.0,
+              "first": 0.2865731462925852,
+              "second": 0.31037924151696605,
+              "party_games": 612,
+              "gust_games": 1012,
+              "power_games": 509,
+              "barrier_games": 41,
+              "tornadus_games": 74,
+              "oranguru_games": 509,
+              "mewtwo_games": 0
+            },
+            "unl": {
+              "a": 0.409,
+              "b": 0.591,
+              "tie": 0.0,
+              "first": 0.41315014720314036,
+              "second": 0.40468909276248727,
+              "party_games": 667,
+              "gust_games": 1132,
+              "power_games": 523,
+              "barrier_games": 41,
+              "tornadus_games": 77,
+              "oranguru_games": 523,
+              "mewtwo_games": 0
+            },
+            "s60": {
+              "a": 0.5805,
+              "b": 0.4175,
+              "tie": 0.002,
+              "first": 0.5984630163304515,
+              "second": 0.5610010427528676,
+              "party_games": 878,
+              "gust_games": 1367,
+              "power_games": 599,
+              "barrier_games": 89,
+              "tornadus_games": 124,
+              "oranguru_games": 599,
+              "mewtwo_games": 0
+            }
+          }
+        },
+        "20260914": {
+          "elapsed": 14.265124459285289,
+          "win_rate_a": [
+            0.0665,
+            0.0815,
+            0.2005,
+            0.2945,
+            0.411,
+            0.5885
+          ],
+          "cells": {
+            "c60": {
+              "a": 0.0665,
+              "b": 0.933,
+              "tie": 0.0005,
+              "first": 0.07312252964426877,
+              "second": 0.0597165991902834,
+              "party_games": 1760,
+              "gust_games": 1192,
+              "power_games": 557,
+              "barrier_games": 49,
+              "tornadus_games": 96,
+              "oranguru_games": 557,
+              "mewtwo_games": 1933
+            },
+            "d60": {
+              "a": 0.0815,
+              "b": 0.9185,
+              "tie": 0.0,
+              "first": 0.09980237154150198,
+              "second": 0.06275303643724696,
+              "party_games": 661,
+              "gust_games": 0,
+              "power_games": 492,
+              "barrier_games": 17,
+              "tornadus_games": 52,
+              "oranguru_games": 492,
+              "mewtwo_games": 0
+            },
+            "t60": {
+              "a": 0.2005,
+              "b": 0.7995,
+              "tie": 0.0,
+              "first": 0.20438683948155534,
+              "second": 0.19658976930792377,
+              "party_games": 609,
+              "gust_games": 868,
+              "power_games": 503,
+              "barrier_games": 30,
+              "tornadus_games": 73,
+              "oranguru_games": 503,
+              "mewtwo_games": 0
+            },
+            "hedrick": {
+              "a": 0.2945,
+              "b": 0.7055,
+              "tie": 0.0,
+              "first": 0.3076181292189007,
+              "second": 0.2803738317757009,
+              "party_games": 652,
+              "gust_games": 1008,
+              "power_games": 522,
+              "barrier_games": 39,
+              "tornadus_games": 74,
+              "oranguru_games": 522,
+              "mewtwo_games": 0
+            },
+            "unl": {
+              "a": 0.411,
+              "b": 0.589,
+              "tie": 0.0,
+              "first": 0.403,
+              "second": 0.419,
+              "party_games": 701,
+              "gust_games": 1125,
+              "power_games": 536,
+              "barrier_games": 36,
+              "tornadus_games": 64,
+              "oranguru_games": 536,
+              "mewtwo_games": 0
+            },
+            "s60": {
+              "a": 0.5885,
+              "b": 0.411,
+              "tie": 0.0005,
+              "first": 0.5960199004975124,
+              "second": 0.5809045226130654,
+              "party_games": 828,
+              "gust_games": 1352,
+              "power_games": 612,
+              "barrier_games": 90,
+              "tornadus_games": 123,
+              "oranguru_games": 612,
+              "mewtwo_games": 0
+            }
+          }
+        }
+      },
+      "swap": {
+        "cut": [
+          "Mewtwo sv07-059",
+          "Kecleon sv08-150"
+        ],
+        "add": [
+          "Tornadus sv07-120",
+          "Oranguru sv08-156"
+        ],
+        "counts": [
+          [
+            "Psychic Energy",
+            17
+          ],
+          [
+            "Clefairy",
+            4
+          ],
+          [
+            "Ledyba",
+            4
+          ],
+          [
+            "Ledian",
+            4
+          ],
+          [
+            "Darkness Energy",
+            3
+          ],
+          [
+            "Starly",
+            2
+          ],
+          [
+            "Staravia",
+            2
+          ],
+          [
+            "Staraptor",
+            2
+          ],
+          [
+            "Munkidori",
+            2
+          ],
+          [
+            "Flutter Mane",
+            1
+          ],
+          [
+            "Indeedee",
+            1
+          ],
+          [
+            "Relicanth",
+            1
+          ],
+          [
+            "Emolga",
+            1
+          ],
+          [
+            "Plusle",
+            1
+          ],
+          [
+            "Hop's Cramorant",
+            1
+          ],
+          [
+            "Tulip",
+            1
+          ],
+          [
+            "Surfer",
+            1
+          ],
+          [
+            "Drayton",
+            1
+          ],
+          [
+            "Iris's Fighting Spirit",
+            1
+          ],
+          [
+            "Energy Retrieval",
+            1
+          ],
+          [
+            "Trekking Shoes",
+            1
+          ],
+          [
+            "Potion",
+            1
+          ],
+          [
+            "Energy Search",
+            1
+          ],
+          [
+            "Energy Switch",
+            1
+          ],
+          [
+            "Pok\u00e9 Ball",
+            1
+          ],
+          [
+            "Ultra Ball",
+            1
+          ],
+          [
+            "Boomerang Energy",
+            1
+          ],
+          [
+            "Tornadus",
+            1
+          ],
+          [
+            "Oranguru",
+            1
+          ]
+        ]
+      },
+      "mean_win_rate_a": [
+        0.06916666666666667,
+        0.0815,
+        0.20483333333333334,
+        0.2953333333333333,
+        0.42316666666666664,
+        0.5768333333333334
+      ]
+    },
+    "both-cramorant": {
+      "seeds": {
+        "20260912": {
+          "elapsed": 16.334199874661863,
+          "win_rate_a": [
+            0.097,
+            0.0665,
+            0.2245,
+            0.287,
+            0.4275,
+            0.57
+          ],
+          "cells": {
+            "c60": {
+              "a": 0.097,
+              "b": 0.903,
+              "tie": 0.0,
+              "first": 0.10071210579857579,
+              "second": 0.09341199606686332,
+              "party_games": 1798,
+              "gust_games": 1293,
+              "power_games": 565,
+              "barrier_games": 43,
+              "tornadus_games": 85,
+              "oranguru_games": 565,
+              "mewtwo_games": 1951
+            },
+            "d60": {
+              "a": 0.0665,
+              "b": 0.9335,
+              "tie": 0.0,
+              "first": 0.06917599186164802,
+              "second": 0.063913470993117,
+              "party_games": 681,
+              "gust_games": 0,
+              "power_games": 495,
+              "barrier_games": 20,
+              "tornadus_games": 46,
+              "oranguru_games": 495,
+              "mewtwo_games": 0
+            },
+            "t60": {
+              "a": 0.2245,
+              "b": 0.7755,
+              "tie": 0.0,
+              "first": 0.22355289421157684,
+              "second": 0.22545090180360722,
+              "party_games": 606,
+              "gust_games": 918,
+              "power_games": 499,
+              "barrier_games": 34,
+              "tornadus_games": 80,
+              "oranguru_games": 499,
+              "mewtwo_games": 0
+            },
+            "hedrick": {
+              "a": 0.287,
+              "b": 0.713,
+              "tie": 0.0,
+              "first": 0.2997002997002997,
+              "second": 0.27427427427427425,
+              "party_games": 614,
+              "gust_games": 986,
+              "power_games": 538,
+              "barrier_games": 35,
+              "tornadus_games": 76,
+              "oranguru_games": 538,
+              "mewtwo_games": 0
+            },
+            "unl": {
+              "a": 0.4275,
+              "b": 0.5725,
+              "tie": 0.0,
+              "first": 0.4320388349514563,
+              "second": 0.422680412371134,
+              "party_games": 683,
+              "gust_games": 1138,
+              "power_games": 534,
+              "barrier_games": 41,
+              "tornadus_games": 93,
+              "oranguru_games": 534,
+              "mewtwo_games": 0
+            },
+            "s60": {
+              "a": 0.57,
+              "b": 0.4285,
+              "tie": 0.0015,
+              "first": 0.5727272727272728,
+              "second": 0.5673267326732673,
+              "party_games": 854,
+              "gust_games": 1324,
+              "power_games": 598,
+              "barrier_games": 104,
+              "tornadus_games": 151,
+              "oranguru_games": 598,
+              "mewtwo_games": 0
+            }
+          }
+        },
+        "20260913": {
+          "elapsed": 16.25483008287847,
+          "win_rate_a": [
+            0.0835,
+            0.0785,
+            0.212,
+            0.306,
+            0.4285,
+            0.5515
+          ],
+          "cells": {
+            "c60": {
+              "a": 0.0835,
+              "b": 0.9155,
+              "tie": 0.001,
+              "first": 0.08608608608608609,
+              "second": 0.08091908091908091,
+              "party_games": 1807,
+              "gust_games": 1267,
+              "power_games": 577,
+              "barrier_games": 35,
+              "tornadus_games": 67,
+              "oranguru_games": 577,
+              "mewtwo_games": 1939
+            },
+            "d60": {
+              "a": 0.0785,
+              "b": 0.9215,
+              "tie": 0.0,
+              "first": 0.08859470468431772,
+              "second": 0.068762278978389,
+              "party_games": 674,
+              "gust_games": 0,
+              "power_games": 496,
+              "barrier_games": 18,
+              "tornadus_games": 62,
+              "oranguru_games": 496,
+              "mewtwo_games": 0
+            },
+            "t60": {
+              "a": 0.212,
+              "b": 0.788,
+              "tie": 0.0,
+              "first": 0.23151750972762647,
+              "second": 0.19135802469135801,
+              "party_games": 618,
+              "gust_games": 889,
+              "power_games": 488,
+              "barrier_games": 37,
+              "tornadus_games": 88,
+              "oranguru_games": 488,
+              "mewtwo_games": 0
+            },
+            "hedrick": {
+              "a": 0.306,
+              "b": 0.694,
+              "tie": 0.0,
+              "first": 0.3198757763975155,
+              "second": 0.293036750483559,
+              "party_games": 612,
+              "gust_games": 1012,
+              "power_games": 516,
+              "barrier_games": 30,
+              "tornadus_games": 82,
+              "oranguru_games": 516,
+              "mewtwo_games": 0
+            },
+            "unl": {
+              "a": 0.4285,
+              "b": 0.5715,
+              "tie": 0.0,
+              "first": 0.43812375249500995,
+              "second": 0.4188376753507014,
+              "party_games": 682,
+              "gust_games": 1125,
+              "power_games": 511,
+              "barrier_games": 43,
+              "tornadus_games": 83,
+              "oranguru_games": 511,
+              "mewtwo_games": 0
+            },
+            "s60": {
+              "a": 0.5515,
+              "b": 0.4485,
+              "tie": 0.0,
+              "first": 0.5335968379446641,
+              "second": 0.569838056680162,
+              "party_games": 874,
+              "gust_games": 1370,
+              "power_games": 598,
+              "barrier_games": 96,
+              "tornadus_games": 142,
+              "oranguru_games": 598,
+              "mewtwo_games": 0
+            }
+          }
+        },
+        "20260914": {
+          "elapsed": 15.886727625038475,
+          "win_rate_a": [
+            0.0775,
+            0.079,
+            0.2,
+            0.307,
+            0.442,
+            0.544
+          ],
+          "cells": {
+            "c60": {
+              "a": 0.0775,
+              "b": 0.9225,
+              "tie": 0.0,
+              "first": 0.0743801652892562,
+              "second": 0.08042635658914729,
+              "party_games": 1793,
+              "gust_games": 1220,
+              "power_games": 570,
+              "barrier_games": 44,
+              "tornadus_games": 86,
+              "oranguru_games": 570,
+              "mewtwo_games": 1948
+            },
+            "d60": {
+              "a": 0.079,
+              "b": 0.921,
+              "tie": 0.0,
+              "first": 0.08591408591408592,
+              "second": 0.07207207207207207,
+              "party_games": 683,
+              "gust_games": 0,
+              "power_games": 492,
+              "barrier_games": 30,
+              "tornadus_games": 67,
+              "oranguru_games": 492,
+              "mewtwo_games": 0
+            },
+            "t60": {
+              "a": 0.2,
+              "b": 0.8,
+              "tie": 0.0,
+              "first": 0.214,
+              "second": 0.186,
+              "party_games": 587,
+              "gust_games": 897,
+              "power_games": 538,
+              "barrier_games": 34,
+              "tornadus_games": 88,
+              "oranguru_games": 538,
+              "mewtwo_games": 0
+            },
+            "hedrick": {
+              "a": 0.307,
+              "b": 0.693,
+              "tie": 0.0,
+              "first": 0.3132411067193676,
+              "second": 0.3006072874493927,
+              "party_games": 567,
+              "gust_games": 1020,
+              "power_games": 513,
+              "barrier_games": 51,
+              "tornadus_games": 94,
+              "oranguru_games": 514,
+              "mewtwo_games": 0
+            },
+            "unl": {
+              "a": 0.442,
+              "b": 0.558,
+              "tie": 0.0,
+              "first": 0.4437564499484004,
+              "second": 0.44034917555771097,
+              "party_games": 732,
+              "gust_games": 1115,
+              "power_games": 519,
+              "barrier_games": 44,
+              "tornadus_games": 90,
+              "oranguru_games": 519,
+              "mewtwo_games": 0
+            },
+            "s60": {
+              "a": 0.544,
+              "b": 0.4555,
+              "tie": 0.0005,
+              "first": 0.5452695829094608,
+              "second": 0.5427728613569321,
+              "party_games": 881,
+              "gust_games": 1372,
+              "power_games": 633,
+              "barrier_games": 108,
+              "tornadus_games": 149,
+              "oranguru_games": 633,
+              "mewtwo_games": 0
+            }
+          }
+        }
+      },
+      "swap": {
+        "cut": [
+          "Mewtwo sv07-059",
+          "Hop's Cramorant me02.5-177"
+        ],
+        "add": [
+          "Tornadus sv07-120",
+          "Oranguru sv08-156"
+        ],
+        "counts": [
+          [
+            "Psychic Energy",
+            17
+          ],
+          [
+            "Clefairy",
+            4
+          ],
+          [
+            "Ledyba",
+            4
+          ],
+          [
+            "Ledian",
+            4
+          ],
+          [
+            "Darkness Energy",
+            3
+          ],
+          [
+            "Starly",
+            2
+          ],
+          [
+            "Staravia",
+            2
+          ],
+          [
+            "Staraptor",
+            2
+          ],
+          [
+            "Munkidori",
+            2
+          ],
+          [
+            "Flutter Mane",
+            1
+          ],
+          [
+            "Indeedee",
+            1
+          ],
+          [
+            "Relicanth",
+            1
+          ],
+          [
+            "Emolga",
+            1
+          ],
+          [
+            "Plusle",
+            1
+          ],
+          [
+            "Kecleon",
+            1
+          ],
+          [
+            "Tulip",
+            1
+          ],
+          [
+            "Surfer",
+            1
+          ],
+          [
+            "Drayton",
+            1
+          ],
+          [
+            "Iris's Fighting Spirit",
+            1
+          ],
+          [
+            "Energy Retrieval",
+            1
+          ],
+          [
+            "Trekking Shoes",
+            1
+          ],
+          [
+            "Potion",
+            1
+          ],
+          [
+            "Energy Search",
+            1
+          ],
+          [
+            "Energy Switch",
+            1
+          ],
+          [
+            "Pok\u00e9 Ball",
+            1
+          ],
+          [
+            "Ultra Ball",
+            1
+          ],
+          [
+            "Boomerang Energy",
+            1
+          ],
+          [
+            "Tornadus",
+            1
+          ],
+          [
+            "Oranguru",
+            1
+          ]
+        ]
+      },
+      "mean_win_rate_a": [
+        0.08600000000000001,
+        0.07466666666666667,
+        0.2121666666666667,
+        0.3,
+        0.4326666666666667,
+        0.5551666666666667
+      ]
+    }
+  },
+  "elapsed": 278.3269194997847
+}

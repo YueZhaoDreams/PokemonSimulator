@@ -1,0 +1,4665 @@
+{
+  "games": 2000,
+  "seed": 20260912,
+  "rule_preset": "s60",
+  "g_strategy": "g",
+  "source": "live data/app.db",
+  "foes": [
+    "c60",
+    "d60",
+    "t60",
+    "hedrick",
+    "unl",
+    "s60"
+  ],
+  "variants": {
+    "baseline": {
+      "elapsed": 15.683043833822012,
+      "win_rate_a": [
+        0.1045,
+        0.0815,
+        0.216,
+        0.319,
+        0.4555,
+        0.5365
+      ],
+      "cells": {
+        "c60": {
+          "a": 0.1045,
+          "b": 0.8955,
+          "tie": 0.0,
+          "first": 0.09852216748768473,
+          "second": 0.11065989847715736,
+          "party_games": 1801,
+          "gust_games": 1259,
+          "mega_games": 725,
+          "moons_games": 333,
+          "plusle_games": 115
+        },
+        "d60": {
+          "a": 0.0815,
+          "b": 0.9185,
+          "tie": 0.0,
+          "first": 0.0891089108910891,
+          "second": 0.07373737373737374,
+          "party_games": 636,
+          "gust_games": 0,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 66
+        },
+        "t60": {
+          "a": 0.216,
+          "b": 0.784,
+          "tie": 0.0,
+          "first": 0.20923076923076922,
+          "second": 0.2224390243902439,
+          "party_games": 626,
+          "gust_games": 911,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 72
+        },
+        "hedrick": {
+          "a": 0.319,
+          "b": 0.681,
+          "tie": 0.0,
+          "first": 0.323943661971831,
+          "second": 0.31411530815109345,
+          "party_games": 661,
+          "gust_games": 1006,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 113
+        },
+        "unl": {
+          "a": 0.4555,
+          "b": 0.5445,
+          "tie": 0.0,
+          "first": 0.4750733137829912,
+          "second": 0.43500511770726713,
+          "party_games": 672,
+          "gust_games": 1166,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 124
+        },
+        "s60": {
+          "a": 0.5365,
+          "b": 0.4635,
+          "tie": 0.0,
+          "first": 0.5520628683693517,
+          "second": 0.5203665987780041,
+          "party_games": 876,
+          "gust_games": 1362,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 192
+        }
+      }
+    },
+    "Mewtwo": {
+      "elapsed": 15.496721792034805,
+      "swap": {
+        "cut": "Mewtwo sv07-059",
+        "add": "Mega Clefable ex me03-031",
+        "counts": [
+          [
+            "Psychic Energy",
+            17
+          ],
+          [
+            "Clefairy",
+            4
+          ],
+          [
+            "Ledyba",
+            4
+          ],
+          [
+            "Ledian",
+            4
+          ],
+          [
+            "Darkness Energy",
+            3
+          ],
+          [
+            "Starly",
+            2
+          ],
+          [
+            "Staravia",
+            2
+          ],
+          [
+            "Staraptor",
+            2
+          ],
+          [
+            "Munkidori",
+            2
+          ],
+          [
+            "Flutter Mane",
+            1
+          ],
+          [
+            "Indeedee",
+            1
+          ],
+          [
+            "Relicanth",
+            1
+          ],
+          [
+            "Emolga",
+            1
+          ],
+          [
+            "Plusle",
+            1
+          ],
+          [
+            "Hop's Cramorant",
+            1
+          ],
+          [
+            "Kecleon",
+            1
+          ],
+          [
+            "Tulip",
+            1
+          ],
+          [
+            "Surfer",
+            1
+          ],
+          [
+            "Drayton",
+            1
+          ],
+          [
+            "Iris's Fighting Spirit",
+            1
+          ],
+          [
+            "Energy Retrieval",
+            1
+          ],
+          [
+            "Trekking Shoes",
+            1
+          ],
+          [
+            "Potion",
+            1
+          ],
+          [
+            "Energy Search",
+            1
+          ],
+          [
+            "Energy Switch",
+            1
+          ],
+          [
+            "Pok\u00e9 Ball",
+            1
+          ],
+          [
+            "Ultra Ball",
+            1
+          ],
+          [
+            "Boomerang Energy",
+            1
+          ],
+          [
+            "Mega Clefable ex",
+            1
+          ]
+        ]
+      },
+      "win_rate_a": [
+        0.1615,
+        0.076,
+        0.2045,
+        0.2965,
+        0.435,
+        0.59
+      ],
+      "cells": {
+        "c60": {
+          "a": 0.1615,
+          "b": 0.8385,
+          "tie": 0.0,
+          "first": 0.17593528816986856,
+          "second": 0.14737883283877348,
+          "party_games": 1735,
+          "gust_games": 1225,
+          "mega_games": 859,
+          "moons_games": 543,
+          "plusle_games": 115
+        },
+        "d60": {
+          "a": 0.076,
+          "b": 0.924,
+          "tie": 0.0,
+          "first": 0.07372400756143667,
+          "second": 0.07855626326963906,
+          "party_games": 631,
+          "gust_games": 0,
+          "mega_games": 115,
+          "moons_games": 91,
+          "plusle_games": 65
+        },
+        "t60": {
+          "a": 0.2045,
+          "b": 0.7955,
+          "tie": 0.0,
+          "first": 0.22094140249759847,
+          "second": 0.18665276329509906,
+          "party_games": 639,
+          "gust_games": 883,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 89
+        },
+        "hedrick": {
+          "a": 0.2965,
+          "b": 0.7035,
+          "tie": 0.0,
+          "first": 0.30513595166163143,
+          "second": 0.28798411122144985,
+          "party_games": 635,
+          "gust_games": 1008,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 110
+        },
+        "unl": {
+          "a": 0.435,
+          "b": 0.565,
+          "tie": 0.0,
+          "first": 0.44865403788634095,
+          "second": 0.42126379137412234,
+          "party_games": 717,
+          "gust_games": 1122,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 109
+        },
+        "s60": {
+          "a": 0.59,
+          "b": 0.4095,
+          "tie": 0.0005,
+          "first": 0.592964824120603,
+          "second": 0.5870646766169154,
+          "party_games": 744,
+          "gust_games": 1300,
+          "mega_games": 492,
+          "moons_games": 424,
+          "plusle_games": 209
+        }
+      }
+    },
+    "Energy Search": {
+      "elapsed": 15.529001125134528,
+      "swap": {
+        "cut": "Energy Search sv01-172",
+        "add": "Mega Clefable ex me03-031",
+        "counts": [
+          [
+            "Psychic Energy",
+            17
+          ],
+          [
+            "Clefairy",
+            4
+          ],
+          [
+            "Ledyba",
+            4
+          ],
+          [
+            "Ledian",
+            4
+          ],
+          [
+            "Darkness Energy",
+            3
+          ],
+          [
+            "Starly",
+            2
+          ],
+          [
+            "Staravia",
+            2
+          ],
+          [
+            "Staraptor",
+            2
+          ],
+          [
+            "Munkidori",
+            2
+          ],
+          [
+            "Mewtwo",
+            1
+          ],
+          [
+            "Flutter Mane",
+            1
+          ],
+          [
+            "Indeedee",
+            1
+          ],
+          [
+            "Relicanth",
+            1
+          ],
+          [
+            "Emolga",
+            1
+          ],
+          [
+            "Plusle",
+            1
+          ],
+          [
+            "Hop's Cramorant",
+            1
+          ],
+          [
+            "Kecleon",
+            1
+          ],
+          [
+            "Tulip",
+            1
+          ],
+          [
+            "Surfer",
+            1
+          ],
+          [
+            "Drayton",
+            1
+          ],
+          [
+            "Iris's Fighting Spirit",
+            1
+          ],
+          [
+            "Energy Retrieval",
+            1
+          ],
+          [
+            "Trekking Shoes",
+            1
+          ],
+          [
+            "Potion",
+            1
+          ],
+          [
+            "Energy Switch",
+            1
+          ],
+          [
+            "Pok\u00e9 Ball",
+            1
+          ],
+          [
+            "Ultra Ball",
+            1
+          ],
+          [
+            "Boomerang Energy",
+            1
+          ],
+          [
+            "Mega Clefable ex",
+            1
+          ]
+        ]
+      },
+      "win_rate_a": [
+        0.142,
+        0.0725,
+        0.2085,
+        0.2955,
+        0.421,
+        0.6
+      ],
+      "cells": {
+        "c60": {
+          "a": 0.142,
+          "b": 0.8575,
+          "tie": 0.0005,
+          "first": 0.1539980256663376,
+          "second": 0.12968591691995948,
+          "party_games": 1773,
+          "gust_games": 1183,
+          "mega_games": 869,
+          "moons_games": 526,
+          "plusle_games": 102
+        },
+        "d60": {
+          "a": 0.0725,
+          "b": 0.9275,
+          "tie": 0.0,
+          "first": 0.0893970893970894,
+          "second": 0.05684007707129094,
+          "party_games": 633,
+          "gust_games": 0,
+          "mega_games": 123,
+          "moons_games": 95,
+          "plusle_games": 51
+        },
+        "t60": {
+          "a": 0.2085,
+          "b": 0.7915,
+          "tie": 0.0,
+          "first": 0.2182890855457227,
+          "second": 0.19837232960325535,
+          "party_games": 595,
+          "gust_games": 907,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 69
+        },
+        "hedrick": {
+          "a": 0.2955,
+          "b": 0.7045,
+          "tie": 0.0,
+          "first": 0.3055555555555556,
+          "second": 0.2852822580645161,
+          "party_games": 668,
+          "gust_games": 974,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 100
+        },
+        "unl": {
+          "a": 0.421,
+          "b": 0.579,
+          "tie": 0.0,
+          "first": 0.4292682926829268,
+          "second": 0.4123076923076923,
+          "party_games": 731,
+          "gust_games": 1105,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 103
+        },
+        "s60": {
+          "a": 0.6,
+          "b": 0.4,
+          "tie": 0.0,
+          "first": 0.6206563706563707,
+          "second": 0.5778008298755186,
+          "party_games": 770,
+          "gust_games": 1315,
+          "mega_games": 483,
+          "moons_games": 421,
+          "plusle_games": 177
+        }
+      }
+    },
+    "Hop's Cramorant": {
+      "elapsed": 15.626381957903504,
+      "swap": {
+        "cut": "Hop's Cramorant me02.5-177",
+        "add": "Mega Clefable ex me03-031",
+        "counts": [
+          [
+            "Psychic Energy",
+            17
+          ],
+          [
+            "Clefairy",
+            4
+          ],
+          [
+            "Ledyba",
+            4
+          ],
+          [
+            "Ledian",
+            4
+          ],
+          [
+            "Darkness Energy",
+            3
+          ],
+          [
+            "Starly",
+            2
+          ],
+          [
+            "Staravia",
+            2
+          ],
+          [
+            "Staraptor",
+            2
+          ],
+          [
+            "Munkidori",
+            2
+          ],
+          [
+            "Mewtwo",
+            1
+          ],
+          [
+            "Flutter Mane",
+            1
+          ],
+          [
+            "Indeedee",
+            1
+          ],
+          [
+            "Relicanth",
+            1
+          ],
+          [
+            "Emolga",
+            1
+          ],
+          [
+            "Plusle",
+            1
+          ],
+          [
+            "Kecleon",
+            1
+          ],
+          [
+            "Tulip",
+            1
+          ],
+          [
+            "Surfer",
+            1
+          ],
+          [
+            "Drayton",
+            1
+          ],
+          [
+            "Iris's Fighting Spirit",
+            1
+          ],
+          [
+            "Energy Retrieval",
+            1
+          ],
+          [
+            "Trekking Shoes",
+            1
+          ],
+          [
+            "Potion",
+            1
+          ],
+          [
+            "Energy Search",
+            1
+          ],
+          [
+            "Energy Switch",
+            1
+          ],
+          [
+            "Pok\u00e9 Ball",
+            1
+          ],
+          [
+            "Ultra Ball",
+            1
+          ],
+          [
+            "Boomerang Energy",
+            1
+          ],
+          [
+            "Mega Clefable ex",
+            1
+          ]
+        ]
+      },
+      "win_rate_a": [
+        0.18,
+        0.085,
+        0.2225,
+        0.313,
+        0.4285,
+        0.6125
+      ],
+      "cells": {
+        "c60": {
+          "a": 0.18,
+          "b": 0.82,
+          "tie": 0.0,
+          "first": 0.1880597014925373,
+          "second": 0.17185929648241205,
+          "party_games": 1766,
+          "gust_games": 1226,
+          "mega_games": 878,
+          "moons_games": 542,
+          "plusle_games": 125
+        },
+        "d60": {
+          "a": 0.085,
+          "b": 0.915,
+          "tie": 0.0,
+          "first": 0.08759842519685039,
+          "second": 0.08231707317073171,
+          "party_games": 659,
+          "gust_games": 0,
+          "mega_games": 121,
+          "moons_games": 98,
+          "plusle_games": 66
+        },
+        "t60": {
+          "a": 0.2225,
+          "b": 0.7775,
+          "tie": 0.0,
+          "first": 0.2306930693069307,
+          "second": 0.21414141414141413,
+          "party_games": 638,
+          "gust_games": 930,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 90
+        },
+        "hedrick": {
+          "a": 0.313,
+          "b": 0.687,
+          "tie": 0.0,
+          "first": 0.3141683778234086,
+          "second": 0.31189083820662766,
+          "party_games": 671,
+          "gust_games": 1046,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 93
+        },
+        "unl": {
+          "a": 0.4285,
+          "b": 0.5715,
+          "tie": 0.0,
+          "first": 0.4396039603960396,
+          "second": 0.4171717171717172,
+          "party_games": 715,
+          "gust_games": 1113,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 121
+        },
+        "s60": {
+          "a": 0.6125,
+          "b": 0.3875,
+          "tie": 0.0,
+          "first": 0.6080808080808081,
+          "second": 0.6168316831683168,
+          "party_games": 810,
+          "gust_games": 1336,
+          "mega_games": 520,
+          "moons_games": 447,
+          "plusle_games": 194
+        }
+      }
+    },
+    "Flutter Mane": {
+      "elapsed": 14.660472166724503,
+      "swap": {
+        "cut": "Flutter Mane sv05-078",
+        "add": "Mega Clefable ex me03-031",
+        "counts": [
+          [
+            "Psychic Energy",
+            17
+          ],
+          [
+            "Clefairy",
+            4
+          ],
+          [
+            "Ledyba",
+            4
+          ],
+          [
+            "Ledian",
+            4
+          ],
+          [
+            "Darkness Energy",
+            3
+          ],
+          [
+            "Starly",
+            2
+          ],
+          [
+            "Staravia",
+            2
+          ],
+          [
+            "Staraptor",
+            2
+          ],
+          [
+            "Munkidori",
+            2
+          ],
+          [
+            "Mewtwo",
+            1
+          ],
+          [
+            "Indeedee",
+            1
+          ],
+          [
+            "Relicanth",
+            1
+          ],
+          [
+            "Emolga",
+            1
+          ],
+          [
+            "Plusle",
+            1
+          ],
+          [
+            "Hop's Cramorant",
+            1
+          ],
+          [
+            "Kecleon",
+            1
+          ],
+          [
+            "Tulip",
+            1
+          ],
+          [
+            "Surfer",
+            1
+          ],
+          [
+            "Drayton",
+            1
+          ],
+          [
+            "Iris's Fighting Spirit",
+            1
+          ],
+          [
+            "Energy Retrieval",
+            1
+          ],
+          [
+            "Trekking Shoes",
+            1
+          ],
+          [
+            "Potion",
+            1
+          ],
+          [
+            "Energy Search",
+            1
+          ],
+          [
+            "Energy Switch",
+            1
+          ],
+          [
+            "Pok\u00e9 Ball",
+            1
+          ],
+          [
+            "Ultra Ball",
+            1
+          ],
+          [
+            "Boomerang Energy",
+            1
+          ],
+          [
+            "Mega Clefable ex",
+            1
+          ]
+        ]
+      },
+      "win_rate_a": [
+        0.151,
+        0.0965,
+        0.2115,
+        0.3235,
+        0.434,
+        0.638
+      ],
+      "cells": {
+        "c60": {
+          "a": 0.151,
+          "b": 0.849,
+          "tie": 0.0,
+          "first": 0.15701668302257116,
+          "second": 0.14475025484199797,
+          "party_games": 1809,
+          "gust_games": 1205,
+          "mega_games": 870,
+          "moons_games": 530,
+          "plusle_games": 121
+        },
+        "d60": {
+          "a": 0.0965,
+          "b": 0.9035,
+          "tie": 0.0,
+          "first": 0.10266535044422508,
+          "second": 0.09017223910840932,
+          "party_games": 661,
+          "gust_games": 0,
+          "mega_games": 116,
+          "moons_games": 101,
+          "plusle_games": 69
+        },
+        "t60": {
+          "a": 0.2115,
+          "b": 0.7885,
+          "tie": 0.0,
+          "first": 0.23264907135874877,
+          "second": 0.18935516888433981,
+          "party_games": 674,
+          "gust_games": 905,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 74
+        },
+        "hedrick": {
+          "a": 0.3235,
+          "b": 0.6765,
+          "tie": 0.0,
+          "first": 0.31736526946107785,
+          "second": 0.32965931863727455,
+          "party_games": 679,
+          "gust_games": 998,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 107
+        },
+        "unl": {
+          "a": 0.434,
+          "b": 0.566,
+          "tie": 0.0,
+          "first": 0.4457593688362919,
+          "second": 0.42190669371196754,
+          "party_games": 789,
+          "gust_games": 1131,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 129
+        },
+        "s60": {
+          "a": 0.638,
+          "b": 0.3615,
+          "tie": 0.0005,
+          "first": 0.6528497409326425,
+          "second": 0.6241545893719807,
+          "party_games": 817,
+          "gust_games": 1359,
+          "mega_games": 556,
+          "moons_games": 460,
+          "plusle_games": 178
+        }
+      }
+    },
+    "Indeedee": {
+      "elapsed": 15.605692875105888,
+      "swap": {
+        "cut": "Indeedee sv01-153",
+        "add": "Mega Clefable ex me03-031",
+        "counts": [
+          [
+            "Psychic Energy",
+            17
+          ],
+          [
+            "Clefairy",
+            4
+          ],
+          [
+            "Ledyba",
+            4
+          ],
+          [
+            "Ledian",
+            4
+          ],
+          [
+            "Darkness Energy",
+            3
+          ],
+          [
+            "Starly",
+            2
+          ],
+          [
+            "Staravia",
+            2
+          ],
+          [
+            "Staraptor",
+            2
+          ],
+          [
+            "Munkidori",
+            2
+          ],
+          [
+            "Mewtwo",
+            1
+          ],
+          [
+            "Flutter Mane",
+            1
+          ],
+          [
+            "Relicanth",
+            1
+          ],
+          [
+            "Emolga",
+            1
+          ],
+          [
+            "Plusle",
+            1
+          ],
+          [
+            "Hop's Cramorant",
+            1
+          ],
+          [
+            "Kecleon",
+            1
+          ],
+          [
+            "Tulip",
+            1
+          ],
+          [
+            "Surfer",
+            1
+          ],
+          [
+            "Drayton",
+            1
+          ],
+          [
+            "Iris's Fighting Spirit",
+            1
+          ],
+          [
+            "Energy Retrieval",
+            1
+          ],
+          [
+            "Trekking Shoes",
+            1
+          ],
+          [
+            "Potion",
+            1
+          ],
+          [
+            "Energy Search",
+            1
+          ],
+          [
+            "Energy Switch",
+            1
+          ],
+          [
+            "Pok\u00e9 Ball",
+            1
+          ],
+          [
+            "Ultra Ball",
+            1
+          ],
+          [
+            "Boomerang Energy",
+            1
+          ],
+          [
+            "Mega Clefable ex",
+            1
+          ]
+        ]
+      },
+      "win_rate_a": [
+        0.1685,
+        0.081,
+        0.2295,
+        0.289,
+        0.4335,
+        0.651
+      ],
+      "cells": {
+        "c60": {
+          "a": 0.1685,
+          "b": 0.8315,
+          "tie": 0.0,
+          "first": 0.1676470588235294,
+          "second": 0.16938775510204082,
+          "party_games": 1725,
+          "gust_games": 1139,
+          "mega_games": 836,
+          "moons_games": 523,
+          "plusle_games": 93
+        },
+        "d60": {
+          "a": 0.081,
+          "b": 0.919,
+          "tie": 0.0,
+          "first": 0.07186234817813765,
+          "second": 0.08992094861660078,
+          "party_games": 670,
+          "gust_games": 0,
+          "mega_games": 112,
+          "moons_games": 90,
+          "plusle_games": 61
+        },
+        "t60": {
+          "a": 0.2295,
+          "b": 0.7705,
+          "tie": 0.0,
+          "first": 0.23860329776915615,
+          "second": 0.21981424148606812,
+          "party_games": 663,
+          "gust_games": 866,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 77
+        },
+        "hedrick": {
+          "a": 0.289,
+          "b": 0.711,
+          "tie": 0.0,
+          "first": 0.3081395348837209,
+          "second": 0.26859504132231404,
+          "party_games": 627,
+          "gust_games": 1000,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 102
+        },
+        "unl": {
+          "a": 0.4335,
+          "b": 0.5665,
+          "tie": 0.0,
+          "first": 0.43448275862068964,
+          "second": 0.43248730964467,
+          "party_games": 725,
+          "gust_games": 1099,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 110
+        },
+        "s60": {
+          "a": 0.651,
+          "b": 0.349,
+          "tie": 0.0,
+          "first": 0.6589769307923772,
+          "second": 0.6430707876370887,
+          "party_games": 816,
+          "gust_games": 1311,
+          "mega_games": 489,
+          "moons_games": 416,
+          "plusle_games": 204
+        }
+      }
+    },
+    "Relicanth": {
+      "elapsed": 15.676347041968256,
+      "swap": {
+        "cut": "Relicanth swsh11-101",
+        "add": "Mega Clefable ex me03-031",
+        "counts": [
+          [
+            "Psychic Energy",
+            17
+          ],
+          [
+            "Clefairy",
+            4
+          ],
+          [
+            "Ledyba",
+            4
+          ],
+          [
+            "Ledian",
+            4
+          ],
+          [
+            "Darkness Energy",
+            3
+          ],
+          [
+            "Starly",
+            2
+          ],
+          [
+            "Staravia",
+            2
+          ],
+          [
+            "Staraptor",
+            2
+          ],
+          [
+            "Munkidori",
+            2
+          ],
+          [
+            "Mewtwo",
+            1
+          ],
+          [
+            "Flutter Mane",
+            1
+          ],
+          [
+            "Indeedee",
+            1
+          ],
+          [
+            "Emolga",
+            1
+          ],
+          [
+            "Plusle",
+            1
+          ],
+          [
+            "Hop's Cramorant",
+            1
+          ],
+          [
+            "Kecleon",
+            1
+          ],
+          [
+            "Tulip",
+            1
+          ],
+          [
+            "Surfer",
+            1
+          ],
+          [
+            "Drayton",
+            1
+          ],
+          [
+            "Iris's Fighting Spirit",
+            1
+          ],
+          [
+            "Energy Retrieval",
+            1
+          ],
+          [
+            "Trekking Shoes",
+            1
+          ],
+          [
+            "Potion",
+            1
+          ],
+          [
+            "Energy Search",
+            1
+          ],
+          [
+            "Energy Switch",
+            1
+          ],
+          [
+            "Pok\u00e9 Ball",
+            1
+          ],
+          [
+            "Ultra Ball",
+            1
+          ],
+          [
+            "Boomerang Energy",
+            1
+          ],
+          [
+            "Mega Clefable ex",
+            1
+          ]
+        ]
+      },
+      "win_rate_a": [
+        0.155,
+        0.0685,
+        0.2175,
+        0.318,
+        0.4445,
+        0.651
+      ],
+      "cells": {
+        "c60": {
+          "a": 0.155,
+          "b": 0.8445,
+          "tie": 0.0005,
+          "first": 0.15270935960591134,
+          "second": 0.15736040609137056,
+          "party_games": 1738,
+          "gust_games": 1183,
+          "mega_games": 868,
+          "moons_games": 546,
+          "plusle_games": 111
+        },
+        "d60": {
+          "a": 0.0685,
+          "b": 0.9315,
+          "tie": 0.0,
+          "first": 0.06653426017874876,
+          "second": 0.07049345417925479,
+          "party_games": 619,
+          "gust_games": 0,
+          "mega_games": 109,
+          "moons_games": 93,
+          "plusle_games": 69
+        },
+        "t60": {
+          "a": 0.2175,
+          "b": 0.7825,
+          "tie": 0.0,
+          "first": 0.22722820763956905,
+          "second": 0.20735444330949948,
+          "party_games": 667,
+          "gust_games": 873,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 80
+        },
+        "hedrick": {
+          "a": 0.318,
+          "b": 0.682,
+          "tie": 0.0,
+          "first": 0.32727272727272727,
+          "second": 0.3089108910891089,
+          "party_games": 653,
+          "gust_games": 1027,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 95
+        },
+        "unl": {
+          "a": 0.4445,
+          "b": 0.5555,
+          "tie": 0.0,
+          "first": 0.453740157480315,
+          "second": 0.4349593495934959,
+          "party_games": 724,
+          "gust_games": 1118,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 113
+        },
+        "s60": {
+          "a": 0.651,
+          "b": 0.349,
+          "tie": 0.0,
+          "first": 0.6758080313418218,
+          "second": 0.6251276813074566,
+          "party_games": 828,
+          "gust_games": 1336,
+          "mega_games": 559,
+          "moons_games": 461,
+          "plusle_games": 172
+        }
+      }
+    },
+    "Emolga": {
+      "elapsed": 15.799012457951903,
+      "swap": {
+        "cut": "Emolga sv10.5b-029",
+        "add": "Mega Clefable ex me03-031",
+        "counts": [
+          [
+            "Psychic Energy",
+            17
+          ],
+          [
+            "Clefairy",
+            4
+          ],
+          [
+            "Ledyba",
+            4
+          ],
+          [
+            "Ledian",
+            4
+          ],
+          [
+            "Darkness Energy",
+            3
+          ],
+          [
+            "Starly",
+            2
+          ],
+          [
+            "Staravia",
+            2
+          ],
+          [
+            "Staraptor",
+            2
+          ],
+          [
+            "Munkidori",
+            2
+          ],
+          [
+            "Mewtwo",
+            1
+          ],
+          [
+            "Flutter Mane",
+            1
+          ],
+          [
+            "Indeedee",
+            1
+          ],
+          [
+            "Relicanth",
+            1
+          ],
+          [
+            "Plusle",
+            1
+          ],
+          [
+            "Hop's Cramorant",
+            1
+          ],
+          [
+            "Kecleon",
+            1
+          ],
+          [
+            "Tulip",
+            1
+          ],
+          [
+            "Surfer",
+            1
+          ],
+          [
+            "Drayton",
+            1
+          ],
+          [
+            "Iris's Fighting Spirit",
+            1
+          ],
+          [
+            "Energy Retrieval",
+            1
+          ],
+          [
+            "Trekking Shoes",
+            1
+          ],
+          [
+            "Potion",
+            1
+          ],
+          [
+            "Energy Search",
+            1
+          ],
+          [
+            "Energy Switch",
+            1
+          ],
+          [
+            "Pok\u00e9 Ball",
+            1
+          ],
+          [
+            "Ultra Ball",
+            1
+          ],
+          [
+            "Boomerang Energy",
+            1
+          ],
+          [
+            "Mega Clefable ex",
+            1
+          ]
+        ]
+      },
+      "win_rate_a": [
+        0.166,
+        0.078,
+        0.231,
+        0.2975,
+        0.4495,
+        0.641
+      ],
+      "cells": {
+        "c60": {
+          "a": 0.166,
+          "b": 0.834,
+          "tie": 0.0,
+          "first": 0.15757575757575756,
+          "second": 0.17425742574257425,
+          "party_games": 1738,
+          "gust_games": 1188,
+          "mega_games": 837,
+          "moons_games": 529,
+          "plusle_games": 117
+        },
+        "d60": {
+          "a": 0.078,
+          "b": 0.922,
+          "tie": 0.0,
+          "first": 0.0826044703595724,
+          "second": 0.07312049433573635,
+          "party_games": 617,
+          "gust_games": 0,
+          "mega_games": 118,
+          "moons_games": 97,
+          "plusle_games": 60
+        },
+        "t60": {
+          "a": 0.231,
+          "b": 0.769,
+          "tie": 0.0,
+          "first": 0.22798434442270057,
+          "second": 0.23415132924335377,
+          "party_games": 672,
+          "gust_games": 895,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 81
+        },
+        "hedrick": {
+          "a": 0.2975,
+          "b": 0.7025,
+          "tie": 0.0,
+          "first": 0.3144016227180527,
+          "second": 0.28106508875739644,
+          "party_games": 624,
+          "gust_games": 980,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 104
+        },
+        "unl": {
+          "a": 0.4495,
+          "b": 0.5505,
+          "tie": 0.0,
+          "first": 0.46647230320699706,
+          "second": 0.431513903192585,
+          "party_games": 715,
+          "gust_games": 1091,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 93
+        },
+        "s60": {
+          "a": 0.641,
+          "b": 0.359,
+          "tie": 0.0,
+          "first": 0.6497560975609756,
+          "second": 0.6317948717948718,
+          "party_games": 785,
+          "gust_games": 1313,
+          "mega_games": 505,
+          "moons_games": 418,
+          "plusle_games": 188
+        }
+      }
+    },
+    "Plusle": {
+      "elapsed": 15.79078962514177,
+      "swap": {
+        "cut": "Plusle sv04-060",
+        "add": "Mega Clefable ex me03-031",
+        "counts": [
+          [
+            "Psychic Energy",
+            17
+          ],
+          [
+            "Clefairy",
+            4
+          ],
+          [
+            "Ledyba",
+            4
+          ],
+          [
+            "Ledian",
+            4
+          ],
+          [
+            "Darkness Energy",
+            3
+          ],
+          [
+            "Starly",
+            2
+          ],
+          [
+            "Staravia",
+            2
+          ],
+          [
+            "Staraptor",
+            2
+          ],
+          [
+            "Munkidori",
+            2
+          ],
+          [
+            "Mewtwo",
+            1
+          ],
+          [
+            "Flutter Mane",
+            1
+          ],
+          [
+            "Indeedee",
+            1
+          ],
+          [
+            "Relicanth",
+            1
+          ],
+          [
+            "Emolga",
+            1
+          ],
+          [
+            "Hop's Cramorant",
+            1
+          ],
+          [
+            "Kecleon",
+            1
+          ],
+          [
+            "Tulip",
+            1
+          ],
+          [
+            "Surfer",
+            1
+          ],
+          [
+            "Drayton",
+            1
+          ],
+          [
+            "Iris's Fighting Spirit",
+            1
+          ],
+          [
+            "Energy Retrieval",
+            1
+          ],
+          [
+            "Trekking Shoes",
+            1
+          ],
+          [
+            "Potion",
+            1
+          ],
+          [
+            "Energy Search",
+            1
+          ],
+          [
+            "Energy Switch",
+            1
+          ],
+          [
+            "Pok\u00e9 Ball",
+            1
+          ],
+          [
+            "Ultra Ball",
+            1
+          ],
+          [
+            "Boomerang Energy",
+            1
+          ],
+          [
+            "Mega Clefable ex",
+            1
+          ]
+        ]
+      },
+      "win_rate_a": [
+        0.172,
+        0.067,
+        0.2165,
+        0.305,
+        0.4445,
+        0.6225
+      ],
+      "cells": {
+        "c60": {
+          "a": 0.172,
+          "b": 0.828,
+          "tie": 0.0,
+          "first": 0.182,
+          "second": 0.162,
+          "party_games": 1755,
+          "gust_games": 1188,
+          "mega_games": 874,
+          "moons_games": 552,
+          "plusle_games": 0
+        },
+        "d60": {
+          "a": 0.067,
+          "b": 0.933,
+          "tie": 0.0,
+          "first": 0.07987866531850354,
+          "second": 0.05440158259149357,
+          "party_games": 621,
+          "gust_games": 0,
+          "mega_games": 112,
+          "moons_games": 94,
+          "plusle_games": 0
+        },
+        "t60": {
+          "a": 0.2165,
+          "b": 0.7835,
+          "tie": 0.0,
+          "first": 0.22549019607843138,
+          "second": 0.20714285714285716,
+          "party_games": 634,
+          "gust_games": 947,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 0
+        },
+        "hedrick": {
+          "a": 0.305,
+          "b": 0.695,
+          "tie": 0.0,
+          "first": 0.3213592233009709,
+          "second": 0.2876288659793814,
+          "party_games": 626,
+          "gust_games": 990,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 0
+        },
+        "unl": {
+          "a": 0.4445,
+          "b": 0.5555,
+          "tie": 0.0,
+          "first": 0.48279352226720645,
+          "second": 0.40711462450592883,
+          "party_games": 716,
+          "gust_games": 1164,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 0
+        },
+        "s60": {
+          "a": 0.6225,
+          "b": 0.3775,
+          "tie": 0.0,
+          "first": 0.6347124117053481,
+          "second": 0.6105054509415263,
+          "party_games": 795,
+          "gust_games": 1354,
+          "mega_games": 498,
+          "moons_games": 417,
+          "plusle_games": 0
+        }
+      }
+    },
+    "Kecleon": {
+      "elapsed": 14.442402291111648,
+      "swap": {
+        "cut": "Kecleon sv08-150",
+        "add": "Mega Clefable ex me03-031",
+        "counts": [
+          [
+            "Psychic Energy",
+            17
+          ],
+          [
+            "Clefairy",
+            4
+          ],
+          [
+            "Ledyba",
+            4
+          ],
+          [
+            "Ledian",
+            4
+          ],
+          [
+            "Darkness Energy",
+            3
+          ],
+          [
+            "Starly",
+            2
+          ],
+          [
+            "Staravia",
+            2
+          ],
+          [
+            "Staraptor",
+            2
+          ],
+          [
+            "Munkidori",
+            2
+          ],
+          [
+            "Mewtwo",
+            1
+          ],
+          [
+            "Flutter Mane",
+            1
+          ],
+          [
+            "Indeedee",
+            1
+          ],
+          [
+            "Relicanth",
+            1
+          ],
+          [
+            "Emolga",
+            1
+          ],
+          [
+            "Plusle",
+            1
+          ],
+          [
+            "Hop's Cramorant",
+            1
+          ],
+          [
+            "Tulip",
+            1
+          ],
+          [
+            "Surfer",
+            1
+          ],
+          [
+            "Drayton",
+            1
+          ],
+          [
+            "Iris's Fighting Spirit",
+            1
+          ],
+          [
+            "Energy Retrieval",
+            1
+          ],
+          [
+            "Trekking Shoes",
+            1
+          ],
+          [
+            "Potion",
+            1
+          ],
+          [
+            "Energy Search",
+            1
+          ],
+          [
+            "Energy Switch",
+            1
+          ],
+          [
+            "Pok\u00e9 Ball",
+            1
+          ],
+          [
+            "Ultra Ball",
+            1
+          ],
+          [
+            "Boomerang Energy",
+            1
+          ],
+          [
+            "Mega Clefable ex",
+            1
+          ]
+        ]
+      },
+      "win_rate_a": [
+        0.147,
+        0.068,
+        0.211,
+        0.293,
+        0.43,
+        0.5945
+      ],
+      "cells": {
+        "c60": {
+          "a": 0.147,
+          "b": 0.853,
+          "tie": 0.0,
+          "first": 0.147,
+          "second": 0.147,
+          "party_games": 1744,
+          "gust_games": 1226,
+          "mega_games": 843,
+          "moons_games": 527,
+          "plusle_games": 113
+        },
+        "d60": {
+          "a": 0.068,
+          "b": 0.932,
+          "tie": 0.0,
+          "first": 0.07206317867719644,
+          "second": 0.06382978723404255,
+          "party_games": 631,
+          "gust_games": 0,
+          "mega_games": 119,
+          "moons_games": 102,
+          "plusle_games": 49
+        },
+        "t60": {
+          "a": 0.211,
+          "b": 0.789,
+          "tie": 0.0,
+          "first": 0.22954091816367264,
+          "second": 0.19238476953907815,
+          "party_games": 639,
+          "gust_games": 940,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 78
+        },
+        "hedrick": {
+          "a": 0.293,
+          "b": 0.707,
+          "tie": 0.0,
+          "first": 0.3018322082931533,
+          "second": 0.2834890965732087,
+          "party_games": 672,
+          "gust_games": 1019,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 102
+        },
+        "unl": {
+          "a": 0.43,
+          "b": 0.57,
+          "tie": 0.0,
+          "first": 0.44011976047904194,
+          "second": 0.4198396793587174,
+          "party_games": 720,
+          "gust_games": 1123,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 113
+        },
+        "s60": {
+          "a": 0.5945,
+          "b": 0.4055,
+          "tie": 0.0,
+          "first": 0.5907723169508525,
+          "second": 0.5982053838484547,
+          "party_games": 770,
+          "gust_games": 1326,
+          "mega_games": 480,
+          "moons_games": 414,
+          "plusle_games": 194
+        }
+      }
+    },
+    "Tulip": {
+      "elapsed": 15.914770791772753,
+      "swap": {
+        "cut": "Tulip sv04-181",
+        "add": "Mega Clefable ex me03-031",
+        "counts": [
+          [
+            "Psychic Energy",
+            17
+          ],
+          [
+            "Clefairy",
+            4
+          ],
+          [
+            "Ledyba",
+            4
+          ],
+          [
+            "Ledian",
+            4
+          ],
+          [
+            "Darkness Energy",
+            3
+          ],
+          [
+            "Starly",
+            2
+          ],
+          [
+            "Staravia",
+            2
+          ],
+          [
+            "Staraptor",
+            2
+          ],
+          [
+            "Munkidori",
+            2
+          ],
+          [
+            "Mewtwo",
+            1
+          ],
+          [
+            "Flutter Mane",
+            1
+          ],
+          [
+            "Indeedee",
+            1
+          ],
+          [
+            "Relicanth",
+            1
+          ],
+          [
+            "Emolga",
+            1
+          ],
+          [
+            "Plusle",
+            1
+          ],
+          [
+            "Hop's Cramorant",
+            1
+          ],
+          [
+            "Kecleon",
+            1
+          ],
+          [
+            "Surfer",
+            1
+          ],
+          [
+            "Drayton",
+            1
+          ],
+          [
+            "Iris's Fighting Spirit",
+            1
+          ],
+          [
+            "Energy Retrieval",
+            1
+          ],
+          [
+            "Trekking Shoes",
+            1
+          ],
+          [
+            "Potion",
+            1
+          ],
+          [
+            "Energy Search",
+            1
+          ],
+          [
+            "Energy Switch",
+            1
+          ],
+          [
+            "Pok\u00e9 Ball",
+            1
+          ],
+          [
+            "Ultra Ball",
+            1
+          ],
+          [
+            "Boomerang Energy",
+            1
+          ],
+          [
+            "Mega Clefable ex",
+            1
+          ]
+        ]
+      },
+      "win_rate_a": [
+        0.1715,
+        0.084,
+        0.212,
+        0.301,
+        0.4255,
+        0.619
+      ],
+      "cells": {
+        "c60": {
+          "a": 0.1715,
+          "b": 0.8285,
+          "tie": 0.0,
+          "first": 0.175,
+          "second": 0.168,
+          "party_games": 1742,
+          "gust_games": 1214,
+          "mega_games": 855,
+          "moons_games": 540,
+          "plusle_games": 103
+        },
+        "d60": {
+          "a": 0.084,
+          "b": 0.916,
+          "tie": 0.0,
+          "first": 0.0871743486973948,
+          "second": 0.08083832335329341,
+          "party_games": 613,
+          "gust_games": 0,
+          "mega_games": 122,
+          "moons_games": 97,
+          "plusle_games": 65
+        },
+        "t60": {
+          "a": 0.212,
+          "b": 0.788,
+          "tie": 0.0,
+          "first": 0.22405431619786614,
+          "second": 0.19917440660474717,
+          "party_games": 587,
+          "gust_games": 924,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 66
+        },
+        "hedrick": {
+          "a": 0.301,
+          "b": 0.699,
+          "tie": 0.0,
+          "first": 0.3329886246122027,
+          "second": 0.271055179090029,
+          "party_games": 625,
+          "gust_games": 1012,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 100
+        },
+        "unl": {
+          "a": 0.4255,
+          "b": 0.5745,
+          "tie": 0.0,
+          "first": 0.4407443682664055,
+          "second": 0.40960163432073543,
+          "party_games": 687,
+          "gust_games": 1115,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 107
+        },
+        "s60": {
+          "a": 0.619,
+          "b": 0.381,
+          "tie": 0.0,
+          "first": 0.6273917421953675,
+          "second": 0.6107249255213505,
+          "party_games": 746,
+          "gust_games": 1324,
+          "mega_games": 466,
+          "moons_games": 391,
+          "plusle_games": 186
+        }
+      }
+    },
+    "Surfer": {
+      "elapsed": 16.20691433409229,
+      "swap": {
+        "cut": "Surfer sv08-187",
+        "add": "Mega Clefable ex me03-031",
+        "counts": [
+          [
+            "Psychic Energy",
+            17
+          ],
+          [
+            "Clefairy",
+            4
+          ],
+          [
+            "Ledyba",
+            4
+          ],
+          [
+            "Ledian",
+            4
+          ],
+          [
+            "Darkness Energy",
+            3
+          ],
+          [
+            "Starly",
+            2
+          ],
+          [
+            "Staravia",
+            2
+          ],
+          [
+            "Staraptor",
+            2
+          ],
+          [
+            "Munkidori",
+            2
+          ],
+          [
+            "Mewtwo",
+            1
+          ],
+          [
+            "Flutter Mane",
+            1
+          ],
+          [
+            "Indeedee",
+            1
+          ],
+          [
+            "Relicanth",
+            1
+          ],
+          [
+            "Emolga",
+            1
+          ],
+          [
+            "Plusle",
+            1
+          ],
+          [
+            "Hop's Cramorant",
+            1
+          ],
+          [
+            "Kecleon",
+            1
+          ],
+          [
+            "Tulip",
+            1
+          ],
+          [
+            "Drayton",
+            1
+          ],
+          [
+            "Iris's Fighting Spirit",
+            1
+          ],
+          [
+            "Energy Retrieval",
+            1
+          ],
+          [
+            "Trekking Shoes",
+            1
+          ],
+          [
+            "Potion",
+            1
+          ],
+          [
+            "Energy Search",
+            1
+          ],
+          [
+            "Energy Switch",
+            1
+          ],
+          [
+            "Pok\u00e9 Ball",
+            1
+          ],
+          [
+            "Ultra Ball",
+            1
+          ],
+          [
+            "Boomerang Energy",
+            1
+          ],
+          [
+            "Mega Clefable ex",
+            1
+          ]
+        ]
+      },
+      "win_rate_a": [
+        0.1495,
+        0.074,
+        0.23,
+        0.286,
+        0.427,
+        0.599
+      ],
+      "cells": {
+        "c60": {
+          "a": 0.1495,
+          "b": 0.8505,
+          "tie": 0.0,
+          "first": 0.15637065637065636,
+          "second": 0.1421161825726141,
+          "party_games": 1763,
+          "gust_games": 1241,
+          "mega_games": 826,
+          "moons_games": 497,
+          "plusle_games": 100
+        },
+        "d60": {
+          "a": 0.074,
+          "b": 0.926,
+          "tie": 0.0,
+          "first": 0.08227228207639568,
+          "second": 0.06537282941777324,
+          "party_games": 627,
+          "gust_games": 0,
+          "mega_games": 106,
+          "moons_games": 90,
+          "plusle_games": 73
+        },
+        "t60": {
+          "a": 0.23,
+          "b": 0.77,
+          "tie": 0.0,
+          "first": 0.22859922178988326,
+          "second": 0.23148148148148148,
+          "party_games": 635,
+          "gust_games": 938,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 77
+        },
+        "hedrick": {
+          "a": 0.286,
+          "b": 0.714,
+          "tie": 0.0,
+          "first": 0.29458917835671344,
+          "second": 0.2774451097804391,
+          "party_games": 619,
+          "gust_games": 1010,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 113
+        },
+        "unl": {
+          "a": 0.427,
+          "b": 0.573,
+          "tie": 0.0,
+          "first": 0.439453125,
+          "second": 0.4139344262295082,
+          "party_games": 689,
+          "gust_games": 1149,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 102
+        },
+        "s60": {
+          "a": 0.599,
+          "b": 0.401,
+          "tie": 0.0,
+          "first": 0.6061855670103092,
+          "second": 0.5922330097087378,
+          "party_games": 754,
+          "gust_games": 1345,
+          "mega_games": 461,
+          "moons_games": 397,
+          "plusle_games": 203
+        }
+      }
+    },
+    "Drayton": {
+      "elapsed": 15.893087499774992,
+      "swap": {
+        "cut": "Drayton sv08-174",
+        "add": "Mega Clefable ex me03-031",
+        "counts": [
+          [
+            "Psychic Energy",
+            17
+          ],
+          [
+            "Clefairy",
+            4
+          ],
+          [
+            "Ledyba",
+            4
+          ],
+          [
+            "Ledian",
+            4
+          ],
+          [
+            "Darkness Energy",
+            3
+          ],
+          [
+            "Starly",
+            2
+          ],
+          [
+            "Staravia",
+            2
+          ],
+          [
+            "Staraptor",
+            2
+          ],
+          [
+            "Munkidori",
+            2
+          ],
+          [
+            "Mewtwo",
+            1
+          ],
+          [
+            "Flutter Mane",
+            1
+          ],
+          [
+            "Indeedee",
+            1
+          ],
+          [
+            "Relicanth",
+            1
+          ],
+          [
+            "Emolga",
+            1
+          ],
+          [
+            "Plusle",
+            1
+          ],
+          [
+            "Hop's Cramorant",
+            1
+          ],
+          [
+            "Kecleon",
+            1
+          ],
+          [
+            "Tulip",
+            1
+          ],
+          [
+            "Surfer",
+            1
+          ],
+          [
+            "Iris's Fighting Spirit",
+            1
+          ],
+          [
+            "Energy Retrieval",
+            1
+          ],
+          [
+            "Trekking Shoes",
+            1
+          ],
+          [
+            "Potion",
+            1
+          ],
+          [
+            "Energy Search",
+            1
+          ],
+          [
+            "Energy Switch",
+            1
+          ],
+          [
+            "Pok\u00e9 Ball",
+            1
+          ],
+          [
+            "Ultra Ball",
+            1
+          ],
+          [
+            "Boomerang Energy",
+            1
+          ],
+          [
+            "Mega Clefable ex",
+            1
+          ]
+        ]
+      },
+      "win_rate_a": [
+        0.157,
+        0.0645,
+        0.2295,
+        0.3125,
+        0.4435,
+        0.6135
+      ],
+      "cells": {
+        "c60": {
+          "a": 0.157,
+          "b": 0.842,
+          "tie": 0.001,
+          "first": 0.15913555992141454,
+          "second": 0.15478615071283094,
+          "party_games": 1746,
+          "gust_games": 1144,
+          "mega_games": 837,
+          "moons_games": 514,
+          "plusle_games": 129
+        },
+        "d60": {
+          "a": 0.0645,
+          "b": 0.9355,
+          "tie": 0.0,
+          "first": 0.0708502024291498,
+          "second": 0.058300395256917,
+          "party_games": 580,
+          "gust_games": 0,
+          "mega_games": 87,
+          "moons_games": 77,
+          "plusle_games": 58
+        },
+        "t60": {
+          "a": 0.2295,
+          "b": 0.7705,
+          "tie": 0.0,
+          "first": 0.22350472193074503,
+          "second": 0.2349570200573066,
+          "party_games": 566,
+          "gust_games": 847,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 71
+        },
+        "hedrick": {
+          "a": 0.3125,
+          "b": 0.6875,
+          "tie": 0.0,
+          "first": 0.30925737538148523,
+          "second": 0.31563421828908556,
+          "party_games": 565,
+          "gust_games": 960,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 95
+        },
+        "unl": {
+          "a": 0.4435,
+          "b": 0.5565,
+          "tie": 0.0,
+          "first": 0.4495677233429395,
+          "second": 0.4369134515119917,
+          "party_games": 660,
+          "gust_games": 1099,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 131
+        },
+        "s60": {
+          "a": 0.6135,
+          "b": 0.3865,
+          "tie": 0.0,
+          "first": 0.6116700201207244,
+          "second": 0.6153081510934394,
+          "party_games": 708,
+          "gust_games": 1279,
+          "mega_games": 438,
+          "moons_games": 376,
+          "plusle_games": 187
+        }
+      }
+    },
+    "Iris's Fighting Spirit": {
+      "elapsed": 15.706771250348538,
+      "swap": {
+        "cut": "Iris's Fighting Spirit sv09-149",
+        "add": "Mega Clefable ex me03-031",
+        "counts": [
+          [
+            "Psychic Energy",
+            17
+          ],
+          [
+            "Clefairy",
+            4
+          ],
+          [
+            "Ledyba",
+            4
+          ],
+          [
+            "Ledian",
+            4
+          ],
+          [
+            "Darkness Energy",
+            3
+          ],
+          [
+            "Starly",
+            2
+          ],
+          [
+            "Staravia",
+            2
+          ],
+          [
+            "Staraptor",
+            2
+          ],
+          [
+            "Munkidori",
+            2
+          ],
+          [
+            "Mewtwo",
+            1
+          ],
+          [
+            "Flutter Mane",
+            1
+          ],
+          [
+            "Indeedee",
+            1
+          ],
+          [
+            "Relicanth",
+            1
+          ],
+          [
+            "Emolga",
+            1
+          ],
+          [
+            "Plusle",
+            1
+          ],
+          [
+            "Hop's Cramorant",
+            1
+          ],
+          [
+            "Kecleon",
+            1
+          ],
+          [
+            "Tulip",
+            1
+          ],
+          [
+            "Surfer",
+            1
+          ],
+          [
+            "Drayton",
+            1
+          ],
+          [
+            "Energy Retrieval",
+            1
+          ],
+          [
+            "Trekking Shoes",
+            1
+          ],
+          [
+            "Potion",
+            1
+          ],
+          [
+            "Energy Search",
+            1
+          ],
+          [
+            "Energy Switch",
+            1
+          ],
+          [
+            "Pok\u00e9 Ball",
+            1
+          ],
+          [
+            "Ultra Ball",
+            1
+          ],
+          [
+            "Boomerang Energy",
+            1
+          ],
+          [
+            "Mega Clefable ex",
+            1
+          ]
+        ]
+      },
+      "win_rate_a": [
+        0.1705,
+        0.068,
+        0.2205,
+        0.292,
+        0.446,
+        0.591
+      ],
+      "cells": {
+        "c60": {
+          "a": 0.1705,
+          "b": 0.8295,
+          "tie": 0.0,
+          "first": 0.16482412060301507,
+          "second": 0.1761194029850746,
+          "party_games": 1735,
+          "gust_games": 1169,
+          "mega_games": 847,
+          "moons_games": 526,
+          "plusle_games": 106
+        },
+        "d60": {
+          "a": 0.068,
+          "b": 0.932,
+          "tie": 0.0,
+          "first": 0.07537688442211055,
+          "second": 0.06069651741293532,
+          "party_games": 635,
+          "gust_games": 0,
+          "mega_games": 103,
+          "moons_games": 87,
+          "plusle_games": 59
+        },
+        "t60": {
+          "a": 0.2205,
+          "b": 0.7795,
+          "tie": 0.0,
+          "first": 0.22897669706180346,
+          "second": 0.21224086870681144,
+          "party_games": 607,
+          "gust_games": 846,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 84
+        },
+        "hedrick": {
+          "a": 0.292,
+          "b": 0.708,
+          "tie": 0.0,
+          "first": 0.2801980198019802,
+          "second": 0.30404040404040406,
+          "party_games": 575,
+          "gust_games": 988,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 113
+        },
+        "unl": {
+          "a": 0.446,
+          "b": 0.554,
+          "tie": 0.0,
+          "first": 0.442,
+          "second": 0.45,
+          "party_games": 701,
+          "gust_games": 1074,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 110
+        },
+        "s60": {
+          "a": 0.591,
+          "b": 0.409,
+          "tie": 0.0,
+          "first": 0.60546875,
+          "second": 0.5758196721311475,
+          "party_games": 804,
+          "gust_games": 1281,
+          "mega_games": 429,
+          "moons_games": 366,
+          "plusle_games": 181
+        }
+      }
+    },
+    "Energy Retrieval": {
+      "elapsed": 15.961482416838408,
+      "swap": {
+        "cut": "Energy Retrieval sv01-171",
+        "add": "Mega Clefable ex me03-031",
+        "counts": [
+          [
+            "Psychic Energy",
+            17
+          ],
+          [
+            "Clefairy",
+            4
+          ],
+          [
+            "Ledyba",
+            4
+          ],
+          [
+            "Ledian",
+            4
+          ],
+          [
+            "Darkness Energy",
+            3
+          ],
+          [
+            "Starly",
+            2
+          ],
+          [
+            "Staravia",
+            2
+          ],
+          [
+            "Staraptor",
+            2
+          ],
+          [
+            "Munkidori",
+            2
+          ],
+          [
+            "Mewtwo",
+            1
+          ],
+          [
+            "Flutter Mane",
+            1
+          ],
+          [
+            "Indeedee",
+            1
+          ],
+          [
+            "Relicanth",
+            1
+          ],
+          [
+            "Emolga",
+            1
+          ],
+          [
+            "Plusle",
+            1
+          ],
+          [
+            "Hop's Cramorant",
+            1
+          ],
+          [
+            "Kecleon",
+            1
+          ],
+          [
+            "Tulip",
+            1
+          ],
+          [
+            "Surfer",
+            1
+          ],
+          [
+            "Drayton",
+            1
+          ],
+          [
+            "Iris's Fighting Spirit",
+            1
+          ],
+          [
+            "Trekking Shoes",
+            1
+          ],
+          [
+            "Potion",
+            1
+          ],
+          [
+            "Energy Search",
+            1
+          ],
+          [
+            "Energy Switch",
+            1
+          ],
+          [
+            "Pok\u00e9 Ball",
+            1
+          ],
+          [
+            "Ultra Ball",
+            1
+          ],
+          [
+            "Boomerang Energy",
+            1
+          ],
+          [
+            "Mega Clefable ex",
+            1
+          ]
+        ]
+      },
+      "win_rate_a": [
+        0.149,
+        0.069,
+        0.231,
+        0.299,
+        0.407,
+        0.603
+      ],
+      "cells": {
+        "c60": {
+          "a": 0.149,
+          "b": 0.851,
+          "tie": 0.0,
+          "first": 0.15047021943573669,
+          "second": 0.1476510067114094,
+          "party_games": 1740,
+          "gust_games": 1231,
+          "mega_games": 858,
+          "moons_games": 535,
+          "plusle_games": 101
+        },
+        "d60": {
+          "a": 0.069,
+          "b": 0.931,
+          "tie": 0.0,
+          "first": 0.07551020408163266,
+          "second": 0.06274509803921569,
+          "party_games": 643,
+          "gust_games": 0,
+          "mega_games": 100,
+          "moons_games": 84,
+          "plusle_games": 57
+        },
+        "t60": {
+          "a": 0.231,
+          "b": 0.769,
+          "tie": 0.0,
+          "first": 0.24081632653061225,
+          "second": 0.22156862745098038,
+          "party_games": 614,
+          "gust_games": 916,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 60
+        },
+        "hedrick": {
+          "a": 0.299,
+          "b": 0.701,
+          "tie": 0.0,
+          "first": 0.2965853658536585,
+          "second": 0.30153846153846153,
+          "party_games": 608,
+          "gust_games": 1015,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 106
+        },
+        "unl": {
+          "a": 0.407,
+          "b": 0.593,
+          "tie": 0.0,
+          "first": 0.4323467230443975,
+          "second": 0.38425047438330173,
+          "party_games": 690,
+          "gust_games": 1121,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 121
+        },
+        "s60": {
+          "a": 0.603,
+          "b": 0.3965,
+          "tie": 0.0005,
+          "first": 0.617678381256656,
+          "second": 0.590009425070688,
+          "party_games": 776,
+          "gust_games": 1313,
+          "mega_games": 463,
+          "moons_games": 384,
+          "plusle_games": 186
+        }
+      }
+    },
+    "Trekking Shoes": {
+      "elapsed": 15.996289041824639,
+      "swap": {
+        "cut": "Trekking Shoes swsh12.5-145",
+        "add": "Mega Clefable ex me03-031",
+        "counts": [
+          [
+            "Psychic Energy",
+            17
+          ],
+          [
+            "Clefairy",
+            4
+          ],
+          [
+            "Ledyba",
+            4
+          ],
+          [
+            "Ledian",
+            4
+          ],
+          [
+            "Darkness Energy",
+            3
+          ],
+          [
+            "Starly",
+            2
+          ],
+          [
+            "Staravia",
+            2
+          ],
+          [
+            "Staraptor",
+            2
+          ],
+          [
+            "Munkidori",
+            2
+          ],
+          [
+            "Mewtwo",
+            1
+          ],
+          [
+            "Flutter Mane",
+            1
+          ],
+          [
+            "Indeedee",
+            1
+          ],
+          [
+            "Relicanth",
+            1
+          ],
+          [
+            "Emolga",
+            1
+          ],
+          [
+            "Plusle",
+            1
+          ],
+          [
+            "Hop's Cramorant",
+            1
+          ],
+          [
+            "Kecleon",
+            1
+          ],
+          [
+            "Tulip",
+            1
+          ],
+          [
+            "Surfer",
+            1
+          ],
+          [
+            "Drayton",
+            1
+          ],
+          [
+            "Iris's Fighting Spirit",
+            1
+          ],
+          [
+            "Energy Retrieval",
+            1
+          ],
+          [
+            "Potion",
+            1
+          ],
+          [
+            "Energy Search",
+            1
+          ],
+          [
+            "Energy Switch",
+            1
+          ],
+          [
+            "Pok\u00e9 Ball",
+            1
+          ],
+          [
+            "Ultra Ball",
+            1
+          ],
+          [
+            "Boomerang Energy",
+            1
+          ],
+          [
+            "Mega Clefable ex",
+            1
+          ]
+        ]
+      },
+      "win_rate_a": [
+        0.1695,
+        0.0815,
+        0.2305,
+        0.322,
+        0.436,
+        0.594
+      ],
+      "cells": {
+        "c60": {
+          "a": 0.1695,
+          "b": 0.8305,
+          "tie": 0.0,
+          "first": 0.1686746987951807,
+          "second": 0.17031872509960158,
+          "party_games": 1745,
+          "gust_games": 1182,
+          "mega_games": 856,
+          "moons_games": 531,
+          "plusle_games": 110
+        },
+        "d60": {
+          "a": 0.0815,
+          "b": 0.9185,
+          "tie": 0.0,
+          "first": 0.09178743961352658,
+          "second": 0.07046632124352331,
+          "party_games": 634,
+          "gust_games": 0,
+          "mega_games": 115,
+          "moons_games": 91,
+          "plusle_games": 53
+        },
+        "t60": {
+          "a": 0.2305,
+          "b": 0.7695,
+          "tie": 0.0,
+          "first": 0.23686818632309217,
+          "second": 0.22401614530776992,
+          "party_games": 586,
+          "gust_games": 868,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 79
+        },
+        "hedrick": {
+          "a": 0.322,
+          "b": 0.678,
+          "tie": 0.0,
+          "first": 0.325147347740668,
+          "second": 0.31873727087576376,
+          "party_games": 608,
+          "gust_games": 1011,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 102
+        },
+        "unl": {
+          "a": 0.436,
+          "b": 0.564,
+          "tie": 0.0,
+          "first": 0.44653465346534654,
+          "second": 0.42525252525252527,
+          "party_games": 697,
+          "gust_games": 1108,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 102
+        },
+        "s60": {
+          "a": 0.594,
+          "b": 0.406,
+          "tie": 0.0,
+          "first": 0.6041025641025641,
+          "second": 0.584390243902439,
+          "party_games": 769,
+          "gust_games": 1289,
+          "mega_games": 466,
+          "moons_games": 395,
+          "plusle_games": 196
+        }
+      }
+    },
+    "Potion": {
+      "elapsed": 15.894956458359957,
+      "swap": {
+        "cut": "Potion dp7-92",
+        "add": "Mega Clefable ex me03-031",
+        "counts": [
+          [
+            "Psychic Energy",
+            17
+          ],
+          [
+            "Clefairy",
+            4
+          ],
+          [
+            "Ledyba",
+            4
+          ],
+          [
+            "Ledian",
+            4
+          ],
+          [
+            "Darkness Energy",
+            3
+          ],
+          [
+            "Starly",
+            2
+          ],
+          [
+            "Staravia",
+            2
+          ],
+          [
+            "Staraptor",
+            2
+          ],
+          [
+            "Munkidori",
+            2
+          ],
+          [
+            "Mewtwo",
+            1
+          ],
+          [
+            "Flutter Mane",
+            1
+          ],
+          [
+            "Indeedee",
+            1
+          ],
+          [
+            "Relicanth",
+            1
+          ],
+          [
+            "Emolga",
+            1
+          ],
+          [
+            "Plusle",
+            1
+          ],
+          [
+            "Hop's Cramorant",
+            1
+          ],
+          [
+            "Kecleon",
+            1
+          ],
+          [
+            "Tulip",
+            1
+          ],
+          [
+            "Surfer",
+            1
+          ],
+          [
+            "Drayton",
+            1
+          ],
+          [
+            "Iris's Fighting Spirit",
+            1
+          ],
+          [
+            "Energy Retrieval",
+            1
+          ],
+          [
+            "Trekking Shoes",
+            1
+          ],
+          [
+            "Energy Search",
+            1
+          ],
+          [
+            "Energy Switch",
+            1
+          ],
+          [
+            "Pok\u00e9 Ball",
+            1
+          ],
+          [
+            "Ultra Ball",
+            1
+          ],
+          [
+            "Boomerang Energy",
+            1
+          ],
+          [
+            "Mega Clefable ex",
+            1
+          ]
+        ]
+      },
+      "win_rate_a": [
+        0.1735,
+        0.0725,
+        0.197,
+        0.31,
+        0.451,
+        0.6135
+      ],
+      "cells": {
+        "c60": {
+          "a": 0.1735,
+          "b": 0.8265,
+          "tie": 0.0,
+          "first": 0.17509727626459143,
+          "second": 0.17181069958847736,
+          "party_games": 1759,
+          "gust_games": 1191,
+          "mega_games": 888,
+          "moons_games": 548,
+          "plusle_games": 118
+        },
+        "d60": {
+          "a": 0.0725,
+          "b": 0.9275,
+          "tie": 0.0,
+          "first": 0.07575757575757576,
+          "second": 0.06930693069306931,
+          "party_games": 628,
+          "gust_games": 0,
+          "mega_games": 112,
+          "moons_games": 97,
+          "plusle_games": 59
+        },
+        "t60": {
+          "a": 0.197,
+          "b": 0.803,
+          "tie": 0.0,
+          "first": 0.2147783251231527,
+          "second": 0.17868020304568527,
+          "party_games": 637,
+          "gust_games": 861,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 53
+        },
+        "hedrick": {
+          "a": 0.31,
+          "b": 0.69,
+          "tie": 0.0,
+          "first": 0.31849653808110784,
+          "second": 0.301314459049545,
+          "party_games": 640,
+          "gust_games": 1041,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 95
+        },
+        "unl": {
+          "a": 0.451,
+          "b": 0.549,
+          "tie": 0.0,
+          "first": 0.4515463917525773,
+          "second": 0.45048543689320386,
+          "party_games": 738,
+          "gust_games": 1113,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 105
+        },
+        "s60": {
+          "a": 0.6135,
+          "b": 0.3865,
+          "tie": 0.0,
+          "first": 0.634858812074002,
+          "second": 0.590955806783145,
+          "party_games": 793,
+          "gust_games": 1255,
+          "mega_games": 480,
+          "moons_games": 408,
+          "plusle_games": 186
+        }
+      }
+    },
+    "Energy Switch": {
+      "elapsed": 15.855740709230304,
+      "swap": {
+        "cut": "Energy Switch swsh12.5-129",
+        "add": "Mega Clefable ex me03-031",
+        "counts": [
+          [
+            "Psychic Energy",
+            17
+          ],
+          [
+            "Clefairy",
+            4
+          ],
+          [
+            "Ledyba",
+            4
+          ],
+          [
+            "Ledian",
+            4
+          ],
+          [
+            "Darkness Energy",
+            3
+          ],
+          [
+            "Starly",
+            2
+          ],
+          [
+            "Staravia",
+            2
+          ],
+          [
+            "Staraptor",
+            2
+          ],
+          [
+            "Munkidori",
+            2
+          ],
+          [
+            "Mewtwo",
+            1
+          ],
+          [
+            "Flutter Mane",
+            1
+          ],
+          [
+            "Indeedee",
+            1
+          ],
+          [
+            "Relicanth",
+            1
+          ],
+          [
+            "Emolga",
+            1
+          ],
+          [
+            "Plusle",
+            1
+          ],
+          [
+            "Hop's Cramorant",
+            1
+          ],
+          [
+            "Kecleon",
+            1
+          ],
+          [
+            "Tulip",
+            1
+          ],
+          [
+            "Surfer",
+            1
+          ],
+          [
+            "Drayton",
+            1
+          ],
+          [
+            "Iris's Fighting Spirit",
+            1
+          ],
+          [
+            "Energy Retrieval",
+            1
+          ],
+          [
+            "Trekking Shoes",
+            1
+          ],
+          [
+            "Potion",
+            1
+          ],
+          [
+            "Energy Search",
+            1
+          ],
+          [
+            "Pok\u00e9 Ball",
+            1
+          ],
+          [
+            "Ultra Ball",
+            1
+          ],
+          [
+            "Boomerang Energy",
+            1
+          ],
+          [
+            "Mega Clefable ex",
+            1
+          ]
+        ]
+      },
+      "win_rate_a": [
+        0.1635,
+        0.0665,
+        0.209,
+        0.3025,
+        0.4235,
+        0.6175
+      ],
+      "cells": {
+        "c60": {
+          "a": 0.1635,
+          "b": 0.8365,
+          "tie": 0.0,
+          "first": 0.17688442211055277,
+          "second": 0.15024875621890546,
+          "party_games": 1767,
+          "gust_games": 1263,
+          "mega_games": 876,
+          "moons_games": 553,
+          "plusle_games": 114
+        },
+        "d60": {
+          "a": 0.0665,
+          "b": 0.9335,
+          "tie": 0.0,
+          "first": 0.07925636007827788,
+          "second": 0.053169734151329244,
+          "party_games": 608,
+          "gust_games": 0,
+          "mega_games": 126,
+          "moons_games": 104,
+          "plusle_games": 59
+        },
+        "t60": {
+          "a": 0.209,
+          "b": 0.791,
+          "tie": 0.0,
+          "first": 0.23742454728370221,
+          "second": 0.18091451292246521,
+          "party_games": 634,
+          "gust_games": 891,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 65
+        },
+        "hedrick": {
+          "a": 0.3025,
+          "b": 0.6975,
+          "tie": 0.0,
+          "first": 0.3303659742828882,
+          "second": 0.27401415571284127,
+          "party_games": 600,
+          "gust_games": 1023,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 102
+        },
+        "unl": {
+          "a": 0.4235,
+          "b": 0.5765,
+          "tie": 0.0,
+          "first": 0.4352126607319486,
+          "second": 0.4115267947421638,
+          "party_games": 707,
+          "gust_games": 1113,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 99
+        },
+        "s60": {
+          "a": 0.6175,
+          "b": 0.382,
+          "tie": 0.0005,
+          "first": 0.6169772256728778,
+          "second": 0.6179883945841392,
+          "party_games": 782,
+          "gust_games": 1282,
+          "mega_games": 456,
+          "moons_games": 403,
+          "plusle_games": 190
+        }
+      }
+    },
+    "Pok\u00e9 Ball": {
+      "elapsed": 15.576393417082727,
+      "swap": {
+        "cut": "Pok\u00e9 Ball swsh3.5-59",
+        "add": "Mega Clefable ex me03-031",
+        "counts": [
+          [
+            "Psychic Energy",
+            17
+          ],
+          [
+            "Clefairy",
+            4
+          ],
+          [
+            "Ledyba",
+            4
+          ],
+          [
+            "Ledian",
+            4
+          ],
+          [
+            "Darkness Energy",
+            3
+          ],
+          [
+            "Starly",
+            2
+          ],
+          [
+            "Staravia",
+            2
+          ],
+          [
+            "Staraptor",
+            2
+          ],
+          [
+            "Munkidori",
+            2
+          ],
+          [
+            "Mewtwo",
+            1
+          ],
+          [
+            "Flutter Mane",
+            1
+          ],
+          [
+            "Indeedee",
+            1
+          ],
+          [
+            "Relicanth",
+            1
+          ],
+          [
+            "Emolga",
+            1
+          ],
+          [
+            "Plusle",
+            1
+          ],
+          [
+            "Hop's Cramorant",
+            1
+          ],
+          [
+            "Kecleon",
+            1
+          ],
+          [
+            "Tulip",
+            1
+          ],
+          [
+            "Surfer",
+            1
+          ],
+          [
+            "Drayton",
+            1
+          ],
+          [
+            "Iris's Fighting Spirit",
+            1
+          ],
+          [
+            "Energy Retrieval",
+            1
+          ],
+          [
+            "Trekking Shoes",
+            1
+          ],
+          [
+            "Potion",
+            1
+          ],
+          [
+            "Energy Search",
+            1
+          ],
+          [
+            "Energy Switch",
+            1
+          ],
+          [
+            "Ultra Ball",
+            1
+          ],
+          [
+            "Boomerang Energy",
+            1
+          ],
+          [
+            "Mega Clefable ex",
+            1
+          ]
+        ]
+      },
+      "win_rate_a": [
+        0.1655,
+        0.0675,
+        0.2115,
+        0.3105,
+        0.453,
+        0.604
+      ],
+      "cells": {
+        "c60": {
+          "a": 0.1655,
+          "b": 0.8345,
+          "tie": 0.0,
+          "first": 0.17184466019417477,
+          "second": 0.15876288659793814,
+          "party_games": 1776,
+          "gust_games": 1227,
+          "mega_games": 865,
+          "moons_games": 517,
+          "plusle_games": 130
+        },
+        "d60": {
+          "a": 0.0675,
+          "b": 0.9325,
+          "tie": 0.0,
+          "first": 0.07272727272727272,
+          "second": 0.062376237623762376,
+          "party_games": 632,
+          "gust_games": 0,
+          "mega_games": 106,
+          "moons_games": 93,
+          "plusle_games": 57
+        },
+        "t60": {
+          "a": 0.2115,
+          "b": 0.7885,
+          "tie": 0.0,
+          "first": 0.23296032553407936,
+          "second": 0.19075712881022616,
+          "party_games": 607,
+          "gust_games": 901,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 66
+        },
+        "hedrick": {
+          "a": 0.3105,
+          "b": 0.6895,
+          "tie": 0.0,
+          "first": 0.31175298804780877,
+          "second": 0.3092369477911647,
+          "party_games": 589,
+          "gust_games": 987,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 96
+        },
+        "unl": {
+          "a": 0.453,
+          "b": 0.547,
+          "tie": 0.0,
+          "first": 0.4896551724137931,
+          "second": 0.4152284263959391,
+          "party_games": 695,
+          "gust_games": 1106,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 106
+        },
+        "s60": {
+          "a": 0.604,
+          "b": 0.3955,
+          "tie": 0.0005,
+          "first": 0.6184340931615461,
+          "second": 0.5893037336024218,
+          "party_games": 745,
+          "gust_games": 1329,
+          "mega_games": 417,
+          "moons_games": 355,
+          "plusle_games": 195
+        }
+      }
+    },
+    "Ultra Ball": {
+      "elapsed": 15.449244792107493,
+      "swap": {
+        "cut": "Ultra Ball sv04.5-091",
+        "add": "Mega Clefable ex me03-031",
+        "counts": [
+          [
+            "Psychic Energy",
+            17
+          ],
+          [
+            "Clefairy",
+            4
+          ],
+          [
+            "Ledyba",
+            4
+          ],
+          [
+            "Ledian",
+            4
+          ],
+          [
+            "Darkness Energy",
+            3
+          ],
+          [
+            "Starly",
+            2
+          ],
+          [
+            "Staravia",
+            2
+          ],
+          [
+            "Staraptor",
+            2
+          ],
+          [
+            "Munkidori",
+            2
+          ],
+          [
+            "Mewtwo",
+            1
+          ],
+          [
+            "Flutter Mane",
+            1
+          ],
+          [
+            "Indeedee",
+            1
+          ],
+          [
+            "Relicanth",
+            1
+          ],
+          [
+            "Emolga",
+            1
+          ],
+          [
+            "Plusle",
+            1
+          ],
+          [
+            "Hop's Cramorant",
+            1
+          ],
+          [
+            "Kecleon",
+            1
+          ],
+          [
+            "Tulip",
+            1
+          ],
+          [
+            "Surfer",
+            1
+          ],
+          [
+            "Drayton",
+            1
+          ],
+          [
+            "Iris's Fighting Spirit",
+            1
+          ],
+          [
+            "Energy Retrieval",
+            1
+          ],
+          [
+            "Trekking Shoes",
+            1
+          ],
+          [
+            "Potion",
+            1
+          ],
+          [
+            "Energy Search",
+            1
+          ],
+          [
+            "Energy Switch",
+            1
+          ],
+          [
+            "Pok\u00e9 Ball",
+            1
+          ],
+          [
+            "Boomerang Energy",
+            1
+          ],
+          [
+            "Mega Clefable ex",
+            1
+          ]
+        ]
+      },
+      "win_rate_a": [
+        0.1785,
+        0.0775,
+        0.1985,
+        0.3175,
+        0.444,
+        0.621
+      ],
+      "cells": {
+        "c60": {
+          "a": 0.1785,
+          "b": 0.8215,
+          "tie": 0.0,
+          "first": 0.17953861584754263,
+          "second": 0.17746759720837488,
+          "party_games": 1772,
+          "gust_games": 1178,
+          "mega_games": 929,
+          "moons_games": 582,
+          "plusle_games": 117
+        },
+        "d60": {
+          "a": 0.0775,
+          "b": 0.9225,
+          "tie": 0.0,
+          "first": 0.07768924302788845,
+          "second": 0.07730923694779117,
+          "party_games": 648,
+          "gust_games": 0,
+          "mega_games": 109,
+          "moons_games": 87,
+          "plusle_games": 50
+        },
+        "t60": {
+          "a": 0.1985,
+          "b": 0.8015,
+          "tie": 0.0,
+          "first": 0.2082051282051282,
+          "second": 0.18926829268292683,
+          "party_games": 604,
+          "gust_games": 901,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 66
+        },
+        "hedrick": {
+          "a": 0.3175,
+          "b": 0.6825,
+          "tie": 0.0,
+          "first": 0.3099703849950642,
+          "second": 0.3252279635258359,
+          "party_games": 600,
+          "gust_games": 1013,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 117
+        },
+        "unl": {
+          "a": 0.444,
+          "b": 0.556,
+          "tie": 0.0,
+          "first": 0.4593781344032096,
+          "second": 0.4287138584247258,
+          "party_games": 679,
+          "gust_games": 1130,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 121
+        },
+        "s60": {
+          "a": 0.621,
+          "b": 0.379,
+          "tie": 0.0,
+          "first": 0.6184857423795477,
+          "second": 0.6236012207527976,
+          "party_games": 771,
+          "gust_games": 1299,
+          "mega_games": 476,
+          "moons_games": 402,
+          "plusle_games": 193
+        }
+      }
+    },
+    "Boomerang Energy": {
+      "elapsed": 15.748594500124454,
+      "swap": {
+        "cut": "Boomerang Energy sv06-166",
+        "add": "Mega Clefable ex me03-031",
+        "counts": [
+          [
+            "Psychic Energy",
+            17
+          ],
+          [
+            "Clefairy",
+            4
+          ],
+          [
+            "Ledyba",
+            4
+          ],
+          [
+            "Ledian",
+            4
+          ],
+          [
+            "Darkness Energy",
+            3
+          ],
+          [
+            "Starly",
+            2
+          ],
+          [
+            "Staravia",
+            2
+          ],
+          [
+            "Staraptor",
+            2
+          ],
+          [
+            "Munkidori",
+            2
+          ],
+          [
+            "Mewtwo",
+            1
+          ],
+          [
+            "Flutter Mane",
+            1
+          ],
+          [
+            "Indeedee",
+            1
+          ],
+          [
+            "Relicanth",
+            1
+          ],
+          [
+            "Emolga",
+            1
+          ],
+          [
+            "Plusle",
+            1
+          ],
+          [
+            "Hop's Cramorant",
+            1
+          ],
+          [
+            "Kecleon",
+            1
+          ],
+          [
+            "Tulip",
+            1
+          ],
+          [
+            "Surfer",
+            1
+          ],
+          [
+            "Drayton",
+            1
+          ],
+          [
+            "Iris's Fighting Spirit",
+            1
+          ],
+          [
+            "Energy Retrieval",
+            1
+          ],
+          [
+            "Trekking Shoes",
+            1
+          ],
+          [
+            "Potion",
+            1
+          ],
+          [
+            "Energy Search",
+            1
+          ],
+          [
+            "Energy Switch",
+            1
+          ],
+          [
+            "Pok\u00e9 Ball",
+            1
+          ],
+          [
+            "Ultra Ball",
+            1
+          ],
+          [
+            "Mega Clefable ex",
+            1
+          ]
+        ]
+      },
+      "win_rate_a": [
+        0.161,
+        0.074,
+        0.209,
+        0.2985,
+        0.4195,
+        0.6125
+      ],
+      "cells": {
+        "c60": {
+          "a": 0.161,
+          "b": 0.839,
+          "tie": 0.0,
+          "first": 0.16730038022813687,
+          "second": 0.1540084388185654,
+          "party_games": 1767,
+          "gust_games": 1210,
+          "mega_games": 905,
+          "moons_games": 568,
+          "plusle_games": 99
+        },
+        "d60": {
+          "a": 0.074,
+          "b": 0.926,
+          "tie": 0.0,
+          "first": 0.07459677419354839,
+          "second": 0.07341269841269842,
+          "party_games": 631,
+          "gust_games": 0,
+          "mega_games": 107,
+          "moons_games": 93,
+          "plusle_games": 50
+        },
+        "t60": {
+          "a": 0.209,
+          "b": 0.791,
+          "tie": 0.0,
+          "first": 0.23362658846529813,
+          "second": 0.18321392016376664,
+          "party_games": 605,
+          "gust_games": 894,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 59
+        },
+        "hedrick": {
+          "a": 0.2985,
+          "b": 0.7015,
+          "tie": 0.0,
+          "first": 0.3070259865255053,
+          "second": 0.2892819979188345,
+          "party_games": 594,
+          "gust_games": 1006,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 107
+        },
+        "unl": {
+          "a": 0.4195,
+          "b": 0.5805,
+          "tie": 0.0,
+          "first": 0.42527582748244735,
+          "second": 0.4137587238285145,
+          "party_games": 681,
+          "gust_games": 1134,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 109
+        },
+        "s60": {
+          "a": 0.6125,
+          "b": 0.3875,
+          "tie": 0.0,
+          "first": 0.6075949367088608,
+          "second": 0.6176772867420349,
+          "party_games": 792,
+          "gust_games": 1315,
+          "mega_games": 475,
+          "moons_games": 399,
+          "plusle_games": 178
+        }
+      }
+    },
+    "Psychic Energy": {
+      "elapsed": 15.942078750114888,
+      "swap": {
+        "cut": "Psychic Energy swsh12.5-156",
+        "add": "Mega Clefable ex me03-031",
+        "counts": [
+          [
+            "Psychic Energy",
+            16
+          ],
+          [
+            "Clefairy",
+            4
+          ],
+          [
+            "Ledyba",
+            4
+          ],
+          [
+            "Ledian",
+            4
+          ],
+          [
+            "Darkness Energy",
+            3
+          ],
+          [
+            "Starly",
+            2
+          ],
+          [
+            "Staravia",
+            2
+          ],
+          [
+            "Staraptor",
+            2
+          ],
+          [
+            "Munkidori",
+            2
+          ],
+          [
+            "Mewtwo",
+            1
+          ],
+          [
+            "Flutter Mane",
+            1
+          ],
+          [
+            "Indeedee",
+            1
+          ],
+          [
+            "Relicanth",
+            1
+          ],
+          [
+            "Emolga",
+            1
+          ],
+          [
+            "Plusle",
+            1
+          ],
+          [
+            "Hop's Cramorant",
+            1
+          ],
+          [
+            "Kecleon",
+            1
+          ],
+          [
+            "Tulip",
+            1
+          ],
+          [
+            "Surfer",
+            1
+          ],
+          [
+            "Drayton",
+            1
+          ],
+          [
+            "Iris's Fighting Spirit",
+            1
+          ],
+          [
+            "Energy Retrieval",
+            1
+          ],
+          [
+            "Trekking Shoes",
+            1
+          ],
+          [
+            "Potion",
+            1
+          ],
+          [
+            "Energy Search",
+            1
+          ],
+          [
+            "Energy Switch",
+            1
+          ],
+          [
+            "Pok\u00e9 Ball",
+            1
+          ],
+          [
+            "Ultra Ball",
+            1
+          ],
+          [
+            "Boomerang Energy",
+            1
+          ],
+          [
+            "Mega Clefable ex",
+            1
+          ]
+        ]
+      },
+      "win_rate_a": [
+        0.154,
+        0.0715,
+        0.2285,
+        0.283,
+        0.434,
+        0.5925
+      ],
+      "cells": {
+        "c60": {
+          "a": 0.154,
+          "b": 0.846,
+          "tie": 0.0,
+          "first": 0.16354679802955666,
+          "second": 0.14416243654822336,
+          "party_games": 1762,
+          "gust_games": 1195,
+          "mega_games": 878,
+          "moons_games": 523,
+          "plusle_games": 106
+        },
+        "d60": {
+          "a": 0.0715,
+          "b": 0.9285,
+          "tie": 0.0,
+          "first": 0.07591093117408906,
+          "second": 0.06719367588932806,
+          "party_games": 637,
+          "gust_games": 0,
+          "mega_games": 110,
+          "moons_games": 83,
+          "plusle_games": 50
+        },
+        "t60": {
+          "a": 0.2285,
+          "b": 0.7715,
+          "tie": 0.0,
+          "first": 0.22700587084148727,
+          "second": 0.23006134969325154,
+          "party_games": 647,
+          "gust_games": 903,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 60
+        },
+        "hedrick": {
+          "a": 0.283,
+          "b": 0.717,
+          "tie": 0.0,
+          "first": 0.27715736040609135,
+          "second": 0.28866995073891627,
+          "party_games": 617,
+          "gust_games": 1014,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 95
+        },
+        "unl": {
+          "a": 0.434,
+          "b": 0.566,
+          "tie": 0.0,
+          "first": 0.45517241379310347,
+          "second": 0.4121827411167513,
+          "party_games": 688,
+          "gust_games": 1111,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 112
+        },
+        "s60": {
+          "a": 0.5925,
+          "b": 0.4075,
+          "tie": 0.0,
+          "first": 0.6118226600985222,
+          "second": 0.5725888324873096,
+          "party_games": 799,
+          "gust_games": 1327,
+          "mega_games": 471,
+          "moons_games": 402,
+          "plusle_games": 182
+        }
+      }
+    },
+    "Munkidori": {
+      "elapsed": 14.926175042055547,
+      "swap": {
+        "cut": "Munkidori sv06-095",
+        "add": "Mega Clefable ex me03-031",
+        "counts": [
+          [
+            "Psychic Energy",
+            17
+          ],
+          [
+            "Clefairy",
+            4
+          ],
+          [
+            "Ledyba",
+            4
+          ],
+          [
+            "Ledian",
+            4
+          ],
+          [
+            "Darkness Energy",
+            3
+          ],
+          [
+            "Starly",
+            2
+          ],
+          [
+            "Staravia",
+            2
+          ],
+          [
+            "Staraptor",
+            2
+          ],
+          [
+            "Munkidori",
+            1
+          ],
+          [
+            "Mewtwo",
+            1
+          ],
+          [
+            "Flutter Mane",
+            1
+          ],
+          [
+            "Indeedee",
+            1
+          ],
+          [
+            "Relicanth",
+            1
+          ],
+          [
+            "Emolga",
+            1
+          ],
+          [
+            "Plusle",
+            1
+          ],
+          [
+            "Hop's Cramorant",
+            1
+          ],
+          [
+            "Kecleon",
+            1
+          ],
+          [
+            "Tulip",
+            1
+          ],
+          [
+            "Surfer",
+            1
+          ],
+          [
+            "Drayton",
+            1
+          ],
+          [
+            "Iris's Fighting Spirit",
+            1
+          ],
+          [
+            "Energy Retrieval",
+            1
+          ],
+          [
+            "Trekking Shoes",
+            1
+          ],
+          [
+            "Potion",
+            1
+          ],
+          [
+            "Energy Search",
+            1
+          ],
+          [
+            "Energy Switch",
+            1
+          ],
+          [
+            "Pok\u00e9 Ball",
+            1
+          ],
+          [
+            "Ultra Ball",
+            1
+          ],
+          [
+            "Boomerang Energy",
+            1
+          ],
+          [
+            "Mega Clefable ex",
+            1
+          ]
+        ]
+      },
+      "win_rate_a": [
+        0.1405,
+        0.078,
+        0.1945,
+        0.296,
+        0.42,
+        0.6035
+      ],
+      "cells": {
+        "c60": {
+          "a": 0.1405,
+          "b": 0.8595,
+          "tie": 0.0,
+          "first": 0.14944834503510532,
+          "second": 0.13160518444666003,
+          "party_games": 1741,
+          "gust_games": 1198,
+          "mega_games": 829,
+          "moons_games": 505,
+          "plusle_games": 111
+        },
+        "d60": {
+          "a": 0.078,
+          "b": 0.922,
+          "tie": 0.0,
+          "first": 0.09601634320735444,
+          "second": 0.06072477962781587,
+          "party_games": 609,
+          "gust_games": 0,
+          "mega_games": 94,
+          "moons_games": 82,
+          "plusle_games": 46
+        },
+        "t60": {
+          "a": 0.1945,
+          "b": 0.8055,
+          "tie": 0.0,
+          "first": 0.2014098690835851,
+          "second": 0.18768619662363456,
+          "party_games": 668,
+          "gust_games": 881,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 74
+        },
+        "hedrick": {
+          "a": 0.296,
+          "b": 0.704,
+          "tie": 0.0,
+          "first": 0.3285859613428281,
+          "second": 0.26450344149459193,
+          "party_games": 635,
+          "gust_games": 1015,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 114
+        },
+        "unl": {
+          "a": 0.42,
+          "b": 0.58,
+          "tie": 0.0,
+          "first": 0.42648490749756574,
+          "second": 0.4131551901336074,
+          "party_games": 700,
+          "gust_games": 1116,
+          "mega_games": 0,
+          "moons_games": 0,
+          "plusle_games": 104
+        },
+        "s60": {
+          "a": 0.6035,
+          "b": 0.3965,
+          "tie": 0.0,
+          "first": 0.5968534906588004,
+          "second": 0.6103763987792472,
+          "party_games": 806,
+          "gust_games": 1302,
+          "mega_games": 508,
+          "moons_games": 435,
+          "plusle_games": 158
+        }
+      }
+    }
+  },
+  "elapsed": 359.3823641706258
+}
