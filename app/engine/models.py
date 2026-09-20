@@ -361,6 +361,8 @@ S60_SEED_IDS = frozenset(
         "seed-h",
         "seed-c60",
         "seed-d60",
+        "seed-m",
+        "seed-m60",
         "seed-s60",
         "seed-t60",
         "seed-t-meta",
