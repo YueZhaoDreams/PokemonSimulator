@@ -94,3 +94,15 @@ def test_seed_t_moves_from_rule_b_to_standard_30(tmp_path, monkeypatch):
         conn.execute("UPDATE decks SET rules_json=? WHERE id='seed-t'", ('["b"]',))
     init_db()
     assert get_deck("seed-t")["rule_presets"] == ["s30"]
+
+
+def test_seed_m_moves_from_rule_b_to_standard_60(tmp_path, monkeypatch):
+    monkeypatch.setattr("app.db.DB_PATH", tmp_path / "app.db")
+    from app.db import connect, get_deck, init_db
+
+    init_db()
+    with connect() as conn:
+        conn.execute("UPDATE decks SET rules_json=? WHERE id='seed-m60'", ('["b"]',))
+    init_db()
+    assert get_deck("seed-m60")["rule_presets"] == ["s60"]
+

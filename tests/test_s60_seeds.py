@@ -5,6 +5,7 @@ from app.seed_data import (
     SET_C60_NAMES,
     SET_D60_NAMES,
     SET_G30_NAMES,
+    SET_M60_NAMES,
     SET_S60_NAMES,
     SET_T60_NAMES,
     SET_T_META_NAMES,
@@ -19,6 +20,7 @@ def test_s60_lab_lists_are_seed_decks():
     want = {
         "c60": ("seed-c60", "Set C Standard 60 (Clefairy / Mewtwo)", SET_C60_NAMES),
         "d60": ("seed-d60", "Set D Standard 60 (Charm Ogerpon)", SET_D60_NAMES),
+        "m60": ("seed-m60", "Set M Standard 60 (Zero-Energy Mew ex / Baby Box)", SET_M60_NAMES),
         "s60": ("seed-s60", "Set S Standard 60 (Floragato hunter)", SET_S60_NAMES),
         "t60": ("seed-t60", "Set T Standard 60 (Dragapult ex)", SET_T60_NAMES),
         "t-meta": ("seed-t-meta", "Worlds 2026 Hedrick Dragapult", SET_T_META_NAMES),

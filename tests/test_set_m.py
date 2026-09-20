@@ -3,7 +3,7 @@ from __future__ import annotations
 from random import Random
 
 from app.engine.game import play_game
-from app.engine.models import standard_60_rules
+from app.engine.models import S60_SEED_IDS, default_rule_presets_for, standard_60_rules
 from app.engine.strategies import StrategySpec
 from app.seed import load_seed_deck
 from app.seed_data import (
@@ -42,9 +42,13 @@ def test_load_seed_deck_m():
     assert deck_m60["id"] == "seed-m60"
     assert "Mew ex" in deck_m60["name"]
     assert len(deck_m60["cards"]) == 60
+    assert default_rule_presets_for("seed-m60") == ["s60"]
+    assert "seed-m60" in S60_SEED_IDS
 
     deck_m = load_seed_deck("m")
     assert len(deck_m["cards"]) == 60
+    assert default_rule_presets_for("seed-m") == ["s60"]
+    assert "seed-m" in S60_SEED_IDS
 
     deck_alias = load_seed_deck("mew")
     assert deck_alias["id"] == deck_m60["id"]
