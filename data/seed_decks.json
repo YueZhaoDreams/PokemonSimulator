@@ -23649,6 +23649,62 @@
         "dex_id": null
       },
       {
+        "catalog_id": "me04-066",
+        "name": "Mew ex",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 160,
+        "attacks": [
+          {
+            "name": "Teleportation Burst",
+            "cost": [
+              "Psychic"
+            ],
+            "damage": 30,
+            "text": "You may switch this Pok\u00e9mon with 1 of your Benched Pok\u00e9mon.",
+            "effects": [
+              {
+                "kind": "switch_with_benched"
+              }
+            ]
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Memory Helix",
+            "text": "This Pok\u00e9mon can use the attacks of any of your Benched Pok\u00e9mon. (You still need the necessary Energy to use each attack.)",
+            "effects": [
+              {
+                "kind": "copy_benched_attacks"
+              }
+            ]
+          }
+        ],
+        "weaknesses": [
+          {
+            "type": "Darkness",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [
+          {
+            "type": "Fighting",
+            "value": "-30"
+          }
+        ],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/me04/me04/066/low.webp",
+        "set_name": "30th Celebration",
+        "text": "",
+        "dex_id": null
+      },
+      {
         "catalog_id": "sv04.5-031",
         "name": "Mime Jr.",
         "category": "Pokemon",
@@ -23725,6 +23781,45 @@
         "energy_type": null,
         "image": "https://assets.tcgdex.net/en/sv/sv04.5/031/low.webp",
         "set_name": "Paldean Fates",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "me04-120",
+        "name": "Igglybuff",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Colorless"
+        ],
+        "hp": 30,
+        "attacks": [
+          {
+            "name": "Bouncy Circle",
+            "cost": [],
+            "damage": 0,
+            "text": "This attack does 30 damage for each of your Benched Pok\u00e9mon that has a maximum HP of 30.",
+            "effects": [
+              {
+                "kind": "benched_30hp_pokemon_times",
+                "per": 30
+              },
+              {
+                "kind": "times",
+                "note": "This attack does 30 damage for each of your Benched Pok\u00e9mon that has a maximum HP of 30."
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/me04/me04/120/low.webp",
+        "set_name": "30th Celebration",
         "text": "",
         "dex_id": null
       },
@@ -24450,6 +24545,26 @@
         "image": "https://assets.tcgdex.net/en/me/me02/085/low.webp",
         "set_name": null,
         "text": "Prevent all damage counters from being placed on Benched Pok\u00e9mon (both yours and your opponent's) by effects of attacks and Abilities from the opponent's Pok\u00e9mon. (Damage from attacks is still taken.)",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv02-173",
+        "name": "Bravery Charm",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv02/173/low.webp",
+        "set_name": null,
+        "text": "The Basic Pok\u00e9mon this card is attached to gets +50 HP.",
         "dex_id": null
       },
       {
@@ -24870,66 +24985,6 @@
         "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/125/low.webp",
         "set_name": null,
         "text": "Flip a coin. If heads, discard an Energy from 1 of your opponent's Pok\u00e9mon.",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "sv01-194",
-        "name": "Switch",
-        "category": "Trainer",
-        "stage": "Item",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "item",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv01/194/low.webp",
-        "set_name": null,
-        "text": "Switch your Active Pok\u00e9mon with 1 of your Benched Pok\u00e9mon.",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "sv01-194",
-        "name": "Switch",
-        "category": "Trainer",
-        "stage": "Item",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "item",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv01/194/low.webp",
-        "set_name": null,
-        "text": "Switch your Active Pok\u00e9mon with 1 of your Benched Pok\u00e9mon.",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "sv01-194",
-        "name": "Switch",
-        "category": "Trainer",
-        "stage": "Item",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "item",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv01/194/low.webp",
-        "set_name": null,
-        "text": "Switch your Active Pok\u00e9mon with 1 of your Benched Pok\u00e9mon.",
         "dex_id": null
       },
       {

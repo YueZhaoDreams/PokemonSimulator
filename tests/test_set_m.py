@@ -21,20 +21,22 @@ def test_set_m_card_count_and_composition():
     assert SET_M_NAMES == SET_M60_NAMES
 
     # Count Pokémon
-    assert SET_M60_NAMES.count("Mew ex") == 3
+    assert SET_M60_NAMES.count("Mew ex") == 4
     assert SET_M60_NAMES.count("Mime Jr.") == 2
-    assert SET_M60_NAMES.count("Igglybuff") == 3
+    assert SET_M60_NAMES.count("Igglybuff") == 4
     assert SET_M60_NAMES.count("Budew") == 3
     assert SET_M60_NAMES.count("Cleffa") == 2
-    total_pokemon = 3 + 2 + 3 + 3 + 2
-    assert total_pokemon == 13
+    total_pokemon = 4 + 2 + 4 + 3 + 2
+    assert total_pokemon == 15
 
     # Count Key Trainers
     assert SET_M60_NAMES.count("Buddy-Buddy Poffin") == 4
     assert SET_M60_NAMES.count("Battle Cage") == 4
+    assert SET_M60_NAMES.count("Bravery Charm") == 4
     assert SET_M60_NAMES.count("Maximum Belt") == 1
     assert SET_M60_NAMES.count("Night Stretcher") == 4
     assert SET_M60_NAMES.count("Crushing Hammer") == 4
+    assert SET_M60_NAMES.count("Switch") == 1
 
 
 def test_load_seed_deck_m():
