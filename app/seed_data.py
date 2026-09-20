@@ -727,13 +727,13 @@ _register(
 )
 _register(
     Card(
-        catalog_id="sv01-185",
+        catalog_id="sv02-185",
         name="Iono",
         category="Trainer",
         stage="Supporter",
         trainer_kind="supporter",
         text="Each player shuffles their hand into their deck. Then, you draw a card for each of your remaining Prize cards, and your opponent does the same.",
-        image="https://assets.tcgdex.net/en/sv/sv01/185/low.webp",
+        image="https://assets.tcgdex.net/en/sv/sv02/185/low.webp",
         retreat=0,
     )
 )
