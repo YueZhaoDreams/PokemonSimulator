@@ -32,7 +32,7 @@ from app.seed_data import (
     build_g30_deck,
 )
 
-LIST_KEYS = ("a", "b", "c", "d", "e", "f", "g", "h", "m", "s", "t", "c60", "d60", "m60", "s60", "t60", "t-meta", "t-unl", "g30")
+LIST_KEYS = ("a", "b", "c", "d", "e", "f", "g", "h", "s", "t", "c60", "d60", "m60", "s60", "t60", "t-meta", "t-unl", "g30")
 SEED_KEYS = (*LIST_KEYS, "spare")
 
 SEED_PATH = DATA_DIR / "seed_decks.json"
@@ -141,7 +141,6 @@ def load_seed_payload() -> dict:
             ("f", SET_F_NAMES),
             ("g", SET_G_NAMES),
             ("h", SET_H_NAMES),
-            ("m", SET_M_NAMES),
             ("s", SET_S_NAMES),
             ("t", SET_T_NAMES),
             ("c60", SET_C60_NAMES),
@@ -409,7 +408,6 @@ def _cd_payload(enrich: bool = True) -> dict:
     cards_h = _assign_named_prints(cards_h, "Pikachu", [nuzzle, shock])
     cards_s = _repeat_named_cards(list(SET_S_NAMES), enrich)
     cards_t = _repeat_named_cards(list(SET_T_NAMES), enrich)
-    cards_m = _repeat_named_cards(list(SET_M_NAMES), enrich)
     cards_c60 = _repeat_named_cards(list(SET_C60_NAMES), enrich)
     cards_d60 = _repeat_named_cards(list(SET_D60_NAMES), enrich)
     cards_m60 = _repeat_named_cards(list(SET_M60_NAMES), enrich)
@@ -473,13 +471,6 @@ def _cd_payload(enrich: bool = True) -> dict:
             "sample": None,
             "kind": "list",
             "cards": [c.to_dict() if isinstance(c, Card) else c for c in cards_t],
-        },
-        "m": {
-            "id": "seed-m",
-            "name": "Set M (Zero-Energy Mew ex / Baby Box)",
-            "sample": None,
-            "kind": "list",
-            "cards": [c.to_dict() if isinstance(c, Card) else c for c in cards_m],
         },
         "m60": {
             "id": "seed-m60",
