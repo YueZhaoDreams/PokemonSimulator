@@ -2633,7 +2633,7 @@ _GIMMIGHOUL_30TH = _pkm(
     catalog_id="me04-081",
     weakness="Fire",
     resistances=[{"type": "Grass", "value": "-30"}],
-    image="https://assets.tcgdex.net/en/me04/me04/081/low.webp",
+    image="https://assets.tcgdex.net/en/me/me04/081/low.webp",
     set_name="30th Celebration",
 )
 FALLBACK_BY_NAME["gimmighoul 30th"] = _GIMMIGHOUL_30TH
@@ -2658,7 +2658,7 @@ _register(
         weakness="Fire",
         resistances=[{"type": "Grass", "value": "-30"}],
         retreat=2,
-        image="https://assets.tcgdex.net/en/me04/me04/108/low.webp",
+        image="https://assets.tcgdex.net/en/me/me04/108/low.webp",
         set_name="30th Celebration",
     )
 )
@@ -2681,7 +2681,7 @@ _register(
         resistances=[{"type": "Fighting", "value": "-30"}],
         retreat=0,
         abilities=[Ability(name="Memory Helix", text=_MEMORY_HELIX_TEXT)],
-        image="https://assets.tcgdex.net/en/me04/me04/066/low.webp",
+        image="https://assets.tcgdex.net/en/me/me04/066/low.webp",
         set_name="30th Celebration",
     )
 )
@@ -2701,7 +2701,7 @@ _register(
         ],
         catalog_id="me04-120",
         retreat=0,
-        image="https://assets.tcgdex.net/en/me04/me04/120/low.webp",
+        image="https://assets.tcgdex.net/en/me/me04/120/low.webp",
         set_name="30th Celebration",
     )
 )
