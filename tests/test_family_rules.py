@@ -267,8 +267,11 @@ def test_seed_decks_include_set_c_and_d():
     assert s_names.count("Grass Energy") == 2
     assert len(t_names) == 30
     assert len(g_names) == 60
-    assert g_names.count("Boomerang Energy") == 1
-    assert g_names.count("Staraptor") == 2
+    assert g_names.count("Boomerang Energy") == 0
+    assert g_names.count("Staraptor") == 1
+    assert g_names.count("Nest Ball") == 4
+    assert g_names.count("Clefable ex") == 3
+    assert g_names.count("Switch") == 2
     assert g_names.count("Clefairy") == 4
     assert t_names.count("Dreepy") == 2
     assert t_names.count("Drakloak") == 2

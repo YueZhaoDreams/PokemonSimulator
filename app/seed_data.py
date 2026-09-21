@@ -478,8 +478,9 @@ SET_G_FRIDAY_NAMES = (
 # Relicanth / Indeedee, plus the 4 Buddy-Buddy Poffin playset (C60 staple).
 # Keeps Kecleon as the 11th Poffin target, the bird line, 4/4 Ledian,
 # 3 Darkness, 17 Psychic, Mega, Ultra Ball, Energy Switch, all 4 supporters.
+# Frozen so the poffin lab stays reproducible after later arrivals.
 # See data/lab/set-g-poffin-c60.md.
-SET_G_NAMES = (
+SET_G_POFFIN_NAMES = (
     ["Clefairy"] * 4
     + ["Ledyba"] * 4
     + ["Ledian"] * 4
@@ -504,6 +505,35 @@ SET_G_NAMES = (
     + ["Psychic Energy"] * 17
     + ["Darkness Energy"] * 3
     + ["Boomerang Energy"]
+)
+# Carpet Set G — Nest / Zone lock. Poffin list minus one Starly, one Staravia,
+# one Staraptor, Surfer, Kecleon, Boomerang Energy, Flutter Mane, Energy Search,
+# Trekking Shoes, and Tulip. In: 4 Nest Ball, 3 Clefable ex, a second Energy
+# Switch, 2 Switch. Bird line stays 1-1-1; Ledian stays 4/4.
+# Confirm 3000 games, seed 20260921: t60 20.9→23.9, Hedrick 29.8→34.6,
+# D60 5.6→5.4, UNL 44.5→49.3, C60 21.7→22.2, S60 69.8→74.8, H 95.8→96.4.
+# See data/lab/set-g-nest-zone.md.
+SET_G_NAMES = (
+    ["Clefairy"] * 4
+    + ["Ledyba"] * 4
+    + ["Ledian"] * 4
+    + ["Starly"]
+    + ["Staravia"]
+    + ["Staraptor"]
+    + ["Munkidori"] * 2
+    + ["Mega Clefable ex"]
+    + ["Clefable ex"] * 3
+    + ["Drayton"]
+    + ["Iris's Fighting Spirit"]
+    + ["Energy Retrieval"]
+    + ["Energy Switch"] * 2
+    + ["Ultra Ball"]
+    + ["Nest Ball"] * 4
+    + ["Switch"] * 2
+    + ["Buddy-Buddy Poffin"] * 4
+    + ["Boss's Orders"] * 3
+    + ["Psychic Energy"] * 17
+    + ["Darkness Energy"] * 3
 )
 
 # Carpet Set H — 60-card beige-carpet photo (data/samples/set-h-carpet.jpg), Standard s60.

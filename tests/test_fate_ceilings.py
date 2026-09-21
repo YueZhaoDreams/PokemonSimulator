@@ -41,19 +41,17 @@ def test_set_g_matches_draw_probability_and_caps_from_s60():
         assert abs(row["p_opening"] - expected["p_at_least_one"]) < 1e-9
 
     ledian = _row(report, "Ledian")
-    kecleon = _row(report, "Kecleon")
+    mega = _row(report, "Mega Clefable ex")
     assert ledian["copies"] == 4 and ledian["copy_cap"] == 4 and ledian["at_cap"] is True
-    assert kecleon["copies"] == 1 and kecleon["at_cap"] is False
-    assert ledian["p_opening"] > kecleon["p_opening"]
-    assert abs(kecleon["p_opening"] - 7 / 60) < 1e-9
+    assert mega["copies"] == 1 and mega["at_cap"] is False
+    assert ledian["p_opening"] > mega["p_opening"]
+    assert abs(mega["p_opening"] - 7 / 60) < 1e-9
 
     psychic = _row(report, "Psychic Energy")
     assert psychic["copies"] == 17 and psychic["copy_cap"] is None and psychic["over_cap"] is False
-    boomerang = _row(report, "Boomerang Energy")
-    assert boomerang["copy_cap"] == 4
+    switch = _row(report, "Switch")
+    assert switch["copies"] == 2 and switch["copy_cap"] == 4
 
-    mega = _row(report, "Mega Clefable ex")
-    assert mega["copies"] == 1 and mega["at_cap"] is False
     assert all(row["name"] != "Emolga" for row in report["names"])
 
 
@@ -78,10 +76,10 @@ def test_set_g_has_no_unconditional_draw_operator():
     report = compute_ceilings(cards, rules_from_preset("s60"))
     assert report["effective_seen"] == report["opening_hand"] == 7
     listed = {op["name"]: op for op in report["draw_operators"]}
-    # Surfer draws until 5 in hand: shown, not counted, no amount invented.
-    assert listed["Surfer"]["counted"] is False
-    assert listed["Surfer"]["amount"] is None
-    assert listed["Surfer"]["kind"] == "draw_until_hand"
+    # Iris draws until 6 in hand: shown, not counted, no amount invented.
+    assert listed["Iris's Fighting Spirit"]["counted"] is False
+    assert listed["Iris's Fighting Spirit"]["amount"] is None
+    assert listed["Iris's Fighting Spirit"]["kind"] == "draw_until_hand"
     for row in report["names"]:
         assert row["p_seen"] == row["p_opening"]
         assert row["p_gain"] == 0
@@ -107,7 +105,7 @@ def test_printed_draw_three_raises_seen_cards_by_three():
         "source": "Draw 3 cards.",
     }
 
-    one_of = _row(report, "Kecleon")
+    one_of = _row(report, "Mega Clefable ex")
     assert abs(one_of["p_gain"] - 3 / 60) < 1e-6
 
     four_of = _row(report, "Ledian")

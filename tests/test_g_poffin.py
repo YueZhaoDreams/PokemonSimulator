@@ -2,7 +2,7 @@ from collections import Counter
 
 from app.engine.legality import copy_violations
 from app.engine.models import standard_60_rules
-from app.seed_data import SET_G_FRIDAY_NAMES, SET_G_NAMES, build_fallback_deck
+from app.seed_data import SET_G_FRIDAY_NAMES, SET_G_NAMES, SET_G_POFFIN_NAMES, build_fallback_deck
 
 
 def _load(name: str):
@@ -38,8 +38,9 @@ def test_friday_base_has_no_poffin_or_mewtwo():
 
 
 def test_poffin_lock_is_friday_minus_four_singletons():
-    locked = Counter(SET_G_NAMES)
+    locked = Counter(SET_G_POFFIN_NAMES)
     friday = Counter(SET_G_FRIDAY_NAMES)
+    assert len(SET_G_POFFIN_NAMES) == 60
     assert len(SET_G_NAMES) == 60
     assert locked["Buddy-Buddy Poffin"] == 4
     assert locked["Tornadus"] == 0
@@ -54,6 +55,7 @@ def test_poffin_lock_is_friday_minus_four_singletons():
         {"Tornadus": 1, "Hop's Cramorant": 1, "Relicanth": 1, "Indeedee": 1}
     )
     assert locked - friday == Counter({"Buddy-Buddy Poffin": 4})
+    assert copy_violations(build_fallback_deck(list(SET_G_POFFIN_NAMES)), standard_60_rules()) == []
     assert copy_violations(build_fallback_deck(list(SET_G_NAMES)), standard_60_rules()) == []
 
 

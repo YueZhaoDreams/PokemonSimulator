@@ -8,10 +8,11 @@ from app.seed_data import SET_G_NAMES, build_fallback_deck, fallback_named
 def test_set_g_is_sixty_after_staraptor_energy_swap():
     assert len(SET_G_NAMES) == 60
     names = list(SET_G_NAMES)
-    assert names.count("Staravia") == 2
-    assert names.count("Staraptor") == 2
+    assert names.count("Starly") == 1
+    assert names.count("Staravia") == 1
+    assert names.count("Staraptor") == 1
     assert names.count("Plusle") == 0
-    assert names.count("Kecleon") == 1
+    assert names.count("Kecleon") == 0
     assert names.count("Potion") == 0
     assert names.count("Poké Ball") == 0
     assert names.count("Boss's Orders") == 3
@@ -27,21 +28,25 @@ def test_set_g_is_sixty_after_staraptor_energy_swap():
     assert names.count("Misdreavus") == 0
     assert names.count("Psychic Energy") == 17
     assert names.count("Darkness Energy") == 3
-    assert names.count("Boomerang Energy") == 1
+    assert names.count("Boomerang Energy") == 0
     assert names.count("Clefairy") == 4
     assert names.count("Ledyba") == 4
     assert names.count("Ledian") == 4
     assert names.count("Mega Clefable ex") == 1
+    assert names.count("Clefable ex") == 3
+    assert names.count("Nest Ball") == 4
+    assert names.count("Switch") == 2
+    assert names.count("Energy Switch") == 2
     assert names.count("Emolga") == 0
-    assert "Tulip" in names
-    assert "Surfer" in names
+    assert "Tulip" not in names
+    assert "Surfer" not in names
+    assert "Flutter Mane" not in names
     assert "Drayton" in names
     assert "Jacq" not in names
     assert "Arven" not in names
     pile = build_fallback_deck(names)
     assert [c.name for c in pile] == names
-    assert any(c.name == "Boomerang Energy" for c in pile)
-    boom = next(c for c in pile if c.name == "Boomerang Energy")
+    boom = fallback_named("Boomerang Energy")
     assert "discarded by an effect of an attack" in (boom.text or "").lower()
 
 
@@ -59,14 +64,17 @@ def test_set_g_seed_payload_and_s60_preset():
         assert card.get("image"), f"{card['name']} {card.get('catalog_id')} has no image"
         assert str(card["image"]).startswith("http")
     starly = [c for c in g["cards"] if c["name"] == "Starly"]
-    assert [c["catalog_id"] for c in starly] == ["swsh9-117", "swsh9-117"]
+    assert [c["catalog_id"] for c in starly] == ["swsh9-117"]
     assert all(any(a["name"] == "Claw" for a in c["attacks"]) for c in starly)
     staravia = [c for c in g["cards"] if c["name"] == "Staravia"]
-    assert [c["catalog_id"] for c in staravia] == ["swsh9-118", "sv01-149"]
+    assert [c["catalog_id"] for c in staravia] == ["swsh9-118"]
     assert staravia[0]["hp"] == 90
-    assert staravia[1]["hp"] == 80
-    boom = next(c for c in g["cards"] if c["name"] == "Boomerang Energy")
-    assert boom["catalog_id"] == "sv06-166"
+    nests = [c for c in g["cards"] if c["name"] == "Nest Ball"]
+    assert len(nests) == 4
+    assert all(c.get("image") for c in nests)
+    exes = [c for c in g["cards"] if c["name"] == "Clefable ex"]
+    assert len(exes) == 3
+    assert all(c.get("catalog_id") == "sv03-082" for c in exes)
     poffins = [c for c in g["cards"] if c["name"] == "Buddy-Buddy Poffin"]
     assert len(poffins) == 4
     assert all(c.get("catalog_id") == "sv05-144" for c in poffins)
@@ -83,14 +91,12 @@ def test_set_g_seed_payload_and_s60_preset():
     assert all(c["name"] != "Potion" for c in g["cards"])
     assert all(c["name"] != "Plusle" for c in g["cards"])
     assert all(c["name"] != "Mewtwo" for c in g["cards"])
-    kecleon = next(c for c in g["cards"] if c["name"] == "Kecleon")
-    assert kecleon["catalog_id"] == "sv08-150"
     mega = next(c for c in g["cards"] if c["name"] == "Mega Clefable ex")
     assert mega["catalog_id"] == "me03-031"
     assert "me/me03/031" in (mega.get("image") or "")
     assert all(c["name"] != "Emolga" for c in g["cards"])
     supporters = [c["name"] for c in g["cards"] if c["name"] in {"Tulip", "Surfer", "Drayton", "Jacq", "Arven"}]
-    assert supporters == ["Tulip", "Surfer", "Drayton"]
+    assert supporters == ["Drayton"]
     assert default_rule_presets_for("seed-g") == ["s60"]
     assert standard_60_rules().deck_size == 60
     loaded = load_seed_deck("g")
@@ -162,10 +168,10 @@ def test_set_g_printings_match_carpet_attacks():
     assert beam.damage == 60
     assert beam.cost == ["Psychic", "Colorless", "Colorless"]
     assert parse_effects(beam.text) == [{"kind": "status", "status": "confused", "coin": True}]
-    tulip = next(c for c in load_seed_payload()["g"]["cards"] if c["name"] == "Tulip")
-    surf = next(c for c in load_seed_payload()["g"]["cards"] if c["name"] == "Surfer")
-    assert tulip["catalog_id"] == "sv04-181"
-    assert surf["catalog_id"] == "sv08-187"
+    tulip = fallback_named("Tulip")
+    surf = fallback_named("Surfer")
+    assert tulip.catalog_id == "sv04-181"
+    assert surf.catalog_id == "sv08-187"
 
 
 def _ghost_game():
@@ -392,4 +398,101 @@ def test_surfer_holds_until_g_wants_the_loaded_clefairy():
     game._resolve_trainer(me, foe, me.card(surf), "a", surf)
     assert me.card(me.active.card_i).name == "Clefairy"
     assert len(me.active.energy) == 3
+
+
+def test_g_lunar_zone_takes_a_spare_bench_clefairy_and_stops_at_one():
+    from app.engine.game import Pokemon
+
+    game = _skill_game("g", "party")
+    me = game.players["a"]
+    foe = game.players["b"]
+    clefs = [i for i, c in enumerate(me.cards) if c.name == "Clefairy"]
+    exs = []
+    # The skill deck has no Clefable ex; splice two onto the end of the card list.
+    from app.seed_data import fallback_named
+
+    zone = fallback_named("Clefable ex")
+    me.cards.append(zone)
+    me.cards.append(fallback_named("Clefable ex"))
+    exs = [len(me.cards) - 2, len(me.cards) - 1]
+    me.active = Pokemon(card_i=clefs[0], played_turn=0)
+    me.bench = [Pokemon(card_i=clefs[1], played_turn=0), Pokemon(card_i=clefs[2], ability_used=True, played_turn=0)]
+    me.hand = [exs[0], exs[1]]
+    foe.active = Pokemon(card_i=next(i for i, c in enumerate(foe.cards) if c.name == "Starly"), played_turn=0)
+    game.turn = 3
+    game.first = "b"
+    game.strats["a"].evolve_asap = 1.0
+    game._evolve(me, foe, "a")
+    assert me.card(me.active.card_i).name == "Clefairy"
+    evolved = [me.card(m.card_i).name for m in me.bench]
+    assert evolved.count("Clefable ex") == 1
+    assert evolved.count("Clefairy") == 1
+    assert exs[1] in me.hand or exs[0] in me.hand
+
+
+def test_g_lunar_zone_uses_the_bench_clefairy_and_keeps_the_active():
+    from app.engine.game import Pokemon
+
+    game = _skill_game("g", "party")
+    me = game.players["a"]
+    foe = game.players["b"]
+    clefs = [i for i, c in enumerate(me.cards) if c.name == "Clefairy"]
+    from app.seed_data import fallback_named
+
+    me.cards.append(fallback_named("Clefable ex"))
+    ex_i = len(me.cards) - 1
+    me.active = Pokemon(card_i=clefs[0], played_turn=0)
+    me.bench = [Pokemon(card_i=clefs[1], played_turn=0)]
+    me.hand = [ex_i]
+    foe.active = Pokemon(card_i=next(i for i, c in enumerate(foe.cards) if c.name == "Starly"), played_turn=0)
+    game.turn = 3
+    game.first = "b"
+    game.strats["a"].evolve_asap = 1.0
+    game._evolve(me, foe, "a")
+    assert me.card(me.active.card_i).name == "Clefairy"
+    assert me.card(me.bench[0].card_i).name == "Clefable ex"
+    assert ex_i not in me.hand
+
+
+def test_g_does_not_evolve_lunar_zone_onto_the_only_clefairy():
+    from app.engine.game import Pokemon
+
+    game = _skill_game("g", "party")
+    me = game.players["a"]
+    foe = game.players["b"]
+    clefs = [i for i, c in enumerate(me.cards) if c.name == "Clefairy"]
+    from app.seed_data import fallback_named
+
+    me.cards.append(fallback_named("Clefable ex"))
+    ex_i = len(me.cards) - 1
+    me.active = Pokemon(card_i=clefs[0], played_turn=0)
+    me.bench = []
+    me.hand = [ex_i]
+    foe.active = Pokemon(card_i=next(i for i, c in enumerate(foe.cards) if c.name == "Starly"), played_turn=0)
+    game.turn = 3
+    game.first = "b"
+    game.strats["a"].evolve_asap = 1.0
+    game._evolve(me, foe, "a")
+    assert me.card(me.active.card_i).name == "Clefairy"
+    assert ex_i in me.hand
+
+
+def test_g_switch_is_held_until_a_bench_attacker_should_come_in():
+    from app.engine.game import Pokemon
+    from app.seed_data import fallback_named
+
+    game = _skill_game("g", "party")
+    me = game.players["a"]
+    foe = game.players["b"]
+    clefs = [i for i, c in enumerate(me.cards) if c.name == "Clefairy"]
+    fuels = [i for i, c in enumerate(me.cards) if c.name == "Psychic Energy"]
+    me.cards.append(fallback_named("Switch"))
+    sw = len(me.cards) - 1
+    me.active = Pokemon(card_i=clefs[0], played_turn=0)
+    me.bench = [Pokemon(card_i=clefs[1], energy=list(fuels[:3]), played_turn=0)]
+    me.hand = [sw]
+    foe.active = Pokemon(card_i=next(i for i, c in enumerate(foe.cards) if c.name == "Staraptor"), played_turn=0)
+    assert game._pick_trainer(me) is None
+    me.active.ability_used = True
+    assert game._pick_trainer(me) == sw
 
