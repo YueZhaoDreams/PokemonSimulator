@@ -8767,52 +8767,6 @@
         "dex_id": null
       },
       {
-        "catalog_id": "swsh9-117",
-        "name": "Starly",
-        "category": "Pokemon",
-        "stage": "Basic",
-        "types": [
-          "Colorless"
-        ],
-        "hp": 60,
-        "attacks": [
-          {
-            "name": "Claw",
-            "cost": [
-              "Colorless"
-            ],
-            "damage": 30,
-            "text": "Flip a coin. If tails, this attack does nothing.",
-            "effects": [
-              {
-                "kind": "coin_whiff"
-              }
-            ]
-          }
-        ],
-        "abilities": [],
-        "weaknesses": [
-          {
-            "type": "Lightning",
-            "value": "\u00d72"
-          }
-        ],
-        "resistances": [
-          {
-            "type": "Fighting",
-            "value": "-30"
-          }
-        ],
-        "retreat": 1,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh9/117/low.webp",
-        "set_name": null,
-        "text": "",
-        "dex_id": null
-      },
-      {
         "catalog_id": "swsh9-118",
         "name": "Staravia",
         "category": "Pokemon",
@@ -8856,113 +8810,6 @@
         "dex_id": null
       },
       {
-        "catalog_id": "sv01-149",
-        "name": "Staravia",
-        "category": "Pokemon",
-        "stage": "Stage1",
-        "types": [
-          "Colorless"
-        ],
-        "hp": 80,
-        "attacks": [
-          {
-            "name": "Wing Attack",
-            "cost": [
-              "Colorless",
-              "Colorless"
-            ],
-            "damage": 40,
-            "text": "",
-            "effects": []
-          },
-          {
-            "name": "Speed Dive",
-            "cost": [
-              "Colorless",
-              "Colorless",
-              "Colorless"
-            ],
-            "damage": 80,
-            "text": "",
-            "effects": []
-          }
-        ],
-        "abilities": [],
-        "weaknesses": [
-          {
-            "type": "Lightning",
-            "value": "\u00d72"
-          }
-        ],
-        "resistances": [],
-        "retreat": 1,
-        "evolves_from": "Starly",
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv01/149/low.webp",
-        "set_name": null,
-        "text": "",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "sv01-150",
-        "name": "Staraptor",
-        "category": "Pokemon",
-        "stage": "Stage2",
-        "types": [
-          "Colorless"
-        ],
-        "hp": 150,
-        "attacks": [
-          {
-            "name": "Tailspin Away",
-            "cost": [
-              "Colorless",
-              "Colorless"
-            ],
-            "damage": 60,
-            "text": "During your opponent's next turn, prevent all damage done to this Pok\u00e9mon by attacks from Basic Pok\u00e9mon.",
-            "effects": [
-              {
-                "kind": "prevent_basic_damage"
-              }
-            ]
-          },
-          {
-            "name": "Power Blast",
-            "cost": [
-              "Colorless",
-              "Colorless",
-              "Colorless"
-            ],
-            "damage": 180,
-            "text": "Discard an Energy from this Pok\u00e9mon.",
-            "effects": [
-              {
-                "kind": "discard_energy",
-                "count": 1
-              }
-            ]
-          }
-        ],
-        "abilities": [],
-        "weaknesses": [
-          {
-            "type": "Lightning",
-            "value": "\u00d72"
-          }
-        ],
-        "resistances": [],
-        "retreat": 1,
-        "evolves_from": "Staravia",
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv01/150/low.webp",
-        "set_name": null,
-        "text": "",
-        "dex_id": null
-      },
-      {
         "catalog_id": "sv01-150",
         "name": "Staraptor",
         "category": "Pokemon",
@@ -9140,60 +8987,6 @@
         "trainer_kind": null,
         "energy_type": null,
         "image": "https://assets.tcgdex.net/en/sv/sv06/095/low.webp",
-        "set_name": null,
-        "text": "",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "sv05-078",
-        "name": "Flutter Mane",
-        "category": "Pokemon",
-        "stage": "Basic",
-        "types": [
-          "Psychic"
-        ],
-        "hp": 90,
-        "attacks": [
-          {
-            "name": "Hex Hurl",
-            "cost": [
-              "Colorless",
-              "Colorless",
-              "Colorless"
-            ],
-            "damage": 90,
-            "text": "Put 2 damage counters on your opponent's Benched Pok\u00e9mon in any way you like.",
-            "effects": [
-              {
-                "kind": "bench_damage_counters",
-                "counters": 2
-              }
-            ]
-          }
-        ],
-        "abilities": [
-          {
-            "name": "Midnight Fluttering",
-            "text": "As long as this Pok\u00e9mon is in the Active Spot, your opponent's Active Pok\u00e9mon has no Abilities, except for Midnight Fluttering.",
-            "effects": [
-              {
-                "kind": "suppress_opponent_active_abilities"
-              }
-            ]
-          }
-        ],
-        "weaknesses": [
-          {
-            "type": "Metal",
-            "value": "\u00d72"
-          }
-        ],
-        "resistances": [],
-        "retreat": 1,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv05/078/low.webp",
         "set_name": null,
         "text": "",
         "dex_id": null
@@ -9249,96 +9042,150 @@
         "dex_id": null
       },
       {
-        "catalog_id": "sv08-150",
-        "name": "Kecleon",
+        "catalog_id": "sv03-082",
+        "name": "Clefable ex",
         "category": "Pokemon",
-        "stage": "Basic",
+        "stage": "Stage1",
         "types": [
-          "Colorless"
+          "Psychic"
         ],
-        "hp": 70,
+        "hp": 260,
         "attacks": [
           {
-            "name": "Lick Whip",
+            "name": "Wondrous Moon",
             "cost": [
-              "Colorless",
-              "Colorless"
+              "Psychic",
+              "Psychic",
+              "Psychic"
             ],
-            "damage": 0,
-            "text": "This attack does 30 damage to 1 of your opponent's Pok\u00e9mon. (Don't apply Weakness and Resistance for Benched Pok\u00e9mon.)",
+            "damage": 170,
+            "text": "You may move any amount of Psychic Energy from your Pok\u00e9mon to your other Pok\u00e9mon in any way you like.",
             "effects": [
               {
-                "kind": "damage_one_pokemon",
-                "amount": 30
+                "kind": "move_psychic_energy"
               }
             ]
           }
         ],
         "abilities": [
           {
-            "name": "Expert Hider",
-            "text": "If any damage is done to this Pok\u00e9mon by attacks, flip a coin. If heads, prevent that damage.",
-            "effects": [
-              {
-                "kind": "coin_prevent_attack_damage"
-              }
-            ]
+            "name": "Lunar Zone",
+            "text": "All of your Pok\u00e9mon that have Psychic Energy attached have no Retreat Cost.",
+            "effects": []
           }
         ],
         "weaknesses": [
           {
-            "type": "Fighting",
+            "type": "Metal",
             "value": "\u00d72"
           }
         ],
         "resistances": [],
-        "retreat": 1,
-        "evolves_from": null,
+        "retreat": 2,
+        "evolves_from": "Clefairy",
         "trainer_kind": null,
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv08/150/low.webp",
+        "image": "https://assets.tcgdex.net/en/sv/sv03/082/low.webp",
         "set_name": null,
         "text": "",
         "dex_id": null
       },
       {
-        "catalog_id": "sv04-181",
-        "name": "Tulip",
-        "category": "Trainer",
-        "stage": "Supporter",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
+        "catalog_id": "sv03-082",
+        "name": "Clefable ex",
+        "category": "Pokemon",
+        "stage": "Stage1",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 260,
+        "attacks": [
+          {
+            "name": "Wondrous Moon",
+            "cost": [
+              "Psychic",
+              "Psychic",
+              "Psychic"
+            ],
+            "damage": 170,
+            "text": "You may move any amount of Psychic Energy from your Pok\u00e9mon to your other Pok\u00e9mon in any way you like.",
+            "effects": [
+              {
+                "kind": "move_psychic_energy"
+              }
+            ]
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Lunar Zone",
+            "text": "All of your Pok\u00e9mon that have Psychic Energy attached have no Retreat Cost.",
+            "effects": []
+          }
+        ],
+        "weaknesses": [
+          {
+            "type": "Metal",
+            "value": "\u00d72"
+          }
+        ],
         "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "supporter",
+        "retreat": 2,
+        "evolves_from": "Clefairy",
+        "trainer_kind": null,
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv04/181/low.webp",
+        "image": "https://assets.tcgdex.net/en/sv/sv03/082/low.webp",
         "set_name": null,
-        "text": "Put up to 4 in any combination of Psychic Pok\u00e9mon and Basic Psychic Energy cards from your discard pile into your hand.",
+        "text": "",
         "dex_id": null
       },
       {
-        "catalog_id": "sv08-187",
-        "name": "Surfer",
-        "category": "Trainer",
-        "stage": "Supporter",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
+        "catalog_id": "sv03-082",
+        "name": "Clefable ex",
+        "category": "Pokemon",
+        "stage": "Stage1",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 260,
+        "attacks": [
+          {
+            "name": "Wondrous Moon",
+            "cost": [
+              "Psychic",
+              "Psychic",
+              "Psychic"
+            ],
+            "damage": 170,
+            "text": "You may move any amount of Psychic Energy from your Pok\u00e9mon to your other Pok\u00e9mon in any way you like.",
+            "effects": [
+              {
+                "kind": "move_psychic_energy"
+              }
+            ]
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Lunar Zone",
+            "text": "All of your Pok\u00e9mon that have Psychic Energy attached have no Retreat Cost.",
+            "effects": []
+          }
+        ],
+        "weaknesses": [
+          {
+            "type": "Metal",
+            "value": "\u00d72"
+          }
+        ],
         "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "supporter",
+        "retreat": 2,
+        "evolves_from": "Clefairy",
+        "trainer_kind": null,
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv08/187/low.webp",
+        "image": "https://assets.tcgdex.net/en/sv/sv03/082/low.webp",
         "set_name": null,
-        "text": "Switch your Active Pok\u00e9mon with 1 of your Benched Pok\u00e9mon. If you do, draw cards until you have 5 cards in your hand.",
+        "text": "",
         "dex_id": null
       },
       {
@@ -9402,8 +9249,8 @@
         "dex_id": null
       },
       {
-        "catalog_id": "swsh12.5-145",
-        "name": "Trekking Shoes",
+        "catalog_id": "swsh12.5-129",
+        "name": "Energy Switch",
         "category": "Trainer",
         "stage": "Item",
         "types": [],
@@ -9416,29 +9263,9 @@
         "evolves_from": null,
         "trainer_kind": "item",
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/145/low.webp",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/129/low.webp",
         "set_name": null,
-        "text": "Look at the top card of your deck. You may put it into your hand, or discard it and draw a card.",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "sv01-172",
-        "name": "Energy Search",
-        "category": "Trainer",
-        "stage": "Item",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "item",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv01/172/low.webp",
-        "set_name": null,
-        "text": "Search your deck for a Basic Energy card.",
+        "text": "Move a Basic Energy from 1 of your Pok\u00e9mon to another of your Pok\u00e9mon.",
         "dex_id": null
       },
       {
@@ -9482,6 +9309,126 @@
         "dex_id": null
       },
       {
+        "catalog_id": "sv01-181",
+        "name": "Nest Ball",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/181/low.webp",
+        "set_name": null,
+        "text": "Search your deck for a Basic Pok\u00e9mon and put it onto your Bench. Then, shuffle your deck.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv01-181",
+        "name": "Nest Ball",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/181/low.webp",
+        "set_name": null,
+        "text": "Search your deck for a Basic Pok\u00e9mon and put it onto your Bench. Then, shuffle your deck.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv01-181",
+        "name": "Nest Ball",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/181/low.webp",
+        "set_name": null,
+        "text": "Search your deck for a Basic Pok\u00e9mon and put it onto your Bench. Then, shuffle your deck.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv01-181",
+        "name": "Nest Ball",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/181/low.webp",
+        "set_name": null,
+        "text": "Search your deck for a Basic Pok\u00e9mon and put it onto your Bench. Then, shuffle your deck.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv01-194",
+        "name": "Switch",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/194/low.webp",
+        "set_name": null,
+        "text": "Switch your Active Pok\u00e9mon with 1 of your Benched Pok\u00e9mon.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv01-194",
+        "name": "Switch",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/194/low.webp",
+        "set_name": null,
+        "text": "Switch your Active Pok\u00e9mon with 1 of your Benched Pok\u00e9mon.",
+        "dex_id": null
+      },
+      {
         "catalog_id": "sv05-144",
         "name": "Buddy-Buddy Poffin",
         "category": "Trainer",
@@ -10059,28 +10006,6 @@
         "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/158/low.webp",
         "set_name": "Crown Zenith",
         "text": "",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "sv06-166",
-        "name": "Boomerang Energy",
-        "category": "Energy",
-        "stage": "Special",
-        "types": [
-          "Colorless"
-        ],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": "Colorless",
-        "image": "https://assets.tcgdex.net/en/sv/sv06/166/low.webp",
-        "set_name": "Twilight Masquerade",
-        "text": "As long as this card is attached to a Pok\u00e9mon, it provides Colorless Energy. If this card is discarded by an effect of an attack used by the Pok\u00e9mon this card is attached to, attach this card from your discard pile to that Pok\u00e9mon after attacking.",
         "dex_id": null
       }
     ]

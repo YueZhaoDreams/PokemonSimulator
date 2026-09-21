@@ -180,16 +180,15 @@ def load_seed_payload() -> dict:
         if "g" in data:
             claw = _fallback_named("starly-claw")
             staravia_90 = _fallback_named("staravia-brilliant")
-            staravia_80 = _fallback_named("Staravia")
-            want_starly = ["swsh9-117", "swsh9-117"]
-            want_staravia = ["swsh9-118", "sv01-149"]
+            want_starly = ["swsh9-117"]
+            want_staravia = ["swsh9-118"]
             have_starly = [c.get("catalog_id") for c in data["g"]["cards"] if c.get("name") == "Starly"]
             have_staravia = [c.get("catalog_id") for c in data["g"]["cards"] if c.get("name") == "Staravia"]
             cards_g = data["g"]["cards"]
-            if have_starly[:2] != want_starly:
-                cards_g = _assign_named_prints(cards_g, "Starly", [claw, claw])
-            if have_staravia[:2] != want_staravia:
-                cards_g = _assign_named_prints(cards_g, "Staravia", [staravia_90, staravia_80])
+            if have_starly != want_starly:
+                cards_g = _assign_named_prints(cards_g, "Starly", [claw])
+            if have_staravia != want_staravia:
+                cards_g = _assign_named_prints(cards_g, "Staravia", [staravia_90])
             as_dicts = [c.to_dict() if isinstance(c, Card) else c for c in cards_g]
             if as_dicts != data["g"]["cards"]:
                 data["g"]["cards"] = as_dicts
@@ -398,12 +397,8 @@ def _cd_payload(enrich: bool = True) -> dict:
     cards_e = _assign_named_prints(cards_e, "Pikachu", [nuzzle, shock])
     cards_f = _repeat_named_cards(list(SET_F_NAMES), enrich)
     cards_g = _repeat_named_cards(list(SET_G_NAMES), enrich)
-    cards_g = _assign_named_prints(cards_g, "Starly", [fallback_named("starly-claw"), fallback_named("starly-claw")])
-    cards_g = _assign_named_prints(
-        cards_g,
-        "Staravia",
-        [fallback_named("staravia-brilliant"), fallback_named("Staravia")],
-    )
+    cards_g = _assign_named_prints(cards_g, "Starly", [fallback_named("starly-claw")])
+    cards_g = _assign_named_prints(cards_g, "Staravia", [fallback_named("staravia-brilliant")])
     cards_h = _repeat_named_cards(list(SET_H_NAMES), enrich)
     cards_h = _assign_named_prints(cards_h, "Pikachu", [nuzzle, shock])
     cards_s = _repeat_named_cards(list(SET_S_NAMES), enrich)

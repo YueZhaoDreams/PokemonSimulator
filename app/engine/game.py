@@ -1167,7 +1167,7 @@ class Game:
                 evo = me.card(evo_i)
                 if not evo.is_pokemon or not evo.evolves_from:
                     continue
-                if "mega clefable" in evo.name.lower():
+                if "mega clefable" in evo.name.lower() or evo.name.lower() == "clefable ex":
                     continue
                 target = self._find_evolve_target(me, evo)
                 if target is None or not self._can_evolve_now(me, who, target, evo):
@@ -1176,12 +1176,31 @@ class Game:
                 changed = True
                 break
         mega_i = next((i for i in me.hand if "mega clefable" in me.card(i).name.lower()), None)
-        if mega_i is None or not self._g_mega_evolve_ok(me, foe, who):
+        if mega_i is not None and self._g_mega_evolve_ok(me, foe, who):
+            target = self._g_mega_evolve_target(me)
+            if target is not None and self._can_evolve_now(me, who, target, me.card(mega_i)):
+                self._do_evolve(me, target, mega_i)
+        self._g_evolve_lunar_zone(me, who)
+
+    def _g_evolve_lunar_zone(self, me: Player, who: str) -> None:
+        """One Clefable ex on a bench Clefairy once a second Clefairy is out.
+
+        The Active Clefairy stays the Party engine. A second ex is not evolved.
+        """
+        if self._has_lunar_zone(me):
             return
-        target = self._g_mega_evolve_target(me)
-        if target is None or not self._can_evolve_now(me, who, target, me.card(mega_i)):
+        ex_i = next((i for i in me.hand if me.card(i).name.lower() == "clefable ex"), None)
+        if ex_i is None:
             return
-        self._do_evolve(me, target, mega_i)
+        clefs = [m for m in me.in_play() if self._is_clefairy(me.card(m.card_i))]
+        if len(clefs) < 2:
+            return
+        bench = [m for m in clefs if m is not me.active]
+        pool = bench or clefs
+        target = max(pool, key=lambda m: (1 if m.ability_used else 0, len(m.energy)))
+        if not self._can_evolve_now(me, who, target, me.card(ex_i)):
+            return
+        self._do_evolve(me, target, ex_i)
 
     def _play_trainers(self, me: Player, foe: Player, who: str) -> None:
         strat = self.strats[who]
@@ -1390,6 +1409,9 @@ class Game:
                     score += 9
                 elif strat.name == "crunch" and me.active and not self._is_orthworm(me.card(me.active.card_i)) and me.bench:
                     score += 10
+                elif strat.name == "g":
+                    # Same gate as Surfer: do not discard Switch when nothing should come in.
+                    score += 16 if self._g_incoming_idx(me, who) is not None else -8
                 elif me.bench:
                     score += 1
                 else:
@@ -2355,6 +2377,12 @@ class Game:
                     "Oranguru",
                 ]
             )
+            # Ultra Ball can find the evolution. Nest Ball ignores non-basics.
+            # Insert after the first missing Clefairy so the Party basic still comes first.
+            if not self._has_lunar_zone(me) and not any(
+                me.card(i).name.lower() == "clefable ex" for i in me.hand
+            ):
+                prefer.insert(1 if prefer and prefer[0] == "Clefairy" else 0, "Clefable ex")
             return list(dict.fromkeys(prefer))
         if strat.name == "slash":
             prefer: list[str] = []
@@ -5238,6 +5266,16 @@ class Game:
                 score = 0.0
                 if name in prefer:
                     score += 20 - prefer.index(name)
+                if strat.name == "g" and source == "nest ball":
+                    # Poffin already takes ≤70 HP. Nest's job is the basics it cannot reach,
+                    # after the first Clefairy is down.
+                    clef_out = sum(1 for m in me.in_play() if self._is_clefairy(me.card(m.card_i)))
+                    if name == "clefairy" and clef_out == 0:
+                        score += 40
+                    elif name == "munkidori" and "munkidori" not in in_play:
+                        score += 18
+                    elif name == "flutter mane" and "flutter mane" not in in_play:
+                        score += 10
                 if name in in_play:
                     score -= 3
                 if strat.hold_as_energy and name in {n.lower() for n in strat.search_aces}:

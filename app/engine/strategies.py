@@ -442,7 +442,10 @@ STRATEGY_LIBRARY = {
             "Carpet Set G: keep Clefairy Active for Moon-Watching Party, load Psychic, "
             "Wonder Storm. Evolve Ledyba for Glittering Star Pattern, Starly into Power Blast "
             "Staraptor, Misdreavus into Upper Hand Mismagius. Darkness on Munkidori for "
-            "Adrena-Brain. Flutter Mane Active shuts opponent Abilities. Tulip / Surfer / Drayton."
+            "Adrena-Brain. Flutter Mane Active shuts opponent Abilities. Tulip / Surfer / Drayton. "
+            "One Clefable ex is Lunar Zone on a bench Clefairy once two are out; the Active stays Party. "
+            "Nest Ball fetches Munkidori / Flutter Mane once a Clefairy is out. "
+            "Switch rotates only when a bench attacker should be Active."
         ),
         prefer_damage=0.95,
         prefer_status=0.25,
@@ -472,6 +475,7 @@ STRATEGY_LIBRARY = {
             "Iron Boulder",
             "Kecleon",
             "Mega Clefable ex",
+            "Clefable ex",
             "Tornadus",
             "Oranguru",
         ],
