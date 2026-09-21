@@ -5267,15 +5267,13 @@ class Game:
                 if name in prefer:
                     score += 20 - prefer.index(name)
                 if strat.name == "g" and source == "nest ball":
-                    # Poffin already takes ≤70 HP. Nest's job is the basics it cannot reach,
-                    # after the first Clefairy is down.
+                    # Poffin already takes ≤70 HP. Nest's job on this list is Munkidori
+                    # (110 HP) after the first Clefairy is down.
                     clef_out = sum(1 for m in me.in_play() if self._is_clefairy(me.card(m.card_i)))
                     if name == "clefairy" and clef_out == 0:
                         score += 40
                     elif name == "munkidori" and "munkidori" not in in_play:
                         score += 18
-                    elif name == "flutter mane" and "flutter mane" not in in_play:
-                        score += 10
                 if name in in_play:
                     score -= 3
                 if strat.hold_as_energy and name in {n.lower() for n in strat.search_aces}:
