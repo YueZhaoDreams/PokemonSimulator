@@ -444,7 +444,10 @@ STRATEGY_LIBRARY = {
             "into Power Blast Staraptor. Darkness on Munkidori for Adrena-Brain. Drayton. "
             "One Clefable ex is Lunar Zone on a bench Clefairy once two are out; the Active stays Party. "
             "Nest Ball fetches Munkidori once a Clefairy is out. "
-            "Switch rotates only when a bench attacker should be Active."
+            "Switch rotates only when a bench attacker should be Active. "
+            "If Telepathic Psychic Energy is in hand, attach it to a Psychic Pokémon before "
+            "Party: the printed from-hand attach benches up to 2 Basic Psychic, then Party "
+            "loads Basic Psychic onto those Clefairy. Party cannot search Telepathic from the deck."
         ),
         prefer_damage=0.95,
         prefer_status=0.25,

@@ -26,7 +26,8 @@ def test_set_g_is_sixty_after_staraptor_energy_swap():
     assert names.count("Iron Boulder") == 0
     assert names.count("Scatterbug") == 0
     assert names.count("Misdreavus") == 0
-    assert names.count("Psychic Energy") == 17
+    assert names.count("Psychic Energy") == 15
+    assert names.count("Telepathic Psychic Energy") == 2
     assert names.count("Darkness Energy") == 3
     assert names.count("Boomerang Energy") == 0
     assert names.count("Clefairy") == 4
@@ -94,6 +95,10 @@ def test_set_g_seed_payload_and_s60_preset():
     mega = next(c for c in g["cards"] if c["name"] == "Mega Clefable ex")
     assert mega["catalog_id"] == "me03-031"
     assert "me/me03/031" in (mega.get("image") or "")
+    teles = [c for c in g["cards"] if c["name"] == "Telepathic Psychic Energy"]
+    assert len(teles) == 2
+    assert all(c.get("catalog_id") == "me03-088" for c in teles)
+    assert all(c.get("image") == "https://assets.tcgdex.net/en/me/me03/088/low.webp" for c in teles)
     assert all(c["name"] != "Emolga" for c in g["cards"])
     supporters = [c["name"] for c in g["cards"] if c["name"] in {"Tulip", "Surfer", "Drayton", "Jacq", "Arven"}]
     assert supporters == ["Drayton"]

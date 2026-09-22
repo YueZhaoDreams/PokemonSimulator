@@ -512,8 +512,9 @@ SET_G_POFFIN_NAMES = (
 # Switch, 2 Switch. Bird line stays 1-1-1; Ledian stays 4/4.
 # Confirm 3000 games, seed 20260921: t60 20.9→23.9, Hedrick 29.8→34.6,
 # D60 5.6→5.4, UNL 44.5→49.3, C60 21.7→22.2, S60 69.8→74.8, H 95.8→96.4.
+# Frozen so later Telepathic arrivals stay reproducible.
 # See data/lab/set-g-nest-zone.md.
-SET_G_NAMES = (
+SET_G_NEST_ZONE_NAMES = (
     ["Clefairy"] * 4
     + ["Ledyba"] * 4
     + ["Ledian"] * 4
@@ -534,6 +535,21 @@ SET_G_NAMES = (
     + ["Boss's Orders"] * 3
     + ["Psychic Energy"] * 17
     + ["Darkness Energy"] * 3
+)
+
+
+def _replace_n(names: tuple[str, ...], old: str, new: str, n: int) -> tuple[str, ...]:
+    out = list(names)
+    for _ in range(n):
+        out[out.index(old)] = new
+    return tuple(out)
+
+
+# Carpet Set G — Telepathic lock. Nest/Zone minus 2 Psychic Energy, plus
+# 2 Telepathic Psychic Energy. C60 destination stays 2; copies 3 and 4 lose
+# Hedrick on C60 and D60 on G. See data/lab/set-g-c60-telepathic.md.
+SET_G_NAMES = _replace_n(
+    SET_G_NEST_ZONE_NAMES, "Psychic Energy", "Telepathic Psychic Energy", 2
 )
 
 # Carpet Set H — 60-card beige-carpet photo (data/samples/set-h-carpet.jpg), Standard s60.

@@ -199,3 +199,29 @@ def test_party_attaches_telepathic_before_party():
     game._moon_watching_party(me, me.active)
     fueled = sum(1 for m in me.bench if m.energy)
     assert fueled == 2
+
+
+def test_g_attaches_telepathic_before_party():
+    game = Game(
+        build_fallback_deck(_c60_with_telepathic()),
+        build_fallback_deck(list(SET_T60_NAMES)),
+        standard_60_rules(),
+        StrategySpec.from_dict("g"),
+        StrategySpec.from_dict("phantom"),
+        Random(1),
+    )
+    me = game.players["a"]
+    tele = next(i for i, c in enumerate(me.cards) if c.name == "Telepathic Psychic Energy")
+    fairies = [i for i, c in enumerate(me.cards) if c.name == "Clefairy"]
+    nrg = [i for i, c in enumerate(me.cards) if c.name == "Psychic Energy"][:2]
+    me.active = Pokemon(card_i=fairies[0], played_turn=0)
+    me.bench = []
+    me.hand = [tele]
+    me.deck = fairies[1:] + nrg
+    me.energy_attached = False
+    game._maybe_attach_telepathic_before_party(me, "a")
+    assert tele in me.active.energy or any(tele in m.energy for m in me.bench)
+    assert len(me.bench) == 2
+    game._moon_watching_party(me, me.active)
+    fueled = sum(1 for m in me.bench if m.energy)
+    assert fueled == 2

@@ -4,7 +4,7 @@ from collections import Counter
 
 from app.engine.legality import copy_violations
 from app.engine.models import standard_60_rules
-from app.seed_data import SET_G_NAMES, SET_G_POFFIN_NAMES, build_fallback_deck
+from app.seed_data import SET_G_NAMES, SET_G_NEST_ZONE_NAMES, SET_G_POFFIN_NAMES, build_fallback_deck
 
 
 def _load(name: str):
@@ -66,8 +66,9 @@ def test_packages_are_sixty_and_legal():
 
 
 def test_bird_thin_is_the_lock():
-    locked = Counter(SET_G_NAMES)
+    locked = Counter(SET_G_NEST_ZONE_NAMES)
     poffin = Counter(SET_G_POFFIN_NAMES)
+    assert len(SET_G_NEST_ZONE_NAMES) == 60
     assert len(SET_G_NAMES) == 60
     assert poffin - locked == CUTS
     assert locked - poffin == ADDS
@@ -76,7 +77,7 @@ def test_bird_thin_is_the_lock():
     assert locked["Psychic Energy"] == 17
     assert locked["Darkness Energy"] == 3
     assert locked["Munkidori"] == 2
-    assert copy_violations(build_fallback_deck(list(SET_G_NAMES)), standard_60_rules()) == []
+    assert copy_violations(build_fallback_deck(list(SET_G_NEST_ZONE_NAMES)), standard_60_rules()) == []
 
 
 def test_bird_thin_beats_poffin_lock_on_both_weights():
