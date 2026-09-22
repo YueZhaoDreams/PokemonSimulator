@@ -1,3 +1,5 @@
+from collections import Counter
+
 from app.engine.legality import copy_violations
 from app.engine.models import S60_SEED_IDS, default_rule_presets_for, standard_60_rules
 from app.seed import load_seed_deck, load_seed_payload
@@ -12,6 +14,7 @@ from app.seed_data import (
     SET_T_UNL_NAMES,
     build_fallback_deck,
     build_g30_deck,
+    fallback_named,
 )
 
 
@@ -34,7 +37,13 @@ def test_s60_lab_lists_are_seed_decks():
         assert blob["id"] == deck_id
         assert blob["name"] == name
         assert blob["kind"] == "list"
-        assert have == list(names)
+        if key == "c60":
+            want_names = [fallback_named(n).name for n in names]
+            want_ids = [fallback_named(n).catalog_id for n in names]
+            assert have == want_names
+            assert [c.get("catalog_id") for c in blob["cards"]] == want_ids
+        else:
+            assert have == list(names)
         assert len(have) == 60
         assert default_rule_presets_for(deck_id) == ["s60"]
         assert deck_id in S60_SEED_IDS
@@ -75,9 +84,13 @@ def test_s60_seed_aliases_and_prankish_c60():
     assert names.count("Telepathic Psychic Energy") == 2
     assert names.count("Energy Search") == 0
     fables = [c for c in c60["cards"] if c["name"] == "Clefable"]
-    assert len(fables) == 2
-    assert all(c.get("catalog_id") == "swsh2-75" for c in fables)
-    assert all(any(a.get("name") == "Prankish" for a in (c.get("abilities") or [])) for c in fables)
+    assert Counter(c.get("catalog_id") for c in fables) == Counter({"swsh2-75": 1, "clc-014": 1})
+    prankish = next(c for c in fables if c.get("catalog_id") == "swsh2-75")
+    clc = next(c for c in fables if c.get("catalog_id") == "clc-014")
+    assert any(a.get("name") == "Prankish" for a in (prankish.get("abilities") or []))
+    assert any(a.get("name") == "Metronome" for a in (clc.get("attacks") or []))
+    assert names.count("Poké Pad") == 1
+    assert names.count("Mega Clefable ex") == 1
     hedrick = load_seed_deck("t-meta")
     assert [c["name"] for c in hedrick["cards"]].count("Rare Candy") == 0
     assert [c["name"] for c in hedrick["cards"]].count("Dragapult ex") == 3

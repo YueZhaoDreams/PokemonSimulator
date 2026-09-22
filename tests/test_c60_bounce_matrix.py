@@ -31,7 +31,6 @@ def test_bounce_slots_are_the_five_measured_cards():
 
 def test_cage_variant_matches_the_locked_list():
     assert Counter(LAB.VARIANTS["cage"]) == Counter(c60_names_before_bounce())
-    assert Counter(LAB.VARIANTS["cage"]) == Counter(SET_C60_NAMES)
     assert LAB.VARIANT_SLOTS["cage"] == LAB.CAGE_IN_SLOTS
     assert SET_C60_NAMES.count("Penny") == 0
     assert SET_C60_NAMES.count("Iono") == 1
@@ -84,7 +83,7 @@ def test_bounce_matrix_json_keeps_the_cage_list():
     iono_penny = blob["cells"]["iono-penny"]
     for row in blob["cells"].values():
         assert list(row) == foes
-    assert Counter(blob["lists"]["cage"]) == Counter(SET_C60_NAMES)
+    assert Counter(blob["lists"]["cage"]) == Counter(c60_names_before_bounce())
     assert blob["lists"]["live"] == list(LAB.BASE_NAMES)
     assert cage["t60"]["a"] > live["t60"]["a"] + 0.08
     assert cage["d60"]["a"] > live["d60"]["a"] + 0.10

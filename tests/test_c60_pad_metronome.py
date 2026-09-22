@@ -10,7 +10,13 @@ from app.engine.game import Game, Pokemon
 from app.engine.legality import copy_violations
 from app.engine.models import standard_60_rules
 from app.engine.strategies import StrategySpec
-from app.seed_data import SET_C60_NAMES, SET_T60_NAMES, build_fallback_deck, fallback_named
+from app.seed_data import (
+    SET_C60_NAMES,
+    SET_T60_NAMES,
+    build_fallback_deck,
+    c60_names_before_bounce,
+    fallback_named,
+)
 
 PAD_TEXT = (
     "Search your deck for a Pokémon that doesn't have a Rule Box, reveal it, "
@@ -57,7 +63,7 @@ def test_pad_clc_list_is_one_prankish_one_clc_one_pad():
     rules = standard_60_rules()
     by_key = dict(LAB.variant_lists())
     assert list(by_key) == ["prankish2", "clc1", "pad", "pad_clc"]
-    assert Counter(by_key["prankish2"]) == Counter(SET_C60_NAMES)
+    assert Counter(by_key["prankish2"]) == Counter(c60_names_before_bounce())
     pad_clc = by_key["pad_clc"]
     assert len(pad_clc) == 60
     assert pad_clc.count("Poké Pad") == 1
@@ -212,5 +218,7 @@ def test_pad_metronome_json_cells_follow_foe_order():
     assert blob["cells"]["pad_clc"]["t60"]["pad_metro"] > 0
     assert blob["cells"]["pad_clc"]["d60"]["pad_prankish"] > blob["cells"]["pad_clc"]["d60"]["pad_metro"]
     assert blob["cells"]["pad"]["t60"]["copy_dive"] == 0
-    assert SET_C60_NAMES.count("Clefable") == 2
-    assert SET_C60_NAMES.count("Poké Pad") == 0
+    assert SET_C60_NAMES.count("Clefable") == 1
+    assert SET_C60_NAMES.count("Clefable CLC") == 1
+    assert SET_C60_NAMES.count("Poké Pad") == 1
+    assert SET_C60_NAMES.count("Mega Clefable ex") == 1

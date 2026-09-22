@@ -82,4 +82,4 @@ Every other cut, including Clefable ex and energy, is below both pad-only and th
 
 ## Lock
 
-`SET_C60_NAMES` stays **2 Rebel Clash Prankish**, 0 Pad, 0 Metronome. Hop is not the unique problem — CLC does not beat Pad-only when it replaces Clefable ex or a Psychic Energy either. Ultra Ball and Mega are the only payments that hold; neither is a clear win. Pad-only remains the only clean row above the lock, and it is not locked from this run.
+Designer lock after this matrix: **1 Rebel Clash Prankish + 1 CLC 014 + 1 Poké Pad**, paid by cutting the second Mega. `SET_C60_NAMES` is that 60. Hop / Clefable ex / energy still lose; this is the Mega row (wComp 69.6). Cage-lock 2 Prankish / 2 Mega is frozen as `C60_CAGE_LOCK_NAMES` for historical bakeoffs.

@@ -30,6 +30,7 @@ from app.seed_data import (
     SET_SPARE_NAMES,
     build_fallback_deck,
     build_g30_deck,
+    fallback_named,
 )
 
 LIST_KEYS = ("a", "b", "c", "d", "e", "f", "g", "h", "s", "t", "c60", "d60", "m60", "s60", "t60", "t-meta", "t-unl", "g30")
@@ -152,10 +153,18 @@ def load_seed_payload() -> dict:
             ("t-unl", SET_T_UNL_NAMES),
             ("spare", SET_SPARE_NAMES),
         ):
-            have = [c.get("name") for c in (data.get(key) or {}).get("cards") or []]
+            cards = (data.get(key) or {}).get("cards") or []
+            have = [c.get("name") for c in cards]
             want = list(names)
-            if have != want:
-                data[key]["cards"] = _align_named_cards((data.get(key) or {}).get("cards") or [], want)
+            if key == "c60":
+                want_printed = [fallback_named(n).name for n in want]
+                want_ids = [fallback_named(n).catalog_id for n in want]
+                have_ids = [c.get("catalog_id") for c in cards]
+                if have != want_printed or have_ids != want_ids:
+                    data[key]["cards"] = _align_named_cards(cards, want)
+                    dirty = True
+            elif have != want:
+                data[key]["cards"] = _align_named_cards(cards, want)
                 dirty = True
             filled = _ensure_card_images(data[key]["cards"])
             if filled != data[key]["cards"]:

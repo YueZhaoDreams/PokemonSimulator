@@ -6,7 +6,7 @@ from pathlib import Path
 
 from app.engine.legality import copy_violations
 from app.engine.models import standard_60_rules
-from app.seed_data import SET_C60_NAMES, build_fallback_deck
+from app.seed_data import SET_C60_NAMES, build_fallback_deck, c60_names_before_bounce
 
 
 def _load(name: str):
@@ -26,7 +26,7 @@ def test_cut_keys_and_baselines():
     by_key = dict(LAB.variant_lists())
     assert list(by_key)[:2] == ["prankish2", "pad"]
     assert [key for key, _card in LAB.CUTS] == list(by_key)[2:]
-    assert Counter(by_key["prankish2"]) == Counter(SET_C60_NAMES)
+    assert Counter(by_key["prankish2"]) == Counter(c60_names_before_bounce())
     assert Counter(by_key["pad"]) == Counter(PAD.pad_list())
     assert by_key["pad"].count("Clefable") == 1
     assert by_key["pad"].count("Poké Pad") == 1
@@ -67,8 +67,11 @@ def test_ex_and_energy_cuts_leave_two_ex_and_thirteen_psychic():
     assert by_key["energy"].count("Psychic Energy") == 13
     assert by_key["pad"].count("Clefable ex") == 3
     assert by_key["pad"].count("Psychic Energy") == 14
-    assert SET_C60_NAMES.count("Clefable") == 2
-    assert SET_C60_NAMES.count("Poké Pad") == 0
+    assert SET_C60_NAMES.count("Clefable") == 1
+    assert SET_C60_NAMES.count("Clefable CLC") == 1
+    assert SET_C60_NAMES.count("Poké Pad") == 1
+    assert SET_C60_NAMES.count("Mega Clefable ex") == 1
+    assert Counter(SET_C60_NAMES) == Counter(LAB.pad_plus_clc("Mega Clefable ex"))
 
 
 def test_pad_clc_cuts_json_cells_follow_foe_order():
@@ -95,5 +98,7 @@ def test_pad_clc_cuts_json_cells_follow_foe_order():
     assert blob["cells"]["ultra"]["t60"]["pad_metro"] > 0
     assert blob["cells"]["mega"]["t60"]["copy_dive"] > 0
     assert pad["t60"]["copy_dive"] == 0
-    assert SET_C60_NAMES.count("Clefable") == 2
-    assert SET_C60_NAMES.count("Poké Pad") == 0
+    assert SET_C60_NAMES.count("Clefable") == 1
+    assert SET_C60_NAMES.count("Clefable CLC") == 1
+    assert SET_C60_NAMES.count("Poké Pad") == 1
+    assert SET_C60_NAMES.count("Mega Clefable ex") == 1

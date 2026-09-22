@@ -29,7 +29,6 @@ from app.engine.models import standard_60_rules
 from app.engine.montecarlo import run_simulation
 from app.engine.strategies import StrategySpec
 from app.seed_data import (
-    SET_C60_NAMES,
     SET_D60_NAMES,
     SET_G_NAMES,
     SET_S60_NAMES,
@@ -37,6 +36,7 @@ from app.seed_data import (
     SET_T_META_NAMES,
     SET_T_UNL_NAMES,
     build_fallback_deck,
+    c60_names_before_bounce,
 )
 
 GAMES = int(os.environ.get("LAB_GAMES", "3000"))
@@ -98,7 +98,7 @@ def _legal(names: list[str], label: str) -> list[str]:
 
 
 def locked_list() -> list[str]:
-    return _legal(list(SET_C60_NAMES), "lock")
+    return _legal(c60_names_before_bounce(), "lock")
 
 
 def pad_list() -> list[str]:
@@ -177,8 +177,8 @@ def _dest() -> Path:
 
 def main() -> None:
     variants = dict(variant_lists())
-    if variants["prankish2"] != list(SET_C60_NAMES):
-        raise SystemExit("prankish2 drifted from SET_C60_NAMES")
+    if variants["prankish2"] != c60_names_before_bounce():
+        raise SystemExit("prankish2 drifted from C60_CAGE_LOCK_NAMES")
     only = [part for part in os.environ.get("LAB_ONLY", "").split(",") if part]
     unknown = [key for key in only if key not in variants]
     if unknown:

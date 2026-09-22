@@ -103,9 +103,6 @@ SET_C_NAMES = (
 # Arven still tutors Maximum Belt; Tool Box (top 7) lost the 1-for-1 to a 14th Psychic.
 # Keep LOR 62 Clefairy as the engine; add Switch so Party can fire from Active;
 # Poffin benches 60 HP Clefairy; more Boss for a 6-prize race.
-# Two Rebel Clash Clefable (Prankish) — 110 HP Psychic Stage 1. On evolve, may put
-# an Energy from the opponent's Active on top of their deck. Same printed name as
-# CLC Metronome, so this is the 2-of Clefable slot (not a fifth copy).
 # 3 Battle Cage (both benches ignore opp counter placement; damage still taken)
 # for -Jacq -Energy Retrieval -1 Iono: T60 51.3 -> 69.1, Hedrick 59.0 -> 64.6,
 # UNL 82.8 -> 89.5, D60 holds 76.1. Rabsca 1-1 does nothing (+0-1, fragile 1-1);
@@ -115,7 +112,8 @@ SET_C_NAMES = (
 # list. The live 2/1/1/1 package, with Seeker's one-bench KO line, is T60 58.3 /
 # D60 62.2 against this list's 68.8 / 75.8. See data/lab/set-c60-bounce-combo.md.
 # The cards stay in the engine; they are not in the 60.
-SET_C60_NAMES = (
+# Frozen cage 60 (2 Rebel Clash Prankish, 2 Mega, 0 Pad) for historical bakeoffs.
+C60_CAGE_LOCK_NAMES = (
     ["Clefairy"] * 4
     + ["Mewtwo ex"] * 3
     + ["Clefable"] * 2
@@ -139,13 +137,40 @@ SET_C60_NAMES = (
     + ["Psychic Energy"] * 14
 )
 
+# Live lock (2026-09-22, seed 20260922): 1 Rebel Clash Prankish + 1 CLC 014
+# Metronome + 1 Poké Pad (ME02.5 198, no Rule Box), paid by cutting the second
+# Prankish and the second Mega. Cut matrix wComp: mega 69.6, pad-only 69.3,
+# 2-Prankish 68.5. See data/lab/set-c60-pad-clc-cuts.md.
+SET_C60_NAMES = (
+    ["Clefairy"] * 4
+    + ["Mewtwo ex"] * 3
+    + ["Clefable"]
+    + ["Clefable CLC"]
+    + ["Clefable ex"] * 3
+    + ["Mega Clefable ex"]
+    + ["Nest Ball"] * 4
+    + ["Buddy-Buddy Poffin"] * 4
+    + ["Ultra Ball"] * 2
+    + ["Hop"] * 2
+    + ["Lillie"] * 2
+    + ["Lillie's Determination"] * 2
+    + ["Arven"]
+    + ["Boss's Orders"] * 3
+    + ["Iono"]
+    + ["Switch"] * 2
+    + ["Energy Switch"] * 2
+    + ["Night Stretcher"]
+    + ["Maximum Belt"]
+    + ["Battle Cage"] * 3
+    + ["Telepathic Psychic Energy"] * 2
+    + ["Psychic Energy"] * 14
+    + ["Poké Pad"]
+)
+
 
 def c60_names_before_bounce() -> list[str]:
-    """Cage-lock C60. The bounce-slot matrix measured this list and kept it.
-
-    Historical bakeoffs undo later cuts starting from here.
-    """
-    return list(SET_C60_NAMES)
+    """Cage-lock C60 (2 Prankish, 2 Mega, 0 Pad). Frozen for historical bakeoffs."""
+    return list(C60_CAGE_LOCK_NAMES)
 
 SET_D_NAMES = (  # 30: Fighting Energy 6 → 8
     ["Cornerstone Mask Ogerpon ex"] * 4
@@ -2441,6 +2466,7 @@ _CLEFABLE_CLC = _pkm(
     retreat=2,
     resistances=[{"type": "Psychic", "value": "-30"}],
     set_name="Pokémon TCG Classic",
+    image="https://assets.tcgdex.net/en/base/base1/5/low.webp",
 )
 FALLBACK_BY_NAME["clefable twm"] = _CLEFABLE_TWM
 FALLBACK_BY_NAME["clefable (twilight masquerade)"] = _CLEFABLE_TWM

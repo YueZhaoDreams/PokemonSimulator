@@ -33,7 +33,6 @@ from app.engine.models import standard_60_rules
 from app.engine.montecarlo import run_simulation
 from app.engine.strategies import StrategySpec
 from app.seed_data import (
-    SET_C60_NAMES,
     SET_D60_NAMES,
     SET_G_NAMES,
     SET_S60_NAMES,
@@ -41,6 +40,7 @@ from app.seed_data import (
     SET_T_META_NAMES,
     SET_T_UNL_NAMES,
     build_fallback_deck,
+    c60_names_before_bounce,
 )
 
 GAMES = int(os.environ.get("LAB_GAMES", "3000"))
@@ -67,7 +67,7 @@ QUERIES = [
 
 
 def _replace_second_clefable(alias: str) -> list[str]:
-    names = list(SET_C60_NAMES)
+    names = c60_names_before_bounce()
     seen = 0
     for i, name in enumerate(names):
         if name != "Clefable":
@@ -77,12 +77,12 @@ def _replace_second_clefable(alias: str) -> list[str]:
             names[i] = alias
             break
     else:
-        raise RuntimeError("expected two Clefable on the locked C60 list")
+        raise RuntimeError("expected two Clefable on the cage-lock C60 list")
     return names
 
 
 def fill(metro_alias: str | None) -> list[str]:
-    names = list(SET_C60_NAMES) if metro_alias is None else _replace_second_clefable(metro_alias)
+    names = c60_names_before_bounce() if metro_alias is None else _replace_second_clefable(metro_alias)
     if len(names) != 60:
         raise ValueError(f"list is {len(names)} cards")
     cards = build_fallback_deck(names)
@@ -152,8 +152,8 @@ def _dest() -> Path:
 
 
 def main() -> None:
-    if VARIANTS["prankish2"] != list(SET_C60_NAMES):
-        raise SystemExit("prankish2 drifted from SET_C60_NAMES")
+    if VARIANTS["prankish2"] != c60_names_before_bounce():
+        raise SystemExit("prankish2 drifted from C60_CAGE_LOCK_NAMES")
     only = [part for part in os.environ.get("LAB_ONLY", "").split(",") if part]
     unknown = [key for key in only if key not in VARIANTS]
     if unknown:

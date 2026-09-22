@@ -259,7 +259,7 @@ STRATEGY_LIBRARY = {
             "opponent's attack we choose — not Mime Jr. Mimed Games (they choose). Keep one "
             "Rebel Clash Prankish. Vs Dragapult: Boss the ex Active, evolve, then Metronome "
             "copies Phantom Dive 200 + 6 bench counters. Do not evolve Metronome as a sponge. "
-            "Poké Pad (if in the list) searches a Pokémon without a Rule Box: Clefairy, "
+            "Poké Pad searches a Pokémon without a Rule Box: Clefairy, "
             "Prankish Clefable, or Metronome Clefable on demand, never Clefable ex / Mega / "
             "Mewtwo. Fetch the copy vs Dragapult, Prankish vs Demolish, Clefairy when the "
             "Party engine is short. "

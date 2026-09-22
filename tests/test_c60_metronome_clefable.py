@@ -8,7 +8,7 @@ from app.engine.game import Game, Pokemon
 from app.engine.legality import copy_violations
 from app.engine.models import standard_60_rules
 from app.engine.strategies import StrategySpec
-from app.seed_data import SET_C60_NAMES, build_fallback_deck, fallback_named
+from app.seed_data import build_fallback_deck, fallback_named, c60_names_before_bounce
 
 METRONOME_TEXT = "Choose 1 of your opponent's Active Pokémon's attacks and use it as this attack."
 
@@ -52,7 +52,7 @@ def test_metronome_parses_printed_choose_wording():
 
 def test_clc1_and_twm1_are_sixty_legal_two_clefable():
     rules = standard_60_rules()
-    assert LAB.VARIANTS["prankish2"] == list(SET_C60_NAMES)
+    assert LAB.VARIANTS["prankish2"] == c60_names_before_bounce()
     for key, names in LAB.VARIANTS.items():
         cards = build_fallback_deck(names)
         assert len(names) == 60, key
