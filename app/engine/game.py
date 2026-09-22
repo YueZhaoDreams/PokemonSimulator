@@ -1504,7 +1504,7 @@ class Game:
                     score += 14 if self.stadium_name == "Battle Cage" else 8
                 else:
                     score += 2
-            elif "professor" in name:
+            elif "professor" in name and "turo" not in name:
                 mewtwo_only_in_hand = self._mewtwo_mon(me) is None and any(
                     self._is_mewtwo(me.card(i)) for i in me.hand
                 )

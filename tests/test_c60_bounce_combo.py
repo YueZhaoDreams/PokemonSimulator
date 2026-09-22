@@ -423,3 +423,19 @@ def test_party_holds_lillie_while_penny_line_is_ready():
     me.supporter_used = False
     picked = game._pick_trainer(me)
     assert picked != lillie
+
+
+def test_turo_is_not_scored_as_professors_research():
+    game = _game()
+    game.turn = 4
+    me = game.players["a"]
+    mewtwo = next(i for i, c in enumerate(me.cards) if c.name == "Mewtwo ex")
+    turo = next(i for i, c in enumerate(me.cards) if c.name == "Professor Turo's Scenario")
+    energies = [i for i, c in enumerate(me.cards) if c.name == "Psychic Energy"]
+    iono = _add(game, "Iono")
+    me.active = Pokemon(card_i=mewtwo, played_turn=0)
+    me.bench = []
+    me.hand = [turo, iono, energies[0], energies[1]]
+    me.deck = energies[2:]
+    me.supporter_used = False
+    assert game._pick_trainer(me) == iono
