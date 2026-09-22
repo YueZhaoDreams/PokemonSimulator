@@ -191,6 +191,25 @@ def test_party_holds_boss_when_metronome_cannot_copy():
     assert picked == hop
 
 
+def test_metronome_json_cells_follow_foe_order():
+    import json
+    from pathlib import Path
+
+    blob = json.loads(
+        (Path(__file__).resolve().parents[1] / "data/lab/set-c60-metronome.json").read_text()
+    )
+    foes = ["t60", "hedrick", "unl", "d60", "s60", "g"]
+    assert blob["games"] == 3000
+    assert blob["seed"] == 20260922
+    assert list(blob["foes"]) == foes
+    assert list(blob["cells"]) == ["prankish2", "clc1", "twm1"]
+    assert blob["lock"].startswith("none")
+    for row in blob["cells"].values():
+        assert list(row) == foes
+    assert blob["cells"]["clc1"]["t60"]["copy_dive"] > 0
+    assert blob["cells"]["prankish2"]["t60"]["copy_dive"] == 0
+
+
 def test_battle_cage_is_held_when_copying_dive():
     game = _game(
         ["Clefable CLC", "Clefairy", "Psychic Energy", "Battle Cage", "Hop"] + ["Nest Ball"] * 25,
