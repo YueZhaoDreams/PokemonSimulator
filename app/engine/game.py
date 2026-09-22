@@ -141,6 +141,7 @@ class Game:
         self.last_ditch_used = False
         self.stadium_effects: list[dict[str, Any]] = []
         self.turn_ended_by_ability = False
+        self._forced_bounce_target: Pokemon | None = None
 
     def _log(self, message: str) -> None:
         if self.trace_on:
@@ -783,6 +784,8 @@ class Game:
             self._maybe_attach_telepathic_before_party(me, who)
         if self._use_abilities(me, foe, who):
             return True
+        if self.strats[who].name == "party":
+            self._party_bounce_combo(me, foe, who)
         self._evolve(me, foe, who)
         self._play_basics(me)
         if self.strats[who].name in {"party", "demolish", "slash", "shock", "thrifty", "phantom", "carnival", "g", "celebration"}:
@@ -1491,8 +1494,6 @@ class Game:
                         score += 10
                 else:
                     score -= 20
-            elif "turo" in name:
-                score += 9 if len(me.bench) >= 4 else -8
             elif name == "collapsed stadium":
                 if self.stadium_name == "Collapsed Stadium":
                     score -= 6
@@ -1680,6 +1681,13 @@ class Game:
                 score += self._g_horn_trainer_score(me, foe, who, card_i)
             if strat.name == "celebration":
                 score += self._celebration_trainer_score(me, who, name)
+            if (
+                card.is_supporter
+                and strat.name == "party"
+                and not self._is_bounce_supporter(card)
+                and self._save_supporter_for_bounce(me, foe)
+            ):
+                score -= 30
             candidates.append((score, card_i))
         if not candidates:
             return None
@@ -1764,9 +1772,7 @@ class Game:
                 n=2,
                 source="jacq",
             )
-        elif "turo" in name:
-            self._turo_scenario(me)
-        elif "professor" in name:
+        elif "professor" in name and "turo" not in name:
             me.discard.extend(list(me.hand))
             me.hand.clear()
             self._draw(me, 7)
@@ -2062,16 +2068,384 @@ class Game:
         name = (card.name or "").lower().rstrip()
         return name.endswith(" v") or name.endswith(" vstar")
 
-    def _turo_scenario(self, me: Player) -> None:
-        if not me.bench:
+    def _is_bounce_supporter(self, card: Card) -> bool:
+        return any(
+            eff.get("kind") == "return_pokemon_to_hand" for eff in parse_trainer_effects(card.text or "")
+        )
+
+    def _hand_bounce_effects(self, me: Player) -> list[tuple[int, dict]]:
+        found: list[tuple[int, dict]] = []
+        for card_i in me.hand:
+            card = me.card(card_i)
+            if not card.is_supporter:
+                continue
+            for eff in parse_trainer_effects(card.text or ""):
+                if eff.get("kind") == "return_pokemon_to_hand":
+                    found.append((card_i, eff))
+                    break
+        return found
+
+    def _legal_bounce_targets(self, player: Player, eff: dict) -> list[Pokemon]:
+        pool = list(player.bench if eff.get("bench_only") else player.in_play())
+        legal: list[Pokemon] = []
+        for mon in pool:
+            card = player.card(mon.card_i)
+            if eff.get("basic_only") and not card.is_basic:
+                continue
+            if eff.get("colorless_only") and "Colorless" not in (card.types or []):
+                continue
+            if eff.get("require_damage") and mon.damage <= 0:
+                continue
+            if eff.get("exclude_ex") and self._is_ex(card):
+                continue
+            legal.append(mon)
+        return legal
+
+    def _pick_bounce_target(self, player: Player, eff: dict) -> Pokemon | None:
+        legal = self._legal_bounce_targets(player, eff)
+        prefer = self._forced_bounce_target
+        if prefer is not None and prefer in legal:
+            return prefer
+        if not legal:
+            return None
+        damaged = [mon for mon in legal if mon.damage > 0]
+
+        def rank(mon: Pokemon) -> tuple:
+            remaining = self._max_hp(player, mon) - mon.damage
+            return (remaining, 0 if mon is player.active else 1)
+
+        return min(damaged or legal, key=rank)
+
+    def _return_in_play_to_hand(self, me: Player, foe: Player, card: Card, eff: dict) -> None:
+        """Printed bounce. Damage counters leave with the in-play Pokémon."""
+        if eff.get("both_players"):
+            self._seeker_return(me, foe, card, eff)
             return
-        idx = min(range(len(me.bench)), key=lambda i: me.card(me.bench[i].card_i).hp or 0)
-        mon = me.bench.pop(idx)
-        me.hand.extend(self._pokemon_stack(mon))
-        me.hand.extend(self._detach_cards(mon))
+        target = self._pick_bounce_target(me, eff)
+        if target is None or len(me.in_play()) < 2:
+            self._bump("bounce_fail")
+            return
+        self._bounce_one(me, target, str(eff.get("attachments") or "hand"), card)
+
+    def _seeker_return(self, me: Player, foe: Player, card: Card, eff: dict) -> None:
+        mine = self._pick_bounce_target(me, eff)
+        if mine is None or len(me.in_play()) < 2:
+            self._bump("bounce_fail")
+            return
+        self._bounce_one(me, mine, "hand", card)
+        if not foe.bench:
+            return
+        theirs = max(
+            foe.bench,
+            key=lambda mon: (
+                self._prizes_for_ko(foe.card(mon.card_i)),
+                len(mon.energy),
+                self._max_hp(foe, mon),
+            ),
+        )
+        self._bounce_one(foe, theirs, "hand", card)
+
+    def _bounce_one(self, player: Player, mon: Pokemon, attachments: str, card: Card) -> None:
+        healed = mon.damage
+        stack = self._pokemon_stack(mon)
+        attached = self._detach_cards(mon)
         mon.underneath.clear()
-        self._bump("turo")
-        self._log(f"{me.name} Turo returns {me.card(mon.card_i).name}")
+        self._unseat_mon(player, mon)
+        player.hand.extend(stack)
+        if attachments == "discard":
+            player.discard.extend(attached)
+        else:
+            player.hand.extend(attached)
+        self._promote_after_bounce(player)
+        self._bump("return_pokemon_to_hand")
+        self._bump(f"bounce:{card.name}")
+        if healed > 0:
+            self._bump("bounce_heal")
+        self._log(f"{player.name} {card.name} returns {player.card(stack[0]).name}")
+
+    def _promote_after_bounce(self, me: Player) -> None:
+        if me.active is not None or not me.bench:
+            return
+        who = "a" if me.name == "A" else "b"
+        idx = 0
+        if self.strats[who].name == "party":
+            for i, mon in enumerate(me.bench):
+                if self._is_clefairy(me.card(mon.card_i)) and not mon.ability_used:
+                    idx = i
+                    break
+        me.active = me.bench.pop(idx)
+
+    def _commit_trainer(self, me: Player, foe: Player, who: str, card_i: int) -> bool:
+        if card_i not in me.hand:
+            return False
+        card = me.card(card_i)
+        if card.is_supporter and (me.supporter_used or not self._can_play_supporter(who)):
+            return False
+        if card.is_item and me.item_lock:
+            return False
+        if card.is_supporter:
+            me.supporter_used = True
+        me.hand.remove(card_i)
+        me.discard.append(card_i)
+        self._resolve_trainer(me, foe, card, who=who, card_i=card_i)
+        self._log(f"{me.name} plays {card.name}")
+        return True
+
+    def _spend_switch_to(self, me: Player, who: str, idx: int) -> bool:
+        switch_i = self._first_named(me, "Switch")
+        if switch_i is None or me.item_lock:
+            return False
+        me.hand.remove(switch_i)
+        me.discard.append(switch_i)
+        return self._play_switch(me, who, idx)
+
+    def _prankish_hand_index(self, me: Player) -> int | None:
+        for card_i in me.hand:
+            card = me.card(card_i)
+            if card.name.lower() != "clefable":
+                continue
+            if any("prankish" in (abi.name or "").lower() for abi in card.abilities):
+                return card_i
+        return None
+
+    def _eligible_clefairy(self, me: Player, who: str, evo: Card) -> list[Pokemon]:
+        return [
+            mon
+            for mon in me.in_play()
+            if self._is_clefairy(me.card(mon.card_i)) and self._can_evolve_now(me, who, mon, evo)
+        ]
+
+    def _bench_returned_basics(self, me: Player, stack: list[int]) -> None:
+        for card_i in stack:
+            if card_i not in me.hand or not me.card(card_i).is_basic:
+                continue
+            if len(me.bench) >= self._bench_limit() and me.active is not None:
+                continue
+            me.hand.remove(card_i)
+            mon = Pokemon(card_i=card_i, played_turn=self.turn)
+            if me.active is None:
+                me.active = mon
+            else:
+                me.bench.append(mon)
+                self._on_benched(me, mon, from_hand=True)
+            self._bump(f"saw_play:{me.card(card_i).name}")
+
+    def _finish_bounce_followup(self, me: Player, foe: Player, who: str, stack: list[int]) -> None:
+        self._bench_returned_basics(me, stack)
+        if (
+            me.active
+            and self._is_clefairy(me.card(me.active.card_i))
+            and not me.active.ability_used
+            and any(self._is_clefairy(me.card(mon.card_i)) for mon in me.bench)
+        ):
+            self._moon_watching_party(me, me.active)
+        self._evolve_prankish_eligible(me, foe, who)
+
+    def _evolve_prankish_eligible(self, me: Player, foe: Player, who: str) -> bool:
+        evo_i = self._prankish_hand_index(me)
+        if evo_i is None:
+            return False
+        evo = me.card(evo_i)
+        candidates = self._eligible_clefairy(me, who, evo)
+        if not candidates:
+            return False
+        target = me.active if me.active in candidates else candidates[0]
+        self._do_evolve(me, target, evo_i)
+        return True
+
+    def _choose_prankish_bounce(
+        self,
+        me: Player,
+        foe: Player,
+        options: list[tuple[int, dict]],
+    ) -> tuple[int, dict] | None:
+        def usable(eff: dict) -> bool:
+            if eff.get("basic_only") or eff.get("colorless_only") or eff.get("require_damage"):
+                return False
+            if eff.get("exclude_ex"):
+                return True
+            return True
+
+        seekers = [(i, eff) for i, eff in options if eff.get("both_players") and eff.get("bench_only") and usable(eff)]
+        keep = [
+            (i, eff)
+            for i, eff in options
+            if eff.get("attachments") == "hand" and not eff.get("bench_only") and usable(eff)
+        ]
+        discard = [
+            (i, eff)
+            for i, eff in options
+            if eff.get("attachments") == "discard" and not eff.get("bench_only") and usable(eff)
+        ]
+        can_seek = (
+            bool(foe.bench)
+            and bool(me.bench)
+            and not me.item_lock
+            and self._first_named(me, "Switch") is not None
+        )
+        if can_seek and seekers:
+            return seekers[0]
+        if keep:
+            return keep[0]
+        if discard:
+            return discard[0]
+        return None
+
+    def _prankish_bounce_ready(self, me: Player, foe: Player) -> bool:
+        who = "a" if me.name == "A" else "b"
+        if me.supporter_used or not self._can_play_supporter(who):
+            return False
+        if not foe.active or not foe.active.energy:
+            return False
+        evo_i = self._prankish_hand_index(me)
+        if evo_i is None or not me.active:
+            return False
+        eligible = self._eligible_clefairy(me, who, me.card(evo_i))
+        if me.active not in eligible or len(eligible) < 2:
+            return False
+        return self._choose_prankish_bounce(me, foe, self._hand_bounce_effects(me)) is not None
+
+    def _penny_line_pending(self, me: Player) -> bool:
+        if self._first_named(me, "Penny") is None or not me.active:
+            return False
+        card = me.card(me.active.card_i)
+        if not card.is_basic or not self._is_clefairy(card):
+            return False
+        bench_clef = [mon for mon in me.bench if self._is_clefairy(me.card(mon.card_i))]
+        tele_ready = any(is_telepathic_energy(me.card(i)) for i in list(me.hand) + list(me.active.energy))
+        if not bench_clef and not tele_ready:
+            return False
+        thin = any(
+            sum(1 for i in mon.energy if "Psychic" in energy_provided(me.card(i))) < 2
+            for mon in (bench_clef or [me.active])
+        )
+        return bool(tele_ready or thin or me.active.damage > 0)
+
+    def _save_supporter_for_bounce(self, me: Player, foe: Player) -> bool:
+        if self._boss_closes_this_turn(me, foe, "a" if me.name == "A" else "b"):
+            return False
+        return self._prankish_bounce_ready(me, foe) or self._penny_line_pending(me)
+
+    def _try_double_prankish(self, me: Player, foe: Player, who: str) -> bool:
+        if not self._prankish_bounce_ready(me, foe):
+            return False
+        options = self._hand_bounce_effects(me)
+        chosen = self._choose_prankish_bounce(me, foe, options)
+        if chosen is None or not me.active:
+            return False
+        card_i, eff = chosen
+        evo_i = self._prankish_hand_index(me)
+        if evo_i is None:
+            return False
+        others = [
+            mon
+            for mon in self._eligible_clefairy(me, who, me.card(evo_i))
+            if mon is not me.active
+        ]
+        switch_idx: int | None = None
+        if eff.get("bench_only"):
+            unused = [mon for mon in others if not mon.ability_used] or others
+            if (
+                not unused
+                or unused[0] not in me.bench
+                or me.item_lock
+                or self._first_named(me, "Switch") is None
+            ):
+                return False
+            switch_idx = me.bench.index(unused[0])
+        if not me.active.ability_used and any(self._is_clefairy(me.card(mon.card_i)) for mon in me.bench):
+            self._moon_watching_party(me, me.active)
+        self._do_evolve(me, me.active, evo_i)
+        target = me.active
+        if switch_idx is not None:
+            if not self._spend_switch_to(me, who, switch_idx):
+                return False
+            target = next(
+                (
+                    mon
+                    for mon in me.bench
+                    if me.card(mon.card_i).name.lower() == "clefable" and mon.played_turn == self.turn
+                ),
+                None,
+            )
+            if target is None:
+                return False
+        stack = self._pokemon_stack(target)
+        self._forced_bounce_target = target
+        try:
+            played = self._commit_trainer(me, foe, who, card_i)
+        finally:
+            self._forced_bounce_target = None
+        if played:
+            self._finish_bounce_followup(me, foe, who, stack)
+        return played
+
+    def _try_penny_second_party(self, me: Player, foe: Player, who: str) -> bool:
+        if me.supporter_used or not self._penny_line_pending(me):
+            return False
+        penny = self._first_named(me, "Penny")
+        if penny is None or not me.active or not me.bench:
+            return False
+        if not me.active.ability_used and any(self._is_clefairy(me.card(mon.card_i)) for mon in me.bench):
+            self._moon_watching_party(me, me.active)
+        stack = self._pokemon_stack(me.active)
+        self._forced_bounce_target = me.active
+        try:
+            played = self._commit_trainer(me, foe, who, penny)
+        finally:
+            self._forced_bounce_target = None
+        if played:
+            self._finish_bounce_followup(me, foe, who, stack)
+        return played
+
+    def _try_heal_bounce(self, me: Player, foe: Player, who: str) -> bool:
+        if me.supporter_used or len(me.in_play()) < 2:
+            return False
+        options = self._hand_bounce_effects(me)
+        if not options:
+            return False
+        hurt = [mon for mon in me.in_play() if mon.damage > 0]
+        hurt.sort(key=lambda mon: self._max_hp(me, mon) - mon.damage)
+        for mon in hurt:
+            if mon is me.active and self._can_active_ko(me, foe):
+                continue
+            remaining = self._max_hp(me, mon) - mon.damage
+            if remaining > 80 and mon.damage < 100:
+                continue
+            ranked: list[tuple[int, int, dict]] = []
+            for card_i, eff in options:
+                if mon not in self._legal_bounce_targets(me, eff):
+                    continue
+                if eff.get("bench_only") and mon not in me.bench:
+                    continue
+                if eff.get("attachments") == "discard" and (remaining > 60 or len(mon.energy) >= 3):
+                    continue
+                keep = 0 if eff.get("attachments") == "hand" else 1
+                ranked.append((keep, card_i, eff))
+            if not ranked:
+                continue
+            _, card_i, _eff = min(ranked, key=lambda row: row[0])
+            stack = self._pokemon_stack(mon)
+            self._forced_bounce_target = mon
+            try:
+                played = self._commit_trainer(me, foe, who, card_i)
+            finally:
+                self._forced_bounce_target = None
+            if played:
+                self._bench_returned_basics(me, stack)
+            return played
+        return False
+
+    def _party_bounce_combo(self, me: Player, foe: Player, who: str) -> None:
+        if me.supporter_used or not self._can_play_supporter(who):
+            return
+        if self._boss_closes_this_turn(me, foe, who):
+            return
+        if self._try_double_prankish(me, foe, who):
+            return
+        if self._try_penny_second_party(me, foe, who):
+            return
+        self._try_heal_bounce(me, foe, who)
 
     def _is_stage2(self, card: Card) -> bool:
         return (card.stage or "").lower() in {"stage2", "stage 2"}
@@ -9041,6 +9415,8 @@ class Game:
             self._wally_evolve(me, who, bool(eff.get("first_turn_ok")), bool(eff.get("just_played_ok")))
         elif kind == "evolve_just_played_or_evolved":
             self._play_stadium(me, foe, card)
+        elif kind == "return_pokemon_to_hand":
+            self._return_in_play_to_hand(me, foe, card, eff)
 
     def _puzzle_of_time(self, me: Player, who: str, card: Card, look: int, pair_count: int) -> None:
         second = next((i for i in me.hand if me.card(i).name.lower() == card.name.lower()), None)

@@ -950,7 +950,60 @@ def parse_trainer_effects(text: str) -> list[dict[str, Any]]:
         effects.append({"kind": "evolve_just_played_or_evolved"})
         return effects
 
+    # Penny, Turo, AZ, Cheren's Care, Mr. Briney's Compassion, Seeker.
+    # Damage counters are not cards: leaving play clears them.
+    bounce = _return_pokemon_to_hand_effect(t)
+    if bounce:
+        effects.append(bounce)
+        return effects
+
     return effects
+
+
+def _return_pokemon_to_hand_effect(t: str) -> dict[str, Any] | None:
+    """Printed bounce Supporters. The sentence decides targets and attachments."""
+    if "into your hand" not in t and "to your hand" not in t and "to his or her hand" not in t:
+        return None
+    both_bench = (
+        "benched pokemon" in t
+        and "each" in t
+        and "return" in t
+        and "supporter" not in t
+        and "discard pile" not in t
+    )
+    if both_bench:
+        return {
+            "kind": "return_pokemon_to_hand",
+            "bench_only": True,
+            "both_players": True,
+            "attachments": "hand",
+        }
+    if "excluding pokemon-ex" in t and "return that pokemon" in t:
+        return {
+            "kind": "return_pokemon_to_hand",
+            "exclude_ex": True,
+            "attachments": "hand",
+        }
+    discards_attached = "discard all" in t and "attached" in t
+    if re.search(r"put 1 of your pokemon into your hand", t) and discards_attached:
+        return {
+            "kind": "return_pokemon_to_hand",
+            "attachments": "discard",
+        }
+    if "basic pokemon" in t and "all attached cards into your hand" in t and "put 1 of your" in t:
+        return {
+            "kind": "return_pokemon_to_hand",
+            "basic_only": True,
+            "attachments": "hand",
+        }
+    if "damage counter" in t and "attached" in t and "colorless" in t and "put 1 of your" in t:
+        return {
+            "kind": "return_pokemon_to_hand",
+            "colorless_only": True,
+            "require_damage": True,
+            "attachments": "hand",
+        }
+    return None
 
 
 def is_double_colorless(card: Any) -> bool:

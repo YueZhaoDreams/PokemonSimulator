@@ -110,6 +110,14 @@ SET_C_NAMES = (
 # for -Jacq -Energy Retrieval -1 Iono: T60 51.3 -> 69.1, Hedrick 59.0 -> 64.6,
 # UNL 82.8 -> 89.5, D60 holds 76.1. Rabsca 1-1 does nothing (+0-1, fragile 1-1);
 # Shaymin blocks damage only, not Dive counters. See set-c60-bench-shield.md.
+# Bounce package (2026-09-22): -1 Hop -1 Lillie -1 Lillie's Determination -1 Iono
+# -1 Energy Switch, +2 Penny +1 Turo +1 Mr. Briney's Compassion +1 Seeker.
+# Penny: Basic + attachments to hand (Telepathic Active Clefairy, or a chipped
+# Mewtwo ex). Turo: any Pokémon, attachments discarded. Briney: non-ex +
+# attachments to hand (Prankish Clefable). Seeker: one Bench Pokémon from each
+# player, attachments to hand. Leaving play clears damage counters, so the
+# replay is full HP. AZ is the same sentence as Turo and stays out of the 60.
+# Cheren's Care is Colorless-only, so it cannot pick up this Psychic line.
 SET_C60_NAMES = (
     ["Clefairy"] * 4
     + ["Mewtwo ex"] * 3
@@ -119,20 +127,42 @@ SET_C60_NAMES = (
     + ["Nest Ball"] * 4
     + ["Buddy-Buddy Poffin"] * 4
     + ["Ultra Ball"] * 2
-    + ["Hop"] * 2
-    + ["Lillie"] * 2
-    + ["Lillie's Determination"] * 2
+    + ["Hop"]
+    + ["Lillie"]
+    + ["Lillie's Determination"]
     + ["Arven"]
     + ["Boss's Orders"] * 3
-    + ["Iono"]
+    + ["Penny"] * 2
+    + ["Professor Turo's Scenario"]
+    + ["Mr. Briney's Compassion"]
+    + ["Seeker"]
     + ["Switch"] * 2
-    + ["Energy Switch"] * 2
+    + ["Energy Switch"]
     + ["Night Stretcher"]
     + ["Maximum Belt"]
     + ["Battle Cage"] * 3
     + ["Telepathic Psychic Energy"] * 2
     + ["Psychic Energy"] * 14
 )
+
+
+def c60_names_before_bounce() -> list[str]:
+    """Cage-lock C60 from before the Penny / Turo / Briney / Seeker package.
+
+    Historical bakeoffs undo later cuts starting from that list. Order of the
+    restored cards matches the slots the bounce package replaced.
+    """
+    names = list(SET_C60_NAMES)
+    for card in (
+        "Penny",
+        "Penny",
+        "Professor Turo's Scenario",
+        "Mr. Briney's Compassion",
+        "Seeker",
+    ):
+        names.remove(card)
+    names.extend(["Hop", "Lillie", "Lillie's Determination", "Iono", "Energy Switch"])
+    return names
 
 SET_D_NAMES = (  # 30: Fighting Energy 6 → 8
     ["Cornerstone Mask Ogerpon ex"] * 4
@@ -934,9 +964,54 @@ _register(
     _trn(
         "Professor Turo's Scenario",
         "supporter",
-        "Put 1 of your Pokémon in play and all attached cards into your hand.",
+        "Put 1 of your Pokémon into your hand. (Discard all attached cards.)",
         catalog_id="sv04-171",
         image="https://assets.tcgdex.net/en/sv/sv04/171/low.webp",
+    )
+)
+_register(
+    _trn(
+        "Penny",
+        "supporter",
+        "Put 1 of your Basic Pokémon and all attached cards into your hand.",
+        catalog_id="sv01-183",
+        image="https://assets.tcgdex.net/en/sv/sv01/183/low.webp",
+    )
+)
+_register(
+    _trn(
+        "AZ",
+        "supporter",
+        "Put 1 of your Pokémon into your hand. (Discard all cards attached to that Pokémon.)",
+        catalog_id="xy4-91",
+        image="https://assets.tcgdex.net/en/xy/xy4/91/low.webp",
+    )
+)
+_register(
+    _trn(
+        "Cheren's Care",
+        "supporter",
+        "Put 1 of your Colorless Pokémon that has any damage counters on it and all attached cards into your hand.",
+        catalog_id="swsh9-134",
+        image="https://assets.tcgdex.net/en/swsh/swsh9/134/low.webp",
+    )
+)
+_register(
+    _trn(
+        "Mr. Briney's Compassion",
+        "supporter",
+        "Choose 1 of your Pokémon in play (excluding Pokémon-ex). Return that Pokémon and all cards attached to it to your hand.",
+        catalog_id="ex3-87",
+        image="https://assets.tcgdex.net/en/ex/ex3/87/low.webp",
+    )
+)
+_register(
+    _trn(
+        "Seeker",
+        "supporter",
+        "Each player returns 1 of his or her Benched Pokémon and all cards attached to it to his or her hand. (You return your Pokémon first.)",
+        catalog_id="hgss3-85",
+        image="https://assets.tcgdex.net/en/hgss/hgss3/85/low.webp",
     )
 )
 _register(

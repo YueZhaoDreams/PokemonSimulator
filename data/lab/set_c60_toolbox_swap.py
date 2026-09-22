@@ -20,7 +20,7 @@ from app.engine.models import standard_60_rules
 from app.engine.montecarlo import run_simulation
 from app.engine.strategies import StrategySpec
 from app.seed_data import (
-    SET_C60_NAMES,
+    c60_names_before_bounce,
     SET_D60_NAMES,
     SET_G_NAMES,
     SET_H_NAMES,
@@ -43,7 +43,7 @@ def c60_at_toolbox_bakeoff() -> list[str]:
     -1 Iono +3 Battle Cage (bench shields). Re-runs undo that drift so the
     JSON stays comparable.
     """
-    names = list(SET_C60_NAMES)
+    names = c60_names_before_bounce()
     for _ in range(names.count("Battle Cage")):
         names.remove("Battle Cage")
     names.extend(["Jacq", "Energy Retrieval", "Iono"])

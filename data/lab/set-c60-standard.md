@@ -20,7 +20,7 @@ The 30-card identity is LOR 62 Moon-Watching Party → load Psychic onto benched
 | 0 Energy (Pokémon pay Party) | **14 Psychic Energy + 2 Telepathic Psychic Energy** |
 | 2 Nest, 0 Poffin, 0 Switch | 4 Nest, **4 Poffin** (Clefairy is 60 HP), **2 Switch** (Party is Active-only) |
 | 1 Boss | **3 Boss** (6-prize race) |
-| 2 Hop / 1 Lillie | 2 Hop / 2 Lillie / 2 Lillie's Determination / 2 Iono |
+| 2 Hop / 1 Lillie | 1 Hop / 1 Lillie / 1 Lillie's Determination / Penny / Turo / Briney / Seeker |
 | Arven + Belt | kept (ACE SPEC Belt still 1; Tool Box cut for a 14th Psychic) |
 | — | **3 Battle Cage** (−Jacq −Energy Retrieval −1 Iono; see [bench shields](set-c60-bench-shield.md)) |
 
@@ -38,14 +38,17 @@ Locked C60 list (`SET_C60_NAMES`):
 | 4 | Nest Ball | Bench Mewtwo / Clefairy |
 | 4 | Buddy-Buddy Poffin | Bench two 60 HP Clefairy |
 | 2 | Ultra Ball | Pokémon tutor |
-| 2 | Hop | Draw 3 |
-| 2 | Lillie | Draw until 6 (8 on first turn) |
-| 2 | Lillie's Determination | Shuffle draw 6 / 8 |
+| 1 | Hop | Draw 3 |
+| 1 | Lillie | Draw until 6 (8 on first turn) |
+| 1 | Lillie's Determination | Shuffle draw 6 / 8 |
 | 1 | Arven | Belt + Item |
 | 3 | Boss's Orders | Pull a prize |
-| 1 | Iono | Hand disruption |
-| 2 | Switch | Rotate Party Active |
-| 2 | Energy Switch | Party Energy → Mewtwo |
+| 2 | Penny | Basic + all attached cards to hand. Second Party after Telepathic; full HP on replay |
+| 1 | Professor Turo's Scenario | Any Pokémon to hand; discard attachments. Evolved bounce / ex heal |
+| 1 | Mr. Briney's Compassion | Non-ex Pokémon + attachments to hand. Double Prankish |
+| 1 | Seeker | Each player returns 1 Bench Pokémon + attachments. Opponent bench |
+| 2 | Switch | Rotate Party Active; Seeker needs the Clefable on the bench |
+| 1 | Energy Switch | Party Energy → Mewtwo |
 | 1 | Night Stretcher | Recycle Pokémon or Energy |
 | 1 | Maximum Belt | ACE SPEC +50 vs ex |
 | 3 | Battle Cage | Stadium: both benches ignore opp counter placement (Dive) |
@@ -83,6 +86,16 @@ Full pairwise matrix including Hedrick and the Unlimited-shaped Pidgeot/Rotom 60
 Lock update 2026-09-18: **3 Battle Cage** (−Jacq −Retrieval −1 Iono) moves T60
 51.3 → **69.1**, Hedrick 59.0 → **64.6**, UNL 82.8 → **89.5**, D60 holds 76.1.
 Full bakeoff + locked array: [set-c60-bench-shield.md](set-c60-bench-shield.md).
+
+Lock update 2026-09-22: bounce package replaces 1 Hop, 1 Lillie, 1 Lillie's Determination, the last Iono, and 1 Energy Switch.
+
+- **Penny** (SVI 183): `Put 1 of your Basic Pokémon and all attached cards into your hand.` Attach Telepathic to the Active Clefairy (bench up to 2), Party, Penny that Basic, promote, Party again. Mewtwo ex is Basic, so the same sentence also picks up a chipped Mewtwo and its Energy.
+- **Professor Turo's Scenario** (PAR 171): `Put 1 of your Pokémon into your hand. (Discard all attached cards.)` Any Pokémon, including Clefable / Clefable ex / Mega. Attachments are discarded.
+- **Mr. Briney's Compassion** (DR 87): `Choose 1 of your Pokémon in play (excluding Pokémon-ex). Return that Pokémon and all cards attached to it to your hand.` This is the Prankish bounce that keeps Energy cards.
+- **Seeker** (UD 85): `Each player returns 1 of his or her Benched Pokémon and all cards attached to it to his or her hand. (You return your Pokémon first.)` The Clefable has to be on the Bench (Switch first). The opponent also returns a Bench Pokémon.
+- **AZ** is the same effect as Turo and is not in the 60. **Cheren's Care** is `Put 1 of your Colorless Pokémon that has any damage counters on it and all attached cards into your hand.` This line is Psychic, so Cheren cannot target it.
+
+Leaving play removes damage counters. The card comes back, and the next time it is played it is a new Pokémon at full HP. A Basic played that turn cannot evolve. Double Prankish needs two Clefairy that were already in play: evolve one, bounce the Clefable, promote the other, Party, evolve that Clefable onto it.
 
 ### Read
 
