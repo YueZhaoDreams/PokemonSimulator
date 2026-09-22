@@ -193,3 +193,24 @@ def test_party_strategy_mentions_three_way_pad():
     assert "metronome" in text
     assert "prankish" in text
     assert "rule box" in text
+
+
+def test_pad_metronome_json_cells_follow_foe_order():
+    import json
+
+    blob = json.loads(
+        (Path(__file__).resolve().parents[1] / "data/lab/set-c60-pad-metronome.json").read_text()
+    )
+    foes = ["t60", "hedrick", "unl", "d60", "s60", "g"]
+    assert blob["games"] == 3000
+    assert blob["seed"] == 20260922
+    assert list(blob["foes"]) == foes
+    assert list(blob["cells"]) == ["prankish2", "clc1", "pad", "pad_clc"]
+    assert blob["lock"].startswith("none")
+    for row in blob["cells"].values():
+        assert list(row) == foes
+    assert blob["cells"]["pad_clc"]["t60"]["pad_metro"] > 0
+    assert blob["cells"]["pad_clc"]["d60"]["pad_prankish"] > blob["cells"]["pad_clc"]["d60"]["pad_metro"]
+    assert blob["cells"]["pad"]["t60"]["copy_dive"] == 0
+    assert SET_C60_NAMES.count("Clefable") == 2
+    assert SET_C60_NAMES.count("Poké Pad") == 0
