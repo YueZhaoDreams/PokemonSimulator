@@ -318,13 +318,14 @@ def test_seeker_board_wipe_kos_the_last_active():
     energies = [i for i, c in enumerate(me.cards) if c.name == "Psychic Energy"]
     seeker = next(i for i, c in enumerate(me.cards) if c.name == "Seeker")
     lillie = next(i for i, c in enumerate(me.cards) if c.name == "Lillie")
+    penny = next(i for i, c in enumerate(me.cards) if c.name == "Penny")
     dreepy = next(i for i, c in enumerate(foe.cards) if c.name == "Dreepy")
     drak = next(i for i, c in enumerate(foe.cards) if c.name == "Drakloak")
     me.active = Pokemon(card_i=mewtwo, played_turn=0, energy=energies[:2])
     fueled = Pokemon(card_i=fairies[0], played_turn=0, energy=energies[2:4])
     empty = Pokemon(card_i=fairies[1], played_turn=0)
     me.bench = [fueled, empty]
-    me.hand = [seeker, lillie]
+    me.hand = [seeker, lillie, penny]
     me.supporter_used = False
     me.energy_attached = True
     foe.active = Pokemon(card_i=dreepy, played_turn=0)
@@ -337,7 +338,7 @@ def test_seeker_board_wipe_kos_the_last_active():
     assert game._seeker_wipe_pending(me, foe, "a")
     assert list(me.hand) == hand_before
     assert [list(mon.energy) for mon in me.in_play()] == energy_before
-    assert game._pick_trainer(me) not in {lillie, seeker}
+    assert game._pick_trainer(me) not in {lillie, seeker, penny}
     assert game._try_seeker_board_wipe(me, foe, "a")
     assert fairies[1] in me.hand
     assert fairies[0] not in me.hand

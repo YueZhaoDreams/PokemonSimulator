@@ -1251,6 +1251,7 @@ class Game:
 
         candidates: list[tuple[float, int]] = []
         hold_for_bounce = strat.name == "party" and self._save_supporter_for_bounce(me, foe)
+        wipe_pending = hold_for_bounce and getattr(self, "_hold_for_seeker_wipe", False)
         for card_i in me.hand:
             card = me.card(card_i)
             if not card.is_trainer or card.name.lower() == "rare candy":
@@ -1688,11 +1689,8 @@ class Game:
                 score += self._g_horn_trainer_score(me, foe, who, card_i)
             if strat.name == "celebration":
                 score += self._celebration_trainer_score(me, who, name)
-            if (
-                card.is_supporter
-                and strat.name == "party"
-                and not self._is_bounce_supporter(card)
-                and hold_for_bounce
+            if card.is_supporter and hold_for_bounce and (
+                wipe_pending or not self._is_bounce_supporter(card)
             ):
                 score -= 30
             candidates.append((score, card_i))
@@ -2509,7 +2507,9 @@ class Game:
 
     def _save_supporter_for_bounce(self, me: Player, foe: Player) -> bool:
         who = "a" if me.name == "A" else "b"
+        self._hold_for_seeker_wipe = False
         if self._seeker_wipe_pending(me, foe, who):
+            self._hold_for_seeker_wipe = True
             return True
         if self._boss_closes_this_turn(me, foe, who):
             return False
