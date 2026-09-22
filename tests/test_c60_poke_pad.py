@@ -182,3 +182,31 @@ def test_party_strategy_mentions_poke_pad_superposition():
     assert "poké pad" in text
     assert "rule box" in text
     assert "prankish" in text
+
+
+def test_poke_pad_json_keeps_the_two_clefable_lock():
+    import json
+
+    blob = json.loads(
+        (Path(__file__).resolve().parents[1] / "data/lab/set-c60-poke-pad.json").read_text()
+    )
+    foes = ["t60", "hedrick", "unl", "d60", "s60", "g"]
+    assert blob["games"] == 3000
+    assert blob["seed"] == 20260922
+    assert blob["rule_preset"] == "s60"
+    assert blob["foes"] == foes
+    assert list(blob["cells"]) == ["clefable2", "pad"]
+    assert Counter(blob["lists"]["clefable2"]) == Counter(SET_C60_NAMES)
+    assert blob["lists"]["pad"].count("Clefable") == 1
+    assert blob["lists"]["pad"].count("Poké Pad") == 1
+    for row in blob["cells"].values():
+        assert list(row) == foes
+    locked = blob["cells"]["clefable2"]
+    pad = blob["cells"]["pad"]
+    assert locked["t60"]["pad_hit"] == 0
+    assert pad["t60"]["pad_hit"] > 500
+    assert pad["t60"]["pad_clefable"] > pad["t60"]["pad_clefairy"]
+    assert pad["d60"]["a"] > locked["d60"]["a"] + 0.01
+    assert blob["weighted_competitive"]["pad"] > blob["weighted_competitive"]["clefable2"]
+    assert SET_C60_NAMES.count("Clefable") == 2
+    assert SET_C60_NAMES.count("Poké Pad") == 0
