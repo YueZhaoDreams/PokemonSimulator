@@ -776,9 +776,10 @@ class Game:
         if self.strats[who].name in {"party", "demolish", "slash", "shock", "thrifty", "phantom", "carnival", "g", "celebration"}:
             self._play_trainers(me, foe, who)
             self._play_basics(me)
-        if self.strats[who].name == "party":
+        if self.strats[who].name in {"party", "g"}:
             # Telepathic Psychic Energy benches Basics on attach-from-hand. Party is once
             # per Clefairy, so attach first or the new engines miss this turn's search.
+            # g still fires Moon-Watching Party while G is rebuilt toward C60.
             self._maybe_attach_telepathic_before_party(me, who)
         if self._use_abilities(me, foe, who):
             return True

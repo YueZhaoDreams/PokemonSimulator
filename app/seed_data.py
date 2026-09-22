@@ -512,8 +512,9 @@ SET_G_POFFIN_NAMES = (
 # Switch, 2 Switch. Bird line stays 1-1-1; Ledian stays 4/4.
 # Confirm 3000 games, seed 20260921: t60 20.9→23.9, Hedrick 29.8→34.6,
 # D60 5.6→5.4, UNL 44.5→49.3, C60 21.7→22.2, S60 69.8→74.8, H 95.8→96.4.
+# Frozen so later Telepathic arrivals stay reproducible.
 # See data/lab/set-g-nest-zone.md.
-SET_G_NAMES = (
+SET_G_NEST_ZONE_NAMES = (
     ["Clefairy"] * 4
     + ["Ledyba"] * 4
     + ["Ledian"] * 4
@@ -533,6 +534,32 @@ SET_G_NAMES = (
     + ["Buddy-Buddy Poffin"] * 4
     + ["Boss's Orders"] * 3
     + ["Psychic Energy"] * 17
+    + ["Darkness Energy"] * 3
+)
+# Carpet Set G — Telepathic lock. Nest/Zone list minus 2 Psychic Energy, plus
+# 2 Telepathic Psychic Energy. C60 destination stays 2; copies 3 and 4 lose
+# Hedrick on C60 and D60 on G. See data/lab/set-g-c60-telepathic.md.
+SET_G_NAMES = (
+    ["Clefairy"] * 4
+    + ["Ledyba"] * 4
+    + ["Ledian"] * 4
+    + ["Starly"]
+    + ["Staravia"]
+    + ["Staraptor"]
+    + ["Munkidori"] * 2
+    + ["Mega Clefable ex"]
+    + ["Clefable ex"] * 3
+    + ["Drayton"]
+    + ["Iris's Fighting Spirit"]
+    + ["Energy Retrieval"]
+    + ["Energy Switch"] * 2
+    + ["Ultra Ball"]
+    + ["Nest Ball"] * 4
+    + ["Switch"] * 2
+    + ["Buddy-Buddy Poffin"] * 4
+    + ["Boss's Orders"] * 3
+    + ["Telepathic Psychic Energy"] * 2
+    + ["Psychic Energy"] * 15
     + ["Darkness Energy"] * 3
 )
 
