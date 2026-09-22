@@ -1627,7 +1627,7 @@ class Game:
             elif name == "crispin":
                 score += 11 if me.in_play() else -4
             elif name in {"poké pad", "poke pad"}:
-                score += 8 if missing_protect else 3
+                score += self._poke_pad_trainer_score(me, strat, missing_protect)
             elif name == "crushing hammer":
                 has_nrg = foe.active is not None and bool(foe.active.energy)
                 score += 6 if has_nrg else -3
@@ -1973,16 +1973,19 @@ class Game:
         elif name == "crispin":
             self._crispin(me, who)
         elif name in {"poké pad", "poke pad"}:
-            prefer = ["Dreepy", "Drakloak", "Budew", "Dunsparce"]
             found = self._search(
                 me,
                 lambda c: c.is_pokemon and not self._has_rule_box(c),
-                prefer=prefer,
+                prefer=self._poke_pad_prefer(me, who),
                 source="poke pad",
             )
             if found:
+                side = me.name.lower()
                 self._bump("poke_pad_hit")
-                self._log(f"{me.name} Poké Pad finds {me.card(found).name}")
+                self._bump(f"poke_pad_hit_{side}")
+                found_name = me.card(found).name
+                self._bump(f"tutor_{side}:{found_name}:poke pad")
+                self._log(f"{me.name} Poké Pad finds {found_name}")
         elif name == "crushing hammer":
             if self.rng.random() < 0.5:
                 self._discard_one_energy_from_foe(foe)
@@ -2223,6 +2226,58 @@ class Game:
             if any("prankish" in (abi.name or "").lower() for abi in card.abilities):
                 return card_i
         return None
+
+    def _pad_legal_in_deck(self, me: Player) -> bool:
+        return any(me.card(i).is_pokemon and not self._has_rule_box(me.card(i)) for i in me.deck)
+
+    def _party_wants_pad_clefairy(self, me: Player) -> bool:
+        cap = self._clefairy_play_cap(me)
+        have = self._count_named_in_play(me, "Clefairy") + sum(
+            1 for i in me.hand if self._is_clefairy(me.card(i))
+        )
+        if have >= cap:
+            return False
+        return any(self._is_clefairy(me.card(i)) for i in me.deck)
+
+    def _party_wants_pad_clefable(self, me: Player) -> bool:
+        if self._prankish_hand_index(me) is not None:
+            return False
+        if any(me.card(m.card_i).name.lower() == "clefable" for m in me.in_play()):
+            return False
+        if not any(self._is_clefairy(me.card(m.card_i)) for m in me.in_play()):
+            return False
+        return any(
+            me.card(i).name.lower() == "clefable" and not self._has_rule_box(me.card(i))
+            for i in me.deck
+        )
+
+    def _poke_pad_prefer(self, me: Player, who: str) -> list[str]:
+        """Printed Pad is a non-Rule-Box Pokémon search. Party uses it as a
+        Clefairy / Prankish Clefable superposition; other scripts keep their
+        existing hunt order (ex names are skipped by the search predicate).
+        """
+        strat = self.strats[who]
+        if strat.name == "party":
+            if self._party_wants_pad_clefable(me):
+                return ["Clefable", "Clefairy"]
+            return ["Clefairy", "Clefable"]
+        if strat.name == "phantom":
+            return ["Dreepy", "Drakloak", "Budew", "Dunsparce"]
+        return list(self._pokemon_search_prefer(me, who))
+
+    def _poke_pad_trainer_score(self, me: Player, strat: StrategySpec, missing_protect: list) -> float:
+        if not self._pad_legal_in_deck(me):
+            return -10.0
+        if strat.name == "party":
+            # Nest / Poffin bench Clefairy; Pad puts the card in hand. Fetch
+            # Prankish (Stage 1) first when a Clefairy is already in play.
+            # Engine repair sits under Nest 6 / Poffin 11–14.
+            if self._party_wants_pad_clefable(me):
+                return 13.0
+            if self._party_wants_pad_clefairy(me):
+                return 5.0
+            return 1.0
+        return 8.0 if missing_protect else 3.0
 
     def _eligible_clefairy(self, me: Player, who: str, evo: Card) -> list[Pokemon]:
         return [
