@@ -112,9 +112,9 @@ SET_C_NAMES = (
 # Shaymin blocks damage only, not Dive counters. See set-c60-bench-shield.md.
 # Bounce-slot matrix (2026-09-22, seed 20260922, 3,000/cell): Penny, Turo,
 # Briney, Seeker, AZ, and Cheren's Care in these five slots all lose to this
-# list. The live 2/1/1/1 package is T60 57.7 / D60 62.7 against this list's
-# 68.8 / 75.8. See data/lab/set-c60-bounce-combo.md. The cards stay in the
-# engine; they are not in the 60.
+# list. The live 2/1/1/1 package, with Seeker's one-bench KO line, is T60 58.3 /
+# D60 62.2 against this list's 68.8 / 75.8. See data/lab/set-c60-bounce-combo.md.
+# The cards stay in the engine; they are not in the 60.
 SET_C60_NAMES = (
     ["Clefairy"] * 4
     + ["Mewtwo ex"] * 3

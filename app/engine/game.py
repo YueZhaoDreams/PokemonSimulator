@@ -842,6 +842,7 @@ class Game:
             if self._energy_attack_blocked(me, who):
                 self._log(f"{me.card(me.active.card_i).name} cannot attack (Frigid Fangs)")
             else:
+                self._try_seeker_board_wipe(me, foe, who)
                 self._attack(me, foe, who)
                 if getattr(self, "winner", None):
                     self._expire_disabled_attacks(me)
@@ -1249,6 +1250,7 @@ class Game:
         missing_protect = missing_ace
 
         candidates: list[tuple[float, int]] = []
+        hold_for_bounce = strat.name == "party" and self._save_supporter_for_bounce(me, foe)
         for card_i in me.hand:
             card = me.card(card_i)
             if not card.is_trainer or card.name.lower() == "rare candy":
@@ -1665,6 +1667,11 @@ class Game:
                 score += 11 if me.bench else -4
             elif "iris" in name and "fighting spirit" in name:
                 score += 15 if len(me.hand) >= 2 and len(me.hand) < 6 else 4
+            elif name == "seeker":
+                # Each player returns one Bench Pokémon. Party plays this from
+                # _try_seeker_board_wipe when that return plus a KO clears the
+                # board. The generic picker would send the wrong Bench Pokémon.
+                score -= 40
             elif name == "iono":
                 score += 10 if len(me.hand) <= 3 else 2
             elif name == "drayton":
@@ -1685,7 +1692,7 @@ class Game:
                 card.is_supporter
                 and strat.name == "party"
                 and not self._is_bounce_supporter(card)
-                and self._save_supporter_for_bounce(me, foe)
+                and hold_for_bounce
             ):
                 score -= 30
             candidates.append((score, card_i))
@@ -2129,12 +2136,18 @@ class Game:
         self._bounce_one(me, target, str(eff.get("attachments") or "hand"), card)
 
     def _seeker_return(self, me: Player, foe: Player, card: Card, eff: dict) -> None:
+        """Each player returns one Bench Pokémon, you first.
+
+        A player with no Bench Pokémon returns nothing. The other player still
+        returns one when they have a Bench.
+        """
         mine = self._pick_bounce_target(me, eff)
-        if mine is None or len(me.in_play()) < 2:
+        if mine is not None:
+            self._bounce_one(me, mine, "hand", card)
+        if not foe.bench and mine is None:
             self._bump("bounce_fail")
             self._bump(f"bounce_fail_{me.name.lower()}")
             return
-        self._bounce_one(me, mine, "hand", card)
         if not foe.bench:
             return
         theirs = max(
@@ -2326,8 +2339,179 @@ class Game:
         )
         return bool(tele_ready or thin or me.active.damage > 0)
 
+    def _seeker_in_hand(self, me: Player) -> int | None:
+        for card_i in me.hand:
+            card = me.card(card_i)
+            if not card.is_supporter:
+                continue
+            for eff in parse_trainer_effects(card.text or ""):
+                if (
+                    eff.get("kind") == "return_pokemon_to_hand"
+                    and eff.get("both_players")
+                    and eff.get("bench_only")
+                ):
+                    return card_i
+        return None
+
+    def _can_ko_peeking_attach(self, me: Player, foe: Player) -> bool:
+        """Active KO now, or after one Energy from hand on that Active."""
+        if self._can_active_ko(me, foe):
+            return True
+        if me.energy_attached or not me.active:
+            return False
+        for energy_i in list(me.hand):
+            if not me.card(energy_i).is_energy:
+                continue
+            at = me.hand.index(energy_i)
+            me.hand.pop(at)
+            me.active.energy.append(energy_i)
+            try:
+                if self._can_active_ko(me, foe):
+                    return True
+            finally:
+                if energy_i in me.active.energy:
+                    me.active.energy.remove(energy_i)
+                me.hand.insert(at, energy_i)
+        return False
+
+    def _ko_without_bench(
+        self,
+        me: Player,
+        foe: Player,
+        removed: list[tuple[Player, Pokemon]],
+        peek_attach: bool,
+    ) -> bool:
+        saved: list[tuple[Player, int, Pokemon]] = []
+        for player, mon in removed:
+            if mon not in player.bench:
+                return False
+            idx = player.bench.index(mon)
+            saved.append((player, idx, player.bench.pop(idx)))
+        try:
+            if peek_attach:
+                return self._can_ko_peeking_attach(me, foe)
+            return self._can_active_ko(me, foe)
+        finally:
+            for player, idx, mon in reversed(saved):
+                player.bench.insert(idx, mon)
+
+    def _seeker_wipe_choice(
+        self,
+        me: Player,
+        foe: Player,
+        peek_attach: bool,
+    ) -> tuple[int, Pokemon | None] | None:
+        """Seeker index and the Bench Pokémon we return, when the KO still lands.
+
+        The second item is None when we have no Bench: only the opponent returns one.
+        """
+        who = "a" if me.name == "A" else "b"
+        if me.supporter_used or not self._can_play_supporter(who):
+            return None
+        if not me.active or not foe.active or len(foe.bench) != 1:
+            return None
+        if me.active.status & (ST_PARALYZED | ST_ASLEEP):
+            return None
+        seeker = self._seeker_in_hand(me)
+        if seeker is None:
+            return None
+        foe_mon = foe.bench[0]
+        if not me.bench:
+            if self._ko_without_bench(me, foe, [(foe, foe_mon)], peek_attach):
+                return (seeker, None)
+            return None
+        order = sorted(
+            me.bench,
+            key=lambda mon: (
+                len(mon.energy),
+                self._prizes_for_ko(me.card(mon.card_i)),
+                self._max_hp(me, mon),
+            ),
+        )
+        for mon in order:
+            if self._ko_without_bench(me, foe, [(foe, foe_mon), (me, mon)], peek_attach):
+                return (seeker, mon)
+        return None
+
+    def _seeker_wipe_after_retreat(self, me: Player, foe: Player) -> bool:
+        """True when attach-then-retreat leaves a Seeker KO on the new Active."""
+        if not me.active or not me.bench or me.retreated:
+            return False
+        if me.active.status & (ST_PARALYZED | ST_ASLEEP):
+            return False
+        cost = self._retreat_cost(me, me.active)
+        if len(me.active.energy) < cost:
+            return False
+        attaches: list[int | None] = [None]
+        if not me.energy_attached:
+            attaches.extend(i for i in me.hand if me.card(i).is_energy)
+        for idx in range(len(me.bench)):
+            for energy_i in attaches:
+                if self._retreat_peek_wipes(me, foe, idx, cost, energy_i):
+                    return True
+        return False
+
+    def _retreat_peek_wipes(self, me: Player, foe: Player, idx: int, cost: int, energy_i: int | None) -> bool:
+        attached = False
+        hand_at: int | None = None
+        if energy_i is not None:
+            if energy_i not in me.hand or not me.active:
+                return False
+            hand_at = me.hand.index(energy_i)
+            me.hand.pop(hand_at)
+            me.active.energy.append(energy_i)
+            attached = True
+        if not me.active or len(me.active.energy) < cost or idx >= len(me.bench):
+            if attached and me.active and energy_i is not None and energy_i in me.active.energy:
+                me.active.energy.remove(energy_i)
+                me.hand.insert(hand_at if hand_at is not None else len(me.hand), energy_i)
+            return False
+        removed = list(me.active.energy[:cost])
+        del me.active.energy[:cost]
+        old = me.active
+        incoming = me.bench[idx]
+        me.bench[idx] = old
+        me.active = incoming
+        try:
+            return self._seeker_wipe_choice(me, foe, peek_attach=False) is not None
+        finally:
+            me.active = old
+            me.bench[idx] = incoming
+            old.energy[:0] = removed
+            if attached and energy_i is not None:
+                if energy_i in old.energy:
+                    old.energy.remove(energy_i)
+                me.hand.insert(hand_at if hand_at is not None else len(me.hand), energy_i)
+
+    def _seeker_wipe_pending(self, me: Player, foe: Player, who: str) -> bool:
+        if self._seeker_in_hand(me) is None:
+            return False
+        if self.turn == 1 and who == self.first and self.rules.first_player_no_attack:
+            return False
+        if self._seeker_wipe_choice(me, foe, peek_attach=True) is not None:
+            return True
+        return self._seeker_wipe_after_retreat(me, foe)
+
+    def _try_seeker_board_wipe(self, me: Player, foe: Player, who: str) -> bool:
+        """Seeker, then the Active KO, when the opponent has exactly one Bench Pokémon."""
+        found = self._seeker_wipe_choice(me, foe, peek_attach=False)
+        if found is None:
+            return False
+        card_i, own = found
+        self._forced_bounce_target = own
+        try:
+            played = self._commit_trainer(me, foe, who, card_i)
+        finally:
+            self._forced_bounce_target = None
+        if played:
+            self._bump("seeker_board_wipe")
+        return played
+
     def _save_supporter_for_bounce(self, me: Player, foe: Player) -> bool:
-        if self._boss_closes_this_turn(me, foe, "a" if me.name == "A" else "b"):
+        who = "a" if me.name == "A" else "b"
+        if self._seeker_wipe_pending(me, foe, who):
+            return True
+        if self._boss_closes_this_turn(me, foe, who):
             return False
         return self._prankish_bounce_ready(me, foe) or self._penny_line_pending(me)
 
@@ -2443,6 +2627,8 @@ class Game:
 
     def _party_bounce_combo(self, me: Player, foe: Player, who: str) -> None:
         if me.supporter_used or not self._can_play_supporter(who):
+            return
+        if self._seeker_wipe_pending(me, foe, who):
             return
         if self._boss_closes_this_turn(me, foe, who):
             return

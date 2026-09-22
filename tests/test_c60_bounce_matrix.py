@@ -92,6 +92,7 @@ def test_bounce_matrix_json_keeps_the_cage_list():
     assert penny4["t60"]["a"] < penny2["t60"]["a"] < iono_penny["t60"]["a"] < cage["t60"]["a"]
     assert blob["weighted_competitive"]["cage"] > blob["weighted_competitive"]["live"] + 0.08
     assert abs(blob["weighted_competitive"]["iono-seeker"] - blob["weighted_competitive"]["cage"]) < 0.01
+    assert cage["t60"]["a"] > blob["cells"]["iono-seeker"]["t60"]["a"] + 0.005
     assert blob["cells"]["iono-seeker"]["g"]["a"] > cage["g"]["a"] + 0.02
     assert blob["cells"]["iono-cheren"]["t60"]["bounce_cheren"] == 0
     assert blob["cells"]["iono-cheren"]["t60"]["bounce_fail"] > 500

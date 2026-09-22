@@ -284,6 +284,130 @@ def test_az_discards_attached_cards():
     assert game.events.get("bounce_heal") == 1
 
 
+def test_seeker_with_no_bench_still_returns_the_opponents():
+    game = _game()
+    game.turn = 4
+    me = game.players["a"]
+    foe = game.players["b"]
+    fairy = next(i for i, c in enumerate(me.cards) if c.name == "Clefairy")
+    seeker = next(i for i, c in enumerate(me.cards) if c.name == "Seeker")
+    dreepy = next(i for i, c in enumerate(foe.cards) if c.name == "Dreepy")
+    drak = next(i for i, c in enumerate(foe.cards) if c.name == "Drakloak")
+    me.active = Pokemon(card_i=fairy, played_turn=0)
+    me.bench = []
+    me.hand = [seeker]
+    me.supporter_used = False
+    foe.active = Pokemon(card_i=dreepy, played_turn=0)
+    foe.bench = [Pokemon(card_i=drak, played_turn=0, damage=20)]
+    game._commit_trainer(me, foe, "a", seeker)
+    assert drak in foe.hand
+    assert foe.bench == []
+    assert me.active is not None and me.active.card_i == fairy
+    assert game.events.get("bounce_fail") is None
+    assert game.events.get("bounce_b:Seeker") == 1
+    assert game.events.get("bounce_a:Seeker") is None
+
+
+def test_seeker_board_wipe_kos_the_last_active():
+    game = _game()
+    game.turn = 4
+    me = game.players["a"]
+    foe = game.players["b"]
+    mewtwo = next(i for i, c in enumerate(me.cards) if c.name == "Mewtwo ex")
+    fairies = [i for i, c in enumerate(me.cards) if c.name == "Clefairy"]
+    energies = [i for i, c in enumerate(me.cards) if c.name == "Psychic Energy"]
+    seeker = next(i for i, c in enumerate(me.cards) if c.name == "Seeker")
+    lillie = next(i for i, c in enumerate(me.cards) if c.name == "Lillie")
+    dreepy = next(i for i, c in enumerate(foe.cards) if c.name == "Dreepy")
+    drak = next(i for i, c in enumerate(foe.cards) if c.name == "Drakloak")
+    me.active = Pokemon(card_i=mewtwo, played_turn=0, energy=energies[:2])
+    fueled = Pokemon(card_i=fairies[0], played_turn=0, energy=energies[2:4])
+    empty = Pokemon(card_i=fairies[1], played_turn=0)
+    me.bench = [fueled, empty]
+    me.hand = [seeker, lillie]
+    me.supporter_used = False
+    me.energy_attached = True
+    foe.active = Pokemon(card_i=dreepy, played_turn=0)
+    foe.bench = [Pokemon(card_i=drak, played_turn=0)]
+    hp = game._max_hp(foe, foe.active)
+    foe.active.damage = max(0, hp - 100)
+    assert game._can_active_ko(me, foe)
+    hand_before = list(me.hand)
+    energy_before = [list(mon.energy) for mon in me.in_play()]
+    assert game._seeker_wipe_pending(me, foe, "a")
+    assert list(me.hand) == hand_before
+    assert [list(mon.energy) for mon in me.in_play()] == energy_before
+    assert game._pick_trainer(me) not in {lillie, seeker}
+    assert game._try_seeker_board_wipe(me, foe, "a")
+    assert fairies[1] in me.hand
+    assert fairies[0] not in me.hand
+    assert drak in foe.hand
+    assert foe.bench == []
+    assert game.events.get("seeker_board_wipe") == 1
+    game._attack(me, foe, "a")
+    assert game._check_ko(foe, me, "b")
+    assert game.winner == "a"
+    assert game.reason == "opponent has no Pokémon in play"
+
+
+def test_seeker_board_wipe_refuses_when_the_ko_needs_the_only_bench():
+    game = _game()
+    game.turn = 4
+    me = game.players["a"]
+    foe = game.players["b"]
+    mewtwo = next(i for i, c in enumerate(me.cards) if c.name == "Mewtwo ex")
+    fairy = next(i for i, c in enumerate(me.cards) if c.name == "Clefairy")
+    energies = [i for i, c in enumerate(me.cards) if c.name == "Psychic Energy"]
+    seeker = next(i for i, c in enumerate(me.cards) if c.name == "Seeker")
+    drag = next(i for i, c in enumerate(foe.cards) if c.name == "Dragapult ex")
+    drak = next(i for i, c in enumerate(foe.cards) if c.name == "Drakloak")
+    me.active = Pokemon(card_i=mewtwo, played_turn=0, energy=energies[:2])
+    me.bench = [Pokemon(card_i=fairy, played_turn=0, energy=energies[2:4])]
+    me.hand = [seeker]
+    me.supporter_used = False
+    me.energy_attached = True
+    foe.active = Pokemon(card_i=drag, played_turn=0)
+    foe.bench = [Pokemon(card_i=drak, played_turn=0)]
+    hp = game._max_hp(foe, foe.active)
+    foe.active.damage = hp - 100
+    assert game._can_active_ko(me, foe)
+    assert game._try_seeker_board_wipe(me, foe, "a") is False
+    assert seeker in me.hand
+    assert foe.bench
+
+
+def test_seeker_board_wipe_needs_exactly_one_bench():
+    game = _game()
+    game.turn = 4
+    me = game.players["a"]
+    foe = game.players["b"]
+    mewtwo = next(i for i, c in enumerate(me.cards) if c.name == "Mewtwo ex")
+    energies = [i for i, c in enumerate(me.cards) if c.name == "Psychic Energy"]
+    seeker = next(i for i, c in enumerate(me.cards) if c.name == "Seeker")
+    dreepy = next(i for i, c in enumerate(foe.cards) if c.name == "Dreepy")
+    drak = next(i for i, c in enumerate(foe.cards) if c.name == "Drakloak")
+    drag = next(i for i, c in enumerate(foe.cards) if c.name == "Dragapult ex")
+    me.active = Pokemon(card_i=mewtwo, played_turn=0, energy=energies[:4])
+    me.bench = []
+    me.hand = [seeker]
+    me.supporter_used = False
+    me.energy_attached = True
+    foe.active = Pokemon(card_i=dreepy, played_turn=0)
+    foe.active.damage = game._max_hp(foe, foe.active) - 40
+    foe.bench = [
+        Pokemon(card_i=drak, played_turn=0),
+        Pokemon(card_i=drag, played_turn=0),
+    ]
+    assert game._can_active_ko(me, foe)
+    hand_before = list(me.hand)
+    energy_before = list(me.active.energy)
+    assert game._seeker_wipe_pending(me, foe, "a") is False
+    assert list(me.hand) == hand_before
+    assert list(me.active.energy) == energy_before
+    assert game._try_seeker_board_wipe(me, foe, "a") is False
+    assert len(foe.bench) == 2
+
+
 def test_party_holds_lillie_while_penny_line_is_ready():
     game = _game()
     game.turn = 3

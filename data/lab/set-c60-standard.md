@@ -84,7 +84,7 @@ Lock update 2026-09-18: **3 Battle Cage** (−Jacq −Retrieval −1 Iono) moves
 51.3 → **69.1**, Hedrick 59.0 → **64.6**, UNL 82.8 → **89.5**, D60 holds 76.1.
 Full bakeoff + locked array: [set-c60-bench-shield.md](set-c60-bench-shield.md).
 
-2026-09-22 bounce-slot matrix (seed `20260922`, 3,000/cell): Penny, Turo, Briney, Seeker, AZ, and Cheren's Care were swapped into the second Hop, second Lillie, second Lillie's Determination, the last Iono, and the second Energy Switch. The cage list above wins that array. The 2 Penny + Turo + Briney + Seeker package is **57.7%** vs T60 and **62.7%** vs D60, against **68.8%** and **75.8%** with those five cards restored. Full table: [set-c60-bounce-combo.md](set-c60-bounce-combo.md). The engine still plays the printed lines when the cards are in the deck.
+2026-09-22 bounce-slot matrix (seed `20260922`, 3,000/cell): Penny, Turo, Briney, Seeker, AZ, and Cheren's Care were swapped into the second Hop, second Lillie, second Lillie's Determination, the last Iono, and the second Energy Switch. The cage list above wins that array. The 2 Penny + Turo + Briney + Seeker package, with Seeker's one-bench KO line in the engine, is **58.3%** vs T60 and **62.2%** vs D60, against **68.8%** and **75.8%** with those five cards restored. Full table: [set-c60-bounce-combo.md](set-c60-bounce-combo.md). The engine still plays the printed lines when the cards are in the deck.
 
 ### Read
 

@@ -275,11 +275,16 @@ def main() -> None:
         raise SystemExit("cage variant drifted from c60_names_before_bounce()")
     if VARIANTS["live"] != list(BASE_NAMES):
         raise SystemExit("live variant is not the frozen bounce package")
+    only = [part for part in os.environ.get("LAB_ONLY", "").split(",") if part]
+    unknown = [key for key in only if key not in VARIANTS]
+    if unknown:
+        raise SystemExit(f"unknown LAB_ONLY variants: {unknown}")
+    selected = {key: VARIANTS[key] for key in (only or VARIANTS)}
     started = time.perf_counter()
-    cells: dict[str, dict[str, dict]] = {key: {} for key in VARIANTS}
+    cells: dict[str, dict[str, dict]] = {key: {} for key in selected}
     jobs = [
         (var_key, names, foe_key, foe_names, foe_strat)
-        for var_key, names in VARIANTS.items()
+        for var_key, names in selected.items()
         for foe_key, foe_names, foe_strat in FOES
     ]
     print(f"{len(jobs)} cells × {GAMES} games, {WORKERS} workers", flush=True)
@@ -299,7 +304,7 @@ def main() -> None:
                 flush=True,
             )
     elapsed = time.perf_counter() - started
-    ordered = {var: {foe: cells[var][foe] for foe, _n, _s in FOES} for var in VARIANTS}
+    ordered = {var: {foe: cells[var][foe] for foe, _n, _s in FOES} for var in selected}
     payload = {
         "games": GAMES,
         "seed": SEED,
@@ -307,8 +312,8 @@ def main() -> None:
         "rule_preset": "s60",
         "foes": [foe for foe, _n, _s in FOES],
         "slot_indexes": list(slot_indexes()),
-        "variant_slots": {key: list(cards) for key, cards in VARIANT_SLOTS.items()},
-        "lists": {key: list(names) for key, names in VARIANTS.items()},
+        "variant_slots": {key: list(VARIANT_SLOTS[key]) for key in selected},
+        "lists": {key: list(names) for key, names in selected.items()},
         "cells": ordered,
         "weighted_competitive": _weighted(ordered, ordered["cage"], COMPETITIVE),
         "weighted_all": _weighted(ordered, ordered["cage"], tuple(foe for foe, _n, _s in FOES)),
@@ -318,7 +323,7 @@ def main() -> None:
     print(f"\nelapsed {elapsed:.1f}s -> {dest}", flush=True)
     header = "variant".ljust(18) + "".join(foe.rjust(10) for foe, _n, _s in FOES) + "   wComp".rjust(10)
     print(header, flush=True)
-    for key in VARIANTS:
+    for key in selected:
         row = "".join(f"{ordered[key][foe]['a']:9.1%}" for foe, _n, _s in FOES)
         w = payload["weighted_competitive"][key]
         print(f"{key.ljust(18)}{row}  {w:7.1%}", flush=True)
