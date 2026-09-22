@@ -1491,7 +1491,12 @@ class Game:
             elif name == "counter catcher":
                 if len(me.prizes) > len(foe.prizes) and foe.bench:
                     if strat.name == "party":
-                        score += 24 if self._boss_closes_this_turn(me, foe, who) else -12
+                        if self._boss_closes_this_turn(me, foe, who):
+                            score += 24
+                        elif self._metronome_boss_target(me, foe) is not None:
+                            score += 22
+                        else:
+                            score += -12
                     else:
                         score += 10
                 else:
@@ -1525,6 +1530,9 @@ class Game:
                     score -= 6
                 elif strat.name in {"mew_baby", "baby"}:
                     score += 22 if self._facing_phantom(me) else 15
+                elif strat.name == "party" and self._metronome_line_this_turn(me, foe):
+                    # Cage blanks both benches' opp counters, including our copied Dive.
+                    score -= 20
                 elif strat.name == "party" and self._facing_phantom(me):
                     # Bench-counter shield vs Dive: above Hop/Lillie 17, below Belt 21.
                     score += 19
@@ -1620,8 +1628,14 @@ class Game:
                 score += 9 if len(me.hand) <= 5 else 5
             elif name in {"boss's orders", "boss's orders (giovanni)", "boss's orders (lysandre)"}:
                 if strat.name == "party":
+                    # Close the game, or gust Dragapult so Metronome can copy Dive.
                     # Do not yank a 1-prize chump while Charm / Dondozo is still the prize race.
-                    score += 24 if self._boss_closes_this_turn(me, foe, who) else -12
+                    if self._boss_closes_this_turn(me, foe, who):
+                        score += 24
+                    elif self._metronome_boss_target(me, foe) is not None:
+                        score += 22
+                    else:
+                        score += -12
                 else:
                     score += 8 if foe.bench else -6
             elif name == "crispin":
@@ -1861,7 +1875,7 @@ class Game:
             self._acerola(me, who)
         elif name == "counter catcher":
             if len(me.prizes) > len(foe.prizes):
-                self._boss_orders(foe)
+                self._boss_orders(me, foe)
                 self._bump("counter_catcher")
             else:
                 self._bump("counter_catcher_fail")
@@ -1969,7 +1983,7 @@ class Game:
             self.rng.shuffle(me.deck)
             self._draw(me, 8 if remaining == 6 else 6)
         elif name in {"boss's orders", "boss's orders (giovanni)", "boss's orders (lysandre)"}:
-            self._boss_orders(foe)
+            self._boss_orders(me, foe)
         elif name == "crispin":
             self._crispin(me, who)
         elif name in {"poké pad", "poke pad"}:
@@ -2510,6 +2524,8 @@ class Game:
         if self._seeker_wipe_pending(me, foe, who):
             return True
         if self._boss_closes_this_turn(me, foe, who):
+            return False
+        if self._metronome_boss_target(me, foe) is not None:
             return False
         return self._prankish_bounce_ready(me, foe) or self._penny_line_pending(me)
 
@@ -3140,6 +3156,14 @@ class Game:
                 elif copies:
                     score -= 4
             score += self._print_value(card, strat) / 20.0
+            if (
+                strat.name == "party"
+                and name == "clefable"
+                and any(self._is_copy_attack(a) for a in card.attacks)
+                and self._facing_phantom(me)
+            ):
+                # CLC/TWM Metronome vs Prankish Moon Kick: we choose the copy (Dive).
+                score += 15
             if strat.name == "party" and name == "clefairy":
                 if self._invitation_attack(card):
                     score += 6 if self._invitation_mon(me) is None else -3
@@ -4431,23 +4455,41 @@ class Game:
         player.hand.clear()
         self.rng.shuffle(player.deck)
 
-    def _boss_orders(self, foe: Player) -> None:
+    def _hp_min_bench(self, foe: Player) -> Pokemon | None:
+        if not foe.bench:
+            return None
+        return min(foe.bench, key=lambda m: self._max_hp(foe, m) - m.damage)
+
+    def _boss_orders(self, me: Player, foe: Player) -> None:
         if not foe.bench or not foe.active:
             return
-        idx = min(
-            range(len(foe.bench)),
-            key=lambda i: self._max_hp(foe, foe.bench[i]) - foe.bench[i].damage,
-        )
+        who = "a" if me.name == "A" else "b"
+        target = self._boss_pull_target(foe, me, who)
+        if target is None or target not in foe.bench:
+            return
+        idx = foe.bench.index(target)
         incoming = foe.bench.pop(idx)
         foe.bench.append(foe.active)
         foe.active = incoming
         self._bump("boss_orders")
+        self._bump(f"boss_orders_{me.name.lower()}")
         self._log(f"Boss's Orders brings {foe.card(incoming.card_i).name} Active")
 
-    def _boss_pull_target(self, foe: Player) -> Pokemon | None:
-        if not foe.bench:
+    def _boss_pull_target(
+        self, foe: Player, me: Player | None = None, who: str | None = None
+    ) -> Pokemon | None:
+        hp_min = self._hp_min_bench(foe)
+        if hp_min is None:
             return None
-        return min(foe.bench, key=lambda m: self._max_hp(foe, m) - m.damage)
+        if me is None or who is None:
+            return hp_min
+        if self.strats[who].name == "party" and self._boss_closes_this_turn(me, foe, who):
+            return hp_min
+        if self.strats[who].name == "party":
+            metro = self._metronome_boss_target(me, foe)
+            if metro is not None:
+                return metro
+        return hp_min
 
     def _party_would_ko(self, me: Player, foe: Player, defender: Pokemon) -> bool:
         """Photon (or Active attack) KOs defender, including Mewtwo still on the bench."""
@@ -4470,7 +4512,7 @@ class Game:
         if self._party_would_ko(me, foe, foe.active):
             if self._prizes_for_ko(foe.card(foe.active.card_i)) >= remaining:
                 return False
-        target = self._boss_pull_target(foe)
+        target = self._hp_min_bench(foe)
         if target is None or not self._party_would_ko(me, foe, target):
             return False
         return self._prizes_for_ko(foe.card(target.card_i)) >= remaining
@@ -5248,7 +5290,21 @@ class Game:
 
         return min(available, key=foe_cost)
 
-    def _resolved_attack(self, me: Player, foe: Player, atk):
+    def _metronome_hit_score(self, me: Player, foe: Player, mon: Pokemon, atk) -> float:
+        """We choose the copy: KO prizes + Active damage + bench counters, not Mime Jr's min."""
+        if not foe.active:
+            return 0.0
+        dmg = self._raw_attack_damage(me, foe, mon, atk)
+        score = float(dmg)
+        hp = self._max_hp(foe, foe.active) - foe.active.damage
+        if dmg >= hp > 0:
+            score += 1000.0 * self._prizes_for_ko(foe.card(foe.active.card_i))
+        for effect in atk.effects or []:
+            if effect.get("kind") == "bench_damage_counters":
+                score += 10.0 * int(effect.get("counters") or 1)
+        return score
+
+    def _resolved_attack(self, me: Player, foe: Player, atk, attacker: Pokemon | None = None):
         """Pay Metronome or Mimed Games cost; resolve copied attack's damage and effects."""
         if self._is_mimed_games(atk):
             return self._resolved_mimed_games(me, foe, atk)
@@ -5261,7 +5317,10 @@ class Game:
         ]
         if not copies:
             return atk
-        return max(copies, key=lambda cand: self._raw_attack_damage(me, foe, me.active, cand))
+        mon = attacker or me.active
+        if mon is None:
+            return max(copies, key=lambda cand: cand.damage)
+        return max(copies, key=lambda cand: self._metronome_hit_score(me, foe, mon, cand))
 
     def _metronome_clefable_in_hand(self, me: Player) -> int | None:
         best: tuple[int, int] | None = None
@@ -5296,11 +5355,21 @@ class Game:
         if as_card_i is not None:
             mon.card_i = as_card_i
         try:
-            copied = self._resolved_attack(me, foe, metro)
+            copied = self._resolved_attack(me, foe, metro, attacker=mon)
             hp = self._max_hp(foe, foe.active) - foe.active.damage
             return self._raw_attack_damage(me, foe, mon, copied) >= hp > 0
         finally:
             mon.card_i = old
+
+    def _metronome_extra_colorless(self, me: Player) -> int:
+        return 0 if me.energy_attached else 1
+
+    def _metronome_can_pay(
+        self, me: Player, mon: Pokemon, evo: Card, extra_colorless: int = 0
+    ) -> bool:
+        metro = next((a for a in evo.attacks if self._is_copy_attack(a)), None)
+        pool = self._energy_pool(me, mon) + ["Colorless"] * extra_colorless
+        return metro is not None and can_pay_energy(pool, metro.cost)
 
     def _metronome_copy_worth_attacking(
         self,
@@ -5311,30 +5380,29 @@ class Game:
         extra_colorless: int = 0,
         as_card_i: int | None = None,
     ) -> bool:
-        """Fire Metronome on a KO, or copy Phantom Dive into Dragapult for 200 + bench counters."""
-        if self._copy_would_ko(me, foe, mon, evo, extra_colorless=extra_colorless, as_card_i=as_card_i):
-            return True
-        if not foe.active or not self._facing_phantom(me):
+        """Fire Metronome on a KO, or copy Phantom Dive (200 + 6 bench counters)."""
+        if not foe.active:
             return False
-        if "dragapult" not in foe.card(foe.active.card_i).name.lower():
-            return False
-        metro = next((a for a in evo.attacks if self._is_copy_attack(a)), None)
-        pool = self._energy_pool(me, mon) + ["Colorless"] * extra_colorless
-        if metro is None or not can_pay_energy(pool, metro.cost):
+        if not self._metronome_can_pay(me, mon, evo, extra_colorless):
             return False
         old = mon.card_i
         if as_card_i is not None:
             mon.card_i = as_card_i
         try:
-            copied = self._resolved_attack(me, foe, metro)
-            if not any(e.get("kind") == "bench_damage_counters" for e in copied.effects):
-                return False
-            return self._raw_attack_damage(me, foe, mon, copied) >= copied.damage > 0
+            metro = next(a for a in evo.attacks if self._is_copy_attack(a))
+            copied = self._resolved_attack(me, foe, metro, attacker=mon)
+            dmg = self._raw_attack_damage(me, foe, mon, copied)
+            hp = self._max_hp(foe, foe.active) - foe.active.damage
+            if dmg >= hp > 0:
+                return True
+            if any(e.get("kind") == "bench_damage_counters" for e in (copied.effects or [])):
+                return dmg >= copied.damage > 0
+            return False
         finally:
             mon.card_i = old
 
     def _metronome_ready_mon(self, me: Player, foe: Player) -> Pokemon | None:
-        extra = 0 if me.energy_attached else 1
+        extra = self._metronome_extra_colorless(me)
         for mon in me.in_play():
             card = me.card(mon.card_i)
             if not any(self._is_copy_attack(a) for a in card.attacks):
@@ -5342,6 +5410,109 @@ class Game:
             if self._metronome_copy_worth_attacking(me, foe, mon, card, extra_colorless=extra):
                 return mon
         return None
+
+    def _with_foe_active(self, foe: Player, mon: Pokemon, fn):
+        """Run fn with mon as Active, not also sitting on the bench (Dive counters)."""
+        if mon is foe.active:
+            return fn()
+        if mon not in foe.bench:
+            return fn()
+        saved = foe.active
+        idx = foe.bench.index(mon)
+        foe.bench.pop(idx)
+        if saved is not None:
+            foe.bench.append(saved)
+        foe.active = mon
+        try:
+            return fn()
+        finally:
+            if saved is not None and saved in foe.bench:
+                foe.bench.remove(saved)
+            foe.active = saved
+            foe.bench.insert(idx, mon)
+
+    def _metronome_probe(self, me: Player) -> tuple[Pokemon, Card, int | None] | None:
+        """Best in-play or evolvable Metronome that can pay this turn (attach still open)."""
+        extra = self._metronome_extra_colorless(me)
+        who = "a" if me.name == "A" else "b"
+        ready: list[tuple[Pokemon, Card, int | None]] = []
+        for mon in me.in_play():
+            card = me.card(mon.card_i)
+            if not any(self._is_copy_attack(a) for a in card.attacks):
+                continue
+            if self._metronome_can_pay(me, mon, card, extra):
+                ready.append((mon, card, None))
+        if ready:
+            return max(ready, key=lambda row: (1 if row[0] is me.active else 0, len(row[0].energy)))
+        evo_i = self._metronome_clefable_in_hand(me)
+        if evo_i is None:
+            return None
+        evo = me.card(evo_i)
+        cands: list[tuple[Pokemon, Card, int | None]] = []
+        for mon in me.in_play():
+            if not self._is_clefairy(me.card(mon.card_i)):
+                continue
+            if not self._can_evolve_now(me, who, mon, evo):
+                continue
+            if self._metronome_can_pay(me, mon, evo, extra):
+                cands.append((mon, evo, evo_i))
+        if not cands:
+            return None
+        return max(cands, key=lambda row: (len(row[0].energy), 1 if row[0] is me.active else 0))
+
+    def _metronome_boss_target(self, me: Player, foe: Player) -> Pokemon | None:
+        """Gust the bench Pokémon whose attack we most want to copy (Dragapult Dive)."""
+        if not foe.bench or not foe.active:
+            return None
+        probe = self._metronome_probe(me)
+        if probe is None:
+            return None
+        mon, evo, as_card_i = probe
+        extra = self._metronome_extra_colorless(me)
+
+        def vs(defender: Pokemon) -> float:
+            def inner() -> float:
+                old = mon.card_i
+                if as_card_i is not None:
+                    mon.card_i = as_card_i
+                try:
+                    if not self._metronome_copy_worth_attacking(
+                        me, foe, mon, evo, extra_colorless=extra
+                    ):
+                        return -1.0
+                    metro = next(a for a in evo.attacks if self._is_copy_attack(a))
+                    copied = self._resolved_attack(me, foe, metro, attacker=mon)
+                    return self._metronome_hit_score(me, foe, mon, copied)
+                finally:
+                    mon.card_i = old
+
+            return float(self._with_foe_active(foe, defender, inner))
+
+        best: Pokemon | None = None
+        best_score = -1.0
+        for benched in list(foe.bench):
+            s = vs(benched)
+            if s > best_score:
+                best_score = s
+                best = benched
+        if best is None or best_score < 0:
+            return None
+        current_score = vs(foe.active)
+        if current_score >= best_score:
+            return None
+        return best
+
+    def _metronome_line_this_turn(self, me: Player, foe: Player) -> bool:
+        probe = self._metronome_probe(me)
+        if probe is None:
+            return False
+        mon, evo, as_card_i = probe
+        extra = self._metronome_extra_colorless(me)
+        if self._metronome_copy_worth_attacking(
+            me, foe, mon, evo, extra_colorless=extra, as_card_i=as_card_i
+        ):
+            return True
+        return self._metronome_boss_target(me, foe) is not None
 
     def _try_evolve_metronome(self, me: Player, foe: Player) -> bool:
         """Evolve 1-energy CLC Metronome onto a Clefairy when the copy KOs or copies Dive."""
@@ -6148,8 +6319,8 @@ class Game:
                 continue
             if any(e.get("kind") == "transfer_charge" for e in atk.effects):
                 continue
-            resolved = self._resolved_attack(me, foe, atk)
-            best = max(best, self._raw_attack_damage(me, foe, mon, resolved))
+            resolved = self._resolved_attack(me, foe, atk, attacker=mon)
+            best = max(best, int(self._metronome_hit_score(me, foe, mon, resolved)))
         return best
 
     def _party_best_swing_mon(self, me: Player, foe: Player) -> Pokemon | None:
