@@ -85,6 +85,8 @@ def test_penny_telepathic_then_second_party_replays_at_full_hp():
     assert game.events.get("party_energy") == 2
     game._party_bounce_combo(me, game.players["b"], "a")
     assert game.events.get("bounce:Penny") == 1
+    assert game.events.get("bounce_a:Penny") == 1
+    assert game.events.get("bounce_b:Penny") is None
     assert penny in me.discard
     assert tele in me.hand
     assert fairies[0] in me.hand or any(m.card_i == fairies[0] for m in me.in_play())

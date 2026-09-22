@@ -2124,6 +2124,7 @@ class Game:
         target = self._pick_bounce_target(me, eff)
         if target is None or len(me.in_play()) < 2:
             self._bump("bounce_fail")
+            self._bump(f"bounce_fail_{me.name.lower()}")
             return
         self._bounce_one(me, target, str(eff.get("attachments") or "hand"), card)
 
@@ -2131,6 +2132,7 @@ class Game:
         mine = self._pick_bounce_target(me, eff)
         if mine is None or len(me.in_play()) < 2:
             self._bump("bounce_fail")
+            self._bump(f"bounce_fail_{me.name.lower()}")
             return
         self._bounce_one(me, mine, "hand", card)
         if not foe.bench:
@@ -2157,10 +2159,13 @@ class Game:
         else:
             player.hand.extend(attached)
         self._promote_after_bounce(player)
+        side = player.name.lower()
         self._bump("return_pokemon_to_hand")
         self._bump(f"bounce:{card.name}")
+        self._bump(f"bounce_{side}:{card.name}")
         if healed > 0:
             self._bump("bounce_heal")
+            self._bump(f"bounce_heal_{side}")
         self._log(f"{player.name} {card.name} returns {player.card(stack[0]).name}")
 
     def _promote_after_bounce(self, me: Player) -> None:
