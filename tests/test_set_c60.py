@@ -1,3 +1,4 @@
+from collections import Counter
 from random import Random
 
 from app.engine.game import play_game
@@ -33,10 +34,11 @@ def test_set_c60_is_standard_sixty_with_psychic_energy():
     assert len(names) == 60
     assert names.count("Clefairy") == 4
     assert names.count("Mewtwo ex") == 3
-    assert names.count("Clefable") == 2
-    assert names.count("Clefable CLC") == 0
+    assert names.count("Clefable") == 1
+    assert names.count("Clefable CLC") == 1
     assert names.count("Clefable ex") == 3
-    assert names.count("Mega Clefable ex") == 2
+    assert names.count("Mega Clefable ex") == 1
+    assert names.count("Poké Pad") == 1
     assert names.count("Psychic Energy") == 14
     assert names.count("Telepathic Psychic Energy") == 2
     assert names.count("Energy Search") == 0
@@ -63,8 +65,12 @@ def test_set_c60_is_standard_sixty_with_psychic_energy():
     pile = build_fallback_deck(names)
     rules = standard_60_rules()
     assert copy_violations(pile, rules) == []
-    assert sum(1 for c in pile if c.catalog_id == "swsh2-75") == 2
-    assert all(any(a.name == "Prankish" for a in c.abilities) for c in pile if c.name == "Clefable")
+    fables = [c for c in pile if c.name == "Clefable"]
+    assert Counter(c.catalog_id for c in fables) == Counter({"swsh2-75": 1, "clc-014": 1})
+    prankish = next(c for c in fables if c.catalog_id == "swsh2-75")
+    clc = next(c for c in fables if c.catalog_id == "clc-014")
+    assert any(a.name == "Prankish" for a in prankish.abilities)
+    assert any(a.name == "Metronome" for a in clc.attacks)
     assert any(c.is_energy and c.name == "Psychic Energy" for c in pile)
     assert sum(1 for c in pile if c.name == "Telepathic Psychic Energy") == 2
     assert rules.pokemon_as_energy is False

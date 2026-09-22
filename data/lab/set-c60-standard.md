@@ -23,8 +23,9 @@ The 30-card identity is LOR 62 Moon-Watching Party → load Psychic onto benched
 | 2 Hop / 1 Lillie | 2 Hop / 2 Lillie / 2 Lillie's Determination / 1 Iono |
 | Arven + Belt | kept (ACE SPEC Belt still 1; Tool Box cut for a 14th Psychic) |
 | — | **3 Battle Cage** (−Jacq −Energy Retrieval −1 Iono; see [bench shields](set-c60-bench-shield.md)) |
+| — | **1 Prankish + 1 CLC Metronome + 1 Poké Pad**, second Mega cut ([pad-clc cuts](set-c60-pad-clc-cuts.md)) |
 
-Thinned Stage 1 pile: four Mega in a 6-prize format is three-prize suicide. Two Mega sponge Phantom Dive / Demolish; three Clefable ex keep Lunar Zone. Third Mewtwo is a second closer after the first 2-prize KO.
+Thinned Stage 1 pile: four Mega in a 6-prize format is three-prize suicide. One Mega sponges Phantom Dive / Demolish; the second Mega paid for CLC 014 + Poké Pad. Three Clefable ex keep Lunar Zone. Third Mewtwo is a second closer after the first 2-prize KO.
 
 Locked C60 list (`SET_C60_NAMES`):
 
@@ -32,12 +33,14 @@ Locked C60 list (`SET_C60_NAMES`):
 | ---: | --- | --- |
 | 4 | Clefairy (LOR 62) | Party engine |
 | 3 | Mewtwo ex | Photon closer / 230 HP tank |
-| 2 | Clefable (RCL 75 Prankish) | On evolve, bounce an Energy off the opponent's Active; 110 HP sponge |
+| 1 | Clefable (RCL 75 Prankish) | On evolve, bounce an Energy off the opponent's Active; 110 HP sponge |
+| 1 | Clefable (CLC 014 Metronome) | Copy an opponent Active attack we choose (`[C]`, 70 HP) |
 | 3 | Clefable ex | Lunar Zone + Wondrous Moon 170 |
-| 2 | Mega Clefable ex | 320 HP sponge / Shooting Moons |
+| 1 | Mega Clefable ex | 320 HP sponge / Shooting Moons |
 | 4 | Nest Ball | Bench Mewtwo / Clefairy |
 | 4 | Buddy-Buddy Poffin | Bench two 60 HP Clefairy |
 | 2 | Ultra Ball | Pokémon tutor |
+| 1 | Poké Pad | Full-deck search a Pokémon without a Rule Box (Clefairy / Prankish / Metronome) |
 | 2 | Hop | Draw 3 |
 | 2 | Lillie | Draw until 6 (8 on first turn) |
 | 2 | Lillie's Determination | Shuffle draw 6 / 8 |
@@ -85,6 +88,8 @@ Lock update 2026-09-18: **3 Battle Cage** (−Jacq −Retrieval −1 Iono) moves
 Full bakeoff + locked array: [set-c60-bench-shield.md](set-c60-bench-shield.md).
 
 2026-09-22 bounce-slot matrix (seed `20260922`, 3,000/cell): Penny, Turo, Briney, Seeker, AZ, and Cheren's Care were swapped into the second Hop, second Lillie, second Lillie's Determination, the last Iono, and the second Energy Switch. The cage list above wins that array. The 2 Penny + Turo + Briney + Seeker package, with Seeker's one-bench KO line in the engine, is **58.3%** vs T60 and **62.2%** vs D60, against **68.8%** and **75.8%** with those five cards restored. Full table: [set-c60-bounce-combo.md](set-c60-bounce-combo.md). The engine still plays the printed lines when the cards are in the deck.
+
+Lock update 2026-09-22: **1 Prankish + 1 CLC 014 + 1 Poké Pad**, second Mega cut. Cut matrix (same seed, 3,000/cell) wComp 69.6 vs pad-only 69.3 vs 2-Prankish 68.5. T60 66.9 / Hedrick 66.5 / D60 78.0. Pad searches a Pokémon without a Rule Box (printed ME02.5 198), never Clefable ex / Mega / Mewtwo. Full table: [set-c60-pad-clc-cuts.md](set-c60-pad-clc-cuts.md).
 
 ### Read
 
@@ -152,7 +157,7 @@ Household Candy Dragapult and Ogerpon go up; Hedrick (Munkidori / Risky Ruins, s
 
 - Do not keep 4/4/4 Clefable / ex / Mega. Copy-cap legal, but the deck becomes 18 Stage 1s and bricky under real Energy.
 - Do not leave 0 Switch. Moon-Watching Party only fires from Active; the 30-card list leaned on Rule B chump sequences.
-- Do not put CLC Metronome back in this 2-of slot unless the plan is specifically to copy Dive on a 70 HP body.
+- Do not pay for CLC with Hop, Clefable ex, or a Psychic Energy. The 2026-09-22 cut matrix kept 1 Prankish + 1 Pad and slotted CLC by cutting those; T60 dropped 3+ points. The lock pays with the second Mega (wComp 69.6 vs pad-only 69.3 vs 2-Prankish 68.5). See [set-c60-pad-clc-cuts.md](set-c60-pad-clc-cuts.md).
 - Do not put Energy Search back unless you want the Hedrick cell more than T60 / D60.
 - Do not add Budew for Item lock. Itchy Pollen is Items only; 1-of for 1 Psychic lost T60 / Hedrick / D60 even with a sit-and-Pollen party path (see [set-c60-budew-item-lock.md](set-c60-budew-item-lock.md)).
 - Do not swap Night Stretcher for Tulip. 1-for-1 is a wash / Stretcher slightly better vs Hedrick (see [set-c60-tulip-vs-stretcher.md](set-c60-tulip-vs-stretcher.md)). 2 Tulip −2 Hop already lost T60.

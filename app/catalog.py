@@ -275,6 +275,8 @@ EXTRA_PRINT_IDS: dict[str, tuple[str, ...]] = {
     "Starly": ("sv01-148", "swsh9-117"),  # Flap 20 Paldea Evolved; Claw 30 Brilliant Stars 117/172
     "Staravia": ("sv01-149", "swsh9-118"),  # Speed Dive 80 HP; Brilliant Stars 90 HP Wing Attack
     "Oranguru": ("sv08-156", "sm1-113"),
+    # Rebel Clash Prankish is the default; CLC 014 / TWM 079 share the printed name.
+    "Clefable": ("swsh2-75", "clc-014", "sv06-079"),
 }
 
 

@@ -10460,46 +10460,63 @@
         "dex_id": null
       },
       {
-        "catalog_id": "swsh2-75",
+        "catalog_id": "clc-014",
         "name": "Clefable",
         "category": "Pokemon",
         "stage": "Stage1",
         "types": [
-          "Psychic"
+          "Colorless"
         ],
-        "hp": 110,
+        "hp": 70,
         "attacks": [
           {
-            "name": "Moon Kick",
+            "name": "Metronome",
             "cost": [
-              "Psychic",
               "Colorless"
             ],
-            "damage": 60,
-            "text": "",
-            "effects": []
-          }
-        ],
-        "abilities": [
+            "damage": 0,
+            "text": "Choose 1 of your opponent's Active Pok\u00e9mon's attacks and use it as this attack.",
+            "effects": [
+              {
+                "kind": "copy_active_attack"
+              }
+            ]
+          },
           {
-            "name": "Prankish",
-            "text": "When you play this Pok\u00e9mon from your hand to evolve 1 of your Pok\u00e9mon during your turn, you may put an Energy attached to your opponent's Active Pok\u00e9mon on top of their deck.",
-            "effects": []
+            "name": "Minimize",
+            "cost": [
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 0,
+            "text": "During your opponent's next turn, this Pok\u00e9mon takes 20 less damage from attacks (after applying Weakness and Resistance).",
+            "effects": [
+              {
+                "kind": "reduce_damage_next_turn",
+                "amount": 20
+              }
+            ]
           }
         ],
+        "abilities": [],
         "weaknesses": [
           {
-            "type": "Metal",
+            "type": "Fighting",
             "value": "\u00d72"
           }
         ],
-        "resistances": [],
+        "resistances": [
+          {
+            "type": "Psychic",
+            "value": "-30"
+          }
+        ],
         "retreat": 2,
         "evolves_from": "Clefairy",
         "trainer_kind": null,
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh2/75/low.webp",
-        "set_name": null,
+        "image": "https://assets.tcgdex.net/en/base/base1/5/low.webp",
+        "set_name": "Pok\u00e9mon TCG Classic",
         "text": "",
         "dex_id": null
       },
@@ -10646,56 +10663,6 @@
         "trainer_kind": null,
         "energy_type": null,
         "image": "https://assets.tcgdex.net/en/sv/sv03/082/low.webp",
-        "set_name": null,
-        "text": "",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "me03-031",
-        "name": "Mega Clefable ex",
-        "category": "Pokemon",
-        "stage": "Stage1",
-        "types": [
-          "Psychic"
-        ],
-        "hp": 320,
-        "attacks": [
-          {
-            "name": "Shooting Moons",
-            "cost": [
-              "Psychic",
-              "Psychic"
-            ],
-            "damage": 120,
-            "text": "You may discard up to 4 Energy cards from your hand, and this attack does 40 more damage for each card you discarded in this way.",
-            "effects": [
-              {
-                "kind": "discard_hand_energy_bonus",
-                "max": 4,
-                "per": 40
-              }
-            ]
-          }
-        ],
-        "abilities": [
-          {
-            "name": "Luminous Wing",
-            "text": "Prevent all effects of your opponent's Pok\u00e9mon's Abilities done to this Pok\u00e9mon.",
-            "effects": []
-          }
-        ],
-        "weaknesses": [
-          {
-            "type": "Metal",
-            "value": "\u00d72"
-          }
-        ],
-        "resistances": [],
-        "retreat": 1,
-        "evolves_from": "Clefairy",
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/me/me03/031/low.webp",
         "set_name": null,
         "text": "",
         "dex_id": null
@@ -11700,6 +11667,26 @@
         "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/156/low.webp",
         "set_name": "Crown Zenith",
         "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "me02.5-198",
+        "name": "Pok\u00e9 Pad",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/me/me02.5/198/low.webp",
+        "set_name": null,
+        "text": "Search your deck for a Pok\u00e9mon that doesn't have a Rule Box, reveal it, and put it into your hand. Then, shuffle your deck. (Pok\u00e9mon ex, Pok\u00e9mon V, etc. have Rule Boxes.)",
         "dex_id": null
       }
     ]
