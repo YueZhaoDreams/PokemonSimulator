@@ -45,3 +45,5 @@ The combined list still loses. Pad fetches CLC, party Bosses Dragapult, Metronom
 ## Lock
 
 `SET_C60_NAMES` stays **2 Rebel Clash Prankish**, 0 Pad, 0 Metronome. Do not add CLC just because Pad can tutor it. Pad-alone is a separate 1-for-1 that is slightly ahead and is not locked from this run either.
+
+Follow-up: paying for CLC with Clefable ex, a Psychic Energy, or other 1-ofs instead of Hop — [set-c60-pad-clc-cuts.md](set-c60-pad-clc-cuts.md). Hop is still expensive; ex and energy lose too. Ultra Ball and Mega are the only cuts that hold vs pad-only. Lock unchanged.

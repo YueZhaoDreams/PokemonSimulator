@@ -69,3 +69,31 @@ def test_ex_and_energy_cuts_leave_two_ex_and_thirteen_psychic():
     assert by_key["pad"].count("Psychic Energy") == 14
     assert SET_C60_NAMES.count("Clefable") == 2
     assert SET_C60_NAMES.count("Poké Pad") == 0
+
+
+def test_pad_clc_cuts_json_cells_follow_foe_order():
+    import json
+
+    blob = json.loads(
+        (Path(__file__).resolve().parents[1] / "data/lab/set-c60-pad-clc-cuts.json").read_text()
+    )
+    foes = ["t60", "hedrick", "unl", "d60", "s60", "g"]
+    assert blob["games"] == 3000
+    assert blob["seed"] == 20260922
+    assert list(blob["foes"]) == foes
+    assert list(blob["cells"])[:2] == ["prankish2", "pad"]
+    assert list(blob["cells"])[2:] == [key for key, _card in LAB.CUTS]
+    assert blob["lock"].startswith("none")
+    for row in blob["cells"].values():
+        assert list(row) == foes
+    pad = blob["cells"]["pad"]
+    # Named cuts the designer asked about all lose T60 to pad-only.
+    assert blob["cells"]["hop"]["t60"]["a"] < pad["t60"]["a"]
+    assert blob["cells"]["ex"]["t60"]["a"] < pad["t60"]["a"]
+    assert blob["cells"]["energy"]["t60"]["a"] < pad["t60"]["a"]
+    assert blob["weighted_competitive"]["hop"] < blob["weighted_competitive"]["pad"]
+    assert blob["cells"]["ultra"]["t60"]["pad_metro"] > 0
+    assert blob["cells"]["mega"]["t60"]["copy_dive"] > 0
+    assert pad["t60"]["copy_dive"] == 0
+    assert SET_C60_NAMES.count("Clefable") == 2
+    assert SET_C60_NAMES.count("Poké Pad") == 0
