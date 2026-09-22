@@ -110,6 +110,11 @@ SET_C_NAMES = (
 # for -Jacq -Energy Retrieval -1 Iono: T60 51.3 -> 69.1, Hedrick 59.0 -> 64.6,
 # UNL 82.8 -> 89.5, D60 holds 76.1. Rabsca 1-1 does nothing (+0-1, fragile 1-1);
 # Shaymin blocks damage only, not Dive counters. See set-c60-bench-shield.md.
+# Bounce-slot matrix (2026-09-22, seed 20260922, 3,000/cell): Penny, Turo,
+# Briney, Seeker, AZ, and Cheren's Care in these five slots all lose to this
+# list. The live 2/1/1/1 package, with Seeker's one-bench KO line, is T60 58.3 /
+# D60 62.2 against this list's 68.8 / 75.8. See data/lab/set-c60-bounce-combo.md.
+# The cards stay in the engine; they are not in the 60.
 SET_C60_NAMES = (
     ["Clefairy"] * 4
     + ["Mewtwo ex"] * 3
@@ -133,6 +138,14 @@ SET_C60_NAMES = (
     + ["Telepathic Psychic Energy"] * 2
     + ["Psychic Energy"] * 14
 )
+
+
+def c60_names_before_bounce() -> list[str]:
+    """Cage-lock C60. The bounce-slot matrix measured this list and kept it.
+
+    Historical bakeoffs undo later cuts starting from here.
+    """
+    return list(SET_C60_NAMES)
 
 SET_D_NAMES = (  # 30: Fighting Energy 6 → 8
     ["Cornerstone Mask Ogerpon ex"] * 4
@@ -934,9 +947,54 @@ _register(
     _trn(
         "Professor Turo's Scenario",
         "supporter",
-        "Put 1 of your Pokémon in play and all attached cards into your hand.",
+        "Put 1 of your Pokémon into your hand. (Discard all attached cards.)",
         catalog_id="sv04-171",
         image="https://assets.tcgdex.net/en/sv/sv04/171/low.webp",
+    )
+)
+_register(
+    _trn(
+        "Penny",
+        "supporter",
+        "Put 1 of your Basic Pokémon and all attached cards into your hand.",
+        catalog_id="sv01-183",
+        image="https://assets.tcgdex.net/en/sv/sv01/183/low.webp",
+    )
+)
+_register(
+    _trn(
+        "AZ",
+        "supporter",
+        "Put 1 of your Pokémon into your hand. (Discard all cards attached to that Pokémon.)",
+        catalog_id="xy4-91",
+        image="https://assets.tcgdex.net/en/xy/xy4/91/low.webp",
+    )
+)
+_register(
+    _trn(
+        "Cheren's Care",
+        "supporter",
+        "Put 1 of your Colorless Pokémon that has any damage counters on it and all attached cards into your hand.",
+        catalog_id="swsh9-134",
+        image="https://assets.tcgdex.net/en/swsh/swsh9/134/low.webp",
+    )
+)
+_register(
+    _trn(
+        "Mr. Briney's Compassion",
+        "supporter",
+        "Choose 1 of your Pokémon in play (excluding Pokémon-ex). Return that Pokémon and all cards attached to it to your hand.",
+        catalog_id="ex3-87",
+        image="https://assets.tcgdex.net/en/ex/ex3/87/low.webp",
+    )
+)
+_register(
+    _trn(
+        "Seeker",
+        "supporter",
+        "Each player returns 1 of his or her Benched Pokémon and all cards attached to it to his or her hand. (You return your Pokémon first.)",
+        catalog_id="hgss3-85",
+        image="https://assets.tcgdex.net/en/hgss/hgss3/85/low.webp",
     )
 )
 _register(

@@ -48,6 +48,16 @@ def test_set_c60_is_standard_sixty_with_psychic_energy():
     assert names.count("Arven") == 1
     assert names.count("Battle Cage") == 3
     assert names.count("Iono") == 1
+    assert names.count("Penny") == 0
+    assert names.count("Professor Turo's Scenario") == 0
+    assert names.count("Mr. Briney's Compassion") == 0
+    assert names.count("Seeker") == 0
+    assert names.count("AZ") == 0
+    assert names.count("Cheren's Care") == 0
+    assert names.count("Energy Switch") == 2
+    assert names.count("Hop") == 2
+    assert names.count("Lillie") == 2
+    assert names.count("Lillie's Determination") == 2
     assert names.count("Jacq") == 0
     assert names.count("Energy Retrieval") == 0
     pile = build_fallback_deck(names)

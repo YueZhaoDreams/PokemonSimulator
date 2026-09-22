@@ -20,6 +20,7 @@ from app.seed_data import (
     SET_T60_NAMES,
     SET_T_META_NAMES,
     build_fallback_deck,
+    c60_names_before_bounce,
     fallback_named,
 )
 
@@ -279,7 +280,10 @@ def test_bench_shield_jsons_follow_schema():
         assert set(row) == {"g", "d60", "t60", "hedrick", "unl", "s60"}
     from collections import Counter
 
-    assert Counter(final["variants"]["LOCKED(-Jacq-Retrieval-Iono+3Cage)"]) == Counter(SET_C60_NAMES)
+    locked = final["variants"]["LOCKED(-Jacq-Retrieval-Iono+3Cage)"]
+    assert locked.count("Battle Cage") == 3
+    assert locked.count("Penny") == 0
+    assert Counter(locked) == Counter(c60_names_before_bounce())
 
 
 def test_locked_c60_has_three_cages_and_stays_legal():
@@ -287,6 +291,7 @@ def test_locked_c60_has_three_cages_and_stays_legal():
     assert len(names) == 60
     assert names.count("Battle Cage") == 3
     assert names.count("Iono") == 1
+    assert names.count("Penny") == 0
     assert names.count("Jacq") == 0
     assert names.count("Energy Retrieval") == 0
     assert copy_violations(build_fallback_deck(names), standard_60_rules()) == []

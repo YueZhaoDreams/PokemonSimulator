@@ -248,6 +248,11 @@ PREFERRED_IDS = {
     "Raikou V": "swsh9-48",  # Brilliant Stars Fleet-Footed / Lightning Streak
     "Draw Energy": "sm12-209",  # Cosmic Eclipse: attach from hand, draw a card
     "Professor Turo's Scenario": "sv04-171",
+    "Penny": "sv01-183",
+    "AZ": "xy4-91",
+    "Cheren's Care": "swsh9-134",
+    "Mr. Briney's Compassion": "ex3-87",
+    "Seeker": "hgss3-85",
     "Collapsed Stadium": "swsh9-137",
     "Ultra Ball": "sv04.5-091",
     "Rare Candy": "sv04.5-089",
@@ -407,7 +412,12 @@ PRINT_PREFER = {
     "Forest Seal Stone": ["star alchemy"],
     "Raikou V": ["fleet-footed", "lightning streak"],
     "Draw Energy": ["draw a card"],
-    "Professor Turo's Scenario": ["all attached cards into your hand"],
+    "Professor Turo's Scenario": ["discard all attached"],
+    "Penny": ["basic pokemon", "attached cards"],
+    "AZ": ["discard all cards attached"],
+    "Cheren's Care": ["colorless", "damage counters"],
+    "Mr. Briney's Compassion": ["excluding pokemon-ex"],
+    "Seeker": ["benched pokemon", "each player"],
     "Collapsed Stadium": ["4 benched"],
 }
 

@@ -16,12 +16,12 @@ from app.engine.models import standard_60_rules
 from app.engine.montecarlo import run_simulation
 from app.engine.strategies import StrategySpec
 from app.seed_data import (
-    SET_C60_NAMES,
     SET_D60_NAMES,
     SET_T60_NAMES,
     SET_T_META_NAMES,
     SET_T_UNL_NAMES,
     build_fallback_deck,
+    c60_names_before_bounce,
 )
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -51,7 +51,7 @@ def _pre_shield_base() -> list[str]:
     they sat (Jacq after Arven, 2nd Iono after the 1st, Retrieval before
     Stretcher) instead of appending, or re-runs diverge from the saved JSON.
     """
-    names = list(SET_C60_NAMES)
+    names = c60_names_before_bounce()
     for _ in range(names.count("Battle Cage")):
         names.remove("Battle Cage")
     names.insert(names.index("Arven") + 1, "Jacq")

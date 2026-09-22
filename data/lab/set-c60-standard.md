@@ -20,7 +20,7 @@ The 30-card identity is LOR 62 Moon-Watching Party → load Psychic onto benched
 | 0 Energy (Pokémon pay Party) | **14 Psychic Energy + 2 Telepathic Psychic Energy** |
 | 2 Nest, 0 Poffin, 0 Switch | 4 Nest, **4 Poffin** (Clefairy is 60 HP), **2 Switch** (Party is Active-only) |
 | 1 Boss | **3 Boss** (6-prize race) |
-| 2 Hop / 1 Lillie | 2 Hop / 2 Lillie / 2 Lillie's Determination / 2 Iono |
+| 2 Hop / 1 Lillie | 2 Hop / 2 Lillie / 2 Lillie's Determination / 1 Iono |
 | Arven + Belt | kept (ACE SPEC Belt still 1; Tool Box cut for a 14th Psychic) |
 | — | **3 Battle Cage** (−Jacq −Energy Retrieval −1 Iono; see [bench shields](set-c60-bench-shield.md)) |
 
@@ -83,6 +83,8 @@ Full pairwise matrix including Hedrick and the Unlimited-shaped Pidgeot/Rotom 60
 Lock update 2026-09-18: **3 Battle Cage** (−Jacq −Retrieval −1 Iono) moves T60
 51.3 → **69.1**, Hedrick 59.0 → **64.6**, UNL 82.8 → **89.5**, D60 holds 76.1.
 Full bakeoff + locked array: [set-c60-bench-shield.md](set-c60-bench-shield.md).
+
+2026-09-22 bounce-slot matrix (seed `20260922`, 3,000/cell): Penny, Turo, Briney, Seeker, AZ, and Cheren's Care were swapped into the second Hop, second Lillie, second Lillie's Determination, the last Iono, and the second Energy Switch. The cage list above wins that array. The 2 Penny + Turo + Briney + Seeker package, with Seeker's one-bench KO line in the engine, is **58.3%** vs T60 and **62.2%** vs D60, against **68.8%** and **75.8%** with those five cards restored. Full table: [set-c60-bounce-combo.md](set-c60-bounce-combo.md). The engine still plays the printed lines when the cards are in the deck.
 
 ### Read
 
