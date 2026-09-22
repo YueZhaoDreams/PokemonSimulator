@@ -76,6 +76,7 @@ def test_g_lock_is_nest_zone_plus_two_telepathic():
     assert locked - nest == Counter({"Telepathic Psychic Energy": 2})
     assert locked["Psychic Energy"] == 15
     assert locked["Telepathic Psychic Energy"] == 2
+    assert list(SET_G_NAMES) == LAB.with_telepathic(SET_G_NEST_ZONE_NAMES, 2)
     assert list(dict(LAB.g_lists())["tele2"]) == list(SET_G_NAMES)
     assert list(dict(LAB.c60_lists())["tele2"]) == list(SET_C60_NAMES)
     assert copy_violations(build_fallback_deck(list(SET_G_NAMES)), standard_60_rules()) == []
