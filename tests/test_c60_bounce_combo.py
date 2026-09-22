@@ -423,7 +423,7 @@ def test_party_holds_lillie_while_penny_line_is_ready():
     me.deck = [i for i, c in enumerate(me.cards) if c.name == "Clefairy" and i != fairy]
     me.supporter_used = False
     picked = game._pick_trainer(me)
-    assert picked != lillie
+    assert picked not in {lillie, penny}
 
 
 def test_turo_is_not_scored_as_professors_research():
