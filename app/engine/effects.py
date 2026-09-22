@@ -950,6 +950,11 @@ def parse_trainer_effects(text: str) -> list[dict[str, Any]]:
         effects.append({"kind": "evolve_just_played_or_evolved"})
         return effects
 
+    # Poké Pad ME02.5 198: a Pokémon without a Rule Box, not a look-N.
+    if "search your deck for a pokemon" in t and "rule box" in t and "doesn't have" in t:
+        effects.append({"kind": "search_pokemon_no_rule_box"})
+        return effects
+
     # Penny, Turo, AZ, Cheren's Care, Mr. Briney's Compassion, Seeker.
     # Damage counters are not cards: leaving play clears them.
     bounce = _return_pokemon_to_hand_effect(t)

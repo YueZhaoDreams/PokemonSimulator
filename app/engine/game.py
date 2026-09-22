@@ -1641,7 +1641,7 @@ class Game:
             elif name == "crispin":
                 score += 11 if me.in_play() else -4
             elif name in {"poké pad", "poke pad"}:
-                score += 8 if missing_protect else 3
+                score += self._poke_pad_trainer_score(me, strat, missing_protect)
             elif name == "crushing hammer":
                 has_nrg = foe.active is not None and bool(foe.active.energy)
                 score += 6 if has_nrg else -3
@@ -1987,16 +1987,24 @@ class Game:
         elif name == "crispin":
             self._crispin(me, who)
         elif name in {"poké pad", "poke pad"}:
-            prefer = ["Dreepy", "Drakloak", "Budew", "Dunsparce"]
             found = self._search(
                 me,
                 lambda c: c.is_pokemon and not self._has_rule_box(c),
-                prefer=prefer,
+                prefer=self._poke_pad_prefer(me, who),
                 source="poke pad",
             )
-            if found:
+            if found is not None:
+                side = me.name.lower()
+                found_card = me.card(found)
+                found_name = found_card.name
                 self._bump("poke_pad_hit")
-                self._log(f"{me.name} Poké Pad finds {me.card(found).name}")
+                self._bump(f"poke_pad_hit_{side}")
+                self._bump(f"tutor_{side}:{found_name}:poke pad")
+                if self._is_metronome_clefable(found_card):
+                    self._bump(f"pad_metro_{side}")
+                elif self._is_prankish_clefable(found_card):
+                    self._bump(f"pad_prankish_{side}")
+                self._log(f"{me.name} Poké Pad finds {found_name}")
         elif name == "crushing hammer":
             if self.rng.random() < 0.5:
                 self._discard_one_energy_from_foe(foe)
@@ -2237,6 +2245,85 @@ class Game:
             if any("prankish" in (abi.name or "").lower() for abi in card.abilities):
                 return card_i
         return None
+
+    def _is_metronome_clefable(self, card: Card) -> bool:
+        return card.name.lower() == "clefable" and any(self._is_copy_attack(a) for a in card.attacks)
+
+    def _is_prankish_clefable(self, card: Card) -> bool:
+        return card.name.lower() == "clefable" and any(
+            "prankish" in (a.name or "").lower() for a in card.abilities
+        )
+
+    def _pad_legal_in_deck(self, me: Player) -> bool:
+        return any(me.card(i).is_pokemon and not self._has_rule_box(me.card(i)) for i in me.deck)
+
+    def _print_in_hand_or_play(self, me: Player, pred) -> bool:
+        return any(pred(me.card(m.card_i)) for m in me.in_play()) or any(
+            pred(me.card(i)) for i in me.hand
+        )
+
+    def _print_in_deck(self, me: Player, pred) -> bool:
+        return any(pred(me.card(i)) for i in me.deck)
+
+    def _party_wants_pad_clefairy(self, me: Player) -> bool:
+        cap = self._clefairy_play_cap(me)
+        have = self._count_named_in_play(me, "Clefairy") + sum(
+            1 for i in me.hand if self._is_clefairy(me.card(i))
+        )
+        if have >= cap:
+            return False
+        return any(self._is_clefairy(me.card(i)) for i in me.deck)
+
+    def _party_wants_pad_metronome(self, me: Player) -> bool:
+        """Vs Dragapult: fetch the copy Clefable when a Clefairy is already in play."""
+        if self._print_in_hand_or_play(me, self._is_metronome_clefable):
+            return False
+        if not any(self._is_clefairy(me.card(m.card_i)) for m in me.in_play()):
+            return False
+        if not self._facing_phantom(me):
+            return False
+        return self._print_in_deck(me, self._is_metronome_clefable)
+
+    def _party_wants_pad_prankish(self, me: Player) -> bool:
+        if self._prankish_hand_index(me) is not None:
+            return False
+        if any(self._is_prankish_clefable(me.card(m.card_i)) for m in me.in_play()):
+            return False
+        if not any(self._is_clefairy(me.card(m.card_i)) for m in me.in_play()):
+            return False
+        return self._print_in_deck(me, self._is_prankish_clefable)
+
+    def _party_wants_pad_clefable(self, me: Player) -> bool:
+        return self._party_wants_pad_metronome(me) or self._party_wants_pad_prankish(me)
+
+    def _poke_pad_prefer(self, me: Player, who: str) -> list[str]:
+        """Printed Pad is a non-Rule-Box search. Party is Clefairy / Prankish /
+        Metronome Clefable on demand. `_search` splits the two Clefable prints
+        (copy bonus vs phantom, Moon Kick vs Demolish).
+        """
+        strat = self.strats[who]
+        if strat.name == "party":
+            if self._party_wants_pad_clefable(me):
+                return ["Clefable"]
+            return ["Clefairy"]
+        if strat.name == "phantom":
+            return ["Dreepy", "Drakloak", "Budew", "Dunsparce"]
+        return list(self._pokemon_search_prefer(me, who))
+
+    def _poke_pad_trainer_score(self, me: Player, strat: StrategySpec, missing_protect: list) -> float:
+        if not self._pad_legal_in_deck(me):
+            return -10.0
+        if strat.name == "party":
+            # Metronome this turn: beat Hop 17, stay under Boss 22 / Belt 21.
+            # Prankish evo: above Nest 6, under Hop. Engine repair is cheaper.
+            if self._party_wants_pad_metronome(me):
+                return 18.0
+            if self._party_wants_pad_prankish(me):
+                return 13.0
+            if self._party_wants_pad_clefairy(me):
+                return 5.0
+            return 1.0
+        return 8.0 if missing_protect else 3.0
 
     def _eligible_clefairy(self, me: Player, who: str, evo: Card) -> list[Pokemon]:
         return [
@@ -5504,15 +5591,18 @@ class Game:
 
     def _metronome_line_this_turn(self, me: Player, foe: Player) -> bool:
         probe = self._metronome_probe(me)
-        if probe is None:
+        if probe is not None:
+            mon, evo, as_card_i = probe
+            extra = self._metronome_extra_colorless(me)
+            if self._metronome_copy_worth_attacking(
+                me, foe, mon, evo, extra_colorless=extra, as_card_i=as_card_i
+            ):
+                return True
+            if self._metronome_boss_target(me, foe) is not None:
+                return True
+        if me.item_lock or self._first_named(me, "Poké Pad") is None:
             return False
-        mon, evo, as_card_i = probe
-        extra = self._metronome_extra_colorless(me)
-        if self._metronome_copy_worth_attacking(
-            me, foe, mon, evo, extra_colorless=extra, as_card_i=as_card_i
-        ):
-            return True
-        return self._metronome_boss_target(me, foe) is not None
+        return self._party_wants_pad_metronome(me)
 
     def _try_evolve_metronome(self, me: Player, foe: Player) -> bool:
         """Evolve 1-energy CLC Metronome onto a Clefairy when the copy KOs or copies Dive."""
