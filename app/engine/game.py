@@ -1979,7 +1979,7 @@ class Game:
                 prefer=self._poke_pad_prefer(me, who),
                 source="poke pad",
             )
-            if found:
+            if found is not None:
                 side = me.name.lower()
                 self._bump("poke_pad_hit")
                 self._bump(f"poke_pad_hit_{side}")
@@ -2258,9 +2258,12 @@ class Game:
         """
         strat = self.strats[who]
         if strat.name == "party":
+            # Prefer only the needed name. `_search` adds print_value/20, and
+            # Moon Kick 60 beats a 1-slot prefer gap, so listing both names
+            # lets Clefable steal the Clefairy hunt.
             if self._party_wants_pad_clefable(me):
-                return ["Clefable", "Clefairy"]
-            return ["Clefairy", "Clefable"]
+                return ["Clefable"]
+            return ["Clefairy"]
         if strat.name == "phantom":
             return ["Dreepy", "Drakloak", "Budew", "Dunsparce"]
         return list(self._pokemon_search_prefer(me, who))
