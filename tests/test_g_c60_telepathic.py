@@ -99,7 +99,7 @@ def test_bakeoff_sleeves_two_not_four():
     assert g["cells"]["tele2"]["d60"]["a"] >= g["cells"]["tele4"]["d60"]["a"]
     assert c60["lists"]["tele2"].count("Telepathic Psychic Energy") == 2
     assert Counter(SET_C60_NAMES)["Telepathic Psychic Energy"] == 2
-    assert Counter(SET_C60_NAMES)["Penny"] == 2
+    assert Counter(SET_C60_NAMES)["Penny"] == 0
     assert Counter(g["lists"]["tele2"]) == Counter(SET_G_NAMES)
     assert Counter(g["lists"]["tele0"]) == Counter(SET_G_NEST_ZONE_NAMES)
 

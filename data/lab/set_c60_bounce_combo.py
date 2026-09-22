@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """C60 bounce-slot swap matrix.
 
-The live lock spends five indexes on 2 Penny, Professor Turo's Scenario,
-Mr. Briney's Compassion, and Seeker. Those indexes used to be a second Hop,
-a second Lillie, a second Lillie's Determination, the last Iono, and a second
-Energy Switch. Every variant writes only those five indexes, so the other 55
-cards stay in the same places.
+The measured package spends five indexes on 2 Penny, Professor Turo's Scenario,
+Mr. Briney's Compassion, and Seeker. Those indexes are a second Hop, a second
+Lillie, a second Lillie's Determination, the last Iono, and a second Energy
+Switch on the cage list. Every variant writes only those five indexes, so the
+other 55 cards stay in the same places. BASE_NAMES is frozen from that run.
 
 Seed 20260922. 3,000 games / cell. The C60 variant is always player A; who
 goes first is random.
@@ -32,7 +32,6 @@ from app.engine.models import standard_60_rules
 from app.engine.montecarlo import run_simulation
 from app.engine.strategies import StrategySpec
 from app.seed_data import (
-    SET_C60_NAMES,
     SET_D60_NAMES,
     SET_G_NAMES,
     SET_S60_NAMES,
@@ -47,7 +46,73 @@ GAMES = int(os.environ.get("LAB_GAMES", "3000"))
 SEED = 20260922
 WORKERS = min(4, os.cpu_count() or 1)
 
-# Live lock order of the five swapped indexes.
+# The 60 the matrix actually shuffled. Frozen here so a later lock change
+# (this bakeoff put the cage list back) still rebuilds the same cells.
+BASE_NAMES = (
+    "Clefairy",
+    "Clefairy",
+    "Clefairy",
+    "Clefairy",
+    "Mewtwo ex",
+    "Mewtwo ex",
+    "Mewtwo ex",
+    "Clefable",
+    "Clefable",
+    "Clefable ex",
+    "Clefable ex",
+    "Clefable ex",
+    "Mega Clefable ex",
+    "Mega Clefable ex",
+    "Nest Ball",
+    "Nest Ball",
+    "Nest Ball",
+    "Nest Ball",
+    "Buddy-Buddy Poffin",
+    "Buddy-Buddy Poffin",
+    "Buddy-Buddy Poffin",
+    "Buddy-Buddy Poffin",
+    "Ultra Ball",
+    "Ultra Ball",
+    "Hop",
+    "Lillie",
+    "Lillie's Determination",
+    "Arven",
+    "Boss's Orders",
+    "Boss's Orders",
+    "Boss's Orders",
+    "Penny",
+    "Penny",
+    "Professor Turo's Scenario",
+    "Mr. Briney's Compassion",
+    "Seeker",
+    "Switch",
+    "Switch",
+    "Energy Switch",
+    "Night Stretcher",
+    "Maximum Belt",
+    "Battle Cage",
+    "Battle Cage",
+    "Battle Cage",
+    "Telepathic Psychic Energy",
+    "Telepathic Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+)
+SLOT_INDEXES = (31, 32, 33, 34, 35)
+
+# Live-package order of those five indexes, as measured.
 BOUNCE_IN_LOCK = (
     "Penny",
     "Penny",
@@ -89,15 +154,10 @@ QUERIES = [
 
 
 def slot_indexes() -> tuple[int, ...]:
-    left = list(BOUNCE_IN_LOCK)
-    found: list[int] = []
-    for i, name in enumerate(SET_C60_NAMES):
-        if left and name == left[0]:
-            found.append(i)
-            left.pop(0)
-    if left or len(found) != 5:
-        raise RuntimeError(f"bounce slots not found, still missing {left}")
-    return tuple(found)
+    found = tuple(SLOT_INDEXES)
+    if tuple(BASE_NAMES[i] for i in found) != BOUNCE_IN_LOCK:
+        raise RuntimeError("frozen bounce slots drifted from BASE_NAMES")
+    return found
 
 
 def _cage_with(slot: int, card: str) -> tuple[str, ...]:
@@ -144,7 +204,7 @@ VARIANT_SLOTS: dict[str, tuple[str, ...]] = {
 def fill(slot_cards: tuple[str, ...]) -> list[str]:
     if len(slot_cards) != 5:
         raise ValueError(f"need 5 slot cards, got {len(slot_cards)}")
-    names = list(SET_C60_NAMES)
+    names = list(BASE_NAMES)
     for idx, card in zip(slot_indexes(), slot_cards, strict=True):
         names[idx] = card
     if len(names) != 60:
@@ -213,8 +273,8 @@ def main() -> None:
 
     if Counter(VARIANTS["cage"]) != Counter(c60_names_before_bounce()):
         raise SystemExit("cage variant drifted from c60_names_before_bounce()")
-    if VARIANTS["live"] != list(SET_C60_NAMES):
-        raise SystemExit("live variant is not SET_C60_NAMES")
+    if VARIANTS["live"] != list(BASE_NAMES):
+        raise SystemExit("live variant is not the frozen bounce package")
     started = time.perf_counter()
     cells: dict[str, dict[str, dict]] = {key: {} for key in VARIANTS}
     jobs = [

@@ -29,10 +29,35 @@ SEEKER = (
 )
 
 
+def _script_names() -> list[str]:
+    """Cage lock plus the four supporters these lines script.
+
+    The win-rate matrix left those supporters out of SET_C60_NAMES.
+    """
+    names = list(SET_C60_NAMES)
+    if (
+        names.count("Penny") >= 1
+        and "Professor Turo's Scenario" in names
+        and "Mr. Briney's Compassion" in names
+        and "Seeker" in names
+    ):
+        return names
+    for cut, add in (
+        ("Hop", "Penny"),
+        ("Lillie", "Penny"),
+        ("Lillie's Determination", "Professor Turo's Scenario"),
+        ("Iono", "Mr. Briney's Compassion"),
+        ("Energy Switch", "Seeker"),
+    ):
+        names.remove(cut)
+        names.append(add)
+    return names
+
+
 def _game() -> Game:
     foe = ["Dreepy", "Drakloak", "Dragapult ex", "Fire Energy", "Fire Energy"]
     return Game(
-        build_fallback_deck(list(SET_C60_NAMES)),
+        build_fallback_deck(_script_names()),
         build_fallback_deck(foe * 12),
         standard_60_rules(),
         StrategySpec.from_dict("party"),

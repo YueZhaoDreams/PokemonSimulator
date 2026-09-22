@@ -110,14 +110,11 @@ SET_C_NAMES = (
 # for -Jacq -Energy Retrieval -1 Iono: T60 51.3 -> 69.1, Hedrick 59.0 -> 64.6,
 # UNL 82.8 -> 89.5, D60 holds 76.1. Rabsca 1-1 does nothing (+0-1, fragile 1-1);
 # Shaymin blocks damage only, not Dive counters. See set-c60-bench-shield.md.
-# Bounce package (2026-09-22): -1 Hop -1 Lillie -1 Lillie's Determination -1 Iono
-# -1 Energy Switch, +2 Penny +1 Turo +1 Mr. Briney's Compassion +1 Seeker.
-# Penny: Basic + attachments to hand (Telepathic Active Clefairy, or a chipped
-# Mewtwo ex). Turo: any Pokémon, attachments discarded. Briney: non-ex +
-# attachments to hand (Prankish Clefable). Seeker: one Bench Pokémon from each
-# player, attachments to hand. Leaving play clears damage counters, so the
-# replay is full HP. AZ is the same sentence as Turo and stays out of the 60.
-# Cheren's Care is Colorless-only, so it cannot pick up this Psychic line.
+# Bounce-slot matrix (2026-09-22, seed 20260922, 3,000/cell): Penny, Turo,
+# Briney, Seeker, AZ, and Cheren's Care in these five slots all lose to this
+# list. The live 2/1/1/1 package is T60 57.7 / D60 62.7 against this list's
+# 68.8 / 75.8. See data/lab/set-c60-bounce-combo.md. The cards stay in the
+# engine; they are not in the 60.
 SET_C60_NAMES = (
     ["Clefairy"] * 4
     + ["Mewtwo ex"] * 3
@@ -127,17 +124,14 @@ SET_C60_NAMES = (
     + ["Nest Ball"] * 4
     + ["Buddy-Buddy Poffin"] * 4
     + ["Ultra Ball"] * 2
-    + ["Hop"]
-    + ["Lillie"]
-    + ["Lillie's Determination"]
+    + ["Hop"] * 2
+    + ["Lillie"] * 2
+    + ["Lillie's Determination"] * 2
     + ["Arven"]
     + ["Boss's Orders"] * 3
-    + ["Penny"] * 2
-    + ["Professor Turo's Scenario"]
-    + ["Mr. Briney's Compassion"]
-    + ["Seeker"]
+    + ["Iono"]
     + ["Switch"] * 2
-    + ["Energy Switch"]
+    + ["Energy Switch"] * 2
     + ["Night Stretcher"]
     + ["Maximum Belt"]
     + ["Battle Cage"] * 3
@@ -147,22 +141,11 @@ SET_C60_NAMES = (
 
 
 def c60_names_before_bounce() -> list[str]:
-    """Cage-lock C60 from before the Penny / Turo / Briney / Seeker package.
+    """Cage-lock C60. The bounce-slot matrix measured this list and kept it.
 
-    Historical bakeoffs undo later cuts starting from that list. Order of the
-    restored cards matches the slots the bounce package replaced.
+    Historical bakeoffs undo later cuts starting from here.
     """
-    names = list(SET_C60_NAMES)
-    for card in (
-        "Penny",
-        "Penny",
-        "Professor Turo's Scenario",
-        "Mr. Briney's Compassion",
-        "Seeker",
-    ):
-        names.remove(card)
-    names.extend(["Hop", "Lillie", "Lillie's Determination", "Iono", "Energy Switch"])
-    return names
+    return list(SET_C60_NAMES)
 
 SET_D_NAMES = (  # 30: Fighting Energy 6 → 8
     ["Cornerstone Mask Ogerpon ex"] * 4

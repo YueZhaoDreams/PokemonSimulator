@@ -290,8 +290,8 @@ def test_locked_c60_has_three_cages_and_stays_legal():
     names = list(SET_C60_NAMES)
     assert len(names) == 60
     assert names.count("Battle Cage") == 3
-    assert names.count("Iono") == 0
-    assert names.count("Penny") == 2
+    assert names.count("Iono") == 1
+    assert names.count("Penny") == 0
     assert names.count("Jacq") == 0
     assert names.count("Energy Retrieval") == 0
     assert copy_violations(build_fallback_deck(names), standard_60_rules()) == []
