@@ -2,12 +2,16 @@
 """Energy-lock G: 1 Pad + 1 Ultra Ball + 1 Prankish for Ledyba, Ledian, Munkidori.
 
 Base is live SET_G_NAMES (one Ledian already traded for a Psychic Energy).
-Pad and Ultra Ball fetch the missing piece: Clefairy under two copies,
-Prankish when an Energy can be bounced, otherwise the gust line / Munkidori /
-bird. Ultra Ball can also take Clefable ex or Mega. Pad cannot.
+Search is the shipped fixed order: Clefairy while fewer than three are in
+play, then Prankish Clefable when that print is in the deck and not in hand
+or play, then the usual gust / bird line. Poké Pad still cannot take a
+Rule Box (Clefable ex, Mega). Ultra Ball can.
 
 The thin_energy row pays the same three cuts with Psychic Energy, so a win
 that is only the cuts does not get credited to the tutors.
+
+An earlier matrix used an on-demand hole picker. That policy is not this
+script. Its numbers are in set-g-pad-ultra-prank-ondemand.json.
 
 Seed 20260923. Games from LAB_GAMES (default 3,000). Side A is strategy g.
 """
@@ -198,6 +202,7 @@ def main() -> None:
     payload = {
         "games": GAMES,
         "seed": SEED,
+        "policy": "fixed_prefer",
         "elapsed": round(time.perf_counter() - started, 1),
         "lists": {variant: names for variant, names in variants},
         "cells": ordered,

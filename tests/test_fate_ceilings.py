@@ -42,13 +42,13 @@ def test_set_g_matches_draw_probability_and_caps_from_s60():
 
     ledian = _row(report, "Ledian")
     mega = _row(report, "Mega Clefable ex")
-    assert ledian["copies"] == 4 and ledian["copy_cap"] == 4 and ledian["at_cap"] is True
+    assert ledian["copies"] == 3 and ledian["copy_cap"] == 4 and ledian["at_cap"] is False
     assert mega["copies"] == 1 and mega["at_cap"] is False
     assert ledian["p_opening"] > mega["p_opening"]
     assert abs(mega["p_opening"] - 7 / 60) < 1e-9
 
     psychic = _row(report, "Psychic Energy")
-    assert psychic["copies"] == 15 and psychic["copy_cap"] is None and psychic["over_cap"] is False
+    assert psychic["copies"] == 16 and psychic["copy_cap"] is None and psychic["over_cap"] is False
     tele = _row(report, "Telepathic Psychic Energy")
     assert tele["copies"] == 2 and tele["copy_cap"] == 4 and tele["over_cap"] is False
     switch = _row(report, "Switch")

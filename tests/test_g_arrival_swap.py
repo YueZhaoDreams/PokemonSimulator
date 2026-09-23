@@ -112,49 +112,6 @@ def test_g_holds_prankish_when_there_is_no_energy_to_bounce():
     assert me.card(me.bench[0].card_i).name == "Clefairy"
 
 
-def _board(game: Game, clefairy: int, *, ledyba: bool = False, ledian: bool = False, energy: bool = False) -> None:
-    me, foe = game.players["a"], game.players["b"]
-    used: set[int] = set()
-    fairies = [_pull(me, "Clefairy", used) for _ in range(clefairy)]
-    me.active = Pokemon(card_i=fairies[0], played_turn=0) if fairies else None
-    me.bench = [Pokemon(card_i=i, played_turn=0) for i in fairies[1:]]
-    if ledyba:
-        me.bench.append(Pokemon(card_i=_pull(me, "Ledyba", used), played_turn=0))
-    if ledian:
-        me.bench.append(Pokemon(card_i=_pull(me, "Ledian", used), played_turn=0))
-    foe_active = _pull(foe, "Dragapult ex", set())
-    foe.active = Pokemon(card_i=foe_active, played_turn=0)
-    if energy:
-        foe.active.energy = [_pull(foe, "Fire Energy", set())]
-    me.hand = []
-
-
-def test_pad_keeps_clefairy_ahead_of_prankish_while_the_engine_is_short():
-    game = _game()
-    _board(game, 1, energy=True)
-    assert game._g_tutor_prefer(game.players["a"])[0] == "Clefairy"
-
-
-def test_pad_fetches_prankish_when_two_clefairy_and_an_energy_to_bounce():
-    game = _game()
-    _board(game, 2, energy=True)
-    prefer = game._g_tutor_prefer(game.players["a"])
-    assert prefer[0] == "Clefable"
-    assert "Clefable ex" in prefer
-
-
-def test_pad_fetches_ledian_once_ledyba_is_out_and_nothing_to_bounce():
-    game = _game()
-    _board(game, 2, ledyba=True, energy=False)
-    assert game._g_tutor_prefer(game.players["a"])[0] == "Ledian"
-
-
-def test_pad_fetches_munkidori_when_the_gust_line_is_up():
-    game = _game()
-    _board(game, 2, ledyba=True, ledian=True, energy=False)
-    assert game._g_tutor_prefer(game.players["a"])[0] == "Munkidori"
-
-
 def test_g_lillie_outranks_drayton_when_it_draws():
     game = _game()
     me = game.players["a"]
