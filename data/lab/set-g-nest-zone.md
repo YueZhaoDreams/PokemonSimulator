@@ -50,6 +50,6 @@ Thinning Ledian to 2/2 (`ledian_thin`) is the only other list that beat the Poff
 
 ## Lock
 
-Applied to `SET_G_NEST_ZONE_NAMES`. Live `SET_G_NAMES` later swapped 2 Psychic for 2 Telepathic (see [set-g-c60-telepathic.md](set-g-c60-telepathic.md)). Poffin list stays `SET_G_POFFIN_NAMES`.
+Applied to `SET_G_NEST_ZONE_NAMES`. Live `SET_G_NAMES` later swapped 2 Psychic for 2 Telepathic (see [set-g-c60-telepathic.md](set-g-c60-telepathic.md)), then 2 Ledian, 1 Ledyba, and 1 Munkidori for 4 Psychic (see [set-g-four-psychic.md](set-g-four-psychic.md)). Poffin list stays `SET_G_POFFIN_NAMES`.
 
 Still not C60: no Mewtwo ex, no Prankish Clefable, no second Mega, no Hop / Lillie / Iono / Arven / Belt / Battle Cage. Telepathic is in live G as a 2-of. Next arrivals are the draw core and the Photon line.

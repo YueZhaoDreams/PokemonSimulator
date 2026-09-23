@@ -42,13 +42,13 @@ def test_set_g_matches_draw_probability_and_caps_from_s60():
 
     ledian = _row(report, "Ledian")
     mega = _row(report, "Mega Clefable ex")
-    assert ledian["copies"] == 4 and ledian["copy_cap"] == 4 and ledian["at_cap"] is True
+    assert ledian["copies"] == 2 and ledian["copy_cap"] == 4 and ledian["at_cap"] is False
     assert mega["copies"] == 1 and mega["at_cap"] is False
     assert ledian["p_opening"] > mega["p_opening"]
     assert abs(mega["p_opening"] - 7 / 60) < 1e-9
 
     psychic = _row(report, "Psychic Energy")
-    assert psychic["copies"] == 15 and psychic["copy_cap"] is None and psychic["over_cap"] is False
+    assert psychic["copies"] == 19 and psychic["copy_cap"] is None and psychic["over_cap"] is False
     tele = _row(report, "Telepathic Psychic Energy")
     assert tele["copies"] == 2 and tele["copy_cap"] == 4 and tele["over_cap"] is False
     switch = _row(report, "Switch")
@@ -110,9 +110,10 @@ def test_printed_draw_three_raises_seen_cards_by_three():
     one_of = _row(report, "Mega Clefable ex")
     assert abs(one_of["p_gain"] - 3 / 60) < 1e-6
 
-    four_of = _row(report, "Ledian")
+    four_of = _row(report, "Clefairy")
+    assert four_of["copies"] == 4
     assert four_of["p_gain"] > 3 / 60
-    assert abs(four_of["p_seen"] - draw_probability("Ledian", [c.name for c in cards], 10)["p_at_least_one"]) < 1e-9
+    assert abs(four_of["p_seen"] - draw_probability("Clefairy", [c.name for c in cards], 10)["p_at_least_one"]) < 1e-9
 
 
 def test_two_hops_count_per_copy_and_conditional_draws_do_not():
@@ -191,7 +192,9 @@ def test_route_uses_deck_rules_and_accepts_preset_override(tmp_path, monkeypatch
         overridden = client.get("/api/decks/seed-g/fate/ceilings", params={"rule_preset": "s30"}).json()
         assert overridden["rules"]["preset"] == "s30"
         assert overridden["rules"]["copy_cap"] == 2
-        assert _row(overridden, "Ledian")["over_cap"] is True
+        assert _row(overridden, "Clefairy")["over_cap"] is True
+        assert _row(overridden, "Ledian")["copies"] == 2
+        assert _row(overridden, "Ledian")["over_cap"] is False
 
         bad = client.get("/api/decks/seed-g/fate/ceilings", params={"rule_preset": "s99"})
         assert bad.status_code == 400
