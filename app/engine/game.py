@@ -241,7 +241,9 @@ class Game:
         _capture_opening(player)
 
     def _apply_mulligan_bonus_draws(self) -> None:
-        """After prizes and setup, each player draws one card per opponent mulligan."""
+        """After prizes and setup, draw one card per opponent mulligan when the flag is on."""
+        if not self.rules.mulligan_bonus_draws:
+            return
         a, b = self.players["a"], self.players["b"]
         extra_a = b.mulligans
         extra_b = a.mulligans

@@ -118,7 +118,8 @@ def run_simulation(
             "how": (
                 f"Shuffled both decks, drew {rules.opening_hand}, mulliganed until a "
                 f"{'Pokémon (any stage)' if rules.any_stage_playable else 'Basic Pokémon'}, "
-                f"set {rules.prize_count} prize cards, drew one card per opponent mulligan, "
+                f"set {rules.prize_count} prize cards, "
+                f"{'drew one card per opponent mulligan' if rules.mulligan_bonus_draws else 'skipped extra cards for opponent mulligans'}, "
                 "then played turns under Family Cup rules "
                 f"({'Pokémon count as matching Basic Energy' if rules.pokemon_as_energy else 'standard energy only'}"
                 f"{'; any stage may enter play from hand' if rules.any_stage_playable else ''}"

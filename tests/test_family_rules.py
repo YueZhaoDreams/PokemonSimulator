@@ -371,6 +371,10 @@ def test_standard_presets_copy_caps_and_deck_size():
     assert s60.max_copies_except_basic_energy == 4
     assert s60.prize_count == 6
     assert s60.pokemon_as_energy is False
+    assert s30.mulligan_bonus_draws is True
+    assert s60.mulligan_bonus_draws is True
+    assert "one card per mulligan" in s30.notes
+    assert "one card per mulligan" in s60.notes
     assert infer_rule_preset_from_rules(s30) == "s30"
     assert infer_rule_preset_from_rules(s60) == "s60"
     assert infer_rule_preset_from_rules(replace(s60, prize_count=3)) == "c"

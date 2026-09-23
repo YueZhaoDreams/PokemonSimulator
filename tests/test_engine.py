@@ -24,6 +24,7 @@ def test_family_rules_defaults():
     assert rules.extra_prize_for_ex is True
     assert rules.max_copies_except_basic_energy == 4
     assert rules.opening_hand == 7
+    assert rules.mulligan_bonus_draws is True
 
 
 def test_one_game_completes():
