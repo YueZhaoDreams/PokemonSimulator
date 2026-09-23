@@ -152,7 +152,7 @@ def _run(variant: str, names: list[str], foe_key: str, foe_names, foe_strat: str
     )
     r = rec["results"]
     q = r.get("query_counts") or {}
-    wins = round(r["win_rate_a"] * GAMES)
+    wins = int(r["wins_a"])
     return variant, foe_key, seed, {
         "wins": wins,
         "games": GAMES,

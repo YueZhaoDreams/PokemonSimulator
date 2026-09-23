@@ -15,7 +15,7 @@ def test_live_g_is_the_ledyba_psychic_row():
     assert blob["lists"]["ledyba_energy"].count("Psychic Energy") == 20
     assert blob["lists"]["ledyba_energy"].count("Ledyba") == 2
     assert blob["lists"]["ledyba_energy"].count("Iris's Fighting Spirit") == 1
-    assert blob["lists"]["base"].count("Lillie") == 0
+    assert blob["lists"]["ledyba_energy"].count("Lillie") == 0
 
 
 def test_ledyba_psychic_beats_the_joint_lillie_swap():
