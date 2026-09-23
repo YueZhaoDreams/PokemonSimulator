@@ -8497,58 +8497,24 @@
         "dex_id": null
       },
       {
-        "catalog_id": "sv07-003",
-        "name": "Ledian",
-        "category": "Pokemon",
-        "stage": "Stage1",
+        "catalog_id": "swsh12.5-156",
+        "name": "Psychic Energy",
+        "category": "Energy",
+        "stage": "Basic",
         "types": [
-          "Grass"
+          "Psychic"
         ],
-        "hp": 90,
-        "attacks": [
-          {
-            "name": "Swift",
-            "cost": [
-              "Colorless",
-              "Colorless"
-            ],
-            "damage": 70,
-            "text": "This attack's damage isn't affected by Weakness or Resistance, or by any effects on your opponent's Active Pok\u00e9mon.",
-            "effects": [
-              {
-                "kind": "ignore_wr"
-              },
-              {
-                "kind": "ignore_active_effects"
-              }
-            ]
-          }
-        ],
-        "abilities": [
-          {
-            "name": "Glittering Star Pattern",
-            "text": "When you play this Pok\u00e9mon from your hand to evolve 1 of your Pok\u00e9mon during your turn, you may switch in 1 of your opponent's Benched Pok\u00e9mon that has 90 HP or less remaining to the Active Spot.",
-            "effects": [
-              {
-                "kind": "gust_low_hp_on_evolve",
-                "max_remaining": 90
-              }
-            ]
-          }
-        ],
-        "weaknesses": [
-          {
-            "type": "Fire",
-            "value": "\u00d72"
-          }
-        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
         "resistances": [],
         "retreat": 0,
-        "evolves_from": "Ledyba",
+        "evolves_from": null,
         "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv07/003/low.webp",
-        "set_name": null,
+        "energy_type": "Psychic",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/156/low.webp",
+        "set_name": "Crown Zenith",
         "text": "",
         "dex_id": null
       },
