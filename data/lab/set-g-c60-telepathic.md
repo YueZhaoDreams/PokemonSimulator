@@ -67,7 +67,7 @@ Vs t60, Telepathic attach games: tele2 1409, tele3 1719, tele4 2062. Extra copie
 
 ## Lock
 
-**G (`SET_G_NAMES` / `seed-g`): −2 Psychic Energy, +2 Telepathic Psychic Energy.** Energy line is **15 Psychic + 2 Telepathic**. Nest/Zone list stays `SET_G_NEST_ZONE_NAMES`.
+**G at this bakeoff: −2 Psychic Energy, +2 Telepathic Psychic Energy.** Energy line in the historical tele2 list is **15 Psychic + 2 Telepathic**. Nest/Zone list stays `SET_G_NEST_ZONE_NAMES`. Live `SET_G_NAMES` later replaced 2 Ledian, 1 Ledyba, and 1 Munkidori with 4 Psychic Energy (see [set-g-four-psychic.md](set-g-four-psychic.md)).
 
 **C60 stays 14 Psychic + 2 Telepathic.** Do not go to 3 or 4 on the destination list either.
 

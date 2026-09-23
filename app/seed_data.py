@@ -583,11 +583,29 @@ def _replace_n(names: tuple[str, ...], old: str, new: str, n: int) -> tuple[str,
     return tuple(out)
 
 
-# Carpet Set G — Telepathic lock. Nest/Zone minus 2 Psychic Energy, plus
-# 2 Telepathic Psychic Energy. C60 destination stays 2; copies 3 and 4 lose
-# Hedrick on C60 and D60 on G. See data/lab/set-g-c60-telepathic.md.
+# Carpet Set G — four Psychic on the Telepathic list.
+# Nest/Zone minus 2 Psychic plus 2 Telepathic (copies 3 and 4 lose; see
+# data/lab/set-g-c60-telepathic.md). Then 2 Ledian, 1 Ledyba, and 1 Munkidori
+# become Psychic Energy. Review seeds 20260924 and 20260925, 6000 games per
+# cell: thin_energy is +0.86 wComp over the one-Ledian energy lock, and each
+# single Pokémon→Psychic control is at or above that lock. Poké Pad ties, the
+# second Ultra Ball loses, and Prankish loses to a Psychic in the same slot.
+# See data/lab/set-g-four-psychic.md.
 SET_G_NAMES = _replace_n(
-    SET_G_NEST_ZONE_NAMES, "Psychic Energy", "Telepathic Psychic Energy", 2
+    _replace_n(
+        _replace_n(
+            _replace_n(SET_G_NEST_ZONE_NAMES, "Psychic Energy", "Telepathic Psychic Energy", 2),
+            "Ledian",
+            "Psychic Energy",
+            2,
+        ),
+        "Ledyba",
+        "Psychic Energy",
+        1,
+    ),
+    "Munkidori",
+    "Psychic Energy",
+    1,
 )
 
 # Carpet Set H — 60-card beige-carpet photo (data/samples/set-h-carpet.jpg), Standard s60.

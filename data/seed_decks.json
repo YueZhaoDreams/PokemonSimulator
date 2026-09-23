@@ -8345,253 +8345,49 @@
         "dex_id": null
       },
       {
-        "catalog_id": "sv07-002",
-        "name": "Ledyba",
-        "category": "Pokemon",
+        "catalog_id": "swsh12.5-156",
+        "name": "Psychic Energy",
+        "category": "Energy",
         "stage": "Basic",
         "types": [
-          "Grass"
+          "Psychic"
         ],
-        "hp": 60,
-        "attacks": [
-          {
-            "name": "Headbutt Bounce",
-            "cost": [
-              "Colorless",
-              "Colorless"
-            ],
-            "damage": 30,
-            "text": "",
-            "effects": []
-          }
-        ],
+        "hp": 0,
+        "attacks": [],
         "abilities": [],
-        "weaknesses": [
-          {
-            "type": "Fire",
-            "value": "\u00d72"
-          }
-        ],
-        "resistances": [],
-        "retreat": 1,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv07/002/low.webp",
-        "set_name": null,
-        "text": "",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "sv07-002",
-        "name": "Ledyba",
-        "category": "Pokemon",
-        "stage": "Basic",
-        "types": [
-          "Grass"
-        ],
-        "hp": 60,
-        "attacks": [
-          {
-            "name": "Headbutt Bounce",
-            "cost": [
-              "Colorless",
-              "Colorless"
-            ],
-            "damage": 30,
-            "text": "",
-            "effects": []
-          }
-        ],
-        "abilities": [],
-        "weaknesses": [
-          {
-            "type": "Fire",
-            "value": "\u00d72"
-          }
-        ],
-        "resistances": [],
-        "retreat": 1,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv07/002/low.webp",
-        "set_name": null,
-        "text": "",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "sv07-002",
-        "name": "Ledyba",
-        "category": "Pokemon",
-        "stage": "Basic",
-        "types": [
-          "Grass"
-        ],
-        "hp": 60,
-        "attacks": [
-          {
-            "name": "Headbutt Bounce",
-            "cost": [
-              "Colorless",
-              "Colorless"
-            ],
-            "damage": 30,
-            "text": "",
-            "effects": []
-          }
-        ],
-        "abilities": [],
-        "weaknesses": [
-          {
-            "type": "Fire",
-            "value": "\u00d72"
-          }
-        ],
-        "resistances": [],
-        "retreat": 1,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv07/002/low.webp",
-        "set_name": null,
-        "text": "",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "sv07-002",
-        "name": "Ledyba",
-        "category": "Pokemon",
-        "stage": "Basic",
-        "types": [
-          "Grass"
-        ],
-        "hp": 60,
-        "attacks": [
-          {
-            "name": "Headbutt Bounce",
-            "cost": [
-              "Colorless",
-              "Colorless"
-            ],
-            "damage": 30,
-            "text": "",
-            "effects": []
-          }
-        ],
-        "abilities": [],
-        "weaknesses": [
-          {
-            "type": "Fire",
-            "value": "\u00d72"
-          }
-        ],
-        "resistances": [],
-        "retreat": 1,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv07/002/low.webp",
-        "set_name": null,
-        "text": "",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "sv07-003",
-        "name": "Ledian",
-        "category": "Pokemon",
-        "stage": "Stage1",
-        "types": [
-          "Grass"
-        ],
-        "hp": 90,
-        "attacks": [
-          {
-            "name": "Swift",
-            "cost": [
-              "Colorless",
-              "Colorless"
-            ],
-            "damage": 70,
-            "text": "This attack's damage isn't affected by Weakness or Resistance, or by any effects on your opponent's Active Pok\u00e9mon.",
-            "effects": [
-              {
-                "kind": "ignore_wr"
-              },
-              {
-                "kind": "ignore_active_effects"
-              }
-            ]
-          }
-        ],
-        "abilities": [
-          {
-            "name": "Glittering Star Pattern",
-            "text": "When you play this Pok\u00e9mon from your hand to evolve 1 of your Pok\u00e9mon during your turn, you may switch in 1 of your opponent's Benched Pok\u00e9mon that has 90 HP or less remaining to the Active Spot.",
-            "effects": [
-              {
-                "kind": "gust_low_hp_on_evolve",
-                "max_remaining": 90
-              }
-            ]
-          }
-        ],
-        "weaknesses": [
-          {
-            "type": "Fire",
-            "value": "\u00d72"
-          }
-        ],
+        "weaknesses": [],
         "resistances": [],
         "retreat": 0,
-        "evolves_from": "Ledyba",
+        "evolves_from": null,
         "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv07/003/low.webp",
-        "set_name": null,
+        "energy_type": "Psychic",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/156/low.webp",
+        "set_name": "Crown Zenith",
         "text": "",
         "dex_id": null
       },
       {
-        "catalog_id": "sv07-003",
-        "name": "Ledian",
+        "catalog_id": "sv07-002",
+        "name": "Ledyba",
         "category": "Pokemon",
-        "stage": "Stage1",
+        "stage": "Basic",
         "types": [
           "Grass"
         ],
-        "hp": 90,
+        "hp": 60,
         "attacks": [
           {
-            "name": "Swift",
+            "name": "Headbutt Bounce",
             "cost": [
               "Colorless",
               "Colorless"
             ],
-            "damage": 70,
-            "text": "This attack's damage isn't affected by Weakness or Resistance, or by any effects on your opponent's Active Pok\u00e9mon.",
-            "effects": [
-              {
-                "kind": "ignore_wr"
-              },
-              {
-                "kind": "ignore_active_effects"
-              }
-            ]
+            "damage": 30,
+            "text": "",
+            "effects": []
           }
         ],
-        "abilities": [
-          {
-            "name": "Glittering Star Pattern",
-            "text": "When you play this Pok\u00e9mon from your hand to evolve 1 of your Pok\u00e9mon during your turn, you may switch in 1 of your opponent's Benched Pok\u00e9mon that has 90 HP or less remaining to the Active Spot.",
-            "effects": [
-              {
-                "kind": "gust_low_hp_on_evolve",
-                "max_remaining": 90
-              }
-            ]
-          }
-        ],
+        "abilities": [],
         "weaknesses": [
           {
             "type": "Fire",
@@ -8599,12 +8395,132 @@
           }
         ],
         "resistances": [],
-        "retreat": 0,
-        "evolves_from": "Ledyba",
+        "retreat": 1,
+        "evolves_from": null,
         "trainer_kind": null,
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv07/003/low.webp",
+        "image": "https://assets.tcgdex.net/en/sv/sv07/002/low.webp",
         "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv07-002",
+        "name": "Ledyba",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Grass"
+        ],
+        "hp": 60,
+        "attacks": [
+          {
+            "name": "Headbutt Bounce",
+            "cost": [
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 30,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Fire",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv07/002/low.webp",
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv07-002",
+        "name": "Ledyba",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Grass"
+        ],
+        "hp": 60,
+        "attacks": [
+          {
+            "name": "Headbutt Bounce",
+            "cost": [
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 30,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Fire",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv07/002/low.webp",
+        "set_name": null,
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-156",
+        "name": "Psychic Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Psychic",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/156/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-156",
+        "name": "Psychic Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Psychic",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/156/low.webp",
+        "set_name": "Crown Zenith",
         "text": "",
         "dex_id": null
       },
@@ -8868,64 +8784,24 @@
         "dex_id": null
       },
       {
-        "catalog_id": "sv06-095",
-        "name": "Munkidori",
-        "category": "Pokemon",
+        "catalog_id": "swsh12.5-156",
+        "name": "Psychic Energy",
+        "category": "Energy",
         "stage": "Basic",
         "types": [
           "Psychic"
         ],
-        "hp": 110,
-        "attacks": [
-          {
-            "name": "Mind Bend",
-            "cost": [
-              "Psychic",
-              "Colorless"
-            ],
-            "damage": 60,
-            "text": "Your opponent's Active Pok\u00e9mon is now Confused.",
-            "effects": [
-              {
-                "kind": "status",
-                "status": "confused",
-                "coin": false
-              }
-            ]
-          }
-        ],
-        "abilities": [
-          {
-            "name": "Adrena-Brain",
-            "text": "Once during your turn, if this Pok\u00e9mon has any {D} Energy attached, you may move up to 3 damage counters from 1 of your Pok\u00e9mon to 1 of your opponent's Pok\u00e9mon.",
-            "effects": [
-              {
-                "kind": "move_damage_counters",
-                "counters": 3,
-                "require_energy": "Darkness",
-                "once_per_turn": true
-              }
-            ]
-          }
-        ],
-        "weaknesses": [
-          {
-            "type": "Darkness",
-            "value": "\u00d72"
-          }
-        ],
-        "resistances": [
-          {
-            "type": "Fighting",
-            "value": "-30"
-          }
-        ],
-        "retreat": 1,
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
         "evolves_from": null,
         "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv06/095/low.webp",
-        "set_name": null,
+        "energy_type": "Psychic",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/156/low.webp",
+        "set_name": "Crown Zenith",
         "text": "",
         "dex_id": null
       },
