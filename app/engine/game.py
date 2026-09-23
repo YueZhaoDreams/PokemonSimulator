@@ -1174,7 +1174,7 @@ class Game:
                 evo = me.card(evo_i)
                 if not evo.is_pokemon or not evo.evolves_from:
                     continue
-                if "mega clefable" in evo.name.lower() or evo.name.lower() == "clefable ex":
+                if "mega clefable" in evo.name.lower() or evo.name.lower() in {"clefable ex", "clefable"}:
                     continue
                 target = self._find_evolve_target(me, evo)
                 if target is None or not self._can_evolve_now(me, who, target, evo):
@@ -1188,6 +1188,36 @@ class Game:
             if target is not None and self._can_evolve_now(me, who, target, me.card(mega_i)):
                 self._do_evolve(me, target, mega_i)
         self._g_evolve_lunar_zone(me, who)
+        self._g_evolve_prankish(me, foe, who)
+
+    def _g_evolve_prankish(self, me: Player, foe: Player, who: str) -> None:
+        """One Rebel Clash Prankish on a bench Clefairy.
+
+        Printed: when you evolve, you may put an Energy attached to the
+        opponent's Active on top of their deck. The Active Clefairy stays
+        Party. Do not spend the only engine, and do not evolve when there is
+        no Energy to bounce.
+        """
+        if any(self._is_prankish_clefable(me.card(m.card_i)) for m in me.in_play()):
+            return
+        evo_i = self._prankish_hand_index(me)
+        if evo_i is None:
+            return
+        if not foe.active or not foe.active.energy:
+            return
+        evo = me.card(evo_i)
+        clefs = [m for m in me.in_play() if self._is_clefairy(me.card(m.card_i))]
+        if len(clefs) < 2:
+            return
+        bench = [
+            m
+            for m in clefs
+            if m is not me.active and self._can_evolve_now(me, who, m, evo)
+        ]
+        if not bench:
+            return
+        target = max(bench, key=lambda m: (1 if m.ability_used else 0, len(m.energy)))
+        self._do_evolve(me, target, evo_i)
 
     def _g_evolve_lunar_zone(self, me: Player, who: str) -> None:
         """One Clefable ex on a bench Clefairy once a second Clefairy is out.
@@ -1475,8 +1505,9 @@ class Game:
                     score -= 20
                 elif len(me.deck) <= 8:
                     score -= 10
-                elif strat.name == "party":
-                    # Draw before tutoring, same slot as Hop, so Lillie can still hit Search/Nest.
+                elif strat.name in {"party", "g"}:
+                    # Draw before tutoring. On G this is above Iris (15, must
+                    # discard) and Drayton (13, top 7) whenever Lillie draws.
                     score += 17 + (n - 3)
                 else:
                     score += 3 + max(0, n - 3)
@@ -1779,7 +1810,11 @@ class Game:
                 target = self._lillie_hand_target(who, spec)
             else:
                 target = 8 if self._is_players_first_turn(who) else 6
-            self._draw(me, max(0, target - len(me.hand)))
+            drawn = max(0, target - len(me.hand))
+            self._draw(me, drawn)
+            if drawn:
+                self._bump("lillie")
+                self._bump(f"lillie_{me.name.lower()}")
         elif name == "jacq":
             prefer = ["Mega Clefable ex", "Clefable ex", "Clefable"]
             if self.strats[who].name == "party" and self._facing_phantom(me):
@@ -1900,6 +1935,7 @@ class Game:
             if found:
                 self._bump("ball_search_hit")
                 self._bump("ultra_ball_hit")
+                self._bump(f"ultra_ball_hit_{me.name.lower()}")
                 self._log(f"{me.name} Ultra Ball finds {me.card(found).name}")
         elif name == "energy search":
             # Family Cup: Pokémon count as Basic Energy of their type, so Energy Search
@@ -3052,6 +3088,13 @@ class Game:
                 me.card(i).name.lower() == "clefable ex" for i in me.hand
             ):
                 prefer.insert(1 if prefer and prefer[0] == "Clefairy" else 0, "Clefable ex")
+            if (
+                self._print_in_deck(me, self._is_prankish_clefable)
+                and self._prankish_hand_index(me) is None
+                and not any(self._is_prankish_clefable(me.card(m.card_i)) for m in me.in_play())
+            ):
+                insert_at = 1 if prefer and prefer[0] == "Clefairy" else 0
+                prefer.insert(insert_at, "Clefable")
             return list(dict.fromkeys(prefer))
         if strat.name == "slash":
             prefer: list[str] = []
@@ -4671,6 +4714,21 @@ class Game:
             ]
             if self._facing_phantom(me):
                 prefer.extend(["rabsca", "rellor", "shaymin"])
+        elif strat_name == "g":
+            prefer = [
+                "clefairy",
+                "clefable ex",
+                "mega clefable ex",
+                "clefable",
+                "munkidori",
+                "ledian",
+                "ledyba",
+                "staraptor",
+                "staravia",
+                "starly",
+                "psychic energy",
+                "darkness energy",
+            ]
         else:
             prefer = [
                 "dragapult ex",
@@ -4696,6 +4754,7 @@ class Game:
         me.discard.remove(card_i)
         me.hand.append(card_i)
         self._bump("night_stretcher")
+        self._bump(f"night_stretcher_{me.name.lower()}")
         self._log(f"{me.name} Night Stretcher takes {me.card(card_i).name}")
 
     def _damage_one_pokemon(self, me: Player, foe: Player, amount: int) -> None:
@@ -6290,6 +6349,7 @@ class Game:
                 foe.active.energy.remove(energy_i)
                 foe.deck.insert(0, energy_i)
                 self._bump("prankish")
+                self._bump(f"prankish_{me.name.lower()}")
                 self._bump("prankish_evo_eligible_turn")
                 self._log(f"{me.name} Prankish puts {foe.card(energy_i).name} on top of {foe.name}'s deck")
         for abi in card.abilities:
