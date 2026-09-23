@@ -112,6 +112,125 @@ def test_g_holds_prankish_when_there_is_no_energy_to_bounce():
     assert me.card(me.bench[0].card_i).name == "Clefairy"
 
 
+def _pad_game() -> Game:
+    names = list(SET_G_NAMES)
+    names[names.index("Iris's Fighting Spirit")] = "Lillie"
+    names[names.index("Darkness Energy")] = "Clefable"
+    names[names.index("Energy Switch")] = "Poké Pad"
+    return Game(
+        build_fallback_deck(names),
+        build_fallback_deck(["Dragapult ex", "Fire Energy"] + ["Cubone"] * 28),
+        standard_60_rules(),
+        StrategySpec.from_dict("g"),
+        StrategySpec.from_dict("phantom"),
+        Random(1),
+    )
+
+
+def _bench(card_i: int) -> Pokemon:
+    return Pokemon(card_i=card_i, played_turn=0)
+
+
+def test_g_pad_fetches_ledian_ahead_of_starly():
+    game = _pad_game()
+    me, foe = game.players["a"], game.players["b"]
+    used: set[int] = set()
+    clefs = [_pull(me, "Clefairy", used) for _ in range(3)]
+    ledyba = _pull(me, "Ledyba", used)
+    ledian = _pull(me, "Ledian", used)
+    starly = _pull(me, "Starly", used)
+    pad = _pull(me, "Poké Pad", used)
+    prank = _pull(me, "Clefable", used)
+    me.active = _bench(clefs[0])
+    me.bench = [_bench(clefs[1]), _bench(clefs[2]), _bench(ledyba)]
+    me.hand = [pad]
+    me.deck = [ledian, starly]
+    me.discard.append(prank)
+    foe.active = _bench(_pull(foe, "Dragapult ex", set()))
+    assert game._g_tutor_hole(me, "a", kind="pad") == "Ledian"
+    game._resolve_trainer(me, foe, me.card(pad), who="a", card_i=pad)
+    assert ledian in me.hand
+    assert starly in me.deck
+
+
+def test_g_pad_fetches_prankish_when_the_bounce_is_live():
+    game = _pad_game()
+    me, foe = game.players["a"], game.players["b"]
+    used: set[int] = set()
+    clefs = [_pull(me, "Clefairy", used) for _ in range(3)]
+    ledyba = _pull(me, "Ledyba", used)
+    ledian = _pull(me, "Ledian", used)
+    prank = _pull(me, "Clefable", used)
+    pad = _pull(me, "Poké Pad", used)
+    me.active = _bench(clefs[0])
+    me.bench = [_bench(clefs[1]), _bench(clefs[2]), _bench(ledyba)]
+    me.hand = [pad]
+    me.deck = [prank, ledian]
+    foe_used: set[int] = set()
+    fuel = _pull(foe, "Fire Energy", foe_used)
+    foe.active = Pokemon(card_i=_pull(foe, "Dragapult ex", foe_used), energy=[fuel], played_turn=0)
+    assert game._g_tutor_hole(me, "a", kind="pad") == "Clefable"
+    game._resolve_trainer(me, foe, me.card(pad), who="a", card_i=pad)
+    assert prank in me.hand
+    assert ledian in me.deck
+
+
+def test_g_pad_and_ultra_ball_are_held_when_the_holes_are_filled():
+    game = _pad_game()
+    me, foe = game.players["a"], game.players["b"]
+    used: set[int] = set()
+    clefs = [_pull(me, "Clefairy", used) for _ in range(3)]
+    ledyba = _pull(me, "Ledyba", used)
+    ledian = _pull(me, "Ledian", used)
+    munk = _pull(me, "Munkidori", used)
+    starly = _pull(me, "Starly", used)
+    staravia = _pull(me, "Staravia", used)
+    staraptor = _pull(me, "Staraptor", used)
+    prank = _pull(me, "Clefable", used)
+    ex = _pull(me, "Clefable ex", used)
+    pad = _pull(me, "Poké Pad", used)
+    ultra = _pull(me, "Ultra Ball", used)
+    me.active = _bench(clefs[0])
+    me.bench = [
+        _bench(clefs[1]),
+        _bench(clefs[2]),
+        _bench(ledyba),
+        _bench(munk),
+        _bench(staraptor),
+    ]
+    me.hand = [pad, ultra, ledian, starly, staravia, prank, ex]
+    me.deck = [_pull(me, "Ledyba", used)]
+    foe.active = _bench(_pull(foe, "Dragapult ex", set()))
+    assert game._g_tutor_hole(me, "a", kind="pad") is None
+    assert game._g_tutor_hole(me, "a", kind="ultra") is None
+    assert game._pick_trainer(me) is None
+
+
+def test_g_ultra_ball_fetches_ledian_once_clefable_ex_is_in_hand():
+    game = _pad_game()
+    me, foe = game.players["a"], game.players["b"]
+    used: set[int] = set()
+    clefs = [_pull(me, "Clefairy", used) for _ in range(3)]
+    ledyba = _pull(me, "Ledyba", used)
+    ledian = _pull(me, "Ledian", used)
+    ex = _pull(me, "Clefable ex", used)
+    mega = _pull(me, "Mega Clefable ex", used)
+    ultra = _pull(me, "Ultra Ball", used)
+    junk = [_pull(me, "Psychic Energy", used) for _ in range(2)]
+    prank = _pull(me, "Clefable", used)
+    me.active = _bench(clefs[0])
+    me.bench = [_bench(clefs[1]), _bench(clefs[2]), _bench(ledyba)]
+    me.hand = [ultra, ex, *junk]
+    me.deck = [ledian, mega]
+    me.discard.append(prank)
+    foe.active = _bench(_pull(foe, "Dragapult ex", set()))
+    assert game._g_tutor_hole(me, "a", kind="ultra") == "Ledian"
+    assert game._pick_trainer(me) == ultra
+    game._resolve_trainer(me, foe, me.card(ultra), who="a", card_i=ultra)
+    assert ledian in me.hand
+    assert mega in me.deck
+
+
 def test_g_lillie_outranks_drayton_when_it_draws():
     game = _game()
     me = game.players["a"]

@@ -1295,7 +1295,11 @@ class Game:
                 continue
             name = card.name.lower()
             score = 0.0
-            if name in {"ultra ball", "poké ball", "poke ball"} and missing_protect:
+            if name == "ultra ball" and strat.name == "g":
+                # Held until the fetched card is a hole. Discarding 2 for Starly
+                # or a filled board is how the second copy lost.
+                score += 10 if self._g_tutor_hole(me, who, kind="ultra") else -8
+            elif name in {"ultra ball", "poké ball", "poke ball"} and missing_protect:
                 score += 8
             elif name in {"ultra ball", "poké ball", "poke ball"}:
                 score += 3
@@ -1931,6 +1935,10 @@ class Game:
                 self._bump("ultra_ball_fail")
                 return
             prefer = self._pokemon_search_prefer(me, who)
+            if self.strats[who].name == "g":
+                hole = self._g_tutor_hole(me, who, kind="ultra")
+                if hole:
+                    prefer = [hole]
             found = self._search(me, lambda c: c.is_pokemon, prefer=prefer, source="ultra ball")
             if found:
                 self._bump("ball_search_hit")
@@ -2333,6 +2341,93 @@ class Game:
     def _party_wants_pad_clefable(self, me: Player) -> bool:
         return self._party_wants_pad_metronome(me) or self._party_wants_pad_prankish(me)
 
+    def _g_copies(self, me: Player, name: str, zone: str) -> int:
+        key = name.lower()
+        if zone == "play":
+            cards = (me.card(m.card_i) for m in me.in_play())
+        elif zone == "hand":
+            cards = (me.card(i) for i in me.hand)
+        elif zone == "deck":
+            cards = (me.card(i) for i in me.deck)
+        else:
+            return 0
+        return sum(1 for card in cards if card.name.lower() == key)
+
+    def _g_have(self, me: Player, name: str) -> int:
+        return self._g_copies(me, name, "play") + self._g_copies(me, name, "hand")
+
+    def _g_tutor_hole(self, me: Player, who: str, *, kind: str) -> str | None:
+        """Poké Pad and Ultra Ball fetch one missing piece, or nothing.
+
+        Held when the piece is already in hand or play. Clefairy stays first
+        until three are owned, so Party keeps its bench. Prankish is next only
+        when two Clefairy are out and the opponent's Active has an Energy.
+        Ultra Ball may take Clefable ex while Lunar Zone is missing, and Mega
+        only after that ex is in play. Pad cannot take either. The gust line
+        and Munkidori come before Starly. Nest Ball and Poffin keep the old list.
+        """
+        rule_box = kind == "ultra"
+        foe = self.players["b" if who == "a" else "a"]
+        if self._g_have(me, "Clefairy") < 3 and self._g_copies(me, "Clefairy", "deck"):
+            return "Clefairy"
+        if (
+            foe.active
+            and foe.active.energy
+            and self._g_copies(me, "Clefairy", "play") >= 2
+            and self._print_in_deck(me, self._is_prankish_clefable)
+            and self._prankish_hand_index(me) is None
+            and not any(self._is_prankish_clefable(me.card(m.card_i)) for m in me.in_play())
+        ):
+            return "Clefable"
+        if (
+            rule_box
+            and self._g_copies(me, "Clefairy", "play") >= 1
+            and not self._has_lunar_zone(me)
+            and self._g_have(me, "Clefable ex") == 0
+            and self._g_copies(me, "Clefable ex", "deck")
+        ):
+            return "Clefable ex"
+        if (
+            self._g_have(me, "Ledyba") == 0
+            and self._g_have(me, "Ledian") == 0
+            and self._g_copies(me, "Ledyba", "deck")
+        ):
+            return "Ledyba"
+        if (
+            self._g_have(me, "Ledian") == 0
+            and self._g_have(me, "Ledyba") > 0
+            and self._g_copies(me, "Ledian", "deck")
+        ):
+            return "Ledian"
+        if self._g_have(me, "Munkidori") == 0 and self._g_copies(me, "Munkidori", "deck"):
+            return "Munkidori"
+        if (
+            self._g_have(me, "Staraptor") == 0
+            and self._g_copies(me, "Staravia", "play")
+            and self._g_copies(me, "Staraptor", "deck")
+        ):
+            return "Staraptor"
+        if (
+            self._g_have(me, "Staraptor") == 0
+            and self._g_have(me, "Staravia") == 0
+            and self._g_copies(me, "Starly", "play")
+            and self._g_copies(me, "Staravia", "deck")
+        ):
+            return "Staravia"
+        bird = any(self._g_have(me, name) for name in ("Starly", "Staravia", "Staraptor"))
+        if kind == "pad" and not bird and self._g_copies(me, "Starly", "deck"):
+            return "Starly"
+        if (
+            rule_box
+            and self._g_copies(me, "Clefable ex", "play")
+            and self._g_have(me, "Mega Clefable ex") == 0
+            and self._g_copies(me, "Mega Clefable ex", "deck")
+        ):
+            return "Mega Clefable ex"
+        if kind == "pad" and self._g_have(me, "Flutter Mane") == 0 and self._g_copies(me, "Flutter Mane", "deck"):
+            return "Flutter Mane"
+        return None
+
     def _poke_pad_prefer(self, me: Player, who: str) -> list[str]:
         """Printed Pad is a non-Rule-Box search. Party is Clefairy / Prankish /
         Metronome Clefable on demand. `_search` splits the two Clefable prints
@@ -2345,11 +2440,17 @@ class Game:
             return ["Clefairy"]
         if strat.name == "phantom":
             return ["Dreepy", "Drakloak", "Budew", "Dunsparce"]
+        if strat.name == "g":
+            hole = self._g_tutor_hole(me, who, kind="pad")
+            return [hole] if hole else []
         return list(self._pokemon_search_prefer(me, who))
 
     def _poke_pad_trainer_score(self, me: Player, strat: StrategySpec, missing_protect: list) -> float:
         if not self._pad_legal_in_deck(me):
             return -10.0
+        if strat.name == "g":
+            who = "a" if me.name == "A" else "b"
+            return 12.0 if self._g_tutor_hole(me, who, kind="pad") else -8.0
         if strat.name == "party":
             # Metronome this turn: beat Hop 17, stay under Boss 22 / Belt 21.
             # Prankish evo: above Nest 6, under Hop. Engine repair is cheaper.

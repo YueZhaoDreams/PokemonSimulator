@@ -2,16 +2,19 @@
 """Energy-lock G: 1 Pad + 1 Ultra Ball + 1 Prankish for Ledyba, Ledian, Munkidori.
 
 Base is live SET_G_NAMES (one Ledian already traded for a Psychic Energy).
-Search is the shipped fixed order: Clefairy while fewer than three are in
-play, then Prankish Clefable when that print is in the deck and not in hand
-or play, then the usual gust / bird line. Poké Pad still cannot take a
-Rule Box (Clefable ex, Mega). Ultra Ball can.
+Poké Pad and Ultra Ball are held until a hole is in the deck, then they take
+that one card. Clefairy while fewer than three are in hand or play, Prankish
+when two Clefairy are out and the opponent's Active has an Energy, Clefable ex
+for Ultra Ball while Lunar Zone is missing, then Ledyba / Ledian / Munkidori.
+Mega only after Clefable ex is in play. Nest Ball and Poffin keep the old list.
+Pad cannot take a Rule Box.
 
 The thin_energy row pays the same three cuts with Psychic Energy, so a win
 that is only the cuts does not get credited to the tutors.
 
-An earlier matrix used an on-demand hole picker. That policy is not this
-script. Its numbers are in set-g-pad-ultra-prank-ondemand.json.
+Earlier matrices: set-g-pad-ultra-prank.json (fixed prefer, items always
+played) and set-g-pad-ultra-prank-ondemand.json (hole list that fetched Mega
+and stopped Party at two Clefairy). This file is the hold-until-hole run.
 
 Seed 20260923. Games from LAB_GAMES (default 3,000). Side A is strategy g.
 """
@@ -74,6 +77,10 @@ QUERIES = [
     {"type": "event_prefix", "prefix": "tutor_a:Clefable:ultra ball", "key": "ultra_prank"},
     {"type": "event_prefix", "prefix": "tutor_a:Clefable ex:ultra ball", "key": "ultra_ex"},
     {"type": "event_prefix", "prefix": "tutor_a:Mega Clefable ex:ultra ball", "key": "ultra_mega"},
+    {"type": "event_prefix", "prefix": "tutor_a:Ledian:ultra ball", "key": "ultra_ledian"},
+    {"type": "event_prefix", "prefix": "tutor_a:Ledyba:ultra ball", "key": "ultra_ledyba"},
+    {"type": "event_prefix", "prefix": "tutor_a:Munkidori:ultra ball", "key": "ultra_munk"},
+    {"type": "event_prefix", "prefix": "tutor_a:Clefairy:ultra ball", "key": "ultra_fairy"},
     {"type": "event_prefix", "prefix": "moon_watching_party", "key": "party"},
 ]
 
@@ -136,6 +143,10 @@ def _detail(rec: dict) -> dict:
         "ultra_prank",
         "ultra_ex",
         "ultra_mega",
+        "ultra_ledian",
+        "ultra_ledyba",
+        "ultra_munk",
+        "ultra_fairy",
     )
     out = {
         "a": r["win_rate_a"],
@@ -202,14 +213,14 @@ def main() -> None:
     payload = {
         "games": GAMES,
         "seed": SEED,
-        "policy": "fixed_prefer",
+        "policy": "hole_hold",
         "elapsed": round(time.perf_counter() - started, 1),
         "lists": {variant: names for variant, names in variants},
         "cells": ordered,
         "weighted_all": _weighted(ordered, ordered["base"], foe_keys),
         "weighted_competitive": _weighted(ordered, ordered["base"], COMPETITIVE),
     }
-    out = ROOT / "data" / "lab" / "set-g-pad-ultra-prank.json"
+    out = ROOT / "data" / "lab" / "set-g-pad-ultra-prank-hole.json"
     out.write_text(json.dumps(payload, indent=2) + "\n")
     print(f"wrote {out} in {payload['elapsed']}s", flush=True)
     header = "variant".ljust(14) + "".join(key.rjust(10) for key in foe_keys) + "    wComp     wAll"
