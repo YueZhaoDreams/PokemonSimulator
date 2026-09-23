@@ -1,5 +1,7 @@
 # Energy-lock G: Pad, Ultra Ball, and Prankish stay out
 
+> Superseded by [set-g-pad-ultra-review.md](set-g-pad-ultra-review.md). This matrix read ±0.8 pp as the noise band; the difference of two 3,000-game cells has SE about 1.2 pp. On fresh seeds with 6,000 games, Pad ties the Ledyba it replaces.
+
 Date: 2026-09-23
 Seed: `20260923`
 Rule: s60

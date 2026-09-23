@@ -1,5 +1,7 @@
 # Hold Pad and Ultra Ball until they have a hole
 
+> Superseded by [set-g-pad-ultra-review.md](set-g-pad-ultra-review.md). The held Ultra Ball lost to the fixed order on fresh seeds and was reverted. Pad still waits for a hole.
+
 Date: 2026-09-23
 Seed: `20260923`
 Rule: s60
