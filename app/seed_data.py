@@ -2478,7 +2478,8 @@ _CLEFABLE_CLC = _pkm(
     retreat=2,
     resistances=[{"type": "Psychic", "value": "-30"}],
     set_name="Pokémon TCG Classic",
-    image="https://assets.tcgdex.net/en/base/base1/5/low.webp",
+    # Jungle Clefable (base2-1). base1-5 is Clefairy.
+    image="https://assets.tcgdex.net/en/base/base2/1/low.webp",
 )
 FALLBACK_BY_NAME["clefable twm"] = _CLEFABLE_TWM
 FALLBACK_BY_NAME["clefable (twilight masquerade)"] = _CLEFABLE_TWM
