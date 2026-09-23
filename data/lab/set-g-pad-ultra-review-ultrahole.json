@@ -1,0 +1,2060 @@
+{
+  "games_per_seed": 3000,
+  "seeds": [
+    20260924,
+    20260925
+  ],
+  "elapsed": 897.9,
+  "lists": {
+    "base": [
+      "Clefairy",
+      "Clefairy",
+      "Clefairy",
+      "Clefairy",
+      "Ledyba",
+      "Ledyba",
+      "Ledyba",
+      "Ledyba",
+      "Psychic Energy",
+      "Ledian",
+      "Ledian",
+      "Ledian",
+      "Starly",
+      "Staravia",
+      "Staraptor",
+      "Munkidori",
+      "Munkidori",
+      "Mega Clefable ex",
+      "Clefable ex",
+      "Clefable ex",
+      "Clefable ex",
+      "Drayton",
+      "Iris's Fighting Spirit",
+      "Energy Retrieval",
+      "Energy Switch",
+      "Energy Switch",
+      "Ultra Ball",
+      "Nest Ball",
+      "Nest Ball",
+      "Nest Ball",
+      "Nest Ball",
+      "Switch",
+      "Switch",
+      "Buddy-Buddy Poffin",
+      "Buddy-Buddy Poffin",
+      "Buddy-Buddy Poffin",
+      "Buddy-Buddy Poffin",
+      "Boss's Orders",
+      "Boss's Orders",
+      "Boss's Orders",
+      "Telepathic Psychic Energy",
+      "Telepathic Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Darkness Energy",
+      "Darkness Energy",
+      "Darkness Energy"
+    ],
+    "pad": [
+      "Clefairy",
+      "Clefairy",
+      "Clefairy",
+      "Clefairy",
+      "Pok\u00e9 Pad",
+      "Ledyba",
+      "Ledyba",
+      "Ledyba",
+      "Psychic Energy",
+      "Ledian",
+      "Ledian",
+      "Ledian",
+      "Starly",
+      "Staravia",
+      "Staraptor",
+      "Munkidori",
+      "Munkidori",
+      "Mega Clefable ex",
+      "Clefable ex",
+      "Clefable ex",
+      "Clefable ex",
+      "Drayton",
+      "Iris's Fighting Spirit",
+      "Energy Retrieval",
+      "Energy Switch",
+      "Energy Switch",
+      "Ultra Ball",
+      "Nest Ball",
+      "Nest Ball",
+      "Nest Ball",
+      "Nest Ball",
+      "Switch",
+      "Switch",
+      "Buddy-Buddy Poffin",
+      "Buddy-Buddy Poffin",
+      "Buddy-Buddy Poffin",
+      "Buddy-Buddy Poffin",
+      "Boss's Orders",
+      "Boss's Orders",
+      "Boss's Orders",
+      "Telepathic Psychic Energy",
+      "Telepathic Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Darkness Energy",
+      "Darkness Energy",
+      "Darkness Energy"
+    ],
+    "ledyba_energy": [
+      "Clefairy",
+      "Clefairy",
+      "Clefairy",
+      "Clefairy",
+      "Psychic Energy",
+      "Ledyba",
+      "Ledyba",
+      "Ledyba",
+      "Psychic Energy",
+      "Ledian",
+      "Ledian",
+      "Ledian",
+      "Starly",
+      "Staravia",
+      "Staraptor",
+      "Munkidori",
+      "Munkidori",
+      "Mega Clefable ex",
+      "Clefable ex",
+      "Clefable ex",
+      "Clefable ex",
+      "Drayton",
+      "Iris's Fighting Spirit",
+      "Energy Retrieval",
+      "Energy Switch",
+      "Energy Switch",
+      "Ultra Ball",
+      "Nest Ball",
+      "Nest Ball",
+      "Nest Ball",
+      "Nest Ball",
+      "Switch",
+      "Switch",
+      "Buddy-Buddy Poffin",
+      "Buddy-Buddy Poffin",
+      "Buddy-Buddy Poffin",
+      "Buddy-Buddy Poffin",
+      "Boss's Orders",
+      "Boss's Orders",
+      "Boss's Orders",
+      "Telepathic Psychic Energy",
+      "Telepathic Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Darkness Energy",
+      "Darkness Energy",
+      "Darkness Energy"
+    ],
+    "ultra": [
+      "Clefairy",
+      "Clefairy",
+      "Clefairy",
+      "Clefairy",
+      "Ledyba",
+      "Ledyba",
+      "Ledyba",
+      "Ledyba",
+      "Psychic Energy",
+      "Ultra Ball",
+      "Ledian",
+      "Ledian",
+      "Starly",
+      "Staravia",
+      "Staraptor",
+      "Munkidori",
+      "Munkidori",
+      "Mega Clefable ex",
+      "Clefable ex",
+      "Clefable ex",
+      "Clefable ex",
+      "Drayton",
+      "Iris's Fighting Spirit",
+      "Energy Retrieval",
+      "Energy Switch",
+      "Energy Switch",
+      "Ultra Ball",
+      "Nest Ball",
+      "Nest Ball",
+      "Nest Ball",
+      "Nest Ball",
+      "Switch",
+      "Switch",
+      "Buddy-Buddy Poffin",
+      "Buddy-Buddy Poffin",
+      "Buddy-Buddy Poffin",
+      "Buddy-Buddy Poffin",
+      "Boss's Orders",
+      "Boss's Orders",
+      "Boss's Orders",
+      "Telepathic Psychic Energy",
+      "Telepathic Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Darkness Energy",
+      "Darkness Energy",
+      "Darkness Energy"
+    ],
+    "ledian_energy": [
+      "Clefairy",
+      "Clefairy",
+      "Clefairy",
+      "Clefairy",
+      "Ledyba",
+      "Ledyba",
+      "Ledyba",
+      "Ledyba",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Ledian",
+      "Ledian",
+      "Starly",
+      "Staravia",
+      "Staraptor",
+      "Munkidori",
+      "Munkidori",
+      "Mega Clefable ex",
+      "Clefable ex",
+      "Clefable ex",
+      "Clefable ex",
+      "Drayton",
+      "Iris's Fighting Spirit",
+      "Energy Retrieval",
+      "Energy Switch",
+      "Energy Switch",
+      "Ultra Ball",
+      "Nest Ball",
+      "Nest Ball",
+      "Nest Ball",
+      "Nest Ball",
+      "Switch",
+      "Switch",
+      "Buddy-Buddy Poffin",
+      "Buddy-Buddy Poffin",
+      "Buddy-Buddy Poffin",
+      "Buddy-Buddy Poffin",
+      "Boss's Orders",
+      "Boss's Orders",
+      "Boss's Orders",
+      "Telepathic Psychic Energy",
+      "Telepathic Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Darkness Energy",
+      "Darkness Energy",
+      "Darkness Energy"
+    ],
+    "prank": [
+      "Clefairy",
+      "Clefairy",
+      "Clefairy",
+      "Clefairy",
+      "Ledyba",
+      "Ledyba",
+      "Ledyba",
+      "Ledyba",
+      "Psychic Energy",
+      "Ledian",
+      "Ledian",
+      "Ledian",
+      "Starly",
+      "Staravia",
+      "Staraptor",
+      "Clefable",
+      "Munkidori",
+      "Mega Clefable ex",
+      "Clefable ex",
+      "Clefable ex",
+      "Clefable ex",
+      "Drayton",
+      "Iris's Fighting Spirit",
+      "Energy Retrieval",
+      "Energy Switch",
+      "Energy Switch",
+      "Ultra Ball",
+      "Nest Ball",
+      "Nest Ball",
+      "Nest Ball",
+      "Nest Ball",
+      "Switch",
+      "Switch",
+      "Buddy-Buddy Poffin",
+      "Buddy-Buddy Poffin",
+      "Buddy-Buddy Poffin",
+      "Buddy-Buddy Poffin",
+      "Boss's Orders",
+      "Boss's Orders",
+      "Boss's Orders",
+      "Telepathic Psychic Energy",
+      "Telepathic Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Darkness Energy",
+      "Darkness Energy",
+      "Darkness Energy"
+    ],
+    "munk_energy": [
+      "Clefairy",
+      "Clefairy",
+      "Clefairy",
+      "Clefairy",
+      "Ledyba",
+      "Ledyba",
+      "Ledyba",
+      "Ledyba",
+      "Psychic Energy",
+      "Ledian",
+      "Ledian",
+      "Ledian",
+      "Starly",
+      "Staravia",
+      "Staraptor",
+      "Psychic Energy",
+      "Munkidori",
+      "Mega Clefable ex",
+      "Clefable ex",
+      "Clefable ex",
+      "Clefable ex",
+      "Drayton",
+      "Iris's Fighting Spirit",
+      "Energy Retrieval",
+      "Energy Switch",
+      "Energy Switch",
+      "Ultra Ball",
+      "Nest Ball",
+      "Nest Ball",
+      "Nest Ball",
+      "Nest Ball",
+      "Switch",
+      "Switch",
+      "Buddy-Buddy Poffin",
+      "Buddy-Buddy Poffin",
+      "Buddy-Buddy Poffin",
+      "Buddy-Buddy Poffin",
+      "Boss's Orders",
+      "Boss's Orders",
+      "Boss's Orders",
+      "Telepathic Psychic Energy",
+      "Telepathic Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Darkness Energy",
+      "Darkness Energy",
+      "Darkness Energy"
+    ],
+    "full": [
+      "Clefairy",
+      "Clefairy",
+      "Clefairy",
+      "Clefairy",
+      "Pok\u00e9 Pad",
+      "Ledyba",
+      "Ledyba",
+      "Ledyba",
+      "Psychic Energy",
+      "Ultra Ball",
+      "Ledian",
+      "Ledian",
+      "Starly",
+      "Staravia",
+      "Staraptor",
+      "Clefable",
+      "Munkidori",
+      "Mega Clefable ex",
+      "Clefable ex",
+      "Clefable ex",
+      "Clefable ex",
+      "Drayton",
+      "Iris's Fighting Spirit",
+      "Energy Retrieval",
+      "Energy Switch",
+      "Energy Switch",
+      "Ultra Ball",
+      "Nest Ball",
+      "Nest Ball",
+      "Nest Ball",
+      "Nest Ball",
+      "Switch",
+      "Switch",
+      "Buddy-Buddy Poffin",
+      "Buddy-Buddy Poffin",
+      "Buddy-Buddy Poffin",
+      "Buddy-Buddy Poffin",
+      "Boss's Orders",
+      "Boss's Orders",
+      "Boss's Orders",
+      "Telepathic Psychic Energy",
+      "Telepathic Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Darkness Energy",
+      "Darkness Energy",
+      "Darkness Energy"
+    ],
+    "thin_energy": [
+      "Clefairy",
+      "Clefairy",
+      "Clefairy",
+      "Clefairy",
+      "Psychic Energy",
+      "Ledyba",
+      "Ledyba",
+      "Ledyba",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Ledian",
+      "Ledian",
+      "Starly",
+      "Staravia",
+      "Staraptor",
+      "Psychic Energy",
+      "Munkidori",
+      "Mega Clefable ex",
+      "Clefable ex",
+      "Clefable ex",
+      "Clefable ex",
+      "Drayton",
+      "Iris's Fighting Spirit",
+      "Energy Retrieval",
+      "Energy Switch",
+      "Energy Switch",
+      "Ultra Ball",
+      "Nest Ball",
+      "Nest Ball",
+      "Nest Ball",
+      "Nest Ball",
+      "Switch",
+      "Switch",
+      "Buddy-Buddy Poffin",
+      "Buddy-Buddy Poffin",
+      "Buddy-Buddy Poffin",
+      "Buddy-Buddy Poffin",
+      "Boss's Orders",
+      "Boss's Orders",
+      "Boss's Orders",
+      "Telepathic Psychic Energy",
+      "Telepathic Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Darkness Energy",
+      "Darkness Energy",
+      "Darkness Energy"
+    ]
+  },
+  "cells": {
+    "base": {
+      "t60": {
+        "wins": 1621,
+        "games": 6000,
+        "by_seed": {
+          "20260924": {
+            "wins": 785,
+            "games": 3000,
+            "party": 2283,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 1021
+          },
+          "20260925": {
+            "wins": 836,
+            "games": 3000,
+            "party": 2256,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 939
+          }
+        },
+        "a": 0.27016666666666667
+      },
+      "hedrick": {
+        "wins": 2324,
+        "games": 6000,
+        "by_seed": {
+          "20260924": {
+            "wins": 1169,
+            "games": 3000,
+            "party": 2177,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 890
+          },
+          "20260925": {
+            "wins": 1155,
+            "games": 3000,
+            "party": 2218,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 902
+          }
+        },
+        "a": 0.3873333333333333
+      },
+      "unl": {
+        "wins": 3125,
+        "games": 6000,
+        "by_seed": {
+          "20260924": {
+            "wins": 1578,
+            "games": 3000,
+            "party": 2354,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 1335
+          },
+          "20260925": {
+            "wins": 1547,
+            "games": 3000,
+            "party": 2374,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 1328
+          }
+        },
+        "a": 0.5208333333333334
+      },
+      "d60": {
+        "wins": 315,
+        "games": 6000,
+        "by_seed": {
+          "20260924": {
+            "wins": 153,
+            "games": 3000,
+            "party": 2296,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 1022
+          },
+          "20260925": {
+            "wins": 162,
+            "games": 3000,
+            "party": 2290,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 1009
+          }
+        },
+        "a": 0.0525
+      },
+      "c60": {
+        "wins": 1727,
+        "games": 6000,
+        "by_seed": {
+          "20260924": {
+            "wins": 831,
+            "games": 3000,
+            "party": 2905,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 1000
+          },
+          "20260925": {
+            "wins": 896,
+            "games": 3000,
+            "party": 2905,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 1011
+          }
+        },
+        "a": 0.28783333333333333
+      },
+      "s60": {
+        "wins": 4926,
+        "games": 6000,
+        "by_seed": {
+          "20260924": {
+            "wins": 2481,
+            "games": 3000,
+            "party": 2291,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 1243
+          },
+          "20260925": {
+            "wins": 2445,
+            "games": 3000,
+            "party": 2300,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 1280
+          }
+        },
+        "a": 0.821
+      },
+      "h": {
+        "wins": 5864,
+        "games": 6000,
+        "by_seed": {
+          "20260924": {
+            "wins": 2928,
+            "games": 3000,
+            "party": 1934,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 796
+          },
+          "20260925": {
+            "wins": 2936,
+            "games": 3000,
+            "party": 1936,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 752
+          }
+        },
+        "a": 0.9773333333333334
+      }
+    },
+    "pad": {
+      "t60": {
+        "wins": 1653,
+        "games": 6000,
+        "by_seed": {
+          "20260924": {
+            "wins": 828,
+            "games": 3000,
+            "party": 2263,
+            "prankish": 0,
+            "pad": 935,
+            "ultra": 912
+          },
+          "20260925": {
+            "wins": 825,
+            "games": 3000,
+            "party": 2241,
+            "prankish": 0,
+            "pad": 928,
+            "ultra": 984
+          }
+        },
+        "a": 0.2755
+      },
+      "hedrick": {
+        "wins": 2424,
+        "games": 6000,
+        "by_seed": {
+          "20260924": {
+            "wins": 1174,
+            "games": 3000,
+            "party": 2265,
+            "prankish": 0,
+            "pad": 999,
+            "ultra": 912
+          },
+          "20260925": {
+            "wins": 1250,
+            "games": 3000,
+            "party": 2269,
+            "prankish": 0,
+            "pad": 961,
+            "ultra": 913
+          }
+        },
+        "a": 0.404
+      },
+      "unl": {
+        "wins": 3247,
+        "games": 6000,
+        "by_seed": {
+          "20260924": {
+            "wins": 1622,
+            "games": 3000,
+            "party": 2356,
+            "prankish": 0,
+            "pad": 1203,
+            "ultra": 1294
+          },
+          "20260925": {
+            "wins": 1625,
+            "games": 3000,
+            "party": 2385,
+            "prankish": 0,
+            "pad": 1227,
+            "ultra": 1262
+          }
+        },
+        "a": 0.5411666666666667
+      },
+      "d60": {
+        "wins": 338,
+        "games": 6000,
+        "by_seed": {
+          "20260924": {
+            "wins": 178,
+            "games": 3000,
+            "party": 2325,
+            "prankish": 0,
+            "pad": 1070,
+            "ultra": 1055
+          },
+          "20260925": {
+            "wins": 160,
+            "games": 3000,
+            "party": 2294,
+            "prankish": 0,
+            "pad": 1007,
+            "ultra": 1096
+          }
+        },
+        "a": 0.05633333333333333
+      },
+      "c60": {
+        "wins": 1838,
+        "games": 6000,
+        "by_seed": {
+          "20260924": {
+            "wins": 913,
+            "games": 3000,
+            "party": 2923,
+            "prankish": 0,
+            "pad": 1076,
+            "ultra": 999
+          },
+          "20260925": {
+            "wins": 925,
+            "games": 3000,
+            "party": 2928,
+            "prankish": 0,
+            "pad": 1044,
+            "ultra": 1004
+          }
+        },
+        "a": 0.30633333333333335
+      },
+      "s60": {
+        "wins": 4937,
+        "games": 6000,
+        "by_seed": {
+          "20260924": {
+            "wins": 2460,
+            "games": 3000,
+            "party": 2312,
+            "prankish": 0,
+            "pad": 1236,
+            "ultra": 1249
+          },
+          "20260925": {
+            "wins": 2477,
+            "games": 3000,
+            "party": 2339,
+            "prankish": 0,
+            "pad": 1245,
+            "ultra": 1217
+          }
+        },
+        "a": 0.8228333333333333
+      },
+      "h": {
+        "wins": 5842,
+        "games": 6000,
+        "by_seed": {
+          "20260924": {
+            "wins": 2924,
+            "games": 3000,
+            "party": 1999,
+            "prankish": 0,
+            "pad": 864,
+            "ultra": 798
+          },
+          "20260925": {
+            "wins": 2918,
+            "games": 3000,
+            "party": 1977,
+            "prankish": 0,
+            "pad": 789,
+            "ultra": 782
+          }
+        },
+        "a": 0.9736666666666667
+      }
+    },
+    "ledyba_energy": {
+      "t60": {
+        "wins": 1725,
+        "games": 6000,
+        "by_seed": {
+          "20260924": {
+            "wins": 842,
+            "games": 3000,
+            "party": 2239,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 993
+          },
+          "20260925": {
+            "wins": 883,
+            "games": 3000,
+            "party": 2241,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 963
+          }
+        },
+        "a": 0.2875
+      },
+      "hedrick": {
+        "wins": 2441,
+        "games": 6000,
+        "by_seed": {
+          "20260924": {
+            "wins": 1219,
+            "games": 3000,
+            "party": 2211,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 948
+          },
+          "20260925": {
+            "wins": 1222,
+            "games": 3000,
+            "party": 2232,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 918
+          }
+        },
+        "a": 0.4068333333333333
+      },
+      "unl": {
+        "wins": 3310,
+        "games": 6000,
+        "by_seed": {
+          "20260924": {
+            "wins": 1654,
+            "games": 3000,
+            "party": 2378,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 1269
+          },
+          "20260925": {
+            "wins": 1656,
+            "games": 3000,
+            "party": 2372,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 1285
+          }
+        },
+        "a": 0.5516666666666666
+      },
+      "d60": {
+        "wins": 350,
+        "games": 6000,
+        "by_seed": {
+          "20260924": {
+            "wins": 184,
+            "games": 3000,
+            "party": 2280,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 1092
+          },
+          "20260925": {
+            "wins": 166,
+            "games": 3000,
+            "party": 2297,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 1045
+          }
+        },
+        "a": 0.058333333333333334
+      },
+      "c60": {
+        "wins": 1844,
+        "games": 6000,
+        "by_seed": {
+          "20260924": {
+            "wins": 883,
+            "games": 3000,
+            "party": 2903,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 996
+          },
+          "20260925": {
+            "wins": 961,
+            "games": 3000,
+            "party": 2914,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 1037
+          }
+        },
+        "a": 0.30733333333333335
+      },
+      "s60": {
+        "wins": 4914,
+        "games": 6000,
+        "by_seed": {
+          "20260924": {
+            "wins": 2471,
+            "games": 3000,
+            "party": 2298,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 1252
+          },
+          "20260925": {
+            "wins": 2443,
+            "games": 3000,
+            "party": 2302,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 1275
+          }
+        },
+        "a": 0.819
+      },
+      "h": {
+        "wins": 5833,
+        "games": 6000,
+        "by_seed": {
+          "20260924": {
+            "wins": 2919,
+            "games": 3000,
+            "party": 1964,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 838
+          },
+          "20260925": {
+            "wins": 2914,
+            "games": 3000,
+            "party": 1957,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 756
+          }
+        },
+        "a": 0.9721666666666666
+      }
+    },
+    "ultra": {
+      "t60": {
+        "wins": 1552,
+        "games": 6000,
+        "by_seed": {
+          "20260924": {
+            "wins": 763,
+            "games": 3000,
+            "party": 2232,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 1563
+          },
+          "20260925": {
+            "wins": 789,
+            "games": 3000,
+            "party": 2246,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 1560
+          }
+        },
+        "a": 0.25866666666666666
+      },
+      "hedrick": {
+        "wins": 2239,
+        "games": 6000,
+        "by_seed": {
+          "20260924": {
+            "wins": 1124,
+            "games": 3000,
+            "party": 2242,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 1542
+          },
+          "20260925": {
+            "wins": 1115,
+            "games": 3000,
+            "party": 2202,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 1540
+          }
+        },
+        "a": 0.37316666666666665
+      },
+      "unl": {
+        "wins": 3065,
+        "games": 6000,
+        "by_seed": {
+          "20260924": {
+            "wins": 1508,
+            "games": 3000,
+            "party": 2343,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 1926
+          },
+          "20260925": {
+            "wins": 1557,
+            "games": 3000,
+            "party": 2358,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 1967
+          }
+        },
+        "a": 0.5108333333333334
+      },
+      "d60": {
+        "wins": 304,
+        "games": 6000,
+        "by_seed": {
+          "20260924": {
+            "wins": 138,
+            "games": 3000,
+            "party": 2321,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 1761
+          },
+          "20260925": {
+            "wins": 166,
+            "games": 3000,
+            "party": 2306,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 1682
+          }
+        },
+        "a": 0.050666666666666665
+      },
+      "c60": {
+        "wins": 1653,
+        "games": 6000,
+        "by_seed": {
+          "20260924": {
+            "wins": 822,
+            "games": 3000,
+            "party": 2914,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 1688
+          },
+          "20260925": {
+            "wins": 831,
+            "games": 3000,
+            "party": 2932,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 1730
+          }
+        },
+        "a": 0.2755
+      },
+      "s60": {
+        "wins": 4851,
+        "games": 6000,
+        "by_seed": {
+          "20260924": {
+            "wins": 2441,
+            "games": 3000,
+            "party": 2295,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 1948
+          },
+          "20260925": {
+            "wins": 2410,
+            "games": 3000,
+            "party": 2266,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 1988
+          }
+        },
+        "a": 0.8085
+      },
+      "h": {
+        "wins": 5842,
+        "games": 6000,
+        "by_seed": {
+          "20260924": {
+            "wins": 2926,
+            "games": 3000,
+            "party": 1997,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 1359
+          },
+          "20260925": {
+            "wins": 2916,
+            "games": 3000,
+            "party": 1997,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 1397
+          }
+        },
+        "a": 0.9736666666666667
+      }
+    },
+    "ledian_energy": {
+      "t60": {
+        "wins": 1707,
+        "games": 6000,
+        "by_seed": {
+          "20260924": {
+            "wins": 853,
+            "games": 3000,
+            "party": 2262,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 912
+          },
+          "20260925": {
+            "wins": 854,
+            "games": 3000,
+            "party": 2276,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 940
+          }
+        },
+        "a": 0.2845
+      },
+      "hedrick": {
+        "wins": 2351,
+        "games": 6000,
+        "by_seed": {
+          "20260924": {
+            "wins": 1156,
+            "games": 3000,
+            "party": 2221,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 928
+          },
+          "20260925": {
+            "wins": 1195,
+            "games": 3000,
+            "party": 2264,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 914
+          }
+        },
+        "a": 0.3918333333333333
+      },
+      "unl": {
+        "wins": 3189,
+        "games": 6000,
+        "by_seed": {
+          "20260924": {
+            "wins": 1603,
+            "games": 3000,
+            "party": 2383,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 1278
+          },
+          "20260925": {
+            "wins": 1586,
+            "games": 3000,
+            "party": 2380,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 1280
+          }
+        },
+        "a": 0.5315
+      },
+      "d60": {
+        "wins": 344,
+        "games": 6000,
+        "by_seed": {
+          "20260924": {
+            "wins": 181,
+            "games": 3000,
+            "party": 2330,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 1077
+          },
+          "20260925": {
+            "wins": 163,
+            "games": 3000,
+            "party": 2319,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 1071
+          }
+        },
+        "a": 0.05733333333333333
+      },
+      "c60": {
+        "wins": 1815,
+        "games": 6000,
+        "by_seed": {
+          "20260924": {
+            "wins": 904,
+            "games": 3000,
+            "party": 2913,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 1027
+          },
+          "20260925": {
+            "wins": 911,
+            "games": 3000,
+            "party": 2901,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 1058
+          }
+        },
+        "a": 0.3025
+      },
+      "s60": {
+        "wins": 4929,
+        "games": 6000,
+        "by_seed": {
+          "20260924": {
+            "wins": 2450,
+            "games": 3000,
+            "party": 2284,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 1270
+          },
+          "20260925": {
+            "wins": 2479,
+            "games": 3000,
+            "party": 2263,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 1313
+          }
+        },
+        "a": 0.8215
+      },
+      "h": {
+        "wins": 5846,
+        "games": 6000,
+        "by_seed": {
+          "20260924": {
+            "wins": 2918,
+            "games": 3000,
+            "party": 1949,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 795
+          },
+          "20260925": {
+            "wins": 2928,
+            "games": 3000,
+            "party": 1948,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 813
+          }
+        },
+        "a": 0.9743333333333334
+      }
+    },
+    "prank": {
+      "t60": {
+        "wins": 1698,
+        "games": 6000,
+        "by_seed": {
+          "20260924": {
+            "wins": 839,
+            "games": 3000,
+            "party": 2314,
+            "prankish": 290,
+            "pad": 0,
+            "ultra": 990
+          },
+          "20260925": {
+            "wins": 859,
+            "games": 3000,
+            "party": 2294,
+            "prankish": 285,
+            "pad": 0,
+            "ultra": 894
+          }
+        },
+        "a": 0.283
+      },
+      "hedrick": {
+        "wins": 2309,
+        "games": 6000,
+        "by_seed": {
+          "20260924": {
+            "wins": 1161,
+            "games": 3000,
+            "party": 2251,
+            "prankish": 245,
+            "pad": 0,
+            "ultra": 942
+          },
+          "20260925": {
+            "wins": 1148,
+            "games": 3000,
+            "party": 2261,
+            "prankish": 254,
+            "pad": 0,
+            "ultra": 926
+          }
+        },
+        "a": 0.38483333333333336
+      },
+      "unl": {
+        "wins": 3192,
+        "games": 6000,
+        "by_seed": {
+          "20260924": {
+            "wins": 1577,
+            "games": 3000,
+            "party": 2424,
+            "prankish": 331,
+            "pad": 0,
+            "ultra": 1263
+          },
+          "20260925": {
+            "wins": 1615,
+            "games": 3000,
+            "party": 2380,
+            "prankish": 306,
+            "pad": 0,
+            "ultra": 1273
+          }
+        },
+        "a": 0.532
+      },
+      "d60": {
+        "wins": 316,
+        "games": 6000,
+        "by_seed": {
+          "20260924": {
+            "wins": 166,
+            "games": 3000,
+            "party": 2255,
+            "prankish": 426,
+            "pad": 0,
+            "ultra": 1044
+          },
+          "20260925": {
+            "wins": 150,
+            "games": 3000,
+            "party": 2239,
+            "prankish": 370,
+            "pad": 0,
+            "ultra": 1022
+          }
+        },
+        "a": 0.05266666666666667
+      },
+      "c60": {
+        "wins": 1754,
+        "games": 6000,
+        "by_seed": {
+          "20260924": {
+            "wins": 864,
+            "games": 3000,
+            "party": 2906,
+            "prankish": 412,
+            "pad": 0,
+            "ultra": 1019
+          },
+          "20260925": {
+            "wins": 890,
+            "games": 3000,
+            "party": 2913,
+            "prankish": 411,
+            "pad": 0,
+            "ultra": 1048
+          }
+        },
+        "a": 0.29233333333333333
+      },
+      "s60": {
+        "wins": 4802,
+        "games": 6000,
+        "by_seed": {
+          "20260924": {
+            "wins": 2383,
+            "games": 3000,
+            "party": 2285,
+            "prankish": 482,
+            "pad": 0,
+            "ultra": 1221
+          },
+          "20260925": {
+            "wins": 2419,
+            "games": 3000,
+            "party": 2286,
+            "prankish": 545,
+            "pad": 0,
+            "ultra": 1212
+          }
+        },
+        "a": 0.8003333333333333
+      },
+      "h": {
+        "wins": 5774,
+        "games": 6000,
+        "by_seed": {
+          "20260924": {
+            "wins": 2891,
+            "games": 3000,
+            "party": 2004,
+            "prankish": 499,
+            "pad": 0,
+            "ultra": 798
+          },
+          "20260925": {
+            "wins": 2883,
+            "games": 3000,
+            "party": 2025,
+            "prankish": 478,
+            "pad": 0,
+            "ultra": 820
+          }
+        },
+        "a": 0.9623333333333334
+      }
+    },
+    "munk_energy": {
+      "t60": {
+        "wins": 1690,
+        "games": 6000,
+        "by_seed": {
+          "20260924": {
+            "wins": 841,
+            "games": 3000,
+            "party": 2292,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 958
+          },
+          "20260925": {
+            "wins": 849,
+            "games": 3000,
+            "party": 2306,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 935
+          }
+        },
+        "a": 0.2816666666666667
+      },
+      "hedrick": {
+        "wins": 2430,
+        "games": 6000,
+        "by_seed": {
+          "20260924": {
+            "wins": 1232,
+            "games": 3000,
+            "party": 2337,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 931
+          },
+          "20260925": {
+            "wins": 1198,
+            "games": 3000,
+            "party": 2287,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 948
+          }
+        },
+        "a": 0.405
+      },
+      "unl": {
+        "wins": 3199,
+        "games": 6000,
+        "by_seed": {
+          "20260924": {
+            "wins": 1618,
+            "games": 3000,
+            "party": 2396,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 1262
+          },
+          "20260925": {
+            "wins": 1581,
+            "games": 3000,
+            "party": 2448,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 1272
+          }
+        },
+        "a": 0.5331666666666667
+      },
+      "d60": {
+        "wins": 278,
+        "games": 6000,
+        "by_seed": {
+          "20260924": {
+            "wins": 131,
+            "games": 3000,
+            "party": 2332,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 1050
+          },
+          "20260925": {
+            "wins": 147,
+            "games": 3000,
+            "party": 2317,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 1054
+          }
+        },
+        "a": 0.04633333333333333
+      },
+      "c60": {
+        "wins": 1893,
+        "games": 6000,
+        "by_seed": {
+          "20260924": {
+            "wins": 973,
+            "games": 3000,
+            "party": 2908,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 1008
+          },
+          "20260925": {
+            "wins": 920,
+            "games": 3000,
+            "party": 2913,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 990
+          }
+        },
+        "a": 0.3155
+      },
+      "s60": {
+        "wins": 4880,
+        "games": 6000,
+        "by_seed": {
+          "20260924": {
+            "wins": 2462,
+            "games": 3000,
+            "party": 2323,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 1189
+          },
+          "20260925": {
+            "wins": 2418,
+            "games": 3000,
+            "party": 2328,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 1191
+          }
+        },
+        "a": 0.8133333333333334
+      },
+      "h": {
+        "wins": 5834,
+        "games": 6000,
+        "by_seed": {
+          "20260924": {
+            "wins": 2919,
+            "games": 3000,
+            "party": 2054,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 778
+          },
+          "20260925": {
+            "wins": 2915,
+            "games": 3000,
+            "party": 2003,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 797
+          }
+        },
+        "a": 0.9723333333333334
+      }
+    },
+    "full": {
+      "t60": {
+        "wins": 1659,
+        "games": 6000,
+        "by_seed": {
+          "20260924": {
+            "wins": 802,
+            "games": 3000,
+            "party": 2304,
+            "prankish": 305,
+            "pad": 921,
+            "ultra": 1516
+          },
+          "20260925": {
+            "wins": 857,
+            "games": 3000,
+            "party": 2327,
+            "prankish": 319,
+            "pad": 995,
+            "ultra": 1560
+          }
+        },
+        "a": 0.2765
+      },
+      "hedrick": {
+        "wins": 2217,
+        "games": 6000,
+        "by_seed": {
+          "20260924": {
+            "wins": 1098,
+            "games": 3000,
+            "party": 2313,
+            "prankish": 282,
+            "pad": 945,
+            "ultra": 1528
+          },
+          "20260925": {
+            "wins": 1119,
+            "games": 3000,
+            "party": 2302,
+            "prankish": 317,
+            "pad": 977,
+            "ultra": 1546
+          }
+        },
+        "a": 0.3695
+      },
+      "unl": {
+        "wins": 3136,
+        "games": 6000,
+        "by_seed": {
+          "20260924": {
+            "wins": 1565,
+            "games": 3000,
+            "party": 2420,
+            "prankish": 364,
+            "pad": 1237,
+            "ultra": 1938
+          },
+          "20260925": {
+            "wins": 1571,
+            "games": 3000,
+            "party": 2412,
+            "prankish": 384,
+            "pad": 1247,
+            "ultra": 1952
+          }
+        },
+        "a": 0.5226666666666666
+      },
+      "d60": {
+        "wins": 269,
+        "games": 6000,
+        "by_seed": {
+          "20260924": {
+            "wins": 140,
+            "games": 3000,
+            "party": 2331,
+            "prankish": 485,
+            "pad": 1015,
+            "ultra": 1746
+          },
+          "20260925": {
+            "wins": 129,
+            "games": 3000,
+            "party": 2270,
+            "prankish": 468,
+            "pad": 1055,
+            "ultra": 1709
+          }
+        },
+        "a": 0.044833333333333336
+      },
+      "c60": {
+        "wins": 1682,
+        "games": 6000,
+        "by_seed": {
+          "20260924": {
+            "wins": 848,
+            "games": 3000,
+            "party": 2905,
+            "prankish": 470,
+            "pad": 1046,
+            "ultra": 1714
+          },
+          "20260925": {
+            "wins": 834,
+            "games": 3000,
+            "party": 2899,
+            "prankish": 491,
+            "pad": 1054,
+            "ultra": 1722
+          }
+        },
+        "a": 0.2803333333333333
+      },
+      "s60": {
+        "wins": 4902,
+        "games": 6000,
+        "by_seed": {
+          "20260924": {
+            "wins": 2454,
+            "games": 3000,
+            "party": 2311,
+            "prankish": 591,
+            "pad": 1235,
+            "ultra": 1948
+          },
+          "20260925": {
+            "wins": 2448,
+            "games": 3000,
+            "party": 2312,
+            "prankish": 600,
+            "pad": 1274,
+            "ultra": 1895
+          }
+        },
+        "a": 0.817
+      },
+      "h": {
+        "wins": 5775,
+        "games": 6000,
+        "by_seed": {
+          "20260924": {
+            "wins": 2880,
+            "games": 3000,
+            "party": 2138,
+            "prankish": 577,
+            "pad": 870,
+            "ultra": 1370
+          },
+          "20260925": {
+            "wins": 2895,
+            "games": 3000,
+            "party": 2081,
+            "prankish": 573,
+            "pad": 886,
+            "ultra": 1336
+          }
+        },
+        "a": 0.9625
+      }
+    },
+    "thin_energy": {
+      "t60": {
+        "wins": 1786,
+        "games": 6000,
+        "by_seed": {
+          "20260924": {
+            "wins": 886,
+            "games": 3000,
+            "party": 2311,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 946
+          },
+          "20260925": {
+            "wins": 900,
+            "games": 3000,
+            "party": 2320,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 974
+          }
+        },
+        "a": 0.2976666666666667
+      },
+      "hedrick": {
+        "wins": 2491,
+        "games": 6000,
+        "by_seed": {
+          "20260924": {
+            "wins": 1255,
+            "games": 3000,
+            "party": 2286,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 874
+          },
+          "20260925": {
+            "wins": 1236,
+            "games": 3000,
+            "party": 2284,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 942
+          }
+        },
+        "a": 0.4151666666666667
+      },
+      "unl": {
+        "wins": 3317,
+        "games": 6000,
+        "by_seed": {
+          "20260924": {
+            "wins": 1643,
+            "games": 3000,
+            "party": 2478,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 1231
+          },
+          "20260925": {
+            "wins": 1674,
+            "games": 3000,
+            "party": 2498,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 1286
+          }
+        },
+        "a": 0.5528333333333333
+      },
+      "d60": {
+        "wins": 301,
+        "games": 6000,
+        "by_seed": {
+          "20260924": {
+            "wins": 134,
+            "games": 3000,
+            "party": 2310,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 1010
+          },
+          "20260925": {
+            "wins": 167,
+            "games": 3000,
+            "party": 2299,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 1036
+          }
+        },
+        "a": 0.050166666666666665
+      },
+      "c60": {
+        "wins": 1928,
+        "games": 6000,
+        "by_seed": {
+          "20260924": {
+            "wins": 940,
+            "games": 3000,
+            "party": 2905,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 983
+          },
+          "20260925": {
+            "wins": 988,
+            "games": 3000,
+            "party": 2901,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 1041
+          }
+        },
+        "a": 0.32133333333333336
+      },
+      "s60": {
+        "wins": 5000,
+        "games": 6000,
+        "by_seed": {
+          "20260924": {
+            "wins": 2506,
+            "games": 3000,
+            "party": 2394,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 1237
+          },
+          "20260925": {
+            "wins": 2494,
+            "games": 3000,
+            "party": 2338,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 1227
+          }
+        },
+        "a": 0.8333333333333334
+      },
+      "h": {
+        "wins": 5811,
+        "games": 6000,
+        "by_seed": {
+          "20260924": {
+            "wins": 2913,
+            "games": 3000,
+            "party": 2032,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 789
+          },
+          "20260925": {
+            "wins": 2898,
+            "games": 3000,
+            "party": 2049,
+            "prankish": 0,
+            "pad": 0,
+            "ultra": 772
+          }
+        },
+        "a": 0.9685
+      }
+    }
+  },
+  "weighted_all": {
+    "base": 0.300811777838115,
+    "pad": 0.31191653844993517,
+    "ledyba_energy": 0.3166442438229704,
+    "ultra": 0.2913886777083899,
+    "ledian_energy": 0.3098737517724077,
+    "prank": 0.30420807312878995,
+    "munk_energy": 0.3109940416930642,
+    "full": 0.2956304642954114,
+    "thin_energy": 0.32147713216882373
+  },
+  "weighted_competitive": {
+    "base": 0.21145266860747208,
+    "pad": 0.21919748908296946,
+    "ledyba_energy": 0.22460748423095586,
+    "ultra": 0.20323886462882093,
+    "ledian_energy": 0.2192245147986414,
+    "prank": 0.21494281901989326,
+    "munk_energy": 0.21729281901989328,
+    "full": 0.2055278748180495,
+    "thin_energy": 0.22669814410480352
+  },
+  "policy": "ultra_hole"
+}

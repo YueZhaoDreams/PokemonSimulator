@@ -7,7 +7,11 @@ Ultra vs ledian_energy is the Ultra Ball question. Prank vs munk_energy is
 the Prankish question.
 
 Ultra Ball is only played with 2 other cards to discard, and G discards a
-spare Basic Energy before Boss's Orders, Poffin, or Nest Ball.
+spare Basic Energy before Boss's Orders, Poffin, or Nest Ball. Ultra Ball
+keeps the fixed search order. Poké Pad is held until a hole exists.
+
+set-g-pad-ultra-review-ultrahole.json is the same matrix with Ultra Ball
+also held for a hole. That policy lost to the fixed order on the base list.
 
 Seeds 20260924 and 20260925 (the policy was tuned on 20260923). Games per
 seed from LAB_GAMES (default 3,000). Side A is strategy g.
@@ -165,6 +169,7 @@ def main() -> None:
     rates = {variant: {key: row[key]["a"] for key in foe_keys} for variant, row in ordered.items()}
     payload = {
         "games_per_seed": GAMES,
+        "policy": "ultra_fixed",
         "seeds": list(SEEDS),
         "elapsed": round(time.perf_counter() - started, 1),
         "lists": {variant: names for variant, names in variants},

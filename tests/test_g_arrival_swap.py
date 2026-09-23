@@ -147,7 +147,7 @@ def test_g_pad_fetches_ledian_ahead_of_starly():
     me.deck = [ledian, starly]
     me.discard.append(prank)
     foe.active = _bench(_pull(foe, "Dragapult ex", set()))
-    assert game._g_tutor_hole(me, "a", kind="pad") == "Ledian"
+    assert game._g_pad_hole(me, "a") == "Ledian"
     game._resolve_trainer(me, foe, me.card(pad), who="a", card_i=pad)
     assert ledian in me.hand
     assert starly in me.deck
@@ -169,13 +169,13 @@ def test_g_pad_fetches_prankish_when_the_bounce_is_live():
     foe_used: set[int] = set()
     fuel = _pull(foe, "Fire Energy", foe_used)
     foe.active = Pokemon(card_i=_pull(foe, "Dragapult ex", foe_used), energy=[fuel], played_turn=0)
-    assert game._g_tutor_hole(me, "a", kind="pad") == "Clefable"
+    assert game._g_pad_hole(me, "a") == "Clefable"
     game._resolve_trainer(me, foe, me.card(pad), who="a", card_i=pad)
     assert prank in me.hand
     assert ledian in me.deck
 
 
-def test_g_pad_and_ultra_ball_are_held_when_the_holes_are_filled():
+def test_g_pad_is_held_when_the_holes_are_filled():
     game = _pad_game()
     me, foe = game.players["a"], game.players["b"]
     used: set[int] = set()
@@ -187,9 +187,7 @@ def test_g_pad_and_ultra_ball_are_held_when_the_holes_are_filled():
     staravia = _pull(me, "Staravia", used)
     staraptor = _pull(me, "Staraptor", used)
     prank = _pull(me, "Clefable", used)
-    ex = _pull(me, "Clefable ex", used)
     pad = _pull(me, "Poké Pad", used)
-    ultra = _pull(me, "Ultra Ball", used)
     me.active = _bench(clefs[0])
     me.bench = [
         _bench(clefs[1]),
@@ -198,68 +196,11 @@ def test_g_pad_and_ultra_ball_are_held_when_the_holes_are_filled():
         _bench(munk),
         _bench(staraptor),
     ]
-    me.hand = [pad, ultra, ledian, starly, staravia, prank, ex]
+    me.hand = [pad, ledian, starly, staravia, prank]
     me.deck = [_pull(me, "Ledyba", used)]
     foe.active = _bench(_pull(foe, "Dragapult ex", set()))
-    assert game._g_tutor_hole(me, "a", kind="pad") is None
-    assert game._g_tutor_hole(me, "a", kind="ultra") is None
+    assert game._g_pad_hole(me, "a") is None
     assert game._pick_trainer(me) is None
-
-
-def test_g_ultra_ball_takes_ex_before_a_second_clefairy():
-    game = _pad_game()
-    me, foe = game.players["a"], game.players["b"]
-    used: set[int] = set()
-    clef_hand = _pull(me, "Clefairy", used)
-    clef_deck = _pull(me, "Clefairy", used)
-    ex = _pull(me, "Clefable ex", used)
-    ultra = _pull(me, "Ultra Ball", used)
-    me.active = None
-    me.bench = []
-    me.hand = [ultra, clef_hand]
-    me.deck = [ex, clef_deck]
-    foe.active = _bench(_pull(foe, "Dragapult ex", set()))
-    assert game._g_tutor_hole(me, "a", kind="ultra") == "Clefable ex"
-
-
-def test_g_ultra_ball_takes_clefairy_when_none_are_owned():
-    game = _pad_game()
-    me, foe = game.players["a"], game.players["b"]
-    used: set[int] = set()
-    clef = _pull(me, "Clefairy", used)
-    ex = _pull(me, "Clefable ex", used)
-    ultra = _pull(me, "Ultra Ball", used)
-    me.active = None
-    me.bench = []
-    me.hand = [ultra]
-    me.deck = [ex, clef]
-    foe.active = _bench(_pull(foe, "Dragapult ex", set()))
-    assert game._g_tutor_hole(me, "a", kind="ultra") == "Clefairy"
-
-
-def test_g_ultra_ball_fetches_ledian_once_clefable_ex_is_in_hand():
-    game = _pad_game()
-    me, foe = game.players["a"], game.players["b"]
-    used: set[int] = set()
-    clefs = [_pull(me, "Clefairy", used) for _ in range(3)]
-    ledyba = _pull(me, "Ledyba", used)
-    ledian = _pull(me, "Ledian", used)
-    ex = _pull(me, "Clefable ex", used)
-    mega = _pull(me, "Mega Clefable ex", used)
-    ultra = _pull(me, "Ultra Ball", used)
-    junk = [_pull(me, "Psychic Energy", used) for _ in range(2)]
-    prank = _pull(me, "Clefable", used)
-    me.active = _bench(clefs[0])
-    me.bench = [_bench(clefs[1]), _bench(clefs[2]), _bench(ledyba)]
-    me.hand = [ultra, ex, *junk]
-    me.deck = [ledian, mega]
-    me.discard.append(prank)
-    foe.active = _bench(_pull(foe, "Dragapult ex", set()))
-    assert game._g_tutor_hole(me, "a", kind="ultra") == "Ledian"
-    assert game._pick_trainer(me) == ultra
-    game._resolve_trainer(me, foe, me.card(ultra), who="a", card_i=ultra)
-    assert ledian in me.hand
-    assert mega in me.deck
 
 
 def test_ultra_ball_needs_two_other_cards_to_discard():

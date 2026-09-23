@@ -1298,11 +1298,7 @@ class Game:
                 # The discard of 2 other cards is the cost; without it the card cannot be played.
                 continue
             score = 0.0
-            if name == "ultra ball" and strat.name == "g":
-                # Held until the fetched card is a hole. Discarding 2 for Starly
-                # or a filled board is how the second copy lost.
-                score += 10 if self._g_tutor_hole(me, who, kind="ultra") else -8
-            elif name in {"ultra ball", "poké ball", "poke ball"} and missing_protect:
+            if name in {"ultra ball", "poké ball", "poke ball"} and missing_protect:
                 score += 8
             elif name in {"ultra ball", "poké ball", "poke ball"}:
                 score += 3
@@ -1943,10 +1939,6 @@ class Game:
                 self._bump("ultra_ball_fail")
                 return
             prefer = self._pokemon_search_prefer(me, who)
-            if self.strats[who].name == "g":
-                hole = self._g_tutor_hole(me, who, kind="ultra")
-                if hole:
-                    prefer = [hole]
             found = self._search(me, lambda c: c.is_pokemon, prefer=prefer, source="ultra ball")
             if found:
                 self._bump("ball_search_hit")
@@ -2364,37 +2356,17 @@ class Game:
     def _g_have(self, me: Player, name: str) -> int:
         return self._g_copies(me, name, "play") + self._g_copies(me, name, "hand")
 
-    def _g_tutor_hole(self, me: Player, who: str, *, kind: str) -> str | None:
-        """Poké Pad and Ultra Ball fetch one missing piece, or nothing.
+    def _g_pad_hole(self, me: Player, who: str) -> str | None:
+        """Poké Pad fetches one missing non-Rule-Box piece, or is held.
 
-        Held when the piece is already in hand or play. Pad finishes three
-        Clefairy first. Ultra Ball takes Clefable ex once any Clefairy is owned
-        and Lunar Zone is missing, ahead of another Clefairy. Prankish is next
-        only when two Clefairy are out and the opponent's Active has an Energy.
-        Mega only after that ex is in play. Pad cannot take a Rule Box. The gust
-        line and Munkidori come before Starly. Nest Ball and Poffin keep the old list.
+        Clefairy until three are in hand or play. Prankish only when two
+        Clefairy are out and the opponent's Active has an Energy. Then Ledyba,
+        Ledian, Munkidori, the next bird, Starly, Flutter Mane. Ultra Ball keeps
+        the fixed search order; holding it for a hole lost T60, Hedrick, D60,
+        and the C60 mirror on fresh seeds.
         """
-        rule_box = kind == "ultra"
         foe = self.players["b" if who == "a" else "a"]
-        # Ultra Ball already finds Clefable ex once a Clefairy exists. Forcing
-        # another Clefairy ahead of that ex dropped the mirror. Pad is free,
-        # so it still finishes the three Clefairy first.
-        if rule_box:
-            if self._g_have(me, "Clefairy") == 0 and self._g_copies(me, "Clefairy", "deck"):
-                return "Clefairy"
-            if (
-                not self._has_lunar_zone(me)
-                and self._g_have(me, "Clefable ex") == 0
-                and self._g_copies(me, "Clefable ex", "deck")
-            ):
-                return "Clefable ex"
-            if (
-                self._g_have(me, "Clefairy") < 3
-                and self._g_copies(me, "Clefairy", "hand") == 0
-                and self._g_copies(me, "Clefairy", "deck")
-            ):
-                return "Clefairy"
-        elif self._g_have(me, "Clefairy") < 3 and self._g_copies(me, "Clefairy", "deck"):
+        if self._g_have(me, "Clefairy") < 3 and self._g_copies(me, "Clefairy", "deck"):
             return "Clefairy"
         if (
             foe.active
@@ -2433,16 +2405,9 @@ class Game:
         ):
             return "Staravia"
         bird = any(self._g_have(me, name) for name in ("Starly", "Staravia", "Staraptor"))
-        if kind == "pad" and not bird and self._g_copies(me, "Starly", "deck"):
+        if not bird and self._g_copies(me, "Starly", "deck"):
             return "Starly"
-        if (
-            rule_box
-            and self._g_copies(me, "Clefable ex", "play")
-            and self._g_have(me, "Mega Clefable ex") == 0
-            and self._g_copies(me, "Mega Clefable ex", "deck")
-        ):
-            return "Mega Clefable ex"
-        if kind == "pad" and self._g_have(me, "Flutter Mane") == 0 and self._g_copies(me, "Flutter Mane", "deck"):
+        if self._g_have(me, "Flutter Mane") == 0 and self._g_copies(me, "Flutter Mane", "deck"):
             return "Flutter Mane"
         return None
 
@@ -2459,7 +2424,7 @@ class Game:
         if strat.name == "phantom":
             return ["Dreepy", "Drakloak", "Budew", "Dunsparce"]
         if strat.name == "g":
-            hole = self._g_tutor_hole(me, who, kind="pad")
+            hole = self._g_pad_hole(me, who)
             return [hole] if hole else []
         return list(self._pokemon_search_prefer(me, who))
 
@@ -2468,7 +2433,7 @@ class Game:
             return -10.0
         if strat.name == "g":
             who = "a" if me.name == "A" else "b"
-            return 12.0 if self._g_tutor_hole(me, who, kind="pad") else -8.0
+            return 12.0 if self._g_pad_hole(me, who) else -8.0
         if strat.name == "party":
             # Metronome this turn: beat Hop 17, stay under Boss 22 / Belt 21.
             # Prankish evo: above Nest 6, under Hop. Engine repair is cheaper.
