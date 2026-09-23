@@ -304,6 +304,34 @@ def _card_names(cards) -> list:
     return names
 
 
+def _seed_print_art_stale(cards_json: str | None, want_cards: list) -> bool:
+    """True when a saved seed still shows the wrong scan for a pinned print."""
+    from app.catalog import PRINT_ART_URLS, _is_tcgdex_asset_url
+
+    if not PRINT_ART_URLS:
+        return False
+    try:
+        have = json.loads(cards_json or "[]")
+    except (TypeError, json.JSONDecodeError):
+        return False
+    want_art = {
+        str(card.get("catalog_id") or ""): card.get("image")
+        for card in want_cards
+        if isinstance(card, dict) and str(card.get("catalog_id") or "") in PRINT_ART_URLS
+    }
+    if not want_art:
+        return False
+    for card in have:
+        if not isinstance(card, dict):
+            continue
+        cid = str(card.get("catalog_id") or "")
+        stored = str(card.get("image") or "")
+        want = str(want_art.get(cid) or "")
+        if cid in want_art and stored != want and (not stored or _is_tcgdex_asset_url(stored)):
+            return True
+    return False
+
+
 def _card_names_from_json(cards_json: str | None) -> list:
     try:
         return _card_names(json.loads(cards_json or "[]"))
@@ -332,7 +360,12 @@ def _upsert_seed_decks(conn: sqlite3.Connection, owner_id: str | None = None) ->
             have_names = _card_names_from_json(existing["cards_json"])
             want_names = _card_names(want_cards)
             # Locked seed names refresh; same-name print swaps stay.
-            if have_names != want_names or "/me04/" in (existing["cards_json"] or ""):
+            # Also rewrite a print whose stored scan is the wrong card (CLC 014 was Clefairy).
+            if (
+                have_names != want_names
+                or "/me04/" in (existing["cards_json"] or "")
+                or _seed_print_art_stale(existing["cards_json"], want_cards)
+            ):
                 conn.execute(
                     "UPDATE decks SET name=?, source=?, cards_json=?, owner_id=COALESCE(owner_id, ?), "
                     "rules_json=COALESCE(rules_json, ?) WHERE id=?",

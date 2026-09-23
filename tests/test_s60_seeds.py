@@ -1,3 +1,4 @@
+import json
 from collections import Counter
 
 from app.engine.legality import copy_violations
@@ -89,6 +90,9 @@ def test_s60_seed_aliases_and_prankish_c60():
     clc = next(c for c in fables if c.get("catalog_id") == "clc-014")
     assert any(a.get("name") == "Prankish" for a in (prankish.get("abilities") or []))
     assert any(a.get("name") == "Metronome" for a in (clc.get("attacks") or []))
+    assert "base2/1" in (clc.get("image") or "")
+    assert "base1/5" not in (clc.get("image") or "")
+    assert fallback_named("Clefable CLC").image == clc.get("image")
     assert names.count("Poké Pad") == 1
     assert names.count("Mega Clefable ex") == 1
     hedrick = load_seed_deck("t-meta")
@@ -114,3 +118,52 @@ def test_s60_seed_aliases_and_prankish_c60():
     assert load_seed_deck("raikou")["id"] == "seed-g30"
     assert load_seed_deck("ambipom")["id"] == "seed-g30"
     assert load_seed_deck("lopunny")["id"] == "seed-g30"
+
+
+def test_existing_seed_c60_replaces_clefairy_scan(tmp_path, monkeypatch):
+    monkeypatch.setattr("app.db.DB_PATH", tmp_path / "app.db")
+    from app.db import connect, init_db
+
+    init_db()
+    with connect() as conn:
+        raw = conn.execute("SELECT cards_json FROM decks WHERE id='seed-c60'").fetchone()["cards_json"]
+        cards = json.loads(raw)
+        for card in cards:
+            if card.get("catalog_id") == "clc-014":
+                card["image"] = "https://assets.tcgdex.net/en/base/base1/5/low.webp"
+        conn.execute(
+            "UPDATE decks SET cards_json=? WHERE id='seed-c60'",
+            (json.dumps(cards),),
+        )
+    init_db()
+    with connect() as conn:
+        stored = json.loads(
+            conn.execute("SELECT cards_json FROM decks WHERE id='seed-c60'").fetchone()["cards_json"]
+        )
+    clc = next(c for c in stored if c.get("catalog_id") == "clc-014")
+    assert "base2/1" in clc["image"]
+    assert "base1/5" not in clc["image"]
+
+
+def test_existing_seed_c60_keeps_custom_clc_scan(tmp_path, monkeypatch):
+    monkeypatch.setattr("app.db.DB_PATH", tmp_path / "app.db")
+    from app.db import connect, init_db
+
+    init_db()
+    with connect() as conn:
+        raw = conn.execute("SELECT cards_json FROM decks WHERE id='seed-c60'").fetchone()["cards_json"]
+        cards = json.loads(raw)
+        for card in cards:
+            if card.get("catalog_id") == "clc-014":
+                card["image"] = "/uploads/clc.jpg"
+        conn.execute(
+            "UPDATE decks SET cards_json=? WHERE id='seed-c60'",
+            (json.dumps(cards),),
+        )
+    init_db()
+    with connect() as conn:
+        stored = json.loads(
+            conn.execute("SELECT cards_json FROM decks WHERE id='seed-c60'").fetchone()["cards_json"]
+        )
+    clc = next(c for c in stored if c.get("catalog_id") == "clc-014")
+    assert clc["image"] == "/uploads/clc.jpg"

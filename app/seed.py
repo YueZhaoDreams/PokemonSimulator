@@ -248,6 +248,7 @@ def _ensure_card_images(cards: list[dict]) -> list[dict]:
         ART_ONLY_IDS,
         EXTRA_PRINT_IDS,
         PREFERRED_IDS,
+        PRINT_ART_URLS,
         allowed_print_ids,
         energy_card,
         fetch_full,
@@ -279,10 +280,19 @@ def _ensure_card_images(cards: list[dict]) -> list[dict]:
         wrong_art = bool(
             want_art and have_art and "assets.tcgdex.net/" in have_art and have_art != want_art
         )
+        pinned_art = PRINT_ART_URLS.get(cid) or ""
+        stale_pinned_art = bool(
+            pinned_art
+            and (
+                not have_art
+                or ("assets.tcgdex.net/" in have_art and have_art != pinned_art)
+            )
+        )
         if (
             card.get("image")
             and not replace_body
             and not wrong_art
+            and not stale_pinned_art
             and (name not in ART_ONLY_IDS or cid == ART_ONLY_IDS.get(name))
         ):
             out.append(card)
@@ -293,7 +303,10 @@ def _ensure_card_images(cards: list[dict]) -> list[dict]:
                 cache[cache_key] = energy_card(name.split()[0]).to_dict()
             elif name in EXTRA_PRINT_IDS and cid in (allowed or set()):
                 patched = dict(card)
-                if _looks_like_tcgdex_id(cid) and (not patched.get("image") or wrong_art):
+                if pinned_art and (not patched.get("image") or "assets.tcgdex.net/" in str(patched.get("image") or "")):
+                    patched["image"] = pinned_art
+                    patched["catalog_id"] = cid
+                elif _looks_like_tcgdex_id(cid) and (not patched.get("image") or wrong_art):
                     patched["image"] = _tcgdex_low(cid)
                     patched["catalog_id"] = cid
                 cache[cache_key] = patched

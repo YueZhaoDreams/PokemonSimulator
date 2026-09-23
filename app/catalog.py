@@ -279,6 +279,12 @@ EXTRA_PRINT_IDS: dict[str, tuple[str, ...]] = {
     "Clefable": ("swsh2-75", "clc-014", "sv06-079"),
 }
 
+# Household prints that are not TCGdex ids. CLC 014 reprints Jungle Clefable
+# (Mitsuhiro Arita, base2-1). base1-5 is Base Set Clefairy.
+PRINT_ART_URLS = {
+    "clc-014": "https://assets.tcgdex.net/en/base/base2/1/low.webp",
+}
+
 
 def allowed_print_ids(name: str) -> set[str] | None:
     extra = EXTRA_PRINT_IDS.get(name)
@@ -792,6 +798,13 @@ def fill_missing_card_image(card: dict[str, Any]) -> dict[str, Any]:
     cid = str(card.get("catalog_id") or card.get("id") or "").strip()
     name = str(card.get("name") or "").strip()
     image = str(card.get("image") or "").strip()
+    pinned = PRINT_ART_URLS.get(cid)
+    if pinned:
+        if not image or (_is_tcgdex_asset_url(image) and image != pinned):
+            patched = dict(card)
+            patched["image"] = pinned
+            return patched
+        return card
     if _looks_like_tcgdex_id(cid):
         want = _tcgdex_low(cid)
         if not image or (_is_tcgdex_asset_url(image) and image != want):

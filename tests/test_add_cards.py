@@ -250,7 +250,21 @@ def test_fill_missing_card_image_does_not_paste_household_art_on_other_prints():
     from app.catalog import fill_missing_card_image
 
     other = fill_missing_card_image({"name": "Clefable", "catalog_id": "clc-014"})
-    assert other.get("image") in (None, "")
+    assert "base2/1" in (other.get("image") or "")
+    assert "swsh2/75" not in (other.get("image") or "")
+    assert "base1/5" not in (other.get("image") or "")
+    clefairy = fill_missing_card_image(
+        {
+            "name": "Clefable",
+            "catalog_id": "clc-014",
+            "image": "https://assets.tcgdex.net/en/base/base1/5/low.webp",
+        }
+    )
+    assert clefairy["image"] == other["image"]
+    custom = fill_missing_card_image(
+        {"name": "Clefable", "catalog_id": "clc-014", "image": "/uploads/clc.jpg"}
+    )
+    assert custom["image"] == "/uploads/clc.jpg"
     named = fill_missing_card_image({"name": "Orthworm"})
     assert "sv04/138" in (named.get("image") or "")
     stale = fill_missing_card_image(
