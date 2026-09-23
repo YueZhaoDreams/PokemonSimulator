@@ -41,9 +41,17 @@ def new_session_token() -> str:
 
 
 def public_user(row) -> dict:
+    from app.engine.models import SELECTABLE_RULE_PRESETS, canonical_rule_key
+
+    keys = row.keys() if hasattr(row, "keys") else []
+    stored = row["rule_preset"] if "rule_preset" in keys else None
+    preset = canonical_rule_key(stored)
+    if preset not in SELECTABLE_RULE_PRESETS:
+        preset = "s60"
     return {
         "id": row["id"],
         "email": row["email"],
         "role": row["role"],
         "created_at": row["created_at"],
+        "rule_preset": preset,
     }

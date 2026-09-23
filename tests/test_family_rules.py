@@ -168,7 +168,7 @@ def test_seed_e_and_f_use_no_pokemon_energy_preset():
     assert default_rule_presets_for("seed-d60") == ["s60"]
     assert default_rule_presets_for("seed-t-meta") == ["s60"]
     assert default_rule_presets_for("seed-a") == ["b"]
-    assert default_rule_presets_for(None) == ["b"]
+    assert default_rule_presets_for(None) == ["s60"]
     assert legacy_rule_presets_for("household") == ["b", "c"]
     assert normalize_rule_presets(["c", "b", "c", "nope"]) == ["c", "b"]
     assert normalize_rule_presets([]) == []

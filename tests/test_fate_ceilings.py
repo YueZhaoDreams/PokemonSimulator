@@ -207,8 +207,8 @@ def test_route_and_tool_are_owner_scoped(tmp_path, monkeypatch):
         token = use_viewer(client.get("/api/auth/me").json())
         try:
             report = run_tool("deck_ceilings", {"deck_id": mine["id"]})
-            assert report["rules"]["preset"] == "b"
-            assert report["rules"]["deck_size"] == 30 and report["rules"]["copy_cap"] == 4
+            assert report["rules"]["preset"] == "s60"
+            assert report["rules"]["deck_size"] == 60 and report["rules"]["copy_cap"] == 4
             assert _row(report, "Clefairy")["copies"] == 4
             assert run_tool("deck_ceilings", {"deck_id": "seed-g"}) == {"error": "deck not found"}
             assert run_tool("deck_ceilings", {"deck_id": mine["id"], "rule_preset": "nope"}).get("error")

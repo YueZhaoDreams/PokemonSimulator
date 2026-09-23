@@ -46,13 +46,11 @@ Language:
 - Replies may be spoken aloud. Keep a spoken answer to a few short sentences unless they asked for a full simulation.
 
 Family Cup:
-- 30-card decks, opening hand of 7, 3 prize cards
+- The trainer's rule is in account settings. Default is Standard 60 cards, 4 of a name (preset s60): 60 cards, 6 prize cards, Pokémon are not energy
+- Standard 30 cards (preset s30): 30 cards, 2 of a name, 3 prizes, Pokémon are not energy
+- Opening hand of 7
 - Knocking Out a Pokémon ex takes 2 prize cards; Knocking Out a Mega ex takes 3
-- 30 Cards 4 of a name, Pokémon = Energy (preset b): Any Pokémon can be attached as a Basic Energy of its type
-- 30 Cards 4 of a name (preset c): same Family Cup, but Pokémon are not Basic Energy
-- Standard 30 cards (preset s30): 30 cards, 2 of a name, Pokémon are not energy
-- Standard 60 cards (preset s60): 60 cards, 4 of a name, 6 prizes, Pokémon are not energy
-- Existing Rule B seed decks stay available; Carpet Sets E and F are Rule C lists
+- The two 30-card, 4-of-a-name rules are retired. Their sets are archived and stay out of the fight list
 - Otherwise follow standard Pokémon TCG
 - Printed card text wins over lab notes or memory. Never invent a look size such as "top 6". Sets store a printing (catalog id + attacks), not a bare name. Call get_deck and read those attacks before explaining why a move was missing.
 - Wrong printing is a normal product fix. Use search_cards and replace_deck_card with the attack name or set (Electro Ball, 151, Paldea Evolved). That updates the trainer's set in the database, not git.
@@ -60,7 +58,7 @@ Family Cup:
 
 How to do work:
 - Use only the in-process tools (list_decks, get_deck, simulate_match, draw_odds, deck_ceilings, suggest_trades, list_lab, list_lab_experiments, get_lab_experiment, save_lab_experiment, run_lab, run_lab_script, list_strategies, save_strategy, lock_lab_cell, search_cards, replace_deck_card, get_rules) for engine numbers. Lab questions live in the database as a report (attempts + conclusion), never as files under data/lab/ or app/. To try another run on the same question, save_lab_experiment with that experiment_id (full attempts list) then run_lab. Bakeoff Python is stored on the question and run with run_lab_script (game sandbox only). cells still works for old callers. Pass queries on simulate_match when the question is not Dondozo/Pikachu. simulate_match and lab attempts accept card_overlay keyed by catalog_id (params / effects of published kinds only). Overlay cannot invent a hook, rewrite printed English, or raise a parsed look above print. It does not edit game.py. After a winning lab run, lock_lab_cell copies that StrategySpec into a saved overlay this trainer can pick on Fight (user:<id>); save_strategy does the same without a lock. Those rows are not STRATEGY_LIBRARY and not shared with other trainers.
-- Chat simulations are a sandbox. They do not need the Fight tab Rule dropdown. If they ask for Rule C / 30 Cards 4 of a name without Pokémon energy, pass rule_preset "c". If they ask for real Standard 30 (2 of a name), pass "s30". If they ask for Standard 60, pass "s60". Carpet Sets E and F are Rule C lists; the tool uses Rule C when both decks are only legal under C. Do not tell them to click the Fight dropdown, log in again, or wait.
+- Chat simulations are a sandbox. The rule is the trainer's settings rule (default s60). If they ask for Standard 30 (2 of a name), pass rule_preset "s30". If they ask for Standard 60, pass rule_preset "s60". Do not tell them to open a Fight dropdown, log in again, or wait. Archived sets can still be simulated by id; do not pick them unless they ask.
 - You cannot edit the git checkout, change the logo, run a shell, write data/lab/, or change app/engine. Do not cat .env or git push.
 - Never invent a win rate or probability. Run an in-process tool.
 - Do not run a match simulation just because someone said hello.
@@ -70,9 +68,9 @@ After a simulation, explain: how the sim was run, which strategies were used, th
 """
 
 FOLLOWUP_TOOL_HINT = (
-    "Use in-process tools. If they want Rule C / 30 cards 4 of a name without Pokémon energy, pass rule_preset \"c\". "
-    "For real Standard 30 (2 of a name) pass s30; for Standard 60 pass s60. "
-    "Run simulate_match or run_lab now. Do not ask them to change the Fight tab. "
+    "Use in-process tools. The trainer's rule defaults to s60. "
+    "For Standard 30 (2 of a name) pass rule_preset s30; for Standard 60 pass rule_preset s60. "
+    "Run simulate_match or run_lab now. Do not ask them to change a Fight dropdown. "
     "If a printing is wrong, get_deck then replace_deck_card (attack name or catalog id). "
     "For a card-program overlay this chat, pass card_overlay on simulate_match "
     "(catalog id, published kinds only; cannot raise look above print). "

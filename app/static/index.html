@@ -9,7 +9,7 @@
   <title>Family Pokémon Cup</title>
   <link rel="manifest" href="/static/manifest.json" />
   <link rel="icon" href="/static/icon.svg" />
-  <link rel="stylesheet" href="/static/styles.css?v=scan-cf-525" />
+  <link rel="stylesheet" href="/static/styles.css?v=rules-s60-1" />
 </head>
 <body>
   <a class="skip" href="#main">Skip to the arena</a>
@@ -37,16 +37,17 @@
       </div>
     </div>
     <div class="rule-banner" aria-label="Active format rule">
-      <div class="rule-banner-pick">
-        <label for="rulePreset">Rule</label>
-        <select id="rulePreset"></select>
-      </div>
       <div id="ruleStrip" class="rule-strip"></div>
     </div>
     <div class="header-tools">
       <div id="accountBox" class="account-box hidden">
         <button id="accountEmail" class="pill account-email" type="button" aria-expanded="false" aria-controls="settingsMenu" title="Settings"></button>
         <div id="settingsMenu" class="settings-menu hidden" role="dialog" aria-label="Settings">
+          <div class="settings-field">
+            <label for="userRule">Rule</label>
+            <select id="userRule"></select>
+          </div>
+          <p class="tiny">Standard 60 cards, 4 of a name, unless you pick Standard 30.</p>
           <div class="settings-row">
             <span id="gameSoundsLabel">Game sounds</span>
             <button id="sfxToggle" class="ghost quiet" type="button" role="switch" aria-checked="false" aria-labelledby="gameSoundsLabel">Off</button>
@@ -61,7 +62,7 @@
   <main id="main" class="wrap">
     <section id="view-decks" class="hidden">
       <h2 class="screen-title">Card sets</h2>
-      <p class="lede">Sets for this rule only. Add or remove rules on a set — keep at least one.</p>
+      <p class="lede">Sets for your rule. Change the rule in settings — keep at least one.</p>
       <div class="panel">
         <div class="row">
           <div class="grow"><label for="viewSet">Set</label><select id="viewSet"></select></div>
@@ -74,6 +75,7 @@
         <div id="userList"></div>
       </div>
       <div id="deckList"></div>
+      <div id="archiveList"></div>
     </section>
 
     <section id="view-cards">
@@ -261,6 +263,6 @@
   <button id="cubLauncher" type="button" aria-expanded="false" aria-controls="agentPanel" title="Combo Cub">
     <img src="/static/cub.png" alt="Combo Cub" />
   </button>
-  <script src="/static/app.js?v=scan-cf-525"></script>
+  <script src="/static/app.js?v=rules-s60-1"></script>
 </body>
 </html>
