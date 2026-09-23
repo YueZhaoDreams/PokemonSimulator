@@ -185,7 +185,7 @@ class FamilyRules:
         "player may evolve on their first turn; a Pokémon cannot evolve the turn "
         "it entered play; one manual retreat per turn (Switch does not count). "
         "Opening mulligans until a Basic Pokémon; the opponent then draws one card "
-        "per mulligan (always taken)."
+        "per mulligan when mulligan_bonus_draws is on (the default)."
     )
 
     def to_dict(self) -> dict[str, Any]:
@@ -218,7 +218,7 @@ def no_pokemon_energy_family_rules() -> FamilyRules:
             "cards, not Pokémon. Copy cap 4 except basic Energy. Knocking Out a "
             "Pokémon ex takes 2 prize cards; Knocking Out a Mega ex takes 3. "
             "Opening mulligans until a Basic Pokémon; the opponent then draws one card "
-            "per mulligan (always taken)."
+            "per mulligan when mulligan_bonus_draws is on (the default)."
         ),
     )
 
@@ -238,7 +238,7 @@ def standard_30_rules() -> FamilyRules:
             "Basic Energy. Energy Search finds Energy cards, not Pokémon. Knocking Out "
             "a Pokémon ex takes 2 prize cards; Knocking Out a Mega ex takes 3. "
             "Opening mulligans until a Basic Pokémon; the opponent then draws one card "
-            "per mulligan (always taken)."
+            "per mulligan when mulligan_bonus_draws is on (the default)."
         ),
     )
 
@@ -258,7 +258,7 @@ def standard_60_rules() -> FamilyRules:
             "Basic Energy. Energy Search finds Energy cards, not Pokémon. Knocking Out "
             "a Pokémon ex takes 2 prize cards; Knocking Out a Mega ex takes 3. "
             "Opening mulligans until a Basic Pokémon; the opponent then draws one card "
-            "per mulligan (always taken)."
+            "per mulligan when mulligan_bonus_draws is on (the default)."
         ),
     )
 
