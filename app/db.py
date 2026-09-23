@@ -148,7 +148,6 @@ def init_db() -> None:
         _ensure_chat_agent_id(conn)
         _ensure_owner_columns(conn)
         _ensure_deck_rules_column(conn)
-        _ensure_user_rule_column(conn)
         _ensure_lab_experiments(conn)
         _ensure_user_strategies(conn)
         _ensure_scan_jobs(conn)
@@ -263,7 +262,7 @@ def _ensure_user_rule_column(conn: sqlite3.Connection) -> None:
     if "rule_preset" not in cols:
         conn.execute("ALTER TABLE users ADD COLUMN rule_preset TEXT")
     conn.execute(
-        "UPDATE users SET rule_preset='s60' WHERE rule_preset IS NULL OR rule_preset IN ('b', 'c', '')"
+        "UPDATE users SET rule_preset='s60' WHERE rule_preset IS NULL OR rule_preset NOT IN ('s30', 's60')"
     )
 
 

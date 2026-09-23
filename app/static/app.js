@@ -1287,7 +1287,6 @@ function setsHoldingCard(card) {
 function ownedCardEntries() {
   const map = new Map();
   for (const d of state.decks || []) {
-    if (d.archived) continue;
     for (const c of d.cards || []) {
       if (!c?.name) continue;
       const key = cardKey(c);

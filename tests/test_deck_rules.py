@@ -44,12 +44,17 @@ def test_new_set_follows_posted_rules_and_rejects_empty(tmp_path, monkeypatch):
         assert client.get(f"/api/decks/{body['id']}").json()["rule_presets"] == ["c"]
 
 
-def test_create_defaults_to_pokemon_as_energy(tmp_path, monkeypatch):
+def test_create_defaults_to_the_trainer_rule(tmp_path, monkeypatch):
     with _client(tmp_path, monkeypatch) as client:
         client.post("/api/auth/register", json={"email": "kid3@example.com", "password": "play"})
         created = client.post("/api/decks", json={"name": "Kid set", "cards": [{"name": "Cubone"}]})
         assert created.json()["rule_presets"] == ["s60"]
         assert created.json()["archived"] is False
+        switched = client.put("/api/me/rule", json={"preset": "s30"})
+        assert switched.status_code == 200
+        standard_30 = client.post("/api/decks", json={"name": "Thirty", "cards": [{"name": "Dreepy"}]})
+        assert standard_30.json()["rule_presets"] == ["s30"]
+        assert standard_30.json()["archived"] is False
         under_c = client.put(
             f"/api/decks/{created.json()['id']}",
             json={"rule_preset": "c"},

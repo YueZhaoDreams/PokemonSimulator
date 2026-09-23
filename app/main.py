@@ -305,7 +305,9 @@ def api_create_deck(payload: dict, user: dict = Depends(require_user)) -> dict:
         source=payload.get("source"),
         deck_id=requested_id,
         owner_id=user["id"],
-        rule_presets=_rule_presets_from_payload(payload, default=["s60"]),
+        rule_presets=_rule_presets_from_payload(
+            payload, default=[user.get("rule_preset") or "s60"]
+        ),
     )
 
 
