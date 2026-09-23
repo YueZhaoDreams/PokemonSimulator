@@ -68,7 +68,7 @@ Cutting one Ledian for a 16th Psychic matches the Pad row on wComp and beats it 
 
 ## Lock
 
-`SET_G_NAMES` stays the Telepathic lock. Sleeve **none** of this shipment.
+This matrix played the Telepathic lock (4 Ledian). Sleeve **none** of this shipment. The Ledian count changed later; see the paragraph below.
 
 - Both Lillie stay unsleeved until Hop and Lillie's Determination are here to re-measure the draw package. Do not cut Drayton for one.
 - Night Stretcher stays unsleeved. Energy Retrieval stays.
@@ -76,4 +76,4 @@ Cutting one Ledian for a 16th Psychic matches the Pad row on wComp and beats it 
 - Both Poké Pad stay unsleeved. The reverse holo is the spare for C60's 1-of, later.
 - Both Rebel Clash Clefable stay unsleeved. When the Photon line exists, sleeve 1, not 2.
 
-The Ledian → Psychic control is a real bump (Hedrick +1.7, C60 mirror +2.8, D60 +1.0, UNL +1.2, T60 −0.6 inside noise) and it is not a card from this box. It does not change the 4 Ledian lock from [set-g-nest-zone.md](set-g-nest-zone.md). That cut can be its own bakeoff. It is not a reason to sleeve a Pad.
+The Ledian → Psychic control is a real bump (Hedrick +1.7, C60 mirror +2.8, D60 +1.0, UNL +1.2, T60 −0.6 inside noise) and it is not a card from this box. It was locked into `SET_G_NAMES` afterward (Ledian 3, Psychic Energy 16). The 4 Ledian count in [set-g-nest-zone.md](set-g-nest-zone.md) is the list this matrix was played on. The next sleeve, one Pad plus one extra Ultra Ball plus one Prankish, is [set-g-pad-ultra-prank.md](set-g-pad-ultra-prank.md).
