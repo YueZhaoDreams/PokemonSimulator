@@ -76,6 +76,8 @@ def test_set_c60_is_standard_sixty_with_psychic_energy():
     assert rules.pokemon_as_energy is False
     assert rules.deck_size == 60
     assert rules.prize_count == 6
+    assert rules.mulligan_bonus_draws is True
+    assert "one card per mulligan" in rules.notes
 
 
 def test_s60_foe_lists_are_legal_sixty():
@@ -127,9 +129,13 @@ def test_set_c60_unl_matrix_json_is_square():
     blob = json.loads((Path(__file__).resolve().parents[1] / "data/lab/set-c60-unl-matrix.json").read_text())
     keys = blob["decks"]
     assert keys == ["c60", "t60", "hedrick", "unl", "d60", "s60", "g"]
+    assert blob.get("mulligan_bonus_draws") is True
+    assert set(blob["first_hand_miss"]) == set(keys)
+    assert set(blob["cells_no_bonus"]) == set(keys)
     for row in keys:
         assert row not in blob["cells"][row]
         assert set(blob["cells"][row]) == set(keys) - {row}
+        assert set(blob["cells_no_bonus"][row]) == set(keys) - {row}
 
 
 def test_set_c60_dimension_valley_bakeoff_json():

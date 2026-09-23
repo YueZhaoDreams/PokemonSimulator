@@ -172,6 +172,7 @@ class FamilyRules:
     one_retreat_per_turn: bool = True
     extra_prize_for_ex: bool = True
     max_copies_except_basic_energy: int = 4
+    mulligan_bonus_draws: bool = True
     notes: str = (
         "30 Cards 4 of a name, Pokémon = Energy: 30-card decks, 3 prize cards, and "
         "every Pokémon can be attached as a Basic Energy of its type (so Energy "
@@ -216,7 +217,8 @@ def no_pokemon_energy_family_rules() -> FamilyRules:
             "only (Pokémon in hand are not Basic Energy). Energy Search finds Energy "
             "cards, not Pokémon. Copy cap 4 except basic Energy. Knocking Out a "
             "Pokémon ex takes 2 prize cards; Knocking Out a Mega ex takes 3. "
-            "Opening mulligans until a Basic Pokémon."
+            "Opening mulligans until a Basic Pokémon; the opponent then draws one card "
+            "per mulligan (always taken)."
         ),
     )
 
@@ -234,7 +236,9 @@ def standard_30_rules() -> FamilyRules:
             "Standard 30 cards: 30-card decks, 3 prize cards, at most 2 copies of a "
             "card with the same name except basic Energy (unlimited). Pokémon are not "
             "Basic Energy. Energy Search finds Energy cards, not Pokémon. Knocking Out "
-            "a Pokémon ex takes 2 prize cards; Knocking Out a Mega ex takes 3."
+            "a Pokémon ex takes 2 prize cards; Knocking Out a Mega ex takes 3. "
+            "Opening mulligans until a Basic Pokémon; the opponent then draws one card "
+            "per mulligan (always taken)."
         ),
     )
 
@@ -252,7 +256,9 @@ def standard_60_rules() -> FamilyRules:
             "Standard 60 cards: 60-card decks, 6 prize cards, at most 4 copies of a "
             "card with the same name except basic Energy (unlimited). Pokémon are not "
             "Basic Energy. Energy Search finds Energy cards, not Pokémon. Knocking Out "
-            "a Pokémon ex takes 2 prize cards; Knocking Out a Mega ex takes 3."
+            "a Pokémon ex takes 2 prize cards; Knocking Out a Mega ex takes 3. "
+            "Opening mulligans until a Basic Pokémon; the opponent then draws one card "
+            "per mulligan (always taken)."
         ),
     )
 
