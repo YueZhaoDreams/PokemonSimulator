@@ -48,7 +48,7 @@ def test_set_g_matches_draw_probability_and_caps_from_s60():
     assert abs(mega["p_opening"] - 7 / 60) < 1e-9
 
     psychic = _row(report, "Psychic Energy")
-    assert psychic["copies"] == 19 and psychic["copy_cap"] is None and psychic["over_cap"] is False
+    assert psychic["copies"] == 20 and psychic["copy_cap"] is None and psychic["over_cap"] is False
     tele = _row(report, "Telepathic Psychic Energy")
     assert tele["copies"] == 2 and tele["copy_cap"] == 4 and tele["over_cap"] is False
     switch = _row(report, "Switch")

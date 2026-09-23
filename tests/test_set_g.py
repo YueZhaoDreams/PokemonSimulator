@@ -26,12 +26,14 @@ def test_set_g_is_sixty_after_staraptor_energy_swap():
     assert names.count("Iron Boulder") == 0
     assert names.count("Scatterbug") == 0
     assert names.count("Misdreavus") == 0
-    assert names.count("Psychic Energy") == 19
+    assert names.count("Psychic Energy") == 20
     assert names.count("Telepathic Psychic Energy") == 2
     assert names.count("Darkness Energy") == 3
     assert names.count("Boomerang Energy") == 0
     assert names.count("Clefairy") == 4
-    assert names.count("Ledyba") == 3
+    assert names.count("Ledyba") == 2
+    assert names.count("Iris's Fighting Spirit") == 1
+    assert names.count("Lillie") == 0
     assert names.count("Ledian") == 2
     assert names.count("Munkidori") == 1
     assert names.count("Mega Clefable ex") == 1

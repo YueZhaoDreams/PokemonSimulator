@@ -68,17 +68,19 @@ def test_four_telepathic_is_legal_on_both_lists():
     assert copy_violations(build_fallback_deck(five_c60), rules)
 
 
-def test_g_lock_is_telepathic_plus_four_psychic():
+def test_g_lock_is_telepathic_plus_five_psychic():
     locked = Counter(SET_G_NAMES)
     tele2 = Counter(LAB.with_telepathic(SET_G_NEST_ZONE_NAMES, 2))
     assert len(SET_G_NAMES) == 60
-    assert locked - tele2 == Counter({"Psychic Energy": 4})
-    assert tele2 - locked == Counter({"Ledian": 2, "Ledyba": 1, "Munkidori": 1})
-    assert locked["Psychic Energy"] == 19
+    assert locked - tele2 == Counter({"Psychic Energy": 5})
+    assert tele2 - locked == Counter({"Ledian": 2, "Ledyba": 2, "Munkidori": 1})
+    assert locked["Psychic Energy"] == 20
     assert locked["Telepathic Psychic Energy"] == 2
     assert locked["Ledian"] == 2
-    assert locked["Ledyba"] == 3
+    assert locked["Ledyba"] == 2
     assert locked["Munkidori"] == 1
+    assert locked["Iris's Fighting Spirit"] == 1
+    assert locked["Lillie"] == 0
     assert list(dict(LAB.g_lists())["tele2"]) == list(LAB.with_telepathic(SET_G_NEST_ZONE_NAMES, 2))
     assert list(dict(LAB.c60_lists())["tele2"]) == list(SET_C60_NAMES)
     assert copy_violations(build_fallback_deck(list(SET_G_NAMES)), standard_60_rules()) == []

@@ -1,0 +1,1045 @@
+{
+  "games_per_seed": 3000,
+  "seeds": [
+    20260928,
+    20260929
+  ],
+  "base": "SET_G_NAMES four Psychic, play corrections on",
+  "engine": "Lillie scores 17+(n-3) for strategy g",
+  "elapsed": 455.4,
+  "lists": {
+    "base": [
+      "Clefairy",
+      "Clefairy",
+      "Clefairy",
+      "Clefairy",
+      "Psychic Energy",
+      "Ledyba",
+      "Ledyba",
+      "Ledyba",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Ledian",
+      "Ledian",
+      "Starly",
+      "Staravia",
+      "Staraptor",
+      "Psychic Energy",
+      "Munkidori",
+      "Mega Clefable ex",
+      "Clefable ex",
+      "Clefable ex",
+      "Clefable ex",
+      "Drayton",
+      "Iris's Fighting Spirit",
+      "Energy Retrieval",
+      "Energy Switch",
+      "Energy Switch",
+      "Ultra Ball",
+      "Nest Ball",
+      "Nest Ball",
+      "Nest Ball",
+      "Nest Ball",
+      "Switch",
+      "Switch",
+      "Buddy-Buddy Poffin",
+      "Buddy-Buddy Poffin",
+      "Buddy-Buddy Poffin",
+      "Buddy-Buddy Poffin",
+      "Boss's Orders",
+      "Boss's Orders",
+      "Boss's Orders",
+      "Telepathic Psychic Energy",
+      "Telepathic Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Darkness Energy",
+      "Darkness Energy",
+      "Darkness Energy"
+    ],
+    "lillie_iris": [
+      "Clefairy",
+      "Clefairy",
+      "Clefairy",
+      "Clefairy",
+      "Psychic Energy",
+      "Ledyba",
+      "Ledyba",
+      "Ledyba",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Ledian",
+      "Ledian",
+      "Starly",
+      "Staravia",
+      "Staraptor",
+      "Psychic Energy",
+      "Munkidori",
+      "Mega Clefable ex",
+      "Clefable ex",
+      "Clefable ex",
+      "Clefable ex",
+      "Drayton",
+      "Lillie",
+      "Energy Retrieval",
+      "Energy Switch",
+      "Energy Switch",
+      "Ultra Ball",
+      "Nest Ball",
+      "Nest Ball",
+      "Nest Ball",
+      "Nest Ball",
+      "Switch",
+      "Switch",
+      "Buddy-Buddy Poffin",
+      "Buddy-Buddy Poffin",
+      "Buddy-Buddy Poffin",
+      "Buddy-Buddy Poffin",
+      "Boss's Orders",
+      "Boss's Orders",
+      "Boss's Orders",
+      "Telepathic Psychic Energy",
+      "Telepathic Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Darkness Energy",
+      "Darkness Energy",
+      "Darkness Energy"
+    ],
+    "ledyba_energy": [
+      "Clefairy",
+      "Clefairy",
+      "Clefairy",
+      "Clefairy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Ledyba",
+      "Ledyba",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Ledian",
+      "Ledian",
+      "Starly",
+      "Staravia",
+      "Staraptor",
+      "Psychic Energy",
+      "Munkidori",
+      "Mega Clefable ex",
+      "Clefable ex",
+      "Clefable ex",
+      "Clefable ex",
+      "Drayton",
+      "Iris's Fighting Spirit",
+      "Energy Retrieval",
+      "Energy Switch",
+      "Energy Switch",
+      "Ultra Ball",
+      "Nest Ball",
+      "Nest Ball",
+      "Nest Ball",
+      "Nest Ball",
+      "Switch",
+      "Switch",
+      "Buddy-Buddy Poffin",
+      "Buddy-Buddy Poffin",
+      "Buddy-Buddy Poffin",
+      "Buddy-Buddy Poffin",
+      "Boss's Orders",
+      "Boss's Orders",
+      "Boss's Orders",
+      "Telepathic Psychic Energy",
+      "Telepathic Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Darkness Energy",
+      "Darkness Energy",
+      "Darkness Energy"
+    ],
+    "both": [
+      "Clefairy",
+      "Clefairy",
+      "Clefairy",
+      "Clefairy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Ledyba",
+      "Ledyba",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Ledian",
+      "Ledian",
+      "Starly",
+      "Staravia",
+      "Staraptor",
+      "Psychic Energy",
+      "Munkidori",
+      "Mega Clefable ex",
+      "Clefable ex",
+      "Clefable ex",
+      "Clefable ex",
+      "Drayton",
+      "Lillie",
+      "Energy Retrieval",
+      "Energy Switch",
+      "Energy Switch",
+      "Ultra Ball",
+      "Nest Ball",
+      "Nest Ball",
+      "Nest Ball",
+      "Nest Ball",
+      "Switch",
+      "Switch",
+      "Buddy-Buddy Poffin",
+      "Buddy-Buddy Poffin",
+      "Buddy-Buddy Poffin",
+      "Buddy-Buddy Poffin",
+      "Boss's Orders",
+      "Boss's Orders",
+      "Boss's Orders",
+      "Telepathic Psychic Energy",
+      "Telepathic Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Darkness Energy",
+      "Darkness Energy",
+      "Darkness Energy"
+    ],
+    "both_energy": [
+      "Clefairy",
+      "Clefairy",
+      "Clefairy",
+      "Clefairy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Ledyba",
+      "Ledyba",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Ledian",
+      "Ledian",
+      "Starly",
+      "Staravia",
+      "Staraptor",
+      "Psychic Energy",
+      "Munkidori",
+      "Mega Clefable ex",
+      "Clefable ex",
+      "Clefable ex",
+      "Clefable ex",
+      "Drayton",
+      "Psychic Energy",
+      "Energy Retrieval",
+      "Energy Switch",
+      "Energy Switch",
+      "Ultra Ball",
+      "Nest Ball",
+      "Nest Ball",
+      "Nest Ball",
+      "Nest Ball",
+      "Switch",
+      "Switch",
+      "Buddy-Buddy Poffin",
+      "Buddy-Buddy Poffin",
+      "Buddy-Buddy Poffin",
+      "Buddy-Buddy Poffin",
+      "Boss's Orders",
+      "Boss's Orders",
+      "Boss's Orders",
+      "Telepathic Psychic Energy",
+      "Telepathic Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Psychic Energy",
+      "Darkness Energy",
+      "Darkness Energy",
+      "Darkness Energy"
+    ]
+  },
+  "cells": {
+    "base": {
+      "t60": {
+        "wins": 1813,
+        "games": 6000,
+        "by_seed": {
+          "20260928": {
+            "wins": 875,
+            "games": 3000,
+            "party": 2297,
+            "lillie": 0
+          },
+          "20260929": {
+            "wins": 938,
+            "games": 3000,
+            "party": 2318,
+            "lillie": 0
+          }
+        },
+        "a": 0.30216666666666664
+      },
+      "hedrick": {
+        "wins": 2519,
+        "games": 6000,
+        "by_seed": {
+          "20260928": {
+            "wins": 1262,
+            "games": 3000,
+            "party": 2331,
+            "lillie": 0
+          },
+          "20260929": {
+            "wins": 1257,
+            "games": 3000,
+            "party": 2329,
+            "lillie": 0
+          }
+        },
+        "a": 0.41983333333333334
+      },
+      "unl": {
+        "wins": 3331,
+        "games": 6000,
+        "by_seed": {
+          "20260928": {
+            "wins": 1659,
+            "games": 3000,
+            "party": 2468,
+            "lillie": 0
+          },
+          "20260929": {
+            "wins": 1672,
+            "games": 3000,
+            "party": 2422,
+            "lillie": 0
+          }
+        },
+        "a": 0.5551666666666667
+      },
+      "d60": {
+        "wins": 290,
+        "games": 6000,
+        "by_seed": {
+          "20260928": {
+            "wins": 139,
+            "games": 3000,
+            "party": 2245,
+            "lillie": 0
+          },
+          "20260929": {
+            "wins": 151,
+            "games": 3000,
+            "party": 2255,
+            "lillie": 0
+          }
+        },
+        "a": 0.04833333333333333
+      },
+      "c60": {
+        "wins": 1950,
+        "games": 6000,
+        "by_seed": {
+          "20260928": {
+            "wins": 951,
+            "games": 3000,
+            "party": 2881,
+            "lillie": 0
+          },
+          "20260929": {
+            "wins": 999,
+            "games": 3000,
+            "party": 2887,
+            "lillie": 0
+          }
+        },
+        "a": 0.325
+      },
+      "s60": {
+        "wins": 4938,
+        "games": 6000,
+        "by_seed": {
+          "20260928": {
+            "wins": 2477,
+            "games": 3000,
+            "party": 2341,
+            "lillie": 0
+          },
+          "20260929": {
+            "wins": 2461,
+            "games": 3000,
+            "party": 2307,
+            "lillie": 0
+          }
+        },
+        "a": 0.823
+      },
+      "h": {
+        "wins": 5787,
+        "games": 6000,
+        "by_seed": {
+          "20260928": {
+            "wins": 2895,
+            "games": 3000,
+            "party": 1979,
+            "lillie": 0
+          },
+          "20260929": {
+            "wins": 2892,
+            "games": 3000,
+            "party": 2006,
+            "lillie": 0
+          }
+        },
+        "a": 0.9645
+      }
+    },
+    "lillie_iris": {
+      "t60": {
+        "wins": 1866,
+        "games": 6000,
+        "by_seed": {
+          "20260928": {
+            "wins": 938,
+            "games": 3000,
+            "party": 2298,
+            "lillie": 1011
+          },
+          "20260929": {
+            "wins": 928,
+            "games": 3000,
+            "party": 2311,
+            "lillie": 1054
+          }
+        },
+        "a": 0.311
+      },
+      "hedrick": {
+        "wins": 2457,
+        "games": 6000,
+        "by_seed": {
+          "20260928": {
+            "wins": 1246,
+            "games": 3000,
+            "party": 2271,
+            "lillie": 961
+          },
+          "20260929": {
+            "wins": 1211,
+            "games": 3000,
+            "party": 2252,
+            "lillie": 904
+          }
+        },
+        "a": 0.4095
+      },
+      "unl": {
+        "wins": 3311,
+        "games": 6000,
+        "by_seed": {
+          "20260928": {
+            "wins": 1663,
+            "games": 3000,
+            "party": 2447,
+            "lillie": 1249
+          },
+          "20260929": {
+            "wins": 1648,
+            "games": 3000,
+            "party": 2464,
+            "lillie": 1226
+          }
+        },
+        "a": 0.5518333333333333
+      },
+      "d60": {
+        "wins": 287,
+        "games": 6000,
+        "by_seed": {
+          "20260928": {
+            "wins": 139,
+            "games": 3000,
+            "party": 2232,
+            "lillie": 984
+          },
+          "20260929": {
+            "wins": 148,
+            "games": 3000,
+            "party": 2268,
+            "lillie": 989
+          }
+        },
+        "a": 0.04783333333333333
+      },
+      "c60": {
+        "wins": 2007,
+        "games": 6000,
+        "by_seed": {
+          "20260928": {
+            "wins": 985,
+            "games": 3000,
+            "party": 2895,
+            "lillie": 1053
+          },
+          "20260929": {
+            "wins": 1022,
+            "games": 3000,
+            "party": 2898,
+            "lillie": 1041
+          }
+        },
+        "a": 0.3345
+      },
+      "s60": {
+        "wins": 4948,
+        "games": 6000,
+        "by_seed": {
+          "20260928": {
+            "wins": 2476,
+            "games": 3000,
+            "party": 2342,
+            "lillie": 1195
+          },
+          "20260929": {
+            "wins": 2472,
+            "games": 3000,
+            "party": 2374,
+            "lillie": 1196
+          }
+        },
+        "a": 0.8246666666666667
+      },
+      "h": {
+        "wins": 5797,
+        "games": 6000,
+        "by_seed": {
+          "20260928": {
+            "wins": 2894,
+            "games": 3000,
+            "party": 1979,
+            "lillie": 792
+          },
+          "20260929": {
+            "wins": 2903,
+            "games": 3000,
+            "party": 2004,
+            "lillie": 806
+          }
+        },
+        "a": 0.9661666666666666
+      }
+    },
+    "ledyba_energy": {
+      "t60": {
+        "wins": 1918,
+        "games": 6000,
+        "by_seed": {
+          "20260928": {
+            "wins": 927,
+            "games": 3000,
+            "party": 2333,
+            "lillie": 0
+          },
+          "20260929": {
+            "wins": 991,
+            "games": 3000,
+            "party": 2297,
+            "lillie": 0
+          }
+        },
+        "a": 0.31966666666666665
+      },
+      "hedrick": {
+        "wins": 2618,
+        "games": 6000,
+        "by_seed": {
+          "20260928": {
+            "wins": 1304,
+            "games": 3000,
+            "party": 2341,
+            "lillie": 0
+          },
+          "20260929": {
+            "wins": 1314,
+            "games": 3000,
+            "party": 2316,
+            "lillie": 0
+          }
+        },
+        "a": 0.43633333333333335
+      },
+      "unl": {
+        "wins": 3431,
+        "games": 6000,
+        "by_seed": {
+          "20260928": {
+            "wins": 1725,
+            "games": 3000,
+            "party": 2477,
+            "lillie": 0
+          },
+          "20260929": {
+            "wins": 1706,
+            "games": 3000,
+            "party": 2476,
+            "lillie": 0
+          }
+        },
+        "a": 0.5718333333333333
+      },
+      "d60": {
+        "wins": 309,
+        "games": 6000,
+        "by_seed": {
+          "20260928": {
+            "wins": 150,
+            "games": 3000,
+            "party": 2232,
+            "lillie": 0
+          },
+          "20260929": {
+            "wins": 159,
+            "games": 3000,
+            "party": 2283,
+            "lillie": 0
+          }
+        },
+        "a": 0.0515
+      },
+      "c60": {
+        "wins": 2139,
+        "games": 6000,
+        "by_seed": {
+          "20260928": {
+            "wins": 1080,
+            "games": 3000,
+            "party": 2895,
+            "lillie": 0
+          },
+          "20260929": {
+            "wins": 1059,
+            "games": 3000,
+            "party": 2900,
+            "lillie": 0
+          }
+        },
+        "a": 0.3565
+      },
+      "s60": {
+        "wins": 5053,
+        "games": 6000,
+        "by_seed": {
+          "20260928": {
+            "wins": 2539,
+            "games": 3000,
+            "party": 2328,
+            "lillie": 0
+          },
+          "20260929": {
+            "wins": 2514,
+            "games": 3000,
+            "party": 2329,
+            "lillie": 0
+          }
+        },
+        "a": 0.8421666666666666
+      },
+      "h": {
+        "wins": 5764,
+        "games": 6000,
+        "by_seed": {
+          "20260928": {
+            "wins": 2890,
+            "games": 3000,
+            "party": 1987,
+            "lillie": 0
+          },
+          "20260929": {
+            "wins": 2874,
+            "games": 3000,
+            "party": 1994,
+            "lillie": 0
+          }
+        },
+        "a": 0.9606666666666667
+      }
+    },
+    "both": {
+      "t60": {
+        "wins": 1898,
+        "games": 6000,
+        "by_seed": {
+          "20260928": {
+            "wins": 929,
+            "games": 3000,
+            "party": 2298,
+            "lillie": 1026
+          },
+          "20260929": {
+            "wins": 969,
+            "games": 3000,
+            "party": 2315,
+            "lillie": 1008
+          }
+        },
+        "a": 0.31633333333333336
+      },
+      "hedrick": {
+        "wins": 2538,
+        "games": 6000,
+        "by_seed": {
+          "20260928": {
+            "wins": 1237,
+            "games": 3000,
+            "party": 2244,
+            "lillie": 978
+          },
+          "20260929": {
+            "wins": 1301,
+            "games": 3000,
+            "party": 2348,
+            "lillie": 925
+          }
+        },
+        "a": 0.423
+      },
+      "unl": {
+        "wins": 3444,
+        "games": 6000,
+        "by_seed": {
+          "20260928": {
+            "wins": 1736,
+            "games": 3000,
+            "party": 2500,
+            "lillie": 1210
+          },
+          "20260929": {
+            "wins": 1708,
+            "games": 3000,
+            "party": 2443,
+            "lillie": 1254
+          }
+        },
+        "a": 0.574
+      },
+      "d60": {
+        "wins": 295,
+        "games": 6000,
+        "by_seed": {
+          "20260928": {
+            "wins": 139,
+            "games": 3000,
+            "party": 2263,
+            "lillie": 1014
+          },
+          "20260929": {
+            "wins": 156,
+            "games": 3000,
+            "party": 2290,
+            "lillie": 945
+          }
+        },
+        "a": 0.049166666666666664
+      },
+      "c60": {
+        "wins": 2043,
+        "games": 6000,
+        "by_seed": {
+          "20260928": {
+            "wins": 1024,
+            "games": 3000,
+            "party": 2874,
+            "lillie": 1012
+          },
+          "20260929": {
+            "wins": 1019,
+            "games": 3000,
+            "party": 2891,
+            "lillie": 987
+          }
+        },
+        "a": 0.3405
+      },
+      "s60": {
+        "wins": 5085,
+        "games": 6000,
+        "by_seed": {
+          "20260928": {
+            "wins": 2550,
+            "games": 3000,
+            "party": 2394,
+            "lillie": 1176
+          },
+          "20260929": {
+            "wins": 2535,
+            "games": 3000,
+            "party": 2397,
+            "lillie": 1212
+          }
+        },
+        "a": 0.8475
+      },
+      "h": {
+        "wins": 5760,
+        "games": 6000,
+        "by_seed": {
+          "20260928": {
+            "wins": 2890,
+            "games": 3000,
+            "party": 1984,
+            "lillie": 797
+          },
+          "20260929": {
+            "wins": 2870,
+            "games": 3000,
+            "party": 2013,
+            "lillie": 754
+          }
+        },
+        "a": 0.96
+      }
+    },
+    "both_energy": {
+      "t60": {
+        "wins": 1817,
+        "games": 6000,
+        "by_seed": {
+          "20260928": {
+            "wins": 900,
+            "games": 3000,
+            "party": 2277,
+            "lillie": 0
+          },
+          "20260929": {
+            "wins": 917,
+            "games": 3000,
+            "party": 2303,
+            "lillie": 0
+          }
+        },
+        "a": 0.30283333333333334
+      },
+      "hedrick": {
+        "wins": 2560,
+        "games": 6000,
+        "by_seed": {
+          "20260928": {
+            "wins": 1302,
+            "games": 3000,
+            "party": 2320,
+            "lillie": 0
+          },
+          "20260929": {
+            "wins": 1258,
+            "games": 3000,
+            "party": 2285,
+            "lillie": 0
+          }
+        },
+        "a": 0.4266666666666667
+      },
+      "unl": {
+        "wins": 3438,
+        "games": 6000,
+        "by_seed": {
+          "20260928": {
+            "wins": 1713,
+            "games": 3000,
+            "party": 2455,
+            "lillie": 0
+          },
+          "20260929": {
+            "wins": 1725,
+            "games": 3000,
+            "party": 2445,
+            "lillie": 0
+          }
+        },
+        "a": 0.573
+      },
+      "d60": {
+        "wins": 311,
+        "games": 6000,
+        "by_seed": {
+          "20260928": {
+            "wins": 150,
+            "games": 3000,
+            "party": 2251,
+            "lillie": 0
+          },
+          "20260929": {
+            "wins": 161,
+            "games": 3000,
+            "party": 2192,
+            "lillie": 0
+          }
+        },
+        "a": 0.051833333333333335
+      },
+      "c60": {
+        "wins": 2015,
+        "games": 6000,
+        "by_seed": {
+          "20260928": {
+            "wins": 1018,
+            "games": 3000,
+            "party": 2874,
+            "lillie": 0
+          },
+          "20260929": {
+            "wins": 997,
+            "games": 3000,
+            "party": 2886,
+            "lillie": 0
+          }
+        },
+        "a": 0.3358333333333333
+      },
+      "s60": {
+        "wins": 5034,
+        "games": 6000,
+        "by_seed": {
+          "20260928": {
+            "wins": 2539,
+            "games": 3000,
+            "party": 2383,
+            "lillie": 0
+          },
+          "20260929": {
+            "wins": 2495,
+            "games": 3000,
+            "party": 2398,
+            "lillie": 0
+          }
+        },
+        "a": 0.839
+      },
+      "h": {
+        "wins": 5767,
+        "games": 6000,
+        "by_seed": {
+          "20260928": {
+            "wins": 2895,
+            "games": 3000,
+            "party": 1987,
+            "lillie": 0
+          },
+          "20260929": {
+            "wins": 2872,
+            "games": 3000,
+            "party": 1978,
+            "lillie": 0
+          }
+        },
+        "a": 0.9611666666666666
+      }
+    }
+  },
+  "weighted_all": {
+    "base": 0.3219188346122652,
+    "lillie_iris": 0.3233161379374883,
+    "ledyba_energy": 0.3378456313556678,
+    "both": 0.3318944569218292,
+    "both_energy": 0.3291393723875476
+  },
+  "weighted_competitive": {
+    "base": 0.22444274181492005,
+    "lillie_iris": 0.22430519011312103,
+    "ledyba_energy": 0.23556478297702693,
+    "both": 0.23005623660736532,
+    "both_energy": 0.2279233193800768
+  },
+  "contrasts": {
+    "both_minus_base": {
+      "delta": 0.005613494792445273,
+      "se": 0.003910489114602759,
+      "z": 1.4354968465410267
+    },
+    "both_minus_lillie_iris": {
+      "delta": 0.005751046494244294,
+      "se": 0.003913321953736559,
+      "z": 1.4696072958558952
+    },
+    "both_minus_ledyba_energy": {
+      "delta": -0.00550854636966161,
+      "se": 0.00393869231699935,
+      "z": -1.3985724007652967
+    },
+    "both_minus_both_energy": {
+      "delta": 0.0021329172272885333,
+      "se": 0.0039247528459244365,
+      "z": 0.5434526226290679
+    },
+    "lillie_iris_minus_base": {
+      "delta": -0.00013755170179902132,
+      "se": 0.0038983847545214748,
+      "z": -0.03528428065995393
+    },
+    "ledyba_energy_minus_base": {
+      "delta": 0.011122041162106883,
+      "se": 0.003923851698099541,
+      "z": 2.8344703158617532
+    }
+  }
+}

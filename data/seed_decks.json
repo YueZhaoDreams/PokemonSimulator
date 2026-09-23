@@ -8367,40 +8367,24 @@
         "dex_id": null
       },
       {
-        "catalog_id": "sv07-002",
-        "name": "Ledyba",
-        "category": "Pokemon",
+        "catalog_id": "swsh12.5-156",
+        "name": "Psychic Energy",
+        "category": "Energy",
         "stage": "Basic",
         "types": [
-          "Grass"
+          "Psychic"
         ],
-        "hp": 60,
-        "attacks": [
-          {
-            "name": "Headbutt Bounce",
-            "cost": [
-              "Colorless",
-              "Colorless"
-            ],
-            "damage": 30,
-            "text": "",
-            "effects": []
-          }
-        ],
+        "hp": 0,
+        "attacks": [],
         "abilities": [],
-        "weaknesses": [
-          {
-            "type": "Fire",
-            "value": "\u00d72"
-          }
-        ],
+        "weaknesses": [],
         "resistances": [],
-        "retreat": 1,
+        "retreat": 0,
         "evolves_from": null,
         "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv07/002/low.webp",
-        "set_name": null,
+        "energy_type": "Psychic",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/156/low.webp",
+        "set_name": "Crown Zenith",
         "text": "",
         "dex_id": null
       },
