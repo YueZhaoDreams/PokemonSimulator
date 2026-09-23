@@ -467,6 +467,17 @@ STRATEGY_LIBRARY = {
             "One Clefable ex is Lunar Zone on a bench Clefairy once two are out; the Active stays Party. "
             "Nest Ball fetches Munkidori once a Clefairy is out. "
             "Switch rotates only when a bench attacker should be Active. "
+            "SM Lillie draws until 6, or until 8 on your first turn, ahead of "
+            "Drayton and Iris. Night Stretcher returns Clefairy, Clefable ex, "
+            "Mega, Munkidori, or a Basic Energy. Poké Pad is held until the deck "
+            "is missing a piece: Clefairy while fewer than three are in hand or "
+            "play, Prankish when two Clefairy are out and the opponent's Active "
+            "has an Energy, then Ledyba, Ledian, or Munkidori. Pad cannot take "
+            "Clefable ex or Mega. Ultra Ball needs 2 other cards to discard and "
+            "pays with a spare Basic Energy before Boss's Orders or a bench Ball. "
+            "One Rebel Clash Prankish evolves "
+            "onto a bench Clefairy only when the opponent's Active has an Energy "
+            "to bounce; the Active Clefairy stays Party. "
             "If Telepathic Psychic Energy is in hand, attach it to a Psychic Pokémon before "
             "Party: the printed from-hand attach benches up to 2 Basic Psychic, then Party "
             "loads Basic Psychic onto those Clefairy. Party cannot search Telepathic from the deck."
@@ -500,6 +511,7 @@ STRATEGY_LIBRARY = {
             "Kecleon",
             "Mega Clefable ex",
             "Clefable ex",
+            "Clefable",
             "Tornadus",
             "Oranguru",
         ],
