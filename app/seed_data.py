@@ -583,6 +583,15 @@ def _replace_n(names: tuple[str, ...], old: str, new: str, n: int) -> tuple[str,
     return tuple(out)
 
 
+def _set_g_names() -> tuple[str, ...]:
+    """Telepathic list, then four Psychic paid by Ledian, Ledyba, Munkidori."""
+    names = _replace_n(SET_G_NEST_ZONE_NAMES, "Psychic Energy", "Telepathic Psychic Energy", 2)
+    names = _replace_n(names, "Ledian", "Psychic Energy", 2)
+    names = _replace_n(names, "Ledyba", "Psychic Energy", 1)
+    names = _replace_n(names, "Munkidori", "Psychic Energy", 1)
+    return names
+
+
 # Carpet Set G — four Psychic on the Telepathic list.
 # Nest/Zone minus 2 Psychic plus 2 Telepathic (copies 3 and 4 lose; see
 # data/lab/set-g-c60-telepathic.md). Then 2 Ledian, 1 Ledyba, and 1 Munkidori
@@ -591,22 +600,7 @@ def _replace_n(names: tuple[str, ...], old: str, new: str, n: int) -> tuple[str,
 # single Pokémon→Psychic control is at or above that lock. Poké Pad ties, the
 # second Ultra Ball loses, and Prankish loses to a Psychic in the same slot.
 # See data/lab/set-g-four-psychic.md.
-SET_G_NAMES = _replace_n(
-    _replace_n(
-        _replace_n(
-            _replace_n(SET_G_NEST_ZONE_NAMES, "Psychic Energy", "Telepathic Psychic Energy", 2),
-            "Ledian",
-            "Psychic Energy",
-            2,
-        ),
-        "Ledyba",
-        "Psychic Energy",
-        1,
-    ),
-    "Munkidori",
-    "Psychic Energy",
-    1,
-)
+SET_G_NAMES = _set_g_names()
 
 # Carpet Set H — 60-card beige-carpet photo (data/samples/set-h-carpet.jpg), Standard s60.
 # Destined Rivals Team Rocket's Zapdos (not Roaring Skies Zapdos). Two Pikachu prints.
