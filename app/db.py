@@ -10,9 +10,8 @@ from app.engine.models import (
     FamilyRules,
     S60_SEED_IDS,
     deck_archived_for_presets,
-    default_family_rules,
     default_rule_presets_for,
-    infer_rule_preset_from_rules,
+    is_retired_household_rules,
     legacy_rule_presets_for,
     normalize_rule_presets,
     rule_preset_summary,
@@ -116,35 +115,11 @@ def init_db() -> None:
             )
         else:
             stored = json.loads(row["value_json"])
-            if infer_rule_preset_from_rules(FamilyRules.from_dict(stored)) in {"b", "c"}:
+            if is_retired_household_rules(stored):
                 conn.execute(
                     "UPDATE settings SET value_json=? WHERE key='rules'",
                     (json.dumps(standard_60_rules().to_dict()),),
                 )
-            else:
-                fresh = default_family_rules()
-                changed = False
-                if stored.get("deck_size") == 28:
-                    stored["deck_size"] = fresh.deck_size
-                    changed = True
-                if stored.get("extra_prize_for_ex") is not True:
-                    stored["extra_prize_for_ex"] = True
-                    changed = True
-                if stored.get("max_copies_except_basic_energy") in (None, 0):
-                    stored["max_copies_except_basic_energy"] = fresh.max_copies_except_basic_energy
-                    changed = True
-                if stored.get("name") == "Family Cup (Rule B)":
-                    stored["name"] = fresh.name
-                    changed = True
-                if "one card per mulligan" not in (stored.get("notes") or ""):
-                    stored["notes"] = fresh.notes
-                    changed = True
-                if changed:
-                    stored["notes"] = fresh.notes
-                    conn.execute(
-                        "UPDATE settings SET value_json=? WHERE key='rules'",
-                        (json.dumps(stored),),
-                    )
         _ensure_chat_agent_id(conn)
         _ensure_owner_columns(conn)
         _ensure_deck_rules_column(conn)
@@ -431,7 +406,7 @@ def get_rules() -> FamilyRules:
     with connect() as conn:
         row = conn.execute("SELECT value_json FROM settings WHERE key='rules'").fetchone()
     rules = FamilyRules.from_dict(json.loads(row["value_json"]) if row else {})
-    if infer_rule_preset_from_rules(rules) in {"b", "c"}:
+    if is_retired_household_rules(rules):
         return standard_60_rules()
     return rules
 

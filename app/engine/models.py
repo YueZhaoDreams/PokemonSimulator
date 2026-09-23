@@ -434,6 +434,20 @@ def rules_from_preset(key: str | None) -> FamilyRules:
     return RULE_PRESETS.get(canon, default_family_rules())
 
 
+def is_retired_household_rules(rules: FamilyRules | dict[str, Any] | None) -> bool:
+    """True for the retired 30-card, 4-of-a-name formats, including the old 28-card size.
+
+    A custom rule is not retired just because Pokémon are not energy.
+    """
+    if not rules:
+        return False
+    data = rules.to_dict() if isinstance(rules, FamilyRules) else dict(rules)
+    size = int(data.get("deck_size") or 0)
+    copies = int(data.get("max_copies_except_basic_energy") or 0)
+    prizes = int(data.get("prize_count") or 0)
+    return size in {28, 30} and copies == 4 and prizes == 3
+
+
 def infer_rule_preset_from_rules(rules: FamilyRules | dict[str, Any] | None) -> str:
     """Map a rules blob to the closest selectable preset."""
     if not rules:

@@ -105,6 +105,45 @@ def test_seed_t_moves_from_rule_b_to_standard_30(tmp_path, monkeypatch):
     assert get_deck("seed-t")["rule_presets"] == ["s30"]
 
 
+def test_startup_retires_household_rules_without_clobbering_custom(tmp_path, monkeypatch):
+    monkeypatch.setattr("app.db.DB_PATH", tmp_path / "app.db")
+    import json
+
+    from app.db import connect, get_rules, init_db
+    from app.engine.models import FamilyRules
+
+    init_db()
+    custom = FamilyRules(
+        name="House 60",
+        deck_size=60,
+        prize_count=3,
+        pokemon_as_energy=False,
+        max_copies_except_basic_energy=4,
+        notes="custom prize count",
+    )
+    with connect() as conn:
+        conn.execute(
+            "UPDATE settings SET value_json=? WHERE key='rules'",
+            (json.dumps(custom.to_dict()),),
+        )
+    init_db()
+    kept = get_rules()
+    assert kept.deck_size == 60
+    assert kept.prize_count == 3
+    assert kept.notes == "custom prize count"
+
+    with connect() as conn:
+        conn.execute(
+            "UPDATE settings SET value_json=? WHERE key='rules'",
+            (json.dumps(FamilyRules().to_dict()),),
+        )
+    init_db()
+    retired = get_rules()
+    assert retired.deck_size == 60
+    assert retired.prize_count == 6
+    assert retired.pokemon_as_energy is False
+
+
 def test_seed_m_moves_from_rule_b_to_standard_60(tmp_path, monkeypatch):
     monkeypatch.setattr("app.db.DB_PATH", tmp_path / "app.db")
     from app.db import connect, get_deck, init_db
