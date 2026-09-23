@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Ledyba → Psychic and Iris's Fighting Spirit → Lillie, alone and together.
 
-Base is live SET_G_NAMES after the four-Psychic lock and the printed-cost
-play corrections. The two swaps were previously measured on separate lists.
+The matrix base is the four-Psychic list (Telepathic lock, then 2 Ledian,
+1 Ledyba, and 1 Munkidori paid as Psychic). Live SET_G_NAMES is the
+ledyba_energy row. The two swaps were previously measured on separate lists.
 This run puts them in one 60.
 
 - lillie_iris: Iris's Fighting Spirit → Lillie
@@ -39,6 +40,7 @@ from app.seed_data import (
     SET_C60_NAMES,
     SET_D60_NAMES,
     SET_G_NAMES,
+    SET_G_NEST_ZONE_NAMES,
     SET_H_NAMES,
     SET_S60_NAMES,
     SET_T60_NAMES,
@@ -81,8 +83,22 @@ def _replace(names: list[str], pairs: list[tuple[str, str]]) -> list[str]:
     return out
 
 
+def _four_psychic_base() -> list[str]:
+    """Matrix base. Live SET_G_NAMES is this list with one more Ledyba → Psychic."""
+    names = list(SET_G_NEST_ZONE_NAMES)
+    for old, new, n in (
+        ("Psychic Energy", "Telepathic Psychic Energy", 2),
+        ("Ledian", "Psychic Energy", 2),
+        ("Ledyba", "Psychic Energy", 1),
+        ("Munkidori", "Psychic Energy", 1),
+    ):
+        for _ in range(n):
+            names[names.index(old)] = new
+    return names
+
+
 def g_lists() -> list[tuple[str, list[str]]]:
-    base = list(SET_G_NAMES)
+    base = _four_psychic_base()
     ledyba = ("Ledyba", "Psychic Energy")
     lillie = ("Iris's Fighting Spirit", "Lillie")
     iris_energy = ("Iris's Fighting Spirit", "Psychic Energy")
@@ -114,6 +130,7 @@ def _check_lists() -> None:
     both_e = Counter(lists["both_energy"])
     assert both_e["Ledyba"] == 2 and both_e["Psychic Energy"] == 21
     assert both_e["Lillie"] == 0 and both_e["Iris's Fighting Spirit"] == 0
+    assert list(SET_G_NAMES) == lists["ledyba_energy"]
     text = (fallback_named("Lillie").text or "").lower()
     assert "until you have 6" in text and "until you have 8" in text
     iris = (fallback_named("Iris's Fighting Spirit").text or "").lower()

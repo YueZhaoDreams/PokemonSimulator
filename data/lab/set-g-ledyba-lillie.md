@@ -2,12 +2,14 @@
 
 Date: 2026-09-23
 Seeds: `20260928`, `20260929` (3,000 games each, 6,000 per cell)
+
+**Lock:** live `SET_G_NAMES` is `ledyba_energy` from this matrix. One Ledyba became Psychic Energy (Psychic 20, Ledyba 2). Iris's Fighting Spirit stays. The table below still uses the four-Psychic list as `base`.
 Rule: s60
 Script: `data/lab/set_g_ledyba_lillie.py`
 Raw: `data/lab/set-g-ledyba-lillie.json`
 Elapsed: 455s
 
-Base is live `SET_G_NAMES`: Psychic 19, Telepathic 2, Ledian 2, Ledyba 3, Munkidori 1, one Iris's Fighting Spirit. Strategy `g`, on the engine that plays Lillie at `17 + (cards drawn − 3)`, ahead of Iris (discard, then draw until 6) and Drayton (top 7).
+`base` in the table is the four-Psychic list this matrix started from: Psychic 19, Telepathic 2, Ledian 2, Ledyba 3, Munkidori 1, one Iris's Fighting Spirit. Strategy `g`, on the engine that plays Lillie at `17 + (cards drawn − 3)`, ahead of Iris (discard, then draw until 6) and Drayton (top 7).
 
 The two swaps below were previously scored on separate lists, on the engine from before that Lillie priority. This run puts them in one 60.
 
@@ -50,4 +52,4 @@ wComp weights T60, Hedrick, and D60 by how often this base loses. Difference SE 
 
 **Lillie ties the card it replaces, and ties a Psychic in that slot once the Ledyba is already gone.** Iris → Lillie alone is −0.01 wComp (z −0.0). On the Ledyba-cut list, Lillie against Iris → Psychic is +0.21 (z +0.5). Lillie resolves in about 1,850–2,500 of 6,000 games. Printed text: Lillie draws until 6, or until 8 on the first turn. Iris discards another card, then draws until 6.
 
-`SET_G_NAMES` is unchanged. The earlier shipment note that sleeved one Lillie was scored before G was taught to play Lillie ahead of Iris.
+Live `SET_G_NAMES` is the Ledyba → Psychic row. Iris's Fighting Spirit stays. The earlier shipment note that sleeved one Lillie was scored before G was taught to play Lillie ahead of Iris.

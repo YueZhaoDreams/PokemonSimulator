@@ -2,9 +2,11 @@
 
 Date: 2026-09-23
 
-Live `SET_G_NAMES` / `seed-g` is the Telepathic list plus four Psychic Energy, paid by 2 Ledian, 1 Ledyba, and 1 Munkidori.
+This note is the four-Psychic step. Live `SET_G_NAMES` has since moved one more Ledyba to Psychic Energy. See [set-g-ledyba-lillie.md](set-g-ledyba-lillie.md).
 
-| Card | Nest/Zone | Telepathic list | Live G |
+The four-Psychic list below was `SET_G_NAMES` when this note was written: the Telepathic list plus four Psychic Energy, paid by 2 Ledian, 1 Ledyba, and 1 Munkidori.
+
+| Card | Nest/Zone | Telepathic list | Four-Psychic G |
 | --- | ---: | ---: | ---: |
 | Psychic Energy | 17 | 15 | **19** |
 | Telepathic Psychic Energy | 0 | 2 | **2** |
@@ -13,7 +15,7 @@ Live `SET_G_NAMES` / `seed-g` is the Telepathic list plus four Psychic Energy, p
 | Munkidori | 2 | 2 | **1** |
 | Darkness Energy | 3 | 3 | **3** |
 
-The one-Ledian energy lock (Psychic 16, Ledian 3) was the base of the sleeve review. `thin_energy` on that base is this live list: the accepted Ledian swap plus Ledyba, Ledian, and Munkidori each becoming one more Psychic.
+The one-Ledian energy lock (Psychic 16, Ledian 3) was the base of the sleeve review. `thin_energy` on that base is this four-Psychic list: the accepted Ledian swap plus Ledyba, Ledian, and Munkidori each becoming one more Psychic.
 
 ## Why energy
 
