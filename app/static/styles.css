@@ -167,6 +167,8 @@ button.account-email {
   font-size: 13px;
   font-weight: 700;
 }
+.settings-field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 8px; font-size: 13px; font-weight: 700; }
+.settings-field select { width: 100%; max-width: 280px; }
 .settings-menu .tiny { margin: 6px 0 12px; }
 .settings-menu #logoutBtn { width: 100%; }
 .auth-gate {

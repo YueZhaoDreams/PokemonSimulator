@@ -30,7 +30,8 @@ REQUIRED_IDS = [
     "cardDetailHost",
     "addToSetBar",
     "deckList",
-    "rulePreset",
+    "userRule",
+    "archiveList",
     "view-fight",
     "arenaStage",
     "deckA",
@@ -179,8 +180,8 @@ def test_index_keeps_combo_cub_controls():
     assert "Talk 语音" not in html
     assert 'id="cubLauncher"' in html
     assert 'src="/static/cub.png"' in html
-    assert 'href="/static/styles.css?v=scan-cf-525"' in html
-    assert 'src="/static/app.js?v=scan-cf-525"' in html
+    assert 'href="/static/styles.css?v=rules-s60-1"' in html
+    assert 'src="/static/app.js?v=rules-s60-1"' in html
     assert "<strong>Combo Cub</strong>" in html
     assert 'title="Combo Cub"' in html
     assert ">Scan · fight · chat<" in html
@@ -191,7 +192,9 @@ def test_index_keeps_combo_cub_controls():
     assert 'id="chatSpeak"' not in html
     assert "Speak replies" not in html
     assert ">🎤 Talk<" in html
-    assert "Sets for this rule only" in html
+    assert "Sets for your rule" in html
+    assert 'id="rulePreset"' not in html
+    assert 'id="userRule"' in html
     assert "keep at least one" in html
     assert "Local coach" not in html
     assert "SFX off" not in html
@@ -361,7 +364,7 @@ def test_app_js_keeps_simulator_contracts():
     assert "fromVoice: true" in busy
     assert "sendChat.fromVoice = true" not in busy
     assert "sendChat.fromVoice = true" in listen_fn[listen_fn.index("} else {") :]
-    boot_fn = js[js.index("async function boot") : js.index("function rememberedRule")]
+    boot_fn = js[js.index("async function boot") : js.index("function currentRule")]
     assert "paintTalkButton();" in boot_fn
     paint_talk = js[js.index("function paintTalkButton") : js.index("function speakableText")]
     assert 'hint.classList.toggle("hidden", !speechSupported())' in paint_talk

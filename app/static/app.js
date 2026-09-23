@@ -4,7 +4,6 @@ let state = { decks: [], strategies: [], rulePresets: [], scanCards: [], scanCro
 const CHAT_STORE = "family-cup-chat-id";
 const SFX_STORE = "family-cup-sfx";
 const SHINY_STORE = "family-cup-shiny";
-const RULE_STORE = "family-cup-rule";
 const REDUCE = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 const TYPE_TINT = {
@@ -165,6 +164,7 @@ function show(view) {
   if (view === "decks") {
     fillViewSet($("#viewSet")?.value);
     renderDecks();
+    renderArchive();
     renderUsers();
   }
   if (view === "cards") {
@@ -690,7 +690,7 @@ function paintRules(rules) {
 }
 
 function inferRulePreset(rules) {
-  if (!rules) return "b";
+  if (!rules) return "s60";
   const size = Number(rules.deck_size);
   const copies = Number(rules.max_copies_except_basic_energy);
   const prizes = Number(rules.prize_count);
@@ -698,19 +698,30 @@ function inferRulePreset(rules) {
   if (size === 30 && copies === 2 && prizes === 3 && rules.pokemon_as_energy === false) return "s30";
   if (size === 30 && copies === 4 && prizes === 3 && rules.pokemon_as_energy === false) return "c";
   if (rules.pokemon_as_energy === false) return "c";
-  return "b";
+  return "s60";
 }
 
 function syncRulePreset(rules) {
-  const sel = $("#rulePreset");
+  fillUserRule();
+  const sel = $("#userRule");
   if (!sel || !sel.options.length) return;
-  const want = inferRulePreset(rules);
+  const want = currentRule() || inferRulePreset(rules);
   if ([...sel.options].some((o) => o.value === want)) sel.value = want;
+}
+
+function fillUserRule() {
+  const sel = $("#userRule");
+  if (!sel) return;
+  const keep = sel.value || currentRule();
+  sel.innerHTML = ruleChoices()
+    .map((p) => `<option value="${esc(p.preset)}">${esc(p.label)}</option>`)
+    .join("");
+  if ([...sel.options].some((o) => o.value === keep)) sel.value = keep;
 }
 
 function prizeCount() {
   const n = Number(state.rules?.prize_count);
-  return Number.isFinite(n) && n > 0 ? n : 3;
+  return Number.isFinite(n) && n > 0 ? n : 6;
 }
 
 function ensurePrizePips() {
@@ -809,16 +820,9 @@ async function loadApp() {
   } else {
     state.users = [];
   }
+  const preset = state.rulePresets?.find((p) => p.preset === currentRule());
+  paintRules(preset || health.rules);
   fillFight();
-  const remembered = rememberedRule();
-  if (remembered && $("#rulePreset") && [...$("#rulePreset").options].some((o) => o.value === remembered)) {
-    $("#rulePreset").value = remembered;
-    const preset = state.rulePresets?.find((p) => p.preset === remembered);
-    paintRules(preset || health.rules);
-    fillFight();
-  } else {
-    paintRules(health.rules);
-  }
   renderUsers();
   show("cards");
 }
@@ -881,16 +885,10 @@ async function boot() {
   }
 }
 
-function rememberedRule() {
-  try { return localStorage.getItem(RULE_STORE) || ""; } catch { return ""; }
-}
-
 function currentRule() {
-  return $("#rulePreset")?.value || rememberedRule() || "b";
-}
-
-function rememberRule(key) {
-  try { localStorage.setItem(RULE_STORE, key); } catch { /* private mode */ }
+  const key = state.user?.rule_preset;
+  if (key === "s30" || key === "s60") return key;
+  return "s60";
 }
 
 function rulePresetLabel(preset, fallback) {
@@ -905,15 +903,13 @@ function rulePresetLabel(preset, fallback) {
 
 function knownRuleKeys() {
   const fromApi = (state.rulePresets || []).map((p) => p.preset).filter(Boolean);
-  return fromApi.length ? fromApi : ["b", "c", "s30", "s60"];
+  return fromApi.length ? fromApi : ["s30", "s60"];
 }
 
 function ruleChoices() {
   const presets = state.rulePresets?.length
     ? state.rulePresets
     : [
-        { preset: "b", label: "30 Cards 4 of a name, Pokémon = Energy" },
-        { preset: "c", label: "30 Cards 4 of a name" },
         { preset: "s30", label: "Standard 30 cards, 2 of a name" },
         { preset: "s60", label: "Standard 60 cards, 4 of a name" },
       ];
@@ -929,9 +925,9 @@ function deckRulePresets(d) {
     return d.rule_presets.filter((k) => allowed.has(k));
   }
   const r = d?.rule_preset;
-  if (r === "c") return ["c"];
-  if (r === "b") return ["b"];
-  return ["b", "c"];
+  if (r === "s30") return ["s30"];
+  if (r === "s60") return ["s60"];
+  return ["s60"];
 }
 
 function deckRulePreset(d) {
@@ -944,6 +940,7 @@ function deckRulePreset(d) {
 function decksMatchingRule(preset, { includeSpare = true } = {}) {
   const key = preset || currentRule();
   return (state.decks || []).filter((d) => {
+    if (d.archived) return false;
     if (!includeSpare && d.kind === "spare") return false;
     return deckRulePresets(d).includes(key);
   });
@@ -955,22 +952,12 @@ function fillFight() {
     b: $("#deckB")?.value,
     sa: $("#stratA")?.value,
     sb: $("#stratB")?.value,
-    rule: $("#rulePreset")?.value,
   };
   const pick = (sel, preferred, fallback) => {
     if (!sel) return;
     if (preferred && [...sel.options].some((o) => o.value === preferred)) sel.value = preferred;
     else if (fallback) sel.value = fallback;
   };
-  const ruleSel = $("#rulePreset");
-  if (ruleSel) {
-    const presets = ruleChoices();
-    ruleSel.innerHTML = presets
-      .map((p) => `<option value="${esc(p.preset)}">${esc(p.label)}</option>`)
-      .join("");
-    const fallbackRule = inferRulePreset(state.rules);
-    pick(ruleSel, keep.rule, fallbackRule);
-  }
   const rule = currentRule();
   const visible = decksMatchingRule(rule);
   for (const id of ["deckA", "deckB"]) {
@@ -979,16 +966,10 @@ function fillFight() {
     sel.innerHTML = visible.map((d) => `<option value="${esc(d.id)}">${esc(d.name)} (${d.count})</option>`).join("");
   }
   const lists = visible.filter((d) => d.kind !== "spare");
-  const fallbackA = rule === "c"
-    ? (lists.find((d) => d.id === "seed-e") || lists[0])
-    : rule === "s30"
+  const fallbackA = rule === "s30"
     ? (lists.find((d) => d.id === "seed-t") || lists[0])
-    : rule === "s60"
-    ? (lists.find((d) => d.id === "seed-c60") || lists.find((d) => d.id === "seed-g") || lists[0])
-    : lists[0];
-  const fallbackB = rule === "c"
-    ? (lists.find((d) => d.id === "seed-f") || lists[1] || lists[0])
-    : rule === "s60"
+    : (lists.find((d) => d.id === "seed-c60") || lists.find((d) => d.id === "seed-g") || lists[0]);
+  const fallbackB = rule === "s60"
     ? (lists.find((d) => d.id === "seed-g") || lists.find((d) => d.id === "seed-t60") || lists[1] || lists[0])
     : (lists[1] || lists[0]);
   pick($("#deckA"), keep.a, fallbackA?.id);
@@ -1208,7 +1189,7 @@ function fillViewSet(preferred) {
 }
 
 function playableSets() {
-  return (state.decks || []).filter((d) => d.kind !== "spare");
+  return (state.decks || []).filter((d) => d.kind !== "spare" && !d.archived);
 }
 
 function fillAddToSet(preferred) {
@@ -1306,6 +1287,7 @@ function setsHoldingCard(card) {
 function ownedCardEntries() {
   const map = new Map();
   for (const d of state.decks || []) {
+    if (d.archived) continue;
     for (const c of d.cards || []) {
       if (!c?.name) continue;
       const key = cardKey(c);
@@ -1637,6 +1619,24 @@ function sortedSetCards(cards) {
     if (name) return name;
     return a.index - b.index;
   });
+}
+
+function renderArchive() {
+  const box = $("#archiveList");
+  if (!box) return;
+  const archived = (state.decks || []).filter((d) => d.archived);
+  if (!archived.length) {
+    box.innerHTML = "";
+    return;
+  }
+  const rows = archived.map((d) => {
+    const names = (Array.isArray(d.rule_presets) ? d.rule_presets : [])
+      .map((k) => rulePresetLabel(k))
+      .filter(Boolean)
+      .join(" · ");
+    return `<div class="tiny">${esc(d.name)} · ${cardCount(d)} cards${names ? ` · ${esc(names)}` : ""}</div>`;
+  }).join("");
+  box.innerHTML = `<div class="panel"><h3>Archived</h3><p class="tiny">30-card, 4-of-a-name sets. They stay out of fights.</p>${rows}</div>`;
 }
 
 function renderDecks() {
@@ -2029,7 +2029,7 @@ function simPayload(games) {
     deck_b_id: $("#deckB").value,
     strategy_a: $("#stratA").value,
     strategy_b: $("#stratB").value,
-    rule_preset: $("#rulePreset")?.value || "b",
+    rule_preset: currentRule(),
     games,
     question: $("#simQuestion").value,
   };
@@ -2596,22 +2596,39 @@ $("#lightbox").addEventListener("click", (e) => {
   if (e.target.id === "lightbox") closeLightbox();
 });
 
-["deckA", "deckB", "stratA", "stratB", "rulePreset"].forEach((id) => {
+["deckA", "deckB", "stratA", "stratB"].forEach((id) => {
   $(`#${id}`)?.addEventListener("change", () => {
-    if (id === "rulePreset") {
-      rememberRule($("#rulePreset").value);
-      const preset = state.rulePresets?.find((p) => p.preset === $("#rulePreset").value);
-      if (preset) paintRules(preset);
-      fillFight();
-      fillAddToSet($("#addToSet")?.value);
-      fillViewSet($("#viewSet")?.value);
-      renderDecks();
-      renderCollection();
-    }
     resetArenaResult();
     paintArena();
   });
 });
+
+$("#userRule")?.addEventListener("change", () => {
+  const preset = $("#userRule").value;
+  saveUserRule(preset).catch((err) => {
+    toast(err.message, "bad");
+    syncRulePreset(state.rules);
+  });
+});
+
+async function saveUserRule(preset) {
+  const saved = await api("/api/me/rule", {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ preset }),
+  });
+  state.user = { ...(state.user || {}), ...saved };
+  const match = (state.rulePresets || []).find((p) => p.preset === saved.rule_preset);
+  if (match) paintRules(match);
+  fillFight();
+  fillAddToSet($("#addToSet")?.value);
+  fillViewSet($("#viewSet")?.value);
+  renderDecks();
+  renderArchive();
+  renderCollection();
+  resetArenaResult();
+  paintArena();
+}
 
 $("#accountEmail")?.addEventListener("click", (e) => {
   e.stopPropagation();

@@ -28,6 +28,7 @@ from app.db import (
     finish_scan_job,
     get_deck,
     get_lab_experiment,
+    set_user_rule,
     get_rules,
     get_scan_job,
     get_simulation,
@@ -50,8 +51,9 @@ from app.db import (
 from app.engine.models import (
     Card,
     FamilyRules,
-    CANONICAL_RULE_PRESETS,
     RULE_PRESETS,
+    SELECTABLE_RULE_PRESETS,
+    rules_for_user,
     default_rule_presets_for,
     infer_rule_preset_from_rules,
     normalize_rule_presets,
@@ -201,7 +203,13 @@ def api_login(payload: dict, response: Response) -> dict:
         raise HTTPException(401, "Wrong email or password")
     token = create_session(stored["id"])
     _set_session_cookie(response, token)
-    return {"id": stored["id"], "email": stored["email"], "role": stored["role"], "created_at": stored["created_at"]}
+    return {
+        "id": stored["id"],
+        "email": stored["email"],
+        "role": stored["role"],
+        "created_at": stored["created_at"],
+        "rule_preset": stored.get("rule_preset") or "s60",
+    }
 
 
 @app.post("/api/auth/logout")
@@ -222,14 +230,22 @@ def api_users(_admin: dict = Depends(require_admin)) -> list:
 
 
 @app.get("/api/rules")
-def api_rules(_user: dict = Depends(require_user)) -> dict:
-    return get_rules().to_dict()
+def api_rules(user: dict = Depends(require_user)) -> dict:
+    return rules_for_user(user).to_dict()
+
+
+@app.put("/api/me/rule")
+def api_put_my_rule(payload: dict, user: dict = Depends(require_user)) -> dict:
+    try:
+        return set_user_rule(user["id"], str(payload.get("preset") or ""))
+    except ValueError as exc:
+        raise HTTPException(400, str(exc)) from exc
 
 
 @app.get("/api/rule-presets")
 def api_rule_presets(_user: dict = Depends(require_user)) -> list:
     out = []
-    for key in CANONICAL_RULE_PRESETS:
+    for key in SELECTABLE_RULE_PRESETS:
         rules = RULE_PRESETS[key]
         blob = rules.to_dict()
         blob["preset"] = key
@@ -289,7 +305,7 @@ def api_create_deck(payload: dict, user: dict = Depends(require_user)) -> dict:
         source=payload.get("source"),
         deck_id=requested_id,
         owner_id=user["id"],
-        rule_presets=_rule_presets_from_payload(payload, default=["b"]),
+        rule_presets=_rule_presets_from_payload(payload, default=["s60"]),
     )
 
 
@@ -435,7 +451,7 @@ def api_fate_ceilings(deck_id: str, rule_preset: str | None = None, user: dict =
     if not _can_use_deck(user, deck):
         raise HTTPException(404, "Deck not found")
     try:
-        rules = resolve_simulation_rules(rule_preset=rule_preset, decks=[deck], fallback=get_rules())
+        rules = resolve_simulation_rules(rule_preset=rule_preset, decks=[deck], fallback=rules_for_user(user))
     except ValueError as exc:
         raise HTTPException(400, str(exc)) from exc
     report = compute_ceilings(
@@ -461,7 +477,7 @@ def api_simulate(payload: dict, user: dict = Depends(require_user)) -> dict:
             rules = resolve_simulation_rules(
                 rule_preset=payload.get("rule_preset"),
                 decks=[deck_a, deck_b],
-                fallback=get_rules(),
+                fallback=rules_for_user(user),
             )
     except ValueError as exc:
         raise HTTPException(400, str(exc)) from exc
@@ -508,7 +524,7 @@ def api_trades(payload: dict, user: dict = Depends(require_user)) -> dict:
         rules = resolve_simulation_rules(
             rule_preset=payload.get("rule_preset"),
             decks=[deck_a, deck_b],
-            fallback=get_rules(),
+            fallback=rules_for_user(user),
         )
         return suggest_trades(
             [Card.from_dict(c) for c in deck_a["cards"]],
@@ -605,7 +621,7 @@ def api_run_lab_experiment(exp_id: str, payload: dict = Body(default_factory=dic
         rules = resolve_simulation_rules(
             rule_preset=payload.get("rule_preset"),
             decks=cell_decks,
-            fallback=get_rules(),
+            fallback=rules_for_user(user),
         )
         return run_lab_experiment(
             existing,
@@ -646,7 +662,7 @@ def api_run_lab_script(exp_id: str, payload: dict = Body(default_factory=dict), 
             rules=resolve_simulation_rules(
                 rule_preset=payload.get("rule_preset"),
                 decks=usable_cell_decks or visible,
-                fallback=get_rules(),
+                fallback=rules_for_user(user),
             ),
             games=payload.get("games"),
             seed=payload.get("seed"),

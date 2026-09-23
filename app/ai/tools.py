@@ -19,7 +19,8 @@ from app.db import (
 )
 from app.engine.fate import compute_ceilings
 from app.engine.models import (
-    CANONICAL_RULE_PRESETS,
+    SELECTABLE_RULE_PRESETS,
+    rules_for_user,
     Card,
     infer_rule_preset_from_rules,
     resolve_simulation_rules,
@@ -75,14 +76,14 @@ TOOL_SCHEMAS = [
             "type": "object",
             "properties": {
                 "deck_id": {"type": "string"},
-                "rule_preset": {"type": "string", "description": "b, c, s30, or s60. Omit to use the deck's own rule."},
+                "rule_preset": {"type": "string", "description": "s30 or s60. Omit to use the deck's own rule, or the trainer's settings rule."},
             },
             "required": ["deck_id"],
         },
     },
     {
         "name": "simulate_match",
-        "description": "Run a Monte Carlo match between two decks. Use 1000-10000 games. Pass rule_preset b (30 cards 4 of a name, Pokémon = energy), c (30 cards 4 of a name), s30 (Standard 30, 2 of a name), or s60 (Standard 60). Does not change the Fight tab or git.",
+        "description": "Run a Monte Carlo match between two decks. Use 1000-10000 games. Pass rule_preset s30 (Standard 30, 2 of a name) or s60 (Standard 60, 4 of a name). Omit to use the trainer's settings rule, which defaults to s60. Does not change git.",
         "parameters": {
             "type": "object",
             "properties": {
@@ -101,7 +102,7 @@ TOOL_SCHEMAS = [
                 "queries": {"type": "array"},
                 "rule_preset": {
                     "type": "string",
-                    "description": "b, c, s30, or s60. Omit to infer from the two decks (E/F → c) or use household rules.",
+                    "description": "s30 or s60. Omit to use the trainer's settings rule (default s60). Archived 30-card sets still resolve from their own tag when both decks share it.",
                 },
                 "card_overlay": {
                     "type": "object",
@@ -133,7 +134,7 @@ TOOL_SCHEMAS = [
     },
     {
         "name": "get_rules",
-        "description": "Show the household default Family Cup rules plus selectable presets b, c, s30, and s60. Simulations may override with rule_preset; this does not change git.",
+        "description": "Show this trainer's rule. Default is Standard 60 cards, 4 of a name. Selectable presets are s30 and s60. This does not change git.",
         "parameters": {"type": "object", "properties": {}},
     },
     {
@@ -195,7 +196,7 @@ TOOL_SCHEMAS = [
                 "experiment_id": {"type": "string"},
                 "games": {"type": "integer"},
                 "seed": {"type": "integer"},
-                "rule_preset": {"type": "string", "description": "b, c, s30, or s60; omit to infer from the runs' decks."},
+                "rule_preset": {"type": "string", "description": "s30 or s60; omit to use the trainer's settings rule."},
             },
             "required": ["experiment_id"],
         },
@@ -213,7 +214,7 @@ TOOL_SCHEMAS = [
                 "experiment_id": {"type": "string"},
                 "games": {"type": "integer"},
                 "seed": {"type": "integer"},
-                "rule_preset": {"type": "string", "description": "b or c; omit to infer from saved decks."},
+                "rule_preset": {"type": "string", "description": "s30 or s60; omit to use the trainer's settings rule."},
             },
             "required": ["experiment_id"],
         },
@@ -455,17 +456,19 @@ def _replace_deck_card(args: dict[str, Any]) -> dict[str, Any]:
 
 def _match_rules(*, rule_preset: object = None, decks: list[dict | None] | None = None):
     try:
+        viewer = current_viewer()
+        fallback = rules_for_user(viewer) if viewer else get_rules()
         return resolve_simulation_rules(
             rule_preset=None if rule_preset in (None, "") else str(rule_preset),
             decks=decks or [],
-            fallback=get_rules(),
+            fallback=fallback,
         )
     except ValueError as exc:
         return {"error": str(exc)}
 
 
 def _default_ids() -> tuple[str, str]:
-    decks = _visible_decks()
+    decks = [d for d in _visible_decks() if not d.get("archived") and d.get("kind") != "spare"]
     if len(decks) >= 2:
         return decks[0]["id"], decks[1]["id"]
     if len(decks) == 1:
@@ -473,7 +476,7 @@ def _default_ids() -> tuple[str, str]:
     user = _VIEWER.get()
     if user and user.get("role") != "admin":
         return "", ""
-    return "seed-a", "seed-b"
+    return "seed-c60", "seed-g"
 
 
 def fill_default_args(args: dict[str, Any] | None, question: str | None = None) -> dict[str, Any]:
@@ -491,7 +494,13 @@ def fill_default_args(args: dict[str, Any] | None, question: str | None = None) 
 def run_tool(name: str, args: dict[str, Any]) -> Any:
     if name == "list_decks":
         return [
-            {"id": d["id"], "name": d["name"], "count": d["count"], "cards": [c["name"] for c in d["cards"]]}
+            {
+                "id": d["id"],
+                "name": d["name"],
+                "count": d["count"],
+                "archived": bool(d.get("archived")),
+                "cards": [c["name"] for c in d["cards"]],
+            }
             for d in _visible_decks()
         ]
     if name == "get_deck":
@@ -504,13 +513,16 @@ def run_tool(name: str, args: dict[str, Any]) -> Any:
             "cards": [_card_tool_view(card, i) for i, card in enumerate(deck.get("cards") or [])],
         }
     if name == "get_rules":
-        body = get_rules().to_dict()
+        viewer = current_viewer()
+        body = rules_for_user(viewer).to_dict() if viewer else get_rules().to_dict()
+        body["preset"] = (viewer or {}).get("rule_preset") or infer_rule_preset_from_rules(body)
         body["selectable_presets"] = [
-            {"id": key, "label": rule_preset_label(key)} for key in CANONICAL_RULE_PRESETS
+            {"id": key, "label": rule_preset_label(key)} for key in SELECTABLE_RULE_PRESETS
         ]
         body["note"] = (
-            "Pass rule_preset b, c, s30, or s60 on simulate_match or run_lab. "
-            "That runs in the chat sandbox and does not change the Fight tab or git."
+            "The trainer's rule lives in settings and defaults to Standard 60 (s60). "
+            "Pass rule_preset s30 or s60 on simulate_match or run_lab. "
+            "The retired 30-card, 4-of-a-name rules are archived with their sets."
         )
         return body
     if name == "list_lab":

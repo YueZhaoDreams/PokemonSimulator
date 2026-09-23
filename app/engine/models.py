@@ -283,6 +283,22 @@ RULE_PRESETS: dict[str, FamilyRules] = {
 }
 
 CANONICAL_RULE_PRESETS = ("b", "c", "s30", "s60")
+SELECTABLE_RULE_PRESETS = ("s30", "s60")
+DEPRECATED_RULE_PRESETS = ("b", "c")
+
+
+def deck_archived_for_presets(presets: list[str] | None) -> bool:
+    """Sets that only follow the retired 30-card, 4-of-a-name rules stay archived."""
+    keys = set(normalize_rule_presets(presets or []))
+    return bool(keys) and keys <= set(DEPRECATED_RULE_PRESETS)
+
+
+def rules_for_user(user: dict | None) -> FamilyRules:
+    """The trainer's settings rule. Missing or retired choices use Standard 60."""
+    key = canonical_rule_key((user or {}).get("rule_preset"))
+    if key in SELECTABLE_RULE_PRESETS:
+        return rules_from_preset(key)
+    return standard_60_rules()
 
 
 def rule_preset_label(key: str | None, fallback: str | None = None) -> str:
@@ -341,7 +357,7 @@ def resolve_simulation_rules(
     inferred = infer_rule_preset_from_decks(list(decks or []))
     if inferred:
         return rules_from_preset(inferred)
-    return fallback if fallback is not None else default_family_rules()
+    return fallback if fallback is not None else standard_60_rules()
 
 
 def normalize_rule_presets(raw: Any, fallback: list[str] | None = None) -> list[str]:
@@ -387,7 +403,7 @@ def default_rule_presets_for(deck_id: str | None) -> list[str]:
         return ["s60"]
     if did.startswith("seed-"):
         return ["b"]
-    return ["b"]
+    return ["s60"]
 
 
 def legacy_rule_presets_for(deck_id: str | None) -> list[str]:

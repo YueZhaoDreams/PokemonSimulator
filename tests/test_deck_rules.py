@@ -25,6 +25,7 @@ def test_new_set_follows_posted_rules_and_rejects_empty(tmp_path, monkeypatch):
         body = created.json()
         assert body["rule_presets"] == ["b", "c"]
         assert body["rule_preset"] == "any"
+        assert body["archived"] is True
 
         only_c = client.put(
             f"/api/decks/{body['id']}",
@@ -47,7 +48,8 @@ def test_create_defaults_to_pokemon_as_energy(tmp_path, monkeypatch):
     with _client(tmp_path, monkeypatch) as client:
         client.post("/api/auth/register", json={"email": "kid3@example.com", "password": "play"})
         created = client.post("/api/decks", json={"name": "Kid set", "cards": [{"name": "Cubone"}]})
-        assert created.json()["rule_presets"] == ["b"]
+        assert created.json()["rule_presets"] == ["s60"]
+        assert created.json()["archived"] is False
         under_c = client.put(
             f"/api/decks/{created.json()['id']}",
             json={"rule_preset": "c"},
@@ -59,6 +61,7 @@ def test_create_defaults_to_pokemon_as_energy(tmp_path, monkeypatch):
         )
         assert std.json()["rule_presets"] == ["s30", "s60"]
         assert std.json()["rule_preset"] == "any"
+        assert std.json()["archived"] is False
 
 
 def test_post_existing_id_keeps_cards_when_omitted(tmp_path, monkeypatch):
@@ -83,6 +86,7 @@ def test_save_deck_does_not_shrink_legacy_household_rules(tmp_path, monkeypatch)
     again = save_deck("Old household", [{"name": "Cubone"}, {"name": "Pikachu"}], deck_id=deck["id"])
     assert again["rule_presets"] == ["b", "c"]
     assert again["rule_preset"] == "any"
+    assert again["archived"] is True
 
 
 def test_seed_t_moves_from_rule_b_to_standard_30(tmp_path, monkeypatch):

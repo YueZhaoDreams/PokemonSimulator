@@ -9,11 +9,14 @@ from app.config import ADMIN_EMAIL, ADMIN_PASSWORD, DB_PATH
 from app.engine.models import (
     FamilyRules,
     S60_SEED_IDS,
+    deck_archived_for_presets,
     default_family_rules,
     default_rule_presets_for,
+    infer_rule_preset_from_rules,
     legacy_rule_presets_for,
     normalize_rule_presets,
     rule_preset_summary,
+    standard_60_rules,
 )
 
 SCHEMA = """
@@ -109,41 +112,50 @@ def init_db() -> None:
         if not row:
             conn.execute(
                 "INSERT INTO settings(key, value_json) VALUES (?, ?)",
-                ("rules", json.dumps(default_family_rules().to_dict())),
+                ("rules", json.dumps(standard_60_rules().to_dict())),
             )
         else:
             stored = json.loads(row["value_json"])
-            fresh = default_family_rules()
-            changed = False
-            if stored.get("deck_size") == 28:
-                stored["deck_size"] = fresh.deck_size
-                changed = True
-            if stored.get("extra_prize_for_ex") is not True:
-                stored["extra_prize_for_ex"] = True
-                changed = True
-            if stored.get("max_copies_except_basic_energy") in (None, 0):
-                stored["max_copies_except_basic_energy"] = fresh.max_copies_except_basic_energy
-                changed = True
-            if stored.get("name") == "Family Cup (Rule B)":
-                stored["name"] = fresh.name
-                changed = True
-            if "one card per mulligan" not in (stored.get("notes") or ""):
-                stored["notes"] = fresh.notes
-                changed = True
-            if changed:
-                stored["notes"] = fresh.notes
+            if infer_rule_preset_from_rules(FamilyRules.from_dict(stored)) in {"b", "c"}:
                 conn.execute(
                     "UPDATE settings SET value_json=? WHERE key='rules'",
-                    (json.dumps(stored),),
+                    (json.dumps(standard_60_rules().to_dict()),),
                 )
+            else:
+                fresh = default_family_rules()
+                changed = False
+                if stored.get("deck_size") == 28:
+                    stored["deck_size"] = fresh.deck_size
+                    changed = True
+                if stored.get("extra_prize_for_ex") is not True:
+                    stored["extra_prize_for_ex"] = True
+                    changed = True
+                if stored.get("max_copies_except_basic_energy") in (None, 0):
+                    stored["max_copies_except_basic_energy"] = fresh.max_copies_except_basic_energy
+                    changed = True
+                if stored.get("name") == "Family Cup (Rule B)":
+                    stored["name"] = fresh.name
+                    changed = True
+                if "one card per mulligan" not in (stored.get("notes") or ""):
+                    stored["notes"] = fresh.notes
+                    changed = True
+                if changed:
+                    stored["notes"] = fresh.notes
+                    conn.execute(
+                        "UPDATE settings SET value_json=? WHERE key='rules'",
+                        (json.dumps(stored),),
+                    )
         _ensure_chat_agent_id(conn)
         _ensure_owner_columns(conn)
         _ensure_deck_rules_column(conn)
+        _ensure_user_rule_column(conn)
         _ensure_lab_experiments(conn)
         _ensure_user_strategies(conn)
         _ensure_scan_jobs(conn)
         admin_id = _ensure_admin(conn)
         _upsert_seed_decks(conn, owner_id=admin_id)
+        _ensure_archived_column(conn)
+        _ensure_user_rule_column(conn)
         conn.execute(
             "UPDATE decks SET owner_id=? WHERE owner_id IS NULL OR owner_id=''",
             (admin_id,),
@@ -244,6 +256,36 @@ def _ensure_user_strategies(conn: sqlite3.Connection) -> None:
         )
         """
     )
+
+
+def _ensure_user_rule_column(conn: sqlite3.Connection) -> None:
+    cols = {row[1] for row in conn.execute("PRAGMA table_info(users)")}
+    if "rule_preset" not in cols:
+        conn.execute("ALTER TABLE users ADD COLUMN rule_preset TEXT")
+    conn.execute(
+        "UPDATE users SET rule_preset='s60' WHERE rule_preset IS NULL OR rule_preset IN ('b', 'c', '')"
+    )
+
+
+def _presets_for_archive(row: sqlite3.Row) -> list[str]:
+    raw = None
+    if row["rules_json"]:
+        try:
+            raw = json.loads(row["rules_json"])
+        except (TypeError, json.JSONDecodeError):
+            raw = None
+    presets = normalize_rule_presets(raw, fallback=legacy_rule_presets_for(row["id"]))
+    return presets or legacy_rule_presets_for(row["id"])
+
+
+def _ensure_archived_column(conn: sqlite3.Connection) -> None:
+    cols = {row[1] for row in conn.execute("PRAGMA table_info(decks)")}
+    if "archived" not in cols:
+        conn.execute("ALTER TABLE decks ADD COLUMN archived INTEGER NOT NULL DEFAULT 0")
+    rows = conn.execute("SELECT id, rules_json FROM decks").fetchall()
+    for row in rows:
+        archived = 1 if deck_archived_for_presets(_presets_for_archive(row)) else 0
+        conn.execute("UPDATE decks SET archived=? WHERE id=?", (archived, row["id"]))
 
 
 def _ensure_scan_jobs(conn: sqlite3.Connection) -> None:
@@ -389,7 +431,10 @@ def finish_scan_job(job_id: str, status: str, payload: dict) -> None:
 def get_rules() -> FamilyRules:
     with connect() as conn:
         row = conn.execute("SELECT value_json FROM settings WHERE key='rules'").fetchone()
-    return FamilyRules.from_dict(json.loads(row["value_json"]) if row else {})
+    rules = FamilyRules.from_dict(json.loads(row["value_json"]) if row else {})
+    if infer_rule_preset_from_rules(rules) in {"b", "c"}:
+        return standard_60_rules()
+    return rules
 
 
 def save_rules(rules: FamilyRules) -> FamilyRules:
@@ -405,13 +450,13 @@ def list_decks(owner_id: str | None = None) -> list[dict]:
     with connect() as conn:
         if owner_id:
             rows = conn.execute(
-                "SELECT id, name, source, cards_json, created_at, owner_id, rules_json FROM decks "
+                "SELECT id, name, source, cards_json, created_at, owner_id, rules_json, archived FROM decks "
                 "WHERE owner_id=? ORDER BY created_at",
                 (owner_id,),
             ).fetchall()
         else:
             rows = conn.execute(
-                "SELECT id, name, source, cards_json, created_at, owner_id, rules_json FROM decks ORDER BY created_at"
+                "SELECT id, name, source, cards_json, created_at, owner_id, rules_json, archived FROM decks ORDER BY created_at"
             ).fetchall()
     decks = []
     for row in rows:
@@ -442,8 +487,16 @@ def _deck_dict(row: sqlite3.Row, cards: list) -> dict:
         "kind": _deck_kind(row["id"]),
         "rule_preset": rule_preset_summary(presets),
         "rule_presets": presets,
+        "archived": _row_archived(row, presets),
         "cards": _fill_deck_card_images(cards),
     }
+
+
+def _row_archived(row: sqlite3.Row, presets: list[str]) -> bool:
+    keys = row.keys()
+    if "archived" in keys and row["archived"] is not None:
+        return bool(row["archived"])
+    return deck_archived_for_presets(presets)
 
 
 def _fill_deck_card_images(cards: list) -> list:
@@ -497,6 +550,7 @@ def save_deck(
             presets = None
         else:
             presets = legacy_rule_presets_for(deck_id)
+        archived = None if presets is None else (1 if deck_archived_for_presets(presets) else 0)
         if existing:
             if presets is None:
                 conn.execute(
@@ -505,12 +559,15 @@ def save_deck(
                 )
             else:
                 conn.execute(
-                    "UPDATE decks SET name=?, source=?, cards_json=?, owner_id=COALESCE(owner_id, ?), rules_json=? WHERE id=?",
-                    (name, source, json.dumps(cards), owner_id, json.dumps(presets), deck_id),
+                    "UPDATE decks SET name=?, source=?, cards_json=?, owner_id=COALESCE(owner_id, ?), "
+                    "rules_json=?, archived=? WHERE id=?",
+                    (name, source, json.dumps(cards), owner_id, json.dumps(presets), archived, deck_id),
                 )
         else:
+            stored = presets or default_rule_presets_for(deck_id)
             conn.execute(
-                "INSERT INTO decks(id, name, source, cards_json, created_at, owner_id, rules_json) VALUES (?,?,?,?,?,?,?)",
+                "INSERT INTO decks(id, name, source, cards_json, created_at, owner_id, rules_json, archived) "
+                "VALUES (?,?,?,?,?,?,?,?)",
                 (
                     deck_id,
                     name,
@@ -518,7 +575,8 @@ def save_deck(
                     json.dumps(cards),
                     now,
                     owner_id,
-                    json.dumps(presets or default_rule_presets_for(deck_id)),
+                    json.dumps(stored),
+                    1 if deck_archived_for_presets(stored) else 0,
                 ),
             )
     return get_deck(deck_id)
@@ -906,6 +964,20 @@ def get_user_by_id(user_id: str) -> dict | None:
     with connect() as conn:
         row = conn.execute("SELECT * FROM users WHERE id=?", (user_id,)).fetchone()
     return public_user(row) if row else None
+
+
+def set_user_rule(user_id: str, preset: str) -> dict:
+    from app.engine.models import SELECTABLE_RULE_PRESETS, canonical_rule_key
+
+    key = canonical_rule_key(preset)
+    if key not in SELECTABLE_RULE_PRESETS:
+        raise ValueError("Choose Standard 30 or Standard 60")
+    with connect() as conn:
+        conn.execute("UPDATE users SET rule_preset=? WHERE id=?", (key, user_id))
+    user = get_user_by_id(user_id)
+    if not user:
+        raise ValueError("User not found")
+    return user
 
 
 def create_user(email: str, password_hash: str, role: str = "member") -> dict:

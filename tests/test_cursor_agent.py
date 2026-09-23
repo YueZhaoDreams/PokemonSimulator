@@ -62,9 +62,10 @@ def test_family_cup_tools_match_schemas_and_run():
     tools = family_cup_tools()
     assert set(tools) == {schema["name"] for schema in TOOL_SCHEMAS}
     rules = tools["get_rules"].execute({}, None)
-    assert rules["deck_size"] == 30
-    assert rules["prize_count"] == 3
-    assert {p["id"] for p in rules["selectable_presets"]} == {"b", "c", "s30", "s60"}
+    assert rules["deck_size"] == 60
+    assert rules["prize_count"] == 6
+    assert rules["max_copies_except_basic_energy"] == 4
+    assert {p["id"] for p in rules["selectable_presets"]} == {"s30", "s60"}
     assert "rule_preset" in rules["note"]
     names = [item["name"] for item in tools["list_strategies"].execute({}, None)]
     assert "thrifty" in names
@@ -103,7 +104,8 @@ def test_family_cup_brief_does_not_invite_repo_edits():
     assert "in-process tool" in lowered
     assert "cannot edit the git checkout" in lowered
     assert "rule_preset" in FAMILY_CUP_BRIEF
-    assert "Fight tab" in FAMILY_CUP_BRIEF
+    assert "account settings" in FAMILY_CUP_BRIEF
+    assert "archived" in FAMILY_CUP_BRIEF
     assert "change the logo" in FAMILY_CUP_BRIEF
     assert "rule_preset" in FOLLOWUP_TOOL_HINT
     assert "replace_deck_card" in FAMILY_CUP_BRIEF
