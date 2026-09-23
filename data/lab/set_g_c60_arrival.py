@@ -6,6 +6,10 @@ Ultra Ball (G already has 1), 2 Poké Pad, 2 Rebel Clash Prankish Clefable.
 C60's lock wants 2 / 1 / 2 / 1 / 1 of those. The second Pad and the second
 Prankish are the extras. This matrix swaps them into live SET_G_NAMES.
 
+Result (seed 20260923, 3,000): sleeve none of them. See
+data/lab/set-g-c60-arrival.md. The Pad-for-Ledian bump was the Ledian cut;
+Ledian → Psychic Energy beats adding the Pad.
+
 Seed 20260923. Games from LAB_GAMES (default 3,000). Side A is the trial
 list with strategy g; first player is random.
 """
@@ -134,6 +138,10 @@ def g_lists() -> list[tuple[str, list[str]]]:
             ),
         ),
         ("pad_ledian", _replace(base, [("Ledian", "Poké Pad")])),
+        # Controls: pad_ledian mixes "cut a Ledian" with "add a Pad".
+        ("ledian_energy", _replace(base, [("Ledian", "Psychic Energy")])),
+        ("iris_pad", _replace(base, [("Iris's Fighting Spirit", "Poké Pad")])),
+        ("psychic_pad", _replace(base, [("Psychic Energy", "Poké Pad")])),
     ]
 
 
