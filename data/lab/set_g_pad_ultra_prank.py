@@ -213,7 +213,7 @@ def main() -> None:
     payload = {
         "games": GAMES,
         "seed": SEED,
-        "policy": "hole_hold",
+        "policy": "hole_ex",
         "elapsed": round(time.perf_counter() - started, 1),
         "lists": {variant: names for variant, names in variants},
         "cells": ordered,

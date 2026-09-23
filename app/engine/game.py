@@ -2359,16 +2359,34 @@ class Game:
     def _g_tutor_hole(self, me: Player, who: str, *, kind: str) -> str | None:
         """Poké Pad and Ultra Ball fetch one missing piece, or nothing.
 
-        Held when the piece is already in hand or play. Clefairy stays first
-        until three are owned, so Party keeps its bench. Prankish is next only
-        when two Clefairy are out and the opponent's Active has an Energy.
-        Ultra Ball may take Clefable ex while Lunar Zone is missing, and Mega
-        only after that ex is in play. Pad cannot take either. The gust line
-        and Munkidori come before Starly. Nest Ball and Poffin keep the old list.
+        Held when the piece is already in hand or play. Pad finishes three
+        Clefairy first. Ultra Ball takes Clefable ex once any Clefairy is owned
+        and Lunar Zone is missing, ahead of another Clefairy. Prankish is next
+        only when two Clefairy are out and the opponent's Active has an Energy.
+        Mega only after that ex is in play. Pad cannot take a Rule Box. The gust
+        line and Munkidori come before Starly. Nest Ball and Poffin keep the old list.
         """
         rule_box = kind == "ultra"
         foe = self.players["b" if who == "a" else "a"]
-        if self._g_have(me, "Clefairy") < 3 and self._g_copies(me, "Clefairy", "deck"):
+        # Ultra Ball already finds Clefable ex once a Clefairy exists. Forcing
+        # another Clefairy ahead of that ex dropped the mirror. Pad is free,
+        # so it still finishes the three Clefairy first.
+        if rule_box:
+            if self._g_have(me, "Clefairy") == 0 and self._g_copies(me, "Clefairy", "deck"):
+                return "Clefairy"
+            if (
+                not self._has_lunar_zone(me)
+                and self._g_have(me, "Clefable ex") == 0
+                and self._g_copies(me, "Clefable ex", "deck")
+            ):
+                return "Clefable ex"
+            if (
+                self._g_have(me, "Clefairy") < 3
+                and self._g_copies(me, "Clefairy", "hand") == 0
+                and self._g_copies(me, "Clefairy", "deck")
+            ):
+                return "Clefairy"
+        elif self._g_have(me, "Clefairy") < 3 and self._g_copies(me, "Clefairy", "deck"):
             return "Clefairy"
         if (
             foe.active
@@ -2379,14 +2397,6 @@ class Game:
             and not any(self._is_prankish_clefable(me.card(m.card_i)) for m in me.in_play())
         ):
             return "Clefable"
-        if (
-            rule_box
-            and self._g_copies(me, "Clefairy", "play") >= 1
-            and not self._has_lunar_zone(me)
-            and self._g_have(me, "Clefable ex") == 0
-            and self._g_copies(me, "Clefable ex", "deck")
-        ):
-            return "Clefable ex"
         if (
             self._g_have(me, "Ledyba") == 0
             and self._g_have(me, "Ledian") == 0

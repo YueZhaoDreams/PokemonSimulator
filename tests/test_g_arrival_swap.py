@@ -206,6 +206,37 @@ def test_g_pad_and_ultra_ball_are_held_when_the_holes_are_filled():
     assert game._pick_trainer(me) is None
 
 
+def test_g_ultra_ball_takes_ex_before_a_second_clefairy():
+    game = _pad_game()
+    me, foe = game.players["a"], game.players["b"]
+    used: set[int] = set()
+    clef_hand = _pull(me, "Clefairy", used)
+    clef_deck = _pull(me, "Clefairy", used)
+    ex = _pull(me, "Clefable ex", used)
+    ultra = _pull(me, "Ultra Ball", used)
+    me.active = None
+    me.bench = []
+    me.hand = [ultra, clef_hand]
+    me.deck = [ex, clef_deck]
+    foe.active = _bench(_pull(foe, "Dragapult ex", set()))
+    assert game._g_tutor_hole(me, "a", kind="ultra") == "Clefable ex"
+
+
+def test_g_ultra_ball_takes_clefairy_when_none_are_owned():
+    game = _pad_game()
+    me, foe = game.players["a"], game.players["b"]
+    used: set[int] = set()
+    clef = _pull(me, "Clefairy", used)
+    ex = _pull(me, "Clefable ex", used)
+    ultra = _pull(me, "Ultra Ball", used)
+    me.active = None
+    me.bench = []
+    me.hand = [ultra]
+    me.deck = [ex, clef]
+    foe.active = _bench(_pull(foe, "Dragapult ex", set()))
+    assert game._g_tutor_hole(me, "a", kind="ultra") == "Clefairy"
+
+
 def test_g_ultra_ball_fetches_ledian_once_clefable_ex_is_in_hand():
     game = _pad_game()
     me, foe = game.players["a"], game.players["b"]
