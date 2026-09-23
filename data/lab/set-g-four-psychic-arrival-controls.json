@@ -1,0 +1,402 @@
+{
+  "games_per_seed": 3000,
+  "seeds": [
+    20260926,
+    20260927
+  ],
+  "elapsed": 194.9,
+  "cells": {
+    "iris_energy": {
+      "t60": {
+        "wins": 1823,
+        "games": 6000,
+        "by_seed": {
+          "20260926": {
+            "wins": 904,
+            "games": 3000,
+            "party": 2259,
+            "prankish": 0,
+            "pad": 0,
+            "stretcher": 2016,
+            "ultra": 2866,
+            "drayton": 1028
+          },
+          "20260927": {
+            "wins": 919,
+            "games": 3000,
+            "party": 2258,
+            "prankish": 0,
+            "pad": 0,
+            "stretcher": 2052,
+            "ultra": 2842,
+            "drayton": 996
+          }
+        },
+        "a": 0.30383333333333334
+      },
+      "hedrick": {
+        "wins": 2429,
+        "games": 6000,
+        "by_seed": {
+          "20260926": {
+            "wins": 1190,
+            "games": 3000,
+            "party": 2249,
+            "prankish": 0,
+            "pad": 0,
+            "stretcher": 2336,
+            "ultra": 2810,
+            "drayton": 919
+          },
+          "20260927": {
+            "wins": 1239,
+            "games": 3000,
+            "party": 2257,
+            "prankish": 0,
+            "pad": 0,
+            "stretcher": 2357,
+            "ultra": 2809,
+            "drayton": 943
+          }
+        },
+        "a": 0.4048333333333333
+      },
+      "unl": {
+        "wins": 3359,
+        "games": 6000,
+        "by_seed": {
+          "20260926": {
+            "wins": 1678,
+            "games": 3000,
+            "party": 2391,
+            "prankish": 0,
+            "pad": 0,
+            "stretcher": 1464,
+            "ultra": 2869,
+            "drayton": 1212
+          },
+          "20260927": {
+            "wins": 1681,
+            "games": 3000,
+            "party": 2433,
+            "prankish": 0,
+            "pad": 0,
+            "stretcher": 1454,
+            "ultra": 2887,
+            "drayton": 1200
+          }
+        },
+        "a": 0.5598333333333333
+      },
+      "d60": {
+        "wins": 315,
+        "games": 6000,
+        "by_seed": {
+          "20260926": {
+            "wins": 162,
+            "games": 3000,
+            "party": 2251,
+            "prankish": 0,
+            "pad": 0,
+            "stretcher": 240,
+            "ultra": 2513,
+            "drayton": 1025
+          },
+          "20260927": {
+            "wins": 153,
+            "games": 3000,
+            "party": 2196,
+            "prankish": 0,
+            "pad": 0,
+            "stretcher": 227,
+            "ultra": 2505,
+            "drayton": 1029
+          }
+        },
+        "a": 0.0525
+      },
+      "c60": {
+        "wins": 1935,
+        "games": 6000,
+        "by_seed": {
+          "20260926": {
+            "wins": 969,
+            "games": 3000,
+            "party": 2867,
+            "prankish": 0,
+            "pad": 0,
+            "stretcher": 1312,
+            "ultra": 2430,
+            "drayton": 994
+          },
+          "20260927": {
+            "wins": 966,
+            "games": 3000,
+            "party": 2863,
+            "prankish": 0,
+            "pad": 0,
+            "stretcher": 1306,
+            "ultra": 2453,
+            "drayton": 948
+          }
+        },
+        "a": 0.3225
+      },
+      "s60": {
+        "wins": 4885,
+        "games": 6000,
+        "by_seed": {
+          "20260926": {
+            "wins": 2438,
+            "games": 3000,
+            "party": 2321,
+            "prankish": 0,
+            "pad": 0,
+            "stretcher": 1309,
+            "ultra": 2647,
+            "drayton": 1225
+          },
+          "20260927": {
+            "wins": 2447,
+            "games": 3000,
+            "party": 2336,
+            "prankish": 0,
+            "pad": 0,
+            "stretcher": 1374,
+            "ultra": 2676,
+            "drayton": 1183
+          }
+        },
+        "a": 0.8141666666666667
+      },
+      "h": {
+        "wins": 5725,
+        "games": 6000,
+        "by_seed": {
+          "20260926": {
+            "wins": 2864,
+            "games": 3000,
+            "party": 1968,
+            "prankish": 0,
+            "pad": 0,
+            "stretcher": 0,
+            "ultra": 730,
+            "drayton": 776
+          },
+          "20260927": {
+            "wins": 2861,
+            "games": 3000,
+            "party": 1934,
+            "prankish": 0,
+            "pad": 0,
+            "stretcher": 0,
+            "ultra": 766,
+            "drayton": 775
+          }
+        },
+        "a": 0.9541666666666667
+      }
+    },
+    "drayton_energy": {
+      "t60": {
+        "wins": 1835,
+        "games": 6000,
+        "by_seed": {
+          "20260926": {
+            "wins": 930,
+            "games": 3000,
+            "party": 2237,
+            "prankish": 0,
+            "pad": 0,
+            "stretcher": 2003,
+            "ultra": 2872,
+            "drayton": 0
+          },
+          "20260927": {
+            "wins": 905,
+            "games": 3000,
+            "party": 2196,
+            "prankish": 0,
+            "pad": 0,
+            "stretcher": 2019,
+            "ultra": 2852,
+            "drayton": 0
+          }
+        },
+        "a": 0.30583333333333335
+      },
+      "hedrick": {
+        "wins": 2472,
+        "games": 6000,
+        "by_seed": {
+          "20260926": {
+            "wins": 1250,
+            "games": 3000,
+            "party": 2221,
+            "prankish": 0,
+            "pad": 0,
+            "stretcher": 2347,
+            "ultra": 2791,
+            "drayton": 0
+          },
+          "20260927": {
+            "wins": 1222,
+            "games": 3000,
+            "party": 2229,
+            "prankish": 0,
+            "pad": 0,
+            "stretcher": 2310,
+            "ultra": 2824,
+            "drayton": 0
+          }
+        },
+        "a": 0.412
+      },
+      "unl": {
+        "wins": 3276,
+        "games": 6000,
+        "by_seed": {
+          "20260926": {
+            "wins": 1641,
+            "games": 3000,
+            "party": 2408,
+            "prankish": 0,
+            "pad": 0,
+            "stretcher": 1462,
+            "ultra": 2876,
+            "drayton": 0
+          },
+          "20260927": {
+            "wins": 1635,
+            "games": 3000,
+            "party": 2424,
+            "prankish": 0,
+            "pad": 0,
+            "stretcher": 1449,
+            "ultra": 2886,
+            "drayton": 0
+          }
+        },
+        "a": 0.546
+      },
+      "d60": {
+        "wins": 302,
+        "games": 6000,
+        "by_seed": {
+          "20260926": {
+            "wins": 143,
+            "games": 3000,
+            "party": 2202,
+            "prankish": 0,
+            "pad": 0,
+            "stretcher": 219,
+            "ultra": 2479,
+            "drayton": 0
+          },
+          "20260927": {
+            "wins": 159,
+            "games": 3000,
+            "party": 2187,
+            "prankish": 0,
+            "pad": 0,
+            "stretcher": 214,
+            "ultra": 2464,
+            "drayton": 0
+          }
+        },
+        "a": 0.050333333333333334
+      },
+      "c60": {
+        "wins": 1908,
+        "games": 6000,
+        "by_seed": {
+          "20260926": {
+            "wins": 976,
+            "games": 3000,
+            "party": 2870,
+            "prankish": 0,
+            "pad": 0,
+            "stretcher": 1281,
+            "ultra": 2391,
+            "drayton": 0
+          },
+          "20260927": {
+            "wins": 932,
+            "games": 3000,
+            "party": 2867,
+            "prankish": 0,
+            "pad": 0,
+            "stretcher": 1307,
+            "ultra": 2409,
+            "drayton": 0
+          }
+        },
+        "a": 0.318
+      },
+      "s60": {
+        "wins": 4929,
+        "games": 6000,
+        "by_seed": {
+          "20260926": {
+            "wins": 2486,
+            "games": 3000,
+            "party": 2332,
+            "prankish": 0,
+            "pad": 0,
+            "stretcher": 1368,
+            "ultra": 2620,
+            "drayton": 0
+          },
+          "20260927": {
+            "wins": 2443,
+            "games": 3000,
+            "party": 2308,
+            "prankish": 0,
+            "pad": 0,
+            "stretcher": 1384,
+            "ultra": 2661,
+            "drayton": 0
+          }
+        },
+        "a": 0.8215
+      },
+      "h": {
+        "wins": 5765,
+        "games": 6000,
+        "by_seed": {
+          "20260926": {
+            "wins": 2878,
+            "games": 3000,
+            "party": 1933,
+            "prankish": 0,
+            "pad": 0,
+            "stretcher": 0,
+            "ultra": 716,
+            "drayton": 0
+          },
+          "20260927": {
+            "wins": 2887,
+            "games": 3000,
+            "party": 1941,
+            "prankish": 0,
+            "pad": 0,
+            "stretcher": 0,
+            "ultra": 755,
+            "drayton": 0
+          }
+        },
+        "a": 0.9608333333333333
+      }
+    }
+  },
+  "weighted_competitive": {
+    "iris_energy": 0.2234859510889764,
+    "drayton_energy": 0.2250604202284497
+  },
+  "weighted_all": {
+    "iris_energy": 0.3193029443480707,
+    "drayton_energy": 0.31812668979636494
+  },
+  "base_weighted_competitive": 0.22134184444609625,
+  "base_weighted_all": 0.32075370778439366
+}

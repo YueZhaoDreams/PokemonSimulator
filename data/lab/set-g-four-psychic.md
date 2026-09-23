@@ -37,3 +37,5 @@ Review: seeds `20260924` and `20260925`, 6,000 games per cell, policy `ultra_fix
 Poké Pad ties the Ledyba it replaces and stays out of this lock. The second Ultra Ball is the loss in the three-card package. Prankish bounces and still loses to a Psychic in the Munkidori slot, because evolving a benched Clefairy removes a Party target.
 
 Nest/Zone stays frozen. C60 is unchanged. The historical tele2 list in [set-g-c60-telepathic.md](set-g-c60-telepathic.md) stays 15 Psychic + 2 Telepathic and 4/4 Ledian.
+
+The next box (Lillie, Night Stretcher, a second Ultra Ball, Poké Pad, Prankish) was measured on this list in [set-g-four-psychic-arrival.md](set-g-four-psychic-arrival.md). It is not part of this lock.
