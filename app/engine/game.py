@@ -2975,6 +2975,81 @@ class Game:
                 taken += 1
         return taken
 
+    def _g_named(self, me: Player, name: str) -> bool:
+        key = name.lower()
+        if any(me.card(i).name.lower() == key for i in me.hand):
+            return True
+        return any(me.card(m.card_i).name.lower() == key for m in me.in_play())
+
+    def _g_tutor_prefer(self, me: Player) -> list[str]:
+        """Poké Pad / Ultra Ball choose the missing piece.
+
+        Pad is every non-Rule-Box Pokémon. Ultra Ball is any Pokémon. Clefairy
+        comes first only while the Party engine is under two copies. Prankish
+        comes next when the opponent's Active has an Energy to bounce. The
+        gust line, Munkidori, and the bird line fill the other holes. Clefable
+        ex and Mega sit in this list for Ultra Ball; Pad's rule-box filter
+        skips them.
+        """
+        prefer: list[str] = []
+        clef_have = self._count_named_in_play(me, "Clefairy") + sum(
+            1 for i in me.hand if self._is_clefairy(me.card(i))
+        )
+        if clef_have < 2:
+            prefer.append("Clefairy")
+
+        foe = self.players["b" if me.name == "A" else "a"]
+        bounce = bool(foe.active and foe.active.energy)
+        if (
+            bounce
+            and clef_have >= 1
+            and self._prankish_hand_index(me) is None
+            and not any(self._is_prankish_clefable(me.card(m.card_i)) for m in me.in_play())
+        ):
+            prefer.append("Clefable")
+
+        ledian_out = self._g_named(me, "Ledian")
+        ledyba_out = self._g_named(me, "Ledyba")
+        if not ledian_out and not ledyba_out:
+            prefer.append("Ledyba")
+        elif not ledian_out:
+            prefer.append("Ledian")
+
+        if not self._g_named(me, "Munkidori"):
+            prefer.append("Munkidori")
+
+        if not self._has_lunar_zone(me) and not self._g_named(me, "Clefable ex"):
+            prefer.append("Clefable ex")
+        if not any("mega clefable" in me.card(m.card_i).name.lower() for m in me.in_play()) and not any(
+            "mega clefable" in me.card(i).name.lower() for i in me.hand
+        ):
+            prefer.append("Mega Clefable ex")
+
+        bird_out = any(self._g_named(me, name) for name in ("Starly", "Staravia", "Staraptor"))
+        if not bird_out:
+            prefer.append("Starly")
+        elif self._g_named(me, "Starly") and not self._g_named(me, "Staravia") and not self._g_named(me, "Staraptor"):
+            prefer.append("Staravia")
+        elif self._g_named(me, "Staravia") and not self._g_named(me, "Staraptor"):
+            prefer.append("Staraptor")
+
+        if clef_have < 3:
+            prefer.append("Clefairy")
+        prefer.extend(
+            [
+                "Clefable",
+                "Ledyba",
+                "Ledian",
+                "Munkidori",
+                "Staravia",
+                "Staraptor",
+                "Clefable ex",
+                "Mega Clefable ex",
+                "Flutter Mane",
+            ]
+        )
+        return list(dict.fromkeys(prefer))
+
     def _pokemon_search_prefer(self, me: Player, who: str) -> list[str]:
         strat = self.strats[who]
         if strat.name in {"mew_baby", "baby"}:
@@ -3058,44 +3133,7 @@ class Game:
                     prefer.append("Shaymin")
             return list(dict.fromkeys(prefer))
         if strat.name == "g":
-            prefer: list[str] = []
-            if self._count_named_in_play(me, "Clefairy") < 3:
-                prefer.append("Clefairy")
-            if not any(me.card(m.card_i).name.lower() == "starly" for m in me.in_play()):
-                prefer.append("Starly")
-            if not any(me.card(m.card_i).name.lower() == "ledyba" for m in me.in_play()):
-                prefer.append("Ledyba")
-            if not any(me.card(m.card_i).name.lower() == "flutter mane" for m in me.in_play()):
-                prefer.append("Flutter Mane")
-            prefer.extend(
-                [
-                    "Staravia",
-                    "Staraptor",
-                    "Ledian",
-                    "Mismagius",
-                    "Mega Clefable ex",
-                    "Munkidori",
-                    "Indeedee",
-                    "Plusle",
-                    "Iron Boulder",
-                    "Tornadus",
-                    "Oranguru",
-                ]
-            )
-            # Ultra Ball can find the evolution. Nest Ball ignores non-basics.
-            # Insert after the first missing Clefairy so the Party basic still comes first.
-            if not self._has_lunar_zone(me) and not any(
-                me.card(i).name.lower() == "clefable ex" for i in me.hand
-            ):
-                prefer.insert(1 if prefer and prefer[0] == "Clefairy" else 0, "Clefable ex")
-            if (
-                self._print_in_deck(me, self._is_prankish_clefable)
-                and self._prankish_hand_index(me) is None
-                and not any(self._is_prankish_clefable(me.card(m.card_i)) for m in me.in_play())
-            ):
-                insert_at = 1 if prefer and prefer[0] == "Clefairy" else 0
-                prefer.insert(insert_at, "Clefable")
-            return list(dict.fromkeys(prefer))
+            return self._g_tutor_prefer(me)
         if strat.name == "slash":
             prefer: list[str] = []
             if self._slash_tank_mon(me) is None and not any(self._is_slash_tank(me.card(i)) for i in me.hand):
@@ -3333,6 +3371,7 @@ class Game:
             found_name = me.card(card_i).name
             self._bump(f"tutor:{found_name}")
             self._bump(f"tutor:{found_name}:{source}")
+            self._bump(f"tutor_{me.name.lower()}:{found_name}:{source}")
         self.rng.shuffle(me.deck)
         return last
 

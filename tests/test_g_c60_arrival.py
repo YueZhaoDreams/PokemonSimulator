@@ -29,7 +29,10 @@ def test_arrival_lists_stay_legal_and_live_is_the_lock():
     rules = standard_60_rules()
     lists = dict(lab.g_lists())
     assert lists["live"] == list(SET_G_NAMES)
-    assert SET_G_NAMES.count("Ledian") == 4
+    assert SET_G_NAMES.count("Ledian") == 3
+    assert SET_G_NAMES.count("Ledyba") == 4
+    assert SET_G_NAMES.count("Munkidori") == 2
+    assert SET_G_NAMES.count("Psychic Energy") == 16
     assert SET_G_NAMES.count("Lillie") == 0
     assert SET_G_NAMES.count("Poké Pad") == 0
     assert SET_G_NAMES.count("Night Stretcher") == 0

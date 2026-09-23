@@ -69,16 +69,30 @@ def test_four_telepathic_is_legal_on_both_lists():
 
 
 def test_g_lock_is_nest_zone_plus_two_telepathic():
-    locked = Counter(SET_G_NAMES)
+    historical = LAB.with_telepathic(SET_G_NEST_ZONE_NAMES, 2)
     nest = Counter(SET_G_NEST_ZONE_NAMES)
-    assert len(SET_G_NAMES) == 60
-    assert nest - locked == Counter({"Psychic Energy": 2})
-    assert locked - nest == Counter({"Telepathic Psychic Energy": 2})
-    assert locked["Psychic Energy"] == 15
-    assert locked["Telepathic Psychic Energy"] == 2
-    assert list(SET_G_NAMES) == LAB.with_telepathic(SET_G_NEST_ZONE_NAMES, 2)
-    assert list(dict(LAB.g_lists())["tele2"]) == list(SET_G_NAMES)
+    assert len(historical) == 60
+    assert nest - Counter(historical) == Counter({"Psychic Energy": 2})
+    assert Counter(historical) - nest == Counter({"Telepathic Psychic Energy": 2})
+    assert historical.count("Psychic Energy") == 15
+    assert historical.count("Telepathic Psychic Energy") == 2
+    assert historical.count("Ledian") == 4
+    assert list(dict(LAB.g_lists())["tele2"]) == historical
     assert list(dict(LAB.c60_lists())["tele2"]) == list(SET_C60_NAMES)
+    assert copy_violations(build_fallback_deck(historical), standard_60_rules()) == []
+
+
+def test_live_g_trades_one_ledian_for_a_psychic():
+    historical = Counter(LAB.with_telepathic(SET_G_NEST_ZONE_NAMES, 2))
+    locked = Counter(SET_G_NAMES)
+    assert len(SET_G_NAMES) == 60
+    assert locked["Ledian"] == 3
+    assert locked["Ledyba"] == 4
+    assert locked["Munkidori"] == 2
+    assert locked["Psychic Energy"] == 16
+    assert locked["Telepathic Psychic Energy"] == 2
+    assert historical - locked == Counter({"Ledian": 1})
+    assert locked - historical == Counter({"Psychic Energy": 1})
     assert copy_violations(build_fallback_deck(list(SET_G_NAMES)), standard_60_rules()) == []
 
 
@@ -100,7 +114,7 @@ def test_bakeoff_sleeves_two_not_four():
     assert c60["lists"]["tele2"].count("Telepathic Psychic Energy") == 2
     assert Counter(SET_C60_NAMES)["Telepathic Psychic Energy"] == 2
     assert Counter(SET_C60_NAMES)["Penny"] == 0
-    assert Counter(g["lists"]["tele2"]) == Counter(SET_G_NAMES)
+    assert Counter(g["lists"]["tele2"]) == Counter(LAB.with_telepathic(SET_G_NEST_ZONE_NAMES, 2))
     assert Counter(g["lists"]["tele0"]) == Counter(SET_G_NEST_ZONE_NAMES)
 
 

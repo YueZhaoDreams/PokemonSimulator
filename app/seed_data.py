@@ -583,11 +583,16 @@ def _replace_n(names: tuple[str, ...], old: str, new: str, n: int) -> tuple[str,
     return tuple(out)
 
 
-# Carpet Set G — Telepathic lock. Nest/Zone minus 2 Psychic Energy, plus
-# 2 Telepathic Psychic Energy. C60 destination stays 2; copies 3 and 4 lose
-# Hedrick on C60 and D60 on G. See data/lab/set-g-c60-telepathic.md.
+# Carpet Set G — Telepathic lock, then one Ledian for a 16th Psychic.
+# Nest/Zone minus 2 Psychic plus 2 Telepathic (copies 3 and 4 lose; see
+# data/lab/set-g-c60-telepathic.md). Arrival matrix 2026-09-23: Ledian →
+# Psychic beat Ledian → Poké Pad on Hedrick, UNL, the C60 mirror, and the
+# whole field. T60 −0.6 is inside noise. See data/lab/set-g-c60-arrival.md.
 SET_G_NAMES = _replace_n(
-    SET_G_NEST_ZONE_NAMES, "Psychic Energy", "Telepathic Psychic Energy", 2
+    _replace_n(SET_G_NEST_ZONE_NAMES, "Psychic Energy", "Telepathic Psychic Energy", 2),
+    "Ledian",
+    "Psychic Energy",
+    1,
 )
 
 # Carpet Set H — 60-card beige-carpet photo (data/samples/set-h-carpet.jpg), Standard s60.
