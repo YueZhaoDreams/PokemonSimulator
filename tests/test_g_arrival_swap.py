@@ -262,6 +262,49 @@ def test_g_ultra_ball_fetches_ledian_once_clefable_ex_is_in_hand():
     assert mega in me.deck
 
 
+def test_ultra_ball_needs_two_other_cards_to_discard():
+    game = _pad_game()
+    me, foe = game.players["a"], game.players["b"]
+    used: set[int] = set()
+    clef = _pull(me, "Clefairy", used)
+    ultra = _pull(me, "Ultra Ball", used)
+    fodder = _pull(me, "Psychic Energy", used)
+    ex = _pull(me, "Clefable ex", used)
+    me.active = _bench(clef)
+    me.bench = []
+    me.hand = [ultra, fodder]
+    me.deck = [ex]
+    foe.active = _bench(_pull(foe, "Dragapult ex", set()))
+    assert game._pick_trainer(me) is None
+    me.hand.remove(ultra)
+    game._resolve_trainer(me, foe, me.card(ultra), who="a", card_i=ultra)
+    assert ultra in me.hand
+    assert fodder in me.hand
+    assert ex in me.deck
+
+
+def test_g_ultra_ball_discards_spare_energy_before_boss():
+    game = _pad_game()
+    me, foe = game.players["a"], game.players["b"]
+    used: set[int] = set()
+    clef = _pull(me, "Clefairy", used)
+    ultra = _pull(me, "Ultra Ball", used)
+    boss = _pull(me, "Boss's Orders", used)
+    poffin = _pull(me, "Buddy-Buddy Poffin", used)
+    fuel = [_pull(me, "Psychic Energy", used) for _ in range(2)]
+    ex = _pull(me, "Clefable ex", used)
+    me.active = _bench(clef)
+    me.bench = []
+    me.hand = [boss, poffin, *fuel]
+    me.deck = [ex]
+    foe.active = _bench(_pull(foe, "Dragapult ex", set()))
+    game._resolve_trainer(me, foe, me.card(ultra), who="a", card_i=ultra)
+    assert boss in me.hand
+    assert poffin in me.hand
+    assert all(i in me.discard for i in fuel)
+    assert ex in me.hand
+
+
 def test_g_lillie_outranks_drayton_when_it_draws():
     game = _game()
     me = game.players["a"]

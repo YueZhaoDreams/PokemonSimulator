@@ -1294,6 +1294,9 @@ class Game:
             if card.is_item and me.item_lock:
                 continue
             name = card.name.lower()
+            if name == "ultra ball" and len(me.hand) < 3:
+                # The discard of 2 other cards is the cost; without it the card cannot be played.
+                continue
             score = 0.0
             if name == "ultra ball" and strat.name == "g":
                 # Held until the fetched card is a hole. Discarding 2 for Starly
@@ -1928,6 +1931,11 @@ class Game:
             self._special_red_card(foe)
         elif name == "ultra ball":
             # Cost: discard Ultra Ball + 2 other cards from hand.
+            if len(me.hand) < 2:
+                if card_i is not None:
+                    me.hand.append(card_i)
+                self._bump("ultra_ball_fail")
+                return
             if card_i is not None:
                 me.discard.append(card_i)
             discarded = self._discard_for_ultra_ball(me, n=2)
@@ -3046,11 +3054,24 @@ class Game:
         return True
 
     def _discard_for_ultra_ball(self, me: Player, n: int = 2) -> int:
-        protect = {n.lower() for n in self.strats["a" if me.name == "A" else "b"].protect}
+        strat = self.strats["a" if me.name == "A" else "b"]
+        protect = {n.lower() for n in strat.protect}
+        spare_energy = sum(1 for i in me.hand if is_basic_energy(me.card(i))) > 1
+        bench_room = len(me.bench) < self._bench_limit()
         scored: list[tuple[float, int]] = []
         for i in list(me.hand):
             card = me.card(i)
             score = 0.0
+            if strat.name == "g":
+                # Energy Retrieval returns 2 Basic Energy; Boss and the bench
+                # tutors have no recovery in this list.
+                key = card.name.lower()
+                if key == "boss's orders":
+                    score -= 6
+                elif key in {"buddy-buddy poffin", "buddy buddy poffin", "nest ball"} and bench_room:
+                    score -= 4
+                elif spare_energy and is_basic_energy(card):
+                    score += 3
             if card.name.lower() in protect:
                 score -= 10
             if card.name.lower() in {
