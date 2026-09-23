@@ -306,7 +306,7 @@ def _card_names(cards) -> list:
 
 def _seed_print_art_stale(cards_json: str | None, want_cards: list) -> bool:
     """True when a saved seed still shows the wrong scan for a pinned print."""
-    from app.catalog import PRINT_ART_URLS
+    from app.catalog import PRINT_ART_URLS, _is_tcgdex_asset_url
 
     if not PRINT_ART_URLS:
         return False
@@ -325,7 +325,9 @@ def _seed_print_art_stale(cards_json: str | None, want_cards: list) -> bool:
         if not isinstance(card, dict):
             continue
         cid = str(card.get("catalog_id") or "")
-        if cid in want_art and card.get("image") != want_art[cid]:
+        stored = str(card.get("image") or "")
+        want = str(want_art.get(cid) or "")
+        if cid in want_art and stored != want and (not stored or _is_tcgdex_asset_url(stored)):
             return True
     return False
 

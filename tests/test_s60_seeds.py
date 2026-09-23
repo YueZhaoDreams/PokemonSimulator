@@ -143,3 +143,27 @@ def test_existing_seed_c60_replaces_clefairy_scan(tmp_path, monkeypatch):
     clc = next(c for c in stored if c.get("catalog_id") == "clc-014")
     assert "base2/1" in clc["image"]
     assert "base1/5" not in clc["image"]
+
+
+def test_existing_seed_c60_keeps_custom_clc_scan(tmp_path, monkeypatch):
+    monkeypatch.setattr("app.db.DB_PATH", tmp_path / "app.db")
+    from app.db import connect, init_db
+
+    init_db()
+    with connect() as conn:
+        raw = conn.execute("SELECT cards_json FROM decks WHERE id='seed-c60'").fetchone()["cards_json"]
+        cards = json.loads(raw)
+        for card in cards:
+            if card.get("catalog_id") == "clc-014":
+                card["image"] = "/uploads/clc.jpg"
+        conn.execute(
+            "UPDATE decks SET cards_json=? WHERE id='seed-c60'",
+            (json.dumps(cards),),
+        )
+    init_db()
+    with connect() as conn:
+        stored = json.loads(
+            conn.execute("SELECT cards_json FROM decks WHERE id='seed-c60'").fetchone()["cards_json"]
+        )
+    clc = next(c for c in stored if c.get("catalog_id") == "clc-014")
+    assert clc["image"] == "/uploads/clc.jpg"
