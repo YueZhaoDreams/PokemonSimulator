@@ -1,0 +1,1058 @@
+{
+ "deck": "c60",
+ "deck_name": "Set C Standard 60 (Clefairy / Mewtwo)",
+ "trials": 200000,
+ "seed": 20260923,
+ "assumptions": "going second; opening 7 with mulligan until a Basic; 6 prizes; one draw per turn; one Supporter per turn; no draw Supporter resolved; Telepathic needs a Psychic Pokémon in play",
+ "basics": {
+  "Clefairy": 4,
+  "Mewtwo ex": 3
+ },
+ "mulligan_rate": 0.3994,
+ "p_all_copies_prized": {
+  "Clefairy": 0.0,
+  "Mewtwo ex": 0.0006,
+  "Clefable (Prankish)": 0.1,
+  "Clefable (Metronome)": 0.1,
+  "Clefable ex": 0.0006,
+  "Mega Clefable ex": 0.1,
+  "Nest Ball": 0.0,
+  "Buddy-Buddy Poffin": 0.0,
+  "Ultra Ball": 0.0085,
+  "Hop": 0.0085,
+  "Lillie": 0.0085,
+  "Lillie's Determination": 0.0085,
+  "Arven": 0.1,
+  "Boss's Orders": 0.0006,
+  "Iono": 0.1,
+  "Switch": 0.0085,
+  "Energy Switch": 0.0085,
+  "Night Stretcher": 0.1,
+  "Maximum Belt": 0.1,
+  "Battle Cage": 0.0006,
+  "Telepathic Psychic Energy": 0.0085,
+  "Poké Pad": 0.1
+ },
+ "reach": {
+  "parsed": {
+   "moon_party_t1": 0.5774,
+   "mewtwo_t1": 0.8817,
+   "clefable_ex_t2": 0.3388,
+   "metronome_t2": 0.2991,
+   "mega_clefable_t2": 0.1278,
+   "any_stage1_t2": 0.5984,
+   "attacker_t2": 0.9634
+  },
+  "print": {
+   "moon_party_t1": 0.6033,
+   "mewtwo_t1": 0.8377,
+   "clefable_ex_t2": 0.5721,
+   "metronome_t2": 0.4589,
+   "mega_clefable_t2": 0.3927,
+   "any_stage1_t2": 0.7174,
+   "attacker_t2": 0.9494
+  }
+ },
+ "removal_trials": 60000,
+ "removal_base": {
+  "moon_party_t1": 0.6047,
+  "mewtwo_t1": 0.8361,
+  "clefable_ex_t2": 0.5757,
+  "metronome_t2": 0.4624,
+  "mega_clefable_t2": 0.3964,
+  "any_stage1_t2": 0.7219,
+  "attacker_t2": 0.9496
+ },
+ "removal_delta": {
+  "Clefairy": {
+   "moon_party_t1": -0.6047,
+   "mewtwo_t1": 0.1639,
+   "clefable_ex_t2": -0.5757,
+   "metronome_t2": -0.4624,
+   "mega_clefable_t2": -0.3964,
+   "any_stage1_t2": -0.7219,
+   "attacker_t2": 0.0504
+  },
+  "Mewtwo ex": {
+   "moon_party_t1": 0.3025,
+   "mewtwo_t1": -0.8361,
+   "clefable_ex_t2": 0.0336,
+   "metronome_t2": 0.0301,
+   "mega_clefable_t2": 0.0265,
+   "any_stage1_t2": 0.0394,
+   "attacker_t2": -0.1883
+  },
+  "Clefable (Prankish)": {
+   "moon_party_t1": 0.0,
+   "mewtwo_t1": 0.0,
+   "clefable_ex_t2": 0.0,
+   "metronome_t2": 0.0,
+   "mega_clefable_t2": 0.0,
+   "any_stage1_t2": 0.0,
+   "attacker_t2": 0.0
+  },
+  "Clefable (Metronome)": {
+   "moon_party_t1": 0.0,
+   "mewtwo_t1": 0.0,
+   "clefable_ex_t2": 0.0,
+   "metronome_t2": -0.4624,
+   "mega_clefable_t2": 0.0,
+   "any_stage1_t2": -0.0866,
+   "attacker_t2": -0.0227
+  },
+  "Clefable ex": {
+   "moon_party_t1": 0.0,
+   "mewtwo_t1": 0.0,
+   "clefable_ex_t2": -0.5757,
+   "metronome_t2": 0.0,
+   "mega_clefable_t2": 0.0,
+   "any_stage1_t2": -0.1596,
+   "attacker_t2": -0.0419
+  },
+  "Mega Clefable ex": {
+   "moon_party_t1": 0.0,
+   "mewtwo_t1": 0.0,
+   "clefable_ex_t2": 0.0,
+   "metronome_t2": 0.0,
+   "mega_clefable_t2": -0.3964,
+   "any_stage1_t2": -0.0448,
+   "attacker_t2": -0.011
+  },
+  "Nest Ball": {
+   "moon_party_t1": -0.0587,
+   "mewtwo_t1": -0.1325,
+   "clefable_ex_t2": -0.033,
+   "metronome_t2": -0.0316,
+   "mega_clefable_t2": -0.0251,
+   "any_stage1_t2": -0.0413,
+   "attacker_t2": -0.049
+  },
+  "Buddy-Buddy Poffin": {
+   "moon_party_t1": -0.0599,
+   "mewtwo_t1": 0.0,
+   "clefable_ex_t2": -0.0333,
+   "metronome_t2": -0.0303,
+   "mega_clefable_t2": -0.025,
+   "any_stage1_t2": -0.041,
+   "attacker_t2": 0.0
+  },
+  "Ultra Ball": {
+   "moon_party_t1": -0.0265,
+   "mewtwo_t1": -0.0607,
+   "clefable_ex_t2": -0.2346,
+   "metronome_t2": -0.163,
+   "mega_clefable_t2": -0.2685,
+   "any_stage1_t2": -0.1201,
+   "attacker_t2": -0.0262
+  },
+  "Hop": {
+   "moon_party_t1": 0.0,
+   "mewtwo_t1": 0.0,
+   "clefable_ex_t2": 0.0,
+   "metronome_t2": 0.0,
+   "mega_clefable_t2": 0.0,
+   "any_stage1_t2": 0.0,
+   "attacker_t2": 0.0
+  },
+  "Lillie": {
+   "moon_party_t1": 0.0,
+   "mewtwo_t1": 0.0,
+   "clefable_ex_t2": 0.0,
+   "metronome_t2": 0.0,
+   "mega_clefable_t2": 0.0,
+   "any_stage1_t2": 0.0,
+   "attacker_t2": 0.0
+  },
+  "Lillie's Determination": {
+   "moon_party_t1": 0.0,
+   "mewtwo_t1": 0.0,
+   "clefable_ex_t2": 0.0,
+   "metronome_t2": 0.0,
+   "mega_clefable_t2": 0.0,
+   "any_stage1_t2": 0.0,
+   "attacker_t2": 0.0
+  },
+  "Arven": {
+   "moon_party_t1": -0.012,
+   "mewtwo_t1": -0.0274,
+   "clefable_ex_t2": -0.0697,
+   "metronome_t2": -0.0717,
+   "mega_clefable_t2": -0.0793,
+   "any_stage1_t2": -0.0494,
+   "attacker_t2": -0.0109
+  },
+  "Boss's Orders": {
+   "moon_party_t1": 0.0,
+   "mewtwo_t1": 0.0,
+   "clefable_ex_t2": 0.0,
+   "metronome_t2": 0.0,
+   "mega_clefable_t2": 0.0,
+   "any_stage1_t2": 0.0,
+   "attacker_t2": 0.0
+  },
+  "Iono": {
+   "moon_party_t1": 0.0,
+   "mewtwo_t1": 0.0,
+   "clefable_ex_t2": 0.0,
+   "metronome_t2": 0.0,
+   "mega_clefable_t2": 0.0,
+   "any_stage1_t2": 0.0,
+   "attacker_t2": 0.0
+  },
+  "Switch": {
+   "moon_party_t1": 0.0,
+   "mewtwo_t1": 0.0,
+   "clefable_ex_t2": 0.0,
+   "metronome_t2": 0.0,
+   "mega_clefable_t2": 0.0,
+   "any_stage1_t2": 0.0,
+   "attacker_t2": 0.0
+  },
+  "Energy Switch": {
+   "moon_party_t1": 0.0,
+   "mewtwo_t1": 0.0,
+   "clefable_ex_t2": 0.0,
+   "metronome_t2": 0.0,
+   "mega_clefable_t2": 0.0,
+   "any_stage1_t2": 0.0,
+   "attacker_t2": 0.0
+  },
+  "Night Stretcher": {
+   "moon_party_t1": 0.0,
+   "mewtwo_t1": 0.0,
+   "clefable_ex_t2": 0.0,
+   "metronome_t2": 0.0,
+   "mega_clefable_t2": 0.0,
+   "any_stage1_t2": 0.0,
+   "attacker_t2": 0.0
+  },
+  "Maximum Belt": {
+   "moon_party_t1": 0.0,
+   "mewtwo_t1": 0.0,
+   "clefable_ex_t2": 0.0,
+   "metronome_t2": 0.0,
+   "mega_clefable_t2": 0.0,
+   "any_stage1_t2": 0.0,
+   "attacker_t2": 0.0
+  },
+  "Battle Cage": {
+   "moon_party_t1": 0.0,
+   "mewtwo_t1": 0.0,
+   "clefable_ex_t2": 0.0,
+   "metronome_t2": 0.0,
+   "mega_clefable_t2": 0.0,
+   "any_stage1_t2": 0.0,
+   "attacker_t2": 0.0
+  },
+  "Telepathic Psychic Energy": {
+   "moon_party_t1": -0.026,
+   "mewtwo_t1": 0.0,
+   "clefable_ex_t2": 0.0,
+   "metronome_t2": 0.0,
+   "mega_clefable_t2": 0.0,
+   "any_stage1_t2": 0.0,
+   "attacker_t2": 0.0
+  },
+  "Poké Pad": {
+   "moon_party_t1": -0.012,
+   "mewtwo_t1": 0.0,
+   "clefable_ex_t2": -0.0067,
+   "metronome_t2": -0.0689,
+   "mega_clefable_t2": -0.0054,
+   "any_stage1_t2": -0.0439,
+   "attacker_t2": -0.0095
+  }
+ },
+ "cut_pair": {
+  "removed": [
+   "Clefairy",
+   "Mewtwo ex"
+  ],
+  "attacker_t2": 0.0,
+  "note": "no Basic Pokémon left, so no legal opening hand; the smallest cut of attacker_t2 is these two names"
+ },
+ "nodes": [
+  {
+   "id": "swsh11-062",
+   "label": "Clefairy",
+   "type": "printing",
+   "category": "Pokemon",
+   "stage": "Basic",
+   "hp": 60,
+   "types": [
+    "Psychic"
+   ],
+   "copies": 4,
+   "hard_linked": true,
+   "draw_only": false,
+   "parser_gap": false
+  },
+  {
+   "id": "sv04-058",
+   "label": "Mewtwo ex",
+   "type": "printing",
+   "category": "Pokemon",
+   "stage": "Basic",
+   "hp": 230,
+   "types": [
+    "Lightning"
+   ],
+   "copies": 3,
+   "hard_linked": true,
+   "draw_only": false,
+   "parser_gap": false
+  },
+  {
+   "id": "swsh2-75",
+   "label": "Clefable (Prankish)",
+   "type": "printing",
+   "category": "Pokemon",
+   "stage": "Stage1",
+   "hp": 110,
+   "types": [
+    "Psychic"
+   ],
+   "copies": 1,
+   "hard_linked": true,
+   "draw_only": false,
+   "parser_gap": true
+  },
+  {
+   "id": "clc-014",
+   "label": "Clefable (Metronome)",
+   "type": "printing",
+   "category": "Pokemon",
+   "stage": "Stage1",
+   "hp": 70,
+   "types": [
+    "Colorless"
+   ],
+   "copies": 1,
+   "hard_linked": true,
+   "draw_only": false,
+   "parser_gap": false
+  },
+  {
+   "id": "sv03-082",
+   "label": "Clefable ex",
+   "type": "printing",
+   "category": "Pokemon",
+   "stage": "Stage1",
+   "hp": 260,
+   "types": [
+    "Psychic"
+   ],
+   "copies": 3,
+   "hard_linked": true,
+   "draw_only": false,
+   "parser_gap": true
+  },
+  {
+   "id": "me03-031",
+   "label": "Mega Clefable ex",
+   "type": "printing",
+   "category": "Pokemon",
+   "stage": "Stage1",
+   "hp": 320,
+   "types": [
+    "Psychic"
+   ],
+   "copies": 1,
+   "hard_linked": true,
+   "draw_only": false,
+   "parser_gap": false
+  },
+  {
+   "id": "sv01-181",
+   "label": "Nest Ball",
+   "type": "printing",
+   "category": "Trainer",
+   "stage": "Item",
+   "hp": 0,
+   "types": [],
+   "copies": 4,
+   "hard_linked": true,
+   "draw_only": false,
+   "parser_gap": false
+  },
+  {
+   "id": "sv05-144",
+   "label": "Buddy-Buddy Poffin",
+   "type": "printing",
+   "category": "Trainer",
+   "stage": "Item",
+   "hp": 0,
+   "types": [],
+   "copies": 4,
+   "hard_linked": true,
+   "draw_only": false,
+   "parser_gap": true
+  },
+  {
+   "id": "sv04.5-091",
+   "label": "Ultra Ball",
+   "type": "printing",
+   "category": "Trainer",
+   "stage": "Item",
+   "hp": 0,
+   "types": [],
+   "copies": 2,
+   "hard_linked": true,
+   "draw_only": false,
+   "parser_gap": true
+  },
+  {
+   "id": "swsh1-165",
+   "label": "Hop",
+   "type": "printing",
+   "category": "Trainer",
+   "stage": "Supporter",
+   "hp": 0,
+   "types": [],
+   "copies": 2,
+   "hard_linked": false,
+   "draw_only": true,
+   "parser_gap": false
+  },
+  {
+   "id": "sm5-125",
+   "label": "Lillie",
+   "type": "printing",
+   "category": "Trainer",
+   "stage": "Supporter",
+   "hp": 0,
+   "types": [],
+   "copies": 2,
+   "hard_linked": false,
+   "draw_only": true,
+   "parser_gap": false
+  },
+  {
+   "id": "me01-119",
+   "label": "Lillie's Determination",
+   "type": "printing",
+   "category": "Trainer",
+   "stage": "Supporter",
+   "hp": 0,
+   "types": [],
+   "copies": 2,
+   "hard_linked": false,
+   "draw_only": true,
+   "parser_gap": false
+  },
+  {
+   "id": "sv01-166",
+   "label": "Arven",
+   "type": "printing",
+   "category": "Trainer",
+   "stage": "Supporter",
+   "hp": 0,
+   "types": [],
+   "copies": 1,
+   "hard_linked": true,
+   "draw_only": false,
+   "parser_gap": true
+  },
+  {
+   "id": "sv02-172",
+   "label": "Boss's Orders",
+   "type": "printing",
+   "category": "Trainer",
+   "stage": "Supporter",
+   "hp": 0,
+   "types": [],
+   "copies": 3,
+   "hard_linked": false,
+   "draw_only": false,
+   "parser_gap": true
+  },
+  {
+   "id": "sv02-185",
+   "label": "Iono",
+   "type": "printing",
+   "category": "Trainer",
+   "stage": "Supporter",
+   "hp": 0,
+   "types": [],
+   "copies": 1,
+   "hard_linked": false,
+   "draw_only": true,
+   "parser_gap": false
+  },
+  {
+   "id": "sv01-194",
+   "label": "Switch",
+   "type": "printing",
+   "category": "Trainer",
+   "stage": "Item",
+   "hp": 0,
+   "types": [],
+   "copies": 2,
+   "hard_linked": true,
+   "draw_only": false,
+   "parser_gap": true
+  },
+  {
+   "id": "swsh12.5-129",
+   "label": "Energy Switch",
+   "type": "printing",
+   "category": "Trainer",
+   "stage": "Item",
+   "hp": 0,
+   "types": [],
+   "copies": 2,
+   "hard_linked": true,
+   "draw_only": false,
+   "parser_gap": true
+  },
+  {
+   "id": "sv06.5-061",
+   "label": "Night Stretcher",
+   "type": "printing",
+   "category": "Trainer",
+   "stage": "Item",
+   "hp": 0,
+   "types": [],
+   "copies": 1,
+   "hard_linked": true,
+   "draw_only": false,
+   "parser_gap": false
+  },
+  {
+   "id": "sv05-154",
+   "label": "Maximum Belt",
+   "type": "printing",
+   "category": "Trainer",
+   "stage": "Item",
+   "hp": 0,
+   "types": [],
+   "copies": 1,
+   "hard_linked": true,
+   "draw_only": false,
+   "parser_gap": true
+  },
+  {
+   "id": "me02-085",
+   "label": "Battle Cage",
+   "type": "printing",
+   "category": "Trainer",
+   "stage": "Stadium",
+   "hp": 0,
+   "types": [],
+   "copies": 3,
+   "hard_linked": false,
+   "draw_only": false,
+   "parser_gap": true
+  },
+  {
+   "id": "me03-088",
+   "label": "Telepathic Psychic Energy",
+   "type": "printing",
+   "category": "Energy",
+   "stage": "Special",
+   "hp": 0,
+   "types": [
+    "Psychic"
+   ],
+   "copies": 2,
+   "hard_linked": true,
+   "draw_only": false,
+   "parser_gap": false
+  },
+  {
+   "id": "swsh12.5-156",
+   "label": "Psychic Energy",
+   "type": "printing",
+   "category": "Energy",
+   "stage": "Basic",
+   "hp": 0,
+   "types": [
+    "Psychic"
+   ],
+   "copies": 14,
+   "hard_linked": true,
+   "draw_only": false,
+   "parser_gap": false
+  },
+  {
+   "id": "me02.5-198",
+   "label": "Poké Pad",
+   "type": "printing",
+   "category": "Trainer",
+   "stage": "Item",
+   "hp": 0,
+   "types": [],
+   "copies": 1,
+   "hard_linked": true,
+   "draw_only": false,
+   "parser_gap": false
+  },
+  {
+   "id": "zone:own_discard",
+   "label": "own_discard",
+   "type": "zone"
+  },
+  {
+   "id": "zone:own_deck",
+   "label": "own_deck",
+   "type": "zone"
+  },
+  {
+   "id": "zone:own_bench",
+   "label": "own_bench",
+   "type": "zone"
+  },
+  {
+   "id": "zone:opp_active",
+   "label": "opp_active",
+   "type": "zone"
+  },
+  {
+   "id": "zone:opp_bench",
+   "label": "opp_bench",
+   "type": "zone"
+  },
+  {
+   "id": "role:any_pokemon",
+   "label": "any_pokemon",
+   "type": "role"
+  },
+  {
+   "id": "role:tool",
+   "label": "tool",
+   "type": "role"
+  }
+ ],
+ "edges": [
+  {
+   "src": "swsh11-062",
+   "dst": "swsh2-75",
+   "kind": "evolves_into",
+   "status": "parsed",
+   "on": "evolves_from",
+   "parser": "catalog",
+   "sentence": "Evolves from Clefairy",
+   "note": ""
+  },
+  {
+   "src": "swsh11-062",
+   "dst": "clc-014",
+   "kind": "evolves_into",
+   "status": "parsed",
+   "on": "evolves_from",
+   "parser": "catalog",
+   "sentence": "Evolves from Clefairy",
+   "note": ""
+  },
+  {
+   "src": "swsh11-062",
+   "dst": "sv03-082",
+   "kind": "evolves_into",
+   "status": "parsed",
+   "on": "evolves_from",
+   "parser": "catalog",
+   "sentence": "Evolves from Clefairy",
+   "note": ""
+  },
+  {
+   "src": "swsh11-062",
+   "dst": "me03-031",
+   "kind": "evolves_into",
+   "status": "parsed",
+   "on": "evolves_from",
+   "parser": "catalog",
+   "sentence": "Evolves from Clefairy",
+   "note": ""
+  },
+  {
+   "src": "swsh11-062",
+   "dst": "swsh12.5-156",
+   "kind": "attaches_from_deck",
+   "status": "parsed",
+   "on": "Moon-Watching Party",
+   "parser": "parse_ability_effects",
+   "sentence": "Once during your turn, if this Pokémon is in the Active Spot, for each of your Benched Clefairy, you may search your deck for a Psychic Energy card and attach it to that Clefairy. Then, shuffle your deck.",
+   "note": ""
+  },
+  {
+   "src": "swsh11-062",
+   "dst": "swsh11-062",
+   "kind": "scales_with_benched",
+   "status": "parsed",
+   "on": "Moon-Watching Party",
+   "parser": "parse_ability_effects",
+   "sentence": "Once during your turn, if this Pokémon is in the Active Spot, for each of your Benched Clefairy, you may search your deck for a Psychic Energy card and attach it to that Clefairy. Then, shuffle your deck.",
+   "note": ""
+  },
+  {
+   "src": "swsh11-062",
+   "dst": "swsh12.5-156",
+   "kind": "scales_with_in_play",
+   "status": "parsed",
+   "on": "Wonder Storm",
+   "parser": "parse_effects",
+   "sentence": "This attack does 20 damage for each Psychic Energy attached to all of your Pokémon.",
+   "note": ""
+  },
+  {
+   "src": "zone:own_discard",
+   "dst": "sv04-058",
+   "kind": "consumes",
+   "status": "parsed",
+   "on": "Transfer Charge",
+   "parser": "parse_effects",
+   "sentence": "Attach up to 2 Basic Psychic Energy cards from your discard pile to your Pokémon in any way you like.",
+   "note": ""
+  },
+  {
+   "src": "sv04-058",
+   "dst": "swsh12.5-156",
+   "kind": "scales_with_in_play",
+   "status": "parsed",
+   "on": "Photon Kinesis",
+   "parser": "parse_effects",
+   "sentence": "This attack does 30 more damage for each Psychic Energy attached to all of your Pokémon.",
+   "note": ""
+  },
+  {
+   "src": "clc-014",
+   "dst": "zone:opp_active",
+   "kind": "copies_attack",
+   "status": "parsed",
+   "on": "Metronome",
+   "parser": "parse_effects",
+   "sentence": "Choose 1 of your opponent's Active Pokémon's attacks and use it as this attack.",
+   "note": ""
+  },
+  {
+   "src": "sv03-082",
+   "dst": "swsh12.5-156",
+   "kind": "moves_energy",
+   "status": "parsed",
+   "on": "Wondrous Moon",
+   "parser": "parse_effects",
+   "sentence": "You may move any amount of Psychic Energy from your Pokémon to your other Pokémon in any way you like.",
+   "note": ""
+  },
+  {
+   "src": "me03-031",
+   "dst": "zone:own_discard",
+   "kind": "produces",
+   "status": "parsed",
+   "on": "Shooting Moons",
+   "parser": "parse_effects",
+   "sentence": "You may discard up to 4 Energy cards from your hand, and this attack does 40 more damage for each card you discarded in this way.",
+   "note": ""
+  },
+  {
+   "src": "sv01-181",
+   "dst": "swsh11-062",
+   "kind": "fetches",
+   "status": "parsed",
+   "on": "card",
+   "parser": "parse_effects",
+   "sentence": "Search your deck for a Basic Pokémon and put it onto your Bench. Then, shuffle your deck.",
+   "note": ""
+  },
+  {
+   "src": "sv01-181",
+   "dst": "sv04-058",
+   "kind": "fetches",
+   "status": "parsed",
+   "on": "card",
+   "parser": "parse_effects",
+   "sentence": "Search your deck for a Basic Pokémon and put it onto your Bench. Then, shuffle your deck.",
+   "note": ""
+  },
+  {
+   "src": "sv05-144",
+   "dst": "swsh11-062",
+   "kind": "fetches",
+   "status": "parsed",
+   "on": "card",
+   "parser": "parse_effects",
+   "sentence": "Search your deck for up to 2 Basic Pokémon with 70 HP or less and put them onto your Bench. Then, shuffle your deck.",
+   "note": ""
+  },
+  {
+   "src": "sv05-144",
+   "dst": "sv04-058",
+   "kind": "fetches",
+   "status": "param_gap",
+   "on": "card",
+   "parser": "parse_effects",
+   "sentence": "Search your deck for up to 2 Basic Pokémon with 70 HP or less and put them onto your Bench. Then, shuffle your deck.",
+   "note": "parser drops '70 HP or less'; print excludes this target"
+  },
+  {
+   "src": "swsh1-165",
+   "dst": "zone:own_deck",
+   "kind": "draws",
+   "status": "parsed",
+   "on": "card",
+   "parser": "parse_effects",
+   "sentence": "Draw 3 cards.",
+   "note": ""
+  },
+  {
+   "src": "sm5-125",
+   "dst": "zone:own_deck",
+   "kind": "draws",
+   "status": "parsed",
+   "on": "card",
+   "parser": "parse_effects",
+   "sentence": "Draw cards until you have 6 cards in your hand. If it's your first turn, draw cards until you have 8 cards in your hand.",
+   "note": ""
+  },
+  {
+   "src": "me01-119",
+   "dst": "zone:own_deck",
+   "kind": "draws",
+   "status": "parsed",
+   "on": "card",
+   "parser": "parse_effects",
+   "sentence": "Shuffle your hand into your deck. Then, draw 6 cards. If you have exactly 6 Prize cards remaining, draw 8 cards instead.",
+   "note": ""
+  },
+  {
+   "src": "sv01-166",
+   "dst": "sv01-181",
+   "kind": "fetches",
+   "status": "parsed",
+   "on": "card",
+   "parser": "parse_effects",
+   "sentence": "Search your deck for an Item card and a Pokémon Tool card, reveal them, and put them into your hand. Then, shuffle your deck.",
+   "note": ""
+  },
+  {
+   "src": "sv01-166",
+   "dst": "sv05-144",
+   "kind": "fetches",
+   "status": "parsed",
+   "on": "card",
+   "parser": "parse_effects",
+   "sentence": "Search your deck for an Item card and a Pokémon Tool card, reveal them, and put them into your hand. Then, shuffle your deck.",
+   "note": ""
+  },
+  {
+   "src": "sv01-166",
+   "dst": "sv04.5-091",
+   "kind": "fetches",
+   "status": "parsed",
+   "on": "card",
+   "parser": "parse_effects",
+   "sentence": "Search your deck for an Item card and a Pokémon Tool card, reveal them, and put them into your hand. Then, shuffle your deck.",
+   "note": ""
+  },
+  {
+   "src": "sv01-166",
+   "dst": "sv01-194",
+   "kind": "fetches",
+   "status": "parsed",
+   "on": "card",
+   "parser": "parse_effects",
+   "sentence": "Search your deck for an Item card and a Pokémon Tool card, reveal them, and put them into your hand. Then, shuffle your deck.",
+   "note": ""
+  },
+  {
+   "src": "sv01-166",
+   "dst": "swsh12.5-129",
+   "kind": "fetches",
+   "status": "parsed",
+   "on": "card",
+   "parser": "parse_effects",
+   "sentence": "Search your deck for an Item card and a Pokémon Tool card, reveal them, and put them into your hand. Then, shuffle your deck.",
+   "note": ""
+  },
+  {
+   "src": "sv01-166",
+   "dst": "sv06.5-061",
+   "kind": "fetches",
+   "status": "parsed",
+   "on": "card",
+   "parser": "parse_effects",
+   "sentence": "Search your deck for an Item card and a Pokémon Tool card, reveal them, and put them into your hand. Then, shuffle your deck.",
+   "note": ""
+  },
+  {
+   "src": "sv01-166",
+   "dst": "sv05-154",
+   "kind": "fetches",
+   "status": "parsed",
+   "on": "card",
+   "parser": "parse_effects",
+   "sentence": "Search your deck for an Item card and a Pokémon Tool card, reveal them, and put them into your hand. Then, shuffle your deck.",
+   "note": ""
+  },
+  {
+   "src": "sv01-166",
+   "dst": "me02.5-198",
+   "kind": "fetches",
+   "status": "parsed",
+   "on": "card",
+   "parser": "parse_effects",
+   "sentence": "Search your deck for an Item card and a Pokémon Tool card, reveal them, and put them into your hand. Then, shuffle your deck.",
+   "note": ""
+  },
+  {
+   "src": "sv02-185",
+   "dst": "zone:own_deck",
+   "kind": "draws",
+   "status": "parsed",
+   "on": "card",
+   "parser": "parse_effects",
+   "sentence": "Each player shuffles their hand into their deck. Then, you draw a card for each of your remaining Prize cards, and your opponent does the same.",
+   "note": ""
+  },
+  {
+   "src": "zone:own_discard",
+   "dst": "sv06.5-061",
+   "kind": "consumes",
+   "status": "param_gap",
+   "on": "card",
+   "parser": "parse_effects",
+   "sentence": "Put a Pokémon or a Basic Energy card from your discard pile into your hand.",
+   "note": "parser: 2 Basic Energy; print: 1 Pokémon or 1 Basic Energy"
+  },
+  {
+   "src": "me03-088",
+   "dst": "swsh11-062",
+   "kind": "fetches",
+   "status": "parsed",
+   "on": "card",
+   "parser": "parse_energy_effects",
+   "sentence": "As long as this card is attached to a Pokémon, it provides Psychic Energy. When you attach this card from your hand to a Psychic Pokémon, search your deck for up to 2 Basic Psychic Pokémon and put them onto your Bench. Then, shuffle your deck.",
+   "note": ""
+  },
+  {
+   "src": "me02.5-198",
+   "dst": "swsh11-062",
+   "kind": "fetches",
+   "status": "parsed",
+   "on": "card",
+   "parser": "parse_trainer_effects",
+   "sentence": "Search your deck for a Pokémon that doesn't have a Rule Box, reveal it, and put it into your hand. Then, shuffle your deck. (Pokémon ex, Pokémon V, etc. have Rule Boxes.)",
+   "note": ""
+  },
+  {
+   "src": "me02.5-198",
+   "dst": "swsh2-75",
+   "kind": "fetches",
+   "status": "parsed",
+   "on": "card",
+   "parser": "parse_trainer_effects",
+   "sentence": "Search your deck for a Pokémon that doesn't have a Rule Box, reveal it, and put it into your hand. Then, shuffle your deck. (Pokémon ex, Pokémon V, etc. have Rule Boxes.)",
+   "note": ""
+  },
+  {
+   "src": "me02.5-198",
+   "dst": "clc-014",
+   "kind": "fetches",
+   "status": "parsed",
+   "on": "card",
+   "parser": "parse_trainer_effects",
+   "sentence": "Search your deck for a Pokémon that doesn't have a Rule Box, reveal it, and put it into your hand. Then, shuffle your deck. (Pokémon ex, Pokémon V, etc. have Rule Boxes.)",
+   "note": ""
+  },
+  {
+   "src": "sv04.5-091",
+   "dst": "role:any_pokemon",
+   "kind": "fetches",
+   "status": "parser_gap",
+   "on": "card",
+   "parser": null,
+   "sentence": "Discard 2 cards from your hand. Search your deck for a Pokémon.",
+   "note": "no parser emits a search; the kernel resolves Ultra Ball by name"
+  },
+  {
+   "src": "sv04.5-091",
+   "dst": "zone:own_discard",
+   "kind": "produces",
+   "status": "parser_gap",
+   "on": "card",
+   "parser": null,
+   "sentence": "Discard 2 cards from your hand. Search your deck for a Pokémon.",
+   "note": "discard cost not parsed"
+  },
+  {
+   "src": "sv02-172",
+   "dst": "zone:opp_bench",
+   "kind": "forces_active",
+   "status": "parser_gap",
+   "on": "card",
+   "parser": null,
+   "sentence": "Switch in 1 of your opponent's Benched Pokémon to the Active Spot.",
+   "note": "gust not parsed for this Supporter"
+  },
+  {
+   "src": "sv01-194",
+   "dst": "zone:own_bench",
+   "kind": "switches",
+   "status": "parser_gap",
+   "on": "card",
+   "parser": null,
+   "sentence": "Switch your Active Pokémon with 1 of your Benched Pokémon.",
+   "note": "not parsed"
+  },
+  {
+   "src": "swsh12.5-129",
+   "dst": "swsh12.5-156",
+   "kind": "moves_energy",
+   "status": "parser_gap",
+   "on": "card",
+   "parser": null,
+   "sentence": "Move a Basic Energy from 1 of your Pokémon to another of your Pokémon.",
+   "note": "not parsed"
+  },
+  {
+   "src": "sv05-154",
+   "dst": "zone:opp_active",
+   "kind": "damage_bonus_vs_ex",
+   "status": "parser_gap",
+   "on": "card",
+   "parser": null,
+   "sentence": "Attacks used by the Pokémon this card is attached to do 50 more damage to your opponent's Active Pokémon ex (before applying Weakness and Resistance).",
+   "note": "not parsed"
+  },
+  {
+   "src": "me02-085",
+   "dst": "zone:own_bench",
+   "kind": "protects_bench",
+   "status": "parser_gap",
+   "on": "card",
+   "parser": null,
+   "sentence": "Prevent all damage counters from being placed on Benched Pokémon (both yours and your opponent's) by effects of attacks and Abilities from the opponent's Pokémon. (Damage from attacks is still taken.)",
+   "note": "stadium not parsed"
+  },
+  {
+   "src": "sv01-166",
+   "dst": "role:tool",
+   "kind": "fetches",
+   "status": "parser_gap",
+   "on": "card",
+   "parser": null,
+   "sentence": "Search your deck for an Item card and a Pokémon Tool card, reveal them, and put them into your hand. Then, shuffle your deck.",
+   "note": "parser keeps the Item half only"
+  },
+  {
+   "src": "sv03-082",
+   "dst": "swsh12.5-156",
+   "kind": "no_retreat_with",
+   "status": "parser_gap",
+   "on": "Lunar Zone",
+   "parser": null,
+   "sentence": "All of your Pokémon that have Psychic Energy attached have no Retreat Cost.",
+   "note": "ability not parsed"
+  },
+  {
+   "src": "swsh2-75",
+   "dst": "zone:opp_active",
+   "kind": "removes_energy",
+   "status": "parser_gap",
+   "on": "Prankish",
+   "parser": null,
+   "sentence": "When you play this Pokémon from your hand to evolve 1 of your Pokémon during your turn, you may put an Energy attached to your opponent's Active Pokémon on top of their deck.",
+   "note": "ability not parsed"
+  }
+ ]
+}
