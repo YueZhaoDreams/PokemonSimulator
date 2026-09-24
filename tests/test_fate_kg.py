@@ -89,6 +89,22 @@ def test_prize_weight_requires_the_ex_suffix():
     assert prize_weight(calyrex, rules) == 1
 
 
+def test_evolves_from_links_every_printing_of_that_name():
+    a = Card(catalog_id="base-a", name="Clefairy", category="Pokemon", stage="Basic", hp=60)
+    b = Card(catalog_id="base-b", name="Clefairy", category="Pokemon", stage="Basic", hp=50)
+    stage = Card(
+        catalog_id="stage",
+        name="Clefable",
+        category="Pokemon",
+        stage="Stage1",
+        hp=90,
+        evolves_from="Clefairy",
+    )
+    kg = build_catalog_kg([a, b, stage])
+    srcs = {e.src for e in kg.edges if e.kind == "evolves_into" and e.dst == "stage"}
+    assert srcs == {"base-a", "base-b"}
+
+
 def test_party_sentence_parses_without_look():
     effects = parse_ability_effects(PARTY)
     assert effects[0]["kind"] == "attach_energy_from_deck_per_benched"

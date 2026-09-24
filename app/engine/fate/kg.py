@@ -121,7 +121,9 @@ def build_catalog_kg(cards: list[Card], rules: FamilyRules | None = None) -> KG:
     for card in cards:
         by_id.setdefault(card.catalog_id or card.name, card)
     unique = list(by_id.values())
-    names = {c.name.lower(): c for c in unique}
+    by_name: dict[str, list[Card]] = {}
+    for card in unique:
+        by_name.setdefault(card.name.lower(), []).append(card)
 
     nodes: dict[str, KGNode] = {c.catalog_id or c.name: _node(c, rules) for c in unique}
     edges: list[KGEdge] = []
@@ -135,8 +137,9 @@ def build_catalog_kg(cards: list[Card], rules: FamilyRules | None = None) -> KG:
     for card in unique:
         src = card.catalog_id or card.name
         if card.evolves_from:
-            base = names.get(card.evolves_from.lower())
-            if base is not None:
+            for base in by_name.get(card.evolves_from.lower(), []):
+                if base is card:
+                    continue
                 add(base.catalog_id or base.name, src, "evolves_into", f"Evolves from {card.evolves_from}")
         for attack in card.attacks:
             for cost in attack.cost:
