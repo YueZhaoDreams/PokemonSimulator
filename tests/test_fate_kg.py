@@ -106,6 +106,7 @@ def test_evolves_from_links_every_printing_of_that_name():
     deck = induce(kg, [("Clefairy", 1), ("Clefairy", 3), ("Clefable", 1)])
     copies = {n.name: n.attributes["copies"] for n in deck.nodes if n.kind == "printing"}
     assert copies["Clefairy"] == 4
+    assert "copies" not in next(n for n in kg.nodes if n.name == "Clefairy").attributes
     partner = Card(
         catalog_id="namer",
         name="Namer",

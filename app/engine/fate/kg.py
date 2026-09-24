@@ -201,11 +201,13 @@ def induce(kg: KG, names_with_counts: list[tuple[str, int]] | Counter) -> KG:
     touching = [e for e in kg.edges if e.src in ids or e.dst in ids]
     role_ids = {end for e in touching for end in (e.src, e.dst) if end not in ids}
     roles = [n for n in kg.nodes if n.id in role_ids]
-    for node in kept:
-        node.attributes = {**node.attributes, "copies": counts[node.name]}
+    nodes = [
+        KGNode(id=n.id, kind=n.kind, name=n.name, attributes={**n.attributes, "copies": counts[n.name]})
+        for n in kept
+    ] + [KGNode(id=n.id, kind=n.kind, name=n.name, attributes=dict(n.attributes)) for n in roles]
     inside = ids | role_ids
     edges = [e for e in touching if e.src in inside and e.dst in inside]
-    return KG(nodes=kept + roles, edges=edges)
+    return KG(nodes=nodes, edges=edges)
 
 
 def explain_edge(edge: KGEdge | dict[str, Any]) -> str:
