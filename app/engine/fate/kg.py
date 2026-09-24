@@ -177,16 +177,29 @@ def build_catalog_kg(cards: list[Card], rules: FamilyRules | None = None) -> KG:
             elif kind == "force_opponent_active":
                 add_role(ROLE_OPPONENT_BENCH, "Opponent's Benched Pokémon")
                 add(src, ROLE_OPPONENT_BENCH, "force_opponent_active", sentence, effect)
-        sentences = [card.text or ""] + [a.text or "" for a in card.abilities] + [a.text or "" for a in card.attacks]
-        for other in unique:
-            if other is card or len(other.name) < 5:
-                continue
-            if other.name.lower() == (card.evolves_from or "").lower():
-                continue
-            pattern = re.compile(rf"\b{re.escape(other.name.lower())}\b")
-            hit = next((s for s in sentences if s and pattern.search(s.lower())), "")
-            if hit:
-                add(src, other.catalog_id or other.name, "named_partner", hit)
+        sentences = [s for s in ([card.text or ""] + [a.text or "" for a in card.abilities] + [a.text or "" for a in card.attacks]) if s]
+        candidates = [
+            other
+            for other in unique
+            if other is not card
+            and len(other.name) >= 5
+            and other.name.lower() != (card.evolves_from or "").lower()
+        ]
+        for sentence in sentences:
+            lowered = sentence.lower()
+            matched = [
+                other
+                for other in candidates
+                if re.search(rf"\b{re.escape(other.name.lower())}\b", lowered)
+            ]
+            names_hit = {other.name.lower() for other in matched}
+            for other in matched:
+                shorter = any(
+                    other.name.lower() != longer and longer.startswith(other.name.lower() + " ")
+                    for longer in names_hit
+                )
+                if not shorter:
+                    add(src, other.catalog_id or other.name, "named_partner", sentence)
 
     return KG(nodes=list(nodes.values()), edges=edges)
 

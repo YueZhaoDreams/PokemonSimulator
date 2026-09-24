@@ -116,6 +116,12 @@ def test_evolves_from_links_every_printing_of_that_name():
     named = build_catalog_kg([partner, stage])
     edge = next(e for e in named.edges if e.kind == "named_partner")
     assert edge.source == "Search your deck for a Clefable."
+    ex = Card(catalog_id="ex", name="Clefable ex", category="Pokemon")
+    only_ex = build_catalog_kg(
+        [Card(catalog_id="n", name="Namer", category="Trainer", text="Play Mega Clefable ex."), stage, ex]
+    )
+    partners = {e.dst for e in only_ex.edges if e.kind == "named_partner"}
+    assert partners == {"ex"}
 
 
 def test_party_sentence_parses_without_look():
