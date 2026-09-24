@@ -58,13 +58,11 @@ class KG:
 
 def prize_weight(card: Card, rules: FamilyRules | None) -> int:
     name = card.name.lower()
-    if not rules or not rules.extra_prize_for_ex:
+    if not rules or not rules.extra_prize_for_ex or not name.endswith(" ex"):
         return 1
-    if "mega" in name and name.endswith("ex"):
+    if name.startswith("mega "):
         return 3
-    if name.endswith(" ex") or name.endswith("ex"):
-        return 2
-    return 1
+    return 2
 
 
 def _effects(card: Card) -> list[tuple[str, dict[str, Any]]]:

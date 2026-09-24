@@ -703,7 +703,10 @@ def run_tool(name: str, args: dict[str, Any]) -> Any:
         if not deck:
             return {"error": "deck not found"}
         cards = _cards(deck)
-        graph = induce(build_catalog_kg(cards), Counter(c.name for c in cards))
+        rules = _match_rules(decks=[deck])
+        if isinstance(rules, dict) and rules.get("error"):
+            return rules
+        graph = induce(build_catalog_kg(cards, rules), Counter(c.name for c in cards))
         body = graph.to_dict()
         body["deck_id"] = deck["id"]
         body["deck_name"] = deck["name"]

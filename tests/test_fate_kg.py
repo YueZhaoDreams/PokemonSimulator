@@ -3,7 +3,7 @@ from fastapi.testclient import TestClient
 from app.ai.tools import reset_viewer, run_tool, use_viewer
 from app.config import ADMIN_EMAIL, ADMIN_PASSWORD
 from app.engine.effects import parse_ability_effects, parse_trainer_effects
-from app.engine.fate.kg import build_catalog_kg, explain_edge, induce, linked_degree
+from app.engine.fate.kg import build_catalog_kg, explain_edge, induce, linked_degree, prize_weight
 from app.engine.models import Attack, Card, rules_from_preset
 from app.main import app
 from app.seed_data import SET_G_NAMES, build_fallback_deck, fallback_named
@@ -77,6 +77,16 @@ def test_colorless_pay_is_generic_and_set_g_induce_keeps_ledian_and_clefairy():
     attach = next(e for e in deck.edges if e.src == clefairy.id and e.kind == "attaches_from_deck")
     assert attach.effect["benched_name"] == "clefairy"
     assert "look" not in attach.effect
+
+
+def test_prize_weight_requires_the_ex_suffix():
+    rules = rules_from_preset("s60")
+    ex = Card(catalog_id="ex", name="Clefable ex", category="Pokemon")
+    mega = Card(catalog_id="mega", name="Mega Clefable ex", category="Pokemon")
+    calyrex = Card(catalog_id="cal", name="Calyrex", category="Pokemon")
+    assert prize_weight(ex, rules) == 2
+    assert prize_weight(mega, rules) == 3
+    assert prize_weight(calyrex, rules) == 1
 
 
 def test_party_sentence_parses_without_look():
