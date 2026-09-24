@@ -103,6 +103,18 @@ def test_evolves_from_links_every_printing_of_that_name():
     kg = build_catalog_kg([a, b, stage])
     srcs = {e.src for e in kg.edges if e.kind == "evolves_into" and e.dst == "stage"}
     assert srcs == {"base-a", "base-b"}
+    deck = induce(kg, [("Clefairy", 1), ("Clefairy", 3), ("Clefable", 1)])
+    copies = {n.name: n.attributes["copies"] for n in deck.nodes if n.kind == "printing"}
+    assert copies["Clefairy"] == 4
+    partner = Card(
+        catalog_id="namer",
+        name="Namer",
+        category="Trainer",
+        text="Search your deck for a Clefable.",
+    )
+    named = build_catalog_kg([partner, stage])
+    edge = next(e for e in named.edges if e.kind == "named_partner")
+    assert edge.source == "Search your deck for a Clefable."
 
 
 def test_party_sentence_parses_without_look():

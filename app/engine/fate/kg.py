@@ -177,25 +177,25 @@ def build_catalog_kg(cards: list[Card], rules: FamilyRules | None = None) -> KG:
             elif kind == "force_opponent_active":
                 add_role(ROLE_OPPONENT_BENCH, "Opponent's Benched Pokémon")
                 add(src, ROLE_OPPONENT_BENCH, "force_opponent_active", sentence, effect)
-        blob = " ".join(
-            [card.text or ""]
-            + [a.text or "" for a in card.abilities]
-            + [a.text or "" for a in card.attacks]
-        ).lower()
+        sentences = [card.text or ""] + [a.text or "" for a in card.abilities] + [a.text or "" for a in card.attacks]
         for other in unique:
             if other is card or len(other.name) < 5:
                 continue
             if other.name.lower() == (card.evolves_from or "").lower():
                 continue
-            if re.search(rf"\b{re.escape(other.name.lower())}\b", blob):
-                add(src, other.catalog_id or other.name, "named_partner", other.name)
+            pattern = re.compile(rf"\b{re.escape(other.name.lower())}\b")
+            hit = next((s for s in sentences if s and pattern.search(s.lower())), "")
+            if hit:
+                add(src, other.catalog_id or other.name, "named_partner", hit)
 
     return KG(nodes=list(nodes.values()), edges=edges)
 
 
 def induce(kg: KG, names_with_counts: list[tuple[str, int]] | Counter) -> KG:
     """Printing nodes in this list, plus the role nodes their edges still touch."""
-    counts = Counter(dict(names_with_counts))
+    counts: Counter = Counter()
+    for name, n in names_with_counts.items() if isinstance(names_with_counts, Counter) else names_with_counts:
+        counts[name] += int(n)
     kept = [n for n in kg.nodes if n.kind == "printing" and counts[n.name] > 0]
     ids = {n.id for n in kept}
     touching = [e for e in kg.edges if e.src in ids or e.dst in ids]
