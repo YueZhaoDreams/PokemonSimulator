@@ -82,6 +82,18 @@ TOOL_SCHEMAS = [
         },
     },
     {
+        "name": "deck_kg",
+        "description": (
+            "Knowledge graph of a saved deck. Edges come only from printed parse and evolves-from. "
+            "Ask why two cards are linked and the answer is the printed sentence on the edge. Not a win rate."
+        ),
+        "parameters": {
+            "type": "object",
+            "properties": {"deck_id": {"type": "string"}},
+            "required": ["deck_id"],
+        },
+    },
+    {
         "name": "simulate_match",
         "description": "Run a Monte Carlo match between two decks. Use 1000-10000 games. Pass rule_preset s30 (Standard 30, 2 of a name) or s60 (Standard 60, 4 of a name). Omit to use the trainer's settings rule, which defaults to s60. Does not change git.",
         "parameters": {
@@ -682,6 +694,23 @@ def run_tool(name: str, args: dict[str, Any]) -> Any:
         report["deck_id"] = deck["id"]
         report["deck_name"] = deck["name"]
         return report
+    if name == "deck_kg":
+        from collections import Counter
+
+        from app.engine.fate.kg import build_catalog_kg, induce
+
+        deck = _usable_deck(str(args.get("deck_id") or ""))
+        if not deck:
+            return {"error": "deck not found"}
+        cards = _cards(deck)
+        rules = _match_rules(decks=[deck])
+        if isinstance(rules, dict) and rules.get("error"):
+            return rules
+        graph = induce(build_catalog_kg(cards, rules), Counter(c.name for c in cards))
+        body = graph.to_dict()
+        body["deck_id"] = deck["id"]
+        body["deck_name"] = deck["name"]
+        return body
     if name == "simulate_match":
         deck_a = _usable_deck(args["deck_a_id"])
         deck_b = _usable_deck(args["deck_b_id"])

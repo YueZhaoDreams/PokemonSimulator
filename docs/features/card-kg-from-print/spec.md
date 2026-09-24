@@ -1,6 +1,6 @@
 # Card Knowledge Graph from print
 
-Status: ready
+Status: in_review
 
 Epic: deck-as-fate
 

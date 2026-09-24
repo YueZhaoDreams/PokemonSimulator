@@ -206,6 +206,13 @@ def parse_ability_effects(text: str) -> list[dict[str, Any]]:
     )
     if gust and "evolve" in t:
         effects.append({"kind": "gust_low_hp_on_evolve", "max_remaining": int(gust.group(1))})
+        effects.append(
+            {
+                "kind": "force_opponent_active",
+                "trigger": "on_evolve",
+                "max_remaining_hp": int(gust.group(1)),
+            }
+        )
 
     # Flutter Mane Midnight Fluttering: opponent's Active has no Abilities.
     if "has no abilities" in t and "active" in t:
@@ -961,6 +968,11 @@ def parse_trainer_effects(text: str) -> list[dict[str, Any]]:
     if bounce:
         effects.append(bounce)
         return effects
+
+    # Boss's Orders: the same hook as an on-evolve gust, with no HP filter.
+    # The HP-limited sentence stays on the ability parser.
+    if "switch in 1 of your opponent's benched" in t and "hp or less" not in t:
+        effects.append({"kind": "force_opponent_active", "trigger": "play"})
 
     return effects
 

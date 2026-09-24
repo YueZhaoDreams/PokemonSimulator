@@ -66,6 +66,7 @@ PUBLISHED_EFFECT_KINDS = frozenset(
         "recycle_trainer_from_discard",
         "disable_attack",
         "gust_low_hp_on_evolve",
+        "force_opponent_active",
         "suppress_opponent_active_abilities",
         "coin_prevent_attack_damage",
         "require_opponent_prizes",
