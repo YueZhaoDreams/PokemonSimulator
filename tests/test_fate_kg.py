@@ -4,7 +4,7 @@ from app.ai.tools import reset_viewer, run_tool, use_viewer
 from app.config import ADMIN_EMAIL, ADMIN_PASSWORD
 from app.engine.effects import parse_ability_effects, parse_trainer_effects
 from app.engine.fate.kg import build_catalog_kg, explain_edge, induce, linked_degree, prize_weight
-from app.engine.models import Attack, Card, rules_from_preset
+from app.engine.models import Ability, Attack, Card, rules_from_preset
 from app.main import app
 from app.seed_data import SET_G_NAMES, build_fallback_deck, fallback_named
 
@@ -122,6 +122,16 @@ def test_evolves_from_links_every_printing_of_that_name():
     )
     partners = {e.dst for e in only_ex.edges if e.kind == "named_partner"}
     assert partners == {"ex"}
+    flavor = Card(
+        catalog_id="flavor",
+        name="Staraptor",
+        category="Pokemon",
+        text="It evolved from Staravia.",
+        abilities=[Ability(name="Big Wing", text="Draw a card.")],
+    )
+    staravia = Card(catalog_id="staravia", name="Staravia", category="Pokemon")
+    flavored = build_catalog_kg([flavor, staravia])
+    assert not any(e.kind == "named_partner" for e in flavored.edges)
 
 
 def test_party_sentence_parses_without_look():

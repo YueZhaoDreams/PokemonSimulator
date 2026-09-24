@@ -177,7 +177,11 @@ def build_catalog_kg(cards: list[Card], rules: FamilyRules | None = None) -> KG:
             elif kind == "force_opponent_active":
                 add_role(ROLE_OPPONENT_BENCH, "Opponent's Benched Pokémon")
                 add(src, ROLE_OPPONENT_BENCH, "force_opponent_active", sentence, effect)
-        sentences = [s for s in ([card.text or ""] + [a.text or "" for a in card.abilities] + [a.text or "" for a in card.attacks]) if s]
+        # Pokémon card.text is Pokédex flavor. Only rules text can name a partner.
+        sentences = [a.text or "" for a in card.abilities] + [a.text or "" for a in card.attacks]
+        if card.category != "Pokemon":
+            sentences.insert(0, card.text or "")
+        sentences = [s for s in sentences if s]
         candidates = [
             other
             for other in unique
