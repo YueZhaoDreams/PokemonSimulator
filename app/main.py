@@ -466,6 +466,23 @@ def api_fate_ceilings(deck_id: str, rule_preset: str | None = None, user: dict =
     return report
 
 
+@app.get("/api/decks/{deck_id}/fate/kg")
+def api_fate_kg(deck_id: str, user: dict = Depends(require_user)) -> dict:
+    from collections import Counter
+
+    from app.engine.fate.kg import build_catalog_kg, induce
+
+    deck = get_deck(deck_id)
+    if not _can_use_deck(user, deck):
+        raise HTTPException(404, "Deck not found")
+    cards = [Card.from_dict(c) for c in deck["cards"]]
+    graph = induce(build_catalog_kg(cards, rules_for_user(user)), Counter(c.name for c in cards))
+    body = graph.to_dict()
+    body["deck_id"] = deck["id"]
+    body["deck_name"] = deck["name"]
+    return body
+
+
 @app.post("/api/simulate")
 def api_simulate(payload: dict, user: dict = Depends(require_user)) -> dict:
     deck_a = get_deck(payload.get("deck_a_id") or "")

@@ -299,7 +299,10 @@ def _skill_game(strat_a="g", strat_b="party"):
 def test_ledian_and_flutter_mane_abilities_parse_printed_text():
     ledian = fallback_named("Ledian")
     gust = parse_ability_effects(ledian.abilities[0].text)
-    assert gust == [{"kind": "gust_low_hp_on_evolve", "max_remaining": 90}]
+    assert gust == [
+        {"kind": "gust_low_hp_on_evolve", "max_remaining": 90},
+        {"kind": "force_opponent_active", "trigger": "on_evolve", "max_remaining_hp": 90},
+    ]
     flutter = fallback_named("Flutter Mane")
     kinds = [e.get("kind") for abi in flutter.abilities for e in parse_ability_effects(abi.text)]
     assert "suppress_opponent_active_abilities" in kinds
