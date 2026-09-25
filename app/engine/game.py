@@ -752,7 +752,10 @@ class Game:
         me.supporter_used = False
         me.energy_attached = False
         me.retreated = False
+        # Premium Power Pro: "During this turn, attacks used by your Fighting Pokémon do 30 more damage".
+        # The bonus ends when that player's turn ends, including for the opponent's retreat math.
         me.fighting_boost = 0
+        foe.fighting_boost = 0
         self.lunar_cycle_used = False
         for mon in me.in_play():
             mon.ability_used = False

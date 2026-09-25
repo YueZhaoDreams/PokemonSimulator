@@ -269,6 +269,27 @@ def test_party_vs_lucario_evolves_fueled_clefairy_into_clefable_ex():
     assert mega in me.hand
 
 
+def test_premium_power_pro_expires_before_the_opponent_plans():
+    """Printed: during this turn. The +30 is gone once the opponent starts planning."""
+    game = _party_vs_lucario()
+    me = game.players["a"]
+    foe = game.players["b"]
+    _reclaim(me)
+    _reclaim(foe)
+    clef = _pull(me, "Clefairy")
+    lucario = _pull(foe, "Mega Lucario ex")
+    energy = [_pull(foe, "Fighting Energy") for _ in range(2)]
+    me.active = Pokemon(card_i=clef, played_turn=0)
+    me.deck.clear()
+    foe.active = Pokemon(card_i=lucario, energy=energy, played_turn=0)
+    foe.fighting_boost = 30
+    game.turn = 4
+    assert game._aura_swing(foe) == 300
+    assert game._take_turn("a")
+    assert foe.fighting_boost == 0
+    assert game._aura_swing(foe) == 270
+
+
 def test_party_vs_lucario_nest_ball_does_not_bench_mewtwo():
     game = _party_vs_lucario()
     me = game.players["a"]
