@@ -24820,5 +24820,1710 @@
         "dex_id": null
       }
     ]
+  },
+  "l60": {
+    "id": "seed-l60",
+    "name": "Chris Brewer Lucario Hariyama",
+    "sample": null,
+    "kind": "list",
+    "cards": [
+      {
+        "catalog_id": "me1-76",
+        "name": "Riolu",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Fighting"
+        ],
+        "hp": 80,
+        "attacks": [
+          {
+            "name": "Accelerating Stab",
+            "cost": [
+              "Fighting"
+            ],
+            "damage": 30,
+            "text": "During your next turn, this Pok\u00e9mon can't use Accelerating Stab.",
+            "effects": [
+              {
+                "kind": "disable_self_attack_next_turn"
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Psychic",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 2,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://images.pokemontcg.io/me1/76.png",
+        "set_name": "Mega Evolution",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "me1-76",
+        "name": "Riolu",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Fighting"
+        ],
+        "hp": 80,
+        "attacks": [
+          {
+            "name": "Accelerating Stab",
+            "cost": [
+              "Fighting"
+            ],
+            "damage": 30,
+            "text": "During your next turn, this Pok\u00e9mon can't use Accelerating Stab.",
+            "effects": [
+              {
+                "kind": "disable_self_attack_next_turn"
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Psychic",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 2,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://images.pokemontcg.io/me1/76.png",
+        "set_name": "Mega Evolution",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "me1-76",
+        "name": "Riolu",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Fighting"
+        ],
+        "hp": 80,
+        "attacks": [
+          {
+            "name": "Accelerating Stab",
+            "cost": [
+              "Fighting"
+            ],
+            "damage": 30,
+            "text": "During your next turn, this Pok\u00e9mon can't use Accelerating Stab.",
+            "effects": [
+              {
+                "kind": "disable_self_attack_next_turn"
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Psychic",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 2,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://images.pokemontcg.io/me1/76.png",
+        "set_name": "Mega Evolution",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "me1-77",
+        "name": "Mega Lucario ex",
+        "category": "Pokemon",
+        "stage": "Stage1",
+        "types": [
+          "Fighting"
+        ],
+        "hp": 340,
+        "attacks": [
+          {
+            "name": "Aura Jab",
+            "cost": [
+              "Fighting"
+            ],
+            "damage": 130,
+            "text": "Attach up to 3 Basic Fighting Energy cards from your discard pile to your Benched Pok\u00e9mon in any way you like.",
+            "effects": [
+              {
+                "kind": "attach_typed_energy_from_discard",
+                "count": 3,
+                "energy_type": "Fighting",
+                "bench_only": true
+              }
+            ]
+          },
+          {
+            "name": "Mega Brave",
+            "cost": [
+              "Fighting",
+              "Fighting"
+            ],
+            "damage": 270,
+            "text": "During your next turn, this Pok\u00e9mon can't use Mega Brave.",
+            "effects": [
+              {
+                "kind": "disable_self_attack_next_turn"
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Psychic",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 2,
+        "evolves_from": "Riolu",
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://images.pokemontcg.io/me1/77.png",
+        "set_name": "Mega Evolution",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "me1-77",
+        "name": "Mega Lucario ex",
+        "category": "Pokemon",
+        "stage": "Stage1",
+        "types": [
+          "Fighting"
+        ],
+        "hp": 340,
+        "attacks": [
+          {
+            "name": "Aura Jab",
+            "cost": [
+              "Fighting"
+            ],
+            "damage": 130,
+            "text": "Attach up to 3 Basic Fighting Energy cards from your discard pile to your Benched Pok\u00e9mon in any way you like.",
+            "effects": [
+              {
+                "kind": "attach_typed_energy_from_discard",
+                "count": 3,
+                "energy_type": "Fighting",
+                "bench_only": true
+              }
+            ]
+          },
+          {
+            "name": "Mega Brave",
+            "cost": [
+              "Fighting",
+              "Fighting"
+            ],
+            "damage": 270,
+            "text": "During your next turn, this Pok\u00e9mon can't use Mega Brave.",
+            "effects": [
+              {
+                "kind": "disable_self_attack_next_turn"
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Psychic",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 2,
+        "evolves_from": "Riolu",
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://images.pokemontcg.io/me1/77.png",
+        "set_name": "Mega Evolution",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "me1-77",
+        "name": "Mega Lucario ex",
+        "category": "Pokemon",
+        "stage": "Stage1",
+        "types": [
+          "Fighting"
+        ],
+        "hp": 340,
+        "attacks": [
+          {
+            "name": "Aura Jab",
+            "cost": [
+              "Fighting"
+            ],
+            "damage": 130,
+            "text": "Attach up to 3 Basic Fighting Energy cards from your discard pile to your Benched Pok\u00e9mon in any way you like.",
+            "effects": [
+              {
+                "kind": "attach_typed_energy_from_discard",
+                "count": 3,
+                "energy_type": "Fighting",
+                "bench_only": true
+              }
+            ]
+          },
+          {
+            "name": "Mega Brave",
+            "cost": [
+              "Fighting",
+              "Fighting"
+            ],
+            "damage": 270,
+            "text": "During your next turn, this Pok\u00e9mon can't use Mega Brave.",
+            "effects": [
+              {
+                "kind": "disable_self_attack_next_turn"
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Psychic",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 2,
+        "evolves_from": "Riolu",
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://images.pokemontcg.io/me1/77.png",
+        "set_name": "Mega Evolution",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "me1-75",
+        "name": "Solrock",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Fighting"
+        ],
+        "hp": 110,
+        "attacks": [
+          {
+            "name": "Cosmic Beam",
+            "cost": [
+              "Fighting"
+            ],
+            "damage": 70,
+            "text": "If you don't have Lunatone on your Bench, this attack does nothing. This attack's damage isn't affected by Weakness or Resistance.",
+            "effects": [
+              {
+                "kind": "require_named_on_bench",
+                "name": "lunatone"
+              },
+              {
+                "kind": "ignore_wr"
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Grass",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://images.pokemontcg.io/me1/75.png",
+        "set_name": "Mega Evolution",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "me1-75",
+        "name": "Solrock",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Fighting"
+        ],
+        "hp": 110,
+        "attacks": [
+          {
+            "name": "Cosmic Beam",
+            "cost": [
+              "Fighting"
+            ],
+            "damage": 70,
+            "text": "If you don't have Lunatone on your Bench, this attack does nothing. This attack's damage isn't affected by Weakness or Resistance.",
+            "effects": [
+              {
+                "kind": "require_named_on_bench",
+                "name": "lunatone"
+              },
+              {
+                "kind": "ignore_wr"
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Grass",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://images.pokemontcg.io/me1/75.png",
+        "set_name": "Mega Evolution",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "me1-75",
+        "name": "Solrock",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Fighting"
+        ],
+        "hp": 110,
+        "attacks": [
+          {
+            "name": "Cosmic Beam",
+            "cost": [
+              "Fighting"
+            ],
+            "damage": 70,
+            "text": "If you don't have Lunatone on your Bench, this attack does nothing. This attack's damage isn't affected by Weakness or Resistance.",
+            "effects": [
+              {
+                "kind": "require_named_on_bench",
+                "name": "lunatone"
+              },
+              {
+                "kind": "ignore_wr"
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Grass",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://images.pokemontcg.io/me1/75.png",
+        "set_name": "Mega Evolution",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "me1-72",
+        "name": "Makuhita",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Fighting"
+        ],
+        "hp": 80,
+        "attacks": [
+          {
+            "name": "Corkscrew Punch",
+            "cost": [
+              "Fighting"
+            ],
+            "damage": 10,
+            "text": "",
+            "effects": []
+          },
+          {
+            "name": "Confront",
+            "cost": [
+              "Fighting",
+              "Fighting"
+            ],
+            "damage": 30,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Psychic",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 2,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://images.pokemontcg.io/me1/72.png",
+        "set_name": "Mega Evolution",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "me1-72",
+        "name": "Makuhita",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Fighting"
+        ],
+        "hp": 80,
+        "attacks": [
+          {
+            "name": "Corkscrew Punch",
+            "cost": [
+              "Fighting"
+            ],
+            "damage": 10,
+            "text": "",
+            "effects": []
+          },
+          {
+            "name": "Confront",
+            "cost": [
+              "Fighting",
+              "Fighting"
+            ],
+            "damage": 30,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Psychic",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 2,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://images.pokemontcg.io/me1/72.png",
+        "set_name": "Mega Evolution",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "me1-73",
+        "name": "Hariyama",
+        "category": "Pokemon",
+        "stage": "Stage1",
+        "types": [
+          "Fighting"
+        ],
+        "hp": 150,
+        "attacks": [
+          {
+            "name": "Wild Press",
+            "cost": [
+              "Fighting",
+              "Fighting",
+              "Fighting"
+            ],
+            "damage": 210,
+            "text": "This Pok\u00e9mon also does 70 damage to itself.",
+            "effects": [
+              {
+                "kind": "recoil",
+                "amount": 70
+              }
+            ]
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Heave-Ho Catcher",
+            "text": "Once during your turn, when you play this Pok\u00e9mon from your hand to evolve 1 of your Pok\u00e9mon, you may use this Ability. Switch in 1 of your opponent's Benched Pok\u00e9mon to the Active Spot.",
+            "effects": [
+              {
+                "kind": "force_opponent_active",
+                "trigger": "on_evolve"
+              }
+            ]
+          }
+        ],
+        "weaknesses": [
+          {
+            "type": "Psychic",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 3,
+        "evolves_from": "Makuhita",
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://images.pokemontcg.io/me1/73.png",
+        "set_name": "Mega Evolution",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "me1-73",
+        "name": "Hariyama",
+        "category": "Pokemon",
+        "stage": "Stage1",
+        "types": [
+          "Fighting"
+        ],
+        "hp": 150,
+        "attacks": [
+          {
+            "name": "Wild Press",
+            "cost": [
+              "Fighting",
+              "Fighting",
+              "Fighting"
+            ],
+            "damage": 210,
+            "text": "This Pok\u00e9mon also does 70 damage to itself.",
+            "effects": [
+              {
+                "kind": "recoil",
+                "amount": 70
+              }
+            ]
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Heave-Ho Catcher",
+            "text": "Once during your turn, when you play this Pok\u00e9mon from your hand to evolve 1 of your Pok\u00e9mon, you may use this Ability. Switch in 1 of your opponent's Benched Pok\u00e9mon to the Active Spot.",
+            "effects": [
+              {
+                "kind": "force_opponent_active",
+                "trigger": "on_evolve"
+              }
+            ]
+          }
+        ],
+        "weaknesses": [
+          {
+            "type": "Psychic",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 3,
+        "evolves_from": "Makuhita",
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://images.pokemontcg.io/me1/73.png",
+        "set_name": "Mega Evolution",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "me1-74",
+        "name": "Lunatone",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Fighting"
+        ],
+        "hp": 110,
+        "attacks": [
+          {
+            "name": "Power Gem",
+            "cost": [
+              "Fighting",
+              "Fighting"
+            ],
+            "damage": 50,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Lunar Cycle",
+            "text": "Once during your turn, if you have Solrock in play, you may discard a Basic Fighting Energy card from your hand in order to use this Ability. Draw 3 cards. You can't use more than 1 Lunar Cycle Ability each turn.",
+            "effects": [
+              {
+                "kind": "lunar_cycle",
+                "draw": 3,
+                "require_in_play": "Solrock",
+                "energy_type": "Fighting",
+                "once_per_turn": true
+              }
+            ]
+          }
+        ],
+        "weaknesses": [
+          {
+            "type": "Grass",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://images.pokemontcg.io/me1/74.png",
+        "set_name": "Mega Evolution",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "me1-74",
+        "name": "Lunatone",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Fighting"
+        ],
+        "hp": 110,
+        "attacks": [
+          {
+            "name": "Power Gem",
+            "cost": [
+              "Fighting",
+              "Fighting"
+            ],
+            "damage": 50,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Lunar Cycle",
+            "text": "Once during your turn, if you have Solrock in play, you may discard a Basic Fighting Energy card from your hand in order to use this Ability. Draw 3 cards. You can't use more than 1 Lunar Cycle Ability each turn.",
+            "effects": [
+              {
+                "kind": "lunar_cycle",
+                "draw": 3,
+                "require_in_play": "Solrock",
+                "energy_type": "Fighting",
+                "once_per_turn": true
+              }
+            ]
+          }
+        ],
+        "weaknesses": [
+          {
+            "type": "Grass",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://images.pokemontcg.io/me1/74.png",
+        "set_name": "Mega Evolution",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "me03-062",
+        "name": "Meowth ex",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Colorless"
+        ],
+        "hp": 170,
+        "attacks": [
+          {
+            "name": "Tuck Tail",
+            "cost": [
+              "Colorless",
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 60,
+            "text": "Put this Pok\u00e9mon and all attached cards into your hand.",
+            "effects": [
+              {
+                "kind": "return_self_to_hand"
+              }
+            ]
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Last-Ditch Catch",
+            "text": "Once during your turn, when you play this Pok\u00e9mon from your hand onto your Bench, you may use this Ability. Search your deck for a Supporter card, reveal it, and put it into your hand. Then, shuffle your deck. You can't use more than 1 Ability that has \"Last-Ditch\" in its name each turn.",
+            "effects": [
+              {
+                "kind": "search_supporter_on_bench",
+                "once_per_turn": true,
+                "name_lock": "last-ditch"
+              }
+            ]
+          }
+        ],
+        "weaknesses": [
+          {
+            "type": "Fighting",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/me/me03/062/low.webp",
+        "set_name": "Perfect Order",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "me01-119",
+        "name": "Lillie's Determination",
+        "category": "Trainer",
+        "stage": "Supporter",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "supporter",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/me/me01/119/low.webp",
+        "set_name": null,
+        "text": "Shuffle your hand into your deck. Then, draw 6 cards. If you have exactly 6 Prize cards remaining, draw 8 cards instead.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "me01-119",
+        "name": "Lillie's Determination",
+        "category": "Trainer",
+        "stage": "Supporter",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "supporter",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/me/me01/119/low.webp",
+        "set_name": null,
+        "text": "Shuffle your hand into your deck. Then, draw 6 cards. If you have exactly 6 Prize cards remaining, draw 8 cards instead.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "me01-119",
+        "name": "Lillie's Determination",
+        "category": "Trainer",
+        "stage": "Supporter",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "supporter",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/me/me01/119/low.webp",
+        "set_name": null,
+        "text": "Shuffle your hand into your deck. Then, draw 6 cards. If you have exactly 6 Prize cards remaining, draw 8 cards instead.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "me01-119",
+        "name": "Lillie's Determination",
+        "category": "Trainer",
+        "stage": "Supporter",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "supporter",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/me/me01/119/low.webp",
+        "set_name": null,
+        "text": "Shuffle your hand into your deck. Then, draw 6 cards. If you have exactly 6 Prize cards remaining, draw 8 cards instead.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv01-176",
+        "name": "Judge",
+        "category": "Trainer",
+        "stage": "Supporter",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "supporter",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/176/low.webp",
+        "set_name": null,
+        "text": "Each player shuffles their hand into their deck and draws 4 cards.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv01-176",
+        "name": "Judge",
+        "category": "Trainer",
+        "stage": "Supporter",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "supporter",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/176/low.webp",
+        "set_name": null,
+        "text": "Each player shuffles their hand into their deck and draws 4 cards.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv02-172",
+        "name": "Boss's Orders",
+        "category": "Trainer",
+        "stage": "Supporter",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "supporter",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv02/172/low.webp",
+        "set_name": null,
+        "text": "Switch in 1 of your opponent's Benched Pok\u00e9mon to the Active Spot.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv02-172",
+        "name": "Boss's Orders",
+        "category": "Trainer",
+        "stage": "Supporter",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "supporter",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv02/172/low.webp",
+        "set_name": null,
+        "text": "Switch in 1 of your opponent's Benched Pok\u00e9mon to the Active Spot.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv10-176",
+        "name": "Team Rocket's Petrel",
+        "category": "Trainer",
+        "stage": "Supporter",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "supporter",
+        "energy_type": null,
+        "image": "https://images.pokemontcg.io/sv10/176.png",
+        "set_name": null,
+        "text": "Search your deck for a Trainer card, reveal it, and put it into your hand. Then, shuffle your deck.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "me1-132",
+        "name": "Wally's Compassion",
+        "category": "Trainer",
+        "stage": "Supporter",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "supporter",
+        "energy_type": null,
+        "image": "https://images.pokemontcg.io/me1/132.png",
+        "set_name": null,
+        "text": "Heal all damage from 1 of your Mega Evolution Pok\u00e9mon ex. If you healed any damage in this way, put all Energy attached to that Pok\u00e9mon into your hand.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "me1-116",
+        "name": "Fighting Gong",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://images.pokemontcg.io/me1/116.png",
+        "set_name": null,
+        "text": "Search your deck for a Basic Fighting Energy card or a Basic Fighting Pok\u00e9mon, reveal it, and put it into your hand. Then, shuffle your deck.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "me1-116",
+        "name": "Fighting Gong",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://images.pokemontcg.io/me1/116.png",
+        "set_name": null,
+        "text": "Search your deck for a Basic Fighting Energy card or a Basic Fighting Pok\u00e9mon, reveal it, and put it into your hand. Then, shuffle your deck.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "me1-116",
+        "name": "Fighting Gong",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://images.pokemontcg.io/me1/116.png",
+        "set_name": null,
+        "text": "Search your deck for a Basic Fighting Energy card or a Basic Fighting Pok\u00e9mon, reveal it, and put it into your hand. Then, shuffle your deck.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "me1-116",
+        "name": "Fighting Gong",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://images.pokemontcg.io/me1/116.png",
+        "set_name": null,
+        "text": "Search your deck for a Basic Fighting Energy card or a Basic Fighting Pok\u00e9mon, reveal it, and put it into your hand. Then, shuffle your deck.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "me02.5-198",
+        "name": "Pok\u00e9 Pad",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/me/me02.5/198/low.webp",
+        "set_name": null,
+        "text": "Search your deck for a Pok\u00e9mon that doesn't have a Rule Box, reveal it, and put it into your hand. Then, shuffle your deck. (Pok\u00e9mon ex, Pok\u00e9mon V, etc. have Rule Boxes.)",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "me02.5-198",
+        "name": "Pok\u00e9 Pad",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/me/me02.5/198/low.webp",
+        "set_name": null,
+        "text": "Search your deck for a Pok\u00e9mon that doesn't have a Rule Box, reveal it, and put it into your hand. Then, shuffle your deck. (Pok\u00e9mon ex, Pok\u00e9mon V, etc. have Rule Boxes.)",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "me02.5-198",
+        "name": "Pok\u00e9 Pad",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/me/me02.5/198/low.webp",
+        "set_name": null,
+        "text": "Search your deck for a Pok\u00e9mon that doesn't have a Rule Box, reveal it, and put it into your hand. Then, shuffle your deck. (Pok\u00e9mon ex, Pok\u00e9mon V, etc. have Rule Boxes.)",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "me02.5-198",
+        "name": "Pok\u00e9 Pad",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/me/me02.5/198/low.webp",
+        "set_name": null,
+        "text": "Search your deck for a Pok\u00e9mon that doesn't have a Rule Box, reveal it, and put it into your hand. Then, shuffle your deck. (Pok\u00e9mon ex, Pok\u00e9mon V, etc. have Rule Boxes.)",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "me1-124",
+        "name": "Premium Power Pro",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://images.pokemontcg.io/me1/124.png",
+        "set_name": null,
+        "text": "During this turn, attacks used by your Fighting Pok\u00e9mon do 30 more damage to your opponent's Active Pok\u00e9mon (before applying Weakness and Resistance).",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "me1-124",
+        "name": "Premium Power Pro",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://images.pokemontcg.io/me1/124.png",
+        "set_name": null,
+        "text": "During this turn, attacks used by your Fighting Pok\u00e9mon do 30 more damage to your opponent's Active Pok\u00e9mon (before applying Weakness and Resistance).",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "me1-124",
+        "name": "Premium Power Pro",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://images.pokemontcg.io/me1/124.png",
+        "set_name": null,
+        "text": "During this turn, attacks used by your Fighting Pok\u00e9mon do 30 more damage to your opponent's Active Pok\u00e9mon (before applying Weakness and Resistance).",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "me1-124",
+        "name": "Premium Power Pro",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://images.pokemontcg.io/me1/124.png",
+        "set_name": null,
+        "text": "During this turn, attacks used by your Fighting Pok\u00e9mon do 30 more damage to your opponent's Active Pok\u00e9mon (before applying Weakness and Resistance).",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv04.5-091",
+        "name": "Ultra Ball",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv04.5/091/low.webp",
+        "set_name": null,
+        "text": "Discard 2 cards from your hand. Search your deck for a Pok\u00e9mon.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv04.5-091",
+        "name": "Ultra Ball",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv04.5/091/low.webp",
+        "set_name": null,
+        "text": "Discard 2 cards from your hand. Search your deck for a Pok\u00e9mon.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv04.5-091",
+        "name": "Ultra Ball",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv04.5/091/low.webp",
+        "set_name": null,
+        "text": "Discard 2 cards from your hand. Search your deck for a Pok\u00e9mon.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv04.5-091",
+        "name": "Ultra Ball",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv04.5/091/low.webp",
+        "set_name": null,
+        "text": "Discard 2 cards from your hand. Search your deck for a Pok\u00e9mon.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv06-165",
+        "name": "Unfair Stamp",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv06/165/low.webp",
+        "set_name": null,
+        "text": "You can use this card only if any of your Pok\u00e9mon were Knocked Out during your opponent's last turn.\n\nEach player shuffles their hand into their deck. Then, you draw 5 cards, and your opponent draws 2 cards.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv01-194",
+        "name": "Switch",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/194/low.webp",
+        "set_name": null,
+        "text": "Switch your Active Pok\u00e9mon with 1 of your Benched Pok\u00e9mon.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "me1-166",
+        "name": "Air Balloon",
+        "category": "Trainer",
+        "stage": "Tool",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "tool",
+        "energy_type": null,
+        "image": "https://images.pokemontcg.io/me1/166.png",
+        "set_name": null,
+        "text": "The Retreat Cost of the Pok\u00e9mon this card is attached to is [C][C] less.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "me1-166",
+        "name": "Air Balloon",
+        "category": "Trainer",
+        "stage": "Tool",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "tool",
+        "energy_type": null,
+        "image": "https://images.pokemontcg.io/me1/166.png",
+        "set_name": null,
+        "text": "The Retreat Cost of the Pok\u00e9mon this card is attached to is [C][C] less.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv8-177",
+        "name": "Gravity Mountain",
+        "category": "Trainer",
+        "stage": "Stadium",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "stadium",
+        "energy_type": null,
+        "image": "https://images.pokemontcg.io/sv8/177.png",
+        "set_name": null,
+        "text": "Each Stage 2 Pok\u00e9mon in play (both yours and your opponent's) gets -30 HP.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv8-177",
+        "name": "Gravity Mountain",
+        "category": "Trainer",
+        "stage": "Stadium",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "stadium",
+        "energy_type": null,
+        "image": "https://images.pokemontcg.io/sv8/177.png",
+        "set_name": null,
+        "text": "Each Stage 2 Pok\u00e9mon in play (both yours and your opponent's) gets -30 HP.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv8-177",
+        "name": "Gravity Mountain",
+        "category": "Trainer",
+        "stage": "Stadium",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "stadium",
+        "energy_type": null,
+        "image": "https://images.pokemontcg.io/sv8/177.png",
+        "set_name": null,
+        "text": "Each Stage 2 Pok\u00e9mon in play (both yours and your opponent's) gets -30 HP.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-157",
+        "name": "Fighting Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Fighting"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Fighting",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/157/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-157",
+        "name": "Fighting Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Fighting"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Fighting",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/157/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-157",
+        "name": "Fighting Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Fighting"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Fighting",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/157/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-157",
+        "name": "Fighting Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Fighting"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Fighting",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/157/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-157",
+        "name": "Fighting Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Fighting"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Fighting",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/157/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-157",
+        "name": "Fighting Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Fighting"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Fighting",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/157/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-157",
+        "name": "Fighting Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Fighting"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Fighting",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/157/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-157",
+        "name": "Fighting Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Fighting"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Fighting",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/157/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-157",
+        "name": "Fighting Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Fighting"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Fighting",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/157/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-157",
+        "name": "Fighting Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Fighting"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Fighting",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/157/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "swsh12.5-157",
+        "name": "Fighting Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Fighting"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Fighting",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/157/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null
+      }
+    ]
   }
 }

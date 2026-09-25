@@ -1,0 +1,133 @@
+{
+  "seed": 20260925,
+  "games": 3000,
+  "elapsed": 74.8,
+  "rows": [
+    {
+      "foe": "c60",
+      "label": "C60 Clefairy / Mewtwo",
+      "strategy": "party",
+      "win_rate": 0.14333333333333334,
+      "wins_a": 430,
+      "wins_b": 2570,
+      "ties": 0,
+      "first": 0.145,
+      "second": 0.142,
+      "attacks": {
+        "attack:Clefable ex:Wondrous Moon": 3625,
+        "attack:Mega Clefable ex:Shooting Moons": 2320,
+        "attack:Mewtwo ex:Photon Kinesis": 415,
+        "ko:Mega Lucario ex": 2672
+      },
+      "note": "Remeasured after party uses Clefable ex Wondrous Moon as the closer vs aura. Other cells are the original run."
+    },
+    {
+      "foe": "m60",
+      "label": "M Mew ex baby box",
+      "strategy": "mew_baby",
+      "win_rate": 0.09866666666666667,
+      "wins_a": 296,
+      "wins_b": 2704,
+      "ties": 0,
+      "first": 0.07631578947368421,
+      "second": 0.12162162162162163,
+      "attacks": {}
+    },
+    {
+      "foe": "d60",
+      "label": "D60 Charm Ogerpon",
+      "strategy": "demolish",
+      "win_rate": 0.8473333333333334,
+      "wins_a": 2542,
+      "wins_b": 458,
+      "ties": 0,
+      "first": 0.8628347485303723,
+      "second": 0.8311776718856365,
+      "attacks": {}
+    },
+    {
+      "foe": "s60",
+      "label": "S60 Floragato",
+      "strategy": "slash",
+      "win_rate": 0.6983333333333334,
+      "wins_a": 2095,
+      "wins_b": 905,
+      "ties": 0,
+      "first": 0.7113333333333334,
+      "second": 0.6853333333333333,
+      "attacks": {}
+    },
+    {
+      "foe": "t60",
+      "label": "T60 Dragapult",
+      "strategy": "phantom",
+      "win_rate": 0.44666666666666666,
+      "wins_a": 1340,
+      "wins_b": 1660,
+      "ties": 0,
+      "first": 0.44658261446582614,
+      "second": 0.44675150703281985,
+      "attacks": {}
+    },
+    {
+      "foe": "hedrick",
+      "label": "Hedrick Worlds Dragapult",
+      "strategy": "phantom",
+      "win_rate": 0.436,
+      "wins_a": 1308,
+      "wins_b": 1692,
+      "ties": 0,
+      "first": 0.44944553163731243,
+      "second": 0.4219495569188821,
+      "attacks": {}
+    },
+    {
+      "foe": "unl",
+      "label": "UNL Pidgeot Dragapult",
+      "strategy": "phantom",
+      "win_rate": 0.5023333333333333,
+      "wins_a": 1507,
+      "wins_b": 1493,
+      "ties": 0,
+      "first": 0.5095206828627709,
+      "second": 0.4949221394719025,
+      "attacks": {}
+    },
+    {
+      "foe": "g",
+      "label": "Carpet Set G",
+      "strategy": "g",
+      "win_rate": 0.3333333333333333,
+      "wins_a": 1000,
+      "wins_b": 2000,
+      "ties": 0,
+      "first": 0.3394433129667346,
+      "second": 0.3274394237066143,
+      "attacks": {}
+    },
+    {
+      "foe": "h",
+      "label": "Carpet Set H",
+      "strategy": "nuzzle",
+      "win_rate": 0.732,
+      "wins_a": 2196,
+      "wins_b": 804,
+      "ties": 0,
+      "first": 0.7457067371202114,
+      "second": 0.7180349932705249,
+      "attacks": {}
+    },
+    {
+      "foe": "g30",
+      "label": "G30 Ambipom Hand Fling",
+      "strategy": "celebration",
+      "win_rate": 0.692,
+      "wins_a": 2076,
+      "wins_b": 924,
+      "ties": 0,
+      "first": 0.7136054421768707,
+      "second": 0.6712418300653594,
+      "attacks": {}
+    }
+  ]
+}

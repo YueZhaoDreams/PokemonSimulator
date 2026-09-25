@@ -199,6 +199,33 @@ def parse_ability_effects(text: str) -> list[dict[str, Any]]:
             }
         )
 
+    # Hariyama Heave-Ho Catcher: on evolve, gust any Benched Pokémon.
+    # Ledian's sentence adds "90 HP or less remaining" and is parsed below.
+    if (
+        "when you play this pokemon from your hand to evolve" in t
+        and "switch in 1 of your opponent's benched" in t
+        and "or less remaining" not in t
+    ):
+        effects.append({"kind": "force_opponent_active", "trigger": "on_evolve"})
+
+    # Lunatone Lunar Cycle: Solrock in play, discard a Basic Fighting Energy, draw 3.
+    if "discard a basic fighting energy" in t and "draw" in t and "solrock in play" in t:
+        n = re.search(r"draw (\d+)", t)
+        effects.append(
+            {
+                "kind": "lunar_cycle",
+                "draw": int(n.group(1) if n else 3),
+                "require_in_play": "Solrock",
+                "energy_type": "Fighting",
+                "once_per_turn": "can't use more than 1" in t or "cannot use more than 1" in t,
+            }
+        )
+
+    # Gravity Mountain: Stage 2 Pokémon in play get -N HP.
+    stage_hp = re.search(r"each stage 2 pokemon in play.*gets (-\d+) hp", t)
+    if stage_hp:
+        effects.append({"kind": "stage2_hp", "delta": int(stage_hp.group(1))})
+
     # Ledian Glittering Star Pattern: on evolve, gust a ≤N remaining HP bench Pokémon.
     gust = re.search(
         r"switch in 1 of your opponent's benched pokemon that has (\d+) hp or less remaining",
@@ -600,7 +627,13 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
         effects.append({"kind": "disable_self_attack_next_turn"})
 
     if "this attack does nothing" in t:
-        if "same number of cards in your hand" in t:
+        bench_named = re.search(
+            r"if you don't have ([a-z0-9 .'-]+?) on your bench, this attack does nothing",
+            t,
+        )
+        if bench_named:
+            effects.append({"kind": "require_named_on_bench", "name": bench_named.group(1).strip()})
+        elif "same number of cards in your hand" in t:
             effects.append({"kind": "require_equal_hands"})
         elif "prize" in t:
             pair = re.search(r"exactly (\d+) or (\d+) prize", t)
@@ -631,7 +664,17 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
     # Indeedee Expert Nurturer: search an Evolution and put it onto the matching Pokémon.
     if "evolves from 1 of your pokemon" in t and "put it onto that pokemon" in t:
         effects.append({"kind": "evolve_from_deck"})
-    if "discard pile" in t and "attach" in t and "energy" in t and "up to" in t:
+    if "basic fighting energy" in t and "discard pile" in t and "attach" in t and "benched" in t:
+        up = re.search(r"up to (\d+)", t)
+        effects.append(
+            {
+                "kind": "attach_typed_energy_from_discard",
+                "count": int(up.group(1) if up else 3),
+                "energy_type": "Fighting",
+                "bench_only": True,
+            }
+        )
+    elif "discard pile" in t and "attach" in t and "energy" in t and "up to" in t:
         up = re.search(r"up to (\d+)", t)
         effects.append({"kind": "transfer_charge", "count": int(up.group(1)) if up else 2})
 
@@ -955,6 +998,30 @@ def parse_trainer_effects(text: str) -> list[dict[str, Any]]:
 
     if "just played" in t and "evolved" in t and "evolve" in t:
         effects.append({"kind": "evolve_just_played_or_evolved"})
+        return effects
+
+    # Premium Power Pro: Fighting attacks do N more to the Active this turn.
+    power = re.search(
+        r"during this turn, attacks used by your fighting pokemon do (\d+) more damage",
+        t,
+    )
+    if power:
+        effects.append({"kind": "fighting_damage_this_turn", "amount": int(power.group(1))})
+        return effects
+
+    # Fighting Gong: Basic Fighting Energy or Basic Fighting Pokémon to hand.
+    if "search your deck" in t and "basic fighting energy" in t and "basic fighting pokemon" in t:
+        effects.append({"kind": "search_fighting_basic"})
+        return effects
+
+    # Team Rocket's Petrel: any Trainer from the deck.
+    if "search your deck for a trainer card" in t and "into your hand" in t:
+        effects.append({"kind": "search_trainer"})
+        return effects
+
+    # Wally's Compassion: heal a Mega Evolution Pokémon ex, then return its Energy.
+    if "heal all damage" in t and "mega evolution" in t and "energy attached" in t:
+        effects.append({"kind": "heal_mega_return_energy"})
         return effects
 
     # Poké Pad ME02.5 198: a Pokémon without a Rule Box, not a look-N.

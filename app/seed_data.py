@@ -377,6 +377,34 @@ SET_M60_NAMES = (
 SET_M_NAMES = SET_M60_NAMES
 SET_MEW_BABY_60_NAMES = SET_M60_NAMES
 
+# Chris Brewer Lucario Hariyama. Public 60 under his name on Limitless
+# (Surge's TCG Vault). Baltimore Regional 2026 lists him on Lucario Hariyama
+# without publishing counts. Mega Lucario ex MEG 77, Solrock/Lunatone draw,
+# Hariyama gust. 16 Pokémon / 33 trainers / 11 Fighting Energy.
+SET_L60_NAMES = (
+    ["Riolu"] * 3
+    + ["Mega Lucario ex"] * 3
+    + ["Solrock"] * 3
+    + ["Makuhita"] * 2
+    + ["Hariyama"] * 2
+    + ["Lunatone"] * 2
+    + ["Meowth ex"]
+    + ["Lillie's Determination"] * 4
+    + ["Judge"] * 2
+    + ["Boss's Orders"] * 2
+    + ["Team Rocket's Petrel"]
+    + ["Wally's Compassion"]
+    + ["Fighting Gong"] * 4
+    + ["Poké Pad"] * 4
+    + ["Premium Power Pro"] * 4
+    + ["Ultra Ball"] * 4
+    + ["Unfair Stamp"]
+    + ["Switch"]
+    + ["Air Balloon"] * 2
+    + ["Gravity Mountain"] * 3
+    + ["Fighting Energy"] * 11
+)
+
 # Unlimited 60: Ambipom PAR Hand Fling, Lopunny FLF Big Jump recycle,
 # Raikou V Fleet-Footed + Forest Seal Stone Star Alchemy, Draw Energy, Rare Candy.
 # 4/4 Aipom–Ambipom is the 2-for-1 prize race (100 HP / 1 prize vs household 2-prizers).
@@ -3337,6 +3365,205 @@ _register(
         "Prevent all damage counters from being placed on Benched Pokémon (both yours and your opponent's) by effects of attacks and Abilities from the opponent's Pokémon. (Damage from attacks is still taken.)",
         catalog_id="me02-085",
         image="https://assets.tcgdex.net/en/me/me02/085/low.webp",
+    )
+)
+
+# Chris Brewer Lucario Hariyama prints. Texts are the pokemontcg.io English sentences.
+_register(
+    _pkm(
+        "Riolu",
+        "Basic",
+        ["Fighting"],
+        80,
+        [
+            _atk(
+                "Accelerating Stab",
+                ["Fighting"],
+                30,
+                "During your next turn, this Pokémon can't use Accelerating Stab.",
+            )
+        ],
+        catalog_id="me1-76",
+        weakness="Psychic",
+        retreat=2,
+        image="https://images.pokemontcg.io/me1/76.png",
+        set_name="Mega Evolution",
+    )
+)
+_register(
+    _pkm(
+        "Mega Lucario ex",
+        "Stage1",
+        ["Fighting"],
+        340,
+        [
+            _atk(
+                "Aura Jab",
+                ["Fighting"],
+                130,
+                "Attach up to 3 Basic Fighting Energy cards from your discard pile to your Benched Pokémon in any way you like.",
+            ),
+            _atk(
+                "Mega Brave",
+                ["Fighting", "Fighting"],
+                270,
+                "During your next turn, this Pokémon can't use Mega Brave.",
+            ),
+        ],
+        evolves_from="Riolu",
+        catalog_id="me1-77",
+        weakness="Psychic",
+        retreat=2,
+        image="https://images.pokemontcg.io/me1/77.png",
+        set_name="Mega Evolution",
+    )
+)
+_register(
+    _pkm(
+        "Makuhita",
+        "Basic",
+        ["Fighting"],
+        80,
+        [
+            _atk("Corkscrew Punch", ["Fighting"], 10),
+            _atk("Confront", ["Fighting", "Fighting"], 30),
+        ],
+        catalog_id="me1-72",
+        weakness="Psychic",
+        retreat=2,
+        image="https://images.pokemontcg.io/me1/72.png",
+        set_name="Mega Evolution",
+    )
+)
+_register(
+    _pkm(
+        "Hariyama",
+        "Stage1",
+        ["Fighting"],
+        150,
+        [
+            _atk(
+                "Wild Press",
+                ["Fighting", "Fighting", "Fighting"],
+                210,
+                "This Pokémon also does 70 damage to itself.",
+            )
+        ],
+        evolves_from="Makuhita",
+        catalog_id="me1-73",
+        weakness="Psychic",
+        retreat=3,
+        abilities=[
+            Ability(
+                name="Heave-Ho Catcher",
+                text=(
+                    "Once during your turn, when you play this Pokémon from your hand to evolve "
+                    "1 of your Pokémon, you may use this Ability. Switch in 1 of your opponent's "
+                    "Benched Pokémon to the Active Spot."
+                ),
+            )
+        ],
+        image="https://images.pokemontcg.io/me1/73.png",
+        set_name="Mega Evolution",
+    )
+)
+_register(
+    _pkm(
+        "Lunatone",
+        "Basic",
+        ["Fighting"],
+        110,
+        [_atk("Power Gem", ["Fighting", "Fighting"], 50)],
+        catalog_id="me1-74",
+        weakness="Grass",
+        retreat=1,
+        abilities=[
+            Ability(
+                name="Lunar Cycle",
+                text=(
+                    "Once during your turn, if you have Solrock in play, you may discard a Basic "
+                    "Fighting Energy card from your hand in order to use this Ability. Draw 3 cards. "
+                    "You can't use more than 1 Lunar Cycle Ability each turn."
+                ),
+            )
+        ],
+        image="https://images.pokemontcg.io/me1/74.png",
+        set_name="Mega Evolution",
+    )
+)
+_register(
+    _pkm(
+        "Solrock",
+        "Basic",
+        ["Fighting"],
+        110,
+        [
+            _atk(
+                "Cosmic Beam",
+                ["Fighting"],
+                70,
+                "If you don't have Lunatone on your Bench, this attack does nothing. This attack's damage isn't affected by Weakness or Resistance.",
+            )
+        ],
+        catalog_id="me1-75",
+        weakness="Grass",
+        retreat=1,
+        image="https://images.pokemontcg.io/me1/75.png",
+        set_name="Mega Evolution",
+    )
+)
+_register(
+    _trn(
+        "Fighting Gong",
+        "item",
+        "Search your deck for a Basic Fighting Energy card or a Basic Fighting Pokémon, reveal it, and put it into your hand. Then, shuffle your deck.",
+        catalog_id="me1-116",
+        image="https://images.pokemontcg.io/me1/116.png",
+    )
+)
+_register(
+    _trn(
+        "Premium Power Pro",
+        "item",
+        "During this turn, attacks used by your Fighting Pokémon do 30 more damage to your opponent's Active Pokémon (before applying Weakness and Resistance).",
+        catalog_id="me1-124",
+        image="https://images.pokemontcg.io/me1/124.png",
+    )
+)
+_register(
+    _trn(
+        "Air Balloon",
+        "tool",
+        "The Retreat Cost of the Pokémon this card is attached to is [C][C] less.",
+        catalog_id="me1-166",
+        image="https://images.pokemontcg.io/me1/166.png",
+    )
+)
+_register(
+    _trn(
+        "Gravity Mountain",
+        "stadium",
+        "Each Stage 2 Pokémon in play (both yours and your opponent's) gets -30 HP.",
+        catalog_id="sv8-177",
+        image="https://images.pokemontcg.io/sv8/177.png",
+    )
+)
+_register(
+    _trn(
+        "Team Rocket's Petrel",
+        "supporter",
+        "Search your deck for a Trainer card, reveal it, and put it into your hand. Then, shuffle your deck.",
+        catalog_id="sv10-176",
+        image="https://images.pokemontcg.io/sv10/176.png",
+    )
+)
+_register(
+    _trn(
+        "Wally's Compassion",
+        "supporter",
+        "Heal all damage from 1 of your Mega Evolution Pokémon ex. If you healed any damage in this way, put all Energy attached to that Pokémon into your hand.",
+        catalog_id="me1-132",
+        image="https://images.pokemontcg.io/me1/132.png",
     )
 )
 

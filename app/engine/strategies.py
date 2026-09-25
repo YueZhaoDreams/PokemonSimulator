@@ -250,6 +250,10 @@ STRATEGY_LIBRARY = {
             "If those boards are not assembled, hide behind Mega / Clefable ex and keep one Mewtwo. "
             "Vs Floragato: Party once from Active Clefairy, pay Retreat 2, hide on Mega / ex / "
             "Mewtwo so Slashing Claw 90 (Belt 140) does not farm 60 HP prizes; Photon when it KOs. "
+            "Vs Mega Lucario: do not play Mewtwo. Fighting weakness turns Mega Brave 270 into 540. "
+            "Evolve and fuel Clefable ex for Wondrous Moon (170 Psychic is 340 into that weakness, "
+            "a knockout on 340 HP) and Mega Clefable ex for Shooting Moons. Promote Mewtwo only "
+            "when Photon actually KOs. "
             "Vs Dragapult: Party once, hide on a body that still survives Phantom Dive 200 "
             "(full Mega / full Mewtwo / undamaged Clefable ex). Never gift a 120 HP Mega (3 prizes) "
             "or a leftover 60 HP ex. Lunar Zone on a fueled bench Clefairy; Mega only if Mewtwo is "
@@ -558,6 +562,25 @@ STRATEGY_LIBRARY = {
         insurance=["Raikou V"],
         insurance_bench=1,
         max_ace_copies=3,
+    ),
+    "aura": StrategySpec(
+        name="aura",
+        description=(
+            "Mega Lucario ex evolves the turn Riolu is played. Aura Jab (1 Fighting) loads the bench "
+            "from discard; Mega Brave is the 270 closer. Lunatone discards a Fighting Energy to draw 3 "
+            "while Solrock is in play. Hariyama gusts on evolve. Premium Power Pro adds 30, Gravity Mountain "
+            "cuts Stage 2 HP by 30."
+        ),
+        prefer_damage=1.0,
+        prefer_status=0.0,
+        bench_fill=1.0,
+        evolve_asap=1.0,
+        attach_pokemon_as_energy=0.0,
+        item_spend=1.0,
+        hold_as_energy=False,
+        protect=["Mega Lucario ex", "Riolu", "Lunatone", "Solrock"],
+        search_aces=["Riolu", "Lunatone", "Solrock", "Makuhita"],
+        closers=["Mega Lucario ex", "Hariyama", "Solrock"],
     ),
     "mew_baby": StrategySpec(
         name="mew_baby",
