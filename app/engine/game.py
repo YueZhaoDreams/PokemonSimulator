@@ -74,6 +74,7 @@ class Player:
     first_attacks_turn: dict[str, int] = field(default_factory=dict)
     item_lock: bool = False
     pending_item_lock: bool = False
+    fighting_boost: int = 0
     ko_since_opp_turn: bool = False
     lost_zone: list[int] = field(default_factory=list)
     quick_search_used: bool = False
@@ -751,6 +752,8 @@ class Game:
         me.supporter_used = False
         me.energy_attached = False
         me.retreated = False
+        me.fighting_boost = 0
+        self.lunar_cycle_used = False
         for mon in me.in_play():
             mon.ability_used = False
         self._between_turns(me)
@@ -776,7 +779,7 @@ class Game:
         self._play_basics(me)
         self._play_trainers(me, foe, who)
         self._play_basics(me)
-        if self.strats[who].name in {"party", "demolish", "slash", "shock", "thrifty", "phantom", "carnival", "g", "celebration"}:
+        if self.strats[who].name in {"party", "demolish", "slash", "shock", "thrifty", "phantom", "carnival", "g", "celebration", "aura"}:
             self._play_trainers(me, foe, who)
             self._play_basics(me)
         if self.strats[who].name in {"party", "g"}:
@@ -790,7 +793,7 @@ class Game:
             self._party_bounce_combo(me, foe, who)
         self._evolve(me, foe, who)
         self._play_basics(me)
-        if self.strats[who].name in {"party", "demolish", "slash", "shock", "thrifty", "phantom", "carnival", "g", "celebration"}:
+        if self.strats[who].name in {"party", "demolish", "slash", "shock", "thrifty", "phantom", "carnival", "g", "celebration", "aura"}:
             self._play_trainers(me, foe, who)
         if self.strats[who].name == "celebration":
             self._evolve(me, foe, who)
@@ -1012,6 +1015,9 @@ class Game:
         if strat.name == "g":
             self._evolve_g(me, foe, who)
             return
+        if strat.name == "aura":
+            self._evolve_named(me, who, ["Mega Lucario ex", "Hariyama"])
+            return
         if self.rng.random() > strat.evolve_asap:
             return
         changed = True
@@ -1029,6 +1035,24 @@ class Game:
                 self._do_evolve(me, target, evo_i)
                 changed = True
                 break
+
+    def _evolve_named(self, me: Player, who: str, order: list[str]) -> None:
+        changed = True
+        while changed:
+            changed = False
+            for want in order:
+                for evo_i in list(me.hand):
+                    evo = me.card(evo_i)
+                    if evo.name.lower() != want.lower() or not evo.evolves_from:
+                        continue
+                    target = self._find_evolve_target(me, evo)
+                    if target is None or not self._can_evolve_now(me, who, target, evo):
+                        continue
+                    self._do_evolve(me, target, evo_i)
+                    changed = True
+                    break
+                if changed:
+                    break
 
     def _find_evolve_target(self, me: Player, evo: Card) -> Pokemon | None:
         want = (evo.evolves_from or "").lower()
@@ -1143,6 +1167,10 @@ class Game:
         return not (who == self.first and self.turn == 1)
 
     def _can_evolve_now(self, me: Player, who: str, target: Pokemon, evo: Card | None = None) -> bool:
+        # Mega Evolution ex rule on Mega Lucario ex: evolve the turn the Basic
+        # was played, including the first turn. Other Megas keep the old timing.
+        if evo is not None and (evo.name or "").lower() == "mega lucario ex":
+            return True
         # Printed Rare Candy: not first turn, not a Basic put into play this turn.
         # Broken Time-Space does not override that sentence.
         if self._candy_skip(me, target, evo):
@@ -1738,6 +1766,8 @@ class Game:
                 score += self._g_horn_trainer_score(me, foe, who, card_i)
             if strat.name == "celebration":
                 score += self._celebration_trainer_score(me, who, name)
+            if strat.name == "aura":
+                score += self._aura_trainer_score(me, foe, name)
             if card.is_supporter and hold_for_bounce:
                 # The scripted Penny, Prankish, and Seeker lines play the
                 # supporter themselves. A generic play spends it on the
@@ -3071,6 +3101,20 @@ class Game:
 
     def _pokemon_search_prefer(self, me: Player, who: str) -> list[str]:
         strat = self.strats[who]
+        if strat.name == "aura":
+            prefer = []
+            names = {me.card(m.card_i).name.lower() for m in me.in_play()}
+            names |= {me.card(i).name.lower() for i in me.hand}
+            if "riolu" not in names and "mega lucario ex" not in names:
+                prefer.append("Riolu")
+            if "lunatone" not in names:
+                prefer.append("Lunatone")
+            if "solrock" not in names:
+                prefer.append("Solrock")
+            if "makuhita" not in names:
+                prefer.append("Makuhita")
+            prefer.extend(["Riolu", "Mega Lucario ex", "Lunatone", "Solrock", "Makuhita", "Hariyama"])
+            return list(dict.fromkeys(prefer))
         if strat.name in {"mew_baby", "baby"}:
             prefer = []
             have_mew = any(me.card(m.card_i).name.lower() == "mew ex" for m in me.in_play())
@@ -3825,6 +3869,8 @@ class Game:
 
     def _energy_target(self, me: Player, strat: StrategySpec) -> Pokemon:
         assert me.active
+        if strat.name == "aura":
+            return self._aura_energy_target(me)
         if strat.name in {"mew_baby", "baby"}:
             for mon in me.in_play():
                 if "radiant charizard" in me.card(mon.card_i).name.lower() and not mon.energy:
@@ -4206,6 +4252,9 @@ class Game:
             return
         if strat.name == "celebration":
             return
+        if strat.name == "aura":
+            self._retreat_aura(me, foe)
+            return
         if strat.name in {"mew_baby", "baby"}:
             self._retreat_baby(me, foe, who)
             return
@@ -4378,6 +4427,13 @@ class Game:
                 self._damage_one_pokemon(me, foe, int(effect.get("amount") or 0))
             elif effect.get("kind") == "transfer_charge":
                 self._transfer_charge(me, count=int(effect.get("count") or 2))
+            elif effect.get("kind") == "attach_typed_energy_from_discard":
+                self._attach_typed_energy_from_discard(
+                    me,
+                    str(effect.get("energy_type") or "Fighting"),
+                    int(effect.get("count") or 3),
+                    bench_only=bool(effect.get("bench_only", True)),
+                )
             elif effect.get("kind") == "mill_opponent":
                 self._mill_opponent(me, foe, int(effect.get("count") or 1))
             elif effect.get("kind") == "recoil":
@@ -5055,6 +5111,11 @@ class Game:
             if strat.name == "party" and self._facing_phantom(me) and "wondrous moon" in atk.name.lower():
                 # After Party, 170 chips Dragapult toward two-hit range (and 6-prize math).
                 score += 80 if effective >= foe_hp > 0 else 40
+            if strat.name == "aura" and any(
+                e.get("kind") == "attach_typed_energy_from_discard" for e in atk.effects
+            ):
+                if effective < foe_hp and self._aura_bench_wants_energy(me):
+                    score += 220
             if any(e.get("kind") == "transfer_charge" for e in atk.effects):
                 who = "a" if me.name == "A" else "b"
                 if strat.name == "party" and self._want_storm_line(me, foe, who):
@@ -5917,6 +5978,10 @@ class Game:
     def _max_hp(self, player: Player, mon: Pokemon) -> int:
         card = player.card(mon.card_i)
         hp = card.hp or 0
+        stage = (card.stage or "").lower().replace(" ", "")
+        for eff in self.stadium_effects or []:
+            if eff.get("kind") == "stage2_hp" and stage in {"stage2"}:
+                hp = max(10, hp + int(eff.get("delta") or 0))
         if mon.tool is None:
             return hp
         tool = player.card(mon.tool)
@@ -5927,6 +5992,11 @@ class Game:
     def _retreat_cost(self, me: Player, mon: Pokemon) -> int:
         card = me.card(mon.card_i)
         cost = int(card.retreat or 0)
+        if mon.tool is not None:
+            text = (me.card(mon.tool).text or "").lower()
+            if "retreat cost" in text and "less" in text:
+                less = text.count("[c]") or text.count("colorless")
+                cost = max(0, cost - less)
         if self.stadium_name == "Beach Court" and card.is_basic:
             cost = max(0, cost - 1)
         if self._has_lunar_zone(me) and self._has_psychic_energy_on(me, mon):
@@ -5962,6 +6032,12 @@ class Game:
         dmg = atk.damage
         if any(e.get("kind") == "require_equal_hands" for e in atk.effects):
             if not ignore_hand_gate and len(me.hand) != len(foe.hand):
+                return 0
+        for effect in atk.effects:
+            if effect.get("kind") != "require_named_on_bench":
+                continue
+            want = str(effect.get("name") or "").lower()
+            if not any(me.card(m.card_i).name.lower() == want for m in me.bench):
                 return 0
         if any(e.get("kind") == "require_opponent_prizes" for e in atk.effects):
             allowed: set[int] = set()
@@ -6064,6 +6140,8 @@ class Game:
                 if n is None:
                     n = sum(1 for m in me.in_play() if m.tool is not None)
                 dmg += per * int(n)
+        if "Fighting" in (attacker.types or []) and me.fighting_boost:
+            dmg += int(me.fighting_boost)
         if mon.tool is not None:
             dmg += self._tool_damage_bonus(me, mon, defender)
         ignore_wr = any(e.get("kind") == "ignore_wr" for e in atk.effects) or "isn't affected by weakness" in (
@@ -6183,6 +6261,12 @@ class Game:
                 if mon.tool is None and self._is_ex(me.card(mon.card_i)):
                     return mon
             return None
+        if name == "air balloon" and self.strats[who].name == "aura":
+            if me.active and me.active.tool is None and int(me.card(me.active.card_i).retreat or 0) >= 2:
+                return me.active
+            for mon in me.in_play():
+                if mon.tool is None and "lucario" in me.card(mon.card_i).name.lower():
+                    return mon
         if name == "muscle band":
             if self.strats[who].name == "slash":
                 # Band is +20; 110×2 = 220 does not KO Charm 260 and occupies the Belt slot.
@@ -6308,6 +6392,9 @@ class Game:
             return self._g_incoming_idx(me, who)
         if strat.name == "celebration":
             return self._celebration_switch_idx(me)
+        if strat.name == "aura":
+            foe = self.players["b" if who == "a" else "a"]
+            return self._aura_best_bench_idx(me, foe)
         return 0
 
     def _play_switch(self, me: Player, who: str, target_idx: int | None = None) -> bool:
@@ -6451,6 +6538,10 @@ class Game:
             for eff in self._ability_effects(abi):
                 if eff.get("kind") == "gust_low_hp_on_evolve":
                     self._gust_low_hp_bench(foe, int(eff.get("max_remaining") or 90))
+                elif eff.get("kind") == "force_opponent_active" and eff.get("trigger") == "on_evolve":
+                    if foe.bench:
+                        self._boss_orders(me, foe)
+                        self._bump("heave_ho_catcher")
 
     def _gust_low_hp_bench(self, foe: Player, max_remaining: int) -> bool:
         if not foe.active or not foe.bench:
@@ -7740,6 +7831,11 @@ class Game:
                             mon.ability_used = True
                             self._bump("energy_carnival")
                             self._log(f"{card.name} Energy Carnival attaches from hand")
+                    elif kind == "lunar_cycle":
+                        if self._lunar_cycle(me, mon, eff):
+                            mon.ability_used = True
+                            if self.turn_ended_by_ability:
+                                return
                     elif kind == "draw":
                         if eff.get("require_active") and mon is not me.active:
                             continue
@@ -9526,6 +9622,210 @@ class Game:
                 self._do_retreat_into(me, idx)
                 return
 
+    def _aura_energy_target(self, me: Player) -> Pokemon:
+        assert me.active
+        line = {"riolu", "mega lucario ex", "hariyama", "makuhita"}
+
+        def needs(mon: Pokemon) -> int:
+            card = me.card(mon.card_i)
+            if card.name.lower() not in line and "lucario" not in card.name.lower():
+                return 0
+            want = 2 if "mega lucario" in card.name.lower() or card.name.lower() == "riolu" else 1
+            return max(0, want - len(mon.energy))
+
+        if needs(me.active):
+            return me.active
+        hungry = [m for m in me.bench if needs(m)]
+        if hungry:
+            return min(hungry, key=lambda m: len(m.energy))
+        return me.active
+
+    def _aura_attack_score(self, me: Player, foe: Player, mon: Pokemon) -> int:
+        best = 0
+        for atk in me.card(mon.card_i).attacks:
+            if not can_pay_energy(self._energy_pool(me, mon), atk.cost):
+                continue
+            best = max(best, self._effective_damage_for(me, foe, mon, atk))
+        return best
+
+    def _aura_best_bench_idx(self, me: Player, foe: Player) -> int | None:
+        if not me.bench:
+            return None
+        active_score = self._aura_attack_score(me, foe, me.active) if me.active else 0
+        best_i = None
+        best = active_score
+        for idx, mon in enumerate(me.bench):
+            score = self._aura_attack_score(me, foe, mon)
+            name = me.card(mon.card_i).name.lower()
+            if "mega lucario" in name:
+                score += 5
+            if score > best:
+                best = score
+                best_i = idx
+        return best_i
+
+    def _retreat_aura(self, me: Player, foe: Player) -> None:
+        idx = self._aura_best_bench_idx(me, foe)
+        if idx is None:
+            return
+        cost = self._retreat_cost(me, me.active)
+        if len(me.active.energy) < cost:
+            return
+        self._do_retreat_into(me, idx)
+
+    def _aura_bench_wants_energy(self, me: Player) -> bool:
+        from app.engine.effects import is_basic_energy
+
+        fuels = [
+            i
+            for i in me.discard
+            if is_basic_energy(me.card(i)) and self._is_type_energy_card(me.card(i), "Fighting")
+        ]
+        if not fuels:
+            return False
+        for mon in me.bench:
+            name = me.card(mon.card_i).name.lower()
+            if name in {"riolu", "makuhita", "hariyama"} or "lucario" in name:
+                if len(mon.energy) < 2:
+                    return True
+        return False
+
+    def _aura_trainer_score(self, me: Player, foe: Player, name: str) -> float:
+        have = {me.card(m.card_i).name.lower() for m in me.in_play()}
+        have |= {me.card(i).name.lower() for i in me.hand}
+        if name == "fighting gong":
+            if "riolu" not in have and "mega lucario ex" not in have:
+                return 18
+            if not any(self._is_type_energy_card(me.card(i), "Fighting") and me.card(i).is_energy for i in me.hand):
+                return 14
+            if "lunatone" not in have or "solrock" not in have:
+                return 12
+            return 4
+        if name == "premium power pro":
+            if any("mega lucario" in me.card(m.card_i).name.lower() for m in me.in_play()):
+                return 16
+            return -6
+        if name == "gravity mountain":
+            if self.stadium_name == "Gravity Mountain":
+                return -8
+            if foe.active and (foe.card(foe.active.card_i).stage or "").lower().replace(" ", "") == "stage2":
+                return 14
+            if any((foe.card(m.card_i).stage or "").lower().replace(" ", "") == "stage2" for m in foe.in_play()):
+                return 10
+            return 1
+        if name == "wally's compassion":
+            for mon in me.in_play():
+                if "mega lucario" in me.card(mon.card_i).name.lower() and mon.damage > 0:
+                    return 14
+            return -8
+        if name == "team rocket's petrel":
+            return 8 if "boss's orders" not in have else 2
+        if name == "air balloon":
+            if me.active and self._retreat_cost(me, me.active) >= 2 and me.bench:
+                return 11
+            return 2
+        return 0
+
+    def _attach_typed_energy_from_discard(
+        self, me: Player, energy_type: str, count: int, bench_only: bool = True
+    ) -> None:
+        from app.engine.effects import is_basic_energy
+
+        fuels = [
+            i
+            for i in me.discard
+            if is_basic_energy(me.card(i)) and self._is_type_energy_card(me.card(i), energy_type)
+        ][:count]
+        targets = list(me.bench if bench_only else me.in_play())
+        if not fuels or not targets:
+            return
+
+        def rank(mon: Pokemon) -> tuple:
+            name = me.card(mon.card_i).name.lower()
+            pri = 0 if "lucario" in name or name == "riolu" else 1 if name in {"hariyama", "makuhita"} else 2
+            return (pri, len(mon.energy))
+
+        for i in fuels:
+            target = min(targets, key=rank)
+            me.discard.remove(i)
+            target.energy.append(i)
+            self._bump("aura_jab_attach")
+        self._log(f"{me.name} attaches {len(fuels)} {energy_type} Energy from discard")
+
+    def _search_fighting_basic(self, me: Player, who: str) -> None:
+        have = {me.card(m.card_i).name.lower() for m in me.in_play()}
+        have |= {me.card(i).name.lower() for i in me.hand}
+        if "riolu" not in have:
+            found = self._search(me, lambda c: c.is_basic and c.is_pokemon and "Fighting" in (c.types or []) and c.name.lower() == "riolu", prefer=["Riolu"], source="fighting gong")
+        elif not any(me.card(i).is_energy and self._is_type_energy_card(me.card(i), "Fighting") for i in me.hand):
+            found = self._search(
+                me,
+                lambda c: c.is_energy and self._is_type_energy_card(c, "Fighting"),
+                prefer=["Fighting Energy"],
+                source="fighting gong",
+            )
+        else:
+            prefer = [n for n in ("Lunatone", "Solrock", "Makuhita", "Riolu") if n.lower() not in have]
+            found = self._search(
+                me,
+                lambda c: (c.is_energy and self._is_type_energy_card(c, "Fighting"))
+                or (c.is_basic and c.is_pokemon and "Fighting" in (c.types or [])),
+                prefer=prefer or ["Fighting Energy", "Lunatone", "Solrock", "Makuhita", "Riolu"],
+                source="fighting gong",
+            )
+        if found is not None:
+            self._bump("fighting_gong")
+
+    def _search_trainer(self, me: Player, who: str) -> None:
+        prefer = ["Boss's Orders", "Lillie's Determination", "Wally's Compassion", "Judge"]
+        found = self._search(me, lambda c: c.is_trainer, prefer=prefer, source="petrel")
+        if found is not None:
+            self._bump("petrel")
+
+    def _heal_mega_return_energy(self, me: Player) -> None:
+        megas = [
+            mon
+            for mon in me.in_play()
+            if self._is_mega_ex(me.card(mon.card_i)) and mon.damage > 0
+        ]
+        if not megas:
+            self._bump("wally_fail")
+            return
+        mon = max(megas, key=lambda m: m.damage)
+        mon.damage = 0
+        moved = list(mon.energy)
+        mon.energy.clear()
+        me.hand.extend(moved)
+        self._bump("wally_compassion")
+        self._log(f"{me.name} Wally's Compassion heals {me.card(mon.card_i).name}")
+
+    def _lunar_cycle(self, me: Player, mon: Pokemon, eff: dict) -> bool:
+        if eff.get("once_per_turn") and getattr(self, "lunar_cycle_used", False):
+            return False
+        need = str(eff.get("require_in_play") or "Solrock").lower()
+        if not any(me.card(m.card_i).name.lower() == need for m in me.in_play()):
+            return False
+        from app.engine.effects import is_basic_energy
+
+        energy_type = str(eff.get("energy_type") or "Fighting")
+        fuel = next(
+            (
+                i
+                for i in me.hand
+                if is_basic_energy(me.card(i)) and self._is_type_energy_card(me.card(i), energy_type)
+            ),
+            None,
+        )
+        if fuel is None:
+            return False
+        me.hand.remove(fuel)
+        me.discard.append(fuel)
+        self._draw(me, int(eff.get("draw") or 3))
+        self.lunar_cycle_used = True
+        self._bump("lunar_cycle")
+        self._log(f"{me.card(mon.card_i).name} Lunar Cycle draws {int(eff.get('draw') or 3)}")
+        return True
+
     def _transfer_charge(self, me: Player, count: int = 2) -> None:
         fuels = [i for i in me.discard if self._is_psychic_energy_card(me.card(i))][:count]
         if not fuels:
@@ -10024,6 +10324,15 @@ class Game:
             self._play_stadium(me, foe, card)
         elif kind == "return_pokemon_to_hand":
             self._return_in_play_to_hand(me, foe, card, eff)
+        elif kind == "fighting_damage_this_turn":
+            me.fighting_boost += int(eff.get("amount") or 0)
+            self._bump("premium_power_pro")
+        elif kind == "search_fighting_basic":
+            self._search_fighting_basic(me, who)
+        elif kind == "search_trainer":
+            self._search_trainer(me, who)
+        elif kind == "heal_mega_return_energy":
+            self._heal_mega_return_energy(me)
 
     def _puzzle_of_time(self, me: Player, who: str, card: Card, look: int, pair_count: int) -> None:
         second = next((i for i in me.hand if me.card(i).name.lower() == card.name.lower()), None)

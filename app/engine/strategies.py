@@ -559,6 +559,25 @@ STRATEGY_LIBRARY = {
         insurance_bench=1,
         max_ace_copies=3,
     ),
+    "aura": StrategySpec(
+        name="aura",
+        description=(
+            "Mega Lucario ex evolves the turn Riolu is played. Aura Jab (1 Fighting) loads the bench "
+            "from discard; Mega Brave is the 270 closer. Lunatone discards a Fighting Energy to draw 3 "
+            "while Solrock is in play. Hariyama gusts on evolve. Premium Power Pro adds 30, Gravity Mountain "
+            "cuts Stage 2 HP by 30."
+        ),
+        prefer_damage=1.0,
+        prefer_status=0.0,
+        bench_fill=1.0,
+        evolve_asap=1.0,
+        attach_pokemon_as_energy=0.0,
+        item_spend=1.0,
+        hold_as_energy=False,
+        protect=["Mega Lucario ex", "Riolu", "Lunatone", "Solrock"],
+        search_aces=["Riolu", "Lunatone", "Solrock", "Makuhita"],
+        closers=["Mega Lucario ex", "Hariyama", "Solrock"],
+    ),
     "mew_baby": StrategySpec(
         name="mew_baby",
         description=(

@@ -20,6 +20,7 @@ from app.seed_data import (
     SET_G30_NAMES,
     SET_H_NAMES,
     SET_M_NAMES,
+    SET_L60_NAMES,
     SET_M60_NAMES,
     SET_S_NAMES,
     SET_S60_NAMES,
@@ -33,7 +34,7 @@ from app.seed_data import (
     fallback_named,
 )
 
-LIST_KEYS = ("a", "b", "c", "d", "e", "f", "g", "h", "s", "t", "c60", "d60", "m60", "s60", "t60", "t-meta", "t-unl", "g30")
+LIST_KEYS = ("a", "b", "c", "d", "e", "f", "g", "h", "s", "t", "c60", "d60", "m60", "s60", "t60", "t-meta", "t-unl", "g30", "l60")
 SEED_KEYS = (*LIST_KEYS, "spare")
 
 SEED_PATH = DATA_DIR / "seed_decks.json"
@@ -92,6 +93,10 @@ def load_seed_deck(which: str) -> dict:
         "17": "h",
         "18": "g30",
         "19": "m60",
+        "20": "l60",
+        "l60": "l60",
+        "lucario": "l60",
+        "brewer": "l60",
         "m": "m60",
         "m60": "m60",
         "mew": "m60",
@@ -147,6 +152,7 @@ def load_seed_payload() -> dict:
             ("c60", SET_C60_NAMES),
             ("d60", SET_D60_NAMES),
             ("m60", SET_M60_NAMES),
+            ("l60", SET_L60_NAMES),
             ("s60", SET_S60_NAMES),
             ("t60", SET_T60_NAMES),
             ("t-meta", SET_T_META_NAMES),
@@ -428,6 +434,7 @@ def _cd_payload(enrich: bool = True) -> dict:
     cards_c60 = _repeat_named_cards(list(SET_C60_NAMES), enrich)
     cards_d60 = _repeat_named_cards(list(SET_D60_NAMES), enrich)
     cards_m60 = _repeat_named_cards(list(SET_M60_NAMES), enrich)
+    cards_l60 = _repeat_named_cards(list(SET_L60_NAMES), enrich)
     cards_s60 = _repeat_named_cards(list(SET_S60_NAMES), enrich)
     cards_t60 = _repeat_named_cards(list(SET_T60_NAMES), enrich)
     cards_t_meta = _repeat_named_cards(list(SET_T_META_NAMES), enrich)
@@ -495,6 +502,13 @@ def _cd_payload(enrich: bool = True) -> dict:
             "sample": None,
             "kind": "list",
             "cards": [c.to_dict() if isinstance(c, Card) else c for c in cards_m60],
+        },
+        "l60": {
+            "id": "seed-l60",
+            "name": "Chris Brewer Lucario Hariyama",
+            "sample": None,
+            "kind": "list",
+            "cards": [c.to_dict() if isinstance(c, Card) else c for c in cards_l60],
         },
         "c60": {
             "id": "seed-c60",
