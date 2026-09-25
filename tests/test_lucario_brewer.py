@@ -10,7 +10,7 @@ from app.engine.legality import copy_violations
 from app.engine.models import S60_SEED_IDS, default_rule_presets_for, standard_60_rules
 from app.engine.strategies import StrategySpec
 from app.seed import load_seed_deck
-from app.seed_data import SET_L60_NAMES, SET_T60_NAMES, build_fallback_deck, fallback_named
+from app.seed_data import SET_C60_NAMES, SET_L60_NAMES, SET_T60_NAMES, build_fallback_deck, fallback_named
 
 
 def test_brewer_list_is_60_and_seeded():
@@ -160,3 +160,154 @@ def test_cosmic_beam_needs_lunatone_and_gravity_cuts_stage2():
     # 270 + 30 Premium Power Pro, before weakness. Dragapult is Dragon, no Fighting weakness.
     me.active = Pokemon(card_i=_pull(me, "Mega Lucario ex"), played_turn=0)
     assert game._raw_attack_damage(me, foe, me.active, brave) == 300
+
+
+def _party_vs_lucario() -> Game:
+    return Game(
+        build_fallback_deck(list(SET_C60_NAMES)),
+        build_fallback_deck(list(SET_L60_NAMES)),
+        standard_60_rules(),
+        StrategySpec.from_dict("party"),
+        StrategySpec.from_dict("aura"),
+        Random(2),
+    )
+
+
+def test_party_vs_lucario_fuels_clefable_ex_not_mewtwo():
+    game = _party_vs_lucario()
+    me = game.players["a"]
+    foe = game.players["b"]
+    _reclaim(me)
+    _reclaim(foe)
+    clef = _pull(me, "Clefairy")
+    ex = _pull(me, "Clefable ex")
+    mewtwo = _pull(me, "Mewtwo ex")
+    psychic = [_pull(me, "Psychic Energy") for _ in range(3)]
+    lucario = _pull(foe, "Mega Lucario ex")
+    fighting = [_pull(foe, "Fighting Energy") for _ in range(2)]
+    me.active = Pokemon(card_i=clef, played_turn=0)
+    me.bench = [
+        Pokemon(card_i=ex, energy=psychic[:1], played_turn=0),
+        Pokemon(card_i=mewtwo, played_turn=0),
+    ]
+    foe.active = Pokemon(card_i=lucario, energy=fighting, played_turn=0)
+    assert game._facing_aura(me)
+    assert game._mewtwo_play_cap(me) == 0
+    target = game._energy_target(me, StrategySpec.from_dict("party"))
+    assert me.card(target.card_i).name == "Clefable ex"
+    prefer = game._pokemon_search_prefer(me, "a")
+    assert "Mewtwo ex" not in prefer
+    assert "Mega Clefable ex" in prefer
+
+
+def test_party_vs_lucario_retreats_onto_wondrous_moon():
+    game = _party_vs_lucario()
+    me = game.players["a"]
+    foe = game.players["b"]
+    _reclaim(me)
+    _reclaim(foe)
+    mewtwo = _pull(me, "Mewtwo ex")
+    ex = _pull(me, "Clefable ex")
+    psychic = [_pull(me, "Psychic Energy") for _ in range(5)]
+    switch = _pull(me, "Switch")
+    lucario = _pull(foe, "Mega Lucario ex")
+    fighting = [_pull(foe, "Fighting Energy") for _ in range(2)]
+    me.hand.append(switch)
+    me.active = Pokemon(card_i=mewtwo, energy=psychic[:2], played_turn=0)
+    me.bench = [Pokemon(card_i=ex, energy=psychic[2:], played_turn=0)]
+    foe.active = Pokemon(card_i=lucario, energy=fighting, played_turn=0)
+    assert not game._photon_ko(me, foe)
+    assert game._moon_ko(me, foe, me.bench[0])
+    game._maybe_retreat(me, foe, "a")
+    assert me.card(me.active.card_i).name == "Clefable ex"
+    atk = game._choose_attack(me, foe, StrategySpec.from_dict("party"))
+    assert atk is not None
+    assert atk.name == "Wondrous Moon"
+    assert game._effective_damage(me, foe, atk) == 340
+
+
+def test_party_vs_lucario_keeps_mewtwo_only_when_photon_kos():
+    game = _party_vs_lucario()
+    me = game.players["a"]
+    foe = game.players["b"]
+    _reclaim(me)
+    _reclaim(foe)
+    clef = _pull(me, "Clefairy")
+    mewtwo = _pull(me, "Mewtwo ex")
+    psychic = [_pull(me, "Psychic Energy") for _ in range(5)]
+    switch = _pull(me, "Switch")
+    lucario = _pull(foe, "Mega Lucario ex")
+    me.hand.append(switch)
+    me.active = Pokemon(card_i=clef, energy=[], played_turn=0)
+    me.bench = [Pokemon(card_i=mewtwo, energy=psychic, played_turn=0)]
+    foe.active = Pokemon(card_i=lucario, damage=200, played_turn=0)
+    assert game._photon_ko(me, foe)
+    game._maybe_retreat(me, foe, "a")
+    assert game._is_mewtwo(me.card(me.active.card_i))
+
+
+def test_party_vs_lucario_evolves_fueled_clefairy_into_clefable_ex():
+    game = _party_vs_lucario()
+    me = game.players["a"]
+    foe = game.players["b"]
+    _reclaim(me)
+    _reclaim(foe)
+    game.turn = 4
+    active = _pull(me, "Clefairy")
+    bench = _pull(me, "Clefairy")
+    psychic = [_pull(me, "Psychic Energy") for _ in range(2)]
+    ex = _pull(me, "Clefable ex")
+    mega = _pull(me, "Mega Clefable ex")
+    lucario = _pull(foe, "Mega Lucario ex")
+    me.active = Pokemon(card_i=active, played_turn=0)
+    me.bench = [Pokemon(card_i=bench, energy=psychic, played_turn=0)]
+    me.hand.extend([ex, mega])
+    foe.active = Pokemon(card_i=lucario, played_turn=0)
+    game._evolve(me, foe, "a")
+    assert me.card(me.active.card_i).name == "Clefairy"
+    assert me.card(me.bench[0].card_i).name == "Clefable ex"
+    assert mega in me.hand
+
+
+def test_party_vs_lucario_nest_ball_does_not_bench_mewtwo():
+    game = _party_vs_lucario()
+    me = game.players["a"]
+    foe = game.players["b"]
+    _reclaim(me)
+    _reclaim(foe)
+    clefs = [_pull(me, "Clefairy") for _ in range(3)]
+    mewtwo = _pull(me, "Mewtwo ex")
+    lucario = _pull(foe, "Mega Lucario ex")
+    me.active = Pokemon(card_i=clefs[0], played_turn=0)
+    me.bench = [Pokemon(card_i=i, played_turn=0) for i in clefs[1:]]
+    me.deck.append(mewtwo)
+    foe.active = Pokemon(card_i=lucario, played_turn=0)
+    game._bench_basic_from_deck(me, "a", count=1, source="nest ball")
+    assert all(not game._is_mewtwo(me.card(mon.card_i)) for mon in me.in_play())
+    assert mewtwo in me.deck
+
+
+def test_party_vs_dragapult_still_fuels_mewtwo():
+    game = Game(
+        build_fallback_deck(list(SET_C60_NAMES)),
+        build_fallback_deck(list(SET_T60_NAMES)),
+        standard_60_rules(),
+        StrategySpec.from_dict("party"),
+        StrategySpec.from_dict("phantom"),
+        Random(3),
+    )
+    me = game.players["a"]
+    foe = game.players["b"]
+    _reclaim(me)
+    _reclaim(foe)
+    clef = _pull(me, "Clefairy")
+    mewtwo = _pull(me, "Mewtwo ex")
+    psychic = [_pull(me, "Psychic Energy") for _ in range(2)]
+    drag = _pull(foe, "Dragapult ex")
+    me.active = Pokemon(card_i=clef, energy=psychic, played_turn=0)
+    me.bench = [Pokemon(card_i=mewtwo, played_turn=0)]
+    foe.active = Pokemon(card_i=drag, played_turn=0)
+    assert not game._facing_aura(me)
+    assert game._mewtwo_play_cap(me) == 1
+    target = game._energy_target(me, StrategySpec.from_dict("party"))
+    assert game._is_mewtwo(me.card(target.card_i))

@@ -22,13 +22,23 @@ Mega Lucario ex may evolve the turn Riolu is played. Aura Jab attaches up to 3 B
 | Carpet Set H | nuzzle | **73.2%** | 74.6% | 71.8% |
 | S60 Floragato | slash | **69.8%** | 71.1% | 68.5% |
 | G30 Ambipom | celebration | **69.2%** | 71.4% | 67.1% |
-| C60 Clefairy / Mewtwo | party | **61.8%** | 63.2% | 60.3% |
 | UNL Dragapult | phantom | **50.2%** | 51.0% | 49.5% |
 | T60 Dragapult | phantom | **44.7%** | 44.7% | 44.7% |
 | Hedrick Worlds Dragapult | phantom | **43.6%** | 44.9% | 42.2% |
 | Carpet Set G | g | **33.3%** | 33.9% | 32.7% |
+| C60 Clefairy / Mewtwo | party | **14.3%** | 14.5% | 14.2% |
 | M Mew ex baby box | mew_baby | **9.9%** | 7.6% | 12.2% |
 
-Startup is real, and it is not enough against the two decks that already beat Dragapult. Mega Brave is 270 for two Fighting Energy, and a Knocked Out Mega Lucario ex gives three prizes. Candy Dragapult and the Hedrick list both take that trade. M's Budew line item-locks Gong, Poké Pad, Ultra Ball, and Premium Power Pro, then attacks for no energy; Lucario wins 296 of 3,000 there.
+The C60 cell was remeasured after `party` stopped using Mewtwo as the closer against Mega Lucario. Same seed, 3,000 games. The other rows are the original run.
+
+Startup is real, and it is not enough against the decks that already beat Dragapult. Mega Brave is 270 for two Fighting Energy, and a Knocked Out Mega Lucario ex gives three prizes. Candy Dragapult and the Hedrick list both take that trade. M's Budew line item-locks Gong, Poké Pad, Ultra Ball, and Premium Power Pro, then attacks for no energy; Lucario wins 296 of 3,000 there.
 
 Ogerpon is the other way around. Mega Lucario ex has no Ability, so Cornerstone Stance does not block Mega Brave, and 270 is a knockout on 210 HP.
+
+## C60 closer vs Lucario
+
+Photon Kinesis is Lightning, and Mewtwo ex is Fighting-weak, so Mega Brave 270 is 540. In this matchup `party` does not play Mewtwo, does not Nest Ball for it, and does not attach to it. The closer is Clefable ex: Wondrous Moon is 170 Psychic, weakness makes that 340, and 340 KOs Mega Lucario ex for 3 prizes. Mega Clefable ex is the second attacker (Shooting Moons, 320 HP so one unboosted Mega Brave does not KO it). Mewtwo is promoted only when Photon actually KOs.
+
+3000 games, seed `20260925`, Lucario as player A: Lucario wins 430 (14.3%). Average prizes 1.89 / 4.74. Attacks: Wondrous Moon 3625, Shooting Moons 2320, Photon Kinesis 415. Mega Lucario ex was Knocked Out 2672 times.
+
+Smoke on the same seed, 400 games, left the other scripts alone: T60 42.8% (published 44.7%), D60 84.5% (published 84.7%).

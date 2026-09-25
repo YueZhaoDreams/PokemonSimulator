@@ -1342,7 +1342,13 @@ class Game:
                         self._is_mewtwo(me.card(i)) for i in me.hand
                     )
                     clefairy_count = self._count_named_in_play(me, "Clefairy")
-                    if self._invitation_held_for_dump(me, who) and have_mewtwo:
+                    if self._facing_aura(me):
+                        # Nest finds a Basic. Vs Lucario that Basic is Clefairy, not Mewtwo.
+                        if clefairy_count < self._clefairy_play_cap(me):
+                            score += 12
+                        else:
+                            score -= 6
+                    elif self._invitation_held_for_dump(me, who) and have_mewtwo:
                         # Leave deck Clefairy for Moon-Viewing Invitation instead of Nesting them.
                         score -= 10
                     elif storm:
@@ -1850,7 +1856,9 @@ class Game:
                 self._bump(f"lillie_{me.name.lower()}")
         elif name == "jacq":
             prefer = ["Mega Clefable ex", "Clefable ex", "Clefable"]
-            if self.strats[who].name == "party" and self._facing_phantom(me):
+            if self.strats[who].name == "party" and self._facing_aura(me):
+                prefer = ["Clefable ex", "Mega Clefable ex", "Clefable"]
+            elif self.strats[who].name == "party" and self._facing_phantom(me):
                 prefer = ["Rabsca", "Clefable ex", "Mega Clefable ex", "Clefable"]
             if self.strats[who].name == "slash":
                 prefer = ["Floragato"]
@@ -3169,6 +3177,16 @@ class Game:
             # Vs A/B keep Mewtwo tutor only while none is in play or hand.
             if self._clefairy_play_cap(me) > 0 and not self._invitation_held_for_dump(me, who):
                 prefer.append("Clefairy")
+            if self._facing_aura(me):
+                if not self._has_lunar_zone(me) and not any(
+                    self._is_clefable_ex(me.card(i)) for i in me.hand
+                ):
+                    prefer.append("Clefable ex")
+                if self._mega_mon(me) is None and not any(
+                    "mega clefable" in me.card(i).name.lower() for i in me.hand
+                ):
+                    prefer.append("Mega Clefable ex")
+                return list(dict.fromkeys(prefer))
             mewtwo_out = self._count_named_in_play(me, "Mewtwo ex")
             mewtwo_hand = sum(1 for i in me.hand if self._is_mewtwo(me.card(i)))
             need = self._mewtwo_play_cap(me) - mewtwo_out
@@ -3311,6 +3329,21 @@ class Game:
         if missing_aces and self.rules.pokemon_as_energy:
             prefer.extend(missing_aces)
         if strat.name == "party":
+            if self._facing_aura(me):
+                if (
+                    self._count_named_in_play(me, "Clefairy")
+                    + sum(1 for i in me.hand if self._is_clefairy(me.card(i)))
+                    < self._clefairy_play_cap(me)
+                ):
+                    prefer.append("Clefairy")
+                if not self._has_lunar_zone(me) and not any(
+                    self._is_clefable_ex(me.card(i)) for i in me.hand
+                ):
+                    prefer.append("Clefable ex")
+                if not any("mega clefable" in me.card(m.card_i).name.lower() for m in me.in_play()):
+                    prefer.append("Mega Clefable ex")
+                prefer.append("Psychic Energy")
+                return list(dict.fromkeys(prefer))
             if not any(self._is_mewtwo(me.card(m.card_i)) for m in me.in_play()) and not any(
                 self._is_mewtwo(me.card(i)) for i in me.hand
             ):
@@ -3884,6 +3917,8 @@ class Game:
             foe = self.players["b" if who == "a" else "a"]
             if self._want_storm_line(me, foe, who):
                 return self._storm_energy_target(me)
+            if self._facing_aura(me):
+                return self._party_vs_aura_energy_target(me)
             if self._want_mega_rush(me, foe, who):
                 mega = self._mega_mon(me)
                 if mega is not None and not self._can_pay_shooting_moons(me, mega):
@@ -6314,6 +6349,8 @@ class Game:
                 name = card.name.lower()
                 if strat.name == "celebration" and not self._wants_in_play(me, card, strat):
                     continue
+                if strat.name == "party" and self._is_mewtwo(card) and self._mewtwo_play_cap(me) <= 0:
+                    continue
                 if strat.name == "slash" and name not in {"wo-chien ex", "sprigatito"}:
                     continue
                 if strat.name == "phantom" and name not in {
@@ -6535,11 +6572,18 @@ class Game:
                 self._bump("prankish_evo_eligible_turn")
                 self._log(f"{me.name} Prankish puts {foe.card(energy_i).name} on top of {foe.name}'s deck")
         for abi in card.abilities:
+            gusted_limited = False
             for eff in self._ability_effects(abi):
                 if eff.get("kind") == "gust_low_hp_on_evolve":
                     self._gust_low_hp_bench(foe, int(eff.get("max_remaining") or 90))
+                    gusted_limited = True
                 elif eff.get("kind") == "force_opponent_active" and eff.get("trigger") == "on_evolve":
-                    if foe.bench:
+                    cap = eff.get("max_remaining_hp")
+                    if cap is not None:
+                        # Same printed sentence as gust_low_hp_on_evolve. Do not gust twice.
+                        if not gusted_limited:
+                            self._gust_low_hp_bench(foe, int(cap))
+                    elif foe.bench:
                         self._boss_orders(me, foe)
                         self._bump("heave_ho_catcher")
 
@@ -6644,6 +6688,13 @@ class Game:
     def _facing_phantom(self, me: Player) -> bool:
         """Dragapult Phantom Dive 200 + 6 counters: 60 HP Clefairy is a double snack."""
         return self._foe_strat_name(me) == "phantom"
+
+    def _facing_aura(self, me: Player) -> bool:
+        """Mega Lucario ex is Psychic-weak. Photon is Lightning; Mewtwo is Fighting-weak."""
+        if self._foe_strat_name(me) == "aura":
+            return True
+        foe = self.players["b" if me.name == "A" else "a"]
+        return any(card.name.lower() == "mega lucario ex" for card in foe.cards)
 
     def _party_swing_damage(self, me: Player, foe: Player, mon: Pokemon) -> int:
         """Best payable non-setup hit from this Pokémon (vs Dragapult: chip counts)."""
@@ -6840,6 +6891,168 @@ class Game:
             return max(fueled, key=lambda m: len(m.energy))
         return me.active
 
+    def _party_vs_aura_energy_target(self, me: Player) -> Pokemon:
+        """Wondrous Moon needs three Psychic. Shooting Moons needs two. Never Mewtwo first."""
+        assert me.active
+        unpaid_ex = [
+            mon
+            for mon in me.in_play()
+            if self._is_clefable_ex(me.card(mon.card_i)) and not self._can_pay_wondrous_moon(me, mon)
+        ]
+        if unpaid_ex:
+            return max(unpaid_ex, key=lambda mon: len(mon.energy))
+        mega = self._mega_mon(me)
+        if mega is not None and not self._can_pay_shooting_moons(me, mega):
+            return mega
+        clefs = [mon for mon in me.in_play() if self._is_clefairy(me.card(mon.card_i))]
+        if clefs:
+            return max(clefs, key=lambda mon: (len(mon.energy), 0 if mon is me.active else 1))
+        exes = [mon for mon in me.in_play() if self._is_clefable_ex(me.card(mon.card_i))]
+        if exes:
+            return max(exes, key=lambda mon: len(mon.energy))
+        if mega is not None:
+            return mega
+        return me.active
+
+    def _aura_swing(self, foe: Player) -> int:
+        if not foe.active:
+            return 0
+        card = foe.card(foe.active.card_i)
+        pool = self._energy_pool(foe, foe.active)
+        locked = foe.active.disabled_attack or getattr(foe.active, "disabled_self", None)
+        best = 0
+        for atk in card.attacks:
+            if atk.name == locked:
+                continue
+            if not can_pay_energy(pool, atk.cost):
+                continue
+            dmg = int(atk.damage or 0)
+            if "Fighting" in (card.types or []):
+                dmg += int(foe.fighting_boost or 0)
+            best = max(best, dmg)
+        return best
+
+    def _aura_incoming(self, foe: Player, card: Card) -> int:
+        if not foe.active:
+            return 0
+        return self._aura_swing(foe) * weakness_multiplier(
+            card.weaknesses or [], foe.card(foe.active.card_i).types or []
+        )
+
+    def _retreat_party_vs_aura(self, me: Player, foe: Player, who: str) -> None:
+        """Psychic closer vs Mega Lucario. Mewtwo only stays when Photon already KOs."""
+        if not me.active or not me.bench:
+            return
+        if self._moon_ko(me, foe):
+            return
+        for idx, mon in enumerate(me.bench):
+            if self._moon_ko(me, foe, mon):
+                self._swap_to_bench(me, who, idx, allow_paid=True)
+                return
+        if self._shooting_moons_ko(me, foe, me.active):
+            return
+        for idx, mon in enumerate(me.bench):
+            if self._shooting_moons_ko(me, foe, mon):
+                self._swap_to_bench(me, who, idx, allow_paid=True)
+                return
+
+        def hp_left(mon: Pokemon) -> int:
+            return self._max_hp(me, mon) - mon.damage
+
+        def incoming(mon: Pokemon) -> int:
+            return self._aura_incoming(foe, me.card(mon.card_i))
+
+        def moon_swing(mon: Pokemon) -> bool:
+            return (
+                self._is_clefable_ex(me.card(mon.card_i))
+                and self._can_pay_wondrous_moon(me, mon)
+                and hp_left(mon) > incoming(mon)
+            )
+
+        if moon_swing(me.active):
+            return
+        for idx, mon in enumerate(me.bench):
+            if moon_swing(mon):
+                self._swap_to_bench(me, who, idx, allow_paid=True)
+                return
+
+        def mega_swing(mon: Pokemon) -> bool:
+            return (
+                "mega clefable" in me.card(mon.card_i).name.lower()
+                and self._can_pay_shooting_moons(me, mon)
+                and hp_left(mon) > incoming(mon)
+            )
+
+        if mega_swing(me.active):
+            return
+        for idx, mon in enumerate(me.bench):
+            if mega_swing(mon):
+                self._swap_to_bench(me, who, idx, allow_paid=True)
+                return
+        if self._is_mewtwo(me.card(me.active.card_i)):
+            for idx, mon in enumerate(me.bench):
+                if self._is_clefairy(me.card(mon.card_i)) and not mon.ability_used:
+                    if self._swap_to_bench(me, who, idx, allow_paid=True):
+                        return
+            for idx, mon in enumerate(me.bench):
+                name = me.card(mon.card_i).name.lower()
+                if "mega clefable" in name or name == "clefable ex":
+                    if self._swap_to_bench(me, who, idx, allow_paid=True):
+                        return
+            return
+        if hp_left(me.active) <= incoming(me.active):
+            scored: list[tuple[int, int, int, int, int]] = []
+            for idx, mon in enumerate(me.bench):
+                survives = 1 if hp_left(mon) > incoming(mon) else 0
+                mega = 1 if "mega clefable" in me.card(mon.card_i).name.lower() else 0
+                prizes = self._prizes_for_ko(me.card(mon.card_i))
+                scored.append((survives, mega, -prizes, hp_left(mon), idx))
+            scored.sort(reverse=True)
+            if scored and (
+                scored[0][0] == 1
+                or scored[0][1] == 1
+                or -scored[0][2] < self._prizes_for_ko(me.card(me.active.card_i))
+            ):
+                self._swap_to_bench(me, who, scored[0][4], allow_paid=True)
+
+    def _evolve_party_vs_aura(self, me: Player, who: str) -> None:
+        """Clefable ex first (Wondrous Moon), then Mega, keeping a Party Clefairy when Moon is not ready."""
+
+        def evo_in_hand(name: str) -> int | None:
+            for i in me.hand:
+                if me.card(i).name.lower() == name.lower():
+                    return i
+            return None
+
+        def evolve_fueled(evo_name: str) -> bool:
+            evo_i = evo_in_hand(evo_name)
+            if evo_i is None:
+                return False
+            evo = me.card(evo_i)
+            candidates = [
+                mon
+                for mon in me.in_play()
+                if me.card(mon.card_i).name.lower() == (evo.evolves_from or "").lower()
+                and self._can_evolve_now(me, who, mon, evo)
+            ]
+            if not candidates:
+                return False
+            candidates.sort(key=lambda mon: (len(mon.energy), 0 if mon is me.active else 1), reverse=True)
+            self._do_evolve(me, candidates[0], evo_i)
+            return True
+
+        if self._moon_cannon(me) is None:
+            evolve_fueled("Clefable ex")
+        if self._mega_mon(me) is not None:
+            return
+        clefs = [mon for mon in me.in_play() if self._is_clefairy(me.card(mon.card_i))]
+        cannon = self._moon_cannon(me)
+        if cannon is None and evo_in_hand("Clefable ex") is not None:
+            return
+        cannon_ready = cannon is not None and self._can_pay_wondrous_moon(me, cannon)
+        if len(clefs) >= 2 or cannon_ready or cannon is None:
+            evolve_fueled("Mega Clefable ex")
+
     def _move_psychic_energy(self, me: Player, attacker: Pokemon) -> None:
         """Wondrous Moon: keep 3 Psychic on the cannon, dump surplus onto Mewtwo."""
         dest = self._mewtwo_mon(me)
@@ -6866,6 +7079,9 @@ class Game:
         Going-first 2+2 plays the second copy only when no more Clefairy can come
         down (otherwise wait for 3+2 / 4+1 — PR #33's 57.5% vs D).
         """
+        if self._facing_aura(me):
+            # Mega Brave is 270 Fighting. Weakness makes that 540 into Mewtwo.
+            return 0
         if not self._facing_demolish(me):
             return 1
         if self._four_one_assembled(me):
@@ -8316,6 +8532,9 @@ class Game:
     def _evolve_party(self, me: Player, foe: Player, who: str) -> None:
         if self.rules.first_turn_no_evolve and self._is_players_first_turn(who):
             return
+        if self._facing_aura(me):
+            self._evolve_party_vs_aura(me, who)
+            return
         engines = self._party_engines(me)
         can_kill = self._photon_ko(me, foe)
         fast = self._want_fast_line(me, foe, who)
@@ -8647,6 +8866,9 @@ class Game:
                 if mon is killer:
                     self._swap_to_bench(me, who, idx, allow_paid=True)
                     return
+        if self._facing_aura(me):
+            self._retreat_party_vs_aura(me, foe, who)
+            return
         if self._facing_demolish(me):
             if me.active and self._is_mewtwo(me.card(me.active.card_i)) and not self._survives_demolish(me, me.active):
                 for idx, mon in enumerate(me.bench):

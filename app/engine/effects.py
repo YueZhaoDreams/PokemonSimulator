@@ -200,9 +200,11 @@ def parse_ability_effects(text: str) -> list[dict[str, Any]]:
         )
 
     # Hariyama Heave-Ho Catcher: on evolve, gust any Benched Pokémon.
+    # Ledian's sentence adds "90 HP or less remaining" and is parsed below.
     if (
         "when you play this pokemon from your hand to evolve" in t
         and "switch in 1 of your opponent's benched" in t
+        and "or less remaining" not in t
     ):
         effects.append({"kind": "force_opponent_active", "trigger": "on_evolve"})
 

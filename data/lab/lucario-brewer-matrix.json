@@ -7,13 +7,19 @@
       "foe": "c60",
       "label": "C60 Clefairy / Mewtwo",
       "strategy": "party",
-      "win_rate": 0.618,
-      "wins_a": 1854,
-      "wins_b": 1146,
+      "win_rate": 0.14333333333333334,
+      "wins_a": 430,
+      "wins_b": 2570,
       "ties": 0,
-      "first": 0.6320261437908496,
-      "second": 0.6034013605442177,
-      "attacks": {}
+      "first": 0.145,
+      "second": 0.142,
+      "attacks": {
+        "attack:Clefable ex:Wondrous Moon": 3625,
+        "attack:Mega Clefable ex:Shooting Moons": 2320,
+        "attack:Mewtwo ex:Photon Kinesis": 415,
+        "ko:Mega Lucario ex": 2672
+      },
+      "note": "Remeasured after party uses Clefable ex Wondrous Moon as the closer vs aura. Other cells are the original run."
     },
     {
       "foe": "m60",
