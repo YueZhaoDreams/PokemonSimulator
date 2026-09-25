@@ -9853,9 +9853,17 @@ class Game:
 
         def needs(mon: Pokemon) -> int:
             card = me.card(mon.card_i)
-            if card.name.lower() not in line and "lucario" not in card.name.lower():
+            name = card.name.lower()
+            if name not in line and "lucario" not in name:
                 return 0
-            want = 2 if "mega lucario" in card.name.lower() or card.name.lower() == "riolu" else 1
+            # Mega Brave is [F][F] and the energy stays on the Mega Evolution.
+            # Confront is [F][F]. Wild Press is [F][F][F].
+            if name == "hariyama":
+                want = 3
+            elif name == "makuhita" or name == "riolu" or "mega lucario" in name:
+                want = 2
+            else:
+                want = 1
             return max(0, want - len(mon.energy))
 
         if needs(me.active):
@@ -9910,9 +9918,14 @@ class Game:
             return False
         for mon in me.bench:
             name = me.card(mon.card_i).name.lower()
-            if name in {"riolu", "makuhita", "hariyama"} or "lucario" in name:
-                if len(mon.energy) < 2:
-                    return True
+            if name == "hariyama":
+                want = 3
+            elif name in {"riolu", "makuhita"} or "lucario" in name:
+                want = 2
+            else:
+                continue
+            if len(mon.energy) < want:
+                return True
         return False
 
     def _aura_trainer_score(self, me: Player, foe: Player, name: str) -> float:

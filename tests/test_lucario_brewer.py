@@ -269,6 +269,29 @@ def test_party_vs_lucario_evolves_fueled_clefairy_into_clefable_ex():
     assert mega in me.hand
 
 
+def test_aura_energy_follows_printed_attack_costs():
+    game = _game()
+    me = game.players["a"]
+    _reclaim(me)
+    lucario = _pull(me, "Mega Lucario ex")
+    hari = _pull(me, "Hariyama")
+    maku = _pull(me, "Makuhita")
+    energy = [_pull(me, "Fighting Energy") for _ in range(6)]
+    me.active = Pokemon(card_i=lucario, energy=energy[:2], played_turn=0)
+    me.bench = [
+        Pokemon(card_i=hari, energy=energy[2:4], played_turn=0),
+        Pokemon(card_i=maku, energy=energy[4:5], played_turn=0),
+    ]
+    # Wild Press is [F][F][F]. Two energy does not pay it. Confront is [F][F].
+    target = game._energy_target(me, StrategySpec.from_dict("aura"))
+    assert me.card(target.card_i).name == "Makuhita"
+    me.bench[1].energy.append(energy[5])
+    target = game._energy_target(me, StrategySpec.from_dict("aura"))
+    assert me.card(target.card_i).name == "Hariyama"
+    me.discard.append(_pull(me, "Fighting Energy"))
+    assert game._aura_bench_wants_energy(me)
+
+
 def test_premium_power_pro_expires_before_the_opponent_plans():
     """Printed: during this turn. The +30 is gone once the opponent starts planning."""
     game = _party_vs_lucario()
