@@ -291,7 +291,7 @@ def _num(value: float) -> int | float:
     return value
 
 
-def _reach(copies: int, population: int, seen: int) -> float | None:
+def _reach(copies: int, population: int, seen: int) -> float:
     """P(at least one) for this printing's own copies, not the summed name."""
     if population <= 0 or copies <= 0 or seen <= 0:
         return 0.0
