@@ -1,4 +1,4 @@
-# C60: one Seeker in Iono's slot
+# C60: one Seeker, from Iono or from one Clefable ex
 
 Date: 2026-09-26
 Seed: `20260926`
@@ -6,9 +6,9 @@ Rule: s60 (60 cards, 4-of, 6 prizes, Pokémon are not energy)
 Games: 3,000 / cell (the C60 variant is always player A; who goes first is random)
 Script: `data/lab/set_c60_seeker_lines.py`
 Raw: `data/lab/set-c60-seeker-lines.json`
-Elapsed: 158s
+Elapsed: 222s
 
-The live lock is `SET_C60_NAMES` (1 Prankish, 1 Metronome Clefable, 1 Poké Pad, 1 Mega, 1 Iono). The other cell replaces that Iono with one Seeker. Every other card stays.
+The live lock is `SET_C60_NAMES` (1 Prankish, 1 Metronome Clefable, 1 Poké Pad, 1 Mega, 3 Clefable ex, 1 Iono). `iono-seeker` replaces Iono and keeps 3 Clefable ex. `ex-seeker` keeps Iono and drops Clefable ex from 3 to 2. Every other card stays.
 
 Party now plays Seeker for five lines, from the printed sentence (each player returns one Benched Pokémon and everything attached to it; you return yours first; a player with no Bench returns nothing):
 
@@ -26,12 +26,30 @@ The opponent chooses their own Bench Pokémon. One Bench Pokémon is forced. Oth
 
 | Variant | T60 | Hedrick | UNL | D60 | S60 | G | wComp | wAll |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| **lock** | 68.3% | 63.5% | **89.8%** | **76.8%** | **99.9%** | 65.8% | 68.5% | 69.5% |
+| **lock** | 68.3% | 63.5% | 89.8% | 76.8% | **99.9%** | 65.8% | 68.5% | 69.5% |
 | iono-seeker | **68.8%** | **65.5%** | 89.5% | 74.6% | 99.6% | **69.0%** | **68.9%** | **70.5%** |
+| ex-seeker | 67.4% | 62.8% | **89.9%** | **78.6%** | 99.6% | 65.9% | 68.4% | 69.4% |
 
-Going first / second, lock then Seeker: T60 69.5/67.2 then 71.7/65.8. Hedrick 65.6/61.4 then 65.9/65.1. D60 79.1/74.4 then 76.5/72.8. G 68.0/63.7 then 70.6/67.5.
+Going first / second for ex-seeker: T60 68.9/65.8, Hedrick 63.8/61.9, D60 81.9/75.2, G 65.4/66.4. The lock on those four is 69.5/67.2, 65.6/61.4, 79.1/74.4, 68.0/63.7.
 
-## How often each line fires
+## One Clefable ex for Seeker
+
+wComp is 68.4% against the lock's 68.5%. D60 is +1.8 (78.6% against 76.8%). T60 is −1.0 and Hedrick is −0.7. G is flat (65.9% against 65.8%). Keeping Iono gives the D60 row back the 2 points the Iono cut lost, and gives up the Hedrick and G gains from that cut.
+
+Seeker still fires. Out of 3,000:
+
+| Foe | Seeker played | Save ex | Double Prankish | One-bench KO | Reline | Moons fuel |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| T60 | 489 | 270 | 67 | 163 | 0 | 0 |
+| Hedrick | 407 | 224 | 81 | 102 | 4 | 0 |
+| UNL | 312 | 125 | 86 | 96 | 7 | 0 |
+| D60 | 287 | 287 | 0 | 0 | 0 | 0 |
+| S60 | 658 | 1 | 186 | 470 | 0 | 2 |
+| G | 696 | 107 | 395 | 198 | 0 | 0 |
+
+On D60 every Seeker is still the ex save (287 games). With Iono still in the list, that line sits on top of the shuffle instead of replacing it, and the matchup goes up. Two Clefable ex is enough Lunar Zone for the Demolish wall. The third copy was the card the phantom matchups were using: T60 and Hedrick both drop about a point.
+
+## How often each line fires (Iono → Seeker)
 
 Counts are games with at least one success, out of 3,000.
 
@@ -54,4 +72,4 @@ Shooting Moons fuel is 8 games. On G the Mega attacks with Shooting Moons in 746
 
 ## Lock
 
-`SET_C60_NAMES` stays the live list, including Iono. wComp moves from 68.5% to 68.9%. That is a Hedrick and G gain paid for with a D60 loss, not a clear swap. The five lines are in the engine for the next time the card is in a 60.
+`SET_C60_NAMES` stays the live list: 3 Clefable ex, 1 Iono, 0 Seeker. Iono → Seeker is wComp 68.9%. One Clefable ex → Seeker is wComp 68.4%, against the lock's 68.5%. The ex cut is the D60 list. The Iono cut is the Hedrick and G list. Neither replaces the lock.

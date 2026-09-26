@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-"""C60: one Seeker in Iono's slot, after the five Seeker lines are scripted.
+"""C60: one Seeker, paid by Iono or by one Clefable ex.
+
+The Iono cut keeps three Clefable ex. The ex cut keeps Iono and drops
+Clefable ex from 3 to 2. Both use the same five scripted Seeker lines.
 
 Lines the party plan plays from the printed Seeker sentence:
 1. Return a damaged benched ex Boss (or a bench snipe) can knock out. It stays
@@ -73,11 +76,13 @@ QUERIES = [
 ]
 
 
-def iono_to_seeker() -> list[str]:
+def swap_one(cut: str) -> list[str]:
     names = list(SET_C60_NAMES)
-    if names.count("Iono") != 1 or names.count("Seeker") != 0:
-        raise RuntimeError("live lock no longer has exactly one Iono and zero Seeker")
-    names.remove("Iono")
+    if names.count("Seeker") != 0:
+        raise RuntimeError("live lock already contains Seeker")
+    if names.count(cut) < 1:
+        raise RuntimeError(f"live lock has no {cut}")
+    names.remove(cut)
     names.append("Seeker")
     if len(names) != 60:
         raise RuntimeError(f"list is {len(names)} cards")
@@ -89,7 +94,8 @@ def iono_to_seeker() -> list[str]:
 
 VARIANTS = {
     "lock": list(SET_C60_NAMES),
-    "iono-seeker": iono_to_seeker(),
+    "iono-seeker": swap_one("Iono"),
+    "ex-seeker": swap_one("Clefable ex"),
 }
 
 
@@ -174,8 +180,8 @@ def main() -> None:
         "seed": SEED,
         "elapsed": elapsed,
         "rule_preset": "s60",
-        "cut": "Iono",
         "add": "Seeker",
+        "cuts": {"iono-seeker": "Iono", "ex-seeker": "Clefable ex"},
         "foes": [foe for foe, _n, _s in FOES],
         "lists": {key: list(names) for key, names in VARIANTS.items()},
         "cells": ordered,

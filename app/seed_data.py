@@ -144,7 +144,8 @@ C60_CAGE_LOCK_NAMES = (
 # Seeker-for-Iono retest (2026-09-26, seed 20260926, 3,000) after scripting
 # save-ex, full-bench reline, bench double Prankish, one-bench KO, and
 # Shooting Moons fuel: wComp 68.9 vs this list's 68.5. Hedrick +2.0, G +3.2,
-# D60 -2.2. Not locked. See data/lab/set-c60-seeker-lines.md.
+# D60 -2.2. One Clefable ex → Seeker, Iono kept: wComp 68.4, D60 +1.8,
+# T60 -1.0, Hedrick -0.7. Not locked. See data/lab/set-c60-seeker-lines.md.
 SET_C60_NAMES = (
     ["Clefairy"] * 4
     + ["Mewtwo ex"] * 3
