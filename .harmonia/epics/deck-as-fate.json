@@ -45,9 +45,14 @@
       "at": "2026-09-24T02:12:00Z",
       "author": "operator-chat",
       "text": "Operator: pass copy-ceilings, and merge the combo design, the c60 deck graph, and the celebration weight pilot with it. Gate report from 2026-09-13 was pass on all four steps; operator explicitly requested the pass."
+    },
+    {
+      "at": "2026-09-26T20:20:00Z",
+      "author": "operator-chat",
+      "text": "Operator: pass network-from-print, then continue implement-epic-features. The attach line stays named attaches_from_deck, matching the checklist. Ledian no longer links to the card Switch."
     }
   ],
-  "passed_gates": ["copy-ceilings"],
+  "passed_gates": ["copy-ceilings", "network-from-print"],
   "gate_reports": {
     "copy-ceilings": {
       "verified_at": "2026-09-13T01:00:09.286832+00:00",
@@ -80,6 +85,37 @@
       ],
       "also": ".venv/bin/pytest -q -> 452 passed on the merged branch; tests/test_fate_ceilings.py + tests/test_probability.py -> 14 passed",
       "recommendation": "pass (agent-auto, all steps passed). Not appended to passed_gates: operator did not request auto-pass in this session."
+    },
+    "network-from-print": {
+      "verified_at": "2026-09-26T20:18:30Z",
+      "verifier_agent": "cursor-verify-gate",
+      "consumer": "both",
+      "verifier": "agent-then-human",
+      "environment": "http://127.0.0.1:8000 serving main 64ba973 (#132); ./run.sh restarted after merge",
+      "overall_status": "pass",
+      "steps": [
+        {
+          "step": "1 Clefairy LOR 62 attaches_from_deck to Psychic Energy, no look-N",
+          "status": "pass",
+          "evidence": "GET /api/decks/seed-g/fate/kg: Clefairy -> Psychic Energy kind attaches_from_deck, effect {benched_name, energy_type: Psychic, require_active}, no look. source is the Moon-Watching Party sentence."
+        },
+        {
+          "step": "2 Ledian and Boss share force_opponent_active; Ledian trigger on_evolve and max_remaining_hp 90",
+          "status": "pass",
+          "evidence": "Live graph: Ledian effect {kind: force_opponent_active, trigger: on_evolve, max_remaining_hp: 90}; Boss's Orders effect {trigger: play}."
+        },
+        {
+          "step": "3 Isolated printing has zero non-energy edges; a lab note does not add edges",
+          "status": "pass",
+          "evidence": "tests/test_fate_kg.py::test_clefairy_attach_edge_has_no_look_and_isolated_has_no_real_link. app/engine/fate/kg.py does not read data/lab."
+        },
+        {
+          "step": "4 Human: asking why two cards are linked returns the printed sentence",
+          "status": "pass",
+          "evidence": "Earlier chat on this site quoted Moon-Watching Party and Wonder Storm. Live graph after #132 has no Ledian -> Switch edge. Operator said pass."
+        }
+      ],
+      "recommendation": "pass. Operator explicitly requested the pass in this session. Appended to passed_gates."
     }
   }
 }
