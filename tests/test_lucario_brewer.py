@@ -257,6 +257,8 @@ def test_party_vs_lucario_evolves_fueled_clefairy_into_clefable_ex():
     bench = _pull(me, "Clefairy")
     psychic = [_pull(me, "Psychic Energy") for _ in range(2)]
     ex = _pull(me, "Clefable ex")
+    me.cards.append(fallback_named("Mega Clefable ex"))
+    me.deck.append(len(me.cards) - 1)
     mega = _pull(me, "Mega Clefable ex")
     lucario = _pull(foe, "Mega Lucario ex")
     me.active = Pokemon(card_i=active, played_turn=0)

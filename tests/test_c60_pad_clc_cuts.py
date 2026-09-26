@@ -70,8 +70,11 @@ def test_ex_and_energy_cuts_leave_two_ex_and_thirteen_psychic():
     assert SET_C60_NAMES.count("Clefable") == 1
     assert SET_C60_NAMES.count("Clefable CLC") == 1
     assert SET_C60_NAMES.count("Poké Pad") == 1
-    assert SET_C60_NAMES.count("Mega Clefable ex") == 1
-    assert Counter(SET_C60_NAMES) == Counter(LAB.pad_plus_clc("Mega Clefable ex"))
+    assert SET_C60_NAMES.count("Mega Clefable ex") == 0
+    assert SET_C60_NAMES.count("Seeker") == 1
+    paid = list(LAB.pad_plus_clc("Mega Clefable ex"))
+    paid[paid.index("Mega Clefable ex")] = "Seeker"
+    assert Counter(SET_C60_NAMES) == Counter(paid)
 
 
 def test_pad_clc_cuts_json_cells_follow_foe_order():
@@ -101,4 +104,5 @@ def test_pad_clc_cuts_json_cells_follow_foe_order():
     assert SET_C60_NAMES.count("Clefable") == 1
     assert SET_C60_NAMES.count("Clefable CLC") == 1
     assert SET_C60_NAMES.count("Poké Pad") == 1
-    assert SET_C60_NAMES.count("Mega Clefable ex") == 1
+    assert SET_C60_NAMES.count("Mega Clefable ex") == 0
+    assert SET_C60_NAMES.count("Seeker") == 1

@@ -94,7 +94,8 @@ def test_s60_seed_aliases_and_prankish_c60():
     assert "base1/5" not in (clc.get("image") or "")
     assert fallback_named("Clefable CLC").image == clc.get("image")
     assert names.count("Poké Pad") == 1
-    assert names.count("Mega Clefable ex") == 1
+    assert names.count("Mega Clefable ex") == 0
+    assert names.count("Seeker") == 1
     hedrick = load_seed_deck("t-meta")
     assert [c["name"] for c in hedrick["cards"]].count("Rare Candy") == 0
     assert [c["name"] for c in hedrick["cards"]].count("Dragapult ex") == 3

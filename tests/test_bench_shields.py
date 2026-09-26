@@ -153,7 +153,7 @@ def test_battle_cage_does_not_block_cruel_arrow_bench_damage():
     foe = game.players["a"]
     game._set_stadium(fallback_named("Battle Cage"))
     me.active = Pokemon(card_i=_idx(me, "Fezandipiti ex"), played_turn=0)
-    foe.active = Pokemon(card_i=_idx(foe, "Mega Clefable ex"), played_turn=0)
+    foe.active = Pokemon(card_i=_idx(foe, "Clefable ex"), played_turn=0)
     bench_i = _idx(foe, "Clefairy")
     foe.bench = [Pokemon(card_i=bench_i, played_turn=0)]
     game._damage_one_pokemon(me, foe, 100)
@@ -165,7 +165,7 @@ def test_shaymin_redirects_bench_damage_to_active_for_plain_bench():
     me = game.players["b"]
     foe = game.players["a"]
     me.active = Pokemon(card_i=_idx(me, "Fezandipiti ex"), played_turn=0)
-    foe.active = Pokemon(card_i=_idx(foe, "Mega Clefable ex"), played_turn=0)
+    foe.active = Pokemon(card_i=_idx(foe, "Clefable ex"), played_turn=0)
     foe.bench = [Pokemon(card_i=_idx(foe, "Clefairy"), played_turn=0)]
     # Shaymin sits on the bench beside the Clefairy.
     foe.bench.append(Pokemon(card_i=_idx(foe, "Shaymin"), played_turn=0))
@@ -180,7 +180,7 @@ def test_shaymin_leaves_ex_bench_exposed():
     me = game.players["b"]
     foe = game.players["a"]
     me.active = Pokemon(card_i=_idx(me, "Fezandipiti ex"), played_turn=0)
-    foe.active = Pokemon(card_i=_idx(foe, "Mega Clefable ex"), played_turn=0)
+    foe.active = Pokemon(card_i=_idx(foe, "Clefable ex"), played_turn=0)
     foe.bench = [
         Pokemon(card_i=_idx(foe, "Clefairy"), played_turn=0),
         Pokemon(card_i=_idx(foe, "Shaymin"), played_turn=0),
@@ -196,7 +196,7 @@ def test_rabsca_redirects_bench_damage_to_active():
     me = game.players["b"]
     foe = game.players["a"]
     me.active = Pokemon(card_i=_idx(me, "Fezandipiti ex"), played_turn=0)
-    foe.active = Pokemon(card_i=_idx(foe, "Mega Clefable ex"), played_turn=0)
+    foe.active = Pokemon(card_i=_idx(foe, "Clefable ex"), played_turn=0)
     foe.bench = [
         Pokemon(card_i=_idx(foe, "Clefairy"), played_turn=0),
         Pokemon(card_i=_idx(foe, "Rabsca"), played_turn=0),
@@ -237,7 +237,7 @@ def test_rabsca_does_not_block_adrena_brain():
     src = Pokemon(card_i=munk_i, played_turn=0, energy=[dark_i])
     me.active = src
     me.bench = [donor]
-    foe.active = Pokemon(card_i=_idx(foe, "Mega Clefable ex"), played_turn=0)
+    foe.active = Pokemon(card_i=_idx(foe, "Clefable ex"), played_turn=0)
     clef = Pokemon(card_i=_idx(foe, "Clefairy"), played_turn=0, damage=40)
     foe.bench = [
         Pokemon(card_i=_idx(foe, "Rabsca"), played_turn=0),

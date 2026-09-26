@@ -7,7 +7,7 @@ Cheren's Care is Colorless-only and does not pick up Clefairy.
 from random import Random
 
 from app.engine.effects import parse_trainer_effects
-from app.engine.game import Game, Pokemon
+from app.engine.game import ST_PARALYZED, Game, Pokemon
 from app.engine.models import standard_60_rules
 from app.engine.strategies import StrategySpec
 from app.seed_data import SET_C60_NAMES, build_fallback_deck, fallback_named
@@ -42,13 +42,15 @@ def _script_names() -> list[str]:
         and "Seeker" in names
     ):
         return names
-    for cut, add in (
+    swaps = [
         ("Hop", "Penny"),
         ("Lillie", "Penny"),
         ("Lillie's Determination", "Professor Turo's Scenario"),
         ("Iono", "Mr. Briney's Compassion"),
-        ("Energy Switch", "Seeker"),
-    ):
+    ]
+    if "Seeker" not in names:
+        swaps.append(("Energy Switch", "Seeker"))
+    for cut, add in swaps:
         names.remove(cut)
         names.append(add)
     return names
@@ -70,6 +72,14 @@ def _add(game: Game, name: str) -> int:
     me = game.players["a"]
     me.cards.append(fallback_named(name))
     return len(me.cards) - 1
+
+
+def _card(game: Game, name: str) -> int:
+    me = game.players["a"]
+    for i, card in enumerate(me.cards):
+        if card.name == name:
+            return i
+    return _add(game, name)
 
 
 def test_printed_bounce_sentences():
@@ -190,8 +200,9 @@ def test_seeker_returns_both_benches_and_pranks_twice():
     foe.hand = []
     game._party_bounce_combo(me, foe, "a")
     assert game.events.get("prankish") == 2
+    assert game.events.get("seeker_double_prankish") == 1
     assert seeker in me.discard
-    assert switch in me.discard
+    assert switch in me.hand
     assert drak in foe.hand
     assert not any(m.card_i == drak for m in foe.in_play())
     replayed = [m for m in foe.in_play() if m.card_i == drak]
@@ -440,3 +451,311 @@ def test_turo_is_not_scored_as_professors_research():
     me.deck = energies[2:]
     me.supporter_used = False
     assert game._pick_trainer(me) == iono
+
+
+def test_seeker_double_prankish_from_two_bench_clefairy_without_switch():
+    """Two benched Clefairy: evolve one, Seeker, evolve the other. No Switch."""
+    game = _game()
+    game.turn = 4
+    me = game.players["a"]
+    foe = game.players["b"]
+    fairies = [i for i, c in enumerate(me.cards) if c.name == "Clefairy"]
+    mewtwo = next(i for i, c in enumerate(me.cards) if c.name == "Mewtwo ex")
+    clefable = next(
+        i
+        for i, c in enumerate(me.cards)
+        if c.name == "Clefable" and any(a.name == "Prankish" for a in c.abilities)
+    )
+    seeker = next(i for i, c in enumerate(me.cards) if c.name == "Seeker")
+    fires = [i for i, c in enumerate(foe.cards) if c.name == "Fire Energy"]
+    dreepy = next(i for i, c in enumerate(foe.cards) if c.name == "Dreepy")
+    drak = next(i for i, c in enumerate(foe.cards) if c.name == "Drakloak")
+    me.active = Pokemon(card_i=mewtwo, played_turn=0)
+    me.bench = [
+        Pokemon(card_i=fairies[0], played_turn=0),
+        Pokemon(card_i=fairies[1], played_turn=0),
+    ]
+    me.hand = [clefable, seeker]
+    me.supporter_used = False
+    foe.active = Pokemon(card_i=dreepy, played_turn=0, energy=fires[:2])
+    foe.bench = [Pokemon(card_i=drak, played_turn=0)]
+    game._party_bounce_combo(me, foe, "a")
+    assert game.events.get("prankish") == 2
+    assert game.events.get("seeker_double_prankish") == 1
+    assert seeker in me.discard
+    assert len(foe.active.energy) == 0
+    assert any(me.card(m.card_i).name == "Clefable" for m in me.in_play())
+
+
+def test_seeker_saves_benched_ex_boss_can_ko_and_leaves_it_in_hand():
+    game = _game()
+    game.turn = 4
+    me = game.players["a"]
+    foe = game.players["b"]
+    mewtwo = next(i for i, c in enumerate(me.cards) if c.name == "Mewtwo ex")
+    fairy = next(i for i, c in enumerate(me.cards) if c.name == "Clefairy")
+    energies = [i for i, c in enumerate(me.cards) if c.name == "Psychic Energy"]
+    seeker = next(i for i, c in enumerate(me.cards) if c.name == "Seeker")
+    drag = next(i for i, c in enumerate(foe.cards) if c.name == "Dragapult ex")
+    me.active = Pokemon(card_i=fairy, played_turn=0)
+    wounded = Pokemon(card_i=mewtwo, played_turn=0, damage=180, energy=energies[:2])
+    other = next(i for i, c in enumerate(me.cards) if c.name == "Clefairy" and i != fairy)
+    me.bench = [wounded, Pokemon(card_i=other, played_turn=0, damage=10)]
+    me.hand = [seeker]
+    me.supporter_used = False
+    fire = next(i for i, c in enumerate(foe.cards) if c.name == "Fire Energy")
+    foe.active = Pokemon(card_i=drag, played_turn=0, energy=[fire])
+    foe.bench = []
+    assert game._max_hp(me, wounded) - wounded.damage == 50
+    assert game._seeker_save_target(me, foe) is wounded
+    game._party_bounce_combo(me, foe, "a")
+    assert game.events.get("seeker_save_ex") == 1
+    assert mewtwo in me.hand
+    assert energies[0] in me.hand and energies[1] in me.hand
+    assert not any(m.card_i == mewtwo for m in me.in_play())
+    assert any(m.card_i == other for m in me.bench)
+
+
+def test_party_holds_iono_while_active_ex_needs_seeker():
+    """A damaged Active ex is Seeker'd after attach. Do not spend Iono first."""
+    game = _game()
+    game.turn = 4
+    me = game.players["a"]
+    foe = game.players["b"]
+    ex = next(i for i, c in enumerate(me.cards) if c.name == "Clefable ex")
+    fairy = next(i for i, c in enumerate(me.cards) if c.name == "Clefairy")
+    energy = next(i for i, c in enumerate(me.cards) if c.name == "Psychic Energy")
+    seeker = next(i for i, c in enumerate(me.cards) if c.name == "Seeker")
+    iono = _add(game, "Iono")
+    drag = next(i for i, c in enumerate(foe.cards) if c.name == "Dragapult ex")
+    fire = next(i for i, c in enumerate(foe.cards) if c.name == "Fire Energy")
+    me.active = Pokemon(card_i=ex, played_turn=0, damage=200)
+    me.bench = [Pokemon(card_i=fairy, played_turn=0)]
+    me.hand = [seeker, iono, energy]
+    me.supporter_used = False
+    me.energy_attached = False
+    me.retreated = False
+    foe.active = Pokemon(card_i=drag, played_turn=0, energy=[fire])
+    foe.bench = []
+    assert game._seeker_park_save_ready(me, foe, peek_attach=False) is False
+    assert game._seeker_park_save_ready(me, foe, peek_attach=True)
+    assert game._save_supporter_for_bounce(me, foe)
+    assert game._pick_trainer(me) != iono
+    game._party_bounce_combo(me, foe, "a")
+    assert me.supporter_used is False
+    assert seeker in me.hand
+    me.active.energy.append(energy)
+    me.hand.remove(energy)
+    me.energy_attached = True
+    game._play_attack_seeker_lines(me, foe, "a")
+    assert game.events.get("seeker_save_ex") == 1
+    assert ex in me.hand
+    assert iono in me.hand
+
+
+def test_paralyzed_active_ex_still_returns_to_hand():
+    game = _game()
+    game.turn = 4
+    me = game.players["a"]
+    foe = game.players["b"]
+    ex = next(i for i, c in enumerate(me.cards) if c.name == "Clefable ex")
+    fairy = next(i for i, c in enumerate(me.cards) if c.name == "Clefairy")
+    energy = next(i for i, c in enumerate(me.cards) if c.name == "Psychic Energy")
+    seeker = next(i for i, c in enumerate(me.cards) if c.name == "Seeker")
+    drag = next(i for i, c in enumerate(foe.cards) if c.name == "Dragapult ex")
+    fire = next(i for i, c in enumerate(foe.cards) if c.name == "Fire Energy")
+    me.active = Pokemon(card_i=ex, played_turn=0, damage=200, energy=[energy], status=ST_PARALYZED)
+    me.bench = [Pokemon(card_i=fairy, played_turn=0)]
+    me.hand = [seeker]
+    me.supporter_used = False
+    me.retreated = False
+    foe.active = Pokemon(card_i=drag, played_turn=0, energy=[fire])
+    foe.bench = []
+    assert game._seeker_then_attack(me, foe, "a", True) is False
+    assert seeker in me.hand
+    assert ex not in me.hand
+    switch = _add(game, "Switch")
+    me.hand.append(switch)
+    assert game._seeker_then_attack(me, foe, "a", True) is False
+    assert game.events.get("seeker_save_ex") == 1
+    assert ex in me.hand
+    assert switch in me.discard
+    assert game.events.get("seeker_board_wipe", 0) == 0
+
+
+def test_frigid_fangs_does_not_turn_a_blocked_ko_into_a_seeker_wipe():
+    game = _game()
+    game.turn = 4
+    me = game.players["a"]
+    foe = game.players["b"]
+    mewtwo = next(i for i, c in enumerate(me.cards) if c.name == "Mewtwo ex")
+    fairies = [i for i, c in enumerate(me.cards) if c.name == "Clefairy"]
+    energies = [i for i, c in enumerate(me.cards) if c.name == "Psychic Energy"]
+    seeker = next(i for i, c in enumerate(me.cards) if c.name == "Seeker")
+    dreepy = next(i for i, c in enumerate(foe.cards) if c.name == "Dreepy")
+    drak = next(i for i, c in enumerate(foe.cards) if c.name == "Drakloak")
+    me.active = Pokemon(card_i=mewtwo, played_turn=0, energy=energies[:2])
+    me.bench = [
+        Pokemon(card_i=fairies[0], played_turn=0, energy=energies[2:4]),
+        Pokemon(card_i=fairies[1], played_turn=0),
+    ]
+    me.hand = [seeker]
+    me.supporter_used = False
+    me.energy_attached = True
+    foe.active = Pokemon(card_i=dreepy, played_turn=0)
+    foe.bench = [Pokemon(card_i=drak, played_turn=0)]
+    foe.active.damage = game._max_hp(foe, foe.active) - 100
+    game.energy_attack_lock["a"] = 2
+    assert game._can_active_ko(me, foe)
+    assert game._seeker_wipe_choice(me, foe, peek_attach=False) is not None
+    assert game._energy_attack_blocked(me, "a")
+    assert game._seeker_then_attack(me, foe, "a", True) is False
+    assert seeker in me.hand
+    assert game.events.get("seeker_board_wipe", 0) == 0
+    assert foe.bench
+
+
+def test_attack_window_saves_ex_when_wipe_is_only_a_retreat_preview():
+    game = _game()
+    game.turn = 4
+    me = game.players["a"]
+    foe = game.players["b"]
+    fairies = [i for i, c in enumerate(me.cards) if c.name == "Clefairy"]
+    mewtwo = next(i for i, c in enumerate(me.cards) if c.name == "Mewtwo ex")
+    energies = [i for i, c in enumerate(me.cards) if c.name == "Psychic Energy"]
+    seeker = next(i for i, c in enumerate(me.cards) if c.name == "Seeker")
+    drag = next(i for i, c in enumerate(foe.cards) if c.name == "Dragapult ex")
+    dreepy = next(i for i, c in enumerate(foe.cards) if c.name == "Dreepy")
+    fire = next(i for i, c in enumerate(foe.cards) if c.name == "Fire Energy")
+    me.active = Pokemon(card_i=fairies[0], played_turn=0, energy=energies[:2])
+    wounded = Pokemon(card_i=mewtwo, played_turn=0, damage=180, energy=energies[2:7])
+    me.bench = [wounded]
+    me.hand = [seeker]
+    me.supporter_used = False
+    me.retreated = False
+    foe.active = Pokemon(card_i=drag, played_turn=0, damage=250, energy=[fire])
+    foe.bench = [Pokemon(card_i=dreepy, played_turn=0)]
+    assert game._seeker_wipe_choice(me, foe, peek_attach=False) is None
+    assert game._seeker_wipe_pending(me, foe, "a")
+    game._play_attack_seeker_lines(me, foe, "a")
+    assert game.events.get("seeker_board_wipe", 0) == 0
+    assert game.events.get("seeker_save_ex") == 1
+    assert mewtwo in me.hand
+
+
+def test_seeker_does_not_spend_itself_on_a_chipped_clefairy():
+    game = _game()
+    game.turn = 4
+    me = game.players["a"]
+    foe = game.players["b"]
+    fairy = next(i for i, c in enumerate(me.cards) if c.name == "Clefairy")
+    other = next(i for i, c in enumerate(me.cards) if c.name == "Clefairy" and i != fairy)
+    seeker = next(i for i, c in enumerate(me.cards) if c.name == "Seeker")
+    drag = next(i for i, c in enumerate(foe.cards) if c.name == "Dragapult ex")
+    me.active = Pokemon(card_i=fairy, played_turn=0)
+    me.bench = [Pokemon(card_i=other, played_turn=0, damage=20)]
+    me.hand = [seeker]
+    me.supporter_used = False
+    foe.active = Pokemon(card_i=drag, played_turn=0)
+    foe.bench = []
+    game._party_bounce_combo(me, foe, "a")
+    assert seeker in me.hand
+    assert game.events.get("bounce:Seeker") is None
+
+
+def test_seeker_returns_opponents_least_valuable_bench_when_they_choose():
+    game = _game()
+    game.turn = 4
+    me = game.players["a"]
+    foe = game.players["b"]
+    fairy = next(i for i, c in enumerate(me.cards) if c.name == "Clefairy")
+    other = next(i for i, c in enumerate(me.cards) if c.name == "Clefairy" and i != fairy)
+    seeker = next(i for i, c in enumerate(me.cards) if c.name == "Seeker")
+    dreepy = next(i for i, c in enumerate(foe.cards) if c.name == "Dreepy")
+    drak = next(i for i, c in enumerate(foe.cards) if c.name == "Drakloak")
+    drag = next(i for i, c in enumerate(foe.cards) if c.name == "Dragapult ex")
+    me.active = Pokemon(card_i=fairy, played_turn=0)
+    me.bench = [Pokemon(card_i=other, played_turn=0)]
+    me.hand = [seeker]
+    me.supporter_used = False
+    foe.active = Pokemon(card_i=drak, played_turn=0)
+    foe.bench = [
+        Pokemon(card_i=drag, played_turn=0),
+        Pokemon(card_i=dreepy, played_turn=0),
+    ]
+    game._forced_bounce_target = me.bench[0]
+    game._commit_trainer(me, foe, "a", seeker)
+    assert dreepy in foe.hand
+    assert any(m.card_i == drag for m in foe.bench)
+
+
+def test_seeker_reline_frees_a_full_bench_prankish_for_ex():
+    game = _game()
+    game.turn = 4
+    me = game.players["a"]
+    foe = game.players["b"]
+    fairies = [i for i, c in enumerate(me.cards) if c.name == "Clefairy"]
+    prank = next(
+        i
+        for i, c in enumerate(me.cards)
+        if c.name == "Clefable" and any(a.name == "Prankish" for a in c.abilities)
+    )
+    exes = [i for i, c in enumerate(me.cards) if c.name == "Clefable ex"]
+    mewtwos = [i for i, c in enumerate(me.cards) if c.name == "Mewtwo ex"]
+    mega = _card(game, "Mega Clefable ex")
+    clc = next(i for i, c in enumerate(me.cards) if c.name == "Clefable CLC" or (
+        c.name == "Clefable" and any(a.name == "Metronome" for a in c.attacks)
+    ))
+    seeker = next(i for i, c in enumerate(me.cards) if c.name == "Seeker")
+    drag = next(i for i, c in enumerate(foe.cards) if c.name == "Dragapult ex")
+    me.active = Pokemon(card_i=clc, played_turn=0)
+    me.bench = [
+        Pokemon(card_i=prank, played_turn=0, underneath=[fairies[0]]),
+        Pokemon(card_i=mewtwos[0], played_turn=0),
+        Pokemon(card_i=mewtwos[1], played_turn=0),
+        Pokemon(card_i=mewtwos[2], played_turn=0),
+        Pokemon(card_i=exes[0], played_turn=0),
+    ]
+    me.hand = [exes[1], mega, seeker]
+    me.supporter_used = False
+    foe.active = Pokemon(card_i=drag, played_turn=0)
+    foe.bench = [Pokemon(card_i=next(i for i, c in enumerate(foe.cards) if c.name == "Dreepy"), played_turn=0)]
+    assert len(me.bench) == game._bench_limit()
+    game._party_bounce_combo(me, foe, "a")
+    assert game.events.get("seeker_reline") == 1
+    assert prank in me.hand
+    assert fairies[0] in {m.card_i for m in me.in_play()}
+    assert len(me.bench) < game._bench_limit() or any(
+        me.card(m.card_i).name == "Clefairy" for m in me.in_play()
+    )
+
+
+def test_seeker_moons_fuel_discards_bounced_energy_to_ko():
+    game = _game()
+    game.turn = 4
+    me = game.players["a"]
+    foe = game.players["b"]
+    mega = _card(game, "Mega Clefable ex")
+    fairy = next(i for i, c in enumerate(me.cards) if c.name == "Clefairy")
+    energies = [i for i, c in enumerate(me.cards) if c.name == "Psychic Energy"]
+    seeker = next(i for i, c in enumerate(me.cards) if c.name == "Seeker")
+    drag = next(i for i, c in enumerate(foe.cards) if c.name == "Dragapult ex")
+    dreepy = next(i for i, c in enumerate(foe.cards) if c.name == "Dreepy")
+    me.active = Pokemon(card_i=mega, played_turn=0, energy=energies[:2])
+    me.bench = [Pokemon(card_i=fairy, played_turn=0, energy=[energies[2]])]
+    me.hand = [seeker]
+    me.supporter_used = False
+    me.energy_attached = True
+    foe.active = Pokemon(card_i=drag, played_turn=0, damage=170)
+    foe.bench = [Pokemon(card_i=dreepy, played_turn=0)]
+    assert game._seeker_moons_fuel_target(me, foe) is me.bench[0]
+    assert game.events.get("moons_window", 0) == 0
+    assert game._seeker_moons_fuel_target(me, foe, record=True) is me.bench[0]
+    assert game.events.get("moons_window") == 1
+    assert game._try_seeker_moons_fuel(me, foe, "a")
+    assert game.events.get("seeker_moons_fuel") == 1
+    assert game.events.get("moons_window") == 1
+    assert energies[2] in me.hand
+    game._attack(me, foe, "a")
+    assert foe.active.damage >= 320
+    assert game.events.get("shooting_moons_discard") == 1

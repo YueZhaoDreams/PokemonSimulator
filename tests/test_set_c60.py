@@ -37,7 +37,7 @@ def test_set_c60_is_standard_sixty_with_psychic_energy():
     assert names.count("Clefable") == 1
     assert names.count("Clefable CLC") == 1
     assert names.count("Clefable ex") == 3
-    assert names.count("Mega Clefable ex") == 1
+    assert names.count("Mega Clefable ex") == 0
     assert names.count("Poké Pad") == 1
     assert names.count("Psychic Energy") == 14
     assert names.count("Telepathic Psychic Energy") == 2
@@ -53,7 +53,7 @@ def test_set_c60_is_standard_sixty_with_psychic_energy():
     assert names.count("Penny") == 0
     assert names.count("Professor Turo's Scenario") == 0
     assert names.count("Mr. Briney's Compassion") == 0
-    assert names.count("Seeker") == 0
+    assert names.count("Seeker") == 1
     assert names.count("AZ") == 0
     assert names.count("Cheren's Care") == 0
     assert names.count("Energy Switch") == 2

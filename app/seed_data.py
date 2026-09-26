@@ -141,13 +141,22 @@ C60_CAGE_LOCK_NAMES = (
 # Metronome + 1 Poké Pad (ME02.5 198, no Rule Box), paid by cutting the second
 # Prankish and the second Mega. Cut matrix wComp: mega 69.6, pad-only 69.3,
 # 2-Prankish 68.5. See data/lab/set-c60-pad-clc-cuts.md.
+# Seeker-for-Iono retest (2026-09-26, seed 20260926, 3,000) after scripting
+# save-ex, full-bench reline, bench double Prankish, one-bench KO, and
+# Shooting Moons fuel: wComp 68.9 vs this list's 68.5. Hedrick +2.0, G +3.2,
+# D60 -2.2. One Clefable ex → Seeker, Iono kept: wComp 68.4, D60 +1.8,
+# T60 -1.0, Hedrick -0.7. Not locked. See data/lab/set-c60-seeker-lines.md.
+# Every distinct card → one Seeker (same seed, 3,000): Mega wComp 71.5
+# (G 61.0), Ultra Ball 71.1, Metronome Clefable 70.8.
+# Locked 2026-09-26: the one Mega Clefable ex becomes Seeker.
+# See data/lab/set-c60-seeker-cuts.md.
 SET_C60_NAMES = (
     ["Clefairy"] * 4
     + ["Mewtwo ex"] * 3
     + ["Clefable"]
     + ["Clefable CLC"]
     + ["Clefable ex"] * 3
-    + ["Mega Clefable ex"]
+    + ["Seeker"]
     + ["Nest Ball"] * 4
     + ["Buddy-Buddy Poffin"] * 4
     + ["Ultra Ball"] * 2
@@ -166,6 +175,13 @@ SET_C60_NAMES = (
     + ["Psychic Energy"] * 14
     + ["Poké Pad"]
 )
+
+
+def c60_names_before_seeker() -> tuple[str, ...]:
+    """The measured 60 before Mega Clefable ex became Seeker, same card order."""
+    names = list(SET_C60_NAMES)
+    names[names.index("Seeker")] = "Mega Clefable ex"
+    return tuple(names)
 
 
 def c60_names_before_bounce() -> list[str]:

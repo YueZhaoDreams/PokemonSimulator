@@ -10528,53 +10528,23 @@
         "dex_id": null
       },
       {
-        "catalog_id": "me03-031",
-        "name": "Mega Clefable ex",
-        "category": "Pokemon",
-        "stage": "Stage1",
-        "types": [
-          "Psychic"
-        ],
-        "hp": 320,
-        "attacks": [
-          {
-            "name": "Shooting Moons",
-            "cost": [
-              "Psychic",
-              "Psychic"
-            ],
-            "damage": 120,
-            "text": "You may discard up to 4 Energy cards from your hand, and this attack does 40 more damage for each card you discarded in this way.",
-            "effects": [
-              {
-                "kind": "discard_hand_energy_bonus",
-                "max": 4,
-                "per": 40
-              }
-            ]
-          }
-        ],
-        "abilities": [
-          {
-            "name": "Luminous Wing",
-            "text": "Prevent all effects of your opponent's Pok\u00e9mon's Abilities done to this Pok\u00e9mon.",
-            "effects": []
-          }
-        ],
-        "weaknesses": [
-          {
-            "type": "Metal",
-            "value": "\u00d72"
-          }
-        ],
+        "catalog_id": "hgss3-85",
+        "name": "Seeker",
+        "category": "Trainer",
+        "stage": "Supporter",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
         "resistances": [],
-        "retreat": 1,
-        "evolves_from": "Clefairy",
-        "trainer_kind": null,
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "supporter",
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/me/me03/031/low.webp",
+        "image": "https://assets.tcgdex.net/en/hgss/hgss3/85/low.webp",
         "set_name": null,
-        "text": "",
+        "text": "Each player returns 1 of his or her Benched Pok\u00e9mon and all cards attached to it to his or her hand. (You return your Pok\u00e9mon first.)",
         "dex_id": null
       },
       {
