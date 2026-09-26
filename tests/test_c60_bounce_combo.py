@@ -622,8 +622,12 @@ def test_seeker_moons_fuel_discards_bounced_energy_to_ko():
     foe.active = Pokemon(card_i=drag, played_turn=0, damage=170)
     foe.bench = [Pokemon(card_i=dreepy, played_turn=0)]
     assert game._seeker_moons_fuel_target(me, foe) is me.bench[0]
+    assert game.events.get("moons_window", 0) == 0
+    assert game._seeker_moons_fuel_target(me, foe, record=True) is me.bench[0]
+    assert game.events.get("moons_window") == 1
     assert game._try_seeker_moons_fuel(me, foe, "a")
     assert game.events.get("seeker_moons_fuel") == 1
+    assert game.events.get("moons_window") == 1
     assert energies[2] in me.hand
     game._attack(me, foe, "a")
     assert foe.active.damage >= 320

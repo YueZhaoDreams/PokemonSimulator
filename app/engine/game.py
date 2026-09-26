@@ -855,7 +855,7 @@ class Game:
                     self._try_seeker_save_ex(me, foe, who, park_active=True)
                 if not me.supporter_used and not self._seeker_wipe_pending(me, foe, who):
                     self._try_seeker_save_ex(me, foe, who, park_active=False)
-                if self._seeker_moons_fuel_target(me, foe) is not None and (
+                if self._seeker_moons_fuel_target(me, foe, record=True) is not None and (
                     me.supporter_used or self._seeker_wipe_pending(me, foe, who)
                 ):
                     self._bump("seeker_moons_blocked")
@@ -2926,8 +2926,12 @@ class Game:
                 return prank
         return None
 
-    def _seeker_moons_fuel_target(self, me: Player, foe: Player) -> Pokemon | None:
-        """Bench Pokémon whose attached Energy, in hand, lets Shooting Moons KO."""
+    def _seeker_moons_fuel_target(self, me: Player, foe: Player, *, record: bool = False) -> Pokemon | None:
+        """Bench Pokémon whose attached Energy, in hand, lets Shooting Moons KO.
+
+        Callers use this as a predicate (hold a supporter, then play Seeker).
+        Diagnostic bumps run only when ``record`` is set, once in the attack window.
+        """
         if self._seeker_in_hand(me) is None or not me.active or not foe.active or not me.bench:
             return None
         if "mega clefable" not in me.card(me.active.card_i).name.lower():
@@ -2938,9 +2942,11 @@ class Game:
         hp = self._max_hp(foe, foe.active) - foe.active.damage
         if hp <= 0:
             return None
-        self._bump("moons_window")
+        if record:
+            self._bump("moons_window")
         if self._raw_attack_damage(me, foe, me.active, atk) >= hp:
-            self._bump("moons_already_ko")
+            if record:
+                self._bump("moons_already_ko")
             return None
         best: Pokemon | None = None
         best_key: tuple[int, int] | None = None
@@ -2965,7 +2971,7 @@ class Game:
             key = (-self._prizes_for_ko(me.card(mon.card_i)), -len(fuels))
             if best_key is None or key > best_key:
                 best, best_key = mon, key
-        if best is None:
+        if best is None and record:
             self._bump("moons_no_fuel")
         return best
 
