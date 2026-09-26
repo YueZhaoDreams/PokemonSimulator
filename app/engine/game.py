@@ -842,28 +842,10 @@ class Game:
             self._g_match_horn_hands(me, foe, who)
         if getattr(self, "winner", None):
             return True
-        if self._try_draw_end_turn(me, who):
-            can_attack = False
-        else:
+        if not self._try_draw_end_turn(me, who):
             can_attack = not (first_turn and who == self.first and self.rules.first_player_no_attack)
-        if can_attack and me.active and not (me.active.status & (ST_PARALYZED | ST_ASLEEP)):
-            if self._energy_attack_blocked(me, who):
-                self._log(f"{me.card(me.active.card_i).name} cannot attack (Frigid Fangs)")
-            else:
-                self._play_attack_seeker_lines(me, foe, who)
-                self._attack(me, foe, who)
-                if getattr(self, "winner", None):
-                    self._expire_disabled_attacks(me)
-                    self.energy_attack_lock.pop(who, None)
-                    return True
-                if self._check_ko(foe, me, "b" if who == "a" else "a"):
-                    self._expire_disabled_attacks(me)
-                    self.energy_attack_lock.pop(who, None)
-                    return True
-                if self._check_ko(me, foe, who):
-                    self._expire_disabled_attacks(me)
-                    self.energy_attack_lock.pop(who, None)
-                    return True
+            if self._seeker_then_attack(me, foe, who, can_attack):
+                return True
 
         if me.active:
             me.active.status &= ~ST_PARALYZED
@@ -2756,6 +2738,34 @@ class Game:
             return True
         return self._seeker_wipe_after_retreat(me, foe)
 
+    def _play_defensive_seeker_saves(self, me: Player, foe: Player, who: str) -> None:
+        """Return a KO-range ex. This does not need an attack to land."""
+        if not me.supporter_used:
+            self._try_seeker_save_ex(me, foe, who, park_active=True)
+        if not me.supporter_used:
+            self._try_seeker_save_ex(me, foe, who, park_active=False)
+
+    def _seeker_then_attack(self, me: Player, foe: Player, who: str, can_attack: bool) -> bool:
+        """Seeker, then the attack. A blocked attack still saves the ex.
+
+        Returns True when a KO already ended the turn.
+        """
+        status_locked = bool(me.active and (me.active.status & (ST_PARALYZED | ST_ASLEEP)))
+        fangs = bool(me.active and self._energy_attack_blocked(me, who))
+        if can_attack and me.active and not status_locked and not fangs:
+            self._play_attack_seeker_lines(me, foe, who)
+            self._attack(me, foe, who)
+            if getattr(self, "winner", None) or self._check_ko(foe, me, "b" if who == "a" else "a") or self._check_ko(me, foe, who):
+                self._expire_disabled_attacks(me)
+                self.energy_attack_lock.pop(who, None)
+                return True
+            return False
+        if me.active and can_attack and not status_locked and fangs:
+            self._log(f"{me.card(me.active.card_i).name} cannot attack (Frigid Fangs)")
+        if me.active:
+            self._play_defensive_seeker_saves(me, foe, who)
+        return False
+
     def _play_attack_seeker_lines(self, me: Player, foe: Player, who: str) -> None:
         """Seeker lines that happen after attach and retreat.
 
@@ -2764,10 +2774,7 @@ class Game:
         Shooting Moons fuel still can.
         """
         self._try_seeker_board_wipe(me, foe, who)
-        if not me.supporter_used:
-            self._try_seeker_save_ex(me, foe, who, park_active=True)
-        if not me.supporter_used:
-            self._try_seeker_save_ex(me, foe, who, park_active=False)
+        self._play_defensive_seeker_saves(me, foe, who)
         if self._seeker_moons_fuel_target(me, foe, record=True) is not None and me.supporter_used:
             self._bump("seeker_moons_blocked")
         if not me.supporter_used:
@@ -3011,6 +3018,9 @@ class Game:
             return False
         if self._first_named(me, "Switch") is not None:
             return True
+        # Paralyzed or Asleep cannot pay a retreat. Switch still can.
+        if me.active.status & (ST_PARALYZED | ST_ASLEEP):
+            return False
         if self.rules.one_retreat_per_turn and me.retreated:
             return False
         if len(me.active.energy) >= self._retreat_cost(me, me.active):

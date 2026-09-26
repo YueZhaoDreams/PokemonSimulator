@@ -7,7 +7,7 @@ Cheren's Care is Colorless-only and does not pick up Clefairy.
 from random import Random
 
 from app.engine.effects import parse_trainer_effects
-from app.engine.game import Game, Pokemon
+from app.engine.game import ST_PARALYZED, Game, Pokemon
 from app.engine.models import standard_60_rules
 from app.engine.strategies import StrategySpec
 from app.seed_data import SET_C60_NAMES, build_fallback_deck, fallback_named
@@ -551,6 +551,68 @@ def test_party_holds_iono_while_active_ex_needs_seeker():
     assert game.events.get("seeker_save_ex") == 1
     assert ex in me.hand
     assert iono in me.hand
+
+
+def test_paralyzed_active_ex_still_returns_to_hand():
+    game = _game()
+    game.turn = 4
+    me = game.players["a"]
+    foe = game.players["b"]
+    ex = next(i for i, c in enumerate(me.cards) if c.name == "Clefable ex")
+    fairy = next(i for i, c in enumerate(me.cards) if c.name == "Clefairy")
+    energy = next(i for i, c in enumerate(me.cards) if c.name == "Psychic Energy")
+    seeker = next(i for i, c in enumerate(me.cards) if c.name == "Seeker")
+    drag = next(i for i, c in enumerate(foe.cards) if c.name == "Dragapult ex")
+    fire = next(i for i, c in enumerate(foe.cards) if c.name == "Fire Energy")
+    me.active = Pokemon(card_i=ex, played_turn=0, damage=200, energy=[energy], status=ST_PARALYZED)
+    me.bench = [Pokemon(card_i=fairy, played_turn=0)]
+    me.hand = [seeker]
+    me.supporter_used = False
+    me.retreated = False
+    foe.active = Pokemon(card_i=drag, played_turn=0, energy=[fire])
+    foe.bench = []
+    assert game._seeker_then_attack(me, foe, "a", True) is False
+    assert seeker in me.hand
+    assert ex not in me.hand
+    switch = _add(game, "Switch")
+    me.hand.append(switch)
+    assert game._seeker_then_attack(me, foe, "a", True) is False
+    assert game.events.get("seeker_save_ex") == 1
+    assert ex in me.hand
+    assert switch in me.discard
+    assert game.events.get("seeker_board_wipe", 0) == 0
+
+
+def test_frigid_fangs_does_not_turn_a_blocked_ko_into_a_seeker_wipe():
+    game = _game()
+    game.turn = 4
+    me = game.players["a"]
+    foe = game.players["b"]
+    mewtwo = next(i for i, c in enumerate(me.cards) if c.name == "Mewtwo ex")
+    fairies = [i for i, c in enumerate(me.cards) if c.name == "Clefairy"]
+    energies = [i for i, c in enumerate(me.cards) if c.name == "Psychic Energy"]
+    seeker = next(i for i, c in enumerate(me.cards) if c.name == "Seeker")
+    dreepy = next(i for i, c in enumerate(foe.cards) if c.name == "Dreepy")
+    drak = next(i for i, c in enumerate(foe.cards) if c.name == "Drakloak")
+    me.active = Pokemon(card_i=mewtwo, played_turn=0, energy=energies[:2])
+    me.bench = [
+        Pokemon(card_i=fairies[0], played_turn=0, energy=energies[2:4]),
+        Pokemon(card_i=fairies[1], played_turn=0),
+    ]
+    me.hand = [seeker]
+    me.supporter_used = False
+    me.energy_attached = True
+    foe.active = Pokemon(card_i=dreepy, played_turn=0)
+    foe.bench = [Pokemon(card_i=drak, played_turn=0)]
+    foe.active.damage = game._max_hp(foe, foe.active) - 100
+    game.energy_attack_lock["a"] = 2
+    assert game._can_active_ko(me, foe)
+    assert game._seeker_wipe_choice(me, foe, peek_attach=False) is not None
+    assert game._energy_attack_blocked(me, "a")
+    assert game._seeker_then_attack(me, foe, "a", True) is False
+    assert seeker in me.hand
+    assert game.events.get("seeker_board_wipe", 0) == 0
+    assert foe.bench
 
 
 def test_attack_window_saves_ex_when_wipe_is_only_a_retreat_preview():
