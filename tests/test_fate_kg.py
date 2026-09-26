@@ -132,6 +132,15 @@ def test_evolves_from_links_every_printing_of_that_name():
     staravia = Card(catalog_id="staravia", name="Staravia", category="Pokemon")
     flavored = build_catalog_kg([flavor, staravia])
     assert not any(e.kind == "named_partner" for e in flavored.edges)
+    switch = Card(catalog_id="switch", name="Switch", category="Trainer", trainer_kind="item", text="Switch your Active Pokémon with 1 of your Benched Pokémon.")
+    ledian = Card(
+        catalog_id="ledian",
+        name="Ledian",
+        category="Pokemon",
+        abilities=[Ability(name="Glittering Star Pattern", text=LEDIAN)],
+    )
+    gust = build_catalog_kg([ledian, switch])
+    assert not any(e.kind == "named_partner" and e.dst == "switch" for e in gust.edges)
 
 
 def test_party_sentence_parses_without_look():
