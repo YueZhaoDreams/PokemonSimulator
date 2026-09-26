@@ -516,6 +516,43 @@ def test_seeker_saves_benched_ex_boss_can_ko_and_leaves_it_in_hand():
     assert any(m.card_i == other for m in me.bench)
 
 
+def test_party_holds_iono_while_active_ex_needs_seeker():
+    """A damaged Active ex is Seeker'd after attach. Do not spend Iono first."""
+    game = _game()
+    game.turn = 4
+    me = game.players["a"]
+    foe = game.players["b"]
+    ex = next(i for i, c in enumerate(me.cards) if c.name == "Clefable ex")
+    fairy = next(i for i, c in enumerate(me.cards) if c.name == "Clefairy")
+    energy = next(i for i, c in enumerate(me.cards) if c.name == "Psychic Energy")
+    seeker = next(i for i, c in enumerate(me.cards) if c.name == "Seeker")
+    iono = _add(game, "Iono")
+    drag = next(i for i, c in enumerate(foe.cards) if c.name == "Dragapult ex")
+    fire = next(i for i, c in enumerate(foe.cards) if c.name == "Fire Energy")
+    me.active = Pokemon(card_i=ex, played_turn=0, damage=200)
+    me.bench = [Pokemon(card_i=fairy, played_turn=0)]
+    me.hand = [seeker, iono, energy]
+    me.supporter_used = False
+    me.energy_attached = False
+    me.retreated = False
+    foe.active = Pokemon(card_i=drag, played_turn=0, energy=[fire])
+    foe.bench = []
+    assert game._seeker_park_save_ready(me, foe, peek_attach=False) is False
+    assert game._seeker_park_save_ready(me, foe, peek_attach=True)
+    assert game._save_supporter_for_bounce(me, foe)
+    assert game._pick_trainer(me) != iono
+    game._party_bounce_combo(me, foe, "a")
+    assert me.supporter_used is False
+    assert seeker in me.hand
+    me.active.energy.append(energy)
+    me.hand.remove(energy)
+    me.energy_attached = True
+    game._play_attack_seeker_lines(me, foe, "a")
+    assert game.events.get("seeker_save_ex") == 1
+    assert ex in me.hand
+    assert iono in me.hand
+
+
 def test_attack_window_saves_ex_when_wipe_is_only_a_retreat_preview():
     game = _game()
     game.turn = 4

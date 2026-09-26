@@ -2800,6 +2800,8 @@ class Game:
             return True
         if self._seeker_save_target(me, foe) is not None:
             return True
+        if self._seeker_park_save_ready(me, foe, peek_attach=True):
+            return True
         if self._seeker_reline_target(me, foe, who) is not None:
             return True
         return self._seeker_moons_fuel_target(me, foe) is not None
@@ -2999,28 +3001,62 @@ class Game:
             self._bench_returned_basics(me, stack)
         return True
 
+    def _seeker_park_retreat_available(self, me: Player, *, peek_attach: bool) -> bool:
+        """True when the Active can move to the Bench before Seeker returns it.
+
+        ``peek_attach`` covers the trainer step, which runs before the one
+        energy attach. Lunar Zone can drop retreat to 0 once that energy lands.
+        """
+        if not me.active or not me.bench:
+            return False
+        if self._first_named(me, "Switch") is not None:
+            return True
+        if self.rules.one_retreat_per_turn and me.retreated:
+            return False
+        if len(me.active.energy) >= self._retreat_cost(me, me.active):
+            return True
+        if not peek_attach or me.energy_attached:
+            return False
+        for energy_i in list(me.hand):
+            if not me.card(energy_i).is_energy:
+                continue
+            me.active.energy.append(energy_i)
+            try:
+                if len(me.active.energy) >= self._retreat_cost(me, me.active):
+                    return True
+            finally:
+                if me.active and energy_i in me.active.energy:
+                    me.active.energy.remove(energy_i)
+        return False
+
+    def _seeker_park_save_ready(self, me: Player, foe: Player, *, peek_attach: bool = False) -> bool:
+        """Damaged Active ex that should retreat, then return to hand."""
+        if self._seeker_in_hand(me) is None or not me.active or not me.bench:
+            return False
+        card = me.card(me.active.card_i)
+        if not self._is_ex(card) or me.active.damage <= 0:
+            return False
+        if (
+            self._can_active_ko(me, foe)
+            or self._photon_ko(me, foe)
+            or self._shooting_moons_ko(me, foe, me.active)
+        ):
+            return False
+        if not self._would_ko_if_active(foe, me, me.active):
+            return False
+        return self._seeker_park_retreat_available(me, peek_attach=peek_attach)
+
     def _try_seeker_save_ex(self, me: Player, foe: Player, who: str, park_active: bool) -> bool:
         if me.supporter_used or not self._can_play_supporter(who):
             return False
         if self._seeker_in_hand(me) is None:
             return False
         if park_active:
-            if not me.active or not me.bench:
-                return False
-            card = me.card(me.active.card_i)
-            if not self._is_ex(card) or me.active.damage <= 0:
-                return False
-            if (
-                self._can_active_ko(me, foe)
-                or self._photon_ko(me, foe)
-                or self._shooting_moons_ko(me, foe, me.active)
-            ):
-                return False
-            if not self._would_ko_if_active(foe, me, me.active):
+            if not self._seeker_park_save_ready(me, foe, peek_attach=False):
                 return False
             doomed = me.active
             idx = next((i for i, mon in enumerate(me.bench) if mon.energy), 0)
-            if not self._swap_to_bench(me, who, idx, allow_paid=True):
+            if doomed is None or not self._swap_to_bench(me, who, idx, allow_paid=True):
                 return False
             if doomed not in me.bench:
                 return False
@@ -3177,6 +3213,9 @@ class Game:
         if self._try_seeker_save_ex(me, foe, who, park_active=False):
             return
         if self._try_seeker_reline(me, foe, who):
+            return
+        # Park runs after attach, in the attack window. Keep the supporter.
+        if self._seeker_park_save_ready(me, foe, peek_attach=True):
             return
         if self._try_penny_second_party(me, foe, who):
             return
