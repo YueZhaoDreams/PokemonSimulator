@@ -116,6 +116,47 @@
         }
       ],
       "recommendation": "pass. Operator explicitly requested the pass in this session. Appended to passed_gates."
+    },
+    "kg-card-quality": {
+      "verified_at": "2026-09-26T21:31:00Z",
+      "verifier_agent": "cursor-verify-gate",
+      "consumer": "both",
+      "verifier": "agent-then-human",
+      "environment": "http://127.0.0.1:8000 serving main 4bd7179 (#134); ./run.sh restarted after merge",
+      "overall_status": "partial",
+      "steps": [
+        {
+          "step": "1 Same cost, 50 vs 100 damage, dpe 25 vs 50; no name table in game.py",
+          "status": "pass",
+          "evidence": "tests/test_fate_metrics.py::test_same_cost_pair_reports_damage_per_energy. git diff 6d3b295..98c7caa -- app/engine/game.py is empty."
+        },
+        {
+          "step": "2 Mega Clefable ex dpe_min 60, dpe_max 140, warm_up_turns 2",
+          "status": "pass",
+          "evidence": "GET /api/decks/seed-g/fate/metrics: Shooting Moons cost Psychic Psychic, damage 120, dpe_min 60, dpe_max 140, warm_up_turns 2."
+        },
+        {
+          "step": "3 Ledyba/Ledian 4/4, 3/4, 4/3 charges and stranded",
+          "status": "pass",
+          "evidence": "tests/test_fate_metrics.py::test_ledyba_ledian_charges_follow_the_shorter_stage. Live Set G is the locked 2/2 list: bodies 2, evolutions 2, charges 2, stranded false."
+        },
+        {
+          "step": "4 Psychic supply separate from Darkness and Boomerang; Colorless special does not pay [P][P]",
+          "status": "pass",
+          "evidence": "Live Set G supply Psychic 22, Darkness 3, special_colorless []. A Psychic cost reports colorless_special_pays_typed_cost false. Fixture with Boomerang Energy keeps it out of the Psychic bucket: test_energy_budget_keeps_colorless_special_off_a_typed_cost."
+        },
+        {
+          "step": "5 Generic-only energy pay is isolated; an evolve line or a printed tutor is not",
+          "status": "fail",
+          "evidence": "Fixture: a Colorless-only attacker is isolated; Ledyba/Ledian are not (test_only_generic_energy_pay_is_isolated). Live Set G also flags Nest Ball, Ultra Ball, and Buddy-Buddy Poffin as isolated. Those cards are tutors, but their sentences are not parsed into a search edge, so the metric has nothing to count. An evolve line is not isolated."
+        },
+        {
+          "step": "6 Human: quality / junk explanation is readable",
+          "status": "human-required",
+          "evidence": "GET /api/decks/seed-g/fate/metrics returns lead cost, lead damage, dpe, the dependence line, and isolated names. Chat was not asked in this check. Not a pass until a person reads it."
+        }
+      ],
+      "recommendation": "Do not pass. The numbers for damage, Mega, charges, and energy supply match. Tutors with unparsed sentences are still marked isolated. Not appended to passed_gates."
     }
   }
 }
