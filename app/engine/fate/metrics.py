@@ -66,7 +66,7 @@ def compute_metrics(
     return {
         "effective_seen": seen,
         "nodes": nodes,
-        "lines": _lines(deck_kg, printings, copies_of),
+        "lines": _lines(printings, copies_of),
         "energy_budget": {
             "supply": supply,
             "special_colorless": special_colorless,
@@ -126,6 +126,15 @@ def _copies_of(printings: list[KGNode], cards: list[Card] | None):
     return from_graph
 
 
+def _provided_energy(node: KGNode) -> str:
+    """Type this energy card pays. A missing energy_type falls back to the printed type."""
+    energy_type = node.attributes.get("energy_type")
+    if not energy_type:
+        types = [str(part) for part in (node.attributes.get("types") or []) if part]
+        energy_type = types[0] if types else "Colorless"
+    return str(energy_type).title()
+
+
 def _energy_supply(printings: list[KGNode], copies_of) -> tuple[dict[str, int], list[dict[str, Any]]]:
     supply: Counter[str] = Counter()
     special: list[dict[str, Any]] = []
@@ -135,7 +144,7 @@ def _energy_supply(printings: list[KGNode], copies_of) -> tuple[dict[str, int], 
         copies = copies_of(node)
         if copies <= 0:
             continue
-        energy_type = str(node.attributes.get("energy_type") or "Colorless")
+        energy_type = _provided_energy(node)
         if energy_type.lower() == "colorless":
             special.append(
                 {
@@ -326,27 +335,24 @@ def _matches_role(node: KGNode, role_id: str) -> bool:
     return False
 
 
-def _lines(deck_kg: KG, printings: list[KGNode], copies_of) -> list[dict[str, Any]]:
-    by_id = {n.id: n for n in printings}
+def _lines(printings: list[KGNode], copies_of) -> list[dict[str, Any]]:
     name_copies: Counter[str] = Counter()
     for node in printings:
         if (node.attributes.get("category") or "").lower() == "pokemon":
             name_copies[node.name] += copies_of(node)
+    # evolves_from is printed on the evolution even when the basic was not put in the list.
+    # An evolves_into edge exists only when both printings were in the catalog build.
     pairs: set[tuple[str, str]] = set()
     stage2_names: dict[str, set[str]] = {}
-    for edge in deck_kg.edges:
-        if edge.kind != "evolves_into":
+    for node in printings:
+        parent = node.attributes.get("evolves_from")
+        if not parent or (node.attributes.get("category") or "").lower() != "pokemon":
             continue
-        src = by_id.get(edge.src)
-        dst = by_id.get(edge.dst)
-        if src is None or dst is None:
-            continue
-        src_stage = _body_ready(str(src.attributes.get("stage") or ""))
-        dst_stage = _body_ready(str(dst.attributes.get("stage") or ""))
-        if src_stage == 0 and dst_stage == 1:
-            pairs.add((src.name, dst.name))
-        elif src_stage == 1:
-            stage2_names.setdefault(src.name, set()).add(dst.name)
+        stage = _body_ready(str(node.attributes.get("stage") or ""))
+        if stage == 1:
+            pairs.add((str(parent), node.name))
+        elif stage == 2:
+            stage2_names.setdefault(str(parent), set()).add(node.name)
     rare_candy = any(node.name.lower() == "rare candy" for node in printings)
     rows: list[dict[str, Any]] = []
     for basic, evolution in sorted(pairs):

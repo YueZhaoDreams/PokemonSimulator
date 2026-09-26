@@ -99,6 +99,16 @@ def test_ledyba_ledian_charges_follow_the_shorter_stage():
     assert short_evos["charges"] == 3 and short_evos["stranded"] is False
 
 
+def test_evolution_without_its_basic_is_stranded():
+    cards = [_mon("Ledian", 70, ("Colorless", "Colorless"), stage="Stage1", evolves_from="Ledyba")] * 4
+    row = _line(_report(cards), "Ledian")
+    assert row["basic"] == "Ledyba"
+    assert row["bodies"] == 0
+    assert row["evolutions"] == 4
+    assert row["charges"] == 0
+    assert row["stranded"] is True
+
+
 def test_rare_candy_is_a_path_not_a_body():
     cards = [_mon("Ledyba", 30, ("Colorless", "Colorless"))] * 4
     cards += [_mon("Ledian", 70, ("Colorless", "Colorless"), stage="Stage1", evolves_from="Ledyba")] * 4
@@ -109,6 +119,19 @@ def test_rare_candy_is_a_path_not_a_body():
     assert row["bodies"] == 4
     assert row["charges"] == 4
     assert row["rare_candy"] is True
+
+
+def test_missing_energy_type_uses_the_printed_type():
+    bare = Card(
+        catalog_id="bare-psychic",
+        name="Bare Psychic",
+        category="Energy",
+        types=["Psychic"],
+        energy_type=None,
+    )
+    report = _report([bare])
+    assert report["energy_budget"]["supply"] == {"Psychic": 1}
+    assert report["energy_budget"]["special_colorless"] == []
 
 
 def test_energy_budget_keeps_colorless_special_off_a_typed_cost():
