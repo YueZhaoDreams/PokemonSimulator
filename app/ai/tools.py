@@ -17,7 +17,7 @@ from app.db import (
     save_simulation,
     save_user_strategy,
 )
-from app.engine.fate import compute_ceilings
+from app.engine.fate import compute_ceilings, compute_metrics
 from app.engine.models import (
     SELECTABLE_RULE_PRESETS,
     rules_for_user,
@@ -71,6 +71,21 @@ TOOL_SCHEMAS = [
             "Whole-list copy ceilings for a saved deck under its rules: per name copies, legal copy cap, "
             "P(at least one) in the opening hand and at effective seen cards (opening hand plus printed "
             "'Draw N cards' operators in the list). Hypergeometric, pre-mulligan; not a win rate."
+        ),
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "deck_id": {"type": "string"},
+                "rule_preset": {"type": "string", "description": "s30 or s60. Omit to use the deck's own rule, or the trainer's settings rule."},
+            },
+            "required": ["deck_id"],
+        },
+    },
+    {
+        "name": "deck_metrics",
+        "description": (
+            "Print-derived metrics for a saved deck: damage per energy, warm-up turns, evolution "
+            "dependence, energy supply by type, reach, and isolated cards. Not a win rate."
         ),
         "parameters": {
             "type": "object",
@@ -711,6 +726,23 @@ def run_tool(name: str, args: dict[str, Any]) -> Any:
         body["deck_id"] = deck["id"]
         body["deck_name"] = deck["name"]
         return body
+    if name == "deck_metrics":
+        from collections import Counter
+
+        from app.engine.fate.kg import build_catalog_kg, induce
+
+        deck = _usable_deck(str(args.get("deck_id") or ""))
+        if not deck:
+            return {"error": "deck not found"}
+        rules = _match_rules(rule_preset=args.get("rule_preset"), decks=[deck])
+        if isinstance(rules, dict) and rules.get("error"):
+            return rules
+        cards = _cards(deck)
+        graph = induce(build_catalog_kg(cards, rules), Counter(c.name for c in cards))
+        report = compute_metrics(graph, rules, cards)
+        report["deck_id"] = deck["id"]
+        report["deck_name"] = deck["name"]
+        return report
     if name == "simulate_match":
         deck_a = _usable_deck(args["deck_a_id"])
         deck_b = _usable_deck(args["deck_b_id"])

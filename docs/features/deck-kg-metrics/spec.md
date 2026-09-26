@@ -1,6 +1,6 @@
 # Deck KG metrics
 
-Status: ready
+Status: in_review
 
 Epic: deck-as-fate
 
@@ -46,19 +46,19 @@ Once the deck-induced KG exists, each node needs the numbers a deck builder actu
 
 ## Acceptance Criteria
 
-- [ ] Same-cost 50 vs 100 pair reports `dpe_lead` 25 vs 50.
-- [ ] Mega Clefable ex reports `dpe_min` 60, `dpe_max` 140, `warm_up_turns` 2.
-- [ ] Ledyba/Ledian 4/4 → charges 4, not stranded; 3/4 → charges 3, stranded; 4/3 → charges 3, not stranded.
-- [ ] Energy budget separates Psychic from Darkness / Boomerang; [P][P] not payable by Colorless special Energy.
-- [ ] Isolated node flagged only when its sole edges are generic energy-pay.
-- [ ] No name tables in `app/engine/game.py`.
+- [x] Same-cost 50 vs 100 pair reports `dpe_lead` 25 vs 50.
+- [x] Mega Clefable ex reports `dpe_min` 60, `dpe_max` 140, `warm_up_turns` 2.
+- [x] Ledyba/Ledian 4/4 → charges 4, not stranded; 3/4 → charges 3, stranded; 4/3 → charges 3, not stranded.
+- [x] Energy budget separates Psychic from Darkness / Boomerang; [P][P] not payable by Colorless special Energy.
+- [x] Isolated node flagged only when its sole edges are generic energy-pay.
+- [x] No name tables in `app/engine/game.py`.
 
 ## Validation Plan
 
 - Build/compile: `python -m compileall app tests`
 - Targeted tests: `tests/test_fate_metrics.py`
 - Broader validation: `.venv/bin/pytest -q`
-- Manual review: metrics for Set G show Iron Boulder 170/2 as `dpe_lead` 85 with the printed condition attached, and Ledian charges 4.
+- Manual review: a fixture Iron Boulder reports `dpe_lead` 85 for Adjusted Horn 170 over two energy, with the printed "does nothing" sentence attached. The 4 Ledyba / 4 Ledian fixture reports charges 4. Locked Carpet Set G reports Mega Clefable ex `dpe_min` 60, `dpe_max` 140, `warm_up_turns` 2, and Ledian charges 2 because that list is 2 Ledyba / 2 Ledian.
 
 ## Status Update Checklist
 
