@@ -851,6 +851,16 @@ class Game:
                 self._log(f"{me.card(me.active.card_i).name} cannot attack (Frigid Fangs)")
             else:
                 self._try_seeker_board_wipe(me, foe, who)
+                if not me.supporter_used and not self._seeker_wipe_pending(me, foe, who):
+                    self._try_seeker_save_ex(me, foe, who, park_active=True)
+                if not me.supporter_used and not self._seeker_wipe_pending(me, foe, who):
+                    self._try_seeker_save_ex(me, foe, who, park_active=False)
+                if self._seeker_moons_fuel_target(me, foe) is not None and (
+                    me.supporter_used or self._seeker_wipe_pending(me, foe, who)
+                ):
+                    self._bump("seeker_moons_blocked")
+                if not me.supporter_used and not self._seeker_wipe_pending(me, foe, who):
+                    self._try_seeker_moons_fuel(me, foe, who)
                 self._attack(me, foe, who)
                 if getattr(self, "winner", None):
                     self._expire_disabled_attacks(me)
@@ -2256,15 +2266,11 @@ class Game:
             return
         if not foe.bench:
             return
-        theirs = max(
-            foe.bench,
-            key=lambda mon: (
-                self._prizes_for_ko(foe.card(mon.card_i)),
-                len(mon.energy),
-                self._max_hp(foe, mon),
-            ),
-        )
-        self._bounce_one(foe, theirs, "hand", card)
+        # Printed Seeker: each player chooses their own Bench Pokémon.
+        # One Bench Pokémon is forced. Two or more is their pick, not ours.
+        theirs = self._owner_seeker_pick(foe, me)
+        if theirs is not None:
+            self._bounce_one(foe, theirs, "hand", card)
 
     def _bounce_one(self, player: Player, mon: Pokemon, attachments: str, card: Card) -> None:
         healed = mon.damage
@@ -2555,12 +2561,13 @@ class Game:
             for i, eff in options
             if eff.get("attachments") == "discard" and not eff.get("bench_only") and usable(eff)
         ]
-        can_seek = (
-            bool(foe.bench)
-            and bool(me.bench)
-            and not me.item_lock
-            and self._first_named(me, "Switch") is not None
+        who = "a" if me.name == "A" else "b"
+        evo_i = self._prankish_hand_index(me)
+        eligible = self._eligible_clefairy(me, who, me.card(evo_i)) if evo_i is not None else []
+        first, _needs_switch = (
+            self._seeker_prankish_opening(me, who, eligible) if len(eligible) >= 2 else (None, False)
         )
+        can_seek = bool(foe.bench) and first is not None
         if can_seek and seekers:
             return seekers[0]
         if keep:
@@ -2579,9 +2586,16 @@ class Game:
         if evo_i is None or not me.active:
             return False
         eligible = self._eligible_clefairy(me, who, me.card(evo_i))
-        if me.active not in eligible or len(eligible) < 2:
+        if len(eligible) < 2:
             return False
-        return self._choose_prankish_bounce(me, foe, self._hand_bounce_effects(me)) is not None
+        chosen = self._choose_prankish_bounce(me, foe, self._hand_bounce_effects(me))
+        if chosen is None:
+            return False
+        _card_i, eff = chosen
+        if eff.get("bench_only"):
+            first, _needs_switch = self._seeker_prankish_opening(me, who, eligible)
+            return first is not None
+        return me.active in eligible
 
     def _penny_line_pending(self, me: Player) -> bool:
         if self._first_named(me, "Penny") is None or not me.active:
@@ -2775,7 +2789,250 @@ class Game:
             return False
         if self._metronome_boss_target(me, foe) is not None:
             return False
-        return self._prankish_bounce_ready(me, foe) or self._penny_line_pending(me)
+        if self._prankish_bounce_ready(me, foe) or self._penny_line_pending(me):
+            return True
+        if self._seeker_save_target(me, foe) is not None:
+            return True
+        if self._seeker_reline_target(me, foe, who) is not None:
+            return True
+        return self._seeker_moons_fuel_target(me, foe) is not None
+
+    def _seeker_prankish_opening(
+        self, me: Player, who: str, eligible: list[Pokemon]
+    ) -> tuple[Pokemon | None, bool]:
+        """Evolve a Benched Clefairy first so Seeker can return it without Switch.
+
+        Seeker only returns a Benched Pokémon. Two Clefairies on the Bench is
+        enough: evolve one, return that Clefable, evolve the other.
+        """
+        del who
+        for mon in eligible:
+            if mon in me.bench:
+                return mon, False
+        return None, False
+
+    def _would_ko_if_active(self, attacker: Player, owner: Player, mon: Pokemon) -> bool:
+        """True when attacker's Active knocks out mon if mon is made Active."""
+        if not attacker.active:
+            return False
+        saved_active = owner.active
+        saved_bench = list(owner.bench)
+        if mon is not saved_active and mon not in saved_bench:
+            return False
+        if mon is not saved_active:
+            owner.bench.remove(mon)
+            if saved_active is not None:
+                owner.bench.append(saved_active)
+            owner.active = mon
+        try:
+            return self._can_active_ko(attacker, owner)
+        finally:
+            owner.active = saved_active
+            owner.bench[:] = saved_bench
+
+    def _foe_bench_counter_damage(self, foe: Player, owner: Player) -> int:
+        if not foe.active or self._stadium_blocks_bench_counters():
+            return 0
+        if self._has_bench_shield(owner, "prevent_bench_damage_and_attack_effects"):
+            return 0
+        best = 0
+        attached = self._energy_pool(foe, foe.active)
+        for atk in foe.card(foe.active.card_i).attacks:
+            if not can_pay_energy(attached, atk.cost):
+                continue
+            for effect in atk.effects:
+                if effect.get("kind") == "bench_damage_counters":
+                    best = max(best, 10 * int(effect.get("counters") or 1))
+        return best
+
+    def _seeker_ko_bait(self, attacker: Player, owner: Player, mon: Pokemon) -> bool:
+        if mon.damage <= 0:
+            return False
+        if self._would_ko_if_active(attacker, owner, mon):
+            return True
+        if mon not in owner.bench:
+            return False
+        snipe = self._foe_bench_counter_damage(attacker, owner)
+        if snipe <= 0:
+            return False
+        target = min(owner.bench, key=lambda m: (owner.card(m.card_i).hp or 0) - m.damage)
+        if target is not mon:
+            return False
+        return self._max_hp(owner, mon) - mon.damage <= snipe
+
+    def _owner_seeker_pick(self, owner: Player, opponent: Player) -> Pokemon | None:
+        """Bench Pokémon this player returns. One copy is forced; otherwise they choose."""
+        if not owner.bench:
+            return None
+        if len(owner.bench) == 1:
+            return owner.bench[0]
+        threatened = [mon for mon in owner.bench if self._seeker_ko_bait(opponent, owner, mon)]
+        if threatened:
+            return max(
+                threatened,
+                key=lambda mon: (
+                    self._prizes_for_ko(owner.card(mon.card_i)),
+                    self._max_hp(owner, mon) - mon.damage,
+                ),
+            )
+        return min(
+            owner.bench,
+            key=lambda mon: (
+                self._prizes_for_ko(owner.card(mon.card_i)),
+                len(mon.energy),
+                self._max_hp(owner, mon),
+            ),
+        )
+
+    def _seeker_save_target(self, me: Player, foe: Player) -> Pokemon | None:
+        """Damaged benched ex Boss (or a bench snipe) can knock out."""
+        if self._seeker_in_hand(me) is None:
+            return None
+        best: Pokemon | None = None
+        best_key: tuple[int, int] | None = None
+        for mon in me.bench:
+            card = me.card(mon.card_i)
+            if not self._is_ex(card) or not self._seeker_ko_bait(foe, me, mon):
+                continue
+            key = (self._prizes_for_ko(card), self._max_hp(me, mon) - mon.damage)
+            if best_key is None or key > best_key:
+                best, best_key = mon, key
+        return best
+
+    def _seeker_reline_target(self, me: Player, foe: Player, who: str) -> Pokemon | None:
+        """Benched Prankish when ex/Mega needs that Clefairy and the Bench is full."""
+        if self._seeker_in_hand(me) is None or len(me.bench) < self._bench_limit():
+            return None
+        if any(self._is_clefairy(me.card(m.card_i)) for m in me.in_play()):
+            return None
+        if self._want_four_one_line(me, foe):
+            return None
+        pranks = [m for m in me.bench if self._is_prankish_clefable(me.card(m.card_i))]
+        if not pranks:
+            return None
+        prank = pranks[0]
+        stack_names = {me.card(i).name.lower() for i in self._pokemon_stack(prank)}
+        hand_names = {me.card(i).name.lower() for i in me.hand}
+        for card_i in me.hand:
+            card = me.card(card_i)
+            name = card.name.lower()
+            if name != "clefable ex" and "mega clefable" not in name:
+                continue
+            target = self._find_evolve_target(me, card)
+            if target is not None and self._can_evolve_now(me, who, target, card):
+                return None
+            want = (card.evolves_from or "").lower()
+            if want and (want in stack_names or want in hand_names):
+                return prank
+        return None
+
+    def _seeker_moons_fuel_target(self, me: Player, foe: Player) -> Pokemon | None:
+        """Bench Pokémon whose attached Energy, in hand, lets Shooting Moons KO."""
+        if self._seeker_in_hand(me) is None or not me.active or not foe.active or not me.bench:
+            return None
+        if "mega clefable" not in me.card(me.active.card_i).name.lower():
+            return None
+        atk = self._shooting_moons_attack(me.card(me.active.card_i))
+        if atk is None or not can_pay_energy(self._energy_pool(me, me.active), atk.cost):
+            return None
+        hp = self._max_hp(foe, foe.active) - foe.active.damage
+        if hp <= 0:
+            return None
+        self._bump("moons_window")
+        if self._raw_attack_damage(me, foe, me.active, atk) >= hp:
+            self._bump("moons_already_ko")
+            return None
+        best: Pokemon | None = None
+        best_key: tuple[int, int] | None = None
+        for mon in list(me.bench):
+            fuels = [
+                i
+                for i in mon.energy
+                if is_basic_energy(me.card(i), pokemon_as_energy=self.rules.pokemon_as_energy)
+            ]
+            if not fuels:
+                continue
+            for energy_i in fuels:
+                me.hand.append(energy_i)
+            try:
+                dmg = self._raw_attack_damage(me, foe, me.active, atk)
+            finally:
+                for energy_i in fuels:
+                    if energy_i in me.hand:
+                        me.hand.remove(energy_i)
+            if dmg < hp:
+                continue
+            key = (-self._prizes_for_ko(me.card(mon.card_i)), -len(fuels))
+            if best_key is None or key > best_key:
+                best, best_key = mon, key
+        if best is None:
+            self._bump("moons_no_fuel")
+        return best
+
+    def _play_scripted_seeker(self, me: Player, foe: Player, who: str, target: Pokemon, event: str) -> bool:
+        seeker = self._seeker_in_hand(me)
+        if seeker is None or target not in me.bench:
+            return False
+        stack = self._pokemon_stack(target)
+        self._forced_bounce_target = target
+        try:
+            played = self._commit_trainer(me, foe, who, seeker)
+        finally:
+            self._forced_bounce_target = None
+        if not played:
+            return False
+        self._bump(event)
+        if event != "seeker_save_ex":
+            self._bench_returned_basics(me, stack)
+        return True
+
+    def _try_seeker_save_ex(self, me: Player, foe: Player, who: str, park_active: bool) -> bool:
+        if me.supporter_used or not self._can_play_supporter(who):
+            return False
+        if self._seeker_in_hand(me) is None:
+            return False
+        if park_active:
+            if not me.active or not me.bench:
+                return False
+            card = me.card(me.active.card_i)
+            if not self._is_ex(card) or me.active.damage <= 0:
+                return False
+            if (
+                self._can_active_ko(me, foe)
+                or self._photon_ko(me, foe)
+                or self._shooting_moons_ko(me, foe, me.active)
+            ):
+                return False
+            if not self._would_ko_if_active(foe, me, me.active):
+                return False
+            doomed = me.active
+            idx = next((i for i, mon in enumerate(me.bench) if mon.energy), 0)
+            if not self._swap_to_bench(me, who, idx, allow_paid=True):
+                return False
+            if doomed not in me.bench:
+                return False
+            target = doomed
+        else:
+            target = self._seeker_save_target(me, foe)
+            if target is None:
+                return False
+        return self._play_scripted_seeker(me, foe, who, target, "seeker_save_ex")
+
+    def _try_seeker_reline(self, me: Player, foe: Player, who: str) -> bool:
+        if me.supporter_used or not self._can_play_supporter(who):
+            return False
+        target = self._seeker_reline_target(me, foe, who)
+        if target is None:
+            return False
+        return self._play_scripted_seeker(me, foe, who, target, "seeker_reline")
+
+    def _try_seeker_moons_fuel(self, me: Player, foe: Player, who: str) -> bool:
+        if me.supporter_used or not self._can_play_supporter(who):
+            return False
+        target = self._seeker_moons_fuel_target(me, foe)
+        if target is None:
+            return False
+        return self._play_scripted_seeker(me, foe, who, target, "seeker_moons_fuel")
 
     def _try_double_prankish(self, me: Player, foe: Player, who: str) -> bool:
         if not self._prankish_bounce_ready(me, foe):
@@ -2788,46 +3045,51 @@ class Game:
         evo_i = self._prankish_hand_index(me)
         if evo_i is None:
             return False
-        others = [
-            mon
-            for mon in self._eligible_clefairy(me, who, me.card(evo_i))
-            if mon is not me.active
-        ]
-        switch_idx: int | None = None
+        eligible = self._eligible_clefairy(me, who, me.card(evo_i))
         if eff.get("bench_only"):
-            unused = [mon for mon in others if not mon.ability_used] or others
-            if (
-                not unused
-                or unused[0] not in me.bench
-                or me.item_lock
-                or self._first_named(me, "Switch") is None
-            ):
-                return False
-            switch_idx = me.bench.index(unused[0])
+            return self._try_seeker_double_prankish(me, foe, who, card_i, evo_i, eligible)
+        if me.active not in eligible:
+            return False
         if not me.active.ability_used and any(self._is_clefairy(me.card(mon.card_i)) for mon in me.bench):
             self._moon_watching_party(me, me.active)
         self._do_evolve(me, me.active, evo_i)
-        target = me.active
-        if switch_idx is not None:
-            if not self._spend_switch_to(me, who, switch_idx):
-                return False
-            target = next(
-                (
-                    mon
-                    for mon in me.bench
-                    if me.card(mon.card_i).name.lower() == "clefable" and mon.played_turn == self.turn
-                ),
-                None,
-            )
-            if target is None:
-                return False
-        stack = self._pokemon_stack(target)
-        self._forced_bounce_target = target
+        stack = self._pokemon_stack(me.active)
+        self._forced_bounce_target = me.active
         try:
             played = self._commit_trainer(me, foe, who, card_i)
         finally:
             self._forced_bounce_target = None
         if played:
+            self._finish_bounce_followup(me, foe, who, stack)
+        return played
+
+    def _try_seeker_double_prankish(
+        self,
+        me: Player,
+        foe: Player,
+        who: str,
+        card_i: int,
+        evo_i: int,
+        eligible: list[Pokemon],
+    ) -> bool:
+        first, _needs_switch = self._seeker_prankish_opening(me, who, eligible)
+        if first is None or not me.active:
+            return False
+        if (
+            self._is_clefairy(me.card(me.active.card_i))
+            and not me.active.ability_used
+            and any(self._is_clefairy(me.card(mon.card_i)) for mon in me.bench)
+        ):
+            self._moon_watching_party(me, me.active)
+        self._do_evolve(me, first, evo_i)
+        stack = self._pokemon_stack(first)
+        self._forced_bounce_target = first
+        try:
+            played = self._commit_trainer(me, foe, who, card_i)
+        finally:
+            self._forced_bounce_target = None
+        if played:
+            self._bump("seeker_double_prankish")
             self._finish_bounce_followup(me, foe, who, stack)
         return played
 
@@ -2865,6 +3127,9 @@ class Game:
                 continue
             ranked: list[tuple[int, int, dict]] = []
             for card_i, eff in options:
+                if eff.get("both_players") and eff.get("bench_only"):
+                    # Seeker is the save / reline / Moons / double-Prankish lines.
+                    continue
                 if mon not in self._legal_bounce_targets(me, eff):
                     continue
                 if eff.get("bench_only") and mon not in me.bench:
@@ -2895,6 +3160,10 @@ class Game:
         if self._boss_closes_this_turn(me, foe, who):
             return
         if self._try_double_prankish(me, foe, who):
+            return
+        if self._try_seeker_save_ex(me, foe, who, park_active=False):
+            return
+        if self._try_seeker_reline(me, foe, who):
             return
         if self._try_penny_second_party(me, foe, who):
             return
