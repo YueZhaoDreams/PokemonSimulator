@@ -141,6 +141,10 @@ C60_CAGE_LOCK_NAMES = (
 # Metronome + 1 Poké Pad (ME02.5 198, no Rule Box), paid by cutting the second
 # Prankish and the second Mega. Cut matrix wComp: mega 69.6, pad-only 69.3,
 # 2-Prankish 68.5. See data/lab/set-c60-pad-clc-cuts.md.
+# Seeker-for-Iono retest (2026-09-26, seed 20260926, 3,000) after scripting
+# save-ex, full-bench reline, bench double Prankish, one-bench KO, and
+# Shooting Moons fuel: wComp 68.9 vs this list's 68.5. Hedrick +2.0, G +3.2,
+# D60 -2.2. Not locked. See data/lab/set-c60-seeker-lines.md.
 SET_C60_NAMES = (
     ["Clefairy"] * 4
     + ["Mewtwo ex"] * 3
