@@ -41,7 +41,6 @@ def compute_metrics(
     ceilings = compute_ceilings(cards, rules) if cards else None
     seen = int(ceilings["effective_seen"]) if ceilings else int(rules.opening_hand)
     population = len(cards) if cards else sum(copies_of(n) for n in printings)
-    p_by_name = {row["name"]: row for row in (ceilings or {}).get("names") or []}
     card_by_id: dict[str, Card] = {}
     if cards:
         for card in cards:
@@ -59,7 +58,6 @@ def compute_metrics(
                 card_by_id.get(node.id),
                 copies_of(node),
                 supply,
-                p_by_name,
                 population,
                 seen,
             )
@@ -161,7 +159,6 @@ def _node_metrics(
     card: Card | None,
     copies: int,
     supply: dict[str, int],
-    p_by_name: dict[str, dict[str, Any]],
     population: int,
     seen: int,
 ) -> dict[str, Any]:
@@ -175,7 +172,7 @@ def _node_metrics(
         "copies": copies,
         "prize_weight": prize_weight(card, rules) if card else attrs.get("prize_weight"),
         "isolated": linked_degree(deck_kg, node.id) == 0,
-        "reach": _reach(node.name, copies, p_by_name, population, seen),
+        "reach": _reach(copies, population, seen),
         "searchers": _searchers(node, deck_kg, by_id),
     }
     if lead is None or (attrs.get("category") or "").lower() != "pokemon":
@@ -294,19 +291,11 @@ def _num(value: float) -> int | float:
     return value
 
 
-def _reach(
-    name: str,
-    copies: int,
-    p_by_name: dict[str, dict[str, Any]],
-    population: int,
-    seen: int,
-) -> float | None:
-    row = p_by_name.get(name)
-    if row is not None:
-        return row["p_seen"]
-    if population <= 0 or copies <= 0:
-        return None
-    return hypergeometric_at_least_one(copies, population, seen)
+def _reach(copies: int, population: int, seen: int) -> float | None:
+    """P(at least one) for this printing's own copies, not the summed name."""
+    if population <= 0 or copies <= 0 or seen <= 0:
+        return 0.0
+    return hypergeometric_at_least_one(copies, population, min(seen, population))
 
 
 def _searchers(node: KGNode, deck_kg: KG, by_id: dict[str, KGNode]) -> list[str]:

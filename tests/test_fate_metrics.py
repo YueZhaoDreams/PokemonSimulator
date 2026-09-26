@@ -8,6 +8,7 @@ from app.config import ADMIN_EMAIL, ADMIN_PASSWORD
 from app.engine.fate import compute_metrics
 from app.engine.fate.kg import build_catalog_kg, induce
 from app.engine.models import Attack, Card, rules_from_preset
+from app.engine.probability import hypergeometric_at_least_one
 from app.main import app
 from app.seed_data import SET_G_NAMES, build_fallback_deck, fallback_named
 
@@ -201,8 +202,22 @@ def test_set_g_mega_and_ledian_follow_the_locked_list():
     assert report["energy_budget"]["special_colorless"] == []
 
 
+def test_reach_uses_this_printing_not_the_shared_name():
+    first = _mon("Twin", 50)
+    second = _mon("Twin", 100)
+    first.catalog_id = "twin-a"
+    second.catalog_id = "twin-b"
+    filler = [_energy("Psychic Energy", "Psychic")] * 8
+    report = _report([first, second, *filler])
+    one = hypergeometric_at_least_one(1, 10, report["effective_seen"])
+    two = hypergeometric_at_least_one(2, 10, report["effective_seen"])
+    reaches = [row["reach"] for row in report["nodes"] if row["name"] == "Twin"]
+    assert reaches == [one, one]
+    assert one != two
+
+
 def test_metrics_do_not_name_a_strategy():
-    source = Path("app/engine/fate/metrics.py").read_text()
+    source = (Path(__file__).resolve().parents[1] / "app/engine/fate/metrics.py").read_text()
     assert "strat.name" not in source
     assert "app.engine.game" not in source
 
