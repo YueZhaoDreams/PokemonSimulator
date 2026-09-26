@@ -221,4 +221,5 @@ def test_pad_metronome_json_cells_follow_foe_order():
     assert SET_C60_NAMES.count("Clefable") == 1
     assert SET_C60_NAMES.count("Clefable CLC") == 1
     assert SET_C60_NAMES.count("Poké Pad") == 1
-    assert SET_C60_NAMES.count("Mega Clefable ex") == 1
+    assert SET_C60_NAMES.count("Mega Clefable ex") == 0
+    assert SET_C60_NAMES.count("Seeker") == 1

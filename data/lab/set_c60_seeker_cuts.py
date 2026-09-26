@@ -2,9 +2,10 @@
 """C60: Seeker in place of one copy of every distinct card in the live lock.
 
 Each variant removes exactly one copy of one card and adds one Seeker. The
-other 59 cards stay. ``lock`` is SET_C60_NAMES with no Seeker. The cut set is
-every distinct name in that 60, so a new card in the lock fails this script
-until it is listed.
+other 59 cards stay. ``lock`` is the pre-Seeker 60 (one Mega Clefable ex).
+The live ``SET_C60_NAMES`` is that Mega cut. The cut set is every distinct
+name in the measured 60, so a new card in that 60 fails this script until
+it is listed.
 
 Same five scripted Seeker lines as set_c60_seeker_lines.py. Seed 20260926.
 3,000 games / cell. C60 is always player A. LAB_GAMES / LAB_OUT / LAB_ONLY.
@@ -28,7 +29,6 @@ from app.engine.models import standard_60_rules
 from app.engine.montecarlo import run_simulation
 from app.engine.strategies import StrategySpec
 from app.seed_data import (
-    SET_C60_NAMES,
     SET_D60_NAMES,
     SET_G_NAMES,
     SET_S60_NAMES,
@@ -36,6 +36,7 @@ from app.seed_data import (
     SET_T_META_NAMES,
     SET_T_UNL_NAMES,
     build_fallback_deck,
+    c60_names_before_seeker,
 )
 
 GAMES = int(os.environ.get("LAB_GAMES", "3000"))
@@ -90,9 +91,9 @@ QUERIES = [
 
 
 def swap_one(cut: str) -> list[str]:
-    names = list(SET_C60_NAMES)
+    names = list(c60_names_before_seeker())
     if names.count("Seeker") != 0:
-        raise RuntimeError("live lock already contains Seeker")
+        raise RuntimeError("measured lock already contains Seeker")
     if names.count(cut) < 1:
         raise RuntimeError(f"live lock has no {cut}")
     names.remove(cut)
@@ -107,12 +108,12 @@ def swap_one(cut: str) -> list[str]:
 
 def build_variants() -> dict[str, list[str]]:
     listed = {name for _key, name in CUTS}
-    live = set(SET_C60_NAMES)
+    live = set(c60_names_before_seeker())
     if listed != live:
         missing = sorted(live - listed)
         extra = sorted(listed - live)
         raise RuntimeError(f"cut list drifted. missing {missing} extra {extra}")
-    variants = {"lock": list(SET_C60_NAMES)}
+    variants = {"lock": list(c60_names_before_seeker())}
     for key, name in CUTS:
         variants[key] = swap_one(name)
     return variants
@@ -210,7 +211,7 @@ def main() -> None:
         "rule_preset": "s60",
         "add": "Seeker",
         "cuts": {key: CUT_NAME[key] for key in selected if key != "lock"},
-        "counts": {name: list(SET_C60_NAMES).count(name) for _key, name in CUTS},
+        "counts": {name: list(c60_names_before_seeker()).count(name) for _key, name in CUTS},
         "foes": [foe for foe, _n, _s in FOES],
         "lists": {key: list(names) for key, names in selected.items()},
         "cells": ordered,

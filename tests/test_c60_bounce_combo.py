@@ -42,13 +42,15 @@ def _script_names() -> list[str]:
         and "Seeker" in names
     ):
         return names
-    for cut, add in (
+    swaps = [
         ("Hop", "Penny"),
         ("Lillie", "Penny"),
         ("Lillie's Determination", "Professor Turo's Scenario"),
         ("Iono", "Mr. Briney's Compassion"),
-        ("Energy Switch", "Seeker"),
-    ):
+    ]
+    if "Seeker" not in names:
+        swaps.append(("Energy Switch", "Seeker"))
+    for cut, add in swaps:
         names.remove(cut)
         names.append(add)
     return names
@@ -70,6 +72,14 @@ def _add(game: Game, name: str) -> int:
     me = game.players["a"]
     me.cards.append(fallback_named(name))
     return len(me.cards) - 1
+
+
+def _card(game: Game, name: str) -> int:
+    me = game.players["a"]
+    for i, card in enumerate(me.cards):
+        if card.name == name:
+            return i
+    return _add(game, name)
 
 
 def test_printed_bounce_sentences():
@@ -565,7 +575,7 @@ def test_seeker_reline_frees_a_full_bench_prankish_for_ex():
     )
     exes = [i for i, c in enumerate(me.cards) if c.name == "Clefable ex"]
     mewtwos = [i for i, c in enumerate(me.cards) if c.name == "Mewtwo ex"]
-    mega = next(i for i, c in enumerate(me.cards) if "Mega Clefable" in c.name)
+    mega = _card(game, "Mega Clefable ex")
     clc = next(i for i, c in enumerate(me.cards) if c.name == "Clefable CLC" or (
         c.name == "Clefable" and any(a.name == "Metronome" for a in c.attacks)
     ))
@@ -598,7 +608,7 @@ def test_seeker_moons_fuel_discards_bounced_energy_to_ko():
     game.turn = 4
     me = game.players["a"]
     foe = game.players["b"]
-    mega = next(i for i, c in enumerate(me.cards) if "Mega Clefable" in c.name)
+    mega = _card(game, "Mega Clefable ex")
     fairy = next(i for i, c in enumerate(me.cards) if c.name == "Clefairy")
     energies = [i for i, c in enumerate(me.cards) if c.name == "Psychic Energy"]
     seeker = next(i for i, c in enumerate(me.cards) if c.name == "Seeker")

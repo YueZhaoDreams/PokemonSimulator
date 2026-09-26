@@ -147,7 +147,8 @@ C60_CAGE_LOCK_NAMES = (
 # D60 -2.2. One Clefable ex → Seeker, Iono kept: wComp 68.4, D60 +1.8,
 # T60 -1.0, Hedrick -0.7. Not locked. See data/lab/set-c60-seeker-lines.md.
 # Every distinct card → one Seeker (same seed, 3,000): Mega wComp 71.5
-# (G 61.0), Ultra Ball 71.1, Metronome Clefable 70.8. Lock stays.
+# (G 61.0), Ultra Ball 71.1, Metronome Clefable 70.8.
+# Locked 2026-09-26: the one Mega Clefable ex becomes Seeker.
 # See data/lab/set-c60-seeker-cuts.md.
 SET_C60_NAMES = (
     ["Clefairy"] * 4
@@ -155,7 +156,7 @@ SET_C60_NAMES = (
     + ["Clefable"]
     + ["Clefable CLC"]
     + ["Clefable ex"] * 3
-    + ["Mega Clefable ex"]
+    + ["Seeker"]
     + ["Nest Ball"] * 4
     + ["Buddy-Buddy Poffin"] * 4
     + ["Ultra Ball"] * 2
@@ -174,6 +175,13 @@ SET_C60_NAMES = (
     + ["Psychic Energy"] * 14
     + ["Poké Pad"]
 )
+
+
+def c60_names_before_seeker() -> tuple[str, ...]:
+    """The measured 60 before Mega Clefable ex became Seeker, same card order."""
+    names = list(SET_C60_NAMES)
+    names[names.index("Seeker")] = "Mega Clefable ex"
+    return tuple(names)
 
 
 def c60_names_before_bounce() -> list[str]:

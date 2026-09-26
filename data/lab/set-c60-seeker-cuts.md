@@ -8,7 +8,7 @@ Script: `data/lab/set_c60_seeker_cuts.py`
 Raw: `data/lab/set-c60-seeker-cuts.json`
 Elapsed: 1546s
 
-The live lock is `SET_C60_NAMES`. Each row removes exactly one copy of one printed name and adds one Seeker. The other 59 cards stay. The Iono row and the Clefable ex row match [set-c60-seeker-lines.md](set-c60-seeker-lines.md) on this seed.
+The table's lock row is the 60 before this swap (`c60_names_before_seeker`: one Mega Clefable ex, no Seeker). Each other row removes exactly one copy of one printed name and adds one Seeker. The Iono row and the Clefable ex row match [set-c60-seeker-lines.md](set-c60-seeker-lines.md) on this seed. The live list is the Mega row.
 
 Party plays the same five Seeker lines (save a damaged benched ex, reline a full Bench, double Prankish from two Benched Clefairies, knock out the Active when the opponent has one Bench Pokémon, fuel Shooting Moons from Bench Energy). The opponent chooses their own Bench Pokémon.
 
@@ -124,4 +124,4 @@ Clefairy (4 → 3) is the other clear loss: D60 67.2%, `wComp` 66.4%. Hop, Lilli
 
 ## Lock
 
-`SET_C60_NAMES` stays the live list. Mega is the highest hard-three weight, and G falls to 61.0%. Ultra Ball and the one Metronome Clefable are the cuts that rise on T60, Hedrick, D60, and G together. This note records the matrix. It does not change the 60.
+Locked 2026-09-26: `SET_C60_NAMES` drops the one Mega Clefable ex and plays one Seeker. That row is wComp 71.5%. G is 61.0%. Ultra Ball and the one Metronome Clefable rise on T60, Hedrick, D60, and G together; the locked cut is the hard-three row.

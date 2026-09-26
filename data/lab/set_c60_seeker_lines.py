@@ -14,7 +14,7 @@ Lines the party plan plays from the printed Seeker sentence:
 5. Shooting Moons is short of Energy in hand, and a Benched Pokémon has the
    Energy that makes the knockout.
 
-The other 59 cards are the live lock. Seed 20260926. 3,000 games / cell.
+The other 59 cards are the pre-Seeker 60. Seed 20260926. 3,000 games / cell.
 C60 is always player A. LAB_GAMES / LAB_OUT override.
 """
 
@@ -36,7 +36,6 @@ from app.engine.models import standard_60_rules
 from app.engine.montecarlo import run_simulation
 from app.engine.strategies import StrategySpec
 from app.seed_data import (
-    SET_C60_NAMES,
     SET_D60_NAMES,
     SET_G_NAMES,
     SET_S60_NAMES,
@@ -44,6 +43,7 @@ from app.seed_data import (
     SET_T_META_NAMES,
     SET_T_UNL_NAMES,
     build_fallback_deck,
+    c60_names_before_seeker,
 )
 
 GAMES = int(os.environ.get("LAB_GAMES", "3000"))
@@ -77,9 +77,9 @@ QUERIES = [
 
 
 def swap_one(cut: str) -> list[str]:
-    names = list(SET_C60_NAMES)
+    names = list(c60_names_before_seeker())
     if names.count("Seeker") != 0:
-        raise RuntimeError("live lock already contains Seeker")
+        raise RuntimeError("measured lock already contains Seeker")
     if names.count(cut) < 1:
         raise RuntimeError(f"live lock has no {cut}")
     names.remove(cut)
@@ -93,7 +93,7 @@ def swap_one(cut: str) -> list[str]:
 
 
 VARIANTS = {
-    "lock": list(SET_C60_NAMES),
+    "lock": list(c60_names_before_seeker()),
     "iono-seeker": swap_one("Iono"),
     "ex-seeker": swap_one("Clefable ex"),
 }
