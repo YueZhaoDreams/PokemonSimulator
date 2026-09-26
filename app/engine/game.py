@@ -850,17 +850,7 @@ class Game:
             if self._energy_attack_blocked(me, who):
                 self._log(f"{me.card(me.active.card_i).name} cannot attack (Frigid Fangs)")
             else:
-                self._try_seeker_board_wipe(me, foe, who)
-                if not me.supporter_used and not self._seeker_wipe_pending(me, foe, who):
-                    self._try_seeker_save_ex(me, foe, who, park_active=True)
-                if not me.supporter_used and not self._seeker_wipe_pending(me, foe, who):
-                    self._try_seeker_save_ex(me, foe, who, park_active=False)
-                if self._seeker_moons_fuel_target(me, foe, record=True) is not None and (
-                    me.supporter_used or self._seeker_wipe_pending(me, foe, who)
-                ):
-                    self._bump("seeker_moons_blocked")
-                if not me.supporter_used and not self._seeker_wipe_pending(me, foe, who):
-                    self._try_seeker_moons_fuel(me, foe, who)
+                self._play_attack_seeker_lines(me, foe, who)
                 self._attack(me, foe, who)
                 if getattr(self, "winner", None):
                     self._expire_disabled_attacks(me)
@@ -2765,6 +2755,23 @@ class Game:
         if self._seeker_wipe_choice(me, foe, peek_attach=True) is not None:
             return True
         return self._seeker_wipe_after_retreat(me, foe)
+
+    def _play_attack_seeker_lines(self, me: Player, foe: Player, who: str) -> None:
+        """Seeker lines that happen after attach and retreat.
+
+        A wipe that only exists in an attach or retreat preview is not still
+        pending: those steps already ran. If the wipe did not play, save and
+        Shooting Moons fuel still can.
+        """
+        self._try_seeker_board_wipe(me, foe, who)
+        if not me.supporter_used:
+            self._try_seeker_save_ex(me, foe, who, park_active=True)
+        if not me.supporter_used:
+            self._try_seeker_save_ex(me, foe, who, park_active=False)
+        if self._seeker_moons_fuel_target(me, foe, record=True) is not None and me.supporter_used:
+            self._bump("seeker_moons_blocked")
+        if not me.supporter_used:
+            self._try_seeker_moons_fuel(me, foe, who)
 
     def _try_seeker_board_wipe(self, me: Player, foe: Player, who: str) -> bool:
         """Seeker, then the Active KO, when the opponent has exactly one Bench Pokémon."""

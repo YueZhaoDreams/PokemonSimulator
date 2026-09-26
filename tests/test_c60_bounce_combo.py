@@ -516,6 +516,34 @@ def test_seeker_saves_benched_ex_boss_can_ko_and_leaves_it_in_hand():
     assert any(m.card_i == other for m in me.bench)
 
 
+def test_attack_window_saves_ex_when_wipe_is_only_a_retreat_preview():
+    game = _game()
+    game.turn = 4
+    me = game.players["a"]
+    foe = game.players["b"]
+    fairies = [i for i, c in enumerate(me.cards) if c.name == "Clefairy"]
+    mewtwo = next(i for i, c in enumerate(me.cards) if c.name == "Mewtwo ex")
+    energies = [i for i, c in enumerate(me.cards) if c.name == "Psychic Energy"]
+    seeker = next(i for i, c in enumerate(me.cards) if c.name == "Seeker")
+    drag = next(i for i, c in enumerate(foe.cards) if c.name == "Dragapult ex")
+    dreepy = next(i for i, c in enumerate(foe.cards) if c.name == "Dreepy")
+    fire = next(i for i, c in enumerate(foe.cards) if c.name == "Fire Energy")
+    me.active = Pokemon(card_i=fairies[0], played_turn=0, energy=energies[:2])
+    wounded = Pokemon(card_i=mewtwo, played_turn=0, damage=180, energy=energies[2:7])
+    me.bench = [wounded]
+    me.hand = [seeker]
+    me.supporter_used = False
+    me.retreated = False
+    foe.active = Pokemon(card_i=drag, played_turn=0, damage=250, energy=[fire])
+    foe.bench = [Pokemon(card_i=dreepy, played_turn=0)]
+    assert game._seeker_wipe_choice(me, foe, peek_attach=False) is None
+    assert game._seeker_wipe_pending(me, foe, "a")
+    game._play_attack_seeker_lines(me, foe, "a")
+    assert game.events.get("seeker_board_wipe", 0) == 0
+    assert game.events.get("seeker_save_ex") == 1
+    assert mewtwo in me.hand
+
+
 def test_seeker_does_not_spend_itself_on_a_chipped_clefairy():
     game = _game()
     game.turn = 4
