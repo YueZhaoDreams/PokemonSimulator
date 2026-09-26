@@ -73,3 +73,5 @@ Shooting Moons fuel is 8 games. On G the Mega attacks with Shooting Moons in 746
 ## Lock
 
 `SET_C60_NAMES` stays the live list: 3 Clefable ex, 1 Iono, 0 Seeker. Iono → Seeker is wComp 68.9%. One Clefable ex → Seeker is wComp 68.4%, against the lock's 68.5%. The ex cut is the D60 list. The Iono cut is the Hedrick and G list. Neither replaces the lock.
+
+The same seed, with one copy of every other card swapped for Seeker, is in [set-c60-seeker-cuts.md](set-c60-seeker-cuts.md).
