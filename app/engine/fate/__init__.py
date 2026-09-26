@@ -6,5 +6,13 @@ Everything here scores or describes a frozen list. Nothing here is consulted by
 
 from app.engine.fate.ceilings import compute_ceilings, printed_draw_operators
 from app.engine.fate.kg import build_catalog_kg, explain_edge, induce
+from app.engine.fate.metrics import compute_metrics
 
-__all__ = ["build_catalog_kg", "compute_ceilings", "explain_edge", "induce", "printed_draw_operators"]
+__all__ = [
+    "build_catalog_kg",
+    "compute_ceilings",
+    "compute_metrics",
+    "explain_edge",
+    "induce",
+    "printed_draw_operators",
+]
