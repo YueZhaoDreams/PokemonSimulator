@@ -61,7 +61,7 @@
       "consumer": "both",
       "verifier": "agent-then-human",
       "verify": [
-        "For a fixture containing Clefairy LOR 62, the KG has an attach_energy_from_deck_per_benched edge from Clefairy to Psychic Energy with no look-N attribute.",
+        "For a fixture containing Clefairy LOR 62, the KG has an attaches_from_deck edge from Clefairy to Psychic Energy with no look-N attribute.",
         "Ledian's printed Glittering Star Pattern sentence parses to the same hook kind as Boss's Orders (force_opponent_active) with trigger on_evolve and max_remaining_hp 90; the test uses the exact printed wording.",
         "A printing with no search/draw/tutor/evolve/named-partner text has zero non-energy edges; adding a data/lab/*.md note does not change the edge set.",
         "Human: on http://127.0.0.1:8000 (or chat), asking why two cards are linked returns the printed sentence that created the edge."

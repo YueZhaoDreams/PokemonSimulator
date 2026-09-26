@@ -190,11 +190,10 @@ def build_catalog_kg(cards: list[Card], rules: FamilyRules | None = None) -> KG:
             and other.name.lower() != (card.evolves_from or "").lower()
         ]
         for sentence in sentences:
-            lowered = sentence.lower()
             matched = [
                 other
                 for other in candidates
-                if re.search(rf"\b{re.escape(other.name.lower())}\b", lowered)
+                if re.search(rf"\b{re.escape(other.name)}\b", sentence)
             ]
             names_hit = {other.name.lower() for other in matched}
             for other in matched:
