@@ -109,6 +109,16 @@ def test_evolution_without_its_basic_is_stranded():
     assert row["stranded"] is True
 
 
+def test_stage2_without_its_stage1_is_stranded():
+    cards = [_mon("Ledian ex", 100, stage="Stage2", evolves_from="Ledian")] * 3
+    row = _line(_report(cards), "Ledian")
+    assert row["evolutions"] == 0
+    assert row["stage2"] == 3
+    assert row["charges"] == 0
+    assert row["charges_stage2"] == 0
+    assert row["stranded"] is True
+
+
 def test_rare_candy_is_a_path_not_a_body():
     cards = [_mon("Ledyba", 30, ("Colorless", "Colorless"))] * 4
     cards += [_mon("Ledian", 70, ("Colorless", "Colorless"), stage="Stage1", evolves_from="Ledyba")] * 4

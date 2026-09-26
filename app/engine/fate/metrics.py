@@ -353,6 +353,10 @@ def _lines(printings: list[KGNode], copies_of) -> list[dict[str, Any]]:
             pairs.add((str(parent), node.name))
         elif stage == 2:
             stage2_names.setdefault(str(parent), set()).add(node.name)
+    covered = {evolution for _, evolution in pairs}
+    for parent in stage2_names:
+        if parent not in covered:
+            pairs.add(("", parent))
     rare_candy = any(node.name.lower() == "rare candy" for node in printings)
     rows: list[dict[str, Any]] = []
     for basic, evolution in sorted(pairs):
