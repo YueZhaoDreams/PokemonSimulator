@@ -16,10 +16,11 @@ Party plays the same five Seeker lines (save a damaged benched ex, reline a full
 
 ## Win rate
 
-Sorted by `wComp`. Energy Switch (68.46%) and Arven (68.45%) print as 68.5% and sit just under the lock (68.55%).
+The lock is the first row. Every other row is one copy swapped for Seeker, sorted by `wComp`. Energy Switch (68.46%) and Arven (68.45%) print as 68.5% and sit just under the lock (68.55%).
 
 | Cut for Seeker | T60 | Hedrick | UNL | D60 | S60 | G | wComp | wAll |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| **lock** | 68.3% | 63.5% | 89.8% | 76.8% | **99.9%** | 65.8% | 68.5% | 69.5% |
 | Mega Clefable ex | **72.4%** | 66.6% | 90.8% | 77.8% | 99.5% | 61.0% | **71.5%** | 70.3% |
 | Ultra Ball | 71.3% | **66.8%** | 90.0% | 77.7% | 99.8% | 66.4% | 71.1% | 71.4% |
 | Clefable CLC | 72.1% | 65.2% | **91.1%** | 77.7% | 99.5% | 67.2% | 70.8% | **71.4%** |
@@ -31,7 +32,6 @@ Sorted by `wComp`. Energy Switch (68.46%) and Arven (68.45%) print as 68.5% and 
 | Iono | 68.8% | 65.5% | 89.5% | 74.6% | 99.6% | **69.0%** | 68.9% | 70.5% |
 | Lillie | 68.9% | 64.6% | 89.2% | 75.6% | 99.6% | 64.3% | 68.9% | 69.3% |
 | Buddy-Buddy Poffin | 69.6% | 63.3% | 89.6% | 75.6% | 99.6% | 65.7% | 68.6% | 69.5% |
-| **lock** | 68.3% | 63.5% | 89.8% | 76.8% | **99.9%** | 65.8% | 68.5% | 69.5% |
 | Energy Switch | 68.0% | 63.9% | 90.0% | 76.2% | 99.6% | 68.2% | 68.5% | 70.0% |
 | Arven | 69.2% | 65.3% | 89.2% | 72.4% | 99.7% | 66.9% | 68.5% | 69.6% |
 | Clefable ex | 67.4% | 62.8% | 89.9% | 78.6% | 99.6% | 65.9% | 68.4% | 69.4% |
@@ -45,10 +45,11 @@ Sorted by `wComp`. Energy Switch (68.46%) and Arven (68.45%) print as 68.5% and 
 | Clefairy | 68.1% | 64.3% | 89.5% | 67.2% | 99.5% | 64.1% | 66.4% | 67.5% |
 | Maximum Belt | 66.8% | 64.8% | 88.5% | 57.0% | 99.5% | 63.3% | 63.5% | 65.3% |
 
-Going first / second on the top rows, against the lock's 69.5/67.2, 65.6/61.4, 79.1/74.4, 68.0/63.7 on T60, Hedrick, D60, and G:
+Going first / second. The lock is the first row.
 
 | Cut | T60 | Hedrick | D60 | G |
 | --- | --- | --- | --- | --- |
+| **lock** | 69.5/67.2 | 65.6/61.4 | 79.1/74.4 | 68.0/63.7 |
 | Mega Clefable ex | 73.8/71.0 | 66.7/66.5 | 80.6/75.1 | 62.6/59.3 |
 | Ultra Ball | 72.2/70.4 | 66.8/66.9 | 78.7/76.8 | 68.5/64.4 |
 | Clefable CLC | 73.3/71.0 | 65.8/64.6 | 79.8/75.5 | 69.6/64.8 |
@@ -74,6 +75,7 @@ Counts are games with at least one success, summed over the six foes (18,000 gam
 
 | Cut | Seeker | One-bench KO | Save ex | Double Prankish | Reline | Moons fuel |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| **lock** | 0 | 0 | 0 | 0 | 0 | 0 |
 | Ultra Ball | 3282 | 1295 | 1135 | 851 | 18 | 5 |
 | Clefable CLC | 2988 | 1099 | 1067 | 829 | 9 | 4 |
 | Iono | 2884 | 1147 | 980 | 760 | 18 | 8 |
