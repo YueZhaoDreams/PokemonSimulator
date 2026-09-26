@@ -35,39 +35,40 @@ def compute_metrics(
     operators. Search edges are listed beside that probability; they are not
     folded into it.
     """
-    printings = _unique_printings(deck_kg)
+    printings = _printings(deck_kg)
+    copies_of = _copies_of(printings, cards)
     by_id = {n.id: n for n in deck_kg.nodes}
     ceilings = compute_ceilings(cards, rules) if cards else None
     seen = int(ceilings["effective_seen"]) if ceilings else int(rules.opening_hand)
-    population = len(cards) if cards else sum(int(n.attributes.get("copies") or 0) for n in printings)
+    population = len(cards) if cards else sum(copies_of(n) for n in printings)
     p_by_name = {row["name"]: row for row in (ceilings or {}).get("names") or []}
-    card_by_name = {}
+    card_by_id: dict[str, Card] = {}
     if cards:
         for card in cards:
-            card_by_name.setdefault(card.name, card)
+            card_by_id.setdefault(card.catalog_id or card.name, card)
 
-    supply, special_colorless = _energy_supply(printings)
+    supply, special_colorless = _energy_supply(printings, copies_of)
     nodes: list[dict[str, Any]] = []
     for node in printings:
-        card = card_by_name.get(node.name)
         nodes.append(
             _node_metrics(
                 node,
                 deck_kg,
                 by_id,
                 rules,
-                card,
+                card_by_id.get(node.id),
+                copies_of(node),
                 supply,
                 p_by_name,
                 population,
                 seen,
             )
         )
-    nodes.sort(key=lambda row: row["name"])
+    nodes.sort(key=lambda row: (row["name"], row["id"]))
     return {
         "effective_seen": seen,
         "nodes": nodes,
-        "lines": _lines(deck_kg, printings),
+        "lines": _lines(deck_kg, printings, copies_of),
         "energy_budget": {
             "supply": supply,
             "special_colorless": special_colorless,
@@ -80,8 +81,9 @@ def compute_metrics(
             "manual": _MANUAL_ATTACH_RATE,
             "cap": (
                 "Rate = min(lead energy cost, 1 + acceleration). "
-                "Acceleration is one per attaches_from_deck edge on this printing whose energy "
-                "type is in the lead cost, plus one per attach-from-hand ability. "
+                "Acceleration is one per attaches_from_deck edge on this printing when that energy "
+                "can pay the lead cost (any type pays a Colorless-only cost; a typed cost counts "
+                "only its own type), plus one per attach-from-hand ability. "
                 "The cap keeps warm-up at least 1 turn when the attack costs energy."
             ),
         },
@@ -97,22 +99,44 @@ def compute_metrics(
     }
 
 
-def _unique_printings(deck_kg: KG) -> list[KGNode]:
-    """One node per name. induce() already stored the summed copy count on each."""
-    chosen: dict[str, KGNode] = {}
-    for node in deck_kg.nodes:
-        if node.kind == "printing":
-            chosen.setdefault(node.name, node)
-    return list(chosen.values())
+def _printings(deck_kg: KG) -> list[KGNode]:
+    """Every printing, sorted by id so the same deck always yields the same rows."""
+    nodes = [node for node in deck_kg.nodes if node.kind == "printing"]
+    return sorted(nodes, key=lambda node: node.id)
 
 
-def _energy_supply(printings: list[KGNode]) -> tuple[dict[str, int], list[dict[str, Any]]]:
+def _copies_of(printings: list[KGNode], cards: list[Card] | None):
+    """Copies of this printing, not the summed total induce() writes onto every name."""
+    if cards:
+        counts = Counter(card.catalog_id or card.name for card in cards)
+
+        def from_cards(node: KGNode) -> int:
+            return int(counts.get(node.id, 0))
+
+        return from_cards
+    first: dict[str, str] = {}
+    for node in printings:
+        first.setdefault(node.name, node.id)
+
+    def from_graph(node: KGNode) -> int:
+        # Without the card list the name total cannot be split. Keep it on the
+        # lowest id so supply is not multiplied by the number of printings.
+        if node.id != first[node.name]:
+            return 0
+        return int(node.attributes.get("copies") or 0)
+
+    return from_graph
+
+
+def _energy_supply(printings: list[KGNode], copies_of) -> tuple[dict[str, int], list[dict[str, Any]]]:
     supply: Counter[str] = Counter()
     special: list[dict[str, Any]] = []
     for node in printings:
         if (node.attributes.get("category") or "").lower() != "energy":
             continue
-        copies = int(node.attributes.get("copies") or 0)
+        copies = copies_of(node)
+        if copies <= 0:
+            continue
         energy_type = str(node.attributes.get("energy_type") or "Colorless")
         if energy_type.lower() == "colorless":
             special.append(
@@ -135,13 +159,13 @@ def _node_metrics(
     by_id: dict[str, KGNode],
     rules: FamilyRules,
     card: Card | None,
+    copies: int,
     supply: dict[str, int],
     p_by_name: dict[str, dict[str, Any]],
     population: int,
     seen: int,
 ) -> dict[str, Any]:
     attrs = node.attributes
-    copies = int(attrs.get("copies") or 0)
     attacks = list(attrs.get("attacks") or [])
     lead = _lead_attack(attacks)
     row: dict[str, Any] = {
@@ -224,17 +248,20 @@ def _damage_span(attack: dict[str, Any]) -> tuple[int, int | None, str | None]:
 
 
 def _acceleration(node: KGNode, deck_kg: KG, cost: list[str]) -> int:
-    wanted = {part.lower() for part in cost}
+    typed = {part.lower() for part in cost if part.lower() != "colorless"}
+    colorless_only = bool(cost) and not typed
     accel = 0
     for edge in deck_kg.edges:
         if edge.src != node.id or edge.kind != "attaches_from_deck":
             continue
         energy = str(edge.effect.get("energy_type") or "").lower()
-        if energy in wanted:
+        if colorless_only or energy in typed:
             accel += 1
+    if not cost:
+        return accel
     for ability in node.attributes.get("abilities") or []:
         for effect in parse_ability_effects(str(ability.get("text") or "")):
-            if effect.get("kind") in _ATTACH_FROM_HAND and wanted:
+            if effect.get("kind") in _ATTACH_FROM_HAND:
                 accel += 1
                 break
     return accel
@@ -310,39 +337,45 @@ def _matches_role(node: KGNode, role_id: str) -> bool:
     return False
 
 
-def _lines(deck_kg: KG, printings: list[KGNode]) -> list[dict[str, Any]]:
+def _lines(deck_kg: KG, printings: list[KGNode], copies_of) -> list[dict[str, Any]]:
     by_id = {n.id: n for n in printings}
-    children: dict[str, list[str]] = {}
-    for edge in deck_kg.edges:
-        if edge.kind == "evolves_into" and edge.src in by_id and edge.dst in by_id:
-            children.setdefault(edge.src, []).append(edge.dst)
-    rare_candy = any(n.name.lower() == "rare candy" for n in printings)
-    rows: list[dict[str, Any]] = []
+    name_copies: Counter[str] = Counter()
     for node in printings:
-        if (node.attributes.get("category") or "").lower() != "pokemon":
+        if (node.attributes.get("category") or "").lower() == "pokemon":
+            name_copies[node.name] += copies_of(node)
+    pairs: set[tuple[str, str]] = set()
+    stage2_names: dict[str, set[str]] = {}
+    for edge in deck_kg.edges:
+        if edge.kind != "evolves_into":
             continue
-        if _body_ready(str(node.attributes.get("stage") or "")) != 0:
+        src = by_id.get(edge.src)
+        dst = by_id.get(edge.dst)
+        if src is None or dst is None:
             continue
-        if node.id not in children:
-            continue
-        for stage1_id in children[node.id]:
-            stage1 = by_id[stage1_id]
-            stage2_ids = children.get(stage1_id, [])
-            bodies = int(node.attributes.get("copies") or 0)
-            evolutions = int(stage1.attributes.get("copies") or 0)
-            stage2 = sum(int(by_id[child].attributes.get("copies") or 0) for child in stage2_ids)
-            rows.append(
-                {
-                    "basic": node.name,
-                    "evolution": stage1.name,
-                    "stage2": stage2,
-                    "bodies": bodies,
-                    "evolutions": evolutions,
-                    "charges": min(evolutions, bodies),
-                    "charges_stage2": min(stage2, evolutions) if stage2_ids else None,
-                    "stranded": evolutions > bodies or stage2 > evolutions,
-                    "rare_candy": rare_candy,
-                }
-            )
-    rows.sort(key=lambda row: (row["basic"], row["evolution"]))
+        src_stage = _body_ready(str(src.attributes.get("stage") or ""))
+        dst_stage = _body_ready(str(dst.attributes.get("stage") or ""))
+        if src_stage == 0 and dst_stage == 1:
+            pairs.add((src.name, dst.name))
+        elif src_stage == 1:
+            stage2_names.setdefault(src.name, set()).add(dst.name)
+    rare_candy = any(node.name.lower() == "rare candy" for node in printings)
+    rows: list[dict[str, Any]] = []
+    for basic, evolution in sorted(pairs):
+        bodies = name_copies[basic]
+        evolutions = name_copies[evolution]
+        extras = stage2_names.get(evolution, set())
+        stage2 = sum(name_copies[name] for name in extras)
+        rows.append(
+            {
+                "basic": basic,
+                "evolution": evolution,
+                "stage2": stage2,
+                "bodies": bodies,
+                "evolutions": evolutions,
+                "charges": min(evolutions, bodies),
+                "charges_stage2": min(stage2, evolutions) if extras else None,
+                "stranded": evolutions > bodies or stage2 > evolutions,
+                "rare_candy": rare_candy,
+            }
+        )
     return rows

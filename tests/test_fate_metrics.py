@@ -146,6 +146,35 @@ def test_only_generic_energy_pay_is_isolated():
     assert _node(linked, "Ledyba")["isolated"] is False
 
 
+def test_two_printings_of_one_name_keep_their_own_attacks():
+    first = _mon("Twin", 50)
+    second = _mon("Twin", 100)
+    first.catalog_id = "twin-a"
+    second.catalog_id = "twin-b"
+
+    def rows(cards):
+        report = _report(cards)
+        return sorted(
+            (row["id"], row["dpe_lead"], row["copies"])
+            for row in report["nodes"]
+            if row["name"] == "Twin"
+        )
+
+    assert rows([first, second]) == rows([second, first]) == [("twin-a", 25, 1), ("twin-b", 50, 1)]
+
+
+def test_colorless_cost_counts_any_attach_from_deck():
+    from app.engine.models import Ability
+
+    party = [Ability(name="Moon-Watching Party", text=PARTY)]
+    colorless = _mon("Clefairy", 30, ("Colorless", "Colorless"), abilities=party)
+    row = _node(_report([colorless]), "Clefairy")
+    assert row["acceleration"] == 1
+    assert row["warm_up_turns"] == 1
+    typed = _mon("Clefairy", 30, ("Fire", "Fire"), abilities=party)
+    assert _node(_report([typed]), "Clefairy")["acceleration"] == 0
+
+
 def test_attach_from_deck_raises_attach_rate_up_to_the_lead_cost():
     from app.engine.models import Ability
 
