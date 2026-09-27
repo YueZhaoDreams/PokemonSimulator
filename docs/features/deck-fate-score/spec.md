@@ -1,6 +1,6 @@
 # Deck fate score and fast swap ranking
 
-Status: in_review
+Status: done
 
 Epic: deck-as-fate
 
