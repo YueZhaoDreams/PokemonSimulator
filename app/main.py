@@ -64,7 +64,6 @@ from app.engine.models import (
     rules_from_preset,
 )
 from app.engine.fate import compute_ceilings, compute_metrics, rank_swaps
-from app.engine.fate.score import apply_overlay, load_preset
 from app.engine.montecarlo import run_simulation
 from app.engine.overlay import OverlayError
 from app.engine.probability import draw_probability
@@ -532,8 +531,6 @@ def api_fate_swaps(deck_id: str, payload: dict, user: dict = Depends(require_use
     if overlay is None:
         overlay = get_fate_weights(user["id"], preset)
     try:
-        if isinstance(payload.get("weights"), dict):
-            apply_overlay(load_preset(preset), payload["weights"])
         cards = [Card.from_dict(c) for c in deck["cards"]]
         report = rank_swaps(cards, add.strip(), overlay, rules)
     except ValueError as exc:
