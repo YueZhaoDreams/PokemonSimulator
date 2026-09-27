@@ -50,9 +50,14 @@
       "at": "2026-09-26T20:20:00Z",
       "author": "operator-chat",
       "text": "Operator: pass network-from-print, then continue implement-epic-features. The attach line stays named attaches_from_deck, matching the checklist. Ledian no longer links to the card Switch."
+    },
+    {
+      "at": "2026-09-27T20:57:00Z",
+      "author": "operator-chat",
+      "text": "Operator: pass kg-card-quality. They had been told Nest Ball, Ultra Ball, and Buddy-Buddy Poffin stay marked isolated because those sentences are not parsed into search links yet, and they passed anyway."
     }
   ],
-  "passed_gates": ["copy-ceilings", "network-from-print"],
+  "passed_gates": ["copy-ceilings", "network-from-print", "kg-card-quality"],
   "gate_reports": {
     "copy-ceilings": {
       "verified_at": "2026-09-13T01:00:09.286832+00:00",
@@ -152,11 +157,11 @@
         },
         {
           "step": "6 Human: quality / junk explanation is readable",
-          "status": "human-required",
-          "evidence": "GET /api/decks/seed-g/fate/metrics returns lead cost, lead damage, dpe, the dependence line, and isolated names. Chat was not asked in this check. Not a pass until a person reads it."
+          "status": "pass",
+          "evidence": "Operator said pass on 2026-09-27 after being shown how to ask Combo Cub."
         }
       ],
-      "recommendation": "Do not pass. The numbers for damage, Mega, charges, and energy supply match. Tutors with unparsed sentences are still marked isolated. Not appended to passed_gates."
+      "recommendation": "Operator passed on 2026-09-27. Appended to passed_gates. Step 5 stays fail: Nest Ball, Ultra Ball, and Buddy-Buddy Poffin are still marked isolated because those sentences are not parsed into search links."
     }
   }
 }
