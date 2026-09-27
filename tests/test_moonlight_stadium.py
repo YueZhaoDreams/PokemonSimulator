@@ -215,3 +215,19 @@ def test_non_phantom_does_not_bump_moonlight_with_cage():
 
 def test_live_c60_has_no_moonlight_until_a_cut_wins():
     assert "Moonlight Stadium" not in SET_C60_NAMES
+
+
+def test_moonlight_swap_matrix_keeps_the_lock():
+    import json
+    from pathlib import Path
+
+    blob = json.loads(
+        (Path(__file__).resolve().parents[1] / "data/lab/set-c60-moonlight-stadium.json").read_text()
+    )
+    assert blob["games"] == 3000
+    assert blob["seed"] == 20260926
+    assert set(blob["cells"]) == {"lock", *blob["cuts"]}
+    assert blob["weighted_competitive"]["lock"] == max(blob["weighted_competitive"].values())
+    assert blob["weighted_all"]["lock"] == max(blob["weighted_all"].values())
+    t60 = {key: row["t60"]["a"] for key, row in blob["cells"].items()}
+    assert t60["lock"] == max(t60.values())
