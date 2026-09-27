@@ -1,0 +1,38 @@
+{
+  "preset": "s60",
+  "ecologies": {
+    "early_equal_hands": 1,
+    "main_line": 1,
+    "secondary_closers": 0.25,
+    "energy_budget": 0.15,
+    "control": 1,
+    "prize_race": 0.5,
+    "consistency": 1
+  },
+  "conditional_kept_live": 1,
+  "stranded_penalty": 6,
+  "body_slack": 0.5,
+  "widow_penalty": 2,
+  "prize_leak": 1,
+  "boss_equivalent": {
+    "supporter": 1,
+    "hp_gate": 1,
+    "supporter_free": 1,
+    "charge_curve": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3,
+      "4": 4,
+      "5": 5,
+      "6": 6
+    }
+  },
+  "copy_curves": {
+    "fate": {"0": 0, "1": 1},
+    "line_2": {"0": 0, "1": 1, "2": 2},
+    "engine_4": {"0": 0, "1": 1, "2": 2, "3": 3, "4": 4},
+    "party": {"0": 0, "1": 3, "2": 6, "3": 9, "4": 12, "5": 15, "6": 18},
+    "charges": {"0": 0, "1": 1, "2": 2, "3": 3, "4": 4, "5": 5, "6": 6}
+  }
+}

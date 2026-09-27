@@ -7,6 +7,7 @@ Everything here scores or describes a frozen list. Nothing here is consulted by
 from app.engine.fate.ceilings import compute_ceilings, printed_draw_operators
 from app.engine.fate.kg import build_catalog_kg, explain_edge, induce
 from app.engine.fate.metrics import compute_metrics
+from app.engine.fate.score import rank_swaps, score
 
 __all__ = [
     "build_catalog_kg",
@@ -15,4 +16,6 @@ __all__ = [
     "explain_edge",
     "induce",
     "printed_draw_operators",
+    "rank_swaps",
+    "score",
 ]

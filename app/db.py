@@ -125,6 +125,7 @@ def init_db() -> None:
         _ensure_deck_rules_column(conn)
         _ensure_lab_experiments(conn)
         _ensure_user_strategies(conn)
+        _ensure_fate_weight_overlays(conn)
         _ensure_scan_jobs(conn)
         admin_id = _ensure_admin(conn)
         _upsert_seed_decks(conn, owner_id=admin_id)
@@ -215,6 +216,65 @@ def _ensure_lab_experiments(conn: sqlite3.Connection) -> None:
         conn.execute("ALTER TABLE lab_experiments ADD COLUMN conclusion TEXT")
     if "script_executable" not in cols:
         conn.execute("ALTER TABLE lab_experiments ADD COLUMN script_executable INTEGER NOT NULL DEFAULT 0")
+
+
+def _ensure_fate_weight_overlays(conn: sqlite3.Connection) -> None:
+    conn.execute(
+        """
+        CREATE TABLE IF NOT EXISTS fate_weight_overlays (
+            owner_id TEXT NOT NULL,
+            preset TEXT NOT NULL,
+            weights_json TEXT NOT NULL,
+            updated_at TEXT NOT NULL,
+            PRIMARY KEY (owner_id, preset)
+        )
+        """
+    )
+
+
+def get_fate_weights(owner_id: str, preset: str) -> dict | None:
+    if not owner_id or not preset:
+        return None
+    with connect() as conn:
+        row = conn.execute(
+            "SELECT weights_json FROM fate_weight_overlays WHERE owner_id=? AND preset=?",
+            (owner_id, preset),
+        ).fetchone()
+    if not row:
+        return None
+    data = json.loads(row["weights_json"])
+    return data if isinstance(data, dict) else None
+
+
+def save_fate_weights(owner_id: str, preset: str, weights: dict) -> dict:
+    if not owner_id:
+        raise ValueError("owner_id is required")
+    if not preset:
+        raise ValueError("preset is required")
+    if not isinstance(weights, dict):
+        raise ValueError("weights must be an object")
+    blob = json.dumps(weights)
+    now = _now()
+    with connect() as conn:
+        conn.execute(
+            """
+            INSERT INTO fate_weight_overlays(owner_id, preset, weights_json, updated_at)
+            VALUES (?, ?, ?, ?)
+            ON CONFLICT(owner_id, preset) DO UPDATE SET
+                weights_json=excluded.weights_json,
+                updated_at=excluded.updated_at
+            """,
+            (owner_id, preset, blob, now),
+        )
+    return weights
+
+
+def delete_fate_weights(owner_id: str, preset: str) -> None:
+    with connect() as conn:
+        conn.execute(
+            "DELETE FROM fate_weight_overlays WHERE owner_id=? AND preset=?",
+            (owner_id, preset),
+        )
 
 
 def _ensure_user_strategies(conn: sqlite3.Connection) -> None:

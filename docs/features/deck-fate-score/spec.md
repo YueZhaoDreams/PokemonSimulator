@@ -1,6 +1,6 @@
 # Deck fate score and fast swap ranking
 
-Status: ready
+Status: in_review
 
 Epic: deck-as-fate
 
@@ -44,18 +44,18 @@ Jira Issue: TBD
 
 ## Acceptance Criteria
 
-- [ ] All 1-for-1 cuts for Set G + Mega Clefable ex ranked with `delta_s` and per-ecology breakdown, no `run_simulation` call, < 2 s.
-- [ ] Ledian ranks above Ledyba with a dependence reason; Clefairy ranks below Ledian.
-- [ ] Changing `early_equal_hands` weight via request or overlay changes the conditional 170/2 attacker's rank; response echoes weights.
-- [ ] Boss-equivalent: 1.0 per Boss's Orders copy; Ledian line value derived from `min(evolution, body)`; 4→3 charges drops by one marginal step.
-- [ ] Response labelled as an estimate; no coefficient added to `app/engine/game.py`.
+- [x] All 1-for-1 cuts for Set G + Mega Clefable ex ranked with `delta_s` and per-ecology breakdown, no `run_simulation` call, < 2 s.
+- [x] Ledian ranks above Ledyba with a dependence reason; Clefairy ranks below Ledian.
+- [x] Changing `early_equal_hands` weight via request or overlay changes the conditional 170/2 attacker's rank; response echoes weights.
+- [x] Boss-equivalent: 1.0 per Boss's Orders copy; Ledian line value derived from `min(evolution, body)`; 4→3 charges drops by one marginal step.
+- [x] Response labelled as an estimate; no coefficient added to `app/engine/game.py`.
 
 ## Validation Plan
 
 - Build/compile: `python -m compileall app tests`
 - Targeted tests: `tests/test_fate_score.py`
 - Broader validation: `.venv/bin/pytest -q`
-- Manual review: read the Set G table in chat and confirm it matches the operator's hand-built ranking direction (Ledian / Mewtwo top, Iron Boulder bottom) under default weights.
+- Manual review: under default weights, a 4 Ledyba / 4 Ledian fixture ranks a Ledian cut above a Ledyba cut, and a Clefairy cut below Ledian. Iron Boulder (170 for two Energy, does nothing unless hands match) is not in locked Set G; the rank-change check places one copy in a fixture and expects it near the bottom. Locked Set G is 2 Ledyba / 2 Ledian, so the live table checks that same relative order. Mewtwo is not in the locked list.
 
 ## Status Update Checklist
 

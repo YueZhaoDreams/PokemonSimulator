@@ -27,6 +27,7 @@ from app.db import (
     delete_session,
     finish_scan_job,
     get_deck,
+    get_fate_weights,
     get_lab_experiment,
     set_user_rule,
     get_rules,
@@ -42,6 +43,7 @@ from app.db import (
     list_simulations,
     list_users,
     save_deck,
+    save_fate_weights,
     save_lab_experiment,
     save_rules,
     save_simulation,
@@ -61,7 +63,8 @@ from app.engine.models import (
     rule_preset_label,
     rules_from_preset,
 )
-from app.engine.fate import compute_ceilings, compute_metrics
+from app.engine.fate import compute_ceilings, compute_metrics, rank_swaps
+from app.engine.fate.score import apply_overlay, load_preset
 from app.engine.montecarlo import run_simulation
 from app.engine.overlay import OverlayError
 from app.engine.probability import draw_probability
@@ -499,6 +502,42 @@ def api_fate_metrics(deck_id: str, rule_preset: str | None = None, user: dict = 
     cards = [Card.from_dict(c) for c in deck["cards"]]
     graph = induce(build_catalog_kg(cards, rules), Counter(c.name for c in cards))
     report = compute_metrics(graph, rules, cards)
+    report["deck_id"] = deck["id"]
+    report["deck_name"] = deck["name"]
+    return report
+
+
+@app.post("/api/decks/{deck_id}/fate/swaps")
+def api_fate_swaps(deck_id: str, payload: dict, user: dict = Depends(require_user)) -> dict:
+    deck = get_deck(deck_id)
+    if not _can_use_deck(user, deck):
+        raise HTTPException(404, "Deck not found")
+    add = payload.get("add")
+    if not isinstance(add, str) or not add.strip():
+        raise HTTPException(400, "add is required")
+    try:
+        rules = resolve_simulation_rules(
+            rule_preset=payload.get("rule_preset"),
+            decks=[deck],
+            fallback=rules_for_user(user),
+        )
+    except ValueError as exc:
+        raise HTTPException(400, str(exc)) from exc
+    preset = infer_rule_preset_from_rules(rules)
+    if preset not in {"s30", "s60"}:
+        preset = "s60" if rules.deck_size >= 60 else "s30"
+    overlay = payload.get("weights")
+    if overlay is None:
+        overlay = get_fate_weights(user["id"], preset)
+    try:
+        if isinstance(payload.get("weights"), dict):
+            apply_overlay(load_preset(preset), payload["weights"])
+        cards = [Card.from_dict(c) for c in deck["cards"]]
+        report = rank_swaps(cards, add.strip(), overlay, rules)
+    except ValueError as exc:
+        raise HTTPException(400, str(exc)) from exc
+    if payload.get("save") and isinstance(payload.get("weights"), dict):
+        save_fate_weights(user["id"], preset, payload["weights"])
     report["deck_id"] = deck["id"]
     report["deck_name"] = deck["name"]
     return report
