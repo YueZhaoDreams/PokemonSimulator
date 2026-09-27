@@ -7,6 +7,7 @@ from typing import Any
 from app.catalog import fetch_full, lookup_seed_card, normalize_card, resolve_name, search_local
 from app.db import (
     get_deck,
+    get_fate_weights,
     get_lab_experiment,
     get_rules,
     list_decks,
@@ -17,7 +18,7 @@ from app.db import (
     save_simulation,
     save_user_strategy,
 )
-from app.engine.fate import compute_ceilings, compute_metrics
+from app.engine.fate import compute_ceilings, compute_metrics, rank_swaps
 from app.engine.models import (
     SELECTABLE_RULE_PRESETS,
     rules_for_user,
@@ -79,6 +80,24 @@ TOOL_SCHEMAS = [
                 "rule_preset": {"type": "string", "description": "s30 or s60. Omit to use the deck's own rule, or the trainer's settings rule."},
             },
             "required": ["deck_id"],
+        },
+    },
+    {
+        "name": "rank_fate_swaps",
+        "description": (
+            "Fast 1-for-1 swap ranking for a saved deck: remove one copy of each distinct card, "
+            "add the named card, and rank the cuts by the change in the ecology score. "
+            "A fast estimate, not a win rate, and not an in-game choice."
+        ),
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "deck_id": {"type": "string"},
+                "add": {"type": "string", "description": "Card name or catalog id to add."},
+                "rule_preset": {"type": "string", "description": "s30 or s60. Omit to use the deck's own rule."},
+                "weights": {"type": "object", "description": "Optional ecology number overrides. Unknown ecology keys are rejected."},
+            },
+            "required": ["deck_id", "add"],
         },
     },
     {
@@ -740,6 +759,30 @@ def run_tool(name: str, args: dict[str, Any]) -> Any:
         cards = _cards(deck)
         graph = induce(build_catalog_kg(cards, rules), Counter(c.name for c in cards))
         report = compute_metrics(graph, rules, cards)
+        report["deck_id"] = deck["id"]
+        report["deck_name"] = deck["name"]
+        return report
+    if name == "rank_fate_swaps":
+        deck = _usable_deck(str(args.get("deck_id") or ""))
+        if not deck:
+            return {"error": "deck not found"}
+        add = args.get("add")
+        if not isinstance(add, str) or not add.strip():
+            return {"error": "add is required"}
+        rules = _match_rules(rule_preset=args.get("rule_preset"), decks=[deck])
+        if isinstance(rules, dict) and rules.get("error"):
+            return rules
+        overlay = args.get("weights")
+        if overlay is None:
+            viewer = current_viewer() or {}
+            preset = infer_rule_preset_from_rules(rules)
+            if preset not in {"s30", "s60"}:
+                preset = "s60" if rules.deck_size >= 60 else "s30"
+            overlay = get_fate_weights(str(viewer.get("id") or ""), preset)
+        try:
+            report = rank_swaps(_cards(deck), add.strip(), overlay, rules)
+        except ValueError as exc:
+            return {"error": str(exc)}
         report["deck_id"] = deck["id"]
         report["deck_name"] = deck["name"]
         return report
