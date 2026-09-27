@@ -162,6 +162,47 @@
         }
       ],
       "recommendation": "Operator passed on 2026-09-27. Appended to passed_gates. Step 5 stays fail: Nest Ball, Ultra Ball, and Buddy-Buddy Poffin are still marked isolated because those sentences are not parsed into search links."
+    },
+    "fast-swap-score": {
+      "verified_at": "2026-09-27T21:54:42Z",
+      "verifier_agent": "cursor-verify-gate",
+      "consumer": "both",
+      "verifier": "agent-then-human",
+      "environment": "http://127.0.0.1:8000 serving main 41b3503 (includes #136 squash abc3a7a); ./run.sh restarted after merge",
+      "overall_status": "partial",
+      "steps": [
+        {
+          "step": "1 One row per distinct Set G cut, with delta_s and per-ecology deltas, under 2 seconds, without run_simulation",
+          "status": "pass",
+          "evidence": "POST /api/decks/seed-g/fate/swaps add=Mega Clefable ex returned 21 rows for 21 distinct names in 0.037s. Ranks are 1..21, sorted by delta_s. Each row has ecologies early_equal_hands, main_line, secondary_closers, energy_budget, control, prize_race, consistency. The swaps handler calls rank_swaps; run_simulation stays on the simulate route."
+        },
+        {
+          "step": "2 Cutting Ledian ranks above cutting Ledyba and cites dependence (bodies vs evolutions)",
+          "status": "pass",
+          "evidence": "Ledian rank 14, Ledyba rank 19. Ledian reason: Ledian body dependence: bodies 2 vs evolutions 1."
+        },
+        {
+          "step": "3 Cutting Clefairy ranks below cutting Ledian and cites the added Mega's body dependence and Party charges",
+          "status": "pass",
+          "evidence": "Clefairy rank 15, below Ledian rank 14. Reason includes Mega Clefable ex body dependence: bodies 3 vs evolutions 2, and Party charges 4→3."
+        },
+        {
+          "step": "4 A different early_equal_hands weight changes the conditional 170/2 attacker's rank, and the response echoes the weights",
+          "status": "pass",
+          "evidence": "Iron Boulder is not in locked Set G. A temporary deck replaced one Darkness Energy with Iron Boulder, then was deleted. early_equal_hands 0 ranked that cut 14; early_equal_hands 5 ranked it 22 of 22. The response echoed 0 and 5."
+        },
+        {
+          "step": "5 Boss-equivalent is 1.0 per Boss's Orders copy; Ledian follows charges; removing one Ledian drops one marginal charge, not to zero",
+          "status": "pass",
+          "evidence": "Live Set G: Boss's Orders copies 3, per_copy 1.0, total 3.0. Ledian charges 2, value 2.0. The Ledian cut's control delta is -1.0. Temporary 4 Ledyba / 4 Ledian deck value 4.0; 4 Ledyba / 3 Ledian value 3.0; drop 1.0. Both temporary decks were deleted."
+        },
+        {
+          "step": "6 Human: the table is labelled a fast estimate, not a win rate, and is readable",
+          "status": "human-required",
+          "evidence": "The response label is 'fast estimate, not a win rate' and each row has rank, cut, copies, delta_s, and ecologies. The operator still needs to read the table. On live Set G the highest cuts are Buddy-Buddy Poffin, Nest Ball, and Ultra Ball, because those sentences are still not search links; that gap was already accepted on kg-card-quality."
+        }
+      ],
+      "recommendation": "Do not append fast-swap-score to passed_gates. Machine steps 1-5 passed. Step 6 is waiting on the operator to read the table and say it is clear. The highest live cuts are still the unparsed tutors."
     }
   }
 }
