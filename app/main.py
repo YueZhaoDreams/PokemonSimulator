@@ -526,6 +526,8 @@ def api_fate_swaps(deck_id: str, payload: dict, user: dict = Depends(require_use
     preset = infer_rule_preset_from_rules(rules)
     if preset not in {"s30", "s60"}:
         preset = "s60" if rules.deck_size >= 60 else "s30"
+    if payload.get("save") and not isinstance(payload.get("weights"), dict):
+        raise HTTPException(400, "save requires a weights object")
     overlay = payload.get("weights")
     if overlay is None:
         overlay = get_fate_weights(user["id"], preset)

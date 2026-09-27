@@ -242,7 +242,10 @@ def get_fate_weights(owner_id: str, preset: str) -> dict | None:
         ).fetchone()
     if not row:
         return None
-    data = json.loads(row["weights_json"])
+    try:
+        data = json.loads(row["weights_json"])
+    except json.JSONDecodeError:
+        return None
     return data if isinstance(data, dict) else None
 
 

@@ -429,7 +429,10 @@ def _consistency(metrics: dict[str, Any], weights: dict[str, Any]) -> float:
 def _curve(table: dict[str, Any], n: int) -> float:
     if str(n) in table:
         return float(table[str(n)])
-    keys = sorted(int(key) for key in table)
+    try:
+        keys = sorted(int(key) for key in table)
+    except (TypeError, ValueError) as exc:
+        raise ValueError("curve steps must be integers") from exc
     if not keys:
         return float(n)
     if n >= keys[-1]:
@@ -472,8 +475,16 @@ def _numeric_table(value: Any, label: str) -> dict[str, float]:
         raise ValueError(f"{label} must be an object")
     out: dict[str, float] = {}
     for key, item in value.items():
-        out[str(key)] = _number(item, f"{label}.{key}")
+        step = _step_key(key, label)
+        out[step] = _number(item, f"{label}.{key}")
     return out
+
+
+def _step_key(key: Any, label: str) -> str:
+    text = str(key).strip()
+    if not text.lstrip("-").isdigit():
+        raise ValueError(f"{label} step must be an integer, got {key}")
+    return str(int(text))
 
 
 def _validate_weights(data: dict[str, Any]) -> dict[str, Any]:

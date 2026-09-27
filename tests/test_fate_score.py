@@ -141,6 +141,28 @@ def test_partial_curve_override_keeps_the_other_steps():
     assert float(party["copy_curves"]["party"]["4"]) == 20
 
 
+def test_non_integer_curve_step_is_rejected():
+    try:
+        apply_overlay(load_preset("s60"), {"copy_curves": {"party": {"two": 2}}})
+        raise AssertionError("expected ValueError")
+    except ValueError as exc:
+        assert "integer" in str(exc)
+
+
+def test_corrupt_weight_overlay_is_ignored(tmp_path, monkeypatch):
+    monkeypatch.setattr("app.db.DB_PATH", tmp_path / "app.db")
+    from app.db import connect, get_fate_weights, init_db, save_fate_weights
+
+    init_db()
+    save_fate_weights("owner", "s60", {"early_equal_hands": 0})
+    with connect() as conn:
+        conn.execute(
+            "UPDATE fate_weight_overlays SET weights_json=? WHERE owner_id=?",
+            ("{", "owner"),
+        )
+    assert get_fate_weights("owner", "s60") is None
+
+
 def test_echoed_weights_round_trip():
     cards = [fallback_named("Ledyba")] * 2 + [fallback_named("Ledian")] * 2
     rules = _rules()
@@ -224,6 +246,12 @@ def test_swap_route_and_tool(tmp_path, monkeypatch):
 
         unknown = client.post("/api/decks/seed-g/fate/swaps", json={"add": "Mega Clefable ex", "weights": {"nope": 1}})
         assert unknown.status_code == 400
+
+        bare_save = client.post(
+            "/api/decks/seed-g/fate/swaps",
+            json={"add": "Mega Clefable ex", "save": True},
+        )
+        assert bare_save.status_code == 400
 
         failed_save = client.post(
             "/api/decks/seed-g/fate/swaps",
