@@ -3383,6 +3383,15 @@ _register(
         image="https://assets.tcgdex.net/en/me/me02/085/low.webp",
     )
 )
+_register(
+    _trn(
+        "Moonlight Stadium",
+        "stadium",
+        "The Retreat Cost of each Pokémon in play (both yours and your opponent's) that has any Psychic or Darkness Energy attached to it is Colorless less.",
+        catalog_id="sm8-188",
+        image="https://assets.tcgdex.net/en/sm/sm8/188/low.webp",
+    )
+)
 
 # Chris Brewer Lucario Hariyama prints. Texts are the pokemontcg.io English sentences.
 _register(

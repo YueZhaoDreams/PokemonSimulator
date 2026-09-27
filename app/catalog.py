@@ -56,6 +56,7 @@ TRAINER_KIND_HINTS = {
     "maximum belt": "item",
     "bravery charm": "item",
     "beach court": "stadium",
+    "moonlight stadium": "stadium",
     "arven": "supporter",
     "acerola": "supporter",
     "ultra ball": "item",
@@ -120,6 +121,7 @@ PREFERRED_IDS = {
     "Litwick": "swsh11-024",  # Kindling Panic — mill opponent deck
     "Oddish": "swsh12.5-001",
     "Clefairy": "swsh11-062",
+    "Moonlight Stadium": "sm8-188",
     "Clefable": "swsh2-75",
     "Clefable ex": "sv03-082",
     "Mega Clefable ex": "me03-031",

@@ -391,6 +391,51 @@ def parse_ability_effects(text: str) -> list[dict[str, Any]]:
     ):
         effects.append({"kind": "stadium_psychic_cost_less_colorless"})
 
+    # Moonlight Stadium (LOT 188): "The Retreat Cost of each Pokémon in play (both
+    # yours and your opponent's) that has any Psychic or Darkness Energy attached
+    # to it is Colorless less." The older print says that same gate "has no Retreat Cost."
+    # Beach Court has no energy gate. Lunar Zone says "your Pokémon", not both players.
+    retreat_gate = re.search(r"any ([a-z ]+?) energy attached", t)
+    if (
+        retreat_gate
+        and "both yours and your opponent" in t
+        and "retreat" in t
+    ):
+        types: list[str] = []
+        for part in re.split(r"\s+or\s+|\s+and\s+|,\s*", retreat_gate.group(1)):
+            name = part.strip()
+            if name in {
+                "psychic",
+                "darkness",
+                "grass",
+                "fire",
+                "water",
+                "lightning",
+                "fighting",
+                "metal",
+                "fairy",
+                "dragon",
+            }:
+                types.append(name.title())
+        if types and "no retreat cost" in t:
+            effects.append(
+                {
+                    "kind": "stadium_retreat_zero",
+                    "energy_types": types,
+                    "both_players": True,
+                }
+            )
+        elif types and "retreat cost" in t and "less" in t:
+            less = len(re.findall(r"colorless", t))
+            effects.append(
+                {
+                    "kind": "stadium_retreat_less",
+                    "less": less if less > 0 else 1,
+                    "energy_types": types,
+                    "both_players": True,
+                }
+            )
+
     # Octillery Abyssal Hand / draw-until abilities. Count comes from print.
     until = parse_draw_until_hand(text)
     if until and "search your deck" not in t:
