@@ -1,93 +1,96 @@
 # C60: one Moonlight Stadium in place of every distinct card
 
-Date: 2026-09-27
+Date: 2026-09-28
 Seed: `20260926`
 Rule: s60 (60 cards, 4-of, 6 prizes, Pokémon are not energy)
 Games: 3,000 / cell (the C60 variant is always player A; who goes first is random)
 Script: `data/lab/set_c60_moonlight_stadium.py`
 Raw: `data/lab/set-c60-moonlight-stadium.json`
-Elapsed: 1609s
+Elapsed: 1617s
 
-The lock is the live list (`SET_C60_NAMES`). Every other row removes exactly one copy of one printed name and adds one Moonlight Stadium (Lost Thunder 188).
+The lock is the live list (`SET_C60_NAMES`). Every other row removes exactly one copy of one printed name and adds one Moonlight Stadium (Great Encounters 100, `dp4-100`).
 
-Printed text: "The Retreat Cost of each Pokémon in play (both yours and your opponent's) that has any Psychic or Darkness Energy attached to it is Colorless less."
+Printed text: "The Retreat Cost for each Psychic and Darkness Pokémon (both yours and your opponent's) is 0."
 
-Clefairy retreats for 2. With one Psychic or Darkness Energy already attached, that cost is 1. Party uses it this way: Party, pay the one energy to retreat, promote a benched Clefairy that just received one Psychic, Party again, then attach this turn's energy to the Clefairy that came up. Switch is not spent on that retreat. Versus Dragapult, Floragato, or a ready Demolish, the pivot only happens when a Switch is still in hand, so the 60 HP body can hide afterward. Battle Cage is not played over an early Moonlight Stadium, and Moonlight Stadium is not played over a Battle Cage that is already in play. Once six Psychic Energy are in play against Dragapult, Cage replaces Moonlight Stadium.
+Clefairy is Psychic and retreats for 2. Under this stadium that cost is 0 even with no Energy attached. Party uses it this way: Party, retreat for free (no Energy discarded, Switch stays in hand), promote a benched Clefairy that just received one Psychic, Party again, then attach this turn's energy to the Clefairy that came up. Versus Dragapult, Floragato, or a ready Demolish, the pivot only happens when a Switch is still in hand, so the 60 HP body can hide afterward. Battle Cage is not played over an early Moonlight Stadium, and Moonlight Stadium is not played over a Battle Cage that is already in play. Once six Psychic Energy are in play against Dragapult, Cage replaces Moonlight Stadium.
+
+The discount follows the Pokémon's type, for both players. Mewtwo ex is Lightning, so Psychic Energy on it does not change its retreat. Dragapult ex is Dragon, so its retreat stays 1. A Darkness Pokémon such as Fezandipiti ex retreats for 0. Lost Thunder 188 (Colorless less, and only while Psychic or Darkness Energy is attached) is a different card and is not this row.
 
 `wComp` weights T60, Hedrick, and D60 by how often the lock loses that matchup. `wAll` does the same over all six foes. A single cell near 70% has a binomial SE of about 0.8 pp.
 
 ## Win rate
 
-The lock is the first row. Every other row is one copy swapped for Moonlight Stadium, sorted by `wComp`.
+Rows are one copy swapped for Moonlight Stadium, sorted by `wComp`. The lock is fourth.
 
 | Cut for Moonlight Stadium | T60 | Hedrick | UNL | D60 | S60 | G | wComp | wAll |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| **lock** | **73.4%** | 66.8% | 91.2% | 78.0% | 99.5% | **63.3%** | **72.0%** | **70.9%** |
-| Boss's Orders | 71.4% | 67.8% | **91.7%** | 78.3% | **99.7%** | 61.0% | 71.8% | 70.2% |
-| Night Stretcher | 72.1% | 67.7% | 91.6% | 76.2% | 99.6% | 61.7% | 71.4% | 70.1% |
-| Ultra Ball | 70.8% | 67.3% | 91.3% | 78.0% | 99.6% | 63.2% | 71.3% | 70.5% |
-| Clefable ex | 71.2% | 66.7% | 90.1% | 78.0% | 99.5% | 62.6% | 71.2% | 70.2% |
-| Seeker | 71.0% | 66.4% | 90.8% | **78.6%** | 99.5% | 61.0% | 71.2% | 69.7% |
-| Clefable CLC | 71.1% | 66.6% | 91.4% | 78.0% | **99.7%** | 60.3% | 71.1% | 69.5% |
-| Poké Pad | 70.0% | 67.7% | 91.5% | 77.6% | 99.5% | 60.7% | 71.1% | 69.7% |
-| Mewtwo ex | 71.8% | **68.3%** | 91.5% | 73.0% | 99.6% | 60.9% | 70.7% | 69.4% |
-| Clefable (Prankish) | 70.3% | 66.4% | 90.9% | 77.5% | 99.6% | 62.3% | 70.7% | 69.8% |
-| Iono | 70.0% | 66.9% | 90.6% | 76.8% | 99.6% | **63.3%** | 70.6% | 70.0% |
-| Switch | 71.5% | 66.4% | 91.6% | 75.4% | 99.5% | 61.5% | 70.5% | 69.5% |
-| Battle Cage | 68.4% | 66.9% | 89.7% | 77.8% | 99.6% | 62.5% | 70.3% | 69.5% |
-| Buddy-Buddy Poffin | 71.1% | 66.8% | 89.8% | 74.7% | **99.7%** | 62.3% | 70.3% | 69.5% |
-| Nest Ball | 71.2% | 65.0% | 90.7% | 76.0% | 99.5% | 61.2% | 70.0% | 69.0% |
-| Psychic Energy | 69.4% | 64.4% | 90.4% | 76.8% | 99.5% | 60.4% | 69.4% | 68.4% |
-| Lillie | 70.1% | 65.2% | 90.9% | 74.4% | 99.6% | 59.7% | 69.3% | 68.1% |
-| Energy Switch | 69.6% | 63.9% | 89.9% | 76.7% | **99.7%** | 60.4% | 69.2% | 68.2% |
-| Hop | 69.0% | 64.1% | 89.0% | 74.9% | **99.7%** | 59.7% | 68.6% | 67.6% |
-| Arven | 70.3% | 65.6% | 89.8% | 71.0% | 99.3% | 61.7% | 68.6% | 68.2% |
-| Telepathic Psychic Energy | 69.1% | 63.4% | 90.0% | 73.8% | 99.3% | 58.8% | 68.1% | 67.0% |
-| Lillie's Determination | 67.6% | 63.7% | 89.5% | 74.5% | **99.7%** | 58.8% | 67.9% | 66.9% |
-| Clefairy | 69.0% | 64.6% | 89.6% | 65.9% | 99.4% | 59.9% | 66.4% | 66.3% |
-| Maximum Belt | 69.4% | 65.1% | 89.3% | 56.1% | 99.6% | 58.6% | 64.1% | 64.4% |
+| Ultra Ball | 72.6% | 69.1% | 90.7% | 78.1% | 99.6% | 64.0% | **72.7%** | 71.6% |
+| Mewtwo ex | 72.7% | **69.9%** | 90.7% | 76.4% | 99.5% | 64.7% | 72.5% | **71.7%** |
+| Seeker | 70.3% | 68.4% | 91.6% | **79.5%** | 99.4% | 62.9% | 72.0% | 70.9% |
+| **lock** | **73.4%** | 66.8% | 91.2% | 78.0% | 99.5% | 63.3% | 72.0% | 70.9% |
+| Clefable CLC | 71.8% | 68.4% | **92.1%** | 77.2% | **99.7%** | 63.0% | 71.9% | 70.8% |
+| Boss's Orders | 72.0% | 68.5% | 91.0% | 76.2% | 99.6% | 62.9% | 71.7% | 70.6% |
+| Energy Switch | 71.1% | 67.8% | 90.5% | 77.6% | **99.7%** | 60.8% | 71.5% | 69.9% |
+| Clefable (Prankish) | 71.1% | 68.0% | 91.2% | 77.1% | **99.7%** | 62.8% | 71.5% | 70.4% |
+| Night Stretcher | 71.8% | 68.0% | 90.9% | 76.0% | 99.5% | 61.7% | 71.4% | 70.1% |
+| Buddy-Buddy Poffin | 71.2% | 66.8% | 90.2% | 76.4% | **99.7%** | 62.1% | 70.8% | 69.8% |
+| Iono | 71.2% | 66.7% | 90.9% | 76.4% | 99.6% | **65.0%** | 70.8% | 70.6% |
+| Poké Pad | 71.8% | 66.4% | 89.8% | 75.7% | 99.5% | 62.0% | 70.7% | 69.6% |
+| Switch | 70.5% | 67.0% | 90.5% | 76.4% | 99.6% | 62.7% | 70.7% | 69.9% |
+| Psychic Energy | 70.2% | 67.8% | 90.1% | 75.2% | 99.4% | 61.5% | 70.6% | 69.4% |
+| Nest Ball | 71.3% | 67.7% | 91.0% | 73.8% | 99.3% | 64.0% | 70.5% | 70.1% |
+| Battle Cage | 70.2% | 65.9% | 89.5% | 77.3% | 99.4% | 62.9% | 70.4% | 69.7% |
+| Clefable ex | 71.4% | 65.2% | 91.3% | 76.1% | 99.5% | 62.9% | 70.1% | 69.6% |
+| Hop | 70.1% | 64.5% | 90.2% | 76.4% | **99.7%** | 60.5% | 69.5% | 68.5% |
+| Lillie | 69.5% | 65.5% | 91.0% | 75.2% | 99.5% | 61.9% | 69.4% | 68.9% |
+| Arven | 71.3% | 66.3% | 89.8% | 71.3% | **99.7%** | 61.3% | 69.3% | 68.5% |
+| Lillie's Determination | 68.0% | 66.0% | 90.1% | 74.2% | **99.7%** | 61.2% | 68.9% | 68.2% |
+| Telepathic Psychic Energy | 66.8% | 65.8% | 90.7% | 74.9% | **99.7%** | 59.3% | 68.6% | 67.6% |
+| Clefairy | 69.2% | 64.9% | 89.5% | 65.7% | 99.2% | 61.4% | 66.5% | 66.7% |
+| Maximum Belt | 68.8% | 65.2% | 90.6% | 57.8% | 99.6% | 59.0% | 64.4% | 64.8% |
 
-Going first / second. The lock is the first row.
+Going first / second. Same order.
 
 | Cut | T60 | Hedrick | D60 | G |
 | --- | --- | --- | --- | --- |
+| Ultra Ball | 74.0/71.3 | 70.5/67.8 | 80.7/75.6 | 65.1/63.0 |
+| Mewtwo ex | 72.3/73.0 | 70.4/69.4 | 80.0/72.6 | 66.0/63.5 |
+| Seeker | 71.5/69.0 | 68.7/68.1 | 82.6/76.4 | 64.3/61.6 |
 | **lock** | 74.6/72.2 | 68.8/64.8 | 79.8/76.1 | 64.2/62.4 |
-| Boss's Orders | 73.5/69.3 | 67.3/68.2 | 80.9/75.8 | 62.2/59.6 |
-| Night Stretcher | 73.8/70.3 | 69.4/65.8 | 79.2/73.1 | 62.7/60.7 |
-| Ultra Ball | 72.4/69.2 | 67.3/67.2 | 82.1/73.8 | 64.9/61.6 |
-| Clefable ex | 73.7/68.5 | 66.2/67.2 | 81.3/75.0 | 63.0/62.2 |
-| Seeker | 73.6/68.2 | 66.8/66.0 | 81.2/76.0 | 60.5/61.5 |
-| Clefable CLC | 73.4/68.6 | 69.8/63.2 | 80.4/75.7 | 60.7/59.9 |
-| Poké Pad | 72.1/68.0 | 69.2/66.2 | 79.8/75.4 | 63.2/58.2 |
-| Mewtwo ex | 73.8/69.8 | 69.4/67.2 | 77.0/69.3 | 60.9/60.8 |
-| Clefable (Prankish) | 72.6/68.0 | 67.2/65.6 | 79.6/75.3 | 62.1/62.4 |
-| Iono | 72.0/68.1 | 67.1/66.7 | 79.4/74.2 | 63.0/63.6 |
-| Switch | 71.8/71.1 | 66.3/66.6 | 78.8/72.0 | 64.4/58.6 |
-| Battle Cage | 69.1/67.7 | 68.8/65.0 | 80.9/74.6 | 65.9/59.1 |
-| Buddy-Buddy Poffin | 72.4/69.7 | 66.4/67.2 | 77.1/72.4 | 63.7/60.8 |
-| Nest Ball | 72.2/70.2 | 65.5/64.5 | 79.3/72.7 | 61.1/61.4 |
-| Psychic Energy | 70.7/68.3 | 66.6/62.2 | 80.2/73.3 | 61.9/58.7 |
-| Lillie | 71.8/68.3 | 65.4/65.0 | 78.3/70.6 | 61.2/58.2 |
-| Energy Switch | 70.6/68.7 | 65.3/62.4 | 79.6/73.9 | 60.8/59.9 |
-| Hop | 69.4/68.7 | 65.2/63.2 | 78.1/71.7 | 60.6/58.8 |
-| Arven | 70.3/70.4 | 65.3/65.9 | 75.8/66.6 | 62.0/61.4 |
-| Telepathic Psychic Energy | 70.2/68.1 | 63.2/63.6 | 77.2/70.4 | 59.9/57.7 |
-| Lillie's Determination | 70.5/64.7 | 63.5/64.0 | 78.0/70.9 | 60.1/57.5 |
-| Clefairy | 70.8/67.3 | 64.2/65.0 | 67.6/64.1 | 61.9/58.0 |
-| Maximum Belt | 71.4/67.3 | 65.8/64.4 | 62.2/49.8 | 60.9/56.3 |
+| Clefable CLC | 71.8/71.7 | 70.0/66.7 | 79.3/75.0 | 65.4/60.5 |
+| Boss's Orders | 74.1/69.9 | 67.1/69.9 | 79.7/72.7 | 67.2/58.7 |
+| Energy Switch | 73.1/69.2 | 67.4/68.3 | 79.2/76.0 | 63.4/58.2 |
+| Clefable (Prankish) | 72.9/69.2 | 66.9/69.1 | 79.2/74.9 | 64.2/61.5 |
+| Night Stretcher | 74.5/69.0 | 69.0/67.0 | 79.3/72.4 | 62.2/61.3 |
+| Buddy-Buddy Poffin | 72.1/70.3 | 67.7/65.8 | 79.3/73.6 | 63.9/60.3 |
+| Iono | 72.5/69.7 | 66.4/67.0 | 79.1/73.7 | 67.6/62.4 |
+| Poké Pad | 73.8/69.8 | 67.8/65.1 | 79.2/72.2 | 63.0/61.1 |
+| Switch | 70.9/70.1 | 67.5/66.5 | 79.1/73.7 | 63.5/61.9 |
+| Psychic Energy | 71.3/69.1 | 68.2/67.4 | 78.2/72.2 | 63.0/59.9 |
+| Nest Ball | 72.6/70.0 | 68.2/67.1 | 76.7/70.8 | 65.3/62.6 |
+| Battle Cage | 71.7/68.7 | 66.0/65.8 | 80.3/74.1 | 65.5/60.3 |
+| Clefable ex | 71.6/71.1 | 65.3/65.0 | 78.6/73.7 | 65.6/60.2 |
+| Hop | 70.1/70.0 | 66.1/62.8 | 78.1/74.6 | 62.5/58.5 |
+| Lillie | 70.6/68.4 | 67.0/63.9 | 78.6/71.6 | 64.6/59.2 |
+| Arven | 72.9/69.7 | 67.1/65.5 | 74.7/67.8 | 63.0/59.7 |
+| Lillie's Determination | 70.5/65.5 | 66.8/65.2 | 78.3/70.1 | 60.5/61.9 |
+| Telepathic Psychic Energy | 67.1/66.5 | 65.6/66.1 | 78.2/71.6 | 60.2/58.5 |
+| Clefairy | 72.6/65.4 | 65.0/64.8 | 69.7/61.6 | 62.7/60.1 |
+| Maximum Belt | 70.5/67.1 | 65.7/64.6 | 63.5/52.4 | 60.3/57.6 |
 
 ## What the ranking says
 
-No cut beats the lock. `wComp` 72.0% and `wAll` 70.9% are both the best numbers in the matrix. T60 73.4% and G 63.3% are also the best cells in those columns. No row is ahead of the lock on T60, Hedrick, and D60 at the same time.
+No row is ahead of the lock on T60, Hedrick, and D60 at the same time. T60 73.4% stays with the lock. The best `wComp` is one Ultra Ball, 72.7% against the lock's 72.0% (+0.7). A single cell near 70% has an SE of about 0.8 pp, so that weighted edge is inside the noise. Hedrick is 69.1% (+2.3) and D60 is 78.1% (+0.2). T60 is 72.6% (−0.8). Going first against T60 is 74.0% against the lock's 74.6%, and going second is 71.3% against 72.2%. G is 64.0% (+0.7). That is not a swap.
 
-The closest row cuts one Boss's Orders: `wComp` 71.8% (−0.2). Hedrick is 67.8% (+1.0) and D60 is 78.3% (+0.3). T60 is 71.4% (−2.0), and going second against T60 is 69.3% against the lock's 72.2%. G is 61.0% (−2.3). That is not a swap.
+Cutting one Mewtwo ex is the best `wAll`, 71.7% against 70.9% (+0.8). Hedrick is 69.9% (+3.1) and G is 64.7% (+1.4). T60 is 72.7% (−0.8) and D60 is 76.4% (−1.6). The Hedrick games are bought by giving up a closer against Demolish.
 
-Cutting one Battle Cage for the stadium drops T60 from 73.4% to 68.4% (−5.0) and UNL from 91.2% to 89.7%. Cutting Maximum Belt drops D60 from 78.0% to 56.1%. Cutting Clefairy drops D60 to 65.9%. Cutting Switch, which the pivot is supposed to leave in hand, drops D60 to 75.4% and `wComp` to 70.5%.
+Cutting Seeker ties the lock on the displayed `wComp` (72.0%) and raises D60 to 79.5% (+1.6). T60 falls to 70.3% (−3.2).
 
-On the rows that include the stadium, the Party pivot shows up in about 40–70 of 3,000 Dragapult games and about 90–170 of 3,000 D60 games. Against G it shows up in about 500–680 games. The stadium itself is played in roughly 700–1,100 games per foe. The pivot is real, and it is too rare against Dive to pay for a card.
+Cutting one Battle Cage drops T60 from 73.4% to 70.2% (−3.2). Cutting Maximum Belt drops D60 from 78.0% to 57.8%. Cutting Clefairy drops D60 to 65.7%. Cutting Switch, which the pivot leaves in hand, drops `wComp` to 70.7% and is the rarest Dragapult pivot in the matrix (70 of 3,000 T60 games).
 
-The printed gate is why. Retreat drops only after a Psychic or Darkness Energy is already attached. An empty Active Clefairy still retreats for 2, so the first turn cannot Party, retreat, and Party again before the manual attachment. The second Party needs that energy to already be there. Against Dragapult the pivot also keeps a Switch so the 60 HP Clefairy does not stay Active. Dragapult ex retreats for 1, and a Psychic Energy on it makes that 0 under the same stadium, so the opponent's line gets the discount too.
+On the rows that include the stadium, the Party pivot shows up in 70–149 of 3,000 Dragapult games (T60, Hedrick, or UNL), 189–273 of 3,000 D60 games, and 650–841 of 3,000 G games. The stadium itself is played in about 640–1,170 games per foe. Versus Dive the pivot still waits for a Switch, so the 60 HP Clefairy can hide. The retreat itself does not spend that Switch.
 
 ## Conclusion
 
-Do not put Moonlight Stadium into C60. Keep the live list. The card and the Party pivot stay in the engine for any list that actually includes the stadium.
+Keep the live C60 list. Moonlight Stadium stays available for any list that actually includes the stadium. It does not earn a slot in `SET_C60_NAMES`.
+

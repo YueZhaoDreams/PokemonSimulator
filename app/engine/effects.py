@@ -6,6 +6,31 @@ from typing import Any
 from app.engine.models import Attack
 
 
+_POKEMON_TYPE_WORDS = {
+    "psychic",
+    "darkness",
+    "grass",
+    "fire",
+    "water",
+    "lightning",
+    "fighting",
+    "metal",
+    "fairy",
+    "dragon",
+}
+
+
+def _printed_type_list(fragment: str) -> list[str]:
+    found: list[str] = []
+    for part in re.split(r"\s+or\s+|\s+and\s+|,\s*", fragment):
+        name = part.strip()
+        if name in _POKEMON_TYPE_WORDS:
+            titled = name.title()
+            if titled not in found:
+                found.append(titled)
+    return found
+
+
 _TYPE_GLYPHS = {
     "{g}": "grass",
     "{r}": "fire",
@@ -391,32 +416,37 @@ def parse_ability_effects(text: str) -> list[dict[str, Any]]:
     ):
         effects.append({"kind": "stadium_psychic_cost_less_colorless"})
 
-    # Moonlight Stadium (LOT 188): "The Retreat Cost of each Pokémon in play (both
-    # yours and your opponent's) that has any Psychic or Darkness Energy attached
-    # to it is Colorless less." The older print says that same gate "has no Retreat Cost."
-    # Beach Court has no energy gate. Lunar Zone says "your Pokémon", not both players.
+    # Great Encounters 100: "The Retreat Cost for each Psychic and Darkness Pokémon
+    # (both yours and your opponent's) is 0." The Pokémon's type, both players,
+    # retreat cost 0. No Energy has to be attached.
+    # Beach Court says "each Basic Pokémon" and "Colorless less".
+    # Lunar Zone says "your Pokémon", not both players.
+    typed_zero = re.search(r"retreat cost (?:of|for) each ([a-z ]+?) pokemon\b", t)
+    if (
+        typed_zero
+        and "both yours and your opponent" in t
+        and re.search(r"\bis 0\b", t)
+        and "energy attached" not in t
+    ):
+        poke_types = _printed_type_list(typed_zero.group(1))
+        if poke_types:
+            effects.append(
+                {
+                    "kind": "stadium_retreat_zero",
+                    "pokemon_types": poke_types,
+                    "both_players": True,
+                }
+            )
+
+    # Lost Thunder 188: retreat is Colorless less when any Psychic or Darkness
+    # Energy is attached. An older print of that same gate "has no Retreat Cost."
     retreat_gate = re.search(r"any ([a-z ]+?) energy attached", t)
     if (
         retreat_gate
         and "both yours and your opponent" in t
         and "retreat" in t
     ):
-        types: list[str] = []
-        for part in re.split(r"\s+or\s+|\s+and\s+|,\s*", retreat_gate.group(1)):
-            name = part.strip()
-            if name in {
-                "psychic",
-                "darkness",
-                "grass",
-                "fire",
-                "water",
-                "lightning",
-                "fighting",
-                "metal",
-                "fairy",
-                "dragon",
-            }:
-                types.append(name.title())
+        types = _printed_type_list(retreat_gate.group(1))
         if types and "no retreat cost" in t:
             effects.append(
                 {

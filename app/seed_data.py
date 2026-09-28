@@ -3387,9 +3387,9 @@ _register(
     _trn(
         "Moonlight Stadium",
         "stadium",
-        "The Retreat Cost of each Pokémon in play (both yours and your opponent's) that has any Psychic or Darkness Energy attached to it is Colorless less.",
-        catalog_id="sm8-188",
-        image="https://assets.tcgdex.net/en/sm/sm8/188/low.webp",
+        "The Retreat Cost for each Psychic and Darkness Pokémon (both yours and your opponent's) is 0.",
+        catalog_id="dp4-100",
+        image="https://assets.tcgdex.net/en/dp/dp4/100/low.webp",
     )
 )
 

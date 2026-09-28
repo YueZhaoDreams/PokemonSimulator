@@ -6399,8 +6399,8 @@ class Game:
     def _has_attached_energy_types(self, me: Player, mon: Pokemon, types: list[str]) -> bool:
         """True when an attached Energy card's own type is one of `types`.
 
-        Moonlight Stadium asks for a Psychic or Darkness Energy card, not a
-        Colorless Energy that could be paid as that type.
+        The energy-gated Moonlight Stadium prints ask for a Psychic or Darkness
+        Energy card, not a Colorless Energy that could be paid as that type.
         """
         want = {str(t).title() for t in types}
         for energy_i in mon.energy:
@@ -6409,13 +6409,25 @@ class Game:
                 return True
         return False
 
+    def _retreat_effect_matches(self, me: Player, mon: Pokemon, eff: dict) -> bool:
+        poke = [str(t) for t in (eff.get("pokemon_types") or [])]
+        energy = [str(t) for t in (eff.get("energy_types") or [])]
+        if not poke and not energy:
+            return False
+        if poke:
+            have = {str(t).title() for t in (me.card(mon.card_i).types or [])}
+            if not have.intersection(part.title() for part in poke):
+                return False
+        if energy and not self._has_attached_energy_types(me, mon, energy):
+            return False
+        return True
+
     def _apply_stadium_retreat(self, me: Player, mon: Pokemon, cost: int) -> int:
         for eff in self.stadium_effects or []:
             kind = eff.get("kind")
             if kind not in {"stadium_retreat_less", "stadium_retreat_zero"}:
                 continue
-            types = [str(t) for t in (eff.get("energy_types") or [])]
-            if types and not self._has_attached_energy_types(me, mon, types):
+            if not self._retreat_effect_matches(me, mon, eff):
                 continue
             if kind == "stadium_retreat_zero":
                 return 0
@@ -6427,10 +6439,17 @@ class Game:
             kind = eff.get("kind")
             if kind not in {"stadium_retreat_less", "stadium_retreat_zero"}:
                 continue
-            types = [str(t) for t in (eff.get("energy_types") or [])]
-            if types and not self._has_attached_energy_types(me, mon, types):
+            if self._retreat_effect_matches(me, mon, eff):
+                return True
+        return False
+
+    def _stadium_type_retreat_zero(self, me: Player, mon: Pokemon) -> bool:
+        """Great Encounters Moonlight Stadium: Psychic and Darkness Pokémon retreat for 0."""
+        for eff in self.stadium_effects or []:
+            if eff.get("kind") != "stadium_retreat_zero" or not eff.get("pokemon_types"):
                 continue
-            return True
+            if self._retreat_effect_matches(me, mon, eff):
+                return True
         return False
 
     def _moonlight_early(self, me: Player) -> bool:
@@ -6447,7 +6466,7 @@ class Game:
         """Leave Moonlight Stadium up while the early pivot is still the plan.
 
         Versus Dive, Battle Cage replaces it once Psychic is stacked. Other
-        matchups keep the retreat cut; Cage was the card that can wait.
+        matchups keep the free retreat; Cage was the card that can wait.
         """
         if self.stadium_name != "Moonlight Stadium":
             return False
@@ -8781,10 +8800,12 @@ class Game:
     def _try_moonlight_party_pivot(self, me: Player, foe: Player, who: str) -> bool:
         """Party already fired. Retreat once onto a 1-energy Clefairy and Party again.
 
-        Printed Moonlight Stadium cuts Retreat by [C] only when Psychic or Darkness
-        Energy is already attached, so this spends that energy. It does not play
-        Switch. Versus Dive, Claw, or a ready Demolish, a Switch must still be in
-        hand so the tank line can hide after the second Party.
+        Great Encounters Moonlight Stadium makes each Psychic Pokémon's Retreat
+        Cost 0, so an empty Active Clefairy retreats without discarding Energy
+        and without playing Switch. The energy-gated prints still pay whatever
+        cost is left. Versus Dive, Claw, or a ready Demolish, a Switch must still
+        be in hand so the tank line can hide after the second Party. Lunar Zone
+        alone does not take this path.
         """
         if not me.active or not me.bench or me.retreated:
             return False
@@ -8796,9 +8817,10 @@ class Game:
             return False
         printed = int(me.card(me.active.card_i).retreat or 0)
         cost = self._retreat_cost(me, me.active)
-        if cost <= 0 or cost >= printed:
-            return False
-        if len(me.active.energy) < cost:
+        if self._stadium_type_retreat_zero(me, me.active):
+            if printed <= 0 or cost > 0:
+                return False
+        elif cost <= 0 or cost >= printed or len(me.active.energy) < cost:
             return False
         incoming = self._moonlight_incoming_idx(me)
         if incoming is None:
@@ -8912,7 +8934,7 @@ class Game:
             # the retreat rotating more 60 HP bodies into Slashing Claw.
             if self._is_clefairy(me.card(me.active.card_i)) and not me.active.ability_used:
                 self._moon_watching_party(me, me.active)
-            # Paid Moonlight retreat keeps Switch, so the tank line can still hide.
+            # Free Moonlight retreat keeps Switch, so the tank line can still hide.
             self._try_moonlight_party_pivot(me, foe, who)
             return False
         if self._facing_phantom(me):
@@ -8977,7 +8999,7 @@ class Game:
             # Save the one retreat for the tank whenever Demolish is coming and no Switch is left.
             if threatened and self._best_tank_idx(me) is not None and self._first_named(me, "Switch") is None:
                 break
-            # Moonlight: Party, pay the discounted retreat onto the fueled Clefairy, Party again.
+            # Moonlight: Party, free retreat onto the fueled Clefairy, Party again.
             # Switch stays in hand. A free Lunar Zone retreat still uses the swap below.
             if self._try_moonlight_party_pivot(me, foe, who):
                 break

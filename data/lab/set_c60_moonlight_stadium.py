@@ -2,7 +2,7 @@
 """C60: one Moonlight Stadium in place of one copy of every distinct card.
 
 Live lock is ``SET_C60_NAMES``. Each other row removes exactly one copy of one
-printed name and adds one Moonlight Stadium (LOT 188). Seed 20260926 matches
+printed name and adds one Moonlight Stadium (Great Encounters 100). Seed 20260926 matches
 the Seeker-cut matrix so the lock row can be compared with that Mega→Seeker
 list. 3,000 games / cell. C60 is always player A. LAB_GAMES / LAB_OUT / LAB_ONLY.
 """
@@ -203,6 +203,11 @@ def main() -> None:
         "elapsed": elapsed,
         "rule_preset": "s60",
         "add": "Moonlight Stadium",
+        "catalog_id": "dp4-100",
+        "printed": (
+            "The Retreat Cost for each Psychic and Darkness Pokémon "
+            "(both yours and your opponent's) is 0."
+        ),
         "cuts": {key: CUT_NAME[key] for key in selected if key != "lock"},
         "counts": {name: list(SET_C60_NAMES).count(name) for _key, name in CUTS},
         "foes": [foe for foe, _n, _s in FOES],

@@ -1,46 +1,77 @@
-"""Moonlight Stadium (LOT 188) and the early Clefairy Party pivot."""
+"""Moonlight Stadium (Great Encounters 100) and the early Clefairy Party pivot."""
 
 from random import Random
 
 from app.engine.effects import parse_ability_effects
 from app.engine.game import Game, Pokemon
-from app.engine.models import standard_60_rules
+from app.engine.models import Card, standard_60_rules
 from app.engine.strategies import StrategySpec
 from app.seed_data import SET_C60_NAMES, build_fallback_deck, fallback_named
 
 PRINTED = (
+    "The Retreat Cost for each Psychic and Darkness Pokémon "
+    "(both yours and your opponent's) is 0."
+)
+GLYPH = (
+    "The Retreat Cost for each {P} and {D} Pokémon (both yours and your opponent's) is 0."
+)
+ENERGY_LESS = (
     "The Retreat Cost of each Pokémon in play (both yours and your opponent's) "
     "that has any Psychic or Darkness Energy attached to it is Colorless less."
 )
-OLDER_PRINT = (
+ENERGY_ZERO = (
     "Each Pokémon (both yours and your opponent's) that has any Psychic or Darkness Energy "
     "attached to it has no Retreat Cost."
 )
 
 
-def test_printed_moonlight_stadium_parses_retreat_cut():
+def _stadium(text: str) -> Card:
+    return Card(
+        catalog_id="test-moonlight",
+        name="Moonlight Stadium",
+        category="Trainer",
+        trainer_kind="stadium",
+        text=text,
+    )
+
+
+def test_printed_moonlight_stadium_parses_free_retreat():
     card = fallback_named("Moonlight Stadium")
     assert card.trainer_kind == "stadium"
-    assert card.catalog_id == "sm8-188"
+    assert card.catalog_id == "dp4-100"
+    assert card.image == "https://assets.tcgdex.net/en/dp/dp4/100/low.webp"
     assert card.text == PRINTED
     eff = parse_ability_effects(card.text)[0]
-    assert eff["kind"] == "stadium_retreat_less"
-    assert eff["less"] == 1
-    assert eff["energy_types"] == ["Psychic", "Darkness"]
+    assert eff["kind"] == "stadium_retreat_zero"
+    assert eff["pokemon_types"] == ["Psychic", "Darkness"]
+    assert eff.get("energy_types") is None
     assert eff["both_players"] is True
-    zero = parse_ability_effects(OLDER_PRINT)[0]
+    glyph = parse_ability_effects(GLYPH)[0]
+    assert glyph["kind"] == "stadium_retreat_zero"
+    assert glyph["pokemon_types"] == ["Psychic", "Darkness"]
+    less = parse_ability_effects(ENERGY_LESS)[0]
+    assert less["kind"] == "stadium_retreat_less"
+    assert less["less"] == 1
+    assert less["energy_types"] == ["Psychic", "Darkness"]
+    zero = parse_ability_effects(ENERGY_ZERO)[0]
     assert zero["kind"] == "stadium_retreat_zero"
     assert zero["energy_types"] == ["Psychic", "Darkness"]
+    assert "pokemon_types" not in zero
     beach = parse_ability_effects(fallback_named("Beach Court").text)
-    assert all(e.get("kind") != "stadium_retreat_less" for e in beach)
+    assert all(e.get("kind") not in {"stadium_retreat_less", "stadium_retreat_zero"} for e in beach)
     zone = next(a.text for a in fallback_named("Clefable ex").abilities if "lunar zone" in a.name.lower())
     assert all(e.get("kind") != "stadium_retreat_zero" for e in parse_ability_effects(zone))
+    basic_zero = (
+        "The Retreat Cost of each Basic Pokémon in play (both yours and your opponent's) is 0."
+    )
+    assert all(e.get("kind") != "stadium_retreat_zero" for e in parse_ability_effects(basic_zero))
 
 
 def _names() -> list[str]:
     return (
         ["Clefairy"] * 4
-        + ["Mewtwo ex", "Switch", "Battle Cage", "Moonlight Stadium", "Double Colorless Energy", "Darkness Energy"]
+        + ["Mewtwo ex", "Clefable ex", "Fezandipiti ex", "Switch", "Battle Cage", "Moonlight Stadium"]
+        + ["Double Colorless Energy", "Darkness Energy"]
         + ["Psychic Energy"] * 8
         + ["Hop"] * 13
     )
@@ -63,7 +94,7 @@ def _idxs(player, name: str) -> list[int]:
     return [i for i, card in enumerate(player.cards) if card.name == name]
 
 
-def test_retreat_cost_follows_the_printed_energy_gate():
+def test_retreat_cost_is_zero_for_psychic_and_darkness_pokemon():
     game = _game()
     me = game.players["a"]
     foe = game.players["b"]
@@ -75,18 +106,46 @@ def test_retreat_cost_follows_the_printed_energy_gate():
     paid = Pokemon(card_i=clef, energy=[psychic[0]])
     dark = Pokemon(card_i=clef, energy=[darkness])
     colorless = Pokemon(card_i=clef, energy=[dce])
-    assert game._retreat_cost(me, paid) == 2
+    mewtwo = Pokemon(card_i=_idxs(me, "Mewtwo ex")[0], energy=[psychic[1]])
+    fez = Pokemon(card_i=_idxs(me, "Fezandipiti ex")[0])
+    assert game._retreat_cost(me, bare) == 2
     game._set_stadium(fallback_named("Moonlight Stadium"))
+    assert game._retreat_cost(me, bare) == 0
+    assert game._retreat_cost(me, colorless) == 0
+    assert game._retreat_cost(me, paid) == 0
+    assert game._retreat_cost(me, dark) == 0
+    assert me.card(mewtwo.card_i).types == ["Lightning"]
+    assert game._retreat_cost(me, mewtwo) == 2
+    assert me.card(fez.card_i).types == ["Darkness"]
+    assert me.card(fez.card_i).retreat == 1
+    assert game._retreat_cost(me, fez) == 0
+    foe_clef = _idxs(foe, "Clefairy")[0]
+    foe.active = Pokemon(card_i=foe_clef)
+    assert game._retreat_cost(foe, foe.active) == 0
+    pult = Pokemon(card_i=_idxs(foe, "Dragapult ex")[0])
+    assert foe.card(pult.card_i).types == ["Dragon"]
+    assert foe.card(pult.card_i).retreat == 1
+    assert game._retreat_cost(foe, pult) == 1
+    game._set_stadium(fallback_named("Beach Court"))
+    assert game._retreat_cost(me, paid) == 1
+
+
+def test_energy_gated_prints_still_need_psychic_or_darkness_energy():
+    game = _game()
+    me = game.players["a"]
+    clef = _idxs(me, "Clefairy")[0]
+    psychic = _idxs(me, "Psychic Energy")[0]
+    dce = _idxs(me, "Double Colorless Energy")[0]
+    bare = Pokemon(card_i=clef)
+    paid = Pokemon(card_i=clef, energy=[psychic])
+    colorless = Pokemon(card_i=clef, energy=[dce])
+    game._set_stadium(_stadium(ENERGY_LESS))
     assert game._retreat_cost(me, bare) == 2
     assert game._retreat_cost(me, colorless) == 2
     assert game._retreat_cost(me, paid) == 1
-    assert game._retreat_cost(me, dark) == 1
-    foe_clef = _idxs(foe, "Clefairy")[0]
-    foe_pay = _idxs(foe, "Psychic Energy")[0]
-    foe.active = Pokemon(card_i=foe_clef, energy=[foe_pay])
-    assert game._retreat_cost(foe, foe.active) == 1
-    game._set_stadium(fallback_named("Beach Court"))
-    assert game._retreat_cost(me, paid) == 1
+    game._set_stadium(_stadium(ENERGY_ZERO))
+    assert game._retreat_cost(me, bare) == 2
+    assert game._retreat_cost(me, paid) == 0
 
 
 def _arm(game: Game, *, energy_on_active: bool, switch: bool) -> tuple:
@@ -114,10 +173,10 @@ def _arm(game: Game, *, energy_on_active: bool, switch: bool) -> tuple:
     return me, clefs
 
 
-def test_party_pivot_retreats_onto_one_energy_clefairy_then_attaches():
+def test_empty_active_parties_retreats_free_then_attaches():
     game = _game()
     game._set_stadium(fallback_named("Moonlight Stadium"))
-    me, clefs = _arm(game, energy_on_active=True, switch=False)
+    me, _clefs = _arm(game, energy_on_active=False, switch=False)
     leaving = me.active
     game._use_abilities(me, game.players["b"], "a")
     assert game.events.get("moonlight_party_pivot") == 1
@@ -127,18 +186,31 @@ def test_party_pivot_retreats_onto_one_energy_clefairy_then_attaches():
     assert me.card(me.active.card_i).name == "Clefairy"
     assert len(me.active.energy) == 1
     assert me.active.ability_used is True
-    # The Clefairy that retreated is back on the bench with the second Party's energy.
     assert any(mon is leaving and len(mon.energy) == 1 for mon in me.bench)
-    assert len(me.discard) == 1
+    assert me.discard == []
+    assert not any(me.card(i).name == "Switch" for i in me.discard)
     game._attach_energy(me, "a")
     assert len(me.active.energy) == 2
     assert me.card(me.active.energy[-1]).name == "Psychic Energy"
     assert all(mon.card_i != _idxs(me, "Mewtwo ex")[0] or not mon.energy for mon in me.bench)
 
 
+def test_pivot_keeps_energy_already_on_the_active():
+    game = _game()
+    game._set_stadium(fallback_named("Moonlight Stadium"))
+    me, _clefs = _arm(game, energy_on_active=True, switch=True)
+    leaving = me.active
+    game._use_abilities(me, game.players["b"], "a")
+    assert game.events.get("moonlight_party_pivot") == 1
+    assert me.discard == []
+    assert any(me.card(i).name == "Switch" for i in me.hand)
+    assert any(mon is leaving and len(mon.energy) == 2 for mon in me.bench)
+    assert len(me.active.energy) == 1
+
+
 def test_without_stadium_one_energy_does_not_buy_a_second_party():
     game = _game()
-    me, clefs = _arm(game, energy_on_active=True, switch=False)
+    me, _clefs = _arm(game, energy_on_active=True, switch=False)
     active_i = me.active.card_i
     game._use_abilities(me, game.players["b"], "a")
     assert game.events.get("moonlight_party_pivot") is None
@@ -147,19 +219,18 @@ def test_without_stadium_one_energy_does_not_buy_a_second_party():
     assert game.events.get("party_energy") == 2
 
 
-def test_empty_active_cannot_pivot_until_it_has_psychic_or_darkness():
+def test_lunar_zone_alone_does_not_use_the_stadium_pivot():
     game = _game()
-    game._set_stadium(fallback_named("Moonlight Stadium"))
-    me, _clefs = _arm(game, energy_on_active=False, switch=False)
+    me, _clefs = _arm(game, energy_on_active=True, switch=False)
+    me.bench.append(Pokemon(card_i=_idxs(me, "Clefable ex")[0], played_turn=0))
     game._use_abilities(me, game.players["b"], "a")
-    assert me.retreated is False
     assert game.events.get("moonlight_party_pivot") is None
 
 
 def test_phantom_pivot_keeps_switch_for_the_tank():
     game = _game("phantom")
     game._set_stadium(fallback_named("Moonlight Stadium"))
-    me, _clefs = _arm(game, energy_on_active=True, switch=True)
+    me, _clefs = _arm(game, energy_on_active=False, switch=True)
     game._use_abilities(me, game.players["b"], "a")
     assert game.events.get("moonlight_party_pivot") == 1
     assert any(me.card(i).name == "Switch" for i in me.hand)
@@ -177,7 +248,7 @@ def test_phantom_pivot_keeps_switch_for_the_tank():
 def test_phantom_without_switch_does_not_strand_clefairy():
     game = _game("phantom")
     game._set_stadium(fallback_named("Moonlight Stadium"))
-    me, _clefs = _arm(game, energy_on_active=True, switch=False)
+    me, _clefs = _arm(game, energy_on_active=False, switch=False)
     active_i = me.active.card_i
     game._use_abilities(me, game.players["b"], "a")
     assert me.retreated is False
@@ -226,8 +297,15 @@ def test_moonlight_swap_matrix_keeps_the_lock():
     )
     assert blob["games"] == 3000
     assert blob["seed"] == 20260926
+    assert blob["catalog_id"] == "dp4-100"
+    assert blob["printed"] == PRINTED
     assert set(blob["cells"]) == {"lock", *blob["cuts"]}
-    assert blob["weighted_competitive"]["lock"] == max(blob["weighted_competitive"].values())
-    assert blob["weighted_all"]["lock"] == max(blob["weighted_all"].values())
+    wcomp = blob["weighted_competitive"]
+    assert max(wcomp, key=wcomp.get) == "ultra"
     t60 = {key: row["t60"]["a"] for key, row in blob["cells"].items()}
-    assert t60["lock"] == max(t60.values())
+    assert max(t60, key=t60.get) == "lock"
+    lock = blob["cells"]["lock"]
+    for key, row in blob["cells"].items():
+        if key == "lock":
+            continue
+        assert not all(row[foe]["a"] > lock[foe]["a"] for foe in ("t60", "hedrick", "d60"))
