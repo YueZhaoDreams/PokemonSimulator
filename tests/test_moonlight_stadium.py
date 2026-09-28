@@ -6,7 +6,12 @@ from app.engine.effects import parse_ability_effects
 from app.engine.game import Game, Pokemon
 from app.engine.models import Card, standard_60_rules
 from app.engine.strategies import StrategySpec
-from app.seed_data import SET_C60_NAMES, build_fallback_deck, fallback_named
+from app.seed_data import (
+    SET_C60_NAMES,
+    build_fallback_deck,
+    c60_names_before_second_moonlight,
+    fallback_named,
+)
 
 PRINTED = (
     "The Retreat Cost for each Psychic and Darkness Pokémon "
@@ -319,9 +324,9 @@ def test_non_phantom_does_not_bump_moonlight_with_cage():
     assert game._pick_trainer(me) is None
 
 
-def test_live_c60_swaps_one_ultra_ball_for_moonlight():
-    assert SET_C60_NAMES.count("Moonlight Stadium") == 1
-    assert SET_C60_NAMES.count("Ultra Ball") == 1
+def test_live_c60_has_two_moonlight_stadiums():
+    assert SET_C60_NAMES.count("Moonlight Stadium") == 2
+    assert SET_C60_NAMES.count("Ultra Ball") == 0
     assert len(SET_C60_NAMES) == 60
 
 
@@ -343,6 +348,66 @@ def test_moonlight_swap_matrix_keeps_the_lock():
     assert max(t60, key=t60.get) == "lock"
     lock = blob["cells"]["lock"]
     for key, row in blob["cells"].items():
+        if key == "lock":
+            continue
+        assert not all(row[foe]["a"] > lock[foe]["a"] for foe in ("t60", "hedrick", "d60"))
+
+
+def test_second_moonlight_matrix_prefers_the_last_ultra_ball():
+    import json
+    from pathlib import Path
+
+    blob = json.loads(
+        (Path(__file__).resolve().parents[1] / "data/lab/set-c60-moonlight-second.json").read_text()
+    )
+    assert blob["games"] == 3000
+    assert blob["seed"] == 20260926
+    assert blob["stadium_copies"] == 2
+    assert blob["catalog_id"] == "dp4-100"
+    assert blob["printed"] == PRINTED
+    assert set(blob["cells"]) == {"lock", *blob["cuts"]}
+    assert blob["lists"]["lock"] == c60_names_before_second_moonlight()
+    ultra = blob["lists"]["ultra"]
+    assert ultra.count("Moonlight Stadium") == 2
+    assert ultra.count("Ultra Ball") == 0
+    assert len(ultra) == 60
+    wcomp = blob["weighted_competitive"]
+    wall = blob["weighted_all"]
+    assert max(wcomp, key=wcomp.get) == "ultra"
+    assert max(wall, key=wall.get) == "ultra"
+    cells = blob["cells"]
+    assert max(cells, key=lambda key: cells[key]["t60"]["a"]) == "ultra"
+    assert max(cells, key=lambda key: cells[key]["hedrick"]["a"]) == "ultra"
+    assert max(cells, key=lambda key: cells[key]["d60"]["a"]) == "lock"
+    lock = cells["lock"]
+    for key, row in cells.items():
+        if key == "lock":
+            continue
+        assert not all(row[foe]["a"] > lock[foe]["a"] for foe in ("t60", "hedrick", "d60"))
+
+
+def test_third_moonlight_matrix_keeps_two_copies():
+    import json
+    from pathlib import Path
+
+    blob = json.loads(
+        (Path(__file__).resolve().parents[1] / "data/lab/set-c60-moonlight-3.json").read_text()
+    )
+    assert blob["games"] == 3000
+    assert blob["seed"] == 20260926
+    assert blob["lock_copies"] == 2
+    assert blob["stadium_copies"] == 3
+    assert blob["catalog_id"] == "dp4-100"
+    assert blob["printed"] == PRINTED
+    assert blob["lists"]["lock"] == list(SET_C60_NAMES)
+    assert blob["lists"]["lock"].count("Moonlight Stadium") == 2
+    assert set(blob["cells"]) == {"lock", *blob["cuts"]}
+    wcomp = blob["weighted_competitive"]
+    assert max(wcomp, key=wcomp.get) == "lock"
+    assert all(value <= wcomp["lock"] for value in wcomp.values())
+    cells = blob["cells"]
+    lock = cells["lock"]
+    for key, row in cells.items():
         if key == "lock":
             continue
         assert not all(row[foe]["a"] > lock[foe]["a"] for foe in ("t60", "hedrick", "d60"))
