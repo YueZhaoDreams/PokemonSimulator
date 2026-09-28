@@ -384,3 +384,30 @@ def test_second_moonlight_matrix_prefers_the_last_ultra_ball():
         if key == "lock":
             continue
         assert not all(row[foe]["a"] > lock[foe]["a"] for foe in ("t60", "hedrick", "d60"))
+
+
+def test_third_moonlight_matrix_keeps_two_copies():
+    import json
+    from pathlib import Path
+
+    blob = json.loads(
+        (Path(__file__).resolve().parents[1] / "data/lab/set-c60-moonlight-3.json").read_text()
+    )
+    assert blob["games"] == 3000
+    assert blob["seed"] == 20260926
+    assert blob["lock_copies"] == 2
+    assert blob["stadium_copies"] == 3
+    assert blob["catalog_id"] == "dp4-100"
+    assert blob["printed"] == PRINTED
+    assert blob["lists"]["lock"] == list(SET_C60_NAMES)
+    assert blob["lists"]["lock"].count("Moonlight Stadium") == 2
+    assert set(blob["cells"]) == {"lock", *blob["cuts"]}
+    wcomp = blob["weighted_competitive"]
+    assert max(wcomp, key=wcomp.get) == "lock"
+    assert all(value <= wcomp["lock"] for value in wcomp.values())
+    cells = blob["cells"]
+    lock = cells["lock"]
+    for key, row in cells.items():
+        if key == "lock":
+            continue
+        assert not all(row[foe]["a"] > lock[foe]["a"] for foe in ("t60", "hedrick", "d60"))
