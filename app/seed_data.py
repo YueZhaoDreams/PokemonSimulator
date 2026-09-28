@@ -150,6 +150,9 @@ C60_CAGE_LOCK_NAMES = (
 # (G 61.0), Ultra Ball 71.1, Metronome Clefable 70.8.
 # Locked 2026-09-26: the one Mega Clefable ex becomes Seeker.
 # See data/lab/set-c60-seeker-cuts.md.
+# Locked 2026-09-28: one Ultra Ball becomes Great Encounters Moonlight Stadium
+# (dp4-100, Psychic and Darkness Pokémon retreat for 0). wComp 72.7 vs 72.0
+# on seed 20260926, 3,000 games. See data/lab/set-c60-moonlight-stadium.md.
 SET_C60_NAMES = (
     ["Clefairy"] * 4
     + ["Mewtwo ex"] * 3
@@ -159,7 +162,8 @@ SET_C60_NAMES = (
     + ["Seeker"]
     + ["Nest Ball"] * 4
     + ["Buddy-Buddy Poffin"] * 4
-    + ["Ultra Ball"] * 2
+    + ["Ultra Ball"]
+    + ["Moonlight Stadium"]
     + ["Hop"] * 2
     + ["Lillie"] * 2
     + ["Lillie's Determination"] * 2
@@ -177,9 +181,19 @@ SET_C60_NAMES = (
 )
 
 
+def c60_names_before_moonlight() -> list[str]:
+    """The 60 measured before one Ultra Ball became Moonlight Stadium."""
+    names = list(SET_C60_NAMES)
+    found = names.count("Moonlight Stadium")
+    if found != 1:
+        raise RuntimeError(f"expected one Moonlight Stadium in SET_C60_NAMES, found {found}")
+    names[names.index("Moonlight Stadium")] = "Ultra Ball"
+    return names
+
+
 def c60_names_before_seeker() -> tuple[str, ...]:
     """The measured 60 before Mega Clefable ex became Seeker, same card order."""
-    names = list(SET_C60_NAMES)
+    names = c60_names_before_moonlight()
     names[names.index("Seeker")] = "Mega Clefable ex"
     return tuple(names)
 
@@ -3381,6 +3395,15 @@ _register(
         "Prevent all damage counters from being placed on Benched Pokémon (both yours and your opponent's) by effects of attacks and Abilities from the opponent's Pokémon. (Damage from attacks is still taken.)",
         catalog_id="me02-085",
         image="https://assets.tcgdex.net/en/me/me02/085/low.webp",
+    )
+)
+_register(
+    _trn(
+        "Moonlight Stadium",
+        "stadium",
+        "The Retreat Cost for each Psychic and Darkness Pokémon (both yours and your opponent's) is 0.",
+        catalog_id="dp4-100",
+        image="https://assets.tcgdex.net/en/dp/dp4/100/low.webp",
     )
 )
 

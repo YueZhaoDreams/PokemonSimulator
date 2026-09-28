@@ -56,6 +56,7 @@ TRAINER_KIND_HINTS = {
     "maximum belt": "item",
     "bravery charm": "item",
     "beach court": "stadium",
+    "moonlight stadium": "stadium",
     "arven": "supporter",
     "acerola": "supporter",
     "ultra ball": "item",
@@ -120,6 +121,7 @@ PREFERRED_IDS = {
     "Litwick": "swsh11-024",  # Kindling Panic — mill opponent deck
     "Oddish": "swsh12.5-001",
     "Clefairy": "swsh11-062",
+    "Moonlight Stadium": "dp4-100",
     "Clefable": "swsh2-75",
     "Clefable ex": "sv03-082",
     "Mega Clefable ex": "me03-031",
@@ -769,7 +771,7 @@ def _looks_like_tcgdex_id(card_id: str) -> bool:
     if "-" not in card_id:
         return False
     series = card_id.split("-", 1)[0].lower()
-    return series.startswith(("sv", "swsh", "sm", "xy", "me", "base", "pl", "30th"))
+    return series.startswith(("sv", "swsh", "sm", "xy", "me", "base", "pl", "dp", "30th"))
 
 
 def _tcgdex_low(card_id: str) -> str:
@@ -784,6 +786,8 @@ def _tcgdex_low(card_id: str) -> str:
         folder = "me"
     elif series.startswith("pl"):
         folder = "pl"
+    elif series.startswith("dp"):
+        folder = "dp"
     else:
         folder = series
     return f"https://assets.tcgdex.net/en/{folder}/{series}/{number}/low.webp"

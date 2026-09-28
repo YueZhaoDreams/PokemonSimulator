@@ -74,6 +74,7 @@ def test_ex_and_energy_cuts_leave_two_ex_and_thirteen_psychic():
     assert SET_C60_NAMES.count("Seeker") == 1
     paid = list(LAB.pad_plus_clc("Mega Clefable ex"))
     paid[paid.index("Mega Clefable ex")] = "Seeker"
+    paid[paid.index("Ultra Ball")] = "Moonlight Stadium"
     assert Counter(SET_C60_NAMES) == Counter(paid)
 
 
