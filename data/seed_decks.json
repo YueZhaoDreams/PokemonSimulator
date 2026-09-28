@@ -10728,10 +10728,10 @@
         "dex_id": null
       },
       {
-        "catalog_id": "sv04.5-091",
-        "name": "Ultra Ball",
+        "catalog_id": "dp4-100",
+        "name": "Moonlight Stadium",
         "category": "Trainer",
-        "stage": "Item",
+        "stage": "Stadium",
         "types": [],
         "hp": 0,
         "attacks": [],
@@ -10740,11 +10740,11 @@
         "resistances": [],
         "retreat": 0,
         "evolves_from": null,
-        "trainer_kind": "item",
+        "trainer_kind": "stadium",
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv04.5/091/low.webp",
+        "image": "https://assets.tcgdex.net/en/dp/dp4/100/low.webp",
         "set_name": null,
-        "text": "Discard 2 cards from your hand. Search your deck for a Pok\u00e9mon.",
+        "text": "The Retreat Cost for each Psychic and Darkness Pok\u00e9mon (both yours and your opponent's) is 0.",
         "dex_id": null
       },
       {

@@ -284,8 +284,10 @@ def test_non_phantom_does_not_bump_moonlight_with_cage():
     assert game._pick_trainer(me) is None
 
 
-def test_live_c60_has_no_moonlight_until_a_cut_wins():
-    assert "Moonlight Stadium" not in SET_C60_NAMES
+def test_live_c60_swaps_one_ultra_ball_for_moonlight():
+    assert SET_C60_NAMES.count("Moonlight Stadium") == 1
+    assert SET_C60_NAMES.count("Ultra Ball") == 1
+    assert len(SET_C60_NAMES) == 60
 
 
 def test_moonlight_swap_matrix_keeps_the_lock():

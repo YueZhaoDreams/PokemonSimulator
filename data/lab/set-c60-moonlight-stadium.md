@@ -8,7 +8,7 @@ Script: `data/lab/set_c60_moonlight_stadium.py`
 Raw: `data/lab/set-c60-moonlight-stadium.json`
 Elapsed: 1617s
 
-The lock is the live list (`SET_C60_NAMES`). Every other row removes exactly one copy of one printed name and adds one Moonlight Stadium (Great Encounters 100, `dp4-100`).
+The lock in this table is `c60_names_before_moonlight` (2 Ultra Ball, no stadium). Every other row removes exactly one copy of one printed name from that list and adds one Moonlight Stadium (Great Encounters 100, `dp4-100`). The live list is the Ultra Ball row.
 
 Printed text: "The Retreat Cost for each Psychic and Darkness Pokémon (both yours and your opponent's) is 0."
 
@@ -92,5 +92,5 @@ On the rows that include the stadium, the Party pivot shows up in 70–149 of 3,
 
 ## Conclusion
 
-Keep the live C60 list. Moonlight Stadium stays available for any list that actually includes the stadium. It does not earn a slot in `SET_C60_NAMES`.
+Locked 2026-09-28: `SET_C60_NAMES` is this matrix's Ultra Ball row. One Ultra Ball leaves, and one Great Encounters Moonlight Stadium (`dp4-100`) takes that slot. `wComp` is 72.7% against the previous list's 72.0%. T60 is 72.6% against 73.4%. Hedrick is 69.1% against 66.8%. D60 is 78.1% against 78.0%.
 
