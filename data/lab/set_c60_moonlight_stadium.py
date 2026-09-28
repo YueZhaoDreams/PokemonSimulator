@@ -92,7 +92,7 @@ def swap_one(cut: str) -> list[str]:
     if names.count("Moonlight Stadium") != 0:
         raise RuntimeError("measured lock already contains Moonlight Stadium")
     if names.count(cut) < 1:
-        raise RuntimeError(f"live lock has no {cut}")
+        raise RuntimeError(f"measured lock has no {cut}")
     names.remove(cut)
     names.append("Moonlight Stadium")
     if len(names) != 60:

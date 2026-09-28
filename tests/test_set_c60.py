@@ -8,6 +8,7 @@ from app.engine.strategies import StrategySpec
 from app.seed_data import (
     SET_C_NAMES,
     SET_C60_NAMES,
+    c60_names_before_moonlight,
     SET_D60_NAMES,
     SET_G_NAMES,
     SET_H_NAMES,
@@ -46,6 +47,10 @@ def test_set_c60_is_standard_sixty_with_psychic_energy():
     assert names.count("Buddy-Buddy Poffin") == 4
     assert names.count("Ultra Ball") == 1
     assert names.count("Moonlight Stadium") == 1
+    before = c60_names_before_moonlight()
+    assert len(before) == 60
+    assert before.count("Ultra Ball") == 2
+    assert before.count("Moonlight Stadium") == 0
     assert names.count("Boss's Orders") == 3
     assert names.count("Maximum Belt") == 1
     assert names.count("Tool Box") == 0

@@ -184,6 +184,9 @@ SET_C60_NAMES = (
 def c60_names_before_moonlight() -> list[str]:
     """The 60 measured before one Ultra Ball became Moonlight Stadium."""
     names = list(SET_C60_NAMES)
+    found = names.count("Moonlight Stadium")
+    if found != 1:
+        raise RuntimeError(f"expected one Moonlight Stadium in SET_C60_NAMES, found {found}")
     names[names.index("Moonlight Stadium")] = "Ultra Ball"
     return names
 
