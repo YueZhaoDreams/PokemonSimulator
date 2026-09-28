@@ -8817,10 +8817,11 @@ class Game:
             return False
         printed = int(me.card(me.active.card_i).retreat or 0)
         cost = self._retreat_cost(me, me.active)
-        if self._stadium_type_retreat_zero(me, me.active):
-            if printed <= 0 or cost > 0:
-                return False
-        elif cost <= 0 or cost >= printed or len(me.active.energy) < cost:
+        # Cost 0 is a legal retreat: the Great Encounters type gate, or an
+        # energy-gated print that says "no Retreat Cost" once that Energy is
+        # attached. A print that only cuts [C] still pays whatever is left.
+        # Lunar Zone alone never reaches here.
+        if printed <= 0 or cost >= printed or len(me.active.energy) < cost:
             return False
         incoming = self._moonlight_incoming_idx(me)
         if incoming is None:

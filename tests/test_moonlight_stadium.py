@@ -195,6 +195,41 @@ def test_empty_active_parties_retreats_free_then_attaches():
     assert all(mon.card_i != _idxs(me, "Mewtwo ex")[0] or not mon.energy for mon in me.bench)
 
 
+def test_energy_gated_zero_print_pivots_without_discarding():
+    game = _game()
+    game._set_stadium(_stadium(ENERGY_ZERO))
+    me, _clefs = _arm(game, energy_on_active=True, switch=True)
+    leaving = me.active
+    game._use_abilities(me, game.players["b"], "a")
+    assert game.events.get("moonlight_party_pivot") == 1
+    assert me.discard == []
+    assert any(me.card(i).name == "Switch" for i in me.hand)
+    assert any(mon is leaving and len(mon.energy) == 2 for mon in me.bench)
+
+
+def test_energy_gated_zero_print_does_not_pivot_an_empty_active():
+    game = _game()
+    game._set_stadium(_stadium(ENERGY_ZERO))
+    me, _clefs = _arm(game, energy_on_active=False, switch=False)
+    active_i = me.active.card_i
+    game._use_abilities(me, game.players["b"], "a")
+    assert game.events.get("moonlight_party_pivot") is None
+    assert me.retreated is False
+    assert me.active.card_i == active_i
+
+
+def test_energy_gated_less_print_pays_the_energy_that_remains():
+    game = _game()
+    game._set_stadium(_stadium(ENERGY_LESS))
+    me, _clefs = _arm(game, energy_on_active=True, switch=True)
+    leaving = me.active
+    game._use_abilities(me, game.players["b"], "a")
+    assert game.events.get("moonlight_party_pivot") == 1
+    assert len(me.discard) == 1
+    assert any(me.card(i).name == "Switch" for i in me.hand)
+    assert any(mon is leaving and len(mon.energy) == 1 for mon in me.bench)
+
+
 def test_pivot_keeps_energy_already_on_the_active():
     game = _game()
     game._set_stadium(fallback_named("Moonlight Stadium"))
