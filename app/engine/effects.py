@@ -266,8 +266,19 @@ def parse_ability_effects(text: str) -> list[dict[str, Any]]:
             }
         )
 
+    # Iron Thorns ex Initialization: Rule Box Pokémon in play have no Abilities.
+    # Checked before Midnight Fluttering so "have no Abilities" is not that lock.
+    if "no abilities" in t and "rule box" in t:
+        except_trait = "future" if "except for future" in t else None
+        effects.append(
+            {
+                "kind": "suppress_rulebox_abilities",
+                "except_trait": except_trait,
+                "require_active": "in the active spot" in t,
+            }
+        )
     # Flutter Mane Midnight Fluttering: opponent's Active has no Abilities.
-    if "has no abilities" in t and "active" in t:
+    elif "has no abilities" in t and "active" in t:
         effects.append({"kind": "suppress_opponent_active_abilities"})
 
     # Dudunsparce Run Away Draw: draw N, then shuffle this Pokémon into the deck.

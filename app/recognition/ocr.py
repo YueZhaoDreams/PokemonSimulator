@@ -65,6 +65,8 @@ PHRASE_HINTS = {
     "spooky balloon": "Drifblim",
     "triple spin": "Drifloon",
     "adjusted horn": "Iron Boulder",
+    "initialization": "Iron Thorns ex",
+    "volt cyclone": "Iron Thorns ex",
     "super psy bolt": "Mewtwo",
     "dede-flash": "Dedenne",
     "deli-flash": "Dedenne",

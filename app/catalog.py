@@ -140,6 +140,7 @@ PREFERRED_IDS = {
     "Drifloon": "swsh10-063",
     "Drifblim": "swsh10-064",
     "Iron Boulder": "sv07-071",
+    "Iron Thorns ex": "sv05-077",
     "Dedenne": "swsh9-067",
     "Energy Switch": "swsh12.5-129",
     "Poké Ball": "swsh3.5-59",

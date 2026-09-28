@@ -3317,6 +3317,8 @@ class Game:
             self._log(f"Risky Ruins puts {dmg} on {card.name}")
 
     def _try_last_ditch_catch(self, me: Player, mon: Pokemon) -> None:
+        if self._abilities_suppressed(me, mon):
+            return
         for abi in me.card(mon.card_i).abilities:
             for eff in self._ability_effects(abi):
                 if eff.get("kind") != "search_supporter_on_bench":
@@ -3489,7 +3491,10 @@ class Game:
             foe = self.players.get("b" if who == "a" else "a")
             foe_has_stance = foe is not None and any(
                 "cornerstone" in foe.card(m.card_i).name.lower()
-                or (me.active and self._stance_prevents(me.card(me.active.card_i), foe.card(m.card_i)))
+                or (
+                    me.active
+                    and self._stance_prevents(me.card(me.active.card_i), foe.card(m.card_i), foe, m)
+                )
                 for m in foe.in_play()
             )
 
@@ -5098,7 +5103,7 @@ class Game:
             if can_pay_energy(self._energy_pool(me, me.active), ["Fire", "Psychic"]):
                 return False
         for mon in me.in_play():
-            if mon.ability_used:
+            if mon.ability_used or self._abilities_suppressed(me, mon):
                 continue
             card = me.card(mon.card_i)
             for abi in card.abilities:
@@ -6279,11 +6284,14 @@ class Game:
         ):
             ov = foe.active.weakness_override
             return [{"type": ov.get("type") or "Colorless", "value": ov.get("value") or "×2"}]
+        blocks_ability_effects = self._ability_blocks_ability_effects(defender)
         if (
-            self._is_dragon(defender)
-            and self._fairy_zone_in_play(me)
-            and not self._ability_blocks_ability_effects(defender)
+            foe.active
+            and foe.card(foe.active.card_i) is defender
+            and self._abilities_suppressed(foe, foe.active)
         ):
+            blocks_ability_effects = False
+        if self._is_dragon(defender) and self._fairy_zone_in_play(me) and not blocks_ability_effects:
             return [{"type": "Psychic", "value": "×2"}]
         return list(defender.weaknesses or [])
 
@@ -6362,6 +6370,8 @@ class Game:
 
     def _has_lunar_zone(self, me: Player) -> bool:
         for mon in me.in_play():
+            if self._abilities_suppressed(me, mon):
+                continue
             for abi in me.card(mon.card_i).abilities:
                 if "lunar zone" in (abi.name or "").lower():
                     return True
@@ -6474,7 +6484,19 @@ class Game:
             return True
         return self._moonlight_early(me)
 
-    def _stance_prevents(self, attacker: Card, defender: Card) -> bool:
+    def _stance_prevents(
+        self,
+        attacker: Card,
+        defender: Card,
+        defender_owner: Player | None = None,
+        defender_mon: Pokemon | None = None,
+    ) -> bool:
+        if (
+            defender_owner is not None
+            and defender_mon is not None
+            and self._abilities_suppressed(defender_owner, defender_mon)
+        ):
+            return False
         stance = any(
             "cornerstone stance" in (a.name or "").lower()
             or ("prevent all damage" in (a.text or "").lower() and "ability" in (a.text or "").lower())
@@ -6628,7 +6650,7 @@ class Game:
             shield = int(foe.active.reduce_damage_next_turn or 0)
             if shield:
                 dmg = max(0, dmg - shield)
-            if self._stance_prevents(attacker, defender):
+            if self._stance_prevents(attacker, defender, foe, foe.active):
                 self._bump("stance_block")
                 return 0
             if foe.active.prevent_basic_damage and attacker.is_basic:
@@ -7056,6 +7078,10 @@ class Game:
         return True
 
     def _abilities_suppressed(self, owner: Player, mon: Pokemon) -> bool:
+        """Continuous locks: Midnight Fluttering, or Initialization while that Pokémon is Active."""
+        return self._flutter_mane_suppresses(owner, mon) or self._rulebox_abilities_suppressed(owner, mon)
+
+    def _flutter_mane_suppresses(self, owner: Player, mon: Pokemon) -> bool:
         """Flutter Mane: opponent's Active Pokémon has no Abilities."""
         if mon is not owner.active:
             return False
@@ -7065,6 +7091,28 @@ class Game:
         for abi in foe.card(foe.active.card_i).abilities:
             if any(e.get("kind") == "suppress_opponent_active_abilities" for e in self._ability_effects(abi)):
                 return True
+        return False
+
+    def _rulebox_abilities_suppressed(self, owner: Player, mon: Pokemon) -> bool:
+        """Initialization: Rule Box Pokémon in play have no Abilities, except the printed trait."""
+        card = owner.card(mon.card_i)
+        if not self._has_rule_box(card):
+            return False
+        traits = {str(t).lower() for t in (card.traits or [])}
+        for player in self.players.values():
+            for source in player.in_play():
+                if self._flutter_mane_suppresses(player, source):
+                    continue
+                for abi in player.card(source.card_i).abilities:
+                    for eff in self._ability_effects(abi):
+                        if eff.get("kind") != "suppress_rulebox_abilities":
+                            continue
+                        if eff.get("require_active") and source is not player.active:
+                            continue
+                        except_trait = str(eff.get("except_trait") or "").lower()
+                        if except_trait and except_trait in traits:
+                            continue
+                        return True
         return False
 
     def _party_engines(self, me: Player) -> list[Pokemon]:
@@ -7111,6 +7159,8 @@ class Game:
     def _foe_has_stance(self, me: Player) -> bool:
         foe = self.players["b" if me.name == "A" else "a"]
         for mon in foe.in_play():
+            if self._abilities_suppressed(foe, mon):
+                continue
             if any("cornerstone stance" in (a.name or "").lower() for a in foe.card(mon.card_i).abilities):
                 return True
         return False
@@ -8141,7 +8191,7 @@ class Game:
         mega_card = next((c for c in me.cards if "mega clefable" in c.name.lower()), None)
         if mega_card is None:
             return False
-        if self._stance_prevents(mega_card, foe.card(foe.active.card_i)):
+        if self._stance_prevents(mega_card, foe.card(foe.active.card_i), foe, foe.active):
             return False
         mega = self._mega_mon(me)
         in_hand = any("mega clefable" in me.card(i).name.lower() for i in me.hand)
@@ -9846,7 +9896,9 @@ class Game:
             return True
         if dmg >= hp > 0:
             return True
-        if me.active and self._stance_prevents(me.card(me.active.card_i), foe.card(foe.active.card_i)):
+        if me.active and self._stance_prevents(
+            me.card(me.active.card_i), foe.card(foe.active.card_i), foe, foe.active
+        ):
             return True
         return False
 
@@ -10100,7 +10152,9 @@ class Game:
                 if horn is not None:
                     dmg = self._raw_attack_damage(me, foe, mon, horn, ignore_hand_gate=True)
                     kos = dmg >= (self._max_hp(foe, foe.active) - foe.active.damage) > 0
-                stance = self._stance_prevents(me.card(me.active.card_i), foe.card(foe.active.card_i))
+                stance = self._stance_prevents(
+                    me.card(me.active.card_i), foe.card(foe.active.card_i), foe, foe.active
+                )
                 if unused_party and not kos and not stance:
                     break
                 return idx
@@ -10730,6 +10784,8 @@ class Game:
         return {"porygon-z", "ambipom", "raikou v", "lopunny", "jumpluff"}
 
     def _has_return_self_to_hand(self, me: Player, mon: Pokemon) -> bool:
+        if self._abilities_suppressed(me, mon):
+            return False
         card = me.card(mon.card_i)
         for abi in card.abilities:
             for eff in self._ability_effects(abi):
@@ -10771,7 +10827,7 @@ class Game:
                 continue
             attacker = me.card(mon.card_i)
             defender = foe.card(foe.active.card_i)
-            if self._stance_prevents(attacker, defender):
+            if self._stance_prevents(attacker, defender, foe, foe.active):
                 continue
             per = 0
             for effect in atk.effects:

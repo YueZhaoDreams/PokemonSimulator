@@ -711,7 +711,7 @@ def _atk(name, cost, damage=0, text=""):
     return parse_attack({"name": name, "cost": cost, "damage": damage, "effect": text})
 
 
-def _pkm(name, stage, types, hp, attacks, evolves_from=None, retreat=1, catalog_id=None, abilities=None, weakness=None, image=None, set_name=None, resistances=None):
+def _pkm(name, stage, types, hp, attacks, evolves_from=None, retreat=1, catalog_id=None, abilities=None, weakness=None, image=None, set_name=None, resistances=None, traits=None):
     from app.catalog import _looks_like_tcgdex_id, _tcgdex_low
 
     cid = catalog_id or name.lower().replace(" ", "-")
@@ -736,6 +736,7 @@ def _pkm(name, stage, types, hp, attacks, evolves_from=None, retreat=1, catalog_
         evolves_from=evolves_from,
         image=art,
         set_name=set_name,
+        traits=list(traits or []),
     )
 
 
@@ -1915,6 +1916,35 @@ for card in [
         resistances=[{"type": "Fighting", "value": "-30"}],
         catalog_id="sv07-071",
         image="https://assets.tcgdex.net/en/sv/sv07/071/low.webp",
+    ),
+    _pkm(
+        "Iron Thorns ex",
+        "Basic",
+        ["Lightning"],
+        230,
+        [
+            _atk(
+                "Volt Cyclone",
+                ["Lightning", "Lightning", "Colorless"],
+                140,
+                "Move an Energy from this Pokémon to 1 of your Benched Pokémon.",
+            )
+        ],
+        retreat=4,
+        weakness="Fighting",
+        catalog_id="sv05-077",
+        set_name="Temporal Forces",
+        traits=["Future"],
+        abilities=[
+            Ability(
+                name="Initialization",
+                text=(
+                    "As long as this Pokémon is in the Active Spot, Pokémon with a Rule Box in play "
+                    "(both yours and your opponent's) have no Abilities, except for Future Pokémon. "
+                    "(Pokémon ex, Pokémon V, etc. have Rule Boxes.)"
+                ),
+            )
+        ],
     ),
     _pkm(
         "Mewtwo",
