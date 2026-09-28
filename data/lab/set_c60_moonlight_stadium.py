@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
 """C60: one Moonlight Stadium in place of one copy of every distinct card.
 
-Live lock is ``SET_C60_NAMES``. Each other row removes exactly one copy of one
-printed name and adds one Moonlight Stadium (Great Encounters 100). Seed 20260926 matches
+The measured lock is ``c60_names_before_moonlight`` (2 Ultra Ball, no stadium).
+The live list is that matrix's Ultra Ball row: one Ultra Ball replaced by
+Moonlight Stadium (Great Encounters 100). Each other row of this script removes
+exactly one copy of one printed name from the measured lock and adds one
+Moonlight Stadium. Seed 20260926 matches
 the Seeker-cut matrix so the lock row can be compared with that Mega→Seeker
 list. 3,000 games / cell. C60 is always player A. LAB_GAMES / LAB_OUT / LAB_ONLY.
 """
@@ -25,8 +28,8 @@ from app.engine.models import standard_60_rules
 from app.engine.montecarlo import run_simulation
 from app.engine.strategies import StrategySpec
 from app.seed_data import (
-    SET_C60_NAMES,
     SET_D60_NAMES,
+    c60_names_before_moonlight,
     SET_G_NAMES,
     SET_S60_NAMES,
     SET_T60_NAMES,
@@ -85,11 +88,11 @@ QUERIES = [
 
 
 def swap_one(cut: str) -> list[str]:
-    names = list(SET_C60_NAMES)
+    names = c60_names_before_moonlight()
     if names.count("Moonlight Stadium") != 0:
-        raise RuntimeError("live lock already contains Moonlight Stadium")
+        raise RuntimeError("measured lock already contains Moonlight Stadium")
     if names.count(cut) < 1:
-        raise RuntimeError(f"live lock has no {cut}")
+        raise RuntimeError(f"measured lock has no {cut}")
     names.remove(cut)
     names.append("Moonlight Stadium")
     if len(names) != 60:
@@ -102,12 +105,12 @@ def swap_one(cut: str) -> list[str]:
 
 def build_variants() -> dict[str, list[str]]:
     listed = {name for _key, name in CUTS}
-    live = set(SET_C60_NAMES)
+    live = set(c60_names_before_moonlight())
     if listed != live:
         missing = sorted(live - listed)
         extra = sorted(listed - live)
         raise RuntimeError(f"cut list drifted. missing {missing} extra {extra}")
-    variants = {"lock": list(SET_C60_NAMES)}
+    variants = {"lock": c60_names_before_moonlight()}
     for key, name in CUTS:
         variants[key] = swap_one(name)
     return variants
@@ -209,7 +212,7 @@ def main() -> None:
             "(both yours and your opponent's) is 0."
         ),
         "cuts": {key: CUT_NAME[key] for key in selected if key != "lock"},
-        "counts": {name: list(SET_C60_NAMES).count(name) for _key, name in CUTS},
+        "counts": {name: c60_names_before_moonlight().count(name) for _key, name in CUTS},
         "foes": [foe for foe, _n, _s in FOES],
         "lists": {key: list(names) for key, names in selected.items()},
         "cells": ordered,

@@ -8,6 +8,7 @@ from app.engine.strategies import StrategySpec
 from app.seed_data import (
     SET_C_NAMES,
     SET_C60_NAMES,
+    c60_names_before_moonlight,
     SET_D60_NAMES,
     SET_G_NAMES,
     SET_H_NAMES,
@@ -44,6 +45,12 @@ def test_set_c60_is_standard_sixty_with_psychic_energy():
     assert names.count("Energy Search") == 0
     assert names.count("Switch") == 2
     assert names.count("Buddy-Buddy Poffin") == 4
+    assert names.count("Ultra Ball") == 1
+    assert names.count("Moonlight Stadium") == 1
+    before = c60_names_before_moonlight()
+    assert len(before) == 60
+    assert before.count("Ultra Ball") == 2
+    assert before.count("Moonlight Stadium") == 0
     assert names.count("Boss's Orders") == 3
     assert names.count("Maximum Belt") == 1
     assert names.count("Tool Box") == 0
@@ -65,6 +72,10 @@ def test_set_c60_is_standard_sixty_with_psychic_energy():
     pile = build_fallback_deck(names)
     rules = standard_60_rules()
     assert copy_violations(pile, rules) == []
+    moonlight = next(c for c in pile if c.name == "Moonlight Stadium")
+    assert moonlight.catalog_id == "dp4-100"
+    assert moonlight.trainer_kind == "stadium"
+    assert "is 0." in moonlight.text
     fables = [c for c in pile if c.name == "Clefable"]
     assert Counter(c.catalog_id for c in fables) == Counter({"swsh2-75": 1, "clc-014": 1})
     prankish = next(c for c in fables if c.catalog_id == "swsh2-75")
