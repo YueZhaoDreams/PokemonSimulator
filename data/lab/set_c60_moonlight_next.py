@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
-"""C60: a second Moonlight Stadium in place of one copy of every other card.
+"""C60: one more Moonlight Stadium in place of one copy of every other card.
 
-The measured lock is ``c60_names_before_second_moonlight`` (one Ultra Ball,
-one Moonlight Stadium). The live list is that matrix's Ultra Ball row.
-Each other row of this script removes one copy of one other printed name from
-the measured lock and adds a second Moonlight Stadium. Seed 20260926 matches
-the first-stadium matrix. 3,000 games / cell. C60 is always player A.
-LAB_GAMES / LAB_OUT / LAB_ONLY.
+The lock is the live list (``SET_C60_NAMES``). Each other row removes exactly
+one copy of one other printed name and adds one Moonlight Stadium. Seed
+20260926 matches the earlier stadium matrices. 3,000 games / cell. C60 is
+always player A. LAB_GAMES / LAB_OUT / LAB_ONLY.
+
+Re-run after locking a copy. The output file is numbered by the row's stadium
+count, so a third-copy matrix does not overwrite the second.
 """
 
 from __future__ import annotations
@@ -27,6 +28,7 @@ from app.engine.models import standard_60_rules
 from app.engine.montecarlo import run_simulation
 from app.engine.strategies import StrategySpec
 from app.seed_data import (
+    SET_C60_NAMES,
     SET_D60_NAMES,
     SET_G_NAMES,
     SET_S60_NAMES,
@@ -34,12 +36,12 @@ from app.seed_data import (
     SET_T_META_NAMES,
     SET_T_UNL_NAMES,
     build_fallback_deck,
-    c60_names_before_second_moonlight,
 )
 
 GAMES = int(os.environ.get("LAB_GAMES", "3000"))
 SEED = 20260926
 WORKERS = min(4, os.cpu_count() or 1)
+COPY_CAP = 4
 
 FOES = (
     ("t60", SET_T60_NAMES, "phantom"),
@@ -51,32 +53,32 @@ FOES = (
 )
 COMPETITIVE = ("t60", "hedrick", "d60")
 
-# One key per distinct printed name in the live list, other than the stadium.
-CUTS = (
-    ("clefairy", "Clefairy"),
-    ("mewtwo", "Mewtwo ex"),
-    ("prankish", "Clefable"),
-    ("clc", "Clefable CLC"),
-    ("ex", "Clefable ex"),
-    ("seeker", "Seeker"),
-    ("nest", "Nest Ball"),
-    ("poffin", "Buddy-Buddy Poffin"),
-    ("ultra", "Ultra Ball"),
-    ("hop", "Hop"),
-    ("lillie", "Lillie"),
-    ("det", "Lillie's Determination"),
-    ("arven", "Arven"),
-    ("boss", "Boss's Orders"),
-    ("iono", "Iono"),
-    ("switch", "Switch"),
-    ("eswitch", "Energy Switch"),
-    ("stretcher", "Night Stretcher"),
-    ("belt", "Maximum Belt"),
-    ("cage", "Battle Cage"),
-    ("tele", "Telepathic Psychic Energy"),
-    ("energy", "Psychic Energy"),
-    ("pad", "Poké Pad"),
-)
+# Stable keys for the printed names this matrix has cut. A new live name needs a key.
+CUT_KEYS = {
+    "Clefairy": "clefairy",
+    "Mewtwo ex": "mewtwo",
+    "Clefable": "prankish",
+    "Clefable CLC": "clc",
+    "Clefable ex": "ex",
+    "Seeker": "seeker",
+    "Nest Ball": "nest",
+    "Buddy-Buddy Poffin": "poffin",
+    "Ultra Ball": "ultra",
+    "Hop": "hop",
+    "Lillie": "lillie",
+    "Lillie's Determination": "det",
+    "Arven": "arven",
+    "Boss's Orders": "boss",
+    "Iono": "iono",
+    "Switch": "switch",
+    "Energy Switch": "eswitch",
+    "Night Stretcher": "stretcher",
+    "Maximum Belt": "belt",
+    "Battle Cage": "cage",
+    "Telepathic Psychic Energy": "tele",
+    "Psychic Energy": "energy",
+    "Poké Pad": "pad",
+}
 
 QUERIES = [
     {"type": "event_prefix", "prefix": "moonlight_party_pivot", "key": "pivot"},
@@ -86,20 +88,39 @@ QUERIES = [
 ]
 
 
-def measured_lock() -> list[str]:
-    return list(c60_names_before_second_moonlight())
+def lock_copies() -> int:
+    return list(SET_C60_NAMES).count("Moonlight Stadium")
+
+
+def target_copies() -> int:
+    return lock_copies() + 1
+
+
+def cuts() -> tuple[tuple[str, str], ...]:
+    names = []
+    seen: set[str] = set()
+    for name in SET_C60_NAMES:
+        if name == "Moonlight Stadium" or name in seen:
+            continue
+        seen.add(name)
+        names.append(name)
+    missing = [name for name in names if name not in CUT_KEYS]
+    if missing:
+        raise RuntimeError(f"no cut key for {missing}")
+    return tuple((CUT_KEYS[name], name) for name in names)
 
 
 def swap_one(cut: str) -> list[str]:
-    names = measured_lock()
-    if names.count("Moonlight Stadium") != 1:
-        raise RuntimeError("measured lock must contain one Moonlight Stadium")
+    names = list(SET_C60_NAMES)
+    have = names.count("Moonlight Stadium")
+    if have < 1 or have >= COPY_CAP:
+        raise RuntimeError(f"live lock has {have} Moonlight Stadium; next copy must stay within {COPY_CAP}")
     if names.count(cut) < 1:
-        raise RuntimeError(f"measured lock has no {cut}")
+        raise RuntimeError(f"live lock has no {cut}")
     names.remove(cut)
     names.append("Moonlight Stadium")
-    if names.count("Moonlight Stadium") != 2:
-        raise RuntimeError(f"{cut} did not land on two Moonlight Stadium")
+    if names.count("Moonlight Stadium") != have + 1:
+        raise RuntimeError(f"{cut} did not land on {have + 1} Moonlight Stadium")
     if len(names) != 60:
         raise RuntimeError(f"list is {len(names)} cards")
     bad = copy_violations(build_fallback_deck(names), standard_60_rules())
@@ -109,20 +130,21 @@ def swap_one(cut: str) -> list[str]:
 
 
 def build_variants() -> dict[str, list[str]]:
-    listed = {name for _key, name in CUTS}
-    live = set(measured_lock())
-    if listed | {"Moonlight Stadium"} != live:
-        missing = sorted(live - listed - {"Moonlight Stadium"})
-        extra = sorted(listed - live)
+    listed = cuts()
+    covered = {name for _key, name in listed}
+    live = set(SET_C60_NAMES)
+    if covered | {"Moonlight Stadium"} != live:
+        missing = sorted(live - covered - {"Moonlight Stadium"})
+        extra = sorted(covered - live)
         raise RuntimeError(f"cut list drifted. missing {missing} extra {extra}")
-    variants = {"lock": measured_lock()}
-    for key, name in CUTS:
+    variants = {"lock": list(SET_C60_NAMES)}
+    for key, name in listed:
         variants[key] = swap_one(name)
     return variants
 
 
 VARIANTS = build_variants()
-CUT_NAME = {key: name for key, name in CUTS}
+CUT_NAME = {key: name for key, name in cuts()}
 
 
 def _weighted(cells: dict[str, dict], baseline: dict[str, dict], foe_keys: tuple[str, ...]) -> dict[str, float]:
@@ -170,9 +192,10 @@ def _dest() -> Path:
     override = os.environ.get("LAB_OUT")
     if override:
         return Path(override)
+    copies = target_copies()
     if GAMES == 3000:
-        return ROOT / "data/lab/set-c60-moonlight-second.json"
-    return Path(f"/tmp/set-c60-moonlight-second-{GAMES}.json")
+        return ROOT / f"data/lab/set-c60-moonlight-{copies}.json"
+    return Path(f"/tmp/set-c60-moonlight-{copies}-{GAMES}.json")
 
 
 def main() -> None:
@@ -188,7 +211,11 @@ def main() -> None:
         for var_key, names in selected.items()
         for foe_key, foe_names, foe_strat in FOES
     ]
-    print(f"{len(jobs)} cells × {GAMES} games, {WORKERS} workers", flush=True)
+    print(
+        f"{len(jobs)} cells × {GAMES} games, {WORKERS} workers, "
+        f"{lock_copies()} -> {target_copies()} Moonlight Stadium",
+        flush=True,
+    )
     done = 0
     with ProcessPoolExecutor(max_workers=WORKERS) as pool:
         futs = [pool.submit(_run, *job) for job in jobs]
@@ -211,21 +238,21 @@ def main() -> None:
         "elapsed": elapsed,
         "rule_preset": "s60",
         "add": "Moonlight Stadium",
-        "stadium_copies": 2,
+        "lock_copies": lock_copies(),
+        "stadium_copies": target_copies(),
         "catalog_id": "dp4-100",
         "printed": (
             "The Retreat Cost for each Psychic and Darkness Pokémon "
             "(both yours and your opponent's) is 0."
         ),
         "cuts": {key: CUT_NAME[key] for key in selected if key != "lock"},
-        "counts": {name: measured_lock().count(name) for _key, name in CUTS},
+        "counts": {name: list(SET_C60_NAMES).count(name) for name in dict.fromkeys(SET_C60_NAMES)},
         "foes": [foe for foe, _n, _s in FOES],
         "lists": {key: list(names) for key, names in selected.items()},
         "cells": ordered,
         "weighted_competitive": _weighted(ordered, ordered["lock"], COMPETITIVE),
         "weighted_all": _weighted(ordered, ordered["lock"], tuple(foe for foe, _n, _s in FOES)),
     }
-    payload["counts"]["Moonlight Stadium"] = measured_lock().count("Moonlight Stadium")
     dest = _dest()
     dest.write_text(json.dumps(payload, indent=2) + "\n")
     print(f"\nelapsed {elapsed:.1f}s -> {dest}", flush=True)

@@ -45,8 +45,8 @@ def test_set_c60_is_standard_sixty_with_psychic_energy():
     assert names.count("Energy Search") == 0
     assert names.count("Switch") == 2
     assert names.count("Buddy-Buddy Poffin") == 4
-    assert names.count("Ultra Ball") == 1
-    assert names.count("Moonlight Stadium") == 1
+    assert names.count("Ultra Ball") == 0
+    assert names.count("Moonlight Stadium") == 2
     before = c60_names_before_moonlight()
     assert len(before) == 60
     assert before.count("Ultra Ball") == 2

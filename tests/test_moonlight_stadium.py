@@ -6,7 +6,12 @@ from app.engine.effects import parse_ability_effects
 from app.engine.game import Game, Pokemon
 from app.engine.models import Card, standard_60_rules
 from app.engine.strategies import StrategySpec
-from app.seed_data import SET_C60_NAMES, build_fallback_deck, fallback_named
+from app.seed_data import (
+    SET_C60_NAMES,
+    build_fallback_deck,
+    c60_names_before_second_moonlight,
+    fallback_named,
+)
 
 PRINTED = (
     "The Retreat Cost for each Psychic and Darkness Pokémon "
@@ -319,9 +324,9 @@ def test_non_phantom_does_not_bump_moonlight_with_cage():
     assert game._pick_trainer(me) is None
 
 
-def test_live_c60_swaps_one_ultra_ball_for_moonlight():
-    assert SET_C60_NAMES.count("Moonlight Stadium") == 1
-    assert SET_C60_NAMES.count("Ultra Ball") == 1
+def test_live_c60_has_two_moonlight_stadiums():
+    assert SET_C60_NAMES.count("Moonlight Stadium") == 2
+    assert SET_C60_NAMES.count("Ultra Ball") == 0
     assert len(SET_C60_NAMES) == 60
 
 
@@ -361,7 +366,7 @@ def test_second_moonlight_matrix_prefers_the_last_ultra_ball():
     assert blob["catalog_id"] == "dp4-100"
     assert blob["printed"] == PRINTED
     assert set(blob["cells"]) == {"lock", *blob["cuts"]}
-    assert blob["lists"]["lock"] == list(SET_C60_NAMES)
+    assert blob["lists"]["lock"] == c60_names_before_second_moonlight()
     ultra = blob["lists"]["ultra"]
     assert ultra.count("Moonlight Stadium") == 2
     assert ultra.count("Ultra Ball") == 0

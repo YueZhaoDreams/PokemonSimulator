@@ -153,6 +153,8 @@ C60_CAGE_LOCK_NAMES = (
 # Locked 2026-09-28: one Ultra Ball becomes Great Encounters Moonlight Stadium
 # (dp4-100, Psychic and Darkness Pokémon retreat for 0). wComp 72.7 vs 72.0
 # on seed 20260926, 3,000 games. See data/lab/set-c60-moonlight-stadium.md.
+# Locked 2026-09-28: the remaining Ultra Ball becomes the second copy.
+# wComp 73.7 vs the one-stadium list's 72.7. See data/lab/set-c60-moonlight-second.md.
 SET_C60_NAMES = (
     ["Clefairy"] * 4
     + ["Mewtwo ex"] * 3
@@ -162,8 +164,7 @@ SET_C60_NAMES = (
     + ["Seeker"]
     + ["Nest Ball"] * 4
     + ["Buddy-Buddy Poffin"] * 4
-    + ["Ultra Ball"]
-    + ["Moonlight Stadium"]
+    + ["Moonlight Stadium"] * 2
     + ["Hop"] * 2
     + ["Lillie"] * 2
     + ["Lillie's Determination"] * 2
@@ -181,13 +182,28 @@ SET_C60_NAMES = (
 )
 
 
-def c60_names_before_moonlight() -> list[str]:
-    """The 60 measured before one Ultra Ball became Moonlight Stadium."""
+def c60_names_before_second_moonlight() -> list[str]:
+    """The 60 after the first stadium lock: one Ultra Ball, one Moonlight Stadium."""
     names = list(SET_C60_NAMES)
     found = names.count("Moonlight Stadium")
-    if found != 1:
-        raise RuntimeError(f"expected one Moonlight Stadium in SET_C60_NAMES, found {found}")
+    if found != 2 or names.count("Ultra Ball") != 0:
+        raise RuntimeError(
+            f"expected two Moonlight Stadium and no Ultra Ball in SET_C60_NAMES, "
+            f"found {found} stadium and {names.count('Ultra Ball')} Ultra Ball"
+        )
     names[names.index("Moonlight Stadium")] = "Ultra Ball"
+    return names
+
+
+def c60_names_before_moonlight() -> list[str]:
+    """The 60 measured before either Ultra Ball became Moonlight Stadium."""
+    names = c60_names_before_second_moonlight()
+    found = names.count("Moonlight Stadium")
+    if found != 1:
+        raise RuntimeError(f"expected one Moonlight Stadium before the second lock, found {found}")
+    names[names.index("Moonlight Stadium")] = "Ultra Ball"
+    if names.count("Ultra Ball") != 2 or names.count("Moonlight Stadium") != 0:
+        raise RuntimeError("walking back both stadiums did not restore two Ultra Ball")
     return names
 
 

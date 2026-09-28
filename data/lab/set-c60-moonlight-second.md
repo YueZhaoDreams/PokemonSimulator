@@ -8,7 +8,7 @@ Script: `data/lab/set_c60_moonlight_second.py`
 Raw: `data/lab/set-c60-moonlight-second.json`
 Elapsed: 1558s
 
-The lock is the live list (`SET_C60_NAMES`): one Great Encounters Moonlight Stadium and one Ultra Ball. Every other row removes exactly one copy of one other printed name and adds a second Moonlight Stadium.
+The lock in this table is the one-stadium list (`c60_names_before_second_moonlight`): one Great Encounters Moonlight Stadium and one Ultra Ball. Every other row removes exactly one copy of one other printed name and adds a second Moonlight Stadium. The live list is now the Ultra Ball row.
 
 `wComp` weights T60, Hedrick, and D60 by how often the lock loses that matchup. `wAll` does the same over all six foes. A single cell near 70% has a binomial SE of about 0.8 pp.
 
@@ -82,5 +82,5 @@ On the two-stadium rows the stadium is played in about 1,100–1,900 games per f
 
 ## Conclusion
 
-The second copy that raises the weighted win rate replaces the remaining Ultra Ball. `SET_C60_NAMES` stays at one Moonlight Stadium until that swap is locked.
+The second copy that raises the weighted win rate replaces the remaining Ultra Ball. Locked 2026-09-28: `SET_C60_NAMES` is this matrix's Ultra Ball row, two Great Encounters Moonlight Stadium and no Ultra Ball.
 
