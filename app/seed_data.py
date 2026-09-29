@@ -404,17 +404,21 @@ SET_T_UNL_NAMES = (
 # 0-potion list: Hedrick 33.4%, C60 32.0%, T60 30.3%, D60 4.3%.
 # Weighted 79.2% → 81.0% → 81.9% → 85.1% → 86.5%. Still rising at 4, the copy cap.
 # Cuts, in order: Cleffa, Cleffa, Maximum Belt, Ultra Ball.
+# One Hero's Cape on that list (ACE SPEC). Weights frozen from the 4-potion
+# list: Hedrick 38.4%, C60 31.1%, T60 25.5%, D60 5.0%. Lock 86.3% → Budew 88.4%.
+# Cut: one Budew (3 → 2).
 SET_M60_NAMES = (
     ["Mew ex"] * 4
     + ["Mime Jr."] * 2
     + ["Igglybuff"] * 4
-    + ["Budew"] * 3
+    + ["Budew"] * 2
     + ["Buddy-Buddy Poffin"] * 4
     + ["Nest Ball"] * 4
     + ["Ultra Ball"] * 3
     + ["Night Stretcher"] * 4
     + ["Battle Cage"] * 4
     + ["Bravery Charm"] * 4
+    + ["Hero's Cape"]
     + ["Max Potion"] * 4
     + ["Arven"] * 4
     + ["Iono"] * 4

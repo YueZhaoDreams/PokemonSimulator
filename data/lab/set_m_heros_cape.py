@@ -142,6 +142,7 @@ def _markdown(report: dict) -> str:
         f"- **Elapsed**: {report['elapsed']:.1f}s",
         "",
         "Hero's Cape is an ACE SPEC, so every row is exactly one copy. The lock is the 4 Max Potion list.",
+        "That lock cell matches the potion report at this seed: T60 88.8%, Hedrick 83.1%, C60 86.3%, D60 97.8%.",
         "",
         "| Cut | Weighted | Mean | vs T60 | vs Hedrick | vs C60 | vs D60 | Cape played |",
         "| :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
