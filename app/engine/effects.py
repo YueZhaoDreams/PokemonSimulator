@@ -1110,6 +1110,13 @@ def parse_trainer_effects(text: str) -> list[dict[str, Any]]:
         )
         return effects
 
+    # Poké Vital A: "Heal 150 damage from 1 of your Pokémon."
+    # The discard-pile sentence is enforced when a card would leave discard.
+    heal_one = re.search(r"heal (\d+) damage from 1 of your pokemon", t)
+    if heal_one:
+        effects.append({"kind": "heal", "amount": int(heal_one.group(1))})
+        return effects
+
     # Poké Pad ME02.5 198: a Pokémon without a Rule Box, not a look-N.
     if "search your deck for a pokemon" in t and "rule box" in t and "doesn't have" in t:
         effects.append({"kind": "search_pokemon_no_rule_box"})

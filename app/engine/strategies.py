@@ -591,6 +591,7 @@ STRATEGY_LIBRARY = {
             "Buddy-Buddy Poffin and Nest Ball swarm 5 babies on bench. Battle Cage prevents bench damage counters. "
             "Night Stretcher recovers KO'd Mew ex or babies. "
             "Max Potion heals all damage from a damaged Mew ex. This list attaches no Energy, so that discard is free. "
+            "Poké Vital A heals 150 damage from one Pokémon and stays in the discard pile. "
             "Hero's Cape goes on an open Mew ex."
         ),
         prefer_damage=0.9,

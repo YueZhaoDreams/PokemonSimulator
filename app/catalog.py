@@ -164,6 +164,8 @@ PREFERRED_IDS = {
     "Max Potion": "sm2-128",  # Guardians Rising: heal all, then discard Energy if you healed
     "Hero's Cape": "sv05-152",  # Temporal Forces ACE SPEC: +100 HP, immune to Special Conditions
     "Survival Brace": "sv06-164",  # Twilight Masquerade ACE SPEC: full HP lethal attack leaves 10 HP
+    "Poké Vital A": "sv06.5-062",  # Shrouded Fable ACE SPEC: heal 150, cannot leave the discard pile
+    "Poke Vital A": "sv06.5-062",
     "Acerola": "sm3-112",
     "Double Colorless Energy": "sm1-136",
     "Dusclops": "swsh12.5-063",  # Fade to Black / Confused (Crown Zenith) — not Brilliant Stars

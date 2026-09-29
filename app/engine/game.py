@@ -1501,6 +1501,9 @@ class Game:
                 if strat.name in {"mew_baby", "baby"} and self._mew_wants_max_potion_tutor(me):
                     # Arven is Item + Tool. Fetch the full heal before another Poffin.
                     score += 20
+                elif strat.name in {"mew_baby", "baby"} and self._mew_wants_vital_tutor(me):
+                    # Same fetch when the 150 heal is the one still in the deck.
+                    score += 20 if self._mew_damage(me) >= 100 else 12
             elif name == "hop":
                 if strat.name == "crunch":
                     # Thin toward ≤3 for Crunch-Time Rush; avoid deck-out.
@@ -1698,6 +1701,20 @@ class Game:
                 else:
                     free = [m for m in me.in_play() if m.damage > 0 and not m.energy]
                     score += 11 if free else -8
+            elif self._is_poke_vital_a_name(name):
+                # One-shot 150. Spend it on a real hole; hold it for a scratch.
+                # Below Max Potion, so the full heal is played first.
+                if strat.name in {"mew_baby", "baby"}:
+                    worst = self._mew_damage(me)
+                    if worst >= 100:
+                        score += 28
+                    elif worst >= 30:
+                        score += 22
+                    else:
+                        score -= 8
+                else:
+                    hurt = [m for m in me.in_play() if m.damage > 0]
+                    score += 11 if hurt else -8
             elif "venture bomb" in name:
                 score += 3
             elif "redeemable ticket" in name:
@@ -6997,12 +7014,36 @@ class Game:
             if mon.damage > 0 and me.card(mon.card_i).name.lower() == "mew ex"
         ]
 
+    def _mew_damage(self, me: Player) -> int:
+        mews = self._damaged_mews(me)
+        return max((mon.damage for mon in mews), default=0)
+
+    def _is_poke_vital_a_name(self, name: str) -> bool:
+        return name.lower().replace("é", "e") == "poke vital a"
+
+    def _is_poke_vital_a(self, card: Card) -> bool:
+        return self._is_poke_vital_a_name(card.name)
+
+    def _discard_return_blocked(self, card: Card) -> bool:
+        """Printed Poké Vital A: it cannot move from the discard pile to hand or deck."""
+        text = (card.text or "").lower().replace("pokémon", "pokemon").replace("poké", "poke")
+        text = text.replace("’", "'").replace("`", "'")
+        return "can't be put into your hand or deck from the discard pile" in text
+
     def _mew_wants_max_potion_tutor(self, me: Player) -> bool:
         if not self._damaged_mews(me):
             return False
         in_hand = any(me.card(i).name.lower() == "max potion" for i in me.hand)
         in_deck = any(me.card(i).name.lower() == "max potion" for i in me.deck)
         return in_deck and not in_hand
+
+    def _mew_wants_vital_tutor(self, me: Player) -> bool:
+        """Fetch the 150 heal only when a Mew is actually hurt and Max Potion is not the tutor."""
+        if self._mew_damage(me) < 30 or self._mew_wants_max_potion_tutor(me):
+            return False
+        if any(self._is_poke_vital_a(me.card(i)) for i in me.hand):
+            return False
+        return any(self._is_poke_vital_a(me.card(i)) for i in me.deck)
 
     def _heal_all(self, me: Player, discard_energy: bool) -> None:
         """Printed Max Potion: heal all damage from 1 Pokémon; discard its Energy if you healed."""
@@ -7032,6 +7073,27 @@ class Game:
             + (f" and discards {discarded} Energy" if discarded else "")
         )
 
+    def _heal_amount(self, me: Player, amount: int, card: Card) -> None:
+        """Printed heal N from 1 of your Pokémon. Does not remove Energy or a Tool."""
+        hurt = [mon for mon in me.in_play() if mon.damage > 0]
+        if not hurt or amount <= 0:
+            self._bump("vital_a_whiff")
+            return
+        who = "a" if me.name == "A" else "b"
+        mews = [mon for mon in hurt if me.card(mon.card_i).name.lower() == "mew ex"]
+        if self.strats[who].name in {"mew_baby", "baby"} and mews:
+            mon = max(mews, key=lambda m: (m is me.active, m.damage))
+        else:
+            mon = max(hurt, key=lambda m: m.damage)
+        before = mon.damage
+        mon.damage = max(0, mon.damage - amount)
+        healed = before - mon.damage
+        if self._is_poke_vital_a(card):
+            self._bump("poke_vital_a")
+        else:
+            self._bump("heal")
+        self._log(f"{me.name} {card.name} heals {healed} from {me.card(mon.card_i).name}")
+
     def _arven(self, me: Player, who: str) -> None:
         tool_names = {"maximum belt", "bravery charm", "muscle band", "hero's cape", "survival brace"}
         # Item ranks stay on the pre-cape list. Hero's Cape is a Tool, and inserting
@@ -7054,12 +7116,23 @@ class Game:
                 prefer=["Forest Seal Stone", "Maximum Belt", "Muscle Band", "Bravery Charm", "Survival Brace"],
                 source="arven",
             )
-        found_item = self._search(
-            me,
-            lambda c: c.is_item and c.name.lower() not in tool_names and (found_tool is None or c.name != me.card(found_tool).name),
-            prefer=item_prefer,
-            source="arven",
-        )
+        # Own search, and only when the card is in the deck. A miss never shuffles,
+        # and the name is not inserted into item_prefer, so Counter Catcher stays put.
+        found_item = None
+        if self.strats[who].name in {"mew_baby", "baby"} and self._mew_wants_vital_tutor(me):
+            found_item = self._search(
+                me,
+                lambda c: self._is_poke_vital_a(c),
+                prefer=["Poké Vital A"],
+                source="arven",
+            )
+        if found_item is None:
+            found_item = self._search(
+                me,
+                lambda c: c.is_item and c.name.lower() not in tool_names and (found_tool is None or c.name != me.card(found_tool).name),
+                prefer=item_prefer,
+                source="arven",
+            )
         if found_tool or found_item:
             self._bump("arven")
 
@@ -9754,7 +9827,11 @@ class Game:
             mon.disabled_attack = None
 
     def _recycle_trainer_from_discard(self, me: Player) -> None:
-        trainers = [i for i in me.discard if me.card(i).is_trainer]
+        trainers = [
+            i
+            for i in me.discard
+            if me.card(i).is_trainer and not self._discard_return_blocked(me.card(i))
+        ]
         if not trainers:
             return
         prefer = [
@@ -11215,6 +11292,8 @@ class Game:
             self._search_trainer(me, who)
         elif kind == "heal_mega_return_energy":
             self._heal_mega_return_energy(me)
+        elif kind == "heal":
+            self._heal_amount(me, int(eff.get("amount") or 0), card)
 
     def _puzzle_of_time(self, me: Player, who: str, card: Card, look: int, pair_count: int) -> None:
         second = next((i for i in me.hand if me.card(i).name.lower() == card.name.lower()), None)
@@ -11260,6 +11339,8 @@ class Game:
     def _retrieve_from_discard(self, me: Player, count: int, prefer: tuple[str, ...] = ()) -> None:
         ranked: list[tuple[int, int]] = []
         for i in me.discard:
+            if self._discard_return_blocked(me.card(i)):
+                continue
             name = me.card(i).name.lower()
             rank = prefer.index(name) if name in prefer else 40
             ranked.append((rank, i))
@@ -11335,7 +11416,9 @@ class Game:
         trainers = [
             i
             for i in me.discard
-            if me.card(i).is_trainer and not (exclude_self and me.card(i).name.lower() == "junk arm")
+            if me.card(i).is_trainer
+            and not self._discard_return_blocked(me.card(i))
+            and not (exclude_self and me.card(i).name.lower() == "junk arm")
         ]
         prefer = ["puzzle of time", "scoop up net", "broken time-space", "switch", "wally"]
 
@@ -11418,7 +11501,11 @@ class Game:
         self._bump("wally")
 
     def _recycle_items_from_discard(self, me: Player, count: int) -> None:
-        items = [i for i in me.discard if me.card(i).is_item]
+        items = [
+            i
+            for i in me.discard
+            if me.card(i).is_item and not self._discard_return_blocked(me.card(i))
+        ]
         prefer = ["puzzle of time", "scoop up net", "junk arm", "switch"]
 
         def rank(idx: int) -> int:
