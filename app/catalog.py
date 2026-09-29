@@ -163,6 +163,7 @@ PREFERRED_IDS = {
     "Bravery Charm": "sv02-173",
     "Max Potion": "sm2-128",  # Guardians Rising: heal all, then discard Energy if you healed
     "Hero's Cape": "sv05-152",  # Temporal Forces ACE SPEC: +100 HP, immune to Special Conditions
+    "Survival Brace": "sv06-164",  # Twilight Masquerade ACE SPEC: full HP lethal attack leaves 10 HP
     "Acerola": "sm3-112",
     "Double Colorless Energy": "sm1-136",
     "Dusclops": "swsh12.5-063",  # Fade to Black / Confused (Crown Zenith) — not Brilliant Stars

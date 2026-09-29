@@ -1630,6 +1630,9 @@ class Game:
                 elif name == "hero's cape" and strat.name in {"mew_baby", "baby"}:
                     # +100 HP on Mew. Above Poffin so the cape lands before another baby.
                     score += 26
+                elif name == "survival brace" and strat.name in {"mew_baby", "baby"}:
+                    # One lethal attack from full HP. Charm (+8) takes the Active Mew first.
+                    score += 7
                 else:
                     score += 8
             elif name == "tulip":
@@ -4774,7 +4777,8 @@ class Game:
                 self._bump("scrap_short", dumped_tools)
                 self._log(f"{attacker.name} puts {dumped_tools} Tools in the Lost Zone")
         was_undamaged = foe.active.damage == 0
-        foe.active.damage += dmg
+        ignore_effects = "effects" in (atk.text or "").lower() and "isn't affected" in (atk.text or "").lower()
+        self._add_attack_damage(foe, foe.active, dmg, ignore_effects=ignore_effects)
         self._bump("damage_dealt", dmg)
         if dmg > 0 and any(e.get("kind") == "require_equal_hands" for e in atk.effects):
             self._bump("adjusted_horn")
@@ -5334,7 +5338,7 @@ class Game:
             )
             dmg = max(0, dmg - resistance_reduce(foe.card(foe.active.card_i).resistances, attacker.types))
         if dmg >= active_hp > 0 or not foe.bench:
-            foe.active.damage += dmg
+            self._add_attack_damage(foe, foe.active, dmg)
             self._bump("damage_dealt", dmg)
             self._log(f"Cruel Arrow hits Active {foe.card(foe.active.card_i).name} for {dmg}")
             return
@@ -5342,13 +5346,13 @@ class Game:
         # explicitly still takes attack damage, so it never blocks here. When the bench
         # is shielded the attacker pivots to the Active instead of fizzling.
         if self._has_bench_shield(foe, "prevent_bench_damage_and_attack_effects"):
-            foe.active.damage += dmg
+            self._add_attack_damage(foe, foe.active, dmg)
             self._bump("spherical_shield")
             self._bump("damage_dealt", dmg)
             self._log("Spherical Shield redirects bench damage to Active")
             return
         if self._bench_attack_damage_prevented(foe):
-            foe.active.damage += dmg
+            self._add_attack_damage(foe, foe.active, dmg)
             self._bump("wave_veil")
             self._bump("damage_dealt", dmg)
             self._log("Wave Veil redirects bench damage to Active")
@@ -5356,18 +5360,18 @@ class Game:
         if self._has_bench_shield(foe, "prevent_bench_attack_damage_no_rulebox"):
             rulebox_bench = [m for m in foe.bench if self._has_rule_box(foe.card(m.card_i))]
             if not rulebox_bench:
-                foe.active.damage += dmg
+                self._add_attack_damage(foe, foe.active, dmg)
                 self._bump("flower_curtain")
                 self._bump("damage_dealt", dmg)
                 self._log("Flower Curtain redirects bench damage to Active")
                 return
             target = min(rulebox_bench, key=lambda m: self._max_hp(foe, m) - m.damage)
-            target.damage += amount
+            self._add_attack_damage(foe, target, amount)
             self._bump("bench_damage", amount)
             self._log(f"Cruel Arrow hits Bench {foe.card(target.card_i).name} for {amount}")
             return
         target = min(foe.bench, key=lambda m: self._max_hp(foe, m) - m.damage)
-        target.damage += amount
+        self._add_attack_damage(foe, target, amount)
         self._bump("bench_damage", amount)
         self._log(f"Cruel Arrow hits Bench {foe.card(target.card_i).name} for {amount}")
 
@@ -6729,7 +6733,7 @@ class Game:
                 if mon.tool is None and self._is_pokemon_v(me.card(mon.card_i)):
                     return mon
             return None
-        if name == "hero's cape":
+        if name in {"hero's cape", "survival brace"}:
             for mon in me.in_play():
                 if mon.tool is None and me.card(mon.card_i).name.lower() == "mew ex":
                     return mon
@@ -6813,6 +6817,35 @@ class Game:
             if mon.tool is None:
                 return mon
         return None
+
+    def _is_survival_brace(self, player: Player, mon: Pokemon) -> bool:
+        if mon.tool is None:
+            return False
+        text = (player.card(mon.tool).text or "").lower().replace("pokémon", "pokemon")
+        return "full hp" in text and "would be knocked out" in text and "remaining hp becomes 10" in text
+
+    def _maybe_survival_brace(self, owner: Player, mon: Pokemon, *, was_full: bool, ignore_effects: bool = False) -> None:
+        """Printed Survival Brace: a full-HP Pokémon survives a lethal attack at 10 HP, then the tool is discarded.
+
+        Damage counters placed by an attack are not damage from that attack, so callers
+        must not use this for those counters. Demolish ignores effects on the Active.
+        """
+        if ignore_effects or not was_full or not self._is_survival_brace(owner, mon):
+            return
+        hp = self._max_hp(owner, mon)
+        if hp <= 0 or mon.damage < hp:
+            return
+        mon.damage = max(0, hp - 10)
+        owner.discard.append(mon.tool)
+        mon.tool = None
+        self._bump("survival_brace")
+        self._log(f"Survival Brace leaves {owner.card(mon.card_i).name} with 10 HP")
+
+    def _add_attack_damage(self, owner: Player, mon: Pokemon, amount: int, *, ignore_effects: bool = False) -> None:
+        was_full = mon.damage <= 0
+        mon.damage += amount
+        if amount > 0:
+            self._maybe_survival_brace(owner, mon, was_full=was_full, ignore_effects=ignore_effects)
 
     def _attach_tool(self, me: Player, who: str, card_i: int) -> bool:
         target = self._tool_target(me, who, me.card(card_i))
@@ -7000,7 +7033,7 @@ class Game:
         )
 
     def _arven(self, me: Player, who: str) -> None:
-        tool_names = {"maximum belt", "bravery charm", "muscle band", "hero's cape"}
+        tool_names = {"maximum belt", "bravery charm", "muscle band", "hero's cape", "survival brace"}
         # Item ranks stay on the pre-cape list. Hero's Cape is a Tool, and inserting
         # its name here shifts Counter Catcher onto a tie with a Nest Ball already in hand.
         item_prefer = ["Energy Search", "Nest Ball", "Switch", "Buddy-Buddy Poffin", "Tool Box", "Maximum Belt", "Muscle Band", "Bravery Charm", "Forest Seal Stone", "Counter Catcher"]
@@ -7018,7 +7051,7 @@ class Game:
             found_tool = self._search(
                 me,
                 lambda c: c.name.lower() in tool_names or self._is_tool_card(c),
-                prefer=["Forest Seal Stone", "Maximum Belt", "Muscle Band", "Bravery Charm"],
+                prefer=["Forest Seal Stone", "Maximum Belt", "Muscle Band", "Bravery Charm", "Survival Brace"],
                 source="arven",
             )
         found_item = self._search(

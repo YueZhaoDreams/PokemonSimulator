@@ -858,6 +858,13 @@ _HEROS_CAPE_TEXT = (
     "The Pokémon this card is attached to gets +100 HP, and can't be affected by any Special Conditions."
 )
 _register(_trn("Hero's Cape", "item", _HEROS_CAPE_TEXT, catalog_id="sv05-152"))
+# Twilight Masquerade ACE SPEC. One copy per deck.
+_SURVIVAL_BRACE_TEXT = (
+    "If the Pokémon this card is attached to has full HP and would be Knocked Out by damage "
+    "from an attack from your opponent's Pokémon, it is not Knocked Out, and its remaining HP "
+    "becomes 10. Then, discard this card."
+)
+_register(_trn("Survival Brace", "item", _SURVIVAL_BRACE_TEXT, catalog_id="sv06-164"))
 _register(_trn("Beach Court", "stadium", "The Retreat Cost of each Basic Pokémon in play (both yours and your opponent's) is Colorless less."))
 _register(_trn("Arven", "supporter", "Search your deck for an Item card and a Pokémon Tool card, reveal them, and put them into your hand. Then, shuffle your deck."))
 _register(
