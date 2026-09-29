@@ -398,26 +398,34 @@ SET_T_UNL_NAMES = (
     + ["Psychic Energy"] * 3
 )
 
-# Set M Standard 60: Zero-Energy Mew ex & Igglybuff Baby Box (Optimized Option C: 4 Mew ex, 4 Igglybuff, 4 Charm, 1 Switch).
+# Set M Standard 60: Zero-Energy Mew ex & Igglybuff Baby Box.
+# Greedy Max Potion, seed 20260929, 1000 games.
+# Decision score is the loss-weighted win rate. Weights are frozen from the
+# 0-potion list: Hedrick 33.4%, C60 32.0%, T60 30.3%, D60 4.3%.
+# Weighted 79.2% → 81.0% → 81.9% → 85.1% → 86.5%. Still rising at 4, the copy cap.
+# Cuts, in order: Cleffa, Cleffa, Maximum Belt, Ultra Ball.
+# One Hero's Cape on that list (ACE SPEC). Weights frozen from the 4-potion
+# list: Hedrick 38.4%, C60 31.1%, T60 25.5%, D60 5.0%. Lock 86.3% → Budew 88.4%.
+# Cut: one Budew (3 → 2).
 SET_M60_NAMES = (
     ["Mew ex"] * 4
     + ["Mime Jr."] * 2
     + ["Igglybuff"] * 4
-    + ["Budew"] * 3
-    + ["Cleffa"] * 2
+    + ["Budew"] * 2
     + ["Buddy-Buddy Poffin"] * 4
     + ["Nest Ball"] * 4
-    + ["Ultra Ball"] * 4
+    + ["Ultra Ball"] * 3
     + ["Night Stretcher"] * 4
     + ["Battle Cage"] * 4
     + ["Bravery Charm"] * 4
-    + ["Maximum Belt"]
+    + ["Hero's Cape"]
+    + ["Max Potion"] * 4
     + ["Arven"] * 4
     + ["Iono"] * 4
     + ["Professor's Research"] * 2
     + ["Boss's Orders"] * 3
     + ["Crushing Hammer"] * 4
-    + ["Switch"] * 1
+    + ["Switch"]
     + ["Counter Catcher"] * 2
 )
 SET_M_NAMES = SET_M60_NAMES
@@ -845,6 +853,18 @@ _register(
     )
 )
 _register(_trn("Bravery Charm", "item", "The Basic Pokémon this card is attached to gets +50 HP."))
+# Temporal Forces ACE SPEC. One copy per deck.
+_HEROS_CAPE_TEXT = (
+    "The Pokémon this card is attached to gets +100 HP, and can't be affected by any Special Conditions."
+)
+_register(_trn("Hero's Cape", "item", _HEROS_CAPE_TEXT, catalog_id="sv05-152"))
+# Twilight Masquerade ACE SPEC. One copy per deck.
+_SURVIVAL_BRACE_TEXT = (
+    "If the Pokémon this card is attached to has full HP and would be Knocked Out by damage "
+    "from an attack from your opponent's Pokémon, it is not Knocked Out, and its remaining HP "
+    "becomes 10. Then, discard this card."
+)
+_register(_trn("Survival Brace", "item", _SURVIVAL_BRACE_TEXT, catalog_id="sv06-164"))
 _register(_trn("Beach Court", "stadium", "The Retreat Cost of each Basic Pokémon in play (both yours and your opponent's) is Colorless less."))
 _register(_trn("Arven", "supporter", "Search your deck for an Item card and a Pokémon Tool card, reveal them, and put them into your hand. Then, shuffle your deck."))
 _register(
@@ -863,6 +883,11 @@ _register(
         catalog_id="dp7-92",
     )
 )
+# Current errata (Guardians Rising). Older prints say "Then, discard all Energy attached".
+_MAX_POTION_TEXT = (
+    "Heal all damage from 1 of your Pokémon. If you do, discard all Energy from that Pokémon."
+)
+_register(_trn("Max Potion", "item", _MAX_POTION_TEXT, catalog_id="sm2-128"))
 _register(_trn("Energy Switch", "item", "Move a Basic Energy from 1 of your Pokémon to another of your Pokémon."))
 _register(
     _trn(

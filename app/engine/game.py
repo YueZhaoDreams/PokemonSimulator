@@ -1498,6 +1498,9 @@ class Game:
                     score += 11
                 else:
                     score += 6
+                if strat.name in {"mew_baby", "baby"} and self._mew_wants_max_potion_tutor(me):
+                    # Arven is Item + Tool. Fetch the full heal before another Poffin.
+                    score += 20
             elif name == "hop":
                 if strat.name == "crunch":
                     # Thin toward ≤3 for Crunch-Time Rush; avoid deck-out.
@@ -1624,6 +1627,12 @@ class Game:
                 elif strat.name == "party" and "maximum belt" in name:
                     # Attach a found Belt before Hop / Search mill the deck around it.
                     score += 21
+                elif name == "hero's cape" and strat.name in {"mew_baby", "baby"}:
+                    # +100 HP on Mew. Above Poffin so the cape lands before another baby.
+                    score += 26
+                elif name == "survival brace" and strat.name in {"mew_baby", "baby"}:
+                    # One lethal attack from full HP. Charm (+8) takes the Active Mew first.
+                    score += 7
                 else:
                     score += 8
             elif name == "tulip":
@@ -1678,6 +1687,17 @@ class Game:
             elif name == "potion":
                 hurt = [m for m in me.in_play() if m.damage >= 20]
                 score += 11 if hurt else -6
+            elif name == "max potion":
+                mews = self._damaged_mews(me)
+                if strat.name in {"mew_baby", "baby"}:
+                    # Full heal on the closer. Above Poffin 25 once Mew is already hurt.
+                    if mews:
+                        score += 30 if me.active in mews else 24
+                    else:
+                        score -= 12
+                else:
+                    free = [m for m in me.in_play() if m.damage > 0 and not m.energy]
+                    score += 11 if free else -8
             elif "venture bomb" in name:
                 score += 3
             elif "redeemable ticket" in name:
@@ -2017,6 +2037,11 @@ class Game:
                 mon = max(hurt, key=lambda m: m.damage)
                 mon.damage = max(0, mon.damage - 20)
                 self._bump("potion")
+        elif name == "max potion":
+            for eff in parse_trainer_effects(card.text or ""):
+                if eff.get("kind") == "heal_all":
+                    self._heal_all(me, discard_energy=bool(eff.get("discard_energy")))
+                    break
         elif "venture bomb" in name:
             if self.rng.random() < 0.5:
                 targets = list(foe.in_play())
@@ -4752,7 +4777,8 @@ class Game:
                 self._bump("scrap_short", dumped_tools)
                 self._log(f"{attacker.name} puts {dumped_tools} Tools in the Lost Zone")
         was_undamaged = foe.active.damage == 0
-        foe.active.damage += dmg
+        ignore_effects = "effects" in (atk.text or "").lower() and "isn't affected" in (atk.text or "").lower()
+        self._add_attack_damage(foe, foe.active, dmg, ignore_effects=ignore_effects)
         self._bump("damage_dealt", dmg)
         if dmg > 0 and any(e.get("kind") == "require_equal_hands" for e in atk.effects):
             self._bump("adjusted_horn")
@@ -5312,7 +5338,7 @@ class Game:
             )
             dmg = max(0, dmg - resistance_reduce(foe.card(foe.active.card_i).resistances, attacker.types))
         if dmg >= active_hp > 0 or not foe.bench:
-            foe.active.damage += dmg
+            self._add_attack_damage(foe, foe.active, dmg)
             self._bump("damage_dealt", dmg)
             self._log(f"Cruel Arrow hits Active {foe.card(foe.active.card_i).name} for {dmg}")
             return
@@ -5320,13 +5346,13 @@ class Game:
         # explicitly still takes attack damage, so it never blocks here. When the bench
         # is shielded the attacker pivots to the Active instead of fizzling.
         if self._has_bench_shield(foe, "prevent_bench_damage_and_attack_effects"):
-            foe.active.damage += dmg
+            self._add_attack_damage(foe, foe.active, dmg)
             self._bump("spherical_shield")
             self._bump("damage_dealt", dmg)
             self._log("Spherical Shield redirects bench damage to Active")
             return
         if self._bench_attack_damage_prevented(foe):
-            foe.active.damage += dmg
+            self._add_attack_damage(foe, foe.active, dmg)
             self._bump("wave_veil")
             self._bump("damage_dealt", dmg)
             self._log("Wave Veil redirects bench damage to Active")
@@ -5334,18 +5360,18 @@ class Game:
         if self._has_bench_shield(foe, "prevent_bench_attack_damage_no_rulebox"):
             rulebox_bench = [m for m in foe.bench if self._has_rule_box(foe.card(m.card_i))]
             if not rulebox_bench:
-                foe.active.damage += dmg
+                self._add_attack_damage(foe, foe.active, dmg)
                 self._bump("flower_curtain")
                 self._bump("damage_dealt", dmg)
                 self._log("Flower Curtain redirects bench damage to Active")
                 return
             target = min(rulebox_bench, key=lambda m: self._max_hp(foe, m) - m.damage)
-            target.damage += amount
+            self._add_attack_damage(foe, target, amount)
             self._bump("bench_damage", amount)
             self._log(f"Cruel Arrow hits Bench {foe.card(target.card_i).name} for {amount}")
             return
         target = min(foe.bench, key=lambda m: self._max_hp(foe, m) - m.damage)
-        target.damage += amount
+        self._add_attack_damage(foe, target, amount)
         self._bump("bench_damage", amount)
         self._log(f"Cruel Arrow hits Bench {foe.card(target.card_i).name} for {amount}")
 
@@ -5721,6 +5747,10 @@ class Game:
             "burned": ST_BURNED,
         }.get(status)
         if not bit:
+            return
+        owner = self._owner_of(mon)
+        if owner is not None and self._blocks_special_conditions(owner, mon):
+            self._bump("special_condition_blocked")
             return
         if bit & VOLATILE:
             mon.status &= ~VOLATILE
@@ -6377,9 +6407,27 @@ class Game:
         if mon.tool is None:
             return hp
         tool = player.card(mon.tool)
-        if "bravery charm" in tool.name.lower() and card.is_basic:
+        text = (tool.text or "").lower().replace("pokémon", "pokemon")
+        bonus = re.search(r"gets \+(\d+) hp", text)
+        if bonus:
+            basic_only = "basic pokemon this card is attached" in text
+            if not basic_only or card.is_basic:
+                hp += int(bonus.group(1))
+        elif "bravery charm" in tool.name.lower() and card.is_basic:
             hp += 50
         return hp
+
+    def _blocks_special_conditions(self, player: Player, mon: Pokemon) -> bool:
+        if mon.tool is None:
+            return False
+        text = (player.card(mon.tool).text or "").lower().replace("pokémon", "pokemon")
+        return "special condition" in text and "can't be affected" in text
+
+    def _owner_of(self, mon: Pokemon) -> Player | None:
+        for player in self.players.values():
+            if any(other is mon for other in player.in_play()):
+                return player
+        return None
 
     def _retreat_cost(self, me: Player, mon: Pokemon) -> int:
         card = me.card(mon.card_i)
@@ -6685,6 +6733,16 @@ class Game:
                 if mon.tool is None and self._is_pokemon_v(me.card(mon.card_i)):
                     return mon
             return None
+        if name in {"hero's cape", "survival brace"}:
+            for mon in me.in_play():
+                if mon.tool is None and me.card(mon.card_i).name.lower() == "mew ex":
+                    return mon
+            if self.strats[who].name in {"mew_baby", "baby"}:
+                return None
+            for mon in me.in_play():
+                if mon.tool is None:
+                    return mon
+            return None
         if name == "bravery charm":
             for mon in me.in_play():
                 if mon.tool is None and me.card(mon.card_i).name.lower() == "mew ex":
@@ -6760,11 +6818,42 @@ class Game:
                 return mon
         return None
 
+    def _is_survival_brace(self, player: Player, mon: Pokemon) -> bool:
+        if mon.tool is None:
+            return False
+        text = (player.card(mon.tool).text or "").lower().replace("pokémon", "pokemon")
+        return "full hp" in text and "would be knocked out" in text and "remaining hp becomes 10" in text
+
+    def _maybe_survival_brace(self, owner: Player, mon: Pokemon, *, was_full: bool, ignore_effects: bool = False) -> None:
+        """Printed Survival Brace: a full-HP Pokémon survives a lethal attack at 10 HP, then the tool is discarded.
+
+        Damage counters placed by an attack are not damage from that attack, so callers
+        must not use this for those counters. Demolish ignores effects on the Active.
+        """
+        if ignore_effects or not was_full or not self._is_survival_brace(owner, mon):
+            return
+        hp = self._max_hp(owner, mon)
+        if hp <= 0 or mon.damage < hp:
+            return
+        mon.damage = max(0, hp - 10)
+        owner.discard.append(mon.tool)
+        mon.tool = None
+        self._bump("survival_brace")
+        self._log(f"Survival Brace leaves {owner.card(mon.card_i).name} with 10 HP")
+
+    def _add_attack_damage(self, owner: Player, mon: Pokemon, amount: int, *, ignore_effects: bool = False) -> None:
+        was_full = mon.damage <= 0
+        mon.damage += amount
+        if amount > 0:
+            self._maybe_survival_brace(owner, mon, was_full=was_full, ignore_effects=ignore_effects)
+
     def _attach_tool(self, me: Player, who: str, card_i: int) -> bool:
         target = self._tool_target(me, who, me.card(card_i))
         if target is None:
             return False
         target.tool = card_i
+        if self._blocks_special_conditions(me, target):
+            target.status = 0
         self._bump(f"tool:{me.card(card_i).name}")
         self._log(f"{me.name} attaches {me.card(card_i).name} to {me.card(target.card_i).name}")
         return True
@@ -6901,15 +6990,70 @@ class Game:
         self._log(f"{me.name} retreats into {me.card(incoming.card_i).name}")
         return True
 
+    def _damaged_mews(self, me: Player) -> list[Pokemon]:
+        return [
+            mon
+            for mon in me.in_play()
+            if mon.damage > 0 and me.card(mon.card_i).name.lower() == "mew ex"
+        ]
+
+    def _mew_wants_max_potion_tutor(self, me: Player) -> bool:
+        if not self._damaged_mews(me):
+            return False
+        in_hand = any(me.card(i).name.lower() == "max potion" for i in me.hand)
+        in_deck = any(me.card(i).name.lower() == "max potion" for i in me.deck)
+        return in_deck and not in_hand
+
+    def _heal_all(self, me: Player, discard_energy: bool) -> None:
+        """Printed Max Potion: heal all damage from 1 Pokémon; discard its Energy if you healed."""
+        hurt = [mon for mon in me.in_play() if mon.damage > 0]
+        if not hurt:
+            self._bump("max_potion_whiff")
+            return
+        who = "a" if me.name == "A" else "b"
+        mews = [mon for mon in hurt if me.card(mon.card_i).name.lower() == "mew ex"]
+        if self.strats[who].name in {"mew_baby", "baby"} and mews:
+            mon = max(mews, key=lambda m: (m is me.active, m.damage))
+        else:
+            free = [mon for mon in hurt if not mon.energy]
+            pool = free or hurt
+            mon = max(pool, key=lambda m: (m.damage, -len(m.energy)))
+        healed = mon.damage
+        mon.damage = 0
+        discarded = 0
+        if discard_energy and healed > 0 and mon.energy:
+            discarded = len(mon.energy)
+            me.discard.extend(list(mon.energy))
+            mon.energy.clear()
+            self._bump("max_potion_discard_energy", discarded)
+        self._bump("max_potion")
+        self._log(
+            f"{me.name} Max Potion heals {me.card(mon.card_i).name}"
+            + (f" and discards {discarded} Energy" if discarded else "")
+        )
+
     def _arven(self, me: Player, who: str) -> None:
-        tool_names = {"maximum belt", "bravery charm", "muscle band"}
+        tool_names = {"maximum belt", "bravery charm", "muscle band", "hero's cape", "survival brace"}
+        # Item ranks stay on the pre-cape list. Hero's Cape is a Tool, and inserting
+        # its name here shifts Counter Catcher onto a tie with a Nest Ball already in hand.
         item_prefer = ["Energy Search", "Nest Ball", "Switch", "Buddy-Buddy Poffin", "Tool Box", "Maximum Belt", "Muscle Band", "Bravery Charm", "Forest Seal Stone", "Counter Catcher"]
+        if self.strats[who].name in {"mew_baby", "baby"} and self._damaged_mews(me):
+            item_prefer = ["Max Potion", *item_prefer]
+        # Separate search so a missing cape does not change the other tools' prefer scores.
+        # _search shuffles only when it finds a card.
         found_tool = self._search(
             me,
-            lambda c: c.name.lower() in tool_names or self._is_tool_card(c),
-            prefer=["Forest Seal Stone", "Maximum Belt", "Muscle Band", "Bravery Charm"],
+            lambda c: c.name.lower() == "hero's cape",
+            prefer=["Hero's Cape"],
             source="arven",
         )
+        if found_tool is None:
+            found_tool = self._search(
+                me,
+                lambda c: c.name.lower() in tool_names or self._is_tool_card(c),
+                prefer=["Forest Seal Stone", "Maximum Belt", "Muscle Band", "Bravery Charm", "Survival Brace"],
+                source="arven",
+            )
         found_item = self._search(
             me,
             lambda c: c.is_item and c.name.lower() not in tool_names and (found_tool is None or c.name != me.card(found_tool).name),

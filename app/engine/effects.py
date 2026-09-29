@@ -1099,6 +1099,17 @@ def parse_trainer_effects(text: str) -> list[dict[str, Any]]:
         effects.append({"kind": "heal_mega_return_energy"})
         return effects
 
+    # Max Potion. "If you do" (current errata) and "Then, discard all Energy attached"
+    # both discard Energy only after a heal. The Mega sentence above is not this card.
+    if "heal all damage" in t and "mega evolution" not in t:
+        effects.append(
+            {
+                "kind": "heal_all",
+                "discard_energy": "discard all energy" in t,
+            }
+        )
+        return effects
+
     # Poké Pad ME02.5 198: a Pokémon without a Rule Box, not a look-N.
     if "search your deck for a pokemon" in t and "rule box" in t and "doesn't have" in t:
         effects.append({"kind": "search_pokemon_no_rule_box"})

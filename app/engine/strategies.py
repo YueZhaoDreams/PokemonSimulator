@@ -589,7 +589,9 @@ STRATEGY_LIBRARY = {
             "Igglybuff Bouncy Circle for 30x benched 30-HP (up to 150, or 200 with Maximum Belt vs ex), "
             "Budew Itchy Pollen for Item lock, Cleffa Grasping Draw to refill hand, Mime Jr. Mimed Games. "
             "Buddy-Buddy Poffin and Nest Ball swarm 5 babies on bench. Battle Cage prevents bench damage counters. "
-            "Night Stretcher recovers KO'd Mew ex or babies."
+            "Night Stretcher recovers KO'd Mew ex or babies. "
+            "Max Potion heals all damage from a damaged Mew ex. This list attaches no Energy, so that discard is free. "
+            "Hero's Cape goes on an open Mew ex."
         ),
         prefer_damage=0.9,
         prefer_status=0.2,
