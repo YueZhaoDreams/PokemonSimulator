@@ -398,26 +398,28 @@ SET_T_UNL_NAMES = (
     + ["Psychic Energy"] * 3
 )
 
-# Set M Standard 60: Zero-Energy Mew ex & Igglybuff Baby Box (Optimized Option C: 4 Mew ex, 4 Igglybuff, 4 Charm, 1 Switch).
+# Set M Standard 60: Zero-Energy Mew ex & Igglybuff Baby Box.
+# Greedy Max Potion, seed 20260929, 1000 games, equal-weight T60 / Hedrick / C60 / D60.
+# Mean 83.1% → 84.3% → 85.2% → 88.0% → 89.0%. Still rising at 4, which is the copy cap.
+# Cuts, in order: Cleffa, Cleffa, Maximum Belt, Ultra Ball.
 SET_M60_NAMES = (
     ["Mew ex"] * 4
     + ["Mime Jr."] * 2
     + ["Igglybuff"] * 4
     + ["Budew"] * 3
-    + ["Cleffa"] * 2
     + ["Buddy-Buddy Poffin"] * 4
     + ["Nest Ball"] * 4
-    + ["Ultra Ball"] * 4
+    + ["Ultra Ball"] * 3
     + ["Night Stretcher"] * 4
     + ["Battle Cage"] * 4
     + ["Bravery Charm"] * 4
-    + ["Maximum Belt"]
+    + ["Max Potion"] * 4
     + ["Arven"] * 4
     + ["Iono"] * 4
     + ["Professor's Research"] * 2
     + ["Boss's Orders"] * 3
     + ["Crushing Hammer"] * 4
-    + ["Switch"] * 1
+    + ["Switch"]
     + ["Counter Catcher"] * 2
 )
 SET_M_NAMES = SET_M60_NAMES
@@ -863,6 +865,11 @@ _register(
         catalog_id="dp7-92",
     )
 )
+# Current errata (Guardians Rising). Older prints say "Then, discard all Energy attached".
+_MAX_POTION_TEXT = (
+    "Heal all damage from 1 of your Pokémon. If you do, discard all Energy from that Pokémon."
+)
+_register(_trn("Max Potion", "item", _MAX_POTION_TEXT, catalog_id="sm2-128"))
 _register(_trn("Energy Switch", "item", "Move a Basic Energy from 1 of your Pokémon to another of your Pokémon."))
 _register(
     _trn(

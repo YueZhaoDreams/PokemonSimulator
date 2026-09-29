@@ -1498,6 +1498,9 @@ class Game:
                     score += 11
                 else:
                     score += 6
+                if strat.name in {"mew_baby", "baby"} and self._mew_wants_max_potion_tutor(me):
+                    # Arven is Item + Tool. Fetch the full heal before another Poffin.
+                    score += 20
             elif name == "hop":
                 if strat.name == "crunch":
                     # Thin toward ≤3 for Crunch-Time Rush; avoid deck-out.
@@ -1678,6 +1681,17 @@ class Game:
             elif name == "potion":
                 hurt = [m for m in me.in_play() if m.damage >= 20]
                 score += 11 if hurt else -6
+            elif name == "max potion":
+                mews = self._damaged_mews(me)
+                if strat.name in {"mew_baby", "baby"}:
+                    # Full heal on the closer. Above Poffin 25 once Mew is already hurt.
+                    if mews:
+                        score += 30 if me.active in mews else 24
+                    else:
+                        score -= 12
+                else:
+                    free = [m for m in me.in_play() if m.damage > 0 and not m.energy]
+                    score += 11 if free else -8
             elif "venture bomb" in name:
                 score += 3
             elif "redeemable ticket" in name:
@@ -2017,6 +2031,11 @@ class Game:
                 mon = max(hurt, key=lambda m: m.damage)
                 mon.damage = max(0, mon.damage - 20)
                 self._bump("potion")
+        elif name == "max potion":
+            for eff in parse_trainer_effects(card.text or ""):
+                if eff.get("kind") == "heal_all":
+                    self._heal_all(me, discard_energy=bool(eff.get("discard_energy")))
+                    break
         elif "venture bomb" in name:
             if self.rng.random() < 0.5:
                 targets = list(foe.in_play())
@@ -6901,9 +6920,53 @@ class Game:
         self._log(f"{me.name} retreats into {me.card(incoming.card_i).name}")
         return True
 
+    def _damaged_mews(self, me: Player) -> list[Pokemon]:
+        return [
+            mon
+            for mon in me.in_play()
+            if mon.damage > 0 and me.card(mon.card_i).name.lower() == "mew ex"
+        ]
+
+    def _mew_wants_max_potion_tutor(self, me: Player) -> bool:
+        if not self._damaged_mews(me):
+            return False
+        in_hand = any(me.card(i).name.lower() == "max potion" for i in me.hand)
+        in_deck = any(me.card(i).name.lower() == "max potion" for i in me.deck)
+        return in_deck and not in_hand
+
+    def _heal_all(self, me: Player, discard_energy: bool) -> None:
+        """Printed Max Potion: heal all damage from 1 Pokémon; discard its Energy if you healed."""
+        hurt = [mon for mon in me.in_play() if mon.damage > 0]
+        if not hurt:
+            self._bump("max_potion_whiff")
+            return
+        who = "a" if me.name == "A" else "b"
+        mews = [mon for mon in hurt if me.card(mon.card_i).name.lower() == "mew ex"]
+        if self.strats[who].name in {"mew_baby", "baby"} and mews:
+            mon = max(mews, key=lambda m: (m is me.active, m.damage))
+        else:
+            free = [mon for mon in hurt if not mon.energy]
+            pool = free or hurt
+            mon = max(pool, key=lambda m: (m.damage, -len(m.energy)))
+        healed = mon.damage
+        mon.damage = 0
+        discarded = 0
+        if discard_energy and healed > 0 and mon.energy:
+            discarded = len(mon.energy)
+            me.discard.extend(list(mon.energy))
+            mon.energy.clear()
+            self._bump("max_potion_discard_energy", discarded)
+        self._bump("max_potion")
+        self._log(
+            f"{me.name} Max Potion heals {me.card(mon.card_i).name}"
+            + (f" and discards {discarded} Energy" if discarded else "")
+        )
+
     def _arven(self, me: Player, who: str) -> None:
         tool_names = {"maximum belt", "bravery charm", "muscle band"}
         item_prefer = ["Energy Search", "Nest Ball", "Switch", "Buddy-Buddy Poffin", "Tool Box", "Maximum Belt", "Muscle Band", "Bravery Charm", "Forest Seal Stone", "Counter Catcher"]
+        if self.strats[who].name in {"mew_baby", "baby"} and self._damaged_mews(me):
+            item_prefer = ["Max Potion", *item_prefer]
         found_tool = self._search(
             me,
             lambda c: c.name.lower() in tool_names or self._is_tool_card(c),

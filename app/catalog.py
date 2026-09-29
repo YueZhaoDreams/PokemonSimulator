@@ -161,6 +161,7 @@ PREFERRED_IDS = {
     "Mr. Mime": "base2-6",
     "Nest Ball": "sv01-181",
     "Bravery Charm": "sv02-173",
+    "Max Potion": "sm2-128",  # Guardians Rising: heal all, then discard Energy if you healed
     "Acerola": "sm3-112",
     "Double Colorless Energy": "sm1-136",
     "Dusclops": "swsh12.5-063",  # Fade to Black / Confused (Crown Zenith) — not Brilliant Stars
