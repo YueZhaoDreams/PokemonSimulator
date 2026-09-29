@@ -38,7 +38,8 @@ GAMES = int(os.environ.get("M_CAPE_GAMES", "1000"))
 SEED = int(os.environ.get("M_CAPE_SEED", "20260929"))
 WORKERS = int(os.environ.get("M_CAPE_WORKERS", "4"))
 
-# Locked 4 Max Potion list, before this cape trial.
+# Locked 4 Max Potion list, in the order the potion search actually shuffled.
+# Max Potion was appended by each swap, so those four copies sit at the end.
 M60_POTION = (
     ["Mew ex"] * 4
     + ["Mime Jr."] * 2
@@ -50,7 +51,6 @@ M60_POTION = (
     + ["Night Stretcher"] * 4
     + ["Battle Cage"] * 4
     + ["Bravery Charm"] * 4
-    + ["Max Potion"] * 4
     + ["Arven"] * 4
     + ["Iono"] * 4
     + ["Professor's Research"] * 2
@@ -58,6 +58,7 @@ M60_POTION = (
     + ["Crushing Hammer"] * 4
     + ["Switch"]
     + ["Counter Catcher"] * 2
+    + ["Max Potion"] * 4
 )
 
 QUERIES = [

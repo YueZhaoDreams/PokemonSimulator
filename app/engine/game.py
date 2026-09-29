@@ -7001,15 +7001,26 @@ class Game:
 
     def _arven(self, me: Player, who: str) -> None:
         tool_names = {"maximum belt", "bravery charm", "muscle band", "hero's cape"}
-        item_prefer = ["Energy Search", "Nest Ball", "Switch", "Buddy-Buddy Poffin", "Tool Box", "Maximum Belt", "Muscle Band", "Bravery Charm", "Hero's Cape", "Forest Seal Stone", "Counter Catcher"]
+        # Item ranks stay on the pre-cape list. Hero's Cape is a Tool, and inserting
+        # its name here shifts Counter Catcher onto a tie with a Nest Ball already in hand.
+        item_prefer = ["Energy Search", "Nest Ball", "Switch", "Buddy-Buddy Poffin", "Tool Box", "Maximum Belt", "Muscle Band", "Bravery Charm", "Forest Seal Stone", "Counter Catcher"]
         if self.strats[who].name in {"mew_baby", "baby"} and self._damaged_mews(me):
             item_prefer = ["Max Potion", *item_prefer]
+        # Separate search so a missing cape does not change the other tools' prefer scores.
+        # _search shuffles only when it finds a card.
         found_tool = self._search(
             me,
-            lambda c: c.name.lower() in tool_names or self._is_tool_card(c),
-            prefer=["Hero's Cape", "Forest Seal Stone", "Maximum Belt", "Muscle Band", "Bravery Charm"],
+            lambda c: c.name.lower() == "hero's cape",
+            prefer=["Hero's Cape"],
             source="arven",
         )
+        if found_tool is None:
+            found_tool = self._search(
+                me,
+                lambda c: c.name.lower() in tool_names or self._is_tool_card(c),
+                prefer=["Forest Seal Stone", "Maximum Belt", "Muscle Band", "Bravery Charm"],
+                source="arven",
+            )
         found_item = self._search(
             me,
             lambda c: c.is_item and c.name.lower() not in tool_names and (found_tool is None or c.name != me.card(found_tool).name),

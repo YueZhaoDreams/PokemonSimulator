@@ -63,6 +63,23 @@ def test_heros_cape_blocks_and_clears_special_conditions():
     assert game.events["special_condition_blocked"] == 1
 
 
+def test_arven_takes_heros_cape_ahead_of_bravery_charm():
+    game = _game()
+    me = game.players["a"]
+    mew_i = next(i for i, c in enumerate(me.cards) if c.name == "Mew ex")
+    cape_i = next(i for i, c in enumerate(me.cards) if c.name == "Hero's Cape")
+    charm_i = next(i for i, c in enumerate(me.cards) if c.name == "Bravery Charm")
+    nest_i = next(i for i, c in enumerate(me.cards) if c.name == "Hop")
+    me.active = Pokemon(card_i=mew_i)
+    me.hand = []
+    me.deck = [charm_i, cape_i, nest_i]
+    me.discard = []
+    me.prizes = []
+    game._arven(me, "a")
+    assert cape_i in me.hand
+    assert charm_i in me.deck
+
+
 def test_mew_baby_attaches_cape_to_an_open_mew_before_a_baby():
     game = _game()
     me = game.players["a"]
