@@ -157,6 +157,38 @@ def test_poffin_cannot_fetch_210_hp():
     assert latias in me.deck
 
 
+def test_latias_matrix_prefers_one_copy_and_an_ultra_ball():
+    import json
+    from pathlib import Path
+
+    blob = json.loads(
+        (Path(__file__).resolve().parents[1] / "data/lab/set-c60-latias-ex.json").read_text()
+    )
+    assert blob["games"] == 3000
+    assert blob["seed"] == 20260926
+    assert blob["catalog_id"] == "sv08-076"
+    assert blob["printed"] == PRINTED
+    assert set(blob["cells"]) == {"lock", "latias2", "latias_ultra"}
+    assert blob["lists"]["lock"].count("Moonlight Stadium") == 2
+    assert blob["lists"]["latias2"].count("Latias ex") == 2
+    assert blob["lists"]["latias_ultra"].count("Latias ex") == 1
+    assert blob["lists"]["latias_ultra"].count("Ultra Ball") == 1
+    wcomp = blob["weighted_competitive"]
+    wall = blob["weighted_all"]
+    assert max(wcomp, key=wcomp.get) == "latias_ultra"
+    assert max(wall, key=wall.get) == "latias_ultra"
+    cells = blob["cells"]
+    lock = cells["lock"]
+    mixed = cells["latias_ultra"]
+    two = cells["latias2"]
+    for foe in ("t60", "hedrick", "unl", "d60", "s60", "g"):
+        assert mixed[foe]["a"] > lock[foe]["a"]
+    assert two["d60"]["a"] < lock["d60"]["a"]
+    assert two["hedrick"]["a"] > mixed["hedrick"]["a"]
+    assert mixed["t60"]["eon"] < 30
+    assert two["d60"]["eon"] == 0
+
+
 def test_latias_for_two_stadiums_is_a_legal_sixty():
     names = list(SET_C60_NAMES)
     assert names.count("Moonlight Stadium") == 2
