@@ -122,6 +122,7 @@ PREFERRED_IDS = {
     "Oddish": "swsh12.5-001",
     "Clefairy": "swsh11-062",
     "Moonlight Stadium": "dp4-100",
+    "Latias ex": "sv08-076",  # Surging Sparks Skyliner / Eon Blade 200
     "Clefable": "swsh2-75",
     "Clefable ex": "sv03-082",
     "Mega Clefable ex": "me03-031",

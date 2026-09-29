@@ -3650,6 +3650,36 @@ _register(
         image="https://assets.tcgdex.net/en/dp/dp4/100/low.webp",
     )
 )
+# Surging Sparks 76. Basic ex, so Nest Ball can bench it. Skyliner is the
+# retreat line; Eon Blade is printed and is not the Party closer.
+_register(
+    _pkm(
+        "Latias ex",
+        "Basic",
+        ["Psychic"],
+        210,
+        [
+            _atk(
+                "Eon Blade",
+                ["Psychic", "Psychic", "Colorless"],
+                200,
+                "During your next turn, this Pokémon can't attack.",
+            )
+        ],
+        catalog_id="sv08-076",
+        weakness="Darkness",
+        retreat=2,
+        abilities=[
+            Ability(
+                name="Skyliner",
+                text="Your Basic Pokémon in play have no Retreat Cost.",
+            )
+        ],
+        resistances=[{"type": "Fighting", "value": "-30"}],
+        image="https://assets.tcgdex.net/en/sv/sv08/076/low.webp",
+        set_name="Surging Sparks",
+    )
+)
 
 # Chris Brewer Lucario Hariyama prints. Texts are the pokemontcg.io English sentences.
 _register(

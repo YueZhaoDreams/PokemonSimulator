@@ -477,6 +477,18 @@ def parse_ability_effects(text: str) -> list[dict[str, Any]]:
                 }
             )
 
+    # Surging Sparks 76 Skyliner: "Your Basic Pokémon in play have no Retreat Cost."
+    # Owner's Basics only, while the Pokémon with this Ability is in play.
+    # A both-players stadium, and Lunar Zone's Energy gate, are different sentences.
+    if "your basic pokemon in play have no retreat cost" in t:
+        effects.append(
+            {
+                "kind": "basic_retreat_zero",
+                "basic_only": True,
+                "owner_only": True,
+            }
+        )
+
     # Octillery Abyssal Hand / draw-until abilities. Count comes from print.
     until = parse_draw_until_hand(text)
     if until and "search your deck" not in t:

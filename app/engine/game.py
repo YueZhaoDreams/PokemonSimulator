@@ -344,6 +344,9 @@ class Game:
                 return self._count_named_in_play(me, "sprigatito") == 0 and not any(
                     self._is_floragato(me.card(m.card_i)) for m in me.in_play()
                 )
+        if strat.name == "party" and name == "latias ex":
+            # Skyliner is the retreat line. Do not attach the ex as Energy.
+            return True
         if strat.name == "party" and self._invitation_attack(card):
             # 151 print is a one-attack dump, not Psychic Energy.
             return True
@@ -433,6 +436,10 @@ class Game:
 
         if strat.name == "party" and "lillie's clefairy" in name:
             # One Fairy Zone (Dragon Weakness → Psychic ×2). 190 HP, 2 prizes.
+            return copies < 1
+
+        if strat.name == "party" and name == "latias ex":
+            # One Skyliner body. A second copy stays in hand until the first leaves.
             return copies < 1
 
         if strat.name == "party" and name in {"rellor", "shaymin"}:
@@ -648,6 +655,9 @@ class Game:
             if strat.name == "party" and "lillie's clefairy" in name:
                 # Fairy Zone is a bench card. Score below the hold_as_energy
                 # placeholder (50 − HP) so any other Basic opens instead.
+                return -1000
+            if strat.name == "party" and name == "latias ex":
+                # Bench Skyliner. 210 HP and 2 prizes; Clefairy or Mewtwo opens.
                 return -1000
             if strat.name == "party" and name in {"rellor", "shaymin"}:
                 # Bench shields never open: 50/80 HP gifts vs Dive/Boss.
@@ -3505,6 +3515,13 @@ class Game:
                 score -= 1
             if card.hp and card.hp >= 140:
                 score -= 3
+            if (
+                strat.name == "party"
+                and card.name.lower() == "latias ex"
+                and self._count_named_in_play(me, "Latias ex") == 0
+            ):
+                # Keep the one Skyliner copy. A spare can pay the Ultra Ball.
+                score -= 12
             if card.is_trainer:
                 score += 2
             if card.is_pokemon and card.hp and card.hp <= 70:
@@ -3633,6 +3650,12 @@ class Game:
                     prefer.append("Rabsca")
                 if "shaymin" not in in_play and "shaymin" not in in_hand:
                     prefer.append("Shaymin")
+            if self._count_named_in_play(me, "Latias ex") == 0 and not any(
+                me.card(i).name.lower() == "latias ex" for i in me.hand
+            ):
+                # After Clefairy and Mewtwo. Nest Ball still bumps it once a
+                # Clefairy is out; Ultra Ball keeps the closer ahead of it.
+                prefer.append("Latias ex")
             return list(dict.fromkeys(prefer))
         if strat.name == "g":
             prefer: list[str] = []
@@ -5343,6 +5366,7 @@ class Game:
                 "psychic energy",
                 "clefable",
                 "clefairy",
+                "latias ex",
             ]
             if self._facing_phantom(me):
                 prefer.extend(["rabsca", "rellor", "shaymin"])
@@ -6541,6 +6565,8 @@ class Game:
         if self.stadium_name == "Beach Court" and card.is_basic:
             cost = max(0, cost - 1)
         cost = self._apply_stadium_retreat(me, mon, cost)
+        if self._basics_retreat_free(me, mon):
+            cost = 0
         if self._has_lunar_zone(me) and self._has_psychic_energy_on(me, mon):
             return 0
         return max(0, cost)
@@ -6590,6 +6616,23 @@ class Game:
                 continue
             if self._retreat_effect_matches(me, mon, eff):
                 return True
+        return False
+
+    def _basics_retreat_free(self, me: Player, mon: Pokemon) -> bool:
+        """Printed 'Your Basic Pokémon in play have no Retreat Cost.'
+
+        The Pokémon with that Ability has to be in play, and the Pokémon
+        paying retreat has to be yours and Basic. The opponent's board does
+        not change. Evolutions still pay their printed cost.
+        """
+        if not me.card(mon.card_i).is_basic:
+            return False
+        for source in me.in_play():
+            if self._abilities_suppressed(me, source):
+                continue
+            for abi in me.card(source.card_i).abilities:
+                if any(eff.get("kind") == "basic_retreat_zero" for eff in self._ability_effects(abi)):
+                    return True
         return False
 
     def _stadium_type_retreat_zero(self, me: Player, mon: Pokemon) -> bool:
@@ -7053,6 +7096,11 @@ class Game:
                     continue
                 if strat.name == "party" and self._is_mewtwo(card) and self._mewtwo_play_cap(me) <= 0:
                     continue
+                if strat.name == "party" and name == "latias ex":
+                    if self._count_named_in_play(me, "Latias ex") >= 1:
+                        continue
+                    if any(me.card(i).name.lower() == "latias ex" for i in me.hand):
+                        continue
                 if strat.name == "slash" and name not in {"wo-chien ex", "sprigatito"}:
                     continue
                 if strat.name == "phantom" and name not in {
@@ -7077,6 +7125,12 @@ class Game:
                     and self._rulebox_lock_on_opponent(me)
                 ):
                     continue
+                if strat.name == "party" and source == "nest ball" and name == "latias ex":
+                    # Poffin still takes ≤70 HP Clefairy. Once one engine is out,
+                    # Nest's job is the Basic that prints Skyliner.
+                    clef_out = sum(1 for m in me.in_play() if self._is_clefairy(me.card(m.card_i)))
+                    if clef_out >= 1 and name not in in_play:
+                        score += 30
                 if strat.name == "g" and source == "nest ball":
                     # Poffin already takes ≤70 HP. Nest's job on this list is Munkidori
                     # (110 HP) after the first Clefairy is down.
@@ -7121,6 +7175,10 @@ class Game:
             for idx, mon in enumerate(me.bench):
                 if "mega clefable" in me.card(mon.card_i).name.lower():
                     return idx
+            for idx, mon in enumerate(me.bench):
+                if me.card(mon.card_i).name.lower() != "latias ex":
+                    return idx
+            return 0
         if strat.name == "demolish":
             for idx, mon in enumerate(me.bench):
                 if self._is_ogerpon(me.card(mon.card_i)):
@@ -9619,7 +9677,8 @@ class Game:
 
         Great Encounters Moonlight Stadium makes each Psychic Pokémon's Retreat
         Cost 0, so an empty Active Clefairy retreats without discarding Energy
-        and without playing Switch. The energy-gated prints still pay whatever
+        and without playing Switch. Skyliner does the same for your Basics while
+        that Pokémon is in play. The energy-gated prints still pay whatever
         cost is left. Versus Dive, Claw, or a ready Demolish, a Switch must still
         be in hand so the tank line can hide after the second Party. Lunar Zone
         alone does not take this path.
@@ -9630,7 +9689,9 @@ class Game:
             return False
         if not self._is_clefairy(me.card(me.active.card_i)):
             return False
-        if not self._stadium_retreat_applies(me, me.active):
+        stadium = self._stadium_retreat_applies(me, me.active)
+        skyliner = self._basics_retreat_free(me, me.active)
+        if not stadium and not skyliner:
             return False
         printed = int(me.card(me.active.card_i).retreat or 0)
         cost = self._retreat_cost(me, me.active)
@@ -9648,8 +9709,14 @@ class Game:
         if not self._do_retreat_into(me, incoming):
             return False
         self.moonlight_pivot_mon[who] = me.active
-        self._bump("moonlight_party_pivot")
-        self._log(f"{me.name} Moonlight Stadium pivots into {me.card(me.active.card_i).name}")
+        if stadium:
+            self._bump("moonlight_party_pivot")
+        if skyliner:
+            self._bump("skyliner_party_pivot")
+        source = " and ".join(
+            part for part, on in (("Skyliner", skyliner), ("Moonlight Stadium", stadium)) if on
+        )
+        self._log(f"{me.name} {source} pivots into {me.card(me.active.card_i).name}")
         if not me.active.ability_used:
             self._moon_watching_party(me, me.active)
         return True
