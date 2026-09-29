@@ -1,0 +1,1034 @@
+{
+  "games": 1000,
+  "seed": 20260929,
+  "elapsed": 175.16009573500014,
+  "method": "one Survival Brace on the no-cape list; loss-weighted win rate frozen on the 4-Max-Potion list",
+  "weights": {
+    "t60": 0.25454545454545446,
+    "hedrick": 0.38409090909090915,
+    "c60": 0.31136363636363634,
+    "d60": 0.05000000000000004
+  },
+  "cut": null,
+  "lock_weighted": 0.8628227272727272,
+  "best_cut": "Counter Catcher",
+  "best_weighted": 0.8541613636363636,
+  "cape": {
+    "best_cut": "Budew",
+    "best_weighted": 0.8838340909090909,
+    "lock_weighted": 0.8628227272727272
+  },
+  "ranking": [
+    {
+      "cut": null,
+      "weighted": 0.8628227272727272,
+      "mean": 0.89,
+      "brace": 0.0,
+      "saved": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.888,
+          "b": 0.112,
+          "tie": 0.0,
+          "first": 0.8521560574948666,
+          "second": 0.9220272904483431,
+          "brace": 0.0,
+          "saved": 0.0,
+          "max_potion": 0.563
+        },
+        "hedrick": {
+          "a": 0.831,
+          "b": 0.169,
+          "tie": 0.0,
+          "first": 0.7834008097165992,
+          "second": 0.8774703557312253,
+          "brace": 0.0,
+          "saved": 0.0,
+          "max_potion": 0.625
+        },
+        "c60": {
+          "a": 0.863,
+          "b": 0.137,
+          "tie": 0.0,
+          "first": 0.8375,
+          "second": 0.8865384615384615,
+          "brace": 0.0,
+          "saved": 0.0,
+          "max_potion": 0.364
+        },
+        "d60": {
+          "a": 0.978,
+          "b": 0.022,
+          "tie": 0.0,
+          "first": 0.9815950920245399,
+          "second": 0.974559686888454,
+          "brace": 0.0,
+          "saved": 0.0,
+          "max_potion": 0.173
+        }
+      }
+    },
+    {
+      "cut": "Counter Catcher",
+      "copies_before": 2,
+      "weighted": 0.8541613636363636,
+      "mean": 0.883,
+      "brace": 0.1715,
+      "saved": 0.05,
+      "cells": {
+        "t60": {
+          "a": 0.866,
+          "b": 0.134,
+          "tie": 0.0,
+          "first": 0.8542914171656687,
+          "second": 0.8777555110220441,
+          "brace": 0.195,
+          "saved": 0.069,
+          "max_potion": 0.593
+        },
+        "hedrick": {
+          "a": 0.811,
+          "b": 0.189,
+          "tie": 0.0,
+          "first": 0.8156312625250501,
+          "second": 0.8063872255489022,
+          "brace": 0.156,
+          "saved": 0.03,
+          "max_potion": 0.672
+        },
+        "c60": {
+          "a": 0.878,
+          "b": 0.122,
+          "tie": 0.0,
+          "first": 0.8590476190476191,
+          "second": 0.8989473684210526,
+          "brace": 0.219,
+          "saved": 0.101,
+          "max_potion": 0.396
+        },
+        "d60": {
+          "a": 0.977,
+          "b": 0.023,
+          "tie": 0.0,
+          "first": 0.9796334012219959,
+          "second": 0.9744597249508841,
+          "brace": 0.116,
+          "saved": 0.0,
+          "max_potion": 0.177
+        }
+      }
+    },
+    {
+      "cut": "Budew",
+      "copies_before": 3,
+      "weighted": 0.8524613636363636,
+      "mean": 0.88225,
+      "brace": 0.18,
+      "saved": 0.04575,
+      "cells": {
+        "t60": {
+          "a": 0.871,
+          "b": 0.129,
+          "tie": 0.0,
+          "first": 0.85,
+          "second": 0.892,
+          "brace": 0.189,
+          "saved": 0.063,
+          "max_potion": 0.587
+        },
+        "hedrick": {
+          "a": 0.79,
+          "b": 0.21,
+          "tie": 0.0,
+          "first": 0.744421906693712,
+          "second": 0.834319526627219,
+          "brace": 0.18,
+          "saved": 0.032,
+          "max_potion": 0.677
+        },
+        "c60": {
+          "a": 0.895,
+          "b": 0.105,
+          "tie": 0.0,
+          "first": 0.8721649484536083,
+          "second": 0.916504854368932,
+          "brace": 0.218,
+          "saved": 0.088,
+          "max_potion": 0.39
+        },
+        "d60": {
+          "a": 0.973,
+          "b": 0.027,
+          "tie": 0.0,
+          "first": 0.9764705882352941,
+          "second": 0.9693877551020408,
+          "brace": 0.133,
+          "saved": 0.0,
+          "max_potion": 0.155
+        }
+      }
+    },
+    {
+      "cut": "Boss's Orders",
+      "copies_before": 3,
+      "weighted": 0.8519204545454546,
+      "mean": 0.88225,
+      "brace": 0.1715,
+      "saved": 0.044500000000000005,
+      "cells": {
+        "t60": {
+          "a": 0.868,
+          "b": 0.132,
+          "tie": 0.0,
+          "first": 0.8343685300207039,
+          "second": 0.8994197292069632,
+          "brace": 0.191,
+          "saved": 0.049,
+          "max_potion": 0.571
+        },
+        "hedrick": {
+          "a": 0.791,
+          "b": 0.209,
+          "tie": 0.0,
+          "first": 0.7730923694779116,
+          "second": 0.8087649402390438,
+          "brace": 0.163,
+          "saved": 0.029,
+          "max_potion": 0.668
+        },
+        "c60": {
+          "a": 0.894,
+          "b": 0.106,
+          "tie": 0.0,
+          "first": 0.8814968814968815,
+          "second": 0.905587668593449,
+          "brace": 0.202,
+          "saved": 0.1,
+          "max_potion": 0.395
+        },
+        "d60": {
+          "a": 0.976,
+          "b": 0.024,
+          "tie": 0.0,
+          "first": 0.9805194805194806,
+          "second": 0.9721189591078067,
+          "brace": 0.13,
+          "saved": 0.0,
+          "max_potion": 0.173
+        }
+      }
+    },
+    {
+      "cut": "Switch",
+      "copies_before": 1,
+      "weighted": 0.8506931818181819,
+      "mean": 0.88275,
+      "brace": 0.17525,
+      "saved": 0.04975,
+      "cells": {
+        "t60": {
+          "a": 0.874,
+          "b": 0.126,
+          "tie": 0.0,
+          "first": 0.8370221327967807,
+          "second": 0.9105367793240556,
+          "brace": 0.175,
+          "saved": 0.058,
+          "max_potion": 0.588
+        },
+        "hedrick": {
+          "a": 0.799,
+          "b": 0.201,
+          "tie": 0.0,
+          "first": 0.7618110236220472,
+          "second": 0.8373983739837398,
+          "brace": 0.196,
+          "saved": 0.034,
+          "max_potion": 0.671
+        },
+        "c60": {
+          "a": 0.874,
+          "b": 0.126,
+          "tie": 0.0,
+          "first": 0.8641188959660298,
+          "second": 0.8827977315689981,
+          "brace": 0.215,
+          "saved": 0.107,
+          "max_potion": 0.381
+        },
+        "d60": {
+          "a": 0.984,
+          "b": 0.016,
+          "tie": 0.0,
+          "first": 0.9778672032193159,
+          "second": 0.9900596421471173,
+          "brace": 0.115,
+          "saved": 0.0,
+          "max_potion": 0.176
+        }
+      }
+    },
+    {
+      "cut": "Mime Jr.",
+      "copies_before": 2,
+      "weighted": 0.8500818181818182,
+      "mean": 0.85325,
+      "brace": 0.18825,
+      "saved": 0.051000000000000004,
+      "cells": {
+        "t60": {
+          "a": 0.875,
+          "b": 0.125,
+          "tie": 0.0,
+          "first": 0.8517745302713987,
+          "second": 0.8963531669865643,
+          "brace": 0.188,
+          "saved": 0.067,
+          "max_potion": 0.588
+        },
+        "hedrick": {
+          "a": 0.815,
+          "b": 0.185,
+          "tie": 0.0,
+          "first": 0.8007968127490039,
+          "second": 0.8293172690763052,
+          "brace": 0.184,
+          "saved": 0.042,
+          "max_potion": 0.668
+        },
+        "c60": {
+          "a": 0.873,
+          "b": 0.127,
+          "tie": 0.0,
+          "first": 0.8393574297188755,
+          "second": 0.9063745019920318,
+          "brace": 0.205,
+          "saved": 0.095,
+          "max_potion": 0.372
+        },
+        "d60": {
+          "a": 0.85,
+          "b": 0.15,
+          "tie": 0.0,
+          "first": 0.8861788617886179,
+          "second": 0.8149606299212598,
+          "brace": 0.176,
+          "saved": 0.0,
+          "max_potion": 0.272
+        }
+      }
+    },
+    {
+      "cut": "Buddy-Buddy Poffin",
+      "copies_before": 4,
+      "weighted": 0.8497681818181818,
+      "mean": 0.88175,
+      "brace": 0.17825,
+      "saved": 0.05,
+      "cells": {
+        "t60": {
+          "a": 0.875,
+          "b": 0.125,
+          "tie": 0.0,
+          "first": 0.8389121338912134,
+          "second": 0.9080459770114943,
+          "brace": 0.205,
+          "saved": 0.057,
+          "max_potion": 0.6
+        },
+        "hedrick": {
+          "a": 0.797,
+          "b": 0.203,
+          "tie": 0.0,
+          "first": 0.7716049382716049,
+          "second": 0.8210116731517509,
+          "brace": 0.184,
+          "saved": 0.039,
+          "max_potion": 0.654
+        },
+        "c60": {
+          "a": 0.873,
+          "b": 0.127,
+          "tie": 0.0,
+          "first": 0.8568665377176016,
+          "second": 0.8902691511387164,
+          "brace": 0.206,
+          "saved": 0.104,
+          "max_potion": 0.382
+        },
+        "d60": {
+          "a": 0.982,
+          "b": 0.018,
+          "tie": 0.0,
+          "first": 0.9823529411764705,
+          "second": 0.9816326530612245,
+          "brace": 0.118,
+          "saved": 0.0,
+          "max_potion": 0.164
+        }
+      }
+    },
+    {
+      "cut": "Ultra Ball",
+      "copies_before": 3,
+      "weighted": 0.8464295454545455,
+      "mean": 0.8795,
+      "brace": 0.17149999999999999,
+      "saved": 0.05025,
+      "cells": {
+        "t60": {
+          "a": 0.864,
+          "b": 0.136,
+          "tie": 0.0,
+          "first": 0.8515625,
+          "second": 0.8770491803278688,
+          "brace": 0.176,
+          "saved": 0.051,
+          "max_potion": 0.543
+        },
+        "hedrick": {
+          "a": 0.799,
+          "b": 0.201,
+          "tie": 0.0,
+          "first": 0.7740585774058577,
+          "second": 0.8218390804597702,
+          "brace": 0.182,
+          "saved": 0.036,
+          "max_potion": 0.672
+        },
+        "c60": {
+          "a": 0.868,
+          "b": 0.132,
+          "tie": 0.0,
+          "first": 0.8309859154929577,
+          "second": 0.904572564612326,
+          "brace": 0.222,
+          "saved": 0.114,
+          "max_potion": 0.423
+        },
+        "d60": {
+          "a": 0.987,
+          "b": 0.013,
+          "tie": 0.0,
+          "first": 0.9861386138613861,
+          "second": 0.9878787878787879,
+          "brace": 0.106,
+          "saved": 0.0,
+          "max_potion": 0.163
+        }
+      }
+    },
+    {
+      "cut": "Battle Cage",
+      "copies_before": 4,
+      "weighted": 0.8444545454545455,
+      "mean": 0.87475,
+      "brace": 0.17075,
+      "saved": 0.050499999999999996,
+      "cells": {
+        "t60": {
+          "a": 0.846,
+          "b": 0.154,
+          "tie": 0.0,
+          "first": 0.7983367983367984,
+          "second": 0.8901734104046243,
+          "brace": 0.196,
+          "saved": 0.063,
+          "max_potion": 0.574
+        },
+        "hedrick": {
+          "a": 0.796,
+          "b": 0.204,
+          "tie": 0.0,
+          "first": 0.7625754527162978,
+          "second": 0.8290258449304175,
+          "brace": 0.156,
+          "saved": 0.037,
+          "max_potion": 0.663
+        },
+        "c60": {
+          "a": 0.882,
+          "b": 0.118,
+          "tie": 0.0,
+          "first": 0.8512396694214877,
+          "second": 0.9108527131782945,
+          "brace": 0.2,
+          "saved": 0.102,
+          "max_potion": 0.402
+        },
+        "d60": {
+          "a": 0.975,
+          "b": 0.025,
+          "tie": 0.0,
+          "first": 0.9790874524714829,
+          "second": 0.9704641350210971,
+          "brace": 0.131,
+          "saved": 0.0,
+          "max_potion": 0.161
+        }
+      }
+    },
+    {
+      "cut": "Professor's Research",
+      "copies_before": 2,
+      "weighted": 0.843690909090909,
+      "mean": 0.876,
+      "brace": 0.16924999999999998,
+      "saved": 0.051000000000000004,
+      "cells": {
+        "t60": {
+          "a": 0.86,
+          "b": 0.14,
+          "tie": 0.0,
+          "first": 0.8336557059961315,
+          "second": 0.8881987577639752,
+          "brace": 0.176,
+          "saved": 0.058,
+          "max_potion": 0.536
+        },
+        "hedrick": {
+          "a": 0.793,
+          "b": 0.206,
+          "tie": 0.001,
+          "first": 0.7658730158730159,
+          "second": 0.8205645161290323,
+          "brace": 0.184,
+          "saved": 0.045,
+          "max_potion": 0.645
+        },
+        "c60": {
+          "a": 0.871,
+          "b": 0.129,
+          "tie": 0.0,
+          "first": 0.8599221789883269,
+          "second": 0.8827160493827161,
+          "brace": 0.205,
+          "saved": 0.101,
+          "max_potion": 0.407
+        },
+        "d60": {
+          "a": 0.98,
+          "b": 0.02,
+          "tie": 0.0,
+          "first": 0.9823874755381604,
+          "second": 0.9775051124744376,
+          "brace": 0.112,
+          "saved": 0.0,
+          "max_potion": 0.139
+        }
+      }
+    },
+    {
+      "cut": "Iono",
+      "copies_before": 4,
+      "weighted": 0.8429204545454545,
+      "mean": 0.8727499999999999,
+      "brace": 0.1725,
+      "saved": 0.051250000000000004,
+      "cells": {
+        "t60": {
+          "a": 0.843,
+          "b": 0.157,
+          "tie": 0.0,
+          "first": 0.802020202020202,
+          "second": 0.8831683168316832,
+          "brace": 0.171,
+          "saved": 0.06,
+          "max_potion": 0.563
+        },
+        "hedrick": {
+          "a": 0.814,
+          "b": 0.186,
+          "tie": 0.0,
+          "first": 0.791497975708502,
+          "second": 0.8359683794466403,
+          "brace": 0.182,
+          "saved": 0.034,
+          "max_potion": 0.67
+        },
+        "c60": {
+          "a": 0.857,
+          "b": 0.143,
+          "tie": 0.0,
+          "first": 0.8336594911937377,
+          "second": 0.8813905930470347,
+          "brace": 0.207,
+          "saved": 0.111,
+          "max_potion": 0.4
+        },
+        "d60": {
+          "a": 0.977,
+          "b": 0.023,
+          "tie": 0.0,
+          "first": 0.976890756302521,
+          "second": 0.9770992366412213,
+          "brace": 0.13,
+          "saved": 0.0,
+          "max_potion": 0.181
+        }
+      }
+    },
+    {
+      "cut": "Night Stretcher",
+      "copies_before": 4,
+      "weighted": 0.8416840909090909,
+      "mean": 0.873,
+      "brace": 0.18725,
+      "saved": 0.05275,
+      "cells": {
+        "t60": {
+          "a": 0.849,
+          "b": 0.151,
+          "tie": 0.0,
+          "first": 0.8085106382978723,
+          "second": 0.8849056603773585,
+          "brace": 0.19,
+          "saved": 0.058,
+          "max_potion": 0.559
+        },
+        "hedrick": {
+          "a": 0.801,
+          "b": 0.199,
+          "tie": 0.0,
+          "first": 0.7716535433070866,
+          "second": 0.8313008130081301,
+          "brace": 0.209,
+          "saved": 0.044,
+          "max_potion": 0.664
+        },
+        "c60": {
+          "a": 0.864,
+          "b": 0.136,
+          "tie": 0.0,
+          "first": 0.8323471400394478,
+          "second": 0.896551724137931,
+          "brace": 0.218,
+          "saved": 0.109,
+          "max_potion": 0.406
+        },
+        "d60": {
+          "a": 0.978,
+          "b": 0.022,
+          "tie": 0.0,
+          "first": 0.9822834645669292,
+          "second": 0.9735772357723578,
+          "brace": 0.132,
+          "saved": 0.0,
+          "max_potion": 0.153
+        }
+      }
+    },
+    {
+      "cut": "Crushing Hammer",
+      "copies_before": 4,
+      "weighted": 0.8395363636363636,
+      "mean": 0.87125,
+      "brace": 0.17525000000000002,
+      "saved": 0.049749999999999996,
+      "cells": {
+        "t60": {
+          "a": 0.853,
+          "b": 0.147,
+          "tie": 0.0,
+          "first": 0.8229166666666666,
+          "second": 0.8807692307692307,
+          "brace": 0.175,
+          "saved": 0.059,
+          "max_potion": 0.568
+        },
+        "hedrick": {
+          "a": 0.783,
+          "b": 0.217,
+          "tie": 0.0,
+          "first": 0.7441860465116279,
+          "second": 0.8243801652892562,
+          "brace": 0.202,
+          "saved": 0.036,
+          "max_potion": 0.661
+        },
+        "c60": {
+          "a": 0.877,
+          "b": 0.123,
+          "tie": 0.0,
+          "first": 0.8489483747609943,
+          "second": 0.9077568134171907,
+          "brace": 0.196,
+          "saved": 0.104,
+          "max_potion": 0.402
+        },
+        "d60": {
+          "a": 0.972,
+          "b": 0.028,
+          "tie": 0.0,
+          "first": 0.9813664596273292,
+          "second": 0.9632495164410058,
+          "brace": 0.128,
+          "saved": 0.0,
+          "max_potion": 0.195
+        }
+      }
+    },
+    {
+      "cut": "Mew ex",
+      "copies_before": 4,
+      "weighted": 0.8385659090909091,
+      "mean": 0.87175,
+      "brace": 0.153,
+      "saved": 0.04975,
+      "cells": {
+        "t60": {
+          "a": 0.856,
+          "b": 0.144,
+          "tie": 0.0,
+          "first": 0.8326771653543307,
+          "second": 0.8800813008130082,
+          "brace": 0.152,
+          "saved": 0.046,
+          "max_potion": 0.593
+        },
+        "hedrick": {
+          "a": 0.785,
+          "b": 0.215,
+          "tie": 0.0,
+          "first": 0.7687747035573123,
+          "second": 0.8016194331983806,
+          "brace": 0.134,
+          "saved": 0.031,
+          "max_potion": 0.651
+        },
+        "c60": {
+          "a": 0.868,
+          "b": 0.132,
+          "tie": 0.0,
+          "first": 0.8669275929549902,
+          "second": 0.869120654396728,
+          "brace": 0.222,
+          "saved": 0.122,
+          "max_potion": 0.398
+        },
+        "d60": {
+          "a": 0.978,
+          "b": 0.022,
+          "tie": 0.0,
+          "first": 0.9775510204081632,
+          "second": 0.9784313725490196,
+          "brace": 0.104,
+          "saved": 0.0,
+          "max_potion": 0.177
+        }
+      }
+    },
+    {
+      "cut": "Bravery Charm",
+      "copies_before": 4,
+      "weighted": 0.8382477272727272,
+      "mean": 0.86925,
+      "brace": 0.19975,
+      "saved": 0.05725,
+      "cells": {
+        "t60": {
+          "a": 0.838,
+          "b": 0.162,
+          "tie": 0.0,
+          "first": 0.8139059304703476,
+          "second": 0.8610567514677103,
+          "brace": 0.194,
+          "saved": 0.068,
+          "max_potion": 0.566
+        },
+        "hedrick": {
+          "a": 0.795,
+          "b": 0.205,
+          "tie": 0.0,
+          "first": 0.75,
+          "second": 0.837890625,
+          "brace": 0.229,
+          "saved": 0.049,
+          "max_potion": 0.621
+        },
+        "c60": {
+          "a": 0.87,
+          "b": 0.13,
+          "tie": 0.0,
+          "first": 0.8415637860082305,
+          "second": 0.896887159533074,
+          "brace": 0.239,
+          "saved": 0.112,
+          "max_potion": 0.379
+        },
+        "d60": {
+          "a": 0.974,
+          "b": 0.026,
+          "tie": 0.0,
+          "first": 0.9724950884086444,
+          "second": 0.9755600814663951,
+          "brace": 0.137,
+          "saved": 0.0,
+          "max_potion": 0.16
+        }
+      }
+    },
+    {
+      "cut": "Max Potion",
+      "copies_before": 4,
+      "weighted": 0.8369159090909091,
+      "mean": 0.86925,
+      "brace": 0.16925,
+      "saved": 0.0455,
+      "cells": {
+        "t60": {
+          "a": 0.854,
+          "b": 0.146,
+          "tie": 0.0,
+          "first": 0.8218390804597702,
+          "second": 0.8891213389121339,
+          "brace": 0.176,
+          "saved": 0.049,
+          "max_potion": 0.552
+        },
+        "hedrick": {
+          "a": 0.782,
+          "b": 0.218,
+          "tie": 0.0,
+          "first": 0.7474949899799599,
+          "second": 0.8163672654690619,
+          "brace": 0.174,
+          "saved": 0.036,
+          "max_potion": 0.64
+        },
+        "c60": {
+          "a": 0.869,
+          "b": 0.131,
+          "tie": 0.0,
+          "first": 0.8637274549098196,
+          "second": 0.874251497005988,
+          "brace": 0.201,
+          "saved": 0.097,
+          "max_potion": 0.355
+        },
+        "d60": {
+          "a": 0.972,
+          "b": 0.028,
+          "tie": 0.0,
+          "first": 0.972,
+          "second": 0.972,
+          "brace": 0.126,
+          "saved": 0.0,
+          "max_potion": 0.163
+        }
+      }
+    },
+    {
+      "cut": "Nest Ball",
+      "copies_before": 4,
+      "weighted": 0.8367659090909091,
+      "mean": 0.8705,
+      "brace": 0.16949999999999998,
+      "saved": 0.051250000000000004,
+      "cells": {
+        "t60": {
+          "a": 0.859,
+          "b": 0.141,
+          "tie": 0.0,
+          "first": 0.8306772908366534,
+          "second": 0.8875502008032129,
+          "brace": 0.181,
+          "saved": 0.056,
+          "max_potion": 0.56
+        },
+        "hedrick": {
+          "a": 0.784,
+          "b": 0.216,
+          "tie": 0.0,
+          "first": 0.753968253968254,
+          "second": 0.8145161290322581,
+          "brace": 0.175,
+          "saved": 0.036,
+          "max_potion": 0.648
+        },
+        "c60": {
+          "a": 0.861,
+          "b": 0.139,
+          "tie": 0.0,
+          "first": 0.8461538461538461,
+          "second": 0.8754940711462451,
+          "brace": 0.215,
+          "saved": 0.113,
+          "max_potion": 0.395
+        },
+        "d60": {
+          "a": 0.978,
+          "b": 0.022,
+          "tie": 0.0,
+          "first": 0.9701195219123506,
+          "second": 0.9859437751004017,
+          "brace": 0.107,
+          "saved": 0.0,
+          "max_potion": 0.195
+        }
+      }
+    },
+    {
+      "cut": "Igglybuff",
+      "copies_before": 4,
+      "weighted": 0.8285636363636364,
+      "mean": 0.8625,
+      "brace": 0.17775000000000002,
+      "saved": 0.04825,
+      "cells": {
+        "t60": {
+          "a": 0.84,
+          "b": 0.16,
+          "tie": 0.0,
+          "first": 0.8191056910569106,
+          "second": 0.860236220472441,
+          "brace": 0.203,
+          "saved": 0.058,
+          "max_potion": 0.579
+        },
+        "hedrick": {
+          "a": 0.779,
+          "b": 0.221,
+          "tie": 0.0,
+          "first": 0.7562862669245648,
+          "second": 0.8033126293995859,
+          "brace": 0.17,
+          "saved": 0.036,
+          "max_potion": 0.671
+        },
+        "c60": {
+          "a": 0.857,
+          "b": 0.143,
+          "tie": 0.0,
+          "first": 0.8557114228456913,
+          "second": 0.8582834331337326,
+          "brace": 0.224,
+          "saved": 0.099,
+          "max_potion": 0.399
+        },
+        "d60": {
+          "a": 0.974,
+          "b": 0.026,
+          "tie": 0.0,
+          "first": 0.9747081712062257,
+          "second": 0.9732510288065843,
+          "brace": 0.114,
+          "saved": 0.0,
+          "max_potion": 0.196
+        }
+      }
+    },
+    {
+      "cut": "Arven",
+      "copies_before": 4,
+      "weighted": 0.8182272727272727,
+      "mean": 0.8565,
+      "brace": 0.17275000000000001,
+      "saved": 0.05475,
+      "cells": {
+        "t60": {
+          "a": 0.85,
+          "b": 0.15,
+          "tie": 0.0,
+          "first": 0.8214285714285714,
+          "second": 0.8759541984732825,
+          "brace": 0.19,
+          "saved": 0.064,
+          "max_potion": 0.559
+        },
+        "hedrick": {
+          "a": 0.769,
+          "b": 0.231,
+          "tie": 0.0,
+          "first": 0.7425742574257426,
+          "second": 0.795959595959596,
+          "brace": 0.169,
+          "saved": 0.043,
+          "max_potion": 0.631
+        },
+        "c60": {
+          "a": 0.827,
+          "b": 0.173,
+          "tie": 0.0,
+          "first": 0.7956349206349206,
+          "second": 0.8588709677419355,
+          "brace": 0.231,
+          "saved": 0.112,
+          "max_potion": 0.367
+        },
+        "d60": {
+          "a": 0.98,
+          "b": 0.02,
+          "tie": 0.0,
+          "first": 0.9821428571428571,
+          "second": 0.9778225806451613,
+          "brace": 0.101,
+          "saved": 0.0,
+          "max_potion": 0.151
+        }
+      }
+    }
+  ],
+  "list": [
+    "Mew ex",
+    "Mew ex",
+    "Mew ex",
+    "Mew ex",
+    "Mime Jr.",
+    "Mime Jr.",
+    "Igglybuff",
+    "Igglybuff",
+    "Igglybuff",
+    "Igglybuff",
+    "Budew",
+    "Budew",
+    "Budew",
+    "Buddy-Buddy Poffin",
+    "Buddy-Buddy Poffin",
+    "Buddy-Buddy Poffin",
+    "Buddy-Buddy Poffin",
+    "Nest Ball",
+    "Nest Ball",
+    "Nest Ball",
+    "Nest Ball",
+    "Ultra Ball",
+    "Ultra Ball",
+    "Ultra Ball",
+    "Night Stretcher",
+    "Night Stretcher",
+    "Night Stretcher",
+    "Night Stretcher",
+    "Battle Cage",
+    "Battle Cage",
+    "Battle Cage",
+    "Battle Cage",
+    "Bravery Charm",
+    "Bravery Charm",
+    "Bravery Charm",
+    "Bravery Charm",
+    "Arven",
+    "Arven",
+    "Arven",
+    "Arven",
+    "Iono",
+    "Iono",
+    "Iono",
+    "Iono",
+    "Professor's Research",
+    "Professor's Research",
+    "Boss's Orders",
+    "Boss's Orders",
+    "Boss's Orders",
+    "Crushing Hammer",
+    "Crushing Hammer",
+    "Crushing Hammer",
+    "Crushing Hammer",
+    "Switch",
+    "Counter Catcher",
+    "Counter Catcher",
+    "Max Potion",
+    "Max Potion",
+    "Max Potion",
+    "Max Potion"
+  ]
+}
