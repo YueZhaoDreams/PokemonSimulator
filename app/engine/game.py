@@ -1627,6 +1627,9 @@ class Game:
                 elif strat.name == "party" and "maximum belt" in name:
                     # Attach a found Belt before Hop / Search mill the deck around it.
                     score += 21
+                elif name == "hero's cape" and strat.name in {"mew_baby", "baby"}:
+                    # +100 HP on Mew. Above Poffin so the cape lands before another baby.
+                    score += 26
                 else:
                     score += 8
             elif name == "tulip":
@@ -5741,6 +5744,10 @@ class Game:
         }.get(status)
         if not bit:
             return
+        owner = self._owner_of(mon)
+        if owner is not None and self._blocks_special_conditions(owner, mon):
+            self._bump("special_condition_blocked")
+            return
         if bit & VOLATILE:
             mon.status &= ~VOLATILE
         mon.status |= bit
@@ -6396,9 +6403,27 @@ class Game:
         if mon.tool is None:
             return hp
         tool = player.card(mon.tool)
-        if "bravery charm" in tool.name.lower() and card.is_basic:
+        text = (tool.text or "").lower().replace("pokémon", "pokemon")
+        bonus = re.search(r"gets \+(\d+) hp", text)
+        if bonus:
+            basic_only = "basic pokemon this card is attached" in text
+            if not basic_only or card.is_basic:
+                hp += int(bonus.group(1))
+        elif "bravery charm" in tool.name.lower() and card.is_basic:
             hp += 50
         return hp
+
+    def _blocks_special_conditions(self, player: Player, mon: Pokemon) -> bool:
+        if mon.tool is None:
+            return False
+        text = (player.card(mon.tool).text or "").lower().replace("pokémon", "pokemon")
+        return "special condition" in text and "can't be affected" in text
+
+    def _owner_of(self, mon: Pokemon) -> Player | None:
+        for player in self.players.values():
+            if any(other is mon for other in player.in_play()):
+                return player
+        return None
 
     def _retreat_cost(self, me: Player, mon: Pokemon) -> int:
         card = me.card(mon.card_i)
@@ -6704,6 +6729,16 @@ class Game:
                 if mon.tool is None and self._is_pokemon_v(me.card(mon.card_i)):
                     return mon
             return None
+        if name == "hero's cape":
+            for mon in me.in_play():
+                if mon.tool is None and me.card(mon.card_i).name.lower() == "mew ex":
+                    return mon
+            if self.strats[who].name in {"mew_baby", "baby"}:
+                return None
+            for mon in me.in_play():
+                if mon.tool is None:
+                    return mon
+            return None
         if name == "bravery charm":
             for mon in me.in_play():
                 if mon.tool is None and me.card(mon.card_i).name.lower() == "mew ex":
@@ -6784,6 +6819,8 @@ class Game:
         if target is None:
             return False
         target.tool = card_i
+        if self._blocks_special_conditions(me, target):
+            target.status = 0
         self._bump(f"tool:{me.card(card_i).name}")
         self._log(f"{me.name} attaches {me.card(card_i).name} to {me.card(target.card_i).name}")
         return True
@@ -6963,14 +7000,14 @@ class Game:
         )
 
     def _arven(self, me: Player, who: str) -> None:
-        tool_names = {"maximum belt", "bravery charm", "muscle band"}
-        item_prefer = ["Energy Search", "Nest Ball", "Switch", "Buddy-Buddy Poffin", "Tool Box", "Maximum Belt", "Muscle Band", "Bravery Charm", "Forest Seal Stone", "Counter Catcher"]
+        tool_names = {"maximum belt", "bravery charm", "muscle band", "hero's cape"}
+        item_prefer = ["Energy Search", "Nest Ball", "Switch", "Buddy-Buddy Poffin", "Tool Box", "Maximum Belt", "Muscle Band", "Bravery Charm", "Hero's Cape", "Forest Seal Stone", "Counter Catcher"]
         if self.strats[who].name in {"mew_baby", "baby"} and self._damaged_mews(me):
             item_prefer = ["Max Potion", *item_prefer]
         found_tool = self._search(
             me,
             lambda c: c.name.lower() in tool_names or self._is_tool_card(c),
-            prefer=["Forest Seal Stone", "Maximum Belt", "Muscle Band", "Bravery Charm"],
+            prefer=["Hero's Cape", "Forest Seal Stone", "Maximum Belt", "Muscle Band", "Bravery Charm"],
             source="arven",
         )
         found_item = self._search(
