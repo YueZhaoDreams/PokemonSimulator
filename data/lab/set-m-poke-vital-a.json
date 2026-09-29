@@ -1,0 +1,958 @@
+{
+  "games": 1000,
+  "seed": 20260929,
+  "elapsed": 172.1162183389988,
+  "method": "one Pok\u00e9 Vital A on the no-cape list; loss-weighted win rate frozen on the 4-Max-Potion list",
+  "weights": {
+    "t60": 0.25454545454545446,
+    "hedrick": 0.38409090909090915,
+    "c60": 0.31136363636363634,
+    "d60": 0.05000000000000004
+  },
+  "cut": null,
+  "lock_weighted": 0.8628227272727272,
+  "best_cut": "Budew",
+  "best_weighted": 0.8487022727272727,
+  "cape": {
+    "best_cut": "Budew",
+    "best_weighted": 0.8838340909090909,
+    "lock_weighted": 0.8628227272727272
+  },
+  "ranking": [
+    {
+      "cut": null,
+      "weighted": 0.8628227272727272,
+      "mean": 0.89,
+      "vital": 0.0,
+      "max_potion": 0.43124999999999997,
+      "cells": {
+        "t60": {
+          "a": 0.888,
+          "b": 0.112,
+          "tie": 0.0,
+          "first": 0.8521560574948666,
+          "second": 0.9220272904483431,
+          "vital": 0.0,
+          "max_potion": 0.563
+        },
+        "hedrick": {
+          "a": 0.831,
+          "b": 0.169,
+          "tie": 0.0,
+          "first": 0.7834008097165992,
+          "second": 0.8774703557312253,
+          "vital": 0.0,
+          "max_potion": 0.625
+        },
+        "c60": {
+          "a": 0.863,
+          "b": 0.137,
+          "tie": 0.0,
+          "first": 0.8375,
+          "second": 0.8865384615384615,
+          "vital": 0.0,
+          "max_potion": 0.364
+        },
+        "d60": {
+          "a": 0.978,
+          "b": 0.022,
+          "tie": 0.0,
+          "first": 0.9815950920245399,
+          "second": 0.974559686888454,
+          "vital": 0.0,
+          "max_potion": 0.173
+        }
+      }
+    },
+    {
+      "cut": "Budew",
+      "copies_before": 3,
+      "weighted": 0.8487022727272727,
+      "mean": 0.879,
+      "vital": 0.06825,
+      "max_potion": 0.4315,
+      "cells": {
+        "t60": {
+          "a": 0.856,
+          "b": 0.144,
+          "tie": 0.0,
+          "first": 0.8268839103869654,
+          "second": 0.8840864440078585,
+          "vital": 0.096,
+          "max_potion": 0.579
+        },
+        "hedrick": {
+          "a": 0.811,
+          "b": 0.189,
+          "tie": 0.0,
+          "first": 0.799163179916318,
+          "second": 0.8218390804597702,
+          "vital": 0.103,
+          "max_potion": 0.645
+        },
+        "c60": {
+          "a": 0.868,
+          "b": 0.132,
+          "tie": 0.0,
+          "first": 0.8393234672304439,
+          "second": 0.8937381404174574,
+          "vital": 0.042,
+          "max_potion": 0.352
+        },
+        "d60": {
+          "a": 0.981,
+          "b": 0.019,
+          "tie": 0.0,
+          "first": 0.9725490196078431,
+          "second": 0.9897959183673469,
+          "vital": 0.032,
+          "max_potion": 0.15
+        }
+      }
+    },
+    {
+      "cut": "Ultra Ball",
+      "copies_before": 3,
+      "weighted": 0.8464386363636364,
+      "mean": 0.87675,
+      "vital": 0.07275,
+      "max_potion": 0.44525000000000003,
+      "cells": {
+        "t60": {
+          "a": 0.857,
+          "b": 0.143,
+          "tie": 0.0,
+          "first": 0.8382642998027613,
+          "second": 0.8762677484787018,
+          "vital": 0.104,
+          "max_potion": 0.571
+        },
+        "hedrick": {
+          "a": 0.812,
+          "b": 0.188,
+          "tie": 0.0,
+          "first": 0.8064516129032258,
+          "second": 0.8174603174603174,
+          "vital": 0.108,
+          "max_potion": 0.686
+        },
+        "c60": {
+          "a": 0.859,
+          "b": 0.141,
+          "tie": 0.0,
+          "first": 0.8428290766208252,
+          "second": 0.8757637474541752,
+          "vital": 0.046,
+          "max_potion": 0.343
+        },
+        "d60": {
+          "a": 0.979,
+          "b": 0.021,
+          "tie": 0.0,
+          "first": 0.9803921568627451,
+          "second": 0.9775510204081632,
+          "vital": 0.033,
+          "max_potion": 0.181
+        }
+      }
+    },
+    {
+      "cut": "Counter Catcher",
+      "copies_before": 2,
+      "weighted": 0.8431886363636364,
+      "mean": 0.8745,
+      "vital": 0.06475,
+      "max_potion": 0.42875,
+      "cells": {
+        "t60": {
+          "a": 0.859,
+          "b": 0.141,
+          "tie": 0.0,
+          "first": 0.8241106719367589,
+          "second": 0.8947368421052632,
+          "vital": 0.088,
+          "max_potion": 0.561
+        },
+        "hedrick": {
+          "a": 0.811,
+          "b": 0.189,
+          "tie": 0.0,
+          "first": 0.7696969696969697,
+          "second": 0.8514851485148515,
+          "vital": 0.084,
+          "max_potion": 0.665
+        },
+        "c60": {
+          "a": 0.848,
+          "b": 0.152,
+          "tie": 0.0,
+          "first": 0.8052208835341366,
+          "second": 0.8904382470119522,
+          "vital": 0.054,
+          "max_potion": 0.314
+        },
+        "d60": {
+          "a": 0.98,
+          "b": 0.02,
+          "tie": 0.0,
+          "first": 0.9844357976653697,
+          "second": 0.9753086419753086,
+          "vital": 0.033,
+          "max_potion": 0.175
+        }
+      }
+    },
+    {
+      "cut": "Iono",
+      "copies_before": 4,
+      "weighted": 0.8425454545454546,
+      "mean": 0.87525,
+      "vital": 0.059250000000000004,
+      "max_potion": 0.42150000000000004,
+      "cells": {
+        "t60": {
+          "a": 0.864,
+          "b": 0.136,
+          "tie": 0.0,
+          "first": 0.8377281947261663,
+          "second": 0.8895463510848126,
+          "vital": 0.078,
+          "max_potion": 0.545
+        },
+        "hedrick": {
+          "a": 0.804,
+          "b": 0.196,
+          "tie": 0.0,
+          "first": 0.7549407114624506,
+          "second": 0.854251012145749,
+          "vital": 0.084,
+          "max_potion": 0.662
+        },
+        "c60": {
+          "a": 0.85,
+          "b": 0.15,
+          "tie": 0.0,
+          "first": 0.8258317025440313,
+          "second": 0.8752556237218814,
+          "vital": 0.046,
+          "max_potion": 0.328
+        },
+        "d60": {
+          "a": 0.983,
+          "b": 0.017,
+          "tie": 0.0,
+          "first": 0.9838383838383838,
+          "second": 0.9821782178217822,
+          "vital": 0.029,
+          "max_potion": 0.151
+        }
+      }
+    },
+    {
+      "cut": "Boss's Orders",
+      "copies_before": 3,
+      "weighted": 0.8409795454545455,
+      "mean": 0.87325,
+      "vital": 0.06375,
+      "max_potion": 0.423,
+      "cells": {
+        "t60": {
+          "a": 0.861,
+          "b": 0.139,
+          "tie": 0.0,
+          "first": 0.8434237995824635,
+          "second": 0.8771593090211133,
+          "vital": 0.098,
+          "max_potion": 0.543
+        },
+        "hedrick": {
+          "a": 0.8,
+          "b": 0.2,
+          "tie": 0.0,
+          "first": 0.748,
+          "second": 0.852,
+          "vital": 0.076,
+          "max_potion": 0.647
+        },
+        "c60": {
+          "a": 0.853,
+          "b": 0.147,
+          "tie": 0.0,
+          "first": 0.8252427184466019,
+          "second": 0.8824742268041237,
+          "vital": 0.057,
+          "max_potion": 0.348
+        },
+        "d60": {
+          "a": 0.979,
+          "b": 0.021,
+          "tie": 0.0,
+          "first": 0.9818181818181818,
+          "second": 0.9762376237623762,
+          "vital": 0.024,
+          "max_potion": 0.154
+        }
+      }
+    },
+    {
+      "cut": "Nest Ball",
+      "copies_before": 4,
+      "weighted": 0.8375909090909092,
+      "mean": 0.87075,
+      "vital": 0.06724999999999999,
+      "max_potion": 0.44425,
+      "cells": {
+        "t60": {
+          "a": 0.851,
+          "b": 0.149,
+          "tie": 0.0,
+          "first": 0.8379446640316206,
+          "second": 0.8643724696356275,
+          "vital": 0.104,
+          "max_potion": 0.593
+        },
+        "hedrick": {
+          "a": 0.792,
+          "b": 0.208,
+          "tie": 0.0,
+          "first": 0.7707509881422925,
+          "second": 0.8137651821862348,
+          "vital": 0.087,
+          "max_potion": 0.638
+        },
+        "c60": {
+          "a": 0.86,
+          "b": 0.14,
+          "tie": 0.0,
+          "first": 0.8565573770491803,
+          "second": 0.86328125,
+          "vital": 0.051,
+          "max_potion": 0.388
+        },
+        "d60": {
+          "a": 0.98,
+          "b": 0.02,
+          "tie": 0.0,
+          "first": 0.9853249475890985,
+          "second": 0.9751434034416826,
+          "vital": 0.027,
+          "max_potion": 0.158
+        }
+      }
+    },
+    {
+      "cut": "Switch",
+      "copies_before": 1,
+      "weighted": 0.8371727272727273,
+      "mean": 0.872,
+      "vital": 0.062,
+      "max_potion": 0.43174999999999997,
+      "cells": {
+        "t60": {
+          "a": 0.862,
+          "b": 0.138,
+          "tie": 0.0,
+          "first": 0.834319526627219,
+          "second": 0.8904665314401623,
+          "vital": 0.097,
+          "max_potion": 0.571
+        },
+        "hedrick": {
+          "a": 0.795,
+          "b": 0.205,
+          "tie": 0.0,
+          "first": 0.7799227799227799,
+          "second": 0.8112033195020747,
+          "vital": 0.084,
+          "max_potion": 0.641
+        },
+        "c60": {
+          "a": 0.845,
+          "b": 0.155,
+          "tie": 0.0,
+          "first": 0.8117154811715481,
+          "second": 0.8754789272030651,
+          "vital": 0.042,
+          "max_potion": 0.339
+        },
+        "d60": {
+          "a": 0.986,
+          "b": 0.014,
+          "tie": 0.0,
+          "first": 0.9843444227005871,
+          "second": 0.9877300613496932,
+          "vital": 0.025,
+          "max_potion": 0.176
+        }
+      }
+    },
+    {
+      "cut": "Max Potion",
+      "copies_before": 4,
+      "weighted": 0.8352795454545454,
+      "mean": 0.86875,
+      "vital": 0.08425,
+      "max_potion": 0.41025,
+      "cells": {
+        "t60": {
+          "a": 0.868,
+          "b": 0.132,
+          "tie": 0.0,
+          "first": 0.8585657370517928,
+          "second": 0.8775100401606426,
+          "vital": 0.125,
+          "max_potion": 0.528
+        },
+        "hedrick": {
+          "a": 0.779,
+          "b": 0.221,
+          "tie": 0.0,
+          "first": 0.75,
+          "second": 0.8062015503875969,
+          "vital": 0.111,
+          "max_potion": 0.634
+        },
+        "c60": {
+          "a": 0.856,
+          "b": 0.144,
+          "tie": 0.0,
+          "first": 0.8176100628930818,
+          "second": 0.8910133843212237,
+          "vital": 0.069,
+          "max_potion": 0.322
+        },
+        "d60": {
+          "a": 0.972,
+          "b": 0.028,
+          "tie": 0.0,
+          "first": 0.9797160243407708,
+          "second": 0.9644970414201184,
+          "vital": 0.032,
+          "max_potion": 0.157
+        }
+      }
+    },
+    {
+      "cut": "Battle Cage",
+      "copies_before": 4,
+      "weighted": 0.833065909090909,
+      "mean": 0.867,
+      "vital": 0.067,
+      "max_potion": 0.42775,
+      "cells": {
+        "t60": {
+          "a": 0.841,
+          "b": 0.159,
+          "tie": 0.0,
+          "first": 0.8141414141414142,
+          "second": 0.8673267326732673,
+          "vital": 0.101,
+          "max_potion": 0.546
+        },
+        "hedrick": {
+          "a": 0.779,
+          "b": 0.221,
+          "tie": 0.0,
+          "first": 0.7479674796747967,
+          "second": 0.8090551181102362,
+          "vital": 0.081,
+          "max_potion": 0.665
+        },
+        "c60": {
+          "a": 0.87,
+          "b": 0.13,
+          "tie": 0.0,
+          "first": 0.8340163934426229,
+          "second": 0.904296875,
+          "vital": 0.041,
+          "max_potion": 0.339
+        },
+        "d60": {
+          "a": 0.978,
+          "b": 0.022,
+          "tie": 0.0,
+          "first": 0.98125,
+          "second": 0.975,
+          "vital": 0.045,
+          "max_potion": 0.161
+        }
+      }
+    },
+    {
+      "cut": "Buddy-Buddy Poffin",
+      "copies_before": 4,
+      "weighted": 0.8325636363636364,
+      "mean": 0.8674999999999999,
+      "vital": 0.0685,
+      "max_potion": 0.44125,
+      "cells": {
+        "t60": {
+          "a": 0.869,
+          "b": 0.131,
+          "tie": 0.0,
+          "first": 0.8306451612903226,
+          "second": 0.9067460317460317,
+          "vital": 0.115,
+          "max_potion": 0.609
+        },
+        "hedrick": {
+          "a": 0.789,
+          "b": 0.211,
+          "tie": 0.0,
+          "first": 0.7504950495049505,
+          "second": 0.8282828282828283,
+          "vital": 0.077,
+          "max_potion": 0.645
+        },
+        "c60": {
+          "a": 0.833,
+          "b": 0.167,
+          "tie": 0.0,
+          "first": 0.8171641791044776,
+          "second": 0.8512931034482759,
+          "vital": 0.054,
+          "max_potion": 0.353
+        },
+        "d60": {
+          "a": 0.979,
+          "b": 0.021,
+          "tie": 0.0,
+          "first": 0.9774590163934426,
+          "second": 0.98046875,
+          "vital": 0.028,
+          "max_potion": 0.158
+        }
+      }
+    },
+    {
+      "cut": "Mime Jr.",
+      "copies_before": 2,
+      "weighted": 0.8321431818181818,
+      "mean": 0.84125,
+      "vital": 0.07,
+      "max_potion": 0.45075000000000004,
+      "cells": {
+        "t60": {
+          "a": 0.851,
+          "b": 0.149,
+          "tie": 0.0,
+          "first": 0.8277227722772277,
+          "second": 0.8747474747474747,
+          "vital": 0.08,
+          "max_potion": 0.538
+        },
+        "hedrick": {
+          "a": 0.809,
+          "b": 0.191,
+          "tie": 0.0,
+          "first": 0.7727272727272727,
+          "second": 0.8461538461538461,
+          "vital": 0.08,
+          "max_potion": 0.646
+        },
+        "c60": {
+          "a": 0.84,
+          "b": 0.16,
+          "tie": 0.0,
+          "first": 0.7942307692307692,
+          "second": 0.8895833333333333,
+          "vital": 0.044,
+          "max_potion": 0.338
+        },
+        "d60": {
+          "a": 0.865,
+          "b": 0.135,
+          "tie": 0.0,
+          "first": 0.8754863813229572,
+          "second": 0.8539094650205762,
+          "vital": 0.076,
+          "max_potion": 0.281
+        }
+      }
+    },
+    {
+      "cut": "Mew ex",
+      "copies_before": 4,
+      "weighted": 0.8320727272727273,
+      "mean": 0.86325,
+      "vital": 0.06,
+      "max_potion": 0.41250000000000003,
+      "cells": {
+        "t60": {
+          "a": 0.841,
+          "b": 0.159,
+          "tie": 0.0,
+          "first": 0.7946257197696737,
+          "second": 0.8914405010438413,
+          "vital": 0.087,
+          "max_potion": 0.518
+        },
+        "hedrick": {
+          "a": 0.808,
+          "b": 0.192,
+          "tie": 0.0,
+          "first": 0.7749003984063745,
+          "second": 0.8413654618473896,
+          "vital": 0.087,
+          "max_potion": 0.641
+        },
+        "c60": {
+          "a": 0.832,
+          "b": 0.168,
+          "tie": 0.0,
+          "first": 0.7969348659003831,
+          "second": 0.8702928870292888,
+          "vital": 0.041,
+          "max_potion": 0.32
+        },
+        "d60": {
+          "a": 0.972,
+          "b": 0.028,
+          "tie": 0.0,
+          "first": 0.9791666666666666,
+          "second": 0.9653846153846154,
+          "vital": 0.025,
+          "max_potion": 0.171
+        }
+      }
+    },
+    {
+      "cut": "Night Stretcher",
+      "copies_before": 4,
+      "weighted": 0.8320045454545455,
+      "mean": 0.866,
+      "vital": 0.067,
+      "max_potion": 0.43575,
+      "cells": {
+        "t60": {
+          "a": 0.86,
+          "b": 0.14,
+          "tie": 0.0,
+          "first": 0.8326848249027238,
+          "second": 0.8888888888888888,
+          "vital": 0.089,
+          "max_potion": 0.547
+        },
+        "hedrick": {
+          "a": 0.782,
+          "b": 0.218,
+          "tie": 0.0,
+          "first": 0.7584269662921348,
+          "second": 0.8090128755364807,
+          "vital": 0.094,
+          "max_potion": 0.68
+        },
+        "c60": {
+          "a": 0.848,
+          "b": 0.152,
+          "tie": 0.0,
+          "first": 0.7927565392354124,
+          "second": 0.9025844930417495,
+          "vital": 0.053,
+          "max_potion": 0.353
+        },
+        "d60": {
+          "a": 0.974,
+          "b": 0.026,
+          "tie": 0.0,
+          "first": 0.9715447154471545,
+          "second": 0.9763779527559056,
+          "vital": 0.032,
+          "max_potion": 0.163
+        }
+      }
+    },
+    {
+      "cut": "Professor's Research",
+      "copies_before": 2,
+      "weighted": 0.8311272727272727,
+      "mean": 0.866,
+      "vital": 0.05475,
+      "max_potion": 0.4235,
+      "cells": {
+        "t60": {
+          "a": 0.844,
+          "b": 0.156,
+          "tie": 0.0,
+          "first": 0.7992047713717694,
+          "second": 0.8893360160965795,
+          "vital": 0.079,
+          "max_potion": 0.565
+        },
+        "hedrick": {
+          "a": 0.779,
+          "b": 0.221,
+          "tie": 0.0,
+          "first": 0.7323651452282157,
+          "second": 0.8223938223938224,
+          "vital": 0.082,
+          "max_potion": 0.633
+        },
+        "c60": {
+          "a": 0.861,
+          "b": 0.139,
+          "tie": 0.0,
+          "first": 0.8592132505175983,
+          "second": 0.8626692456479691,
+          "vital": 0.037,
+          "max_potion": 0.337
+        },
+        "d60": {
+          "a": 0.98,
+          "b": 0.02,
+          "tie": 0.0,
+          "first": 0.980276134122288,
+          "second": 0.9797160243407708,
+          "vital": 0.021,
+          "max_potion": 0.159
+        }
+      }
+    },
+    {
+      "cut": "Arven",
+      "copies_before": 4,
+      "weighted": 0.8306454545454546,
+      "mean": 0.8634999999999999,
+      "vital": 0.0695,
+      "max_potion": 0.41250000000000003,
+      "cells": {
+        "t60": {
+          "a": 0.856,
+          "b": 0.144,
+          "tie": 0.0,
+          "first": 0.8048780487804879,
+          "second": 0.905511811023622,
+          "vital": 0.111,
+          "max_potion": 0.544
+        },
+        "hedrick": {
+          "a": 0.803,
+          "b": 0.197,
+          "tie": 0.0,
+          "first": 0.7594433399602386,
+          "second": 0.8470824949698189,
+          "vital": 0.078,
+          "max_potion": 0.635
+        },
+        "c60": {
+          "a": 0.821,
+          "b": 0.179,
+          "tie": 0.0,
+          "first": 0.79,
+          "second": 0.852,
+          "vital": 0.056,
+          "max_potion": 0.337
+        },
+        "d60": {
+          "a": 0.974,
+          "b": 0.026,
+          "tie": 0.0,
+          "first": 0.973630831643002,
+          "second": 0.9743589743589743,
+          "vital": 0.033,
+          "max_potion": 0.134
+        }
+      }
+    },
+    {
+      "cut": "Crushing Hammer",
+      "copies_before": 4,
+      "weighted": 0.8303272727272727,
+      "mean": 0.86375,
+      "vital": 0.056,
+      "max_potion": 0.42675,
+      "cells": {
+        "t60": {
+          "a": 0.841,
+          "b": 0.159,
+          "tie": 0.0,
+          "first": 0.8293172690763052,
+          "second": 0.852589641434263,
+          "vital": 0.081,
+          "max_potion": 0.546
+        },
+        "hedrick": {
+          "a": 0.797,
+          "b": 0.203,
+          "tie": 0.0,
+          "first": 0.7504990019960079,
+          "second": 0.843687374749499,
+          "vital": 0.077,
+          "max_potion": 0.63
+        },
+        "c60": {
+          "a": 0.839,
+          "b": 0.161,
+          "tie": 0.0,
+          "first": 0.7995867768595041,
+          "second": 0.875968992248062,
+          "vital": 0.036,
+          "max_potion": 0.344
+        },
+        "d60": {
+          "a": 0.978,
+          "b": 0.022,
+          "tie": 0.0,
+          "first": 0.9744525547445255,
+          "second": 0.9823008849557522,
+          "vital": 0.03,
+          "max_potion": 0.187
+        }
+      }
+    },
+    {
+      "cut": "Igglybuff",
+      "copies_before": 4,
+      "weighted": 0.8282431818181818,
+      "mean": 0.86325,
+      "vital": 0.07625,
+      "max_potion": 0.43575,
+      "cells": {
+        "t60": {
+          "a": 0.857,
+          "b": 0.143,
+          "tie": 0.0,
+          "first": 0.8323699421965318,
+          "second": 0.8835758835758836,
+          "vital": 0.118,
+          "max_potion": 0.585
+        },
+        "hedrick": {
+          "a": 0.793,
+          "b": 0.207,
+          "tie": 0.0,
+          "first": 0.7611336032388664,
+          "second": 0.8241106719367589,
+          "vital": 0.101,
+          "max_potion": 0.66
+        },
+        "c60": {
+          "a": 0.824,
+          "b": 0.176,
+          "tie": 0.0,
+          "first": 0.7996108949416343,
+          "second": 0.8497942386831275,
+          "vital": 0.052,
+          "max_potion": 0.332
+        },
+        "d60": {
+          "a": 0.979,
+          "b": 0.021,
+          "tie": 0.0,
+          "first": 0.9759036144578314,
+          "second": 0.9820717131474104,
+          "vital": 0.034,
+          "max_potion": 0.166
+        }
+      }
+    },
+    {
+      "cut": "Bravery Charm",
+      "copies_before": 4,
+      "weighted": 0.8273818181818182,
+      "mean": 0.8614999999999999,
+      "vital": 0.06625,
+      "max_potion": 0.42125,
+      "cells": {
+        "t60": {
+          "a": 0.854,
+          "b": 0.146,
+          "tie": 0.0,
+          "first": 0.8353658536585366,
+          "second": 0.8720472440944882,
+          "vital": 0.108,
+          "max_potion": 0.531
+        },
+        "hedrick": {
+          "a": 0.798,
+          "b": 0.202,
+          "tie": 0.0,
+          "first": 0.7729257641921398,
+          "second": 0.8191881918819188,
+          "vital": 0.089,
+          "max_potion": 0.668
+        },
+        "c60": {
+          "a": 0.818,
+          "b": 0.182,
+          "tie": 0.0,
+          "first": 0.7739307535641547,
+          "second": 0.8605108055009824,
+          "vital": 0.041,
+          "max_potion": 0.332
+        },
+        "d60": {
+          "a": 0.976,
+          "b": 0.024,
+          "tie": 0.0,
+          "first": 0.982,
+          "second": 0.97,
+          "vital": 0.027,
+          "max_potion": 0.154
+        }
+      }
+    }
+  ],
+  "list": [
+    "Mew ex",
+    "Mew ex",
+    "Mew ex",
+    "Mew ex",
+    "Mime Jr.",
+    "Mime Jr.",
+    "Igglybuff",
+    "Igglybuff",
+    "Igglybuff",
+    "Igglybuff",
+    "Budew",
+    "Budew",
+    "Budew",
+    "Buddy-Buddy Poffin",
+    "Buddy-Buddy Poffin",
+    "Buddy-Buddy Poffin",
+    "Buddy-Buddy Poffin",
+    "Nest Ball",
+    "Nest Ball",
+    "Nest Ball",
+    "Nest Ball",
+    "Ultra Ball",
+    "Ultra Ball",
+    "Ultra Ball",
+    "Night Stretcher",
+    "Night Stretcher",
+    "Night Stretcher",
+    "Night Stretcher",
+    "Battle Cage",
+    "Battle Cage",
+    "Battle Cage",
+    "Battle Cage",
+    "Bravery Charm",
+    "Bravery Charm",
+    "Bravery Charm",
+    "Bravery Charm",
+    "Arven",
+    "Arven",
+    "Arven",
+    "Arven",
+    "Iono",
+    "Iono",
+    "Iono",
+    "Iono",
+    "Professor's Research",
+    "Professor's Research",
+    "Boss's Orders",
+    "Boss's Orders",
+    "Boss's Orders",
+    "Crushing Hammer",
+    "Crushing Hammer",
+    "Crushing Hammer",
+    "Crushing Hammer",
+    "Switch",
+    "Counter Catcher",
+    "Counter Catcher",
+    "Max Potion",
+    "Max Potion",
+    "Max Potion",
+    "Max Potion"
+  ]
+}
