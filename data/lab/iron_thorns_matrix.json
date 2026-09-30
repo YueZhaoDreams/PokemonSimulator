@@ -3,7 +3,7 @@
   "games": 3000,
   "seed": 20260930,
   "rules": "standard_60",
-  "seconds": 535.0,
+  "seconds": 721.8,
   "cells": [
     {
       "a": "thorns",
@@ -48,6 +48,17 @@
       "tie_rate": 0.0,
       "win_rate_a_going_first": 0.2548494983277592,
       "win_rate_a_going_second": 0.2239202657807309
+    },
+    {
+      "a": "thorns",
+      "b": "m",
+      "games": 3000,
+      "seed": 20260930,
+      "win_rate_a": 0.7466666666666667,
+      "win_rate_b": 0.25333333333333335,
+      "tie_rate": 0.0,
+      "win_rate_a_going_first": 0.7598167539267016,
+      "win_rate_a_going_second": 0.733016304347826
     },
     {
       "a": "thorns",
@@ -125,6 +136,17 @@
       "tie_rate": 0.0003333333333333333,
       "win_rate_a_going_first": 0.7602970965563808,
       "win_rate_a_going_second": 0.7603686635944701
+    },
+    {
+      "a": "m",
+      "b": "thorns",
+      "games": 3000,
+      "seed": 20260930,
+      "win_rate_a": 0.248,
+      "win_rate_b": 0.7513333333333333,
+      "tie_rate": 0.0006666666666666666,
+      "win_rate_a_going_first": 0.25971502590673573,
+      "win_rate_a_going_second": 0.23557692307692307
     },
     {
       "a": "s60",

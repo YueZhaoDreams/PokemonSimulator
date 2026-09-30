@@ -24,6 +24,7 @@ from app.seed_data import (
     SET_C60_NAMES,
     SET_D60_NAMES,
     SET_G_NAMES,
+    SET_M60_NAMES,
     SET_S60_NAMES,
     SET_T60_NAMES,
     SET_T_META_NAMES,
@@ -44,6 +45,7 @@ OPPONENTS = (
     ("d60", SET_D60_NAMES, "demolish"),
     ("s60", SET_S60_NAMES, "slash"),
     ("g", SET_G_NAMES, "carnival"),
+    ("m", SET_M60_NAMES, "mew_baby"),
 )
 
 
@@ -87,7 +89,9 @@ def _cell(opponent: str, games: int, thorns_is_a: bool) -> dict:
 
 def main() -> None:
     started = time.perf_counter()
-    jobs = [(key, True) for key, *_ in OPPONENTS] + [(key, False) for key, *_ in OPPONENTS]
+    only = {part.strip() for part in os.environ.get("THORNS_ONLY", "").split(",") if part.strip()}
+    keys = [key for key, *_ in OPPONENTS if not only or key in only]
+    jobs = [(key, True) for key in keys] + [(key, False) for key in keys]
     cells: list[dict] = []
     workers = min(4, os.cpu_count() or 2)
     with ProcessPoolExecutor(max_workers=workers) as pool:
@@ -100,13 +104,23 @@ def main() -> None:
                 f"(first {cell['win_rate_a_going_first']:.1%}, second {cell['win_rate_a_going_second']:.1%})",
                 flush=True,
             )
+    elapsed = time.perf_counter() - started
+    if only and OUT.exists():
+        previous = json.loads(OUT.read_text())
+        kept = [
+            row
+            for row in previous.get("cells") or []
+            if row.get("b") not in only and row.get("a") not in only
+        ]
+        cells = kept + cells
+        elapsed += float(previous.get("seconds") or 0)
     cells.sort(key=lambda row: (row["a"] != "thorns", row["b"], row["a"]))
     payload = {
         "list": "Fernando Cifuentes Worlds 2024 Crushing Thorn, Limitless 12238",
         "games": GAMES,
         "seed": SEED,
         "rules": "standard_60",
-        "seconds": round(time.perf_counter() - started, 1),
+        "seconds": round(elapsed, 1),
         "cells": cells,
     }
     OUT.write_text(json.dumps(payload, indent=2) + "\n")
