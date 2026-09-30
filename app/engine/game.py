@@ -363,6 +363,16 @@ class Game:
         insurance = {n.lower() for n in (strat.insurance or strat.backups)}
         copies = self._count_named_in_play(player, name)
 
+        # Memory Helix is off while Initialization is on, and this list has no Energy.
+        # Extra Mew ex would only be a two-prize gust target.
+        if (
+            strat.name in {"mew_baby", "baby"}
+            and name == "mew ex"
+            and player.in_play()
+            and self._rulebox_lock_on_opponent(player)
+        ):
+            return False
+
         if strat.name == "celebration":
             caps = {
                 "buneary": 1,
@@ -3490,6 +3500,12 @@ class Game:
             return list(dict.fromkeys(prefer))
         if strat.name in {"mew_baby", "baby"}:
             prefer = []
+            if self._rulebox_lock_on_opponent(me):
+                for baby in ("Budew", "Igglybuff", "Cleffa", "Mime Jr."):
+                    if not any(me.card(m.card_i).name.lower() == baby.lower() for m in me.in_play()):
+                        prefer.append(baby)
+                prefer.extend(["Budew", "Igglybuff", "Cleffa", "Mime Jr."])
+                return list(dict.fromkeys(prefer))
             have_mew = any(me.card(m.card_i).name.lower() == "mew ex" for m in me.in_play())
             have_iggly = any(me.card(m.card_i).name.lower() == "igglybuff" for m in me.in_play())
             have_budew = any(me.card(m.card_i).name.lower() == "budew" for m in me.in_play())
@@ -5258,20 +5274,29 @@ class Game:
     def _night_stretcher(self, me: Player, who: str | None = None) -> None:
         strat_name = self.strats[who].name if who else ""
         if strat_name in {"mew_baby", "baby"}:
-            prefer = [
-                "mew ex",
-                "radiant charizard",
-                "slaking v",
-                "igglybuff",
-                "budew",
-                "cleffa",
-                "mime jr.",
-                "mime jr",
-                "snorlax",
-                "dunsparce",
-                "regigigas",
-                "blissey ex",
-            ]
+            if who and self._rulebox_lock_on_opponent(me):
+                prefer = [
+                    "budew",
+                    "igglybuff",
+                    "cleffa",
+                    "mime jr.",
+                    "mime jr",
+                ]
+            else:
+                prefer = [
+                    "mew ex",
+                    "radiant charizard",
+                    "slaking v",
+                    "igglybuff",
+                    "budew",
+                    "cleffa",
+                    "mime jr.",
+                    "mime jr",
+                    "snorlax",
+                    "dunsparce",
+                    "regigigas",
+                    "blissey ex",
+                ]
         elif strat_name == "party":
             prefer = [
                 "mewtwo ex",
@@ -5815,6 +5840,13 @@ class Game:
             mon = player.bench[i]
             name = player.card(mon.card_i).name.lower()
             if strat.name in {"mew_baby", "baby"}:
+                if self._rulebox_lock_on_opponent(player):
+                    rank = self._baby_wall_rank(player.card(mon.card_i))
+                    if rank < 9:
+                        return rank
+                    if name == "mew ex":
+                        return 20
+                    return 10
                 if name == "mew ex":
                     return 0
                 if "radiant charizard" in name and bool(mon.energy):
@@ -6894,6 +6926,13 @@ class Game:
                 score = 0.0
                 if name in prefer:
                     score += 20 - prefer.index(name)
+                if (
+                    strat.name in {"mew_baby", "baby"}
+                    and name == "mew ex"
+                    and me.in_play()
+                    and self._rulebox_lock_on_opponent(me)
+                ):
+                    continue
                 if strat.name == "g" and source == "nest ball":
                     # Poffin already takes ≤70 HP. Nest's job on this list is Munkidori
                     # (110 HP) after the first Clefairy is down.
@@ -6960,6 +6999,12 @@ class Game:
             return self._aura_best_bench_idx(me, foe)
         if strat.name == "thorns":
             return self._thorns_promote_idx(me)
+        if strat.name in {"mew_baby", "baby"}:
+            if self._rulebox_lock_on_opponent(me):
+                return self._baby_wall_bench_idx(me)
+            for idx, mon in enumerate(me.bench):
+                if me.card(mon.card_i).name.lower() == "mew ex":
+                    return idx
         return 0
 
     def _play_switch(self, me: Player, who: str, target_idx: int | None = None) -> bool:
@@ -9921,8 +9966,44 @@ class Game:
                 self._do_retreat_into(me, idx)
                 return
 
+    def _rulebox_lock_on_opponent(self, me: Player) -> bool:
+        """The opponent's Active shuts off Rule Box Abilities. Memory Helix cannot copy."""
+        foe = self.players["b" if me.name == "A" else "a"]
+        if not foe.active:
+            return False
+        if self._flutter_mane_suppresses(foe, foe.active) or self.blank_active_owner == foe.name:
+            return False
+        for abi in foe.card(foe.active.card_i).abilities:
+            for eff in self._ability_effects(abi):
+                if eff.get("kind") == "suppress_rulebox_abilities":
+                    return True
+        return False
+
+    def _baby_wall_rank(self, card: Card) -> int:
+        return {
+            "budew": 0,
+            "igglybuff": 1,
+            "cleffa": 2,
+            "mime jr.": 3,
+            "mime jr": 3,
+        }.get(card.name.lower(), 9)
+
+    def _baby_wall_bench_idx(self, me: Player) -> int | None:
+        walls = [idx for idx, mon in enumerate(me.bench) if self._baby_wall_rank(me.card(mon.card_i)) < 9]
+        if not walls:
+            return None
+        return min(walls, key=lambda idx: self._baby_wall_rank(me.card(me.bench[idx].card_i)))
+
     def _retreat_baby(self, me: Player, foe: Player, who: str) -> None:
         if not me.active or not me.bench:
+            return
+        if self._rulebox_lock_on_opponent(me):
+            # Iron Thorns ex turns Memory Helix off. A Baby still attacks; Mew ex does not.
+            if self._baby_wall_rank(me.card(me.active.card_i)) < 9:
+                return
+            idx = self._baby_wall_bench_idx(me)
+            if idx is not None:
+                self._do_retreat_into(me, idx)
             return
         if me.card(me.active.card_i).name.lower() == "mew ex":
             return

@@ -588,6 +588,7 @@ STRATEGY_LIBRARY = {
             "Mew ex (160 HP) in Active Spot copies benched 30-HP Baby Pokémon attacks for 0 energy: "
             "Igglybuff Bouncy Circle for 30x benched 30-HP (up to 150, or 200 with Maximum Belt vs ex), "
             "Budew Itchy Pollen for Item lock, Cleffa Grasping Draw to refill hand, Mime Jr. Mimed Games. "
+            "While the opponent's Active shuts off Rule Box Abilities, a Baby stays Active and Mew ex stays back. "
             "Buddy-Buddy Poffin and Nest Ball swarm 5 babies on bench. Battle Cage prevents bench damage counters. "
             "Night Stretcher recovers KO'd Mew ex or babies."
         ),

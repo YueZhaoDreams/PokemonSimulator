@@ -343,6 +343,42 @@ def test_turbo_energize_attaches_from_deck_and_discards_at_end_of_turn():
     assert tm in me.discard
 
 
+def test_mew_stays_behind_a_baby_while_initialization_is_on():
+    game = Game(
+        build_fallback_deck(_pad(["Mew ex", "Mew ex", "Budew", "Igglybuff"])),
+        build_fallback_deck(_pad(["Iron Thorns ex", "Clefairy"])),
+        default_family_rules(),
+        StrategySpec.from_dict("mew_baby"),
+        StrategySpec.from_dict("thorns"),
+        Random(1),
+    )
+    me = game.players["a"]
+    foe = game.players["b"]
+    mews = [i for i, card in enumerate(me.cards) if card.name == "Mew ex"]
+    budew = _idx(me, "Budew")
+    iggly = _idx(me, "Igglybuff")
+    thorns = _idx(foe, "Iron Thorns ex")
+    me.active = Pokemon(card_i=mews[0], played_turn=0)
+    me.bench = [Pokemon(card_i=budew, played_turn=0), Pokemon(card_i=iggly, played_turn=0)]
+    me.hand = [mews[1]]
+    foe.active = Pokemon(card_i=thorns, played_turn=0)
+
+    assert game._rulebox_lock_on_opponent(me) is True
+    assert game._copies_benched_attacks(me, me.active) is False
+    assert game._wants_in_play(me, me.card(mews[1]), game.strats["a"]) is False
+    game._retreat_baby(me, foe, "a")
+    assert me.card(me.active.card_i).name == "Budew"
+    me.active = None
+    assert me.card(me.bench[game._promote_idx(me, "a")].card_i).name == "Igglybuff"
+
+    foe.active = Pokemon(card_i=_idx(foe, "Clefairy"), played_turn=0)
+    me.retreated = False
+    me.active = Pokemon(card_i=budew, played_turn=0)
+    me.bench = [Pokemon(card_i=mews[0], played_turn=0), Pokemon(card_i=iggly, played_turn=0)]
+    game._retreat_baby(me, foe, "a")
+    assert me.card(me.active.card_i).name == "Mew ex"
+
+
 def test_techno_radar_fails_without_a_second_hand_card():
     game = _chain_game()
     me = game.players["a"]
