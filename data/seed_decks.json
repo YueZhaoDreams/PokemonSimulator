@@ -10528,7 +10528,7 @@
         "dex_id": null
       },
       {
-        "catalog_id": "hgss3-85",
+        "catalog_id": "hgss4-88",
         "name": "Seeker",
         "category": "Trainer",
         "stage": "Supporter",
@@ -10542,7 +10542,7 @@
         "evolves_from": null,
         "trainer_kind": "supporter",
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/hgss/hgss3/85/low.webp",
+        "image": "https://assets.tcgdex.net/en/hgss/hgss4/88/low.webp",
         "set_name": null,
         "text": "Each player returns 1 of his or her Benched Pok\u00e9mon and all cards attached to it to his or her hand. (You return your Pok\u00e9mon first.)",
         "dex_id": null

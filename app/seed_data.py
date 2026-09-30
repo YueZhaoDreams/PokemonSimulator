@@ -1129,8 +1129,8 @@ _register(
         "Seeker",
         "supporter",
         "Each player returns 1 of his or her Benched Pokémon and all cards attached to it to his or her hand. (You return your Pokémon first.)",
-        catalog_id="hgss3-85",
-        image="https://assets.tcgdex.net/en/hgss/hgss3/85/low.webp",
+        catalog_id="hgss4-88",
+        image="https://assets.tcgdex.net/en/hgss/hgss4/88/low.webp",
     )
 )
 _register(

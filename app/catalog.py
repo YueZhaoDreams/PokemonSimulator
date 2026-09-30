@@ -257,7 +257,8 @@ PREFERRED_IDS = {
     "AZ": "xy4-91",
     "Cheren's Care": "swsh9-134",
     "Mr. Briney's Compassion": "ex3-87",
-    "Seeker": "hgss3-85",
+    # Triumphant 88/102. TCGdex hgss3-85 is Slowking Prime, not this Supporter.
+    "Seeker": "hgss4-88",
     "Collapsed Stadium": "swsh9-137",
     "Ultra Ball": "sv04.5-091",
     "Rare Candy": "sv04.5-089",
@@ -289,6 +290,10 @@ EXTRA_PRINT_IDS: dict[str, tuple[str, ...]] = {
 PRINT_ART_URLS = {
     "clc-014": "https://assets.tcgdex.net/en/base/base2/1/low.webp",
 }
+
+# Undaunted #85 on TCGdex is Slowking Prime. Seeker is Triumphant #88.
+SLOWKING_PRIME_ART = "https://assets.tcgdex.net/en/hgss/hgss3/85"
+SEEKER_ART = "https://assets.tcgdex.net/en/hgss/hgss4/88/low.webp"
 
 
 def allowed_print_ids(name: str) -> set[str] | None:
@@ -800,11 +805,25 @@ def _is_tcgdex_asset_url(url: str) -> bool:
     return "assets.tcgdex.net/" in url
 
 
+def _seeker_shows_slowking(name: str, cid: str, image: str) -> bool:
+    """Saved C60 copies pinned Seeker to TCGdex hgss3-85, which is Slowking Prime."""
+    if name != "Seeker":
+        return False
+    if SLOWKING_PRIME_ART in image:
+        return True
+    return cid == "hgss3-85" and (not image or _is_tcgdex_asset_url(image))
+
+
 def fill_missing_card_image(card: dict[str, Any]) -> dict[str, Any]:
     """Fill missing TCGDex art, and rewrite stale TCGDex asset URLs for the same print."""
     cid = str(card.get("catalog_id") or card.get("id") or "").strip()
     name = str(card.get("name") or "").strip()
     image = str(card.get("image") or "").strip()
+    if _seeker_shows_slowking(name, cid, image):
+        patched = dict(card)
+        patched["catalog_id"] = PREFERRED_IDS["Seeker"]
+        patched["image"] = SEEKER_ART
+        return patched
     pinned = PRINT_ART_URLS.get(cid)
     if pinned:
         if not image or (_is_tcgdex_asset_url(image) and image != pinned):
