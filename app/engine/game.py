@@ -7864,6 +7864,10 @@ class Game:
         traits = {str(t).lower() for t in (card.traits or [])}
         for player in self.players.values():
             for source in player.in_play():
+                # Cologne and Flutter Mane turn Initialization off. Do not call
+                # _abilities_suppressed here: that scans this same lock.
+                if source is player.active and self.blank_active_owner == player.name:
+                    continue
                 if self._flutter_mane_suppresses(player, source):
                     continue
                 for abi in player.card(source.card_i).abilities:

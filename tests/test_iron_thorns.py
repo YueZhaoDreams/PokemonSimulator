@@ -307,6 +307,28 @@ def test_lost_city_puts_the_knocked_out_pokemon_in_the_lost_zone():
     assert thorns not in me.discard
 
 
+def test_canceling_cologne_shuts_initialization_so_lunar_zone_returns():
+    game = _game(
+        ["Iron Thorns ex", "Clefable ex", "Psychic Energy"],
+        ["Canceling Cologne", "Clefairy"],
+    )
+    me = game.players["a"]
+    foe = game.players["b"]
+    thorns = _idx(me, "Iron Thorns ex")
+    clefable = _idx(me, "Clefable ex")
+    psychic = _idx(me, "Psychic Energy")
+    me.active = Pokemon(card_i=thorns, played_turn=0)
+    me.bench = [Pokemon(card_i=clefable, energy=[psychic], played_turn=0)]
+    assert game._abilities_suppressed(me, me.bench[0]) is True
+    assert game._has_lunar_zone(me) is False
+    cologne = parse_trainer_effects(COLOGNE)[0]
+    game._resolve_parsed_trainer(foe, me, "b", fallback_named("Canceling Cologne"), None, cologne)
+    assert game._abilities_suppressed(me, me.active) is True
+    assert game._abilities_suppressed(me, me.bench[0]) is False
+    assert game._has_lunar_zone(me) is True
+    assert game._retreat_cost(me, me.bench[0]) == 0
+
+
 def test_catcher_heads_gusts_and_cologne_blanks_the_active():
     game = _chain_game()
     me = game.players["a"]
