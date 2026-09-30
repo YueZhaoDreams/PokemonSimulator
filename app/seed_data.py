@@ -697,6 +697,34 @@ SET_H_NAMES = (
     + ["Lightning Energy"] * 25
 )
 
+# Fernando Cifuentes, 1st Worlds 2024. Limitless deck list 12238, Crushing Thorn.
+# Historical 2024 list: several of these cards are not in 2026 Standard.
+IRON_THORNS_NAMES = (
+    ["Iron Thorns ex"] * 4
+    + ["Arven"] * 4
+    + ["Professor's Research"] * 3
+    + ["Judge"] * 3
+    + ["Boss's Orders"] * 3
+    + ["Colress's Tenacity"] * 2
+    + ["Iono"]
+    + ["Penny"]
+    + ["Giovanni's Charisma"]
+    + ["Pokégear 3.0"] * 4
+    + ["Crushing Hammer"] * 4
+    + ["Pokémon Catcher"] * 4
+    + ["Techno Radar"] * 2
+    + ["Canceling Cologne"] * 2
+    + ["Prime Catcher"]
+    + ["Earthen Vessel"]
+    + ["Energy Loto"]
+    + ["Lost Vacuum"]
+    + ["Future Booster Energy Capsule"] * 3
+    + ["Technical Machine: Turbo Energize"]
+    + ["Lost City"] * 3
+    + ["Lightning Energy"] * 7
+    + ["Double Turbo Energy"] * 4
+)
+
 # Spare Cards — leftover pile, not a 30-card Family Cup list.
 # Aipom returned to Carpet Set A with the Starly line.
 SET_SPARE_NAMES = [
@@ -740,7 +768,7 @@ def _pkm(name, stage, types, hp, attacks, evolves_from=None, retreat=1, catalog_
     )
 
 
-def _trn(name, kind, text="", catalog_id=None, image=None):
+def _trn(name, kind, text="", catalog_id=None, image=None, traits=None):
     from app.catalog import PREFERRED_IDS, _looks_like_tcgdex_id, _tcgdex_low
 
     cid = catalog_id or PREFERRED_IDS.get(name) or name.lower().replace(" ", "-")
@@ -759,6 +787,7 @@ def _trn(name, kind, text="", catalog_id=None, image=None):
         text=text,
         image=art,
         retreat=0,
+        traits=list(traits or []),
     )
 
 
@@ -1059,6 +1088,112 @@ _register(
 )
 _register(
     _trn(
+        "Pokégear 3.0",
+        "item",
+        "Look at the top 7 cards of your deck. You may reveal a Supporter card you find there and put it into your hand. Shuffle the other cards back into your deck.",
+        catalog_id="sv01-186",
+    )
+)
+_register(
+    _trn(
+        "Pokémon Catcher",
+        "item",
+        "Flip a coin. If heads, switch in 1 of your opponent's Benched Pokémon to the Active Spot.",
+        catalog_id="sv05-160",
+    )
+)
+_register(
+    _trn(
+        "Techno Radar",
+        "item",
+        "You must discard a card from your hand in order to use this card. Search your deck for up to 2 Future cards, reveal them, and put them into your hand. Then, shuffle your deck.",
+        catalog_id="sv04-180",
+        traits=["Future"],
+    )
+)
+_register(
+    _trn(
+        "Canceling Cologne",
+        "item",
+        "Until the end of your turn, your opponent's Active Pokémon has no Abilities.",
+        catalog_id="sv05-141",
+    )
+)
+_register(
+    _trn(
+        "Prime Catcher",
+        "item",
+        "Switch in 1 of your opponent's Benched Pokémon to the Active Spot. If you do, switch your Active Pokémon with 1 of your Benched Pokémon.",
+        catalog_id="sv05-157",
+    )
+)
+_register(
+    _trn(
+        "Energy Loto",
+        "item",
+        "Look at the top 7 cards of your deck. You may reveal an Energy card you find there and put it into your hand. Shuffle the other cards back into your deck.",
+        catalog_id="sv08-140",
+    )
+)
+_register(
+    _trn(
+        "Lost Vacuum",
+        "item",
+        "You may put up to 1 Pokémon Tool card from your discard pile into the Lost Zone. If you do, choose a Pokémon Tool attached to any Pokémon, or any Stadium in play, and put it into the Lost Zone.",
+        catalog_id="sv02-162",
+    )
+)
+_register(
+    _trn(
+        "Future Booster Energy Capsule",
+        "tool",
+        "The Future Pokémon this card is attached to has no Retreat Cost, and the attacks it uses do 20 more damage to your opponent's Active Pokémon (before applying Weakness and Resistance).",
+        catalog_id="sv05-149",
+        traits=["Future"],
+    )
+)
+_turbo = _trn(
+    "Technical Machine: Turbo Energize",
+    "tool",
+    "The Pokémon this card is attached to can use the attack on this card. (You still need the necessary Energy to use this attack.) If this card is attached to 1 of your Pokémon, discard it at the end of your turn.",
+    catalog_id="sv04-179",
+    traits=["Future"],
+)
+_turbo.attacks = [
+    _atk(
+        "Turbo Energize",
+        ["Colorless"],
+        0,
+        "Search your deck for up to 2 Basic Energy cards and attach them to your Benched Pokémon in any way you like. Then, shuffle your deck.",
+    )
+]
+_register(_turbo)
+_register(
+    _trn(
+        "Lost City",
+        "stadium",
+        "Whenever a Pokémon (either yours or your opponent's) is Knocked Out, put that Pokémon in the Lost Zone instead of the discard pile. (Discard all attached cards.)",
+        catalog_id="sv02-161",
+    )
+)
+_register(
+    _trn(
+        "Colress's Tenacity",
+        "supporter",
+        "Search your deck for a Stadium card and an Energy card, reveal them, and put them into your hand. Then, shuffle your deck.",
+        catalog_id="sv01-084",
+    )
+)
+_register(
+    _trn(
+        "Giovanni's Charisma",
+        "supporter",
+        "Put an Energy attached to your opponent's Active Pokémon into their hand. If you do, attach an Energy card from your hand to your Active Pokémon.",
+        catalog_id="sv3pt5-161",
+    )
+)
+_register(
+    _trn(
         "AZ",
         "supporter",
         "Put 1 of your Pokémon into your hand. (Discard all cards attached to that Pokémon.)",
@@ -1130,6 +1265,23 @@ _register(
         text="Double Colorless Energy provides ColorlessColorless Energy.",
         image="https://assets.tcgdex.net/en/sm/sm1/136/low.webp",
         set_name="Sun & Moon",
+        retreat=0,
+    )
+)
+_register(
+    Card(
+        catalog_id="sv04-163",
+        name="Double Turbo Energy",
+        category="Energy",
+        stage="Special",
+        types=["Colorless"],
+        energy_type="Colorless",
+        text=(
+            "As long as this card is attached to a Pokémon, it provides Colorless Colorless Energy. "
+            "The attacks of the Pokémon this card is attached to do 20 less damage to your opponent's "
+            "Active Pokémon (before applying Weakness and Resistance)."
+        ),
+        set_name="Paradox Rift",
         retreat=0,
     )
 )
@@ -3812,6 +3964,8 @@ def fallback_named(name: str) -> Card:
         key = "telepathic psychic energy"
     if "double colorless" in key:
         key = "double colorless energy"
+    if "double turbo" in key:
+        key = "double turbo energy"
     if "boomerang" in key:
         key = "boomerang energy"
     if "enriching" in key:

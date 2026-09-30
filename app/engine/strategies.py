@@ -603,6 +603,18 @@ STRATEGY_LIBRARY = {
         search_aces=["Mew ex", "Igglybuff"],
         closers=["Mew ex"],
     ),
+    "thorns": StrategySpec(
+        name="thorns",
+        description="Iron Thorns ex stays Active, locks Rule Box Abilities, and chains Volt Cyclone.",
+        prefer_damage=1.0,
+        bench_fill=0.8,
+        evolve_asap=0.0,
+        attach_pokemon_as_energy=0.0,
+        item_spend=1.0,
+        closers=["Iron Thorns ex"],
+        search_aces=["Iron Thorns ex"],
+        protect=["Iron Thorns ex"],
+    ),
     "baby": StrategySpec(
         name="baby",
         description="Alias for mew_baby strategy.",

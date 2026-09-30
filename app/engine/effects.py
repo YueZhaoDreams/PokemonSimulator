@@ -536,6 +536,10 @@ def parse_ability_effects(text: str) -> list[dict[str, Any]]:
     if "can use the attacks of any of your benched pokemon" in t:
         effects.append({"kind": "copy_benched_attacks"})
 
+    # Lost City: the Knocked Out Pokémon goes to the Lost Zone; attachments are discarded.
+    if "knocked out" in t and "lost zone" in t and "discard pile" in t:
+        effects.append({"kind": "ko_to_lost_zone"})
+
     # Radiant Charizard Excited Heart: attacks cost [C] less for each Prize card your opponent has taken.
     if (
         "attacks cost [c] less for each prize card your opponent has taken" in t
@@ -681,11 +685,11 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
             }
         )
     # Call for Family / bench a Basic from deck
-    elif (
+    elif "basic energy" not in t and (
         "call for family" in t
         or ("basic" in t and "bench" in t and "search your deck" in t)
         or "search your deck for a basic" in t
-        or "search your deck for up to" in t and "basic" in t and "bench" in t
+        or ("search your deck for up to" in t and "basic" in t and "bench" in t)
     ):
         up_to = re.search(r"up to (\d+)", t)
         effects.append({"kind": "call_family", "count": int(up_to.group(1)) if up_to else 1})
@@ -944,6 +948,18 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
     if bench:
         effects.append({"kind": "bench_damage_counters", "counters": int(bench.group(1))})
 
+    # Volt Cyclone: move one attached Energy onto a Benched Pokémon.
+    if "move an energy from this pokemon" in t and "benched" in t:
+        effects.append({"kind": "move_own_energy_to_bench"})
+
+    # Technical Machine: Turbo Energize. The count stays in the printed "up to N".
+    turbo = re.search(
+        r"search your deck for up to (\d+) basic energy cards and attach them to your benched pokemon",
+        t,
+    )
+    if turbo:
+        effects.append({"kind": "attach_basic_energy_to_bench", "count": int(turbo.group(1))})
+
     if "switch this pokemon with 1 of your benched" in t:
         effects.append({"kind": "switch_with_benched"})
     if (
@@ -1115,6 +1131,11 @@ def parse_trainer_effects(text: str) -> list[dict[str, Any]]:
         effects.append({"kind": "search_pokemon_no_rule_box"})
         return effects
 
+    crushing = _crushing_thorn_trainer(t)
+    if crushing:
+        effects.append(crushing)
+        return effects
+
     # Penny, Turo, AZ, Cheren's Care, Mr. Briney's Compassion, Seeker.
     # Damage counters are not cards: leaving play clears them.
     bounce = _return_pokemon_to_hand_effect(t)
@@ -1128,6 +1149,31 @@ def parse_trainer_effects(text: str) -> list[dict[str, Any]]:
         effects.append({"kind": "force_opponent_active", "trigger": "play"})
 
     return effects
+
+
+def _crushing_thorn_trainer(t: str) -> dict[str, Any] | None:
+    """Trainers from the Worlds 2024 Crushing Thorn list. The sentence is the effect."""
+    look = re.search(r"look at the top (\d+)", t)
+    if look and "supporter" in t and "energy card" not in t and "put it into your hand" in t:
+        return {"kind": "look_top_take", "look": int(look.group(1)), "want": "supporter"}
+    if look and "energy card" in t and "stadium" not in t and "put it into your hand" in t:
+        return {"kind": "look_top_take", "look": int(look.group(1)), "want": "energy"}
+    if "flip a coin" in t and "switch in" in t and "opponent" in t and "benched" in t:
+        return {"kind": "coin_gust"}
+    if "switch in 1 of your opponent's benched" in t and "switch your active" in t:
+        return {"kind": "gust_and_switch"}
+    if "future" in t and "search your deck" in t and "discard" in t and "in order to use" in t:
+        count = re.search(r"up to (\d+)", t)
+        return {"kind": "search_future", "count": int(count.group(1) if count else 2), "discard": 1}
+    if "until the end of your turn" in t and "no abilities" in t and "opponent" in t:
+        return {"kind": "blank_opponent_active_abilities"}
+    if "search your deck" in t and "stadium" in t and "energy card" in t:
+        return {"kind": "search_stadium_and_energy"}
+    if "energy attached to your opponent" in t and "into their hand" in t and "attach an energy" in t:
+        return {"kind": "swap_active_energy_with_hand"}
+    if "lost zone" in t and "pokemon tool" in t and "stadium" in t and "discard pile" in t:
+        return {"kind": "lost_vacuum"}
+    return None
 
 
 def _return_pokemon_to_hand_effect(t: str) -> dict[str, Any] | None:
@@ -1180,6 +1226,10 @@ def is_double_colorless(card: Any) -> bool:
     return "double colorless" in (getattr(card, "name", "") or "").lower()
 
 
+def is_double_turbo(card: Any) -> bool:
+    return "double turbo" in (getattr(card, "name", "") or "").lower()
+
+
 def is_boomerang_energy(card: Any) -> bool:
     return "boomerang energy" in (getattr(card, "name", "") or "").lower()
 
@@ -1207,6 +1257,7 @@ def is_special_energy(card: Any) -> bool:
         return False
     if (
         is_double_colorless(card)
+        or is_double_turbo(card)
         or is_boomerang_energy(card)
         or is_telepathic_energy(card)
         or is_enriching_energy(card)
@@ -1219,7 +1270,7 @@ def is_special_energy(card: Any) -> bool:
 
 def energy_provided(card: Any) -> list[str]:
     """Energy units one attached card pays. DCE pays two Colorless."""
-    if is_double_colorless(card):
+    if is_double_colorless(card) or is_double_turbo(card):
         return ["Colorless", "Colorless"]
     if is_boomerang_energy(card):
         return ["Colorless"]
