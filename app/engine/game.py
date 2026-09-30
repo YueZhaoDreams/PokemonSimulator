@@ -910,12 +910,18 @@ class Game:
         insurance = {n.lower() for n in strat.insurance}
         closers = {n.lower() for n in strat.closers}
         ace_out = (not aces) or any(me.card(m.card_i).name.lower() in aces for m in me.in_play())
+        party_order = self._party_hand_play_order(me) if strat.name == "party" else {}
 
         def prio(card_i: int) -> tuple:
             card = me.card(card_i)
             name = card.name.lower()
             if strat.name == "celebration":
                 return (self._celebration_bench_rank(name), -(card.hp or 0))
+            if strat.name == "party" and card_i in party_order:
+                return (0, party_order[card_i])
+            if strat.name == "party" and self._party_ladder_basic(card):
+                # Over the summon cap. Stay behind every real bench candidate.
+                return (80, 0)
             if strat.name == "g":
                 rank = {
                     "clefairy": 0,
@@ -3610,8 +3616,8 @@ class Game:
             if self._count_named_in_play(me, "Latias ex") == 0 and not any(
                 me.card(i).name.lower() == "latias ex" for i in me.hand
             ):
-                # After Clefairy and Mewtwo. Nest Ball still bumps it once a
-                # Clefairy is out; Ultra Ball keeps the closer ahead of it.
+                # Nest, Ultra Ball, and Telepathic use _party_summon_tier.
+                # This append only covers a search that is not on that ladder.
                 prefer.append("Latias ex")
             return list(dict.fromkeys(prefer))
         if strat.name == "g":
@@ -3839,10 +3845,23 @@ class Game:
         prefer_l = [p.lower() for p in (prefer or [])]
         in_play = {me.card(m.card_i).name.lower() for m in me.in_play()}
         in_hand = {me.card(i).name.lower() for i in me.hand}
+        who = "a" if me.name == "A" else "b"
+        strat = self.strats[who]
+        ladder = None
+        if strat.name == "party" and self._party_ball_source(source):
+            clef, latias_n, mewtwo_n = self._party_summon_counts(me, include_hand=True)
+            ladder = (clef, latias_n, mewtwo_n, self._clefairy_play_cap(me), self._mewtwo_play_cap(me))
         scored: list[tuple[float, int, int]] = []
         for idx, card_i in enumerate(me.deck):
             card = me.card(card_i)
             if not pred(card):
+                continue
+            if ladder is not None and self._party_ladder_basic(card):
+                tier = self._party_summon_tier(card, *ladder)
+                if tier is None:
+                    continue
+                # Dominate print-value and prefer bonuses. A 1-point tier gap is the order.
+                scored.append((1000 - tier, idx, card_i))
                 continue
             score = 0.0
             name = card.name.lower()
@@ -3850,8 +3869,6 @@ class Game:
                 score += 20 - prefer_l.index(name)
             if name in in_play or name in in_hand:
                 score -= 8
-            who = "a" if me.name == "A" else "b"
-            strat = self.strats[who]
             if strat.hold_as_energy and name in {n.lower() for n in strat.search_aces}:
                 copies = sum(1 for n in self._in_play_names(me) if n == name)
                 cap = self._clefairy_play_cap(me) if strat.name == "party" else max(1, strat.max_ace_copies)
@@ -3988,6 +4005,16 @@ class Game:
         for _ in range(take):
             scored: list[tuple[float, int]] = []
             in_play = {me.card(m.card_i).name.lower() for m in me.in_play()}
+            ladder = None
+            if strat.name == "party" and want_type:
+                clef, latias_n, mewtwo_n = self._party_summon_counts(me, include_hand=True)
+                ladder = (
+                    clef,
+                    latias_n,
+                    mewtwo_n,
+                    self._clefairy_play_cap(me),
+                    self._mewtwo_play_cap(me),
+                )
             for card_i in me.deck:
                 card = me.card(card_i)
                 if not card.is_basic:
@@ -4005,13 +4032,13 @@ class Game:
                     and card_name not in allow
                 ):
                     continue
-                if want_type and strat.name == "party":
-                    if self._is_clefairy(card) and self._count_named_in_play(
-                        me, "Clefairy"
-                    ) >= self._clefairy_play_cap(me):
+                if ladder is not None and self._party_ladder_basic(card):
+                    tier = self._party_summon_tier(card, *ladder)
+                    if tier is None:
                         continue
-                    if self._is_mewtwo(card) and len(self._mewtwo_mons(me)) >= self._mewtwo_play_cap(me):
-                        continue
+                    # Telepathic is Basic Psychic only. Lightning Mewtwo never reaches here.
+                    scored.append((float(100 - tier), card_i))
+                    continue
                 score = 0.0
                 if card_name in prefer:
                     score += 20 - prefer.index(card_name)
@@ -6901,6 +6928,114 @@ class Game:
         self._log(f"{me.name} attaches {me.card(card_i).name} to {me.card(target.card_i).name}")
         return True
 
+    def _party_ball_source(self, source: str) -> bool:
+        return source in {"ultra ball", "poke ball", "poké ball", "quick ball", "great ball"}
+
+    def _party_ladder_basic(self, card) -> bool:
+        return self._is_clefairy(card) or card.name.lower() == "latias ex" or self._is_mewtwo(card)
+
+    def _party_summon_counts(self, me: Player, *, include_hand: bool) -> tuple[int, int, int]:
+        """Clefairy, Latias ex, and Mewtwo already obtained.
+
+        Deck search counts hand plus play. Playing from hand starts at play only,
+        then the greedy order increments as each hand copy is assigned a slot.
+        """
+        clef = self._count_named_in_play(me, "Clefairy")
+        latias = self._count_named_in_play(me, "Latias ex")
+        mewtwo = len(self._mewtwo_mons(me))
+        if include_hand:
+            for i in me.hand:
+                card = me.card(i)
+                if self._is_clefairy(card):
+                    clef += 1
+                elif card.name.lower() == "latias ex":
+                    latias += 1
+                elif self._is_mewtwo(card):
+                    mewtwo += 1
+        return clef, latias, mewtwo
+
+    def _party_summon_tier(
+        self,
+        card,
+        clef: int,
+        latias: int,
+        mewtwo: int,
+        cap: int,
+        mcap: int,
+    ) -> int | None:
+        """Lower tier is summoned sooner. None means this copy stays in the deck.
+
+        Two Clefairy, then Latias ex, then the third Clefairy, then the first
+        Mewtwo ex, then the fourth Clefairy, then a second Mewtwo when the cap
+        allows it. Photon Kinesis is 10 plus 30 for each Psychic Energy on your
+        Pokémon; Wonder Storm is 20 for each. That is why the first Mewtwo
+        precedes the fourth Clefairy. No Latias in the list simply skips that step.
+        """
+        if self._is_clefairy(card):
+            if clef >= cap:
+                return None
+            if clef <= 0:
+                return 0
+            if clef == 1:
+                return 1
+            if clef == 2:
+                return 3
+            return 5
+        if card.name.lower() == "latias ex":
+            if latias >= 1:
+                return None
+            return 2
+        if self._is_mewtwo(card):
+            if mewtwo >= mcap:
+                return None
+            if mewtwo <= 0:
+                return 4
+            return 6
+        return None
+
+    def _party_hand_play_order(self, me: Player) -> dict[int, int]:
+        """Greedy bench order for ladder Basics still in hand. Play counts only."""
+        clef, latias, mewtwo = self._party_summon_counts(me, include_hand=False)
+        cap = self._clefairy_play_cap(me)
+        mcap = self._mewtwo_play_cap(me)
+        pool = [
+            i
+            for i in list(me.hand)
+            if self._party_ladder_basic(me.card(i)) and self._is_playable_pokemon(me.card(i))
+        ]
+        order: dict[int, int] = {}
+        rank = 0
+        while pool:
+            best_i = None
+            best_key = None
+            for i in pool:
+                card = me.card(i)
+                tier = self._party_summon_tier(card, clef, latias, mewtwo, cap, mcap)
+                if tier is None:
+                    continue
+                moon = (
+                    0
+                    if any("moon-watching" in (abi.name or "").lower() for abi in card.abilities)
+                    else 1
+                )
+                key = (tier, moon, i)
+                if best_key is None or key < best_key:
+                    best_key = key
+                    best_i = i
+            if best_i is None:
+                break
+            order[best_i] = rank
+            rank += 1
+            chosen = me.card(best_i)
+            if self._is_clefairy(chosen):
+                clef += 1
+            elif chosen.name.lower() == "latias ex":
+                latias += 1
+            else:
+                mewtwo += 1
+            pool.remove(best_i)
+        return order
+
     def _bench_basic_from_deck(self, me: Player, who: str, count: int = 1, max_hp: int | None = None, source: str = "ball") -> None:
         strat = self.strats[who]
         prefer = [p.lower() for p in self._pokemon_search_prefer(me, who)]
@@ -6908,6 +7043,16 @@ class Game:
         for _ in range(take):
             scored: list[tuple[float, int]] = []
             in_play = {me.card(m.card_i).name.lower() for m in me.in_play()}
+            ladder = None
+            if strat.name == "party":
+                clef, latias_n, mewtwo_n = self._party_summon_counts(me, include_hand=True)
+                ladder = (
+                    clef,
+                    latias_n,
+                    mewtwo_n,
+                    self._clefairy_play_cap(me),
+                    self._mewtwo_play_cap(me),
+                )
             for card_i in me.deck:
                 card = me.card(card_i)
                 if not card.is_basic:
@@ -6917,13 +7062,12 @@ class Game:
                 name = card.name.lower()
                 if strat.name == "celebration" and not self._wants_in_play(me, card, strat):
                     continue
-                if strat.name == "party" and self._is_mewtwo(card) and self._mewtwo_play_cap(me) <= 0:
+                if ladder is not None and self._party_ladder_basic(card):
+                    tier = self._party_summon_tier(card, *ladder)
+                    if tier is None:
+                        continue
+                    scored.append((float(100 - tier), card_i))
                     continue
-                if strat.name == "party" and name == "latias ex":
-                    if self._count_named_in_play(me, "Latias ex") >= 1:
-                        continue
-                    if any(me.card(i).name.lower() == "latias ex" for i in me.hand):
-                        continue
                 if strat.name == "slash" and name not in {"wo-chien ex", "sprigatito"}:
                     continue
                 if strat.name == "phantom" and name not in {
@@ -6941,12 +7085,6 @@ class Game:
                 score = 0.0
                 if name in prefer:
                     score += 20 - prefer.index(name)
-                if strat.name == "party" and source == "nest ball" and name == "latias ex":
-                    # Poffin still takes ≤70 HP Clefairy. Once one engine is out,
-                    # Nest's job is the Basic that prints Skyliner.
-                    clef_out = sum(1 for m in me.in_play() if self._is_clefairy(me.card(m.card_i)))
-                    if clef_out >= 1 and name not in in_play:
-                        score += 30
                 if strat.name == "g" and source == "nest ball":
                     # Poffin already takes ≤70 HP. Nest's job on this list is Munkidori
                     # (110 HP) after the first Clefairy is down.
