@@ -69,7 +69,7 @@ FOES = (
 
 
 def loss_weights(baseline: dict[str, dict]) -> dict[str, float]:
-    """Household weight over these five foes. A higher loss rate gets a higher weight."""
+    """Turn each foe's loss rate into a weight. The weights sum to 1."""
     raw = {key: max(1e-6, 1.0 - baseline[key]["a"]) for key, *_ in FOES}
     total = sum(raw.values())
     return {key: raw[key] / total for key in raw}

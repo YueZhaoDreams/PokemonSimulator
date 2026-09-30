@@ -912,7 +912,8 @@ _register(
         "Bursting Balloon",
         "tool",
         _BURSTING_BALLOON_TEXT,
-        catalog_id="bkp-97",
+        catalog_id="xy9-97",
+        image="https://assets.tcgdex.net/en/xy/xy9/97/low.webp",
     )
 )
 _register(_trn("Beach Court", "stadium", "The Retreat Cost of each Basic Pokémon in play (both yours and your opponent's) is Colorless less."))
