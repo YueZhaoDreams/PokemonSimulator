@@ -1,0 +1,163 @@
+{
+  "list": "Fernando Cifuentes Worlds 2024 Crushing Thorn, Limitless 12238",
+  "games": 3000,
+  "seed": 20260930,
+  "rules": "standard_60",
+  "seconds": 535.0,
+  "cells": [
+    {
+      "a": "thorns",
+      "b": "c60",
+      "games": 3000,
+      "seed": 20260930,
+      "win_rate_a": 0.15666666666666668,
+      "win_rate_b": 0.8433333333333334,
+      "tie_rate": 0.0,
+      "win_rate_a_going_first": 0.16797385620915034,
+      "win_rate_a_going_second": 0.14489795918367346
+    },
+    {
+      "a": "thorns",
+      "b": "d60",
+      "games": 3000,
+      "seed": 20260930,
+      "win_rate_a": 0.43933333333333335,
+      "win_rate_b": 0.5606666666666666,
+      "tie_rate": 0.0,
+      "win_rate_a_going_first": 0.4826897470039947,
+      "win_rate_a_going_second": 0.39586114819759677
+    },
+    {
+      "a": "thorns",
+      "b": "g",
+      "games": 3000,
+      "seed": 20260930,
+      "win_rate_a": 0.6483333333333333,
+      "win_rate_b": 0.3516666666666667,
+      "tie_rate": 0.0,
+      "win_rate_a_going_first": 0.6587301587301587,
+      "win_rate_a_going_second": 0.6377688172043011
+    },
+    {
+      "a": "thorns",
+      "b": "hedrick",
+      "games": 3000,
+      "seed": 20260930,
+      "win_rate_a": 0.23933333333333334,
+      "win_rate_b": 0.7606666666666667,
+      "tie_rate": 0.0,
+      "win_rate_a_going_first": 0.2548494983277592,
+      "win_rate_a_going_second": 0.2239202657807309
+    },
+    {
+      "a": "thorns",
+      "b": "s60",
+      "games": 3000,
+      "seed": 20260930,
+      "win_rate_a": 0.846,
+      "win_rate_b": 0.154,
+      "tie_rate": 0.0,
+      "win_rate_a_going_first": 0.8598256203890007,
+      "win_rate_a_going_second": 0.832339297548045
+    },
+    {
+      "a": "thorns",
+      "b": "t60",
+      "games": 3000,
+      "seed": 20260930,
+      "win_rate_a": 0.20366666666666666,
+      "win_rate_b": 0.7963333333333333,
+      "tie_rate": 0.0,
+      "win_rate_a_going_first": 0.21370967741935484,
+      "win_rate_a_going_second": 0.19378306878306878
+    },
+    {
+      "a": "thorns",
+      "b": "unl",
+      "games": 3000,
+      "seed": 20260930,
+      "win_rate_a": 0.5723333333333334,
+      "win_rate_b": 0.42766666666666664,
+      "tie_rate": 0.0,
+      "win_rate_a_going_first": 0.5984147952443857,
+      "win_rate_a_going_second": 0.5457604306864065
+    },
+    {
+      "a": "c60",
+      "b": "thorns",
+      "games": 3000,
+      "seed": 20260930,
+      "win_rate_a": 0.8466666666666667,
+      "win_rate_b": 0.15333333333333332,
+      "tie_rate": 0.0,
+      "win_rate_a_going_first": 0.848569434752268,
+      "win_rate_a_going_second": 0.8449266113592853
+    },
+    {
+      "a": "d60",
+      "b": "thorns",
+      "games": 3000,
+      "seed": 20260930,
+      "win_rate_a": 0.5613333333333334,
+      "win_rate_b": 0.43866666666666665,
+      "tie_rate": 0.0,
+      "win_rate_a_going_first": 0.6231884057971014,
+      "win_rate_a_going_second": 0.49186128803963197
+    },
+    {
+      "a": "g",
+      "b": "thorns",
+      "games": 3000,
+      "seed": 20260930,
+      "win_rate_a": 0.35733333333333334,
+      "win_rate_b": 0.6426666666666667,
+      "tie_rate": 0.0,
+      "win_rate_a_going_first": 0.36436170212765956,
+      "win_rate_a_going_second": 0.3502673796791444
+    },
+    {
+      "a": "hedrick",
+      "b": "thorns",
+      "games": 3000,
+      "seed": 20260930,
+      "win_rate_a": 0.7603333333333333,
+      "win_rate_b": 0.23933333333333334,
+      "tie_rate": 0.0003333333333333333,
+      "win_rate_a_going_first": 0.7602970965563808,
+      "win_rate_a_going_second": 0.7603686635944701
+    },
+    {
+      "a": "s60",
+      "b": "thorns",
+      "games": 3000,
+      "seed": 20260930,
+      "win_rate_a": 0.151,
+      "win_rate_b": 0.849,
+      "tie_rate": 0.0,
+      "win_rate_a_going_first": 0.16566063044936286,
+      "win_rate_a_going_second": 0.1365142478462558
+    },
+    {
+      "a": "t60",
+      "b": "thorns",
+      "games": 3000,
+      "seed": 20260930,
+      "win_rate_a": 0.8153333333333334,
+      "win_rate_b": 0.18466666666666667,
+      "tie_rate": 0.0,
+      "win_rate_a_going_first": 0.8306342780026991,
+      "win_rate_a_going_second": 0.8003952569169961
+    },
+    {
+      "a": "unl",
+      "b": "thorns",
+      "games": 3000,
+      "seed": 20260930,
+      "win_rate_a": 0.438,
+      "win_rate_b": 0.562,
+      "tie_rate": 0.0,
+      "win_rate_a_going_first": 0.4374599101988454,
+      "win_rate_a_going_second": 0.43858431644691187
+    }
+  ]
+}
