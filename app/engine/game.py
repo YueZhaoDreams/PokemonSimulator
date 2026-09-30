@@ -4030,10 +4030,6 @@ class Game:
         for _ in range(take):
             scored: list[tuple[float, int]] = []
             in_play = {me.card(m.card_i).name.lower() for m in me.in_play()}
-            tele = None
-            if strat.name == "party" and want_type:
-                clef, latias_n, _mewtwo_n = self._party_summon_counts(me, include_hand=True)
-                tele = (clef, latias_n, self._clefairy_play_cap(me))
             for card_i in me.deck:
                 card = me.card(card_i)
                 if not card.is_basic:
@@ -4051,14 +4047,13 @@ class Game:
                     and card_name not in allow
                 ):
                     continue
-                if tele is not None and (self._is_clefairy(card) or card.name.lower() == "latias ex"):
-                    tier = self._party_telepathic_tier(card, *tele)
-                    if tier is None:
+                if want_type and strat.name == "party":
+                    if self._is_clefairy(card) and self._count_named_in_play(
+                        me, "Clefairy"
+                    ) >= self._clefairy_play_cap(me):
                         continue
-                    # Two slots. The second Clefairy and Latias ex come off together.
-                    # Lightning Mewtwo never reaches this search.
-                    scored.append((float(100 - tier), card_i))
-                    continue
+                    if self._is_mewtwo(card) and len(self._mewtwo_mons(me)) >= self._mewtwo_play_cap(me):
+                        continue
                 score = 0.0
                 if card_name in prefer:
                     score += 20 - prefer.index(card_name)
@@ -7082,48 +7077,6 @@ class Game:
         self._log(f"{me.name} attaches {me.card(card_i).name} to {me.card(target.card_i).name}")
         return True
 
-    def _party_summon_counts(self, me: Player, *, include_hand: bool) -> tuple[int, int, int]:
-        """Clefairy, Latias ex, and Mewtwo already obtained.
-
-        Deck search counts hand plus play. Playing from hand starts at play only,
-        then the greedy order increments as each hand copy is assigned a slot.
-        """
-        clef = self._count_named_in_play(me, "Clefairy")
-        latias = self._count_named_in_play(me, "Latias ex")
-        mewtwo = len(self._mewtwo_mons(me))
-        if include_hand:
-            for i in me.hand:
-                card = me.card(i)
-                if self._is_clefairy(card):
-                    clef += 1
-                elif card.name.lower() == "latias ex":
-                    latias += 1
-                elif self._is_mewtwo(card):
-                    mewtwo += 1
-        return clef, latias, mewtwo
-
-    def _party_telepathic_tier(self, card, clef: int, latias: int, cap: int) -> int | None:
-        """Telepathic benches two Basic Psychic Pokémon. Lower tier is first.
-
-        Nest Ball still takes Latias ex once one Clefairy is in play, and every
-        Clefairy under the cap still comes down before Mewtwo. Telepathic is the
-        card that can do both jobs at once: with one Clefairy already obtained,
-        the two slots are the second Clefairy and Latias ex. With none, both
-        slots are Clefairy. With two and no Latias ex, Latias ex then another
-        Clefairy. Mewtwo ex is Lightning and is not a candidate.
-        """
-        if self._is_clefairy(card):
-            if clef >= cap:
-                return None
-            if clef < 2:
-                return 0
-            return 2
-        if card.name.lower() == "latias ex":
-            if latias >= 1 or clef < 1:
-                return None
-            return 1
-        return None
-
     def _bench_basic_from_deck(self, me: Player, who: str, count: int = 1, max_hp: int | None = None, source: str = "ball") -> None:
         strat = self.strats[who]
         prefer = [p.lower() for p in self._pokemon_search_prefer(me, who)]
@@ -7173,8 +7126,7 @@ class Game:
                     continue
                 if strat.name == "party" and source == "nest ball" and name == "latias ex":
                     # Poffin still takes ≤70 HP Clefairy. Once one engine is out,
-                    # Nest's job is the Basic that prints Skyliner. Further
-                    # Clefairy still come before Mewtwo.
+                    # Nest's job is the Basic that prints Skyliner.
                     clef_out = sum(1 for m in me.in_play() if self._is_clefairy(me.card(m.card_i)))
                     if clef_out >= 1 and name not in in_play:
                         score += 30

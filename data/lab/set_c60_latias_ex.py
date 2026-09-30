@@ -8,9 +8,9 @@ stadium matrices. 3,000 games / cell. C60 is always player A.
 
 Nest Ball takes Latias ex once a Clefairy is in play. Poffin keeps taking
 Clefairy, and Clefairy in hand are played before Mewtwo, so the Demolish 4+1
-line still gets its chumps. Telepathic's two Basic Psychic slots are the
-second Clefairy and Latias ex once one Clefairy is already obtained.
-Telepathic never takes Lightning Mewtwo ex.
+line still gets its chumps. Telepathic's two Basic Psychic slots are both
+Clefairy until the play cap. Mewtwo ex is Lightning, so Telepathic never
+takes it, and Latias ex stays for Nest Ball.
 LAB_GAMES / LAB_OUT / LAB_ONLY.
 """
 
