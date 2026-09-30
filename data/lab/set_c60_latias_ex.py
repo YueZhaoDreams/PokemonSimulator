@@ -6,12 +6,11 @@ replaces both stadiums with Surging Sparks 76 Latias ex. ``latias_ultra``
 replaces them with one Latias ex and one Ultra Ball. Seed 20260926 matches the
 stadium matrices. 3,000 games / cell. C60 is always player A.
 
-Party summons the first Clefairy, the second Clefairy, Latias ex, the third
-Clefairy, then Mewtwo ex, then a fourth Clefairy. Photon Kinesis is 10 plus 30
-for each Psychic Energy on your Pokémon and Wonder Storm is 20 for each, so
-the first Mewtwo precedes the fourth Clefairy. The lock has no Latias, so that
-row is three Clefairy, Mewtwo, then the fourth. Telepathic searches Basic
-Psychic only and never takes Lightning Mewtwo ex.
+Nest Ball takes Latias ex once a Clefairy is in play. Poffin keeps taking
+Clefairy, and Clefairy in hand are played before Mewtwo, so the Demolish 4+1
+line still gets its chumps. Telepathic's two Basic Psychic slots are the
+second Clefairy and Latias ex once one Clefairy is already obtained.
+Telepathic never takes Lightning Mewtwo ex.
 LAB_GAMES / LAB_OUT / LAB_ONLY.
 """
 

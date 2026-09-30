@@ -120,7 +120,7 @@ def test_empty_active_parties_off_skyliner_without_a_stadium():
     assert me.discard == []
 
 
-def test_do_not_open_on_latias_and_nest_takes_the_second_clefairy():
+def test_do_not_open_on_latias_and_nest_takes_it_after_one_clefairy():
     game = _game()
     me = game.players["a"]
     clefs = _idxs(me, "Clefairy")
@@ -135,30 +135,13 @@ def test_do_not_open_on_latias_and_nest_takes_the_second_clefairy():
     me.deck = [latias, clefs[1]]
     game._bench_basic_from_deck(me, "a", count=1, source="nest ball")
     assert me.card(me.bench[0].card_i).name == "Clefairy"
-    me.deck = [latias, clefs[2]]
-    game._bench_basic_from_deck(me, "a", count=1, source="nest ball")
-    assert me.card(me.bench[-1].card_i).name == "Clefairy"
-    assert latias in me.deck
-
-
-def test_nest_takes_latias_after_two_clefairy():
-    game = _game()
-    me = game.players["a"]
-    clefs = _idxs(me, "Clefairy")
-    latias = _idxs(me, "Latias ex")[0]
-    mewtwo = _idxs(me, "Mewtwo ex")[0]
-    me.active = Pokemon(card_i=clefs[0], played_turn=0)
-    me.bench = [Pokemon(card_i=clefs[1], played_turn=0)]
-    me.hand = []
-    me.deck = [mewtwo, clefs[2], latias]
+    me.deck = [latias, clefs[2], mewtwo]
     game._bench_basic_from_deck(me, "a", count=1, source="nest ball")
     assert me.card(me.bench[-1].card_i).name == "Latias ex"
-    assert clefs[2] in me.deck
-    assert mewtwo in me.deck
 
 
-def test_nest_takes_the_third_clefairy_before_mewtwo():
-    game = _game()
+def test_nest_takes_mewtwo_once_latias_is_out_and_poffin_still_takes_clefairy():
+    game = _game("demolish")
     me = game.players["a"]
     clefs = _idxs(me, "Clefairy")
     latias = _idxs(me, "Latias ex")[0]
@@ -170,45 +153,39 @@ def test_nest_takes_the_third_clefairy_before_mewtwo():
     ]
     me.hand = []
     me.deck = [mewtwo, clefs[2]]
+    assert game._clefairy_play_cap(me) == 4
     game._bench_basic_from_deck(me, "a", count=1, source="nest ball")
+    assert me.card(me.bench[-1].card_i).name == "Mewtwo ex"
+    me.deck = [clefs[2]]
+    game._bench_basic_from_deck(me, "a", count=1, max_hp=70, source="poffin")
     assert me.card(me.bench[-1].card_i).name == "Clefairy"
-    assert mewtwo in me.deck
 
 
-def test_nest_takes_mewtwo_before_the_fourth_clefairy():
+def test_nest_takes_latias_when_another_clefairy_is_already_in_hand():
+    game = _game()
+    me = game.players["a"]
+    clefs = _idxs(me, "Clefairy")
+    latias = _idxs(me, "Latias ex")[0]
+    me.active = Pokemon(card_i=clefs[0], played_turn=0)
+    me.bench = []
+    me.hand = [clefs[1]]
+    me.deck = [latias, clefs[2]]
+    game._bench_basic_from_deck(me, "a", count=1, source="nest ball")
+    assert me.card(me.bench[-1].card_i).name == "Latias ex"
+
+
+def test_ultra_ball_can_find_latias_once_a_clefairy_is_in_play():
     game = _game("demolish")
     me = game.players["a"]
     clefs = _idxs(me, "Clefairy")
     latias = _idxs(me, "Latias ex")[0]
     mewtwo = _idxs(me, "Mewtwo ex")[0]
     me.active = Pokemon(card_i=clefs[0], played_turn=0)
-    me.bench = [
-        Pokemon(card_i=clefs[1], played_turn=0),
-        Pokemon(card_i=clefs[2], played_turn=0),
-        Pokemon(card_i=latias, played_turn=0),
-    ]
+    me.bench = [Pokemon(card_i=clefs[1], played_turn=0)]
     me.hand = []
-    me.deck = [clefs[3], mewtwo]
-    assert game._clefairy_play_cap(me) == 4
-    game._bench_basic_from_deck(me, "a", count=1, source="nest ball")
-    assert me.card(me.bench[-1].card_i).name == "Mewtwo ex"
-    assert clefs[3] in me.deck
-
-
-def test_a_clefairy_in_hand_counts_as_obtained():
-    game = _game()
-    me = game.players["a"]
-    clefs = _idxs(me, "Clefairy")
-    latias = _idxs(me, "Latias ex")[0]
-    mewtwo = _idxs(me, "Mewtwo ex")[0]
-    me.active = Pokemon(card_i=clefs[0], played_turn=0)
-    me.bench = []
-    me.hand = [clefs[1]]
     me.deck = [latias, clefs[2], mewtwo]
-    game._bench_basic_from_deck(me, "a", count=1, source="nest ball")
-    assert me.card(me.bench[-1].card_i).name == "Latias ex"
     found = game._search(me, lambda c: c.is_pokemon, source="ultra ball")
-    assert me.card(found).name == "Clefairy"
+    assert me.card(found).name == "Latias ex"
 
 
 def test_telepathic_benches_second_clefairy_then_latias():
@@ -225,9 +202,27 @@ def test_telepathic_benches_second_clefairy_then_latias():
     names = [me.card(m.card_i).name for m in me.bench]
     assert names == ["Clefairy", "Latias ex"]
     assert mewtwo in me.deck
+    game._call_family(me, "a", count=2, pokemon_type="Psychic")
+    assert mewtwo in me.deck
 
 
-def test_play_basics_follows_the_summon_ladder():
+def test_telepathic_with_no_clefairy_takes_two_clefairy():
+    game = _game()
+    me = game.players["a"]
+    clefs = _idxs(me, "Clefairy")
+    latias = _idxs(me, "Latias ex")[0]
+    mewtwo = _idxs(me, "Mewtwo ex")[0]
+    me.active = Pokemon(card_i=mewtwo, played_turn=0)
+    me.bench = []
+    me.hand = []
+    me.deck = [latias, clefs[0], clefs[1]]
+    game._call_family(me, "a", count=2, pokemon_type="Psychic")
+    names = [me.card(m.card_i).name for m in me.bench]
+    assert names == ["Clefairy", "Clefairy"]
+    assert latias in me.deck
+
+
+def test_play_basics_benches_clefairy_before_mewtwo():
     game = _game("demolish")
     me = game.players["a"]
     clefs = _idxs(me, "Clefairy")
@@ -239,25 +234,22 @@ def test_play_basics_follows_the_summon_ladder():
     me.deck = []
     game._play_basics(me)
     names = [me.card(m.card_i).name for m in me.bench]
-    assert names == ["Clefairy", "Latias ex", "Clefairy", "Mewtwo ex", "Clefairy"]
+    assert names == ["Clefairy", "Clefairy", "Clefairy", "Mewtwo ex", "Latias ex"]
 
 
-def test_summon_tier_puts_the_second_mewtwo_after_the_fourth_clefairy():
+def test_telepathic_tier_pairs_the_second_clefairy_with_latias():
     game = _game("demolish")
     me = game.players["a"]
     clef = me.card(_idxs(me, "Clefairy")[0])
     latias = me.card(_idxs(me, "Latias ex")[0])
-    mewtwo = me.card(_idxs(me, "Mewtwo ex")[0])
-    assert game._party_summon_tier(clef, 0, 0, 0, 4, 2) == 0
-    assert game._party_summon_tier(clef, 1, 0, 0, 4, 2) == 1
-    assert game._party_summon_tier(latias, 2, 0, 0, 4, 2) == 2
-    assert game._party_summon_tier(clef, 2, 1, 0, 4, 2) == 3
-    assert game._party_summon_tier(mewtwo, 3, 1, 0, 4, 2) == 4
-    assert game._party_summon_tier(clef, 3, 1, 0, 4, 2) == 5
-    assert game._party_summon_tier(mewtwo, 4, 1, 1, 4, 2) == 6
-    assert game._party_summon_tier(clef, 3, 0, 0, 3, 1) is None
-    assert game._party_summon_tier(latias, 2, 1, 0, 4, 2) is None
-    assert game._party_summon_tier(mewtwo, 4, 0, 1, 4, 1) is None
+    assert game._party_telepathic_tier(clef, 0, 0, 4) == 0
+    assert game._party_telepathic_tier(latias, 0, 0, 4) is None
+    assert game._party_telepathic_tier(clef, 1, 0, 4) == 0
+    assert game._party_telepathic_tier(latias, 1, 0, 4) == 1
+    assert game._party_telepathic_tier(latias, 2, 0, 4) == 1
+    assert game._party_telepathic_tier(clef, 2, 0, 4) == 2
+    assert game._party_telepathic_tier(latias, 2, 1, 4) is None
+    assert game._party_telepathic_tier(clef, 4, 1, 4) is None
 
 
 def test_poffin_cannot_fetch_210_hp():
