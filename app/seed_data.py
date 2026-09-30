@@ -155,6 +155,9 @@ C60_CAGE_LOCK_NAMES = (
 # on seed 20260926, 3,000 games. See data/lab/set-c60-moonlight-stadium.md.
 # Locked 2026-09-28: the remaining Ultra Ball becomes the second copy.
 # wComp 73.7 vs the one-stadium list's 72.7. See data/lab/set-c60-moonlight-second.md.
+# Locked 2026-09-30: those two Moonlight Stadium become one Surging Sparks
+# Latias ex and one Ultra Ball. Seed 20260926, 3,000 games: wComp 76.9,
+# wAll 78.1. See data/lab/set-c60-latias-ex.md.
 SET_C60_NAMES = (
     ["Clefairy"] * 4
     + ["Mewtwo ex"] * 3
@@ -164,7 +167,8 @@ SET_C60_NAMES = (
     + ["Seeker"]
     + ["Nest Ball"] * 4
     + ["Buddy-Buddy Poffin"] * 4
-    + ["Moonlight Stadium"] * 2
+    + ["Latias ex"]
+    + ["Ultra Ball"]
     + ["Hop"] * 2
     + ["Lillie"] * 2
     + ["Lillie's Determination"] * 2
@@ -182,13 +186,32 @@ SET_C60_NAMES = (
 )
 
 
+def c60_names_before_latias() -> list[str]:
+    """The 60 after the second stadium lock: two Moonlight Stadium, no Ultra Ball."""
+    names = list(SET_C60_NAMES)
+    if (
+        names.count("Latias ex") != 1
+        or names.count("Ultra Ball") != 1
+        or names.count("Moonlight Stadium") != 0
+    ):
+        raise RuntimeError(
+            "expected one Latias ex, one Ultra Ball, and no Moonlight Stadium "
+            f"in SET_C60_NAMES, found {names.count('Latias ex')} Latias ex, "
+            f"{names.count('Ultra Ball')} Ultra Ball, "
+            f"{names.count('Moonlight Stadium')} Moonlight Stadium"
+        )
+    names[names.index("Latias ex")] = "Moonlight Stadium"
+    names[names.index("Ultra Ball")] = "Moonlight Stadium"
+    return names
+
+
 def c60_names_before_second_moonlight() -> list[str]:
     """The 60 after the first stadium lock: one Ultra Ball, one Moonlight Stadium."""
-    names = list(SET_C60_NAMES)
+    names = c60_names_before_latias()
     found = names.count("Moonlight Stadium")
     if found != 2 or names.count("Ultra Ball") != 0:
         raise RuntimeError(
-            f"expected two Moonlight Stadium and no Ultra Ball in SET_C60_NAMES, "
+            f"expected two Moonlight Stadium and no Ultra Ball before Latias ex, "
             f"found {found} stadium and {names.count('Ultra Ball')} Ultra Ball"
         )
     names[names.index("Moonlight Stadium")] = "Ultra Ball"

@@ -250,7 +250,7 @@ def test_poffin_cannot_fetch_210_hp():
     assert latias in me.deck
 
 
-def test_latias_matrix_one_copy_leads_weighted_competitive():
+def test_latias_matrix_prefers_one_copy_and_an_ultra_ball():
     import json
     from pathlib import Path
 
@@ -266,40 +266,35 @@ def test_latias_matrix_one_copy_leads_weighted_competitive():
     assert blob["lists"]["latias2"].count("Latias ex") == 2
     assert blob["lists"]["latias_ultra"].count("Latias ex") == 1
     assert blob["lists"]["latias_ultra"].count("Ultra Ball") == 1
+    assert blob["lists"]["latias_ultra"] == list(SET_C60_NAMES)
     wcomp = blob["weighted_competitive"]
     wall = blob["weighted_all"]
     assert max(wcomp, key=wcomp.get) == "latias_ultra"
-    assert max(wall, key=wall.get) == "latias2"
-    assert wall["latias2"] - wall["latias_ultra"] < 0.002
-    assert wcomp["latias_ultra"] > wcomp["latias2"] > wcomp["lock"]
+    assert max(wall, key=wall.get) == "latias_ultra"
+    assert wall["latias_ultra"] == 0.7812685010340796
+    assert wcomp["latias_ultra"] == 0.7692462665539589
     cells = blob["cells"]
     lock = cells["lock"]
     mixed = cells["latias_ultra"]
     two = cells["latias2"]
-    for foe in ("t60", "hedrick", "unl", "s60", "g"):
+    for foe in ("t60", "hedrick", "unl", "d60", "s60", "g"):
         assert mixed[foe]["a"] > lock[foe]["a"]
-        assert two[foe]["a"] > lock[foe]["a"]
-    assert lock["d60"]["a"] > mixed["d60"]["a"] > two["d60"]["a"]
-    assert mixed["hedrick"]["a"] > two["hedrick"]["a"]
+    assert two["d60"]["a"] < lock["d60"]["a"]
+    assert two["hedrick"]["a"] > mixed["hedrick"]["a"]
     assert mixed["t60"]["eon"] < 30
-    assert mixed["d60"]["eon"] == 0
     assert two["d60"]["eon"] == 0
 
 
-def test_latias_for_two_stadiums_is_a_legal_sixty():
+def test_live_list_is_one_latias_and_one_ultra_ball():
     names = list(SET_C60_NAMES)
-    assert names.count("Moonlight Stadium") == 2
-    for _ in range(2):
-        names[names.index("Moonlight Stadium")] = "Latias ex"
-    mixed = list(SET_C60_NAMES)
-    mixed[mixed.index("Moonlight Stadium")] = "Latias ex"
-    mixed[mixed.index("Moonlight Stadium")] = "Ultra Ball"
+    assert names.count("Latias ex") == 1
+    assert names.count("Ultra Ball") == 1
+    assert names.count("Moonlight Stadium") == 0
+    two = list(names)
+    two[two.index("Ultra Ball")] = "Latias ex"
     rules = standard_60_rules()
-    for pile in (names, mixed):
+    for pile in (names, two):
         assert len(pile) == 60
         assert copy_violations(build_fallback_deck(pile), rules) == []
-    assert names.count("Latias ex") == 2
-    assert names.count("Moonlight Stadium") == 0
-    assert mixed.count("Latias ex") == 1
-    assert mixed.count("Ultra Ball") == 1
-    assert mixed.count("Moonlight Stadium") == 0
+    assert two.count("Latias ex") == 2
+    assert two.count("Ultra Ball") == 0
