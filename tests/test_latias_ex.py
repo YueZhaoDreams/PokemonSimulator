@@ -188,7 +188,7 @@ def test_ultra_ball_can_find_latias_once_a_clefairy_is_in_play():
     assert me.card(found).name == "Latias ex"
 
 
-def test_telepathic_benches_second_clefairy_then_latias():
+def test_telepathic_benches_two_clefairy_and_leaves_latias():
     game = _game()
     me = game.players["a"]
     clefs = _idxs(me, "Clefairy")
@@ -200,9 +200,8 @@ def test_telepathic_benches_second_clefairy_then_latias():
     me.deck = [mewtwo, latias, clefs[1], clefs[2]]
     game._call_family(me, "a", count=2, pokemon_type="Psychic")
     names = [me.card(m.card_i).name for m in me.bench]
-    assert names == ["Clefairy", "Latias ex"]
-    assert mewtwo in me.deck
-    game._call_family(me, "a", count=2, pokemon_type="Psychic")
+    assert names == ["Clefairy", "Clefairy"]
+    assert latias in me.deck
     assert mewtwo in me.deck
 
 
@@ -235,21 +234,6 @@ def test_play_basics_benches_clefairy_before_mewtwo():
     game._play_basics(me)
     names = [me.card(m.card_i).name for m in me.bench]
     assert names == ["Clefairy", "Clefairy", "Clefairy", "Mewtwo ex", "Latias ex"]
-
-
-def test_telepathic_tier_pairs_the_second_clefairy_with_latias():
-    game = _game("demolish")
-    me = game.players["a"]
-    clef = me.card(_idxs(me, "Clefairy")[0])
-    latias = me.card(_idxs(me, "Latias ex")[0])
-    assert game._party_telepathic_tier(clef, 0, 0, 4) == 0
-    assert game._party_telepathic_tier(latias, 0, 0, 4) is None
-    assert game._party_telepathic_tier(clef, 1, 0, 4) == 0
-    assert game._party_telepathic_tier(latias, 1, 0, 4) == 1
-    assert game._party_telepathic_tier(latias, 2, 0, 4) == 1
-    assert game._party_telepathic_tier(clef, 2, 0, 4) == 2
-    assert game._party_telepathic_tier(latias, 2, 1, 4) is None
-    assert game._party_telepathic_tier(clef, 4, 1, 4) is None
 
 
 def test_poffin_cannot_fetch_210_hp():
