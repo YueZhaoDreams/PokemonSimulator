@@ -407,21 +407,23 @@ SET_T_UNL_NAMES = (
 # One Hero's Cape on that list (ACE SPEC). Weights frozen from the 4-potion
 # list: Hedrick 38.4%, C60 31.1%, T60 25.5%, D60 5.0%. Lock 86.3% → Budew 88.4%.
 # Cut: one Budew (3 → 2).
-# One Bursting Balloon on that cape list. Weights frozen from the cape list:
-# Hedrick 45.6%, T60 27.4%, C60 23.9%, D60 3.1%. Weighted 85.7% → 87.2%.
-# The next cut (Counter Catcher, 86.8%) does not rise. Cut: one Ultra Ball (3 → 2).
+# Bursting Balloon on that cape list, with Crushing Thorn in the weight.
+# Seed 20260929, 1000 games. Weights frozen from the 0-balloon cape list:
+# Thorns 38.4%, Hedrick 27.0%, T60 17.8%, C60 14.8%, D60 1.9%.
+# Weighted 81.5% → 87.9% → 92.8%. The next cut (Switch, 91.7%) does not rise.
+# Cuts: Budew, Budew (2 → 0). Two Bursting Balloon. Ultra Ball stays at 3.
+# The four-foe 87.2% Ultra Ball cut omitted Iron Thorns.
 SET_M60_NAMES = (
     ["Mew ex"] * 4
     + ["Mime Jr."] * 2
     + ["Igglybuff"] * 4
-    + ["Budew"] * 2
     + ["Buddy-Buddy Poffin"] * 4
     + ["Nest Ball"] * 4
-    + ["Ultra Ball"] * 2
+    + ["Ultra Ball"] * 3
     + ["Night Stretcher"] * 4
     + ["Battle Cage"] * 4
     + ["Bravery Charm"] * 4
-    + ["Bursting Balloon"]
+    + ["Bursting Balloon"] * 2
     + ["Hero's Cape"]
     + ["Max Potion"] * 4
     + ["Arven"] * 4
