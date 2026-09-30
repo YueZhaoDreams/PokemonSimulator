@@ -865,6 +865,20 @@ _SURVIVAL_BRACE_TEXT = (
     "becomes 10. Then, discard this card."
 )
 _register(_trn("Survival Brace", "item", _SURVIVAL_BRACE_TEXT, catalog_id="sv06-164"))
+# XY—BREAKpoint 97. Pokémon.com prints the curly apostrophes.
+_BURSTING_BALLOON_TEXT = (
+    "If this card is attached to 1 of your Pokémon, discard it at the end of your opponent’s turn.\n\n"
+    "If the Pokémon this card is attached to is your Active Pokémon and is damaged by an opponent’s attack "
+    "(even if that Pokémon is Knocked Out), put 6 damage counters on the Attacking Pokémon."
+)
+_register(
+    _trn(
+        "Bursting Balloon",
+        "tool",
+        _BURSTING_BALLOON_TEXT,
+        catalog_id="bkp-97",
+    )
+)
 _register(_trn("Beach Court", "stadium", "The Retreat Cost of each Basic Pokémon in play (both yours and your opponent's) is Colorless less."))
 _register(_trn("Arven", "supporter", "Search your deck for an Item card and a Pokémon Tool card, reveal them, and put them into your hand. Then, shuffle your deck."))
 _register(

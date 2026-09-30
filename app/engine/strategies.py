@@ -586,12 +586,13 @@ STRATEGY_LIBRARY = {
         name="mew_baby",
         description=(
             "Mew ex (160 HP) in Active Spot copies benched 30-HP Baby Pokémon attacks for 0 energy: "
-            "Igglybuff Bouncy Circle for 30x benched 30-HP (up to 150, or 200 with Maximum Belt vs ex), "
+            "Igglybuff Bouncy Circle for 30x benched 30-HP, "
             "Budew Itchy Pollen for Item lock, Cleffa Grasping Draw to refill hand, Mime Jr. Mimed Games. "
             "Buddy-Buddy Poffin and Nest Ball swarm 5 babies on bench. Battle Cage prevents bench damage counters. "
             "Night Stretcher recovers KO'd Mew ex or babies. "
             "Max Potion heals all damage from a damaged Mew ex. This list attaches no Energy, so that discard is free. "
-            "Hero's Cape goes on an open Mew ex."
+            "Hero's Cape goes on an open Mew ex. Bravery Charm is the other HP tool and stays on Mew ex. "
+            "Bursting Balloon goes on a Baby: the printed counters hit the attacker. Babies do not take HP tools."
         ),
         prefer_damage=0.9,
         prefer_status=0.2,

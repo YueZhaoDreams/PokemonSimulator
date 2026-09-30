@@ -848,6 +848,9 @@ class Game:
         if not self._try_draw_end_turn(me, who):
             can_attack = not (first_turn and who == self.first and self.rules.first_player_no_attack)
             if self._seeker_then_attack(me, foe, who, can_attack):
+                # A KO returns before the usual end-of-turn cleanup. The balloon
+                # still leaves at the end of the opponent's turn.
+                self._discard_opponent_turn_tools(who)
                 return True
 
         if me.active:
@@ -875,6 +878,7 @@ class Game:
                 if mon.weakness_override_expires == (self.turn, who):
                     mon.weakness_override = None
                     mon.weakness_override_expires = None
+        self._discard_opponent_turn_tools(who)
 
     def _between_turns(self, me: Player) -> None:
         if not me.active:
@@ -1307,7 +1311,7 @@ class Game:
                 continue
             if card.is_supporter and not self._can_play_supporter(who):
                 continue
-            if card.is_item and me.item_lock:
+            if (card.is_item or self._is_tool_card(card)) and me.item_lock:
                 continue
             name = card.name.lower()
             if name == "ultra ball" and len(me.hand) < 3:
@@ -1501,6 +1505,8 @@ class Game:
                 if strat.name in {"mew_baby", "baby"} and self._mew_wants_max_potion_tutor(me):
                     # Arven is Item + Tool. Fetch the full heal before another Poffin.
                     score += 20
+                if strat.name in {"mew_baby", "baby"} and self._mew_wants_balloon_tutor(me):
+                    score += 12
             elif name == "hop":
                 if strat.name == "crunch":
                     # Thin toward ≤3 for Crunch-Time Rush; avoid deck-out.
@@ -1624,6 +1630,12 @@ class Game:
             elif self._is_tool_card(card):
                 if self._tool_target(me, who, card) is None:
                     score -= 6
+                elif strat.name in {"mew_baby", "baby"} and "bursting balloon" in name:
+                    # Attach before Research discards the hand. Babies take the balloon.
+                    score += 18
+                elif strat.name in {"mew_baby", "baby"} and name == "bravery charm":
+                    # Mew ex is the HP tool. A Baby does not want the +50.
+                    score += 16
                 elif strat.name == "party" and "maximum belt" in name:
                     # Attach a found Belt before Hop / Search mill the deck around it.
                     score += 21
@@ -6347,6 +6359,8 @@ class Game:
         return card.name.lower() == "spinarak"
 
     def _is_tool_card(self, card: Card) -> bool:
+        if (card.trainer_kind or "").lower() == "tool":
+            return True
         name = card.name.lower()
         if name in {"maximum belt", "bravery charm", "muscle band"}:
             return True
@@ -6747,6 +6761,9 @@ class Game:
             for mon in me.in_play():
                 if mon.tool is None and me.card(mon.card_i).name.lower() == "mew ex":
                     return mon
+            if self.strats[who].name in {"mew_baby", "baby"}:
+                # +50 HP does not help a 30 HP Baby. Leave the Charm for Mew ex.
+                return None
             for mon in me.in_play():
                 if mon.tool is None and me.card(mon.card_i).is_basic:
                     if (
@@ -6813,6 +6830,13 @@ class Game:
                 if mon.tool is None:
                     return mon
             return None
+        if any(eff.get("kind") == "counters_on_attacker" for eff in parse_trainer_effects(card.text or "")):
+            bare = self._bare_babies(me)
+            if not bare:
+                return None
+            if me.active in bare:
+                return me.active
+            return min(bare, key=lambda mon: self._baby_wall_rank(me.card(mon.card_i)))
         for mon in me.in_play():
             if mon.tool is None:
                 return mon
@@ -6846,6 +6870,39 @@ class Game:
         mon.damage += amount
         if amount > 0:
             self._maybe_survival_brace(owner, mon, was_full=was_full, ignore_effects=ignore_effects)
+            if owner.active is mon:
+                attacker = self.players["b" if owner is self.players["a"] else "a"]
+                self._apply_counters_on_attacker(owner, attacker)
+
+    def _apply_counters_on_attacker(self, defender: Player, attacker: Player) -> None:
+        """Printed tool: the Active was damaged by an attack, even if it is Knocked Out."""
+        if defender.active is None or defender.active.tool is None or attacker.active is None:
+            return
+        tool = defender.card(defender.active.tool)
+        for eff in parse_trainer_effects(tool.text or ""):
+            if eff.get("kind") != "counters_on_attacker":
+                continue
+            counters = int(eff.get("counters") or 0)
+            if counters <= 0:
+                continue
+            attacker.active.damage += 10 * counters
+            self._bump("bursting_balloon", counters)
+            self._log(
+                f"{tool.name} puts {counters} damage counters on {attacker.card(attacker.active.card_i).name}"
+            )
+
+    def _discard_opponent_turn_tools(self, who: str) -> None:
+        """who finished a turn. Tools on the other player that leave at the end of the opponent's turn."""
+        other = self.players["b" if who == "a" else "a"]
+        for mon in other.in_play():
+            if mon.tool is None:
+                continue
+            effects = parse_trainer_effects(other.card(mon.tool).text or "")
+            if not any(eff.get("kind") == "discard_end_of_opponents_turn" for eff in effects):
+                continue
+            other.discard.append(mon.tool)
+            mon.tool = None
+            self._bump("bursting_balloon_discard")
 
     def _attach_tool(self, me: Player, who: str, card_i: int) -> bool:
         target = self._tool_target(me, who, me.card(card_i))
@@ -7004,6 +7061,29 @@ class Game:
         in_deck = any(me.card(i).name.lower() == "max potion" for i in me.deck)
         return in_deck and not in_hand
 
+    def _baby_wall_rank(self, card: Card) -> int:
+        return {
+            "budew": 0,
+            "igglybuff": 1,
+            "cleffa": 2,
+            "mime jr.": 3,
+            "mime jr": 3,
+        }.get(card.name.lower(), 9)
+
+    def _bare_babies(self, me: Player) -> list[Pokemon]:
+        return [
+            mon
+            for mon in me.in_play()
+            if mon.tool is None and self._baby_wall_rank(me.card(mon.card_i)) < 9
+        ]
+
+    def _mew_wants_balloon_tutor(self, me: Player) -> bool:
+        if not self._bare_babies(me):
+            return False
+        in_hand = any(me.card(i).name.lower() == "bursting balloon" for i in me.hand)
+        in_deck = any(me.card(i).name.lower() == "bursting balloon" for i in me.deck)
+        return in_deck and not in_hand
+
     def _heal_all(self, me: Player, discard_energy: bool) -> None:
         """Printed Max Potion: heal all damage from 1 Pokémon; discard its Energy if you healed."""
         hurt = [mon for mon in me.in_play() if mon.damage > 0]
@@ -7033,25 +7113,49 @@ class Game:
         )
 
     def _arven(self, me: Player, who: str) -> None:
-        tool_names = {"maximum belt", "bravery charm", "muscle band", "hero's cape", "survival brace"}
+        tool_names = {
+            "maximum belt",
+            "bravery charm",
+            "muscle band",
+            "hero's cape",
+            "survival brace",
+            "bursting balloon",
+        }
         # Item ranks stay on the pre-cape list. Hero's Cape is a Tool, and inserting
         # its name here shifts Counter Catcher onto a tie with a Nest Ball already in hand.
         item_prefer = ["Energy Search", "Nest Ball", "Switch", "Buddy-Buddy Poffin", "Tool Box", "Maximum Belt", "Muscle Band", "Bravery Charm", "Forest Seal Stone", "Counter Catcher"]
         if self.strats[who].name in {"mew_baby", "baby"} and self._damaged_mews(me):
             item_prefer = ["Max Potion", *item_prefer]
-        # Separate search so a missing cape does not change the other tools' prefer scores.
-        # _search shuffles only when it finds a card.
-        found_tool = self._search(
-            me,
-            lambda c: c.name.lower() == "hero's cape",
-            prefer=["Hero's Cape"],
-            source="arven",
+        baby_box = self.strats[who].name in {"mew_baby", "baby"}
+        mew_open = any(
+            mon.tool is None and me.card(mon.card_i).name.lower() == "mew ex" for mon in me.in_play()
         )
+        bare_baby = bool(self._bare_babies(me))
+        # Separate searches so a missing cape does not change the other tools' prefer scores.
+        # _search shuffles only when it finds a card.
+        found_tool = None
+        if (not baby_box) or mew_open:
+            found_tool = self._search(
+                me,
+                lambda c: c.name.lower() == "hero's cape",
+                prefer=["Hero's Cape"],
+                source="arven",
+            )
+        if found_tool is None and baby_box and bare_baby:
+            found_tool = self._search(
+                me,
+                lambda c: c.name.lower() == "bursting balloon",
+                prefer=["Bursting Balloon"],
+                source="arven",
+            )
         if found_tool is None:
+            prefer = ["Forest Seal Stone", "Maximum Belt", "Muscle Band", "Bravery Charm", "Survival Brace"]
+            if baby_box and bare_baby:
+                prefer = ["Bursting Balloon", *prefer]
             found_tool = self._search(
                 me,
                 lambda c: c.name.lower() in tool_names or self._is_tool_card(c),
-                prefer=["Forest Seal Stone", "Maximum Belt", "Muscle Band", "Bravery Charm", "Survival Brace"],
+                prefer=prefer,
                 source="arven",
             )
         found_item = self._search(
