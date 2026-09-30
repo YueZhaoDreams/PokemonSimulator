@@ -382,19 +382,21 @@ SET_T_UNL_NAMES = (
     + ["Psychic Energy"] * 3
 )
 
-# Set M Standard 60: Zero-Energy Mew ex & Igglybuff Baby Box (Optimized Option C: 4 Mew ex, 4 Igglybuff, 4 Charm, 1 Switch).
+# Set M Standard 60. Greedy Bursting Balloon search, 1000 games, seed 20260930.
+# Weighted win rate rose by cutting Budew, Budew, Budew, then Ultra Ball.
+# Four balloons is the copy cap, so the search stopped there.
 SET_M60_NAMES = (
     ["Mew ex"] * 4
     + ["Mime Jr."] * 2
     + ["Igglybuff"] * 4
-    + ["Budew"] * 3
     + ["Cleffa"] * 2
     + ["Buddy-Buddy Poffin"] * 4
     + ["Nest Ball"] * 4
-    + ["Ultra Ball"] * 4
+    + ["Ultra Ball"] * 3
     + ["Night Stretcher"] * 4
     + ["Battle Cage"] * 4
     + ["Bravery Charm"] * 4
+    + ["Bursting Balloon"] * 4
     + ["Maximum Belt"]
     + ["Arven"] * 4
     + ["Iono"] * 4

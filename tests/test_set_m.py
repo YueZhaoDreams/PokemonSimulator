@@ -24,15 +24,17 @@ def test_set_m_card_count_and_composition():
     assert SET_M60_NAMES.count("Mew ex") == 4
     assert SET_M60_NAMES.count("Mime Jr.") == 2
     assert SET_M60_NAMES.count("Igglybuff") == 4
-    assert SET_M60_NAMES.count("Budew") == 3
+    assert SET_M60_NAMES.count("Budew") == 0
     assert SET_M60_NAMES.count("Cleffa") == 2
-    total_pokemon = 4 + 2 + 4 + 3 + 2
-    assert total_pokemon == 15
+    total_pokemon = 4 + 2 + 4 + 2
+    assert total_pokemon == 12
 
     # Count Key Trainers
     assert SET_M60_NAMES.count("Buddy-Buddy Poffin") == 4
     assert SET_M60_NAMES.count("Battle Cage") == 4
     assert SET_M60_NAMES.count("Bravery Charm") == 4
+    assert SET_M60_NAMES.count("Bursting Balloon") == 4
+    assert SET_M60_NAMES.count("Ultra Ball") == 3
     assert SET_M60_NAMES.count("Maximum Belt") == 1
     assert SET_M60_NAMES.count("Night Stretcher") == 4
     assert SET_M60_NAMES.count("Crushing Hammer") == 4
