@@ -862,6 +862,9 @@ class Game:
         if not self._try_draw_end_turn(me, who):
             can_attack = not (first_turn and who == self.first and self.rules.first_player_no_attack)
             if self._seeker_then_attack(me, foe, who, can_attack):
+                # A KO returns before the usual end-of-turn cleanup. The balloon
+                # still leaves at the end of the opponent's turn.
+                self._discard_opponent_turn_tools(who)
                 return True
 
         if me.active:
@@ -893,6 +896,7 @@ class Game:
             self.blank_active_until = None
             self.blank_active_owner = None
         self._discard_end_of_turn_tools(who)
+        self._discard_opponent_turn_tools(who)
 
     def _between_turns(self, me: Player) -> None:
         if not me.active:
@@ -1514,6 +1518,23 @@ class Game:
                     score += 12
                 elif strat.name == "crunch" and (not belt_ready or not charm_ready):
                     score += 11
+                elif strat.name in {"mew_baby", "baby"}:
+                    bare_baby = any(
+                        mon.tool is None and self._baby_wall_rank(me.card(mon.card_i)) < 9
+                        for mon in me.in_play()
+                    )
+                    balloon_ready = any(
+                        "bursting balloon" in me.card(i).name.lower() for i in me.hand
+                    ) or any(
+                        mon.tool is not None and "bursting balloon" in me.card(mon.tool).name.lower()
+                        for mon in me.in_play()
+                    )
+                    if bare_baby and not balloon_ready:
+                        score += 14
+                    elif not charm_ready:
+                        score += 12
+                    else:
+                        score += 6
                 else:
                     score += 6
             elif name == "hop":
@@ -1639,6 +1660,12 @@ class Game:
             elif self._is_tool_card(card):
                 if self._tool_target(me, who, card) is None:
                     score -= 6
+                elif strat.name in {"mew_baby", "baby"} and "bursting balloon" in name:
+                    # Attach before Research discards the hand. Babies take the balloon.
+                    score += 18
+                elif strat.name in {"mew_baby", "baby"} and name == "bravery charm":
+                    # Mew ex is the HP tool. A Baby does not want the +50.
+                    score += 16
                 elif strat.name == "party" and "maximum belt" in name:
                     # Attach a found Belt before Hop / Search mill the deck around it.
                     score += 21
@@ -4791,6 +4818,8 @@ class Game:
                 self._log(f"{attacker.name} puts {dumped_tools} Tools in the Lost Zone")
         was_undamaged = foe.active.damage == 0
         foe.active.damage += dmg
+        if dmg > 0:
+            self._apply_counters_on_attacker(foe, me)
         self._bump("damage_dealt", dmg)
         if dmg > 0 and any(e.get("kind") == "require_equal_hands" for e in atk.effects):
             self._bump("adjusted_horn")
@@ -5364,6 +5393,7 @@ class Game:
             dmg = max(0, dmg - resistance_reduce(foe.card(foe.active.card_i).resistances, attacker.types))
         if dmg >= active_hp > 0 or not foe.bench:
             foe.active.damage += dmg
+            self._apply_counters_on_attacker(foe, me)
             self._bump("damage_dealt", dmg)
             self._log(f"Cruel Arrow hits Active {foe.card(foe.active.card_i).name} for {dmg}")
             return
@@ -5372,12 +5402,14 @@ class Game:
         # is shielded the attacker pivots to the Active instead of fizzling.
         if self._has_bench_shield(foe, "prevent_bench_damage_and_attack_effects"):
             foe.active.damage += dmg
+            self._apply_counters_on_attacker(foe, me)
             self._bump("spherical_shield")
             self._bump("damage_dealt", dmg)
             self._log("Spherical Shield redirects bench damage to Active")
             return
         if self._bench_attack_damage_prevented(foe):
             foe.active.damage += dmg
+            self._apply_counters_on_attacker(foe, me)
             self._bump("wave_veil")
             self._bump("damage_dealt", dmg)
             self._log("Wave Veil redirects bench damage to Active")
@@ -5386,6 +5418,7 @@ class Game:
             rulebox_bench = [m for m in foe.bench if self._has_rule_box(foe.card(m.card_i))]
             if not rulebox_bench:
                 foe.active.damage += dmg
+                self._apply_counters_on_attacker(foe, me)
                 self._bump("flower_curtain")
                 self._bump("damage_dealt", dmg)
                 self._log("Flower Curtain redirects bench damage to Active")
@@ -6811,6 +6844,9 @@ class Game:
             for mon in me.in_play():
                 if mon.tool is None and me.card(mon.card_i).name.lower() == "mew ex":
                     return mon
+            if self.strats[who].name in {"mew_baby", "baby"}:
+                # +50 HP does not help a 30 HP Baby. Leave the Charm for Mew ex.
+                return None
             for mon in me.in_play():
                 if mon.tool is None and me.card(mon.card_i).is_basic:
                     if (
@@ -6860,6 +6896,17 @@ class Game:
             for mon in me.in_play():
                 if mon.tool is None and "lucario" in me.card(mon.card_i).name.lower():
                     return mon
+        if any(eff.get("kind") == "counters_on_attacker" for eff in parse_trainer_effects(card.text or "")):
+            bare = [
+                mon
+                for mon in me.in_play()
+                if mon.tool is None and self._baby_wall_rank(me.card(mon.card_i)) < 9
+            ]
+            if not bare:
+                return None
+            if me.active in bare:
+                return me.active
+            return min(bare, key=lambda mon: self._baby_wall_rank(me.card(mon.card_i)))
         if name == "muscle band":
             if self.strats[who].name == "slash":
                 # Band is +20; 110×2 = 220 does not KO Charm 260 and occupies the Belt slot.
@@ -7200,6 +7247,36 @@ class Game:
                 mon.tool = None
                 self._bump("end_of_turn_tool")
 
+    def _apply_counters_on_attacker(self, defender: Player, attacker: Player) -> None:
+        """Printed tool: the Active was damaged by an attack, even if it is Knocked Out."""
+        if defender.active is None or defender.active.tool is None or attacker.active is None:
+            return
+        tool = defender.card(defender.active.tool)
+        for eff in parse_trainer_effects(tool.text or ""):
+            if eff.get("kind") != "counters_on_attacker":
+                continue
+            counters = int(eff.get("counters") or 0)
+            if counters <= 0:
+                continue
+            attacker.active.damage += 10 * counters
+            self._bump("bursting_balloon", counters)
+            self._log(
+                f"{tool.name} puts {counters} damage counters on {attacker.card(attacker.active.card_i).name}"
+            )
+
+    def _discard_opponent_turn_tools(self, who: str) -> None:
+        """who finished a turn. Tools on the other player that leave at the end of the opponent's turn."""
+        other = self.players["b" if who == "a" else "a"]
+        for mon in other.in_play():
+            if mon.tool is None:
+                continue
+            effects = parse_trainer_effects(other.card(mon.tool).text or "")
+            if not any(eff.get("kind") == "discard_end_of_opponents_turn" for eff in effects):
+                continue
+            other.discard.append(mon.tool)
+            mon.tool = None
+            self._bump("bursting_balloon_discard")
+
     def _move_own_energy_to_bench(self, me: Player) -> None:
         if not me.active or not me.active.energy or not me.bench:
             return
@@ -7416,6 +7493,30 @@ class Game:
                 me,
                 lambda c: c.is_item and not self._is_tool_card(c),
                 prefer=["Crushing Hammer", "Techno Radar", "Pokémon Catcher", "Pokégear 3.0", "Earthen Vessel"],
+                source="arven",
+            )
+            self._bump("arven")
+            return
+        if self.strats[who].name in {"mew_baby", "baby"}:
+            bare_baby = any(
+                mon.tool is None and self._baby_wall_rank(me.card(mon.card_i)) < 9 for mon in me.in_play()
+            )
+            mew_open = any(
+                mon.tool is None and me.card(mon.card_i).name.lower() == "mew ex" for mon in me.in_play()
+            )
+            if self._rulebox_lock_on_opponent(me) and bare_baby:
+                tool_prefer = ["Bursting Balloon", "Bravery Charm", "Maximum Belt"]
+            elif mew_open:
+                tool_prefer = ["Bravery Charm", "Bursting Balloon", "Maximum Belt"]
+            elif bare_baby:
+                tool_prefer = ["Bursting Balloon", "Bravery Charm", "Maximum Belt"]
+            else:
+                tool_prefer = ["Bravery Charm", "Maximum Belt", "Bursting Balloon"]
+            self._search(me, self._is_tool_card, prefer=tool_prefer, source="arven")
+            self._search(
+                me,
+                lambda c: c.is_item and not self._is_tool_card(c),
+                prefer=["Buddy-Buddy Poffin", "Nest Ball", "Ultra Ball", "Night Stretcher", "Switch"],
                 source="arven",
             )
             self._bump("arven")

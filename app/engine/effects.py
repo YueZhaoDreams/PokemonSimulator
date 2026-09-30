@@ -1027,12 +1027,35 @@ def parse_energy_effects(text: str) -> list[dict[str, Any]]:
     return effects
 
 
+def _attached_tool_reactive(t: str) -> list[dict[str, Any]]:
+    """Bursting Balloon: counters on the attacker, then discard at the end of the opponent's turn.
+
+    The counter count is the printed number. A miss returns nothing so other trainers keep parsing.
+    """
+    counters = re.search(
+        r"damaged by an opponent's attack \(even if that pokemon is knocked out\), "
+        r"put (\d+) damage counters on the attacking pokemon",
+        t,
+    )
+    if not counters:
+        return []
+    effects: list[dict[str, Any]] = [
+        {"kind": "counters_on_attacker", "counters": int(counters.group(1))}
+    ]
+    if "discard it at the end of your opponent" in t and "turn" in t:
+        effects.append({"kind": "discard_end_of_opponents_turn"})
+    return effects
+
+
 def parse_trainer_effects(text: str) -> list[dict[str, Any]]:
     """Parse Item/Supporter/Stadium sentences. Printed numbers stay in the effect dict."""
     t = _normalize_card_text(text)
     effects: list[dict[str, Any]] = []
     if not t:
         return effects
+    reactive = _attached_tool_reactive(t)
+    if reactive:
+        return reactive
 
     look = re.search(r"look at the top (\d+)", t)
     pair = re.search(r"put (\d+) cards from your discard pile into your hand", t)
