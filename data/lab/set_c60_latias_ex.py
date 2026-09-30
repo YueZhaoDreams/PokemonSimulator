@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """C60: Latias ex in place of the two Moonlight Stadium.
 
-The lock is the live list (two Great Encounters Moonlight Stadium). ``latias2``
-replaces both stadiums with Surging Sparks 76 Latias ex. ``latias_ultra``
-replaces them with one Latias ex and one Ultra Ball. Seed 20260926 matches the
-stadium matrices. 3,000 games / cell. C60 is always player A.
+``SET_C60_NAMES`` is the locked row: one Surging Sparks 76 Latias ex and one
+Ultra Ball. This script rebuilds the previous two-stadium list as ``lock``,
+``latias2`` as both stadiums replaced by Latias ex, and ``latias_ultra`` as
+the live list. Seed 20260926 matches the stadium matrices. 3,000 games / cell.
+C60 is always player A.
 
 Nest Ball takes Latias ex once a Clefairy is in play. Poffin keeps taking
 Clefairy, and Clefairy in hand are played before Mewtwo, so the Demolish 4+1
@@ -68,18 +69,23 @@ QUERIES = [
 ]
 
 
-def _swap(names: list[str], add: str) -> list[str]:
-    found = names.index("Moonlight Stadium")
-    names[found] = add
-    return names
-
-
 def build_variants() -> dict[str, list[str]]:
-    lock = list(SET_C60_NAMES)
-    if lock.count("Moonlight Stadium") != 2:
-        raise RuntimeError(f"lock has {lock.count('Moonlight Stadium')} Moonlight Stadium")
-    latias2 = _swap(_swap(list(lock), "Latias ex"), "Latias ex")
-    mixed = _swap(_swap(list(lock), "Latias ex"), "Ultra Ball")
+    live = list(SET_C60_NAMES)
+    if (
+        live.count("Latias ex") != 1
+        or live.count("Ultra Ball") != 1
+        or live.count("Moonlight Stadium") != 0
+    ):
+        raise RuntimeError(
+            "live list must be one Latias ex and one Ultra Ball, found "
+            f"{live.count('Latias ex')} Latias ex and {live.count('Ultra Ball')} Ultra Ball"
+        )
+    lock = list(live)
+    lock[lock.index("Latias ex")] = "Moonlight Stadium"
+    lock[lock.index("Ultra Ball")] = "Moonlight Stadium"
+    latias2 = list(live)
+    latias2[latias2.index("Ultra Ball")] = "Latias ex"
+    mixed = list(live)
     variants = {"lock": lock, "latias2": latias2, "latias_ultra": mixed}
     for key, names in variants.items():
         if len(names) != 60:
