@@ -6,13 +6,13 @@ replaces exactly one copy of one other card with one Bursting Balloon. The
 decision score is the loss-weighted win rate. Weights are frozen from that
 starting list. Stop when the next swap does not raise that score, or at 4 copies.
 
-Foes and the weight formula match data/lab/set_m_max_potion.py:
-T60, Hedrick, C60, D60. Seed 20260929. 1000 games per cell.
+Foes: T60, Hedrick, C60, D60, and the Worlds 2024 Crushing Thorn list.
+Seed 20260929. 1000 games per cell. Iron Thorns is in the weight because that
+matchup's loss rate is high.
 """
 
 from __future__ import annotations
 
-import importlib.util
 import json
 import os
 import sys
@@ -27,7 +27,14 @@ sys.path.insert(0, str(ROOT))
 from app.engine.models import standard_60_rules
 from app.engine.montecarlo import run_simulation
 from app.engine.strategies import StrategySpec
-from app.seed_data import build_fallback_deck
+from app.seed_data import (
+    IRON_THORNS_NAMES,
+    SET_C60_NAMES,
+    SET_D60_NAMES,
+    SET_T60_NAMES,
+    SET_T_META_NAMES,
+    build_fallback_deck,
+)
 
 # Cape / four Max Potion Set M, before this balloon search. SET_M60_NAMES is the locked 1-balloon list.
 M60_BEFORE = (
@@ -52,13 +59,20 @@ M60_BEFORE = (
     + ["Counter Catcher"] * 2
 )
 
-_potion_path = Path(__file__).with_name("set_m_max_potion.py")
-_spec = importlib.util.spec_from_file_location("set_m_max_potion", _potion_path)
-_potion = importlib.util.module_from_spec(_spec)
-assert _spec.loader is not None
-_spec.loader.exec_module(_potion)
-FOES = _potion.FOES
-loss_weights = _potion.loss_weights
+FOES = (
+    ("t60", "Dragapult ex (T60)", SET_T60_NAMES, "phantom"),
+    ("hedrick", "Hedrick Worlds Dragapult", SET_T_META_NAMES, "phantom"),
+    ("c60", "Clefable/Mewtwo ex (C60)", SET_C60_NAMES, "party"),
+    ("d60", "Cornerstone Ogerpon (D60)", SET_D60_NAMES, "demolish"),
+    ("thorns", "Iron Thorns ex (Crushing Thorn)", IRON_THORNS_NAMES, "thorns"),
+)
+
+
+def loss_weights(baseline: dict[str, dict]) -> dict[str, float]:
+    """Household weight over these five foes. A higher loss rate gets a higher weight."""
+    raw = {key: max(1e-6, 1.0 - baseline[key]["a"]) for key, *_ in FOES}
+    total = sum(raw.values())
+    return {key: raw[key] / total for key in raw}
 
 GAMES = int(os.environ.get("M_BALLOON_GAMES", os.environ.get("M_POTION_GAMES", "1000")))
 SEED = int(os.environ.get("M_BALLOON_SEED", os.environ.get("M_POTION_SEED", "20260929")))
@@ -213,6 +227,7 @@ def main() -> None:
         "rule_preset": "s60",
         "method": (
             "greedy one-card Bursting Balloon swap from the Hero's Cape / four Max Potion Set M; "
+            "foes are T60, Hedrick, C60, D60, and Crushing Thorn; "
             "score is the loss-weighted win rate with weights frozen from that list; "
             "stop when that score does not rise, or at 4 copies"
         ),

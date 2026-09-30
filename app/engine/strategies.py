@@ -592,7 +592,8 @@ STRATEGY_LIBRARY = {
             "Night Stretcher recovers KO'd Mew ex or babies. "
             "Max Potion heals all damage from a damaged Mew ex. This list attaches no Energy, so that discard is free. "
             "Hero's Cape goes on an open Mew ex. Bravery Charm is the other HP tool and stays on Mew ex. "
-            "Bursting Balloon goes on a Baby: the printed counters hit the attacker. Babies do not take HP tools."
+            "Bursting Balloon goes on a Baby: the printed counters hit the attacker. Babies do not take HP tools. "
+            "While the opponent's Active shuts off Rule Box Abilities, a Baby stays Active and Mew ex stays back."
         ),
         prefer_damage=0.9,
         prefer_status=0.2,
@@ -605,6 +606,18 @@ STRATEGY_LIBRARY = {
         protect=["Mew ex", "Igglybuff", "Budew", "Battle Cage"],
         search_aces=["Mew ex", "Igglybuff"],
         closers=["Mew ex"],
+    ),
+    "thorns": StrategySpec(
+        name="thorns",
+        description="Iron Thorns ex stays Active, locks Rule Box Abilities, and chains Volt Cyclone.",
+        prefer_damage=1.0,
+        bench_fill=0.8,
+        evolve_asap=0.0,
+        attach_pokemon_as_energy=0.0,
+        item_spend=1.0,
+        closers=["Iron Thorns ex"],
+        search_aces=["Iron Thorns ex"],
+        protect=["Iron Thorns ex"],
     ),
     "baby": StrategySpec(
         name="baby",
