@@ -274,7 +274,7 @@ def test_poffin_cannot_fetch_210_hp():
     assert latias in me.deck
 
 
-def test_latias_matrix_prefers_one_copy_and_an_ultra_ball():
+def test_latias_matrix_two_copies_lead_weighted_competitive():
     import json
     from pathlib import Path
 
@@ -292,17 +292,21 @@ def test_latias_matrix_prefers_one_copy_and_an_ultra_ball():
     assert blob["lists"]["latias_ultra"].count("Ultra Ball") == 1
     wcomp = blob["weighted_competitive"]
     wall = blob["weighted_all"]
-    assert max(wcomp, key=wcomp.get) == "latias_ultra"
+    assert max(wcomp, key=wcomp.get) == "latias2"
     assert max(wall, key=wall.get) == "latias_ultra"
+    assert wall["latias_ultra"] - wall["latias2"] < 0.002
+    assert wcomp["latias2"] > wcomp["latias_ultra"] > wcomp["lock"]
     cells = blob["cells"]
     lock = cells["lock"]
     mixed = cells["latias_ultra"]
     two = cells["latias2"]
-    for foe in ("t60", "hedrick", "unl", "d60", "s60", "g"):
+    for foe in ("t60", "hedrick", "unl", "s60", "g"):
         assert mixed[foe]["a"] > lock[foe]["a"]
-    assert two["d60"]["a"] < lock["d60"]["a"]
+        assert two[foe]["a"] > lock[foe]["a"]
+    assert lock["d60"]["a"] > mixed["d60"]["a"] > two["d60"]["a"]
     assert two["hedrick"]["a"] > mixed["hedrick"]["a"]
     assert mixed["t60"]["eon"] < 30
+    assert mixed["d60"]["eon"] == 0
     assert two["d60"]["eon"] == 0
 
 
