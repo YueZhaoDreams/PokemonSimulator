@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Greedy Bursting Balloon swaps for the current Set M.
 
-Start from SET_M60_NAMES (Hero's Cape, four Max Potion, two Budew). Each step
+Start from M60_BEFORE (Hero's Cape, four Max Potion, two Budew, three Ultra Ball). Each step
 replaces exactly one copy of one other card with one Bursting Balloon. The
 decision score is the loss-weighted win rate. Weights are frozen from that
 starting list. Stop when the next swap does not raise that score, or at 4 copies.
@@ -27,7 +27,30 @@ sys.path.insert(0, str(ROOT))
 from app.engine.models import standard_60_rules
 from app.engine.montecarlo import run_simulation
 from app.engine.strategies import StrategySpec
-from app.seed_data import SET_M60_NAMES, build_fallback_deck
+from app.seed_data import build_fallback_deck
+
+# Cape / four Max Potion Set M, before this balloon search. SET_M60_NAMES is the locked 1-balloon list.
+M60_BEFORE = (
+    ["Mew ex"] * 4
+    + ["Mime Jr."] * 2
+    + ["Igglybuff"] * 4
+    + ["Budew"] * 2
+    + ["Buddy-Buddy Poffin"] * 4
+    + ["Nest Ball"] * 4
+    + ["Ultra Ball"] * 3
+    + ["Night Stretcher"] * 4
+    + ["Battle Cage"] * 4
+    + ["Bravery Charm"] * 4
+    + ["Hero's Cape"]
+    + ["Max Potion"] * 4
+    + ["Arven"] * 4
+    + ["Iono"] * 4
+    + ["Professor's Research"] * 2
+    + ["Boss's Orders"] * 3
+    + ["Crushing Hammer"] * 4
+    + ["Switch"]
+    + ["Counter Catcher"] * 2
+)
 
 _potion_path = Path(__file__).with_name("set_m_max_potion.py")
 _spec = importlib.util.spec_from_file_location("set_m_max_potion", _potion_path)
@@ -150,9 +173,9 @@ def _write(report: dict) -> None:
 
 def main() -> None:
     started = time.perf_counter()
-    current = list(SET_M60_NAMES)
+    current = list(M60_BEFORE)
     if len(current) != 60:
-        raise SystemExit(f"SET_M60_NAMES has {len(current)} cards")
+        raise SystemExit(f"M60_BEFORE has {len(current)} cards")
     if current.count(IN_NAME):
         raise SystemExit("baseline already contains Bursting Balloon")
     if current.count("Hero's Cape") != 1 or current.count("Max Potion") != 4:

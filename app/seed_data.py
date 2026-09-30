@@ -407,6 +407,9 @@ SET_T_UNL_NAMES = (
 # One Hero's Cape on that list (ACE SPEC). Weights frozen from the 4-potion
 # list: Hedrick 38.4%, C60 31.1%, T60 25.5%, D60 5.0%. Lock 86.3% → Budew 88.4%.
 # Cut: one Budew (3 → 2).
+# One Bursting Balloon on that cape list. Weights frozen from the cape list:
+# Hedrick 45.6%, T60 27.4%, C60 23.9%, D60 3.1%. Weighted 85.7% → 87.2%.
+# The next cut (Counter Catcher, 86.8%) does not rise. Cut: one Ultra Ball (3 → 2).
 SET_M60_NAMES = (
     ["Mew ex"] * 4
     + ["Mime Jr."] * 2
@@ -414,10 +417,11 @@ SET_M60_NAMES = (
     + ["Budew"] * 2
     + ["Buddy-Buddy Poffin"] * 4
     + ["Nest Ball"] * 4
-    + ["Ultra Ball"] * 3
+    + ["Ultra Ball"] * 2
     + ["Night Stretcher"] * 4
     + ["Battle Cage"] * 4
     + ["Bravery Charm"] * 4
+    + ["Bursting Balloon"]
     + ["Hero's Cape"]
     + ["Max Potion"] * 4
     + ["Arven"] * 4
