@@ -51,6 +51,34 @@ def _names(player, idxs) -> list[str]:
     return [player.card(i).name for i in idxs]
 
 
+def test_deal_keeps_a_second_opening_mew_in_hand():
+    class _MewsLast(Random):
+        def __init__(self, mew_idxs: set[int]):
+            super().__init__(1)
+            self.mew_idxs = mew_idxs
+
+        def shuffle(self, seq):
+            mews = [i for i in seq if i in self.mew_idxs]
+            rest = [i for i in seq if i not in self.mew_idxs]
+            seq[:] = rest + mews
+
+    names = ["Mew ex", "Mew ex", "Igglybuff", "Igglybuff"] + ["Hop"] * 56
+    cards = build_fallback_deck(names)
+    mew_idxs = {i for i, card in enumerate(cards) if card.name == "Mew ex"}
+    game = Game(
+        cards,
+        build_fallback_deck(["Dondozo"] * 60),
+        standard_60_rules(),
+        _strat(True),
+        StrategySpec.from_dict("phantom"),
+        _MewsLast(mew_idxs),
+    )
+    me = game.players["a"]
+    assert me.card(me.active.card_i).name == "Mew ex"
+    assert [me.card(mon.card_i).name for mon in me.bench].count("Mew ex") == 0
+    assert [me.card(i).name for i in me.hand].count("Mew ex") == 1
+
+
 def test_opening_keeps_the_second_mew_in_hand():
     game = _game(True)
     me = game.players["a"]

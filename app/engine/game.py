@@ -225,7 +225,13 @@ class Game:
         for card_i in ace_cards:
             if len(player.bench) >= self.rules.bench_size:
                 break
-            if strat.one_mew and not self._wants_in_play(player, player.card(card_i), strat):
+            # Opening runs inside _deal, before the opponent exists. Count Mew ex
+            # directly. Bouncy Circle does not count a 160 HP bench Pokémon.
+            if (
+                strat.one_mew
+                and player.card(card_i).name.lower() == "mew ex"
+                and any(player.card(m.card_i).name.lower() == "mew ex" for m in player.in_play())
+            ):
                 continue
             player.hand.remove(card_i)
             player.bench.append(Pokemon(card_i=card_i, played_turn=0))
