@@ -29,6 +29,9 @@ class StrategySpec:
     max_ace_copies: int = 1
     closers: list[str] = field(default_factory=list)
     prefer_chip: bool = False
+    # mew_baby: a second Mew ex stays in hand. Bouncy Circle only counts
+    # benched Pokémon whose printed maximum HP is 30, and Mew ex retreats for 0.
+    one_mew: bool = False
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -57,6 +60,7 @@ class StrategySpec:
             "max_ace_copies": self.max_ace_copies,
             "closers": list(self.closers),
             "prefer_chip": self.prefer_chip,
+            "one_mew": self.one_mew,
         }
 
     @classmethod
@@ -99,6 +103,7 @@ class StrategySpec:
                 merged[field] = int(merged[field])
             except (TypeError, ValueError):
                 merged[field] = getattr(base, field)
+        merged["one_mew"] = bool(merged.get("one_mew", getattr(base, "one_mew", False)))
         return cls(**{k: merged[k] for k in cls.__dataclass_fields__})
 
 
