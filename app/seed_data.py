@@ -407,17 +407,23 @@ SET_T_UNL_NAMES = (
 # One Hero's Cape on that list (ACE SPEC). Weights frozen from the 4-potion
 # list: Hedrick 38.4%, C60 31.1%, T60 25.5%, D60 5.0%. Lock 86.3% → Budew 88.4%.
 # Cut: one Budew (3 → 2).
+# Bursting Balloon on that cape list, with Crushing Thorn in the weight.
+# Seed 20260929, 1000 games. Weights frozen from the 0-balloon cape list:
+# Thorns 38.4%, Hedrick 27.0%, T60 17.8%, C60 14.8%, D60 1.9%.
+# Weighted 81.5% → 87.9% → 92.8%. The next cut (Switch, 91.7%) does not rise.
+# Cuts: Budew, Budew (2 → 0). Two Bursting Balloon. Ultra Ball stays at 3.
+# The four-foe 87.2% Ultra Ball cut omitted Iron Thorns.
 SET_M60_NAMES = (
     ["Mew ex"] * 4
     + ["Mime Jr."] * 2
     + ["Igglybuff"] * 4
-    + ["Budew"] * 2
     + ["Buddy-Buddy Poffin"] * 4
     + ["Nest Ball"] * 4
     + ["Ultra Ball"] * 3
     + ["Night Stretcher"] * 4
     + ["Battle Cage"] * 4
     + ["Bravery Charm"] * 4
+    + ["Bursting Balloon"] * 2
     + ["Hero's Cape"]
     + ["Max Potion"] * 4
     + ["Arven"] * 4
@@ -721,6 +727,34 @@ SET_H_NAMES = (
     + ["Lightning Energy"] * 25
 )
 
+# Fernando Cifuentes, 1st Worlds 2024. Limitless deck list 12238, Crushing Thorn.
+# Historical 2024 list: several of these cards are not in 2026 Standard.
+IRON_THORNS_NAMES = (
+    ["Iron Thorns ex"] * 4
+    + ["Arven"] * 4
+    + ["Professor's Research"] * 3
+    + ["Judge"] * 3
+    + ["Boss's Orders"] * 3
+    + ["Colress's Tenacity"] * 2
+    + ["Iono"]
+    + ["Penny"]
+    + ["Giovanni's Charisma"]
+    + ["Pokégear 3.0"] * 4
+    + ["Crushing Hammer"] * 4
+    + ["Pokémon Catcher"] * 4
+    + ["Techno Radar"] * 2
+    + ["Canceling Cologne"] * 2
+    + ["Prime Catcher"]
+    + ["Earthen Vessel"]
+    + ["Energy Loto"]
+    + ["Lost Vacuum"]
+    + ["Future Booster Energy Capsule"] * 3
+    + ["Technical Machine: Turbo Energize"]
+    + ["Lost City"] * 3
+    + ["Lightning Energy"] * 7
+    + ["Double Turbo Energy"] * 4
+)
+
 # Spare Cards — leftover pile, not a 30-card Family Cup list.
 # Aipom returned to Carpet Set A with the Starly line.
 SET_SPARE_NAMES = [
@@ -735,7 +769,7 @@ def _atk(name, cost, damage=0, text=""):
     return parse_attack({"name": name, "cost": cost, "damage": damage, "effect": text})
 
 
-def _pkm(name, stage, types, hp, attacks, evolves_from=None, retreat=1, catalog_id=None, abilities=None, weakness=None, image=None, set_name=None, resistances=None):
+def _pkm(name, stage, types, hp, attacks, evolves_from=None, retreat=1, catalog_id=None, abilities=None, weakness=None, image=None, set_name=None, resistances=None, traits=None):
     from app.catalog import _looks_like_tcgdex_id, _tcgdex_low
 
     cid = catalog_id or name.lower().replace(" ", "-")
@@ -760,10 +794,11 @@ def _pkm(name, stage, types, hp, attacks, evolves_from=None, retreat=1, catalog_
         evolves_from=evolves_from,
         image=art,
         set_name=set_name,
+        traits=list(traits or []),
     )
 
 
-def _trn(name, kind, text="", catalog_id=None, image=None):
+def _trn(name, kind, text="", catalog_id=None, image=None, traits=None):
     from app.catalog import PREFERRED_IDS, _looks_like_tcgdex_id, _tcgdex_low
 
     cid = catalog_id or PREFERRED_IDS.get(name) or name.lower().replace(" ", "-")
@@ -782,6 +817,7 @@ def _trn(name, kind, text="", catalog_id=None, image=None):
         text=text,
         image=art,
         retreat=0,
+        traits=list(traits or []),
     )
 
 
@@ -865,6 +901,21 @@ _SURVIVAL_BRACE_TEXT = (
     "becomes 10. Then, discard this card."
 )
 _register(_trn("Survival Brace", "item", _SURVIVAL_BRACE_TEXT, catalog_id="sv06-164"))
+# XY—BREAKpoint 97. Pokémon.com prints the curly apostrophes.
+_BURSTING_BALLOON_TEXT = (
+    "If this card is attached to 1 of your Pokémon, discard it at the end of your opponent’s turn.\n\n"
+    "If the Pokémon this card is attached to is your Active Pokémon and is damaged by an opponent’s attack "
+    "(even if that Pokémon is Knocked Out), put 6 damage counters on the Attacking Pokémon."
+)
+_register(
+    _trn(
+        "Bursting Balloon",
+        "tool",
+        _BURSTING_BALLOON_TEXT,
+        catalog_id="xy9-97",
+        image="https://assets.tcgdex.net/en/xy/xy9/97/low.webp",
+    )
+)
 _register(_trn("Beach Court", "stadium", "The Retreat Cost of each Basic Pokémon in play (both yours and your opponent's) is Colorless less."))
 _register(_trn("Arven", "supporter", "Search your deck for an Item card and a Pokémon Tool card, reveal them, and put them into your hand. Then, shuffle your deck."))
 _register(
@@ -1099,6 +1150,112 @@ _register(
 )
 _register(
     _trn(
+        "Pokégear 3.0",
+        "item",
+        "Look at the top 7 cards of your deck. You may reveal a Supporter card you find there and put it into your hand. Shuffle the other cards back into your deck.",
+        catalog_id="sv01-186",
+    )
+)
+_register(
+    _trn(
+        "Pokémon Catcher",
+        "item",
+        "Flip a coin. If heads, switch in 1 of your opponent's Benched Pokémon to the Active Spot.",
+        catalog_id="sv05-160",
+    )
+)
+_register(
+    _trn(
+        "Techno Radar",
+        "item",
+        "You must discard a card from your hand in order to use this card. Search your deck for up to 2 Future cards, reveal them, and put them into your hand. Then, shuffle your deck.",
+        catalog_id="sv04-180",
+        traits=["Future"],
+    )
+)
+_register(
+    _trn(
+        "Canceling Cologne",
+        "item",
+        "Until the end of your turn, your opponent's Active Pokémon has no Abilities.",
+        catalog_id="sv05-141",
+    )
+)
+_register(
+    _trn(
+        "Prime Catcher",
+        "item",
+        "Switch in 1 of your opponent's Benched Pokémon to the Active Spot. If you do, switch your Active Pokémon with 1 of your Benched Pokémon.",
+        catalog_id="sv05-157",
+    )
+)
+_register(
+    _trn(
+        "Energy Loto",
+        "item",
+        "Look at the top 7 cards of your deck. You may reveal an Energy card you find there and put it into your hand. Shuffle the other cards back into your deck.",
+        catalog_id="sv08-140",
+    )
+)
+_register(
+    _trn(
+        "Lost Vacuum",
+        "item",
+        "You may put up to 1 Pokémon Tool card from your discard pile into the Lost Zone. If you do, choose a Pokémon Tool attached to any Pokémon, or any Stadium in play, and put it into the Lost Zone.",
+        catalog_id="sv02-162",
+    )
+)
+_register(
+    _trn(
+        "Future Booster Energy Capsule",
+        "tool",
+        "The Future Pokémon this card is attached to has no Retreat Cost, and the attacks it uses do 20 more damage to your opponent's Active Pokémon (before applying Weakness and Resistance).",
+        catalog_id="sv05-149",
+        traits=["Future"],
+    )
+)
+_turbo = _trn(
+    "Technical Machine: Turbo Energize",
+    "tool",
+    "The Pokémon this card is attached to can use the attack on this card. (You still need the necessary Energy to use this attack.) If this card is attached to 1 of your Pokémon, discard it at the end of your turn.",
+    catalog_id="sv04-179",
+    traits=["Future"],
+)
+_turbo.attacks = [
+    _atk(
+        "Turbo Energize",
+        ["Colorless"],
+        0,
+        "Search your deck for up to 2 Basic Energy cards and attach them to your Benched Pokémon in any way you like. Then, shuffle your deck.",
+    )
+]
+_register(_turbo)
+_register(
+    _trn(
+        "Lost City",
+        "stadium",
+        "Whenever a Pokémon (either yours or your opponent's) is Knocked Out, put that Pokémon in the Lost Zone instead of the discard pile. (Discard all attached cards.)",
+        catalog_id="sv02-161",
+    )
+)
+_register(
+    _trn(
+        "Colress's Tenacity",
+        "supporter",
+        "Search your deck for a Stadium card and an Energy card, reveal them, and put them into your hand. Then, shuffle your deck.",
+        catalog_id="sv01-084",
+    )
+)
+_register(
+    _trn(
+        "Giovanni's Charisma",
+        "supporter",
+        "Put an Energy attached to your opponent's Active Pokémon into their hand. If you do, attach an Energy card from your hand to your Active Pokémon.",
+        catalog_id="sv3pt5-161",
+    )
+)
+_register(
+    _trn(
         "AZ",
         "supporter",
         "Put 1 of your Pokémon into your hand. (Discard all cards attached to that Pokémon.)",
@@ -1170,6 +1327,23 @@ _register(
         text="Double Colorless Energy provides ColorlessColorless Energy.",
         image="https://assets.tcgdex.net/en/sm/sm1/136/low.webp",
         set_name="Sun & Moon",
+        retreat=0,
+    )
+)
+_register(
+    Card(
+        catalog_id="sv04-163",
+        name="Double Turbo Energy",
+        category="Energy",
+        stage="Special",
+        types=["Colorless"],
+        energy_type="Colorless",
+        text=(
+            "As long as this card is attached to a Pokémon, it provides Colorless Colorless Energy. "
+            "The attacks of the Pokémon this card is attached to do 20 less damage to your opponent's "
+            "Active Pokémon (before applying Weakness and Resistance)."
+        ),
+        set_name="Paradox Rift",
         retreat=0,
     )
 )
@@ -1956,6 +2130,35 @@ for card in [
         resistances=[{"type": "Fighting", "value": "-30"}],
         catalog_id="sv07-071",
         image="https://assets.tcgdex.net/en/sv/sv07/071/low.webp",
+    ),
+    _pkm(
+        "Iron Thorns ex",
+        "Basic",
+        ["Lightning"],
+        230,
+        [
+            _atk(
+                "Volt Cyclone",
+                ["Lightning", "Lightning", "Colorless"],
+                140,
+                "Move an Energy from this Pokémon to 1 of your Benched Pokémon.",
+            )
+        ],
+        retreat=4,
+        weakness="Fighting",
+        catalog_id="sv05-077",
+        set_name="Temporal Forces",
+        traits=["Future"],
+        abilities=[
+            Ability(
+                name="Initialization",
+                text=(
+                    "As long as this Pokémon is in the Active Spot, Pokémon with a Rule Box in play "
+                    "(both yours and your opponent's) have no Abilities, except for Future Pokémon. "
+                    "(Pokémon ex, Pokémon V, etc. have Rule Boxes.)"
+                ),
+            )
+        ],
     ),
     _pkm(
         "Mewtwo",

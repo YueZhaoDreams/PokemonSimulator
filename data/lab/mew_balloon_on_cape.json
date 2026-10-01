@@ -1,0 +1,4224 @@
+{
+  "games": 1000,
+  "seed": 20260929,
+  "elapsed": 2183.2823086860008,
+  "rule_preset": "s60",
+  "method": "greedy one-card Bursting Balloon swap from the Hero's Cape / four Max Potion Set M; foes are T60, Hedrick, C60, D60, and Crushing Thorn; score is the loss-weighted win rate with weights frozen from that list; stop when that score does not rise, or at 4 copies",
+  "foes": {
+    "t60": "phantom",
+    "hedrick": "phantom",
+    "c60": "party",
+    "d60": "demolish",
+    "thorns": "thorns"
+  },
+  "weights": {
+    "t60": 0.17804154302670622,
+    "hedrick": 0.2700296735905045,
+    "c60": 0.14836795252225515,
+    "d60": 0.019287833827893192,
+    "thorns": 0.38427299703264095
+  },
+  "copies": 2,
+  "cuts": [
+    "Budew",
+    "Budew"
+  ],
+  "win_rate_array": [
+    0.8148753709198813,
+    0.8789317507418398,
+    0.9279421364985163
+  ],
+  "array": [
+    {
+      "copies": 0,
+      "cut": null,
+      "cuts": [],
+      "list": [
+        "Mew ex",
+        "Mew ex",
+        "Mew ex",
+        "Mew ex",
+        "Mime Jr.",
+        "Mime Jr.",
+        "Igglybuff",
+        "Igglybuff",
+        "Igglybuff",
+        "Igglybuff",
+        "Budew",
+        "Budew",
+        "Buddy-Buddy Poffin",
+        "Buddy-Buddy Poffin",
+        "Buddy-Buddy Poffin",
+        "Buddy-Buddy Poffin",
+        "Nest Ball",
+        "Nest Ball",
+        "Nest Ball",
+        "Nest Ball",
+        "Ultra Ball",
+        "Ultra Ball",
+        "Ultra Ball",
+        "Night Stretcher",
+        "Night Stretcher",
+        "Night Stretcher",
+        "Night Stretcher",
+        "Battle Cage",
+        "Battle Cage",
+        "Battle Cage",
+        "Battle Cage",
+        "Bravery Charm",
+        "Bravery Charm",
+        "Bravery Charm",
+        "Bravery Charm",
+        "Hero's Cape",
+        "Max Potion",
+        "Max Potion",
+        "Max Potion",
+        "Max Potion",
+        "Arven",
+        "Arven",
+        "Arven",
+        "Arven",
+        "Iono",
+        "Iono",
+        "Iono",
+        "Iono",
+        "Professor's Research",
+        "Professor's Research",
+        "Boss's Orders",
+        "Boss's Orders",
+        "Boss's Orders",
+        "Crushing Hammer",
+        "Crushing Hammer",
+        "Crushing Hammer",
+        "Crushing Hammer",
+        "Switch",
+        "Counter Catcher",
+        "Counter Catcher"
+      ],
+      "weighted": 0.8148753709198813,
+      "mean": 0.8652,
+      "worst": 0.741,
+      "cells": {
+        "t60": {
+          "a": 0.88,
+          "b": 0.12,
+          "tie": 0.0,
+          "first": 0.8566037735849057,
+          "second": 0.9063829787234042,
+          "bursting_balloon": 0.0
+        },
+        "hedrick": {
+          "a": 0.818,
+          "b": 0.182,
+          "tie": 0.0,
+          "first": 0.7702127659574468,
+          "second": 0.8603773584905661,
+          "bursting_balloon": 0.0
+        },
+        "c60": {
+          "a": 0.9,
+          "b": 0.1,
+          "tie": 0.0,
+          "first": 0.8745247148288974,
+          "second": 0.9282700421940928,
+          "bursting_balloon": 0.0
+        },
+        "d60": {
+          "a": 0.987,
+          "b": 0.013,
+          "tie": 0.0,
+          "first": 0.9866412213740458,
+          "second": 0.9873949579831933,
+          "bursting_balloon": 0.0
+        },
+        "thorns": {
+          "a": 0.741,
+          "b": 0.259,
+          "tie": 0.0,
+          "first": 0.746031746031746,
+          "second": 0.7358870967741935,
+          "bursting_balloon": 0.0
+        }
+      }
+    },
+    {
+      "copies": 1,
+      "cut": "Budew",
+      "cuts": [
+        "Budew"
+      ],
+      "list": [
+        "Mew ex",
+        "Mew ex",
+        "Mew ex",
+        "Mew ex",
+        "Mime Jr.",
+        "Mime Jr.",
+        "Igglybuff",
+        "Igglybuff",
+        "Igglybuff",
+        "Igglybuff",
+        "Budew",
+        "Buddy-Buddy Poffin",
+        "Buddy-Buddy Poffin",
+        "Buddy-Buddy Poffin",
+        "Buddy-Buddy Poffin",
+        "Nest Ball",
+        "Nest Ball",
+        "Nest Ball",
+        "Nest Ball",
+        "Ultra Ball",
+        "Ultra Ball",
+        "Ultra Ball",
+        "Night Stretcher",
+        "Night Stretcher",
+        "Night Stretcher",
+        "Night Stretcher",
+        "Battle Cage",
+        "Battle Cage",
+        "Battle Cage",
+        "Battle Cage",
+        "Bravery Charm",
+        "Bravery Charm",
+        "Bravery Charm",
+        "Bravery Charm",
+        "Hero's Cape",
+        "Max Potion",
+        "Max Potion",
+        "Max Potion",
+        "Max Potion",
+        "Arven",
+        "Arven",
+        "Arven",
+        "Arven",
+        "Iono",
+        "Iono",
+        "Iono",
+        "Iono",
+        "Professor's Research",
+        "Professor's Research",
+        "Boss's Orders",
+        "Boss's Orders",
+        "Boss's Orders",
+        "Crushing Hammer",
+        "Crushing Hammer",
+        "Crushing Hammer",
+        "Crushing Hammer",
+        "Switch",
+        "Counter Catcher",
+        "Counter Catcher",
+        "Bursting Balloon"
+      ],
+      "weighted": 0.8789317507418398,
+      "mean": 0.8997999999999999,
+      "worst": 0.828,
+      "bursting_balloon": 0.63,
+      "cells": {
+        "t60": {
+          "a": 0.873,
+          "b": 0.127,
+          "tie": 0.0,
+          "first": 0.8535031847133758,
+          "second": 0.8903591682419659,
+          "bursting_balloon": 0.576
+        },
+        "hedrick": {
+          "a": 0.828,
+          "b": 0.172,
+          "tie": 0.0,
+          "first": 0.7995991983967936,
+          "second": 0.8562874251497006,
+          "bursting_balloon": 0.591
+        },
+        "c60": {
+          "a": 0.91,
+          "b": 0.09,
+          "tie": 0.0,
+          "first": 0.8906882591093117,
+          "second": 0.9288537549407114,
+          "bursting_balloon": 0.753
+        },
+        "d60": {
+          "a": 0.988,
+          "b": 0.012,
+          "tie": 0.0,
+          "first": 0.9916142557651991,
+          "second": 0.9847036328871893,
+          "bursting_balloon": 0.406
+        },
+        "thorns": {
+          "a": 0.9,
+          "b": 0.1,
+          "tie": 0.0,
+          "first": 0.9092783505154639,
+          "second": 0.8912621359223301,
+          "bursting_balloon": 0.824
+        }
+      }
+    },
+    {
+      "copies": 2,
+      "cut": "Budew",
+      "cuts": [
+        "Budew",
+        "Budew"
+      ],
+      "list": [
+        "Mew ex",
+        "Mew ex",
+        "Mew ex",
+        "Mew ex",
+        "Mime Jr.",
+        "Mime Jr.",
+        "Igglybuff",
+        "Igglybuff",
+        "Igglybuff",
+        "Igglybuff",
+        "Buddy-Buddy Poffin",
+        "Buddy-Buddy Poffin",
+        "Buddy-Buddy Poffin",
+        "Buddy-Buddy Poffin",
+        "Nest Ball",
+        "Nest Ball",
+        "Nest Ball",
+        "Nest Ball",
+        "Ultra Ball",
+        "Ultra Ball",
+        "Ultra Ball",
+        "Night Stretcher",
+        "Night Stretcher",
+        "Night Stretcher",
+        "Night Stretcher",
+        "Battle Cage",
+        "Battle Cage",
+        "Battle Cage",
+        "Battle Cage",
+        "Bravery Charm",
+        "Bravery Charm",
+        "Bravery Charm",
+        "Bravery Charm",
+        "Hero's Cape",
+        "Max Potion",
+        "Max Potion",
+        "Max Potion",
+        "Max Potion",
+        "Arven",
+        "Arven",
+        "Arven",
+        "Arven",
+        "Iono",
+        "Iono",
+        "Iono",
+        "Iono",
+        "Professor's Research",
+        "Professor's Research",
+        "Boss's Orders",
+        "Boss's Orders",
+        "Boss's Orders",
+        "Crushing Hammer",
+        "Crushing Hammer",
+        "Crushing Hammer",
+        "Crushing Hammer",
+        "Switch",
+        "Counter Catcher",
+        "Counter Catcher",
+        "Bursting Balloon",
+        "Bursting Balloon"
+      ],
+      "weighted": 0.9279421364985163,
+      "mean": 0.9324,
+      "worst": 0.857,
+      "bursting_balloon": 0.7125999999999999,
+      "cells": {
+        "t60": {
+          "a": 0.894,
+          "b": 0.106,
+          "tie": 0.0,
+          "first": 0.8716475095785441,
+          "second": 0.9184100418410042,
+          "bursting_balloon": 0.692
+        },
+        "hedrick": {
+          "a": 0.857,
+          "b": 0.143,
+          "tie": 0.0,
+          "first": 0.8219461697722568,
+          "second": 0.8897485493230174,
+          "bursting_balloon": 0.734
+        },
+        "c60": {
+          "a": 0.94,
+          "b": 0.06,
+          "tie": 0.0,
+          "first": 0.932,
+          "second": 0.948,
+          "bursting_balloon": 0.812
+        },
+        "d60": {
+          "a": 0.985,
+          "b": 0.015,
+          "tie": 0.0,
+          "first": 0.9922630560928434,
+          "second": 0.9772256728778468,
+          "bursting_balloon": 0.494
+        },
+        "thorns": {
+          "a": 0.986,
+          "b": 0.014,
+          "tie": 0.0,
+          "first": 0.9898785425101214,
+          "second": 0.9822134387351779,
+          "bursting_balloon": 0.831
+        }
+      }
+    }
+  ],
+  "steps": [
+    {
+      "copies_after": 1,
+      "current_weighted": 0.8148753709198813,
+      "current_mean": 0.8652,
+      "accepted": true,
+      "chosen": "Budew",
+      "chosen_weighted": 0.8789317507418398,
+      "chosen_mean": 0.8997999999999999,
+      "candidates": [
+        {
+          "cut": "Budew",
+          "copies_before": 2,
+          "weighted": 0.8789317507418398,
+          "mean": 0.8997999999999999,
+          "worst": 0.828,
+          "bursting_balloon": 0.63,
+          "cells": {
+            "t60": {
+              "a": 0.873,
+              "b": 0.127,
+              "tie": 0.0,
+              "first": 0.8535031847133758,
+              "second": 0.8903591682419659,
+              "bursting_balloon": 0.576
+            },
+            "hedrick": {
+              "a": 0.828,
+              "b": 0.172,
+              "tie": 0.0,
+              "first": 0.7995991983967936,
+              "second": 0.8562874251497006,
+              "bursting_balloon": 0.591
+            },
+            "c60": {
+              "a": 0.91,
+              "b": 0.09,
+              "tie": 0.0,
+              "first": 0.8906882591093117,
+              "second": 0.9288537549407114,
+              "bursting_balloon": 0.753
+            },
+            "d60": {
+              "a": 0.988,
+              "b": 0.012,
+              "tie": 0.0,
+              "first": 0.9916142557651991,
+              "second": 0.9847036328871893,
+              "bursting_balloon": 0.406
+            },
+            "thorns": {
+              "a": 0.9,
+              "b": 0.1,
+              "tie": 0.0,
+              "first": 0.9092783505154639,
+              "second": 0.8912621359223301,
+              "bursting_balloon": 0.824
+            }
+          }
+        },
+        {
+          "cut": "Switch",
+          "copies_before": 1,
+          "weighted": 0.8428709198813057,
+          "mean": 0.8826,
+          "worst": 0.803,
+          "bursting_balloon": 0.6317999999999999,
+          "cells": {
+            "t60": {
+              "a": 0.882,
+              "b": 0.118,
+              "tie": 0.0,
+              "first": 0.8535645472061657,
+              "second": 0.9126819126819127,
+              "bursting_balloon": 0.573
+            },
+            "hedrick": {
+              "a": 0.816,
+              "b": 0.184,
+              "tie": 0.0,
+              "first": 0.7782101167315175,
+              "second": 0.8559670781893004,
+              "bursting_balloon": 0.623
+            },
+            "c60": {
+              "a": 0.93,
+              "b": 0.07,
+              "tie": 0.0,
+              "first": 0.9107505070993914,
+              "second": 0.9487179487179487,
+              "bursting_balloon": 0.764
+            },
+            "d60": {
+              "a": 0.982,
+              "b": 0.018,
+              "tie": 0.0,
+              "first": 0.9862204724409449,
+              "second": 0.9776422764227642,
+              "bursting_balloon": 0.385
+            },
+            "thorns": {
+              "a": 0.803,
+              "b": 0.197,
+              "tie": 0.0,
+              "first": 0.8037578288100209,
+              "second": 0.8023032629558541,
+              "bursting_balloon": 0.814
+            }
+          }
+        },
+        {
+          "cut": "Battle Cage",
+          "copies_before": 4,
+          "weighted": 0.8347314540059347,
+          "mean": 0.8762000000000001,
+          "worst": 0.783,
+          "bursting_balloon": 0.6388,
+          "cells": {
+            "t60": {
+              "a": 0.877,
+              "b": 0.123,
+              "tie": 0.0,
+              "first": 0.8625498007968128,
+              "second": 0.891566265060241,
+              "bursting_balloon": 0.604
+            },
+            "hedrick": {
+              "a": 0.826,
+              "b": 0.174,
+              "tie": 0.0,
+              "first": 0.7980392156862746,
+              "second": 0.8551020408163266,
+              "bursting_balloon": 0.618
+            },
+            "c60": {
+              "a": 0.915,
+              "b": 0.085,
+              "tie": 0.0,
+              "first": 0.9067460317460317,
+              "second": 0.9233870967741935,
+              "bursting_balloon": 0.755
+            },
+            "d60": {
+              "a": 0.98,
+              "b": 0.02,
+              "tie": 0.0,
+              "first": 0.9838383838383838,
+              "second": 0.9762376237623762,
+              "bursting_balloon": 0.38
+            },
+            "thorns": {
+              "a": 0.783,
+              "b": 0.217,
+              "tie": 0.0,
+              "first": 0.7835671342685371,
+              "second": 0.782435129740519,
+              "bursting_balloon": 0.837
+            }
+          }
+        },
+        {
+          "cut": "Night Stretcher",
+          "copies_before": 4,
+          "weighted": 0.8316691394658754,
+          "mean": 0.8764,
+          "worst": 0.776,
+          "bursting_balloon": 0.638,
+          "cells": {
+            "t60": {
+              "a": 0.879,
+              "b": 0.121,
+              "tie": 0.0,
+              "first": 0.8533057851239669,
+              "second": 0.9031007751937985,
+              "bursting_balloon": 0.586
+            },
+            "hedrick": {
+              "a": 0.818,
+              "b": 0.182,
+              "tie": 0.0,
+              "first": 0.7875751503006012,
+              "second": 0.8483033932135728,
+              "bursting_balloon": 0.61
+            },
+            "c60": {
+              "a": 0.924,
+              "b": 0.076,
+              "tie": 0.0,
+              "first": 0.9106029106029107,
+              "second": 0.9364161849710982,
+              "bursting_balloon": 0.765
+            },
+            "d60": {
+              "a": 0.985,
+              "b": 0.015,
+              "tie": 0.0,
+              "first": 0.9862745098039216,
+              "second": 0.9836734693877551,
+              "bursting_balloon": 0.388
+            },
+            "thorns": {
+              "a": 0.776,
+              "b": 0.224,
+              "tie": 0.0,
+              "first": 0.757700205338809,
+              "second": 0.7933723196881092,
+              "bursting_balloon": 0.841
+            }
+          }
+        },
+        {
+          "cut": "Mew ex",
+          "copies_before": 4,
+          "weighted": 0.8311632047477745,
+          "mean": 0.8734,
+          "worst": 0.769,
+          "bursting_balloon": 0.6462,
+          "cells": {
+            "t60": {
+              "a": 0.885,
+              "b": 0.115,
+              "tie": 0.0,
+              "first": 0.8541266794625719,
+              "second": 0.918580375782881,
+              "bursting_balloon": 0.601
+            },
+            "hedrick": {
+              "a": 0.84,
+              "b": 0.16,
+              "tie": 0.0,
+              "first": 0.8132780082987552,
+              "second": 0.8648648648648649,
+              "bursting_balloon": 0.603
+            },
+            "c60": {
+              "a": 0.892,
+              "b": 0.108,
+              "tie": 0.0,
+              "first": 0.879837067209776,
+              "second": 0.9037328094302554,
+              "bursting_balloon": 0.755
+            },
+            "d60": {
+              "a": 0.981,
+              "b": 0.019,
+              "tie": 0.0,
+              "first": 0.9771863117870723,
+              "second": 0.9852320675105485,
+              "bursting_balloon": 0.427
+            },
+            "thorns": {
+              "a": 0.769,
+              "b": 0.231,
+              "tie": 0.0,
+              "first": 0.7768595041322314,
+              "second": 0.7616279069767442,
+              "bursting_balloon": 0.845
+            }
+          }
+        },
+        {
+          "cut": "Boss's Orders",
+          "copies_before": 3,
+          "weighted": 0.8304629080118695,
+          "mean": 0.8737999999999999,
+          "worst": 0.777,
+          "bursting_balloon": 0.624,
+          "cells": {
+            "t60": {
+              "a": 0.898,
+              "b": 0.102,
+              "tie": 0.0,
+              "first": 0.878,
+              "second": 0.918,
+              "bursting_balloon": 0.57
+            },
+            "hedrick": {
+              "a": 0.811,
+              "b": 0.189,
+              "tie": 0.0,
+              "first": 0.7759336099585062,
+              "second": 0.8436293436293436,
+              "bursting_balloon": 0.613
+            },
+            "c60": {
+              "a": 0.904,
+              "b": 0.096,
+              "tie": 0.0,
+              "first": 0.8968253968253969,
+              "second": 0.9112903225806451,
+              "bursting_balloon": 0.744
+            },
+            "d60": {
+              "a": 0.979,
+              "b": 0.021,
+              "tie": 0.0,
+              "first": 0.9766081871345029,
+              "second": 0.9815195071868583,
+              "bursting_balloon": 0.371
+            },
+            "thorns": {
+              "a": 0.777,
+              "b": 0.222,
+              "tie": 0.001,
+              "first": 0.74375,
+              "second": 0.8076923076923077,
+              "bursting_balloon": 0.822
+            }
+          }
+        },
+        {
+          "cut": "Arven",
+          "copies_before": 4,
+          "weighted": 0.8281364985163205,
+          "mean": 0.8694000000000001,
+          "worst": 0.791,
+          "bursting_balloon": 0.5906,
+          "cells": {
+            "t60": {
+              "a": 0.888,
+              "b": 0.112,
+              "tie": 0.0,
+              "first": 0.8685258964143426,
+              "second": 0.9076305220883534,
+              "bursting_balloon": 0.519
+            },
+            "hedrick": {
+              "a": 0.794,
+              "b": 0.206,
+              "tie": 0.0,
+              "first": 0.7599206349206349,
+              "second": 0.8286290322580645,
+              "bursting_balloon": 0.572
+            },
+            "c60": {
+              "a": 0.895,
+              "b": 0.105,
+              "tie": 0.0,
+              "first": 0.8697394789579158,
+              "second": 0.9201596806387226,
+              "bursting_balloon": 0.683
+            },
+            "d60": {
+              "a": 0.979,
+              "b": 0.021,
+              "tie": 0.0,
+              "first": 0.9764243614931237,
+              "second": 0.9816700610997964,
+              "bursting_balloon": 0.385
+            },
+            "thorns": {
+              "a": 0.791,
+              "b": 0.209,
+              "tie": 0.0,
+              "first": 0.7751479289940828,
+              "second": 0.8073022312373225,
+              "bursting_balloon": 0.794
+            }
+          }
+        },
+        {
+          "cut": "Ultra Ball",
+          "copies_before": 3,
+          "weighted": 0.8267181008902077,
+          "mean": 0.8728,
+          "worst": 0.762,
+          "bursting_balloon": 0.6502,
+          "cells": {
+            "t60": {
+              "a": 0.885,
+              "b": 0.115,
+              "tie": 0.0,
+              "first": 0.85625,
+              "second": 0.9115384615384615,
+              "bursting_balloon": 0.594
+            },
+            "hedrick": {
+              "a": 0.826,
+              "b": 0.174,
+              "tie": 0.0,
+              "first": 0.7965116279069767,
+              "second": 0.8574380165289256,
+              "bursting_balloon": 0.645
+            },
+            "c60": {
+              "a": 0.905,
+              "b": 0.095,
+              "tie": 0.0,
+              "first": 0.8869395711500975,
+              "second": 0.9240246406570842,
+              "bursting_balloon": 0.755
+            },
+            "d60": {
+              "a": 0.986,
+              "b": 0.014,
+              "tie": 0.0,
+              "first": 0.9880715705765407,
+              "second": 0.9839034205231388,
+              "bursting_balloon": 0.413
+            },
+            "thorns": {
+              "a": 0.762,
+              "b": 0.238,
+              "tie": 0.0,
+              "first": 0.7692307692307693,
+              "second": 0.7552986512524085,
+              "bursting_balloon": 0.844
+            }
+          }
+        },
+        {
+          "cut": "Nest Ball",
+          "copies_before": 4,
+          "weighted": 0.8259747774480712,
+          "mean": 0.8704000000000001,
+          "worst": 0.769,
+          "bursting_balloon": 0.6342,
+          "cells": {
+            "t60": {
+              "a": 0.872,
+              "b": 0.128,
+              "tie": 0.0,
+              "first": 0.8517745302713987,
+              "second": 0.8905950095969289,
+              "bursting_balloon": 0.577
+            },
+            "hedrick": {
+              "a": 0.822,
+              "b": 0.178,
+              "tie": 0.0,
+              "first": 0.7894736842105263,
+              "second": 0.8537549407114624,
+              "bursting_balloon": 0.606
+            },
+            "c60": {
+              "a": 0.905,
+              "b": 0.095,
+              "tie": 0.0,
+              "first": 0.885480572597137,
+              "second": 0.923679060665362,
+              "bursting_balloon": 0.729
+            },
+            "d60": {
+              "a": 0.984,
+              "b": 0.016,
+              "tie": 0.0,
+              "first": 0.9880478087649402,
+              "second": 0.9799196787148594,
+              "bursting_balloon": 0.412
+            },
+            "thorns": {
+              "a": 0.769,
+              "b": 0.231,
+              "tie": 0.0,
+              "first": 0.7857142857142857,
+              "second": 0.7510373443983402,
+              "bursting_balloon": 0.847
+            }
+          }
+        },
+        {
+          "cut": "Counter Catcher",
+          "copies_before": 2,
+          "weighted": 0.8224940652818992,
+          "mean": 0.8674,
+          "worst": 0.772,
+          "bursting_balloon": 0.6258,
+          "cells": {
+            "t60": {
+              "a": 0.864,
+              "b": 0.136,
+              "tie": 0.0,
+              "first": 0.841796875,
+              "second": 0.8872950819672131,
+              "bursting_balloon": 0.572
+            },
+            "hedrick": {
+              "a": 0.811,
+              "b": 0.189,
+              "tie": 0.0,
+              "first": 0.7872763419483101,
+              "second": 0.8350100603621731,
+              "bursting_balloon": 0.592
+            },
+            "c60": {
+              "a": 0.903,
+              "b": 0.097,
+              "tie": 0.0,
+              "first": 0.8858921161825726,
+              "second": 0.918918918918919,
+              "bursting_balloon": 0.737
+            },
+            "d60": {
+              "a": 0.987,
+              "b": 0.013,
+              "tie": 0.0,
+              "first": 0.9841269841269841,
+              "second": 0.9899193548387096,
+              "bursting_balloon": 0.398
+            },
+            "thorns": {
+              "a": 0.772,
+              "b": 0.226,
+              "tie": 0.002,
+              "first": 0.7904761904761904,
+              "second": 0.751578947368421,
+              "bursting_balloon": 0.83
+            }
+          }
+        },
+        {
+          "cut": "Max Potion",
+          "copies_before": 4,
+          "weighted": 0.8218382789317508,
+          "mean": 0.8678000000000001,
+          "worst": 0.759,
+          "bursting_balloon": 0.6242,
+          "cells": {
+            "t60": {
+              "a": 0.873,
+              "b": 0.127,
+              "tie": 0.0,
+              "first": 0.8475609756097561,
+              "second": 0.8976377952755905,
+              "bursting_balloon": 0.552
+            },
+            "hedrick": {
+              "a": 0.823,
+              "b": 0.177,
+              "tie": 0.0,
+              "first": 0.8051391862955032,
+              "second": 0.8386491557223265,
+              "bursting_balloon": 0.601
+            },
+            "c60": {
+              "a": 0.9,
+              "b": 0.1,
+              "tie": 0.0,
+              "first": 0.879837067209776,
+              "second": 0.9194499017681729,
+              "bursting_balloon": 0.759
+            },
+            "d60": {
+              "a": 0.984,
+              "b": 0.016,
+              "tie": 0.0,
+              "first": 0.9896694214876033,
+              "second": 0.9786821705426356,
+              "bursting_balloon": 0.396
+            },
+            "thorns": {
+              "a": 0.759,
+              "b": 0.241,
+              "tie": 0.0,
+              "first": 0.7338709677419355,
+              "second": 0.7837301587301587,
+              "bursting_balloon": 0.813
+            }
+          }
+        },
+        {
+          "cut": "Iono",
+          "copies_before": 4,
+          "weighted": 0.8212255192878338,
+          "mean": 0.8714000000000001,
+          "worst": 0.736,
+          "bursting_balloon": 0.616,
+          "cells": {
+            "t60": {
+              "a": 0.895,
+              "b": 0.105,
+              "tie": 0.0,
+              "first": 0.8661257606490872,
+              "second": 0.9230769230769231,
+              "bursting_balloon": 0.543
+            },
+            "hedrick": {
+              "a": 0.831,
+              "b": 0.169,
+              "tie": 0.0,
+              "first": 0.7898989898989899,
+              "second": 0.8712871287128713,
+              "bursting_balloon": 0.605
+            },
+            "c60": {
+              "a": 0.915,
+              "b": 0.085,
+              "tie": 0.0,
+              "first": 0.8972746331236897,
+              "second": 0.9311663479923518,
+              "bursting_balloon": 0.718
+            },
+            "d60": {
+              "a": 0.98,
+              "b": 0.02,
+              "tie": 0.0,
+              "first": 0.9845559845559846,
+              "second": 0.975103734439834,
+              "bursting_balloon": 0.392
+            },
+            "thorns": {
+              "a": 0.736,
+              "b": 0.264,
+              "tie": 0.0,
+              "first": 0.7489795918367347,
+              "second": 0.7235294117647059,
+              "bursting_balloon": 0.822
+            }
+          }
+        },
+        {
+          "cut": "Bravery Charm",
+          "copies_before": 4,
+          "weighted": 0.8164629080118695,
+          "mean": 0.8642,
+          "worst": 0.761,
+          "bursting_balloon": 0.6322,
+          "cells": {
+            "t60": {
+              "a": 0.878,
+              "b": 0.122,
+              "tie": 0.0,
+              "first": 0.8615984405458089,
+              "second": 0.8952772073921971,
+              "bursting_balloon": 0.572
+            },
+            "hedrick": {
+              "a": 0.784,
+              "b": 0.216,
+              "tie": 0.0,
+              "first": 0.7586206896551724,
+              "second": 0.8117154811715481,
+              "bursting_balloon": 0.599
+            },
+            "c60": {
+              "a": 0.925,
+              "b": 0.075,
+              "tie": 0.0,
+              "first": 0.91875,
+              "second": 0.9307692307692308,
+              "bursting_balloon": 0.742
+            },
+            "d60": {
+              "a": 0.973,
+              "b": 0.027,
+              "tie": 0.0,
+              "first": 0.9815573770491803,
+              "second": 0.96484375,
+              "bursting_balloon": 0.396
+            },
+            "thorns": {
+              "a": 0.761,
+              "b": 0.239,
+              "tie": 0.0,
+              "first": 0.7606177606177607,
+              "second": 0.7614107883817427,
+              "bursting_balloon": 0.852
+            }
+          }
+        },
+        {
+          "cut": "Buddy-Buddy Poffin",
+          "copies_before": 4,
+          "weighted": 0.8164109792284866,
+          "mean": 0.8642,
+          "worst": 0.755,
+          "bursting_balloon": 0.6365999999999999,
+          "cells": {
+            "t60": {
+              "a": 0.877,
+              "b": 0.123,
+              "tie": 0.0,
+              "first": 0.8500986193293886,
+              "second": 0.9046653144016227,
+              "bursting_balloon": 0.601
+            },
+            "hedrick": {
+              "a": 0.805,
+              "b": 0.195,
+              "tie": 0.0,
+              "first": 0.7724550898203593,
+              "second": 0.8376753507014028,
+              "bursting_balloon": 0.636
+            },
+            "c60": {
+              "a": 0.902,
+              "b": 0.098,
+              "tie": 0.0,
+              "first": 0.8766355140186916,
+              "second": 0.9311827956989247,
+              "bursting_balloon": 0.739
+            },
+            "d60": {
+              "a": 0.982,
+              "b": 0.018,
+              "tie": 0.0,
+              "first": 0.9782608695652174,
+              "second": 0.9858299595141701,
+              "bursting_balloon": 0.37
+            },
+            "thorns": {
+              "a": 0.755,
+              "b": 0.245,
+              "tie": 0.0,
+              "first": 0.7420718816067653,
+              "second": 0.7666034155597723,
+              "bursting_balloon": 0.837
+            }
+          }
+        },
+        {
+          "cut": "Crushing Hammer",
+          "copies_before": 4,
+          "weighted": 0.8154777448071217,
+          "mean": 0.8638,
+          "worst": 0.747,
+          "bursting_balloon": 0.6325999999999999,
+          "cells": {
+            "t60": {
+              "a": 0.882,
+              "b": 0.118,
+              "tie": 0.0,
+              "first": 0.8471953578336557,
+              "second": 0.9192546583850931,
+              "bursting_balloon": 0.585
+            },
+            "hedrick": {
+              "a": 0.813,
+              "b": 0.187,
+              "tie": 0.0,
+              "first": 0.7689161554192229,
+              "second": 0.8551859099804305,
+              "bursting_balloon": 0.612
+            },
+            "c60": {
+              "a": 0.896,
+              "b": 0.104,
+              "tie": 0.0,
+              "first": 0.884990253411306,
+              "second": 0.9075975359342916,
+              "bursting_balloon": 0.746
+            },
+            "d60": {
+              "a": 0.981,
+              "b": 0.019,
+              "tie": 0.0,
+              "first": 0.983739837398374,
+              "second": 0.9783464566929134,
+              "bursting_balloon": 0.395
+            },
+            "thorns": {
+              "a": 0.747,
+              "b": 0.253,
+              "tie": 0.0,
+              "first": 0.735812133072407,
+              "second": 0.7586912065439673,
+              "bursting_balloon": 0.825
+            }
+          }
+        },
+        {
+          "cut": "Hero's Cape",
+          "copies_before": 1,
+          "weighted": 0.811360534124629,
+          "mean": 0.8562,
+          "worst": 0.758,
+          "bursting_balloon": 0.7243999999999999,
+          "cells": {
+            "t60": {
+              "a": 0.874,
+              "b": 0.126,
+              "tie": 0.0,
+              "first": 0.8466257668711656,
+              "second": 0.9001956947162426,
+              "bursting_balloon": 0.671
+            },
+            "hedrick": {
+              "a": 0.804,
+              "b": 0.196,
+              "tie": 0.0,
+              "first": 0.7869822485207101,
+              "second": 0.821501014198783,
+              "bursting_balloon": 0.718
+            },
+            "c60": {
+              "a": 0.866,
+              "b": 0.134,
+              "tie": 0.0,
+              "first": 0.8405511811023622,
+              "second": 0.8922764227642277,
+              "bursting_balloon": 0.819
+            },
+            "d60": {
+              "a": 0.979,
+              "b": 0.021,
+              "tie": 0.0,
+              "first": 0.986,
+              "second": 0.972,
+              "bursting_balloon": 0.548
+            },
+            "thorns": {
+              "a": 0.758,
+              "b": 0.241,
+              "tie": 0.001,
+              "first": 0.7749003984063745,
+              "second": 0.7409638554216867,
+              "bursting_balloon": 0.866
+            }
+          }
+        },
+        {
+          "cut": "Professor's Research",
+          "copies_before": 2,
+          "weighted": 0.8106097922848665,
+          "mean": 0.8552,
+          "worst": 0.777,
+          "bursting_balloon": 0.6202,
+          "cells": {
+            "t60": {
+              "a": 0.851,
+              "b": 0.149,
+              "tie": 0.0,
+              "first": 0.8183632734530938,
+              "second": 0.8837675350701403,
+              "bursting_balloon": 0.573
+            },
+            "hedrick": {
+              "a": 0.778,
+              "b": 0.222,
+              "tie": 0.0,
+              "first": 0.7562380038387716,
+              "second": 0.8016701461377871,
+              "bursting_balloon": 0.602
+            },
+            "c60": {
+              "a": 0.886,
+              "b": 0.114,
+              "tie": 0.0,
+              "first": 0.8306772908366534,
+              "second": 0.9417670682730924,
+              "bursting_balloon": 0.718
+            },
+            "d60": {
+              "a": 0.984,
+              "b": 0.016,
+              "tie": 0.0,
+              "first": 0.9801192842942346,
+              "second": 0.9879275653923542,
+              "bursting_balloon": 0.386
+            },
+            "thorns": {
+              "a": 0.777,
+              "b": 0.222,
+              "tie": 0.001,
+              "first": 0.7697095435684648,
+              "second": 0.7837837837837838,
+              "bursting_balloon": 0.822
+            }
+          }
+        },
+        {
+          "cut": "Igglybuff",
+          "copies_before": 4,
+          "weighted": 0.8086572700296736,
+          "mean": 0.8596,
+          "worst": 0.733,
+          "bursting_balloon": 0.6216,
+          "cells": {
+            "t60": {
+              "a": 0.861,
+              "b": 0.139,
+              "tie": 0.0,
+              "first": 0.8336633663366336,
+              "second": 0.8888888888888888,
+              "bursting_balloon": 0.558
+            },
+            "hedrick": {
+              "a": 0.818,
+              "b": 0.182,
+              "tie": 0.0,
+              "first": 0.7771084337349398,
+              "second": 0.8585657370517928,
+              "bursting_balloon": 0.583
+            },
+            "c60": {
+              "a": 0.902,
+              "b": 0.098,
+              "tie": 0.0,
+              "first": 0.8895705521472392,
+              "second": 0.913894324853229,
+              "bursting_balloon": 0.725
+            },
+            "d60": {
+              "a": 0.984,
+              "b": 0.016,
+              "tie": 0.0,
+              "first": 0.9845559845559846,
+              "second": 0.983402489626556,
+              "bursting_balloon": 0.414
+            },
+            "thorns": {
+              "a": 0.733,
+              "b": 0.267,
+              "tie": 0.0,
+              "first": 0.7368421052631579,
+              "second": 0.728952772073922,
+              "bursting_balloon": 0.828
+            }
+          }
+        },
+        {
+          "cut": "Mime Jr.",
+          "copies_before": 2,
+          "weighted": 0.7921988130563797,
+          "mean": 0.8320000000000001,
+          "worst": 0.689,
+          "bursting_balloon": 0.6426000000000001,
+          "cells": {
+            "t60": {
+              "a": 0.872,
+              "b": 0.128,
+              "tie": 0.0,
+              "first": 0.8343434343434344,
+              "second": 0.9089108910891089,
+              "bursting_balloon": 0.582
+            },
+            "hedrick": {
+              "a": 0.818,
+              "b": 0.182,
+              "tie": 0.0,
+              "first": 0.7654075546719682,
+              "second": 0.8712273641851107,
+              "bursting_balloon": 0.6
+            },
+            "c60": {
+              "a": 0.906,
+              "b": 0.094,
+              "tie": 0.0,
+              "first": 0.8798449612403101,
+              "second": 0.9338842975206612,
+              "bursting_balloon": 0.755
+            },
+            "d60": {
+              "a": 0.875,
+              "b": 0.125,
+              "tie": 0.0,
+              "first": 0.8951456310679612,
+              "second": 0.8536082474226804,
+              "bursting_balloon": 0.449
+            },
+            "thorns": {
+              "a": 0.689,
+              "b": 0.311,
+              "tie": 0.0,
+              "first": 0.7041666666666667,
+              "second": 0.675,
+              "bursting_balloon": 0.827
+            }
+          }
+        }
+      ]
+    },
+    {
+      "copies_after": 2,
+      "current_weighted": 0.8789317507418398,
+      "current_mean": 0.8997999999999999,
+      "accepted": true,
+      "chosen": "Budew",
+      "chosen_weighted": 0.9279421364985163,
+      "chosen_mean": 0.9324,
+      "candidates": [
+        {
+          "cut": "Budew",
+          "copies_before": 1,
+          "weighted": 0.9279421364985163,
+          "mean": 0.9324,
+          "worst": 0.857,
+          "bursting_balloon": 0.7125999999999999,
+          "cells": {
+            "t60": {
+              "a": 0.894,
+              "b": 0.106,
+              "tie": 0.0,
+              "first": 0.8716475095785441,
+              "second": 0.9184100418410042,
+              "bursting_balloon": 0.692
+            },
+            "hedrick": {
+              "a": 0.857,
+              "b": 0.143,
+              "tie": 0.0,
+              "first": 0.8219461697722568,
+              "second": 0.8897485493230174,
+              "bursting_balloon": 0.734
+            },
+            "c60": {
+              "a": 0.94,
+              "b": 0.06,
+              "tie": 0.0,
+              "first": 0.932,
+              "second": 0.948,
+              "bursting_balloon": 0.812
+            },
+            "d60": {
+              "a": 0.985,
+              "b": 0.015,
+              "tie": 0.0,
+              "first": 0.9922630560928434,
+              "second": 0.9772256728778468,
+              "bursting_balloon": 0.494
+            },
+            "thorns": {
+              "a": 0.986,
+              "b": 0.014,
+              "tie": 0.0,
+              "first": 0.9898785425101214,
+              "second": 0.9822134387351779,
+              "bursting_balloon": 0.831
+            }
+          }
+        },
+        {
+          "cut": "Night Stretcher",
+          "copies_before": 4,
+          "weighted": 0.8811973293768546,
+          "mean": 0.901,
+          "worst": 0.836,
+          "bursting_balloon": 0.733,
+          "cells": {
+            "t60": {
+              "a": 0.89,
+              "b": 0.11,
+              "tie": 0.0,
+              "first": 0.8678500986193294,
+              "second": 0.9127789046653144,
+              "bursting_balloon": 0.679
+            },
+            "hedrick": {
+              "a": 0.836,
+              "b": 0.164,
+              "tie": 0.0,
+              "first": 0.8087649402390438,
+              "second": 0.8634538152610441,
+              "bursting_balloon": 0.727
+            },
+            "c60": {
+              "a": 0.91,
+              "b": 0.09,
+              "tie": 0.0,
+              "first": 0.8827292110874201,
+              "second": 0.9340866290018832,
+              "bursting_balloon": 0.84
+            },
+            "d60": {
+              "a": 0.976,
+              "b": 0.024,
+              "tie": 0.0,
+              "first": 0.9884836852207294,
+              "second": 0.9624217118997912,
+              "bursting_balloon": 0.512
+            },
+            "thorns": {
+              "a": 0.893,
+              "b": 0.107,
+              "tie": 0.0,
+              "first": 0.8739495798319328,
+              "second": 0.9103053435114504,
+              "bursting_balloon": 0.907
+            }
+          }
+        },
+        {
+          "cut": "Switch",
+          "copies_before": 1,
+          "weighted": 0.8794821958456973,
+          "mean": 0.9032,
+          "worst": 0.836,
+          "bursting_balloon": 0.7314,
+          "cells": {
+            "t60": {
+              "a": 0.893,
+              "b": 0.107,
+              "tie": 0.0,
+              "first": 0.8622754491017964,
+              "second": 0.9238476953907816,
+              "bursting_balloon": 0.699
+            },
+            "hedrick": {
+              "a": 0.836,
+              "b": 0.164,
+              "tie": 0.0,
+              "first": 0.80625,
+              "second": 0.8634615384615385,
+              "bursting_balloon": 0.704
+            },
+            "c60": {
+              "a": 0.914,
+              "b": 0.086,
+              "tie": 0.0,
+              "first": 0.8993963782696177,
+              "second": 0.9284294234592445,
+              "bursting_balloon": 0.832
+            },
+            "d60": {
+              "a": 0.988,
+              "b": 0.012,
+              "tie": 0.0,
+              "first": 0.9846449136276392,
+              "second": 0.9916492693110647,
+              "bursting_balloon": 0.537
+            },
+            "thorns": {
+              "a": 0.885,
+              "b": 0.115,
+              "tie": 0.0,
+              "first": 0.8790322580645161,
+              "second": 0.8908730158730159,
+              "bursting_balloon": 0.885
+            }
+          }
+        },
+        {
+          "cut": "Mew ex",
+          "copies_before": 4,
+          "weighted": 0.8748679525222552,
+          "mean": 0.8986000000000001,
+          "worst": 0.823,
+          "bursting_balloon": 0.745,
+          "cells": {
+            "t60": {
+              "a": 0.892,
+              "b": 0.108,
+              "tie": 0.0,
+              "first": 0.87,
+              "second": 0.914,
+              "bursting_balloon": 0.69
+            },
+            "hedrick": {
+              "a": 0.823,
+              "b": 0.177,
+              "tie": 0.0,
+              "first": 0.7883817427385892,
+              "second": 0.8552123552123552,
+              "bursting_balloon": 0.743
+            },
+            "c60": {
+              "a": 0.911,
+              "b": 0.089,
+              "tie": 0.0,
+              "first": 0.8888888888888888,
+              "second": 0.9319066147859922,
+              "bursting_balloon": 0.837
+            },
+            "d60": {
+              "a": 0.983,
+              "b": 0.017,
+              "tie": 0.0,
+              "first": 0.9779559118236473,
+              "second": 0.9880239520958084,
+              "bursting_balloon": 0.56
+            },
+            "thorns": {
+              "a": 0.884,
+              "b": 0.116,
+              "tie": 0.0,
+              "first": 0.8884462151394422,
+              "second": 0.8795180722891566,
+              "bursting_balloon": 0.895
+            }
+          }
+        },
+        {
+          "cut": "Iono",
+          "copies_before": 4,
+          "weighted": 0.8744287833827894,
+          "mean": 0.8972,
+          "worst": 0.817,
+          "bursting_balloon": 0.7178,
+          "cells": {
+            "t60": {
+              "a": 0.884,
+              "b": 0.116,
+              "tie": 0.0,
+              "first": 0.861003861003861,
+              "second": 0.9087136929460581,
+              "bursting_balloon": 0.662
+            },
+            "hedrick": {
+              "a": 0.817,
+              "b": 0.183,
+              "tie": 0.0,
+              "first": 0.8047337278106509,
+              "second": 0.8296146044624746,
+              "bursting_balloon": 0.699
+            },
+            "c60": {
+              "a": 0.916,
+              "b": 0.084,
+              "tie": 0.0,
+              "first": 0.9226305609284333,
+              "second": 0.9089026915113871,
+              "bursting_balloon": 0.818
+            },
+            "d60": {
+              "a": 0.98,
+              "b": 0.02,
+              "tie": 0.0,
+              "first": 0.9854166666666667,
+              "second": 0.975,
+              "bursting_balloon": 0.504
+            },
+            "thorns": {
+              "a": 0.889,
+              "b": 0.111,
+              "tie": 0.0,
+              "first": 0.8798449612403101,
+              "second": 0.8987603305785123,
+              "bursting_balloon": 0.906
+            }
+          }
+        },
+        {
+          "cut": "Max Potion",
+          "copies_before": 4,
+          "weighted": 0.8730356083086054,
+          "mean": 0.8939999999999999,
+          "worst": 0.817,
+          "bursting_balloon": 0.736,
+          "cells": {
+            "t60": {
+              "a": 0.865,
+              "b": 0.135,
+              "tie": 0.0,
+              "first": 0.8574007220216606,
+              "second": 0.874439461883408,
+              "bursting_balloon": 0.682
+            },
+            "hedrick": {
+              "a": 0.817,
+              "b": 0.183,
+              "tie": 0.0,
+              "first": 0.7840466926070039,
+              "second": 0.8518518518518519,
+              "bursting_balloon": 0.729
+            },
+            "c60": {
+              "a": 0.914,
+              "b": 0.086,
+              "tie": 0.0,
+              "first": 0.9014373716632443,
+              "second": 0.9259259259259259,
+              "bursting_balloon": 0.861
+            },
+            "d60": {
+              "a": 0.979,
+              "b": 0.021,
+              "tie": 0.0,
+              "first": 0.9828693790149893,
+              "second": 0.975609756097561,
+              "bursting_balloon": 0.52
+            },
+            "thorns": {
+              "a": 0.895,
+              "b": 0.105,
+              "tie": 0.0,
+              "first": 0.885480572597137,
+              "second": 0.9041095890410958,
+              "bursting_balloon": 0.888
+            }
+          }
+        },
+        {
+          "cut": "Ultra Ball",
+          "copies_before": 3,
+          "weighted": 0.8729035608308606,
+          "mean": 0.8972,
+          "worst": 0.809,
+          "bursting_balloon": 0.7455999999999999,
+          "cells": {
+            "t60": {
+              "a": 0.89,
+              "b": 0.11,
+              "tie": 0.0,
+              "first": 0.861003861003861,
+              "second": 0.921161825726141,
+              "bursting_balloon": 0.689
+            },
+            "hedrick": {
+              "a": 0.809,
+              "b": 0.191,
+              "tie": 0.0,
+              "first": 0.8067729083665338,
+              "second": 0.8112449799196787,
+              "bursting_balloon": 0.734
+            },
+            "c60": {
+              "a": 0.918,
+              "b": 0.082,
+              "tie": 0.0,
+              "first": 0.8977955911823647,
+              "second": 0.93812375249501,
+              "bursting_balloon": 0.842
+            },
+            "d60": {
+              "a": 0.982,
+              "b": 0.018,
+              "tie": 0.0,
+              "first": 0.9881188118811881,
+              "second": 0.9757575757575757,
+              "bursting_balloon": 0.551
+            },
+            "thorns": {
+              "a": 0.887,
+              "b": 0.113,
+              "tie": 0.0,
+              "first": 0.8871287128712871,
+              "second": 0.8868686868686869,
+              "bursting_balloon": 0.912
+            }
+          }
+        },
+        {
+          "cut": "Boss's Orders",
+          "copies_before": 3,
+          "weighted": 0.8724985163204748,
+          "mean": 0.898,
+          "worst": 0.813,
+          "bursting_balloon": 0.74,
+          "cells": {
+            "t60": {
+              "a": 0.892,
+              "b": 0.108,
+              "tie": 0.0,
+              "first": 0.8745019920318725,
+              "second": 0.9096385542168675,
+              "bursting_balloon": 0.694
+            },
+            "hedrick": {
+              "a": 0.813,
+              "b": 0.187,
+              "tie": 0.0,
+              "first": 0.7790697674418605,
+              "second": 0.8491735537190083,
+              "bursting_balloon": 0.738
+            },
+            "c60": {
+              "a": 0.921,
+              "b": 0.079,
+              "tie": 0.0,
+              "first": 0.910828025477707,
+              "second": 0.9300567107750473,
+              "bursting_balloon": 0.834
+            },
+            "d60": {
+              "a": 0.983,
+              "b": 0.017,
+              "tie": 0.0,
+              "first": 0.9798792756539235,
+              "second": 0.9860834990059643,
+              "bursting_balloon": 0.52
+            },
+            "thorns": {
+              "a": 0.881,
+              "b": 0.119,
+              "tie": 0.0,
+              "first": 0.8872651356993737,
+              "second": 0.8752399232245681,
+              "bursting_balloon": 0.914
+            }
+          }
+        },
+        {
+          "cut": "Counter Catcher",
+          "copies_before": 2,
+          "weighted": 0.8711216617210683,
+          "mean": 0.897,
+          "worst": 0.796,
+          "bursting_balloon": 0.7283999999999999,
+          "cells": {
+            "t60": {
+              "a": 0.889,
+              "b": 0.111,
+              "tie": 0.0,
+              "first": 0.8727634194831014,
+              "second": 0.9054325955734407,
+              "bursting_balloon": 0.665
+            },
+            "hedrick": {
+              "a": 0.796,
+              "b": 0.204,
+              "tie": 0.0,
+              "first": 0.7637130801687764,
+              "second": 0.8250950570342205,
+              "bursting_balloon": 0.73
+            },
+            "c60": {
+              "a": 0.928,
+              "b": 0.072,
+              "tie": 0.0,
+              "first": 0.9063745019920318,
+              "second": 0.9497991967871486,
+              "bursting_balloon": 0.826
+            },
+            "d60": {
+              "a": 0.984,
+              "b": 0.016,
+              "tie": 0.0,
+              "first": 0.988,
+              "second": 0.98,
+              "bursting_balloon": 0.525
+            },
+            "thorns": {
+              "a": 0.888,
+              "b": 0.112,
+              "tie": 0.0,
+              "first": 0.9050387596899225,
+              "second": 0.8698347107438017,
+              "bursting_balloon": 0.896
+            }
+          }
+        },
+        {
+          "cut": "Professor's Research",
+          "copies_before": 2,
+          "weighted": 0.8705845697329376,
+          "mean": 0.8938,
+          "worst": 0.814,
+          "bursting_balloon": 0.7148,
+          "cells": {
+            "t60": {
+              "a": 0.872,
+              "b": 0.128,
+              "tie": 0.0,
+              "first": 0.8329938900203666,
+              "second": 0.9096267190569745,
+              "bursting_balloon": 0.668
+            },
+            "hedrick": {
+              "a": 0.814,
+              "b": 0.186,
+              "tie": 0.0,
+              "first": 0.802734375,
+              "second": 0.8258196721311475,
+              "bursting_balloon": 0.697
+            },
+            "c60": {
+              "a": 0.915,
+              "b": 0.085,
+              "tie": 0.0,
+              "first": 0.9065606361829026,
+              "second": 0.9235412474849095,
+              "bursting_balloon": 0.833
+            },
+            "d60": {
+              "a": 0.981,
+              "b": 0.019,
+              "tie": 0.0,
+              "first": 0.9825918762088974,
+              "second": 0.979296066252588,
+              "bursting_balloon": 0.483
+            },
+            "thorns": {
+              "a": 0.887,
+              "b": 0.112,
+              "tie": 0.001,
+              "first": 0.9006085192697769,
+              "second": 0.873767258382643,
+              "bursting_balloon": 0.893
+            }
+          }
+        },
+        {
+          "cut": "Battle Cage",
+          "copies_before": 4,
+          "weighted": 0.8693649851632047,
+          "mean": 0.8946,
+          "worst": 0.803,
+          "bursting_balloon": 0.7283999999999999,
+          "cells": {
+            "t60": {
+              "a": 0.877,
+              "b": 0.123,
+              "tie": 0.0,
+              "first": 0.8721649484536083,
+              "second": 0.8815533980582524,
+              "bursting_balloon": 0.677
+            },
+            "hedrick": {
+              "a": 0.803,
+              "b": 0.197,
+              "tie": 0.0,
+              "first": 0.7546125461254612,
+              "second": 0.8602620087336245,
+              "bursting_balloon": 0.724
+            },
+            "c60": {
+              "a": 0.923,
+              "b": 0.077,
+              "tie": 0.0,
+              "first": 0.9151515151515152,
+              "second": 0.9306930693069307,
+              "bursting_balloon": 0.823
+            },
+            "d60": {
+              "a": 0.984,
+              "b": 0.016,
+              "tie": 0.0,
+              "first": 0.9815950920245399,
+              "second": 0.9863013698630136,
+              "bursting_balloon": 0.531
+            },
+            "thorns": {
+              "a": 0.886,
+              "b": 0.114,
+              "tie": 0.0,
+              "first": 0.8854368932038835,
+              "second": 0.8865979381443299,
+              "bursting_balloon": 0.887
+            }
+          }
+        },
+        {
+          "cut": "Arven",
+          "copies_before": 4,
+          "weighted": 0.8680548961424333,
+          "mean": 0.8917999999999999,
+          "worst": 0.812,
+          "bursting_balloon": 0.7168,
+          "cells": {
+            "t60": {
+              "a": 0.879,
+              "b": 0.121,
+              "tie": 0.0,
+              "first": 0.8565573770491803,
+              "second": 0.900390625,
+              "bursting_balloon": 0.658
+            },
+            "hedrick": {
+              "a": 0.812,
+              "b": 0.188,
+              "tie": 0.0,
+              "first": 0.782608695652174,
+              "second": 0.8421052631578947,
+              "bursting_balloon": 0.7
+            },
+            "c60": {
+              "a": 0.895,
+              "b": 0.105,
+              "tie": 0.0,
+              "first": 0.8832391713747646,
+              "second": 0.908315565031983,
+              "bursting_balloon": 0.819
+            },
+            "d60": {
+              "a": 0.987,
+              "b": 0.013,
+              "tie": 0.0,
+              "first": 0.9897540983606558,
+              "second": 0.984375,
+              "bursting_balloon": 0.523
+            },
+            "thorns": {
+              "a": 0.886,
+              "b": 0.114,
+              "tie": 0.0,
+              "first": 0.8805668016194332,
+              "second": 0.8913043478260869,
+              "bursting_balloon": 0.884
+            }
+          }
+        },
+        {
+          "cut": "Crushing Hammer",
+          "copies_before": 4,
+          "weighted": 0.867813056379822,
+          "mean": 0.8944000000000001,
+          "worst": 0.806,
+          "bursting_balloon": 0.7422000000000001,
+          "cells": {
+            "t60": {
+              "a": 0.902,
+              "b": 0.098,
+              "tie": 0.0,
+              "first": 0.8762278978388998,
+              "second": 0.9287169042769857,
+              "bursting_balloon": 0.67
+            },
+            "hedrick": {
+              "a": 0.806,
+              "b": 0.194,
+              "tie": 0.0,
+              "first": 0.7901234567901234,
+              "second": 0.8210116731517509,
+              "bursting_balloon": 0.748
+            },
+            "c60": {
+              "a": 0.9,
+              "b": 0.1,
+              "tie": 0.0,
+              "first": 0.8625,
+              "second": 0.9346153846153846,
+              "bursting_balloon": 0.854
+            },
+            "d60": {
+              "a": 0.987,
+              "b": 0.013,
+              "tie": 0.0,
+              "first": 0.9920159680638723,
+              "second": 0.9819639278557114,
+              "bursting_balloon": 0.546
+            },
+            "thorns": {
+              "a": 0.877,
+              "b": 0.123,
+              "tie": 0.0,
+              "first": 0.8884297520661157,
+              "second": 0.8662790697674418,
+              "bursting_balloon": 0.893
+            }
+          }
+        },
+        {
+          "cut": "Buddy-Buddy Poffin",
+          "copies_before": 4,
+          "weighted": 0.8677611275964392,
+          "mean": 0.8939999999999999,
+          "worst": 0.805,
+          "bursting_balloon": 0.736,
+          "cells": {
+            "t60": {
+              "a": 0.889,
+              "b": 0.111,
+              "tie": 0.0,
+              "first": 0.87109375,
+              "second": 0.9077868852459017,
+              "bursting_balloon": 0.669
+            },
+            "hedrick": {
+              "a": 0.805,
+              "b": 0.195,
+              "tie": 0.0,
+              "first": 0.7766990291262136,
+              "second": 0.8350515463917526,
+              "bursting_balloon": 0.721
+            },
+            "c60": {
+              "a": 0.915,
+              "b": 0.085,
+              "tie": 0.0,
+              "first": 0.8923679060665362,
+              "second": 0.9386503067484663,
+              "bursting_balloon": 0.844
+            },
+            "d60": {
+              "a": 0.983,
+              "b": 0.017,
+              "tie": 0.0,
+              "first": 0.9884169884169884,
+              "second": 0.9771784232365145,
+              "bursting_balloon": 0.55
+            },
+            "thorns": {
+              "a": 0.878,
+              "b": 0.122,
+              "tie": 0.0,
+              "first": 0.8752436647173489,
+              "second": 0.8809034907597536,
+              "bursting_balloon": 0.896
+            }
+          }
+        },
+        {
+          "cut": "Nest Ball",
+          "copies_before": 4,
+          "weighted": 0.8651854599406529,
+          "mean": 0.8888,
+          "worst": 0.81,
+          "bursting_balloon": 0.7348,
+          "cells": {
+            "t60": {
+              "a": 0.882,
+              "b": 0.118,
+              "tie": 0.0,
+              "first": 0.856,
+              "second": 0.908,
+              "bursting_balloon": 0.678
+            },
+            "hedrick": {
+              "a": 0.81,
+              "b": 0.19,
+              "tie": 0.0,
+              "first": 0.7717171717171717,
+              "second": 0.8475247524752475,
+              "bursting_balloon": 0.732
+            },
+            "c60": {
+              "a": 0.895,
+              "b": 0.105,
+              "tie": 0.0,
+              "first": 0.8717948717948718,
+              "second": 0.9154135338345865,
+              "bursting_balloon": 0.834
+            },
+            "d60": {
+              "a": 0.978,
+              "b": 0.022,
+              "tie": 0.0,
+              "first": 0.9876796714579056,
+              "second": 0.9688109161793372,
+              "bursting_balloon": 0.534
+            },
+            "thorns": {
+              "a": 0.879,
+              "b": 0.121,
+              "tie": 0.0,
+              "first": 0.8752556237218814,
+              "second": 0.8825831702544031,
+              "bursting_balloon": 0.896
+            }
+          }
+        },
+        {
+          "cut": "Bravery Charm",
+          "copies_before": 4,
+          "weighted": 0.8636023738872404,
+          "mean": 0.8869999999999999,
+          "worst": 0.818,
+          "bursting_balloon": 0.7412,
+          "cells": {
+            "t60": {
+              "a": 0.859,
+              "b": 0.141,
+              "tie": 0.0,
+              "first": 0.821656050955414,
+              "second": 0.8922495274102079,
+              "bursting_balloon": 0.694
+            },
+            "hedrick": {
+              "a": 0.818,
+              "b": 0.182,
+              "tie": 0.0,
+              "first": 0.8041825095057035,
+              "second": 0.8333333333333334,
+              "bursting_balloon": 0.723
+            },
+            "c60": {
+              "a": 0.894,
+              "b": 0.106,
+              "tie": 0.0,
+              "first": 0.873015873015873,
+              "second": 0.9153225806451613,
+              "bursting_balloon": 0.87
+            },
+            "d60": {
+              "a": 0.984,
+              "b": 0.016,
+              "tie": 0.0,
+              "first": 0.9865900383141762,
+              "second": 0.9811715481171548,
+              "bursting_balloon": 0.52
+            },
+            "thorns": {
+              "a": 0.88,
+              "b": 0.12,
+              "tie": 0.0,
+              "first": 0.8793456032719836,
+              "second": 0.8806262230919765,
+              "bursting_balloon": 0.899
+            }
+          }
+        },
+        {
+          "cut": "Hero's Cape",
+          "copies_before": 1,
+          "weighted": 0.8587136498516321,
+          "mean": 0.8782,
+          "worst": 0.802,
+          "bursting_balloon": 0.8042,
+          "cells": {
+            "t60": {
+              "a": 0.854,
+              "b": 0.146,
+              "tie": 0.0,
+              "first": 0.8266932270916335,
+              "second": 0.8815261044176707,
+              "bursting_balloon": 0.732
+            },
+            "hedrick": {
+              "a": 0.802,
+              "b": 0.198,
+              "tie": 0.0,
+              "first": 0.7529411764705882,
+              "second": 0.8530612244897959,
+              "bursting_balloon": 0.806
+            },
+            "c60": {
+              "a": 0.866,
+              "b": 0.134,
+              "tie": 0.0,
+              "first": 0.8412098298676749,
+              "second": 0.8938428874734607,
+              "bursting_balloon": 0.878
+            },
+            "d60": {
+              "a": 0.977,
+              "b": 0.023,
+              "tie": 0.0,
+              "first": 0.9826254826254827,
+              "second": 0.970954356846473,
+              "bursting_balloon": 0.678
+            },
+            "thorns": {
+              "a": 0.892,
+              "b": 0.108,
+              "tie": 0.0,
+              "first": 0.8919449901768173,
+              "second": 0.8920570264765784,
+              "bursting_balloon": 0.927
+            }
+          }
+        },
+        {
+          "cut": "Igglybuff",
+          "copies_before": 4,
+          "weighted": 0.8470207715133531,
+          "mean": 0.8812,
+          "worst": 0.775,
+          "bursting_balloon": 0.725,
+          "cells": {
+            "t60": {
+              "a": 0.881,
+              "b": 0.119,
+              "tie": 0.0,
+              "first": 0.8482328482328483,
+              "second": 0.9113680154142582,
+              "bursting_balloon": 0.67
+            },
+            "hedrick": {
+              "a": 0.775,
+              "b": 0.225,
+              "tie": 0.0,
+              "first": 0.7681992337164751,
+              "second": 0.7824267782426778,
+              "bursting_balloon": 0.738
+            },
+            "c60": {
+              "a": 0.914,
+              "b": 0.086,
+              "tie": 0.0,
+              "first": 0.9029126213592233,
+              "second": 0.9257731958762887,
+              "bursting_balloon": 0.81
+            },
+            "d60": {
+              "a": 0.987,
+              "b": 0.013,
+              "tie": 0.0,
+              "first": 0.9925650557620818,
+              "second": 0.9805194805194806,
+              "bursting_balloon": 0.506
+            },
+            "thorns": {
+              "a": 0.849,
+              "b": 0.151,
+              "tie": 0.0,
+              "first": 0.8469387755102041,
+              "second": 0.8509803921568627,
+              "bursting_balloon": 0.901
+            }
+          }
+        },
+        {
+          "cut": "Mime Jr.",
+          "copies_before": 2,
+          "weighted": 0.8406112759643917,
+          "mean": 0.861,
+          "worst": 0.807,
+          "bursting_balloon": 0.737,
+          "cells": {
+            "t60": {
+              "a": 0.887,
+              "b": 0.113,
+              "tie": 0.0,
+              "first": 0.8620689655172413,
+              "second": 0.9112426035502958,
+              "bursting_balloon": 0.673
+            },
+            "hedrick": {
+              "a": 0.813,
+              "b": 0.187,
+              "tie": 0.0,
+              "first": 0.7909836065573771,
+              "second": 0.833984375,
+              "bursting_balloon": 0.725
+            },
+            "c60": {
+              "a": 0.917,
+              "b": 0.083,
+              "tie": 0.0,
+              "first": 0.890495867768595,
+              "second": 0.9418604651162791,
+              "bursting_balloon": 0.839
+            },
+            "d60": {
+              "a": 0.881,
+              "b": 0.119,
+              "tie": 0.0,
+              "first": 0.906187624750499,
+              "second": 0.8557114228456913,
+              "bursting_balloon": 0.558
+            },
+            "thorns": {
+              "a": 0.807,
+              "b": 0.192,
+              "tie": 0.001,
+              "first": 0.8281573498964804,
+              "second": 0.7872340425531915,
+              "bursting_balloon": 0.89
+            }
+          }
+        }
+      ]
+    },
+    {
+      "copies_after": 3,
+      "current_weighted": 0.9279421364985163,
+      "current_mean": 0.9324,
+      "accepted": false,
+      "chosen": "Switch",
+      "chosen_weighted": 0.9171513353115727,
+      "chosen_mean": 0.9263999999999999,
+      "candidates": [
+        {
+          "cut": "Switch",
+          "copies_before": 1,
+          "weighted": 0.9171513353115727,
+          "mean": 0.9263999999999999,
+          "worst": 0.825,
+          "bursting_balloon": 0.7737999999999999,
+          "cells": {
+            "t60": {
+              "a": 0.899,
+              "b": 0.101,
+              "tie": 0.0,
+              "first": 0.878727634194831,
+              "second": 0.9195171026156942,
+              "bursting_balloon": 0.738
+            },
+            "hedrick": {
+              "a": 0.825,
+              "b": 0.175,
+              "tie": 0.0,
+              "first": 0.7857142857142857,
+              "second": 0.8606870229007634,
+              "bursting_balloon": 0.79
+            },
+            "c60": {
+              "a": 0.948,
+              "b": 0.052,
+              "tie": 0.0,
+              "first": 0.9317269076305221,
+              "second": 0.9641434262948207,
+              "bursting_balloon": 0.877
+            },
+            "d60": {
+              "a": 0.985,
+              "b": 0.015,
+              "tie": 0.0,
+              "first": 0.9871794871794872,
+              "second": 0.9830827067669173,
+              "bursting_balloon": 0.585
+            },
+            "thorns": {
+              "a": 0.975,
+              "b": 0.025,
+              "tie": 0.0,
+              "first": 0.9771863117870723,
+              "second": 0.9725738396624473,
+              "bursting_balloon": 0.879
+            }
+          }
+        },
+        {
+          "cut": "Counter Catcher",
+          "copies_before": 2,
+          "weighted": 0.9152106824925816,
+          "mean": 0.9234,
+          "worst": 0.807,
+          "bursting_balloon": 0.772,
+          "cells": {
+            "t60": {
+              "a": 0.905,
+              "b": 0.095,
+              "tie": 0.0,
+              "first": 0.8715953307392996,
+              "second": 0.9403292181069959,
+              "bursting_balloon": 0.729
+            },
+            "hedrick": {
+              "a": 0.807,
+              "b": 0.193,
+              "tie": 0.0,
+              "first": 0.757085020242915,
+              "second": 0.8557312252964426,
+              "bursting_balloon": 0.789
+            },
+            "c60": {
+              "a": 0.943,
+              "b": 0.057,
+              "tie": 0.0,
+              "first": 0.9356136820925554,
+              "second": 0.9502982107355865,
+              "bursting_balloon": 0.875
+            },
+            "d60": {
+              "a": 0.98,
+              "b": 0.02,
+              "tie": 0.0,
+              "first": 0.985655737704918,
+              "second": 0.974609375,
+              "bursting_balloon": 0.599
+            },
+            "thorns": {
+              "a": 0.982,
+              "b": 0.018,
+              "tie": 0.0,
+              "first": 0.9810964083175804,
+              "second": 0.9830148619957537,
+              "bursting_balloon": 0.868
+            }
+          }
+        },
+        {
+          "cut": "Boss's Orders",
+          "copies_before": 3,
+          "weighted": 0.9085548961424332,
+          "mean": 0.9188000000000001,
+          "worst": 0.797,
+          "bursting_balloon": 0.7744,
+          "cells": {
+            "t60": {
+              "a": 0.891,
+              "b": 0.109,
+              "tie": 0.0,
+              "first": 0.8663883089770354,
+              "second": 0.9136276391554703,
+              "bursting_balloon": 0.727
+            },
+            "hedrick": {
+              "a": 0.797,
+              "b": 0.203,
+              "tie": 0.0,
+              "first": 0.775377969762419,
+              "second": 0.8156424581005587,
+              "bursting_balloon": 0.778
+            },
+            "c60": {
+              "a": 0.94,
+              "b": 0.06,
+              "tie": 0.0,
+              "first": 0.9152892561983471,
+              "second": 0.9631782945736435,
+              "bursting_balloon": 0.862
+            },
+            "d60": {
+              "a": 0.987,
+              "b": 0.013,
+              "tie": 0.0,
+              "first": 0.9881188118811881,
+              "second": 0.9858585858585859,
+              "bursting_balloon": 0.622
+            },
+            "thorns": {
+              "a": 0.979,
+              "b": 0.021,
+              "tie": 0.0,
+              "first": 0.9758364312267658,
+              "second": 0.9826839826839827,
+              "bursting_balloon": 0.883
+            }
+          }
+        },
+        {
+          "cut": "Iono",
+          "copies_before": 4,
+          "weighted": 0.9077640949554896,
+          "mean": 0.9158,
+          "worst": 0.815,
+          "bursting_balloon": 0.7634000000000001,
+          "cells": {
+            "t60": {
+              "a": 0.893,
+              "b": 0.107,
+              "tie": 0.0,
+              "first": 0.8875502008032129,
+              "second": 0.898406374501992,
+              "bursting_balloon": 0.716
+            },
+            "hedrick": {
+              "a": 0.815,
+              "b": 0.185,
+              "tie": 0.0,
+              "first": 0.7588357588357588,
+              "second": 0.8670520231213873,
+              "bursting_balloon": 0.76
+            },
+            "c60": {
+              "a": 0.91,
+              "b": 0.09,
+              "tie": 0.0,
+              "first": 0.898854961832061,
+              "second": 0.9222689075630253,
+              "bursting_balloon": 0.879
+            },
+            "d60": {
+              "a": 0.986,
+              "b": 0.014,
+              "tie": 0.0,
+              "first": 0.9901768172888016,
+              "second": 0.9816700610997964,
+              "bursting_balloon": 0.59
+            },
+            "thorns": {
+              "a": 0.975,
+              "b": 0.025,
+              "tie": 0.0,
+              "first": 0.9729241877256317,
+              "second": 0.9775784753363229,
+              "bursting_balloon": 0.872
+            }
+          }
+        },
+        {
+          "cut": "Mew ex",
+          "copies_before": 4,
+          "weighted": 0.9070727002967359,
+          "mean": 0.9154,
+          "worst": 0.772,
+          "bursting_balloon": 0.7764,
+          "cells": {
+            "t60": {
+              "a": 0.897,
+              "b": 0.103,
+              "tie": 0.0,
+              "first": 0.862475442043222,
+              "second": 0.9327902240325866,
+              "bursting_balloon": 0.753
+            },
+            "hedrick": {
+              "a": 0.772,
+              "b": 0.228,
+              "tie": 0.0,
+              "first": 0.714867617107943,
+              "second": 0.8271119842829077,
+              "bursting_balloon": 0.78
+            },
+            "c60": {
+              "a": 0.927,
+              "b": 0.073,
+              "tie": 0.0,
+              "first": 0.9192913385826772,
+              "second": 0.9349593495934959,
+              "bursting_balloon": 0.88
+            },
+            "d60": {
+              "a": 0.986,
+              "b": 0.014,
+              "tie": 0.0,
+              "first": 0.9906367041198502,
+              "second": 0.98068669527897,
+              "bursting_balloon": 0.6
+            },
+            "thorns": {
+              "a": 0.995,
+              "b": 0.005,
+              "tie": 0.0,
+              "first": 0.9894736842105263,
+              "second": 1.0,
+              "bursting_balloon": 0.869
+            }
+          }
+        },
+        {
+          "cut": "Ultra Ball",
+          "copies_before": 3,
+          "weighted": 0.905847181008902,
+          "mean": 0.9146000000000001,
+          "worst": 0.813,
+          "bursting_balloon": 0.7754,
+          "cells": {
+            "t60": {
+              "a": 0.884,
+              "b": 0.116,
+              "tie": 0.0,
+              "first": 0.8498098859315589,
+              "second": 0.9219409282700421,
+              "bursting_balloon": 0.72
+            },
+            "hedrick": {
+              "a": 0.813,
+              "b": 0.187,
+              "tie": 0.0,
+              "first": 0.7902542372881356,
+              "second": 0.8333333333333334,
+              "bursting_balloon": 0.768
+            },
+            "c60": {
+              "a": 0.911,
+              "b": 0.089,
+              "tie": 0.0,
+              "first": 0.8963531669865643,
+              "second": 0.9269311064718163,
+              "bursting_balloon": 0.872
+            },
+            "d60": {
+              "a": 0.99,
+              "b": 0.01,
+              "tie": 0.0,
+              "first": 0.9901960784313726,
+              "second": 0.9897959183673469,
+              "bursting_balloon": 0.63
+            },
+            "thorns": {
+              "a": 0.975,
+              "b": 0.025,
+              "tie": 0.0,
+              "first": 0.97265625,
+              "second": 0.9774590163934426,
+              "bursting_balloon": 0.887
+            }
+          }
+        },
+        {
+          "cut": "Crushing Hammer",
+          "copies_before": 4,
+          "weighted": 0.9055192878338278,
+          "mean": 0.9128000000000001,
+          "worst": 0.812,
+          "bursting_balloon": 0.7806,
+          "cells": {
+            "t60": {
+              "a": 0.888,
+              "b": 0.112,
+              "tie": 0.0,
+              "first": 0.8566108007448789,
+              "second": 0.9244060475161987,
+              "bursting_balloon": 0.731
+            },
+            "hedrick": {
+              "a": 0.812,
+              "b": 0.188,
+              "tie": 0.0,
+              "first": 0.7885375494071146,
+              "second": 0.8360323886639676,
+              "bursting_balloon": 0.788
+            },
+            "c60": {
+              "a": 0.904,
+              "b": 0.096,
+              "tie": 0.0,
+              "first": 0.8895463510848126,
+              "second": 0.9188640973630832,
+              "bursting_balloon": 0.879
+            },
+            "d60": {
+              "a": 0.984,
+              "b": 0.016,
+              "tie": 0.0,
+              "first": 0.9853862212943633,
+              "second": 0.982725527831094,
+              "bursting_balloon": 0.623
+            },
+            "thorns": {
+              "a": 0.976,
+              "b": 0.024,
+              "tie": 0.0,
+              "first": 0.9734151329243353,
+              "second": 0.9784735812133072,
+              "bursting_balloon": 0.882
+            }
+          }
+        },
+        {
+          "cut": "Bravery Charm",
+          "copies_before": 4,
+          "weighted": 0.9051186943620179,
+          "mean": 0.9141999999999999,
+          "worst": 0.789,
+          "bursting_balloon": 0.7762,
+          "cells": {
+            "t60": {
+              "a": 0.884,
+              "b": 0.116,
+              "tie": 0.0,
+              "first": 0.8614457831325302,
+              "second": 0.9063745019920318,
+              "bursting_balloon": 0.736
+            },
+            "hedrick": {
+              "a": 0.789,
+              "b": 0.211,
+              "tie": 0.0,
+              "first": 0.7414829659318637,
+              "second": 0.8363273453093812,
+              "bursting_balloon": 0.766
+            },
+            "c60": {
+              "a": 0.924,
+              "b": 0.076,
+              "tie": 0.0,
+              "first": 0.9195171026156942,
+              "second": 0.9284294234592445,
+              "bursting_balloon": 0.888
+            },
+            "d60": {
+              "a": 0.989,
+              "b": 0.011,
+              "tie": 0.0,
+              "first": 0.9918367346938776,
+              "second": 0.9862745098039216,
+              "bursting_balloon": 0.615
+            },
+            "thorns": {
+              "a": 0.985,
+              "b": 0.015,
+              "tie": 0.0,
+              "first": 0.979381443298969,
+              "second": 0.9902912621359223,
+              "bursting_balloon": 0.876
+            }
+          }
+        },
+        {
+          "cut": "Nest Ball",
+          "copies_before": 4,
+          "weighted": 0.9043724035608308,
+          "mean": 0.9112,
+          "worst": 0.796,
+          "bursting_balloon": 0.7826000000000001,
+          "cells": {
+            "t60": {
+              "a": 0.887,
+              "b": 0.113,
+              "tie": 0.0,
+              "first": 0.8669275929549902,
+              "second": 0.9079754601226994,
+              "bursting_balloon": 0.748
+            },
+            "hedrick": {
+              "a": 0.796,
+              "b": 0.204,
+              "tie": 0.0,
+              "first": 0.781431334622824,
+              "second": 0.8115942028985508,
+              "bursting_balloon": 0.774
+            },
+            "c60": {
+              "a": 0.906,
+              "b": 0.094,
+              "tie": 0.0,
+              "first": 0.8879837067209776,
+              "second": 0.9233791748526523,
+              "bursting_balloon": 0.885
+            },
+            "d60": {
+              "a": 0.983,
+              "b": 0.017,
+              "tie": 0.0,
+              "first": 0.9891774891774892,
+              "second": 0.9776951672862454,
+              "bursting_balloon": 0.644
+            },
+            "thorns": {
+              "a": 0.984,
+              "b": 0.016,
+              "tie": 0.0,
+              "first": 0.9822134387351779,
+              "second": 0.9858299595141701,
+              "bursting_balloon": 0.862
+            }
+          }
+        },
+        {
+          "cut": "Buddy-Buddy Poffin",
+          "copies_before": 4,
+          "weighted": 0.9027759643916914,
+          "mean": 0.913,
+          "worst": 0.809,
+          "bursting_balloon": 0.7696,
+          "cells": {
+            "t60": {
+              "a": 0.881,
+              "b": 0.119,
+              "tie": 0.0,
+              "first": 0.8505050505050505,
+              "second": 0.9108910891089109,
+              "bursting_balloon": 0.755
+            },
+            "hedrick": {
+              "a": 0.809,
+              "b": 0.191,
+              "tie": 0.0,
+              "first": 0.7665289256198347,
+              "second": 0.8488372093023255,
+              "bursting_balloon": 0.789
+            },
+            "c60": {
+              "a": 0.914,
+              "b": 0.086,
+              "tie": 0.0,
+              "first": 0.902970297029703,
+              "second": 0.9252525252525252,
+              "bursting_balloon": 0.868
+            },
+            "d60": {
+              "a": 0.991,
+              "b": 0.009,
+              "tie": 0.0,
+              "first": 0.984375,
+              "second": 0.9979508196721312,
+              "bursting_balloon": 0.566
+            },
+            "thorns": {
+              "a": 0.97,
+              "b": 0.03,
+              "tie": 0.0,
+              "first": 0.9624217118997912,
+              "second": 0.9769673704414588,
+              "bursting_balloon": 0.87
+            }
+          }
+        },
+        {
+          "cut": "Battle Cage",
+          "copies_before": 4,
+          "weighted": 0.9021231454005935,
+          "mean": 0.9086000000000001,
+          "worst": 0.803,
+          "bursting_balloon": 0.7724,
+          "cells": {
+            "t60": {
+              "a": 0.849,
+              "b": 0.151,
+              "tie": 0.0,
+              "first": 0.8080614203454894,
+              "second": 0.8935281837160751,
+              "bursting_balloon": 0.721
+            },
+            "hedrick": {
+              "a": 0.803,
+              "b": 0.197,
+              "tie": 0.0,
+              "first": 0.7803921568627451,
+              "second": 0.826530612244898,
+              "bursting_balloon": 0.764
+            },
+            "c60": {
+              "a": 0.918,
+              "b": 0.082,
+              "tie": 0.0,
+              "first": 0.9085603112840467,
+              "second": 0.9279835390946503,
+              "bursting_balloon": 0.877
+            },
+            "d60": {
+              "a": 0.987,
+              "b": 0.013,
+              "tie": 0.0,
+              "first": 0.9916666666666667,
+              "second": 0.9826923076923076,
+              "bursting_balloon": 0.623
+            },
+            "thorns": {
+              "a": 0.986,
+              "b": 0.014,
+              "tie": 0.0,
+              "first": 0.9820717131474104,
+              "second": 0.9899598393574297,
+              "bursting_balloon": 0.877
+            }
+          }
+        },
+        {
+          "cut": "Max Potion",
+          "copies_before": 4,
+          "weighted": 0.9020875370919881,
+          "mean": 0.9114000000000001,
+          "worst": 0.808,
+          "bursting_balloon": 0.756,
+          "cells": {
+            "t60": {
+              "a": 0.865,
+              "b": 0.135,
+              "tie": 0.0,
+              "first": 0.8362919132149902,
+              "second": 0.8945233265720081,
+              "bursting_balloon": 0.703
+            },
+            "hedrick": {
+              "a": 0.808,
+              "b": 0.192,
+              "tie": 0.0,
+              "first": 0.7474747474747475,
+              "second": 0.8673267326732673,
+              "bursting_balloon": 0.768
+            },
+            "c60": {
+              "a": 0.923,
+              "b": 0.077,
+              "tie": 0.0,
+              "first": 0.9244897959183673,
+              "second": 0.9215686274509803,
+              "bursting_balloon": 0.849
+            },
+            "d60": {
+              "a": 0.988,
+              "b": 0.012,
+              "tie": 0.0,
+              "first": 0.986,
+              "second": 0.99,
+              "bursting_balloon": 0.591
+            },
+            "thorns": {
+              "a": 0.973,
+              "b": 0.027,
+              "tie": 0.0,
+              "first": 0.9648033126293996,
+              "second": 0.9806576402321083,
+              "bursting_balloon": 0.869
+            }
+          }
+        },
+        {
+          "cut": "Night Stretcher",
+          "copies_before": 4,
+          "weighted": 0.9018293768545994,
+          "mean": 0.9122,
+          "worst": 0.785,
+          "bursting_balloon": 0.7726,
+          "cells": {
+            "t60": {
+              "a": 0.885,
+              "b": 0.115,
+              "tie": 0.0,
+              "first": 0.860655737704918,
+              "second": 0.908203125,
+              "bursting_balloon": 0.707
+            },
+            "hedrick": {
+              "a": 0.785,
+              "b": 0.215,
+              "tie": 0.0,
+              "first": 0.7435387673956262,
+              "second": 0.8269617706237424,
+              "bursting_balloon": 0.777
+            },
+            "c60": {
+              "a": 0.932,
+              "b": 0.068,
+              "tie": 0.0,
+              "first": 0.9147609147609148,
+              "second": 0.9479768786127167,
+              "bursting_balloon": 0.868
+            },
+            "d60": {
+              "a": 0.983,
+              "b": 0.017,
+              "tie": 0.0,
+              "first": 0.9814432989690721,
+              "second": 0.9844660194174757,
+              "bursting_balloon": 0.635
+            },
+            "thorns": {
+              "a": 0.976,
+              "b": 0.024,
+              "tie": 0.0,
+              "first": 0.9797979797979798,
+              "second": 0.9722772277227723,
+              "bursting_balloon": 0.876
+            }
+          }
+        },
+        {
+          "cut": "Arven",
+          "copies_before": 4,
+          "weighted": 0.9013397626112759,
+          "mean": 0.9109999999999999,
+          "worst": 0.783,
+          "bursting_balloon": 0.7532,
+          "cells": {
+            "t60": {
+              "a": 0.88,
+              "b": 0.12,
+              "tie": 0.0,
+              "first": 0.8740601503759399,
+              "second": 0.8867521367521367,
+              "bursting_balloon": 0.715
+            },
+            "hedrick": {
+              "a": 0.783,
+              "b": 0.217,
+              "tie": 0.0,
+              "first": 0.7551020408163265,
+              "second": 0.8098039215686275,
+              "bursting_balloon": 0.742
+            },
+            "c60": {
+              "a": 0.925,
+              "b": 0.075,
+              "tie": 0.0,
+              "first": 0.9007936507936508,
+              "second": 0.9495967741935484,
+              "bursting_balloon": 0.853
+            },
+            "d60": {
+              "a": 0.986,
+              "b": 0.014,
+              "tie": 0.0,
+              "first": 0.9906716417910447,
+              "second": 0.9806034482758621,
+              "bursting_balloon": 0.594
+            },
+            "thorns": {
+              "a": 0.981,
+              "b": 0.019,
+              "tie": 0.0,
+              "first": 0.9840319361277445,
+              "second": 0.9779559118236473,
+              "bursting_balloon": 0.862
+            }
+          }
+        },
+        {
+          "cut": "Professor's Research",
+          "copies_before": 2,
+          "weighted": 0.901160237388724,
+          "mean": 0.9106,
+          "worst": 0.795,
+          "bursting_balloon": 0.7674,
+          "cells": {
+            "t60": {
+              "a": 0.876,
+              "b": 0.124,
+              "tie": 0.0,
+              "first": 0.8742393509127789,
+              "second": 0.8777120315581854,
+              "bursting_balloon": 0.737
+            },
+            "hedrick": {
+              "a": 0.795,
+              "b": 0.205,
+              "tie": 0.0,
+              "first": 0.7786885245901639,
+              "second": 0.810546875,
+              "bursting_balloon": 0.763
+            },
+            "c60": {
+              "a": 0.914,
+              "b": 0.086,
+              "tie": 0.0,
+              "first": 0.8962818003913894,
+              "second": 0.9325153374233128,
+              "bursting_balloon": 0.867
+            },
+            "d60": {
+              "a": 0.99,
+              "b": 0.01,
+              "tie": 0.0,
+              "first": 0.9918533604887984,
+              "second": 0.9882121807465619,
+              "bursting_balloon": 0.603
+            },
+            "thorns": {
+              "a": 0.978,
+              "b": 0.022,
+              "tie": 0.0,
+              "first": 0.9789674952198852,
+              "second": 0.9769392033542977,
+              "bursting_balloon": 0.867
+            }
+          }
+        },
+        {
+          "cut": "Igglybuff",
+          "copies_before": 4,
+          "weighted": 0.8893635014836795,
+          "mean": 0.9012,
+          "worst": 0.766,
+          "bursting_balloon": 0.7682,
+          "cells": {
+            "t60": {
+              "a": 0.867,
+              "b": 0.133,
+              "tie": 0.0,
+              "first": 0.8568507157464212,
+              "second": 0.8767123287671232,
+              "bursting_balloon": 0.73
+            },
+            "hedrick": {
+              "a": 0.766,
+              "b": 0.234,
+              "tie": 0.0,
+              "first": 0.7288801571709234,
+              "second": 0.8044806517311609,
+              "bursting_balloon": 0.783
+            },
+            "c60": {
+              "a": 0.914,
+              "b": 0.086,
+              "tie": 0.0,
+              "first": 0.8931297709923665,
+              "second": 0.9369747899159664,
+              "bursting_balloon": 0.867
+            },
+            "d60": {
+              "a": 0.987,
+              "b": 0.013,
+              "tie": 0.0,
+              "first": 0.9897119341563786,
+              "second": 0.9844357976653697,
+              "bursting_balloon": 0.584
+            },
+            "thorns": {
+              "a": 0.972,
+              "b": 0.028,
+              "tie": 0.0,
+              "first": 0.9729206963249516,
+              "second": 0.9710144927536232,
+              "bursting_balloon": 0.877
+            }
+          }
+        },
+        {
+          "cut": "Hero's Cape",
+          "copies_before": 1,
+          "weighted": 0.8879362017804154,
+          "mean": 0.8954000000000001,
+          "worst": 0.763,
+          "bursting_balloon": 0.8188000000000001,
+          "cells": {
+            "t60": {
+              "a": 0.867,
+              "b": 0.133,
+              "tie": 0.0,
+              "first": 0.82421875,
+              "second": 0.9118852459016393,
+              "bursting_balloon": 0.751
+            },
+            "hedrick": {
+              "a": 0.763,
+              "b": 0.237,
+              "tie": 0.0,
+              "first": 0.7083333333333334,
+              "second": 0.8185483870967742,
+              "bursting_balloon": 0.805
+            },
+            "c60": {
+              "a": 0.882,
+              "b": 0.118,
+              "tie": 0.0,
+              "first": 0.8410041841004184,
+              "second": 0.9195402298850575,
+              "bursting_balloon": 0.906
+            },
+            "d60": {
+              "a": 0.982,
+              "b": 0.018,
+              "tie": 0.0,
+              "first": 0.9825581395348837,
+              "second": 0.981404958677686,
+              "bursting_balloon": 0.72
+            },
+            "thorns": {
+              "a": 0.983,
+              "b": 0.017,
+              "tie": 0.0,
+              "first": 0.9825242718446602,
+              "second": 0.9835051546391752,
+              "bursting_balloon": 0.912
+            }
+          }
+        },
+        {
+          "cut": "Mime Jr.",
+          "copies_before": 2,
+          "weighted": 0.875406528189911,
+          "mean": 0.8732,
+          "worst": 0.787,
+          "bursting_balloon": 0.7794000000000001,
+          "cells": {
+            "t60": {
+              "a": 0.858,
+              "b": 0.142,
+              "tie": 0.0,
+              "first": 0.8317214700193424,
+              "second": 0.8861283643892339,
+              "bursting_balloon": 0.732
+            },
+            "hedrick": {
+              "a": 0.787,
+              "b": 0.213,
+              "tie": 0.0,
+              "first": 0.7456310679611651,
+              "second": 0.8309278350515464,
+              "bursting_balloon": 0.773
+            },
+            "c60": {
+              "a": 0.913,
+              "b": 0.087,
+              "tie": 0.0,
+              "first": 0.8925143953934741,
+              "second": 0.9352818371607515,
+              "bursting_balloon": 0.849
+            },
+            "d60": {
+              "a": 0.877,
+              "b": 0.123,
+              "tie": 0.0,
+              "first": 0.8726114649681529,
+              "second": 0.8809073724007561,
+              "bursting_balloon": 0.666
+            },
+            "thorns": {
+              "a": 0.931,
+              "b": 0.069,
+              "tie": 0.0,
+              "first": 0.9222903885480572,
+              "second": 0.9393346379647749,
+              "bursting_balloon": 0.877
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "rejected": {
+    "cut": "Switch",
+    "weighted": 0.9171513353115727,
+    "mean": 0.9263999999999999,
+    "worst": 0.825,
+    "cells": {
+      "t60": {
+        "a": 0.899,
+        "b": 0.101,
+        "tie": 0.0,
+        "first": 0.878727634194831,
+        "second": 0.9195171026156942,
+        "bursting_balloon": 0.738
+      },
+      "hedrick": {
+        "a": 0.825,
+        "b": 0.175,
+        "tie": 0.0,
+        "first": 0.7857142857142857,
+        "second": 0.8606870229007634,
+        "bursting_balloon": 0.79
+      },
+      "c60": {
+        "a": 0.948,
+        "b": 0.052,
+        "tie": 0.0,
+        "first": 0.9317269076305221,
+        "second": 0.9641434262948207,
+        "bursting_balloon": 0.877
+      },
+      "d60": {
+        "a": 0.985,
+        "b": 0.015,
+        "tie": 0.0,
+        "first": 0.9871794871794872,
+        "second": 0.9830827067669173,
+        "bursting_balloon": 0.585
+      },
+      "thorns": {
+        "a": 0.975,
+        "b": 0.025,
+        "tie": 0.0,
+        "first": 0.9771863117870723,
+        "second": 0.9725738396624473,
+        "bursting_balloon": 0.879
+      }
+    },
+    "candidates": [
+      {
+        "cut": "Switch",
+        "copies_before": 1,
+        "weighted": 0.9171513353115727,
+        "mean": 0.9263999999999999,
+        "worst": 0.825,
+        "bursting_balloon": 0.7737999999999999,
+        "cells": {
+          "t60": {
+            "a": 0.899,
+            "b": 0.101,
+            "tie": 0.0,
+            "first": 0.878727634194831,
+            "second": 0.9195171026156942,
+            "bursting_balloon": 0.738
+          },
+          "hedrick": {
+            "a": 0.825,
+            "b": 0.175,
+            "tie": 0.0,
+            "first": 0.7857142857142857,
+            "second": 0.8606870229007634,
+            "bursting_balloon": 0.79
+          },
+          "c60": {
+            "a": 0.948,
+            "b": 0.052,
+            "tie": 0.0,
+            "first": 0.9317269076305221,
+            "second": 0.9641434262948207,
+            "bursting_balloon": 0.877
+          },
+          "d60": {
+            "a": 0.985,
+            "b": 0.015,
+            "tie": 0.0,
+            "first": 0.9871794871794872,
+            "second": 0.9830827067669173,
+            "bursting_balloon": 0.585
+          },
+          "thorns": {
+            "a": 0.975,
+            "b": 0.025,
+            "tie": 0.0,
+            "first": 0.9771863117870723,
+            "second": 0.9725738396624473,
+            "bursting_balloon": 0.879
+          }
+        }
+      },
+      {
+        "cut": "Counter Catcher",
+        "copies_before": 2,
+        "weighted": 0.9152106824925816,
+        "mean": 0.9234,
+        "worst": 0.807,
+        "bursting_balloon": 0.772,
+        "cells": {
+          "t60": {
+            "a": 0.905,
+            "b": 0.095,
+            "tie": 0.0,
+            "first": 0.8715953307392996,
+            "second": 0.9403292181069959,
+            "bursting_balloon": 0.729
+          },
+          "hedrick": {
+            "a": 0.807,
+            "b": 0.193,
+            "tie": 0.0,
+            "first": 0.757085020242915,
+            "second": 0.8557312252964426,
+            "bursting_balloon": 0.789
+          },
+          "c60": {
+            "a": 0.943,
+            "b": 0.057,
+            "tie": 0.0,
+            "first": 0.9356136820925554,
+            "second": 0.9502982107355865,
+            "bursting_balloon": 0.875
+          },
+          "d60": {
+            "a": 0.98,
+            "b": 0.02,
+            "tie": 0.0,
+            "first": 0.985655737704918,
+            "second": 0.974609375,
+            "bursting_balloon": 0.599
+          },
+          "thorns": {
+            "a": 0.982,
+            "b": 0.018,
+            "tie": 0.0,
+            "first": 0.9810964083175804,
+            "second": 0.9830148619957537,
+            "bursting_balloon": 0.868
+          }
+        }
+      },
+      {
+        "cut": "Boss's Orders",
+        "copies_before": 3,
+        "weighted": 0.9085548961424332,
+        "mean": 0.9188000000000001,
+        "worst": 0.797,
+        "bursting_balloon": 0.7744,
+        "cells": {
+          "t60": {
+            "a": 0.891,
+            "b": 0.109,
+            "tie": 0.0,
+            "first": 0.8663883089770354,
+            "second": 0.9136276391554703,
+            "bursting_balloon": 0.727
+          },
+          "hedrick": {
+            "a": 0.797,
+            "b": 0.203,
+            "tie": 0.0,
+            "first": 0.775377969762419,
+            "second": 0.8156424581005587,
+            "bursting_balloon": 0.778
+          },
+          "c60": {
+            "a": 0.94,
+            "b": 0.06,
+            "tie": 0.0,
+            "first": 0.9152892561983471,
+            "second": 0.9631782945736435,
+            "bursting_balloon": 0.862
+          },
+          "d60": {
+            "a": 0.987,
+            "b": 0.013,
+            "tie": 0.0,
+            "first": 0.9881188118811881,
+            "second": 0.9858585858585859,
+            "bursting_balloon": 0.622
+          },
+          "thorns": {
+            "a": 0.979,
+            "b": 0.021,
+            "tie": 0.0,
+            "first": 0.9758364312267658,
+            "second": 0.9826839826839827,
+            "bursting_balloon": 0.883
+          }
+        }
+      },
+      {
+        "cut": "Iono",
+        "copies_before": 4,
+        "weighted": 0.9077640949554896,
+        "mean": 0.9158,
+        "worst": 0.815,
+        "bursting_balloon": 0.7634000000000001,
+        "cells": {
+          "t60": {
+            "a": 0.893,
+            "b": 0.107,
+            "tie": 0.0,
+            "first": 0.8875502008032129,
+            "second": 0.898406374501992,
+            "bursting_balloon": 0.716
+          },
+          "hedrick": {
+            "a": 0.815,
+            "b": 0.185,
+            "tie": 0.0,
+            "first": 0.7588357588357588,
+            "second": 0.8670520231213873,
+            "bursting_balloon": 0.76
+          },
+          "c60": {
+            "a": 0.91,
+            "b": 0.09,
+            "tie": 0.0,
+            "first": 0.898854961832061,
+            "second": 0.9222689075630253,
+            "bursting_balloon": 0.879
+          },
+          "d60": {
+            "a": 0.986,
+            "b": 0.014,
+            "tie": 0.0,
+            "first": 0.9901768172888016,
+            "second": 0.9816700610997964,
+            "bursting_balloon": 0.59
+          },
+          "thorns": {
+            "a": 0.975,
+            "b": 0.025,
+            "tie": 0.0,
+            "first": 0.9729241877256317,
+            "second": 0.9775784753363229,
+            "bursting_balloon": 0.872
+          }
+        }
+      },
+      {
+        "cut": "Mew ex",
+        "copies_before": 4,
+        "weighted": 0.9070727002967359,
+        "mean": 0.9154,
+        "worst": 0.772,
+        "bursting_balloon": 0.7764,
+        "cells": {
+          "t60": {
+            "a": 0.897,
+            "b": 0.103,
+            "tie": 0.0,
+            "first": 0.862475442043222,
+            "second": 0.9327902240325866,
+            "bursting_balloon": 0.753
+          },
+          "hedrick": {
+            "a": 0.772,
+            "b": 0.228,
+            "tie": 0.0,
+            "first": 0.714867617107943,
+            "second": 0.8271119842829077,
+            "bursting_balloon": 0.78
+          },
+          "c60": {
+            "a": 0.927,
+            "b": 0.073,
+            "tie": 0.0,
+            "first": 0.9192913385826772,
+            "second": 0.9349593495934959,
+            "bursting_balloon": 0.88
+          },
+          "d60": {
+            "a": 0.986,
+            "b": 0.014,
+            "tie": 0.0,
+            "first": 0.9906367041198502,
+            "second": 0.98068669527897,
+            "bursting_balloon": 0.6
+          },
+          "thorns": {
+            "a": 0.995,
+            "b": 0.005,
+            "tie": 0.0,
+            "first": 0.9894736842105263,
+            "second": 1.0,
+            "bursting_balloon": 0.869
+          }
+        }
+      },
+      {
+        "cut": "Ultra Ball",
+        "copies_before": 3,
+        "weighted": 0.905847181008902,
+        "mean": 0.9146000000000001,
+        "worst": 0.813,
+        "bursting_balloon": 0.7754,
+        "cells": {
+          "t60": {
+            "a": 0.884,
+            "b": 0.116,
+            "tie": 0.0,
+            "first": 0.8498098859315589,
+            "second": 0.9219409282700421,
+            "bursting_balloon": 0.72
+          },
+          "hedrick": {
+            "a": 0.813,
+            "b": 0.187,
+            "tie": 0.0,
+            "first": 0.7902542372881356,
+            "second": 0.8333333333333334,
+            "bursting_balloon": 0.768
+          },
+          "c60": {
+            "a": 0.911,
+            "b": 0.089,
+            "tie": 0.0,
+            "first": 0.8963531669865643,
+            "second": 0.9269311064718163,
+            "bursting_balloon": 0.872
+          },
+          "d60": {
+            "a": 0.99,
+            "b": 0.01,
+            "tie": 0.0,
+            "first": 0.9901960784313726,
+            "second": 0.9897959183673469,
+            "bursting_balloon": 0.63
+          },
+          "thorns": {
+            "a": 0.975,
+            "b": 0.025,
+            "tie": 0.0,
+            "first": 0.97265625,
+            "second": 0.9774590163934426,
+            "bursting_balloon": 0.887
+          }
+        }
+      },
+      {
+        "cut": "Crushing Hammer",
+        "copies_before": 4,
+        "weighted": 0.9055192878338278,
+        "mean": 0.9128000000000001,
+        "worst": 0.812,
+        "bursting_balloon": 0.7806,
+        "cells": {
+          "t60": {
+            "a": 0.888,
+            "b": 0.112,
+            "tie": 0.0,
+            "first": 0.8566108007448789,
+            "second": 0.9244060475161987,
+            "bursting_balloon": 0.731
+          },
+          "hedrick": {
+            "a": 0.812,
+            "b": 0.188,
+            "tie": 0.0,
+            "first": 0.7885375494071146,
+            "second": 0.8360323886639676,
+            "bursting_balloon": 0.788
+          },
+          "c60": {
+            "a": 0.904,
+            "b": 0.096,
+            "tie": 0.0,
+            "first": 0.8895463510848126,
+            "second": 0.9188640973630832,
+            "bursting_balloon": 0.879
+          },
+          "d60": {
+            "a": 0.984,
+            "b": 0.016,
+            "tie": 0.0,
+            "first": 0.9853862212943633,
+            "second": 0.982725527831094,
+            "bursting_balloon": 0.623
+          },
+          "thorns": {
+            "a": 0.976,
+            "b": 0.024,
+            "tie": 0.0,
+            "first": 0.9734151329243353,
+            "second": 0.9784735812133072,
+            "bursting_balloon": 0.882
+          }
+        }
+      },
+      {
+        "cut": "Bravery Charm",
+        "copies_before": 4,
+        "weighted": 0.9051186943620179,
+        "mean": 0.9141999999999999,
+        "worst": 0.789,
+        "bursting_balloon": 0.7762,
+        "cells": {
+          "t60": {
+            "a": 0.884,
+            "b": 0.116,
+            "tie": 0.0,
+            "first": 0.8614457831325302,
+            "second": 0.9063745019920318,
+            "bursting_balloon": 0.736
+          },
+          "hedrick": {
+            "a": 0.789,
+            "b": 0.211,
+            "tie": 0.0,
+            "first": 0.7414829659318637,
+            "second": 0.8363273453093812,
+            "bursting_balloon": 0.766
+          },
+          "c60": {
+            "a": 0.924,
+            "b": 0.076,
+            "tie": 0.0,
+            "first": 0.9195171026156942,
+            "second": 0.9284294234592445,
+            "bursting_balloon": 0.888
+          },
+          "d60": {
+            "a": 0.989,
+            "b": 0.011,
+            "tie": 0.0,
+            "first": 0.9918367346938776,
+            "second": 0.9862745098039216,
+            "bursting_balloon": 0.615
+          },
+          "thorns": {
+            "a": 0.985,
+            "b": 0.015,
+            "tie": 0.0,
+            "first": 0.979381443298969,
+            "second": 0.9902912621359223,
+            "bursting_balloon": 0.876
+          }
+        }
+      },
+      {
+        "cut": "Nest Ball",
+        "copies_before": 4,
+        "weighted": 0.9043724035608308,
+        "mean": 0.9112,
+        "worst": 0.796,
+        "bursting_balloon": 0.7826000000000001,
+        "cells": {
+          "t60": {
+            "a": 0.887,
+            "b": 0.113,
+            "tie": 0.0,
+            "first": 0.8669275929549902,
+            "second": 0.9079754601226994,
+            "bursting_balloon": 0.748
+          },
+          "hedrick": {
+            "a": 0.796,
+            "b": 0.204,
+            "tie": 0.0,
+            "first": 0.781431334622824,
+            "second": 0.8115942028985508,
+            "bursting_balloon": 0.774
+          },
+          "c60": {
+            "a": 0.906,
+            "b": 0.094,
+            "tie": 0.0,
+            "first": 0.8879837067209776,
+            "second": 0.9233791748526523,
+            "bursting_balloon": 0.885
+          },
+          "d60": {
+            "a": 0.983,
+            "b": 0.017,
+            "tie": 0.0,
+            "first": 0.9891774891774892,
+            "second": 0.9776951672862454,
+            "bursting_balloon": 0.644
+          },
+          "thorns": {
+            "a": 0.984,
+            "b": 0.016,
+            "tie": 0.0,
+            "first": 0.9822134387351779,
+            "second": 0.9858299595141701,
+            "bursting_balloon": 0.862
+          }
+        }
+      },
+      {
+        "cut": "Buddy-Buddy Poffin",
+        "copies_before": 4,
+        "weighted": 0.9027759643916914,
+        "mean": 0.913,
+        "worst": 0.809,
+        "bursting_balloon": 0.7696,
+        "cells": {
+          "t60": {
+            "a": 0.881,
+            "b": 0.119,
+            "tie": 0.0,
+            "first": 0.8505050505050505,
+            "second": 0.9108910891089109,
+            "bursting_balloon": 0.755
+          },
+          "hedrick": {
+            "a": 0.809,
+            "b": 0.191,
+            "tie": 0.0,
+            "first": 0.7665289256198347,
+            "second": 0.8488372093023255,
+            "bursting_balloon": 0.789
+          },
+          "c60": {
+            "a": 0.914,
+            "b": 0.086,
+            "tie": 0.0,
+            "first": 0.902970297029703,
+            "second": 0.9252525252525252,
+            "bursting_balloon": 0.868
+          },
+          "d60": {
+            "a": 0.991,
+            "b": 0.009,
+            "tie": 0.0,
+            "first": 0.984375,
+            "second": 0.9979508196721312,
+            "bursting_balloon": 0.566
+          },
+          "thorns": {
+            "a": 0.97,
+            "b": 0.03,
+            "tie": 0.0,
+            "first": 0.9624217118997912,
+            "second": 0.9769673704414588,
+            "bursting_balloon": 0.87
+          }
+        }
+      },
+      {
+        "cut": "Battle Cage",
+        "copies_before": 4,
+        "weighted": 0.9021231454005935,
+        "mean": 0.9086000000000001,
+        "worst": 0.803,
+        "bursting_balloon": 0.7724,
+        "cells": {
+          "t60": {
+            "a": 0.849,
+            "b": 0.151,
+            "tie": 0.0,
+            "first": 0.8080614203454894,
+            "second": 0.8935281837160751,
+            "bursting_balloon": 0.721
+          },
+          "hedrick": {
+            "a": 0.803,
+            "b": 0.197,
+            "tie": 0.0,
+            "first": 0.7803921568627451,
+            "second": 0.826530612244898,
+            "bursting_balloon": 0.764
+          },
+          "c60": {
+            "a": 0.918,
+            "b": 0.082,
+            "tie": 0.0,
+            "first": 0.9085603112840467,
+            "second": 0.9279835390946503,
+            "bursting_balloon": 0.877
+          },
+          "d60": {
+            "a": 0.987,
+            "b": 0.013,
+            "tie": 0.0,
+            "first": 0.9916666666666667,
+            "second": 0.9826923076923076,
+            "bursting_balloon": 0.623
+          },
+          "thorns": {
+            "a": 0.986,
+            "b": 0.014,
+            "tie": 0.0,
+            "first": 0.9820717131474104,
+            "second": 0.9899598393574297,
+            "bursting_balloon": 0.877
+          }
+        }
+      },
+      {
+        "cut": "Max Potion",
+        "copies_before": 4,
+        "weighted": 0.9020875370919881,
+        "mean": 0.9114000000000001,
+        "worst": 0.808,
+        "bursting_balloon": 0.756,
+        "cells": {
+          "t60": {
+            "a": 0.865,
+            "b": 0.135,
+            "tie": 0.0,
+            "first": 0.8362919132149902,
+            "second": 0.8945233265720081,
+            "bursting_balloon": 0.703
+          },
+          "hedrick": {
+            "a": 0.808,
+            "b": 0.192,
+            "tie": 0.0,
+            "first": 0.7474747474747475,
+            "second": 0.8673267326732673,
+            "bursting_balloon": 0.768
+          },
+          "c60": {
+            "a": 0.923,
+            "b": 0.077,
+            "tie": 0.0,
+            "first": 0.9244897959183673,
+            "second": 0.9215686274509803,
+            "bursting_balloon": 0.849
+          },
+          "d60": {
+            "a": 0.988,
+            "b": 0.012,
+            "tie": 0.0,
+            "first": 0.986,
+            "second": 0.99,
+            "bursting_balloon": 0.591
+          },
+          "thorns": {
+            "a": 0.973,
+            "b": 0.027,
+            "tie": 0.0,
+            "first": 0.9648033126293996,
+            "second": 0.9806576402321083,
+            "bursting_balloon": 0.869
+          }
+        }
+      },
+      {
+        "cut": "Night Stretcher",
+        "copies_before": 4,
+        "weighted": 0.9018293768545994,
+        "mean": 0.9122,
+        "worst": 0.785,
+        "bursting_balloon": 0.7726,
+        "cells": {
+          "t60": {
+            "a": 0.885,
+            "b": 0.115,
+            "tie": 0.0,
+            "first": 0.860655737704918,
+            "second": 0.908203125,
+            "bursting_balloon": 0.707
+          },
+          "hedrick": {
+            "a": 0.785,
+            "b": 0.215,
+            "tie": 0.0,
+            "first": 0.7435387673956262,
+            "second": 0.8269617706237424,
+            "bursting_balloon": 0.777
+          },
+          "c60": {
+            "a": 0.932,
+            "b": 0.068,
+            "tie": 0.0,
+            "first": 0.9147609147609148,
+            "second": 0.9479768786127167,
+            "bursting_balloon": 0.868
+          },
+          "d60": {
+            "a": 0.983,
+            "b": 0.017,
+            "tie": 0.0,
+            "first": 0.9814432989690721,
+            "second": 0.9844660194174757,
+            "bursting_balloon": 0.635
+          },
+          "thorns": {
+            "a": 0.976,
+            "b": 0.024,
+            "tie": 0.0,
+            "first": 0.9797979797979798,
+            "second": 0.9722772277227723,
+            "bursting_balloon": 0.876
+          }
+        }
+      },
+      {
+        "cut": "Arven",
+        "copies_before": 4,
+        "weighted": 0.9013397626112759,
+        "mean": 0.9109999999999999,
+        "worst": 0.783,
+        "bursting_balloon": 0.7532,
+        "cells": {
+          "t60": {
+            "a": 0.88,
+            "b": 0.12,
+            "tie": 0.0,
+            "first": 0.8740601503759399,
+            "second": 0.8867521367521367,
+            "bursting_balloon": 0.715
+          },
+          "hedrick": {
+            "a": 0.783,
+            "b": 0.217,
+            "tie": 0.0,
+            "first": 0.7551020408163265,
+            "second": 0.8098039215686275,
+            "bursting_balloon": 0.742
+          },
+          "c60": {
+            "a": 0.925,
+            "b": 0.075,
+            "tie": 0.0,
+            "first": 0.9007936507936508,
+            "second": 0.9495967741935484,
+            "bursting_balloon": 0.853
+          },
+          "d60": {
+            "a": 0.986,
+            "b": 0.014,
+            "tie": 0.0,
+            "first": 0.9906716417910447,
+            "second": 0.9806034482758621,
+            "bursting_balloon": 0.594
+          },
+          "thorns": {
+            "a": 0.981,
+            "b": 0.019,
+            "tie": 0.0,
+            "first": 0.9840319361277445,
+            "second": 0.9779559118236473,
+            "bursting_balloon": 0.862
+          }
+        }
+      },
+      {
+        "cut": "Professor's Research",
+        "copies_before": 2,
+        "weighted": 0.901160237388724,
+        "mean": 0.9106,
+        "worst": 0.795,
+        "bursting_balloon": 0.7674,
+        "cells": {
+          "t60": {
+            "a": 0.876,
+            "b": 0.124,
+            "tie": 0.0,
+            "first": 0.8742393509127789,
+            "second": 0.8777120315581854,
+            "bursting_balloon": 0.737
+          },
+          "hedrick": {
+            "a": 0.795,
+            "b": 0.205,
+            "tie": 0.0,
+            "first": 0.7786885245901639,
+            "second": 0.810546875,
+            "bursting_balloon": 0.763
+          },
+          "c60": {
+            "a": 0.914,
+            "b": 0.086,
+            "tie": 0.0,
+            "first": 0.8962818003913894,
+            "second": 0.9325153374233128,
+            "bursting_balloon": 0.867
+          },
+          "d60": {
+            "a": 0.99,
+            "b": 0.01,
+            "tie": 0.0,
+            "first": 0.9918533604887984,
+            "second": 0.9882121807465619,
+            "bursting_balloon": 0.603
+          },
+          "thorns": {
+            "a": 0.978,
+            "b": 0.022,
+            "tie": 0.0,
+            "first": 0.9789674952198852,
+            "second": 0.9769392033542977,
+            "bursting_balloon": 0.867
+          }
+        }
+      },
+      {
+        "cut": "Igglybuff",
+        "copies_before": 4,
+        "weighted": 0.8893635014836795,
+        "mean": 0.9012,
+        "worst": 0.766,
+        "bursting_balloon": 0.7682,
+        "cells": {
+          "t60": {
+            "a": 0.867,
+            "b": 0.133,
+            "tie": 0.0,
+            "first": 0.8568507157464212,
+            "second": 0.8767123287671232,
+            "bursting_balloon": 0.73
+          },
+          "hedrick": {
+            "a": 0.766,
+            "b": 0.234,
+            "tie": 0.0,
+            "first": 0.7288801571709234,
+            "second": 0.8044806517311609,
+            "bursting_balloon": 0.783
+          },
+          "c60": {
+            "a": 0.914,
+            "b": 0.086,
+            "tie": 0.0,
+            "first": 0.8931297709923665,
+            "second": 0.9369747899159664,
+            "bursting_balloon": 0.867
+          },
+          "d60": {
+            "a": 0.987,
+            "b": 0.013,
+            "tie": 0.0,
+            "first": 0.9897119341563786,
+            "second": 0.9844357976653697,
+            "bursting_balloon": 0.584
+          },
+          "thorns": {
+            "a": 0.972,
+            "b": 0.028,
+            "tie": 0.0,
+            "first": 0.9729206963249516,
+            "second": 0.9710144927536232,
+            "bursting_balloon": 0.877
+          }
+        }
+      },
+      {
+        "cut": "Hero's Cape",
+        "copies_before": 1,
+        "weighted": 0.8879362017804154,
+        "mean": 0.8954000000000001,
+        "worst": 0.763,
+        "bursting_balloon": 0.8188000000000001,
+        "cells": {
+          "t60": {
+            "a": 0.867,
+            "b": 0.133,
+            "tie": 0.0,
+            "first": 0.82421875,
+            "second": 0.9118852459016393,
+            "bursting_balloon": 0.751
+          },
+          "hedrick": {
+            "a": 0.763,
+            "b": 0.237,
+            "tie": 0.0,
+            "first": 0.7083333333333334,
+            "second": 0.8185483870967742,
+            "bursting_balloon": 0.805
+          },
+          "c60": {
+            "a": 0.882,
+            "b": 0.118,
+            "tie": 0.0,
+            "first": 0.8410041841004184,
+            "second": 0.9195402298850575,
+            "bursting_balloon": 0.906
+          },
+          "d60": {
+            "a": 0.982,
+            "b": 0.018,
+            "tie": 0.0,
+            "first": 0.9825581395348837,
+            "second": 0.981404958677686,
+            "bursting_balloon": 0.72
+          },
+          "thorns": {
+            "a": 0.983,
+            "b": 0.017,
+            "tie": 0.0,
+            "first": 0.9825242718446602,
+            "second": 0.9835051546391752,
+            "bursting_balloon": 0.912
+          }
+        }
+      },
+      {
+        "cut": "Mime Jr.",
+        "copies_before": 2,
+        "weighted": 0.875406528189911,
+        "mean": 0.8732,
+        "worst": 0.787,
+        "bursting_balloon": 0.7794000000000001,
+        "cells": {
+          "t60": {
+            "a": 0.858,
+            "b": 0.142,
+            "tie": 0.0,
+            "first": 0.8317214700193424,
+            "second": 0.8861283643892339,
+            "bursting_balloon": 0.732
+          },
+          "hedrick": {
+            "a": 0.787,
+            "b": 0.213,
+            "tie": 0.0,
+            "first": 0.7456310679611651,
+            "second": 0.8309278350515464,
+            "bursting_balloon": 0.773
+          },
+          "c60": {
+            "a": 0.913,
+            "b": 0.087,
+            "tie": 0.0,
+            "first": 0.8925143953934741,
+            "second": 0.9352818371607515,
+            "bursting_balloon": 0.849
+          },
+          "d60": {
+            "a": 0.877,
+            "b": 0.123,
+            "tie": 0.0,
+            "first": 0.8726114649681529,
+            "second": 0.8809073724007561,
+            "bursting_balloon": 0.666
+          },
+          "thorns": {
+            "a": 0.931,
+            "b": 0.069,
+            "tie": 0.0,
+            "first": 0.9222903885480572,
+            "second": 0.9393346379647749,
+            "bursting_balloon": 0.877
+          }
+        }
+      }
+    ]
+  },
+  "list": [
+    "Mew ex",
+    "Mew ex",
+    "Mew ex",
+    "Mew ex",
+    "Mime Jr.",
+    "Mime Jr.",
+    "Igglybuff",
+    "Igglybuff",
+    "Igglybuff",
+    "Igglybuff",
+    "Buddy-Buddy Poffin",
+    "Buddy-Buddy Poffin",
+    "Buddy-Buddy Poffin",
+    "Buddy-Buddy Poffin",
+    "Nest Ball",
+    "Nest Ball",
+    "Nest Ball",
+    "Nest Ball",
+    "Ultra Ball",
+    "Ultra Ball",
+    "Ultra Ball",
+    "Night Stretcher",
+    "Night Stretcher",
+    "Night Stretcher",
+    "Night Stretcher",
+    "Battle Cage",
+    "Battle Cage",
+    "Battle Cage",
+    "Battle Cage",
+    "Bravery Charm",
+    "Bravery Charm",
+    "Bravery Charm",
+    "Bravery Charm",
+    "Hero's Cape",
+    "Max Potion",
+    "Max Potion",
+    "Max Potion",
+    "Max Potion",
+    "Arven",
+    "Arven",
+    "Arven",
+    "Arven",
+    "Iono",
+    "Iono",
+    "Iono",
+    "Iono",
+    "Professor's Research",
+    "Professor's Research",
+    "Boss's Orders",
+    "Boss's Orders",
+    "Boss's Orders",
+    "Crushing Hammer",
+    "Crushing Hammer",
+    "Crushing Hammer",
+    "Crushing Hammer",
+    "Switch",
+    "Counter Catcher",
+    "Counter Catcher",
+    "Bursting Balloon",
+    "Bursting Balloon"
+  ],
+  "done": true
+}

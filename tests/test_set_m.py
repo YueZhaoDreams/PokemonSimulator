@@ -24,16 +24,18 @@ def test_set_m_card_count_and_composition():
     assert SET_M60_NAMES.count("Mew ex") == 4
     assert SET_M60_NAMES.count("Mime Jr.") == 2
     assert SET_M60_NAMES.count("Igglybuff") == 4
-    assert SET_M60_NAMES.count("Budew") == 2
+    assert SET_M60_NAMES.count("Budew") == 0
     assert SET_M60_NAMES.count("Cleffa") == 0
-    total_pokemon = 4 + 2 + 4 + 2
-    assert total_pokemon == 12
+    total_pokemon = 4 + 2 + 4
+    assert total_pokemon == 10
 
     # Count Key Trainers. Greedy Max Potion cut 2 Cleffa, Maximum Belt, and 1 Ultra Ball.
-    # One Hero's Cape then cut 1 Budew.
+    # One Hero's Cape then cut 1 Budew (3 → 2).
+    # Two Bursting Balloon then cut both remaining Budew. Ultra Ball stays at 3.
     assert SET_M60_NAMES.count("Buddy-Buddy Poffin") == 4
     assert SET_M60_NAMES.count("Battle Cage") == 4
     assert SET_M60_NAMES.count("Bravery Charm") == 4
+    assert SET_M60_NAMES.count("Bursting Balloon") == 2
     assert SET_M60_NAMES.count("Hero's Cape") == 1
     assert SET_M60_NAMES.count("Maximum Belt") == 0
     assert SET_M60_NAMES.count("Max Potion") == 4
