@@ -159,6 +159,8 @@ def query_key(query: dict[str, Any]) -> str:
     qtype = query.get("type") or "query"
     if qtype == "event_prefix":
         return f"event_prefix:{query.get('prefix')}"
+    if qtype == "event_sum":
+        return f"event_sum:{query.get('prefix')}"
     if qtype == "status":
         return f"status:{query.get('attacker')}:{query.get('defender')}:{query.get('status')}"
     if qtype == "opening_hand_contains":
@@ -202,6 +204,12 @@ def _apply_queries(result, queries: list[dict[str, Any]], hits: dict[str, int]) 
             if not prefix:
                 continue
             ok = any(k.startswith(prefix) for k in result.events)
+        elif qtype == "event_sum":
+            prefix = q.get("prefix") or ""
+            if not prefix:
+                continue
+            hits[key] = hits.get(key, 0) + sum(v for k, v in result.events.items() if k.startswith(prefix))
+            continue
         if ok:
             hits[key] = hits.get(key, 0) + 1
 

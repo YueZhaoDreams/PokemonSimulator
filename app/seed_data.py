@@ -421,16 +421,23 @@ SET_T_UNL_NAMES = (
 # Weights frozen from the 0-Penny list: Hedrick 50.0%, T60 28.4%, C60 13.2%, D60 5.1%, Thorns 3.2%.
 # Weighted 87.0% → 88.2% → 88.3%. The next cut (Iono, 88.0%) does not rise.
 # Cuts: Ultra Ball (3 → 2), Mew ex (4 → 3). Two Penny.
+# One Mew ex in play on that Penny list. Seed 20260929, 1000 games.
+# Weights frozen from the old board: Hedrick 50.5%, T60 27.6%, C60 14.3%, D60 4.9%, Thorns 2.7%.
+# Weighted 86.9% → 87.1%. A second Mew ex stays in hand.
+# One Budew on that board. Weights frozen from the one-Mew list:
+# Hedrick 45.6%, T60 28.5%, C60 20.8%, D60 2.9%, Thorns 2.1%.
+# Weighted 87.3% → 87.9%. Cut: Bravery Charm (4 → 3).
 SET_M60_NAMES = (
     ["Mew ex"] * 3
     + ["Mime Jr."] * 2
     + ["Igglybuff"] * 4
+    + ["Budew"]
     + ["Buddy-Buddy Poffin"] * 4
     + ["Nest Ball"] * 4
     + ["Ultra Ball"] * 2
     + ["Night Stretcher"] * 4
     + ["Battle Cage"] * 4
-    + ["Bravery Charm"] * 4
+    + ["Bravery Charm"] * 3
     + ["Bursting Balloon"] * 2
     + ["Hero's Cape"]
     + ["Max Potion"] * 4

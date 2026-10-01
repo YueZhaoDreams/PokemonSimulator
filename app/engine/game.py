@@ -225,6 +225,14 @@ class Game:
         for card_i in ace_cards:
             if len(player.bench) >= self.rules.bench_size:
                 break
+            # Opening runs inside _deal, before the opponent exists. Count Mew ex
+            # directly. Bouncy Circle does not count a 160 HP bench Pokémon.
+            if (
+                strat.one_mew
+                and player.card(card_i).name.lower() == "mew ex"
+                and any(player.card(m.card_i).name.lower() == "mew ex" for m in player.in_play())
+            ):
+                continue
             player.hand.remove(card_i)
             player.bench.append(Pokemon(card_i=card_i, played_turn=0))
             self._bump(f"saw_play:{player.card(card_i).name}")
@@ -371,6 +379,10 @@ class Game:
             and player.in_play()
             and self._rulebox_lock_on_opponent(player)
         ):
+            return False
+        # Bouncy Circle counts benched Pokémon with printed maximum HP 30.
+        # A second Mew ex adds none of that damage and retreats for 0, so it stays in hand.
+        if strat.one_mew and strat.name in {"mew_baby", "baby"} and name == "mew ex" and copies >= 1:
             return False
 
         if strat.name == "celebration":
@@ -1005,6 +1017,8 @@ class Game:
         while basics and len(me.bench) < self.rules.bench_size - reserve:
             card_i = basics.pop(0)
             if card_i not in me.hand:
+                continue
+            if strat.one_mew and not self._wants_in_play(me, me.card(card_i), strat):
                 continue
             me.hand.remove(card_i)
             me.bench.append(Pokemon(card_i=card_i, played_turn=self.turn))
@@ -4802,6 +4816,13 @@ class Game:
         if not me.active or not foe.active:
             return
         strat = self.strats[who]
+        if strat.name in {"mew_baby", "baby"}:
+            babies = sum(1 for mon in me.bench if (me.card(mon.card_i).hp or 0) == 30)
+            mews = sum(1 for mon in me.in_play() if me.card(mon.card_i).name.lower() == "mew ex")
+            self._bump(f"bench30_sum_{who}", babies)
+            self._bump(f"bench30_n_{who}", 1)
+            if mews >= 2:
+                self._bump(f"two_mew_{who}")
         atk = self._choose_attack(me, foe, strat)
         if atk is None:
             return
@@ -4925,6 +4946,7 @@ class Game:
             elif effect.get("kind") == "lock_items":
                 foe.pending_item_lock = True
                 self._bump("itchy_pollen_lock")
+                self._bump(f"itchy_pollen_lock_{who}")
                 self._log(f"{attacker.name} locks Item cards next turn")
             elif effect.get("kind") == "damage_one_pokemon":
                 self._damage_one_pokemon(me, foe, int(effect.get("amount") or 0))
@@ -5343,6 +5365,8 @@ class Game:
     def _night_stretcher(self, me: Player, who: str | None = None) -> None:
         strat_name = self.strats[who].name if who else ""
         if strat_name in {"mew_baby", "baby"}:
+            strat = self.strats[who] if who else None
+            mew_out = any(me.card(m.card_i).name.lower() == "mew ex" for m in me.in_play())
             if who and self._rulebox_lock_on_opponent(me):
                 prefer = [
                     "budew",
@@ -5350,6 +5374,15 @@ class Game:
                     "cleffa",
                     "mime jr.",
                     "mime jr",
+                ]
+            elif strat is not None and strat.one_mew and mew_out:
+                prefer = [
+                    "budew",
+                    "igglybuff",
+                    "cleffa",
+                    "mime jr.",
+                    "mime jr",
+                    "mew ex",
                 ]
             else:
                 prefer = [
@@ -7154,7 +7187,10 @@ class Game:
                     strat.name in {"mew_baby", "baby"}
                     and name == "mew ex"
                     and me.in_play()
-                    and self._rulebox_lock_on_opponent(me)
+                    and (
+                        self._rulebox_lock_on_opponent(me)
+                        or (strat.one_mew and any(me.card(m.card_i).name.lower() == "mew ex" for m in me.in_play()))
+                    )
                 ):
                     continue
                 if strat.name == "g" and source == "nest ball":
