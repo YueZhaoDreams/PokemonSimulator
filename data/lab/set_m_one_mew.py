@@ -34,10 +34,33 @@ from app.seed_data import (
     IRON_THORNS_NAMES,
     SET_C60_NAMES,
     SET_D60_NAMES,
-    SET_M60_NAMES,
     SET_T60_NAMES,
     SET_T_META_NAMES,
     build_fallback_deck,
+)
+
+# Locked Penny list before this search. Do not rewrite it to the locked one-Mew list.
+M60_BEFORE = (
+    ["Mew ex"] * 3
+    + ["Mime Jr."] * 2
+    + ["Igglybuff"] * 4
+    + ["Buddy-Buddy Poffin"] * 4
+    + ["Nest Ball"] * 4
+    + ["Ultra Ball"] * 2
+    + ["Night Stretcher"] * 4
+    + ["Battle Cage"] * 4
+    + ["Bravery Charm"] * 4
+    + ["Bursting Balloon"] * 2
+    + ["Hero's Cape"]
+    + ["Max Potion"] * 4
+    + ["Arven"] * 4
+    + ["Iono"] * 4
+    + ["Professor's Research"] * 2
+    + ["Boss's Orders"] * 2
+    + ["Penny"] * 2
+    + ["Crushing Hammer"] * 4
+    + ["Counter Catcher"] * 2
+    + ["Spiky Energy"] * 2
 )
 
 FOES = (
@@ -275,7 +298,7 @@ def _render_md(report: dict) -> str:
 
 def main() -> None:
     started = time.perf_counter()
-    base_names = list(SET_M60_NAMES)
+    base_names = list(M60_BEFORE)
     if len(base_names) != 60:
         raise SystemExit(f"Set M is {len(base_names)} cards")
     if base_names.count(IN_NAME) != 0:

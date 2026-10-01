@@ -23627,6 +23627,46 @@
         "dex_id": null
       },
       {
+        "catalog_id": "sv08.5-004",
+        "name": "Budew",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Grass"
+        ],
+        "hp": 30,
+        "attacks": [
+          {
+            "name": "Itchy Pollen",
+            "cost": [],
+            "damage": 10,
+            "text": "During your opponent's next turn, they can't play any Item cards from their hand.",
+            "effects": [
+              {
+                "kind": "lock_items"
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Fire",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv08.5/004/low.webp",
+        "set_name": "Prismatic Evolutions",
+        "text": "",
+        "dex_id": null,
+        "traits": []
+      },
+      {
         "catalog_id": "sv05-144",
         "name": "Buddy-Buddy Poffin",
         "category": "Trainer",
@@ -23984,26 +24024,6 @@
         "image": "https://assets.tcgdex.net/en/me/me02/085/low.webp",
         "set_name": null,
         "text": "Prevent all damage counters from being placed on Benched Pok\u00e9mon (both yours and your opponent's) by effects of attacks and Abilities from the opponent's Pok\u00e9mon. (Damage from attacks is still taken.)",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "sv02-173",
-        "name": "Bravery Charm",
-        "category": "Trainer",
-        "stage": "Item",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "item",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv02/173/low.webp",
-        "set_name": null,
-        "text": "The Basic Pok\u00e9mon this card is attached to gets +50 HP.",
         "dex_id": null
       },
       {
