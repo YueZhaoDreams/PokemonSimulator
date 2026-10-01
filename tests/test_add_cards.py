@@ -246,6 +246,35 @@ def test_resolve_gimmighoul_keeps_art_without_network(tmp_path, monkeypatch):
         assert "sv04/087" in card["image"]
 
 
+def test_fill_missing_card_image_replaces_slowking_scan_on_seeker():
+    from app.catalog import fill_missing_card_image
+
+    slowking = fill_missing_card_image(
+        {
+            "name": "Seeker",
+            "catalog_id": "hgss3-85",
+            "image": "https://assets.tcgdex.net/en/hgss/hgss3/85/low.webp",
+            "text": "Each player returns 1 of his or her Benched Pokémon and all cards attached to it to his or her hand. (You return your Pokémon first.)",
+        }
+    )
+    assert slowking["catalog_id"] == "hgss4-88"
+    assert slowking["image"] == "https://assets.tcgdex.net/en/hgss/hgss4/88/low.webp"
+    assert "Benched" in slowking["text"]
+    custom = fill_missing_card_image(
+        {"name": "Seeker", "catalog_id": "hgss3-85", "image": "/uploads/seeker.jpg"}
+    )
+    assert custom["image"] == "/uploads/seeker.jpg"
+    assert custom["catalog_id"] == "hgss3-85"
+    slowking_card = fill_missing_card_image(
+        {
+            "name": "Slowking",
+            "catalog_id": "hgss3-85",
+            "image": "https://assets.tcgdex.net/en/hgss/hgss3/85/low.webp",
+        }
+    )
+    assert slowking_card["image"] == "https://assets.tcgdex.net/en/hgss/hgss3/85/low.webp"
+
+
 def test_fill_missing_card_image_does_not_paste_household_art_on_other_prints():
     from app.catalog import fill_missing_card_image
 

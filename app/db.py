@@ -367,6 +367,13 @@ def _card_names(cards) -> list:
     return names
 
 
+def _seed_slowking_on_seeker(cards_json: str | None) -> bool:
+    """True when a saved seed still shows Undaunted #85, which is Slowking Prime."""
+    from app.catalog import SLOWKING_PRIME_ART
+
+    return SLOWKING_PRIME_ART in (cards_json or "")
+
+
 def _seed_print_art_stale(cards_json: str | None, want_cards: list) -> bool:
     """True when a saved seed still shows the wrong scan for a pinned print."""
     from app.catalog import PRINT_ART_URLS, _is_tcgdex_asset_url
@@ -428,6 +435,7 @@ def _upsert_seed_decks(conn: sqlite3.Connection, owner_id: str | None = None) ->
                 have_names != want_names
                 or "/me04/" in (existing["cards_json"] or "")
                 or _seed_print_art_stale(existing["cards_json"], want_cards)
+                or _seed_slowking_on_seeker(existing["cards_json"])
             ):
                 conn.execute(
                     "UPDATE decks SET name=?, source=?, cards_json=?, owner_id=COALESCE(owner_id, ?), "
