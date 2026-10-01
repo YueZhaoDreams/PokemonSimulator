@@ -590,7 +590,7 @@ STRATEGY_LIBRARY = {
             "Budew Itchy Pollen for Item lock, Cleffa Grasping Draw to refill hand, Mime Jr. Mimed Games. "
             "Buddy-Buddy Poffin and Nest Ball swarm 5 babies on bench. Battle Cage prevents bench damage counters. "
             "Night Stretcher recovers KO'd Mew ex or babies. "
-            "Max Potion heals all damage from a damaged Mew ex. This list attaches no Energy, so that discard is free. "
+            "Max Potion heals all damage from a damaged Mew ex and discards any Energy attached to it. "
             "Hero's Cape goes on an open Mew ex. Bravery Charm is the other HP tool and stays on Mew ex. "
             "Bursting Balloon goes on a Baby: the printed counters hit the attacker. Babies do not take HP tools. "
             "Spiky Energy attaches to the Pokémon that will stay Active, even when that Pokémon already has a Tool. "

@@ -498,7 +498,7 @@ def _cd_payload(enrich: bool = True) -> dict:
         },
         "m60": {
             "id": "seed-m60",
-            "name": "Set M Standard 60 (Zero-Energy Mew ex / Baby Box)",
+            "name": "Set M Standard 60 (Mew ex / Spiky Energy)",
             "sample": None,
             "kind": "list",
             "cards": [c.to_dict() if isinstance(c, Card) else c for c in cards_m60],

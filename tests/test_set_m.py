@@ -32,6 +32,7 @@ def test_set_m_card_count_and_composition():
     # Count Key Trainers. Greedy Max Potion cut 2 Cleffa, Maximum Belt, and 1 Ultra Ball.
     # One Hero's Cape then cut 1 Budew (3 → 2).
     # Two Bursting Balloon then cut both remaining Budew. Ultra Ball stays at 3.
+    # Two Spiky Energy then cut Switch and 1 Boss's Orders (3 → 2). Copies stack.
     assert SET_M60_NAMES.count("Buddy-Buddy Poffin") == 4
     assert SET_M60_NAMES.count("Battle Cage") == 4
     assert SET_M60_NAMES.count("Bravery Charm") == 4
@@ -42,7 +43,9 @@ def test_set_m_card_count_and_composition():
     assert SET_M60_NAMES.count("Ultra Ball") == 3
     assert SET_M60_NAMES.count("Night Stretcher") == 4
     assert SET_M60_NAMES.count("Crushing Hammer") == 4
-    assert SET_M60_NAMES.count("Switch") == 1
+    assert SET_M60_NAMES.count("Switch") == 0
+    assert SET_M60_NAMES.count("Boss's Orders") == 2
+    assert SET_M60_NAMES.count("Spiky Energy") == 2
 
 
 def test_load_seed_deck_m():

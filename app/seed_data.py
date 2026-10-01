@@ -398,7 +398,7 @@ SET_T_UNL_NAMES = (
     + ["Psychic Energy"] * 3
 )
 
-# Set M Standard 60: Zero-Energy Mew ex & Igglybuff Baby Box.
+# Set M Standard 60: Mew ex & Igglybuff Baby Box.
 # Greedy Max Potion, seed 20260929, 1000 games.
 # Decision score is the loss-weighted win rate. Weights are frozen from the
 # 0-potion list: Hedrick 33.4%, C60 32.0%, T60 30.3%, D60 4.3%.
@@ -413,6 +413,10 @@ SET_T_UNL_NAMES = (
 # Weighted 81.5% → 87.9% → 92.8%. The next cut (Switch, 91.7%) does not rise.
 # Cuts: Budew, Budew (2 → 0). Two Bursting Balloon. Ultra Ball stays at 3.
 # The four-foe 87.2% Ultra Ball cut omitted Iron Thorns.
+# Spiky Energy on that balloon list. Seed 20260929, 1000 games.
+# Weights frozen from the 0-spike list: Hedrick 44.0%, T60 28.1%, C60 19.7%, D60 4.2%, Thorns 4.0%.
+# Weighted 86.6% → 88.4% → 89.1%. The next cut (Crushing Hammer, 88.8%) does not rise.
+# Cuts: Switch, Boss's Orders (3 → 2). Two Spiky Energy. Each copy's counters stack.
 SET_M60_NAMES = (
     ["Mew ex"] * 4
     + ["Mime Jr."] * 2
@@ -429,10 +433,10 @@ SET_M60_NAMES = (
     + ["Arven"] * 4
     + ["Iono"] * 4
     + ["Professor's Research"] * 2
-    + ["Boss's Orders"] * 3
+    + ["Boss's Orders"] * 2
     + ["Crushing Hammer"] * 4
-    + ["Switch"]
     + ["Counter Catcher"] * 2
+    + ["Spiky Energy"] * 2
 )
 SET_M_NAMES = SET_M60_NAMES
 SET_MEW_BABY_60_NAMES = SET_M60_NAMES
