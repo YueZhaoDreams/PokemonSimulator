@@ -421,7 +421,7 @@ SET_T_UNL_NAMES = (
     + ["Psychic Energy"] * 3
 )
 
-# Set M Standard 60: Zero-Energy Mew ex & Igglybuff Baby Box.
+# Set M Standard 60: Mew ex & Igglybuff Baby Box.
 # Greedy Max Potion, seed 20260929, 1000 games.
 # Decision score is the loss-weighted win rate. Weights are frozen from the
 # 0-potion list: Hedrick 33.4%, C60 32.0%, T60 30.3%, D60 4.3%.
@@ -436,26 +436,42 @@ SET_T_UNL_NAMES = (
 # Weighted 81.5% → 87.9% → 92.8%. The next cut (Switch, 91.7%) does not rise.
 # Cuts: Budew, Budew (2 → 0). Two Bursting Balloon. Ultra Ball stays at 3.
 # The four-foe 87.2% Ultra Ball cut omitted Iron Thorns.
+# Spiky Energy on that balloon list. Seed 20260929, 1000 games.
+# Weights frozen from the 0-spike list: Hedrick 44.0%, T60 28.1%, C60 19.7%, D60 4.2%, Thorns 4.0%.
+# Weighted 86.6% → 88.4% → 89.1%. The next cut (Crushing Hammer, 88.8%) does not rise.
+# Cuts: Switch, Boss's Orders (3 → 2). Two Spiky Energy. Each copy's counters stack.
+# Penny on that two-Spiky list. Seed 20260929, 1000 games.
+# Weights frozen from the 0-Penny list: Hedrick 50.0%, T60 28.4%, C60 13.2%, D60 5.1%, Thorns 3.2%.
+# Weighted 87.0% → 88.2% → 88.3%. The next cut (Iono, 88.0%) does not rise.
+# Cuts: Ultra Ball (3 → 2), Mew ex (4 → 3). Two Penny.
+# One Mew ex in play on that Penny list. Seed 20260929, 1000 games.
+# Weights frozen from the old board: Hedrick 50.5%, T60 27.6%, C60 14.3%, D60 4.9%, Thorns 2.7%.
+# Weighted 86.9% → 87.1%. A second Mew ex stays in hand.
+# One Budew on that board. Weights frozen from the one-Mew list:
+# Hedrick 45.6%, T60 28.5%, C60 20.8%, D60 2.9%, Thorns 2.1%.
+# Weighted 87.3% → 87.9%. Cut: Bravery Charm (4 → 3).
 SET_M60_NAMES = (
-    ["Mew ex"] * 4
+    ["Mew ex"] * 3
     + ["Mime Jr."] * 2
     + ["Igglybuff"] * 4
+    + ["Budew"]
     + ["Buddy-Buddy Poffin"] * 4
     + ["Nest Ball"] * 4
-    + ["Ultra Ball"] * 3
+    + ["Ultra Ball"] * 2
     + ["Night Stretcher"] * 4
     + ["Battle Cage"] * 4
-    + ["Bravery Charm"] * 4
+    + ["Bravery Charm"] * 3
     + ["Bursting Balloon"] * 2
     + ["Hero's Cape"]
     + ["Max Potion"] * 4
     + ["Arven"] * 4
     + ["Iono"] * 4
     + ["Professor's Research"] * 2
-    + ["Boss's Orders"] * 3
+    + ["Boss's Orders"] * 2
+    + ["Penny"] * 2
     + ["Crushing Hammer"] * 4
-    + ["Switch"]
     + ["Counter Catcher"] * 2
+    + ["Spiky Energy"] * 2
 )
 SET_M_NAMES = SET_M60_NAMES
 SET_MEW_BABY_60_NAMES = SET_M60_NAMES
@@ -1408,6 +1424,29 @@ _TELEPATHIC = _register(
 )
 FALLBACK_BY_NAME["telepathic energy"] = _TELEPATHIC
 FALLBACK_BY_NAME["telepathic psychic energy"] = _TELEPATHIC
+
+# Journey Together 159. No Pokémon Tool clause. Each attached copy places its own counters.
+_SPIKY_ENERGY_TEXT = (
+    "As long as this card is attached to a Pokémon, it provides Colorless Energy.\n\n"
+    "If the Pokémon this card is attached to is in the Active Spot and is damaged by an attack "
+    "from your opponent's Pokémon (even if this Pokémon is Knocked Out), put 2 damage counters "
+    "on the Attacking Pokémon."
+)
+_SPIKY = _register(
+    Card(
+        catalog_id="sv09-159",
+        name="Spiky Energy",
+        category="Energy",
+        stage="Special",
+        types=["Colorless"],
+        energy_type="Colorless",
+        text=_SPIKY_ENERGY_TEXT,
+        image="https://assets.tcgdex.net/en/sv/sv09/159/low.webp",
+        set_name="Journey Together",
+        retreat=0,
+    )
+)
+FALLBACK_BY_NAME["spike energy"] = _SPIKY
 
 for card in [
     _pkm("Sobble", "Basic", ["Water"], 60, [_atk("Water Gun", ["Water"], 20)], weakness="Lightning"),
@@ -4087,6 +4126,8 @@ def fallback_named(name: str) -> Card:
         key = "speed lightning energy"
     if key == "draw energy":
         key = "draw energy"
+    if key == "spike energy":
+        key = "spiky energy"
     if key in FALLBACK_BY_NAME:
         card = FALLBACK_BY_NAME[key]
         return Card.from_dict(card.to_dict())
@@ -4099,6 +4140,8 @@ def fallback_named(name: str) -> Card:
         and "speed lightning" not in key
         and "speed l" not in key
         and key != "draw energy"
+        and "spiky" not in key
+        and key != "spike energy"
     ):
         return _nrg(name.split()[0].title())
     from app.catalog import fallback_card

@@ -167,6 +167,7 @@ PREFERRED_IDS = {
     "Survival Brace": "sv06-164",  # Twilight Masquerade ACE SPEC: full HP lethal attack leaves 10 HP
     "Acerola": "sm3-112",
     "Double Colorless Energy": "sm1-136",
+    "Spiky Energy": "sv09-159",  # Journey Together: Colorless, counters stack, no Tool clause
     "Dusclops": "swsh12.5-063",  # Fade to Black / Confused (Crown Zenith) — not Brilliant Stars
     "Spinarak": "swsh11-112",  # Darkness Poison Sting 10 (Lost Origin) — not Pokémon GO Grass
     "Bronzor": "swsh11-125",  # Spinning Attack 10, HP 70 (Lost Origin)

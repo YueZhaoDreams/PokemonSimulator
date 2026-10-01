@@ -225,6 +225,14 @@ class Game:
         for card_i in ace_cards:
             if len(player.bench) >= self.rules.bench_size:
                 break
+            # Opening runs inside _deal, before the opponent exists. Count Mew ex
+            # directly. Bouncy Circle does not count a 160 HP bench Pokémon.
+            if (
+                strat.one_mew
+                and player.card(card_i).name.lower() == "mew ex"
+                and any(player.card(m.card_i).name.lower() == "mew ex" for m in player.in_play())
+            ):
+                continue
             player.hand.remove(card_i)
             player.bench.append(Pokemon(card_i=card_i, played_turn=0))
             self._bump(f"saw_play:{player.card(card_i).name}")
@@ -374,6 +382,10 @@ class Game:
             and player.in_play()
             and self._rulebox_lock_on_opponent(player)
         ):
+            return False
+        # Bouncy Circle counts benched Pokémon with printed maximum HP 30.
+        # A second Mew ex adds none of that damage and retreats for 0, so it stays in hand.
+        if strat.one_mew and strat.name in {"mew_baby", "baby"} and name == "mew ex" and copies >= 1:
             return False
 
         if strat.name == "celebration":
@@ -1016,6 +1028,8 @@ class Game:
             card_i = basics.pop(0)
             if card_i not in me.hand:
                 continue
+            if strat.one_mew and not self._wants_in_play(me, me.card(card_i), strat):
+                continue
             me.hand.remove(card_i)
             me.bench.append(Pokemon(card_i=card_i, played_turn=self.turn))
             self._bump(f"saw_play:{me.card(card_i).name}")
@@ -1310,7 +1324,17 @@ class Game:
                 continue
             if name not in {"ultra ball"}:
                 me.discard.append(found)
-            self._resolve_trainer(me, foe, card, who=who, card_i=found)
+            forced_bounce = False
+            if strat.name in {"mew_baby", "baby"} and self._is_bounce_supporter(card):
+                # Penny's printed target is one Basic. This line is the damaged Mew ex
+                # whose Energy would be lost if it stayed in the Active Spot.
+                self._forced_bounce_target = self._mew_penny_target(me, foe)
+                forced_bounce = True
+            try:
+                self._resolve_trainer(me, foe, card, who=who, card_i=found)
+            finally:
+                if forced_bounce:
+                    self._forced_bounce_target = None
             self._log(f"{me.name} plays {card.name}")
 
     def _pick_trainer(self, me: Player) -> int | None:
@@ -1318,6 +1342,7 @@ class Game:
         who = "a" if me.name == "A" else "b"
         foe = self.players["b" if who == "a" else "a"]
         strat = self.strats[who]
+        self._next_turn_damage_cache = None
         in_play = {me.card(m.card_i).name.lower() for m in me.in_play()}
         in_hand = {me.card(i).name.lower() for i in me.hand}
         hunt = [n.lower() for n in (strat.search_aces or strat.protect)]
@@ -1535,6 +1560,9 @@ class Game:
                     score += 20
                 if strat.name in {"mew_baby", "baby"} and self._mew_wants_balloon_tutor(me):
                     score += 12
+                if strat.name in {"mew_baby", "baby"} and self._mew_arven_prevents_ko(me, foe):
+                    # An HP Tool that keeps the Energy on Mew ex beats bouncing it.
+                    score += 40
             elif name == "hop":
                 if strat.name == "crunch":
                     # Thin toward ≤3 for Crunch-Time Rush; avoid deck-out.
@@ -1730,8 +1758,9 @@ class Game:
             elif name == "max potion":
                 mews = self._damaged_mews(me)
                 if strat.name in {"mew_baby", "baby"}:
-                    # Full heal on the closer. Above Poffin 25 once Mew is already hurt.
-                    if mews:
+                    # No Energy: heal. Energy stays unless the Mew ex is lost next turn
+                    # and Penny cannot pick it up.
+                    if self._mew_should_max_potion(me, foe):
                         score += 30 if me.active in mews else 24
                     else:
                         score -= 12
@@ -1770,6 +1799,9 @@ class Game:
                         score += 22
                     else:
                         score += -12
+                elif strat.name in {"mew_baby", "baby"} and self._mew_gust_wins(me, foe):
+                    # Taking the last prize this turn beats picking Mew ex up.
+                    score += 48
                 else:
                     score += 8 if foe.bench else -6
             elif name == "crispin":
@@ -1822,6 +1854,9 @@ class Game:
                 score -= 40
             elif name == "iono":
                 score += 10 if len(me.hand) <= 3 else 2
+            elif name == "penny" and strat.name in {"mew_baby", "baby"}:
+                # Above Research and Iono. Boss and the saving Arven are scored higher.
+                score += 34 if self._mew_penny_target(me, foe) is not None else -20
             elif name == "drayton":
                 score += 13 if me.deck else -2
             elif name == "lacey":
@@ -2361,6 +2396,8 @@ class Game:
                 if self._is_clefairy(me.card(mon.card_i)) and not mon.ability_used:
                     idx = i
                     break
+        elif self.strats[who].name in {"mew_baby", "baby"}:
+            idx = self._mew_bounce_promote_idx(me)
         me.active = me.bench.pop(idx)
 
     def _commit_trainer(self, me: Player, foe: Player, who: str, card_i: int) -> bool:
@@ -4233,6 +4270,8 @@ class Game:
         self._log(f"{me.name} attaches {src.name} as {src.as_energy_type} energy to {me.card(target.card_i).name}")
         if src.is_pokemon:
             self._bump("pokemon_as_energy")
+        if any(eff.get("kind") == "counters_on_attacker" for eff in parse_energy_effects(src.text or "")):
+            self._bump("attach_spiky_energy")
         self._resolve_energy_attach_from_hand(me, who, target, energy_i)
 
     def _resolve_energy_attach_from_hand(self, me: Player, who: str, target: Pokemon, energy_i: int) -> None:
@@ -4353,6 +4392,8 @@ class Game:
             for mon in me.in_play():
                 if "radiant charizard" in me.card(mon.card_i).name.lower() and not mon.energy:
                     return mon
+            if self._hand_has_attacker_counters(me):
+                return self._mew_counter_energy_target(me)
             return me.active
         if strat.name == "celebration":
             dest = self._celebration_energy_target(me)
@@ -4611,6 +4652,10 @@ class Game:
     def _choose_energy_card(self, me: Player, target: Pokemon, strat: StrategySpec) -> int | None:
         if strat.name == "thorns":
             return self._thorns_energy_card(me, target)
+        if strat.name in {"mew_baby", "baby"} and "radiant charizard" not in me.card(target.card_i).name.lower():
+            counters = self._attacker_counter_energies(me)
+            if counters:
+                return counters[0]
         need = self._needed_types(me, target)
         pool = self._energy_pool(me, target)
         card = me.card(target.card_i)
@@ -4793,6 +4838,13 @@ class Game:
         if not me.active or not foe.active:
             return
         strat = self.strats[who]
+        if strat.name in {"mew_baby", "baby"}:
+            babies = sum(1 for mon in me.bench if (me.card(mon.card_i).hp or 0) == 30)
+            mews = sum(1 for mon in me.in_play() if me.card(mon.card_i).name.lower() == "mew ex")
+            self._bump(f"bench30_sum_{who}", babies)
+            self._bump(f"bench30_n_{who}", 1)
+            if mews >= 2:
+                self._bump(f"two_mew_{who}")
         atk = self._choose_attack(me, foe, strat)
         if atk is None:
             return
@@ -4916,6 +4968,7 @@ class Game:
             elif effect.get("kind") == "lock_items":
                 foe.pending_item_lock = True
                 self._bump("itchy_pollen_lock")
+                self._bump(f"itchy_pollen_lock_{who}")
                 self._log(f"{attacker.name} locks Item cards next turn")
             elif effect.get("kind") == "damage_one_pokemon":
                 self._damage_one_pokemon(me, foe, int(effect.get("amount") or 0))
@@ -5334,6 +5387,8 @@ class Game:
     def _night_stretcher(self, me: Player, who: str | None = None) -> None:
         strat_name = self.strats[who].name if who else ""
         if strat_name in {"mew_baby", "baby"}:
+            strat = self.strats[who] if who else None
+            mew_out = any(me.card(m.card_i).name.lower() == "mew ex" for m in me.in_play())
             if who and self._rulebox_lock_on_opponent(me):
                 prefer = [
                     "budew",
@@ -5341,6 +5396,15 @@ class Game:
                     "cleffa",
                     "mime jr.",
                     "mime jr",
+                ]
+            elif strat is not None and strat.one_mew and mew_out:
+                prefer = [
+                    "budew",
+                    "igglybuff",
+                    "cleffa",
+                    "mime jr.",
+                    "mime jr",
+                    "mew ex",
                 ]
             else:
                 prefer = [
@@ -7034,23 +7098,72 @@ class Game:
             self._maybe_survival_brace(owner, mon, was_full=was_full, ignore_effects=ignore_effects)
             if owner.active is mon:
                 attacker = self.players["b" if owner is self.players["a"] else "a"]
-                self._apply_counters_on_attacker(owner, attacker)
+                self._apply_counters_on_attacker(owner, attacker, ignore_effects=ignore_effects)
 
-    def _apply_counters_on_attacker(self, defender: Player, attacker: Player) -> None:
-        """Printed tool: the Active was damaged by an attack, even if it is Knocked Out."""
-        if defender.active is None or defender.active.tool is None or attacker.active is None:
-            return
-        tool = defender.card(defender.active.tool)
-        for eff in parse_trainer_effects(tool.text or ""):
-            if eff.get("kind") != "counters_on_attacker":
+    def _attacker_counter_energies(self, me: Player) -> list[int]:
+        found: list[int] = []
+        for card_i in me.hand:
+            card = me.card(card_i)
+            if not card.is_energy:
                 continue
-            counters = int(eff.get("counters") or 0)
+            if any(eff.get("kind") == "counters_on_attacker" for eff in parse_energy_effects(card.text or "")):
+                found.append(card_i)
+        return found
+
+    def _hand_has_attacker_counters(self, me: Player) -> bool:
+        return bool(self._attacker_counter_energies(me))
+
+    def _mew_counter_energy_target(self, me: Player) -> Pokemon:
+        """Printed counters only resolve in the Active Spot, and each copy stacks there.
+
+        Attach to the Pokémon this strategy will leave Active, including one that
+        already has a Tool or another copy.
+        """
+        assert me.active
+        if self._rulebox_lock_on_opponent(me):
+            if self._baby_wall_rank(me.card(me.active.card_i)) < 9:
+                return me.active
+            idx = self._baby_wall_bench_idx(me)
+            if idx is not None:
+                return me.bench[idx]
+            return me.active
+        if me.card(me.active.card_i).name.lower() == "mew ex":
+            return me.active
+        for mon in me.bench:
+            if me.card(mon.card_i).name.lower() == "mew ex":
+                return mon
+        return me.active
+
+    def _apply_counters_on_attacker(
+        self, defender: Player, attacker: Player, *, ignore_effects: bool = False
+    ) -> None:
+        """Each attached card with this sentence places its own counters.
+
+        Copies stack with each other and with a Tool that prints the same kind of
+        sentence. An attack that is not affected by effects on the Active places none.
+        The Active can already be Knocked Out; the counters still land.
+        """
+        if ignore_effects or defender.active is None or attacker.active is None:
+            return
+        mon = defender.active
+        sources: list[tuple[str, int, str]] = []
+        if mon.tool is not None:
+            tool = defender.card(mon.tool)
+            for eff in parse_trainer_effects(tool.text or ""):
+                if eff.get("kind") == "counters_on_attacker":
+                    sources.append((tool.name, int(eff.get("counters") or 0), "bursting_balloon"))
+        for energy_i in list(mon.energy):
+            energy = defender.card(energy_i)
+            for eff in parse_energy_effects(energy.text or ""):
+                if eff.get("kind") == "counters_on_attacker":
+                    sources.append((energy.name, int(eff.get("counters") or 0), "spiky_energy"))
+        for name, counters, event in sources:
             if counters <= 0:
                 continue
             attacker.active.damage += 10 * counters
-            self._bump("bursting_balloon", counters)
+            self._bump(event, counters)
             self._log(
-                f"{tool.name} puts {counters} damage counters on {attacker.card(attacker.active.card_i).name}"
+                f"{name} puts {counters} damage counters on {attacker.card(attacker.active.card_i).name}"
             )
 
     def _discard_opponent_turn_tools(self, who: str) -> None:
@@ -7121,7 +7234,10 @@ class Game:
                     strat.name in {"mew_baby", "baby"}
                     and name == "mew ex"
                     and me.in_play()
-                    and self._rulebox_lock_on_opponent(me)
+                    and (
+                        self._rulebox_lock_on_opponent(me)
+                        or (strat.one_mew and any(me.card(m.card_i).name.lower() == "mew ex" for m in me.in_play()))
+                    )
                 ):
                     continue
                 if strat.name == "party" and source == "nest ball" and name == "latias ex":
@@ -7247,11 +7363,248 @@ class Game:
         ]
 
     def _mew_wants_max_potion_tutor(self, me: Player) -> bool:
-        if not self._damaged_mews(me):
+        foe = self.players["b" if me.name == "A" else "a"]
+        if not self._mew_should_max_potion(me, foe):
             return False
         in_hand = any(me.card(i).name.lower() == "max potion" for i in me.hand)
         in_deck = any(me.card(i).name.lower() == "max potion" for i in me.deck)
         return in_deck and not in_hand
+
+    def _mew_bounce_promote_idx(self, me: Player) -> int:
+        """Promote a non-Mew so the bounced Mew ex can be replayed, then retreated into."""
+        if self._rulebox_lock_on_opponent(me):
+            wall = self._baby_wall_bench_idx(me)
+            if wall is not None:
+                return wall
+        for i, mon in enumerate(me.bench):
+            if me.card(mon.card_i).name.lower() != "mew ex":
+                return i
+        return 0
+
+    def _distinct_hand_energy(self, player: Player) -> list[int]:
+        seen: set[tuple[str, ...]] = set()
+        picked: list[int] = []
+        for card_i in player.hand:
+            card = player.card(card_i)
+            if not card.is_energy:
+                continue
+            key = tuple(energy_provided(card))
+            if key in seen:
+                continue
+            seen.add(key)
+            picked.append(card_i)
+        return picked
+
+    def _view_as_active(self, player: Player, mon: Pokemon):
+        """Make `mon` Active for a check. The returned callable restores the board."""
+        if mon is player.active or player.active is None or mon not in player.bench:
+            return lambda: None
+        idx = player.bench.index(mon)
+        incoming = player.bench.pop(idx)
+        player.bench.append(player.active)
+        player.active = incoming
+
+        def restore() -> None:
+            previous = player.bench.pop()
+            player.bench.insert(idx, player.active)
+            player.active = previous
+
+        return restore
+
+    def _can_become_attacker_next_turn(self, foe: Player, mon: Pokemon) -> bool:
+        if mon is foe.active:
+            return True
+        if foe.active is None or mon not in foe.bench:
+            return False
+        switches = {"switch", "switch cart", "escape rope", "surfer"}
+        if any(foe.card(i).name.lower() in switches for i in foe.hand):
+            return True
+        return len(foe.active.energy) >= self._retreat_cost(foe, foe.active)
+
+    def _max_payable_damage(self, attacker: Player, defender: Player) -> int:
+        if not attacker.active or not defender.active:
+            return 0
+        mon = attacker.active
+        pool = self._energy_pool(attacker, mon)
+        locked = mon.disabled_attack or getattr(mon, "disabled_self", None)
+        best = 0
+        for atk in self._attacks_for(attacker, mon):
+            if atk.name == locked:
+                continue
+            cost = self._attack_cost(attacker, mon, atk, defender)
+            if not can_pay_energy(pool, cost):
+                continue
+            best = max(best, self._raw_attack_damage(attacker, defender, mon, atk))
+        return best
+
+    def _compute_next_turn_damage(self, foe: Player, me: Player) -> int:
+        """Highest damage the opponent can put on our Active next turn.
+
+        Counts one Energy from their hand, and a Benched attacker they can
+        retreat or switch into.
+        """
+        if not foe.active or not me.active:
+            return 0
+        best = 0
+        energies = self._distinct_hand_energy(foe)
+        mons = [foe.active] + [mon for mon in foe.bench if self._can_become_attacker_next_turn(foe, mon)]
+        for mon in mons:
+            restore = self._view_as_active(foe, mon)
+            try:
+                best = max(best, self._max_payable_damage(foe, me))
+                for energy_i in energies:
+                    foe.active.energy.append(energy_i)
+                    try:
+                        best = max(best, self._max_payable_damage(foe, me))
+                    finally:
+                        if foe.active and energy_i in foe.active.energy:
+                            foe.active.energy.remove(energy_i)
+            finally:
+                restore()
+        return best
+
+    def _next_turn_damage(self, foe: Player, me: Player) -> int:
+        cached = getattr(self, "_next_turn_damage_cache", None)
+        if cached is not None and cached[0] is me and cached[1] is foe:
+            return cached[2]
+        damage = self._compute_next_turn_damage(foe, me)
+        self._next_turn_damage_cache = (me, foe, damage)
+        return damage
+
+    def _ko_next_turn(self, foe: Player, me: Player) -> bool:
+        if not me.active:
+            return False
+        remaining = self._max_hp(me, me.active) - me.active.damage
+        return self._next_turn_damage(foe, me) >= remaining > 0
+
+    def _printed_hp_bonus(self, card: Card, host_is_basic: bool) -> int:
+        text = (card.text or "").lower().replace("pokémon", "pokemon")
+        match = re.search(r"gets \+(\d+) hp", text)
+        if not match:
+            return 0
+        if "basic pokemon this card is attached" in text and not host_is_basic:
+            return 0
+        return int(match.group(1))
+
+    def _hand_hp_tool_prevents_ko(self, me: Player, foe: Player) -> bool:
+        mon = me.active
+        if mon is None or mon.tool is not None:
+            return False
+        host = me.card(mon.card_i)
+        if host.name.lower() != "mew ex":
+            return False
+        threat = self._next_turn_damage(foe, me)
+        remaining = self._max_hp(me, mon) - mon.damage
+        if remaining <= 0 or threat < remaining:
+            return False
+        for card_i in me.hand:
+            card = me.card(card_i)
+            if not self._is_tool_card(card):
+                continue
+            bonus = self._printed_hp_bonus(card, host.is_basic)
+            if bonus and threat < remaining + bonus:
+                return True
+        return False
+
+    def _arven_hp_tool_bonus(self, me: Player) -> int:
+        """HP the Tool Arven would actually find adds to an open Mew ex."""
+        if me.active is None or me.active.tool is not None:
+            return 0
+        if me.card(me.active.card_i).name.lower() != "mew ex":
+            return 0
+        deck = [me.card(i) for i in me.deck]
+        cape = next((card for card in deck if card.name.lower() == "hero's cape"), None)
+        if cape is not None:
+            return self._printed_hp_bonus(cape, True)
+        if self._bare_babies(me) and any(card.name.lower() == "bursting balloon" for card in deck):
+            return 0
+        best = 0
+        for card in deck:
+            if self._is_tool_card(card):
+                best = max(best, self._printed_hp_bonus(card, True))
+        return best
+
+    def _mew_arven_prevents_ko(self, me: Player, foe: Player) -> bool:
+        mon = me.active
+        if mon is None or not mon.energy or mon.tool is not None:
+            return False
+        if me.card(mon.card_i).name.lower() != "mew ex" or not self._ko_next_turn(foe, me):
+            return False
+        bonus = self._arven_hp_tool_bonus(me)
+        if bonus <= 0:
+            return False
+        remaining = self._max_hp(me, mon) - mon.damage
+        return self._next_turn_damage(foe, me) < remaining + bonus
+
+    def _mew_penny_target(self, me: Player, foe: Player) -> Pokemon | None:
+        mon = me.active
+        if mon is None or not me.bench or not mon.energy:
+            return None
+        if me.card(mon.card_i).name.lower() != "mew ex":
+            return None
+        if not self._ko_next_turn(foe, me) or self._hand_hp_tool_prevents_ko(me, foe):
+            return None
+        return mon
+
+    def _mew_should_max_potion(self, me: Player, foe: Player) -> bool:
+        damaged = self._damaged_mews(me)
+        if not damaged:
+            return False
+        if any(not mon.energy for mon in damaged):
+            return True
+        if me.active not in damaged or not me.active.energy:
+            return False
+        if not self._ko_next_turn(foe, me):
+            return False
+        if self._hand_hp_tool_prevents_ko(me, foe):
+            return False
+        if self._mew_penny_target(me, foe) is not None and any(me.card(i).name.lower() == "penny" for i in me.hand):
+            return False
+        return True
+
+    def _mew_potion_mon(self, me: Player, mews: list[Pokemon]) -> Pokemon:
+        """The one Max Potion heals. A charged Active Mew ex that would be Knocked Out wins over a bare Bench Mew ex."""
+        foe = self.players["b" if me.name == "A" else "a"]
+        penny_saves = self._mew_penny_target(me, foe) is not None and any(
+            me.card(i).name.lower() == "penny" for i in me.hand
+        )
+        active = me.active
+        if (
+            active in mews
+            and active.energy
+            and self._ko_next_turn(foe, me)
+            and not self._hand_hp_tool_prevents_ko(me, foe)
+            and not penny_saves
+        ):
+            return active
+        bare = [mon for mon in mews if not mon.energy]
+        return max(bare or mews, key=lambda m: (m is me.active, m.damage))
+
+    def _attacker_can_ko_active(self, attacker: Player, defender: Player) -> bool:
+        if not defender.active:
+            return False
+        remaining = self._max_hp(defender, defender.active) - defender.active.damage
+        return self._max_payable_damage(attacker, defender) >= remaining > 0
+
+    def _mew_gust_wins(self, me: Player, foe: Player) -> bool:
+        if not me.active or not foe.bench:
+            return False
+        remaining_prizes = self.rules.prize_count - me.prizes_taken
+        if remaining_prizes <= 0:
+            return False
+        if self._attacker_can_ko_active(me, foe) and self._prizes_for_ko(foe.card(foe.active.card_i)) >= remaining_prizes:
+            return False
+        for mon in list(foe.bench):
+            restore = self._view_as_active(foe, mon)
+            try:
+                if (
+                    self._attacker_can_ko_active(me, foe)
+                    and self._prizes_for_ko(foe.card(foe.active.card_i)) >= remaining_prizes
+                ):
+                    return True
+            finally:
+                restore()
+        return False
 
     def _baby_wall_rank(self, card: Card) -> int:
         return {
@@ -7304,7 +7657,7 @@ class Game:
         who = "a" if me.name == "A" else "b"
         mews = [mon for mon in hurt if me.card(mon.card_i).name.lower() == "mew ex"]
         if self.strats[who].name in {"mew_baby", "baby"} and mews:
-            mon = max(mews, key=lambda m: (m is me.active, m.damage))
+            mon = self._mew_potion_mon(me, mews)
         else:
             free = [mon for mon in hurt if not mon.energy]
             pool = free or hurt

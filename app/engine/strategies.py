@@ -29,6 +29,9 @@ class StrategySpec:
     max_ace_copies: int = 1
     closers: list[str] = field(default_factory=list)
     prefer_chip: bool = False
+    # mew_baby: a second Mew ex stays in hand. Bouncy Circle only counts
+    # benched Pokémon whose printed maximum HP is 30, and Mew ex retreats for 0.
+    one_mew: bool = False
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -57,6 +60,7 @@ class StrategySpec:
             "max_ace_copies": self.max_ace_copies,
             "closers": list(self.closers),
             "prefer_chip": self.prefer_chip,
+            "one_mew": self.one_mew,
         }
 
     @classmethod
@@ -99,6 +103,7 @@ class StrategySpec:
                 merged[field] = int(merged[field])
             except (TypeError, ValueError):
                 merged[field] = getattr(base, field)
+        merged["one_mew"] = bool(merged.get("one_mew", getattr(base, "one_mew", False)))
         return cls(**{k: merged[k] for k in cls.__dataclass_fields__})
 
 
@@ -598,10 +603,18 @@ STRATEGY_LIBRARY = {
             "Igglybuff Bouncy Circle for 30x benched 30-HP, "
             "Budew Itchy Pollen for Item lock, Cleffa Grasping Draw to refill hand, Mime Jr. Mimed Games. "
             "Buddy-Buddy Poffin and Nest Ball swarm 5 babies on bench. Battle Cage prevents bench damage counters. "
-            "Night Stretcher recovers KO'd Mew ex or babies. "
-            "Max Potion heals all damage from a damaged Mew ex. This list attaches no Energy, so that discard is free. "
+            "A second Mew ex stays in hand. Bouncy Circle counts only benched Pokémon whose printed maximum HP is 30, "
+            "and Mew ex retreats for 0, so the spare is played after the first leaves play. "
+            "Night Stretcher recovers KO'd Mew ex or babies. While one Mew ex is in play it takes a Baby first. "
+            "Max Potion heals a damaged Mew ex that has no Energy. "
+            "When that Mew ex has Energy and the opponent can Knock it Out on the next turn, "
+            "Penny puts that Mew ex and all attached cards into your hand, then it is played again. "
+            "A Supporter that wins this turn, or an Arven that finds an HP Tool which keeps that Mew ex in play, "
+            "is played instead. If Penny is not available, Max Potion still heals that Mew ex and discards the Energy. "
             "Hero's Cape goes on an open Mew ex. Bravery Charm is the other HP tool and stays on Mew ex. "
             "Bursting Balloon goes on a Baby: the printed counters hit the attacker. Babies do not take HP tools. "
+            "Spiky Energy attaches to the Pokémon that will stay Active, even when that Pokémon already has a Tool. "
+            "Each attached copy places its own printed counters, so copies stack with each other and with Bursting Balloon. "
             "While the opponent's Active shuts off Rule Box Abilities, a Baby stays Active and Mew ex stays back."
         ),
         prefer_damage=0.9,
@@ -615,6 +628,7 @@ STRATEGY_LIBRARY = {
         protect=["Mew ex", "Igglybuff", "Budew", "Battle Cage"],
         search_aces=["Mew ex", "Igglybuff"],
         closers=["Mew ex"],
+        one_mew=True,
     ),
     "thorns": StrategySpec(
         name="thorns",
@@ -642,6 +656,7 @@ STRATEGY_LIBRARY = {
         protect=["Mew ex", "Igglybuff", "Budew", "Battle Cage"],
         search_aces=["Mew ex", "Igglybuff"],
         closers=["Mew ex"],
+        one_mew=True,
     ),
 }
 
