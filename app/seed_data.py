@@ -417,13 +417,17 @@ SET_T_UNL_NAMES = (
 # Weights frozen from the 0-spike list: Hedrick 44.0%, T60 28.1%, C60 19.7%, D60 4.2%, Thorns 4.0%.
 # Weighted 86.6% → 88.4% → 89.1%. The next cut (Crushing Hammer, 88.8%) does not rise.
 # Cuts: Switch, Boss's Orders (3 → 2). Two Spiky Energy. Each copy's counters stack.
+# Penny on that two-Spiky list. Seed 20260929, 1000 games.
+# Weights frozen from the 0-Penny list: Hedrick 50.0%, T60 28.4%, C60 13.2%, D60 5.1%, Thorns 3.2%.
+# Weighted 87.0% → 88.2% → 88.3%. The next cut (Iono, 88.0%) does not rise.
+# Cuts: Ultra Ball (3 → 2), Mew ex (4 → 3). Two Penny.
 SET_M60_NAMES = (
-    ["Mew ex"] * 4
+    ["Mew ex"] * 3
     + ["Mime Jr."] * 2
     + ["Igglybuff"] * 4
     + ["Buddy-Buddy Poffin"] * 4
     + ["Nest Ball"] * 4
-    + ["Ultra Ball"] * 3
+    + ["Ultra Ball"] * 2
     + ["Night Stretcher"] * 4
     + ["Battle Cage"] * 4
     + ["Bravery Charm"] * 4
@@ -434,6 +438,7 @@ SET_M60_NAMES = (
     + ["Iono"] * 4
     + ["Professor's Research"] * 2
     + ["Boss's Orders"] * 2
+    + ["Penny"] * 2
     + ["Crushing Hammer"] * 4
     + ["Counter Catcher"] * 2
     + ["Spiky Energy"] * 2
