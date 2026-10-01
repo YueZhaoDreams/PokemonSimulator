@@ -51,6 +51,27 @@ def _names(player, idxs) -> list[str]:
     return [player.card(i).name for i in idxs]
 
 
+def test_opening_keeps_the_second_mew_in_hand():
+    game = _game(True)
+    me = game.players["a"]
+    me.hand = []
+    me.deck = []
+    me.prizes = []
+    me.active = None
+    me.bench = []
+    # _draw pops the end of the deck. The opening hand is these seven cards.
+    opening = ["Mew ex", "Mew ex", "Igglybuff", "Igglybuff", "Hop", "Hop", "Hop"]
+    me.deck = [_add(me, "Hop") for _ in range(53)]
+    me.deck.extend(_add(me, name) for name in reversed(opening))
+    game.rng.shuffle = lambda _seq: None
+    game._opening(me, game.strats["a"])
+    assert me.card(me.active.card_i).name == "Mew ex"
+    benched = [me.card(mon.card_i).name for mon in me.bench]
+    assert benched.count("Mew ex") == 0
+    assert benched.count("Igglybuff") == 2
+    assert [me.card(i).name for i in me.hand].count("Mew ex") == 1
+
+
 def test_one_mew_leaves_the_spare_in_hand_and_benches_babies():
     game = _game(True)
     me = game.players["a"]

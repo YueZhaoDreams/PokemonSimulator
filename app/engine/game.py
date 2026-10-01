@@ -225,6 +225,8 @@ class Game:
         for card_i in ace_cards:
             if len(player.bench) >= self.rules.bench_size:
                 break
+            if strat.one_mew and not self._wants_in_play(player, player.card(card_i), strat):
+                continue
             player.hand.remove(card_i)
             player.bench.append(Pokemon(card_i=card_i, played_turn=0))
             self._bump(f"saw_play:{player.card(card_i).name}")
