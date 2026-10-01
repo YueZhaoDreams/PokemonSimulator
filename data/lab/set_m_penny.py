@@ -84,7 +84,8 @@ WORKERS = int(os.environ.get("M_PENNY_WORKERS", os.environ.get("M_POTION_WORKERS
 IN_NAME = "Penny"
 
 QUERIES = [
-    {"type": "event_prefix", "prefix": "bounce:Penny", "key": "penny"},
+    # bounce:Penny also fires when the opponent plays Penny. Count only our side.
+    {"type": "event_prefix", "prefix": "bounce_a:Penny", "key": "penny"},
 ]
 DEST = ROOT / "data/lab/set-m-penny.json"
 MD_DEST = ROOT / "data/lab/set-m-penny.md"
