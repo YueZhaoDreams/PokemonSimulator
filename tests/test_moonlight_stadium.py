@@ -9,6 +9,7 @@ from app.engine.strategies import StrategySpec
 from app.seed_data import (
     SET_C60_NAMES,
     build_fallback_deck,
+    c60_names_before_latias,
     c60_names_before_second_moonlight,
     fallback_named,
 )
@@ -324,10 +325,15 @@ def test_non_phantom_does_not_bump_moonlight_with_cage():
     assert game._pick_trainer(me) is None
 
 
-def test_live_c60_has_two_moonlight_stadiums():
-    assert SET_C60_NAMES.count("Moonlight Stadium") == 2
-    assert SET_C60_NAMES.count("Ultra Ball") == 0
+def test_live_c60_is_one_latias_and_one_ultra_ball():
+    assert SET_C60_NAMES.count("Latias ex") == 1
+    assert SET_C60_NAMES.count("Ultra Ball") == 1
+    assert SET_C60_NAMES.count("Moonlight Stadium") == 0
     assert len(SET_C60_NAMES) == 60
+    previous = c60_names_before_latias()
+    assert previous.count("Moonlight Stadium") == 2
+    assert previous.count("Latias ex") == 0
+    assert previous.count("Ultra Ball") == 0
 
 
 def test_moonlight_swap_matrix_keeps_the_lock():
@@ -399,7 +405,7 @@ def test_third_moonlight_matrix_keeps_two_copies():
     assert blob["stadium_copies"] == 3
     assert blob["catalog_id"] == "dp4-100"
     assert blob["printed"] == PRINTED
-    assert blob["lists"]["lock"] == list(SET_C60_NAMES)
+    assert blob["lists"]["lock"] == c60_names_before_latias()
     assert blob["lists"]["lock"].count("Moonlight Stadium") == 2
     assert set(blob["cells"]) == {"lock", *blob["cuts"]}
     wcomp = blob["weighted_competitive"]

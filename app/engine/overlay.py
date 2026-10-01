@@ -56,6 +56,7 @@ PUBLISHED_EFFECT_KINDS = frozenset(
         "stadium_bench_damage",
         "stadium_retreat_less",
         "stadium_retreat_zero",
+        "basic_retreat_zero",
         "switch_with_benched",
         "return_self_to_hand",
         "search_any_card",

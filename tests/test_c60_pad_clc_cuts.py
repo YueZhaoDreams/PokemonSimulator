@@ -79,6 +79,10 @@ def test_ex_and_energy_cuts_leave_two_ex_and_thirteen_psychic():
         paid[paid.index("Ultra Ball")] = "Moonlight Stadium"
         replaced += 1
     assert replaced == 2
+    stadiums = [i for i, name in enumerate(paid) if name == "Moonlight Stadium"]
+    assert len(stadiums) == 2
+    paid[stadiums[0]] = "Latias ex"
+    paid[stadiums[1]] = "Ultra Ball"
     assert Counter(SET_C60_NAMES) == Counter(paid)
 
 
