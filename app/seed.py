@@ -46,7 +46,7 @@ def _is_basic_energy_name(name: str) -> bool:
     if not key.endswith(" energy"):
         return False
     # Special Energy names also end with "Energy".
-    if any(token in key for token in ("double", "boomerang", "telepathic", "enriching", "speed")):
+    if any(token in key for token in ("double", "boomerang", "telepathic", "enriching", "speed", "spiky", "spike energy")):
         return False
     return True
 

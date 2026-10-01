@@ -1024,6 +1024,16 @@ def parse_energy_effects(text: str) -> list[dict[str, Any]]:
                 "amount": int(attach_draw.group(1) or 1),
             }
         )
+    # Journey Together Spiky Energy. Each attached copy is its own sentence, so the
+    # counters stack with other copies and with a Tool that has the same kind of sentence.
+    # This printing has no Pokémon Tool clause. The count is the printed number.
+    spiked = re.search(
+        r"in the active spot and is damaged by an attack from your opponent's pokemon "
+        r"\(even if this pokemon is knocked out\), put (\d+) damage counters on the attacking pokemon",
+        t,
+    )
+    if spiked:
+        effects.append({"kind": "counters_on_attacker", "counters": int(spiked.group(1))})
     return effects
 
 

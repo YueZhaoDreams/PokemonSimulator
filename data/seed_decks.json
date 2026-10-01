@@ -23683,84 +23683,6 @@
         "dex_id": null
       },
       {
-        "catalog_id": "sv08.5-004",
-        "name": "Budew",
-        "category": "Pokemon",
-        "stage": "Basic",
-        "types": [
-          "Grass"
-        ],
-        "hp": 30,
-        "attacks": [
-          {
-            "name": "Itchy Pollen",
-            "cost": [],
-            "damage": 10,
-            "text": "During your opponent's next turn, they can't play any Item cards from their hand.",
-            "effects": [
-              {
-                "kind": "lock_items"
-              }
-            ]
-          }
-        ],
-        "abilities": [],
-        "weaknesses": [
-          {
-            "type": "Fire",
-            "value": "\u00d72"
-          }
-        ],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv08.5/004/low.webp",
-        "set_name": "Prismatic Evolutions",
-        "text": "",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "sv08.5-004",
-        "name": "Budew",
-        "category": "Pokemon",
-        "stage": "Basic",
-        "types": [
-          "Grass"
-        ],
-        "hp": 30,
-        "attacks": [
-          {
-            "name": "Itchy Pollen",
-            "cost": [],
-            "damage": 10,
-            "text": "During your opponent's next turn, they can't play any Item cards from their hand.",
-            "effects": [
-              {
-                "kind": "lock_items"
-              }
-            ]
-          }
-        ],
-        "abilities": [],
-        "weaknesses": [
-          {
-            "type": "Fire",
-            "value": "\u00d72"
-          }
-        ],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv08.5/004/low.webp",
-        "set_name": "Prismatic Evolutions",
-        "text": "",
-        "dex_id": null
-      },
-      {
         "catalog_id": "sv05-144",
         "name": "Buddy-Buddy Poffin",
         "category": "Trainer",
@@ -24219,6 +24141,48 @@
         "set_name": null,
         "text": "The Basic Pok\u00e9mon this card is attached to gets +50 HP.",
         "dex_id": null
+      },
+      {
+        "catalog_id": "xy9-97",
+        "name": "Bursting Balloon",
+        "category": "Trainer",
+        "stage": "Tool",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "tool",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/xy/xy9/97/low.webp",
+        "set_name": null,
+        "text": "If this card is attached to 1 of your Pok\u00e9mon, discard it at the end of your opponent\u2019s turn.\n\nIf the Pok\u00e9mon this card is attached to is your Active Pok\u00e9mon and is damaged by an opponent\u2019s attack (even if that Pok\u00e9mon is Knocked Out), put 6 damage counters on the Attacking Pok\u00e9mon.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "xy9-97",
+        "name": "Bursting Balloon",
+        "category": "Trainer",
+        "stage": "Tool",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "tool",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/xy/xy9/97/low.webp",
+        "set_name": null,
+        "text": "If this card is attached to 1 of your Pok\u00e9mon, discard it at the end of your opponent\u2019s turn.\n\nIf the Pok\u00e9mon this card is attached to is your Active Pok\u00e9mon and is damaged by an opponent\u2019s attack (even if that Pok\u00e9mon is Knocked Out), put 6 damage counters on the Attacking Pok\u00e9mon.",
+        "dex_id": null,
+        "traits": []
       },
       {
         "catalog_id": "sv05-152",

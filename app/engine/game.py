@@ -4211,6 +4211,8 @@ class Game:
         self._log(f"{me.name} attaches {src.name} as {src.as_energy_type} energy to {me.card(target.card_i).name}")
         if src.is_pokemon:
             self._bump("pokemon_as_energy")
+        if any(eff.get("kind") == "counters_on_attacker" for eff in parse_energy_effects(src.text or "")):
+            self._bump("attach_spiky_energy")
         self._resolve_energy_attach_from_hand(me, who, target, energy_i)
 
     def _resolve_energy_attach_from_hand(self, me: Player, who: str, target: Pokemon, energy_i: int) -> None:
@@ -4331,6 +4333,8 @@ class Game:
             for mon in me.in_play():
                 if "radiant charizard" in me.card(mon.card_i).name.lower() and not mon.energy:
                     return mon
+            if self._hand_has_attacker_counters(me):
+                return self._mew_counter_energy_target(me)
             return me.active
         if strat.name == "celebration":
             dest = self._celebration_energy_target(me)
@@ -4589,6 +4593,10 @@ class Game:
     def _choose_energy_card(self, me: Player, target: Pokemon, strat: StrategySpec) -> int | None:
         if strat.name == "thorns":
             return self._thorns_energy_card(me, target)
+        if strat.name in {"mew_baby", "baby"} and "radiant charizard" not in me.card(target.card_i).name.lower():
+            counters = self._attacker_counter_energies(me)
+            if counters:
+                return counters[0]
         need = self._needed_types(me, target)
         pool = self._energy_pool(me, target)
         card = me.card(target.card_i)
@@ -6992,23 +7000,72 @@ class Game:
             self._maybe_survival_brace(owner, mon, was_full=was_full, ignore_effects=ignore_effects)
             if owner.active is mon:
                 attacker = self.players["b" if owner is self.players["a"] else "a"]
-                self._apply_counters_on_attacker(owner, attacker)
+                self._apply_counters_on_attacker(owner, attacker, ignore_effects=ignore_effects)
 
-    def _apply_counters_on_attacker(self, defender: Player, attacker: Player) -> None:
-        """Printed tool: the Active was damaged by an attack, even if it is Knocked Out."""
-        if defender.active is None or defender.active.tool is None or attacker.active is None:
-            return
-        tool = defender.card(defender.active.tool)
-        for eff in parse_trainer_effects(tool.text or ""):
-            if eff.get("kind") != "counters_on_attacker":
+    def _attacker_counter_energies(self, me: Player) -> list[int]:
+        found: list[int] = []
+        for card_i in me.hand:
+            card = me.card(card_i)
+            if not card.is_energy:
                 continue
-            counters = int(eff.get("counters") or 0)
+            if any(eff.get("kind") == "counters_on_attacker" for eff in parse_energy_effects(card.text or "")):
+                found.append(card_i)
+        return found
+
+    def _hand_has_attacker_counters(self, me: Player) -> bool:
+        return bool(self._attacker_counter_energies(me))
+
+    def _mew_counter_energy_target(self, me: Player) -> Pokemon:
+        """Printed counters only resolve in the Active Spot, and each copy stacks there.
+
+        Attach to the Pokémon this strategy will leave Active, including one that
+        already has a Tool or another copy.
+        """
+        assert me.active
+        if self._rulebox_lock_on_opponent(me):
+            if self._baby_wall_rank(me.card(me.active.card_i)) < 9:
+                return me.active
+            idx = self._baby_wall_bench_idx(me)
+            if idx is not None:
+                return me.bench[idx]
+            return me.active
+        if me.card(me.active.card_i).name.lower() == "mew ex":
+            return me.active
+        for mon in me.bench:
+            if me.card(mon.card_i).name.lower() == "mew ex":
+                return mon
+        return me.active
+
+    def _apply_counters_on_attacker(
+        self, defender: Player, attacker: Player, *, ignore_effects: bool = False
+    ) -> None:
+        """Each attached card with this sentence places its own counters.
+
+        Copies stack with each other and with a Tool that prints the same kind of
+        sentence. An attack that is not affected by effects on the Active places none.
+        The Active can already be Knocked Out; the counters still land.
+        """
+        if ignore_effects or defender.active is None or attacker.active is None:
+            return
+        mon = defender.active
+        sources: list[tuple[str, int, str]] = []
+        if mon.tool is not None:
+            tool = defender.card(mon.tool)
+            for eff in parse_trainer_effects(tool.text or ""):
+                if eff.get("kind") == "counters_on_attacker":
+                    sources.append((tool.name, int(eff.get("counters") or 0), "bursting_balloon"))
+        for energy_i in list(mon.energy):
+            energy = defender.card(energy_i)
+            for eff in parse_energy_effects(energy.text or ""):
+                if eff.get("kind") == "counters_on_attacker":
+                    sources.append((energy.name, int(eff.get("counters") or 0), "spiky_energy"))
+        for name, counters, event in sources:
             if counters <= 0:
                 continue
             attacker.active.damage += 10 * counters
-            self._bump("bursting_balloon", counters)
+            self._bump(event, counters)
             self._log(
-                f"{tool.name} puts {counters} damage counters on {attacker.card(attacker.active.card_i).name}"
+                f"{name} puts {counters} damage counters on {attacker.card(attacker.active.card_i).name}"
             )
 
     def _discard_opponent_turn_tools(self, who: str) -> None:

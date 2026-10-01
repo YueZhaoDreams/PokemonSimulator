@@ -593,6 +593,8 @@ STRATEGY_LIBRARY = {
             "Max Potion heals all damage from a damaged Mew ex. This list attaches no Energy, so that discard is free. "
             "Hero's Cape goes on an open Mew ex. Bravery Charm is the other HP tool and stays on Mew ex. "
             "Bursting Balloon goes on a Baby: the printed counters hit the attacker. Babies do not take HP tools. "
+            "Spiky Energy attaches to the Pokémon that will stay Active, even when that Pokémon already has a Tool. "
+            "Each attached copy places its own printed counters, so copies stack with each other and with Bursting Balloon. "
             "While the opponent's Active shuts off Rule Box Abilities, a Baby stays Active and Mew ex stays back."
         ),
         prefer_damage=0.9,

@@ -1386,6 +1386,29 @@ _TELEPATHIC = _register(
 FALLBACK_BY_NAME["telepathic energy"] = _TELEPATHIC
 FALLBACK_BY_NAME["telepathic psychic energy"] = _TELEPATHIC
 
+# Journey Together 159. No Pokémon Tool clause. Each attached copy places its own counters.
+_SPIKY_ENERGY_TEXT = (
+    "As long as this card is attached to a Pokémon, it provides Colorless Energy.\n\n"
+    "If the Pokémon this card is attached to is in the Active Spot and is damaged by an attack "
+    "from your opponent's Pokémon (even if this Pokémon is Knocked Out), put 2 damage counters "
+    "on the Attacking Pokémon."
+)
+_SPIKY = _register(
+    Card(
+        catalog_id="sv09-159",
+        name="Spiky Energy",
+        category="Energy",
+        stage="Special",
+        types=["Colorless"],
+        energy_type="Colorless",
+        text=_SPIKY_ENERGY_TEXT,
+        image="https://assets.tcgdex.net/en/sv/sv09/159/low.webp",
+        set_name="Journey Together",
+        retreat=0,
+    )
+)
+FALLBACK_BY_NAME["spike energy"] = _SPIKY
+
 for card in [
     _pkm("Sobble", "Basic", ["Water"], 60, [_atk("Water Gun", ["Water"], 20)], weakness="Lightning"),
     _pkm("Snom", "Basic", ["Water"], 50, [_atk("Powder Snow", ["Water"], 10)], weakness="Metal"),
@@ -4034,6 +4057,8 @@ def fallback_named(name: str) -> Card:
         key = "speed lightning energy"
     if key == "draw energy":
         key = "draw energy"
+    if key == "spike energy":
+        key = "spiky energy"
     if key in FALLBACK_BY_NAME:
         card = FALLBACK_BY_NAME[key]
         return Card.from_dict(card.to_dict())
@@ -4046,6 +4071,8 @@ def fallback_named(name: str) -> Card:
         and "speed lightning" not in key
         and "speed l" not in key
         and key != "draw energy"
+        and "spiky" not in key
+        and key != "spike energy"
     ):
         return _nrg(name.split()[0].title())
     from app.catalog import fallback_card
