@@ -96,6 +96,12 @@ def test_s60_seed_aliases_and_prankish_c60():
     assert names.count("Poké Pad") == 1
     assert names.count("Mega Clefable ex") == 0
     assert names.count("Seeker") == 1
+    seeker = next(c for c in c60["cards"] if c["name"] == "Seeker")
+    assert seeker["catalog_id"] == "hgss4-88"
+    assert "hgss4/88" in (seeker.get("image") or "")
+    assert "hgss3/85" not in (seeker.get("image") or "")
+    assert "Each player returns 1 of his or her Benched" in (seeker.get("text") or "")
+    assert fallback_named("Seeker").image == seeker.get("image")
     hedrick = load_seed_deck("t-meta")
     assert [c["name"] for c in hedrick["cards"]].count("Rare Candy") == 0
     assert [c["name"] for c in hedrick["cards"]].count("Dragapult ex") == 3
@@ -119,6 +125,34 @@ def test_s60_seed_aliases_and_prankish_c60():
     assert load_seed_deck("raikou")["id"] == "seed-g30"
     assert load_seed_deck("ambipom")["id"] == "seed-g30"
     assert load_seed_deck("lopunny")["id"] == "seed-g30"
+
+
+def test_existing_seed_c60_replaces_slowking_scan_on_seeker(tmp_path, monkeypatch):
+    monkeypatch.setattr("app.db.DB_PATH", tmp_path / "app.db")
+    from app.db import connect, init_db
+
+    init_db()
+    with connect() as conn:
+        raw = conn.execute("SELECT cards_json FROM decks WHERE id='seed-c60'").fetchone()["cards_json"]
+        cards = json.loads(raw)
+        for card in cards:
+            if card.get("name") == "Seeker":
+                card["catalog_id"] = "hgss3-85"
+                card["image"] = "https://assets.tcgdex.net/en/hgss/hgss3/85/low.webp"
+        conn.execute(
+            "UPDATE decks SET cards_json=? WHERE id='seed-c60'",
+            (json.dumps(cards),),
+        )
+    init_db()
+    with connect() as conn:
+        stored = json.loads(
+            conn.execute("SELECT cards_json FROM decks WHERE id='seed-c60'").fetchone()["cards_json"]
+        )
+    seeker = next(c for c in stored if c.get("name") == "Seeker")
+    assert seeker["catalog_id"] == "hgss4-88"
+    assert "hgss4/88" in seeker["image"]
+    assert "hgss3/85" not in seeker["image"]
+    assert "Each player returns 1 of his or her Benched" in (seeker.get("text") or "")
 
 
 def test_existing_seed_c60_replaces_clefairy_scan(tmp_path, monkeypatch):

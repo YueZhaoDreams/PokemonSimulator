@@ -91,6 +91,7 @@ class Card:
     set_name: str | None = None
     text: str = ""
     dex_id: int | None = None
+    traits: list[str] = field(default_factory=list)
 
     @property
     def is_pokemon(self) -> bool:
@@ -152,6 +153,7 @@ class Card:
             set_name=data.get("set_name"),
             text=data.get("text") or "",
             dex_id=data.get("dex_id"),
+            traits=[str(t) for t in (data.get("traits") or [])],
         )
 
 
