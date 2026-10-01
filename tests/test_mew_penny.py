@@ -170,6 +170,19 @@ def test_penny_returns_the_charged_mew_then_it_is_replayed_active():
     assert me.active.energy == [spike_i]
 
 
+def test_one_potion_saves_the_charged_active_mew_ahead_of_a_bare_bench_mew():
+    game = _game()
+    _arm_dragapult(game, ["Fire Energy", "Psychic Energy"])
+    me = _mew_board(game, damage=40, energy=True, hand=["Max Potion"])
+    bench_mew = Pokemon(card_i=_add(me, "Mew ex"), damage=10)
+    me.bench.append(bench_mew)
+    game._play_trainers(me, game.players["b"], "a")
+    assert me.active.damage == 0
+    assert me.active.energy == []
+    assert bench_mew.damage == 10
+    assert game.events.get("max_potion") == 1
+
+
 def test_missing_penny_still_max_potions_a_charged_mew_that_would_be_koed():
     game = _game()
     _arm_dragapult(game, ["Fire Energy", "Psychic Energy"])

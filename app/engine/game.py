@@ -7469,6 +7469,24 @@ class Game:
             return False
         return True
 
+    def _mew_potion_mon(self, me: Player, mews: list[Pokemon]) -> Pokemon:
+        """The one Max Potion heals. A charged Active Mew ex that would be Knocked Out wins over a bare Bench Mew ex."""
+        foe = self.players["b" if me.name == "A" else "a"]
+        penny_saves = self._mew_penny_target(me, foe) is not None and any(
+            me.card(i).name.lower() == "penny" for i in me.hand
+        )
+        active = me.active
+        if (
+            active in mews
+            and active.energy
+            and self._ko_next_turn(foe, me)
+            and not self._hand_hp_tool_prevents_ko(me, foe)
+            and not penny_saves
+        ):
+            return active
+        bare = [mon for mon in mews if not mon.energy]
+        return max(bare or mews, key=lambda m: (m is me.active, m.damage))
+
     def _attacker_can_ko_active(self, attacker: Player, defender: Player) -> bool:
         if not defender.active:
             return False
@@ -7546,8 +7564,7 @@ class Game:
         who = "a" if me.name == "A" else "b"
         mews = [mon for mon in hurt if me.card(mon.card_i).name.lower() == "mew ex"]
         if self.strats[who].name in {"mew_baby", "baby"} and mews:
-            bare = [mon for mon in mews if not mon.energy]
-            mon = max(bare or mews, key=lambda m: (m is me.active, m.damage))
+            mon = self._mew_potion_mon(me, mews)
         else:
             free = [mon for mon in hurt if not mon.energy]
             pool = free or hurt
