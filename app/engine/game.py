@@ -7130,6 +7130,12 @@ class Game:
                     and self._rulebox_lock_on_opponent(me)
                 ):
                     continue
+                if strat.name == "party" and source == "nest ball" and name == "latias ex":
+                    # Poffin still takes ≤70 HP Clefairy. Once one engine is out,
+                    # Nest's job is the Basic that prints Skyliner.
+                    clef_out = sum(1 for m in me.in_play() if self._is_clefairy(me.card(m.card_i)))
+                    if clef_out >= 1 and name not in in_play:
+                        score += 30
                 if strat.name == "g" and source == "nest ball":
                     # Poffin already takes ≤70 HP. Nest's job on this list is Munkidori
                     # (110 HP) after the first Clefairy is down.
