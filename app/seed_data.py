@@ -979,6 +979,15 @@ _MAX_POTION_TEXT = (
 )
 _register(_trn("Max Potion", "item", _MAX_POTION_TEXT, catalog_id="sm2-128"))
 _register(_trn("Energy Switch", "item", "Move a Basic Energy from 1 of your Pokémon to another of your Pokémon."))
+# Phantasmal Flames 94. Item. Basic Psychic only, and only onto a Benched Psychic.
+_register(
+    _trn(
+        "Wondrous Patch",
+        "item",
+        "Attach a Basic Psychic Energy card from your discard pile to 1 of your Benched Psychic Pokémon.",
+        catalog_id="me02-094",
+    )
+)
 _register(
     _trn(
         "Super Rod",
