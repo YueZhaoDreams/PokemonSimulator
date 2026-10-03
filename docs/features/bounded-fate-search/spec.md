@@ -1,6 +1,6 @@
 # Bounded fate search
 
-Status: in_review
+Status: done
 
 Epic: deck-as-fate
 
@@ -43,11 +43,11 @@ The 60-card space is finite but not enumerable. A trainer wants "a relatively be
 
 ## Acceptance Criteria
 
-- [ ] Returns ≥ 1 legal neighbor with a reason from Set G + fixture pool.
-- [ ] Linked higher-quality substitute for an isolated weaker attacker outranks keeping it unless locked.
-- [ ] `delta_s` and confirming win rate shown side by side; pruned rows carry `delta_s` only.
-- [ ] Budget enforced; no full-catalog enumeration.
-- [ ] Output labelled a relative improvement.
+- [x] Returns ≥ 1 legal neighbor with a reason from Set G + fixture pool.
+- [x] Linked higher-quality substitute for an isolated weaker attacker outranks keeping it unless locked.
+- [x] `delta_s` and confirming win rate shown side by side; pruned rows carry `delta_s` only.
+- [x] Budget enforced; no full-catalog enumeration.
+- [x] Output labelled a relative improvement.
 
 ## Validation Plan
 
