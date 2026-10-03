@@ -703,12 +703,10 @@ def test_seeker_reline_frees_a_full_bench_prankish_for_ex():
     exes = [i for i, c in enumerate(me.cards) if c.name == "Clefable ex"]
     mewtwos = [i for i, c in enumerate(me.cards) if c.name == "Mewtwo ex"]
     mega = _card(game, "Mega Clefable ex")
-    clc = next(i for i, c in enumerate(me.cards) if c.name == "Clefable CLC" or (
-        c.name == "Clefable" and any(a.name == "Metronome" for a in c.attacks)
-    ))
+    latias = next(i for i, c in enumerate(me.cards) if c.name == "Latias ex")
     seeker = next(i for i, c in enumerate(me.cards) if c.name == "Seeker")
     drag = next(i for i, c in enumerate(foe.cards) if c.name == "Dragapult ex")
-    me.active = Pokemon(card_i=clc, played_turn=0)
+    me.active = Pokemon(card_i=latias, played_turn=0)
     me.bench = [
         Pokemon(card_i=prank, played_turn=0, underneath=[fairies[0]]),
         Pokemon(card_i=mewtwos[0], played_turn=0),

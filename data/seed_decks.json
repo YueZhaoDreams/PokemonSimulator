@@ -10320,67 +10320,6 @@
         "dex_id": null
       },
       {
-        "catalog_id": "clc-014",
-        "name": "Clefable",
-        "category": "Pokemon",
-        "stage": "Stage1",
-        "types": [
-          "Colorless"
-        ],
-        "hp": 70,
-        "attacks": [
-          {
-            "name": "Metronome",
-            "cost": [
-              "Colorless"
-            ],
-            "damage": 0,
-            "text": "Choose 1 of your opponent's Active Pok\u00e9mon's attacks and use it as this attack.",
-            "effects": [
-              {
-                "kind": "copy_active_attack"
-              }
-            ]
-          },
-          {
-            "name": "Minimize",
-            "cost": [
-              "Colorless",
-              "Colorless"
-            ],
-            "damage": 0,
-            "text": "During your opponent's next turn, this Pok\u00e9mon takes 20 less damage from attacks (after applying Weakness and Resistance).",
-            "effects": [
-              {
-                "kind": "reduce_damage_next_turn",
-                "amount": 20
-              }
-            ]
-          }
-        ],
-        "abilities": [],
-        "weaknesses": [
-          {
-            "type": "Fighting",
-            "value": "\u00d72"
-          }
-        ],
-        "resistances": [
-          {
-            "type": "Psychic",
-            "value": "-30"
-          }
-        ],
-        "retreat": 2,
-        "evolves_from": "Clefairy",
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/base/base2/1/low.webp",
-        "set_name": "Pok\u00e9mon TCG Classic",
-        "text": "",
-        "dex_id": null
-      },
-      {
         "catalog_id": "sv03-082",
         "name": "Clefable ex",
         "category": "Pokemon",
@@ -10925,26 +10864,6 @@
         "image": "https://assets.tcgdex.net/en/sv/sv01/166/low.webp",
         "set_name": null,
         "text": "Search your deck for an Item card and a Pok\u00e9mon Tool card, reveal them, and put them into your hand. Then, shuffle your deck.",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "sv02-172",
-        "name": "Boss's Orders",
-        "category": "Trainer",
-        "stage": "Supporter",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "supporter",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv02/172/low.webp",
-        "set_name": null,
-        "text": "Switch in 1 of your opponent's Benched Pok\u00e9mon to the Active Spot.",
         "dex_id": null
       },
       {
@@ -11558,6 +11477,48 @@
         "set_name": null,
         "text": "Search your deck for a Pok\u00e9mon that doesn't have a Rule Box, reveal it, and put it into your hand. Then, shuffle your deck. (Pok\u00e9mon ex, Pok\u00e9mon V, etc. have Rule Boxes.)",
         "dex_id": null
+      },
+      {
+        "catalog_id": "me02-094",
+        "name": "Wondrous Patch",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/me/me02/094/low.webp",
+        "set_name": null,
+        "text": "Attach a Basic Psychic Energy card from your discard pile to 1 of your Benched Psychic Pok\u00e9mon.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "me02-094",
+        "name": "Wondrous Patch",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/me/me02/094/low.webp",
+        "set_name": null,
+        "text": "Attach a Basic Psychic Energy card from your discard pile to 1 of your Benched Psychic Pok\u00e9mon.",
+        "dex_id": null,
+        "traits": []
       }
     ]
   },

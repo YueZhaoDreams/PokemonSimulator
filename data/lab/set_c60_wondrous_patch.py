@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """Greedy Wondrous Patch swaps for the locked C60 list.
 
-Start from SET_C60_NAMES (zero Wondrous Patch). Each step replaces exactly one
-copy of one other card with one Wondrous Patch. The decision score is the
-loss-weighted win rate. Weights are frozen from that starting list. Stop when
-the next swap does not raise that score, or at 4 copies.
+The live lock is two Wondrous Patch. This search starts from the previous
+list (``c60_names_before_patch``: zero Wondrous Patch). Each step replaces
+exactly one copy of one other card with one Wondrous Patch. The decision
+score is the loss-weighted win rate. Weights are frozen from that starting
+list. Stop when the next swap does not raise that score, or at 4 copies.
 
 The party line this card is scored with: on a later turn the Active Clefairy
 already has one Energy, attaches one more, and retreats, discarding those two.
@@ -37,7 +38,6 @@ from app.engine.models import standard_60_rules
 from app.engine.montecarlo import run_simulation
 from app.engine.strategies import StrategySpec
 from app.seed_data import (
-    SET_C60_NAMES,
     SET_D60_NAMES,
     SET_G_NAMES,
     SET_S60_NAMES,
@@ -45,6 +45,7 @@ from app.seed_data import (
     SET_T_META_NAMES,
     SET_T_UNL_NAMES,
     build_fallback_deck,
+    c60_names_before_patch,
 )
 
 FOES = (
@@ -236,9 +237,9 @@ def _write(report: dict) -> None:
 
 def main() -> None:
     started = time.perf_counter()
-    current = list(SET_C60_NAMES)
+    current = c60_names_before_patch()
     if len(current) != 60:
-        raise SystemExit(f"SET_C60_NAMES has {len(current)} cards")
+        raise SystemExit(f"pre-Patch C60 has {len(current)} cards")
     if current.count(IN_NAME):
         raise SystemExit("baseline already contains Wondrous Patch; greedy expects zero")
 

@@ -85,14 +85,16 @@ def test_s60_seed_aliases_and_prankish_c60():
     assert names.count("Telepathic Psychic Energy") == 2
     assert names.count("Energy Search") == 0
     fables = [c for c in c60["cards"] if c["name"] == "Clefable"]
-    assert Counter(c.get("catalog_id") for c in fables) == Counter({"swsh2-75": 1, "clc-014": 1})
+    assert Counter(c.get("catalog_id") for c in fables) == Counter({"swsh2-75": 1})
     prankish = next(c for c in fables if c.get("catalog_id") == "swsh2-75")
-    clc = next(c for c in fables if c.get("catalog_id") == "clc-014")
     assert any(a.get("name") == "Prankish" for a in (prankish.get("abilities") or []))
-    assert any(a.get("name") == "Metronome" for a in (clc.get("attacks") or []))
-    assert "base2/1" in (clc.get("image") or "")
-    assert "base1/5" not in (clc.get("image") or "")
-    assert fallback_named("Clefable CLC").image == clc.get("image")
+    assert "clc-014" not in {c.get("catalog_id") for c in c60["cards"]}
+    patches = [c for c in c60["cards"] if c["name"] == "Wondrous Patch"]
+    assert [c.get("catalog_id") for c in patches] == ["me02-094", "me02-094"]
+    clc = fallback_named("Clefable CLC")
+    assert clc.catalog_id == "clc-014"
+    assert "base2/1" in (clc.image or "")
+    assert "base1/5" not in (clc.image or "")
     assert names.count("Poké Pad") == 1
     assert names.count("Mega Clefable ex") == 0
     assert names.count("Seeker") == 1
@@ -155,17 +157,18 @@ def test_existing_seed_c60_replaces_slowking_scan_on_seeker(tmp_path, monkeypatc
     assert "Each player returns 1 of his or her Benched" in (seeker.get("text") or "")
 
 
-def test_existing_seed_c60_replaces_clefairy_scan(tmp_path, monkeypatch):
+def test_existing_seed_c60_drops_a_stale_clc_scan(tmp_path, monkeypatch):
     monkeypatch.setattr("app.db.DB_PATH", tmp_path / "app.db")
     from app.db import connect, init_db
+    from app.seed_data import fallback_named
 
     init_db()
+    stale = fallback_named("Clefable CLC").to_dict()
+    stale["image"] = "https://assets.tcgdex.net/en/base/base1/5/low.webp"
     with connect() as conn:
         raw = conn.execute("SELECT cards_json FROM decks WHERE id='seed-c60'").fetchone()["cards_json"]
         cards = json.loads(raw)
-        for card in cards:
-            if card.get("catalog_id") == "clc-014":
-                card["image"] = "https://assets.tcgdex.net/en/base/base1/5/low.webp"
+        cards.append(stale)
         conn.execute(
             "UPDATE decks SET cards_json=? WHERE id='seed-c60'",
             (json.dumps(cards),),
@@ -175,22 +178,27 @@ def test_existing_seed_c60_replaces_clefairy_scan(tmp_path, monkeypatch):
         stored = json.loads(
             conn.execute("SELECT cards_json FROM decks WHERE id='seed-c60'").fetchone()["cards_json"]
         )
-    clc = next(c for c in stored if c.get("catalog_id") == "clc-014")
-    assert "base2/1" in clc["image"]
-    assert "base1/5" not in clc["image"]
+    assert len(stored) == 60
+    assert not any(c.get("catalog_id") == "clc-014" for c in stored)
+    assert not any("base1/5" in (c.get("image") or "") for c in stored)
+    assert [c.get("catalog_id") for c in stored if c.get("name") == "Wondrous Patch"] == [
+        "me02-094",
+        "me02-094",
+    ]
 
 
-def test_existing_seed_c60_keeps_custom_clc_scan(tmp_path, monkeypatch):
+def test_existing_seed_c60_drops_a_custom_clc_scan(tmp_path, monkeypatch):
     monkeypatch.setattr("app.db.DB_PATH", tmp_path / "app.db")
     from app.db import connect, init_db
+    from app.seed_data import fallback_named
 
     init_db()
+    custom = fallback_named("Clefable CLC").to_dict()
+    custom["image"] = "/uploads/clc.jpg"
     with connect() as conn:
         raw = conn.execute("SELECT cards_json FROM decks WHERE id='seed-c60'").fetchone()["cards_json"]
         cards = json.loads(raw)
-        for card in cards:
-            if card.get("catalog_id") == "clc-014":
-                card["image"] = "/uploads/clc.jpg"
+        cards.append(custom)
         conn.execute(
             "UPDATE decks SET cards_json=? WHERE id='seed-c60'",
             (json.dumps(cards),),
@@ -200,5 +208,6 @@ def test_existing_seed_c60_keeps_custom_clc_scan(tmp_path, monkeypatch):
         stored = json.loads(
             conn.execute("SELECT cards_json FROM decks WHERE id='seed-c60'").fetchone()["cards_json"]
         )
-    clc = next(c for c in stored if c.get("catalog_id") == "clc-014")
-    assert clc["image"] == "/uploads/clc.jpg"
+    assert len(stored) == 60
+    assert not any(c.get("catalog_id") == "clc-014" for c in stored)
+    assert not any(c.get("image") == "/uploads/clc.jpg" for c in stored)
