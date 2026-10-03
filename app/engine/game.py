@@ -72,6 +72,10 @@ class Player:
     retreated: bool = False
     mulligans: int = 0
     prizes_taken: int = 0
+    own_turns: int = 0
+    fate_first_attack: dict[str, int] = field(default_factory=dict)
+    energy_in_play_by_turn: dict[int, int] = field(default_factory=dict)
+    ever_in_play: set[str] = field(default_factory=set)
     first_attacks_turn: dict[str, int] = field(default_factory=dict)
     item_lock: bool = False
     pending_item_lock: bool = False
@@ -108,6 +112,7 @@ class GameResult:
     mulligans_b: int
     prizes_taken_a: int
     prizes_taken_b: int
+    fate: dict[str, Any] = field(default_factory=dict)
 
 
 class Game:
@@ -703,6 +708,31 @@ class Game:
     def names(self, player: Player, idxs: list[int]) -> list[str]:
         return [player.card(i).name for i in idxs]
 
+    def _note_energy(self, who: str) -> None:
+        """Energy in play at the end of this player's own turn. The fate report picks which turn."""
+        me = self.players[who]
+        me.ever_in_play.update(me.card(mon.card_i).name for mon in me.in_play())
+        if me.own_turns <= 0:
+            return
+        me.energy_in_play_by_turn[me.own_turns] = sum(len(mon.energy) for mon in me.in_play())
+
+    def _fate_sides(self) -> dict[str, Any]:
+        return {"a": self._fate_side("a"), "b": self._fate_side("b")}
+
+    def _fate_side(self, who: str) -> dict[str, Any]:
+        me = self.players[who]
+        in_play = [me.card(mon.card_i).name for mon in me.in_play()]
+        return {
+            "mulligans": me.mulligans,
+            "prizes_taken": me.prizes_taken,
+            "own_turns": me.own_turns,
+            "first_attack_turn": dict(me.fate_first_attack),
+            "energy_in_play_by_turn": {str(turn): count for turn, count in me.energy_in_play_by_turn.items()},
+            "hand": [me.card(i).name for i in me.hand],
+            "in_play": in_play,
+            "ever_in_play": sorted(set(me.ever_in_play) | set(in_play)),
+        }
+
     def play(self) -> GameResult:
         a = self.players["a"]
         b = self.players["b"]
@@ -725,7 +755,9 @@ class Game:
         for _ in range(self.rules.max_turns):
             self.turn += 1
             who = self.current
-            if self._take_turn(who):
+            ended = self._take_turn(who)
+            self._note_energy(who)
+            if ended:
                 break
             self.current = "b" if who == "a" else "a"
         else:
@@ -746,6 +778,7 @@ class Game:
             mulligans_b=b.mulligans,
             prizes_taken_a=a.prizes_taken,
             prizes_taken_b=b.prizes_taken,
+            fate=self._fate_sides(),
         )
 
     def _finish(self, winner: str, reason: str) -> GameResult:
@@ -768,6 +801,7 @@ class Game:
             mulligans_b=b.mulligans,
             prizes_taken_a=a.prizes_taken,
             prizes_taken_b=b.prizes_taken,
+            fate=self._fate_sides(),
         )
 
     def _finish_by_damage(self) -> None:
@@ -787,6 +821,7 @@ class Game:
     def _take_turn(self, who: str) -> bool:
         me = self.players[who]
         foe = self.players["b" if who == "a" else "a"]
+        me.own_turns += 1
         self.moonlight_pivot_mon.pop(who, None)
         me.supporter_used = False
         me.energy_attached = False
@@ -4853,6 +4888,7 @@ class Game:
         defender = foe.card(foe.active.card_i)
         self._bump(f"attack:{attacker.name}:{atk.name}")
         self._bump(f"attack_by:{who}")
+        me.fate_first_attack.setdefault(f"{attacker.name}|{atk.name}", me.own_turns)
         if resolved is not atk:
             self._bump(f"metronome:{resolved.name}")
             self._log(f"{attacker.name} Metronome copies {resolved.name}")

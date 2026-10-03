@@ -1,6 +1,6 @@
 # Uncertainty tie-break
 
-Status: ready
+Status: in_review
 
 Epic: deck-as-fate
 
@@ -27,7 +27,7 @@ Two lists with the same expected output are not equal: the one that bricks less 
 
 1. Add event counters to the existing per-game log path (reuse query mechanism from `lab-run-cells` where possible).
 2. Aggregate to variance / rates; attach `sim_id`.
-3. `compare_lists`: if `|mean_a − mean_b| < tol` prefer lower variance / brick; else prefer higher mean; always explain.
+3. `compare_lists`: if `|mean_a − mean_b| < tol` prefer lower variance / brick; else prefer the better mean. The preset says which outputs want a higher mean (prizes, energy in play, win rate) and which want a lower mean (mulligans, turn of the lead attack). That direction is data and is echoed. Always explain.
 4. Tests with two seeded fixture lists (e.g. Set G vs Set G with 3 Psychic Energy swapped for a 1-1 line) at a small games count and fixed seed.
 
 ## Data Model And API Impact
@@ -40,7 +40,7 @@ Two lists with the same expected output are not equal: the one that bricks less 
 
 - [ ] Monte Carlo result exposes variance, brick rate, chain-break rate with the simulation id.
 - [ ] For two fixture lists within tolerance on mean, the lower-uncertainty list is preferred and the reason says so.
-- [ ] For two lists outside tolerance, the higher mean wins and the reason says so.
+- [ ] For two lists outside tolerance, the better mean wins and the reason says which direction.
 - [ ] No number without a `sim_id`.
 
 ## Validation Plan

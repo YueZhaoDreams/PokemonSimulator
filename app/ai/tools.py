@@ -18,7 +18,7 @@ from app.db import (
     save_simulation,
     save_user_strategy,
 )
-from app.engine.fate import compute_ceilings, compute_metrics, rank_swaps
+from app.engine.fate import compare_lists, compute_ceilings, compute_metrics, rank_swaps
 from app.engine.models import (
     SELECTABLE_RULE_PRESETS,
     rules_for_user,
@@ -125,6 +125,31 @@ TOOL_SCHEMAS = [
             "type": "object",
             "properties": {"deck_id": {"type": "string"}},
             "required": ["deck_id"],
+        },
+    },
+    {
+        "name": "compare_fates",
+        "description": (
+            "Compare two saved decks by a Monte Carlo output. When the means are within the "
+            "preset tolerance, prefer the list with lower variance and fewer broken evolution lines. "
+            "When the means are outside tolerance, prefer the higher mean. Every number comes from "
+            "the two simulation ids. Not a strategy choice."
+        ),
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "deck_a_id": {"type": "string"},
+                "deck_b_id": {"type": "string"},
+                "output": {
+                    "type": "string",
+                    "description": "prizes_taken, mulligans, energy_by_turn_3, first_lead_attack_turn, or win_rate.",
+                },
+                "games": {"type": "integer", "default": 100},
+                "seed": {"type": "integer"},
+                "rule_preset": {"type": "string", "description": "s30 or s60. Omit to use the decks' own rule."},
+                "tolerance": {"type": "object", "description": "Optional output-name to number overrides. Unknown names are rejected."},
+            },
+            "required": ["deck_a_id", "deck_b_id"],
         },
     },
     {
@@ -785,6 +810,35 @@ def run_tool(name: str, args: dict[str, Any]) -> Any:
             return {"error": str(exc)}
         report["deck_id"] = deck["id"]
         report["deck_name"] = deck["name"]
+        return report
+    if name == "compare_fates":
+        deck_a = _usable_deck(str(args.get("deck_a_id") or ""))
+        deck_b = _usable_deck(str(args.get("deck_b_id") or ""))
+        if not deck_a or not deck_b:
+            return {"error": "need two saved decks"}
+        rules = _match_rules(rule_preset=args.get("rule_preset"), decks=[deck_a, deck_b])
+        if isinstance(rules, dict) and rules.get("error"):
+            return rules
+        tolerance = args.get("tolerance")
+        if tolerance is not None and not isinstance(tolerance, dict):
+            return {"error": "tolerance must be an object"}
+        try:
+            report = compare_lists(
+                _cards(deck_a),
+                _cards(deck_b),
+                rules,
+                int(args.get("games") or 100),
+                args.get("seed"),
+                str(args.get("output") or "prizes_taken"),
+                tolerance,
+            )
+        except ValueError as exc:
+            return {"error": str(exc)}
+        runs = report.pop("runs")
+        save_simulation(runs["a"])
+        save_simulation(runs["b"])
+        report["deck_a"] = {"id": deck_a["id"], "name": deck_a["name"]}
+        report["deck_b"] = {"id": deck_b["id"], "name": deck_b["name"]}
         return report
     if name == "simulate_match":
         deck_a = _usable_deck(args["deck_a_id"])

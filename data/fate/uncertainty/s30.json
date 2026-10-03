@@ -1,0 +1,19 @@
+{
+  "preset": "s30",
+  "brick_turn": 3,
+  "energy_turn": 3,
+  "higher_is_better": {
+    "prizes_taken": true,
+    "mulligans": false,
+    "energy_by_turn_3": true,
+    "first_lead_attack_turn": false,
+    "win_rate": true
+  },
+  "tolerance": {
+    "prizes_taken": 0.5,
+    "mulligans": 0.25,
+    "energy_by_turn_3": 0.5,
+    "first_lead_attack_turn": 0.5,
+    "win_rate": 0.05
+  }
+}
