@@ -1,6 +1,6 @@
 # Uncertainty tie-break
 
-Status: in_progress
+Status: in_review
 
 Epic: deck-as-fate
 
