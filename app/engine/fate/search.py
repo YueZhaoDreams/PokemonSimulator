@@ -13,10 +13,10 @@ from dataclasses import replace
 from pathlib import Path
 from typing import Any
 
-from app.engine.fate.score import _bundle, _reason, apply_overlay, load_preset, score
+from app.engine.fate.score import _bundle, _preset_name, _reason, _swap, apply_overlay, load_preset, score
 from app.engine.fate.uncertainty import GAMES_CAP, load_uncertainty_preset, uncertainty
 from app.engine.legality import copy_violations
-from app.engine.models import Card, FamilyRules, infer_rule_preset_from_rules
+from app.engine.models import Card, FamilyRules
 from app.engine.strategies import STRATEGY_LIBRARY
 
 _DATA = Path(__file__).resolve().parents[3] / "data" / "fate" / "search.json"
@@ -271,31 +271,12 @@ def _speak(before, after, before_score, after_score, cut: str, added: str) -> st
     return text
 
 
-def _swap(cards: list[Card], cut_name: str, added: Card) -> list[Card]:
-    swapped: list[Card] = []
-    removed = False
-    for card in cards:
-        if not removed and card.name == cut_name:
-            removed = True
-            continue
-        swapped.append(card)
-    swapped.append(Card.from_dict(added.to_dict()))
-    return swapped
-
-
 def _locks(names: list[str] | None) -> set[str]:
     if not names:
         return set()
     if not isinstance(names, list) or not all(isinstance(name, str) and name.strip() for name in names):
         raise ValueError("locks must be card names")
     return {name.strip() for name in names}
-
-
-def _preset_name(rules: FamilyRules) -> str:
-    name = infer_rule_preset_from_rules(rules)
-    if name in {"s30", "s60"}:
-        return name
-    return "s60" if int(rules.deck_size) >= 60 else "s30"
 
 
 def _whole(value: Any, label: str) -> int:
