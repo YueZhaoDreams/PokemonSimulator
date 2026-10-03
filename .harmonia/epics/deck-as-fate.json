@@ -70,6 +70,11 @@
       "at": "2026-10-03T18:45:00Z",
       "author": "operator-chat",
       "text": "Operator: pass prefer-less-uncertainty, then continue. They read the sentence: prize means 3.100 and 2.725 inside tolerance 0.5, so the list with lower variance, lower brick, and lower broken chain was preferred."
+    },
+    {
+      "at": "2026-10-03T19:20:00Z",
+      "author": "cursor-verify-gate",
+      "text": "Checked bounded-fate-search on the running app after #152. Set G returned a legal 60-card neighbor. A temporary list put the isolated 50-damage Lonely behind the linked 100-damage Strong unless Lonely was locked. The label is a relative improvement. Waiting for the operator to read that sentence. Not appended to passed_gates."
     }
   ],
   "passed_gates": ["copy-ceilings", "network-from-print", "kg-card-quality", "fast-swap-score", "prefer-less-uncertainty"],
@@ -244,6 +249,42 @@
         }
       ],
       "recommendation": "Operator passed on 2026-10-03. Appended to passed_gates."
+    },
+    "bounded-fate-search": {
+      "verified_at": "2026-10-03T19:20:00Z",
+      "verifier_agent": "cursor-verify-gate",
+      "consumer": "both",
+      "verifier": "agent-then-human",
+      "environment": "http://127.0.0.1:8000 serving main ce8b37b (includes #152 squash 0256f76); ./run.sh restarted after merge. The site loads Cards, Sets, Fight, Lab, and Combo Cub. This slice has no separate page.",
+      "overall_status": "partial",
+      "steps": [
+        {
+          "step": "1 Set G seed and a bounded pool returns at least one legal 60-card neighbor with a written reason",
+          "status": "pass",
+          "evidence": "POST /api/decks/seed-g/fate/search, pool Boss's Orders (3 copies) and Buddy-Buddy Poffin (4 copies), budget max_candidates 4, top_k 1, games_per_candidate 2, seed 7. Seed is 60 cards. deck_size 60. The only add offered is Boss's Orders; the 4-copy Poffin is never added. Survivor: cut Buddy-Buddy Poffin, add Boss's Orders, delta_s 1.0, reason: Buddy-Buddy Poffin is isolated; Boss's Orders is linked; control +1.00. A search with no login returned 401."
+        },
+        {
+          "step": "2 A linked higher-quality substitute for an isolated weaker attacker outranks keeping it unless locked",
+          "status": "pass",
+          "evidence": "Temporary 60: one Lonely (Stage 1, evolves from Missing, 50 damage, two Colorless), one Buddy (text names Strong), 58 Psychic Energy. Strong (100 damage, same cost) lived on a second owned deck and was deleted with the first. Pool Strong. Rank 1 cut Lonely add Strong, delta_s 54.1167, reason: Lonely is isolated; Strong damage per energy 50 vs Lonely 25; linked to Buddy. Rank 2 cut Psychic Energy delta_s 50.35. Rank 3 cut Buddy delta_s 30.0. With locks Lonely, the cuts are only Buddy and Psychic Energy. Both temporary decks were deleted."
+        },
+        {
+          "step": "3 Survivors show delta_s and confirming win rate; pruned rows carry delta_s only",
+          "status": "pass",
+          "evidence": "Lonely survivor has delta_s 54.1167 and win_rate 0.5, sim_id 15365b49-146f-4e77-a7c8-e71308d0f124, games 2. GET /api/simulations/15365b49-146f-4e77-a7c8-e71308d0f124 stores the same win_rate 0.5, variance 0.5, brick_rate 0.5, chain_break_rate 0.0. Set G pruned rows are only cut, add, and delta_s. The response has no runs field."
+        },
+        {
+          "step": "4 Budget is enforced and the search does not walk the whole catalog",
+          "status": "pass",
+          "evidence": "The same fixture with a pool of 41 names and max_candidates 2 scored exactly 2 candidates, ran 2 games, and echoed budget_games 4. Asking for top_k 9 returned 400: top_k is above the documented budget. The pool was the names we passed, not the catalog."
+        },
+        {
+          "step": "5 Human: the result is labelled a relative improvement, never the best 60",
+          "status": "human-required",
+          "evidence": "The response label is 'relative improvement, not the best deck' and relative is true. Waiting for the operator to read that sentence. There is still no Fate page; Combo Cub is where a search can be asked."
+        }
+      ],
+      "recommendation": "Machine steps passed. Do not append bounded-fate-search to passed_gates until the operator reads the label. The next screen waits."
     }
   }
 }
