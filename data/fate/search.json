@@ -1,0 +1,6 @@
+{
+  "max_candidates": 24,
+  "top_k": 3,
+  "games_per_candidate": 12,
+  "depth": 1
+}

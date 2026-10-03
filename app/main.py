@@ -64,6 +64,7 @@ from app.engine.models import (
     rules_from_preset,
 )
 from app.engine.fate import compare_lists, compute_ceilings, compute_metrics, rank_swaps
+from app.engine.fate.search import resolve_pool, search as search_fate
 from app.engine.montecarlo import run_simulation
 from app.engine.overlay import OverlayError
 from app.engine.probability import draw_probability
@@ -108,6 +109,15 @@ def _can_use_deck(user: dict, deck: dict | None) -> bool:
     if user.get("role") == "admin":
         return True
     return deck.get("owner_id") == user["id"]
+
+
+def _owned_cards(user_id: str) -> list[Card]:
+    cards: list[Card] = []
+    for deck in list_decks(owner_id=user_id):
+        if deck.get("archived"):
+            continue
+        cards.extend(Card.from_dict(raw) for raw in deck["cards"])
+    return cards
 
 
 def _can_use_chat(user: dict, chat: dict | None) -> bool:
@@ -537,6 +547,55 @@ def api_fate_swaps(deck_id: str, payload: dict, user: dict = Depends(require_use
         raise HTTPException(400, str(exc)) from exc
     if payload.get("save") and isinstance(payload.get("weights"), dict):
         save_fate_weights(user["id"], preset, payload["weights"])
+    report["deck_id"] = deck["id"]
+    report["deck_name"] = deck["name"]
+    return report
+
+
+@app.post("/api/decks/{deck_id}/fate/search")
+def api_fate_search(deck_id: str, payload: dict, user: dict = Depends(require_user)) -> dict:
+    deck = get_deck(deck_id)
+    if not _can_use_deck(user, deck):
+        raise HTTPException(404, "Deck not found")
+    if payload.get("pool") is not None and not isinstance(payload.get("pool"), list):
+        raise HTTPException(400, "pool must be card names")
+    if payload.get("budget") is not None and not isinstance(payload.get("budget"), dict):
+        raise HTTPException(400, "budget must be an object")
+    try:
+        rules = resolve_simulation_rules(
+            rule_preset=payload.get("rule_preset"),
+            decks=[deck],
+            fallback=rules_for_user(user),
+        )
+        seed = [Card.from_dict(raw) for raw in deck["cards"]]
+        pool = resolve_pool(payload.get("pool"), seed, _owned_cards(user["id"]))
+        foe = None
+        opponent_id = payload.get("opponent_id")
+        if opponent_id:
+            other = get_deck(str(opponent_id))
+            if not _can_use_deck(user, other):
+                raise ValueError("opponent deck not found")
+            foe = [Card.from_dict(raw) for raw in other["cards"]]
+        preset = infer_rule_preset_from_rules(rules)
+        if preset not in {"s30", "s60"}:
+            preset = "s60" if rules.deck_size >= 60 else "s30"
+        overlay = payload.get("weights")
+        if overlay is None:
+            overlay = get_fate_weights(user["id"], preset)
+        report = search_fate(
+            seed,
+            pool,
+            rules,
+            overlay,
+            payload.get("budget"),
+            payload.get("locks"),
+            foe,
+            payload.get("seed"),
+        )
+    except ValueError as exc:
+        raise HTTPException(400, str(exc)) from exc
+    for record in report.pop("runs"):
+        save_simulation(record)
     report["deck_id"] = deck["id"]
     report["deck_name"] = deck["name"]
     return report
