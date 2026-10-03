@@ -55,9 +55,14 @@
       "at": "2026-09-27T20:57:00Z",
       "author": "operator-chat",
       "text": "Operator: pass kg-card-quality. They had been told Nest Ball, Ultra Ball, and Buddy-Buddy Poffin stay marked isolated because those sentences are not parsed into search links yet, and they passed anyway."
+    },
+    {
+      "at": "2026-10-03T17:56:00Z",
+      "author": "operator-chat",
+      "text": "Operator: pass fast-swap-score, then continue implement-epic-features. They had read the live Set G table, including that Buddy-Buddy Poffin, Nest Ball, and Ultra Ball rank as the best cuts because those sentences are still not search links."
     }
   ],
-  "passed_gates": ["copy-ceilings", "network-from-print", "kg-card-quality"],
+  "passed_gates": ["copy-ceilings", "network-from-print", "kg-card-quality", "fast-swap-score"],
   "gate_reports": {
     "copy-ceilings": {
       "verified_at": "2026-09-13T01:00:09.286832+00:00",
@@ -169,7 +174,7 @@
       "consumer": "both",
       "verifier": "agent-then-human",
       "environment": "http://127.0.0.1:8000 serving main 41b3503 (includes #136 squash abc3a7a); ./run.sh restarted after merge",
-      "overall_status": "partial",
+      "overall_status": "pass",
       "steps": [
         {
           "step": "1 One row per distinct Set G cut, with delta_s and per-ecology deltas, under 2 seconds, without run_simulation",
@@ -198,11 +203,11 @@
         },
         {
           "step": "6 Human: the table is labelled a fast estimate, not a win rate, and is readable",
-          "status": "human-required",
-          "evidence": "The response label is 'fast estimate, not a win rate' and each row has rank, cut, copies, delta_s, and ecologies. The operator still needs to read the table. On live Set G the highest cuts are Buddy-Buddy Poffin, Nest Ball, and Ultra Ball, because those sentences are still not search links; that gap was already accepted on kg-card-quality."
+          "status": "pass",
+          "evidence": "The response label is 'fast estimate, not a win rate' and each row has rank, cut, copies, delta_s, and ecologies. Operator said pass on 2026-10-03 after reading that table. Buddy-Buddy Poffin, Nest Ball, and Ultra Ball remain the highest cuts because those sentences are still not search links."
         }
       ],
-      "recommendation": "Do not append fast-swap-score to passed_gates. Machine steps 1-5 passed. Step 6 is waiting on the operator to read the table and say it is clear. The highest live cuts are still the unparsed tutors."
+      "recommendation": "Operator passed on 2026-10-03. Appended to passed_gates. The highest live cuts remain the unparsed tutors; that gap stays as recorded on kg-card-quality."
     }
   }
 }
