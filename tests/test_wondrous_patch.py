@@ -205,6 +205,76 @@ def test_empty_discard_retreats_elsewhere_then_switch():
     assert game.events.get("patch_storm", 0) >= 1
 
 
+def test_ultra_ball_discards_spare_psychic_for_the_patch():
+    """Ultra Ball discards a spare Basic Psychic. The retreat Energy and Patch stay."""
+    game, me, clefs, ps = _storm_game(extra_bench=False, deck_fuels=1)
+    used = set(ps) | set(clefs)
+    spare = _take(me.cards, used, lambda c: c.name == "Psychic Energy", 1)[0]
+    junk = _take(me.cards, used, lambda c: c.name == "Night Stretcher", 1)[0]
+    ultra = _take(me.cards, used, lambda c: c.name == "Ultra Ball", 1)[0]
+    retreat = ps[4]
+    patch = next(i for i in me.hand if me.card(i).name == "Wondrous Patch")
+    me.hand = [retreat, spare, junk, patch, ultra]
+    me.discard = []
+    assert game._ultra_ball_discards_are_safe(me)
+    assert game._pick_trainer(me) == ultra
+    game._play_trainers(me, game.players["b"], "a")
+    assert spare in me.discard
+    assert junk in me.discard
+    assert retreat in me.hand
+    assert patch in me.hand
+    assert ultra in me.discard
+
+
+def test_ultra_ball_fuel_pays_wonder_storm_without_switch():
+    """Discard is empty and there is no Switch. Ultra Ball discards the spare Energy.
+
+    That card is the Patch fuel, so the two-Energy Clefairy can pay Wonder Storm
+    before it is Active. The other Clefairy's Energy makes the printed 20× hit 80.
+    """
+    game, me, clefs, ps = _storm_game(extra_bench=True, deck_fuels=0)
+    used = set(ps) | set(clefs)
+    spare = _take(me.cards, used, lambda c: c.name == "Psychic Energy", 1)[0]
+    junk = _take(me.cards, used, lambda c: c.name == "Night Stretcher", 1)[0]
+    ultra = _take(me.cards, used, lambda c: c.name == "Ultra Ball", 1)[0]
+    found = _take(me.cards, used, lambda c: c.name == "Mewtwo ex", 1)[0]
+    retreat = ps[4]
+    patch = next(i for i in me.hand if me.card(i).name == "Wondrous Patch")
+    me.discard = []
+    me.deck = [found]
+    me.hand = [retreat, spare, junk, patch, ultra]
+    me.bench = [
+        Pokemon(card_i=clefs[1], energy=[ps[1], ps[2]]),
+        Pokemon(card_i=clefs[2], energy=[ps[3]]),
+    ]
+    foe = game.players["b"]
+    assert game._patch_storm_plan(me, foe, "a") is None
+    game._play_trainers(me, foe, "a")
+    assert spare in me.discard
+    assert retreat in me.hand
+    assert game._try_patch_storm(me, foe, "a")
+    assert me.active is not None and me.active.card_i == clefs[1]
+    assert len(me.active.energy) == 3
+    assert spare in me.active.energy
+    assert game._can_pay_wonder_storm(me, me.active)
+    assert game._count_psychic_energy_in_play(me) == 4
+    attack = game._wonder_storm_attack(me, me.active)
+    assert game._raw_attack_damage(me, foe, me.active, attack) == 80
+    assert patch in me.discard
+    assert game.events.get("patch_storm", 0) >= 1
+    assert game.events.get("wondrous_patch", 0) >= 1
+
+
+def test_ultra_ball_waits_when_it_would_discard_the_retreat_energy():
+    game, me, _clefs, ps = _storm_game(extra_bench=False, deck_fuels=1)
+    patch = next(i for i in me.hand if me.card(i).name == "Wondrous Patch")
+    ultra = _take(me.cards, set(ps), lambda c: c.name == "Ultra Ball", 1)[0]
+    me.discard = []
+    me.hand = [ps[4], patch, ultra]
+    assert game._ultra_ball_discards_are_safe(me) is False
+    assert game._pick_trainer(me) != ultra
+
+
 def test_take_turn_plays_the_patch_storm_line():
     game, me, clefs, ps = _storm_game(extra_bench=False, deck_fuels=2)
     # Draw consumes the first deck card. One Party fuel remains.

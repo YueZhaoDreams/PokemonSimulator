@@ -1373,6 +1373,9 @@ class Game:
             if name == "ultra ball" and len(me.hand) < 3:
                 # Printed cost is discard 2 other cards. Without them the card cannot be played.
                 continue
+            if name == "ultra ball" and strat.name == "party" and not self._ultra_ball_discards_are_safe(me):
+                # Keep the retreat Energy and Wondrous Patch. Ultra Ball needs two other cards.
+                continue
             score = 0.0
             if name in {"ultra ball", "poké ball", "poke ball"} and missing_protect:
                 score += 8
@@ -3527,11 +3530,70 @@ class Game:
             self._bump("return_self_to_hand")
         return True
 
+    def _wondrous_patch_can_take_discard(self, me: Player) -> bool:
+        """Patch is in hand and a Benched Psychic Pokémon can receive it."""
+        who = "a" if me.name == "A" else "b"
+        if self.strats[who].name != "party" or me.item_lock:
+            return False
+        if not self._has_named(me, "Wondrous Patch"):
+            return False
+        return any(self._wondrous_patch_rank(me, mon) is not None for mon in me.bench)
+
+    def _clefairy_retreat_energy_reserve(self, me: Player) -> int | None:
+        """The one hand Energy a 1-Energy Active Clefairy still needs to retreat."""
+        if not me.active or me.energy_attached or me.retreated:
+            return None
+        if not self._is_clefairy(me.card(me.active.card_i)):
+            return None
+        cost = self._retreat_cost(me, me.active)
+        if len(me.active.energy) >= cost or len(me.active.energy) + 1 < cost:
+            return None
+        return self._hand_energy_for_retreat(me)
+
+    def _ultra_ball_patch_fuel(self, me: Player, retreat_reserve: int | None) -> set[int]:
+        """Spare Basic Psychic Energy cards Ultra Ball should discard for Patch.
+
+        One Patch attaches one energy. The retreat Energy stays in hand.
+        """
+        fuels = len(self._basic_psychic_discard_idxs(me))
+        patches = sum(1 for i in me.hand if me.card(i).name.lower() == "wondrous patch")
+        need = max(0, patches - fuels)
+        chosen: set[int] = set()
+        if need <= 0:
+            return chosen
+        for i in me.hand:
+            if i == retreat_reserve or not self._is_basic_psychic_energy_card(me.card(i)):
+                continue
+            chosen.add(i)
+            if len(chosen) == need:
+                break
+        return chosen
+
+    def _ultra_ball_discards_are_safe(self, me: Player) -> bool:
+        """True when two discards can avoid the retreat Energy and Wondrous Patch."""
+        if not self._wondrous_patch_can_take_discard(me):
+            return True
+        reserve = self._clefairy_retreat_energy_reserve(me)
+        safe = 0
+        for i in me.hand:
+            card = me.card(i)
+            if card.name.lower() == "ultra ball":
+                continue
+            if card.name.lower() == "wondrous patch":
+                continue
+            if i == reserve:
+                continue
+            safe += 1
+        return safe >= 2
+
     def _discard_for_ultra_ball(self, me: Player, n: int = 2) -> int:
         strat = self.strats["a" if me.name == "A" else "b"]
         protect = {n.lower() for n in strat.protect}
         spare_energy = sum(1 for i in me.hand if is_basic_energy(me.card(i))) > 1
         bench_room = len(me.bench) < self._bench_limit()
+        protect_patch = self._wondrous_patch_can_take_discard(me)
+        retreat_reserve = self._clefairy_retreat_energy_reserve(me) if protect_patch else None
+        patch_fuel = self._ultra_ball_patch_fuel(me, retreat_reserve) if protect_patch else set()
         scored: list[tuple[float, int]] = []
         for i in list(me.hand):
             card = me.card(i)
@@ -3563,6 +3625,18 @@ class Game:
                 score -= 8
             if card.is_energy:
                 score -= 1
+            if i == retreat_reserve:
+                # The Active Clefairy still needs this card to retreat. Patch
+                # fuel is a different Basic Psychic Energy.
+                score -= 15
+            elif i in patch_fuel:
+                # Ultra Ball's discard is the Wondrous Patch fuel.
+                score += 8
+            if (
+                protect_patch
+                and card.name.lower() == "wondrous patch"
+            ):
+                score -= 30
             if card.hp and card.hp >= 140:
                 score -= 3
             if (
