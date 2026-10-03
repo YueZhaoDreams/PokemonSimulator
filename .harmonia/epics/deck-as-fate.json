@@ -65,9 +65,14 @@
       "at": "2026-10-03T18:41:00Z",
       "author": "cursor-verify-gate",
       "text": "Checked prefer-less-uncertainty on the running app after #151. Set G versus the same list with two Psychic Energy replaced by Pidgey and Pidgeotto: prize means 3.100 and 2.725, inside tolerance 0.5, so the lower variance, lower brick, and lower broken-chain list was preferred. Waiting for the operator to read that sentence. Not appended to passed_gates."
+    },
+    {
+      "at": "2026-10-03T18:45:00Z",
+      "author": "operator-chat",
+      "text": "Operator: pass prefer-less-uncertainty, then continue. They read the sentence: prize means 3.100 and 2.725 inside tolerance 0.5, so the list with lower variance, lower brick, and lower broken chain was preferred."
     }
   ],
-  "passed_gates": ["copy-ceilings", "network-from-print", "kg-card-quality", "fast-swap-score"],
+  "passed_gates": ["copy-ceilings", "network-from-print", "kg-card-quality", "fast-swap-score", "prefer-less-uncertainty"],
   "gate_reports": {
     "copy-ceilings": {
       "verified_at": "2026-09-13T01:00:09.286832+00:00",
@@ -220,7 +225,7 @@
       "consumer": "both",
       "verifier": "agent-then-human",
       "environment": "http://127.0.0.1:8000 serving main 0c75c78 (includes #151 squash f311cdf); ./run.sh restarted after merge. The site loads Cards, Sets, Fight, Lab, and Combo Cub. This slice has no separate page.",
-      "overall_status": "partial",
+      "overall_status": "pass",
       "steps": [
         {
           "step": "1 Two lists whose prize means differ by less than the tolerance; the higher-variance list is not preferred",
@@ -234,11 +239,11 @@
         },
         {
           "step": "3 Human: the explanation reads as ceiling, broken chain, and variance, not a raw matrix",
-          "status": "human-required",
-          "evidence": "The sentence names the two prize means, the tolerance 0.5, both variances, both broken-chain rates, both brick rates, and both simulation ids, then says the closer list is preferred because the variance, brick rate, and broken chain are lower. It is a sentence, not a matrix. It does not use the word ceiling. There is no Fate page yet. Combo Cub is the place to ask."
+          "status": "pass",
+          "evidence": "Operator said pass on 2026-10-03 after reading the sentence. Prize means 3.100 and 2.725, tolerance 0.5, variance 4.605 versus 6.307, broken chain 0.375 versus 0.525, brick 0.175 versus 0.300. The closer list was preferred."
         }
       ],
-      "recommendation": "Machine steps passed. Do not append prefer-less-uncertainty to passed_gates until the operator reads the sentence and says so. The next slices stay stopped."
+      "recommendation": "Operator passed on 2026-10-03. Appended to passed_gates."
     }
   }
 }
