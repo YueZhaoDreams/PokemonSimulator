@@ -1,6 +1,6 @@
 # Uncertainty tie-break
 
-Status: in_review
+Status: done
 
 Epic: deck-as-fate
 
@@ -38,10 +38,10 @@ Two lists with the same expected output are not equal: the one that bricks less 
 
 ## Acceptance Criteria
 
-- [ ] Monte Carlo result exposes variance, brick rate, chain-break rate with the simulation id.
-- [ ] For two fixture lists within tolerance on mean, the lower-uncertainty list is preferred and the reason says so.
-- [ ] For two lists outside tolerance, the better mean wins and the reason says which direction.
-- [ ] No number without a `sim_id`.
+- [x] Monte Carlo result exposes variance, brick rate, chain-break rate with the simulation id.
+- [x] For two fixture lists within tolerance on mean, the lower-uncertainty list is preferred and the reason says so.
+- [x] For two lists outside tolerance, the better mean wins and the reason says which direction.
+- [x] No number without a `sim_id`.
 
 ## Validation Plan
 
