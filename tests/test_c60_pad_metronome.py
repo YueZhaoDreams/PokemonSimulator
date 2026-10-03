@@ -219,7 +219,8 @@ def test_pad_metronome_json_cells_follow_foe_order():
     assert blob["cells"]["pad_clc"]["d60"]["pad_prankish"] > blob["cells"]["pad_clc"]["d60"]["pad_metro"]
     assert blob["cells"]["pad"]["t60"]["copy_dive"] == 0
     assert SET_C60_NAMES.count("Clefable") == 1
-    assert SET_C60_NAMES.count("Clefable CLC") == 1
+    assert SET_C60_NAMES.count("Clefable CLC") == 0
+    assert SET_C60_NAMES.count("Wondrous Patch") == 2
     assert SET_C60_NAMES.count("Poké Pad") == 1
     assert SET_C60_NAMES.count("Mega Clefable ex") == 0
     assert SET_C60_NAMES.count("Seeker") == 1

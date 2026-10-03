@@ -158,11 +158,14 @@ C60_CAGE_LOCK_NAMES = (
 # Locked 2026-09-30: those two Moonlight Stadium become one Surging Sparks
 # Latias ex and one Ultra Ball. Seed 20260926, 3,000 games: wComp 76.9,
 # wAll 78.1. See data/lab/set-c60-latias-ex.md.
+# Locked 2026-10-02: two Wondrous Patch (ME02 94). Cuts are one Boss's Orders
+# and the CLC Metronome Clefable. Seed 20261002, 1,000 games. Loss-weighted
+# win rate 77.6% → 79.1% → 79.3%. A third copy did not rise.
+# See data/lab/set-c60-wondrous-patch.md.
 SET_C60_NAMES = (
     ["Clefairy"] * 4
     + ["Mewtwo ex"] * 3
     + ["Clefable"]
-    + ["Clefable CLC"]
     + ["Clefable ex"] * 3
     + ["Seeker"]
     + ["Nest Ball"] * 4
@@ -173,7 +176,7 @@ SET_C60_NAMES = (
     + ["Lillie"] * 2
     + ["Lillie's Determination"] * 2
     + ["Arven"]
-    + ["Boss's Orders"] * 3
+    + ["Boss's Orders"] * 2
     + ["Iono"]
     + ["Switch"] * 2
     + ["Energy Switch"] * 2
@@ -183,12 +186,35 @@ SET_C60_NAMES = (
     + ["Telepathic Psychic Energy"] * 2
     + ["Psychic Energy"] * 14
     + ["Poké Pad"]
+    + ["Wondrous Patch"] * 2
 )
+
+
+def c60_names_before_patch() -> list[str]:
+    """The Latias lock: three Boss's Orders, one CLC Metronome Clefable, no Patch."""
+    names = list(SET_C60_NAMES)
+    boss = "Boss's Orders"
+    if (
+        names.count("Wondrous Patch") != 2
+        or names.count(boss) != 2
+        or names.count("Clefable CLC") != 0
+        or names[-2:] != ["Wondrous Patch", "Wondrous Patch"]
+    ):
+        raise RuntimeError(
+            "expected two trailing Wondrous Patch, two Boss's Orders, and no "
+            "Clefable CLC in SET_C60_NAMES, found "
+            f"{names.count('Wondrous Patch')} Patch, {names.count(boss)} Boss, "
+            f"{names.count('Clefable CLC')} CLC"
+        )
+    names = names[:-2]
+    names.insert(names.index("Clefable") + 1, "Clefable CLC")
+    names.insert(names.index(boss), boss)
+    return names
 
 
 def c60_names_before_latias() -> list[str]:
     """The 60 after the second stadium lock: two Moonlight Stadium, no Ultra Ball."""
-    names = list(SET_C60_NAMES)
+    names = c60_names_before_patch()
     if (
         names.count("Latias ex") != 1
         or names.count("Ultra Ball") != 1
@@ -979,6 +1005,15 @@ _MAX_POTION_TEXT = (
 )
 _register(_trn("Max Potion", "item", _MAX_POTION_TEXT, catalog_id="sm2-128"))
 _register(_trn("Energy Switch", "item", "Move a Basic Energy from 1 of your Pokémon to another of your Pokémon."))
+# Phantasmal Flames 94. Item. Basic Psychic only, and only onto a Benched Psychic.
+_register(
+    _trn(
+        "Wondrous Patch",
+        "item",
+        "Attach a Basic Psychic Energy card from your discard pile to 1 of your Benched Psychic Pokémon.",
+        catalog_id="me02-094",
+    )
+)
 _register(
     _trn(
         "Super Rod",

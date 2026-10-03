@@ -6,7 +6,7 @@ from pathlib import Path
 
 from app.engine.legality import copy_violations
 from app.engine.models import standard_60_rules
-from app.seed_data import SET_C60_NAMES, build_fallback_deck, c60_names_before_bounce
+from app.seed_data import SET_C60_NAMES, build_fallback_deck, c60_names_before_bounce, c60_names_before_patch
 
 
 def _load(name: str):
@@ -68,7 +68,9 @@ def test_ex_and_energy_cuts_leave_two_ex_and_thirteen_psychic():
     assert by_key["pad"].count("Clefable ex") == 3
     assert by_key["pad"].count("Psychic Energy") == 14
     assert SET_C60_NAMES.count("Clefable") == 1
-    assert SET_C60_NAMES.count("Clefable CLC") == 1
+    assert SET_C60_NAMES.count("Clefable CLC") == 0
+    assert SET_C60_NAMES.count("Wondrous Patch") == 2
+    assert SET_C60_NAMES.count("Boss's Orders") == 2
     assert SET_C60_NAMES.count("Poké Pad") == 1
     assert SET_C60_NAMES.count("Mega Clefable ex") == 0
     assert SET_C60_NAMES.count("Seeker") == 1
@@ -83,7 +85,9 @@ def test_ex_and_energy_cuts_leave_two_ex_and_thirteen_psychic():
     assert len(stadiums) == 2
     paid[stadiums[0]] = "Latias ex"
     paid[stadiums[1]] = "Ultra Ball"
-    assert Counter(SET_C60_NAMES) == Counter(paid)
+    assert Counter(c60_names_before_patch()) == Counter(paid)
+    assert Counter(SET_C60_NAMES) - Counter(paid) == Counter({"Wondrous Patch": 2})
+    assert Counter(paid) - Counter(SET_C60_NAMES) == Counter({"Boss's Orders": 1, "Clefable CLC": 1})
 
 
 def test_pad_clc_cuts_json_cells_follow_foe_order():
@@ -111,7 +115,8 @@ def test_pad_clc_cuts_json_cells_follow_foe_order():
     assert blob["cells"]["mega"]["t60"]["copy_dive"] > 0
     assert pad["t60"]["copy_dive"] == 0
     assert SET_C60_NAMES.count("Clefable") == 1
-    assert SET_C60_NAMES.count("Clefable CLC") == 1
+    assert SET_C60_NAMES.count("Clefable CLC") == 0
+    assert SET_C60_NAMES.count("Wondrous Patch") == 2
     assert SET_C60_NAMES.count("Poké Pad") == 1
     assert SET_C60_NAMES.count("Mega Clefable ex") == 0
     assert SET_C60_NAMES.count("Seeker") == 1
