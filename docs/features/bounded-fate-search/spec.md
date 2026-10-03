@@ -1,6 +1,6 @@
 # Bounded fate search
 
-Status: ready
+Status: in_progress
 
 Epic: deck-as-fate
 

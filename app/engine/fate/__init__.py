@@ -8,6 +8,7 @@ from app.engine.fate.ceilings import compute_ceilings, printed_draw_operators
 from app.engine.fate.kg import build_catalog_kg, explain_edge, induce
 from app.engine.fate.metrics import compute_metrics
 from app.engine.fate.score import rank_swaps, score
+from app.engine.fate.search import search
 from app.engine.fate.uncertainty import compare_lists, uncertainty
 
 __all__ = [
@@ -20,5 +21,6 @@ __all__ = [
     "compare_lists",
     "rank_swaps",
     "score",
+    "search",
     "uncertainty",
 ]

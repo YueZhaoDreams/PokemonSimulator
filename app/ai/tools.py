@@ -19,6 +19,7 @@ from app.db import (
     save_user_strategy,
 )
 from app.engine.fate import compare_lists, compute_ceilings, compute_metrics, rank_swaps
+from app.engine.fate.search import resolve_pool, search as search_fate
 from app.engine.models import (
     SELECTABLE_RULE_PRESETS,
     rules_for_user,
@@ -124,6 +125,35 @@ TOOL_SCHEMAS = [
         "parameters": {
             "type": "object",
             "properties": {"deck_id": {"type": "string"}},
+            "required": ["deck_id"],
+        },
+    },
+    {
+        "name": "search_fate",
+        "description": (
+            "Look one swap away from a saved deck, inside a bounded pool. "
+            "Prune with the ecology score, then confirm the few survivors with a capped simulation. "
+            "A relative improvement, not the best deck."
+        ),
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "deck_id": {"type": "string"},
+                "pool": {
+                    "type": "array",
+                    "items": {"type": "string"},
+                    "description": "Card names to consider adding. Omit to use this trainer's own cards.",
+                },
+                "locks": {
+                    "type": "array",
+                    "items": {"type": "string"},
+                    "description": "Card names that must not be cut.",
+                },
+                "opponent_id": {"type": "string", "description": "Deck to simulate against. Omit to use the seed list."},
+                "budget": {"type": "object", "description": "Optional lower limits. Cannot raise the documented budget."},
+                "rule_preset": {"type": "string"},
+                "seed": {"type": "integer"},
+            },
             "required": ["deck_id"],
         },
     },
@@ -839,6 +869,52 @@ def run_tool(name: str, args: dict[str, Any]) -> Any:
         save_simulation(runs["b"])
         report["deck_a"] = {"id": deck_a["id"], "name": deck_a["name"]}
         report["deck_b"] = {"id": deck_b["id"], "name": deck_b["name"]}
+        return report
+    if name == "search_fate":
+        deck = _usable_deck(str(args.get("deck_id") or ""))
+        if not deck:
+            return {"error": "deck not found"}
+        rules = _match_rules(rule_preset=args.get("rule_preset"), decks=[deck])
+        if isinstance(rules, dict) and rules.get("error"):
+            return rules
+        if args.get("pool") is not None and not isinstance(args.get("pool"), list):
+            return {"error": "pool must be card names"}
+        if args.get("budget") is not None and not isinstance(args.get("budget"), dict):
+            return {"error": "budget must be an object"}
+        seed = _cards(deck)
+        viewer = current_viewer() or {}
+        owned: list[Card] = []
+        for saved in list_decks(owner_id=str(viewer.get("id") or "")):
+            if saved.get("archived"):
+                continue
+            owned.extend(_cards(saved))
+        foe = None
+        if args.get("opponent_id"):
+            other = _usable_deck(str(args["opponent_id"]))
+            if not other:
+                return {"error": "opponent deck not found"}
+            foe = _cards(other)
+        preset = infer_rule_preset_from_rules(rules)
+        if preset not in {"s30", "s60"}:
+            preset = "s60" if rules.deck_size >= 60 else "s30"
+        overlay = get_fate_weights(str(viewer.get("id") or ""), preset)
+        try:
+            report = search_fate(
+                seed,
+                resolve_pool(args.get("pool"), seed, owned),
+                rules,
+                overlay,
+                args.get("budget"),
+                args.get("locks"),
+                foe,
+                args.get("seed"),
+            )
+        except ValueError as exc:
+            return {"error": str(exc)}
+        for record in report.pop("runs"):
+            save_simulation(record)
+        report["deck_id"] = deck["id"]
+        report["deck_name"] = deck["name"]
         return report
     if name == "simulate_match":
         deck_a = _usable_deck(args["deck_a_id"])
