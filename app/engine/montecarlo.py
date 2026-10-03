@@ -150,6 +150,9 @@ def run_simulation(
         "sample_games": sample_traces,
         "learning": learning,
     }
+    from app.engine.fate.uncertainty import summarize_games
+
+    record["uncertainty"] = summarize_games(results, cards_a, rules, record["id"])
     return record
 
 

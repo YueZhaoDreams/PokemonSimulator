@@ -63,7 +63,7 @@ from app.engine.models import (
     rule_preset_label,
     rules_from_preset,
 )
-from app.engine.fate import compute_ceilings, compute_metrics, rank_swaps
+from app.engine.fate import compare_lists, compute_ceilings, compute_metrics, rank_swaps
 from app.engine.montecarlo import run_simulation
 from app.engine.overlay import OverlayError
 from app.engine.probability import draw_probability
@@ -539,6 +539,37 @@ def api_fate_swaps(deck_id: str, payload: dict, user: dict = Depends(require_use
         save_fate_weights(user["id"], preset, payload["weights"])
     report["deck_id"] = deck["id"]
     report["deck_name"] = deck["name"]
+    return report
+
+
+@app.post("/api/fate/compare")
+def api_fate_compare(payload: dict, user: dict = Depends(require_user)) -> dict:
+    deck_a = get_deck(payload.get("deck_a_id") or "")
+    deck_b = get_deck(payload.get("deck_b_id") or "")
+    if not _can_use_deck(user, deck_a) or not _can_use_deck(user, deck_b):
+        raise HTTPException(400, "Need two decks")
+    try:
+        rules = resolve_simulation_rules(
+            rule_preset=payload.get("rule_preset"),
+            decks=[deck_a, deck_b],
+            fallback=rules_for_user(user),
+        )
+        report = compare_lists(
+            [Card.from_dict(c) for c in deck_a["cards"]],
+            [Card.from_dict(c) for c in deck_b["cards"]],
+            rules,
+            int(payload.get("games") or 100),
+            payload.get("seed"),
+            str(payload.get("output") or "prizes_taken"),
+            payload.get("tolerance") if isinstance(payload.get("tolerance"), dict) else None,
+        )
+    except ValueError as exc:
+        raise HTTPException(400, str(exc)) from exc
+    runs = report.pop("runs")
+    save_simulation(runs["a"])
+    save_simulation(runs["b"])
+    report["deck_a"] = {"id": deck_a["id"], "name": deck_a["name"]}
+    report["deck_b"] = {"id": deck_b["id"], "name": deck_b["name"]}
     return report
 
 
