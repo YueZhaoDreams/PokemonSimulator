@@ -36,9 +36,9 @@ def test_set_c60_is_standard_sixty_with_psychic_energy():
     assert names.count("Clefairy") == 4
     assert names.count("Mewtwo ex") == 3
     assert names.count("Clefable") == 1
-    assert names.count("Clefable CLC") == 0
+    assert names.count("Clefable CLC") == 1
     assert names.count("Clefable ex") == 3
-    assert names.count("Wondrous Patch") == 2
+    assert names.count("Wondrous Patch") == 1
     assert names.count("Mega Clefable ex") == 0
     assert names.count("Poké Pad") == 1
     assert names.count("Psychic Energy") == 14
@@ -80,11 +80,13 @@ def test_set_c60_is_standard_sixty_with_psychic_energy():
     assert latias.stage == "Basic"
     assert any(a.name == "Skyliner" for a in latias.abilities)
     fables = [c for c in pile if c.name == "Clefable"]
-    assert Counter(c.catalog_id for c in fables) == Counter({"swsh2-75": 1})
+    assert Counter(c.catalog_id for c in fables) == Counter({"swsh2-75": 1, "clc-014": 1})
     prankish = next(c for c in fables if c.catalog_id == "swsh2-75")
+    clc = next(c for c in fables if c.catalog_id == "clc-014")
     assert any(a.name == "Prankish" for a in prankish.abilities)
+    assert any(a.name == "Metronome" for a in clc.attacks)
     patches = [c for c in pile if c.name == "Wondrous Patch"]
-    assert [c.catalog_id for c in patches] == ["me02-094", "me02-094"]
+    assert [c.catalog_id for c in patches] == ["me02-094"]
     assert any(c.is_energy and c.name == "Psychic Energy" for c in pile)
     assert sum(1 for c in pile if c.name == "Telepathic Psychic Energy") == 2
     assert rules.pokemon_as_energy is False

@@ -4,8 +4,9 @@
 - **Games per cell**: 1000
 - **Score**: loss-weighted win rate. Weights are frozen from the 0-Patch list.
 - **Weights**: t60 21.2%, hedrick 27.2%, unl 5.5%, d60 23.5%, s60 0.1%, g 22.5%
-- **Copies**: 2
-- **Cuts**: Boss's Orders, Clefable CLC
+- **Copies measured**: 2
+- **Cuts measured**: Boss's Orders, Clefable CLC
+- **Lock**: one Wondrous Patch, cutting one Boss's Orders. Clefable CLC stays.
 - **Elapsed**: 5285.9s
 
 Printed text: Attach a Basic Psychic Energy card from your discard pile to 1 of your Benched Psychic Pokémon.
@@ -23,3 +24,7 @@ Turn 2, when the Active Clefairy already has one Energy: attach one more, retrea
 ## Next swap, not taken
 
 Best cut `Night Stretcher` weighted 79.0% does not beat 79.3% at 2 copies.
+
+## Lock
+
+The locked list takes only the first swap. Weighted win rate 77.6% → 79.1% by cutting one Boss's Orders. Clefable CLC stays, even though cutting it measured 79.3%.

@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Greedy Wondrous Patch swaps for the locked C60 list.
 
-The live lock is two Wondrous Patch. This search starts from the previous
-list (``c60_names_before_patch``: zero Wondrous Patch). Each step replaces
+The live lock is one Wondrous Patch, cutting one Boss's Orders. Clefable CLC
+stays. This search starts from the previous list (``c60_names_before_patch``:
+zero Wondrous Patch). Each step replaces
 exactly one copy of one other card with one Wondrous Patch. The decision
 score is the loss-weighted win rate. Weights are frozen from that starting
 list. Stop when the next swap does not raise that score, or at 4 copies.

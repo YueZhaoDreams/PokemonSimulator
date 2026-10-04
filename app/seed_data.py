@@ -158,14 +158,15 @@ C60_CAGE_LOCK_NAMES = (
 # Locked 2026-09-30: those two Moonlight Stadium become one Surging Sparks
 # Latias ex and one Ultra Ball. Seed 20260926, 3,000 games: wComp 76.9,
 # wAll 78.1. See data/lab/set-c60-latias-ex.md.
-# Locked 2026-10-02: two Wondrous Patch (ME02 94). Cuts are one Boss's Orders
-# and the CLC Metronome Clefable. Seed 20261002, 1,000 games. Loss-weighted
-# win rate 77.6% → 79.1% → 79.3%. A third copy did not rise.
+# Locked 2026-10-04: one Wondrous Patch (ME02 94) for one Boss's Orders.
+# Seed 20261002, 1,000 games. Loss-weighted win rate 77.6% → 79.1%.
+# The second swap (Clefable CLC, 79.3%) is not locked. CLC stays.
 # See data/lab/set-c60-wondrous-patch.md.
 SET_C60_NAMES = (
     ["Clefairy"] * 4
     + ["Mewtwo ex"] * 3
     + ["Clefable"]
+    + ["Clefable CLC"]
     + ["Clefable ex"] * 3
     + ["Seeker"]
     + ["Nest Ball"] * 4
@@ -186,7 +187,7 @@ SET_C60_NAMES = (
     + ["Telepathic Psychic Energy"] * 2
     + ["Psychic Energy"] * 14
     + ["Poké Pad"]
-    + ["Wondrous Patch"] * 2
+    + ["Wondrous Patch"]
 )
 
 
@@ -195,19 +196,18 @@ def c60_names_before_patch() -> list[str]:
     names = list(SET_C60_NAMES)
     boss = "Boss's Orders"
     if (
-        names.count("Wondrous Patch") != 2
+        names.count("Wondrous Patch") != 1
         or names.count(boss) != 2
-        or names.count("Clefable CLC") != 0
-        or names[-2:] != ["Wondrous Patch", "Wondrous Patch"]
+        or names.count("Clefable CLC") != 1
+        or names[-1] != "Wondrous Patch"
     ):
         raise RuntimeError(
-            "expected two trailing Wondrous Patch, two Boss's Orders, and no "
+            "expected one trailing Wondrous Patch, two Boss's Orders, and one "
             "Clefable CLC in SET_C60_NAMES, found "
             f"{names.count('Wondrous Patch')} Patch, {names.count(boss)} Boss, "
             f"{names.count('Clefable CLC')} CLC"
         )
-    names = names[:-2]
-    names.insert(names.index("Clefable") + 1, "Clefable CLC")
+    names = names[:-1]
     names.insert(names.index(boss), boss)
     return names
 
