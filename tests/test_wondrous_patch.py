@@ -146,13 +146,8 @@ def test_patch_attaches_only_to_a_benched_psychic():
     assert target is not me.active
 
 
-def test_empty_discard_retreats_elsewhere_then_switch():
-    """No Basic Psychic in the discard yet. Retreat into a different Bench Pokémon,
-    Patch the still-Benched two-Energy Clefairy, then Switch it Active.
-
-    That Clefairy pays Wonder Storm with 3 Energy. One other Psychic Energy
-    on the pivot makes the printed 20× hit 80.
-    """
+def _switch_pivot_board():
+    """Empty discard, a two-Energy Clefairy, a one-Energy pivot, and Switch."""
     names = list(SET_C60_NAMES)
     names[names.index("Poké Pad")] = "Wondrous Patch"
     game = Game(
@@ -187,6 +182,18 @@ def test_empty_discard_retreats_elsewhere_then_switch():
     backup = next(i for i, card in enumerate(foe.cards) if card.is_basic and card.is_pokemon and i != defender)
     foe.active = Pokemon(card_i=defender)
     foe.bench = [Pokemon(card_i=backup)]
+    return game, me, clefs, ps, patch, switch
+
+
+def test_empty_discard_retreats_elsewhere_then_switch():
+    """No Basic Psychic in the discard yet. Retreat into a different Bench Pokémon,
+    Patch the still-Benched two-Energy Clefairy, then Switch it Active.
+
+    That Clefairy pays Wonder Storm with 3 Energy. One other Psychic Energy
+    on the pivot makes the printed 20× hit 80.
+    """
+    game, me, clefs, ps, patch, switch = _switch_pivot_board()
+    foe = game.players["b"]
 
     assert game._try_patch_storm(me, foe, "a")
     assert me.active is not None and me.active.card_i == clefs[1]
@@ -203,6 +210,25 @@ def test_empty_discard_retreats_elsewhere_then_switch():
     assert game.events.get("switch", 0) >= 1
     assert game.events.get("wondrous_patch", 0) >= 1
     assert game.events.get("patch_storm", 0) >= 1
+
+
+def test_switch_pivot_does_not_count_when_the_patch_misses():
+    """Retreat into the pivot can succeed while Patch has nothing to attach.
+
+    That is not a Wonder Storm line: Switch stays in hand, and the lock is unset.
+    """
+    game, me, clefs, ps, patch, switch = _switch_pivot_board()
+    foe = game.players["b"]
+    game._spend_wondrous_patch = lambda *_args, **_kwargs: False
+    assert game._try_patch_storm(me, foe, "a") is False
+    assert getattr(game, "_patch_storm_lock", None) is None
+    assert game.events.get("patch_storm", 0) == 0
+    assert game.events.get("wondrous_patch", 0) == 0
+    assert game.events.get("switch", 0) == 0
+    assert patch in me.hand
+    assert switch in me.hand
+    assert me.active is not None and me.active.card_i == clefs[2]
+    assert ps[0] in me.discard
 
 
 def test_ultra_ball_discards_spare_psychic_for_the_patch():

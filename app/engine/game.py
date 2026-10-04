@@ -9843,15 +9843,19 @@ class Game:
         if pivot is not None:
             if pivot not in me.bench or not self._do_retreat_into(me, me.bench.index(pivot)):
                 return False
+            # Patch and Switch are what make this retreat a Wonder Storm. A failed
+            # Patch leaves the pivot Active; do not record the line as played.
             if storm not in me.bench or not self._spend_wondrous_patch(me, storm):
-                self._patch_storm_lock = who
-                self._bump("patch_storm")
-                return True
+                return False
             switch_i = self._first_named(me, "Switch")
-            if switch_i is not None and storm in me.bench:
-                me.hand.remove(switch_i)
-                me.discard.append(switch_i)
-                self._play_switch(me, who, me.bench.index(storm))
+            if switch_i is None or storm not in me.bench:
+                return False
+            me.hand.remove(switch_i)
+            me.discard.append(switch_i)
+            if not self._play_switch(me, who, me.bench.index(storm)):
+                me.discard.remove(switch_i)
+                me.hand.append(switch_i)
+                return False
         else:
             if storm not in me.bench or not self._do_retreat_into(me, me.bench.index(storm)):
                 return False
