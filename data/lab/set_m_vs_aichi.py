@@ -80,7 +80,7 @@ YOSHIOKA = (
 )
 
 CELLS = (
-    ("hosoda", "Aichi 4th-requested Raichu / Electrode", HOSODA, "electro_rain"),
+    ("hosoda", "Hosoda Raichu / Electrode", HOSODA, "electro_rain"),
     ("yoshioka", "Regidrago control (Trifrost, compressor, Path)", YOSHIOKA, "regidrago"),
 )
 
@@ -246,6 +246,9 @@ def _markdown(payload: dict) -> str:
         )
     lines.extend(
         [
+            "",
+            "Apex Dragon copies Trifrost from the discard, so those hits are counted on Apex Dragon.",
+            "The Trifrost column is Kyurem using the attack on its own card.",
             "",
             f"Elapsed smoke {payload['smoke_elapsed']:.1f}s, 1000-game cells {payload['full_elapsed']:.1f}s.",
             "",
