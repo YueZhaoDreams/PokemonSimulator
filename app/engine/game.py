@@ -823,6 +823,7 @@ class Game:
         foe = self.players["b" if who == "a" else "a"]
         me.own_turns += 1
         self.moonlight_pivot_mon.pop(who, None)
+        self._patch_storm_lock = None
         me.supporter_used = False
         me.energy_attached = False
         me.retreated = False
@@ -876,7 +877,9 @@ class Game:
             self._evolve(me, foe, who)
         if self._use_abilities(me, foe, who):
             return True
-        if self.strats[who].name == "party" and self._should_transfer_combo(me, foe):
+        if self.strats[who].name == "party" and self._try_patch_storm(me, foe, who):
+            pass
+        elif self.strats[who].name == "party" and self._should_transfer_combo(me, foe):
             self._retreat_for_transfer(me, who)
             self._attach_energy(me, who)
             if not me.active or not self._is_mewtwo(me.card(me.active.card_i)):
@@ -1405,6 +1408,9 @@ class Game:
             if name == "ultra ball" and len(me.hand) < 3:
                 # Printed cost is discard 2 other cards. Without them the card cannot be played.
                 continue
+            if name == "ultra ball" and strat.name == "party" and not self._ultra_ball_discards_are_safe(me):
+                # Keep the retreat Energy and Wondrous Patch. Ultra Ball needs two other cards.
+                continue
             score = 0.0
             if name in {"ultra ball", "poké ball", "poke ball"} and missing_protect:
                 score += 8
@@ -1897,6 +1903,14 @@ class Game:
             elif name == "lacey":
                 # Family Cup starts with 3 prizes remaining → Lacey draws 8.
                 score += 16 if len(me.deck) > 8 else -8
+            elif name == "wondrous patch":
+                if self._patch_storm_plan(me, foe, who) is not None:
+                    # The turn-2 line plays this after Party, not as a random Item.
+                    score -= 30
+                elif self._wondrous_patch_target(me, who) is not None:
+                    score += 12
+                else:
+                    score -= 20
             else:
                 score += 0.5
             # Greedy Family Cup: Energy Search is also a Pokémon tutor.
@@ -3370,6 +3384,8 @@ class Game:
         return False
 
     def _party_bounce_combo(self, me: Player, foe: Player, who: str) -> None:
+        if self._patch_storm_plan(me, foe, who) is not None:
+            return
         if me.supporter_used or not self._can_play_supporter(who):
             return
         if self._seeker_wipe_pending(me, foe, who):
@@ -3549,11 +3565,70 @@ class Game:
             self._bump("return_self_to_hand")
         return True
 
+    def _wondrous_patch_can_take_discard(self, me: Player) -> bool:
+        """Patch is in hand and a Benched Psychic Pokémon can receive it."""
+        who = "a" if me.name == "A" else "b"
+        if self.strats[who].name != "party" or me.item_lock:
+            return False
+        if not self._has_named(me, "Wondrous Patch"):
+            return False
+        return any(self._wondrous_patch_rank(me, mon) is not None for mon in me.bench)
+
+    def _clefairy_retreat_energy_reserve(self, me: Player) -> int | None:
+        """The one hand Energy a 1-Energy Active Clefairy still needs to retreat."""
+        if not me.active or me.energy_attached or me.retreated:
+            return None
+        if not self._is_clefairy(me.card(me.active.card_i)):
+            return None
+        cost = self._retreat_cost(me, me.active)
+        if len(me.active.energy) >= cost or len(me.active.energy) + 1 < cost:
+            return None
+        return self._hand_energy_for_retreat(me)
+
+    def _ultra_ball_patch_fuel(self, me: Player, retreat_reserve: int | None) -> set[int]:
+        """Spare Basic Psychic Energy cards Ultra Ball should discard for Patch.
+
+        One Patch attaches one energy. The retreat Energy stays in hand.
+        """
+        fuels = len(self._basic_psychic_discard_idxs(me))
+        patches = sum(1 for i in me.hand if me.card(i).name.lower() == "wondrous patch")
+        need = max(0, patches - fuels)
+        chosen: set[int] = set()
+        if need <= 0:
+            return chosen
+        for i in me.hand:
+            if i == retreat_reserve or not self._is_basic_psychic_energy_card(me.card(i)):
+                continue
+            chosen.add(i)
+            if len(chosen) == need:
+                break
+        return chosen
+
+    def _ultra_ball_discards_are_safe(self, me: Player) -> bool:
+        """True when two discards can avoid the retreat Energy and Wondrous Patch."""
+        if not self._wondrous_patch_can_take_discard(me):
+            return True
+        reserve = self._clefairy_retreat_energy_reserve(me)
+        safe = 0
+        for i in me.hand:
+            card = me.card(i)
+            if card.name.lower() == "ultra ball":
+                continue
+            if card.name.lower() == "wondrous patch":
+                continue
+            if i == reserve:
+                continue
+            safe += 1
+        return safe >= 2
+
     def _discard_for_ultra_ball(self, me: Player, n: int = 2) -> int:
         strat = self.strats["a" if me.name == "A" else "b"]
         protect = {n.lower() for n in strat.protect}
         spare_energy = sum(1 for i in me.hand if is_basic_energy(me.card(i))) > 1
         bench_room = len(me.bench) < self._bench_limit()
+        protect_patch = self._wondrous_patch_can_take_discard(me)
+        retreat_reserve = self._clefairy_retreat_energy_reserve(me) if protect_patch else None
+        patch_fuel = self._ultra_ball_patch_fuel(me, retreat_reserve) if protect_patch else set()
         scored: list[tuple[float, int]] = []
         for i in list(me.hand):
             card = me.card(i)
@@ -3585,6 +3660,18 @@ class Game:
                 score -= 8
             if card.is_energy:
                 score -= 1
+            if i == retreat_reserve:
+                # The Active Clefairy still needs this card to retreat. Patch
+                # fuel is a different Basic Psychic Energy.
+                score -= 15
+            elif i in patch_fuel:
+                # Ultra Ball's discard is the Wondrous Patch fuel.
+                score += 8
+            if (
+                protect_patch
+                and card.name.lower() == "wondrous patch"
+            ):
+                score -= 30
             if card.hp and card.hp >= 140:
                 score -= 3
             if (
@@ -9539,6 +9626,286 @@ class Game:
         sim = self._simulate_fast_line(me, foe, who)
         return bool(sim and (sim["ko_next"] or sim["ko_next_no_attach"]))
 
+    def _is_basic_psychic_energy_card(self, card: Card) -> bool:
+        """Wondrous Patch fuel is a Basic Psychic Energy card, not a Pokémon or Special Energy."""
+        return bool(
+            card.is_energy
+            and not is_special_energy(card)
+            and not card.is_pokemon
+            and (card.energy_type or "") == "Psychic"
+        )
+
+    def _basic_psychic_discard_idxs(self, me: Player) -> list[int]:
+        return [i for i in me.discard if self._is_basic_psychic_energy_card(me.card(i))]
+
+    def _wonder_storm_counts(self, me: Player, card_i: int) -> bool:
+        card = me.card(card_i)
+        if card.is_energy and (card.energy_type or (card.types[0] if card.types else "")) == "Psychic":
+            return True
+        return bool(card.is_pokemon and card.types and card.types[0] == "Psychic")
+
+    def _hand_energy_for_retreat(self, me: Player) -> int | None:
+        basic = [i for i in me.hand if self._is_basic_psychic_energy_card(me.card(i))]
+        if basic:
+            return basic[0]
+        for i in me.hand:
+            if me.card(i).is_energy:
+                return i
+        return None
+
+    def _wondrous_patch_rank(self, me: Player, mon: Pokemon) -> tuple[int, int] | None:
+        card = me.card(mon.card_i)
+        if "Psychic" not in (card.types or []):
+            return None
+        psychic = self._psychic_on(me, mon)
+        name = card.name.lower()
+        if self._is_clefable_ex(card):
+            return (0 if not self._can_pay_wondrous_moon(me, mon) else 3, psychic)
+        if "mega clefable" in name:
+            return (1 if not self._can_pay_shooting_moons(me, mon) else 3, psychic)
+        if self._is_clefairy(card):
+            return (2 if psychic < 3 else 5, -psychic)
+        if name == "latias ex":
+            return (6, psychic)
+        return (4, psychic)
+
+    def _wondrous_patch_target(self, me: Player, who: str) -> Pokemon | None:
+        if not self._basic_psychic_discard_idxs(me):
+            return None
+        ranked: list[tuple[tuple[int, int], Pokemon]] = []
+        for mon in me.bench:
+            rank = self._wondrous_patch_rank(me, mon)
+            if rank is None:
+                continue
+            ranked.append((rank, mon))
+        if not ranked:
+            return None
+        ranked.sort(key=lambda row: row[0])
+        return ranked[0][1]
+
+    def _attach_wondrous_patch_energy(self, me: Player, target: Pokemon, count: int) -> int:
+        """Printed: attach that many Basic Psychic Energy from discard to one Benched Psychic."""
+        if target is me.active or target not in me.bench:
+            return 0
+        if "Psychic" not in (me.card(target.card_i).types or []):
+            return 0
+        moved = 0
+        for _ in range(max(0, count)):
+            fuels = self._basic_psychic_discard_idxs(me)
+            if not fuels:
+                break
+            energy_i = fuels[0]
+            me.discard.remove(energy_i)
+            target.energy.append(energy_i)
+            moved += 1
+        if moved:
+            self._bump("wondrous_patch", moved)
+            self._log(
+                f"{me.name} Wondrous Patch attaches {moved} Basic Psychic Energy "
+                f"to {me.card(target.card_i).name}"
+            )
+        return moved
+
+    def _spend_wondrous_patch(self, me: Player, target: Pokemon) -> bool:
+        card_i = self._first_named(me, "Wondrous Patch")
+        if card_i is None or not self._basic_psychic_discard_idxs(me):
+            return False
+        eff = next(
+            (e for e in parse_trainer_effects(me.card(card_i).text or "") if e.get("kind") == "wondrous_patch"),
+            None,
+        )
+        if eff is None:
+            return False
+        me.hand.remove(card_i)
+        me.discard.append(card_i)
+        return self._attach_wondrous_patch_energy(me, target, int(eff.get("count") or 1)) > 0
+
+    def _play_held_wondrous_patches(self, me: Player, who: str) -> None:
+        for _ in range(4):
+            if self._first_named(me, "Wondrous Patch") is None:
+                return
+            target = self._wondrous_patch_target(me, who)
+            if target is None or not self._spend_wondrous_patch(me, target):
+                return
+
+    def _patch_storm_plan(self, me: Player, foe: Player, who: str) -> dict[str, Any] | None:
+        """Turn-2 Wonder Storm: retreat a 1-Energy Clefairy onto a fueled bench copy.
+
+        Printed Patch only hits a Benched Psychic Pokémon. When the attacker has
+        two Psychic Energy, the Patch lands before the retreat so Wonder Storm's
+        three-Energy cost is paid. When Party already paid that cost, the Patch
+        lands after the retreat, on whatever Psychic is still Benched.
+        """
+        if self.strats[who].name != "party" or not me.active or not me.bench or me.item_lock:
+            return None
+        if not self._has_named(me, "Wondrous Patch"):
+            return None
+        if self.turn == 1 and who == self.first and self.rules.first_player_no_attack:
+            return None
+        if me.active.status & (ST_PARALYZED | ST_ASLEEP):
+            return None
+        if self.rules.one_retreat_per_turn and me.retreated:
+            return None
+        if not self._is_clefairy(me.card(me.active.card_i)):
+            return None
+        if self._photon_ko(me, foe):
+            return None
+        storm_atk = self._wonder_storm_attack(me, me.active)
+        if storm_atk is None:
+            return None
+
+        party_first = (
+            not me.active.ability_used
+            and not self._abilities_suppressed(me, me.active)
+            and any(self._is_clefairy(me.card(m.card_i)) for m in me.bench)
+        )
+        fuels = [i for i in me.deck if self._party_fuel_ok(me, i, "Psychic")]
+        fuel_n = len(fuels)
+        projected: dict[int, int] = {}
+        storm: Pokemon | None = None
+        best_n = -1
+        for mon in me.bench:
+            n = self._psychic_on(me, mon)
+            if party_first and self._is_clefairy(me.card(mon.card_i)) and fuel_n > 0:
+                n += 1
+                fuel_n -= 1
+            projected[id(mon)] = n
+            if self._is_clefairy(me.card(mon.card_i)) and n > best_n:
+                best_n = n
+                storm = mon
+        if storm is None or best_n < 0:
+            return None
+
+        cost = self._retreat_cost(me, me.active)
+        attach_i: int | None = None
+        if len(me.active.energy) < cost:
+            if me.energy_attached:
+                return None
+            attach_i = self._hand_energy_for_retreat(me)
+            if attach_i is None or len(me.active.energy) + 1 < cost:
+                return None
+        paid = list(me.active.energy)
+        if attach_i is not None:
+            paid.append(attach_i)
+        if cost > len(paid):
+            return None
+        kept, discarded = (paid[:-cost], paid[-cost:]) if cost else (paid, [])
+        discard_now = len(self._basic_psychic_discard_idxs(me))
+        retreat_fuel = sum(1 for i in discarded if self._is_basic_psychic_energy_card(me.card(i)))
+        patch_before = False
+        patch_after = False
+        switch_pivot: Pokemon | None = None
+        storm_n = best_n
+        if storm_n >= 3 and discard_now + retreat_fuel >= 1:
+            patch_after = True
+        elif storm_n == 2 and discard_now >= 1:
+            # Discard already holds the Patch fuel, so it lands before the retreat.
+            patch_before = True
+            storm_n += 1
+        elif (
+            storm_n == 2
+            and retreat_fuel >= 1
+            and self._has_named(me, "Switch")
+            and any(m is not storm for m in me.bench)
+        ):
+            # Retreat discards the two Energy. Patch can only hit a Benched
+            # Pokémon, so retreat into someone else, Patch, then Switch.
+            others = [m for m in me.bench if m is not storm]
+            switch_pivot = min(
+                others,
+                key=lambda m: (
+                    0 if not self._is_clefairy(me.card(m.card_i)) else 1,
+                    self._psychic_on(me, m),
+                ),
+            )
+            storm_n += 1
+        else:
+            return None
+        if not can_pay_energy(["Psychic"] * storm_n, storm_atk.cost):
+            return None
+
+        total = storm_n + sum(n for mon, n in ((m, projected[id(m)]) for m in me.bench) if mon is not storm)
+        total += sum(1 for i in kept if self._wonder_storm_counts(me, i))
+        party_after = not storm.ability_used
+        if party_after:
+            post_bench = [m for m in me.bench if m is not storm]
+            if self._is_clefairy(me.card(me.active.card_i)):
+                post_bench.append(me.active)
+            for mon in post_bench:
+                if fuel_n <= 0:
+                    break
+                if self._is_clefairy(me.card(mon.card_i)):
+                    fuel_n -= 1
+                    total += 1
+        if patch_after:
+            total += 1
+        per = 20
+        for effect in storm_atk.effects:
+            if effect.get("kind") == "psychic_energy_times":
+                per = int(effect.get("per") or storm_atk.damage or 20)
+        # Four Psychic Energy is the turn-2 floor: printed 20 damage each is 80.
+        if total * per < 4 * per:
+            return None
+        return {
+            "storm": storm,
+            "party_first": party_first,
+            "patch_before": patch_before,
+            "patch_after": patch_after,
+            "attach_i": attach_i,
+            "party_after": party_after,
+            "switch_pivot": switch_pivot,
+        }
+
+    def _try_patch_storm(self, me: Player, foe: Player, who: str) -> bool:
+        plan = self._patch_storm_plan(me, foe, who)
+        if plan is None:
+            return False
+        storm: Pokemon = plan["storm"]
+        if plan["party_first"] and me.active is not None:
+            self._moon_watching_party(me, me.active)
+        if plan["patch_before"] and not self._spend_wondrous_patch(me, storm):
+            return False
+        attach_i = plan["attach_i"]
+        if attach_i is not None:
+            if me.active is None or attach_i not in me.hand:
+                return False
+            me.hand.remove(attach_i)
+            me.active.energy.append(attach_i)
+            me.energy_attached = True
+            src = me.card(attach_i)
+            self._log(f"{me.name} attaches {src.name} as {src.as_energy_type} energy to {me.card(me.active.card_i).name}")
+            self._resolve_energy_attach_from_hand(me, who, me.active, attach_i)
+        pivot: Pokemon | None = plan["switch_pivot"]
+        if pivot is not None:
+            if pivot not in me.bench or not self._do_retreat_into(me, me.bench.index(pivot)):
+                return False
+            # Patch and Switch are what make this retreat a Wonder Storm. A failed
+            # Patch leaves the pivot Active; do not record the line as played.
+            if storm not in me.bench or not self._spend_wondrous_patch(me, storm):
+                return False
+            switch_i = self._first_named(me, "Switch")
+            if switch_i is None or storm not in me.bench:
+                return False
+            me.hand.remove(switch_i)
+            me.discard.append(switch_i)
+            if not self._play_switch(me, who, me.bench.index(storm)):
+                me.discard.remove(switch_i)
+                me.hand.append(switch_i)
+                return False
+        else:
+            if storm not in me.bench or not self._do_retreat_into(me, me.bench.index(storm)):
+                return False
+            if plan["patch_after"]:
+                target = self._wondrous_patch_target(me, who)
+                if target is not None:
+                    self._spend_wondrous_patch(me, target)
+        if plan["party_after"] and me.active is not None and not me.active.ability_used:
+            self._moon_watching_party(me, me.active)
+        self._patch_storm_lock = who
+        self._bump("patch_storm")
+        self._play_held_wondrous_patches(me, who)
+        return True
+
     def _want_storm_line(self, me: Player, foe: Player, who: str) -> bool:
         """Wonder Storm vs Lightning looks free, but Thunder Shock para-locks 60 HP Clefairy.
 
@@ -10187,6 +10554,17 @@ class Game:
             return False
         if not me.active:
             return False
+        if getattr(self, "_patch_storm_lock", None) == who or self._patch_storm_plan(me, foe, who) is not None:
+            # Party once on the Active Clefairy, then the Patch line retreats
+            # onto the fueled bench copy. Do not spend that retreat here.
+            if (
+                self._is_clefairy(me.card(me.active.card_i))
+                and not me.active.ability_used
+                and not self._abilities_suppressed(me, me.active)
+                and any(self._is_clefairy(me.card(m.card_i)) for m in me.bench)
+            ):
+                self._moon_watching_party(me, me.active)
+            return False
         walling = any(self._is_tank_mon(me, mon) for mon in me.in_play())
         storm = self._want_storm_line(me, foe, who)
         if self._want_empty_clefairy_chump(me, foe) or (
@@ -10305,6 +10683,9 @@ class Game:
         return False
 
     def _evolve_party(self, me: Player, foe: Player, who: str) -> None:
+        if self._patch_storm_plan(me, foe, who) is not None or getattr(self, "_patch_storm_lock", None) == who:
+            # Leave the Clefairy that is about to Wonder Storm as a Basic.
+            return
         if self.rules.first_turn_no_evolve and self._is_players_first_turn(who):
             return
         if self._facing_aura(me):
@@ -12380,6 +12761,10 @@ class Game:
             self._swap_active_energy_with_hand(me, foe)
         elif kind == "lost_vacuum":
             self._lost_vacuum(me, foe)
+        elif kind == "wondrous_patch":
+            target = self._wondrous_patch_target(me, who)
+            if target is not None:
+                self._attach_wondrous_patch_energy(me, target, int(eff.get("count") or 1))
 
     def _puzzle_of_time(self, me: Player, who: str, card: Card, look: int, pair_count: int) -> None:
         second = next((i for i in me.hand if me.card(i).name.lower() == card.name.lower()), None)

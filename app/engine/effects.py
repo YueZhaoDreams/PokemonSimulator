@@ -1075,6 +1075,22 @@ def parse_trainer_effects(text: str) -> list[dict[str, Any]]:
     effects: list[dict[str, Any]] = []
     if not t:
         return effects
+    # Wondrous Patch (ME02 94 / Perfect Order 117): one Basic Psychic from
+    # discard onto one Benched Psychic Pokémon. The "1" is the printed count.
+    if (
+        "attach a basic psychic energy card from your discard pile" in t
+        and "benched psychic pokemon" in t
+    ):
+        effects.append(
+            {
+                "kind": "wondrous_patch",
+                "count": 1,
+                "energy_type": "Psychic",
+                "bench_only": True,
+                "pokemon_type": "Psychic",
+            }
+        )
+        return effects
     reactive = _attached_tool_reactive(t)
     if reactive:
         return reactive

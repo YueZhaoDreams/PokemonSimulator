@@ -38,6 +38,7 @@ def test_set_c60_is_standard_sixty_with_psychic_energy():
     assert names.count("Clefable") == 1
     assert names.count("Clefable CLC") == 1
     assert names.count("Clefable ex") == 3
+    assert names.count("Wondrous Patch") == 1
     assert names.count("Mega Clefable ex") == 0
     assert names.count("Poké Pad") == 1
     assert names.count("Psychic Energy") == 14
@@ -53,7 +54,7 @@ def test_set_c60_is_standard_sixty_with_psychic_energy():
     assert before.count("Ultra Ball") == 2
     assert before.count("Moonlight Stadium") == 0
     assert before.count("Latias ex") == 0
-    assert names.count("Boss's Orders") == 3
+    assert names.count("Boss's Orders") == 2
     assert names.count("Maximum Belt") == 1
     assert names.count("Tool Box") == 0
     assert names.count("Arven") == 1
@@ -84,6 +85,8 @@ def test_set_c60_is_standard_sixty_with_psychic_energy():
     clc = next(c for c in fables if c.catalog_id == "clc-014")
     assert any(a.name == "Prankish" for a in prankish.abilities)
     assert any(a.name == "Metronome" for a in clc.attacks)
+    patches = [c for c in pile if c.name == "Wondrous Patch"]
+    assert [c.catalog_id for c in patches] == ["me02-094"]
     assert any(c.is_energy and c.name == "Psychic Energy" for c in pile)
     assert sum(1 for c in pile if c.name == "Telepathic Psychic Energy") == 2
     assert rules.pokemon_as_energy is False

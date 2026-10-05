@@ -7,7 +7,7 @@ from app.engine.game import Game, Pokemon
 from app.engine.legality import copy_violations
 from app.engine.models import standard_60_rules
 from app.engine.strategies import StrategySpec
-from app.seed_data import SET_C60_NAMES, build_fallback_deck, fallback_named
+from app.seed_data import SET_C60_NAMES, build_fallback_deck, c60_names_before_patch, fallback_named
 
 PRINTED = "Your Basic Pokémon in play have no Retreat Cost."
 EON = "During your next turn, this Pokémon can't attack."
@@ -266,7 +266,7 @@ def test_latias_matrix_prefers_one_copy_and_an_ultra_ball():
     assert blob["lists"]["latias2"].count("Latias ex") == 2
     assert blob["lists"]["latias_ultra"].count("Latias ex") == 1
     assert blob["lists"]["latias_ultra"].count("Ultra Ball") == 1
-    assert blob["lists"]["latias_ultra"] == list(SET_C60_NAMES)
+    assert blob["lists"]["latias_ultra"] == c60_names_before_patch()
     wcomp = blob["weighted_competitive"]
     wall = blob["weighted_all"]
     assert max(wcomp, key=wcomp.get) == "latias_ultra"

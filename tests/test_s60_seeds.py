@@ -93,6 +93,8 @@ def test_s60_seed_aliases_and_prankish_c60():
     assert "base2/1" in (clc.get("image") or "")
     assert "base1/5" not in (clc.get("image") or "")
     assert fallback_named("Clefable CLC").image == clc.get("image")
+    patches = [c for c in c60["cards"] if c["name"] == "Wondrous Patch"]
+    assert [c.get("catalog_id") for c in patches] == ["me02-094"]
     assert names.count("Poké Pad") == 1
     assert names.count("Mega Clefable ex") == 0
     assert names.count("Seeker") == 1

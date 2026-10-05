@@ -1,0 +1,5204 @@
+{
+  "games": 1000,
+  "seed": 20261002,
+  "elapsed": 5285.888699189,
+  "rule_preset": "s60",
+  "method": "greedy one-card Wondrous Patch swap from locked C60; score is the loss-weighted win rate with weights frozen from the 0-Patch list; stop when that score does not rise, or at 4 copies",
+  "printed": "Attach a Basic Psychic Energy card from your discard pile to 1 of your Benched Psychic Pok\u00e9mon.",
+  "catalog_id": "me02-094",
+  "foes": {
+    "t60": "phantom",
+    "hedrick": "phantom",
+    "unl": "phantom",
+    "d60": "demolish",
+    "s60": "slash",
+    "g": "g"
+  },
+  "weights": {
+    "t60": 0.21218274111675123,
+    "hedrick": 0.2720812182741117,
+    "unl": 0.05482233502538076,
+    "d60": 0.23451776649746192,
+    "s60": 0.00101522842639594,
+    "g": 0.22538071065989845
+  },
+  "copies": 2,
+  "cuts": [
+    "Boss's Orders",
+    "Clefable CLC"
+  ],
+  "win_rate_array": [
+    0.775566497461929,
+    0.7905441624365482,
+    0.7927431472081219
+  ],
+  "equal_weight_array": [
+    0.8358333333333333,
+    0.8426666666666667,
+    0.8461666666666666
+  ],
+  "array": [
+    {
+      "copies": 0,
+      "cut": null,
+      "cuts": [],
+      "list": [
+        "Clefairy",
+        "Clefairy",
+        "Clefairy",
+        "Clefairy",
+        "Mewtwo ex",
+        "Mewtwo ex",
+        "Mewtwo ex",
+        "Clefable",
+        "Clefable CLC",
+        "Clefable ex",
+        "Clefable ex",
+        "Clefable ex",
+        "Seeker",
+        "Nest Ball",
+        "Nest Ball",
+        "Nest Ball",
+        "Nest Ball",
+        "Buddy-Buddy Poffin",
+        "Buddy-Buddy Poffin",
+        "Buddy-Buddy Poffin",
+        "Buddy-Buddy Poffin",
+        "Latias ex",
+        "Ultra Ball",
+        "Hop",
+        "Hop",
+        "Lillie",
+        "Lillie",
+        "Lillie's Determination",
+        "Lillie's Determination",
+        "Arven",
+        "Boss's Orders",
+        "Boss's Orders",
+        "Boss's Orders",
+        "Iono",
+        "Switch",
+        "Switch",
+        "Energy Switch",
+        "Energy Switch",
+        "Night Stretcher",
+        "Maximum Belt",
+        "Battle Cage",
+        "Battle Cage",
+        "Battle Cage",
+        "Telepathic Psychic Energy",
+        "Telepathic Psychic Energy",
+        "Psychic Energy",
+        "Psychic Energy",
+        "Psychic Energy",
+        "Psychic Energy",
+        "Psychic Energy",
+        "Psychic Energy",
+        "Psychic Energy",
+        "Psychic Energy",
+        "Psychic Energy",
+        "Psychic Energy",
+        "Psychic Energy",
+        "Psychic Energy",
+        "Psychic Energy",
+        "Psychic Energy",
+        "Pok\u00e9 Pad"
+      ],
+      "weighted": 0.775566497461929,
+      "mean": 0.8358333333333333,
+      "worst": 0.732,
+      "cells": {
+        "t60": {
+          "a": 0.791,
+          "b": 0.209,
+          "tie": 0.0,
+          "first": 0.8214285714285714,
+          "second": 0.7600806451612904,
+          "patch": 0.0,
+          "storm": 0.0
+        },
+        "hedrick": {
+          "a": 0.732,
+          "b": 0.268,
+          "tie": 0.0,
+          "first": 0.7428023032629558,
+          "second": 0.7202505219206681,
+          "patch": 0.0,
+          "storm": 0.0
+        },
+        "unl": {
+          "a": 0.946,
+          "b": 0.054,
+          "tie": 0.0,
+          "first": 0.9393939393939394,
+          "second": 0.9524752475247524,
+          "patch": 0.0,
+          "storm": 0.0
+        },
+        "d60": {
+          "a": 0.769,
+          "b": 0.231,
+          "tie": 0.0,
+          "first": 0.8024948024948025,
+          "second": 0.7379576107899807,
+          "patch": 0.0,
+          "storm": 0.0
+        },
+        "s60": {
+          "a": 0.999,
+          "b": 0.001,
+          "tie": 0.0,
+          "first": 1.0,
+          "second": 0.997979797979798,
+          "patch": 0.0,
+          "storm": 0.0
+        },
+        "g": {
+          "a": 0.778,
+          "b": 0.222,
+          "tie": 0.0,
+          "first": 0.7845188284518828,
+          "second": 0.7720306513409961,
+          "patch": 0.0,
+          "storm": 0.0
+        }
+      }
+    },
+    {
+      "copies": 1,
+      "cut": "Boss's Orders",
+      "cuts": [
+        "Boss's Orders"
+      ],
+      "list": [
+        "Clefairy",
+        "Clefairy",
+        "Clefairy",
+        "Clefairy",
+        "Mewtwo ex",
+        "Mewtwo ex",
+        "Mewtwo ex",
+        "Clefable",
+        "Clefable CLC",
+        "Clefable ex",
+        "Clefable ex",
+        "Clefable ex",
+        "Seeker",
+        "Nest Ball",
+        "Nest Ball",
+        "Nest Ball",
+        "Nest Ball",
+        "Buddy-Buddy Poffin",
+        "Buddy-Buddy Poffin",
+        "Buddy-Buddy Poffin",
+        "Buddy-Buddy Poffin",
+        "Latias ex",
+        "Ultra Ball",
+        "Hop",
+        "Hop",
+        "Lillie",
+        "Lillie",
+        "Lillie's Determination",
+        "Lillie's Determination",
+        "Arven",
+        "Boss's Orders",
+        "Boss's Orders",
+        "Iono",
+        "Switch",
+        "Switch",
+        "Energy Switch",
+        "Energy Switch",
+        "Night Stretcher",
+        "Maximum Belt",
+        "Battle Cage",
+        "Battle Cage",
+        "Battle Cage",
+        "Telepathic Psychic Energy",
+        "Telepathic Psychic Energy",
+        "Psychic Energy",
+        "Psychic Energy",
+        "Psychic Energy",
+        "Psychic Energy",
+        "Psychic Energy",
+        "Psychic Energy",
+        "Psychic Energy",
+        "Psychic Energy",
+        "Psychic Energy",
+        "Psychic Energy",
+        "Psychic Energy",
+        "Psychic Energy",
+        "Psychic Energy",
+        "Psychic Energy",
+        "Pok\u00e9 Pad",
+        "Wondrous Patch"
+      ],
+      "weighted": 0.7905441624365482,
+      "mean": 0.8426666666666667,
+      "worst": 0.752,
+      "patch": 0.23383333333333334,
+      "storm": 0.016833333333333332,
+      "cells": {
+        "t60": {
+          "a": 0.805,
+          "b": 0.195,
+          "tie": 0.0,
+          "first": 0.8301526717557252,
+          "second": 0.7773109243697479,
+          "patch": 0.269,
+          "storm": 0.019
+        },
+        "hedrick": {
+          "a": 0.752,
+          "b": 0.248,
+          "tie": 0.0,
+          "first": 0.7583497053045186,
+          "second": 0.745417515274949,
+          "patch": 0.274,
+          "storm": 0.015
+        },
+        "unl": {
+          "a": 0.924,
+          "b": 0.076,
+          "tie": 0.0,
+          "first": 0.9418837675350702,
+          "second": 0.906187624750499,
+          "patch": 0.219,
+          "storm": 0.009
+        },
+        "d60": {
+          "a": 0.806,
+          "b": 0.194,
+          "tie": 0.0,
+          "first": 0.8176352705410822,
+          "second": 0.7944111776447106,
+          "patch": 0.243,
+          "storm": 0.018
+        },
+        "s60": {
+          "a": 0.995,
+          "b": 0.005,
+          "tie": 0.0,
+          "first": 0.998015873015873,
+          "second": 0.9919354838709677,
+          "patch": 0.047,
+          "storm": 0.008
+        },
+        "g": {
+          "a": 0.774,
+          "b": 0.226,
+          "tie": 0.0,
+          "first": 0.7617107942973523,
+          "second": 0.7858546168958742,
+          "patch": 0.351,
+          "storm": 0.032
+        }
+      }
+    },
+    {
+      "copies": 2,
+      "cut": "Clefable CLC",
+      "cuts": [
+        "Boss's Orders",
+        "Clefable CLC"
+      ],
+      "list": [
+        "Clefairy",
+        "Clefairy",
+        "Clefairy",
+        "Clefairy",
+        "Mewtwo ex",
+        "Mewtwo ex",
+        "Mewtwo ex",
+        "Clefable",
+        "Clefable ex",
+        "Clefable ex",
+        "Clefable ex",
+        "Seeker",
+        "Nest Ball",
+        "Nest Ball",
+        "Nest Ball",
+        "Nest Ball",
+        "Buddy-Buddy Poffin",
+        "Buddy-Buddy Poffin",
+        "Buddy-Buddy Poffin",
+        "Buddy-Buddy Poffin",
+        "Latias ex",
+        "Ultra Ball",
+        "Hop",
+        "Hop",
+        "Lillie",
+        "Lillie",
+        "Lillie's Determination",
+        "Lillie's Determination",
+        "Arven",
+        "Boss's Orders",
+        "Boss's Orders",
+        "Iono",
+        "Switch",
+        "Switch",
+        "Energy Switch",
+        "Energy Switch",
+        "Night Stretcher",
+        "Maximum Belt",
+        "Battle Cage",
+        "Battle Cage",
+        "Battle Cage",
+        "Telepathic Psychic Energy",
+        "Telepathic Psychic Energy",
+        "Psychic Energy",
+        "Psychic Energy",
+        "Psychic Energy",
+        "Psychic Energy",
+        "Psychic Energy",
+        "Psychic Energy",
+        "Psychic Energy",
+        "Psychic Energy",
+        "Psychic Energy",
+        "Psychic Energy",
+        "Psychic Energy",
+        "Psychic Energy",
+        "Psychic Energy",
+        "Psychic Energy",
+        "Pok\u00e9 Pad",
+        "Wondrous Patch",
+        "Wondrous Patch"
+      ],
+      "weighted": 0.7927431472081219,
+      "mean": 0.8461666666666666,
+      "worst": 0.754,
+      "patch": 0.35516666666666663,
+      "storm": 0.03466666666666667,
+      "cells": {
+        "t60": {
+          "a": 0.796,
+          "b": 0.204,
+          "tie": 0.0,
+          "first": 0.7816764132553606,
+          "second": 0.811088295687885,
+          "patch": 0.438,
+          "storm": 0.036
+        },
+        "hedrick": {
+          "a": 0.754,
+          "b": 0.246,
+          "tie": 0.0,
+          "first": 0.7584269662921348,
+          "second": 0.7489270386266095,
+          "patch": 0.416,
+          "storm": 0.042
+        },
+        "unl": {
+          "a": 0.939,
+          "b": 0.061,
+          "tie": 0.0,
+          "first": 0.9424603174603174,
+          "second": 0.9354838709677419,
+          "patch": 0.298,
+          "storm": 0.025
+        },
+        "d60": {
+          "a": 0.81,
+          "b": 0.19,
+          "tie": 0.0,
+          "first": 0.8026315789473685,
+          "second": 0.8183760683760684,
+          "patch": 0.377,
+          "storm": 0.035
+        },
+        "s60": {
+          "a": 0.996,
+          "b": 0.004,
+          "tie": 0.0,
+          "first": 0.9957983193277311,
+          "second": 0.9961832061068703,
+          "patch": 0.091,
+          "storm": 0.017
+        },
+        "g": {
+          "a": 0.782,
+          "b": 0.218,
+          "tie": 0.0,
+          "first": 0.7988394584139265,
+          "second": 0.7639751552795031,
+          "patch": 0.511,
+          "storm": 0.053
+        }
+      }
+    }
+  ],
+  "steps": [
+    {
+      "copies_after": 1,
+      "current_weighted": 0.775566497461929,
+      "current_mean": 0.8358333333333333,
+      "accepted": true,
+      "chosen": "Boss's Orders",
+      "chosen_weighted": 0.7905441624365482,
+      "chosen_mean": 0.8426666666666667,
+      "candidates": [
+        {
+          "cut": "Boss's Orders",
+          "copies_before": 3,
+          "weighted": 0.7905441624365482,
+          "mean": 0.8426666666666667,
+          "worst": 0.752,
+          "patch": 0.23383333333333334,
+          "storm": 0.016833333333333332,
+          "cells": {
+            "t60": {
+              "a": 0.805,
+              "b": 0.195,
+              "tie": 0.0,
+              "first": 0.8301526717557252,
+              "second": 0.7773109243697479,
+              "patch": 0.269,
+              "storm": 0.019
+            },
+            "hedrick": {
+              "a": 0.752,
+              "b": 0.248,
+              "tie": 0.0,
+              "first": 0.7583497053045186,
+              "second": 0.745417515274949,
+              "patch": 0.274,
+              "storm": 0.015
+            },
+            "unl": {
+              "a": 0.924,
+              "b": 0.076,
+              "tie": 0.0,
+              "first": 0.9418837675350702,
+              "second": 0.906187624750499,
+              "patch": 0.219,
+              "storm": 0.009
+            },
+            "d60": {
+              "a": 0.806,
+              "b": 0.194,
+              "tie": 0.0,
+              "first": 0.8176352705410822,
+              "second": 0.7944111776447106,
+              "patch": 0.243,
+              "storm": 0.018
+            },
+            "s60": {
+              "a": 0.995,
+              "b": 0.005,
+              "tie": 0.0,
+              "first": 0.998015873015873,
+              "second": 0.9919354838709677,
+              "patch": 0.047,
+              "storm": 0.008
+            },
+            "g": {
+              "a": 0.774,
+              "b": 0.226,
+              "tie": 0.0,
+              "first": 0.7617107942973523,
+              "second": 0.7858546168958742,
+              "patch": 0.351,
+              "storm": 0.032
+            }
+          }
+        },
+        {
+          "cut": "Clefable",
+          "copies_before": 1,
+          "weighted": 0.7862934010152285,
+          "mean": 0.8415,
+          "worst": 0.759,
+          "patch": 0.23416666666666666,
+          "storm": 0.020666666666666667,
+          "cells": {
+            "t60": {
+              "a": 0.794,
+              "b": 0.206,
+              "tie": 0.0,
+              "first": 0.799249530956848,
+              "second": 0.7880085653104925,
+              "patch": 0.255,
+              "storm": 0.013
+            },
+            "hedrick": {
+              "a": 0.759,
+              "b": 0.241,
+              "tie": 0.0,
+              "first": 0.7528089887640449,
+              "second": 0.7660944206008584,
+              "patch": 0.273,
+              "storm": 0.017
+            },
+            "unl": {
+              "a": 0.936,
+              "b": 0.064,
+              "tie": 0.0,
+              "first": 0.9378757515030061,
+              "second": 0.9341317365269461,
+              "patch": 0.19,
+              "storm": 0.016
+            },
+            "d60": {
+              "a": 0.784,
+              "b": 0.216,
+              "tie": 0.0,
+              "first": 0.7904564315352697,
+              "second": 0.777992277992278,
+              "patch": 0.249,
+              "storm": 0.023
+            },
+            "s60": {
+              "a": 0.999,
+              "b": 0.001,
+              "tie": 0.0,
+              "first": 1.0,
+              "second": 0.998062015503876,
+              "patch": 0.049,
+              "storm": 0.017
+            },
+            "g": {
+              "a": 0.777,
+              "b": 0.223,
+              "tie": 0.0,
+              "first": 0.8071570576540755,
+              "second": 0.7464788732394366,
+              "patch": 0.389,
+              "storm": 0.038
+            }
+          }
+        },
+        {
+          "cut": "Switch",
+          "copies_before": 2,
+          "weighted": 0.7822791878172589,
+          "mean": 0.8385000000000001,
+          "worst": 0.747,
+          "patch": 0.23516666666666666,
+          "storm": 0.0155,
+          "cells": {
+            "t60": {
+              "a": 0.797,
+              "b": 0.203,
+              "tie": 0.0,
+              "first": 0.8044354838709677,
+              "second": 0.7896825396825397,
+              "patch": 0.294,
+              "storm": 0.012
+            },
+            "hedrick": {
+              "a": 0.747,
+              "b": 0.253,
+              "tie": 0.0,
+              "first": 0.748995983935743,
+              "second": 0.7450199203187251,
+              "patch": 0.266,
+              "storm": 0.015
+            },
+            "unl": {
+              "a": 0.935,
+              "b": 0.065,
+              "tie": 0.0,
+              "first": 0.9347408829174664,
+              "second": 0.9352818371607515,
+              "patch": 0.206,
+              "storm": 0.009
+            },
+            "d60": {
+              "a": 0.762,
+              "b": 0.238,
+              "tie": 0.0,
+              "first": 0.7572815533980582,
+              "second": 0.7670103092783506,
+              "patch": 0.244,
+              "storm": 0.015
+            },
+            "s60": {
+              "a": 0.996,
+              "b": 0.004,
+              "tie": 0.0,
+              "first": 0.998062015503876,
+              "second": 0.993801652892562,
+              "patch": 0.055,
+              "storm": 0.007
+            },
+            "g": {
+              "a": 0.794,
+              "b": 0.206,
+              "tie": 0.0,
+              "first": 0.8162393162393162,
+              "second": 0.7744360902255639,
+              "patch": 0.346,
+              "storm": 0.035
+            }
+          }
+        },
+        {
+          "cut": "Pok\u00e9 Pad",
+          "copies_before": 1,
+          "weighted": 0.7803258883248732,
+          "mean": 0.839,
+          "worst": 0.745,
+          "patch": 0.2265,
+          "storm": 0.015833333333333335,
+          "cells": {
+            "t60": {
+              "a": 0.797,
+              "b": 0.203,
+              "tie": 0.0,
+              "first": 0.7905544147843943,
+              "second": 0.8031189083820662,
+              "patch": 0.251,
+              "storm": 0.014
+            },
+            "hedrick": {
+              "a": 0.745,
+              "b": 0.255,
+              "tie": 0.0,
+              "first": 0.7607361963190185,
+              "second": 0.7299412915851272,
+              "patch": 0.265,
+              "storm": 0.016
+            },
+            "unl": {
+              "a": 0.95,
+              "b": 0.05,
+              "tie": 0.0,
+              "first": 0.9458413926499033,
+              "second": 0.9544513457556936,
+              "patch": 0.188,
+              "storm": 0.013
+            },
+            "d60": {
+              "a": 0.789,
+              "b": 0.211,
+              "tie": 0.0,
+              "first": 0.809322033898305,
+              "second": 0.7708333333333334,
+              "patch": 0.253,
+              "storm": 0.019
+            },
+            "s60": {
+              "a": 0.997,
+              "b": 0.003,
+              "tie": 0.0,
+              "first": 0.9958932238193019,
+              "second": 0.9980506822612085,
+              "patch": 0.049,
+              "storm": 0.006
+            },
+            "g": {
+              "a": 0.756,
+              "b": 0.244,
+              "tie": 0.0,
+              "first": 0.7628205128205128,
+              "second": 0.75,
+              "patch": 0.353,
+              "storm": 0.027
+            }
+          }
+        },
+        {
+          "cut": "Ultra Ball",
+          "copies_before": 1,
+          "weighted": 0.7781208121827412,
+          "mean": 0.8351666666666667,
+          "worst": 0.745,
+          "patch": 0.247,
+          "storm": 0.020666666666666667,
+          "cells": {
+            "t60": {
+              "a": 0.801,
+              "b": 0.199,
+              "tie": 0.0,
+              "first": 0.8203703703703704,
+              "second": 0.7782608695652173,
+              "patch": 0.283,
+              "storm": 0.025
+            },
+            "hedrick": {
+              "a": 0.745,
+              "b": 0.255,
+              "tie": 0.0,
+              "first": 0.71,
+              "second": 0.78,
+              "patch": 0.288,
+              "storm": 0.023
+            },
+            "unl": {
+              "a": 0.93,
+              "b": 0.07,
+              "tie": 0.0,
+              "first": 0.944,
+              "second": 0.916,
+              "patch": 0.21,
+              "storm": 0.015
+            },
+            "d60": {
+              "a": 0.772,
+              "b": 0.228,
+              "tie": 0.0,
+              "first": 0.8033126293995859,
+              "second": 0.7427466150870407,
+              "patch": 0.276,
+              "storm": 0.027
+            },
+            "s60": {
+              "a": 0.998,
+              "b": 0.002,
+              "tie": 0.0,
+              "first": 1.0,
+              "second": 0.9958847736625515,
+              "patch": 0.04,
+              "storm": 0.004
+            },
+            "g": {
+              "a": 0.765,
+              "b": 0.235,
+              "tie": 0.0,
+              "first": 0.7816764132553606,
+              "second": 0.7474332648870636,
+              "patch": 0.385,
+              "storm": 0.03
+            }
+          }
+        },
+        {
+          "cut": "Clefable ex",
+          "copies_before": 3,
+          "weighted": 0.7759888324873097,
+          "mean": 0.8353333333333334,
+          "worst": 0.741,
+          "patch": 0.233,
+          "storm": 0.021,
+          "cells": {
+            "t60": {
+              "a": 0.775,
+              "b": 0.225,
+              "tie": 0.0,
+              "first": 0.7709163346613546,
+              "second": 0.7791164658634538,
+              "patch": 0.268,
+              "storm": 0.027
+            },
+            "hedrick": {
+              "a": 0.741,
+              "b": 0.259,
+              "tie": 0.0,
+              "first": 0.7112810707456979,
+              "second": 0.7735849056603774,
+              "patch": 0.253,
+              "storm": 0.022
+            },
+            "unl": {
+              "a": 0.95,
+              "b": 0.05,
+              "tie": 0.0,
+              "first": 0.9553072625698324,
+              "second": 0.9438444924406048,
+              "patch": 0.199,
+              "storm": 0.019
+            },
+            "d60": {
+              "a": 0.772,
+              "b": 0.228,
+              "tie": 0.0,
+              "first": 0.8007889546351085,
+              "second": 0.742393509127789,
+              "patch": 0.252,
+              "storm": 0.018
+            },
+            "s60": {
+              "a": 0.994,
+              "b": 0.006,
+              "tie": 0.0,
+              "first": 0.9916142557651991,
+              "second": 0.9961759082217974,
+              "patch": 0.058,
+              "storm": 0.01
+            },
+            "g": {
+              "a": 0.78,
+              "b": 0.22,
+              "tie": 0.0,
+              "first": 0.7898832684824902,
+              "second": 0.7695473251028807,
+              "patch": 0.368,
+              "storm": 0.03
+            }
+          }
+        },
+        {
+          "cut": "Energy Switch",
+          "copies_before": 2,
+          "weighted": 0.7757238578680203,
+          "mean": 0.8318333333333333,
+          "worst": 0.753,
+          "patch": 0.22433333333333336,
+          "storm": 0.01916666666666667,
+          "cells": {
+            "t60": {
+              "a": 0.785,
+              "b": 0.215,
+              "tie": 0.0,
+              "first": 0.7942973523421588,
+              "second": 0.7760314341846758,
+              "patch": 0.26,
+              "storm": 0.023
+            },
+            "hedrick": {
+              "a": 0.753,
+              "b": 0.247,
+              "tie": 0.0,
+              "first": 0.7619047619047619,
+              "second": 0.7446808510638298,
+              "patch": 0.259,
+              "storm": 0.024
+            },
+            "unl": {
+              "a": 0.921,
+              "b": 0.079,
+              "tie": 0.0,
+              "first": 0.9158699808795411,
+              "second": 0.9266247379454927,
+              "patch": 0.167,
+              "storm": 0.007
+            },
+            "d60": {
+              "a": 0.771,
+              "b": 0.229,
+              "tie": 0.0,
+              "first": 0.7757936507936508,
+              "second": 0.7661290322580645,
+              "patch": 0.268,
+              "storm": 0.024
+            },
+            "s60": {
+              "a": 0.998,
+              "b": 0.002,
+              "tie": 0.0,
+              "first": 1.0,
+              "second": 0.9958419958419958,
+              "patch": 0.041,
+              "storm": 0.012
+            },
+            "g": {
+              "a": 0.763,
+              "b": 0.237,
+              "tie": 0.0,
+              "first": 0.7846790890269151,
+              "second": 0.7427466150870407,
+              "patch": 0.351,
+              "storm": 0.025
+            }
+          }
+        },
+        {
+          "cut": "Iono",
+          "copies_before": 1,
+          "weighted": 0.7737045685279188,
+          "mean": 0.8315,
+          "worst": 0.734,
+          "patch": 0.22566666666666668,
+          "storm": 0.0205,
+          "cells": {
+            "t60": {
+              "a": 0.8,
+              "b": 0.2,
+              "tie": 0.0,
+              "first": 0.806841046277666,
+              "second": 0.7932405566600398,
+              "patch": 0.262,
+              "storm": 0.016
+            },
+            "hedrick": {
+              "a": 0.748,
+              "b": 0.252,
+              "tie": 0.0,
+              "first": 0.7297830374753451,
+              "second": 0.7667342799188641,
+              "patch": 0.28,
+              "storm": 0.023
+            },
+            "unl": {
+              "a": 0.927,
+              "b": 0.073,
+              "tie": 0.0,
+              "first": 0.9321705426356589,
+              "second": 0.9214876033057852,
+              "patch": 0.193,
+              "storm": 0.015
+            },
+            "d60": {
+              "a": 0.734,
+              "b": 0.266,
+              "tie": 0.0,
+              "first": 0.7587628865979381,
+              "second": 0.7106796116504854,
+              "patch": 0.234,
+              "storm": 0.022
+            },
+            "s60": {
+              "a": 0.997,
+              "b": 0.003,
+              "tie": 0.0,
+              "first": 0.9980732177263969,
+              "second": 0.9958419958419958,
+              "patch": 0.053,
+              "storm": 0.012
+            },
+            "g": {
+              "a": 0.783,
+              "b": 0.217,
+              "tie": 0.0,
+              "first": 0.7749003984063745,
+              "second": 0.7911646586345381,
+              "patch": 0.332,
+              "storm": 0.035
+            }
+          }
+        },
+        {
+          "cut": "Buddy-Buddy Poffin",
+          "copies_before": 4,
+          "weighted": 0.7732263959390864,
+          "mean": 0.8333333333333334,
+          "worst": 0.739,
+          "patch": 0.22783333333333333,
+          "storm": 0.017333333333333333,
+          "cells": {
+            "t60": {
+              "a": 0.802,
+              "b": 0.198,
+              "tie": 0.0,
+              "first": 0.7971014492753623,
+              "second": 0.8065764023210832,
+              "patch": 0.299,
+              "storm": 0.024
+            },
+            "hedrick": {
+              "a": 0.739,
+              "b": 0.261,
+              "tie": 0.0,
+              "first": 0.7722007722007722,
+              "second": 0.7033195020746889,
+              "patch": 0.252,
+              "storm": 0.012
+            },
+            "unl": {
+              "a": 0.944,
+              "b": 0.056,
+              "tie": 0.0,
+              "first": 0.9495967741935484,
+              "second": 0.9384920634920635,
+              "patch": 0.18,
+              "storm": 0.011
+            },
+            "d60": {
+              "a": 0.752,
+              "b": 0.248,
+              "tie": 0.0,
+              "first": 0.7618147448015122,
+              "second": 0.7409766454352441,
+              "patch": 0.26,
+              "storm": 0.014
+            },
+            "s60": {
+              "a": 0.996,
+              "b": 0.004,
+              "tie": 0.0,
+              "first": 0.9960159362549801,
+              "second": 0.9959839357429718,
+              "patch": 0.052,
+              "storm": 0.007
+            },
+            "g": {
+              "a": 0.767,
+              "b": 0.233,
+              "tie": 0.0,
+              "first": 0.7806841046277666,
+              "second": 0.7534791252485089,
+              "patch": 0.324,
+              "storm": 0.036
+            }
+          }
+        },
+        {
+          "cut": "Battle Cage",
+          "copies_before": 3,
+          "weighted": 0.7729878172588833,
+          "mean": 0.8308333333333334,
+          "worst": 0.721,
+          "patch": 0.2275,
+          "storm": 0.015666666666666666,
+          "cells": {
+            "t60": {
+              "a": 0.787,
+              "b": 0.213,
+              "tie": 0.0,
+              "first": 0.813141683778234,
+              "second": 0.7621832358674464,
+              "patch": 0.265,
+              "storm": 0.016
+            },
+            "hedrick": {
+              "a": 0.721,
+              "b": 0.279,
+              "tie": 0.0,
+              "first": 0.7366412213740458,
+              "second": 0.7037815126050421,
+              "patch": 0.273,
+              "storm": 0.015
+            },
+            "unl": {
+              "a": 0.921,
+              "b": 0.079,
+              "tie": 0.0,
+              "first": 0.9296066252587992,
+              "second": 0.9129593810444874,
+              "patch": 0.182,
+              "storm": 0.011
+            },
+            "d60": {
+              "a": 0.786,
+              "b": 0.214,
+              "tie": 0.0,
+              "first": 0.8171206225680934,
+              "second": 0.7530864197530864,
+              "patch": 0.245,
+              "storm": 0.014
+            },
+            "s60": {
+              "a": 0.998,
+              "b": 0.002,
+              "tie": 0.0,
+              "first": 0.9958419958419958,
+              "second": 1.0,
+              "patch": 0.045,
+              "storm": 0.011
+            },
+            "g": {
+              "a": 0.772,
+              "b": 0.228,
+              "tie": 0.0,
+              "first": 0.8016032064128257,
+              "second": 0.7425149700598802,
+              "patch": 0.355,
+              "storm": 0.027
+            }
+          }
+        },
+        {
+          "cut": "Clefable CLC",
+          "copies_before": 1,
+          "weighted": 0.7685634517766498,
+          "mean": 0.8308333333333334,
+          "worst": 0.71,
+          "patch": 0.23283333333333334,
+          "storm": 0.021,
+          "cells": {
+            "t60": {
+              "a": 0.786,
+              "b": 0.214,
+              "tie": 0.0,
+              "first": 0.7864476386036962,
+              "second": 0.7855750487329435,
+              "patch": 0.263,
+              "storm": 0.023
+            },
+            "hedrick": {
+              "a": 0.71,
+              "b": 0.29,
+              "tie": 0.0,
+              "first": 0.705078125,
+              "second": 0.7151639344262295,
+              "patch": 0.266,
+              "storm": 0.018
+            },
+            "unl": {
+              "a": 0.945,
+              "b": 0.055,
+              "tie": 0.0,
+              "first": 0.9591439688715954,
+              "second": 0.9300411522633745,
+              "patch": 0.18,
+              "storm": 0.009
+            },
+            "d60": {
+              "a": 0.78,
+              "b": 0.22,
+              "tie": 0.0,
+              "first": 0.7901960784313725,
+              "second": 0.7693877551020408,
+              "patch": 0.252,
+              "storm": 0.019
+            },
+            "s60": {
+              "a": 0.997,
+              "b": 0.003,
+              "tie": 0.0,
+              "first": 0.9979253112033195,
+              "second": 0.9961389961389961,
+              "patch": 0.056,
+              "storm": 0.012
+            },
+            "g": {
+              "a": 0.767,
+              "b": 0.233,
+              "tie": 0.0,
+              "first": 0.7771317829457365,
+              "second": 0.756198347107438,
+              "patch": 0.38,
+              "storm": 0.045
+            }
+          }
+        },
+        {
+          "cut": "Lillie",
+          "copies_before": 2,
+          "weighted": 0.7648477157360406,
+          "mean": 0.8248333333333333,
+          "worst": 0.725,
+          "patch": 0.22716666666666666,
+          "storm": 0.0185,
+          "cells": {
+            "t60": {
+              "a": 0.777,
+              "b": 0.223,
+              "tie": 0.0,
+              "first": 0.77734375,
+              "second": 0.7766393442622951,
+              "patch": 0.251,
+              "storm": 0.011
+            },
+            "hedrick": {
+              "a": 0.725,
+              "b": 0.275,
+              "tie": 0.0,
+              "first": 0.7137096774193549,
+              "second": 0.7361111111111112,
+              "patch": 0.29,
+              "storm": 0.022
+            },
+            "unl": {
+              "a": 0.923,
+              "b": 0.077,
+              "tie": 0.0,
+              "first": 0.933852140077821,
+              "second": 0.911522633744856,
+              "patch": 0.189,
+              "storm": 0.016
+            },
+            "d60": {
+              "a": 0.761,
+              "b": 0.239,
+              "tie": 0.0,
+              "first": 0.7792207792207793,
+              "second": 0.7396963123644251,
+              "patch": 0.227,
+              "storm": 0.021
+            },
+            "s60": {
+              "a": 0.997,
+              "b": 0.003,
+              "tie": 0.0,
+              "first": 0.997979797979798,
+              "second": 0.996039603960396,
+              "patch": 0.044,
+              "storm": 0.006
+            },
+            "g": {
+              "a": 0.766,
+              "b": 0.234,
+              "tie": 0.0,
+              "first": 0.7647058823529411,
+              "second": 0.7672583826429981,
+              "patch": 0.362,
+              "storm": 0.035
+            }
+          }
+        },
+        {
+          "cut": "Nest Ball",
+          "copies_before": 4,
+          "weighted": 0.7644558375634518,
+          "mean": 0.8260000000000001,
+          "worst": 0.708,
+          "patch": 0.221,
+          "storm": 0.015166666666666667,
+          "cells": {
+            "t60": {
+              "a": 0.798,
+              "b": 0.202,
+              "tie": 0.0,
+              "first": 0.7855750487329435,
+              "second": 0.811088295687885,
+              "patch": 0.265,
+              "storm": 0.019
+            },
+            "hedrick": {
+              "a": 0.708,
+              "b": 0.292,
+              "tie": 0.0,
+              "first": 0.6774809160305344,
+              "second": 0.7415966386554622,
+              "patch": 0.275,
+              "storm": 0.016
+            },
+            "unl": {
+              "a": 0.932,
+              "b": 0.068,
+              "tie": 0.0,
+              "first": 0.9259259259259259,
+              "second": 0.9377431906614786,
+              "patch": 0.162,
+              "storm": 0.009
+            },
+            "d60": {
+              "a": 0.757,
+              "b": 0.243,
+              "tie": 0.0,
+              "first": 0.7841140529531568,
+              "second": 0.730844793713163,
+              "patch": 0.247,
+              "storm": 0.015
+            },
+            "s60": {
+              "a": 0.994,
+              "b": 0.006,
+              "tie": 0.0,
+              "first": 0.9941634241245136,
+              "second": 0.9938271604938271,
+              "patch": 0.05,
+              "storm": 0.004
+            },
+            "g": {
+              "a": 0.767,
+              "b": 0.233,
+              "tie": 0.0,
+              "first": 0.7734375,
+              "second": 0.7602459016393442,
+              "patch": 0.327,
+              "storm": 0.028
+            }
+          }
+        },
+        {
+          "cut": "Seeker",
+          "copies_before": 1,
+          "weighted": 0.7626446700507614,
+          "mean": 0.8223333333333334,
+          "worst": 0.734,
+          "patch": 0.24250000000000002,
+          "storm": 0.019,
+          "cells": {
+            "t60": {
+              "a": 0.768,
+              "b": 0.232,
+              "tie": 0.0,
+              "first": 0.7837837837837838,
+              "second": 0.7510373443983402,
+              "patch": 0.278,
+              "storm": 0.024
+            },
+            "hedrick": {
+              "a": 0.734,
+              "b": 0.266,
+              "tie": 0.0,
+              "first": 0.7475538160469667,
+              "second": 0.7198364008179959,
+              "patch": 0.282,
+              "storm": 0.018
+            },
+            "unl": {
+              "a": 0.925,
+              "b": 0.075,
+              "tie": 0.0,
+              "first": 0.9202453987730062,
+              "second": 0.9295499021526419,
+              "patch": 0.201,
+              "storm": 0.013
+            },
+            "d60": {
+              "a": 0.77,
+              "b": 0.23,
+              "tie": 0.0,
+              "first": 0.7904191616766467,
+              "second": 0.749498997995992,
+              "patch": 0.268,
+              "storm": 0.021
+            },
+            "s60": {
+              "a": 0.993,
+              "b": 0.007,
+              "tie": 0.0,
+              "first": 0.9902534113060428,
+              "second": 0.9958932238193019,
+              "patch": 0.067,
+              "storm": 0.008
+            },
+            "g": {
+              "a": 0.744,
+              "b": 0.256,
+              "tie": 0.0,
+              "first": 0.7504690431519699,
+              "second": 0.7366167023554604,
+              "patch": 0.359,
+              "storm": 0.03
+            }
+          }
+        },
+        {
+          "cut": "Night Stretcher",
+          "copies_before": 1,
+          "weighted": 0.7613157360406092,
+          "mean": 0.8241666666666667,
+          "worst": 0.729,
+          "patch": 0.24283333333333335,
+          "storm": 0.01933333333333333,
+          "cells": {
+            "t60": {
+              "a": 0.77,
+              "b": 0.23,
+              "tie": 0.0,
+              "first": 0.7699805068226121,
+              "second": 0.7700205338809035,
+              "patch": 0.289,
+              "storm": 0.013
+            },
+            "hedrick": {
+              "a": 0.729,
+              "b": 0.271,
+              "tie": 0.0,
+              "first": 0.7263374485596708,
+              "second": 0.7315175097276264,
+              "patch": 0.278,
+              "storm": 0.016
+            },
+            "unl": {
+              "a": 0.937,
+              "b": 0.063,
+              "tie": 0.0,
+              "first": 0.9448398576512456,
+              "second": 0.9269406392694064,
+              "patch": 0.188,
+              "storm": 0.011
+            },
+            "d60": {
+              "a": 0.753,
+              "b": 0.247,
+              "tie": 0.0,
+              "first": 0.8089171974522293,
+              "second": 0.7032136105860114,
+              "patch": 0.286,
+              "storm": 0.028
+            },
+            "s60": {
+              "a": 0.999,
+              "b": 0.001,
+              "tie": 0.0,
+              "first": 1.0,
+              "second": 0.997907949790795,
+              "patch": 0.05,
+              "storm": 0.01
+            },
+            "g": {
+              "a": 0.757,
+              "b": 0.243,
+              "tie": 0.0,
+              "first": 0.7847358121330724,
+              "second": 0.7280163599182005,
+              "patch": 0.366,
+              "storm": 0.038
+            }
+          }
+        },
+        {
+          "cut": "Arven",
+          "copies_before": 1,
+          "weighted": 0.7608761421319797,
+          "mean": 0.8235,
+          "worst": 0.73,
+          "patch": 0.22799999999999998,
+          "storm": 0.0165,
+          "cells": {
+            "t60": {
+              "a": 0.792,
+              "b": 0.208,
+              "tie": 0.0,
+              "first": 0.7890466531440162,
+              "second": 0.7948717948717948,
+              "patch": 0.266,
+              "storm": 0.019
+            },
+            "hedrick": {
+              "a": 0.74,
+              "b": 0.26,
+              "tie": 0.0,
+              "first": 0.76171875,
+              "second": 0.7172131147540983,
+              "patch": 0.243,
+              "storm": 0.011
+            },
+            "unl": {
+              "a": 0.937,
+              "b": 0.063,
+              "tie": 0.0,
+              "first": 0.9404990403071017,
+              "second": 0.9331941544885177,
+              "patch": 0.206,
+              "storm": 0.016
+            },
+            "d60": {
+              "a": 0.73,
+              "b": 0.27,
+              "tie": 0.0,
+              "first": 0.7453027139874739,
+              "second": 0.7159309021113244,
+              "patch": 0.282,
+              "storm": 0.019
+            },
+            "s60": {
+              "a": 0.997,
+              "b": 0.003,
+              "tie": 0.0,
+              "first": 1.0,
+              "second": 0.9939148073022313,
+              "patch": 0.047,
+              "storm": 0.007
+            },
+            "g": {
+              "a": 0.745,
+              "b": 0.255,
+              "tie": 0.0,
+              "first": 0.7724425887265136,
+              "second": 0.7197696737044146,
+              "patch": 0.324,
+              "storm": 0.027
+            }
+          }
+        },
+        {
+          "cut": "Mewtwo ex",
+          "copies_before": 3,
+          "weighted": 0.7566426395939087,
+          "mean": 0.8198333333333334,
+          "worst": 0.711,
+          "patch": 0.23416666666666666,
+          "storm": 0.018333333333333333,
+          "cells": {
+            "t60": {
+              "a": 0.799,
+              "b": 0.201,
+              "tie": 0.0,
+              "first": 0.7916666666666666,
+              "second": 0.8057692307692308,
+              "patch": 0.269,
+              "storm": 0.016
+            },
+            "hedrick": {
+              "a": 0.737,
+              "b": 0.263,
+              "tie": 0.0,
+              "first": 0.7374749498997996,
+              "second": 0.7365269461077845,
+              "patch": 0.237,
+              "storm": 0.015
+            },
+            "unl": {
+              "a": 0.933,
+              "b": 0.067,
+              "tie": 0.0,
+              "first": 0.9424778761061947,
+              "second": 0.9251824817518248,
+              "patch": 0.178,
+              "storm": 0.011
+            },
+            "d60": {
+              "a": 0.711,
+              "b": 0.289,
+              "tie": 0.0,
+              "first": 0.7315010570824524,
+              "second": 0.6925996204933587,
+              "patch": 0.267,
+              "storm": 0.023
+            },
+            "s60": {
+              "a": 0.995,
+              "b": 0.005,
+              "tie": 0.0,
+              "first": 0.9959595959595959,
+              "second": 0.994059405940594,
+              "patch": 0.068,
+              "storm": 0.016
+            },
+            "g": {
+              "a": 0.744,
+              "b": 0.256,
+              "tie": 0.0,
+              "first": 0.758985200845666,
+              "second": 0.7305502846299811,
+              "patch": 0.386,
+              "storm": 0.029
+            }
+          }
+        },
+        {
+          "cut": "Psychic Energy",
+          "copies_before": 14,
+          "weighted": 0.7555705583756345,
+          "mean": 0.8198333333333334,
+          "worst": 0.709,
+          "patch": 0.22683333333333333,
+          "storm": 0.017333333333333333,
+          "cells": {
+            "t60": {
+              "a": 0.783,
+              "b": 0.217,
+              "tie": 0.0,
+              "first": 0.7963340122199593,
+              "second": 0.7701375245579568,
+              "patch": 0.247,
+              "storm": 0.015
+            },
+            "hedrick": {
+              "a": 0.709,
+              "b": 0.291,
+              "tie": 0.0,
+              "first": 0.7287128712871287,
+              "second": 0.6888888888888889,
+              "patch": 0.271,
+              "storm": 0.017
+            },
+            "unl": {
+              "a": 0.931,
+              "b": 0.069,
+              "tie": 0.0,
+              "first": 0.9343936381709742,
+              "second": 0.9275653923541247,
+              "patch": 0.183,
+              "storm": 0.016
+            },
+            "d60": {
+              "a": 0.75,
+              "b": 0.25,
+              "tie": 0.0,
+              "first": 0.7461538461538462,
+              "second": 0.7541666666666667,
+              "patch": 0.25,
+              "storm": 0.019
+            },
+            "s60": {
+              "a": 0.998,
+              "b": 0.002,
+              "tie": 0.0,
+              "first": 0.9980314960629921,
+              "second": 0.9979674796747967,
+              "patch": 0.043,
+              "storm": 0.006
+            },
+            "g": {
+              "a": 0.748,
+              "b": 0.252,
+              "tie": 0.0,
+              "first": 0.7885010266940452,
+              "second": 0.7095516569200779,
+              "patch": 0.367,
+              "storm": 0.031
+            }
+          }
+        },
+        {
+          "cut": "Lillie's Determination",
+          "copies_before": 2,
+          "weighted": 0.7514964467005076,
+          "mean": 0.8158333333333333,
+          "worst": 0.722,
+          "patch": 0.2135,
+          "storm": 0.015666666666666666,
+          "cells": {
+            "t60": {
+              "a": 0.763,
+              "b": 0.237,
+              "tie": 0.0,
+              "first": 0.7604790419161677,
+              "second": 0.7655310621242485,
+              "patch": 0.251,
+              "storm": 0.016
+            },
+            "hedrick": {
+              "a": 0.722,
+              "b": 0.278,
+              "tie": 0.0,
+              "first": 0.7307692307692307,
+              "second": 0.7134387351778656,
+              "patch": 0.243,
+              "storm": 0.016
+            },
+            "unl": {
+              "a": 0.934,
+              "b": 0.066,
+              "tie": 0.0,
+              "first": 0.9436325678496869,
+              "second": 0.9251439539347409,
+              "patch": 0.172,
+              "storm": 0.013
+            },
+            "d60": {
+              "a": 0.734,
+              "b": 0.266,
+              "tie": 0.0,
+              "first": 0.7567567567567568,
+              "second": 0.7095435684647303,
+              "patch": 0.253,
+              "storm": 0.018
+            },
+            "s60": {
+              "a": 0.993,
+              "b": 0.007,
+              "tie": 0.0,
+              "first": 0.9902534113060428,
+              "second": 0.9958932238193019,
+              "patch": 0.047,
+              "storm": 0.01
+            },
+            "g": {
+              "a": 0.749,
+              "b": 0.251,
+              "tie": 0.0,
+              "first": 0.7561904761904762,
+              "second": 0.7410526315789474,
+              "patch": 0.315,
+              "storm": 0.021
+            }
+          }
+        },
+        {
+          "cut": "Telepathic Psychic Energy",
+          "copies_before": 2,
+          "weighted": 0.7511766497461929,
+          "mean": 0.8151666666666667,
+          "worst": 0.724,
+          "patch": 0.24083333333333334,
+          "storm": 0.020833333333333332,
+          "cells": {
+            "t60": {
+              "a": 0.775,
+              "b": 0.225,
+              "tie": 0.0,
+              "first": 0.7878787878787878,
+              "second": 0.7623762376237624,
+              "patch": 0.26,
+              "storm": 0.019
+            },
+            "hedrick": {
+              "a": 0.724,
+              "b": 0.276,
+              "tie": 0.0,
+              "first": 0.7166666666666667,
+              "second": 0.7307692307692307,
+              "patch": 0.276,
+              "storm": 0.022
+            },
+            "unl": {
+              "a": 0.925,
+              "b": 0.075,
+              "tie": 0.0,
+              "first": 0.9223300970873787,
+              "second": 0.9278350515463918,
+              "patch": 0.2,
+              "storm": 0.02
+            },
+            "d60": {
+              "a": 0.735,
+              "b": 0.265,
+              "tie": 0.0,
+              "first": 0.7523992322456814,
+              "second": 0.7160751565762005,
+              "patch": 0.257,
+              "storm": 0.017
+            },
+            "s60": {
+              "a": 0.997,
+              "b": 0.003,
+              "tie": 0.0,
+              "first": 1.0,
+              "second": 0.993963782696177,
+              "patch": 0.053,
+              "storm": 0.01
+            },
+            "g": {
+              "a": 0.735,
+              "b": 0.265,
+              "tie": 0.0,
+              "first": 0.7632093933463796,
+              "second": 0.7055214723926381,
+              "patch": 0.399,
+              "storm": 0.037
+            }
+          }
+        },
+        {
+          "cut": "Clefairy",
+          "copies_before": 4,
+          "weighted": 0.7501847715736041,
+          "mean": 0.8141666666666666,
+          "worst": 0.692,
+          "patch": 0.21116666666666664,
+          "storm": 0.009333333333333334,
+          "cells": {
+            "t60": {
+              "a": 0.793,
+              "b": 0.207,
+              "tie": 0.0,
+              "first": 0.7885714285714286,
+              "second": 0.7978947368421052,
+              "patch": 0.258,
+              "storm": 0.011
+            },
+            "hedrick": {
+              "a": 0.721,
+              "b": 0.279,
+              "tie": 0.0,
+              "first": 0.7084188911704312,
+              "second": 0.732943469785575,
+              "patch": 0.246,
+              "storm": 0.011
+            },
+            "unl": {
+              "a": 0.921,
+              "b": 0.079,
+              "tie": 0.0,
+              "first": 0.923679060665362,
+              "second": 0.918200408997955,
+              "patch": 0.163,
+              "storm": 0.006
+            },
+            "d60": {
+              "a": 0.692,
+              "b": 0.308,
+              "tie": 0.0,
+              "first": 0.7294589178356713,
+              "second": 0.654690618762475,
+              "patch": 0.255,
+              "storm": 0.009
+            },
+            "s60": {
+              "a": 0.995,
+              "b": 0.005,
+              "tie": 0.0,
+              "first": 0.996,
+              "second": 0.994,
+              "patch": 0.047,
+              "storm": 0.002
+            },
+            "g": {
+              "a": 0.763,
+              "b": 0.237,
+              "tie": 0.0,
+              "first": 0.8,
+              "second": 0.7244897959183674,
+              "patch": 0.298,
+              "storm": 0.017
+            }
+          }
+        },
+        {
+          "cut": "Hop",
+          "copies_before": 2,
+          "weighted": 0.7472314720812183,
+          "mean": 0.8130000000000001,
+          "worst": 0.706,
+          "patch": 0.22333333333333336,
+          "storm": 0.018666666666666668,
+          "cells": {
+            "t60": {
+              "a": 0.776,
+              "b": 0.224,
+              "tie": 0.0,
+              "first": 0.7628865979381443,
+              "second": 0.7883495145631068,
+              "patch": 0.253,
+              "storm": 0.016
+            },
+            "hedrick": {
+              "a": 0.706,
+              "b": 0.294,
+              "tie": 0.0,
+              "first": 0.7037773359840954,
+              "second": 0.7082494969818913,
+              "patch": 0.276,
+              "storm": 0.024
+            },
+            "unl": {
+              "a": 0.926,
+              "b": 0.074,
+              "tie": 0.0,
+              "first": 0.9343936381709742,
+              "second": 0.9175050301810865,
+              "patch": 0.18,
+              "storm": 0.01
+            },
+            "d60": {
+              "a": 0.736,
+              "b": 0.264,
+              "tie": 0.0,
+              "first": 0.7692307692307693,
+              "second": 0.7035573122529645,
+              "patch": 0.257,
+              "storm": 0.026
+            },
+            "s60": {
+              "a": 0.997,
+              "b": 0.003,
+              "tie": 0.0,
+              "first": 0.9979757085020243,
+              "second": 0.9960474308300395,
+              "patch": 0.061,
+              "storm": 0.011
+            },
+            "g": {
+              "a": 0.737,
+              "b": 0.263,
+              "tie": 0.0,
+              "first": 0.7465069860279441,
+              "second": 0.7274549098196392,
+              "patch": 0.313,
+              "storm": 0.025
+            }
+          }
+        },
+        {
+          "cut": "Maximum Belt",
+          "copies_before": 1,
+          "weighted": 0.7424893401015229,
+          "mean": 0.8088333333333333,
+          "worst": 0.665,
+          "patch": 0.251,
+          "storm": 0.017333333333333333,
+          "cells": {
+            "t60": {
+              "a": 0.787,
+              "b": 0.213,
+              "tie": 0.0,
+              "first": 0.8065764023210832,
+              "second": 0.7660455486542443,
+              "patch": 0.285,
+              "storm": 0.018
+            },
+            "hedrick": {
+              "a": 0.725,
+              "b": 0.275,
+              "tie": 0.0,
+              "first": 0.7402061855670103,
+              "second": 0.7106796116504854,
+              "patch": 0.302,
+              "storm": 0.018
+            },
+            "unl": {
+              "a": 0.92,
+              "b": 0.08,
+              "tie": 0.0,
+              "first": 0.9133858267716536,
+              "second": 0.926829268292683,
+              "patch": 0.209,
+              "storm": 0.015
+            },
+            "d60": {
+              "a": 0.665,
+              "b": 0.335,
+              "tie": 0.0,
+              "first": 0.6758349705304518,
+              "second": 0.6537678207739308,
+              "patch": 0.28,
+              "storm": 0.017
+            },
+            "s60": {
+              "a": 0.998,
+              "b": 0.002,
+              "tie": 0.0,
+              "first": 0.9961315280464217,
+              "second": 1.0,
+              "patch": 0.057,
+              "storm": 0.011
+            },
+            "g": {
+              "a": 0.758,
+              "b": 0.242,
+              "tie": 0.0,
+              "first": 0.7490196078431373,
+              "second": 0.7673469387755102,
+              "patch": 0.373,
+              "storm": 0.025
+            }
+          }
+        },
+        {
+          "cut": "Latias ex",
+          "copies_before": 1,
+          "weighted": 0.7159005076142132,
+          "mean": 0.7885,
+          "worst": 0.665,
+          "patch": 0.26366666666666666,
+          "storm": 0.027833333333333335,
+          "cells": {
+            "t60": {
+              "a": 0.728,
+              "b": 0.272,
+              "tie": 0.0,
+              "first": 0.7424547283702213,
+              "second": 0.7137176938369781,
+              "patch": 0.303,
+              "storm": 0.014
+            },
+            "hedrick": {
+              "a": 0.669,
+              "b": 0.331,
+              "tie": 0.0,
+              "first": 0.6719681908548708,
+              "second": 0.6659959758551308,
+              "patch": 0.299,
+              "storm": 0.016
+            },
+            "unl": {
+              "a": 0.913,
+              "b": 0.087,
+              "tie": 0.0,
+              "first": 0.9215686274509803,
+              "second": 0.9040816326530612,
+              "patch": 0.254,
+              "storm": 0.023
+            },
+            "d60": {
+              "a": 0.761,
+              "b": 0.239,
+              "tie": 0.0,
+              "first": 0.7823408624229979,
+              "second": 0.7407407407407407,
+              "patch": 0.238,
+              "storm": 0.041
+            },
+            "s60": {
+              "a": 0.995,
+              "b": 0.005,
+              "tie": 0.0,
+              "first": 0.9939393939393939,
+              "second": 0.996039603960396,
+              "patch": 0.093,
+              "storm": 0.02
+            },
+            "g": {
+              "a": 0.665,
+              "b": 0.335,
+              "tie": 0.0,
+              "first": 0.6660194174757281,
+              "second": 0.6639175257731958,
+              "patch": 0.395,
+              "storm": 0.053
+            }
+          }
+        }
+      ]
+    },
+    {
+      "copies_after": 2,
+      "current_weighted": 0.7905441624365482,
+      "current_mean": 0.8426666666666667,
+      "accepted": true,
+      "chosen": "Clefable CLC",
+      "chosen_weighted": 0.7927431472081219,
+      "chosen_mean": 0.8461666666666666,
+      "candidates": [
+        {
+          "cut": "Clefable CLC",
+          "copies_before": 1,
+          "weighted": 0.7927431472081219,
+          "mean": 0.8461666666666666,
+          "worst": 0.754,
+          "patch": 0.35516666666666663,
+          "storm": 0.03466666666666667,
+          "cells": {
+            "t60": {
+              "a": 0.796,
+              "b": 0.204,
+              "tie": 0.0,
+              "first": 0.7816764132553606,
+              "second": 0.811088295687885,
+              "patch": 0.438,
+              "storm": 0.036
+            },
+            "hedrick": {
+              "a": 0.754,
+              "b": 0.246,
+              "tie": 0.0,
+              "first": 0.7584269662921348,
+              "second": 0.7489270386266095,
+              "patch": 0.416,
+              "storm": 0.042
+            },
+            "unl": {
+              "a": 0.939,
+              "b": 0.061,
+              "tie": 0.0,
+              "first": 0.9424603174603174,
+              "second": 0.9354838709677419,
+              "patch": 0.298,
+              "storm": 0.025
+            },
+            "d60": {
+              "a": 0.81,
+              "b": 0.19,
+              "tie": 0.0,
+              "first": 0.8026315789473685,
+              "second": 0.8183760683760684,
+              "patch": 0.377,
+              "storm": 0.035
+            },
+            "s60": {
+              "a": 0.996,
+              "b": 0.004,
+              "tie": 0.0,
+              "first": 0.9957983193277311,
+              "second": 0.9961832061068703,
+              "patch": 0.091,
+              "storm": 0.017
+            },
+            "g": {
+              "a": 0.782,
+              "b": 0.218,
+              "tie": 0.0,
+              "first": 0.7988394584139265,
+              "second": 0.7639751552795031,
+              "patch": 0.511,
+              "storm": 0.053
+            }
+          }
+        },
+        {
+          "cut": "Ultra Ball",
+          "copies_before": 1,
+          "weighted": 0.7909857868020305,
+          "mean": 0.8436666666666667,
+          "worst": 0.772,
+          "patch": 0.3873333333333333,
+          "storm": 0.0355,
+          "cells": {
+            "t60": {
+              "a": 0.801,
+              "b": 0.199,
+              "tie": 0.0,
+              "first": 0.8026565464895635,
+              "second": 0.7991543340380549,
+              "patch": 0.441,
+              "storm": 0.033
+            },
+            "hedrick": {
+              "a": 0.772,
+              "b": 0.228,
+              "tie": 0.0,
+              "first": 0.756,
+              "second": 0.788,
+              "patch": 0.483,
+              "storm": 0.039
+            },
+            "unl": {
+              "a": 0.93,
+              "b": 0.07,
+              "tie": 0.0,
+              "first": 0.9350912778904665,
+              "second": 0.9250493096646942,
+              "patch": 0.313,
+              "storm": 0.033
+            },
+            "d60": {
+              "a": 0.784,
+              "b": 0.216,
+              "tie": 0.0,
+              "first": 0.8003992015968064,
+              "second": 0.7675350701402806,
+              "patch": 0.438,
+              "storm": 0.043
+            },
+            "s60": {
+              "a": 0.998,
+              "b": 0.002,
+              "tie": 0.0,
+              "first": 0.9961464354527938,
+              "second": 1.0,
+              "patch": 0.079,
+              "storm": 0.017
+            },
+            "g": {
+              "a": 0.777,
+              "b": 0.223,
+              "tie": 0.0,
+              "first": 0.8007736943907157,
+              "second": 0.7515527950310559,
+              "patch": 0.57,
+              "storm": 0.048
+            }
+          }
+        },
+        {
+          "cut": "Clefable",
+          "copies_before": 1,
+          "weighted": 0.7904192893401015,
+          "mean": 0.8453333333333334,
+          "worst": 0.731,
+          "patch": 0.3541666666666667,
+          "storm": 0.03333333333333333,
+          "cells": {
+            "t60": {
+              "a": 0.799,
+              "b": 0.201,
+              "tie": 0.0,
+              "first": 0.8158914728682171,
+              "second": 0.78099173553719,
+              "patch": 0.414,
+              "storm": 0.033
+            },
+            "hedrick": {
+              "a": 0.731,
+              "b": 0.269,
+              "tie": 0.0,
+              "first": 0.7170923379174853,
+              "second": 0.745417515274949,
+              "patch": 0.443,
+              "storm": 0.032
+            },
+            "unl": {
+              "a": 0.936,
+              "b": 0.064,
+              "tie": 0.0,
+              "first": 0.9285714285714286,
+              "second": 0.9431372549019608,
+              "patch": 0.325,
+              "storm": 0.021
+            },
+            "d60": {
+              "a": 0.794,
+              "b": 0.206,
+              "tie": 0.0,
+              "first": 0.8011363636363636,
+              "second": 0.7860169491525424,
+              "patch": 0.379,
+              "storm": 0.04
+            },
+            "s60": {
+              "a": 0.998,
+              "b": 0.002,
+              "tie": 0.0,
+              "first": 0.9979716024340771,
+              "second": 0.9980276134122288,
+              "patch": 0.068,
+              "storm": 0.015
+            },
+            "g": {
+              "a": 0.814,
+              "b": 0.186,
+              "tie": 0.0,
+              "first": 0.8049281314168378,
+              "second": 0.8226120857699805,
+              "patch": 0.496,
+              "storm": 0.059
+            }
+          }
+        },
+        {
+          "cut": "Night Stretcher",
+          "copies_before": 1,
+          "weighted": 0.7881035532994924,
+          "mean": 0.8433333333333334,
+          "worst": 0.744,
+          "patch": 0.3675,
+          "storm": 0.03383333333333333,
+          "cells": {
+            "t60": {
+              "a": 0.813,
+              "b": 0.187,
+              "tie": 0.0,
+              "first": 0.802734375,
+              "second": 0.8237704918032787,
+              "patch": 0.448,
+              "storm": 0.034
+            },
+            "hedrick": {
+              "a": 0.744,
+              "b": 0.256,
+              "tie": 0.0,
+              "first": 0.7398373983739838,
+              "second": 0.7480314960629921,
+              "patch": 0.433,
+              "storm": 0.031
+            },
+            "unl": {
+              "a": 0.937,
+              "b": 0.063,
+              "tie": 0.0,
+              "first": 0.9574036511156186,
+              "second": 0.9171597633136095,
+              "patch": 0.3,
+              "storm": 0.022
+            },
+            "d60": {
+              "a": 0.809,
+              "b": 0.191,
+              "tie": 0.0,
+              "first": 0.8262548262548263,
+              "second": 0.7904564315352697,
+              "patch": 0.411,
+              "storm": 0.034
+            },
+            "s60": {
+              "a": 0.998,
+              "b": 0.002,
+              "tie": 0.0,
+              "first": 0.9960629921259843,
+              "second": 1.0,
+              "patch": 0.097,
+              "storm": 0.022
+            },
+            "g": {
+              "a": 0.759,
+              "b": 0.241,
+              "tie": 0.0,
+              "first": 0.7920604914933838,
+              "second": 0.721868365180467,
+              "patch": 0.516,
+              "storm": 0.06
+            }
+          }
+        },
+        {
+          "cut": "Pok\u00e9 Pad",
+          "copies_before": 1,
+          "weighted": 0.7878700507614214,
+          "mean": 0.8424999999999999,
+          "worst": 0.747,
+          "patch": 0.34883333333333333,
+          "storm": 0.030666666666666665,
+          "cells": {
+            "t60": {
+              "a": 0.795,
+              "b": 0.205,
+              "tie": 0.0,
+              "first": 0.8088531187122736,
+              "second": 0.7813121272365805,
+              "patch": 0.397,
+              "storm": 0.029
+            },
+            "hedrick": {
+              "a": 0.747,
+              "b": 0.253,
+              "tie": 0.0,
+              "first": 0.7505154639175258,
+              "second": 0.7436893203883496,
+              "patch": 0.414,
+              "storm": 0.035
+            },
+            "unl": {
+              "a": 0.939,
+              "b": 0.061,
+              "tie": 0.0,
+              "first": 0.94140625,
+              "second": 0.9364754098360656,
+              "patch": 0.285,
+              "storm": 0.012
+            },
+            "d60": {
+              "a": 0.78,
+              "b": 0.22,
+              "tie": 0.0,
+              "first": 0.7882599580712788,
+              "second": 0.7724665391969407,
+              "patch": 0.395,
+              "storm": 0.033
+            },
+            "s60": {
+              "a": 0.993,
+              "b": 0.007,
+              "tie": 0.0,
+              "first": 0.9901768172888016,
+              "second": 0.9959266802443992,
+              "patch": 0.081,
+              "storm": 0.018
+            },
+            "g": {
+              "a": 0.801,
+              "b": 0.199,
+              "tie": 0.0,
+              "first": 0.8052738336713996,
+              "second": 0.796844181459566,
+              "patch": 0.521,
+              "storm": 0.057
+            }
+          }
+        },
+        {
+          "cut": "Boss's Orders",
+          "copies_before": 2,
+          "weighted": 0.7875847715736041,
+          "mean": 0.8455,
+          "worst": 0.74,
+          "patch": 0.3436666666666666,
+          "storm": 0.032,
+          "cells": {
+            "t60": {
+              "a": 0.801,
+              "b": 0.199,
+              "tie": 0.0,
+              "first": 0.825147347740668,
+              "second": 0.7759674134419552,
+              "patch": 0.387,
+              "storm": 0.037
+            },
+            "hedrick": {
+              "a": 0.74,
+              "b": 0.26,
+              "tie": 0.0,
+              "first": 0.7594433399602386,
+              "second": 0.7203219315895373,
+              "patch": 0.431,
+              "storm": 0.032
+            },
+            "unl": {
+              "a": 0.957,
+              "b": 0.043,
+              "tie": 0.0,
+              "first": 0.960552268244576,
+              "second": 0.9533468559837728,
+              "patch": 0.268,
+              "storm": 0.018
+            },
+            "d60": {
+              "a": 0.808,
+              "b": 0.192,
+              "tie": 0.0,
+              "first": 0.8135922330097087,
+              "second": 0.8020618556701031,
+              "patch": 0.384,
+              "storm": 0.047
+            },
+            "s60": {
+              "a": 0.998,
+              "b": 0.002,
+              "tie": 0.0,
+              "first": 0.9979716024340771,
+              "second": 0.9980276134122288,
+              "patch": 0.072,
+              "storm": 0.017
+            },
+            "g": {
+              "a": 0.769,
+              "b": 0.231,
+              "tie": 0.0,
+              "first": 0.7795275590551181,
+              "second": 0.758130081300813,
+              "patch": 0.52,
+              "storm": 0.041
+            }
+          }
+        },
+        {
+          "cut": "Seeker",
+          "copies_before": 1,
+          "weighted": 0.7831746192893401,
+          "mean": 0.8411666666666666,
+          "worst": 0.736,
+          "patch": 0.36733333333333335,
+          "storm": 0.0325,
+          "cells": {
+            "t60": {
+              "a": 0.783,
+              "b": 0.217,
+              "tie": 0.0,
+              "first": 0.7924151696606786,
+              "second": 0.7735470941883767,
+              "patch": 0.462,
+              "storm": 0.026
+            },
+            "hedrick": {
+              "a": 0.736,
+              "b": 0.264,
+              "tie": 0.0,
+              "first": 0.7317554240631163,
+              "second": 0.7403651115618661,
+              "patch": 0.463,
+              "storm": 0.026
+            },
+            "unl": {
+              "a": 0.951,
+              "b": 0.049,
+              "tie": 0.0,
+              "first": 0.9559386973180076,
+              "second": 0.9456066945606695,
+              "patch": 0.279,
+              "storm": 0.032
+            },
+            "d60": {
+              "a": 0.8,
+              "b": 0.2,
+              "tie": 0.0,
+              "first": 0.813141683778234,
+              "second": 0.7875243664717348,
+              "patch": 0.376,
+              "storm": 0.034
+            },
+            "s60": {
+              "a": 0.996,
+              "b": 0.004,
+              "tie": 0.0,
+              "first": 0.994059405940594,
+              "second": 0.997979797979798,
+              "patch": 0.102,
+              "storm": 0.022
+            },
+            "g": {
+              "a": 0.781,
+              "b": 0.219,
+              "tie": 0.0,
+              "first": 0.7849686847599165,
+              "second": 0.7773512476007678,
+              "patch": 0.522,
+              "storm": 0.055
+            }
+          }
+        },
+        {
+          "cut": "Energy Switch",
+          "copies_before": 2,
+          "weighted": 0.782102538071066,
+          "mean": 0.8405,
+          "worst": 0.738,
+          "patch": 0.35333333333333333,
+          "storm": 0.028833333333333332,
+          "cells": {
+            "t60": {
+              "a": 0.779,
+              "b": 0.221,
+              "tie": 0.0,
+              "first": 0.7780082987551867,
+              "second": 0.7799227799227799,
+              "patch": 0.4,
+              "storm": 0.026
+            },
+            "hedrick": {
+              "a": 0.738,
+              "b": 0.262,
+              "tie": 0.0,
+              "first": 0.7739463601532567,
+              "second": 0.698744769874477,
+              "patch": 0.411,
+              "storm": 0.029
+            },
+            "unl": {
+              "a": 0.948,
+              "b": 0.052,
+              "tie": 0.0,
+              "first": 0.9554655870445344,
+              "second": 0.9407114624505929,
+              "patch": 0.292,
+              "storm": 0.016
+            },
+            "d60": {
+              "a": 0.783,
+              "b": 0.217,
+              "tie": 0.0,
+              "first": 0.8112449799196787,
+              "second": 0.7549800796812749,
+              "patch": 0.405,
+              "storm": 0.027
+            },
+            "s60": {
+              "a": 0.999,
+              "b": 0.001,
+              "tie": 0.0,
+              "first": 1.0,
+              "second": 0.997946611909651,
+              "patch": 0.104,
+              "storm": 0.023
+            },
+            "g": {
+              "a": 0.796,
+              "b": 0.204,
+              "tie": 0.0,
+              "first": 0.8152380952380952,
+              "second": 0.7747368421052632,
+              "patch": 0.508,
+              "storm": 0.052
+            }
+          }
+        },
+        {
+          "cut": "Arven",
+          "copies_before": 1,
+          "weighted": 0.7770172588832488,
+          "mean": 0.8355,
+          "worst": 0.737,
+          "patch": 0.36333333333333334,
+          "storm": 0.029333333333333333,
+          "cells": {
+            "t60": {
+              "a": 0.812,
+              "b": 0.188,
+              "tie": 0.0,
+              "first": 0.8308270676691729,
+              "second": 0.7905982905982906,
+              "patch": 0.411,
+              "storm": 0.025
+            },
+            "hedrick": {
+              "a": 0.737,
+              "b": 0.263,
+              "tie": 0.0,
+              "first": 0.7590361445783133,
+              "second": 0.7151394422310757,
+              "patch": 0.441,
+              "storm": 0.032
+            },
+            "unl": {
+              "a": 0.939,
+              "b": 0.061,
+              "tie": 0.0,
+              "first": 0.9365079365079365,
+              "second": 0.9415322580645161,
+              "patch": 0.308,
+              "storm": 0.018
+            },
+            "d60": {
+              "a": 0.753,
+              "b": 0.247,
+              "tie": 0.0,
+              "first": 0.7900207900207901,
+              "second": 0.7186897880539499,
+              "patch": 0.429,
+              "storm": 0.036
+            },
+            "s60": {
+              "a": 0.995,
+              "b": 0.005,
+              "tie": 0.0,
+              "first": 0.9979959919839679,
+              "second": 0.9920159680638723,
+              "patch": 0.088,
+              "storm": 0.013
+            },
+            "g": {
+              "a": 0.777,
+              "b": 0.223,
+              "tie": 0.0,
+              "first": 0.8,
+              "second": 0.7525773195876289,
+              "patch": 0.503,
+              "storm": 0.052
+            }
+          }
+        },
+        {
+          "cut": "Mewtwo ex",
+          "copies_before": 3,
+          "weighted": 0.7766375634517767,
+          "mean": 0.8341666666666666,
+          "worst": 0.747,
+          "patch": 0.37283333333333335,
+          "storm": 0.035666666666666666,
+          "cells": {
+            "t60": {
+              "a": 0.809,
+              "b": 0.191,
+              "tie": 0.0,
+              "first": 0.792910447761194,
+              "second": 0.8275862068965517,
+              "patch": 0.442,
+              "storm": 0.03
+            },
+            "hedrick": {
+              "a": 0.763,
+              "b": 0.237,
+              "tie": 0.0,
+              "first": 0.7731568998109641,
+              "second": 0.7515923566878981,
+              "patch": 0.424,
+              "storm": 0.038
+            },
+            "unl": {
+              "a": 0.939,
+              "b": 0.061,
+              "tie": 0.0,
+              "first": 0.9436893203883495,
+              "second": 0.934020618556701,
+              "patch": 0.309,
+              "storm": 0.024
+            },
+            "d60": {
+              "a": 0.747,
+              "b": 0.253,
+              "tie": 0.0,
+              "first": 0.7756813417190775,
+              "second": 0.7208413001912046,
+              "patch": 0.423,
+              "storm": 0.04
+            },
+            "s60": {
+              "a": 0.994,
+              "b": 0.006,
+              "tie": 0.0,
+              "first": 0.9941060903732809,
+              "second": 0.9938900203665988,
+              "patch": 0.102,
+              "storm": 0.024
+            },
+            "g": {
+              "a": 0.753,
+              "b": 0.247,
+              "tie": 0.0,
+              "first": 0.7740667976424361,
+              "second": 0.7311608961303462,
+              "patch": 0.537,
+              "storm": 0.058
+            }
+          }
+        },
+        {
+          "cut": "Clefable ex",
+          "copies_before": 3,
+          "weighted": 0.7762862944162436,
+          "mean": 0.8325,
+          "worst": 0.754,
+          "patch": 0.37083333333333335,
+          "storm": 0.03816666666666667,
+          "cells": {
+            "t60": {
+              "a": 0.787,
+              "b": 0.213,
+              "tie": 0.0,
+              "first": 0.7927565392354124,
+              "second": 0.7813121272365805,
+              "patch": 0.412,
+              "storm": 0.033
+            },
+            "hedrick": {
+              "a": 0.754,
+              "b": 0.246,
+              "tie": 0.0,
+              "first": 0.7317073170731707,
+              "second": 0.7755905511811023,
+              "patch": 0.453,
+              "storm": 0.049
+            },
+            "unl": {
+              "a": 0.923,
+              "b": 0.077,
+              "tie": 0.0,
+              "first": 0.9330628803245437,
+              "second": 0.9132149901380671,
+              "patch": 0.313,
+              "storm": 0.019
+            },
+            "d60": {
+              "a": 0.769,
+              "b": 0.231,
+              "tie": 0.0,
+              "first": 0.8059071729957806,
+              "second": 0.7357414448669202,
+              "patch": 0.438,
+              "storm": 0.042
+            },
+            "s60": {
+              "a": 0.998,
+              "b": 0.002,
+              "tie": 0.0,
+              "first": 1.0,
+              "second": 0.9960707269155207,
+              "patch": 0.097,
+              "storm": 0.025
+            },
+            "g": {
+              "a": 0.764,
+              "b": 0.236,
+              "tie": 0.0,
+              "first": 0.7773654916512059,
+              "second": 0.7483731019522777,
+              "patch": 0.512,
+              "storm": 0.061
+            }
+          }
+        },
+        {
+          "cut": "Battle Cage",
+          "copies_before": 3,
+          "weighted": 0.7746659898477157,
+          "mean": 0.8313333333333334,
+          "worst": 0.728,
+          "patch": 0.351,
+          "storm": 0.030666666666666665,
+          "cells": {
+            "t60": {
+              "a": 0.795,
+              "b": 0.205,
+              "tie": 0.0,
+              "first": 0.7907869481765835,
+              "second": 0.7995824634655533,
+              "patch": 0.416,
+              "storm": 0.028
+            },
+            "hedrick": {
+              "a": 0.728,
+              "b": 0.272,
+              "tie": 0.0,
+              "first": 0.740234375,
+              "second": 0.7151639344262295,
+              "patch": 0.431,
+              "storm": 0.031
+            },
+            "unl": {
+              "a": 0.919,
+              "b": 0.081,
+              "tie": 0.0,
+              "first": 0.924901185770751,
+              "second": 0.9129554655870445,
+              "patch": 0.288,
+              "storm": 0.022
+            },
+            "d60": {
+              "a": 0.785,
+              "b": 0.215,
+              "tie": 0.0,
+              "first": 0.7909836065573771,
+              "second": 0.779296875,
+              "patch": 0.391,
+              "storm": 0.039
+            },
+            "s60": {
+              "a": 0.996,
+              "b": 0.004,
+              "tie": 0.0,
+              "first": 1.0,
+              "second": 0.9924242424242424,
+              "patch": 0.061,
+              "storm": 0.009
+            },
+            "g": {
+              "a": 0.765,
+              "b": 0.235,
+              "tie": 0.0,
+              "first": 0.7840466926070039,
+              "second": 0.7448559670781894,
+              "patch": 0.519,
+              "storm": 0.055
+            }
+          }
+        },
+        {
+          "cut": "Nest Ball",
+          "copies_before": 4,
+          "weighted": 0.7730934010152285,
+          "mean": 0.8318333333333333,
+          "worst": 0.73,
+          "patch": 0.3498333333333334,
+          "storm": 0.032,
+          "cells": {
+            "t60": {
+              "a": 0.788,
+              "b": 0.212,
+              "tie": 0.0,
+              "first": 0.8119001919385797,
+              "second": 0.7620041753653445,
+              "patch": 0.394,
+              "storm": 0.027
+            },
+            "hedrick": {
+              "a": 0.73,
+              "b": 0.27,
+              "tie": 0.0,
+              "first": 0.7285714285714285,
+              "second": 0.7313725490196078,
+              "patch": 0.42,
+              "storm": 0.03
+            },
+            "unl": {
+              "a": 0.93,
+              "b": 0.07,
+              "tie": 0.0,
+              "first": 0.935969868173258,
+              "second": 0.9232409381663113,
+              "patch": 0.29,
+              "storm": 0.019
+            },
+            "d60": {
+              "a": 0.773,
+              "b": 0.227,
+              "tie": 0.0,
+              "first": 0.7695390781563126,
+              "second": 0.7764471057884231,
+              "patch": 0.385,
+              "storm": 0.039
+            },
+            "s60": {
+              "a": 0.998,
+              "b": 0.002,
+              "tie": 0.0,
+              "first": 0.9979253112033195,
+              "second": 0.9980694980694981,
+              "patch": 0.104,
+              "storm": 0.021
+            },
+            "g": {
+              "a": 0.772,
+              "b": 0.228,
+              "tie": 0.0,
+              "first": 0.7942307692307692,
+              "second": 0.7479166666666667,
+              "patch": 0.506,
+              "storm": 0.056
+            }
+          }
+        },
+        {
+          "cut": "Buddy-Buddy Poffin",
+          "copies_before": 4,
+          "weighted": 0.7726000000000001,
+          "mean": 0.8303333333333334,
+          "worst": 0.738,
+          "patch": 0.34400000000000003,
+          "storm": 0.02716666666666667,
+          "cells": {
+            "t60": {
+              "a": 0.791,
+              "b": 0.209,
+              "tie": 0.0,
+              "first": 0.7966457023060797,
+              "second": 0.7858508604206501,
+              "patch": 0.401,
+              "storm": 0.031
+            },
+            "hedrick": {
+              "a": 0.738,
+              "b": 0.262,
+              "tie": 0.0,
+              "first": 0.7293388429752066,
+              "second": 0.7461240310077519,
+              "patch": 0.453,
+              "storm": 0.03
+            },
+            "unl": {
+              "a": 0.929,
+              "b": 0.071,
+              "tie": 0.0,
+              "first": 0.94106463878327,
+              "second": 0.9156118143459916,
+              "patch": 0.279,
+              "storm": 0.008
+            },
+            "d60": {
+              "a": 0.763,
+              "b": 0.237,
+              "tie": 0.0,
+              "first": 0.803960396039604,
+              "second": 0.7212121212121212,
+              "patch": 0.37,
+              "storm": 0.034
+            },
+            "s60": {
+              "a": 0.993,
+              "b": 0.007,
+              "tie": 0.0,
+              "first": 0.9921722113502935,
+              "second": 0.9938650306748467,
+              "patch": 0.083,
+              "storm": 0.015
+            },
+            "g": {
+              "a": 0.768,
+              "b": 0.232,
+              "tie": 0.0,
+              "first": 0.7729083665338645,
+              "second": 0.7630522088353414,
+              "patch": 0.478,
+              "storm": 0.045
+            }
+          }
+        },
+        {
+          "cut": "Switch",
+          "copies_before": 2,
+          "weighted": 0.7721441624365483,
+          "mean": 0.8330000000000001,
+          "worst": 0.719,
+          "patch": 0.355,
+          "storm": 0.027333333333333334,
+          "cells": {
+            "t60": {
+              "a": 0.782,
+              "b": 0.218,
+              "tie": 0.0,
+              "first": 0.7710583153347732,
+              "second": 0.7914338919925512,
+              "patch": 0.423,
+              "storm": 0.027
+            },
+            "hedrick": {
+              "a": 0.719,
+              "b": 0.281,
+              "tie": 0.0,
+              "first": 0.7181818181818181,
+              "second": 0.72,
+              "patch": 0.43,
+              "storm": 0.019
+            },
+            "unl": {
+              "a": 0.942,
+              "b": 0.058,
+              "tie": 0.0,
+              "first": 0.9518072289156626,
+              "second": 0.9322709163346613,
+              "patch": 0.316,
+              "storm": 0.021
+            },
+            "d60": {
+              "a": 0.768,
+              "b": 0.232,
+              "tie": 0.0,
+              "first": 0.7843137254901961,
+              "second": 0.7510204081632653,
+              "patch": 0.38,
+              "storm": 0.031
+            },
+            "s60": {
+              "a": 0.998,
+              "b": 0.002,
+              "tie": 0.0,
+              "first": 1.0,
+              "second": 0.9962825278810409,
+              "patch": 0.082,
+              "storm": 0.015
+            },
+            "g": {
+              "a": 0.789,
+              "b": 0.211,
+              "tie": 0.0,
+              "first": 0.7980582524271844,
+              "second": 0.7793814432989691,
+              "patch": 0.499,
+              "storm": 0.051
+            }
+          }
+        },
+        {
+          "cut": "Iono",
+          "copies_before": 1,
+          "weighted": 0.7708751269035533,
+          "mean": 0.8328333333333333,
+          "worst": 0.734,
+          "patch": 0.3501666666666667,
+          "storm": 0.03366666666666667,
+          "cells": {
+            "t60": {
+              "a": 0.79,
+              "b": 0.21,
+              "tie": 0.0,
+              "first": 0.7813765182186235,
+              "second": 0.7984189723320159,
+              "patch": 0.411,
+              "storm": 0.033
+            },
+            "hedrick": {
+              "a": 0.734,
+              "b": 0.266,
+              "tie": 0.0,
+              "first": 0.7549019607843137,
+              "second": 0.7122448979591837,
+              "patch": 0.41,
+              "storm": 0.028
+            },
+            "unl": {
+              "a": 0.95,
+              "b": 0.05,
+              "tie": 0.0,
+              "first": 0.960377358490566,
+              "second": 0.9382978723404255,
+              "patch": 0.278,
+              "storm": 0.019
+            },
+            "d60": {
+              "a": 0.738,
+              "b": 0.262,
+              "tie": 0.0,
+              "first": 0.7658730158730159,
+              "second": 0.7096774193548387,
+              "patch": 0.396,
+              "storm": 0.041
+            },
+            "s60": {
+              "a": 0.998,
+              "b": 0.002,
+              "tie": 0.0,
+              "first": 0.9978768577494692,
+              "second": 0.998109640831758,
+              "patch": 0.082,
+              "storm": 0.019
+            },
+            "g": {
+              "a": 0.787,
+              "b": 0.213,
+              "tie": 0.0,
+              "first": 0.8007968127490039,
+              "second": 0.7730923694779116,
+              "patch": 0.524,
+              "storm": 0.062
+            }
+          }
+        },
+        {
+          "cut": "Lillie",
+          "copies_before": 2,
+          "weighted": 0.765838578680203,
+          "mean": 0.827,
+          "worst": 0.72,
+          "patch": 0.3425,
+          "storm": 0.03266666666666667,
+          "cells": {
+            "t60": {
+              "a": 0.786,
+              "b": 0.214,
+              "tie": 0.0,
+              "first": 0.7901701323251418,
+              "second": 0.7813163481953291,
+              "patch": 0.403,
+              "storm": 0.024
+            },
+            "hedrick": {
+              "a": 0.72,
+              "b": 0.28,
+              "tie": 0.0,
+              "first": 0.7381974248927039,
+              "second": 0.704119850187266,
+              "patch": 0.421,
+              "storm": 0.034
+            },
+            "unl": {
+              "a": 0.933,
+              "b": 0.067,
+              "tie": 0.0,
+              "first": 0.9424307036247335,
+              "second": 0.9246704331450094,
+              "patch": 0.271,
+              "storm": 0.02
+            },
+            "d60": {
+              "a": 0.774,
+              "b": 0.226,
+              "tie": 0.0,
+              "first": 0.8003952569169961,
+              "second": 0.7469635627530364,
+              "patch": 0.367,
+              "storm": 0.033
+            },
+            "s60": {
+              "a": 0.997,
+              "b": 0.003,
+              "tie": 0.0,
+              "first": 0.9959432048681541,
+              "second": 0.9980276134122288,
+              "patch": 0.083,
+              "storm": 0.016
+            },
+            "g": {
+              "a": 0.752,
+              "b": 0.248,
+              "tie": 0.0,
+              "first": 0.7592233009708738,
+              "second": 0.7443298969072165,
+              "patch": 0.51,
+              "storm": 0.069
+            }
+          }
+        },
+        {
+          "cut": "Telepathic Psychic Energy",
+          "copies_before": 2,
+          "weighted": 0.7597461928934011,
+          "mean": 0.8215,
+          "worst": 0.723,
+          "patch": 0.36533333333333334,
+          "storm": 0.030333333333333334,
+          "cells": {
+            "t60": {
+              "a": 0.772,
+              "b": 0.228,
+              "tie": 0.0,
+              "first": 0.7817460317460317,
+              "second": 0.7620967741935484,
+              "patch": 0.422,
+              "storm": 0.028
+            },
+            "hedrick": {
+              "a": 0.723,
+              "b": 0.277,
+              "tie": 0.0,
+              "first": 0.708253358925144,
+              "second": 0.7390396659707724,
+              "patch": 0.45,
+              "storm": 0.035
+            },
+            "unl": {
+              "a": 0.93,
+              "b": 0.07,
+              "tie": 0.0,
+              "first": 0.9409368635437881,
+              "second": 0.9194499017681729,
+              "patch": 0.3,
+              "storm": 0.023
+            },
+            "d60": {
+              "a": 0.756,
+              "b": 0.244,
+              "tie": 0.0,
+              "first": 0.7816764132553606,
+              "second": 0.728952772073922,
+              "patch": 0.381,
+              "storm": 0.031
+            },
+            "s60": {
+              "a": 0.994,
+              "b": 0.006,
+              "tie": 0.0,
+              "first": 0.9960861056751468,
+              "second": 0.9918200408997955,
+              "patch": 0.092,
+              "storm": 0.014
+            },
+            "g": {
+              "a": 0.754,
+              "b": 0.246,
+              "tie": 0.0,
+              "first": 0.7598425196850394,
+              "second": 0.7479674796747967,
+              "patch": 0.547,
+              "storm": 0.051
+            }
+          }
+        },
+        {
+          "cut": "Psychic Energy",
+          "copies_before": 14,
+          "weighted": 0.758248730964467,
+          "mean": 0.8206666666666668,
+          "worst": 0.73,
+          "patch": 0.3681666666666667,
+          "storm": 0.029666666666666664,
+          "cells": {
+            "t60": {
+              "a": 0.761,
+              "b": 0.239,
+              "tie": 0.0,
+              "first": 0.7797270955165692,
+              "second": 0.7412731006160165,
+              "patch": 0.45,
+              "storm": 0.033
+            },
+            "hedrick": {
+              "a": 0.73,
+              "b": 0.27,
+              "tie": 0.0,
+              "first": 0.7392996108949417,
+              "second": 0.720164609053498,
+              "patch": 0.434,
+              "storm": 0.041
+            },
+            "unl": {
+              "a": 0.934,
+              "b": 0.066,
+              "tie": 0.0,
+              "first": 0.93,
+              "second": 0.938,
+              "patch": 0.303,
+              "storm": 0.02
+            },
+            "d60": {
+              "a": 0.763,
+              "b": 0.237,
+              "tie": 0.0,
+              "first": 0.7734375,
+              "second": 0.7520491803278688,
+              "patch": 0.407,
+              "storm": 0.027
+            },
+            "s60": {
+              "a": 0.995,
+              "b": 0.005,
+              "tie": 0.0,
+              "first": 0.9958419958419958,
+              "second": 0.9942196531791907,
+              "patch": 0.08,
+              "storm": 0.011
+            },
+            "g": {
+              "a": 0.741,
+              "b": 0.259,
+              "tie": 0.0,
+              "first": 0.763671875,
+              "second": 0.7172131147540983,
+              "patch": 0.535,
+              "storm": 0.046
+            }
+          }
+        },
+        {
+          "cut": "Hop",
+          "copies_before": 2,
+          "weighted": 0.7575705583756345,
+          "mean": 0.8211666666666666,
+          "worst": 0.701,
+          "patch": 0.3496666666666666,
+          "storm": 0.03183333333333333,
+          "cells": {
+            "t60": {
+              "a": 0.79,
+              "b": 0.21,
+              "tie": 0.0,
+              "first": 0.7992047713717694,
+              "second": 0.7806841046277666,
+              "patch": 0.399,
+              "storm": 0.022
+            },
+            "hedrick": {
+              "a": 0.701,
+              "b": 0.299,
+              "tie": 0.0,
+              "first": 0.6932515337423313,
+              "second": 0.7084148727984344,
+              "patch": 0.418,
+              "storm": 0.033
+            },
+            "unl": {
+              "a": 0.928,
+              "b": 0.072,
+              "tie": 0.0,
+              "first": 0.9276859504132231,
+              "second": 0.9282945736434108,
+              "patch": 0.314,
+              "storm": 0.03
+            },
+            "d60": {
+              "a": 0.742,
+              "b": 0.258,
+              "tie": 0.0,
+              "first": 0.7626459143968871,
+              "second": 0.720164609053498,
+              "patch": 0.382,
+              "storm": 0.033
+            },
+            "s60": {
+              "a": 0.997,
+              "b": 0.003,
+              "tie": 0.0,
+              "first": 0.9959839357429718,
+              "second": 0.99800796812749,
+              "patch": 0.087,
+              "storm": 0.017
+            },
+            "g": {
+              "a": 0.769,
+              "b": 0.231,
+              "tie": 0.0,
+              "first": 0.7895791583166333,
+              "second": 0.7485029940119761,
+              "patch": 0.498,
+              "storm": 0.056
+            }
+          }
+        },
+        {
+          "cut": "Lillie's Determination",
+          "copies_before": 2,
+          "weighted": 0.7535329949238578,
+          "mean": 0.8175,
+          "worst": 0.715,
+          "patch": 0.35633333333333334,
+          "storm": 0.03133333333333333,
+          "cells": {
+            "t60": {
+              "a": 0.782,
+              "b": 0.218,
+              "tie": 0.0,
+              "first": 0.7950819672131147,
+              "second": 0.76953125,
+              "patch": 0.403,
+              "storm": 0.035
+            },
+            "hedrick": {
+              "a": 0.715,
+              "b": 0.285,
+              "tie": 0.0,
+              "first": 0.722753346080306,
+              "second": 0.7064989517819706,
+              "patch": 0.427,
+              "storm": 0.03
+            },
+            "unl": {
+              "a": 0.931,
+              "b": 0.069,
+              "tie": 0.0,
+              "first": 0.9306930693069307,
+              "second": 0.9313131313131313,
+              "patch": 0.304,
+              "storm": 0.021
+            },
+            "d60": {
+              "a": 0.742,
+              "b": 0.258,
+              "tie": 0.0,
+              "first": 0.7736943907156673,
+              "second": 0.7080745341614907,
+              "patch": 0.395,
+              "storm": 0.033
+            },
+            "s60": {
+              "a": 0.994,
+              "b": 0.006,
+              "tie": 0.0,
+              "first": 0.9959016393442623,
+              "second": 0.9921875,
+              "patch": 0.087,
+              "storm": 0.015
+            },
+            "g": {
+              "a": 0.741,
+              "b": 0.259,
+              "tie": 0.0,
+              "first": 0.7324478178368121,
+              "second": 0.7505285412262156,
+              "patch": 0.522,
+              "storm": 0.054
+            }
+          }
+        },
+        {
+          "cut": "Maximum Belt",
+          "copies_before": 1,
+          "weighted": 0.7467979695431473,
+          "mean": 0.8140000000000001,
+          "worst": 0.648,
+          "patch": 0.367,
+          "storm": 0.028333333333333335,
+          "cells": {
+            "t60": {
+              "a": 0.782,
+              "b": 0.218,
+              "tie": 0.0,
+              "first": 0.789980732177264,
+              "second": 0.7733887733887734,
+              "patch": 0.406,
+              "storm": 0.019
+            },
+            "hedrick": {
+              "a": 0.733,
+              "b": 0.267,
+              "tie": 0.0,
+              "first": 0.751004016064257,
+              "second": 0.7151394422310757,
+              "patch": 0.439,
+              "storm": 0.032
+            },
+            "unl": {
+              "a": 0.94,
+              "b": 0.06,
+              "tie": 0.0,
+              "first": 0.9461538461538461,
+              "second": 0.9333333333333333,
+              "patch": 0.279,
+              "storm": 0.021
+            },
+            "d60": {
+              "a": 0.648,
+              "b": 0.352,
+              "tie": 0.0,
+              "first": 0.672514619883041,
+              "second": 0.62217659137577,
+              "patch": 0.468,
+              "storm": 0.033
+            },
+            "s60": {
+              "a": 0.996,
+              "b": 0.004,
+              "tie": 0.0,
+              "first": 0.9979879275653923,
+              "second": 0.9940357852882704,
+              "patch": 0.092,
+              "storm": 0.015
+            },
+            "g": {
+              "a": 0.785,
+              "b": 0.215,
+              "tie": 0.0,
+              "first": 0.789980732177264,
+              "second": 0.7796257796257796,
+              "patch": 0.518,
+              "storm": 0.05
+            }
+          }
+        },
+        {
+          "cut": "Clefairy",
+          "copies_before": 4,
+          "weighted": 0.743776649746193,
+          "mean": 0.8106666666666666,
+          "worst": 0.664,
+          "patch": 0.3438333333333334,
+          "storm": 0.02316666666666667,
+          "cells": {
+            "t60": {
+              "a": 0.778,
+              "b": 0.222,
+              "tie": 0.0,
+              "first": 0.79,
+              "second": 0.766,
+              "patch": 0.407,
+              "storm": 0.029
+            },
+            "hedrick": {
+              "a": 0.735,
+              "b": 0.265,
+              "tie": 0.0,
+              "first": 0.7655038759689923,
+              "second": 0.7024793388429752,
+              "patch": 0.416,
+              "storm": 0.029
+            },
+            "unl": {
+              "a": 0.933,
+              "b": 0.067,
+              "tie": 0.0,
+              "first": 0.9427480916030534,
+              "second": 0.9222689075630253,
+              "patch": 0.276,
+              "storm": 0.013
+            },
+            "d60": {
+              "a": 0.664,
+              "b": 0.336,
+              "tie": 0.0,
+              "first": 0.7108695652173913,
+              "second": 0.6240740740740741,
+              "patch": 0.366,
+              "storm": 0.017
+            },
+            "s60": {
+              "a": 0.996,
+              "b": 0.004,
+              "tie": 0.0,
+              "first": 0.997907949790795,
+              "second": 0.9942528735632183,
+              "patch": 0.08,
+              "storm": 0.014
+            },
+            "g": {
+              "a": 0.758,
+              "b": 0.242,
+              "tie": 0.0,
+              "first": 0.7637474541751528,
+              "second": 0.7524557956777996,
+              "patch": 0.518,
+              "storm": 0.037
+            }
+          }
+        },
+        {
+          "cut": "Latias ex",
+          "copies_before": 1,
+          "weighted": 0.7310253807106599,
+          "mean": 0.7995,
+          "worst": 0.661,
+          "patch": 0.4088333333333333,
+          "storm": 0.04733333333333334,
+          "cells": {
+            "t60": {
+              "a": 0.73,
+              "b": 0.27,
+              "tie": 0.0,
+              "first": 0.738,
+              "second": 0.722,
+              "patch": 0.453,
+              "storm": 0.032
+            },
+            "hedrick": {
+              "a": 0.7,
+              "b": 0.3,
+              "tie": 0.0,
+              "first": 0.6755102040816326,
+              "second": 0.7235294117647059,
+              "patch": 0.511,
+              "storm": 0.03
+            },
+            "unl": {
+              "a": 0.924,
+              "b": 0.076,
+              "tie": 0.0,
+              "first": 0.9454191033138402,
+              "second": 0.9014373716632443,
+              "patch": 0.38,
+              "storm": 0.04
+            },
+            "d60": {
+              "a": 0.789,
+              "b": 0.211,
+              "tie": 0.0,
+              "first": 0.8145161290322581,
+              "second": 0.7638888888888888,
+              "patch": 0.345,
+              "storm": 0.064
+            },
+            "s60": {
+              "a": 0.993,
+              "b": 0.007,
+              "tie": 0.0,
+              "first": 1.0,
+              "second": 0.9855072463768116,
+              "patch": 0.148,
+              "storm": 0.034
+            },
+            "g": {
+              "a": 0.661,
+              "b": 0.339,
+              "tie": 0.0,
+              "first": 0.6758893280632411,
+              "second": 0.645748987854251,
+              "patch": 0.616,
+              "storm": 0.084
+            }
+          }
+        }
+      ]
+    },
+    {
+      "copies_after": 3,
+      "current_weighted": 0.7927431472081219,
+      "current_mean": 0.8461666666666666,
+      "accepted": false,
+      "chosen": "Night Stretcher",
+      "chosen_weighted": 0.7901299492385787,
+      "chosen_mean": 0.8453333333333334,
+      "candidates": [
+        {
+          "cut": "Night Stretcher",
+          "copies_before": 1,
+          "weighted": 0.7901299492385787,
+          "mean": 0.8453333333333334,
+          "worst": 0.747,
+          "patch": 0.4303333333333333,
+          "storm": 0.04666666666666667,
+          "cells": {
+            "t60": {
+              "a": 0.781,
+              "b": 0.219,
+              "tie": 0.0,
+              "first": 0.7735470941883767,
+              "second": 0.7884231536926147,
+              "patch": 0.51,
+              "storm": 0.04
+            },
+            "hedrick": {
+              "a": 0.747,
+              "b": 0.253,
+              "tie": 0.0,
+              "first": 0.7521008403361344,
+              "second": 0.7423664122137404,
+              "patch": 0.536,
+              "storm": 0.057
+            },
+            "unl": {
+              "a": 0.945,
+              "b": 0.055,
+              "tie": 0.0,
+              "first": 0.9642147117296223,
+              "second": 0.9255533199195171,
+              "patch": 0.357,
+              "storm": 0.026
+            },
+            "d60": {
+              "a": 0.798,
+              "b": 0.202,
+              "tie": 0.0,
+              "first": 0.8181818181818182,
+              "second": 0.7790697674418605,
+              "patch": 0.483,
+              "storm": 0.052
+            },
+            "s60": {
+              "a": 0.997,
+              "b": 0.003,
+              "tie": 0.0,
+              "first": 0.9961389961389961,
+              "second": 0.9979253112033195,
+              "patch": 0.105,
+              "storm": 0.025
+            },
+            "g": {
+              "a": 0.804,
+              "b": 0.196,
+              "tie": 0.0,
+              "first": 0.8161616161616162,
+              "second": 0.7920792079207921,
+              "patch": 0.591,
+              "storm": 0.08
+            }
+          }
+        },
+        {
+          "cut": "Ultra Ball",
+          "copies_before": 1,
+          "weighted": 0.789635532994924,
+          "mean": 0.8433333333333334,
+          "worst": 0.763,
+          "patch": 0.44083333333333335,
+          "storm": 0.052333333333333336,
+          "cells": {
+            "t60": {
+              "a": 0.793,
+              "b": 0.207,
+              "tie": 0.0,
+              "first": 0.779467680608365,
+              "second": 0.8080168776371308,
+              "patch": 0.526,
+              "storm": 0.056
+            },
+            "hedrick": {
+              "a": 0.763,
+              "b": 0.237,
+              "tie": 0.0,
+              "first": 0.772256728778468,
+              "second": 0.7543520309477756,
+              "patch": 0.542,
+              "storm": 0.048
+            },
+            "unl": {
+              "a": 0.937,
+              "b": 0.063,
+              "tie": 0.0,
+              "first": 0.926530612244898,
+              "second": 0.9470588235294117,
+              "patch": 0.346,
+              "storm": 0.04
+            },
+            "d60": {
+              "a": 0.777,
+              "b": 0.223,
+              "tie": 0.0,
+              "first": 0.7889546351084813,
+              "second": 0.7647058823529411,
+              "patch": 0.526,
+              "storm": 0.052
+            },
+            "s60": {
+              "a": 0.995,
+              "b": 0.005,
+              "tie": 0.0,
+              "first": 0.9959839357429718,
+              "second": 0.9940239043824701,
+              "patch": 0.09,
+              "storm": 0.03
+            },
+            "g": {
+              "a": 0.795,
+              "b": 0.205,
+              "tie": 0.0,
+              "first": 0.827037773359841,
+              "second": 0.7625754527162978,
+              "patch": 0.615,
+              "storm": 0.088
+            }
+          }
+        },
+        {
+          "cut": "Boss's Orders",
+          "copies_before": 2,
+          "weighted": 0.7895116751269036,
+          "mean": 0.8463333333333333,
+          "worst": 0.723,
+          "patch": 0.4175,
+          "storm": 0.04650000000000001,
+          "cells": {
+            "t60": {
+              "a": 0.815,
+              "b": 0.185,
+              "tie": 0.0,
+              "first": 0.8276553106212425,
+              "second": 0.8023952095808383,
+              "patch": 0.47,
+              "storm": 0.05
+            },
+            "hedrick": {
+              "a": 0.723,
+              "b": 0.277,
+              "tie": 0.0,
+              "first": 0.73,
+              "second": 0.716,
+              "patch": 0.525,
+              "storm": 0.046
+            },
+            "unl": {
+              "a": 0.947,
+              "b": 0.053,
+              "tie": 0.0,
+              "first": 0.9563492063492064,
+              "second": 0.9375,
+              "patch": 0.328,
+              "storm": 0.031
+            },
+            "d60": {
+              "a": 0.816,
+              "b": 0.184,
+              "tie": 0.0,
+              "first": 0.832,
+              "second": 0.8,
+              "patch": 0.489,
+              "storm": 0.054
+            },
+            "s60": {
+              "a": 0.998,
+              "b": 0.002,
+              "tie": 0.0,
+              "first": 0.9980544747081712,
+              "second": 0.9979423868312757,
+              "patch": 0.091,
+              "storm": 0.02
+            },
+            "g": {
+              "a": 0.779,
+              "b": 0.221,
+              "tie": 0.0,
+              "first": 0.81,
+              "second": 0.748,
+              "patch": 0.602,
+              "storm": 0.078
+            }
+          }
+        },
+        {
+          "cut": "Battle Cage",
+          "copies_before": 3,
+          "weighted": 0.7880670050761421,
+          "mean": 0.8403333333333333,
+          "worst": 0.736,
+          "patch": 0.4231666666666667,
+          "storm": 0.042666666666666665,
+          "cells": {
+            "t60": {
+              "a": 0.784,
+              "b": 0.216,
+              "tie": 0.0,
+              "first": 0.7682926829268293,
+              "second": 0.7992125984251969,
+              "patch": 0.473,
+              "storm": 0.042
+            },
+            "hedrick": {
+              "a": 0.736,
+              "b": 0.264,
+              "tie": 0.0,
+              "first": 0.7445109780439122,
+              "second": 0.7274549098196392,
+              "patch": 0.541,
+              "storm": 0.035
+            },
+            "unl": {
+              "a": 0.921,
+              "b": 0.079,
+              "tie": 0.0,
+              "first": 0.9311023622047244,
+              "second": 0.9105691056910569,
+              "patch": 0.344,
+              "storm": 0.033
+            },
+            "d60": {
+              "a": 0.802,
+              "b": 0.198,
+              "tie": 0.0,
+              "first": 0.8373015873015873,
+              "second": 0.7661290322580645,
+              "patch": 0.473,
+              "storm": 0.036
+            },
+            "s60": {
+              "a": 0.992,
+              "b": 0.008,
+              "tie": 0.0,
+              "first": 0.9959595959595959,
+              "second": 0.9881188118811881,
+              "patch": 0.104,
+              "storm": 0.02
+            },
+            "g": {
+              "a": 0.807,
+              "b": 0.193,
+              "tie": 0.0,
+              "first": 0.8138075313807531,
+              "second": 0.8007662835249042,
+              "patch": 0.604,
+              "storm": 0.09
+            }
+          }
+        },
+        {
+          "cut": "Arven",
+          "copies_before": 1,
+          "weighted": 0.7879370558375635,
+          "mean": 0.8416666666666667,
+          "worst": 0.756,
+          "patch": 0.422,
+          "storm": 0.04716666666666666,
+          "cells": {
+            "t60": {
+              "a": 0.782,
+              "b": 0.218,
+              "tie": 0.0,
+              "first": 0.7703252032520326,
+              "second": 0.7933070866141733,
+              "patch": 0.511,
+              "storm": 0.046
+            },
+            "hedrick": {
+              "a": 0.756,
+              "b": 0.244,
+              "tie": 0.0,
+              "first": 0.7505070993914807,
+              "second": 0.7613412228796844,
+              "patch": 0.493,
+              "storm": 0.046
+            },
+            "unl": {
+              "a": 0.929,
+              "b": 0.071,
+              "tie": 0.0,
+              "first": 0.916015625,
+              "second": 0.9426229508196722,
+              "patch": 0.351,
+              "storm": 0.041
+            },
+            "d60": {
+              "a": 0.782,
+              "b": 0.218,
+              "tie": 0.0,
+              "first": 0.7966417910447762,
+              "second": 0.7650862068965517,
+              "patch": 0.483,
+              "storm": 0.046
+            },
+            "s60": {
+              "a": 0.998,
+              "b": 0.002,
+              "tie": 0.0,
+              "first": 0.9981024667931688,
+              "second": 0.9978858350951374,
+              "patch": 0.103,
+              "storm": 0.018
+            },
+            "g": {
+              "a": 0.803,
+              "b": 0.197,
+              "tie": 0.0,
+              "first": 0.8149606299212598,
+              "second": 0.790650406504065,
+              "patch": 0.591,
+              "storm": 0.086
+            }
+          }
+        },
+        {
+          "cut": "Clefable",
+          "copies_before": 1,
+          "weighted": 0.7876477157360406,
+          "mean": 0.8443333333333333,
+          "worst": 0.742,
+          "patch": 0.43216666666666664,
+          "storm": 0.048999999999999995,
+          "cells": {
+            "t60": {
+              "a": 0.799,
+              "b": 0.201,
+              "tie": 0.0,
+              "first": 0.8283433133732535,
+              "second": 0.7695390781563126,
+              "patch": 0.512,
+              "storm": 0.043
+            },
+            "hedrick": {
+              "a": 0.742,
+              "b": 0.258,
+              "tie": 0.0,
+              "first": 0.7659137577002053,
+              "second": 0.7192982456140351,
+              "patch": 0.554,
+              "storm": 0.061
+            },
+            "unl": {
+              "a": 0.949,
+              "b": 0.051,
+              "tie": 0.0,
+              "first": 0.9455645161290323,
+              "second": 0.9523809523809523,
+              "patch": 0.346,
+              "storm": 0.028
+            },
+            "d60": {
+              "a": 0.776,
+              "b": 0.224,
+              "tie": 0.0,
+              "first": 0.7964426877470355,
+              "second": 0.7550607287449392,
+              "patch": 0.477,
+              "storm": 0.048
+            },
+            "s60": {
+              "a": 0.996,
+              "b": 0.004,
+              "tie": 0.0,
+              "first": 0.9958847736625515,
+              "second": 0.9961089494163424,
+              "patch": 0.108,
+              "storm": 0.022
+            },
+            "g": {
+              "a": 0.804,
+              "b": 0.196,
+              "tie": 0.0,
+              "first": 0.817658349328215,
+              "second": 0.7891440501043842,
+              "patch": 0.596,
+              "storm": 0.092
+            }
+          }
+        },
+        {
+          "cut": "Psychic Energy",
+          "copies_before": 14,
+          "weighted": 0.7875837563451776,
+          "mean": 0.8426666666666667,
+          "worst": 0.735,
+          "patch": 0.42583333333333334,
+          "storm": 0.04816666666666666,
+          "cells": {
+            "t60": {
+              "a": 0.795,
+              "b": 0.205,
+              "tie": 0.0,
+              "first": 0.7984496124031008,
+              "second": 0.7913223140495868,
+              "patch": 0.486,
+              "storm": 0.05
+            },
+            "hedrick": {
+              "a": 0.735,
+              "b": 0.265,
+              "tie": 0.0,
+              "first": 0.735655737704918,
+              "second": 0.734375,
+              "patch": 0.549,
+              "storm": 0.058
+            },
+            "unl": {
+              "a": 0.932,
+              "b": 0.068,
+              "tie": 0.0,
+              "first": 0.9358178053830227,
+              "second": 0.9284332688588007,
+              "patch": 0.351,
+              "storm": 0.035
+            },
+            "d60": {
+              "a": 0.802,
+              "b": 0.198,
+              "tie": 0.0,
+              "first": 0.7967806841046278,
+              "second": 0.8071570576540755,
+              "patch": 0.463,
+              "storm": 0.037
+            },
+            "s60": {
+              "a": 0.999,
+              "b": 0.001,
+              "tie": 0.0,
+              "first": 0.9980353634577603,
+              "second": 1.0,
+              "patch": 0.093,
+              "storm": 0.023
+            },
+            "g": {
+              "a": 0.793,
+              "b": 0.207,
+              "tie": 0.0,
+              "first": 0.797071129707113,
+              "second": 0.789272030651341,
+              "patch": 0.613,
+              "storm": 0.086
+            }
+          }
+        },
+        {
+          "cut": "Switch",
+          "copies_before": 2,
+          "weighted": 0.787561421319797,
+          "mean": 0.8428333333333334,
+          "worst": 0.72,
+          "patch": 0.4156666666666667,
+          "storm": 0.03916666666666666,
+          "cells": {
+            "t60": {
+              "a": 0.787,
+              "b": 0.213,
+              "tie": 0.0,
+              "first": 0.7802874743326489,
+              "second": 0.7933723196881092,
+              "patch": 0.499,
+              "storm": 0.04
+            },
+            "hedrick": {
+              "a": 0.72,
+              "b": 0.28,
+              "tie": 0.0,
+              "first": 0.7151639344262295,
+              "second": 0.724609375,
+              "patch": 0.53,
+              "storm": 0.047
+            },
+            "unl": {
+              "a": 0.937,
+              "b": 0.063,
+              "tie": 0.0,
+              "first": 0.9528688524590164,
+              "second": 0.921875,
+              "patch": 0.308,
+              "storm": 0.026
+            },
+            "d60": {
+              "a": 0.786,
+              "b": 0.214,
+              "tie": 0.0,
+              "first": 0.79182156133829,
+              "second": 0.7792207792207793,
+              "patch": 0.444,
+              "storm": 0.035
+            },
+            "s60": {
+              "a": 0.993,
+              "b": 0.007,
+              "tie": 0.0,
+              "first": 0.9941520467836257,
+              "second": 0.9917864476386037,
+              "patch": 0.107,
+              "storm": 0.015
+            },
+            "g": {
+              "a": 0.834,
+              "b": 0.166,
+              "tie": 0.0,
+              "first": 0.8559837728194726,
+              "second": 0.8126232741617357,
+              "patch": 0.606,
+              "storm": 0.072
+            }
+          }
+        },
+        {
+          "cut": "Clefable ex",
+          "copies_before": 3,
+          "weighted": 0.7870416243654823,
+          "mean": 0.8428333333333334,
+          "worst": 0.741,
+          "patch": 0.42333333333333334,
+          "storm": 0.049833333333333334,
+          "cells": {
+            "t60": {
+              "a": 0.777,
+              "b": 0.223,
+              "tie": 0.0,
+              "first": 0.7628865979381443,
+              "second": 0.7902912621359224,
+              "patch": 0.476,
+              "storm": 0.051
+            },
+            "hedrick": {
+              "a": 0.741,
+              "b": 0.259,
+              "tie": 0.0,
+              "first": 0.75,
+              "second": 0.7321428571428571,
+              "patch": 0.53,
+              "storm": 0.047
+            },
+            "unl": {
+              "a": 0.943,
+              "b": 0.057,
+              "tie": 0.0,
+              "first": 0.9526627218934911,
+              "second": 0.9330628803245437,
+              "patch": 0.331,
+              "storm": 0.024
+            },
+            "d60": {
+              "a": 0.793,
+              "b": 0.207,
+              "tie": 0.0,
+              "first": 0.8189134808853119,
+              "second": 0.7673956262425448,
+              "patch": 0.467,
+              "storm": 0.058
+            },
+            "s60": {
+              "a": 0.996,
+              "b": 0.004,
+              "tie": 0.0,
+              "first": 0.9942748091603053,
+              "second": 0.9978991596638656,
+              "patch": 0.094,
+              "storm": 0.024
+            },
+            "g": {
+              "a": 0.807,
+              "b": 0.193,
+              "tie": 0.0,
+              "first": 0.824,
+              "second": 0.79,
+              "patch": 0.642,
+              "storm": 0.095
+            }
+          }
+        },
+        {
+          "cut": "Seeker",
+          "copies_before": 1,
+          "weighted": 0.7845746192893401,
+          "mean": 0.8410000000000001,
+          "worst": 0.746,
+          "patch": 0.42816666666666664,
+          "storm": 0.044000000000000004,
+          "cells": {
+            "t60": {
+              "a": 0.774,
+              "b": 0.226,
+              "tie": 0.0,
+              "first": 0.7806324110671937,
+              "second": 0.7672064777327935,
+              "patch": 0.528,
+              "storm": 0.046
+            },
+            "hedrick": {
+              "a": 0.746,
+              "b": 0.254,
+              "tie": 0.0,
+              "first": 0.760593220338983,
+              "second": 0.7329545454545454,
+              "patch": 0.542,
+              "storm": 0.048
+            },
+            "unl": {
+              "a": 0.943,
+              "b": 0.057,
+              "tie": 0.0,
+              "first": 0.9580712788259959,
+              "second": 0.9292543021032504,
+              "patch": 0.34,
+              "storm": 0.034
+            },
+            "d60": {
+              "a": 0.789,
+              "b": 0.211,
+              "tie": 0.0,
+              "first": 0.8164948453608247,
+              "second": 0.7631067961165049,
+              "patch": 0.472,
+              "storm": 0.041
+            },
+            "s60": {
+              "a": 0.997,
+              "b": 0.003,
+              "tie": 0.0,
+              "first": 1.0,
+              "second": 0.994059405940594,
+              "patch": 0.098,
+              "storm": 0.025
+            },
+            "g": {
+              "a": 0.797,
+              "b": 0.203,
+              "tie": 0.0,
+              "first": 0.7992277992277992,
+              "second": 0.7946058091286307,
+              "patch": 0.589,
+              "storm": 0.07
+            }
+          }
+        },
+        {
+          "cut": "Iono",
+          "copies_before": 1,
+          "weighted": 0.783679187817259,
+          "mean": 0.8405,
+          "worst": 0.745,
+          "patch": 0.4088333333333333,
+          "storm": 0.044333333333333336,
+          "cells": {
+            "t60": {
+              "a": 0.793,
+              "b": 0.207,
+              "tie": 0.0,
+              "first": 0.7835671342685371,
+              "second": 0.8023952095808383,
+              "patch": 0.494,
+              "storm": 0.042
+            },
+            "hedrick": {
+              "a": 0.745,
+              "b": 0.255,
+              "tie": 0.0,
+              "first": 0.7288801571709234,
+              "second": 0.7617107942973523,
+              "patch": 0.514,
+              "storm": 0.044
+            },
+            "unl": {
+              "a": 0.943,
+              "b": 0.057,
+              "tie": 0.0,
+              "first": 0.9509803921568627,
+              "second": 0.9346938775510204,
+              "patch": 0.312,
+              "storm": 0.031
+            },
+            "d60": {
+              "a": 0.773,
+              "b": 0.227,
+              "tie": 0.0,
+              "first": 0.773469387755102,
+              "second": 0.7725490196078432,
+              "patch": 0.461,
+              "storm": 0.056
+            },
+            "s60": {
+              "a": 0.996,
+              "b": 0.004,
+              "tie": 0.0,
+              "first": 0.99609375,
+              "second": 0.9959016393442623,
+              "patch": 0.089,
+              "storm": 0.016
+            },
+            "g": {
+              "a": 0.793,
+              "b": 0.207,
+              "tie": 0.0,
+              "first": 0.8098159509202454,
+              "second": 0.776908023483366,
+              "patch": 0.583,
+              "storm": 0.077
+            }
+          }
+        },
+        {
+          "cut": "Pok\u00e9 Pad",
+          "copies_before": 1,
+          "weighted": 0.7835258883248731,
+          "mean": 0.8405,
+          "worst": 0.716,
+          "patch": 0.41500000000000004,
+          "storm": 0.041833333333333333,
+          "cells": {
+            "t60": {
+              "a": 0.796,
+              "b": 0.204,
+              "tie": 0.0,
+              "first": 0.7937743190661478,
+              "second": 0.7983539094650206,
+              "patch": 0.492,
+              "storm": 0.038
+            },
+            "hedrick": {
+              "a": 0.716,
+              "b": 0.284,
+              "tie": 0.0,
+              "first": 0.7063492063492064,
+              "second": 0.7258064516129032,
+              "patch": 0.519,
+              "storm": 0.057
+            },
+            "unl": {
+              "a": 0.935,
+              "b": 0.065,
+              "tie": 0.0,
+              "first": 0.9459459459459459,
+              "second": 0.9248554913294798,
+              "patch": 0.328,
+              "storm": 0.025
+            },
+            "d60": {
+              "a": 0.784,
+              "b": 0.216,
+              "tie": 0.0,
+              "first": 0.8069815195071869,
+              "second": 0.7621832358674464,
+              "patch": 0.465,
+              "storm": 0.038
+            },
+            "s60": {
+              "a": 0.997,
+              "b": 0.003,
+              "tie": 0.0,
+              "first": 0.9960238568588469,
+              "second": 0.9979879275653923,
+              "patch": 0.102,
+              "storm": 0.021
+            },
+            "g": {
+              "a": 0.815,
+              "b": 0.185,
+              "tie": 0.0,
+              "first": 0.8443579766536965,
+              "second": 0.7839506172839507,
+              "patch": 0.584,
+              "storm": 0.072
+            }
+          }
+        },
+        {
+          "cut": "Lillie",
+          "copies_before": 2,
+          "weighted": 0.7825756345177666,
+          "mean": 0.8403333333333333,
+          "worst": 0.717,
+          "patch": 0.41650000000000004,
+          "storm": 0.043500000000000004,
+          "cells": {
+            "t60": {
+              "a": 0.801,
+              "b": 0.199,
+              "tie": 0.0,
+              "first": 0.7975708502024291,
+              "second": 0.8043478260869565,
+              "patch": 0.497,
+              "storm": 0.033
+            },
+            "hedrick": {
+              "a": 0.717,
+              "b": 0.283,
+              "tie": 0.0,
+              "first": 0.7450199203187251,
+              "second": 0.6887550200803213,
+              "patch": 0.535,
+              "storm": 0.054
+            },
+            "unl": {
+              "a": 0.939,
+              "b": 0.061,
+              "tie": 0.0,
+              "first": 0.941747572815534,
+              "second": 0.9360824742268041,
+              "patch": 0.332,
+              "storm": 0.031
+            },
+            "d60": {
+              "a": 0.806,
+              "b": 0.194,
+              "tie": 0.0,
+              "first": 0.8363636363636363,
+              "second": 0.7762376237623763,
+              "patch": 0.461,
+              "storm": 0.043
+            },
+            "s60": {
+              "a": 0.998,
+              "b": 0.002,
+              "tie": 0.0,
+              "first": 0.9979381443298969,
+              "second": 0.9980582524271845,
+              "patch": 0.105,
+              "storm": 0.025
+            },
+            "g": {
+              "a": 0.781,
+              "b": 0.219,
+              "tie": 0.0,
+              "first": 0.7677543186180422,
+              "second": 0.7954070981210856,
+              "patch": 0.569,
+              "storm": 0.075
+            }
+          }
+        },
+        {
+          "cut": "Energy Switch",
+          "copies_before": 2,
+          "weighted": 0.7814568527918782,
+          "mean": 0.8380000000000001,
+          "worst": 0.736,
+          "patch": 0.416,
+          "storm": 0.04466666666666667,
+          "cells": {
+            "t60": {
+              "a": 0.8,
+              "b": 0.2,
+              "tie": 0.0,
+              "first": 0.8,
+              "second": 0.8,
+              "patch": 0.497,
+              "storm": 0.051
+            },
+            "hedrick": {
+              "a": 0.736,
+              "b": 0.264,
+              "tie": 0.0,
+              "first": 0.7443609022556391,
+              "second": 0.7264957264957265,
+              "patch": 0.526,
+              "storm": 0.05
+            },
+            "unl": {
+              "a": 0.931,
+              "b": 0.069,
+              "tie": 0.0,
+              "first": 0.9259259259259259,
+              "second": 0.9363449691991786,
+              "patch": 0.331,
+              "storm": 0.035
+            },
+            "d60": {
+              "a": 0.781,
+              "b": 0.219,
+              "tie": 0.0,
+              "first": 0.8136272545090181,
+              "second": 0.7485029940119761,
+              "patch": 0.455,
+              "storm": 0.042
+            },
+            "s60": {
+              "a": 0.998,
+              "b": 0.002,
+              "tie": 0.0,
+              "first": 0.9980276134122288,
+              "second": 0.9979716024340771,
+              "patch": 0.094,
+              "storm": 0.02
+            },
+            "g": {
+              "a": 0.782,
+              "b": 0.218,
+              "tie": 0.0,
+              "first": 0.7821576763485477,
+              "second": 0.7818532818532818,
+              "patch": 0.593,
+              "storm": 0.07
+            }
+          }
+        },
+        {
+          "cut": "Nest Ball",
+          "copies_before": 4,
+          "weighted": 0.7786162436548223,
+          "mean": 0.8373333333333334,
+          "worst": 0.719,
+          "patch": 0.42050000000000004,
+          "storm": 0.050333333333333334,
+          "cells": {
+            "t60": {
+              "a": 0.79,
+              "b": 0.21,
+              "tie": 0.0,
+              "first": 0.805327868852459,
+              "second": 0.775390625,
+              "patch": 0.503,
+              "storm": 0.045
+            },
+            "hedrick": {
+              "a": 0.719,
+              "b": 0.281,
+              "tie": 0.0,
+              "first": 0.7002053388090349,
+              "second": 0.7368421052631579,
+              "patch": 0.525,
+              "storm": 0.042
+            },
+            "unl": {
+              "a": 0.943,
+              "b": 0.057,
+              "tie": 0.0,
+              "first": 0.9538152610441767,
+              "second": 0.9322709163346613,
+              "patch": 0.328,
+              "storm": 0.039
+            },
+            "d60": {
+              "a": 0.767,
+              "b": 0.233,
+              "tie": 0.0,
+              "first": 0.7705223880597015,
+              "second": 0.7629310344827587,
+              "patch": 0.452,
+              "storm": 0.051
+            },
+            "s60": {
+              "a": 0.994,
+              "b": 0.006,
+              "tie": 0.0,
+              "first": 0.9962546816479401,
+              "second": 0.9914163090128756,
+              "patch": 0.106,
+              "storm": 0.036
+            },
+            "g": {
+              "a": 0.811,
+              "b": 0.189,
+              "tie": 0.0,
+              "first": 0.8326612903225806,
+              "second": 0.7896825396825397,
+              "patch": 0.609,
+              "storm": 0.089
+            }
+          }
+        },
+        {
+          "cut": "Buddy-Buddy Poffin",
+          "copies_before": 4,
+          "weighted": 0.7772172588832488,
+          "mean": 0.8340000000000001,
+          "worst": 0.73,
+          "patch": 0.422,
+          "storm": 0.041833333333333333,
+          "cells": {
+            "t60": {
+              "a": 0.778,
+              "b": 0.222,
+              "tie": 0.0,
+              "first": 0.7842741935483871,
+              "second": 0.7718253968253969,
+              "patch": 0.494,
+              "storm": 0.039
+            },
+            "hedrick": {
+              "a": 0.73,
+              "b": 0.27,
+              "tie": 0.0,
+              "first": 0.7695390781563126,
+              "second": 0.6906187624750499,
+              "patch": 0.501,
+              "storm": 0.043
+            },
+            "unl": {
+              "a": 0.93,
+              "b": 0.07,
+              "tie": 0.0,
+              "first": 0.9338677354709419,
+              "second": 0.9261477045908184,
+              "patch": 0.346,
+              "storm": 0.039
+            },
+            "d60": {
+              "a": 0.791,
+              "b": 0.209,
+              "tie": 0.0,
+              "first": 0.8243801652892562,
+              "second": 0.7596899224806202,
+              "patch": 0.487,
+              "storm": 0.041
+            },
+            "s60": {
+              "a": 0.994,
+              "b": 0.006,
+              "tie": 0.0,
+              "first": 0.9919354838709677,
+              "second": 0.996031746031746,
+              "patch": 0.109,
+              "storm": 0.019
+            },
+            "g": {
+              "a": 0.781,
+              "b": 0.219,
+              "tie": 0.0,
+              "first": 0.8008298755186722,
+              "second": 0.7625482625482626,
+              "patch": 0.595,
+              "storm": 0.07
+            }
+          }
+        },
+        {
+          "cut": "Hop",
+          "copies_before": 2,
+          "weighted": 0.7771847715736041,
+          "mean": 0.8353333333333334,
+          "worst": 0.718,
+          "patch": 0.4146666666666667,
+          "storm": 0.043500000000000004,
+          "cells": {
+            "t60": {
+              "a": 0.782,
+              "b": 0.218,
+              "tie": 0.0,
+              "first": 0.7810526315789473,
+              "second": 0.7828571428571428,
+              "patch": 0.496,
+              "storm": 0.05
+            },
+            "hedrick": {
+              "a": 0.718,
+              "b": 0.282,
+              "tie": 0.0,
+              "first": 0.723404255319149,
+              "second": 0.7122153209109731,
+              "patch": 0.516,
+              "storm": 0.046
+            },
+            "unl": {
+              "a": 0.934,
+              "b": 0.066,
+              "tie": 0.0,
+              "first": 0.9318181818181818,
+              "second": 0.936046511627907,
+              "patch": 0.318,
+              "storm": 0.027
+            },
+            "d60": {
+              "a": 0.781,
+              "b": 0.219,
+              "tie": 0.0,
+              "first": 0.8170731707317073,
+              "second": 0.7460629921259843,
+              "patch": 0.474,
+              "storm": 0.038
+            },
+            "s60": {
+              "a": 0.996,
+              "b": 0.004,
+              "tie": 0.0,
+              "first": 0.9979919678714859,
+              "second": 0.9940239043824701,
+              "patch": 0.108,
+              "storm": 0.028
+            },
+            "g": {
+              "a": 0.801,
+              "b": 0.199,
+              "tie": 0.0,
+              "first": 0.8048780487804879,
+              "second": 0.797244094488189,
+              "patch": 0.576,
+              "storm": 0.072
+            }
+          }
+        },
+        {
+          "cut": "Mewtwo ex",
+          "copies_before": 3,
+          "weighted": 0.7724944162436549,
+          "mean": 0.8315,
+          "worst": 0.725,
+          "patch": 0.42816666666666664,
+          "storm": 0.057166666666666664,
+          "cells": {
+            "t60": {
+              "a": 0.803,
+              "b": 0.197,
+              "tie": 0.0,
+              "first": 0.800383877159309,
+              "second": 0.8058455114822547,
+              "patch": 0.518,
+              "storm": 0.047
+            },
+            "hedrick": {
+              "a": 0.725,
+              "b": 0.275,
+              "tie": 0.0,
+              "first": 0.7272727272727273,
+              "second": 0.722567287784679,
+              "patch": 0.526,
+              "storm": 0.059
+            },
+            "unl": {
+              "a": 0.931,
+              "b": 0.069,
+              "tie": 0.0,
+              "first": 0.9386503067484663,
+              "second": 0.923679060665362,
+              "patch": 0.325,
+              "storm": 0.042
+            },
+            "d60": {
+              "a": 0.749,
+              "b": 0.251,
+              "tie": 0.0,
+              "first": 0.7622641509433963,
+              "second": 0.7340425531914894,
+              "patch": 0.494,
+              "storm": 0.062
+            },
+            "s60": {
+              "a": 0.995,
+              "b": 0.005,
+              "tie": 0.0,
+              "first": 0.9959266802443992,
+              "second": 0.9941060903732809,
+              "patch": 0.128,
+              "storm": 0.041
+            },
+            "g": {
+              "a": 0.786,
+              "b": 0.214,
+              "tie": 0.0,
+              "first": 0.8045977011494253,
+              "second": 0.7656903765690377,
+              "patch": 0.578,
+              "storm": 0.092
+            }
+          }
+        },
+        {
+          "cut": "Clefairy",
+          "copies_before": 4,
+          "weighted": 0.7644426395939087,
+          "mean": 0.8261666666666666,
+          "worst": 0.714,
+          "patch": 0.4078333333333333,
+          "storm": 0.03183333333333333,
+          "cells": {
+            "t60": {
+              "a": 0.788,
+              "b": 0.212,
+              "tie": 0.0,
+              "first": 0.8164948453608247,
+              "second": 0.7611650485436893,
+              "patch": 0.507,
+              "storm": 0.024
+            },
+            "hedrick": {
+              "a": 0.74,
+              "b": 0.26,
+              "tie": 0.0,
+              "first": 0.7625754527162978,
+              "second": 0.7176938369781312,
+              "patch": 0.532,
+              "storm": 0.03
+            },
+            "unl": {
+              "a": 0.938,
+              "b": 0.062,
+              "tie": 0.0,
+              "first": 0.9401197604790419,
+              "second": 0.935871743486974,
+              "patch": 0.307,
+              "storm": 0.025
+            },
+            "d60": {
+              "a": 0.714,
+              "b": 0.286,
+              "tie": 0.0,
+              "first": 0.7687747035573123,
+              "second": 0.6578947368421053,
+              "patch": 0.461,
+              "storm": 0.026
+            },
+            "s60": {
+              "a": 0.996,
+              "b": 0.004,
+              "tie": 0.0,
+              "first": 0.9942307692307693,
+              "second": 0.9979166666666667,
+              "patch": 0.075,
+              "storm": 0.02
+            },
+            "g": {
+              "a": 0.781,
+              "b": 0.219,
+              "tie": 0.0,
+              "first": 0.790356394129979,
+              "second": 0.7724665391969407,
+              "patch": 0.565,
+              "storm": 0.066
+            }
+          }
+        },
+        {
+          "cut": "Lillie's Determination",
+          "copies_before": 2,
+          "weighted": 0.7582893401015228,
+          "mean": 0.8193333333333334,
+          "worst": 0.704,
+          "patch": 0.41500000000000004,
+          "storm": 0.044333333333333336,
+          "cells": {
+            "t60": {
+              "a": 0.77,
+              "b": 0.23,
+              "tie": 0.0,
+              "first": 0.765625,
+              "second": 0.7745901639344263,
+              "patch": 0.486,
+              "storm": 0.036
+            },
+            "hedrick": {
+              "a": 0.704,
+              "b": 0.296,
+              "tie": 0.0,
+              "first": 0.6921606118546845,
+              "second": 0.7169811320754716,
+              "patch": 0.534,
+              "storm": 0.043
+            },
+            "unl": {
+              "a": 0.915,
+              "b": 0.085,
+              "tie": 0.0,
+              "first": 0.9131274131274131,
+              "second": 0.91701244813278,
+              "patch": 0.334,
+              "storm": 0.037
+            },
+            "d60": {
+              "a": 0.756,
+              "b": 0.244,
+              "tie": 0.0,
+              "first": 0.7677824267782427,
+              "second": 0.7452107279693486,
+              "patch": 0.46,
+              "storm": 0.04
+            },
+            "s60": {
+              "a": 0.995,
+              "b": 0.005,
+              "tie": 0.0,
+              "first": 0.9942418426103646,
+              "second": 0.9958246346555324,
+              "patch": 0.093,
+              "storm": 0.022
+            },
+            "g": {
+              "a": 0.776,
+              "b": 0.224,
+              "tie": 0.0,
+              "first": 0.8032786885245902,
+              "second": 0.75,
+              "patch": 0.583,
+              "storm": 0.088
+            }
+          }
+        },
+        {
+          "cut": "Telepathic Psychic Energy",
+          "copies_before": 2,
+          "weighted": 0.7520010152284263,
+          "mean": 0.8178333333333333,
+          "worst": 0.703,
+          "patch": 0.42583333333333334,
+          "storm": 0.043166666666666666,
+          "cells": {
+            "t60": {
+              "a": 0.779,
+              "b": 0.221,
+              "tie": 0.0,
+              "first": 0.7837837837837838,
+              "second": 0.7745664739884393,
+              "patch": 0.515,
+              "storm": 0.043
+            },
+            "hedrick": {
+              "a": 0.703,
+              "b": 0.297,
+              "tie": 0.0,
+              "first": 0.7133620689655172,
+              "second": 0.6940298507462687,
+              "patch": 0.545,
+              "storm": 0.057
+            },
+            "unl": {
+              "a": 0.94,
+              "b": 0.06,
+              "tie": 0.0,
+              "first": 0.9511278195488722,
+              "second": 0.9273504273504274,
+              "patch": 0.318,
+              "storm": 0.034
+            },
+            "d60": {
+              "a": 0.75,
+              "b": 0.25,
+              "tie": 0.0,
+              "first": 0.7641129032258065,
+              "second": 0.7361111111111112,
+              "patch": 0.472,
+              "storm": 0.036
+            },
+            "s60": {
+              "a": 0.994,
+              "b": 0.006,
+              "tie": 0.0,
+              "first": 0.9956616052060737,
+              "second": 0.9925788497217068,
+              "patch": 0.101,
+              "storm": 0.02
+            },
+            "g": {
+              "a": 0.741,
+              "b": 0.259,
+              "tie": 0.0,
+              "first": 0.7561904761904762,
+              "second": 0.7242105263157895,
+              "patch": 0.604,
+              "storm": 0.069
+            }
+          }
+        },
+        {
+          "cut": "Maximum Belt",
+          "copies_before": 1,
+          "weighted": 0.7473390862944163,
+          "mean": 0.8135,
+          "worst": 0.682,
+          "patch": 0.4383333333333333,
+          "storm": 0.043833333333333335,
+          "cells": {
+            "t60": {
+              "a": 0.773,
+              "b": 0.227,
+              "tie": 0.0,
+              "first": 0.7820267686424475,
+              "second": 0.7631027253668763,
+              "patch": 0.516,
+              "storm": 0.049
+            },
+            "hedrick": {
+              "a": 0.722,
+              "b": 0.278,
+              "tie": 0.0,
+              "first": 0.7589641434262948,
+              "second": 0.6847389558232931,
+              "patch": 0.537,
+              "storm": 0.055
+            },
+            "unl": {
+              "a": 0.935,
+              "b": 0.065,
+              "tie": 0.0,
+              "first": 0.949343339587242,
+              "second": 0.9186295503211992,
+              "patch": 0.365,
+              "storm": 0.031
+            },
+            "d60": {
+              "a": 0.682,
+              "b": 0.318,
+              "tie": 0.0,
+              "first": 0.7085828343313373,
+              "second": 0.655310621242485,
+              "patch": 0.535,
+              "storm": 0.035
+            },
+            "s60": {
+              "a": 0.994,
+              "b": 0.006,
+              "tie": 0.0,
+              "first": 0.9903846153846154,
+              "second": 0.9979166666666667,
+              "patch": 0.098,
+              "storm": 0.014
+            },
+            "g": {
+              "a": 0.775,
+              "b": 0.225,
+              "tie": 0.0,
+              "first": 0.7922330097087379,
+              "second": 0.756701030927835,
+              "patch": 0.579,
+              "storm": 0.079
+            }
+          }
+        },
+        {
+          "cut": "Latias ex",
+          "copies_before": 1,
+          "weighted": 0.7333441624365483,
+          "mean": 0.8038333333333334,
+          "worst": 0.673,
+          "patch": 0.4871666666666667,
+          "storm": 0.06633333333333334,
+          "cells": {
+            "t60": {
+              "a": 0.754,
+              "b": 0.246,
+              "tie": 0.0,
+              "first": 0.7662082514734774,
+              "second": 0.7413441955193483,
+              "patch": 0.542,
+              "storm": 0.04
+            },
+            "hedrick": {
+              "a": 0.674,
+              "b": 0.326,
+              "tie": 0.0,
+              "first": 0.6746031746031746,
+              "second": 0.6733870967741935,
+              "patch": 0.594,
+              "storm": 0.056
+            },
+            "unl": {
+              "a": 0.936,
+              "b": 0.064,
+              "tie": 0.0,
+              "first": 0.9279661016949152,
+              "second": 0.9431818181818182,
+              "patch": 0.44,
+              "storm": 0.052
+            },
+            "d60": {
+              "a": 0.793,
+              "b": 0.207,
+              "tie": 0.0,
+              "first": 0.816017316017316,
+              "second": 0.7732342007434945,
+              "patch": 0.422,
+              "storm": 0.085
+            },
+            "s60": {
+              "a": 0.993,
+              "b": 0.007,
+              "tie": 0.0,
+              "first": 0.9940476190476191,
+              "second": 0.9919354838709677,
+              "patch": 0.194,
+              "storm": 0.038
+            },
+            "g": {
+              "a": 0.673,
+              "b": 0.327,
+              "tie": 0.0,
+              "first": 0.7033195020746889,
+              "second": 0.6447876447876448,
+              "patch": 0.731,
+              "storm": 0.127
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "rejected": {
+    "cut": "Night Stretcher",
+    "weighted": 0.7901299492385787,
+    "mean": 0.8453333333333334,
+    "worst": 0.747,
+    "cells": {
+      "t60": {
+        "a": 0.781,
+        "b": 0.219,
+        "tie": 0.0,
+        "first": 0.7735470941883767,
+        "second": 0.7884231536926147,
+        "patch": 0.51,
+        "storm": 0.04
+      },
+      "hedrick": {
+        "a": 0.747,
+        "b": 0.253,
+        "tie": 0.0,
+        "first": 0.7521008403361344,
+        "second": 0.7423664122137404,
+        "patch": 0.536,
+        "storm": 0.057
+      },
+      "unl": {
+        "a": 0.945,
+        "b": 0.055,
+        "tie": 0.0,
+        "first": 0.9642147117296223,
+        "second": 0.9255533199195171,
+        "patch": 0.357,
+        "storm": 0.026
+      },
+      "d60": {
+        "a": 0.798,
+        "b": 0.202,
+        "tie": 0.0,
+        "first": 0.8181818181818182,
+        "second": 0.7790697674418605,
+        "patch": 0.483,
+        "storm": 0.052
+      },
+      "s60": {
+        "a": 0.997,
+        "b": 0.003,
+        "tie": 0.0,
+        "first": 0.9961389961389961,
+        "second": 0.9979253112033195,
+        "patch": 0.105,
+        "storm": 0.025
+      },
+      "g": {
+        "a": 0.804,
+        "b": 0.196,
+        "tie": 0.0,
+        "first": 0.8161616161616162,
+        "second": 0.7920792079207921,
+        "patch": 0.591,
+        "storm": 0.08
+      }
+    }
+  },
+  "list": [
+    "Clefairy",
+    "Clefairy",
+    "Clefairy",
+    "Clefairy",
+    "Mewtwo ex",
+    "Mewtwo ex",
+    "Mewtwo ex",
+    "Clefable",
+    "Clefable ex",
+    "Clefable ex",
+    "Clefable ex",
+    "Seeker",
+    "Nest Ball",
+    "Nest Ball",
+    "Nest Ball",
+    "Nest Ball",
+    "Buddy-Buddy Poffin",
+    "Buddy-Buddy Poffin",
+    "Buddy-Buddy Poffin",
+    "Buddy-Buddy Poffin",
+    "Latias ex",
+    "Ultra Ball",
+    "Hop",
+    "Hop",
+    "Lillie",
+    "Lillie",
+    "Lillie's Determination",
+    "Lillie's Determination",
+    "Arven",
+    "Boss's Orders",
+    "Boss's Orders",
+    "Iono",
+    "Switch",
+    "Switch",
+    "Energy Switch",
+    "Energy Switch",
+    "Night Stretcher",
+    "Maximum Belt",
+    "Battle Cage",
+    "Battle Cage",
+    "Battle Cage",
+    "Telepathic Psychic Energy",
+    "Telepathic Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Pok\u00e9 Pad",
+    "Wondrous Patch",
+    "Wondrous Patch"
+  ],
+  "partial": false
+}

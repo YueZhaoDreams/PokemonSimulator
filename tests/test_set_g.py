@@ -150,6 +150,7 @@ def test_set_g_printings_match_carpet_attacks():
     assert parse_effects(spin.text, "10×") == [{"kind": "coin_times", "flips": 3, "per": 10}]
     assert _tcgdex_low("me03-031") == "https://assets.tcgdex.net/en/me/me03/031/low.webp"
     assert _tcgdex_low("pl1-83") == "https://assets.tcgdex.net/en/pl/pl1/83/low.webp"
+    assert _tcgdex_low("xy3-32") == "https://assets.tcgdex.net/en/xy/xy3/32/low.webp"
     missy = fallback_named("Misdreavus")
     assert missy.catalog_id == "pl1-83"
     assert missy.hp == 50

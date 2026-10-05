@@ -798,6 +798,8 @@ def _tcgdex_low(card_id: str) -> str:
         folder = "pl"
     elif series.startswith("dp"):
         folder = "dp"
+    elif series.startswith("xy"):
+        folder = "xy"
     else:
         folder = series
     return f"https://assets.tcgdex.net/en/{folder}/{series}/{number}/low.webp"
