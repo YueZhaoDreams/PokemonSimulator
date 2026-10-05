@@ -11,7 +11,7 @@ from app.engine.effects import (
     parse_effects,
     parse_trainer_effects,
 )
-from app.engine.game import ST_PARALYZED, Game, Pokemon
+from app.engine.game import ST_CONFUSED, ST_PARALYZED, Game, Pokemon
 from app.engine.models import Card, expanded_60_rules
 from app.engine.strategies import StrategySpec
 from app.seed_data import SET_M60_NAMES, build_fallback_deck, fallback_named
@@ -432,6 +432,40 @@ def test_sky_field_replaces_battle_cage_and_uses_the_printed_limit():
     assert len(game.players["a"].bench) == sky["leave_limit"]
     assert len(game.players["b"].bench) == sky["leave_limit"]
 
+    lost = _game(["Sky Field"] + ["Igglybuff"] * 8, ["Igglybuff"] * 8)
+    owner = lost.players["a"]
+    lost._set_stadium(card, owner=owner)
+    for who in ("a", "b"):
+        player = lost.players[who]
+        ids = _idxs(player, "Igglybuff")
+        _seat(player, ids[0], ids[1:7])
+    sky_i = _take(owner, "Sky Field", 1)[0]
+    owner.discard.append(sky_i)
+    assert lost._lost_zone_stadium() is True
+    assert sky_i in owner.lost_zone
+    assert lost.stadium_name is None
+    assert lost.stadium_owner is None
+    assert len(owner.bench) == sky["leave_limit"]
+    assert len(lost.players["b"].bench) == sky["leave_limit"]
+
+    widened_game = _game(["Igglybuff"] * 8, ["Igglybuff"] * 8)
+    widened_early = Card(
+        catalog_id="sky-lost",
+        name="Wide Bench",
+        category="Trainer",
+        trainer_kind="stadium",
+        text=alt,
+        retreat=0,
+    )
+    widened_game._set_stadium(widened_early, owner=widened_game.players["b"])
+    for who in ("a", "b"):
+        player = widened_game.players[who]
+        ids = _idxs(player, "Igglybuff")
+        _seat(player, ids[0], ids[1:7])
+    assert widened_game._lost_zone_stadium() is True
+    assert len(widened_game.players["a"].bench) == parsed["leave_limit"]
+    assert len(widened_game.players["b"].bench) == parsed["leave_limit"]
+
     widened = Card(
         catalog_id="sky-alt",
         name="Wide Bench",
@@ -625,6 +659,7 @@ def test_apex_dragon_copies_trifrost_and_is_once_per_game():
     assert [mon.damage for mon in foe.bench] == [110, 110]
     assert me.active.energy == []
     assert me.vstar_used is True
+    assert game.events.get("vstar_power") == 1
     me.active.energy.extend(dragons)
     for card_i in dragons:
         if card_i in me.discard:
@@ -635,6 +670,36 @@ def test_apex_dragon_copies_trifrost_and_is_once_per_game():
     game._scrap_illegal_energy(me, me.bench[0])
     assert me.bench[0].energy == []
     assert donor in me.discard
+
+
+def test_confusion_tails_does_not_spend_the_vstar_power():
+    game = _game(
+        ["Mew ex", "Igglybuff", "Igglybuff"],
+        ["Regidrago VSTAR", "Kyurem", "Double Dragon Energy", "Double Dragon Energy"],
+        strat_b="regidrago",
+    )
+    foe = game.players["a"]
+    me = game.players["b"]
+    _seat(foe, _idxs(foe, "Mew ex")[0], _idxs(foe, "Igglybuff"))
+    _seat(me, _idxs(me, "Regidrago VSTAR")[0], [])
+    me.discard.extend(_take(me, "Kyurem", 1))
+    _attach(me, me.active, "Double Dragon Energy", 2)
+    me.active.status = ST_CONFUSED
+
+    class _Tails:
+        def random(self) -> float:
+            return 0.0
+
+    game.rng = _Tails()
+    game._attack(me, foe, "b")
+    assert me.vstar_used is False
+    assert game.events.get("vstar_power") is None
+    assert me.active.damage == 30
+    assert foe.active.damage == 0
+    me.active.status = 0
+    game._attack(me, foe, "b")
+    assert me.vstar_used is True
+    assert foe.active.damage == 110
 
 
 def test_path_to_the_peak_shuts_rule_box_abilities():

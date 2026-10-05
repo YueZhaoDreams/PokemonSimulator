@@ -5057,9 +5057,10 @@ class Game:
         atk = self._choose_attack(me, foe, strat)
         if atk is None:
             return
-        if any(e.get("kind") == "once_per_game" and e.get("flag") == "vstar" for e in atk.effects):
-            me.vstar_used = True
-            self._bump("vstar_power")
+        # Apex Dragon is replaced by the copied attack, which has no VSTAR sentence.
+        uses_vstar = any(
+            e.get("kind") == "once_per_game" and e.get("flag") == "vstar" for e in atk.effects
+        )
         resolved = self._resolved_attack(me, foe, atk)
         attacker = me.card(me.active.card_i)
         defender = foe.card(foe.active.card_i)
@@ -5093,6 +5094,10 @@ class Game:
                 foe.discard.append(foe.active.tool)
                 foe.active.tool = None
                 self._bump("crushing_short")
+
+        if uses_vstar:
+            me.vstar_used = True
+            self._bump("vstar_power")
 
         dmg = self._raw_attack_damage(me, foe, me.active, atk)
         moons = next((e for e in atk.effects if e.get("kind") == "discard_hand_energy_bonus"), None)
@@ -8296,11 +8301,9 @@ class Game:
                 if card.name.lower() == name and (card.trainer_kind or "").lower() == "stadium":
                     player.discard.remove(card_i)
                     player.lost_zone.append(card_i)
-                    self.stadium_name = None
-                    self.stadium_effects = []
+                    self._clear_stadium()
                     return True
-        self.stadium_name = None
-        self.stadium_effects = []
+        self._clear_stadium()
         return True
 
     def _lost_vacuum(self, me: Player, foe: Player) -> None:
