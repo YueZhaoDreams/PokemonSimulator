@@ -181,6 +181,46 @@ def test_losing_the_tera_or_the_stadium_discards_down_to_five():
     assert any(line.startswith("A ") for line in discards)
 
 
+def test_any_way_the_last_tera_leaves_drops_the_bench_to_five():
+    def board():
+        game = _game(["Mew ex", "Terapagos ex"] + ["Igglybuff"] * 8, ["Igglybuff"])
+        game._set_stadium(fallback_named("Area Zero Underdepths"), owner=game.players["a"])
+        owner = game.players["a"]
+        iggly = _idxs(owner, "Igglybuff")
+        _seat(owner, _idxs(owner, "Mew ex")[0], [_idxs(owner, "Terapagos ex")[0]] + iggly[:7])
+        return game, owner
+
+    returned, owner = board()
+    anchor = next(mon for mon in owner.bench if owner.card(mon.card_i).name == "Terapagos ex")
+    assert returned._return_mon_to_hand(owner, anchor) is True
+    assert len(owner.bench) == 5
+    assert all(owner.card(mon.card_i).name == "Igglybuff" for mon in owner.bench)
+
+    picked, owner = board()
+    anchor = next(mon for mon in owner.bench if owner.card(mon.card_i).name == "Terapagos ex")
+    anchor.damage = 10
+    picked._acerola(owner, "a")
+    assert len(owner.bench) == 5
+    assert all(owner.card(mon.card_i).name == "Igglybuff" for mon in owner.bench)
+    assert owner.card(owner.active.card_i).name == "Mew ex"
+
+    evolved, owner = board()
+    anchor = next(mon for mon in owner.bench if owner.card(mon.card_i).name == "Terapagos ex")
+    seated = {owner.active.card_i, *(mon.card_i for mon in owner.bench)}
+    spare = next(i for i in _idxs(owner, "Igglybuff") if i not in seated)
+    owner.hand.append(spare)
+    evolved._do_evolve(owner, anchor, spare)
+    assert len(owner.bench) == 5
+    assert all(owner.card(mon.card_i).name == "Igglybuff" for mon in owner.bench)
+
+    lost, owner = board()
+    anchor = next(mon for mon in owner.bench if owner.card(mon.card_i).name == "Terapagos ex")
+    lost._lost_zone_pokemon(owner, anchor)
+    assert len(owner.bench) == 5
+    assert all(owner.card(mon.card_i).name == "Igglybuff" for mon in owner.bench)
+    assert anchor.card_i in owner.lost_zone
+
+
 def test_beatdown_counts_mew_and_bouncy_does_not():
     names = ["Mew ex", "Terapagos ex"] + ["Igglybuff"] * 8
     game = _game(names, ["Igglybuff"])

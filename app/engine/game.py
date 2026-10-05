@@ -1218,6 +1218,7 @@ class Game:
         target.card_i = evo_i
         target.played_turn = self.turn
         target.ability_used = False
+        self._enforce_tera_bench(me)
         evo_name = me.card(evo_i).name.lower()
         self._bump(f"saw_play:{me.card(evo_i).name}")
         if "mega clefable" in evo_name:
@@ -3725,6 +3726,7 @@ class Game:
             me.active = None
         elif mon in me.bench:
             me.bench.remove(mon)
+        self._enforce_tera_bench(me)
 
     def _promote_if_empty(self, me: Player) -> None:
         if me.active is None and me.bench:
@@ -8640,6 +8642,7 @@ class Game:
             me.active = me.bench.pop(0)
         elif mon in me.bench:
             me.bench.remove(mon)
+        self._enforce_tera_bench(me)
 
     def _prankish_pick(self, foe: Player) -> int | None:
         if not foe.active or not foe.active.energy:
@@ -13577,6 +13580,7 @@ class Game:
             me.active = None
         else:
             me.bench = [other for other in me.bench if other is not mon]
+        self._enforce_tera_bench(me)
 
     def _dance_of_the_ancients(self, me: Player, mon: Pokemon, effect: dict) -> bool:
         if effect.get("require_bench") and mon is me.active:
