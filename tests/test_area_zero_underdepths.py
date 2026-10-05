@@ -108,6 +108,20 @@ def test_area_zero_and_terapagos_parse_the_printed_sentences():
     assert "benched_pokemon_times" not in baby
 
 
+def test_opening_can_hold_terapagos_before_the_opponent_exists():
+    names = ["Mew ex", "Terapagos ex", "Area Zero Underdepths"] + ["Igglybuff"] * 4 + ["Spiky Energy"] * 2
+    for seed in range(40):
+        Game(
+            build_fallback_deck(_pad(names)),
+            build_fallback_deck(_pad(["Igglybuff"])),
+            standard_60_rules(),
+            StrategySpec.from_dict("mew_baby"),
+            StrategySpec.from_dict("mew_baby"),
+            Random(seed),
+            first="a",
+        )
+
+
 def test_area_zero_limit_is_per_player_and_needs_a_tera():
     game = _game(["Terapagos ex"] + ["Igglybuff"] * 8, ["Igglybuff"] * 8)
     owner = game.players["a"]

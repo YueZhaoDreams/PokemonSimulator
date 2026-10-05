@@ -2388,9 +2388,18 @@ class Game:
         return any(self._is_tera_card(player.card(mon.card_i)) for mon in player.in_play())
 
     def _mew_colorless_ready(self, me: Player) -> int:
-        """Colorless units already on Mew ex, plus one attach still available this turn."""
+        """Colorless units already on Mew ex, plus one attach still available this turn.
+
+        Opening calls this before the opponent exists, so the count does not go
+        through prize comparison.
+        """
         mon = next((m for m in me.in_play() if me.card(m.card_i).name.lower() == "mew ex"), None)
-        have = len(self._energy_pool(me, mon)) if mon is not None else 0
+        have = 0
+        if mon is not None:
+            host = me.card(mon.card_i)
+            for energy_i in mon.energy:
+                units = energy_provided(me.card(energy_i), prizes_behind=False, host=host)
+                have += sum(1 for unit in units if unit in {"Colorless", "Any"})
         if not me.energy_attached and self._hand_has_attacker_counters(me):
             have += 1
         return have
