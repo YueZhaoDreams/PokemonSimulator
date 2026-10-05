@@ -292,6 +292,30 @@ def test_benched_tera_takes_no_attack_damage_but_still_takes_counters():
     assert me.active.damage == 40
 
 
+def test_own_attack_damage_misses_a_benched_tera():
+    text = (
+        "This attack also does 40 damage to 1 of your Benched Pokémon. "
+        "(Don't apply Weakness and Resistance for Benched Pokémon.)"
+    )
+    hit = _kind(parse_effects(text), "self_bench_damage")
+    assert hit["amount"] == 40
+
+    game = _game(["Zekrom", "Terapagos ex", "Igglybuff"], ["Igglybuff"])
+    me = game.players["a"]
+    _seat(me, _idxs(me, "Zekrom")[0], [_idxs(me, "Terapagos ex")[0], _idxs(me, "Igglybuff")[0]])
+    game._self_bench_damage(me, hit["amount"])
+    tera = next(mon for mon in me.bench if me.card(mon.card_i).name == "Terapagos ex")
+    baby = next(mon for mon in me.bench if me.card(mon.card_i).name == "Igglybuff")
+    assert tera.damage == 0
+    assert baby.damage == 40
+
+    alone = _game(["Zekrom", "Terapagos ex"], ["Igglybuff"])
+    owner = alone.players["a"]
+    _seat(owner, _idxs(owner, "Zekrom")[0], [_idxs(owner, "Terapagos ex")[0]])
+    alone._self_bench_damage(owner, hit["amount"])
+    assert owner.bench[0].damage == 0
+
+
 def test_mew_baby_plays_area_zero_for_the_burst_and_not_over_it():
     names = ["Mew ex", "Terapagos ex"] + ["Igglybuff"] * 5 + ["Area Zero Underdepths", "Battle Cage"] + ["Spiky Energy"] * 2
     game = _game(names, ["Igglybuff"])

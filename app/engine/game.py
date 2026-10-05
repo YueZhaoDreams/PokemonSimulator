@@ -11754,15 +11754,19 @@ class Game:
         if amount <= 0 or not me.bench:
             return
         protect = {"clefairy", "munkidori", "flutter mane", "indeedee"}
+        # Printed Tera rule: attack damage, including your own, does nothing on the Bench.
+        open_bench = [m for m in me.bench if not self._benched_attack_damage_prevented(me, m)]
+        pool = open_bench or me.bench
         dest = max(
-            me.bench,
+            pool,
             key=lambda m: (
                 0 if me.card(m.card_i).name.lower() in protect else 1,
                 self._max_hp(me, m) - m.damage,
             ),
         )
-        dest.damage += amount
-        self._log(f"{me.card(dest.card_i).name} takes {amount} from own attack")
+        self._add_attack_damage(me, dest, amount)
+        taken = 0 if self._benched_attack_damage_prevented(me, dest) else amount
+        self._log(f"{me.card(dest.card_i).name} takes {taken} from own attack")
 
     def _move_opp_active_energy_to_bench(self, foe: Player) -> None:
         if not foe.active or not foe.active.energy or not foe.bench:
