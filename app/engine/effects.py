@@ -564,6 +564,14 @@ def parse_ability_effects(text: str) -> list[dict[str, Any]]:
     if "just played" in t and "evolved" in t and "evolve" in t:
         effects.append({"kind": "evolve_just_played_or_evolved"})
 
+    # Tera rule printed on the Pokémon. Area Zero looks for this sentence, not the name.
+    if (
+        "as long as this pokemon is on your bench" in t
+        and "prevent all damage done to this pokemon by attacks" in t
+    ):
+        effects.append({"kind": "tera"})
+        effects.append({"kind": "prevent_attack_damage_while_benched"})
+
     _extend_expanded_ability_effects(t, effects)
     return effects
 
@@ -678,6 +686,12 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
         if n:
             per = int(n.group(1))
         effects.append({"kind": "benched_30hp_pokemon_times", "per": per})
+
+    if "if you go second" in t and (
+        "can't use this attack during your first turn" in t
+        or "cannot use this attack during your first turn" in t
+    ):
+        effects.append({"kind": "no_attack_second_first_turn"})
 
     if "draw" in t and "search your deck" not in t:
         until = parse_draw_until_hand(t)
@@ -908,6 +922,10 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
         elif "discarded" not in t:
             hand_times = re.search(r"does (\d+) damage for each card in your hand", t)
             coin_times = re.search(r"flip (\d+) coins?.*?for each heads", t)
+            own_bench = re.search(
+                r"this attack does (\d+) damage for each of your benched pokemon",
+                t,
+            )
             if hand_times:
                 effects.append({"kind": "hand_count_times", "per": int(hand_times.group(1))})
             elif coin_times:
@@ -918,6 +936,10 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
                         "per": parse_damage(damage_raw) or 10,
                     }
                 )
+            elif own_bench and "maximum hp" not in t and "30 hp" not in t:
+                # Unified Beatdown: 30 for each benched Pokémon. The printed "30×"
+                # is the per-Pokémon amount, not a base plus a bonus.
+                effects.append({"kind": "benched_pokemon_times", "per": int(own_bench.group(1))})
             else:
                 effects.append({"kind": "times", "note": damage_raw or text})
 
@@ -1472,6 +1494,30 @@ def _extend_expanded_ability_effects(t: str, effects: list[dict[str, Any]]) -> N
                 "raises": True,
                 "leave_limit": int(leave.group(1)) if leave else None,
                 "owner_discards_first": "owner of this card discards first" in flat,
+            }
+        )
+    area = re.search(
+        r"each player who has any tera pokemon in play can have up to (\d+) pokemon on their bench",
+        flat,
+    )
+    if area:
+        lose = re.search(
+            r"no longer has any tera pokemon in play, that player discards pokemon from their bench until they have (\d+)",
+            flat,
+        )
+        leave = re.search(
+            r"when this card leaves play, both players discard pokemon from their bench until they have (\d+)",
+            flat,
+        )
+        effects.append(
+            {
+                "kind": "stadium_bench_limit",
+                "limit": int(area.group(1)),
+                "raises": True,
+                "require_tera": True,
+                "lose_tera_limit": int(lose.group(1)) if lose else None,
+                "leave_limit": int(leave.group(1)) if leave else None,
+                "owner_discards_first": "the player who played this card discards first" in flat,
             }
         )
     mountain = re.search(

@@ -232,7 +232,7 @@ class Game:
         if strat.name == "celebration":
             ace_cards.sort(key=lambda i: self._celebration_bench_rank(player.card(i).name.lower()))
         for card_i in ace_cards:
-            if len(player.bench) >= self._bench_limit():
+            if len(player.bench) >= self._bench_limit(player):
                 break
             # Opening runs inside _deal, before the opponent exists. Count Mew ex
             # directly. Bouncy Circle does not count a 160 HP bench Pokémon.
@@ -249,16 +249,20 @@ class Game:
         reserve = 1 if aces and not ace_out else 0
         if aces:
             self.rng.shuffle(fillers)
-            cap = self._bench_limit() - reserve
+            cap = self._bench_limit(player) - reserve
             for card_i in fillers:
                 if len(player.bench) >= cap:
                     break
+                if strat.name in {"mew_baby", "baby"} and not self._wants_in_play(
+                    player, player.card(card_i), strat
+                ):
+                    continue
                 player.hand.remove(card_i)
                 player.bench.append(Pokemon(card_i=card_i, played_turn=0))
                 self._bump(f"saw_play:{player.card(card_i).name}")
         else:
             self.rng.shuffle(remaining)
-            for card_i in remaining[: self._bench_limit()]:
+            for card_i in remaining[: self._bench_limit(player)]:
                 player.hand.remove(card_i)
                 player.bench.append(Pokemon(card_i=card_i, played_turn=0))
                 self._bump(f"saw_play:{player.card(card_i).name}")
@@ -396,6 +400,11 @@ class Game:
         # A second Mew ex adds none of that damage and retreats for 0, so it stays in hand.
         if strat.one_mew and strat.name in {"mew_baby", "baby"} and name == "mew ex" and copies >= 1:
             return False
+        if strat.name in {"mew_baby", "baby"} and self._is_tera_card(card):
+            # One Tera anchor, and only once the burst can use Area Zero.
+            if copies >= 1:
+                return False
+            return self._mew_burst_ready(player) and len(player.bench) < self._bench_limit(player)
 
         if strat.name == "celebration":
             caps = {
@@ -1055,7 +1064,14 @@ class Game:
                 me.active = Pokemon(card_i=card_i, played_turn=self.turn)
                 self._bump(f"saw_play:{card.name}")
                 self._log(f"{me.name} promotes {card.name}")
-            elif len(me.bench) < self._bench_limit():
+            elif len(me.bench) < self._bench_limit(me):
+                if (
+                    strat.name in {"mew_baby", "baby"}
+                    and self._mew_hold_tera_slot(me)
+                    and not self._is_tera_card(card)
+                    and len(me.bench) >= self._bench_limit(me) - 1
+                ):
+                    continue
                 me.hand.remove(card_i)
                 me.bench.append(Pokemon(card_i=card_i, played_turn=self.turn))
                 self._bump(f"saw_play:{card.name}")
@@ -1068,8 +1084,9 @@ class Game:
         reserve = 0 if ace_out else 1
         if self.rng.random() > strat.bench_fill and len(me.bench) >= 1:
             return
+        hold_tera = 1 if strat.name in {"mew_baby", "baby"} and self._mew_hold_tera_slot(me) else 0
         basics = [i for i in list(me.hand) if self._is_playable_pokemon(me.card(i))]
-        while basics and len(me.bench) < self._bench_limit() - reserve:
+        while basics and len(me.bench) < self._bench_limit(me) - reserve - hold_tera:
             card_i = basics.pop(0)
             if card_i not in me.hand:
                 continue
@@ -1366,14 +1383,15 @@ class Game:
                         me.supporter_used = False
                     return
                 self._log(f"{me.name} plays {card.name}")
+                self._mew_refresh_bench(me, strat)
                 continue
             if name not in {"ultra ball"}:
                 me.discard.append(found)
             forced_bounce = False
             if strat.name in {"mew_baby", "baby"} and self._is_bounce_supporter(card):
-                # Penny's printed target is one Basic. This line is the damaged Mew ex
-                # whose Energy would be lost if it stayed in the Active Spot.
-                self._forced_bounce_target = self._mew_penny_target(me, foe)
+                # Penny's printed target is one Basic. The damaged Mew ex comes first.
+                # Otherwise a Baby opens the bench spot Terapagos ex needs.
+                self._forced_bounce_target = self._mew_penny_target(me, foe) or self._mew_tera_slot_bounce(me)
                 forced_bounce = True
             try:
                 self._resolve_trainer(me, foe, card, who=who, card_i=found)
@@ -1381,6 +1399,7 @@ class Game:
                 if forced_bounce:
                     self._forced_bounce_target = None
             self._log(f"{me.name} plays {card.name}")
+            self._mew_refresh_bench(me, strat)
 
     def _pick_trainer(self, me: Player) -> int | None:
         """Prefer search items (balls) when key Pokémon are not yet available."""
@@ -1424,7 +1443,7 @@ class Game:
             elif name in {"ultra ball", "poké ball", "poke ball"}:
                 score += 3
             elif name in {"nest ball", "nesting ball"}:
-                slots = self._bench_limit() - len(me.bench)
+                slots = self._bench_limit(me) - len(me.bench)
                 aces = {n.lower() for n in strat.search_aces}
                 copies = sum(1 for n in self._in_play_names(me) if n in aces)
                 if copies >= max(1, strat.max_ace_copies) and strat.name == "demolish":
@@ -1492,7 +1511,7 @@ class Game:
                 else:
                     score -= 5
             elif name in {"buddy-buddy poffin", "buddy buddy poffin"}:
-                slots = self._bench_limit() - len(me.bench)
+                slots = self._bench_limit(me) - len(me.bench)
                 if strat.name in {"mew_baby", "baby"}:
                     score += 25 if slots > 0 else -10
                 elif strat.name == "phantom":
@@ -1709,12 +1728,22 @@ class Game:
                     score += 8
                 else:
                     score += 1
+            elif name == "area zero underdepths" and strat.name in {"mew_baby", "baby"}:
+                if (self.stadium_name or "").lower() == "area zero underdepths":
+                    score -= 20
+                elif self._player_has_tera(me) and self._mew_burst_ready(me):
+                    # Above Battle Cage and Poffin, so the burst stadium lands first.
+                    score += 32
+                else:
+                    score -= 20
             elif name == "battle cage":
                 if self.stadium_name == "Battle Cage":
                     score -= 6
                 elif strat.name == "party" and self._keep_moonlight_stadium(me):
                     # Early Party pivot stays up. Cage replaces it once that window closes.
                     score -= 8
+                elif strat.name in {"mew_baby", "baby"} and self._mew_keep_area_zero(me):
+                    score -= 30
                 elif strat.name in {"mew_baby", "baby"}:
                     score += 22 if self._facing_phantom(me) else 15
                 elif strat.name == "party" and self._metronome_line_this_turn(me, foe):
@@ -1904,7 +1933,13 @@ class Game:
                 score += 10 if len(me.hand) <= 3 else 2
             elif name == "penny" and strat.name in {"mew_baby", "baby"}:
                 # Above Research and Iono. Boss and the saving Arven are scored higher.
-                score += 34 if self._mew_penny_target(me, foe) is not None else -20
+                # A full bench needs one Baby bounced before Terapagos ex can be played.
+                if self._mew_penny_target(me, foe) is not None:
+                    score += 34
+                elif self._mew_needs_penny_for_tera(me):
+                    score += 28
+                else:
+                    score -= 20
             elif name == "drayton":
                 score += 13 if me.deck else -2
             elif name == "lacey":
@@ -2342,10 +2377,86 @@ class Game:
         for player in order:
             self._discard_bench_down_to(player, leave)
 
-    def _bench_limit(self) -> int:
+    def _is_tera_card(self, card: Card) -> bool:
+        """Printed Tera rule, still true when Abilities are turned off."""
+        for abi in card.abilities:
+            if any(eff.get("kind") == "tera" for eff in parse_ability_effects(abi.text or "")):
+                return True
+        return False
+
+    def _player_has_tera(self, player: Player) -> bool:
+        return any(self._is_tera_card(player.card(mon.card_i)) for mon in player.in_play())
+
+    def _mew_colorless_ready(self, me: Player) -> int:
+        """Colorless units already on Mew ex, plus one attach still available this turn."""
+        mon = next((m for m in me.in_play() if me.card(m.card_i).name.lower() == "mew ex"), None)
+        have = len(self._energy_pool(me, mon)) if mon is not None else 0
+        if not me.energy_attached and self._hand_has_attacker_counters(me):
+            have += 1
+        return have
+
+    def _mew_tera_in_hand_or_deck(self, me: Player) -> bool:
+        return any(self._is_tera_card(me.card(i)) for i in list(me.hand) + list(me.deck))
+
+    def _mew_burst_ready(self, me: Player) -> bool:
+        """Late Area Zero turn: babies are out, and either Beatdown is payable or the board is full."""
+        stadium = (self.stadium_name or "").lower() == "area zero underdepths"
+        in_hand = self._has_named(me, "Area Zero Underdepths")
+        if not in_hand and not stadium:
+            return False
+        if stadium and self._player_has_tera(me):
+            return True
+        babies = sum(1 for mon in me.in_play() if (me.card(mon.card_i).hp or 0) == 30)
+        if babies < 3:
+            return False
+        if self._mew_colorless_ready(me) >= 2:
+            return True
+        return self.turn >= 6 and len(me.bench) >= 4
+
+    def _mew_hold_tera_slot(self, me: Player) -> bool:
+        if not self._mew_burst_ready(me) or self._player_has_tera(me):
+            return False
+        return self._mew_tera_in_hand_or_deck(me)
+
+    def _mew_keep_area_zero(self, me: Player) -> bool:
+        return (self.stadium_name or "").lower() == "area zero underdepths" and self._player_has_tera(me)
+
+    def _mew_needs_penny_for_tera(self, me: Player) -> bool:
+        """Bench is already full, so Penny a Baby to make the Tera anchor's spot."""
+        if not self._mew_hold_tera_slot(me):
+            return False
+        return len(me.bench) >= self._bench_limit(me)
+
+    def _mew_tera_slot_bounce(self, me: Player) -> Pokemon | None:
+        if not self._mew_needs_penny_for_tera(me):
+            return None
+        babies = [
+            mon
+            for mon in me.bench
+            if me.card(mon.card_i).is_basic and (me.card(mon.card_i).hp or 0) == 30
+        ]
+        if not babies:
+            return None
+        return min(babies, key=lambda mon: (mon.tool is not None, len(mon.energy), mon.damage))
+
+    def _mew_refresh_bench(self, me: Player, strat: StrategySpec) -> None:
+        """After a stadium raises the cap, bench the Babies that were waiting in hand."""
+        if strat.name not in {"mew_baby", "baby"}:
+            return
+        if not (
+            self._player_has_tera(me)
+            or self._mew_burst_ready(me)
+            or (self.stadium_name or "").lower() == "area zero underdepths"
+        ):
+            return
+        self._play_basics(me)
+
+    def _bench_limit(self, player: Player | None = None) -> int:
         cap = self.rules.bench_size
         for eff in self.stadium_effects:
             if eff.get("kind") != "stadium_bench_limit" or eff.get("limit") is None:
+                continue
+            if eff.get("require_tera") and (player is None or not self._player_has_tera(player)):
                 continue
             limit = int(eff["limit"])
             cap = limit if eff.get("raises") else min(cap, limit)
@@ -2363,15 +2474,50 @@ class Game:
             self._discard_bench_down_to(first, limit)
             self._discard_bench_down_to(second, limit)
 
+    def _enforce_tera_bench(self, player: Player) -> None:
+        """Losing the last Tera Pokémon drops that player to the printed bench size."""
+        for eff in self.stadium_effects:
+            if eff.get("kind") != "stadium_bench_limit" or not eff.get("require_tera"):
+                continue
+            if eff.get("lose_tera_limit") is None or self._player_has_tera(player):
+                continue
+            self._discard_bench_down_to(player, int(eff["lose_tera_limit"]))
+
+    def _benched_attack_damage_prevented(self, owner: Player, mon: Pokemon) -> bool:
+        if owner.active is mon:
+            return False
+        card = owner.card(mon.card_i)
+        for abi in card.abilities:
+            if any(
+                eff.get("kind") == "prevent_attack_damage_while_benched"
+                for eff in parse_ability_effects(abi.text or "")
+            ):
+                return True
+        return False
+
     def _stadium_item_safe(self) -> bool:
         return any(eff.get("kind") == "stadium_item_safe" for eff in (self.stadium_effects or []))
 
     def _discard_bench_down_to(self, player: Player, limit: int) -> None:
+        who = "a" if player.name == "A" else "b"
+        spare_non_babies = self.strats[who].name in {"mew_baby", "baby"}
         while len(player.bench) > limit:
-            idx = min(
-                range(len(player.bench)),
-                key=lambda i: (player.card(player.bench[i].card_i).hp or 0, i),
-            )
+            if spare_non_babies:
+                # Bouncy Circle wants the 30 HP bodies. Drop the Tera anchor, then other non-30s.
+                idx = max(
+                    range(len(player.bench)),
+                    key=lambda i: (
+                        0 if (player.card(player.bench[i].card_i).hp or 0) == 30 else 1,
+                        1 if self._is_tera_card(player.card(player.bench[i].card_i)) else 0,
+                        player.card(player.bench[i].card_i).hp or 0,
+                        -i,
+                    ),
+                )
+            else:
+                idx = min(
+                    range(len(player.bench)),
+                    key=lambda i: (player.card(player.bench[i].card_i).hp or 0, i),
+                )
             mon = player.bench.pop(idx)
             player.discard.extend(self._pokemon_stack(mon))
             player.discard.extend(self._detach_cards(mon))
@@ -2484,6 +2630,7 @@ class Game:
             self._bump("bounce_heal")
             self._bump(f"bounce_heal_{side}")
         self._log(f"{player.name} {card.name} returns {player.card(stack[0]).name}")
+        self._enforce_tera_bench(player)
 
     def _promote_after_bounce(self, me: Player) -> None:
         if me.active is not None or not me.bench:
@@ -2697,7 +2844,7 @@ class Game:
         for card_i in stack:
             if card_i not in me.hand or not me.card(card_i).is_basic:
                 continue
-            if len(me.bench) >= self._bench_limit() and me.active is not None:
+            if len(me.bench) >= self._bench_limit(me) and me.active is not None:
                 continue
             me.hand.remove(card_i)
             mon = Pokemon(card_i=card_i, played_turn=self.turn)
@@ -3139,7 +3286,7 @@ class Game:
 
     def _seeker_reline_target(self, me: Player, foe: Player, who: str) -> Pokemon | None:
         """Benched Prankish when ex/Mega needs that Clefairy and the Bench is full."""
-        if self._seeker_in_hand(me) is None or len(me.bench) < self._bench_limit():
+        if self._seeker_in_hand(me) is None or len(me.bench) < self._bench_limit(me):
             return None
         if any(self._is_clefairy(me.card(m.card_i)) for m in me.in_play()):
             return None
@@ -3675,7 +3822,7 @@ class Game:
         strat = self.strats["a" if me.name == "A" else "b"]
         protect = {n.lower() for n in strat.protect}
         spare_energy = sum(1 for i in me.hand if is_basic_energy(me.card(i))) > 1
-        bench_room = len(me.bench) < self._bench_limit()
+        bench_room = len(me.bench) < self._bench_limit(me)
         protect_patch = self._wondrous_patch_can_take_discard(me)
         retreat_reserve = self._clefairy_retreat_energy_reserve(me) if protect_patch else None
         patch_fuel = self._ultra_ball_patch_fuel(me, retreat_reserve) if protect_patch else set()
@@ -3694,6 +3841,10 @@ class Game:
                     score += 3
             if card.name.lower() in protect:
                 score -= 10
+            if strat.name in {"mew_baby", "baby"} and (
+                card.name.lower() == "area zero underdepths" or self._is_tera_card(card)
+            ):
+                score -= 30
             if card.name.lower() in {
                 "puzzle of time",
                 "scoop up net",
@@ -3820,6 +3971,8 @@ class Game:
                 "Regigigas",
                 "Blissey ex",
             ])
+            if self._mew_burst_ready(me) and not self._player_has_tera(me):
+                prefer.insert(0, "Terapagos ex")
             return list(dict.fromkeys(prefer))
         if strat.name == "party":
             prefer: list[str] = []
@@ -4217,7 +4370,7 @@ class Game:
             aces = {n.lower() for n in strat.search_aces}
             if aces and not self._name_in_zones(me, aces, "play+hand+deck"):
                 allow |= {n.lower() for n in strat.backups}
-        slots = self._bench_limit() - len(me.bench)
+        slots = self._bench_limit(me) - len(me.bench)
         take = min(count, max(0, slots))
         if want == "clefairy" and strat.name == "party":
             cap_left = max(0, self._clefairy_play_cap(me) - self._count_named_in_play(me, "Clefairy"))
@@ -4474,7 +4627,7 @@ class Game:
             req = str(eff.get("require_attach_type") or "").title()
             if req and req not in (me.card(target.card_i).types or []):
                 continue
-            if len(me.bench) >= self._bench_limit():
+            if len(me.bench) >= self._bench_limit(me):
                 continue
             before = len(me.bench)
             self._call_family(
@@ -4489,9 +4642,9 @@ class Game:
             self._bump("telepathic_attach")
 
     def _telepathic_worth_attach(self, me: Player, who: str) -> bool:
-        if len(me.bench) >= self._bench_limit():
+        if len(me.bench) >= self._bench_limit(me):
             return False
-        slots = min(2, self._bench_limit() - len(me.bench))
+        slots = min(2, self._bench_limit(me) - len(me.bench))
         if slots <= 0:
             return False
         strat = self.strats[who]
@@ -5830,12 +5983,16 @@ class Game:
     def _choose_attack(self, me: Player, foe: Player, strat: StrategySpec):
         assert me.active and foe.active
         card = me.card(me.active.card_i)
+        who = "a" if me.name == "A" else "b"
         attached = self._energy_pool(me, me.active)
         locked = me.active.disabled_attack or getattr(me.active, "disabled_self", None)
         legal = []
         for atk in self._attacks_for(me, me.active):
             if atk.name == locked:
                 continue
+            if any(e.get("kind") == "no_attack_second_first_turn" for e in atk.effects):
+                if who != self.first and self._is_players_first_turn(who):
+                    continue
             if any(e.get("kind") == "copy_discard_dragon_attack" for e in atk.effects) and not self._discard_dragon_attacks(me):
                 continue
             if not can_pay_energy(attached, self._attack_cost(me, me.active, atk, foe)):
@@ -5892,6 +6049,18 @@ class Game:
             if spread:
                 score += spread
             if strat.name in {"mew_baby", "baby"}:
+                if any(e.get("kind") == "benched_pokemon_times" for e in resolved.effects):
+                    bouncy = next(
+                        (
+                            a
+                            for a in legal
+                            if any(e.get("kind") == "benched_30hp_pokemon_times" for e in a.effects)
+                        ),
+                        None,
+                    )
+                    bouncy_dmg = self._effective_damage(me, foe, bouncy) if bouncy else 0
+                    if effective > bouncy_dmg:
+                        score += 80
                 if any(e.get("kind") == "lock_items" for e in resolved.effects):
                     if not foe.pending_item_lock and not foe.item_lock and effective < foe_hp:
                         score += 35
@@ -5985,7 +6154,7 @@ class Game:
                     score += 100 if need_balls else 25
             if any(e.get("kind") == "call_family" for e in atk.effects):
                 fam = next(e for e in atk.effects if e.get("kind") == "call_family")
-                slots = self._bench_limit() - len(me.bench)
+                slots = self._bench_limit(me) - len(me.bench)
                 missing_ace = [
                     n
                     for n in strat.search_aces
@@ -6197,6 +6366,7 @@ class Game:
                 victim_owner.ko_since_opp_turn = True
             if slayer.prizes_taken >= self.rules.prize_count or not slayer.prizes:
                 won = True
+        self._enforce_tera_bench(victim_owner)
         if victim_owner.active and self._max_hp(victim_owner, victim_owner.active) <= victim_owner.active.damage:
             victim_owner.active = None
         if won:
@@ -7084,6 +7254,12 @@ class Game:
             elif sides == "opponent":
                 n = len(foe.bench)
             dmg = atk.damage + per * n
+        elif any(e.get("kind") == "benched_pokemon_times" for e in atk.effects):
+            per = 30
+            for effect in atk.effects:
+                if effect.get("kind") == "benched_pokemon_times":
+                    per = int(effect.get("per") or 30)
+            dmg = per * len(me.bench)
         elif any(e.get("kind") == "benched_30hp_pokemon_times" for e in atk.effects):
             per = 30
             for effect in atk.effects:
@@ -7375,6 +7551,9 @@ class Game:
         self._log(f"Survival Brace leaves {owner.card(mon.card_i).name} with 10 HP")
 
     def _add_attack_damage(self, owner: Player, mon: Pokemon, amount: int, *, ignore_effects: bool = False) -> None:
+        if amount > 0 and self._benched_attack_damage_prevented(owner, mon):
+            self._bump("tera_bench_prevent")
+            amount = 0
         was_full = mon.damage <= 0
         mon.damage += amount
         if amount > 0:
@@ -7478,7 +7657,13 @@ class Game:
     def _bench_basic_from_deck(self, me: Player, who: str, count: int = 1, max_hp: int | None = None, source: str = "ball") -> None:
         strat = self.strats[who]
         prefer = [p.lower() for p in self._pokemon_search_prefer(me, who)]
-        take = min(count, max(0, self._bench_limit() - len(me.bench)))
+        room = max(0, self._bench_limit(me) - len(me.bench))
+        if strat.name in {"mew_baby", "baby"} and self._mew_hold_tera_slot(me):
+            tera_in_deck = any(self._is_tera_card(me.card(i)) for i in me.deck)
+            if max_hp is not None or not tera_in_deck:
+                # Poffin cannot find the 230 HP anchor. A hand anchor needs the open spot too.
+                room = max(0, room - 1)
+        take = min(count, room)
         for _ in range(take):
             scored: list[tuple[float, int]] = []
             in_play = {me.card(m.card_i).name.lower() for m in me.in_play()}
@@ -7525,6 +7710,11 @@ class Game:
                     )
                 ):
                     continue
+                if strat.name in {"mew_baby", "baby"} and self._is_tera_card(card):
+                    if not self._wants_in_play(me, card, strat):
+                        continue
+                    if not self._player_has_tera(me):
+                        score += 30
                 if strat.name == "party" and source == "nest ball" and name == "latias ex":
                     # Poffin still takes ≤70 HP Clefairy. Once one engine is out,
                     # Nest's job is the Basic that prints Skyliner.
@@ -9477,7 +9667,7 @@ class Game:
         return None
 
     def _invitation_dump_available(self, me: Player, who: str, fam: dict[str, Any] | None = None) -> int:
-        slots = self._bench_limit() - len(me.bench)
+        slots = self._bench_limit(me) - len(me.bench)
         in_deck = sum(1 for i in me.deck if self._is_clefairy(me.card(i)))
         cap_left = max(0, self._clefairy_play_cap(me) - self._count_named_in_play(me, "Clefairy"))
         count = int((fam or {}).get("count") or 3)
@@ -11828,7 +12018,7 @@ class Game:
             card = me.card(i)
             if not card.is_basic or card.name.lower() in protect:
                 continue
-            if len(me.bench) >= self._bench_limit():
+            if len(me.bench) >= self._bench_limit(me):
                 break
             me.hand.remove(i)
             me.bench.append(Pokemon(card_i=i, played_turn=self.turn))
@@ -12766,7 +12956,7 @@ class Game:
         return bool(checks)
 
     def _celebration_wants_bench(self, me: Player) -> bool:
-        if len(me.bench) >= self._bench_limit():
+        if len(me.bench) >= self._bench_limit(me):
             return False
         who = "a" if me.name == "A" else "b"
         strat = self.strats[who]
@@ -12832,7 +13022,7 @@ class Game:
             return -25.0
         if ready and name == "wally" and not self._celebration_wally_helps(me):
             return -25.0
-        slots = self._bench_limit() - len(me.bench)
+        slots = self._bench_limit(me) - len(me.bench)
         if name == "broken time-space":
             score += -8 if self.stadium_name == "Broken Time-Space" else 22
         elif name in {"buddy-buddy poffin", "buddy buddy poffin"}:
@@ -13968,7 +14158,7 @@ class Game:
             me.hand.remove(host)
             me.active = Pokemon(card_i=host, played_turn=self.turn)
             return True
-        if len(me.bench) >= self._bench_limit():
+        if len(me.bench) >= self._bench_limit(me):
             return False
         me.hand.remove(host)
         me.bench.append(Pokemon(card_i=host, played_turn=self.turn))
@@ -14003,7 +14193,7 @@ class Game:
             if me.active is None:
                 me.hand.remove(basic)
                 me.active = Pokemon(card_i=basic, played_turn=self.turn)
-            elif len(me.bench) < self._bench_limit():
+            elif len(me.bench) < self._bench_limit(me):
                 me.hand.remove(basic)
                 me.bench.append(Pokemon(card_i=basic, played_turn=self.turn))
             else:
