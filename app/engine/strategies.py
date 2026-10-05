@@ -729,8 +729,8 @@ STRATEGY_LIBRARY = {
             "Latias ex Skyliner makes every Basic retreat for free. Land Collapse mills "
             "4 after Professor Sada's Vitality, and one Double Colorless Energy pays it. "
             "Lively Stadium gives every Basic +30 HP. Ancient Booster Energy Capsule "
-            "gives Great Tusk +60 HP. Awakening Drum draws one card for each Ancient "
-            "Pokémon in play. Night Stretcher puts the Knocked Out Great Tusk back "
+            "gives Great Tusk +60 HP. Earthen Vessel discards 1 card and searches up to "
+            "2 Basic Energy. Night Stretcher puts the Knocked Out Great Tusk back "
             "into the hand. Explorer's Guidance is only for finding Great Tusk, because "
             "it discards the other looked cards."
         ),

@@ -1909,6 +1909,15 @@ class Game:
             elif name == "earthen vessel":
                 if len(me.hand) <= 1:
                     score -= 8
+                elif strat.name == "mill":
+                    # Below Sada and the capsule. Finding Fighting comes before the flag
+                    # only when Land Collapse is not payable yet.
+                    if self._mill_vessel_discard(me) is None:
+                        score -= 12
+                    elif not self._mill_collapse_reachable(me):
+                        score += 18
+                    else:
+                        score += 6
                 elif strat.name == "party":
                     have_mewtwo = self._mewtwo_mon(me) is not None or any(
                         self._is_mewtwo(me.card(i)) for i in me.hand
@@ -4281,6 +4290,8 @@ class Game:
     def _energy_search_prefer(self, me: Player, who: str) -> list[str]:
         """What Energy Search should dig for under Family Cup."""
         strat = self.strats[who]
+        if strat.name == "mill":
+            return ["Fighting Energy"]
         prefer: list[str] = []
         in_play = {me.card(m.card_i).name.lower() for m in me.in_play()}
         in_hand = {me.card(i).name.lower() for i in me.hand}
@@ -4702,10 +4713,62 @@ class Game:
             self._bump("super_rod", len(taken))
             self._log(f"{me.name} Super Rod shuffles {len(taken)} cards into the deck")
 
+    def _mill_vessel_discard(self, me: Player) -> int | None:
+        """A hand card Earthen Vessel may discard. The flag and the attack stay."""
+        if not me.hand:
+            return None
+
+        def rank(card_i: int) -> int:
+            name = me.card(card_i).name.lower()
+            fighting = sum(1 for i in me.hand if me.card(i).name.lower() == "fighting energy")
+            has_dce = any(is_double_colorless(me.card(i)) for i in me.hand)
+            if name == "fighting energy" and (fighting >= 2 or has_dce):
+                return 0
+            if name in {"nest ball", "earthen vessel"}:
+                return 1
+            if name == "energy retrieval":
+                return 2
+            if name == "meowth ex" and any(
+                "sada" in me.card(i).name.lower() or me.card(i).name.lower() == "explorer's guidance"
+                for i in me.hand
+            ):
+                return 3
+            if name in {
+                "professor sada's vitality",
+                "explorer's guidance",
+                "double colorless energy",
+                "great tusk",
+                "latias ex",
+                "ancient booster energy capsule",
+                "lively stadium",
+                "night stretcher",
+            }:
+                return 9
+            return 4
+
+        victim = min(me.hand, key=rank)
+        if rank(victim) >= 5:
+            return None
+        return victim
+
     def _earthen_vessel(self, me: Player, who: str) -> None:
         if not me.hand:
             return
         strat = self.strats[who]
+        if strat.name == "mill":
+            victim = self._mill_vessel_discard(me)
+            if victim is None:
+                return
+            me.hand.remove(victim)
+            me.discard.append(victim)
+            self._search(
+                me,
+                lambda c: is_basic_energy(c, pokemon_as_energy=False),
+                prefer=["Fighting Energy"],
+                n=2,
+                source="earthen vessel",
+            )
+            return
         protect = {n.lower() for n in strat.protect}
 
         def discard_rank(card_i: int) -> int:
@@ -5762,6 +5825,7 @@ class Game:
             "night stretcher": 6,
             "fighting energy": 7,
             "nest ball": 8,
+            "earthen vessel": 8,
             "meowth ex": 9,
             "awakening drum": 10,
             "energy retrieval": 11,

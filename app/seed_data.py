@@ -533,8 +533,8 @@ SET_L60_NAMES = (
 # Mill stall 60. Great Tusk is the 1-prize body. Meowth ex, from the hand, searches
 # a Supporter. Latias ex makes every Basic retreat for free. Lively Stadium gives
 # every Basic +30 HP. Ancient Booster Energy Capsule gives an Ancient Pokémon +60 HP.
-# Awakening Drum is one ACE SPEC and draws one card per Ancient Pokémon in play.
-# One Double Colorless Energy pays Land Collapse.
+# Earthen Vessel discards 1 card and searches up to 2 Basic Energy. One Double
+# Colorless Energy pays Land Collapse. Fighting Energy is what the Vessel finds.
 SET_MILL60_NAMES = (
     ["Great Tusk"] * 4
     + ["Latias ex"] * 2
@@ -545,10 +545,10 @@ SET_MILL60_NAMES = (
     + ["Lively Stadium"] * 4
     + ["Night Stretcher"] * 4
     + ["Nest Ball"] * 4
-    + ["Awakening Drum"]
+    + ["Earthen Vessel"] * 4
     + ["Energy Retrieval"] * 2
     + ["Double Colorless Energy"] * 4
-    + ["Fighting Energy"] * 23
+    + ["Fighting Energy"] * 20
 )
 
 # Unlimited 60: Ambipom PAR Hand Fling, Lopunny FLF Big Jump recycle,

@@ -396,6 +396,28 @@ def test_one_double_colorless_pays_land_collapse():
     assert len(foe.deck) == before - 4
 
 
+def test_earthen_vessel_discards_one_and_takes_two_fighting():
+    game = Game(
+        build_fallback_deck(["Dondozo"] + ["Sobble"] * 9),
+        build_fallback_deck(
+            ["Great Tusk", "Earthen Vessel", "Nest Ball"] + ["Fighting Energy"] * 4 + ["Hop"] * 8
+        ),
+        default_family_rules(),
+        StrategySpec.from_dict("balanced"),
+        StrategySpec.from_dict("mill"),
+        Random(6),
+    )
+    me = game.players["b"]
+    nest = _take(me, "Nest Ball")[0]
+    fighting = _take(me, "Fighting Energy", 4)
+    me.hand = [nest]
+    me.deck = fighting
+    game._earthen_vessel(me, "b")
+    assert nest in me.discard
+    assert sum(1 for i in me.hand if me.card(i).name == "Fighting Energy") == 2
+    assert sum(1 for i in me.deck if me.card(i).name == "Fighting Energy") == 2
+
+
 def test_mill_list_is_a_legal_sixty():
     assert len(SET_MILL60_NAMES) == 60
     assert SET_MILL60_NAMES.count("Great Tusk") == 4
@@ -407,9 +429,10 @@ def test_mill_list_is_a_legal_sixty():
     assert SET_MILL60_NAMES.count("Ancient Booster Energy Capsule") == 4
     assert SET_MILL60_NAMES.count("Lively Stadium") == 4
     assert SET_MILL60_NAMES.count("Night Stretcher") == 4
-    assert SET_MILL60_NAMES.count("Awakening Drum") == 1
+    assert SET_MILL60_NAMES.count("Earthen Vessel") == 4
+    assert SET_MILL60_NAMES.count("Awakening Drum") == 0
     assert SET_MILL60_NAMES.count("Double Colorless Energy") == 4
-    assert SET_MILL60_NAMES.count("Fighting Energy") == 23
+    assert SET_MILL60_NAMES.count("Fighting Energy") == 20
     rules = standard_60_rules()
     assert copy_violations(build_fallback_deck(list(SET_MILL60_NAMES)), rules) == []
     deck = load_seed_deck("mill")
