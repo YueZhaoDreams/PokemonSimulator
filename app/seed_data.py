@@ -530,6 +530,38 @@ SET_L60_NAMES = (
     + ["Fighting Energy"] * 11
 )
 
+# Mill stall 60. Mew ex copies the bench. Meowth ex, played from the hand, searches
+# a Supporter. Great Tusk mills 4 after an Ancient Supporter. Houndoom-EX mills 2
+# for one Fire. Wugtrio flips 3 coins and mills 3 per heads (0–9, expected 4.5).
+# The only Ancient Supporters are Professor Sada's Vitality and Explorer's Guidance.
+# Guidance looks at 6 and discards the rest, so the list keeps 2. Sada is the flag
+# and can attach nothing. Switch stands in for Ultra Ball: the attackers are Basic,
+# and Great Tusk retreats for 3.
+SET_MILL60_NAMES = (
+    ["Mew ex"] * 2
+    + ["Great Tusk"] * 3
+    + ["Houndoom-EX"] * 2
+    + ["Meowth ex"] * 2
+    + ["Wiglett"] * 2
+    + ["Wugtrio"] * 2
+    + ["Manaphy"]
+    + ["Professor Sada's Vitality"] * 4
+    + ["Explorer's Guidance"] * 2
+    + ["Penny"] * 3
+    + ["Miss Fortune Sisters"] * 2
+    + ["Nest Ball"] * 4
+    + ["Buddy-Buddy Poffin"] * 2
+    + ["Switch"] * 2
+    + ["Battle Cage"] * 3
+    + ["Bravery Charm"] * 2
+    + ["Hero's Cape"]
+    + ["Max Potion"] * 3
+    + ["Night Stretcher"] * 2
+    + ["Energy Retrieval"] * 2
+    + ["Fire Energy"] * 8
+    + ["Fighting Energy"] * 6
+)
+
 # Unlimited 60: Ambipom PAR Hand Fling, Lopunny FLF Big Jump recycle,
 # Raikou V Fleet-Footed + Forest Seal Stone Star Alchemy, Draw Energy, Rare Candy.
 # 4/4 Aipom–Ambipom is the 2-for-1 prize race (100 HP / 1 prize vs household 2-prizers).
@@ -4486,6 +4518,119 @@ _register(
         text=_DOUBLE_DRAGON,
         set_name="Roaring Skies",
         retreat=0,
+    )
+)
+
+
+_LAND_COLLAPSE = (
+    "Discard the top card of your opponent's deck. If you played an Ancient Supporter "
+    "card from your hand during this turn, discard 3 more cards in this way."
+)
+_MELTING_HORN = "Discard the top 2 cards of your opponent's deck."
+_GRAND_FLAME = "Attach a Fire Energy card from your discard pile to 1 of your Benched Pokémon."
+_DIG_A_LITTLE = "Flip a coin. If heads, discard the top card of your opponent's deck."
+_UNDERSEA_TUNNEL = "Flip 3 coins. For each heads, discard the top 3 cards of your opponent's deck."
+_SADA_TEXT = (
+    "Choose up to 2 of your Ancient Pokémon and attach a Basic Energy card from your discard pile "
+    "to each of them. If you attached any Energy in this way, draw 3 cards."
+)
+_GUIDANCE_TEXT = (
+    "Look at the top 6 cards of your deck and put 2 of them into your hand. Discard the other cards."
+)
+_SISTERS_TEXT = (
+    "Look at the top 5 cards of your opponent's deck and discard any number of Item cards you find there. "
+    "Your opponent shuffles the other cards back into their deck."
+)
+_register(
+    _pkm(
+        "Great Tusk",
+        "Basic",
+        ["Fighting"],
+        140,
+        [
+            _atk("Land Collapse", ["Colorless", "Colorless"], 0, _LAND_COLLAPSE),
+            _atk("Giant Tusk", ["Fighting", "Fighting", "Colorless", "Colorless"], 160),
+        ],
+        retreat=3,
+        catalog_id="sv05-097",
+        weakness="Psychic",
+        traits=["Ancient"],
+        set_name="Temporal Forces",
+    )
+)
+_register(
+    _pkm(
+        "Houndoom-EX",
+        "Basic",
+        ["Fire"],
+        170,
+        [
+            _atk("Melting Horn", ["Fire"], 0, _MELTING_HORN),
+            _atk("Grand Flame", ["Fire", "Fire"], 50, _GRAND_FLAME),
+        ],
+        retreat=2,
+        catalog_id="xy8-21",
+        weakness="Water",
+        set_name="BREAKthrough",
+    )
+)
+_register(
+    _pkm(
+        "Wiglett",
+        "Basic",
+        ["Water"],
+        60,
+        [
+            _atk("Dig a Little", ["Colorless"], 0, _DIG_A_LITTLE),
+            _atk("Ram", ["Colorless", "Colorless"], 20),
+        ],
+        retreat=1,
+        catalog_id="sv01-056",
+        weakness="Lightning",
+        set_name="Scarlet & Violet",
+    )
+)
+_register(
+    _pkm(
+        "Wugtrio",
+        "Stage1",
+        ["Water"],
+        90,
+        [
+            _atk("Headbutt", ["Water"], 30),
+            _atk("Undersea Tunnel", ["Colorless", "Colorless", "Colorless"], 0, _UNDERSEA_TUNNEL),
+        ],
+        evolves_from="Wiglett",
+        retreat=2,
+        catalog_id="sv01-057",
+        weakness="Lightning",
+        set_name="Scarlet & Violet",
+    )
+)
+_register(
+    _trn(
+        "Professor Sada's Vitality",
+        "supporter",
+        _SADA_TEXT,
+        catalog_id="sv04-170",
+        traits=["Ancient"],
+    )
+)
+_register(
+    _trn(
+        "Explorer's Guidance",
+        "supporter",
+        _GUIDANCE_TEXT,
+        catalog_id="sv05-147",
+        traits=["Ancient"],
+    )
+)
+_register(
+    _trn(
+        "Miss Fortune Sisters",
+        "supporter",
+        _SISTERS_TEXT,
+        catalog_id="swsh11-164",
     )
 )
 

@@ -21,6 +21,7 @@ from app.seed_data import (
     SET_H_NAMES,
     SET_M_NAMES,
     SET_L60_NAMES,
+    SET_MILL60_NAMES,
     SET_M60_NAMES,
     SET_S_NAMES,
     SET_S60_NAMES,
@@ -34,7 +35,7 @@ from app.seed_data import (
     fallback_named,
 )
 
-LIST_KEYS = ("a", "b", "c", "d", "e", "f", "g", "h", "s", "t", "c60", "d60", "m60", "s60", "t60", "t-meta", "t-unl", "g30", "l60")
+LIST_KEYS = ("a", "b", "c", "d", "e", "f", "g", "h", "s", "t", "c60", "d60", "m60", "s60", "t60", "t-meta", "t-unl", "g30", "l60", "mill")
 SEED_KEYS = (*LIST_KEYS, "spare")
 
 SEED_PATH = DATA_DIR / "seed_decks.json"
@@ -97,6 +98,10 @@ def load_seed_deck(which: str) -> dict:
         "l60": "l60",
         "lucario": "l60",
         "brewer": "l60",
+        "21": "mill",
+        "mill": "mill",
+        "tusk": "mill",
+        "stall": "mill",
         "m": "m60",
         "m60": "m60",
         "mew": "m60",
@@ -208,6 +213,13 @@ def load_seed_payload() -> dict:
             if as_dicts != data["g"]["cards"]:
                 data["g"]["cards"] = as_dicts
                 dirty = True
+        mill = _mill_blob()
+        have_mill = [c.get("name") for c in (data.get("mill") or {}).get("cards") or []]
+        have_mill_ids = [c.get("catalog_id") for c in (data.get("mill") or {}).get("cards") or []]
+        want_mill_ids = [c.get("catalog_id") for c in mill["cards"]]
+        if have_mill != list(SET_MILL60_NAMES) or have_mill_ids != want_mill_ids or (data.get("mill") or {}).get("id") != "seed-mill":
+            data["mill"] = mill
+            dirty = True
         g30 = _g30_blob()
         have_g30 = [c.get("name") for c in (data.get("g30") or {}).get("cards") or []]
         have_g30_ids = [c.get("catalog_id") for c in (data.get("g30") or {}).get("cards") or []]
@@ -510,6 +522,7 @@ def _cd_payload(enrich: bool = True) -> dict:
             "kind": "list",
             "cards": [c.to_dict() if isinstance(c, Card) else c for c in cards_l60],
         },
+        "mill": _mill_blob(),
         "c60": {
             "id": "seed-c60",
             "name": "Set C Standard 60 (Clefairy / Mewtwo)",
@@ -553,6 +566,17 @@ def _cd_payload(enrich: bool = True) -> dict:
             "cards": [c.to_dict() if isinstance(c, Card) else c for c in cards_t_unl],
         },
         "g30": _g30_blob(),
+    }
+
+
+def _mill_blob() -> dict:
+    cards = _repeat_named_cards(list(SET_MILL60_NAMES), enrich=False)
+    return {
+        "id": "seed-mill",
+        "name": "Mill Stall 60 (Mew ex copies the bench)",
+        "sample": None,
+        "kind": "list",
+        "cards": [c.to_dict() if isinstance(c, Card) else c for c in cards],
     }
 
 
@@ -656,6 +680,7 @@ def build_seed_payload(enrich: bool = True) -> dict:
         "t-meta": cd["t-meta"],
         "t-unl": cd["t-unl"],
         "g30": cd["g30"],
+        "mill": cd["mill"],
         "spare": spare["spare"],
         "hashes": {},
     }

@@ -721,6 +721,33 @@ STRATEGY_LIBRARY = {
         closers=["Mew ex"],
         one_mew=True,
     ),
+    "mill": StrategySpec(
+        name="mill",
+        description=(
+            "Mew ex stays Active and copies the bench. Meowth ex Last-Ditch Catch "
+            "searches a Supporter when it is played from the hand. Great Tusk's Land "
+            "Collapse mills 4 after an Ancient Supporter. Houndoom-EX mills 2 for one "
+            "Fire. Wugtrio flips 3 coins and mills 3 per heads. Professor Sada's Vitality "
+            "is the flag and can attach nothing. Explorer's Guidance is only for "
+            "finding Mew ex or Great Tusk, because it discards the other looked cards. "
+            "Switch brings Mew ex Active when retreat is not paid. Hero's Cape sits on "
+            "Mew ex. Penny picks that Mew ex up when it is hurt. Manaphy and Battle Cage "
+            "keep the bench from being spread down. One Mew ex, one Great Tusk, one "
+            "Houndoom-EX, and one Meowth ex stay in play."
+        ),
+        prefer_damage=0.15,
+        prefer_status=0.0,
+        bench_fill=1.0,
+        evolve_asap=1.0,
+        attach_pokemon_as_energy=0.0,
+        item_spend=1.0,
+        self_preserve=0.8,
+        hold_as_energy=False,
+        protect=["Mew ex", "Great Tusk", "Manaphy", "Battle Cage", "Hero's Cape"],
+        search_aces=["Mew ex"],
+        closers=["Mew ex"],
+        one_mew=True,
+    ),
 }
 
 

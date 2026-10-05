@@ -87,6 +87,7 @@ class Player:
     lost_zone: list[int] = field(default_factory=list)
     quick_search_used: bool = False
     vstar_used: bool = False
+    ancient_supporter_played: bool = False
 
     def in_play(self) -> list[Pokemon]:
         mons = []
@@ -382,6 +383,35 @@ class Game:
         if not self._is_playable_pokemon(card):
             return False
         name = card.name.lower()
+        if strat.name == "mill":
+            copies = self._count_named_in_play(player, name)
+            cap = {
+                "mew ex": 1,
+                "great tusk": 1,
+                "houndoom-ex": 1,
+                "meowth ex": 1,
+                "manaphy": 1,
+                "wiglett": 1,
+                "wugtrio": 1,
+            }.get(name)
+            if cap is not None and copies >= cap:
+                return False
+            if name == "houndoom-ex":
+                # Once the copier can pay Land Collapse, the extra two-prize stays in hand.
+                tusk_out = self._count_named_in_play(player, "great tusk") >= 1
+                mew = next(
+                    (m for m in player.in_play() if player.card(m.card_i).name.lower() == "mew ex"),
+                    None,
+                )
+                if tusk_out and mew is not None and len(mew.energy) >= 2:
+                    return False
+            if name == "meowth ex":
+                # Last-Ditch Catch only searches. A Sada or Guidance already in hand
+                # does not need another two-prize on the bench.
+                held = {player.card(i).name.lower() for i in player.hand}
+                if "professor sada's vitality" in held or "explorer's guidance" in held:
+                    return False
+            return True
         aces = {n.lower() for n in strat.search_aces}
         backups = {n.lower() for n in strat.backups}
         insurance = {n.lower() for n in (strat.insurance or strat.backups)}
@@ -589,6 +619,16 @@ class Game:
         def score(i: int) -> float:
             card = player.card(i)
             name = card.name.lower()
+            if strat.name == "mill":
+                rank = {
+                    "mew ex": 5000,
+                    "wiglett": 2400,
+                    "manaphy": 2200,
+                    "great tusk": 1800,
+                    "meowth ex": 900,
+                    "houndoom-ex": 400,
+                }
+                return rank.get(name, 100)
             if strat.name in {"mew_baby", "baby"}:
                 rank = {
                     "mew ex": 5000,
@@ -839,6 +879,7 @@ class Game:
         self.moonlight_pivot_mon.pop(who, None)
         self._patch_storm_lock = None
         me.supporter_used = False
+        me.ancient_supporter_played = False
         me.energy_attached = False
         me.retreated = False
         # Premium Power Pro: "During this turn, attacks used by your Fighting Pokémon do 30 more damage".
@@ -1002,6 +1043,16 @@ class Game:
         def prio(card_i: int) -> tuple:
             card = me.card(card_i)
             name = card.name.lower()
+            if strat.name == "mill":
+                rank = {
+                    "mew ex": 0,
+                    "great tusk": 1,
+                    "manaphy": 2,
+                    "wiglett": 3,
+                    "meowth ex": 4,
+                    "houndoom-ex": 5,
+                }
+                return (rank.get(name, 9), -(card.hp or 0))
             if strat.name == "celebration":
                 return (self._celebration_bench_rank(name), -(card.hp or 0))
             if strat.name == "g":
@@ -1375,6 +1426,7 @@ class Game:
             card = me.card(found)
             if card.is_supporter:
                 me.supporter_used = True
+                self._note_ancient_supporter(me, card)
             me.hand.remove(found)
             name = card.name.lower()
             if self._is_tool_card(card):
@@ -1382,6 +1434,7 @@ class Game:
                     me.hand.append(found)
                     if card.is_supporter:
                         me.supporter_used = False
+                        me.ancient_supporter_played = False
                     return
                 self._log(f"{me.name} plays {card.name}")
                 self._mew_refresh_bench(me, strat)
@@ -1393,6 +1446,9 @@ class Game:
                 # Penny's printed target is one Basic. The damaged Mew ex comes first.
                 # Otherwise a Baby opens the bench spot Terapagos ex needs.
                 self._forced_bounce_target = self._mew_penny_target(me, foe) or self._mew_tera_slot_bounce(me)
+                forced_bounce = True
+            elif strat.name == "mill" and self._is_bounce_supporter(card):
+                self._forced_bounce_target = self._mill_penny_target(me)
                 forced_bounce = True
             try:
                 self._resolve_trainer(me, foe, card, who=who, card_i=found)
@@ -1444,6 +1500,24 @@ class Game:
             elif name in {"ultra ball", "poké ball", "poke ball"}:
                 score += 3
             elif name in {"nest ball", "nesting ball"}:
+                if strat.name == "mill":
+                    slots = self._bench_limit(me) - len(me.bench)
+                    have_mew = any(me.card(m.card_i).name.lower() == "mew ex" for m in me.in_play()) or any(
+                        me.card(i).name.lower() == "mew ex" for i in me.hand
+                    )
+                    have_tusk = any(me.card(m.card_i).name.lower() == "great tusk" for m in me.in_play()) or any(
+                        me.card(i).name.lower() == "great tusk" for i in me.hand
+                    )
+                    if slots > 0 and not have_mew:
+                        score += 26
+                    elif slots > 0 and not have_tusk:
+                        score += 18
+                    elif slots > 0:
+                        score += 8
+                    else:
+                        score -= 5
+                    candidates.append((score, card_i))
+                    continue
                 slots = self._bench_limit(me) - len(me.bench)
                 aces = {n.lower() for n in strat.search_aces}
                 copies = sum(1 for n in self._in_play_names(me) if n in aces)
@@ -1513,7 +1587,16 @@ class Game:
                     score -= 5
             elif name in {"buddy-buddy poffin", "buddy buddy poffin"}:
                 slots = self._bench_limit(me) - len(me.bench)
-                if strat.name in {"mew_baby", "baby"}:
+                if strat.name == "mill":
+                    have_shield = any(me.card(m.card_i).name.lower() == "manaphy" for m in me.in_play())
+                    have_wig = any(me.card(m.card_i).name.lower() == "wiglett" for m in me.in_play()) or any(
+                        me.card(m.card_i).name.lower() == "wugtrio" for m in me.in_play()
+                    )
+                    if slots > 0 and (not have_shield or not have_wig):
+                        score += 14
+                    else:
+                        score -= 6
+                elif strat.name in {"mew_baby", "baby"}:
                     score += 25 if slots > 0 else -10
                 elif strat.name == "phantom":
                     have_dreepy = any(me.card(m.card_i).name.lower() == "dreepy" for m in me.in_play()) or any(
@@ -1580,7 +1663,9 @@ class Game:
                 else:
                     score += 0.5
             elif name == "switch":
-                if strat.name == "slash":
+                if strat.name == "mill":
+                    score += 24 if self._mill_wants_switch(me) else -12
+                elif strat.name == "slash":
                     if me.active and self._slash_ko(me, foe):
                         score -= 20
                     elif me.active and any(self._slash_ko(me, foe, mon) for mon in me.bench):
@@ -1700,7 +1785,19 @@ class Game:
                     score += 14 if self.stadium_name == "Battle Cage" else 8
                 else:
                     score += 2
-            elif "professor" in name and "turo" not in name:
+            elif "sada" in name:
+                score += self._mill_sada_score(me) if strat.name == "mill" else 4
+            elif name == "explorer's guidance":
+                score += self._mill_guidance_score(me) if strat.name == "mill" else 2
+            elif name == "miss fortune sisters":
+                if strat.name == "mill" and self._mill_collapse_reachable(me):
+                    # The Supporter slot is the Ancient flag. Sisters would mill 1.
+                    score -= 20
+                elif strat.name == "mill" and len(foe.deck) >= 5:
+                    score += 3
+                else:
+                    score -= 6
+            elif "professor" in name and "turo" not in name and "sada" not in name:
                 mewtwo_only_in_hand = self._mewtwo_mon(me) is None and any(
                     self._is_mewtwo(me.card(i)) for i in me.hand
                 )
@@ -1738,7 +1835,9 @@ class Game:
                 else:
                     score -= 20
             elif name == "battle cage":
-                if self.stadium_name == "Battle Cage":
+                if strat.name == "mill" and self.stadium_name != "Battle Cage":
+                    score += 16
+                elif self.stadium_name == "Battle Cage":
                     score -= 6
                 elif strat.name == "party" and self._keep_moonlight_stadium(me):
                     # Early Party pivot stays up. Cage replaces it once that window closes.
@@ -1773,7 +1872,7 @@ class Game:
                 elif strat.name == "party" and "maximum belt" in name:
                     # Attach a found Belt before Hop / Search mill the deck around it.
                     score += 21
-                elif name == "hero's cape" and strat.name in {"mew_baby", "baby"}:
+                elif name == "hero's cape" and strat.name in {"mew_baby", "baby", "mill"}:
                     # +100 HP on Mew. Above Poffin so the cape lands before another baby.
                     score += 26
                 elif name == "survival brace" and strat.name in {"mew_baby", "baby"}:
@@ -1835,7 +1934,10 @@ class Game:
                 score += 11 if hurt else -6
             elif name == "max potion":
                 mews = self._damaged_mews(me)
-                if strat.name in {"mew_baby", "baby"}:
+                if strat.name == "mill":
+                    # Healing discards the Energy that pays the copied attack.
+                    score -= 20
+                elif strat.name in {"mew_baby", "baby"}:
                     # No Energy: heal. Energy stays unless the Mew ex is lost next turn
                     # and Penny cannot pick it up.
                     if self._mew_should_max_potion(me, foe):
@@ -1932,10 +2034,12 @@ class Game:
                 score -= 40
             elif name == "iono":
                 score += 10 if len(me.hand) <= 3 else 2
-            elif name == "penny" and strat.name in {"mew_baby", "baby"}:
+            elif name == "penny" and strat.name in {"mew_baby", "baby", "mill"}:
                 # Above Research and Iono. Boss and the saving Arven are scored higher.
                 # A full bench needs one Baby bounced before Terapagos ex can be played.
-                if self._mew_penny_target(me, foe) is not None:
+                if strat.name == "mill":
+                    score += 28 if self._mill_wants_penny(me) else -12
+                elif self._mew_penny_target(me, foe) is not None:
                     score += 34
                 elif self._mew_needs_penny_for_tera(me):
                     score += 28
@@ -2036,8 +2140,30 @@ class Game:
         attached = self._energy_pool(me, me.active)
         return any(atk.damage >= min_damage and can_pay_energy(attached, atk.cost) for atk in card.attacks)
 
+    def _note_ancient_supporter(self, me: Player, card: Card) -> None:
+        """Playing an Ancient Supporter from hand is the Land Collapse flag.
+
+        The attack checks that the card was played, not that its effect attached or drew.
+        """
+        if not card.is_supporter:
+            return
+        if any(str(trait).lower() == "ancient" for trait in (card.traits or [])):
+            me.ancient_supporter_played = True
+            self._bump("ancient_supporter")
+
     def _resolve_trainer(self, me: Player, foe: Player, card: Card, who: str = "a", card_i: int | None = None) -> None:
         name = card.name.lower()
+        for eff in parse_trainer_effects(card.text or ""):
+            kind = eff.get("kind")
+            if kind == "attach_energy_to_ancient":
+                self._attach_energy_to_ancient(me, who, eff)
+                return
+            if kind == "look_top_keep":
+                self._look_top_keep(me, who, int(eff.get("look") or 0), int(eff.get("keep") or 0))
+                return
+            if kind == "discard_top_items":
+                self._discard_top_items(foe, int(eff.get("look") or 0))
+                return
         if name in {"hop"}:
             self._draw(me, 3)
         elif name == "lillie":
@@ -2066,7 +2192,7 @@ class Game:
                 n=2,
                 source="jacq",
             )
-        elif "professor" in name and "turo" not in name:
+        elif "professor" in name and "turo" not in name and "sada" not in name:
             me.discard.extend(list(me.hand))
             me.hand.clear()
             self._draw(me, 7)
@@ -2666,6 +2792,7 @@ class Game:
             return False
         if card.is_supporter:
             me.supporter_used = True
+            self._note_ancient_supporter(me, card)
         me.hand.remove(card_i)
         me.discard.append(card_i)
         self._resolve_trainer(me, foe, card, who=who, card_i=card_i)
@@ -3699,6 +3826,14 @@ class Game:
                     "Lillie's Determination",
                     "Crispin",
                 ]
+                who = "a" if me.name == "A" else "b"
+                if self.strats[who].name == "mill":
+                    prefer = [
+                        "Professor Sada's Vitality",
+                        "Penny",
+                        "Miss Fortune Sisters",
+                        "Explorer's Guidance",
+                    ]
                 found = self._search(me, lambda c: c.is_supporter, prefer=prefer, source="bench supporter search")
                 if lock == "last-ditch":
                     self.last_ditch_used = True
@@ -3913,6 +4048,8 @@ class Game:
             return self._electro_search_prefer(me)
         if strat.name == "regidrago":
             return self._regidrago_search_prefer(me)
+        if strat.name == "mill":
+            return self._mill_search_prefer(me)
         if strat.name == "aura":
             prefer = []
             names = {me.card(m.card_i).name.lower() for m in me.in_play()}
@@ -4755,6 +4892,8 @@ class Game:
             return self._electro_energy_target(me)
         if strat.name == "regidrago":
             return self._regidrago_energy_target(me)
+        if strat.name == "mill":
+            return self._mill_energy_target(me)
         if strat.name == "aura":
             return self._aura_energy_target(me)
         if strat.name in {"mew_baby", "baby"}:
@@ -5025,6 +5164,8 @@ class Game:
             return self._electro_energy_card(me, target)
         if strat.name == "regidrago":
             return self._regidrago_energy_card(me, target)
+        if strat.name == "mill":
+            return self._mill_energy_card(me, target)
         if strat.name in {"mew_baby", "baby"} and "radiant charizard" not in me.card(target.card_i).name.lower():
             counters = self._attacker_counter_energies(me)
             if counters:
@@ -5164,6 +5305,9 @@ class Game:
             return
         if strat.name in {"mew_baby", "baby"}:
             self._retreat_baby(me, foe, who)
+            return
+        if strat.name == "mill":
+            self._retreat_mill(me)
             return
         incoming_idx = None
         aces = {n.lower() for n in strat.search_aces}
@@ -5387,7 +5531,18 @@ class Game:
                     bench_only=bool(effect.get("bench_only", True)),
                 )
             elif effect.get("kind") == "mill_opponent":
-                self._mill_opponent(me, foe, int(effect.get("count") or 1))
+                count = int(effect.get("count") or 1)
+                coins = effect.get("coins")
+                if coins is not None:
+                    heads = sum(1 for _ in range(int(coins)) if self.rng.random() < 0.5)
+                    count = heads * count
+                    self._bump("mill_coin_heads", heads)
+                extra = int(effect.get("extra_if_ancient_supporter") or 0)
+                if extra and me.ancient_supporter_played:
+                    count += extra
+                    self._bump("ancient_mill_extra")
+                if count > 0:
+                    self._mill_opponent(me, foe, count)
             elif effect.get("kind") == "recoil":
                 me.active.damage += int(effect.get("amount") or 0)
                 self._log(f"{attacker.name} takes {int(effect.get('amount') or 0)} recoil")
@@ -5477,6 +5632,269 @@ class Game:
             self._log(f"{me.name} mills {foe.card(card_i).name} from {foe.name}'s deck")
         if milled:
             self._bump("mill_attack")
+
+    def _mill_attack_score(
+        self,
+        me: Player,
+        foe: Player,
+        resolved,
+        effective: int,
+        foe_hp: int,
+    ) -> float | None:
+        """Sure mill outranks a coin mill. A Knock Out still outranks both."""
+        who = "a" if me.name == "A" else "b"
+        if self.strats[who].name != "mill":
+            return None
+        specs = [e for e in (resolved.effects or []) if e.get("kind") == "mill_opponent"]
+        if specs:
+            spec = specs[0]
+            per = int(spec.get("count") or 1)
+            coins = spec.get("coins")
+            extra = int(spec.get("extra_if_ancient_supporter") or 0)
+            if coins is not None:
+                score = float(coins) * 0.5 * per * 40.0
+            else:
+                sure = per + (extra if me.ancient_supporter_played else 0)
+                score = float(sure) * 55.0
+        elif effective >= foe_hp > 0:
+            score = float(effective)
+        else:
+            score = float(effective) * 0.15
+        if effective >= foe_hp > 0:
+            score += 1000
+        return score
+
+    def _mill_sada_score(self, me: Player) -> float:
+        # The flag expires at the end of the turn, so Sada is only for a Land Collapse turn.
+        return 28.0 if self._mill_collapse_reachable(me) else -18.0
+
+    def _mill_guidance_score(self, me: Player) -> float:
+        # Guidance discards every looked card it does not keep. Use it to find
+        # the tank, then stop, or this deck decks itself.
+        if self._mill_missing_piece(me) and len(me.deck) > 15:
+            return 22.0
+        return -30.0
+
+    def _mill_missing_piece(self, me: Player) -> bool:
+        have = {me.card(m.card_i).name.lower() for m in me.in_play()}
+        have |= {me.card(i).name.lower() for i in me.hand}
+        return "mew ex" not in have or "great tusk" not in have
+
+    def _mill_wants_penny(self, me: Player) -> bool:
+        target = self._mill_penny_target(me)
+        if target is None or len(me.in_play()) < 2:
+            return False
+        remaining = self._max_hp(me, target) - target.damage
+        return target.damage >= 50 or remaining <= 160
+
+    def _mill_penny_target(self, me: Player) -> Pokemon | None:
+        basics = [mon for mon in me.in_play() if me.card(mon.card_i).is_basic and mon.damage > 0]
+        mews = [mon for mon in basics if me.card(mon.card_i).name.lower() == "mew ex"]
+        pool = mews or basics
+        if not pool:
+            return None
+        return min(pool, key=lambda mon: self._max_hp(me, mon) - mon.damage)
+
+    def _attach_energy_to_ancient(self, me: Player, who: str, eff: dict) -> None:
+        """Choose up to the printed count. Attaching is what draws."""
+        trait = str(eff.get("trait") or "ancient").lower()
+        limit = int(eff.get("count") or 0)
+        draw_n = int(eff.get("draw") or 0)
+        targets = [
+            mon
+            for mon in me.in_play()
+            if any(str(t).lower() == trait for t in (me.card(mon.card_i).traits or []))
+        ]
+        if self.strats[who].name == "mill":
+            # Mew pays the copied attack. Fuel an Ancient Active that is short.
+            targets = [mon for mon in targets if mon is me.active and len(mon.energy) < 2]
+        fuels = [
+            i
+            for i in list(me.discard)
+            if is_basic_energy(me.card(i), pokemon_as_energy=False)
+        ]
+        attached = 0
+        for mon in targets:
+            if attached >= limit or not fuels:
+                break
+            fuel = fuels.pop(0)
+            me.discard.remove(fuel)
+            mon.energy.append(fuel)
+            attached += 1
+            self._log(
+                f"{me.name} attaches {me.card(fuel).name} from discard to {me.card(mon.card_i).name}"
+            )
+        if attached and draw_n:
+            self._draw(me, draw_n)
+            self._bump("ancient_energy_draw", draw_n)
+        self._bump("attach_energy_to_ancient", attached)
+
+    def _look_top_keep(self, me: Player, who: str, look: int, keep: int) -> None:
+        taken = [me.deck.pop(0) for _ in range(min(max(look, 0), len(me.deck)))]
+        if self.strats[who].name == "mill":
+            taken.sort(key=lambda i: self._mill_keep_rank(me, i))
+        kept = taken[: max(0, min(keep, len(taken)))]
+        dropped = taken[len(kept) :]
+        me.hand.extend(kept)
+        me.discard.extend(dropped)
+        self._bump("look_top_keep", len(dropped))
+        self._log(f"{me.name} keeps {len(kept)} and discards {len(dropped)}")
+
+    def _mill_keep_rank(self, me: Player, card_i: int) -> tuple:
+        card = me.card(card_i)
+        name = card.name.lower()
+        have = {me.card(m.card_i).name.lower() for m in me.in_play()}
+        have |= {me.card(i).name.lower() for i in me.hand}
+        order = {
+            "mew ex": 0,
+            "great tusk": 1,
+            "fire energy": 2,
+            "hero's cape": 3,
+            "switch": 4,
+            "penny": 5,
+            "nest ball": 5,
+            "professor sada's vitality": 6,
+            "manaphy": 7,
+            "wiglett": 8,
+            "wugtrio": 9,
+            "bravery charm": 10,
+            "houndoom-ex": 11,
+            "battle cage": 12,
+            "fighting energy": 13,
+        }
+        rank = order.get(name, 20)
+        if name in have and name not in {"fire energy", "fighting energy", "nest ball", "penny"}:
+            rank += 30
+        return (rank, 0 if card.is_energy else 1)
+
+    def _discard_top_items(self, foe: Player, look: int) -> None:
+        taken = [foe.deck.pop(0) for _ in range(min(max(look, 0), len(foe.deck)))]
+        items = [i for i in taken if foe.card(i).is_item]
+        rest = [i for i in taken if i not in items]
+        foe.discard.extend(items)
+        foe.deck.extend(rest)
+        self.rng.shuffle(foe.deck)
+        self._bump("discard_top_items", len(items))
+        self._log(f"{foe.name} loses {len(items)} Item cards from the top of the deck")
+
+    def _mill_hand_attach(self, me: Player) -> int:
+        if me.energy_attached:
+            return 0
+        return int(any(me.card(i).is_energy for i in me.hand))
+
+    def _mill_wants_switch(self, me: Player) -> bool:
+        """Switch when one attachment still cannot pay the Active's retreat."""
+        if not me.active or not me.bench:
+            return False
+        if me.card(me.active.card_i).name.lower() == "mew ex":
+            return False
+        if not any(me.card(m.card_i).name.lower() == "mew ex" for m in me.bench):
+            return False
+        after = len(me.active.energy) + self._mill_hand_attach(me)
+        return after < self._retreat_cost(me, me.active)
+
+    def _mill_collapse_reachable(self, me: Player) -> bool:
+        """True when this turn can attack with Land Collapse for the Ancient bonus."""
+        who = "a" if me.name == "A" else "b"
+        if self.turn == 1 and who == self.first and self.rules.first_player_no_attack:
+            return False
+        if not me.active:
+            return False
+        if not any(me.card(m.card_i).name.lower() == "great tusk" for m in me.in_play()):
+            return False
+        attach = self._mill_hand_attach(me)
+        active_name = me.card(me.active.card_i).name.lower()
+        if active_name == "mew ex":
+            return len(me.active.energy) + attach >= 2
+        mew_bench = next((m for m in me.bench if me.card(m.card_i).name.lower() == "mew ex"), None)
+        switch = self._mill_wants_switch(me) and any(me.card(i).name.lower() == "switch" for i in me.hand)
+        if switch and mew_bench is not None:
+            # Switch resolves before the attachment, so the Energy lands on Mew ex.
+            return len(mew_bench.energy) + attach >= 2
+        retreat_need = self._retreat_cost(me, me.active)
+        unpaid = len(me.active.energy) < retreat_need
+        if unpaid:
+            active_energy = len(me.active.energy) + attach
+            can_retreat = active_energy >= retreat_need
+            mew_energy = len(mew_bench.energy) if mew_bench is not None else 0
+        else:
+            active_energy = len(me.active.energy)
+            can_retreat = mew_bench is not None
+            mew_energy = (len(mew_bench.energy) + attach) if mew_bench is not None else 0
+        active_can = active_name == "great tusk" and active_energy >= 2
+        mew_can = mew_bench is not None and mew_energy >= 2
+        if mew_bench is not None and can_retreat and (mew_can or not active_can):
+            return mew_can
+        return active_can
+
+    def _retreat_mill(self, me: Player) -> None:
+        if not me.active or not me.bench or me.retreated:
+            return
+        if me.card(me.active.card_i).name.lower() == "mew ex":
+            return
+        mew_idx = next(
+            (i for i, mon in enumerate(me.bench) if me.card(mon.card_i).name.lower() == "mew ex"),
+            None,
+        )
+        if mew_idx is None:
+            return
+        if len(me.active.energy) < self._retreat_cost(me, me.active):
+            return
+        mew = me.bench[mew_idx]
+        tusk_out = any(me.card(m.card_i).name.lower() == "great tusk" for m in me.in_play())
+        active_can = (
+            tusk_out
+            and me.card(me.active.card_i).name.lower() == "great tusk"
+            and len(me.active.energy) >= 2
+        )
+        mew_can = tusk_out and len(mew.energy) >= 2
+        if active_can and not mew_can:
+            return
+        self._do_retreat_into(me, mew_idx)
+
+    def _mill_energy_target(self, me: Player) -> Pokemon:
+        assert me.active
+        active_name = me.card(me.active.card_i).name.lower()
+        if active_name != "mew ex" and len(me.active.energy) < self._retreat_cost(me, me.active):
+            return me.active
+        mews = [mon for mon in me.in_play() if me.card(mon.card_i).name.lower() == "mew ex"]
+        if mews and len(mews[0].energy) < 3:
+            return mews[0]
+        ancients = [
+            mon
+            for mon in me.in_play()
+            if any(str(t).lower() == "ancient" for t in (me.card(mon.card_i).traits or []))
+        ]
+        if ancients:
+            return min(ancients, key=lambda mon: (len(mon.energy), 0 if mon is me.active else 1))
+        return me.active
+
+    def _mill_energy_card(self, me: Player, target: Pokemon) -> int | None:
+        fires = [i for i in me.hand if me.card(i).is_energy and (me.card(i).as_energy_type or "") == "Fire"]
+        others = [
+            i
+            for i in me.hand
+            if me.card(i).is_energy and (me.card(i).as_energy_type or "") != "Fire"
+        ]
+        has_fire = any((me.card(i).as_energy_type or "") == "Fire" for i in target.energy)
+        if fires and not has_fire:
+            return fires[0]
+        return (fires or others or [None])[0]
+
+    def _mill_search_prefer(self, me: Player) -> list[str]:
+        have = {me.card(m.card_i).name.lower() for m in me.in_play()}
+        have |= {me.card(i).name.lower() for i in me.hand}
+        order = [
+            "Mew ex",
+            "Great Tusk",
+            "Manaphy",
+            "Wiglett",
+            "Houndoom-EX",
+            "Wugtrio",
+            "Fire Energy",
+        ]
+        missing = [name for name in order if name.lower() not in have]
+        return missing or order
 
     def _count_psychic_energy_in_play(self, me: Player) -> int:
         """Count Psychic Energy attached to all of this player's Pokémon.
@@ -5816,6 +6234,18 @@ class Game:
                     "regigigas",
                     "blissey ex",
                 ]
+        elif strat_name == "mill":
+            prefer = [
+                "mew ex",
+                "great tusk",
+                "wiglett",
+                "wugtrio",
+                "fire energy",
+                "fighting energy",
+                "houndoom-ex",
+                "meowth ex",
+                "manaphy",
+            ]
         elif strat_name == "party":
             prefer = [
                 "mewtwo ex",
@@ -6262,6 +6692,9 @@ class Game:
                     score += 200
             if strat.name == "celebration" and "double draw" in atk.name.lower() and not self._hand_fling_would_ko(me, foe):
                 score += 500
+            mill_score = self._mill_attack_score(me, foe, resolved, effective, foe_hp)
+            if mill_score is not None:
+                score = mill_score
             if strat.name == "thorns" and "turbo energize" in atk.name.lower():
                 cyclone_ko = any(
                     other.name.lower() == "volt cyclone"
@@ -6575,7 +7008,12 @@ class Game:
             return 1
         if self._is_mega_ex(card):
             return 3
-        if self._is_ex(card) or self._is_pokemon_v(card) or self._is_pokemon_gx(card):
+        if (
+            self._is_ex(card)
+            or host_is_gx_or_hyphen_ex(card)
+            or self._is_pokemon_v(card)
+            or self._is_pokemon_gx(card)
+        ):
             return 2
         return 1
 
@@ -7445,6 +7883,13 @@ class Game:
                 if mon.tool is None:
                     return mon
             return None
+        if name == "bravery charm" and self.strats[who].name == "mill":
+            # Cape is the one tool on Mew ex. Charm goes on another Basic.
+            for mon in me.in_play():
+                host = me.card(mon.card_i)
+                if mon.tool is None and host.is_basic and host.name.lower() != "mew ex":
+                    return mon
+            return None
         if name == "bravery charm":
             for mon in me.in_play():
                 if mon.tool is None and me.card(mon.card_i).name.lower() == "mew ex":
@@ -7687,6 +8132,8 @@ class Game:
                 name = card.name.lower()
                 if strat.name == "celebration" and not self._wants_in_play(me, card, strat):
                     continue
+                if strat.name == "mill" and (name == "meowth ex" or not self._wants_in_play(me, card, strat)):
+                    continue
                 if strat.name == "party" and self._is_mewtwo(card) and self._mewtwo_play_cap(me) <= 0:
                     continue
                 if strat.name == "party" and name == "latias ex":
@@ -7808,6 +8255,11 @@ class Game:
             for idx, mon in enumerate(me.bench):
                 if me.card(mon.card_i).name.lower() == "mew ex":
                     return idx
+        if strat.name == "mill":
+            for idx, mon in enumerate(me.bench):
+                if me.card(mon.card_i).name.lower() == "mew ex":
+                    return idx
+            return None
         return 0
 
     def _play_switch(self, me: Player, who: str, target_idx: int | None = None) -> bool:
@@ -8276,7 +8728,9 @@ class Game:
             return 8 if foe.bench else -4
         if name == "judge":
             return 11 if len(foe.hand) >= 4 else 3
-        if "professor" in name and "turo" not in name:
+        if "sada" in name:
+            return 4
+        if "professor" in name and "turo" not in name and "sada" not in name:
             return 6 if len(me.hand) <= 3 else -6
         if name == "arven":
             booster = any(
