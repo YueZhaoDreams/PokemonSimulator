@@ -245,6 +245,23 @@ def standard_30_rules() -> FamilyRules:
     )
 
 
+def expanded_60_rules() -> FamilyRules:
+    """Expanded constructed: the Standard 60 skeleton, GX included.
+
+    Knocking Out a Pokémon-GX takes 2 prizes via the same rule-box prize path
+    as Pokémon ex. Bench size stays 5 until a stadium's printed sentence changes it.
+    """
+    rules = standard_60_rules()
+    rules.name = "Expanded 60 cards, 4 of a name"
+    rules.notes = (
+        "Expanded 60 cards: 60-card decks, 6 prize cards, at most 4 copies of a "
+        "card with the same name except basic Energy. Knocking Out a Pokémon ex "
+        "or a Pokémon-GX takes 2 prize cards; Knocking Out a Mega ex takes 3. "
+        "A stadium's printed sentence can raise or lower the bench size."
+    )
+    return rules
+
+
 def standard_60_rules() -> FamilyRules:
     """Official Standard constructed: 60 cards, 4 of a name, 6 prizes."""
     return FamilyRules(

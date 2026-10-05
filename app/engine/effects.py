@@ -564,12 +564,14 @@ def parse_ability_effects(text: str) -> list[dict[str, Any]]:
     if "just played" in t and "evolved" in t and "evolve" in t:
         effects.append({"kind": "evolve_just_played_or_evolved"})
 
+    _extend_expanded_ability_effects(t, effects)
     return effects
 
 
 def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
     t = _normalize_card_text(text)
     effects: list[dict[str, Any]] = []
+    effects.extend(_attack_spread_effects(t))
     coin = "flip a coin" in t or ("flip" in t and "heads" in t)
 
     hand_prizes = re.search(
@@ -598,7 +600,9 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
             }
         )
 
-    if "paralyze" in t:
+    # Buzzap Thunder's paralyze is gated on extra Lightning. A bare "Paralyzed"
+    # in that sentence must not also become an unconditional status.
+    if "paralyze" in t and not any(e.get("kind") == "paralyze_if_extra_energy" for e in effects):
         effects.append({"kind": "status", "status": "paralyzed", "coin": coin})
     if "poison" in t:
         effects.append({"kind": "status", "status": "poisoned", "coin": coin and "poison" in t})
@@ -1046,6 +1050,7 @@ def parse_energy_effects(text: str) -> list[dict[str, Any]]:
     )
     if spiked:
         effects.append({"kind": "counters_on_attacker", "counters": int(spiked.group(1))})
+    _extend_conditional_energy_effects(t, effects)
     return effects
 
 
@@ -1094,6 +1099,9 @@ def parse_trainer_effects(text: str) -> list[dict[str, Any]]:
     reactive = _attached_tool_reactive(t)
     if reactive:
         return reactive
+    expanded = _expanded_trainer_effects(t)
+    if expanded:
+        return expanded
 
     look = re.search(r"look at the top (\d+)", t)
     pair = re.search(r"put (\d+) cards from your discard pile into your hand", t)
@@ -1343,8 +1351,334 @@ def is_special_energy(card: Any) -> bool:
     return (getattr(card, "stage", "") or "").lower() == "special"
 
 
-def energy_provided(card: Any) -> list[str]:
-    """Energy units one attached card pays. DCE pays two Colorless."""
+_TYPE_WORD = (
+    "grass|fire|water|lightning|psychic|fighting|darkness|metal|fairy|colorless|dragon"
+)
+
+
+def _attack_spread_effects(t: str) -> list[dict[str, Any]]:
+    """Attack sentences whose numbers stay inside the effect dict."""
+    flat = _flat_text(t)
+    effects: list[dict[str, Any]] = []
+    rain = re.search(
+        rf"discard any amount of ({_TYPE_WORD}) energy from this pokemon\."
+        rf".*for each energy you discarded in this way.*do (\d+) damage to it",
+        flat,
+    )
+    if rain:
+        effects.append(
+            {
+                "kind": "discard_typed_energy_damage_per_card",
+                "energy_type": rain.group(1).title(),
+                "per_card": int(rain.group(2)),
+                "repeat_ok": "more than once" in flat,
+                "ignore_wr_all": "isn't affected by weakness" in flat or "not affected by weakness" in flat,
+            }
+        )
+    times = re.search(
+        rf"does (\d+) damage times the amount of ({_TYPE_WORD}) energy attached to this pokemon",
+        flat,
+    )
+    if times:
+        effects.append(
+            {
+                "kind": "attached_energy_times",
+                "per": int(times.group(1)),
+                "energy_type": times.group(2).title(),
+            }
+        )
+    extra = re.search(
+        rf"at least (\d+) extra ({_TYPE_WORD}) energy attached to it "
+        rf"\(in addition to this attack's cost\).*paralyzed",
+        flat,
+    )
+    if extra:
+        effects.append(
+            {
+                "kind": "paralyze_if_extra_energy",
+                "extra": int(extra.group(1)),
+                "energy_type": extra.group(2).title(),
+            }
+        )
+    discard_typed = re.search(rf"then, discard all ({_TYPE_WORD}) energy from this pokemon", flat)
+    if not discard_typed:
+        discard_typed = re.search(rf"discard all ({_TYPE_WORD}) energy from this pokemon", flat)
+    if discard_typed and "any amount" not in flat:
+        effects.append(
+            {
+                "kind": "discard_all_typed_energy",
+                "energy_type": discard_typed.group(1).title(),
+            }
+        )
+    flip = re.search(
+        r"does (\d+) damage to each of your opponent's pokemon that has any damage counters on it",
+        flat,
+    )
+    if flip:
+        effects.append(
+            {
+                "kind": "damage_each_with_counters",
+                "amount": int(flip.group(1)),
+                "ignore_wr_bench": "don't apply weakness and resistance for benched" in flat
+                or "do not apply weakness and resistance for benched" in flat,
+            }
+        )
+    many = re.search(r"does (\d+) damage to (\d+) of your opponent's pokemon", flat)
+    if many and "damage counters" not in flat:
+        effects.append(
+            {
+                "kind": "damage_n_opponent_pokemon",
+                "amount": int(many.group(1)),
+                "count": int(many.group(2)),
+                "ignore_wr_bench": "don't apply weakness and resistance for benched" in flat
+                or "do not apply weakness and resistance for benched" in flat,
+                "repeat_ok": "more than once" in flat,
+            }
+        )
+    if re.search(r"discard all energy from this pokemon", flat) and not re.search(
+        rf"discard all ({_TYPE_WORD}) energy from this pokemon", flat
+    ):
+        effects.append({"kind": "discard_all_energy"})
+    if "choose an attack from a dragon pokemon in your discard pile and use it as this attack" in flat:
+        effects.append({"kind": "copy_discard_dragon_attack"})
+    if "can't use more than 1 vstar power" in flat or "cannot use more than 1 vstar power" in flat:
+        effects.append({"kind": "once_per_game", "flag": "vstar"})
+    roar = re.search(r"discard the top (\d+) cards of your deck", flat)
+    if roar and "energy" in flat and "attach them to this pokemon" in flat:
+        effects.append({"kind": "discard_top_attach_energy", "count": int(roar.group(1))})
+    bench_one = re.search(r"does (\d+) damage to 1 of your opponent's benched pokemon", flat)
+    if bench_one:
+        effects.append(
+            {
+                "kind": "damage_one_pokemon",
+                "amount": int(bench_one.group(1)),
+                "bench_only": True,
+                "ignore_wr_bench": "don't apply weakness and resistance for benched" in flat
+                or "do not apply weakness and resistance for benched" in flat,
+            }
+        )
+    return effects
+
+
+def _extend_expanded_ability_effects(t: str, effects: list[dict[str, Any]]) -> None:
+    flat = _flat_text(t)
+    sky = re.search(r"each player can have (\d+) pokemon on (?:his or her|their) bench", flat)
+    if sky:
+        leave = re.search(r"has (\d+) pokemon on the bench", flat)
+        effects.append(
+            {
+                "kind": "stadium_bench_limit",
+                "limit": int(sky.group(1)),
+                "raises": True,
+                "leave_limit": int(leave.group(1)) if leave else None,
+                "owner_discards_first": "owner of this card discards first" in flat,
+            }
+        )
+    mountain = re.search(
+        rf"attacks of ({_TYPE_WORD}) pokemon \(both yours and your opponent's\) cost \1 less",
+        flat,
+    )
+    if mountain:
+        effects.append(
+            {
+                "kind": "stadium_attack_cost_less",
+                "pokemon_type": mountain.group(1).title(),
+                "energy_type": mountain.group(1).title(),
+                "both_players": True,
+            }
+        )
+    if "prevent all effects of that card done to this stadium" in flat:
+        effects.append({"kind": "stadium_item_safe"})
+    bomb = re.search(
+        r"attach (?:up to )?(\d+) energy cards from your discard pile to your pokemon, except pokemon-gx or pokemon-ex",
+        flat,
+    )
+    if bomb:
+        effects.append(
+            {
+                "kind": "attach_energy_from_discard_except_gx_ex",
+                "count": int(bomb.group(1)),
+                "ko_self": "this pokemon is knocked out" in flat,
+                "once_per_turn": "once during your turn" in flat,
+            }
+        )
+    dance = re.search(
+        rf"choose (\d+) of your benched pokemon and attach a ({_TYPE_WORD}) energy card "
+        rf"from your discard pile to each",
+        flat,
+    )
+    if dance and "lost zone" in flat:
+        effects.append(
+            {
+                "kind": "bench_attach_discard_energy_lost_zone",
+                "count": int(dance.group(1)),
+                "energy_type": dance.group(2).title(),
+                "once_per_turn": "once during your turn" in flat,
+                "require_bench": "on your bench" in flat,
+            }
+        )
+    zone = re.search(
+        rf"each of your pokemon that has any ({_TYPE_WORD}) energy attached to it has no retreat cost",
+        flat,
+    )
+    if zone:
+        effects.append({"kind": "retreat_zero_if_typed_energy", "energy_type": zone.group(1).title()})
+    if "if this pokemon has any energy attached to it, it has no retreat cost" in flat:
+        effects.append({"kind": "retreat_zero_if_any_energy"})
+
+
+def _extend_conditional_energy_effects(t: str, effects: list[dict[str, Any]]) -> None:
+    flat = _flat_text(t)
+    every = re.search(
+        r"provides every type of energy,? but provides only (\d+) energy at a time",
+        flat,
+    )
+    if every:
+        effects.append(
+            {
+                "kind": "provides_any_when",
+                "count": int(every.group(1)),
+                "requires_behind": "more prize cards remaining" in flat,
+                "exclude_gx_ex": "isn't a pokemon-gx or pokemon-ex" in flat
+                or "is not a pokemon-gx or pokemon-ex" in flat,
+                "evolution_only": "evolution pokemon" in flat,
+                "no_rule_box": "doesn't have a rule box" in flat or "does not have a rule box" in flat,
+                "dragon_only": "dragon" in flat and "only while" in flat,
+            }
+        )
+    if "discard this card" in flat and "other than a dragon" in flat:
+        effects.append({"kind": "discard_if_not_dragon"})
+
+
+def _expanded_trainer_effects(t: str) -> list[dict[str, Any]]:
+    flat = _flat_text(t)
+    effects: list[dict[str, Any]] = []
+    look = re.search(
+        r"look at the top (\d+) cards of your deck and put 1 of them into your hand",
+        flat,
+    )
+    if look and "discard the other" in flat:
+        effects.append({"kind": "look_top_keep_one", "look": int(look.group(1))})
+        return effects
+    rescue = re.search(r"put (\d+) pokemon from your discard pile into your deck", flat)
+    if "put a pokemon from your discard pile into your hand" in flat and rescue:
+        effects.append({"kind": "rescue_stretcher", "shuffle_count": int(rescue.group(1))})
+        return effects
+    charge = re.search(r"shuffle (\d+) special energy cards from your discard pile into your deck", flat)
+    if charge:
+        effects.append({"kind": "shuffle_special_energy_to_deck", "count": int(charge.group(1))})
+        return effects
+    if "pokemon tool" in flat and "stadium" in flat and "from play" in flat and "discard" in flat:
+        n = re.search(r"up to (\d+)", flat)
+        effects.append({"kind": "discard_tools_and_stadiums", "count": int(n.group(1) if n else 1)})
+        return effects
+    if (
+        "more prize cards remaining" in flat
+        and "cost colorless less" in flat
+        and "attached" in flat
+    ):
+        effects.append({"kind": "cost_colorless_less_if_behind"})
+        return effects
+    band = re.search(
+        r"do (\d+) more damage to your opponent's active pokemon-gx or active pokemon-ex",
+        flat,
+    )
+    if band:
+        effects.append({"kind": "tool_damage_vs_gx_ex", "amount": int(band.group(1))})
+        return effects
+    if (
+        "switch 1 of your opponent's benched pokemon with their active" in flat
+        and "switch your active" in flat
+    ):
+        effects.append({"kind": "gust_and_switch"})
+        return effects
+    return effects
+
+
+def host_name(host: Any) -> str:
+    return (getattr(host, "name", "") or "").lower().rstrip()
+
+
+def host_has_rule_box(host: Any) -> bool:
+    """Pokémon ex, Pokémon-EX, Pokémon-GX, V, VSTAR, and VMAX."""
+    name = host_name(host)
+    if not name:
+        return False
+    return (
+        name.endswith(" ex")
+        or name.endswith("-ex")
+        or name.endswith(" gx")
+        or name.endswith("-gx")
+        or " vmax" in name
+        or name.endswith(" vmax")
+        or "vstar" in name
+        or name.endswith(" v")
+        or " v " in name
+    )
+
+
+def host_is_gx_or_hyphen_ex(host: Any) -> bool:
+    """Pokémon-GX / Pokémon-EX as printed on Sun & Moon cards.
+
+    A modern name ending in " ex" (Mew ex) is not Pokémon-EX.
+    """
+    name = host_name(host)
+    return name.endswith("-gx") or name.endswith(" gx") or name.endswith("-ex")
+
+
+def host_is_evolution(host: Any) -> bool:
+    stage = (getattr(host, "stage", "") or "").lower().replace(" ", "")
+    return bool(stage) and stage not in {"basic"}
+
+
+def host_is_dragon(host: Any) -> bool:
+    return any(str(t).lower() == "dragon" for t in (getattr(host, "types", None) or []))
+
+
+def _flat_text(t: str) -> str:
+    return re.sub(r"\s+", " ", t or "")
+
+
+def _any_energy_applies(spec: dict[str, Any], *, prizes_behind: bool, host: Any) -> bool:
+    if spec.get("requires_behind") and not prizes_behind:
+        return False
+    if host is None:
+        return False
+    if spec.get("exclude_gx_ex") and host_is_gx_or_hyphen_ex(host):
+        return False
+    if spec.get("evolution_only") and not host_is_evolution(host):
+        return False
+    if spec.get("no_rule_box") and host_has_rule_box(host):
+        return False
+    if spec.get("dragon_only") and not host_is_dragon(host):
+        return False
+    return True
+
+
+def _conditional_energy_units(card: Any, *, prizes_behind: bool, host: Any) -> list[str] | None:
+    spec = next(
+        (e for e in parse_energy_effects(getattr(card, "text", "") or "") if e.get("kind") == "provides_any_when"),
+        None,
+    )
+    if spec is None:
+        return None
+    count = int(spec.get("count") or 0)
+    if _any_energy_applies(spec, prizes_behind=prizes_behind, host=host):
+        return ["Any"] * count
+    if spec.get("dragon_only"):
+        # Not attached yet: the card can still be put on a Dragon.
+        if host is None:
+            return ["Any"] * count
+        return []
+    return ["Colorless"]
+
+
+def energy_provided(card: Any, *, prizes_behind: bool = False, host: Any = None) -> list[str]:
+    """Energy units one attached card pays. DCE pays two Colorless.
+
+    Conditional special energy reads its own sentence. Defaults keep older
+    callers on the printed Colorless (or typed) line.
+    """
     if is_double_colorless(card) or is_double_turbo(card):
         return ["Colorless", "Colorless"]
     if is_boomerang_energy(card):
@@ -1357,6 +1691,9 @@ def energy_provided(card: Any) -> list[str]:
         return ["Lightning"]
     if is_draw_energy(card):
         return ["Colorless"]
+    conditional = _conditional_energy_units(card, prizes_behind=prizes_behind, host=host)
+    if conditional is not None:
+        return conditional
     et = getattr(card, "as_energy_type", None)
     if callable(et):
         et = card.as_energy_type
@@ -1376,14 +1713,18 @@ def is_basic_energy(card: Any, pokemon_as_energy: bool = False) -> bool:
 
 
 def can_pay_energy(attached_types: list[str], cost: list[str]) -> bool:
-    pool = list(attached_types)
+    """Any pays a specific type or Colorless. It is the "every type" unit."""
+    pool = [p for p in attached_types if p != "Any"]
+    wild = sum(1 for p in attached_types if p == "Any")
     for need in [c for c in cost if c != "Colorless"]:
         if need in pool:
             pool.remove(need)
+        elif wild:
+            wild -= 1
         else:
             return False
     colorless = sum(1 for c in cost if c == "Colorless")
-    return len(pool) >= colorless
+    return len(pool) + wild >= colorless
 
 
 def weakness_multiplier(defender_weaknesses: list[dict[str, str]], attack_types: list[str]) -> int:
