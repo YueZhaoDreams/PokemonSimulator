@@ -388,6 +388,20 @@ def test_buzzap_thunder_scales_then_discards_and_paralyzes_on_three_extra():
     assert foe.active.damage == 50
     assert me.active.energy
 
+    game = _game(
+        ["Mew ex"],
+        ["Electrode-GX", "Thunder Mountain ◇"] + ["Lightning Energy"] * 4,
+    )
+    foe = game.players["a"]
+    me = game.players["b"]
+    _seat(foe, _idxs(foe, "Mew ex")[0], [])
+    _seat(me, _idxs(me, "Electrode-GX")[0], [])
+    _attach(me, me.active, "Lightning Energy", 4)
+    game._set_stadium(fallback_named("Thunder Mountain ◇"), owner=me)
+    game._attack(me, foe, "b")
+    assert foe.active.damage == 240
+    assert foe.active.status & ST_PARALYZED
+
 
 def test_sky_field_replaces_battle_cage_and_uses_the_printed_limit():
     card = fallback_named("Sky Field")

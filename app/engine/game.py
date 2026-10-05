@@ -13255,7 +13255,9 @@ class Game:
         energy_type = str(effect.get("energy_type") or "")
         extra = int(effect.get("extra") or 0)
         units = self._typed_energy_units(me, mon, energy_type)
-        spent = sum(1 for cost in atk.cost if cost == energy_type)
+        # "In addition to this attack's cost" is the cost actually paid, after a
+        # stadium or tool sentence removes an Energy symbol.
+        spent = sum(1 for cost in self._attack_cost(me, mon, atk, foe) if cost == energy_type)
         if units - spent >= extra:
             self._apply_status(foe.active, "paralyzed")
             self._bump("buzzap_paralyze")
