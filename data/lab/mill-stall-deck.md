@@ -1,52 +1,50 @@
 # Mill stall 60
 
-Mew ex stays Active and copies the bench. Meowth ex is the Supporter search: Last-Ditch Catch only happens when Meowth ex is played from the hand onto the bench. Nest Ball does not turn it on.
+Great Tusk is the body that gives up one prize. Meowth ex searches a Supporter only when it is played from the hand. Latias ex stays on the bench: Skyliner makes every Basic retreat for free. Mew ex is not in this list.
 
 ## The 60
 
-- Pokémon 14: Mew ex ×2, Great Tusk ×3, Houndoom-EX ×2, Meowth ex ×2, Wiglett ×2, Wugtrio ×2, Manaphy ×1
-- Supporters 11: Professor Sada's Vitality ×4, Explorer's Guidance ×2, Penny ×3, Miss Fortune Sisters ×2
-- Items 21: Nest Ball ×4, Buddy-Buddy Poffin ×2, Switch ×2, Battle Cage ×3, Bravery Charm ×2, Hero's Cape ×1, Max Potion ×3, Night Stretcher ×2, Energy Retrieval ×2
-- Energy 14: Fire ×8, Fighting ×6
+- Pokémon 8: Great Tusk ×4, Latias ex ×2, Meowth ex ×2
+- Supporters 6: Professor Sada's Vitality ×4, Explorer's Guidance ×2
+- Items 19: Ancient Booster Energy Capsule ×4, Lively Stadium ×4, Night Stretcher ×4, Nest Ball ×4, Awakening Drum ×1, Energy Retrieval ×2
+- Energy 27: Double Colorless Energy ×4, Fighting Energy ×23
 
-Switch is here instead of Ultra Ball. Every attacker is Basic, and Ultra Ball would discard two of our own cards. Great Tusk retreats for 3, so Switch is how Mew ex becomes Active before that retreat is paid.
+One Double Colorless Energy pays Land Collapse. Fighting Energy is the Basic Energy Professor Sada's Vitality can attach from the discard pile. Double Colorless Energy is Special Energy, so Sada cannot attach it.
 
-Hero's Cape is the one tool on Mew ex (160 + 100). Bravery Charm goes on another Basic. The engine's Hero's Cape is “+100 HP, and can't be affected by any Special Conditions.”
+## Printed extras
 
-## One round, if they cannot Knock Out Mew ex
+Lively Stadium: each Basic Pokémon in play, yours and your opponent's, gets +30 HP. Evolutions do not. Great Tusk, Latias ex, and Meowth ex are all Basic.
 
-After setup the opponent's deck is about 47 cards (60, minus the opening hand and the prizes).
+Ancient Booster Energy Capsule: the Ancient Pokémon it is attached to gets +60 HP, recovers from Special Conditions, and cannot be affected by them. On a non-Ancient Pokémon the +60 does not apply. Great Tusk is 140 + 60 + 30 = 230 HP, and it is still one prize.
 
-On our turn:
+Awakening Drum is one ACE SPEC. The printed sentence draws one card for each of your Ancient Pokémon in play. It does not search the deck for Energy. Several copies are not legal. The draw is how it finds the next Energy or Supporter.
 
-1. Meowth ex comes from the hand and searches Professor Sada's Vitality, if that Supporter is not already in hand.
-2. Play Sada. The Ancient flag is “you played an Ancient Supporter,” not “you attached Energy.” Choosing zero Ancient Pokémon is legal and does not draw 3. Drawing 3 would mill this deck.
-3. Mew ex uses Great Tusk's Land Collapse. Printed text: discard the top card, then 3 more because an Ancient Supporter was played. That is 4.
-4. They draw 1 at the start of their turn.
+Night Stretcher puts one Pokémon or one Basic Energy from the discard pile into the hand. After Great Tusk is Knocked Out, the stretcher picks that body back up.
 
-Net is about 5 cards a round. 47 / 5 is about 9 or 10 of our attack turns, if every turn finds Sada, Mew ex can pay two Energy, Great Tusk is in play, and Mew ex is never Knocked Out.
+## One round
 
-Other mills, when that turn is not a Sada turn:
+After setup the opponent has about 47 cards left.
 
-- Houndoom-EX Melting Horn, one Fire: discard the top 2.
-- Wugtrio Undersea Tunnel: flip 3 coins, discard the top 3 for each heads. The results are 0, 3, 6, or 9. The expected value is 4.5. It is not nine single-card flips.
-- Wiglett Dig a Little: one coin, one card on heads.
+1. Great Tusk is Active. Latias ex is benched, so retreat costs nothing.
+2. Attach Double Colorless Energy, the capsule, and Lively Stadium when they are in hand.
+3. Meowth ex comes from the hand and searches Professor Sada's Vitality, if that card is not already in hand.
+4. Play Sada. Choosing zero Ancient Pokémon does not draw. The Ancient flag is that the Supporter was played.
+5. Land Collapse discards 1, then 3 more. That is 4.
+6. They draw 1 on their turn.
 
-Explorer's Guidance looks at the top 6, keeps 2, and discards the other 4. Two copies, and only while Mew ex or Great Tusk is still missing and our deck is thicker than 15. Playing it every turn decks us first.
+Net is about 5 cards a round, about 9 or 10 attack turns, if a Great Tusk is in the Active Spot and can pay the attack. They take one prize for each Great Tusk they Knock Out. Six prizes is six of those Knock Outs. The stretcher puts the Tusk back into the hand so the next one can be played.
 
-Miss Fortune Sisters looks at the top 5 of their deck and discards Item cards found there. The other cards are shuffled back. It does not discard Items from their hand, and it does not mill the non-Items. Playing it spends the Supporter, so Land Collapse mills 1 that turn. It is disruption, not the engine.
+Explorer's Guidance looks at the top 6, keeps 2, and discards the other 4. Use it only while Great Tusk is still missing.
 
-Penny returns one hurt Basic and everything attached to it. Damage counters do not come back with the Pokémon. Max Potion heals, then discards all Energy. Sada can put that Energy back only onto an Ancient Pokémon, so the line does not play Max Potion on Mew ex.
+## What still takes two prizes
 
-## What the wall does not stop
+Latias ex and Meowth ex are two-prize Basics. Boss's Orders can gust them. Lively Stadium also gives the opponent's Basic Pokémon +30 HP.
 
-Manaphy and Battle Cage stop bench damage and bench damage counters. They do not stop Boss's Orders. Mew ex, Houndoom-EX, and Meowth ex are two prizes. Manaphy is 70 HP. A gust takes those bodies even while the bench shield is up.
-
-Standard 60, seeds 0–31, mill as player B:
+Standard 60, seeds 0–31, this list as player B:
 
 | Opponent | Wins | Deck-outs | Cards milled, average | Max |
 | :--- | ---: | ---: | ---: | ---: |
-| T60 Dragapult (phantom) | 8/32 | 8 | 6.5 | 21 |
-| M60 Mew ex (mew_baby) | 0/32 | 0 | 2.9 | 10 |
+| T60 Dragapult (phantom) | 11/32 | 10 | 9.3 | 19 |
+| M60 Mew ex (mew_baby) | 0/32 | 0 | 3.9 | 13 |
 
-The games that last do find the flag: one Dragapult game played Sada five times and milled 18. The games that end in a few turns are prize Knock Outs. The printed list does not have an answer to gust.
+Sada was played in 30 of the 32 Dragapult games, the capsule in 25, and Lively Stadium in 25. The games that end quickly are still prize Knock Outs or an empty board.

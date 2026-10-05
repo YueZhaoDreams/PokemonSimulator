@@ -251,6 +251,21 @@ def parse_ability_effects(text: str) -> list[dict[str, Any]]:
     if stage_hp:
         effects.append({"kind": "stage2_hp", "delta": int(stage_hp.group(1))})
 
+    # Lively Stadium: each Basic in play gets +N HP. The number stays in the effect.
+    stadium_hp = re.search(
+        r"each (basic |stage 1 |stage 2 )?pokemon in play.*?gets \+(\d+) hp",
+        t,
+    )
+    if stadium_hp:
+        stage = (stadium_hp.group(1) or "").strip()
+        effects.append(
+            {
+                "kind": "stadium_hp",
+                "amount": int(stadium_hp.group(2)),
+                "basic_only": stage == "basic",
+            }
+        )
+
     # Ledian Glittering Star Pattern: on evolve, gust a ≤N remaining HP bench Pokémon.
     gust = re.search(
         r"switch in 1 of your opponent's benched pokemon that has (\d+) hp or less remaining",
@@ -1173,6 +1188,12 @@ def parse_trainer_effects(text: str) -> list[dict[str, Any]]:
                 "keep": int(keep.group(2)),
             }
         )
+        return effects
+
+    # Awakening Drum: draw one card for each in-play Pokémon of the printed trait.
+    drum = re.search(r"draw a card for each of your (\w+) pokemon in play", t)
+    if drum:
+        effects.append({"kind": "draw_per_trait", "trait": drum.group(1)})
         return effects
 
     # Miss Fortune Sisters: look at the top N of the opponent's deck, discard Items.

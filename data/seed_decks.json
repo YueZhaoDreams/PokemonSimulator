@@ -26427,41 +26427,281 @@
   },
   "mill": {
     "id": "seed-mill",
-    "name": "Mill Stall 60 (Mew ex copies the bench)",
+    "name": "Mill Stall 60 (Great Tusk gives up the prize)",
     "sample": null,
     "kind": "list",
     "cards": [
       {
-        "catalog_id": "30th-066",
-        "name": "Mew ex",
+        "catalog_id": "sv05-097",
+        "name": "Great Tusk",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Fighting"
+        ],
+        "hp": 140,
+        "attacks": [
+          {
+            "name": "Land Collapse",
+            "cost": [
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 0,
+            "text": "Discard the top card of your opponent's deck. If you played an Ancient Supporter card from your hand during this turn, discard 3 more cards in this way.",
+            "effects": [
+              {
+                "kind": "mill_opponent",
+                "count": 1,
+                "extra_if_ancient_supporter": 3
+              }
+            ]
+          },
+          {
+            "name": "Giant Tusk",
+            "cost": [
+              "Fighting",
+              "Fighting",
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 160,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Psychic",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 3,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv05/097/low.webp",
+        "set_name": "Temporal Forces",
+        "text": "",
+        "dex_id": null,
+        "traits": [
+          "Ancient"
+        ]
+      },
+      {
+        "catalog_id": "sv05-097",
+        "name": "Great Tusk",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Fighting"
+        ],
+        "hp": 140,
+        "attacks": [
+          {
+            "name": "Land Collapse",
+            "cost": [
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 0,
+            "text": "Discard the top card of your opponent's deck. If you played an Ancient Supporter card from your hand during this turn, discard 3 more cards in this way.",
+            "effects": [
+              {
+                "kind": "mill_opponent",
+                "count": 1,
+                "extra_if_ancient_supporter": 3
+              }
+            ]
+          },
+          {
+            "name": "Giant Tusk",
+            "cost": [
+              "Fighting",
+              "Fighting",
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 160,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Psychic",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 3,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv05/097/low.webp",
+        "set_name": "Temporal Forces",
+        "text": "",
+        "dex_id": null,
+        "traits": [
+          "Ancient"
+        ]
+      },
+      {
+        "catalog_id": "sv05-097",
+        "name": "Great Tusk",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Fighting"
+        ],
+        "hp": 140,
+        "attacks": [
+          {
+            "name": "Land Collapse",
+            "cost": [
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 0,
+            "text": "Discard the top card of your opponent's deck. If you played an Ancient Supporter card from your hand during this turn, discard 3 more cards in this way.",
+            "effects": [
+              {
+                "kind": "mill_opponent",
+                "count": 1,
+                "extra_if_ancient_supporter": 3
+              }
+            ]
+          },
+          {
+            "name": "Giant Tusk",
+            "cost": [
+              "Fighting",
+              "Fighting",
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 160,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Psychic",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 3,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv05/097/low.webp",
+        "set_name": "Temporal Forces",
+        "text": "",
+        "dex_id": null,
+        "traits": [
+          "Ancient"
+        ]
+      },
+      {
+        "catalog_id": "sv05-097",
+        "name": "Great Tusk",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Fighting"
+        ],
+        "hp": 140,
+        "attacks": [
+          {
+            "name": "Land Collapse",
+            "cost": [
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 0,
+            "text": "Discard the top card of your opponent's deck. If you played an Ancient Supporter card from your hand during this turn, discard 3 more cards in this way.",
+            "effects": [
+              {
+                "kind": "mill_opponent",
+                "count": 1,
+                "extra_if_ancient_supporter": 3
+              }
+            ]
+          },
+          {
+            "name": "Giant Tusk",
+            "cost": [
+              "Fighting",
+              "Fighting",
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 160,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Psychic",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 3,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv05/097/low.webp",
+        "set_name": "Temporal Forces",
+        "text": "",
+        "dex_id": null,
+        "traits": [
+          "Ancient"
+        ]
+      },
+      {
+        "catalog_id": "sv08-076",
+        "name": "Latias ex",
         "category": "Pokemon",
         "stage": "Basic",
         "types": [
           "Psychic"
         ],
-        "hp": 160,
+        "hp": 210,
         "attacks": [
           {
-            "name": "Teleportation Burst",
+            "name": "Eon Blade",
             "cost": [
-              "Psychic"
+              "Psychic",
+              "Psychic",
+              "Colorless"
             ],
-            "damage": 30,
-            "text": "You may switch this Pok\u00e9mon with 1 of your Benched Pok\u00e9mon.",
+            "damage": 200,
+            "text": "During your next turn, this Pok\u00e9mon can't attack.",
             "effects": [
               {
-                "kind": "switch_with_benched"
+                "kind": "disable_self_attack_next_turn"
               }
             ]
           }
         ],
         "abilities": [
           {
-            "name": "Memory Helix",
-            "text": "This Pok\u00e9mon can use the attacks of any of your Benched Pok\u00e9mon. (You still need the necessary Energy to use each attack.)",
+            "name": "Skyliner",
+            "text": "Your Basic Pok\u00e9mon in play have no Retreat Cost.",
             "effects": [
               {
-                "kind": "copy_benched_attacks"
+                "kind": "basic_retreat_zero",
+                "basic_only": true,
+                "owner_only": true
               }
             ]
           }
@@ -26478,47 +26718,51 @@
             "value": "-30"
           }
         ],
-        "retreat": 0,
+        "retreat": 2,
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/me/30th/066/low.webp",
-        "set_name": "30th Celebration",
+        "image": "https://assets.tcgdex.net/en/sv/sv08/076/low.webp",
+        "set_name": "Surging Sparks",
         "text": "",
         "dex_id": null,
         "traits": []
       },
       {
-        "catalog_id": "30th-066",
-        "name": "Mew ex",
+        "catalog_id": "sv08-076",
+        "name": "Latias ex",
         "category": "Pokemon",
         "stage": "Basic",
         "types": [
           "Psychic"
         ],
-        "hp": 160,
+        "hp": 210,
         "attacks": [
           {
-            "name": "Teleportation Burst",
+            "name": "Eon Blade",
             "cost": [
-              "Psychic"
+              "Psychic",
+              "Psychic",
+              "Colorless"
             ],
-            "damage": 30,
-            "text": "You may switch this Pok\u00e9mon with 1 of your Benched Pok\u00e9mon.",
+            "damage": 200,
+            "text": "During your next turn, this Pok\u00e9mon can't attack.",
             "effects": [
               {
-                "kind": "switch_with_benched"
+                "kind": "disable_self_attack_next_turn"
               }
             ]
           }
         ],
         "abilities": [
           {
-            "name": "Memory Helix",
-            "text": "This Pok\u00e9mon can use the attacks of any of your Benched Pok\u00e9mon. (You still need the necessary Energy to use each attack.)",
+            "name": "Skyliner",
+            "text": "Your Basic Pok\u00e9mon in play have no Retreat Cost.",
             "effects": [
               {
-                "kind": "copy_benched_attacks"
+                "kind": "basic_retreat_zero",
+                "basic_only": true,
+                "owner_only": true
               }
             ]
           }
@@ -26535,309 +26779,12 @@
             "value": "-30"
           }
         ],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/me/30th/066/low.webp",
-        "set_name": "30th Celebration",
-        "text": "",
-        "dex_id": null,
-        "traits": []
-      },
-      {
-        "catalog_id": "sv05-097",
-        "name": "Great Tusk",
-        "category": "Pokemon",
-        "stage": "Basic",
-        "types": [
-          "Fighting"
-        ],
-        "hp": 140,
-        "attacks": [
-          {
-            "name": "Land Collapse",
-            "cost": [
-              "Colorless",
-              "Colorless"
-            ],
-            "damage": 0,
-            "text": "Discard the top card of your opponent's deck. If you played an Ancient Supporter card from your hand during this turn, discard 3 more cards in this way.",
-            "effects": [
-              {
-                "kind": "mill_opponent",
-                "count": 1,
-                "extra_if_ancient_supporter": 3
-              }
-            ]
-          },
-          {
-            "name": "Giant Tusk",
-            "cost": [
-              "Fighting",
-              "Fighting",
-              "Colorless",
-              "Colorless"
-            ],
-            "damage": 160,
-            "text": "",
-            "effects": []
-          }
-        ],
-        "abilities": [],
-        "weaknesses": [
-          {
-            "type": "Psychic",
-            "value": "\u00d72"
-          }
-        ],
-        "resistances": [],
-        "retreat": 3,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv05/097/low.webp",
-        "set_name": "Temporal Forces",
-        "text": "",
-        "dex_id": null,
-        "traits": [
-          "Ancient"
-        ]
-      },
-      {
-        "catalog_id": "sv05-097",
-        "name": "Great Tusk",
-        "category": "Pokemon",
-        "stage": "Basic",
-        "types": [
-          "Fighting"
-        ],
-        "hp": 140,
-        "attacks": [
-          {
-            "name": "Land Collapse",
-            "cost": [
-              "Colorless",
-              "Colorless"
-            ],
-            "damage": 0,
-            "text": "Discard the top card of your opponent's deck. If you played an Ancient Supporter card from your hand during this turn, discard 3 more cards in this way.",
-            "effects": [
-              {
-                "kind": "mill_opponent",
-                "count": 1,
-                "extra_if_ancient_supporter": 3
-              }
-            ]
-          },
-          {
-            "name": "Giant Tusk",
-            "cost": [
-              "Fighting",
-              "Fighting",
-              "Colorless",
-              "Colorless"
-            ],
-            "damage": 160,
-            "text": "",
-            "effects": []
-          }
-        ],
-        "abilities": [],
-        "weaknesses": [
-          {
-            "type": "Psychic",
-            "value": "\u00d72"
-          }
-        ],
-        "resistances": [],
-        "retreat": 3,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv05/097/low.webp",
-        "set_name": "Temporal Forces",
-        "text": "",
-        "dex_id": null,
-        "traits": [
-          "Ancient"
-        ]
-      },
-      {
-        "catalog_id": "sv05-097",
-        "name": "Great Tusk",
-        "category": "Pokemon",
-        "stage": "Basic",
-        "types": [
-          "Fighting"
-        ],
-        "hp": 140,
-        "attacks": [
-          {
-            "name": "Land Collapse",
-            "cost": [
-              "Colorless",
-              "Colorless"
-            ],
-            "damage": 0,
-            "text": "Discard the top card of your opponent's deck. If you played an Ancient Supporter card from your hand during this turn, discard 3 more cards in this way.",
-            "effects": [
-              {
-                "kind": "mill_opponent",
-                "count": 1,
-                "extra_if_ancient_supporter": 3
-              }
-            ]
-          },
-          {
-            "name": "Giant Tusk",
-            "cost": [
-              "Fighting",
-              "Fighting",
-              "Colorless",
-              "Colorless"
-            ],
-            "damage": 160,
-            "text": "",
-            "effects": []
-          }
-        ],
-        "abilities": [],
-        "weaknesses": [
-          {
-            "type": "Psychic",
-            "value": "\u00d72"
-          }
-        ],
-        "resistances": [],
-        "retreat": 3,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv05/097/low.webp",
-        "set_name": "Temporal Forces",
-        "text": "",
-        "dex_id": null,
-        "traits": [
-          "Ancient"
-        ]
-      },
-      {
-        "catalog_id": "xy8-21",
-        "name": "Houndoom-EX",
-        "category": "Pokemon",
-        "stage": "Basic",
-        "types": [
-          "Fire"
-        ],
-        "hp": 170,
-        "attacks": [
-          {
-            "name": "Melting Horn",
-            "cost": [
-              "Fire"
-            ],
-            "damage": 0,
-            "text": "Discard the top 2 cards of your opponent's deck.",
-            "effects": [
-              {
-                "kind": "mill_opponent",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "name": "Grand Flame",
-            "cost": [
-              "Fire",
-              "Fire"
-            ],
-            "damage": 50,
-            "text": "Attach a Fire Energy card from your discard pile to 1 of your Benched Pok\u00e9mon.",
-            "effects": [
-              {
-                "kind": "attach_typed_energy_from_discard",
-                "energy_type": "Fire",
-                "count": 1,
-                "bench_only": true
-              }
-            ]
-          }
-        ],
-        "abilities": [],
-        "weaknesses": [
-          {
-            "type": "Water",
-            "value": "\u00d72"
-          }
-        ],
-        "resistances": [],
         "retreat": 2,
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/xy/xy8/21/low.webp",
-        "set_name": "BREAKthrough",
-        "text": "",
-        "dex_id": null,
-        "traits": []
-      },
-      {
-        "catalog_id": "xy8-21",
-        "name": "Houndoom-EX",
-        "category": "Pokemon",
-        "stage": "Basic",
-        "types": [
-          "Fire"
-        ],
-        "hp": 170,
-        "attacks": [
-          {
-            "name": "Melting Horn",
-            "cost": [
-              "Fire"
-            ],
-            "damage": 0,
-            "text": "Discard the top 2 cards of your opponent's deck.",
-            "effects": [
-              {
-                "kind": "mill_opponent",
-                "count": 2
-              }
-            ]
-          },
-          {
-            "name": "Grand Flame",
-            "cost": [
-              "Fire",
-              "Fire"
-            ],
-            "damage": 50,
-            "text": "Attach a Fire Energy card from your discard pile to 1 of your Benched Pok\u00e9mon.",
-            "effects": [
-              {
-                "kind": "attach_typed_energy_from_discard",
-                "energy_type": "Fire",
-                "count": 1,
-                "bench_only": true
-              }
-            ]
-          }
-        ],
-        "abilities": [],
-        "weaknesses": [
-          {
-            "type": "Water",
-            "value": "\u00d72"
-          }
-        ],
-        "resistances": [],
-        "retreat": 2,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/xy/xy8/21/low.webp",
-        "set_name": "BREAKthrough",
+        "image": "https://assets.tcgdex.net/en/sv/sv08/076/low.webp",
+        "set_name": "Surging Sparks",
         "text": "",
         "dex_id": null,
         "traits": []
@@ -26950,282 +26897,6 @@
         "energy_type": null,
         "image": "https://assets.tcgdex.net/en/me/me03/062/low.webp",
         "set_name": "Perfect Order",
-        "text": "",
-        "dex_id": null,
-        "traits": []
-      },
-      {
-        "catalog_id": "sv01-056",
-        "name": "Wiglett",
-        "category": "Pokemon",
-        "stage": "Basic",
-        "types": [
-          "Water"
-        ],
-        "hp": 60,
-        "attacks": [
-          {
-            "name": "Dig a Little",
-            "cost": [
-              "Colorless"
-            ],
-            "damage": 0,
-            "text": "Flip a coin. If heads, discard the top card of your opponent's deck.",
-            "effects": [
-              {
-                "kind": "mill_opponent",
-                "count": 1,
-                "coins": 1
-              }
-            ]
-          },
-          {
-            "name": "Ram",
-            "cost": [
-              "Colorless",
-              "Colorless"
-            ],
-            "damage": 20,
-            "text": "",
-            "effects": []
-          }
-        ],
-        "abilities": [],
-        "weaknesses": [
-          {
-            "type": "Lightning",
-            "value": "\u00d72"
-          }
-        ],
-        "resistances": [],
-        "retreat": 1,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv01/056/low.webp",
-        "set_name": "Scarlet & Violet",
-        "text": "",
-        "dex_id": null,
-        "traits": []
-      },
-      {
-        "catalog_id": "sv01-056",
-        "name": "Wiglett",
-        "category": "Pokemon",
-        "stage": "Basic",
-        "types": [
-          "Water"
-        ],
-        "hp": 60,
-        "attacks": [
-          {
-            "name": "Dig a Little",
-            "cost": [
-              "Colorless"
-            ],
-            "damage": 0,
-            "text": "Flip a coin. If heads, discard the top card of your opponent's deck.",
-            "effects": [
-              {
-                "kind": "mill_opponent",
-                "count": 1,
-                "coins": 1
-              }
-            ]
-          },
-          {
-            "name": "Ram",
-            "cost": [
-              "Colorless",
-              "Colorless"
-            ],
-            "damage": 20,
-            "text": "",
-            "effects": []
-          }
-        ],
-        "abilities": [],
-        "weaknesses": [
-          {
-            "type": "Lightning",
-            "value": "\u00d72"
-          }
-        ],
-        "resistances": [],
-        "retreat": 1,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv01/056/low.webp",
-        "set_name": "Scarlet & Violet",
-        "text": "",
-        "dex_id": null,
-        "traits": []
-      },
-      {
-        "catalog_id": "sv01-057",
-        "name": "Wugtrio",
-        "category": "Pokemon",
-        "stage": "Stage1",
-        "types": [
-          "Water"
-        ],
-        "hp": 90,
-        "attacks": [
-          {
-            "name": "Headbutt",
-            "cost": [
-              "Water"
-            ],
-            "damage": 30,
-            "text": "",
-            "effects": []
-          },
-          {
-            "name": "Undersea Tunnel",
-            "cost": [
-              "Colorless",
-              "Colorless",
-              "Colorless"
-            ],
-            "damage": 0,
-            "text": "Flip 3 coins. For each heads, discard the top 3 cards of your opponent's deck.",
-            "effects": [
-              {
-                "kind": "mill_opponent",
-                "count": 3,
-                "coins": 3
-              },
-              {
-                "kind": "coin_times",
-                "flips": 3,
-                "per": 10
-              }
-            ]
-          }
-        ],
-        "abilities": [],
-        "weaknesses": [
-          {
-            "type": "Lightning",
-            "value": "\u00d72"
-          }
-        ],
-        "resistances": [],
-        "retreat": 2,
-        "evolves_from": "Wiglett",
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv01/057/low.webp",
-        "set_name": "Scarlet & Violet",
-        "text": "",
-        "dex_id": null,
-        "traits": []
-      },
-      {
-        "catalog_id": "sv01-057",
-        "name": "Wugtrio",
-        "category": "Pokemon",
-        "stage": "Stage1",
-        "types": [
-          "Water"
-        ],
-        "hp": 90,
-        "attacks": [
-          {
-            "name": "Headbutt",
-            "cost": [
-              "Water"
-            ],
-            "damage": 30,
-            "text": "",
-            "effects": []
-          },
-          {
-            "name": "Undersea Tunnel",
-            "cost": [
-              "Colorless",
-              "Colorless",
-              "Colorless"
-            ],
-            "damage": 0,
-            "text": "Flip 3 coins. For each heads, discard the top 3 cards of your opponent's deck.",
-            "effects": [
-              {
-                "kind": "mill_opponent",
-                "count": 3,
-                "coins": 3
-              },
-              {
-                "kind": "coin_times",
-                "flips": 3,
-                "per": 10
-              }
-            ]
-          }
-        ],
-        "abilities": [],
-        "weaknesses": [
-          {
-            "type": "Lightning",
-            "value": "\u00d72"
-          }
-        ],
-        "resistances": [],
-        "retreat": 2,
-        "evolves_from": "Wiglett",
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv01/057/low.webp",
-        "set_name": "Scarlet & Violet",
-        "text": "",
-        "dex_id": null,
-        "traits": []
-      },
-      {
-        "catalog_id": "swsh9-041",
-        "name": "Manaphy",
-        "category": "Pokemon",
-        "stage": "Basic",
-        "types": [
-          "Water"
-        ],
-        "hp": 70,
-        "attacks": [
-          {
-            "name": "Rain Splash",
-            "cost": [
-              "Water"
-            ],
-            "damage": 20,
-            "text": "",
-            "effects": []
-          }
-        ],
-        "abilities": [
-          {
-            "name": "Wave Veil",
-            "text": "Prevent all damage done to your Benched Pok\u00e9mon by attacks from your opponent's Pok\u00e9mon.",
-            "effects": [
-              {
-                "kind": "prevent_bench_attack_damage"
-              }
-            ]
-          }
-        ],
-        "weaknesses": [
-          {
-            "type": "Lightning",
-            "value": "\u00d72"
-          }
-        ],
-        "resistances": [],
-        "retreat": 1,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh9/041/low.webp",
-        "set_name": "Brilliant Stars",
         "text": "",
         "dex_id": null,
         "traits": []
@@ -27369,113 +27040,8 @@
         ]
       },
       {
-        "catalog_id": "sv01-183",
-        "name": "Penny",
-        "category": "Trainer",
-        "stage": "Supporter",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "supporter",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv01/183/low.webp",
-        "set_name": null,
-        "text": "Put 1 of your Basic Pok\u00e9mon and all attached cards into your hand.",
-        "dex_id": null,
-        "traits": []
-      },
-      {
-        "catalog_id": "sv01-183",
-        "name": "Penny",
-        "category": "Trainer",
-        "stage": "Supporter",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "supporter",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv01/183/low.webp",
-        "set_name": null,
-        "text": "Put 1 of your Basic Pok\u00e9mon and all attached cards into your hand.",
-        "dex_id": null,
-        "traits": []
-      },
-      {
-        "catalog_id": "sv01-183",
-        "name": "Penny",
-        "category": "Trainer",
-        "stage": "Supporter",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "supporter",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv01/183/low.webp",
-        "set_name": null,
-        "text": "Put 1 of your Basic Pok\u00e9mon and all attached cards into your hand.",
-        "dex_id": null,
-        "traits": []
-      },
-      {
-        "catalog_id": "swsh11-164",
-        "name": "Miss Fortune Sisters",
-        "category": "Trainer",
-        "stage": "Supporter",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "supporter",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh11/164/low.webp",
-        "set_name": null,
-        "text": "Look at the top 5 cards of your opponent's deck and discard any number of Item cards you find there. Your opponent shuffles the other cards back into their deck.",
-        "dex_id": null,
-        "traits": []
-      },
-      {
-        "catalog_id": "swsh11-164",
-        "name": "Miss Fortune Sisters",
-        "category": "Trainer",
-        "stage": "Supporter",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "supporter",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh11/164/low.webp",
-        "set_name": null,
-        "text": "Look at the top 5 cards of your opponent's deck and discard any number of Item cards you find there. Your opponent shuffles the other cards back into their deck.",
-        "dex_id": null,
-        "traits": []
-      },
-      {
-        "catalog_id": "sv01-181",
-        "name": "Nest Ball",
+        "catalog_id": "sv04-159",
+        "name": "Ancient Booster Energy Capsule",
         "category": "Trainer",
         "stage": "Item",
         "types": [],
@@ -27488,15 +27054,17 @@
         "evolves_from": null,
         "trainer_kind": "item",
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv01/181/low.webp",
+        "image": "https://assets.tcgdex.net/en/sv/sv04/159/low.webp",
         "set_name": null,
-        "text": "Search your deck for a Basic Pok\u00e9mon and put it onto your Bench. Then, shuffle your deck.",
+        "text": "The Ancient Pok\u00e9mon this card is attached to gets +60 HP, recovers from all Special Conditions, and can't be affected by any Special Conditions.",
         "dex_id": null,
-        "traits": []
+        "traits": [
+          "Ancient"
+        ]
       },
       {
-        "catalog_id": "sv01-181",
-        "name": "Nest Ball",
+        "catalog_id": "sv04-159",
+        "name": "Ancient Booster Energy Capsule",
         "category": "Trainer",
         "stage": "Item",
         "types": [],
@@ -27509,15 +27077,17 @@
         "evolves_from": null,
         "trainer_kind": "item",
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv01/181/low.webp",
+        "image": "https://assets.tcgdex.net/en/sv/sv04/159/low.webp",
         "set_name": null,
-        "text": "Search your deck for a Basic Pok\u00e9mon and put it onto your Bench. Then, shuffle your deck.",
+        "text": "The Ancient Pok\u00e9mon this card is attached to gets +60 HP, recovers from all Special Conditions, and can't be affected by any Special Conditions.",
         "dex_id": null,
-        "traits": []
+        "traits": [
+          "Ancient"
+        ]
       },
       {
-        "catalog_id": "sv01-181",
-        "name": "Nest Ball",
+        "catalog_id": "sv04-159",
+        "name": "Ancient Booster Energy Capsule",
         "category": "Trainer",
         "stage": "Item",
         "types": [],
@@ -27530,15 +27100,17 @@
         "evolves_from": null,
         "trainer_kind": "item",
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv01/181/low.webp",
+        "image": "https://assets.tcgdex.net/en/sv/sv04/159/low.webp",
         "set_name": null,
-        "text": "Search your deck for a Basic Pok\u00e9mon and put it onto your Bench. Then, shuffle your deck.",
+        "text": "The Ancient Pok\u00e9mon this card is attached to gets +60 HP, recovers from all Special Conditions, and can't be affected by any Special Conditions.",
         "dex_id": null,
-        "traits": []
+        "traits": [
+          "Ancient"
+        ]
       },
       {
-        "catalog_id": "sv01-181",
-        "name": "Nest Ball",
+        "catalog_id": "sv04-159",
+        "name": "Ancient Booster Energy Capsule",
         "category": "Trainer",
         "stage": "Item",
         "types": [],
@@ -27551,99 +27123,17 @@
         "evolves_from": null,
         "trainer_kind": "item",
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv01/181/low.webp",
+        "image": "https://assets.tcgdex.net/en/sv/sv04/159/low.webp",
         "set_name": null,
-        "text": "Search your deck for a Basic Pok\u00e9mon and put it onto your Bench. Then, shuffle your deck.",
+        "text": "The Ancient Pok\u00e9mon this card is attached to gets +60 HP, recovers from all Special Conditions, and can't be affected by any Special Conditions.",
         "dex_id": null,
-        "traits": []
+        "traits": [
+          "Ancient"
+        ]
       },
       {
-        "catalog_id": "sv05-144",
-        "name": "Buddy-Buddy Poffin",
-        "category": "Trainer",
-        "stage": "Item",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "item",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv05/144/low.webp",
-        "set_name": null,
-        "text": "Search your deck for up to 2 Basic Pok\u00e9mon with 70 HP or less and put them onto your Bench. Then, shuffle your deck.",
-        "dex_id": null,
-        "traits": []
-      },
-      {
-        "catalog_id": "sv05-144",
-        "name": "Buddy-Buddy Poffin",
-        "category": "Trainer",
-        "stage": "Item",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "item",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv05/144/low.webp",
-        "set_name": null,
-        "text": "Search your deck for up to 2 Basic Pok\u00e9mon with 70 HP or less and put them onto your Bench. Then, shuffle your deck.",
-        "dex_id": null,
-        "traits": []
-      },
-      {
-        "catalog_id": "sv01-194",
-        "name": "Switch",
-        "category": "Trainer",
-        "stage": "Item",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "item",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv01/194/low.webp",
-        "set_name": null,
-        "text": "Switch your Active Pok\u00e9mon with 1 of your Benched Pok\u00e9mon.",
-        "dex_id": null,
-        "traits": []
-      },
-      {
-        "catalog_id": "sv01-194",
-        "name": "Switch",
-        "category": "Trainer",
-        "stage": "Item",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "item",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv01/194/low.webp",
-        "set_name": null,
-        "text": "Switch your Active Pok\u00e9mon with 1 of your Benched Pok\u00e9mon.",
-        "dex_id": null,
-        "traits": []
-      },
-      {
-        "catalog_id": "me02-085",
-        "name": "Battle Cage",
+        "catalog_id": "sv08-180",
+        "name": "Lively Stadium",
         "category": "Trainer",
         "stage": "Stadium",
         "types": [],
@@ -27656,15 +27146,15 @@
         "evolves_from": null,
         "trainer_kind": "stadium",
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/me/me02/085/low.webp",
+        "image": "https://assets.tcgdex.net/en/sv/sv08/180/low.webp",
         "set_name": null,
-        "text": "Prevent all damage counters from being placed on Benched Pok\u00e9mon (both yours and your opponent's) by effects of attacks and Abilities from the opponent's Pok\u00e9mon. (Damage from attacks is still taken.)",
+        "text": "Each Basic Pok\u00e9mon in play (both yours and your opponent's) gets +30 HP.",
         "dex_id": null,
         "traits": []
       },
       {
-        "catalog_id": "me02-085",
-        "name": "Battle Cage",
+        "catalog_id": "sv08-180",
+        "name": "Lively Stadium",
         "category": "Trainer",
         "stage": "Stadium",
         "types": [],
@@ -27677,15 +27167,15 @@
         "evolves_from": null,
         "trainer_kind": "stadium",
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/me/me02/085/low.webp",
+        "image": "https://assets.tcgdex.net/en/sv/sv08/180/low.webp",
         "set_name": null,
-        "text": "Prevent all damage counters from being placed on Benched Pok\u00e9mon (both yours and your opponent's) by effects of attacks and Abilities from the opponent's Pok\u00e9mon. (Damage from attacks is still taken.)",
+        "text": "Each Basic Pok\u00e9mon in play (both yours and your opponent's) gets +30 HP.",
         "dex_id": null,
         "traits": []
       },
       {
-        "catalog_id": "me02-085",
-        "name": "Battle Cage",
+        "catalog_id": "sv08-180",
+        "name": "Lively Stadium",
         "category": "Trainer",
         "stage": "Stadium",
         "types": [],
@@ -27698,17 +27188,17 @@
         "evolves_from": null,
         "trainer_kind": "stadium",
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/me/me02/085/low.webp",
+        "image": "https://assets.tcgdex.net/en/sv/sv08/180/low.webp",
         "set_name": null,
-        "text": "Prevent all damage counters from being placed on Benched Pok\u00e9mon (both yours and your opponent's) by effects of attacks and Abilities from the opponent's Pok\u00e9mon. (Damage from attacks is still taken.)",
+        "text": "Each Basic Pok\u00e9mon in play (both yours and your opponent's) gets +30 HP.",
         "dex_id": null,
         "traits": []
       },
       {
-        "catalog_id": "sv02-173",
-        "name": "Bravery Charm",
+        "catalog_id": "sv08-180",
+        "name": "Lively Stadium",
         "category": "Trainer",
-        "stage": "Item",
+        "stage": "Stadium",
         "types": [],
         "hp": 0,
         "attacks": [],
@@ -27717,116 +27207,11 @@
         "resistances": [],
         "retreat": 0,
         "evolves_from": null,
-        "trainer_kind": "item",
+        "trainer_kind": "stadium",
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv02/173/low.webp",
+        "image": "https://assets.tcgdex.net/en/sv/sv08/180/low.webp",
         "set_name": null,
-        "text": "The Basic Pok\u00e9mon this card is attached to gets +50 HP.",
-        "dex_id": null,
-        "traits": []
-      },
-      {
-        "catalog_id": "sv02-173",
-        "name": "Bravery Charm",
-        "category": "Trainer",
-        "stage": "Item",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "item",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv02/173/low.webp",
-        "set_name": null,
-        "text": "The Basic Pok\u00e9mon this card is attached to gets +50 HP.",
-        "dex_id": null,
-        "traits": []
-      },
-      {
-        "catalog_id": "sv05-152",
-        "name": "Hero's Cape",
-        "category": "Trainer",
-        "stage": "Item",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "item",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv05/152/low.webp",
-        "set_name": null,
-        "text": "The Pok\u00e9mon this card is attached to gets +100 HP, and can't be affected by any Special Conditions.",
-        "dex_id": null,
-        "traits": []
-      },
-      {
-        "catalog_id": "sm2-128",
-        "name": "Max Potion",
-        "category": "Trainer",
-        "stage": "Item",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "item",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sm/sm2/128/low.webp",
-        "set_name": null,
-        "text": "Heal all damage from 1 of your Pok\u00e9mon. If you do, discard all Energy from that Pok\u00e9mon.",
-        "dex_id": null,
-        "traits": []
-      },
-      {
-        "catalog_id": "sm2-128",
-        "name": "Max Potion",
-        "category": "Trainer",
-        "stage": "Item",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "item",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sm/sm2/128/low.webp",
-        "set_name": null,
-        "text": "Heal all damage from 1 of your Pok\u00e9mon. If you do, discard all Energy from that Pok\u00e9mon.",
-        "dex_id": null,
-        "traits": []
-      },
-      {
-        "catalog_id": "sm2-128",
-        "name": "Max Potion",
-        "category": "Trainer",
-        "stage": "Item",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "item",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sm/sm2/128/low.webp",
-        "set_name": null,
-        "text": "Heal all damage from 1 of your Pok\u00e9mon. If you do, discard all Energy from that Pok\u00e9mon.",
+        "text": "Each Basic Pok\u00e9mon in play (both yours and your opponent's) gets +30 HP.",
         "dex_id": null,
         "traits": []
       },
@@ -27873,6 +27258,155 @@
         "traits": []
       },
       {
+        "catalog_id": "sv06.5-061",
+        "name": "Night Stretcher",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv06.5/061/low.webp",
+        "set_name": null,
+        "text": "Put a Pok\u00e9mon or a Basic Energy card from your discard pile into your hand.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "sv06.5-061",
+        "name": "Night Stretcher",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv06.5/061/low.webp",
+        "set_name": null,
+        "text": "Put a Pok\u00e9mon or a Basic Energy card from your discard pile into your hand.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "sv01-181",
+        "name": "Nest Ball",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/181/low.webp",
+        "set_name": null,
+        "text": "Search your deck for a Basic Pok\u00e9mon and put it onto your Bench. Then, shuffle your deck.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "sv01-181",
+        "name": "Nest Ball",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/181/low.webp",
+        "set_name": null,
+        "text": "Search your deck for a Basic Pok\u00e9mon and put it onto your Bench. Then, shuffle your deck.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "sv01-181",
+        "name": "Nest Ball",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/181/low.webp",
+        "set_name": null,
+        "text": "Search your deck for a Basic Pok\u00e9mon and put it onto your Bench. Then, shuffle your deck.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "sv01-181",
+        "name": "Nest Ball",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/181/low.webp",
+        "set_name": null,
+        "text": "Search your deck for a Basic Pok\u00e9mon and put it onto your Bench. Then, shuffle your deck.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "sv05-141",
+        "name": "Awakening Drum",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv05/141/low.webp",
+        "set_name": null,
+        "text": "Draw a card for each of your Ancient Pok\u00e9mon in play.",
+        "dex_id": null,
+        "traits": [
+          "Ancient"
+        ]
+      },
+      {
         "catalog_id": "sv01-171",
         "name": "Energy Retrieval",
         "category": "Trainer",
@@ -27915,12 +27449,12 @@
         "traits": []
       },
       {
-        "catalog_id": "swsh12.5-153",
-        "name": "Fire Energy",
+        "catalog_id": "sm1-136",
+        "name": "Double Colorless Energy",
         "category": "Energy",
-        "stage": "Basic",
+        "stage": "Special",
         "types": [
-          "Fire"
+          "Colorless"
         ],
         "hp": 0,
         "attacks": [],
@@ -27930,20 +27464,112 @@
         "retreat": 0,
         "evolves_from": null,
         "trainer_kind": null,
-        "energy_type": "Fire",
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/153/low.webp",
+        "energy_type": "Colorless",
+        "image": "https://assets.tcgdex.net/en/sm/sm1/136/low.webp",
+        "set_name": "Sun & Moon",
+        "text": "Double Colorless Energy provides ColorlessColorless Energy.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "sm1-136",
+        "name": "Double Colorless Energy",
+        "category": "Energy",
+        "stage": "Special",
+        "types": [
+          "Colorless"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Colorless",
+        "image": "https://assets.tcgdex.net/en/sm/sm1/136/low.webp",
+        "set_name": "Sun & Moon",
+        "text": "Double Colorless Energy provides ColorlessColorless Energy.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "sm1-136",
+        "name": "Double Colorless Energy",
+        "category": "Energy",
+        "stage": "Special",
+        "types": [
+          "Colorless"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Colorless",
+        "image": "https://assets.tcgdex.net/en/sm/sm1/136/low.webp",
+        "set_name": "Sun & Moon",
+        "text": "Double Colorless Energy provides ColorlessColorless Energy.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "sm1-136",
+        "name": "Double Colorless Energy",
+        "category": "Energy",
+        "stage": "Special",
+        "types": [
+          "Colorless"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Colorless",
+        "image": "https://assets.tcgdex.net/en/sm/sm1/136/low.webp",
+        "set_name": "Sun & Moon",
+        "text": "Double Colorless Energy provides ColorlessColorless Energy.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "swsh12.5-157",
+        "name": "Fighting Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Fighting"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Fighting",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/157/low.webp",
         "set_name": "Crown Zenith",
         "text": "",
         "dex_id": null,
         "traits": []
       },
       {
-        "catalog_id": "swsh12.5-153",
-        "name": "Fire Energy",
+        "catalog_id": "swsh12.5-157",
+        "name": "Fighting Energy",
         "category": "Energy",
         "stage": "Basic",
         "types": [
-          "Fire"
+          "Fighting"
         ],
         "hp": 0,
         "attacks": [],
@@ -27953,20 +27579,20 @@
         "retreat": 0,
         "evolves_from": null,
         "trainer_kind": null,
-        "energy_type": "Fire",
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/153/low.webp",
+        "energy_type": "Fighting",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/157/low.webp",
         "set_name": "Crown Zenith",
         "text": "",
         "dex_id": null,
         "traits": []
       },
       {
-        "catalog_id": "swsh12.5-153",
-        "name": "Fire Energy",
+        "catalog_id": "swsh12.5-157",
+        "name": "Fighting Energy",
         "category": "Energy",
         "stage": "Basic",
         "types": [
-          "Fire"
+          "Fighting"
         ],
         "hp": 0,
         "attacks": [],
@@ -27976,20 +27602,20 @@
         "retreat": 0,
         "evolves_from": null,
         "trainer_kind": null,
-        "energy_type": "Fire",
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/153/low.webp",
+        "energy_type": "Fighting",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/157/low.webp",
         "set_name": "Crown Zenith",
         "text": "",
         "dex_id": null,
         "traits": []
       },
       {
-        "catalog_id": "swsh12.5-153",
-        "name": "Fire Energy",
+        "catalog_id": "swsh12.5-157",
+        "name": "Fighting Energy",
         "category": "Energy",
         "stage": "Basic",
         "types": [
-          "Fire"
+          "Fighting"
         ],
         "hp": 0,
         "attacks": [],
@@ -27999,20 +27625,20 @@
         "retreat": 0,
         "evolves_from": null,
         "trainer_kind": null,
-        "energy_type": "Fire",
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/153/low.webp",
+        "energy_type": "Fighting",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/157/low.webp",
         "set_name": "Crown Zenith",
         "text": "",
         "dex_id": null,
         "traits": []
       },
       {
-        "catalog_id": "swsh12.5-153",
-        "name": "Fire Energy",
+        "catalog_id": "swsh12.5-157",
+        "name": "Fighting Energy",
         "category": "Energy",
         "stage": "Basic",
         "types": [
-          "Fire"
+          "Fighting"
         ],
         "hp": 0,
         "attacks": [],
@@ -28022,20 +27648,20 @@
         "retreat": 0,
         "evolves_from": null,
         "trainer_kind": null,
-        "energy_type": "Fire",
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/153/low.webp",
+        "energy_type": "Fighting",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/157/low.webp",
         "set_name": "Crown Zenith",
         "text": "",
         "dex_id": null,
         "traits": []
       },
       {
-        "catalog_id": "swsh12.5-153",
-        "name": "Fire Energy",
+        "catalog_id": "swsh12.5-157",
+        "name": "Fighting Energy",
         "category": "Energy",
         "stage": "Basic",
         "types": [
-          "Fire"
+          "Fighting"
         ],
         "hp": 0,
         "attacks": [],
@@ -28045,20 +27671,20 @@
         "retreat": 0,
         "evolves_from": null,
         "trainer_kind": null,
-        "energy_type": "Fire",
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/153/low.webp",
+        "energy_type": "Fighting",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/157/low.webp",
         "set_name": "Crown Zenith",
         "text": "",
         "dex_id": null,
         "traits": []
       },
       {
-        "catalog_id": "swsh12.5-153",
-        "name": "Fire Energy",
+        "catalog_id": "swsh12.5-157",
+        "name": "Fighting Energy",
         "category": "Energy",
         "stage": "Basic",
         "types": [
-          "Fire"
+          "Fighting"
         ],
         "hp": 0,
         "attacks": [],
@@ -28068,20 +27694,20 @@
         "retreat": 0,
         "evolves_from": null,
         "trainer_kind": null,
-        "energy_type": "Fire",
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/153/low.webp",
+        "energy_type": "Fighting",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/157/low.webp",
         "set_name": "Crown Zenith",
         "text": "",
         "dex_id": null,
         "traits": []
       },
       {
-        "catalog_id": "swsh12.5-153",
-        "name": "Fire Energy",
+        "catalog_id": "swsh12.5-157",
+        "name": "Fighting Energy",
         "category": "Energy",
         "stage": "Basic",
         "types": [
-          "Fire"
+          "Fighting"
         ],
         "hp": 0,
         "attacks": [],
@@ -28091,8 +27717,215 @@
         "retreat": 0,
         "evolves_from": null,
         "trainer_kind": null,
-        "energy_type": "Fire",
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/153/low.webp",
+        "energy_type": "Fighting",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/157/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "swsh12.5-157",
+        "name": "Fighting Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Fighting"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Fighting",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/157/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "swsh12.5-157",
+        "name": "Fighting Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Fighting"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Fighting",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/157/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "swsh12.5-157",
+        "name": "Fighting Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Fighting"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Fighting",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/157/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "swsh12.5-157",
+        "name": "Fighting Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Fighting"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Fighting",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/157/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "swsh12.5-157",
+        "name": "Fighting Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Fighting"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Fighting",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/157/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "swsh12.5-157",
+        "name": "Fighting Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Fighting"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Fighting",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/157/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "swsh12.5-157",
+        "name": "Fighting Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Fighting"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Fighting",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/157/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "swsh12.5-157",
+        "name": "Fighting Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Fighting"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Fighting",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/157/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "swsh12.5-157",
+        "name": "Fighting Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Fighting"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Fighting",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/157/low.webp",
         "set_name": "Crown Zenith",
         "text": "",
         "dex_id": null,

@@ -530,36 +530,25 @@ SET_L60_NAMES = (
     + ["Fighting Energy"] * 11
 )
 
-# Mill stall 60. Mew ex copies the bench. Meowth ex, played from the hand, searches
-# a Supporter. Great Tusk mills 4 after an Ancient Supporter. Houndoom-EX mills 2
-# for one Fire. Wugtrio flips 3 coins and mills 3 per heads (0–9, expected 4.5).
-# The only Ancient Supporters are Professor Sada's Vitality and Explorer's Guidance.
-# Guidance looks at 6 and discards the rest, so the list keeps 2. Sada is the flag
-# and can attach nothing. Switch stands in for Ultra Ball: the attackers are Basic,
-# and Great Tusk retreats for 3.
+# Mill stall 60. Great Tusk is the 1-prize body. Meowth ex, from the hand, searches
+# a Supporter. Latias ex makes every Basic retreat for free. Lively Stadium gives
+# every Basic +30 HP. Ancient Booster Energy Capsule gives an Ancient Pokémon +60 HP.
+# Awakening Drum is one ACE SPEC and draws one card per Ancient Pokémon in play.
+# One Double Colorless Energy pays Land Collapse.
 SET_MILL60_NAMES = (
-    ["Mew ex"] * 2
-    + ["Great Tusk"] * 3
-    + ["Houndoom-EX"] * 2
+    ["Great Tusk"] * 4
+    + ["Latias ex"] * 2
     + ["Meowth ex"] * 2
-    + ["Wiglett"] * 2
-    + ["Wugtrio"] * 2
-    + ["Manaphy"]
     + ["Professor Sada's Vitality"] * 4
     + ["Explorer's Guidance"] * 2
-    + ["Penny"] * 3
-    + ["Miss Fortune Sisters"] * 2
+    + ["Ancient Booster Energy Capsule"] * 4
+    + ["Lively Stadium"] * 4
+    + ["Night Stretcher"] * 4
     + ["Nest Ball"] * 4
-    + ["Buddy-Buddy Poffin"] * 2
-    + ["Switch"] * 2
-    + ["Battle Cage"] * 3
-    + ["Bravery Charm"] * 2
-    + ["Hero's Cape"]
-    + ["Max Potion"] * 3
-    + ["Night Stretcher"] * 2
+    + ["Awakening Drum"]
     + ["Energy Retrieval"] * 2
-    + ["Fire Energy"] * 8
-    + ["Fighting Energy"] * 6
+    + ["Double Colorless Energy"] * 4
+    + ["Fighting Energy"] * 23
 )
 
 # Unlimited 60: Ambipom PAR Hand Fling, Lopunny FLF Big Jump recycle,
@@ -4631,6 +4620,31 @@ _register(
         "supporter",
         _SISTERS_TEXT,
         catalog_id="swsh11-164",
+    )
+)
+_LIVELY_STADIUM = "Each Basic Pokémon in play (both yours and your opponent's) gets +30 HP."
+_ANCIENT_CAPSULE = (
+    "The Ancient Pokémon this card is attached to gets +60 HP, recovers from all Special Conditions, "
+    "and can't be affected by any Special Conditions."
+)
+_AWAKENING_DRUM = "Draw a card for each of your Ancient Pokémon in play."
+_register(_trn("Lively Stadium", "stadium", _LIVELY_STADIUM, catalog_id="sv08-180"))
+_register(
+    _trn(
+        "Ancient Booster Energy Capsule",
+        "item",
+        _ANCIENT_CAPSULE,
+        catalog_id="sv04-159",
+        traits=["Ancient"],
+    )
+)
+_register(
+    _trn(
+        "Awakening Drum",
+        "item",
+        _AWAKENING_DRUM,
+        catalog_id="sv05-141",
+        traits=["Ancient"],
     )
 )
 

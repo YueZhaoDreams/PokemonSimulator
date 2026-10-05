@@ -573,7 +573,7 @@ def _mill_blob() -> dict:
     cards = _repeat_named_cards(list(SET_MILL60_NAMES), enrich=False)
     return {
         "id": "seed-mill",
-        "name": "Mill Stall 60 (Mew ex copies the bench)",
+        "name": "Mill Stall 60 (Great Tusk gives up the prize)",
         "sample": None,
         "kind": "list",
         "cards": [c.to_dict() if isinstance(c, Card) else c for c in cards],

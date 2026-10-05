@@ -724,16 +724,15 @@ STRATEGY_LIBRARY = {
     "mill": StrategySpec(
         name="mill",
         description=(
-            "Mew ex stays Active and copies the bench. Meowth ex Last-Ditch Catch "
-            "searches a Supporter when it is played from the hand. Great Tusk's Land "
-            "Collapse mills 4 after an Ancient Supporter. Houndoom-EX mills 2 for one "
-            "Fire. Wugtrio flips 3 coins and mills 3 per heads. Professor Sada's Vitality "
-            "is the flag and can attach nothing. Explorer's Guidance is only for "
-            "finding Mew ex or Great Tusk, because it discards the other looked cards. "
-            "Switch brings Mew ex Active when retreat is not paid. Hero's Cape sits on "
-            "Mew ex. Penny picks that Mew ex up when it is hurt. Manaphy and Battle Cage "
-            "keep the bench from being spread down. One Mew ex, one Great Tusk, one "
-            "Houndoom-EX, and one Meowth ex stay in play."
+            "Great Tusk stays Active and gives up one prize at a time. Meowth ex "
+            "Last-Ditch Catch searches a Supporter when it is played from the hand. "
+            "Latias ex Skyliner makes every Basic retreat for free. Land Collapse mills "
+            "4 after Professor Sada's Vitality, and one Double Colorless Energy pays it. "
+            "Lively Stadium gives every Basic +30 HP. Ancient Booster Energy Capsule "
+            "gives Great Tusk +60 HP. Awakening Drum draws one card for each Ancient "
+            "Pokémon in play. Night Stretcher puts the Knocked Out Great Tusk back "
+            "into the hand. Explorer's Guidance is only for finding Great Tusk, because "
+            "it discards the other looked cards."
         ),
         prefer_damage=0.15,
         prefer_status=0.0,
@@ -741,12 +740,12 @@ STRATEGY_LIBRARY = {
         evolve_asap=1.0,
         attach_pokemon_as_energy=0.0,
         item_spend=1.0,
-        self_preserve=0.8,
+        self_preserve=0.2,
         hold_as_energy=False,
-        protect=["Mew ex", "Great Tusk", "Manaphy", "Battle Cage", "Hero's Cape"],
-        search_aces=["Mew ex"],
-        closers=["Mew ex"],
-        one_mew=True,
+        protect=["Great Tusk", "Latias ex", "Ancient Booster Energy Capsule", "Lively Stadium"],
+        search_aces=["Great Tusk"],
+        closers=["Great Tusk"],
+        one_mew=False,
     ),
 }
 

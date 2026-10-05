@@ -2,7 +2,7 @@
 
 from random import Random
 
-from app.engine.effects import parse_effects, parse_trainer_effects
+from app.engine.effects import parse_ability_effects, parse_effects, parse_trainer_effects
 from app.engine.game import Game, Pokemon
 from app.engine.legality import copy_violations
 from app.engine.models import default_family_rules, standard_60_rules
@@ -228,51 +228,58 @@ def _collapse_board(game: Game):
     return me
 
 
-def test_attachment_pays_retreat_before_the_benched_copier():
+def test_energy_goes_to_the_tusk_that_will_attack():
     game = _game()
     me = game.players["b"]
     tusk = _take(me, "Great Tusk")[0]
-    mew = _take(me, "Mew ex")[0]
+    wiglett = _take(me, "Wiglett")[0]
     me.active = Pokemon(card_i=tusk)
-    me.bench = [Pokemon(card_i=mew)]
+    me.bench = [Pokemon(card_i=wiglett)]
     assert game._mill_energy_target(me) is me.active
-    me.active.energy = _take(me, "Fire Energy", 3)
-    assert game._mill_energy_target(me) is me.bench[0]
+    me.active.energy = _take(me, "Fire Energy", 2)
+    assert game._mill_paid(me, me.active)
 
 
 def test_sada_is_for_the_land_collapse_turn():
     game = _game()
-    me = _collapse_board(game)
+    me = game.players["b"]
+    tusk = _take(me, "Great Tusk")[0]
+    fires = _take(me, "Fire Energy", 2)
+    me.active = Pokemon(card_i=tusk, energy=fires)
+    me.bench = []
+    me.hand = [i for i in me.hand if not me.card(i).is_energy]
+    game.turn = 2
+    game.first = "a"
     assert game._mill_sada_score(me) == 28
     game.turn = 1
     game.first = "b"
     assert game._mill_sada_score(me) == -18
     game.turn = 2
     game.first = "a"
-    me.bench.clear()
+    me.active = None
     assert game._mill_sada_score(me) == -18
 
 
-def test_switch_is_held_until_retreat_is_short_and_then_finds_mew():
+def test_switch_brings_tusk_active_when_retreat_is_short():
     game = _game()
     me = game.players["b"]
     tusk = _take(me, "Great Tusk")[0]
-    mew = _take(me, "Mew ex")[0]
-    me.active = Pokemon(card_i=tusk)
-    me.bench = [Pokemon(card_i=mew)]
+    wiglett = _take(me, "Wiglett")[0]
+    me.active = Pokemon(card_i=wiglett)
+    me.bench = [Pokemon(card_i=tusk)]
     me.hand = [i for i in me.hand if not me.card(i).is_energy]
     assert game._mill_wants_switch(me)
     assert game._play_switch(me, "b")
-    assert me.card(me.active.card_i).name == "Mew ex"
-    assert not game._mill_wants_switch(me)
+    assert me.card(me.active.card_i).name == "Great Tusk"
 
 
-def test_houndoom_stays_in_hand_once_mew_can_pay():
+def test_only_tusk_latias_and_meowth_take_the_board():
     game = _game()
-    me = _collapse_board(game)
-    hound = fallback_named("Houndoom-EX")
+    me = game.players["b"]
     strat = StrategySpec.from_dict("mill")
-    assert game._wants_in_play(me, hound, strat) is False
+    assert game._wants_in_play(me, fallback_named("Houndoom-EX"), strat) is False
+    assert game._wants_in_play(me, fallback_named("Mew ex"), strat) is False
+    assert game._wants_in_play(me, fallback_named("Great Tusk"), strat) is True
 
 
 def test_meowth_stays_in_hand_when_an_ancient_supporter_is_there():
@@ -287,13 +294,6 @@ def test_meowth_stays_in_hand_when_an_ancient_supporter_is_there():
     assert game._wants_in_play(me, meowth, strat) is True
 
 
-def test_charm_leaves_the_cape_slot_on_mew():
-    game = _game()
-    me = _collapse_board(game)
-    target = game._tool_target(me, "b", fallback_named("Bravery Charm"))
-    assert me.card(target.card_i).name == "Great Tusk"
-
-
 def test_penny_picks_up_a_scratched_mew():
     game = _game()
     me = _collapse_board(game)
@@ -301,16 +301,115 @@ def test_penny_picks_up_a_scratched_mew():
     assert game._mill_wants_penny(me)
 
 
+_LIVELY = "Each Basic Pokémon in play (both yours and your opponent's) gets +30 HP."
+_CAPSULE = (
+    "The Ancient Pokémon this card is attached to gets +60 HP, recovers from all Special Conditions, "
+    "and can't be affected by any Special Conditions."
+)
+_DRUM = "Draw a card for each of your Ancient Pokémon in play."
+
+
+def test_lively_stadium_and_capsule_use_the_printed_numbers():
+    lively = parse_ability_effects(_LIVELY)
+    assert lively[0] == {"kind": "stadium_hp", "amount": 30, "basic_only": True}
+    assert {"kind": "draw_per_trait", "trait": "ancient"} in parse_trainer_effects(_DRUM)
+    capsule = fallback_named("Ancient Booster Energy Capsule")
+    assert capsule.text == _CAPSULE
+    stadium = fallback_named("Lively Stadium")
+    assert stadium.text == _LIVELY
+
+
+def test_capsule_adds_60_only_on_ancient_and_stadium_adds_30_to_basics():
+    game = Game(
+        build_fallback_deck(["Dondozo"] + ["Sobble"] * 9),
+        build_fallback_deck(
+            ["Great Tusk", "Latias ex", "Ancient Booster Energy Capsule", "Lively Stadium"] + ["Hop"] * 6
+        ),
+        default_family_rules(),
+        StrategySpec.from_dict("balanced"),
+        StrategySpec.from_dict("mill"),
+        Random(3),
+    )
+    me = game.players["b"]
+    tusk = _take(me, "Great Tusk")[0]
+    latias = _take(me, "Latias ex")[0]
+    capsule = _take(me, "Ancient Booster Energy Capsule")[0]
+    stadium = _take(me, "Lively Stadium")[0]
+    me.active = Pokemon(card_i=tusk, tool=capsule)
+    me.bench = [Pokemon(card_i=latias)]
+    game._set_stadium(me.card(stadium), owner=me)
+    assert game._max_hp(me, me.active) == 230
+    assert game._max_hp(me, me.bench[0]) == 240
+    me.bench[0].tool = capsule
+    me.active.tool = None
+    assert game._max_hp(me, me.bench[0]) == 240
+    assert game._max_hp(me, me.active) == 170
+
+
+def test_awakening_drum_draws_one_per_ancient_in_play():
+    game = Game(
+        build_fallback_deck(["Dondozo"] + ["Sobble"] * 9),
+        build_fallback_deck(["Great Tusk", "Great Tusk", "Latias ex", "Awakening Drum"] + ["Hop"] * 10),
+        default_family_rules(),
+        StrategySpec.from_dict("balanced"),
+        StrategySpec.from_dict("mill"),
+        Random(4),
+    )
+    me = game.players["b"]
+    tusks = _take(me, "Great Tusk", 2)
+    latias = _take(me, "Latias ex")[0]
+    drum = _take(me, "Awakening Drum")[0]
+    me.active = Pokemon(card_i=tusks[0])
+    me.bench = [Pokemon(card_i=tusks[1]), Pokemon(card_i=latias)]
+    me.hand = []
+    me.deck = _take(me, "Hop", 5)
+    game._resolve_trainer(me, game.players["a"], me.card(drum), who="b", card_i=drum)
+    assert len(me.hand) == 2
+    assert game.events.get("draw_per_trait") == 2
+
+
+def test_one_double_colorless_pays_land_collapse():
+    game = Game(
+        build_fallback_deck(["Dondozo"] + ["Sobble"] * 19),
+        build_fallback_deck(["Great Tusk", "Double Colorless Energy"] + ["Hop"] * 18),
+        default_family_rules(),
+        StrategySpec.from_dict("balanced"),
+        StrategySpec.from_dict("mill"),
+        Random(5),
+    )
+    me = game.players["b"]
+    foe = game.players["a"]
+    tusk = _take(me, "Great Tusk")[0]
+    dce = _take(me, "Double Colorless Energy")[0]
+    me.active = Pokemon(card_i=tusk)
+    me.bench = []
+    me.hand = [dce]
+    game.turn = 2
+    game.first = "a"
+    game.current = "b"
+    assert game._mill_sada_score(me) == 28
+    me.active.energy = [dce]
+    me.hand = []
+    me.ancient_supporter_played = True
+    before = len(foe.deck)
+    game._attack(me, foe, "b")
+    assert len(foe.deck) == before - 4
+
+
 def test_mill_list_is_a_legal_sixty():
     assert len(SET_MILL60_NAMES) == 60
+    assert SET_MILL60_NAMES.count("Great Tusk") == 4
+    assert SET_MILL60_NAMES.count("Latias ex") == 2
+    assert SET_MILL60_NAMES.count("Meowth ex") == 2
+    assert SET_MILL60_NAMES.count("Mew ex") == 0
     assert SET_MILL60_NAMES.count("Professor Sada's Vitality") == 4
     assert SET_MILL60_NAMES.count("Explorer's Guidance") == 2
-    assert SET_MILL60_NAMES.count("Miss Fortune Sisters") == 2
-    assert SET_MILL60_NAMES.count("Hero's Cape") == 1
-    assert SET_MILL60_NAMES.count("Mew ex") == 2
-    assert SET_MILL60_NAMES.count("Meowth ex") == 2
-    assert SET_MILL60_NAMES.count("Switch") == 2
-    assert SET_MILL60_NAMES.count("Ultra Ball") == 0
+    assert SET_MILL60_NAMES.count("Ancient Booster Energy Capsule") == 4
+    assert SET_MILL60_NAMES.count("Lively Stadium") == 4
+    assert SET_MILL60_NAMES.count("Night Stretcher") == 4
+    assert SET_MILL60_NAMES.count("Awakening Drum") == 1
+    assert SET_MILL60_NAMES.count("Double Colorless Energy") == 4
+    assert SET_MILL60_NAMES.count("Fighting Energy") == 23
     rules = standard_60_rules()
     assert copy_violations(build_fallback_deck(list(SET_MILL60_NAMES)), rules) == []
     deck = load_seed_deck("mill")
