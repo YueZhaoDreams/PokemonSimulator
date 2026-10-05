@@ -13668,12 +13668,21 @@ class Game:
             name = me.card(card_i).name.lower()
             return prefer.index(name) if name in prefer else 40
 
-        pick = min(pokemon, key=rank)
-        me.discard.remove(pick)
-        me.hand.append(pick)
-        self._bump("rescue_stretcher")
-        if shuffle_count < 0:
+        wanted = [card_i for card_i in pokemon if rank(card_i) < 40]
+        count = max(0, int(shuffle_count))
+        # Printed "or": take one wanted Pokémon to hand. Otherwise shuffle the
+        # parsed count from discard into the deck.
+        if wanted or len(pokemon) < count or count <= 0:
+            pick = min(pokemon, key=rank)
+            me.discard.remove(pick)
+            me.hand.append(pick)
+            self._bump("rescue_stretcher")
             return
+        for card_i in pokemon[:count]:
+            me.discard.remove(card_i)
+            me.deck.append(card_i)
+        self.rng.shuffle(me.deck)
+        self._bump("rescue_stretcher_shuffle", count)
 
     def _shuffle_special_energy_to_deck(self, me: Player, count: int) -> None:
         specials = [i for i in list(me.discard) if is_special_energy(me.card(i))]

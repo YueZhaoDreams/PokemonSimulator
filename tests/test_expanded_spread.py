@@ -721,7 +721,49 @@ def test_remaining_printed_trainer_and_attack_sentences():
     assert _kind(parse_trainer_effects(ACRO_BIKE), "look_top_keep_one")["look"] == 2
     assert _kind(parse_trainer_effects(ACRO_BIKE.replace("top 2", "top 4")), "look_top_keep_one")["look"] == 4
     assert fallback_named("Rescue Stretcher").text == RESCUE
-    assert _kind(parse_trainer_effects(RESCUE), "rescue_stretcher")["shuffle_count"] == 3
+    rescue = _kind(parse_trainer_effects(RESCUE), "rescue_stretcher")
+    assert rescue["shuffle_count"] == 3
+    alt_rescue = RESCUE.replace("put 3 Pokémon", "put 2 Pokémon")
+    assert _kind(parse_trainer_effects(alt_rescue), "rescue_stretcher")["shuffle_count"] == 2
+
+    rescue_game = _game(
+        ["Mew ex"],
+        ["Electrode-GX", "Pikachu", "Budew", "Igglybuff", "Mime Jr."],
+    )
+    rescuer = rescue_game.players["b"]
+    _seat(rescue_game.players["a"], _idxs(rescue_game.players["a"], "Mew ex")[0], [])
+    _seat(rescuer, _idxs(rescuer, "Electrode-GX")[0], [])
+    pikachu, budew, iggly, mime = (
+        _take(rescuer, "Pikachu", 1)[0],
+        _take(rescuer, "Budew", 1)[0],
+        _take(rescuer, "Igglybuff", 1)[0],
+        _take(rescuer, "Mime Jr.", 1)[0],
+    )
+    rescuer.discard.extend([pikachu, budew, iggly, mime])
+    rescue_game._rescue_stretcher(rescuer, "b", rescue["shuffle_count"])
+    assert pikachu in rescuer.hand
+    assert budew in rescuer.discard
+    rescuer.discard[:] = [budew, iggly, mime]
+    rescue_game._rescue_stretcher(rescuer, "b", rescue["shuffle_count"])
+    assert {budew, iggly, mime} <= set(rescuer.deck)
+    assert rescue_game.events.get("rescue_stretcher_shuffle") == 3
+
+    short = _game(["Mew ex"], ["Electrode-GX", "Budew", "Igglybuff", "Mime Jr."])
+    short_me = short.players["b"]
+    _seat(short.players["a"], _idxs(short.players["a"], "Mew ex")[0], [])
+    _seat(short_me, _idxs(short_me, "Electrode-GX")[0], [])
+    pair = [
+        _take(short_me, "Budew", 1)[0],
+        _take(short_me, "Igglybuff", 1)[0],
+        _take(short_me, "Mime Jr.", 1)[0],
+    ]
+    short_me.discard.extend(pair)
+    short_count = _kind(parse_trainer_effects(alt_rescue), "rescue_stretcher")["shuffle_count"]
+    short._rescue_stretcher(short_me, "b", short_count)
+    moved = [card_i for card_i in pair if card_i in short_me.deck]
+    left = [card_i for card_i in pair if card_i in short_me.discard]
+    assert len(moved) == short_count
+    assert len(left) == len(pair) - short_count
     assert fallback_named("Special Charge").text == SPECIAL_CHARGE
     assert _kind(parse_trainer_effects(SPECIAL_CHARGE), "shuffle_special_energy_to_deck")["count"] == 2
     assert fallback_named("Counter Gain").text == COUNTER_GAIN
