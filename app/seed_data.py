@@ -3738,6 +3738,57 @@ _register(
         image="https://assets.tcgdex.net/en/me/me02/085/low.webp",
     )
 )
+# Stellar Crown 131. The bench of 8 exists only while that player has a Tera Pokémon.
+_AREA_ZERO_TEXT = (
+    "Each player who has any Tera Pokémon in play can have up to 8 Pokémon on their Bench. "
+    "If a player no longer has any Tera Pokémon in play, that player discards Pokémon from their Bench until they have 5. "
+    "When this card leaves play, both players discard Pokémon from their Bench until they have 5, "
+    "and the player who played this card discards first."
+)
+_register(
+    _trn(
+        "Area Zero Underdepths",
+        "stadium",
+        _AREA_ZERO_TEXT,
+        catalog_id="sv07-131",
+        image="https://assets.tcgdex.net/en/sv/sv07/131/low.webp",
+    )
+)
+# Stellar Crown 128. The first rules sentence is the Tera rule. Unified Beatdown counts every benched Pokémon.
+_TERAPAGOS_TERA_TEXT = (
+    "As long as this Pokémon is on your Bench, prevent all damage done to this Pokémon by attacks "
+    "(both yours and your opponent's)."
+)
+_register(
+    _pkm(
+        "Terapagos ex",
+        "Basic",
+        ["Colorless"],
+        230,
+        [
+            _atk(
+                "Unified Beatdown",
+                ["Colorless", "Colorless"],
+                "30×",
+                "If you go second, you can't use this attack during your first turn. "
+                "This attack does 30 damage for each of your Benched Pokémon.",
+            ),
+            _atk(
+                "Crown Opal",
+                ["Grass", "Water", "Lightning"],
+                180,
+                "During your opponent's next turn, prevent all damage done to this Pokémon by attacks "
+                "from Basic non-Colorless Pokémon.",
+            ),
+        ],
+        catalog_id="sv07-128",
+        weakness="Fighting",
+        retreat=2,
+        abilities=[Ability(name="Tera", text=_TERAPAGOS_TERA_TEXT)],
+        image="https://assets.tcgdex.net/en/sv/sv07/128/low.webp",
+        set_name="Stellar Crown",
+    )
+)
 _register(
     _trn(
         "Moonlight Stadium",

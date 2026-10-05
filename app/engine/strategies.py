@@ -630,7 +630,11 @@ STRATEGY_LIBRARY = {
             "Bursting Balloon goes on a Baby: the printed counters hit the attacker. Babies do not take HP tools. "
             "Spiky Energy attaches to the Pokémon that will stay Active, even when that Pokémon already has a Tool. "
             "Each attached copy places its own printed counters, so copies stack with each other and with Bursting Balloon. "
-            "While the opponent's Active shuts off Rule Box Abilities, a Baby stays Active and Mew ex stays back."
+            "While the opponent's Active shuts off Rule Box Abilities, a Baby stays Active and Mew ex stays back. "
+            "Later, Terapagos ex and Area Zero Underdepths come in for the burst. "
+            "The stadium's printed bench limit applies only while a Tera Pokémon is in play. "
+            "Bouncy Circle still counts only maximum HP 30. Unified Beatdown counts every benched Pokémon, including Mew ex. "
+            "Two Colorless pays that attack. Battle Cage stays up until that burst."
         ),
         prefer_damage=0.9,
         prefer_status=0.2,
