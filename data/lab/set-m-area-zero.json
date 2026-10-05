@@ -1,0 +1,6208 @@
+{
+  "seed": 20260929,
+  "screen_games": 150,
+  "confirm_games": 1000,
+  "workers": 4,
+  "elapsed": 1370.1143706310004,
+  "held": [
+    "Arven",
+    "Buddy-Buddy Poffin",
+    "Budew",
+    "Igglybuff",
+    "Max Potion",
+    "Mew ex",
+    "Mime Jr.",
+    "Nest Ball",
+    "Spiky Energy"
+  ],
+  "added": [
+    "Terapagos ex",
+    "Area Zero Underdepths"
+  ],
+  "weights": {
+    "t60": 0.19144144144144137,
+    "hedrick": 0.29279279279279286,
+    "c60": 0.33783783783783794,
+    "d60": 0.027027027027027053,
+    "thorns": 0.1509009009009008
+  },
+  "baseline": {
+    "label": "current",
+    "cuts": [],
+    "weighted": 0.8845540540540541,
+    "mean": 0.9112,
+    "worst": 0.85,
+    "area_zero": 0.0,
+    "terapagos": 0.0,
+    "mew_beatdown": 0.0,
+    "tera_beatdown": 0.0,
+    "cells": {
+      "t60": {
+        "a": 0.915,
+        "b": 0.085,
+        "tie": 0.0,
+        "first": 0.8962818003913894,
+        "second": 0.934560327198364,
+        "area_zero": 0.0,
+        "terapagos": 0.0,
+        "mew_beatdown": 0.0,
+        "tera_beatdown": 0.0
+      },
+      "hedrick": {
+        "a": 0.87,
+        "b": 0.13,
+        "tie": 0.0,
+        "first": 0.8470824949698189,
+        "second": 0.8926441351888668,
+        "area_zero": 0.0,
+        "terapagos": 0.0,
+        "mew_beatdown": 0.0,
+        "tera_beatdown": 0.0
+      },
+      "c60": {
+        "a": 0.85,
+        "b": 0.15,
+        "tie": 0.0,
+        "first": 0.8212058212058212,
+        "second": 0.8766859344894027,
+        "area_zero": 0.0,
+        "terapagos": 0.0,
+        "mew_beatdown": 0.0,
+        "tera_beatdown": 0.0
+      },
+      "d60": {
+        "a": 0.988,
+        "b": 0.012,
+        "tie": 0.0,
+        "first": 0.98635477582846,
+        "second": 0.9897330595482546,
+        "area_zero": 0.0,
+        "terapagos": 0.0,
+        "mew_beatdown": 0.0,
+        "tera_beatdown": 0.0
+      },
+      "thorns": {
+        "a": 0.933,
+        "b": 0.067,
+        "tie": 0.0,
+        "first": 0.9314516129032258,
+        "second": 0.9345238095238095,
+        "area_zero": 0.0,
+        "terapagos": 0.0,
+        "mew_beatdown": 0.0,
+        "tera_beatdown": 0.0
+      }
+    }
+  },
+  "screen": [
+    {
+      "label": "2 Bravery Charm",
+      "cuts": [
+        "Bravery Charm",
+        "Bravery Charm"
+      ],
+      "weighted": 0.8878228228228229,
+      "mean": 0.9133333333333333,
+      "worst": 0.84,
+      "area_zero": 0.10666666666666666,
+      "terapagos": 0.13733333333333334,
+      "mew_beatdown": 0.0,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.9133333333333333,
+          "b": 0.08666666666666667,
+          "tie": 0.0,
+          "first": 0.9506172839506173,
+          "second": 0.8695652173913043,
+          "area_zero": 0.07333333333333333,
+          "terapagos": 0.08,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.9,
+          "b": 0.1,
+          "tie": 0.0,
+          "first": 0.8433734939759037,
+          "second": 0.9701492537313433,
+          "area_zero": 0.11333333333333333,
+          "terapagos": 0.14,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.84,
+          "b": 0.16,
+          "tie": 0.0,
+          "first": 0.7746478873239436,
+          "second": 0.8987341772151899,
+          "area_zero": 0.13333333333333333,
+          "terapagos": 0.16,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.9933333333333333,
+          "b": 0.006666666666666667,
+          "tie": 0.0,
+          "first": 1.0,
+          "second": 0.9868421052631579,
+          "area_zero": 0.006666666666666667,
+          "terapagos": 0.06,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.92,
+          "b": 0.08,
+          "tie": 0.0,
+          "first": 0.8780487804878049,
+          "second": 0.9705882352941176,
+          "area_zero": 0.20666666666666667,
+          "terapagos": 0.24666666666666667,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Night Stretcher + Iono",
+      "cuts": [
+        "Night Stretcher",
+        "Iono"
+      ],
+      "weighted": 0.8845195195195195,
+      "mean": 0.9106666666666665,
+      "worst": 0.82,
+      "area_zero": 0.10666666666666666,
+      "terapagos": 0.12533333333333335,
+      "mew_beatdown": 0.002666666666666667,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.9066666666666666,
+          "b": 0.09333333333333334,
+          "tie": 0.0,
+          "first": 0.8939393939393939,
+          "second": 0.9166666666666666,
+          "area_zero": 0.08666666666666667,
+          "terapagos": 0.09333333333333334,
+          "mew_beatdown": 0.013333333333333334,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.9133333333333333,
+          "b": 0.08666666666666667,
+          "tie": 0.0,
+          "first": 0.873015873015873,
+          "second": 0.9425287356321839,
+          "area_zero": 0.11333333333333333,
+          "terapagos": 0.15333333333333332,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.82,
+          "b": 0.18,
+          "tie": 0.0,
+          "first": 0.8378378378378378,
+          "second": 0.8026315789473685,
+          "area_zero": 0.12,
+          "terapagos": 0.12666666666666668,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.9866666666666667,
+          "b": 0.013333333333333334,
+          "tie": 0.0,
+          "first": 0.9743589743589743,
+          "second": 1.0,
+          "area_zero": 0.006666666666666667,
+          "terapagos": 0.03333333333333333,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.9266666666666666,
+          "b": 0.07333333333333333,
+          "tie": 0.0,
+          "first": 0.927710843373494,
+          "second": 0.9253731343283582,
+          "area_zero": 0.20666666666666667,
+          "terapagos": 0.22,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Bursting Balloon + Battle Cage",
+      "cuts": [
+        "Bursting Balloon",
+        "Battle Cage"
+      ],
+      "weighted": 0.8817417417417418,
+      "mean": 0.9066666666666666,
+      "worst": 0.84,
+      "area_zero": 0.08266666666666667,
+      "terapagos": 0.10800000000000001,
+      "mew_beatdown": 0.0013333333333333335,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.8933333333333333,
+          "b": 0.10666666666666667,
+          "tie": 0.0,
+          "first": 0.9058823529411765,
+          "second": 0.8769230769230769,
+          "area_zero": 0.08666666666666667,
+          "terapagos": 0.12,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.8866666666666667,
+          "b": 0.11333333333333333,
+          "tie": 0.0,
+          "first": 0.8831168831168831,
+          "second": 0.8904109589041096,
+          "area_zero": 0.07333333333333333,
+          "terapagos": 0.08666666666666667,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.84,
+          "b": 0.16,
+          "tie": 0.0,
+          "first": 0.8611111111111112,
+          "second": 0.8205128205128205,
+          "area_zero": 0.08666666666666667,
+          "terapagos": 0.11333333333333333,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.98,
+          "b": 0.02,
+          "tie": 0.0,
+          "first": 0.9605263157894737,
+          "second": 1.0,
+          "area_zero": 0.02666666666666667,
+          "terapagos": 0.08,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.9333333333333333,
+          "b": 0.06666666666666667,
+          "tie": 0.0,
+          "first": 0.9342105263157895,
+          "second": 0.9324324324324325,
+          "area_zero": 0.14,
+          "terapagos": 0.14,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Bravery Charm + Bursting Balloon",
+      "cuts": [
+        "Bravery Charm",
+        "Bursting Balloon"
+      ],
+      "weighted": 0.8803903903903904,
+      "mean": 0.9053333333333333,
+      "worst": 0.86,
+      "area_zero": 0.11333333333333333,
+      "terapagos": 0.14533333333333334,
+      "mew_beatdown": 0.0,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.88,
+          "b": 0.12,
+          "tie": 0.0,
+          "first": 0.8767123287671232,
+          "second": 0.8831168831168831,
+          "area_zero": 0.12,
+          "terapagos": 0.18666666666666668,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.8733333333333333,
+          "b": 0.12666666666666668,
+          "tie": 0.0,
+          "first": 0.8607594936708861,
+          "second": 0.8873239436619719,
+          "area_zero": 0.12,
+          "terapagos": 0.14,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.86,
+          "b": 0.14,
+          "tie": 0.0,
+          "first": 0.8481012658227848,
+          "second": 0.8732394366197183,
+          "area_zero": 0.15333333333333332,
+          "terapagos": 0.17333333333333334,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.9933333333333333,
+          "b": 0.006666666666666667,
+          "tie": 0.0,
+          "first": 0.9868421052631579,
+          "second": 1.0,
+          "area_zero": 0.02,
+          "terapagos": 0.06,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.92,
+          "b": 0.08,
+          "tie": 0.0,
+          "first": 0.9186046511627907,
+          "second": 0.921875,
+          "area_zero": 0.15333333333333332,
+          "terapagos": 0.16666666666666666,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Bursting Balloon + Ultra Ball",
+      "cuts": [
+        "Bursting Balloon",
+        "Ultra Ball"
+      ],
+      "weighted": 0.8796396396396396,
+      "mean": 0.9066666666666666,
+      "worst": 0.8533333333333334,
+      "area_zero": 0.11733333333333333,
+      "terapagos": 0.15333333333333332,
+      "mew_beatdown": 0.0,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.9066666666666666,
+          "b": 0.09333333333333334,
+          "tie": 0.0,
+          "first": 0.8769230769230769,
+          "second": 0.9294117647058824,
+          "area_zero": 0.12,
+          "terapagos": 0.13333333333333333,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.8533333333333334,
+          "b": 0.14666666666666667,
+          "tie": 0.0,
+          "first": 0.8873239436619719,
+          "second": 0.8227848101265823,
+          "area_zero": 0.10666666666666667,
+          "terapagos": 0.15333333333333332,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.86,
+          "b": 0.14,
+          "tie": 0.0,
+          "first": 0.8289473684210527,
+          "second": 0.8918918918918919,
+          "area_zero": 0.18,
+          "terapagos": 0.22,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.9933333333333333,
+          "b": 0.006666666666666667,
+          "tie": 0.0,
+          "first": 1.0,
+          "second": 0.9864864864864865,
+          "area_zero": 0.013333333333333334,
+          "terapagos": 0.05333333333333334,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.92,
+          "b": 0.08,
+          "tie": 0.0,
+          "first": 0.9375,
+          "second": 0.9,
+          "area_zero": 0.16666666666666666,
+          "terapagos": 0.20666666666666667,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "2 Penny",
+      "cuts": [
+        "Penny",
+        "Penny"
+      ],
+      "weighted": 0.8783183183183183,
+      "mean": 0.9039999999999999,
+      "worst": 0.8266666666666667,
+      "area_zero": 0.08266666666666667,
+      "terapagos": 0.10533333333333332,
+      "mew_beatdown": 0.0,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.8733333333333333,
+          "b": 0.12666666666666668,
+          "tie": 0.0,
+          "first": 0.8765432098765432,
+          "second": 0.8695652173913043,
+          "area_zero": 0.1,
+          "terapagos": 0.11333333333333333,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.9,
+          "b": 0.1,
+          "tie": 0.0,
+          "first": 0.9090909090909091,
+          "second": 0.8928571428571429,
+          "area_zero": 0.06666666666666667,
+          "terapagos": 0.08,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.8266666666666667,
+          "b": 0.17333333333333334,
+          "tie": 0.0,
+          "first": 0.8354430379746836,
+          "second": 0.8169014084507042,
+          "area_zero": 0.14,
+          "terapagos": 0.18666666666666668,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.98,
+          "b": 0.02,
+          "tie": 0.0,
+          "first": 0.9736842105263158,
+          "second": 0.9864864864864865,
+          "area_zero": 0.006666666666666667,
+          "terapagos": 0.02666666666666667,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.94,
+          "b": 0.06,
+          "tie": 0.0,
+          "first": 0.9743589743589743,
+          "second": 0.9027777777777778,
+          "area_zero": 0.1,
+          "terapagos": 0.12,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "2 Bursting Balloon",
+      "cuts": [
+        "Bursting Balloon",
+        "Bursting Balloon"
+      ],
+      "weighted": 0.8768618618618619,
+      "mean": 0.9026666666666667,
+      "worst": 0.8466666666666667,
+      "area_zero": 0.11733333333333333,
+      "terapagos": 0.15466666666666667,
+      "mew_beatdown": 0.002666666666666667,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.9333333333333333,
+          "b": 0.06666666666666667,
+          "tie": 0.0,
+          "first": 0.9012345679012346,
+          "second": 0.9710144927536232,
+          "area_zero": 0.07333333333333333,
+          "terapagos": 0.09333333333333334,
+          "mew_beatdown": 0.013333333333333334,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.8533333333333334,
+          "b": 0.14666666666666667,
+          "tie": 0.0,
+          "first": 0.7721518987341772,
+          "second": 0.9436619718309859,
+          "area_zero": 0.10666666666666667,
+          "terapagos": 0.17333333333333334,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.8466666666666667,
+          "b": 0.15333333333333332,
+          "tie": 0.0,
+          "first": 0.7866666666666666,
+          "second": 0.9066666666666666,
+          "area_zero": 0.14666666666666667,
+          "terapagos": 0.18,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.98,
+          "b": 0.02,
+          "tie": 0.0,
+          "first": 0.9868421052631579,
+          "second": 0.972972972972973,
+          "area_zero": 0.02,
+          "terapagos": 0.07333333333333333,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.9,
+          "b": 0.1,
+          "tie": 0.0,
+          "first": 0.8876404494382022,
+          "second": 0.9180327868852459,
+          "area_zero": 0.24,
+          "terapagos": 0.25333333333333335,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Iono + Counter Catcher",
+      "cuts": [
+        "Iono",
+        "Counter Catcher"
+      ],
+      "weighted": 0.8763363363363363,
+      "mean": 0.9093333333333333,
+      "worst": 0.82,
+      "area_zero": 0.10533333333333335,
+      "terapagos": 0.15733333333333333,
+      "mew_beatdown": 0.0013333333333333335,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.9133333333333333,
+          "b": 0.08666666666666667,
+          "tie": 0.0,
+          "first": 0.9024390243902439,
+          "second": 0.9264705882352942,
+          "area_zero": 0.1,
+          "terapagos": 0.17333333333333334,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.8666666666666667,
+          "b": 0.13333333333333333,
+          "tie": 0.0,
+          "first": 0.8513513513513513,
+          "second": 0.881578947368421,
+          "area_zero": 0.11333333333333333,
+          "terapagos": 0.18666666666666668,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.82,
+          "b": 0.18,
+          "tie": 0.0,
+          "first": 0.8421052631578947,
+          "second": 0.7972972972972973,
+          "area_zero": 0.14,
+          "terapagos": 0.18,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.9933333333333333,
+          "b": 0.006666666666666667,
+          "tie": 0.0,
+          "first": 0.987012987012987,
+          "second": 1.0,
+          "area_zero": 0.013333333333333334,
+          "terapagos": 0.07333333333333333,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.9533333333333334,
+          "b": 0.04666666666666667,
+          "tie": 0.0,
+          "first": 0.9625,
+          "second": 0.9428571428571428,
+          "area_zero": 0.16,
+          "terapagos": 0.17333333333333334,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Battle Cage + Penny",
+      "cuts": [
+        "Battle Cage",
+        "Penny"
+      ],
+      "weighted": 0.8761111111111112,
+      "mean": 0.9040000000000001,
+      "worst": 0.8533333333333334,
+      "area_zero": 0.08,
+      "terapagos": 0.10533333333333332,
+      "mew_beatdown": 0.0013333333333333335,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.9,
+          "b": 0.1,
+          "tie": 0.0,
+          "first": 0.8607594936708861,
+          "second": 0.9436619718309859,
+          "area_zero": 0.04666666666666667,
+          "terapagos": 0.06666666666666667,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.8533333333333334,
+          "b": 0.14666666666666667,
+          "tie": 0.0,
+          "first": 0.8243243243243243,
+          "second": 0.881578947368421,
+          "area_zero": 0.09333333333333334,
+          "terapagos": 0.12,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.8533333333333334,
+          "b": 0.14666666666666667,
+          "tie": 0.0,
+          "first": 0.863013698630137,
+          "second": 0.8441558441558441,
+          "area_zero": 0.1,
+          "terapagos": 0.15333333333333332,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.9933333333333333,
+          "b": 0.006666666666666667,
+          "tie": 0.0,
+          "first": 0.9875,
+          "second": 1.0,
+          "area_zero": 0.013333333333333334,
+          "terapagos": 0.04,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.92,
+          "b": 0.08,
+          "tie": 0.0,
+          "first": 0.9358974358974359,
+          "second": 0.9027777777777778,
+          "area_zero": 0.14666666666666667,
+          "terapagos": 0.14666666666666667,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Penny + Counter Catcher",
+      "cuts": [
+        "Penny",
+        "Counter Catcher"
+      ],
+      "weighted": 0.8752102102102102,
+      "mean": 0.9026666666666667,
+      "worst": 0.84,
+      "area_zero": 0.10666666666666666,
+      "terapagos": 0.136,
+      "mew_beatdown": 0.0013333333333333335,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.9,
+          "b": 0.1,
+          "tie": 0.0,
+          "first": 0.8846153846153846,
+          "second": 0.9166666666666666,
+          "area_zero": 0.09333333333333334,
+          "terapagos": 0.13333333333333333,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.86,
+          "b": 0.14,
+          "tie": 0.0,
+          "first": 0.7974683544303798,
+          "second": 0.9295774647887324,
+          "area_zero": 0.08666666666666667,
+          "terapagos": 0.1,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.84,
+          "b": 0.16,
+          "tie": 0.0,
+          "first": 0.8024691358024691,
+          "second": 0.8840579710144928,
+          "area_zero": 0.15333333333333332,
+          "terapagos": 0.2,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.98,
+          "b": 0.02,
+          "tie": 0.0,
+          "first": 0.9875,
+          "second": 0.9714285714285714,
+          "area_zero": 0.0,
+          "terapagos": 0.04,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.9333333333333333,
+          "b": 0.06666666666666667,
+          "tie": 0.0,
+          "first": 0.9259259259259259,
+          "second": 0.9420289855072463,
+          "area_zero": 0.2,
+          "terapagos": 0.20666666666666667,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Battle Cage + Boss's Orders",
+      "cuts": [
+        "Battle Cage",
+        "Boss's Orders"
+      ],
+      "weighted": 0.8748948948948949,
+      "mean": 0.9066666666666666,
+      "worst": 0.8266666666666667,
+      "area_zero": 0.11066666666666666,
+      "terapagos": 0.13866666666666666,
+      "mew_beatdown": 0.0013333333333333335,
+      "tera_beatdown": 0.0013333333333333335,
+      "cells": {
+        "t60": {
+          "a": 0.92,
+          "b": 0.08,
+          "tie": 0.0,
+          "first": 0.9090909090909091,
+          "second": 0.9315068493150684,
+          "area_zero": 0.09333333333333334,
+          "terapagos": 0.12,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.86,
+          "b": 0.14,
+          "tie": 0.0,
+          "first": 0.8313253012048193,
+          "second": 0.8955223880597015,
+          "area_zero": 0.09333333333333334,
+          "terapagos": 0.12666666666666668,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.8266666666666667,
+          "b": 0.17333333333333334,
+          "tie": 0.0,
+          "first": 0.8333333333333334,
+          "second": 0.8222222222222222,
+          "area_zero": 0.15333333333333332,
+          "terapagos": 0.18,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.006666666666666667
+        },
+        "d60": {
+          "a": 0.9933333333333333,
+          "b": 0.006666666666666667,
+          "tie": 0.0,
+          "first": 0.9875,
+          "second": 1.0,
+          "area_zero": 0.013333333333333334,
+          "terapagos": 0.04,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.9333333333333333,
+          "b": 0.06666666666666667,
+          "tie": 0.0,
+          "first": 0.9487179487179487,
+          "second": 0.9166666666666666,
+          "area_zero": 0.2,
+          "terapagos": 0.22666666666666666,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Boss's Orders + Penny",
+      "cuts": [
+        "Boss's Orders",
+        "Penny"
+      ],
+      "weighted": 0.8742792792792793,
+      "mean": 0.8986666666666666,
+      "worst": 0.8533333333333334,
+      "area_zero": 0.10666666666666666,
+      "terapagos": 0.12666666666666665,
+      "mew_beatdown": 0.0013333333333333335,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.8666666666666667,
+          "b": 0.13333333333333333,
+          "tie": 0.0,
+          "first": 0.868421052631579,
+          "second": 0.8648648648648649,
+          "area_zero": 0.11333333333333333,
+          "terapagos": 0.12,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.8666666666666667,
+          "b": 0.13333333333333333,
+          "tie": 0.0,
+          "first": 0.8289473684210527,
+          "second": 0.9054054054054054,
+          "area_zero": 0.12666666666666668,
+          "terapagos": 0.16,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.8533333333333334,
+          "b": 0.14666666666666667,
+          "tie": 0.0,
+          "first": 0.85,
+          "second": 0.8555555555555555,
+          "area_zero": 0.12666666666666668,
+          "terapagos": 0.14666666666666667,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.98,
+          "b": 0.02,
+          "tie": 0.0,
+          "first": 0.9746835443037974,
+          "second": 0.9859154929577465,
+          "area_zero": 0.006666666666666667,
+          "terapagos": 0.02666666666666667,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.9266666666666666,
+          "b": 0.07333333333333333,
+          "tie": 0.0,
+          "first": 0.9264705882352942,
+          "second": 0.926829268292683,
+          "area_zero": 0.16,
+          "terapagos": 0.18,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Bursting Balloon + Iono",
+      "cuts": [
+        "Bursting Balloon",
+        "Iono"
+      ],
+      "weighted": 0.8734684684684685,
+      "mean": 0.9026666666666667,
+      "worst": 0.82,
+      "area_zero": 0.088,
+      "terapagos": 0.12533333333333335,
+      "mew_beatdown": 0.0013333333333333335,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.8733333333333333,
+          "b": 0.12666666666666668,
+          "tie": 0.0,
+          "first": 0.8791208791208791,
+          "second": 0.864406779661017,
+          "area_zero": 0.13333333333333333,
+          "terapagos": 0.18,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.8933333333333333,
+          "b": 0.10666666666666667,
+          "tie": 0.0,
+          "first": 0.9166666666666666,
+          "second": 0.8717948717948718,
+          "area_zero": 0.04,
+          "terapagos": 0.06666666666666667,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.82,
+          "b": 0.18,
+          "tie": 0.0,
+          "first": 0.7777777777777778,
+          "second": 0.8505747126436781,
+          "area_zero": 0.07333333333333333,
+          "terapagos": 0.12,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.9933333333333333,
+          "b": 0.006666666666666667,
+          "tie": 0.0,
+          "first": 0.9861111111111112,
+          "second": 1.0,
+          "area_zero": 0.006666666666666667,
+          "terapagos": 0.06,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.9333333333333333,
+          "b": 0.06666666666666667,
+          "tie": 0.0,
+          "first": 0.9726027397260274,
+          "second": 0.8961038961038961,
+          "area_zero": 0.18666666666666668,
+          "terapagos": 0.2,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Bravery Charm + Battle Cage",
+      "cuts": [
+        "Bravery Charm",
+        "Battle Cage"
+      ],
+      "weighted": 0.8732132132132132,
+      "mean": 0.9026666666666667,
+      "worst": 0.84,
+      "area_zero": 0.09866666666666667,
+      "terapagos": 0.132,
+      "mew_beatdown": 0.004,
+      "tera_beatdown": 0.0013333333333333335,
+      "cells": {
+        "t60": {
+          "a": 0.9,
+          "b": 0.1,
+          "tie": 0.0,
+          "first": 0.9069767441860465,
+          "second": 0.890625,
+          "area_zero": 0.08666666666666667,
+          "terapagos": 0.13333333333333333,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.84,
+          "b": 0.16,
+          "tie": 0.0,
+          "first": 0.7285714285714285,
+          "second": 0.9375,
+          "area_zero": 0.11333333333333333,
+          "terapagos": 0.14,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.8533333333333334,
+          "b": 0.14666666666666667,
+          "tie": 0.0,
+          "first": 0.8026315789473685,
+          "second": 0.9054054054054054,
+          "area_zero": 0.12666666666666668,
+          "terapagos": 0.16,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.9933333333333333,
+          "b": 0.006666666666666667,
+          "tie": 0.0,
+          "first": 1.0,
+          "second": 0.9864864864864865,
+          "area_zero": 0.0,
+          "terapagos": 0.03333333333333333,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.006666666666666667
+        },
+        "thorns": {
+          "a": 0.9266666666666666,
+          "b": 0.07333333333333333,
+          "tie": 0.0,
+          "first": 0.8860759493670886,
+          "second": 0.971830985915493,
+          "area_zero": 0.16666666666666666,
+          "terapagos": 0.19333333333333333,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Battle Cage + Crushing Hammer",
+      "cuts": [
+        "Battle Cage",
+        "Crushing Hammer"
+      ],
+      "weighted": 0.8724624624624625,
+      "mean": 0.8986666666666666,
+      "worst": 0.84,
+      "area_zero": 0.09333333333333334,
+      "terapagos": 0.128,
+      "mew_beatdown": 0.006666666666666666,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.9066666666666666,
+          "b": 0.09333333333333334,
+          "tie": 0.0,
+          "first": 0.8823529411764706,
+          "second": 0.9384615384615385,
+          "area_zero": 0.10666666666666667,
+          "terapagos": 0.14666666666666667,
+          "mew_beatdown": 0.02,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.86,
+          "b": 0.14,
+          "tie": 0.0,
+          "first": 0.8493150684931506,
+          "second": 0.8701298701298701,
+          "area_zero": 0.08,
+          "terapagos": 0.11333333333333333,
+          "mew_beatdown": 0.013333333333333334,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.84,
+          "b": 0.16,
+          "tie": 0.0,
+          "first": 0.8529411764705882,
+          "second": 0.8292682926829268,
+          "area_zero": 0.10666666666666667,
+          "terapagos": 0.14,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.98,
+          "b": 0.02,
+          "tie": 0.0,
+          "first": 0.9583333333333334,
+          "second": 1.0,
+          "area_zero": 0.0,
+          "terapagos": 0.04,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.9066666666666666,
+          "b": 0.09333333333333334,
+          "tie": 0.0,
+          "first": 0.9,
+          "second": 0.9125,
+          "area_zero": 0.17333333333333334,
+          "terapagos": 0.2,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "2 Battle Cage",
+      "cuts": [
+        "Battle Cage",
+        "Battle Cage"
+      ],
+      "weighted": 0.8720270270270271,
+      "mean": 0.9053333333333333,
+      "worst": 0.7933333333333333,
+      "area_zero": 0.10400000000000001,
+      "terapagos": 0.14266666666666666,
+      "mew_beatdown": 0.004,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.9333333333333333,
+          "b": 0.06666666666666667,
+          "tie": 0.0,
+          "first": 0.9253731343283582,
+          "second": 0.9397590361445783,
+          "area_zero": 0.09333333333333334,
+          "terapagos": 0.13333333333333333,
+          "mew_beatdown": 0.02,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.7933333333333333,
+          "b": 0.20666666666666667,
+          "tie": 0.0,
+          "first": 0.7534246575342466,
+          "second": 0.8311688311688312,
+          "area_zero": 0.14,
+          "terapagos": 0.17333333333333334,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.86,
+          "b": 0.14,
+          "tie": 0.0,
+          "first": 0.8194444444444444,
+          "second": 0.8974358974358975,
+          "area_zero": 0.12,
+          "terapagos": 0.17333333333333334,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.9866666666666667,
+          "b": 0.013333333333333334,
+          "tie": 0.0,
+          "first": 0.9873417721518988,
+          "second": 0.9859154929577465,
+          "area_zero": 0.006666666666666667,
+          "terapagos": 0.04,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.9533333333333334,
+          "b": 0.04666666666666667,
+          "tie": 0.0,
+          "first": 0.9324324324324325,
+          "second": 0.9736842105263158,
+          "area_zero": 0.16,
+          "terapagos": 0.19333333333333333,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Bravery Charm + Ultra Ball",
+      "cuts": [
+        "Bravery Charm",
+        "Ultra Ball"
+      ],
+      "weighted": 0.8715465465465465,
+      "mean": 0.9026666666666667,
+      "worst": 0.8133333333333334,
+      "area_zero": 0.10533333333333335,
+      "terapagos": 0.13599999999999998,
+      "mew_beatdown": 0.0013333333333333335,
+      "tera_beatdown": 0.0013333333333333335,
+      "cells": {
+        "t60": {
+          "a": 0.88,
+          "b": 0.12,
+          "tie": 0.0,
+          "first": 0.8513513513513513,
+          "second": 0.9078947368421053,
+          "area_zero": 0.08,
+          "terapagos": 0.1,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.8866666666666667,
+          "b": 0.11333333333333333,
+          "tie": 0.0,
+          "first": 0.8961038961038961,
+          "second": 0.8767123287671232,
+          "area_zero": 0.08666666666666667,
+          "terapagos": 0.13333333333333333,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.8133333333333334,
+          "b": 0.18666666666666668,
+          "tie": 0.0,
+          "first": 0.8611111111111112,
+          "second": 0.7692307692307693,
+          "area_zero": 0.12666666666666668,
+          "terapagos": 0.15333333333333332,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.006666666666666667
+        },
+        "d60": {
+          "a": 0.9933333333333333,
+          "b": 0.006666666666666667,
+          "tie": 0.0,
+          "first": 0.9880952380952381,
+          "second": 1.0,
+          "area_zero": 0.02,
+          "terapagos": 0.05333333333333334,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.94,
+          "b": 0.06,
+          "tie": 0.0,
+          "first": 0.95,
+          "second": 0.9285714285714286,
+          "area_zero": 0.21333333333333335,
+          "terapagos": 0.24,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Bravery Charm + Boss's Orders",
+      "cuts": [
+        "Bravery Charm",
+        "Boss's Orders"
+      ],
+      "weighted": 0.8713963963963963,
+      "mean": 0.9013333333333333,
+      "worst": 0.7866666666666666,
+      "area_zero": 0.11199999999999999,
+      "terapagos": 0.148,
+      "mew_beatdown": 0.0013333333333333335,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.9133333333333333,
+          "b": 0.08666666666666667,
+          "tie": 0.0,
+          "first": 0.8589743589743589,
+          "second": 0.9722222222222222,
+          "area_zero": 0.09333333333333334,
+          "terapagos": 0.11333333333333333,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.9066666666666666,
+          "b": 0.09333333333333334,
+          "tie": 0.0,
+          "first": 0.8783783783783784,
+          "second": 0.9342105263157895,
+          "area_zero": 0.08666666666666667,
+          "terapagos": 0.12,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.7866666666666666,
+          "b": 0.21333333333333335,
+          "tie": 0.0,
+          "first": 0.775,
+          "second": 0.8,
+          "area_zero": 0.11333333333333333,
+          "terapagos": 0.2,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.98,
+          "b": 0.02,
+          "tie": 0.0,
+          "first": 0.972972972972973,
+          "second": 0.9868421052631579,
+          "area_zero": 0.02666666666666667,
+          "terapagos": 0.04,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.92,
+          "b": 0.08,
+          "tie": 0.0,
+          "first": 0.9302325581395349,
+          "second": 0.90625,
+          "area_zero": 0.24,
+          "terapagos": 0.26666666666666666,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Bravery Charm + Night Stretcher",
+      "cuts": [
+        "Bravery Charm",
+        "Night Stretcher"
+      ],
+      "weighted": 0.8705555555555555,
+      "mean": 0.9013333333333333,
+      "worst": 0.8466666666666667,
+      "area_zero": 0.10533333333333335,
+      "terapagos": 0.136,
+      "mew_beatdown": 0.0,
+      "tera_beatdown": 0.0013333333333333335,
+      "cells": {
+        "t60": {
+          "a": 0.8666666666666667,
+          "b": 0.13333333333333333,
+          "tie": 0.0,
+          "first": 0.8395061728395061,
+          "second": 0.8985507246376812,
+          "area_zero": 0.12666666666666668,
+          "terapagos": 0.14,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.8466666666666667,
+          "b": 0.15333333333333332,
+          "tie": 0.0,
+          "first": 0.7763157894736842,
+          "second": 0.918918918918919,
+          "area_zero": 0.14,
+          "terapagos": 0.17333333333333334,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.8466666666666667,
+          "b": 0.15333333333333332,
+          "tie": 0.0,
+          "first": 0.821917808219178,
+          "second": 0.8701298701298701,
+          "area_zero": 0.13333333333333333,
+          "terapagos": 0.17333333333333334,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.9933333333333333,
+          "b": 0.006666666666666667,
+          "tie": 0.0,
+          "first": 1.0,
+          "second": 0.9855072463768116,
+          "area_zero": 0.013333333333333334,
+          "terapagos": 0.06,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.006666666666666667
+        },
+        "thorns": {
+          "a": 0.9533333333333334,
+          "b": 0.04666666666666667,
+          "tie": 0.0,
+          "first": 0.9873417721518988,
+          "second": 0.9154929577464789,
+          "area_zero": 0.11333333333333333,
+          "terapagos": 0.13333333333333333,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Night Stretcher + Counter Catcher",
+      "cuts": [
+        "Night Stretcher",
+        "Counter Catcher"
+      ],
+      "weighted": 0.8698948948948949,
+      "mean": 0.8973333333333333,
+      "worst": 0.82,
+      "area_zero": 0.09066666666666667,
+      "terapagos": 0.13333333333333336,
+      "mew_beatdown": 0.0,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.94,
+          "b": 0.06,
+          "tie": 0.0,
+          "first": 0.9577464788732394,
+          "second": 0.9240506329113924,
+          "area_zero": 0.1,
+          "terapagos": 0.13333333333333333,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.86,
+          "b": 0.14,
+          "tie": 0.0,
+          "first": 0.8169014084507042,
+          "second": 0.8987341772151899,
+          "area_zero": 0.07333333333333333,
+          "terapagos": 0.10666666666666667,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.82,
+          "b": 0.18,
+          "tie": 0.0,
+          "first": 0.7681159420289855,
+          "second": 0.8641975308641975,
+          "area_zero": 0.14,
+          "terapagos": 0.21333333333333335,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.9733333333333334,
+          "b": 0.02666666666666667,
+          "tie": 0.0,
+          "first": 0.9558823529411765,
+          "second": 0.9878048780487805,
+          "area_zero": 0.02,
+          "terapagos": 0.06666666666666667,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.8933333333333333,
+          "b": 0.10666666666666667,
+          "tie": 0.0,
+          "first": 0.8620689655172413,
+          "second": 0.9365079365079365,
+          "area_zero": 0.12,
+          "terapagos": 0.14666666666666667,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Battle Cage + Counter Catcher",
+      "cuts": [
+        "Battle Cage",
+        "Counter Catcher"
+      ],
+      "weighted": 0.8687237237237238,
+      "mean": 0.9013333333333333,
+      "worst": 0.8266666666666667,
+      "area_zero": 0.11199999999999999,
+      "terapagos": 0.12933333333333333,
+      "mew_beatdown": 0.0013333333333333335,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.94,
+          "b": 0.06,
+          "tie": 0.0,
+          "first": 0.9583333333333334,
+          "second": 0.9230769230769231,
+          "area_zero": 0.06666666666666667,
+          "terapagos": 0.08666666666666667,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.8333333333333334,
+          "b": 0.16666666666666666,
+          "tie": 0.0,
+          "first": 0.7926829268292683,
+          "second": 0.8823529411764706,
+          "area_zero": 0.16,
+          "terapagos": 0.16666666666666666,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.8266666666666667,
+          "b": 0.17333333333333334,
+          "tie": 0.0,
+          "first": 0.7948717948717948,
+          "second": 0.8611111111111112,
+          "area_zero": 0.16666666666666666,
+          "terapagos": 0.16666666666666666,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.9866666666666667,
+          "b": 0.013333333333333334,
+          "tie": 0.0,
+          "first": 0.9722222222222222,
+          "second": 1.0,
+          "area_zero": 0.013333333333333334,
+          "terapagos": 0.06666666666666667,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.92,
+          "b": 0.08,
+          "tie": 0.0,
+          "first": 0.9027777777777778,
+          "second": 0.9358974358974359,
+          "area_zero": 0.15333333333333332,
+          "terapagos": 0.16,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Ultra Ball + Battle Cage",
+      "cuts": [
+        "Ultra Ball",
+        "Battle Cage"
+      ],
+      "weighted": 0.8687087087087086,
+      "mean": 0.9066666666666666,
+      "worst": 0.8066666666666666,
+      "area_zero": 0.10933333333333332,
+      "terapagos": 0.14400000000000002,
+      "mew_beatdown": 0.0013333333333333335,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.9266666666666666,
+          "b": 0.07333333333333333,
+          "tie": 0.0,
+          "first": 0.9054054054054054,
+          "second": 0.9473684210526315,
+          "area_zero": 0.11333333333333333,
+          "terapagos": 0.14,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.8466666666666667,
+          "b": 0.15333333333333332,
+          "tie": 0.0,
+          "first": 0.8194444444444444,
+          "second": 0.8717948717948718,
+          "area_zero": 0.09333333333333334,
+          "terapagos": 0.14,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.8066666666666666,
+          "b": 0.19333333333333333,
+          "tie": 0.0,
+          "first": 0.8266666666666667,
+          "second": 0.7866666666666666,
+          "area_zero": 0.15333333333333332,
+          "terapagos": 0.2,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 1.0,
+          "b": 0.0,
+          "tie": 0.0,
+          "first": 1.0,
+          "second": 1.0,
+          "area_zero": 0.02,
+          "terapagos": 0.06666666666666667,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.9533333333333334,
+          "b": 0.04666666666666667,
+          "tie": 0.0,
+          "first": 0.9605263157894737,
+          "second": 0.9459459459459459,
+          "area_zero": 0.16666666666666666,
+          "terapagos": 0.17333333333333334,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Iono + Penny",
+      "cuts": [
+        "Iono",
+        "Penny"
+      ],
+      "weighted": 0.868018018018018,
+      "mean": 0.9053333333333333,
+      "worst": 0.8133333333333334,
+      "area_zero": 0.09866666666666667,
+      "terapagos": 0.14666666666666667,
+      "mew_beatdown": 0.0013333333333333335,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.9066666666666666,
+          "b": 0.09333333333333334,
+          "tie": 0.0,
+          "first": 0.92,
+          "second": 0.8933333333333333,
+          "area_zero": 0.13333333333333333,
+          "terapagos": 0.17333333333333334,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.84,
+          "b": 0.16,
+          "tie": 0.0,
+          "first": 0.7571428571428571,
+          "second": 0.9125,
+          "area_zero": 0.05333333333333334,
+          "terapagos": 0.13333333333333333,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.8133333333333334,
+          "b": 0.18666666666666668,
+          "tie": 0.0,
+          "first": 0.7972972972972973,
+          "second": 0.8289473684210527,
+          "area_zero": 0.14666666666666667,
+          "terapagos": 0.17333333333333334,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.9933333333333333,
+          "b": 0.006666666666666667,
+          "tie": 0.0,
+          "first": 0.9861111111111112,
+          "second": 1.0,
+          "area_zero": 0.03333333333333333,
+          "terapagos": 0.08666666666666667,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.9733333333333334,
+          "b": 0.02666666666666667,
+          "tie": 0.0,
+          "first": 0.9583333333333334,
+          "second": 0.9871794871794872,
+          "area_zero": 0.12666666666666668,
+          "terapagos": 0.16666666666666666,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Boss's Orders + Crushing Hammer",
+      "cuts": [
+        "Boss's Orders",
+        "Crushing Hammer"
+      ],
+      "weighted": 0.8674174174174175,
+      "mean": 0.8986666666666666,
+      "worst": 0.8333333333333334,
+      "area_zero": 0.10800000000000001,
+      "terapagos": 0.148,
+      "mew_beatdown": 0.0013333333333333335,
+      "tera_beatdown": 0.0013333333333333335,
+      "cells": {
+        "t60": {
+          "a": 0.88,
+          "b": 0.12,
+          "tie": 0.0,
+          "first": 0.8,
+          "second": 0.9714285714285714,
+          "area_zero": 0.11333333333333333,
+          "terapagos": 0.15333333333333332,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.8466666666666667,
+          "b": 0.15333333333333332,
+          "tie": 0.0,
+          "first": 0.8072289156626506,
+          "second": 0.8955223880597015,
+          "area_zero": 0.08666666666666667,
+          "terapagos": 0.16666666666666666,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.006666666666666667
+        },
+        "c60": {
+          "a": 0.8333333333333334,
+          "b": 0.16666666666666666,
+          "tie": 0.0,
+          "first": 0.8356164383561644,
+          "second": 0.8311688311688312,
+          "area_zero": 0.14,
+          "terapagos": 0.16,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.9866666666666667,
+          "b": 0.013333333333333334,
+          "tie": 0.0,
+          "first": 0.9886363636363636,
+          "second": 0.9838709677419355,
+          "area_zero": 0.013333333333333334,
+          "terapagos": 0.04666666666666667,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.9466666666666667,
+          "b": 0.05333333333333334,
+          "tie": 0.0,
+          "first": 0.9459459459459459,
+          "second": 0.9473684210526315,
+          "area_zero": 0.18666666666666668,
+          "terapagos": 0.21333333333333335,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Crushing Hammer + Counter Catcher",
+      "cuts": [
+        "Crushing Hammer",
+        "Counter Catcher"
+      ],
+      "weighted": 0.867042042042042,
+      "mean": 0.8960000000000001,
+      "worst": 0.8,
+      "area_zero": 0.1,
+      "terapagos": 0.12533333333333335,
+      "mew_beatdown": 0.0013333333333333335,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.8933333333333333,
+          "b": 0.10666666666666667,
+          "tie": 0.0,
+          "first": 0.868421052631579,
+          "second": 0.918918918918919,
+          "area_zero": 0.10666666666666667,
+          "terapagos": 0.14666666666666667,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.8866666666666667,
+          "b": 0.11333333333333333,
+          "tie": 0.0,
+          "first": 0.8714285714285714,
+          "second": 0.9,
+          "area_zero": 0.08666666666666667,
+          "terapagos": 0.10666666666666667,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.8,
+          "b": 0.2,
+          "tie": 0.0,
+          "first": 0.8607594936708861,
+          "second": 0.7323943661971831,
+          "area_zero": 0.12,
+          "terapagos": 0.15333333333333332,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.9733333333333334,
+          "b": 0.02666666666666667,
+          "tie": 0.0,
+          "first": 1.0,
+          "second": 0.9466666666666667,
+          "area_zero": 0.013333333333333334,
+          "terapagos": 0.03333333333333333,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.9266666666666666,
+          "b": 0.07333333333333333,
+          "tie": 0.0,
+          "first": 0.9493670886075949,
+          "second": 0.9014084507042254,
+          "area_zero": 0.17333333333333334,
+          "terapagos": 0.18666666666666668,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Night Stretcher + Boss's Orders",
+      "cuts": [
+        "Night Stretcher",
+        "Boss's Orders"
+      ],
+      "weighted": 0.8662312312312312,
+      "mean": 0.8960000000000001,
+      "worst": 0.8266666666666667,
+      "area_zero": 0.10400000000000001,
+      "terapagos": 0.124,
+      "mew_beatdown": 0.002666666666666667,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.8933333333333333,
+          "b": 0.10666666666666667,
+          "tie": 0.0,
+          "first": 0.8857142857142857,
+          "second": 0.9,
+          "area_zero": 0.08666666666666667,
+          "terapagos": 0.10666666666666667,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.84,
+          "b": 0.16,
+          "tie": 0.0,
+          "first": 0.8181818181818182,
+          "second": 0.863013698630137,
+          "area_zero": 0.07333333333333333,
+          "terapagos": 0.08666666666666667,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.8266666666666667,
+          "b": 0.17333333333333334,
+          "tie": 0.0,
+          "first": 0.7792207792207793,
+          "second": 0.8767123287671232,
+          "area_zero": 0.12,
+          "terapagos": 0.16666666666666666,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.9666666666666667,
+          "b": 0.03333333333333333,
+          "tie": 0.0,
+          "first": 0.9726027397260274,
+          "second": 0.961038961038961,
+          "area_zero": 0.02666666666666667,
+          "terapagos": 0.04666666666666667,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.9533333333333334,
+          "b": 0.04666666666666667,
+          "tie": 0.0,
+          "first": 0.9540229885057471,
+          "second": 0.9523809523809523,
+          "area_zero": 0.21333333333333335,
+          "terapagos": 0.21333333333333335,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Bursting Balloon + Crushing Hammer",
+      "cuts": [
+        "Bursting Balloon",
+        "Crushing Hammer"
+      ],
+      "weighted": 0.8656906906906906,
+      "mean": 0.8960000000000001,
+      "worst": 0.8066666666666666,
+      "area_zero": 0.12133333333333333,
+      "terapagos": 0.15066666666666667,
+      "mew_beatdown": 0.0013333333333333335,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.8933333333333333,
+          "b": 0.10666666666666667,
+          "tie": 0.0,
+          "first": 0.8717948717948718,
+          "second": 0.9166666666666666,
+          "area_zero": 0.09333333333333334,
+          "terapagos": 0.13333333333333333,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.88,
+          "b": 0.12,
+          "tie": 0.0,
+          "first": 0.8421052631578947,
+          "second": 0.918918918918919,
+          "area_zero": 0.17333333333333334,
+          "terapagos": 0.20666666666666667,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.8066666666666666,
+          "b": 0.19333333333333333,
+          "tie": 0.0,
+          "first": 0.810126582278481,
+          "second": 0.8028169014084507,
+          "area_zero": 0.19333333333333333,
+          "terapagos": 0.22,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.9866666666666667,
+          "b": 0.013333333333333334,
+          "tie": 0.0,
+          "first": 0.972972972972973,
+          "second": 1.0,
+          "area_zero": 0.013333333333333334,
+          "terapagos": 0.04,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.9133333333333333,
+          "b": 0.08666666666666667,
+          "tie": 0.0,
+          "first": 0.9024390243902439,
+          "second": 0.9264705882352942,
+          "area_zero": 0.13333333333333333,
+          "terapagos": 0.15333333333333332,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Bravery Charm + Penny",
+      "cuts": [
+        "Bravery Charm",
+        "Penny"
+      ],
+      "weighted": 0.8637837837837838,
+      "mean": 0.8946666666666667,
+      "worst": 0.8133333333333334,
+      "area_zero": 0.09733333333333333,
+      "terapagos": 0.12266666666666667,
+      "mew_beatdown": 0.0013333333333333335,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.8666666666666667,
+          "b": 0.13333333333333333,
+          "tie": 0.0,
+          "first": 0.8625,
+          "second": 0.8714285714285714,
+          "area_zero": 0.07333333333333333,
+          "terapagos": 0.07333333333333333,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.8666666666666667,
+          "b": 0.13333333333333333,
+          "tie": 0.0,
+          "first": 0.8529411764705882,
+          "second": 0.8780487804878049,
+          "area_zero": 0.11333333333333333,
+          "terapagos": 0.14,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.8133333333333334,
+          "b": 0.18666666666666668,
+          "tie": 0.0,
+          "first": 0.7763157894736842,
+          "second": 0.8513513513513513,
+          "area_zero": 0.11333333333333333,
+          "terapagos": 0.16,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.98,
+          "b": 0.02,
+          "tie": 0.0,
+          "first": 0.972972972972973,
+          "second": 0.9868421052631579,
+          "area_zero": 0.02666666666666667,
+          "terapagos": 0.04,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.9466666666666667,
+          "b": 0.05333333333333334,
+          "tie": 0.0,
+          "first": 0.9888888888888889,
+          "second": 0.8833333333333333,
+          "area_zero": 0.16,
+          "terapagos": 0.2,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "2 Crushing Hammer",
+      "cuts": [
+        "Crushing Hammer",
+        "Crushing Hammer"
+      ],
+      "weighted": 0.8636786786786788,
+      "mean": 0.8813333333333333,
+      "worst": 0.8533333333333334,
+      "area_zero": 0.10133333333333334,
+      "terapagos": 0.128,
+      "mew_beatdown": 0.004,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.8666666666666667,
+          "b": 0.13333333333333333,
+          "tie": 0.0,
+          "first": 0.8611111111111112,
+          "second": 0.8717948717948718,
+          "area_zero": 0.08,
+          "terapagos": 0.11333333333333333,
+          "mew_beatdown": 0.013333333333333334,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.8666666666666667,
+          "b": 0.13333333333333333,
+          "tie": 0.0,
+          "first": 0.8648648648648649,
+          "second": 0.868421052631579,
+          "area_zero": 0.09333333333333334,
+          "terapagos": 0.12,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.8533333333333334,
+          "b": 0.14666666666666667,
+          "tie": 0.0,
+          "first": 0.8378378378378378,
+          "second": 0.868421052631579,
+          "area_zero": 0.14666666666666667,
+          "terapagos": 0.17333333333333334,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.96,
+          "b": 0.04,
+          "tie": 0.0,
+          "first": 0.9487179487179487,
+          "second": 0.9722222222222222,
+          "area_zero": 0.013333333333333334,
+          "terapagos": 0.04666666666666667,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.86,
+          "b": 0.14,
+          "tie": 0.0,
+          "first": 0.8536585365853658,
+          "second": 0.8676470588235294,
+          "area_zero": 0.17333333333333334,
+          "terapagos": 0.18666666666666668,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Penny + Crushing Hammer",
+      "cuts": [
+        "Penny",
+        "Crushing Hammer"
+      ],
+      "weighted": 0.8631381381381381,
+      "mean": 0.8906666666666666,
+      "worst": 0.7933333333333333,
+      "area_zero": 0.07866666666666666,
+      "terapagos": 0.12266666666666666,
+      "mew_beatdown": 0.004,
+      "tera_beatdown": 0.0013333333333333335,
+      "cells": {
+        "t60": {
+          "a": 0.9066666666666666,
+          "b": 0.09333333333333334,
+          "tie": 0.0,
+          "first": 0.9012345679012346,
+          "second": 0.9130434782608695,
+          "area_zero": 0.08666666666666667,
+          "terapagos": 0.12,
+          "mew_beatdown": 0.013333333333333334,
+          "tera_beatdown": 0.006666666666666667
+        },
+        "hedrick": {
+          "a": 0.8866666666666667,
+          "b": 0.11333333333333333,
+          "tie": 0.0,
+          "first": 0.8059701492537313,
+          "second": 0.9518072289156626,
+          "area_zero": 0.08,
+          "terapagos": 0.11333333333333333,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.7933333333333333,
+          "b": 0.20666666666666667,
+          "tie": 0.0,
+          "first": 0.7368421052631579,
+          "second": 0.8513513513513513,
+          "area_zero": 0.10666666666666667,
+          "terapagos": 0.18666666666666668,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.9666666666666667,
+          "b": 0.03333333333333333,
+          "tie": 0.0,
+          "first": 0.9634146341463414,
+          "second": 0.9705882352941176,
+          "area_zero": 0.0,
+          "terapagos": 0.04,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.9,
+          "b": 0.1,
+          "tie": 0.0,
+          "first": 0.922077922077922,
+          "second": 0.8767123287671232,
+          "area_zero": 0.12,
+          "terapagos": 0.15333333333333332,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "2 Ultra Ball",
+      "cuts": [
+        "Ultra Ball",
+        "Ultra Ball"
+      ],
+      "weighted": 0.863018018018018,
+      "mean": 0.8960000000000001,
+      "worst": 0.8133333333333334,
+      "area_zero": 0.08666666666666667,
+      "terapagos": 0.11466666666666667,
+      "mew_beatdown": 0.0013333333333333335,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.8666666666666667,
+          "b": 0.13333333333333333,
+          "tie": 0.0,
+          "first": 0.8028169014084507,
+          "second": 0.9240506329113924,
+          "area_zero": 0.1,
+          "terapagos": 0.11333333333333333,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.86,
+          "b": 0.14,
+          "tie": 0.0,
+          "first": 0.84,
+          "second": 0.88,
+          "area_zero": 0.08666666666666667,
+          "terapagos": 0.10666666666666667,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.8133333333333334,
+          "b": 0.18666666666666668,
+          "tie": 0.0,
+          "first": 0.75,
+          "second": 0.8857142857142857,
+          "area_zero": 0.1,
+          "terapagos": 0.12,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.9866666666666667,
+          "b": 0.013333333333333334,
+          "tie": 0.0,
+          "first": 0.9859154929577465,
+          "second": 0.9873417721518988,
+          "area_zero": 0.02666666666666667,
+          "terapagos": 0.06666666666666667,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.9533333333333334,
+          "b": 0.04666666666666667,
+          "tie": 0.0,
+          "first": 0.961038961038961,
+          "second": 0.9452054794520548,
+          "area_zero": 0.12,
+          "terapagos": 0.16666666666666666,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Night Stretcher + Battle Cage",
+      "cuts": [
+        "Night Stretcher",
+        "Battle Cage"
+      ],
+      "weighted": 0.8623573573573573,
+      "mean": 0.892,
+      "worst": 0.7933333333333333,
+      "area_zero": 0.10933333333333335,
+      "terapagos": 0.13733333333333334,
+      "mew_beatdown": 0.0013333333333333335,
+      "tera_beatdown": 0.0013333333333333335,
+      "cells": {
+        "t60": {
+          "a": 0.9266666666666666,
+          "b": 0.07333333333333333,
+          "tie": 0.0,
+          "first": 0.9137931034482759,
+          "second": 0.9347826086956522,
+          "area_zero": 0.1,
+          "terapagos": 0.12666666666666668,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.88,
+          "b": 0.12,
+          "tie": 0.0,
+          "first": 0.8805970149253731,
+          "second": 0.8795180722891566,
+          "area_zero": 0.10666666666666667,
+          "terapagos": 0.12666666666666668,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.7933333333333333,
+          "b": 0.20666666666666667,
+          "tie": 0.0,
+          "first": 0.782051282051282,
+          "second": 0.8055555555555556,
+          "area_zero": 0.10666666666666667,
+          "terapagos": 0.16666666666666666,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.98,
+          "b": 0.02,
+          "tie": 0.0,
+          "first": 0.972972972972973,
+          "second": 0.9868421052631579,
+          "area_zero": 0.02,
+          "terapagos": 0.02,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.006666666666666667
+        },
+        "thorns": {
+          "a": 0.88,
+          "b": 0.12,
+          "tie": 0.0,
+          "first": 0.8831168831168831,
+          "second": 0.8767123287671232,
+          "area_zero": 0.21333333333333335,
+          "terapagos": 0.24666666666666667,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Bursting Balloon + Penny",
+      "cuts": [
+        "Bursting Balloon",
+        "Penny"
+      ],
+      "weighted": 0.862027027027027,
+      "mean": 0.8906666666666666,
+      "worst": 0.8266666666666667,
+      "area_zero": 0.08666666666666667,
+      "terapagos": 0.11066666666666666,
+      "mew_beatdown": 0.0,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.88,
+          "b": 0.12,
+          "tie": 0.0,
+          "first": 0.851063829787234,
+          "second": 0.9285714285714286,
+          "area_zero": 0.08666666666666667,
+          "terapagos": 0.1,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.86,
+          "b": 0.14,
+          "tie": 0.0,
+          "first": 0.8032786885245902,
+          "second": 0.898876404494382,
+          "area_zero": 0.08,
+          "terapagos": 0.08666666666666667,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.8266666666666667,
+          "b": 0.17333333333333334,
+          "tie": 0.0,
+          "first": 0.8202247191011236,
+          "second": 0.8360655737704918,
+          "area_zero": 0.12,
+          "terapagos": 0.14,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.9866666666666667,
+          "b": 0.013333333333333334,
+          "tie": 0.0,
+          "first": 0.9726027397260274,
+          "second": 1.0,
+          "area_zero": 0.006666666666666667,
+          "terapagos": 0.06666666666666667,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.9,
+          "b": 0.1,
+          "tie": 0.0,
+          "first": 0.9146341463414634,
+          "second": 0.8823529411764706,
+          "area_zero": 0.14,
+          "terapagos": 0.16,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Bravery Charm + Professor's Research",
+      "cuts": [
+        "Bravery Charm",
+        "Professor's Research"
+      ],
+      "weighted": 0.861996996996997,
+      "mean": 0.8946666666666667,
+      "worst": 0.8,
+      "area_zero": 0.10400000000000001,
+      "terapagos": 0.13866666666666666,
+      "mew_beatdown": 0.0,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.9133333333333333,
+          "b": 0.08666666666666667,
+          "tie": 0.0,
+          "first": 0.9166666666666666,
+          "second": 0.9102564102564102,
+          "area_zero": 0.06666666666666667,
+          "terapagos": 0.11333333333333333,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.8466666666666667,
+          "b": 0.15333333333333332,
+          "tie": 0.0,
+          "first": 0.8243243243243243,
+          "second": 0.868421052631579,
+          "area_zero": 0.1,
+          "terapagos": 0.12,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.8,
+          "b": 0.2,
+          "tie": 0.0,
+          "first": 0.7746478873239436,
+          "second": 0.8227848101265823,
+          "area_zero": 0.19333333333333333,
+          "terapagos": 0.24666666666666667,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.9666666666666667,
+          "b": 0.03333333333333333,
+          "tie": 0.0,
+          "first": 0.96875,
+          "second": 0.9651162790697675,
+          "area_zero": 0.013333333333333334,
+          "terapagos": 0.04666666666666667,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.9466666666666667,
+          "b": 0.05333333333333334,
+          "tie": 0.0,
+          "first": 0.9459459459459459,
+          "second": 0.9473684210526315,
+          "area_zero": 0.14666666666666667,
+          "terapagos": 0.16666666666666666,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Ultra Ball + Night Stretcher",
+      "cuts": [
+        "Ultra Ball",
+        "Night Stretcher"
+      ],
+      "weighted": 0.8614864864864865,
+      "mean": 0.8933333333333333,
+      "worst": 0.8333333333333334,
+      "area_zero": 0.12133333333333333,
+      "terapagos": 0.15333333333333335,
+      "mew_beatdown": 0.002666666666666667,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.9,
+          "b": 0.1,
+          "tie": 0.0,
+          "first": 0.8690476190476191,
+          "second": 0.9393939393939394,
+          "area_zero": 0.10666666666666667,
+          "terapagos": 0.14,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.8333333333333334,
+          "b": 0.16666666666666666,
+          "tie": 0.0,
+          "first": 0.8333333333333334,
+          "second": 0.8333333333333334,
+          "area_zero": 0.12,
+          "terapagos": 0.14666666666666667,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.8333333333333334,
+          "b": 0.16666666666666666,
+          "tie": 0.0,
+          "first": 0.8354430379746836,
+          "second": 0.8309859154929577,
+          "area_zero": 0.13333333333333333,
+          "terapagos": 0.18666666666666668,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.9933333333333333,
+          "b": 0.006666666666666667,
+          "tie": 0.0,
+          "first": 1.0,
+          "second": 0.9868421052631579,
+          "area_zero": 0.03333333333333333,
+          "terapagos": 0.06,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.9066666666666666,
+          "b": 0.09333333333333334,
+          "tie": 0.0,
+          "first": 0.8705882352941177,
+          "second": 0.9538461538461539,
+          "area_zero": 0.21333333333333335,
+          "terapagos": 0.23333333333333334,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Bursting Balloon + Boss's Orders",
+      "cuts": [
+        "Bursting Balloon",
+        "Boss's Orders"
+      ],
+      "weighted": 0.8592792792792793,
+      "mean": 0.8906666666666666,
+      "worst": 0.7866666666666666,
+      "area_zero": 0.12,
+      "terapagos": 0.15466666666666667,
+      "mew_beatdown": 0.005333333333333334,
+      "tera_beatdown": 0.002666666666666667,
+      "cells": {
+        "t60": {
+          "a": 0.88,
+          "b": 0.12,
+          "tie": 0.0,
+          "first": 0.8372093023255814,
+          "second": 0.9375,
+          "area_zero": 0.08666666666666667,
+          "terapagos": 0.11333333333333333,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.8933333333333333,
+          "b": 0.10666666666666667,
+          "tie": 0.0,
+          "first": 0.868421052631579,
+          "second": 0.918918918918919,
+          "area_zero": 0.1,
+          "terapagos": 0.14666666666666667,
+          "mew_beatdown": 0.013333333333333334,
+          "tera_beatdown": 0.006666666666666667
+        },
+        "c60": {
+          "a": 0.7866666666666666,
+          "b": 0.21333333333333335,
+          "tie": 0.0,
+          "first": 0.75,
+          "second": 0.8205128205128205,
+          "area_zero": 0.2,
+          "terapagos": 0.22666666666666666,
+          "mew_beatdown": 0.013333333333333334,
+          "tera_beatdown": 0.006666666666666667
+        },
+        "d60": {
+          "a": 0.9866666666666667,
+          "b": 0.013333333333333334,
+          "tie": 0.0,
+          "first": 0.9733333333333334,
+          "second": 1.0,
+          "area_zero": 0.013333333333333334,
+          "terapagos": 0.06,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.9066666666666666,
+          "b": 0.09333333333333334,
+          "tie": 0.0,
+          "first": 0.9390243902439024,
+          "second": 0.8676470588235294,
+          "area_zero": 0.2,
+          "terapagos": 0.22666666666666666,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Iono + Boss's Orders",
+      "cuts": [
+        "Iono",
+        "Boss's Orders"
+      ],
+      "weighted": 0.858948948948949,
+      "mean": 0.8866666666666667,
+      "worst": 0.8466666666666667,
+      "area_zero": 0.10533333333333332,
+      "terapagos": 0.136,
+      "mew_beatdown": 0.0,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.8533333333333334,
+          "b": 0.14666666666666667,
+          "tie": 0.0,
+          "first": 0.8734177215189873,
+          "second": 0.8309859154929577,
+          "area_zero": 0.10666666666666667,
+          "terapagos": 0.14,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.8466666666666667,
+          "b": 0.15333333333333332,
+          "tie": 0.0,
+          "first": 0.8433734939759037,
+          "second": 0.8507462686567164,
+          "area_zero": 0.12,
+          "terapagos": 0.15333333333333332,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.8466666666666667,
+          "b": 0.15333333333333332,
+          "tie": 0.0,
+          "first": 0.84,
+          "second": 0.8533333333333334,
+          "area_zero": 0.13333333333333333,
+          "terapagos": 0.16666666666666666,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.9933333333333333,
+          "b": 0.006666666666666667,
+          "tie": 0.0,
+          "first": 0.9861111111111112,
+          "second": 1.0,
+          "area_zero": 0.03333333333333333,
+          "terapagos": 0.08,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.8933333333333333,
+          "b": 0.10666666666666667,
+          "tie": 0.0,
+          "first": 0.9452054794520548,
+          "second": 0.8441558441558441,
+          "area_zero": 0.13333333333333333,
+          "terapagos": 0.14,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Boss's Orders + Counter Catcher",
+      "cuts": [
+        "Boss's Orders",
+        "Counter Catcher"
+      ],
+      "weighted": 0.8582882882882883,
+      "mean": 0.8946666666666667,
+      "worst": 0.7533333333333333,
+      "area_zero": 0.128,
+      "terapagos": 0.16133333333333333,
+      "mew_beatdown": 0.0,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.9466666666666667,
+          "b": 0.05333333333333334,
+          "tie": 0.0,
+          "first": 0.9594594594594594,
+          "second": 0.9342105263157895,
+          "area_zero": 0.12666666666666668,
+          "terapagos": 0.14,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.8666666666666667,
+          "b": 0.13333333333333333,
+          "tie": 0.0,
+          "first": 0.8125,
+          "second": 0.9285714285714286,
+          "area_zero": 0.08666666666666667,
+          "terapagos": 0.13333333333333333,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.7533333333333333,
+          "b": 0.24666666666666667,
+          "tie": 0.0,
+          "first": 0.6883116883116883,
+          "second": 0.821917808219178,
+          "area_zero": 0.18666666666666668,
+          "terapagos": 0.24666666666666667,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.96,
+          "b": 0.04,
+          "tie": 0.0,
+          "first": 0.9759036144578314,
+          "second": 0.9402985074626866,
+          "area_zero": 0.013333333333333334,
+          "terapagos": 0.05333333333333334,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.9466666666666667,
+          "b": 0.05333333333333334,
+          "tie": 0.0,
+          "first": 0.935064935064935,
+          "second": 0.958904109589041,
+          "area_zero": 0.22666666666666666,
+          "terapagos": 0.23333333333333334,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Ultra Ball + Boss's Orders",
+      "cuts": [
+        "Ultra Ball",
+        "Boss's Orders"
+      ],
+      "weighted": 0.8576276276276277,
+      "mean": 0.8933333333333333,
+      "worst": 0.78,
+      "area_zero": 0.10133333333333334,
+      "terapagos": 0.12933333333333336,
+      "mew_beatdown": 0.002666666666666667,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.94,
+          "b": 0.06,
+          "tie": 0.0,
+          "first": 0.96,
+          "second": 0.92,
+          "area_zero": 0.08,
+          "terapagos": 0.09333333333333334,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.8533333333333334,
+          "b": 0.14666666666666667,
+          "tie": 0.0,
+          "first": 0.875,
+          "second": 0.8372093023255814,
+          "area_zero": 0.14,
+          "terapagos": 0.2,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.78,
+          "b": 0.22,
+          "tie": 0.0,
+          "first": 0.7176470588235294,
+          "second": 0.8615384615384616,
+          "area_zero": 0.13333333333333333,
+          "terapagos": 0.14,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.98,
+          "b": 0.02,
+          "tie": 0.0,
+          "first": 0.9736842105263158,
+          "second": 0.9864864864864865,
+          "area_zero": 0.006666666666666667,
+          "terapagos": 0.04666666666666667,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.9133333333333333,
+          "b": 0.08666666666666667,
+          "tie": 0.0,
+          "first": 0.8904109589041096,
+          "second": 0.935064935064935,
+          "area_zero": 0.14666666666666667,
+          "terapagos": 0.16666666666666666,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Ultra Ball + Counter Catcher",
+      "cuts": [
+        "Ultra Ball",
+        "Counter Catcher"
+      ],
+      "weighted": 0.8572072072072072,
+      "mean": 0.8906666666666666,
+      "worst": 0.82,
+      "area_zero": 0.10933333333333332,
+      "terapagos": 0.14133333333333334,
+      "mew_beatdown": 0.005333333333333334,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.86,
+          "b": 0.14,
+          "tie": 0.0,
+          "first": 0.8441558441558441,
+          "second": 0.8767123287671232,
+          "area_zero": 0.08,
+          "terapagos": 0.13333333333333333,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.82,
+          "b": 0.18,
+          "tie": 0.0,
+          "first": 0.8266666666666667,
+          "second": 0.8133333333333334,
+          "area_zero": 0.11333333333333333,
+          "terapagos": 0.13333333333333333,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.84,
+          "b": 0.16,
+          "tie": 0.0,
+          "first": 0.7702702702702703,
+          "second": 0.9078947368421053,
+          "area_zero": 0.16666666666666666,
+          "terapagos": 0.19333333333333333,
+          "mew_beatdown": 0.02,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.9933333333333333,
+          "b": 0.006666666666666667,
+          "tie": 0.0,
+          "first": 0.9859154929577465,
+          "second": 1.0,
+          "area_zero": 0.006666666666666667,
+          "terapagos": 0.02666666666666667,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.94,
+          "b": 0.06,
+          "tie": 0.0,
+          "first": 0.9425287356321839,
+          "second": 0.9365079365079365,
+          "area_zero": 0.18,
+          "terapagos": 0.22,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Ultra Ball + Crushing Hammer",
+      "cuts": [
+        "Ultra Ball",
+        "Crushing Hammer"
+      ],
+      "weighted": 0.8567717717717718,
+      "mean": 0.8933333333333333,
+      "worst": 0.8066666666666666,
+      "area_zero": 0.09333333333333334,
+      "terapagos": 0.11866666666666667,
+      "mew_beatdown": 0.0,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.9066666666666666,
+          "b": 0.09333333333333334,
+          "tie": 0.0,
+          "first": 0.9117647058823529,
+          "second": 0.9024390243902439,
+          "area_zero": 0.06,
+          "terapagos": 0.09333333333333334,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.8333333333333334,
+          "b": 0.16666666666666666,
+          "tie": 0.0,
+          "first": 0.7926829268292683,
+          "second": 0.8823529411764706,
+          "area_zero": 0.1,
+          "terapagos": 0.11333333333333333,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.8066666666666666,
+          "b": 0.19333333333333333,
+          "tie": 0.0,
+          "first": 0.7733333333333333,
+          "second": 0.84,
+          "area_zero": 0.1,
+          "terapagos": 0.13333333333333333,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.9933333333333333,
+          "b": 0.006666666666666667,
+          "tie": 0.0,
+          "first": 1.0,
+          "second": 0.9868421052631579,
+          "area_zero": 0.0,
+          "terapagos": 0.03333333333333333,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.9266666666666666,
+          "b": 0.07333333333333333,
+          "tie": 0.0,
+          "first": 0.9166666666666666,
+          "second": 0.9358974358974359,
+          "area_zero": 0.20666666666666667,
+          "terapagos": 0.22,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "2 Night Stretcher",
+      "cuts": [
+        "Night Stretcher",
+        "Night Stretcher"
+      ],
+      "weighted": 0.8563513513513513,
+      "mean": 0.8906666666666666,
+      "worst": 0.8,
+      "area_zero": 0.11333333333333333,
+      "terapagos": 0.13866666666666666,
+      "mew_beatdown": 0.0,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.9066666666666666,
+          "b": 0.09333333333333334,
+          "tie": 0.0,
+          "first": 0.8701298701298701,
+          "second": 0.9452054794520548,
+          "area_zero": 0.17333333333333334,
+          "terapagos": 0.18,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.8533333333333334,
+          "b": 0.14666666666666667,
+          "tie": 0.0,
+          "first": 0.8846153846153846,
+          "second": 0.8194444444444444,
+          "area_zero": 0.12,
+          "terapagos": 0.14,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.8,
+          "b": 0.2,
+          "tie": 0.0,
+          "first": 0.7323943661971831,
+          "second": 0.8607594936708861,
+          "area_zero": 0.08666666666666667,
+          "terapagos": 0.14666666666666667,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.9933333333333333,
+          "b": 0.006666666666666667,
+          "tie": 0.0,
+          "first": 1.0,
+          "second": 0.9864864864864865,
+          "area_zero": 0.0,
+          "terapagos": 0.013333333333333334,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.9,
+          "b": 0.1,
+          "tie": 0.0,
+          "first": 0.8450704225352113,
+          "second": 0.9493670886075949,
+          "area_zero": 0.18666666666666668,
+          "terapagos": 0.21333333333333335,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "2 Boss's Orders",
+      "cuts": [
+        "Boss's Orders",
+        "Boss's Orders"
+      ],
+      "weighted": 0.8554954954954955,
+      "mean": 0.892,
+      "worst": 0.8,
+      "area_zero": 0.10400000000000001,
+      "terapagos": 0.13733333333333334,
+      "mew_beatdown": 0.0013333333333333335,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.9133333333333333,
+          "b": 0.08666666666666667,
+          "tie": 0.0,
+          "first": 0.8769230769230769,
+          "second": 0.9411764705882353,
+          "area_zero": 0.08666666666666667,
+          "terapagos": 0.13333333333333333,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.8266666666666667,
+          "b": 0.17333333333333334,
+          "tie": 0.0,
+          "first": 0.8243243243243243,
+          "second": 0.8289473684210527,
+          "area_zero": 0.10666666666666667,
+          "terapagos": 0.12666666666666668,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.8,
+          "b": 0.2,
+          "tie": 0.0,
+          "first": 0.7857142857142857,
+          "second": 0.8125,
+          "area_zero": 0.16,
+          "terapagos": 0.2,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.98,
+          "b": 0.02,
+          "tie": 0.0,
+          "first": 0.9746835443037974,
+          "second": 0.9859154929577465,
+          "area_zero": 0.006666666666666667,
+          "terapagos": 0.02666666666666667,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.94,
+          "b": 0.06,
+          "tie": 0.0,
+          "first": 0.9367088607594937,
+          "second": 0.9436619718309859,
+          "area_zero": 0.16,
+          "terapagos": 0.2,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Ultra Ball + Penny",
+      "cuts": [
+        "Ultra Ball",
+        "Penny"
+      ],
+      "weighted": 0.8549249249249249,
+      "mean": 0.8866666666666667,
+      "worst": 0.7866666666666666,
+      "area_zero": 0.092,
+      "terapagos": 0.12133333333333333,
+      "mew_beatdown": 0.0,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.92,
+          "b": 0.08,
+          "tie": 0.0,
+          "first": 0.8904109589041096,
+          "second": 0.948051948051948,
+          "area_zero": 0.08,
+          "terapagos": 0.08666666666666667,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.8666666666666667,
+          "b": 0.13333333333333333,
+          "tie": 0.0,
+          "first": 0.8783783783783784,
+          "second": 0.8552631578947368,
+          "area_zero": 0.09333333333333334,
+          "terapagos": 0.12,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.7866666666666666,
+          "b": 0.21333333333333335,
+          "tie": 0.0,
+          "first": 0.7654320987654321,
+          "second": 0.8115942028985508,
+          "area_zero": 0.11333333333333333,
+          "terapagos": 0.18,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.98,
+          "b": 0.02,
+          "tie": 0.0,
+          "first": 0.9736842105263158,
+          "second": 0.9864864864864865,
+          "area_zero": 0.006666666666666667,
+          "terapagos": 0.04666666666666667,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.88,
+          "b": 0.12,
+          "tie": 0.0,
+          "first": 0.8484848484848485,
+          "second": 0.9047619047619048,
+          "area_zero": 0.16666666666666666,
+          "terapagos": 0.17333333333333334,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Bravery Charm + Counter Catcher",
+      "cuts": [
+        "Bravery Charm",
+        "Counter Catcher"
+      ],
+      "weighted": 0.8536036036036037,
+      "mean": 0.8866666666666667,
+      "worst": 0.7866666666666666,
+      "area_zero": 0.09866666666666667,
+      "terapagos": 0.12666666666666665,
+      "mew_beatdown": 0.0,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.8933333333333333,
+          "b": 0.10666666666666667,
+          "tie": 0.0,
+          "first": 0.9342105263157895,
+          "second": 0.8513513513513513,
+          "area_zero": 0.10666666666666667,
+          "terapagos": 0.14,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.8533333333333334,
+          "b": 0.14666666666666667,
+          "tie": 0.0,
+          "first": 0.7424242424242424,
+          "second": 0.9404761904761905,
+          "area_zero": 0.07333333333333333,
+          "terapagos": 0.09333333333333334,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.7866666666666666,
+          "b": 0.21333333333333335,
+          "tie": 0.0,
+          "first": 0.7575757575757576,
+          "second": 0.8095238095238095,
+          "area_zero": 0.10666666666666667,
+          "terapagos": 0.15333333333333332,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.9666666666666667,
+          "b": 0.03333333333333333,
+          "tie": 0.0,
+          "first": 0.9493670886075949,
+          "second": 0.9859154929577465,
+          "area_zero": 0.02666666666666667,
+          "terapagos": 0.06,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.9333333333333333,
+          "b": 0.06666666666666667,
+          "tie": 0.0,
+          "first": 0.9411764705882353,
+          "second": 0.9230769230769231,
+          "area_zero": 0.18,
+          "terapagos": 0.18666666666666668,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Professor's Research + Penny",
+      "cuts": [
+        "Professor's Research",
+        "Penny"
+      ],
+      "weighted": 0.8532882882882883,
+      "mean": 0.8880000000000001,
+      "worst": 0.78,
+      "area_zero": 0.11066666666666666,
+      "terapagos": 0.13999999999999999,
+      "mew_beatdown": 0.002666666666666667,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.8533333333333334,
+          "b": 0.14666666666666667,
+          "tie": 0.0,
+          "first": 0.8,
+          "second": 0.9142857142857143,
+          "area_zero": 0.14,
+          "terapagos": 0.18666666666666668,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.8933333333333333,
+          "b": 0.10666666666666667,
+          "tie": 0.0,
+          "first": 0.84,
+          "second": 0.9466666666666667,
+          "area_zero": 0.07333333333333333,
+          "terapagos": 0.08666666666666667,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.78,
+          "b": 0.22,
+          "tie": 0.0,
+          "first": 0.7424242424242424,
+          "second": 0.8095238095238095,
+          "area_zero": 0.15333333333333332,
+          "terapagos": 0.19333333333333333,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 1.0,
+          "b": 0.0,
+          "tie": 0.0,
+          "first": 1.0,
+          "second": 1.0,
+          "area_zero": 0.006666666666666667,
+          "terapagos": 0.04,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.9133333333333333,
+          "b": 0.08666666666666667,
+          "tie": 0.0,
+          "first": 0.9459459459459459,
+          "second": 0.881578947368421,
+          "area_zero": 0.18,
+          "terapagos": 0.19333333333333333,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Night Stretcher + Crushing Hammer",
+      "cuts": [
+        "Night Stretcher",
+        "Crushing Hammer"
+      ],
+      "weighted": 0.8521771771771772,
+      "mean": 0.884,
+      "worst": 0.8,
+      "area_zero": 0.092,
+      "terapagos": 0.132,
+      "mew_beatdown": 0.0013333333333333335,
+      "tera_beatdown": 0.0013333333333333335,
+      "cells": {
+        "t60": {
+          "a": 0.92,
+          "b": 0.08,
+          "tie": 0.0,
+          "first": 0.8783783783783784,
+          "second": 0.9605263157894737,
+          "area_zero": 0.11333333333333333,
+          "terapagos": 0.14666666666666667,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.8,
+          "b": 0.2,
+          "tie": 0.0,
+          "first": 0.7439024390243902,
+          "second": 0.8676470588235294,
+          "area_zero": 0.07333333333333333,
+          "terapagos": 0.1,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.8333333333333334,
+          "b": 0.16666666666666666,
+          "tie": 0.0,
+          "first": 0.8243243243243243,
+          "second": 0.8421052631578947,
+          "area_zero": 0.07333333333333333,
+          "terapagos": 0.13333333333333333,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.006666666666666667
+        },
+        "d60": {
+          "a": 0.98,
+          "b": 0.02,
+          "tie": 0.0,
+          "first": 0.9714285714285714,
+          "second": 0.9875,
+          "area_zero": 0.013333333333333334,
+          "terapagos": 0.05333333333333334,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.8866666666666667,
+          "b": 0.11333333333333333,
+          "tie": 0.0,
+          "first": 0.918918918918919,
+          "second": 0.8552631578947368,
+          "area_zero": 0.18666666666666668,
+          "terapagos": 0.22666666666666666,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Professor's Research + Counter Catcher",
+      "cuts": [
+        "Professor's Research",
+        "Counter Catcher"
+      ],
+      "weighted": 0.8516066066066066,
+      "mean": 0.8786666666666667,
+      "worst": 0.82,
+      "area_zero": 0.1,
+      "terapagos": 0.128,
+      "mew_beatdown": 0.0,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.8333333333333334,
+          "b": 0.16666666666666666,
+          "tie": 0.0,
+          "first": 0.8059701492537313,
+          "second": 0.8554216867469879,
+          "area_zero": 0.12,
+          "terapagos": 0.14666666666666667,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.8666666666666667,
+          "b": 0.13333333333333333,
+          "tie": 0.0,
+          "first": 0.8133333333333334,
+          "second": 0.92,
+          "area_zero": 0.12666666666666668,
+          "terapagos": 0.16,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.82,
+          "b": 0.18,
+          "tie": 0.0,
+          "first": 0.7682926829268293,
+          "second": 0.8823529411764706,
+          "area_zero": 0.07333333333333333,
+          "terapagos": 0.1,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.98,
+          "b": 0.02,
+          "tie": 0.0,
+          "first": 0.9864864864864865,
+          "second": 0.9736842105263158,
+          "area_zero": 0.02666666666666667,
+          "terapagos": 0.06,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.8933333333333333,
+          "b": 0.10666666666666667,
+          "tie": 0.0,
+          "first": 0.9066666666666666,
+          "second": 0.88,
+          "area_zero": 0.15333333333333332,
+          "terapagos": 0.17333333333333334,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Bursting Balloon + Night Stretcher",
+      "cuts": [
+        "Bursting Balloon",
+        "Night Stretcher"
+      ],
+      "weighted": 0.8512912912912912,
+      "mean": 0.8906666666666666,
+      "worst": 0.7533333333333333,
+      "area_zero": 0.11599999999999999,
+      "terapagos": 0.16266666666666668,
+      "mew_beatdown": 0.002666666666666667,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.9066666666666666,
+          "b": 0.09333333333333334,
+          "tie": 0.0,
+          "first": 0.8985507246376812,
+          "second": 0.9135802469135802,
+          "area_zero": 0.13333333333333333,
+          "terapagos": 0.16,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.8733333333333333,
+          "b": 0.12666666666666668,
+          "tie": 0.0,
+          "first": 0.8481012658227848,
+          "second": 0.9014084507042254,
+          "area_zero": 0.12666666666666668,
+          "terapagos": 0.23333333333333334,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.7533333333333333,
+          "b": 0.24666666666666667,
+          "tie": 0.0,
+          "first": 0.75,
+          "second": 0.7564102564102564,
+          "area_zero": 0.14,
+          "terapagos": 0.18,
+          "mew_beatdown": 0.013333333333333334,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.9866666666666667,
+          "b": 0.013333333333333334,
+          "tie": 0.0,
+          "first": 1.0,
+          "second": 0.9753086419753086,
+          "area_zero": 0.013333333333333334,
+          "terapagos": 0.05333333333333334,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.9333333333333333,
+          "b": 0.06666666666666667,
+          "tie": 0.0,
+          "first": 0.9125,
+          "second": 0.9571428571428572,
+          "area_zero": 0.16666666666666666,
+          "terapagos": 0.18666666666666668,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Hero's Cape + Night Stretcher",
+      "cuts": [
+        "Hero's Cape",
+        "Night Stretcher"
+      ],
+      "weighted": 0.8506906906906907,
+      "mean": 0.8800000000000001,
+      "worst": 0.8066666666666666,
+      "area_zero": 0.11333333333333333,
+      "terapagos": 0.14266666666666666,
+      "mew_beatdown": 0.002666666666666667,
+      "tera_beatdown": 0.0013333333333333335,
+      "cells": {
+        "t60": {
+          "a": 0.9,
+          "b": 0.1,
+          "tie": 0.0,
+          "first": 0.8611111111111112,
+          "second": 0.9358974358974359,
+          "area_zero": 0.07333333333333333,
+          "terapagos": 0.10666666666666667,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.006666666666666667
+        },
+        "hedrick": {
+          "a": 0.84,
+          "b": 0.16,
+          "tie": 0.0,
+          "first": 0.8356164383561644,
+          "second": 0.8441558441558441,
+          "area_zero": 0.12666666666666668,
+          "terapagos": 0.18,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.8066666666666666,
+          "b": 0.19333333333333333,
+          "tie": 0.0,
+          "first": 0.782051282051282,
+          "second": 0.8333333333333334,
+          "area_zero": 0.15333333333333332,
+          "terapagos": 0.16666666666666666,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.9666666666666667,
+          "b": 0.03333333333333333,
+          "tie": 0.0,
+          "first": 0.961038961038961,
+          "second": 0.9726027397260274,
+          "area_zero": 0.03333333333333333,
+          "terapagos": 0.07333333333333333,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.8866666666666667,
+          "b": 0.11333333333333333,
+          "tie": 0.0,
+          "first": 0.8513513513513513,
+          "second": 0.9210526315789473,
+          "area_zero": 0.18,
+          "terapagos": 0.18666666666666668,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Night Stretcher + Penny",
+      "cuts": [
+        "Night Stretcher",
+        "Penny"
+      ],
+      "weighted": 0.8501201201201201,
+      "mean": 0.8866666666666667,
+      "worst": 0.8066666666666666,
+      "area_zero": 0.09733333333333334,
+      "terapagos": 0.12933333333333336,
+      "mew_beatdown": 0.002666666666666667,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.9133333333333333,
+          "b": 0.08666666666666667,
+          "tie": 0.0,
+          "first": 0.855072463768116,
+          "second": 0.9629629629629629,
+          "area_zero": 0.1,
+          "terapagos": 0.12666666666666668,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.82,
+          "b": 0.18,
+          "tie": 0.0,
+          "first": 0.7971014492753623,
+          "second": 0.8395061728395061,
+          "area_zero": 0.1,
+          "terapagos": 0.12666666666666668,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.8066666666666666,
+          "b": 0.19333333333333333,
+          "tie": 0.0,
+          "first": 0.7792207792207793,
+          "second": 0.8356164383561644,
+          "area_zero": 0.12666666666666668,
+          "terapagos": 0.16666666666666666,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.9933333333333333,
+          "b": 0.006666666666666667,
+          "tie": 0.0,
+          "first": 0.9875,
+          "second": 1.0,
+          "area_zero": 0.013333333333333334,
+          "terapagos": 0.06,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.9,
+          "b": 0.1,
+          "tie": 0.0,
+          "first": 0.9036144578313253,
+          "second": 0.8955223880597015,
+          "area_zero": 0.14666666666666667,
+          "terapagos": 0.16666666666666666,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Night Stretcher + Professor's Research",
+      "cuts": [
+        "Night Stretcher",
+        "Professor's Research"
+      ],
+      "weighted": 0.8498498498498499,
+      "mean": 0.8906666666666666,
+      "worst": 0.7666666666666667,
+      "area_zero": 0.10266666666666666,
+      "terapagos": 0.13999999999999999,
+      "mew_beatdown": 0.0013333333333333335,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.9,
+          "b": 0.1,
+          "tie": 0.0,
+          "first": 0.9117647058823529,
+          "second": 0.8902439024390244,
+          "area_zero": 0.10666666666666667,
+          "terapagos": 0.14,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.8533333333333334,
+          "b": 0.14666666666666667,
+          "tie": 0.0,
+          "first": 0.863013698630137,
+          "second": 0.8441558441558441,
+          "area_zero": 0.05333333333333334,
+          "terapagos": 0.08,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.7666666666666667,
+          "b": 0.23333333333333334,
+          "tie": 0.0,
+          "first": 0.6857142857142857,
+          "second": 0.8375,
+          "area_zero": 0.14666666666666667,
+          "terapagos": 0.19333333333333333,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.9933333333333333,
+          "b": 0.006666666666666667,
+          "tie": 0.0,
+          "first": 0.9861111111111112,
+          "second": 1.0,
+          "area_zero": 0.006666666666666667,
+          "terapagos": 0.06,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.94,
+          "b": 0.06,
+          "tie": 0.0,
+          "first": 0.9259259259259259,
+          "second": 0.9565217391304348,
+          "area_zero": 0.2,
+          "terapagos": 0.22666666666666666,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Bursting Balloon + Hero's Cape",
+      "cuts": [
+        "Bursting Balloon",
+        "Hero's Cape"
+      ],
+      "weighted": 0.847987987987988,
+      "mean": 0.8826666666666666,
+      "worst": 0.7533333333333333,
+      "area_zero": 0.09733333333333333,
+      "terapagos": 0.12933333333333336,
+      "mew_beatdown": 0.0013333333333333335,
+      "tera_beatdown": 0.0013333333333333335,
+      "cells": {
+        "t60": {
+          "a": 0.8866666666666667,
+          "b": 0.11333333333333333,
+          "tie": 0.0,
+          "first": 0.8870967741935484,
+          "second": 0.8863636363636364,
+          "area_zero": 0.05333333333333334,
+          "terapagos": 0.10666666666666667,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.006666666666666667
+        },
+        "hedrick": {
+          "a": 0.8866666666666667,
+          "b": 0.11333333333333333,
+          "tie": 0.0,
+          "first": 0.8970588235294118,
+          "second": 0.8780487804878049,
+          "area_zero": 0.11333333333333333,
+          "terapagos": 0.13333333333333333,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.7533333333333333,
+          "b": 0.24666666666666667,
+          "tie": 0.0,
+          "first": 0.7,
+          "second": 0.8,
+          "area_zero": 0.16,
+          "terapagos": 0.18,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.9733333333333334,
+          "b": 0.02666666666666667,
+          "tie": 0.0,
+          "first": 0.9875,
+          "second": 0.9571428571428572,
+          "area_zero": 0.006666666666666667,
+          "terapagos": 0.05333333333333334,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.9133333333333333,
+          "b": 0.08666666666666667,
+          "tie": 0.0,
+          "first": 0.9027777777777778,
+          "second": 0.9230769230769231,
+          "area_zero": 0.15333333333333332,
+          "terapagos": 0.17333333333333334,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "2 Iono",
+      "cuts": [
+        "Iono",
+        "Iono"
+      ],
+      "weighted": 0.8477927927927927,
+      "mean": 0.8800000000000001,
+      "worst": 0.7866666666666666,
+      "area_zero": 0.11466666666666667,
+      "terapagos": 0.13999999999999999,
+      "mew_beatdown": 0.006666666666666666,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.9266666666666666,
+          "b": 0.07333333333333333,
+          "tie": 0.0,
+          "first": 0.9193548387096774,
+          "second": 0.9318181818181818,
+          "area_zero": 0.10666666666666667,
+          "terapagos": 0.12666666666666668,
+          "mew_beatdown": 0.013333333333333334,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.8266666666666667,
+          "b": 0.17333333333333334,
+          "tie": 0.0,
+          "first": 0.7887323943661971,
+          "second": 0.8607594936708861,
+          "area_zero": 0.12666666666666668,
+          "terapagos": 0.16,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.7866666666666666,
+          "b": 0.21333333333333335,
+          "tie": 0.0,
+          "first": 0.7538461538461538,
+          "second": 0.8117647058823529,
+          "area_zero": 0.10666666666666667,
+          "terapagos": 0.16,
+          "mew_beatdown": 0.013333333333333334,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.9533333333333334,
+          "b": 0.04666666666666667,
+          "tie": 0.0,
+          "first": 0.9710144927536232,
+          "second": 0.9382716049382716,
+          "area_zero": 0.04,
+          "terapagos": 0.06,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.9066666666666666,
+          "b": 0.09333333333333334,
+          "tie": 0.0,
+          "first": 0.9142857142857143,
+          "second": 0.9,
+          "area_zero": 0.19333333333333333,
+          "terapagos": 0.19333333333333333,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Ultra Ball + Iono",
+      "cuts": [
+        "Ultra Ball",
+        "Iono"
+      ],
+      "weighted": 0.8476726726726727,
+      "mean": 0.8866666666666667,
+      "worst": 0.8,
+      "area_zero": 0.11866666666666667,
+      "terapagos": 0.15999999999999998,
+      "mew_beatdown": 0.004,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.8866666666666667,
+          "b": 0.11333333333333333,
+          "tie": 0.0,
+          "first": 0.8870967741935484,
+          "second": 0.8863636363636364,
+          "area_zero": 0.10666666666666667,
+          "terapagos": 0.16666666666666666,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.8133333333333334,
+          "b": 0.18666666666666668,
+          "tie": 0.0,
+          "first": 0.7605633802816901,
+          "second": 0.8607594936708861,
+          "area_zero": 0.12666666666666668,
+          "terapagos": 0.16,
+          "mew_beatdown": 0.013333333333333334,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.8,
+          "b": 0.2,
+          "tie": 0.0,
+          "first": 0.6507936507936508,
+          "second": 0.9080459770114943,
+          "area_zero": 0.10666666666666667,
+          "terapagos": 0.16666666666666666,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.9866666666666667,
+          "b": 0.013333333333333334,
+          "tie": 0.0,
+          "first": 0.9868421052631579,
+          "second": 0.9864864864864865,
+          "area_zero": 0.006666666666666667,
+          "terapagos": 0.04,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.9466666666666667,
+          "b": 0.05333333333333334,
+          "tie": 0.0,
+          "first": 0.9375,
+          "second": 0.9571428571428572,
+          "area_zero": 0.24666666666666667,
+          "terapagos": 0.26666666666666666,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Battle Cage + Professor's Research",
+      "cuts": [
+        "Battle Cage",
+        "Professor's Research"
+      ],
+      "weighted": 0.8475525525525526,
+      "mean": 0.8879999999999999,
+      "worst": 0.7933333333333333,
+      "area_zero": 0.11733333333333333,
+      "terapagos": 0.13733333333333334,
+      "mew_beatdown": 0.0,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.8866666666666667,
+          "b": 0.11333333333333333,
+          "tie": 0.0,
+          "first": 0.9178082191780822,
+          "second": 0.8571428571428571,
+          "area_zero": 0.07333333333333333,
+          "terapagos": 0.1,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.82,
+          "b": 0.18,
+          "tie": 0.0,
+          "first": 0.8360655737704918,
+          "second": 0.8089887640449438,
+          "area_zero": 0.10666666666666667,
+          "terapagos": 0.14,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.7933333333333333,
+          "b": 0.20666666666666667,
+          "tie": 0.0,
+          "first": 0.7647058823529411,
+          "second": 0.8307692307692308,
+          "area_zero": 0.18666666666666668,
+          "terapagos": 0.21333333333333335,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.9933333333333333,
+          "b": 0.006666666666666667,
+          "tie": 0.0,
+          "first": 0.9863013698630136,
+          "second": 1.0,
+          "area_zero": 0.0,
+          "terapagos": 0.013333333333333334,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.9466666666666667,
+          "b": 0.05333333333333334,
+          "tie": 0.0,
+          "first": 0.9436619718309859,
+          "second": 0.9493670886075949,
+          "area_zero": 0.22,
+          "terapagos": 0.22,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Bravery Charm + Crushing Hammer",
+      "cuts": [
+        "Bravery Charm",
+        "Crushing Hammer"
+      ],
+      "weighted": 0.847042042042042,
+      "mean": 0.8800000000000001,
+      "worst": 0.78,
+      "area_zero": 0.11466666666666667,
+      "terapagos": 0.14133333333333334,
+      "mew_beatdown": 0.0013333333333333335,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.9066666666666666,
+          "b": 0.09333333333333334,
+          "tie": 0.0,
+          "first": 0.8977272727272727,
+          "second": 0.9193548387096774,
+          "area_zero": 0.05333333333333334,
+          "terapagos": 0.07333333333333333,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.8533333333333334,
+          "b": 0.14666666666666667,
+          "tie": 0.0,
+          "first": 0.8055555555555556,
+          "second": 0.8974358974358975,
+          "area_zero": 0.10666666666666667,
+          "terapagos": 0.14666666666666667,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.78,
+          "b": 0.22,
+          "tie": 0.0,
+          "first": 0.7763157894736842,
+          "second": 0.7837837837837838,
+          "area_zero": 0.16,
+          "terapagos": 0.19333333333333333,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.9733333333333334,
+          "b": 0.02666666666666667,
+          "tie": 0.0,
+          "first": 0.974025974025974,
+          "second": 0.9726027397260274,
+          "area_zero": 0.013333333333333334,
+          "terapagos": 0.04,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.8866666666666667,
+          "b": 0.11333333333333333,
+          "tie": 0.0,
+          "first": 0.875,
+          "second": 0.8974358974358975,
+          "area_zero": 0.24,
+          "terapagos": 0.25333333333333335,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "2 Counter Catcher",
+      "cuts": [
+        "Counter Catcher",
+        "Counter Catcher"
+      ],
+      "weighted": 0.8461561561561561,
+      "mean": 0.8773333333333333,
+      "worst": 0.82,
+      "area_zero": 0.11866666666666667,
+      "terapagos": 0.156,
+      "mew_beatdown": 0.005333333333333334,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.8666666666666667,
+          "b": 0.13333333333333333,
+          "tie": 0.0,
+          "first": 0.8266666666666667,
+          "second": 0.9066666666666666,
+          "area_zero": 0.10666666666666667,
+          "terapagos": 0.15333333333333332,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.82,
+          "b": 0.18,
+          "tie": 0.0,
+          "first": 0.7671232876712328,
+          "second": 0.8701298701298701,
+          "area_zero": 0.07333333333333333,
+          "terapagos": 0.14,
+          "mew_beatdown": 0.013333333333333334,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.82,
+          "b": 0.18,
+          "tie": 0.0,
+          "first": 0.8378378378378378,
+          "second": 0.8026315789473685,
+          "area_zero": 0.14666666666666667,
+          "terapagos": 0.18,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.9733333333333334,
+          "b": 0.02666666666666667,
+          "tie": 0.0,
+          "first": 0.9883720930232558,
+          "second": 0.953125,
+          "area_zero": 0.02,
+          "terapagos": 0.04666666666666667,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.9066666666666666,
+          "b": 0.09333333333333334,
+          "tie": 0.0,
+          "first": 0.8985507246376812,
+          "second": 0.9135802469135802,
+          "area_zero": 0.24666666666666667,
+          "terapagos": 0.26,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Iono + Crushing Hammer",
+      "cuts": [
+        "Iono",
+        "Crushing Hammer"
+      ],
+      "weighted": 0.8433333333333333,
+      "mean": 0.8826666666666666,
+      "worst": 0.78,
+      "area_zero": 0.12133333333333333,
+      "terapagos": 0.15333333333333332,
+      "mew_beatdown": 0.002666666666666667,
+      "tera_beatdown": 0.0013333333333333335,
+      "cells": {
+        "t60": {
+          "a": 0.8733333333333333,
+          "b": 0.12666666666666668,
+          "tie": 0.0,
+          "first": 0.9027777777777778,
+          "second": 0.8461538461538461,
+          "area_zero": 0.12666666666666668,
+          "terapagos": 0.16666666666666666,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.84,
+          "b": 0.16,
+          "tie": 0.0,
+          "first": 0.7530864197530864,
+          "second": 0.9420289855072463,
+          "area_zero": 0.08,
+          "terapagos": 0.1,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.78,
+          "b": 0.22,
+          "tie": 0.0,
+          "first": 0.75,
+          "second": 0.8076923076923077,
+          "area_zero": 0.21333333333333335,
+          "terapagos": 0.2733333333333333,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.006666666666666667
+        },
+        "d60": {
+          "a": 0.9933333333333333,
+          "b": 0.006666666666666667,
+          "tie": 0.0,
+          "first": 1.0,
+          "second": 0.9846153846153847,
+          "area_zero": 0.013333333333333334,
+          "terapagos": 0.04,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.9266666666666666,
+          "b": 0.07333333333333333,
+          "tie": 0.0,
+          "first": 0.9512195121951219,
+          "second": 0.8970588235294118,
+          "area_zero": 0.17333333333333334,
+          "terapagos": 0.18666666666666668,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Professor's Research + Boss's Orders",
+      "cuts": [
+        "Professor's Research",
+        "Boss's Orders"
+      ],
+      "weighted": 0.8422972972972973,
+      "mean": 0.884,
+      "worst": 0.78,
+      "area_zero": 0.09333333333333334,
+      "terapagos": 0.12933333333333336,
+      "mew_beatdown": 0.0,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.8666666666666667,
+          "b": 0.13333333333333333,
+          "tie": 0.0,
+          "first": 0.7887323943661971,
+          "second": 0.9367088607594937,
+          "area_zero": 0.06666666666666667,
+          "terapagos": 0.12,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.8333333333333334,
+          "b": 0.16666666666666666,
+          "tie": 0.0,
+          "first": 0.765625,
+          "second": 0.8837209302325582,
+          "area_zero": 0.04666666666666667,
+          "terapagos": 0.09333333333333334,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.78,
+          "b": 0.22,
+          "tie": 0.0,
+          "first": 0.7922077922077922,
+          "second": 0.7671232876712328,
+          "area_zero": 0.15333333333333332,
+          "terapagos": 0.18666666666666668,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 1.0,
+          "b": 0.0,
+          "tie": 0.0,
+          "first": 1.0,
+          "second": 1.0,
+          "area_zero": 0.006666666666666667,
+          "terapagos": 0.04,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.94,
+          "b": 0.06,
+          "tie": 0.0,
+          "first": 0.9305555555555556,
+          "second": 0.9487179487179487,
+          "area_zero": 0.19333333333333333,
+          "terapagos": 0.20666666666666667,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Bravery Charm + Iono",
+      "cuts": [
+        "Bravery Charm",
+        "Iono"
+      ],
+      "weighted": 0.840915915915916,
+      "mean": 0.8706666666666667,
+      "worst": 0.8066666666666666,
+      "area_zero": 0.11866666666666667,
+      "terapagos": 0.13733333333333334,
+      "mew_beatdown": 0.002666666666666667,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.8466666666666667,
+          "b": 0.15333333333333332,
+          "tie": 0.0,
+          "first": 0.8076923076923077,
+          "second": 0.8888888888888888,
+          "area_zero": 0.14666666666666667,
+          "terapagos": 0.15333333333333332,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.8066666666666666,
+          "b": 0.19333333333333333,
+          "tie": 0.0,
+          "first": 0.7792207792207793,
+          "second": 0.8356164383561644,
+          "area_zero": 0.1,
+          "terapagos": 0.14,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.8333333333333334,
+          "b": 0.16666666666666666,
+          "tie": 0.0,
+          "first": 0.875,
+          "second": 0.7948717948717948,
+          "area_zero": 0.14666666666666667,
+          "terapagos": 0.18,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.9733333333333334,
+          "b": 0.02666666666666667,
+          "tie": 0.0,
+          "first": 0.9875,
+          "second": 0.9571428571428572,
+          "area_zero": 0.006666666666666667,
+          "terapagos": 0.02,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.8933333333333333,
+          "b": 0.10666666666666667,
+          "tie": 0.0,
+          "first": 0.8974358974358975,
+          "second": 0.8888888888888888,
+          "area_zero": 0.19333333333333333,
+          "terapagos": 0.19333333333333333,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Hero's Cape + Penny",
+      "cuts": [
+        "Hero's Cape",
+        "Penny"
+      ],
+      "weighted": 0.8397297297297297,
+      "mean": 0.8813333333333333,
+      "worst": 0.74,
+      "area_zero": 0.10266666666666666,
+      "terapagos": 0.13733333333333334,
+      "mew_beatdown": 0.0013333333333333335,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.88,
+          "b": 0.12,
+          "tie": 0.0,
+          "first": 0.8846153846153846,
+          "second": 0.875,
+          "area_zero": 0.07333333333333333,
+          "terapagos": 0.08,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.8666666666666667,
+          "b": 0.13333333333333333,
+          "tie": 0.0,
+          "first": 0.8714285714285714,
+          "second": 0.8625,
+          "area_zero": 0.11333333333333333,
+          "terapagos": 0.12666666666666668,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.74,
+          "b": 0.26,
+          "tie": 0.0,
+          "first": 0.6857142857142857,
+          "second": 0.7875,
+          "area_zero": 0.16666666666666666,
+          "terapagos": 0.22666666666666666,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.9866666666666667,
+          "b": 0.013333333333333334,
+          "tie": 0.0,
+          "first": 0.975,
+          "second": 1.0,
+          "area_zero": 0.006666666666666667,
+          "terapagos": 0.07333333333333333,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.9333333333333333,
+          "b": 0.06666666666666667,
+          "tie": 0.0,
+          "first": 0.9240506329113924,
+          "second": 0.9436619718309859,
+          "area_zero": 0.15333333333333332,
+          "terapagos": 0.18,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Battle Cage + Iono",
+      "cuts": [
+        "Battle Cage",
+        "Iono"
+      ],
+      "weighted": 0.8379729729729729,
+      "mean": 0.8800000000000001,
+      "worst": 0.7533333333333333,
+      "area_zero": 0.132,
+      "terapagos": 0.14933333333333335,
+      "mew_beatdown": 0.0013333333333333335,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.8933333333333333,
+          "b": 0.10666666666666667,
+          "tie": 0.0,
+          "first": 0.8987341772151899,
+          "second": 0.8873239436619719,
+          "area_zero": 0.11333333333333333,
+          "terapagos": 0.14,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.84,
+          "b": 0.16,
+          "tie": 0.0,
+          "first": 0.891566265060241,
+          "second": 0.7761194029850746,
+          "area_zero": 0.13333333333333333,
+          "terapagos": 0.16,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.7533333333333333,
+          "b": 0.24666666666666667,
+          "tie": 0.0,
+          "first": 0.7564102564102564,
+          "second": 0.75,
+          "area_zero": 0.16,
+          "terapagos": 0.18666666666666668,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.9866666666666667,
+          "b": 0.013333333333333334,
+          "tie": 0.0,
+          "first": 0.975,
+          "second": 1.0,
+          "area_zero": 0.02,
+          "terapagos": 0.02666666666666667,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.9266666666666666,
+          "b": 0.07333333333333333,
+          "tie": 0.0,
+          "first": 0.922077922077922,
+          "second": 0.9315068493150684,
+          "area_zero": 0.23333333333333334,
+          "terapagos": 0.23333333333333334,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Bursting Balloon + Professor's Research",
+      "cuts": [
+        "Bursting Balloon",
+        "Professor's Research"
+      ],
+      "weighted": 0.8368018018018019,
+      "mean": 0.8720000000000001,
+      "worst": 0.78,
+      "area_zero": 0.11066666666666666,
+      "terapagos": 0.136,
+      "mew_beatdown": 0.0,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.8933333333333333,
+          "b": 0.10666666666666667,
+          "tie": 0.0,
+          "first": 0.8481012658227848,
+          "second": 0.9436619718309859,
+          "area_zero": 0.08666666666666667,
+          "terapagos": 0.09333333333333334,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.8333333333333334,
+          "b": 0.16666666666666666,
+          "tie": 0.0,
+          "first": 0.8108108108108109,
+          "second": 0.8552631578947368,
+          "area_zero": 0.12,
+          "terapagos": 0.14,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.78,
+          "b": 0.22,
+          "tie": 0.0,
+          "first": 0.7397260273972602,
+          "second": 0.8181818181818182,
+          "area_zero": 0.14666666666666667,
+          "terapagos": 0.16666666666666666,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.98,
+          "b": 0.02,
+          "tie": 0.0,
+          "first": 0.9743589743589743,
+          "second": 0.9861111111111112,
+          "area_zero": 0.013333333333333334,
+          "terapagos": 0.05333333333333334,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.8733333333333333,
+          "b": 0.12666666666666668,
+          "tie": 0.0,
+          "first": 0.8513513513513513,
+          "second": 0.8947368421052632,
+          "area_zero": 0.18666666666666668,
+          "terapagos": 0.22666666666666666,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Hero's Cape + Battle Cage",
+      "cuts": [
+        "Hero's Cape",
+        "Battle Cage"
+      ],
+      "weighted": 0.8352852852852852,
+      "mean": 0.8773333333333333,
+      "worst": 0.7266666666666667,
+      "area_zero": 0.13066666666666665,
+      "terapagos": 0.156,
+      "mew_beatdown": 0.0013333333333333335,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.88,
+          "b": 0.12,
+          "tie": 0.0,
+          "first": 0.8375,
+          "second": 0.9285714285714286,
+          "area_zero": 0.08666666666666667,
+          "terapagos": 0.10666666666666667,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.88,
+          "b": 0.12,
+          "tie": 0.0,
+          "first": 0.8648648648648649,
+          "second": 0.8947368421052632,
+          "area_zero": 0.14,
+          "terapagos": 0.16666666666666666,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.7266666666666667,
+          "b": 0.2733333333333333,
+          "tie": 0.0,
+          "first": 0.6296296296296297,
+          "second": 0.8405797101449275,
+          "area_zero": 0.18,
+          "terapagos": 0.18666666666666668,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.9933333333333333,
+          "b": 0.006666666666666667,
+          "tie": 0.0,
+          "first": 1.0,
+          "second": 0.9850746268656716,
+          "area_zero": 0.013333333333333334,
+          "terapagos": 0.05333333333333334,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.9066666666666666,
+          "b": 0.09333333333333334,
+          "tie": 0.0,
+          "first": 0.9166666666666666,
+          "second": 0.8939393939393939,
+          "area_zero": 0.23333333333333334,
+          "terapagos": 0.26666666666666666,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Ultra Ball + Professor's Research",
+      "cuts": [
+        "Ultra Ball",
+        "Professor's Research"
+      ],
+      "weighted": 0.8329129129129129,
+      "mean": 0.8786666666666667,
+      "worst": 0.7533333333333333,
+      "area_zero": 0.11733333333333333,
+      "terapagos": 0.14266666666666666,
+      "mew_beatdown": 0.002666666666666667,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.8866666666666667,
+          "b": 0.11333333333333333,
+          "tie": 0.0,
+          "first": 0.8589743589743589,
+          "second": 0.9166666666666666,
+          "area_zero": 0.09333333333333334,
+          "terapagos": 0.11333333333333333,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.8133333333333334,
+          "b": 0.18666666666666668,
+          "tie": 0.0,
+          "first": 0.8157894736842105,
+          "second": 0.8108108108108109,
+          "area_zero": 0.09333333333333334,
+          "terapagos": 0.11333333333333333,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.7533333333333333,
+          "b": 0.24666666666666667,
+          "tie": 0.0,
+          "first": 0.6805555555555556,
+          "second": 0.8205128205128205,
+          "area_zero": 0.18666666666666668,
+          "terapagos": 0.20666666666666667,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.9866666666666667,
+          "b": 0.013333333333333334,
+          "tie": 0.0,
+          "first": 0.9764705882352941,
+          "second": 1.0,
+          "area_zero": 0.0,
+          "terapagos": 0.02666666666666667,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.9533333333333334,
+          "b": 0.04666666666666667,
+          "tie": 0.0,
+          "first": 0.9634146341463414,
+          "second": 0.9411764705882353,
+          "area_zero": 0.21333333333333335,
+          "terapagos": 0.25333333333333335,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Hero's Cape + Counter Catcher",
+      "cuts": [
+        "Hero's Cape",
+        "Counter Catcher"
+      ],
+      "weighted": 0.8316816816816817,
+      "mean": 0.876,
+      "worst": 0.7133333333333334,
+      "area_zero": 0.1,
+      "terapagos": 0.13733333333333334,
+      "mew_beatdown": 0.0013333333333333335,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.9066666666666666,
+          "b": 0.09333333333333334,
+          "tie": 0.0,
+          "first": 0.8734177215189873,
+          "second": 0.9436619718309859,
+          "area_zero": 0.07333333333333333,
+          "terapagos": 0.14,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.86,
+          "b": 0.14,
+          "tie": 0.0,
+          "first": 0.8266666666666667,
+          "second": 0.8933333333333333,
+          "area_zero": 0.12666666666666668,
+          "terapagos": 0.16666666666666666,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.7133333333333334,
+          "b": 0.2866666666666667,
+          "tie": 0.0,
+          "first": 0.6575342465753424,
+          "second": 0.7662337662337663,
+          "area_zero": 0.12,
+          "terapagos": 0.16,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.98,
+          "b": 0.02,
+          "tie": 0.0,
+          "first": 0.9733333333333334,
+          "second": 0.9866666666666667,
+          "area_zero": 0.013333333333333334,
+          "terapagos": 0.03333333333333333,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.92,
+          "b": 0.08,
+          "tie": 0.0,
+          "first": 0.9358974358974359,
+          "second": 0.9027777777777778,
+          "area_zero": 0.16666666666666666,
+          "terapagos": 0.18666666666666668,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Professor's Research + Crushing Hammer",
+      "cuts": [
+        "Professor's Research",
+        "Crushing Hammer"
+      ],
+      "weighted": 0.8303453453453453,
+      "mean": 0.8666666666666668,
+      "worst": 0.78,
+      "area_zero": 0.12533333333333335,
+      "terapagos": 0.156,
+      "mew_beatdown": 0.002666666666666667,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.8866666666666667,
+          "b": 0.11333333333333333,
+          "tie": 0.0,
+          "first": 0.9102564102564102,
+          "second": 0.8611111111111112,
+          "area_zero": 0.11333333333333333,
+          "terapagos": 0.14,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.78,
+          "b": 0.22,
+          "tie": 0.0,
+          "first": 0.7692307692307693,
+          "second": 0.7916666666666666,
+          "area_zero": 0.12666666666666668,
+          "terapagos": 0.16666666666666666,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.8133333333333334,
+          "b": 0.18666666666666668,
+          "tie": 0.0,
+          "first": 0.7763157894736842,
+          "second": 0.8513513513513513,
+          "area_zero": 0.19333333333333333,
+          "terapagos": 0.23333333333333334,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.9866666666666667,
+          "b": 0.013333333333333334,
+          "tie": 0.0,
+          "first": 0.9879518072289156,
+          "second": 0.9850746268656716,
+          "area_zero": 0.02,
+          "terapagos": 0.05333333333333334,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.8666666666666667,
+          "b": 0.13333333333333333,
+          "tie": 0.0,
+          "first": 0.8857142857142857,
+          "second": 0.85,
+          "area_zero": 0.17333333333333334,
+          "terapagos": 0.18666666666666668,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Hero's Cape + Crushing Hammer",
+      "cuts": [
+        "Hero's Cape",
+        "Crushing Hammer"
+      ],
+      "weighted": 0.8294144144144144,
+      "mean": 0.868,
+      "worst": 0.7733333333333333,
+      "area_zero": 0.11199999999999999,
+      "terapagos": 0.14666666666666667,
+      "mew_beatdown": 0.0013333333333333335,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.86,
+          "b": 0.14,
+          "tie": 0.0,
+          "first": 0.8375,
+          "second": 0.8857142857142857,
+          "area_zero": 0.09333333333333334,
+          "terapagos": 0.12,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.8266666666666667,
+          "b": 0.17333333333333334,
+          "tie": 0.0,
+          "first": 0.8375,
+          "second": 0.8142857142857143,
+          "area_zero": 0.08666666666666667,
+          "terapagos": 0.12,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.7733333333333333,
+          "b": 0.22666666666666666,
+          "tie": 0.0,
+          "first": 0.7671232876712328,
+          "second": 0.7792207792207793,
+          "area_zero": 0.18,
+          "terapagos": 0.22666666666666666,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.9866666666666667,
+          "b": 0.013333333333333334,
+          "tie": 0.0,
+          "first": 0.9736842105263158,
+          "second": 1.0,
+          "area_zero": 0.02,
+          "terapagos": 0.05333333333333334,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.8933333333333333,
+          "b": 0.10666666666666667,
+          "tie": 0.0,
+          "first": 0.927536231884058,
+          "second": 0.8641975308641975,
+          "area_zero": 0.18,
+          "terapagos": 0.21333333333333335,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Hero's Cape + Iono",
+      "cuts": [
+        "Hero's Cape",
+        "Iono"
+      ],
+      "weighted": 0.8292342342342343,
+      "mean": 0.8746666666666666,
+      "worst": 0.7266666666666667,
+      "area_zero": 0.092,
+      "terapagos": 0.13066666666666665,
+      "mew_beatdown": 0.0013333333333333335,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.9,
+          "b": 0.1,
+          "tie": 0.0,
+          "first": 0.8734177215189873,
+          "second": 0.9295774647887324,
+          "area_zero": 0.06,
+          "terapagos": 0.10666666666666667,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.84,
+          "b": 0.16,
+          "tie": 0.0,
+          "first": 0.8571428571428571,
+          "second": 0.821917808219178,
+          "area_zero": 0.06666666666666667,
+          "terapagos": 0.09333333333333334,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.7266666666666667,
+          "b": 0.2733333333333333,
+          "tie": 0.0,
+          "first": 0.726027397260274,
+          "second": 0.7272727272727273,
+          "area_zero": 0.18666666666666668,
+          "terapagos": 0.22666666666666666,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.9866666666666667,
+          "b": 0.013333333333333334,
+          "tie": 0.0,
+          "first": 0.9714285714285714,
+          "second": 1.0,
+          "area_zero": 0.0,
+          "terapagos": 0.03333333333333333,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.92,
+          "b": 0.08,
+          "tie": 0.0,
+          "first": 0.9333333333333333,
+          "second": 0.9066666666666666,
+          "area_zero": 0.14666666666666667,
+          "terapagos": 0.19333333333333333,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Bursting Balloon + Counter Catcher",
+      "cuts": [
+        "Bursting Balloon",
+        "Counter Catcher"
+      ],
+      "weighted": 0.8290390390390391,
+      "mean": 0.8653333333333334,
+      "worst": 0.7933333333333333,
+      "area_zero": 0.13066666666666665,
+      "terapagos": 0.16,
+      "mew_beatdown": 0.004,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.8533333333333334,
+          "b": 0.14666666666666667,
+          "tie": 0.0,
+          "first": 0.8656716417910447,
+          "second": 0.8433734939759037,
+          "area_zero": 0.16,
+          "terapagos": 0.18666666666666668,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.7933333333333333,
+          "b": 0.20666666666666667,
+          "tie": 0.0,
+          "first": 0.75,
+          "second": 0.8484848484848485,
+          "area_zero": 0.10666666666666667,
+          "terapagos": 0.12,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.8,
+          "b": 0.2,
+          "tie": 0.0,
+          "first": 0.7948717948717948,
+          "second": 0.8055555555555556,
+          "area_zero": 0.22,
+          "terapagos": 0.26666666666666666,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.9733333333333334,
+          "b": 0.02666666666666667,
+          "tie": 0.0,
+          "first": 0.9726027397260274,
+          "second": 0.974025974025974,
+          "area_zero": 0.006666666666666667,
+          "terapagos": 0.04,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.9066666666666666,
+          "b": 0.09333333333333334,
+          "tie": 0.0,
+          "first": 0.9080459770114943,
+          "second": 0.9047619047619048,
+          "area_zero": 0.16,
+          "terapagos": 0.18666666666666668,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Hero's Cape + Ultra Ball",
+      "cuts": [
+        "Hero's Cape",
+        "Ultra Ball"
+      ],
+      "weighted": 0.8238288288288288,
+      "mean": 0.8653333333333333,
+      "worst": 0.72,
+      "area_zero": 0.12266666666666667,
+      "terapagos": 0.14266666666666666,
+      "mew_beatdown": 0.0,
+      "tera_beatdown": 0.0013333333333333335,
+      "cells": {
+        "t60": {
+          "a": 0.8866666666666667,
+          "b": 0.11333333333333333,
+          "tie": 0.0,
+          "first": 0.85,
+          "second": 0.9285714285714286,
+          "area_zero": 0.13333333333333333,
+          "terapagos": 0.15333333333333332,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.8466666666666667,
+          "b": 0.15333333333333332,
+          "tie": 0.0,
+          "first": 0.8717948717948718,
+          "second": 0.8194444444444444,
+          "area_zero": 0.14,
+          "terapagos": 0.16,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.006666666666666667
+        },
+        "c60": {
+          "a": 0.72,
+          "b": 0.28,
+          "tie": 0.0,
+          "first": 0.7529411764705882,
+          "second": 0.676923076923077,
+          "area_zero": 0.18666666666666668,
+          "terapagos": 0.2,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.9666666666666667,
+          "b": 0.03333333333333333,
+          "tie": 0.0,
+          "first": 0.9733333333333334,
+          "second": 0.96,
+          "area_zero": 0.006666666666666667,
+          "terapagos": 0.03333333333333333,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.9066666666666666,
+          "b": 0.09333333333333334,
+          "tie": 0.0,
+          "first": 0.8974358974358975,
+          "second": 0.9166666666666666,
+          "area_zero": 0.14666666666666667,
+          "terapagos": 0.16666666666666666,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "2 Professor's Research",
+      "cuts": [
+        "Professor's Research",
+        "Professor's Research"
+      ],
+      "weighted": 0.8225825825825827,
+      "mean": 0.8653333333333334,
+      "worst": 0.78,
+      "area_zero": 0.11333333333333333,
+      "terapagos": 0.14933333333333335,
+      "mew_beatdown": 0.0013333333333333335,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.8533333333333334,
+          "b": 0.14666666666666667,
+          "tie": 0.0,
+          "first": 0.825,
+          "second": 0.8857142857142857,
+          "area_zero": 0.10666666666666667,
+          "terapagos": 0.13333333333333333,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.78,
+          "b": 0.22,
+          "tie": 0.0,
+          "first": 0.7625,
+          "second": 0.8,
+          "area_zero": 0.10666666666666667,
+          "terapagos": 0.16666666666666666,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.78,
+          "b": 0.22,
+          "tie": 0.0,
+          "first": 0.7733333333333333,
+          "second": 0.7866666666666666,
+          "area_zero": 0.16,
+          "terapagos": 0.2,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.98,
+          "b": 0.02,
+          "tie": 0.0,
+          "first": 0.9846153846153847,
+          "second": 0.9764705882352941,
+          "area_zero": 0.0,
+          "terapagos": 0.04666666666666667,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.9333333333333333,
+          "b": 0.06666666666666667,
+          "tie": 0.0,
+          "first": 0.9487179487179487,
+          "second": 0.9166666666666666,
+          "area_zero": 0.19333333333333333,
+          "terapagos": 0.2,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Hero's Cape + Boss's Orders",
+      "cuts": [
+        "Hero's Cape",
+        "Boss's Orders"
+      ],
+      "weighted": 0.82003003003003,
+      "mean": 0.8653333333333333,
+      "worst": 0.6866666666666666,
+      "area_zero": 0.11599999999999999,
+      "terapagos": 0.14666666666666667,
+      "mew_beatdown": 0.002666666666666667,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.9,
+          "b": 0.1,
+          "tie": 0.0,
+          "first": 0.9565217391304348,
+          "second": 0.8518518518518519,
+          "area_zero": 0.06666666666666667,
+          "terapagos": 0.1,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.86,
+          "b": 0.14,
+          "tie": 0.0,
+          "first": 0.7948717948717948,
+          "second": 0.9305555555555556,
+          "area_zero": 0.11333333333333333,
+          "terapagos": 0.12666666666666668,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.6866666666666666,
+          "b": 0.31333333333333335,
+          "tie": 0.0,
+          "first": 0.6049382716049383,
+          "second": 0.782608695652174,
+          "area_zero": 0.19333333333333333,
+          "terapagos": 0.24666666666666667,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.9666666666666667,
+          "b": 0.03333333333333333,
+          "tie": 0.0,
+          "first": 0.958904109589041,
+          "second": 0.974025974025974,
+          "area_zero": 0.006666666666666667,
+          "terapagos": 0.04666666666666667,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.9133333333333333,
+          "b": 0.08666666666666667,
+          "tie": 0.0,
+          "first": 0.8888888888888888,
+          "second": 0.95,
+          "area_zero": 0.2,
+          "terapagos": 0.21333333333333335,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Iono + Professor's Research",
+      "cuts": [
+        "Iono",
+        "Professor's Research"
+      ],
+      "weighted": 0.8177327327327327,
+      "mean": 0.8546666666666667,
+      "worst": 0.7666666666666667,
+      "area_zero": 0.08533333333333334,
+      "terapagos": 0.11200000000000002,
+      "mew_beatdown": 0.002666666666666667,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.88,
+          "b": 0.12,
+          "tie": 0.0,
+          "first": 0.855072463768116,
+          "second": 0.9012345679012346,
+          "area_zero": 0.07333333333333333,
+          "terapagos": 0.1,
+          "mew_beatdown": 0.013333333333333334,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.8066666666666666,
+          "b": 0.19333333333333333,
+          "tie": 0.0,
+          "first": 0.7468354430379747,
+          "second": 0.8732394366197183,
+          "area_zero": 0.06666666666666667,
+          "terapagos": 0.1,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.7666666666666667,
+          "b": 0.23333333333333334,
+          "tie": 0.0,
+          "first": 0.7647058823529411,
+          "second": 0.7692307692307693,
+          "area_zero": 0.14666666666666667,
+          "terapagos": 0.16,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.9733333333333334,
+          "b": 0.02666666666666667,
+          "tie": 0.0,
+          "first": 0.9722222222222222,
+          "second": 0.9743589743589743,
+          "area_zero": 0.013333333333333334,
+          "terapagos": 0.05333333333333334,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.8466666666666667,
+          "b": 0.15333333333333332,
+          "tie": 0.0,
+          "first": 0.8860759493670886,
+          "second": 0.8028169014084507,
+          "area_zero": 0.12666666666666668,
+          "terapagos": 0.14666666666666667,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Hero's Cape + Professor's Research",
+      "cuts": [
+        "Hero's Cape",
+        "Professor's Research"
+      ],
+      "weighted": 0.804024024024024,
+      "mean": 0.8546666666666667,
+      "worst": 0.7,
+      "area_zero": 0.11733333333333333,
+      "terapagos": 0.15733333333333333,
+      "mew_beatdown": 0.002666666666666667,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.82,
+          "b": 0.18,
+          "tie": 0.0,
+          "first": 0.8051948051948052,
+          "second": 0.8356164383561644,
+          "area_zero": 0.11333333333333333,
+          "terapagos": 0.13333333333333333,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.8266666666666667,
+          "b": 0.17333333333333334,
+          "tie": 0.0,
+          "first": 0.8243243243243243,
+          "second": 0.8289473684210527,
+          "area_zero": 0.1,
+          "terapagos": 0.14666666666666667,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.7,
+          "b": 0.3,
+          "tie": 0.0,
+          "first": 0.7101449275362319,
+          "second": 0.691358024691358,
+          "area_zero": 0.18666666666666668,
+          "terapagos": 0.23333333333333334,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.9866666666666667,
+          "b": 0.013333333333333334,
+          "tie": 0.0,
+          "first": 0.9846153846153847,
+          "second": 0.9882352941176471,
+          "area_zero": 0.006666666666666667,
+          "terapagos": 0.06666666666666667,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.94,
+          "b": 0.06,
+          "tie": 0.0,
+          "first": 0.9135802469135802,
+          "second": 0.9710144927536232,
+          "area_zero": 0.18,
+          "terapagos": 0.20666666666666667,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Bravery Charm + Hero's Cape",
+      "cuts": [
+        "Bravery Charm",
+        "Hero's Cape"
+      ],
+      "weighted": 0.7857657657657657,
+      "mean": 0.8480000000000001,
+      "worst": 0.6466666666666666,
+      "area_zero": 0.10400000000000001,
+      "terapagos": 0.13866666666666666,
+      "mew_beatdown": 0.0013333333333333335,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.9,
+          "b": 0.1,
+          "tie": 0.0,
+          "first": 0.8589743589743589,
+          "second": 0.9444444444444444,
+          "area_zero": 0.11333333333333333,
+          "terapagos": 0.12666666666666668,
+          "mew_beatdown": 0.006666666666666667,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.7866666666666666,
+          "b": 0.21333333333333335,
+          "tie": 0.0,
+          "first": 0.725,
+          "second": 0.8571428571428571,
+          "area_zero": 0.12666666666666668,
+          "terapagos": 0.18666666666666668,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.6466666666666666,
+          "b": 0.35333333333333333,
+          "tie": 0.0,
+          "first": 0.581081081081081,
+          "second": 0.7105263157894737,
+          "area_zero": 0.1,
+          "terapagos": 0.12,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.9933333333333333,
+          "b": 0.006666666666666667,
+          "tie": 0.0,
+          "first": 0.9857142857142858,
+          "second": 1.0,
+          "area_zero": 0.013333333333333334,
+          "terapagos": 0.08666666666666667,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.9133333333333333,
+          "b": 0.08666666666666667,
+          "tie": 0.0,
+          "first": 0.8676470588235294,
+          "second": 0.9512195121951219,
+          "area_zero": 0.16666666666666666,
+          "terapagos": 0.17333333333333334,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    }
+  ],
+  "confirmed": [
+    {
+      "label": "Iono + Counter Catcher",
+      "cuts": [
+        "Iono",
+        "Counter Catcher"
+      ],
+      "weighted": 0.8707905405405405,
+      "mean": 0.9016,
+      "worst": 0.82,
+      "area_zero": 0.11199999999999999,
+      "terapagos": 0.14079999999999998,
+      "mew_beatdown": 0.002,
+      "tera_beatdown": 0.0002,
+      "cells": {
+        "t60": {
+          "a": 0.896,
+          "b": 0.104,
+          "tie": 0.0,
+          "first": 0.8688845401174168,
+          "second": 0.9243353783231084,
+          "area_zero": 0.122,
+          "terapagos": 0.152,
+          "mew_beatdown": 0.004,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.869,
+          "b": 0.131,
+          "tie": 0.0,
+          "first": 0.8647619047619047,
+          "second": 0.8736842105263158,
+          "area_zero": 0.098,
+          "terapagos": 0.127,
+          "mew_beatdown": 0.003,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.82,
+          "b": 0.18,
+          "tie": 0.0,
+          "first": 0.8081395348837209,
+          "second": 0.8326446280991735,
+          "area_zero": 0.157,
+          "terapagos": 0.19,
+          "mew_beatdown": 0.003,
+          "tera_beatdown": 0.001
+        },
+        "d60": {
+          "a": 0.988,
+          "b": 0.012,
+          "tie": 0.0,
+          "first": 0.9897959183673469,
+          "second": 0.9862745098039216,
+          "area_zero": 0.011,
+          "terapagos": 0.046,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.935,
+          "b": 0.065,
+          "tie": 0.0,
+          "first": 0.9354207436399217,
+          "second": 0.934560327198364,
+          "area_zero": 0.172,
+          "terapagos": 0.189,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Bursting Balloon + Ultra Ball",
+      "cuts": [
+        "Bursting Balloon",
+        "Ultra Ball"
+      ],
+      "weighted": 0.8702094594594595,
+      "mean": 0.8996000000000001,
+      "worst": 0.826,
+      "area_zero": 0.10740000000000001,
+      "terapagos": 0.1396,
+      "mew_beatdown": 0.001,
+      "tera_beatdown": 0.0004,
+      "cells": {
+        "t60": {
+          "a": 0.907,
+          "b": 0.093,
+          "tie": 0.0,
+          "first": 0.8832997987927566,
+          "second": 0.9304174950298211,
+          "area_zero": 0.098,
+          "terapagos": 0.127,
+          "mew_beatdown": 0.003,
+          "tera_beatdown": 0.002
+        },
+        "hedrick": {
+          "a": 0.861,
+          "b": 0.139,
+          "tie": 0.0,
+          "first": 0.8550420168067226,
+          "second": 0.8664122137404581,
+          "area_zero": 0.091,
+          "terapagos": 0.123,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.826,
+          "b": 0.174,
+          "tie": 0.0,
+          "first": 0.794921875,
+          "second": 0.8586065573770492,
+          "area_zero": 0.143,
+          "terapagos": 0.179,
+          "mew_beatdown": 0.002,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.984,
+          "b": 0.016,
+          "tie": 0.0,
+          "first": 0.9864603481624759,
+          "second": 0.9813664596273292,
+          "area_zero": 0.017,
+          "terapagos": 0.056,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.92,
+          "b": 0.08,
+          "tie": 0.0,
+          "first": 0.918918918918919,
+          "second": 0.9210019267822736,
+          "area_zero": 0.188,
+          "terapagos": 0.213,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "2 Bursting Balloon",
+      "cuts": [
+        "Bursting Balloon",
+        "Bursting Balloon"
+      ],
+      "weighted": 0.8695157657657658,
+      "mean": 0.8987999999999999,
+      "worst": 0.821,
+      "area_zero": 0.1152,
+      "terapagos": 0.1462,
+      "mew_beatdown": 0.0024000000000000002,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.902,
+          "b": 0.098,
+          "tie": 0.0,
+          "first": 0.8723404255319149,
+          "second": 0.9337474120082816,
+          "area_zero": 0.106,
+          "terapagos": 0.132,
+          "mew_beatdown": 0.007,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.871,
+          "b": 0.129,
+          "tie": 0.0,
+          "first": 0.8336713995943205,
+          "second": 0.9072978303747534,
+          "area_zero": 0.098,
+          "terapagos": 0.129,
+          "mew_beatdown": 0.002,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.821,
+          "b": 0.179,
+          "tie": 0.0,
+          "first": 0.8207739307535642,
+          "second": 0.8212180746561886,
+          "area_zero": 0.158,
+          "terapagos": 0.192,
+          "mew_beatdown": 0.003,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.987,
+          "b": 0.013,
+          "tie": 0.0,
+          "first": 0.9900199600798403,
+          "second": 0.9839679358717435,
+          "area_zero": 0.019,
+          "terapagos": 0.061,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.913,
+          "b": 0.087,
+          "tie": 0.0,
+          "first": 0.9156862745098039,
+          "second": 0.9102040816326531,
+          "area_zero": 0.195,
+          "terapagos": 0.217,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "2 Bravery Charm",
+      "cuts": [
+        "Bravery Charm",
+        "Bravery Charm"
+      ],
+      "weighted": 0.8673986486486487,
+      "mean": 0.8976,
+      "worst": 0.813,
+      "area_zero": 0.1022,
+      "terapagos": 0.1318,
+      "mew_beatdown": 0.0014,
+      "tera_beatdown": 0.0006000000000000001,
+      "cells": {
+        "t60": {
+          "a": 0.888,
+          "b": 0.112,
+          "tie": 0.0,
+          "first": 0.8694817658349329,
+          "second": 0.9081419624217119,
+          "area_zero": 0.081,
+          "terapagos": 0.101,
+          "mew_beatdown": 0.005,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.877,
+          "b": 0.123,
+          "tie": 0.0,
+          "first": 0.8529411764705882,
+          "second": 0.9020408163265307,
+          "area_zero": 0.105,
+          "terapagos": 0.129,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.001
+        },
+        "c60": {
+          "a": 0.813,
+          "b": 0.187,
+          "tie": 0.0,
+          "first": 0.7858627858627859,
+          "second": 0.838150289017341,
+          "area_zero": 0.133,
+          "terapagos": 0.172,
+          "mew_beatdown": 0.002,
+          "tera_beatdown": 0.002
+        },
+        "d60": {
+          "a": 0.987,
+          "b": 0.013,
+          "tie": 0.0,
+          "first": 0.9900990099009901,
+          "second": 0.9838383838383838,
+          "area_zero": 0.014,
+          "terapagos": 0.049,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.923,
+          "b": 0.077,
+          "tie": 0.0,
+          "first": 0.9127789046653144,
+          "second": 0.9329388560157791,
+          "area_zero": 0.178,
+          "terapagos": 0.208,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "2 Penny",
+      "cuts": [
+        "Penny",
+        "Penny"
+      ],
+      "weighted": 0.866436936936937,
+      "mean": 0.8986000000000001,
+      "worst": 0.826,
+      "area_zero": 0.0906,
+      "terapagos": 0.11979999999999999,
+      "mew_beatdown": 0.0016,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.906,
+          "b": 0.094,
+          "tie": 0.0,
+          "first": 0.8850806451612904,
+          "second": 0.9265873015873016,
+          "area_zero": 0.083,
+          "terapagos": 0.108,
+          "mew_beatdown": 0.004,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.847,
+          "b": 0.153,
+          "tie": 0.0,
+          "first": 0.7995824634655533,
+          "second": 0.8905950095969289,
+          "area_zero": 0.11,
+          "terapagos": 0.134,
+          "mew_beatdown": 0.003,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.826,
+          "b": 0.174,
+          "tie": 0.0,
+          "first": 0.8061855670103093,
+          "second": 0.8446601941747572,
+          "area_zero": 0.109,
+          "terapagos": 0.148,
+          "mew_beatdown": 0.001,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.992,
+          "b": 0.008,
+          "tie": 0.0,
+          "first": 0.9882121807465619,
+          "second": 0.9959266802443992,
+          "area_zero": 0.02,
+          "terapagos": 0.053,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.922,
+          "b": 0.078,
+          "tie": 0.0,
+          "first": 0.9205426356589147,
+          "second": 0.9235537190082644,
+          "area_zero": 0.131,
+          "terapagos": 0.156,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Bursting Balloon + Battle Cage",
+      "cuts": [
+        "Bursting Balloon",
+        "Battle Cage"
+      ],
+      "weighted": 0.8658175675675676,
+      "mean": 0.8956,
+      "worst": 0.827,
+      "area_zero": 0.10779999999999998,
+      "terapagos": 0.1358,
+      "mew_beatdown": 0.002,
+      "tera_beatdown": 0.0006000000000000001,
+      "cells": {
+        "t60": {
+          "a": 0.872,
+          "b": 0.128,
+          "tie": 0.0,
+          "first": 0.8428290766208252,
+          "second": 0.9022403258655805,
+          "area_zero": 0.089,
+          "terapagos": 0.121,
+          "mew_beatdown": 0.004,
+          "tera_beatdown": 0.001
+        },
+        "hedrick": {
+          "a": 0.86,
+          "b": 0.14,
+          "tie": 0.0,
+          "first": 0.8614800759013282,
+          "second": 0.8583509513742071,
+          "area_zero": 0.109,
+          "terapagos": 0.134,
+          "mew_beatdown": 0.004,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.827,
+          "b": 0.173,
+          "tie": 0.0,
+          "first": 0.7959183673469388,
+          "second": 0.8568627450980392,
+          "area_zero": 0.141,
+          "terapagos": 0.167,
+          "mew_beatdown": 0.002,
+          "tera_beatdown": 0.001
+        },
+        "d60": {
+          "a": 0.984,
+          "b": 0.016,
+          "tie": 0.0,
+          "first": 0.9829424307036247,
+          "second": 0.9849340866290018,
+          "area_zero": 0.019,
+          "terapagos": 0.058,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.001
+        },
+        "thorns": {
+          "a": 0.935,
+          "b": 0.065,
+          "tie": 0.0,
+          "first": 0.9368836291913215,
+          "second": 0.9330628803245437,
+          "area_zero": 0.181,
+          "terapagos": 0.199,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Night Stretcher + Iono",
+      "cuts": [
+        "Night Stretcher",
+        "Iono"
+      ],
+      "weighted": 0.8569729729729729,
+      "mean": 0.89,
+      "worst": 0.8,
+      "area_zero": 0.1078,
+      "terapagos": 0.13799999999999998,
+      "mew_beatdown": 0.0018000000000000002,
+      "tera_beatdown": 0.0,
+      "cells": {
+        "t60": {
+          "a": 0.897,
+          "b": 0.103,
+          "tie": 0.0,
+          "first": 0.8906882591093117,
+          "second": 0.9031620553359684,
+          "area_zero": 0.091,
+          "terapagos": 0.117,
+          "mew_beatdown": 0.003,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.855,
+          "b": 0.145,
+          "tie": 0.0,
+          "first": 0.8091286307053942,
+          "second": 0.8976833976833977,
+          "area_zero": 0.106,
+          "terapagos": 0.141,
+          "mew_beatdown": 0.004,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.8,
+          "b": 0.2,
+          "tie": 0.0,
+          "first": 0.7903225806451613,
+          "second": 0.8095238095238095,
+          "area_zero": 0.161,
+          "terapagos": 0.189,
+          "mew_beatdown": 0.002,
+          "tera_beatdown": 0.0
+        },
+        "d60": {
+          "a": 0.983,
+          "b": 0.017,
+          "tie": 0.0,
+          "first": 0.9847036328871893,
+          "second": 0.9811320754716981,
+          "area_zero": 0.013,
+          "terapagos": 0.047,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.915,
+          "b": 0.085,
+          "tie": 0.0,
+          "first": 0.8990825688073395,
+          "second": 0.9340659340659341,
+          "area_zero": 0.168,
+          "terapagos": 0.196,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    },
+    {
+      "label": "Bravery Charm + Bursting Balloon",
+      "cuts": [
+        "Bravery Charm",
+        "Bursting Balloon"
+      ],
+      "weighted": 0.8559211711711712,
+      "mean": 0.8904,
+      "worst": 0.8,
+      "area_zero": 0.11639999999999999,
+      "terapagos": 0.147,
+      "mew_beatdown": 0.0026000000000000003,
+      "tera_beatdown": 0.0004,
+      "cells": {
+        "t60": {
+          "a": 0.892,
+          "b": 0.108,
+          "tie": 0.0,
+          "first": 0.8824701195219123,
+          "second": 0.9016064257028112,
+          "area_zero": 0.09,
+          "terapagos": 0.13,
+          "mew_beatdown": 0.005,
+          "tera_beatdown": 0.0
+        },
+        "hedrick": {
+          "a": 0.853,
+          "b": 0.147,
+          "tie": 0.0,
+          "first": 0.8003913894324853,
+          "second": 0.9079754601226994,
+          "area_zero": 0.098,
+          "terapagos": 0.12,
+          "mew_beatdown": 0.003,
+          "tera_beatdown": 0.0
+        },
+        "c60": {
+          "a": 0.8,
+          "b": 0.2,
+          "tie": 0.0,
+          "first": 0.7684630738522954,
+          "second": 0.8316633266533067,
+          "area_zero": 0.179,
+          "terapagos": 0.207,
+          "mew_beatdown": 0.005,
+          "tera_beatdown": 0.002
+        },
+        "d60": {
+          "a": 0.99,
+          "b": 0.01,
+          "tie": 0.0,
+          "first": 0.9901574803149606,
+          "second": 0.9898373983739838,
+          "area_zero": 0.017,
+          "terapagos": 0.053,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        },
+        "thorns": {
+          "a": 0.917,
+          "b": 0.083,
+          "tie": 0.0,
+          "first": 0.9276190476190476,
+          "second": 0.9052631578947369,
+          "area_zero": 0.198,
+          "terapagos": 0.225,
+          "mew_beatdown": 0.0,
+          "tera_beatdown": 0.0
+        }
+      }
+    }
+  ],
+  "best": {
+    "label": "Iono + Counter Catcher",
+    "cuts": [
+      "Iono",
+      "Counter Catcher"
+    ],
+    "weighted": 0.8707905405405405,
+    "mean": 0.9016,
+    "worst": 0.82,
+    "area_zero": 0.11199999999999999,
+    "terapagos": 0.14079999999999998,
+    "mew_beatdown": 0.002,
+    "tera_beatdown": 0.0002,
+    "cells": {
+      "t60": {
+        "a": 0.896,
+        "b": 0.104,
+        "tie": 0.0,
+        "first": 0.8688845401174168,
+        "second": 0.9243353783231084,
+        "area_zero": 0.122,
+        "terapagos": 0.152,
+        "mew_beatdown": 0.004,
+        "tera_beatdown": 0.0
+      },
+      "hedrick": {
+        "a": 0.869,
+        "b": 0.131,
+        "tie": 0.0,
+        "first": 0.8647619047619047,
+        "second": 0.8736842105263158,
+        "area_zero": 0.098,
+        "terapagos": 0.127,
+        "mew_beatdown": 0.003,
+        "tera_beatdown": 0.0
+      },
+      "c60": {
+        "a": 0.82,
+        "b": 0.18,
+        "tie": 0.0,
+        "first": 0.8081395348837209,
+        "second": 0.8326446280991735,
+        "area_zero": 0.157,
+        "terapagos": 0.19,
+        "mew_beatdown": 0.003,
+        "tera_beatdown": 0.001
+      },
+      "d60": {
+        "a": 0.988,
+        "b": 0.012,
+        "tie": 0.0,
+        "first": 0.9897959183673469,
+        "second": 0.9862745098039216,
+        "area_zero": 0.011,
+        "terapagos": 0.046,
+        "mew_beatdown": 0.0,
+        "tera_beatdown": 0.0
+      },
+      "thorns": {
+        "a": 0.935,
+        "b": 0.065,
+        "tie": 0.0,
+        "first": 0.9354207436399217,
+        "second": 0.934560327198364,
+        "area_zero": 0.172,
+        "terapagos": 0.189,
+        "mew_beatdown": 0.0,
+        "tera_beatdown": 0.0
+      }
+    }
+  },
+  "beats_current": false
+}
