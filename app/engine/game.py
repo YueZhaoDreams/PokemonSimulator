@@ -9,6 +9,9 @@ from app.engine.decisions import LOOK_THEN_ATTACH, DecisionContext, decide
 from app.engine.effects import (
     can_pay_energy,
     energy_provided,
+    host_has_rule_box,
+    host_is_dragon,
+    host_is_gx_or_hyphen_ex,
     is_basic_energy,
     is_boomerang_energy,
     is_double_colorless,
@@ -134,6 +137,8 @@ class Game:
         self.events: dict[str, int] = {}
         self.turn = 0
         self.stadium_name: str | None = None
+        self.stadium_effects: list[dict[str, Any]] = []
+        self.stadium_owner: Player | None = None
         self.strats = {"a": strat_a, "b": strat_b}
         self.players = {
             "a": self._deal("A", cards_a, strat_a),
@@ -146,7 +151,6 @@ class Game:
         self.energy_attack_lock: dict[str, int] = {}
         self.flip_script_used = False
         self.last_ditch_used = False
-        self.stadium_effects: list[dict[str, Any]] = []
         # Clefairy promoted by a Moonlight Stadium Party pivot; this turn's attach goes there.
         self.moonlight_pivot_mon: dict[str, Pokemon] = {}
         self.turn_ended_by_ability = False
@@ -228,7 +232,7 @@ class Game:
         if strat.name == "celebration":
             ace_cards.sort(key=lambda i: self._celebration_bench_rank(player.card(i).name.lower()))
         for card_i in ace_cards:
-            if len(player.bench) >= self.rules.bench_size:
+            if len(player.bench) >= self._bench_limit():
                 break
             # Opening runs inside _deal, before the opponent exists. Count Mew ex
             # directly. Bouncy Circle does not count a 160 HP bench Pokémon.
@@ -245,7 +249,7 @@ class Game:
         reserve = 1 if aces and not ace_out else 0
         if aces:
             self.rng.shuffle(fillers)
-            cap = self.rules.bench_size - reserve
+            cap = self._bench_limit() - reserve
             for card_i in fillers:
                 if len(player.bench) >= cap:
                     break
@@ -254,7 +258,7 @@ class Game:
                 self._bump(f"saw_play:{player.card(card_i).name}")
         else:
             self.rng.shuffle(remaining)
-            for card_i in remaining[: self.rules.bench_size]:
+            for card_i in remaining[: self._bench_limit()]:
                 player.hand.remove(card_i)
                 player.bench.append(Pokemon(card_i=card_i, played_turn=0))
                 self._bump(f"saw_play:{player.card(card_i).name}")
@@ -757,6 +761,7 @@ class Game:
             who = self.current
             ended = self._take_turn(who)
             self._note_energy(who)
+            self._note_bench30_end()
             if ended:
                 break
             self.current = "b" if who == "a" else "a"
@@ -857,7 +862,7 @@ class Game:
         self._play_basics(me)
         self._play_trainers(me, foe, who)
         self._play_basics(me)
-        if self.strats[who].name in {"party", "demolish", "slash", "shock", "thrifty", "phantom", "carnival", "g", "celebration", "aura", "thorns"}:
+        if self.strats[who].name in {"party", "demolish", "slash", "shock", "thrifty", "phantom", "carnival", "g", "celebration", "aura", "thorns", "electro_rain", "regidrago"}:
             self._play_trainers(me, foe, who)
             self._play_basics(me)
         if self.strats[who].name in {"party", "g"}:
@@ -871,7 +876,7 @@ class Game:
             self._party_bounce_combo(me, foe, who)
         self._evolve(me, foe, who)
         self._play_basics(me)
-        if self.strats[who].name in {"party", "demolish", "slash", "shock", "thrifty", "phantom", "carnival", "g", "celebration", "aura", "thorns"}:
+        if self.strats[who].name in {"party", "demolish", "slash", "shock", "thrifty", "phantom", "carnival", "g", "celebration", "aura", "thorns", "electro_rain", "regidrago"}:
             self._play_trainers(me, foe, who)
         if self.strats[who].name == "celebration":
             self._evolve(me, foe, who)
@@ -904,6 +909,8 @@ class Game:
                 if getattr(self, "winner", None):
                     return True
                 self._celebration_align_attacker(me, who)
+            elif self.strats[who].name in {"electro_rain", "regidrago"}:
+                self._align_spread_attacker(me, foe, who)
             else:
                 self._maybe_retreat(me, foe, who)
 
@@ -1062,7 +1069,7 @@ class Game:
         if self.rng.random() > strat.bench_fill and len(me.bench) >= 1:
             return
         basics = [i for i in list(me.hand) if self._is_playable_pokemon(me.card(i))]
-        while basics and len(me.bench) < self.rules.bench_size - reserve:
+        while basics and len(me.bench) < self._bench_limit() - reserve:
             card_i = basics.pop(0)
             if card_i not in me.hand:
                 continue
@@ -1417,7 +1424,7 @@ class Game:
             elif name in {"ultra ball", "poké ball", "poke ball"}:
                 score += 3
             elif name in {"nest ball", "nesting ball"}:
-                slots = self.rules.bench_size - len(me.bench)
+                slots = self._bench_limit() - len(me.bench)
                 aces = {n.lower() for n in strat.search_aces}
                 copies = sum(1 for n in self._in_play_names(me) if n in aces)
                 if copies >= max(1, strat.max_ace_copies) and strat.name == "demolish":
@@ -1485,7 +1492,7 @@ class Game:
                 else:
                     score -= 5
             elif name in {"buddy-buddy poffin", "buddy buddy poffin"}:
-                slots = self.rules.bench_size - len(me.bench)
+                slots = self._bench_limit() - len(me.bench)
                 if strat.name in {"mew_baby", "baby"}:
                     score += 25 if slots > 0 else -10
                 elif strat.name == "phantom":
@@ -1920,6 +1927,10 @@ class Game:
                 score += self._g_horn_trainer_score(me, foe, who, card_i)
             if strat.name == "celebration":
                 score += self._celebration_trainer_score(me, who, name)
+            if strat.name == "electro_rain":
+                score += self._electro_trainer_score(me, foe, card)
+            if strat.name == "regidrago":
+                score += self._regidrago_trainer_score(me, foe, card)
             if strat.name == "aura":
                 score += self._aura_trainer_score(me, foe, name)
             if strat.name == "thorns":
@@ -2293,28 +2304,67 @@ class Game:
             self._bump("tool_box_miss")
             self._log(f"{me.name} Tool Box finds no Tools")
 
-    def _set_stadium(self, card: Card) -> None:
+    def _set_stadium(self, card: Card, owner: Player | None = None) -> None:
+        old = list(self.stadium_effects or [])
+        old_owner = self.stadium_owner
+        self._leave_raising_stadium(old, old_owner)
         self.stadium_name = card.name
         self.stadium_effects = parse_ability_effects(card.text)
+        self.stadium_owner = owner
         self._bump(f"stadium:{card.name}")
+
+    def _clear_stadium(self) -> None:
+        old = list(self.stadium_effects or [])
+        old_owner = self.stadium_owner
+        self.stadium_name = None
+        self.stadium_effects = []
+        self.stadium_owner = None
+        self._leave_raising_stadium(old, old_owner)
+
+    def _leave_raising_stadium(self, effects: list[dict[str, Any]], owner: Player | None) -> None:
+        """When a raising bench stadium leaves, discard down to its printed leave size."""
+        leave = None
+        owner_first = False
+        for eff in effects:
+            if eff.get("kind") != "stadium_bench_limit" or not eff.get("raises"):
+                continue
+            if eff.get("leave_limit") is None:
+                continue
+            leave = int(eff["leave_limit"])
+            owner_first = bool(eff.get("owner_discards_first"))
+        if leave is None:
+            return
+        if owner_first and owner is not None:
+            other = self.players["b" if owner.name == "A" else "a"]
+            order = [owner, other]
+        else:
+            order = [self.players["a"], self.players["b"]]
+        for player in order:
+            self._discard_bench_down_to(player, leave)
 
     def _bench_limit(self) -> int:
         cap = self.rules.bench_size
         for eff in self.stadium_effects:
-            if eff.get("kind") == "stadium_bench_limit":
-                cap = min(cap, int(eff.get("limit") or 4))
+            if eff.get("kind") != "stadium_bench_limit" or eff.get("limit") is None:
+                continue
+            limit = int(eff["limit"])
+            cap = limit if eff.get("raises") else min(cap, limit)
         return cap
 
     def _play_stadium(self, me: Player, foe: Player, card: Card) -> None:
-        effects = parse_ability_effects(card.text)
-        for eff in effects:
-            if eff.get("kind") != "stadium_bench_limit":
+        self._set_stadium(card, owner=me)
+        for eff in self.stadium_effects:
+            if eff.get("kind") != "stadium_bench_limit" or eff.get("raises"):
                 continue
-            limit = int(eff.get("limit") or 4)
+            if eff.get("limit") is None:
+                continue
+            limit = int(eff["limit"])
             first, second = (foe, me) if eff.get("opponent_discards_first") else (me, foe)
             self._discard_bench_down_to(first, limit)
             self._discard_bench_down_to(second, limit)
-        self._set_stadium(card)
+
+    def _stadium_item_safe(self) -> bool:
+        return any(eff.get("kind") == "stadium_item_safe" for eff in (self.stadium_effects or []))
 
     def _discard_bench_down_to(self, player: Player, limit: int) -> None:
         while len(player.bench) > limit:
@@ -3697,6 +3747,10 @@ class Game:
 
     def _pokemon_search_prefer(self, me: Player, who: str) -> list[str]:
         strat = self.strats[who]
+        if strat.name == "electro_rain":
+            return self._electro_search_prefer(me)
+        if strat.name == "regidrago":
+            return self._regidrago_search_prefer(me)
         if strat.name == "aura":
             prefer = []
             names = {me.card(m.card_i).name.lower() for m in me.in_play()}
@@ -4163,7 +4217,7 @@ class Game:
             aces = {n.lower() for n in strat.search_aces}
             if aces and not self._name_in_zones(me, aces, "play+hand+deck"):
                 allow |= {n.lower() for n in strat.backups}
-        slots = self.rules.bench_size - len(me.bench)
+        slots = self._bench_limit() - len(me.bench)
         take = min(count, max(0, slots))
         if want == "clefairy" and strat.name == "party":
             cap_left = max(0, self._clefairy_play_cap(me) - self._count_named_in_play(me, "Clefairy"))
@@ -4389,6 +4443,7 @@ class Game:
         target.energy.append(energy_i)
         me.energy_attached = True
         src = me.card(energy_i)
+        self._scrap_illegal_energy(me, target)
         self._log(f"{me.name} attaches {src.name} as {src.as_energy_type} energy to {me.card(target.card_i).name}")
         if src.is_pokemon:
             self._bump("pokemon_as_energy")
@@ -4419,7 +4474,7 @@ class Game:
             req = str(eff.get("require_attach_type") or "").title()
             if req and req not in (me.card(target.card_i).types or []):
                 continue
-            if len(me.bench) >= self.rules.bench_size:
+            if len(me.bench) >= self._bench_limit():
                 continue
             before = len(me.bench)
             self._call_family(
@@ -4434,9 +4489,9 @@ class Game:
             self._bump("telepathic_attach")
 
     def _telepathic_worth_attach(self, me: Player, who: str) -> bool:
-        if len(me.bench) >= self.rules.bench_size:
+        if len(me.bench) >= self._bench_limit():
             return False
-        slots = min(2, self.rules.bench_size - len(me.bench))
+        slots = min(2, self._bench_limit() - len(me.bench))
         if slots <= 0:
             return False
         strat = self.strats[who]
@@ -4498,16 +4553,44 @@ class Game:
         self._log(f"{me.name} attaches {src.name} as {src.as_energy_type} energy to {me.card(target.card_i).name}")
         self._resolve_energy_attach_from_hand(me, who, target, tele)
 
+    def _prizes_behind(self, me: Player) -> bool:
+        foe = self.players["b" if me.name == "A" else "a"]
+        return len(me.prizes) > len(foe.prizes)
+
+    def _energy_context(self, me: Player, mon: Pokemon) -> tuple[bool, Card]:
+        return self._prizes_behind(me), me.card(mon.card_i)
+
     def _energy_pool(self, me: Player, mon: Pokemon) -> list[str]:
+        behind, host = self._energy_context(me, mon)
         pool: list[str] = []
         for energy_i in mon.energy:
-            pool.extend(energy_provided(me.card(energy_i)))
+            pool.extend(energy_provided(me.card(energy_i), prizes_behind=behind, host=host))
         return pool
+
+    def _card_provides_type(self, me: Player, mon: Pokemon, energy_i: int, energy_type: str) -> bool:
+        behind, host = self._energy_context(me, mon)
+        units = energy_provided(me.card(energy_i), prizes_behind=behind, host=host)
+        return energy_type in units or "Any" in units
+
+    def _providing_cards(self, me: Player, mon: Pokemon, energy_type: str) -> list[int]:
+        return [i for i in mon.energy if self._card_provides_type(me, mon, i, energy_type)]
+
+    def _typed_energy_units(self, me: Player, mon: Pokemon, energy_type: str) -> int:
+        behind, host = self._energy_context(me, mon)
+        total = 0
+        for energy_i in mon.energy:
+            units = energy_provided(me.card(energy_i), prizes_behind=behind, host=host)
+            total += sum(1 for unit in units if unit == energy_type or unit == "Any")
+        return total
 
     def _energy_target(self, me: Player, strat: StrategySpec) -> Pokemon:
         assert me.active
         if strat.name == "thorns":
             return self._thorns_energy_target(me)
+        if strat.name == "electro_rain":
+            return self._electro_energy_target(me)
+        if strat.name == "regidrago":
+            return self._regidrago_energy_target(me)
         if strat.name == "aura":
             return self._aura_energy_target(me)
         if strat.name in {"mew_baby", "baby"}:
@@ -4774,6 +4857,10 @@ class Game:
     def _choose_energy_card(self, me: Player, target: Pokemon, strat: StrategySpec) -> int | None:
         if strat.name == "thorns":
             return self._thorns_energy_card(me, target)
+        if strat.name == "electro_rain":
+            return self._electro_energy_card(me, target)
+        if strat.name == "regidrago":
+            return self._regidrago_energy_card(me, target)
         if strat.name in {"mew_baby", "baby"} and "radiant charizard" not in me.card(target.card_i).name.lower():
             counters = self._attacker_counter_energies(me)
             if counters:
@@ -4970,6 +5057,10 @@ class Game:
         atk = self._choose_attack(me, foe, strat)
         if atk is None:
             return
+        # Apex Dragon is replaced by the copied attack, which has no VSTAR sentence.
+        uses_vstar = any(
+            e.get("kind") == "once_per_game" and e.get("flag") == "vstar" for e in atk.effects
+        )
         resolved = self._resolved_attack(me, foe, atk)
         attacker = me.card(me.active.card_i)
         defender = foe.card(foe.active.card_i)
@@ -5003,6 +5094,10 @@ class Game:
                 foe.discard.append(foe.active.tool)
                 foe.active.tool = None
                 self._bump("crushing_short")
+
+        if uses_vstar:
+            me.vstar_used = True
+            self._bump("vstar_power")
 
         dmg = self._raw_attack_damage(me, foe, me.active, atk)
         moons = next((e for e in atk.effects if e.get("kind") == "discard_hand_energy_bonus"), None)
@@ -5047,6 +5142,10 @@ class Game:
 
         for effect in atk.effects:
             if effect.get("kind") == "status":
+                if effect.get("status") == "paralyzed" and any(
+                    e.get("kind") == "paralyze_if_extra_energy" for e in atk.effects
+                ):
+                    continue
                 need = effect.get("if_opponent_prizes")
                 if need is not None and len(foe.prizes) != int(need):
                     continue
@@ -5094,7 +5193,26 @@ class Game:
                 self._bump(f"itchy_pollen_lock_{who}")
                 self._log(f"{attacker.name} locks Item cards next turn")
             elif effect.get("kind") == "damage_one_pokemon":
-                self._damage_one_pokemon(me, foe, int(effect.get("amount") or 0))
+                self._damage_one_pokemon(
+                    me,
+                    foe,
+                    int(effect.get("amount") or 0),
+                    bench_only=bool(effect.get("bench_only")),
+                )
+            elif effect.get("kind") == "discard_typed_energy_damage_per_card":
+                self._electro_rain(me, foe, me.active, effect)
+            elif effect.get("kind") == "damage_each_with_counters":
+                self._damage_each_with_counters(me, foe, effect)
+            elif effect.get("kind") == "damage_n_opponent_pokemon":
+                self._damage_n_opponent_pokemon(me, foe, effect)
+            elif effect.get("kind") == "paralyze_if_extra_energy":
+                self._paralyze_if_extra_energy(me, foe, me.active, atk, effect)
+            elif effect.get("kind") == "discard_all_typed_energy":
+                self._discard_typed_energy(me, me.active, str(effect.get("energy_type") or ""))
+            elif effect.get("kind") == "discard_all_energy":
+                self._discard_all_energy(me, me.active)
+            elif effect.get("kind") == "discard_top_attach_energy":
+                self._discard_top_attach_energy(me, me.active, int(effect.get("count") or 0))
             elif effect.get("kind") == "transfer_charge":
                 self._transfer_charge(me, count=int(effect.get("count") or 2))
             elif effect.get("kind") == "attach_typed_energy_from_discard":
@@ -5155,8 +5273,7 @@ class Game:
                 if self.stadium_name:
                     self._bump("discard_stadium")
                     self._log(f"{attacker.name} discards Stadium {self.stadium_name}")
-                    self.stadium_name = None
-                    self.stadium_effects = []
+                    self._clear_stadium()
             elif effect.get("kind") == "shuffle_self_into_deck":
                 if len(me.in_play()) >= 2:
                     self._shuffle_mon_into_deck(me, me.active)
@@ -5392,16 +5509,7 @@ class Game:
         return False
 
     def _has_rule_box(self, card: Card) -> bool:
-        name = (card.name or "").lower()
-        return (
-            name.endswith(" ex")
-            or name.endswith(" gx")
-            or " vmax" in name
-            or name.endswith(" vmax")
-            or "vstar" in name
-            or name.endswith(" v")
-            or " v " in name
-        )
+        return host_has_rule_box(card)
 
     def _shuffle_hand_into_deck(self, player: Player) -> None:
         player.deck.extend(list(player.hand))
@@ -5599,8 +5707,17 @@ class Game:
         self._bump(f"night_stretcher_{me.name.lower()}")
         self._log(f"{me.name} Night Stretcher takes {me.card(card_i).name}")
 
-    def _damage_one_pokemon(self, me: Player, foe: Player, amount: int) -> None:
+    def _damage_one_pokemon(self, me: Player, foe: Player, amount: int, bench_only: bool = False) -> None:
         if amount <= 0 or not foe.active:
+            return
+        if bench_only:
+            if not foe.bench or self._bench_spread_blocked(foe):
+                return
+            target = min(foe.bench, key=lambda m: self._max_hp(foe, m) - m.damage)
+            self._add_attack_damage(foe, target, amount)
+            self._bump("bench_damage", amount)
+            self._bump("damage_dealt", amount)
+            self._log(f"Bench hit {foe.card(target.card_i).name} for {amount}")
             return
         attacker = me.card(me.active.card_i) if me.active else None
         active_hp = self._max_hp(foe, foe.active) - foe.active.damage
@@ -5715,11 +5832,20 @@ class Game:
         card = me.card(me.active.card_i)
         attached = self._energy_pool(me, me.active)
         locked = me.active.disabled_attack or getattr(me.active, "disabled_self", None)
-        legal = [
-            atk
-            for atk in self._attacks_for(me, me.active)
-            if can_pay_energy(attached, self._attack_cost(me, me.active, atk, foe)) and atk.name != locked
-        ]
+        legal = []
+        for atk in self._attacks_for(me, me.active):
+            if atk.name == locked:
+                continue
+            if any(e.get("kind") == "copy_discard_dragon_attack" for e in atk.effects) and not self._discard_dragon_attacks(me):
+                continue
+            if not can_pay_energy(attached, self._attack_cost(me, me.active, atk, foe)):
+                continue
+            if (
+                any(e.get("kind") == "once_per_game" and e.get("flag") == "vstar" for e in atk.effects)
+                and me.vstar_used
+            ):
+                continue
+            legal.append(atk)
         if not legal:
             return None
         foe_name = foe.card(foe.active.card_i).name
@@ -5762,6 +5888,9 @@ class Game:
             if any(e.get("kind") == "draw_until_hand" for e in resolved.effects):
                 if len(me.hand) <= 2 and effective < foe_hp:
                     score += 80
+            spread = self._spread_value(me, foe, me.active, resolved)
+            if spread:
+                score += spread
             if strat.name in {"mew_baby", "baby"}:
                 if any(e.get("kind") == "lock_items" for e in resolved.effects):
                     if not foe.pending_item_lock and not foe.item_lock and effective < foe_hp:
@@ -5856,7 +5985,7 @@ class Game:
                     score += 100 if need_balls else 25
             if any(e.get("kind") == "call_family" for e in atk.effects):
                 fam = next(e for e in atk.effects if e.get("kind") == "call_family")
-                slots = self.rules.bench_size - len(me.bench)
+                slots = self._bench_limit() - len(me.bench)
                 missing_ace = [
                     n
                     for n in strat.search_aces
@@ -6053,9 +6182,11 @@ class Game:
             return False
         won = False
         slayer_who = "a" if slayer.name == "A" else "b"
-        for _where, mon in knocked:
+        for where, mon in knocked:
             card = victim_owner.card(mon.card_i)
             name = card.name
+            if victim_who == "a" and (card.hp or 0) == 30:
+                self._bump("baby_ko_bench_a" if where == "bench" else "baby_ko_active_a")
             n = self._prizes_for_ko(card)
             self._discard_mon(victim_owner, mon)
             self._take_prizes(slayer, n)
@@ -6091,6 +6222,9 @@ class Game:
         def prio(i: int) -> int:
             mon = player.bench[i]
             name = player.card(mon.card_i).name.lower()
+            if strat.name in {"electro_rain", "regidrago"}:
+                best = self._best_spread_mon(player, foe)
+                return 0 if best is mon else 5
             if strat.name in {"mew_baby", "baby"}:
                 if self._rulebox_lock_on_opponent(player):
                     rank = self._baby_wall_rank(player.card(mon.card_i))
@@ -6260,7 +6394,7 @@ class Game:
             return 1
         if self._is_mega_ex(card):
             return 3
-        if self._is_ex(card) or self._is_pokemon_v(card):
+        if self._is_ex(card) or self._is_pokemon_v(card) or self._is_pokemon_gx(card):
             return 2
         return 1
 
@@ -6271,7 +6405,10 @@ class Game:
         return card.name.lower().startswith("mega ") and self._is_ex(card)
 
     def _is_copy_attack(self, atk) -> bool:
-        return any(e.get("kind") == "copy_active_attack" for e in (atk.effects or [])) or (
+        effects = atk.effects or []
+        if any(e.get("kind") == "copy_discard_dragon_attack" for e in effects):
+            return False
+        return any(e.get("kind") == "copy_active_attack" for e in effects) or (
             "use it as this attack" in (atk.text or "").lower()
         )
 
@@ -6330,6 +6467,8 @@ class Game:
 
     def _resolved_attack(self, me: Player, foe: Player, atk, attacker: Pokemon | None = None):
         """Pay Metronome or Mimed Games cost; resolve copied attack's damage and effects."""
+        if any(e.get("kind") == "copy_discard_dragon_attack" for e in (atk.effects or [])):
+            return self._resolved_discard_dragon(me, foe, atk)
         if self._is_mimed_games(atk):
             return self._resolved_mimed_games(me, foe, atk)
         if not self._is_copy_attack(atk) or not foe.active:
@@ -6665,6 +6804,9 @@ class Game:
         if mon.tool is None:
             return 0
         tool = me.card(mon.tool)
+        for eff in parse_trainer_effects(tool.text or ""):
+            if eff.get("kind") == "tool_damage_vs_gx_ex":
+                return int(eff.get("amount") or 0) if host_is_gx_or_hyphen_ex(defender) else 0
         text = (tool.text or "").lower().replace("pokémon", "pokemon")
         name = tool.name.lower()
         # Maximum Belt: +50 only vs Pokémon ex.
@@ -6754,6 +6896,8 @@ class Game:
         if self._basics_retreat_free(me, mon):
             cost = 0
         if self._has_lunar_zone(me) and self._has_psychic_energy_on(me, mon):
+            return 0
+        if self._retreat_zero_from_abilities(me, mon):
             return 0
         return max(0, cost)
 
@@ -6907,7 +7051,15 @@ class Game:
                     allowed.update(int(v) for v in (effect.get("values") or []))
             if len(foe.prizes) not in allowed:
                 return 0
-        if any(e.get("kind") == "psychic_energy_times" for e in atk.effects):
+        if any(e.get("kind") == "attached_energy_times" for e in atk.effects):
+            per = 0
+            energy_type = "Colorless"
+            for effect in atk.effects:
+                if effect.get("kind") == "attached_energy_times":
+                    per = int(effect.get("per") or 0)
+                    energy_type = str(effect.get("energy_type") or "Colorless")
+            dmg = per * self._typed_energy_units(me, mon, energy_type)
+        elif any(e.get("kind") == "psychic_energy_times" for e in atk.effects):
             per = 20
             for effect in atk.effects:
                 if effect.get("kind") == "psychic_energy_times":
@@ -7186,6 +7338,14 @@ class Game:
             if me.active in bare:
                 return me.active
             return min(bare, key=lambda mon: self._baby_wall_rank(me.card(mon.card_i)))
+        if self.strats[who].name in {"electro_rain", "regidrago"} and (
+            "pokemon-gx" in text or "cost colorless less" in text or "more prize cards remaining" in text
+        ):
+            ranked = sorted(me.in_play(), key=self._line_rank)
+            for mon in ranked:
+                if mon.tool is None:
+                    return mon
+            return None
         for mon in me.in_play():
             if mon.tool is None:
                 return mon
@@ -7285,6 +7445,8 @@ class Game:
                 continue
             attacker.active.damage += 10 * counters
             self._bump(event, counters)
+            if event == "bursting_balloon":
+                self._bump("bursting_balloon_trigger")
             self._log(
                 f"{name} puts {counters} damage counters on {attacker.card(attacker.active.card_i).name}"
             )
@@ -7743,6 +7905,8 @@ class Game:
         foe = self.players["b" if me.name == "A" else "a"]
         if not foe.active:
             return False
+        if any(e.get("kind") == "suppress_rulebox_abilities" for e in (self.stadium_effects or [])):
+            return True
         if self._flutter_mane_suppresses(foe, foe.active) or self.blank_active_owner == foe.name:
             return False
         for abi in foe.card(foe.active.card_i).abilities:
@@ -8137,11 +8301,9 @@ class Game:
                 if card.name.lower() == name and (card.trainer_kind or "").lower() == "stadium":
                     player.discard.remove(card_i)
                     player.lost_zone.append(card_i)
-                    self.stadium_name = None
-                    self.stadium_effects = []
+                    self._clear_stadium()
                     return True
-        self.stadium_name = None
-        self.stadium_effects = []
+        self._clear_stadium()
         return True
 
     def _lost_vacuum(self, me: Player, foe: Player) -> None:
@@ -8395,6 +8557,13 @@ class Game:
         if not self._has_rule_box(card):
             return False
         traits = {str(t).lower() for t in (card.traits or [])}
+        for eff in self.stadium_effects or []:
+            if eff.get("kind") != "suppress_rulebox_abilities":
+                continue
+            except_trait = str(eff.get("except_trait") or "").lower()
+            if except_trait and except_trait in traits:
+                continue
+            return True
         for player in self.players.values():
             for source in player.in_play():
                 # Cologne and Flutter Mane turn Initialization off. Do not call
@@ -9308,7 +9477,7 @@ class Game:
         return None
 
     def _invitation_dump_available(self, me: Player, who: str, fam: dict[str, Any] | None = None) -> int:
-        slots = self.rules.bench_size - len(me.bench)
+        slots = self._bench_limit() - len(me.bench)
         in_deck = sum(1 for i in me.deck if self._is_clefairy(me.card(i)))
         cap_left = max(0, self._clefairy_play_cap(me) - self._count_named_in_play(me, "Clefairy"))
         count = int((fam or {}).get("count") or 3)
@@ -10118,6 +10287,14 @@ class Game:
                             mon.ability_used = True
                             if self.turn_ended_by_ability:
                                 return
+                    elif kind == "attach_energy_from_discard_except_gx_ex":
+                        if self._extra_energy_bomb(me, foe, who, mon, eff):
+                            mon.ability_used = True
+                            if getattr(self, "winner", None):
+                                return
+                    elif kind == "bench_attach_discard_energy_lost_zone":
+                        if self._dance_of_the_ancients(me, mon, eff):
+                            mon.ability_used = True
                     elif kind == "draw":
                         if eff.get("require_active") and mon is not me.active:
                             continue
@@ -12332,6 +12509,19 @@ class Game:
             if has_dim_valley:
                 cost.remove("Colorless")
 
+        for eff in self.stadium_effects or []:
+            if eff.get("kind") != "stadium_attack_cost_less":
+                continue
+            poke = str(eff.get("pokemon_type") or "")
+            energy = str(eff.get("energy_type") or "")
+            if poke in (me.card(mon.card_i).types or []) and energy in cost:
+                cost.remove(energy)
+        if mon.tool is not None and self._prizes_behind(me):
+            for eff in parse_trainer_effects(me.card(mon.tool).text or ""):
+                if eff.get("kind") == "cost_colorless_less_if_behind" and "Colorless" in cost:
+                    cost.remove("Colorless")
+                    break
+
         return cost
 
     def _celebration_bench_rank(self, name: str) -> int:
@@ -12642,7 +12832,7 @@ class Game:
             return -25.0
         if ready and name == "wally" and not self._celebration_wally_helps(me):
             return -25.0
-        slots = self.rules.bench_size - len(me.bench)
+        slots = self._bench_limit() - len(me.bench)
         if name == "broken time-space":
             score += -8 if self.stadium_name == "Broken Time-Space" else 22
         elif name in {"buddy-buddy poffin", "buddy buddy poffin"}:
@@ -12765,6 +12955,14 @@ class Game:
             target = self._wondrous_patch_target(me, who)
             if target is not None:
                 self._attach_wondrous_patch_energy(me, target, int(eff.get("count") or 1))
+        elif kind == "look_top_keep_one":
+            self._look_top_keep_one(me, who, int(eff.get("look") or 0))
+        elif kind == "rescue_stretcher":
+            self._rescue_stretcher(me, who, int(eff.get("shuffle_count") or 0))
+        elif kind == "shuffle_special_energy_to_deck":
+            self._shuffle_special_energy_to_deck(me, int(eff.get("count") or 0))
+        elif kind == "discard_tools_and_stadiums":
+            self._discard_tools_and_stadiums(me, foe, int(eff.get("count") or 0))
 
     def _puzzle_of_time(self, me: Player, who: str, card: Card, look: int, pair_count: int) -> None:
         second = next((i for i in me.hand if me.card(i).name.lower() == card.name.lower()), None)
@@ -12902,7 +13100,629 @@ class Game:
         self._bump("junk_arm")
         self._log(f"{me.name} Junk Arm finds {me.card(pick).name}")
 
+    def _note_bench30_end(self) -> None:
+        a = self.players["a"]
+        babies = sum(1 for mon in a.bench if (a.card(mon.card_i).hp or 0) == 30)
+        self._bump("bench30_end_sum_a", babies)
+        self._bump("bench30_end_n_a", 1)
+        if (self.stadium_name or "").lower() == "sky field":
+            self._bump("sky_field_turns")
+            if any(e.get("kind") == "stadium_prevent_bench_counters" for e in (self.stadium_effects or [])):
+                self._bump("sky_field_with_cage")
+
+    def _bench_spread_blocked(self, foe: Player, mon: Pokemon | None = None) -> bool:
+        """Attack damage onto the bench. Battle Cage does not stop damage."""
+        if self._has_bench_shield(foe, "prevent_bench_damage_and_attack_effects"):
+            return True
+        if self._bench_attack_damage_prevented(foe):
+            return True
+        if self._has_bench_shield(foe, "prevent_bench_attack_damage_no_rulebox"):
+            if mon is None:
+                return not any(self._has_rule_box(foe.card(m.card_i)) for m in foe.bench)
+            return not self._has_rule_box(foe.card(mon.card_i))
+        return False
+
+    def _spread_legal(self, foe: Player) -> list[Pokemon]:
+        found: list[Pokemon] = []
+        if foe.active:
+            found.append(foe.active)
+        for mon in foe.bench:
+            if not self._bench_spread_blocked(foe, mon):
+                found.append(mon)
+        return found
+
+    def _hp_left(self, owner: Player, mon: Pokemon, virtual: dict[int, int]) -> int:
+        return self._max_hp(owner, mon) - mon.damage - virtual.get(id(mon), 0)
+
+    def _spread_pick(
+        self,
+        foe: Player,
+        candidates: list[Pokemon],
+        amount: int,
+        virtual: dict[int, int],
+    ) -> Pokemon | None:
+        alive = [mon for mon in candidates if self._hp_left(foe, mon, virtual) > 0]
+        if not alive:
+            return None
+
+        def key(mon: Pokemon) -> tuple:
+            hp = self._hp_left(foe, mon, virtual)
+            printed = foe.card(mon.card_i).hp or 0
+            return (hp <= amount, printed == 30, mon is not foe.active, -hp)
+
+        return max(alive, key=key)
+
+    def _spread_hit(self, me: Player, foe: Player, target: Pokemon, amount: int, *, ignore_wr: bool) -> None:
+        if amount <= 0:
+            return
+        dmg = amount
+        if target is foe.active and not ignore_wr and me.active:
+            attacker = me.card(me.active.card_i)
+            defender = foe.card(target.card_i)
+            dmg = amount * weakness_multiplier(self._defender_weaknesses(me, foe, defender), attacker.types)
+            dmg = max(0, dmg - resistance_reduce(defender.resistances, attacker.types))
+        self._add_attack_damage(foe, target, dmg)
+        self._bump("damage_dealt", dmg)
+        if target is not foe.active:
+            self._bump("bench_damage", dmg)
+
+    def _hit_value(self, foe: Player, mon: Pokemon, amount: int, virtual: dict[int, int]) -> float:
+        hp = self._hp_left(foe, mon, virtual)
+        if hp <= 0 or amount <= 0:
+            return 0
+        virtual[id(mon)] = virtual.get(id(mon), 0) + amount
+        if hp <= amount:
+            return 800 + self._prizes_for_ko(foe.card(mon.card_i)) * 100
+        return 20
+
+    def _simulate_packets(
+        self,
+        foe: Player,
+        packets: int,
+        amount: int,
+        virtual: dict[int, int],
+    ) -> float:
+        total = 0.0
+        for _ in range(max(0, packets)):
+            pick = self._spread_pick(foe, self._spread_legal(foe), amount, virtual)
+            if pick is None:
+                break
+            total += self._hit_value(foe, pick, amount, virtual)
+        return total
+
+    def _spread_value(self, me: Player, foe: Player, mon: Pokemon, atk) -> float:
+        score = 0.0
+        virtual: dict[int, int] = {}
+        for effect in atk.effects:
+            kind = effect.get("kind")
+            if kind == "discard_typed_energy_damage_per_card":
+                packets = len(self._providing_cards(me, mon, str(effect.get("energy_type") or "")))
+                score += self._simulate_packets(foe, packets, int(effect.get("per_card") or 0), virtual)
+            elif kind == "damage_each_with_counters":
+                amount = int(effect.get("amount") or 0)
+                for target in self._spread_legal(foe):
+                    if target.damage <= 0:
+                        continue
+                    score += self._hit_value(foe, target, amount, virtual)
+            elif kind == "damage_n_opponent_pokemon":
+                picked: list[Pokemon] = []
+                amount = int(effect.get("amount") or 0)
+                for _ in range(int(effect.get("count") or 0)):
+                    pool = [m for m in self._spread_legal(foe) if m not in picked]
+                    pick = self._spread_pick(foe, pool, amount, virtual)
+                    if pick is None:
+                        break
+                    picked.append(pick)
+                    score += self._hit_value(foe, pick, amount, virtual)
+        return score
+
+    def _electro_rain(self, me: Player, foe: Player, mon: Pokemon, effect: dict) -> None:
+        energy_type = str(effect.get("energy_type") or "")
+        per = int(effect.get("per_card") or 0)
+        cards = list(self._providing_cards(me, mon, energy_type))
+        for card_i in cards:
+            if card_i in mon.energy:
+                mon.energy.remove(card_i)
+                me.discard.append(card_i)
+        self._bump("electro_rain_cards", len(cards))
+        ignore = bool(effect.get("ignore_wr_all"))
+        for _ in range(len(cards)):
+            pick = self._spread_pick(foe, self._spread_legal(foe), per, {})
+            if pick is None:
+                break
+            self._spread_hit(me, foe, pick, per, ignore_wr=ignore)
+
+    def _damage_each_with_counters(self, me: Player, foe: Player, effect: dict) -> None:
+        amount = int(effect.get("amount") or 0)
+        for target in list(self._spread_legal(foe)):
+            if target.damage <= 0:
+                continue
+            ignore = target is not foe.active and bool(effect.get("ignore_wr_bench"))
+            self._spread_hit(me, foe, target, amount, ignore_wr=ignore)
+
+    def _damage_n_opponent_pokemon(self, me: Player, foe: Player, effect: dict) -> None:
+        amount = int(effect.get("amount") or 0)
+        picked: list[Pokemon] = []
+        for _ in range(int(effect.get("count") or 0)):
+            pool = [m for m in self._spread_legal(foe) if m not in picked]
+            pick = self._spread_pick(foe, pool, amount, {})
+            if pick is None:
+                break
+            picked.append(pick)
+            ignore = pick is not foe.active and bool(effect.get("ignore_wr_bench"))
+            self._spread_hit(me, foe, pick, amount, ignore_wr=ignore)
+
+    def _paralyze_if_extra_energy(self, me: Player, foe: Player, mon: Pokemon, atk, effect: dict) -> None:
+        if not foe.active:
+            return
+        energy_type = str(effect.get("energy_type") or "")
+        extra = int(effect.get("extra") or 0)
+        units = self._typed_energy_units(me, mon, energy_type)
+        # "In addition to this attack's cost" is the cost actually paid, after a
+        # stadium or tool sentence removes an Energy symbol.
+        spent = sum(1 for cost in self._attack_cost(me, mon, atk, foe) if cost == energy_type)
+        if units - spent >= extra:
+            self._apply_status(foe.active, "paralyzed")
+            self._bump("buzzap_paralyze")
+
+    def _discard_typed_energy(self, me: Player, mon: Pokemon | None, energy_type: str) -> None:
+        if mon is None:
+            return
+        for card_i in list(self._providing_cards(me, mon, energy_type)):
+            if card_i in mon.energy:
+                mon.energy.remove(card_i)
+                me.discard.append(card_i)
+
+    def _discard_all_energy(self, me: Player, mon: Pokemon | None) -> None:
+        if mon is None:
+            return
+        for card_i in list(mon.energy):
+            mon.energy.remove(card_i)
+            me.discard.append(card_i)
+
+    def _discard_top_attach_energy(self, me: Player, mon: Pokemon | None, count: int) -> None:
+        if mon is None or count <= 0:
+            return
+        n = min(count, len(me.deck))
+        top = me.deck[:n]
+        me.deck = me.deck[n:]
+        for card_i in top:
+            if me.card(card_i).is_energy:
+                mon.energy.append(card_i)
+            else:
+                me.discard.append(card_i)
+        self._scrap_illegal_energy(me, mon)
+        self._bump("celestial_roar")
+
+    def _scrap_illegal_energy(self, me: Player, mon: Pokemon) -> None:
+        host = me.card(mon.card_i)
+        for card_i in list(mon.energy):
+            card = me.card(card_i)
+            illegal = any(
+                eff.get("kind") == "discard_if_not_dragon" for eff in parse_energy_effects(card.text or "")
+            )
+            if illegal and not host_is_dragon(host):
+                mon.energy.remove(card_i)
+                me.discard.append(card_i)
+                self._bump("double_dragon_discard")
+
+    def _retreat_zero_from_abilities(self, me: Player, mon: Pokemon) -> bool:
+        if not self._abilities_suppressed(me, mon):
+            for abi in me.card(mon.card_i).abilities:
+                for eff in self._ability_effects(abi):
+                    if eff.get("kind") == "retreat_zero_if_any_energy" and mon.energy:
+                        return True
+        for source in me.in_play():
+            if self._abilities_suppressed(me, source):
+                continue
+            for abi in me.card(source.card_i).abilities:
+                for eff in self._ability_effects(abi):
+                    if eff.get("kind") != "retreat_zero_if_typed_energy":
+                        continue
+                    if self._providing_cards(me, mon, str(eff.get("energy_type") or "")):
+                        return True
+        return False
+
+    def _line_rank(self, mon: Pokemon) -> int:
+        owner = self._owner_of(mon)
+        name = owner.card(mon.card_i).name.lower() if owner is not None else ""
+        return {
+            "alolan raichu": 0,
+            "regidrago vstar": 0,
+            "pikachu": 1,
+            "regidrago v": 1,
+            "kyurem": 2,
+            "tapu koko ◇": 3,
+            "voltorb": 4,
+            "electrode-gx": 5,
+            "budew": 6,
+        }.get(name, 10)
+
+    def _bomb_target(self, me: Player) -> Pokemon | None:
+        legal = [mon for mon in me.in_play() if not host_is_gx_or_hyphen_ex(me.card(mon.card_i))]
+        if not legal:
+            return None
+        return min(legal, key=self._line_rank)
+
+    def _extra_energy_bomb(self, me: Player, foe: Player, who: str, mon: Pokemon, effect: dict) -> bool:
+        count = int(effect.get("count") or 0)
+        fuels = [i for i in list(me.discard) if me.card(i).is_energy]
+        target = self._bomb_target(me)
+        if count <= 0 or not fuels or target is None:
+            return False
+        for card_i in fuels[:count]:
+            me.discard.remove(card_i)
+            target.energy.append(card_i)
+        self._scrap_illegal_energy(me, target)
+        self._bump("extra_energy_bomb", min(count, len(fuels)))
+        if effect.get("ko_self"):
+            mon.damage = max(mon.damage, self._max_hp(me, mon))
+            self._check_ko(me, foe, who)
+        return True
+
+    def _basic_typed_in_discard(self, me: Player, energy_type: str) -> list[int]:
+        found = []
+        for card_i in me.discard:
+            card = me.card(card_i)
+            if card.is_energy and not is_special_energy(card) and (card.energy_type or "") == energy_type:
+                found.append(card_i)
+        return found
+
+    def _lost_zone_pokemon(self, me: Player, mon: Pokemon) -> None:
+        me.discard.extend(self._detach_cards(mon))
+        if mon.tool is not None:
+            me.discard.append(mon.tool)
+            mon.tool = None
+        me.lost_zone.append(mon.card_i)
+        if me.active is mon:
+            me.active = None
+        else:
+            me.bench = [other for other in me.bench if other is not mon]
+
+    def _dance_of_the_ancients(self, me: Player, mon: Pokemon, effect: dict) -> bool:
+        if effect.get("require_bench") and mon is me.active:
+            return False
+        if mon not in me.bench:
+            return False
+        energy_type = str(effect.get("energy_type") or "")
+        need = int(effect.get("count") or 0)
+        fuels = self._basic_typed_in_discard(me, energy_type)
+        others = [other for other in me.bench if other is not mon]
+        if need <= 0 or len(fuels) < need or len(others) < need:
+            return False
+        targets = sorted(others, key=self._line_rank)[:need]
+        for target, fuel in zip(targets, fuels):
+            me.discard.remove(fuel)
+            target.energy.append(fuel)
+        self._lost_zone_pokemon(me, mon)
+        self._bump("dance_of_the_ancients")
+        return True
+
+    def _discard_dragon_attacks(self, me: Player):
+        options = []
+        for card_i in me.discard:
+            card = me.card(card_i)
+            if not card.is_pokemon or not host_is_dragon(card):
+                continue
+            for cand in card.attacks:
+                if any(e.get("kind") == "copy_discard_dragon_attack" for e in (cand.effects or [])):
+                    continue
+                options.append(cand)
+        return options
+
+    def _resolved_discard_dragon(self, me: Player, foe: Player, atk):
+        options = self._discard_dragon_attacks(me)
+        if not options or me.active is None:
+            return options[0] if options else atk
+        return max(
+            options,
+            key=lambda cand: cand.damage + self._spread_value(me, foe, me.active, cand),
+        )
+
+    def _best_spread_mon(self, me: Player, foe: Player) -> Pokemon | None:
+        best = None
+        best_score = 0.0
+        for mon in me.in_play():
+            pool = self._energy_pool(me, mon)
+            for atk in self._attacks_for(me, mon):
+                if (
+                    any(e.get("kind") == "once_per_game" and e.get("flag") == "vstar" for e in atk.effects)
+                    and me.vstar_used
+                ):
+                    continue
+                if any(e.get("kind") == "copy_discard_dragon_attack" for e in atk.effects):
+                    if not self._discard_dragon_attacks(me):
+                        continue
+                if not can_pay_energy(pool, self._attack_cost(me, mon, atk, foe)):
+                    continue
+                resolved = self._resolved_attack(me, foe, atk, attacker=mon)
+                score = float(self._raw_attack_damage(me, foe, mon, resolved)) + self._spread_value(
+                    me, foe, mon, resolved
+                )
+                if score > best_score:
+                    best_score = score
+                    best = mon
+        return best
+
+    def _align_spread_attacker(self, me: Player, foe: Player, who: str) -> None:
+        if not me.active or not me.bench:
+            return
+        best = self._best_spread_mon(me, foe)
+        if best is None or best is me.active or best not in me.bench:
+            return
+        self._swap_to_bench(me, who, me.bench.index(best), allow_paid=True)
+
+    def _electro_energy_target(self, me: Player) -> Pokemon:
+        assert me.active
+        return min(me.in_play(), key=self._line_rank)
+
+    def _regidrago_energy_target(self, me: Player) -> Pokemon:
+        assert me.active
+        dragons = [mon for mon in me.in_play() if host_is_dragon(me.card(mon.card_i))]
+        return min(dragons or me.in_play(), key=self._line_rank)
+
+    def _electro_energy_card(self, me: Player, target: Pokemon) -> int | None:
+        host = me.card(target.card_i)
+        gx = host_is_gx_or_hyphen_ex(host)
+        behind = self._prizes_behind(me)
+        hand = [i for i in me.hand if me.card(i).is_energy]
+        if not hand:
+            return None
+
+        def rank(card_i: int) -> int:
+            name = me.card(card_i).name.lower()
+            if name == "lightning energy":
+                return 0
+            if not gx and behind and name == "reversal energy":
+                return 1
+            if not gx and behind and name == "counter energy":
+                return 2
+            if gx and ("reversal" in name or "counter" in name):
+                return 8
+            return 4
+
+        return min(hand, key=rank)
+
+    def _regidrago_energy_card(self, me: Player, target: Pokemon) -> int | None:
+        host = me.card(target.card_i)
+        hand = [i for i in me.hand if me.card(i).is_energy]
+        if not hand:
+            return None
+        if host_is_dragon(host):
+            dragons = [i for i in hand if "double dragon" in me.card(i).name.lower()]
+            if dragons:
+                return dragons[0]
+        for want in ("Grass", "Fire"):
+            for card_i in hand:
+                card = me.card(card_i)
+                if not is_special_energy(card) and card.energy_type == want:
+                    return card_i
+        return hand[0]
+
+    def _electro_search_prefer(self, me: Player) -> list[str]:
+        names = {me.card(m.card_i).name.lower() for m in me.in_play()}
+        names |= {me.card(i).name.lower() for i in me.hand}
+        prefer = []
+        if "pikachu" not in names and "alolan raichu" not in names:
+            prefer.append("Pikachu")
+        if "voltorb" not in names and "electrode-gx" not in names:
+            prefer.append("Voltorb")
+        if "alolan raichu" not in names:
+            prefer.append("Alolan Raichu")
+        if "electrode-gx" not in names:
+            prefer.append("Electrode-GX")
+        prefer.extend(["Alolan Raichu", "Electrode-GX", "Pikachu", "Voltorb", "Tapu Koko ◇", "Zeraora-GX"])
+        return list(dict.fromkeys(prefer))
+
+    def _regidrago_search_prefer(self, me: Player) -> list[str]:
+        names = {me.card(m.card_i).name.lower() for m in me.in_play()}
+        names |= {me.card(i).name.lower() for i in me.hand}
+        discarded = {me.card(i).name.lower() for i in me.discard}
+        prefer = []
+        if "regidrago v" not in names:
+            prefer.append("Regidrago V")
+        if "kyurem" not in names and "kyurem" not in discarded:
+            prefer.append("Kyurem")
+        if "regidrago v" in names and "regidrago vstar" not in names:
+            prefer.append("Regidrago VSTAR")
+        prefer.extend(["Regidrago VSTAR", "Regidrago V", "Kyurem", "Budew"])
+        return list(dict.fromkeys(prefer))
+
+    def _electro_trainer_score(self, me: Player, foe: Player, card: Card) -> float:
+        name = card.name.lower()
+        if name == "battle compressor":
+            fuel = sum(1 for i in me.deck if self._electro_compressor_rank(me, i) < 50)
+            discard_fuel = sum(1 for i in me.discard if me.card(i).is_energy)
+            if discard_fuel >= 5:
+                return -5
+            return 18 if fuel else -8
+        if name == "sky field":
+            stadium = (self.stadium_name or "").lower()
+            if stadium == "battle cage":
+                return 28
+            if stadium == "sky field":
+                return -10
+            return 12
+        if "thunder mountain" in name:
+            if "thunder mountain" in (self.stadium_name or "").lower():
+                return -8
+            return 8
+        if name == "acro bike":
+            return 6
+        if name == "rescue stretcher":
+            want = {"electrode-gx", "alolan raichu", "pikachu", "voltorb"}
+            if any(me.card(i).name.lower() in want for i in me.discard):
+                return 16
+            return -6
+        if name == "special charge":
+            return -8
+        if name == "field blower":
+            if (self.stadium_name or "").lower() == "battle cage" and not self._stadium_item_safe():
+                if any(me.card(i).name.lower() == "sky field" for i in me.hand):
+                    return -4
+                return 20
+            return -6
+        if name == "guzma":
+            return 4 if foe.bench else -8
+        if name == "switch":
+            return 6 if me.bench else -4
+        if name == "ultra ball":
+            return 10
+        if name == "energy switch":
+            return 4
+        if name == "counter gain":
+            return 8 if self._prizes_behind(me) else 1
+        if name == "choice band":
+            return 2
+        return 0
+
+    def _regidrago_trainer_score(self, me: Player, foe: Player, card: Card) -> float:
+        name = card.name.lower()
+        if name == "battle compressor":
+            if any(me.card(i).name.lower() == "kyurem" for i in me.discard):
+                return -6
+            if any(me.card(i).name.lower() == "kyurem" for i in me.deck):
+                return 24
+            return -8
+        if name == "path to the peak":
+            if (self.stadium_name or "").lower() == "path to the peak":
+                return -8
+            if any(self._has_rule_box(foe.card(m.card_i)) for m in foe.in_play()):
+                return 22
+            return 10
+        if name == "ultra ball":
+            return 12
+        if name in {"nest ball", "nesting ball"}:
+            return 11
+        if name == "rescue stretcher":
+            want = {"kyurem", "regidrago v", "regidrago vstar"}
+            if any(me.card(i).name.lower() in want for i in me.discard):
+                return 14
+            return -6
+        if name == "switch":
+            return 5 if me.bench else -4
+        if name in {"guzma", "boss's orders"}:
+            return 4 if foe.bench else -6
+        return 0
+
+    def _electro_compressor_rank(self, me: Player, card_i: int) -> int:
+        name = me.card(card_i).name.lower()
+        if name == "lightning energy":
+            return 0
+        if name == "counter energy":
+            return 1
+        if name == "reversal energy":
+            return 2
+        return 50
+
+    def _regidrago_compressor_rank(self, me: Player, card_i: int) -> int:
+        if me.card(card_i).name.lower() == "kyurem":
+            return 0
+        return 50
+
+    def _compressor_ranked(self, me: Player, count: int, rank_fn) -> None:
+        ranked = sorted(list(me.deck), key=lambda i: rank_fn(me, i))
+        taken = 0
+        for card_i in ranked:
+            if taken >= count or rank_fn(me, card_i) >= 50:
+                break
+            if card_i not in me.deck:
+                continue
+            me.deck.remove(card_i)
+            me.discard.append(card_i)
+            taken += 1
+            self._bump("battle_compressor")
+        self.rng.shuffle(me.deck)
+
+    def _look_top_keep_one(self, me: Player, who: str, look: int) -> None:
+        n = min(int(look), len(me.deck))
+        if n <= 0:
+            return
+        seen = me.deck[:n]
+        me.deck = me.deck[n:]
+        prefer = [p.lower() for p in self._pokemon_search_prefer(me, who)]
+
+        def rank(card_i: int) -> int:
+            name = me.card(card_i).name.lower()
+            if name in prefer:
+                return prefer.index(name)
+            if me.card(card_i).is_energy:
+                return 20
+            return 30
+
+        best = min(seen, key=rank)
+        me.hand.append(best)
+        for card_i in seen:
+            if card_i != best:
+                me.discard.append(card_i)
+        self._bump("acro_bike")
+
+    def _rescue_stretcher(self, me: Player, who: str, shuffle_count: int) -> None:
+        pokemon = [i for i in me.discard if me.card(i).is_pokemon]
+        if not pokemon:
+            self._bump("rescue_stretcher_miss")
+            return
+        prefer = [p.lower() for p in self._pokemon_search_prefer(me, who)]
+
+        def rank(card_i: int) -> int:
+            name = me.card(card_i).name.lower()
+            return prefer.index(name) if name in prefer else 40
+
+        wanted = [card_i for card_i in pokemon if rank(card_i) < 40]
+        count = max(0, int(shuffle_count))
+        # Printed "or": take one wanted Pokémon to hand. Otherwise shuffle the
+        # parsed count from discard into the deck.
+        if wanted or len(pokemon) < count or count <= 0:
+            pick = min(pokemon, key=rank)
+            me.discard.remove(pick)
+            me.hand.append(pick)
+            self._bump("rescue_stretcher")
+            return
+        for card_i in pokemon[:count]:
+            me.discard.remove(card_i)
+            me.deck.append(card_i)
+        self.rng.shuffle(me.deck)
+        self._bump("rescue_stretcher_shuffle", count)
+
+    def _shuffle_special_energy_to_deck(self, me: Player, count: int) -> None:
+        specials = [i for i in list(me.discard) if is_special_energy(me.card(i))]
+        take = specials[: max(0, count)]
+        for card_i in take:
+            me.discard.remove(card_i)
+            me.deck.append(card_i)
+        if take:
+            self.rng.shuffle(me.deck)
+            self._bump("special_charge", len(take))
+
+    def _discard_tools_and_stadiums(self, me: Player, foe: Player, count: int) -> None:
+        left = max(0, count)
+        owner = self.stadium_owner
+        if (
+            left
+            and self.stadium_name
+            and owner is not None
+            and owner is not me
+            and not self._stadium_item_safe()
+        ):
+            self._clear_stadium()
+            self._bump("field_blower")
+            left -= 1
+        for mon in list(foe.in_play()):
+            if left <= 0 or mon.tool is None:
+                continue
+            foe.discard.append(mon.tool)
+            mon.tool = None
+            self._bump("field_blower")
+            left -= 1
+
     def _battle_compressor(self, me: Player, count: int) -> None:
+        who = "a" if me.name == "A" else "b"
+        if self.strats[who].name == "electro_rain":
+            self._compressor_ranked(me, count, self._electro_compressor_rank)
+            return
+        if self.strats[who].name == "regidrago":
+            self._compressor_ranked(me, count, self._regidrago_compressor_rank)
+            return
         prefer = ["puzzle of time", "scoop up net", "junk arm"]
         ranked = []
         for i in me.deck:

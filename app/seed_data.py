@@ -4147,6 +4147,298 @@ FALLBACK_BY_NAME["staravia-brilliant"] = _pkm(
 FALLBACK_BY_NAME["mime jr"] = FALLBACK_BY_NAME["mime jr."]
 
 
+# Expanded Raichu / Electrode and the Regidrago control line.
+# Attack and Ability sentences are the printed (or mandated) text. Parsers read the numbers.
+
+_ELECTRO_RAIN = (
+    "Discard any amount of Lightning Energy from this Pokémon. Then, for each Energy you discarded "
+    "in this way, choose 1 of your opponent's Pokémon and do 30 damage to it. (You can choose the "
+    "same Pokémon more than once.) This damage isn't affected by Weakness or Resistance."
+)
+_BUZZAP_THUNDER = (
+    "This attack does 60 damage times the amount of Lightning Energy attached to this Pokémon. "
+    "If this Pokémon has at least 3 extra Lightning Energy attached to it (in addition to this "
+    "attack's cost), your opponent's Active Pokémon is now Paralyzed. Then, discard all Lightning "
+    "Energy from this Pokémon."
+)
+_FLYING_FLIP = (
+    "This attack does 40 damage to each of your opponent's Pokémon that has any damage counters on it. "
+    "(Don't apply Weakness and Resistance for Benched Pokémon.)"
+)
+_EXTRA_ENERGY_BOMB = (
+    "Once during your turn (before your attack), you may attach up to 5 Energy cards from your discard pile "
+    "to your Pokémon, except Pokémon-GX or Pokémon-EX, in any way you like. If you do, this Pokémon "
+    "is Knocked Out."
+)
+_DANCE_OF_THE_ANCIENTS = (
+    "Once during your turn (before your attack), if this Pokémon is on your Bench, you may choose 2 of "
+    "your Benched Pokémon and attach a Lightning Energy card from your discard pile to each of them. "
+    "If you do, discard all cards from this Pokémon and put it in the Lost Zone."
+)
+_THUNDERCLAP_ZONE = (
+    "Each of your Pokémon that has any Lightning Energy attached to it has no Retreat Cost."
+)
+_FLOATING_ELECTRONS = "If this Pokémon has any Energy attached to it, it has no Retreat Cost."
+_SKY_FIELD = (
+    "Each player can have 8 Pokémon on his or her Bench. "
+    "(When this card leaves play, each player discards Benched Pokémon until he or she has 5 Pokémon "
+    "on the Bench. The owner of this card discards first.)"
+)
+_THUNDER_MOUNTAIN = (
+    "The attacks of Lightning Pokémon (both yours and your opponent's) cost Lightning less. "
+    "Whenever any player plays an Item or Supporter card from their hand, prevent all effects of that "
+    "card done to this Stadium card."
+)
+_COUNTER_ENERGY = (
+    "This card provides Colorless Energy. If you have more Prize cards remaining than your opponent, "
+    "and if this card is attached to a Pokémon that isn't a Pokémon-GX or Pokémon-EX, this card provides "
+    "every type of Energy but provides only 2 Energy at a time."
+)
+_REVERSAL_ENERGY = (
+    "As long as this card is attached to a Pokémon, it provides Colorless Energy. If you have more Prize "
+    "cards remaining than your opponent, and if this card is attached to an Evolution Pokémon that doesn't "
+    "have a Rule Box (Pokémon ex, Pokémon V, etc. have Rule Boxes), this card provides every type of Energy "
+    "but provides only 3 Energy at a time."
+)
+_ACRO_BIKE = (
+    "Look at the top 2 cards of your deck and put 1 of them into your hand. Discard the other card."
+)
+_RESCUE_STRETCHER = (
+    "Put a Pokémon from your discard pile into your hand, or put 3 Pokémon from your discard pile into "
+    "your deck and shuffle your deck."
+)
+_SPECIAL_CHARGE = "Shuffle 2 Special Energy cards from your discard pile into your deck."
+_COUNTER_GAIN = (
+    "If you have more Prize cards remaining than your opponent, the attacks of the Pokémon this card is "
+    "attached to cost Colorless less."
+)
+_FIELD_BLOWER = (
+    "You may discard up to 2 Pokémon Tool cards or Stadium cards from play, or 1 of each."
+)
+_CHOICE_BAND = (
+    "The attacks of the Pokémon this card is attached to do 30 more damage to your opponent's Active "
+    "Pokémon-GX or Active Pokémon-EX (before applying Weakness and Resistance)."
+)
+_GUZMA = (
+    "Switch 1 of your opponent's Benched Pokémon with their Active Pokémon. If you do, switch your "
+    "Active Pokémon with 1 of your Benched Pokémon."
+)
+_APEX_DRAGON = (
+    "Choose an attack from a Dragon Pokémon in your discard pile and use it as this attack. "
+    "(You can't use more than 1 VSTAR Power in a game.)"
+)
+_TRIFROST = (
+    "Discard all Energy from this Pokémon. This attack does 110 damage to 3 of your opponent's Pokémon. "
+    "(Don't apply Weakness and Resistance for Benched Pokémon.)"
+)
+_CELESTIAL_ROAR = (
+    "Discard the top 3 cards of your deck. If any Energy cards were discarded in this way, attach them "
+    "to this Pokémon."
+)
+_DRAGON_LASER = (
+    "This attack also does 30 damage to 1 of your opponent's Benched Pokémon. "
+    "(Don't apply Weakness and Resistance for Benched Pokémon.)"
+)
+_PATH_TO_THE_PEAK = (
+    "Pokémon with a Rule Box in play (both yours and your opponent's) have no Abilities. "
+    "(Pokémon V, Pokémon-GX, etc. have Rule Boxes.)"
+)
+_DOUBLE_DRAGON = (
+    "This card can only be attached to Dragon Pokémon. This card provides every type of Energy, but "
+    "provides only 2 Energy at a time, only while this card is attached to a Dragon Pokémon. "
+    "(If this card is attached to anything other than a Dragon Pokémon, discard this card.)"
+)
+
+_register(
+    _pkm(
+        "Voltorb",
+        "Basic",
+        ["Lightning"],
+        50,
+        [
+            _atk(
+                "Thunder Shock",
+                ["Lightning", "Colorless"],
+                20,
+                "Flip a coin. If heads, your opponent's Active Pokémon is now Paralyzed.",
+            )
+        ],
+        retreat=1,
+        catalog_id="sm7-47",
+        abilities=[Ability("Floating Electrons", _FLOATING_ELECTRONS)],
+        weakness="Fighting",
+        set_name="Celestial Storm",
+    )
+)
+_register(
+    _pkm(
+        "Electrode-GX",
+        "Stage1",
+        ["Lightning"],
+        190,
+        [
+            _atk("Electro Ball", ["Lightning", "Colorless"], 50),
+            _atk("Buzzap Thunder", ["Lightning", "Lightning", "Colorless"], 0, _BUZZAP_THUNDER),
+        ],
+        evolves_from="Voltorb",
+        retreat=1,
+        catalog_id="sm7-48",
+        abilities=[Ability("Extra Energy Bomb", _EXTRA_ENERGY_BOMB)],
+        weakness="Fighting",
+        resistances=[{"type": "Metal", "value": "-20"}],
+        set_name="Celestial Storm",
+    )
+)
+_register(
+    _pkm(
+        "Alolan Raichu",
+        "Stage1",
+        ["Lightning"],
+        110,
+        [
+            _atk("Electro Rain", ["Lightning"], 0, _ELECTRO_RAIN),
+            _atk("Electric Ball", ["Lightning", "Colorless", "Colorless"], 90),
+        ],
+        evolves_from="Pikachu",
+        retreat=1,
+        catalog_id="sm11-57",
+        weakness="Fighting",
+        resistances=[{"type": "Metal", "value": "-20"}],
+        set_name="Unified Minds",
+    )
+)
+_KOKO = _register(
+    _pkm(
+        "Tapu Koko ◇",
+        "Basic",
+        ["Lightning"],
+        130,
+        [_atk("Flying Flip", ["Lightning", "Colorless"], 0, _FLYING_FLIP)],
+        retreat=2,
+        catalog_id="sm9-51",
+        abilities=[Ability("Dance of the Ancients", _DANCE_OF_THE_ANCIENTS)],
+        weakness="Fighting",
+        resistances=[{"type": "Metal", "value": "-20"}],
+        set_name="Team Up",
+    )
+)
+FALLBACK_BY_NAME["tapu koko prism"] = _KOKO
+_register(
+    _pkm(
+        "Zeraora-GX",
+        "Basic",
+        ["Lightning"],
+        190,
+        [
+            _atk(
+                "Plasma Fists",
+                ["Lightning", "Lightning", "Colorless"],
+                160,
+                "During your next turn, this Pokémon can't attack.",
+            )
+        ],
+        retreat=2,
+        catalog_id="sm8-86",
+        abilities=[Ability("Thunderclap Zone", _THUNDERCLAP_ZONE)],
+        weakness="Fighting",
+        resistances=[{"type": "Metal", "value": "-20"}],
+        set_name="Lost Thunder",
+    )
+)
+_register(_trn("Sky Field", "stadium", _SKY_FIELD, catalog_id="xy6-89"))
+_register(_trn("Thunder Mountain ◇", "stadium", _THUNDER_MOUNTAIN, catalog_id="sm8-191"))
+_register(_trn("Acro Bike", "item", _ACRO_BIKE, catalog_id="sm7-123"))
+_register(_trn("Rescue Stretcher", "item", _RESCUE_STRETCHER, catalog_id="sm2-130"))
+_register(_trn("Special Charge", "item", _SPECIAL_CHARGE, catalog_id="xy11-105"))
+_register(_trn("Counter Gain", "tool", _COUNTER_GAIN, catalog_id="sm8-170"))
+_register(_trn("Field Blower", "item", _FIELD_BLOWER, catalog_id="sm2-125"))
+_register(_trn("Choice Band", "tool", _CHOICE_BAND, catalog_id="sm2-121"))
+_register(_trn("Guzma", "supporter", _GUZMA, catalog_id="sm3-115"))
+_register(_trn("Path to the Peak", "stadium", _PATH_TO_THE_PEAK, catalog_id="swsh6-148"))
+_register(
+    _pkm(
+        "Regidrago V",
+        "Basic",
+        ["Dragon"],
+        220,
+        [
+            _atk("Celestial Roar", ["Colorless"], 0, _CELESTIAL_ROAR),
+            _atk("Dragon Laser", ["Grass", "Fire"], 130, _DRAGON_LASER),
+        ],
+        retreat=2,
+        catalog_id="swsh12-135",
+        weakness="Grass",
+        set_name="Silver Tempest",
+    )
+)
+_register(
+    _pkm(
+        "Regidrago VSTAR",
+        "VSTAR",
+        ["Dragon"],
+        280,
+        [_atk("Apex Dragon", ["Grass", "Grass", "Fire"], 0, _APEX_DRAGON)],
+        evolves_from="Regidrago V",
+        retreat=1,
+        catalog_id="swsh12-136",
+        weakness="Grass",
+        set_name="Silver Tempest",
+    )
+)
+_register(
+    _pkm(
+        "Kyurem",
+        "Basic",
+        ["Dragon"],
+        130,
+        [_atk("Trifrost", ["Water", "Water", "Metal", "Metal", "Colorless"], 0, _TRIFROST)],
+        retreat=2,
+        catalog_id="sv06.5-047",
+        weakness="Grass",
+        set_name="Shrouded Fable",
+    )
+)
+_register(
+    Card(
+        catalog_id="sm4-100",
+        name="Counter Energy",
+        category="Energy",
+        stage="Special",
+        types=["Colorless"],
+        energy_type="Colorless",
+        text=_COUNTER_ENERGY,
+        set_name="Crimson Invasion",
+        retreat=0,
+    )
+)
+_register(
+    Card(
+        catalog_id="sv02-192",
+        name="Reversal Energy",
+        category="Energy",
+        stage="Special",
+        types=["Colorless"],
+        energy_type="Colorless",
+        text=_REVERSAL_ENERGY,
+        set_name="Paldea Evolved",
+        retreat=0,
+    )
+)
+_register(
+    Card(
+        catalog_id="xy6-97",
+        name="Double Dragon Energy",
+        category="Energy",
+        stage="Special",
+        types=["Colorless"],
+        energy_type="Colorless",
+        text=_DOUBLE_DRAGON,
+        set_name="Roaring Skies",
+        retreat=0,
+    )
+)
+
+
 def fallback_named(name: str) -> Card:
     key = name.lower()
     if "telepathic" in key:

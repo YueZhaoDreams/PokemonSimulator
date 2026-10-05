@@ -657,6 +657,50 @@ STRATEGY_LIBRARY = {
         search_aces=["Iron Thorns ex"],
         protect=["Iron Thorns ex"],
     ),
+    "electro_rain": StrategySpec(
+        name="electro_rain",
+        description=(
+            "Electrode-GX Extra Energy Bomb loads a non-GX from the discard, then Alolan Raichu "
+            "Electro Rain discards Lightning Energy cards for 30 damage each. Sky Field replaces Battle Cage. "
+            "Buzzap Thunder and Flying Flip are damage. Counter Energy and Reversal Energy count as one card."
+        ),
+        prefer_damage=1.0,
+        prefer_status=0.4,
+        bench_fill=1.0,
+        evolve_asap=1.0,
+        attach_pokemon_as_energy=0.0,
+        item_spend=1.0,
+        hold_as_energy=False,
+        protect=[
+            "Electrode-GX",
+            "Alolan Raichu",
+            "Pikachu",
+            "Voltorb",
+            "Tapu Koko ◇",
+            "Zeraora-GX",
+            "Sky Field",
+        ],
+        search_aces=["Pikachu", "Voltorb", "Tapu Koko ◇", "Zeraora-GX"],
+        closers=["Alolan Raichu", "Electrode-GX"],
+    ),
+    "regidrago": StrategySpec(
+        name="regidrago",
+        description=(
+            "Regidrago VSTAR pays Apex Dragon and copies Kyurem's Trifrost from the discard. "
+            "Trifrost does 110 damage to 3 Pokémon. Path to the Peak turns off Rule Box Abilities. "
+            "Battle Compressor puts Kyurem in the discard."
+        ),
+        prefer_damage=1.0,
+        prefer_status=0.0,
+        bench_fill=1.0,
+        evolve_asap=1.0,
+        attach_pokemon_as_energy=0.0,
+        item_spend=1.0,
+        hold_as_energy=False,
+        protect=["Regidrago V", "Regidrago VSTAR", "Kyurem", "Double Dragon Energy", "Path to the Peak"],
+        search_aces=["Regidrago V", "Kyurem", "Budew"],
+        closers=["Regidrago VSTAR"],
+    ),
     "baby": StrategySpec(
         name="baby",
         description="Alias for mew_baby strategy.",
