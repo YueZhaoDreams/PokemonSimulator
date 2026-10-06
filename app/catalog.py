@@ -244,6 +244,18 @@ PREFERRED_IDS = {
     "Dunsparce": "sv09-120",
     "Dudunsparce": "sv05-129",
     "Meowth ex": "me03-062",
+    "Great Tusk": "sv05-097",
+    "Houndoom-EX": "xy8-21",
+    "Wiglett": "sv01-056",
+    "Wugtrio": "sv01-057",
+    "Professor Sada's Vitality": "sv04-170",
+    "Explorer's Guidance": "sv05-147",
+    "Miss Fortune Sisters": "swsh11-164",
+    "Lively Stadium": "sv08-180",
+    "Ancient Booster Energy Capsule": "sv04-159",
+    "Awakening Drum": "sv05-141",
+    "Stone Fighting Energy": "swsh4-164",  # Vivid Voltage: Fighting, Fighting Pokémon take 20 less
+    "Radiant Tsareena": "swsh12-16",  # Silver Tempest: Elegant Heal 20 from each of your Pokémon
     "Pidgey": "sv03-162",
     "Pidgeotto": "sv03-163",
     "Pidgeot ex": "sv03-164",

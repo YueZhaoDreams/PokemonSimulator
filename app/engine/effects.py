@@ -115,6 +115,19 @@ def parse_ability_effects(text: str) -> list[dict[str, Any]]:
     if not t:
         return effects
 
+    # Radiant Tsareena Elegant Heal. The amount is the printed number.
+    # "Each of your Pokémon" is your side only.
+    each_heal = re.search(r"heal (\d+) damage from each of your pokemon", t)
+    if each_heal:
+        effects.append(
+            {
+                "kind": "heal_each_own",
+                "amount": int(each_heal.group(1)),
+                "once_per_turn": "once during your turn" in t,
+            }
+        )
+        return effects
+
     energy = re.search(
         r"(grass|fire|water|lightning|psychic|fighting|darkness|metal|fairy|colorless) energy",
         t,
@@ -250,6 +263,21 @@ def parse_ability_effects(text: str) -> list[dict[str, Any]]:
     stage_hp = re.search(r"each stage 2 pokemon in play.*gets (-\d+) hp", t)
     if stage_hp:
         effects.append({"kind": "stage2_hp", "delta": int(stage_hp.group(1))})
+
+    # Lively Stadium: each Basic in play gets +N HP. The number stays in the effect.
+    stadium_hp = re.search(
+        r"each (basic |stage 1 |stage 2 )?pokemon in play.*?gets \+(\d+) hp",
+        t,
+    )
+    if stadium_hp:
+        stage = (stadium_hp.group(1) or "").strip()
+        effects.append(
+            {
+                "kind": "stadium_hp",
+                "amount": int(stadium_hp.group(2)),
+                "basic_only": stage == "basic",
+            }
+        )
 
     # Ledian Glittering Star Pattern: on evolve, gust a ≤N remaining HP bench Pokémon.
     gust = re.search(
@@ -678,6 +706,8 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
     heal = re.search(r"heal (\d+)", t)
     if heal:
         effects.append({"kind": "heal", "amount": int(heal.group(1))})
+    if "recovers from all special conditions" in t:
+        effects.append({"kind": "cure_self"})
 
     # Igglybuff Bouncy Circle: 30 damage for each benched Pokémon with 30 HP
     if "benched pok" in t and ("30 hp" in t or "maximum hp of 30" in t):
@@ -729,10 +759,33 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
         up_to = re.search(r"up to (\d+)", t)
         effects.append({"kind": "search_item", "count": int(up_to.group(1)) if up_to else 1})
 
-    # Litwick Kindling Panic / opponent deck mill
+    # Litwick Kindling Panic, Great Tusk Land Collapse, Houndoom-EX Melting Horn,
+    # Wiglett Dig a Little, Wugtrio Undersea Tunnel. Counts and coin flips stay
+    # on the printed sentence.
     if "discard the top" in t and "opponent" in t and "deck" in t:
         top = re.search(r"top (\d+)", t)
-        effects.append({"kind": "mill_opponent", "count": int(top.group(1)) if top else 1})
+        spec: dict[str, Any] = {"kind": "mill_opponent", "count": int(top.group(1)) if top else 1}
+        flips = re.search(r"flip (\d+) coins", t)
+        if flips and "for each heads" in t:
+            spec["coins"] = int(flips.group(1))
+        elif "flip a coin" in t and "if heads" in t:
+            spec["coins"] = 1
+        extra = re.search(r"discard (\d+) more cards in this way", t)
+        if extra and "ancient supporter" in t:
+            spec["extra_if_ancient_supporter"] = int(extra.group(1))
+        effects.append(spec)
+
+    # Houndoom-EX Grand Flame: one Fire from discard onto a Benched Pokémon.
+    if "attach a fire energy card from your discard pile" in t and "benched" in t:
+        onto = re.search(r"to (\d+) of your benched", t)
+        effects.append(
+            {
+                "kind": "attach_typed_energy_from_discard",
+                "energy_type": "Fire",
+                "count": int(onto.group(1) if onto else 1),
+                "bench_only": True,
+            }
+        )
 
     # Platinum Misdreavus Take Back: coin, then a Trainer from discard to hand.
     if "discard pile" in t and "trainer" in t and "into your hand" in t:
@@ -1072,6 +1125,20 @@ def parse_energy_effects(text: str) -> list[dict[str, Any]]:
     )
     if spiked:
         effects.append({"kind": "counters_on_attacker", "counters": int(spiked.group(1))})
+    # Stone Fighting Energy: the printed type takes the printed amount less damage.
+    # Each attached copy is its own sentence, so the amounts stack. The number stays here.
+    shielded = re.search(
+        rf"the ({_TYPE_WORD}) pokemon this card is attached to takes (\d+) less damage from attacks",
+        t,
+    )
+    if shielded:
+        effects.append(
+            {
+                "kind": "less_damage_taken",
+                "pokemon_type": shielded.group(1).title(),
+                "amount": int(shielded.group(2)),
+            }
+        )
     _extend_conditional_energy_effects(t, effects)
     return effects
 
@@ -1121,6 +1188,52 @@ def parse_trainer_effects(text: str) -> list[dict[str, Any]]:
     reactive = _attached_tool_reactive(t)
     if reactive:
         return reactive
+
+    # Professor Sada's Vitality: up to N Basic Energy from discard onto Ancient Pokémon.
+    if "ancient pokemon" in t and "basic energy card from your discard pile" in t:
+        up_to = re.search(r"up to (\d+)", t)
+        draw = re.search(r"draw (\d+) cards", t)
+        effects.append(
+            {
+                "kind": "attach_energy_to_ancient",
+                "count": int(up_to.group(1) if up_to else 1),
+                "draw": int(draw.group(1) if draw else 0),
+                "trait": "ancient",
+            }
+        )
+        return effects
+
+    # Explorer's Guidance: look N, keep K, discard the rest. Keep 1 stays on the
+    # older look_top_keep_one hook.
+    keep = re.search(
+        r"look at the top (\d+) cards of your deck and put (\d+) of them into your hand",
+        t,
+    )
+    if keep and "discard the other" in t and int(keep.group(2)) != 1:
+        effects.append(
+            {
+                "kind": "look_top_keep",
+                "look": int(keep.group(1)),
+                "keep": int(keep.group(2)),
+            }
+        )
+        return effects
+
+    # Awakening Drum: draw one card for each in-play Pokémon of the printed trait.
+    drum = re.search(r"draw a card for each of your (\w+) pokemon in play", t)
+    if drum:
+        effects.append({"kind": "draw_per_trait", "trait": drum.group(1)})
+        return effects
+
+    # Miss Fortune Sisters: look at the top N of the opponent's deck, discard Items.
+    sisters = re.search(
+        r"look at the top (\d+) cards of your opponent's deck and discard any number of item cards",
+        t,
+    )
+    if sisters:
+        effects.append({"kind": "discard_top_items", "look": int(sisters.group(1))})
+        return effects
+
     expanded = _expanded_trainer_effects(t)
     if expanded:
         return expanded

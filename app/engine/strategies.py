@@ -721,6 +721,48 @@ STRATEGY_LIBRARY = {
         closers=["Mew ex"],
         one_mew=True,
     ),
+    "mill": StrategySpec(
+        name="mill",
+        description=(
+            "Great Tusk stays Active and gives up one prize at a time. Meowth ex "
+            "Last-Ditch Catch searches a Supporter when it is played from the hand. "
+            "Latias ex Skyliner makes every Basic retreat for free. Radiant Tsareena "
+            "Elegant Heal heals 20 damage from each of your Pokémon once during your turn. "
+            "Land Collapse mills "
+            "4 after Professor Sada's Vitality, and one Double Colorless Energy pays it. "
+            "Lively Stadium gives every Basic +30 HP. Ancient Booster Energy Capsule "
+            "gives Great Tusk +60 HP. Hero's Cape gives that Tusk +100 HP. "
+            "Stone Fighting Energy provides Fighting, and each copy on a Fighting Pokémon "
+            "takes 20 less attack damage after Weakness and Resistance. "
+            "Max Potion heals a damaged Great Tusk; a charged one is healed only when "
+            "Double Colorless Energy is still in hand to pay Land Collapse. "
+            "Earthen Vessel discards 1 card and searches up to "
+            "2 Basic Energy. Night Stretcher puts the Knocked Out Great Tusk back "
+            "into the hand. Explorer's Guidance is only for finding Great Tusk, because "
+            "it discards the other looked cards."
+        ),
+        prefer_damage=0.15,
+        prefer_status=0.0,
+        bench_fill=1.0,
+        evolve_asap=1.0,
+        attach_pokemon_as_energy=0.0,
+        item_spend=1.0,
+        self_preserve=0.2,
+        hold_as_energy=False,
+        protect=[
+            "Great Tusk",
+            "Latias ex",
+            "Radiant Tsareena",
+            "Ancient Booster Energy Capsule",
+            "Hero's Cape",
+            "Lively Stadium",
+            "Max Potion",
+            "Stone Fighting Energy",
+        ],
+        search_aces=["Great Tusk"],
+        closers=["Great Tusk"],
+        one_mew=False,
+    ),
 }
 
 

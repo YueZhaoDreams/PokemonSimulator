@@ -530,6 +530,33 @@ SET_L60_NAMES = (
     + ["Fighting Energy"] * 11
 )
 
+# Mill stall 60. Great Tusk is the 1-prize body. Meowth ex, from the hand, searches
+# a Supporter. Latias ex makes every Basic retreat for free. Lively Stadium gives
+# every Basic +30 HP. Ancient Booster Energy Capsule gives an Ancient Pokémon +60 HP.
+# Earthen Vessel discards 1 card and searches up to 2 Basic Energy. One Double
+# Colorless Energy pays Land Collapse. Stone Fighting Energy provides Fighting
+# and reduces damage on a Fighting Pokémon. Hero's Cape is the single ACE SPEC.
+# Max Potion heals; the Energy it discards is replaced by the attach that follows.
+SET_MILL60_NAMES = (
+    ["Great Tusk"] * 4
+    + ["Latias ex"] * 2
+    + ["Meowth ex"] * 2
+    + ["Radiant Tsareena"]
+    + ["Professor Sada's Vitality"] * 4
+    + ["Explorer's Guidance"] * 2
+    + ["Ancient Booster Energy Capsule"] * 4
+    + ["Hero's Cape"]
+    + ["Lively Stadium"] * 4
+    + ["Night Stretcher"] * 4
+    + ["Nest Ball"] * 4
+    + ["Earthen Vessel"] * 4
+    + ["Energy Retrieval"] * 2
+    + ["Max Potion"] * 2
+    + ["Double Colorless Energy"] * 4
+    + ["Stone Fighting Energy"] * 4
+    + ["Fighting Energy"] * 12
+)
+
 # Unlimited 60: Ambipom PAR Hand Fling, Lopunny FLF Big Jump recycle,
 # Raikou V Fleet-Footed + Forest Seal Stone Star Alchemy, Draw Energy, Rare Candy.
 # 4/4 Aipom–Ambipom is the 2-for-1 prize race (100 HP / 1 prize vs household 2-prizers).
@@ -1482,6 +1509,28 @@ _SPIKY = _register(
     )
 )
 FALLBACK_BY_NAME["spike energy"] = _SPIKY
+
+# Vivid Voltage 164. Provides Fighting. The damage reduction is only on a Fighting Pokémon.
+_STONE_FIGHTING_TEXT = (
+    "As long as this card is attached to a Pokémon, it provides Fighting Energy.\n\n"
+    "The Fighting Pokémon this card is attached to takes 20 less damage from attacks "
+    "from your opponent's Pokémon (after applying Weakness and Resistance)."
+)
+_STONE_FIGHTING = _register(
+    Card(
+        catalog_id="swsh4-164",
+        name="Stone Fighting Energy",
+        category="Energy",
+        stage="Special",
+        types=["Fighting"],
+        energy_type="Fighting",
+        text=_STONE_FIGHTING_TEXT,
+        image="https://assets.tcgdex.net/en/swsh/swsh4/164/low.webp",
+        set_name="Vivid Voltage",
+        retreat=0,
+    )
+)
+FALLBACK_BY_NAME["stone energy"] = _STONE_FIGHTING
 
 for card in [
     _pkm("Sobble", "Basic", ["Water"], 60, [_atk("Water Gun", ["Water"], 20)], weakness="Lightning"),
@@ -3318,6 +3367,25 @@ _register(
         set_name="Pokémon GO",
     )
 )
+# Silver Tempest 16. Radiant, not Basic: Nest Ball and Lively Stadium do not see it.
+# Elegant Heal is your Pokémon only. One copy; the Radiant rule is one per deck.
+_ELEGANT_HEAL = "Once during your turn, you may heal 20 damage from each of your Pokémon."
+_AROMA_SHOT = "This Pokémon recovers from all Special Conditions."
+_register(
+    _pkm(
+        "Radiant Tsareena",
+        "Radiant",
+        ["Grass"],
+        140,
+        [_atk("Aroma Shot", ["Grass", "Colorless", "Colorless"], 90, _AROMA_SHOT)],
+        catalog_id="swsh12-16",
+        weakness="Fire",
+        retreat=2,
+        abilities=[Ability(name="Elegant Heal", text=_ELEGANT_HEAL)],
+        image="https://assets.tcgdex.net/en/swsh/swsh12/016/low.webp",
+        set_name="Silver Tempest",
+    )
+)
 _register(
     _pkm(
         "Slaking V",
@@ -4490,6 +4558,144 @@ _register(
 )
 
 
+_LAND_COLLAPSE = (
+    "Discard the top card of your opponent's deck. If you played an Ancient Supporter "
+    "card from your hand during this turn, discard 3 more cards in this way."
+)
+_MELTING_HORN = "Discard the top 2 cards of your opponent's deck."
+_GRAND_FLAME = "Attach a Fire Energy card from your discard pile to 1 of your Benched Pokémon."
+_DIG_A_LITTLE = "Flip a coin. If heads, discard the top card of your opponent's deck."
+_UNDERSEA_TUNNEL = "Flip 3 coins. For each heads, discard the top 3 cards of your opponent's deck."
+_SADA_TEXT = (
+    "Choose up to 2 of your Ancient Pokémon and attach a Basic Energy card from your discard pile "
+    "to each of them. If you attached any Energy in this way, draw 3 cards."
+)
+_GUIDANCE_TEXT = (
+    "Look at the top 6 cards of your deck and put 2 of them into your hand. Discard the other cards."
+)
+_SISTERS_TEXT = (
+    "Look at the top 5 cards of your opponent's deck and discard any number of Item cards you find there. "
+    "Your opponent shuffles the other cards back into their deck."
+)
+_register(
+    _pkm(
+        "Great Tusk",
+        "Basic",
+        ["Fighting"],
+        140,
+        [
+            _atk("Land Collapse", ["Colorless", "Colorless"], 0, _LAND_COLLAPSE),
+            _atk("Giant Tusk", ["Fighting", "Fighting", "Colorless", "Colorless"], 160),
+        ],
+        retreat=3,
+        catalog_id="sv05-097",
+        weakness="Psychic",
+        traits=["Ancient"],
+        set_name="Temporal Forces",
+    )
+)
+_register(
+    _pkm(
+        "Houndoom-EX",
+        "Basic",
+        ["Fire"],
+        170,
+        [
+            _atk("Melting Horn", ["Fire"], 0, _MELTING_HORN),
+            _atk("Grand Flame", ["Fire", "Fire"], 50, _GRAND_FLAME),
+        ],
+        retreat=2,
+        catalog_id="xy8-21",
+        weakness="Water",
+        set_name="BREAKthrough",
+    )
+)
+_register(
+    _pkm(
+        "Wiglett",
+        "Basic",
+        ["Water"],
+        60,
+        [
+            _atk("Dig a Little", ["Colorless"], 0, _DIG_A_LITTLE),
+            _atk("Ram", ["Colorless", "Colorless"], 20),
+        ],
+        retreat=1,
+        catalog_id="sv01-056",
+        weakness="Lightning",
+        set_name="Scarlet & Violet",
+    )
+)
+_register(
+    _pkm(
+        "Wugtrio",
+        "Stage1",
+        ["Water"],
+        90,
+        [
+            _atk("Headbutt", ["Water"], 30),
+            _atk("Undersea Tunnel", ["Colorless", "Colorless", "Colorless"], 0, _UNDERSEA_TUNNEL),
+        ],
+        evolves_from="Wiglett",
+        retreat=2,
+        catalog_id="sv01-057",
+        weakness="Lightning",
+        set_name="Scarlet & Violet",
+    )
+)
+_register(
+    _trn(
+        "Professor Sada's Vitality",
+        "supporter",
+        _SADA_TEXT,
+        catalog_id="sv04-170",
+        traits=["Ancient"],
+    )
+)
+_register(
+    _trn(
+        "Explorer's Guidance",
+        "supporter",
+        _GUIDANCE_TEXT,
+        catalog_id="sv05-147",
+        traits=["Ancient"],
+    )
+)
+_register(
+    _trn(
+        "Miss Fortune Sisters",
+        "supporter",
+        _SISTERS_TEXT,
+        catalog_id="swsh11-164",
+    )
+)
+_LIVELY_STADIUM = "Each Basic Pokémon in play (both yours and your opponent's) gets +30 HP."
+_ANCIENT_CAPSULE = (
+    "The Ancient Pokémon this card is attached to gets +60 HP, recovers from all Special Conditions, "
+    "and can't be affected by any Special Conditions."
+)
+_AWAKENING_DRUM = "Draw a card for each of your Ancient Pokémon in play."
+_register(_trn("Lively Stadium", "stadium", _LIVELY_STADIUM, catalog_id="sv08-180"))
+_register(
+    _trn(
+        "Ancient Booster Energy Capsule",
+        "item",
+        _ANCIENT_CAPSULE,
+        catalog_id="sv04-159",
+        traits=["Ancient"],
+    )
+)
+_register(
+    _trn(
+        "Awakening Drum",
+        "item",
+        _AWAKENING_DRUM,
+        catalog_id="sv05-141",
+        traits=["Ancient"],
+    )
+)
+
+
 def fallback_named(name: str) -> Card:
     key = name.lower()
     if "telepathic" in key:
@@ -4506,6 +4712,8 @@ def fallback_named(name: str) -> Card:
         key = "draw energy"
     if key == "spike energy":
         key = "spiky energy"
+    if key == "stone energy":
+        key = "stone fighting energy"
     if key in FALLBACK_BY_NAME:
         card = FALLBACK_BY_NAME[key]
         return Card.from_dict(card.to_dict())
@@ -4520,6 +4728,7 @@ def fallback_named(name: str) -> Card:
         and key != "draw energy"
         and "spiky" not in key
         and key != "spike energy"
+        and "stone" not in key
     ):
         return _nrg(name.split()[0].title())
     from app.catalog import fallback_card
