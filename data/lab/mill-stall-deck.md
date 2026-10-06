@@ -48,11 +48,13 @@ Explorer's Guidance looks at the top 6, keeps 2, and discards the other 4. Use i
 
 Latias ex and Meowth ex are two-prize Basics. Boss's Orders can gust them. Lively Stadium also gives the opponent's Basic Pokémon +30 HP.
 
-Standard 60, seeds 0–31, the list before Hero's Cape, Max Potion, and Stone Fighting Energy, as player B:
+Standard 60, seeds 0–31, this list as player B. Each seed is its own shuffle. Who goes first comes from that seed.
 
 | Opponent | Wins | Deck-outs | Cards milled, average | Max |
 | :--- | ---: | ---: | ---: | ---: |
-| T60 Dragapult (phantom) | 10/32 | 7 | 8.7 | 20 |
-| M60 Mew ex (mew_baby) | 0/32 | 0 | 3.4 | 14 |
+| T60 Dragapult (phantom) | 12/32 | 11 | 7.6 | 22 |
+| M60 Mew ex (mew_baby) | 1/32 | 1 | 2.8 | 10 |
 
-Sada was played in 30 of the 32 Dragapult games, the capsule in 25, and Lively Stadium in 25. The games that end quickly are still prize Knock Outs or an empty board.
+Against Dragapult the other 20 games were 11 prize Knock Outs and 9 empty boards. One win was an empty Dragapult board. Mill went first in 9 games and won 6 of those; it went second in 23 and won 6. Ancient Supporter was played in 25 games, Lively Stadium in 26, Earthen Vessel in 24, Hero's Cape in 9, Radiant Tsareena in 11, and Elegant Heal in 10. Max Potion resolved in 2.
+
+Against Mew ex, 17 games ended with no Pokémon left in play and 14 ended on prizes. Radiant Tsareena was played in 10, and Elegant Heal in 8. The one win was a deck-out.
