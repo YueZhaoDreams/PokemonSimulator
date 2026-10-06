@@ -48,13 +48,22 @@ Explorer's Guidance looks at the top 6, keeps 2, and discards the other 4. Use i
 
 Latias ex and Meowth ex are two-prize Basics. Boss's Orders can gust them. Lively Stadium also gives the opponent's Basic Pokémon +30 HP.
 
-Standard 60, seeds 0–31, this list as player B. Each seed is its own shuffle. Who goes first comes from that seed.
+## Formal matrix
 
-| Opponent | Wins | Deck-outs | Cards milled, average | Max |
+Standard 60, seed `20261006`, 3,000 games a cell, this list as player A. Who goes first is random. Script `data/lab/mill_stall_matrix.py`. The table and the win reasons are in [mill-stall-matrix.md](mill-stall-matrix.md).
+
+| Foe | Wins | Deck-outs | Cards milled, average | Max |
 | :--- | ---: | ---: | ---: | ---: |
-| T60 Dragapult (phantom) | 12/32 | 11 | 7.6 | 22 |
-| M60 Mew ex (mew_baby) | 1/32 | 1 | 2.8 | 10 |
+| Carpet Set H | 2,894/3,000 | 41 | 7.9 | 29 |
+| G30 Ambipom | 2,810/3,000 | 502 | 6.8 | 28 |
+| S60 Floragato | 2,691/3,000 | 2,535 | 18.6 | 28 |
+| UNL Dragapult | 1,825/3,000 | 1,727 | 9.8 | 27 |
+| L60 Lucario | 1,326/3,000 | 1,189 | 6.6 | 23 |
+| Hedrick Dragapult | 1,249/3,000 | 1,055 | 7.0 | 25 |
+| T60 Dragapult | 856/3,000 | 740 | 7.2 | 22 |
+| C60 Clefairy / Mewtwo | 415/3,000 | 151 | 4.2 | 23 |
+| Carpet Set G | 405/3,000 | 85 | 6.0 | 27 |
+| D60 Charm Ogerpon | 92/3,000 | 63 | 10.2 | 29 |
+| M60 Mew ex | 23/3,000 | 20 | 3.0 | 30 |
 
-Against Dragapult the other 20 games were 11 prize Knock Outs and 9 empty boards. One win was an empty Dragapult board. Mill went first in 9 games and won 6 of those; it went second in 23 and won 6. Ancient Supporter was played in 25 games, Lively Stadium in 26, Earthen Vessel in 24, Hero's Cape in 9, Radiant Tsareena in 11, and Elegant Heal in 10. Max Potion resolved in 2.
-
-Against Mew ex, 17 games ended with no Pokémon left in play and 14 ended on prizes. Radiant Tsareena was played in 10, and Elegant Heal in 8. The one win was a deck-out.
+Floragato, UNL Dragapult, Lucario, and the Hedrick list are deck-outs. Carpet H and G30 win by Knock Out or an empty board. Mew ex and Ogerpon take the prizes. Mill did not deck itself out.
