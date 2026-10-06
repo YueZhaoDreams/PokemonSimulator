@@ -534,7 +534,9 @@ SET_L60_NAMES = (
 # a Supporter. Latias ex makes every Basic retreat for free. Lively Stadium gives
 # every Basic +30 HP. Ancient Booster Energy Capsule gives an Ancient Pokémon +60 HP.
 # Earthen Vessel discards 1 card and searches up to 2 Basic Energy. One Double
-# Colorless Energy pays Land Collapse. Fighting Energy is what the Vessel finds.
+# Colorless Energy pays Land Collapse. Stone Fighting Energy provides Fighting
+# and reduces damage on a Fighting Pokémon. Hero's Cape is the single ACE SPEC.
+# Max Potion heals; the Energy it discards is replaced by the attach that follows.
 SET_MILL60_NAMES = (
     ["Great Tusk"] * 4
     + ["Latias ex"] * 2
@@ -542,13 +544,16 @@ SET_MILL60_NAMES = (
     + ["Professor Sada's Vitality"] * 4
     + ["Explorer's Guidance"] * 2
     + ["Ancient Booster Energy Capsule"] * 4
+    + ["Hero's Cape"]
     + ["Lively Stadium"] * 4
     + ["Night Stretcher"] * 4
     + ["Nest Ball"] * 4
     + ["Earthen Vessel"] * 4
     + ["Energy Retrieval"] * 2
+    + ["Max Potion"] * 2
     + ["Double Colorless Energy"] * 4
-    + ["Fighting Energy"] * 20
+    + ["Stone Fighting Energy"] * 4
+    + ["Fighting Energy"] * 13
 )
 
 # Unlimited 60: Ambipom PAR Hand Fling, Lopunny FLF Big Jump recycle,
@@ -1503,6 +1508,28 @@ _SPIKY = _register(
     )
 )
 FALLBACK_BY_NAME["spike energy"] = _SPIKY
+
+# Vivid Voltage 164. Provides Fighting. The damage reduction is only on a Fighting Pokémon.
+_STONE_FIGHTING_TEXT = (
+    "As long as this card is attached to a Pokémon, it provides Fighting Energy.\n\n"
+    "The Fighting Pokémon this card is attached to takes 20 less damage from attacks "
+    "from your opponent's Pokémon (after applying Weakness and Resistance)."
+)
+_STONE_FIGHTING = _register(
+    Card(
+        catalog_id="swsh4-164",
+        name="Stone Fighting Energy",
+        category="Energy",
+        stage="Special",
+        types=["Fighting"],
+        energy_type="Fighting",
+        text=_STONE_FIGHTING_TEXT,
+        image="https://assets.tcgdex.net/en/swsh/swsh4/164/low.webp",
+        set_name="Vivid Voltage",
+        retreat=0,
+    )
+)
+FALLBACK_BY_NAME["stone energy"] = _STONE_FIGHTING
 
 for card in [
     _pkm("Sobble", "Basic", ["Water"], 60, [_atk("Water Gun", ["Water"], 20)], weakness="Lightning"),
@@ -4665,6 +4692,8 @@ def fallback_named(name: str) -> Card:
         key = "draw energy"
     if key == "spike energy":
         key = "spiky energy"
+    if key == "stone energy":
+        key = "stone fighting energy"
     if key in FALLBACK_BY_NAME:
         card = FALLBACK_BY_NAME[key]
         return Card.from_dict(card.to_dict())
@@ -4679,6 +4708,7 @@ def fallback_named(name: str) -> Card:
         and key != "draw energy"
         and "spiky" not in key
         and key != "spike energy"
+        and "stone" not in key
     ):
         return _nrg(name.split()[0].title())
     from app.catalog import fallback_card

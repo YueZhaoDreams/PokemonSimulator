@@ -2,8 +2,17 @@
 
 from random import Random
 
-from app.engine.effects import parse_ability_effects, parse_effects, parse_trainer_effects
+from app.engine.effects import (
+    energy_provided,
+    is_basic_energy,
+    is_special_energy,
+    parse_ability_effects,
+    parse_effects,
+    parse_energy_effects,
+    parse_trainer_effects,
+)
 from app.engine.game import Game, Pokemon
+from app.engine.models import Attack
 from app.engine.legality import copy_violations
 from app.engine.models import default_family_rules, standard_60_rules
 from app.engine.strategies import StrategySpec
@@ -431,11 +440,187 @@ def test_mill_list_is_a_legal_sixty():
     assert SET_MILL60_NAMES.count("Night Stretcher") == 4
     assert SET_MILL60_NAMES.count("Earthen Vessel") == 4
     assert SET_MILL60_NAMES.count("Awakening Drum") == 0
+    assert SET_MILL60_NAMES.count("Hero's Cape") == 1
+    assert SET_MILL60_NAMES.count("Max Potion") == 2
     assert SET_MILL60_NAMES.count("Double Colorless Energy") == 4
-    assert SET_MILL60_NAMES.count("Fighting Energy") == 20
+    assert SET_MILL60_NAMES.count("Stone Fighting Energy") == 4
+    assert SET_MILL60_NAMES.count("Fighting Energy") == 13
     rules = standard_60_rules()
     assert copy_violations(build_fallback_deck(list(SET_MILL60_NAMES)), rules) == []
     deck = load_seed_deck("mill")
     assert deck["id"] == "seed-mill"
     assert load_seed_deck("tusk")["id"] == "seed-mill"
     assert len(deck["cards"]) == 60
+    stones = [c for c in deck["cards"] if c["name"] == "Stone Fighting Energy"]
+    assert len(stones) == 4
+    assert stones[0]["catalog_id"] == "swsh4-164"
+    assert "takes 20 less damage" in stones[0]["text"]
+
+
+_STONE = (
+    "As long as this card is attached to a Pokémon, it provides Fighting Energy.\n\n"
+    "The Fighting Pokémon this card is attached to takes 20 less damage from attacks "
+    "from your opponent's Pokémon (after applying Weakness and Resistance)."
+)
+
+
+def test_stone_fighting_energy_uses_the_printed_sentence():
+    card = fallback_named("Stone Energy")
+    assert card.name == "Stone Fighting Energy"
+    assert card.text == _STONE
+    assert card.stage.lower() == "special"
+    parsed = parse_energy_effects(card.text)
+    assert {"kind": "less_damage_taken", "pokemon_type": "Fighting", "amount": 20} in parsed
+    assert energy_provided(card) == ["Fighting"]
+    assert is_special_energy(card)
+    assert not is_basic_energy(card)
+
+
+def test_two_stones_reduce_damage_on_great_tusk_after_weakness():
+    game = Game(
+        build_fallback_deck(["Latias ex", "Dondozo"] + ["Sobble"] * 8),
+        build_fallback_deck(["Great Tusk", "Latias ex"] + ["Stone Fighting Energy"] * 2 + ["Hop"] * 6),
+        default_family_rules(),
+        StrategySpec.from_dict("balanced"),
+        StrategySpec.from_dict("mill"),
+        Random(7),
+    )
+    me = game.players["b"]
+    foe = game.players["a"]
+    tusk = _take(me, "Great Tusk")[0]
+    stones = _take(me, "Stone Fighting Energy", 2)
+    bench_latias = _take(me, "Latias ex")[0]
+    attacker = _take(foe, "Latias ex")[0]
+    me.active = Pokemon(card_i=tusk, energy=stones)
+    me.bench = [Pokemon(card_i=bench_latias)]
+    foe.active = Pokemon(card_i=attacker)
+    peck = Attack(name="Peck", cost=["Colorless"], damage=30)
+    # Psychic weakness doubles 30 to 60, then each Stone takes off its printed 20.
+    assert game._raw_attack_damage(foe, me, foe.active, peck) == 20
+    me.bench[0].energy = list(me.active.energy)
+    me.active.energy = []
+    assert game._raw_attack_damage(foe, me, foe.active, peck) == 60
+    me.active.energy = [me.bench[0].energy.pop()]
+    assert game._raw_attack_damage(foe, me, foe.active, peck) == 40
+
+
+def test_stone_or_double_colorless_is_what_gets_attached():
+    game = Game(
+        build_fallback_deck(["Dondozo"] + ["Sobble"] * 9),
+        build_fallback_deck(
+            ["Great Tusk", "Double Colorless Energy", "Stone Fighting Energy", "Fighting Energy"]
+            + ["Hop"] * 6
+        ),
+        default_family_rules(),
+        StrategySpec.from_dict("balanced"),
+        StrategySpec.from_dict("mill"),
+        Random(8),
+    )
+    me = game.players["b"]
+    tusk = _take(me, "Great Tusk")[0]
+    dce = _take(me, "Double Colorless Energy")[0]
+    stone = _take(me, "Stone Fighting Energy")[0]
+    fighting = _take(me, "Fighting Energy")[0]
+    me.active = Pokemon(card_i=tusk)
+    me.hand = [dce, stone, fighting]
+    assert me.card(game._mill_energy_card(me, me.active)).name == "Double Colorless Energy"
+    me.active.energy = [fighting]
+    me.hand = [stone]
+    assert me.card(game._mill_energy_card(me, me.active)).name == "Stone Fighting Energy"
+    me.active.energy = [dce]
+    assert me.card(game._mill_energy_card(me, me.active)).name == "Stone Fighting Energy"
+
+
+def test_max_potion_heals_a_bare_tusk_and_a_low_tusk_that_can_reattach():
+    game = Game(
+        build_fallback_deck(["Dondozo"] + ["Sobble"] * 9),
+        build_fallback_deck(
+            ["Great Tusk", "Max Potion", "Double Colorless Energy", "Fighting Energy"] + ["Hop"] * 6
+        ),
+        default_family_rules(),
+        StrategySpec.from_dict("balanced"),
+        StrategySpec.from_dict("mill"),
+        Random(9),
+    )
+    me = game.players["b"]
+    tusk = _take(me, "Great Tusk")[0]
+    fighting = _take(me, "Fighting Energy")[0]
+    dce = _take(me, "Double Colorless Energy")[0]
+    me.active = Pokemon(card_i=tusk, damage=40)
+    me.hand = []
+    assert game._mill_potion_target(me) is me.active
+    game._heal_all(me, discard_energy=True)
+    assert me.active.damage == 0
+    me.active.damage = 30
+    me.active.energy = [fighting]
+    me.hand = []
+    assert game._mill_potion_target(me) is None
+    me.hand = [dce]
+    assert game._mill_potion_target(me) is me.active
+    game._heal_all(me, discard_energy=True)
+    assert me.active.damage == 0
+    assert me.active.energy == []
+    assert fighting in me.discard
+
+
+def test_sada_does_not_draw_when_double_colorless_already_finishes():
+    game = Game(
+        build_fallback_deck(["Dondozo"] + ["Sobble"] * 9),
+        build_fallback_deck(
+            ["Great Tusk", "Professor Sada's Vitality", "Double Colorless Energy", "Fighting Energy"]
+            + ["Hop"] * 6
+        ),
+        default_family_rules(),
+        StrategySpec.from_dict("balanced"),
+        StrategySpec.from_dict("mill"),
+        Random(10),
+    )
+    me = game.players["b"]
+    tusk = _take(me, "Great Tusk")[0]
+    fighting = _take(me, "Fighting Energy")[0]
+    dce = _take(me, "Double Colorless Energy")[0]
+    sada = fallback_named("Professor Sada's Vitality")
+    me.active = Pokemon(card_i=tusk)
+    me.hand = [dce]
+    me.discard = [fighting]
+    game._attach_energy_to_ancient(me, "b", parse_trainer_effects(sada.text)[0])
+    assert me.active.energy == []
+    assert fighting in me.discard
+    assert game.events.get("ancient_energy_draw", 0) == 0
+
+
+def test_heros_cape_goes_on_great_tusk():
+    game = Game(
+        build_fallback_deck(["Dondozo"] + ["Sobble"] * 9),
+        build_fallback_deck(["Great Tusk", "Latias ex", "Hero's Cape", "Lively Stadium"] + ["Hop"] * 6),
+        default_family_rules(),
+        StrategySpec.from_dict("balanced"),
+        StrategySpec.from_dict("mill"),
+        Random(11),
+    )
+    me = game.players["b"]
+    tusk = _take(me, "Great Tusk")[0]
+    latias = _take(me, "Latias ex")[0]
+    cape = fallback_named("Hero's Cape")
+    stadium = _take(me, "Lively Stadium")[0]
+    me.active = Pokemon(card_i=tusk)
+    me.bench = [Pokemon(card_i=latias)]
+    target = game._tool_target(me, "b", cape)
+    assert target is me.active
+    me.active.tool = _take(me, "Hero's Cape")[0]
+    game._set_stadium(me.card(stadium), owner=me)
+    assert game._max_hp(me, me.active) == 270
+
+
+def test_guidance_waits_until_great_tusk_is_missing():
+    game = _game()
+    me = game.players["b"]
+    tusk = _take(me, "Great Tusk")[0]
+    me.active = Pokemon(card_i=tusk)
+    me.deck = _take(me, "Hop", 16)
+    assert game._mill_guidance_score(me) == -30
+    me.hand = [tusk]
+    me.active = None
+    assert game._mill_guidance_score(me) == -30
+    me.hand = []
+    assert game._mill_guidance_score(me) == 22

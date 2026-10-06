@@ -1110,6 +1110,20 @@ def parse_energy_effects(text: str) -> list[dict[str, Any]]:
     )
     if spiked:
         effects.append({"kind": "counters_on_attacker", "counters": int(spiked.group(1))})
+    # Stone Fighting Energy: the printed type takes the printed amount less damage.
+    # Each attached copy is its own sentence, so the amounts stack. The number stays here.
+    shielded = re.search(
+        rf"the ({_TYPE_WORD}) pokemon this card is attached to takes (\d+) less damage from attacks",
+        t,
+    )
+    if shielded:
+        effects.append(
+            {
+                "kind": "less_damage_taken",
+                "pokemon_type": shielded.group(1).title(),
+                "amount": int(shielded.group(2)),
+            }
+        )
     _extend_conditional_energy_effects(t, effects)
     return effects
 

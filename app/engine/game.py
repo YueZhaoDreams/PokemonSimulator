@@ -1941,8 +1941,9 @@ class Game:
             elif name == "max potion":
                 mews = self._damaged_mews(me)
                 if strat.name == "mill":
-                    # Healing discards the Energy that pays the copied attack.
-                    score -= 20
+                    # Above Sada. The heal discards Energy, so it has to happen
+                    # before Sada attaches a Basic that the heal would throw away.
+                    score += 30 if self._mill_potion_target(me) is not None else -20
                 elif strat.name in {"mew_baby", "baby"}:
                     # No Energy: heal. Energy stays unless the Mew ex is lost next turn
                     # and Penny cannot pick it up.
@@ -4737,11 +4738,14 @@ class Game:
                 "professor sada's vitality",
                 "explorer's guidance",
                 "double colorless energy",
+                "stone fighting energy",
                 "great tusk",
                 "latias ex",
                 "ancient booster energy capsule",
+                "hero's cape",
                 "lively stadium",
                 "night stretcher",
+                "max potion",
             }:
                 return 9
             return 4
@@ -5747,7 +5751,29 @@ class Game:
     def _mill_missing_piece(self, me: Player) -> bool:
         have = {me.card(m.card_i).name.lower() for m in me.in_play()}
         have |= {me.card(i).name.lower() for i in me.hand}
-        return "mew ex" not in have or "great tusk" not in have
+        return "great tusk" not in have
+
+    def _mill_potion_target(self, me: Player) -> Pokemon | None:
+        """Heal a Great Tusk. A charged one needs Double Colorless Energy still in hand."""
+        hurt = [
+            mon
+            for mon in me.in_play()
+            if mon.damage > 0 and me.card(mon.card_i).name.lower() == "great tusk"
+        ]
+        if not hurt:
+            return None
+        free = [mon for mon in hurt if not mon.energy and mon.damage >= 20]
+        if free:
+            active = [mon for mon in free if mon is me.active]
+            return max(active or free, key=lambda mon: mon.damage)
+        swing = self._mill_swing_target(me)
+        if swing is None or swing not in hurt or not swing.energy:
+            return None
+        if self._max_hp(me, swing) - swing.damage > 160:
+            return None
+        if not any(is_double_colorless(me.card(i)) for i in me.hand):
+            return None
+        return swing
 
     def _mill_wants_penny(self, me: Player) -> bool:
         target = self._mill_penny_target(me)
@@ -5775,9 +5801,12 @@ class Game:
             if any(str(t).lower() == trait for t in (me.card(mon.card_i).traits or []))
         ]
         if self.strats[who].name == "mill":
-            # Attaching is what draws 3. Skip it when Land Collapse is already paid.
+            # Attaching is what draws 3. Skip it when Land Collapse is already paid,
+            # or when the one attachment still in hand finishes the cost.
             swing = self._mill_swing_target(me)
             targets = [mon for mon in targets if mon is swing and not self._mill_paid(me, mon)]
+            if targets and self._mill_hand_can_finish_collapse(me, targets[0]):
+                targets = []
         fuels = [
             i
             for i in list(me.discard)
@@ -5818,22 +5847,26 @@ class Game:
         order = {
             "great tusk": 0,
             "double colorless energy": 1,
-            "latias ex": 2,
-            "ancient booster energy capsule": 3,
-            "lively stadium": 4,
-            "professor sada's vitality": 5,
-            "night stretcher": 6,
-            "fighting energy": 7,
-            "nest ball": 8,
-            "earthen vessel": 8,
-            "meowth ex": 9,
-            "awakening drum": 10,
-            "energy retrieval": 11,
+            "stone fighting energy": 2,
+            "hero's cape": 3,
+            "latias ex": 4,
+            "ancient booster energy capsule": 5,
+            "lively stadium": 6,
+            "professor sada's vitality": 7,
+            "night stretcher": 8,
+            "fighting energy": 9,
+            "nest ball": 10,
+            "earthen vessel": 10,
+            "meowth ex": 11,
+            "max potion": 12,
+            "awakening drum": 13,
+            "energy retrieval": 14,
         }
         rank = order.get(name, 20)
         if name in have and name not in {
             "fighting energy",
             "double colorless energy",
+            "stone fighting energy",
             "nest ball",
             "night stretcher",
             "energy retrieval",
@@ -5942,17 +5975,41 @@ class Game:
             return me.active
         return swing or me.active
 
+    def _mill_hand_can_finish_collapse(self, me: Player, mon: Pokemon) -> bool:
+        atk = self._mill_land_collapse(me, mon)
+        if atk is None:
+            return False
+        pool = self._energy_pool(me, mon)
+        return any(
+            can_pay_energy(pool + energy_provided(me.card(i)), atk.cost)
+            for i in me.hand
+            if me.card(i).is_energy
+        )
+
     def _mill_energy_card(self, me: Player, target: Pokemon) -> int | None:
+        host = me.card(target.card_i)
+        stones = [i for i in me.hand if self._attached_damage_reduction(me.card(i), host) > 0]
         dces = [i for i in me.hand if is_double_colorless(me.card(i))]
         basics = [i for i in me.hand if is_basic_energy(me.card(i), pokemon_as_energy=False)]
         basics.sort(key=lambda i: 0 if (me.card(i).energy_type or "") == "Fighting" else 1)
         atk = self._mill_land_collapse(me, target)
         pool = self._energy_pool(me, target)
-        if atk is not None:
-            if basics and can_pay_energy(pool + energy_provided(me.card(basics[0])), atk.cost):
-                return basics[0]
-            if dces and can_pay_energy(pool + energy_provided(me.card(dces[0])), atk.cost):
-                return dces[0]
+
+        def completes(card_i: int) -> bool:
+            if atk is None:
+                return False
+            return can_pay_energy(pool + energy_provided(me.card(card_i)), atk.cost)
+
+        paid = atk is not None and can_pay_energy(pool, atk.cost)
+        if paid and stones:
+            return stones[0]
+        if not paid:
+            for group in (stones, basics, dces):
+                for card_i in group:
+                    if completes(card_i):
+                        return card_i
+            if stones:
+                return stones[0]
         if not target.energy and dces:
             return dces[0]
         return (basics or dces or [None])[0]
@@ -5960,7 +6017,14 @@ class Game:
     def _mill_search_prefer(self, me: Player) -> list[str]:
         have = {me.card(m.card_i).name.lower() for m in me.in_play()}
         have |= {me.card(i).name.lower() for i in me.hand}
-        order = ["Great Tusk", "Latias ex", "Fighting Energy", "Double Colorless Energy"]
+        order = [
+            "Great Tusk",
+            "Latias ex",
+            "Double Colorless Energy",
+            "Stone Fighting Energy",
+            "Hero's Cape",
+            "Fighting Energy",
+        ]
         missing = [name for name in order if name.lower() not in have]
         return missing or order
 
@@ -7864,6 +7928,7 @@ class Game:
             "effects" in (atk.text or "").lower() and "isn't affected" in (atk.text or "").lower()
         )
         if not ignore_effects:
+            dmg = max(0, dmg - self._less_damage_taken(foe, foe.active))
             shield = int(foe.active.reduce_damage_next_turn or 0)
             if shield:
                 dmg = max(0, dmg - shield)
@@ -7881,6 +7946,22 @@ class Game:
             self._bump("invisible_wall")
             return 0
         return dmg
+
+    def _attached_damage_reduction(self, card: Card, host: Card) -> int:
+        types = {str(t).lower() for t in (host.types or [])}
+        total = 0
+        for eff in parse_energy_effects(card.text or ""):
+            if eff.get("kind") != "less_damage_taken":
+                continue
+            need = str(eff.get("pokemon_type") or "").lower()
+            if need and need not in types:
+                continue
+            total += int(eff.get("amount") or 0)
+        return total
+
+    def _less_damage_taken(self, owner: Player, mon: Pokemon) -> int:
+        host = owner.card(mon.card_i)
+        return sum(self._attached_damage_reduction(owner.card(i), host) for i in mon.energy)
 
     def _photon_ko(self, me: Player, foe: Player, mon: Pokemon | None = None) -> bool:
         if not foe.active:
@@ -7948,6 +8029,15 @@ class Game:
                     return mon
             if self.strats[who].name in {"mew_baby", "baby"}:
                 return None
+            if self.strats[who].name == "mill" and name == "hero's cape":
+                tusks = [
+                    mon
+                    for mon in me.in_play()
+                    if mon.tool is None and me.card(mon.card_i).name.lower() == "great tusk"
+                ]
+                if me.active in tusks:
+                    return me.active
+                return tusks[0] if tusks else None
             for mon in me.in_play():
                 if mon.tool is None:
                     return mon
@@ -8672,7 +8762,12 @@ class Game:
             return
         who = "a" if me.name == "A" else "b"
         mews = [mon for mon in hurt if me.card(mon.card_i).name.lower() == "mew ex"]
-        if self.strats[who].name in {"mew_baby", "baby"} and mews:
+        if self.strats[who].name == "mill":
+            mon = self._mill_potion_target(me)
+            if mon is None:
+                self._bump("max_potion_whiff")
+                return
+        elif self.strats[who].name in {"mew_baby", "baby"} and mews:
             mon = self._mew_potion_mon(me, mews)
         else:
             free = [mon for mon in hurt if not mon.energy]

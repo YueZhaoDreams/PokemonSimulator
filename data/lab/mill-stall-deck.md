@@ -6,8 +6,8 @@ Great Tusk is the body that gives up one prize. Meowth ex searches a Supporter o
 
 - Pokémon 8: Great Tusk ×4, Latias ex ×2, Meowth ex ×2
 - Supporters 6: Professor Sada's Vitality ×4, Explorer's Guidance ×2
-- Items 22: Ancient Booster Energy Capsule ×4, Lively Stadium ×4, Night Stretcher ×4, Nest Ball ×4, Earthen Vessel ×4, Energy Retrieval ×2
-- Energy 24: Double Colorless Energy ×4, Fighting Energy ×20
+- Stadiums and items 25: Ancient Booster Energy Capsule ×4, Hero's Cape ×1, Lively Stadium ×4, Night Stretcher ×4, Nest Ball ×4, Earthen Vessel ×4, Energy Retrieval ×2, Max Potion ×2
+- Energy 21: Double Colorless Energy ×4, Stone Fighting Energy ×4, Fighting Energy ×13
 
 One Double Colorless Energy pays Land Collapse. Fighting Energy is the Basic Energy Professor Sada's Vitality can attach from the discard pile. Double Colorless Energy is Special Energy, so Sada cannot attach it.
 
@@ -20,6 +20,12 @@ Ancient Booster Energy Capsule: the Ancient Pokémon it is attached to gets +60 
 Earthen Vessel discards 1 card from your hand, then searches the deck for up to 2 Basic Energy cards. It finds Fighting Energy. Double Colorless Energy is Special Energy, so the Vessel does not find it. The discard is a spare Nest Ball or a spare Fighting Energy. Professor Sada's Vitality, Great Tusk, and Double Colorless Energy stay in hand.
 
 Night Stretcher puts one Pokémon or one Basic Energy from the discard pile into the hand. After Great Tusk is Knocked Out, the stretcher picks that body back up.
+
+Hero's Cape is one ACE SPEC. The Pokémon it is attached to gets +100 HP and can't be affected by any Special Conditions. It goes on Great Tusk. With the capsule the tool slot is one card, so the cape takes the Active Tusk and a capsule waits for another Tusk. Cape plus Lively Stadium is 140 + 100 + 30 = 270 HP, still one prize.
+
+Stone Fighting Energy (Vivid Voltage 164) provides Fighting Energy. The Fighting Pokémon it is attached to takes 20 less damage from attacks, after Weakness and Resistance. Each copy adds its own 20. It does not reduce damage on Latias ex or Meowth ex. It is Special Energy, so Sada, Earthen Vessel, Night Stretcher, and Energy Retrieval do not find it. One Stone plus one Fighting, or one Double Colorless Energy, pays Land Collapse.
+
+Max Potion heals all damage from one Pokémon. If it healed, it discards all Energy from that Pokémon. On this list it heals Great Tusk. A Tusk with no Energy is healed once it has at least 20 damage. A Tusk that still has Energy is healed only when 160 or less HP remains and a Double Colorless Energy is in hand, because trainers resolve before the energy attachment. Professor Sada's Vitality does not attach (and therefore does not draw 3) when that hand Energy already finishes Land Collapse.
 
 ## One round
 
@@ -40,7 +46,7 @@ Explorer's Guidance looks at the top 6, keeps 2, and discards the other 4. Use i
 
 Latias ex and Meowth ex are two-prize Basics. Boss's Orders can gust them. Lively Stadium also gives the opponent's Basic Pokémon +30 HP.
 
-Standard 60, seeds 0–31, this list as player B:
+Standard 60, seeds 0–31, the list before Hero's Cape, Max Potion, and Stone Fighting Energy, as player B:
 
 | Opponent | Wins | Deck-outs | Cards milled, average | Max |
 | :--- | ---: | ---: | ---: | ---: |

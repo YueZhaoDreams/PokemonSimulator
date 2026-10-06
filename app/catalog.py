@@ -254,6 +254,7 @@ PREFERRED_IDS = {
     "Lively Stadium": "sv08-180",
     "Ancient Booster Energy Capsule": "sv04-159",
     "Awakening Drum": "sv05-141",
+    "Stone Fighting Energy": "swsh4-164",  # Vivid Voltage: Fighting, Fighting Pokémon take 20 less
     "Pidgey": "sv03-162",
     "Pidgeotto": "sv03-163",
     "Pidgeot ex": "sv03-164",
