@@ -4,16 +4,18 @@ Great Tusk is the body that gives up one prize. Meowth ex searches a Supporter o
 
 ## The 60
 
-- Pokémon 8: Great Tusk ×4, Latias ex ×2, Meowth ex ×2
+- Pokémon 9: Great Tusk ×4, Latias ex ×2, Meowth ex ×2, Radiant Tsareena ×1
 - Supporters 6: Professor Sada's Vitality ×4, Explorer's Guidance ×2
 - Stadiums and items 25: Ancient Booster Energy Capsule ×4, Hero's Cape ×1, Lively Stadium ×4, Night Stretcher ×4, Nest Ball ×4, Earthen Vessel ×4, Energy Retrieval ×2, Max Potion ×2
-- Energy 21: Double Colorless Energy ×4, Stone Fighting Energy ×4, Fighting Energy ×13
+- Energy 20: Double Colorless Energy ×4, Stone Fighting Energy ×4, Fighting Energy ×12
 
 One Double Colorless Energy pays Land Collapse. Fighting Energy is the Basic Energy Professor Sada's Vitality can attach from the discard pile. Double Colorless Energy is Special Energy, so Sada cannot attach it.
 
 ## Printed extras
 
-Lively Stadium: each Basic Pokémon in play, yours and your opponent's, gets +30 HP. Evolutions do not. Great Tusk, Latias ex, and Meowth ex are all Basic.
+Lively Stadium: each Basic Pokémon in play, yours and your opponent's, gets +30 HP. Evolutions do not. Great Tusk, Latias ex, and Meowth ex are all Basic. Radiant Tsareena is not Basic, so the stadium does not add 30 to it, and Nest Ball does not search it. It is played from the hand.
+
+Radiant Tsareena (Silver Tempest 16), one copy. Elegant Heal: once during your turn, heal 20 damage from each of your Pokémon. The opponent's Pokémon are not healed. Aroma Shot is Grass and is not the mill attack. One prize.
 
 Ancient Booster Energy Capsule: the Ancient Pokémon it is attached to gets +60 HP, recovers from Special Conditions, and cannot be affected by them. On a non-Ancient Pokémon the +60 does not apply. Great Tusk is 140 + 60 + 30 = 230 HP, and it is still one prize.
 

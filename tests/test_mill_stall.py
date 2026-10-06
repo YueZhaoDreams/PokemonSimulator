@@ -289,6 +289,9 @@ def test_only_tusk_latias_and_meowth_take_the_board():
     assert game._wants_in_play(me, fallback_named("Houndoom-EX"), strat) is False
     assert game._wants_in_play(me, fallback_named("Mew ex"), strat) is False
     assert game._wants_in_play(me, fallback_named("Great Tusk"), strat) is True
+    queen = fallback_named("Radiant Tsareena")
+    assert not queen.is_basic
+    assert game._is_playable_pokemon(queen)
 
 
 def test_meowth_stays_in_hand_when_an_ancient_supporter_is_there():
@@ -432,6 +435,7 @@ def test_mill_list_is_a_legal_sixty():
     assert SET_MILL60_NAMES.count("Great Tusk") == 4
     assert SET_MILL60_NAMES.count("Latias ex") == 2
     assert SET_MILL60_NAMES.count("Meowth ex") == 2
+    assert SET_MILL60_NAMES.count("Radiant Tsareena") == 1
     assert SET_MILL60_NAMES.count("Mew ex") == 0
     assert SET_MILL60_NAMES.count("Professor Sada's Vitality") == 4
     assert SET_MILL60_NAMES.count("Explorer's Guidance") == 2
@@ -444,7 +448,7 @@ def test_mill_list_is_a_legal_sixty():
     assert SET_MILL60_NAMES.count("Max Potion") == 2
     assert SET_MILL60_NAMES.count("Double Colorless Energy") == 4
     assert SET_MILL60_NAMES.count("Stone Fighting Energy") == 4
-    assert SET_MILL60_NAMES.count("Fighting Energy") == 13
+    assert SET_MILL60_NAMES.count("Fighting Energy") == 12
     rules = standard_60_rules()
     assert copy_violations(build_fallback_deck(list(SET_MILL60_NAMES)), rules) == []
     deck = load_seed_deck("mill")
@@ -624,3 +628,45 @@ def test_guidance_waits_until_great_tusk_is_missing():
     assert game._mill_guidance_score(me) == -30
     me.hand = []
     assert game._mill_guidance_score(me) == 22
+
+
+_ELEGANT = "Once during your turn, you may heal 20 damage from each of your Pokémon."
+
+
+def test_elegant_heal_heals_each_of_your_pokemon_for_20():
+    parsed = parse_ability_effects(_ELEGANT)
+    assert parsed == [{"kind": "heal_each_own", "amount": 20, "once_per_turn": True}]
+    queen = fallback_named("Radiant Tsareena")
+    assert queen.abilities[0].text == _ELEGANT
+    assert {"kind": "cure_self"} in queen.attacks[0].effects
+    game = Game(
+        build_fallback_deck(["Dondozo"] + ["Sobble"] * 9),
+        build_fallback_deck(["Great Tusk", "Latias ex", "Radiant Tsareena", "Lively Stadium"] + ["Hop"] * 6),
+        default_family_rules(),
+        StrategySpec.from_dict("balanced"),
+        StrategySpec.from_dict("mill"),
+        Random(12),
+    )
+    me = game.players["b"]
+    foe = game.players["a"]
+    tusk = _take(me, "Great Tusk")[0]
+    latias = _take(me, "Latias ex")[0]
+    tsareena = _take(me, "Radiant Tsareena")[0]
+    stadium = _take(me, "Lively Stadium")[0]
+    foe_mon = _take(foe, "Dondozo")[0]
+    me.active = Pokemon(card_i=tusk, damage=50)
+    me.bench = [Pokemon(card_i=latias, damage=10), Pokemon(card_i=tsareena, damage=30)]
+    foe.active = Pokemon(card_i=foe_mon, damage=40)
+    game._set_stadium(me.card(stadium), owner=me)
+    assert game._max_hp(me, me.active) == 170
+    assert game._max_hp(me, me.bench[1]) == 140
+    game._use_passive_abilities(me, "b", foe)
+    assert me.active.damage == 30
+    assert me.bench[0].damage == 0
+    assert me.bench[1].damage == 10
+    assert foe.active.damage == 40
+    game._use_passive_abilities(me, "b", foe)
+    assert me.active.damage == 30
+    assert me.bench[1].damage == 10
+    strat = StrategySpec.from_dict("mill")
+    assert game._wants_in_play(me, me.card(tsareena), strat) is False

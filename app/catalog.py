@@ -255,6 +255,7 @@ PREFERRED_IDS = {
     "Ancient Booster Energy Capsule": "sv04-159",
     "Awakening Drum": "sv05-141",
     "Stone Fighting Energy": "swsh4-164",  # Vivid Voltage: Fighting, Fighting Pokémon take 20 less
+    "Radiant Tsareena": "swsh12-16",  # Silver Tempest: Elegant Heal 20 from each of your Pokémon
     "Pidgey": "sv03-162",
     "Pidgeotto": "sv03-163",
     "Pidgeot ex": "sv03-164",

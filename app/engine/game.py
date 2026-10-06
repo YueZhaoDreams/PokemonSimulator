@@ -190,6 +190,10 @@ class Game:
             return False
         if card.is_basic:
             return True
+        # Radiant Pokémon enter play the way a Basic does, and they are not Basic
+        # for Nest Ball or for a stadium that names Basic Pokémon.
+        if (card.stage or "").lower() == "radiant":
+            return True
         return bool(self.rules.any_stage_playable)
 
     def _has_basic(self, player: Player, zone: list[int]) -> bool:
@@ -384,11 +388,11 @@ class Game:
             return False
         name = card.name.lower()
         if strat.name == "mill":
-            # The board is Great Tusk, one Latias ex, and Meowth ex only when it can search.
-            if name not in {"great tusk", "latias ex", "meowth ex"}:
+            # The board is Great Tusk, one Latias ex, one Radiant Tsareena, and Meowth ex only when it can search.
+            if name not in {"great tusk", "latias ex", "meowth ex", "radiant tsareena"}:
                 return False
             copies = self._count_named_in_play(player, name)
-            cap = {"great tusk": 4, "latias ex": 1, "meowth ex": 1}[name]
+            cap = {"great tusk": 4, "latias ex": 1, "meowth ex": 1, "radiant tsareena": 1}[name]
             if copies >= cap:
                 return False
             if name == "meowth ex":
@@ -607,6 +611,7 @@ class Game:
                 rank = {
                     "great tusk": 5000,
                     "latias ex": 800,
+                    "radiant tsareena": 400,
                     "meowth ex": 200,
                 }
                 return rank.get(name, 100)
@@ -1028,7 +1033,8 @@ class Game:
                 rank = {
                     "great tusk": 0,
                     "latias ex": 1,
-                    "meowth ex": 2,
+                    "radiant tsareena": 2,
+                    "meowth ex": 3,
                 }
                 return (rank.get(name, 9), -(card.hp or 0))
             if strat.name == "celebration":
@@ -4741,6 +4747,7 @@ class Game:
                 "stone fighting energy",
                 "great tusk",
                 "latias ex",
+                "radiant tsareena",
                 "ancient booster energy capsule",
                 "hero's cape",
                 "lively stadium",
@@ -5538,6 +5545,8 @@ class Game:
                 self._bump(f"status:{effect['status']}")
             elif effect.get("kind") == "heal":
                 me.active.damage = max(0, me.active.damage - int(effect.get("amount") or 0))
+            elif effect.get("kind") == "cure_self" and me.active:
+                me.active.status = 0
             elif effect.get("kind") == "draw":
                 self._draw(me, int(effect.get("amount") or 1))
             elif effect.get("kind") == "draw_until_hand":
@@ -5850,7 +5859,8 @@ class Game:
             "stone fighting energy": 2,
             "hero's cape": 3,
             "latias ex": 4,
-            "ancient booster energy capsule": 5,
+            "radiant tsareena": 5,
+            "ancient booster energy capsule": 6,
             "lively stadium": 6,
             "professor sada's vitality": 7,
             "night stretcher": 8,
@@ -6020,6 +6030,7 @@ class Game:
         order = [
             "Great Tusk",
             "Latias ex",
+            "Radiant Tsareena",
             "Double Colorless Energy",
             "Stone Fighting Energy",
             "Hero's Cape",
@@ -6371,6 +6382,7 @@ class Game:
                 "great tusk",
                 "fighting energy",
                 "latias ex",
+                "radiant tsareena",
                 "meowth ex",
             ]
         elif strat_name == "party":
@@ -11158,6 +11170,21 @@ class Game:
                             mon.ability_used = True
                             self._bump("quick_search")
                             self._log(f"{card.name} Quick Search")
+                    elif kind == "heal_each_own":
+                        amount = int(eff.get("amount") or 0)
+                        hurt = [m for m in me.in_play() if m.damage > 0]
+                        if amount <= 0 or not hurt:
+                            continue
+                        healed = 0
+                        for target in me.in_play():
+                            n = min(amount, target.damage)
+                            if not n:
+                                continue
+                            target.damage -= n
+                            healed += n
+                        mon.ability_used = True
+                        self._bump("heal_each_own", healed)
+                        self._log(f"{card.name} heals {healed} damage from your Pokémon")
                     elif kind == "draw_until_hand":
                         target = int(eff.get("count") or 0)
                         if target <= 0 or len(me.hand) >= target:

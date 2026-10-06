@@ -26902,6 +26902,62 @@
         "traits": []
       },
       {
+        "catalog_id": "swsh12-16",
+        "name": "Radiant Tsareena",
+        "category": "Pokemon",
+        "stage": "Radiant",
+        "types": [
+          "Grass"
+        ],
+        "hp": 140,
+        "attacks": [
+          {
+            "name": "Aroma Shot",
+            "cost": [
+              "Grass",
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 90,
+            "text": "This Pok\u00e9mon recovers from all Special Conditions.",
+            "effects": [
+              {
+                "kind": "cure_self"
+              }
+            ]
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Elegant Heal",
+            "text": "Once during your turn, you may heal 20 damage from each of your Pok\u00e9mon.",
+            "effects": [
+              {
+                "kind": "heal_each_own",
+                "amount": 20,
+                "once_per_turn": true
+              }
+            ]
+          }
+        ],
+        "weaknesses": [
+          {
+            "type": "Fire",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 2,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12/016/low.webp",
+        "set_name": "Silver Tempest",
+        "text": "",
+        "dex_id": null,
+        "traits": []
+      },
+      {
         "catalog_id": "sv04-170",
         "name": "Professor Sada's Vitality",
         "category": "Trainer",
@@ -27753,29 +27809,6 @@
         "image": "https://assets.tcgdex.net/en/swsh/swsh4/164/low.webp",
         "set_name": "Vivid Voltage",
         "text": "As long as this card is attached to a Pok\u00e9mon, it provides Fighting Energy.\n\nThe Fighting Pok\u00e9mon this card is attached to takes 20 less damage from attacks from your opponent's Pok\u00e9mon (after applying Weakness and Resistance).",
-        "dex_id": null,
-        "traits": []
-      },
-      {
-        "catalog_id": "swsh12.5-157",
-        "name": "Fighting Energy",
-        "category": "Energy",
-        "stage": "Basic",
-        "types": [
-          "Fighting"
-        ],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": "Fighting",
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/157/low.webp",
-        "set_name": "Crown Zenith",
-        "text": "",
         "dex_id": null,
         "traits": []
       },

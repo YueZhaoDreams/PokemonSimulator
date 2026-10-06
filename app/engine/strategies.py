@@ -726,7 +726,9 @@ STRATEGY_LIBRARY = {
         description=(
             "Great Tusk stays Active and gives up one prize at a time. Meowth ex "
             "Last-Ditch Catch searches a Supporter when it is played from the hand. "
-            "Latias ex Skyliner makes every Basic retreat for free. Land Collapse mills "
+            "Latias ex Skyliner makes every Basic retreat for free. Radiant Tsareena "
+            "Elegant Heal heals 20 damage from each of your Pokémon once during your turn. "
+            "Land Collapse mills "
             "4 after Professor Sada's Vitality, and one Double Colorless Energy pays it. "
             "Lively Stadium gives every Basic +30 HP. Ancient Booster Energy Capsule "
             "gives Great Tusk +60 HP. Hero's Cape gives that Tusk +100 HP. "
@@ -750,6 +752,7 @@ STRATEGY_LIBRARY = {
         protect=[
             "Great Tusk",
             "Latias ex",
+            "Radiant Tsareena",
             "Ancient Booster Energy Capsule",
             "Hero's Cape",
             "Lively Stadium",

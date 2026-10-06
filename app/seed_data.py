@@ -541,6 +541,7 @@ SET_MILL60_NAMES = (
     ["Great Tusk"] * 4
     + ["Latias ex"] * 2
     + ["Meowth ex"] * 2
+    + ["Radiant Tsareena"]
     + ["Professor Sada's Vitality"] * 4
     + ["Explorer's Guidance"] * 2
     + ["Ancient Booster Energy Capsule"] * 4
@@ -553,7 +554,7 @@ SET_MILL60_NAMES = (
     + ["Max Potion"] * 2
     + ["Double Colorless Energy"] * 4
     + ["Stone Fighting Energy"] * 4
-    + ["Fighting Energy"] * 13
+    + ["Fighting Energy"] * 12
 )
 
 # Unlimited 60: Ambipom PAR Hand Fling, Lopunny FLF Big Jump recycle,
@@ -3364,6 +3365,25 @@ _register(
         ],
         image="https://assets.tcgdex.net/en/pgo/pgo/011/low.webp",
         set_name="Pokémon GO",
+    )
+)
+# Silver Tempest 16. Radiant, not Basic: Nest Ball and Lively Stadium do not see it.
+# Elegant Heal is your Pokémon only. One copy; the Radiant rule is one per deck.
+_ELEGANT_HEAL = "Once during your turn, you may heal 20 damage from each of your Pokémon."
+_AROMA_SHOT = "This Pokémon recovers from all Special Conditions."
+_register(
+    _pkm(
+        "Radiant Tsareena",
+        "Radiant",
+        ["Grass"],
+        140,
+        [_atk("Aroma Shot", ["Grass", "Colorless", "Colorless"], 90, _AROMA_SHOT)],
+        catalog_id="swsh12-16",
+        weakness="Fire",
+        retreat=2,
+        abilities=[Ability(name="Elegant Heal", text=_ELEGANT_HEAL)],
+        image="https://assets.tcgdex.net/en/swsh/swsh12/016/low.webp",
+        set_name="Silver Tempest",
     )
 )
 _register(

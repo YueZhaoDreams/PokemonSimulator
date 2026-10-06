@@ -115,6 +115,19 @@ def parse_ability_effects(text: str) -> list[dict[str, Any]]:
     if not t:
         return effects
 
+    # Radiant Tsareena Elegant Heal. The amount is the printed number.
+    # "Each of your Pokémon" is your side only.
+    each_heal = re.search(r"heal (\d+) damage from each of your pokemon", t)
+    if each_heal:
+        effects.append(
+            {
+                "kind": "heal_each_own",
+                "amount": int(each_heal.group(1)),
+                "once_per_turn": "once during your turn" in t,
+            }
+        )
+        return effects
+
     energy = re.search(
         r"(grass|fire|water|lightning|psychic|fighting|darkness|metal|fairy|colorless) energy",
         t,
@@ -693,6 +706,8 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
     heal = re.search(r"heal (\d+)", t)
     if heal:
         effects.append({"kind": "heal", "amount": int(heal.group(1))})
+    if "recovers from all special conditions" in t:
+        effects.append({"kind": "cure_self"})
 
     # Igglybuff Bouncy Circle: 30 damage for each benched Pokémon with 30 HP
     if "benched pok" in t and ("30 hp" in t or "maximum hp of 30" in t):
