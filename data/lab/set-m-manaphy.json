@@ -1,0 +1,1433 @@
+{
+  "games": 1000,
+  "seed": 20261007,
+  "elapsed": 2448.764075539,
+  "rule_preset": "s60",
+  "method": "one-card Manaphy swap from locked SET_M60_NAMES; Wave Veil benches only against attack damage to the Bench; foes are T60, Hedrick, C60, D60, and Crushing Thorn; score is the loss-weighted win rate with weights frozen from that list",
+  "foes": {
+    "t60": "phantom",
+    "hedrick": "phantom",
+    "c60": "party",
+    "d60": "demolish",
+    "thorns": "thorns"
+  },
+  "damage_foes": [
+    "hedrick",
+    "t60"
+  ],
+  "weights": {
+    "t60": 0.1670190274841437,
+    "hedrick": 0.2494714587737844,
+    "c60": 0.40169133192389006,
+    "d60": 0.027484143763213564,
+    "thorns": 0.15433403805496823
+  },
+  "baseline": {
+    "weighted": 0.8694228329809726,
+    "mean": 0.9054,
+    "worst": 0.81,
+    "cells": {
+      "t60": {
+        "a": 0.921,
+        "b": 0.079,
+        "tie": 0.0,
+        "first": 0.8850806451612904,
+        "second": 0.9563492063492064,
+        "manaphy": 0.0,
+        "wave_veil": 0.0
+      },
+      "hedrick": {
+        "a": 0.882,
+        "b": 0.118,
+        "tie": 0.0,
+        "first": 0.8585657370517928,
+        "second": 0.9056224899598394,
+        "manaphy": 0.0,
+        "wave_veil": 0.0
+      },
+      "c60": {
+        "a": 0.81,
+        "b": 0.19,
+        "tie": 0.0,
+        "first": 0.7980392156862746,
+        "second": 0.8224489795918367,
+        "manaphy": 0.0,
+        "wave_veil": 0.0
+      },
+      "d60": {
+        "a": 0.987,
+        "b": 0.013,
+        "tie": 0.0,
+        "first": 0.98989898989899,
+        "second": 0.9841584158415841,
+        "manaphy": 0.0,
+        "wave_veil": 0.0
+      },
+      "thorns": {
+        "a": 0.927,
+        "b": 0.073,
+        "tie": 0.0,
+        "first": 0.9261363636363636,
+        "second": 0.9279661016949152,
+        "manaphy": 0.0,
+        "wave_veil": 0.0
+      }
+    }
+  },
+  "best_cut": "Budew",
+  "worth_swapping": false,
+  "candidates": [
+    {
+      "cut": "Budew",
+      "copies_before": 1,
+      "weighted": 0.8941902748414375,
+      "mean": 0.9216,
+      "worst": 0.866,
+      "manaphy": 0.3798,
+      "wave_veil": 0.002,
+      "cells": {
+        "t60": {
+          "a": 0.897,
+          "b": 0.103,
+          "tie": 0.0,
+          "first": 0.8757894736842106,
+          "second": 0.9161904761904762,
+          "manaphy": 0.869,
+          "wave_veil": 0.003
+        },
+        "hedrick": {
+          "a": 0.866,
+          "b": 0.134,
+          "tie": 0.0,
+          "first": 0.8355387523629489,
+          "second": 0.9002123142250531,
+          "manaphy": 0.865,
+          "wave_veil": 0.001
+        },
+        "c60": {
+          "a": 0.868,
+          "b": 0.132,
+          "tie": 0.0,
+          "first": 0.8568548387096774,
+          "second": 0.878968253968254,
+          "manaphy": 0.056,
+          "wave_veil": 0.0
+        },
+        "d60": {
+          "a": 0.989,
+          "b": 0.011,
+          "tie": 0.0,
+          "first": 0.99,
+          "second": 0.988,
+          "manaphy": 0.053,
+          "wave_veil": 0.0
+        },
+        "thorns": {
+          "a": 0.988,
+          "b": 0.012,
+          "tie": 0.0,
+          "first": 0.9864603481624759,
+          "second": 0.989648033126294,
+          "manaphy": 0.056,
+          "wave_veil": 0.0
+        }
+      }
+    },
+    {
+      "cut": "Crushing Hammer",
+      "copies_before": 4,
+      "weighted": 0.86776955602537,
+      "mean": 0.899,
+      "worst": 0.838,
+      "manaphy": 0.363,
+      "wave_veil": 0.0045000000000000005,
+      "cells": {
+        "t60": {
+          "a": 0.889,
+          "b": 0.111,
+          "tie": 0.0,
+          "first": 0.861995753715499,
+          "second": 0.9130434782608695,
+          "manaphy": 0.82,
+          "wave_veil": 0.006
+        },
+        "hedrick": {
+          "a": 0.848,
+          "b": 0.152,
+          "tie": 0.0,
+          "first": 0.8481481481481481,
+          "second": 0.8478260869565217,
+          "manaphy": 0.861,
+          "wave_veil": 0.003
+        },
+        "c60": {
+          "a": 0.838,
+          "b": 0.162,
+          "tie": 0.0,
+          "first": 0.8128772635814889,
+          "second": 0.8628230616302187,
+          "manaphy": 0.04,
+          "wave_veil": 0.0
+        },
+        "d60": {
+          "a": 0.987,
+          "b": 0.013,
+          "tie": 0.0,
+          "first": 0.9877551020408163,
+          "second": 0.9862745098039216,
+          "manaphy": 0.054,
+          "wave_veil": 0.0
+        },
+        "thorns": {
+          "a": 0.933,
+          "b": 0.067,
+          "tie": 0.0,
+          "first": 0.9377431906614786,
+          "second": 0.9279835390946503,
+          "manaphy": 0.04,
+          "wave_veil": 0.0
+        }
+      }
+    },
+    {
+      "cut": "Night Stretcher",
+      "copies_before": 4,
+      "weighted": 0.8657167019027484,
+      "mean": 0.8968,
+      "worst": 0.838,
+      "manaphy": 0.365,
+      "wave_veil": 0.004999999999999999,
+      "cells": {
+        "t60": {
+          "a": 0.888,
+          "b": 0.112,
+          "tie": 0.0,
+          "first": 0.875,
+          "second": 0.9016393442622951,
+          "manaphy": 0.831,
+          "wave_veil": 0.009
+        },
+        "hedrick": {
+          "a": 0.838,
+          "b": 0.162,
+          "tie": 0.0,
+          "first": 0.8441295546558705,
+          "second": 0.8320158102766798,
+          "manaphy": 0.849,
+          "wave_veil": 0.001
+        },
+        "c60": {
+          "a": 0.842,
+          "b": 0.158,
+          "tie": 0.0,
+          "first": 0.812375249500998,
+          "second": 0.8717434869739479,
+          "manaphy": 0.051,
+          "wave_veil": 0.0
+        },
+        "d60": {
+          "a": 0.99,
+          "b": 0.01,
+          "tie": 0.0,
+          "first": 0.989517819706499,
+          "second": 0.9904397705544933,
+          "manaphy": 0.042,
+          "wave_veil": 0.0
+        },
+        "thorns": {
+          "a": 0.926,
+          "b": 0.074,
+          "tie": 0.0,
+          "first": 0.9298969072164949,
+          "second": 0.9223300970873787,
+          "manaphy": 0.052,
+          "wave_veil": 0.0
+        }
+      }
+    },
+    {
+      "cut": "Boss's Orders",
+      "copies_before": 2,
+      "weighted": 0.8642579281183932,
+      "mean": 0.8932,
+      "worst": 0.83,
+      "manaphy": 0.3646,
+      "wave_veil": 0.001,
+      "cells": {
+        "t60": {
+          "a": 0.885,
+          "b": 0.115,
+          "tie": 0.0,
+          "first": 0.8628230616302187,
+          "second": 0.9074446680080482,
+          "manaphy": 0.84,
+          "wave_veil": 0.001
+        },
+        "hedrick": {
+          "a": 0.83,
+          "b": 0.17,
+          "tie": 0.0,
+          "first": 0.7847358121330724,
+          "second": 0.8773006134969326,
+          "manaphy": 0.838,
+          "wave_veil": 0.001
+        },
+        "c60": {
+          "a": 0.848,
+          "b": 0.152,
+          "tie": 0.0,
+          "first": 0.8126272912423625,
+          "second": 0.8821218074656189,
+          "manaphy": 0.048,
+          "wave_veil": 0.0
+        },
+        "d60": {
+          "a": 0.985,
+          "b": 0.015,
+          "tie": 0.0,
+          "first": 0.988,
+          "second": 0.982,
+          "manaphy": 0.051,
+          "wave_veil": 0.0
+        },
+        "thorns": {
+          "a": 0.918,
+          "b": 0.082,
+          "tie": 0.0,
+          "first": 0.9189723320158103,
+          "second": 0.917004048582996,
+          "manaphy": 0.046,
+          "wave_veil": 0.0
+        }
+      }
+    },
+    {
+      "cut": "Spiky Energy",
+      "copies_before": 2,
+      "weighted": 0.8625052854122621,
+      "mean": 0.893,
+      "worst": 0.838,
+      "manaphy": 0.3742,
+      "wave_veil": 0.0025,
+      "cells": {
+        "t60": {
+          "a": 0.879,
+          "b": 0.121,
+          "tie": 0.0,
+          "first": 0.8600405679513184,
+          "second": 0.8974358974358975,
+          "manaphy": 0.848,
+          "wave_veil": 0.004
+        },
+        "hedrick": {
+          "a": 0.84,
+          "b": 0.16,
+          "tie": 0.0,
+          "first": 0.7996219281663516,
+          "second": 0.8853503184713376,
+          "manaphy": 0.867,
+          "wave_veil": 0.001
+        },
+        "c60": {
+          "a": 0.838,
+          "b": 0.162,
+          "tie": 0.0,
+          "first": 0.8316221765913757,
+          "second": 0.8440545808966862,
+          "manaphy": 0.052,
+          "wave_veil": 0.0
+        },
+        "d60": {
+          "a": 0.985,
+          "b": 0.015,
+          "tie": 0.0,
+          "first": 0.9829545454545454,
+          "second": 0.9872881355932204,
+          "manaphy": 0.058,
+          "wave_veil": 0.0
+        },
+        "thorns": {
+          "a": 0.923,
+          "b": 0.077,
+          "tie": 0.0,
+          "first": 0.9265873015873016,
+          "second": 0.9193548387096774,
+          "manaphy": 0.046,
+          "wave_veil": 0.0
+        }
+      }
+    },
+    {
+      "cut": "Battle Cage",
+      "copies_before": 4,
+      "weighted": 0.8619048625792811,
+      "mean": 0.892,
+      "worst": 0.835,
+      "manaphy": 0.35839999999999994,
+      "wave_veil": 0.0025,
+      "cells": {
+        "t60": {
+          "a": 0.88,
+          "b": 0.12,
+          "tie": 0.0,
+          "first": 0.86,
+          "second": 0.9,
+          "manaphy": 0.821,
+          "wave_veil": 0.005
+        },
+        "hedrick": {
+          "a": 0.835,
+          "b": 0.165,
+          "tie": 0.0,
+          "first": 0.8031189083820662,
+          "second": 0.8685831622176592,
+          "manaphy": 0.829,
+          "wave_veil": 0.0
+        },
+        "c60": {
+          "a": 0.838,
+          "b": 0.162,
+          "tie": 0.0,
+          "first": 0.8293650793650794,
+          "second": 0.8467741935483871,
+          "manaphy": 0.05,
+          "wave_veil": 0.0
+        },
+        "d60": {
+          "a": 0.98,
+          "b": 0.02,
+          "tie": 0.0,
+          "first": 0.975609756097561,
+          "second": 0.984251968503937,
+          "manaphy": 0.046,
+          "wave_veil": 0.0
+        },
+        "thorns": {
+          "a": 0.927,
+          "b": 0.073,
+          "tie": 0.0,
+          "first": 0.9338677354709419,
+          "second": 0.9201596806387226,
+          "manaphy": 0.046,
+          "wave_veil": 0.0
+        }
+      }
+    },
+    {
+      "cut": "Counter Catcher",
+      "copies_before": 2,
+      "weighted": 0.8615095137420719,
+      "mean": 0.8954000000000001,
+      "worst": 0.826,
+      "manaphy": 0.3652,
+      "wave_veil": 0.0035,
+      "cells": {
+        "t60": {
+          "a": 0.886,
+          "b": 0.114,
+          "tie": 0.0,
+          "first": 0.8542094455852156,
+          "second": 0.9161793372319688,
+          "manaphy": 0.837,
+          "wave_veil": 0.007
+        },
+        "hedrick": {
+          "a": 0.847,
+          "b": 0.153,
+          "tie": 0.0,
+          "first": 0.7971311475409836,
+          "second": 0.89453125,
+          "manaphy": 0.858,
+          "wave_veil": 0.0
+        },
+        "c60": {
+          "a": 0.826,
+          "b": 0.174,
+          "tie": 0.0,
+          "first": 0.8077669902912621,
+          "second": 0.845360824742268,
+          "manaphy": 0.048,
+          "wave_veil": 0.0
+        },
+        "d60": {
+          "a": 0.99,
+          "b": 0.01,
+          "tie": 0.0,
+          "first": 0.994140625,
+          "second": 0.985655737704918,
+          "manaphy": 0.048,
+          "wave_veil": 0.0
+        },
+        "thorns": {
+          "a": 0.928,
+          "b": 0.072,
+          "tie": 0.0,
+          "first": 0.9344894026974951,
+          "second": 0.920997920997921,
+          "manaphy": 0.035,
+          "wave_veil": 0.0
+        }
+      }
+    },
+    {
+      "cut": "Bursting Balloon",
+      "copies_before": 2,
+      "weighted": 0.8603720930232558,
+      "mean": 0.8922000000000001,
+      "worst": 0.826,
+      "manaphy": 0.35819999999999996,
+      "wave_veil": 0.001,
+      "cells": {
+        "t60": {
+          "a": 0.885,
+          "b": 0.115,
+          "tie": 0.0,
+          "first": 0.8687872763419483,
+          "second": 0.9014084507042254,
+          "manaphy": 0.828,
+          "wave_veil": 0.002
+        },
+        "hedrick": {
+          "a": 0.826,
+          "b": 0.174,
+          "tie": 0.0,
+          "first": 0.8007889546351085,
+          "second": 0.8519269776876268,
+          "manaphy": 0.833,
+          "wave_veil": 0.0
+        },
+        "c60": {
+          "a": 0.839,
+          "b": 0.161,
+          "tie": 0.0,
+          "first": 0.8095238095238095,
+          "second": 0.8689516129032258,
+          "manaphy": 0.046,
+          "wave_veil": 0.0
+        },
+        "d60": {
+          "a": 0.989,
+          "b": 0.011,
+          "tie": 0.0,
+          "first": 0.9932584269662922,
+          "second": 0.9855855855855856,
+          "manaphy": 0.038,
+          "wave_veil": 0.0
+        },
+        "thorns": {
+          "a": 0.922,
+          "b": 0.078,
+          "tie": 0.0,
+          "first": 0.9145129224652088,
+          "second": 0.9295774647887324,
+          "manaphy": 0.046,
+          "wave_veil": 0.0
+        }
+      }
+    },
+    {
+      "cut": "Ultra Ball",
+      "copies_before": 2,
+      "weighted": 0.8596131078224102,
+      "mean": 0.8936,
+      "worst": 0.821,
+      "manaphy": 0.3616,
+      "wave_veil": 0.002,
+      "cells": {
+        "t60": {
+          "a": 0.881,
+          "b": 0.119,
+          "tie": 0.0,
+          "first": 0.867816091954023,
+          "second": 0.895397489539749,
+          "manaphy": 0.819,
+          "wave_veil": 0.004
+        },
+        "hedrick": {
+          "a": 0.85,
+          "b": 0.15,
+          "tie": 0.0,
+          "first": 0.8221343873517787,
+          "second": 0.8785425101214575,
+          "manaphy": 0.837,
+          "wave_veil": 0.0
+        },
+        "c60": {
+          "a": 0.821,
+          "b": 0.179,
+          "tie": 0.0,
+          "first": 0.7861386138613862,
+          "second": 0.8565656565656565,
+          "manaphy": 0.056,
+          "wave_veil": 0.0
+        },
+        "d60": {
+          "a": 0.986,
+          "b": 0.014,
+          "tie": 0.0,
+          "first": 0.9864341085271318,
+          "second": 0.9855371900826446,
+          "manaphy": 0.048,
+          "wave_veil": 0.0
+        },
+        "thorns": {
+          "a": 0.93,
+          "b": 0.07,
+          "tie": 0.0,
+          "first": 0.926530612244898,
+          "second": 0.9333333333333333,
+          "manaphy": 0.048,
+          "wave_veil": 0.0
+        }
+      }
+    },
+    {
+      "cut": "Iono",
+      "copies_before": 4,
+      "weighted": 0.8588435517970402,
+      "mean": 0.8934,
+      "worst": 0.821,
+      "manaphy": 0.3654,
+      "wave_veil": 0.0035,
+      "cells": {
+        "t60": {
+          "a": 0.89,
+          "b": 0.11,
+          "tie": 0.0,
+          "first": 0.8761904761904762,
+          "second": 0.9052631578947369,
+          "manaphy": 0.834,
+          "wave_veil": 0.006
+        },
+        "hedrick": {
+          "a": 0.845,
+          "b": 0.155,
+          "tie": 0.0,
+          "first": 0.8135593220338984,
+          "second": 0.8805970149253731,
+          "manaphy": 0.854,
+          "wave_veil": 0.001
+        },
+        "c60": {
+          "a": 0.821,
+          "b": 0.179,
+          "tie": 0.0,
+          "first": 0.798,
+          "second": 0.844,
+          "manaphy": 0.045,
+          "wave_veil": 0.0
+        },
+        "d60": {
+          "a": 0.988,
+          "b": 0.012,
+          "tie": 0.0,
+          "first": 0.9919354838709677,
+          "second": 0.9841269841269841,
+          "manaphy": 0.048,
+          "wave_veil": 0.0
+        },
+        "thorns": {
+          "a": 0.923,
+          "b": 0.077,
+          "tie": 0.0,
+          "first": 0.9103313840155945,
+          "second": 0.9363449691991786,
+          "manaphy": 0.046,
+          "wave_veil": 0.0
+        }
+      }
+    },
+    {
+      "cut": "Bravery Charm",
+      "copies_before": 3,
+      "weighted": 0.8573128964059197,
+      "mean": 0.8932,
+      "worst": 0.812,
+      "manaphy": 0.3678,
+      "wave_veil": 0.0015,
+      "cells": {
+        "t60": {
+          "a": 0.897,
+          "b": 0.103,
+          "tie": 0.0,
+          "first": 0.8859315589353612,
+          "second": 0.9092827004219409,
+          "manaphy": 0.821,
+          "wave_veil": 0.003
+        },
+        "hedrick": {
+          "a": 0.849,
+          "b": 0.151,
+          "tie": 0.0,
+          "first": 0.8202676864244742,
+          "second": 0.8805031446540881,
+          "manaphy": 0.861,
+          "wave_veil": 0.0
+        },
+        "c60": {
+          "a": 0.812,
+          "b": 0.188,
+          "tie": 0.0,
+          "first": 0.7790476190476191,
+          "second": 0.848421052631579,
+          "manaphy": 0.052,
+          "wave_veil": 0.0
+        },
+        "d60": {
+          "a": 0.985,
+          "b": 0.015,
+          "tie": 0.0,
+          "first": 0.9880478087649402,
+          "second": 0.9819277108433735,
+          "manaphy": 0.052,
+          "wave_veil": 0.0
+        },
+        "thorns": {
+          "a": 0.923,
+          "b": 0.077,
+          "tie": 0.0,
+          "first": 0.9112426035502958,
+          "second": 0.9350912778904665,
+          "manaphy": 0.053,
+          "wave_veil": 0.0
+        }
+      }
+    },
+    {
+      "cut": "Max Potion",
+      "copies_before": 4,
+      "weighted": 0.8563572938689218,
+      "mean": 0.8928,
+      "worst": 0.811,
+      "manaphy": 0.36439999999999995,
+      "wave_veil": 0.004999999999999999,
+      "cells": {
+        "t60": {
+          "a": 0.898,
+          "b": 0.102,
+          "tie": 0.0,
+          "first": 0.8698224852071006,
+          "second": 0.9269776876267748,
+          "manaphy": 0.827,
+          "wave_veil": 0.009
+        },
+        "hedrick": {
+          "a": 0.842,
+          "b": 0.158,
+          "tie": 0.0,
+          "first": 0.814453125,
+          "second": 0.8709016393442623,
+          "manaphy": 0.858,
+          "wave_veil": 0.001
+        },
+        "c60": {
+          "a": 0.811,
+          "b": 0.189,
+          "tie": 0.0,
+          "first": 0.7689243027888446,
+          "second": 0.8534136546184738,
+          "manaphy": 0.054,
+          "wave_veil": 0.0
+        },
+        "d60": {
+          "a": 0.983,
+          "b": 0.017,
+          "tie": 0.0,
+          "first": 0.9840319361277445,
+          "second": 0.9819639278557114,
+          "manaphy": 0.042,
+          "wave_veil": 0.0
+        },
+        "thorns": {
+          "a": 0.93,
+          "b": 0.069,
+          "tie": 0.001,
+          "first": 0.9217557251908397,
+          "second": 0.9390756302521008,
+          "manaphy": 0.041,
+          "wave_veil": 0.0
+        }
+      }
+    },
+    {
+      "cut": "Penny",
+      "copies_before": 2,
+      "weighted": 0.8549196617336152,
+      "mean": 0.8917999999999999,
+      "worst": 0.811,
+      "manaphy": 0.3702,
+      "wave_veil": 0.003,
+      "cells": {
+        "t60": {
+          "a": 0.888,
+          "b": 0.112,
+          "tie": 0.0,
+          "first": 0.8568548387096774,
+          "second": 0.9186507936507936,
+          "manaphy": 0.842,
+          "wave_veil": 0.006
+        },
+        "hedrick": {
+          "a": 0.843,
+          "b": 0.157,
+          "tie": 0.0,
+          "first": 0.8236514522821576,
+          "second": 0.861003861003861,
+          "manaphy": 0.861,
+          "wave_veil": 0.0
+        },
+        "c60": {
+          "a": 0.811,
+          "b": 0.189,
+          "tie": 0.0,
+          "first": 0.7682926829268293,
+          "second": 0.8523622047244095,
+          "manaphy": 0.049,
+          "wave_veil": 0.0
+        },
+        "d60": {
+          "a": 0.988,
+          "b": 0.012,
+          "tie": 0.0,
+          "first": 0.9864077669902913,
+          "second": 0.9896907216494846,
+          "manaphy": 0.053,
+          "wave_veil": 0.0
+        },
+        "thorns": {
+          "a": 0.929,
+          "b": 0.071,
+          "tie": 0.0,
+          "first": 0.9399585921325052,
+          "second": 0.9187620889748549,
+          "manaphy": 0.046,
+          "wave_veil": 0.0
+        }
+      }
+    },
+    {
+      "cut": "Nest Ball",
+      "copies_before": 4,
+      "weighted": 0.8537758985200845,
+      "mean": 0.8880000000000001,
+      "worst": 0.812,
+      "manaphy": 0.3584,
+      "wave_veil": 0.004,
+      "cells": {
+        "t60": {
+          "a": 0.887,
+          "b": 0.113,
+          "tie": 0.0,
+          "first": 0.8745019920318725,
+          "second": 0.8995983935742972,
+          "manaphy": 0.812,
+          "wave_veil": 0.006
+        },
+        "hedrick": {
+          "a": 0.846,
+          "b": 0.154,
+          "tie": 0.0,
+          "first": 0.8266932270916335,
+          "second": 0.8654618473895582,
+          "manaphy": 0.844,
+          "wave_veil": 0.002
+        },
+        "c60": {
+          "a": 0.812,
+          "b": 0.188,
+          "tie": 0.0,
+          "first": 0.7911646586345381,
+          "second": 0.8326693227091634,
+          "manaphy": 0.052,
+          "wave_veil": 0.0
+        },
+        "d60": {
+          "a": 0.978,
+          "b": 0.022,
+          "tie": 0.0,
+          "first": 0.9808102345415778,
+          "second": 0.975517890772128,
+          "manaphy": 0.043,
+          "wave_veil": 0.0
+        },
+        "thorns": {
+          "a": 0.917,
+          "b": 0.083,
+          "tie": 0.0,
+          "first": 0.911340206185567,
+          "second": 0.9223300970873787,
+          "manaphy": 0.041,
+          "wave_veil": 0.0
+        }
+      }
+    },
+    {
+      "cut": "Buddy-Buddy Poffin",
+      "copies_before": 4,
+      "weighted": 0.85123044397463,
+      "mean": 0.8854,
+      "worst": 0.822,
+      "manaphy": 0.3592,
+      "wave_veil": 0.004,
+      "cells": {
+        "t60": {
+          "a": 0.887,
+          "b": 0.113,
+          "tie": 0.0,
+          "first": 0.8679653679653679,
+          "second": 0.9033457249070632,
+          "manaphy": 0.807,
+          "wave_veil": 0.007
+        },
+        "hedrick": {
+          "a": 0.825,
+          "b": 0.175,
+          "tie": 0.0,
+          "first": 0.8081632653061225,
+          "second": 0.8411764705882353,
+          "manaphy": 0.834,
+          "wave_veil": 0.001
+        },
+        "c60": {
+          "a": 0.822,
+          "b": 0.178,
+          "tie": 0.0,
+          "first": 0.7764705882352941,
+          "second": 0.8693877551020408,
+          "manaphy": 0.046,
+          "wave_veil": 0.0
+        },
+        "d60": {
+          "a": 0.986,
+          "b": 0.014,
+          "tie": 0.0,
+          "first": 0.9898580121703854,
+          "second": 0.9822485207100592,
+          "manaphy": 0.061,
+          "wave_veil": 0.0
+        },
+        "thorns": {
+          "a": 0.907,
+          "b": 0.093,
+          "tie": 0.0,
+          "first": 0.9054325955734407,
+          "second": 0.9085487077534792,
+          "manaphy": 0.048,
+          "wave_veil": 0.0
+        }
+      }
+    },
+    {
+      "cut": "Arven",
+      "copies_before": 4,
+      "weighted": 0.8509048625792811,
+      "mean": 0.8888,
+      "worst": 0.81,
+      "manaphy": 0.3552,
+      "wave_veil": 0.003,
+      "cells": {
+        "t60": {
+          "a": 0.896,
+          "b": 0.104,
+          "tie": 0.0,
+          "first": 0.8829365079365079,
+          "second": 0.9092741935483871,
+          "manaphy": 0.823,
+          "wave_veil": 0.005
+        },
+        "hedrick": {
+          "a": 0.828,
+          "b": 0.172,
+          "tie": 0.0,
+          "first": 0.8167330677290837,
+          "second": 0.8393574297188755,
+          "manaphy": 0.839,
+          "wave_veil": 0.001
+        },
+        "c60": {
+          "a": 0.81,
+          "b": 0.19,
+          "tie": 0.0,
+          "first": 0.7933070866141733,
+          "second": 0.8272357723577236,
+          "manaphy": 0.047,
+          "wave_veil": 0.0
+        },
+        "d60": {
+          "a": 0.989,
+          "b": 0.011,
+          "tie": 0.0,
+          "first": 0.9922480620155039,
+          "second": 0.9855371900826446,
+          "manaphy": 0.038,
+          "wave_veil": 0.0
+        },
+        "thorns": {
+          "a": 0.921,
+          "b": 0.079,
+          "tie": 0.0,
+          "first": 0.9063136456211812,
+          "second": 0.9351669941060904,
+          "manaphy": 0.029,
+          "wave_veil": 0.0
+        }
+      }
+    },
+    {
+      "cut": "Igglybuff",
+      "copies_before": 4,
+      "weighted": 0.8499112050739958,
+      "mean": 0.8824,
+      "worst": 0.81,
+      "manaphy": 0.36879999999999996,
+      "wave_veil": 0.002,
+      "cells": {
+        "t60": {
+          "a": 0.892,
+          "b": 0.108,
+          "tie": 0.0,
+          "first": 0.8776699029126214,
+          "second": 0.9072164948453608,
+          "manaphy": 0.843,
+          "wave_veil": 0.004
+        },
+        "hedrick": {
+          "a": 0.81,
+          "b": 0.19,
+          "tie": 0.0,
+          "first": 0.7884615384615384,
+          "second": 0.8333333333333334,
+          "manaphy": 0.851,
+          "wave_veil": 0.0
+        },
+        "c60": {
+          "a": 0.83,
+          "b": 0.17,
+          "tie": 0.0,
+          "first": 0.8138075313807531,
+          "second": 0.8448275862068966,
+          "manaphy": 0.05,
+          "wave_veil": 0.0
+        },
+        "d60": {
+          "a": 0.983,
+          "b": 0.017,
+          "tie": 0.0,
+          "first": 0.9858585858585859,
+          "second": 0.9801980198019802,
+          "manaphy": 0.052,
+          "wave_veil": 0.0
+        },
+        "thorns": {
+          "a": 0.897,
+          "b": 0.103,
+          "tie": 0.0,
+          "first": 0.889795918367347,
+          "second": 0.903921568627451,
+          "manaphy": 0.048,
+          "wave_veil": 0.0
+        }
+      }
+    },
+    {
+      "cut": "Professor's Research",
+      "copies_before": 2,
+      "weighted": 0.8423255813953489,
+      "mean": 0.8800000000000001,
+      "worst": 0.809,
+      "manaphy": 0.3686,
+      "wave_veil": 0.0045000000000000005,
+      "cells": {
+        "t60": {
+          "a": 0.867,
+          "b": 0.133,
+          "tie": 0.0,
+          "first": 0.8278529980657641,
+          "second": 0.9089026915113871,
+          "manaphy": 0.842,
+          "wave_veil": 0.007
+        },
+        "hedrick": {
+          "a": 0.813,
+          "b": 0.187,
+          "tie": 0.0,
+          "first": 0.783203125,
+          "second": 0.8442622950819673,
+          "manaphy": 0.87,
+          "wave_veil": 0.002
+        },
+        "c60": {
+          "a": 0.809,
+          "b": 0.191,
+          "tie": 0.0,
+          "first": 0.783203125,
+          "second": 0.8360655737704918,
+          "manaphy": 0.04,
+          "wave_veil": 0.0
+        },
+        "d60": {
+          "a": 0.987,
+          "b": 0.013,
+          "tie": 0.0,
+          "first": 0.9887429643527205,
+          "second": 0.9850107066381156,
+          "manaphy": 0.045,
+          "wave_veil": 0.0
+        },
+        "thorns": {
+          "a": 0.924,
+          "b": 0.076,
+          "tie": 0.0,
+          "first": 0.9176706827309237,
+          "second": 0.9302788844621513,
+          "manaphy": 0.046,
+          "wave_veil": 0.0
+        }
+      }
+    },
+    {
+      "cut": "Mew ex",
+      "copies_before": 3,
+      "weighted": 0.8398541226215644,
+      "mean": 0.8814,
+      "worst": 0.783,
+      "manaphy": 0.3794,
+      "wave_veil": 0.003,
+      "cells": {
+        "t60": {
+          "a": 0.884,
+          "b": 0.116,
+          "tie": 0.0,
+          "first": 0.8922155688622755,
+          "second": 0.875751503006012,
+          "manaphy": 0.843,
+          "wave_veil": 0.006
+        },
+        "hedrick": {
+          "a": 0.837,
+          "b": 0.163,
+          "tie": 0.0,
+          "first": 0.8231827111984283,
+          "second": 0.8513238289205702,
+          "manaphy": 0.878,
+          "wave_veil": 0.0
+        },
+        "c60": {
+          "a": 0.783,
+          "b": 0.217,
+          "tie": 0.0,
+          "first": 0.7543859649122807,
+          "second": 0.813141683778234,
+          "manaphy": 0.062,
+          "wave_veil": 0.0
+        },
+        "d60": {
+          "a": 0.984,
+          "b": 0.016,
+          "tie": 0.0,
+          "first": 0.9864341085271318,
+          "second": 0.981404958677686,
+          "manaphy": 0.057,
+          "wave_veil": 0.0
+        },
+        "thorns": {
+          "a": 0.919,
+          "b": 0.081,
+          "tie": 0.0,
+          "first": 0.9090909090909091,
+          "second": 0.9287128712871288,
+          "manaphy": 0.057,
+          "wave_veil": 0.0
+        }
+      }
+    },
+    {
+      "cut": "Mime Jr.",
+      "copies_before": 2,
+      "weighted": 0.8388266384778013,
+      "mean": 0.852,
+      "worst": 0.82,
+      "manaphy": 0.3666,
+      "wave_veil": 0.0035,
+      "cells": {
+        "t60": {
+          "a": 0.889,
+          "b": 0.111,
+          "tie": 0.0,
+          "first": 0.8706365503080082,
+          "second": 0.9064327485380117,
+          "manaphy": 0.829,
+          "wave_veil": 0.007
+        },
+        "hedrick": {
+          "a": 0.82,
+          "b": 0.18,
+          "tie": 0.0,
+          "first": 0.802,
+          "second": 0.838,
+          "manaphy": 0.843,
+          "wave_veil": 0.0
+        },
+        "c60": {
+          "a": 0.823,
+          "b": 0.177,
+          "tie": 0.0,
+          "first": 0.811214953271028,
+          "second": 0.8365591397849462,
+          "manaphy": 0.047,
+          "wave_veil": 0.0
+        },
+        "d60": {
+          "a": 0.879,
+          "b": 0.121,
+          "tie": 0.0,
+          "first": 0.8770161290322581,
+          "second": 0.8809523809523809,
+          "manaphy": 0.065,
+          "wave_veil": 0.0
+        },
+        "thorns": {
+          "a": 0.849,
+          "b": 0.151,
+          "tie": 0.0,
+          "first": 0.83984375,
+          "second": 0.8586065573770492,
+          "manaphy": 0.049,
+          "wave_veil": 0.0
+        }
+      }
+    },
+    {
+      "cut": "Hero's Cape",
+      "copies_before": 1,
+      "weighted": 0.8212367864693446,
+      "mean": 0.8698,
+      "worst": 0.745,
+      "manaphy": 0.3606,
+      "wave_veil": 0.003,
+      "cells": {
+        "t60": {
+          "a": 0.868,
+          "b": 0.132,
+          "tie": 0.0,
+          "first": 0.837573385518591,
+          "second": 0.8997955010224948,
+          "manaphy": 0.807,
+          "wave_veil": 0.004
+        },
+        "hedrick": {
+          "a": 0.831,
+          "b": 0.169,
+          "tie": 0.0,
+          "first": 0.7916666666666666,
+          "second": 0.8709677419354839,
+          "manaphy": 0.854,
+          "wave_veil": 0.002
+        },
+        "c60": {
+          "a": 0.745,
+          "b": 0.255,
+          "tie": 0.0,
+          "first": 0.7157464212678937,
+          "second": 0.7729941291585127,
+          "manaphy": 0.056,
+          "wave_veil": 0.0
+        },
+        "d60": {
+          "a": 0.98,
+          "b": 0.02,
+          "tie": 0.0,
+          "first": 0.9702970297029703,
+          "second": 0.98989898989899,
+          "manaphy": 0.043,
+          "wave_veil": 0.0
+        },
+        "thorns": {
+          "a": 0.925,
+          "b": 0.075,
+          "tie": 0.0,
+          "first": 0.9148073022312373,
+          "second": 0.9349112426035503,
+          "manaphy": 0.043,
+          "wave_veil": 0.0
+        }
+      }
+    }
+  ],
+  "list": [
+    "Mew ex",
+    "Mew ex",
+    "Mew ex",
+    "Mime Jr.",
+    "Mime Jr.",
+    "Igglybuff",
+    "Igglybuff",
+    "Igglybuff",
+    "Igglybuff",
+    "Budew",
+    "Buddy-Buddy Poffin",
+    "Buddy-Buddy Poffin",
+    "Buddy-Buddy Poffin",
+    "Buddy-Buddy Poffin",
+    "Nest Ball",
+    "Nest Ball",
+    "Nest Ball",
+    "Nest Ball",
+    "Ultra Ball",
+    "Ultra Ball",
+    "Night Stretcher",
+    "Night Stretcher",
+    "Night Stretcher",
+    "Night Stretcher",
+    "Battle Cage",
+    "Battle Cage",
+    "Battle Cage",
+    "Battle Cage",
+    "Bravery Charm",
+    "Bravery Charm",
+    "Bravery Charm",
+    "Bursting Balloon",
+    "Bursting Balloon",
+    "Hero's Cape",
+    "Max Potion",
+    "Max Potion",
+    "Max Potion",
+    "Max Potion",
+    "Arven",
+    "Arven",
+    "Arven",
+    "Arven",
+    "Iono",
+    "Iono",
+    "Iono",
+    "Iono",
+    "Professor's Research",
+    "Professor's Research",
+    "Boss's Orders",
+    "Boss's Orders",
+    "Penny",
+    "Penny",
+    "Crushing Hammer",
+    "Crushing Hammer",
+    "Crushing Hammer",
+    "Crushing Hammer",
+    "Counter Catcher",
+    "Counter Catcher",
+    "Spiky Energy",
+    "Spiky Energy"
+  ],
+  "done": true,
+  "best": {
+    "cut": "Budew",
+    "weighted": 0.8941902748414375,
+    "mean": 0.9216,
+    "worst": 0.866,
+    "delta": 0.024767441860464978,
+    "cells": {
+      "t60": {
+        "a": 0.897,
+        "b": 0.103,
+        "tie": 0.0,
+        "first": 0.8757894736842106,
+        "second": 0.9161904761904762,
+        "manaphy": 0.869,
+        "wave_veil": 0.003
+      },
+      "hedrick": {
+        "a": 0.866,
+        "b": 0.134,
+        "tie": 0.0,
+        "first": 0.8355387523629489,
+        "second": 0.9002123142250531,
+        "manaphy": 0.865,
+        "wave_veil": 0.001
+      },
+      "c60": {
+        "a": 0.868,
+        "b": 0.132,
+        "tie": 0.0,
+        "first": 0.8568548387096774,
+        "second": 0.878968253968254,
+        "manaphy": 0.056,
+        "wave_veil": 0.0
+      },
+      "d60": {
+        "a": 0.989,
+        "b": 0.011,
+        "tie": 0.0,
+        "first": 0.99,
+        "second": 0.988,
+        "manaphy": 0.053,
+        "wave_veil": 0.0
+      },
+      "thorns": {
+        "a": 0.988,
+        "b": 0.012,
+        "tie": 0.0,
+        "first": 0.9864603481624759,
+        "second": 0.989648033126294,
+        "manaphy": 0.056,
+        "wave_veil": 0.0
+      }
+    }
+  },
+  "note": "Budew is the only Manaphy swap that raises the weighted score (86.9% \u2192 89.4%). The gain is from removing Budew. T60 92.1% \u2192 89.7% and Hedrick 88.2% \u2192 86.6%, and Wave Veil almost never resolves. Replacing Budew with a 4th Bravery Charm, a 3rd Ultra Ball, or a 3rd Professor's Research scores 90.0%, 90.9%, and 90.9%. SET_M60_NAMES is unchanged.",
+  "lock_list": false,
+  "budew_controls": {
+    "games": 1000,
+    "seed": 20261007,
+    "weights": {
+      "t60": 0.1670190274841437,
+      "hedrick": 0.2494714587737844,
+      "c60": 0.40169133192389006,
+      "d60": 0.027484143763213564,
+      "thorns": 0.15433403805496823
+    },
+    "rows": [
+      {
+        "replacement": "Manaphy",
+        "weighted": 0.89419,
+        "cells": {
+          "t60": 0.897,
+          "hedrick": 0.866,
+          "c60": 0.868,
+          "d60": 0.989,
+          "thorns": 0.988
+        }
+      },
+      {
+        "replacement": "Bravery Charm",
+        "weighted": 0.899632,
+        "cells": {
+          "t60": 0.936,
+          "hedrick": 0.866,
+          "c60": 0.864,
+          "d60": 0.986,
+          "thorns": 0.992
+        }
+      },
+      {
+        "replacement": "Ultra Ball",
+        "weighted": 0.908677,
+        "cells": {
+          "t60": 0.922,
+          "hedrick": 0.877,
+          "c60": 0.887,
+          "d60": 0.981,
+          "thorns": 0.989
+        }
+      },
+      {
+        "replacement": "Professor's Research",
+        "weighted": 0.909159,
+        "cells": {
+          "t60": 0.929,
+          "hedrick": 0.893,
+          "c60": 0.877,
+          "d60": 0.985,
+          "thorns": 0.984
+        }
+      }
+    ]
+  }
+}
