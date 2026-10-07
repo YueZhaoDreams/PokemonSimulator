@@ -481,6 +481,12 @@ SET_T_UNL_NAMES = (
 # Starmie 41.8%, C60 23.4%, Hedrick 14.5%, T60 9.7%, Thorns 9.0%, D60 1.6%.
 # Weighted 78.2% → 86.5%. Charm, Ultra Ball, and Research in that slot stay near 79–80%.
 # Cut: Budew (1 → 0). One Manaphy.
+# Rescue Carrier on that Manaphy list. Seed 20261007, 1000 games.
+# Weights frozen from the 0-carrier list, including Kudo's Starmie:
+# Starmie 30.9%, Hedrick 23.6%, C60 23.3%, T60 18.2%, Thorns 2.1%, D60 1.9%.
+# Weighted 86.4% → 87.3% → 88.2%. The next copy (Boss's Orders, 88.17%) does not rise.
+# Cuts: Boss's Orders (2 → 1), Max Potion (4 → 3). Two Rescue Carrier.
+# Night Stretcher stays at 4. The printed sentence stops at 90 HP, so Mew ex stays in the discard.
 SET_M60_NAMES = (
     ["Mew ex"] * 3
     + ["Mime Jr."] * 2
@@ -490,15 +496,16 @@ SET_M60_NAMES = (
     + ["Nest Ball"] * 4
     + ["Ultra Ball"] * 2
     + ["Night Stretcher"] * 4
+    + ["Rescue Carrier"] * 2
     + ["Battle Cage"] * 4
     + ["Bravery Charm"] * 3
     + ["Bursting Balloon"] * 2
     + ["Hero's Cape"]
-    + ["Max Potion"] * 4
+    + ["Max Potion"] * 3
     + ["Arven"] * 4
     + ["Iono"] * 4
     + ["Professor's Research"] * 2
-    + ["Boss's Orders"] * 2
+    + ["Boss's Orders"]
     + ["Penny"] * 2
     + ["Crushing Hammer"] * 4
     + ["Counter Catcher"] * 2
