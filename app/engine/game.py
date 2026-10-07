@@ -5659,12 +5659,13 @@ class Game:
                 self._bench_damage_counters(foe, int(effect.get("counters") or 1))
             elif effect.get("kind") == "lock_items":
                 foe.pending_item_lock = True
-            elif effect.get("kind") == "no_retreat_next_turn" and foe.active:
-                foe.active.retreat_locked = True
-                self._bump("retreat_lock")
                 self._bump("itchy_pollen_lock")
                 self._bump(f"itchy_pollen_lock_{who}")
                 self._log(f"{attacker.name} locks Item cards next turn")
+            elif effect.get("kind") == "no_retreat_next_turn" and foe.active:
+                foe.active.retreat_locked = True
+                self._bump("retreat_lock")
+                self._log(f"{attacker.name} prevents retreat next turn")
             elif effect.get("kind") == "damage_one_pokemon":
                 self._damage_one_pokemon(
                     me,

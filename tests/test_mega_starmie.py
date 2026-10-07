@@ -118,6 +118,33 @@ def test_prism_is_any_only_on_a_basic():
     assert parse_trainer_effects(fallback_named("Lucian").text)[0]["kind"] == "lucian_coin_draw"
 
 
+def test_item_lock_and_retreat_lock_keep_their_own_events():
+    pollen = _game(["Budew"], ["Mew ex", "Igglybuff"])
+    me = pollen.players["a"]
+    foe = pollen.players["b"]
+    _seat(me, _idxs(me, "Budew")[0], [])
+    _seat(foe, _idxs(foe, "Mew ex")[0], [_idxs(foe, "Igglybuff")[0]])
+    pollen._attack(me, foe, "a")
+    assert foe.pending_item_lock is True
+    assert foe.active.retreat_locked is False
+    assert pollen.events["itchy_pollen_lock"] == 1
+    assert pollen.events["itchy_pollen_lock_a"] == 1
+    assert "retreat_lock" not in pollen.events
+
+    clutch = _game(["Yveltal", "Darkness Energy"], ["Mew ex", "Igglybuff"])
+    me = clutch.players["a"]
+    foe = clutch.players["b"]
+    dark = _idxs(me, "Darkness Energy")[0]
+    _seat(me, _idxs(me, "Yveltal")[0], [], energy=[dark])
+    _seat(foe, _idxs(foe, "Mew ex")[0], [_idxs(foe, "Igglybuff")[0]])
+    clutch._attack(me, foe, "a")
+    assert foe.pending_item_lock is False
+    assert foe.active.retreat_locked is True
+    assert clutch.events["retreat_lock"] == 1
+    assert "itchy_pollen_lock" not in clutch.events
+    assert clutch._do_retreat_into(foe, 0) is False
+
+
 def test_jetting_blow_hits_the_bench_for_50_and_manaphy_prevents_it():
     game = _game(
         ["Mega Starmie ex", "Water Energy"],
