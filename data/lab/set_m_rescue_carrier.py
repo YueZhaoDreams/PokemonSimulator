@@ -388,8 +388,8 @@ def main() -> None:
             report = report_from(True, rejected, {})
             report["note"] = (
                 f"Stopped at {current.count(IN_NAME)} Rescue Carrier. "
-                f"The next copy, cutting {best['cut']}, is {_pct(best['weighted'])} "
-                f"against the current {_pct(array[-1]['weighted'])}."
+                f"The next copy, cutting {best['cut']}, is {best['weighted']:.2%} "
+                f"against the current {array[-1]['weighted']:.2%}."
             )
             _write(report)
             break
