@@ -23,6 +23,7 @@ from app.engine.effects import (
     is_telepathic_energy,
     parse_ability_effects,
     parse_draw_until_hand,
+    parse_effects,
     parse_energy_effects,
     parse_trainer_effects,
     resistance_reduce,
@@ -37,6 +38,14 @@ ST_CONFUSED = 4
 ST_POISONED = 8
 ST_BURNED = 16
 VOLATILE = ST_PARALYZED | ST_ASLEEP | ST_CONFUSED
+# Attack damage that can land on a Benched Pokémon. Counter placement is a
+# different sentence and stays on Battle Cage.
+_OPP_BENCH_DAMAGE_KINDS = frozenset({
+    "damage_one_pokemon",
+    "damage_each_with_counters",
+    "damage_n_opponent_pokemon",
+    "discard_typed_energy_damage_per_card",
+})
 
 
 @dataclass
@@ -54,6 +63,7 @@ class Pokemon:
     weakness_override: dict[str, str] | None = None
     weakness_override_expires: tuple[int, str] | None = None
     disabled_attack: str | None = None
+    retreat_locked: bool = False
 
     @property
     def remaining(self) -> int:
@@ -140,6 +150,10 @@ class Game:
         self.stadium_effects: list[dict[str, Any]] = []
         self.stadium_owner: Player | None = None
         self.strats = {"a": strat_a, "b": strat_b}
+        # Opening runs inside _deal, before self.players exists. The lists let
+        # that setup see whether the opponent has bench-damage attacks.
+        self._list_a = cards_a
+        self._list_b = cards_b
         self.players = {
             "a": self._deal("A", cards_a, strat_a),
             "b": self._deal("B", cards_b, strat_b),
@@ -158,6 +172,8 @@ class Game:
         # Canceling Cologne: opponent's Active has no Abilities until this player's turn ends.
         self.blank_active_until: str | None = None
         self.blank_active_owner: str | None = None
+        # Surfing Beach: one Water switch per player per turn.
+        self._water_switch_used: set[str] = set()
 
     def _log(self, message: str) -> None:
         if self.trace_on:
@@ -253,6 +269,8 @@ class Game:
             for card_i in fillers:
                 if len(player.bench) >= cap:
                     break
+                if not self._bench_room_for(player, player.card(card_i)):
+                    continue
                 if strat.name in {"mew_baby", "baby"} and not self._wants_in_play(
                     player, player.card(card_i), strat
                 ):
@@ -405,6 +423,10 @@ class Game:
             if copies >= 1:
                 return False
             return self._mew_burst_ready(player) and len(player.bench) < self._bench_limit(player)
+        if strat.name in {"mew_baby", "baby"} and name == "manaphy":
+            # Wave Veil is the damage layer next to Battle Cage. One copy, and
+            # only once an opposing attack can do damage to the Bench.
+            return self._mew_wants_manaphy(player)
 
         if strat.name == "celebration":
             caps = {
@@ -597,8 +619,20 @@ class Game:
                     "igglybuff": 2000,
                     "mime jr.": 1500,
                     "mime jr": 1500,
+                    "manaphy": 0,
                 }
                 return rank.get(name, 500)
+            if strat.name == "starmie":
+                rank = {
+                    "staryu": 4000,
+                    "snorunt": 2500,
+                    "dunsparce": 2000,
+                    "budew": 1500,
+                    "munkidori": 1200,
+                    "yveltal": 800,
+                    "meowth ex": 600,
+                }
+                return rank.get(name, 100)
             if strat.name == "celebration":
                 rank = {
                     "porygon": 3000,
@@ -836,6 +870,7 @@ class Game:
         me = self.players[who]
         foe = self.players["b" if who == "a" else "a"]
         me.own_turns += 1
+        self._water_switch_used.discard(who)
         self.moonlight_pivot_mon.pop(who, None)
         self._patch_storm_lock = None
         me.supporter_used = False
@@ -955,6 +990,7 @@ class Game:
     def _expire_turn_markers(self, who: str) -> None:
         other = "b" if who == "a" else "a"
         for mon in self.players[who].in_play():
+            mon.retreat_locked = False
             if getattr(mon, "disabled_self", None):
                 mon.disabled_self = None
             if getattr(mon, "disabled_self_pending", None):
@@ -975,6 +1011,7 @@ class Game:
         self._discard_opponent_turn_tools(who)
 
     def _between_turns(self, me: Player) -> None:
+        self._freezing_shroud()
         if not me.active:
             return
         mon = me.active
@@ -1049,6 +1086,9 @@ class Game:
                 return (4, -(card.hp or 0))
             if self._is_ace_searcher(card) or self._is_family_caller(card):
                 return (5, 0)
+            if strat.name in {"mew_baby", "baby"} and name == "manaphy":
+                # After the 30 HP babies, into the slot those babies left open.
+                return (9, 1)
             return (9, 0)
 
         # Aces, then fallback attackers, then KO insurance — never random fuel.
@@ -1064,14 +1104,7 @@ class Game:
                 me.active = Pokemon(card_i=card_i, played_turn=self.turn)
                 self._bump(f"saw_play:{card.name}")
                 self._log(f"{me.name} promotes {card.name}")
-            elif len(me.bench) < self._bench_limit(me):
-                if (
-                    strat.name in {"mew_baby", "baby"}
-                    and self._mew_hold_tera_slot(me)
-                    and not self._is_tera_card(card)
-                    and len(me.bench) >= self._bench_limit(me) - 1
-                ):
-                    continue
+            elif self._bench_room_for(me, card):
                 me.hand.remove(card_i)
                 me.bench.append(Pokemon(card_i=card_i, played_turn=self.turn))
                 self._bump(f"saw_play:{card.name}")
@@ -1091,6 +1124,8 @@ class Game:
             if card_i not in me.hand:
                 continue
             if strat.one_mew and not self._wants_in_play(me, me.card(card_i), strat):
+                continue
+            if not self._bench_room_for(me, me.card(card_i)):
                 continue
             me.hand.remove(card_i)
             me.bench.append(Pokemon(card_i=card_i, played_turn=self.turn))
@@ -1113,6 +1148,13 @@ class Game:
             return
         if strat.name == "aura":
             self._evolve_named(me, who, ["Mega Lucario ex", "Hariyama"])
+            return
+        if strat.name == "starmie":
+            self._evolve_named(
+                me,
+                who,
+                ["Mega Starmie ex", "Mega Froslass ex", "Froslass", "Dudunsparce ex", "Dudunsparce"],
+            )
             return
         if self.rng.random() > strat.evolve_asap:
             return
@@ -1390,8 +1432,10 @@ class Game:
                 me.discard.append(found)
             forced_bounce = False
             if strat.name in {"mew_baby", "baby"} and self._is_bounce_supporter(card):
-                # Penny's printed target is one Basic. The damaged Mew ex comes first.
-                # Otherwise a Baby opens the bench spot Terapagos ex needs.
+                # Active Manaphy comes off first: Penny returns that Basic, then it
+                # is replayed to the Bench when Wave Veil is needed. Otherwise Penny
+                # picks up the charged Mew ex that would be Knocked Out, or a Baby
+                # when Terapagos ex needs the bench spot.
                 self._forced_bounce_target = self._mew_penny_target(me, foe) or self._mew_tera_slot_bounce(me)
                 forced_bounce = True
             try:
@@ -1709,6 +1753,13 @@ class Game:
                 score += 9 if self._acerola_helps(me, foe, who) else -8
             elif name == "beach court":
                 score += 8 if strat.name == "party" and self.stadium_name != "Beach Court" else (3 if self.stadium_name != "Beach Court" else -4)
+            elif name == "surfing beach":
+                if self.stadium_name == "Surfing Beach":
+                    score -= 6
+                elif strat.name == "starmie":
+                    score += 12
+                else:
+                    score += 2
             elif name == "risky ruins":
                 if self.stadium_name == "Risky Ruins":
                     score -= 6
@@ -1932,6 +1983,13 @@ class Game:
                 score -= 40
             elif name == "iono":
                 score += 10 if len(me.hand) <= 3 else 2
+            elif name == "hilda":
+                have_mega = any(
+                    me.card(m.card_i).name.lower() == "mega starmie ex" for m in me.in_play()
+                ) or any(me.card(i).name.lower() == "mega starmie ex" for i in me.hand)
+                score += 24 if strat.name == "starmie" and not have_mega else 8
+            elif name == "lucian":
+                score += 8 if len(me.hand) <= 2 else -12
             elif name == "penny" and strat.name in {"mew_baby", "baby"}:
                 # Above Research and Iono. Boss and the saving Arven are scored higher.
                 # A full bench needs one Baby bounced before Terapagos ex can be played.
@@ -2100,6 +2158,10 @@ class Game:
             self._draw(me, max(0, target - len(me.hand)))
         elif name == "iono":
             self._iono(me, foe)
+        elif name == "hilda":
+            self._hilda(me, who)
+        elif name == "lucian":
+            self._lucian(me, foe)
         elif name == "irida":
             prefer_pkm = [p.lower() for p in self._pokemon_search_prefer(me, who)]
             water_in_deck = [
@@ -3870,6 +3932,12 @@ class Game:
                 score -= 5
             if card.name.lower() in {"rellor", "rabsca", "shaymin", "battle cage"} and self._facing_phantom(me):
                 score -= 8
+            if (
+                strat.name in {"mew_baby", "baby"}
+                and card.name.lower() == "manaphy"
+                and self._mew_wants_manaphy(me)
+            ):
+                score -= 20
             if card.is_energy:
                 score -= 1
             if i == retreat_reserve:
@@ -3913,6 +3981,29 @@ class Game:
             return self._electro_search_prefer(me)
         if strat.name == "regidrago":
             return self._regidrago_search_prefer(me)
+        if strat.name == "starmie":
+            have = {me.card(m.card_i).name.lower() for m in me.in_play()}
+            have |= {me.card(i).name.lower() for i in me.hand}
+            prefer: list[str] = []
+            for missing in ("Staryu", "Snorunt", "Dunsparce"):
+                if missing.lower() not in have:
+                    prefer.append(missing)
+            prefer.extend(
+                [
+                    "Staryu",
+                    "Snorunt",
+                    "Dunsparce",
+                    "Munkidori",
+                    "Budew",
+                    "Yveltal",
+                    "Meowth ex",
+                    "Mega Starmie ex",
+                    "Mega Froslass ex",
+                    "Froslass",
+                    "Dudunsparce ex",
+                ]
+            )
+            return list(dict.fromkeys(prefer))
         if strat.name == "aura":
             prefer = []
             names = {me.card(m.card_i).name.lower() for m in me.in_play()}
@@ -3970,6 +4061,8 @@ class Game:
                 prefer.append("Radiant Charizard")
             if not have_slaking:
                 prefer.append("Slaking V")
+            if self._mew_wants_manaphy(me):
+                prefer.append("Manaphy")
             prefer.extend([
                 "Mime Jr.",
                 "Igglybuff",
@@ -4747,10 +4840,210 @@ class Game:
             total += sum(1 for unit in units if unit == energy_type or unit == "Any")
         return total
 
+    def _freezing_shroud(self) -> None:
+        """Pokémon Checkup: each Freezing Shroud places its printed counters."""
+        sources: list[tuple[Player, dict[str, Any]]] = []
+        for owner in self.players.values():
+            for mon in owner.in_play():
+                if self._abilities_suppressed(owner, mon):
+                    continue
+                for abi in owner.card(mon.card_i).abilities:
+                    for eff in self._ability_effects(abi):
+                        if eff.get("kind") == "checkup_counter_on_ability":
+                            sources.append((owner, eff))
+        for owner, eff in sources:
+            except_name = str(eff.get("except_name") or "").lower()
+            counters = int(eff.get("counters") or 1)
+            for side in self.players.values():
+                for target in side.in_play():
+                    card = side.card(target.card_i)
+                    if except_name and card.name.lower() == except_name:
+                        continue
+                    if not card.abilities or self._abilities_suppressed(side, target):
+                        continue
+                    if (
+                        target is not side.active
+                        and owner is not side
+                        and self._stadium_blocks_bench_counters()
+                    ):
+                        self._bump("battle_cage")
+                        continue
+                    target.damage += counters * 10
+                    self._bump("freezing_shroud")
+
+    def _hilda(self, me: Player, who: str) -> None:
+        if self.strats[who].name == "starmie":
+            prefer_evo = [
+                "Mega Starmie ex",
+                "Mega Froslass ex",
+                "Froslass",
+                "Dudunsparce ex",
+                "Dudunsparce",
+            ]
+            prefer_nrg = [
+                "Water Energy",
+                "Bubbly Water Energy",
+                "Legacy Energy",
+                "Prism Energy",
+                "Darkness Energy",
+                "Psychic Energy",
+            ]
+        else:
+            prefer_evo = list(self._pokemon_search_prefer(me, who))
+            prefer_nrg = ["Water Energy", "Psychic Energy", "Darkness Energy"]
+        found_evo = self._search(
+            me,
+            lambda c: c.is_pokemon and bool(c.evolves_from),
+            prefer=prefer_evo,
+            n=1,
+            source="hilda",
+        )
+        found_nrg = self._search(me, lambda c: c.is_energy, prefer=prefer_nrg, n=1, source="hilda")
+        if found_evo is not None or found_nrg is not None:
+            self._bump("hilda")
+
+    def _lucian(self, me: Player, foe: Player) -> None:
+        """Printed Lucian: hands go on the bottom, then each player flips to draw."""
+        put = False
+        for player in (me, foe):
+            if not player.hand:
+                continue
+            put = True
+            bottom = list(player.hand)
+            player.hand.clear()
+            self.rng.shuffle(bottom)
+            player.deck = bottom + player.deck
+        if not put:
+            return
+        for player in (me, foe):
+            draw_n = 6 if self.rng.random() < 0.5 else 3
+            self._draw(player, draw_n)
+        self._bump("lucian")
+
+    def _named_in_play(self, me: Player, name: str) -> list[Pokemon]:
+        want = name.lower()
+        return [mon for mon in me.in_play() if me.card(mon.card_i).name.lower() == want]
+
+    def _can_pay_named_attack(self, me: Player, mon: Pokemon, needle: str) -> bool:
+        attached = self._energy_pool(me, mon)
+        for atk in me.card(mon.card_i).attacks:
+            if needle in atk.name.lower() and can_pay_energy(attached, atk.cost):
+                return True
+        return False
+
+    def _surfing_can_switch(self, me: Player, who: str) -> bool:
+        if who in self._water_switch_used:
+            return False
+        if not any(
+            e.get("kind") == "switch_typed_active" and e.get("energy_type") == "Water"
+            for e in (self.stadium_effects or [])
+        ):
+            return False
+        if not me.active or not me.bench:
+            return False
+        active = me.card(me.active.card_i)
+        if "Water" not in (active.types or []) or active.name.lower() == "mega starmie ex":
+            return False
+        return any(
+            me.card(mon.card_i).name.lower() in {"mega starmie ex", "staryu"}
+            and "Water" in (me.card(mon.card_i).types or [])
+            for mon in me.bench
+        )
+
+    def _surfing_beach_switch(self, me: Player, who: str) -> bool:
+        if not self._surfing_can_switch(me, who):
+            return False
+        incoming = None
+        for idx, mon in enumerate(me.bench):
+            card = me.card(mon.card_i)
+            if card.name.lower() == "mega starmie ex" and "Water" in (card.types or []):
+                incoming = idx
+                break
+        if incoming is None and me.card(me.active.card_i).name.lower() != "staryu":
+            for idx, mon in enumerate(me.bench):
+                card = me.card(mon.card_i)
+                if card.name.lower() == "staryu" and "Water" in (card.types or []):
+                    incoming = idx
+                    break
+        if incoming is None:
+            return False
+        nxt = me.bench.pop(incoming)
+        me.bench.append(me.active)
+        me.active = nxt
+        self._water_switch_used.add(who)
+        self._bump("surfing_beach")
+        self._log(f"{me.name} Surfing Beach switches to {me.card(me.active.card_i).name}")
+        return True
+
+    def _retreat_starmie(self, me: Player, who: str) -> None:
+        if not me.active or not me.bench:
+            return
+        name = me.card(me.active.card_i).name.lower()
+        if name == "mega starmie ex":
+            return
+        incoming = None
+        for idx, mon in enumerate(me.bench):
+            if me.card(mon.card_i).name.lower() == "mega starmie ex":
+                incoming = idx
+                break
+        if incoming is None and name != "staryu":
+            for idx, mon in enumerate(me.bench):
+                if me.card(mon.card_i).name.lower() == "staryu":
+                    incoming = idx
+                    break
+        if incoming is None:
+            return
+        self._do_retreat_into(me, incoming)
+
+    def _starmie_energy_target(self, me: Player) -> Pokemon:
+        assert me.active
+        who = "a" if me.name == "A" else "b"
+        megas = self._named_in_play(me, "Mega Starmie ex")
+        if megas:
+            unpaid = [mon for mon in megas if not self._can_pay_named_attack(me, mon, "jetting blow")]
+            if unpaid:
+                return me.active if me.active in unpaid else unpaid[0]
+            if me.active not in megas and not self._surfing_can_switch(me, who):
+                if len(me.active.energy) < self._retreat_cost(me, me.active):
+                    return me.active
+            return me.active if me.active in megas else megas[0]
+        staryu = self._named_in_play(me, "Staryu")
+        if staryu:
+            return me.active if me.active in staryu else staryu[0]
+        return me.active
+
+    def _starmie_energy_card(self, me: Player, target: Pokemon) -> int | None:
+        behind, host = self._energy_context(me, target)
+
+        def rank(card_i: int) -> int:
+            name = me.card(card_i).name.lower()
+            if name == "water energy":
+                return 0
+            if name == "bubbly water energy":
+                return 1
+            if name == "legacy energy":
+                return 2
+            return 3
+
+        found: list[int] = []
+        for card_i in me.hand:
+            card = me.card(card_i)
+            if not card.is_energy:
+                continue
+            units = energy_provided(card, prizes_behind=behind, host=host)
+            if "Water" in units or "Any" in units:
+                found.append(card_i)
+        if not found:
+            return None
+        found.sort(key=rank)
+        return found[0]
+
     def _energy_target(self, me: Player, strat: StrategySpec) -> Pokemon:
         assert me.active
         if strat.name == "thorns":
             return self._thorns_energy_target(me)
+        if strat.name == "starmie":
+            return self._starmie_energy_target(me)
         if strat.name == "electro_rain":
             return self._electro_energy_target(me)
         if strat.name == "regidrago":
@@ -4758,6 +5051,12 @@ class Game:
         if strat.name == "aura":
             return self._aura_energy_target(me)
         if strat.name in {"mew_baby", "baby"}:
+            if (
+                me.card(me.active.card_i).name.lower() == "manaphy"
+                and len(me.active.energy) < self._retreat_cost(me, me.active)
+            ):
+                # Penny already ran. One Energy pays Retreat so Wave Veil stays in play.
+                return me.active
             for mon in me.in_play():
                 if "radiant charizard" in me.card(mon.card_i).name.lower() and not mon.energy:
                     return mon
@@ -5019,6 +5318,8 @@ class Game:
         )
 
     def _choose_energy_card(self, me: Player, target: Pokemon, strat: StrategySpec) -> int | None:
+        if strat.name == "starmie":
+            return self._starmie_energy_card(me, target)
         if strat.name == "thorns":
             return self._thorns_energy_card(me, target)
         if strat.name == "electro_rain":
@@ -5117,9 +5418,14 @@ class Game:
     def _maybe_retreat(self, me: Player, foe: Player, who: str) -> None:
         if not me.active or not me.bench:
             return
+        strat = self.strats[who]
+        if strat.name == "starmie" and self._surfing_beach_switch(me, who):
+            return
         if me.active.status & (ST_PARALYZED | ST_ASLEEP):
             return
-        strat = self.strats[who]
+        if strat.name == "starmie":
+            self._retreat_starmie(me, who)
+            return
         if strat.name == "thorns":
             self._retreat_thorns(me, foe, who)
             return
@@ -5356,6 +5662,10 @@ class Game:
                 self._bump("itchy_pollen_lock")
                 self._bump(f"itchy_pollen_lock_{who}")
                 self._log(f"{attacker.name} locks Item cards next turn")
+            elif effect.get("kind") == "no_retreat_next_turn" and foe.active:
+                foe.active.retreat_locked = True
+                self._bump("retreat_lock")
+                self._log(f"{attacker.name} prevents retreat next turn")
             elif effect.get("kind") == "damage_one_pokemon":
                 self._damage_one_pokemon(
                     me,
@@ -5875,9 +6185,25 @@ class Game:
         if amount <= 0 or not foe.active:
             return
         if bench_only:
-            if not foe.bench or self._bench_spread_blocked(foe):
+            if not foe.bench:
                 return
-            target = min(foe.bench, key=lambda m: self._max_hp(foe, m) - m.damage)
+            if self._bench_attack_damage_prevented(foe):
+                self._bump("wave_veil")
+                self._log("Wave Veil prevents the bench hit")
+                return
+            if self._has_bench_shield(foe, "prevent_bench_damage_and_attack_effects"):
+                self._bump("spherical_shield")
+                self._log("Spherical Shield prevents the bench hit")
+                return
+            candidates = list(foe.bench)
+            if self._has_bench_shield(foe, "prevent_bench_attack_damage_no_rulebox"):
+                rulebox = [m for m in candidates if self._has_rule_box(foe.card(m.card_i))]
+                if not rulebox:
+                    self._bump("flower_curtain")
+                    self._log("Flower Curtain prevents the bench hit")
+                    return
+                candidates = rulebox
+            target = min(candidates, key=lambda m: self._max_hp(foe, m) - m.damage)
             self._add_attack_damage(foe, target, amount)
             self._bump("bench_damage", amount)
             self._bump("damage_dealt", amount)
@@ -6059,6 +6385,9 @@ class Game:
             spread = self._spread_value(me, foe, me.active, resolved)
             if spread:
                 score += spread
+            if strat.name == "starmie" and "jetting blow" in atk.name.lower():
+                # 120+200 beats Nebula Beam's 210. A Nebula KO still wins on the +1000.
+                score += 200
             if strat.name in {"mew_baby", "baby"}:
                 if any(e.get("kind") == "benched_pokemon_times" for e in resolved.effects):
                     bouncy = next(
@@ -7293,6 +7622,19 @@ class Game:
                 if effect.get("kind") == "hand_count_times":
                     per = int(effect.get("per") or atk.damage or 0)
             dmg = per * len(me.hand)
+        elif any(e.get("kind") == "opponent_hand_times" for e in atk.effects):
+            per = 0
+            for effect in atk.effects:
+                if effect.get("kind") == "opponent_hand_times":
+                    per = int(effect.get("per") or 0)
+            dmg = per * len(foe.hand)
+        elif any(e.get("kind") == "opponent_ex_times" for e in atk.effects):
+            per = 0
+            for effect in atk.effects:
+                if effect.get("kind") == "opponent_ex_times":
+                    per = int(effect.get("per") or 0)
+            exes = sum(1 for mon in foe.in_play() if foe.card(mon.card_i).name.lower().endswith(" ex"))
+            dmg = per * exes
         elif any(e.get("kind") == "times" for e in atk.effects):
             dmg = atk.damage * max(1, sum(1 for i in me.discard if "tatsu" in me.card(i).name.lower()))
         elif any(e.get("kind") == "coin_times" for e in atk.effects):
@@ -7708,6 +8050,15 @@ class Game:
                     "manaphy",
                 }:
                     continue
+                if strat.name in {"mew_baby", "baby"} and name == "manaphy" and not self._mew_wants_manaphy(me):
+                    continue
+                if (
+                    strat.name in {"mew_baby", "baby"}
+                    and self._mew_hold_manaphy_slot(me)
+                    and name != "manaphy"
+                    and len(me.bench) >= self._non_shield_bench_cap(me)
+                ):
+                    continue
                 score = 0.0
                 if name in prefer:
                     score += 20 - prefer.index(name)
@@ -7825,6 +8176,8 @@ class Game:
 
     def _do_retreat_into(self, me: Player, incoming_idx: int) -> bool:
         if not me.active or incoming_idx < 0 or incoming_idx >= len(me.bench):
+            return False
+        if me.active.retreat_locked:
             return False
         if self.rules.one_retreat_per_turn and me.retreated:
             return False
@@ -8024,7 +8377,12 @@ class Game:
 
     def _mew_penny_target(self, me: Player, foe: Player) -> Pokemon | None:
         mon = me.active
-        if mon is None or not me.bench or not mon.energy:
+        if mon is None or not me.bench:
+            return None
+        if me.card(mon.card_i).name.lower() == "manaphy":
+            # Printed Penny: one Basic and all attached cards return to hand.
+            return mon
+        if not mon.energy:
             return None
         if me.card(mon.card_i).name.lower() != "mew ex":
             return None
@@ -8835,6 +9193,71 @@ class Game:
             if any("cornerstone stance" in (a.name or "").lower() for a in foe.card(mon.card_i).abilities):
                 return True
         return False
+
+    def _foe_card_list(self, me: Player) -> list[Card]:
+        players = getattr(self, "players", None)
+        if players:
+            foe = players.get("b" if me.name == "A" else "a")
+            if foe is not None:
+                return foe.cards
+        if me.name == "A":
+            return list(getattr(self, "_list_b", []) or [])
+        return list(getattr(self, "_list_a", []) or [])
+
+    def _attack_damages_opponents_bench(self, atk) -> bool:
+        effects = parse_effects(atk.text or "", str(atk.damage or ""))
+        return any(effect.get("kind") in _OPP_BENCH_DAMAGE_KINDS for effect in effects)
+
+    def _foe_has_bench_attack_damage(self, me: Player) -> bool:
+        """An opposing attack does damage a Benched Pokémon can take.
+
+        Phantom Dive and Adrena-Brain place damage counters. Battle Cage covers
+        those. Wave Veil covers this list.
+        """
+        for card in self._foe_card_list(me):
+            if not card.is_pokemon:
+                continue
+            if any(self._attack_damages_opponents_bench(atk) for atk in card.attacks):
+                return True
+        return False
+
+    def _mew_wants_manaphy(self, me: Player) -> bool:
+        if self._count_named_in_play(me, "Manaphy") >= 1:
+            return False
+        return self._foe_has_bench_attack_damage(me)
+
+    def _manaphy_reachable(self, me: Player) -> bool:
+        zones = list(me.hand) + list(me.deck) + list(me.discard)
+        return any(me.card(i).name.lower() == "manaphy" for i in zones)
+
+    def _mew_hold_manaphy_slot(self, me: Player) -> bool:
+        who = "a" if me.name == "A" else "b"
+        strat = self.strats.get(who)
+        if strat is None or strat.name not in {"mew_baby", "baby"}:
+            return False
+        if not self._manaphy_reachable(me):
+            return False
+        return self._mew_wants_manaphy(me)
+
+    def _non_shield_bench_cap(self, me: Player) -> int:
+        cap = self._bench_limit(me)
+        if self._mew_hold_tera_slot(me):
+            cap -= 1
+        if self._mew_hold_manaphy_slot(me):
+            cap -= 1
+        return max(0, cap)
+
+    def _bench_room_for(self, me: Player, card: Card) -> bool:
+        if len(me.bench) >= self._bench_limit(me):
+            return False
+        if card.name.lower() == "manaphy":
+            return self._mew_wants_manaphy(me)
+        if self._is_tera_card(card) and self._mew_hold_tera_slot(me):
+            # That held slot is for the Tera anchor. A Manaphy slot is separate.
+            if self._mew_hold_manaphy_slot(me) and len(me.bench) >= self._bench_limit(me) - 1:
+                return False
+            return True
+        return len(me.bench) < self._non_shield_bench_cap(me)
 
     def _facing_demolish(self, me: Player) -> bool:
         return self._foe_strat_name(me) == "demolish"

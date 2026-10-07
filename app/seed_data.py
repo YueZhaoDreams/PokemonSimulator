@@ -476,11 +476,16 @@ SET_T_UNL_NAMES = (
 # One Budew on that board. Weights frozen from the one-Mew list:
 # Hedrick 45.6%, T60 28.5%, C60 20.8%, D60 2.9%, Thorns 2.1%.
 # Weighted 87.3% → 87.9%. Cut: Bravery Charm (4 → 3).
+# Manaphy on that list once Mega Starmie is in the field. Seed 20261007, 1000 games.
+# Weights frozen from the no-Manaphy list, including Kudo's Starmie (Limitless 29462):
+# Starmie 41.8%, C60 23.4%, Hedrick 14.5%, T60 9.7%, Thorns 9.0%, D60 1.6%.
+# Weighted 78.2% → 86.5%. Charm, Ultra Ball, and Research in that slot stay near 79–80%.
+# Cut: Budew (1 → 0). One Manaphy.
 SET_M60_NAMES = (
     ["Mew ex"] * 3
     + ["Mime Jr."] * 2
     + ["Igglybuff"] * 4
-    + ["Budew"]
+    + ["Manaphy"]
     + ["Buddy-Buddy Poffin"] * 4
     + ["Nest Ball"] * 4
     + ["Ultra Ball"] * 2
@@ -501,6 +506,41 @@ SET_M60_NAMES = (
 )
 SET_M_NAMES = SET_M60_NAMES
 SET_MEW_BABY_60_NAMES = SET_M60_NAMES
+
+# Riku Kudo, 19th Champions League Yokohama (Limitless 29462).
+# Mega Starmie ex Jetting Blow: 1 Water, 120, and 50 damage to 1 Benched Pokémon.
+SET_STARMIE60_NAMES = (
+    ["Snorunt"] * 3
+    + ["Mega Froslass ex"] * 2
+    + ["Froslass"] * 2
+    + ["Staryu"] * 2
+    + ["Mega Starmie ex"] * 2
+    + ["Dunsparce"] * 2
+    + ["Dudunsparce ex"] * 2
+    + ["Dudunsparce"]
+    + ["Munkidori"] * 2
+    + ["Budew"]
+    + ["Yveltal"]
+    + ["Meowth ex"]
+    + ["Lillie's Clefairy ex"]
+    + ["Lillie's Determination"] * 4
+    + ["Hilda"] * 4
+    + ["Boss's Orders"] * 3
+    + ["Lucian"] * 2
+    + ["Crispin"]
+    + ["Buddy-Buddy Poffin"] * 4
+    + ["Poké Pad"] * 4
+    + ["Ultra Ball"] * 3
+    + ["Night Stretcher"]
+    + ["Gravity Mountain"]
+    + ["Surfing Beach"]
+    + ["Water Energy"] * 4
+    + ["Prism Energy"] * 2
+    + ["Legacy Energy"]
+    + ["Bubbly Water Energy"]
+    + ["Darkness Energy"]
+    + ["Psychic Energy"]
+)
 
 # Chris Brewer Lucario Hariyama. Public 60 under his name on Limitless
 # (Surge's TCG Vault). Baltimore Regional 2026 lists him on Lucario Hariyama
@@ -4025,6 +4065,244 @@ _register(
         "Heal all damage from 1 of your Mega Evolution Pokémon ex. If you healed any damage in this way, put all Energy attached to that Pokémon into your hand.",
         catalog_id="me1-132",
         image="https://images.pokemontcg.io/me1/132.png",
+    )
+)
+# Riku Kudo, Limitless 29462. Mega Starmie keeps normal evolution timing.
+_register(
+    _pkm(
+        "Staryu",
+        "Basic",
+        ["Water"],
+        70,
+        [_atk("Water Gun", ["Water"], 20)],
+        retreat=1,
+        weakness="Lightning",
+        catalog_id="me03-020",
+        image="https://assets.tcgdex.net/en/me/me03/020/low.webp",
+        set_name="Perfect Order",
+    )
+)
+_register(
+    _pkm(
+        "Mega Starmie ex",
+        "Stage1",
+        ["Water"],
+        330,
+        [
+            _atk(
+                "Jetting Blow",
+                ["Water"],
+                120,
+                "This attack also does 50 damage to 1 of your opponent's Benched Pokémon. (Don't apply Weakness and Resistance for Benched Pokémon.)",
+            ),
+            _atk(
+                "Nebula Beam",
+                ["Colorless", "Colorless", "Colorless"],
+                210,
+                "This attack's damage isn't affected by Weakness or Resistance, or by any effects on your opponent's Active Pokémon.",
+            ),
+        ],
+        evolves_from="Staryu",
+        retreat=2,
+        weakness="Lightning",
+        catalog_id="me03-021",
+        image="https://assets.tcgdex.net/en/me/me03/021/low.webp",
+        set_name="Perfect Order",
+    )
+)
+_register(
+    _pkm(
+        "Snorunt",
+        "Basic",
+        ["Water"],
+        70,
+        [_atk("Chilly", ["Water"], 10)],
+        retreat=1,
+        weakness="Metal",
+        catalog_id="me02.5-046",
+        image="https://assets.tcgdex.net/en/me/me02.5/046/low.webp",
+        set_name="Ascended Heroes",
+    )
+)
+_register(
+    _pkm(
+        "Mega Froslass ex",
+        "Stage1",
+        ["Water"],
+        310,
+        [
+            _atk(
+                "Resentful Refrain",
+                ["Water"],
+                50,
+                "This attack does 50 damage for each card in your opponent's hand.",
+            ),
+            _atk(
+                "Absolute Snow",
+                ["Water", "Colorless", "Colorless"],
+                150,
+                "Your opponent's Active Pokémon is now Asleep.",
+            ),
+        ],
+        evolves_from="Snorunt",
+        retreat=1,
+        weakness="Metal",
+        catalog_id="me02.5-047",
+        image="https://assets.tcgdex.net/en/me/me02.5/047/low.webp",
+        set_name="Ascended Heroes",
+    )
+)
+_register(
+    _pkm(
+        "Froslass",
+        "Stage1",
+        ["Water"],
+        90,
+        [_atk("Frost Smash", ["Water", "Colorless"], 60)],
+        evolves_from="Snorunt",
+        retreat=1,
+        weakness="Metal",
+        catalog_id="sv06-053",
+        image="https://assets.tcgdex.net/en/sv/sv06/053/low.webp",
+        set_name="Twilight Masquerade",
+        abilities=[
+            Ability(
+                name="Freezing Shroud",
+                text=(
+                    "During Pokémon Checkup, put 1 damage counter on each Pokémon that has an Ability "
+                    "(both yours and your opponent's), except any Froslass."
+                ),
+            )
+        ],
+    )
+)
+_register(
+    _pkm(
+        "Dudunsparce ex",
+        "Stage1",
+        ["Colorless"],
+        270,
+        [
+            _atk(
+                "Tenacious Tail",
+                ["Colorless"],
+                60,
+                "This attack does 60 damage for each of your opponent's Pokémon ex in play.",
+            ),
+            _atk(
+                "Destructive Drill",
+                ["Colorless", "Colorless", "Colorless"],
+                150,
+                "This attack's damage isn't affected by any effects on your opponent's Active Pokémon.",
+            ),
+        ],
+        evolves_from="Dunsparce",
+        retreat=3,
+        weakness="Fighting",
+        catalog_id="sv09-121",
+        image="https://assets.tcgdex.net/en/sv/sv09/121/low.webp",
+        set_name="Journey Together",
+    )
+)
+_register(
+    _pkm(
+        "Yveltal",
+        "Basic",
+        ["Darkness"],
+        110,
+        [
+            _atk(
+                "Clutch",
+                ["Darkness"],
+                20,
+                "During your opponent's next turn, the Defending Pokémon can't retreat.",
+            ),
+            _atk("Dark Feather", ["Darkness", "Darkness", "Colorless"], 110),
+        ],
+        retreat=0,
+        weakness="Lightning",
+        catalog_id="me01-088",
+        image="https://assets.tcgdex.net/en/me/me01/088/low.webp",
+        set_name="Mega Evolution",
+    )
+)
+_register(
+    _trn(
+        "Hilda",
+        "supporter",
+        "Search your deck for an Evolution Pokémon and an Energy card, reveal them, and put them into your hand. Then, shuffle your deck.",
+        catalog_id="sv10.5w-084",
+        image="https://assets.tcgdex.net/en/sv/sv10.5w/084/low.webp",
+    )
+)
+_register(
+    _trn(
+        "Lucian",
+        "supporter",
+        "Each player shuffles their hand and puts it on the bottom of their deck. If either player put any cards on the bottom of their deck in this way, each player flips a coin. If heads, that player draws 6 cards. If tails, they draw 3 cards.",
+        catalog_id="sv06-157",
+        image="https://assets.tcgdex.net/en/sv/sv06/157/low.webp",
+    )
+)
+_register(
+    _trn(
+        "Surfing Beach",
+        "stadium",
+        "Once during each player's turn, that player may switch their Active {W} Pokémon with 1 of their Benched {W} Pokémon.",
+        catalog_id="me04-114",
+        image="https://assets.tcgdex.net/en/me/me04/114/low.webp",
+    )
+)
+_register(
+    Card(
+        catalog_id="sv10.5b-086",
+        name="Prism Energy",
+        category="Energy",
+        stage="Special",
+        types=["Colorless"],
+        energy_type="Colorless",
+        text=(
+            "As long as this card is attached to a Pokémon, it provides {C} Energy.\n\n"
+            "If this card is attached to a Basic Pokémon, this card provides every type of Energy but provides only 1 Energy at a time."
+        ),
+        image="https://assets.tcgdex.net/en/sv/sv10.5b/086/low.webp",
+        set_name="White Flare",
+        retreat=0,
+    )
+)
+_register(
+    Card(
+        catalog_id="sv06-167",
+        name="Legacy Energy",
+        category="Energy",
+        stage="Special",
+        types=["Colorless"],
+        energy_type="Colorless",
+        text=(
+            "As long as this card is attached to a Pokémon, it provides every type of Energy but provides only 1 Energy at a time.\n\n"
+            "If the Pokémon this card is attached to is Knocked Out by damage from an attack from your opponent's Pokémon, "
+            "that player takes 1 fewer Prize card. This effect of your Legacy Energy can't be applied more than once per game."
+        ),
+        image="https://assets.tcgdex.net/en/sv/sv06/167/low.webp",
+        set_name="Twilight Masquerade",
+        retreat=0,
+    )
+)
+_register(
+    Card(
+        catalog_id="me04-084",
+        name="Bubbly Water Energy",
+        category="Energy",
+        stage="Special",
+        types=["Water"],
+        energy_type="Water",
+        text=(
+            "As long as this card is attached to a Pokémon, it provides {W} Energy.\n\n"
+            "The {W} Pokémon this card is attached to recovers from all Special Conditions and can't be affected by any Special Conditions."
+        ),
+        image="https://assets.tcgdex.net/en/me/me04/084/low.webp",
+        set_name="Chaos Rising",
+        retreat=0,
     )
 )
 

@@ -24,7 +24,8 @@ def test_set_m_card_count_and_composition():
     assert SET_M60_NAMES.count("Mew ex") == 3
     assert SET_M60_NAMES.count("Mime Jr.") == 2
     assert SET_M60_NAMES.count("Igglybuff") == 4
-    assert SET_M60_NAMES.count("Budew") == 1
+    assert SET_M60_NAMES.count("Budew") == 0
+    assert SET_M60_NAMES.count("Manaphy") == 1
     assert SET_M60_NAMES.count("Cleffa") == 0
     total_pokemon = 3 + 2 + 4 + 1
     assert total_pokemon == 10
@@ -35,6 +36,7 @@ def test_set_m_card_count_and_composition():
     # Two Spiky Energy then cut Switch and 1 Boss's Orders (3 → 2). Copies stack.
     # Two Penny then cut 1 Ultra Ball (3 → 2) and 1 Mew ex (4 → 3).
     # One Mew ex in play, then one Budew cut 1 Bravery Charm (4 → 3).
+    # Mega Starmie in the field, then that Budew cut for one Manaphy.
     assert SET_M60_NAMES.count("Buddy-Buddy Poffin") == 4
     assert SET_M60_NAMES.count("Battle Cage") == 4
     assert SET_M60_NAMES.count("Bravery Charm") == 3
@@ -58,6 +60,10 @@ def test_load_seed_deck_m():
     assert deck_m60["id"] == "seed-m60"
     assert "Mew ex" in deck_m60["name"]
     assert len(deck_m60["cards"]) == 60
+    served = [card["name"] for card in deck_m60["cards"]]
+    assert served == list(SET_M60_NAMES)
+    assert served.count("Manaphy") == 1
+    assert served.count("Budew") == 0
     assert default_rule_presets_for("seed-m60") == ["s60"]
     assert "seed-m60" in S60_SEED_IDS
 

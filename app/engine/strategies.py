@@ -615,9 +615,12 @@ STRATEGY_LIBRARY = {
         name="mew_baby",
         description=(
             "Mew ex (160 HP) in Active Spot copies benched 30-HP Baby Pokémon attacks for 0 energy: "
-            "Igglybuff Bouncy Circle for 30x benched 30-HP, "
-            "Budew Itchy Pollen for Item lock, Cleffa Grasping Draw to refill hand, Mime Jr. Mimed Games. "
+            "Igglybuff Bouncy Circle for 30x benched 30-HP, Mime Jr. Mimed Games. "
             "Buddy-Buddy Poffin and Nest Ball swarm 5 babies on bench. Battle Cage prevents bench damage counters. "
+            "Manaphy stays in hand until an opposing attack does damage a Benched Pokémon can take. "
+            "One copy then takes the last bench slot. Wave Veil prevents that damage. "
+            "If Manaphy is in the Active Spot, Penny puts it and all attached cards into the hand, "
+            "or one Energy retreats it onto the Bench. "
             "A second Mew ex stays in hand. Bouncy Circle counts only benched Pokémon whose printed maximum HP is 30, "
             "and Mew ex retreats for 0, so the spare is played after the first leaves play. "
             "Night Stretcher recovers KO'd Mew ex or babies. While one Mew ex is in play it takes a Baby first. "
@@ -644,10 +647,30 @@ STRATEGY_LIBRARY = {
         item_spend=1.0,
         self_preserve=0.5,
         hold_as_energy=False,
-        protect=["Mew ex", "Igglybuff", "Budew", "Battle Cage"],
+        protect=["Mew ex", "Igglybuff", "Manaphy", "Battle Cage"],
         search_aces=["Mew ex", "Igglybuff"],
         closers=["Mew ex"],
         one_mew=True,
+    ),
+    "starmie": StrategySpec(
+        name="starmie",
+        description=(
+            "Mega Starmie ex evolves from Staryu. Jetting Blow costs one Water Energy, "
+            "does 120 to the Active, and also does 50 damage to 1 of the opponent's Benched Pokémon. "
+            "Froslass Freezing Shroud places a damage counter on each Pokémon with an Ability during Pokémon Checkup. "
+            "Surfing Beach switches the Active Water Pokémon with a Benched Water Pokémon. "
+            "Hilda searches an Evolution Pokémon and an Energy card."
+        ),
+        prefer_damage=1.0,
+        prefer_status=0.2,
+        bench_fill=1.0,
+        evolve_asap=1.0,
+        attach_pokemon_as_energy=0.0,
+        item_spend=1.0,
+        hold_as_energy=False,
+        protect=["Mega Starmie ex", "Staryu", "Froslass", "Mega Froslass ex", "Munkidori"],
+        search_aces=["Staryu", "Snorunt"],
+        closers=["Mega Starmie ex"],
     ),
     "thorns": StrategySpec(
         name="thorns",
@@ -716,7 +739,7 @@ STRATEGY_LIBRARY = {
         item_spend=1.0,
         self_preserve=0.5,
         hold_as_energy=False,
-        protect=["Mew ex", "Igglybuff", "Budew", "Battle Cage"],
+        protect=["Mew ex", "Igglybuff", "Manaphy", "Battle Cage"],
         search_aces=["Mew ex", "Igglybuff"],
         closers=["Mew ex"],
         one_mew=True,

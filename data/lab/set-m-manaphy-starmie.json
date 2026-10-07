@@ -1,0 +1,972 @@
+{
+  "games": 1000,
+  "seed": 20261007,
+  "elapsed": 504.5720533830008,
+  "done": true,
+  "foe": "Riku Kudo 19th Champions League Yokohama, Limitless 29462",
+  "weights": {
+    "t60": 0.09717097170971707,
+    "hedrick": 0.14514145141451418,
+    "c60": 0.2337023370233702,
+    "d60": 0.015990159901599032,
+    "thorns": 0.08979089790897905,
+    "starmie": 0.41820418204182047
+  },
+  "baseline": {
+    "weighted": 0.7818413284132841,
+    "cells": {
+      "t60": 0.921,
+      "hedrick": 0.882,
+      "c60": 0.81,
+      "d60": 0.987,
+      "thorns": 0.927,
+      "starmie": 0.66
+    },
+    "starmie": {
+      "a": 0.66,
+      "b": 0.34,
+      "tie": 0.0,
+      "first": 0.6471734892787524,
+      "second": 0.6735112936344969,
+      "manaphy": 0.0,
+      "wave_veil": 0.0,
+      "jetting": 0.613,
+      "shroud": 0.312,
+      "beach": 0.115
+    }
+  },
+  "candidates": [
+    {
+      "cut": "Budew",
+      "copies_before": 1,
+      "weighted": 0.8652546125461255,
+      "cells": {
+        "t60": 0.897,
+        "hedrick": 0.866,
+        "c60": 0.868,
+        "d60": 0.989,
+        "thorns": 0.988,
+        "starmie": 0.825
+      },
+      "starmie": {
+        "a": 0.825,
+        "b": 0.175,
+        "tie": 0.0,
+        "first": 0.814595660749507,
+        "second": 0.8356997971602435,
+        "manaphy": 0.848,
+        "wave_veil": 0.541,
+        "jetting": 0.664,
+        "shroud": 0.402,
+        "beach": 0.135
+      }
+    },
+    {
+      "cut": "Ultra Ball",
+      "copies_before": 2,
+      "weighted": 0.8547564575645756,
+      "cells": {
+        "t60": 0.881,
+        "hedrick": 0.85,
+        "c60": 0.821,
+        "d60": 0.986,
+        "thorns": 0.93,
+        "starmie": 0.848
+      },
+      "starmie": {
+        "a": 0.848,
+        "b": 0.152,
+        "tie": 0.0,
+        "first": 0.8292220113851992,
+        "second": 0.86892177589852,
+        "manaphy": 0.847,
+        "wave_veil": 0.505,
+        "jetting": 0.607,
+        "shroud": 0.359,
+        "beach": 0.115
+      }
+    },
+    {
+      "cut": "Boss's Orders",
+      "copies_before": 2,
+      "weighted": 0.8482583025830258,
+      "cells": {
+        "t60": 0.885,
+        "hedrick": 0.83,
+        "c60": 0.848,
+        "d60": 0.985,
+        "thorns": 0.918,
+        "starmie": 0.826
+      },
+      "starmie": {
+        "a": 0.826,
+        "b": 0.174,
+        "tie": 0.0,
+        "first": 0.8077669902912621,
+        "second": 0.845360824742268,
+        "manaphy": 0.836,
+        "wave_veil": 0.507,
+        "jetting": 0.614,
+        "shroud": 0.348,
+        "beach": 0.099
+      }
+    },
+    {
+      "cut": "Bravery Charm",
+      "copies_before": 3,
+      "weighted": 0.8450541205412054,
+      "cells": {
+        "t60": 0.897,
+        "hedrick": 0.849,
+        "c60": 0.812,
+        "d60": 0.985,
+        "thorns": 0.923,
+        "starmie": 0.828
+      },
+      "starmie": {
+        "a": 0.828,
+        "b": 0.172,
+        "tie": 0.0,
+        "first": 0.8154158215010142,
+        "second": 0.8402366863905325,
+        "manaphy": 0.842,
+        "wave_veil": 0.51,
+        "jetting": 0.634,
+        "shroud": 0.36,
+        "beach": 0.102
+      }
+    },
+    {
+      "cut": "Crushing Hammer",
+      "copies_before": 4,
+      "weighted": 0.8406826568265683,
+      "cells": {
+        "t60": 0.889,
+        "hedrick": 0.848,
+        "c60": 0.838,
+        "d60": 0.987,
+        "thorns": 0.933,
+        "starmie": 0.803
+      },
+      "starmie": {
+        "a": 0.803,
+        "b": 0.197,
+        "tie": 0.0,
+        "first": 0.793168880455408,
+        "second": 0.813953488372093,
+        "manaphy": 0.83,
+        "wave_veil": 0.498,
+        "jetting": 0.617,
+        "shroud": 0.367,
+        "beach": 0.105
+      }
+    },
+    {
+      "cut": "Battle Cage",
+      "copies_before": 4,
+      "weighted": 0.839779827798278,
+      "cells": {
+        "t60": 0.88,
+        "hedrick": 0.835,
+        "c60": 0.838,
+        "d60": 0.98,
+        "thorns": 0.927,
+        "starmie": 0.809
+      },
+      "starmie": {
+        "a": 0.809,
+        "b": 0.191,
+        "tie": 0.0,
+        "first": 0.8069815195071869,
+        "second": 0.8109161793372319,
+        "manaphy": 0.821,
+        "wave_veil": 0.477,
+        "jetting": 0.606,
+        "shroud": 0.362,
+        "beach": 0.115
+      }
+    },
+    {
+      "cut": "Counter Catcher",
+      "copies_before": 2,
+      "weighted": 0.839549815498155,
+      "cells": {
+        "t60": 0.886,
+        "hedrick": 0.847,
+        "c60": 0.826,
+        "d60": 0.99,
+        "thorns": 0.928,
+        "starmie": 0.809
+      },
+      "starmie": {
+        "a": 0.809,
+        "b": 0.191,
+        "tie": 0.0,
+        "first": 0.7799227799227799,
+        "second": 0.8402489626556017,
+        "manaphy": 0.824,
+        "wave_veil": 0.484,
+        "jetting": 0.613,
+        "shroud": 0.356,
+        "beach": 0.101
+      }
+    },
+    {
+      "cut": "Penny",
+      "copies_before": 2,
+      "weighted": 0.8386432964329643,
+      "cells": {
+        "t60": 0.888,
+        "hedrick": 0.843,
+        "c60": 0.811,
+        "d60": 0.988,
+        "thorns": 0.929,
+        "starmie": 0.816
+      },
+      "starmie": {
+        "a": 0.816,
+        "b": 0.184,
+        "tie": 0.0,
+        "first": 0.8072519083969466,
+        "second": 0.8256302521008403,
+        "manaphy": 0.849,
+        "wave_veil": 0.505,
+        "jetting": 0.623,
+        "shroud": 0.388,
+        "beach": 0.131
+      }
+    },
+    {
+      "cut": "Iono",
+      "copies_before": 4,
+      "weighted": 0.8384169741697417,
+      "cells": {
+        "t60": 0.89,
+        "hedrick": 0.845,
+        "c60": 0.821,
+        "d60": 0.988,
+        "thorns": 0.923,
+        "starmie": 0.81
+      },
+      "starmie": {
+        "a": 0.81,
+        "b": 0.19,
+        "tie": 0.0,
+        "first": 0.7870722433460076,
+        "second": 0.8354430379746836,
+        "manaphy": 0.84,
+        "wave_veil": 0.49,
+        "jetting": 0.608,
+        "shroud": 0.337,
+        "beach": 0.124
+      }
+    },
+    {
+      "cut": "Arven",
+      "copies_before": 4,
+      "weighted": 0.8383985239852398,
+      "cells": {
+        "t60": 0.896,
+        "hedrick": 0.828,
+        "c60": 0.81,
+        "d60": 0.989,
+        "thorns": 0.921,
+        "starmie": 0.821
+      },
+      "starmie": {
+        "a": 0.821,
+        "b": 0.179,
+        "tie": 0.0,
+        "first": 0.7955465587044535,
+        "second": 0.8458498023715415,
+        "manaphy": 0.857,
+        "wave_veil": 0.496,
+        "jetting": 0.608,
+        "shroud": 0.369,
+        "beach": 0.098
+      }
+    },
+    {
+      "cut": "Spiky Energy",
+      "copies_before": 2,
+      "weighted": 0.8346924969249693,
+      "cells": {
+        "t60": 0.879,
+        "hedrick": 0.84,
+        "c60": 0.838,
+        "d60": 0.985,
+        "thorns": 0.923,
+        "starmie": 0.796
+      },
+      "starmie": {
+        "a": 0.796,
+        "b": 0.204,
+        "tie": 0.0,
+        "first": 0.783625730994152,
+        "second": 0.8090349075975359,
+        "manaphy": 0.827,
+        "wave_veil": 0.525,
+        "jetting": 0.656,
+        "shroud": 0.397,
+        "beach": 0.123
+      }
+    },
+    {
+      "cut": "Max Potion",
+      "copies_before": 4,
+      "weighted": 0.8327884378843788,
+      "cells": {
+        "t60": 0.898,
+        "hedrick": 0.842,
+        "c60": 0.811,
+        "d60": 0.983,
+        "thorns": 0.93,
+        "starmie": 0.8
+      },
+      "starmie": {
+        "a": 0.8,
+        "b": 0.2,
+        "tie": 0.0,
+        "first": 0.7769230769230769,
+        "second": 0.825,
+        "manaphy": 0.845,
+        "wave_veil": 0.549,
+        "jetting": 0.653,
+        "shroud": 0.377,
+        "beach": 0.1
+      }
+    },
+    {
+      "cut": "Night Stretcher",
+      "copies_before": 4,
+      "weighted": 0.8323788437884378,
+      "cells": {
+        "t60": 0.888,
+        "hedrick": 0.838,
+        "c60": 0.842,
+        "d60": 0.99,
+        "thorns": 0.926,
+        "starmie": 0.786
+      },
+      "starmie": {
+        "a": 0.786,
+        "b": 0.214,
+        "tie": 0.0,
+        "first": 0.7595959595959596,
+        "second": 0.8118811881188119,
+        "manaphy": 0.805,
+        "wave_veil": 0.479,
+        "jetting": 0.612,
+        "shroud": 0.358,
+        "beach": 0.106
+      }
+    },
+    {
+      "cut": "Bursting Balloon",
+      "copies_before": 2,
+      "weighted": 0.831360393603936,
+      "cells": {
+        "t60": 0.885,
+        "hedrick": 0.826,
+        "c60": 0.839,
+        "d60": 0.989,
+        "thorns": 0.922,
+        "starmie": 0.791
+      },
+      "starmie": {
+        "a": 0.791,
+        "b": 0.209,
+        "tie": 0.0,
+        "first": 0.7692307692307693,
+        "second": 0.8111753371868978,
+        "manaphy": 0.832,
+        "wave_veil": 0.517,
+        "jetting": 0.652,
+        "shroud": 0.363,
+        "beach": 0.114
+      }
+    },
+    {
+      "cut": "Nest Ball",
+      "copies_before": 4,
+      "weighted": 0.828359163591636,
+      "cells": {
+        "t60": 0.887,
+        "hedrick": 0.846,
+        "c60": 0.812,
+        "d60": 0.978,
+        "thorns": 0.917,
+        "starmie": 0.793
+      },
+      "starmie": {
+        "a": 0.793,
+        "b": 0.207,
+        "tie": 0.0,
+        "first": 0.7677165354330708,
+        "second": 0.8191056910569106,
+        "manaphy": 0.847,
+        "wave_veil": 0.519,
+        "jetting": 0.617,
+        "shroud": 0.372,
+        "beach": 0.108
+      }
+    },
+    {
+      "cut": "Professor's Research",
+      "copies_before": 2,
+      "weighted": 0.8225338253382534,
+      "cells": {
+        "t60": 0.867,
+        "hedrick": 0.813,
+        "c60": 0.809,
+        "d60": 0.987,
+        "thorns": 0.924,
+        "starmie": 0.795
+      },
+      "starmie": {
+        "a": 0.795,
+        "b": 0.205,
+        "tie": 0.0,
+        "first": 0.7836734693877551,
+        "second": 0.8058823529411765,
+        "manaphy": 0.833,
+        "wave_veil": 0.494,
+        "jetting": 0.612,
+        "shroud": 0.369,
+        "beach": 0.123
+      }
+    },
+    {
+      "cut": "Mew ex",
+      "copies_before": 3,
+      "weighted": 0.8194231242312423,
+      "cells": {
+        "t60": 0.884,
+        "hedrick": 0.837,
+        "c60": 0.783,
+        "d60": 0.984,
+        "thorns": 0.919,
+        "starmie": 0.791
+      },
+      "starmie": {
+        "a": 0.791,
+        "b": 0.209,
+        "tie": 0.0,
+        "first": 0.7744510978043913,
+        "second": 0.8076152304609219,
+        "manaphy": 0.821,
+        "wave_veil": 0.505,
+        "jetting": 0.638,
+        "shroud": 0.384,
+        "beach": 0.128
+      }
+    },
+    {
+      "cut": "Igglybuff",
+      "copies_before": 4,
+      "weighted": 0.8190012300123001,
+      "cells": {
+        "t60": 0.892,
+        "hedrick": 0.81,
+        "c60": 0.83,
+        "d60": 0.983,
+        "thorns": 0.897,
+        "starmie": 0.776
+      },
+      "starmie": {
+        "a": 0.776,
+        "b": 0.224,
+        "tie": 0.0,
+        "first": 0.7453183520599251,
+        "second": 0.8111587982832618,
+        "manaphy": 0.826,
+        "wave_veil": 0.478,
+        "jetting": 0.624,
+        "shroud": 0.372,
+        "beach": 0.119
+      }
+    },
+    {
+      "cut": "Mime Jr.",
+      "copies_before": 2,
+      "weighted": 0.8158979089790898,
+      "cells": {
+        "t60": 0.889,
+        "hedrick": 0.82,
+        "c60": 0.823,
+        "d60": 0.879,
+        "thorns": 0.849,
+        "starmie": 0.784
+      },
+      "starmie": {
+        "a": 0.784,
+        "b": 0.216,
+        "tie": 0.0,
+        "first": 0.7695390781563126,
+        "second": 0.7984031936127745,
+        "manaphy": 0.838,
+        "wave_veil": 0.555,
+        "jetting": 0.676,
+        "shroud": 0.373,
+        "beach": 0.136
+      }
+    },
+    {
+      "cut": "Buddy-Buddy Poffin",
+      "copies_before": 4,
+      "weighted": 0.8155867158671586,
+      "cells": {
+        "t60": 0.887,
+        "hedrick": 0.825,
+        "c60": 0.822,
+        "d60": 0.986,
+        "thorns": 0.907,
+        "starmie": 0.766
+      },
+      "starmie": {
+        "a": 0.766,
+        "b": 0.234,
+        "tie": 0.0,
+        "first": 0.7182203389830508,
+        "second": 0.8087121212121212,
+        "manaphy": 0.819,
+        "wave_veil": 0.517,
+        "jetting": 0.657,
+        "shroud": 0.38,
+        "beach": 0.104
+      }
+    },
+    {
+      "cut": "Hero's Cape",
+      "copies_before": 1,
+      "weighted": 0.8065006150061501,
+      "cells": {
+        "t60": 0.868,
+        "hedrick": 0.831,
+        "c60": 0.745,
+        "d60": 0.98,
+        "thorns": 0.925,
+        "starmie": 0.786
+      },
+      "starmie": {
+        "a": 0.786,
+        "b": 0.214,
+        "tie": 0.0,
+        "first": 0.769825918762089,
+        "second": 0.8033126293995859,
+        "manaphy": 0.835,
+        "wave_veil": 0.486,
+        "jetting": 0.601,
+        "shroud": 0.366,
+        "beach": 0.134
+      }
+    }
+  ],
+  "controls": [
+    {
+      "replacement": "Manaphy",
+      "weighted": 0.8652546125461255,
+      "cells": {
+        "t60": 0.897,
+        "hedrick": 0.866,
+        "c60": 0.868,
+        "d60": 0.989,
+        "thorns": 0.988,
+        "starmie": 0.825
+      },
+      "starmie": {
+        "a": 0.825,
+        "b": 0.175,
+        "tie": 0.0,
+        "first": 0.814595660749507,
+        "second": 0.8356997971602435,
+        "manaphy": 0.848,
+        "wave_veil": 0.541,
+        "jetting": 0.664,
+        "shroud": 0.402,
+        "beach": 0.135
+      }
+    },
+    {
+      "replacement": "Bravery Charm",
+      "weighted": 0.7860344403444034,
+      "cells": {
+        "t60": 0.936,
+        "hedrick": 0.866,
+        "c60": 0.864,
+        "d60": 0.986,
+        "thorns": 0.992,
+        "starmie": 0.628
+      },
+      "starmie": {
+        "a": 0.628,
+        "b": 0.372,
+        "tie": 0.0,
+        "first": 0.6118421052631579,
+        "second": 0.6415441176470589,
+        "manaphy": 0.0,
+        "wave_veil": 0.0,
+        "jetting": 0.608,
+        "shroud": 0.335,
+        "beach": 0.106
+      }
+    },
+    {
+      "replacement": "Ultra Ball",
+      "weighted": 0.7942238622386224,
+      "cells": {
+        "t60": 0.922,
+        "hedrick": 0.877,
+        "c60": 0.887,
+        "d60": 0.981,
+        "thorns": 0.989,
+        "starmie": 0.635
+      },
+      "starmie": {
+        "a": 0.635,
+        "b": 0.365,
+        "tie": 0.0,
+        "first": 0.6015625,
+        "second": 0.6700819672131147,
+        "manaphy": 0.0,
+        "wave_veil": 0.0,
+        "jetting": 0.596,
+        "shroud": 0.317,
+        "beach": 0.107
+      }
+    },
+    {
+      "replacement": "Professor's Research",
+      "weighted": 0.8011955719557196,
+      "cells": {
+        "t60": 0.929,
+        "hedrick": 0.893,
+        "c60": 0.877,
+        "d60": 0.985,
+        "thorns": 0.984,
+        "starmie": 0.651
+      },
+      "starmie": {
+        "a": 0.651,
+        "b": 0.349,
+        "tie": 0.0,
+        "first": 0.629277566539924,
+        "second": 0.6751054852320675,
+        "manaphy": 0.0,
+        "wave_veil": 0.0,
+        "jetting": 0.592,
+        "shroud": 0.329,
+        "beach": 0.124
+      }
+    }
+  ],
+  "best_cut": "Budew",
+  "best_weighted": 0.8652546125461255,
+  "worth_swapping": true,
+  "lock_list": true,
+  "manaphy_beats_baseline": true,
+  "best_budew_replacement": "Manaphy",
+  "starmie_cells": {
+    "baseline": {
+      "a": 0.66,
+      "b": 0.34,
+      "tie": 0.0,
+      "first": 0.6471734892787524,
+      "second": 0.6735112936344969,
+      "manaphy": 0.0,
+      "wave_veil": 0.0,
+      "jetting": 0.613,
+      "shroud": 0.312,
+      "beach": 0.115
+    },
+    "Boss's Orders": {
+      "a": 0.826,
+      "b": 0.174,
+      "tie": 0.0,
+      "first": 0.8077669902912621,
+      "second": 0.845360824742268,
+      "manaphy": 0.836,
+      "wave_veil": 0.507,
+      "jetting": 0.614,
+      "shroud": 0.348,
+      "beach": 0.099
+    },
+    "Arven": {
+      "a": 0.821,
+      "b": 0.179,
+      "tie": 0.0,
+      "first": 0.7955465587044535,
+      "second": 0.8458498023715415,
+      "manaphy": 0.857,
+      "wave_veil": 0.496,
+      "jetting": 0.608,
+      "shroud": 0.369,
+      "beach": 0.098
+    },
+    "Battle Cage": {
+      "a": 0.809,
+      "b": 0.191,
+      "tie": 0.0,
+      "first": 0.8069815195071869,
+      "second": 0.8109161793372319,
+      "manaphy": 0.821,
+      "wave_veil": 0.477,
+      "jetting": 0.606,
+      "shroud": 0.362,
+      "beach": 0.115
+    },
+    "Bravery Charm": {
+      "a": 0.828,
+      "b": 0.172,
+      "tie": 0.0,
+      "first": 0.8154158215010142,
+      "second": 0.8402366863905325,
+      "manaphy": 0.842,
+      "wave_veil": 0.51,
+      "jetting": 0.634,
+      "shroud": 0.36,
+      "beach": 0.102
+    },
+    "Buddy-Buddy Poffin": {
+      "a": 0.766,
+      "b": 0.234,
+      "tie": 0.0,
+      "first": 0.7182203389830508,
+      "second": 0.8087121212121212,
+      "manaphy": 0.819,
+      "wave_veil": 0.517,
+      "jetting": 0.657,
+      "shroud": 0.38,
+      "beach": 0.104
+    },
+    "Bursting Balloon": {
+      "a": 0.791,
+      "b": 0.209,
+      "tie": 0.0,
+      "first": 0.7692307692307693,
+      "second": 0.8111753371868978,
+      "manaphy": 0.832,
+      "wave_veil": 0.517,
+      "jetting": 0.652,
+      "shroud": 0.363,
+      "beach": 0.114
+    },
+    "Budew": {
+      "a": 0.825,
+      "b": 0.175,
+      "tie": 0.0,
+      "first": 0.814595660749507,
+      "second": 0.8356997971602435,
+      "manaphy": 0.848,
+      "wave_veil": 0.541,
+      "jetting": 0.664,
+      "shroud": 0.402,
+      "beach": 0.135
+    },
+    "Counter Catcher": {
+      "a": 0.809,
+      "b": 0.191,
+      "tie": 0.0,
+      "first": 0.7799227799227799,
+      "second": 0.8402489626556017,
+      "manaphy": 0.824,
+      "wave_veil": 0.484,
+      "jetting": 0.613,
+      "shroud": 0.356,
+      "beach": 0.101
+    },
+    "Hero's Cape": {
+      "a": 0.786,
+      "b": 0.214,
+      "tie": 0.0,
+      "first": 0.769825918762089,
+      "second": 0.8033126293995859,
+      "manaphy": 0.835,
+      "wave_veil": 0.486,
+      "jetting": 0.601,
+      "shroud": 0.366,
+      "beach": 0.134
+    },
+    "Crushing Hammer": {
+      "a": 0.803,
+      "b": 0.197,
+      "tie": 0.0,
+      "first": 0.793168880455408,
+      "second": 0.813953488372093,
+      "manaphy": 0.83,
+      "wave_veil": 0.498,
+      "jetting": 0.617,
+      "shroud": 0.367,
+      "beach": 0.105
+    },
+    "Igglybuff": {
+      "a": 0.776,
+      "b": 0.224,
+      "tie": 0.0,
+      "first": 0.7453183520599251,
+      "second": 0.8111587982832618,
+      "manaphy": 0.826,
+      "wave_veil": 0.478,
+      "jetting": 0.624,
+      "shroud": 0.372,
+      "beach": 0.119
+    },
+    "Iono": {
+      "a": 0.81,
+      "b": 0.19,
+      "tie": 0.0,
+      "first": 0.7870722433460076,
+      "second": 0.8354430379746836,
+      "manaphy": 0.84,
+      "wave_veil": 0.49,
+      "jetting": 0.608,
+      "shroud": 0.337,
+      "beach": 0.124
+    },
+    "Mime Jr.": {
+      "a": 0.784,
+      "b": 0.216,
+      "tie": 0.0,
+      "first": 0.7695390781563126,
+      "second": 0.7984031936127745,
+      "manaphy": 0.838,
+      "wave_veil": 0.555,
+      "jetting": 0.676,
+      "shroud": 0.373,
+      "beach": 0.136
+    },
+    "Mew ex": {
+      "a": 0.791,
+      "b": 0.209,
+      "tie": 0.0,
+      "first": 0.7744510978043913,
+      "second": 0.8076152304609219,
+      "manaphy": 0.821,
+      "wave_veil": 0.505,
+      "jetting": 0.638,
+      "shroud": 0.384,
+      "beach": 0.128
+    },
+    "Max Potion": {
+      "a": 0.8,
+      "b": 0.2,
+      "tie": 0.0,
+      "first": 0.7769230769230769,
+      "second": 0.825,
+      "manaphy": 0.845,
+      "wave_veil": 0.549,
+      "jetting": 0.653,
+      "shroud": 0.377,
+      "beach": 0.1
+    },
+    "Nest Ball": {
+      "a": 0.793,
+      "b": 0.207,
+      "tie": 0.0,
+      "first": 0.7677165354330708,
+      "second": 0.8191056910569106,
+      "manaphy": 0.847,
+      "wave_veil": 0.519,
+      "jetting": 0.617,
+      "shroud": 0.372,
+      "beach": 0.108
+    },
+    "Night Stretcher": {
+      "a": 0.786,
+      "b": 0.214,
+      "tie": 0.0,
+      "first": 0.7595959595959596,
+      "second": 0.8118811881188119,
+      "manaphy": 0.805,
+      "wave_veil": 0.479,
+      "jetting": 0.612,
+      "shroud": 0.358,
+      "beach": 0.106
+    },
+    "Penny": {
+      "a": 0.816,
+      "b": 0.184,
+      "tie": 0.0,
+      "first": 0.8072519083969466,
+      "second": 0.8256302521008403,
+      "manaphy": 0.849,
+      "wave_veil": 0.505,
+      "jetting": 0.623,
+      "shroud": 0.388,
+      "beach": 0.131
+    },
+    "Professor's Research": {
+      "a": 0.795,
+      "b": 0.205,
+      "tie": 0.0,
+      "first": 0.7836734693877551,
+      "second": 0.8058823529411765,
+      "manaphy": 0.833,
+      "wave_veil": 0.494,
+      "jetting": 0.612,
+      "shroud": 0.369,
+      "beach": 0.123
+    },
+    "control:Bravery Charm": {
+      "a": 0.628,
+      "b": 0.372,
+      "tie": 0.0,
+      "first": 0.6118421052631579,
+      "second": 0.6415441176470589,
+      "manaphy": 0.0,
+      "wave_veil": 0.0,
+      "jetting": 0.608,
+      "shroud": 0.335,
+      "beach": 0.106
+    },
+    "control:Ultra Ball": {
+      "a": 0.635,
+      "b": 0.365,
+      "tie": 0.0,
+      "first": 0.6015625,
+      "second": 0.6700819672131147,
+      "manaphy": 0.0,
+      "wave_veil": 0.0,
+      "jetting": 0.596,
+      "shroud": 0.317,
+      "beach": 0.107
+    },
+    "Spiky Energy": {
+      "a": 0.796,
+      "b": 0.204,
+      "tie": 0.0,
+      "first": 0.783625730994152,
+      "second": 0.8090349075975359,
+      "manaphy": 0.827,
+      "wave_veil": 0.525,
+      "jetting": 0.656,
+      "shroud": 0.397,
+      "beach": 0.123
+    },
+    "Ultra Ball": {
+      "a": 0.848,
+      "b": 0.152,
+      "tie": 0.0,
+      "first": 0.8292220113851992,
+      "second": 0.86892177589852,
+      "manaphy": 0.847,
+      "wave_veil": 0.505,
+      "jetting": 0.607,
+      "shroud": 0.359,
+      "beach": 0.115
+    },
+    "control:Professor's Research": {
+      "a": 0.651,
+      "b": 0.349,
+      "tie": 0.0,
+      "first": 0.629277566539924,
+      "second": 0.6751054852320675,
+      "manaphy": 0.0,
+      "wave_veil": 0.0,
+      "jetting": 0.592,
+      "shroud": 0.329,
+      "beach": 0.124
+    }
+  },
+  "note": "Cut Budew for Manaphy. Weighted 78.2% \u2192 86.5% once Mega Starmie is in the field. Charm, Ultra Ball, and Research in that slot stay near the baseline because they still lose to Starmie. SET_M60_NAMES has one Manaphy and no Budew."
+}
