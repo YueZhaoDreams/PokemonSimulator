@@ -281,6 +281,27 @@ def parse_ability_effects(text: str) -> list[dict[str, Any]]:
     elif "has no abilities" in t and "active" in t:
         effects.append({"kind": "suppress_opponent_active_abilities"})
 
+    # Froslass Freezing Shroud (TWM 53): Pokémon Checkup places 1 counter on each
+    # Pokémon with an Ability, except any Froslass.
+    if "during pokemon checkup" in t and "damage counter on each pokemon that has an ability" in t:
+        n = re.search(r"put (\d+) damage counter", t)
+        effects.append(
+            {
+                "kind": "checkup_counter_on_ability",
+                "counters": int(n.group(1) if n else 1),
+                "except_name": "froslass" if "except any froslass" in t else None,
+            }
+        )
+
+    # Surfing Beach: once per turn, switch the Active Water Pokémon with a Benched Water Pokémon.
+    if (
+        "switch their active" in t
+        and "benched" in t
+        and "water pokemon" in t
+        and "once during each player's turn" in t
+    ):
+        effects.append({"kind": "switch_typed_active", "energy_type": "Water", "once_per_turn": True})
+
     # Dudunsparce Run Away Draw: draw N, then shuffle this Pokémon into the deck.
     if "shuffle this pokemon" in t and "into your deck" in t and "draw" in t:
         n = re.search(r"draw (\d+)", t)
@@ -815,6 +836,8 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
 
     if "can't play any item" in t or "cannot play any item" in t:
         effects.append({"kind": "lock_items"})
+    if "defending pokemon can't retreat" in t or "defending pokemon cannot retreat" in t:
+        effects.append({"kind": "no_retreat_next_turn"})
 
     one_poke = re.search(r"does (\d+) damage to 1 of your opponent'?s? pokemon", t)
     if one_poke:
@@ -920,13 +943,22 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
         if psychic_ref and "attached" in t and "discarded" not in t:
             effects.append({"kind": "psychic_energy_times", "per": parse_damage(damage_raw) or 20})
         elif "discarded" not in t:
+            opp_hand = re.search(r"does (\d+) damage for each card in your opponent's hand", t)
+            opp_ex = re.search(
+                r"does (\d+) damage for each of your opponent's pokemon ex in play",
+                t,
+            )
             hand_times = re.search(r"does (\d+) damage for each card in your hand", t)
             coin_times = re.search(r"flip (\d+) coins?.*?for each heads", t)
             own_bench = re.search(
                 r"this attack does (\d+) damage for each of your benched pokemon",
                 t,
             )
-            if hand_times:
+            if opp_hand:
+                effects.append({"kind": "opponent_hand_times", "per": int(opp_hand.group(1))})
+            elif opp_ex:
+                effects.append({"kind": "opponent_ex_times", "per": int(opp_ex.group(1))})
+            elif hand_times:
                 effects.append({"kind": "hand_count_times", "per": int(hand_times.group(1))})
             elif coin_times:
                 effects.append(
@@ -1101,6 +1133,14 @@ def parse_trainer_effects(text: str) -> list[dict[str, Any]]:
     t = _normalize_card_text(text)
     effects: list[dict[str, Any]] = []
     if not t:
+        return effects
+    # Hilda: an Evolution Pokémon and an Energy card from the deck.
+    if "evolution pokemon and an energy card" in t and "search your deck" in t and "into your hand" in t:
+        effects.append({"kind": "search_evolution_and_energy"})
+        return effects
+    # Lucian: each player shuffles their hand under the deck, then flips to draw 6 or 3.
+    if "shuffles their hand" in t and "bottom of their deck" in t and "draws 6 cards" in t and "draw 3" in t:
+        effects.append({"kind": "lucian_coin_draw", "heads": 6, "tails": 3})
         return effects
     # Wondrous Patch (ME02 94 / Perfect Order 117): one Basic Psychic from
     # discard onto one Benched Psychic Pokémon. The "1" is the printed count.
@@ -1590,6 +1630,7 @@ def _extend_conditional_energy_effects(t: str, effects: list[dict[str, Any]]) ->
                 "evolution_only": "evolution pokemon" in flat,
                 "no_rule_box": "doesn't have a rule box" in flat or "does not have a rule box" in flat,
                 "dragon_only": "dragon" in flat and "only while" in flat,
+                "basic_only": "if this card is attached to a basic pokemon" in flat,
             }
         )
     if "discard this card" in flat and "other than a dragon" in flat:
@@ -1697,6 +1738,8 @@ def _any_energy_applies(spec: dict[str, Any], *, prizes_behind: bool, host: Any)
     if spec.get("no_rule_box") and host_has_rule_box(host):
         return False
     if spec.get("dragon_only") and not host_is_dragon(host):
+        return False
+    if spec.get("basic_only") and not getattr(host, "is_basic", False):
         return False
     return True
 

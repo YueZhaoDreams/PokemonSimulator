@@ -653,6 +653,26 @@ STRATEGY_LIBRARY = {
         closers=["Mew ex"],
         one_mew=True,
     ),
+    "starmie": StrategySpec(
+        name="starmie",
+        description=(
+            "Mega Starmie ex evolves from Staryu. Jetting Blow costs one Water Energy, "
+            "does 120 to the Active, and also does 50 damage to 1 of the opponent's Benched Pokémon. "
+            "Froslass Freezing Shroud places a damage counter on each Pokémon with an Ability during Pokémon Checkup. "
+            "Surfing Beach switches the Active Water Pokémon with a Benched Water Pokémon. "
+            "Hilda searches an Evolution Pokémon and an Energy card."
+        ),
+        prefer_damage=1.0,
+        prefer_status=0.2,
+        bench_fill=1.0,
+        evolve_asap=1.0,
+        attach_pokemon_as_energy=0.0,
+        item_spend=1.0,
+        hold_as_energy=False,
+        protect=["Mega Starmie ex", "Staryu", "Froslass", "Mega Froslass ex", "Munkidori"],
+        search_aces=["Staryu", "Snorunt"],
+        closers=["Mega Starmie ex"],
+    ),
     "thorns": StrategySpec(
         name="thorns",
         description="Iron Thorns ex stays Active, locks Rule Box Abilities, and chains Volt Cyclone.",
