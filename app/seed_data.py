@@ -1182,6 +1182,11 @@ _register(
         "Put a Pokémon or a Basic Energy card from your discard pile into your hand.",
     )
 )
+# Evolving Skies 154. Printed HP, not remaining HP. Mew ex is 160 and stays in the discard.
+_RESCUE_CARRIER_TEXT = (
+    "Put up to 2 Pokémon, each with 90 HP or less, from your discard pile into your hand."
+)
+_register(_trn("Rescue Carrier", "item", _RESCUE_CARRIER_TEXT, catalog_id="swsh7-154"))
 _register(
     _trn(
         "Unfair Stamp",

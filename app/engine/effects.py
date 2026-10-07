@@ -1142,6 +1142,20 @@ def parse_trainer_effects(text: str) -> list[dict[str, Any]]:
     if "shuffles their hand" in t and "bottom of their deck" in t and "draws 6 cards" in t and "draw 3" in t:
         effects.append({"kind": "lucian_coin_draw", "heads": 6, "tails": 3})
         return effects
+    # Rescue Carrier (EVS 154): up to N Pokémon, each with at most M HP, from discard to hand.
+    carrier = re.search(
+        r"put up to (\d+) pokemon, each with (\d+) hp or less, from your discard pile into your hand",
+        t,
+    )
+    if carrier:
+        effects.append(
+            {
+                "kind": "rescue_carrier",
+                "count": int(carrier.group(1)),
+                "max_hp": int(carrier.group(2)),
+            }
+        )
+        return effects
     # Wondrous Patch (ME02 94 / Perfect Order 117): one Basic Psychic from
     # discard onto one Benched Psychic Pokémon. The "1" is the printed count.
     if (
