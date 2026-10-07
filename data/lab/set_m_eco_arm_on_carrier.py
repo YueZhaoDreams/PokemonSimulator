@@ -1,23 +1,20 @@
 #!/usr/bin/env python3
-"""Greedy Eco Arm swaps on the pre-carrier Manaphy Set M.
+"""Greedy Eco Arm swaps on the locked two Rescue Carrier Set M.
 
-Start from M60_BEFORE: one Manaphy, no Budew, two Spiky Energy, no Rescue Carrier.
-Each step replaces exactly one copy of one other card with one Eco Arm. The
-decision score is the loss-weighted win rate. Weights are frozen from that
-starting list, including Kudo's Mega Starmie. Stop when the next copy does not
-raise the score, or at 4.
-
-SET_M60_NAMES later locked two Rescue Carrier and still has two Spiky Energy.
-This script keeps the pre-carrier list it actually searched. The rerun on that
-locked 60 is data/lab/set_m_eco_arm_on_carrier.py.
+Start from SET_M60_NAMES: one Manaphy, two Rescue Carrier, two Spiky Energy,
+three Max Potion, one Boss's Orders, no Eco Arm. Each step replaces exactly
+one copy of one other card with one Eco Arm. The decision score is the
+loss-weighted win rate. Weights are frozen from that starting list, including
+Kudo's Mega Starmie. Stop when the next copy does not raise the score, or at 4.
 
 Ancient Origins Eco Arm: shuffle 3 Pokémon Tool cards from the discard pile
 into the deck. The sentence does not say "up to", so fewer than 3 Tools cannot
 play it. Set M recovers Hero's Cape first, then Bursting Balloon, then Bravery
 Charm. Battle Cage is a Stadium and is not a Tool.
 
-The 0-copy cells are the locked list from seed 20261007, 1000 games:
-data/lab/set-m-manaphy-starmie.json, cut Budew.
+The 0-copy cells are the locked two-carrier list from seed 20261007, 1000 games:
+data/lab/set-m-rescue-carrier.json, copies 2. An earlier search used the
+pre-carrier Manaphy 60 and is kept in data/lab/set-m-eco-arm.json.
 """
 
 from __future__ import annotations
@@ -40,46 +37,14 @@ from app.seed_data import (
     IRON_THORNS_NAMES,
     SET_C60_NAMES,
     SET_D60_NAMES,
+    SET_M60_NAMES,
     SET_STARMIE60_NAMES,
     SET_T60_NAMES,
     SET_T_META_NAMES,
     build_fallback_deck,
 )
 
-# The 60 this search actually started from, before Rescue Carrier and Eco Arm were locked.
-M60_BEFORE = (
-    ["Mew ex"] * 3
-    + ["Mime Jr."] * 2
-    + ["Igglybuff"] * 4
-    + ["Manaphy"]
-    + ["Buddy-Buddy Poffin"] * 4
-    + ["Nest Ball"] * 4
-    + ["Ultra Ball"] * 2
-    + ["Night Stretcher"] * 4
-    + ["Battle Cage"] * 4
-    + ["Bravery Charm"] * 3
-    + ["Bursting Balloon"] * 2
-    + ["Hero's Cape"]
-    + ["Max Potion"] * 4
-    + ["Arven"] * 4
-    + ["Iono"] * 4
-    + ["Professor's Research"] * 2
-    + ["Boss's Orders"] * 2
-    + ["Penny"] * 2
-    + ["Crushing Hammer"] * 4
-    + ["Counter Catcher"] * 2
-    + ["Spiky Energy"] * 2
-)
-
-# Published locked-list win rates. Seed 20261007, 1000 games.
-BASELINE_RATES = {
-    "t60": 0.897,
-    "hedrick": 0.866,
-    "c60": 0.868,
-    "d60": 0.989,
-    "thorns": 0.988,
-    "starmie": 0.825,
-}
+CARRIER_REPORT = ROOT / "data/lab/set-m-rescue-carrier.json"
 
 FOES = (
     ("t60", "Dragapult ex (T60)", SET_T60_NAMES, "phantom"),
@@ -94,8 +59,8 @@ GAMES = int(os.environ.get("M_ECO_GAMES", "1000"))
 SEED = int(os.environ.get("M_ECO_SEED", "20261007"))
 WORKERS = int(os.environ.get("M_ECO_WORKERS", "4"))
 IN_NAME = "Eco Arm"
-DEST = ROOT / "data/lab/set-m-eco-arm.json"
-MD_DEST = ROOT / "data/lab/set-m-eco-arm.md"
+DEST = ROOT / "data/lab/set-m-eco-arm-on-carrier.json"
+MD_DEST = ROOT / "data/lab/set-m-eco-arm-on-carrier.md"
 
 QUERIES = [
     {"type": "event_prefix", "prefix": "eco_arm_a", "key": "eco_arm"},
@@ -109,6 +74,36 @@ def loss_weights(rates: dict[str, float]) -> dict[str, float]:
     raw = {key: max(1e-6, 1.0 - rates[key]) for key, *_ in FOES}
     total = sum(raw.values())
     return {key: raw[key] / total for key in raw}
+
+
+def _starting_list() -> list[str]:
+    names = list(SET_M60_NAMES)
+    counts = Counter(names)
+    if len(names) != 60:
+        raise SystemExit(f"SET_M60_NAMES has {len(names)} cards")
+    expected = {
+        "Manaphy": 1,
+        "Budew": 0,
+        "Eco Arm": 0,
+        "Rescue Carrier": 2,
+        "Spiky Energy": 2,
+        "Max Potion": 3,
+        "Boss's Orders": 1,
+    }
+    for name, count in expected.items():
+        if counts[name] != count:
+            raise SystemExit(f"SET_M60_NAMES has {counts[name]} {name}, expected {count}")
+    return names
+
+
+def _baseline_rates() -> dict[str, float]:
+    data = json.loads(CARRIER_REPORT.read_text())
+    if data.get("games") != 1000 or data.get("seed") != 20261007:
+        raise SystemExit("Rescue Carrier report is not the seed 20261007, 1000-game table")
+    row = next(item for item in data["array"] if item.get("copies") == 2)
+    if Counter(row["list"]) != Counter(SET_M60_NAMES):
+        raise SystemExit("SET_M60_NAMES does not match the published two-carrier list")
+    return {key: row["cells"][key]["a"] for key, *_ in FOES}
 
 
 def swap_one(names: list[str], cut: str) -> list[str]:
@@ -236,19 +231,20 @@ def _cell(cells: dict, key: str) -> str:
 def _render_md(report: dict) -> str:
     weights = report["weights"]
     lines = [
-        "# Set M greedy Eco Arm",
+        "# Set M greedy Eco Arm on the two Rescue Carrier list",
         "",
-        "Starting 60 is the locked Manaphy list: one Manaphy, no Budew.",
+        "Starting 60 is the locked Set M list: two Rescue Carrier, two Spiky Energy, three Max Potion, one Boss's Orders.",
         "Ancient Origins Eco Arm shuffles 3 Pokémon Tool cards from the discard pile into the deck.",
         "The sentence does not say \"up to\", so the Item stays in hand when fewer than 3 Tools are in the discard.",
         "Set M recovers Hero's Cape first, then Bursting Balloon, then Bravery Charm.",
         "Battle Cage is a Stadium. It is not a Tool, and Eco Arm leaves it in the discard.",
         "Arven can search the Tools again after they return to the deck.",
+        "The earlier table in `data/lab/set-m-eco-arm.md` searched the pre-carrier Manaphy 60.",
         "",
         f"- **Seed**: `{report['seed']}`",
         f"- **Games per new cell**: {report['games']}",
         "- **Score**: loss-weighted win rate. Weights are frozen from the 0-copy list.",
-        "- **0-copy cells**: reused from the locked list, seed 20261007, 1000 games.",
+        "- **0-copy cells**: reused from the locked two Rescue Carrier list, seed 20261007, 1000 games.",
         "- **Weights**: "
         + ", ".join(f"{key} {weights[key]:.1%}" for key, *_ in FOES),
         f"- **Copies**: {report['copies']}",
@@ -302,9 +298,9 @@ def _write(report: dict) -> None:
     MD_DEST.write_text(_render_md(report))
 
 
-def _baseline_cells() -> dict[str, dict]:
+def _baseline_cells(rates: dict[str, float]) -> dict[str, dict]:
     return {
-        key: {"a": BASELINE_RATES[key], "eco_arm": 0.0, "cape": 0.0, "balloon": 0.0, "charm": 0.0}
+        key: {"a": rates[key], "eco_arm": 0.0, "cape": 0.0, "balloon": 0.0, "charm": 0.0}
         for key, *_ in FOES
     }
 
@@ -320,17 +316,14 @@ def _load() -> dict | None:
 
 def main() -> None:
     started = time.perf_counter()
-    current = list(M60_BEFORE)
-    if len(current) != 60:
-        raise SystemExit(f"M60_BEFORE has {len(current)} cards")
-    if current.count("Manaphy") != 1 or current.count("Budew") or current.count(IN_NAME):
-        raise SystemExit("baseline is not the locked one-Manaphy list")
-
-    weights = loss_weights(BASELINE_RATES)
-    base_cells = _baseline_cells()
+    start = _starting_list()
+    current = list(start)
+    rates = _baseline_rates()
+    weights = loss_weights(rates)
+    base_cells = _baseline_cells(rates)
     base_weighted = _weighted(base_cells, weights)
     saved = _load()
-    if saved and saved.get("list_start") == current:
+    if saved and saved.get("list_start") == start:
         array = saved["array"]
         steps = saved["steps"]
         pending = saved.get("pending") or {}
@@ -352,8 +345,12 @@ def main() -> None:
         steps = []
         pending = {}
     print(
-        f"baseline weighted {base_weighted:.1%}  "
-        f"weights {', '.join(f'{k} {weights[k]:.1%}' for k, *_ in FOES)}",
+        f"baseline weighted {base_weighted:.2%}  "
+        f"rates {', '.join(f'{k} {rates[k]:.1%}' for k, *_ in FOES)}",
+        flush=True,
+    )
+    print(
+        "weights " + ", ".join(f"{k} {weights[k]:.1%}" for k, *_ in FOES),
         flush=True,
     )
 
@@ -364,7 +361,7 @@ def main() -> None:
             "elapsed": time.perf_counter() - started + float((saved or {}).get("elapsed") or 0),
             "rule_preset": "s60",
             "method": (
-                "greedy one-card Eco Arm swap from the locked Manaphy Set M; "
+                "greedy one-card Eco Arm swap from the locked two Rescue Carrier Set M; "
                 "printed effect shuffles 3 Pokémon Tools from discard into the deck; "
                 "recovery order is Hero's Cape, Bursting Balloon, Bravery Charm; "
                 "foes are T60, Hedrick, C60, D60, Crushing Thorn, and Kudo Mega Starmie; "
@@ -373,13 +370,14 @@ def main() -> None:
             ),
             "foes": {key: strat for key, _label, _names, strat in FOES},
             "weights": weights,
+            "baseline_rates": rates,
             "copies": current.count(IN_NAME),
             "cuts": [row["cut"] for row in array[1:]],
             "win_rate_array": [row["weighted"] for row in array],
             "array": array,
             "steps": steps,
             "rejected": rejected,
-            "list_start": list(M60_BEFORE),
+            "list_start": start,
             "list": current,
             "pending": pending_cells,
             "done": done,
@@ -425,7 +423,7 @@ def main() -> None:
         steps.append(step)
         pending = {}
         print(
-            f"best cut {best['cut']} -> weighted {best['weighted']:.1%} "
+            f"best cut {best['cut']} -> weighted {best['weighted']:.2%} "
             f"(mean {best['mean']:.1%}, arm {best['eco_arm']:.1%}, "
             f"cape {best['cape']:.1%}, balloon {best['balloon']:.1%}, charm {best['charm']:.1%}) "
             f"({'keep' if accepted else 'stop'})",

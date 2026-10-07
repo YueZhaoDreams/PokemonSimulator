@@ -487,14 +487,6 @@ SET_T_UNL_NAMES = (
 # Weighted 86.4% → 87.3% → 88.2%. The next copy (Boss's Orders, 88.17%) does not rise.
 # Cuts: Boss's Orders (2 → 1), Max Potion (4 → 3). Two Rescue Carrier.
 # Night Stretcher stays at 4. The printed sentence stops at 90 HP, so Mew ex stays in the discard.
-# Eco Arm on the pre-carrier Manaphy list. Seed 20261007, 1000 games.
-# Weights frozen from that 0-copy list, including Kudo's Starmie:
-# Starmie 30.9%, Hedrick 23.6%, C60 23.3%, T60 18.2%, Thorns 2.1%, D60 1.9%.
-# Weighted 86.4% → 87.2%. The next copy (Boss's Orders, 86.96%) does not rise.
-# Cut: Spiky Energy (2 → 1). One Eco Arm.
-# Ancient Origins: shuffle 3 Pokémon Tools from the discard into the deck.
-# Hero's Cape first, then Bursting Balloon, then Bravery Charm.
-# The same Spiky cut is locked on this two-carrier list. Those cuts do not share a card.
 SET_M60_NAMES = (
     ["Mew ex"] * 3
     + ["Mime Jr."] * 2
@@ -517,8 +509,7 @@ SET_M60_NAMES = (
     + ["Penny"] * 2
     + ["Crushing Hammer"] * 4
     + ["Counter Catcher"] * 2
-    + ["Spiky Energy"]
-    + ["Eco Arm"]
+    + ["Spiky Energy"] * 2
 )
 SET_M_NAMES = SET_M60_NAMES
 SET_MEW_BABY_60_NAMES = SET_M60_NAMES

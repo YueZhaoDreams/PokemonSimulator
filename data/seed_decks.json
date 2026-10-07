@@ -24706,11 +24706,13 @@
         "traits": []
       },
       {
-        "catalog_id": "xy7-71",
-        "name": "Eco Arm",
-        "category": "Trainer",
-        "stage": "Item",
-        "types": [],
+        "catalog_id": "sv09-159",
+        "name": "Spiky Energy",
+        "category": "Energy",
+        "stage": "Special",
+        "types": [
+          "Colorless"
+        ],
         "hp": 0,
         "attacks": [],
         "abilities": [],
@@ -24718,11 +24720,11 @@
         "resistances": [],
         "retreat": 0,
         "evolves_from": null,
-        "trainer_kind": "item",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/xy/xy7/71/low.webp",
-        "set_name": null,
-        "text": "Shuffle 3 Pok\u00e9mon Tool cards from your discard pile into your deck.",
+        "trainer_kind": null,
+        "energy_type": "Colorless",
+        "image": "https://assets.tcgdex.net/en/sv/sv09/159/low.webp",
+        "set_name": "Journey Together",
+        "text": "As long as this card is attached to a Pok\u00e9mon, it provides Colorless Energy.\n\nIf the Pok\u00e9mon this card is attached to is in the Active Spot and is damaged by an attack from your opponent's Pok\u00e9mon (even if this Pok\u00e9mon is Knocked Out), put 2 damage counters on the Attacking Pok\u00e9mon.",
         "dex_id": null,
         "traits": []
       }
