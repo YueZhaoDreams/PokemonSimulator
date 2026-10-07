@@ -248,7 +248,7 @@ def _render_md(report: dict) -> str:
         "- **Weights**: "
         + ", ".join(f"{key} {weights[key]:.1%}" for key, *_ in FOES),
         f"- **Copies**: {report['copies']}",
-        f"- **Cuts**: {', '.join(report['cuts']) or '(none yet)'}",
+        f"- **Cuts**: {', '.join(report['cuts']) or '(none)'}",
         f"- **Elapsed**: {report['elapsed']:.1f}s",
         "",
         "| Eco Arm | Weighted | Mean | Cut this step | vs T60 | vs Hedrick | vs C60 | vs D60 | vs Thorns | vs Starmie |",
