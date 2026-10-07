@@ -1951,6 +1951,26 @@ class Game:
                     score += 12
                 else:
                     score -= 8
+            elif any(e.get("kind") == "shuffle_tools_to_deck" for e in parse_trainer_effects(card.text or "")):
+                spec = next(
+                    e for e in parse_trainer_effects(card.text or "") if e.get("kind") == "shuffle_tools_to_deck"
+                )
+                picked = self._tools_to_shuffle(me, int(spec.get("count") or 0))
+                names = {me.card(i).name.lower() for i in picked}
+                if not picked:
+                    score -= 12
+                elif strat.name in {"mew_baby", "baby"} and "hero's cape" in names:
+                    # Cape goes back into the deck before Arven searches for it.
+                    score += 44
+                elif strat.name in {"mew_baby", "baby"} and (
+                    "bursting balloon" in names or "bravery charm" in names
+                ):
+                    # Below an HP Tool already in hand, above Arven, so the search sees them.
+                    score += 22
+                elif strat.name in {"mew_baby", "baby"}:
+                    score -= 6
+                else:
+                    score += 8
             elif name == "night stretcher":
                 rec_pkm = any(me.card(i).is_pokemon for i in me.discard)
                 rec_nrg = any(is_basic_energy(me.card(i)) for i in me.discard)
@@ -6228,6 +6248,47 @@ class Game:
             self._bump("rescue_carrier")
             self._bump(f"rescue_carrier_{me.name.lower()}")
             self._log(f"{me.name} Rescue Carrier takes {me.card(card_i).name}")
+
+    def _tools_to_shuffle(self, me: Player, count: int) -> list[int]:
+        """Pokémon Tools Eco Arm can shuffle back. Fewer than the printed count is illegal.
+
+        Set M takes Hero's Cape first, then Bursting Balloon, then Bravery Charm.
+        A Stadium such as Battle Cage is not a Tool.
+        """
+        if count <= 0:
+            return []
+        tools = [card_i for card_i in me.discard if self._is_tool_card(me.card(card_i))]
+        if len(tools) < count:
+            return []
+        priority = ("hero's cape", "bursting balloon", "bravery charm")
+
+        def rank(card_i: int) -> tuple:
+            name = me.card(card_i).name.lower()
+            if name in priority:
+                return (0, priority.index(name), name)
+            return (1, 0, name)
+
+        return sorted(tools, key=rank)[:count]
+
+    def _shuffle_tools_to_deck(self, me: Player, count: int) -> None:
+        picks = self._tools_to_shuffle(me, count)
+        if len(picks) < count:
+            self._bump("eco_arm_fail")
+            return
+        for card_i in picks:
+            me.discard.remove(card_i)
+            me.deck.append(card_i)
+            name = me.card(card_i).name.lower()
+            if name == "hero's cape":
+                self._bump("eco_arm_cape")
+            elif name == "bursting balloon":
+                self._bump("eco_arm_balloon")
+            elif name == "bravery charm":
+                self._bump("eco_arm_charm")
+            self._log(f"{me.name} Eco Arm shuffles {me.card(card_i).name} into the deck")
+        self.rng.shuffle(me.deck)
+        self._bump("eco_arm")
+        self._bump(f"eco_arm_{me.name.lower()}")
 
     def _damage_one_pokemon(self, me: Player, foe: Player, amount: int, bench_only: bool = False) -> None:
         if amount <= 0 or not foe.active:
@@ -13638,6 +13699,8 @@ class Game:
             self._rescue_stretcher(me, who, int(eff.get("shuffle_count") or 0))
         elif kind == "rescue_carrier":
             self._rescue_carrier(me, who, int(eff.get("count") or 0), int(eff.get("max_hp") or 0))
+        elif kind == "shuffle_tools_to_deck":
+            self._shuffle_tools_to_deck(me, int(eff.get("count") or 0))
         elif kind == "shuffle_special_energy_to_deck":
             self._shuffle_special_energy_to_deck(me, int(eff.get("count") or 0))
         elif kind == "discard_tools_and_stadiums":

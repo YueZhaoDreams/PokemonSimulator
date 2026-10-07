@@ -1187,6 +1187,9 @@ _RESCUE_CARRIER_TEXT = (
     "Put up to 2 Pokémon, each with 90 HP or less, from your discard pile into your hand."
 )
 _register(_trn("Rescue Carrier", "item", _RESCUE_CARRIER_TEXT, catalog_id="swsh7-154"))
+# Ancient Origins 71. Shuffle exactly 3 Tools. The sentence does not say "up to".
+_ECO_ARM_TEXT = "Shuffle 3 Pokémon Tool cards from your discard pile into your deck."
+_register(_trn("Eco Arm", "item", _ECO_ARM_TEXT, catalog_id="xy7-71"))
 _register(
     _trn(
         "Unfair Stamp",
