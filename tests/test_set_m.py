@@ -24,7 +24,8 @@ def test_set_m_card_count_and_composition():
     assert SET_M60_NAMES.count("Mew ex") == 3
     assert SET_M60_NAMES.count("Mime Jr.") == 2
     assert SET_M60_NAMES.count("Igglybuff") == 4
-    assert SET_M60_NAMES.count("Budew") == 1
+    assert SET_M60_NAMES.count("Budew") == 0
+    assert SET_M60_NAMES.count("Manaphy") == 1
     assert SET_M60_NAMES.count("Cleffa") == 0
     total_pokemon = 3 + 2 + 4 + 1
     assert total_pokemon == 10
@@ -35,6 +36,7 @@ def test_set_m_card_count_and_composition():
     # Two Spiky Energy then cut Switch and 1 Boss's Orders (3 → 2). Copies stack.
     # Two Penny then cut 1 Ultra Ball (3 → 2) and 1 Mew ex (4 → 3).
     # One Mew ex in play, then one Budew cut 1 Bravery Charm (4 → 3).
+    # Mega Starmie in the field, then that Budew cut for one Manaphy.
     assert SET_M60_NAMES.count("Buddy-Buddy Poffin") == 4
     assert SET_M60_NAMES.count("Battle Cage") == 4
     assert SET_M60_NAMES.count("Bravery Charm") == 3

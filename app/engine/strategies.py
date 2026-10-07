@@ -615,8 +615,7 @@ STRATEGY_LIBRARY = {
         name="mew_baby",
         description=(
             "Mew ex (160 HP) in Active Spot copies benched 30-HP Baby Pokémon attacks for 0 energy: "
-            "Igglybuff Bouncy Circle for 30x benched 30-HP, "
-            "Budew Itchy Pollen for Item lock, Cleffa Grasping Draw to refill hand, Mime Jr. Mimed Games. "
+            "Igglybuff Bouncy Circle for 30x benched 30-HP, Mime Jr. Mimed Games. "
             "Buddy-Buddy Poffin and Nest Ball swarm 5 babies on bench. Battle Cage prevents bench damage counters. "
             "Manaphy stays in hand until an opposing attack does damage a Benched Pokémon can take. "
             "One copy then takes the last bench slot. Wave Veil prevents that damage. "
@@ -648,7 +647,7 @@ STRATEGY_LIBRARY = {
         item_spend=1.0,
         self_preserve=0.5,
         hold_as_energy=False,
-        protect=["Mew ex", "Igglybuff", "Budew", "Battle Cage"],
+        protect=["Mew ex", "Igglybuff", "Manaphy", "Battle Cage"],
         search_aces=["Mew ex", "Igglybuff"],
         closers=["Mew ex"],
         one_mew=True,
@@ -740,7 +739,7 @@ STRATEGY_LIBRARY = {
         item_spend=1.0,
         self_preserve=0.5,
         hold_as_energy=False,
-        protect=["Mew ex", "Igglybuff", "Budew", "Battle Cage"],
+        protect=["Mew ex", "Igglybuff", "Manaphy", "Battle Cage"],
         search_aces=["Mew ex", "Igglybuff"],
         closers=["Mew ex"],
         one_mew=True,

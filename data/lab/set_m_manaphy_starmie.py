@@ -25,7 +25,33 @@ sys.path.insert(0, str(ROOT))
 from app.engine.models import standard_60_rules
 from app.engine.montecarlo import run_simulation
 from app.engine.strategies import StrategySpec
-from app.seed_data import SET_M60_NAMES, SET_STARMIE60_NAMES, build_fallback_deck
+from app.seed_data import SET_STARMIE60_NAMES, build_fallback_deck
+
+# The 60 this matrix measured, before Budew was cut for Manaphy.
+# SET_M60_NAMES now contains that Manaphy.
+BASELINE_NAMES = (
+    ["Mew ex"] * 3
+    + ["Mime Jr."] * 2
+    + ["Igglybuff"] * 4
+    + ["Budew"]
+    + ["Buddy-Buddy Poffin"] * 4
+    + ["Nest Ball"] * 4
+    + ["Ultra Ball"] * 2
+    + ["Night Stretcher"] * 4
+    + ["Battle Cage"] * 4
+    + ["Bravery Charm"] * 3
+    + ["Bursting Balloon"] * 2
+    + ["Hero's Cape"]
+    + ["Max Potion"] * 4
+    + ["Arven"] * 4
+    + ["Iono"] * 4
+    + ["Professor's Research"] * 2
+    + ["Boss's Orders"] * 2
+    + ["Penny"] * 2
+    + ["Crushing Hammer"] * 4
+    + ["Counter Catcher"] * 2
+    + ["Spiky Energy"] * 2
+)
 
 OLD = ROOT / "data/lab/set-m-manaphy.json"
 DEST = ROOT / "data/lab/set-m-manaphy-starmie.json"
@@ -212,7 +238,7 @@ def _merge(starmie_cells: dict[str, dict], elapsed: float) -> dict:
         "best_cut": best["cut"],
         "best_weighted": best["weighted"],
         "worth_swapping": bool(any_cut_beats and (best["cut"] != "Budew" or manaphy_is_best_budew)),
-        "lock_list": False,
+        "lock_list": bool(any_cut_beats and best["cut"] == "Budew" and manaphy_is_best_budew),
         "manaphy_beats_baseline": manaphy_beats_baseline,
         "best_budew_replacement": best_control["replacement"],
         "starmie_cells": starmie_cells,
@@ -227,6 +253,12 @@ def _note(report: dict) -> str:
     best = report["best_cut"]
     best_w = report["best_weighted"]
     replacement = report["best_budew_replacement"]
+    if report["lock_list"]:
+        return (
+            f"Cut Budew for Manaphy. Weighted {base:.1%} → {best_w:.1%} once Mega Starmie is in the field. "
+            f"Charm, Ultra Ball, and Research in that slot stay near the baseline because they still lose to Starmie. "
+            f"SET_M60_NAMES has one Manaphy and no Budew."
+        )
     if report["worth_swapping"]:
         return (
             f"Best Manaphy cut is {best} at {best_w:.1%} against the baseline {base:.1%}, "
@@ -297,7 +329,7 @@ def _render(report: dict) -> str:
 
 def main() -> None:
     started = time.perf_counter()
-    current = list(SET_M60_NAMES)
+    current = list(BASELINE_NAMES)
     if len(current) != 60 or current.count("Manaphy"):
         raise SystemExit("baseline must be the locked 60 with no Manaphy")
     cuts = sorted(Counter(current))

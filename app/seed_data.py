@@ -476,11 +476,16 @@ SET_T_UNL_NAMES = (
 # One Budew on that board. Weights frozen from the one-Mew list:
 # Hedrick 45.6%, T60 28.5%, C60 20.8%, D60 2.9%, Thorns 2.1%.
 # Weighted 87.3% → 87.9%. Cut: Bravery Charm (4 → 3).
+# Manaphy on that list once Mega Starmie is in the field. Seed 20261007, 1000 games.
+# Weights frozen from the no-Manaphy list, including Kudo's Starmie (Limitless 29462):
+# Starmie 41.8%, C60 23.4%, Hedrick 14.5%, T60 9.7%, Thorns 9.0%, D60 1.6%.
+# Weighted 78.2% → 86.5%. Charm, Ultra Ball, and Research in that slot stay near 79–80%.
+# Cut: Budew (1 → 0). One Manaphy.
 SET_M60_NAMES = (
     ["Mew ex"] * 3
     + ["Mime Jr."] * 2
     + ["Igglybuff"] * 4
-    + ["Budew"]
+    + ["Manaphy"]
     + ["Buddy-Buddy Poffin"] * 4
     + ["Nest Ball"] * 4
     + ["Ultra Ball"] * 2

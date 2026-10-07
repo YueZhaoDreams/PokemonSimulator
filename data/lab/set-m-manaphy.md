@@ -1,6 +1,8 @@
 # Set M one Manaphy
 
-Starting 60 is the locked Set M list (`SET_M60_NAMES`), which has no Manaphy.
+The six-foe follow-up, with Mega Starmie added, locks one Manaphy in place of Budew. See `set-m-manaphy-starmie.md`.
+
+Starting 60 for this file is the list before that lock, which has no Manaphy.
 Each row replaces one copy of that card with one Manaphy.
 Wave Veil prevents attack damage done to the Bench. On these foes that attack is Fezandipiti ex Cruel Arrow, on T60 and Hedrick. C60, D60, and Crushing Thorn have none, so Manaphy stays in hand there. Battle Cage still stops damage counters.
 If Manaphy is Active, Penny puts that Basic and all attached cards into the hand, or one Energy retreats it onto the Bench.
