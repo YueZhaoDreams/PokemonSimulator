@@ -1,10 +1,14 @@
 #!/usr/bin/env python3
-"""Greedy Eco Arm swaps on the locked Manaphy Set M.
+"""Greedy Eco Arm swaps on the pre-carrier Manaphy Set M.
 
-Start from SET_M60_NAMES: one Manaphy, no Budew. Each step replaces exactly one
-copy of one other card with one Eco Arm. The decision score is the loss-weighted
-win rate. Weights are frozen from that starting list, including Kudo's Mega
-Starmie. Stop when the next copy does not raise the score, or at 4.
+Start from M60_BEFORE: one Manaphy, no Budew, two Spiky Energy, no Rescue Carrier.
+Each step replaces exactly one copy of one other card with one Eco Arm. The
+decision score is the loss-weighted win rate. Weights are frozen from that
+starting list, including Kudo's Mega Starmie. Stop when the next copy does not
+raise the score, or at 4.
+
+SET_M60_NAMES later locked this result on the two Rescue Carrier list: one
+Spiky Energy and one Eco Arm. This script keeps the list it actually searched.
 
 Ancient Origins Eco Arm: shuffle 3 Pokémon Tool cards from the discard pile
 into the deck. The sentence does not say "up to", so fewer than 3 Tools cannot
@@ -35,11 +39,35 @@ from app.seed_data import (
     IRON_THORNS_NAMES,
     SET_C60_NAMES,
     SET_D60_NAMES,
-    SET_M60_NAMES,
     SET_STARMIE60_NAMES,
     SET_T60_NAMES,
     SET_T_META_NAMES,
     build_fallback_deck,
+)
+
+# The 60 this search actually started from, before Rescue Carrier and Eco Arm were locked.
+M60_BEFORE = (
+    ["Mew ex"] * 3
+    + ["Mime Jr."] * 2
+    + ["Igglybuff"] * 4
+    + ["Manaphy"]
+    + ["Buddy-Buddy Poffin"] * 4
+    + ["Nest Ball"] * 4
+    + ["Ultra Ball"] * 2
+    + ["Night Stretcher"] * 4
+    + ["Battle Cage"] * 4
+    + ["Bravery Charm"] * 3
+    + ["Bursting Balloon"] * 2
+    + ["Hero's Cape"]
+    + ["Max Potion"] * 4
+    + ["Arven"] * 4
+    + ["Iono"] * 4
+    + ["Professor's Research"] * 2
+    + ["Boss's Orders"] * 2
+    + ["Penny"] * 2
+    + ["Crushing Hammer"] * 4
+    + ["Counter Catcher"] * 2
+    + ["Spiky Energy"] * 2
 )
 
 # Published locked-list win rates. Seed 20261007, 1000 games.
@@ -291,9 +319,9 @@ def _load() -> dict | None:
 
 def main() -> None:
     started = time.perf_counter()
-    current = list(SET_M60_NAMES)
+    current = list(M60_BEFORE)
     if len(current) != 60:
-        raise SystemExit(f"SET_M60_NAMES has {len(current)} cards")
+        raise SystemExit(f"M60_BEFORE has {len(current)} cards")
     if current.count("Manaphy") != 1 or current.count("Budew") or current.count(IN_NAME):
         raise SystemExit("baseline is not the locked one-Manaphy list")
 
@@ -350,7 +378,7 @@ def main() -> None:
             "array": array,
             "steps": steps,
             "rejected": rejected,
-            "list_start": list(SET_M60_NAMES),
+            "list_start": list(M60_BEFORE),
             "list": current,
             "pending": pending_cells,
             "done": done,

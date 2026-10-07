@@ -78,3 +78,5 @@ Current weighted rate 87.2%. Best cut is not taken: Boss's Orders.
 | 21 | Manaphy | 80.8% | 87.8% | 93.1% | 87.4% | 87.5% | 99.1% | 98.6% | 61.0% | 8.3% | 2.5% | 8.2% | 6.5% |
 
 Stopped at 1 Eco Arm. The next copy, cutting Boss's Orders, is 86.96% against the current 87.16%.
+
+Locked on the two Rescue Carrier list: Spiky Energy 2 → 1, one Eco Arm. Rescue Carrier had already cut Boss's Orders and Max Potion, so the two locks do not share a card.
