@@ -37,18 +37,20 @@ def test_set_m_card_count_and_composition():
     # Two Penny then cut 1 Ultra Ball (3 → 2) and 1 Mew ex (4 → 3).
     # One Mew ex in play, then one Budew cut 1 Bravery Charm (4 → 3).
     # Mega Starmie in the field, then that Budew cut for one Manaphy.
+    # Two Rescue Carrier then cut 1 Boss's Orders (2 → 1) and 1 Max Potion (4 → 3).
     assert SET_M60_NAMES.count("Buddy-Buddy Poffin") == 4
     assert SET_M60_NAMES.count("Battle Cage") == 4
     assert SET_M60_NAMES.count("Bravery Charm") == 3
     assert SET_M60_NAMES.count("Bursting Balloon") == 2
     assert SET_M60_NAMES.count("Hero's Cape") == 1
     assert SET_M60_NAMES.count("Maximum Belt") == 0
-    assert SET_M60_NAMES.count("Max Potion") == 4
+    assert SET_M60_NAMES.count("Max Potion") == 3
     assert SET_M60_NAMES.count("Ultra Ball") == 2
     assert SET_M60_NAMES.count("Night Stretcher") == 4
+    assert SET_M60_NAMES.count("Rescue Carrier") == 2
     assert SET_M60_NAMES.count("Crushing Hammer") == 4
     assert SET_M60_NAMES.count("Switch") == 0
-    assert SET_M60_NAMES.count("Boss's Orders") == 2
+    assert SET_M60_NAMES.count("Boss's Orders") == 1
     assert SET_M60_NAMES.count("Spiky Energy") == 2
     assert SET_M60_NAMES.count("Penny") == 2
     assert StrategySpec.from_dict("mew_baby").one_mew is True
@@ -64,6 +66,10 @@ def test_load_seed_deck_m():
     assert served == list(SET_M60_NAMES)
     assert served.count("Manaphy") == 1
     assert served.count("Budew") == 0
+    assert served.count("Rescue Carrier") == 2
+    assert served.count("Boss's Orders") == 1
+    assert served.count("Max Potion") == 3
+    assert served.count("Night Stretcher") == 4
     assert default_rule_presets_for("seed-m60") == ["s60"]
     assert "seed-m60" in S60_SEED_IDS
 

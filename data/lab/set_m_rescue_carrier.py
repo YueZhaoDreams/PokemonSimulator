@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Greedy Rescue Carrier swaps on the locked Manaphy Set M.
 
-Start from SET_M60_NAMES: one Manaphy, no Budew. Each step replaces exactly one
+Start from the Manaphy snapshot below: one Manaphy, no Budew. Each step replaces exactly one
 copy of one other card with one Rescue Carrier. The decision score is the
 loss-weighted win rate. Weights are frozen from that starting list, including
 Kudo's Mega Starmie. Stop when the next copy does not raise the score, or at 4.
@@ -34,11 +34,35 @@ from app.seed_data import (
     IRON_THORNS_NAMES,
     SET_C60_NAMES,
     SET_D60_NAMES,
-    SET_M60_NAMES,
     SET_STARMIE60_NAMES,
     SET_T60_NAMES,
     SET_T_META_NAMES,
     build_fallback_deck,
+)
+
+# The study started here. SET_M60_NAMES now has the two copies this run kept.
+BASELINE_NAMES = (
+    ["Mew ex"] * 3
+    + ["Mime Jr."] * 2
+    + ["Igglybuff"] * 4
+    + ["Manaphy"]
+    + ["Buddy-Buddy Poffin"] * 4
+    + ["Nest Ball"] * 4
+    + ["Ultra Ball"] * 2
+    + ["Night Stretcher"] * 4
+    + ["Battle Cage"] * 4
+    + ["Bravery Charm"] * 3
+    + ["Bursting Balloon"] * 2
+    + ["Hero's Cape"]
+    + ["Max Potion"] * 4
+    + ["Arven"] * 4
+    + ["Iono"] * 4
+    + ["Professor's Research"] * 2
+    + ["Boss's Orders"] * 2
+    + ["Penny"] * 2
+    + ["Crushing Hammer"] * 4
+    + ["Counter Catcher"] * 2
+    + ["Spiky Energy"] * 2
 )
 
 # Published locked-list win rates. Seed 20261007, 1000 games.
@@ -268,9 +292,9 @@ def _load() -> dict | None:
 
 def main() -> None:
     started = time.perf_counter()
-    current = list(SET_M60_NAMES)
+    current = list(BASELINE_NAMES)
     if len(current) != 60:
-        raise SystemExit(f"SET_M60_NAMES has {len(current)} cards")
+        raise SystemExit(f"baseline has {len(current)} cards")
     if current.count("Manaphy") != 1 or current.count("Budew") or current.count(IN_NAME):
         raise SystemExit("baseline is not the locked one-Manaphy list")
 
@@ -326,7 +350,7 @@ def main() -> None:
             "array": array,
             "steps": steps,
             "rejected": rejected,
-            "list_start": list(SET_M60_NAMES),
+            "list_start": list(BASELINE_NAMES),
             "list": current,
             "pending": pending_cells,
             "done": done,
