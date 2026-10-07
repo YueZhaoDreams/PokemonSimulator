@@ -23,6 +23,7 @@ from app.engine.effects import (
     is_telepathic_energy,
     parse_ability_effects,
     parse_draw_until_hand,
+    parse_effects,
     parse_energy_effects,
     parse_trainer_effects,
     resistance_reduce,
@@ -37,6 +38,14 @@ ST_CONFUSED = 4
 ST_POISONED = 8
 ST_BURNED = 16
 VOLATILE = ST_PARALYZED | ST_ASLEEP | ST_CONFUSED
+# Attack damage that can land on a Benched Pokémon. Counter placement is a
+# different sentence and stays on Battle Cage.
+_OPP_BENCH_DAMAGE_KINDS = frozenset({
+    "damage_one_pokemon",
+    "damage_each_with_counters",
+    "damage_n_opponent_pokemon",
+    "discard_typed_energy_damage_per_card",
+})
 
 
 @dataclass
@@ -140,6 +149,10 @@ class Game:
         self.stadium_effects: list[dict[str, Any]] = []
         self.stadium_owner: Player | None = None
         self.strats = {"a": strat_a, "b": strat_b}
+        # Opening runs inside _deal, before self.players exists. The lists let
+        # that setup see whether the opponent has bench-damage attacks.
+        self._list_a = cards_a
+        self._list_b = cards_b
         self.players = {
             "a": self._deal("A", cards_a, strat_a),
             "b": self._deal("B", cards_b, strat_b),
@@ -253,6 +266,8 @@ class Game:
             for card_i in fillers:
                 if len(player.bench) >= cap:
                     break
+                if not self._bench_room_for(player, player.card(card_i)):
+                    continue
                 if strat.name in {"mew_baby", "baby"} and not self._wants_in_play(
                     player, player.card(card_i), strat
                 ):
@@ -405,6 +420,10 @@ class Game:
             if copies >= 1:
                 return False
             return self._mew_burst_ready(player) and len(player.bench) < self._bench_limit(player)
+        if strat.name in {"mew_baby", "baby"} and name == "manaphy":
+            # Wave Veil is the damage layer next to Battle Cage. One copy, and
+            # only once an opposing attack can do damage to the Bench.
+            return self._mew_wants_manaphy(player)
 
         if strat.name == "celebration":
             caps = {
@@ -597,6 +616,7 @@ class Game:
                     "igglybuff": 2000,
                     "mime jr.": 1500,
                     "mime jr": 1500,
+                    "manaphy": 0,
                 }
                 return rank.get(name, 500)
             if strat.name == "celebration":
@@ -1049,6 +1069,9 @@ class Game:
                 return (4, -(card.hp or 0))
             if self._is_ace_searcher(card) or self._is_family_caller(card):
                 return (5, 0)
+            if strat.name in {"mew_baby", "baby"} and name == "manaphy":
+                # After the 30 HP babies, into the slot those babies left open.
+                return (9, 1)
             return (9, 0)
 
         # Aces, then fallback attackers, then KO insurance — never random fuel.
@@ -1064,14 +1087,7 @@ class Game:
                 me.active = Pokemon(card_i=card_i, played_turn=self.turn)
                 self._bump(f"saw_play:{card.name}")
                 self._log(f"{me.name} promotes {card.name}")
-            elif len(me.bench) < self._bench_limit(me):
-                if (
-                    strat.name in {"mew_baby", "baby"}
-                    and self._mew_hold_tera_slot(me)
-                    and not self._is_tera_card(card)
-                    and len(me.bench) >= self._bench_limit(me) - 1
-                ):
-                    continue
+            elif self._bench_room_for(me, card):
                 me.hand.remove(card_i)
                 me.bench.append(Pokemon(card_i=card_i, played_turn=self.turn))
                 self._bump(f"saw_play:{card.name}")
@@ -1091,6 +1107,8 @@ class Game:
             if card_i not in me.hand:
                 continue
             if strat.one_mew and not self._wants_in_play(me, me.card(card_i), strat):
+                continue
+            if not self._bench_room_for(me, me.card(card_i)):
                 continue
             me.hand.remove(card_i)
             me.bench.append(Pokemon(card_i=card_i, played_turn=self.turn))
@@ -1390,8 +1408,10 @@ class Game:
                 me.discard.append(found)
             forced_bounce = False
             if strat.name in {"mew_baby", "baby"} and self._is_bounce_supporter(card):
-                # Penny's printed target is one Basic. The damaged Mew ex comes first.
-                # Otherwise a Baby opens the bench spot Terapagos ex needs.
+                # Active Manaphy comes off first: Penny returns that Basic, then it
+                # is replayed to the Bench when Wave Veil is needed. Otherwise Penny
+                # picks up the charged Mew ex that would be Knocked Out, or a Baby
+                # when Terapagos ex needs the bench spot.
                 self._forced_bounce_target = self._mew_penny_target(me, foe) or self._mew_tera_slot_bounce(me)
                 forced_bounce = True
             try:
@@ -3870,6 +3890,12 @@ class Game:
                 score -= 5
             if card.name.lower() in {"rellor", "rabsca", "shaymin", "battle cage"} and self._facing_phantom(me):
                 score -= 8
+            if (
+                strat.name in {"mew_baby", "baby"}
+                and card.name.lower() == "manaphy"
+                and self._mew_wants_manaphy(me)
+            ):
+                score -= 20
             if card.is_energy:
                 score -= 1
             if i == retreat_reserve:
@@ -3970,6 +3996,8 @@ class Game:
                 prefer.append("Radiant Charizard")
             if not have_slaking:
                 prefer.append("Slaking V")
+            if self._mew_wants_manaphy(me):
+                prefer.append("Manaphy")
             prefer.extend([
                 "Mime Jr.",
                 "Igglybuff",
@@ -4758,6 +4786,12 @@ class Game:
         if strat.name == "aura":
             return self._aura_energy_target(me)
         if strat.name in {"mew_baby", "baby"}:
+            if (
+                me.card(me.active.card_i).name.lower() == "manaphy"
+                and len(me.active.energy) < self._retreat_cost(me, me.active)
+            ):
+                # Penny already ran. One Energy pays Retreat so Wave Veil stays in play.
+                return me.active
             for mon in me.in_play():
                 if "radiant charizard" in me.card(mon.card_i).name.lower() and not mon.energy:
                     return mon
@@ -7708,6 +7742,15 @@ class Game:
                     "manaphy",
                 }:
                     continue
+                if strat.name in {"mew_baby", "baby"} and name == "manaphy" and not self._mew_wants_manaphy(me):
+                    continue
+                if (
+                    strat.name in {"mew_baby", "baby"}
+                    and self._mew_hold_manaphy_slot(me)
+                    and name != "manaphy"
+                    and len(me.bench) >= self._non_shield_bench_cap(me)
+                ):
+                    continue
                 score = 0.0
                 if name in prefer:
                     score += 20 - prefer.index(name)
@@ -8024,7 +8067,12 @@ class Game:
 
     def _mew_penny_target(self, me: Player, foe: Player) -> Pokemon | None:
         mon = me.active
-        if mon is None or not me.bench or not mon.energy:
+        if mon is None or not me.bench:
+            return None
+        if me.card(mon.card_i).name.lower() == "manaphy":
+            # Printed Penny: one Basic and all attached cards return to hand.
+            return mon
+        if not mon.energy:
             return None
         if me.card(mon.card_i).name.lower() != "mew ex":
             return None
@@ -8835,6 +8883,71 @@ class Game:
             if any("cornerstone stance" in (a.name or "").lower() for a in foe.card(mon.card_i).abilities):
                 return True
         return False
+
+    def _foe_card_list(self, me: Player) -> list[Card]:
+        players = getattr(self, "players", None)
+        if players:
+            foe = players.get("b" if me.name == "A" else "a")
+            if foe is not None:
+                return foe.cards
+        if me.name == "A":
+            return list(getattr(self, "_list_b", []) or [])
+        return list(getattr(self, "_list_a", []) or [])
+
+    def _attack_damages_opponents_bench(self, atk) -> bool:
+        effects = parse_effects(atk.text or "", str(atk.damage or ""))
+        return any(effect.get("kind") in _OPP_BENCH_DAMAGE_KINDS for effect in effects)
+
+    def _foe_has_bench_attack_damage(self, me: Player) -> bool:
+        """An opposing attack does damage a Benched Pokémon can take.
+
+        Phantom Dive and Adrena-Brain place damage counters. Battle Cage covers
+        those. Wave Veil covers this list.
+        """
+        for card in self._foe_card_list(me):
+            if not card.is_pokemon:
+                continue
+            if any(self._attack_damages_opponents_bench(atk) for atk in card.attacks):
+                return True
+        return False
+
+    def _mew_wants_manaphy(self, me: Player) -> bool:
+        if self._count_named_in_play(me, "Manaphy") >= 1:
+            return False
+        return self._foe_has_bench_attack_damage(me)
+
+    def _manaphy_reachable(self, me: Player) -> bool:
+        zones = list(me.hand) + list(me.deck) + list(me.discard)
+        return any(me.card(i).name.lower() == "manaphy" for i in zones)
+
+    def _mew_hold_manaphy_slot(self, me: Player) -> bool:
+        who = "a" if me.name == "A" else "b"
+        strat = self.strats.get(who)
+        if strat is None or strat.name not in {"mew_baby", "baby"}:
+            return False
+        if not self._manaphy_reachable(me):
+            return False
+        return self._mew_wants_manaphy(me)
+
+    def _non_shield_bench_cap(self, me: Player) -> int:
+        cap = self._bench_limit(me)
+        if self._mew_hold_tera_slot(me):
+            cap -= 1
+        if self._mew_hold_manaphy_slot(me):
+            cap -= 1
+        return max(0, cap)
+
+    def _bench_room_for(self, me: Player, card: Card) -> bool:
+        if len(me.bench) >= self._bench_limit(me):
+            return False
+        if card.name.lower() == "manaphy":
+            return self._mew_wants_manaphy(me)
+        if self._is_tera_card(card) and self._mew_hold_tera_slot(me):
+            # That held slot is for the Tera anchor. A Manaphy slot is separate.
+            if self._mew_hold_manaphy_slot(me) and len(me.bench) >= self._bench_limit(me) - 1:
+                return False
+            return True
+        return len(me.bench) < self._non_shield_bench_cap(me)
 
     def _facing_demolish(self, me: Player) -> bool:
         return self._foe_strat_name(me) == "demolish"
