@@ -1940,6 +1940,17 @@ class Game:
             elif name == "crushing hammer":
                 has_nrg = foe.active is not None and bool(foe.active.energy)
                 score += 6 if has_nrg else -3
+            elif any(e.get("kind") == "rescue_carrier" for e in parse_trainer_effects(card.text or "")):
+                spec = next(
+                    e for e in parse_trainer_effects(card.text or "") if e.get("kind") == "rescue_carrier"
+                )
+                eligible = self._rescue_carrier_targets(me, int(spec.get("max_hp") or 0))
+                if len(eligible) >= int(spec.get("count") or 0) >= 2:
+                    score += 22 if strat.name in {"mew_baby", "baby"} else 16
+                elif eligible:
+                    score += 12
+                else:
+                    score -= 8
             elif name == "night stretcher":
                 rec_pkm = any(me.card(i).is_pokemon for i in me.discard)
                 rec_nrg = any(is_basic_energy(me.card(i)) for i in me.discard)
@@ -6180,6 +6191,43 @@ class Game:
         self._bump("night_stretcher")
         self._bump(f"night_stretcher_{me.name.lower()}")
         self._log(f"{me.name} Night Stretcher takes {me.card(card_i).name}")
+
+    def _rescue_carrier_targets(self, me: Player, max_hp: int) -> list[int]:
+        """Discarded Pokémon whose printed HP is within the card's maximum."""
+        found = []
+        for card_i in me.discard:
+            card = me.card(card_i)
+            hp = card.hp or 0
+            if card.is_pokemon and 0 < hp <= max_hp:
+                found.append(card_i)
+        return found
+
+    def _rescue_carrier(self, me: Player, who: str, count: int, max_hp: int) -> None:
+        if count <= 0 or max_hp <= 0:
+            return
+        baby_order = ("igglybuff", "mime jr.", "budew", "cleffa", "manaphy")
+
+        def rank(card_i: int) -> tuple:
+            card = me.card(card_i)
+            name = card.name.lower()
+            hp = card.hp or 0
+            if self.strats[who].name in {"mew_baby", "baby"} and hp == 30:
+                idx = baby_order.index(name) if name in baby_order else len(baby_order)
+                return (0, idx, name)
+            if name in baby_order:
+                return (1, baby_order.index(name), name)
+            return (2, -hp, name)
+
+        targets = sorted(self._rescue_carrier_targets(me, max_hp), key=rank)[:count]
+        if not targets:
+            self._bump("carrier_miss")
+            return
+        for card_i in targets:
+            me.discard.remove(card_i)
+            me.hand.append(card_i)
+            self._bump("rescue_carrier")
+            self._bump(f"rescue_carrier_{me.name.lower()}")
+            self._log(f"{me.name} Rescue Carrier takes {me.card(card_i).name}")
 
     def _damage_one_pokemon(self, me: Player, foe: Player, amount: int, bench_only: bool = False) -> None:
         if amount <= 0 or not foe.active:
@@ -13588,6 +13636,8 @@ class Game:
             self._look_top_keep_one(me, who, int(eff.get("look") or 0))
         elif kind == "rescue_stretcher":
             self._rescue_stretcher(me, who, int(eff.get("shuffle_count") or 0))
+        elif kind == "rescue_carrier":
+            self._rescue_carrier(me, who, int(eff.get("count") or 0), int(eff.get("max_hp") or 0))
         elif kind == "shuffle_special_energy_to_deck":
             self._shuffle_special_energy_to_deck(me, int(eff.get("count") or 0))
         elif kind == "discard_tools_and_stadiums":
