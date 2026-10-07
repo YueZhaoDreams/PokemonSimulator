@@ -21,10 +21,8 @@ from app.seed_data import (
 
 
 def _game(foe_names: list[str]) -> Game:
-    ours = list(SET_M60_NAMES)
-    ours[ours.index("Crushing Hammer")] = "Manaphy"
     return Game(
-        build_fallback_deck(ours),
+        build_fallback_deck(list(SET_M60_NAMES)),
         build_fallback_deck(list(foe_names)),
         standard_60_rules(),
         StrategySpec.from_dict("mew_baby"),

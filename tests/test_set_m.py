@@ -60,6 +60,10 @@ def test_load_seed_deck_m():
     assert deck_m60["id"] == "seed-m60"
     assert "Mew ex" in deck_m60["name"]
     assert len(deck_m60["cards"]) == 60
+    served = [card["name"] for card in deck_m60["cards"]]
+    assert served == list(SET_M60_NAMES)
+    assert served.count("Manaphy") == 1
+    assert served.count("Budew") == 0
     assert default_rule_presets_for("seed-m60") == ["s60"]
     assert "seed-m60" in S60_SEED_IDS
 

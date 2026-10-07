@@ -23669,41 +23669,49 @@
         "dex_id": null
       },
       {
-        "catalog_id": "sv08.5-004",
-        "name": "Budew",
+        "catalog_id": "swsh9-041",
+        "name": "Manaphy",
         "category": "Pokemon",
         "stage": "Basic",
         "types": [
-          "Grass"
+          "Water"
         ],
-        "hp": 30,
+        "hp": 70,
         "attacks": [
           {
-            "name": "Itchy Pollen",
-            "cost": [],
-            "damage": 10,
-            "text": "During your opponent's next turn, they can't play any Item cards from their hand.",
+            "name": "Rain Splash",
+            "cost": [
+              "Water"
+            ],
+            "damage": 20,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Wave Veil",
+            "text": "Prevent all damage done to your Benched Pok\u00e9mon by attacks from your opponent's Pok\u00e9mon.",
             "effects": [
               {
-                "kind": "lock_items"
+                "kind": "prevent_bench_attack_damage"
               }
             ]
           }
         ],
-        "abilities": [],
         "weaknesses": [
           {
-            "type": "Fire",
+            "type": "Lightning",
             "value": "\u00d72"
           }
         ],
         "resistances": [],
-        "retreat": 0,
+        "retreat": 1,
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv08.5/004/low.webp",
-        "set_name": "Prismatic Evolutions",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh9/041/low.webp",
+        "set_name": "Brilliant Stars",
         "text": "",
         "dex_id": null,
         "traits": []
