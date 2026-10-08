@@ -1156,6 +1156,15 @@ def parse_trainer_effects(text: str) -> list[dict[str, Any]]:
             }
         )
         return effects
+    # Eco Arm (AOR 71): shuffle N Pokémon Tools from the discard pile into the deck.
+    # The count is the printed number. The sentence does not say "up to".
+    eco_arm = re.search(
+        r"shuffle (\d+) pokemon tool cards from your discard pile into your deck",
+        t,
+    )
+    if eco_arm:
+        effects.append({"kind": "shuffle_tools_to_deck", "count": int(eco_arm.group(1))})
+        return effects
     # Wondrous Patch (ME02 94 / Perfect Order 117): one Basic Psychic from
     # discard onto one Benched Psychic Pokémon. The "1" is the printed count.
     if (

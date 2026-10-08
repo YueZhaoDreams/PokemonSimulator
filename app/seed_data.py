@@ -487,6 +487,14 @@ SET_T_UNL_NAMES = (
 # Weighted 86.4% → 87.3% → 88.2%. The next copy (Boss's Orders, 88.17%) does not rise.
 # Cuts: Boss's Orders (2 → 1), Max Potion (4 → 3). Two Rescue Carrier.
 # Night Stretcher stays at 4. The printed sentence stops at 90 HP, so Mew ex stays in the discard.
+# Eco Arm on that two Rescue Carrier list. Seed 20261007, 1000 games.
+# Weights frozen from the 2-carrier list, including Kudo's Starmie:
+# Starmie 29.8%, Hedrick 24.3%, C60 23.1%, T60 16.7%, D60 3.6%, Thorns 2.6%.
+# Weighted 88.39%. The next copy (Boss's Orders, 87.93%) does not rise.
+# Zero Eco Arm. Spiky Energy stays at 2.
+# Rescue Carrier already returns the 30 HP babies that Bouncy Circle counts.
+# Eco Arm only shuffles 3 Pokémon Tools into the deck, in about 6% of games.
+# That recycle does not pay for the second Spiky Energy.
 SET_M60_NAMES = (
     ["Mew ex"] * 3
     + ["Mime Jr."] * 2
@@ -1194,6 +1202,9 @@ _RESCUE_CARRIER_TEXT = (
     "Put up to 2 Pokémon, each with 90 HP or less, from your discard pile into your hand."
 )
 _register(_trn("Rescue Carrier", "item", _RESCUE_CARRIER_TEXT, catalog_id="swsh7-154"))
+# Ancient Origins 71. Shuffle exactly 3 Tools. The sentence does not say "up to".
+_ECO_ARM_TEXT = "Shuffle 3 Pokémon Tool cards from your discard pile into your deck."
+_register(_trn("Eco Arm", "item", _ECO_ARM_TEXT, catalog_id="xy7-71"))
 _register(
     _trn(
         "Unfair Stamp",
