@@ -32,6 +32,8 @@ class StrategySpec:
     # mew_baby: a second Mew ex stays in hand. Bouncy Circle only counts
     # benched Pokémon whose printed maximum HP is 30, and Mew ex retreats for 0.
     one_mew: bool = False
+    # Optional attack-coin reflip. None declines it. Mill uses 1: reflip only on 0 or 1 heads.
+    reflip_heads_at_most: int | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -61,6 +63,7 @@ class StrategySpec:
             "closers": list(self.closers),
             "prefer_chip": self.prefer_chip,
             "one_mew": self.one_mew,
+            "reflip_heads_at_most": self.reflip_heads_at_most,
         }
 
     @classmethod
@@ -104,6 +107,14 @@ class StrategySpec:
             except (TypeError, ValueError):
                 merged[field] = getattr(base, field)
         merged["one_mew"] = bool(merged.get("one_mew", getattr(base, "one_mew", False)))
+        raw_reflip = merged.get("reflip_heads_at_most", None)
+        if raw_reflip is None:
+            merged["reflip_heads_at_most"] = None
+        else:
+            try:
+                merged["reflip_heads_at_most"] = int(raw_reflip)
+            except (TypeError, ValueError):
+                merged["reflip_heads_at_most"] = getattr(base, "reflip_heads_at_most", None)
         return cls(**{k: merged[k] for k in cls.__dataclass_fields__})
 
 
@@ -746,6 +757,27 @@ STRATEGY_LIBRARY = {
         search_aces=["Mew ex", "Igglybuff"],
         closers=["Mew ex"],
         one_mew=True,
+    ),
+    "mill": StrategySpec(
+        name="mill",
+        description=(
+            "Wugtrio send. Search Wiglett and Wugtrio, evolve, and mill with Undersea Tunnel. "
+            "Twisting Strike on heads keeps that Wiglett through the opponent's next turn. "
+            "Victory Star, or else Glimwood Tangle, reflips an attack once when it shows 0 or 1 heads. "
+            "Neutralization Zone is the one ACE SPEC."
+        ),
+        prefer_damage=0.2,
+        prefer_status=0.0,
+        bench_fill=1.0,
+        evolve_asap=1.0,
+        attach_pokemon_as_energy=0.0,
+        item_spend=1.0,
+        self_preserve=0.2,
+        hold_as_energy=False,
+        protect=["Wiglett", "Wugtrio", "Victini"],
+        search_aces=["Wiglett", "Wugtrio"],
+        closers=["Wugtrio"],
+        reflip_heads_at_most=1,
     ),
 }
 

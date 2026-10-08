@@ -593,6 +593,41 @@ def parse_ability_effects(text: str) -> list[dict[str, Any]]:
         effects.append({"kind": "tera"})
         effects.append({"kind": "prevent_attack_damage_while_benched"})
 
+    # Victini Victory Star: the player reflips one attack's coins, once this turn.
+    if "after you flip any coins for an attack" in t and "begin flipping those coins again" in t:
+        effects.append({"kind": "reflip_attack_coins", "limit_name": "victory star"})
+
+    # Glimwood Tangle: each player may reflip their own attack coins once on their turn.
+    if "after that player flips any coins for an attack" in t and "begin flipping those coins again" in t:
+        effects.append({"kind": "reflip_attack_coins", "each_player": True})
+
+    # Neutralization Zone: Pokémon ex and Pokémon V cannot damage a Pokémon with no Rule Box.
+    if (
+        "prevent all damage done to pokemon that don't have a rule box" in t
+        and "pokemon ex" in t
+        and "pokemon v" in t
+    ):
+        effects.append(
+            {
+                "kind": "prevent_ex_v_damage_no_rule_box",
+                "both_players": "both yours and your opponent" in t,
+            }
+        )
+    if "can't be put into your hand or deck from the discard pile" in t:
+        effects.append({"kind": "cannot_leave_discard"})
+
+    # Pokémon League Headquarters: each Basic Pokémon's attacks cost Colorless more.
+    # "Attacks used by each" plus "more" stays off Dimension Valley's "attacks of each" / "less".
+    basic_more = re.search(r"attacks used by each basic pokemon in play.*cost ((?:colorless\s+)+)more", t)
+    if basic_more:
+        effects.append(
+            {
+                "kind": "stadium_basic_attack_cost_more",
+                "colorless": basic_more.group(1).count("colorless"),
+                "both_players": "both yours and your opponent" in t,
+            }
+        )
+
     _extend_expanded_ability_effects(t, effects)
     return effects
 
@@ -650,6 +685,15 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
 
     if "prevent all damage" in t and "basic" in t:
         effects.append({"kind": "prevent_basic_damage"})
+
+    # Wiglett Twisting Strike: one coin, then prevent damage and effects next turn.
+    if (
+        "flip a coin" in t
+        and "if heads" in t
+        and "prevent all damage from and effects of attacks" in t
+        and "done to this pokemon" in t
+    ):
+        effects.append({"kind": "coin_prevent_self_damage_next_turn"})
 
     less = re.search(r"takes (\d+) less damage from attacks", t)
     if less and "next turn" in t:
@@ -750,10 +794,28 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
         up_to = re.search(r"up to (\d+)", t)
         effects.append({"kind": "search_item", "count": int(up_to.group(1)) if up_to else 1})
 
+    # Wugtrio Undersea Tunnel: N coins, discard the top M per heads.
+    # Checked before the flat mill so "discard the top M" is not also a flat mill.
+    coin_mill = re.search(
+        r"flip (\d+) coins?\. for each heads, discard the top (\d+) cards of your opponent's deck",
+        t,
+    )
+    if coin_mill:
+        effects.append(
+            {
+                "kind": "coin_mill_opponent",
+                "flips": int(coin_mill.group(1)),
+                "per": int(coin_mill.group(2)),
+            }
+        )
     # Litwick Kindling Panic / opponent deck mill
-    if "discard the top" in t and "opponent" in t and "deck" in t:
+    elif "discard the top" in t and "opponent" in t and "deck" in t:
         top = re.search(r"top (\d+)", t)
         effects.append({"kind": "mill_opponent", "count": int(top.group(1)) if top else 1})
+
+    # Victini Stored Power: move every attached Energy onto one Benched Pokémon.
+    if "move all energy attached to this pokemon" in t and "benched" in t:
+        effects.append({"kind": "move_all_energy_to_bench"})
 
     # Platinum Misdreavus Take Back: coin, then a Trainer from discard to hand.
     if "discard pile" in t and "trainer" in t and "into your hand" in t:
@@ -954,7 +1016,9 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
                 r"this attack does (\d+) damage for each of your benched pokemon",
                 t,
             )
-            if opp_hand:
+            if any(e.get("kind") == "coin_mill_opponent" for e in effects):
+                pass
+            elif opp_hand:
                 effects.append({"kind": "opponent_hand_times", "per": int(opp_hand.group(1))})
             elif opp_ex:
                 effects.append({"kind": "opponent_ex_times", "per": int(opp_ex.group(1))})
@@ -1153,6 +1217,36 @@ def parse_trainer_effects(text: str) -> list[dict[str, Any]]:
                 "kind": "rescue_carrier",
                 "count": int(carrier.group(1)),
                 "max_hp": int(carrier.group(2)),
+            }
+        )
+        return effects
+    # Level Ball: a Pokémon whose printed HP is at most the number in the sentence.
+    level_ball = re.search(
+        r"search your deck for a pokemon with (\d+) hp or less, reveal it, and put it into your hand",
+        t,
+    )
+    if level_ball:
+        effects.append({"kind": "search_pokemon_max_hp", "max_hp": int(level_ball.group(1))})
+        return effects
+    # Miss Fortune Sisters: look at the top N of the opponent's deck and discard items found there.
+    sisters = re.search(
+        r"look at the top (\d+) cards of your opponent's deck and discard any number of item cards",
+        t,
+    )
+    if sisters:
+        effects.append({"kind": "look_opp_discard_items", "look": int(sisters.group(1))})
+        return effects
+    # Team Rocket's Handiwork: N coins, discard M from the top per heads. Not an attack.
+    handiwork = re.search(
+        r"flip (\d+) coins?\. for each heads, discard (\d+) cards from the top of your opponent's deck",
+        t,
+    )
+    if handiwork:
+        effects.append(
+            {
+                "kind": "coin_mill_top",
+                "flips": int(handiwork.group(1)),
+                "per": int(handiwork.group(2)),
             }
         )
         return effects

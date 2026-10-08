@@ -585,6 +585,33 @@ SET_L60_NAMES = (
     + ["Fighting Energy"] * 11
 )
 
+# Mill: Wugtrio send. Sisters 60. Neutralization Zone is the one ACE SPEC.
+# Seed 20260929, 1000 games each seat against 12 lists: 6092/12000, mean mill 18.7.
+SET_MILL_NAMES = (
+    ["Wiglett"] * 4
+    + ["Wugtrio"] * 4
+    + ["Victini"]
+    + ["Level Ball"] * 3
+    + ["Nest Ball"] * 3
+    + ["Buddy-Buddy Poffin"] * 4
+    + ["Rescue Carrier"] * 4
+    + ["Crushing Hammer"] * 4
+    + ["Counter Catcher"] * 2
+    + ["Switch"]
+    + ["Miss Fortune Sisters"] * 2
+    + ["Crispin"] * 3
+    + ["Boss's Orders"] * 2
+    + ["Team Rocket's Handiwork"] * 2
+    + ["Colress's Tenacity"] * 4
+    + ["Team Rocket's Petrel"]
+    + ["Glimwood Tangle"]
+    + ["Neutralization Zone"]
+    + ["Pokémon League Headquarters"] * 3
+    + ["Double Turbo Energy"] * 4
+    + ["Water Energy"] * 4
+    + ["Fighting Energy"] * 3
+)
+
 # Unlimited 60: Ambipom PAR Hand Fling, Lopunny FLF Big Jump recycle,
 # Raikou V Fleet-Footed + Forest Seal Stone Star Alchemy, Draw Energy, Rare Candy.
 # 4/4 Aipom–Ambipom is the 2-for-1 prize race (100 HP / 1 prize vs household 2-prizers).
@@ -1202,6 +1229,131 @@ _RESCUE_CARRIER_TEXT = (
     "Put up to 2 Pokémon, each with 90 HP or less, from your discard pile into your hand."
 )
 _register(_trn("Rescue Carrier", "item", _RESCUE_CARRIER_TEXT, catalog_id="swsh7-154"))
+# Scarlet & Violet 055. Twisting Strike prevents damage and effects next turn on heads.
+_register(
+    _pkm(
+        "Wiglett",
+        "Basic",
+        ["Water"],
+        50,
+        [
+            _atk(
+                "Twisting Strike",
+                ["Water"],
+                10,
+                "Flip a coin. If heads, during your opponent's next turn, prevent all damage from and effects of attacks done to this Pokémon.",
+            )
+        ],
+        retreat=1,
+        catalog_id="sv01-055",
+        weakness="Lightning",
+        set_name="Scarlet & Violet",
+    )
+)
+# Scarlet & Violet 057. Undersea Tunnel mills 3 per heads of 3 coins.
+_register(
+    _pkm(
+        "Wugtrio",
+        "Stage1",
+        ["Water"],
+        90,
+        [
+            _atk("Headbutt", ["Water"], 30),
+            _atk(
+                "Undersea Tunnel",
+                ["Colorless", "Colorless", "Colorless"],
+                0,
+                "Flip 3 coins. For each heads, discard the top 3 cards of your opponent's deck.",
+            ),
+        ],
+        evolves_from="Wiglett",
+        retreat=2,
+        catalog_id="sv01-057",
+        weakness="Lightning",
+        set_name="Scarlet & Violet",
+    )
+)
+# Emerging Powers 14. Victory Star reflips one attack's coins, once per turn.
+_VICTORY_STAR_TEXT = (
+    "Once during your turn, after you flip any coins for an attack, you may ignore all effects "
+    "of those coin flips and begin flipping those coins again. You can\u2019t use more than 1 Victory Star Ability each turn."
+)
+_register(
+    _pkm(
+        "Victini",
+        "Basic",
+        ["Fire"],
+        60,
+        [
+            _atk(
+                "Stored Power",
+                ["Fire", "Colorless"],
+                30,
+                "Move all Energy attached to this Pokémon to 1 of your Benched Pokémon.",
+            )
+        ],
+        retreat=1,
+        catalog_id="bw3-14",
+        weakness="Water",
+        abilities=[Ability(name="Victory Star", text=_VICTORY_STAR_TEXT)],
+        image="https://assets.tcgdex.net/en/bw/bw3/14/low.webp",
+        set_name="Emerging Powers",
+    )
+)
+_register(
+    _trn(
+        "Level Ball",
+        "item",
+        "Search your deck for a Pokémon with 90 HP or less, reveal it, and put it into your hand. Then, shuffle your deck.",
+        catalog_id="swsh5-129",
+    )
+)
+_register(
+    _trn(
+        "Miss Fortune Sisters",
+        "supporter",
+        "Look at the top 5 cards of your opponent's deck and discard any number of Item cards you find there. Your opponent shuffles the other cards back into their deck.",
+        catalog_id="swsh11-164",
+    )
+)
+_register(
+    _trn(
+        "Team Rocket's Handiwork",
+        "supporter",
+        "Flip 2 coins. For each heads, discard 2 cards from the top of your opponent's deck.",
+        catalog_id="xy10-112",
+    )
+)
+_register(
+    _trn(
+        "Glimwood Tangle",
+        "stadium",
+        "Once during each player's turn, after that player flips any coins for an attack, they may ignore all results of those coin flips and begin flipping those coins again.",
+        catalog_id="swsh3-162",
+    )
+)
+# Shrouded Fable 060. One ACE SPEC. Non-Rule-Box Pokémon are protected from the opponent's Pokémon ex and Pokémon V.
+_NEUTRALIZATION_ZONE_TEXT = (
+    "Prevent all damage done to Pokémon that don't have a Rule Box (both yours and your opponent's) "
+    "by attacks from the opponent's Pokémon ex and Pokémon V. (Pokémon ex, Pokémon V, etc. have Rule Boxes.)\n\n"
+    "This card can't be put into your hand or deck from the discard pile."
+)
+_register(
+    _trn(
+        "Neutralization Zone",
+        "stadium",
+        _NEUTRALIZATION_ZONE_TEXT,
+        catalog_id="sv06.5-060",
+    )
+)
+_register(
+    _trn(
+        "Pokémon League Headquarters",
+        "stadium",
+        "Attacks used by each Basic Pokémon in play (both yours and your opponent's) cost {C} more.",
+        catalog_id="sv03-192",
+    )
+)
 # Ancient Origins 71. Shuffle exactly 3 Tools. The sentence does not say "up to".
 _ECO_ARM_TEXT = "Shuffle 3 Pokémon Tool cards from your discard pile into your deck."
 _register(_trn("Eco Arm", "item", _ECO_ARM_TEXT, catalog_id="xy7-71"))

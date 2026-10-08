@@ -118,6 +118,16 @@ PUBLISHED_EFFECT_KINDS = frozenset(
         "discard_tools_and_stadiums",
         "cost_colorless_less_if_behind",
         "tool_damage_vs_gx_ex",
+        "coin_mill_opponent",
+        "coin_prevent_self_damage_next_turn",
+        "move_all_energy_to_bench",
+        "reflip_attack_coins",
+        "prevent_ex_v_damage_no_rule_box",
+        "cannot_leave_discard",
+        "stadium_basic_attack_cost_more",
+        "look_opp_discard_items",
+        "coin_mill_top",
+        "search_pokemon_max_hp",
     }
 )
 
