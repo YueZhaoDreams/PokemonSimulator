@@ -51,3 +51,10 @@ Current weighted rate 88.4%. Best cut is not taken: Boss's Orders.
 | 22 | Manaphy | 83.0% | 88.8% | 93.9% | 87.5% | 87.8% | 98.3% | 99.1% | 66.3% | 4.9% | 1.6% | 4.9% | 3.7% |
 
 Stopped at 0 Eco Arm. The next copy, cutting Boss's Orders, is 87.93% against the current 88.39%.
+
+## Result
+
+Set M keeps zero Eco Arm. Two Spiky Energy stay.
+Rescue Carrier already returns the 30 HP babies that Bouncy Circle counts.
+Eco Arm still only shuffles 3 Pokémon Tools into the deck, in about 6% of games, the same rate as on the pre-carrier list.
+That recycle does not pay for the second Spiky Energy.

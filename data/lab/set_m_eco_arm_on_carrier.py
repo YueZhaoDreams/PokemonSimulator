@@ -289,7 +289,18 @@ def _render_md(report: dict) -> str:
             )
     if report.get("note"):
         lines.extend(["", report["note"]])
-    lines.append("")
+    lines.extend(
+        [
+            "",
+            "## Result",
+            "",
+            "Set M keeps zero Eco Arm. Two Spiky Energy stay.",
+            "Rescue Carrier already returns the 30 HP babies that Bouncy Circle counts.",
+            "Eco Arm still only shuffles 3 Pokémon Tools into the deck, in about 6% of games, the same rate as on the pre-carrier list.",
+            "That recycle does not pay for the second Spiky Energy.",
+            "",
+        ]
+    )
     return "\n".join(lines)
 
 

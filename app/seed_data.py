@@ -487,6 +487,14 @@ SET_T_UNL_NAMES = (
 # Weighted 86.4% → 87.3% → 88.2%. The next copy (Boss's Orders, 88.17%) does not rise.
 # Cuts: Boss's Orders (2 → 1), Max Potion (4 → 3). Two Rescue Carrier.
 # Night Stretcher stays at 4. The printed sentence stops at 90 HP, so Mew ex stays in the discard.
+# Eco Arm on that two Rescue Carrier list. Seed 20261007, 1000 games.
+# Weights frozen from the 2-carrier list, including Kudo's Starmie:
+# Starmie 29.8%, Hedrick 24.3%, C60 23.1%, T60 16.7%, D60 3.6%, Thorns 2.6%.
+# Weighted 88.39%. The next copy (Boss's Orders, 87.93%) does not rise.
+# Zero Eco Arm. Spiky Energy stays at 2.
+# Rescue Carrier already returns the 30 HP babies that Bouncy Circle counts.
+# Eco Arm only shuffles 3 Pokémon Tools into the deck, in about 6% of games.
+# That recycle does not pay for the second Spiky Energy.
 SET_M60_NAMES = (
     ["Mew ex"] * 3
     + ["Mime Jr."] * 2
