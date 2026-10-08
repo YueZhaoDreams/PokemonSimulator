@@ -46,6 +46,18 @@ _OPP_BENCH_DAMAGE_KINDS = frozenset({
     "damage_n_opponent_pokemon",
     "discard_typed_energy_damage_per_card",
 })
+# Effects of an attack done to the Defending Pokémon. Twisting Strike stops
+# these on that body. Milling the deck, drawing, and a hit on a different
+# Pokémon still resolve.
+_EFFECTS_ON_DEFENDER = frozenset({
+    "status",
+    "paralyze_if_extra_energy",
+    "no_retreat_next_turn",
+    "set_defender_weakness",
+    "disable_attack",
+    "move_opp_active_energy_to_bench",
+    "discard_defender_tools",
+})
 
 
 @dataclass
@@ -5597,6 +5609,12 @@ class Game:
             self._bump(f"metronome:{resolved.name}")
             self._log(f"{attacker.name} Metronome copies {resolved.name}")
         atk = resolved
+        ignore_effects = "effects" in (atk.text or "").lower() and "isn't affected" in (atk.text or "").lower()
+        shielded = (
+            foe.active is not None
+            and getattr(foe.active, "prevent_attack_damage", False)
+            and not ignore_effects
+        )
 
         if me.active.status & ST_CONFUSED:
             if self.rng.random() < 0.5:
@@ -5617,6 +5635,9 @@ class Game:
                     self._log(f"{attacker.name} used {atk.name} but it did nothing")
                     return
             if effect.get("kind") == "discard_defender_tools" and foe.active and foe.active.tool is not None:
+                if shielded:
+                    self._bump("prevent_attack_effect")
+                    continue
                 foe.discard.append(foe.active.tool)
                 foe.active.tool = None
                 self._bump("crushing_short")
@@ -5645,7 +5666,6 @@ class Game:
                 self._bump("scrap_short", dumped_tools)
                 self._log(f"{attacker.name} puts {dumped_tools} Tools in the Lost Zone")
         was_undamaged = foe.active.damage == 0
-        ignore_effects = "effects" in (atk.text or "").lower() and "isn't affected" in (atk.text or "").lower()
         self._add_attack_damage(foe, foe.active, dmg, ignore_effects=ignore_effects)
         self._bump("damage_dealt", dmg)
         if dmg > 0 and any(e.get("kind") == "require_equal_hands" for e in atk.effects):
@@ -5666,18 +5686,8 @@ class Game:
         if attacker.name not in me.first_attacks_turn:
             me.first_attacks_turn[attacker.name] = self.turn
 
-        shielded = (
-            foe.active is not None
-            and getattr(foe.active, "prevent_attack_damage", False)
-            and not ignore_effects
-        )
         for effect in atk.effects:
-            if shielded and effect.get("kind") in {
-                "status",
-                "no_retreat_next_turn",
-                "set_defender_weakness",
-                "disable_attack",
-            }:
+            if shielded and effect.get("kind") in _EFFECTS_ON_DEFENDER:
                 self._bump("prevent_attack_effect")
                 continue
             if effect.get("kind") == "status":
@@ -8281,6 +8291,9 @@ class Game:
         self._log(f"Survival Brace leaves {owner.card(mon.card_i).name} with 10 HP")
 
     def _add_attack_damage(self, owner: Player, mon: Pokemon, amount: int, *, ignore_effects: bool = False) -> None:
+        if amount > 0 and not ignore_effects and getattr(mon, "prevent_attack_damage", False):
+            self._bump("prevent_attack_damage")
+            amount = 0
         if amount > 0 and self._benched_attack_damage_prevented(owner, mon):
             self._bump("tera_bench_prevent")
             amount = 0

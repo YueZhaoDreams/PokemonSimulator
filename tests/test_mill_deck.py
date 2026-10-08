@@ -393,6 +393,71 @@ def test_twisting_strike_heads_blocks_the_next_attack_and_demolish_lands():
     assert me.active.prevent_attack_damage is False
 
 
+def _grant(board: _Board, who: str, name: str) -> int:
+    player = board.game.players[who]
+    player.cards.append(fallback_named(name))
+    idx = len(player.cards) - 1
+    board._used[who].add(idx)
+    return idx
+
+
+def test_twisting_strike_blocks_effects_done_to_that_wiglett():
+    board = _Board("balanced")
+    me = board.seat("a", active=("Wiglett", ["Water Energy"]), bench=("Wiglett",))
+    tool = _grant(board, "a", "Air Balloon")
+    me.active.tool = tool
+    me.active.prevent_attack_damage = True
+    foe = board.seat("b", active=("Wiglett", []))
+
+    zap = _grant(board, "b", "Team Rocket's Zapdos")
+    foe.active = Pokemon(card_i=zap, energy=[_grant(board, "b", "Lightning Energy"), _grant(board, "b", "Lightning Energy")])
+    board.game._attack(foe, me, "b")
+    assert me.active.damage == 0
+    assert [me.card(i).name for i in me.active.energy] == ["Water Energy"]
+    assert me.bench[0].energy == []
+
+    dun = _grant(board, "b", "Dunsparce")
+    foe.active = Pokemon(card_i=dun, energy=[_grant(board, "b", "Water Energy")])
+    board.game._attack(foe, me, "b")
+    assert me.active.status == 0
+    assert me.active.damage == 0
+
+    zek = _grant(board, "b", "Zekrom")
+    foe.active = Pokemon(card_i=zek, energy=[_grant(board, "b", "Lightning Energy")])
+    board.game._attack(foe, me, "b")
+    assert me.active.tool == tool
+    assert me.active.damage == 0
+    assert "Air Balloon" not in [me.card(i).name for i in me.discard]
+
+
+def test_shield_follows_that_pokemon_and_demolish_still_ignores_it():
+    board = _Board("balanced")
+    me = board.seat("a", active=("Wiglett", []), bench=("Wiglett",))
+    shielded = me.bench[0]
+    shielded.prevent_attack_damage = True
+    board.game._add_attack_damage(me, shielded, 30)
+    assert shielded.damage == 0
+    board.game._add_attack_damage(me, me.active, 30)
+    assert me.active.damage == 30
+    board.game._add_attack_damage(me, shielded, 140, ignore_effects=True)
+    assert shielded.damage == 140
+
+
+def test_undersea_still_mills_when_the_defender_is_shielded():
+    board = _Board("mill")
+    me = board.seat(
+        "a",
+        active=("Wugtrio", ["Water Energy", "Water Energy", "Water Energy"]),
+    )
+    foe = board.seat("b", active=("Wiglett", []))
+    foe.active.prevent_attack_damage = True
+    before = len(foe.deck)
+    board.game.rng.random = _coins(0.0, 0.0, 0.0)
+    board.game._attack(me, foe, "a")
+    assert len(foe.deck) == before - 9
+    assert foe.active.damage == 0
+
+
 def test_twisting_strike_tails_then_victory_star_buys_the_extra_turn():
     board = _Board("mill")
     me = board.seat("a", active=("Wiglett", ["Water Energy"]), bench=("Victini",))
