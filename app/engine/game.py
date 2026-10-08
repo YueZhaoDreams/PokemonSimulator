@@ -46,6 +46,18 @@ _OPP_BENCH_DAMAGE_KINDS = frozenset({
     "damage_n_opponent_pokemon",
     "discard_typed_energy_damage_per_card",
 })
+# Effects of an attack done to the Defending Pokémon. Twisting Strike stops
+# these on that body. Milling the deck, drawing, and a hit on a different
+# Pokémon still resolve.
+_EFFECTS_ON_DEFENDER = frozenset({
+    "status",
+    "paralyze_if_extra_energy",
+    "no_retreat_next_turn",
+    "set_defender_weakness",
+    "disable_attack",
+    "move_opp_active_energy_to_bench",
+    "discard_defender_tools",
+})
 
 
 @dataclass
@@ -59,6 +71,7 @@ class Pokemon:
     tool: int | None = None
     ability_used: bool = False
     prevent_basic_damage: bool = False
+    prevent_attack_damage: bool = False
     reduce_damage_next_turn: int = 0
     weakness_override: dict[str, str] | None = None
     weakness_override_expires: tuple[int, str] | None = None
@@ -97,6 +110,8 @@ class Player:
     lost_zone: list[int] = field(default_factory=list)
     quick_search_used: bool = False
     vstar_used: bool = False
+    victory_star_used: bool = False
+    glimwood_used: bool = False
 
     def in_play(self) -> list[Pokemon]:
         mons = []
@@ -899,6 +914,8 @@ class Game:
         self.last_ditch_used = False
         self.turn_ended_by_ability = False
         me.quick_search_used = False
+        me.victory_star_used = False
+        me.glimwood_used = False
         if me.pending_item_lock:
             me.item_lock = True
             me.pending_item_lock = False
@@ -906,7 +923,7 @@ class Game:
         self._play_basics(me)
         self._play_trainers(me, foe, who)
         self._play_basics(me)
-        if self.strats[who].name in {"party", "demolish", "slash", "shock", "thrifty", "phantom", "carnival", "g", "celebration", "aura", "thorns", "electro_rain", "regidrago"}:
+        if self.strats[who].name in {"party", "demolish", "slash", "shock", "thrifty", "phantom", "carnival", "g", "celebration", "aura", "thorns", "electro_rain", "regidrago", "mill"}:
             self._play_trainers(me, foe, who)
             self._play_basics(me)
         if self.strats[who].name in {"party", "g"}:
@@ -920,7 +937,7 @@ class Game:
             self._party_bounce_combo(me, foe, who)
         self._evolve(me, foe, who)
         self._play_basics(me)
-        if self.strats[who].name in {"party", "demolish", "slash", "shock", "thrifty", "phantom", "carnival", "g", "celebration", "aura", "thorns", "electro_rain", "regidrago"}:
+        if self.strats[who].name in {"party", "demolish", "slash", "shock", "thrifty", "phantom", "carnival", "g", "celebration", "aura", "thorns", "electro_rain", "regidrago", "mill"}:
             self._play_trainers(me, foe, who)
         if self.strats[who].name == "celebration":
             self._evolve(me, foe, who)
@@ -998,7 +1015,10 @@ class Game:
                 mon.disabled_self_pending = None
         for mon in self.players[other].in_play():
             mon.prevent_basic_damage = False
+            mon.prevent_attack_damage = False
             mon.reduce_damage_next_turn = 0
+        self.players[who].victory_star_used = False
+        self.players[who].glimwood_used = False
         for side in self.players.values():
             for mon in side.in_play():
                 if mon.weakness_override_expires == (self.turn, who):
@@ -2060,6 +2080,8 @@ class Game:
                 score += self._aura_trainer_score(me, foe, name)
             if strat.name == "thorns":
                 score += self._thorns_trainer_score(me, foe, card)
+            if strat.name == "mill":
+                score += self._mill_trainer_score(me, foe, card)
             if card.is_supporter and hold_for_bounce:
                 # The scripted Penny, Prankish, and Seeker lines play the
                 # supporter themselves. A generic play spends it on the
@@ -4008,6 +4030,18 @@ class Game:
 
     def _pokemon_search_prefer(self, me: Player, who: str) -> list[str]:
         strat = self.strats[who]
+        if strat.name == "mill":
+            names = {me.card(mon.card_i).name.lower() for mon in me.in_play()}
+            names |= {me.card(i).name.lower() for i in me.hand}
+            prefer = []
+            if "wiglett" not in names:
+                prefer.append("Wiglett")
+            if "wugtrio" not in names:
+                prefer.append("Wugtrio")
+            if "victini" not in names:
+                prefer.append("Victini")
+            prefer.extend(["Wiglett", "Wugtrio", "Victini"])
+            return list(dict.fromkeys(prefer))
         if strat.name == "electro_rain":
             return self._electro_search_prefer(me)
         if strat.name == "regidrago":
@@ -5454,6 +5488,9 @@ class Game:
             return
         if me.active.status & (ST_PARALYZED | ST_ASLEEP):
             return
+        if strat.name == "mill":
+            self._retreat_mill(me, who)
+            return
         if strat.name == "starmie":
             self._retreat_starmie(me, who)
             return
@@ -5572,6 +5609,12 @@ class Game:
             self._bump(f"metronome:{resolved.name}")
             self._log(f"{attacker.name} Metronome copies {resolved.name}")
         atk = resolved
+        ignore_effects = "effects" in (atk.text or "").lower() and "isn't affected" in (atk.text or "").lower()
+        shielded = (
+            foe.active is not None
+            and getattr(foe.active, "prevent_attack_damage", False)
+            and not ignore_effects
+        )
 
         if me.active.status & ST_CONFUSED:
             if self.rng.random() < 0.5:
@@ -5592,6 +5635,9 @@ class Game:
                     self._log(f"{attacker.name} used {atk.name} but it did nothing")
                     return
             if effect.get("kind") == "discard_defender_tools" and foe.active and foe.active.tool is not None:
+                if shielded:
+                    self._bump("prevent_attack_effect")
+                    continue
                 foe.discard.append(foe.active.tool)
                 foe.active.tool = None
                 self._bump("crushing_short")
@@ -5620,7 +5666,6 @@ class Game:
                 self._bump("scrap_short", dumped_tools)
                 self._log(f"{attacker.name} puts {dumped_tools} Tools in the Lost Zone")
         was_undamaged = foe.active.damage == 0
-        ignore_effects = "effects" in (atk.text or "").lower() and "isn't affected" in (atk.text or "").lower()
         self._add_attack_damage(foe, foe.active, dmg, ignore_effects=ignore_effects)
         self._bump("damage_dealt", dmg)
         if dmg > 0 and any(e.get("kind") == "require_equal_hands" for e in atk.effects):
@@ -5642,6 +5687,9 @@ class Game:
             me.first_attacks_turn[attacker.name] = self.turn
 
         for effect in atk.effects:
+            if shielded and effect.get("kind") in _EFFECTS_ON_DEFENDER:
+                self._bump("prevent_attack_effect")
+                continue
             if effect.get("kind") == "status":
                 if effect.get("status") == "paralyzed" and any(
                     e.get("kind") == "paralyze_if_extra_energy" for e in atk.effects
@@ -5728,7 +5776,23 @@ class Game:
                     bench_only=bool(effect.get("bench_only", True)),
                 )
             elif effect.get("kind") == "mill_opponent":
-                self._mill_opponent(me, foe, int(effect.get("count") or 1))
+                count = int(effect.get("count") or 0)
+                if count > 0:
+                    self._mill_opponent(me, foe, count)
+            elif effect.get("kind") == "coin_mill_opponent":
+                flips = int(effect.get("flips") or 0)
+                per = int(effect.get("per") or 0)
+                heads = self._attack_coin_heads(me, flips)
+                total = heads * per
+                if total > 0:
+                    self._mill_opponent(me, foe, total)
+            elif effect.get("kind") == "coin_prevent_self_damage_next_turn":
+                if self._attack_coin_heads(me, 1) >= 1 and me.active:
+                    me.active.prevent_attack_damage = True
+                    self._bump("twisting_strike")
+                    self._log(f"{attacker.name} prevents damage and effects of attacks next turn")
+            elif effect.get("kind") == "move_all_energy_to_bench":
+                self._move_all_energy_to_bench(me)
             elif effect.get("kind") == "recoil":
                 me.active.damage += int(effect.get("amount") or 0)
                 self._log(f"{attacker.name} takes {int(effect.get('amount') or 0)} recoil")
@@ -5818,6 +5882,212 @@ class Game:
             self._log(f"{me.name} mills {foe.card(card_i).name} from {foe.name}'s deck")
         if milled:
             self._bump("mill_attack")
+
+    def _flip_coins(self, n: int) -> int:
+        heads = 0
+        for _ in range(max(0, n)):
+            if self.rng.random() < 0.5:
+                heads += 1
+        return heads
+
+    def _victory_star_ready(self, me: Player) -> bool:
+        if me.victory_star_used:
+            return False
+        for mon in me.in_play():
+            if self._abilities_suppressed(me, mon):
+                continue
+            for abi in me.card(mon.card_i).abilities:
+                if any(
+                    eff.get("kind") == "reflip_attack_coins" and eff.get("limit_name") == "victory star"
+                    for eff in self._ability_effects(abi)
+                ):
+                    return True
+        return False
+
+    def _glimwood_ready(self, me: Player) -> bool:
+        if me.glimwood_used:
+            return False
+        return any(
+            eff.get("kind") == "reflip_attack_coins" and eff.get("each_player")
+            for eff in (self.stadium_effects or [])
+        )
+
+    def _attack_coin_heads(self, me: Player, flips: int) -> int:
+        """Flip the attack's coins. One optional reflip, Victory Star before Glimwood.
+
+        Strategies with reflip_heads_at_most left unset decline the optional reflip,
+        so other decks keep the same coin stream. Handiwork is not an attack and
+        does not call this.
+        """
+        heads = self._flip_coins(flips)
+        who = "a" if me.name == "A" else "b"
+        limit = getattr(self.strats[who], "reflip_heads_at_most", None)
+        if limit is None or heads > int(limit):
+            return heads
+        if self._victory_star_ready(me):
+            me.victory_star_used = True
+            self._bump("victory_star_reflip")
+            self._log("Victory Star reflip")
+            return self._flip_coins(flips)
+        if self._glimwood_ready(me):
+            me.glimwood_used = True
+            self._bump("glimwood_reflip")
+            self._log("Glimwood Tangle reflip")
+            return self._flip_coins(flips)
+        return heads
+
+    def _nz_prevents_damage(self, attacker: Card, defender: Card) -> bool:
+        if not any(
+            eff.get("kind") == "prevent_ex_v_damage_no_rule_box" for eff in (self.stadium_effects or [])
+        ):
+            return False
+        if self._has_rule_box(defender):
+            return False
+        return self._is_ex_or_v(attacker)
+
+    def _is_ex_or_v(self, card: Card) -> bool:
+        """Pokémon ex and Pokémon V, including VSTAR and VMAX. Pokémon-GX is not named."""
+        name = (card.name or "").lower().rstrip()
+        if name.endswith(" ex") or name.endswith("-ex"):
+            return True
+        if name.endswith(" v") or name.endswith(" vstar") or name.endswith(" vmax"):
+            return True
+        if " vstar" in name or " vmax" in name:
+            return True
+        return False
+
+    def _basic_attack_cost_more(self, me: Player, mon: Pokemon) -> int:
+        if not me.card(mon.card_i).is_basic:
+            return 0
+        extra = 0
+        for eff in self.stadium_effects or []:
+            if eff.get("kind") == "stadium_basic_attack_cost_more":
+                extra += int(eff.get("colorless") or 0)
+        return extra
+
+    def _cannot_leave_discard(self, card: Card) -> bool:
+        return any(
+            eff.get("kind") == "cannot_leave_discard" for eff in parse_ability_effects(card.text or "")
+        )
+
+    def _move_all_energy_to_bench(self, me: Player) -> None:
+        if not me.active or not me.active.energy or not me.bench:
+            return
+        who = "a" if me.name == "A" else "b"
+        dest = me.bench[0]
+        if self.strats[who].name == "mill":
+            for mon in me.bench:
+                if me.card(mon.card_i).name.lower() == "wugtrio":
+                    dest = mon
+                    break
+        dest.energy.extend(me.active.energy)
+        me.active.energy.clear()
+        self._bump("stored_power")
+        self._log(f"{me.name} moves Energy to {me.card(dest.card_i).name}")
+
+    def _level_ball(self, me: Player, who: str, max_hp: int) -> None:
+        if max_hp <= 0:
+            return
+
+        def pred(card: Card) -> bool:
+            return card.is_pokemon and 0 < (card.hp or 0) <= max_hp
+
+        prefer = self._pokemon_search_prefer(me, who)
+        found = self._search(me, pred, prefer=prefer, n=1, source="level ball")
+        if found:
+            self._bump("level_ball")
+            self._log(f"{me.name} Level Ball finds {me.card(found).name}")
+
+    def _look_opp_discard_items(self, me: Player, foe: Player, look: int) -> None:
+        n = min(int(look), len(foe.deck))
+        if n <= 0:
+            self._bump("sisters_miss")
+            return
+        top = [foe.deck.pop(0) for _ in range(n)]
+        rest: list[int] = []
+        discarded = 0
+        for card_i in top:
+            card = foe.card(card_i)
+            if card.is_item:
+                foe.discard.append(card_i)
+                discarded += 1
+                self._bump("sisters_item")
+                self._log(f"{me.name} discards {card.name}")
+            else:
+                rest.append(card_i)
+        foe.deck.extend(rest)
+        self.rng.shuffle(foe.deck)
+        self._bump("miss_fortune_sisters")
+        if not discarded:
+            self._bump("sisters_miss")
+
+    def _coin_mill_top(self, me: Player, foe: Player, flips: int, per: int) -> None:
+        """Handiwork flips its own coins. Victory Star and Glimwood do not reflip them."""
+        heads = self._flip_coins(flips)
+        total = heads * per
+        if total <= 0:
+            self._bump("handiwork_tails")
+            return
+        self._mill_opponent(me, foe, total)
+        self._bump("handiwork", heads)
+
+    def _retreat_mill(self, me: Player, who: str) -> None:
+        if not me.active or not me.bench:
+            return
+        if me.card(me.active.card_i).name.lower() == "wugtrio":
+            return
+        for idx, mon in enumerate(me.bench):
+            card = me.card(mon.card_i)
+            if card.name.lower() != "wugtrio":
+                continue
+            payable = False
+            for atk in card.attacks:
+                if not any(eff.get("kind") == "coin_mill_opponent" for eff in atk.effects):
+                    continue
+                if can_pay_energy(self._energy_pool(me, mon), self._attack_cost(me, mon, atk)):
+                    payable = True
+                    break
+            if payable and self._do_retreat_into(me, idx):
+                return
+
+    def _mill_trainer_score(self, me: Player, foe: Player, card: Card) -> float:
+        name = card.name.lower()
+        in_play = {me.card(mon.card_i).name.lower() for mon in me.in_play()}
+        in_hand = {me.card(i).name.lower() for i in me.hand}
+        have_wiglett = "wiglett" in in_play or "wiglett" in in_hand
+        have_trio = "wugtrio" in in_play or "wugtrio" in in_hand
+        if name == "level ball":
+            if not have_wiglett:
+                return 16
+            return 8 if not have_trio else 2
+        if name in {"nest ball", "buddy-buddy poffin", "buddy buddy poffin"}:
+            slots = self._bench_limit(me) - len(me.bench)
+            if slots > 0 and not have_wiglett:
+                return 12
+            return 4 if slots > 0 else -4
+        if name == "rescue carrier":
+            return 12 if self._rescue_carrier_targets(me, 90) else -4
+        if name == "crushing hammer":
+            return 8 if foe.active and foe.active.energy else 1
+        if name == "miss fortune sisters":
+            return 9 if len(foe.deck) >= 5 else 2
+        if name == "team rocket's handiwork":
+            return 8 if foe.deck else -2
+        if name == "boss's orders":
+            return 6 if foe.bench else -8
+        if name in {"glimwood tangle", "neutralization zone", "pokémon league headquarters"}:
+            if (self.stadium_name or "").lower() == name:
+                return -6
+            return 7 if not self.stadium_name else 3
+        if name == "crispin":
+            return 11 if not me.energy_attached else 4
+        if name == "colress's tenacity":
+            return 10 if not self.stadium_name else 4
+        if name == "team rocket's petrel":
+            return 6
+        if name == "switch":
+            return 4 if me.bench else -4
+        return 0
 
     def _count_psychic_energy_in_play(self, me: Player) -> int:
         """Count Psychic Energy attached to all of this player's Pokémon.
@@ -6673,8 +6943,10 @@ class Game:
                 else:
                     follow = any("Colorless" in (me.card(m.card_i).types or []) for m in me.in_play())
                     score += 90 if follow else 45
-            if any(e.get("kind") == "mill_opponent" for e in atk.effects):
+            if any(e.get("kind") in {"mill_opponent", "coin_mill_opponent"} for e in atk.effects):
                 score += 15 if strat.hold_as_energy else 55
+                if strat.name == "mill" and any(e.get("kind") == "coin_mill_opponent" for e in atk.effects):
+                    score += 40
             if any(e.get("kind") == "draw" for e in atk.effects) and atk.damage <= 30:
                 score += 15
             if any(e.get("kind") == "hand_count_times" for e in resolved.effects):
@@ -7817,6 +8089,12 @@ class Game:
             if foe.active.prevent_basic_damage and attacker.is_basic:
                 self._bump("prevent_basic_damage")
                 return 0
+            if getattr(foe.active, "prevent_attack_damage", False):
+                self._bump("prevent_attack_damage")
+                return 0
+            if self._nz_prevents_damage(attacker, defender):
+                self._bump("neutralization_zone")
+                return 0
             if dmg > 0 and self._coin_prevents_attack_damage(foe, foe.active):
                 self._bump("expert_hider")
                 return 0
@@ -8013,6 +8291,9 @@ class Game:
         self._log(f"Survival Brace leaves {owner.card(mon.card_i).name} with 10 HP")
 
     def _add_attack_damage(self, owner: Player, mon: Pokemon, amount: int, *, ignore_effects: bool = False) -> None:
+        if amount > 0 and not ignore_effects and getattr(mon, "prevent_attack_damage", False):
+            self._bump("prevent_attack_damage")
+            amount = 0
         if amount > 0 and self._benched_attack_damage_prevented(owner, mon):
             self._bump("tera_bench_prevent")
             amount = 0
@@ -12182,7 +12463,11 @@ class Game:
             mon.disabled_attack = None
 
     def _recycle_trainer_from_discard(self, me: Player) -> None:
-        trainers = [i for i in me.discard if me.card(i).is_trainer]
+        trainers = [
+            i
+            for i in me.discard
+            if me.card(i).is_trainer and not self._cannot_leave_discard(me.card(i))
+        ]
         if not trainers:
             return
         prefer = [
@@ -13260,6 +13545,9 @@ class Game:
                     cost.remove("Colorless")
                     break
 
+        extra_colorless = self._basic_attack_cost_more(me, mon)
+        if extra_colorless:
+            cost.extend(["Colorless"] * extra_colorless)
         return cost
 
     def _celebration_bench_rank(self, name: str) -> int:
@@ -13699,6 +13987,12 @@ class Game:
             self._rescue_stretcher(me, who, int(eff.get("shuffle_count") or 0))
         elif kind == "rescue_carrier":
             self._rescue_carrier(me, who, int(eff.get("count") or 0), int(eff.get("max_hp") or 0))
+        elif kind == "search_pokemon_max_hp":
+            self._level_ball(me, who, int(eff.get("max_hp") or 0))
+        elif kind == "look_opp_discard_items":
+            self._look_opp_discard_items(me, foe, int(eff.get("look") or 0))
+        elif kind == "coin_mill_top":
+            self._coin_mill_top(me, foe, int(eff.get("flips") or 0), int(eff.get("per") or 0))
         elif kind == "shuffle_tools_to_deck":
             self._shuffle_tools_to_deck(me, int(eff.get("count") or 0))
         elif kind == "shuffle_special_energy_to_deck":
@@ -13759,6 +14053,8 @@ class Game:
             if taken >= count:
                 break
             if card_i not in me.discard:
+                continue
+            if self._cannot_leave_discard(me.card(card_i)):
                 continue
             me.discard.remove(card_i)
             me.hand.append(card_i)
@@ -13825,7 +14121,9 @@ class Game:
         trainers = [
             i
             for i in me.discard
-            if me.card(i).is_trainer and not (exclude_self and me.card(i).name.lower() == "junk arm")
+            if me.card(i).is_trainer
+            and not (exclude_self and me.card(i).name.lower() == "junk arm")
+            and not self._cannot_leave_discard(me.card(i))
         ]
         prefer = ["puzzle of time", "scoop up net", "broken time-space", "switch", "wally"]
 
