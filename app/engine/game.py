@@ -12463,7 +12463,11 @@ class Game:
             mon.disabled_attack = None
 
     def _recycle_trainer_from_discard(self, me: Player) -> None:
-        trainers = [i for i in me.discard if me.card(i).is_trainer]
+        trainers = [
+            i
+            for i in me.discard
+            if me.card(i).is_trainer and not self._cannot_leave_discard(me.card(i))
+        ]
         if not trainers:
             return
         prefer = [

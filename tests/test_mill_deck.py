@@ -336,6 +336,15 @@ def test_neutralization_zone_stays_in_the_discard():
     board.game._retrieve_from_discard(me, 1)
     assert me.hand == []
     assert [me.card(i).name for i in me.discard] == ["Neutralization Zone"]
+    board.game._recycle_trainer_from_discard(me)
+    assert me.hand == []
+    assert [me.card(i).name for i in me.discard] == ["Neutralization Zone"]
+
+    both = _Board("mill")
+    me = both.seat("a", active=("Wiglett", []), discard=["Neutralization Zone", "Switch"])
+    both.game._recycle_trainer_from_discard(me)
+    assert [me.card(i).name for i in me.hand] == ["Switch"]
+    assert [me.card(i).name for i in me.discard] == ["Neutralization Zone"]
 
 
 def test_headquarters_taxes_basic_attacks_only():
