@@ -763,7 +763,9 @@ STRATEGY_LIBRARY = {
         description=(
             "Wugtrio send. Search Wiglett and Wugtrio, evolve, and mill with Undersea Tunnel. "
             "Twisting Strike on heads keeps that Wiglett through the opponent's next turn. "
-            "Victory Star, or else Glimwood Tangle, reflips an attack once when it shows 0 or 1 heads. "
+            "Victory Star reflips an attack once when it shows 0 or 1 heads. "
+            "Ignition Energy pays Undersea on an Evolution and leaves at the end of the turn. "
+            "Reversal Energy stays, and pays three while more Prize cards remain. "
             "Neutralization Zone is the one ACE SPEC."
         ),
         prefer_damage=0.2,

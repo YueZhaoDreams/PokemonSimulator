@@ -585,8 +585,12 @@ SET_L60_NAMES = (
     + ["Fighting Energy"] * 11
 )
 
-# Mill: Wugtrio send. Sisters 60. Neutralization Zone is the one ACE SPEC.
-# Seed 20260929, 1000 games each seat against 12 lists: 6092/12000, mean mill 18.7.
+# Mill: Wugtrio send. Neutralization Zone is the one ACE SPEC.
+# Loss-weighted greedy, weights frozen on the Sisters 60. Seed 20261009,
+# 250 games each seat against 12 lists: weighted 30.2% -> 40.8%,
+# plain mean 40.1% -> 51.7%, mean mill 9.95 -> 15.23.
+# Ignition cut Switch, Glimwood Tangle, Petrel, one Headquarters.
+# Reversal then cut one Fighting, the other two Headquarters, and one Boss.
 SET_MILL_NAMES = (
     ["Wiglett"] * 4
     + ["Wugtrio"] * 4
@@ -597,19 +601,17 @@ SET_MILL_NAMES = (
     + ["Rescue Carrier"] * 4
     + ["Crushing Hammer"] * 4
     + ["Counter Catcher"] * 2
-    + ["Switch"]
     + ["Miss Fortune Sisters"] * 2
     + ["Crispin"] * 3
-    + ["Boss's Orders"] * 2
+    + ["Boss's Orders"]
     + ["Team Rocket's Handiwork"] * 2
     + ["Colress's Tenacity"] * 4
-    + ["Team Rocket's Petrel"]
-    + ["Glimwood Tangle"]
     + ["Neutralization Zone"]
-    + ["Pokémon League Headquarters"] * 3
     + ["Double Turbo Energy"] * 4
     + ["Water Energy"] * 4
-    + ["Fighting Energy"] * 3
+    + ["Fighting Energy"] * 2
+    + ["Ignition Energy"] * 4
+    + ["Reversal Energy"] * 4
 )
 
 # Unlimited 60: Ambipom PAR Hand Fling, Lopunny FLF Big Jump recycle,
@@ -4943,6 +4945,7 @@ _register(
         types=["Colorless"],
         energy_type="Colorless",
         text=_REVERSAL_ENERGY,
+        image="https://assets.tcgdex.net/en/sv/sv02/192/low.webp",
         set_name="Paldea Evolved",
         retreat=0,
     )

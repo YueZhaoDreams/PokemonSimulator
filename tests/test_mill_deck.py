@@ -145,19 +145,21 @@ def test_mill_list_is_the_sisters_sixty():
     assert names.count("Rescue Carrier") == 4
     assert names.count("Crushing Hammer") == 4
     assert names.count("Counter Catcher") == 2
-    assert names.count("Switch") == 1
     assert names.count("Miss Fortune Sisters") == 2
     assert names.count("Crispin") == 3
-    assert names.count("Boss's Orders") == 2
+    assert names.count("Boss's Orders") == 1
     assert names.count("Team Rocket's Handiwork") == 2
     assert names.count("Colress's Tenacity") == 4
-    assert names.count("Team Rocket's Petrel") == 1
-    assert names.count("Glimwood Tangle") == 1
     assert names.count("Neutralization Zone") == 1
-    assert names.count("Pokémon League Headquarters") == 3
     assert names.count("Double Turbo Energy") == 4
     assert names.count("Water Energy") == 4
-    assert names.count("Fighting Energy") == 3
+    assert names.count("Fighting Energy") == 2
+    assert names.count("Ignition Energy") == 4
+    assert names.count("Reversal Energy") == 4
+    assert names.count("Switch") == 0
+    assert names.count("Glimwood Tangle") == 0
+    assert names.count("Team Rocket's Petrel") == 0
+    assert names.count("Pokémon League Headquarters") == 0
     for missing in _ABSENT:
         assert missing not in names
     pile = build_fallback_deck(names)
