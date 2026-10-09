@@ -9,7 +9,14 @@ keeps that Wiglett through the opponent's next turn. Demolish still lands.
 
 from random import Random
 
-from app.engine.effects import parse_ability_effects, parse_effects, parse_trainer_effects
+from app.engine.effects import (
+    can_pay_energy,
+    energy_provided,
+    parse_ability_effects,
+    parse_effects,
+    parse_energy_effects,
+    parse_trainer_effects,
+)
 from app.engine.game import Game, Pokemon
 from app.engine.legality import copy_violations
 from app.engine.models import S60_SEED_IDS, default_rule_presets_for, standard_60_rules
@@ -465,6 +472,100 @@ def test_undersea_still_mills_when_the_defender_is_shielded():
     board.game._attack(me, foe, "a")
     assert len(foe.deck) == before - 9
     assert foe.active.damage == 0
+
+
+_IGNITION = (
+    "If this card is attached to 1 of your Pokémon, discard it at the end of your turn. "
+    "As long as this card is attached to a Pokémon, it provides Colorless Energy. "
+    "If this card is attached to an Evolution Pokémon, it provides Colorless Colorless Colorless Energy instead."
+)
+
+
+def _energy_board() -> _Board:
+    names = [
+        "Wiglett",
+        "Wugtrio",
+        "Wugtrio",
+        "Victini",
+        "Ignition Energy",
+        "Ignition Energy",
+        "Reversal Energy",
+        "Water Energy",
+        "Water Energy",
+        "Double Turbo Energy",
+        "Fighting Energy",
+    ]
+    while len(names) < 40:
+        names.append("Water Energy")
+    board = _Board("mill")
+    board.game = Game(
+        build_fallback_deck(names),
+        build_fallback_deck(list(names)),
+        standard_60_rules(),
+        StrategySpec.from_dict("mill"),
+        StrategySpec.from_dict("mill"),
+        Random(1),
+        trace=True,
+    )
+    board._used = {"a": set(), "b": set()}
+    return board
+
+
+def test_ignition_energy_pays_three_colorless_on_an_evolution_and_then_leaves():
+    card = fallback_named("Ignition Energy")
+    assert card.catalog_id == "me02-124"
+    assert card.text == _IGNITION
+    parsed = parse_energy_effects(card.text)
+    assert {"kind": "provides_colorless_if_evolution", "basic_count": 1, "evolution_count": 3} in parsed
+    assert {"kind": "discard_attached_end_of_turn"} in parsed
+    assert energy_provided(card, host=fallback_named("Wiglett")) == ["Colorless"]
+    assert energy_provided(card, host=fallback_named("Wugtrio")) == ["Colorless", "Colorless", "Colorless"]
+
+    board = _energy_board()
+    me = board.seat("a", active=("Wugtrio", []), hand=["Ignition Energy", "Water Energy"])
+    foe = board.seat("b", active=("Wiglett", []))
+    board.game._attach_energy(me, "a")
+    assert [me.card(i).name for i in me.active.energy] == ["Ignition Energy"]
+    undersea = next(a for a in me.card(me.active.card_i).attacks if a.name == "Undersea Tunnel")
+    assert board.game._energy_pool(me, me.active) == ["Colorless", "Colorless", "Colorless"]
+    assert can_pay_energy(
+        board.game._energy_pool(me, me.active), board.game._attack_cost(me, me.active, undersea)
+    )
+    board.game._expire_turn_markers("a")
+    assert me.active.energy == []
+    assert [me.card(i).name for i in me.discard] == ["Ignition Energy"]
+    assert board.game.events.get("discard_attached_end_of_turn") == 1
+    assert foe.active is not None
+
+
+def test_ignition_on_wiglett_is_one_colorless_and_mill_attaches_water_instead():
+    board = _energy_board()
+    me = board.seat("a", active=("Wiglett", []), hand=["Ignition Energy", "Water Energy"])
+    board.seat("b", active=("Wugtrio", []))
+    board.game._attach_energy(me, "a")
+    assert [me.card(i).name for i in me.active.energy] == ["Water Energy"]
+    twist = next(a for a in me.card(me.active.card_i).attacks if a.name == "Twisting Strike")
+    assert board.game._attack_cost(me, me.active, twist) == ["Water"]
+
+
+def test_reversal_energy_pays_undersea_while_behind_and_stays():
+    board = _energy_board()
+    me = board.seat("a", active=("Wugtrio", []), hand=["Reversal Energy", "Ignition Energy"])
+    foe = board.seat("b", active=("Wiglett", []))
+    me.prizes = [0, 1, 2, 3, 4, 5]
+    foe.prizes = [0, 1, 2, 3]
+    board.game._attach_energy(me, "a")
+    assert [me.card(i).name for i in me.active.energy] == ["Reversal Energy"]
+    assert board.game._energy_pool(me, me.active) == ["Any", "Any", "Any"]
+    board.game._expire_turn_markers("a")
+    assert [me.card(i).name for i in me.active.energy] == ["Reversal Energy"]
+
+
+def test_reversal_energy_is_one_colorless_when_prizes_are_tied():
+    card = fallback_named("Reversal Energy")
+    assert energy_provided(card, prizes_behind=False, host=fallback_named("Wugtrio")) == ["Colorless"]
+    assert energy_provided(card, prizes_behind=True, host=fallback_named("Wugtrio")) == ["Any", "Any", "Any"]
+    assert energy_provided(card, prizes_behind=True, host=fallback_named("Wiglett")) == ["Colorless"]
 
 
 def test_twisting_strike_tails_then_victory_star_buys_the_extra_turn():

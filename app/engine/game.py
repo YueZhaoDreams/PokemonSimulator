@@ -11,6 +11,7 @@ from app.engine.effects import (
     energy_provided,
     host_has_rule_box,
     host_is_dragon,
+    host_is_evolution,
     host_is_gx_or_hyphen_ex,
     is_basic_energy,
     is_boomerang_energy,
@@ -898,6 +899,11 @@ class Game:
         self.lunar_cycle_used = False
         for mon in me.in_play():
             mon.ability_used = False
+        # Ignition leaves at the end of the turn it was attached. A KO can
+        # return before that cleanup, so drop any copy still attached.
+        other = "b" if who == "a" else "a"
+        self._discard_attached_end_of_turn(who)
+        self._discard_attached_end_of_turn(other)
         self._between_turns(me)
         if self._check_ko(me, foe, who):
             return True
@@ -1028,6 +1034,7 @@ class Game:
             self.blank_active_until = None
             self.blank_active_owner = None
         self._discard_end_of_turn_tools(who)
+        self._discard_attached_end_of_turn(who)
         self._discard_opponent_turn_tools(who)
 
     def _between_turns(self, me: Player) -> None:
@@ -5105,6 +5112,8 @@ class Game:
 
     def _energy_target(self, me: Player, strat: StrategySpec) -> Pokemon:
         assert me.active
+        if strat.name == "mill" and self._burst_energy_in_hand(me):
+            return self._mill_energy_target(me)
         if strat.name == "thorns":
             return self._thorns_energy_target(me)
         if strat.name == "starmie":
@@ -5383,6 +5392,8 @@ class Game:
         )
 
     def _choose_energy_card(self, me: Player, target: Pokemon, strat: StrategySpec) -> int | None:
+        if strat.name == "mill" and self._burst_energy_in_hand(me):
+            return self._mill_energy_card(me, target)
         if strat.name == "starmie":
             return self._starmie_energy_card(me, target)
         if strat.name == "thorns":
@@ -6030,6 +6041,96 @@ class Game:
             return
         self._mill_opponent(me, foe, total)
         self._bump("handiwork", heads)
+
+    def _burst_energy_in_hand(self, me: Player) -> bool:
+        for card_i in me.hand:
+            card = me.card(card_i)
+            if not card.is_energy:
+                continue
+            kinds = {e.get("kind") for e in parse_energy_effects(card.text or "")}
+            if "discard_attached_end_of_turn" in kinds or "provides_any_when" in kinds:
+                return True
+        return False
+
+    def _mill_undersea(self, card: Card):
+        for atk in card.attacks:
+            if any(e.get("kind") == "coin_mill_opponent" for e in atk.effects):
+                return atk
+        return None
+
+    def _mill_can_pay(self, me: Player, mon: Pokemon) -> bool:
+        card = me.card(mon.card_i)
+        atk = self._mill_undersea(card)
+        if atk is None:
+            return False
+        return can_pay_energy(self._energy_pool(me, mon), self._attack_cost(me, mon, atk))
+
+    def _mill_energy_target(self, me: Player) -> Pokemon:
+        assert me.active
+        unpaid = [
+            mon
+            for mon in me.in_play()
+            if me.card(mon.card_i).name.lower() == "wugtrio" and not self._mill_can_pay(me, mon)
+        ]
+        if me.active in unpaid:
+            return me.active
+        if unpaid:
+            return unpaid[0]
+        return me.active
+
+    def _mill_energy_card(self, me: Player, target: Pokemon) -> int | None:
+        """Ignition pays Undersea the turn it is attached to an Evolution, then leaves.
+
+        Reversal stays. On an Evolution while this player has more Prize cards
+        remaining, that one card pays Undersea by itself.
+        """
+        behind, host = self._energy_context(me, target)
+        pool = self._energy_pool(me, target)
+        card = me.card(target.card_i)
+        atk = self._mill_undersea(card)
+        cost = self._attack_cost(me, target, atk) if atk is not None else []
+        paid = atk is not None and can_pay_energy(pool, cost)
+        hand = [i for i in me.hand if me.card(i).is_energy]
+        evolution = host_is_evolution(host)
+
+        def leaves(card_i: int) -> bool:
+            kinds = {e.get("kind") for e in parse_energy_effects(me.card(card_i).text or "")}
+            return "discard_attached_end_of_turn" in kinds
+
+        def units(card_i: int) -> list[str]:
+            return energy_provided(me.card(card_i), prizes_behind=behind, host=host)
+
+        def completes(card_i: int) -> bool:
+            return atk is not None and can_pay_energy(pool + units(card_i), cost)
+
+        def stay_rank(card_i: int) -> tuple[int, str]:
+            name = me.card(card_i).name.lower()
+            provided = units(card_i)
+            if name == "water energy":
+                return (0, name)
+            if "Any" in provided and len(provided) >= 3:
+                return (1, name)
+            if is_double_turbo(me.card(card_i)):
+                return (2, name)
+            if name == "fighting energy":
+                return (3, name)
+            return (4, name)
+
+        if paid or not evolution:
+            staying = [i for i in hand if not leaves(i)]
+            if not staying:
+                return None
+            return min(staying, key=stay_rank)
+        staying_done = [i for i in hand if not leaves(i) and completes(i)]
+        if staying_done:
+            return min(staying_done, key=stay_rank)
+        burst_done = [i for i in hand if leaves(i) and completes(i)]
+        if burst_done:
+            return burst_done[0]
+        staying = [i for i in hand if not leaves(i)]
+        if not staying:
+            return None
+        return min(staying, key=lambda i: (-len(units(i)), stay_rank(i)))
 
     def _retreat_mill(self, me: Player, who: str) -> None:
         if not me.active or not me.bench:
@@ -9063,6 +9164,20 @@ class Game:
             return 4 if foe_tool or (self.stadium_name and self.stadium_name != "Lost City") else -4
         return 0
 
+    def _discard_attached_end_of_turn(self, who: str) -> None:
+        """Printed 'discard it at the end of your turn' on an attached Energy."""
+        me = self.players[who]
+        for mon in list(me.in_play()):
+            kept: list[int] = []
+            for energy_i in mon.energy:
+                kinds = {e.get("kind") for e in parse_energy_effects(me.card(energy_i).text or "")}
+                if "discard_attached_end_of_turn" in kinds:
+                    me.discard.append(energy_i)
+                    self._bump("discard_attached_end_of_turn")
+                else:
+                    kept.append(energy_i)
+            mon.energy = kept
+
     def _discard_end_of_turn_tools(self, who: str) -> None:
         me = self.players[who]
         for mon in me.in_play():
@@ -9209,10 +9324,17 @@ class Game:
             prefer=["Lost City"],
             source="colress",
         )
+        who = "a" if me.name == "A" else "b"
+        if self.strats[who].name == "mill":
+            # DTE stays ahead of Ignition and Reversal. Water and Fighting keep
+            # the same unlisted score they had before those two existed.
+            energy_prefer = ["Double Turbo Energy", "Ignition Energy", "Reversal Energy"]
+        else:
+            energy_prefer = ["Lightning Energy", "Double Turbo Energy"]
         self._search(
             me,
             lambda c: c.is_energy,
-            prefer=["Lightning Energy", "Double Turbo Energy"],
+            prefer=energy_prefer,
             source="colress",
         )
         self._bump("colress")

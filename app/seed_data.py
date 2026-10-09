@@ -1619,6 +1619,25 @@ _register(
         retreat=0,
     )
 )
+_IGNITION_ENERGY = (
+    "If this card is attached to 1 of your Pokémon, discard it at the end of your turn. "
+    "As long as this card is attached to a Pokémon, it provides Colorless Energy. "
+    "If this card is attached to an Evolution Pokémon, it provides Colorless Colorless Colorless Energy instead."
+)
+_register(
+    Card(
+        catalog_id="me02-124",
+        name="Ignition Energy",
+        category="Energy",
+        stage="Special",
+        types=["Colorless"],
+        energy_type="Colorless",
+        text=_IGNITION_ENERGY,
+        image="https://assets.tcgdex.net/en/me/me02/124/low.webp",
+        set_name="Phantasmal Flames",
+        retreat=0,
+    )
+)
 _register(
     Card(
         catalog_id="sv04-163",
