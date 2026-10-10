@@ -27807,12 +27807,12 @@
         "traits": []
       },
       {
-        "catalog_id": "energy-ignition",
+        "catalog_id": "me02-124",
         "name": "Ignition Energy",
         "category": "Energy",
-        "stage": "Basic",
+        "stage": "Special",
         "types": [
-          "Ignition"
+          "Colorless"
         ],
         "hp": 0,
         "attacks": [],
@@ -27822,20 +27822,20 @@
         "retreat": 0,
         "evolves_from": null,
         "trainer_kind": null,
-        "energy_type": "Ignition",
-        "image": null,
-        "set_name": null,
-        "text": "",
+        "energy_type": "Colorless",
+        "image": "https://assets.tcgdex.net/en/me/me02/124/low.webp",
+        "set_name": "Phantasmal Flames",
+        "text": "If this card is attached to 1 of your Pok\u00e9mon, discard it at the end of your turn. As long as this card is attached to a Pok\u00e9mon, it provides Colorless Energy. If this card is attached to an Evolution Pok\u00e9mon, it provides Colorless Colorless Colorless Energy instead.",
         "dex_id": null,
         "traits": []
       },
       {
-        "catalog_id": "energy-ignition",
+        "catalog_id": "me02-124",
         "name": "Ignition Energy",
         "category": "Energy",
-        "stage": "Basic",
+        "stage": "Special",
         "types": [
-          "Ignition"
+          "Colorless"
         ],
         "hp": 0,
         "attacks": [],
@@ -27845,20 +27845,20 @@
         "retreat": 0,
         "evolves_from": null,
         "trainer_kind": null,
-        "energy_type": "Ignition",
-        "image": null,
-        "set_name": null,
-        "text": "",
+        "energy_type": "Colorless",
+        "image": "https://assets.tcgdex.net/en/me/me02/124/low.webp",
+        "set_name": "Phantasmal Flames",
+        "text": "If this card is attached to 1 of your Pok\u00e9mon, discard it at the end of your turn. As long as this card is attached to a Pok\u00e9mon, it provides Colorless Energy. If this card is attached to an Evolution Pok\u00e9mon, it provides Colorless Colorless Colorless Energy instead.",
         "dex_id": null,
         "traits": []
       },
       {
-        "catalog_id": "energy-ignition",
+        "catalog_id": "me02-124",
         "name": "Ignition Energy",
         "category": "Energy",
-        "stage": "Basic",
+        "stage": "Special",
         "types": [
-          "Ignition"
+          "Colorless"
         ],
         "hp": 0,
         "attacks": [],
@@ -27868,20 +27868,20 @@
         "retreat": 0,
         "evolves_from": null,
         "trainer_kind": null,
-        "energy_type": "Ignition",
-        "image": null,
-        "set_name": null,
-        "text": "",
+        "energy_type": "Colorless",
+        "image": "https://assets.tcgdex.net/en/me/me02/124/low.webp",
+        "set_name": "Phantasmal Flames",
+        "text": "If this card is attached to 1 of your Pok\u00e9mon, discard it at the end of your turn. As long as this card is attached to a Pok\u00e9mon, it provides Colorless Energy. If this card is attached to an Evolution Pok\u00e9mon, it provides Colorless Colorless Colorless Energy instead.",
         "dex_id": null,
         "traits": []
       },
       {
-        "catalog_id": "energy-ignition",
+        "catalog_id": "me02-124",
         "name": "Ignition Energy",
         "category": "Energy",
-        "stage": "Basic",
+        "stage": "Special",
         "types": [
-          "Ignition"
+          "Colorless"
         ],
         "hp": 0,
         "attacks": [],
@@ -27891,20 +27891,20 @@
         "retreat": 0,
         "evolves_from": null,
         "trainer_kind": null,
-        "energy_type": "Ignition",
-        "image": null,
-        "set_name": null,
-        "text": "",
+        "energy_type": "Colorless",
+        "image": "https://assets.tcgdex.net/en/me/me02/124/low.webp",
+        "set_name": "Phantasmal Flames",
+        "text": "If this card is attached to 1 of your Pok\u00e9mon, discard it at the end of your turn. As long as this card is attached to a Pok\u00e9mon, it provides Colorless Energy. If this card is attached to an Evolution Pok\u00e9mon, it provides Colorless Colorless Colorless Energy instead.",
         "dex_id": null,
         "traits": []
       },
       {
-        "catalog_id": "energy-reversal",
+        "catalog_id": "sv02-192",
         "name": "Reversal Energy",
         "category": "Energy",
-        "stage": "Basic",
+        "stage": "Special",
         "types": [
-          "Reversal"
+          "Colorless"
         ],
         "hp": 0,
         "attacks": [],
@@ -27914,20 +27914,20 @@
         "retreat": 0,
         "evolves_from": null,
         "trainer_kind": null,
-        "energy_type": "Reversal",
-        "image": null,
-        "set_name": null,
-        "text": "",
+        "energy_type": "Colorless",
+        "image": "https://assets.tcgdex.net/en/sv/sv02/192/low.webp",
+        "set_name": "Paldea Evolved",
+        "text": "As long as this card is attached to a Pok\u00e9mon, it provides Colorless Energy. If you have more Prize cards remaining than your opponent, and if this card is attached to an Evolution Pok\u00e9mon that doesn't have a Rule Box (Pok\u00e9mon ex, Pok\u00e9mon V, etc. have Rule Boxes), this card provides every type of Energy but provides only 3 Energy at a time.",
         "dex_id": null,
         "traits": []
       },
       {
-        "catalog_id": "energy-reversal",
+        "catalog_id": "sv02-192",
         "name": "Reversal Energy",
         "category": "Energy",
-        "stage": "Basic",
+        "stage": "Special",
         "types": [
-          "Reversal"
+          "Colorless"
         ],
         "hp": 0,
         "attacks": [],
@@ -27937,20 +27937,20 @@
         "retreat": 0,
         "evolves_from": null,
         "trainer_kind": null,
-        "energy_type": "Reversal",
-        "image": null,
-        "set_name": null,
-        "text": "",
+        "energy_type": "Colorless",
+        "image": "https://assets.tcgdex.net/en/sv/sv02/192/low.webp",
+        "set_name": "Paldea Evolved",
+        "text": "As long as this card is attached to a Pok\u00e9mon, it provides Colorless Energy. If you have more Prize cards remaining than your opponent, and if this card is attached to an Evolution Pok\u00e9mon that doesn't have a Rule Box (Pok\u00e9mon ex, Pok\u00e9mon V, etc. have Rule Boxes), this card provides every type of Energy but provides only 3 Energy at a time.",
         "dex_id": null,
         "traits": []
       },
       {
-        "catalog_id": "energy-reversal",
+        "catalog_id": "sv02-192",
         "name": "Reversal Energy",
         "category": "Energy",
-        "stage": "Basic",
+        "stage": "Special",
         "types": [
-          "Reversal"
+          "Colorless"
         ],
         "hp": 0,
         "attacks": [],
@@ -27960,20 +27960,20 @@
         "retreat": 0,
         "evolves_from": null,
         "trainer_kind": null,
-        "energy_type": "Reversal",
-        "image": null,
-        "set_name": null,
-        "text": "",
+        "energy_type": "Colorless",
+        "image": "https://assets.tcgdex.net/en/sv/sv02/192/low.webp",
+        "set_name": "Paldea Evolved",
+        "text": "As long as this card is attached to a Pok\u00e9mon, it provides Colorless Energy. If you have more Prize cards remaining than your opponent, and if this card is attached to an Evolution Pok\u00e9mon that doesn't have a Rule Box (Pok\u00e9mon ex, Pok\u00e9mon V, etc. have Rule Boxes), this card provides every type of Energy but provides only 3 Energy at a time.",
         "dex_id": null,
         "traits": []
       },
       {
-        "catalog_id": "energy-reversal",
+        "catalog_id": "sv02-192",
         "name": "Reversal Energy",
         "category": "Energy",
-        "stage": "Basic",
+        "stage": "Special",
         "types": [
-          "Reversal"
+          "Colorless"
         ],
         "hp": 0,
         "attacks": [],
@@ -27983,10 +27983,10 @@
         "retreat": 0,
         "evolves_from": null,
         "trainer_kind": null,
-        "energy_type": "Reversal",
-        "image": null,
-        "set_name": null,
-        "text": "",
+        "energy_type": "Colorless",
+        "image": "https://assets.tcgdex.net/en/sv/sv02/192/low.webp",
+        "set_name": "Paldea Evolved",
+        "text": "As long as this card is attached to a Pok\u00e9mon, it provides Colorless Energy. If you have more Prize cards remaining than your opponent, and if this card is attached to an Evolution Pok\u00e9mon that doesn't have a Rule Box (Pok\u00e9mon ex, Pok\u00e9mon V, etc. have Rule Boxes), this card provides every type of Energy but provides only 3 Energy at a time.",
         "dex_id": null,
         "traits": []
       }

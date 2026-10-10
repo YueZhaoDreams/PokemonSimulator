@@ -21,7 +21,7 @@ from app.engine.game import Game, Pokemon
 from app.engine.legality import copy_violations
 from app.engine.models import S60_SEED_IDS, default_rule_presets_for, standard_60_rules
 from app.engine.strategies import StrategySpec
-from app.seed import load_seed_deck
+from app.seed import _is_basic_energy_name, load_seed_deck
 from app.seed_data import SET_MILL_NAMES, build_fallback_deck, fallback_named
 
 _ABSENT = (
@@ -175,6 +175,25 @@ def test_mill_list_is_the_sisters_sixty():
     assert StrategySpec.from_dict("balanced").reflip_heads_at_most is None
     assert StrategySpec.from_dict({"name": "balanced"}).reflip_heads_at_most is None
     assert StrategySpec.from_dict({"name": "mill", "reflip_heads_at_most": None}).reflip_heads_at_most == 1
+
+
+def test_mill_seed_special_energy_keeps_printed_text():
+    assert not _is_basic_energy_name("Ignition Energy")
+    assert not _is_basic_energy_name("Reversal Energy")
+    loaded = load_seed_deck("mill")
+    ignition = [c for c in loaded["cards"] if c["name"] == "Ignition Energy"]
+    reversal = [c for c in loaded["cards"] if c["name"] == "Reversal Energy"]
+    assert len(ignition) == 4
+    assert len(reversal) == 4
+    assert {c["catalog_id"] for c in ignition} == {"me02-124"}
+    assert {c["catalog_id"] for c in reversal} == {"sv02-192"}
+    assert all(c["stage"] == "Special" and c["energy_type"] == "Colorless" for c in ignition + reversal)
+    ign_kinds = {e["kind"] for e in parse_energy_effects(ignition[0]["text"])}
+    assert ign_kinds >= {"provides_colorless_if_evolution", "discard_attached_end_of_turn"}
+    rev_kinds = {e["kind"] for e in parse_energy_effects(reversal[0]["text"])}
+    assert "provides_any_when" in rev_kinds
+    assert ignition[0]["text"] == fallback_named("Ignition Energy").text
+    assert reversal[0]["text"] == fallback_named("Reversal Energy").text
 
 
 def test_printed_sentences_parse_to_the_mill_effects():
