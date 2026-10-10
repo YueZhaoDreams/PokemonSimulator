@@ -111,6 +111,8 @@ PUBLISHED_EFFECT_KINDS = frozenset(
         "retreat_zero_if_typed_energy",
         "retreat_zero_if_any_energy",
         "provides_any_when",
+        "provides_colorless_if_evolution",
+        "discard_attached_end_of_turn",
         "discard_if_not_dragon",
         "look_top_keep_one",
         "rescue_stretcher",

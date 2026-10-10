@@ -9,12 +9,19 @@ keeps that Wiglett through the opponent's next turn. Demolish still lands.
 
 from random import Random
 
-from app.engine.effects import parse_ability_effects, parse_effects, parse_trainer_effects
+from app.engine.effects import (
+    can_pay_energy,
+    energy_provided,
+    parse_ability_effects,
+    parse_effects,
+    parse_energy_effects,
+    parse_trainer_effects,
+)
 from app.engine.game import Game, Pokemon
 from app.engine.legality import copy_violations
 from app.engine.models import S60_SEED_IDS, default_rule_presets_for, standard_60_rules
 from app.engine.strategies import StrategySpec
-from app.seed import load_seed_deck
+from app.seed import _is_basic_energy_name, load_seed_deck
 from app.seed_data import SET_MILL_NAMES, build_fallback_deck, fallback_named
 
 _ABSENT = (
@@ -138,19 +145,21 @@ def test_mill_list_is_the_sisters_sixty():
     assert names.count("Rescue Carrier") == 4
     assert names.count("Crushing Hammer") == 4
     assert names.count("Counter Catcher") == 2
-    assert names.count("Switch") == 1
     assert names.count("Miss Fortune Sisters") == 2
     assert names.count("Crispin") == 3
-    assert names.count("Boss's Orders") == 2
+    assert names.count("Boss's Orders") == 1
     assert names.count("Team Rocket's Handiwork") == 2
     assert names.count("Colress's Tenacity") == 4
-    assert names.count("Team Rocket's Petrel") == 1
-    assert names.count("Glimwood Tangle") == 1
     assert names.count("Neutralization Zone") == 1
-    assert names.count("Pokémon League Headquarters") == 3
     assert names.count("Double Turbo Energy") == 4
     assert names.count("Water Energy") == 4
-    assert names.count("Fighting Energy") == 3
+    assert names.count("Fighting Energy") == 2
+    assert names.count("Ignition Energy") == 4
+    assert names.count("Reversal Energy") == 4
+    assert names.count("Switch") == 0
+    assert names.count("Glimwood Tangle") == 0
+    assert names.count("Team Rocket's Petrel") == 0
+    assert names.count("Pokémon League Headquarters") == 0
     for missing in _ABSENT:
         assert missing not in names
     pile = build_fallback_deck(names)
@@ -166,6 +175,25 @@ def test_mill_list_is_the_sisters_sixty():
     assert StrategySpec.from_dict("balanced").reflip_heads_at_most is None
     assert StrategySpec.from_dict({"name": "balanced"}).reflip_heads_at_most is None
     assert StrategySpec.from_dict({"name": "mill", "reflip_heads_at_most": None}).reflip_heads_at_most == 1
+
+
+def test_mill_seed_special_energy_keeps_printed_text():
+    assert not _is_basic_energy_name("Ignition Energy")
+    assert not _is_basic_energy_name("Reversal Energy")
+    loaded = load_seed_deck("mill")
+    ignition = [c for c in loaded["cards"] if c["name"] == "Ignition Energy"]
+    reversal = [c for c in loaded["cards"] if c["name"] == "Reversal Energy"]
+    assert len(ignition) == 4
+    assert len(reversal) == 4
+    assert {c["catalog_id"] for c in ignition} == {"me02-124"}
+    assert {c["catalog_id"] for c in reversal} == {"sv02-192"}
+    assert all(c["stage"] == "Special" and c["energy_type"] == "Colorless" for c in ignition + reversal)
+    ign_kinds = {e["kind"] for e in parse_energy_effects(ignition[0]["text"])}
+    assert ign_kinds >= {"provides_colorless_if_evolution", "discard_attached_end_of_turn"}
+    rev_kinds = {e["kind"] for e in parse_energy_effects(reversal[0]["text"])}
+    assert "provides_any_when" in rev_kinds
+    assert ignition[0]["text"] == fallback_named("Ignition Energy").text
+    assert reversal[0]["text"] == fallback_named("Reversal Energy").text
 
 
 def test_printed_sentences_parse_to_the_mill_effects():
@@ -465,6 +493,100 @@ def test_undersea_still_mills_when_the_defender_is_shielded():
     board.game._attack(me, foe, "a")
     assert len(foe.deck) == before - 9
     assert foe.active.damage == 0
+
+
+_IGNITION = (
+    "If this card is attached to 1 of your Pokémon, discard it at the end of your turn. "
+    "As long as this card is attached to a Pokémon, it provides Colorless Energy. "
+    "If this card is attached to an Evolution Pokémon, it provides Colorless Colorless Colorless Energy instead."
+)
+
+
+def _energy_board() -> _Board:
+    names = [
+        "Wiglett",
+        "Wugtrio",
+        "Wugtrio",
+        "Victini",
+        "Ignition Energy",
+        "Ignition Energy",
+        "Reversal Energy",
+        "Water Energy",
+        "Water Energy",
+        "Double Turbo Energy",
+        "Fighting Energy",
+    ]
+    while len(names) < 40:
+        names.append("Water Energy")
+    board = _Board("mill")
+    board.game = Game(
+        build_fallback_deck(names),
+        build_fallback_deck(list(names)),
+        standard_60_rules(),
+        StrategySpec.from_dict("mill"),
+        StrategySpec.from_dict("mill"),
+        Random(1),
+        trace=True,
+    )
+    board._used = {"a": set(), "b": set()}
+    return board
+
+
+def test_ignition_energy_pays_three_colorless_on_an_evolution_and_then_leaves():
+    card = fallback_named("Ignition Energy")
+    assert card.catalog_id == "me02-124"
+    assert card.text == _IGNITION
+    parsed = parse_energy_effects(card.text)
+    assert {"kind": "provides_colorless_if_evolution", "basic_count": 1, "evolution_count": 3} in parsed
+    assert {"kind": "discard_attached_end_of_turn"} in parsed
+    assert energy_provided(card, host=fallback_named("Wiglett")) == ["Colorless"]
+    assert energy_provided(card, host=fallback_named("Wugtrio")) == ["Colorless", "Colorless", "Colorless"]
+
+    board = _energy_board()
+    me = board.seat("a", active=("Wugtrio", []), hand=["Ignition Energy", "Water Energy"])
+    foe = board.seat("b", active=("Wiglett", []))
+    board.game._attach_energy(me, "a")
+    assert [me.card(i).name for i in me.active.energy] == ["Ignition Energy"]
+    undersea = next(a for a in me.card(me.active.card_i).attacks if a.name == "Undersea Tunnel")
+    assert board.game._energy_pool(me, me.active) == ["Colorless", "Colorless", "Colorless"]
+    assert can_pay_energy(
+        board.game._energy_pool(me, me.active), board.game._attack_cost(me, me.active, undersea)
+    )
+    board.game._expire_turn_markers("a")
+    assert me.active.energy == []
+    assert [me.card(i).name for i in me.discard] == ["Ignition Energy"]
+    assert board.game.events.get("discard_attached_end_of_turn") == 1
+    assert foe.active is not None
+
+
+def test_ignition_on_wiglett_is_one_colorless_and_mill_attaches_water_instead():
+    board = _energy_board()
+    me = board.seat("a", active=("Wiglett", []), hand=["Ignition Energy", "Water Energy"])
+    board.seat("b", active=("Wugtrio", []))
+    board.game._attach_energy(me, "a")
+    assert [me.card(i).name for i in me.active.energy] == ["Water Energy"]
+    twist = next(a for a in me.card(me.active.card_i).attacks if a.name == "Twisting Strike")
+    assert board.game._attack_cost(me, me.active, twist) == ["Water"]
+
+
+def test_reversal_energy_pays_undersea_while_behind_and_stays():
+    board = _energy_board()
+    me = board.seat("a", active=("Wugtrio", []), hand=["Reversal Energy", "Ignition Energy"])
+    foe = board.seat("b", active=("Wiglett", []))
+    me.prizes = [0, 1, 2, 3, 4, 5]
+    foe.prizes = [0, 1, 2, 3]
+    board.game._attach_energy(me, "a")
+    assert [me.card(i).name for i in me.active.energy] == ["Reversal Energy"]
+    assert board.game._energy_pool(me, me.active) == ["Any", "Any", "Any"]
+    board.game._expire_turn_markers("a")
+    assert [me.card(i).name for i in me.active.energy] == ["Reversal Energy"]
+
+
+def test_reversal_energy_is_one_colorless_when_prizes_are_tied():
+    card = fallback_named("Reversal Energy")
+    assert energy_provided(card, prizes_behind=False, host=fallback_named("Wugtrio")) == ["Colorless"]
+    assert energy_provided(card, prizes_behind=True, host=fallback_named("Wugtrio")) == ["Any", "Any", "Any"]
+    assert energy_provided(card, prizes_behind=True, host=fallback_named("Wiglett")) == ["Colorless"]
 
 
 def test_twisting_strike_tails_then_victory_star_buys_the_extra_turn():

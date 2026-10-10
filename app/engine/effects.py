@@ -1752,6 +1752,22 @@ def _extend_conditional_energy_effects(t: str, effects: list[dict[str, Any]]) ->
         )
     if "discard this card" in flat and "other than a dragon" in flat:
         effects.append({"kind": "discard_if_not_dragon"})
+    # Ignition Energy: one Colorless, or three Colorless on an Evolution, then it leaves.
+    burst = re.search(
+        r"as long as this card is attached to a pokemon, it provides ((?:colorless )+)energy\. "
+        r"if this card is attached to an evolution pokemon, it provides ((?:colorless )+)energy instead",
+        flat,
+    )
+    if burst:
+        effects.append(
+            {
+                "kind": "provides_colorless_if_evolution",
+                "basic_count": burst.group(1).count("colorless"),
+                "evolution_count": burst.group(2).count("colorless"),
+            }
+        )
+    if "if this card is attached to 1 of your pokemon, discard it at the end of your turn" in flat:
+        effects.append({"kind": "discard_attached_end_of_turn"})
 
 
 def _expanded_trainer_effects(t: str) -> list[dict[str, Any]]:
@@ -1879,6 +1895,21 @@ def _conditional_energy_units(card: Any, *, prizes_behind: bool, host: Any) -> l
     return ["Colorless"]
 
 
+def _colorless_evolution_units(card: Any, host: Any) -> list[str] | None:
+    spec = next(
+        (
+            e
+            for e in parse_energy_effects(getattr(card, "text", "") or "")
+            if e.get("kind") == "provides_colorless_if_evolution"
+        ),
+        None,
+    )
+    if spec is None:
+        return None
+    count = spec.get("evolution_count") if host is not None and host_is_evolution(host) else spec.get("basic_count")
+    return ["Colorless"] * int(count or 0)
+
+
 def energy_provided(card: Any, *, prizes_behind: bool = False, host: Any = None) -> list[str]:
     """Energy units one attached card pays. DCE pays two Colorless.
 
@@ -1897,6 +1928,9 @@ def energy_provided(card: Any, *, prizes_behind: bool = False, host: Any = None)
         return ["Lightning"]
     if is_draw_energy(card):
         return ["Colorless"]
+    burst = _colorless_evolution_units(card, host)
+    if burst is not None:
+        return burst
     conditional = _conditional_energy_units(card, prizes_behind=prizes_behind, host=host)
     if conditional is not None:
         return conditional

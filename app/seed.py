@@ -47,7 +47,20 @@ def _is_basic_energy_name(name: str) -> bool:
     if not key.endswith(" energy"):
         return False
     # Special Energy names also end with "Energy".
-    if any(token in key for token in ("double", "boomerang", "telepathic", "enriching", "speed", "spiky", "spike energy")):
+    if any(
+        token in key
+        for token in (
+            "double",
+            "boomerang",
+            "telepathic",
+            "enriching",
+            "speed",
+            "spiky",
+            "spike energy",
+            "ignition",
+            "reversal",
+        )
+    ):
         return False
     return True
 
@@ -177,6 +190,11 @@ def load_seed_payload() -> dict:
             elif have != want:
                 data[key]["cards"] = _align_named_cards(cards, want)
                 dirty = True
+            if key == "mill":
+                refreshed, mill_changed = _refresh_registered_prints(data[key]["cards"])
+                if mill_changed:
+                    data[key]["cards"] = refreshed
+                    dirty = True
             filled = _ensure_card_images(data[key]["cards"])
             if filled != data[key]["cards"]:
                 data[key]["cards"] = filled
@@ -228,6 +246,38 @@ def load_seed_payload() -> dict:
     SEED_PATH.write_text(json.dumps(payload, indent=2))
     _refresh_hashes(payload)
     return payload
+
+
+def _refresh_registered_prints(cards: list) -> tuple[list[dict], bool]:
+    """Replace a stored card when its print is not the registered fallback.
+
+    Name alignment reuses whatever blob is already in the file. Ignition and
+    Reversal were stored as empty basic-energy stubs, and a matching name list
+    would keep those stubs forever.
+    """
+    from app.seed_data import fallback_named
+
+    out: list[dict] = []
+    changed = False
+    for card in cards:
+        blob = card if isinstance(card, dict) else card.to_dict()
+        name = blob.get("name") or ""
+        if _is_basic_energy_name(name):
+            out.append(blob)
+            continue
+        try:
+            registered = fallback_named(name)
+        except Exception:
+            out.append(blob)
+            continue
+        printed = (registered.text or "").strip()
+        stored = (blob.get("text") or "").strip()
+        if blob.get("catalog_id") != registered.catalog_id or (printed and not stored):
+            out.append(registered.to_dict())
+            changed = True
+        else:
+            out.append(blob)
+    return out, changed
 
 
 def _align_named_cards(existing: list, names: list[str]) -> list[dict]:
