@@ -84,6 +84,16 @@ class Pokemon:
         return self.damage
 
 
+@dataclass(frozen=True)
+class _MoonsFuel:
+    """Shooting Moons after Seeker puts one Bench Pokémon's Energy into hand."""
+
+    mon: Pokemon
+    damage: int
+    kos: bool
+    reaches_cap: bool
+
+
 @dataclass
 class Player:
     name: str
@@ -3271,12 +3281,20 @@ class Game:
         """Seeker lines that happen after attach and retreat.
 
         A wipe that only exists in an attach or retreat preview is not still
-        pending: those steps already ran. If the wipe did not play, save and
-        Shooting Moons fuel still can.
+        pending: those steps already ran. If the wipe did not play, a Shooting
+        Moons knockout or a full hand-discard still comes before the ex save.
+        A smaller multi-Energy bump can use whatever Seeker is left.
         """
         self._try_seeker_board_wipe(me, foe, who)
-        self._play_defensive_seeker_saves(me, foe, who)
-        if self._seeker_moons_fuel_target(me, foe, record=True) is not None and me.supporter_used:
+        plan = self._seeker_moons_fuel_plan(me, foe, record=True)
+        played = False
+        # A full discard, or a knockout, is the attack. Save the ex only when this
+        # Seeker is not what lets Shooting Moons reach that line.
+        if plan is not None and (plan.kos or plan.reaches_cap) and not me.supporter_used:
+            played = self._try_seeker_moons_fuel(me, foe, who)
+        if not me.supporter_used:
+            self._play_defensive_seeker_saves(me, foe, who)
+        if plan is not None and me.supporter_used and not played:
             self._bump("seeker_moons_blocked")
         if not me.supporter_used:
             self._try_seeker_moons_fuel(me, foe, who)
@@ -3311,6 +3329,8 @@ class Game:
         if self._seeker_park_save_ready(me, foe, peek_attach=True):
             return True
         if self._seeker_reline_target(me, foe, who) is not None:
+            return True
+        if self._seeker_moons_should_lead(me, foe, who):
             return True
         return self._seeker_moons_fuel_target(me, foe) is not None
 
@@ -3443,54 +3463,242 @@ class Game:
                 return prank
         return None
 
-    def _seeker_moons_fuel_target(self, me: Player, foe: Player, *, record: bool = False) -> Pokemon | None:
-        """Bench Pokémon whose attached Energy, in hand, lets Shooting Moons KO.
+    def _basic_attached(self, me: Player, mon: Pokemon) -> list[int]:
+        return [
+            i
+            for i in mon.energy
+            if is_basic_energy(me.card(i), pokemon_as_energy=self.rules.pokemon_as_energy)
+        ]
 
-        Callers use this as a predicate (hold a supporter, then play Seeker).
-        Diagnostic bumps run only when ``record`` is set, once in the attack window.
+    def _energy_kept_if_benched(self, me: Player, mon: Pokemon) -> list[int]:
+        """Energy still attached if this Active Pokémon moves to the Bench.
+
+        Switch keeps every card. Retreat discards from the end, matching
+        ``_do_retreat_into``.
         """
-        if self._seeker_in_hand(me) is None or not me.active or not foe.active or not me.bench:
+        if self._first_named(me, "Switch") is not None:
+            return list(mon.energy)
+        cost = self._retreat_cost(me, mon)
+        if cost <= 0 or len(mon.energy) < cost:
+            return list(mon.energy) if cost <= 0 else []
+        return list(mon.energy[:-cost])
+
+    def _seeker_moons_fuel_piles(self, me: Player, swinger: Pokemon) -> list[tuple[Pokemon, list[int]]]:
+        """Bench Pokémon Seeker can return, and the Basic Energy that reaches hand."""
+        piles: list[tuple[Pokemon, list[int]]] = []
+        if swinger is me.active:
+            for mon in me.bench:
+                piles.append((mon, self._basic_attached(me, mon)))
+            return piles
+        for mon in me.bench:
+            if mon is swinger:
+                continue
+            piles.append((mon, self._basic_attached(me, mon)))
+        if me.active is not None and me.active is not swinger:
+            kept = [
+                i
+                for i in self._energy_kept_if_benched(me, me.active)
+                if is_basic_energy(me.card(i), pokemon_as_energy=self.rules.pokemon_as_energy)
+            ]
+            piles.append((me.active, kept))
+        return piles
+
+    def _peek_attack_damage(
+        self,
+        me: Player,
+        foe: Player,
+        mon: Pokemon,
+        atk,
+        extra_hand: list[int],
+        extra_discard_n: int | None = None,
+    ) -> int:
+        """Damage preview. Does not keep the temporary hand or the coin stream."""
+        state = self.rng.getstate()
+        for energy_i in extra_hand:
+            me.hand.append(energy_i)
+        try:
+            return self._raw_attack_damage(me, foe, mon, atk, extra_discard_n=extra_discard_n)
+        finally:
+            for energy_i in reversed(extra_hand):
+                if energy_i in me.hand:
+                    me.hand.remove(energy_i)
+            self.rng.setstate(state)
+
+    def _can_promote_mon(self, me: Player, mon: Pokemon) -> bool:
+        """True when this Pokémon can be made Active before the attack."""
+        if not me.active:
+            return False
+        if mon is me.active:
+            return True
+        if mon not in me.bench:
+            return False
+        if self._first_named(me, "Switch") is not None:
+            return True
+        if me.active.retreat_locked:
+            return False
+        if me.active.status & (ST_PARALYZED | ST_ASLEEP):
+            return False
+        if self.rules.one_retreat_per_turn and me.retreated:
+            return False
+        return len(me.active.energy) >= self._retreat_cost(me, me.active)
+
+    def _seeker_moons_wants_attach(self, me: Player, foe: Player) -> bool:
+        """Put Shooting Moons' two Energy on Mega. Leave the Bench pile for Seeker.
+
+        The discard fuel is Energy already attached to another Pokémon. This
+        attach only finishes the attack cost, and only while Seeker is in hand.
+        """
+        who = "a" if me.name == "A" else "b"
+        if self.strats[who].name != "party" or me.energy_attached:
+            return False
+        if self._seeker_in_hand(me) is None or not me.active or not foe.active:
+            return False
+        mega = self._mega_mon(me)
+        if mega is None or self._can_pay_shooting_moons(me, mega):
+            return False
+        if self._stance_prevents(me.card(mega.card_i), foe.card(foe.active.card_i), foe, foe.active):
+            return False
+        if (
+            me.active is not mega
+            and self._first_named(me, "Switch") is None
+            and len(me.active.energy) < self._retreat_cost(me, me.active)
+        ):
+            return False
+        if not any(mon is not mega and len(self._basic_attached(me, mon)) >= 2 for mon in me.in_play()):
+            return False
+        state = self.rng.getstate()
+        try:
+            return not self._photon_ko(me, foe) and not self._moon_ko(me, foe)
+        finally:
+            self.rng.setstate(state)
+
+    def _seeker_moons_should_lead(self, me: Player, foe: Player, who: str) -> bool:
+        """Bring Mega Active when Seeker fills a Shooting Moons KO or the discard cap.
+
+        A smaller bump still plays if Mega is already Active and Seeker is left.
+        It does not rearrange the board.
+        """
+        if self.strats[who].name != "party":
+            return False
+        if self._seeker_in_hand(me) is None or me.supporter_used or not self._can_play_supporter(who):
+            return False
+        if self.turn == 1 and who == self.first and self.rules.first_player_no_attack:
+            return False
+        if not me.active or not foe.active:
+            return False
+        if me.active.status & (ST_PARALYZED | ST_ASLEEP):
+            return False
+        mega = self._mega_mon(me)
+        if mega is None or not self._can_pay_shooting_moons(me, mega):
+            return False
+        if not self._can_promote_mon(me, mega):
+            return False
+        state = self.rng.getstate()
+        try:
+            if self._photon_ko(me, foe) or self._moon_ko(me, foe):
+                return False
+            plan = self._seeker_moons_fuel_plan(me, foe, attacker=mega)
+            if plan is None or not (plan.kos or plan.reaches_cap):
+                return False
+            if mega is not me.active and not plan.kos and self._would_ko_if_active(foe, me, mega):
+                return False
+            return True
+        finally:
+            self.rng.setstate(state)
+
+    def _seeker_moons_fuel_plan(
+        self,
+        me: Player,
+        foe: Player,
+        *,
+        record: bool = False,
+        attacker: Pokemon | None = None,
+    ) -> _MoonsFuel | None:
+        """Bench Pokémon whose Energy, back in hand, raises Shooting Moons.
+
+        Printed Shooting Moons discards up to 4 Energy cards from hand. The
+        count and the bonus come from that effect. A knockout still wins.
+        Filling the printed discard count wins next. Otherwise the Bench
+        Pokémon needs two or more Energy and has to add at least two discards.
+        """
+        swinger = attacker if attacker is not None else me.active
+        if self._seeker_in_hand(me) is None or swinger is None or not me.active or not foe.active:
             return None
-        if "mega clefable" not in me.card(me.active.card_i).name.lower():
+        if "mega clefable" not in me.card(swinger.card_i).name.lower():
             return None
-        atk = self._shooting_moons_attack(me.card(me.active.card_i))
-        if atk is None or not can_pay_energy(self._energy_pool(me, me.active), atk.cost):
+        if swinger is me.active and not me.bench:
+            return None
+        if swinger is not me.active and swinger not in me.bench:
+            return None
+        atk = self._shooting_moons_attack(me.card(swinger.card_i))
+        if atk is None or not can_pay_energy(self._energy_pool(me, swinger), atk.cost):
             return None
         hp = self._max_hp(foe, foe.active) - foe.active.damage
         if hp <= 0:
             return None
         if record:
             self._bump("moons_window")
-        if self._raw_attack_damage(me, foe, me.active, atk) >= hp:
+        current = self._peek_attack_damage(me, foe, swinger, atk, [])
+        if current >= hp:
             if record:
                 self._bump("moons_already_ko")
             return None
-        best: Pokemon | None = None
-        best_key: tuple[int, int] | None = None
-        for mon in list(me.bench):
-            fuels = [
-                i
-                for i in mon.energy
-                if is_basic_energy(me.card(i), pokemon_as_energy=self.rules.pokemon_as_energy)
-            ]
+        if current <= 0:
+            if record:
+                self._bump("moons_no_fuel")
+            return None
+        eff = next((e for e in atk.effects if e.get("kind") == "discard_hand_energy_bonus"), None)
+        max_n = int(eff.get("max") or 0) if eff else 0
+        per = int(eff.get("per") or 0) if eff else 0
+        cap = current
+        if max_n:
+            cap = self._peek_attack_damage(me, foe, swinger, atk, [], extra_discard_n=max_n)
+        if current >= cap:
+            if record:
+                self._bump("moons_already_capped")
+            return None
+        best: _MoonsFuel | None = None
+        best_key: tuple[int, int, int, int] | None = None
+        for mon, fuels in self._seeker_moons_fuel_piles(me, swinger):
             if not fuels:
                 continue
-            for energy_i in fuels:
-                me.hand.append(energy_i)
-            try:
-                dmg = self._raw_attack_damage(me, foe, me.active, atk)
-            finally:
-                for energy_i in fuels:
-                    if energy_i in me.hand:
-                        me.hand.remove(energy_i)
-            if dmg < hp:
+            dmg = self._peek_attack_damage(me, foe, swinger, atk, fuels)
+            if dmg <= current:
                 continue
-            key = (-self._prizes_for_ko(me.card(mon.card_i)), -len(fuels))
+            kos = dmg >= hp
+            reaches_cap = cap > current and dmg >= cap
+            gain = dmg - current
+            multi = len(fuels) >= 2
+            if not (kos or reaches_cap or (multi and gain >= per * 2)):
+                continue
+            key = (
+                1 if kos else 0,
+                dmg if not kos else 0,
+                -self._prizes_for_ko(me.card(mon.card_i)),
+                -len(fuels) if kos else len(fuels),
+            )
             if best_key is None or key > best_key:
-                best, best_key = mon, key
+                best = _MoonsFuel(mon, dmg, kos, reaches_cap)
+                best_key = key
         if best is None and record:
             self._bump("moons_no_fuel")
         return best
+
+    def _seeker_moons_fuel_target(
+        self,
+        me: Player,
+        foe: Player,
+        *,
+        record: bool = False,
+        attacker: Pokemon | None = None,
+    ) -> Pokemon | None:
+        """Bench Pokémon Seeker returns before Shooting Moons.
+
+        Callers use this as a predicate (hold a supporter, then play Seeker).
+        Diagnostic bumps run only when ``record`` is set, once in the attack window.
+        """
+        plan = self._seeker_moons_fuel_plan(me, foe, record=record, attacker=attacker)
+        return None if plan is None else plan.mon
 
     def _play_scripted_seeker(self, me: Player, foe: Player, who: str, target: Pokemon, event: str) -> bool:
         seeker = self._seeker_in_hand(me)
@@ -3720,6 +3928,9 @@ class Game:
         if self._seeker_wipe_pending(me, foe, who):
             return
         if self._boss_closes_this_turn(me, foe, who):
+            return
+        # Seeker is the Shooting Moons discard. Do not spend it on another bounce.
+        if self._seeker_moons_should_lead(me, foe, who):
             return
         if self._try_double_prankish(me, foe, who):
             return
@@ -5147,6 +5358,10 @@ class Game:
                 return self._storm_energy_target(me)
             if self._facing_aura(me):
                 return self._party_vs_aura_energy_target(me)
+            if self._seeker_moons_wants_attach(me, foe):
+                mega = self._mega_mon(me)
+                if mega is not None:
+                    return mega
             if self._want_mega_rush(me, foe, who):
                 mega = self._mega_mon(me)
                 if mega is not None and not self._can_pay_shooting_moons(me, mega):
@@ -12274,6 +12489,11 @@ class Game:
                 ):
                     self._swap_to_bench(me, who, idx, allow_paid=True)
                     return
+        if self._seeker_moons_should_lead(me, foe, who):
+            mega = self._mega_mon(me)
+            if mega is not None and mega is not me.active and mega in me.bench:
+                self._swap_to_bench(me, who, me.bench.index(mega), allow_paid=True)
+            return
         if (
             (self._want_two_one_mega_wall(me, foe) or self._want_three_one_mega_wall(me, foe))
             and not self._photon_ko(me, foe)
