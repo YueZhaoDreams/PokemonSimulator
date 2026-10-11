@@ -99,31 +99,58 @@ def _pct(value: float) -> str:
     return f"{value:.1%}"
 
 
+def _loss_weights(rows: list[dict]) -> dict[str, float]:
+    """Freeze weights on how often the old C60, in seat B, fails to win."""
+    raw = {row["key"]: max(1e-6, 1.0 - row["old"]["b"]) for row in rows}
+    total = sum(raw.values())
+    return {key: value / total for key, value in raw.items()}
+
+
+def _weighted(rows: list[dict], weights: dict[str, float], side: str) -> float:
+    return sum(row[side]["b"] * weights[row["key"]] for row in rows)
+
+
 def _markdown(report: dict) -> str:
+    weights = report["weights"]
     lines = [
         "# Household 60s vs the Mega C60",
         "",
         f"- **Seed**: `{report['seed']}`",
         f"- **Games per cell**: {report['games']}",
         "- **Seat**: the named deck is player A. C60 is player B. Who goes first is random.",
+        "- **Score**: C60's loss-weighted win rate. Weights are frozen from the old C60.",
+        f"- **Weights**: {', '.join(f'{row["key"]} {weights[row["key"]]:.1%}' for row in report['rows'])}",
+        f"- **Weighted**: old {_pct(report['old_weighted'])}, new {_pct(report['new_weighted'])}.",
         "- **Old C60**: one Rebel Clash Prankish Clefable, zero Mega Clefable ex (`c60_names_before_mega`).",
         "- **New C60**: that Prankish Clefable is one Mega Clefable ex. Seeker stays.",
         f"- **Elapsed**: {report['elapsed']:.1f}s",
         "",
-        "Shooting Moons is recorded for either player. Carpet Set G also attacks with Mega Clefable ex, so that cell's shooting rate includes both.",
+        "The table's win rates are player A's. C60's win rate in that cell is the complement when there are no ties. Shooting Moons is recorded for either player. Carpet Set G also attacks with Mega Clefable ex, so that cell's shooting rate includes both.",
         "",
-        "| Deck | Strategy | vs old C60 | vs new C60 | Delta | New, A first | New, A second | Moons | Shooting |",
+        "| Deck | Strategy | Weight | A vs old | A vs new | C60 old | C60 new | Moons | Shooting |",
         "| :--- | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
     ]
     for row in report["rows"]:
         old = row["old"]
         new = row["new"]
         lines.append(
-            f"| {row['label']} | {row['strategy']} | {_pct(old['a'])} | {_pct(new['a'])} | "
-            f"{new['a'] - old['a']:+.1%} | {_pct(new['first'])} | {_pct(new['second'])} | "
+            f"| {row['label']} | {row['strategy']} | {weights[row['key']]:.1%} | "
+            f"{_pct(old['a'])} | {_pct(new['a'])} | {_pct(old['b'])} | {_pct(new['b'])} | "
             f"{new['moons']:.3f} | {new['shooting']:.3f} |"
         )
-    lines.append("")
+    lines.extend(
+        [
+            "",
+            "## Decision",
+            "",
+            (
+                f"C60's loss-weighted win rate is {_pct(report['old_weighted'])} on the old list "
+                f"and {_pct(report['new_weighted'])} on the Mega list. "
+                f"Unweighted mean {_pct(report['old_mean'])} → {_pct(report['new_mean'])}."
+            ),
+            "",
+        ]
+    )
     return "\n".join(lines)
 
 
@@ -183,14 +210,21 @@ def main() -> None:
             }
         )
     elapsed = time.perf_counter() - started
+    weights = _loss_weights(rows)
     report = {
         "games": GAMES,
         "seed": SEED,
         "elapsed": elapsed,
         "rule_preset": "s60",
         "seat": "named deck is player A, C60 is player B",
+        "score": "C60 loss-weighted win rate, weights frozen from the old C60 in seat B",
         "old_c60": "c60_names_before_mega",
         "new_c60": "SET_C60_NAMES",
+        "weights": weights,
+        "old_weighted": _weighted(rows, weights, "old"),
+        "new_weighted": _weighted(rows, weights, "new"),
+        "old_mean": sum(row["old"]["b"] for row in rows) / len(rows),
+        "new_mean": sum(row["new"]["b"] for row in rows) / len(rows),
         "rows": rows,
     }
     DEST.write_text(json.dumps(report, indent=2) + "\n")
