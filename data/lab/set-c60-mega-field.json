@@ -1,0 +1,203 @@
+{
+  "games": 1000,
+  "seed": 20261011,
+  "elapsed": 299.8483773850003,
+  "rule_preset": "s60",
+  "seat": "named deck is player A, C60 is player B",
+  "old_c60": "c60_names_before_mega",
+  "new_c60": "SET_C60_NAMES",
+  "rows": [
+    {
+      "key": "m",
+      "label": "Set M (Mew ex)",
+      "strategy": "mew_baby",
+      "g30": false,
+      "old": {
+        "a": 0.873,
+        "b": 0.127,
+        "tie": 0.0,
+        "first": 0.8470824949698189,
+        "second": 0.8986083499005965,
+        "moons": 0.0,
+        "shooting": 0.0
+      },
+      "new": {
+        "a": 0.857,
+        "b": 0.143,
+        "tie": 0.0,
+        "first": 0.84,
+        "second": 0.874,
+        "moons": 0.009,
+        "shooting": 0.109
+      }
+    },
+    {
+      "key": "starmie",
+      "label": "Mega Starmie ex (Kudo)",
+      "strategy": "starmie",
+      "g30": false,
+      "old": {
+        "a": 0.381,
+        "b": 0.619,
+        "tie": 0.0,
+        "first": 0.401980198019802,
+        "second": 0.3595959595959596,
+        "moons": 0.0,
+        "shooting": 0.0
+      },
+      "new": {
+        "a": 0.373,
+        "b": 0.627,
+        "tie": 0.0,
+        "first": 0.3920792079207921,
+        "second": 0.35353535353535354,
+        "moons": 0.005,
+        "shooting": 0.118
+      }
+    },
+    {
+      "key": "mill",
+      "label": "Wugtrio mill",
+      "strategy": "mill",
+      "g30": false,
+      "old": {
+        "a": 0.217,
+        "b": 0.783,
+        "tie": 0.0,
+        "first": 0.21042084168336672,
+        "second": 0.22355289421157684,
+        "moons": 0.0,
+        "shooting": 0.0
+      },
+      "new": {
+        "a": 0.193,
+        "b": 0.807,
+        "tie": 0.0,
+        "first": 0.16996047430830039,
+        "second": 0.2165991902834008,
+        "moons": 0.0,
+        "shooting": 0.084
+      }
+    },
+    {
+      "key": "lucario",
+      "label": "Lucario Hariyama",
+      "strategy": "aura",
+      "g30": false,
+      "old": {
+        "a": 0.165,
+        "b": 0.835,
+        "tie": 0.0,
+        "first": 0.1743295019157088,
+        "second": 0.15481171548117154,
+        "moons": 0.0,
+        "shooting": 0.0
+      },
+      "new": {
+        "a": 0.171,
+        "b": 0.829,
+        "tie": 0.0,
+        "first": 0.16390041493775934,
+        "second": 0.1776061776061776,
+        "moons": 0.032,
+        "shooting": 0.367
+      }
+    },
+    {
+      "key": "thorns",
+      "label": "Iron Thorns ex",
+      "strategy": "thorns",
+      "g30": false,
+      "old": {
+        "a": 0.204,
+        "b": 0.796,
+        "tie": 0.0,
+        "first": 0.22981366459627328,
+        "second": 0.17988394584139264,
+        "moons": 0.0,
+        "shooting": 0.0
+      },
+      "new": {
+        "a": 0.158,
+        "b": 0.842,
+        "tie": 0.0,
+        "first": 0.170873786407767,
+        "second": 0.14432989690721648,
+        "moons": 0.003,
+        "shooting": 0.041
+      }
+    },
+    {
+      "key": "g",
+      "label": "Carpet Set G",
+      "strategy": "g",
+      "g30": false,
+      "old": {
+        "a": 0.236,
+        "b": 0.764,
+        "tie": 0.0,
+        "first": 0.26810176125244617,
+        "second": 0.20245398773006135,
+        "moons": 0.0,
+        "shooting": 0.148
+      },
+      "new": {
+        "a": 0.171,
+        "b": 0.829,
+        "tie": 0.0,
+        "first": 0.19527896995708155,
+        "second": 0.149812734082397,
+        "moons": 0.004,
+        "shooting": 0.308
+      }
+    },
+    {
+      "key": "h",
+      "label": "Carpet Set H",
+      "strategy": "nuzzle",
+      "g30": false,
+      "old": {
+        "a": 0.036,
+        "b": 0.964,
+        "tie": 0.0,
+        "first": 0.03048780487804878,
+        "second": 0.04133858267716536,
+        "moons": 0.0,
+        "shooting": 0.0
+      },
+      "new": {
+        "a": 0.029,
+        "b": 0.971,
+        "tie": 0.0,
+        "first": 0.03225806451612903,
+        "second": 0.026168224299065422,
+        "moons": 0.0,
+        "shooting": 0.065
+      }
+    },
+    {
+      "key": "g30",
+      "label": "Ambipom Hand Fling",
+      "strategy": "celebration",
+      "g30": true,
+      "old": {
+        "a": 0.012,
+        "b": 0.988,
+        "tie": 0.0,
+        "first": 0.013972055888223553,
+        "second": 0.01002004008016032,
+        "moons": 0.0,
+        "shooting": 0.0
+      },
+      "new": {
+        "a": 0.007,
+        "b": 0.993,
+        "tie": 0.0,
+        "first": 0.008,
+        "second": 0.006,
+        "moons": 0.003,
+        "shooting": 0.137
+      }
+    }
+  ]
+}
