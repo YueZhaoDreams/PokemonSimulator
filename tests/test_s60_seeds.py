@@ -85,10 +85,8 @@ def test_s60_seed_aliases_and_prankish_c60():
     assert names.count("Telepathic Psychic Energy") == 2
     assert names.count("Energy Search") == 0
     fables = [c for c in c60["cards"] if c["name"] == "Clefable"]
-    assert Counter(c.get("catalog_id") for c in fables) == Counter({"swsh2-75": 1, "clc-014": 1})
-    prankish = next(c for c in fables if c.get("catalog_id") == "swsh2-75")
+    assert Counter(c.get("catalog_id") for c in fables) == Counter({"clc-014": 1})
     clc = next(c for c in fables if c.get("catalog_id") == "clc-014")
-    assert any(a.get("name") == "Prankish" for a in (prankish.get("abilities") or []))
     assert any(a.get("name") == "Metronome" for a in (clc.get("attacks") or []))
     assert "base2/1" in (clc.get("image") or "")
     assert "base1/5" not in (clc.get("image") or "")
@@ -96,7 +94,9 @@ def test_s60_seed_aliases_and_prankish_c60():
     patches = [c for c in c60["cards"] if c["name"] == "Wondrous Patch"]
     assert [c.get("catalog_id") for c in patches] == ["me02-094"]
     assert names.count("Poké Pad") == 1
-    assert names.count("Mega Clefable ex") == 0
+    assert names.count("Mega Clefable ex") == 1
+    mega = next(c for c in c60["cards"] if c["name"] == "Mega Clefable ex")
+    assert mega["catalog_id"] == "me03-031"
     assert names.count("Seeker") == 1
     seeker = next(c for c in c60["cards"] if c["name"] == "Seeker")
     assert seeker["catalog_id"] == "hgss4-88"

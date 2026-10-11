@@ -8,6 +8,7 @@ from app.engine.strategies import StrategySpec
 from app.seed_data import (
     SET_C_NAMES,
     SET_C60_NAMES,
+    c60_names_before_mega,
     c60_names_before_moonlight,
     SET_D60_NAMES,
     SET_G_NAMES,
@@ -35,11 +36,16 @@ def test_set_c60_is_standard_sixty_with_psychic_energy():
     assert len(names) == 60
     assert names.count("Clefairy") == 4
     assert names.count("Mewtwo ex") == 3
-    assert names.count("Clefable") == 1
+    assert names.count("Clefable") == 0
     assert names.count("Clefable CLC") == 1
     assert names.count("Clefable ex") == 3
     assert names.count("Wondrous Patch") == 1
-    assert names.count("Mega Clefable ex") == 0
+    assert names.count("Mega Clefable ex") == 1
+    assert names[-1] == "Mega Clefable ex"
+    before_mega = c60_names_before_mega()
+    assert before_mega.count("Clefable") == 1
+    assert before_mega.count("Mega Clefable ex") == 0
+    assert before_mega[-1] == "Wondrous Patch"
     assert names.count("Poké Pad") == 1
     assert names.count("Psychic Energy") == 14
     assert names.count("Telepathic Psychic Energy") == 2
@@ -80,11 +86,11 @@ def test_set_c60_is_standard_sixty_with_psychic_energy():
     assert latias.stage == "Basic"
     assert any(a.name == "Skyliner" for a in latias.abilities)
     fables = [c for c in pile if c.name == "Clefable"]
-    assert Counter(c.catalog_id for c in fables) == Counter({"swsh2-75": 1, "clc-014": 1})
-    prankish = next(c for c in fables if c.catalog_id == "swsh2-75")
+    assert Counter(c.catalog_id for c in fables) == Counter({"clc-014": 1})
     clc = next(c for c in fables if c.catalog_id == "clc-014")
-    assert any(a.name == "Prankish" for a in prankish.abilities)
     assert any(a.name == "Metronome" for a in clc.attacks)
+    megas = [c for c in pile if c.name == "Mega Clefable ex"]
+    assert [c.catalog_id for c in megas] == ["me03-031"]
     patches = [c for c in pile if c.name == "Wondrous Patch"]
     assert [c.catalog_id for c in patches] == ["me02-094"]
     assert any(c.is_energy and c.name == "Psychic Energy" for c in pile)

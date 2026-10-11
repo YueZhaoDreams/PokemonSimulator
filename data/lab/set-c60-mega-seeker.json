@@ -1,0 +1,1995 @@
+{
+  "games": 1000,
+  "seed": 20261011,
+  "elapsed": 4245.098681476,
+  "rule_preset": "s60",
+  "method": "greedy one-card Mega Clefable ex swap from locked C60; score is the loss-weighted win rate with weights frozen from the 0-Mega list; exactly one copy",
+  "printed_attack": "You may discard up to 4 Energy cards from your hand, and this attack does 40 more damage for each card you discarded in this way.",
+  "printed_seeker": "Each player returns 1 of his or her Benched Pok\u00e9mon and all cards attached to it to his or her hand. (You return your Pok\u00e9mon first.)",
+  "catalog_id": "me03-031",
+  "foes": {
+    "t60": "phantom",
+    "hedrick": "phantom",
+    "unl": "phantom",
+    "d60": "demolish",
+    "s60": "slash",
+    "g": "g"
+  },
+  "weights": {
+    "t60": 0.21641025641025638,
+    "hedrick": 0.26256410256410256,
+    "unl": 0.06358974358974365,
+    "d60": 0.23179487179487177,
+    "s60": 0.006153846153846159,
+    "g": 0.21948717948717947
+  },
+  "accepted": true,
+  "cut": "Clefable",
+  "baseline_weighted": 0.783785641025641,
+  "baseline_mean": 0.8375,
+  "chosen_weighted": 0.7945282051282051,
+  "chosen_mean": 0.8450000000000001,
+  "list": [
+    "Clefairy",
+    "Clefairy",
+    "Clefairy",
+    "Clefairy",
+    "Mewtwo ex",
+    "Mewtwo ex",
+    "Mewtwo ex",
+    "Clefable CLC",
+    "Clefable ex",
+    "Clefable ex",
+    "Clefable ex",
+    "Seeker",
+    "Nest Ball",
+    "Nest Ball",
+    "Nest Ball",
+    "Nest Ball",
+    "Buddy-Buddy Poffin",
+    "Buddy-Buddy Poffin",
+    "Buddy-Buddy Poffin",
+    "Buddy-Buddy Poffin",
+    "Latias ex",
+    "Ultra Ball",
+    "Hop",
+    "Hop",
+    "Lillie",
+    "Lillie",
+    "Lillie's Determination",
+    "Lillie's Determination",
+    "Arven",
+    "Boss's Orders",
+    "Boss's Orders",
+    "Iono",
+    "Switch",
+    "Switch",
+    "Energy Switch",
+    "Energy Switch",
+    "Night Stretcher",
+    "Maximum Belt",
+    "Battle Cage",
+    "Battle Cage",
+    "Battle Cage",
+    "Telepathic Psychic Energy",
+    "Telepathic Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Pok\u00e9 Pad",
+    "Wondrous Patch",
+    "Mega Clefable ex"
+  ],
+  "ranking": [
+    {
+      "cut": "Clefable",
+      "copies_before": 1,
+      "weighted": 0.7945282051282051,
+      "mean": 0.8450000000000001,
+      "worst": 0.738,
+      "moons": 0.006666666666666667,
+      "shooting": 0.08966666666666667,
+      "discarded": 0.06366666666666666,
+      "cells": {
+        "t60": {
+          "a": 0.801,
+          "b": 0.199,
+          "tie": 0.0,
+          "first": 0.8152610441767069,
+          "second": 0.7868525896414342,
+          "moons": 0.004,
+          "shooting": 0.021,
+          "discarded": 0.018
+        },
+        "hedrick": {
+          "a": 0.738,
+          "b": 0.262,
+          "tie": 0.0,
+          "first": 0.7543859649122807,
+          "second": 0.7207392197125256,
+          "moons": 0.004,
+          "shooting": 0.025,
+          "discarded": 0.021
+        },
+        "unl": {
+          "a": 0.927,
+          "b": 0.073,
+          "tie": 0.0,
+          "first": 0.9305816135084428,
+          "second": 0.9229122055674518,
+          "moons": 0.003,
+          "shooting": 0.018,
+          "discarded": 0.033
+        },
+        "d60": {
+          "a": 0.781,
+          "b": 0.219,
+          "tie": 0.0,
+          "first": 0.794,
+          "second": 0.768,
+          "moons": 0.0,
+          "shooting": 0.0,
+          "discarded": 0.0
+        },
+        "s60": {
+          "a": 0.997,
+          "b": 0.003,
+          "tie": 0.0,
+          "first": 1.0,
+          "second": 0.9940239043824701,
+          "moons": 0.023,
+          "shooting": 0.129,
+          "discarded": 0.166
+        },
+        "g": {
+          "a": 0.826,
+          "b": 0.174,
+          "tie": 0.0,
+          "first": 0.8320158102766798,
+          "second": 0.819838056680162,
+          "moons": 0.006,
+          "shooting": 0.345,
+          "discarded": 0.144
+        }
+      },
+      "rank": 1
+    },
+    {
+      "cut": "Ultra Ball",
+      "copies_before": 1,
+      "weighted": 0.7842882051282052,
+      "mean": 0.8373333333333334,
+      "worst": 0.748,
+      "moons": 0.007166666666666666,
+      "shooting": 0.09050000000000001,
+      "discarded": 0.07266666666666667,
+      "cells": {
+        "t60": {
+          "a": 0.797,
+          "b": 0.203,
+          "tie": 0.0,
+          "first": 0.7883064516129032,
+          "second": 0.8055555555555556,
+          "moons": 0.006,
+          "shooting": 0.03,
+          "discarded": 0.04
+        },
+        "hedrick": {
+          "a": 0.748,
+          "b": 0.252,
+          "tie": 0.0,
+          "first": 0.7575150300601202,
+          "second": 0.7385229540918163,
+          "moons": 0.003,
+          "shooting": 0.018,
+          "discarded": 0.012
+        },
+        "unl": {
+          "a": 0.932,
+          "b": 0.068,
+          "tie": 0.0,
+          "first": 0.9323770491803278,
+          "second": 0.931640625,
+          "moons": 0.007,
+          "shooting": 0.02,
+          "discarded": 0.029
+        },
+        "d60": {
+          "a": 0.762,
+          "b": 0.238,
+          "tie": 0.0,
+          "first": 0.7596153846153846,
+          "second": 0.7645833333333333,
+          "moons": 0.0,
+          "shooting": 0.0,
+          "discarded": 0.0
+        },
+        "s60": {
+          "a": 0.995,
+          "b": 0.005,
+          "tie": 0.0,
+          "first": 0.9939516129032258,
+          "second": 0.996031746031746,
+          "moons": 0.023,
+          "shooting": 0.132,
+          "discarded": 0.175
+        },
+        "g": {
+          "a": 0.79,
+          "b": 0.21,
+          "tie": 0.0,
+          "first": 0.7919191919191919,
+          "second": 0.7881188118811882,
+          "moons": 0.004,
+          "shooting": 0.343,
+          "discarded": 0.18
+        }
+      },
+      "rank": 2
+    },
+    {
+      "rank": 3,
+      "cut": null,
+      "copies_before": 0,
+      "weighted": 0.783785641025641,
+      "mean": 0.8375,
+      "worst": 0.744,
+      "moons": 0.0,
+      "shooting": 0.025333333333333333,
+      "discarded": 0.021,
+      "cells": {
+        "t60": {
+          "a": 0.789,
+          "b": 0.211,
+          "tie": 0.0,
+          "first": 0.7996146435452793,
+          "second": 0.7775467775467776,
+          "moons": 0.0,
+          "shooting": 0.0,
+          "discarded": 0.0
+        },
+        "hedrick": {
+          "a": 0.744,
+          "b": 0.256,
+          "tie": 0.0,
+          "first": 0.7447619047619047,
+          "second": 0.7431578947368421,
+          "moons": 0.0,
+          "shooting": 0.0,
+          "discarded": 0.0
+        },
+        "unl": {
+          "a": 0.938,
+          "b": 0.062,
+          "tie": 0.0,
+          "first": 0.9319066147859922,
+          "second": 0.9444444444444444,
+          "moons": 0.0,
+          "shooting": 0.0,
+          "discarded": 0.0
+        },
+        "d60": {
+          "a": 0.774,
+          "b": 0.226,
+          "tie": 0.0,
+          "first": 0.7846153846153846,
+          "second": 0.7625,
+          "moons": 0.0,
+          "shooting": 0.0,
+          "discarded": 0.0
+        },
+        "s60": {
+          "a": 0.994,
+          "b": 0.006,
+          "tie": 0.0,
+          "first": 0.9959839357429718,
+          "second": 0.9920318725099602,
+          "moons": 0.0,
+          "shooting": 0.0,
+          "discarded": 0.0
+        },
+        "g": {
+          "a": 0.786,
+          "b": 0.214,
+          "tie": 0.0,
+          "first": 0.7837301587301587,
+          "second": 0.7883064516129032,
+          "moons": 0.0,
+          "shooting": 0.152,
+          "discarded": 0.126
+        }
+      }
+    },
+    {
+      "cut": "Clefable ex",
+      "copies_before": 3,
+      "weighted": 0.781131282051282,
+      "mean": 0.8376666666666667,
+      "worst": 0.709,
+      "moons": 0.006166666666666667,
+      "shooting": 0.08616666666666667,
+      "discarded": 0.07233333333333333,
+      "cells": {
+        "t60": {
+          "a": 0.781,
+          "b": 0.219,
+          "tie": 0.0,
+          "first": 0.7957198443579766,
+          "second": 0.7654320987654321,
+          "moons": 0.004,
+          "shooting": 0.029,
+          "discarded": 0.039
+        },
+        "hedrick": {
+          "a": 0.709,
+          "b": 0.291,
+          "tie": 0.0,
+          "first": 0.7071290944123314,
+          "second": 0.7110187110187111,
+          "moons": 0.001,
+          "shooting": 0.026,
+          "discarded": 0.02
+        },
+        "unl": {
+          "a": 0.942,
+          "b": 0.058,
+          "tie": 0.0,
+          "first": 0.9485714285714286,
+          "second": 0.9347368421052632,
+          "moons": 0.005,
+          "shooting": 0.018,
+          "discarded": 0.042
+        },
+        "d60": {
+          "a": 0.781,
+          "b": 0.219,
+          "tie": 0.0,
+          "first": 0.810379241516966,
+          "second": 0.751503006012024,
+          "moons": 0.0,
+          "shooting": 0.0,
+          "discarded": 0.0
+        },
+        "s60": {
+          "a": 0.998,
+          "b": 0.002,
+          "tie": 0.0,
+          "first": 0.9979838709677419,
+          "second": 0.998015873015873,
+          "moons": 0.023,
+          "shooting": 0.12,
+          "discarded": 0.169
+        },
+        "g": {
+          "a": 0.815,
+          "b": 0.185,
+          "tie": 0.0,
+          "first": 0.8444022770398482,
+          "second": 0.7822410147991543,
+          "moons": 0.004,
+          "shooting": 0.324,
+          "discarded": 0.164
+        }
+      },
+      "rank": 4
+    },
+    {
+      "cut": "Seeker",
+      "copies_before": 1,
+      "weighted": 0.780185641025641,
+      "mean": 0.8353333333333334,
+      "worst": 0.704,
+      "moons": 0.0,
+      "shooting": 0.08316666666666667,
+      "discarded": 0.043000000000000003,
+      "cells": {
+        "t60": {
+          "a": 0.789,
+          "b": 0.211,
+          "tie": 0.0,
+          "first": 0.7938775510204081,
+          "second": 0.7843137254901961,
+          "moons": 0.0,
+          "shooting": 0.017,
+          "discarded": 0.008
+        },
+        "hedrick": {
+          "a": 0.704,
+          "b": 0.296,
+          "tie": 0.0,
+          "first": 0.6994106090373281,
+          "second": 0.7087576374745418,
+          "moons": 0.0,
+          "shooting": 0.011,
+          "discarded": 0.003
+        },
+        "unl": {
+          "a": 0.931,
+          "b": 0.069,
+          "tie": 0.0,
+          "first": 0.939453125,
+          "second": 0.9221311475409836,
+          "moons": 0.0,
+          "shooting": 0.009,
+          "discarded": 0.009
+        },
+        "d60": {
+          "a": 0.782,
+          "b": 0.218,
+          "tie": 0.0,
+          "first": 0.782608695652174,
+          "second": 0.7813765182186235,
+          "moons": 0.0,
+          "shooting": 0.0,
+          "discarded": 0.0
+        },
+        "s60": {
+          "a": 0.995,
+          "b": 0.005,
+          "tie": 0.0,
+          "first": 0.9959919839679359,
+          "second": 0.9940119760479041,
+          "moons": 0.0,
+          "shooting": 0.1,
+          "discarded": 0.093
+        },
+        "g": {
+          "a": 0.811,
+          "b": 0.189,
+          "tie": 0.0,
+          "first": 0.8303393213572854,
+          "second": 0.7915831663326653,
+          "moons": 0.0,
+          "shooting": 0.362,
+          "discarded": 0.145
+        }
+      },
+      "rank": 5
+    },
+    {
+      "cut": "Boss's Orders",
+      "copies_before": 2,
+      "weighted": 0.7792451282051283,
+      "mean": 0.8355,
+      "worst": 0.719,
+      "moons": 0.005166666666666667,
+      "shooting": 0.08366666666666667,
+      "discarded": 0.06033333333333333,
+      "cells": {
+        "t60": {
+          "a": 0.796,
+          "b": 0.204,
+          "tie": 0.0,
+          "first": 0.8159509202453987,
+          "second": 0.776908023483366,
+          "moons": 0.005,
+          "shooting": 0.032,
+          "discarded": 0.028
+        },
+        "hedrick": {
+          "a": 0.719,
+          "b": 0.281,
+          "tie": 0.0,
+          "first": 0.7157464212678937,
+          "second": 0.7221135029354208,
+          "moons": 0.001,
+          "shooting": 0.014,
+          "discarded": 0.005
+        },
+        "unl": {
+          "a": 0.937,
+          "b": 0.063,
+          "tie": 0.0,
+          "first": 0.9341085271317829,
+          "second": 0.9400826446280992,
+          "moons": 0.006,
+          "shooting": 0.018,
+          "discarded": 0.037
+        },
+        "d60": {
+          "a": 0.765,
+          "b": 0.235,
+          "tie": 0.0,
+          "first": 0.7964426877470355,
+          "second": 0.7327935222672065,
+          "moons": 0.0,
+          "shooting": 0.0,
+          "discarded": 0.0
+        },
+        "s60": {
+          "a": 0.998,
+          "b": 0.002,
+          "tie": 0.0,
+          "first": 0.9980430528375733,
+          "second": 0.9979550102249489,
+          "moons": 0.016,
+          "shooting": 0.116,
+          "discarded": 0.12
+        },
+        "g": {
+          "a": 0.798,
+          "b": 0.202,
+          "tie": 0.0,
+          "first": 0.833969465648855,
+          "second": 0.7584033613445378,
+          "moons": 0.003,
+          "shooting": 0.322,
+          "discarded": 0.172
+        }
+      },
+      "rank": 6
+    },
+    {
+      "cut": "Clefable CLC",
+      "copies_before": 1,
+      "weighted": 0.7762328205128205,
+      "mean": 0.8343333333333334,
+      "worst": 0.709,
+      "moons": 0.009666666666666667,
+      "shooting": 0.09533333333333334,
+      "discarded": 0.075,
+      "cells": {
+        "t60": {
+          "a": 0.769,
+          "b": 0.231,
+          "tie": 0.0,
+          "first": 0.8007518796992481,
+          "second": 0.7329059829059829,
+          "moons": 0.01,
+          "shooting": 0.035,
+          "discarded": 0.043
+        },
+        "hedrick": {
+          "a": 0.709,
+          "b": 0.291,
+          "tie": 0.0,
+          "first": 0.7157057654075547,
+          "second": 0.7022132796780685,
+          "moons": 0.008,
+          "shooting": 0.039,
+          "discarded": 0.04
+        },
+        "unl": {
+          "a": 0.946,
+          "b": 0.054,
+          "tie": 0.0,
+          "first": 0.9384615384615385,
+          "second": 0.9541666666666667,
+          "moons": 0.008,
+          "shooting": 0.031,
+          "discarded": 0.043
+        },
+        "d60": {
+          "a": 0.77,
+          "b": 0.23,
+          "tie": 0.0,
+          "first": 0.8081632653061225,
+          "second": 0.7333333333333333,
+          "moons": 0.0,
+          "shooting": 0.0,
+          "discarded": 0.0
+        },
+        "s60": {
+          "a": 0.997,
+          "b": 0.003,
+          "tie": 0.0,
+          "first": 0.9978354978354979,
+          "second": 0.9962825278810409,
+          "moons": 0.024,
+          "shooting": 0.129,
+          "discarded": 0.173
+        },
+        "g": {
+          "a": 0.815,
+          "b": 0.185,
+          "tie": 0.0,
+          "first": 0.7996146435452793,
+          "second": 0.8316008316008316,
+          "moons": 0.008,
+          "shooting": 0.338,
+          "discarded": 0.151
+        }
+      },
+      "rank": 7
+    },
+    {
+      "cut": "Night Stretcher",
+      "copies_before": 1,
+      "weighted": 0.77292,
+      "mean": 0.8286666666666668,
+      "worst": 0.731,
+      "moons": 0.007333333333333334,
+      "shooting": 0.09066666666666667,
+      "discarded": 0.0775,
+      "cells": {
+        "t60": {
+          "a": 0.763,
+          "b": 0.237,
+          "tie": 0.0,
+          "first": 0.7777777777777778,
+          "second": 0.7479838709677419,
+          "moons": 0.004,
+          "shooting": 0.028,
+          "discarded": 0.034
+        },
+        "hedrick": {
+          "a": 0.731,
+          "b": 0.269,
+          "tie": 0.0,
+          "first": 0.7442348008385744,
+          "second": 0.7189292543021033,
+          "moons": 0.004,
+          "shooting": 0.02,
+          "discarded": 0.025
+        },
+        "unl": {
+          "a": 0.933,
+          "b": 0.067,
+          "tie": 0.0,
+          "first": 0.9379014989293362,
+          "second": 0.9287054409005628,
+          "moons": 0.006,
+          "shooting": 0.015,
+          "discarded": 0.023
+        },
+        "d60": {
+          "a": 0.76,
+          "b": 0.24,
+          "tie": 0.0,
+          "first": 0.7801980198019802,
+          "second": 0.7393939393939394,
+          "moons": 0.0,
+          "shooting": 0.0,
+          "discarded": 0.0
+        },
+        "s60": {
+          "a": 0.991,
+          "b": 0.009,
+          "tie": 0.0,
+          "first": 0.99609375,
+          "second": 0.985655737704918,
+          "moons": 0.025,
+          "shooting": 0.142,
+          "discarded": 0.193
+        },
+        "g": {
+          "a": 0.794,
+          "b": 0.206,
+          "tie": 0.0,
+          "first": 0.8210735586481114,
+          "second": 0.7665995975855131,
+          "moons": 0.005,
+          "shooting": 0.339,
+          "discarded": 0.19
+        }
+      },
+      "rank": 8
+    },
+    {
+      "cut": "Pok\u00e9 Pad",
+      "copies_before": 1,
+      "weighted": 0.7722902564102565,
+      "mean": 0.8300000000000001,
+      "worst": 0.715,
+      "moons": 0.006833333333333334,
+      "shooting": 0.08183333333333333,
+      "discarded": 0.06733333333333333,
+      "cells": {
+        "t60": {
+          "a": 0.773,
+          "b": 0.227,
+          "tie": 0.0,
+          "first": 0.782608695652174,
+          "second": 0.7622080679405521,
+          "moons": 0.008,
+          "shooting": 0.031,
+          "discarded": 0.039
+        },
+        "hedrick": {
+          "a": 0.715,
+          "b": 0.285,
+          "tie": 0.0,
+          "first": 0.7342799188640974,
+          "second": 0.6962524654832347,
+          "moons": 0.003,
+          "shooting": 0.021,
+          "discarded": 0.019
+        },
+        "unl": {
+          "a": 0.934,
+          "b": 0.066,
+          "tie": 0.0,
+          "first": 0.9469548133595285,
+          "second": 0.9205702647657841,
+          "moons": 0.008,
+          "shooting": 0.023,
+          "discarded": 0.041
+        },
+        "d60": {
+          "a": 0.776,
+          "b": 0.224,
+          "tie": 0.0,
+          "first": 0.7868852459016393,
+          "second": 0.765625,
+          "moons": 0.0,
+          "shooting": 0.0,
+          "discarded": 0.0
+        },
+        "s60": {
+          "a": 0.999,
+          "b": 0.001,
+          "tie": 0.0,
+          "first": 1.0,
+          "second": 0.997737556561086,
+          "moons": 0.018,
+          "shooting": 0.106,
+          "discarded": 0.148
+        },
+        "g": {
+          "a": 0.783,
+          "b": 0.217,
+          "tie": 0.0,
+          "first": 0.8093385214007782,
+          "second": 0.7551440329218106,
+          "moons": 0.004,
+          "shooting": 0.31,
+          "discarded": 0.157
+        }
+      },
+      "rank": 9
+    },
+    {
+      "cut": "Iono",
+      "copies_before": 1,
+      "weighted": 0.7722646153846154,
+      "mean": 0.827,
+      "worst": 0.733,
+      "moons": 0.005999999999999999,
+      "shooting": 0.082,
+      "discarded": 0.06516666666666666,
+      "cells": {
+        "t60": {
+          "a": 0.74,
+          "b": 0.26,
+          "tie": 0.0,
+          "first": 0.768,
+          "second": 0.712,
+          "moons": 0.005,
+          "shooting": 0.025,
+          "discarded": 0.034
+        },
+        "hedrick": {
+          "a": 0.733,
+          "b": 0.267,
+          "tie": 0.0,
+          "first": 0.7311411992263056,
+          "second": 0.7349896480331263,
+          "moons": 0.007,
+          "shooting": 0.031,
+          "discarded": 0.03
+        },
+        "unl": {
+          "a": 0.916,
+          "b": 0.084,
+          "tie": 0.0,
+          "first": 0.9163424124513618,
+          "second": 0.9156378600823045,
+          "moons": 0.002,
+          "shooting": 0.014,
+          "discarded": 0.018
+        },
+        "d60": {
+          "a": 0.761,
+          "b": 0.239,
+          "tie": 0.0,
+          "first": 0.7504990019960079,
+          "second": 0.7715430861723447,
+          "moons": 0.0,
+          "shooting": 0.0,
+          "discarded": 0.0
+        },
+        "s60": {
+          "a": 0.997,
+          "b": 0.003,
+          "tie": 0.0,
+          "first": 0.9960629921259843,
+          "second": 0.9979674796747967,
+          "moons": 0.018,
+          "shooting": 0.12,
+          "discarded": 0.157
+        },
+        "g": {
+          "a": 0.815,
+          "b": 0.185,
+          "tie": 0.0,
+          "first": 0.8212927756653993,
+          "second": 0.8080168776371308,
+          "moons": 0.004,
+          "shooting": 0.302,
+          "discarded": 0.152
+        }
+      },
+      "rank": 10
+    },
+    {
+      "cut": "Energy Switch",
+      "copies_before": 2,
+      "weighted": 0.7710492307692308,
+      "mean": 0.8283333333333333,
+      "worst": 0.705,
+      "moons": 0.006333333333333333,
+      "shooting": 0.08666666666666667,
+      "discarded": 0.06783333333333334,
+      "cells": {
+        "t60": {
+          "a": 0.751,
+          "b": 0.249,
+          "tie": 0.0,
+          "first": 0.7345309381237525,
+          "second": 0.7675350701402806,
+          "moons": 0.001,
+          "shooting": 0.027,
+          "discarded": 0.023
+        },
+        "hedrick": {
+          "a": 0.705,
+          "b": 0.295,
+          "tie": 0.0,
+          "first": 0.7072243346007605,
+          "second": 0.7025316455696202,
+          "moons": 0.006,
+          "shooting": 0.025,
+          "discarded": 0.035
+        },
+        "unl": {
+          "a": 0.932,
+          "b": 0.068,
+          "tie": 0.0,
+          "first": 0.9418837675350702,
+          "second": 0.9221556886227545,
+          "moons": 0.009,
+          "shooting": 0.016,
+          "discarded": 0.038
+        },
+        "d60": {
+          "a": 0.771,
+          "b": 0.229,
+          "tie": 0.0,
+          "first": 0.775377969762419,
+          "second": 0.7672253258845437,
+          "moons": 0.0,
+          "shooting": 0.0,
+          "discarded": 0.0
+        },
+        "s60": {
+          "a": 0.994,
+          "b": 0.006,
+          "tie": 0.0,
+          "first": 0.9979296066252588,
+          "second": 0.9903288201160542,
+          "moons": 0.018,
+          "shooting": 0.112,
+          "discarded": 0.129
+        },
+        "g": {
+          "a": 0.817,
+          "b": 0.183,
+          "tie": 0.0,
+          "first": 0.8178053830227743,
+          "second": 0.816247582205029,
+          "moons": 0.004,
+          "shooting": 0.34,
+          "discarded": 0.182
+        }
+      },
+      "rank": 11
+    },
+    {
+      "cut": "Wondrous Patch",
+      "copies_before": 1,
+      "weighted": 0.769708717948718,
+      "mean": 0.8266666666666667,
+      "worst": 0.726,
+      "moons": 0.007333333333333333,
+      "shooting": 0.0845,
+      "discarded": 0.0645,
+      "cells": {
+        "t60": {
+          "a": 0.766,
+          "b": 0.234,
+          "tie": 0.0,
+          "first": 0.7534246575342466,
+          "second": 0.7791411042944786,
+          "moons": 0.003,
+          "shooting": 0.026,
+          "discarded": 0.026
+        },
+        "hedrick": {
+          "a": 0.726,
+          "b": 0.274,
+          "tie": 0.0,
+          "first": 0.7394636015325671,
+          "second": 0.7112970711297071,
+          "moons": 0.002,
+          "shooting": 0.011,
+          "discarded": 0.007
+        },
+        "unl": {
+          "a": 0.924,
+          "b": 0.076,
+          "tie": 0.0,
+          "first": 0.9285714285714286,
+          "second": 0.9196078431372549,
+          "moons": 0.006,
+          "shooting": 0.019,
+          "discarded": 0.038
+        },
+        "d60": {
+          "a": 0.756,
+          "b": 0.244,
+          "tie": 0.0,
+          "first": 0.7590361445783133,
+          "second": 0.7529880478087649,
+          "moons": 0.0,
+          "shooting": 0.0,
+          "discarded": 0.0
+        },
+        "s60": {
+          "a": 0.999,
+          "b": 0.001,
+          "tie": 0.0,
+          "first": 0.9981167608286252,
+          "second": 1.0,
+          "moons": 0.026,
+          "shooting": 0.117,
+          "discarded": 0.176
+        },
+        "g": {
+          "a": 0.789,
+          "b": 0.211,
+          "tie": 0.0,
+          "first": 0.8086303939962477,
+          "second": 0.7665952890792291,
+          "moons": 0.007,
+          "shooting": 0.334,
+          "discarded": 0.14
+        }
+      },
+      "rank": 12
+    },
+    {
+      "cut": "Switch",
+      "copies_before": 2,
+      "weighted": 0.76672,
+      "mean": 0.8246666666666668,
+      "worst": 0.721,
+      "moons": 0.005,
+      "shooting": 0.08166666666666667,
+      "discarded": 0.0625,
+      "cells": {
+        "t60": {
+          "a": 0.77,
+          "b": 0.23,
+          "tie": 0.0,
+          "first": 0.7996146435452793,
+          "second": 0.738045738045738,
+          "moons": 0.004,
+          "shooting": 0.022,
+          "discarded": 0.029
+        },
+        "hedrick": {
+          "a": 0.721,
+          "b": 0.279,
+          "tie": 0.0,
+          "first": 0.7377690802348337,
+          "second": 0.7034764826175869,
+          "moons": 0.002,
+          "shooting": 0.015,
+          "discarded": 0.013
+        },
+        "unl": {
+          "a": 0.927,
+          "b": 0.073,
+          "tie": 0.0,
+          "first": 0.9339805825242719,
+          "second": 0.9195876288659793,
+          "moons": 0.004,
+          "shooting": 0.015,
+          "discarded": 0.03
+        },
+        "d60": {
+          "a": 0.749,
+          "b": 0.251,
+          "tie": 0.0,
+          "first": 0.7753479125248509,
+          "second": 0.7223340040241448,
+          "moons": 0.0,
+          "shooting": 0.0,
+          "discarded": 0.0
+        },
+        "s60": {
+          "a": 0.997,
+          "b": 0.003,
+          "tie": 0.0,
+          "first": 0.9979879275653923,
+          "second": 0.9960238568588469,
+          "moons": 0.018,
+          "shooting": 0.113,
+          "discarded": 0.145
+        },
+        "g": {
+          "a": 0.784,
+          "b": 0.216,
+          "tie": 0.0,
+          "first": 0.7915831663326653,
+          "second": 0.7764471057884231,
+          "moons": 0.002,
+          "shooting": 0.325,
+          "discarded": 0.158
+        }
+      },
+      "rank": 13
+    },
+    {
+      "cut": "Hop",
+      "copies_before": 2,
+      "weighted": 0.766385641025641,
+      "mean": 0.8241666666666667,
+      "worst": 0.704,
+      "moons": 0.006166666666666667,
+      "shooting": 0.083,
+      "discarded": 0.067,
+      "cells": {
+        "t60": {
+          "a": 0.752,
+          "b": 0.248,
+          "tie": 0.0,
+          "first": 0.792,
+          "second": 0.712,
+          "moons": 0.003,
+          "shooting": 0.027,
+          "discarded": 0.019
+        },
+        "hedrick": {
+          "a": 0.704,
+          "b": 0.296,
+          "tie": 0.0,
+          "first": 0.7125256673511293,
+          "second": 0.695906432748538,
+          "moons": 0.003,
+          "shooting": 0.019,
+          "discarded": 0.028
+        },
+        "unl": {
+          "a": 0.92,
+          "b": 0.08,
+          "tie": 0.0,
+          "first": 0.930379746835443,
+          "second": 0.9106463878326996,
+          "moons": 0.009,
+          "shooting": 0.019,
+          "discarded": 0.029
+        },
+        "d60": {
+          "a": 0.759,
+          "b": 0.241,
+          "tie": 0.0,
+          "first": 0.7696737044145874,
+          "second": 0.7473903966597077,
+          "moons": 0.0,
+          "shooting": 0.0,
+          "discarded": 0.0
+        },
+        "s60": {
+          "a": 0.998,
+          "b": 0.002,
+          "tie": 0.0,
+          "first": 0.997867803837953,
+          "second": 0.9981167608286252,
+          "moons": 0.02,
+          "shooting": 0.119,
+          "discarded": 0.156
+        },
+        "g": {
+          "a": 0.812,
+          "b": 0.188,
+          "tie": 0.0,
+          "first": 0.8352713178294574,
+          "second": 0.7871900826446281,
+          "moons": 0.002,
+          "shooting": 0.314,
+          "discarded": 0.17
+        }
+      },
+      "rank": 14
+    },
+    {
+      "cut": "Lillie",
+      "copies_before": 2,
+      "weighted": 0.7663435897435897,
+      "mean": 0.8233333333333334,
+      "worst": 0.712,
+      "moons": 0.005666666666666667,
+      "shooting": 0.0855,
+      "discarded": 0.06083333333333333,
+      "cells": {
+        "t60": {
+          "a": 0.761,
+          "b": 0.239,
+          "tie": 0.0,
+          "first": 0.7738791423001949,
+          "second": 0.7474332648870636,
+          "moons": 0.007,
+          "shooting": 0.026,
+          "discarded": 0.038
+        },
+        "hedrick": {
+          "a": 0.712,
+          "b": 0.288,
+          "tie": 0.0,
+          "first": 0.6912350597609562,
+          "second": 0.7329317269076305,
+          "moons": 0.004,
+          "shooting": 0.023,
+          "discarded": 0.029
+        },
+        "unl": {
+          "a": 0.916,
+          "b": 0.084,
+          "tie": 0.0,
+          "first": 0.9295238095238095,
+          "second": 0.9010526315789473,
+          "moons": 0.003,
+          "shooting": 0.02,
+          "discarded": 0.018
+        },
+        "d60": {
+          "a": 0.751,
+          "b": 0.249,
+          "tie": 0.0,
+          "first": 0.7758620689655172,
+          "second": 0.7238493723849372,
+          "moons": 0.0,
+          "shooting": 0.0,
+          "discarded": 0.0
+        },
+        "s60": {
+          "a": 0.997,
+          "b": 0.003,
+          "tie": 0.0,
+          "first": 0.9981060606060606,
+          "second": 0.9957627118644068,
+          "moons": 0.019,
+          "shooting": 0.127,
+          "discarded": 0.128
+        },
+        "g": {
+          "a": 0.803,
+          "b": 0.197,
+          "tie": 0.0,
+          "first": 0.8282608695652174,
+          "second": 0.7814814814814814,
+          "moons": 0.001,
+          "shooting": 0.317,
+          "discarded": 0.152
+        }
+      },
+      "rank": 15
+    },
+    {
+      "cut": "Buddy-Buddy Poffin",
+      "copies_before": 4,
+      "weighted": 0.7652933333333334,
+      "mean": 0.8236666666666667,
+      "worst": 0.733,
+      "moons": 0.0071666666666666675,
+      "shooting": 0.08650000000000001,
+      "discarded": 0.07266666666666667,
+      "cells": {
+        "t60": {
+          "a": 0.767,
+          "b": 0.233,
+          "tie": 0.0,
+          "first": 0.7803468208092486,
+          "second": 0.7525987525987526,
+          "moons": 0.006,
+          "shooting": 0.028,
+          "discarded": 0.037
+        },
+        "hedrick": {
+          "a": 0.733,
+          "b": 0.267,
+          "tie": 0.0,
+          "first": 0.7370517928286853,
+          "second": 0.7289156626506024,
+          "moons": 0.006,
+          "shooting": 0.024,
+          "discarded": 0.028
+        },
+        "unl": {
+          "a": 0.931,
+          "b": 0.069,
+          "tie": 0.0,
+          "first": 0.936,
+          "second": 0.926,
+          "moons": 0.005,
+          "shooting": 0.013,
+          "discarded": 0.018
+        },
+        "d60": {
+          "a": 0.748,
+          "b": 0.252,
+          "tie": 0.0,
+          "first": 0.7782258064516129,
+          "second": 0.7182539682539683,
+          "moons": 0.0,
+          "shooting": 0.0,
+          "discarded": 0.0
+        },
+        "s60": {
+          "a": 0.997,
+          "b": 0.003,
+          "tie": 0.0,
+          "first": 0.9979338842975206,
+          "second": 0.9961240310077519,
+          "moons": 0.02,
+          "shooting": 0.12,
+          "discarded": 0.155
+        },
+        "g": {
+          "a": 0.766,
+          "b": 0.234,
+          "tie": 0.0,
+          "first": 0.7813688212927756,
+          "second": 0.7489451476793249,
+          "moons": 0.006,
+          "shooting": 0.334,
+          "discarded": 0.198
+        }
+      },
+      "rank": 16
+    },
+    {
+      "cut": "Nest Ball",
+      "copies_before": 4,
+      "weighted": 0.764185641025641,
+      "mean": 0.8225000000000001,
+      "worst": 0.713,
+      "moons": 0.0061666666666666675,
+      "shooting": 0.08716666666666667,
+      "discarded": 0.06433333333333334,
+      "cells": {
+        "t60": {
+          "a": 0.757,
+          "b": 0.243,
+          "tie": 0.0,
+          "first": 0.7719665271966527,
+          "second": 0.7432950191570882,
+          "moons": 0.004,
+          "shooting": 0.03,
+          "discarded": 0.031
+        },
+        "hedrick": {
+          "a": 0.713,
+          "b": 0.287,
+          "tie": 0.0,
+          "first": 0.7261904761904762,
+          "second": 0.6995967741935484,
+          "moons": 0.004,
+          "shooting": 0.022,
+          "discarded": 0.025
+        },
+        "unl": {
+          "a": 0.929,
+          "b": 0.071,
+          "tie": 0.0,
+          "first": 0.9309664694280079,
+          "second": 0.9269776876267748,
+          "moons": 0.006,
+          "shooting": 0.018,
+          "discarded": 0.038
+        },
+        "d60": {
+          "a": 0.773,
+          "b": 0.227,
+          "tie": 0.0,
+          "first": 0.8067226890756303,
+          "second": 0.7423664122137404,
+          "moons": 0.0,
+          "shooting": 0.0,
+          "discarded": 0.0
+        },
+        "s60": {
+          "a": 0.994,
+          "b": 0.006,
+          "tie": 0.0,
+          "first": 0.9980237154150198,
+          "second": 0.9898785425101214,
+          "moons": 0.021,
+          "shooting": 0.137,
+          "discarded": 0.154
+        },
+        "g": {
+          "a": 0.769,
+          "b": 0.231,
+          "tie": 0.0,
+          "first": 0.7951807228915663,
+          "second": 0.7430278884462151,
+          "moons": 0.002,
+          "shooting": 0.316,
+          "discarded": 0.138
+        }
+      },
+      "rank": 17
+    },
+    {
+      "cut": "Mewtwo ex",
+      "copies_before": 3,
+      "weighted": 0.7633025641025641,
+      "mean": 0.8235,
+      "worst": 0.709,
+      "moons": 0.0085,
+      "shooting": 0.09299999999999999,
+      "discarded": 0.07116666666666667,
+      "cells": {
+        "t60": {
+          "a": 0.75,
+          "b": 0.25,
+          "tie": 0.0,
+          "first": 0.7626050420168067,
+          "second": 0.7385496183206107,
+          "moons": 0.006,
+          "shooting": 0.026,
+          "discarded": 0.028
+        },
+        "hedrick": {
+          "a": 0.738,
+          "b": 0.262,
+          "tie": 0.0,
+          "first": 0.7479166666666667,
+          "second": 0.7288461538461538,
+          "moons": 0.005,
+          "shooting": 0.024,
+          "discarded": 0.026
+        },
+        "unl": {
+          "a": 0.941,
+          "b": 0.059,
+          "tie": 0.0,
+          "first": 0.9428571428571428,
+          "second": 0.9392156862745098,
+          "moons": 0.01,
+          "shooting": 0.022,
+          "discarded": 0.038
+        },
+        "d60": {
+          "a": 0.709,
+          "b": 0.291,
+          "tie": 0.0,
+          "first": 0.7453798767967146,
+          "second": 0.6744639376218323,
+          "moons": 0.0,
+          "shooting": 0.0,
+          "discarded": 0.0
+        },
+        "s60": {
+          "a": 0.997,
+          "b": 0.003,
+          "tie": 0.0,
+          "first": 0.9979423868312757,
+          "second": 0.9961089494163424,
+          "moons": 0.027,
+          "shooting": 0.137,
+          "discarded": 0.182
+        },
+        "g": {
+          "a": 0.806,
+          "b": 0.194,
+          "tie": 0.0,
+          "first": 0.8194444444444444,
+          "second": 0.7923387096774194,
+          "moons": 0.003,
+          "shooting": 0.349,
+          "discarded": 0.153
+        }
+      },
+      "rank": 18
+    },
+    {
+      "cut": "Battle Cage",
+      "copies_before": 3,
+      "weighted": 0.7623589743589744,
+      "mean": 0.8221666666666666,
+      "worst": 0.699,
+      "moons": 0.008499999999999999,
+      "shooting": 0.084,
+      "discarded": 0.06916666666666667,
+      "cells": {
+        "t60": {
+          "a": 0.732,
+          "b": 0.268,
+          "tie": 0.0,
+          "first": 0.731610337972167,
+          "second": 0.7323943661971831,
+          "moons": 0.009,
+          "shooting": 0.026,
+          "discarded": 0.04
+        },
+        "hedrick": {
+          "a": 0.699,
+          "b": 0.301,
+          "tie": 0.0,
+          "first": 0.702247191011236,
+          "second": 0.6952789699570815,
+          "moons": 0.005,
+          "shooting": 0.017,
+          "discarded": 0.018
+        },
+        "unl": {
+          "a": 0.931,
+          "b": 0.069,
+          "tie": 0.0,
+          "first": 0.9342359767891683,
+          "second": 0.927536231884058,
+          "moons": 0.009,
+          "shooting": 0.017,
+          "discarded": 0.037
+        },
+        "d60": {
+          "a": 0.763,
+          "b": 0.237,
+          "tie": 0.0,
+          "first": 0.7630522088353414,
+          "second": 0.7629482071713147,
+          "moons": 0.0,
+          "shooting": 0.0,
+          "discarded": 0.0
+        },
+        "s60": {
+          "a": 0.996,
+          "b": 0.004,
+          "tie": 0.0,
+          "first": 0.9979674796747967,
+          "second": 0.9940944881889764,
+          "moons": 0.026,
+          "shooting": 0.125,
+          "discarded": 0.176
+        },
+        "g": {
+          "a": 0.812,
+          "b": 0.188,
+          "tie": 0.0,
+          "first": 0.8313953488372093,
+          "second": 0.7913223140495868,
+          "moons": 0.002,
+          "shooting": 0.319,
+          "discarded": 0.144
+        }
+      },
+      "rank": 19
+    },
+    {
+      "cut": "Psychic Energy",
+      "copies_before": 14,
+      "weighted": 0.7570502564102564,
+      "mean": 0.8181666666666666,
+      "worst": 0.695,
+      "moons": 0.006666666666666667,
+      "shooting": 0.0845,
+      "discarded": 0.0635,
+      "cells": {
+        "t60": {
+          "a": 0.74,
+          "b": 0.26,
+          "tie": 0.0,
+          "first": 0.7674897119341564,
+          "second": 0.7140077821011673,
+          "moons": 0.009,
+          "shooting": 0.031,
+          "discarded": 0.036
+        },
+        "hedrick": {
+          "a": 0.695,
+          "b": 0.305,
+          "tie": 0.0,
+          "first": 0.7119675456389453,
+          "second": 0.6785009861932939,
+          "moons": 0.002,
+          "shooting": 0.021,
+          "discarded": 0.022
+        },
+        "unl": {
+          "a": 0.928,
+          "b": 0.072,
+          "tie": 0.0,
+          "first": 0.9266802443991853,
+          "second": 0.9292730844793713,
+          "moons": 0.005,
+          "shooting": 0.015,
+          "discarded": 0.026
+        },
+        "d60": {
+          "a": 0.755,
+          "b": 0.245,
+          "tie": 0.0,
+          "first": 0.7616279069767442,
+          "second": 0.7479338842975206,
+          "moons": 0.0,
+          "shooting": 0.0,
+          "discarded": 0.0
+        },
+        "s60": {
+          "a": 0.997,
+          "b": 0.003,
+          "tie": 0.0,
+          "first": 0.998046875,
+          "second": 0.9959016393442623,
+          "moons": 0.02,
+          "shooting": 0.117,
+          "discarded": 0.135
+        },
+        "g": {
+          "a": 0.794,
+          "b": 0.206,
+          "tie": 0.0,
+          "first": 0.8084677419354839,
+          "second": 0.7797619047619048,
+          "moons": 0.004,
+          "shooting": 0.323,
+          "discarded": 0.162
+        }
+      },
+      "rank": 20
+    },
+    {
+      "cut": "Lillie's Determination",
+      "copies_before": 2,
+      "weighted": 0.7544635897435897,
+      "mean": 0.8143333333333334,
+      "worst": 0.69,
+      "moons": 0.007333333333333333,
+      "shooting": 0.08416666666666667,
+      "discarded": 0.06083333333333333,
+      "cells": {
+        "t60": {
+          "a": 0.742,
+          "b": 0.258,
+          "tie": 0.0,
+          "first": 0.7621052631578947,
+          "second": 0.7238095238095238,
+          "moons": 0.005,
+          "shooting": 0.022,
+          "discarded": 0.025
+        },
+        "hedrick": {
+          "a": 0.69,
+          "b": 0.31,
+          "tie": 0.0,
+          "first": 0.6773547094188377,
+          "second": 0.7025948103792415,
+          "moons": 0.006,
+          "shooting": 0.027,
+          "discarded": 0.029
+        },
+        "unl": {
+          "a": 0.91,
+          "b": 0.09,
+          "tie": 0.0,
+          "first": 0.9382470119521913,
+          "second": 0.8815261044176707,
+          "moons": 0.01,
+          "shooting": 0.019,
+          "discarded": 0.037
+        },
+        "d60": {
+          "a": 0.745,
+          "b": 0.255,
+          "tie": 0.0,
+          "first": 0.7611336032388664,
+          "second": 0.7292490118577075,
+          "moons": 0.0,
+          "shooting": 0.0,
+          "discarded": 0.0
+        },
+        "s60": {
+          "a": 0.997,
+          "b": 0.003,
+          "tie": 0.0,
+          "first": 0.9979716024340771,
+          "second": 0.9960552268244576,
+          "moons": 0.018,
+          "shooting": 0.138,
+          "discarded": 0.157
+        },
+        "g": {
+          "a": 0.802,
+          "b": 0.198,
+          "tie": 0.0,
+          "first": 0.814,
+          "second": 0.79,
+          "moons": 0.005,
+          "shooting": 0.299,
+          "discarded": 0.117
+        }
+      },
+      "rank": 21
+    },
+    {
+      "cut": "Arven",
+      "copies_before": 1,
+      "weighted": 0.753691282051282,
+      "mean": 0.8153333333333334,
+      "worst": 0.691,
+      "moons": 0.007,
+      "shooting": 0.08900000000000001,
+      "discarded": 0.07016666666666667,
+      "cells": {
+        "t60": {
+          "a": 0.755,
+          "b": 0.245,
+          "tie": 0.0,
+          "first": 0.7582846003898636,
+          "second": 0.7515400410677618,
+          "moons": 0.007,
+          "shooting": 0.029,
+          "discarded": 0.038
+        },
+        "hedrick": {
+          "a": 0.691,
+          "b": 0.309,
+          "tie": 0.0,
+          "first": 0.694949494949495,
+          "second": 0.6871287128712872,
+          "moons": 0.006,
+          "shooting": 0.029,
+          "discarded": 0.03
+        },
+        "unl": {
+          "a": 0.92,
+          "b": 0.08,
+          "tie": 0.0,
+          "first": 0.9358974358974359,
+          "second": 0.9060150375939849,
+          "moons": 0.003,
+          "shooting": 0.017,
+          "discarded": 0.008
+        },
+        "d60": {
+          "a": 0.719,
+          "b": 0.281,
+          "tie": 0.0,
+          "first": 0.7509578544061303,
+          "second": 0.6841004184100419,
+          "moons": 0.0,
+          "shooting": 0.0,
+          "discarded": 0.0
+        },
+        "s60": {
+          "a": 0.998,
+          "b": 0.002,
+          "tie": 0.0,
+          "first": 1.0,
+          "second": 0.9959514170040485,
+          "moons": 0.021,
+          "shooting": 0.122,
+          "discarded": 0.166
+        },
+        "g": {
+          "a": 0.809,
+          "b": 0.191,
+          "tie": 0.0,
+          "first": 0.8292682926829268,
+          "second": 0.7893700787401575,
+          "moons": 0.005,
+          "shooting": 0.337,
+          "discarded": 0.179
+        }
+      },
+      "rank": 22
+    },
+    {
+      "cut": "Telepathic Psychic Energy",
+      "copies_before": 2,
+      "weighted": 0.7484646153846154,
+      "mean": 0.8109999999999999,
+      "worst": 0.686,
+      "moons": 0.007666666666666666,
+      "shooting": 0.08616666666666667,
+      "discarded": 0.0715,
+      "cells": {
+        "t60": {
+          "a": 0.745,
+          "b": 0.255,
+          "tie": 0.0,
+          "first": 0.7470355731225297,
+          "second": 0.742914979757085,
+          "moons": 0.002,
+          "shooting": 0.024,
+          "discarded": 0.027
+        },
+        "hedrick": {
+          "a": 0.686,
+          "b": 0.314,
+          "tie": 0.0,
+          "first": 0.7074148296593187,
+          "second": 0.6646706586826348,
+          "moons": 0.006,
+          "shooting": 0.019,
+          "discarded": 0.028
+        },
+        "unl": {
+          "a": 0.919,
+          "b": 0.081,
+          "tie": 0.0,
+          "first": 0.9173387096774194,
+          "second": 0.9206349206349206,
+          "moons": 0.006,
+          "shooting": 0.018,
+          "discarded": 0.039
+        },
+        "d60": {
+          "a": 0.743,
+          "b": 0.257,
+          "tie": 0.0,
+          "first": 0.7927565392354124,
+          "second": 0.6938369781312127,
+          "moons": 0.0,
+          "shooting": 0.0,
+          "discarded": 0.0
+        },
+        "s60": {
+          "a": 0.997,
+          "b": 0.003,
+          "tie": 0.0,
+          "first": 0.994140625,
+          "second": 1.0,
+          "moons": 0.026,
+          "shooting": 0.124,
+          "discarded": 0.177
+        },
+        "g": {
+          "a": 0.776,
+          "b": 0.224,
+          "tie": 0.0,
+          "first": 0.7903225806451613,
+          "second": 0.7619047619047619,
+          "moons": 0.006,
+          "shooting": 0.332,
+          "discarded": 0.158
+        }
+      },
+      "rank": 23
+    },
+    {
+      "cut": "Clefairy",
+      "copies_before": 4,
+      "weighted": 0.7459456410256411,
+      "mean": 0.8078333333333334,
+      "worst": 0.67,
+      "moons": 0.0065,
+      "shooting": 0.0815,
+      "discarded": 0.0775,
+      "cells": {
+        "t60": {
+          "a": 0.771,
+          "b": 0.229,
+          "tie": 0.0,
+          "first": 0.7775628626692457,
+          "second": 0.7639751552795031,
+          "moons": 0.003,
+          "shooting": 0.019,
+          "discarded": 0.021
+        },
+        "hedrick": {
+          "a": 0.728,
+          "b": 0.272,
+          "tie": 0.0,
+          "first": 0.7225548902195609,
+          "second": 0.7334669338677354,
+          "moons": 0.006,
+          "shooting": 0.032,
+          "discarded": 0.036
+        },
+        "unl": {
+          "a": 0.911,
+          "b": 0.089,
+          "tie": 0.0,
+          "first": 0.9232283464566929,
+          "second": 0.8983739837398373,
+          "moons": 0.009,
+          "shooting": 0.028,
+          "discarded": 0.058
+        },
+        "d60": {
+          "a": 0.67,
+          "b": 0.33,
+          "tie": 0.0,
+          "first": 0.7117296222664016,
+          "second": 0.6277665995975855,
+          "moons": 0.0,
+          "shooting": 0.0,
+          "discarded": 0.0
+        },
+        "s60": {
+          "a": 0.999,
+          "b": 0.001,
+          "tie": 0.0,
+          "first": 0.9979423868312757,
+          "second": 1.0,
+          "moons": 0.016,
+          "shooting": 0.11,
+          "discarded": 0.151
+        },
+        "g": {
+          "a": 0.768,
+          "b": 0.232,
+          "tie": 0.0,
+          "first": 0.789795918367347,
+          "second": 0.7470588235294118,
+          "moons": 0.005,
+          "shooting": 0.3,
+          "discarded": 0.199
+        }
+      },
+      "rank": 24
+    },
+    {
+      "cut": "Maximum Belt",
+      "copies_before": 1,
+      "weighted": 0.7264687179487179,
+      "mean": 0.7959999999999999,
+      "worst": 0.646,
+      "moons": 0.01,
+      "shooting": 0.09100000000000001,
+      "discarded": 0.08600000000000001,
+      "cells": {
+        "t60": {
+          "a": 0.739,
+          "b": 0.261,
+          "tie": 0.0,
+          "first": 0.7602459016393442,
+          "second": 0.71875,
+          "moons": 0.002,
+          "shooting": 0.02,
+          "discarded": 0.031
+        },
+        "hedrick": {
+          "a": 0.682,
+          "b": 0.318,
+          "tie": 0.0,
+          "first": 0.6883910386965377,
+          "second": 0.6758349705304518,
+          "moons": 0.01,
+          "shooting": 0.028,
+          "discarded": 0.041
+        },
+        "unl": {
+          "a": 0.922,
+          "b": 0.078,
+          "tie": 0.0,
+          "first": 0.920388349514563,
+          "second": 0.9237113402061856,
+          "moons": 0.009,
+          "shooting": 0.021,
+          "discarded": 0.039
+        },
+        "d60": {
+          "a": 0.646,
+          "b": 0.354,
+          "tie": 0.0,
+          "first": 0.6757281553398058,
+          "second": 0.6144329896907217,
+          "moons": 0.0,
+          "shooting": 0.0,
+          "discarded": 0.0
+        },
+        "s60": {
+          "a": 0.999,
+          "b": 0.001,
+          "tie": 0.0,
+          "first": 1.0,
+          "second": 0.9979959919839679,
+          "moons": 0.036,
+          "shooting": 0.147,
+          "discarded": 0.228
+        },
+        "g": {
+          "a": 0.788,
+          "b": 0.212,
+          "tie": 0.0,
+          "first": 0.8092243186582809,
+          "second": 0.768642447418738,
+          "moons": 0.003,
+          "shooting": 0.33,
+          "discarded": 0.177
+        }
+      },
+      "rank": 25
+    },
+    {
+      "cut": "Latias ex",
+      "copies_before": 1,
+      "weighted": 0.7209282051282051,
+      "mean": 0.7888333333333334,
+      "worst": 0.667,
+      "moons": 0.005833333333333334,
+      "shooting": 0.07566666666666667,
+      "discarded": 0.07733333333333332,
+      "cells": {
+        "t60": {
+          "a": 0.717,
+          "b": 0.283,
+          "tie": 0.0,
+          "first": 0.746031746031746,
+          "second": 0.6875,
+          "moons": 0.008,
+          "shooting": 0.04,
+          "discarded": 0.055
+        },
+        "hedrick": {
+          "a": 0.667,
+          "b": 0.333,
+          "tie": 0.0,
+          "first": 0.69140625,
+          "second": 0.6413934426229508,
+          "moons": 0.004,
+          "shooting": 0.038,
+          "discarded": 0.027
+        },
+        "unl": {
+          "a": 0.905,
+          "b": 0.095,
+          "tie": 0.0,
+          "first": 0.9406952965235174,
+          "second": 0.8708414872798435,
+          "moons": 0.006,
+          "shooting": 0.021,
+          "discarded": 0.019
+        },
+        "d60": {
+          "a": 0.777,
+          "b": 0.223,
+          "tie": 0.0,
+          "first": 0.8101761252446184,
+          "second": 0.7423312883435583,
+          "moons": 0.0,
+          "shooting": 0.0,
+          "discarded": 0.0
+        },
+        "s60": {
+          "a": 0.998,
+          "b": 0.002,
+          "tie": 0.0,
+          "first": 0.9979591836734694,
+          "second": 0.9980392156862745,
+          "moons": 0.015,
+          "shooting": 0.097,
+          "discarded": 0.149
+        },
+        "g": {
+          "a": 0.669,
+          "b": 0.331,
+          "tie": 0.0,
+          "first": 0.687374749498998,
+          "second": 0.6506986027944112,
+          "moons": 0.002,
+          "shooting": 0.258,
+          "discarded": 0.214
+        }
+      },
+      "rank": 26
+    }
+  ],
+  "partial": false
+}

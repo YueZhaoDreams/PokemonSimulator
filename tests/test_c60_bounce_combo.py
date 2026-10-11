@@ -82,6 +82,15 @@ def _card(game: Game, name: str) -> int:
     return _add(game, name)
 
 
+def _prankish(game: Game) -> int:
+    """Rebel Clash Prankish. The locked 60 cut this copy for Mega Clefable ex."""
+    me = game.players["a"]
+    for i, card in enumerate(me.cards):
+        if card.name == "Clefable" and any(a.name == "Prankish" for a in card.abilities):
+            return i
+    return _add(game, "Clefable")
+
+
 def test_printed_bounce_sentences():
     penny = parse_trainer_effects(PENNY)[0]
     assert penny["basic_only"] is True and penny["attachments"] == "hand"
@@ -140,11 +149,7 @@ def test_double_prankish_with_briney_keeps_energy_and_full_hp():
     me = game.players["a"]
     foe = game.players["b"]
     fairies = [i for i, c in enumerate(me.cards) if c.name == "Clefairy"]
-    clefable = next(
-        i
-        for i, c in enumerate(me.cards)
-        if c.name == "Clefable" and any(a.name == "Prankish" for a in c.abilities)
-    )
+    clefable = _prankish(game)
     briney = next(i for i, c in enumerate(me.cards) if c.name == "Mr. Briney's Compassion")
     nrg = next(i for i, c in enumerate(me.cards) if c.name == "Psychic Energy")
     fires = [i for i, c in enumerate(foe.cards) if c.name == "Fire Energy"]
@@ -177,11 +182,7 @@ def test_seeker_returns_both_benches_and_pranks_twice():
     me = game.players["a"]
     foe = game.players["b"]
     fairies = [i for i, c in enumerate(me.cards) if c.name == "Clefairy"]
-    clefable = next(
-        i
-        for i, c in enumerate(me.cards)
-        if c.name == "Clefable" and any(a.name == "Prankish" for a in c.abilities)
-    )
+    clefable = _prankish(game)
     seeker = next(i for i, c in enumerate(me.cards) if c.name == "Seeker")
     switch = next(i for i, c in enumerate(me.cards) if c.name == "Switch")
     fires = [i for i, c in enumerate(foe.cards) if c.name == "Fire Energy"]
@@ -461,11 +462,7 @@ def test_seeker_double_prankish_from_two_bench_clefairy_without_switch():
     foe = game.players["b"]
     fairies = [i for i, c in enumerate(me.cards) if c.name == "Clefairy"]
     mewtwo = next(i for i, c in enumerate(me.cards) if c.name == "Mewtwo ex")
-    clefable = next(
-        i
-        for i, c in enumerate(me.cards)
-        if c.name == "Clefable" and any(a.name == "Prankish" for a in c.abilities)
-    )
+    clefable = _prankish(game)
     seeker = next(i for i, c in enumerate(me.cards) if c.name == "Seeker")
     fires = [i for i, c in enumerate(foe.cards) if c.name == "Fire Energy"]
     dreepy = next(i for i, c in enumerate(foe.cards) if c.name == "Dreepy")
@@ -695,11 +692,7 @@ def test_seeker_reline_frees_a_full_bench_prankish_for_ex():
     me = game.players["a"]
     foe = game.players["b"]
     fairies = [i for i, c in enumerate(me.cards) if c.name == "Clefairy"]
-    prank = next(
-        i
-        for i, c in enumerate(me.cards)
-        if c.name == "Clefable" and any(a.name == "Prankish" for a in c.abilities)
-    )
+    prank = _prankish(game)
     exes = [i for i, c in enumerate(me.cards) if c.name == "Clefable ex"]
     mewtwos = [i for i, c in enumerate(me.cards) if c.name == "Mewtwo ex"]
     mega = _card(game, "Mega Clefable ex")

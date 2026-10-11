@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 """Greedy one-card Mega Clefable ex swap for the locked C60 list.
 
-The live lock has Seeker and zero Mega Clefable ex. This search adds exactly
-one Mega Clefable ex, cutting one copy of one other card. The decision score
-is the loss-weighted win rate. Weights are frozen from that 0-Mega list.
+The live lock is one Mega Clefable ex, cutting one Rebel Clash Prankish
+Clefable. Seeker stays. This search starts from the previous list
+(``c60_names_before_mega``: zero Mega) and adds exactly one Mega Clefable ex,
+cutting one copy of one other card. The decision score is the loss-weighted
+win rate. Weights are frozen from that 0-Mega list.
 
 Party line this card is scored with: Mega Clefable ex is Active and can use
 Shooting Moons. Energy in hand is short of the knockout and short of the
@@ -34,7 +36,6 @@ from app.engine.models import standard_60_rules
 from app.engine.montecarlo import run_simulation
 from app.engine.strategies import StrategySpec
 from app.seed_data import (
-    SET_C60_NAMES,
     SET_D60_NAMES,
     SET_G_NAMES,
     SET_S60_NAMES,
@@ -42,6 +43,7 @@ from app.seed_data import (
     SET_T_META_NAMES,
     SET_T_UNL_NAMES,
     build_fallback_deck,
+    c60_names_before_mega,
 )
 
 FOES = (
@@ -247,7 +249,7 @@ def _write(report: dict) -> None:
 
 def main() -> None:
     started = time.perf_counter()
-    current = list(SET_C60_NAMES)
+    current = c60_names_before_mega()
     if len(current) != 60:
         raise SystemExit(f"C60 has {len(current)} cards")
     if current.count(IN_NAME):
