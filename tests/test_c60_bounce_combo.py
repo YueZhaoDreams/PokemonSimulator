@@ -82,6 +82,15 @@ def _card(game: Game, name: str) -> int:
     return _add(game, name)
 
 
+def _prankish(game: Game) -> int:
+    """Rebel Clash Prankish. The locked 60 cut this copy for Mega Clefable ex."""
+    me = game.players["a"]
+    for i, card in enumerate(me.cards):
+        if card.name == "Clefable" and any(a.name == "Prankish" for a in card.abilities):
+            return i
+    return _add(game, "Clefable")
+
+
 def test_printed_bounce_sentences():
     penny = parse_trainer_effects(PENNY)[0]
     assert penny["basic_only"] is True and penny["attachments"] == "hand"
@@ -140,11 +149,7 @@ def test_double_prankish_with_briney_keeps_energy_and_full_hp():
     me = game.players["a"]
     foe = game.players["b"]
     fairies = [i for i, c in enumerate(me.cards) if c.name == "Clefairy"]
-    clefable = next(
-        i
-        for i, c in enumerate(me.cards)
-        if c.name == "Clefable" and any(a.name == "Prankish" for a in c.abilities)
-    )
+    clefable = _prankish(game)
     briney = next(i for i, c in enumerate(me.cards) if c.name == "Mr. Briney's Compassion")
     nrg = next(i for i, c in enumerate(me.cards) if c.name == "Psychic Energy")
     fires = [i for i, c in enumerate(foe.cards) if c.name == "Fire Energy"]
@@ -177,11 +182,7 @@ def test_seeker_returns_both_benches_and_pranks_twice():
     me = game.players["a"]
     foe = game.players["b"]
     fairies = [i for i, c in enumerate(me.cards) if c.name == "Clefairy"]
-    clefable = next(
-        i
-        for i, c in enumerate(me.cards)
-        if c.name == "Clefable" and any(a.name == "Prankish" for a in c.abilities)
-    )
+    clefable = _prankish(game)
     seeker = next(i for i, c in enumerate(me.cards) if c.name == "Seeker")
     switch = next(i for i, c in enumerate(me.cards) if c.name == "Switch")
     fires = [i for i, c in enumerate(foe.cards) if c.name == "Fire Energy"]
@@ -461,11 +462,7 @@ def test_seeker_double_prankish_from_two_bench_clefairy_without_switch():
     foe = game.players["b"]
     fairies = [i for i, c in enumerate(me.cards) if c.name == "Clefairy"]
     mewtwo = next(i for i, c in enumerate(me.cards) if c.name == "Mewtwo ex")
-    clefable = next(
-        i
-        for i, c in enumerate(me.cards)
-        if c.name == "Clefable" and any(a.name == "Prankish" for a in c.abilities)
-    )
+    clefable = _prankish(game)
     seeker = next(i for i, c in enumerate(me.cards) if c.name == "Seeker")
     fires = [i for i, c in enumerate(foe.cards) if c.name == "Fire Energy"]
     dreepy = next(i for i, c in enumerate(foe.cards) if c.name == "Dreepy")
@@ -695,11 +692,7 @@ def test_seeker_reline_frees_a_full_bench_prankish_for_ex():
     me = game.players["a"]
     foe = game.players["b"]
     fairies = [i for i, c in enumerate(me.cards) if c.name == "Clefairy"]
-    prank = next(
-        i
-        for i, c in enumerate(me.cards)
-        if c.name == "Clefable" and any(a.name == "Prankish" for a in c.abilities)
-    )
+    prank = _prankish(game)
     exes = [i for i, c in enumerate(me.cards) if c.name == "Clefable ex"]
     mewtwos = [i for i, c in enumerate(me.cards) if c.name == "Mewtwo ex"]
     mega = _card(game, "Mega Clefable ex")
@@ -759,3 +752,274 @@ def test_seeker_moons_fuel_discards_bounced_energy_to_ko():
     game._attack(me, foe, "a")
     assert foe.active.damage >= 320
     assert game.events.get("shooting_moons_discard") == 1
+
+
+def test_seeker_moons_returns_multi_energy_bench_to_fill_discard_cap():
+    """Hand is empty. Four Bench Energy become the four Shooting Moons discards."""
+    game = _game()
+    game.turn = 4
+    me = game.players["a"]
+    foe = game.players["b"]
+    mega = _card(game, "Mega Clefable ex")
+    fairy = next(i for i, c in enumerate(me.cards) if c.name == "Clefairy")
+    energies = [i for i, c in enumerate(me.cards) if c.name == "Psychic Energy"]
+    seeker = next(i for i, c in enumerate(me.cards) if c.name == "Seeker")
+    drag = next(i for i, c in enumerate(foe.cards) if c.name == "Dragapult ex")
+    me.active = Pokemon(card_i=mega, played_turn=0, energy=energies[:2])
+    me.bench = [Pokemon(card_i=fairy, played_turn=0, energy=energies[2:6])]
+    me.hand = [seeker]
+    me.supporter_used = False
+    me.energy_attached = True
+    foe.active = Pokemon(card_i=drag, played_turn=0)
+    foe.bench = [Pokemon(card_i=next(i for i, c in enumerate(foe.cards) if c.name == "Dreepy"), played_turn=0)]
+    assert foe.card(foe.active.card_i).hp == 320
+    plan = game._seeker_moons_fuel_plan(me, foe)
+    assert plan is not None and plan.mon is me.bench[0]
+    assert plan.reaches_cap and not plan.kos
+    assert plan.damage == 280
+    assert game._seeker_moons_should_lead(me, foe, "a")
+    assert game._try_seeker_moons_fuel(me, foe, "a")
+    assert all(i in me.hand for i in energies[2:6])
+    assert any(m.card_i == fairy for m in me.bench)
+    game._attack(me, foe, "a")
+    assert foe.active.damage == 280
+    assert game.events.get("shooting_moons_discard") == 4
+    assert foe.active.damage < foe.card(foe.active.card_i).hp
+
+
+def test_seeker_moons_ignores_one_energy_that_does_not_ko_or_fill():
+    game = _game()
+    game.turn = 4
+    me = game.players["a"]
+    foe = game.players["b"]
+    mega = _card(game, "Mega Clefable ex")
+    fairy = next(i for i, c in enumerate(me.cards) if c.name == "Clefairy")
+    energies = [i for i, c in enumerate(me.cards) if c.name == "Psychic Energy"]
+    seeker = next(i for i, c in enumerate(me.cards) if c.name == "Seeker")
+    drag = next(i for i, c in enumerate(foe.cards) if c.name == "Dragapult ex")
+    me.active = Pokemon(card_i=mega, played_turn=0, energy=energies[:2])
+    me.bench = [Pokemon(card_i=fairy, played_turn=0, energy=[energies[2]])]
+    me.hand = [seeker]
+    me.supporter_used = False
+    foe.active = Pokemon(card_i=drag, played_turn=0)
+    assert game._seeker_moons_fuel_target(me, foe) is None
+    assert game._seeker_moons_should_lead(me, foe, "a") is False
+
+
+def test_seeker_moons_two_energy_chips_without_rearranging():
+    game = _game()
+    game.turn = 4
+    me = game.players["a"]
+    foe = game.players["b"]
+    mega = _card(game, "Mega Clefable ex")
+    fairy = next(i for i, c in enumerate(me.cards) if c.name == "Clefairy")
+    energies = [i for i, c in enumerate(me.cards) if c.name == "Psychic Energy"]
+    seeker = next(i for i, c in enumerate(me.cards) if c.name == "Seeker")
+    drag = next(i for i, c in enumerate(foe.cards) if c.name == "Dragapult ex")
+    me.active = Pokemon(card_i=mega, played_turn=0, energy=energies[:2])
+    me.bench = [Pokemon(card_i=fairy, played_turn=0, energy=energies[2:4])]
+    me.hand = [seeker]
+    me.supporter_used = False
+    foe.active = Pokemon(card_i=drag, played_turn=0)
+    plan = game._seeker_moons_fuel_plan(me, foe)
+    assert plan is not None and plan.damage == 200
+    assert not plan.kos and not plan.reaches_cap
+    assert game._seeker_moons_should_lead(me, foe, "a") is False
+
+
+def test_seeker_moons_attaches_when_one_bench_energy_knocks_out():
+    """Mega is one Energy short. One Bench Energy is the knockout discard."""
+    game = _game()
+    game.turn = 4
+    me = game.players["a"]
+    foe = game.players["b"]
+    mega = _card(game, "Mega Clefable ex")
+    fairy = next(i for i, c in enumerate(me.cards) if c.name == "Clefairy")
+    energies = [i for i, c in enumerate(me.cards) if c.name == "Psychic Energy"]
+    seeker = next(i for i, c in enumerate(me.cards) if c.name == "Seeker")
+    drag = next(i for i, c in enumerate(foe.cards) if c.name == "Dragapult ex")
+    me.active = Pokemon(card_i=mega, played_turn=0, energy=[energies[0]])
+    me.bench = [Pokemon(card_i=fairy, played_turn=0, energy=[energies[1]])]
+    me.hand = [seeker, energies[2]]
+    me.supporter_used = False
+    me.energy_attached = False
+    foe.active = Pokemon(card_i=drag, played_turn=0, damage=160)
+    assert not game._can_pay_shooting_moons(me, me.active)
+    assert game._seeker_moons_wants_attach(me, foe)
+    assert game._energy_target(me, game.strats["a"]) is me.active
+    assert energies[0] in me.active.energy
+    assert energies[2] in me.hand
+
+
+def test_seeker_moons_attaches_when_one_bench_energy_fills_the_cap():
+    """The Energy that pays the attack is not counted as a Shooting Moons discard."""
+    game = _game()
+    game.turn = 4
+    me = game.players["a"]
+    foe = game.players["b"]
+    mega = _card(game, "Mega Clefable ex")
+    fairy = next(i for i, c in enumerate(me.cards) if c.name == "Clefairy")
+    energies = [i for i, c in enumerate(me.cards) if c.name == "Psychic Energy"]
+    seeker = next(i for i, c in enumerate(me.cards) if c.name == "Seeker")
+    drag = next(i for i, c in enumerate(foe.cards) if c.name == "Dragapult ex")
+    me.active = Pokemon(card_i=mega, played_turn=0, energy=[energies[0]])
+    me.bench = [Pokemon(card_i=fairy, played_turn=0, energy=[energies[1]])]
+    me.hand = [seeker, *energies[2:6]]
+    me.supporter_used = False
+    me.energy_attached = False
+    foe.active = Pokemon(card_i=drag, played_turn=0)
+    assert game._seeker_moons_wants_attach(me, foe)
+    assert game._energy_target(me, game.strats["a"]) is me.active
+
+
+def test_seeker_moons_does_not_attach_for_active_energy_that_only_chips():
+    """Seeker cannot return the Active. A +80 bump does not retreat into that pile."""
+    game = _game()
+    game.turn = 4
+    me = game.players["a"]
+    foe = game.players["b"]
+    mega = _card(game, "Mega Clefable ex")
+    fairy = next(i for i, c in enumerate(me.cards) if c.name == "Clefairy")
+    energies = [i for i, c in enumerate(me.cards) if c.name == "Psychic Energy"]
+    seeker = next(i for i, c in enumerate(me.cards) if c.name == "Seeker")
+    switch = next(i for i, c in enumerate(me.cards) if c.name == "Switch")
+    drag = next(i for i, c in enumerate(foe.cards) if c.name == "Dragapult ex")
+    me.active = Pokemon(card_i=fairy, played_turn=0, energy=energies[1:3])
+    me.bench = [Pokemon(card_i=mega, played_turn=0, energy=[energies[0]])]
+    me.hand = [seeker, switch, energies[3]]
+    me.supporter_used = False
+    me.energy_attached = False
+    foe.active = Pokemon(card_i=drag, played_turn=0)
+    assert game._seeker_moons_wants_attach(me, foe) is False
+
+
+def test_seeker_moons_attaches_when_retreating_active_energy_knocks_out():
+    game = _game()
+    game.turn = 4
+    me = game.players["a"]
+    foe = game.players["b"]
+    mega = _card(game, "Mega Clefable ex")
+    fairy = next(i for i, c in enumerate(me.cards) if c.name == "Clefairy")
+    energies = [i for i, c in enumerate(me.cards) if c.name == "Psychic Energy"]
+    seeker = next(i for i, c in enumerate(me.cards) if c.name == "Seeker")
+    switch = next(i for i, c in enumerate(me.cards) if c.name == "Switch")
+    drag = next(i for i, c in enumerate(foe.cards) if c.name == "Dragapult ex")
+    me.active = Pokemon(card_i=fairy, played_turn=0, energy=energies[1:3])
+    me.bench = [Pokemon(card_i=mega, played_turn=0, energy=[energies[0]])]
+    me.hand = [seeker, switch, energies[3]]
+    me.supporter_used = False
+    me.energy_attached = False
+    foe.active = Pokemon(card_i=drag, played_turn=0, damage=120)
+    assert game._seeker_moons_wants_attach(me, foe)
+    assert game._energy_target(me, game.strats["a"]) is me.bench[0]
+
+
+def test_seeker_moons_does_not_attach_for_one_energy_that_misses():
+    game = _game()
+    game.turn = 4
+    me = game.players["a"]
+    foe = game.players["b"]
+    mega = _card(game, "Mega Clefable ex")
+    fairy = next(i for i, c in enumerate(me.cards) if c.name == "Clefairy")
+    energies = [i for i, c in enumerate(me.cards) if c.name == "Psychic Energy"]
+    seeker = next(i for i, c in enumerate(me.cards) if c.name == "Seeker")
+    drag = next(i for i, c in enumerate(foe.cards) if c.name == "Dragapult ex")
+    me.active = Pokemon(card_i=mega, played_turn=0, energy=[energies[0]])
+    me.bench = [Pokemon(card_i=fairy, played_turn=0, energy=[energies[1]])]
+    me.hand = [seeker, energies[2]]
+    me.supporter_used = False
+    me.energy_attached = False
+    foe.active = Pokemon(card_i=drag, played_turn=0)
+    assert game._seeker_moons_wants_attach(me, foe) is False
+
+
+def test_seeker_moons_one_energy_fills_the_printed_discard_cap():
+    game = _game()
+    game.turn = 4
+    me = game.players["a"]
+    foe = game.players["b"]
+    mega = _card(game, "Mega Clefable ex")
+    fairy = next(i for i, c in enumerate(me.cards) if c.name == "Clefairy")
+    energies = [i for i, c in enumerate(me.cards) if c.name == "Psychic Energy"]
+    seeker = next(i for i, c in enumerate(me.cards) if c.name == "Seeker")
+    drag = next(i for i, c in enumerate(foe.cards) if c.name == "Dragapult ex")
+    me.active = Pokemon(card_i=mega, played_turn=0, energy=energies[:2])
+    me.bench = [Pokemon(card_i=fairy, played_turn=0, energy=[energies[2]])]
+    me.hand = [seeker, *energies[3:6]]
+    me.supporter_used = False
+    foe.active = Pokemon(card_i=drag, played_turn=0)
+    plan = game._seeker_moons_fuel_plan(me, foe)
+    assert plan is not None and plan.reaches_cap and plan.damage == 280
+
+
+def test_seeker_moons_does_not_bounce_when_hand_already_fills_the_cap():
+    game = _game()
+    game.turn = 4
+    me = game.players["a"]
+    foe = game.players["b"]
+    mega = _card(game, "Mega Clefable ex")
+    fairy = next(i for i, c in enumerate(me.cards) if c.name == "Clefairy")
+    energies = [i for i, c in enumerate(me.cards) if c.name == "Psychic Energy"]
+    seeker = next(i for i, c in enumerate(me.cards) if c.name == "Seeker")
+    drag = next(i for i, c in enumerate(foe.cards) if c.name == "Dragapult ex")
+    me.active = Pokemon(card_i=mega, played_turn=0, energy=energies[:2])
+    me.bench = [Pokemon(card_i=fairy, played_turn=0, energy=energies[2:6])]
+    me.hand = [seeker, *energies[6:10]]
+    me.supporter_used = False
+    foe.active = Pokemon(card_i=drag, played_turn=0)
+    assert game._seeker_moons_fuel_target(me, foe, record=True) is None
+    assert game.events.get("moons_already_capped") == 1
+    assert fairy not in me.hand
+
+
+def test_seeker_moons_prefers_the_lower_prize_pile_at_the_same_damage():
+    game = _game()
+    game.turn = 4
+    me = game.players["a"]
+    foe = game.players["b"]
+    mega = _card(game, "Mega Clefable ex")
+    fairies = [i for i, c in enumerate(me.cards) if c.name == "Clefairy"]
+    mewtwo = next(i for i, c in enumerate(me.cards) if c.name == "Mewtwo ex")
+    energies = [i for i, c in enumerate(me.cards) if c.name == "Psychic Energy"]
+    seeker = next(i for i, c in enumerate(me.cards) if c.name == "Seeker")
+    drag = next(i for i, c in enumerate(foe.cards) if c.name == "Dragapult ex")
+    me.active = Pokemon(card_i=mega, played_turn=0, energy=energies[:2])
+    fairy = Pokemon(card_i=fairies[0], played_turn=0, energy=energies[2:6])
+    tank = Pokemon(card_i=mewtwo, played_turn=0, energy=energies[6:10])
+    me.bench = [tank, fairy]
+    me.hand = [seeker]
+    me.supporter_used = False
+    foe.active = Pokemon(card_i=drag, played_turn=0)
+    assert game._seeker_moons_fuel_target(me, foe) is fairy
+
+
+def test_retreat_brings_mega_active_then_seeker_fills_shooting_moons():
+    game = _game()
+    game.turn = 4
+    me = game.players["a"]
+    foe = game.players["b"]
+    mega = _card(game, "Mega Clefable ex")
+    fairies = [i for i, c in enumerate(me.cards) if c.name == "Clefairy"]
+    energies = [i for i, c in enumerate(me.cards) if c.name == "Psychic Energy"]
+    seeker = next(i for i, c in enumerate(me.cards) if c.name == "Seeker")
+    me.active = Pokemon(card_i=fairies[0], played_turn=0, energy=energies[:2])
+    me.bench = [
+        Pokemon(card_i=mega, played_turn=0, energy=energies[2:4]),
+        Pokemon(card_i=fairies[1], played_turn=0, energy=energies[4:8]),
+    ]
+    me.hand = [seeker]
+    me.supporter_used = False
+    me.retreated = False
+    foe.active = Pokemon(card_i=next(i for i, c in enumerate(foe.cards) if c.name == "Dragapult ex"), played_turn=0)
+    foe.bench = [Pokemon(card_i=next(i for i, c in enumerate(foe.cards) if c.name == "Dreepy"), played_turn=0)]
+    assert game._retreat_cost(me, me.active) == 2
+    assert game._seeker_moons_should_lead(me, foe, "a")
+    game._retreat_party(me, foe, "a")
+    assert me.card(me.active.card_i).name == "Mega Clefable ex"
+    game._play_attack_seeker_lines(me, foe, "a")
+    assert game.events.get("seeker_moons_fuel") == 1
+    assert all(i in me.hand for i in energies[4:8])
+    assert any(m.card_i == fairies[1] for m in me.bench)
+    game._attack(me, foe, "a")
+    assert foe.card(foe.active.card_i).name == "Dragapult ex"
+    assert foe.active.damage == 280

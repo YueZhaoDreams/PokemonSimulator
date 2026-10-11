@@ -162,10 +162,14 @@ C60_CAGE_LOCK_NAMES = (
 # Seed 20261002, 1,000 games. Loss-weighted win rate 77.6% → 79.1%.
 # The second swap (Clefable CLC, 79.3%) is not locked. CLC stays.
 # See data/lab/set-c60-wondrous-patch.md.
+# Locked 2026-10-11: one Rebel Clash Prankish Clefable becomes one Mega
+# Clefable ex (me03-031). Seed 20261011, 1,000 games. Loss-weighted win rate
+# 78.4% → 79.5%. Seeker stays so Shooting Moons can discard Energy returned
+# from a loaded Bench Pokémon. Ultra Ball tied the old lock at 78.4% and
+# is not taken. See data/lab/set-c60-mega-seeker.md.
 SET_C60_NAMES = (
     ["Clefairy"] * 4
     + ["Mewtwo ex"] * 3
-    + ["Clefable"]
     + ["Clefable CLC"]
     + ["Clefable ex"] * 3
     + ["Seeker"]
@@ -188,12 +192,34 @@ SET_C60_NAMES = (
     + ["Psychic Energy"] * 14
     + ["Poké Pad"]
     + ["Wondrous Patch"]
+    + ["Mega Clefable ex"]
 )
+
+
+def c60_names_before_mega() -> list[str]:
+    """The Patch lock: one Rebel Clash Prankish Clefable, zero Mega Clefable ex."""
+    names = list(SET_C60_NAMES)
+    if (
+        names.count("Mega Clefable ex") != 1
+        or names[-1] != "Mega Clefable ex"
+        or names.count("Clefable") != 0
+        or names.count("Clefable CLC") != 1
+        or names.count("Seeker") != 1
+    ):
+        raise RuntimeError(
+            "expected one trailing Mega Clefable ex, no Rebel Clash Clefable, "
+            "one Clefable CLC, and one Seeker in SET_C60_NAMES, found "
+            f"{names.count('Mega Clefable ex')} Mega, {names.count('Clefable')} Clefable, "
+            f"{names.count('Clefable CLC')} CLC, {names.count('Seeker')} Seeker"
+        )
+    names = names[:-1]
+    names.insert(names.index("Clefable CLC"), "Clefable")
+    return names
 
 
 def c60_names_before_patch() -> list[str]:
     """The Latias lock: three Boss's Orders, one CLC Metronome Clefable, no Patch."""
-    names = list(SET_C60_NAMES)
+    names = c60_names_before_mega()
     boss = "Boss's Orders"
     if (
         names.count("Wondrous Patch") != 1

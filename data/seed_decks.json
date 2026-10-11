@@ -10276,50 +10276,6 @@
         "dex_id": null
       },
       {
-        "catalog_id": "swsh2-75",
-        "name": "Clefable",
-        "category": "Pokemon",
-        "stage": "Stage1",
-        "types": [
-          "Psychic"
-        ],
-        "hp": 110,
-        "attacks": [
-          {
-            "name": "Moon Kick",
-            "cost": [
-              "Psychic",
-              "Colorless"
-            ],
-            "damage": 60,
-            "text": "",
-            "effects": []
-          }
-        ],
-        "abilities": [
-          {
-            "name": "Prankish",
-            "text": "When you play this Pok\u00e9mon from your hand to evolve 1 of your Pok\u00e9mon during your turn, you may put an Energy attached to your opponent's Active Pok\u00e9mon on top of their deck.",
-            "effects": []
-          }
-        ],
-        "weaknesses": [
-          {
-            "type": "Metal",
-            "value": "\u00d72"
-          }
-        ],
-        "resistances": [],
-        "retreat": 2,
-        "evolves_from": "Clefairy",
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh2/75/low.webp",
-        "set_name": null,
-        "text": "",
-        "dex_id": null
-      },
-      {
         "catalog_id": "clc-014",
         "name": "Clefable",
         "category": "Pokemon",
@@ -11558,6 +11514,57 @@
         "image": "https://assets.tcgdex.net/en/me/me02/094/low.webp",
         "set_name": null,
         "text": "Attach a Basic Psychic Energy card from your discard pile to 1 of your Benched Psychic Pok\u00e9mon.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "me03-031",
+        "name": "Mega Clefable ex",
+        "category": "Pokemon",
+        "stage": "Stage1",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 320,
+        "attacks": [
+          {
+            "name": "Shooting Moons",
+            "cost": [
+              "Psychic",
+              "Psychic"
+            ],
+            "damage": 120,
+            "text": "You may discard up to 4 Energy cards from your hand, and this attack does 40 more damage for each card you discarded in this way.",
+            "effects": [
+              {
+                "kind": "discard_hand_energy_bonus",
+                "max": 4,
+                "per": 40
+              }
+            ]
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Luminous Wing",
+            "text": "Prevent all effects of your opponent's Pok\u00e9mon's Abilities done to this Pok\u00e9mon.",
+            "effects": []
+          }
+        ],
+        "weaknesses": [
+          {
+            "type": "Metal",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": "Clefairy",
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/me/me03/031/low.webp",
+        "set_name": null,
+        "text": "",
         "dex_id": null,
         "traits": []
       }
