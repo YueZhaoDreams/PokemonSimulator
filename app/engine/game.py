@@ -3568,10 +3568,14 @@ class Game:
         try:
             if self._photon_ko(me, foe) or self._moon_ko(me, foe):
                 return False
-            # Two or more attached Energy are a discard pile on their own.
-            # One attached Energy still finishes this attach when it knocks out
-            # or fills the printed 4, after the Energy that pays the attack leaves hand.
-            if any(mon is not mega and len(self._basic_attached(me, mon)) >= 2 for mon in me.in_play()):
+            # Seeker returns a Benched Pokémon. Two or more Energy already on the
+            # Bench are a discard pile. Energy on the Active is not, until Retreat
+            # or Switch, and the smaller bump does not make that swap.
+            if any(
+                len(fuels) >= 2
+                for mon, fuels in self._seeker_moons_fuel_piles(me, mega)
+                if mon is not me.active
+            ):
                 return True
             spend = self._moons_attach_finisher(me, mega)
             if spend is None:
