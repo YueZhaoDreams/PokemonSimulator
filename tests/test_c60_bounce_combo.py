@@ -827,6 +827,70 @@ def test_seeker_moons_two_energy_chips_without_rearranging():
     assert game._seeker_moons_should_lead(me, foe, "a") is False
 
 
+def test_seeker_moons_attaches_when_one_bench_energy_knocks_out():
+    """Mega is one Energy short. One Bench Energy is the knockout discard."""
+    game = _game()
+    game.turn = 4
+    me = game.players["a"]
+    foe = game.players["b"]
+    mega = _card(game, "Mega Clefable ex")
+    fairy = next(i for i, c in enumerate(me.cards) if c.name == "Clefairy")
+    energies = [i for i, c in enumerate(me.cards) if c.name == "Psychic Energy"]
+    seeker = next(i for i, c in enumerate(me.cards) if c.name == "Seeker")
+    drag = next(i for i, c in enumerate(foe.cards) if c.name == "Dragapult ex")
+    me.active = Pokemon(card_i=mega, played_turn=0, energy=[energies[0]])
+    me.bench = [Pokemon(card_i=fairy, played_turn=0, energy=[energies[1]])]
+    me.hand = [seeker, energies[2]]
+    me.supporter_used = False
+    me.energy_attached = False
+    foe.active = Pokemon(card_i=drag, played_turn=0, damage=160)
+    assert not game._can_pay_shooting_moons(me, me.active)
+    assert game._seeker_moons_wants_attach(me, foe)
+    assert game._energy_target(me, game.strats["a"]) is me.active
+    assert energies[0] in me.active.energy
+    assert energies[2] in me.hand
+
+
+def test_seeker_moons_attaches_when_one_bench_energy_fills_the_cap():
+    """The Energy that pays the attack is not counted as a Shooting Moons discard."""
+    game = _game()
+    game.turn = 4
+    me = game.players["a"]
+    foe = game.players["b"]
+    mega = _card(game, "Mega Clefable ex")
+    fairy = next(i for i, c in enumerate(me.cards) if c.name == "Clefairy")
+    energies = [i for i, c in enumerate(me.cards) if c.name == "Psychic Energy"]
+    seeker = next(i for i, c in enumerate(me.cards) if c.name == "Seeker")
+    drag = next(i for i, c in enumerate(foe.cards) if c.name == "Dragapult ex")
+    me.active = Pokemon(card_i=mega, played_turn=0, energy=[energies[0]])
+    me.bench = [Pokemon(card_i=fairy, played_turn=0, energy=[energies[1]])]
+    me.hand = [seeker, *energies[2:6]]
+    me.supporter_used = False
+    me.energy_attached = False
+    foe.active = Pokemon(card_i=drag, played_turn=0)
+    assert game._seeker_moons_wants_attach(me, foe)
+    assert game._energy_target(me, game.strats["a"]) is me.active
+
+
+def test_seeker_moons_does_not_attach_for_one_energy_that_misses():
+    game = _game()
+    game.turn = 4
+    me = game.players["a"]
+    foe = game.players["b"]
+    mega = _card(game, "Mega Clefable ex")
+    fairy = next(i for i, c in enumerate(me.cards) if c.name == "Clefairy")
+    energies = [i for i, c in enumerate(me.cards) if c.name == "Psychic Energy"]
+    seeker = next(i for i, c in enumerate(me.cards) if c.name == "Seeker")
+    drag = next(i for i, c in enumerate(foe.cards) if c.name == "Dragapult ex")
+    me.active = Pokemon(card_i=mega, played_turn=0, energy=[energies[0]])
+    me.bench = [Pokemon(card_i=fairy, played_turn=0, energy=[energies[1]])]
+    me.hand = [seeker, energies[2]]
+    me.supporter_used = False
+    me.energy_attached = False
+    foe.active = Pokemon(card_i=drag, played_turn=0)
+    assert game._seeker_moons_wants_attach(me, foe) is False
+
+
 def test_seeker_moons_one_energy_fills_the_printed_discard_cap():
     game = _game()
     game.turn = 4

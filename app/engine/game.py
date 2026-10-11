@@ -3564,13 +3564,46 @@ class Game:
             and len(me.active.energy) < self._retreat_cost(me, me.active)
         ):
             return False
-        if not any(mon is not mega and len(self._basic_attached(me, mon)) >= 2 for mon in me.in_play()):
-            return False
         state = self.rng.getstate()
         try:
-            return not self._photon_ko(me, foe) and not self._moon_ko(me, foe)
+            if self._photon_ko(me, foe) or self._moon_ko(me, foe):
+                return False
+            # Two or more attached Energy are a discard pile on their own.
+            # One attached Energy still finishes this attach when it knocks out
+            # or fills the printed 4, after the Energy that pays the attack leaves hand.
+            if any(mon is not mega and len(self._basic_attached(me, mon)) >= 2 for mon in me.in_play()):
+                return True
+            spend = self._moons_attach_finisher(me, mega)
+            if spend is None:
+                return False
+            hand_at = me.hand.index(spend)
+            me.hand.pop(hand_at)
+            try:
+                plan = self._seeker_moons_fuel_plan(
+                    me, foe, attacker=mega, assume_payable=True
+                )
+            finally:
+                me.hand.insert(hand_at, spend)
+            return plan is not None and (plan.kos or plan.reaches_cap)
         finally:
             self.rng.setstate(state)
+
+    def _moons_attach_finisher(self, me: Player, mega: Pokemon) -> int | None:
+        """One hand Energy that finishes Shooting Moons' cost. It is not a discard."""
+        atk = self._shooting_moons_attack(me.card(mega.card_i))
+        if atk is None or self._can_pay_shooting_moons(me, mega):
+            return None
+        for energy_i in list(me.hand):
+            if not me.card(energy_i).is_energy:
+                continue
+            mega.energy.append(energy_i)
+            try:
+                if self._can_pay_shooting_moons(me, mega):
+                    return energy_i
+            finally:
+                if energy_i in mega.energy:
+                    mega.energy.remove(energy_i)
+        return None
 
     def _seeker_moons_should_lead(self, me: Player, foe: Player, who: str) -> bool:
         """Bring Mega Active when Seeker fills a Shooting Moons KO or the discard cap.
@@ -3613,6 +3646,7 @@ class Game:
         *,
         record: bool = False,
         attacker: Pokemon | None = None,
+        assume_payable: bool = False,
     ) -> _MoonsFuel | None:
         """Bench Pokémon whose Energy, back in hand, raises Shooting Moons.
 
@@ -3631,7 +3665,9 @@ class Game:
         if swinger is not me.active and swinger not in me.bench:
             return None
         atk = self._shooting_moons_attack(me.card(swinger.card_i))
-        if atk is None or not can_pay_energy(self._energy_pool(me, swinger), atk.cost):
+        if atk is None:
+            return None
+        if not assume_payable and not can_pay_energy(self._energy_pool(me, swinger), atk.cost):
             return None
         hp = self._max_hp(foe, foe.active) - foe.active.damage
         if hp <= 0:
