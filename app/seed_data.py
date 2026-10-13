@@ -1555,12 +1555,13 @@ _register(
         catalog_id="sv02-161",
     )
 )
+# Shrouded Fable 057. sv01-084 is Ralts, so that id showed the wrong picture.
 _register(
     _trn(
         "Colress's Tenacity",
         "supporter",
         "Search your deck for a Stadium card and an Energy card, reveal them, and put them into your hand. Then, shuffle your deck.",
-        catalog_id="sv01-084",
+        catalog_id="sv06.5-057",
     )
 )
 _register(
@@ -1666,9 +1667,10 @@ _register(
         retreat=0,
     )
 )
+# Brilliant Stars 151. sv04-163 is Earthen Vessel, so that id showed the wrong picture.
 _register(
     Card(
-        catalog_id="sv04-163",
+        catalog_id="swsh9-151",
         name="Double Turbo Energy",
         category="Energy",
         stage="Special",
@@ -1679,7 +1681,8 @@ _register(
             "The attacks of the Pokémon this card is attached to do 20 less damage to your opponent's "
             "Active Pokémon (before applying Weakness and Resistance)."
         ),
-        set_name="Paradox Rift",
+        image="https://assets.tcgdex.net/en/swsh/swsh9/151/low.webp",
+        set_name="Brilliant Stars",
         retreat=0,
     )
 )

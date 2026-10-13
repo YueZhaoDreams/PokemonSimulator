@@ -7,6 +7,7 @@ discards 2 per heads, and that flip is not an attack. Twisting Strike on heads
 keeps that Wiglett through the opponent's next turn. Demolish still lands.
 """
 
+import json
 from random import Random
 
 from app.engine.effects import (
@@ -175,6 +176,64 @@ def test_mill_list_is_the_sisters_sixty():
     assert StrategySpec.from_dict("balanced").reflip_heads_at_most is None
     assert StrategySpec.from_dict({"name": "balanced"}).reflip_heads_at_most is None
     assert StrategySpec.from_dict({"name": "mill", "reflip_heads_at_most": None}).reflip_heads_at_most == 1
+
+
+def test_mill_card_art_is_the_named_print_not_the_neighbor():
+    """sv01-084 is Ralts and sv04-163 is Earthen Vessel. Mill must not wear those pictures."""
+    colress = fallback_named("Colress's Tenacity")
+    assert colress.catalog_id == "sv06.5-057"
+    assert "sv06.5/057" in (colress.image or "")
+    assert "sv01/084" not in (colress.image or "")
+    turbo = fallback_named("Double Turbo Energy")
+    assert turbo.catalog_id == "swsh9-151"
+    assert "swsh9/151" in (turbo.image or "")
+    assert "sv04/163" not in (turbo.image or "")
+    loaded = load_seed_deck("mill")
+    colress_cards = [c for c in loaded["cards"] if c["name"] == "Colress's Tenacity"]
+    turbo_cards = [c for c in loaded["cards"] if c["name"] == "Double Turbo Energy"]
+    assert len(colress_cards) == 4
+    assert len(turbo_cards) == 4
+    assert {c["catalog_id"] for c in colress_cards} == {"sv06.5-057"}
+    assert {c["catalog_id"] for c in turbo_cards} == {"swsh9-151"}
+    assert all("sv06.5/057" in c["image"] for c in colress_cards)
+    assert all("swsh9/151" in c["image"] for c in turbo_cards)
+    assert all("sv01/084" not in c["image"] for c in colress_cards)
+    assert all("sv04/163" not in c["image"] for c in turbo_cards)
+
+
+def test_existing_mill_seed_replaces_ralts_and_earthen_vessel_art(tmp_path, monkeypatch):
+    monkeypatch.setattr("app.db.DB_PATH", tmp_path / "app.db")
+    from app.db import connect, init_db
+
+    init_db()
+    with connect() as conn:
+        raw = conn.execute("SELECT cards_json FROM decks WHERE id='seed-mill'").fetchone()["cards_json"]
+        cards = json.loads(raw)
+        for card in cards:
+            if card.get("name") == "Colress's Tenacity":
+                card["catalog_id"] = "sv01-084"
+                card["image"] = "https://assets.tcgdex.net/en/sv/sv01/084/low.webp"
+            elif card.get("name") == "Double Turbo Energy":
+                card["catalog_id"] = "sv04-163"
+                card["image"] = "https://assets.tcgdex.net/en/sv/sv04/163/low.webp"
+        conn.execute(
+            "UPDATE decks SET cards_json=? WHERE id='seed-mill'",
+            (json.dumps(cards),),
+        )
+    init_db()
+    with connect() as conn:
+        stored = json.loads(
+            conn.execute("SELECT cards_json FROM decks WHERE id='seed-mill'").fetchone()["cards_json"]
+        )
+    colress = next(c for c in stored if c.get("name") == "Colress's Tenacity")
+    turbo = next(c for c in stored if c.get("name") == "Double Turbo Energy")
+    assert colress["catalog_id"] == "sv06.5-057"
+    assert "sv06.5/057" in colress["image"]
+    assert "sv01/084" not in colress["image"]
+    assert turbo["catalog_id"] == "swsh9-151"
+    assert "swsh9/151" in turbo["image"]
+    assert "sv04/163" not in turbo["image"]
+    assert "Active Pokémon" in (turbo.get("text") or "")
 
 
 def test_mill_seed_special_energy_keeps_printed_text():

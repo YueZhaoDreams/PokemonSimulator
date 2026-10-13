@@ -158,6 +158,10 @@ PREFERRED_IDS = {
     "Arven": "sv01-166",
     "Super Rod": "sv02-188",
     "Earthen Vessel": "sv04-163",
+    # Shrouded Fable uncommon. sv01-084 is Ralts.
+    "Colress's Tenacity": "sv06.5-057",
+    # Brilliant Stars uncommon. sv04-163 is Earthen Vessel.
+    "Double Turbo Energy": "swsh9-151",
     "Cornerstone Mask Ogerpon ex": "sv06-112",
     "Mr. Mime": "base2-6",
     "Nest Ball": "sv01-181",
