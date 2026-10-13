@@ -1,6 +1,6 @@
 # Fate report UX
 
-Status: ready
+Status: in_review
 
 Epic: deck-as-fate
 
@@ -12,7 +12,8 @@ The numbers from ceilings, KG, metrics, score, and search need one readable plac
 
 ## Scope
 
-- Deck view (Fight or Lab tab, decided by human during `fast-swap-score` review) gains a **Fate** panel with sections: Ceilings, Links, Quality, Swap table, Compare, Search.
+- The Sets deck view gains a **Fate** panel with sections: Ceilings, Links, Quality, Swap table, Compare, Search. That is the list being designed; Fight stays the matchup screen.
+- Every table on that panel, and every markdown pipe table in Combo Cub, is a real HTML `<table>` with a header row and cells. A line of `|` characters is not a table.
 - Chat: the coach uses `deck_ceilings`, `deck_kg`, `deck_metrics`, `rank_fate_swaps`, `compare_fates`, `search_fate` and phrases answers with the returned numbers; the `FAMILY_CUP_BRIEF` gains one line that these tools exist and that win rate still comes only from simulation.
 - Accept a search suggestion → creates a new owned deck (existing deck save path), never edits shipped seeds.
 - Weight overlay editor (numbers only) for the trainer, stored owner-scoped.
@@ -43,6 +44,7 @@ The numbers from ceilings, KG, metrics, score, and search need one readable plac
 - [ ] Accepting a search suggestion creates an owned deck; no writes under `data/lab/` or `app/`.
 - [ ] Second trainer cannot see the first trainer's fate overlays or saved decks.
 - [ ] Labels present: estimate vs simulated.
+- [ ] Combo Cub markdown tables and the Fate panel render as HTML tables with a header row.
 
 ## Validation Plan
 

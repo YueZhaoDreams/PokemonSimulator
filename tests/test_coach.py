@@ -1,6 +1,7 @@
 import asyncio
 
-from app.ai.coach import _local_coach, ask_coach
+from app.ai.coach import _cut_target, _deck_for_cut, _deck_for_junk, _intent, _local_coach, ask_coach
+from app.ai.tools import run_tool
 from app.db import init_db
 
 
@@ -81,6 +82,63 @@ def test_local_coach_win_chance_chinese_simulates():
     answer = _local_coach("B套有机会赢吗", trace)
     assert trace and trace[0]["tool"] == "simulate_match"
     assert "胜" in answer or "wins" in answer.lower() or "%" in answer
+
+
+def test_local_coach_cut_question_uses_the_swap_table():
+    init_db()
+    trace = []
+    answer = _local_coach("what do I cut for Mega Clefable ex?", trace)
+    assert trace and trace[0]["tool"] == "rank_fate_swaps"
+    assert trace[0]["args"]["add"] == "Mega Clefable ex"
+    assert "fast estimate, not a win rate" in answer
+    assert "| rank | cut | copies | delta_s |" in answer
+    assert "Weights:" in answer
+    ranked = run_tool("rank_fate_swaps", trace[0]["args"])
+    assert str(ranked["rows"][0]["delta_s"]) in answer
+    assert f"control={ranked['weights']['ecologies']['control']}" in answer
+
+
+def test_cut_for_keeps_the_name_after_cut_for():
+    decks = [{"id": "only-clefable", "cards": [{"name": "Clefable ex"}]}]
+    assert _cut_target("what do I cut for Mega Clefable ex?", decks) == "Mega Clefable ex"
+    assert _cut_target("给 Mega Clefable ex 切哪张?", decks) == "Mega Clefable ex"
+    assert _cut_target("为 Mega Clefable ex 切哪张?", decks) == "Mega Clefable ex"
+    assert _cut_target("为了加 Mega Clefable ex 该切哪张?", decks) == "Mega Clefable ex"
+    assert _intent("切哪张 Nest Ball") != "fate_cut"
+    assert _intent("为什么切这张") != "fate_cut"
+    assert _intent("shortcut for the lab") != "fate_cut"
+    assert _intent("is Nest Ball isolated?") == "fate_junk"
+
+
+def test_cut_ranks_the_named_set_not_the_set_that_already_has_the_card():
+    decks = [
+        {"id": "set-c", "name": "Set C Standard 60", "cards": [{"name": "Clefable ex"}]},
+        {"id": "seed-g", "name": "Carpet Set G", "cards": [{"name": "Mega Clefable ex"}]},
+    ]
+    assert _deck_for_cut("what do I cut for Mega Clefable ex?", decks) == "set-c"
+    assert _deck_for_cut("On Carpet Set G, what do I cut for Mega Clefable ex?", decks) == "seed-g"
+    both = [
+        {"id": "set-c", "name": "Set C Standard 60", "cards": [{"name": "Nest Ball"}]},
+        {"id": "seed-g", "name": "Carpet Set G", "cards": [{"name": "Nest Ball"}]},
+    ]
+    assert _deck_for_junk("is Nest Ball junk on Carpet Set G?", both, "Nest Ball") == "seed-g"
+
+
+def test_greeting_plus_cut_still_ranks():
+    init_db()
+    trace = []
+    _local_coach("Hi, what do I cut for Mega Clefable ex?", trace)
+    assert trace and trace[0]["tool"] == "rank_fate_swaps"
+    assert trace[0]["args"]["add"] == "Mega Clefable ex"
+
+
+def test_local_coach_junk_question_uses_metrics():
+    init_db()
+    trace = []
+    answer = _local_coach("is Nest Ball junk?", trace)
+    assert trace and trace[0]["tool"] == "deck_metrics"
+    assert "Nest Ball" in answer
+    assert "isolated" in answer.lower() or "linked" in answer.lower()
 
 
 def test_local_coach_greeting_plus_match_still_simulates():

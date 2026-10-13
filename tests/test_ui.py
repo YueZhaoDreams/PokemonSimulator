@@ -512,6 +512,43 @@ def test_set_cards_sort_keeps_original_index_for_replace():
     assert ordered[1][1] is cards[2]
 
 
+def test_markdown_tables_render_as_html_tables():
+    js = _read("app.js")
+    css = _read("styles.css")
+    assert '<table class="data-table">' in js
+    assert "function markdownTable" in js
+    assert ".data-table" in css
+    assert ".data-table-wrap" in css
+
+
+def test_fate_panel_sections_and_labels():
+    js = _read("app.js")
+    for title in ("Ceilings", "Links", "Quality", "Swap table", "Compare", "Search"):
+        assert f">{title}<" in js or f'"{title}"' in js or title in js
+    assert 'id="fateCeilings"' in js
+    assert 'id="fateLinks"' in js
+    assert 'id="fateQuality"' in js
+    assert 'id="fateSwaps"' in js
+    assert 'id="fateCompare"' in js
+    assert 'id="fateSearch"' in js
+    assert "fast estimate, not a win rate" in js
+    assert "luck given this fate" in js
+    assert "relative improvement, not the best deck" in js
+    accept = js[js.index("async function acceptFateSuggestion") : js.index("async function loadFateReadout")]
+    assert 'api("/api/decks"' in accept
+    assert "data/lab" not in accept
+    assert "seed-" not in accept
+    named = js[js.index("function cardNamed") : js.index("async function acceptFateSuggestion")]
+    assert 'deck.kind === "spare"' in named
+    assert "function fateStill" in js
+    for fn in ("async function rankFate", "async function compareFate", "async function searchFate"):
+        body = js[js.index(fn) : js.index(fn) + 900]
+        assert "fateStill(" in body
+    rank = js[js.index("async function rankFate") : js.index("async function compareFate")]
+    assert "if (hasWeights) body.weights = weights" in rank
+    assert "if (save) body.save = true" in rank
+
+
 def test_set_cards_sort_treats_accented_names_as_base_letters():
     cards = [
         {"name": "Poké Pad", "category": "Trainer", "stage": "Item"},

@@ -171,6 +171,12 @@ def _local_coach(message: str, tool_trace: list[dict], language: str | None = No
     if intent == "talk":
         return _talk_reply(message, decks, lang)
 
+    if intent == "fate_cut":
+        return _fate_cut_reply(message, decks, tool_trace, lang)
+
+    if intent == "fate_junk":
+        return _fate_junk_reply(message, decks, tool_trace, lang)
+
     if intent == "probability":
         card = _card_in_text(message, decks) or "Dondozo"
         deck_id = a_id if _name_in_deck(card, a_id) else (b_id if _name_in_deck(card, b_id) else a_id)
@@ -324,6 +330,10 @@ def _intent(message: str) -> str:
     t = message.lower()
     if _is_talk(t, message):
         return "talk"
+    if _is_cut_ask(t, message):
+        return "fate_cut"
+    if _is_junk_ask(t, message):
+        return "fate_junk"
     if any(w in t for w in ("trade", "swap", "win-win", "exchange", "which card")) or any(
         w in message for w in ("换牌", "交换", "互换", "双赢")
     ):
@@ -370,7 +380,11 @@ def _has_lab_ask(lowered: str, original: str) -> bool:
         )
     ):
         return True
-    if any(w in original for w in ("换牌", "交换", "概率", "几率", "起手", "抽到", "模拟", "对战", "对打", "胜率", "麻痹", "谁更强", "谁会赢", "一万")):
+    if re.search(r"what (do|should) i cut|\bcut for\b|\b(?:junk|isolated)\b", lowered):
+        return True
+    if _cut_clause(original):
+        return True
+    if any(w in original for w in ("换牌", "交换", "概率", "几率", "起手", "抽到", "模拟", "对战", "对打", "胜率", "麻痹", "谁更强", "谁会赢", "一万", "垃圾", "孤立")):
         return True
     return False
 
@@ -399,6 +413,150 @@ def _talk_reply(message: str, decks: list[dict], lang: str) -> str:
         "Ask which card shows up in the opening hand, whether Pikachu can paralyze Dondozo, or who wins a matchup. "
         "I will run the lab tools for numbers instead of guessing."
     )
+
+
+def _trim_cut_clause(text: str) -> str:
+    """Drop filler around the card: 为了加 Mega Clefable ex 该 → Mega Clefable ex."""
+    previous = None
+    while text and text != previous:
+        previous = text
+        text = re.sub(r"^(?:添加|加)\s*", "", text)
+        text = re.sub(r"\s*该\s*$", "", text)
+    return text.strip(" ?.!")
+
+
+def _cut_clause(message: str) -> str:
+    """The card to add: English 'cut for X', or Chinese '给 X 切'."""
+    english = re.search(r"\bcut for\s+(.+?)\s*$", message.strip(), re.I)
+    if english:
+        return english.group(1).strip(" ?.!")
+    # Bare 为 must not eat 为什么 / 为何 / 为啥.
+    chinese = re.search(r"(?:给|为了加|为了|为(?!什|何|啥))\s*(.+?)\s*(?:切|腾|拿掉)", message)
+    if chinese:
+        return _trim_cut_clause(chinese.group(1).strip(" ?.!"))
+    return ""
+
+
+def _is_cut_ask(lowered: str, original: str) -> bool:
+    if re.search(r"what (do|should) i cut|\bcut for\b|which card (do i|should i) cut", lowered):
+        return True
+    return bool(_cut_clause(original))
+
+
+def _is_junk_ask(lowered: str, original: str) -> bool:
+    if re.search(r"\b(?:junk|isolated)\b", lowered):
+        return True
+    return any(phrase in original for phrase in ("垃圾", "孤立"))
+
+
+def _deck_named_in_text(message: str, decks: list[dict]) -> str | None:
+    lowered = message.lower()
+    named = sorted(decks, key=lambda deck: len(deck.get("name") or ""), reverse=True)
+    for deck in named:
+        name = deck.get("name") or ""
+        if name and name.lower() in lowered:
+            return deck["id"]
+    return None
+
+
+def _playable_deck_id(decks: list[dict]) -> str:
+    for deck in decks:
+        if deck.get("archived") or deck.get("kind") == "spare":
+            continue
+        return deck["id"]
+    a_id, _b_id = _default_ids()
+    return a_id
+
+
+def _deck_for_cut(message: str, decks: list[dict]) -> str:
+    """The set being edited. Naming it in the question wins over a list that already has the new card."""
+    return _deck_named_in_text(message, decks) or _playable_deck_id(decks)
+
+
+def _deck_for_junk(message: str, decks: list[dict], card: str) -> str:
+    return _deck_named_in_text(message, decks) or _deck_for_card(card, decks)
+
+
+def _deck_for_card(name: str | None, decks: list[dict]) -> str:
+    if name:
+        for deck in decks:
+            if deck.get("archived") or deck.get("kind") == "spare":
+                continue
+            if any(card["name"] == name for card in deck.get("cards") or []):
+                return deck["id"]
+    return _playable_deck_id(decks)
+
+
+def _markdown_table(headers: list[str], rows: list[list[Any]]) -> str:
+    head = "| " + " | ".join(headers) + " |"
+    sep = "| " + " | ".join("---" for _ in headers) + " |"
+    body = ["| " + " | ".join(str(cell) for cell in row) + " |" for row in rows]
+    return "\n".join([head, sep, *body])
+
+
+def _cut_target(message: str, decks: list[dict]) -> str:
+    """The card to add, even when a shorter name already in the deck is part of it."""
+    clause = _cut_clause(message)
+    if clause:
+        named = _card_in_text(clause, decks)
+        if named and named.lower() == clause.lower():
+            return named
+        return clause
+    return _card_in_text(message, decks) or ""
+
+
+def _fate_cut_reply(message: str, decks: list[dict], tool_trace: list[dict], lang: str) -> str:
+    add = _cut_target(message, decks)
+    if not add:
+        return "说出要加的牌，例如 what do I cut for Mega Clefable ex?" if lang == "zh" else "Name the card to add, for example: what do I cut for Mega Clefable ex?"
+    deck_id = _deck_for_cut(message, decks)
+    args = {"deck_id": deck_id, "add": add}
+    result = run_tool("rank_fate_swaps", args)
+    tool_trace.append({"tool": "rank_fate_swaps", "args": args, "output_preview": _preview(result)})
+    if result.get("error"):
+        return str(result["error"])
+    ecos = list((result.get("rows") or [{}])[0].get("ecologies") or {})
+    headers = ["rank", "cut", "copies", "delta_s", *ecos]
+    table_rows = []
+    for row in result.get("rows") or []:
+        table_rows.append(
+            [row.get("rank"), row.get("cut"), row.get("copies"), row.get("delta_s")]
+            + [row.get("ecologies", {}).get(name) for name in ecos]
+        )
+    weights = (result.get("weights") or {}).get("ecologies") or {}
+    weight_text = ", ".join(f"{name}={value}" for name, value in weights.items())
+    label = result.get("label") or "fast estimate, not a win rate"
+    intro = (
+        f"给 **{add}** 腾位置。{label}。权重：{weight_text}。胜率只来自对战模拟。"
+        if lang == "zh"
+        else f"Cuts for **{add}**. {label}. Weights: {weight_text}. Win rate still comes only from a simulation."
+    )
+    return intro + "\n\n" + _markdown_table(headers, table_rows)
+
+
+def _fate_junk_reply(message: str, decks: list[dict], tool_trace: list[dict], lang: str) -> str:
+    card = _card_in_text(message, decks)
+    if not card:
+        return "说出牌名，例如 is Nest Ball junk?" if lang == "zh" else "Name the card, for example: is Nest Ball junk?"
+    deck_id = _deck_for_junk(message, decks, card)
+    args = {"deck_id": deck_id}
+    result = run_tool("deck_metrics", args)
+    tool_trace.append({"tool": "deck_metrics", "args": args, "output_preview": _preview(result)})
+    if result.get("error"):
+        return str(result["error"])
+    node = next((row for row in result.get("nodes") or [] if row.get("name") == card), None)
+    if not node:
+        return f"这套牌里没有 **{card}**。" if lang == "zh" else f"**{card}** is not in that set."
+    if node.get("isolated"):
+        link = "没有连线，算孤立的。" if lang == "zh" else "It has no links, so it is isolated."
+    else:
+        linked = ", ".join(node.get("searchers") or []) or "another card"
+        link = f"有连线：{linked}。" if lang == "zh" else f"It is linked: {linked}."
+    dpe = node.get("dpe_lead")
+    damage = f"每能量伤害 {dpe}。" if lang == "zh" and dpe is not None else (
+        f"Damage per energy {dpe}." if dpe is not None else ""
+    )
+    return f"**{card}**. {link} {damage}".strip()
 
 
 def _card_in_text(message: str, decks: list[dict]) -> str | None:
