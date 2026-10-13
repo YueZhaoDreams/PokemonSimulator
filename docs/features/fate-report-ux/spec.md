@@ -1,6 +1,6 @@
 # Fate report UX
 
-Status: in_review
+Status: done
 
 Epic: deck-as-fate
 
@@ -39,12 +39,12 @@ The numbers from ceilings, KG, metrics, score, and search need one readable plac
 
 ## Acceptance Criteria
 
-- [ ] Fate panel shows all six sections for a seeded `s60` deck.
-- [ ] Chat "what do I cut for Mega Clefable ex?" returns the same table as the panel, with weights echoed.
-- [ ] Accepting a search suggestion creates an owned deck; no writes under `data/lab/` or `app/`.
-- [ ] Second trainer cannot see the first trainer's fate overlays or saved decks.
-- [ ] Labels present: estimate vs simulated.
-- [ ] Combo Cub markdown tables and the Fate panel render as HTML tables with a header row.
+- [x] Fate panel shows all six sections for a seeded `s60` deck.
+- [x] Chat "what do I cut for Mega Clefable ex?" returns the same table as the panel, with weights echoed.
+- [x] Accepting a search suggestion creates an owned deck; no writes under `data/lab/` or `app/`.
+- [x] Second trainer cannot see the first trainer's fate overlays or saved decks.
+- [x] Labels present: estimate vs simulated.
+- [x] Combo Cub markdown tables and the Fate panel render as HTML tables with a header row.
 
 ## Validation Plan
 
