@@ -80,6 +80,11 @@
       "at": "2026-10-13T01:56:00Z",
       "author": "operator-chat",
       "text": "Operator: pass bounded-fate-search, then continue. They read the label relative improvement, not the best deck on Carpet Set G (cut Buddy-Buddy Poffin, add a 4th Boss's Orders). They also said chat tables must render as real HTML tables, and that requirement belongs in fate-report-ux."
+    },
+    {
+      "at": "2026-10-13T03:20:00Z",
+      "author": "cursor-verify-gate",
+      "text": "Checked epic-exit on http://127.0.0.1:8000 after #164, main e43a555. Carpet Set G Fate panel is real HTML tables. Rank cuts for Mega Clefable ex: Buddy-Buddy Poffin and Nest Ball tied at 36.3255, weights shown, label fast estimate. Live Combo Cub rendered two HTML tables, but they are opening-hand win rates, not that delta-S table, and the reply said cut Ledyba / Ledian. Not appended to passed_gates."
     }
   ],
   "passed_gates": ["copy-ceilings", "network-from-print", "kg-card-quality", "fast-swap-score", "prefer-less-uncertainty", "bounded-fate-search"],
@@ -290,6 +295,37 @@
         }
       ],
       "recommendation": "Operator passed on 2026-10-12. Appended to passed_gates. fate-report-ux must render tables as HTML tables."
+    },
+    "epic-exit": {
+      "verified_at": "2026-10-13T03:20:00Z",
+      "verifier_agent": "cursor-verify-gate",
+      "consumer": "human",
+      "verifier": "human-required",
+      "environment": "http://127.0.0.1:8000 serving main e43a555 (#164 squash b8757dc plus the done-spec commit). ./run.sh restarted after merge.",
+      "overall_status": "partial",
+      "steps": [
+        {
+          "step": "1 Carpet Set G shows ceilings, effective seen cards, links, junk flags, and same-cost quality",
+          "status": "pass",
+          "evidence": "Sets tab, Carpet Set G. Opening hand 7, effective seen cards 7, deck 60. Ceilings, Links, and Quality are table.data-table with header rows. Clefairy 4 copies, cap 4, P in opening hand 39.9%. Quality: Ledian Swift 70 for 2 energy, 35 damage per energy; Ledyba Headbutt Bounce 30 for 2 energy, 15 damage per energy. Isolated names include Buddy-Buddy Poffin, Nest Ball, Ultra Ball, Energy Switch. KG 25 nodes, 37 edges."
+        },
+        {
+          "step": "2 Chat and the deck view cite the same per-ecology delta-S table with weights",
+          "status": "fail",
+          "evidence": "Deck view Rank cuts for Mega Clefable ex is a real table: rank 1 Buddy-Buddy Poffin, 4 copies, score 36.3255; rank 2 Nest Ball 36.3255; rank 3 Energy Switch 36.3048. Weights early_equal_hands 1, main_line 1, secondary_closers 0.25, energy_budget 0.15, control 1, prize_race 0.5, consistency 1. Label fast estimate, not a win rate. Live Combo Cub on the same question rendered two HTML tables, but the columns are Open / WR open / WR prized, and the reply said cut Ledyba / Ledian. It did not show 36.3255 or the weights. A markdown pipe table passed through md() does become table.data-table."
+        },
+        {
+          "step": "3 Compare two neighbors, run a bounded search, accept or reject, and a capped Monte Carlo is still available",
+          "status": "pass",
+          "evidence": "POST /api/fate/compare Carpet Set G vs Carpet Set E, 4 games: prizes_taken means 4.75 and 1.00, variances 2.25 and 2.00, sim ids 659248cb-de1e-4fad-a802-db7566efb3f3 and 89291140-6105-4804-844d-5fc7bf62189d. Search pool Boss's Orders, budget 4 candidates, 2 games: survivor rank 1 cut Buddy-Buddy Poffin add Boss's Orders, delta_s 1.0, win_rate 1.0, label relative improvement, not the best deck. Suggestion was rejected on the live account; seed-g was not edited. tests/test_fate_report.py covers accept creating a new owned set."
+        },
+        {
+          "step": "4 Operator confirms game.py gained no look-N, no quality name table, and no score coefficient from this epic",
+          "status": "human-required",
+          "evidence": "The only fate commit that touches app/engine/game.py is f311cdf. It records mulligans, prizes, energy in play by turn, and the first attack on the simulation result. It does not add a look size, a card-name quality table, or a score coefficient. Waiting for the operator to confirm."
+        }
+      ],
+      "recommendation": "Do not pass. The deck view table is the fast swap score. The live Combo Cub reply is a win-rate bakeoff and names a different cut. Human-required. Not appended to passed_gates. Epic status stays in_delivery."
     }
   }
 }
