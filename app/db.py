@@ -374,6 +374,32 @@ def _seed_slowking_on_seeker(cards_json: str | None) -> bool:
     return SLOWKING_PRIME_ART in (cards_json or "")
 
 
+def _seed_wrong_named_art(cards_json: str | None) -> bool:
+    """True when Mill still shows Ralts or Earthen Vessel for these names.
+
+    The catalog ids were the neighbor cards, and the stored picture matched
+    that wrong id, so a same-name refresh would otherwise leave them in place.
+    """
+    raw = cards_json or ""
+    if "Colress's Tenacity" not in raw and "Double Turbo Energy" not in raw:
+        return False
+    try:
+        have = json.loads(raw)
+    except (TypeError, json.JSONDecodeError):
+        return False
+    for card in have:
+        if not isinstance(card, dict):
+            continue
+        name = card.get("name")
+        cid = str(card.get("catalog_id") or "")
+        image = str(card.get("image") or "")
+        if name == "Colress's Tenacity" and (cid == "sv01-084" or "/sv01/084/" in image):
+            return True
+        if name == "Double Turbo Energy" and (cid == "sv04-163" or "/sv04/163/" in image):
+            return True
+    return False
+
+
 def _seed_print_art_stale(cards_json: str | None, want_cards: list) -> bool:
     """True when a saved seed still shows the wrong scan for a pinned print."""
     from app.catalog import PRINT_ART_URLS, _is_tcgdex_asset_url
@@ -436,6 +462,7 @@ def _upsert_seed_decks(conn: sqlite3.Connection, owner_id: str | None = None) ->
                 or "/me04/" in (existing["cards_json"] or "")
                 or _seed_print_art_stale(existing["cards_json"], want_cards)
                 or _seed_slowking_on_seeker(existing["cards_json"])
+                or _seed_wrong_named_art(existing["cards_json"])
             ):
                 conn.execute(
                     "UPDATE decks SET name=?, source=?, cards_json=?, owner_id=COALESCE(owner_id, ?), "
