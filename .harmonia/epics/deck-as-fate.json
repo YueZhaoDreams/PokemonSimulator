@@ -75,9 +75,14 @@
       "at": "2026-10-03T19:20:00Z",
       "author": "cursor-verify-gate",
       "text": "Checked bounded-fate-search on the running app after #152. Set G returned a legal 60-card neighbor. A temporary list put the isolated 50-damage Lonely behind the linked 100-damage Strong unless Lonely was locked. The label is a relative improvement. Waiting for the operator to read that sentence. Not appended to passed_gates."
+    },
+    {
+      "at": "2026-10-13T01:56:00Z",
+      "author": "operator-chat",
+      "text": "Operator: pass bounded-fate-search, then continue. They read the label relative improvement, not the best deck on Carpet Set G (cut Buddy-Buddy Poffin, add a 4th Boss's Orders). They also said chat tables must render as real HTML tables, and that requirement belongs in fate-report-ux."
     }
   ],
-  "passed_gates": ["copy-ceilings", "network-from-print", "kg-card-quality", "fast-swap-score", "prefer-less-uncertainty"],
+  "passed_gates": ["copy-ceilings", "network-from-print", "kg-card-quality", "fast-swap-score", "prefer-less-uncertainty", "bounded-fate-search"],
   "gate_reports": {
     "copy-ceilings": {
       "verified_at": "2026-09-13T01:00:09.286832+00:00",
@@ -256,7 +261,7 @@
       "consumer": "both",
       "verifier": "agent-then-human",
       "environment": "http://127.0.0.1:8000 serving main ce8b37b (includes #152 squash 0256f76); ./run.sh restarted after merge. The site loads Cards, Sets, Fight, Lab, and Combo Cub. This slice has no separate page.",
-      "overall_status": "partial",
+      "overall_status": "pass",
       "steps": [
         {
           "step": "1 Set G seed and a bounded pool returns at least one legal 60-card neighbor with a written reason",
@@ -280,11 +285,11 @@
         },
         {
           "step": "5 Human: the result is labelled a relative improvement, never the best 60",
-          "status": "human-required",
-          "evidence": "The response label is 'relative improvement, not the best deck' and relative is true. Waiting for the operator to read that sentence. There is still no Fate page; Combo Cub is where a search can be asked."
+          "status": "pass",
+          "evidence": "Operator said pass on 2026-10-12 after reading the label relative improvement, not the best deck. On Carpet Set G, adding Boss's Orders, the fast estimate ranked Buddy-Buddy Poffin and Nest Ball first at +1.0000. They also asked the next slice to render tables as real HTML tables."
         }
       ],
-      "recommendation": "Machine steps passed. Do not append bounded-fate-search to passed_gates until the operator reads the label. The next screen waits."
+      "recommendation": "Operator passed on 2026-10-12. Appended to passed_gates. fate-report-ux must render tables as HTML tables."
     }
   }
 }
