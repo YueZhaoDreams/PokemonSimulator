@@ -189,6 +189,45 @@ button.account-email {
   margin-bottom: 14px;
   box-shadow: var(--shadow);
 }
+.data-table-wrap {
+  display: block;
+  overflow: auto;
+  max-height: 420px;
+  margin: 8px 0;
+  white-space: normal;
+}
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  white-space: normal;
+}
+.data-table th,
+.data-table td {
+  border: 1px solid var(--line);
+  padding: 6px 8px;
+  text-align: left;
+  vertical-align: top;
+  white-space: normal;
+}
+.data-table th {
+  background: #1a2436;
+  position: sticky;
+  top: 0;
+}
+.fate-weights {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 8px 0;
+}
+.fate-weights label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 11px;
+}
+.fate-weights input { width: 88px; padding: 6px; }
 .row { display: flex; gap: 10px; flex-wrap: wrap; }
 .grow { flex: 1; min-width: 140px; }
 button, .btn {

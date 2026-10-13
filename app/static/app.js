@@ -176,12 +176,54 @@ function show(view) {
   ping("click");
 }
 
+function markdownInline(text) {
+  return String(text || "").replace(/\*\*(.+?)\*\*/g, "<b>$1</b>");
+}
+
+function splitMdCells(line) {
+  return String(line || "").trim().replace(/^\|/, "").replace(/\|$/, "").split("|").map((cell) => cell.trim());
+}
+
+function isMdRow(line) {
+  const trimmed = String(line || "").trim();
+  return trimmed.startsWith("|") && trimmed.endsWith("|") && splitMdCells(trimmed).length > 1;
+}
+
+function isMdSep(line) {
+  const cells = splitMdCells(line);
+  return cells.length > 1 && cells.every((cell) => /^:?-{3,}:?$/.test(cell.replace(/\s/g, "")));
+}
+
+function markdownTable(headers, rows) {
+  const head = headers.map((cell) => `<th>${markdownInline(cell)}</th>`).join("");
+  const body = rows.map((row) => {
+    const cells = headers.map((_, index) => `<td>${markdownInline(row[index] || "")}</td>`).join("");
+    return `<tr>${cells}</tr>`;
+  }).join("");
+  return `<div class="data-table-wrap"><table class="data-table"><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table></div>`;
+}
+
 function md(text) {
-  return String(text || "")
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/\*\*(.+?)\*\*/g, "<b>$1</b>")
-    .replace(/\n/g, "<br>");
+  const escaped = String(text || "").replace(/&/g, "&amp;").replace(/</g, "&lt;");
+  const lines = escaped.split("\n");
+  const blocks = [];
+  let index = 0;
+  while (index < lines.length) {
+    if (isMdRow(lines[index]) && isMdSep(lines[index + 1] || "")) {
+      const headers = splitMdCells(lines[index]);
+      index += 2;
+      const rows = [];
+      while (index < lines.length && isMdRow(lines[index])) {
+        rows.push(splitMdCells(lines[index]));
+        index += 1;
+      }
+      blocks.push(markdownTable(headers, rows));
+      continue;
+    }
+    blocks.push(markdownInline(lines[index]));
+    index += 1;
+  }
+  return blocks.join("<br>");
 }
 
 function esc(text) {
@@ -1638,6 +1680,387 @@ function renderArchive() {
   box.innerHTML = `<div class="panel"><h3>Archived</h3><p class="tiny">30-card, 4-of-a-name sets. They stay out of fights.</p>${rows}</div>`;
 }
 
+const FATE_ECOLOGIES = [
+  "early_equal_hands",
+  "main_line",
+  "secondary_closers",
+  "energy_budget",
+  "control",
+  "prize_race",
+  "consistency",
+];
+const fateState = { deckId: null, search: null, load: 0 };
+
+function fateNum(value) {
+  const n = Number(value);
+  if (!Number.isFinite(n)) return "";
+  return esc(String(Math.round(n * 10000) / 10000));
+}
+
+function fatePct(value) {
+  const n = Number(value);
+  if (!Number.isFinite(n)) return "";
+  return esc(`${(n * 100).toFixed(1)}%`);
+}
+
+function dataTable(headers, rows) {
+  const head = headers.map((cell) => `<th>${esc(cell)}</th>`).join("");
+  const body = (rows || []).map((row) => `<tr>${row.map((cell) => `<td>${cell}</td>`).join("")}</tr>`).join("");
+  if (!body) return `<p class="tiny">Nothing to show yet.</p>`;
+  return `<div class="data-table-wrap"><table class="data-table"><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table></div>`;
+}
+
+function fateDeckOptions(currentId) {
+  return (state.decks || [])
+    .filter((deck) => deck.id !== currentId && !deck.archived && deck.kind !== "spare")
+    .map((deck) => `<option value="${esc(deck.id)}">${esc(deck.name)}</option>`)
+    .join("");
+}
+
+function fateWeightFields() {
+  return `<div class="fate-weights">${FATE_ECOLOGIES.map((name) => `
+    <label>${esc(name)}<input type="number" step="0.01" data-fate-weight="${esc(name)}" /></label>
+  `).join("")}</div>`;
+}
+
+function fatePanelHtml(deck) {
+  return `
+    <div class="panel" id="fatePanel" data-deck-id="${esc(deck.id)}">
+      <h3>Fate</h3>
+      <p class="tiny">${esc(deck.name)}. Copy ceilings, links, quality, a fast swap estimate, a comparison, and one bounded search.</p>
+      <h3 id="fateCeilings">Ceilings</h3>
+      <div id="fateCeilingsBody"><p class="tiny">Loading ceilings…</p></div>
+      <h3 id="fateLinks">Links</h3>
+      <div id="fateLinksBody"><p class="tiny">Loading links…</p></div>
+      <h3 id="fateQuality">Quality</h3>
+      <div id="fateQualityBody"><p class="tiny">Loading quality…</p></div>
+      <h3 id="fateSwaps">Swap table</h3>
+      <p class="tiny">fast estimate, not a win rate</p>
+      <div class="row">
+        <div class="grow"><label for="fateAdd">Add</label><input id="fateAdd" placeholder="Mega Clefable ex" /></div>
+        <button type="button" id="fateRank" class="secondary">Rank cuts</button>
+        <button type="button" id="fateSaveWeights" class="secondary">Save weights and rank</button>
+      </div>
+      ${fateWeightFields()}
+      <div id="fateSwapsBody"></div>
+      <h3 id="fateCompare">Compare</h3>
+      <p class="tiny">luck given this fate</p>
+      <div class="row">
+        <div class="grow"><label for="fateOther">Other set</label><select id="fateOther">${fateDeckOptions(deck.id)}</select></div>
+        <div><label for="fateGames">Games</label><input id="fateGames" type="number" min="1" value="20" /></div>
+        <button type="button" id="fateCompareRun" class="secondary">Compare</button>
+      </div>
+      <div id="fateCompareBody"></div>
+      <h3 id="fateSearch">Search</h3>
+      <p class="tiny">relative improvement, not the best deck. The win rate column is luck given this fate.</p>
+      <div class="row">
+        <div class="grow"><label for="fatePool">Add only these names</label><input id="fatePool" placeholder="Boss's Orders" /></div>
+        <div class="grow"><label for="fateLocks">Do not cut</label><input id="fateLocks" placeholder="Clefairy" /></div>
+      </div>
+      <div class="row">
+        <div><label for="fateMax">Max candidates</label><input id="fateMax" type="number" min="1" max="24" value="8" /></div>
+        <div><label for="fateTop">Keep</label><input id="fateTop" type="number" min="1" max="3" value="1" /></div>
+        <div><label for="fateSearchGames">Games each</label><input id="fateSearchGames" type="number" min="1" max="12" value="2" /></div>
+        <button type="button" id="fateSearchRun" class="secondary">Search one swap</button>
+      </div>
+      <div id="fateSearchBody"></div>
+    </div>`;
+}
+
+function fillFateWeights(weights) {
+  const ecos = (weights && weights.ecologies) || {};
+  document.querySelectorAll("[data-fate-weight]").forEach((input) => {
+    if (ecos[input.dataset.fateWeight] !== undefined) input.value = ecos[input.dataset.fateWeight];
+  });
+}
+
+function readFateWeights() {
+  const ecologies = {};
+  document.querySelectorAll("[data-fate-weight]").forEach((input) => {
+    if (input.value !== "") ecologies[input.dataset.fateWeight] = Number(input.value);
+  });
+  return { ecologies };
+}
+
+function renderCeilings(report) {
+  const host = $("#fateCeilingsBody");
+  if (!host) return;
+  const rows = (report.names || []).map((row) => [
+    esc(row.name),
+    fateNum(row.copies),
+    row.copy_cap == null ? "—" : fateNum(row.copy_cap),
+    fatePct(row.p_opening),
+    fatePct(row.p_seen),
+  ]);
+  host.innerHTML = `<p class="tiny">Opening hand ${esc(report.opening_hand)}. Effective seen cards ${esc(report.effective_seen)}. Deck ${esc(report.deck_size)}.</p>`
+    + dataTable(["Card", "Copies", "Cap", "P in opening hand", "P at seen cards"], rows);
+}
+
+function renderLinks(report) {
+  const host = $("#fateLinksBody");
+  if (!host) return;
+  const names = {};
+  (report.nodes || []).forEach((node) => { names[node.id] = node.name; });
+  const rows = (report.edges || []).map((edge) => [
+    esc(names[edge.src] || edge.src),
+    esc(names[edge.dst] || edge.dst),
+    esc(edge.kind),
+    esc(edge.source || ""),
+  ]);
+  host.innerHTML = dataTable(["From", "To", "Link", "Printed text"], rows);
+}
+
+function renderQuality(report) {
+  const host = $("#fateQualityBody");
+  if (!host) return;
+  const rows = (report.nodes || [])
+    .filter((row) => String(row.category || "").toLowerCase() === "pokemon")
+    .map((row) => [
+      esc(row.name),
+      fateNum(row.copies),
+      esc(row.lead_attack || ""),
+      fateNum(row.lead_damage),
+      fateNum(row.energy_lead),
+      fateNum(row.dpe_lead),
+      row.isolated ? "yes" : "no",
+      esc((row.searchers || []).join(", ")),
+    ]);
+  host.innerHTML = dataTable(
+    ["Pokémon", "Copies", "Lead attack", "Damage", "Energy", "Damage per energy", "Isolated", "Linked from"],
+    rows,
+  );
+}
+
+function renderSwaps(report) {
+  const host = $("#fateSwapsBody");
+  if (!host) return;
+  fillFateWeights(report.weights);
+  const ecos = Object.keys((report.rows && report.rows[0] && report.rows[0].ecologies) || {});
+  const headers = ["Rank", "Cut", "Copies", "Score"].concat(ecos);
+  const rows = (report.rows || []).map((row) => [
+    fateNum(row.rank),
+    esc(row.cut),
+    fateNum(row.copies),
+    fateNum(row.delta_s),
+    ...ecos.map((name) => fateNum(row.ecologies[name])),
+  ]);
+  const weightText = FATE_ECOLOGIES
+    .filter((name) => report.weights && report.weights.ecologies && report.weights.ecologies[name] !== undefined)
+    .map((name) => `${name} ${report.weights.ecologies[name]}`)
+    .join(" · ");
+  host.innerHTML = `<p class="tiny">${esc(report.label || "fast estimate, not a win rate")}. Add ${esc(report.add)}. Weights: ${esc(weightText)}</p>`
+    + dataTable(headers, rows);
+}
+
+function renderCompare(report, nameA, nameB) {
+  const host = $("#fateCompareBody");
+  if (!host) return;
+  const rows = [
+    [esc(nameA), fateNum(report.a.mean), fateNum(report.a.variance), fateNum(report.a.brick_rate), fateNum(report.a.chain_break_rate), esc(report.a.sim_id)],
+    [esc(nameB), fateNum(report.b.mean), fateNum(report.b.variance), fateNum(report.b.brick_rate), fateNum(report.b.chain_break_rate), esc(report.b.sim_id)],
+  ];
+  host.innerHTML = `<p class="tiny">luck given this fate. ${esc(report.reason || "")}</p>`
+    + dataTable(["Set", report.output || "mean", "Variance", "Brick", "Broken chain", "Simulation"], rows);
+}
+
+function renderSearch(report) {
+  const host = $("#fateSearchBody");
+  if (!host) return;
+  fateState.search = report;
+  const survivors = (report.survivors || []).map((row, index) => [
+    fateNum(row.rank),
+    esc(row.cut),
+    esc(row.add),
+    fateNum(row.delta_s),
+    fateNum(row.win_rate),
+    esc(row.reason || ""),
+    `<button type="button" class="quiet" data-fate-accept="${index}">Save as new set</button>`,
+  ]);
+  const pruned = (report.pruned || []).map((row) => [esc(row.cut), esc(row.add), fateNum(row.delta_s)]);
+  host.innerHTML = `<p class="tiny">${esc(report.label || "relative improvement, not the best deck")}. Win rate is luck given this fate.</p>`
+    + dataTable(["Rank", "Cut", "Add", "Score", "Win rate", "Reason", ""], survivors)
+    + `<h4>Pruned</h4>`
+    + dataTable(["Cut", "Add", "Score"], pruned);
+  host.querySelectorAll("[data-fate-accept]").forEach((button) => {
+    button.onclick = () => acceptFateSuggestion(Number(button.dataset.fateAccept));
+  });
+}
+
+function cardNamed(name, preferDeckId) {
+  const decks = state.decks || [];
+  const ordered = [];
+  const current = decks.find((deck) => deck.id === preferDeckId);
+  if (current) ordered.push(current);
+  for (const deck of decks) {
+    if (deck === current || deck.archived || deck.kind === "spare") continue;
+    ordered.push(deck);
+  }
+  for (const deck of ordered) {
+    for (const card of deck.cards || []) {
+      if (card.name === name) return card;
+    }
+  }
+  return null;
+}
+
+async function acceptFateSuggestion(index) {
+  const deck = (state.decks || []).find((item) => item.id === fateState.deckId);
+  const row = fateState.search && fateState.search.survivors && fateState.search.survivors[index];
+  if (!deck || !row) return;
+  const added = cardNamed(row.add, deck.id);
+  if (!added) {
+    toast(`${row.add} is not in a set you own.`, "bad");
+    return;
+  }
+  const cards = (deck.cards || []).map((card) => JSON.parse(JSON.stringify(card)));
+  const cutAt = cards.findIndex((card) => card.name === row.cut);
+  if (cutAt < 0) {
+    toast(`${row.cut} is not in this set.`, "bad");
+    return;
+  }
+  cards.splice(cutAt, 1);
+  cards.push(JSON.parse(JSON.stringify(added)));
+  try {
+    const saved = await api("/api/decks", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: `${deck.name} · cut ${row.cut}`,
+        cards,
+        rule_presets: deckRulePresets(deck),
+      }),
+    });
+    state.decks = await api("/api/decks");
+    fillAddToSet(saved.id);
+    fillViewSet(saved.id);
+    fillFight();
+    renderDecks();
+    renderCollection();
+    toast(`Saved ${saved.name}`);
+  } catch (err) {
+    toast(err.message, "bad");
+  }
+}
+
+async function loadFateReadout(deckId) {
+  const token = ++fateState.load;
+  fateState.deckId = deckId;
+  try {
+    const [ceilings, kg, metrics] = await Promise.all([
+      api(`/api/decks/${encodeURIComponent(deckId)}/fate/ceilings`),
+      api(`/api/decks/${encodeURIComponent(deckId)}/fate/kg`),
+      api(`/api/decks/${encodeURIComponent(deckId)}/fate/metrics`),
+    ]);
+    if (token !== fateState.load || $("#fatePanel")?.dataset.deckId !== deckId) return;
+    renderCeilings(ceilings);
+    renderLinks(kg);
+    renderQuality(metrics);
+  } catch (err) {
+    if (token !== fateState.load) return;
+    const message = `<p class="tiny">${esc(err.message)}</p>`;
+    for (const id of ["fateCeilingsBody", "fateLinksBody", "fateQualityBody"]) {
+      const host = document.getElementById(id);
+      if (host) host.innerHTML = message;
+    }
+  }
+}
+
+function fateStill(deckId) {
+  return $("#fatePanel")?.dataset.deckId === deckId;
+}
+
+function bindFate(deck) {
+  if (fateState.deckId !== deck.id) fateState.search = null;
+  $("#fateRank").onclick = () => rankFate(deck, false);
+  $("#fateSaveWeights").onclick = () => rankFate(deck, true);
+  $("#fateCompareRun").onclick = () => compareFate(deck);
+  $("#fateSearchRun").onclick = () => searchFate(deck);
+  loadFateReadout(deck.id);
+}
+
+async function rankFate(deck, save) {
+  const add = $("#fateAdd").value.trim();
+  if (!add) return toast("Name the card to add.", "bad");
+  const weights = readFateWeights();
+  const hasWeights = Object.keys(weights.ecologies).length > 0;
+  if (save && !hasWeights) return toast("Enter weights before saving.", "bad");
+  const body = { add };
+  if (hasWeights) body.weights = weights;
+  if (save) body.save = true;
+  const deckId = deck.id;
+  $("#fateSwapsBody").innerHTML = `<p class="tiny">Ranking cuts for ${esc(add)}…</p>`;
+  try {
+    const report = await api(`/api/decks/${encodeURIComponent(deckId)}/fate/swaps`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    if (!fateStill(deckId)) return;
+    renderSwaps(report);
+  } catch (err) {
+    if (!fateStill(deckId)) return;
+    $("#fateSwapsBody").innerHTML = `<p class="tiny">${esc(err.message)}</p>`;
+  }
+}
+
+async function compareFate(deck) {
+  const other = $("#fateOther").value;
+  if (!other) return toast("Pick another set.", "bad");
+  const otherDeck = (state.decks || []).find((item) => item.id === other);
+  const deckId = deck.id;
+  $("#fateCompareBody").innerHTML = `<p class="tiny">Comparing…</p>`;
+  try {
+    const report = await api("/api/fate/compare", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        deck_a_id: deckId,
+        deck_b_id: other,
+        games: Number($("#fateGames").value) || 20,
+      }),
+    });
+    if (!fateStill(deckId)) return;
+    renderCompare(report, deck.name, otherDeck ? otherDeck.name : other);
+  } catch (err) {
+    if (!fateStill(deckId)) return;
+    $("#fateCompareBody").innerHTML = `<p class="tiny">${esc(err.message)}</p>`;
+  }
+}
+
+function splitNames(value) {
+  return String(value || "").split(",").map((name) => name.trim()).filter(Boolean);
+}
+
+async function searchFate(deck) {
+  const body = {
+    budget: {
+      max_candidates: Number($("#fateMax").value) || 8,
+      top_k: Number($("#fateTop").value) || 1,
+      games_per_candidate: Number($("#fateSearchGames").value) || 2,
+      depth: 1,
+    },
+    seed: 7,
+  };
+  const pool = splitNames($("#fatePool").value);
+  const locks = splitNames($("#fateLocks").value);
+  if (pool.length) body.pool = pool;
+  if (locks.length) body.locks = locks;
+  const deckId = deck.id;
+  $("#fateSearchBody").innerHTML = `<p class="tiny">Searching one swap…</p>`;
+  try {
+    const report = await api(`/api/decks/${encodeURIComponent(deckId)}/fate/search`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    if (!fateStill(deckId)) return;
+    renderSearch(report);
+  } catch (err) {
+    if (!fateStill(deckId)) return;
+    $("#fateSearchBody").innerHTML = `<p class="tiny">${esc(err.message)}</p>`;
+  }
+}
+
 function renderDecks() {
   const d = selectedSet();
   const box = $("#deckList");
@@ -1665,9 +2088,11 @@ function renderDecks() {
       <div class="grid">
         ${tiles}
       </div>
-    </div>`;
+    </div>
+    ${fatePanelHtml(d)}`;
   bindZoom(box);
   bindReplace(box);
+  bindFate(d);
   box.querySelectorAll("[data-delete-set]").forEach((btn) => {
     btn.onclick = () => deleteSelectedSet(btn.dataset.deleteSet);
   });
