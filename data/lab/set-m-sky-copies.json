@@ -6,9 +6,11 @@
   "seed": 20261007,
   "holdout_seed": 20261015,
   "holdout_games": 2000,
+  "holdout2_seed": 20261022,
+  "holdout2_games": 3000,
   "rule_preset": "s60",
-  "elapsed": 0.012874980000560754,
-  "method": "greedy one-card swaps from the locked Set M; every step adds one more Sky Field, up to 4; every distinct card is tried as the cut; the score is the loss-weighted win rate with weights frozen from the zero-Sky-Field baseline; cuts are screened on a short run and the best few are confirmed on the full run; every list on the path is rerun on a fresh seed",
+  "elapsed": 5955.718435213001,
+  "method": "greedy one-card swaps from the locked Set M; every step adds one more Sky Field, up to 4; every distinct card is tried as the cut; the score is the loss-weighted win rate with weights frozen from the zero-Sky-Field baseline; cuts are screened on a short run and the best few are confirmed on the full run; every list on the path is rerun on two fresh seeds and pooled",
   "foes": {
    "t60": "phantom",
    "hedrick": "phantom",
@@ -117,8 +119,6 @@
    "Ultra Ball",
    "Ultra Ball",
    "Night Stretcher",
-   "Night Stretcher",
-   "Night Stretcher",
    "Rescue Carrier",
    "Rescue Carrier",
    "Battle Cage",
@@ -144,7 +144,6 @@
    "Iono",
    "Professor's Research",
    "Professor's Research",
-   "Boss's Orders",
    "Penny",
    "Penny",
    "Crushing Hammer",
@@ -155,6 +154,9 @@
    "Counter Catcher",
    "Spiky Energy",
    "Spiky Energy",
+   "Sky Field",
+   "Sky Field",
+   "Sky Field",
    "Sky Field"
   ],
   "array": [
@@ -338,7 +340,270 @@
      "Counter Catcher",
      "Spiky Energy",
      "Spiky Energy"
-    ]
+    ],
+    "holdout": {
+     "weighted": 0.8561792144026187,
+     "se": 0.0038957992604952627,
+     "mean": 0.8981666666666667,
+     "worst": 0.8265,
+     "babies": 3.654138730301946,
+     "sky_games": 0.0,
+     "attack6": 0.0,
+     "attack7": 0.0,
+     "attack8": 0.0,
+     "cells": {
+      "t60": {
+       "a": 0.901,
+       "b": 0.099,
+       "tie": 0.0,
+       "first": 0.8728205128205129,
+       "second": 0.9278048780487805,
+       "games": 2000,
+       "bench_sum": 37246,
+       "bench_n": 10834,
+       "sky_turns": 0,
+       "sky_cage_turns": 0,
+       "sky_games": 0.0,
+       "attack6": 0.0,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.0125
+      },
+      "hedrick": {
+       "a": 0.8415,
+       "b": 0.1585,
+       "tie": 0.0,
+       "first": 0.814629258517034,
+       "second": 0.8682634730538922,
+       "games": 2000,
+       "bench_sum": 39075,
+       "bench_n": 11725,
+       "sky_turns": 0,
+       "sky_cage_turns": 0,
+       "sky_games": 0.0,
+       "attack6": 0.0,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.0305
+      },
+      "c60": {
+       "a": 0.848,
+       "b": 0.152,
+       "tie": 0.0,
+       "first": 0.8242303872889771,
+       "second": 0.8721047331319235,
+       "games": 2000,
+       "bench_sum": 55769,
+       "bench_n": 12855,
+       "sky_turns": 0,
+       "sky_cage_turns": 0,
+       "sky_games": 0.0,
+       "attack6": 0.0,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.0
+      },
+      "d60": {
+       "a": 0.985,
+       "b": 0.015,
+       "tie": 0.0,
+       "first": 0.9789251844046365,
+       "second": 0.9904852521408183,
+       "games": 2000,
+       "bench_sum": 16532,
+       "bench_n": 4456,
+       "sky_turns": 0,
+       "sky_cage_turns": 0,
+       "sky_games": 0.0,
+       "attack6": 0.0,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.0
+      },
+      "thorns": {
+       "a": 0.987,
+       "b": 0.013,
+       "tie": 0.0,
+       "first": 0.9883351007423118,
+       "second": 0.9858088930936613,
+       "games": 2000,
+       "bench_sum": 39412,
+       "bench_n": 10901,
+       "sky_turns": 0,
+       "sky_cage_turns": 0,
+       "sky_games": 0.0,
+       "attack6": 0.0,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.0
+      },
+      "starmie": {
+       "a": 0.8265,
+       "b": 0.1735,
+       "tie": 0.0,
+       "first": 0.8165680473372781,
+       "second": 0.8367139959432048,
+       "games": 2000,
+       "bench_sum": 46865,
+       "bench_n": 13512,
+       "sky_turns": 0,
+       "sky_cage_turns": 0,
+       "sky_games": 0.0,
+       "attack6": 0.0,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.0065
+      }
+     }
+    },
+    "holdout2": {
+     "weighted": 0.8562242225859247,
+     "se": 0.003183356596568273,
+     "mean": 0.8994444444444444,
+     "worst": 0.8303333333333334,
+     "babies": 3.650339771285975,
+     "sky_games": 0.0,
+     "attack6": 0.0,
+     "attack7": 0.0,
+     "attack8": 0.0,
+     "cells": {
+      "t60": {
+       "a": 0.9086666666666666,
+       "b": 0.09133333333333334,
+       "tie": 0.0,
+       "first": 0.8834110592938041,
+       "second": 0.933955970647098,
+       "games": 3000,
+       "bench_sum": 56699,
+       "bench_n": 16573,
+       "sky_turns": 0,
+       "sky_cage_turns": 0,
+       "sky_games": 0.0,
+       "attack6": 0.0,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.018666666666666668
+      },
+      "hedrick": {
+       "a": 0.8406666666666667,
+       "b": 0.15933333333333333,
+       "tie": 0.0,
+       "first": 0.8189189189189189,
+       "second": 0.8618421052631579,
+       "games": 3000,
+       "bench_sum": 58689,
+       "bench_n": 17723,
+       "sky_turns": 0,
+       "sky_cage_turns": 0,
+       "sky_games": 0.0,
+       "attack6": 0.0,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.026
+      },
+      "c60": {
+       "a": 0.839,
+       "b": 0.161,
+       "tie": 0.0,
+       "first": 0.8175720992622401,
+       "second": 0.8601722995361166,
+       "games": 3000,
+       "bench_sum": 83739,
+       "bench_n": 19342,
+       "sky_turns": 0,
+       "sky_cage_turns": 0,
+       "sky_games": 0.0,
+       "attack6": 0.0,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.0
+      },
+      "d60": {
+       "a": 0.989,
+       "b": 0.011,
+       "tie": 0.0,
+       "first": 0.9895901106050748,
+       "second": 0.9883800410116199,
+       "games": 3000,
+       "bench_sum": 24765,
+       "bench_n": 6608,
+       "sky_turns": 0,
+       "sky_cage_turns": 0,
+       "sky_games": 0.0,
+       "attack6": 0.0,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.0
+      },
+      "thorns": {
+       "a": 0.989,
+       "b": 0.011,
+       "tie": 0.0,
+       "first": 0.9906542056074766,
+       "second": 0.9873501997336884,
+       "games": 3000,
+       "bench_sum": 59299,
+       "bench_n": 16445,
+       "sky_turns": 0,
+       "sky_cage_turns": 0,
+       "sky_games": 0.0,
+       "attack6": 0.0,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.0
+      },
+      "starmie": {
+       "a": 0.8303333333333334,
+       "b": 0.16966666666666666,
+       "tie": 0.0,
+       "first": 0.8170409511228534,
+       "second": 0.8438761776581427,
+       "games": 3000,
+       "bench_sum": 70808,
+       "bench_n": 20286,
+       "sky_turns": 0,
+       "sky_cage_turns": 0,
+       "sky_games": 0.0,
+       "attack6": 0.0,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.007666666666666666
+      }
+     }
+    },
+    "pooled": {
+     "weighted": 0.8562062193126023,
+     "se": 0.0024651346999563393,
+     "mean": 0.8989333333333334,
+     "worst": 0.8288,
+     "games": 5000,
+     "cells": {
+      "t60": {
+       "a": 0.9056,
+       "games": 5000
+      },
+      "hedrick": {
+       "a": 0.841,
+       "games": 5000
+      },
+      "c60": {
+       "a": 0.8426,
+       "games": 5000
+      },
+      "d60": {
+       "a": 0.9874,
+       "games": 5000
+      },
+      "thorns": {
+       "a": 0.9882,
+       "games": 5000
+      },
+      "starmie": {
+       "a": 0.8288,
+       "games": 5000
+      }
+     }
+    }
    },
    {
     "label": "Sky Field 1",
@@ -520,7 +785,1605 @@
      "Spiky Energy",
      "Spiky Energy",
      "Sky Field"
-    ]
+    ],
+    "holdout": {
+     "weighted": 0.8637094926350246,
+     "se": 0.003798624514939421,
+     "mean": 0.9030833333333333,
+     "worst": 0.8315,
+     "babies": 3.739237853981955,
+     "sky_games": 0.14066666666666666,
+     "attack6": 0.083,
+     "attack7": 0.0,
+     "attack8": 0.0,
+     "cells": {
+      "t60": {
+       "a": 0.9085,
+       "b": 0.0915,
+       "tie": 0.0,
+       "first": 0.8776541961577351,
+       "second": 0.9386745796241345,
+       "games": 2000,
+       "bench_sum": 37908,
+       "bench_n": 10776,
+       "sky_turns": 1517,
+       "sky_cage_turns": 0,
+       "sky_games": 0.177,
+       "attack6": 0.094,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.0155
+      },
+      "hedrick": {
+       "a": 0.841,
+       "b": 0.159,
+       "tie": 0.0,
+       "first": 0.8224390243902439,
+       "second": 0.8605128205128205,
+       "games": 2000,
+       "bench_sum": 39817,
+       "bench_n": 11636,
+       "sky_turns": 1062,
+       "sky_cage_turns": 0,
+       "sky_games": 0.1735,
+       "attack6": 0.091,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.0255
+      },
+      "c60": {
+       "a": 0.8315,
+       "b": 0.1685,
+       "tie": 0.0,
+       "first": 0.8161838161838162,
+       "second": 0.8468468468468469,
+       "games": 2000,
+       "bench_sum": 56379,
+       "bench_n": 12928,
+       "sky_turns": 936,
+       "sky_cage_turns": 0,
+       "sky_games": 0.1615,
+       "attack6": 0.146,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.0
+      },
+      "d60": {
+       "a": 0.9845,
+       "b": 0.0155,
+       "tie": 0.0,
+       "first": 0.9869608826479438,
+       "second": 0.9820538384845464,
+       "games": 2000,
+       "bench_sum": 16624,
+       "bench_n": 4387,
+       "sky_turns": 91,
+       "sky_cage_turns": 0,
+       "sky_games": 0.03,
+       "attack6": 0.0255,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.0
+      },
+      "thorns": {
+       "a": 0.9895,
+       "b": 0.0105,
+       "tie": 0.0,
+       "first": 0.9889224572004028,
+       "second": 0.9900695134061569,
+       "games": 2000,
+       "bench_sum": 40682,
+       "bench_n": 11037,
+       "sky_turns": 487,
+       "sky_cage_turns": 0,
+       "sky_games": 0.072,
+       "attack6": 0.001,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.0
+      },
+      "starmie": {
+       "a": 0.8635,
+       "b": 0.1365,
+       "tie": 0.0,
+       "first": 0.8625954198473282,
+       "second": 0.8644957983193278,
+       "games": 2000,
+       "bench_sum": 47718,
+       "bench_n": 13187,
+       "sky_turns": 1747,
+       "sky_cage_turns": 0,
+       "sky_games": 0.23,
+       "attack6": 0.1405,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.009
+      }
+     }
+    },
+    "holdout2": {
+     "weighted": 0.8545368248772504,
+     "se": 0.0031966744420906627,
+     "mean": 0.8974444444444445,
+     "worst": 0.8226666666666667,
+     "babies": 3.7340678758900263,
+     "sky_games": 0.13999999999999999,
+     "attack6": 0.08333333333333333,
+     "attack7": 0.0,
+     "attack8": 0.0,
+     "cells": {
+      "t60": {
+       "a": 0.901,
+       "b": 0.099,
+       "tie": 0.0,
+       "first": 0.8772845953002611,
+       "second": 0.9257493188010899,
+       "games": 3000,
+       "bench_sum": 56420,
+       "bench_n": 16183,
+       "sky_turns": 2106,
+       "sky_cage_turns": 0,
+       "sky_games": 0.17066666666666666,
+       "attack6": 0.09833333333333333,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.017
+      },
+      "hedrick": {
+       "a": 0.845,
+       "b": 0.155,
+       "tie": 0.0,
+       "first": 0.819650067294751,
+       "second": 0.8698811096433289,
+       "games": 3000,
+       "bench_sum": 59843,
+       "bench_n": 17337,
+       "sky_turns": 1655,
+       "sky_cage_turns": 0,
+       "sky_games": 0.17633333333333334,
+       "attack6": 0.08866666666666667,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.03
+      },
+      "c60": {
+       "a": 0.842,
+       "b": 0.158,
+       "tie": 0.0,
+       "first": 0.8168449197860963,
+       "second": 0.8670212765957447,
+       "games": 3000,
+       "bench_sum": 85861,
+       "bench_n": 19469,
+       "sky_turns": 1360,
+       "sky_cage_turns": 0,
+       "sky_games": 0.159,
+       "attack6": 0.147,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.0
+      },
+      "d60": {
+       "a": 0.9856666666666667,
+       "b": 0.014333333333333333,
+       "tie": 0.0,
+       "first": 0.9851049424509141,
+       "second": 0.9862114248194354,
+       "games": 3000,
+       "bench_sum": 24889,
+       "bench_n": 6671,
+       "sky_turns": 141,
+       "sky_cage_turns": 0,
+       "sky_games": 0.028333333333333332,
+       "attack6": 0.024666666666666667,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.0
+      },
+      "thorns": {
+       "a": 0.9883333333333333,
+       "b": 0.011666666666666667,
+       "tie": 0.0,
+       "first": 0.985981308411215,
+       "second": 0.9906790945406125,
+       "games": 3000,
+       "bench_sum": 60903,
+       "bench_n": 16685,
+       "sky_turns": 777,
+       "sky_cage_turns": 0,
+       "sky_games": 0.07633333333333334,
+       "attack6": 0.0016666666666666668,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.0
+      },
+      "starmie": {
+       "a": 0.8226666666666667,
+       "b": 0.17733333333333334,
+       "tie": 0.0,
+       "first": 0.8038952316991269,
+       "second": 0.8411647915287889,
+       "games": 3000,
+       "bench_sum": 71320,
+       "bench_n": 19860,
+       "sky_turns": 2656,
+       "sky_cage_turns": 0,
+       "sky_games": 0.22933333333333333,
+       "attack6": 0.13966666666666666,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.011
+      }
+     }
+    },
+    "pooled": {
+     "weighted": 0.8582058919803601,
+     "se": 0.002448333017128116,
+     "mean": 0.8997,
+     "worst": 0.8378,
+     "games": 5000,
+     "cells": {
+      "t60": {
+       "a": 0.904,
+       "games": 5000
+      },
+      "hedrick": {
+       "a": 0.8434,
+       "games": 5000
+      },
+      "c60": {
+       "a": 0.8378,
+       "games": 5000
+      },
+      "d60": {
+       "a": 0.9852,
+       "games": 5000
+      },
+      "thorns": {
+       "a": 0.9888,
+       "games": 5000
+      },
+      "starmie": {
+       "a": 0.839,
+       "games": 5000
+      }
+     }
+    }
+   },
+   {
+    "label": "Sky Field 2",
+    "sky": 2,
+    "copies_before": 1,
+    "weighted": 0.8695973813420622,
+    "se": 0.005286396900951062,
+    "mean": 0.9076666666666666,
+    "worst": 0.836,
+    "babies": 3.819465247458491,
+    "sky_games": 0.24183333333333334,
+    "attack6": 0.1495,
+    "attack7": 0.0,
+    "attack8": 0.0,
+    "itchy": 0.007666666666666666,
+    "cells": {
+     "t60": {
+      "a": 0.899,
+      "b": 0.101,
+      "tie": 0.0,
+      "first": 0.8845360824742268,
+      "second": 0.912621359223301,
+      "games": 1000,
+      "bench_sum": 18986,
+      "bench_n": 5287,
+      "sky_turns": 1369,
+      "sky_cage_turns": 0,
+      "sky_games": 0.293,
+      "attack6": 0.171,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.012
+     },
+     "hedrick": {
+      "a": 0.867,
+      "b": 0.133,
+      "tie": 0.0,
+      "first": 0.8405511811023622,
+      "second": 0.8943089430894309,
+      "games": 1000,
+      "bench_sum": 20246,
+      "bench_n": 5672,
+      "sky_turns": 1069,
+      "sky_cage_turns": 0,
+      "sky_games": 0.303,
+      "attack6": 0.163,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.02
+     },
+     "c60": {
+      "a": 0.866,
+      "b": 0.134,
+      "tie": 0.0,
+      "first": 0.8565400843881856,
+      "second": 0.8745247148288974,
+      "games": 1000,
+      "bench_sum": 28640,
+      "bench_n": 6456,
+      "sky_turns": 838,
+      "sky_cage_turns": 0,
+      "sky_games": 0.282,
+      "attack6": 0.259,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.0
+     },
+     "d60": {
+      "a": 0.99,
+      "b": 0.01,
+      "tie": 0.0,
+      "first": 0.9958762886597938,
+      "second": 0.9844660194174757,
+      "games": 1000,
+      "bench_sum": 8144,
+      "bench_n": 2167,
+      "sky_turns": 100,
+      "sky_cage_turns": 0,
+      "sky_games": 0.059,
+      "attack6": 0.049,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.0
+     },
+     "thorns": {
+      "a": 0.988,
+      "b": 0.012,
+      "tie": 0.0,
+      "first": 0.9959432048681541,
+      "second": 0.980276134122288,
+      "games": 1000,
+      "bench_sum": 20238,
+      "bench_n": 5452,
+      "sky_turns": 349,
+      "sky_cage_turns": 0,
+      "sky_games": 0.115,
+      "attack6": 0.001,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.0
+     },
+     "starmie": {
+      "a": 0.836,
+      "b": 0.164,
+      "tie": 0.0,
+      "first": 0.8265107212475633,
+      "second": 0.8459958932238193,
+      "games": 1000,
+      "bench_sum": 23597,
+      "bench_n": 6345,
+      "sky_turns": 1585,
+      "sky_cage_turns": 0,
+      "sky_games": 0.399,
+      "attack6": 0.254,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.014
+     }
+    },
+    "cut": "Boss's Orders",
+    "list": [
+     "Mew ex",
+     "Mew ex",
+     "Mew ex",
+     "Mime Jr.",
+     "Mime Jr.",
+     "Igglybuff",
+     "Igglybuff",
+     "Igglybuff",
+     "Igglybuff",
+     "Manaphy",
+     "Buddy-Buddy Poffin",
+     "Buddy-Buddy Poffin",
+     "Buddy-Buddy Poffin",
+     "Buddy-Buddy Poffin",
+     "Nest Ball",
+     "Nest Ball",
+     "Nest Ball",
+     "Nest Ball",
+     "Ultra Ball",
+     "Ultra Ball",
+     "Night Stretcher",
+     "Night Stretcher",
+     "Night Stretcher",
+     "Rescue Carrier",
+     "Rescue Carrier",
+     "Battle Cage",
+     "Battle Cage",
+     "Battle Cage",
+     "Battle Cage",
+     "Bravery Charm",
+     "Bravery Charm",
+     "Bravery Charm",
+     "Bursting Balloon",
+     "Bursting Balloon",
+     "Hero's Cape",
+     "Max Potion",
+     "Max Potion",
+     "Max Potion",
+     "Arven",
+     "Arven",
+     "Arven",
+     "Arven",
+     "Iono",
+     "Iono",
+     "Iono",
+     "Iono",
+     "Professor's Research",
+     "Professor's Research",
+     "Penny",
+     "Penny",
+     "Crushing Hammer",
+     "Crushing Hammer",
+     "Crushing Hammer",
+     "Crushing Hammer",
+     "Counter Catcher",
+     "Counter Catcher",
+     "Spiky Energy",
+     "Spiky Energy",
+     "Sky Field",
+     "Sky Field"
+    ],
+    "holdout": {
+     "weighted": 0.8599901800327332,
+     "se": 0.003845709745315165,
+     "mean": 0.90125,
+     "worst": 0.836,
+     "babies": 3.8222795807233467,
+     "sky_games": 0.24183333333333334,
+     "attack6": 0.14875,
+     "attack7": 0.0,
+     "attack8": 0.0,
+     "cells": {
+      "t60": {
+       "a": 0.9005,
+       "b": 0.0995,
+       "tie": 0.0,
+       "first": 0.8779527559055118,
+       "second": 0.9237804878048781,
+       "games": 2000,
+       "bench_sum": 38800,
+       "bench_n": 10658,
+       "sky_turns": 2768,
+       "sky_cage_turns": 0,
+       "sky_games": 0.311,
+       "attack6": 0.175,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.0115
+      },
+      "hedrick": {
+       "a": 0.836,
+       "b": 0.164,
+       "tie": 0.0,
+       "first": 0.8166332665330661,
+       "second": 0.8552894211576846,
+       "games": 2000,
+       "bench_sum": 41649,
+       "bench_n": 11762,
+       "sky_turns": 2162,
+       "sky_cage_turns": 0,
+       "sky_games": 0.314,
+       "attack6": 0.1695,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.024
+      },
+      "c60": {
+       "a": 0.84,
+       "b": 0.16,
+       "tie": 0.0,
+       "first": 0.8225806451612904,
+       "second": 0.8571428571428571,
+       "games": 2000,
+       "bench_sum": 57545,
+       "bench_n": 12918,
+       "sky_turns": 1661,
+       "sky_cage_turns": 0,
+       "sky_games": 0.2855,
+       "attack6": 0.2585,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.0
+      },
+      "d60": {
+       "a": 0.9905,
+       "b": 0.0095,
+       "tie": 0.0,
+       "first": 0.9868554095045501,
+       "second": 0.9940652818991098,
+       "games": 2000,
+       "bench_sum": 16606,
+       "bench_n": 4421,
+       "sky_turns": 155,
+       "sky_cage_turns": 0,
+       "sky_games": 0.054,
+       "attack6": 0.0445,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.0
+      },
+      "thorns": {
+       "a": 0.989,
+       "b": 0.011,
+       "tie": 0.0,
+       "first": 0.986,
+       "second": 0.992,
+       "games": 2000,
+       "bench_sum": 40991,
+       "bench_n": 11034,
+       "sky_turns": 631,
+       "sky_cage_turns": 0,
+       "sky_games": 0.1055,
+       "attack6": 0.0005,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.0
+      },
+      "starmie": {
+       "a": 0.8515,
+       "b": 0.1485,
+       "tie": 0.0,
+       "first": 0.8371859296482412,
+       "second": 0.8656716417910447,
+       "games": 2000,
+       "bench_sum": 47269,
+       "bench_n": 12745,
+       "sky_turns": 3089,
+       "sky_cage_turns": 0,
+       "sky_games": 0.381,
+       "attack6": 0.2445,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.0075
+      }
+     }
+    },
+    "holdout2": {
+     "weighted": 0.8657926895799236,
+     "se": 0.003090105595691054,
+     "mean": 0.9048888888888889,
+     "worst": 0.8386666666666667,
+     "babies": 3.8056723685458627,
+     "sky_games": 0.243,
+     "attack6": 0.14822222222222223,
+     "attack7": 0.0,
+     "attack8": 0.0,
+     "cells": {
+      "t60": {
+       "a": 0.9116666666666666,
+       "b": 0.08833333333333333,
+       "tie": 0.0,
+       "first": 0.8962962962962963,
+       "second": 0.9267326732673268,
+       "games": 3000,
+       "bench_sum": 57479,
+       "bench_n": 15911,
+       "sky_turns": 3952,
+       "sky_cage_turns": 0,
+       "sky_games": 0.3016666666666667,
+       "attack6": 0.17066666666666666,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.010333333333333333
+      },
+      "hedrick": {
+       "a": 0.8603333333333333,
+       "b": 0.13966666666666666,
+       "tie": 0.0,
+       "first": 0.8356070941336972,
+       "second": 0.8839634941329857,
+       "games": 3000,
+       "bench_sum": 60502,
+       "bench_n": 17176,
+       "sky_turns": 3002,
+       "sky_cage_turns": 0,
+       "sky_games": 0.30433333333333334,
+       "attack6": 0.152,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.023333333333333334
+      },
+      "c60": {
+       "a": 0.8386666666666667,
+       "b": 0.16133333333333333,
+       "tie": 0.0,
+       "first": 0.8191056910569106,
+       "second": 0.8576115485564304,
+       "games": 3000,
+       "bench_sum": 85479,
+       "bench_n": 19213,
+       "sky_turns": 2579,
+       "sky_cage_turns": 0,
+       "sky_games": 0.3016666666666667,
+       "attack6": 0.27466666666666667,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.0
+      },
+      "d60": {
+       "a": 0.9886666666666667,
+       "b": 0.011333333333333334,
+       "tie": 0.0,
+       "first": 0.9900924702774109,
+       "second": 0.9872139973082099,
+       "games": 3000,
+       "bench_sum": 25037,
+       "bench_n": 6641,
+       "sky_turns": 258,
+       "sky_cage_turns": 0,
+       "sky_games": 0.053,
+       "attack6": 0.04533333333333334,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.0
+      },
+      "thorns": {
+       "a": 0.9843333333333333,
+       "b": 0.015666666666666666,
+       "tie": 0.0,
+       "first": 0.9810554803788903,
+       "second": 0.9875164257555847,
+       "games": 3000,
+       "bench_sum": 60320,
+       "bench_n": 16436,
+       "sky_turns": 1094,
+       "sky_cage_turns": 0,
+       "sky_games": 0.11966666666666667,
+       "attack6": 0.0013333333333333333,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.0
+      },
+      "starmie": {
+       "a": 0.8456666666666667,
+       "b": 0.15433333333333332,
+       "tie": 0.0,
+       "first": 0.834640522875817,
+       "second": 0.8571428571428571,
+       "games": 3000,
+       "bench_sum": 72269,
+       "bench_n": 19504,
+       "sky_turns": 4661,
+       "sky_cage_turns": 0,
+       "sky_games": 0.37766666666666665,
+       "attack6": 0.24533333333333332,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.011666666666666667
+      }
+     }
+    },
+    "pooled": {
+     "weighted": 0.8634716857610474,
+     "se": 0.002409558313750693,
+     "mean": 0.9034333333333334,
+     "worst": 0.8392,
+     "games": 5000,
+     "cells": {
+      "t60": {
+       "a": 0.9072,
+       "games": 5000
+      },
+      "hedrick": {
+       "a": 0.8506,
+       "games": 5000
+      },
+      "c60": {
+       "a": 0.8392,
+       "games": 5000
+      },
+      "d60": {
+       "a": 0.9894,
+       "games": 5000
+      },
+      "thorns": {
+       "a": 0.9862,
+       "games": 5000
+      },
+      "starmie": {
+       "a": 0.848,
+       "games": 5000
+      }
+     }
+    }
+   },
+   {
+    "label": "Sky Field 3",
+    "sky": 3,
+    "copies_before": 3,
+    "weighted": 0.8739689034369885,
+    "se": 0.005197474497585914,
+    "mean": 0.9103333333333333,
+    "worst": 0.85,
+    "babies": 3.839722468635154,
+    "sky_games": 0.3046666666666667,
+    "attack6": 0.19033333333333333,
+    "attack7": 0.0,
+    "attack8": 0.0,
+    "itchy": 0.007333333333333333,
+    "cells": {
+     "t60": {
+      "a": 0.902,
+      "b": 0.098,
+      "tie": 0.0,
+      "first": 0.889344262295082,
+      "second": 0.9140625,
+      "games": 1000,
+      "bench_sum": 19420,
+      "bench_n": 5274,
+      "sky_turns": 1807,
+      "sky_cage_turns": 0,
+      "sky_games": 0.381,
+      "attack6": 0.229,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.016
+     },
+     "hedrick": {
+      "a": 0.85,
+      "b": 0.15,
+      "tie": 0.0,
+      "first": 0.8162055335968379,
+      "second": 0.8846153846153846,
+      "games": 1000,
+      "bench_sum": 20123,
+      "bench_n": 5700,
+      "sky_turns": 1279,
+      "sky_cage_turns": 0,
+      "sky_games": 0.383,
+      "attack6": 0.199,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.02
+     },
+     "c60": {
+      "a": 0.861,
+      "b": 0.139,
+      "tie": 0.0,
+      "first": 0.8360995850622407,
+      "second": 0.8841698841698842,
+      "games": 1000,
+      "bench_sum": 29193,
+      "bench_n": 6527,
+      "sky_turns": 1282,
+      "sky_cage_turns": 0,
+      "sky_games": 0.387,
+      "attack6": 0.364,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.0
+     },
+     "d60": {
+      "a": 0.987,
+      "b": 0.013,
+      "tie": 0.0,
+      "first": 0.98635477582846,
+      "second": 0.9876796714579056,
+      "games": 1000,
+      "bench_sum": 8400,
+      "bench_n": 2215,
+      "sky_turns": 130,
+      "sky_cage_turns": 0,
+      "sky_games": 0.08,
+      "attack6": 0.065,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.0
+     },
+     "thorns": {
+      "a": 0.993,
+      "b": 0.007,
+      "tie": 0.0,
+      "first": 0.993963782696177,
+      "second": 0.9920477137176938,
+      "games": 1000,
+      "bench_sum": 19991,
+      "bench_n": 5434,
+      "sky_turns": 488,
+      "sky_cage_turns": 0,
+      "sky_games": 0.146,
+      "attack6": 0.002,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.0
+     },
+     "starmie": {
+      "a": 0.869,
+      "b": 0.131,
+      "tie": 0.0,
+      "first": 0.854,
+      "second": 0.884,
+      "games": 1000,
+      "bench_sum": 24070,
+      "bench_n": 6414,
+      "sky_turns": 1790,
+      "sky_cage_turns": 0,
+      "sky_games": 0.451,
+      "attack6": 0.283,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.008
+     }
+    },
+    "cut": "Night Stretcher",
+    "list": [
+     "Mew ex",
+     "Mew ex",
+     "Mew ex",
+     "Mime Jr.",
+     "Mime Jr.",
+     "Igglybuff",
+     "Igglybuff",
+     "Igglybuff",
+     "Igglybuff",
+     "Manaphy",
+     "Buddy-Buddy Poffin",
+     "Buddy-Buddy Poffin",
+     "Buddy-Buddy Poffin",
+     "Buddy-Buddy Poffin",
+     "Nest Ball",
+     "Nest Ball",
+     "Nest Ball",
+     "Nest Ball",
+     "Ultra Ball",
+     "Ultra Ball",
+     "Night Stretcher",
+     "Night Stretcher",
+     "Rescue Carrier",
+     "Rescue Carrier",
+     "Battle Cage",
+     "Battle Cage",
+     "Battle Cage",
+     "Battle Cage",
+     "Bravery Charm",
+     "Bravery Charm",
+     "Bravery Charm",
+     "Bursting Balloon",
+     "Bursting Balloon",
+     "Hero's Cape",
+     "Max Potion",
+     "Max Potion",
+     "Max Potion",
+     "Arven",
+     "Arven",
+     "Arven",
+     "Arven",
+     "Iono",
+     "Iono",
+     "Iono",
+     "Iono",
+     "Professor's Research",
+     "Professor's Research",
+     "Penny",
+     "Penny",
+     "Crushing Hammer",
+     "Crushing Hammer",
+     "Crushing Hammer",
+     "Crushing Hammer",
+     "Counter Catcher",
+     "Counter Catcher",
+     "Spiky Energy",
+     "Spiky Energy",
+     "Sky Field",
+     "Sky Field",
+     "Sky Field"
+    ],
+    "holdout": {
+     "weighted": 0.8562495908346972,
+     "se": 0.003883804112363517,
+     "mean": 0.8962499999999999,
+     "worst": 0.835,
+     "babies": 3.8439163047769442,
+     "sky_games": 0.31216666666666665,
+     "attack6": 0.19483333333333333,
+     "attack7": 0.0,
+     "attack8": 0.0,
+     "cells": {
+      "t60": {
+       "a": 0.8875,
+       "b": 0.1125,
+       "tie": 0.0,
+       "first": 0.872093023255814,
+       "second": 0.9039256198347108,
+       "games": 2000,
+       "bench_sum": 39443,
+       "bench_n": 10756,
+       "sky_turns": 3680,
+       "sky_cage_turns": 0,
+       "sky_games": 0.397,
+       "attack6": 0.2265,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.015
+      },
+      "hedrick": {
+       "a": 0.8545,
+       "b": 0.1455,
+       "tie": 0.0,
+       "first": 0.8218623481781376,
+       "second": 0.8863636363636364,
+       "games": 2000,
+       "bench_sum": 40916,
+       "bench_n": 11380,
+       "sky_turns": 2660,
+       "sky_cage_turns": 0,
+       "sky_games": 0.3915,
+       "attack6": 0.2075,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.0205
+      },
+      "c60": {
+       "a": 0.835,
+       "b": 0.165,
+       "tie": 0.0,
+       "first": 0.8052837573385518,
+       "second": 0.8660531697341514,
+       "games": 2000,
+       "bench_sum": 57256,
+       "bench_n": 12842,
+       "sky_turns": 2316,
+       "sky_cage_turns": 0,
+       "sky_games": 0.3815,
+       "attack6": 0.351,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.0
+      },
+      "d60": {
+       "a": 0.9815,
+       "b": 0.0185,
+       "tie": 0.0,
+       "first": 0.9808853118712274,
+       "second": 0.9821073558648111,
+       "games": 2000,
+       "bench_sum": 16894,
+       "bench_n": 4486,
+       "sky_turns": 274,
+       "sky_cage_turns": 0,
+       "sky_games": 0.075,
+       "attack6": 0.0645,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.0
+      },
+      "thorns": {
+       "a": 0.984,
+       "b": 0.016,
+       "tie": 0.0,
+       "first": 0.9839679358717435,
+       "second": 0.9840319361277445,
+       "games": 2000,
+       "bench_sum": 40944,
+       "bench_n": 11071,
+       "sky_turns": 882,
+       "sky_cage_turns": 0,
+       "sky_games": 0.143,
+       "attack6": 0.002,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.0
+      },
+      "starmie": {
+       "a": 0.835,
+       "b": 0.165,
+       "tie": 0.0,
+       "first": 0.8096172718351324,
+       "second": 0.8613659531090724,
+       "games": 2000,
+       "bench_sum": 47963,
+       "bench_n": 12790,
+       "sky_turns": 4202,
+       "sky_cage_turns": 0,
+       "sky_games": 0.485,
+       "attack6": 0.3175,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.0095
+      }
+     }
+    },
+    "holdout2": {
+     "weighted": 0.85479705400982,
+     "se": 0.0031813745309134086,
+     "mean": 0.8959444444444444,
+     "worst": 0.8383333333333334,
+     "babies": 3.852029925819473,
+     "sky_games": 0.3128888888888889,
+     "attack6": 0.1965,
+     "attack7": 0.0,
+     "attack8": 0.0,
+     "cells": {
+      "t60": {
+       "a": 0.876,
+       "b": 0.124,
+       "tie": 0.0,
+       "first": 0.8505523066926576,
+       "second": 0.9028062970568104,
+       "games": 3000,
+       "bench_sum": 58034,
+       "bench_n": 15910,
+       "sky_turns": 5475,
+       "sky_cage_turns": 0,
+       "sky_games": 0.39,
+       "attack6": 0.22933333333333333,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.014
+      },
+      "hedrick": {
+       "a": 0.8426666666666667,
+       "b": 0.15733333333333333,
+       "tie": 0.0,
+       "first": 0.8176907494935854,
+       "second": 0.8670177748518763,
+       "games": 3000,
+       "bench_sum": 61948,
+       "bench_n": 17202,
+       "sky_turns": 4227,
+       "sky_cage_turns": 0,
+       "sky_games": 0.407,
+       "attack6": 0.221,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.022
+      },
+      "c60": {
+       "a": 0.844,
+       "b": 0.156,
+       "tie": 0.0,
+       "first": 0.8117099135063207,
+       "second": 0.8764195056780227,
+       "games": 3000,
+       "bench_sum": 86691,
+       "bench_n": 19399,
+       "sky_turns": 3586,
+       "sky_cage_turns": 0,
+       "sky_games": 0.392,
+       "attack6": 0.36566666666666664,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.0
+      },
+      "d60": {
+       "a": 0.9893333333333333,
+       "b": 0.010666666666666666,
+       "tie": 0.0,
+       "first": 0.9920212765957447,
+       "second": 0.9866310160427807,
+       "games": 3000,
+       "bench_sum": 24896,
+       "bench_n": 6523,
+       "sky_turns": 318,
+       "sky_cage_turns": 0,
+       "sky_games": 0.067,
+       "attack6": 0.056666666666666664,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.0
+      },
+      "thorns": {
+       "a": 0.9853333333333333,
+       "b": 0.014666666666666666,
+       "tie": 0.0,
+       "first": 0.9843851659076123,
+       "second": 0.9863294600136705,
+       "games": 3000,
+       "bench_sum": 61557,
+       "bench_n": 16645,
+       "sky_turns": 1458,
+       "sky_cage_turns": 0,
+       "sky_games": 0.15833333333333333,
+       "attack6": 0.0013333333333333333,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.0
+      },
+      "starmie": {
+       "a": 0.8383333333333334,
+       "b": 0.16166666666666665,
+       "tie": 0.0,
+       "first": 0.8223593964334706,
+       "second": 0.8534370946822308,
+       "games": 3000,
+       "bench_sum": 71407,
+       "bench_n": 18955,
+       "sky_turns": 5854,
+       "sky_cage_turns": 0,
+       "sky_games": 0.463,
+       "attack6": 0.305,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.010333333333333333
+      }
+     }
+    },
+    "pooled": {
+     "weighted": 0.8553780687397708,
+     "se": 0.0024612849395248167,
+     "mean": 0.8960666666666667,
+     "worst": 0.837,
+     "games": 5000,
+     "cells": {
+      "t60": {
+       "a": 0.8806,
+       "games": 5000
+      },
+      "hedrick": {
+       "a": 0.8474,
+       "games": 5000
+      },
+      "c60": {
+       "a": 0.8404,
+       "games": 5000
+      },
+      "d60": {
+       "a": 0.9862,
+       "games": 5000
+      },
+      "thorns": {
+       "a": 0.9848,
+       "games": 5000
+      },
+      "starmie": {
+       "a": 0.837,
+       "games": 5000
+      }
+     }
+    }
+   },
+   {
+    "label": "Sky Field 4",
+    "sky": 4,
+    "copies_before": 2,
+    "weighted": 0.8665515548281506,
+    "se": 0.005322809405227076,
+    "mean": 0.9048333333333334,
+    "worst": 0.82,
+    "babies": 3.8791678540894843,
+    "sky_games": 0.3626666666666667,
+    "attack6": 0.2326666666666667,
+    "attack7": 0.0,
+    "attack8": 0.0,
+    "itchy": 0.008333333333333333,
+    "cells": {
+     "t60": {
+      "a": 0.882,
+      "b": 0.118,
+      "tie": 0.0,
+      "first": 0.8687258687258688,
+      "second": 0.8962655601659751,
+      "games": 1000,
+      "bench_sum": 19650,
+      "bench_n": 5286,
+      "sky_turns": 2268,
+      "sky_cage_turns": 0,
+      "sky_games": 0.463,
+      "attack6": 0.271,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.013
+     },
+     "hedrick": {
+      "a": 0.884,
+      "b": 0.116,
+      "tie": 0.0,
+      "first": 0.8640595903165735,
+      "second": 0.9071274298056156,
+      "games": 1000,
+      "bench_sum": 20834,
+      "bench_n": 5727,
+      "sky_turns": 1740,
+      "sky_cage_turns": 0,
+      "sky_games": 0.485,
+      "attack6": 0.274,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.028
+     },
+     "c60": {
+      "a": 0.866,
+      "b": 0.134,
+      "tie": 0.0,
+      "first": 0.8301886792452831,
+      "second": 0.9063829787234042,
+      "games": 1000,
+      "bench_sum": 29163,
+      "bench_n": 6518,
+      "sky_turns": 1434,
+      "sky_cage_turns": 0,
+      "sky_games": 0.432,
+      "attack6": 0.405,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.0
+     },
+     "d60": {
+      "a": 0.987,
+      "b": 0.013,
+      "tie": 0.0,
+      "first": 0.9897540983606558,
+      "second": 0.984375,
+      "games": 1000,
+      "bench_sum": 8328,
+      "bench_n": 2182,
+      "sky_turns": 150,
+      "sky_cage_turns": 0,
+      "sky_games": 0.092,
+      "attack6": 0.082,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.0
+     },
+     "thorns": {
+      "a": 0.99,
+      "b": 0.01,
+      "tie": 0.0,
+      "first": 0.993801652892562,
+      "second": 0.9864341085271318,
+      "games": 1000,
+      "bench_sum": 20682,
+      "bench_n": 5590,
+      "sky_turns": 469,
+      "sky_cage_turns": 0,
+      "sky_games": 0.166,
+      "attack6": 0.0,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.0
+     },
+     "starmie": {
+      "a": 0.82,
+      "b": 0.18,
+      "tie": 0.0,
+      "first": 0.822265625,
+      "second": 0.8176229508196722,
+      "games": 1000,
+      "bench_sum": 23851,
+      "bench_n": 6278,
+      "sky_turns": 2441,
+      "sky_cage_turns": 0,
+      "sky_games": 0.538,
+      "attack6": 0.364,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.009
+     }
+    },
+    "cut": "Night Stretcher",
+    "list": [
+     "Mew ex",
+     "Mew ex",
+     "Mew ex",
+     "Mime Jr.",
+     "Mime Jr.",
+     "Igglybuff",
+     "Igglybuff",
+     "Igglybuff",
+     "Igglybuff",
+     "Manaphy",
+     "Buddy-Buddy Poffin",
+     "Buddy-Buddy Poffin",
+     "Buddy-Buddy Poffin",
+     "Buddy-Buddy Poffin",
+     "Nest Ball",
+     "Nest Ball",
+     "Nest Ball",
+     "Nest Ball",
+     "Ultra Ball",
+     "Ultra Ball",
+     "Night Stretcher",
+     "Rescue Carrier",
+     "Rescue Carrier",
+     "Battle Cage",
+     "Battle Cage",
+     "Battle Cage",
+     "Battle Cage",
+     "Bravery Charm",
+     "Bravery Charm",
+     "Bravery Charm",
+     "Bursting Balloon",
+     "Bursting Balloon",
+     "Hero's Cape",
+     "Max Potion",
+     "Max Potion",
+     "Max Potion",
+     "Arven",
+     "Arven",
+     "Arven",
+     "Arven",
+     "Iono",
+     "Iono",
+     "Iono",
+     "Iono",
+     "Professor's Research",
+     "Professor's Research",
+     "Penny",
+     "Penny",
+     "Crushing Hammer",
+     "Crushing Hammer",
+     "Crushing Hammer",
+     "Crushing Hammer",
+     "Counter Catcher",
+     "Counter Catcher",
+     "Spiky Energy",
+     "Spiky Energy",
+     "Sky Field",
+     "Sky Field",
+     "Sky Field",
+     "Sky Field"
+    ],
+    "holdout": {
+     "weighted": 0.8501088379705402,
+     "se": 0.003952813703650981,
+     "mean": 0.8934166666666666,
+     "worst": 0.829,
+     "babies": 3.8696573367530624,
+     "sky_games": 0.36041666666666666,
+     "attack6": 0.2275,
+     "attack7": 0.0,
+     "attack8": 0.0,
+     "cells": {
+      "t60": {
+       "a": 0.8805,
+       "b": 0.1195,
+       "tie": 0.0,
+       "first": 0.8557312252964426,
+       "second": 0.9058704453441295,
+       "games": 2000,
+       "bench_sum": 38785,
+       "bench_n": 10457,
+       "sky_turns": 4449,
+       "sky_cage_turns": 0,
+       "sky_games": 0.455,
+       "attack6": 0.2615,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.0105
+      },
+      "hedrick": {
+       "a": 0.8345,
+       "b": 0.1655,
+       "tie": 0.0,
+       "first": 0.8056394763343404,
+       "second": 0.8629592850049652,
+       "games": 2000,
+       "bench_sum": 40679,
+       "bench_n": 11356,
+       "sky_turns": 3205,
+       "sky_cage_turns": 0,
+       "sky_games": 0.4535,
+       "attack6": 0.244,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.0215
+      },
+      "c60": {
+       "a": 0.841,
+       "b": 0.159,
+       "tie": 0.0,
+       "first": 0.8248031496062992,
+       "second": 0.8577235772357723,
+       "games": 2000,
+       "bench_sum": 57893,
+       "bench_n": 12861,
+       "sky_turns": 2883,
+       "sky_cage_turns": 0,
+       "sky_games": 0.454,
+       "attack6": 0.4245,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.0
+      },
+      "d60": {
+       "a": 0.9895,
+       "b": 0.0105,
+       "tie": 0.0,
+       "first": 0.9881188118811881,
+       "second": 0.990909090909091,
+       "games": 2000,
+       "bench_sum": 16963,
+       "bench_n": 4431,
+       "sky_turns": 341,
+       "sky_cage_turns": 0,
+       "sky_games": 0.099,
+       "attack6": 0.084,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.0
+      },
+      "thorns": {
+       "a": 0.986,
+       "b": 0.014,
+       "tie": 0.0,
+       "first": 0.9813664596273292,
+       "second": 0.9903288201160542,
+       "games": 2000,
+       "bench_sum": 40453,
+       "bench_n": 10922,
+       "sky_turns": 1022,
+       "sky_cage_turns": 0,
+       "sky_games": 0.1635,
+       "attack6": 0.002,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.0
+      },
+      "starmie": {
+       "a": 0.829,
+       "b": 0.171,
+       "tie": 0.0,
+       "first": 0.8077304261645193,
+       "second": 0.8506559031281534,
+       "games": 2000,
+       "bench_sum": 48137,
+       "bench_n": 12746,
+       "sky_turns": 4791,
+       "sky_cage_turns": 0,
+       "sky_games": 0.5375,
+       "attack6": 0.349,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.0095
+      }
+     }
+    },
+    "holdout2": {
+     "weighted": 0.8517315875613748,
+     "se": 0.0032132856442683316,
+     "mean": 0.8944444444444445,
+     "worst": 0.8283333333333334,
+     "babies": 3.8573357810554745,
+     "sky_games": 0.3536111111111111,
+     "attack6": 0.22022222222222224,
+     "attack7": 0.0,
+     "attack8": 0.0,
+     "cells": {
+      "t60": {
+       "a": 0.881,
+       "b": 0.119,
+       "tie": 0.0,
+       "first": 0.862046204620462,
+       "second": 0.9003367003367003,
+       "games": 3000,
+       "bench_sum": 58636,
+       "bench_n": 15905,
+       "sky_turns": 6652,
+       "sky_cage_turns": 0,
+       "sky_games": 0.4483333333333333,
+       "attack6": 0.25633333333333336,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.014
+      },
+      "hedrick": {
+       "a": 0.8446666666666667,
+       "b": 0.15533333333333332,
+       "tie": 0.0,
+       "first": 0.8255578093306288,
+       "second": 0.8632478632478633,
+       "games": 3000,
+       "bench_sum": 61482,
+       "bench_n": 17199,
+       "sky_turns": 4959,
+       "sky_cage_turns": 0,
+       "sky_games": 0.4593333333333333,
+       "attack6": 0.24533333333333332,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.02033333333333333
+      },
+      "c60": {
+       "a": 0.8376666666666667,
+       "b": 0.16233333333333333,
+       "tie": 0.0,
+       "first": 0.8055172413793104,
+       "second": 0.867741935483871,
+       "games": 3000,
+       "bench_sum": 85700,
+       "bench_n": 19090,
+       "sky_turns": 4252,
+       "sky_cage_turns": 0,
+       "sky_games": 0.43466666666666665,
+       "attack6": 0.406,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.0
+      },
+      "d60": {
+       "a": 0.9863333333333333,
+       "b": 0.013666666666666667,
+       "tie": 0.0,
+       "first": 0.9851451721809588,
+       "second": 0.9874917709019092,
+       "games": 3000,
+       "bench_sum": 25343,
+       "bench_n": 6731,
+       "sky_turns": 406,
+       "sky_cage_turns": 0,
+       "sky_games": 0.08066666666666666,
+       "attack6": 0.06966666666666667,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.0
+      },
+      "thorns": {
+       "a": 0.9886666666666667,
+       "b": 0.011333333333333334,
+       "tie": 0.0,
+       "first": 0.9860650298606503,
+       "second": 0.9912926992632284,
+       "games": 3000,
+       "bench_sum": 62265,
+       "bench_n": 16748,
+       "sky_turns": 1623,
+       "sky_cage_turns": 0,
+       "sky_games": 0.174,
+       "attack6": 0.001,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.0
+      },
+      "starmie": {
+       "a": 0.8283333333333334,
+       "b": 0.17166666666666666,
+       "tie": 0.0,
+       "first": 0.8145380434782609,
+       "second": 0.8416230366492147,
+       "games": 3000,
+       "bench_sum": 72180,
+       "bench_n": 19109,
+       "sky_turns": 7111,
+       "sky_cage_turns": 0,
+       "sky_games": 0.5246666666666666,
+       "attack6": 0.343,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.007
+      }
+     }
+    },
+    "pooled": {
+     "weighted": 0.8510824877250409,
+     "se": 0.0024934679118646355,
+     "mean": 0.8940333333333333,
+     "worst": 0.8286,
+     "games": 5000,
+     "cells": {
+      "t60": {
+       "a": 0.8808,
+       "games": 5000
+      },
+      "hedrick": {
+       "a": 0.8406,
+       "games": 5000
+      },
+      "c60": {
+       "a": 0.839,
+       "games": 5000
+      },
+      "d60": {
+       "a": 0.9876,
+       "games": 5000
+      },
+      "thorns": {
+       "a": 0.9876,
+       "games": 5000
+      },
+      "starmie": {
+       "a": 0.8286,
+       "games": 5000
+      }
+     }
+    }
    }
   ],
   "steps": [
@@ -2167,8 +4030,4874 @@
       }
      }
     }
+   },
+   {
+    "add": "Sky Field",
+    "screen": [
+     {
+      "cut": "Ultra Ball",
+      "copies_before": 2,
+      "weighted": 0.8712929623567921,
+      "se": 0.009591297124063815,
+      "mean": 0.9088888888888889,
+      "worst": 0.8366666666666667,
+      "babies": 3.811660141783938,
+      "sky_games": 0.27444444444444444,
+      "attack6": 0.15833333333333335,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.007777777777777778,
+      "cells": {
+       "t60": {
+        "a": 0.91
+       },
+       "hedrick": {
+        "a": 0.88
+       },
+       "c60": {
+        "a": 0.8366666666666667
+       },
+       "d60": {
+        "a": 0.9933333333333333
+       },
+       "thorns": {
+        "a": 0.9833333333333333
+       },
+       "starmie": {
+        "a": 0.85
+       }
+      }
+     },
+     {
+      "cut": "Boss's Orders",
+      "copies_before": 1,
+      "weighted": 0.8712929623567921,
+      "se": 0.009623030733949703,
+      "mean": 0.9105555555555555,
+      "worst": 0.83,
+      "babies": 3.8333333333333335,
+      "sky_games": 0.2438888888888889,
+      "attack6": 0.15388888888888888,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.009444444444444445,
+      "cells": {
+       "t60": {
+        "a": 0.9133333333333333
+       },
+       "hedrick": {
+        "a": 0.87
+       },
+       "c60": {
+        "a": 0.8666666666666667
+       },
+       "d60": {
+        "a": 0.9966666666666667
+       },
+       "thorns": {
+        "a": 0.9866666666666667
+       },
+       "starmie": {
+        "a": 0.83
+       }
+      }
+     },
+     {
+      "cut": "Battle Cage",
+      "copies_before": 4,
+      "weighted": 0.8690070921985815,
+      "se": 0.009680946585221646,
+      "mean": 0.9072222222222223,
+      "worst": 0.8433333333333334,
+      "babies": 3.790868153733375,
+      "sky_games": 0.24666666666666667,
+      "attack6": 0.15055555555555555,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.007777777777777778,
+      "cells": {
+       "t60": {
+        "a": 0.9133333333333333
+       },
+       "hedrick": {
+        "a": 0.8633333333333333
+       },
+       "c60": {
+        "a": 0.85
+       },
+       "d60": {
+        "a": 0.9833333333333333
+       },
+       "thorns": {
+        "a": 0.99
+       },
+       "starmie": {
+        "a": 0.8433333333333334
+       }
+      }
+     },
+     {
+      "cut": "Bravery Charm",
+      "copies_before": 3,
+      "weighted": 0.8677414075286416,
+      "se": 0.009694498989580283,
+      "mean": 0.9055555555555556,
+      "worst": 0.8466666666666667,
+      "babies": 3.8180584551148224,
+      "sky_games": 0.25555555555555554,
+      "attack6": 0.16055555555555556,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.007222222222222223,
+      "cells": {
+       "t60": {
+        "a": 0.9033333333333333
+       },
+       "hedrick": {
+        "a": 0.8466666666666667
+       },
+       "c60": {
+        "a": 0.8533333333333334
+       },
+       "d60": {
+        "a": 0.9933333333333333
+       },
+       "thorns": {
+        "a": 0.98
+       },
+       "starmie": {
+        "a": 0.8566666666666667
+       }
+      }
+     },
+     {
+      "cut": "Mew ex",
+      "copies_before": 3,
+      "weighted": 0.8627495908346972,
+      "se": 0.00980488472169403,
+      "mean": 0.9005555555555556,
+      "worst": 0.84,
+      "babies": 3.769847799259564,
+      "sky_games": 0.2316666666666667,
+      "attack6": 0.14277777777777778,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.012222222222222223,
+      "cells": {
+       "t60": {
+        "a": 0.87
+       },
+       "hedrick": {
+        "a": 0.84
+       },
+       "c60": {
+        "a": 0.8733333333333333
+       },
+       "d60": {
+        "a": 0.9933333333333333
+       },
+       "thorns": {
+        "a": 0.98
+       },
+       "starmie": {
+        "a": 0.8466666666666667
+       }
+      }
+     },
+     {
+      "cut": "Penny",
+      "copies_before": 2,
+      "weighted": 0.8622204037097654,
+      "se": 0.009887795145937623,
+      "mean": 0.903888888888889,
+      "worst": 0.8333333333333334,
+      "babies": 3.777246145667198,
+      "sky_games": 0.22777777777777777,
+      "attack6": 0.13555555555555557,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.010555555555555556,
+      "cells": {
+       "t60": {
+        "a": 0.9033333333333333
+       },
+       "hedrick": {
+        "a": 0.8433333333333334
+       },
+       "c60": {
+        "a": 0.86
+       },
+       "d60": {
+        "a": 0.9966666666666667
+       },
+       "thorns": {
+        "a": 0.9866666666666667
+       },
+       "starmie": {
+        "a": 0.8333333333333334
+       }
+      }
+     },
+     {
+      "cut": "Max Potion",
+      "copies_before": 3,
+      "weighted": 0.8563229678123295,
+      "se": 0.010064405623179798,
+      "mean": 0.8983333333333333,
+      "worst": 0.8266666666666667,
+      "babies": 3.7515366183977497,
+      "sky_games": 0.25333333333333335,
+      "attack6": 0.16166666666666665,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.008888888888888889,
+      "cells": {
+       "t60": {
+        "a": 0.9166666666666666
+       },
+       "hedrick": {
+        "a": 0.85
+       },
+       "c60": {
+        "a": 0.83
+       },
+       "d60": {
+        "a": 0.98
+       },
+       "thorns": {
+        "a": 0.9866666666666667
+       },
+       "starmie": {
+        "a": 0.8266666666666667
+       }
+      }
+     },
+     {
+      "cut": "Crushing Hammer",
+      "copies_before": 4,
+      "weighted": 0.8547463175122749,
+      "se": 0.010028322886229344,
+      "mean": 0.8955555555555555,
+      "worst": 0.83,
+      "babies": 3.7705283259070654,
+      "sky_games": 0.23555555555555555,
+      "attack6": 0.15055555555555555,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.009444444444444445,
+      "cells": {
+       "t60": {
+        "a": 0.86
+       },
+       "hedrick": {
+        "a": 0.83
+       },
+       "c60": {
+        "a": 0.8533333333333334
+       },
+       "d60": {
+        "a": 0.9933333333333333
+       },
+       "thorns": {
+        "a": 0.9866666666666667
+       },
+       "starmie": {
+        "a": 0.85
+       }
+      }
+     },
+     {
+      "cut": "Nest Ball",
+      "copies_before": 4,
+      "weighted": 0.8516257501363884,
+      "se": 0.010152834778205102,
+      "mean": 0.895,
+      "worst": 0.8266666666666667,
+      "babies": 3.7204699407281963,
+      "sky_games": 0.2222222222222222,
+      "attack6": 0.13,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.013333333333333334,
+      "cells": {
+       "t60": {
+        "a": 0.87
+       },
+       "hedrick": {
+        "a": 0.8566666666666667
+       },
+       "c60": {
+        "a": 0.8333333333333334
+       },
+       "d60": {
+        "a": 0.99
+       },
+       "thorns": {
+        "a": 0.9933333333333333
+       },
+       "starmie": {
+        "a": 0.8266666666666667
+       }
+      }
+     },
+     {
+      "cut": "Spiky Energy",
+      "copies_before": 2,
+      "weighted": 0.849721767594108,
+      "se": 0.010230120716047163,
+      "mean": 0.8933333333333334,
+      "worst": 0.81,
+      "babies": 3.753107983150108,
+      "sky_games": 0.22333333333333336,
+      "attack6": 0.1361111111111111,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.006666666666666667,
+      "cells": {
+       "t60": {
+        "a": 0.89
+       },
+       "hedrick": {
+        "a": 0.83
+       },
+       "c60": {
+        "a": 0.86
+       },
+       "d60": {
+        "a": 0.99
+       },
+       "thorns": {
+        "a": 0.98
+       },
+       "starmie": {
+        "a": 0.81
+       }
+      }
+     },
+     {
+      "cut": "Counter Catcher",
+      "copies_before": 2,
+      "weighted": 0.8472340425531916,
+      "se": 0.010264411733772816,
+      "mean": 0.8911111111111111,
+      "worst": 0.8233333333333334,
+      "babies": 3.7577950409705223,
+      "sky_games": 0.2283333333333333,
+      "attack6": 0.1388888888888889,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.008333333333333333,
+      "cells": {
+       "t60": {
+        "a": 0.8766666666666667
+       },
+       "hedrick": {
+        "a": 0.8266666666666667
+       },
+       "c60": {
+        "a": 0.8233333333333334
+       },
+       "d60": {
+        "a": 0.98
+       },
+       "thorns": {
+        "a": 0.9966666666666667
+       },
+       "starmie": {
+        "a": 0.8433333333333334
+       }
+      }
+     },
+     {
+      "cut": "Professor's Research",
+      "copies_before": 2,
+      "weighted": 0.8447572285870159,
+      "se": 0.010364521118302087,
+      "mean": 0.8911111111111111,
+      "worst": 0.8,
+      "babies": 3.751719030995451,
+      "sky_games": 0.21,
+      "attack6": 0.12222222222222223,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.010555555555555556,
+      "cells": {
+       "t60": {
+        "a": 0.88
+       },
+       "hedrick": {
+        "a": 0.85
+       },
+       "c60": {
+        "a": 0.8366666666666667
+       },
+       "d60": {
+        "a": 0.9933333333333333
+       },
+       "thorns": {
+        "a": 0.9866666666666667
+       },
+       "starmie": {
+        "a": 0.8
+       }
+      }
+     },
+     {
+      "cut": "Iono",
+      "copies_before": 4,
+      "weighted": 0.8432078559738134,
+      "se": 0.010401136848133511,
+      "mean": 0.8888888888888888,
+      "worst": 0.8,
+      "babies": 3.7210269202785575,
+      "sky_games": 0.215,
+      "attack6": 0.12833333333333333,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.008333333333333333,
+      "cells": {
+       "t60": {
+        "a": 0.8766666666666667
+       },
+       "hedrick": {
+        "a": 0.84
+       },
+       "c60": {
+        "a": 0.8433333333333334
+       },
+       "d60": {
+        "a": 0.98
+       },
+       "thorns": {
+        "a": 0.9933333333333333
+       },
+       "starmie": {
+        "a": 0.8
+       }
+      }
+     },
+     {
+      "cut": "Night Stretcher",
+      "copies_before": 3,
+      "weighted": 0.8431314784506274,
+      "se": 0.010395421408834022,
+      "mean": 0.8894444444444445,
+      "worst": 0.8166666666666667,
+      "babies": 3.8060769470081923,
+      "sky_games": 0.24222222222222223,
+      "attack6": 0.14222222222222222,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.008888888888888889,
+      "cells": {
+       "t60": {
+        "a": 0.88
+       },
+       "hedrick": {
+        "a": 0.8333333333333334
+       },
+       "c60": {
+        "a": 0.8166666666666667
+       },
+       "d60": {
+        "a": 0.9933333333333333
+       },
+       "thorns": {
+        "a": 0.9866666666666667
+       },
+       "starmie": {
+        "a": 0.8266666666666667
+       }
+      }
+     },
+     {
+      "cut": "Rescue Carrier",
+      "copies_before": 2,
+      "weighted": 0.8412711402073104,
+      "se": 0.01039284599575224,
+      "mean": 0.8855555555555555,
+      "worst": 0.8066666666666666,
+      "babies": 3.7810196241304124,
+      "sky_games": 0.2388888888888889,
+      "attack6": 0.14166666666666666,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.007777777777777778,
+      "cells": {
+       "t60": {
+        "a": 0.8566666666666667
+       },
+       "hedrick": {
+        "a": 0.8066666666666666
+       },
+       "c60": {
+        "a": 0.8333333333333334
+       },
+       "d60": {
+        "a": 0.9933333333333333
+       },
+       "thorns": {
+        "a": 0.98
+       },
+       "starmie": {
+        "a": 0.8433333333333334
+       }
+      }
+     },
+     {
+      "cut": "Buddy-Buddy Poffin",
+      "copies_before": 4,
+      "weighted": 0.838417894162575,
+      "se": 0.010528550108073194,
+      "mean": 0.8872222222222222,
+      "worst": 0.79,
+      "babies": 3.6209761163032192,
+      "sky_games": 0.20944444444444443,
+      "attack6": 0.11944444444444445,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.007777777777777778,
+      "cells": {
+       "t60": {
+        "a": 0.8733333333333333
+       },
+       "hedrick": {
+        "a": 0.8466666666666667
+       },
+       "c60": {
+        "a": 0.83
+       },
+       "d60": {
+        "a": 0.9966666666666667
+       },
+       "thorns": {
+        "a": 0.9866666666666667
+       },
+       "starmie": {
+        "a": 0.79
+       }
+      }
+     },
+     {
+      "cut": "Bursting Balloon",
+      "copies_before": 2,
+      "weighted": 0.8340425531914893,
+      "se": 0.010665185860201732,
+      "mean": 0.8866666666666667,
+      "worst": 0.7866666666666666,
+      "babies": 3.743295019157088,
+      "sky_games": 0.22611111111111112,
+      "attack6": 0.1388888888888889,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.011111111111111112,
+      "cells": {
+       "t60": {
+        "a": 0.8866666666666667
+       },
+       "hedrick": {
+        "a": 0.8233333333333334
+       },
+       "c60": {
+        "a": 0.83
+       },
+       "d60": {
+        "a": 1.0
+       },
+       "thorns": {
+        "a": 0.9933333333333333
+       },
+       "starmie": {
+        "a": 0.7866666666666666
+       }
+      }
+     },
+     {
+      "cut": "Igglybuff",
+      "copies_before": 4,
+      "weighted": 0.8334588106928532,
+      "se": 0.01052605323438397,
+      "mean": 0.8761111111111112,
+      "worst": 0.7566666666666667,
+      "babies": 3.401959804019598,
+      "sky_games": 0.125,
+      "attack6": 0.0,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.009444444444444445,
+      "cells": {
+       "t60": {
+        "a": 0.8566666666666667
+       },
+       "hedrick": {
+        "a": 0.8733333333333333
+       },
+       "c60": {
+        "a": 0.7566666666666667
+       },
+       "d60": {
+        "a": 0.99
+       },
+       "thorns": {
+        "a": 0.9533333333333334
+       },
+       "starmie": {
+        "a": 0.8266666666666667
+       }
+      }
+     },
+     {
+      "cut": "Arven",
+      "copies_before": 4,
+      "weighted": 0.8286415711947627,
+      "se": 0.010762686087804329,
+      "mean": 0.88,
+      "worst": 0.7733333333333333,
+      "babies": 3.7464642262895174,
+      "sky_games": 0.235,
+      "attack6": 0.14833333333333334,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.011111111111111112,
+      "cells": {
+       "t60": {
+        "a": 0.8966666666666666
+       },
+       "hedrick": {
+        "a": 0.85
+       },
+       "c60": {
+        "a": 0.7733333333333333
+       },
+       "d60": {
+        "a": 0.9866666666666667
+       },
+       "thorns": {
+        "a": 0.9833333333333333
+       },
+       "starmie": {
+        "a": 0.79
+       }
+      }
+     },
+     {
+      "cut": "Hero's Cape",
+      "copies_before": 1,
+      "weighted": 0.8286252045826514,
+      "se": 0.010641795495179771,
+      "mean": 0.8761111111111112,
+      "worst": 0.74,
+      "babies": 3.7686131386861312,
+      "sky_games": 0.2233333333333333,
+      "attack6": 0.1361111111111111,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.007777777777777778,
+      "cells": {
+       "t60": {
+        "a": 0.8566666666666667
+       },
+       "hedrick": {
+        "a": 0.8566666666666667
+       },
+       "c60": {
+        "a": 0.74
+       },
+       "d60": {
+        "a": 0.98
+       },
+       "thorns": {
+        "a": 0.9866666666666667
+       },
+       "starmie": {
+        "a": 0.8366666666666667
+       }
+      }
+     },
+     {
+      "cut": "Mime Jr.",
+      "copies_before": 2,
+      "weighted": 0.8222040370976541,
+      "se": 0.010853821721113743,
+      "mean": 0.8527777777777777,
+      "worst": 0.8,
+      "babies": 3.3692248949980907,
+      "sky_games": 0.11222222222222222,
+      "attack6": 0.0,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.005,
+      "cells": {
+       "t60": {
+        "a": 0.8833333333333333
+       },
+       "hedrick": {
+        "a": 0.8066666666666666
+       },
+       "c60": {
+        "a": 0.8
+       },
+       "d60": {
+        "a": 0.8833333333333333
+       },
+       "thorns": {
+        "a": 0.94
+       },
+       "starmie": {
+        "a": 0.8033333333333333
+       }
+      }
+     },
+     {
+      "cut": "Manaphy",
+      "copies_before": 1,
+      "weighted": 0.8167430441898527,
+      "se": 0.01084547549354245,
+      "mean": 0.88,
+      "worst": 0.6433333333333333,
+      "babies": 4.0809114927344785,
+      "sky_games": 0.17888888888888888,
+      "attack6": 0.14833333333333334,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.002777777777777778,
+      "cells": {
+       "t60": {
+        "a": 0.9333333333333333
+       },
+       "hedrick": {
+        "a": 0.8366666666666667
+       },
+       "c60": {
+        "a": 0.88
+       },
+       "d60": {
+        "a": 0.99
+       },
+       "thorns": {
+        "a": 0.9966666666666667
+       },
+       "starmie": {
+        "a": 0.6433333333333333
+       }
+      }
+     }
+    ],
+    "confirm": [
+     {
+      "cut": "Boss's Orders",
+      "copies_before": 1,
+      "weighted": 0.8695973813420622,
+      "se": 0.005286396900951062,
+      "mean": 0.9076666666666666,
+      "worst": 0.836,
+      "babies": 3.819465247458491,
+      "sky_games": 0.24183333333333334,
+      "attack6": 0.1495,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.007666666666666666,
+      "cells": {
+       "t60": {
+        "a": 0.899,
+        "b": 0.101,
+        "tie": 0.0,
+        "first": 0.8845360824742268,
+        "second": 0.912621359223301,
+        "games": 1000,
+        "bench_sum": 18986,
+        "bench_n": 5287,
+        "sky_turns": 1369,
+        "sky_cage_turns": 0,
+        "sky_games": 0.293,
+        "attack6": 0.171,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.012
+       },
+       "hedrick": {
+        "a": 0.867,
+        "b": 0.133,
+        "tie": 0.0,
+        "first": 0.8405511811023622,
+        "second": 0.8943089430894309,
+        "games": 1000,
+        "bench_sum": 20246,
+        "bench_n": 5672,
+        "sky_turns": 1069,
+        "sky_cage_turns": 0,
+        "sky_games": 0.303,
+        "attack6": 0.163,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.02
+       },
+       "c60": {
+        "a": 0.866,
+        "b": 0.134,
+        "tie": 0.0,
+        "first": 0.8565400843881856,
+        "second": 0.8745247148288974,
+        "games": 1000,
+        "bench_sum": 28640,
+        "bench_n": 6456,
+        "sky_turns": 838,
+        "sky_cage_turns": 0,
+        "sky_games": 0.282,
+        "attack6": 0.259,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.0
+       },
+       "d60": {
+        "a": 0.99,
+        "b": 0.01,
+        "tie": 0.0,
+        "first": 0.9958762886597938,
+        "second": 0.9844660194174757,
+        "games": 1000,
+        "bench_sum": 8144,
+        "bench_n": 2167,
+        "sky_turns": 100,
+        "sky_cage_turns": 0,
+        "sky_games": 0.059,
+        "attack6": 0.049,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.0
+       },
+       "thorns": {
+        "a": 0.988,
+        "b": 0.012,
+        "tie": 0.0,
+        "first": 0.9959432048681541,
+        "second": 0.980276134122288,
+        "games": 1000,
+        "bench_sum": 20238,
+        "bench_n": 5452,
+        "sky_turns": 349,
+        "sky_cage_turns": 0,
+        "sky_games": 0.115,
+        "attack6": 0.001,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.0
+       },
+       "starmie": {
+        "a": 0.836,
+        "b": 0.164,
+        "tie": 0.0,
+        "first": 0.8265107212475633,
+        "second": 0.8459958932238193,
+        "games": 1000,
+        "bench_sum": 23597,
+        "bench_n": 6345,
+        "sky_turns": 1585,
+        "sky_cage_turns": 0,
+        "sky_games": 0.399,
+        "attack6": 0.254,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.014
+       }
+      }
+     },
+     {
+      "cut": "Battle Cage",
+      "copies_before": 4,
+      "weighted": 0.8632504091653028,
+      "se": 0.005389838204996727,
+      "mean": 0.9026666666666667,
+      "worst": 0.834,
+      "babies": 3.7880036486018933,
+      "sky_games": 0.245,
+      "attack6": 0.15416666666666667,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.0085,
+      "cells": {
+       "t60": {
+        "a": 0.895,
+        "b": 0.105,
+        "tie": 0.0,
+        "first": 0.875751503006012,
+        "second": 0.9141716566866267,
+        "games": 1000,
+        "bench_sum": 18548,
+        "bench_n": 5219,
+        "sky_turns": 1261,
+        "sky_cage_turns": 0,
+        "sky_games": 0.292,
+        "attack6": 0.166,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.017
+       },
+       "hedrick": {
+        "a": 0.85,
+        "b": 0.15,
+        "tie": 0.0,
+        "first": 0.808300395256917,
+        "second": 0.8927125506072875,
+        "games": 1000,
+        "bench_sum": 20484,
+        "bench_n": 5853,
+        "sky_turns": 1123,
+        "sky_cage_turns": 0,
+        "sky_games": 0.313,
+        "attack6": 0.167,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.024
+       },
+       "c60": {
+        "a": 0.863,
+        "b": 0.137,
+        "tie": 0.0,
+        "first": 0.8631984585741811,
+        "second": 0.8627858627858628,
+        "games": 1000,
+        "bench_sum": 28827,
+        "bench_n": 6446,
+        "sky_turns": 1036,
+        "sky_cage_turns": 0,
+        "sky_games": 0.314,
+        "attack6": 0.295,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.0
+       },
+       "d60": {
+        "a": 0.985,
+        "b": 0.015,
+        "tie": 0.0,
+        "first": 0.9879032258064516,
+        "second": 0.9821428571428571,
+        "games": 1000,
+        "bench_sum": 8323,
+        "bench_n": 2202,
+        "sky_turns": 104,
+        "sky_cage_turns": 0,
+        "sky_games": 0.061,
+        "attack6": 0.053,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.0
+       },
+       "thorns": {
+        "a": 0.989,
+        "b": 0.011,
+        "tie": 0.0,
+        "first": 0.9917695473251029,
+        "second": 0.9863813229571985,
+        "games": 1000,
+        "bench_sum": 20034,
+        "bench_n": 5478,
+        "sky_turns": 340,
+        "sky_cage_turns": 0,
+        "sky_games": 0.112,
+        "attack6": 0.0,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.0
+       },
+       "starmie": {
+        "a": 0.834,
+        "b": 0.166,
+        "tie": 0.0,
+        "first": 0.8171206225680934,
+        "second": 0.8518518518518519,
+        "games": 1000,
+        "bench_sum": 24216,
+        "bench_n": 6595,
+        "sky_turns": 1611,
+        "sky_cage_turns": 0,
+        "sky_games": 0.378,
+        "attack6": 0.244,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.01
+       }
+      }
+     },
+     {
+      "cut": "Bravery Charm",
+      "copies_before": 3,
+      "weighted": 0.8604484451718495,
+      "se": 0.005422622329583919,
+      "mean": 0.899,
+      "worst": 0.845,
+      "babies": 3.8012844849405214,
+      "sky_games": 0.24633333333333332,
+      "attack6": 0.14866666666666667,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.006333333333333333,
+      "cells": {
+       "t60": {
+        "a": 0.89,
+        "b": 0.11,
+        "tie": 0.0,
+        "first": 0.8622047244094488,
+        "second": 0.9186991869918699,
+        "games": 1000,
+        "bench_sum": 19521,
+        "bench_n": 5463,
+        "sky_turns": 1384,
+        "sky_cage_turns": 0,
+        "sky_games": 0.307,
+        "attack6": 0.165,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.012
+       },
+       "hedrick": {
+        "a": 0.845,
+        "b": 0.155,
+        "tie": 0.0,
+        "first": 0.8084210526315789,
+        "second": 0.878095238095238,
+        "games": 1000,
+        "bench_sum": 19567,
+        "bench_n": 5675,
+        "sky_turns": 878,
+        "sky_cage_turns": 0,
+        "sky_games": 0.281,
+        "attack6": 0.143,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.02
+       },
+       "c60": {
+        "a": 0.845,
+        "b": 0.155,
+        "tie": 0.0,
+        "first": 0.8227360308285164,
+        "second": 0.8690228690228691,
+        "games": 1000,
+        "bench_sum": 28387,
+        "bench_n": 6390,
+        "sky_turns": 838,
+        "sky_cage_turns": 0,
+        "sky_games": 0.291,
+        "attack6": 0.261,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.0
+       },
+       "d60": {
+        "a": 0.981,
+        "b": 0.019,
+        "tie": 0.0,
+        "first": 0.9776422764227642,
+        "second": 0.984251968503937,
+        "games": 1000,
+        "bench_sum": 8570,
+        "bench_n": 2276,
+        "sky_turns": 99,
+        "sky_cage_turns": 0,
+        "sky_games": 0.055,
+        "attack6": 0.045,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.0
+       },
+       "thorns": {
+        "a": 0.985,
+        "b": 0.015,
+        "tie": 0.0,
+        "first": 0.9802371541501976,
+        "second": 0.9898785425101214,
+        "games": 1000,
+        "bench_sum": 20360,
+        "bench_n": 5487,
+        "sky_turns": 370,
+        "sky_cage_turns": 0,
+        "sky_games": 0.127,
+        "attack6": 0.0,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.0
+       },
+       "starmie": {
+        "a": 0.848,
+        "b": 0.152,
+        "tie": 0.0,
+        "first": 0.8165680473372781,
+        "second": 0.8803245436105477,
+        "games": 1000,
+        "bench_sum": 23746,
+        "bench_n": 6317,
+        "sky_turns": 1654,
+        "sky_cage_turns": 0,
+        "sky_games": 0.417,
+        "attack6": 0.278,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.006
+       }
+      }
+     },
+     {
+      "cut": "Ultra Ball",
+      "copies_before": 2,
+      "weighted": 0.8537152209492634,
+      "se": 0.00554867563402744,
+      "mean": 0.8968333333333334,
+      "worst": 0.818,
+      "babies": 3.7697438135012153,
+      "sky_games": 0.25916666666666666,
+      "attack6": 0.15316666666666665,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.007,
+      "cells": {
+       "t60": {
+        "a": 0.898,
+        "b": 0.102,
+        "tie": 0.0,
+        "first": 0.8765182186234818,
+        "second": 0.9189723320158103,
+        "games": 1000,
+        "bench_sum": 18906,
+        "bench_n": 5279,
+        "sky_turns": 1452,
+        "sky_cage_turns": 0,
+        "sky_games": 0.326,
+        "attack6": 0.186,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.01
+       },
+       "hedrick": {
+        "a": 0.847,
+        "b": 0.153,
+        "tie": 0.0,
+        "first": 0.812992125984252,
+        "second": 0.8821138211382114,
+        "games": 1000,
+        "bench_sum": 20549,
+        "bench_n": 5903,
+        "sky_turns": 1074,
+        "sky_cage_turns": 0,
+        "sky_games": 0.334,
+        "attack6": 0.159,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.025
+       },
+       "c60": {
+        "a": 0.844,
+        "b": 0.156,
+        "tie": 0.0,
+        "first": 0.8326848249027238,
+        "second": 0.8559670781893004,
+        "games": 1000,
+        "bench_sum": 28386,
+        "bench_n": 6459,
+        "sky_turns": 875,
+        "sky_cage_turns": 0,
+        "sky_games": 0.31,
+        "attack6": 0.285,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.0
+       },
+       "d60": {
+        "a": 0.989,
+        "b": 0.011,
+        "tie": 0.0,
+        "first": 0.9959595959595959,
+        "second": 0.9821782178217822,
+        "games": 1000,
+        "bench_sum": 8294,
+        "bench_n": 2239,
+        "sky_turns": 88,
+        "sky_cage_turns": 0,
+        "sky_games": 0.052,
+        "attack6": 0.045,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.0
+       },
+       "thorns": {
+        "a": 0.985,
+        "b": 0.015,
+        "tie": 0.0,
+        "first": 0.9868667917448405,
+        "second": 0.9828693790149893,
+        "games": 1000,
+        "bench_sum": 20904,
+        "bench_n": 5688,
+        "sky_turns": 447,
+        "sky_cage_turns": 0,
+        "sky_games": 0.145,
+        "attack6": 0.001,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.0
+       },
+       "starmie": {
+        "a": 0.818,
+        "b": 0.182,
+        "tie": 0.0,
+        "first": 0.8012170385395537,
+        "second": 0.834319526627219,
+        "games": 1000,
+        "bench_sum": 23917,
+        "bench_n": 6518,
+        "sky_turns": 1598,
+        "sky_cage_turns": 0,
+        "sky_games": 0.388,
+        "attack6": 0.243,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.007
+       }
+      }
+     },
+     {
+      "cut": "Mew ex",
+      "copies_before": 3,
+      "weighted": 0.8522471358428805,
+      "se": 0.005561883407498537,
+      "mean": 0.8955000000000001,
+      "worst": 0.83,
+      "babies": 3.7686007468541125,
+      "sky_games": 0.22899999999999998,
+      "attack6": 0.138,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.012666666666666666,
+      "cells": {
+       "t60": {
+        "a": 0.889,
+        "b": 0.111,
+        "tie": 0.0,
+        "first": 0.851145038167939,
+        "second": 0.930672268907563,
+        "games": 1000,
+        "bench_sum": 19133,
+        "bench_n": 5449,
+        "sky_turns": 1239,
+        "sky_cage_turns": 0,
+        "sky_games": 0.286,
+        "attack6": 0.14,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.025
+       },
+       "hedrick": {
+        "a": 0.83,
+        "b": 0.17,
+        "tie": 0.0,
+        "first": 0.8065764023210832,
+        "second": 0.855072463768116,
+        "games": 1000,
+        "bench_sum": 19736,
+        "bench_n": 5743,
+        "sky_turns": 1016,
+        "sky_cage_turns": 0,
+        "sky_games": 0.306,
+        "attack6": 0.159,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.039
+       },
+       "c60": {
+        "a": 0.845,
+        "b": 0.155,
+        "tie": 0.0,
+        "first": 0.8387096774193549,
+        "second": 0.8511904761904762,
+        "games": 1000,
+        "bench_sum": 28049,
+        "bench_n": 6377,
+        "sky_turns": 804,
+        "sky_cage_turns": 0,
+        "sky_games": 0.285,
+        "attack6": 0.262,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.0
+       },
+       "d60": {
+        "a": 0.991,
+        "b": 0.009,
+        "tie": 0.0,
+        "first": 0.9901574803149606,
+        "second": 0.991869918699187,
+        "games": 1000,
+        "bench_sum": 8511,
+        "bench_n": 2264,
+        "sky_turns": 79,
+        "sky_cage_turns": 0,
+        "sky_games": 0.053,
+        "attack6": 0.047,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.0
+       },
+       "thorns": {
+        "a": 0.986,
+        "b": 0.014,
+        "tie": 0.0,
+        "first": 0.9961013645224172,
+        "second": 0.9753593429158111,
+        "games": 1000,
+        "bench_sum": 21093,
+        "bench_n": 5576,
+        "sky_turns": 267,
+        "sky_cage_turns": 0,
+        "sky_games": 0.085,
+        "attack6": 0.0,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.0
+       },
+       "starmie": {
+        "a": 0.832,
+        "b": 0.168,
+        "tie": 0.0,
+        "first": 0.8202020202020202,
+        "second": 0.8435643564356435,
+        "games": 1000,
+        "bench_sum": 23572,
+        "bench_n": 6458,
+        "sky_turns": 1444,
+        "sky_cage_turns": 0,
+        "sky_games": 0.359,
+        "attack6": 0.22,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.012
+       }
+      }
+     },
+     {
+      "cut": "Penny",
+      "copies_before": 2,
+      "weighted": 0.8452373158756138,
+      "se": 0.005675685336681938,
+      "mean": 0.8911666666666666,
+      "worst": 0.813,
+      "babies": 3.7776470962204773,
+      "sky_games": 0.235,
+      "attack6": 0.13983333333333334,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.010166666666666666,
+      "cells": {
+       "t60": {
+        "a": 0.893,
+        "b": 0.107,
+        "tie": 0.0,
+        "first": 0.8554216867469879,
+        "second": 0.9302788844621513,
+        "games": 1000,
+        "bench_sum": 18974,
+        "bench_n": 5259,
+        "sky_turns": 1366,
+        "sky_cage_turns": 0,
+        "sky_games": 0.305,
+        "attack6": 0.162,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.018
+       },
+       "hedrick": {
+        "a": 0.828,
+        "b": 0.172,
+        "tie": 0.0,
+        "first": 0.7895752895752896,
+        "second": 0.8692946058091287,
+        "games": 1000,
+        "bench_sum": 19876,
+        "bench_n": 5791,
+        "sky_turns": 922,
+        "sky_cage_turns": 0,
+        "sky_games": 0.282,
+        "attack6": 0.136,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.035
+       },
+       "c60": {
+        "a": 0.838,
+        "b": 0.162,
+        "tie": 0.0,
+        "first": 0.8246628131021194,
+        "second": 0.8523908523908524,
+        "games": 1000,
+        "bench_sum": 28111,
+        "bench_n": 6350,
+        "sky_turns": 835,
+        "sky_cage_turns": 0,
+        "sky_games": 0.284,
+        "attack6": 0.265,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.0
+       },
+       "d60": {
+        "a": 0.986,
+        "b": 0.014,
+        "tie": 0.0,
+        "first": 0.9895615866388309,
+        "second": 0.982725527831094,
+        "games": 1000,
+        "bench_sum": 8234,
+        "bench_n": 2170,
+        "sky_turns": 95,
+        "sky_cage_turns": 0,
+        "sky_games": 0.056,
+        "attack6": 0.047,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.0
+       },
+       "thorns": {
+        "a": 0.989,
+        "b": 0.011,
+        "tie": 0.0,
+        "first": 0.9904030710172744,
+        "second": 0.9874739039665971,
+        "games": 1000,
+        "bench_sum": 19747,
+        "bench_n": 5444,
+        "sky_turns": 293,
+        "sky_cage_turns": 0,
+        "sky_games": 0.107,
+        "attack6": 0.0,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.0
+       },
+       "starmie": {
+        "a": 0.813,
+        "b": 0.187,
+        "tie": 0.0,
+        "first": 0.796078431372549,
+        "second": 0.8306122448979592,
+        "games": 1000,
+        "bench_sum": 23899,
+        "bench_n": 6445,
+        "sky_turns": 1567,
+        "sky_cage_turns": 0,
+        "sky_games": 0.376,
+        "attack6": 0.229,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.008
+       }
+      }
+     }
+    ],
+    "chosen": "Boss's Orders",
+    "list": [
+     "Mew ex",
+     "Mew ex",
+     "Mew ex",
+     "Mime Jr.",
+     "Mime Jr.",
+     "Igglybuff",
+     "Igglybuff",
+     "Igglybuff",
+     "Igglybuff",
+     "Manaphy",
+     "Buddy-Buddy Poffin",
+     "Buddy-Buddy Poffin",
+     "Buddy-Buddy Poffin",
+     "Buddy-Buddy Poffin",
+     "Nest Ball",
+     "Nest Ball",
+     "Nest Ball",
+     "Nest Ball",
+     "Ultra Ball",
+     "Ultra Ball",
+     "Night Stretcher",
+     "Night Stretcher",
+     "Night Stretcher",
+     "Rescue Carrier",
+     "Rescue Carrier",
+     "Battle Cage",
+     "Battle Cage",
+     "Battle Cage",
+     "Battle Cage",
+     "Bravery Charm",
+     "Bravery Charm",
+     "Bravery Charm",
+     "Bursting Balloon",
+     "Bursting Balloon",
+     "Hero's Cape",
+     "Max Potion",
+     "Max Potion",
+     "Max Potion",
+     "Arven",
+     "Arven",
+     "Arven",
+     "Arven",
+     "Iono",
+     "Iono",
+     "Iono",
+     "Iono",
+     "Professor's Research",
+     "Professor's Research",
+     "Penny",
+     "Penny",
+     "Crushing Hammer",
+     "Crushing Hammer",
+     "Crushing Hammer",
+     "Crushing Hammer",
+     "Counter Catcher",
+     "Counter Catcher",
+     "Spiky Energy",
+     "Spiky Energy",
+     "Sky Field",
+     "Sky Field"
+    ],
+    "row": {
+     "cut": "Boss's Orders",
+     "copies_before": 1,
+     "weighted": 0.8695973813420622,
+     "se": 0.005286396900951062,
+     "mean": 0.9076666666666666,
+     "worst": 0.836,
+     "babies": 3.819465247458491,
+     "sky_games": 0.24183333333333334,
+     "attack6": 0.1495,
+     "attack7": 0.0,
+     "attack8": 0.0,
+     "itchy": 0.007666666666666666,
+     "cells": {
+      "t60": {
+       "a": 0.899,
+       "b": 0.101,
+       "tie": 0.0,
+       "first": 0.8845360824742268,
+       "second": 0.912621359223301,
+       "games": 1000,
+       "bench_sum": 18986,
+       "bench_n": 5287,
+       "sky_turns": 1369,
+       "sky_cage_turns": 0,
+       "sky_games": 0.293,
+       "attack6": 0.171,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.012
+      },
+      "hedrick": {
+       "a": 0.867,
+       "b": 0.133,
+       "tie": 0.0,
+       "first": 0.8405511811023622,
+       "second": 0.8943089430894309,
+       "games": 1000,
+       "bench_sum": 20246,
+       "bench_n": 5672,
+       "sky_turns": 1069,
+       "sky_cage_turns": 0,
+       "sky_games": 0.303,
+       "attack6": 0.163,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.02
+      },
+      "c60": {
+       "a": 0.866,
+       "b": 0.134,
+       "tie": 0.0,
+       "first": 0.8565400843881856,
+       "second": 0.8745247148288974,
+       "games": 1000,
+       "bench_sum": 28640,
+       "bench_n": 6456,
+       "sky_turns": 838,
+       "sky_cage_turns": 0,
+       "sky_games": 0.282,
+       "attack6": 0.259,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.0
+      },
+      "d60": {
+       "a": 0.99,
+       "b": 0.01,
+       "tie": 0.0,
+       "first": 0.9958762886597938,
+       "second": 0.9844660194174757,
+       "games": 1000,
+       "bench_sum": 8144,
+       "bench_n": 2167,
+       "sky_turns": 100,
+       "sky_cage_turns": 0,
+       "sky_games": 0.059,
+       "attack6": 0.049,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.0
+      },
+      "thorns": {
+       "a": 0.988,
+       "b": 0.012,
+       "tie": 0.0,
+       "first": 0.9959432048681541,
+       "second": 0.980276134122288,
+       "games": 1000,
+       "bench_sum": 20238,
+       "bench_n": 5452,
+       "sky_turns": 349,
+       "sky_cage_turns": 0,
+       "sky_games": 0.115,
+       "attack6": 0.001,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.0
+      },
+      "starmie": {
+       "a": 0.836,
+       "b": 0.164,
+       "tie": 0.0,
+       "first": 0.8265107212475633,
+       "second": 0.8459958932238193,
+       "games": 1000,
+       "bench_sum": 23597,
+       "bench_n": 6345,
+       "sky_turns": 1585,
+       "sky_cage_turns": 0,
+       "sky_games": 0.399,
+       "attack6": 0.254,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.014
+      }
+     }
+    }
+   },
+   {
+    "add": "Sky Field",
+    "screen": [
+     {
+      "cut": "Night Stretcher",
+      "copies_before": 3,
+      "weighted": 0.8676486633933442,
+      "se": 0.009718880047144924,
+      "mean": 0.9083333333333333,
+      "worst": 0.8366666666666667,
+      "babies": 3.8214917299490274,
+      "sky_games": 0.2955555555555555,
+      "attack6": 0.19444444444444442,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.007777777777777778,
+      "cells": {
+       "t60": {
+        "a": 0.92
+       },
+       "hedrick": {
+        "a": 0.8466666666666667
+       },
+       "c60": {
+        "a": 0.8366666666666667
+       },
+       "d60": {
+        "a": 0.99
+       },
+       "thorns": {
+        "a": 0.9966666666666667
+       },
+       "starmie": {
+        "a": 0.86
+       }
+      }
+     },
+     {
+      "cut": "Rescue Carrier",
+      "copies_before": 2,
+      "weighted": 0.8662084015275504,
+      "se": 0.009753325477907183,
+      "mean": 0.9077777777777777,
+      "worst": 0.8233333333333334,
+      "babies": 3.8329796264855687,
+      "sky_games": 0.2961111111111111,
+      "attack6": 0.18055555555555555,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.006111111111111111,
+      "cells": {
+       "t60": {
+        "a": 0.92
+       },
+       "hedrick": {
+        "a": 0.85
+       },
+       "c60": {
+        "a": 0.8233333333333334
+       },
+       "d60": {
+        "a": 0.99
+       },
+       "thorns": {
+        "a": 1.0
+       },
+       "starmie": {
+        "a": 0.8633333333333333
+       }
+      }
+     },
+     {
+      "cut": "Penny",
+      "copies_before": 2,
+      "weighted": 0.8637097654118931,
+      "se": 0.009863441310064322,
+      "mean": 0.9055555555555556,
+      "worst": 0.8333333333333334,
+      "babies": 3.8588739162227097,
+      "sky_games": 0.3238888888888889,
+      "attack6": 0.19944444444444445,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.008888888888888889,
+      "cells": {
+       "t60": {
+        "a": 0.9366666666666666
+       },
+       "hedrick": {
+        "a": 0.8433333333333334
+       },
+       "c60": {
+        "a": 0.8333333333333334
+       },
+       "d60": {
+        "a": 0.99
+       },
+       "thorns": {
+        "a": 0.9866666666666667
+       },
+       "starmie": {
+        "a": 0.8433333333333334
+       }
+      }
+     },
+     {
+      "cut": "Spiky Energy",
+      "copies_before": 2,
+      "weighted": 0.8617239498090562,
+      "se": 0.00991450338062318,
+      "mean": 0.9033333333333333,
+      "worst": 0.8233333333333334,
+      "babies": 3.8447088290544773,
+      "sky_games": 0.31777777777777777,
+      "attack6": 0.2011111111111111,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.008333333333333333,
+      "cells": {
+       "t60": {
+        "a": 0.9133333333333333
+       },
+       "hedrick": {
+        "a": 0.8566666666666667
+       },
+       "c60": {
+        "a": 0.85
+       },
+       "d60": {
+        "a": 0.9933333333333333
+       },
+       "thorns": {
+        "a": 0.9833333333333333
+       },
+       "starmie": {
+        "a": 0.8233333333333334
+       }
+      }
+     },
+     {
+      "cut": "Bravery Charm",
+      "copies_before": 3,
+      "weighted": 0.8597381342062193,
+      "se": 0.009967099783773768,
+      "mean": 0.9022222222222221,
+      "worst": 0.82,
+      "babies": 3.850593138826547,
+      "sky_games": 0.2916666666666667,
+      "attack6": 0.18388888888888888,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.007777777777777778,
+      "cells": {
+       "t60": {
+        "a": 0.9066666666666666
+       },
+       "hedrick": {
+        "a": 0.84
+       },
+       "c60": {
+        "a": 0.8666666666666667
+       },
+       "d60": {
+        "a": 0.99
+       },
+       "thorns": {
+        "a": 0.99
+       },
+       "starmie": {
+        "a": 0.82
+       }
+      }
+     },
+     {
+      "cut": "Iono",
+      "copies_before": 4,
+      "weighted": 0.8585870158210585,
+      "se": 0.00997343956019944,
+      "mean": 0.9016666666666667,
+      "worst": 0.8266666666666667,
+      "babies": 3.779418057338468,
+      "sky_games": 0.2972222222222222,
+      "attack6": 0.1922222222222222,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.007777777777777778,
+      "cells": {
+       "t60": {
+        "a": 0.8866666666666667
+       },
+       "hedrick": {
+        "a": 0.83
+       },
+       "c60": {
+        "a": 0.8766666666666667
+       },
+       "d60": {
+        "a": 0.9933333333333333
+       },
+       "thorns": {
+        "a": 0.9966666666666667
+       },
+       "starmie": {
+        "a": 0.8266666666666667
+       }
+      }
+     },
+     {
+      "cut": "Ultra Ball",
+      "copies_before": 2,
+      "weighted": 0.8575286415711947,
+      "se": 0.010001628547188368,
+      "mean": 0.898888888888889,
+      "worst": 0.82,
+      "babies": 3.821880556427152,
+      "sky_games": 0.335,
+      "attack6": 0.20722222222222222,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.007222222222222223,
+      "cells": {
+       "t60": {
+        "a": 0.8833333333333333
+       },
+       "hedrick": {
+        "a": 0.8566666666666667
+       },
+       "c60": {
+        "a": 0.8566666666666667
+       },
+       "d60": {
+        "a": 0.9933333333333333
+       },
+       "thorns": {
+        "a": 0.9833333333333333
+       },
+       "starmie": {
+        "a": 0.82
+       }
+      }
+     },
+     {
+      "cut": "Bursting Balloon",
+      "copies_before": 2,
+      "weighted": 0.8515984724495363,
+      "se": 0.010144108681417508,
+      "mean": 0.8922222222222222,
+      "worst": 0.7966666666666666,
+      "babies": 3.844177545691906,
+      "sky_games": 0.3161111111111111,
+      "attack6": 0.20444444444444443,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.01,
+      "cells": {
+       "t60": {
+        "a": 0.88
+       },
+       "hedrick": {
+        "a": 0.88
+       },
+       "c60": {
+        "a": 0.84
+       },
+       "d60": {
+        "a": 0.98
+       },
+       "thorns": {
+        "a": 0.9766666666666667
+       },
+       "starmie": {
+        "a": 0.7966666666666666
+       }
+      }
+     },
+     {
+      "cut": "Crushing Hammer",
+      "copies_before": 4,
+      "weighted": 0.851303873431533,
+      "se": 0.010159294728485266,
+      "mean": 0.8933333333333334,
+      "worst": 0.8266666666666667,
+      "babies": 3.869757174392936,
+      "sky_games": 0.32222222222222224,
+      "attack6": 0.19666666666666666,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.008333333333333333,
+      "cells": {
+       "t60": {
+        "a": 0.87
+       },
+       "hedrick": {
+        "a": 0.8433333333333334
+       },
+       "c60": {
+        "a": 0.8466666666666667
+       },
+       "d60": {
+        "a": 0.99
+       },
+       "thorns": {
+        "a": 0.9833333333333333
+       },
+       "starmie": {
+        "a": 0.8266666666666667
+       }
+      }
+     },
+     {
+      "cut": "Mew ex",
+      "copies_before": 3,
+      "weighted": 0.8485597381342063,
+      "se": 0.010216844745419455,
+      "mean": 0.8922222222222222,
+      "worst": 0.8033333333333333,
+      "babies": 3.867882749894559,
+      "sky_games": 0.32,
+      "attack6": 0.2038888888888889,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.01,
+      "cells": {
+       "t60": {
+        "a": 0.9033333333333333
+       },
+       "hedrick": {
+        "a": 0.8033333333333333
+       },
+       "c60": {
+        "a": 0.8166666666666667
+       },
+       "d60": {
+        "a": 0.99
+       },
+       "thorns": {
+        "a": 0.98
+       },
+       "starmie": {
+        "a": 0.86
+       }
+      }
+     },
+     {
+      "cut": "Counter Catcher",
+      "copies_before": 2,
+      "weighted": 0.8484942716857611,
+      "se": 0.010199407566710185,
+      "mean": 0.89,
+      "worst": 0.8166666666666667,
+      "babies": 3.840165675446049,
+      "sky_games": 0.3055555555555555,
+      "attack6": 0.1922222222222222,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.006666666666666667,
+      "cells": {
+       "t60": {
+        "a": 0.8733333333333333
+       },
+       "hedrick": {
+        "a": 0.8166666666666667
+       },
+       "c60": {
+        "a": 0.8266666666666667
+       },
+       "d60": {
+        "a": 0.98
+       },
+       "thorns": {
+        "a": 0.9866666666666667
+       },
+       "starmie": {
+        "a": 0.8566666666666667
+       }
+      }
+     },
+     {
+      "cut": "Max Potion",
+      "copies_before": 3,
+      "weighted": 0.848341516639389,
+      "se": 0.010239118452456591,
+      "mean": 0.8911111111111111,
+      "worst": 0.8166666666666667,
+      "babies": 3.824733565474306,
+      "sky_games": 0.28055555555555556,
+      "attack6": 0.18444444444444444,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.007777777777777778,
+      "cells": {
+       "t60": {
+        "a": 0.8766666666666667
+       },
+       "hedrick": {
+        "a": 0.8166666666666667
+       },
+       "c60": {
+        "a": 0.85
+       },
+       "d60": {
+        "a": 0.9766666666666667
+       },
+       "thorns": {
+        "a": 0.9933333333333333
+       },
+       "starmie": {
+        "a": 0.8333333333333334
+       }
+      }
+     },
+     {
+      "cut": "Battle Cage",
+      "copies_before": 4,
+      "weighted": 0.8459574468085107,
+      "se": 0.01029580251957189,
+      "mean": 0.8888888888888888,
+      "worst": 0.8166666666666667,
+      "babies": 3.853627760252366,
+      "sky_games": 0.31444444444444447,
+      "attack6": 0.20555555555555557,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.009444444444444445,
+      "cells": {
+       "t60": {
+        "a": 0.8766666666666667
+       },
+       "hedrick": {
+        "a": 0.8166666666666667
+       },
+       "c60": {
+        "a": 0.8333333333333334
+       },
+       "d60": {
+        "a": 0.9866666666666667
+       },
+       "thorns": {
+        "a": 0.98
+       },
+       "starmie": {
+        "a": 0.84
+       }
+      }
+     },
+     {
+      "cut": "Buddy-Buddy Poffin",
+      "copies_before": 4,
+      "weighted": 0.8443753409710857,
+      "se": 0.010366588339110446,
+      "mean": 0.8894444444444445,
+      "worst": 0.82,
+      "babies": 3.718711276332094,
+      "sky_games": 0.28833333333333333,
+      "attack6": 0.1761111111111111,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.008333333333333333,
+      "cells": {
+       "t60": {
+        "a": 0.88
+       },
+       "hedrick": {
+        "a": 0.8266666666666667
+       },
+       "c60": {
+        "a": 0.8366666666666667
+       },
+       "d60": {
+        "a": 0.9866666666666667
+       },
+       "thorns": {
+        "a": 0.9866666666666667
+       },
+       "starmie": {
+        "a": 0.82
+       }
+      }
+     },
+     {
+      "cut": "Nest Ball",
+      "copies_before": 4,
+      "weighted": 0.8382760501909439,
+      "se": 0.010511812449917227,
+      "mean": 0.8877777777777777,
+      "worst": 0.7833333333333333,
+      "babies": 3.773211086521235,
+      "sky_games": 0.30333333333333334,
+      "attack6": 0.18666666666666665,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.007777777777777778,
+      "cells": {
+       "t60": {
+        "a": 0.8833333333333333
+       },
+       "hedrick": {
+        "a": 0.8766666666666667
+       },
+       "c60": {
+        "a": 0.8
+       },
+       "d60": {
+        "a": 0.9933333333333333
+       },
+       "thorns": {
+        "a": 0.99
+       },
+       "starmie": {
+        "a": 0.7833333333333333
+       }
+      }
+     },
+     {
+      "cut": "Manaphy",
+      "copies_before": 1,
+      "weighted": 0.8287343153300599,
+      "se": 0.010648030822154143,
+      "mean": 0.8872222222222222,
+      "worst": 0.6766666666666666,
+      "babies": 4.082667866381734,
+      "sky_games": 0.21166666666666667,
+      "attack6": 0.17333333333333334,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.0044444444444444444,
+      "cells": {
+       "t60": {
+        "a": 0.9333333333333333
+       },
+       "hedrick": {
+        "a": 0.8633333333333333
+       },
+       "c60": {
+        "a": 0.8633333333333333
+       },
+       "d60": {
+        "a": 0.9966666666666667
+       },
+       "thorns": {
+        "a": 0.99
+       },
+       "starmie": {
+        "a": 0.6766666666666666
+       }
+      }
+     },
+     {
+      "cut": "Professor's Research",
+      "copies_before": 2,
+      "weighted": 0.8273867975995636,
+      "se": 0.010804774065467652,
+      "mean": 0.8766666666666666,
+      "worst": 0.7866666666666666,
+      "babies": 3.7694954128440368,
+      "sky_games": 0.2916666666666667,
+      "attack6": 0.17555555555555558,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.011111111111111112,
+      "cells": {
+       "t60": {
+        "a": 0.8766666666666667
+       },
+       "hedrick": {
+        "a": 0.8166666666666667
+       },
+       "c60": {
+        "a": 0.82
+       },
+       "d60": {
+        "a": 0.9766666666666667
+       },
+       "thorns": {
+        "a": 0.9833333333333333
+       },
+       "starmie": {
+        "a": 0.7866666666666666
+       }
+      }
+     },
+     {
+      "cut": "Hero's Cape",
+      "copies_before": 1,
+      "weighted": 0.8270812875068194,
+      "se": 0.010708925918402572,
+      "mean": 0.8811111111111112,
+      "worst": 0.7266666666666667,
+      "babies": 3.8982474774296336,
+      "sky_games": 0.31277777777777777,
+      "attack6": 0.20444444444444443,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.010555555555555556,
+      "cells": {
+       "t60": {
+        "a": 0.8833333333333333
+       },
+       "hedrick": {
+        "a": 0.8433333333333334
+       },
+       "c60": {
+        "a": 0.7266666666666667
+       },
+       "d60": {
+        "a": 1.0
+       },
+       "thorns": {
+        "a": 0.9966666666666667
+       },
+       "starmie": {
+        "a": 0.8366666666666667
+       }
+      }
+     },
+     {
+      "cut": "Arven",
+      "copies_before": 4,
+      "weighted": 0.8252591380250954,
+      "se": 0.010851742783863206,
+      "mean": 0.8783333333333333,
+      "worst": 0.7733333333333333,
+      "babies": 3.850863256011016,
+      "sky_games": 0.2788888888888889,
+      "attack6": 0.17833333333333334,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.008888888888888889,
+      "cells": {
+       "t60": {
+        "a": 0.8966666666666666
+       },
+       "hedrick": {
+        "a": 0.8133333333333334
+       },
+       "c60": {
+        "a": 0.7733333333333333
+       },
+       "d60": {
+        "a": 0.9833333333333333
+       },
+       "thorns": {
+        "a": 0.9933333333333333
+       },
+       "starmie": {
+        "a": 0.81
+       }
+      }
+     },
+     {
+      "cut": "Mime Jr.",
+      "copies_before": 2,
+      "weighted": 0.8242116748499727,
+      "se": 0.010802778454272167,
+      "mean": 0.8588888888888889,
+      "worst": 0.7966666666666666,
+      "babies": 3.4106449106449106,
+      "sky_games": 0.14666666666666667,
+      "attack6": 0.0,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.008333333333333333,
+      "cells": {
+       "t60": {
+        "a": 0.8766666666666667
+       },
+       "hedrick": {
+        "a": 0.7966666666666666
+       },
+       "c60": {
+        "a": 0.8
+       },
+       "d60": {
+        "a": 0.92
+       },
+       "thorns": {
+        "a": 0.94
+       },
+       "starmie": {
+        "a": 0.82
+       }
+      }
+     },
+     {
+      "cut": "Igglybuff",
+      "copies_before": 4,
+      "weighted": 0.8143971631205674,
+      "se": 0.011004028183419721,
+      "mean": 0.8649999999999999,
+      "worst": 0.73,
+      "babies": 3.446375321336761,
+      "sky_games": 0.15388888888888888,
+      "attack6": 0.0,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.012777777777777779,
+      "cells": {
+       "t60": {
+        "a": 0.8666666666666667
+       },
+       "hedrick": {
+        "a": 0.8166666666666667
+       },
+       "c60": {
+        "a": 0.73
+       },
+       "d60": {
+        "a": 0.98
+       },
+       "thorns": {
+        "a": 0.97
+       },
+       "starmie": {
+        "a": 0.8266666666666667
+       }
+      }
+     }
+    ],
+    "confirm": [
+     {
+      "cut": "Night Stretcher",
+      "copies_before": 3,
+      "weighted": 0.8739689034369885,
+      "se": 0.005197474497585914,
+      "mean": 0.9103333333333333,
+      "worst": 0.85,
+      "babies": 3.839722468635154,
+      "sky_games": 0.3046666666666667,
+      "attack6": 0.19033333333333333,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.007333333333333333,
+      "cells": {
+       "t60": {
+        "a": 0.902,
+        "b": 0.098,
+        "tie": 0.0,
+        "first": 0.889344262295082,
+        "second": 0.9140625,
+        "games": 1000,
+        "bench_sum": 19420,
+        "bench_n": 5274,
+        "sky_turns": 1807,
+        "sky_cage_turns": 0,
+        "sky_games": 0.381,
+        "attack6": 0.229,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.016
+       },
+       "hedrick": {
+        "a": 0.85,
+        "b": 0.15,
+        "tie": 0.0,
+        "first": 0.8162055335968379,
+        "second": 0.8846153846153846,
+        "games": 1000,
+        "bench_sum": 20123,
+        "bench_n": 5700,
+        "sky_turns": 1279,
+        "sky_cage_turns": 0,
+        "sky_games": 0.383,
+        "attack6": 0.199,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.02
+       },
+       "c60": {
+        "a": 0.861,
+        "b": 0.139,
+        "tie": 0.0,
+        "first": 0.8360995850622407,
+        "second": 0.8841698841698842,
+        "games": 1000,
+        "bench_sum": 29193,
+        "bench_n": 6527,
+        "sky_turns": 1282,
+        "sky_cage_turns": 0,
+        "sky_games": 0.387,
+        "attack6": 0.364,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.0
+       },
+       "d60": {
+        "a": 0.987,
+        "b": 0.013,
+        "tie": 0.0,
+        "first": 0.98635477582846,
+        "second": 0.9876796714579056,
+        "games": 1000,
+        "bench_sum": 8400,
+        "bench_n": 2215,
+        "sky_turns": 130,
+        "sky_cage_turns": 0,
+        "sky_games": 0.08,
+        "attack6": 0.065,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.0
+       },
+       "thorns": {
+        "a": 0.993,
+        "b": 0.007,
+        "tie": 0.0,
+        "first": 0.993963782696177,
+        "second": 0.9920477137176938,
+        "games": 1000,
+        "bench_sum": 19991,
+        "bench_n": 5434,
+        "sky_turns": 488,
+        "sky_cage_turns": 0,
+        "sky_games": 0.146,
+        "attack6": 0.002,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.0
+       },
+       "starmie": {
+        "a": 0.869,
+        "b": 0.131,
+        "tie": 0.0,
+        "first": 0.854,
+        "second": 0.884,
+        "games": 1000,
+        "bench_sum": 24070,
+        "bench_n": 6414,
+        "sky_turns": 1790,
+        "sky_cage_turns": 0,
+        "sky_games": 0.451,
+        "attack6": 0.283,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.008
+       }
+      }
+     },
+     {
+      "cut": "Rescue Carrier",
+      "copies_before": 2,
+      "weighted": 0.861456628477905,
+      "se": 0.005418599634032844,
+      "mean": 0.9016666666666667,
+      "worst": 0.838,
+      "babies": 3.854791037660893,
+      "sky_games": 0.3096666666666667,
+      "attack6": 0.19016666666666668,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.007333333333333333,
+      "cells": {
+       "t60": {
+        "a": 0.895,
+        "b": 0.105,
+        "tie": 0.0,
+        "first": 0.8800813008130082,
+        "second": 0.9094488188976378,
+        "games": 1000,
+        "bench_sum": 19498,
+        "bench_n": 5254,
+        "sky_turns": 1943,
+        "sky_cage_turns": 0,
+        "sky_games": 0.386,
+        "attack6": 0.222,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.009
+       },
+       "hedrick": {
+        "a": 0.852,
+        "b": 0.148,
+        "tie": 0.0,
+        "first": 0.8089668615984406,
+        "second": 0.8973305954825462,
+        "games": 1000,
+        "bench_sum": 20213,
+        "bench_n": 5706,
+        "sky_turns": 1306,
+        "sky_cage_turns": 0,
+        "sky_games": 0.384,
+        "attack6": 0.192,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.023
+       },
+       "c60": {
+        "a": 0.849,
+        "b": 0.151,
+        "tie": 0.0,
+        "first": 0.8473895582329317,
+        "second": 0.850597609561753,
+        "games": 1000,
+        "bench_sum": 29140,
+        "bench_n": 6500,
+        "sky_turns": 1219,
+        "sky_cage_turns": 0,
+        "sky_games": 0.377,
+        "attack6": 0.354,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.0
+       },
+       "d60": {
+        "a": 0.986,
+        "b": 0.014,
+        "tie": 0.0,
+        "first": 0.9846743295019157,
+        "second": 0.9874476987447699,
+        "games": 1000,
+        "bench_sum": 8417,
+        "bench_n": 2214,
+        "sky_turns": 128,
+        "sky_cage_turns": 0,
+        "sky_games": 0.08,
+        "attack6": 0.071,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.0
+       },
+       "thorns": {
+        "a": 0.99,
+        "b": 0.01,
+        "tie": 0.0,
+        "first": 0.9880952380952381,
+        "second": 0.9919354838709677,
+        "games": 1000,
+        "bench_sum": 20089,
+        "bench_n": 5387,
+        "sky_turns": 455,
+        "sky_cage_turns": 0,
+        "sky_games": 0.144,
+        "attack6": 0.0,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.0
+       },
+       "starmie": {
+        "a": 0.838,
+        "b": 0.162,
+        "tie": 0.0,
+        "first": 0.8294573643410853,
+        "second": 0.8471074380165289,
+        "games": 1000,
+        "bench_sum": 23934,
+        "bench_n": 6404,
+        "sky_turns": 2001,
+        "sky_cage_turns": 0,
+        "sky_games": 0.487,
+        "attack6": 0.302,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.012
+       }
+      }
+     },
+     {
+      "cut": "Penny",
+      "copies_before": 2,
+      "weighted": 0.8611865793780688,
+      "se": 0.005432855087158587,
+      "mean": 0.9013333333333332,
+      "worst": 0.834,
+      "babies": 3.8582312753833077,
+      "sky_games": 0.31533333333333335,
+      "attack6": 0.19799999999999998,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.01,
+      "cells": {
+       "t60": {
+        "a": 0.914,
+        "b": 0.086,
+        "tie": 0.0,
+        "first": 0.91015625,
+        "second": 0.9180327868852459,
+        "games": 1000,
+        "bench_sum": 19673,
+        "bench_n": 5397,
+        "sky_turns": 1765,
+        "sky_cage_turns": 0,
+        "sky_games": 0.391,
+        "attack6": 0.229,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.019
+       },
+       "hedrick": {
+        "a": 0.851,
+        "b": 0.149,
+        "tie": 0.0,
+        "first": 0.8214285714285714,
+        "second": 0.8810483870967742,
+        "games": 1000,
+        "bench_sum": 20830,
+        "bench_n": 5853,
+        "sky_turns": 1315,
+        "sky_cage_turns": 0,
+        "sky_games": 0.378,
+        "attack6": 0.192,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.032
+       },
+       "c60": {
+        "a": 0.842,
+        "b": 0.158,
+        "tie": 0.0,
+        "first": 0.8099808061420346,
+        "second": 0.8768267223382046,
+        "games": 1000,
+        "bench_sum": 28888,
+        "bench_n": 6425,
+        "sky_turns": 1268,
+        "sky_cage_turns": 0,
+        "sky_games": 0.389,
+        "attack6": 0.362,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.0
+       },
+       "d60": {
+        "a": 0.987,
+        "b": 0.013,
+        "tie": 0.0,
+        "first": 0.988394584139265,
+        "second": 0.9855072463768116,
+        "games": 1000,
+        "bench_sum": 8371,
+        "bench_n": 2210,
+        "sky_turns": 104,
+        "sky_cage_turns": 0,
+        "sky_games": 0.077,
+        "attack6": 0.059,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.0
+       },
+       "thorns": {
+        "a": 0.98,
+        "b": 0.02,
+        "tie": 0.0,
+        "first": 0.9823182711198428,
+        "second": 0.9775967413441955,
+        "games": 1000,
+        "bench_sum": 20166,
+        "bench_n": 5465,
+        "sky_turns": 505,
+        "sky_cage_turns": 0,
+        "sky_games": 0.156,
+        "attack6": 0.0,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.0
+       },
+       "starmie": {
+        "a": 0.834,
+        "b": 0.166,
+        "tie": 0.0,
+        "first": 0.8130081300813008,
+        "second": 0.8543307086614174,
+        "games": 1000,
+        "bench_sum": 24621,
+        "bench_n": 6413,
+        "sky_turns": 2348,
+        "sky_cage_turns": 0,
+        "sky_games": 0.501,
+        "attack6": 0.346,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.009
+       }
+      }
+     },
+     {
+      "cut": "Spiky Energy",
+      "copies_before": 2,
+      "weighted": 0.85859410801964,
+      "se": 0.005467367903650875,
+      "mean": 0.8996666666666666,
+      "worst": 0.836,
+      "babies": 3.854736511919699,
+      "sky_games": 0.31783333333333336,
+      "attack6": 0.19883333333333333,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.007166666666666666,
+      "cells": {
+       "t60": {
+        "a": 0.9,
+        "b": 0.1,
+        "tie": 0.0,
+        "first": 0.8709016393442623,
+        "second": 0.927734375,
+        "games": 1000,
+        "bench_sum": 20091,
+        "bench_n": 5526,
+        "sky_turns": 1929,
+        "sky_cage_turns": 0,
+        "sky_games": 0.401,
+        "attack6": 0.229,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.009
+       },
+       "hedrick": {
+        "a": 0.838,
+        "b": 0.162,
+        "tie": 0.0,
+        "first": 0.8329718004338394,
+        "second": 0.8423005565862709,
+        "games": 1000,
+        "bench_sum": 20500,
+        "bench_n": 5752,
+        "sky_turns": 1343,
+        "sky_cage_turns": 0,
+        "sky_games": 0.387,
+        "attack6": 0.208,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.026
+       },
+       "c60": {
+        "a": 0.851,
+        "b": 0.149,
+        "tie": 0.0,
+        "first": 0.8361581920903954,
+        "second": 0.8678038379530917,
+        "games": 1000,
+        "bench_sum": 29019,
+        "bench_n": 6427,
+        "sky_turns": 1171,
+        "sky_cage_turns": 0,
+        "sky_games": 0.394,
+        "attack6": 0.372,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.0
+       },
+       "d60": {
+        "a": 0.986,
+        "b": 0.014,
+        "tie": 0.0,
+        "first": 0.9875776397515528,
+        "second": 0.9845261121856866,
+        "games": 1000,
+        "bench_sum": 8661,
+        "bench_n": 2243,
+        "sky_turns": 145,
+        "sky_cage_turns": 0,
+        "sky_games": 0.077,
+        "attack6": 0.065,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.0
+       },
+       "thorns": {
+        "a": 0.987,
+        "b": 0.013,
+        "tie": 0.0,
+        "first": 0.9902723735408561,
+        "second": 0.9835390946502057,
+        "games": 1000,
+        "bench_sum": 20468,
+        "bench_n": 5549,
+        "sky_turns": 510,
+        "sky_cage_turns": 0,
+        "sky_games": 0.156,
+        "attack6": 0.0,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.0
+       },
+       "starmie": {
+        "a": 0.836,
+        "b": 0.164,
+        "tie": 0.0,
+        "first": 0.8145833333333333,
+        "second": 0.8557692307692307,
+        "games": 1000,
+        "bench_sum": 24150,
+        "bench_n": 6383,
+        "sky_turns": 2187,
+        "sky_cage_turns": 0,
+        "sky_games": 0.492,
+        "attack6": 0.319,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.008
+       }
+      }
+     },
+     {
+      "cut": "Iono",
+      "copies_before": 4,
+      "weighted": 0.8549263502454991,
+      "se": 0.0055181317925709185,
+      "mean": 0.8961666666666667,
+      "worst": 0.826,
+      "babies": 3.802382465057179,
+      "sky_games": 0.30583333333333335,
+      "attack6": 0.20166666666666666,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.0075,
+      "cells": {
+       "t60": {
+        "a": 0.886,
+        "b": 0.114,
+        "tie": 0.0,
+        "first": 0.8689516129032258,
+        "second": 0.9027777777777778,
+        "games": 1000,
+        "bench_sum": 19170,
+        "bench_n": 5229,
+        "sky_turns": 1977,
+        "sky_cage_turns": 0,
+        "sky_games": 0.392,
+        "attack6": 0.225,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.018
+       },
+       "hedrick": {
+        "a": 0.852,
+        "b": 0.148,
+        "tie": 0.0,
+        "first": 0.8323471400394478,
+        "second": 0.8722109533468559,
+        "games": 1000,
+        "bench_sum": 20547,
+        "bench_n": 5798,
+        "sky_turns": 1340,
+        "sky_cage_turns": 0,
+        "sky_games": 0.38,
+        "attack6": 0.225,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.015
+       },
+       "c60": {
+        "a": 0.843,
+        "b": 0.157,
+        "tie": 0.0,
+        "first": 0.8319838056680162,
+        "second": 0.8537549407114624,
+        "games": 1000,
+        "bench_sum": 28133,
+        "bench_n": 6370,
+        "sky_turns": 1171,
+        "sky_cage_turns": 0,
+        "sky_games": 0.379,
+        "attack6": 0.358,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.0
+       },
+       "d60": {
+        "a": 0.986,
+        "b": 0.014,
+        "tie": 0.0,
+        "first": 0.9937888198757764,
+        "second": 0.9787234042553191,
+        "games": 1000,
+        "bench_sum": 8442,
+        "bench_n": 2243,
+        "sky_turns": 159,
+        "sky_cage_turns": 0,
+        "sky_games": 0.086,
+        "attack6": 0.08,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.0
+       },
+       "thorns": {
+        "a": 0.984,
+        "b": 0.016,
+        "tie": 0.0,
+        "first": 0.983754512635379,
+        "second": 0.984304932735426,
+        "games": 1000,
+        "bench_sum": 20051,
+        "bench_n": 5536,
+        "sky_turns": 355,
+        "sky_cage_turns": 0,
+        "sky_games": 0.128,
+        "attack6": 0.0,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.0
+       },
+       "starmie": {
+        "a": 0.826,
+        "b": 0.174,
+        "tie": 0.0,
+        "first": 0.7944111776447106,
+        "second": 0.8577154308617234,
+        "games": 1000,
+        "bench_sum": 23356,
+        "bench_n": 6304,
+        "sky_turns": 2077,
+        "sky_cage_turns": 0,
+        "sky_games": 0.47,
+        "attack6": 0.322,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.012
+       }
+      }
+     },
+     {
+      "cut": "Bravery Charm",
+      "copies_before": 3,
+      "weighted": 0.8506104746317512,
+      "se": 0.005585115290485275,
+      "mean": 0.8938333333333333,
+      "worst": 0.827,
+      "babies": 3.849173488416195,
+      "sky_games": 0.3056666666666667,
+      "attack6": 0.1925,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.008333333333333333,
+      "cells": {
+       "t60": {
+        "a": 0.894,
+        "b": 0.106,
+        "tie": 0.0,
+        "first": 0.8792079207920792,
+        "second": 0.9090909090909091,
+        "games": 1000,
+        "bench_sum": 19598,
+        "bench_n": 5357,
+        "sky_turns": 1735,
+        "sky_cage_turns": 0,
+        "sky_games": 0.371,
+        "attack6": 0.224,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.021
+       },
+       "hedrick": {
+        "a": 0.827,
+        "b": 0.173,
+        "tie": 0.0,
+        "first": 0.8007662835249042,
+        "second": 0.8556485355648535,
+        "games": 1000,
+        "bench_sum": 20483,
+        "bench_n": 5743,
+        "sky_turns": 1295,
+        "sky_cage_turns": 0,
+        "sky_games": 0.388,
+        "attack6": 0.197,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.022
+       },
+       "c60": {
+        "a": 0.833,
+        "b": 0.167,
+        "tie": 0.0,
+        "first": 0.8207171314741036,
+        "second": 0.8453815261044176,
+        "games": 1000,
+        "bench_sum": 28647,
+        "bench_n": 6366,
+        "sky_turns": 1207,
+        "sky_cage_turns": 0,
+        "sky_games": 0.367,
+        "attack6": 0.349,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.0
+       },
+       "d60": {
+        "a": 0.988,
+        "b": 0.012,
+        "tie": 0.0,
+        "first": 0.9838709677419355,
+        "second": 0.9920634920634921,
+        "games": 1000,
+        "bench_sum": 8487,
+        "bench_n": 2236,
+        "sky_turns": 133,
+        "sky_cage_turns": 0,
+        "sky_games": 0.078,
+        "attack6": 0.064,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.0
+       },
+       "thorns": {
+        "a": 0.984,
+        "b": 0.016,
+        "tie": 0.0,
+        "first": 0.976,
+        "second": 0.992,
+        "games": 1000,
+        "bench_sum": 20210,
+        "bench_n": 5472,
+        "sky_turns": 433,
+        "sky_cage_turns": 0,
+        "sky_games": 0.152,
+        "attack6": 0.0,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.0
+       },
+       "starmie": {
+        "a": 0.837,
+        "b": 0.163,
+        "tie": 0.0,
+        "first": 0.8128898128898129,
+        "second": 0.859344894026975,
+        "games": 1000,
+        "bench_sum": 24359,
+        "bench_n": 6465,
+        "sky_turns": 2096,
+        "sky_cage_turns": 0,
+        "sky_games": 0.478,
+        "attack6": 0.321,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.007
+       }
+      }
+     }
+    ],
+    "chosen": "Night Stretcher",
+    "list": [
+     "Mew ex",
+     "Mew ex",
+     "Mew ex",
+     "Mime Jr.",
+     "Mime Jr.",
+     "Igglybuff",
+     "Igglybuff",
+     "Igglybuff",
+     "Igglybuff",
+     "Manaphy",
+     "Buddy-Buddy Poffin",
+     "Buddy-Buddy Poffin",
+     "Buddy-Buddy Poffin",
+     "Buddy-Buddy Poffin",
+     "Nest Ball",
+     "Nest Ball",
+     "Nest Ball",
+     "Nest Ball",
+     "Ultra Ball",
+     "Ultra Ball",
+     "Night Stretcher",
+     "Night Stretcher",
+     "Rescue Carrier",
+     "Rescue Carrier",
+     "Battle Cage",
+     "Battle Cage",
+     "Battle Cage",
+     "Battle Cage",
+     "Bravery Charm",
+     "Bravery Charm",
+     "Bravery Charm",
+     "Bursting Balloon",
+     "Bursting Balloon",
+     "Hero's Cape",
+     "Max Potion",
+     "Max Potion",
+     "Max Potion",
+     "Arven",
+     "Arven",
+     "Arven",
+     "Arven",
+     "Iono",
+     "Iono",
+     "Iono",
+     "Iono",
+     "Professor's Research",
+     "Professor's Research",
+     "Penny",
+     "Penny",
+     "Crushing Hammer",
+     "Crushing Hammer",
+     "Crushing Hammer",
+     "Crushing Hammer",
+     "Counter Catcher",
+     "Counter Catcher",
+     "Spiky Energy",
+     "Spiky Energy",
+     "Sky Field",
+     "Sky Field",
+     "Sky Field"
+    ],
+    "row": {
+     "cut": "Night Stretcher",
+     "copies_before": 3,
+     "weighted": 0.8739689034369885,
+     "se": 0.005197474497585914,
+     "mean": 0.9103333333333333,
+     "worst": 0.85,
+     "babies": 3.839722468635154,
+     "sky_games": 0.3046666666666667,
+     "attack6": 0.19033333333333333,
+     "attack7": 0.0,
+     "attack8": 0.0,
+     "itchy": 0.007333333333333333,
+     "cells": {
+      "t60": {
+       "a": 0.902,
+       "b": 0.098,
+       "tie": 0.0,
+       "first": 0.889344262295082,
+       "second": 0.9140625,
+       "games": 1000,
+       "bench_sum": 19420,
+       "bench_n": 5274,
+       "sky_turns": 1807,
+       "sky_cage_turns": 0,
+       "sky_games": 0.381,
+       "attack6": 0.229,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.016
+      },
+      "hedrick": {
+       "a": 0.85,
+       "b": 0.15,
+       "tie": 0.0,
+       "first": 0.8162055335968379,
+       "second": 0.8846153846153846,
+       "games": 1000,
+       "bench_sum": 20123,
+       "bench_n": 5700,
+       "sky_turns": 1279,
+       "sky_cage_turns": 0,
+       "sky_games": 0.383,
+       "attack6": 0.199,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.02
+      },
+      "c60": {
+       "a": 0.861,
+       "b": 0.139,
+       "tie": 0.0,
+       "first": 0.8360995850622407,
+       "second": 0.8841698841698842,
+       "games": 1000,
+       "bench_sum": 29193,
+       "bench_n": 6527,
+       "sky_turns": 1282,
+       "sky_cage_turns": 0,
+       "sky_games": 0.387,
+       "attack6": 0.364,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.0
+      },
+      "d60": {
+       "a": 0.987,
+       "b": 0.013,
+       "tie": 0.0,
+       "first": 0.98635477582846,
+       "second": 0.9876796714579056,
+       "games": 1000,
+       "bench_sum": 8400,
+       "bench_n": 2215,
+       "sky_turns": 130,
+       "sky_cage_turns": 0,
+       "sky_games": 0.08,
+       "attack6": 0.065,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.0
+      },
+      "thorns": {
+       "a": 0.993,
+       "b": 0.007,
+       "tie": 0.0,
+       "first": 0.993963782696177,
+       "second": 0.9920477137176938,
+       "games": 1000,
+       "bench_sum": 19991,
+       "bench_n": 5434,
+       "sky_turns": 488,
+       "sky_cage_turns": 0,
+       "sky_games": 0.146,
+       "attack6": 0.002,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.0
+      },
+      "starmie": {
+       "a": 0.869,
+       "b": 0.131,
+       "tie": 0.0,
+       "first": 0.854,
+       "second": 0.884,
+       "games": 1000,
+       "bench_sum": 24070,
+       "bench_n": 6414,
+       "sky_turns": 1790,
+       "sky_cage_turns": 0,
+       "sky_games": 0.451,
+       "attack6": 0.283,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.008
+      }
+     }
+    }
+   },
+   {
+    "add": "Sky Field",
+    "screen": [
+     {
+      "cut": "Rescue Carrier",
+      "copies_before": 2,
+      "weighted": 0.8712056737588653,
+      "se": 0.009631566536755431,
+      "mean": 0.9094444444444445,
+      "worst": 0.8233333333333334,
+      "babies": 3.8601340033500837,
+      "sky_games": 0.37777777777777777,
+      "attack6": 0.24111111111111114,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.008333333333333333,
+      "cells": {
+       "t60": {
+        "a": 0.9266666666666666
+       },
+       "hedrick": {
+        "a": 0.8533333333333334
+       },
+       "c60": {
+        "a": 0.8833333333333333
+       },
+       "d60": {
+        "a": 0.9833333333333333
+       },
+       "thorns": {
+        "a": 0.9866666666666667
+       },
+       "starmie": {
+        "a": 0.8233333333333334
+       }
+      }
+     },
+     {
+      "cut": "Night Stretcher",
+      "copies_before": 2,
+      "weighted": 0.8645171849427169,
+      "se": 0.009749459215268288,
+      "mean": 0.9027777777777778,
+      "worst": 0.81,
+      "babies": 3.883350895679663,
+      "sky_games": 0.3622222222222222,
+      "attack6": 0.23777777777777778,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.005,
+      "cells": {
+       "t60": {
+        "a": 0.8666666666666667
+       },
+       "hedrick": {
+        "a": 0.89
+       },
+       "c60": {
+        "a": 0.8733333333333333
+       },
+       "d60": {
+        "a": 0.9933333333333333
+       },
+       "thorns": {
+        "a": 0.9833333333333333
+       },
+       "starmie": {
+        "a": 0.81
+       }
+      }
+     },
+     {
+      "cut": "Counter Catcher",
+      "copies_before": 2,
+      "weighted": 0.8606110201854883,
+      "se": 0.009884730471841198,
+      "mean": 0.898888888888889,
+      "worst": 0.84,
+      "babies": 3.848106621535858,
+      "sky_games": 0.36333333333333334,
+      "attack6": 0.23,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.006111111111111111,
+      "cells": {
+       "t60": {
+        "a": 0.8866666666666667
+       },
+       "hedrick": {
+        "a": 0.8466666666666667
+       },
+       "c60": {
+        "a": 0.84
+       },
+       "d60": {
+        "a": 0.98
+       },
+       "thorns": {
+        "a": 0.9866666666666667
+       },
+       "starmie": {
+        "a": 0.8533333333333334
+       }
+      }
+     },
+     {
+      "cut": "Arven",
+      "copies_before": 4,
+      "weighted": 0.8574195308237862,
+      "se": 0.009990959975508229,
+      "mean": 0.8961111111111112,
+      "worst": 0.83,
+      "babies": 3.8060727888277612,
+      "sky_games": 0.3461111111111111,
+      "attack6": 0.20722222222222222,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.007777777777777777,
+      "cells": {
+       "t60": {
+        "a": 0.8833333333333333
+       },
+       "hedrick": {
+        "a": 0.8466666666666667
+       },
+       "c60": {
+        "a": 0.8566666666666667
+       },
+       "d60": {
+        "a": 0.98
+       },
+       "thorns": {
+        "a": 0.98
+       },
+       "starmie": {
+        "a": 0.83
+       }
+      }
+     },
+     {
+      "cut": "Crushing Hammer",
+      "copies_before": 4,
+      "weighted": 0.8573213311511184,
+      "se": 0.010046567821225821,
+      "mean": 0.9005555555555556,
+      "worst": 0.8033333333333333,
+      "babies": 3.9006608622679115,
+      "sky_games": 0.3711111111111111,
+      "attack6": 0.23277777777777778,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.006666666666666667,
+      "cells": {
+       "t60": {
+        "a": 0.9166666666666666
+       },
+       "hedrick": {
+        "a": 0.8466666666666667
+       },
+       "c60": {
+        "a": 0.8633333333333333
+       },
+       "d60": {
+        "a": 0.99
+       },
+       "thorns": {
+        "a": 0.9833333333333333
+       },
+       "starmie": {
+        "a": 0.8033333333333333
+       }
+      }
+     },
+     {
+      "cut": "Bursting Balloon",
+      "copies_before": 2,
+      "weighted": 0.8544189852700491,
+      "se": 0.010089586384215756,
+      "mean": 0.895,
+      "worst": 0.82,
+      "babies": 3.9150500959283736,
+      "sky_games": 0.3661111111111111,
+      "attack6": 0.2388888888888889,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.008888888888888889,
+      "cells": {
+       "t60": {
+        "a": 0.8866666666666667
+       },
+       "hedrick": {
+        "a": 0.8433333333333334
+       },
+       "c60": {
+        "a": 0.8566666666666667
+       },
+       "d60": {
+        "a": 0.97
+       },
+       "thorns": {
+        "a": 0.9933333333333333
+       },
+       "starmie": {
+        "a": 0.82
+       }
+      }
+     },
+     {
+      "cut": "Bravery Charm",
+      "copies_before": 3,
+      "weighted": 0.8538025095471904,
+      "se": 0.010025291423216834,
+      "mean": 0.8933333333333334,
+      "worst": 0.8266666666666667,
+      "babies": 3.870183632310795,
+      "sky_games": 0.36166666666666664,
+      "attack6": 0.23111111111111113,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.008888888888888889,
+      "cells": {
+       "t60": {
+        "a": 0.8666666666666667
+       },
+       "hedrick": {
+        "a": 0.8266666666666667
+       },
+       "c60": {
+        "a": 0.8266666666666667
+       },
+       "d60": {
+        "a": 0.9766666666666667
+       },
+       "thorns": {
+        "a": 0.9933333333333333
+       },
+       "starmie": {
+        "a": 0.87
+       }
+      }
+     },
+     {
+      "cut": "Professor's Research",
+      "copies_before": 2,
+      "weighted": 0.8536552100381888,
+      "se": 0.010088378815419451,
+      "mean": 0.8955555555555555,
+      "worst": 0.8266666666666667,
+      "babies": 3.827608008429926,
+      "sky_games": 0.3377777777777778,
+      "attack6": 0.20666666666666667,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.0044444444444444444,
+      "cells": {
+       "t60": {
+        "a": 0.88
+       },
+       "hedrick": {
+        "a": 0.8266666666666667
+       },
+       "c60": {
+        "a": 0.8433333333333334
+       },
+       "d60": {
+        "a": 0.9933333333333333
+       },
+       "thorns": {
+        "a": 0.9833333333333333
+       },
+       "starmie": {
+        "a": 0.8466666666666667
+       }
+      }
+     },
+     {
+      "cut": "Max Potion",
+      "copies_before": 3,
+      "weighted": 0.8521222040370977,
+      "se": 0.01011903104218089,
+      "mean": 0.8905555555555557,
+      "worst": 0.81,
+      "babies": 3.919970082273747,
+      "sky_games": 0.36000000000000004,
+      "attack6": 0.2283333333333333,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.005,
+      "cells": {
+       "t60": {
+        "a": 0.8666666666666667
+       },
+       "hedrick": {
+        "a": 0.8566666666666667
+       },
+       "c60": {
+        "a": 0.86
+       },
+       "d60": {
+        "a": 0.9733333333333334
+       },
+       "thorns": {
+        "a": 0.9766666666666667
+       },
+       "starmie": {
+        "a": 0.81
+       }
+      }
+     },
+     {
+      "cut": "Ultra Ball",
+      "copies_before": 2,
+      "weighted": 0.8518767048554283,
+      "se": 0.010156810139834634,
+      "mean": 0.8944444444444445,
+      "worst": 0.81,
+      "babies": 3.8907810364764006,
+      "sky_games": 0.3838888888888889,
+      "attack6": 0.22777777777777777,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.009444444444444445,
+      "cells": {
+       "t60": {
+        "a": 0.8766666666666667
+       },
+       "hedrick": {
+        "a": 0.8533333333333334
+       },
+       "c60": {
+        "a": 0.8533333333333334
+       },
+       "d60": {
+        "a": 0.9833333333333333
+       },
+       "thorns": {
+        "a": 0.99
+       },
+       "starmie": {
+        "a": 0.81
+       }
+      }
+     },
+     {
+      "cut": "Buddy-Buddy Poffin",
+      "copies_before": 4,
+      "weighted": 0.8503327877795963,
+      "se": 0.010161351231800416,
+      "mean": 0.8905555555555557,
+      "worst": 0.83,
+      "babies": 3.743793138971876,
+      "sky_games": 0.33555555555555555,
+      "attack6": 0.19722222222222222,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.008333333333333333,
+      "cells": {
+       "t60": {
+        "a": 0.86
+       },
+       "hedrick": {
+        "a": 0.83
+       },
+       "c60": {
+        "a": 0.86
+       },
+       "d60": {
+        "a": 0.9766666666666667
+       },
+       "thorns": {
+        "a": 0.9866666666666667
+       },
+       "starmie": {
+        "a": 0.83
+       }
+      }
+     },
+     {
+      "cut": "Spiky Energy",
+      "copies_before": 2,
+      "weighted": 0.8486688488816149,
+      "se": 0.010222326309305332,
+      "mean": 0.8916666666666666,
+      "worst": 0.82,
+      "babies": 3.8690525876460766,
+      "sky_games": 0.36166666666666664,
+      "attack6": 0.22944444444444445,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.011666666666666667,
+      "cells": {
+       "t60": {
+        "a": 0.86
+       },
+       "hedrick": {
+        "a": 0.8333333333333334
+       },
+       "c60": {
+        "a": 0.86
+       },
+       "d60": {
+        "a": 0.99
+       },
+       "thorns": {
+        "a": 0.9866666666666667
+       },
+       "starmie": {
+        "a": 0.82
+       }
+      }
+     },
+     {
+      "cut": "Penny",
+      "copies_before": 2,
+      "weighted": 0.843518821603928,
+      "se": 0.010368993709107021,
+      "mean": 0.8888888888888888,
+      "worst": 0.82,
+      "babies": 3.848507226500686,
+      "sky_games": 0.35055555555555556,
+      "attack6": 0.215,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.011111111111111112,
+      "cells": {
+       "t60": {
+        "a": 0.8666666666666667
+       },
+       "hedrick": {
+        "a": 0.82
+       },
+       "c60": {
+        "a": 0.8366666666666667
+       },
+       "d60": {
+        "a": 0.99
+       },
+       "thorns": {
+        "a": 0.99
+       },
+       "starmie": {
+        "a": 0.83
+       }
+      }
+     },
+     {
+      "cut": "Battle Cage",
+      "copies_before": 4,
+      "weighted": 0.8385215493726133,
+      "se": 0.010536508374687125,
+      "mean": 0.8855555555555555,
+      "worst": 0.7866666666666666,
+      "babies": 3.894646127329527,
+      "sky_games": 0.36166666666666664,
+      "attack6": 0.22666666666666668,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.008333333333333333,
+      "cells": {
+       "t60": {
+        "a": 0.8933333333333333
+       },
+       "hedrick": {
+        "a": 0.8233333333333334
+       },
+       "c60": {
+        "a": 0.8466666666666667
+       },
+       "d60": {
+        "a": 0.9766666666666667
+       },
+       "thorns": {
+        "a": 0.9866666666666667
+       },
+       "starmie": {
+        "a": 0.7866666666666666
+       }
+      }
+     },
+     {
+      "cut": "Mew ex",
+      "copies_before": 3,
+      "weighted": 0.8381014729950901,
+      "se": 0.010469483063200053,
+      "mean": 0.88,
+      "worst": 0.8233333333333334,
+      "babies": 3.8366567670767924,
+      "sky_games": 0.3544444444444444,
+      "attack6": 0.225,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.009444444444444445,
+      "cells": {
+       "t60": {
+        "a": 0.8433333333333334
+       },
+       "hedrick": {
+        "a": 0.8333333333333334
+       },
+       "c60": {
+        "a": 0.8233333333333334
+       },
+       "d60": {
+        "a": 0.9766666666666667
+       },
+       "thorns": {
+        "a": 0.9766666666666667
+       },
+       "starmie": {
+        "a": 0.8266666666666667
+       }
+      }
+     },
+     {
+      "cut": "Iono",
+      "copies_before": 4,
+      "weighted": 0.8366284779050737,
+      "se": 0.010566038542759561,
+      "mean": 0.8811111111111112,
+      "worst": 0.8066666666666666,
+      "babies": 3.8242954739538857,
+      "sky_games": 0.3561111111111111,
+      "attack6": 0.21888888888888888,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.008333333333333333,
+      "cells": {
+       "t60": {
+        "a": 0.89
+       },
+       "hedrick": {
+        "a": 0.8366666666666667
+       },
+       "c60": {
+        "a": 0.8066666666666666
+       },
+       "d60": {
+        "a": 0.9633333333333334
+       },
+       "thorns": {
+        "a": 0.9833333333333333
+       },
+       "starmie": {
+        "a": 0.8066666666666666
+       }
+      }
+     },
+     {
+      "cut": "Manaphy",
+      "copies_before": 1,
+      "weighted": 0.8267321331151118,
+      "se": 0.01067459058502848,
+      "mean": 0.8849999999999999,
+      "worst": 0.6733333333333333,
+      "babies": 4.1026870331140595,
+      "sky_games": 0.24777777777777776,
+      "attack6": 0.215,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.008888888888888889,
+      "cells": {
+       "t60": {
+        "a": 0.9166666666666666
+       },
+       "hedrick": {
+        "a": 0.8633333333333333
+       },
+       "c60": {
+        "a": 0.87
+       },
+       "d60": {
+        "a": 0.9933333333333333
+       },
+       "thorns": {
+        "a": 0.9933333333333333
+       },
+       "starmie": {
+        "a": 0.6733333333333333
+       }
+      }
+     },
+     {
+      "cut": "Hero's Cape",
+      "copies_before": 1,
+      "weighted": 0.8242062193126023,
+      "se": 0.0108561481877988,
+      "mean": 0.8761111111111112,
+      "worst": 0.7866666666666666,
+      "babies": 3.905700360245815,
+      "sky_games": 0.3666666666666667,
+      "attack6": 0.2383333333333333,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.011111111111111112,
+      "cells": {
+       "t60": {
+        "a": 0.8566666666666667
+       },
+       "hedrick": {
+        "a": 0.8366666666666667
+       },
+       "c60": {
+        "a": 0.7866666666666666
+       },
+       "d60": {
+        "a": 0.99
+       },
+       "thorns": {
+        "a": 0.99
+       },
+       "starmie": {
+        "a": 0.7966666666666666
+       }
+      }
+     },
+     {
+      "cut": "Nest Ball",
+      "copies_before": 4,
+      "weighted": 0.821036552100382,
+      "se": 0.010966228316469281,
+      "mean": 0.875,
+      "worst": 0.7833333333333333,
+      "babies": 3.7598506843633346,
+      "sky_games": 0.34111111111111114,
+      "attack6": 0.2172222222222222,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.008333333333333333,
+      "cells": {
+       "t60": {
+        "a": 0.8766666666666667
+       },
+       "hedrick": {
+        "a": 0.8
+       },
+       "c60": {
+        "a": 0.8133333333333334
+       },
+       "d60": {
+        "a": 0.98
+       },
+       "thorns": {
+        "a": 0.9966666666666667
+       },
+       "starmie": {
+        "a": 0.7833333333333333
+       }
+      }
+     },
+     {
+      "cut": "Mime Jr.",
+      "copies_before": 2,
+      "weighted": 0.8154391707583197,
+      "se": 0.010977213846577181,
+      "mean": 0.8483333333333333,
+      "worst": 0.7966666666666666,
+      "babies": 3.4279142605461486,
+      "sky_games": 0.17388888888888887,
+      "attack6": 0.0,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.005555555555555556,
+      "cells": {
+       "t60": {
+        "a": 0.83
+       },
+       "hedrick": {
+        "a": 0.7966666666666666
+       },
+       "c60": {
+        "a": 0.8233333333333334
+       },
+       "d60": {
+        "a": 0.88
+       },
+       "thorns": {
+        "a": 0.9633333333333334
+       },
+       "starmie": {
+        "a": 0.7966666666666666
+       }
+      }
+     },
+     {
+      "cut": "Igglybuff",
+      "copies_before": 4,
+      "weighted": 0.8142062193126023,
+      "se": 0.011054579959448451,
+      "mean": 0.8650000000000001,
+      "worst": 0.7833333333333333,
+      "babies": 3.4465633285743422,
+      "sky_games": 0.17500000000000002,
+      "attack6": 0.0,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.01,
+      "cells": {
+       "t60": {
+        "a": 0.8166666666666667
+       },
+       "hedrick": {
+        "a": 0.8233333333333334
+       },
+       "c60": {
+        "a": 0.8033333333333333
+       },
+       "d60": {
+        "a": 0.99
+       },
+       "thorns": {
+        "a": 0.9733333333333334
+       },
+       "starmie": {
+        "a": 0.7833333333333333
+       }
+      }
+     }
+    ],
+    "confirm": [
+     {
+      "cut": "Night Stretcher",
+      "copies_before": 2,
+      "weighted": 0.8665515548281506,
+      "se": 0.005322809405227076,
+      "mean": 0.9048333333333334,
+      "worst": 0.82,
+      "babies": 3.8791678540894843,
+      "sky_games": 0.3626666666666667,
+      "attack6": 0.2326666666666667,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.008333333333333333,
+      "cells": {
+       "t60": {
+        "a": 0.882,
+        "b": 0.118,
+        "tie": 0.0,
+        "first": 0.8687258687258688,
+        "second": 0.8962655601659751,
+        "games": 1000,
+        "bench_sum": 19650,
+        "bench_n": 5286,
+        "sky_turns": 2268,
+        "sky_cage_turns": 0,
+        "sky_games": 0.463,
+        "attack6": 0.271,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.013
+       },
+       "hedrick": {
+        "a": 0.884,
+        "b": 0.116,
+        "tie": 0.0,
+        "first": 0.8640595903165735,
+        "second": 0.9071274298056156,
+        "games": 1000,
+        "bench_sum": 20834,
+        "bench_n": 5727,
+        "sky_turns": 1740,
+        "sky_cage_turns": 0,
+        "sky_games": 0.485,
+        "attack6": 0.274,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.028
+       },
+       "c60": {
+        "a": 0.866,
+        "b": 0.134,
+        "tie": 0.0,
+        "first": 0.8301886792452831,
+        "second": 0.9063829787234042,
+        "games": 1000,
+        "bench_sum": 29163,
+        "bench_n": 6518,
+        "sky_turns": 1434,
+        "sky_cage_turns": 0,
+        "sky_games": 0.432,
+        "attack6": 0.405,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.0
+       },
+       "d60": {
+        "a": 0.987,
+        "b": 0.013,
+        "tie": 0.0,
+        "first": 0.9897540983606558,
+        "second": 0.984375,
+        "games": 1000,
+        "bench_sum": 8328,
+        "bench_n": 2182,
+        "sky_turns": 150,
+        "sky_cage_turns": 0,
+        "sky_games": 0.092,
+        "attack6": 0.082,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.0
+       },
+       "thorns": {
+        "a": 0.99,
+        "b": 0.01,
+        "tie": 0.0,
+        "first": 0.993801652892562,
+        "second": 0.9864341085271318,
+        "games": 1000,
+        "bench_sum": 20682,
+        "bench_n": 5590,
+        "sky_turns": 469,
+        "sky_cage_turns": 0,
+        "sky_games": 0.166,
+        "attack6": 0.0,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.0
+       },
+       "starmie": {
+        "a": 0.82,
+        "b": 0.18,
+        "tie": 0.0,
+        "first": 0.822265625,
+        "second": 0.8176229508196722,
+        "games": 1000,
+        "bench_sum": 23851,
+        "bench_n": 6278,
+        "sky_turns": 2441,
+        "sky_cage_turns": 0,
+        "sky_games": 0.538,
+        "attack6": 0.364,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.009
+       }
+      }
+     },
+     {
+      "cut": "Bursting Balloon",
+      "copies_before": 2,
+      "weighted": 0.8603355155482815,
+      "se": 0.0054163468432117,
+      "mean": 0.898,
+      "worst": 0.842,
+      "babies": 3.8868291129160695,
+      "sky_games": 0.3546666666666667,
+      "attack6": 0.22999999999999998,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.009,
+      "cells": {
+       "t60": {
+        "a": 0.877,
+        "b": 0.123,
+        "tie": 0.0,
+        "first": 0.8562753036437247,
+        "second": 0.8972332015810277,
+        "games": 1000,
+        "bench_sum": 19773,
+        "bench_n": 5306,
+        "sky_turns": 2295,
+        "sky_cage_turns": 0,
+        "sky_games": 0.464,
+        "attack6": 0.288,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.02
+       },
+       "hedrick": {
+        "a": 0.842,
+        "b": 0.158,
+        "tie": 0.0,
+        "first": 0.8196392785571143,
+        "second": 0.8642714570858283,
+        "games": 1000,
+        "bench_sum": 20806,
+        "bench_n": 5786,
+        "sky_turns": 1638,
+        "sky_cage_turns": 0,
+        "sky_games": 0.466,
+        "attack6": 0.257,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.024
+       },
+       "c60": {
+        "a": 0.862,
+        "b": 0.138,
+        "tie": 0.0,
+        "first": 0.8443579766536965,
+        "second": 0.8806584362139918,
+        "games": 1000,
+        "bench_sum": 29022,
+        "bench_n": 6430,
+        "sky_turns": 1412,
+        "sky_cage_turns": 0,
+        "sky_games": 0.442,
+        "attack6": 0.414,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.0
+       },
+       "d60": {
+        "a": 0.977,
+        "b": 0.023,
+        "tie": 0.0,
+        "first": 0.9801192842942346,
+        "second": 0.9738430583501007,
+        "games": 1000,
+        "bench_sum": 8583,
+        "bench_n": 2296,
+        "sky_turns": 114,
+        "sky_cage_turns": 0,
+        "sky_games": 0.067,
+        "attack6": 0.063,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.0
+       },
+       "thorns": {
+        "a": 0.987,
+        "b": 0.013,
+        "tie": 0.0,
+        "first": 0.9875518672199171,
+        "second": 0.9864864864864865,
+        "games": 1000,
+        "bench_sum": 20181,
+        "bench_n": 5375,
+        "sky_turns": 524,
+        "sky_cage_turns": 0,
+        "sky_games": 0.154,
+        "attack6": 0.001,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.0
+       },
+       "starmie": {
+        "a": 0.843,
+        "b": 0.157,
+        "tie": 0.0,
+        "first": 0.8159509202453987,
+        "second": 0.8688845401174168,
+        "games": 1000,
+        "bench_sum": 23662,
+        "bench_n": 6202,
+        "sky_turns": 2389,
+        "sky_cage_turns": 0,
+        "sky_games": 0.535,
+        "attack6": 0.357,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.01
+       }
+      }
+     },
+     {
+      "cut": "Rescue Carrier",
+      "copies_before": 2,
+      "weighted": 0.8595384615384616,
+      "se": 0.005448243849951528,
+      "mean": 0.8998333333333334,
+      "worst": 0.823,
+      "babies": 3.8844620243069956,
+      "sky_games": 0.3618333333333334,
+      "attack6": 0.22733333333333336,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.0075,
+      "cells": {
+       "t60": {
+        "a": 0.892,
+        "b": 0.108,
+        "tie": 0.0,
+        "first": 0.8737270875763747,
+        "second": 0.9096267190569745,
+        "games": 1000,
+        "bench_sum": 20074,
+        "bench_n": 5411,
+        "sky_turns": 2251,
+        "sky_cage_turns": 0,
+        "sky_games": 0.462,
+        "attack6": 0.257,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.016
+       },
+       "hedrick": {
+        "a": 0.842,
+        "b": 0.158,
+        "tie": 0.0,
+        "first": 0.8169291338582677,
+        "second": 0.8678861788617886,
+        "games": 1000,
+        "bench_sum": 20120,
+        "bench_n": 5586,
+        "sky_turns": 1715,
+        "sky_cage_turns": 0,
+        "sky_games": 0.477,
+        "attack6": 0.249,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.024
+       },
+       "c60": {
+        "a": 0.871,
+        "b": 0.129,
+        "tie": 0.0,
+        "first": 0.8549019607843137,
+        "second": 0.8877551020408163,
+        "games": 1000,
+        "bench_sum": 29266,
+        "bench_n": 6479,
+        "sky_turns": 1439,
+        "sky_cage_turns": 0,
+        "sky_games": 0.449,
+        "attack6": 0.426,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.0
+       },
+       "d60": {
+        "a": 0.984,
+        "b": 0.016,
+        "tie": 0.0,
+        "first": 0.9858299595141701,
+        "second": 0.9822134387351779,
+        "games": 1000,
+        "bench_sum": 8246,
+        "bench_n": 2190,
+        "sky_turns": 174,
+        "sky_cage_turns": 0,
+        "sky_games": 0.101,
+        "attack6": 0.09,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.0
+       },
+       "thorns": {
+        "a": 0.987,
+        "b": 0.013,
+        "tie": 0.0,
+        "first": 0.9873949579831933,
+        "second": 0.9866412213740458,
+        "games": 1000,
+        "bench_sum": 20361,
+        "bench_n": 5470,
+        "sky_turns": 498,
+        "sky_cage_turns": 0,
+        "sky_games": 0.154,
+        "attack6": 0.001,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.0
+       },
+       "starmie": {
+        "a": 0.823,
+        "b": 0.177,
+        "tie": 0.0,
+        "first": 0.8019417475728156,
+        "second": 0.845360824742268,
+        "games": 1000,
+        "bench_sum": 23707,
+        "bench_n": 6213,
+        "sky_turns": 2457,
+        "sky_cage_turns": 0,
+        "sky_games": 0.528,
+        "attack6": 0.341,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.005
+       }
+      }
+     },
+     {
+      "cut": "Counter Catcher",
+      "copies_before": 2,
+      "weighted": 0.8531882160392799,
+      "se": 0.005533426030057683,
+      "mean": 0.8951666666666666,
+      "worst": 0.827,
+      "babies": 3.853017789072427,
+      "sky_games": 0.3615,
+      "attack6": 0.22833333333333336,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.0075,
+      "cells": {
+       "t60": {
+        "a": 0.876,
+        "b": 0.124,
+        "tie": 0.0,
+        "first": 0.8646034816247582,
+        "second": 0.8881987577639752,
+        "games": 1000,
+        "bench_sum": 19457,
+        "bench_n": 5278,
+        "sky_turns": 2299,
+        "sky_cage_turns": 0,
+        "sky_games": 0.45,
+        "attack6": 0.271,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.009
+       },
+       "hedrick": {
+        "a": 0.852,
+        "b": 0.148,
+        "tie": 0.0,
+        "first": 0.8237547892720306,
+        "second": 0.8828451882845189,
+        "games": 1000,
+        "bench_sum": 20592,
+        "bench_n": 5719,
+        "sky_turns": 1647,
+        "sky_cage_turns": 0,
+        "sky_games": 0.474,
+        "attack6": 0.256,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.025
+       },
+       "c60": {
+        "a": 0.827,
+        "b": 0.173,
+        "tie": 0.0,
+        "first": 0.8241106719367589,
+        "second": 0.8299595141700404,
+        "games": 1000,
+        "bench_sum": 28148,
+        "bench_n": 6322,
+        "sky_turns": 1322,
+        "sky_cage_turns": 0,
+        "sky_games": 0.43,
+        "attack6": 0.4,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.0
+       },
+       "d60": {
+        "a": 0.985,
+        "b": 0.015,
+        "tie": 0.0,
+        "first": 0.9863813229571985,
+        "second": 0.9835390946502057,
+        "games": 1000,
+        "bench_sum": 8411,
+        "bench_n": 2216,
+        "sky_turns": 168,
+        "sky_cage_turns": 0,
+        "sky_games": 0.103,
+        "attack6": 0.093,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.0
+       },
+       "thorns": {
+        "a": 0.992,
+        "b": 0.008,
+        "tie": 0.0,
+        "first": 0.9921259842519685,
+        "second": 0.991869918699187,
+        "games": 1000,
+        "bench_sum": 20507,
+        "bench_n": 5561,
+        "sky_turns": 576,
+        "sky_cage_turns": 0,
+        "sky_games": 0.171,
+        "attack6": 0.001,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.0
+       },
+       "starmie": {
+        "a": 0.839,
+        "b": 0.161,
+        "tie": 0.0,
+        "first": 0.8,
+        "second": 0.8795918367346939,
+        "games": 1000,
+        "bench_sum": 24178,
+        "bench_n": 6384,
+        "sky_turns": 2348,
+        "sky_cage_turns": 0,
+        "sky_games": 0.541,
+        "attack6": 0.349,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.011
+       }
+      }
+     },
+     {
+      "cut": "Arven",
+      "copies_before": 4,
+      "weighted": 0.8522193126022912,
+      "se": 0.00555007488505267,
+      "mean": 0.8923333333333333,
+      "worst": 0.832,
+      "babies": 3.8477298072327546,
+      "sky_games": 0.3538333333333334,
+      "attack6": 0.21833333333333335,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.0071666666666666675,
+      "cells": {
+       "t60": {
+        "a": 0.883,
+        "b": 0.117,
+        "tie": 0.0,
+        "first": 0.872093023255814,
+        "second": 0.8946280991735537,
+        "games": 1000,
+        "bench_sum": 18807,
+        "bench_n": 5130,
+        "sky_turns": 2089,
+        "sky_cage_turns": 0,
+        "sky_games": 0.429,
+        "attack6": 0.253,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.015
+       },
+       "hedrick": {
+        "a": 0.832,
+        "b": 0.168,
+        "tie": 0.0,
+        "first": 0.7869822485207101,
+        "second": 0.8782961460446247,
+        "games": 1000,
+        "bench_sum": 19976,
+        "bench_n": 5656,
+        "sky_turns": 1478,
+        "sky_cage_turns": 0,
+        "sky_games": 0.43,
+        "attack6": 0.224,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.021
+       },
+       "c60": {
+        "a": 0.843,
+        "b": 0.157,
+        "tie": 0.0,
+        "first": 0.8096192384769539,
+        "second": 0.8762475049900199,
+        "games": 1000,
+        "bench_sum": 29025,
+        "bench_n": 6448,
+        "sky_turns": 1513,
+        "sky_cage_turns": 0,
+        "sky_games": 0.449,
+        "attack6": 0.418,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.0
+       },
+       "d60": {
+        "a": 0.981,
+        "b": 0.019,
+        "tie": 0.0,
+        "first": 0.9760479041916168,
+        "second": 0.9859719438877755,
+        "games": 1000,
+        "bench_sum": 8494,
+        "bench_n": 2285,
+        "sky_turns": 138,
+        "sky_cage_turns": 0,
+        "sky_games": 0.082,
+        "attack6": 0.072,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.0
+       },
+       "thorns": {
+        "a": 0.978,
+        "b": 0.022,
+        "tie": 0.0,
+        "first": 0.968421052631579,
+        "second": 0.9866666666666667,
+        "games": 1000,
+        "bench_sum": 20085,
+        "bench_n": 5490,
+        "sky_turns": 564,
+        "sky_cage_turns": 0,
+        "sky_games": 0.179,
+        "attack6": 0.001,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.0
+       },
+       "starmie": {
+        "a": 0.837,
+        "b": 0.163,
+        "tie": 0.0,
+        "first": 0.8359073359073359,
+        "second": 0.8381742738589212,
+        "games": 1000,
+        "bench_sum": 24374,
+        "bench_n": 6376,
+        "sky_turns": 2512,
+        "sky_cage_turns": 0,
+        "sky_games": 0.554,
+        "attack6": 0.342,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.007
+       }
+      }
+     },
+     {
+      "cut": "Crushing Hammer",
+      "copies_before": 4,
+      "weighted": 0.8498314238952537,
+      "se": 0.005597018405218408,
+      "mean": 0.8931666666666667,
+      "worst": 0.807,
+      "babies": 3.8820147997586307,
+      "sky_games": 0.3678333333333333,
+      "attack6": 0.2325,
+      "attack7": 0.0,
+      "attack8": 0.0,
+      "itchy": 0.0075,
+      "cells": {
+       "t60": {
+        "a": 0.88,
+        "b": 0.12,
+        "tie": 0.0,
+        "first": 0.841648590021692,
+        "second": 0.9128014842300557,
+        "games": 1000,
+        "bench_sum": 19834,
+        "bench_n": 5358,
+        "sky_turns": 2182,
+        "sky_cage_turns": 0,
+        "sky_games": 0.456,
+        "attack6": 0.255,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.007
+       },
+       "hedrick": {
+        "a": 0.843,
+        "b": 0.157,
+        "tie": 0.0,
+        "first": 0.8187250996015937,
+        "second": 0.8674698795180723,
+        "games": 1000,
+        "bench_sum": 20560,
+        "bench_n": 5709,
+        "sky_turns": 1715,
+        "sky_cage_turns": 0,
+        "sky_games": 0.472,
+        "attack6": 0.252,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.023
+       },
+       "c60": {
+        "a": 0.857,
+        "b": 0.143,
+        "tie": 0.0,
+        "first": 0.8556701030927835,
+        "second": 0.858252427184466,
+        "games": 1000,
+        "bench_sum": 29114,
+        "bench_n": 6456,
+        "sky_turns": 1547,
+        "sky_cage_turns": 0,
+        "sky_games": 0.454,
+        "attack6": 0.426,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.0
+       },
+       "d60": {
+        "a": 0.987,
+        "b": 0.013,
+        "tie": 0.0,
+        "first": 0.9897330595482546,
+        "second": 0.9844054580896686,
+        "games": 1000,
+        "bench_sum": 8406,
+        "bench_n": 2213,
+        "sky_turns": 173,
+        "sky_cage_turns": 0,
+        "sky_games": 0.103,
+        "attack6": 0.089,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.0
+       },
+       "thorns": {
+        "a": 0.985,
+        "b": 0.015,
+        "tie": 0.0,
+        "first": 0.9818181818181818,
+        "second": 0.9881188118811881,
+        "games": 1000,
+        "bench_sum": 20075,
+        "bench_n": 5449,
+        "sky_turns": 542,
+        "sky_cage_turns": 0,
+        "sky_games": 0.168,
+        "attack6": 0.001,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.0
+       },
+       "starmie": {
+        "a": 0.807,
+        "b": 0.193,
+        "tie": 0.0,
+        "first": 0.7902912621359224,
+        "second": 0.8247422680412371,
+        "games": 1000,
+        "bench_sum": 24244,
+        "bench_n": 6302,
+        "sky_turns": 2772,
+        "sky_cage_turns": 0,
+        "sky_games": 0.554,
+        "attack6": 0.372,
+        "attack7": 0.0,
+        "attack8": 0.0,
+        "itchy": 0.015
+       }
+      }
+     }
+    ],
+    "chosen": "Night Stretcher",
+    "list": [
+     "Mew ex",
+     "Mew ex",
+     "Mew ex",
+     "Mime Jr.",
+     "Mime Jr.",
+     "Igglybuff",
+     "Igglybuff",
+     "Igglybuff",
+     "Igglybuff",
+     "Manaphy",
+     "Buddy-Buddy Poffin",
+     "Buddy-Buddy Poffin",
+     "Buddy-Buddy Poffin",
+     "Buddy-Buddy Poffin",
+     "Nest Ball",
+     "Nest Ball",
+     "Nest Ball",
+     "Nest Ball",
+     "Ultra Ball",
+     "Ultra Ball",
+     "Night Stretcher",
+     "Rescue Carrier",
+     "Rescue Carrier",
+     "Battle Cage",
+     "Battle Cage",
+     "Battle Cage",
+     "Battle Cage",
+     "Bravery Charm",
+     "Bravery Charm",
+     "Bravery Charm",
+     "Bursting Balloon",
+     "Bursting Balloon",
+     "Hero's Cape",
+     "Max Potion",
+     "Max Potion",
+     "Max Potion",
+     "Arven",
+     "Arven",
+     "Arven",
+     "Arven",
+     "Iono",
+     "Iono",
+     "Iono",
+     "Iono",
+     "Professor's Research",
+     "Professor's Research",
+     "Penny",
+     "Penny",
+     "Crushing Hammer",
+     "Crushing Hammer",
+     "Crushing Hammer",
+     "Crushing Hammer",
+     "Counter Catcher",
+     "Counter Catcher",
+     "Spiky Energy",
+     "Spiky Energy",
+     "Sky Field",
+     "Sky Field",
+     "Sky Field",
+     "Sky Field"
+    ],
+    "row": {
+     "cut": "Night Stretcher",
+     "copies_before": 2,
+     "weighted": 0.8665515548281506,
+     "se": 0.005322809405227076,
+     "mean": 0.9048333333333334,
+     "worst": 0.82,
+     "babies": 3.8791678540894843,
+     "sky_games": 0.3626666666666667,
+     "attack6": 0.2326666666666667,
+     "attack7": 0.0,
+     "attack8": 0.0,
+     "itchy": 0.008333333333333333,
+     "cells": {
+      "t60": {
+       "a": 0.882,
+       "b": 0.118,
+       "tie": 0.0,
+       "first": 0.8687258687258688,
+       "second": 0.8962655601659751,
+       "games": 1000,
+       "bench_sum": 19650,
+       "bench_n": 5286,
+       "sky_turns": 2268,
+       "sky_cage_turns": 0,
+       "sky_games": 0.463,
+       "attack6": 0.271,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.013
+      },
+      "hedrick": {
+       "a": 0.884,
+       "b": 0.116,
+       "tie": 0.0,
+       "first": 0.8640595903165735,
+       "second": 0.9071274298056156,
+       "games": 1000,
+       "bench_sum": 20834,
+       "bench_n": 5727,
+       "sky_turns": 1740,
+       "sky_cage_turns": 0,
+       "sky_games": 0.485,
+       "attack6": 0.274,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.028
+      },
+      "c60": {
+       "a": 0.866,
+       "b": 0.134,
+       "tie": 0.0,
+       "first": 0.8301886792452831,
+       "second": 0.9063829787234042,
+       "games": 1000,
+       "bench_sum": 29163,
+       "bench_n": 6518,
+       "sky_turns": 1434,
+       "sky_cage_turns": 0,
+       "sky_games": 0.432,
+       "attack6": 0.405,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.0
+      },
+      "d60": {
+       "a": 0.987,
+       "b": 0.013,
+       "tie": 0.0,
+       "first": 0.9897540983606558,
+       "second": 0.984375,
+       "games": 1000,
+       "bench_sum": 8328,
+       "bench_n": 2182,
+       "sky_turns": 150,
+       "sky_cage_turns": 0,
+       "sky_games": 0.092,
+       "attack6": 0.082,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.0
+      },
+      "thorns": {
+       "a": 0.99,
+       "b": 0.01,
+       "tie": 0.0,
+       "first": 0.993801652892562,
+       "second": 0.9864341085271318,
+       "games": 1000,
+       "bench_sum": 20682,
+       "bench_n": 5590,
+       "sky_turns": 469,
+       "sky_cage_turns": 0,
+       "sky_games": 0.166,
+       "attack6": 0.0,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.0
+      },
+      "starmie": {
+       "a": 0.82,
+       "b": 0.18,
+       "tie": 0.0,
+       "first": 0.822265625,
+       "second": 0.8176229508196722,
+       "games": 1000,
+       "bench_sum": 23851,
+       "bench_n": 6278,
+       "sky_turns": 2441,
+       "sky_cage_turns": 0,
+       "sky_games": 0.538,
+       "attack6": 0.364,
+       "attack7": 0.0,
+       "attack8": 0.0,
+       "itchy": 0.009
+      }
+     }
+    }
    }
   ],
-  "done": false
+  "done": true,
+  "best_index": 3,
+  "best_pooled_index": 2
  }
 }

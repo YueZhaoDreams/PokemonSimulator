@@ -53,6 +53,8 @@ from set_m_sky_field import (  # noqa: E402
 from app.seed_data import SET_M60_NAMES  # noqa: E402
 
 MAX_SKY = 4
+HOLDOUT2_SEED = int(os.environ.get("M_SKY_HOLDOUT2_SEED", "20261022"))
+HOLDOUT2_GAMES = int(os.environ.get("M_SKY_HOLDOUT2_GAMES", "3000"))
 DEST = Path(os.environ.get("M_SKY_COPIES_DEST", HERE / "set-m-sky-copies.json"))
 MD_DEST = DEST.with_suffix(".md")
 base.DEST = DEST
@@ -101,13 +103,15 @@ def main() -> None:
             "seed": SEED,
             "holdout_seed": HOLDOUT_SEED,
             "holdout_games": HOLDOUT_GAMES,
+            "holdout2_seed": HOLDOUT2_SEED,
+            "holdout2_games": HOLDOUT2_GAMES,
             "rule_preset": "s60",
             "elapsed": time.perf_counter() - started + prior_elapsed,
             "method": (
                 "greedy one-card swaps from the locked Set M; every step adds one more Sky Field, up to 4; "
                 "every distinct card is tried as the cut; the score is the loss-weighted win rate with weights "
                 "frozen from the zero-Sky-Field baseline; cuts are screened on a short run and the best few "
-                "are confirmed on the full run; every list on the path is rerun on a fresh seed"
+                "are confirmed on the full run; every list on the path is rerun on two fresh seeds and pooled"
             ),
             "foes": {key: strat for key, _label, _names, strat in FOES},
             "weights": weights,
@@ -153,32 +157,66 @@ def main() -> None:
         "holdout",
         seed=HOLDOUT_SEED,
     )
+    held2 = evaluate(
+        [(row["label"], row["list"]) for row in array],
+        HOLDOUT2_GAMES,
+        cache,
+        save,
+        "holdout 2",
+        seed=HOLDOUT2_SEED,
+    )
     for row in array:
-        cells = held[row["label"]]
-        row["holdout"] = {
-            "weighted": weighted(cells, weights),
-            "se": weighted_se(cells, weights),
-            "mean": mean(cells),
-            "worst": worst(cells),
-            "babies": babies(cells),
-            "sky_games": avg(cells, "sky_games"),
-            "attack6": avg(cells, "attack6"),
-            "attack7": avg(cells, "attack7"),
-            "attack8": avg(cells, "attack8"),
-            "cells": cells,
-        }
+        row["holdout"] = summarize(held[row["label"]], weights)
+        row["holdout2"] = summarize(held2[row["label"]], weights)
+        row["pooled"] = pool(held[row["label"]], held2[row["label"]], weights)
         print(
-            f"  holdout {row['label']}: weighted {row['holdout']['weighted']:.2%} "
-            f"(±{row['holdout']['se']:.2%}) mean {row['holdout']['mean']:.2%}",
+            f"  fresh {row['label']}: {row['holdout']['weighted']:.2%} / {row['holdout2']['weighted']:.2%}  "
+            f"pooled {row['pooled']['weighted']:.2%} (±{row['pooled']['se']:.2%})",
             flush=True,
         )
 
     state["report"] = report(True)
     best = max(range(len(array)), key=lambda i: (array[i]["weighted"], -i))
     state["report"]["best_index"] = best
+    state["report"]["best_pooled_index"] = max(
+        range(len(array)), key=lambda i: (array[i]["pooled"]["weighted"], -i)
+    )
     save()
     MD_DEST.write_text(render_md(state["report"]))
     print(f"wrote {MD_DEST}", flush=True)
+
+
+def summarize(cells: dict[str, dict], weights: dict[str, float]) -> dict:
+    return {
+        "weighted": weighted(cells, weights),
+        "se": weighted_se(cells, weights),
+        "mean": mean(cells),
+        "worst": worst(cells),
+        "babies": babies(cells),
+        "sky_games": avg(cells, "sky_games"),
+        "attack6": avg(cells, "attack6"),
+        "attack7": avg(cells, "attack7"),
+        "attack8": avg(cells, "attack8"),
+        "cells": cells,
+    }
+
+
+def pool(first: dict[str, dict], second: dict[str, dict], weights: dict[str, float]) -> dict:
+    cells = {}
+    for key, *_ in FOES:
+        n1, n2 = first[key]["games"], second[key]["games"]
+        cells[key] = {
+            "a": (first[key]["a"] * n1 + second[key]["a"] * n2) / (n1 + n2),
+            "games": n1 + n2,
+        }
+    return {
+        "weighted": weighted(cells, weights),
+        "se": weighted_se(cells, weights),
+        "mean": mean(cells),
+        "worst": worst(cells),
+        "games": first[FOES[0][0]]["games"] + second[FOES[0][0]]["games"],
+        "cells": cells,
+    }
 
 
 def _diff_se(a: dict, b: dict) -> float:
@@ -188,42 +226,60 @@ def _diff_se(a: dict, b: dict) -> float:
 def result_lines(rep: dict) -> list[str]:
     array = rep["array"]
     base_row = array[0]
-    base_hold = base_row["holdout"]
-    best_row = array[rep["best_index"]]
+    sel = array[rep["best_index"]]
+    pooled_best = array[rep["best_pooled_index"]]
+    one = array[1]
     lines = [
         f"- Set M, re-measured on the current engine: {pct(base_row['weighted'])} weighted "
-        f"(±{pct(base_row['se'])}); {pct(base_hold['weighted'])} on the fresh seed.",
+        f"(±{pct(base_row['se'])}) on the selection seed; {pct(base_row['pooled']['weighted'])} "
+        f"(±{pct(base_row['pooled']['se'])}) on the two fresh seeds pooled.",
     ]
     for index, row in enumerate(array[1:], start=1):
-        hold = row["holdout"]
-        prev = array[index - 1]
-        lines.append(
-            f"- {row['label']} (cut {row['cut']}): {pct(row['weighted'])}, {row['weighted'] - prev['weighted']:+.1%} "
-            f"against {prev['label']} and {row['weighted'] - base_row['weighted']:+.1%} against Set M; "
-            f"fresh seed {pct(hold['weighted'])}, {hold['weighted'] - prev['holdout']['weighted']:+.1%} against "
-            f"{prev['label']} and {hold['weighted'] - base_hold['weighted']:+.1%} against Set M "
-            f"(±{pct(_diff_se(hold, base_hold))} of the Set M difference)."
+        pooled = row["pooled"]
+        z_base = (pooled["weighted"] - base_row["pooled"]["weighted"]) / _diff_se(pooled, base_row["pooled"])
+        text = (
+            f"- {row['label']} (cut {row['cut']}): selection seed {pct(row['weighted'])} "
+            f"({row['weighted'] - base_row['weighted']:+.1%} against Set M); "
+            f"fresh seeds pooled {pct(pooled['weighted'])} "
+            f"({pooled['weighted'] - base_row['pooled']['weighted']:+.1%} against Set M, {z_base:+.1f} standard errors)"
         )
-    sky_rows = array[1:]
-    higher_sel = all(
-        array[i + 1]["weighted"] > array[i]["weighted"] for i in range(1, len(array) - 1)
-    )
-    higher_hold = all(
-        array[i + 1]["holdout"]["weighted"] > array[i]["holdout"]["weighted"] for i in range(1, len(array) - 1)
-    )
-    if rep["best_index"] == 0:
-        verdict = "No Sky Field count beats Set M."
-    elif len(sky_rows) > 1 and higher_sel and higher_hold:
-        verdict = "Each extra Sky Field raised the weighted win rate on both seeds."
-    elif rep["best_index"] == 1:
-        verdict = "One Sky Field is the best count. Extra copies did not raise the weighted win rate."
+        if index > 1:
+            z_one = (pooled["weighted"] - one["pooled"]["weighted"]) / _diff_se(pooled, one["pooled"])
+            text += f"; {pooled['weighted'] - one['pooled']['weighted']:+.1%} against one Sky Field ({z_one:+.1f})"
+        lines.append(text + ".")
+    extra = array[2:]
+    beats_one = [
+        row
+        for row in extra
+        if (row["pooled"]["weighted"] - one["pooled"]["weighted"]) / _diff_se(row["pooled"], one["pooled"]) >= 2.0
+    ]
+    if rep["best_index"] == rep["best_pooled_index"]:
+        verdict = f"The selection seed and the pooled fresh seeds both pick {sel['label']}."
     else:
         verdict = (
-            f"The best count on the selection seed is {best_row['label']}. "
-            "The steps are not monotone, so read the fresh-seed column before trusting the order."
+            f"The selection seed picks {sel['label']} and the pooled fresh seeds pick {pooled_best['label']}. "
+            "The greedy step chooses the best of six confirmed cuts on the selection seed, "
+            "so its gains are biased upward, and a gain that the fresh seeds do not repeat is selection noise."
         )
-    lines.extend(["", verdict, "", f"Best list on the selection seed ({best_row['label']}):", "", "```"])
-    lines.extend(f"{count} {name}" for name, count in sorted(Counter(best_row["list"]).items()))
+    if extra and not beats_one:
+        verdict += " No extra copy beats one Sky Field by 2 standard errors on the pooled fresh seeds."
+    elif beats_one:
+        verdict += " " + ", ".join(row["label"] for row in beats_one) + " beat one Sky Field by 2 standard errors on the pooled fresh seeds."
+    others = array[1:]
+    z_best = (pooled_best["pooled"]["weighted"] - base_row["pooled"]["weighted"]) / _diff_se(
+        pooled_best["pooled"], base_row["pooled"]
+    )
+    if pooled_best is not base_row and z_best >= 2.0:
+        verdict += (
+            f" {pooled_best['label']} is the best of {len(others)} lists compared with Set M on these same games, "
+            "so its gain is also biased upward."
+        )
+    rates = [row["pooled"]["weighted"] for row in array]
+    steady = all(b >= a for a, b in zip(rates, rates[1:])) or all(b <= a for a, b in zip(rates, rates[1:]))
+    if not steady:
+        verdict += " The pooled rates neither rise nor fall steadily with the number of copies."
+    lines.extend(["", verdict, "", f"Best list on the pooled fresh seeds ({pooled_best['label']}):", "", "```"])
+    lines.extend(f"{count} {name}" for name, count in sorted(Counter(pooled_best["list"]).items()))
     lines.extend(["```", ""])
     return lines
 
@@ -269,24 +325,25 @@ def render_md(rep: dict) -> str:
     lines.extend(
         [
             "",
-            "## Holdout",
+            "## Fresh seeds",
             "",
-            f"The same lists on a fresh seed, `{rep['holdout_seed']}`, {rep['holdout_games']} games per foe. "
-            "No list was chosen on this seed. Weights are the same. "
-            "The difference column uses the unpaired standard error of the two lists.",
+            f"The same lists on two seeds that no list was chosen on: `{rep['holdout_seed']}` with {rep['holdout_games']} games per foe "
+            f"and `{rep['holdout2_seed']}` with {rep['holdout2_games']}. Weights are the same. "
+            "The pooled columns merge both seeds, and the difference uses the unpaired standard error of the two lists.",
             "",
-            "| Step | Weighted | ±1 SE | vs Set M | ±1 SE of diff | Mean | Worst | vs T60 | vs Hedrick | vs C60 | vs D60 | vs Thorns | vs Starmie |",
-            "| :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
+            "| Step | Seed 1 | Seed 2 | Pooled | ±1 SE | vs Set M | ±1 SE of diff | Mean | Worst | vs T60 | vs Hedrick | vs C60 | vs D60 | vs Thorns | vs Starmie |",
+            "| :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
         ]
     )
-    base_hold = base_row["holdout"]
-    for row in array:
-        hold = row["holdout"]
-        cells = hold["cells"]
+    base_pool = base_row["pooled"]
+    for i, row in enumerate(array):
+        pooled = row["pooled"]
+        cells = pooled["cells"]
+        mark = " (best)" if i == rep["best_pooled_index"] else ""
         lines.append(
-            f"| {row['label']} | {pct(hold['weighted'])} | {pct(hold['se'])} | "
-            f"{hold['weighted'] - base_hold['weighted']:+.1%} | {pct(_diff_se(hold, base_hold))} | "
-            f"{pct(hold['mean'])} | {pct(hold['worst'])} | "
+            f"| {row['label']}{mark} | {pct(row['holdout']['weighted'])} | {pct(row['holdout2']['weighted'])} | "
+            f"{pct(pooled['weighted'])} | {pct(pooled['se'])} | {pooled['weighted'] - base_pool['weighted']:+.1%} | "
+            f"{pct(_diff_se(pooled, base_pool))} | {pct(pooled['mean'])} | {pct(pooled['worst'])} | "
             f"{cell(cells, 't60')} | {cell(cells, 'hedrick')} | {cell(cells, 'c60')} | "
             f"{cell(cells, 'd60')} | {cell(cells, 'thorns')} | {cell(cells, 'starmie')} |"
         )
