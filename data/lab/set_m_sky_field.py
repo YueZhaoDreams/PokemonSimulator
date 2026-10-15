@@ -101,13 +101,13 @@ def cell_key(names: list[str], games: int, foe_key: str, seed: int | None = None
     return f"{prefix}{games}|{foe_key}|{list_key(names)}"
 
 
-def swap_one(names: list[str], cut: str, add: str) -> list[str]:
+def swap_one(names: list[str], cut: str, add: str, limit: int | None = None) -> list[str]:
     out = list(names)
     out.remove(cut)
     out.append(add)
     if len(out) != 60:
         raise ValueError(f"{cut} swap is {len(out)} cards")
-    if out.count(add) > (1 if add == SKY else 4):
+    if out.count(add) > (limit if limit is not None else (1 if add == SKY else 4)):
         raise ValueError(f"{add} would exceed its copy limit")
     return out
 
@@ -268,10 +268,11 @@ def greedy_step(
     cache: Cache,
     save,
     step_label: str,
+    limit: int | None = None,
 ) -> dict:
     copies = Counter(current)
     cuts = sorted(name for name in copies if name not in {SKY, BUDEW})
-    screen_lists = [(cut, swap_one(current, cut, add)) for cut in cuts]
+    screen_lists = [(cut, swap_one(current, cut, add, limit)) for cut in cuts]
     screened = evaluate(screen_lists, SCREEN_GAMES, cache, save, f"{step_label} screen")
     screen_rows = sorted(
         (row_for(cut, dict(screen_lists)[cut], screened[cut], weights, copies) for cut in cuts),
