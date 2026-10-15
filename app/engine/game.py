@@ -1817,6 +1817,14 @@ class Game:
                     score += 8
                 else:
                     score += 1
+            elif (
+                strat.name in {"mew_baby", "baby"}
+                and (card.trainer_kind or "").lower() == "stadium"
+                and self._bench_raise_effect(parse_ability_effects(card.text or "")) is not None
+            ):
+                # Above Poffin (25) so the new slots exist before the search benches into them.
+                # Held until waiting Babies outnumber the open slots.
+                score += 30 if self._mew_bench_raise_gain(me, card) >= 1 else -20
             elif name == "area zero underdepths" and strat.name in {"mew_baby", "baby"}:
                 if (self.stadium_name or "").lower() == "area zero underdepths":
                     score -= 20
@@ -1831,7 +1839,9 @@ class Game:
                 elif strat.name == "party" and self._keep_moonlight_stadium(me):
                     # Early Party pivot stays up. Cage replaces it once that window closes.
                     score -= 8
-                elif strat.name in {"mew_baby", "baby"} and self._mew_keep_area_zero(me):
+                elif strat.name in {"mew_baby", "baby"} and (
+                    self._mew_keep_area_zero(me) or self._mew_keep_bench_raise(me)
+                ):
                     score -= 30
                 elif strat.name in {"mew_baby", "baby"}:
                     score += 22 if self._facing_phantom(me) else 15
@@ -2563,6 +2573,46 @@ class Game:
     def _mew_keep_area_zero(self, me: Player) -> bool:
         return (self.stadium_name or "").lower() == "area zero underdepths" and self._player_has_tera(me)
 
+    def _bench_raise_effect(self, effects: list[dict[str, Any]] | None) -> dict[str, Any] | None:
+        """Printed Stadium sentence that raises the Bench cap for every player."""
+        for eff in effects or []:
+            if (
+                eff.get("kind") == "stadium_bench_limit"
+                and eff.get("raises")
+                and not eff.get("require_tera")
+                and eff.get("limit") is not None
+            ):
+                return eff
+        return None
+
+    def _mew_babies_waiting(self, me: Player) -> int:
+        """30 HP Basics that are in hand, or that a held Poffin / Nest Ball would bench."""
+        in_hand = sum(1 for i in me.hand if me.card(i).is_basic and (me.card(i).hp or 0) == 30)
+        in_deck = sum(1 for i in me.deck if me.card(i).is_basic and (me.card(i).hp or 0) == 30)
+        fetch = 0
+        for i in me.hand:
+            name = me.card(i).name.lower()
+            if name in {"buddy-buddy poffin", "buddy buddy poffin"}:
+                fetch += 2
+            elif name in {"nest ball", "nesting ball"}:
+                fetch += 1
+        return in_hand + min(in_deck, fetch)
+
+    def _mew_bench_raise_gain(self, me: Player, card: Card) -> int:
+        """Babies this Stadium's printed Bench cap would add to the Bench this turn."""
+        raise_eff = self._bench_raise_effect(parse_ability_effects(card.text or ""))
+        if raise_eff is None or self._bench_raise_effect(self.stadium_effects) is not None:
+            return 0
+        extra = int(raise_eff["limit"]) - self._bench_limit(me)
+        open_now = max(0, self._non_shield_bench_cap(me) - len(me.bench))
+        return max(0, min(extra, self._mew_babies_waiting(me) - open_now))
+
+    def _mew_keep_bench_raise(self, me: Player) -> bool:
+        """A Stadium that raised the Bench stays while a replacement would discard Babies."""
+        if self._bench_raise_effect(self.stadium_effects) is None:
+            return False
+        return len(me.bench) > self.rules.bench_size
+
     def _mew_needs_penny_for_tera(self, me: Player) -> bool:
         """Bench is already full, so Penny a Baby to make the Tera anchor's spot."""
         if not self._mew_hold_tera_slot(me):
@@ -2589,6 +2639,7 @@ class Game:
             self._player_has_tera(me)
             or self._mew_burst_ready(me)
             or (self.stadium_name or "").lower() == "area zero underdepths"
+            or self._bench_raise_effect(self.stadium_effects) is not None
         ):
             return
         self._play_basics(me)
@@ -5856,6 +5907,7 @@ class Game:
             mews = sum(1 for mon in me.in_play() if me.card(mon.card_i).name.lower() == "mew ex")
             self._bump(f"bench30_sum_{who}", babies)
             self._bump(f"bench30_n_{who}", 1)
+            self._bump(f"bench30_attack_{who}:{babies}")
             if mews >= 2:
                 self._bump(f"two_mew_{who}")
         atk = self._choose_attack(me, foe, strat)
