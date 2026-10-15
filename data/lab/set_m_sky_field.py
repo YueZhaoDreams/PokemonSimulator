@@ -62,12 +62,15 @@ GAMES = int(os.environ.get("M_SKY_GAMES", "1000"))
 SCREEN_GAMES = int(os.environ.get("M_SKY_SCREEN_GAMES", "300"))
 SCREEN_TOP = int(os.environ.get("M_SKY_SCREEN_TOP", "6"))
 SEED = int(os.environ.get("M_SKY_SEED", "20261007"))
+HOLDOUT_SEED = int(os.environ.get("M_SKY_HOLDOUT_SEED", "20261015"))
+HOLDOUT_GAMES = int(os.environ.get("M_SKY_HOLDOUT_GAMES", "2000"))
 WORKERS = int(os.environ.get("M_SKY_WORKERS", "4"))
 MAX_BUDEW = int(os.environ.get("M_SKY_MAX_BUDEW", "4"))
 SKY = "Sky Field"
 BUDEW = "Budew"
 DEST = Path(os.environ.get("M_SKY_DEST", ROOT / "data/lab/set-m-sky-field.json"))
 MD_DEST = DEST.with_suffix(".md")
+CACHE_PATH = Path(os.environ.get("M_SKY_CACHE", ROOT / "data/cache/set-m-sky-field-cells.json"))
 
 QUERIES = [
     {"type": "event_prefix", "prefix": "stadium:Sky Field", "key": "sky_games"},
@@ -93,8 +96,9 @@ def list_key(names: list[str]) -> str:
     return ",".join(f"{name}x{count}" for name, count in sorted(Counter(names).items()))
 
 
-def cell_key(names: list[str], games: int, foe_key: str) -> str:
-    return f"{games}|{foe_key}|{list_key(names)}"
+def cell_key(names: list[str], games: int, foe_key: str, seed: int | None = None) -> str:
+    prefix = "" if seed is None or seed == SEED else f"seed{seed}|"
+    return f"{prefix}{games}|{foe_key}|{list_key(names)}"
 
 
 def swap_one(names: list[str], cut: str, add: str) -> list[str]:
@@ -108,7 +112,7 @@ def swap_one(names: list[str], cut: str, add: str) -> list[str]:
     return out
 
 
-def _run(names: list[str], games: int, foe_key: str, foe_names, foe_strat: str) -> tuple[str, dict]:
+def _run(names: list[str], games: int, foe_key: str, foe_names, foe_strat: str, seed: int) -> tuple[str, dict]:
     rec = run_simulation(
         build_fallback_deck(names),
         build_fallback_deck(list(foe_names)),
@@ -116,7 +120,7 @@ def _run(names: list[str], games: int, foe_key: str, foe_names, foe_strat: str) 
         StrategySpec.from_dict("mew_baby"),
         StrategySpec.from_dict(foe_strat),
         games=games,
-        seed=SEED,
+        seed=seed,
         queries=QUERIES,
         deck_a_meta={"id": "m", "name": "m"},
         deck_b_meta={"id": foe_key, "name": foe_key},
@@ -141,18 +145,24 @@ def _run(names: list[str], games: int, foe_key: str, foe_names, foe_strat: str) 
 
 
 class Cache:
+    """Finished cells, so a stopped run resumes. Lives under data/cache/, which git ignores."""
+
     def __init__(self, saved: dict | None):
         self.cells: dict[str, dict] = dict((saved or {}).get("cells", {}))
+        if CACHE_PATH.exists():
+            self.cells.update(json.loads(CACHE_PATH.read_text()))
 
-    def get(self, names: list[str], games: int, foe_key: str) -> dict | None:
-        return self.cells.get(cell_key(names, games, foe_key))
+    def get(self, names: list[str], games: int, foe_key: str, seed: int | None = None) -> dict | None:
+        return self.cells.get(cell_key(names, games, foe_key, seed))
 
-    def put(self, names: list[str], games: int, foe_key: str, detail: dict) -> None:
-        self.cells[cell_key(names, games, foe_key)] = detail
+    def put(self, names: list[str], games: int, foe_key: str, detail: dict, seed: int | None = None) -> None:
+        self.cells[cell_key(names, games, foe_key, seed)] = detail
 
 
 def _save(cache: Cache, report: dict) -> None:
-    DEST.write_text(json.dumps({"cells": cache.cells, "report": report}, indent=1) + "\n")
+    CACHE_PATH.parent.mkdir(parents=True, exist_ok=True)
+    CACHE_PATH.write_text(json.dumps(cache.cells) + "\n")
+    DEST.write_text(json.dumps({"report": report}, indent=1) + "\n")
 
 
 def evaluate(
@@ -161,26 +171,28 @@ def evaluate(
     cache: Cache,
     save,
     label: str,
+    seed: int | None = None,
 ) -> dict[str, dict[str, dict]]:
     """Cells for every (label, list, foe). Missing cells run in a process pool."""
+    run_seed = SEED if seed is None else seed
     jobs = [
         (key, names, foe_key, foe_names, foe_strat)
         for key, names in lists
         for foe_key, _label, foe_names, foe_strat in FOES
-        if cache.get(names, games, foe_key) is None
+        if cache.get(names, games, foe_key, seed) is None
     ]
     total = len(lists) * len(FOES)
     if jobs:
         with ProcessPoolExecutor(max_workers=min(WORKERS, len(jobs))) as pool:
             futs = {
-                pool.submit(_run, names, games, foe_key, foe_names, foe_strat): (key, names)
+                pool.submit(_run, names, games, foe_key, foe_names, foe_strat, run_seed): (key, names)
                 for key, names, foe_key, foe_names, foe_strat in jobs
             }
             done = total - len(jobs)
             for fut in as_completed(futs):
                 key, names = futs[fut]
                 foe_key, detail = fut.result()
-                cache.put(names, games, foe_key, detail)
+                cache.put(names, games, foe_key, detail, seed)
                 done += 1
                 if done % 6 == 0 or done == total:
                     print(f"  [{label}] {done}/{total} cells", flush=True)
@@ -189,7 +201,7 @@ def evaluate(
     for key, names in lists:
         out[key] = {}
         for foe_key, *_ in FOES:
-            cell = cache.get(names, games, foe_key)
+            cell = cache.get(names, games, foe_key, seed)
             if cell is None:
                 raise RuntimeError(f"missing cell {key} vs {foe_key}")
             out[key][foe_key] = cell
@@ -266,6 +278,8 @@ def greedy_step(
         key=rank_key,
     )
     finalists = [row["cut"] for row in screen_rows[:SCREEN_TOP]]
+    for row in screen_rows:
+        row["cells"] = {key: {"a": cell["a"]} for key, cell in row["cells"].items()}
     confirm_lists = [(cut, dict(screen_lists)[cut]) for cut in finalists]
     confirmed = evaluate(confirm_lists, GAMES, cache, save, f"{step_label} confirm")
     confirm_rows = sorted(
@@ -296,6 +310,7 @@ def main() -> None:
     if saved and saved.get("report", {}).get("seed") not in (None, SEED):
         saved = None
     cache = Cache(saved)
+    prior_elapsed = float((saved or {}).get("report", {}).get("elapsed") or 0)
     state: dict = {"report": {}}
 
     def save() -> None:
@@ -323,8 +338,10 @@ def main() -> None:
             "screen_games": SCREEN_GAMES,
             "screen_top": SCREEN_TOP,
             "seed": SEED,
+            "holdout_seed": HOLDOUT_SEED,
+            "holdout_games": HOLDOUT_GAMES,
             "rule_preset": "s60",
-            "elapsed": time.perf_counter() - started,
+            "elapsed": time.perf_counter() - started + prior_elapsed,
             "method": (
                 "greedy one-card swaps from the locked Set M; step 1 adds one Sky Field (forced), "
                 "later steps add Budew up to 4 copies; every distinct card is tried as the cut; "
@@ -369,6 +386,32 @@ def main() -> None:
         state["report"] = report(False)
         save()
 
+    print("holdout: every list on a fresh seed", flush=True)
+    held = evaluate(
+        [(row["label"], row["list"]) for row in array],
+        HOLDOUT_GAMES,
+        cache,
+        save,
+        "holdout",
+        seed=HOLDOUT_SEED,
+    )
+    for row in array:
+        cells = held[row["label"]]
+        row["holdout"] = {
+            "weighted": weighted(cells, weights),
+            "se": weighted_se(cells, weights),
+            "mean": mean(cells),
+            "worst": worst(cells),
+            "babies": babies(cells),
+            "attack8": avg(cells, "attack8"),
+            "cells": cells,
+        }
+        print(
+            f"  holdout {row['label']}: weighted {row['holdout']['weighted']:.2%} "
+            f"(±{row['holdout']['se']:.2%}) mean {row['holdout']['mean']:.2%}",
+            flush=True,
+        )
+
     state["report"] = report(True)
     best = max(range(len(array)), key=lambda i: (array[i]["weighted"], -i))
     state["report"]["best_index"] = best
@@ -383,6 +426,76 @@ def pct(value: float) -> str:
 
 def cell(cells: dict, key: str) -> str:
     return pct(cells[key]["a"])
+
+def result_lines(rep: dict) -> list[str]:
+    array = rep["array"]
+    base = array[0]
+    sky = array[1]
+    budew_rows = array[2:]
+    best_row = array[rep["best_index"]]
+    base_hold = base["holdout"]
+
+    def diff_se(a: dict, b: dict) -> float:
+        return (a["se"] ** 2 + b["se"] ** 2) ** 0.5
+
+    sky_delta = sky["weighted"] - base["weighted"]
+    sky_hold = sky["holdout"]["weighted"] - base_hold["weighted"]
+    lines = [
+        f"- Set M, re-measured on the current engine: {pct(base['weighted'])} weighted "
+        f"(±{pct(base['se'])}); {pct(base_hold['weighted'])} on the fresh seed.",
+        f"- One Sky Field, cutting {sky['cut']}: {pct(sky['weighted'])} ({sky_delta:+.1%}); "
+        f"{pct(sky['holdout']['weighted'])} on the fresh seed ({sky_hold:+.1%}, "
+        f"±{pct(diff_se(sky['holdout'], base_hold))} of the difference).",
+    ]
+    if budew_rows:
+        top = max(budew_rows, key=lambda row: row["weighted"])
+        top_hold = max(budew_rows, key=lambda row: row["holdout"]["weighted"])
+        lines.append(
+            f"- Best Budew step on the path: {top['label']} at {pct(top['weighted'])}, "
+            f"{top['weighted'] - sky['weighted']:+.1%} against the Sky Field-only list; "
+            f"on the fresh seed the best is {top_hold['label']} at {pct(top_hold['holdout']['weighted'])}, "
+            f"{top_hold['holdout']['weighted'] - sky['holdout']['weighted']:+.1%}."
+        )
+        lowest = budew_rows[-1]
+        foe_key, foe_label = min(
+            ((key, label) for key, label, *_ in FOES),
+            key=lambda item: lowest["cells"][item[0]]["a"],
+        )
+        lines.append(
+            f"- With {lowest['budew']} Budew the worst foe is {foe_label} at {pct(lowest['cells'][foe_key]['a'])} "
+            f"(Set M {pct(base['cells'][foe_key]['a'])}). The loss weights are frozen from Set M, so a foe "
+            f"that Set M nearly always beats carries a small weight and a collapse there moves the weighted score little."
+        )
+        lines.append(
+            f"- With {lowest['budew']} Budew the Bench holds 8 Babies (240) in {pct(lowest['attack8'])} of games, "
+            f"and Sky Field is in play in {pct(lowest['sky_games'])}."
+        )
+    budew_below = all(
+        row["weighted"] < sky["weighted"] and row["holdout"]["weighted"] < sky["holdout"]["weighted"]
+        for row in budew_rows
+    )
+    sky_z = sky_delta / diff_se(sky, base)
+    sky_hold_z = sky_hold / diff_se(sky["holdout"], base_hold)
+    if rep["best_index"] == 0:
+        verdict = "No list on the path beats Set M."
+    elif rep["best_index"] == 1 and budew_below:
+        verdict = (
+            f"Only the Sky Field step is above Set M: {sky_delta:+.1%} on the selection seed "
+            f"({sky_z:.1f} standard errors) and {sky_hold:+.1%} on the fresh seed ({sky_hold_z:.1f}). "
+            + (
+                "Both are under 2 standard errors, so the gain is small and not settled. "
+                if max(sky_z, sky_hold_z) < 2.0
+                else ""
+            )
+            + "Every Budew step is below the Sky Field-only list on both seeds, "
+            "so the best list on the path is Set M with one Sky Field and no Budew."
+        )
+    else:
+        verdict = f"The best list on the selection seed is {best_row['label']}."
+    lines.extend(["", verdict, "", "Best list on the path:", "", "```"])
+    lines.extend(f"{count} {name}" for name, count in sorted(Counter(best_row["list"]).items()))
+    lines.extend(["```", ""])
+    return lines
 
 
 def render_md(rep: dict) -> str:
@@ -399,6 +512,10 @@ def render_md(rep: dict) -> str:
         "with a maximum HP of 30, so 8 of them is 240. Set M has 6 such Pokémon (4 Igglybuff, 2 Mime Jr.).",
         "Budew is a third 30 HP Basic, and each copy is one more body for the wider Bench.",
         "The Sky Field step is taken even when it lowers the score. Budew runs to 4 copies, the 4-of-a-name limit.",
+        "Mew ex plays a Bench-raising Stadium before Buddy-Buddy Poffin when more 30 HP Basics are waiting than there are",
+        "open slots, and Battle Cage does not replace it while the Bench is past 5 (see `tests/test_mew_sky_field.py`).",
+        "Set M is re-measured here on the current engine. The 88.4% in `set-m-eco-arm-on-carrier.md` was measured on",
+        "2026-10-07, before later engine commits, and does not reproduce.",
         "",
         f"- **Seed**: `{rep['seed']}`",
         f"- **Games**: cuts screened on {rep['screen_games']} per foe, best {rep['screen_top']} confirmed on {rep['games']} per foe",
@@ -424,6 +541,31 @@ def render_md(rep: dict) -> str:
     lines.extend(
         [
             "",
+            "## Holdout",
+            "",
+            f"The same lists on a fresh seed, `{rep['holdout_seed']}`, {rep['holdout_games']} games per foe. "
+            "No list was chosen on this seed, so it is free of the selection bias in the path above. "
+            "Weights are the same. The difference column uses the unpaired standard error of the two lists.",
+            "",
+            "| Step | Weighted | ±1 SE | vs Set M | ±1 SE of diff | Mean | Worst | Babies | 8 Babies | vs T60 | vs Hedrick | vs C60 | vs D60 | vs Thorns | vs Starmie |",
+            "| :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
+        ]
+    )
+    base_hold = array[0]["holdout"]
+    for row in array:
+        hold = row["holdout"]
+        cells = hold["cells"]
+        diff_se = (hold["se"] ** 2 + base_hold["se"] ** 2) ** 0.5
+        lines.append(
+            f"| {row['label']} | {pct(hold['weighted'])} | {pct(hold['se'])} | "
+            f"{hold['weighted'] - base_hold['weighted']:+.1%} | {pct(diff_se)} | {pct(hold['mean'])} | {pct(hold['worst'])} | "
+            f"{hold['babies']:.2f} | {pct(hold['attack8'])} | "
+            f"{cell(cells, 't60')} | {cell(cells, 'hedrick')} | {cell(cells, 'c60')} | "
+            f"{cell(cells, 'd60')} | {cell(cells, 'thorns')} | {cell(cells, 'starmie')} |"
+        )
+    lines.extend(
+        [
+            "",
             "## Bench of 30 HP Pokémon",
             "",
             "Babies is the mean number of Benched 30 HP Pokémon at the moment side A attacks.",
@@ -438,11 +580,11 @@ def render_md(rep: dict) -> str:
             f"| {row['label']} | {row['babies']:.2f} | {pct(row['sky_games'])} | {pct(row['attack6'])} | "
             f"{pct(row['attack7'])} | {pct(row['attack8'])} | {pct(row['itchy'])} |"
         )
-    for step in rep["steps"]:
+    for index, step in enumerate(rep["steps"], start=1):
         lines.extend(
             [
                 "",
-                f"## Step: add {step['add']}, every cut",
+                f"## Step {index}: add {array[index]['label']}, every cut",
                 "",
                 f"Chosen cut is {step['chosen']}. Screen is {rep['screen_games']} games per foe; "
                 f"the confirmed table is {rep['games']} games per foe.",
@@ -471,23 +613,7 @@ def render_md(rep: dict) -> str:
         )
         for rank, row in enumerate(step["screen"], start=1):
             lines.append(f"| {rank} | {row['cut']} | {pct(row['weighted'])} | {pct(row['mean'])} |")
-    best_row = array[best]
-    lines.extend(
-        [
-            "",
-            "## Result",
-            "",
-            f"Best on the path: {best_row['label']} at {pct(best_row['weighted'])} weighted "
-            f"(±{pct(best_row['se'])}), Set M is {pct(base['weighted'])} (±{pct(base['se'])}).",
-            "",
-            "Best list:",
-            "",
-            "```",
-            *[f"{count} {name}" for name, count in sorted(Counter(best_row["list"]).items())],
-            "```",
-            "",
-        ]
-    )
+    lines.extend(["", "## Result", ""] + result_lines(rep))
     return "\n".join(lines)
 
 

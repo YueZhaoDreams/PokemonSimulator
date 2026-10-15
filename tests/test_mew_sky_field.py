@@ -2,13 +2,20 @@
 
 from __future__ import annotations
 
+import importlib.util
+import json
+from collections import Counter
+from pathlib import Path
 from random import Random
+
+import pytest
 
 from app.engine.effects import parse_ability_effects
 from app.engine.game import Game, Pokemon
+from app.engine.legality import copy_violations
 from app.engine.models import Card, standard_60_rules
 from app.engine.strategies import StrategySpec
-from app.seed_data import build_fallback_deck, fallback_named
+from app.seed_data import SET_M60_NAMES, build_fallback_deck, fallback_named
 
 SKY_FIELD = (
     "Each player can have 8 Pokémon on his or her Bench. "
@@ -141,3 +148,59 @@ def test_a_held_sky_field_does_not_change_a_list_without_one():
     assert game._mew_keep_bench_raise(me) is False
     picked = game._pick_trainer(me)
     assert picked is not None and me.card(picked).name == "Battle Cage"
+
+
+def _load_lab():
+    path = Path(__file__).resolve().parents[1] / "data" / "lab" / "set_m_sky_field.py"
+    spec = importlib.util.spec_from_file_location(path.stem, path)
+    module = importlib.util.module_from_spec(spec)
+    assert spec.loader is not None
+    spec.loader.exec_module(module)
+    return module
+
+
+def test_lab_swap_keeps_sixty_cards_and_limits_copies():
+    lab = _load_lab()
+    names = list(SET_M60_NAMES)
+    with_sky = lab.swap_one(names, "Night Stretcher", "Sky Field")
+    assert len(with_sky) == 60
+    assert with_sky.count("Sky Field") == 1
+    assert with_sky.count("Night Stretcher") == names.count("Night Stretcher") - 1
+    with pytest.raises(ValueError):
+        lab.swap_one(with_sky, "Arven", "Sky Field")
+    four = names
+    for cut in ("Boss's Orders", "Bravery Charm", "Counter Catcher", "Ultra Ball"):
+        four = lab.swap_one(four, cut, "Budew")
+    assert four.count("Budew") == 4
+    with pytest.raises(ValueError):
+        lab.swap_one(four, "Arven", "Budew")
+
+
+def test_sky_field_report_path_is_legal_and_starts_from_the_locked_list():
+    lab = _load_lab()
+    blob = json.loads((Path(__file__).resolve().parents[1] / "data/lab/set-m-sky-field.json").read_text())
+    rep = blob["report"]
+    assert rep["done"] is True
+    assert rep["seed"] == 20261007
+    assert rep["games"] == 1000
+    assert rep["list_start"] == list(SET_M60_NAMES)
+    assert list(rep["foes"]) == [key for key, *_ in lab.FOES]
+    assert abs(sum(rep["weights"].values()) - 1.0) < 1e-9
+    rules = standard_60_rules()
+    array = rep["array"]
+    assert [row["label"] for row in array] == ["Set M", "Sky Field", "Budew 1", "Budew 2", "Budew 3", "Budew 4"]
+    previous = Counter(SET_M60_NAMES)
+    for row in array[1:]:
+        names = row["list"]
+        assert len(names) == 60
+        assert copy_violations(build_fallback_deck(names), rules) == []
+        now = Counter(names)
+        gained = now - previous
+        lost = previous - now
+        assert sum(gained.values()) == 1 and sum(lost.values()) == 1
+        assert list(lost) == [row["cut"]]
+        assert list(gained) == ["Sky Field" if row["label"] == "Sky Field" else "Budew"]
+        previous = now
+    assert array[-1]["list"].count("Sky Field") == 1
+    assert array[-1]["list"].count("Budew") == 4
+    assert rep["best_index"] == max(range(len(array)), key=lambda i: (array[i]["weighted"], -i))
