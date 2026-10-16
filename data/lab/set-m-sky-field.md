@@ -1,5 +1,9 @@
 # Set M with Sky Field and Budew, greedy
 
+**The Budew rows below were run before the Baby order fix.** That order put Budew in the Active Spot whenever Mew ex could not
+attack, where it hits for 10 while Igglybuff's Bouncy Circle hits for 30 per Benched 30 HP Pokémon. The Set M and Sky Field rows
+do not depend on it and are unchanged. The same greedy search on the fixed order is in `set-m-budew-policy.md`.
+
 Starting 60 is the locked Set M list (`SET_M60_NAMES`). Step 1 adds one Sky Field and the Budew steps follow.
 Each step cuts exactly one copy of one other card for the new card, and every distinct card is tried as the cut.
 Sky Field: each player can have 8 Pokémon on the Bench. Bouncy Circle is 30 damage for each Benched Pokémon

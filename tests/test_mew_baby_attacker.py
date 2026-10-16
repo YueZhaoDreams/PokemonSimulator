@@ -159,3 +159,43 @@ def test_spiky_energy_goes_to_the_baby_that_will_attack():
 
 def test_locked_set_m_list_has_no_budew():
     assert "Budew" not in SET_M60_NAMES
+
+
+def _lab_json(name: str) -> dict:
+    import json
+    from pathlib import Path
+
+    return json.loads((Path(__file__).resolve().parents[1] / "data" / "lab" / name).read_text())["report"]
+
+
+def test_budew_policy_report_is_a_legal_path_and_leaves_lists_without_budew_unchanged():
+    from collections import Counter
+
+    from app.engine.legality import copy_violations
+
+    rep = _lab_json("set-m-budew-policy.json")
+    old = _lab_json("set-m-sky-field.json")
+    assert rep["done"] is True
+    assert rep["list_start"] == list(SET_M60_NAMES)
+    assert abs(sum(rep["weights"].values()) - 1.0) < 1e-9
+    array = rep["array"]
+    assert [row["label"] for row in array] == ["Set M", "Sky Field", "Budew 1", "Budew 2", "Budew 3", "Budew 4"]
+    assert [row["budew"] for row in array] == [0, 0, 1, 2, 3, 4]
+    assert [row["sky"] for row in array] == [0, 1, 1, 1, 1, 1]
+    rules = standard_60_rules()
+    previous = Counter(SET_M60_NAMES)
+    for row in array[1:]:
+        assert len(row["list"]) == 60
+        assert copy_violations(build_fallback_deck(row["list"]), rules) == []
+        now = Counter(row["list"])
+        gained, lost = now - previous, previous - now
+        assert sum(gained.values()) == 1 and sum(lost.values()) == 1
+        assert list(gained) == ["Sky Field" if row["label"] == "Sky Field" else "Budew"]
+        assert list(lost) == [row["cut"]]
+        previous = now
+    for new_row, old_row in zip(array[:2], old["array"][:2]):
+        assert new_row["list"] == old_row["list"]
+        assert new_row["weighted"] == old_row["weighted"]
+        assert {k: c["a"] for k, c in new_row["cells"].items()} == {k: c["a"] for k, c in old_row["cells"].items()}
+    assert rep["holdout_seed"] != rep["seed"]
+    assert rep["best_index"] == max(range(len(array)), key=lambda i: (array[i]["weighted"], -i))
