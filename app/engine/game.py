@@ -1769,6 +1769,9 @@ class Game:
                             score += 22
                         else:
                             score += -12
+                    elif strat.name in {"mew_baby", "baby"}:
+                        # An Item, so it goes ahead of the Supporter that would pull the same target.
+                        score += self._mew_gust_score(me, foe) + 2
                     else:
                         score += 10
                 else:
@@ -1817,6 +1820,14 @@ class Game:
                     score += 8
                 else:
                     score += 1
+            elif (
+                strat.name in {"mew_baby", "baby"}
+                and (card.trainer_kind or "").lower() == "stadium"
+                and self._bench_raise_effect(parse_ability_effects(card.text or "")) is not None
+            ):
+                # Above Poffin (25) so the new slots exist before the search benches into them.
+                # Held until waiting Babies outnumber the open slots.
+                score += 30 if self._mew_bench_raise_gain(me, card) >= 1 else -20
             elif name == "area zero underdepths" and strat.name in {"mew_baby", "baby"}:
                 if (self.stadium_name or "").lower() == "area zero underdepths":
                     score -= 20
@@ -1831,7 +1842,9 @@ class Game:
                 elif strat.name == "party" and self._keep_moonlight_stadium(me):
                     # Early Party pivot stays up. Cage replaces it once that window closes.
                     score -= 8
-                elif strat.name in {"mew_baby", "baby"} and self._mew_keep_area_zero(me):
+                elif strat.name in {"mew_baby", "baby"} and (
+                    self._mew_keep_area_zero(me) or self._mew_keep_bench_raise(me)
+                ):
                     score -= 30
                 elif strat.name in {"mew_baby", "baby"}:
                     score += 22 if self._facing_phantom(me) else 15
@@ -1965,9 +1978,8 @@ class Game:
                         score += 22
                     else:
                         score += -12
-                elif strat.name in {"mew_baby", "baby"} and self._mew_gust_wins(me, foe):
-                    # Taking the last prize this turn beats picking Mew ex up.
-                    score += 48
+                elif strat.name in {"mew_baby", "baby"}:
+                    score += self._mew_gust_score(me, foe)
                 else:
                     score += 8 if foe.bench else -6
             elif name == "crispin":
@@ -2284,6 +2296,7 @@ class Game:
             if len(me.prizes) > len(foe.prizes):
                 self._boss_orders(me, foe)
                 self._bump("counter_catcher")
+                self._bump(f"counter_catcher_{me.name.lower()}")
             else:
                 self._bump("counter_catcher_fail")
         elif name in {"beach court", "risky ruins"} or (card.trainer_kind or "").lower() == "stadium":
@@ -2563,6 +2576,46 @@ class Game:
     def _mew_keep_area_zero(self, me: Player) -> bool:
         return (self.stadium_name or "").lower() == "area zero underdepths" and self._player_has_tera(me)
 
+    def _bench_raise_effect(self, effects: list[dict[str, Any]] | None) -> dict[str, Any] | None:
+        """Printed Stadium sentence that raises the Bench cap for every player."""
+        for eff in effects or []:
+            if (
+                eff.get("kind") == "stadium_bench_limit"
+                and eff.get("raises")
+                and not eff.get("require_tera")
+                and eff.get("limit") is not None
+            ):
+                return eff
+        return None
+
+    def _mew_babies_waiting(self, me: Player) -> int:
+        """30 HP Basics that are in hand, or that a held Poffin / Nest Ball would bench."""
+        in_hand = sum(1 for i in me.hand if me.card(i).is_basic and (me.card(i).hp or 0) == 30)
+        in_deck = sum(1 for i in me.deck if me.card(i).is_basic and (me.card(i).hp or 0) == 30)
+        fetch = 0
+        for i in me.hand:
+            name = me.card(i).name.lower()
+            if name in {"buddy-buddy poffin", "buddy buddy poffin"}:
+                fetch += 2
+            elif name in {"nest ball", "nesting ball"}:
+                fetch += 1
+        return in_hand + min(in_deck, fetch)
+
+    def _mew_bench_raise_gain(self, me: Player, card: Card) -> int:
+        """Babies this Stadium's printed Bench cap would add to the Bench this turn."""
+        raise_eff = self._bench_raise_effect(parse_ability_effects(card.text or ""))
+        if raise_eff is None or self._bench_raise_effect(self.stadium_effects) is not None:
+            return 0
+        extra = int(raise_eff["limit"]) - self._bench_limit(me)
+        open_now = max(0, self._non_shield_bench_cap(me) - len(me.bench))
+        return max(0, min(extra, self._mew_babies_waiting(me) - open_now))
+
+    def _mew_keep_bench_raise(self, me: Player) -> bool:
+        """A Stadium that raised the Bench stays while a replacement would discard Babies."""
+        if self._bench_raise_effect(self.stadium_effects) is None:
+            return False
+        return len(me.bench) > self.rules.bench_size
+
     def _mew_needs_penny_for_tera(self, me: Player) -> bool:
         """Bench is already full, so Penny a Baby to make the Tera anchor's spot."""
         if not self._mew_hold_tera_slot(me):
@@ -2589,6 +2642,7 @@ class Game:
             self._player_has_tera(me)
             or self._mew_burst_ready(me)
             or (self.stadium_name or "").lower() == "area zero underdepths"
+            or self._bench_raise_effect(self.stadium_effects) is not None
         ):
             return
         self._play_basics(me)
@@ -5856,6 +5910,7 @@ class Game:
             mews = sum(1 for mon in me.in_play() if me.card(mon.card_i).name.lower() == "mew ex")
             self._bump(f"bench30_sum_{who}", babies)
             self._bump(f"bench30_n_{who}", 1)
+            self._bump(f"bench30_attack_{who}:{babies}")
             if mews >= 2:
                 self._bump(f"two_mew_{who}")
         atk = self._choose_attack(me, foe, strat)
@@ -6675,6 +6730,10 @@ class Game:
             return None
         if me is None or who is None:
             return hp_min
+        if self.strats[who].name in {"mew_baby", "baby"}:
+            plan = self._mew_gust_plan(me, foe)
+            if plan is not None:
+                return plan[0]
         if self.strats[who].name == "party" and self._boss_closes_this_turn(me, foe, who):
             return hp_min
         if self.strats[who].name == "party":
@@ -7466,7 +7525,10 @@ class Game:
             return self._thorns_promote_idx(player)
         storm = strat.name == "party" and self._want_storm_line(player, foe, who)
 
-        def prio(i: int) -> int:
+        def baby_prio(card: Card) -> int:
+            return {"cleffa": 3, "igglybuff": 4}.get(card.name.lower(), 5)
+
+        def prio(i: int) -> float:
             mon = player.bench[i]
             name = player.card(mon.card_i).name.lower()
             if strat.name in {"electro_rain", "regidrago"}:
@@ -7476,7 +7538,7 @@ class Game:
                 if self._rulebox_lock_on_opponent(player):
                     rank = self._baby_wall_rank(player.card(mon.card_i))
                     if rank < 9:
-                        return rank
+                        return self._baby_pick_rank(player, foe, mon)
                     if name == "mew ex":
                         return 20
                     return 10
@@ -7485,6 +7547,9 @@ class Game:
                 if "radiant charizard" in name and bool(mon.energy):
                     return 1
                 if name == "budew":
+                    harder = self._baby_hits_harder(player, foe, mon)
+                    if harder:
+                        return min(baby_prio(player.card(other.card_i)) for other in harder) + 0.5
                     return 2
                 if name == "cleffa":
                     return 3
@@ -8681,9 +8746,11 @@ class Game:
         already has a Tool or another copy.
         """
         assert me.active
+        foe = self.players["b" if me.name == "A" else "a"]
         if self._rulebox_lock_on_opponent(me):
             if self._baby_wall_rank(me.card(me.active.card_i)) < 9:
-                return me.active
+                swap = self._baby_swap_idx(me, foe)
+                return me.bench[swap] if swap is not None else me.active
             idx = self._baby_wall_bench_idx(me)
             if idx is not None:
                 return me.bench[idx]
@@ -8693,7 +8760,8 @@ class Game:
         for mon in me.bench:
             if me.card(mon.card_i).name.lower() == "mew ex":
                 return mon
-        return me.active
+        swap = self._baby_swap_idx(me, foe)
+        return me.bench[swap] if swap is not None else me.active
 
     def _apply_counters_on_attacker(
         self, defender: Player, attacker: Player, *, ignore_effects: bool = False
@@ -9176,25 +9244,69 @@ class Game:
         remaining = self._max_hp(defender, defender.active) - defender.active.damage
         return self._max_payable_damage(attacker, defender) >= remaining > 0
 
-    def _mew_gust_wins(self, me: Player, foe: Player) -> bool:
-        if not me.active or not foe.bench:
-            return False
-        remaining_prizes = self.rules.prize_count - me.prizes_taken
-        if remaining_prizes <= 0:
-            return False
-        if self._attacker_can_ko_active(me, foe) and self._prizes_for_ko(foe.card(foe.active.card_i)) >= remaining_prizes:
-            return False
+    def _mew_strikers(self, me: Player) -> list[Pokemon]:
+        """Pokémon that can hold the Active Spot for this turn's attack."""
+        if not me.active:
+            return []
+        strikers = [me.active]
+        if not me.bench or me.active.retreat_locked or (self.rules.one_retreat_per_turn and me.retreated):
+            return strikers
+        switches = {"switch", "switch cart", "escape rope", "surfer"}
+        paid = len(me.active.energy) >= self._retreat_cost(me, me.active)
+        if paid or any(me.card(i).name.lower() in switches for i in me.hand):
+            strikers.extend(me.bench)
+        return strikers
+
+    def _mew_strike_prizes(self, me: Player, foe: Player, strikers: list[Pokemon]) -> int:
+        """Prizes the best hit this turn takes from the foe's Active. 0 when nothing is Knocked Out."""
+        if not foe.active:
+            return 0
+        hp_left = self._max_hp(foe, foe.active) - foe.active.damage
+        if hp_left <= 0:
+            return 0
+        hit = max((self._baby_damage_if_active(me, foe, mon) for mon in strikers), default=0)
+        return self._prizes_for_ko(foe.card(foe.active.card_i)) if hit >= hp_left else 0
+
+    def _mew_gust_plan(self, me: Player, foe: Player) -> tuple[Pokemon, int, int] | None:
+        """(target, prizes with the gust, prizes without) when a gust lets this turn's hit take more.
+
+        A gust only pays for a bigger Knock Out this turn. Boss's Orders and Counter Catcher both
+        switch in one Benched Pokémon. The target is the Knock Out that takes the most prizes,
+        then the one carrying the most Energy.
+        """
+        if not me.active or not foe.active or not foe.bench:
+            return None
+        remaining = self.rules.prize_count - me.prizes_taken
+        if remaining <= 0:
+            return None
+        strikers = self._mew_strikers(me)
+        without = self._mew_strike_prizes(me, foe, strikers)
+        if without >= remaining:
+            return None
+        best: tuple[tuple[int, int, int], Pokemon] | None = None
         for mon in list(foe.bench):
             restore = self._view_as_active(foe, mon)
             try:
-                if (
-                    self._attacker_can_ko_active(me, foe)
-                    and self._prizes_for_ko(foe.card(foe.active.card_i)) >= remaining_prizes
-                ):
-                    return True
+                prizes = self._mew_strike_prizes(me, foe, strikers)
+                hp_left = self._max_hp(foe, mon) - mon.damage
             finally:
                 restore()
-        return False
+            if prizes <= without:
+                continue
+            key = (prizes, len(mon.energy), -hp_left)
+            if best is None or key > best[0]:
+                best = (key, mon)
+        if best is None:
+            return None
+        return best[1], best[0][0], without
+
+    def _mew_gust_score(self, me: Player, foe: Player) -> int:
+        plan = self._mew_gust_plan(me, foe)
+        if plan is None:
+            return -6
+        remaining = self.rules.prize_count - me.prizes_taken
+        # Taking the last prize this turn beats picking Mew ex up.
+        return 48 if plan[1] >= remaining else 30
 
     def _baby_wall_rank(self, card: Card) -> int:
         return {
@@ -9220,11 +9332,77 @@ class Game:
                     return True
         return False
 
+    def _has_item_lock_attack(self, card: Card) -> bool:
+        return any(e.get("kind") == "lock_items" for atk in card.attacks for e in atk.effects)
+
+    def _baby_damage_if_active(self, me: Player, foe: Player, mon: Pokemon) -> int:
+        """Best payable hit this Baby makes from the Active Spot, counted by the printed attack."""
+        if not foe.active:
+            return 0
+        if mon is me.active:
+            return self._max_payable_damage(me, foe)
+        idx = next((i for i, other in enumerate(me.bench) if other is mon), None)
+        if idx is None:
+            return 0
+        old = me.active
+        me.bench.pop(idx)
+        if old is not None:
+            me.bench.append(old)
+        me.active = mon
+        try:
+            return self._max_payable_damage(me, foe)
+        finally:
+            if old is not None:
+                me.bench.pop()
+            me.bench.insert(idx, mon)
+            me.active = old
+
+    def _baby_hits_harder(self, me: Player, foe: Player, mon: Pokemon) -> list[Pokemon]:
+        """Other Babies that out-damage an Item-lock Baby from the Active Spot, best hit first.
+
+        Itchy Pollen only chips for 10, so the lock does not pay for a Baby that hits harder
+        (Bouncy Circle counts every Benched 30 HP Pokémon). Other Babies keep their order.
+        """
+        if not foe.active or not self._has_item_lock_attack(me.card(mon.card_i)):
+            return []
+        own = self._baby_damage_if_active(me, foe, mon)
+        harder: list[tuple[int, Pokemon]] = []
+        for other in me.in_play():
+            card = me.card(other.card_i)
+            if other is mon or self._baby_wall_rank(card) >= 9 or self._has_item_lock_attack(card):
+                continue
+            dmg = self._baby_damage_if_active(me, foe, other)
+            if dmg > own:
+                harder.append((dmg, other))
+        harder.sort(key=lambda pair: (-pair[0], self._baby_wall_rank(me.card(pair[1].card_i))))
+        return [other for _dmg, other in harder]
+
+    def _baby_pick_rank(self, me: Player, foe: Player, mon: Pokemon) -> float:
+        rank = float(self._baby_wall_rank(me.card(mon.card_i)))
+        if rank >= 9:
+            return rank
+        harder = self._baby_hits_harder(me, foe, mon)
+        if not harder:
+            return rank
+        return min(self._baby_wall_rank(me.card(other.card_i)) for other in harder) + 0.5
+
+    def _baby_swap_idx(self, me: Player, foe: Player) -> int | None:
+        """Bench index of the Baby an Active Item-lock Baby should give way to, if one hits harder."""
+        if not me.active:
+            return None
+        harder = self._baby_hits_harder(me, foe, me.active)
+        for other in harder:
+            idx = next((i for i, mon in enumerate(me.bench) if mon is other), None)
+            if idx is not None:
+                return idx
+        return None
+
     def _baby_wall_bench_idx(self, me: Player) -> int | None:
+        foe = self.players["b" if me.name == "A" else "a"]
         walls = [idx for idx, mon in enumerate(me.bench) if self._baby_wall_rank(me.card(mon.card_i)) < 9]
         if not walls:
             return None
-        return min(walls, key=lambda idx: self._baby_wall_rank(me.card(me.bench[idx].card_i)))
+        return min(walls, key=lambda idx: self._baby_pick_rank(me, foe, me.bench[idx]))
 
     def _bare_babies(self, me: Player) -> list[Pokemon]:
         return [
@@ -12651,6 +12829,9 @@ class Game:
         if self._rulebox_lock_on_opponent(me):
             # Iron Thorns ex turns Memory Helix off. A Baby still attacks; Mew ex does not.
             if self._baby_wall_rank(me.card(me.active.card_i)) < 9:
+                swap = self._baby_swap_idx(me, foe)
+                if swap is not None:
+                    self._do_retreat_into(me, swap)
                 return
             idx = self._baby_wall_bench_idx(me)
             if idx is not None:
@@ -12662,6 +12843,9 @@ class Game:
             if me.card(mon.card_i).name.lower() == "mew ex":
                 self._do_retreat_into(me, idx)
                 return
+        swap = self._baby_swap_idx(me, foe)
+        if swap is not None:
+            self._do_retreat_into(me, swap)
 
     def _slash_ko(self, me: Player, foe: Player, mon: Pokemon | None = None) -> bool:
         if not foe.active:

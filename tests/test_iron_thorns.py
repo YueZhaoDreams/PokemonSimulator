@@ -389,9 +389,9 @@ def test_mew_stays_behind_a_baby_while_initialization_is_on():
     assert game._copies_benched_attacks(me, me.active) is False
     assert game._wants_in_play(me, me.card(mews[1]), game.strats["a"]) is False
     game._retreat_baby(me, foe, "a")
-    assert me.card(me.active.card_i).name == "Budew"
+    assert me.card(me.active.card_i).name == "Igglybuff"
     me.active = None
-    assert me.card(me.bench[game._promote_idx(me, "a")].card_i).name == "Igglybuff"
+    assert me.card(me.bench[game._promote_idx(me, "a")].card_i).name == "Budew"
 
     foe.active = Pokemon(card_i=_idx(foe, "Clefairy"), played_turn=0)
     me.retreated = False
