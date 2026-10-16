@@ -250,9 +250,12 @@ def main() -> None:
         )
 
     final_label = path[-1]["label"]
-    clean_lists = [("Set M", set_m), ("Budew 4 (start)", start)]
-    if final_label != "Budew 4 (start)":
-        clean_lists.append((final_label, list(current)))
+    fresh_by_label = {row["label"]: row for row in fresh}
+    best_fresh_label = max(
+        (row["label"] for row in path), key=lambda label: fresh_by_label[label]["pooled"]["weighted"]
+    )
+    wanted = {path[0]["label"], final_label, best_fresh_label}
+    clean_lists = [("Set M", set_m)] + [(row["label"], row["list"]) for row in path if row["label"] in wanted]
     print(f"clean seed {CLEAN_SEED}: {', '.join(label for label, _ in clean_lists)}", flush=True)
     clean = evaluate(clean_lists, CLEAN_GAMES, cache, save, "clean", seed=CLEAN_SEED)
     clean_rows = []
@@ -276,7 +279,7 @@ def main() -> None:
     final["fresh"] = fresh
     final["clean_rows"] = clean_rows
     final["best_selection_index"] = max(range(len(path)), key=lambda i: (path[i]["weighted"], -i))
-    final["best_fresh_label"] = max(fresh, key=lambda row: row["pooled"]["weighted"])["label"]
+    final["best_fresh_label"] = best_fresh_label
     state["report"] = final
     save()
     MD_DEST.write_text(render_md(final))
@@ -339,8 +342,27 @@ def result_lines(rep: dict) -> list[str]:
         )
     else:
         verdict = "No step beats the start list on the selection seed, so the start list stays the best found."
-    lines.extend(["", verdict, "", f"Final list ({final_label}):", "", "```"])
-    lines.extend(f"{count} {name}" for name, count in sorted(Counter(path[-1]["list"]).items()))
+    best_label = rep["best_fresh_label"]
+    if best_label != final_label:
+        other = clean[best_label]
+        d_clean = final["clean"]["weighted"] - other["clean"]["weighted"]
+        z_clean = d_clean / diff_se(final["clean"], other["clean"])
+        lines.append(
+            f"- {final_label} against {best_label}, the best list on the two fresh seeds: clean seed {d_clean:+.2%} "
+            f"({z_clean:+.1f} standard errors)."
+        )
+    best_row = next(row for row in path if row["label"] == best_label)
+    lines.extend(
+        [
+            "",
+            verdict,
+            "",
+            f"Best list on the two fresh seeds ({best_label}); the clean seed above was not used to pick it:",
+            "",
+            "```",
+        ]
+    )
+    lines.extend(f"{count} {name}" for name, count in sorted(Counter(best_row["list"]).items()))
     lines.extend(["```", ""])
     return lines
 

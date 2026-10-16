@@ -59,7 +59,11 @@ def test_best_search_fresh_and_clean_tables_cover_the_path():
             cell["games"] == rep["holdout_games"] + rep["holdout2_games"] for cell in row["pooled"]["cells"].values()
         )
     clean = {row["label"]: row for row in rep["clean_rows"]}
-    assert set(clean) == {"Set M", "Budew 4 (start)", path[-1]["label"]}
+    assert {"Set M", "Budew 4 (start)", path[-1]["label"], rep["best_fresh_label"]} == set(clean)
+    fresh = {row["label"]: row for row in rep["fresh"]}
+    assert rep["best_fresh_label"] == max(
+        (row["label"] for row in path), key=lambda label: fresh[label]["pooled"]["weighted"]
+    )
     assert all(
         cell["games"] == rep["clean_games"] for row in clean.values() for cell in row["clean"]["cells"].values()
     )

@@ -10,7 +10,7 @@ Every list on the path is then run on two fresh seeds and pooled, and Set M, the
 - **Fresh seeds**: `20261015` with 2000 per foe, `20261022` with 3000
 - **Clean seed**: `20261029` with 8000 per foe
 - **Score**: loss-weighted win rate. Weights: t60 16.4%, hedrick 25.2%, c60 24.9%, d60 2.5%, thorns 2.8%, starmie 28.3%
-- **Elapsed**: 13226s
+- **Elapsed**: 17094s
 
 ## Path (selection seed)
 
@@ -20,6 +20,7 @@ Every list on the path is then run on two fresh seeds and pooled, and Set M, the
 | Step 1: +Sky Field | Sky Field | Boss's Orders | 89.1% | 0.5% | +0.1% | 92.4% | 85.9% | 91.2% | 88.5% | 89.7% | 99.2% | 99.6% | 85.9% |
 | Step 2: +Sky Field | Sky Field | Bravery Charm | 89.4% | 0.5% | +0.5% | 92.5% | 86.9% | 91.1% | 87.9% | 90.6% | 98.7% | 99.7% | 86.9% |
 | Step 3: +Sky Field | Sky Field | Counter Catcher | 90.4% | 0.5% | +1.5% | 93.1% | 88.9% | 92.1% | 89.6% | 90.0% | 98.5% | 99.6% | 88.9% |
+| Step 4: +Mime Jr. | Mime Jr. | Bravery Charm | 90.4% | 0.5% | +1.5% | 93.2% | 88.3% | 91.4% | 90.2% | 90.5% | 99.4% | 99.7% | 88.3% |
 
 ## Step 1: take Sky Field
 
@@ -84,6 +85,26 @@ Confirmed cuts for Sky Field:
 | 5 | Manaphy | 88.5% | 92.2% | 4.99 | 93.2% | 91.0% | 91.2% | 99.0% | 99.7% | 79.1% |
 | 6 | Max Potion | 88.3% | 91.7% | 4.68 | 91.3% | 86.0% | 88.9% | 98.6% | 99.4% | 86.2% |
 
+## Step 4: take Mime Jr.
+
+Best candidate is Mime Jr. cutting Bravery Charm, +0.02% against the current list on the selection seed.
+
+| Add | Best cut | Weighted | ±1 SE | Mean | Worst | Babies | 8 Babies |
+| :--- | :--- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Mime Jr. | Bravery Charm | 90.4% | 0.5% | 93.2% | 88.3% | 4.80 | 17.0% |
+| Cleffa | Ultra Ball | 88.4% | 0.5% | 91.6% | 86.4% | 4.92 | 19.3% |
+
+Confirmed cuts for Mime Jr.:
+
+| Rank | Cut | Weighted | Mean | Babies | vs T60 | vs Hedrick | vs C60 | vs D60 | vs Thorns | vs Starmie |
+| ---: | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 1 | Bravery Charm | 90.4% | 93.2% | 4.80 | 91.4% | 90.2% | 90.5% | 99.4% | 99.7% | 88.3% |
+| 2 | Spiky Energy | 90.3% | 93.2% | 4.82 | 91.2% | 88.4% | 89.8% | 99.9% | 99.9% | 90.3% |
+| 3 | Crushing Hammer | 89.4% | 92.4% | 4.76 | 89.6% | 88.4% | 89.5% | 99.6% | 99.3% | 88.2% |
+| 4 | Battle Cage | 89.4% | 92.6% | 4.81 | 91.1% | 86.8% | 90.6% | 99.7% | 99.6% | 87.7% |
+| 5 | Bursting Balloon | 89.3% | 92.5% | 4.82 | 90.0% | 88.0% | 91.5% | 99.8% | 99.8% | 86.2% |
+| 6 | Night Stretcher | 89.1% | 92.4% | 4.79 | 90.6% | 86.4% | 90.9% | 99.8% | 99.3% | 87.2% |
+
 ## Fresh seeds
 
 No list was chosen on these seeds. The pooled columns merge both, and differences use the unpaired standard error.
@@ -96,6 +117,7 @@ No list was chosen on these seeds. The pooled columns merge both, and difference
 | Step 1: +Sky Field | 88.8% | 88.8% | 88.8% | 0.2% | +3.1% | 0.3% | 92.1% | 86.7% | 90.8% | 86.7% | 89.7% | 99.2% | 99.6% | 86.7% |
 | Step 2: +Sky Field | 89.1% | 88.9% | 89.0% | 0.2% | +3.3% | 0.3% | 92.2% | 86.8% | 91.4% | 86.9% | 89.8% | 98.7% | 99.7% | 86.8% |
 | Step 3: +Sky Field | 88.9% | 89.4% | 89.2% | 0.2% | +3.6% | 0.3% | 92.4% | 86.8% | 91.2% | 87.7% | 90.2% | 99.0% | 99.3% | 86.8% |
+| Step 4: +Mime Jr. | 89.2% | 89.3% | 89.2% | 0.2% | +3.6% | 0.3% | 92.5% | 87.6% | 90.5% | 88.4% | 88.9% | 99.7% | 99.7% | 87.6% |
 
 ## Clean seed `20261029`
 
@@ -106,6 +128,7 @@ No list was chosen on these seeds. The pooled columns merge both, and difference
 | Set M | 85.9% | 0.2% | +0.00% | 0.3% | 90.0% | 83.5% | 90.9% | 84.7% | 83.5% | 98.7% | 98.6% | 83.7% | 85.8% | +0.00% |
 | Budew 4 (start) | 87.6% | 0.2% | +1.71% | 0.3% | 91.4% | 84.8% | 91.3% | 85.7% | 87.9% | 99.0% | 99.5% | 84.8% | 87.7% | +1.95% |
 | Step 3: +Sky Field | 89.6% | 0.2% | +3.70% | 0.3% | 92.6% | 87.5% | 91.3% | 87.8% | 90.5% | 99.1% | 99.4% | 87.5% | 89.5% | +3.67% |
+| Step 4: +Mime Jr. | 89.6% | 0.2% | +3.67% | 0.3% | 92.7% | 87.6% | 90.7% | 88.7% | 89.7% | 99.8% | 99.7% | 87.6% | 89.4% | +3.65% |
 
 ## Bench of 30 HP Pokémon (selection seed)
 
@@ -115,6 +138,7 @@ No list was chosen on these seeds. The pooled columns merge both, and difference
 | Step 1: +Sky Field | 4.43 | 39.2% | 13.5% | 21.2% | 9.3% | 6.6% |
 | Step 2: +Sky Field | 4.57 | 50.1% | 18.4% | 27.6% | 12.0% | 6.9% |
 | Step 3: +Sky Field | 4.69 | 57.9% | 21.9% | 32.0% | 15.3% | 6.7% |
+| Step 4: +Mime Jr. | 4.80 | 58.5% | 21.2% | 34.1% | 17.0% | 6.3% |
 
 ## Result
 
@@ -122,14 +146,17 @@ No list was chosen on these seeds. The pooled columns merge both, and difference
 - Step 1: +Sky Field (cut Boss's Orders): 89.1% on the selection seed (+0.1% against the start list); two fresh seeds pooled 88.8% (+0.8%, +2.6 standard errors).
 - Step 2: +Sky Field (cut Bravery Charm): 89.4% on the selection seed (+0.5% against the start list); two fresh seeds pooled 89.0% (+1.0%, +3.2 standard errors).
 - Step 3: +Sky Field (cut Counter Catcher): 90.4% on the selection seed (+1.5% against the start list); two fresh seeds pooled 89.2% (+1.3%, +4.1 standard errors).
-- The search stopped: reached 3 steps.
+- Step 4: +Mime Jr. (cut Bravery Charm): 90.4% on the selection seed (+1.5% against the start list); two fresh seeds pooled 89.2% (+1.3%, +4.1 standard errors).
+- The search stopped: reached 4 steps.
 - Budew 4 (start) against Set M: clean seed +1.71% (+6.4 standard errors); all three fresh seeds +1.95% (+9.3).
 - Step 3: +Sky Field against Set M: clean seed +3.70% (+14.4 standard errors); all three fresh seeds +3.67% (+18.1).
-- Step 3: +Sky Field against the start list: clean seed +2.00% (+8.0 standard errors); all three fresh seeds +1.72% (+8.8).
+- Step 4: +Mime Jr. against Set M: clean seed +3.67% (+14.3 standard errors); all three fresh seeds +3.65% (+18.0).
+- Step 4: +Mime Jr. against the start list: clean seed +1.97% (+7.9 standard errors); all three fresh seeds +1.70% (+8.7).
+- Step 4: +Mime Jr. against Step 3: +Sky Field, the best list on the two fresh seeds: clean seed -0.03% (-0.1 standard errors).
 
 The final list is better than the start list on the three fresh seeds. The selection seed keeps the best of many cuts at every step, so its gain is biased upward and the fresh seeds decide.
 
-Final list (Step 3: +Sky Field):
+Best list on the two fresh seeds (Step 3: +Sky Field); the clean seed above was not used to pick it:
 
 ```
 4 Arven
