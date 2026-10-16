@@ -1,5 +1,7 @@
 # Set M with Sky Field and Budew, greedy
 
+**Run before the gust fix.** Set M's Boss's Orders and Counter Catcher plays were changed afterwards (`set-m-gust-audit.md`), which moved Set M itself by about one point. Compare lists inside one report only. The best Sky Field and Budew list on the fixed engine is in `set-m-gust-search.md`.
+
 **The Budew rows below were run before the Baby order fix.** That order put Budew in the Active Spot whenever Mew ex could not
 attack, where it hits for 10 while Igglybuff's Bouncy Circle hits for 30 per Benched 30 HP Pokémon. The Set M and Sky Field rows
 do not depend on it and are unchanged. The same greedy search on the fixed order is in `set-m-budew-policy.md`.

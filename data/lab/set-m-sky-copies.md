@@ -1,5 +1,7 @@
 # Set M with more Sky Field, greedy
 
+**Run before the gust fix.** Set M's Boss's Orders and Counter Catcher plays were changed afterwards (`set-m-gust-audit.md`), which moved Set M itself by about one point. Compare lists inside one report only. The best Sky Field and Budew list on the fixed engine is in `set-m-gust-search.md`.
+
 Starting 60 is the locked Set M list (`SET_M60_NAMES`). Every step adds one more Sky Field, up to 4, and no Budew.
 Each step cuts exactly one copy of one other card, and every distinct card is tried as the cut.
 Sky Field: each player can have 8 Pokémon on the Bench. Set M has 6 Pokémon with a maximum HP of 30,

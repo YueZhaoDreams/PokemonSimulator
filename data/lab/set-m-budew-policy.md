@@ -1,5 +1,7 @@
 # Set M with Sky Field and Budew, greedy
 
+**Run before the gust fix.** Set M's Boss's Orders and Counter Catcher plays were changed afterwards (`set-m-gust-audit.md`), which moved Set M itself by about one point. Compare lists inside one report only. The best Sky Field and Budew list on the fixed engine is in `set-m-gust-search.md`.
+
 Starting 60 is the locked Set M list (`SET_M60_NAMES`). Step 1 adds one Sky Field and the Budew steps follow.
 Each step cuts exactly one copy of one other card for the new card, and every distinct card is tried as the cut.
 Sky Field: each player can have 8 Pokémon on the Bench. Bouncy Circle is 30 damage for each Benched Pokémon

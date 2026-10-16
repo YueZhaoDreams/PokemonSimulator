@@ -1,5 +1,7 @@
 # Set M, more search from one Sky Field and four Budew
 
+**Run before the gust fix.** Set M's Boss's Orders and Counter Catcher plays were changed afterwards (`set-m-gust-audit.md`), which moved Set M itself by about one point. Compare lists inside one report only. The best Sky Field and Budew list on the fixed engine is in `set-m-gust-search.md`.
+
 Start list is the last row of `set-m-budew-policy.md`: the locked Set M (`SET_M60_NAMES`) with one Sky Field and four Budew,
 played with the fixed Baby order (`tests/test_mew_baby_attacker.py`).
 Each step may add one more copy of Sky Field, Budew, Igglybuff, Mime Jr. or Cleffa (4-of-a-name limit), and every card name
