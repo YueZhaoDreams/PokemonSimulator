@@ -71,6 +71,7 @@ BUDEW = "Budew"
 DEST = Path(os.environ.get("M_SKY_DEST", ROOT / "data/lab/set-m-sky-field.json"))
 MD_DEST = DEST.with_suffix(".md")
 CACHE_PATH = Path(os.environ.get("M_SKY_CACHE", ROOT / "data/cache/set-m-sky-field-cells.json"))
+NOTE = os.environ.get("M_SKY_NOTE", "")
 
 QUERIES = [
     {"type": "event_prefix", "prefix": "stadium:Sky Field", "key": "sky_games"},
@@ -492,7 +493,22 @@ def result_lines(rep: dict) -> list[str]:
             "so the best list on the path is Set M with one Sky Field and no Budew."
         )
     else:
-        verdict = f"The best list on the selection seed is {best_row['label']}."
+        hold_best = max(range(len(array)), key=lambda i: (array[i]["holdout"]["weighted"], -i))
+        best_hold = best_row["holdout"]
+        hold_delta = best_hold["weighted"] - base_hold["weighted"]
+        hold_z = hold_delta / diff_se(best_hold, base_hold)
+        verdict = (
+            f"The best list on the selection seed is {best_row['label']}: "
+            f"{best_row['weighted'] - base['weighted']:+.1%} against Set M there, and "
+            f"{hold_delta:+.1%} on the fresh seed ({hold_z:.1f} standard errors). "
+            + (
+                "The fresh seed picks the same list. "
+                if hold_best == rep["best_index"]
+                else f"The fresh seed picks {array[hold_best]['label']}. "
+            )
+            + "Each step keeps the best of several cuts on the selection seed, so that seed's gain is "
+            "biased upward and the fresh seed is the unbiased check."
+        )
     lines.extend(["", verdict, "", "Best list on the path:", "", "```"])
     lines.extend(f"{count} {name}" for name, count in sorted(Counter(best_row["list"]).items()))
     lines.extend(["```", ""])
@@ -517,6 +533,7 @@ def render_md(rep: dict) -> str:
         "open slots, and Battle Cage does not replace it while the Bench is past 5 (see `tests/test_mew_sky_field.py`).",
         "Set M is re-measured here on the current engine. The 88.4% in `set-m-eco-arm-on-carrier.md` was measured on",
         "2026-10-07, before later engine commits, and does not reproduce.",
+        *([NOTE] if NOTE else []),
         "",
         f"- **Seed**: `{rep['seed']}`",
         f"- **Games**: cuts screened on {rep['screen_games']} per foe, best {rep['screen_top']} confirmed on {rep['games']} per foe",

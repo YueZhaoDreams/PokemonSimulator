@@ -666,7 +666,11 @@ STRATEGY_LIBRARY = {
             "A Stadium whose printed sentence raises the Bench for each player is played before Buddy-Buddy Poffin "
             "when more 30 HP Basics are waiting (in hand, or one held Poffin or Nest Ball would bench them) "
             "than there are open Bench slots, and it is held otherwise. "
-            "Battle Cage does not replace that Stadium while the Bench is past its printed size."
+            "Battle Cage does not replace that Stadium while the Bench is past its printed size. "
+            "When no Mew ex can attack, an Active Baby whose attack only chips and locks Items (Budew, Itchy Pollen) "
+            "gives way to a Benched Baby that out-damages it from the Active Spot, "
+            "by the printed attack (Igglybuff Bouncy Circle counts every Benched 30 HP Pokémon). "
+            "Promotion after a Knock Out follows the same rule."
         ),
         prefer_damage=0.9,
         prefer_status=0.2,

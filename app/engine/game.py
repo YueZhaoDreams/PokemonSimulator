@@ -7518,7 +7518,10 @@ class Game:
             return self._thorns_promote_idx(player)
         storm = strat.name == "party" and self._want_storm_line(player, foe, who)
 
-        def prio(i: int) -> int:
+        def baby_prio(card: Card) -> int:
+            return {"cleffa": 3, "igglybuff": 4}.get(card.name.lower(), 5)
+
+        def prio(i: int) -> float:
             mon = player.bench[i]
             name = player.card(mon.card_i).name.lower()
             if strat.name in {"electro_rain", "regidrago"}:
@@ -7528,7 +7531,7 @@ class Game:
                 if self._rulebox_lock_on_opponent(player):
                     rank = self._baby_wall_rank(player.card(mon.card_i))
                     if rank < 9:
-                        return rank
+                        return self._baby_pick_rank(player, foe, mon)
                     if name == "mew ex":
                         return 20
                     return 10
@@ -7537,6 +7540,9 @@ class Game:
                 if "radiant charizard" in name and bool(mon.energy):
                     return 1
                 if name == "budew":
+                    harder = self._baby_hits_harder(player, foe, mon)
+                    if harder:
+                        return min(baby_prio(player.card(other.card_i)) for other in harder) + 0.5
                     return 2
                 if name == "cleffa":
                     return 3
@@ -8733,9 +8739,11 @@ class Game:
         already has a Tool or another copy.
         """
         assert me.active
+        foe = self.players["b" if me.name == "A" else "a"]
         if self._rulebox_lock_on_opponent(me):
             if self._baby_wall_rank(me.card(me.active.card_i)) < 9:
-                return me.active
+                swap = self._baby_swap_idx(me, foe)
+                return me.bench[swap] if swap is not None else me.active
             idx = self._baby_wall_bench_idx(me)
             if idx is not None:
                 return me.bench[idx]
@@ -8745,7 +8753,8 @@ class Game:
         for mon in me.bench:
             if me.card(mon.card_i).name.lower() == "mew ex":
                 return mon
-        return me.active
+        swap = self._baby_swap_idx(me, foe)
+        return me.bench[swap] if swap is not None else me.active
 
     def _apply_counters_on_attacker(
         self, defender: Player, attacker: Player, *, ignore_effects: bool = False
@@ -9272,11 +9281,77 @@ class Game:
                     return True
         return False
 
+    def _has_item_lock_attack(self, card: Card) -> bool:
+        return any(e.get("kind") == "lock_items" for atk in card.attacks for e in atk.effects)
+
+    def _baby_damage_if_active(self, me: Player, foe: Player, mon: Pokemon) -> int:
+        """Best payable hit this Baby makes from the Active Spot, counted by the printed attack."""
+        if not foe.active:
+            return 0
+        if mon is me.active:
+            return self._max_payable_damage(me, foe)
+        idx = next((i for i, other in enumerate(me.bench) if other is mon), None)
+        if idx is None:
+            return 0
+        old = me.active
+        me.bench.pop(idx)
+        if old is not None:
+            me.bench.append(old)
+        me.active = mon
+        try:
+            return self._max_payable_damage(me, foe)
+        finally:
+            if old is not None:
+                me.bench.pop()
+            me.bench.insert(idx, mon)
+            me.active = old
+
+    def _baby_hits_harder(self, me: Player, foe: Player, mon: Pokemon) -> list[Pokemon]:
+        """Other Babies that out-damage an Item-lock Baby from the Active Spot, best hit first.
+
+        Itchy Pollen only chips for 10, so the lock does not pay for a Baby that hits harder
+        (Bouncy Circle counts every Benched 30 HP Pokémon). Other Babies keep their order.
+        """
+        if not foe.active or not self._has_item_lock_attack(me.card(mon.card_i)):
+            return []
+        own = self._baby_damage_if_active(me, foe, mon)
+        harder: list[tuple[int, Pokemon]] = []
+        for other in me.in_play():
+            card = me.card(other.card_i)
+            if other is mon or self._baby_wall_rank(card) >= 9 or self._has_item_lock_attack(card):
+                continue
+            dmg = self._baby_damage_if_active(me, foe, other)
+            if dmg > own:
+                harder.append((dmg, other))
+        harder.sort(key=lambda pair: (-pair[0], self._baby_wall_rank(me.card(pair[1].card_i))))
+        return [other for _dmg, other in harder]
+
+    def _baby_pick_rank(self, me: Player, foe: Player, mon: Pokemon) -> float:
+        rank = float(self._baby_wall_rank(me.card(mon.card_i)))
+        if rank >= 9:
+            return rank
+        harder = self._baby_hits_harder(me, foe, mon)
+        if not harder:
+            return rank
+        return min(self._baby_wall_rank(me.card(other.card_i)) for other in harder) + 0.5
+
+    def _baby_swap_idx(self, me: Player, foe: Player) -> int | None:
+        """Bench index of the Baby an Active Item-lock Baby should give way to, if one hits harder."""
+        if not me.active:
+            return None
+        harder = self._baby_hits_harder(me, foe, me.active)
+        for other in harder:
+            idx = next((i for i, mon in enumerate(me.bench) if mon is other), None)
+            if idx is not None:
+                return idx
+        return None
+
     def _baby_wall_bench_idx(self, me: Player) -> int | None:
+        foe = self.players["b" if me.name == "A" else "a"]
         walls = [idx for idx, mon in enumerate(me.bench) if self._baby_wall_rank(me.card(mon.card_i)) < 9]
         if not walls:
             return None
-        return min(walls, key=lambda idx: self._baby_wall_rank(me.card(me.bench[idx].card_i)))
+        return min(walls, key=lambda idx: self._baby_pick_rank(me, foe, me.bench[idx]))
 
     def _bare_babies(self, me: Player) -> list[Pokemon]:
         return [
@@ -12703,6 +12778,9 @@ class Game:
         if self._rulebox_lock_on_opponent(me):
             # Iron Thorns ex turns Memory Helix off. A Baby still attacks; Mew ex does not.
             if self._baby_wall_rank(me.card(me.active.card_i)) < 9:
+                swap = self._baby_swap_idx(me, foe)
+                if swap is not None:
+                    self._do_retreat_into(me, swap)
                 return
             idx = self._baby_wall_bench_idx(me)
             if idx is not None:
@@ -12714,6 +12792,9 @@ class Game:
             if me.card(mon.card_i).name.lower() == "mew ex":
                 self._do_retreat_into(me, idx)
                 return
+        swap = self._baby_swap_idx(me, foe)
+        if swap is not None:
+            self._do_retreat_into(me, swap)
 
     def _slash_ko(self, me: Player, foe: Player, mon: Pokemon | None = None) -> bool:
         if not foe.active:
