@@ -1,0 +1,212 @@
+{
+ "report": {
+  "seed": 20261029,
+  "games": 8000,
+  "rule_preset": "s60",
+  "weights": {
+   "t60": 0.16366612111292955,
+   "hedrick": 0.2520458265139116,
+   "c60": 0.24877250409165302,
+   "d60": 0.024549918166939463,
+   "thorns": 0.027823240589198057,
+   "starmie": 0.2831423895253683
+  },
+  "elapsed": 1714.9863881290003,
+  "list_set_m": [
+   "Mew ex",
+   "Mew ex",
+   "Mew ex",
+   "Mime Jr.",
+   "Mime Jr.",
+   "Igglybuff",
+   "Igglybuff",
+   "Igglybuff",
+   "Igglybuff",
+   "Manaphy",
+   "Buddy-Buddy Poffin",
+   "Buddy-Buddy Poffin",
+   "Buddy-Buddy Poffin",
+   "Buddy-Buddy Poffin",
+   "Nest Ball",
+   "Nest Ball",
+   "Nest Ball",
+   "Nest Ball",
+   "Ultra Ball",
+   "Ultra Ball",
+   "Night Stretcher",
+   "Night Stretcher",
+   "Night Stretcher",
+   "Night Stretcher",
+   "Rescue Carrier",
+   "Rescue Carrier",
+   "Battle Cage",
+   "Battle Cage",
+   "Battle Cage",
+   "Battle Cage",
+   "Bravery Charm",
+   "Bravery Charm",
+   "Bravery Charm",
+   "Bursting Balloon",
+   "Bursting Balloon",
+   "Hero's Cape",
+   "Max Potion",
+   "Max Potion",
+   "Max Potion",
+   "Arven",
+   "Arven",
+   "Arven",
+   "Arven",
+   "Iono",
+   "Iono",
+   "Iono",
+   "Iono",
+   "Professor's Research",
+   "Professor's Research",
+   "Boss's Orders",
+   "Penny",
+   "Penny",
+   "Crushing Hammer",
+   "Crushing Hammer",
+   "Crushing Hammer",
+   "Crushing Hammer",
+   "Counter Catcher",
+   "Counter Catcher",
+   "Spiky Energy",
+   "Spiky Energy"
+  ],
+  "list_two_sky": [
+   "Mew ex",
+   "Mew ex",
+   "Mew ex",
+   "Mime Jr.",
+   "Mime Jr.",
+   "Igglybuff",
+   "Igglybuff",
+   "Igglybuff",
+   "Igglybuff",
+   "Manaphy",
+   "Buddy-Buddy Poffin",
+   "Buddy-Buddy Poffin",
+   "Buddy-Buddy Poffin",
+   "Buddy-Buddy Poffin",
+   "Nest Ball",
+   "Nest Ball",
+   "Nest Ball",
+   "Nest Ball",
+   "Ultra Ball",
+   "Ultra Ball",
+   "Night Stretcher",
+   "Night Stretcher",
+   "Night Stretcher",
+   "Rescue Carrier",
+   "Rescue Carrier",
+   "Battle Cage",
+   "Battle Cage",
+   "Battle Cage",
+   "Battle Cage",
+   "Bravery Charm",
+   "Bravery Charm",
+   "Bravery Charm",
+   "Bursting Balloon",
+   "Bursting Balloon",
+   "Hero's Cape",
+   "Max Potion",
+   "Max Potion",
+   "Max Potion",
+   "Arven",
+   "Arven",
+   "Arven",
+   "Arven",
+   "Iono",
+   "Iono",
+   "Iono",
+   "Iono",
+   "Professor's Research",
+   "Professor's Research",
+   "Penny",
+   "Penny",
+   "Crushing Hammer",
+   "Crushing Hammer",
+   "Crushing Hammer",
+   "Crushing Hammer",
+   "Counter Catcher",
+   "Counter Catcher",
+   "Spiky Energy",
+   "Spiky Energy",
+   "Sky Field",
+   "Sky Field"
+  ],
+  "set_m": {
+   "weighted": 0.8588866612111293,
+   "se": 0.0019329074523408239,
+   "mean": 0.9003333333333333,
+   "worst": 0.83525,
+   "cells": {
+    "t60": {
+     "a": 0.909375,
+     "games": 8000
+    },
+    "hedrick": {
+     "a": 0.847375,
+     "games": 8000
+    },
+    "c60": {
+     "a": 0.83525,
+     "games": 8000
+    },
+    "d60": {
+     "a": 0.9865,
+     "games": 8000
+    },
+    "thorns": {
+     "a": 0.986375,
+     "games": 8000
+    },
+    "starmie": {
+     "a": 0.837125,
+     "games": 8000
+    }
+   }
+  },
+  "two_sky": {
+   "weighted": 0.8604801554828151,
+   "se": 0.0019210692512393996,
+   "mean": 0.9006458333333334,
+   "worst": 0.833875,
+   "cells": {
+    "t60": {
+     "a": 0.89275,
+     "games": 8000
+    },
+    "hedrick": {
+     "a": 0.852125,
+     "games": 8000
+    },
+    "c60": {
+     "a": 0.851375,
+     "games": 8000
+    },
+    "d60": {
+     "a": 0.986,
+     "games": 8000
+    },
+    "thorns": {
+     "a": 0.98775,
+     "games": 8000
+    },
+    "starmie": {
+     "a": 0.833875,
+     "games": 8000
+    }
+   }
+  },
+  "selection_seed": 20261007,
+  "earlier_fresh_seeds": [
+   20261015,
+   20261022
+  ],
+  "diff": 0.001593494271685758,
+  "z": 0.584728645921773,
+  "verdict": "The difference is under 2 standard errors, so this seed does not separate the two lists."
+ }
+}

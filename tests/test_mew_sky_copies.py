@@ -93,3 +93,21 @@ def test_pool_weights_each_seed_by_its_games():
     assert pooled["se"] == pytest.approx(expected_se)
     assert pooled["mean"] == pytest.approx(0.725)
     assert pooled["worst"] == pytest.approx(0.725)
+
+
+def test_confirm_report_compares_set_m_with_the_two_sky_field_row_on_a_new_seed():
+    rep = json.loads((LAB / "set-m-sky-confirm.json").read_text())["report"]
+    copies = _report()
+    assert rep["list_set_m"] == list(SET_M60_NAMES)
+    assert rep["list_two_sky"] == copies["array"][2]["list"]
+    assert rep["list_two_sky"].count("Sky Field") == 2
+    assert rep["weights"] == copies["weights"]
+    used = {copies["seed"], copies["holdout_seed"], copies["holdout2_seed"]}
+    assert rep["seed"] not in used
+    assert rep["games"] == 8000
+    for key in ("set_m", "two_sky"):
+        assert all(cell["games"] == rep["games"] for cell in rep[key]["cells"].values())
+    diff = rep["two_sky"]["weighted"] - rep["set_m"]["weighted"]
+    assert rep["diff"] == pytest.approx(diff)
+    se = (rep["two_sky"]["se"] ** 2 + rep["set_m"]["se"] ** 2) ** 0.5
+    assert rep["z"] == pytest.approx(diff / se)
