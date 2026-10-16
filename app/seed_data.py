@@ -3556,6 +3556,24 @@ _register(
         set_name="Obsidian Flames",
     )
 )
+_ELEKID_SHOT_TEXT = (
+    "This attack does 30 damage to 1 of your opponent's Pokémon. "
+    "(Don't apply Weakness and Resistance for Benched Pokémon.)"
+)
+_register(
+    _pkm(
+        "Elekid",
+        "Basic",
+        ["Lightning"],
+        30,
+        [_atk("Crackling Shot", [], 0, _ELEKID_SHOT_TEXT)],
+        catalog_id="sv04-059",
+        weakness="Fighting",
+        retreat=0,
+        image="https://assets.tcgdex.net/en/sv/sv04/059/low.webp",
+        set_name="Paradox Rift",
+    )
+)
 _register(
     _pkm(
         "Radiant Charizard",
