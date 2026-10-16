@@ -270,9 +270,11 @@ def greedy_step(
     save,
     step_label: str,
     limit: int | None = None,
+    protect: set[str] | None = None,
 ) -> dict:
     copies = Counter(current)
-    cuts = sorted(name for name in copies if name not in {SKY, BUDEW})
+    keep = {SKY, BUDEW} if protect is None else set(protect)
+    cuts = sorted(name for name in copies if name not in keep)
     screen_lists = [(cut, swap_one(current, cut, add, limit)) for cut in cuts]
     screened = evaluate(screen_lists, SCREEN_GAMES, cache, save, f"{step_label} screen")
     screen_rows = sorted(
