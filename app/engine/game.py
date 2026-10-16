@@ -2296,6 +2296,7 @@ class Game:
             if len(me.prizes) > len(foe.prizes):
                 self._boss_orders(me, foe)
                 self._bump("counter_catcher")
+                self._bump(f"counter_catcher_{me.name.lower()}")
             else:
                 self._bump("counter_catcher_fail")
         elif name in {"beach court", "risky ruins"} or (card.trainer_kind or "").lower() == "stadium":

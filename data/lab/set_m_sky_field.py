@@ -83,6 +83,8 @@ QUERIES = [
     {"type": "event_prefix", "prefix": "bench30_attack_a:7", "key": "attack7"},
     {"type": "event_prefix", "prefix": "bench30_attack_a:8", "key": "attack8"},
     {"type": "event_prefix", "prefix": "itchy_pollen_lock_a", "key": "itchy"},
+    {"type": "event_sum", "prefix": "boss_orders_a", "key": "boss_plays"},
+    {"type": "event_sum", "prefix": "counter_catcher_a", "key": "catcher_plays"},
 ]
 QUERY_KEYS = ("sky_games", "attack6", "attack7", "attack8", "itchy")
 
@@ -139,6 +141,8 @@ def _run(names: list[str], games: int, foe_key: str, foe_names, foe_strat: str, 
         "bench_n": counts.get("bench_n", 0),
         "sky_turns": counts.get("sky_turns", 0),
         "sky_cage_turns": counts.get("sky_cage_turns", 0),
+        "boss_plays": counts.get("boss_plays", 0),
+        "catcher_plays": counts.get("catcher_plays", 0),
     }
     for key in QUERY_KEYS:
         detail[key] = result["queries"].get(key, 0.0)
