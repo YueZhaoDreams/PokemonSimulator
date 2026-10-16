@@ -1769,6 +1769,9 @@ class Game:
                             score += 22
                         else:
                             score += -12
+                    elif strat.name in {"mew_baby", "baby"}:
+                        # An Item, so it goes ahead of the Supporter that would pull the same target.
+                        score += self._mew_gust_score(me, foe) + 2
                     else:
                         score += 10
                 else:
@@ -1975,9 +1978,8 @@ class Game:
                         score += 22
                     else:
                         score += -12
-                elif strat.name in {"mew_baby", "baby"} and self._mew_gust_wins(me, foe):
-                    # Taking the last prize this turn beats picking Mew ex up.
-                    score += 48
+                elif strat.name in {"mew_baby", "baby"}:
+                    score += self._mew_gust_score(me, foe)
                 else:
                     score += 8 if foe.bench else -6
             elif name == "crispin":
@@ -6727,6 +6729,10 @@ class Game:
             return None
         if me is None or who is None:
             return hp_min
+        if self.strats[who].name in {"mew_baby", "baby"}:
+            plan = self._mew_gust_plan(me, foe)
+            if plan is not None:
+                return plan[0]
         if self.strats[who].name == "party" and self._boss_closes_this_turn(me, foe, who):
             return hp_min
         if self.strats[who].name == "party":
@@ -9237,25 +9243,69 @@ class Game:
         remaining = self._max_hp(defender, defender.active) - defender.active.damage
         return self._max_payable_damage(attacker, defender) >= remaining > 0
 
-    def _mew_gust_wins(self, me: Player, foe: Player) -> bool:
-        if not me.active or not foe.bench:
-            return False
-        remaining_prizes = self.rules.prize_count - me.prizes_taken
-        if remaining_prizes <= 0:
-            return False
-        if self._attacker_can_ko_active(me, foe) and self._prizes_for_ko(foe.card(foe.active.card_i)) >= remaining_prizes:
-            return False
+    def _mew_strikers(self, me: Player) -> list[Pokemon]:
+        """Pokémon that can hold the Active Spot for this turn's attack."""
+        if not me.active:
+            return []
+        strikers = [me.active]
+        if not me.bench or me.active.retreat_locked or (self.rules.one_retreat_per_turn and me.retreated):
+            return strikers
+        switches = {"switch", "switch cart", "escape rope", "surfer"}
+        paid = len(me.active.energy) >= self._retreat_cost(me, me.active)
+        if paid or any(me.card(i).name.lower() in switches for i in me.hand):
+            strikers.extend(me.bench)
+        return strikers
+
+    def _mew_strike_prizes(self, me: Player, foe: Player, strikers: list[Pokemon]) -> int:
+        """Prizes the best hit this turn takes from the foe's Active. 0 when nothing is Knocked Out."""
+        if not foe.active:
+            return 0
+        hp_left = self._max_hp(foe, foe.active) - foe.active.damage
+        if hp_left <= 0:
+            return 0
+        hit = max((self._baby_damage_if_active(me, foe, mon) for mon in strikers), default=0)
+        return self._prizes_for_ko(foe.card(foe.active.card_i)) if hit >= hp_left else 0
+
+    def _mew_gust_plan(self, me: Player, foe: Player) -> tuple[Pokemon, int, int] | None:
+        """(target, prizes with the gust, prizes without) when a gust lets this turn's hit take more.
+
+        A gust only pays for a bigger Knock Out this turn. Boss's Orders and Counter Catcher both
+        switch in one Benched Pokémon. The target is the Knock Out that takes the most prizes,
+        then the one carrying the most Energy.
+        """
+        if not me.active or not foe.active or not foe.bench:
+            return None
+        remaining = self.rules.prize_count - me.prizes_taken
+        if remaining <= 0:
+            return None
+        strikers = self._mew_strikers(me)
+        without = self._mew_strike_prizes(me, foe, strikers)
+        if without >= remaining:
+            return None
+        best: tuple[tuple[int, int, int], Pokemon] | None = None
         for mon in list(foe.bench):
             restore = self._view_as_active(foe, mon)
             try:
-                if (
-                    self._attacker_can_ko_active(me, foe)
-                    and self._prizes_for_ko(foe.card(foe.active.card_i)) >= remaining_prizes
-                ):
-                    return True
+                prizes = self._mew_strike_prizes(me, foe, strikers)
+                hp_left = self._max_hp(foe, mon) - mon.damage
             finally:
                 restore()
-        return False
+            if prizes <= without:
+                continue
+            key = (prizes, len(mon.energy), -hp_left)
+            if best is None or key > best[0]:
+                best = (key, mon)
+        if best is None:
+            return None
+        return best[1], best[0][0], without
+
+    def _mew_gust_score(self, me: Player, foe: Player) -> int:
+        plan = self._mew_gust_plan(me, foe)
+        if plan is None:
+            return -6
+        remaining = self.rules.prize_count - me.prizes_taken
+        # Taking the last prize this turn beats picking Mew ex up.
+        return 48 if plan[1] >= remaining else 30
 
     def _baby_wall_rank(self, card: Card) -> int:
         return {

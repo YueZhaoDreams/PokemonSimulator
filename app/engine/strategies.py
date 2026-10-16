@@ -670,7 +670,12 @@ STRATEGY_LIBRARY = {
             "When no Mew ex can attack, an Active Baby whose attack only chips and locks Items (Budew, Itchy Pollen) "
             "gives way to a Benched Baby that out-damages it from the Active Spot, "
             "by the printed attack (Igglybuff Bouncy Circle counts every Benched 30 HP Pokémon). "
-            "Promotion after a Knock Out follows the same rule."
+            "Promotion after a Knock Out follows the same rule. "
+            "Boss's Orders and Counter Catcher switch in 1 Benched Pokémon. They are played only when "
+            "that Knock Out takes more prizes this turn than the Active Spot already would, "
+            "and the pull is the Benched Pokémon whose Knock Out takes the most prizes. "
+            "Counter Catcher also needs more Prize cards remaining than the opponent, as printed, "
+            "and goes ahead of Boss's Orders so the Supporter stays in hand."
         ),
         prefer_damage=0.9,
         prefer_status=0.2,
