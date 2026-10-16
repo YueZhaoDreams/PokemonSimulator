@@ -331,6 +331,10 @@ class Game:
     def _in_play_names(self, player: Player) -> list[str]:
         return [player.card(m.card_i).name.lower() for m in player.in_play()]
 
+    def _deck_has(self, player: Player, name: str) -> bool:
+        """The 60 holds a card of this name, wherever it is now."""
+        return any(card.name.lower() == name for card in player.cards)
+
     def _count_named_in_play(self, player: Player, name: str) -> int:
         key = name.lower()
         return sum(1 for n in self._in_play_names(player) if n == key)
@@ -642,6 +646,7 @@ class Game:
                     "mew ex": 5000,
                     "budew": 3500,
                     "cleffa": 3000,
+                    "elekid": 2500,
                     "igglybuff": 2000,
                     "mime jr.": 1500,
                     "mime jr": 1500,
@@ -4398,14 +4403,19 @@ class Game:
         if strat.name in {"mew_baby", "baby"}:
             prefer = []
             if self._rulebox_lock_on_opponent(me):
-                for baby in ("Budew", "Igglybuff", "Cleffa", "Mime Jr."):
+                babies = ["Budew", "Igglybuff", "Cleffa", "Mime Jr."]
+                if self._deck_has(me, "elekid"):
+                    babies.insert(2, "Elekid")
+                for baby in babies:
                     if not any(me.card(m.card_i).name.lower() == baby.lower() for m in me.in_play()):
                         prefer.append(baby)
-                prefer.extend(["Budew", "Igglybuff", "Cleffa", "Mime Jr."])
+                prefer.extend(babies)
                 return list(dict.fromkeys(prefer))
             have_mew = any(me.card(m.card_i).name.lower() == "mew ex" for m in me.in_play())
             have_iggly = any(me.card(m.card_i).name.lower() == "igglybuff" for m in me.in_play())
             have_budew = any(me.card(m.card_i).name.lower() == "budew" for m in me.in_play())
+            elekid_deck = self._deck_has(me, "elekid")
+            have_elekid = any(me.card(m.card_i).name.lower() == "elekid" for m in me.in_play())
             have_mime = any("mime jr." in me.card(m.card_i).name.lower() for m in me.in_play())
             have_cleffa = any("cleffa" in me.card(m.card_i).name.lower() for m in me.in_play())
             have_zard = any("radiant charizard" in me.card(m.card_i).name.lower() for m in me.in_play())
@@ -4430,6 +4440,8 @@ class Game:
                 prefer.append("Igglybuff")
             if not have_budew:
                 prefer.append("Budew")
+            if elekid_deck and not have_elekid:
+                prefer.append("Elekid")
             if not have_mime:
                 prefer.append("Mime Jr.")
             if not have_cleffa:
@@ -4444,6 +4456,7 @@ class Game:
                 "Mime Jr.",
                 "Igglybuff",
                 "Budew",
+                *(["Elekid"] if elekid_deck else []),
                 "Cleffa",
                 "Radiant Charizard",
                 "Slaking V",
@@ -6814,6 +6827,7 @@ class Game:
                 prefer = [
                     "budew",
                     "igglybuff",
+                    "elekid",
                     "cleffa",
                     "mime jr.",
                     "mime jr",
@@ -6822,6 +6836,7 @@ class Game:
                 prefer = [
                     "budew",
                     "igglybuff",
+                    "elekid",
                     "cleffa",
                     "mime jr.",
                     "mime jr",
@@ -6834,6 +6849,7 @@ class Game:
                     "slaking v",
                     "igglybuff",
                     "budew",
+                    "elekid",
                     "cleffa",
                     "mime jr.",
                     "mime jr",
@@ -6910,7 +6926,7 @@ class Game:
     def _rescue_carrier(self, me: Player, who: str, count: int, max_hp: int) -> None:
         if count <= 0 or max_hp <= 0:
             return
-        baby_order = ("igglybuff", "mime jr.", "budew", "cleffa", "manaphy")
+        baby_order = ("igglybuff", "mime jr.", "budew", "elekid", "cleffa", "manaphy")
 
         def rank(card_i: int) -> tuple:
             card = me.card(card_i)
@@ -7003,6 +7019,22 @@ class Game:
             self._bump("damage_dealt", amount)
             self._log(f"Bench hit {foe.card(target.card_i).name} for {amount}")
             return
+        who = "a" if me.name == "A" else "b"
+        if self.strats[who].name in {"mew_baby", "baby"}:
+            self._bump(f"snipe_{who}")
+            pick = self._snipe_pick(me, foe, amount)
+            if pick is not None:
+                target, _prizes = pick
+                dmg = self._snipe_damage_on(me, foe, target, amount)
+                self._add_attack_damage(foe, target, dmg)
+                self._bump("damage_dealt", dmg)
+                self._bump(f"snipe_ko_{who}")
+                if target is not foe.active:
+                    self._bump("bench_damage", dmg)
+                    self._bump(f"snipe_ko_bench_{who}")
+                where = "Active" if target is foe.active else "Bench"
+                self._log(f"Snipe Knocks Out {where} {foe.card(target.card_i).name} for {dmg}")
+                return
         attacker = me.card(me.active.card_i) if me.active else None
         active_hp = self._max_hp(foe, foe.active) - foe.active.damage
         dmg = amount
@@ -7140,12 +7172,24 @@ class Game:
         foe_hp = max(0, self._max_hp(foe, foe.active) - foe.active.damage)
         already_para = bool(foe.active.status & ST_PARALYZED)
         has_big = any(a.damage >= 100 for a in legal)
+        snipe_prizes = 0
+        if strat.name in {"mew_baby", "baby"} and self._has_snipe(me):
+            # Weigh every Knock Out by its prizes, so a Benched Knock Out can beat a smaller Active one.
+            snipe_amount = self._snipe_amount(me, foe)
+            snipe_pick = self._snipe_pick(me, foe, snipe_amount) if snipe_amount > 0 else None
+            snipe_prizes = snipe_pick[1] if snipe_pick else 0
+            active_prizes = self._prizes_for_ko(foe.card(foe.active.card_i))
         best = None
         best_score = -1e9
         for atk in legal:
             resolved = self._resolved_attack(me, foe, atk)
             effective = self._effective_damage(me, foe, resolved)
             score = float(effective)
+            if strat.name in {"mew_baby", "baby"} and self._has_snipe(me):
+                if self._snipe_effect(resolved) is not None:
+                    score += 10000 * snipe_prizes
+                elif effective >= foe_hp > 0:
+                    score += 10000 * active_prizes
             has_status = any(e.get("kind") == "status" for e in resolved.effects)
             has_para = any(e.get("kind") == "status" and e.get("status") == "paralyzed" for e in resolved.effects)
             if effective >= foe_hp > 0:
@@ -7555,6 +7599,8 @@ class Game:
                     return 3
                 if name == "igglybuff":
                     return 4
+                if name == "elekid":
+                    return 4.5
                 return 5
             if strat.name == "slash":
                 if self._slash_ko(player, foe, mon):
@@ -9265,7 +9311,115 @@ class Game:
         if hp_left <= 0:
             return 0
         hit = max((self._baby_damage_if_active(me, foe, mon) for mon in strikers), default=0)
-        return self._prizes_for_ko(foe.card(foe.active.card_i)) if hit >= hp_left else 0
+        prizes = self._prizes_for_ko(foe.card(foe.active.card_i)) if hit >= hp_left else 0
+        if self._has_snipe(me):
+            for mon in strikers:
+                prizes = max(prizes, self._snipe_if_active(me, foe, mon)[1])
+        return prizes
+
+    def _snipe_effect(self, atk) -> dict | None:
+        """The printed hit on 1 of the opponent's Pokémon, Active or Benched (Crackling Shot)."""
+        return next(
+            (e for e in atk.effects if e.get("kind") == "damage_one_pokemon" and not e.get("bench_only")),
+            None,
+        )
+
+    def _has_snipe(self, me: Player) -> bool:
+        return any(
+            self._snipe_effect(atk) is not None
+            for mon in me.in_play()
+            for atk in me.card(mon.card_i).attacks
+        )
+
+    def _snipe_amount(self, me: Player, foe: Player) -> int:
+        """Biggest single-target hit the Active Spot can pay for, copied attacks included."""
+        if not me.active:
+            return 0
+        mon = me.active
+        pool = self._energy_pool(me, mon)
+        locked = mon.disabled_attack or getattr(mon, "disabled_self", None)
+        best = 0
+        for atk in self._attacks_for(me, mon):
+            effect = self._snipe_effect(atk)
+            if effect is None or atk.name == locked:
+                continue
+            if can_pay_energy(pool, self._attack_cost(me, mon, atk, foe)):
+                best = max(best, int(effect.get("amount") or 0))
+        return best
+
+    def _snipe_damage_on(self, me: Player, foe: Player, target: Pokemon, amount: int) -> int:
+        """Damage the hit puts on `target`. Weakness and Resistance apply to the Active only."""
+        if getattr(target, "prevent_attack_damage", False):
+            return 0
+        if target is not foe.active:
+            return 0 if self._benched_attack_damage_prevented(foe, target) else amount
+        if not me.active:
+            return amount
+        attacker = me.card(me.active.card_i)
+        defender = foe.card(target.card_i)
+        dmg = amount * weakness_multiplier(self._defender_weaknesses(me, foe, defender), attacker.types)
+        return max(0, dmg - resistance_reduce(defender.resistances, attacker.types))
+
+    def _snipe_pick(self, me: Player, foe: Player, amount: int) -> tuple[Pokemon, int] | None:
+        """(target, prizes) for the Knock Out this hit takes the most prizes with. None when nothing falls.
+
+        Prizes first, then the Active Spot (the opponent must promote), then Energy, then the least HP left.
+        """
+        best: tuple[tuple[int, bool, int, int], Pokemon] | None = None
+        for target in self._spread_legal(foe):
+            hp_left = self._max_hp(foe, target) - target.damage
+            if hp_left <= 0 or self._snipe_damage_on(me, foe, target, amount) < hp_left:
+                continue
+            key = (
+                self._prizes_for_ko(foe.card(target.card_i)),
+                target is foe.active,
+                len(target.energy),
+                -hp_left,
+            )
+            if best is None or key > best[0]:
+                best = (key, target)
+        if best is None:
+            return None
+        return best[1], best[0][0]
+
+    def _snipe_if_active(self, me: Player, foe: Player, mon: Pokemon) -> tuple[int, int, Pokemon | None]:
+        """(amount, prizes, target) of the single-target hit `mon` makes from the Active Spot."""
+        restore = self._view_as_active(me, mon)
+        try:
+            amount = self._snipe_amount(me, foe)
+            pick = self._snipe_pick(me, foe, amount) if amount > 0 else None
+        finally:
+            restore()
+        if pick is None:
+            return amount, 0, None
+        return amount, pick[1], pick[0]
+
+    def _snipe_holder(self, me: Player, foe: Player) -> Pokemon | None:
+        """The Pokémon with its own single-target hit that should hold the Active Spot this turn.
+
+        Only when Crackling Shot takes more prizes than any Active hit this turn. Mew ex copies it
+        too, but a 30 HP Pokémon in front keeps the 2-prize Mew ex out of the opponent's attack.
+        When the Active hit takes the same prizes or more, the usual holder stays. None keeps it.
+        """
+        if not me.active or not foe.active or not self._has_snipe(me):
+            return None
+        hp_left = self._max_hp(foe, foe.active) - foe.active.damage
+        if hp_left <= 0:
+            return None
+        strikers = self._mew_strikers(me)
+        hit = max((self._baby_damage_if_active(me, foe, mon) for mon in strikers), default=0)
+        hit_prizes = self._prizes_for_ko(foe.card(foe.active.card_i)) if hit >= hp_left else 0
+        best: tuple[tuple[int, int], Pokemon] | None = None
+        for mon in strikers:
+            if not any(self._snipe_effect(atk) is not None for atk in me.card(mon.card_i).attacks):
+                continue
+            _amount, prizes, _target = self._snipe_if_active(me, foe, mon)
+            if prizes <= hit_prizes:
+                continue
+            key = (prizes, 1 if mon is me.active else 0)
+            if best is None or key > best[0]:
+                best = (key, mon)
+        return best[1] if best else None
 
     def _mew_gust_plan(self, me: Player, foe: Player) -> tuple[Pokemon, int, int] | None:
         """(target, prizes with the gust, prizes without) when a gust lets this turn's hit take more.
@@ -9315,6 +9469,7 @@ class Game:
             "cleffa": 2,
             "mime jr.": 3,
             "mime jr": 3,
+            "elekid": 4,
         }.get(card.name.lower(), 9)
 
     def _rulebox_lock_on_opponent(self, me: Player) -> bool:
@@ -12825,6 +12980,13 @@ class Game:
 
     def _retreat_baby(self, me: Player, foe: Player, who: str) -> None:
         if not me.active or not me.bench:
+            return
+        holder = self._snipe_holder(me, foe)
+        if holder is not None:
+            if holder is not me.active:
+                idx = next((i for i, mon in enumerate(me.bench) if mon is holder), None)
+                if idx is not None:
+                    self._do_retreat_into(me, idx)
             return
         if self._rulebox_lock_on_opponent(me):
             # Iron Thorns ex turns Memory Helix off. A Baby still attacks; Mew ex does not.

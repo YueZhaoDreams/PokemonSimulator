@@ -675,7 +675,14 @@ STRATEGY_LIBRARY = {
             "that Knock Out takes more prizes this turn than the Active Spot already would, "
             "and the pull is the Benched Pokémon whose Knock Out takes the most prizes. "
             "Counter Catcher also needs more Prize cards remaining than the opponent, as printed, "
-            "and goes ahead of Boss's Orders so the Supporter stays in hand."
+            "and goes ahead of Boss's Orders so the Supporter stays in hand. "
+            "Elekid is one more 30 HP Baby for Bouncy Circle. Its Crackling Shot costs no Energy and does 30 damage "
+            "to 1 of the opponent's Pokémon, with no Weakness or Resistance on the Bench, and Mew ex copies it. "
+            "A hit like that takes the Knock Out that gives the most prizes, the Active Spot first on a tie. "
+            "Elekid goes Active only when Crackling Shot takes more prizes this turn than any Active hit, "
+            "so a Benched Knock Out keeps the 2-prize Mew ex out of the opponent's attack. "
+            "Otherwise Mew ex stays Active. The same Knock Out counts as already taken when Boss's Orders "
+            "and Counter Catcher are weighed, so they are played only for a bigger one."
         ),
         prefer_damage=0.9,
         prefer_status=0.2,
