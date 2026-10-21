@@ -341,6 +341,8 @@ def result_lines(rep: dict) -> list[str]:
             f"- {label} against Set M: clean seed {d_clean:+.2%} ({z_clean:+.1f} standard errors); "
             f"all three seeds {d_all:+.2%} ({z_all:+.1f})."
         )
+    fresh_gap = fresh[best_label]["pooled"]["weighted"] - fresh[start]["pooled"]["weighted"]
+    fresh_z = fresh_gap / diff_se(fresh[best_label]["pooled"], fresh[start]["pooled"])
     if best_label != start:
         d_clean = clean[best_label]["clean"]["weighted"] - clean[start]["clean"]["weighted"]
         z_clean = d_clean / diff_se(clean[best_label]["clean"], clean[start]["clean"])
@@ -350,10 +352,19 @@ def result_lines(rep: dict) -> list[str]:
             f"- {best_label} against the start list: clean seed {d_clean:+.2%} ({z_clean:+.1f} standard errors); "
             f"all three seeds {d_all:+.2%} ({z_all:+.1f})."
         )
-        verdict = (
-            f"{best_label} is the best list on the two fresh seeds, and it is {relation(z_all)} the start list on all three seeds. "
-            "The selection seed keeps the best of many cuts at every step, so its gains are biased upward and the fresh seeds decide."
-        )
+        if abs(fresh_z) < 2.0 and z_all < 2.0:
+            verdict = (
+                f"No Elekid count separates from the start list. On the two fresh seeds the highest is {best_label} "
+                f"at {fresh_gap:+.2%} ({fresh_z:+.1f} standard errors). On the clean seed it is {d_clean:+.2%} "
+                f"({z_clean:+.1f} standard errors), and on all three seeds {d_all:+.2%} ({z_all:+.1f}). "
+                "The selection seed keeps the best of many cuts at every step, so its climb is biased upward. "
+                "The start list, with no Elekid, stays the one to play."
+            )
+        else:
+            verdict = (
+                f"{best_label} is the best list on the two fresh seeds, and it is {relation(z_all)} the start list on all three seeds. "
+                "The selection seed keeps the best of many cuts at every step, so its gains are biased upward and the fresh seeds decide."
+            )
     else:
         verdict = "No Elekid count beats the start list on the two fresh seeds, so the start list stays the best found."
     if best_label != final_label:
@@ -369,7 +380,12 @@ def result_lines(rep: dict) -> list[str]:
             "",
             verdict,
             "",
-            f"Best list on the two fresh seeds ({best_label}); the clean seed above was not used to pick it:",
+            (
+                f"Highest list on the two fresh seeds ({best_label}). The clean seed was not used to pick it, "
+                "and the paragraph above is what decides whether to play it:"
+                if best_label != start and abs(fresh_z) < 2.0
+                else f"Best list on the two fresh seeds ({best_label}); the clean seed above was not used to pick it:"
+            ),
             "",
             "```",
         ]
