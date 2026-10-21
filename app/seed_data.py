@@ -530,20 +530,21 @@ SET_M60_NAMES = (
     + ["Nest Ball"] * 4
     + ["Ultra Ball"] * 2
     + ["Night Stretcher"] * 4
-    + ["Rescue Carrier"] * 2
+    + ["Rescue Carrier"]
     + ["Battle Cage"] * 4
     + ["Bravery Charm"] * 3
     + ["Bursting Balloon"] * 2
     + ["Hero's Cape"]
-    + ["Max Potion"] * 3
+    + ["Max Potion"] * 2
     + ["Arven"] * 4
     + ["Iono"] * 4
     + ["Professor's Research"] * 2
     + ["Boss's Orders"]
-    + ["Penny"] * 2
-    + ["Crushing Hammer"] * 4
+    + ["Penny"]
+    + ["Crushing Hammer"] * 3
     + ["Counter Catcher"] * 2
     + ["Spiky Energy"] * 2
+    + ["Team Rocket's Petrel"] * 4
 )
 SET_M_NAMES = SET_M60_NAMES
 SET_MEW_BABY_60_NAMES = SET_M60_NAMES
