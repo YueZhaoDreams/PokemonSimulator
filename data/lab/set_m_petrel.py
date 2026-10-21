@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Greedy Team Rocket's Petrel swaps on the locked Set M.
+"""Greedy Team Rocket's Petrel swaps on the latest Set M.
 
-Start from SET_M60_NAMES. Each step replaces exactly one copy of one other card
-with one Petrel. The decision score is the loss-weighted win rate. Weights are
-frozen from that 0-Petrel list. Stop when the next copy does not raise the
-score, or at 4.
+Start from the fresh-seed best in set-m-gust-search: four Sky Field and four
+Budew. Each step replaces exactly one copy of one other card with one Petrel.
+The decision score is the loss-weighted win rate. Weights are frozen from that
+0-Petrel list. Stop when the next copy does not raise the score, or at 4.
 
 Petrel prints: search the deck for a Trainer, reveal it, put it into the hand,
 then shuffle. On the Mew list that Trainer is played the same turn when it is
@@ -43,7 +43,6 @@ from app.seed_data import (
     IRON_THORNS_NAMES,
     SET_C60_NAMES,
     SET_D60_NAMES,
-    SET_M60_NAMES,
     SET_STARMIE60_NAMES,
     SET_T60_NAMES,
     SET_T_META_NAMES,
@@ -60,6 +59,7 @@ FOES = (
 )
 
 IN_NAME = "Team Rocket's Petrel"
+GUST_REPORT = ROOT / "data/lab/set-m-gust-search.json"
 GAMES = int(os.environ.get("M_PETREL_GAMES", "1000"))
 SCREEN_GAMES = int(os.environ.get("M_PETREL_SCREEN_GAMES", "300"))
 SCREEN_TOP = int(os.environ.get("M_PETREL_SCREEN_TOP", "6"))
@@ -96,6 +96,22 @@ QUERIES += [
     {"type": "event_prefix", "prefix": f"petrel_into:{name}", "key": key} for key, name in COLLAPSES
 ]
 COLLAPSE_KEYS = ("petrel",) + tuple(key for key, _name in COLLAPSES)
+
+
+def starting_list() -> tuple[str, list[str]]:
+    """Fresh-seed best Set M. That list has four Sky Field and four Budew."""
+    report = json.loads(GUST_REPORT.read_text())["report"]
+    label = str(report["best_fresh_label"])
+    names = next(list(row["list"]) for row in report["path"] if row.get("label") == label)
+    if names != list(report["list_start"]):
+        raise SystemExit("gust-search best fresh list is not list_start")
+    if len(names) != 60:
+        raise SystemExit(f"latest Set M has {len(names)} cards")
+    if names.count("Sky Field") != 4 or names.count("Budew") != 4:
+        raise SystemExit("latest Set M is not four Sky Field and four Budew")
+    if names.count(IN_NAME):
+        raise SystemExit("latest Set M already contains Petrel")
+    return label, names
 
 
 def loss_weights(rates: dict[str, float]) -> dict[str, float]:
@@ -297,9 +313,10 @@ def render_md(report: dict) -> str:
         "and a second card. Arven cannot fetch a Stadium, so Petrel still takes that Stadium.",
         "Boss's Orders is played instead when the gust is already in hand.",
         "",
-        f"Starting 60 is the locked Set M list (`SET_M60_NAMES`), which has zero {IN_NAME}.",
+        f"Starting 60 is the fresh-seed best from `set-m-gust-search`: {report.get('start_label')}.",
+        f"That list has four Sky Field, four Budew, and zero {IN_NAME}.",
         "Each step cuts exactly one copy of one other card. Weights are frozen from the",
-        "0-Petrel measurement on this engine.",
+        "0-Petrel measurement of this list on this engine.",
         "",
         f"- **Seed**: `{report.get('seed')}`",
         f"- **Games**: cuts screened on {report.get('screen_games')} per foe, best {report.get('screen_top')} confirmed on {report.get('games')} per foe",
@@ -444,11 +461,7 @@ def greedy_step(current: list[str], weights: dict[str, float], cache: Cache, sav
 
 def main() -> None:
     started = time.perf_counter()
-    start = list(SET_M60_NAMES)
-    if len(start) != 60:
-        raise SystemExit(f"SET_M60_NAMES has {len(start)} cards")
-    if start.count(IN_NAME):
-        raise SystemExit("SET_M60_NAMES already contains Petrel")
+    start_label, start = starting_list()
 
     saved = json.loads(DEST.read_text()) if DEST.exists() else None
     report = (saved or {}).get("report") or {}
@@ -465,6 +478,7 @@ def main() -> None:
         _save(cache, report)
 
     report.setdefault("list_start", start)
+    report["start_label"] = start_label
     report["seed"] = SEED
     report["games"] = GAMES
     report["screen_games"] = SCREEN_GAMES
@@ -474,7 +488,7 @@ def main() -> None:
     report["in"] = IN_NAME
 
     if not report.get("array"):
-        print("baseline: locked Set M", flush=True)
+        print(f"baseline: {start_label}", flush=True)
         base_cells = evaluate([("base", start)], GAMES, cache, save, "baseline", SEED)["base"]
         rates = {key: base_cells[key]["a"] for key, *_ in FOES}
         weights = loss_weights(rates)

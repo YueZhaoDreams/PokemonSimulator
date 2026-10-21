@@ -8,7 +8,7 @@ from pathlib import Path
 
 from app.engine.legality import copy_violations
 from app.engine.models import standard_60_rules
-from app.seed_data import build_fallback_deck
+from app.seed_data import SET_M60_NAMES, build_fallback_deck
 
 LAB = Path(__file__).resolve().parents[1] / "data" / "lab"
 ADDS = {"Boss's Orders", "Counter Catcher"}
@@ -23,7 +23,7 @@ def test_gust_search_path_is_legal_one_swap_steps_from_the_best_list():
     prior = _report("set-m-best-search.json")
     start = next(row["list"] for row in prior["path"] if row["label"] == prior["best_fresh_label"])
     assert rep["done"] is True
-    assert rep["list_set_m"] == prior["list_set_m"]
+    assert rep["list_set_m"] == list(SET_M60_NAMES) == prior["list_set_m"]
     assert rep["list_start"] == start
     assert rep["weights"] == prior["weights"]
     path = rep["path"]

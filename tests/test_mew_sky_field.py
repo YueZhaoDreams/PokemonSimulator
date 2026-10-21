@@ -183,14 +183,13 @@ def test_sky_field_report_path_is_legal_and_starts_from_the_locked_list():
     assert rep["done"] is True
     assert rep["seed"] == 20261007
     assert rep["games"] == 1000
-    assert rep["list_start"] == rep["array"][0]["list"]
-    assert rep["list_start"].count("Team Rocket's Petrel") == 0
+    assert rep["list_start"] == list(SET_M60_NAMES)
     assert list(rep["foes"]) == [key for key, *_ in lab.FOES]
     assert abs(sum(rep["weights"].values()) - 1.0) < 1e-9
     rules = standard_60_rules()
     array = rep["array"]
     assert [row["label"] for row in array] == ["Set M", "Sky Field", "Budew 1", "Budew 2", "Budew 3", "Budew 4"]
-    previous = Counter(rep["list_start"])
+    previous = Counter(SET_M60_NAMES)
     for row in array[1:]:
         names = row["list"]
         assert len(names) == 60

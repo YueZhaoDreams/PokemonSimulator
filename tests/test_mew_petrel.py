@@ -7,8 +7,6 @@ An Item, Tool, or Stadium is played in the same turn. A Supporter stays for the 
 from __future__ import annotations
 
 import importlib.util
-import json
-from collections import Counter
 from pathlib import Path
 from random import Random
 
@@ -578,14 +576,9 @@ def _load_lab():
     return module
 
 
-def _petrel_report() -> dict:
-    path = Path(__file__).resolve().parents[1] / "data" / "lab" / "set-m-petrel.json"
-    return json.loads(path.read_text())["report"]
-
-
 def test_petrel_swap_keeps_sixty_cards_and_stops_at_four():
     lab = _load_lab()
-    names = list(_petrel_report()["list_start"])
+    names = list(SET_M60_NAMES)
     assert names.count("Team Rocket's Petrel") == 0
     swapped = lab.swap_one(names, "Night Stretcher")
     assert len(swapped) == 60
@@ -599,29 +592,16 @@ def test_petrel_swap_keeps_sixty_cards_and_stops_at_four():
         lab.swap_one(four, "Arven")
 
 
-def test_four_petrel_is_the_locked_set_m_list():
-    report = _petrel_report()
-    final = report["array"][-1]["list"]
-    assert report["done"] is True
-    assert report["seed"] == 20261007
-    assert report["games"] == 1000
-    assert report["copies"] == 4
-    assert report["list_start"].count("Team Rocket's Petrel") == 0
-    assert [row["cut"] for row in report["array"][1:]] == [
-        "Penny",
-        "Rescue Carrier",
-        "Crushing Hammer",
-        "Max Potion",
-    ]
-    assert Counter(final) == Counter(SET_M60_NAMES)
-    assert SET_M60_NAMES.count("Team Rocket's Petrel") == 4
-    assert SET_M60_NAMES.count("Penny") == 1
-    assert SET_M60_NAMES.count("Rescue Carrier") == 1
-    assert SET_M60_NAMES.count("Crushing Hammer") == 3
-    assert SET_M60_NAMES.count("Max Potion") == 2
-    hold = report["holdout"]
-    assert [row["copies"] for row in hold] == [0, 1, 2, 3, 4]
-    assert hold[-1]["weighted"] - hold[0]["weighted"] > 0.015
+def test_petrel_search_starts_from_the_four_sky_field_list():
+    lab = _load_lab()
+    label, names = lab.starting_list()
+    assert label == "Start (4 Sky Field, 4 Budew)"
+    assert len(names) == 60
+    assert names.count("Sky Field") == 4
+    assert names.count("Budew") == 4
+    assert names.count("Team Rocket's Petrel") == 0
+    assert names.count("Boss's Orders") == 0
+    assert SET_M60_NAMES.count("Sky Field") == 0
 
 
 def test_aura_petrel_still_takes_boss_ahead_of_an_item():

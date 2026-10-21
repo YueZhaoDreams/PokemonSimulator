@@ -8,7 +8,7 @@ from pathlib import Path
 
 from app.engine.legality import copy_violations
 from app.engine.models import standard_60_rules
-from app.seed_data import build_fallback_deck
+from app.seed_data import SET_M60_NAMES, build_fallback_deck
 
 LAB = Path(__file__).resolve().parents[1] / "data" / "lab"
 ADDS = {"Sky Field", "Budew", "Igglybuff", "Mime Jr.", "Cleffa"}
@@ -22,7 +22,7 @@ def test_best_search_path_is_legal_one_swap_steps_from_the_budew_list():
     rep = _report("set-m-best-search.json")
     policy = _report("set-m-budew-policy.json")
     assert rep["done"] is True
-    assert rep["list_set_m"] == policy["list_start"]
+    assert rep["list_set_m"] == list(SET_M60_NAMES)
     assert rep["list_start"] == policy["array"][-1]["list"]
     assert rep["weights"] == policy["weights"]
     path = rep["path"]

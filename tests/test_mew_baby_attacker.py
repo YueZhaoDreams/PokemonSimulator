@@ -176,15 +176,14 @@ def test_budew_policy_report_is_a_legal_path_and_leaves_lists_without_budew_unch
     rep = _lab_json("set-m-budew-policy.json")
     old = _lab_json("set-m-sky-field.json")
     assert rep["done"] is True
-    historical = _lab_json("set-m-sky-field.json")["list_start"]
-    assert rep["list_start"] == historical
+    assert rep["list_start"] == list(SET_M60_NAMES)
     assert abs(sum(rep["weights"].values()) - 1.0) < 1e-9
     array = rep["array"]
     assert [row["label"] for row in array] == ["Set M", "Sky Field", "Budew 1", "Budew 2", "Budew 3", "Budew 4"]
     assert [row["budew"] for row in array] == [0, 0, 1, 2, 3, 4]
     assert [row["sky"] for row in array] == [0, 1, 1, 1, 1, 1]
     rules = standard_60_rules()
-    previous = Counter(historical)
+    previous = Counter(SET_M60_NAMES)
     for row in array[1:]:
         assert len(row["list"]) == 60
         assert copy_violations(build_fallback_deck(row["list"]), rules) == []

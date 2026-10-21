@@ -13,7 +13,7 @@ import pytest
 
 from app.engine.legality import copy_violations
 from app.engine.models import standard_60_rules
-from app.seed_data import build_fallback_deck
+from app.seed_data import SET_M60_NAMES, build_fallback_deck
 
 LAB = Path(__file__).resolve().parents[1] / "data" / "lab"
 
@@ -39,14 +39,13 @@ def test_copies_report_adds_one_sky_field_per_step_and_stays_legal():
     assert rep["done"] is True
     assert rep["seed"] == 20261007
     assert rep["games"] == 1000
-    historical = json.loads((LAB / "set-m-sky-field.json").read_text())["report"]["list_start"]
-    assert rep["list_start"] == historical
+    assert rep["list_start"] == list(SET_M60_NAMES)
     assert abs(sum(rep["weights"].values()) - 1.0) < 1e-9
     array = rep["array"]
     assert [row["label"] for row in array] == ["Set M", "Sky Field 1", "Sky Field 2", "Sky Field 3", "Sky Field 4"]
     assert [row["sky"] for row in array] == [0, 1, 2, 3, 4]
     rules = standard_60_rules()
-    previous = Counter(historical)
+    previous = Counter(SET_M60_NAMES)
     for row in array[1:]:
         names = row["list"]
         assert len(names) == 60
@@ -99,7 +98,7 @@ def test_pool_weights_each_seed_by_its_games():
 def test_confirm_report_compares_set_m_with_the_two_sky_field_row_on_a_new_seed():
     rep = json.loads((LAB / "set-m-sky-confirm.json").read_text())["report"]
     copies = _report()
-    assert rep["list_set_m"] == copies["list_start"]
+    assert rep["list_set_m"] == list(SET_M60_NAMES)
     assert rep["list_two_sky"] == copies["array"][2]["list"]
     assert rep["list_two_sky"].count("Sky Field") == 2
     assert rep["weights"] == copies["weights"]
