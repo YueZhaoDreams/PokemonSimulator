@@ -622,20 +622,34 @@ SET_L60_NAMES = (
     + ["Fighting Energy"] * 11
 )
 
-# Mill: Wugtrio send. Neutralization Zone is the one ACE SPEC.
-# Loss-weighted greedy, weights frozen on the Sisters 60. Seed 20261009,
-# 250 games each seat against 12 lists: weighted 30.2% -> 40.8%,
-# plain mean 40.1% -> 51.7%, mean mill 9.95 -> 15.23.
-# Ignition cut Switch, Glimwood Tangle, Petrel, one Headquarters.
-# Reversal then cut one Fighting, the other two Headquarters, and one Boss.
+# Mill lock (2026-10-22, seed 20261022, 250 games each seat, both seats).
+# Sisters shell plus one Playground Pichu, one Call of Legends Mime Jr.,
+# one Slumbering Forest, and one Switch. Cuts from that shell: Fighting Energy
+# 2, Water Energy 1, Rescue Carrier 1. Undersea Tunnel is colorless.
+# Field mean 53.4% vs the frozen Sisters 60 at 49.5% (+3.9). Weighted
+# 32.9% → 37.0% (+4.1). Head to head 44.6%. See data/lab/set-mill-sleep.md.
+# Neutralization Zone stays the one ACE SPEC. Against Phantom Dive, Starmie,
+# and spread, the 30 HP cards stay in the deck.
+# Rabsca 1-1 is outside this lock. On the C60 bakeoff (seed 20260911, 3000
+# games) that line was 51.4–52.5% vs T60 against a 51.3% base, while one
+# Battle Cage was 62.0%. Rellor is 50 HP until it evolves, so Dive's 6
+# counters take it before Spherical Shield exists.
+# Battle Cage is outside this lock. Its printed text stops bench counters
+# and replaces whichever Stadium is in play, including Neutralization Zone.
+# This 60 was not remeasured with that swap.
 SET_MILL_NAMES = (
-    ["Wiglett"] * 4
+    ["Pichu"]
+    + ["Mime Jr."]
+    + ["Wiglett"] * 4
     + ["Wugtrio"] * 4
     + ["Victini"]
-    + ["Level Ball"] * 3
-    + ["Nest Ball"] * 3
+    + ["Slumbering Forest"]
+    + ["Neutralization Zone"]
     + ["Buddy-Buddy Poffin"] * 4
-    + ["Rescue Carrier"] * 4
+    + ["Nest Ball"] * 3
+    + ["Level Ball"] * 3
+    + ["Rescue Carrier"] * 3
+    + ["Switch"]
     + ["Crushing Hammer"] * 4
     + ["Counter Catcher"] * 2
     + ["Miss Fortune Sisters"] * 2
@@ -643,10 +657,8 @@ SET_MILL_NAMES = (
     + ["Boss's Orders"]
     + ["Team Rocket's Handiwork"] * 2
     + ["Colress's Tenacity"] * 4
-    + ["Neutralization Zone"]
     + ["Double Turbo Energy"] * 4
-    + ["Water Energy"] * 4
-    + ["Fighting Energy"] * 2
+    + ["Water Energy"] * 3
     + ["Ignition Energy"] * 4
     + ["Reversal Energy"] * 4
 )
@@ -1361,6 +1373,15 @@ _register(
         "supporter",
         "Flip 2 coins. For each heads, discard 2 cards from the top of your opponent's deck.",
         catalog_id="xy10-112",
+    )
+)
+_register(
+    _trn(
+        "Slumbering Forest",
+        "stadium",
+        "If a Pokémon is Asleep, its owner flips 2 coins instead of 1 for that Special Condition between turns. If either of them is tails, that Pokémon is still Asleep.",
+        catalog_id="sm11-207",
+        image="https://assets.tcgdex.net/en/sm/sm11/207/low.webp",
     )
 )
 _register(
@@ -2268,7 +2289,57 @@ for card in [
         _atk("Zap Kick", ["Lightning"], 10),
         _atk("Thunder Fang", ["Colorless", "Colorless"], 20, "Flip a coin. If heads, your opponent's Active Pokémon is now Paralyzed."),
     ], weakness="Fighting", catalog_id="swsh11-054"),
-    _pkm("Pichu", "Basic", ["Lightning"], 30, [_atk("Mix-Up", ["Colorless"], 0, "Draw a card.")], weakness="Fighting"),
+    _pkm(
+        "Pichu",
+        "Basic",
+        ["Lightning"],
+        30,
+        [
+            _atk(
+                "Playground",
+                [],
+                0,
+                "Each player may search his or her deck for as many Basic Pokémon as he or she likes, "
+                "put them onto his or her Bench, and shuffle his or her deck afterward. "
+                "(You put your Pokémon on the Bench first.) Pichu is now Asleep.",
+            )
+        ],
+        retreat=0,
+        catalog_id="hgss1-28",
+        image="https://assets.tcgdex.net/en/hgss/hgss1/28/low.webp",
+        set_name="HeartGold & SoulSilver",
+        abilities=[
+            Ability(
+                name="Sweet Sleeping Face",
+                text="As long as Pichu is Asleep, prevent all damage done to Pichu by attacks.",
+            )
+        ],
+    ),
+    _pkm(
+        "Smoochum",
+        "Basic",
+        ["Psychic"],
+        30,
+        [
+            _atk(
+                "Energy Antics",
+                [],
+                0,
+                "Move an Energy card attached to 1 of your opponent's Pokémon to another of "
+                "your opponent's Pokémon. Smoochum is now Asleep.",
+            )
+        ],
+        retreat=0,
+        catalog_id="hgss1-30",
+        image="https://assets.tcgdex.net/en/hgss/hgss1/30/low.webp",
+        set_name="HeartGold & SoulSilver",
+        abilities=[
+            Ability(
+                name="Sweet Sleeping Face",
+                text="As long as Smoochum is Asleep, prevent all damage done to Smoochum by attacks.",
+            )
+        ],
+    ),
     _pkm(
         "Emolga",
         "Basic",
@@ -3545,6 +3616,34 @@ _register(
         set_name="Paldean Fates",
     )
 )
+# Call of Legends 47. Printed name is still Mime Jr. The alias keeps Paldean Fates
+# as fallback_named("Mime Jr.") for Set M.
+_MIME_JR_COL = _pkm(
+    "Mime Jr.",
+    "Basic",
+    ["Psychic"],
+    30,
+    [
+        _atk(
+            "Sleepy Lost",
+            [],
+            0,
+            "Put the top card of your opponent's deck in the Lost Zone. Mime Jr. is now Asleep.",
+        )
+    ],
+    retreat=0,
+    catalog_id="col1-47",
+    image="https://assets.tcgdex.net/en/col/col1/47/low.webp",
+    set_name="Call of Legends",
+    abilities=[
+        Ability(
+            name="Sweet Sleeping Face",
+            text="As long as Mime Jr. is Asleep, prevent all damage done to Mime Jr. by attacks.",
+        )
+    ],
+)
+FALLBACK_BY_NAME["mime jr. col"] = _MIME_JR_COL
+FALLBACK_BY_NAME["sleepy lost"] = _MIME_JR_COL
 _register(
     _pkm(
         "Cleffa",
@@ -5040,6 +5139,17 @@ def fallback_named(name: str) -> Card:
     from app.catalog import fallback_card
 
     return fallback_card(name)
+
+
+def build_mill_deck() -> list[Card]:
+    """Locked thin sleep wall. Mime Jr. is Call of Legends Sleepy Lost."""
+    out: list[Card] = []
+    for name in SET_MILL_NAMES:
+        if name == "Mime Jr.":
+            out.append(fallback_named("mime jr. col"))
+        else:
+            out.append(fallback_named(name))
+    return out
 
 
 def build_fallback_deck(names: list[str]) -> list[Card]:

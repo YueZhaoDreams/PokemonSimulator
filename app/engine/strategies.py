@@ -817,8 +817,15 @@ STRATEGY_LIBRARY = {
     "mill": StrategySpec(
         name="mill",
         description=(
-            "Wugtrio send. Search Wiglett and Wugtrio, evolve, and mill with Undersea Tunnel. "
-            "Twisting Strike on heads keeps that Wiglett through the opponent's next turn. "
+            "Sisters shell plus one sleep wall. One Pichu and one Mime Jr. "
+            "Only one Sweet Sleeping Face is in play. Against Phantom Dive, Starmie, and spread "
+            "those 30 HP cards stay in the deck. "
+            "Playground benches Basics, user first. Sleepy Lost puts the top card of the "
+            "opponent's deck in the Lost Zone. The attack leaves that baby Asleep. "
+            "Sweet Sleeping Face prevents attack damage while it is Asleep. "
+            "Slumbering Forest makes the between-turns sleep check two coins. "
+            "The lock has no Manaphy, no Rabsca line, and no Battle Cage. "
+            "Switch brings up Wugtrio once Undersea Tunnel is paid. "
             "Victory Star reflips an attack once when it shows 0 or 1 heads. "
             "Ignition Energy pays Undersea on an Evolution and leaves at the end of the turn. "
             "Reversal Energy stays, and pays three while more Prize cards remain. "
@@ -832,7 +839,7 @@ STRATEGY_LIBRARY = {
         item_spend=1.0,
         self_preserve=0.2,
         hold_as_energy=False,
-        protect=["Wiglett", "Wugtrio", "Victini"],
+        protect=["Wiglett", "Wugtrio", "Victini", "Pichu", "Mime Jr.", "Slumbering Forest"],
         search_aces=["Wiglett", "Wugtrio"],
         closers=["Wugtrio"],
         reflip_heads_at_most=1,

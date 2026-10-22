@@ -1,4 +1,4 @@
-"""Mill is the Sisters 60. Printed sentences are the effects.
+"""Mill is the thin sleep wall. Printed sentences are the effects.
 
 Undersea Tunnel flips 3 coins and discards the top 3 per heads. Victory Star
 reflips that attack once when the first result is 0 or 1 heads; Glimwood Tangle
@@ -23,7 +23,7 @@ from app.engine.legality import copy_violations
 from app.engine.models import S60_SEED_IDS, default_rule_presets_for, standard_60_rules
 from app.engine.strategies import StrategySpec
 from app.seed import _is_basic_energy_name, load_seed_deck
-from app.seed_data import SET_MILL_NAMES, build_fallback_deck, fallback_named
+from app.seed_data import SET_MILL_NAMES, build_fallback_deck, build_mill_deck, fallback_named
 
 _ABSENT = (
     "Eri",
@@ -134,37 +134,48 @@ class _Board:
         return player
 
 
-def test_mill_list_is_the_sisters_sixty():
+def test_mill_list_is_the_locked_sleep_wall():
     names = list(SET_MILL_NAMES)
     assert len(names) == 60
+    assert names.count("Pichu") == 1
+    assert names.count("Mime Jr.") == 1
+    assert names.count("Smoochum") == 0
+    assert names.count("Rellor") == 0
+    assert names.count("Rabsca") == 0
+    assert names.count("Battle Cage") == 0
     assert names.count("Wiglett") == 4
     assert names.count("Wugtrio") == 4
+    assert names.count("Manaphy") == 0
     assert names.count("Victini") == 1
-    assert names.count("Level Ball") == 3
-    assert names.count("Nest Ball") == 3
-    assert names.count("Buddy-Buddy Poffin") == 4
-    assert names.count("Rescue Carrier") == 4
-    assert names.count("Crushing Hammer") == 4
-    assert names.count("Counter Catcher") == 2
-    assert names.count("Miss Fortune Sisters") == 2
-    assert names.count("Crispin") == 3
-    assert names.count("Boss's Orders") == 1
-    assert names.count("Team Rocket's Handiwork") == 2
-    assert names.count("Colress's Tenacity") == 4
+    assert names.count("Slumbering Forest") == 1
     assert names.count("Neutralization Zone") == 1
-    assert names.count("Double Turbo Energy") == 4
-    assert names.count("Water Energy") == 4
-    assert names.count("Fighting Energy") == 2
+    assert names.count("Buddy-Buddy Poffin") == 4
+    assert names.count("Nest Ball") == 3
+    assert names.count("Level Ball") == 3
+    assert names.count("Rescue Carrier") == 3
+    assert names.count("Switch") == 1
+    assert names.count("Crushing Hammer") == 4
+    assert names.count("Colress's Tenacity") == 4
+    assert names.count("Miss Fortune Sisters") == 2
+    assert names.count("Team Rocket's Handiwork") == 2
+    assert names.count("Crispin") == 3
     assert names.count("Ignition Energy") == 4
     assert names.count("Reversal Energy") == 4
-    assert names.count("Switch") == 0
+    assert names.count("Double Turbo Energy") == 4
+    assert names.count("Water Energy") == 3
+    assert names.count("Boss's Orders") == 1
+    assert names.count("Counter Catcher") == 2
+    assert names.count("Fighting Energy") == 0
     assert names.count("Glimwood Tangle") == 0
     assert names.count("Team Rocket's Petrel") == 0
     assert names.count("Pokémon League Headquarters") == 0
     for missing in _ABSENT:
         assert missing not in names
-    pile = build_fallback_deck(names)
+    pile = build_mill_deck()
     assert copy_violations(pile, standard_60_rules()) == []
+    assert [c.catalog_id for c in pile if c.name == "Mime Jr."] == ["col1-47"]
+    assert fallback_named("Mime Jr.").catalog_id == "sv04.5-031"
+    assert fallback_named("Mime Jr.").attacks[0].name == "Mimed Games"
     for key in ("mill", "wugtrio", "21"):
         loaded = load_seed_deck(key)
         assert loaded["id"] == "seed-mill"
@@ -408,7 +419,9 @@ def test_sisters_discards_the_items_in_the_top_five():
 def test_level_ball_takes_wiglett_and_leaves_mew_ex():
     board = _Board("mill")
     me = board.seat("a", active=("Victini", []), deck=["Mew ex", "Wiglett"])
-    assert board.game._pokemon_search_prefer(me, "a")[0] == "Wiglett"
+    prefer = board.game._pokemon_search_prefer(me, "a")
+    assert prefer[0] == "Pichu"
+    assert prefer.index("Wiglett") < prefer.index("Wugtrio")
     board.game._resolve_trainer(me, board.game.players["b"], fallback_named("Level Ball"), "a")
     hand = [me.card(i).name for i in me.hand]
     deck = [me.card(i).name for i in me.deck]
@@ -563,6 +576,8 @@ _IGNITION = (
 
 def _energy_board() -> _Board:
     names = [
+        "Pichu",
+        "Wiglett",
         "Wiglett",
         "Wugtrio",
         "Wugtrio",
@@ -616,6 +631,22 @@ def test_ignition_energy_pays_three_colorless_on_an_evolution_and_then_leaves():
     assert [me.card(i).name for i in me.discard] == ["Ignition Energy"]
     assert board.game.events.get("discard_attached_end_of_turn") == 1
     assert foe.active is not None
+
+
+def test_wall_energy_stacks_on_the_bench_line():
+    board = _energy_board()
+    me = board.seat(
+        "a",
+        active=("Pichu", []),
+        bench=("Wiglett", "Wiglett"),
+        hand=["Double Turbo Energy", "Water Energy"],
+    )
+    me.bench[1].energy.append(board.take("a", "Water Energy"))
+    board.seat("b", active=("Wugtrio", []))
+    board.game._attach_energy(me, "a")
+    assert [me.card(i).name for i in me.active.energy] == []
+    assert [me.card(i).name for i in me.bench[0].energy] == []
+    assert [me.card(i).name for i in me.bench[1].energy] == ["Water Energy", "Double Turbo Energy"]
 
 
 def test_ignition_on_wiglett_is_one_colorless_and_mill_attaches_water_instead():

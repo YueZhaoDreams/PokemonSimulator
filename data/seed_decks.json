@@ -26534,6 +26534,110 @@
     "kind": "list",
     "cards": [
       {
+        "catalog_id": "hgss1-28",
+        "name": "Pichu",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Lightning"
+        ],
+        "hp": 30,
+        "attacks": [
+          {
+            "name": "Playground",
+            "cost": [],
+            "damage": 0,
+            "text": "Each player may search his or her deck for as many Basic Pok\u00e9mon as he or she likes, put them onto his or her Bench, and shuffle his or her deck afterward. (You put your Pok\u00e9mon on the Bench first.) Pichu is now Asleep.",
+            "effects": [
+              {
+                "kind": "status",
+                "status": "asleep",
+                "coin": false,
+                "target": "self"
+              },
+              {
+                "kind": "playground",
+                "user_first": true
+              }
+            ]
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Sweet Sleeping Face",
+            "text": "As long as Pichu is Asleep, prevent all damage done to Pichu by attacks.",
+            "effects": [
+              {
+                "kind": "prevent_attack_damage_while_asleep"
+              }
+            ]
+          }
+        ],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/hgss/hgss1/28/low.webp",
+        "set_name": "HeartGold & SoulSilver",
+        "text": "",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "col1-47",
+        "name": "Mime Jr.",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 30,
+        "attacks": [
+          {
+            "name": "Sleepy Lost",
+            "cost": [],
+            "damage": 0,
+            "text": "Put the top card of your opponent's deck in the Lost Zone. Mime Jr. is now Asleep.",
+            "effects": [
+              {
+                "kind": "status",
+                "status": "asleep",
+                "coin": false,
+                "target": "self"
+              },
+              {
+                "kind": "topdeck_lost_zone",
+                "whose": "opponent"
+              }
+            ]
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Sweet Sleeping Face",
+            "text": "As long as Mime Jr. is Asleep, prevent all damage done to Mime Jr. by attacks.",
+            "effects": [
+              {
+                "kind": "prevent_attack_damage_while_asleep"
+              }
+            ]
+          }
+        ],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/col/col1/47/low.webp",
+        "set_name": "Call of Legends",
+        "text": "",
+        "dex_id": null,
+        "traits": []
+      },
+      {
         "catalog_id": "sv01-055",
         "name": "Wiglett",
         "category": "Pokemon",
@@ -26976,10 +27080,10 @@
         "traits": []
       },
       {
-        "catalog_id": "swsh5-129",
-        "name": "Level Ball",
+        "catalog_id": "sm11-207",
+        "name": "Slumbering Forest",
         "category": "Trainer",
-        "stage": "Item",
+        "stage": "Stadium",
         "types": [],
         "hp": 0,
         "attacks": [],
@@ -26988,19 +27092,19 @@
         "resistances": [],
         "retreat": 0,
         "evolves_from": null,
-        "trainer_kind": "item",
+        "trainer_kind": "stadium",
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh5/129/low.webp",
+        "image": "https://assets.tcgdex.net/en/sm/sm11/207/low.webp",
         "set_name": null,
-        "text": "Search your deck for a Pok\u00e9mon with 90 HP or less, reveal it, and put it into your hand. Then, shuffle your deck.",
+        "text": "If a Pok\u00e9mon is Asleep, its owner flips 2 coins instead of 1 for that Special Condition between turns. If either of them is tails, that Pok\u00e9mon is still Asleep.",
         "dex_id": null,
         "traits": []
       },
       {
-        "catalog_id": "swsh5-129",
-        "name": "Level Ball",
+        "catalog_id": "sv06.5-060",
+        "name": "Neutralization Zone",
         "category": "Trainer",
-        "stage": "Item",
+        "stage": "Stadium",
         "types": [],
         "hp": 0,
         "attacks": [],
@@ -27009,17 +27113,17 @@
         "resistances": [],
         "retreat": 0,
         "evolves_from": null,
-        "trainer_kind": "item",
+        "trainer_kind": "stadium",
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh5/129/low.webp",
+        "image": "https://assets.tcgdex.net/en/sv/sv06.5/060/low.webp",
         "set_name": null,
-        "text": "Search your deck for a Pok\u00e9mon with 90 HP or less, reveal it, and put it into your hand. Then, shuffle your deck.",
+        "text": "Prevent all damage done to Pok\u00e9mon that don't have a Rule Box (both yours and your opponent's) by attacks from the opponent's Pok\u00e9mon ex and Pok\u00e9mon V. (Pok\u00e9mon ex, Pok\u00e9mon V, etc. have Rule Boxes.)\n\nThis card can't be put into your hand or deck from the discard pile.",
         "dex_id": null,
         "traits": []
       },
       {
-        "catalog_id": "swsh5-129",
-        "name": "Level Ball",
+        "catalog_id": "sv05-144",
+        "name": "Buddy-Buddy Poffin",
         "category": "Trainer",
         "stage": "Item",
         "types": [],
@@ -27032,9 +27136,72 @@
         "evolves_from": null,
         "trainer_kind": "item",
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh5/129/low.webp",
+        "image": "https://assets.tcgdex.net/en/sv/sv05/144/low.webp",
         "set_name": null,
-        "text": "Search your deck for a Pok\u00e9mon with 90 HP or less, reveal it, and put it into your hand. Then, shuffle your deck.",
+        "text": "Search your deck for up to 2 Basic Pok\u00e9mon with 70 HP or less and put them onto your Bench. Then, shuffle your deck.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "sv05-144",
+        "name": "Buddy-Buddy Poffin",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv05/144/low.webp",
+        "set_name": null,
+        "text": "Search your deck for up to 2 Basic Pok\u00e9mon with 70 HP or less and put them onto your Bench. Then, shuffle your deck.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "sv05-144",
+        "name": "Buddy-Buddy Poffin",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv05/144/low.webp",
+        "set_name": null,
+        "text": "Search your deck for up to 2 Basic Pok\u00e9mon with 70 HP or less and put them onto your Bench. Then, shuffle your deck.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "sv05-144",
+        "name": "Buddy-Buddy Poffin",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv05/144/low.webp",
+        "set_name": null,
+        "text": "Search your deck for up to 2 Basic Pok\u00e9mon with 70 HP or less and put them onto your Bench. Then, shuffle your deck.",
         "dex_id": null,
         "traits": []
       },
@@ -27102,8 +27269,8 @@
         "traits": []
       },
       {
-        "catalog_id": "sv05-144",
-        "name": "Buddy-Buddy Poffin",
+        "catalog_id": "swsh5-129",
+        "name": "Level Ball",
         "category": "Trainer",
         "stage": "Item",
         "types": [],
@@ -27116,15 +27283,15 @@
         "evolves_from": null,
         "trainer_kind": "item",
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv05/144/low.webp",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh5/129/low.webp",
         "set_name": null,
-        "text": "Search your deck for up to 2 Basic Pok\u00e9mon with 70 HP or less and put them onto your Bench. Then, shuffle your deck.",
+        "text": "Search your deck for a Pok\u00e9mon with 90 HP or less, reveal it, and put it into your hand. Then, shuffle your deck.",
         "dex_id": null,
         "traits": []
       },
       {
-        "catalog_id": "sv05-144",
-        "name": "Buddy-Buddy Poffin",
+        "catalog_id": "swsh5-129",
+        "name": "Level Ball",
         "category": "Trainer",
         "stage": "Item",
         "types": [],
@@ -27137,15 +27304,15 @@
         "evolves_from": null,
         "trainer_kind": "item",
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv05/144/low.webp",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh5/129/low.webp",
         "set_name": null,
-        "text": "Search your deck for up to 2 Basic Pok\u00e9mon with 70 HP or less and put them onto your Bench. Then, shuffle your deck.",
+        "text": "Search your deck for a Pok\u00e9mon with 90 HP or less, reveal it, and put it into your hand. Then, shuffle your deck.",
         "dex_id": null,
         "traits": []
       },
       {
-        "catalog_id": "sv05-144",
-        "name": "Buddy-Buddy Poffin",
+        "catalog_id": "swsh5-129",
+        "name": "Level Ball",
         "category": "Trainer",
         "stage": "Item",
         "types": [],
@@ -27158,30 +27325,9 @@
         "evolves_from": null,
         "trainer_kind": "item",
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv05/144/low.webp",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh5/129/low.webp",
         "set_name": null,
-        "text": "Search your deck for up to 2 Basic Pok\u00e9mon with 70 HP or less and put them onto your Bench. Then, shuffle your deck.",
-        "dex_id": null,
-        "traits": []
-      },
-      {
-        "catalog_id": "sv05-144",
-        "name": "Buddy-Buddy Poffin",
-        "category": "Trainer",
-        "stage": "Item",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "item",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv05/144/low.webp",
-        "set_name": null,
-        "text": "Search your deck for up to 2 Basic Pok\u00e9mon with 70 HP or less and put them onto your Bench. Then, shuffle your deck.",
+        "text": "Search your deck for a Pok\u00e9mon with 90 HP or less, reveal it, and put it into your hand. Then, shuffle your deck.",
         "dex_id": null,
         "traits": []
       },
@@ -27249,8 +27395,8 @@
         "traits": []
       },
       {
-        "catalog_id": "swsh7-154",
-        "name": "Rescue Carrier",
+        "catalog_id": "sv01-194",
+        "name": "Switch",
         "category": "Trainer",
         "stage": "Item",
         "types": [],
@@ -27263,9 +27409,9 @@
         "evolves_from": null,
         "trainer_kind": "item",
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh7/154/low.webp",
+        "image": "https://assets.tcgdex.net/en/sv/sv01/194/low.webp",
         "set_name": null,
-        "text": "Put up to 2 Pok\u00e9mon, each with 90 HP or less, from your discard pile into your hand.",
+        "text": "Switch your Active Pok\u00e9mon with 1 of your Benched Pok\u00e9mon.",
         "dex_id": null,
         "traits": []
       },
@@ -27642,33 +27788,12 @@
         "trainer_kind": "supporter",
         "energy_type": null,
         "image": "https://assets.tcgdex.net/en/sv/sv06.5/057/low.webp",
-        "set_name": "Shrouded Fable",
+        "set_name": null,
         "text": "Search your deck for a Stadium card and an Energy card, reveal them, and put them into your hand. Then, shuffle your deck.",
         "dex_id": null,
         "traits": []
       },
       {
-        "catalog_id": "sv06.5-060",
-        "name": "Neutralization Zone",
-        "category": "Trainer",
-        "stage": "Stadium",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "stadium",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv06.5/060/low.webp",
-        "set_name": null,
-        "text": "Prevent all damage done to Pok\u00e9mon that don't have a Rule Box (both yours and your opponent's) by attacks from the opponent's Pok\u00e9mon ex and Pok\u00e9mon V. (Pok\u00e9mon ex, Pok\u00e9mon V, etc. have Rule Boxes.)\n\nThis card can't be put into your hand or deck from the discard pile.",
-        "dex_id": null,
-        "traits": []
-      },
-      {
         "catalog_id": "swsh9-151",
         "name": "Double Turbo Energy",
         "category": "Energy",
@@ -27824,75 +27949,6 @@
         "trainer_kind": null,
         "energy_type": "Water",
         "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/154/low.webp",
-        "set_name": "Crown Zenith",
-        "text": "",
-        "dex_id": null,
-        "traits": []
-      },
-      {
-        "catalog_id": "swsh12.5-154",
-        "name": "Water Energy",
-        "category": "Energy",
-        "stage": "Basic",
-        "types": [
-          "Water"
-        ],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": "Water",
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/154/low.webp",
-        "set_name": "Crown Zenith",
-        "text": "",
-        "dex_id": null,
-        "traits": []
-      },
-      {
-        "catalog_id": "swsh12.5-157",
-        "name": "Fighting Energy",
-        "category": "Energy",
-        "stage": "Basic",
-        "types": [
-          "Fighting"
-        ],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": "Fighting",
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/157/low.webp",
-        "set_name": "Crown Zenith",
-        "text": "",
-        "dex_id": null,
-        "traits": []
-      },
-      {
-        "catalog_id": "swsh12.5-157",
-        "name": "Fighting Energy",
-        "category": "Energy",
-        "stage": "Basic",
-        "types": [
-          "Fighting"
-        ],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": "Fighting",
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/157/low.webp",
         "set_name": "Crown Zenith",
         "text": "",
         "dex_id": null,
