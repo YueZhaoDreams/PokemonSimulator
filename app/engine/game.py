@@ -5091,6 +5091,9 @@ class Game:
 
         The printed sentence has no count. Open bench slots are the only cap.
         """
+        # Per attacker. The bench counter is global, so a mirror must not
+        # treat the opponent's Playground as this Pichu already having used it.
+        self._bump(f"used_playground_{who}")
         foe_who = "b" if who == "a" else "a"
         seats = [(me, who), (foe, foe_who)]
         if not user_first:
@@ -6841,7 +6844,7 @@ class Game:
             if (
                 can_attack
                 and self._prints_playground(active)
-                and self.events.get("playground", 0) > 0
+                and self.events.get(f"used_playground_{who}", 0) > 0
                 and self._mill_can_retreat(me)
             ):
                 line = self._mill_line_idx(me)

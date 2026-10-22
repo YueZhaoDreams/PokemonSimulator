@@ -248,6 +248,35 @@ def test_asleep_pichu_stays_up_until_the_back_row_can_mill():
     assert bare.game._pick_trainer(waiting) is None
 
 
+def test_opponent_playground_does_not_skip_this_pichu():
+    board = _Board()
+    me = board.seat("a", active=("Pichu", []), bench=(("Wiglett", []),))
+    foe = board.seat("b", active=("Wiglett", []), bench=(("Pichu", []),))
+    board.game.turn = 3
+    board.game.first = "b"
+    board.game.events["playground"] = 4
+    board.game.events["used_playground_b"] = 1
+    board.game._maybe_retreat(me, foe, "a")
+    assert me.card(me.active.card_i).name == "Pichu"
+
+    own = _Board()
+    me = own.seat(
+        "a",
+        active=("Pichu", []),
+        bench=(("Wiglett", []),),
+        deck=("Wiglett", "Water Energy"),
+    )
+    foe = own.seat("b", active=("Wiglett", []), deck=("Water Energy",))
+    own.game.turn = 3
+    own.game.first = "b"
+    own.game._attack(me, foe, "a")
+    assert own.game.events.get("used_playground_a", 0) == 1
+    assert own.game.events.get("used_playground_b", 0) == 0
+    me.active.status = 0
+    own.game._maybe_retreat(me, foe, "a")
+    assert me.card(me.active.card_i).name == "Wiglett"
+
+
 def test_pichu_waits_behind_a_basic_until_playground_is_legal():
     board = _Board()
     me = board.seat("a", active=("Pichu", []), bench=(("Wiglett", []), ("Victini", [])))
