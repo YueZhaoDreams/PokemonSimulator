@@ -200,6 +200,8 @@ def test_set_m_list_keeps_expanded_attackers_out():
     assert "Alolan Raichu" not in SET_M60_NAMES
     assert SET_M60_NAMES.count("Sky Field") == 3
     assert SET_M60_NAMES.count("Team Rocket's Petrel") == 4
+    assert SET_M60_NAMES.count("Junk Arm") == 1
+    assert SET_M60_NAMES.count("Ultra Ball") == 0
 
 
 def test_electro_rain_sentence_counts_discarded_cards():

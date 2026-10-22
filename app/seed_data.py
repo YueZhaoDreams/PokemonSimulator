@@ -526,6 +526,11 @@ SET_T_UNL_NAMES = (
 # Weights frozen from that 0-Petrel list. The search kept four copies.
 # Holdout 90.0% → 91.8% (+1.73 pp, 2.73 standard errors). One, two, and three stay under 2.
 # Four against three is 1.29 standard errors. Cuts: Ultra Ball (2 → 1), Penny (2 → 0), Sky Field (4 → 3).
+# Junk Arm on that four-Petrel list. Seed 20261007, holdout 20261015, 1000 games per foe.
+# Weights frozen from the 0-Junk-Arm list: Hedrick 31.1%, Starmie 27.1%, T60 23.4%, C60 15.2%, D60 2.9%, Thorns 0.3%.
+# Selection 90.64% → 91.89% (+1.25 pp, 1.93 standard errors). The next copy (Budew, 91.54%) does not rise.
+# Holdout 91.10% → 91.22% (+0.12 pp, 0.19 standard errors). One copy is locked.
+# Cut: Ultra Ball (1 → 0). One Junk Arm.
 SET_M60_NAMES = (
     ["Mew ex"] * 3
     + ["Mime Jr."] * 2
@@ -534,7 +539,7 @@ SET_M60_NAMES = (
     + ["Manaphy"]
     + ["Buddy-Buddy Poffin"] * 4
     + ["Nest Ball"] * 4
-    + ["Ultra Ball"]
+    + ["Junk Arm"]
     + ["Night Stretcher"]
     + ["Rescue Carrier"] * 2
     + ["Battle Cage"] * 4

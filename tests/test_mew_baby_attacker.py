@@ -157,11 +157,13 @@ def test_spiky_energy_goes_to_the_baby_that_will_attack():
     assert _name(me, game._mew_counter_energy_target(me)) == "Budew"
 
 
-def test_locked_set_m_list_is_four_petrel_on_the_sky_field_list():
+def test_locked_set_m_list_is_one_junk_arm_on_the_four_petrel_list():
     assert len(SET_M60_NAMES) == 60
     assert SET_M60_NAMES.count("Budew") == 4
     assert SET_M60_NAMES.count("Sky Field") == 3
     assert SET_M60_NAMES.count("Team Rocket's Petrel") == 4
+    assert SET_M60_NAMES.count("Junk Arm") == 1
+    assert SET_M60_NAMES.count("Ultra Ball") == 0
 
 
 def _lab_json(name: str) -> dict:

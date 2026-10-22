@@ -1,0 +1,3782 @@
+{
+ "report": {
+  "list_start": [
+   "Mew ex",
+   "Mew ex",
+   "Mew ex",
+   "Mime Jr.",
+   "Mime Jr.",
+   "Igglybuff",
+   "Igglybuff",
+   "Igglybuff",
+   "Igglybuff",
+   "Budew",
+   "Budew",
+   "Budew",
+   "Budew",
+   "Manaphy",
+   "Buddy-Buddy Poffin",
+   "Buddy-Buddy Poffin",
+   "Buddy-Buddy Poffin",
+   "Buddy-Buddy Poffin",
+   "Nest Ball",
+   "Nest Ball",
+   "Nest Ball",
+   "Nest Ball",
+   "Ultra Ball",
+   "Night Stretcher",
+   "Rescue Carrier",
+   "Rescue Carrier",
+   "Battle Cage",
+   "Battle Cage",
+   "Battle Cage",
+   "Battle Cage",
+   "Sky Field",
+   "Sky Field",
+   "Sky Field",
+   "Bravery Charm",
+   "Bravery Charm",
+   "Bursting Balloon",
+   "Hero's Cape",
+   "Max Potion",
+   "Max Potion",
+   "Max Potion",
+   "Arven",
+   "Arven",
+   "Arven",
+   "Arven",
+   "Iono",
+   "Iono",
+   "Iono",
+   "Iono",
+   "Professor's Research",
+   "Professor's Research",
+   "Team Rocket's Petrel",
+   "Team Rocket's Petrel",
+   "Team Rocket's Petrel",
+   "Team Rocket's Petrel",
+   "Crushing Hammer",
+   "Crushing Hammer",
+   "Crushing Hammer",
+   "Counter Catcher",
+   "Spiky Energy",
+   "Spiky Energy"
+  ],
+  "start_label": "Set M (4 Petrel, 3 Sky Field, 4 Budew)",
+  "seed": 20261007,
+  "games": 1000,
+  "screen_games": 300,
+  "screen_top": 6,
+  "holdout_seed": 20261015,
+  "holdout_games": 1000,
+  "in": "Junk Arm",
+  "elapsed": 3944.929101918002,
+  "weights": {
+   "t60": 0.23404255319148928,
+   "hedrick": 0.3111702127659574,
+   "c60": 0.15159574468085119,
+   "d60": 0.029255319148936195,
+   "thorns": 0.002659574468085109,
+   "starmie": 0.27127659574468077
+  },
+  "rates": {
+   "t60": 0.912,
+   "hedrick": 0.883,
+   "c60": 0.943,
+   "d60": 0.989,
+   "thorns": 0.999,
+   "starmie": 0.898
+  },
+  "array": [
+   {
+    "copies": 0,
+    "cut": null,
+    "cuts": [],
+    "weighted": 0.9063617021276595,
+    "se": 0.004731237128939747,
+    "mean": 0.9373333333333332,
+    "worst": 0.883,
+    "petrel_rate": 0.0,
+    "poffin": 0.0,
+    "potion": 0.0,
+    "catcher": 0.0,
+    "cape": 0.0,
+    "charm": 0.0,
+    "sky": 0.0,
+    "area": 0.0,
+    "cage": 0.0,
+    "balloon": 0.0,
+    "carrier": 0.0,
+    "stretcher": 0.0,
+    "nest": 0.0,
+    "boss": 0.0,
+    "penny": 0.0,
+    "arven": 0.0,
+    "iono": 0.0,
+    "research": 0.0,
+    "cells": {
+     "t60": {
+      "a": 0.912,
+      "games": 1000,
+      "junk": 0.0,
+      "poffin": 0.0,
+      "potion": 0.0,
+      "catcher": 0.0,
+      "cape": 0.0,
+      "charm": 0.0,
+      "sky": 0.0,
+      "area": 0.0,
+      "cage": 0.0,
+      "balloon": 0.0,
+      "carrier": 0.0,
+      "stretcher": 0.0,
+      "nest": 0.0,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.0,
+      "iono": 0.0,
+      "research": 0.0
+     },
+     "hedrick": {
+      "a": 0.883,
+      "games": 1000,
+      "junk": 0.0,
+      "poffin": 0.0,
+      "potion": 0.0,
+      "catcher": 0.0,
+      "cape": 0.0,
+      "charm": 0.0,
+      "sky": 0.0,
+      "area": 0.0,
+      "cage": 0.0,
+      "balloon": 0.0,
+      "carrier": 0.0,
+      "stretcher": 0.0,
+      "nest": 0.0,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.0,
+      "iono": 0.0,
+      "research": 0.0
+     },
+     "c60": {
+      "a": 0.943,
+      "games": 1000,
+      "junk": 0.0,
+      "poffin": 0.0,
+      "potion": 0.0,
+      "catcher": 0.0,
+      "cape": 0.0,
+      "charm": 0.0,
+      "sky": 0.0,
+      "area": 0.0,
+      "cage": 0.0,
+      "balloon": 0.0,
+      "carrier": 0.0,
+      "stretcher": 0.0,
+      "nest": 0.0,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.0,
+      "iono": 0.0,
+      "research": 0.0
+     },
+     "d60": {
+      "a": 0.989,
+      "games": 1000,
+      "junk": 0.0,
+      "poffin": 0.0,
+      "potion": 0.0,
+      "catcher": 0.0,
+      "cape": 0.0,
+      "charm": 0.0,
+      "sky": 0.0,
+      "area": 0.0,
+      "cage": 0.0,
+      "balloon": 0.0,
+      "carrier": 0.0,
+      "stretcher": 0.0,
+      "nest": 0.0,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.0,
+      "iono": 0.0,
+      "research": 0.0
+     },
+     "thorns": {
+      "a": 0.999,
+      "games": 1000,
+      "junk": 0.0,
+      "poffin": 0.0,
+      "potion": 0.0,
+      "catcher": 0.0,
+      "cape": 0.0,
+      "charm": 0.0,
+      "sky": 0.0,
+      "area": 0.0,
+      "cage": 0.0,
+      "balloon": 0.0,
+      "carrier": 0.0,
+      "stretcher": 0.0,
+      "nest": 0.0,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.0,
+      "iono": 0.0,
+      "research": 0.0
+     },
+     "starmie": {
+      "a": 0.898,
+      "games": 1000,
+      "junk": 0.0,
+      "poffin": 0.0,
+      "potion": 0.0,
+      "catcher": 0.0,
+      "cape": 0.0,
+      "charm": 0.0,
+      "sky": 0.0,
+      "area": 0.0,
+      "cage": 0.0,
+      "balloon": 0.0,
+      "carrier": 0.0,
+      "stretcher": 0.0,
+      "nest": 0.0,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.0,
+      "iono": 0.0,
+      "research": 0.0
+     }
+    },
+    "list": [
+     "Mew ex",
+     "Mew ex",
+     "Mew ex",
+     "Mime Jr.",
+     "Mime Jr.",
+     "Igglybuff",
+     "Igglybuff",
+     "Igglybuff",
+     "Igglybuff",
+     "Budew",
+     "Budew",
+     "Budew",
+     "Budew",
+     "Manaphy",
+     "Buddy-Buddy Poffin",
+     "Buddy-Buddy Poffin",
+     "Buddy-Buddy Poffin",
+     "Buddy-Buddy Poffin",
+     "Nest Ball",
+     "Nest Ball",
+     "Nest Ball",
+     "Nest Ball",
+     "Ultra Ball",
+     "Night Stretcher",
+     "Rescue Carrier",
+     "Rescue Carrier",
+     "Battle Cage",
+     "Battle Cage",
+     "Battle Cage",
+     "Battle Cage",
+     "Sky Field",
+     "Sky Field",
+     "Sky Field",
+     "Bravery Charm",
+     "Bravery Charm",
+     "Bursting Balloon",
+     "Hero's Cape",
+     "Max Potion",
+     "Max Potion",
+     "Max Potion",
+     "Arven",
+     "Arven",
+     "Arven",
+     "Arven",
+     "Iono",
+     "Iono",
+     "Iono",
+     "Iono",
+     "Professor's Research",
+     "Professor's Research",
+     "Team Rocket's Petrel",
+     "Team Rocket's Petrel",
+     "Team Rocket's Petrel",
+     "Team Rocket's Petrel",
+     "Crushing Hammer",
+     "Crushing Hammer",
+     "Crushing Hammer",
+     "Counter Catcher",
+     "Spiky Energy",
+     "Spiky Energy"
+    ]
+   },
+   {
+    "copies": 1,
+    "cut": "Ultra Ball",
+    "cuts": [
+     "Ultra Ball"
+    ],
+    "weighted": 0.9188776595744681,
+    "se": 0.004450250282571055,
+    "mean": 0.9463333333333334,
+    "worst": 0.9,
+    "petrel_rate": 0.07416666666666667,
+    "poffin": 0.010833333333333334,
+    "potion": 0.004166666666666667,
+    "catcher": 0.0006666666666666666,
+    "cape": 0.0011666666666666668,
+    "charm": 0.0,
+    "sky": 0.021333333333333333,
+    "area": 0.0,
+    "cage": 0.0013333333333333333,
+    "balloon": 0.028333333333333332,
+    "carrier": 0.001,
+    "stretcher": 0.0003333333333333333,
+    "nest": 0.0023333333333333335,
+    "boss": 0.0,
+    "penny": 0.0,
+    "arven": 0.0025,
+    "iono": 0.00016666666666666666,
+    "research": 0.0,
+    "cells": {
+     "t60": {
+      "a": 0.926,
+      "games": 1000,
+      "junk": 0.053,
+      "poffin": 0.006,
+      "potion": 0.004,
+      "catcher": 0.001,
+      "cape": 0.001,
+      "charm": 0.0,
+      "sky": 0.006,
+      "area": 0.0,
+      "cage": 0.0,
+      "balloon": 0.027,
+      "carrier": 0.0,
+      "stretcher": 0.0,
+      "nest": 0.003,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.005,
+      "iono": 0.0,
+      "research": 0.0
+     },
+     "hedrick": {
+      "a": 0.902,
+      "games": 1000,
+      "junk": 0.063,
+      "poffin": 0.01,
+      "potion": 0.006,
+      "catcher": 0.0,
+      "cape": 0.0,
+      "charm": 0.0,
+      "sky": 0.018,
+      "area": 0.0,
+      "cage": 0.006,
+      "balloon": 0.018,
+      "carrier": 0.003,
+      "stretcher": 0.0,
+      "nest": 0.0,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.002,
+      "iono": 0.0,
+      "research": 0.0
+     },
+     "c60": {
+      "a": 0.961,
+      "games": 1000,
+      "junk": 0.133,
+      "poffin": 0.017,
+      "potion": 0.004,
+      "catcher": 0.002,
+      "cape": 0.003,
+      "charm": 0.0,
+      "sky": 0.053,
+      "area": 0.0,
+      "cage": 0.0,
+      "balloon": 0.044,
+      "carrier": 0.0,
+      "stretcher": 0.002,
+      "nest": 0.003,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.005,
+      "iono": 0.0,
+      "research": 0.0
+     },
+     "d60": {
+      "a": 0.991,
+      "games": 1000,
+      "junk": 0.021,
+      "poffin": 0.007,
+      "potion": 0.0,
+      "catcher": 0.0,
+      "cape": 0.0,
+      "charm": 0.0,
+      "sky": 0.002,
+      "area": 0.0,
+      "cage": 0.0,
+      "balloon": 0.006,
+      "carrier": 0.0,
+      "stretcher": 0.0,
+      "nest": 0.004,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.001,
+      "iono": 0.001,
+      "research": 0.0
+     },
+     "thorns": {
+      "a": 0.998,
+      "games": 1000,
+      "junk": 0.066,
+      "poffin": 0.009,
+      "potion": 0.0,
+      "catcher": 0.0,
+      "cape": 0.0,
+      "charm": 0.0,
+      "sky": 0.027,
+      "area": 0.0,
+      "cage": 0.002,
+      "balloon": 0.027,
+      "carrier": 0.001,
+      "stretcher": 0.0,
+      "nest": 0.0,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.0,
+      "iono": 0.0,
+      "research": 0.0
+     },
+     "starmie": {
+      "a": 0.9,
+      "games": 1000,
+      "junk": 0.109,
+      "poffin": 0.016,
+      "potion": 0.011,
+      "catcher": 0.001,
+      "cape": 0.003,
+      "charm": 0.0,
+      "sky": 0.022,
+      "area": 0.0,
+      "cage": 0.0,
+      "balloon": 0.048,
+      "carrier": 0.002,
+      "stretcher": 0.0,
+      "nest": 0.004,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.002,
+      "iono": 0.0,
+      "research": 0.0
+     }
+    },
+    "list": [
+     "Mew ex",
+     "Mew ex",
+     "Mew ex",
+     "Mime Jr.",
+     "Mime Jr.",
+     "Igglybuff",
+     "Igglybuff",
+     "Igglybuff",
+     "Igglybuff",
+     "Budew",
+     "Budew",
+     "Budew",
+     "Budew",
+     "Manaphy",
+     "Buddy-Buddy Poffin",
+     "Buddy-Buddy Poffin",
+     "Buddy-Buddy Poffin",
+     "Buddy-Buddy Poffin",
+     "Nest Ball",
+     "Nest Ball",
+     "Nest Ball",
+     "Nest Ball",
+     "Night Stretcher",
+     "Rescue Carrier",
+     "Rescue Carrier",
+     "Battle Cage",
+     "Battle Cage",
+     "Battle Cage",
+     "Battle Cage",
+     "Sky Field",
+     "Sky Field",
+     "Sky Field",
+     "Bravery Charm",
+     "Bravery Charm",
+     "Bursting Balloon",
+     "Hero's Cape",
+     "Max Potion",
+     "Max Potion",
+     "Max Potion",
+     "Arven",
+     "Arven",
+     "Arven",
+     "Arven",
+     "Iono",
+     "Iono",
+     "Iono",
+     "Iono",
+     "Professor's Research",
+     "Professor's Research",
+     "Team Rocket's Petrel",
+     "Team Rocket's Petrel",
+     "Team Rocket's Petrel",
+     "Team Rocket's Petrel",
+     "Crushing Hammer",
+     "Crushing Hammer",
+     "Crushing Hammer",
+     "Counter Catcher",
+     "Spiky Energy",
+     "Spiky Energy",
+     "Junk Arm"
+    ]
+   }
+  ],
+  "steps": [
+   {
+    "copies_after": 1,
+    "current_weighted": 0.9063617021276595,
+    "chosen": "Ultra Ball",
+    "chosen_weighted": 0.9188776595744681,
+    "list": [
+     "Mew ex",
+     "Mew ex",
+     "Mew ex",
+     "Mime Jr.",
+     "Mime Jr.",
+     "Igglybuff",
+     "Igglybuff",
+     "Igglybuff",
+     "Igglybuff",
+     "Budew",
+     "Budew",
+     "Budew",
+     "Budew",
+     "Manaphy",
+     "Buddy-Buddy Poffin",
+     "Buddy-Buddy Poffin",
+     "Buddy-Buddy Poffin",
+     "Buddy-Buddy Poffin",
+     "Nest Ball",
+     "Nest Ball",
+     "Nest Ball",
+     "Nest Ball",
+     "Night Stretcher",
+     "Rescue Carrier",
+     "Rescue Carrier",
+     "Battle Cage",
+     "Battle Cage",
+     "Battle Cage",
+     "Battle Cage",
+     "Sky Field",
+     "Sky Field",
+     "Sky Field",
+     "Bravery Charm",
+     "Bravery Charm",
+     "Bursting Balloon",
+     "Hero's Cape",
+     "Max Potion",
+     "Max Potion",
+     "Max Potion",
+     "Arven",
+     "Arven",
+     "Arven",
+     "Arven",
+     "Iono",
+     "Iono",
+     "Iono",
+     "Iono",
+     "Professor's Research",
+     "Professor's Research",
+     "Team Rocket's Petrel",
+     "Team Rocket's Petrel",
+     "Team Rocket's Petrel",
+     "Team Rocket's Petrel",
+     "Crushing Hammer",
+     "Crushing Hammer",
+     "Crushing Hammer",
+     "Counter Catcher",
+     "Spiky Energy",
+     "Spiky Energy",
+     "Junk Arm"
+    ],
+    "accepted": true,
+    "screen": [
+     {
+      "cut": "Ultra Ball",
+      "copies_before": 1,
+      "petrel": 1,
+      "weighted": 0.9274290780141844,
+      "se": 0.007677945945048088,
+      "mean": 0.9516666666666667,
+      "worst": 0.9,
+      "petrel_rate": 0.07555555555555556,
+      "cells": {
+       "t60": {
+        "a": 0.9366666666666666
+       },
+       "hedrick": {
+        "a": 0.9233333333333333
+       },
+       "c60": {
+        "a": 0.9566666666666667
+       },
+       "d60": {
+        "a": 0.9933333333333333
+       },
+       "thorns": {
+        "a": 1.0
+       },
+       "starmie": {
+        "a": 0.9
+       }
+      },
+      "poffin": 0.01,
+      "potion": 0.005,
+      "catcher": 0.0,
+      "cape": 0.0005555555555555556,
+      "charm": 0.0,
+      "sky": 0.024999999999999998,
+      "area": 0.0,
+      "cage": 0.0016666666666666668,
+      "balloon": 0.026111111111111113,
+      "carrier": 0.0016666666666666668,
+      "stretcher": 0.0,
+      "nest": 0.003888888888888889,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.0016666666666666668,
+      "iono": 0.0,
+      "research": 0.0
+     },
+     {
+      "cut": "Night Stretcher",
+      "copies_before": 1,
+      "petrel": 1,
+      "weighted": 0.9184663120567376,
+      "se": 0.008024977907198808,
+      "mean": 0.9444444444444445,
+      "worst": 0.89,
+      "petrel_rate": 0.043333333333333335,
+      "cells": {
+       "t60": {
+        "a": 0.94
+       },
+       "hedrick": {
+        "a": 0.9166666666666666
+       },
+       "c60": {
+        "a": 0.9233333333333333
+       },
+       "d60": {
+        "a": 0.9966666666666667
+       },
+       "thorns": {
+        "a": 1.0
+       },
+       "starmie": {
+        "a": 0.89
+       }
+      },
+      "poffin": 0.0022222222222222222,
+      "potion": 0.005,
+      "catcher": 0.0011111111111111111,
+      "cape": 0.0011111111111111111,
+      "charm": 0.0,
+      "sky": 0.012777777777777779,
+      "area": 0.0,
+      "cage": 0.0005555555555555556,
+      "balloon": 0.015555555555555557,
+      "carrier": 0.0011111111111111111,
+      "stretcher": 0.0,
+      "nest": 0.0016666666666666668,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.0022222222222222222,
+      "iono": 0.0,
+      "research": 0.0
+     },
+     {
+      "cut": "Bursting Balloon",
+      "copies_before": 1,
+      "petrel": 1,
+      "weighted": 0.9159751773049645,
+      "se": 0.008236818202339138,
+      "mean": 0.9422222222222222,
+      "worst": 0.8966666666666666,
+      "petrel_rate": 0.07111111111111111,
+      "cells": {
+       "t60": {
+        "a": 0.9266666666666666
+       },
+       "hedrick": {
+        "a": 0.8966666666666666
+       },
+       "c60": {
+        "a": 0.9533333333333334
+       },
+       "d60": {
+        "a": 0.9833333333333333
+       },
+       "thorns": {
+        "a": 0.9933333333333333
+       },
+       "starmie": {
+        "a": 0.9
+       }
+      },
+      "poffin": 0.013333333333333334,
+      "potion": 0.0044444444444444444,
+      "catcher": 0.0005555555555555556,
+      "cape": 0.0,
+      "charm": 0.0005555555555555556,
+      "sky": 0.02888888888888889,
+      "area": 0.0,
+      "cage": 0.0022222222222222222,
+      "balloon": 0.0,
+      "carrier": 0.0022222222222222222,
+      "stretcher": 0.0044444444444444444,
+      "nest": 0.006666666666666667,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.006111111111111111,
+      "iono": 0.0016666666666666668,
+      "research": 0.0
+     },
+     {
+      "cut": "Sky Field",
+      "copies_before": 3,
+      "petrel": 1,
+      "weighted": 0.9148492907801418,
+      "se": 0.008094362013144023,
+      "mean": 0.9388888888888888,
+      "worst": 0.8866666666666667,
+      "petrel_rate": 0.08611111111111112,
+      "cells": {
+       "t60": {
+        "a": 0.8966666666666666
+       },
+       "hedrick": {
+        "a": 0.9366666666666666
+       },
+       "c60": {
+        "a": 0.9333333333333333
+       },
+       "d60": {
+        "a": 0.9866666666666667
+       },
+       "thorns": {
+        "a": 0.9933333333333333
+       },
+       "starmie": {
+        "a": 0.8866666666666667
+       }
+      },
+      "poffin": 0.008333333333333333,
+      "potion": 0.007777777777777778,
+      "catcher": 0.0005555555555555556,
+      "cape": 0.0011111111111111111,
+      "charm": 0.0,
+      "sky": 0.030555555555555558,
+      "area": 0.0,
+      "cage": 0.0011111111111111111,
+      "balloon": 0.03,
+      "carrier": 0.0,
+      "stretcher": 0.0005555555555555556,
+      "nest": 0.0016666666666666668,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.0033333333333333335,
+      "iono": 0.0011111111111111111,
+      "research": 0.0
+     },
+     {
+      "cut": "Manaphy",
+      "copies_before": 1,
+      "petrel": 1,
+      "weighted": 0.9127570921985815,
+      "se": 0.00834718987495156,
+      "mean": 0.9438888888888889,
+      "worst": 0.8566666666666667,
+      "petrel_rate": 0.050555555555555555,
+      "cells": {
+       "t60": {
+        "a": 0.9366666666666666
+       },
+       "hedrick": {
+        "a": 0.9133333333333333
+       },
+       "c60": {
+        "a": 0.9566666666666667
+       },
+       "d60": {
+        "a": 1.0
+       },
+       "thorns": {
+        "a": 1.0
+       },
+       "starmie": {
+        "a": 0.8566666666666667
+       }
+      },
+      "poffin": 0.009444444444444445,
+      "potion": 0.0044444444444444444,
+      "catcher": 0.0,
+      "cape": 0.0005555555555555556,
+      "charm": 0.0,
+      "sky": 0.01388888888888889,
+      "area": 0.0,
+      "cage": 0.0005555555555555556,
+      "balloon": 0.01611111111111111,
+      "carrier": 0.0011111111111111111,
+      "stretcher": 0.0,
+      "nest": 0.0011111111111111111,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.002777777777777778,
+      "iono": 0.0005555555555555556,
+      "research": 0.0
+     },
+     {
+      "cut": "Team Rocket's Petrel",
+      "copies_before": 4,
+      "petrel": 1,
+      "weighted": 0.911959219858156,
+      "se": 0.00826988741599682,
+      "mean": 0.936111111111111,
+      "worst": 0.9033333333333333,
+      "petrel_rate": 0.07444444444444444,
+      "cells": {
+       "t60": {
+        "a": 0.9033333333333333
+       },
+       "hedrick": {
+        "a": 0.9133333333333333
+       },
+       "c60": {
+        "a": 0.9233333333333333
+       },
+       "d60": {
+        "a": 0.98
+       },
+       "thorns": {
+        "a": 0.9933333333333333
+       },
+       "starmie": {
+        "a": 0.9033333333333333
+       }
+      },
+      "poffin": 0.011111111111111112,
+      "potion": 0.0044444444444444444,
+      "catcher": 0.0,
+      "cape": 0.0022222222222222222,
+      "charm": 0.0,
+      "sky": 0.021111111111111112,
+      "area": 0.0,
+      "cage": 0.0016666666666666668,
+      "balloon": 0.028333333333333335,
+      "carrier": 0.0005555555555555556,
+      "stretcher": 0.0,
+      "nest": 0.0033333333333333335,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.0016666666666666668,
+      "iono": 0.0,
+      "research": 0.0
+     },
+     {
+      "cut": "Igglybuff",
+      "copies_before": 4,
+      "petrel": 1,
+      "weighted": 0.9118173758865248,
+      "se": 0.008250418054546994,
+      "mean": 0.9349999999999999,
+      "worst": 0.8933333333333333,
+      "petrel_rate": 0.06444444444444444,
+      "cells": {
+       "t60": {
+        "a": 0.9333333333333333
+       },
+       "hedrick": {
+        "a": 0.9066666666666666
+       },
+       "c60": {
+        "a": 0.8933333333333333
+       },
+       "d60": {
+        "a": 0.9933333333333333
+       },
+       "thorns": {
+        "a": 0.9833333333333333
+       },
+       "starmie": {
+        "a": 0.9
+       }
+      },
+      "poffin": 0.006666666666666667,
+      "potion": 0.006111111111111111,
+      "catcher": 0.0005555555555555556,
+      "cape": 0.0,
+      "charm": 0.0,
+      "sky": 0.017777777777777778,
+      "area": 0.0,
+      "cage": 0.0005555555555555556,
+      "balloon": 0.024999999999999998,
+      "carrier": 0.0005555555555555556,
+      "stretcher": 0.0005555555555555556,
+      "nest": 0.0022222222222222222,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.003888888888888889,
+      "iono": 0.0005555555555555556,
+      "research": 0.0
+     },
+     {
+      "cut": "Crushing Hammer",
+      "copies_before": 3,
+      "petrel": 1,
+      "weighted": 0.9116312056737588,
+      "se": 0.008391067141635232,
+      "mean": 0.94,
+      "worst": 0.88,
+      "petrel_rate": 0.08277777777777778,
+      "cells": {
+       "t60": {
+        "a": 0.9266666666666666
+       },
+       "hedrick": {
+        "a": 0.9033333333333333
+       },
+       "c60": {
+        "a": 0.9466666666666667
+       },
+       "d60": {
+        "a": 0.9833333333333333
+       },
+       "thorns": {
+        "a": 1.0
+       },
+       "starmie": {
+        "a": 0.88
+       }
+      },
+      "poffin": 0.012222222222222223,
+      "potion": 0.005555555555555556,
+      "catcher": 0.0,
+      "cape": 0.0022222222222222222,
+      "charm": 0.0,
+      "sky": 0.02666666666666667,
+      "area": 0.0,
+      "cage": 0.0005555555555555556,
+      "balloon": 0.02666666666666667,
+      "carrier": 0.0005555555555555556,
+      "stretcher": 0.0005555555555555556,
+      "nest": 0.003888888888888889,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.0033333333333333335,
+      "iono": 0.0005555555555555556,
+      "research": 0.0
+     },
+     {
+      "cut": "Professor's Research",
+      "copies_before": 2,
+      "petrel": 1,
+      "weighted": 0.9102127659574468,
+      "se": 0.008481694743952474,
+      "mean": 0.94,
+      "worst": 0.8866666666666667,
+      "petrel_rate": 0.06888888888888889,
+      "cells": {
+       "t60": {
+        "a": 0.9333333333333333
+       },
+       "hedrick": {
+        "a": 0.89
+       },
+       "c60": {
+        "a": 0.94
+       },
+       "d60": {
+        "a": 0.9966666666666667
+       },
+       "thorns": {
+        "a": 0.9933333333333333
+       },
+       "starmie": {
+        "a": 0.8866666666666667
+       }
+      },
+      "poffin": 0.010555555555555556,
+      "potion": 0.007222222222222223,
+      "catcher": 0.0,
+      "cape": 0.0,
+      "charm": 0.0,
+      "sky": 0.018333333333333333,
+      "area": 0.0,
+      "cage": 0.0011111111111111111,
+      "balloon": 0.022777777777777775,
+      "carrier": 0.0011111111111111111,
+      "stretcher": 0.0011111111111111111,
+      "nest": 0.0022222222222222222,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.0033333333333333335,
+      "iono": 0.0011111111111111111,
+      "research": 0.0
+     },
+     {
+      "cut": "Bravery Charm",
+      "copies_before": 2,
+      "petrel": 1,
+      "weighted": 0.9095921985815603,
+      "se": 0.008455660343559705,
+      "mean": 0.9383333333333334,
+      "worst": 0.89,
+      "petrel_rate": 0.075,
+      "cells": {
+       "t60": {
+        "a": 0.92
+       },
+       "hedrick": {
+        "a": 0.9
+       },
+       "c60": {
+        "a": 0.93
+       },
+       "d60": {
+        "a": 0.9966666666666667
+       },
+       "thorns": {
+        "a": 0.9933333333333333
+       },
+       "starmie": {
+        "a": 0.89
+       }
+      },
+      "poffin": 0.005555555555555556,
+      "potion": 0.005555555555555556,
+      "catcher": 0.0005555555555555556,
+      "cape": 0.002777777777777778,
+      "charm": 0.0,
+      "sky": 0.021111111111111112,
+      "area": 0.0,
+      "cage": 0.0005555555555555556,
+      "balloon": 0.027777777777777776,
+      "carrier": 0.002777777777777778,
+      "stretcher": 0.0005555555555555556,
+      "nest": 0.0044444444444444444,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.002777777777777778,
+      "iono": 0.0005555555555555556,
+      "research": 0.0
+     },
+     {
+      "cut": "Counter Catcher",
+      "copies_before": 1,
+      "petrel": 1,
+      "weighted": 0.9067198581560284,
+      "se": 0.008648342619235692,
+      "mean": 0.9377777777777778,
+      "worst": 0.8733333333333333,
+      "petrel_rate": 0.06777777777777778,
+      "cells": {
+       "t60": {
+        "a": 0.94
+       },
+       "hedrick": {
+        "a": 0.8733333333333333
+       },
+       "c60": {
+        "a": 0.9433333333333334
+       },
+       "d60": {
+        "a": 0.9833333333333333
+       },
+       "thorns": {
+        "a": 1.0
+       },
+       "starmie": {
+        "a": 0.8866666666666667
+       }
+      },
+      "poffin": 0.007777777777777778,
+      "potion": 0.005555555555555556,
+      "catcher": 0.0,
+      "cape": 0.0011111111111111111,
+      "charm": 0.0,
+      "sky": 0.021666666666666667,
+      "area": 0.0,
+      "cage": 0.0,
+      "balloon": 0.021111111111111112,
+      "carrier": 0.0016666666666666668,
+      "stretcher": 0.0011111111111111111,
+      "nest": 0.0016666666666666668,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.0044444444444444444,
+      "iono": 0.0016666666666666668,
+      "research": 0.0
+     },
+     {
+      "cut": "Arven",
+      "copies_before": 4,
+      "petrel": 1,
+      "weighted": 0.9037588652482269,
+      "se": 0.008719652685827224,
+      "mean": 0.9355555555555556,
+      "worst": 0.8866666666666667,
+      "petrel_rate": 0.07611111111111112,
+      "cells": {
+       "t60": {
+        "a": 0.8933333333333333
+       },
+       "hedrick": {
+        "a": 0.8866666666666667
+       },
+       "c60": {
+        "a": 0.9433333333333334
+       },
+       "d60": {
+        "a": 0.99
+       },
+       "thorns": {
+        "a": 1.0
+       },
+       "starmie": {
+        "a": 0.9
+       }
+      },
+      "poffin": 0.011666666666666665,
+      "potion": 0.006111111111111111,
+      "catcher": 0.0022222222222222222,
+      "cape": 0.0005555555555555556,
+      "charm": 0.0,
+      "sky": 0.023333333333333334,
+      "area": 0.0,
+      "cage": 0.0016666666666666668,
+      "balloon": 0.021111111111111112,
+      "carrier": 0.0011111111111111111,
+      "stretcher": 0.0,
+      "nest": 0.002777777777777778,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.0044444444444444444,
+      "iono": 0.0011111111111111111,
+      "research": 0.0
+     },
+     {
+      "cut": "Spiky Energy",
+      "copies_before": 2,
+      "petrel": 1,
+      "weighted": 0.9026063829787233,
+      "se": 0.00879243698964573,
+      "mean": 0.9338888888888889,
+      "worst": 0.88,
+      "petrel_rate": 0.07555555555555556,
+      "cells": {
+       "t60": {
+        "a": 0.9033333333333333
+       },
+       "hedrick": {
+        "a": 0.88
+       },
+       "c60": {
+        "a": 0.9466666666666667
+       },
+       "d60": {
+        "a": 0.9866666666666667
+       },
+       "thorns": {
+        "a": 0.9933333333333333
+       },
+       "starmie": {
+        "a": 0.8933333333333333
+       }
+      },
+      "poffin": 0.008333333333333333,
+      "potion": 0.006666666666666667,
+      "catcher": 0.0,
+      "cape": 0.0005555555555555556,
+      "charm": 0.0,
+      "sky": 0.023333333333333334,
+      "area": 0.0,
+      "cage": 0.0016666666666666668,
+      "balloon": 0.027777777777777776,
+      "carrier": 0.0011111111111111111,
+      "stretcher": 0.0011111111111111111,
+      "nest": 0.0016666666666666668,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.0033333333333333335,
+      "iono": 0.0,
+      "research": 0.0
+     },
+     {
+      "cut": "Rescue Carrier",
+      "copies_before": 2,
+      "petrel": 1,
+      "weighted": 0.9017021276595745,
+      "se": 0.008818299412934263,
+      "mean": 0.9355555555555556,
+      "worst": 0.8533333333333334,
+      "petrel_rate": 0.059444444444444446,
+      "cells": {
+       "t60": {
+        "a": 0.94
+       },
+       "hedrick": {
+        "a": 0.8866666666666667
+       },
+       "c60": {
+        "a": 0.94
+       },
+       "d60": {
+        "a": 0.9966666666666667
+       },
+       "thorns": {
+        "a": 0.9966666666666667
+       },
+       "starmie": {
+        "a": 0.8533333333333334
+       }
+      },
+      "poffin": 0.0044444444444444444,
+      "potion": 0.005,
+      "catcher": 0.0,
+      "cape": 0.0,
+      "charm": 0.0005555555555555556,
+      "sky": 0.013333333333333334,
+      "area": 0.0,
+      "cage": 0.0005555555555555556,
+      "balloon": 0.026111111111111113,
+      "carrier": 0.0011111111111111111,
+      "stretcher": 0.0005555555555555556,
+      "nest": 0.002777777777777778,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.002777777777777778,
+      "iono": 0.0022222222222222222,
+      "research": 0.0
+     },
+     {
+      "cut": "Battle Cage",
+      "copies_before": 4,
+      "petrel": 1,
+      "weighted": 0.9015159574468085,
+      "se": 0.00885069311956198,
+      "mean": 0.9355555555555556,
+      "worst": 0.88,
+      "petrel_rate": 0.0661111111111111,
+      "cells": {
+       "t60": {
+        "a": 0.9033333333333333
+       },
+       "hedrick": {
+        "a": 0.88
+       },
+       "c60": {
+        "a": 0.95
+       },
+       "d60": {
+        "a": 0.9933333333333333
+       },
+       "thorns": {
+        "a": 1.0
+       },
+       "starmie": {
+        "a": 0.8866666666666667
+       }
+      },
+      "poffin": 0.007777777777777778,
+      "potion": 0.005555555555555556,
+      "catcher": 0.0005555555555555556,
+      "cape": 0.0,
+      "charm": 0.0005555555555555556,
+      "sky": 0.02,
+      "area": 0.0,
+      "cage": 0.0005555555555555556,
+      "balloon": 0.027777777777777776,
+      "carrier": 0.0,
+      "stretcher": 0.0005555555555555556,
+      "nest": 0.0016666666666666668,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.0005555555555555556,
+      "iono": 0.0005555555555555556,
+      "research": 0.0
+     },
+     {
+      "cut": "Max Potion",
+      "copies_before": 3,
+      "petrel": 1,
+      "weighted": 0.9010106382978724,
+      "se": 0.008802258639648362,
+      "mean": 0.9327777777777778,
+      "worst": 0.8666666666666667,
+      "petrel_rate": 0.07833333333333334,
+      "cells": {
+       "t60": {
+        "a": 0.9033333333333333
+       },
+       "hedrick": {
+        "a": 0.9
+       },
+       "c60": {
+        "a": 0.9433333333333334
+       },
+       "d60": {
+        "a": 0.9833333333333333
+       },
+       "thorns": {
+        "a": 1.0
+       },
+       "starmie": {
+        "a": 0.8666666666666667
+       }
+      },
+      "poffin": 0.009444444444444445,
+      "potion": 0.005,
+      "catcher": 0.0011111111111111111,
+      "cape": 0.0005555555555555556,
+      "charm": 0.0,
+      "sky": 0.024444444444444446,
+      "area": 0.0,
+      "cage": 0.002777777777777778,
+      "balloon": 0.02388888888888889,
+      "carrier": 0.0011111111111111111,
+      "stretcher": 0.0005555555555555556,
+      "nest": 0.0022222222222222222,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.005555555555555556,
+      "iono": 0.0016666666666666668,
+      "research": 0.0
+     },
+     {
+      "cut": "Mime Jr.",
+      "copies_before": 2,
+      "petrel": 1,
+      "weighted": 0.8994060283687942,
+      "se": 0.00886084868669296,
+      "mean": 0.9216666666666667,
+      "worst": 0.8533333333333334,
+      "petrel_rate": 0.06444444444444444,
+      "cells": {
+       "t60": {
+        "a": 0.9333333333333333
+       },
+       "hedrick": {
+        "a": 0.8833333333333333
+       },
+       "c60": {
+        "a": 0.96
+       },
+       "d60": {
+        "a": 0.9033333333333333
+       },
+       "thorns": {
+        "a": 0.9966666666666667
+       },
+       "starmie": {
+        "a": 0.8533333333333334
+       }
+      },
+      "poffin": 0.006111111111111111,
+      "potion": 0.003888888888888889,
+      "catcher": 0.0,
+      "cape": 0.0005555555555555556,
+      "charm": 0.0,
+      "sky": 0.024444444444444446,
+      "area": 0.0,
+      "cage": 0.0022222222222222222,
+      "balloon": 0.018333333333333333,
+      "carrier": 0.0005555555555555556,
+      "stretcher": 0.0011111111111111111,
+      "nest": 0.003888888888888889,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.0033333333333333335,
+      "iono": 0.0,
+      "research": 0.0
+     },
+     {
+      "cut": "Budew",
+      "copies_before": 4,
+      "petrel": 1,
+      "weighted": 0.8993705673758865,
+      "se": 0.00892169648352868,
+      "mean": 0.9333333333333332,
+      "worst": 0.8633333333333333,
+      "petrel_rate": 0.0661111111111111,
+      "cells": {
+       "t60": {
+        "a": 0.9233333333333333
+       },
+       "hedrick": {
+        "a": 0.8633333333333333
+       },
+       "c60": {
+        "a": 0.9266666666666666
+       },
+       "d60": {
+        "a": 0.9966666666666667
+       },
+       "thorns": {
+        "a": 0.9966666666666667
+       },
+       "starmie": {
+        "a": 0.8933333333333333
+       }
+      },
+      "poffin": 0.005555555555555556,
+      "potion": 0.005,
+      "catcher": 0.0011111111111111111,
+      "cape": 0.0005555555555555556,
+      "charm": 0.0005555555555555556,
+      "sky": 0.021666666666666667,
+      "area": 0.0,
+      "cage": 0.0011111111111111111,
+      "balloon": 0.023333333333333334,
+      "carrier": 0.0005555555555555556,
+      "stretcher": 0.0,
+      "nest": 0.002777777777777778,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.0033333333333333335,
+      "iono": 0.0005555555555555556,
+      "research": 0.0
+     },
+     {
+      "cut": "Buddy-Buddy Poffin",
+      "copies_before": 4,
+      "petrel": 1,
+      "weighted": 0.8985017730496454,
+      "se": 0.008902993508857468,
+      "mean": 0.9311111111111111,
+      "worst": 0.87,
+      "petrel_rate": 0.07333333333333333,
+      "cells": {
+       "t60": {
+        "a": 0.92
+       },
+       "hedrick": {
+        "a": 0.8866666666666667
+       },
+       "c60": {
+        "a": 0.92
+       },
+       "d60": {
+        "a": 0.9966666666666667
+       },
+       "thorns": {
+        "a": 0.9933333333333333
+       },
+       "starmie": {
+        "a": 0.87
+       }
+      },
+      "poffin": 0.008888888888888889,
+      "potion": 0.0033333333333333335,
+      "catcher": 0.0011111111111111111,
+      "cape": 0.0005555555555555556,
+      "charm": 0.0,
+      "sky": 0.02722222222222222,
+      "area": 0.0,
+      "cage": 0.0016666666666666668,
+      "balloon": 0.022222222222222223,
+      "carrier": 0.0011111111111111111,
+      "stretcher": 0.0005555555555555556,
+      "nest": 0.002777777777777778,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.003888888888888889,
+      "iono": 0.0,
+      "research": 0.0
+     },
+     {
+      "cut": "Mew ex",
+      "copies_before": 3,
+      "petrel": 1,
+      "weighted": 0.8966400709219858,
+      "se": 0.009024681601794338,
+      "mean": 0.9327777777777778,
+      "worst": 0.8666666666666667,
+      "petrel_rate": 0.051666666666666666,
+      "cells": {
+       "t60": {
+        "a": 0.9266666666666666
+       },
+       "hedrick": {
+        "a": 0.8733333333333333
+       },
+       "c60": {
+        "a": 0.93
+       },
+       "d60": {
+        "a": 1.0
+       },
+       "thorns": {
+        "a": 1.0
+       },
+       "starmie": {
+        "a": 0.8666666666666667
+       }
+      },
+      "poffin": 0.002777777777777778,
+      "potion": 0.0022222222222222222,
+      "catcher": 0.0,
+      "cape": 0.0,
+      "charm": 0.0,
+      "sky": 0.01888888888888889,
+      "area": 0.0,
+      "cage": 0.0,
+      "balloon": 0.022222222222222223,
+      "carrier": 0.0005555555555555556,
+      "stretcher": 0.0011111111111111111,
+      "nest": 0.0011111111111111111,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.0022222222222222222,
+      "iono": 0.0005555555555555556,
+      "research": 0.0
+     },
+     {
+      "cut": "Iono",
+      "copies_before": 4,
+      "petrel": 1,
+      "weighted": 0.8904521276595744,
+      "se": 0.00920823671723975,
+      "mean": 0.9261111111111111,
+      "worst": 0.8733333333333333,
+      "petrel_rate": 0.07388888888888889,
+      "cells": {
+       "t60": {
+        "a": 0.8866666666666667
+       },
+       "hedrick": {
+        "a": 0.88
+       },
+       "c60": {
+        "a": 0.9266666666666666
+       },
+       "d60": {
+        "a": 0.9933333333333333
+       },
+       "thorns": {
+        "a": 0.9966666666666667
+       },
+       "starmie": {
+        "a": 0.8733333333333333
+       }
+      },
+      "poffin": 0.003888888888888889,
+      "potion": 0.0033333333333333335,
+      "catcher": 0.0,
+      "cape": 0.0,
+      "charm": 0.0005555555555555556,
+      "sky": 0.022222222222222223,
+      "area": 0.0,
+      "cage": 0.0011111111111111111,
+      "balloon": 0.03166666666666667,
+      "carrier": 0.0022222222222222222,
+      "stretcher": 0.0005555555555555556,
+      "nest": 0.003888888888888889,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.003888888888888889,
+      "iono": 0.0005555555555555556,
+      "research": 0.0
+     },
+     {
+      "cut": "Nest Ball",
+      "copies_before": 4,
+      "petrel": 1,
+      "weighted": 0.8884663120567375,
+      "se": 0.009378751072919694,
+      "mean": 0.9272222222222223,
+      "worst": 0.8433333333333334,
+      "petrel_rate": 0.06444444444444444,
+      "cells": {
+       "t60": {
+        "a": 0.9166666666666666
+       },
+       "hedrick": {
+        "a": 0.86
+       },
+       "c60": {
+        "a": 0.9633333333333334
+       },
+       "d60": {
+        "a": 0.9866666666666667
+       },
+       "thorns": {
+        "a": 0.9933333333333333
+       },
+       "starmie": {
+        "a": 0.8433333333333334
+       }
+      },
+      "poffin": 0.007777777777777778,
+      "potion": 0.003888888888888889,
+      "catcher": 0.0005555555555555556,
+      "cape": 0.0022222222222222222,
+      "charm": 0.0,
+      "sky": 0.017777777777777778,
+      "area": 0.0,
+      "cage": 0.0016666666666666668,
+      "balloon": 0.02388888888888889,
+      "carrier": 0.0022222222222222222,
+      "stretcher": 0.0,
+      "nest": 0.0011111111111111111,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.0022222222222222222,
+      "iono": 0.0011111111111111111,
+      "research": 0.0
+     },
+     {
+      "cut": "Hero's Cape",
+      "copies_before": 1,
+      "petrel": 1,
+      "weighted": 0.8874556737588652,
+      "se": 0.009247344080077003,
+      "mean": 0.9222222222222222,
+      "worst": 0.8766666666666667,
+      "petrel_rate": 0.07444444444444444,
+      "cells": {
+       "t60": {
+        "a": 0.8933333333333333
+       },
+       "hedrick": {
+        "a": 0.88
+       },
+       "c60": {
+        "a": 0.89
+       },
+       "d60": {
+        "a": 0.9966666666666667
+       },
+       "thorns": {
+        "a": 0.9966666666666667
+       },
+       "starmie": {
+        "a": 0.8766666666666667
+       }
+      },
+      "poffin": 0.012222222222222223,
+      "potion": 0.0044444444444444444,
+      "catcher": 0.0005555555555555556,
+      "cape": 0.0,
+      "charm": 0.0,
+      "sky": 0.019444444444444445,
+      "area": 0.0,
+      "cage": 0.0022222222222222222,
+      "balloon": 0.03166666666666667,
+      "carrier": 0.0005555555555555556,
+      "stretcher": 0.0011111111111111111,
+      "nest": 0.0005555555555555556,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.0011111111111111111,
+      "iono": 0.0005555555555555556,
+      "research": 0.0
+     }
+    ],
+    "confirm": [
+     {
+      "cut": "Ultra Ball",
+      "copies_before": 1,
+      "petrel": 1,
+      "weighted": 0.9188776595744681,
+      "se": 0.004450250282571055,
+      "mean": 0.9463333333333334,
+      "worst": 0.9,
+      "petrel_rate": 0.07416666666666667,
+      "cells": {
+       "t60": {
+        "a": 0.926
+       },
+       "hedrick": {
+        "a": 0.902
+       },
+       "c60": {
+        "a": 0.961
+       },
+       "d60": {
+        "a": 0.991
+       },
+       "thorns": {
+        "a": 0.998
+       },
+       "starmie": {
+        "a": 0.9
+       }
+      },
+      "poffin": 0.010833333333333334,
+      "potion": 0.004166666666666667,
+      "catcher": 0.0006666666666666666,
+      "cape": 0.0011666666666666668,
+      "charm": 0.0,
+      "sky": 0.021333333333333333,
+      "area": 0.0,
+      "cage": 0.0013333333333333333,
+      "balloon": 0.028333333333333332,
+      "carrier": 0.001,
+      "stretcher": 0.0003333333333333333,
+      "nest": 0.0023333333333333335,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.0025,
+      "iono": 0.00016666666666666666,
+      "research": 0.0
+     },
+     {
+      "cut": "Bursting Balloon",
+      "copies_before": 1,
+      "petrel": 1,
+      "weighted": 0.9167739361702127,
+      "se": 0.004472001660949397,
+      "mean": 0.9426666666666667,
+      "worst": 0.898,
+      "petrel_rate": 0.063,
+      "cells": {
+       "t60": {
+        "a": 0.927
+       },
+       "hedrick": {
+        "a": 0.905
+       },
+       "c60": {
+        "a": 0.944
+       },
+       "d60": {
+        "a": 0.986
+       },
+       "thorns": {
+        "a": 0.996
+       },
+       "starmie": {
+        "a": 0.898
+       }
+      },
+      "poffin": 0.010166666666666666,
+      "potion": 0.0071666666666666675,
+      "catcher": 0.0005,
+      "cape": 0.0006666666666666666,
+      "charm": 0.00016666666666666666,
+      "sky": 0.02266666666666667,
+      "area": 0.0,
+      "cage": 0.002166666666666667,
+      "balloon": 0.0,
+      "carrier": 0.0018333333333333333,
+      "stretcher": 0.004333333333333334,
+      "nest": 0.0045,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.0071666666666666675,
+      "iono": 0.0016666666666666668,
+      "research": 0.0
+     },
+     {
+      "cut": "Sky Field",
+      "copies_before": 3,
+      "petrel": 1,
+      "weighted": 0.9131861702127659,
+      "se": 0.004552030336071096,
+      "mean": 0.9406666666666667,
+      "worst": 0.896,
+      "petrel_rate": 0.08466666666666667,
+      "cells": {
+       "t60": {
+        "a": 0.922
+       },
+       "hedrick": {
+        "a": 0.902
+       },
+       "c60": {
+        "a": 0.937
+       },
+       "d60": {
+        "a": 0.99
+       },
+       "thorns": {
+        "a": 0.997
+       },
+       "starmie": {
+        "a": 0.896
+       }
+      },
+      "poffin": 0.009333333333333334,
+      "potion": 0.006333333333333333,
+      "catcher": 0.0003333333333333333,
+      "cape": 0.001,
+      "charm": 0.0,
+      "sky": 0.026833333333333334,
+      "area": 0.0,
+      "cage": 0.0013333333333333333,
+      "balloon": 0.03266666666666667,
+      "carrier": 0.0003333333333333333,
+      "stretcher": 0.0003333333333333333,
+      "nest": 0.002,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.0033333333333333335,
+      "iono": 0.0008333333333333334,
+      "research": 0.0
+     },
+     {
+      "cut": "Night Stretcher",
+      "copies_before": 1,
+      "petrel": 1,
+      "weighted": 0.9106117021276595,
+      "se": 0.0046238217807845075,
+      "mean": 0.94,
+      "worst": 0.891,
+      "petrel_rate": 0.04700000000000001,
+      "cells": {
+       "t60": {
+        "a": 0.921
+       },
+       "hedrick": {
+        "a": 0.897
+       },
+       "c60": {
+        "a": 0.94
+       },
+       "d60": {
+        "a": 0.994
+       },
+       "thorns": {
+        "a": 0.997
+       },
+       "starmie": {
+        "a": 0.891
+       }
+      },
+      "poffin": 0.0031666666666666666,
+      "potion": 0.0045,
+      "catcher": 0.0005,
+      "cape": 0.0003333333333333333,
+      "charm": 0.0,
+      "sky": 0.015333333333333332,
+      "area": 0.0,
+      "cage": 0.0006666666666666666,
+      "balloon": 0.016999999999999998,
+      "carrier": 0.001,
+      "stretcher": 0.0,
+      "nest": 0.0013333333333333333,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.0030000000000000005,
+      "iono": 0.00016666666666666666,
+      "research": 0.0
+     },
+     {
+      "cut": "Manaphy",
+      "copies_before": 1,
+      "petrel": 1,
+      "weighted": 0.9048404255319149,
+      "se": 0.0046931632501373746,
+      "mean": 0.9353333333333333,
+      "worst": 0.832,
+      "petrel_rate": 0.04883333333333333,
+      "cells": {
+       "t60": {
+        "a": 0.932
+       },
+       "hedrick": {
+        "a": 0.922
+       },
+       "c60": {
+        "a": 0.94
+       },
+       "d60": {
+        "a": 0.99
+       },
+       "thorns": {
+        "a": 0.996
+       },
+       "starmie": {
+        "a": 0.832
+       }
+      },
+      "poffin": 0.005833333333333334,
+      "potion": 0.004666666666666667,
+      "catcher": 0.00016666666666666666,
+      "cape": 0.0003333333333333333,
+      "charm": 0.0,
+      "sky": 0.013666666666666667,
+      "area": 0.0,
+      "cage": 0.001,
+      "balloon": 0.017666666666666667,
+      "carrier": 0.0008333333333333334,
+      "stretcher": 0.0006666666666666666,
+      "nest": 0.0016666666666666668,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.0018333333333333333,
+      "iono": 0.0005,
+      "research": 0.0
+     },
+     {
+      "cut": "Team Rocket's Petrel",
+      "copies_before": 4,
+      "petrel": 1,
+      "weighted": 0.9030691489361702,
+      "se": 0.004792907354909263,
+      "mean": 0.9341666666666667,
+      "worst": 0.886,
+      "petrel_rate": 0.06933333333333333,
+      "cells": {
+       "t60": {
+        "a": 0.907
+       },
+       "hedrick": {
+        "a": 0.888
+       },
+       "c60": {
+        "a": 0.941
+       },
+       "d60": {
+        "a": 0.985
+       },
+       "thorns": {
+        "a": 0.998
+       },
+       "starmie": {
+        "a": 0.886
+       }
+      },
+      "poffin": 0.01,
+      "potion": 0.005,
+      "catcher": 0.0003333333333333333,
+      "cape": 0.0011666666666666668,
+      "charm": 0.0,
+      "sky": 0.018833333333333334,
+      "area": 0.0,
+      "cage": 0.001,
+      "balloon": 0.024999999999999998,
+      "carrier": 0.001,
+      "stretcher": 0.0005,
+      "nest": 0.0036666666666666666,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.0023333333333333335,
+      "iono": 0.0005,
+      "research": 0.0
+     }
+    ]
+   },
+   {
+    "copies_after": 2,
+    "current_weighted": 0.9188776595744681,
+    "chosen": "Budew",
+    "chosen_weighted": 0.915377659574468,
+    "list": [
+     "Mew ex",
+     "Mew ex",
+     "Mew ex",
+     "Mime Jr.",
+     "Mime Jr.",
+     "Igglybuff",
+     "Igglybuff",
+     "Igglybuff",
+     "Igglybuff",
+     "Budew",
+     "Budew",
+     "Budew",
+     "Manaphy",
+     "Buddy-Buddy Poffin",
+     "Buddy-Buddy Poffin",
+     "Buddy-Buddy Poffin",
+     "Buddy-Buddy Poffin",
+     "Nest Ball",
+     "Nest Ball",
+     "Nest Ball",
+     "Nest Ball",
+     "Night Stretcher",
+     "Rescue Carrier",
+     "Rescue Carrier",
+     "Battle Cage",
+     "Battle Cage",
+     "Battle Cage",
+     "Battle Cage",
+     "Sky Field",
+     "Sky Field",
+     "Sky Field",
+     "Bravery Charm",
+     "Bravery Charm",
+     "Bursting Balloon",
+     "Hero's Cape",
+     "Max Potion",
+     "Max Potion",
+     "Max Potion",
+     "Arven",
+     "Arven",
+     "Arven",
+     "Arven",
+     "Iono",
+     "Iono",
+     "Iono",
+     "Iono",
+     "Professor's Research",
+     "Professor's Research",
+     "Team Rocket's Petrel",
+     "Team Rocket's Petrel",
+     "Team Rocket's Petrel",
+     "Team Rocket's Petrel",
+     "Crushing Hammer",
+     "Crushing Hammer",
+     "Crushing Hammer",
+     "Counter Catcher",
+     "Spiky Energy",
+     "Spiky Energy",
+     "Junk Arm",
+     "Junk Arm"
+    ],
+    "accepted": false,
+    "screen": [
+     {
+      "cut": "Iono",
+      "copies_before": 4,
+      "petrel": 2,
+      "weighted": 0.9255496453900709,
+      "se": 0.007727984666056834,
+      "mean": 0.9494444444444445,
+      "worst": 0.9133333333333333,
+      "petrel_rate": 0.11833333333333333,
+      "cells": {
+       "t60": {
+        "a": 0.9433333333333334
+       },
+       "hedrick": {
+        "a": 0.9133333333333333
+       },
+       "c60": {
+        "a": 0.93
+       },
+       "d60": {
+        "a": 0.9966666666666667
+       },
+       "thorns": {
+        "a": 1.0
+       },
+       "starmie": {
+        "a": 0.9133333333333333
+       }
+      },
+      "poffin": 0.014444444444444446,
+      "potion": 0.008333333333333333,
+      "catcher": 0.0016666666666666668,
+      "cape": 0.0016666666666666668,
+      "charm": 0.0005555555555555556,
+      "sky": 0.03944444444444444,
+      "area": 0.0,
+      "cage": 0.0011111111111111111,
+      "balloon": 0.045000000000000005,
+      "carrier": 0.002777777777777778,
+      "stretcher": 0.0011111111111111111,
+      "nest": 0.0033333333333333335,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.002777777777777778,
+      "iono": 0.0005555555555555556,
+      "research": 0.0
+     },
+     {
+      "cut": "Counter Catcher",
+      "copies_before": 1,
+      "petrel": 2,
+      "weighted": 0.9248670212765957,
+      "se": 0.007843511372248863,
+      "mean": 0.9500000000000001,
+      "worst": 0.9,
+      "petrel_rate": 0.12333333333333334,
+      "cells": {
+       "t60": {
+        "a": 0.94
+       },
+       "hedrick": {
+        "a": 0.9
+       },
+       "c60": {
+        "a": 0.9533333333333334
+       },
+       "d60": {
+        "a": 0.99
+       },
+       "thorns": {
+        "a": 1.0
+       },
+       "starmie": {
+        "a": 0.9166666666666666
+       }
+      },
+      "poffin": 0.015555555555555557,
+      "potion": 0.006111111111111111,
+      "catcher": 0.0,
+      "cape": 0.0011111111111111111,
+      "charm": 0.0,
+      "sky": 0.03777777777777778,
+      "area": 0.0,
+      "cage": 0.0,
+      "balloon": 0.05111111111111111,
+      "carrier": 0.0016666666666666668,
+      "stretcher": 0.0022222222222222222,
+      "nest": 0.005,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.008333333333333333,
+      "iono": 0.0,
+      "research": 0.0
+     },
+     {
+      "cut": "Arven",
+      "copies_before": 4,
+      "petrel": 2,
+      "weighted": 0.9243173758865247,
+      "se": 0.007839821377322649,
+      "mean": 0.9494444444444444,
+      "worst": 0.8966666666666666,
+      "petrel_rate": 0.10888888888888888,
+      "cells": {
+       "t60": {
+        "a": 0.9266666666666666
+       },
+       "hedrick": {
+        "a": 0.8966666666666666
+       },
+       "c60": {
+        "a": 0.9466666666666667
+       },
+       "d60": {
+        "a": 0.9933333333333333
+       },
+       "thorns": {
+        "a": 1.0
+       },
+       "starmie": {
+        "a": 0.9333333333333333
+       }
+      },
+      "poffin": 0.01611111111111111,
+      "potion": 0.01,
+      "catcher": 0.0005555555555555556,
+      "cape": 0.0005555555555555556,
+      "charm": 0.0011111111111111111,
+      "sky": 0.03166666666666667,
+      "area": 0.0,
+      "cage": 0.0022222222222222222,
+      "balloon": 0.03388888888888889,
+      "carrier": 0.0011111111111111111,
+      "stretcher": 0.0005555555555555556,
+      "nest": 0.003888888888888889,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.007777777777777778,
+      "iono": 0.0016666666666666668,
+      "research": 0.0
+     },
+     {
+      "cut": "Budew",
+      "copies_before": 4,
+      "petrel": 2,
+      "weighted": 0.9221897163120567,
+      "se": 0.007855667734111794,
+      "mean": 0.9455555555555556,
+      "worst": 0.9033333333333333,
+      "petrel_rate": 0.09944444444444445,
+      "cells": {
+       "t60": {
+        "a": 0.9133333333333333
+       },
+       "hedrick": {
+        "a": 0.9266666666666666
+       },
+       "c60": {
+        "a": 0.9466666666666667
+       },
+       "d60": {
+        "a": 0.9866666666666667
+       },
+       "thorns": {
+        "a": 0.9966666666666667
+       },
+       "starmie": {
+        "a": 0.9033333333333333
+       }
+      },
+      "poffin": 0.012777777777777779,
+      "potion": 0.008333333333333333,
+      "catcher": 0.0011111111111111111,
+      "cape": 0.0016666666666666668,
+      "charm": 0.0,
+      "sky": 0.035555555555555556,
+      "area": 0.0,
+      "cage": 0.003888888888888889,
+      "balloon": 0.03,
+      "carrier": 0.0016666666666666668,
+      "stretcher": 0.0022222222222222222,
+      "nest": 0.0016666666666666668,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.0011111111111111111,
+      "iono": 0.0,
+      "research": 0.0
+     },
+     {
+      "cut": "Night Stretcher",
+      "copies_before": 1,
+      "petrel": 2,
+      "weighted": 0.9220212765957446,
+      "se": 0.008008020679384425,
+      "mean": 0.9477777777777777,
+      "worst": 0.8666666666666667,
+      "petrel_rate": 0.07722222222222222,
+      "cells": {
+       "t60": {
+        "a": 0.9533333333333334
+       },
+       "hedrick": {
+        "a": 0.8666666666666667
+       },
+       "c60": {
+        "a": 0.9533333333333334
+       },
+       "d60": {
+        "a": 0.9866666666666667
+       },
+       "thorns": {
+        "a": 0.9933333333333333
+       },
+       "starmie": {
+        "a": 0.9333333333333333
+       }
+      },
+      "poffin": 0.007222222222222223,
+      "potion": 0.007222222222222223,
+      "catcher": 0.0022222222222222222,
+      "cape": 0.0,
+      "charm": 0.0,
+      "sky": 0.029444444444444443,
+      "area": 0.0,
+      "cage": 0.0011111111111111111,
+      "balloon": 0.026111111111111113,
+      "carrier": 0.0005555555555555556,
+      "stretcher": 0.0,
+      "nest": 0.0033333333333333335,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.0016666666666666668,
+      "iono": 0.0005555555555555556,
+      "research": 0.0
+     },
+     {
+      "cut": "Team Rocket's Petrel",
+      "copies_before": 4,
+      "petrel": 2,
+      "weighted": 0.918741134751773,
+      "se": 0.007943085533164487,
+      "mean": 0.9416666666666668,
+      "worst": 0.8933333333333333,
+      "petrel_rate": 0.1238888888888889,
+      "cells": {
+       "t60": {
+        "a": 0.93
+       },
+       "hedrick": {
+        "a": 0.9266666666666666
+       },
+       "c60": {
+        "a": 0.9166666666666666
+       },
+       "d60": {
+        "a": 0.9833333333333333
+       },
+       "thorns": {
+        "a": 1.0
+       },
+       "starmie": {
+        "a": 0.8933333333333333
+       }
+      },
+      "poffin": 0.015,
+      "potion": 0.01,
+      "catcher": 0.0005555555555555556,
+      "cape": 0.0011111111111111111,
+      "charm": 0.0011111111111111111,
+      "sky": 0.03722222222222222,
+      "area": 0.0,
+      "cage": 0.0022222222222222222,
+      "balloon": 0.04611111111111111,
+      "carrier": 0.0011111111111111111,
+      "stretcher": 0.0005555555555555556,
+      "nest": 0.005555555555555556,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.0044444444444444444,
+      "iono": 0.0016666666666666668,
+      "research": 0.0
+     },
+     {
+      "cut": "Bravery Charm",
+      "copies_before": 2,
+      "petrel": 2,
+      "weighted": 0.9147340425531915,
+      "se": 0.008290628436518396,
+      "mean": 0.9427777777777777,
+      "worst": 0.8933333333333333,
+      "petrel_rate": 0.1338888888888889,
+      "cells": {
+       "t60": {
+        "a": 0.9133333333333333
+       },
+       "hedrick": {
+        "a": 0.8933333333333333
+       },
+       "c60": {
+        "a": 0.9533333333333334
+       },
+       "d60": {
+        "a": 0.99
+       },
+       "thorns": {
+        "a": 0.9966666666666667
+       },
+       "starmie": {
+        "a": 0.91
+       }
+      },
+      "poffin": 0.02,
+      "potion": 0.011111111111111112,
+      "catcher": 0.0005555555555555556,
+      "cape": 0.0005555555555555556,
+      "charm": 0.0,
+      "sky": 0.03666666666666667,
+      "area": 0.0,
+      "cage": 0.0022222222222222222,
+      "balloon": 0.05111111111111111,
+      "carrier": 0.0016666666666666668,
+      "stretcher": 0.0005555555555555556,
+      "nest": 0.005,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.006666666666666667,
+      "iono": 0.0016666666666666668,
+      "research": 0.0
+     },
+     {
+      "cut": "Igglybuff",
+      "copies_before": 4,
+      "petrel": 2,
+      "weighted": 0.9147340425531915,
+      "se": 0.008310746230320323,
+      "mean": 0.9438888888888889,
+      "worst": 0.86,
+      "petrel_rate": 0.11055555555555556,
+      "cells": {
+       "t60": {
+        "a": 0.9366666666666666
+       },
+       "hedrick": {
+        "a": 0.86
+       },
+       "c60": {
+        "a": 0.9433333333333334
+       },
+       "d60": {
+        "a": 0.9933333333333333
+       },
+       "thorns": {
+        "a": 0.9966666666666667
+       },
+       "starmie": {
+        "a": 0.9333333333333333
+       }
+      },
+      "poffin": 0.018333333333333333,
+      "potion": 0.01,
+      "catcher": 0.0011111111111111111,
+      "cape": 0.0011111111111111111,
+      "charm": 0.0,
+      "sky": 0.03277777777777778,
+      "area": 0.0,
+      "cage": 0.0016666666666666668,
+      "balloon": 0.036111111111111115,
+      "carrier": 0.0016666666666666668,
+      "stretcher": 0.002777777777777778,
+      "nest": 0.0033333333333333335,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.005555555555555556,
+      "iono": 0.0,
+      "research": 0.0
+     },
+     {
+      "cut": "Crushing Hammer",
+      "copies_before": 3,
+      "petrel": 2,
+      "weighted": 0.9136702127659574,
+      "se": 0.008257768216678948,
+      "mean": 0.9411111111111111,
+      "worst": 0.8966666666666666,
+      "petrel_rate": 0.14444444444444446,
+      "cells": {
+       "t60": {
+        "a": 0.9233333333333333
+       },
+       "hedrick": {
+        "a": 0.9066666666666666
+       },
+       "c60": {
+        "a": 0.9266666666666666
+       },
+       "d60": {
+        "a": 0.9933333333333333
+       },
+       "thorns": {
+        "a": 1.0
+       },
+       "starmie": {
+        "a": 0.8966666666666666
+       }
+      },
+      "poffin": 0.022222222222222223,
+      "potion": 0.014444444444444446,
+      "catcher": 0.0011111111111111111,
+      "cape": 0.0022222222222222222,
+      "charm": 0.0005555555555555556,
+      "sky": 0.03888888888888889,
+      "area": 0.0,
+      "cage": 0.0033333333333333335,
+      "balloon": 0.05111111111111111,
+      "carrier": 0.0016666666666666668,
+      "stretcher": 0.0022222222222222222,
+      "nest": 0.007222222222222223,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.005,
+      "iono": 0.0,
+      "research": 0.0
+     },
+     {
+      "cut": "Spiky Energy",
+      "copies_before": 2,
+      "petrel": 2,
+      "weighted": 0.9119680851063829,
+      "se": 0.0084156804192731,
+      "mean": 0.9411111111111111,
+      "worst": 0.8866666666666667,
+      "petrel_rate": 0.11277777777777777,
+      "cells": {
+       "t60": {
+        "a": 0.9266666666666666
+       },
+       "hedrick": {
+        "a": 0.8866666666666667
+       },
+       "c60": {
+        "a": 0.9466666666666667
+       },
+       "d60": {
+        "a": 0.9866666666666667
+       },
+       "thorns": {
+        "a": 1.0
+       },
+       "starmie": {
+        "a": 0.9
+       }
+      },
+      "poffin": 0.011111111111111112,
+      "potion": 0.006111111111111111,
+      "catcher": 0.002777777777777778,
+      "cape": 0.0022222222222222222,
+      "charm": 0.0,
+      "sky": 0.035555555555555556,
+      "area": 0.0,
+      "cage": 0.0016666666666666668,
+      "balloon": 0.04722222222222222,
+      "carrier": 0.002777777777777778,
+      "stretcher": 0.0005555555555555556,
+      "nest": 0.0022222222222222222,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.005555555555555556,
+      "iono": 0.0005555555555555556,
+      "research": 0.0
+     },
+     {
+      "cut": "Battle Cage",
+      "copies_before": 4,
+      "petrel": 2,
+      "weighted": 0.9095212765957447,
+      "se": 0.008515396221002516,
+      "mean": 0.9388888888888888,
+      "worst": 0.89,
+      "petrel_rate": 0.11388888888888889,
+      "cells": {
+       "t60": {
+        "a": 0.91
+       },
+       "hedrick": {
+        "a": 0.89
+       },
+       "c60": {
+        "a": 0.9566666666666667
+       },
+       "d60": {
+        "a": 0.98
+       },
+       "thorns": {
+        "a": 1.0
+       },
+       "starmie": {
+        "a": 0.8966666666666666
+       }
+      },
+      "poffin": 0.015000000000000001,
+      "potion": 0.008333333333333333,
+      "catcher": 0.0,
+      "cape": 0.0011111111111111111,
+      "charm": 0.0,
+      "sky": 0.03277777777777778,
+      "area": 0.0,
+      "cage": 0.0016666666666666668,
+      "balloon": 0.04777777777777778,
+      "carrier": 0.002777777777777778,
+      "stretcher": 0.0005555555555555556,
+      "nest": 0.003888888888888889,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.003888888888888889,
+      "iono": 0.0005555555555555556,
+      "research": 0.0
+     },
+     {
+      "cut": "Max Potion",
+      "copies_before": 3,
+      "petrel": 2,
+      "weighted": 0.9089450354609929,
+      "se": 0.008493760213642489,
+      "mean": 0.94,
+      "worst": 0.8533333333333334,
+      "petrel_rate": 0.1238888888888889,
+      "cells": {
+       "t60": {
+        "a": 0.9233333333333333
+       },
+       "hedrick": {
+        "a": 0.9133333333333333
+       },
+       "c60": {
+        "a": 0.96
+       },
+       "d60": {
+        "a": 0.99
+       },
+       "thorns": {
+        "a": 1.0
+       },
+       "starmie": {
+        "a": 0.8533333333333334
+       }
+      },
+      "poffin": 0.020555555555555556,
+      "potion": 0.01,
+      "catcher": 0.0,
+      "cape": 0.0016666666666666668,
+      "charm": 0.0005555555555555556,
+      "sky": 0.031111111111111114,
+      "area": 0.0,
+      "cage": 0.002777777777777778,
+      "balloon": 0.04666666666666666,
+      "carrier": 0.002777777777777778,
+      "stretcher": 0.0022222222222222222,
+      "nest": 0.005,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.0044444444444444444,
+      "iono": 0.0,
+      "research": 0.0
+     },
+     {
+      "cut": "Bursting Balloon",
+      "copies_before": 1,
+      "petrel": 2,
+      "weighted": 0.9084751773049645,
+      "se": 0.008582901902385687,
+      "mean": 0.9405555555555556,
+      "worst": 0.8833333333333333,
+      "petrel_rate": 0.09277777777777778,
+      "cells": {
+       "t60": {
+        "a": 0.93
+       },
+       "hedrick": {
+        "a": 0.8833333333333333
+       },
+       "c60": {
+        "a": 0.9466666666666667
+       },
+       "d60": {
+        "a": 1.0
+       },
+       "thorns": {
+        "a": 0.9966666666666667
+       },
+       "starmie": {
+        "a": 0.8866666666666667
+       }
+      },
+      "poffin": 0.01611111111111111,
+      "potion": 0.010555555555555556,
+      "catcher": 0.0005555555555555556,
+      "cape": 0.0005555555555555556,
+      "charm": 0.0,
+      "sky": 0.03222222222222223,
+      "area": 0.0,
+      "cage": 0.005,
+      "balloon": 0.0,
+      "carrier": 0.006666666666666667,
+      "stretcher": 0.006666666666666667,
+      "nest": 0.007222222222222223,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.012777777777777779,
+      "iono": 0.0,
+      "research": 0.0
+     },
+     {
+      "cut": "Rescue Carrier",
+      "copies_before": 2,
+      "petrel": 2,
+      "weighted": 0.9071719858156029,
+      "se": 0.008647987423331756,
+      "mean": 0.9405555555555556,
+      "worst": 0.8666666666666667,
+      "petrel_rate": 0.10722222222222222,
+      "cells": {
+       "t60": {
+        "a": 0.92
+       },
+       "hedrick": {
+        "a": 0.8933333333333333
+       },
+       "c60": {
+        "a": 0.97
+       },
+       "d60": {
+        "a": 0.9933333333333333
+       },
+       "thorns": {
+        "a": 1.0
+       },
+       "starmie": {
+        "a": 0.8666666666666667
+       }
+      },
+      "poffin": 0.017222222222222222,
+      "potion": 0.0033333333333333335,
+      "catcher": 0.0011111111111111111,
+      "cape": 0.0016666666666666668,
+      "charm": 0.0,
+      "sky": 0.03166666666666667,
+      "area": 0.0,
+      "cage": 0.0016666666666666668,
+      "balloon": 0.03944444444444444,
+      "carrier": 0.0016666666666666668,
+      "stretcher": 0.0011111111111111111,
+      "nest": 0.006666666666666667,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.006666666666666667,
+      "iono": 0.0,
+      "research": 0.0
+     },
+     {
+      "cut": "Mew ex",
+      "copies_before": 3,
+      "petrel": 2,
+      "weighted": 0.9063652482269503,
+      "se": 0.008678375980077934,
+      "mean": 0.9388888888888888,
+      "worst": 0.87,
+      "petrel_rate": 0.09777777777777778,
+      "cells": {
+       "t60": {
+        "a": 0.9
+       },
+       "hedrick": {
+        "a": 0.87
+       },
+       "c60": {
+        "a": 0.96
+       },
+       "d60": {
+        "a": 0.9933333333333333
+       },
+       "thorns": {
+        "a": 0.9966666666666667
+       },
+       "starmie": {
+        "a": 0.9133333333333333
+       }
+      },
+      "poffin": 0.008888888888888889,
+      "potion": 0.003888888888888889,
+      "catcher": 0.0005555555555555556,
+      "cape": 0.0022222222222222222,
+      "charm": 0.0,
+      "sky": 0.03333333333333333,
+      "area": 0.0,
+      "cage": 0.0016666666666666668,
+      "balloon": 0.03833333333333334,
+      "carrier": 0.002777777777777778,
+      "stretcher": 0.0005555555555555556,
+      "nest": 0.003888888888888889,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.005,
+      "iono": 0.0,
+      "research": 0.0
+     },
+     {
+      "cut": "Sky Field",
+      "copies_before": 3,
+      "petrel": 2,
+      "weighted": 0.9058244680851064,
+      "se": 0.00858653539320524,
+      "mean": 0.9355555555555556,
+      "worst": 0.8866666666666667,
+      "petrel_rate": 0.11166666666666668,
+      "cells": {
+       "t60": {
+        "a": 0.9233333333333333
+       },
+       "hedrick": {
+        "a": 0.8866666666666667
+       },
+       "c60": {
+        "a": 0.91
+       },
+       "d60": {
+        "a": 0.9933333333333333
+       },
+       "thorns": {
+        "a": 1.0
+       },
+       "starmie": {
+        "a": 0.9
+       }
+      },
+      "poffin": 0.017777777777777778,
+      "potion": 0.008888888888888889,
+      "catcher": 0.0,
+      "cape": 0.0005555555555555556,
+      "charm": 0.0,
+      "sky": 0.036111111111111115,
+      "area": 0.0,
+      "cage": 0.002777777777777778,
+      "balloon": 0.03888888888888889,
+      "carrier": 0.0016666666666666668,
+      "stretcher": 0.0011111111111111111,
+      "nest": 0.003888888888888889,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.0044444444444444444,
+      "iono": 0.0011111111111111111,
+      "research": 0.0
+     },
+     {
+      "cut": "Manaphy",
+      "copies_before": 1,
+      "petrel": 2,
+      "weighted": 0.9027482269503545,
+      "se": 0.008535780834414797,
+      "mean": 0.936111111111111,
+      "worst": 0.7833333333333333,
+      "petrel_rate": 0.08722222222222221,
+      "cells": {
+       "t60": {
+        "a": 0.94
+       },
+       "hedrick": {
+        "a": 0.94
+       },
+       "c60": {
+        "a": 0.9633333333333334
+       },
+       "d60": {
+        "a": 0.9933333333333333
+       },
+       "thorns": {
+        "a": 0.9966666666666667
+       },
+       "starmie": {
+        "a": 0.7833333333333333
+       }
+      },
+      "poffin": 0.008333333333333333,
+      "potion": 0.007777777777777778,
+      "catcher": 0.0011111111111111111,
+      "cape": 0.0011111111111111111,
+      "charm": 0.0,
+      "sky": 0.02722222222222222,
+      "area": 0.0,
+      "cage": 0.0016666666666666668,
+      "balloon": 0.03333333333333333,
+      "carrier": 0.0005555555555555556,
+      "stretcher": 0.0,
+      "nest": 0.003888888888888889,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.002777777777777778,
+      "iono": 0.0005555555555555556,
+      "research": 0.0
+     },
+     {
+      "cut": "Professor's Research",
+      "copies_before": 2,
+      "petrel": 2,
+      "weighted": 0.9018971631205673,
+      "se": 0.008785283179217424,
+      "mean": 0.9338888888888889,
+      "worst": 0.8833333333333333,
+      "petrel_rate": 0.115,
+      "cells": {
+       "t60": {
+        "a": 0.9133333333333333
+       },
+       "hedrick": {
+        "a": 0.8866666666666667
+       },
+       "c60": {
+        "a": 0.93
+       },
+       "d60": {
+        "a": 0.99
+       },
+       "thorns": {
+        "a": 1.0
+       },
+       "starmie": {
+        "a": 0.8833333333333333
+       }
+      },
+      "poffin": 0.01611111111111111,
+      "potion": 0.005555555555555556,
+      "catcher": 0.0005555555555555556,
+      "cape": 0.0016666666666666668,
+      "charm": 0.0005555555555555556,
+      "sky": 0.03277777777777778,
+      "area": 0.0,
+      "cage": 0.0033333333333333335,
+      "balloon": 0.03666666666666667,
+      "carrier": 0.002777777777777778,
+      "stretcher": 0.0005555555555555556,
+      "nest": 0.005555555555555556,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.008888888888888889,
+      "iono": 0.0,
+      "research": 0.0
+     },
+     {
+      "cut": "Buddy-Buddy Poffin",
+      "copies_before": 4,
+      "petrel": 2,
+      "weighted": 0.9002039007092199,
+      "se": 0.008810908000647193,
+      "mean": 0.9316666666666666,
+      "worst": 0.8733333333333333,
+      "petrel_rate": 0.11277777777777777,
+      "cells": {
+       "t60": {
+        "a": 0.9
+       },
+       "hedrick": {
+        "a": 0.9
+       },
+       "c60": {
+        "a": 0.93
+       },
+       "d60": {
+        "a": 0.99
+       },
+       "thorns": {
+        "a": 0.9966666666666667
+       },
+       "starmie": {
+        "a": 0.8733333333333333
+       }
+      },
+      "poffin": 0.01388888888888889,
+      "potion": 0.006111111111111111,
+      "catcher": 0.0005555555555555556,
+      "cape": 0.0016666666666666668,
+      "charm": 0.0011111111111111111,
+      "sky": 0.03722222222222222,
+      "area": 0.0,
+      "cage": 0.003888888888888889,
+      "balloon": 0.035,
+      "carrier": 0.0044444444444444444,
+      "stretcher": 0.0016666666666666668,
+      "nest": 0.007777777777777778,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.003888888888888889,
+      "iono": 0.0005555555555555556,
+      "research": 0.0
+     },
+     {
+      "cut": "Mime Jr.",
+      "copies_before": 2,
+      "petrel": 2,
+      "weighted": 0.8981382978723403,
+      "se": 0.008974114854223595,
+      "mean": 0.9272222222222223,
+      "worst": 0.86,
+      "petrel_rate": 0.11499999999999999,
+      "cells": {
+       "t60": {
+        "a": 0.9333333333333333
+       },
+       "hedrick": {
+        "a": 0.86
+       },
+       "c60": {
+        "a": 0.95
+       },
+       "d60": {
+        "a": 0.9433333333333334
+       },
+       "thorns": {
+        "a": 1.0
+       },
+       "starmie": {
+        "a": 0.8766666666666667
+       }
+      },
+      "poffin": 0.024444444444444446,
+      "potion": 0.01,
+      "catcher": 0.0005555555555555556,
+      "cape": 0.0033333333333333335,
+      "charm": 0.0,
+      "sky": 0.030000000000000002,
+      "area": 0.0,
+      "cage": 0.0022222222222222222,
+      "balloon": 0.04111111111111111,
+      "carrier": 0.0005555555555555556,
+      "stretcher": 0.0005555555555555556,
+      "nest": 0.005,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.0011111111111111111,
+      "iono": 0.0,
+      "research": 0.0
+     },
+     {
+      "cut": "Hero's Cape",
+      "copies_before": 1,
+      "petrel": 2,
+      "weighted": 0.8973492907801418,
+      "se": 0.00894857320208558,
+      "mean": 0.9311111111111111,
+      "worst": 0.8633333333333333,
+      "petrel_rate": 0.11833333333333333,
+      "cells": {
+       "t60": {
+        "a": 0.91
+       },
+       "hedrick": {
+        "a": 0.8633333333333333
+       },
+       "c60": {
+        "a": 0.91
+       },
+       "d60": {
+        "a": 0.9966666666666667
+       },
+       "thorns": {
+        "a": 1.0
+       },
+       "starmie": {
+        "a": 0.9066666666666666
+       }
+      },
+      "poffin": 0.012222222222222223,
+      "potion": 0.009444444444444445,
+      "catcher": 0.0011111111111111111,
+      "cape": 0.0,
+      "charm": 0.0011111111111111111,
+      "sky": 0.03833333333333333,
+      "area": 0.0,
+      "cage": 0.0022222222222222222,
+      "balloon": 0.04722222222222222,
+      "carrier": 0.0033333333333333335,
+      "stretcher": 0.0011111111111111111,
+      "nest": 0.002777777777777778,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.0016666666666666668,
+      "iono": 0.0011111111111111111,
+      "research": 0.0
+     },
+     {
+      "cut": "Nest Ball",
+      "copies_before": 4,
+      "petrel": 2,
+      "weighted": 0.8957624113475177,
+      "se": 0.009050386243686034,
+      "mean": 0.9288888888888889,
+      "worst": 0.8633333333333333,
+      "petrel_rate": 0.11722222222222223,
+      "cells": {
+       "t60": {
+        "a": 0.9366666666666666
+       },
+       "hedrick": {
+        "a": 0.8633333333333333
+       },
+       "c60": {
+        "a": 0.9266666666666666
+       },
+       "d60": {
+        "a": 0.9833333333333333
+       },
+       "thorns": {
+        "a": 0.9933333333333333
+       },
+       "starmie": {
+        "a": 0.87
+       }
+      },
+      "poffin": 0.017222222222222222,
+      "potion": 0.01,
+      "catcher": 0.0005555555555555556,
+      "cape": 0.0005555555555555556,
+      "charm": 0.0,
+      "sky": 0.032777777777777774,
+      "area": 0.0,
+      "cage": 0.0022222222222222222,
+      "balloon": 0.04611111111111111,
+      "carrier": 0.0022222222222222222,
+      "stretcher": 0.0011111111111111111,
+      "nest": 0.005,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.005555555555555556,
+      "iono": 0.0011111111111111111,
+      "research": 0.0
+     }
+    ],
+    "confirm": [
+     {
+      "cut": "Budew",
+      "copies_before": 4,
+      "petrel": 2,
+      "weighted": 0.915377659574468,
+      "se": 0.004500428733788934,
+      "mean": 0.9431666666666666,
+      "worst": 0.895,
+      "petrel_rate": 0.103,
+      "cells": {
+       "t60": {
+        "a": 0.904
+       },
+       "hedrick": {
+        "a": 0.914
+       },
+       "c60": {
+        "a": 0.956
+       },
+       "d60": {
+        "a": 0.992
+       },
+       "thorns": {
+        "a": 0.998
+       },
+       "starmie": {
+        "a": 0.895
+       }
+      },
+      "poffin": 0.013666666666666667,
+      "potion": 0.009,
+      "catcher": 0.0008333333333333334,
+      "cape": 0.0016666666666666668,
+      "charm": 0.0003333333333333333,
+      "sky": 0.03166666666666667,
+      "area": 0.0,
+      "cage": 0.0031666666666666666,
+      "balloon": 0.03283333333333333,
+      "carrier": 0.0023333333333333335,
+      "stretcher": 0.0013333333333333333,
+      "nest": 0.005,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.0028333333333333335,
+      "iono": 0.0003333333333333333,
+      "research": 0.0
+     },
+     {
+      "cut": "Counter Catcher",
+      "copies_before": 1,
+      "petrel": 2,
+      "weighted": 0.9148031914893617,
+      "se": 0.004524667767654384,
+      "mean": 0.9423333333333334,
+      "worst": 0.898,
+      "petrel_rate": 0.11983333333333333,
+      "cells": {
+       "t60": {
+        "a": 0.926
+       },
+       "hedrick": {
+        "a": 0.9
+       },
+       "c60": {
+        "a": 0.942
+       },
+       "d60": {
+        "a": 0.99
+       },
+       "thorns": {
+        "a": 0.998
+       },
+       "starmie": {
+        "a": 0.898
+       }
+      },
+      "poffin": 0.013166666666666667,
+      "potion": 0.007666666666666666,
+      "catcher": 0.0,
+      "cape": 0.0013333333333333333,
+      "charm": 0.0,
+      "sky": 0.035666666666666666,
+      "area": 0.0,
+      "cage": 0.0025,
+      "balloon": 0.047999999999999994,
+      "carrier": 0.002166666666666667,
+      "stretcher": 0.002166666666666667,
+      "nest": 0.004666666666666667,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.005833333333333334,
+      "iono": 0.001,
+      "research": 0.0
+     },
+     {
+      "cut": "Arven",
+      "copies_before": 4,
+      "petrel": 2,
+      "weighted": 0.9140531914893617,
+      "se": 0.004554658749284183,
+      "mean": 0.9426666666666667,
+      "worst": 0.897,
+      "petrel_rate": 0.1145,
+      "cells": {
+       "t60": {
+        "a": 0.922
+       },
+       "hedrick": {
+        "a": 0.897
+       },
+       "c60": {
+        "a": 0.949
+       },
+       "d60": {
+        "a": 0.992
+       },
+       "thorns": {
+        "a": 0.998
+       },
+       "starmie": {
+        "a": 0.898
+       }
+      },
+      "poffin": 0.014666666666666666,
+      "potion": 0.009,
+      "catcher": 0.001,
+      "cape": 0.001,
+      "charm": 0.0005,
+      "sky": 0.034499999999999996,
+      "area": 0.0,
+      "cage": 0.002166666666666667,
+      "balloon": 0.03983333333333333,
+      "carrier": 0.002166666666666667,
+      "stretcher": 0.0018333333333333333,
+      "nest": 0.003833333333333333,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.006833333333333334,
+      "iono": 0.001,
+      "research": 0.0
+     },
+     {
+      "cut": "Night Stretcher",
+      "copies_before": 1,
+      "petrel": 2,
+      "weighted": 0.9115026595744681,
+      "se": 0.004633936989442713,
+      "mean": 0.9408333333333333,
+      "worst": 0.874,
+      "petrel_rate": 0.07583333333333334,
+      "cells": {
+       "t60": {
+        "a": 0.943
+       },
+       "hedrick": {
+        "a": 0.874
+       },
+       "c60": {
+        "a": 0.946
+       },
+       "d60": {
+        "a": 0.988
+       },
+       "thorns": {
+        "a": 0.995
+       },
+       "starmie": {
+        "a": 0.899
+       }
+      },
+      "poffin": 0.006333333333333333,
+      "potion": 0.006166666666666667,
+      "catcher": 0.002,
+      "cape": 0.0005,
+      "charm": 0.0,
+      "sky": 0.028166666666666663,
+      "area": 0.0,
+      "cage": 0.001,
+      "balloon": 0.02716666666666667,
+      "carrier": 0.001,
+      "stretcher": 0.0,
+      "nest": 0.0025,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.0026666666666666666,
+      "iono": 0.0003333333333333333,
+      "research": 0.0
+     },
+     {
+      "cut": "Iono",
+      "copies_before": 4,
+      "petrel": 2,
+      "weighted": 0.9089308510638298,
+      "se": 0.004645011642895003,
+      "mean": 0.9386666666666666,
+      "worst": 0.886,
+      "petrel_rate": 0.1205,
+      "cells": {
+       "t60": {
+        "a": 0.918
+       },
+       "hedrick": {
+        "a": 0.902
+       },
+       "c60": {
+        "a": 0.932
+       },
+       "d60": {
+        "a": 0.995
+       },
+       "thorns": {
+        "a": 0.999
+       },
+       "starmie": {
+        "a": 0.886
+       }
+      },
+      "poffin": 0.016333333333333335,
+      "potion": 0.008666666666666666,
+      "catcher": 0.0011666666666666668,
+      "cape": 0.0011666666666666668,
+      "charm": 0.0003333333333333333,
+      "sky": 0.033666666666666664,
+      "area": 0.0,
+      "cage": 0.002,
+      "balloon": 0.04566666666666667,
+      "carrier": 0.002166666666666667,
+      "stretcher": 0.002,
+      "nest": 0.004166666666666667,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.004333333333333334,
+      "iono": 0.001,
+      "research": 0.0
+     },
+     {
+      "cut": "Team Rocket's Petrel",
+      "copies_before": 4,
+      "petrel": 2,
+      "weighted": 0.9032952127659574,
+      "se": 0.004758466321512363,
+      "mean": 0.9326666666666666,
+      "worst": 0.887,
+      "petrel_rate": 0.129,
+      "cells": {
+       "t60": {
+        "a": 0.91
+       },
+       "hedrick": {
+        "a": 0.895
+       },
+       "c60": {
+        "a": 0.921
+       },
+       "d60": {
+        "a": 0.989
+       },
+       "thorns": {
+        "a": 0.994
+       },
+       "starmie": {
+        "a": 0.887
+       }
+      },
+      "poffin": 0.016166666666666666,
+      "potion": 0.011333333333333334,
+      "catcher": 0.0008333333333333334,
+      "cape": 0.001,
+      "charm": 0.0003333333333333333,
+      "sky": 0.0385,
+      "area": 0.0,
+      "cage": 0.0031666666666666666,
+      "balloon": 0.04766666666666666,
+      "carrier": 0.0015000000000000002,
+      "stretcher": 0.0006666666666666666,
+      "nest": 0.004833333333333333,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.005,
+      "iono": 0.0011666666666666668,
+      "research": 0.0
+     }
+    ]
+   }
+  ],
+  "current": [
+   "Mew ex",
+   "Mew ex",
+   "Mew ex",
+   "Mime Jr.",
+   "Mime Jr.",
+   "Igglybuff",
+   "Igglybuff",
+   "Igglybuff",
+   "Igglybuff",
+   "Budew",
+   "Budew",
+   "Budew",
+   "Budew",
+   "Manaphy",
+   "Buddy-Buddy Poffin",
+   "Buddy-Buddy Poffin",
+   "Buddy-Buddy Poffin",
+   "Buddy-Buddy Poffin",
+   "Nest Ball",
+   "Nest Ball",
+   "Nest Ball",
+   "Nest Ball",
+   "Night Stretcher",
+   "Rescue Carrier",
+   "Rescue Carrier",
+   "Battle Cage",
+   "Battle Cage",
+   "Battle Cage",
+   "Battle Cage",
+   "Sky Field",
+   "Sky Field",
+   "Sky Field",
+   "Bravery Charm",
+   "Bravery Charm",
+   "Bursting Balloon",
+   "Hero's Cape",
+   "Max Potion",
+   "Max Potion",
+   "Max Potion",
+   "Arven",
+   "Arven",
+   "Arven",
+   "Arven",
+   "Iono",
+   "Iono",
+   "Iono",
+   "Iono",
+   "Professor's Research",
+   "Professor's Research",
+   "Team Rocket's Petrel",
+   "Team Rocket's Petrel",
+   "Team Rocket's Petrel",
+   "Team Rocket's Petrel",
+   "Crushing Hammer",
+   "Crushing Hammer",
+   "Crushing Hammer",
+   "Counter Catcher",
+   "Spiky Energy",
+   "Spiky Energy",
+   "Junk Arm"
+  ],
+  "stopped": "Stopped at 1. The next copy, cutting Budew, is 91.54% against 91.89%.",
+  "copies": 1,
+  "list": [
+   "Mew ex",
+   "Mew ex",
+   "Mew ex",
+   "Mime Jr.",
+   "Mime Jr.",
+   "Igglybuff",
+   "Igglybuff",
+   "Igglybuff",
+   "Igglybuff",
+   "Budew",
+   "Budew",
+   "Budew",
+   "Budew",
+   "Manaphy",
+   "Buddy-Buddy Poffin",
+   "Buddy-Buddy Poffin",
+   "Buddy-Buddy Poffin",
+   "Buddy-Buddy Poffin",
+   "Nest Ball",
+   "Nest Ball",
+   "Nest Ball",
+   "Nest Ball",
+   "Night Stretcher",
+   "Rescue Carrier",
+   "Rescue Carrier",
+   "Battle Cage",
+   "Battle Cage",
+   "Battle Cage",
+   "Battle Cage",
+   "Sky Field",
+   "Sky Field",
+   "Sky Field",
+   "Bravery Charm",
+   "Bravery Charm",
+   "Bursting Balloon",
+   "Hero's Cape",
+   "Max Potion",
+   "Max Potion",
+   "Max Potion",
+   "Arven",
+   "Arven",
+   "Arven",
+   "Arven",
+   "Iono",
+   "Iono",
+   "Iono",
+   "Iono",
+   "Professor's Research",
+   "Professor's Research",
+   "Team Rocket's Petrel",
+   "Team Rocket's Petrel",
+   "Team Rocket's Petrel",
+   "Team Rocket's Petrel",
+   "Crushing Hammer",
+   "Crushing Hammer",
+   "Crushing Hammer",
+   "Counter Catcher",
+   "Spiky Energy",
+   "Spiky Energy",
+   "Junk Arm"
+  ],
+  "holdout": [
+   {
+    "copies": 0,
+    "cut": null,
+    "weighted": 0.9110372340425532,
+    "se": 0.004607207078265421,
+    "mean": 0.9393333333333334,
+    "worst": 0.895,
+    "cells": {
+     "t60": {
+      "a": 0.919,
+      "games": 1000,
+      "junk": 0.0,
+      "poffin": 0.0,
+      "potion": 0.0,
+      "catcher": 0.0,
+      "cape": 0.0,
+      "charm": 0.0,
+      "sky": 0.0,
+      "area": 0.0,
+      "cage": 0.0,
+      "balloon": 0.0,
+      "carrier": 0.0,
+      "stretcher": 0.0,
+      "nest": 0.0,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.0,
+      "iono": 0.0,
+      "research": 0.0
+     },
+     "hedrick": {
+      "a": 0.895,
+      "games": 1000,
+      "junk": 0.0,
+      "poffin": 0.0,
+      "potion": 0.0,
+      "catcher": 0.0,
+      "cape": 0.0,
+      "charm": 0.0,
+      "sky": 0.0,
+      "area": 0.0,
+      "cage": 0.0,
+      "balloon": 0.0,
+      "carrier": 0.0,
+      "stretcher": 0.0,
+      "nest": 0.0,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.0,
+      "iono": 0.0,
+      "research": 0.0
+     },
+     "c60": {
+      "a": 0.937,
+      "games": 1000,
+      "junk": 0.0,
+      "poffin": 0.0,
+      "potion": 0.0,
+      "catcher": 0.0,
+      "cape": 0.0,
+      "charm": 0.0,
+      "sky": 0.0,
+      "area": 0.0,
+      "cage": 0.0,
+      "balloon": 0.0,
+      "carrier": 0.0,
+      "stretcher": 0.0,
+      "nest": 0.0,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.0,
+      "iono": 0.0,
+      "research": 0.0
+     },
+     "d60": {
+      "a": 0.987,
+      "games": 1000,
+      "junk": 0.0,
+      "poffin": 0.0,
+      "potion": 0.0,
+      "catcher": 0.0,
+      "cape": 0.0,
+      "charm": 0.0,
+      "sky": 0.0,
+      "area": 0.0,
+      "cage": 0.0,
+      "balloon": 0.0,
+      "carrier": 0.0,
+      "stretcher": 0.0,
+      "nest": 0.0,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.0,
+      "iono": 0.0,
+      "research": 0.0
+     },
+     "thorns": {
+      "a": 0.999,
+      "games": 1000,
+      "junk": 0.0,
+      "poffin": 0.0,
+      "potion": 0.0,
+      "catcher": 0.0,
+      "cape": 0.0,
+      "charm": 0.0,
+      "sky": 0.0,
+      "area": 0.0,
+      "cage": 0.0,
+      "balloon": 0.0,
+      "carrier": 0.0,
+      "stretcher": 0.0,
+      "nest": 0.0,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.0,
+      "iono": 0.0,
+      "research": 0.0
+     },
+     "starmie": {
+      "a": 0.899,
+      "games": 1000,
+      "junk": 0.0,
+      "poffin": 0.0,
+      "potion": 0.0,
+      "catcher": 0.0,
+      "cape": 0.0,
+      "charm": 0.0,
+      "sky": 0.0,
+      "area": 0.0,
+      "cage": 0.0,
+      "balloon": 0.0,
+      "carrier": 0.0,
+      "stretcher": 0.0,
+      "nest": 0.0,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.0,
+      "iono": 0.0,
+      "research": 0.0
+     }
+    }
+   },
+   {
+    "copies": 1,
+    "cut": "Ultra Ball",
+    "weighted": 0.9122420212765957,
+    "se": 0.0045729278030599415,
+    "mean": 0.9396666666666667,
+    "worst": 0.898,
+    "cells": {
+     "t60": {
+      "a": 0.917,
+      "games": 1000,
+      "junk": 0.039,
+      "poffin": 0.003,
+      "potion": 0.006,
+      "catcher": 0.0,
+      "cape": 0.0,
+      "charm": 0.0,
+      "sky": 0.008,
+      "area": 0.0,
+      "cage": 0.0,
+      "balloon": 0.017,
+      "carrier": 0.002,
+      "stretcher": 0.0,
+      "nest": 0.0,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.003,
+      "iono": 0.0,
+      "research": 0.0
+     },
+     "hedrick": {
+      "a": 0.901,
+      "games": 1000,
+      "junk": 0.062,
+      "poffin": 0.01,
+      "potion": 0.002,
+      "catcher": 0.0,
+      "cape": 0.0,
+      "charm": 0.0,
+      "sky": 0.02,
+      "area": 0.0,
+      "cage": 0.005,
+      "balloon": 0.017,
+      "carrier": 0.001,
+      "stretcher": 0.0,
+      "nest": 0.001,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.006,
+      "iono": 0.0,
+      "research": 0.0
+     },
+     "c60": {
+      "a": 0.937,
+      "games": 1000,
+      "junk": 0.136,
+      "poffin": 0.017,
+      "potion": 0.004,
+      "catcher": 0.0,
+      "cape": 0.001,
+      "charm": 0.0,
+      "sky": 0.058,
+      "area": 0.0,
+      "cage": 0.0,
+      "balloon": 0.045,
+      "carrier": 0.001,
+      "stretcher": 0.003,
+      "nest": 0.002,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.005,
+      "iono": 0.0,
+      "research": 0.0
+     },
+     "d60": {
+      "a": 0.99,
+      "games": 1000,
+      "junk": 0.016,
+      "poffin": 0.004,
+      "potion": 0.0,
+      "catcher": 0.0,
+      "cape": 0.001,
+      "charm": 0.0,
+      "sky": 0.001,
+      "area": 0.0,
+      "cage": 0.0,
+      "balloon": 0.005,
+      "carrier": 0.0,
+      "stretcher": 0.0,
+      "nest": 0.004,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.0,
+      "iono": 0.001,
+      "research": 0.0
+     },
+     "thorns": {
+      "a": 0.995,
+      "games": 1000,
+      "junk": 0.069,
+      "poffin": 0.008,
+      "potion": 0.0,
+      "catcher": 0.0,
+      "cape": 0.0,
+      "charm": 0.0,
+      "sky": 0.025,
+      "area": 0.0,
+      "cage": 0.001,
+      "balloon": 0.029,
+      "carrier": 0.001,
+      "stretcher": 0.001,
+      "nest": 0.001,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.003,
+      "iono": 0.0,
+      "research": 0.0
+     },
+     "starmie": {
+      "a": 0.898,
+      "games": 1000,
+      "junk": 0.11,
+      "poffin": 0.01,
+      "potion": 0.022,
+      "catcher": 0.001,
+      "cape": 0.001,
+      "charm": 0.0,
+      "sky": 0.02,
+      "area": 0.0,
+      "cage": 0.002,
+      "balloon": 0.042,
+      "carrier": 0.002,
+      "stretcher": 0.0,
+      "nest": 0.005,
+      "boss": 0.0,
+      "penny": 0.0,
+      "arven": 0.005,
+      "iono": 0.0,
+      "research": 0.0
+     }
+    }
+   }
+  ],
+  "done": true
+ },
+ "cells": {}
+}
