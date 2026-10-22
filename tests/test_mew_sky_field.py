@@ -15,7 +15,7 @@ from app.engine.game import Game, Pokemon
 from app.engine.legality import copy_violations
 from app.engine.models import Card, standard_60_rules
 from app.engine.strategies import StrategySpec
-from app.seed_data import SET_M60_NAMES, build_fallback_deck, fallback_named
+from app.seed_data import build_fallback_deck, fallback_named
 
 SKY_FIELD = (
     "Each player can have 8 Pokémon on his or her Bench. "
@@ -161,7 +161,8 @@ def _load_lab():
 
 def test_lab_swap_keeps_sixty_cards_and_limits_copies():
     lab = _load_lab()
-    names = list(SET_M60_NAMES)
+    blob = json.loads((Path(__file__).resolve().parents[1] / "data/lab/set-m-sky-field.json").read_text())
+    names = list(blob["report"]["list_start"])
     with_sky = lab.swap_one(names, "Night Stretcher", "Sky Field")
     assert len(with_sky) == 60
     assert with_sky.count("Sky Field") == 1
@@ -183,13 +184,14 @@ def test_sky_field_report_path_is_legal_and_starts_from_the_locked_list():
     assert rep["done"] is True
     assert rep["seed"] == 20261007
     assert rep["games"] == 1000
-    assert rep["list_start"] == list(SET_M60_NAMES)
+    assert rep["list_start"] == rep["array"][0]["list"]
+    assert rep["list_start"].count("Sky Field") == 0
     assert list(rep["foes"]) == [key for key, *_ in lab.FOES]
     assert abs(sum(rep["weights"].values()) - 1.0) < 1e-9
     rules = standard_60_rules()
     array = rep["array"]
     assert [row["label"] for row in array] == ["Set M", "Sky Field", "Budew 1", "Budew 2", "Budew 3", "Budew 4"]
-    previous = Counter(SET_M60_NAMES)
+    previous = Counter(rep["list_start"])
     for row in array[1:]:
         names = row["list"]
         assert len(names) == 60

@@ -390,7 +390,7 @@ def result_lines(report: dict) -> list[str]:
     lines.extend(
         [
             "",
-            "`SET_M60_NAMES` stays the earlier lock. This report's starting 60 is the fresh-seed best "
+            "`SET_M60_NAMES` is the list this search kept. The starting 60 is the fresh-seed best "
             "of `set-m-gust-search`, four Sky Field and four Budew.",
             "",
             "Copies at or above 2 standard errors against zero: "
@@ -441,7 +441,8 @@ def render_md(report: dict) -> str:
         "",
         f"Starting 60 is the fresh-seed best from `set-m-gust-search`: {report.get('start_label')}.",
         f"That list has four Sky Field, four Budew, and zero {IN_NAME}.",
-        "An earlier pass measured `SET_M60_NAMES`, which has zero Sky Field. Those numbers are withdrawn.",
+        "An earlier pass measured the previous lock, which has zero Sky Field. Those numbers are withdrawn.",
+        "The list this search kept is locked as `SET_M60_NAMES`.",
         "Each step cuts exactly one copy of one other card. Weights are frozen from the",
         "0-Petrel measurement of this list on this engine.",
         "",

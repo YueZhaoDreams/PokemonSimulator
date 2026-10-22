@@ -581,7 +581,10 @@ def _load_lab():
 
 def test_petrel_swap_keeps_sixty_cards_and_stops_at_four():
     lab = _load_lab()
-    names = list(SET_M60_NAMES)
+    historical = json.loads(
+        (Path(__file__).resolve().parents[1] / "data" / "lab" / "set-m-sky-field.json").read_text()
+    )["report"]["list_start"]
+    names = list(historical)
     assert names.count("Team Rocket's Petrel") == 0
     swapped = lab.swap_one(names, "Night Stretcher")
     assert len(swapped) == 60
@@ -604,7 +607,7 @@ def test_petrel_search_starts_from_the_four_sky_field_list():
     assert names.count("Budew") == 4
     assert names.count("Team Rocket's Petrel") == 0
     assert names.count("Boss's Orders") == 0
-    assert SET_M60_NAMES.count("Sky Field") == 0
+    assert Counter(names) != Counter(SET_M60_NAMES)
 
 
 def test_petrel_report_is_the_finished_four_sky_field_search():
@@ -636,8 +639,9 @@ def test_petrel_report_is_the_finished_four_sky_field_search():
     assert "## Result" in text
     assert "2.73 standard errors" in text
     assert "0.266" in text
-    assert SET_M60_NAMES.count("Sky Field") == 0
-    assert SET_M60_NAMES.count("Team Rocket's Petrel") == 0
+    assert "locked as `SET_M60_NAMES`" in text
+    assert Counter(SET_M60_NAMES) == final
+    assert copy_violations(build_fallback_deck(list(SET_M60_NAMES)), standard_60_rules()) == []
 
 
 def test_aura_petrel_still_takes_boss_ahead_of_an_item():
