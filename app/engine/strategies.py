@@ -696,7 +696,18 @@ STRATEGY_LIBRARY = {
             "Arven is played instead when the collapse is an Item or Tool Arven can fetch, because Arven also takes a second card. "
             "Arven cannot fetch a Stadium, so Petrel still takes that Stadium. "
             "Boss's Orders is played instead when it is already in hand, so Petrel is still there for a later collapse. "
-            "While Items are locked, an Item or a Tool is held for the following turn and scores below a Stadium that can be played now."
+            "While Items are locked, an Item or a Tool is held for the following turn and scores below a Stadium that can be played now. "
+            "Junk Arm discards 2 cards from the hand, then puts a Trainer from the discard pile into the hand. "
+            "It cannot choose Junk Arm. An Item, a Pokémon Tool, or a Stadium found that way is played on the same turn, "
+            "and a Supporter stays in the hand. The Trainer is the one this list would play next and does not already hold, "
+            "the same line as Petrel, including Counter Catcher, Hero's Cape, and Bursting Balloon. "
+            "Arven cannot fetch a card from the discard pile, so Junk Arm still takes that card. "
+            "Junk Arm is an Item, so Arven can still be played that turn and search the deck. "
+            "A Night Stretcher found there returns one of the discarded Pokémon. "
+            "The discarded cards are Pokémon whose printed HP a Rescue Carrier still in the deck, hand, or discard can take back, "
+            "or any other Pokémon a Night Stretcher still there can take back. "
+            "A Mew ex is one of those cards only when another Mew ex remains in play or in the hand, and only when that Night Stretcher remains. "
+            "Junk Arm is not played when those cards are not in the hand."
         ),
         prefer_damage=0.9,
         prefer_status=0.2,

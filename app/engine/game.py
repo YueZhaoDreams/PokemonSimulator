@@ -1504,6 +1504,8 @@ class Game:
         # Several Petrel copies share one collapse. The next pick rebuilds it.
         self._petrel_pick = None
         self._petrel_pick_ready = False
+        self._junk_pick = None
+        self._junk_pick_ready = False
         hold_for_bounce = strat.name == "party" and self._save_supporter_for_bounce(me, foe)
         for card_i in me.hand:
             card = me.card(card_i)
@@ -2095,6 +2097,13 @@ class Game:
                     score += 12
                 else:
                     score -= 20
+            elif name == "junk arm" and strat.name in {"mew_baby", "baby"}:
+                if not self._junk_pick_ready:
+                    self._junk_pick = self._mew_junk_plan(me, foe)
+                    self._junk_pick_ready = True
+                plan = self._junk_pick
+                # The Trainer already in hand plays first when the two scores match.
+                score += (plan[0] - 0.5) if plan else -20
             elif name == "team rocket's petrel" and strat.name in {"mew_baby", "baby"}:
                 if not self._petrel_pick_ready:
                     self._petrel_pick = self._mew_petrel_collapse(me, foe)
@@ -14025,7 +14034,123 @@ class Game:
                 return True
         return False
 
-    def _mew_petrel_collapse(self, me: Player, foe: Player) -> tuple[float, str] | None:
+    def _mew_junk_recovery(self, me: Player) -> tuple[int | None, bool]:
+        """Rescue Carrier's printed HP cap, and whether a Night Stretcher is still available.
+
+        Both are read from cards still in the deck, hand, or discard. The cap is the
+        number in that Carrier's sentence.
+        """
+        carrier_hp: int | None = None
+        stretcher = False
+        for card_i in (*me.hand, *me.deck, *me.discard):
+            card = me.card(card_i)
+            name = card.name.lower()
+            if name == "night stretcher":
+                stretcher = True
+            if name == "rescue carrier" and carrier_hp is None:
+                spec = next(
+                    (e for e in parse_trainer_effects(card.text or "") if e.get("kind") == "rescue_carrier"),
+                    None,
+                )
+                if spec is not None:
+                    carrier_hp = int(spec.get("max_hp") or 0)
+        return carrier_hp, stretcher
+
+    def _mew_junk_fodder(self, me: Player) -> list[int]:
+        """Pokémon in hand that Junk Arm can discard and a recovery card can take back.
+
+        Rescue Carrier's printed HP comes first. Any other Pokémon is next, and only
+        when a Night Stretcher remains. A Mew ex is last, and only while another
+        Mew ex remains in play or in the hand.
+        """
+        carrier_hp, stretcher = self._mew_junk_recovery(me)
+        mews_play = sum(1 for mon in me.in_play() if me.card(mon.card_i).name.lower() == "mew ex")
+        mews_hand = sum(1 for card_i in me.hand if me.card(card_i).name.lower() == "mew ex")
+        mew_discards = 0
+        ranked: list[tuple[int, int, str, int]] = []
+        for card_i in list(me.hand):
+            card = me.card(card_i)
+            if not card.is_pokemon:
+                continue
+            hp = card.hp or 0
+            if hp <= 0:
+                continue
+            name = card.name.lower()
+            if name == "mew ex":
+                if not stretcher or mews_play + mews_hand - mew_discards <= 1:
+                    continue
+                mew_discards += 1
+                ranked.append((2, hp, name, card_i))
+                continue
+            if carrier_hp is not None and hp <= carrier_hp:
+                ranked.append((0, hp, name, card_i))
+            elif stretcher:
+                ranked.append((1, hp, name, card_i))
+        ranked.sort()
+        return [card_i for *_rest, card_i in ranked]
+
+    def _mew_junk_plan(self, me: Player, foe: Player) -> tuple[float, str] | None:
+        """The Trainer Junk Arm would take, when the hand can pay its printed discard."""
+        arm = next((me.card(i) for i in me.hand if me.card(i).name.lower() == "junk arm"), None)
+        if arm is None:
+            return None
+        spec = next((e for e in parse_trainer_effects(arm.text or "") if e.get("kind") == "junk_arm"), None)
+        if spec is None:
+            return None
+        need = int(spec.get("discard") or 0)
+        forbid = {"junk arm"} if spec.get("exclude_self") else set()
+        collapse = self._mew_petrel_collapse(
+            me, foe, source=list(me.discard), from_discard=True, forbid=forbid
+        )
+        if collapse is None or len(self._mew_junk_fodder(me)) < need:
+            return None
+        return collapse
+
+    def _mew_junk_arm(self, me: Player, who: str, discard_n: int, exclude_self: bool) -> None:
+        """Printed Junk Arm: discard N cards, then a Trainer from discard, never Junk Arm itself."""
+        foe = self.players["b" if who == "a" else "a"]
+        forbid = {"junk arm"} if exclude_self else set()
+        collapse = self._mew_petrel_collapse(
+            me, foe, source=list(me.discard), from_discard=True, forbid=forbid
+        )
+        fodder = self._mew_junk_fodder(me)
+        if collapse is None or len(fodder) < discard_n or discard_n <= 0:
+            self._bump("junk_arm_fail")
+            return
+        for card_i in fodder[:discard_n]:
+            me.hand.remove(card_i)
+            me.discard.append(card_i)
+        want = collapse[1]
+        found = next(
+            (
+                card_i
+                for card_i in me.discard
+                if me.card(card_i).is_trainer
+                and me.card(card_i).name.lower() == want
+                and not (exclude_self and me.card(card_i).name.lower() == "junk arm")
+                and not self._cannot_leave_discard(me.card(card_i))
+            ),
+            None,
+        )
+        if found is None:
+            self._bump("junk_arm_miss")
+            return
+        me.discard.remove(found)
+        me.hand.append(found)
+        found_name = me.card(found).name
+        self._bump("junk_arm")
+        self._bump(f"junk_arm_into:{found_name}")
+        self._log(f"{me.name} Junk Arm takes {found_name}")
+
+    def _mew_petrel_collapse(
+        self,
+        me: Player,
+        foe: Player,
+        *,
+        source: list[int] | None = None,
+        from_discard: bool = False,
+        forbid: set[str] | None = None,
+    ) -> tuple[float, str] | None:
         """The Trainer Petrel collapses into, and the score for playing Petrel to get it.
 
         Printed Petrel takes any Trainer from the deck. The same _play_trainers loop
@@ -14033,14 +14158,18 @@ class Game:
         this turn, so it scores below those. A Stadium uses _mew_stadium_score, the
         same number _pick_trainer would give that card once it is in hand. Arven,
         already in hand, keeps an Item or Tool it can fetch, because it takes a
-        second card as well. Arven cannot fetch a Stadium. Boss's Orders, already
-        in hand, keeps the gust.
+        second card as well. Arven cannot fetch a Stadium, and cannot fetch a card
+        that is already in the discard. Boss's Orders, already in hand, keeps the gust.
         """
         hand = {me.card(i).name.lower() for i in me.hand}
+        blocked = forbid or set()
         by_name: dict[str, Card] = {}
-        for card_i in me.deck:
+        for card_i in me.deck if source is None else source:
             card = me.card(card_i)
-            by_name.setdefault(card.name.lower(), card)
+            name = card.name.lower()
+            if name in blocked or not card.is_trainer:
+                continue
+            by_name.setdefault(name, card)
         if not by_name:
             return None
         arven_score = self._mew_arven_score(me, foe) if "arven" in hand else 0.0
@@ -14080,9 +14209,10 @@ class Game:
                 score = min(score, 9.0)
             if name == "counter catcher" and "boss's orders" in hand:
                 score = min(score, gust_score - 1)
-            if name == "counter catcher" and "arven" in hand and arven_score > score:
+            # Arven searches the deck. A Trainer already in the discard is Junk Arm's card.
+            if not from_discard and name == "counter catcher" and "arven" in hand and arven_score > score:
                 score = min(score, arven_score - 1)
-            elif "arven" in hand and name != "counter catcher" and (
+            elif not from_discard and "arven" in hand and name != "counter catcher" and (
                 card.is_supporter or card.is_item or self._is_tool_card(card)
             ):
                 score = min(score, arven_score - 1)
@@ -14133,7 +14263,10 @@ class Game:
             if stadium_score > 0:
                 offer(card, stadium_score)
         balloon = by_name.get("bursting balloon")
-        if balloon is not None and self._mew_wants_balloon_tutor(me):
+        if balloon is not None and (
+            self._mew_wants_balloon_tutor(me)
+            or (from_discard and self._bare_babies(me) and "bursting balloon" not in hand)
+        ):
             offer(balloon, 18)
         stretcher = by_name.get("night stretcher")
         if stretcher is not None:
@@ -14760,7 +14893,10 @@ class Game:
         elif kind == "scoop_non_v_gx_to_hand":
             self._scoop_up_net(me, who)
         elif kind == "junk_arm":
-            self._junk_arm(me, who, card, int(eff.get("discard") or 2), bool(eff.get("exclude_self")))
+            if self.strats[who].name in {"mew_baby", "baby"}:
+                self._mew_junk_arm(me, who, int(eff.get("discard") or 0), bool(eff.get("exclude_self")))
+            else:
+                self._junk_arm(me, who, card, int(eff.get("discard") or 2), bool(eff.get("exclude_self")))
         elif kind == "mill_own_deck":
             self._battle_compressor(me, int(eff.get("count") or 0))
         elif kind == "recycle_supporter_from_discard":
