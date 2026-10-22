@@ -585,6 +585,25 @@ def parse_ability_effects(text: str) -> list[dict[str, Any]]:
     if "just played" in t and "evolved" in t and "evolve" in t:
         effects.append({"kind": "evolve_just_played_or_evolved"})
 
+    # Sweet Sleeping Face: while Asleep, attack damage does not land. Effects still do.
+    if (
+        "as long as" in t
+        and "is asleep" in t
+        and "prevent all damage" in t
+        and "by attacks" in t
+    ):
+        effects.append({"kind": "prevent_attack_damage_while_asleep"})
+
+    # Slumbering Forest: the between-turns sleep check is two coins.
+    # Still Asleep unless both are heads.
+    if (
+        "if a pokemon is asleep" in t
+        and "flips 2 coins instead of 1" in t
+        and "either of them is tails" in t
+        and "still asleep" in t
+    ):
+        effects.append({"kind": "sleep_check_two_coins"})
+
     # Tera rule printed on the Pokémon. Area Zero looks for this sentence, not the name.
     if (
         "as long as this pokemon is on your bench" in t
@@ -632,6 +651,27 @@ def parse_ability_effects(text: str) -> list[dict[str, Any]]:
     return effects
 
 
+def _status_targets_self(text: str, status: str) -> bool:
+    """True when a sentence puts this Pokémon into the status, not the opponent.
+
+    "Jr." is part of the name, not the end of the sentence.
+    """
+    flat = text.lower().replace("jr.", "jr")
+    self_hit = False
+    for raw in re.split(r"[.]", flat):
+        clause = raw.strip().lstrip(")").strip()
+        if f"is now {status}" not in clause:
+            continue
+        if "opponent" in clause or "defending" in clause:
+            return False
+        if re.search(
+            rf"(?:this pokemon|(?:[a-z][a-z'-]* )*[a-z][a-z'-]*) is now {status}\b",
+            clause,
+        ):
+            self_hit = True
+    return self_hit
+
+
 def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
     t = _normalize_card_text(text)
     effects: list[dict[str, Any]] = []
@@ -673,7 +713,11 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
     if "burn" in t:
         effects.append({"kind": "status", "status": "burned", "coin": coin})
     if "asleep" in t or "put to sleep" in t:
-        effects.append({"kind": "status", "status": "asleep", "coin": coin})
+        asleep = {"kind": "status", "status": "asleep", "coin": coin}
+        # "Pichu is now Asleep" sleeps the attacker. Opponent / Defending clauses stay on the defender.
+        if _status_targets_self(t, "asleep"):
+            asleep["target"] = "self"
+        effects.append(asleep)
 
     recoil = re.search(r"(?:also )?does (\d+) damage to itself", t)
     if recoil:
@@ -779,8 +823,27 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
                 "name": named_bench.group(2),
             }
         )
+    # Sleepy Lost: the top card of the opponent's deck goes to the Lost Zone.
+    if "put the top card of your opponent's deck in the lost zone" in t:
+        effects.append({"kind": "topdeck_lost_zone", "whose": "opponent"})
+    # Energy Antics: move one of the opponent's Energy cards onto another of their Pokémon.
+    if (
+        "move an energy card attached to" in t
+        and "1 of your opponent's pokemon" in t
+        and "another of your opponent's pokemon" in t
+    ):
+        effects.append({"kind": "move_opponent_energy"})
+    # Playground: each player may bench as many Basics as they like. No printed count.
+    # The user benches first. "Pichu is now Asleep" is the self-status above.
+    if (
+        "each player may search" in t
+        and "as many" in t
+        and "basic" in t
+        and "bench" in t
+    ):
+        effects.append({"kind": "playground", "user_first": "bench first" in t})
     # Call for Family / bench a Basic from deck. Turbo Energize attaches Basic Energy, not a Basic Pokémon.
-    elif "basic energy" not in t and (
+    elif "basic energy" not in t and "each player may search" not in t and (
         "call for family" in t
         or ("basic" in t and "bench" in t and "search your deck" in t)
         or "search your deck for a basic" in t

@@ -263,6 +263,30 @@ class Game:
         player.active = Pokemon(card_i=active_i, played_turn=0)
         self._bump(f"saw_play:{player.card(active_i).name}")
         remaining = self._hand_playables(player)
+        if strat.name == "mill":
+            def bench_rank(card_i: int) -> tuple[int, int]:
+                card = player.card(card_i)
+                name = card.name.lower()
+                if name == "manaphy":
+                    return (0, 0)
+                if self._sweet_face(card):
+                    return (1, 0)
+                if name == "victini":
+                    return (2, 0)
+                if name == "wiglett":
+                    return (3, 0)
+                return (4, 0)
+
+            for card_i in sorted(remaining, key=bench_rank):
+                if len(player.bench) >= self._bench_limit(player):
+                    break
+                if not self._wants_in_play(player, player.card(card_i), strat):
+                    continue
+                player.hand.remove(card_i)
+                player.bench.append(Pokemon(card_i=card_i, played_turn=0))
+                self._bump(f"saw_play:{player.card(card_i).name}")
+            _capture_opening(player)
+            return
         if strat.hold_as_energy:
             # Family Cup: Pokémon on the field cannot be attached as energy.
             # Opening puts down only the Active — extras stay in hand as fuel.
@@ -297,7 +321,7 @@ class Game:
                     break
                 if not self._bench_room_for(player, player.card(card_i)):
                     continue
-                if strat.name in {"mew_baby", "baby"} and not self._wants_in_play(
+                if strat.name in {"mew_baby", "baby", "mill"} and not self._wants_in_play(
                     player, player.card(card_i), strat
                 ):
                     continue
@@ -382,6 +406,19 @@ class Game:
     def _is_family_caller(self, card) -> bool:
         return any(e.get("kind") == "call_family" for atk in card.attacks for e in atk.effects)
 
+    def _prints_playground(self, card) -> bool:
+        return any(e.get("kind") == "playground" for atk in card.attacks for e in atk.effects)
+
+    def _sweet_face(self, card) -> bool:
+        """Sweet Sleeping Face, from the printed ability sentence."""
+        for abi in card.abilities or []:
+            if any(
+                eff.get("kind") == "prevent_attack_damage_while_asleep"
+                for eff in parse_ability_effects(abi.text or "")
+            ):
+                return True
+        return False
+
     def _is_protected_from_energy(self, me: Player, card, strat: StrategySpec) -> bool:
         """Keep the last copy of a protected attacker off the energy pile.
 
@@ -453,6 +490,21 @@ class Game:
             # Wave Veil is the damage layer next to Battle Cage. One copy, and
             # only once an opposing attack can do damage to the Bench.
             return self._mew_wants_manaphy(player)
+
+        if strat.name == "mill":
+            # One Playground caller. One more Sweet Sleeping Face as the backup wall.
+            # Manaphy shields the bench. Wiglett fills what's left. One Victini reflips.
+            if name == "manaphy":
+                return copies < 1
+            if self._prints_playground(card):
+                return not any(self._prints_playground(player.card(m.card_i)) for m in player.in_play())
+            if self._sweet_face(card):
+                faces = sum(1 for m in player.in_play() if self._sweet_face(player.card(m.card_i)))
+                return faces < 2
+            if name == "victini":
+                return copies < 1
+            if name == "wiglett":
+                return True
 
         if strat.name == "celebration":
             caps = {
@@ -637,6 +689,16 @@ class Game:
         def score(i: int) -> float:
             card = player.card(i)
             name = card.name.lower()
+            if strat.name == "mill" and self._prints_playground(card):
+                return 4000
+            if strat.name == "mill" and self._sweet_face(card):
+                return 3600
+            if strat.name == "mill" and name == "wiglett":
+                return 2500
+            if strat.name == "mill" and name == "victini":
+                return 900
+            if strat.name == "mill" and name == "manaphy":
+                return 200
             if strat.name in {"mew_baby", "baby"}:
                 rank = {
                     "mew ex": 5000,
@@ -1047,22 +1109,43 @@ class Game:
         self._discard_attached_end_of_turn(who)
         self._discard_opponent_turn_tools(who)
 
+    def _sleep_check_flips(self) -> int:
+        """One coin, or two while Slumbering Forest is in play."""
+        if any(eff.get("kind") == "sleep_check_two_coins" for eff in (self.stadium_effects or [])):
+            return 2
+        return 1
+
+    def _wake_asleep(self, mon: Pokemon) -> None:
+        """Between turns the owner flips. Asleep ends only when every coin is heads.
+
+        Slumbering Forest flips 2 coins. Either tails and the Pokémon is still Asleep.
+        """
+        if not (mon.status & ST_ASLEEP):
+            return
+        flips = self._sleep_check_flips()
+        if flips > 1:
+            self._bump("slumbering_forest")
+        if all(self.rng.random() < 0.5 for _ in range(flips)):
+            mon.status &= ~ST_ASLEEP
+
     def _between_turns(self, me: Player) -> None:
         self._freezing_shroud()
-        if not me.active:
-            return
-        mon = me.active
-        if mon.status & ST_POISONED:
-            mon.damage += 10
-            self._bump("poison_ticks")
-        if mon.status & ST_BURNED:
-            mon.damage += 20
-            self._bump("burn_ticks")
-            if self.rng.random() < 0.5:
-                mon.status &= ~ST_BURNED
-        if mon.status & ST_ASLEEP:
-            if self.rng.random() < 0.5:
-                mon.status &= ~ST_ASLEEP
+        if me.active:
+            mon = me.active
+            if mon.status & ST_POISONED:
+                mon.damage += 10
+                self._bump("poison_ticks")
+            if mon.status & ST_BURNED:
+                mon.damage += 20
+                self._bump("burn_ticks")
+                if self.rng.random() < 0.5:
+                    mon.status &= ~ST_BURNED
+        # The check after each turn covers both Active Pokémon. A baby that just
+        # fell Asleep flips before the opponent attacks.
+        other = self.players["b" if me.name == "A" else "a"]
+        for player in (me, other):
+            if player.active:
+                self._wake_asleep(player.active)
 
     def _play_basics(self, me: Player) -> None:
         who = "a" if me.name == "A" else "b"
@@ -1078,6 +1161,16 @@ class Game:
             name = card.name.lower()
             if strat.name == "celebration":
                 return (self._celebration_bench_rank(name), -(card.hp or 0))
+            if strat.name == "mill":
+                if name == "manaphy":
+                    return (0, 0)
+                if self._sweet_face(card):
+                    return (1, 0)
+                if name == "victini":
+                    return (2, 0)
+                if name == "wiglett":
+                    return (3, 0)
+                return (4, 0)
             if strat.name == "g":
                 rank = {
                     "clefairy": 0,
@@ -1161,6 +1254,8 @@ class Game:
             if card_i not in me.hand:
                 continue
             if strat.one_mew and not self._wants_in_play(me, me.card(card_i), strat):
+                continue
+            if strat.name == "mill" and not self._wants_in_play(me, me.card(card_i), strat):
                 continue
             if not self._bench_room_for(me, me.card(card_i)):
                 continue
@@ -2701,6 +2796,20 @@ class Game:
             if eff.get("lose_tera_limit") is None or self._player_has_tera(player):
                 continue
             self._discard_bench_down_to(player, int(eff["lose_tera_limit"]))
+
+    def _asleep_face_prevents(self, owner: Player, mon: Pokemon) -> bool:
+        """Sweet Sleeping Face: attack damage is prevented only while Asleep."""
+        if not (mon.status & ST_ASLEEP):
+            return False
+        if self._abilities_suppressed(owner, mon):
+            return False
+        for abi in owner.card(mon.card_i).abilities:
+            if any(
+                eff.get("kind") == "prevent_attack_damage_while_asleep"
+                for eff in self._ability_effects(abi)
+            ):
+                return True
+        return False
 
     def _benched_attack_damage_prevented(self, owner: Player, mon: Pokemon) -> bool:
         if owner.active is mon:
@@ -4368,14 +4477,26 @@ class Game:
         if strat.name == "mill":
             names = {me.card(mon.card_i).name.lower() for mon in me.in_play()}
             names |= {me.card(i).name.lower() for i in me.hand}
+            have_face = any(self._sweet_face(me.card(m.card_i)) for m in me.in_play()) or any(
+                self._sweet_face(me.card(i)) for i in me.hand
+            )
+            have_playground = any(self._prints_playground(me.card(m.card_i)) for m in me.in_play()) or any(
+                self._prints_playground(me.card(i)) for i in me.hand
+            )
             prefer = []
+            if not have_playground:
+                prefer.append("Pichu")
+            if "manaphy" not in names:
+                prefer.append("Manaphy")
+            if not have_face:
+                prefer.extend(["Mime Jr.", "Smoochum"])
             if "wiglett" not in names:
                 prefer.append("Wiglett")
             if "wugtrio" not in names:
                 prefer.append("Wugtrio")
             if "victini" not in names:
                 prefer.append("Victini")
-            prefer.extend(["Wiglett", "Wugtrio", "Victini"])
+            prefer.extend(["Wiglett", "Wugtrio", "Pichu", "Mime Jr.", "Smoochum", "Manaphy", "Victini"])
             return list(dict.fromkeys(prefer))
         if strat.name == "electro_rain":
             return self._electro_search_prefer(me)
@@ -4954,6 +5075,62 @@ class Game:
             self.rng.shuffle(me.deck)
         if want_type and take > 0 and benched == 0:
             self.rng.shuffle(me.deck)
+
+    def _playground(self, me: Player, foe: Player, who: str, user_first: bool = True) -> None:
+        """Each player may bench as many Basics as they like. The user goes first.
+
+        The printed sentence has no count. Open bench slots are the only cap.
+        """
+        foe_who = "b" if who == "a" else "a"
+        seats = [(me, who), (foe, foe_who)]
+        if not user_first:
+            seats.reverse()
+        for player, seat in seats:
+            self._playground_bench(player, seat)
+
+    def _playground_bench(self, player: Player, who: str) -> None:
+        placed = 0
+        while len(player.bench) < self._bench_limit(player):
+            card_i = self._playground_pick(player, who)
+            if card_i is None:
+                break
+            player.deck.remove(card_i)
+            player.bench.append(Pokemon(card_i=card_i, played_turn=self.turn))
+            placed += 1
+            self._bump("playground")
+            self._bump(f"saw_play:{player.card(card_i).name}")
+            self._log(f"{player.name} Playground benches {player.card(card_i).name}")
+        if placed:
+            self.rng.shuffle(player.deck)
+
+    def _playground_pick(self, player: Player, who: str) -> int | None:
+        strat = self.strats[who]
+        prefer = [p.lower() for p in self._pokemon_search_prefer(player, who)]
+        in_play = {player.card(m.card_i).name.lower() for m in player.in_play()}
+        best: tuple[float, int] | None = None
+        for card_i in player.deck:
+            card = player.card(card_i)
+            if not card.is_basic or not card.is_pokemon:
+                continue
+            if not self._wants_in_play(player, card, strat):
+                continue
+            name = card.name.lower()
+            score = 1.0
+            if name in prefer:
+                score += 20 - prefer.index(name)
+            if name in {n.lower() for n in strat.search_aces}:
+                score += 6
+            if strat.name == "mill" and name == "manaphy":
+                score += 15
+            if strat.name == "mill" and self._sweet_face(card):
+                score += 10
+            if strat.name == "mill" and name == "wiglett":
+                score += 6
+            if name in in_play:
+                score -= 2
+            if best is None or score > best[0]:
+                best = (score, card_i)
+        return None if best is None else best[1]
 
     def _energy_switch(self, me: Player) -> None:
         who = "a" if me.name == "A" else "b"
@@ -6045,8 +6222,16 @@ class Game:
                 if effect.get("coin") and self.rng.random() < 0.5:
                     self._bump(f"status_fail:{attacker.name}:{defender.name}:{effect['status']}")
                     continue
-                self._apply_status(foe.active, effect["status"])
-                self._bump(f"status:{attacker.name}:{defender.name}:{effect['status']}")
+                if effect.get("target") == "self":
+                    target_mon = me.active
+                    landed = attacker.name
+                else:
+                    target_mon = foe.active
+                    landed = defender.name
+                if target_mon is None:
+                    continue
+                self._apply_status(target_mon, effect["status"])
+                self._bump(f"status:{attacker.name}:{landed}:{effect['status']}")
                 self._bump(f"status:{effect['status']}")
             elif effect.get("kind") == "heal":
                 me.active.damage = max(0, me.active.damage - int(effect.get("amount") or 0))
@@ -6071,6 +6256,12 @@ class Game:
                     name=effect.get("name"),
                     pokemon_type=effect.get("pokemon_type"),
                 )
+            elif effect.get("kind") == "playground":
+                self._playground(me, foe, who, user_first=bool(effect.get("user_first", True)))
+            elif effect.get("kind") == "topdeck_lost_zone" and effect.get("whose") == "opponent":
+                self._topdeck_lost_zone(foe, me)
+            elif effect.get("kind") == "move_opponent_energy":
+                self._move_opponent_energy(foe)
             elif effect.get("kind") == "search_item":
                 prefer = ["Ultra Ball", "Poké Ball", "Poke Ball", "Energy Search", "Energy Switch", "Trekking Shoes"]
                 self._search_items(me, count=int(effect.get("count") or 2), prefer_names=prefer)
@@ -6213,6 +6404,50 @@ class Game:
                         self.winner, self.reason = who, "took all prize cards"
             elif effect.get("kind") == "recycle_items_from_discard":
                 self._recycle_items_from_discard(me, int(effect.get("count") or 0))
+
+    def _topdeck_lost_zone(self, owner: Player, actor: Player) -> None:
+        """Sleepy Lost: the top card of that deck goes to the Lost Zone."""
+        if not owner.deck:
+            self._bump("sleepy_lost_miss")
+            return
+        card_i = owner.deck.pop(0)
+        owner.lost_zone.append(card_i)
+        self._bump("sleepy_lost")
+        self._log(f"{actor.name} puts {owner.card(card_i).name} in the Lost Zone")
+
+    def _move_opponent_energy(self, foe: Player) -> None:
+        """Energy Antics. Strip the Active attacker onto a Benched Pokémon when we can."""
+        mons = [mon for mon in foe.in_play()]
+        if len(mons) < 2:
+            self._bump("energy_antics_fail")
+            return
+        options: list[tuple[int, Pokemon, Pokemon]] = []
+        for src in mons:
+            if not src.energy:
+                continue
+            for dst in mons:
+                if dst is src:
+                    continue
+                score = 0
+                if src is foe.active:
+                    score += 10
+                if dst is not foe.active:
+                    score += 4
+                else:
+                    score -= 6
+                options.append((score, src, dst))
+        if not options:
+            self._bump("energy_antics_fail")
+            return
+        options.sort(key=lambda item: item[0], reverse=True)
+        _, src, dst = options[0]
+        energy_i = src.energy.pop(0)
+        dst.energy.append(energy_i)
+        self._bump("energy_antics")
+        self._log(
+            f"{foe.name} moves {foe.card(energy_i).name} from "
+            f"{foe.card(src.card_i).name} to {foe.card(dst.card_i).name}"
+        )
 
     def _mill_opponent(self, me: Player, foe: Player, count: int = 1) -> None:
         milled = 0
@@ -6409,7 +6644,102 @@ class Game:
             return me.active
         if unpaid:
             return unpaid[0]
+        # The wall stalls in front. Energy lands on the line that will mill.
+        if self._sweet_face(me.card(me.active.card_i)):
+            prep = [
+                mon
+                for mon in me.bench
+                if me.card(mon.card_i).name.lower() in {"wiglett", "wugtrio"}
+            ]
+            if prep:
+                return min(
+                    prep,
+                    key=lambda mon: (
+                        0 if me.card(mon.card_i).name.lower() == "wiglett" else 1,
+                        len(mon.energy),
+                    ),
+                )
         return me.active
+
+    def _mill_hand_completes(self, me: Player, mon: Pokemon) -> bool:
+        """True when Undersea is paid, or one Energy still in hand would pay it."""
+        if self._mill_can_pay(me, mon):
+            return True
+        if me.energy_attached:
+            return False
+        atk = self._mill_undersea(me.card(mon.card_i))
+        if atk is None:
+            return False
+        cost = self._attack_cost(me, mon, atk)
+        pool = self._energy_pool(me, mon)
+        behind, host = self._energy_context(me, mon)
+        for card_i in me.hand:
+            if not me.card(card_i).is_energy:
+                continue
+            units = energy_provided(me.card(card_i), prizes_behind=behind, host=host)
+            if can_pay_energy(pool + units, cost):
+                return True
+        return False
+
+    def _mill_can_retreat(self, me: Player) -> bool:
+        if not me.active or me.retreated or me.active.retreat_locked:
+            return False
+        if me.active.status & (ST_PARALYZED | ST_ASLEEP):
+            return False
+        return len(me.active.energy) >= self._retreat_cost(me, me.active)
+
+    def _mill_can_attack_turn(self, me: Player) -> bool:
+        """Playground is an attack. The first player cannot use it on turn 1."""
+        who = "a" if me.name == "A" else "b"
+        return not (self.turn == 1 and who == self.first and self.rules.first_player_no_attack)
+
+    def _mill_hide_idx(self, me: Player) -> int | None:
+        """A Basic to stand in front until a Sweet Sleeping Face can attack."""
+        best: tuple[tuple[int, int], int] | None = None
+        for idx, mon in enumerate(me.bench):
+            card = me.card(mon.card_i)
+            if not card.is_basic or self._sweet_face(card):
+                continue
+            rank = (card.hp or 0, 1 if card.name.lower() == "wiglett" else 0)
+            if best is None or rank > best[0]:
+                best = (rank, idx)
+        return None if best is None else best[1]
+
+    def _mill_face_idx(self, me: Player) -> int | None:
+        """Bench face to promote. Playground first, so the call happens this turn."""
+        best: tuple[int, int] | None = None
+        for idx, mon in enumerate(me.bench):
+            card = me.card(mon.card_i)
+            if not self._sweet_face(card):
+                continue
+            rank = 2 if self._prints_playground(card) else 1
+            if best is None or rank > best[0]:
+                best = (rank, idx)
+        return None if best is None else best[1]
+
+    def _mill_switch_idx(self, me: Player) -> int | None:
+        """Switch only when retreat cannot bring up the miller or the wall.
+
+        Asleep Pichu cannot retreat. Switch is how the prepared Wugtrio attacks
+        that turn. A free retreat waits until after the Energy attach.
+        """
+        if not me.active or not me.bench:
+            return None
+        active = me.card(me.active.card_i)
+        if self._mill_undersea(active) and self._mill_hand_completes(me, me.active):
+            return None
+        retreat_later = self._mill_can_retreat(me) and self._retreat_cost(me, me.active) == 0
+        if not retreat_later:
+            for idx, mon in enumerate(me.bench):
+                if me.card(mon.card_i).name.lower() != "wugtrio":
+                    continue
+                if self._mill_hand_completes(me, mon):
+                    return idx
+            if not self._sweet_face(active) and self._mill_can_attack_turn(me):
+                face = self._mill_face_idx(me)
+                if face is not None:
+                    return face
+        return None
 
     def _mill_energy_card(self, me: Player, target: Pokemon) -> int | None:
         """Ignition pays Undersea the turn it is attached to an Evolution, then leaves.
@@ -6468,21 +6798,28 @@ class Game:
     def _retreat_mill(self, me: Player, who: str) -> None:
         if not me.active or not me.bench:
             return
-        if me.card(me.active.card_i).name.lower() == "wugtrio":
+        active = me.card(me.active.card_i)
+        if active.name.lower() == "wugtrio":
             return
         for idx, mon in enumerate(me.bench):
             card = me.card(mon.card_i)
             if card.name.lower() != "wugtrio":
                 continue
-            payable = False
-            for atk in card.attacks:
-                if not any(eff.get("kind") == "coin_mill_opponent" for eff in atk.effects):
-                    continue
-                if can_pay_energy(self._energy_pool(me, mon), self._attack_cost(me, mon, atk)):
-                    payable = True
-                    break
-            if payable and self._do_retreat_into(me, idx):
+            if self._mill_can_pay(me, mon) and self._do_retreat_into(me, idx):
                 return
+        can_attack = self._mill_can_attack_turn(me)
+        if self._sweet_face(active):
+            if can_attack:
+                return
+            hide = self._mill_hide_idx(me)
+            if hide is not None:
+                self._do_retreat_into(me, hide)
+            return
+        if not can_attack:
+            return
+        face = self._mill_face_idx(me)
+        if face is not None:
+            self._do_retreat_into(me, face)
 
     def _mill_trainer_score(self, me: Player, foe: Player, card: Card) -> float:
         name = card.name.lower()
@@ -6496,9 +6833,17 @@ class Game:
             return 8 if not have_trio else 2
         if name in {"nest ball", "buddy-buddy poffin", "buddy buddy poffin"}:
             slots = self._bench_limit(me) - len(me.bench)
-            if slots > 0 and not have_wiglett:
+            if slots <= 0:
+                return -4
+            if "manaphy" not in in_play and "manaphy" not in in_hand:
+                return 14
+            faces = sum(1 for mon in me.in_play() if self._sweet_face(me.card(mon.card_i)))
+            faces += sum(1 for i in me.hand if self._sweet_face(me.card(i)))
+            if faces < 2:
                 return 12
-            return 4 if slots > 0 else -4
+            if not have_wiglett:
+                return 12
+            return 4
         if name == "rescue carrier":
             return 12 if self._rescue_carrier_targets(me, 90) else -4
         if name == "crushing hammer":
@@ -6509,7 +6854,22 @@ class Game:
             return 8 if foe.deck else -2
         if name == "boss's orders":
             return 6 if foe.bench else -8
-        if name in {"glimwood tangle", "neutralization zone", "pokémon league headquarters"}:
+        if name == "slumbering forest":
+            if (self.stadium_name or "").lower() == name:
+                return -6
+            asleep = bool(me.active and me.active.status & ST_ASLEEP and self._sweet_face(me.card(me.active.card_i)))
+            if asleep:
+                return 20
+            if any(self._sweet_face(me.card(mon.card_i)) for mon in me.in_play()):
+                return 15
+            return 8
+        if name == "neutralization zone":
+            if (self.stadium_name or "").lower() == "slumbering forest" and me.active and me.active.status & ST_ASLEEP:
+                return -8
+            if (self.stadium_name or "").lower() == name:
+                return -6
+            return 7 if not self.stadium_name else 3
+        if name in {"glimwood tangle", "pokémon league headquarters"}:
             if (self.stadium_name or "").lower() == name:
                 return -6
             return 7 if not self.stadium_name else 3
@@ -6520,7 +6880,10 @@ class Game:
         if name == "team rocket's petrel":
             return 6
         if name == "switch":
-            return 4 if me.bench else -4
+            # Positive only when a bench Pokémon should come in and retreat cannot.
+            if self._mill_switch_idx(me) is not None:
+                return 28
+            return -12
         return 0
 
     def _count_psychic_energy_in_play(self, me: Player) -> int:
@@ -7385,6 +7748,12 @@ class Game:
                 score += 15 if strat.hold_as_energy else 55
                 if strat.name == "mill" and any(e.get("kind") == "coin_mill_opponent" for e in atk.effects):
                     score += 40
+            if strat.name == "mill" and any(e.get("kind") == "playground" for e in resolved.effects):
+                score += 140
+            if strat.name == "mill" and any(e.get("kind") == "topdeck_lost_zone" for e in resolved.effects):
+                score += 120
+            if strat.name == "mill" and any(e.get("kind") == "move_opponent_energy" for e in resolved.effects):
+                score += 90 if any(mon.energy for mon in foe.in_play()) else 40
             if any(e.get("kind") == "draw" for e in atk.effects) and atk.damage <= 30:
                 score += 15
             if any(e.get("kind") == "hand_count_times" for e in resolved.effects):
@@ -8536,6 +8905,9 @@ class Game:
             if getattr(foe.active, "prevent_attack_damage", False):
                 self._bump("prevent_attack_damage")
                 return 0
+            if self._asleep_face_prevents(foe, foe.active):
+                self._bump("sweet_sleeping_face")
+                return 0
             if self._nz_prevents_damage(attacker, defender):
                 self._bump("neutralization_zone")
                 return 0
@@ -8737,6 +9109,9 @@ class Game:
     def _add_attack_damage(self, owner: Player, mon: Pokemon, amount: int, *, ignore_effects: bool = False) -> None:
         if amount > 0 and not ignore_effects and getattr(mon, "prevent_attack_damage", False):
             self._bump("prevent_attack_damage")
+            amount = 0
+        if amount > 0 and not ignore_effects and self._asleep_face_prevents(owner, mon):
+            self._bump("sweet_sleeping_face")
             amount = 0
         if amount > 0 and self._benched_attack_damage_prevented(owner, mon):
             self._bump("tera_bench_prevent")
@@ -8954,6 +9329,8 @@ class Game:
         if not me.bench:
             return None
         strat = self.strats[who]
+        if strat.name == "mill":
+            return self._mill_switch_idx(me)
         if strat.name == "party":
             for idx, mon in enumerate(me.bench):
                 if self._is_clefairy(me.card(mon.card_i)) and not mon.ability_used:
@@ -9774,10 +10151,15 @@ class Game:
             self._bump("techno_radar")
 
     def _search_stadium_and_energy(self, me: Player) -> None:
+        who = "a" if me.name == "A" else "b"
+        if self.strats[who].name == "mill":
+            stadium_prefer = ["Slumbering Forest", "Neutralization Zone"]
+        else:
+            stadium_prefer = ["Lost City"]
         self._search(
             me,
             lambda c: (c.trainer_kind or "").lower() == "stadium",
-            prefer=["Lost City"],
+            prefer=stadium_prefer,
             source="colress",
         )
         who = "a" if me.name == "A" else "b"

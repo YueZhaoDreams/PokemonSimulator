@@ -817,8 +817,14 @@ STRATEGY_LIBRARY = {
     "mill": StrategySpec(
         name="mill",
         description=(
-            "Wugtrio send. Search Wiglett and Wugtrio, evolve, and mill with Undersea Tunnel. "
-            "Twisting Strike on heads keeps that Wiglett through the opponent's next turn. "
+            "Sleep wall, then Wugtrio send. Pichu, Mime Jr., and Smoochum open. "
+            "Playground benches Basics, user first. Sleepy Lost puts the top card of the "
+            "opponent's deck in the Lost Zone. Energy Antics moves one of their Energy "
+            "cards onto another of their Pokémon. Each of those attacks leaves that baby Asleep. "
+            "Sweet Sleeping Face prevents attack damage while it is Asleep. "
+            "Slumbering Forest makes the between-turns sleep check two coins. "
+            "Manaphy Wave Veil prevents attack damage to the Bench. "
+            "Switch brings up Wugtrio once Undersea Tunnel is paid. "
             "Victory Star reflips an attack once when it shows 0 or 1 heads. "
             "Ignition Energy pays Undersea on an Evolution and leaves at the end of the turn. "
             "Reversal Energy stays, and pays three while more Prize cards remain. "
@@ -832,7 +838,7 @@ STRATEGY_LIBRARY = {
         item_spend=1.0,
         self_preserve=0.2,
         hold_as_energy=False,
-        protect=["Wiglett", "Wugtrio", "Victini"],
+        protect=["Wiglett", "Wugtrio", "Victini", "Pichu", "Mime Jr.", "Smoochum", "Manaphy", "Slumbering Forest"],
         search_aces=["Wiglett", "Wugtrio"],
         closers=["Wugtrio"],
         reflip_heads_at_most=1,

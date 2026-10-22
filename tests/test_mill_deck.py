@@ -23,7 +23,7 @@ from app.engine.legality import copy_violations
 from app.engine.models import S60_SEED_IDS, default_rule_presets_for, standard_60_rules
 from app.engine.strategies import StrategySpec
 from app.seed import _is_basic_energy_name, load_seed_deck
-from app.seed_data import SET_MILL_NAMES, build_fallback_deck, fallback_named
+from app.seed_data import SET_MILL_NAMES, build_fallback_deck, build_mill_deck, fallback_named
 
 _ABSENT = (
     "Eri",
@@ -137,34 +137,42 @@ class _Board:
 def test_mill_list_is_the_sisters_sixty():
     names = list(SET_MILL_NAMES)
     assert len(names) == 60
+    assert names.count("Pichu") == 4
+    assert names.count("Mime Jr.") == 4
+    assert names.count("Smoochum") == 4
     assert names.count("Wiglett") == 4
     assert names.count("Wugtrio") == 4
+    assert names.count("Manaphy") == 1
     assert names.count("Victini") == 1
-    assert names.count("Level Ball") == 3
-    assert names.count("Nest Ball") == 3
-    assert names.count("Buddy-Buddy Poffin") == 4
-    assert names.count("Rescue Carrier") == 4
-    assert names.count("Crushing Hammer") == 4
-    assert names.count("Counter Catcher") == 2
-    assert names.count("Miss Fortune Sisters") == 2
-    assert names.count("Crispin") == 3
-    assert names.count("Boss's Orders") == 1
-    assert names.count("Team Rocket's Handiwork") == 2
-    assert names.count("Colress's Tenacity") == 4
+    assert names.count("Slumbering Forest") == 4
     assert names.count("Neutralization Zone") == 1
-    assert names.count("Double Turbo Energy") == 4
-    assert names.count("Water Energy") == 4
-    assert names.count("Fighting Energy") == 2
+    assert names.count("Buddy-Buddy Poffin") == 4
+    assert names.count("Nest Ball") == 2
+    assert names.count("Level Ball") == 2
+    assert names.count("Rescue Carrier") == 2
+    assert names.count("Switch") == 2
+    assert names.count("Crushing Hammer") == 2
+    assert names.count("Colress's Tenacity") == 3
+    assert names.count("Miss Fortune Sisters") == 2
+    assert names.count("Team Rocket's Handiwork") == 2
+    assert names.count("Crispin") == 2
     assert names.count("Ignition Energy") == 4
-    assert names.count("Reversal Energy") == 4
-    assert names.count("Switch") == 0
+    assert names.count("Reversal Energy") == 3
+    assert names.count("Double Turbo Energy") == 2
+    assert names.count("Water Energy") == 1
+    assert names.count("Boss's Orders") == 0
+    assert names.count("Counter Catcher") == 0
+    assert names.count("Fighting Energy") == 0
     assert names.count("Glimwood Tangle") == 0
     assert names.count("Team Rocket's Petrel") == 0
     assert names.count("Pokémon League Headquarters") == 0
     for missing in _ABSENT:
         assert missing not in names
-    pile = build_fallback_deck(names)
+    pile = build_mill_deck()
     assert copy_violations(pile, standard_60_rules()) == []
+    assert [c.catalog_id for c in pile if c.name == "Mime Jr."] == ["col1-47"] * 4
+    assert fallback_named("Mime Jr.").catalog_id == "sv04.5-031"
+    assert fallback_named("Mime Jr.").attacks[0].name == "Mimed Games"
     for key in ("mill", "wugtrio", "21"):
         loaded = load_seed_deck(key)
         assert loaded["id"] == "seed-mill"
@@ -191,8 +199,8 @@ def test_mill_card_art_is_the_named_print_not_the_neighbor():
     loaded = load_seed_deck("mill")
     colress_cards = [c for c in loaded["cards"] if c["name"] == "Colress's Tenacity"]
     turbo_cards = [c for c in loaded["cards"] if c["name"] == "Double Turbo Energy"]
-    assert len(colress_cards) == 4
-    assert len(turbo_cards) == 4
+    assert len(colress_cards) == 3
+    assert len(turbo_cards) == 2
     assert {c["catalog_id"] for c in colress_cards} == {"sv06.5-057"}
     assert {c["catalog_id"] for c in turbo_cards} == {"swsh9-151"}
     assert all("sv06.5/057" in c["image"] for c in colress_cards)
@@ -243,7 +251,7 @@ def test_mill_seed_special_energy_keeps_printed_text():
     ignition = [c for c in loaded["cards"] if c["name"] == "Ignition Energy"]
     reversal = [c for c in loaded["cards"] if c["name"] == "Reversal Energy"]
     assert len(ignition) == 4
-    assert len(reversal) == 4
+    assert len(reversal) == 3
     assert {c["catalog_id"] for c in ignition} == {"me02-124"}
     assert {c["catalog_id"] for c in reversal} == {"sv02-192"}
     assert all(c["stage"] == "Special" and c["energy_type"] == "Colorless" for c in ignition + reversal)
@@ -408,7 +416,9 @@ def test_sisters_discards_the_items_in_the_top_five():
 def test_level_ball_takes_wiglett_and_leaves_mew_ex():
     board = _Board("mill")
     me = board.seat("a", active=("Victini", []), deck=["Mew ex", "Wiglett"])
-    assert board.game._pokemon_search_prefer(me, "a")[0] == "Wiglett"
+    prefer = board.game._pokemon_search_prefer(me, "a")
+    assert prefer[0] == "Pichu"
+    assert prefer.index("Wiglett") < prefer.index("Wugtrio")
     board.game._resolve_trainer(me, board.game.players["b"], fallback_named("Level Ball"), "a")
     hand = [me.card(i).name for i in me.hand]
     deck = [me.card(i).name for i in me.deck]
