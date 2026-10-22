@@ -39,10 +39,11 @@ from app.seed_data import (
     SET_D60_NAMES,
     SET_STARMIE60_NAMES,
     SET_T60_NAMES,
-    SET_M60_NAMES,
     SET_T_META_NAMES,
     build_fallback_deck,
 )
+
+REPORT_PATH = ROOT / "data" / "lab" / "set-m-junk-arm.json"
 
 FOES = (
     ("t60", "Dragapult ex (T60)", SET_T60_NAMES, "phantom"),
@@ -93,15 +94,20 @@ COLLAPSE_KEYS = ("junk",) + tuple(key for key, _name in COLLAPSES)
 
 
 def starting_list() -> tuple[str, list[str]]:
-    """Locked Set M. Four Petrel, three Sky Field, four Budew, zero Junk Arm."""
-    names = list(SET_M60_NAMES)
+    """The four-Petrel list this search measured. One Ultra Ball, zero Junk Arm.
+
+    The card order is the report's own list_start, which is the constant as it
+    stood when the search ran. Later locks of SET_M60_NAMES do not move it.
+    """
+    report = json.loads(REPORT_PATH.read_text())["report"]
+    names = list(report["list_start"])
     label = "Set M (4 Petrel, 3 Sky Field, 4 Budew)"
     if len(names) != 60:
-        raise SystemExit(f"locked Set M has {len(names)} cards")
+        raise SystemExit(f"measured start has {len(names)} cards")
     if names.count("Team Rocket's Petrel") != 4 or names.count("Sky Field") != 3 or names.count("Budew") != 4:
-        raise SystemExit("locked Set M is not the four Petrel list")
-    if names.count(IN_NAME):
-        raise SystemExit("locked Set M already contains Junk Arm")
+        raise SystemExit("measured start is not the four Petrel list")
+    if names.count(IN_NAME) or names.count("Ultra Ball") != 1:
+        raise SystemExit("measured start is not the zero Junk Arm list")
     return label, names
 
 
@@ -383,7 +389,8 @@ def result_lines(report: dict) -> list[str]:
     lines.extend(
         [
             "",
-            "`SET_M60_NAMES` stays the locked four-Petrel list. This report starts from that list.",
+            "The list this search kept is locked as `SET_M60_NAMES`. "
+            "The starting 60 is the four-Petrel list this search measured.",
             "",
             "Copies at or above 2 standard errors against zero: "
             + (", ".join(above) if above else "none")
@@ -426,8 +433,9 @@ def render_md(report: dict) -> str:
         "The 2 discarded cards are Pokémon whose printed HP a Rescue Carrier can take back,",
         "or any other Pokémon a Night Stretcher can take back.",
         "",
-        f"Starting 60 is the locked Set M list: {report.get('start_label')}.",
+        f"Starting 60 is the four-Petrel list measured before this search: {report.get('start_label')}.",
         "That list has four Team Rocket's Petrel, three Sky Field, four Budew, and zero Junk Arm.",
+        "The list this search kept is locked as `SET_M60_NAMES`.",
         "Each step cuts exactly one copy of one other card. Weights are frozen from the",
         "0-Junk-Arm measurement of this list on this engine.",
         "",

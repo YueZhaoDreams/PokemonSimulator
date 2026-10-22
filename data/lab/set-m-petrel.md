@@ -15,7 +15,7 @@ Boss's Orders is played instead when the gust is already in hand.
 Starting 60 is the fresh-seed best from `set-m-gust-search`: Start (4 Sky Field, 4 Budew).
 That list has four Sky Field, four Budew, and zero Team Rocket's Petrel.
 An earlier pass measured the previous lock, which has zero Sky Field. Those numbers are withdrawn.
-The list this search kept is locked as `SET_M60_NAMES`.
+The list this search kept was locked as `SET_M60_NAMES` before the Junk Arm lock.
 Each step cuts exactly one copy of one other card. Weights are frozen from the
 0-Petrel measurement of this list on this engine.
 
@@ -241,7 +241,7 @@ On the same seed, 2 against 1 is +1.79% (2.71 standard errors); 3 against 2 is -
 
 Sky Field is fetched. On the selection seed it is 0.071 finds per game at 1 copy, with four Sky Field still in the deck, and 0.265 finds per game at 4 copies, with 3 Sky Field left. On the holdout those rates are 0.075 and 0.266. At 4 copies on the selection seed the other finds per game are Buddy-Buddy Poffin 0.322, Hero's Cape 0.118, Battle Cage 0.113, Max Potion 0.104. Area Zero Underdepths is 0.000.
 
-`SET_M60_NAMES` is the list this search kept. The starting 60 is the fresh-seed best of `set-m-gust-search`, four Sky Field and four Budew.
+This report's kept list was locked as `SET_M60_NAMES` before the Junk Arm lock. The starting 60 is the fresh-seed best of `set-m-gust-search`, four Sky Field and four Budew.
 
 Copies at or above 2 standard errors against zero: 4. Copies under 2 standard errors against zero: 1, 2, 3. The search kept 4.
 4 copies against 3 copies is 1.29 standard errors, and that step cuts Sky Field.

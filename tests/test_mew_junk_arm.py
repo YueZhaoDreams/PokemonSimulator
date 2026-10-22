@@ -292,12 +292,12 @@ def test_junk_search_starts_from_the_locked_four_petrel_list():
     spec.loader.exec_module(module)
     label, names = module.starting_list()
     assert label == "Set M (4 Petrel, 3 Sky Field, 4 Budew)"
-    assert names == list(SET_M60_NAMES)
     assert Counter(names)["Junk Arm"] == 0
+    assert Counter(names)["Ultra Ball"] == 1
     assert Counter(names)["Team Rocket's Petrel"] == 4
     swapped = module.swap_one(names, "Ultra Ball")
     assert len(swapped) == 60
-    assert swapped.count("Junk Arm") == 1
+    assert Counter(swapped) == Counter(SET_M60_NAMES)
 
 
 def test_junk_report_keeps_one_copy_and_leaves_set_m_locked():
@@ -311,7 +311,8 @@ def test_junk_report_keeps_one_copy_and_leaves_set_m_locked():
     label, names = module.starting_list()
     assert report["done"] is True
     assert report["start_label"] == label
-    assert report["list_start"] == names == list(SET_M60_NAMES)
+    assert report["list_start"] == names
+    assert Counter(names) != Counter(SET_M60_NAMES)
     assert report["copies"] == 1
     assert [row["cut"] for row in report["array"][1:]] == ["Ultra Ball"]
     kept = Counter(report["list"])
@@ -332,6 +333,5 @@ def test_junk_report_keeps_one_copy_and_leaves_set_m_locked():
     assert z_sel == pytest.approx(1.93, abs=0.01)
     text = report_path.with_suffix(".md").read_text()
     assert text == module.render_md(report)
-    assert "stays the locked four-Petrel list" in text
-    assert Counter(SET_M60_NAMES)["Junk Arm"] == 0
-    assert Counter(SET_M60_NAMES)["Ultra Ball"] == 1
+    assert "locked as `SET_M60_NAMES`" in text
+    assert Counter(SET_M60_NAMES) == kept

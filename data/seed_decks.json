@@ -24044,8 +24044,8 @@
         "dex_id": null
       },
       {
-        "catalog_id": "sv04.5-091",
-        "name": "Ultra Ball",
+        "catalog_id": "hgss4-87",
+        "name": "Junk Arm",
         "category": "Trainer",
         "stage": "Item",
         "types": [],
@@ -24058,10 +24058,11 @@
         "evolves_from": null,
         "trainer_kind": "item",
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv04.5/091/low.webp",
+        "image": "https://assets.tcgdex.net/en/hgss/hgss4/87/low.webp",
         "set_name": null,
-        "text": "Discard 2 cards from your hand. Search your deck for a Pok\u00e9mon.",
-        "dex_id": null
+        "text": "Discard 2 cards from your hand. Search your discard pile for a Trainer card, show it to your opponent, and put it in your hand. You can't choose Junk Arm with this effect.",
+        "dex_id": null,
+        "traits": []
       },
       {
         "catalog_id": "sv06.5-061",

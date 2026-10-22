@@ -41,6 +41,7 @@ def test_set_m_card_count_and_composition():
     # Eco Arm on that list does not rise. Spiky Energy stays at 2.
     # Four Sky Field and four Budew, then four Team Rocket's Petrel.
     # Cuts: Ultra Ball (2 → 1), Penny (2 → 0), Sky Field (4 → 3).
+    # One Junk Arm on that list. Cut: Ultra Ball (1 → 0).
     assert SET_M60_NAMES.count("Buddy-Buddy Poffin") == 4
     assert SET_M60_NAMES.count("Battle Cage") == 4
     assert SET_M60_NAMES.count("Sky Field") == 3
@@ -49,7 +50,8 @@ def test_set_m_card_count_and_composition():
     assert SET_M60_NAMES.count("Hero's Cape") == 1
     assert SET_M60_NAMES.count("Maximum Belt") == 0
     assert SET_M60_NAMES.count("Max Potion") == 3
-    assert SET_M60_NAMES.count("Ultra Ball") == 1
+    assert SET_M60_NAMES.count("Ultra Ball") == 0
+    assert SET_M60_NAMES.count("Junk Arm") == 1
     assert SET_M60_NAMES.count("Night Stretcher") == 1
     assert SET_M60_NAMES.count("Rescue Carrier") == 2
     assert SET_M60_NAMES.count("Crushing Hammer") == 3
@@ -75,6 +77,8 @@ def test_load_seed_deck_m():
     assert served.count("Budew") == 4
     assert served.count("Sky Field") == 3
     assert served.count("Team Rocket's Petrel") == 4
+    assert served.count("Junk Arm") == 1
+    assert served.count("Ultra Ball") == 0
     assert served.count("Rescue Carrier") == 2
     assert served.count("Boss's Orders") == 0
     assert served.count("Max Potion") == 3
