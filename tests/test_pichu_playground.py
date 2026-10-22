@@ -114,6 +114,40 @@ class _Board:
         return player
 
 
+def test_poffin_does_not_bench_a_second_30hp_wall():
+    board = _Board()
+    me = board.seat(
+        "a",
+        active=("Pichu", []),
+        deck=("Pichu", "Wiglett", "Wiglett", "Victini"),
+    )
+    board.seat("b", active=("Wiglett", []))
+    board.game._bench_basic_from_deck(me, "a", count=2, max_hp=70, source="poffin")
+    benched = [me.card(mon.card_i).name for mon in me.bench]
+    deck = [me.card(i).name for i in me.deck]
+    assert "Pichu" not in benched
+    assert "Wiglett" in benched
+    assert "Pichu" in deck
+
+
+def test_phantom_leaves_the_wall_in_the_deck():
+    board = _Board()
+    board.game.strats["b"] = StrategySpec.from_dict("phantom")
+    me = board.seat("a", active=("Wiglett", []), deck=("Pichu", "Wiglett", "Victini"))
+    board.game._bench_basic_from_deck(me, "a", count=1, max_hp=70, source="poffin")
+    benched = [me.card(mon.card_i).name for mon in me.bench]
+    assert "Pichu" not in benched
+    assert benched == ["Victini"]
+
+
+def test_poffin_finds_pichu_when_the_wall_is_missing():
+    board = _Board()
+    me = board.seat("a", active=("Wiglett", []), deck=("Pichu", "Wiglett", "Victini"))
+    board.seat("b", active=("Wiglett", []))
+    board.game._bench_basic_from_deck(me, "a", count=1, max_hp=70, source="poffin")
+    assert [me.card(mon.card_i).name for mon in me.bench] == ["Pichu"]
+
+
 def test_playground_benches_the_user_first_and_sleeps_only_pichu():
     board = _Board()
     me = board.seat(

@@ -1,4 +1,4 @@
-"""Mill is the Sisters 60. Printed sentences are the effects.
+"""Mill is the thin sleep wall. Printed sentences are the effects.
 
 Undersea Tunnel flips 3 coins and discards the top 3 per heads. Victory Star
 reflips that attack once when the first result is 0 or 1 heads; Glimwood Tangle
@@ -137,31 +137,31 @@ class _Board:
 def test_mill_list_is_the_sisters_sixty():
     names = list(SET_MILL_NAMES)
     assert len(names) == 60
-    assert names.count("Pichu") == 4
-    assert names.count("Mime Jr.") == 4
-    assert names.count("Smoochum") == 4
+    assert names.count("Pichu") == 1
+    assert names.count("Mime Jr.") == 1
+    assert names.count("Smoochum") == 0
     assert names.count("Wiglett") == 4
     assert names.count("Wugtrio") == 4
-    assert names.count("Manaphy") == 1
+    assert names.count("Manaphy") == 0
     assert names.count("Victini") == 1
-    assert names.count("Slumbering Forest") == 4
+    assert names.count("Slumbering Forest") == 1
     assert names.count("Neutralization Zone") == 1
     assert names.count("Buddy-Buddy Poffin") == 4
-    assert names.count("Nest Ball") == 2
-    assert names.count("Level Ball") == 2
-    assert names.count("Rescue Carrier") == 2
-    assert names.count("Switch") == 2
-    assert names.count("Crushing Hammer") == 2
-    assert names.count("Colress's Tenacity") == 3
+    assert names.count("Nest Ball") == 3
+    assert names.count("Level Ball") == 3
+    assert names.count("Rescue Carrier") == 3
+    assert names.count("Switch") == 1
+    assert names.count("Crushing Hammer") == 4
+    assert names.count("Colress's Tenacity") == 4
     assert names.count("Miss Fortune Sisters") == 2
     assert names.count("Team Rocket's Handiwork") == 2
-    assert names.count("Crispin") == 2
+    assert names.count("Crispin") == 3
     assert names.count("Ignition Energy") == 4
-    assert names.count("Reversal Energy") == 3
-    assert names.count("Double Turbo Energy") == 2
-    assert names.count("Water Energy") == 1
-    assert names.count("Boss's Orders") == 0
-    assert names.count("Counter Catcher") == 0
+    assert names.count("Reversal Energy") == 4
+    assert names.count("Double Turbo Energy") == 4
+    assert names.count("Water Energy") == 3
+    assert names.count("Boss's Orders") == 1
+    assert names.count("Counter Catcher") == 2
     assert names.count("Fighting Energy") == 0
     assert names.count("Glimwood Tangle") == 0
     assert names.count("Team Rocket's Petrel") == 0
@@ -170,7 +170,7 @@ def test_mill_list_is_the_sisters_sixty():
         assert missing not in names
     pile = build_mill_deck()
     assert copy_violations(pile, standard_60_rules()) == []
-    assert [c.catalog_id for c in pile if c.name == "Mime Jr."] == ["col1-47"] * 4
+    assert [c.catalog_id for c in pile if c.name == "Mime Jr."] == ["col1-47"]
     assert fallback_named("Mime Jr.").catalog_id == "sv04.5-031"
     assert fallback_named("Mime Jr.").attacks[0].name == "Mimed Games"
     for key in ("mill", "wugtrio", "21"):
@@ -199,8 +199,8 @@ def test_mill_card_art_is_the_named_print_not_the_neighbor():
     loaded = load_seed_deck("mill")
     colress_cards = [c for c in loaded["cards"] if c["name"] == "Colress's Tenacity"]
     turbo_cards = [c for c in loaded["cards"] if c["name"] == "Double Turbo Energy"]
-    assert len(colress_cards) == 3
-    assert len(turbo_cards) == 2
+    assert len(colress_cards) == 4
+    assert len(turbo_cards) == 4
     assert {c["catalog_id"] for c in colress_cards} == {"sv06.5-057"}
     assert {c["catalog_id"] for c in turbo_cards} == {"swsh9-151"}
     assert all("sv06.5/057" in c["image"] for c in colress_cards)
@@ -251,7 +251,7 @@ def test_mill_seed_special_energy_keeps_printed_text():
     ignition = [c for c in loaded["cards"] if c["name"] == "Ignition Energy"]
     reversal = [c for c in loaded["cards"] if c["name"] == "Reversal Energy"]
     assert len(ignition) == 4
-    assert len(reversal) == 3
+    assert len(reversal) == 4
     assert {c["catalog_id"] for c in ignition} == {"me02-124"}
     assert {c["catalog_id"] for c in reversal} == {"sv02-192"}
     assert all(c["stage"] == "Special" and c["energy_type"] == "Colorless" for c in ignition + reversal)
@@ -573,6 +573,8 @@ _IGNITION = (
 
 def _energy_board() -> _Board:
     names = [
+        "Pichu",
+        "Wiglett",
         "Wiglett",
         "Wugtrio",
         "Wugtrio",
@@ -626,6 +628,22 @@ def test_ignition_energy_pays_three_colorless_on_an_evolution_and_then_leaves():
     assert [me.card(i).name for i in me.discard] == ["Ignition Energy"]
     assert board.game.events.get("discard_attached_end_of_turn") == 1
     assert foe.active is not None
+
+
+def test_wall_energy_stacks_on_the_bench_line():
+    board = _energy_board()
+    me = board.seat(
+        "a",
+        active=("Pichu", []),
+        bench=("Wiglett", "Wiglett"),
+        hand=["Double Turbo Energy", "Water Energy"],
+    )
+    me.bench[1].energy.append(board.take("a", "Water Energy"))
+    board.seat("b", active=("Wugtrio", []))
+    board.game._attach_energy(me, "a")
+    assert [me.card(i).name for i in me.active.energy] == []
+    assert [me.card(i).name for i in me.bench[0].energy] == []
+    assert [me.card(i).name for i in me.bench[1].energy] == ["Water Energy", "Double Turbo Energy"]
 
 
 def test_ignition_on_wiglett_is_one_colorless_and_mill_attaches_water_instead():

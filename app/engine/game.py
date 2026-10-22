@@ -492,15 +492,19 @@ class Game:
             return self._mew_wants_manaphy(player)
 
         if strat.name == "mill":
-            # One Playground caller. One more Sweet Sleeping Face as the backup wall.
-            # Manaphy shields the bench. Wiglett fills what's left. One Victini reflips.
+            # One Sweet Sleeping Face in play. A second 30 HP baby on the bench
+            # is a prize (Phantom Dive puts its counters on the lowest HP).
+            # The spare stays in the deck until that wall is gone. Manaphy
+            # shields attack damage. Wiglett fills what's left. One Victini.
             if name == "manaphy":
                 return copies < 1
-            if self._prints_playground(card):
-                return not any(self._prints_playground(player.card(m.card_i)) for m in player.in_play())
             if self._sweet_face(card):
+                # Phantom Dive, Starmie, and spread KO a 30 HP bench baby.
+                # Leave the wall in the deck in those matches and mill.
+                if not self._mill_wall_match(player):
+                    return False
                 faces = sum(1 for m in player.in_play() if self._sweet_face(player.card(m.card_i)))
-                return faces < 2
+                return faces < 1
             if name == "victini":
                 return copies < 1
             if name == "wiglett":
@@ -690,9 +694,9 @@ class Game:
             card = player.card(i)
             name = card.name.lower()
             if strat.name == "mill" and self._prints_playground(card):
-                return 4000
+                return 4000 if self._mill_wall_match(player) else 100
             if strat.name == "mill" and self._sweet_face(card):
-                return 3600
+                return 3600 if self._mill_wall_match(player) else 100
             if strat.name == "mill" and name == "wiglett":
                 return 2500
             if strat.name == "mill" and name == "victini":
@@ -4477,18 +4481,21 @@ class Game:
         if strat.name == "mill":
             names = {me.card(mon.card_i).name.lower() for mon in me.in_play()}
             names |= {me.card(i).name.lower() for i in me.hand}
-            have_face = any(self._sweet_face(me.card(m.card_i)) for m in me.in_play()) or any(
-                self._sweet_face(me.card(i)) for i in me.hand
+            wall = self._mill_wall_match(me)
+            have_face = wall and (
+                any(self._sweet_face(me.card(m.card_i)) for m in me.in_play())
+                or any(self._sweet_face(me.card(i)) for i in me.hand)
             )
-            have_playground = any(self._prints_playground(me.card(m.card_i)) for m in me.in_play()) or any(
-                self._prints_playground(me.card(i)) for i in me.hand
+            have_playground = wall and (
+                any(self._prints_playground(me.card(m.card_i)) for m in me.in_play())
+                or any(self._prints_playground(me.card(i)) for i in me.hand)
             )
             prefer = []
-            if not have_playground:
+            if wall and not have_playground:
                 prefer.append("Pichu")
             if "manaphy" not in names:
                 prefer.append("Manaphy")
-            if not have_face:
+            if wall and not have_face:
                 prefer.extend(["Mime Jr.", "Smoochum"])
             if "wiglett" not in names:
                 prefer.append("Wiglett")
@@ -4496,7 +4503,10 @@ class Game:
                 prefer.append("Wugtrio")
             if "victini" not in names:
                 prefer.append("Victini")
-            prefer.extend(["Wiglett", "Wugtrio", "Pichu", "Mime Jr.", "Smoochum", "Manaphy", "Victini"])
+            tail = ["Wiglett", "Wugtrio", "Manaphy", "Victini"]
+            if wall:
+                tail[2:2] = ["Pichu", "Mime Jr.", "Smoochum"]
+            prefer.extend(tail)
             return list(dict.fromkeys(prefer))
         if strat.name == "electro_rain":
             return self._electro_search_prefer(me)
@@ -5617,7 +5627,7 @@ class Game:
 
     def _energy_target(self, me: Player, strat: StrategySpec) -> Pokemon:
         assert me.active
-        if strat.name == "mill" and self._burst_energy_in_hand(me):
+        if strat.name == "mill":
             return self._mill_energy_target(me)
         if strat.name == "thorns":
             return self._thorns_energy_target(me)
@@ -5901,7 +5911,7 @@ class Game:
         )
 
     def _choose_energy_card(self, me: Player, target: Pokemon, strat: StrategySpec) -> int | None:
-        if strat.name == "mill" and self._burst_energy_in_hand(me):
+        if strat.name == "mill":
             return self._mill_energy_card(me, target)
         if strat.name == "starmie":
             return self._starmie_energy_card(me, target)
@@ -6652,10 +6662,11 @@ class Game:
                 if me.card(mon.card_i).name.lower() in {"wiglett", "wugtrio"}
             ]
             if prep:
-                return min(
+                # Stack onto one Pokémon. Spreading one Energy each never pays Undersea.
+                return max(
                     prep,
                     key=lambda mon: (
-                        0 if me.card(mon.card_i).name.lower() == "wiglett" else 1,
+                        1 if me.card(mon.card_i).name.lower() == "wugtrio" else 0,
                         len(mon.energy),
                     ),
                 )
@@ -6701,6 +6712,23 @@ class Game:
             if not card.is_basic or self._sweet_face(card):
                 continue
             rank = (card.hp or 0, 1 if card.name.lower() == "wiglett" else 0)
+            if best is None or rank > best[0]:
+                best = (rank, idx)
+        return None if best is None else best[1]
+
+    def _mill_wall_match(self, player: Player) -> bool:
+        """Bench counters and spread make a 30 HP wall into prize cards."""
+        return self._foe_strat_name(player) not in {"phantom", "starmie", "nuzzle"}
+
+    def _mill_line_idx(self, me: Player) -> int | None:
+        """Bench Wiglett or Wugtrio to take over after Playground has been used."""
+        best: tuple[tuple[int, int, int], int] | None = None
+        for idx, mon in enumerate(me.bench):
+            name = me.card(mon.card_i).name.lower()
+            if name not in {"wiglett", "wugtrio"}:
+                continue
+            paid = 1 if name == "wugtrio" and self._mill_can_pay(me, mon) else 0
+            rank = (paid, 1 if name == "wugtrio" else 0, len(mon.energy))
             if best is None or rank > best[0]:
                 best = (rank, idx)
         return None if best is None else best[1]
@@ -6769,11 +6797,11 @@ class Game:
         def stay_rank(card_i: int) -> tuple[int, str]:
             name = me.card(card_i).name.lower()
             provided = units(card_i)
-            if name == "water energy":
+            if is_double_turbo(me.card(card_i)):
                 return (0, name)
             if "Any" in provided and len(provided) >= 3:
                 return (1, name)
-            if is_double_turbo(me.card(card_i)):
+            if name == "water energy":
                 return (2, name)
             if name == "fighting energy":
                 return (3, name)
@@ -6809,6 +6837,17 @@ class Game:
                 return
         can_attack = self._mill_can_attack_turn(me)
         if self._sweet_face(active):
+            # Playground once. A later Playground only refills the opponent's bench.
+            if (
+                can_attack
+                and self._prints_playground(active)
+                and self.events.get("playground", 0) > 0
+                and self._mill_can_retreat(me)
+            ):
+                line = self._mill_line_idx(me)
+                if line is not None:
+                    self._do_retreat_into(me, line)
+                    return
             if can_attack:
                 return
             hide = self._mill_hide_idx(me)
@@ -6839,7 +6878,7 @@ class Game:
                 return 14
             faces = sum(1 for mon in me.in_play() if self._sweet_face(me.card(mon.card_i)))
             faces += sum(1 for i in me.hand if self._sweet_face(me.card(i)))
-            if faces < 2:
+            if faces < 1:
                 return 12
             if not have_wiglett:
                 return 12
@@ -6857,12 +6896,14 @@ class Game:
         if name == "slumbering forest":
             if (self.stadium_name or "").lower() == name:
                 return -6
+            # Forest does nothing until a Sweet Sleeping Face is in play.
+            # Playing it over Neutralization Zone turns Fezandipiti and friends back on.
+            if not any(self._sweet_face(me.card(mon.card_i)) for mon in me.in_play()):
+                return -8
             asleep = bool(me.active and me.active.status & ST_ASLEEP and self._sweet_face(me.card(me.active.card_i)))
             if asleep:
                 return 20
-            if any(self._sweet_face(me.card(mon.card_i)) for mon in me.in_play()):
-                return 15
-            return 8
+            return 15
         if name == "neutralization zone":
             if (self.stadium_name or "").lower() == "slumbering forest" and me.active and me.active.status & ST_ASLEEP:
                 return -8
@@ -9241,6 +9282,8 @@ class Game:
                 name = card.name.lower()
                 if strat.name == "celebration" and not self._wants_in_play(me, card, strat):
                     continue
+                if strat.name == "mill" and not self._wants_in_play(me, card, strat):
+                    continue
                 if strat.name == "party" and self._is_mewtwo(card) and self._mewtwo_play_cap(me) <= 0:
                     continue
                 if strat.name == "party" and name == "latias ex":
@@ -10153,7 +10196,12 @@ class Game:
     def _search_stadium_and_energy(self, me: Player) -> None:
         who = "a" if me.name == "A" else "b"
         if self.strats[who].name == "mill":
-            stadium_prefer = ["Slumbering Forest", "Neutralization Zone"]
+            face_out = any(self._sweet_face(me.card(mon.card_i)) for mon in me.in_play())
+            stadium_prefer = (
+                ["Slumbering Forest", "Neutralization Zone"]
+                if face_out
+                else ["Neutralization Zone", "Slumbering Forest"]
+            )
         else:
             stadium_prefer = ["Lost City"]
         self._search(

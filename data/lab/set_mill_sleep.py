@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-"""Compare the Sisters 60 with the sleep-wall Mill 60.
+"""Compare the Sisters 60 with the thin sleep-wall Mill 60.
 
-The sleep wall is the live list: four Playground Pichu, four Call of Legends
-Mime Jr. (Sleepy Lost), four Smoochum (Energy Antics), four Slumbering Forest,
-and one Manaphy. The Sisters 60 is frozen here. SET_MILL_NAMES is the new
-list, so this script must not read the old sixty from that constant.
+The live list is the Sisters shell plus one Playground Pichu, one Call of
+Legends Mime Jr., one Slumbering Forest, and one Switch. Fighting Energy is
+the cut. The Sisters list is frozen here. SET_MILL_NAMES is the live list.
+C60 is one of the measured foes.
 
-Each list plays both seats against the 12 household foes. The cell is the
+Each list plays both seats against the household foes, including C60. The cell is the
 mean of those two win rates. A head-to-head row plays the two Mill lists
 against each other. Loss weights are frozen from the Sisters 60.
 
@@ -38,6 +38,7 @@ from app.seed_data import (
     SET_H_NAMES,
     SET_L60_NAMES,
     SET_M60_NAMES,
+    SET_C60_NAMES,
     SET_MILL_NAMES,
     SET_S60_NAMES,
     SET_STARMIE60_NAMES,
@@ -81,6 +82,7 @@ FOES = (
     ("d60", "Cornerstone Ogerpon (D60)", SET_D60_NAMES, "demolish", False),
     ("s60", "Wo-Chien / Floragato (S60)", SET_S60_NAMES, "slash", False),
     ("g", "Gholdengo (G)", SET_G_NAMES, "g", False),
+    ("c60", "Clefairy / Mewtwo (C60)", SET_C60_NAMES, "party", False),
     ("m", "Set M (Mew ex)", SET_M60_NAMES, "mew_baby", False),
     ("starmie", "Mega Starmie ex (Kudo)", SET_STARMIE60_NAMES, "starmie", False),
     ("lucario", "Lucario Hariyama", SET_L60_NAMES, "aura", False),
@@ -90,6 +92,7 @@ FOES = (
 )
 
 DECKS = ("sisters", "sleep")
+LIST_ID = "spark"
 GAMES = int(os.environ.get("MILL_SLEEP_GAMES", "250"))
 SEED = int(os.environ.get("MILL_SLEEP_SEED", "20261022"))
 WORKERS = int(os.environ.get("MILL_SLEEP_WORKERS", str(min(4, os.cpu_count() or 2))))
@@ -197,7 +200,7 @@ def _load_partial() -> dict[tuple[str, str, str], dict]:
         if not line.strip():
             continue
         row = json.loads(line)
-        if row.get("games") != GAMES or row.get("seed") != SEED:
+        if row.get("games") != GAMES or row.get("seed") != SEED or row.get("list_id") != LIST_ID:
             continue
         found[(row["subject"], row["foe"], row["seat"])] = row["cell"]
     return found
@@ -211,6 +214,7 @@ def _append(subject: str, foe: str, seat: str, cell: dict) -> None:
                 {
                     "games": GAMES,
                     "seed": SEED,
+                    "list_id": LIST_ID,
                     "subject": subject,
                     "foe": foe,
                     "seat": seat,
@@ -386,8 +390,9 @@ def _markdown(report: dict) -> str:
             "",
             "## Package use on the sleep wall",
             "",
-            "Means are per game across the 12 foes and both seats. "
-            "Pichu, Mime Jr., Smoochum, Manaphy, and Slumbering Forest rows are the share of games in which that card entered play.",
+            "Means are per game across the measured foes and both seats. "
+            "Pichu, Mime Jr., Smoochum, Manaphy, and Slumbering Forest rows are the share of games in which that card entered play. "
+            "Manaphy is not in this Mill list; a hit there is the opponent's Manaphy.",
             "",
             "| Event | Per game |",
             "| :--- | ---: |",
@@ -445,7 +450,7 @@ def _check_lists() -> None:
         if bad:
             raise SystemExit(f"{label} is illegal: {bad}")
     mime = [card for card in build_mill_deck() if card.name == "Mime Jr."]
-    if len(mime) != 4 or any(card.catalog_id != "col1-47" for card in mime):
+    if len(mime) != list(SET_MILL_NAMES).count("Mime Jr.") or any(card.catalog_id != "col1-47" for card in mime):
         raise SystemExit("sleep wall Mime Jr. is not Call of Legends 47")
 
 
@@ -479,6 +484,7 @@ def main() -> None:
     report = {
         "seed": SEED,
         "games": GAMES,
+        "list_id": LIST_ID,
         "weights": weights,
         "elapsed": time.perf_counter() - started,
         "sisters_counts": _counts(list(SISTERS_60)),

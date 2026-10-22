@@ -817,13 +817,14 @@ STRATEGY_LIBRARY = {
     "mill": StrategySpec(
         name="mill",
         description=(
-            "Sleep wall, then Wugtrio send. Pichu, Mime Jr., and Smoochum open. "
+            "Sisters shell plus one sleep wall. One Pichu and one Mime Jr. "
+            "Only one Sweet Sleeping Face is in play. Against Phantom Dive, Starmie, and spread "
+            "those 30 HP cards stay in the deck. "
             "Playground benches Basics, user first. Sleepy Lost puts the top card of the "
-            "opponent's deck in the Lost Zone. Energy Antics moves one of their Energy "
-            "cards onto another of their Pokémon. Each of those attacks leaves that baby Asleep. "
+            "opponent's deck in the Lost Zone. The attack leaves that baby Asleep. "
             "Sweet Sleeping Face prevents attack damage while it is Asleep. "
             "Slumbering Forest makes the between-turns sleep check two coins. "
-            "Manaphy Wave Veil prevents attack damage to the Bench. "
+            "Manaphy Wave Veil prevents attack damage to the Bench. It does not stop damage counters. "
             "Switch brings up Wugtrio once Undersea Tunnel is paid. "
             "Victory Star reflips an attack once when it shows 0 or 1 heads. "
             "Ignition Energy pays Undersea on an Evolution and leaves at the end of the turn. "
@@ -838,7 +839,7 @@ STRATEGY_LIBRARY = {
         item_spend=1.0,
         self_preserve=0.2,
         hold_as_energy=False,
-        protect=["Wiglett", "Wugtrio", "Victini", "Pichu", "Mime Jr.", "Smoochum", "Manaphy", "Slumbering Forest"],
+        protect=["Wiglett", "Wugtrio", "Victini", "Pichu", "Mime Jr.", "Slumbering Forest"],
         search_aces=["Wiglett", "Wugtrio"],
         closers=["Wugtrio"],
         reflip_heads_at_most=1,

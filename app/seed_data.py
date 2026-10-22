@@ -622,35 +622,35 @@ SET_L60_NAMES = (
     + ["Fighting Energy"] * 11
 )
 
-# Mill: sleep wall, then Wugtrio send. Neutralization Zone is the one ACE SPEC.
-# Four Playground Pichu, four Call of Legends Mime Jr., four Smoochum, four
-# Slumbering Forest, one Manaphy. The babies attack for free and fall Asleep.
-# Forest makes the between-turns sleep check two coins. Switch brings Wugtrio
-# up while that wall is still Asleep.
+# Mill: Sisters shell plus one sleep wall. Neutralization Zone is the one ACE SPEC.
+# One Playground Pichu and one Call of Legends Mime Jr. Against Phantom Dive,
+# Starmie, and spread, those 30 HP cards stay in the deck. Elsewhere one of
+# them stalls in front. One Slumbering Forest, one Switch. Boss, Counter Catcher,
+# and the Hammer shell stay. Fighting Energy is the cut: Undersea Tunnel is colorless.
 SET_MILL_NAMES = (
-    ["Pichu"] * 4
-    + ["Mime Jr."] * 4
-    + ["Smoochum"] * 4
+    ["Pichu"]
+    + ["Mime Jr."]
     + ["Wiglett"] * 4
     + ["Wugtrio"] * 4
-    + ["Manaphy"]
     + ["Victini"]
-    + ["Slumbering Forest"] * 4
+    + ["Slumbering Forest"]
     + ["Neutralization Zone"]
     + ["Buddy-Buddy Poffin"] * 4
-    + ["Nest Ball"] * 2
-    + ["Level Ball"] * 2
-    + ["Rescue Carrier"] * 2
-    + ["Switch"] * 2
-    + ["Crushing Hammer"] * 2
-    + ["Colress's Tenacity"] * 3
+    + ["Nest Ball"] * 3
+    + ["Level Ball"] * 3
+    + ["Rescue Carrier"] * 3
+    + ["Switch"]
+    + ["Crushing Hammer"] * 4
+    + ["Counter Catcher"] * 2
     + ["Miss Fortune Sisters"] * 2
+    + ["Crispin"] * 3
+    + ["Boss's Orders"]
     + ["Team Rocket's Handiwork"] * 2
-    + ["Crispin"] * 2
+    + ["Colress's Tenacity"] * 4
+    + ["Double Turbo Energy"] * 4
+    + ["Water Energy"] * 3
     + ["Ignition Energy"] * 4
-    + ["Reversal Energy"] * 3
-    + ["Double Turbo Energy"] * 2
-    + ["Water Energy"]
+    + ["Reversal Energy"] * 4
 )
 
 # Unlimited 60: Ambipom PAR Hand Fling, Lopunny FLF Big Jump recycle,
@@ -5132,7 +5132,7 @@ def fallback_named(name: str) -> Card:
 
 
 def build_mill_deck() -> list[Card]:
-    """Sisters sleep wall. Mime Jr. is Call of Legends Sleepy Lost, not Mimed Games."""
+    """Thin sleep wall. Mime Jr. is Call of Legends Sleepy Lost, not Mimed Games."""
     out: list[Card] = []
     for name in SET_MILL_NAMES:
         if name == "Mime Jr.":
