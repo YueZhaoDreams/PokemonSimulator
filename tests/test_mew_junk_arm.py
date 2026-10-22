@@ -333,5 +333,17 @@ def test_junk_report_keeps_one_copy_and_leaves_set_m_locked():
     assert z_sel == pytest.approx(1.93, abs=0.01)
     text = report_path.with_suffix(".md").read_text()
     assert text == module.render_md(report)
+    lines = text.splitlines()
+    for index, line in enumerate(lines[:-1]):
+        nxt = lines[index + 1]
+        if (
+            line.startswith("|")
+            and nxt.startswith("|")
+            and "-" in nxt
+            and not nxt.replace("|", "").replace(":", "").replace("-", "").strip()
+        ):
+            header = [cell for cell in line.split("|") if cell.strip()]
+            delim = [cell for cell in nxt.split("|") if cell.strip()]
+            assert len(header) == len(delim), (line, nxt)
     assert "locked as `SET_M60_NAMES`" in text
     assert Counter(SET_M60_NAMES) == kept

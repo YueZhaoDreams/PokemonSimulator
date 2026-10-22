@@ -117,7 +117,7 @@ Current weighted rate 91.9%. Best cut Budew at 91.5% does not rise. Stop.
 The same lists on seed `20261015`, 1000 games per foe. Nothing was chosen on this seed. Weights are unchanged.
 
 | Junk Arm | Weighted | ±1 SE | vs 0 | ±1 SE of diff | Mean | Worst | vs T60 | vs Hedrick | vs C60 | vs D60 | vs Thorns | vs Starmie |
-| ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | 0 | 91.1% | 0.5% | +0.00% | — | 93.9% | 89.5% | 91.9% | 89.5% | 93.7% | 98.7% | 99.9% | 89.9% |
 | 1 | 91.2% | 0.5% | +0.12% | 0.6% | 94.0% | 89.8% | 91.7% | 90.1% | 93.7% | 99.0% | 99.5% | 89.8% |
 

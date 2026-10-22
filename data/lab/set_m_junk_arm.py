@@ -523,7 +523,7 @@ def render_md(report: dict) -> str:
                 "Nothing was chosen on this seed. Weights are unchanged.",
                 "",
                 "| Junk Arm | Weighted | ±1 SE | vs 0 | ±1 SE of diff | Mean | Worst | vs T60 | vs Hedrick | vs C60 | vs D60 | vs Thorns | vs Starmie |",
-                "| ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
+                "| ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
             ]
         )
         hold_base = holdout[0]
