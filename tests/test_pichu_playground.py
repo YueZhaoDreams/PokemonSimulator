@@ -248,6 +248,19 @@ def test_asleep_pichu_stays_up_until_the_back_row_can_mill():
     assert bare.game._pick_trainer(waiting) is None
 
 
+def test_playground_sleeps_pichu_through_a_defending_shield():
+    board = _Board()
+    me = board.seat("a", active=("Pichu", []), deck=("Wiglett",))
+    foe = board.seat("b", active=("Wiglett", []))
+    foe.active.prevent_attack_damage = True
+    board.game.turn = 3
+    board.game._attack(me, foe, "a")
+    assert me.active.status & ST_ASLEEP
+    assert not (foe.active.status & ST_ASLEEP)
+    assert foe.active.damage == 0
+    assert [me.card(mon.card_i).name for mon in me.bench] == ["Wiglett"]
+
+
 def test_opponent_playground_does_not_skip_this_pichu():
     board = _Board()
     me = board.seat("a", active=("Pichu", []), bench=(("Wiglett", []),))

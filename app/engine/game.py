@@ -48,8 +48,8 @@ _OPP_BENCH_DAMAGE_KINDS = frozenset({
     "discard_typed_energy_damage_per_card",
 })
 # Effects of an attack done to the Defending Pokémon. Twisting Strike stops
-# these on that body. Milling the deck, drawing, and a hit on a different
-# Pokémon still resolve.
+# these on that body. A status whose target is the attacker still lands.
+# Milling the deck, drawing, and a hit on a different Pokémon still resolve.
 _EFFECTS_ON_DEFENDER = frozenset({
     "status",
     "paralyze_if_extra_energy",
@@ -6221,7 +6221,11 @@ class Game:
             me.first_attacks_turn[attacker.name] = self.turn
 
         for effect in atk.effects:
-            if shielded and effect.get("kind") in _EFFECTS_ON_DEFENDER:
+            if (
+                shielded
+                and effect.get("kind") in _EFFECTS_ON_DEFENDER
+                and effect.get("target") != "self"
+            ):
                 self._bump("prevent_attack_effect")
                 continue
             if effect.get("kind") == "status":
