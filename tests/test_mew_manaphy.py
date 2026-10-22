@@ -92,7 +92,7 @@ def test_penny_returns_active_manaphy_then_it_is_replayed_to_the_bench():
     me = game.players["a"]
     mana_i = next(i for i, c in enumerate(me.cards) if c.name == "Manaphy")
     mew_i = next(i for i, c in enumerate(me.cards) if c.name == "Mew ex")
-    penny_i = next(i for i, c in enumerate(me.cards) if c.name == "Penny")
+    penny_i = _add(me, "Penny")
     me.active = Pokemon(card_i=mana_i)
     me.bench = [Pokemon(card_i=mew_i)]
     me.hand = [penny_i]
@@ -112,7 +112,7 @@ def test_penny_keeps_manaphy_in_hand_when_the_foe_has_no_bench_damage():
     me = game.players["a"]
     mana_i = next(i for i, c in enumerate(me.cards) if c.name == "Manaphy")
     mew_i = next(i for i, c in enumerate(me.cards) if c.name == "Mew ex")
-    penny_i = next(i for i, c in enumerate(me.cards) if c.name == "Penny")
+    penny_i = _add(me, "Penny")
     me.active = Pokemon(card_i=mana_i)
     me.bench = [Pokemon(card_i=mew_i)]
     me.hand = [penny_i]

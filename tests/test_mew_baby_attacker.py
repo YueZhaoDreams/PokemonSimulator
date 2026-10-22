@@ -157,8 +157,11 @@ def test_spiky_energy_goes_to_the_baby_that_will_attack():
     assert _name(me, game._mew_counter_energy_target(me)) == "Budew"
 
 
-def test_locked_set_m_list_has_no_budew():
-    assert "Budew" not in SET_M60_NAMES
+def test_locked_set_m_list_is_four_petrel_on_the_sky_field_list():
+    assert len(SET_M60_NAMES) == 60
+    assert SET_M60_NAMES.count("Budew") == 4
+    assert SET_M60_NAMES.count("Sky Field") == 3
+    assert SET_M60_NAMES.count("Team Rocket's Petrel") == 4
 
 
 def _lab_json(name: str) -> dict:
@@ -176,14 +179,16 @@ def test_budew_policy_report_is_a_legal_path_and_leaves_lists_without_budew_unch
     rep = _lab_json("set-m-budew-policy.json")
     old = _lab_json("set-m-sky-field.json")
     assert rep["done"] is True
-    assert rep["list_start"] == list(SET_M60_NAMES)
+    assert rep["list_start"] == old["list_start"]
+    assert rep["list_start"].count("Budew") == 0
+    assert rep["list_start"].count("Sky Field") == 0
     assert abs(sum(rep["weights"].values()) - 1.0) < 1e-9
     array = rep["array"]
     assert [row["label"] for row in array] == ["Set M", "Sky Field", "Budew 1", "Budew 2", "Budew 3", "Budew 4"]
     assert [row["budew"] for row in array] == [0, 0, 1, 2, 3, 4]
     assert [row["sky"] for row in array] == [0, 1, 1, 1, 1, 1]
     rules = standard_60_rules()
-    previous = Counter(SET_M60_NAMES)
+    previous = Counter(rep["list_start"])
     for row in array[1:]:
         assert len(row["list"]) == 60
         assert copy_violations(build_fallback_deck(row["list"]), rules) == []

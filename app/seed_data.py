@@ -521,28 +521,34 @@ SET_T_UNL_NAMES = (
 # Rescue Carrier already returns the 30 HP babies that Bouncy Circle counts.
 # Eco Arm only shuffles 3 Pokémon Tools into the deck, in about 6% of games.
 # That recycle does not pay for the second Spiky Energy.
+# Team Rocket's Petrel on the fresh-seed best of set-m-gust-search (four Sky Field, four Budew).
+# Selection seed 20261007, holdout 20261015, 1000 games per foe.
+# Weights frozen from that 0-Petrel list. The search kept four copies.
+# Holdout 90.0% → 91.8% (+1.73 pp, 2.73 standard errors). One, two, and three stay under 2.
+# Four against three is 1.29 standard errors. Cuts: Ultra Ball (2 → 1), Penny (2 → 0), Sky Field (4 → 3).
 SET_M60_NAMES = (
     ["Mew ex"] * 3
     + ["Mime Jr."] * 2
     + ["Igglybuff"] * 4
+    + ["Budew"] * 4
     + ["Manaphy"]
     + ["Buddy-Buddy Poffin"] * 4
     + ["Nest Ball"] * 4
-    + ["Ultra Ball"] * 2
-    + ["Night Stretcher"] * 4
+    + ["Ultra Ball"]
+    + ["Night Stretcher"]
     + ["Rescue Carrier"] * 2
     + ["Battle Cage"] * 4
-    + ["Bravery Charm"] * 3
-    + ["Bursting Balloon"] * 2
+    + ["Sky Field"] * 3
+    + ["Bravery Charm"] * 2
+    + ["Bursting Balloon"]
     + ["Hero's Cape"]
     + ["Max Potion"] * 3
     + ["Arven"] * 4
     + ["Iono"] * 4
     + ["Professor's Research"] * 2
-    + ["Boss's Orders"]
-    + ["Penny"] * 2
-    + ["Crushing Hammer"] * 4
-    + ["Counter Catcher"] * 2
+    + ["Team Rocket's Petrel"] * 4
+    + ["Crushing Hammer"] * 3
+    + ["Counter Catcher"]
     + ["Spiky Energy"] * 2
 )
 SET_M_NAMES = SET_M60_NAMES

@@ -23676,6 +23676,166 @@
         "dex_id": null
       },
       {
+        "catalog_id": "sv08.5-004",
+        "name": "Budew",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Grass"
+        ],
+        "hp": 30,
+        "attacks": [
+          {
+            "name": "Itchy Pollen",
+            "cost": [],
+            "damage": 10,
+            "text": "During your opponent's next turn, they can't play any Item cards from their hand.",
+            "effects": [
+              {
+                "kind": "lock_items"
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Fire",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv08.5/004/low.webp",
+        "set_name": "Prismatic Evolutions",
+        "text": "",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "sv08.5-004",
+        "name": "Budew",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Grass"
+        ],
+        "hp": 30,
+        "attacks": [
+          {
+            "name": "Itchy Pollen",
+            "cost": [],
+            "damage": 10,
+            "text": "During your opponent's next turn, they can't play any Item cards from their hand.",
+            "effects": [
+              {
+                "kind": "lock_items"
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Fire",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv08.5/004/low.webp",
+        "set_name": "Prismatic Evolutions",
+        "text": "",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "sv08.5-004",
+        "name": "Budew",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Grass"
+        ],
+        "hp": 30,
+        "attacks": [
+          {
+            "name": "Itchy Pollen",
+            "cost": [],
+            "damage": 10,
+            "text": "During your opponent's next turn, they can't play any Item cards from their hand.",
+            "effects": [
+              {
+                "kind": "lock_items"
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Fire",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv08.5/004/low.webp",
+        "set_name": "Prismatic Evolutions",
+        "text": "",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "sv08.5-004",
+        "name": "Budew",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Grass"
+        ],
+        "hp": 30,
+        "attacks": [
+          {
+            "name": "Itchy Pollen",
+            "cost": [],
+            "damage": 10,
+            "text": "During your opponent's next turn, they can't play any Item cards from their hand.",
+            "effects": [
+              {
+                "kind": "lock_items"
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Fire",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv08.5/004/low.webp",
+        "set_name": "Prismatic Evolutions",
+        "text": "",
+        "dex_id": null,
+        "traits": []
+      },
+      {
         "catalog_id": "swsh9-041",
         "name": "Manaphy",
         "category": "Pokemon",
@@ -23904,86 +24064,6 @@
         "dex_id": null
       },
       {
-        "catalog_id": "sv04.5-091",
-        "name": "Ultra Ball",
-        "category": "Trainer",
-        "stage": "Item",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "item",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv04.5/091/low.webp",
-        "set_name": null,
-        "text": "Discard 2 cards from your hand. Search your deck for a Pok\u00e9mon.",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "sv06.5-061",
-        "name": "Night Stretcher",
-        "category": "Trainer",
-        "stage": "Item",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "item",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv06.5/061/low.webp",
-        "set_name": null,
-        "text": "Put a Pok\u00e9mon or a Basic Energy card from your discard pile into your hand.",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "sv06.5-061",
-        "name": "Night Stretcher",
-        "category": "Trainer",
-        "stage": "Item",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "item",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv06.5/061/low.webp",
-        "set_name": null,
-        "text": "Put a Pok\u00e9mon or a Basic Energy card from your discard pile into your hand.",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "sv06.5-061",
-        "name": "Night Stretcher",
-        "category": "Trainer",
-        "stage": "Item",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "item",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv06.5/061/low.webp",
-        "set_name": null,
-        "text": "Put a Pok\u00e9mon or a Basic Energy card from your discard pile into your hand.",
-        "dex_id": null
-      },
-      {
         "catalog_id": "sv06.5-061",
         "name": "Night Stretcher",
         "category": "Trainer",
@@ -24126,10 +24206,10 @@
         "dex_id": null
       },
       {
-        "catalog_id": "sv02-173",
-        "name": "Bravery Charm",
+        "catalog_id": "xy6-89",
+        "name": "Sky Field",
         "category": "Trainer",
-        "stage": "Item",
+        "stage": "Stadium",
         "types": [],
         "hp": 0,
         "attacks": [],
@@ -24138,73 +24218,95 @@
         "resistances": [],
         "retreat": 0,
         "evolves_from": null,
-        "trainer_kind": "item",
+        "trainer_kind": "stadium",
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv02/173/low.webp",
+        "image": "https://assets.tcgdex.net/en/xy/xy6/89/low.webp",
         "set_name": null,
-        "text": "The Basic Pok\u00e9mon this card is attached to gets +50 HP.",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "sv02-173",
-        "name": "Bravery Charm",
-        "category": "Trainer",
-        "stage": "Item",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "item",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv02/173/low.webp",
-        "set_name": null,
-        "text": "The Basic Pok\u00e9mon this card is attached to gets +50 HP.",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "sv02-173",
-        "name": "Bravery Charm",
-        "category": "Trainer",
-        "stage": "Item",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "item",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv02/173/low.webp",
-        "set_name": null,
-        "text": "The Basic Pok\u00e9mon this card is attached to gets +50 HP.",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "xy9-97",
-        "name": "Bursting Balloon",
-        "category": "Trainer",
-        "stage": "Tool",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "tool",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/xy/xy9/97/low.webp",
-        "set_name": null,
-        "text": "If this card is attached to 1 of your Pok\u00e9mon, discard it at the end of your opponent\u2019s turn.\n\nIf the Pok\u00e9mon this card is attached to is your Active Pok\u00e9mon and is damaged by an opponent\u2019s attack (even if that Pok\u00e9mon is Knocked Out), put 6 damage counters on the Attacking Pok\u00e9mon.",
+        "text": "Each player can have 8 Pok\u00e9mon on his or her Bench. (When this card leaves play, each player discards Benched Pok\u00e9mon until he or she has 5 Pok\u00e9mon on the Bench. The owner of this card discards first.)",
         "dex_id": null,
         "traits": []
+      },
+      {
+        "catalog_id": "xy6-89",
+        "name": "Sky Field",
+        "category": "Trainer",
+        "stage": "Stadium",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "stadium",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/xy/xy6/89/low.webp",
+        "set_name": null,
+        "text": "Each player can have 8 Pok\u00e9mon on his or her Bench. (When this card leaves play, each player discards Benched Pok\u00e9mon until he or she has 5 Pok\u00e9mon on the Bench. The owner of this card discards first.)",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "xy6-89",
+        "name": "Sky Field",
+        "category": "Trainer",
+        "stage": "Stadium",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "stadium",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/xy/xy6/89/low.webp",
+        "set_name": null,
+        "text": "Each player can have 8 Pok\u00e9mon on his or her Bench. (When this card leaves play, each player discards Benched Pok\u00e9mon until he or she has 5 Pok\u00e9mon on the Bench. The owner of this card discards first.)",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "sv02-173",
+        "name": "Bravery Charm",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv02/173/low.webp",
+        "set_name": null,
+        "text": "The Basic Pok\u00e9mon this card is attached to gets +50 HP.",
+        "dex_id": null
+      },
+      {
+        "catalog_id": "sv02-173",
+        "name": "Bravery Charm",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv02/173/low.webp",
+        "set_name": null,
+        "text": "The Basic Pok\u00e9mon this card is attached to gets +50 HP.",
+        "dex_id": null
       },
       {
         "catalog_id": "xy9-97",
@@ -24508,8 +24610,8 @@
         "dex_id": null
       },
       {
-        "catalog_id": "sv02-172",
-        "name": "Boss's Orders",
+        "catalog_id": "sv10-176",
+        "name": "Team Rocket's Petrel",
         "category": "Trainer",
         "stage": "Supporter",
         "types": [],
@@ -24522,35 +24624,15 @@
         "evolves_from": null,
         "trainer_kind": "supporter",
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv02/172/low.webp",
+        "image": "https://images.pokemontcg.io/sv10/176.png",
         "set_name": null,
-        "text": "Switch in 1 of your opponent's Benched Pok\u00e9mon to the Active Spot.",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "sv01-183",
-        "name": "Penny",
-        "category": "Trainer",
-        "stage": "Supporter",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "supporter",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv01/183/low.webp",
-        "set_name": null,
-        "text": "Put 1 of your Basic Pok\u00e9mon and all attached cards into your hand.",
+        "text": "Search your deck for a Trainer card, reveal it, and put it into your hand. Then, shuffle your deck.",
         "dex_id": null,
         "traits": []
       },
       {
-        "catalog_id": "sv01-183",
-        "name": "Penny",
+        "catalog_id": "sv10-176",
+        "name": "Team Rocket's Petrel",
         "category": "Trainer",
         "stage": "Supporter",
         "types": [],
@@ -24563,9 +24645,51 @@
         "evolves_from": null,
         "trainer_kind": "supporter",
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv01/183/low.webp",
+        "image": "https://images.pokemontcg.io/sv10/176.png",
         "set_name": null,
-        "text": "Put 1 of your Basic Pok\u00e9mon and all attached cards into your hand.",
+        "text": "Search your deck for a Trainer card, reveal it, and put it into your hand. Then, shuffle your deck.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "sv10-176",
+        "name": "Team Rocket's Petrel",
+        "category": "Trainer",
+        "stage": "Supporter",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "supporter",
+        "energy_type": null,
+        "image": "https://images.pokemontcg.io/sv10/176.png",
+        "set_name": null,
+        "text": "Search your deck for a Trainer card, reveal it, and put it into your hand. Then, shuffle your deck.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "sv10-176",
+        "name": "Team Rocket's Petrel",
+        "category": "Trainer",
+        "stage": "Supporter",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "supporter",
+        "energy_type": null,
+        "image": "https://images.pokemontcg.io/sv10/176.png",
+        "set_name": null,
+        "text": "Search your deck for a Trainer card, reveal it, and put it into your hand. Then, shuffle your deck.",
         "dex_id": null,
         "traits": []
       },
@@ -24627,46 +24751,6 @@
         "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/125/low.webp",
         "set_name": null,
         "text": "Flip a coin. If heads, discard an Energy from 1 of your opponent's Pok\u00e9mon.",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "swsh12.5-125",
-        "name": "Crushing Hammer",
-        "category": "Trainer",
-        "stage": "Item",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "item",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/125/low.webp",
-        "set_name": null,
-        "text": "Flip a coin. If heads, discard an Energy from 1 of your opponent's Pok\u00e9mon.",
-        "dex_id": null
-      },
-      {
-        "catalog_id": "sv04-160",
-        "name": "Counter Catcher",
-        "category": "Trainer",
-        "stage": "Item",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "item",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv04/160/low.webp",
-        "set_name": null,
-        "text": "You can use this card only if you have more Prize cards remaining than your opponent.\n\nSwitch in 1 of your opponent's Benched Pok\u00e9mon to the Active Spot.",
         "dex_id": null
       },
       {

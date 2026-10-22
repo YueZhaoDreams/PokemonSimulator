@@ -1501,6 +1501,9 @@ class Game:
         missing_protect = missing_ace
 
         candidates: list[tuple[float, int]] = []
+        # Several Petrel copies share one collapse. The next pick rebuilds it.
+        self._petrel_pick = None
+        self._petrel_pick_ready = False
         hold_for_bounce = strat.name == "party" and self._save_supporter_for_bounce(me, foe)
         for card_i in me.hand:
             card = me.card(card_i)
@@ -2092,6 +2095,13 @@ class Game:
                     score += 12
                 else:
                     score -= 20
+            elif name == "team rocket's petrel" and strat.name in {"mew_baby", "baby"}:
+                if not self._petrel_pick_ready:
+                    self._petrel_pick = self._mew_petrel_collapse(me, foe)
+                    self._petrel_pick_ready = True
+                collapse = self._petrel_pick
+                # The card already in hand plays first when the two scores match.
+                score += (collapse[0] - 0.25) if collapse else -20
             else:
                 score += 0.5
             # Greedy Family Cup: Energy Search is also a Pokémon tutor.
@@ -2553,10 +2563,14 @@ class Game:
     def _mew_tera_in_hand_or_deck(self, me: Player) -> bool:
         return any(self._is_tera_card(me.card(i)) for i in list(me.hand) + list(me.deck))
 
-    def _mew_burst_ready(self, me: Player) -> bool:
-        """Late Area Zero turn: babies are out, and either Beatdown is payable or the board is full."""
+    def _mew_burst_ready(self, me: Player, *, holding: bool = False) -> bool:
+        """Late Area Zero turn: babies are out, and either Beatdown is payable or the board is full.
+
+        holding=True scores a copy that Petrel is about to put into the hand. The picker
+        uses the same gate once that Stadium is actually held.
+        """
         stadium = (self.stadium_name or "").lower() == "area zero underdepths"
-        in_hand = self._has_named(me, "Area Zero Underdepths")
+        in_hand = holding or self._has_named(me, "Area Zero Underdepths")
         if not in_hand and not stadium:
             return False
         if stadium and self._player_has_tera(me):
@@ -13945,7 +13959,248 @@ class Game:
         if found is not None:
             self._bump("fighting_gong")
 
+    def _mew_arven_score(self, me: Player, foe: Player) -> float:
+        """Mew list's Arven score: the base 6 plus the bonuses the picker adds."""
+        score = 6.0
+        if self._mew_wants_max_potion_tutor(me):
+            score += 20
+        if self._mew_wants_balloon_tutor(me):
+            score += 12
+        if self._mew_arven_prevents_ko(me, foe):
+            score += 40
+        return score
+
+    def _mew_tool_stops_ko(self, me: Player, foe: Player, card: Card) -> bool:
+        """This HP tool on the Active Mew ex leaves it short of the next-turn Knock Out."""
+        mon = me.active
+        if mon is None or mon.tool is not None or not mon.energy:
+            return False
+        if me.card(mon.card_i).name.lower() != "mew ex":
+            return False
+        if not self._ko_next_turn(foe, me):
+            return False
+        bonus = self._printed_hp_bonus(card, True)
+        if bonus <= 0:
+            return False
+        remaining = self._max_hp(me, mon) - mon.damage
+        return self._next_turn_damage(foe, me) < remaining + bonus
+
+    def _mew_stadium_score(self, me: Player, card: Card) -> float:
+        """The score _pick_trainer gives this Stadium once it is in hand.
+
+        A Bench-raising Stadium is read from its printed sentence. Area Zero Underdepths
+        and Battle Cage use the same numbers as those branches. Zero means this list
+        has no play for that Stadium.
+        """
+        if (card.trainer_kind or "").lower() != "stadium":
+            return 0.0
+        name = card.name.lower()
+        if self._bench_raise_effect(parse_ability_effects(card.text or "")) is not None:
+            return 30.0 if self._mew_bench_raise_gain(me, card) >= 1 else -20.0
+        if name == "area zero underdepths":
+            if (self.stadium_name or "").lower() == "area zero underdepths":
+                return -20.0
+            if self._player_has_tera(me) and self._mew_burst_ready(me, holding=True):
+                return 32.0
+            return -20.0
+        if name == "battle cage":
+            if self.stadium_name == "Battle Cage":
+                return -6.0
+            if self._mew_keep_area_zero(me) or self._mew_keep_bench_raise(me):
+                return -30.0
+            return 22.0 if self._facing_phantom(me) else 15.0
+        return 0.0
+
+    def _mew_bench_basic_waiting(self, me: Player, max_hp: int | None) -> bool:
+        """A Basic in the deck that can be benched, and that is within max_hp when one is printed."""
+        if len(me.bench) >= self._bench_limit(me):
+            return False
+        for card_i in me.deck:
+            card = me.card(card_i)
+            if not card.is_basic or (card.hp or 0) <= 0:
+                continue
+            if max_hp is not None and (card.hp or 0) > max_hp:
+                continue
+            if self._bench_room_for(me, card):
+                return True
+        return False
+
+    def _mew_petrel_collapse(self, me: Player, foe: Player) -> tuple[float, str] | None:
+        """The Trainer Petrel collapses into, and the score for playing Petrel to get it.
+
+        Printed Petrel takes any Trainer from the deck. The same _play_trainers loop
+        then plays an Item, a Tool, or a Stadium. A Supporter cannot be played on
+        this turn, so it scores below those. A Stadium uses _mew_stadium_score, the
+        same number _pick_trainer would give that card once it is in hand. Arven,
+        already in hand, keeps an Item or Tool it can fetch, because it takes a
+        second card as well. Arven cannot fetch a Stadium. Boss's Orders, already
+        in hand, keeps the gust.
+        """
+        hand = {me.card(i).name.lower() for i in me.hand}
+        by_name: dict[str, Card] = {}
+        for card_i in me.deck:
+            card = me.card(card_i)
+            by_name.setdefault(card.name.lower(), card)
+        if not by_name:
+            return None
+        arven_score = self._mew_arven_score(me, foe) if "arven" in hand else 0.0
+        gust_score = float(self._mew_gust_score(me, foe))
+        open_mew = any(
+            mon.tool is None and me.card(mon.card_i).name.lower() == "mew ex" for mon in me.in_play()
+        )
+        order = (
+            "counter catcher",
+            "max potion",
+            "hero's cape",
+            "bravery charm",
+            "buddy-buddy poffin",
+            "buddy buddy poffin",
+            "rescue carrier",
+            "sky field",
+            "area zero underdepths",
+            "battle cage",
+            "bursting balloon",
+            "night stretcher",
+            "nest ball",
+            "boss's orders",
+            "penny",
+            "arven",
+            "iono",
+            "professor's research",
+        )
+        options: list[tuple[float, int, str]] = []
+
+        def offer(card: Card, raw: float) -> None:
+            name = card.name.lower()
+            if name in hand:
+                return
+            score = float(raw)
+            if me.item_lock and (card.is_item or self._is_tool_card(card)):
+                # Held until the lock ends. A Stadium that can be played now stays above this.
+                score = min(score, 9.0)
+            if name == "counter catcher" and "boss's orders" in hand:
+                score = min(score, gust_score - 1)
+            if name == "counter catcher" and "arven" in hand and arven_score > score:
+                score = min(score, arven_score - 1)
+            elif "arven" in hand and name != "counter catcher" and (
+                card.is_supporter or card.is_item or self._is_tool_card(card)
+            ):
+                score = min(score, arven_score - 1)
+            if score <= 0:
+                return
+            options.append((score, order.index(name) if name in order else len(order), name))
+
+        catcher = by_name.get("counter catcher")
+        if catcher is not None and len(me.prizes) > len(foe.prizes) and gust_score > 0:
+            offer(catcher, gust_score + 2)
+        potion = by_name.get("max potion")
+        if potion is not None and self._mew_wants_max_potion_tutor(me):
+            active_hurt = me.active is not None and me.active in self._damaged_mews(me)
+            offer(potion, 30 if active_hurt else 24)
+        if open_mew:
+            cape = by_name.get("hero's cape")
+            if cape is not None:
+                offer(cape, 46 if self._mew_tool_stops_ko(me, foe, cape) else 26)
+            charm = by_name.get("bravery charm")
+            if charm is not None:
+                offer(charm, 46 if self._mew_tool_stops_ko(me, foe, charm) else 16)
+        for key in ("buddy-buddy poffin", "buddy buddy poffin"):
+            poffin = by_name.get(key)
+            if poffin is None:
+                continue
+            text = (poffin.text or "").lower().replace("pokémon", "pokemon")
+            cap = re.search(r"(\d+) hp or less", text)
+            if cap and self._mew_bench_basic_waiting(me, int(cap.group(1))):
+                offer(poffin, 25)
+            break
+        carrier = by_name.get("rescue carrier")
+        if carrier is not None:
+            spec = next(
+                (e for e in parse_trainer_effects(carrier.text or "") if e.get("kind") == "rescue_carrier"),
+                None,
+            )
+            if spec is not None:
+                eligible = self._rescue_carrier_targets(me, int(spec.get("max_hp") or 0))
+                need = int(spec.get("count") or 0)
+                if len(eligible) >= need >= 2:
+                    offer(carrier, 22)
+                elif eligible:
+                    offer(carrier, 12)
+        for card in by_name.values():
+            if (card.trainer_kind or "").lower() != "stadium":
+                continue
+            stadium_score = self._mew_stadium_score(me, card)
+            if stadium_score > 0:
+                offer(card, stadium_score)
+        balloon = by_name.get("bursting balloon")
+        if balloon is not None and self._mew_wants_balloon_tutor(me):
+            offer(balloon, 18)
+        stretcher = by_name.get("night stretcher")
+        if stretcher is not None:
+            if any(me.card(i).is_pokemon for i in me.discard):
+                offer(stretcher, 18)
+            elif any(is_basic_energy(me.card(i)) for i in me.discard):
+                offer(stretcher, 6)
+        nest = by_name.get("nest ball")
+        if nest is not None and self._mew_bench_basic_waiting(me, None):
+            in_play = {me.card(mon.card_i).name.lower() for mon in me.in_play()}
+            missing_ace = any(name not in in_play and name not in hand for name in ("mew ex", "igglybuff"))
+            offer(nest, 10 if missing_ace else 3)
+        catcher_now = (
+            catcher is not None
+            and "counter catcher" not in hand
+            and len(me.prizes) > len(foe.prizes)
+            and gust_score > 0
+        )
+        boss = by_name.get("boss's orders")
+        if boss is not None and gust_score > 0 and "counter catcher" not in hand and not catcher_now:
+            offer(boss, 9 if gust_score >= 48 else 8)
+        penny = by_name.get("penny")
+        if penny is not None and me.active is not None and me.card(me.active.card_i).name.lower() == "manaphy":
+            offer(penny, 9)
+        arven = by_name.get("arven")
+        if arven is not None and "arven" not in hand:
+            mew_waiting = any(me.card(i).name.lower() == "mew ex" for i in (*me.hand, *me.deck))
+            cape_later = (not open_mew) and mew_waiting and (
+                "hero's cape" in by_name or "bravery charm" in by_name
+            )
+            if cape_later or self._mew_wants_balloon_tutor(me) or self._mew_wants_max_potion_tutor(me):
+                offer(arven, 7.5)
+        iono = by_name.get("iono")
+        if iono is not None and len(me.hand) <= 3:
+            offer(iono, 8.5 if len(me.hand) <= 2 else 7)
+        research = by_name.get("professor's research")
+        if research is not None and len(me.hand) <= 2:
+            offer(research, 6)
+        if not options:
+            return None
+        options.sort(key=lambda row: (-row[0], row[1], row[2]))
+        best_score, _rank, best_name = options[0]
+        return best_score, best_name
+
     def _search_trainer(self, me: Player, who: str) -> None:
+        if self.strats[who].name in {"mew_baby", "baby"}:
+            foe = self.players["b" if who == "a" else "a"]
+            collapse = self._mew_petrel_collapse(me, foe)
+            if collapse is None:
+                self._bump("petrel_whiff")
+                return
+            _score, want = collapse
+            found = self._search(
+                me,
+                lambda c, want=want: c.is_trainer and c.name.lower() == want,
+                prefer=[want],
+                source="petrel",
+            )
+            if found is None:
+                self._bump("petrel_whiff")
+                return
+            found_name = me.card(found).name
+            self._bump("petrel")
+            self._bump(f"petrel_into:{found_name}")
+            self._log(f"{me.name} Petrel takes {found_name}")
+            return
+        # Aura and the other lists: Boss, then the Supporters that list actually plays.
         prefer = ["Boss's Orders", "Lillie's Determination", "Wally's Compassion", "Judge"]
         found = self._search(me, lambda c: c.is_trainer, prefer=prefer, source="petrel")
         if found is not None:
