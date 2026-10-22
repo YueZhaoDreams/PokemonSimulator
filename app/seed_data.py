@@ -622,11 +622,21 @@ SET_L60_NAMES = (
     + ["Fighting Energy"] * 11
 )
 
-# Mill: Sisters shell plus one sleep wall. Neutralization Zone is the one ACE SPEC.
-# One Playground Pichu and one Call of Legends Mime Jr. Against Phantom Dive,
-# Starmie, and spread, those 30 HP cards stay in the deck. Elsewhere one of
-# them stalls in front. One Slumbering Forest, one Switch. Boss, Counter Catcher,
-# and the Hammer shell stay. Fighting Energy is the cut: Undersea Tunnel is colorless.
+# Mill lock (2026-10-22, seed 20261022, 250 games each seat, both seats).
+# Sisters shell plus one Playground Pichu, one Call of Legends Mime Jr.,
+# one Slumbering Forest, and one Switch. Cuts from that shell: Fighting Energy
+# 2, Water Energy 1, Rescue Carrier 1. Undersea Tunnel is colorless.
+# Field mean 53.4% vs the frozen Sisters 60 at 49.5% (+3.9). Weighted
+# 32.9% → 37.0% (+4.1). Head to head 44.6%. See data/lab/set-mill-sleep.md.
+# Neutralization Zone stays the one ACE SPEC. Against Phantom Dive, Starmie,
+# and spread, the 30 HP cards stay in the deck.
+# Rabsca 1-1 is outside this lock. On the C60 bakeoff (seed 20260911, 3000
+# games) that line was 51.4–52.5% vs T60 against a 51.3% base, while one
+# Battle Cage was 62.0%. Rellor is 50 HP until it evolves, so Dive's 6
+# counters take it before Spherical Shield exists.
+# Battle Cage is outside this lock. Its printed text stops bench counters
+# and replaces whichever Stadium is in play, including Neutralization Zone.
+# This 60 was not remeasured with that swap.
 SET_MILL_NAMES = (
     ["Pichu"]
     + ["Mime Jr."]
@@ -5132,7 +5142,7 @@ def fallback_named(name: str) -> Card:
 
 
 def build_mill_deck() -> list[Card]:
-    """Thin sleep wall. Mime Jr. is Call of Legends Sleepy Lost, not Mimed Games."""
+    """Locked thin sleep wall. Mime Jr. is Call of Legends Sleepy Lost."""
     out: list[Card] = []
     for name in SET_MILL_NAMES:
         if name == "Mime Jr.":

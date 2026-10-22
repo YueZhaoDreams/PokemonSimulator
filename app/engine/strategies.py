@@ -824,7 +824,7 @@ STRATEGY_LIBRARY = {
             "opponent's deck in the Lost Zone. The attack leaves that baby Asleep. "
             "Sweet Sleeping Face prevents attack damage while it is Asleep. "
             "Slumbering Forest makes the between-turns sleep check two coins. "
-            "Manaphy Wave Veil prevents attack damage to the Bench. It does not stop damage counters. "
+            "The lock has no Manaphy, no Rabsca line, and no Battle Cage. "
             "Switch brings up Wugtrio once Undersea Tunnel is paid. "
             "Victory Star reflips an attack once when it shows 0 or 1 heads. "
             "Ignition Energy pays Undersea on an Evolution and leaves at the end of the turn. "

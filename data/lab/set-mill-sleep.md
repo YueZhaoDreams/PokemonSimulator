@@ -1,5 +1,7 @@
 # Mill sleep wall vs Sisters 60
 
+Locked 2026-10-22. `SET_MILL_NAMES` is this sleep-wall 60. Rabsca 1-1 and Battle Cage are outside the lock.
+
 - **Seed**: `20261022`
 - **Games per seat**: 250
 - **Seats**: each Mill list is player A and player B. A foe cell is the mean of those two win rates.
@@ -86,4 +88,6 @@ Sisters 60 is frozen in `SISTERS_60`. Sleep wall is `build_mill_deck()`.
 
 ## Decision
 
-Sleep wall mean 53.4% vs Sisters 49.5% (+3.9%). Weighted 32.9% → 37.0% (+4.1%). Head to head sleep wall 44.6%.
+Locked. Sleep wall mean 53.4% vs Sisters 49.5% (+3.9%). Weighted 32.9% → 37.0% (+4.1%). Head to head sleep wall 44.6%.
+
+Rabsca 1-1 stays out. The C60 bench-shield bakeoff (seed 20260911, 3000 games) put that line at 51.4–52.5% vs T60 against a 51.3% base. One Battle Cage on that same bakeoff was 62.0% vs T60. Battle Cage stays out of this Mill lock because it replaces Neutralization Zone, and this 60 was not remeasured with that swap.

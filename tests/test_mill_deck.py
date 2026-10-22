@@ -134,12 +134,15 @@ class _Board:
         return player
 
 
-def test_mill_list_is_the_sisters_sixty():
+def test_mill_list_is_the_locked_sleep_wall():
     names = list(SET_MILL_NAMES)
     assert len(names) == 60
     assert names.count("Pichu") == 1
     assert names.count("Mime Jr.") == 1
     assert names.count("Smoochum") == 0
+    assert names.count("Rellor") == 0
+    assert names.count("Rabsca") == 0
+    assert names.count("Battle Cage") == 0
     assert names.count("Wiglett") == 4
     assert names.count("Wugtrio") == 4
     assert names.count("Manaphy") == 0

@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 """Compare the Sisters 60 with the thin sleep-wall Mill 60.
 
-The live list is the Sisters shell plus one Playground Pichu, one Call of
-Legends Mime Jr., one Slumbering Forest, and one Switch. Fighting Energy is
-the cut. The Sisters list is frozen here. SET_MILL_NAMES is the live list.
+The locked list is the Sisters shell plus one Playground Pichu, one Call of
+Legends Mime Jr., one Slumbering Forest, and one Switch. Fighting Energy,
+one Water Energy, and one Rescue Carrier are the cuts. The Sisters list is
+frozen here. SET_MILL_NAMES is that lock. Rabsca 1-1 and Battle Cage are
+outside it.
 C60 is one of the measured foes.
 
 Each list plays both seats against the household foes, including C60. The cell is the
