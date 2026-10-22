@@ -13,8 +13,11 @@ from collections import Counter
 from pathlib import Path
 from random import Random
 
+import pytest
+
 from app.engine.effects import parse_trainer_effects
 from app.engine.game import Game, Pokemon
+from app.engine.legality import copy_violations
 from app.engine.models import standard_60_rules
 from app.engine.strategies import StrategySpec
 from app.seed_data import SET_M60_NAMES, build_fallback_deck, fallback_named
@@ -295,3 +298,40 @@ def test_junk_search_starts_from_the_locked_four_petrel_list():
     swapped = module.swap_one(names, "Ultra Ball")
     assert len(swapped) == 60
     assert swapped.count("Junk Arm") == 1
+
+
+def test_junk_report_keeps_one_copy_and_leaves_set_m_locked():
+    path = Path(__file__).resolve().parents[1] / "data" / "lab" / "set_m_junk_arm.py"
+    spec = importlib.util.spec_from_file_location(path.stem, path)
+    module = importlib.util.module_from_spec(spec)
+    assert spec.loader is not None
+    spec.loader.exec_module(module)
+    report_path = path.with_name("set-m-junk-arm.json")
+    report = json.loads(report_path.read_text())["report"]
+    label, names = module.starting_list()
+    assert report["done"] is True
+    assert report["start_label"] == label
+    assert report["list_start"] == names == list(SET_M60_NAMES)
+    assert report["copies"] == 1
+    assert [row["cut"] for row in report["array"][1:]] == ["Ultra Ball"]
+    kept = Counter(report["list"])
+    assert len(report["list"]) == 60
+    assert kept["Junk Arm"] == 1
+    assert kept["Ultra Ball"] == 0
+    assert kept["Team Rocket's Petrel"] == 4
+    assert kept["Sky Field"] == 3
+    assert kept["Budew"] == 4
+    assert copy_violations(build_fallback_deck(report["list"]), standard_60_rules()) == []
+    weights = report["weights"]
+    hold = {row["copies"]: row for row in report["holdout"]}
+    _delta, _se, z_hold = module._pair(hold[1], hold[0], weights)
+    assert z_hold == pytest.approx(0.19, abs=0.01)
+    assert z_hold < 2
+    selected = {row["copies"]: row for row in report["array"]}
+    _delta, _se, z_sel = module._pair(selected[1], selected[0], weights)
+    assert z_sel == pytest.approx(1.93, abs=0.01)
+    text = report_path.with_suffix(".md").read_text()
+    assert text == module.render_md(report)
+    assert "stays the locked four-Petrel list" in text
+    assert Counter(SET_M60_NAMES)["Junk Arm"] == 0
+    assert Counter(SET_M60_NAMES)["Ultra Ball"] == 1
