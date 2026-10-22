@@ -290,6 +290,132 @@ def pct(value: float) -> str:
     return f"{value:.1%}"
 
 
+def _copies(n: int) -> str:
+    return f"{n} copy" if n == 1 else f"{n} copies"
+
+
+def _pair(later: dict, earlier: dict, weights: dict[str, float]) -> tuple[float, float, float]:
+    delta = later["weighted"] - earlier["weighted"]
+    se = diff_se(later["cells"], earlier["cells"], weights)
+    return delta, se, (delta / se if se else 0.0)
+
+
+def _hold_avg(holdout: list[dict], copies: int, field: str) -> float:
+    row = next(item for item in holdout if item["copies"] == copies)
+    cells = row["cells"].values()
+    return sum(cell.get(field, 0.0) for cell in cells) / len(row["cells"])
+
+
+def result_lines(report: dict) -> list[str]:
+    """Holdout standard errors for the finished search. Under 2 does not separate two lists."""
+    holdout = report.get("holdout") or []
+    array = report.get("array") or []
+    weights = report.get("weights") or {}
+    if not report.get("done") or len(holdout) < 2 or len(array) < 2 or not weights:
+        return []
+    by_copies = {row["copies"]: row for row in holdout}
+    zero = holdout[0]
+    lines = [
+        "",
+        "## Result",
+        "",
+        "The selection seed keeps a copy when the loss-weighted rate rises. It picks the best of many cuts, "
+        "so that gain is biased upward. The holdout seed is the one no list was chosen on. "
+        "A difference under 2 standard errors does not separate two lists.",
+        "",
+    ]
+    for prev, row in zip(array, array[1:]):
+        delta, _se, z = _pair(row, prev, weights)
+        lines.append(
+            f"- {_copies(row['copies'])}, cut {row['cut']}: {pct(row['weighted'])} "
+            f"({delta:+.2%} against the previous list, {z:.2f} standard errors)."
+        )
+    steps = report.get("steps") or []
+    if steps and steps[-1].get("screen") and steps[-1].get("confirm"):
+        screen = steps[-1]["screen"][0]
+        confirm = steps[-1]["confirm"]
+        second = f" and {confirm[1]['cut']} second at {pct(confirm[1]['weighted'])}" if len(confirm) > 1 else ""
+        lines.extend(
+            [
+                "",
+                f"The last copy's {report.get('screen_games')}-game screen ranks {screen['cut']} first "
+                f"at {pct(screen['weighted'])}. The {report.get('games')}-game confirm ranks "
+                f"{confirm[0]['cut']} first at {pct(confirm[0]['weighted'])}{second}.",
+            ]
+        )
+    lines.extend(
+        [
+            "",
+            f"Holdout seed `{report.get('holdout_seed')}`, {report.get('holdout_games')} games per foe, "
+            "same weights. Unpaired difference against zero copies:",
+            "",
+        ]
+    )
+    for row in holdout[1:]:
+        delta, se, z = _pair(row, zero, weights)
+        lines.append(
+            f"- {_copies(row['copies'])}: {delta:+.2%} ({z:.2f} standard errors, "
+            f"±1 SE of the difference {pct(se)})."
+        )
+    neighbor = []
+    kept = int(report.get("copies") or 0)
+    for left, right in ((2, 1), (3, 2), (4, 3), (4, 2)):
+        if left in by_copies and right in by_copies and left <= kept:
+            delta, _se, z = _pair(by_copies[left], by_copies[right], weights)
+            neighbor.append(f"{left} against {right} is {delta:+.2%} ({z:.2f} standard errors)")
+    if neighbor:
+        lines.extend(["", "On the same seed, " + "; ".join(neighbor) + "."])
+    one = by_copies.get(1)
+    four = by_copies.get(kept)
+    if one is not None and four is not None and 1 in {row["copies"] for row in array}:
+        sel_one = next(row for row in array if row["copies"] == 1)
+        sel_kept = next(row for row in array if row["copies"] == kept)
+        lines.extend(
+            [
+                "",
+                "Sky Field is fetched. On the selection seed it is "
+                f"{sel_one['sky']:.3f} finds per game at {_copies(1)}, with four Sky Field still in the deck, "
+                f"and {sel_kept['sky']:.3f} finds per game at {_copies(kept)}"
+                + (f", with {sel_kept['list'].count('Sky Field')} Sky Field left" if sel_kept.get("list") else "")
+                + ". On the holdout those rates are "
+                f"{_hold_avg(holdout, 1, 'sky'):.3f} and {_hold_avg(holdout, kept, 'sky'):.3f}. "
+                f"At {_copies(kept)} on the selection seed the other finds per game are "
+                f"Buddy-Buddy Poffin {sel_kept['poffin']:.3f}, Hero's Cape {sel_kept['cape']:.3f}, "
+                f"Battle Cage {sel_kept['cage']:.3f}, Max Potion {sel_kept['potion']:.3f}. "
+                f"Area Zero Underdepths is {sel_kept['area']:.3f}.",
+            ]
+        )
+    above = [str(row["copies"]) for row in holdout[1:] if _pair(row, zero, weights)[2] >= 2]
+    under = [str(row["copies"]) for row in holdout[1:] if _pair(row, zero, weights)[2] < 2]
+    lines.extend(
+        [
+            "",
+            "`SET_M60_NAMES` stays the earlier lock. This report's starting 60 is the fresh-seed best "
+            "of `set-m-gust-search`, four Sky Field and four Budew.",
+            "",
+            "Copies at or above 2 standard errors against zero: "
+            + (", ".join(above) if above else "none")
+            + ". Copies under 2 standard errors against zero: "
+            + (", ".join(under) if under else "none")
+            + f". The search kept {kept}.",
+        ]
+    )
+    if kept in by_copies and kept - 1 in by_copies:
+        _delta, _se, z_step = _pair(by_copies[kept], by_copies[kept - 1], weights)
+        cut = next(row["cut"] for row in array if row["copies"] == kept)
+        lines.append(
+            f"{_copies(kept)} against {_copies(kept - 1)} is {z_step:.2f} standard errors, "
+            f"and that step cuts {cut}."
+        )
+    names = report.get("list") or []
+    if names:
+        lines.extend(["", "The list the search kept:", "", "```"])
+        for name, count in sorted(Counter(names).items()):
+            lines.append(f"{count} {name}")
+        lines.extend(["```", ""])
+    return lines
+
+
 def cell_pct(cells: dict, key: str) -> str:
     return pct(cells[key]["a"])
 
@@ -315,6 +441,7 @@ def render_md(report: dict) -> str:
         "",
         f"Starting 60 is the fresh-seed best from `set-m-gust-search`: {report.get('start_label')}.",
         f"That list has four Sky Field, four Budew, and zero {IN_NAME}.",
+        "An earlier pass measured `SET_M60_NAMES`, which has zero Sky Field. Those numbers are withdrawn.",
         "Each step cuts exactly one copy of one other card. Weights are frozen from the",
         "0-Petrel measurement of this list on this engine.",
         "",
@@ -418,6 +545,7 @@ def render_md(report: dict) -> str:
             )
     if report.get("stopped"):
         lines.extend(["", report["stopped"], ""])
+    lines.extend(result_lines(report))
     lines.append("")
     return "\n".join(lines)
 

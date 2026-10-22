@@ -7,6 +7,8 @@ An Item, Tool, or Stadium is played in the same turn. A Supporter stays for the 
 from __future__ import annotations
 
 import importlib.util
+import json
+from collections import Counter
 from pathlib import Path
 from random import Random
 
@@ -14,6 +16,7 @@ import pytest
 
 from app.engine.effects import parse_trainer_effects
 from app.engine.game import Game, Pokemon
+from app.engine.legality import copy_violations
 from app.engine.models import Card, standard_60_rules
 from app.engine.strategies import StrategySpec
 from app.seed_data import SET_M60_NAMES, build_fallback_deck, fallback_named
@@ -602,6 +605,39 @@ def test_petrel_search_starts_from_the_four_sky_field_list():
     assert names.count("Team Rocket's Petrel") == 0
     assert names.count("Boss's Orders") == 0
     assert SET_M60_NAMES.count("Sky Field") == 0
+
+
+def test_petrel_report_is_the_finished_four_sky_field_search():
+    lab = _load_lab()
+    path = Path(__file__).resolve().parents[1] / "data" / "lab" / "set-m-petrel.json"
+    report = json.loads(path.read_text())["report"]
+    label, names = lab.starting_list()
+    assert report["done"] is True
+    assert report["start_label"] == label == "Start (4 Sky Field, 4 Budew)"
+    assert report["list_start"] == names
+    assert report["copies"] == 4
+    assert [row["cut"] for row in report["array"][1:]] == ["Ultra Ball", "Penny", "Penny", "Sky Field"]
+    final = Counter(report["list"])
+    assert len(report["list"]) == 60
+    assert final["Team Rocket's Petrel"] == 4
+    assert final["Sky Field"] == 3
+    assert final["Budew"] == 4
+    assert final["Penny"] == 0
+    assert final["Ultra Ball"] == 1
+    assert copy_violations(build_fallback_deck(report["list"]), standard_60_rules()) == []
+    hold = {row["copies"]: row for row in report["holdout"]}
+    weights = report["weights"]
+    _delta, _se, z40 = lab._pair(hold[4], hold[0], weights)
+    _delta, _se, z43 = lab._pair(hold[4], hold[3], weights)
+    assert z40 == pytest.approx(2.73, abs=0.01)
+    assert z43 < 2
+    text = path.with_suffix(".md").read_text()
+    assert text == lab.render_md(report)
+    assert "## Result" in text
+    assert "2.73 standard errors" in text
+    assert "0.266" in text
+    assert SET_M60_NAMES.count("Sky Field") == 0
+    assert SET_M60_NAMES.count("Team Rocket's Petrel") == 0
 
 
 def test_aura_petrel_still_takes_boss_ahead_of_an_item():
