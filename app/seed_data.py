@@ -1324,6 +1324,46 @@ _register(
         set_name="Scarlet & Violet",
     )
 )
+# Dragons Exalted 10. Dig's sentence prevents effects of attacks, including damage.
+_NINCADA_DIG_TEXT = (
+    "Flip a coin. If heads, prevent all effects of attacks, including damage, "
+    "done to this Pokémon during your opponent's next turn."
+)
+_register(
+    _pkm(
+        "Nincada",
+        "Basic",
+        ["Grass"],
+        40,
+        [_atk("Dig", ["Colorless"], 10, _NINCADA_DIG_TEXT)],
+        retreat=2,
+        catalog_id="bw6-10",
+        weakness="Fire",
+        set_name="Dragons Exalted",
+    )
+)
+# Lost Thunder 95. Vessel of Life turns Shedinja into a Tool. The Nincada under it
+# is discarded when Shedinja leaves play; only the Shedinja card stays attached.
+_VESSEL_OF_LIFE_TEXT = (
+    "Once during your turn (before your attack), you may discard all cards attached to this Pokémon "
+    "and attach it to 1 of your Pokémon as a Pokémon Tool card. When the Pokémon this card is attached to "
+    "is Knocked Out, your opponent takes 1 fewer Prize card."
+)
+_HAUNT_TEXT = "Put 3 damage counters on your opponent's Active Pokémon."
+_register(
+    _pkm(
+        "Shedinja",
+        "Stage1",
+        ["Psychic"],
+        40,
+        [_atk("Haunt", ["Colorless"], 0, _HAUNT_TEXT)],
+        evolves_from="Nincada",
+        retreat=1,
+        catalog_id="sm8-95",
+        abilities=[Ability(name="Vessel of Life", text=_VESSEL_OF_LIFE_TEXT)],
+        set_name="Lost Thunder",
+    )
+)
 # Emerging Powers 14. Victory Star reflips one attack's coins, once per turn.
 _VICTORY_STAR_TEXT = (
     "Once during your turn, after you flip any coins for an attack, you may ignore all effects "
