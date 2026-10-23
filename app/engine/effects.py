@@ -647,6 +647,14 @@ def parse_ability_effects(text: str) -> list[dict[str, Any]]:
             }
         )
 
+    # Shedinja Vessel of Life: leave play as a Tool. The prize sentence rides on that card.
+    if (
+        "discard all cards attached to this pokemon" in t
+        and "attach it to 1 of your pokemon as a pokemon tool" in t
+        and "takes 1 fewer prize card" in t
+    ):
+        effects.append({"kind": "attach_self_as_tool", "fewer_prizes": 1})
+
     _extend_expanded_ability_effects(t, effects)
     return effects
 
@@ -736,6 +744,16 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
         and "if heads" in t
         and "prevent all damage from and effects of attacks" in t
         and "done to this pokemon" in t
+    ):
+        effects.append({"kind": "coin_prevent_self_damage_next_turn"})
+
+    # Nincada Dig: same coin, but the printed sentence says effects, including damage.
+    if (
+        "flip a coin" in t
+        and "if heads" in t
+        and "prevent all effects of attacks, including damage" in t
+        and "done to this pokemon" in t
+        and "during your opponent's next turn" in t
     ):
         effects.append({"kind": "coin_prevent_self_damage_next_turn"})
 
@@ -1144,6 +1162,14 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
     )
     if bench:
         effects.append({"kind": "bench_damage_counters", "counters": int(bench.group(1))})
+
+    # Shedinja Haunt: counters on the opponent's Active, not attack damage.
+    active_counters = re.search(
+        r"put (\d+) damage counters on your opponent's active pokemon",
+        t,
+    )
+    if active_counters:
+        effects.append({"kind": "active_damage_counters", "counters": int(active_counters.group(1))})
 
     # Volt Cyclone: move one attached Energy onto a Benched Pokémon.
     if "move an energy from this pokemon" in t and "benched" in t:

@@ -127,6 +127,8 @@ PUBLISHED_EFFECT_KINDS = frozenset(
         "tool_damage_vs_gx_ex",
         "coin_mill_opponent",
         "coin_prevent_self_damage_next_turn",
+        "active_damage_counters",
+        "attach_self_as_tool",
         "move_all_energy_to_bench",
         "reflip_attack_coins",
         "prevent_ex_v_damage_no_rule_box",

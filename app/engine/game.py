@@ -58,6 +58,7 @@ _EFFECTS_ON_DEFENDER = frozenset({
     "disable_attack",
     "move_opp_active_energy_to_bench",
     "discard_defender_tools",
+    "active_damage_counters",
 })
 
 
@@ -275,6 +276,8 @@ class Game:
                     return (2, 0)
                 if name == "wiglett":
                     return (3, 0)
+                if name == "nincada":
+                    return (5, 0)
                 return (4, 0)
 
             for card_i in sorted(remaining, key=bench_rank):
@@ -509,6 +512,10 @@ class Game:
                 return copies < 1
             if name == "wiglett":
                 return True
+            if name == "nincada":
+                # Shedinja has to be in hand, and a Wugtrio has to be able to take the Tool.
+                # Spread matchups leave the 40 HP body in the deck.
+                return self._mill_wants_nincada_benched(player)
 
         if strat.name == "celebration":
             caps = {
@@ -703,6 +710,8 @@ class Game:
                 return 900
             if strat.name == "mill" and name == "manaphy":
                 return 200
+            if strat.name == "mill" and name == "nincada":
+                return 50
             if strat.name in {"mew_baby", "baby"}:
                 rank = {
                     "mew ex": 5000,
@@ -1021,6 +1030,9 @@ class Game:
         self._play_basics(me)
         if self.strats[who].name in {"party", "demolish", "slash", "shock", "thrifty", "phantom", "carnival", "g", "celebration", "aura", "thorns", "electro_rain", "regidrago", "mill"}:
             self._play_trainers(me, foe, who)
+            if self.strats[who].name == "mill":
+                # This pass can find Shedinja. Nincada benches only once that card is in hand.
+                self._play_basics(me)
         if self.strats[who].name == "celebration":
             self._evolve(me, foe, who)
         if self._use_abilities(me, foe, who):
@@ -1069,6 +1081,14 @@ class Game:
             self._g_match_horn_hands(me, foe, who)
         if getattr(self, "winner", None):
             return True
+        # Vessel of Life is before the attack. Rescue can then pick up the Nincada
+        # that just hit the discard, and a second Ball can find the next Shedinja.
+        before_vessel = self.events.get("vessel_of_life", 0)
+        self._use_vessel_of_life(me, who)
+        if self.events.get("vessel_of_life", 0) > before_vessel and self.strats[who].name == "mill":
+            self._play_trainers(me, foe, who)
+            self._play_basics(me)
+            self._play_trainers(me, foe, who)
         if not self._try_draw_end_turn(me, who):
             can_attack = not (first_turn and who == self.first and self.rules.first_player_no_attack)
             if self._seeker_then_attack(me, foe, who, can_attack):
@@ -1174,6 +1194,8 @@ class Game:
                     return (2, 0)
                 if name == "wiglett":
                     return (3, 0)
+                if name == "nincada":
+                    return (5, 0)
                 return (4, 0)
             if strat.name == "g":
                 rank = {
@@ -1284,6 +1306,9 @@ class Game:
             return
         if strat.name == "aura":
             self._evolve_named(me, who, ["Mega Lucario ex", "Hariyama"])
+            return
+        if strat.name == "mill":
+            self._evolve_mill(me, who)
             return
         if strat.name == "starmie":
             self._evolve_named(
@@ -4497,10 +4522,16 @@ class Game:
                 prefer.append("Manaphy")
             if wall and not have_face:
                 prefer.extend(["Mime Jr.", "Smoochum"])
+            # Shedinja comes into hand once a Wugtrio can take the Tool.
+            # Nincada stays in the deck until that Shedinja is in hand.
+            if self._mill_wants_shedinja_card(me):
+                prefer.append("Shedinja")
             if "wiglett" not in names:
                 prefer.append("Wiglett")
             if "wugtrio" not in names:
                 prefer.append("Wugtrio")
+            if self._mill_wants_nincada_card(me):
+                prefer.append("Nincada")
             if "victini" not in names:
                 prefer.append("Victini")
             tail = ["Wiglett", "Wugtrio", "Manaphy", "Victini"]
@@ -4919,6 +4950,16 @@ class Game:
                         score += 4
             if card.is_basic:
                 score += 1
+            if strat.name == "mill" and source == "level ball" and card.is_basic:
+                # Nest Ball and Poffin bench Basics. This Ball is for Wugtrio and Shedinja.
+                if not (name == "nincada" and self._mill_wants_nincada_card(me)):
+                    score -= 10
+            if strat.name == "mill" and source == "level ball" and name == "wugtrio":
+                if name not in in_hand and name not in in_play:
+                    score += 25
+            if strat.name == "mill" and name == "shedinja" and self._mill_wants_shedinja_card(me):
+                # 40 HP Stage 1 loses the basic bonus to a spare Wiglett. The line still wants it.
+                score += 12
             if card.hp >= 140:
                 score += 3
             if strat.name == "celebration" and name in {
@@ -5139,6 +5180,12 @@ class Game:
                 score += 10
             if strat.name == "mill" and name == "wiglett":
                 score += 6
+                wig = sum(1 for n in in_play if n in {"wiglett", "wugtrio"})
+                if wig >= 2:
+                    score -= 8
+            if strat.name == "mill" and name == "nincada":
+                # wants_in_play already required Shedinja in hand and a Wugtrio out.
+                score += 12
             if name in in_play:
                 score -= 2
             if best is None or score > best[0]:
@@ -6288,6 +6335,14 @@ class Game:
                     self._swallow_energy(me, look)
             elif effect.get("kind") == "bench_damage_counters":
                 self._bench_damage_counters(foe, int(effect.get("counters") or 1))
+            elif effect.get("kind") == "active_damage_counters" and foe.active:
+                counters = int(effect.get("counters") or 0)
+                if counters > 0:
+                    foe.active.damage += 10 * counters
+                    self._bump("haunt", counters)
+                    self._log(
+                        f"{attacker.name} puts {counters} damage counters on {foe.card(foe.active.card_i).name}"
+                    )
             elif effect.get("kind") == "lock_items":
                 foe.pending_item_lock = True
                 self._bump("itchy_pollen_lock")
@@ -6662,7 +6717,9 @@ class Game:
         if unpaid:
             return unpaid[0]
         # The wall stalls in front. Energy lands on the line that will mill.
-        if self._sweet_face(me.card(me.active.card_i)):
+        # Nincada's Dig is a coin if it is stuck Active, not a reason to feed it.
+        active_name = me.card(me.active.card_i).name.lower()
+        if self._sweet_face(me.card(me.active.card_i)) or active_name in {"nincada", "shedinja"}:
             prep = [
                 mon
                 for mon in me.bench
@@ -6718,6 +6775,8 @@ class Game:
             card = me.card(mon.card_i)
             if not card.is_basic or self._sweet_face(card):
                 continue
+            if card.name.lower() == "nincada":
+                continue
             rank = (card.hp or 0, 1 if card.name.lower() == "wiglett" else 0)
             if best is None or rank > best[0]:
                 best = (rank, idx)
@@ -6726,6 +6785,245 @@ class Game:
     def _mill_wall_match(self, player: Player) -> bool:
         """Bench counters and spread make a 30 HP wall into prize cards."""
         return self._foe_strat_name(player) not in {"phantom", "starmie", "nuzzle"}
+
+    def _mill_line_started(self, me: Player) -> bool:
+        return self._copies_hand_and_play(me, "Wugtrio") > 0 or self._count_named_in_play(me, "Wiglett") > 0
+
+    def _mill_has_survival(self, me: Player, mon: Pokemon) -> bool:
+        """This Pokémon already will not give up a Prize to an attack this turn."""
+        if getattr(mon, "prevent_attack_damage", False):
+            return True
+        if int(getattr(mon, "reduce_damage_next_turn", 0) or 0) > 0:
+            return True
+        card = me.card(mon.card_i)
+        return bool(self._sweet_face(card) and mon.status & ST_ASLEEP)
+
+    def _mill_shedinja_in_hand(self, me: Player) -> int:
+        return sum(1 for i in me.hand if me.card(i).name.lower() == "shedinja")
+
+    def _mill_wants_nincada_benched(self, player: Player) -> bool:
+        """One 40 HP body, after Shedinja is in hand and a Wugtrio can take the Tool.
+
+        Nincada cannot evolve the turn it is played, so the opponent has one turn
+        to gust it. Bench it earlier and that turn is just a donated Prize.
+        """
+        if not self._mill_wall_match(player):
+            return False
+        if self._count_named_in_play(player, "Nincada") >= 1:
+            return False
+        if self._count_named_in_play(player, "Shedinja") >= 1:
+            return False
+        if self._mill_shedinja_in_hand(player) < 1:
+            return False
+        return self._count_named_in_play(player, "Wugtrio") > 0
+
+    def _mill_wants_nincada_card(self, me: Player) -> bool:
+        """Search a Nincada only when Shedinja is already in hand and the bench can take it."""
+        if self._copies_hand_and_play(me, "Nincada") > 0:
+            return False
+        if not self._mill_wants_nincada_benched(me):
+            return False
+        return len(me.bench) < self._bench_limit(me)
+
+    def _mill_wants_shedinja_card(self, me: Player) -> bool:
+        """Shedinja in hand before Nincada is benched. A Nincada already out still needs one."""
+        in_hand = self._mill_shedinja_in_hand(me)
+        evolving = self._count_named_in_play(me, "Nincada")
+        if evolving > in_hand:
+            return True
+        if in_hand > 0 or self._count_named_in_play(me, "Shedinja") > 0:
+            return False
+        if not self._mill_wall_match(me):
+            return False
+        return self._count_named_in_play(me, "Wugtrio") > 0
+
+    def _mill_wants_shedinja_back(self, me: Player) -> bool:
+        """Rescue Shedinja once a Nincada is in hand or already waiting to evolve."""
+        if not self._mill_wall_match(me):
+            return False
+        if self._mill_shedinja_in_hand(me) > 0 or self._count_named_in_play(me, "Shedinja") > 0:
+            return False
+        return self._copies_hand_and_play(me, "Nincada") > 0
+
+    def _mill_wants_nincada_back(self, me: Player) -> bool:
+        if not self._mill_wall_match(me):
+            return False
+        if self._copies_hand_and_play(me, "Nincada") > 0:
+            return False
+        if self._count_named_in_play(me, "Shedinja") > 0:
+            return False
+        if self._name_in_zones(me, {"shedinja"}, "hand+deck"):
+            return True
+        return any(me.card(i).name.lower() == "shedinja" for i in me.discard)
+
+    def _mill_open_vessel_slots(self, me: Player) -> int:
+        open_slots = 0
+        for mon in me.in_play():
+            if me.card(mon.card_i).name.lower() != "wugtrio":
+                continue
+            if mon.tool is not None or self._mill_has_survival(me, mon):
+                continue
+            open_slots += 1
+        return max(0, open_slots - self._count_named_in_play(me, "Shedinja"))
+
+    def _mill_vessel_target(self, me: Player, user: Pokemon | None) -> Pokemon | None:
+        best: tuple[tuple[int, int, int], Pokemon] | None = None
+        for mon in me.in_play():
+            if user is not None and mon is user:
+                continue
+            if mon.tool is not None:
+                continue
+            if me.card(mon.card_i).name.lower() != "wugtrio":
+                continue
+            if self._mill_has_survival(me, mon):
+                continue
+            rank = (
+                1 if mon is me.active else 0,
+                1 if self._mill_can_pay(me, mon) else 0,
+                len(mon.energy),
+            )
+            if best is None or rank > best[0]:
+                best = (rank, mon)
+        return None if best is None else best[1]
+
+    def _evolve_mill(self, me: Player, who: str) -> None:
+        """Wugtrio first. Shedinja only when an unprotected Wugtrio can take the Tool."""
+        if self.rules.first_turn_no_evolve and self._is_players_first_turn(who):
+            return
+        self._evolve_named(me, who, ["Wugtrio"])
+        for _ in range(self._mill_open_vessel_slots(me)):
+            if not self._evolve_one(me, who, "Shedinja"):
+                return
+
+    def _evolve_one(self, me: Player, who: str, name: str) -> bool:
+        for evo_i in list(me.hand):
+            evo = me.card(evo_i)
+            if evo.name.lower() != name.lower() or not evo.evolves_from:
+                continue
+            target = self._find_evolve_target(me, evo)
+            if target is None or not self._can_evolve_now(me, who, target, evo):
+                continue
+            self._do_evolve(me, target, evo_i)
+            return True
+        return False
+
+    def _vessel_effect(self, card: Card) -> dict | None:
+        for abi in card.abilities or []:
+            for eff in self._ability_effects(abi):
+                if eff.get("kind") == "attach_self_as_tool":
+                    return eff
+        return None
+
+    def _use_vessel_of_life(self, me: Player, who: str) -> None:
+        for _ in range(6):
+            user = None
+            for mon in me.in_play():
+                if mon.ability_used or self._abilities_suppressed(me, mon):
+                    continue
+                if self._vessel_effect(me.card(mon.card_i)) is None:
+                    continue
+                user = mon
+                break
+            if user is None:
+                return
+            target = self._vessel_target(me, who, user)
+            if target is None:
+                return
+            self._become_tool(me, who, user, target)
+
+    def _vessel_target(self, me: Player, who: str, user: Pokemon) -> Pokemon | None:
+        if self.strats[who].name == "mill":
+            return self._mill_vessel_target(me, user)
+        best: tuple[int, Pokemon] | None = None
+        for mon in me.in_play():
+            if mon is user or mon.tool is not None:
+                continue
+            prizes = self._prizes_for_ko(me.card(mon.card_i))
+            if best is None or prizes > best[0]:
+                best = (prizes, mon)
+        return None if best is None else best[1]
+
+    def _become_tool(self, me: Player, who: str, mon: Pokemon, target: Pokemon) -> None:
+        """Shedinja leaves play as a Tool. Cards under it and cards attached to it are discarded.
+
+        The Lost Thunder ruling: the Nincada is not part of the Tool.
+        """
+        card = me.card(mon.card_i)
+        attached = self._detach_cards(mon)
+        me.discard.extend(attached)
+        under = list(mon.underneath)
+        mon.underneath.clear()
+        me.discard.extend(under)
+        tool_i = mon.card_i
+        was_active = me.active is mon
+        self._unseat_mon(me, mon)
+        target.tool = tool_i
+        self._bump("vessel_of_life")
+        self._bump(f"tool:{card.name}")
+        if under:
+            self._bump("vessel_discard_under", len(under))
+        host = me.card(target.card_i).name
+        self._log(f"{card.name} attaches to {host} as a Pokémon Tool")
+        if was_active:
+            self._promote_after_vessel(me, who)
+
+    def _promote_after_vessel(self, me: Player, who: str) -> None:
+        if me.active is not None or not me.bench:
+            return
+        if self.strats[who].name == "mill":
+            idx = self._mill_line_idx(me)
+            if idx is None:
+                idx = self._mill_face_idx(me)
+            if idx is None:
+                idx = 0
+        else:
+            idx = self._promote_idx(me, who)
+        me.active = me.bench.pop(idx)
+
+    def _tool_fewer_prizes(self, owner: Player, mon: Pokemon) -> int:
+        if mon.tool is None:
+            return 0
+        card = owner.card(mon.tool)
+        less = 0
+        for abi in card.abilities or []:
+            for eff in self._ability_effects(abi):
+                if eff.get("kind") == "attach_self_as_tool":
+                    less += int(eff.get("fewer_prizes") or 0)
+        return less
+
+    def _mill_rescue_rank(self, me: Player, card_i: int) -> tuple:
+        """Wugtrio rebuilds the attack. Nincada is the next card, ahead of a spare Wiglett.
+
+        Rescue Carrier takes two Pokémon. After the tooled Wugtrio is Knocked Out,
+        Wiglett is under it in the discard too. Taking Wiglett there spends the
+        second slot on a Basic the Wugtrio already replaces.
+        """
+        card = me.card(card_i)
+        name = card.name.lower()
+        hp = card.hp or 0
+
+        def has(pokemon: str) -> bool:
+            return self._copies_hand_and_play(me, pokemon) > 0
+
+        wugtrio_missing = not has("wugtrio")
+        wugtrio_discarded = any(me.card(i).name.lower() == "wugtrio" for i in me.discard)
+        if name == "wugtrio" and wugtrio_missing:
+            return (0, 0, name)
+        if name == "nincada" and self._mill_wants_nincada_back(me):
+            return (1, 0, name)
+        if name == "shedinja" and self._mill_wants_shedinja_back(me):
+            return (1, 1, name)
+        if name == "shedinja" and self._mill_wants_shedinja_card(me):
+            return (2, 0, name)
+        if name == "wiglett" and not has("wiglett") and wugtrio_missing and not wugtrio_discarded:
+            return (1, 1, name)
+        if name == "wiglett" and not has("wiglett") and wugtrio_missing:
+            return (3, 0, name)
+        if name == "wugtrio":
+            return (4, -hp, name)
+        if name == "wiglett":
+            return (5, -hp, name)
+        return (6, -hp, name)
 
     def _mill_line_idx(self, me: Player) -> int | None:
         """Bench Wiglett or Wugtrio to take over after Playground has been used."""
@@ -6874,9 +7172,21 @@ class Game:
         have_wiglett = "wiglett" in in_play or "wiglett" in in_hand
         have_trio = "wugtrio" in in_play or "wugtrio" in in_hand
         if name == "level ball":
-            if not have_wiglett:
-                return 16
-            return 8 if not have_trio else 2
+            # Wugtrio and Shedinja are the Stage 1s this Item can find. Basics wait for Nest Ball.
+            if self._mill_wants_shedinja_card(me):
+                return 15
+            if not have_trio:
+                return 16 if not have_wiglett else 12
+            if self._mill_wants_nincada_card(me):
+                return 9
+            if (
+                self._mill_wall_match(me)
+                and self._mill_shedinja_in_hand(me) == 0
+                and self._count_named_in_play(me, "Shedinja") == 0
+                and self._name_in_zones(me, {"shedinja"}, "deck")
+            ):
+                return -3
+            return 2
         if name in {"nest ball", "buddy-buddy poffin", "buddy buddy poffin"}:
             slots = self._bench_limit(me) - len(me.bench)
             if slots <= 0:
@@ -7350,6 +7660,8 @@ class Game:
             card = me.card(card_i)
             name = card.name.lower()
             hp = card.hp or 0
+            if self.strats[who].name == "mill":
+                return self._mill_rescue_rank(me, card_i)
             if self.strats[who].name in {"mew_baby", "baby"} and hp == 30:
                 idx = baby_order.index(name) if name in baby_order else len(baby_order)
                 return (0, idx, name)
@@ -7796,6 +8108,11 @@ class Game:
                 score += 15 if strat.hold_as_energy else 55
                 if strat.name == "mill" and any(e.get("kind") == "coin_mill_opponent" for e in atk.effects):
                     score += 40
+            if strat.name == "mill" and any(
+                e.get("kind") == "coin_prevent_self_damage_next_turn" for e in atk.effects
+            ):
+                if card.name.lower() == "nincada":
+                    score += 80
             if strat.name == "mill" and any(e.get("kind") == "playground" for e in resolved.effects):
                 score += 140
             if strat.name == "mill" and any(e.get("kind") == "topdeck_lost_zone" for e in resolved.effects):
@@ -7932,7 +8249,10 @@ class Game:
             name = card.name
             if victim_who == "a" and (card.hp or 0) == 30:
                 self._bump("baby_ko_bench_a" if where == "bench" else "baby_ko_active_a")
-            n = self._prizes_for_ko(card)
+            fewer = self._tool_fewer_prizes(victim_owner, mon)
+            n = max(0, self._prizes_for_ko(card) - fewer)
+            if fewer:
+                self._bump("vessel_prize", fewer)
             self._discard_mon(victim_owner, mon)
             self._take_prizes(slayer, n)
             self._bump(f"ko:{name}")

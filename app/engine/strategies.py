@@ -826,6 +826,13 @@ STRATEGY_LIBRARY = {
             "Slumbering Forest makes the between-turns sleep check two coins. "
             "The lock has no Manaphy, no Rabsca line, and no Battle Cage. "
             "Switch brings up Wugtrio once Undersea Tunnel is paid. "
+            "Once a Wugtrio is in play, Shedinja is searched into hand first. "
+            "Nincada is benched only then, so the 40 HP body lasts one opponent turn "
+            "before Vessel of Life. Spread matchups leave Nincada in the deck. "
+            "The Tool goes on a Wugtrio with no damage prevention, and that Knock Out "
+            "gives one fewer Prize. Rescue Carrier replays the discarded Nincada "
+            "ahead of a spare Wiglett, then the Shedinja. "
+            "Wiglett and Wugtrio stay ahead of that line until the attacker exists. "
             "Victory Star reflips an attack once when it shows 0 or 1 heads. "
             "Ignition Energy pays Undersea on an Evolution and leaves at the end of the turn. "
             "Reversal Energy stays, and pays three while more Prize cards remain. "
@@ -839,7 +846,16 @@ STRATEGY_LIBRARY = {
         item_spend=1.0,
         self_preserve=0.2,
         hold_as_energy=False,
-        protect=["Wiglett", "Wugtrio", "Victini", "Pichu", "Mime Jr.", "Slumbering Forest"],
+        protect=[
+            "Wiglett",
+            "Wugtrio",
+            "Victini",
+            "Pichu",
+            "Mime Jr.",
+            "Slumbering Forest",
+            "Nincada",
+            "Shedinja",
+        ],
         search_aces=["Wiglett", "Wugtrio"],
         closers=["Wugtrio"],
         reflip_heads_at_most=1,
