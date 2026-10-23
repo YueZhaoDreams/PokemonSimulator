@@ -277,14 +277,18 @@ class Game:
                     return (3, 0)
                 return (4, 0)
 
+            # Snorlax Doll is only played while setting up. Leave it one Bench spot.
+            setup_proxy = any(self._setup_proxy(player.card(i)) for i in player.hand)
+            limit = self._bench_limit(player) - (1 if setup_proxy else 0)
             for card_i in sorted(remaining, key=bench_rank):
-                if len(player.bench) >= self._bench_limit(player):
+                if len(player.bench) >= limit:
                     break
                 if not self._wants_in_play(player, player.card(card_i), strat):
                     continue
                 player.hand.remove(card_i)
                 player.bench.append(Pokemon(card_i=card_i, played_turn=0))
                 self._bump(f"saw_play:{player.card(card_i).name}")
+            self._place_setup_proxy(player)
             _capture_opening(player)
             return
         if strat.hold_as_energy:
@@ -1056,6 +1060,8 @@ class Game:
                 self._align_spread_attacker(me, foe, who)
             else:
                 self._maybe_retreat(me, foe, who)
+            if self.strats[who].name == "mill":
+                self._mill_proxy_turn(me, foe)
 
         if self.strats[who].name == "party":
             # After attach, Mewtwo/Mega can pay retreat and Party again, then return to the tank.
@@ -1555,6 +1561,18 @@ class Game:
                 me.supporter_used = True
             me.hand.remove(found)
             name = card.name.lower()
+            proxy = self._proxy_effect(card)
+            if proxy and not proxy.get("setup_only"):
+                if not self._put_proxy_in_play(me, found):
+                    me.hand.append(found)
+                    if card.is_supporter:
+                        me.supporter_used = False
+                    return
+                self._log(f"{me.name} plays {card.name}")
+                self._bump("proxy_play")
+                self._bump(f"saw_play:{card.name}")
+                self._mew_refresh_bench(me, strat)
+                continue
             if self._is_tool_card(card):
                 if not self._attach_tool(me, who, found):
                     me.hand.append(found)
@@ -6643,6 +6661,223 @@ class Game:
                 return atk
         return None
 
+    def _proxy_effect(self, card: Card) -> dict | None:
+        text = card.text or ""
+        if "as if" not in text.lower():
+            return None
+        for eff in parse_trainer_effects(text):
+            if eff.get("kind") == "play_as_pokemon":
+                return eff
+        return None
+
+    def _no_prize_proxy(self, card: Card) -> bool:
+        eff = self._proxy_effect(card)
+        return bool(eff and eff.get("no_prize"))
+
+    def _setup_proxy(self, card: Card) -> bool:
+        eff = self._proxy_effect(card)
+        return bool(eff and eff.get("setup_only") and eff.get("no_prize"))
+
+    def _proxy_cant_retreat(self, card: Card) -> bool:
+        eff = self._proxy_effect(card)
+        return bool(eff and eff.get("cant_retreat"))
+
+    def _proxy_hp(self, card: Card) -> int:
+        eff = self._proxy_effect(card)
+        if eff and eff.get("hp"):
+            return int(eff["hp"])
+        return card.hp or 0
+
+    def _put_proxy_in_play(self, me: Player, card_i: int) -> bool:
+        if me.active is None:
+            me.active = Pokemon(card_i=card_i, played_turn=self.turn)
+            return True
+        if len(me.bench) >= self._bench_limit(me):
+            return False
+        mon = Pokemon(card_i=card_i, played_turn=self.turn)
+        me.bench.append(mon)
+        self._on_benched(me, mon, from_hand=True)
+        return True
+
+    def _place_setup_proxy(self, player: Player) -> None:
+        """Snorlax Doll is played only while setting up, onto the Bench."""
+        if len(player.bench) >= self._bench_limit(player):
+            return
+        proxies = [i for i in player.hand if self._setup_proxy(player.card(i))]
+        if not proxies:
+            return
+        card_i = max(proxies, key=lambda i: self._proxy_hp(player.card(i)))
+        player.hand.remove(card_i)
+        player.bench.append(Pokemon(card_i=card_i, played_turn=0))
+        self._bump(f"saw_play:{player.card(card_i).name}")
+        self._bump("proxy_setup")
+
+    def _fill_active(self, me: Player) -> None:
+        if me.active is not None or not me.bench:
+            return
+        who = "a" if me.name == "A" else "b"
+        idx = self._promote_idx(me, who)
+        me.active = me.bench.pop(idx)
+
+    def _remove_proxy(self, me: Player, mon: Pokemon) -> bool:
+        card = me.card(mon.card_i)
+        eff = self._proxy_effect(card)
+        if not eff:
+            return False
+        if eff.get("tuck_bottom"):
+            if eff.get("active_only_tuck") and me.active is not mon:
+                return False
+        elif not eff.get("may_discard"):
+            return False
+        attached = self._detach_cards(mon)
+        self._unseat_mon(me, mon)
+        if eff.get("tuck_bottom"):
+            me.discard.extend(attached)
+            me.deck.insert(0, mon.card_i)
+            self._bump("proxy_tuck")
+            self._log(f"{me.name} puts {card.name} on the bottom of the deck")
+        else:
+            me.discard.append(mon.card_i)
+            me.discard.extend(attached)
+            self._bump("proxy_discard")
+            self._log(f"{me.name} discards {card.name}")
+        self._fill_active(me)
+        return True
+
+    def _bench_proxy_idx(self, me: Player) -> int | None:
+        best: tuple[int, int] | None = None
+        for idx, mon in enumerate(me.bench):
+            card = me.card(mon.card_i)
+            if not self._no_prize_proxy(card):
+                continue
+            rank = self._proxy_hp(card) - mon.damage
+            if best is None or rank > best[0]:
+                best = (rank, idx)
+        return None if best is None else best[1]
+
+    def _count_no_prize_proxies(self, me: Player) -> int:
+        return sum(1 for mon in me.in_play() if self._no_prize_proxy(me.card(mon.card_i)))
+
+    def _hand_has_playable_proxy(self, me: Player) -> bool:
+        for card_i in me.hand:
+            eff = self._proxy_effect(me.card(card_i))
+            if eff and eff.get("no_prize") and not eff.get("setup_only"):
+                return True
+        return False
+
+    def _proxy_available(self, me: Player) -> bool:
+        if self._bench_proxy_idx(me) is not None:
+            return True
+        if me.active and self._no_prize_proxy(me.card(me.active.card_i)):
+            return True
+        return self._hand_has_playable_proxy(me)
+
+    def _mill_can_bring_proxy_up(self, me: Player) -> bool:
+        if me.active is None:
+            return True
+        if self._mill_can_retreat(me):
+            return True
+        return any(me.card(i).name.lower() == "switch" for i in me.hand)
+
+    def _mill_active_would_die(self, me: Player, foe: Player) -> bool:
+        if not me.active:
+            return False
+        self._next_turn_damage_cache = None
+        remaining = self._max_hp(me, me.active) - me.active.damage
+        return self._next_turn_damage(foe, me) >= remaining > 0
+
+    def _mill_should_stall(self, me: Player, foe: Player) -> bool:
+        """Spend this attack so a no-Prize body takes the Knock Out instead."""
+        if not me.active:
+            return False
+        card = me.card(me.active.card_i)
+        if self._no_prize_proxy(card) or self._prizes_for_ko(card) <= 0:
+            return False
+        if len(foe.deck) <= 9 or not self._mill_active_would_die(me, foe):
+            return False
+        if not self._proxy_available(me):
+            return False
+        if len(foe.prizes) <= self._prizes_for_ko(card):
+            return True
+        if len(foe.prizes) < len(me.prizes):
+            return True
+        line = sum(
+            1
+            for mon in me.in_play()
+            if me.card(mon.card_i).name.lower() in {"wiglett", "wugtrio"}
+        )
+        return line <= 1
+
+    def _mill_ready_line(self, me: Player) -> list[Pokemon]:
+        return [
+            mon
+            for mon in me.bench
+            if me.card(mon.card_i).name.lower() == "wugtrio" and self._mill_can_pay(me, mon)
+        ]
+
+    def _mill_release_proxy(self, me: Player, foe: Player) -> bool:
+        """Tuck or discard the Active doll when a Wugtrio can attack and live."""
+        if not me.active or not self._no_prize_proxy(me.card(me.active.card_i)):
+            return False
+        ready = self._mill_ready_line(me)
+        if not ready:
+            return False
+        if len(foe.deck) <= 9:
+            return True
+        self._next_turn_damage_cache = None
+        threat = self._next_turn_damage(foe, me)
+        return any(threat < self._max_hp(me, mon) - mon.damage for mon in ready)
+
+    def _mill_proxy_turn(self, me: Player, foe: Player) -> None:
+        if not me.active or not self._no_prize_proxy(me.card(me.active.card_i)):
+            return
+        self._next_turn_damage_cache = None
+        if self._mill_release_proxy(me, foe):
+            self._remove_proxy(me, me.active)
+            return
+        self._bump("proxy_hold")
+
+    def _mill_promote_rank(self, player: Player, mon: Pokemon) -> float:
+        card = player.card(mon.card_i)
+        name = card.name.lower()
+        if name == "wugtrio" and self._mill_can_pay(player, mon):
+            return 0
+        if name == "wugtrio":
+            return 1
+        if name == "wiglett":
+            return 2
+        if self._sweet_face(card):
+            return 3
+        if self._no_prize_proxy(card):
+            return 4
+        if name == "victini":
+            return 5
+        return 6
+
+    def _mill_proxy_play_score(self, me: Player, foe: Player, card: Card) -> float:
+        eff = self._proxy_effect(card) or {}
+        if eff.get("setup_only") or not eff.get("no_prize"):
+            return -20
+        slots = self._bench_limit(me) - len(me.bench)
+        if me.active is not None and slots <= 0:
+            return -8
+        hp = self._proxy_hp(card)
+        spread = not self._mill_wall_match(me)
+        stall = self._mill_should_stall(me, foe)
+        if spread and hp <= 60:
+            if stall and self._count_no_prize_proxies(me) == 0 and self._mill_can_bring_proxy_up(me):
+                return 26
+            return -8
+        if stall and self._count_no_prize_proxies(me) == 0:
+            return 22
+        if self._count_no_prize_proxies(me) >= 1:
+            return -4
+        wiglett_out = any(me.card(m.card_i).name.lower() == "wiglett" for m in me.in_play())
+        wiglett_hand = any(me.card(i).name.lower() == "wiglett" for i in me.hand)
+        if not wiglett_out and wiglett_hand and slots <= 1:
+            return -4
+        return 6
+
     def _mill_can_pay(self, me: Player, mon: Pokemon) -> bool:
         card = me.card(mon.card_i)
         atk = self._mill_undersea(card)
@@ -6662,7 +6897,8 @@ class Game:
         if unpaid:
             return unpaid[0]
         # The wall stalls in front. Energy lands on the line that will mill.
-        if self._sweet_face(me.card(me.active.card_i)):
+        active_card = me.card(me.active.card_i)
+        if self._sweet_face(active_card) or self._no_prize_proxy(active_card):
             prep = [
                 mon
                 for mon in me.bench
@@ -6701,6 +6937,8 @@ class Game:
 
     def _mill_can_retreat(self, me: Player) -> bool:
         if not me.active or me.retreated or me.active.retreat_locked:
+            return False
+        if self._proxy_cant_retreat(me.card(me.active.card_i)):
             return False
         if me.active.status & (ST_PARALYZED | ST_ASLEEP):
             return False
@@ -6757,10 +6995,18 @@ class Game:
 
         Asleep Pichu cannot retreat. Switch is how the prepared Wugtrio attacks
         that turn. A free retreat waits until after the Energy attach.
+        A no-Prize doll stays Active until its own sentence removes it.
         """
         if not me.active or not me.bench:
             return None
         active = me.card(me.active.card_i)
+        if self._no_prize_proxy(active):
+            return None
+        foe = self.players["b" if me.name == "A" else "a"]
+        if self._mill_should_stall(me, foe) and not self._mill_can_retreat(me):
+            proxy = self._bench_proxy_idx(me)
+            if proxy is not None:
+                return proxy
         if self._mill_undersea(active) and self._mill_hand_completes(me, me.active):
             return None
         retreat_later = self._mill_can_retreat(me) and self._retreat_cost(me, me.active) == 0
@@ -6785,6 +7031,8 @@ class Game:
         behind, host = self._energy_context(me, target)
         pool = self._energy_pool(me, target)
         card = me.card(target.card_i)
+        if self._no_prize_proxy(card):
+            return None
         atk = self._mill_undersea(card)
         cost = self._attack_cost(me, target, atk) if atk is not None else []
         paid = atk is not None and can_pay_energy(pool, cost)
@@ -6834,6 +7082,14 @@ class Game:
         if not me.active or not me.bench:
             return
         active = me.card(me.active.card_i)
+        foe = self.players["b" if who == "a" else "a"]
+        if self._no_prize_proxy(active):
+            return
+        if self._mill_should_stall(me, foe):
+            proxy = self._bench_proxy_idx(me)
+            if proxy is not None and self._do_retreat_into(me, proxy):
+                self._bump("proxy_stall")
+                return
         if active.name.lower() == "wugtrio":
             return
         for idx, mon in enumerate(me.bench):
@@ -6869,6 +7125,8 @@ class Game:
 
     def _mill_trainer_score(self, me: Player, foe: Player, card: Card) -> float:
         name = card.name.lower()
+        if self._proxy_effect(card):
+            return self._mill_proxy_play_score(me, foe, card)
         in_play = {me.card(mon.card_i).name.lower() for mon in me.in_play()}
         in_hand = {me.card(i).name.lower() for i in me.hand}
         have_wiglett = "wiglett" in in_play or "wiglett" in in_hand
@@ -7905,7 +8163,7 @@ class Game:
         if not bit:
             return
         owner = self._owner_of(mon)
-        if owner is not None and self._blocks_special_conditions(owner, mon):
+        if owner is not None and self._status_blocked(owner, mon, status):
             self._bump("special_condition_blocked")
             return
         if bit & VOLATILE:
@@ -7936,7 +8194,13 @@ class Game:
             self._discard_mon(victim_owner, mon)
             self._take_prizes(slayer, n)
             self._bump(f"ko:{name}")
-            extra = f" ({n} prize cards)" if n > 1 else ""
+            if n == 0:
+                extra = " (no Prize cards)"
+                self._bump("ko_no_prize")
+            elif n > 1:
+                extra = f" ({n} prize cards)"
+            else:
+                extra = ""
             self._log(f"{name} was Knocked Out{extra}")
             if self.current == slayer_who:
                 victim_owner.ko_since_opp_turn = True
@@ -7971,6 +8235,8 @@ class Game:
         def prio(i: int) -> float:
             mon = player.bench[i]
             name = player.card(mon.card_i).name.lower()
+            if strat.name == "mill":
+                return self._mill_promote_rank(player, mon)
             if strat.name in {"electro_rain", "regidrago"}:
                 best = self._best_spread_mon(player, foe)
                 return 0 if best is mon else 5
@@ -8142,6 +8408,9 @@ class Game:
         return got
 
     def _prizes_for_ko(self, card: Card) -> int:
+        eff = self._proxy_effect(card)
+        if eff and eff.get("no_prize"):
+            return 0
         if not self.rules.extra_prize_for_ex:
             return 1
         if self._is_mega_ex(card):
@@ -8600,7 +8869,11 @@ class Game:
 
     def _max_hp(self, player: Player, mon: Pokemon) -> int:
         card = player.card(mon.card_i)
-        hp = card.hp or 0
+        eff = self._proxy_effect(card)
+        if eff and eff.get("hp"):
+            hp = int(eff["hp"])
+        else:
+            hp = card.hp or 0
         stage = (card.stage or "").lower().replace(" ", "")
         for eff in self.stadium_effects or []:
             if eff.get("kind") == "stage2_hp" and stage in {"stage2"}:
@@ -8623,6 +8896,16 @@ class Game:
             return False
         text = (player.card(mon.tool).text or "").lower().replace("pokémon", "pokemon")
         return "special condition" in text and "can't be affected" in text
+
+    def _status_blocked(self, player: Player, mon: Pokemon, status: str) -> bool:
+        if self._blocks_special_conditions(player, mon):
+            return True
+        eff = self._proxy_effect(player.card(mon.card_i))
+        if not eff:
+            return False
+        if eff.get("immune_special"):
+            return True
+        return status in (eff.get("immune_status") or [])
 
     def _owner_of(self, mon: Pokemon) -> Player | None:
         for player in self.players.values():
@@ -9441,7 +9724,7 @@ class Game:
     def _do_retreat_into(self, me: Player, incoming_idx: int) -> bool:
         if not me.active or incoming_idx < 0 or incoming_idx >= len(me.bench):
             return False
-        if me.active.retreat_locked:
+        if me.active.retreat_locked or self._proxy_cant_retreat(me.card(me.active.card_i)):
             return False
         if self.rules.one_retreat_per_turn and me.retreated:
             return False

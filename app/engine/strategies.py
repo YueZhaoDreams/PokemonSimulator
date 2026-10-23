@@ -829,7 +829,10 @@ STRATEGY_LIBRARY = {
             "Victory Star reflips an attack once when it shows 0 or 1 heads. "
             "Ignition Energy pays Undersea on an Evolution and leaves at the end of the turn. "
             "Reversal Energy stays, and pays three while more Prize cards remain. "
-            "Neutralization Zone is the one ACE SPEC."
+            "Neutralization Zone is the one ACE SPEC. "
+            "An Item played as a Pokémon that awards no Prize stalls in front when that "
+            "Knock Out would take the last Prize, when the opponent is ahead on Prizes, "
+            "or when it is the last Wiglett or Wugtrio."
         ),
         prefer_damage=0.2,
         prefer_status=0.0,

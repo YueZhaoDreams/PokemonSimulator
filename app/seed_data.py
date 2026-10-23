@@ -5104,6 +5104,71 @@ _register(
 )
 
 
+# Items that enter play as Pokémon and award no Prize when Knocked Out.
+# Printed HP that is not inside the sentence lives on the card.
+_LILLIES_DOLL = (
+    "Play this card as if it were a 30-HP Colorless Basic Pokémon. "
+    "At any time during your turn (before your attack), if this Pokémon is your Active Pokémon, "
+    "you may discard all cards from it and put it on the bottom of your deck. "
+    "This card can't retreat. If this card is Knocked Out, your opponent can't take any Prize cards for it."
+)
+_ROBO_SUBSTITUTE = (
+    "Play this card as if it were a 30 HP Colorless Basic Pokémon. "
+    "At any time during your turn (before your attack), you may discard this card from play. "
+    "This card can't retreat. If this card is Knocked Out, your opponent can't take any Prize cards for it."
+)
+_SNORLAX_DOLL = (
+    "If this card is in your hand when you are setting up to play, you may put it face down "
+    "in the Active Spot or on your Bench as if it were a 120-HP Basic Colorless Pokémon. "
+    "(You can do this only when you are setting up to play.) "
+    "At any time during your turn, you may discard this card from play. "
+    "This card can't be affected by any Special Conditions and can't retreat. "
+    "If this card is Knocked Out, your opponent can't take any Prize cards for it."
+)
+_CLEFAIRY_DOLL = (
+    "Play Clefairy Doll as if it were a Basic Pokémon. While in play, Clefairy Doll counts as a Pokémon "
+    "(instead of a Trainer card). Clefairy Doll has no attacks, can't retreat, and can't be Asleep, "
+    "Confused, Paralyzed, or Poisoned. If Clefairy Doll is Knocked Out, it doesn't count as a "
+    "Knocked Out Pokémon. At any time during your turn before your attack, you may discard Clefairy Doll."
+)
+_MYSTERIOUS_FOSSIL = (
+    "Play Mysterious Fossil as if it were a Basic Pokémon. While in play, Mysterious Fossil counts as a "
+    "Colorless Pokémon (as well as a Trainer card). Mysterious Fossil has no attacks of its own, can't "
+    "retreat, and can't be affected by any Special Conditions. If Mysterious Fossil is Knocked Out, it "
+    "doesn't count as a Knocked Out Pokémon. (Discard it anyway.) At any time during your turn before "
+    "your attack, you may discard Mysterious Fossil from play."
+)
+_ROOT_FOSSIL = (
+    "Play Root Fossil as if it were a Basic Pokémon. While in play, Root Fossil counts as a Colorless "
+    "Pokémon (as well as a Trainer card). Root Fossil has no attacks of its own, can't retreat, and "
+    "can't be affected by any Special Conditions. If Root Fossil is Knocked Out, it doesn't count as a "
+    "Knocked Out Pokémon. (Discard it anyway.) At any time during your turn before your attack, you may "
+    "discard Root Fossil from play."
+)
+_CLAW_FOSSIL = (
+    "Play Claw Fossil as if it were a Basic Pokémon. While in play, Claw Fossil counts as a Colorless "
+    "Pokémon (as well as a Trainer card). Claw Fossil has no attacks of its own, can't retreat, and "
+    "can't be affected by any Special Conditions. If Claw Fossil is Knocked Out, it doesn't count as a "
+    "Knocked Out Pokémon. (Discard it anyway.) At any time during your turn before your attack, you may "
+    "discard Claw Fossil from play."
+)
+
+
+def _proxy_item(name: str, text: str, catalog_id: str, hp: int) -> Card:
+    card = _trn(name, "item", text, catalog_id=catalog_id)
+    card.hp = hp
+    return card
+
+
+_register(_proxy_item("Lillie's Poké Doll", _LILLIES_DOLL, "sm12-197", 30))
+_register(_proxy_item("Robo Substitute", _ROBO_SUBSTITUTE, "xy4-102", 30))
+_register(_proxy_item("Snorlax Doll", _SNORLAX_DOLL, "sv04-175", 120))
+_register(_proxy_item("Clefairy Doll", _CLEFAIRY_DOLL, "base1-70", 10))
+_register(_proxy_item("Mysterious Fossil", _MYSTERIOUS_FOSSIL, "ex12-79", 50))
+_register(_proxy_item("Root Fossil", _ROOT_FOSSIL, "ex12-80", 40))
+_register(_proxy_item("Claw Fossil", _CLAW_FOSSIL, "ex12-78", 40))
+
+
 def fallback_named(name: str) -> Card:
     key = name.lower()
     if "telepathic" in key:

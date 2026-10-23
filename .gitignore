@@ -9,6 +9,7 @@ data/app.db
 data/uploads/
 data/cache/
 data/debug/
+data/lab/*-partial.jsonl
 data/cursor-agents/
 data/coach-sandbox/
 *.log
