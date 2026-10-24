@@ -560,7 +560,7 @@ def _markdown_full(report: dict) -> str:
                 f"Best list is {best['label']}: weighted {_pct(best['weighted'])} "
                 f"vs the locked Mill at {_pct(base['weighted'])} ({_signed(delta)}, ±{_pct(delta_se)}). "
                 f"Mean {_pct(best['mean'])} ({_signed(best['mean'] - base['mean'])}). "
-                "SET_MILL_NAMES stays the sleep-wall 60. "
+                "This file records the measurement. SET_MILL_NAMES changes only when that list is accepted. "
                 "The 120-game pass kept a Buddy-Buddy Poffin cut. On this sample that cut is flat, and the cut that stays ahead is Switch."
             ),
             "",

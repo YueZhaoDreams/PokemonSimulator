@@ -622,7 +622,12 @@ SET_L60_NAMES = (
     + ["Fighting Energy"] * 11
 )
 
-# Mill lock (2026-10-22, seed 20261022, 250 games each seat, both seats).
+# Mill lock (2026-10-24, seed 20261023, 1000 games each seat, both seats).
+# One Lillie's Poké Doll replaces the one Switch on the 2026-10-22 sleep wall.
+# Weighted 37.867% → 38.774% (+0.907, difference ±0.405). Mean 54.065% → 54.777%.
+# A second copy's best cut was Counter Catcher at 38.641% and was not kept.
+# Buddy-Buddy Poffin was +0.090 on this sample. See data/lab/set-mill-lillie-long.md.
+# Prior sleep wall (2026-10-22, seed 20261022, 250 games each seat, both seats):
 # Sisters shell plus one Playground Pichu, one Call of Legends Mime Jr.,
 # one Slumbering Forest, and one Switch. Cuts from that shell: Fighting Energy
 # 2, Water Energy 1, Rescue Carrier 1. Undersea Tunnel is colorless.
@@ -649,7 +654,7 @@ SET_MILL_NAMES = (
     + ["Nest Ball"] * 3
     + ["Level Ball"] * 3
     + ["Rescue Carrier"] * 3
-    + ["Switch"]
+    + ["Lillie's Poké Doll"]
     + ["Crushing Hammer"] * 4
     + ["Counter Catcher"] * 2
     + ["Miss Fortune Sisters"] * 2
@@ -5207,7 +5212,7 @@ def fallback_named(name: str) -> Card:
 
 
 def build_mill_deck() -> list[Card]:
-    """Locked thin sleep wall. Mime Jr. is Call of Legends Sleepy Lost."""
+    """Locked Mill 60. Mime Jr. is Call of Legends Sleepy Lost. One Lillie's Poké Doll replaces Switch."""
     out: list[Card] = []
     for name in SET_MILL_NAMES:
         if name == "Mime Jr.":

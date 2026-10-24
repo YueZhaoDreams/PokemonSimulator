@@ -34,7 +34,7 @@ Left out, because a Knock Out still awards a Prize: Unidentified Fossil, Rare Fo
 
 ## Decision
 
-Best confirmed list is step 1: weighted 39.7% vs the locked Mill at 37.9% (+1.8%). Mean 55.4% (+1.5%). SET_MILL_NAMES stays the sleep-wall 60. The worst foe on this swap is still Cornerstone Ogerpon.
+Best confirmed list is step 1: weighted 39.7% vs the locked Mill at 37.9% (+1.8%). Mean 55.4% (+1.5%). This pass left `SET_MILL_NAMES` on the sleep-wall 60. The worst foe on this swap is still Cornerstone Ogerpon. The later 1000-game pass (data/lab/set-mill-lillie-long.md) locked one Lillie's Poké Doll in place of Switch. This file keeps the 120-game numbers, including the Poffin cut that was flat on the longer sample.
 
 Counts on that list:
 

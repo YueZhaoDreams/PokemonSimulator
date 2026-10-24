@@ -20,7 +20,7 @@ The ± column is one standard error of that list's weighted rate. A foe rate use
 
 ## Decision
 
-Best list is step 1: weighted 38.8% vs the locked Mill at 37.9% (+0.9%, ±0.4%). Mean 54.8% (+0.7%). SET_MILL_NAMES stays the sleep-wall 60. The 120-game pass kept a Buddy-Buddy Poffin cut. On this sample that cut is flat, and the cut that stays ahead is Switch.
+Best list is step 1: weighted 38.8% vs the locked Mill at 37.9% (+0.9%, ±0.4%). Mean 54.8% (+0.7%). Locked 2026-10-24: `SET_MILL_NAMES` is this list, one Lillie's Poké Doll in place of the one Switch. The 120-game pass kept a Buddy-Buddy Poffin cut. On this sample that cut is flat.
 
 Counts on that list:
 

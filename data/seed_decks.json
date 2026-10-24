@@ -27395,12 +27395,12 @@
         "traits": []
       },
       {
-        "catalog_id": "sv01-194",
-        "name": "Switch",
+        "catalog_id": "sm12-197",
+        "name": "Lillie's Pok\u00e9 Doll",
         "category": "Trainer",
         "stage": "Item",
         "types": [],
-        "hp": 0,
+        "hp": 30,
         "attacks": [],
         "abilities": [],
         "weaknesses": [],
@@ -27409,9 +27409,9 @@
         "evolves_from": null,
         "trainer_kind": "item",
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv01/194/low.webp",
+        "image": "https://assets.tcgdex.net/en/sm/sm12/197/low.webp",
         "set_name": null,
-        "text": "Switch your Active Pok\u00e9mon with 1 of your Benched Pok\u00e9mon.",
+        "text": "Play this card as if it were a 30-HP Colorless Basic Pok\u00e9mon. At any time during your turn (before your attack), if this Pok\u00e9mon is your Active Pok\u00e9mon, you may discard all cards from it and put it on the bottom of your deck. This card can't retreat. If this card is Knocked Out, your opponent can't take any Prize cards for it.",
         "dex_id": null,
         "traits": []
       },
