@@ -29657,8 +29657,8 @@
         "traits": []
       },
       {
-        "catalog_id": "sv01-181",
-        "name": "Nest Ball",
+        "catalog_id": "swsh5-129",
+        "name": "Level Ball",
         "category": "Trainer",
         "stage": "Item",
         "types": [],
@@ -29671,15 +29671,15 @@
         "evolves_from": null,
         "trainer_kind": "item",
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv01/181/low.webp",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh5/129/low.webp",
         "set_name": null,
-        "text": "Search your deck for a Basic Pok\u00e9mon and put it onto your Bench. Then, shuffle your deck.",
+        "text": "Search your deck for a Pok\u00e9mon with 90 HP or less, reveal it, and put it into your hand. Then, shuffle your deck.",
         "dex_id": null,
         "traits": []
       },
       {
-        "catalog_id": "sv01-181",
-        "name": "Nest Ball",
+        "catalog_id": "swsh5-129",
+        "name": "Level Ball",
         "category": "Trainer",
         "stage": "Item",
         "types": [],
@@ -29692,9 +29692,9 @@
         "evolves_from": null,
         "trainer_kind": "item",
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv01/181/low.webp",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh5/129/low.webp",
         "set_name": null,
-        "text": "Search your deck for a Basic Pok\u00e9mon and put it onto your Bench. Then, shuffle your deck.",
+        "text": "Search your deck for a Pok\u00e9mon with 90 HP or less, reveal it, and put it into your hand. Then, shuffle your deck.",
         "dex_id": null,
         "traits": []
       },

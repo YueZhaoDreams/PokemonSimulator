@@ -643,7 +643,8 @@ SET_L60_NAMES = (
 # and replaces whichever Stadium is in play, including Neutralization Zone.
 # This 60 was not remeasured with that swap.
 # Doll lock (2026-10-24). The 1000-game holdout is data/lab/set-doll.json.
-# Item dolls are Trainers. Nest Ball's printed search does not find them.
+# Item dolls are Trainers. A Pokémon search does not find them.
+# Level Ball's sentence takes a Pokémon of at most the printed HP, so Shedinja qualifies.
 SET_DOLL_NAMES = (
     ["Cleffa"] * 4
     + ["Smoochum"] * 2
@@ -667,7 +668,7 @@ SET_DOLL_NAMES = (
     + ["Nincada"]
     + ["Shedinja"]
     + ["Field Blower"]
-    + ["Nest Ball"] * 2
+    + ["Level Ball"] * 2
     + ["Buddy-Buddy Poffin"] * 2
     + ["Crushing Hammer"] * 2
 )

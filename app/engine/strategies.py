@@ -852,7 +852,8 @@ STRATEGY_LIBRARY = {
         name="doll",
         description=(
             "Doll lock. Go first. Item dolls are played from the hand onto an open Bench. "
-            "Nest Ball does not search them. One Snorlax Doll is benched during setup. "
+            "Level Ball puts a Pokémon of at most the HP in its sentence into the hand, including Shedinja. "
+            "One Snorlax Doll is benched during setup. "
             "Sweet Sleeping Face stays at two, one against spread, and none against Demolish. "
             "Battle Cage stays up against spread instead of covering it with Slumbering Forest. "
             "Junk Hunt retrieves Item dolls and skips Snorlax Doll. "

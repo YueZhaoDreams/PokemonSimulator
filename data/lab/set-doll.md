@@ -4,7 +4,7 @@ Locked 60. Seed id `seed-doll`. The pilot is strategy `doll`. The deck does not 
 
 Cleffa is HeartGold & SoulSilver 17, Eeeeeeek. Mime Jr. is Call of Legends 47, Sleepy Lost. Robo Substitute Team Flare Gear is the full Phantom Forces 102 name. Life Dew is one Plasma Freeze tool. Lillie's Poké Doll uses the ASCII apostrophe already registered for that print.
 
-Item dolls are Trainers. Nest Ball searches a Basic Pokémon, so it does not find them. They are played from the hand. One Snorlax Doll is benched while setting up.
+Item dolls are Trainers. A Pokémon search does not find them. They are played from the hand. One Snorlax Doll is benched while setting up. The two search Items are Level Ball. Its sentence takes a Pokémon with 90 HP or less into the hand, so it can find Shedinja. Nest Ball is not in this 60.
 
 ## Holdout
 
@@ -32,3 +32,14 @@ The rates below are the fight-script holdout, seed 20261025, 1000 games each sea
 | g30 | 55.3% | 55.8% | 54.7% | 0.92 |
 
 D60's 2.1% includes mulligan-cap wins plus a few real deck-outs. Against Carpet H, Battle Cage's average was 0. An empty board after the Active Pokémon is Knocked Out still loses, including when the prize count is already low. That residual is part of this lock.
+
+## Level Ball
+
+The holdout above is the Nest Ball list on the fight script. The swap was measured on the product engine, strategy `doll`, seed 20261026, 1000 games each seat, the same 13 foes. Nest Ball is the locked list with those two cards put back. Level Ball is this 60.
+
+| List | Sisters-weighted | Self-weighted |
+| --- | --- | --- |
+| Nest Ball | 28.9% | 28.6% |
+| Level Ball | 28.8% | 28.9% |
+
+Level Ball tutored Shedinja, and Vessel of Life fired more often. The weighted rates stayed inside the noise of this sample. These games are not the fight-script holdout.
