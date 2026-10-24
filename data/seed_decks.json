@@ -29599,7 +29599,12 @@
             ],
             "damage": 0,
             "text": "Put 3 damage counters on your opponent's Active Pok\u00e9mon.",
-            "effects": []
+            "effects": [
+              {
+                "kind": "active_damage_counters",
+                "counters": 3
+              }
+            ]
           }
         ],
         "abilities": [
