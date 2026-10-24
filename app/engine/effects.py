@@ -1255,12 +1255,57 @@ def _attached_tool_reactive(t: str) -> list[dict[str, Any]]:
     return effects
 
 
+def _play_as_pokemon_effect(t: str) -> dict[str, Any] | None:
+    """Item played as a Basic Pokémon. HP and the Prize line come from the sentence.
+
+    A Knock Out that "doesn't count as a Knocked Out Pokémon" awards no Prize.
+    A sentence that says the Knock Out counts still awards one. Discarding the
+    card yourself is not that sentence.
+    """
+    if "as if it were" not in t or "pokemon" not in t:
+        return None
+    if "look at the bottom" in t and "hp" not in t:
+        return None
+    hp_match = re.search(r"as if it were a (\d+)[ -]*hp\b", t)
+    no_prize = bool(
+        re.search(r"can'?t take any prize cards for it", t)
+        or re.search(r"cannot take any prize cards for it", t)
+        or re.search(r"if [^.]*knocked out, it does(?:n'?t| not) count as a knocked out pokemon", t)
+    )
+    if re.search(r"if [^.]*knocked out, this counts as a knocked out pokemon", t):
+        no_prize = False
+    tuck = "put it on the bottom of your deck" in t
+    immune_status: list[str] = []
+    if "can't be asleep, confused, paralyzed, or poisoned" in t:
+        immune_status = ["asleep", "confused", "paralyzed", "poisoned"]
+    effect: dict[str, Any] = {
+        "kind": "play_as_pokemon",
+        "no_prize": no_prize,
+        "cant_retreat": "can't retreat" in t or "cannot retreat" in t,
+        "setup_only": "only when you are setting up to play" in t,
+        "immune_special": (
+            "can't be affected by any special conditions" in t
+            or "can't be affected by special conditions" in t
+        ),
+        "immune_status": immune_status,
+        "tuck_bottom": tuck,
+        "active_only_tuck": tuck and "if this pokemon is your active pokemon" in t,
+        "may_discard": ("you may discard" in t or "discard this card from play" in t) and not tuck,
+    }
+    if hp_match:
+        effect["hp"] = int(hp_match.group(1))
+    return effect
+
+
 def parse_trainer_effects(text: str) -> list[dict[str, Any]]:
     """Parse Item/Supporter/Stadium sentences. Printed numbers stay in the effect dict."""
     t = _normalize_card_text(text)
     effects: list[dict[str, Any]] = []
     if not t:
         return effects
+    played = _play_as_pokemon_effect(t)
+    if played:
+        return [played]
     # Hilda: an Evolution Pokémon and an Energy card from the deck.
     if "evolution pokemon and an energy card" in t and "search your deck" in t and "into your hand" in t:
         effects.append({"kind": "search_evolution_and_energy"})

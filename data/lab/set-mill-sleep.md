@@ -1,6 +1,6 @@
 # Mill sleep wall vs Sisters 60
 
-Locked 2026-10-22. `SET_MILL_NAMES` is this sleep-wall 60. Rabsca 1-1 and Battle Cage are outside the lock.
+Locked 2026-10-22. This file is that measurement. `SET_MILL_NAMES` later replaced this list's one Switch with one Lillie's Poké Doll (2026-10-24). Rabsca 1-1 and Battle Cage stay outside the lock.
 
 - **Seed**: `20261022`
 - **Games per seat**: 250

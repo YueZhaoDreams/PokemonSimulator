@@ -825,11 +825,15 @@ STRATEGY_LIBRARY = {
             "Sweet Sleeping Face prevents attack damage while it is Asleep. "
             "Slumbering Forest makes the between-turns sleep check two coins. "
             "The lock has no Manaphy, no Rabsca line, and no Battle Cage. "
-            "Switch brings up Wugtrio once Undersea Tunnel is paid. "
+            "Paid Wugtrio retreats up once Undersea Tunnel is paid. "
+            "One Lillie's Poké Doll is the no-Prize body in this lock. "
             "Victory Star reflips an attack once when it shows 0 or 1 heads. "
             "Ignition Energy pays Undersea on an Evolution and leaves at the end of the turn. "
             "Reversal Energy stays, and pays three while more Prize cards remain. "
-            "Neutralization Zone is the one ACE SPEC."
+            "Neutralization Zone is the one ACE SPEC. "
+            "An Item played as a Pokémon that awards no Prize stalls in front when that "
+            "Knock Out would take the last Prize, when the opponent is ahead on Prizes, "
+            "or when it is the last Wiglett or Wugtrio."
         ),
         prefer_damage=0.2,
         prefer_status=0.0,

@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
 """Compare the Sisters 60 with the thin sleep-wall Mill 60.
 
-The locked list is the Sisters shell plus one Playground Pichu, one Call of
+The 2026-10-22 list was the Sisters shell plus one Playground Pichu, one Call of
 Legends Mime Jr., one Slumbering Forest, and one Switch. Fighting Energy,
 one Water Energy, and one Rescue Carrier are the cuts. The Sisters list is
-frozen here. SET_MILL_NAMES is that lock. Rabsca 1-1 and Battle Cage are
+frozen here. SET_MILL_NAMES is the current Mill lock. As of 2026-10-24 that
+lock is the sleep wall with one Lillie's Poké Doll in place of Switch, so a
+rerun measures the current list. The frozen 2026-10-22 table is
+data/lab/set-mill-sleep.md. Rabsca 1-1 and Battle Cage are
 outside it.
 C60 is one of the measured foes.
 

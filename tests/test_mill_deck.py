@@ -1,4 +1,4 @@
-"""Mill is the thin sleep wall. Printed sentences are the effects.
+"""Mill is the locked 60: the thin sleep wall plus one Lillie's Poké Doll. Printed sentences are the effects.
 
 Undersea Tunnel flips 3 coins and discards the top 3 per heads. Victory Star
 reflips that attack once when the first result is 0 or 1 heads; Glimwood Tangle
@@ -134,7 +134,7 @@ class _Board:
         return player
 
 
-def test_mill_list_is_the_locked_sleep_wall():
+def test_mill_list_is_the_locked_60():
     names = list(SET_MILL_NAMES)
     assert len(names) == 60
     assert names.count("Pichu") == 1
@@ -153,7 +153,8 @@ def test_mill_list_is_the_locked_sleep_wall():
     assert names.count("Nest Ball") == 3
     assert names.count("Level Ball") == 3
     assert names.count("Rescue Carrier") == 3
-    assert names.count("Switch") == 1
+    assert names.count("Switch") == 0
+    assert names.count("Lillie's Poké Doll") == 1
     assert names.count("Crushing Hammer") == 4
     assert names.count("Colress's Tenacity") == 4
     assert names.count("Miss Fortune Sisters") == 2
@@ -174,6 +175,8 @@ def test_mill_list_is_the_locked_sleep_wall():
     pile = build_mill_deck()
     assert copy_violations(pile, standard_60_rules()) == []
     assert [c.catalog_id for c in pile if c.name == "Mime Jr."] == ["col1-47"]
+    assert [c.catalog_id for c in pile if c.name == "Lillie's Poké Doll"] == ["sm12-197"]
+    assert [c.hp for c in pile if c.name == "Lillie's Poké Doll"] == [30]
     assert fallback_named("Mime Jr.").catalog_id == "sv04.5-031"
     assert fallback_named("Mime Jr.").attacks[0].name == "Mimed Games"
     for key in ("mill", "wugtrio", "21"):
