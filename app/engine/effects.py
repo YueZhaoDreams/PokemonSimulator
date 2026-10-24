@@ -1161,6 +1161,14 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
     if bench:
         effects.append({"kind": "bench_damage_counters", "counters": int(bench.group(1))})
 
+    # Shedinja Haunt: counters on the Active. The count stays in the printed sentence.
+    active_counters = re.search(
+        r"put (\d+) damage counters? on your opponent'?s active pokemon",
+        t,
+    )
+    if active_counters:
+        effects.append({"kind": "active_damage_counters", "counters": int(active_counters.group(1))})
+
     # Volt Cyclone: move one attached Energy onto a Benched Pokémon.
     if "move an energy from this pokemon" in t and "benched" in t:
         effects.append({"kind": "move_own_energy_to_bench"})

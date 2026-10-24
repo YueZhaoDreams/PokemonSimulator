@@ -6352,6 +6352,8 @@ class Game:
                     self._swallow_energy(me, look)
             elif effect.get("kind") == "bench_damage_counters":
                 self._bench_damage_counters(foe, int(effect.get("counters") or 1))
+            elif effect.get("kind") == "active_damage_counters":
+                self._active_damage_counters(foe, int(effect.get("counters") or 0))
             elif effect.get("kind") == "lock_items":
                 foe.pending_item_lock = True
                 self._bump("itchy_pollen_lock")
@@ -7351,6 +7353,15 @@ class Game:
         target.damage += damage
         self._bump("bench_damage", damage)
         self._log(f"Bench {foe.card(target.card_i).name} took {damage} from Hex-style attack")
+
+    def _active_damage_counters(self, foe: Player, counters: int) -> None:
+        """Place the printed counters. Counters are not damage from an attack."""
+        if counters <= 0 or foe.active is None:
+            return
+        damage = 10 * counters
+        foe.active.damage += damage
+        self._bump("active_damage_counters", damage)
+        self._log(f"{foe.card(foe.active.card_i).name} took {damage} from damage counters")
 
     def _bench_attack_damage_prevented(self, owner: Player) -> bool:
         for mon in owner.in_play():
@@ -9510,7 +9521,15 @@ class Game:
         self._bump("survival_brace")
         self._log(f"Survival Brace leaves {owner.card(mon.card_i).name} with 10 HP")
 
-    def _add_attack_damage(self, owner: Player, mon: Pokemon, amount: int, *, ignore_effects: bool = False) -> None:
+    def _add_attack_damage(
+        self,
+        owner: Player,
+        mon: Pokemon,
+        amount: int,
+        *,
+        ignore_effects: bool = False,
+        from_opponent: bool = True,
+    ) -> None:
         if amount > 0 and not ignore_effects and getattr(mon, "prevent_attack_damage", False):
             self._bump("prevent_attack_damage")
             amount = 0
@@ -9523,7 +9542,7 @@ class Game:
         was_full = mon.damage <= 0
         before = mon.damage
         mon.damage += amount
-        if mon.damage > before:
+        if mon.damage > before and from_opponent:
             self._attack_damaged_ids.add(id(mon))
         if amount > 0:
             self._maybe_survival_brace(owner, mon, was_full=was_full, ignore_effects=ignore_effects)
@@ -14015,7 +14034,7 @@ class Game:
                 self._max_hp(me, m) - m.damage,
             ),
         )
-        self._add_attack_damage(me, dest, amount)
+        self._add_attack_damage(me, dest, amount, from_opponent=False)
         taken = 0 if self._benched_attack_damage_prevented(me, dest) else amount
         self._log(f"{me.card(dest.card_i).name} takes {taken} from own attack")
 

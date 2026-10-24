@@ -353,6 +353,42 @@ def test_shovel_mills_the_printed_count_only_after_attack_damage():
     assert len(foe3.deck) == 1
 
 
+def test_shovel_ignores_damage_from_your_own_attack():
+    board = _Board()
+    me = board.seat(
+        "a",
+        active=("Cleffa", []),
+        bench=["Lillie's Poké Doll"],
+        deck=["Darkness Energy"] * 4,
+    )
+    foe = board.seat("b", active=("Sableye", []), deck=["Darkness Energy"] * 4)
+    me.bench[0].tool = board.take("a", "Cursed Shovel")
+    board.game._self_bench_damage(me, 30)
+    board.game._check_ko(me, foe, "a")
+    assert me.bench == []
+    assert "shovel_mill" not in board.game.events
+    assert len(foe.deck) == 4
+    assert len(me.deck) == 4
+
+
+def test_haunt_places_the_printed_counters():
+    parsed = parse_effects(_HAUNT)
+    assert parsed == [{"kind": "active_damage_counters", "counters": 3}]
+    bench = parse_effects("Put 3 damage counters on 1 of your opponent's Benched Pokémon.")
+    assert {"kind": "bench_damage_counters", "counters": 3} in bench
+    assert all(effect["kind"] != "active_damage_counters" for effect in bench)
+    board = _Board(strat_a="balanced", strat_b="balanced")
+    me = board.seat("a", active=("Shedinja", ["Darkness Energy"]), deck=["Darkness Energy"] * 4)
+    foe = board.seat("b", active=("Lillie's Poké Doll", []), deck=["Darkness Energy"] * 4)
+    foe.active.tool = board.take("b", "Cursed Shovel")
+    board.game._attack(me, foe, "a")
+    assert foe.active is not None and foe.active.damage == 30
+    board.game._check_ko(foe, me, "b")
+    assert "shovel_mill" not in board.game.events
+    assert len(me.deck) == 4
+    assert len(foe.deck) == 4
+
+
 def test_life_dew_cuts_one_prize_without_an_attack():
     board = _Board()
     me = board.seat("a", active=("Sableye", []))

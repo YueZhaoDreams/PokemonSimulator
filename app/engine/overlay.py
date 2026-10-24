@@ -55,6 +55,7 @@ PUBLISHED_EFFECT_KINDS = frozenset(
         "swallow_energy",
         "deck_count_bonus",
         "bench_damage_counters",
+        "active_damage_counters",
         "move_damage_counters",
         "draw_then_shuffle_self",
         "search_supporter_on_bench",
