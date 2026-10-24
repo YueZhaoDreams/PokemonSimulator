@@ -15845,19 +15845,22 @@ class Game:
             self._bump("dark_patch_miss")
 
     def _puzzle_of_time(self, me: Player, who: str, card: Card, look: int, pair_count: int) -> None:
-        if self.strats[who].name == "doll" and doll_ai.play_puzzle(self, me, card, pair_count):
-            return
-        second = next((i for i in me.hand if me.card(i).name.lower() == card.name.lower()), None)
-        if second is not None and pair_count > 0:
-            me.hand.remove(second)
-            me.discard.append(second)
-            self._retrieve_from_discard(
-                me,
-                pair_count,
-                prefer=("enriching energy", "draw energy", "scoop up net", "puzzle of time", "rare candy", "forest seal stone"),
-            )
-            self._bump("puzzle_pair")
-            return
+        if self.strats[who].name == "doll":
+            # A declined pair keeps the second Puzzle and uses the printed look.
+            if doll_ai.play_puzzle(self, me, card, pair_count):
+                return
+        else:
+            second = next((i for i in me.hand if me.card(i).name.lower() == card.name.lower()), None)
+            if second is not None and pair_count > 0:
+                me.hand.remove(second)
+                me.discard.append(second)
+                self._retrieve_from_discard(
+                    me,
+                    pair_count,
+                    prefer=("enriching energy", "draw energy", "scoop up net", "puzzle of time", "rare candy", "forest seal stone"),
+                )
+                self._bump("puzzle_pair")
+                return
         if look > 0 and me.deck:
             n = min(look, len(me.deck))
             seen = me.deck[:n]

@@ -331,8 +331,7 @@ def trainer_score(game, me, foe, card) -> float:
         return 16 if foe.deck else -4
     if name == "puzzle of time":
         puzzles = sum(1 for i in me.hand if me.card(i).name.lower() == name)
-        business = any(me.card(i).name.lower() != "puzzle of time" for i in me.discard)
-        if puzzles >= 2 and business:
+        if puzzles >= 2 and _puzzle_targets(game, me):
             return 15
         return -4
     if name == "vs seeker":
@@ -429,31 +428,41 @@ PUZZLE_PREFER = (
 )
 
 
-def play_puzzle(game, me, card, pair_count: int) -> bool:
-    second = next((i for i in me.hand if me.card(i).name.lower() == card.name.lower()), None)
-    if second is None or pair_count <= 0:
-        return False
-    me.hand.remove(second)
-    me.discard.append(second)
+def _puzzle_targets(game, me) -> list[int]:
     ranked = []
-    for i in list(me.discard):
+    for i in me.discard:
         card_i = me.card(i)
         name = card_i.name.lower()
         if name == "puzzle of time":
             continue
-        eff = game._proxy_effect(card_i) or {}
-        if eff.get("setup_only"):
+        if (game._proxy_effect(card_i) or {}).get("setup_only"):
             continue
         ranked.append((PUZZLE_PREFER.index(name) if name in PUZZLE_PREFER else 40, i))
     ranked.sort()
+    return [i for _, i in ranked]
+
+
+def play_puzzle(game, me, card, pair_count: int) -> bool:
+    second = next((i for i in me.hand if me.card(i).name.lower() == card.name.lower()), None)
+    if second is None or pair_count <= 0:
+        return False
+    ranked = _puzzle_targets(game, me)
+    if not ranked:
+        return False
+    me.hand.remove(second)
+    me.discard.append(second)
     taken = 0
-    for _, card_i in ranked:
+    for card_i in ranked:
         if taken >= pair_count or card_i not in me.discard:
             continue
         me.discard.remove(card_i)
         me.hand.append(card_i)
         taken += 1
         game._bump("puzzle_retrieve")
+    if taken == 0:
+        me.discard.remove(second)
+        me.hand.append(second)
+        return False
     game._bump("puzzle_pair")
     return True
 

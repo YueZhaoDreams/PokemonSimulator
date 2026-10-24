@@ -388,6 +388,51 @@ def test_vessel_of_life_attaches_shedinja_as_a_tool():
     assert all(mon.card_i != shed for mon in me.in_play())
 
 
+def test_puzzle_pair_leaves_the_second_card_when_only_snorlax_is_there():
+    board = _Board()
+    me = board.seat(
+        "a",
+        active=("Cleffa", []),
+        hand=["Puzzle of Time", "Puzzle of Time"],
+        discard=["Snorlax Doll"],
+        deck=["Darkness Energy", "Switch", "Nest Ball", "Water Energy"],
+    )
+    board.seat("b", active=("Sableye", []))
+    assert board.game._pick_trainer(me) is None
+    before = [me.card(i).name for i in me.deck]
+    played = me.hand[0]
+    me.hand.remove(played)
+    me.discard.append(played)
+    board.game._resolve_trainer(me, board.game.players["b"], me.card(played), who="a", card_i=played)
+    assert [me.card(i).name for i in me.hand] == ["Puzzle of Time"]
+    assert [me.card(i).name for i in me.discard] == ["Snorlax Doll", "Puzzle of Time"]
+    assert "puzzle_pair" not in board.game.events
+    assert board.game.events["puzzle_look"] == 3
+    assert sorted(me.card(i).name for i in me.deck) == sorted(before)
+
+
+def test_puzzle_pair_takes_a_real_card_and_leaves_snorlax():
+    board = _Board()
+    me = board.seat(
+        "a",
+        active=("Cleffa", []),
+        hand=["Puzzle of Time", "Puzzle of Time"],
+        discard=["Snorlax Doll", "Lillie's Poké Doll"],
+        deck=["Darkness Energy"] * 4,
+    )
+    board.seat("b", active=("Sableye", []))
+    picked = board.game._pick_trainer(me)
+    assert picked is not None and me.card(picked).name == "Puzzle of Time"
+    me.hand.remove(picked)
+    me.discard.append(picked)
+    board.game._resolve_trainer(me, board.game.players["b"], me.card(picked), who="a", card_i=picked)
+    assert [me.card(i).name for i in me.hand] == ["Lillie's Poké Doll"]
+    assert [me.card(i).name for i in me.discard] == ["Snorlax Doll", "Puzzle of Time", "Puzzle of Time"]
+    assert board.game.events["puzzle_pair"] == 1
+    assert board.game.events["puzzle_retrieve"] == 1
+    assert "puzzle_look" not in board.game.events
+
+
 def test_junk_hunt_skips_snorlax_and_pays_for_the_patch_first():
     board = _Board()
     me = board.seat(
