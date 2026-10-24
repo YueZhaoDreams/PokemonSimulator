@@ -848,6 +848,29 @@ STRATEGY_LIBRARY = {
         closers=["Wugtrio"],
         reflip_heads_at_most=1,
     ),
+    "doll": StrategySpec(
+        name="doll",
+        description=(
+            "Doll lock. Go first. Item dolls are played from the hand onto an open Bench. "
+            "Nest Ball does not search them. One Snorlax Doll is benched during setup. "
+            "Sweet Sleeping Face stays at two, one against spread, and none against Demolish. "
+            "Battle Cage stays up against spread instead of covering it with Slumbering Forest. "
+            "Junk Hunt retrieves Item dolls and skips Snorlax Doll. "
+            "Life Dew is the single prize-cut tool. Cleffa is the HeartGold & SoulSilver Eeeeeeek print. "
+            "The measured pilot is this spec. The deck does not select it by itself."
+        ),
+        prefer_damage=0.2,
+        prefer_status=0.0,
+        bench_fill=1.0,
+        evolve_asap=1.0,
+        attach_pokemon_as_energy=0.0,
+        item_spend=1.0,
+        self_preserve=0.2,
+        hold_as_energy=False,
+        protect=["Cleffa", "Smoochum", "Mime Jr.", "Sableye", "Manaphy"],
+        search_aces=[],
+        closers=[],
+    ),
 }
 
 

@@ -55,6 +55,7 @@ PUBLISHED_EFFECT_KINDS = frozenset(
         "swallow_energy",
         "deck_count_bonus",
         "bench_damage_counters",
+        "active_damage_counters",
         "move_damage_counters",
         "draw_then_shuffle_self",
         "search_supporter_on_bench",
@@ -135,6 +136,11 @@ PUBLISHED_EFFECT_KINDS = frozenset(
         "look_opp_discard_items",
         "coin_mill_top",
         "search_pokemon_max_hp",
+        "shuffle_hand_then_draw",
+        "attach_basic_energy_from_discard",
+        "attach_self_as_tool",
+        "fewer_prizes_on_ko",
+        "mill_top_on_attack_ko",
     }
 )
 

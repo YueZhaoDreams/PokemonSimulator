@@ -1,0 +1,585 @@
+"""Doll lock pilot. Printed sentences stay in the parsers; this file only chooses.
+
+The 1000-game holdout (seed 20261025) played this list. Item dolls are Trainers,
+so Nest Ball does not search them. They are played from hand onto an open Bench.
+Sweet Sleeping Face, Energy Antics, Sleepy Lost, Junk Hunt, Puzzle of Time,
+Handiwork, Dark Patch, Cursed Shovel, Life Dew, and Vessel of Life resolve from
+their own text.
+"""
+
+from __future__ import annotations
+
+from app.engine.effects import can_pay_energy
+
+SPREAD = {"phantom", "starmie", "nuzzle"}
+KEEPERS = {
+    "puzzle of time",
+    "team rocket's handiwork",
+    "vs seeker",
+    "switch",
+    "nest ball",
+    "buddy-buddy poffin",
+    "crushing hammer",
+    "dark patch",
+    "cursed shovel",
+    "life dew",
+    "slumbering forest",
+    "battle cage",
+    "rescue carrier",
+    "field blower",
+    "darkness energy",
+}
+
+
+def _asleep(mon) -> bool:
+    from app.engine.game import ST_ASLEEP
+
+    return bool(mon.status & ST_ASLEEP)
+
+
+def _hard(game, player) -> bool:
+    return game._foe_strat_name(player) == "demolish"
+
+
+def _spread(game, player) -> bool:
+    return game._foe_strat_name(player) in SPREAD
+
+
+def _face_cap(game, player) -> int:
+    if _hard(game, player):
+        return 0
+    if _spread(game, player):
+        return 1
+    return 2
+
+
+def _face_count(game, player, extra_hand: bool = True) -> int:
+    total = sum(1 for mon in player.in_play() if game._sweet_face(player.card(mon.card_i)))
+    if extra_hand:
+        total += sum(1 for i in player.hand if game._sweet_face(player.card(i)))
+    return total
+
+
+def _bench_room(game, player) -> int:
+    return game._bench_limit(player) - len(player.bench)
+
+
+def _dolls_in_play(game, player) -> int:
+    return sum(1 for mon in player.in_play() if game._no_prize_proxy(player.card(mon.card_i)))
+
+
+def _replayable_doll(game, card) -> bool:
+    eff = game._proxy_effect(card) or {}
+    return bool(eff.get("no_prize") and not eff.get("setup_only"))
+
+
+def _can_pay(game, me, mon, attack_name: str) -> bool:
+    card = me.card(mon.card_i)
+    atk = next((a for a in card.attacks if a.name.lower() == attack_name.lower()), None)
+    if atk is None:
+        return False
+    return can_pay_energy(game._energy_pool(me, mon), game._attack_cost(me, mon, atk))
+
+
+def _discard_items(game, me) -> int:
+    return sum(1 for i in me.discard if me.card(i).is_item and not (game._proxy_effect(me.card(i)) or {}).get("setup_only"))
+
+
+def _hunt_worth(game, me) -> bool:
+    puzzles_hand = sum(1 for i in me.hand if me.card(i).name.lower() == "puzzle of time")
+    puzzles_disc = sum(1 for i in me.discard if me.card(i).name.lower() == "puzzle of time")
+    if puzzles_hand < 2 and puzzles_disc:
+        return True
+    if _bench_room(game, me) > 0 and any(_replayable_doll(game, me.card(i)) for i in me.discard):
+        return True
+    useful = {
+        "team rocket's handiwork",
+        "vs seeker",
+        "nest ball",
+        "buddy-buddy poffin",
+        "rescue carrier",
+        "switch",
+        "crushing hammer",
+        "dark patch",
+        "field blower",
+    }
+    return any(me.card(i).name.lower() in useful for i in me.discard)
+
+
+def _hand_has_keepers(game, me) -> bool:
+    for i in me.hand:
+        card = me.card(i)
+        if card.name.lower() in KEEPERS or _replayable_doll(game, card):
+            return True
+        if card.is_pokemon and card.name != "Cleffa":
+            return True
+    return len(me.hand) > 1
+
+
+def wants_pokemon(game, player, card) -> bool:
+    name = card.name.lower()
+    copies = game._count_named_in_play(player, card.name)
+    if name == "manaphy":
+        if _hard(game, player):
+            return False
+        return copies < 1
+    if game._sweet_face(card):
+        return _face_count(game, player, extra_hand=False) < _face_cap(game, player)
+    if name == "sableye":
+        return copies < 1
+    if name == "nincada":
+        if _hard(game, player):
+            return False
+        shed = any(player.card(mon.card_i).name.lower() == "shedinja" for mon in player.in_play())
+        return copies < 1 and not shed and _dolls_in_play(game, player) >= 2
+    return False
+
+
+def starter_score(game, card) -> float:
+    if game._sweet_face(card):
+        return {"mime jr.": 60, "smoochum": 50, "cleffa": 40}.get(card.name.lower(), 35)
+    if card.name.lower() == "sableye":
+        return 30
+    if card.name.lower() == "nincada":
+        return 20
+    if card.name.lower() == "manaphy":
+        return 10
+    return 0
+
+
+def bench_prio(game, card) -> tuple:
+    name = card.name.lower()
+    if name == "manaphy":
+        return (0, 0)
+    if game._sweet_face(card):
+        return (1, 0)
+    if name == "sableye":
+        return (2, 0)
+    if name == "nincada":
+        return (3, 0)
+    return (4, 0)
+
+
+def search_prefer(game, me) -> list[str]:
+    names = {me.card(mon.card_i).name.lower() for mon in me.in_play()}
+    names |= {me.card(i).name.lower() for i in me.hand}
+    prefer = []
+    if not _hard(game, me) and "manaphy" not in names:
+        prefer.append("Manaphy")
+    if _face_count(game, me) < _face_cap(game, me):
+        prefer.extend(["Mime Jr.", "Smoochum", "Cleffa"])
+    if "sableye" not in names:
+        prefer.append("Sableye")
+    if (
+        not _hard(game, me)
+        and "nincada" not in names
+        and "shedinja" not in names
+        and _dolls_in_play(game, me) >= 2
+    ):
+        prefer.append("Nincada")
+    return prefer
+
+
+def energy_target(game, me):
+    for mon in me.in_play():
+        if me.card(mon.card_i).name.lower() == "sableye" and not _can_pay(game, me, mon, "Junk Hunt"):
+            return mon
+    return me.active
+
+
+def energy_card(game, me, target):
+    if me.card(target.card_i).name.lower() != "sableye":
+        return None
+    if _can_pay(game, me, target, "Junk Hunt"):
+        return None
+    for i in me.hand:
+        if me.card(i).name.lower() == "darkness energy":
+            return i
+    return None
+
+
+def _awake_face_idx(game, me):
+    best = None
+    for idx, mon in enumerate(me.bench):
+        card = me.card(mon.card_i)
+        if not game._sweet_face(card) or _asleep(mon):
+            continue
+        name = card.name.lower()
+        rank = {"mime jr.": 0, "smoochum": 1, "cleffa": 2}.get(name, 4)
+        if name == "cleffa" and _hand_has_keepers(game, me):
+            rank = 8
+        if best is None or rank < best[0]:
+            best = (rank, idx)
+    return None if best is None else best[1]
+
+
+def _asleep_face_idx(game, me):
+    for idx, mon in enumerate(me.bench):
+        if game._sweet_face(me.card(mon.card_i)) and _asleep(mon):
+            return idx
+    return None
+
+
+def _doll_bench_idx(game, me):
+    best = None
+    for idx, mon in enumerate(me.bench):
+        card = me.card(mon.card_i)
+        if not game._no_prize_proxy(card):
+            continue
+        rank = 0 if (game._proxy_effect(card) or {}).get("setup_only") else 1
+        if best is None or rank < best[0]:
+            best = (rank, idx)
+    return None if best is None else best[1]
+
+
+def switch_idx(game, me):
+    if not me.active or not me.bench:
+        return None
+    card = me.card(me.active.card_i)
+    name = card.name.lower()
+    asleep = _asleep(me.active)
+    face = game._sweet_face(card)
+    if (
+        name == "sableye"
+        and _can_pay(game, me, me.active, "Junk Hunt")
+        and _discard_items(game, me) >= 2
+        and _hunt_worth(game, me)
+    ):
+        return None
+    for idx, mon in enumerate(me.bench):
+        if (
+            me.card(mon.card_i).name.lower() == "sableye"
+            and _can_pay(game, me, mon, "Junk Hunt")
+            and _discard_items(game, me) >= 2
+            and _hunt_worth(game, me)
+        ):
+            return idx
+    if _hard(game, me):
+        if game._no_prize_proxy(card):
+            return None
+        return _doll_bench_idx(game, me)
+    if face and not asleep:
+        if name == "cleffa" and _hand_has_keepers(game, me):
+            return _awake_face_idx(game, me)
+        return None
+    if face and asleep:
+        return _awake_face_idx(game, me)
+    awake = _awake_face_idx(game, me)
+    if awake is not None:
+        return awake
+    return _asleep_face_idx(game, me)
+
+
+def retreat(game, me) -> None:
+    if any(me.card(i).name.lower() == "switch" for i in me.hand):
+        return
+    idx = switch_idx(game, me)
+    if idx is None or not me.active:
+        return
+    if game._retreat_cost(me, me.active) == 0:
+        game._do_retreat_into(me, idx)
+
+
+def trainer_score(game, me, foe, card) -> float:
+    name = card.name.lower()
+    if game._proxy_effect(card):
+        eff = game._proxy_effect(card) or {}
+        if eff.get("setup_only") or not eff.get("no_prize"):
+            return -20
+        if _bench_room(game, me) <= 0 and me.active is not None:
+            return -8
+        return 30
+    spread = _spread(game, me)
+    stadium = (game.stadium_name or "").lower()
+    face_asleep = bool(me.active and _asleep(me.active) and game._sweet_face(me.card(me.active.card_i)))
+    face_out = any(game._sweet_face(me.card(mon.card_i)) for mon in me.in_play())
+    if name == "slumbering forest":
+        if stadium == name:
+            return -8
+        if spread and stadium == "battle cage":
+            return -20
+        if spread and any(me.card(i).name.lower() == "battle cage" for i in me.hand):
+            return -12
+        if face_asleep:
+            return 24
+        if spread:
+            return -6
+        if face_out:
+            return 18
+        return -8
+    if name == "battle cage":
+        if stadium == "battle cage":
+            return -8
+        if spread or _hard(game, me):
+            return 32
+        if face_asleep:
+            return -8
+        return -4
+    if name in {"nest ball", "nesting ball"}:
+        return 20 if _bench_room(game, me) > 0 else -8
+    if name in {"buddy-buddy poffin", "buddy buddy poffin"}:
+        return 26 if _bench_room(game, me) > 0 else -8
+    if name == "rescue carrier":
+        return 16 if game._rescue_carrier_targets(me, 90) else -8
+    if name == "crushing hammer":
+        if foe.active and foe.active.energy:
+            return 12
+        if any(mon.energy for mon in foe.in_play()):
+            return 8
+        return -6
+    if name == "team rocket's handiwork":
+        return 16 if foe.deck else -4
+    if name == "puzzle of time":
+        puzzles = sum(1 for i in me.hand if me.card(i).name.lower() == name)
+        if puzzles >= 2 and _puzzle_targets(game, me):
+            return 15
+        return -4
+    if name == "vs seeker":
+        have = any(me.card(i).name.lower() == "team rocket's handiwork" for i in me.discard)
+        return 13 if have else -6
+    if name == "switch":
+        return 26 if switch_idx(game, me) is not None else -20
+    if name == "dark patch":
+        energy = any(me.card(i).name.lower() == "darkness energy" for i in me.discard)
+        bare = any(
+            me.card(mon.card_i).name.lower() == "sableye" and not _can_pay(game, me, mon, "Junk Hunt")
+            for mon in me.bench
+        )
+        return 22 if energy and bare else -6
+    if name == "field blower":
+        if game.stadium_name and game.stadium_owner is foe:
+            return 22 if spread else 10
+        if any(mon.tool is not None for mon in foe.in_play()):
+            return 6
+        return -8
+    if name == "cursed shovel":
+        return 14 if tool_host(game, me, card) is not None else -8
+    if name == "life dew":
+        return 12 if tool_host(game, me, card) is not None else -8
+    return 0
+
+
+def choose_attack(game, me, foe):
+    if not me.active or _asleep(me.active):
+        return None
+    card = me.card(me.active.card_i)
+    legal = []
+    locked = me.active.disabled_attack or getattr(me.active, "disabled_self", None)
+    attached = game._energy_pool(me, me.active)
+    for atk in card.attacks:
+        if atk.name == locked:
+            continue
+        if can_pay_energy(attached, game._attack_cost(me, me.active, atk, foe)):
+            legal.append(atk)
+    by_name = {atk.name.lower(): atk for atk in legal}
+    name = card.name.lower()
+    if name == "mime jr." and "sleepy lost" in by_name:
+        return by_name["sleepy lost"]
+    if name == "smoochum" and "energy antics" in by_name:
+        return by_name["energy antics"]
+    if name == "cleffa" and "eeeeeeek" in by_name and not _hand_has_keepers(game, me):
+        return by_name["eeeeeeek"]
+    if name == "sableye" and "junk hunt" in by_name and _discard_items(game, me) >= 2 and _hunt_worth(game, me):
+        return by_name["junk hunt"]
+    return None
+
+
+def promote_rank(game, player, index: int) -> tuple:
+    mon = player.bench[index]
+    card = player.card(mon.card_i)
+    hard = _hard(game, player)
+    asleep_face = game._sweet_face(card) and _asleep(mon)
+    if game._no_prize_proxy(card) and hard:
+        return (0, 0)
+    if asleep_face:
+        return (5, 0) if hard else (0, 0)
+    if game._sweet_face(card):
+        return (5, 0) if hard else (1, 0)
+    if game._no_prize_proxy(card):
+        return (1, 0) if hard else (2, 0)
+    if card.name.lower() == "sableye":
+        return (2, 0) if hard else (4, 0)
+    if card.name.lower() == "manaphy":
+        return (8, 0)
+    return (6, 0)
+
+
+PUZZLE_PREFER = (
+    "team rocket's handiwork",
+    "vs seeker",
+    "dark patch",
+    "robo substitute team flare gear",
+    "lillie's poké doll",
+    "cursed shovel",
+    "switch",
+    "nest ball",
+    "buddy-buddy poffin",
+    "crushing hammer",
+    "darkness energy",
+    "sableye",
+    "slumbering forest",
+    "battle cage",
+    "rescue carrier",
+    "cleffa",
+    "smoochum",
+    "mime jr.",
+    "manaphy",
+    "nincada",
+)
+
+
+def _puzzle_targets(game, me) -> list[int]:
+    ranked = []
+    for i in me.discard:
+        card_i = me.card(i)
+        name = card_i.name.lower()
+        if name == "puzzle of time":
+            continue
+        if (game._proxy_effect(card_i) or {}).get("setup_only"):
+            continue
+        ranked.append((PUZZLE_PREFER.index(name) if name in PUZZLE_PREFER else 40, i))
+    ranked.sort()
+    return [i for _, i in ranked]
+
+
+def play_puzzle(game, me, card, pair_count: int) -> bool:
+    second = next((i for i in me.hand if me.card(i).name.lower() == card.name.lower()), None)
+    if second is None or pair_count <= 0:
+        return False
+    ranked = _puzzle_targets(game, me)
+    if not ranked:
+        return False
+    me.hand.remove(second)
+    me.discard.append(second)
+    taken = 0
+    for card_i in ranked:
+        if taken >= pair_count or card_i not in me.discard:
+            continue
+        me.discard.remove(card_i)
+        me.hand.append(card_i)
+        taken += 1
+        game._bump("puzzle_retrieve")
+    if taken == 0:
+        me.discard.remove(second)
+        me.hand.append(second)
+        return False
+    game._bump("puzzle_pair")
+    return True
+
+
+def seeker(game, me) -> None:
+    supporters = [i for i in me.discard if me.card(i).is_supporter]
+    if not supporters:
+        game._bump("vs_seeker_miss")
+        return
+    prefer = ["team rocket's handiwork"]
+
+    def rank(idx: int) -> int:
+        name = me.card(idx).name.lower()
+        return prefer.index(name) if name in prefer else 10
+
+    pick = min(supporters, key=rank)
+    me.discard.remove(pick)
+    me.hand.append(pick)
+    game._bump("vs_seeker")
+
+
+def recycle_items(game, me, count: int) -> None:
+    pool = [
+        i
+        for i in me.discard
+        if me.card(i).is_item and not (game._proxy_effect(me.card(i)) or {}).get("setup_only")
+    ]
+    puzzles_hand = sum(1 for i in me.hand if me.card(i).name.lower() == "puzzle of time")
+    need_pair = puzzles_hand < 2
+    need_bodies = _bench_room(game, me) > 0 or _dolls_in_play(game, me) < 3
+    thin = _dolls_in_play(game, me) < 2
+    unpaid = any(
+        me.card(mon.card_i).name.lower() == "sableye" and not _can_pay(game, me, mon, "Junk Hunt")
+        for mon in me.in_play()
+    )
+    business = [
+        "dark patch",
+        "vs seeker",
+        "nest ball",
+        "buddy-buddy poffin",
+        "rescue carrier",
+        "switch",
+        "crushing hammer",
+        "field blower",
+    ]
+
+    def rank(idx: int) -> tuple:
+        card = me.card(idx)
+        name = card.name.lower()
+        if unpaid and name == "dark patch":
+            return (0, 0)
+        if thin and _replayable_doll(game, card):
+            return (1, 0)
+        if name == "puzzle of time":
+            return (2 if need_pair else 5, 0)
+        if _replayable_doll(game, card) and need_bodies:
+            return (3, 0)
+        if name in business:
+            return (4, business.index(name))
+        if _replayable_doll(game, card):
+            return (6, 0)
+        return (7, 0)
+
+    pool.sort(key=rank)
+    taken = 0
+    for card_i in pool:
+        if taken >= count:
+            break
+        if card_i not in me.discard:
+            continue
+        me.discard.remove(card_i)
+        me.hand.append(card_i)
+        taken += 1
+        game._bump("junk_hunt")
+        game._log(f"{me.name} Junk Hunt takes {me.card(card_i).name}")
+
+
+def tool_host(game, me, card):
+    name = card.name.lower()
+    open_mons = [mon for mon in me.in_play() if mon.tool is None]
+    if not open_mons:
+        return None
+    if name == "cursed shovel":
+        dolls = [mon for mon in open_mons if game._no_prize_proxy(me.card(mon.card_i))]
+        if not dolls:
+            return None
+        if me.active in dolls:
+            return me.active
+        return dolls[0]
+    if name == "life dew":
+        for mon in open_mons:
+            if me.card(mon.card_i).name.lower() == "sableye":
+                return mon
+        for mon in open_mons:
+            if game._sweet_face(me.card(mon.card_i)):
+                return mon
+        return None
+    return None
+
+
+def claims_tool(card) -> bool:
+    return card.name.lower() in {"cursed shovel", "life dew"}
+
+
+def vessel_host(game, me, shed):
+    hosts = []
+    for mon in me.in_play():
+        if mon is shed or mon.tool is not None:
+            continue
+        card = me.card(mon.card_i)
+        if game._no_prize_proxy(card):
+            continue
+        rank = {"sableye": 0, "cleffa": 1, "smoochum": 1, "mime jr.": 1, "manaphy": 3, "nincada": 4}.get(
+            card.name.lower(), 5
+        )
+        hosts.append((rank, mon))
+    if not hosts:
+        return None
+    hosts.sort(key=lambda row: row[0])
+    return hosts[0][1]
