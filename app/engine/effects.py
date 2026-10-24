@@ -647,6 +647,13 @@ def parse_ability_effects(text: str) -> list[dict[str, Any]]:
             }
         )
 
+    # Vessel of Life: the Pokémon becomes a Tool. The prize sentence is on that Tool.
+    if (
+        "discard all cards attached to this pokemon" in t
+        and "attach it to 1 of your pokemon as a pokemon tool" in t
+    ):
+        effects.append({"kind": "attach_self_as_tool"})
+
     _extend_expanded_ability_effects(t, effects)
     return effects
 
@@ -802,7 +809,16 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
     ):
         effects.append({"kind": "no_attack_second_first_turn"})
 
-    if "draw" in t and "search your deck" not in t:
+    # Eeeeeeek: shuffle the hand in, then draw the printed amount. A bare "draw"
+    # later in the same sentence must not draw a second time. Celebration's
+    # "shuffle your hand into your deck" has no "then draw".
+    shuffle_draw = re.search(r"shuffle your hand into your deck, then draw (\d+)", t)
+    if shuffle_draw:
+        effects.append({"kind": "shuffle_hand_then_draw", "amount": int(shuffle_draw.group(1))})
+
+    if "draw" in t and "search your deck" not in t and not any(
+        e.get("kind") == "shuffle_hand_then_draw" for e in effects
+    ):
         until = parse_draw_until_hand(t)
         if until:
             effects.append(until)
@@ -1235,6 +1251,26 @@ def parse_energy_effects(text: str) -> list[dict[str, Any]]:
     return effects
 
 
+def _ko_tool_effects(t: str) -> list[dict[str, Any]]:
+    """Prize cut and attack-KO mill from the tool sentence. Counts stay in the match."""
+    effects: list[dict[str, Any]] = []
+    fewer = re.search(r"takes (\d+) fewer prize", t)
+    if fewer and "knocked out" in t:
+        effects.append(
+            {
+                "kind": "fewer_prizes_on_ko",
+                "count": int(fewer.group(1)),
+                # "before your attack" is ability timing. The prize line is attack-only
+                # when the Knock Out itself is by an attack.
+                "attack_only": "knocked out by" in t and "attack" in t,
+            }
+        )
+    milled = re.search(r"discard the top (\d+) cards of your opponent's deck", t)
+    if milled and "knocked out" in t and "attack" in t:
+        effects.append({"kind": "mill_top_on_attack_ko", "count": int(milled.group(1))})
+    return effects
+
+
 def _attached_tool_reactive(t: str) -> list[dict[str, Any]]:
     """Bursting Balloon: counters on the attacker, then discard at the end of the opponent's turn.
 
@@ -1383,6 +1419,25 @@ def parse_trainer_effects(text: str) -> list[dict[str, Any]]:
             }
         )
         return effects
+    # Dark Patch: one basic Darkness from discard onto one Benched Darkness Pokémon.
+    # Wondrous Patch already returned for the Psychic sentence.
+    if (
+        "attach a basic darkness energy card from your discard pile" in t
+        and "benched darkness pokemon" in t
+    ):
+        effects.append(
+            {
+                "kind": "attach_basic_energy_from_discard",
+                "count": 1,
+                "energy_type": "Darkness",
+                "pokemon_type": "Darkness",
+                "bench_only": True,
+            }
+        )
+        return effects
+    ko_tools = _ko_tool_effects(t)
+    if ko_tools:
+        return ko_tools
     reactive = _attached_tool_reactive(t)
     if reactive:
         return reactive

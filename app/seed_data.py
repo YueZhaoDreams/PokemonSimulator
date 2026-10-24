@@ -642,6 +642,35 @@ SET_L60_NAMES = (
 # Battle Cage is outside this lock. Its printed text stops bench counters
 # and replaces whichever Stadium is in play, including Neutralization Zone.
 # This 60 was not remeasured with that swap.
+# Doll lock (2026-10-24). The 1000-game holdout is data/lab/set-doll.json.
+# Item dolls are Trainers. Nest Ball's printed search does not find them.
+SET_DOLL_NAMES = (
+    ["Cleffa"] * 4
+    + ["Smoochum"] * 2
+    + ["Mime Jr."] * 2
+    + ["Slumbering Forest"] * 2
+    + ["Battle Cage"] * 4
+    + ["Manaphy"]
+    + ["Switch"] * 2
+    + ["Sableye"] * 2
+    + ["Darkness Energy"] * 2
+    + ["Dark Patch"]
+    + ["Puzzle of Time"] * 4
+    + ["VS Seeker"] * 4
+    + ["Team Rocket's Handiwork"] * 4
+    + ["Rescue Carrier"] * 3
+    + ["Robo Substitute Team Flare Gear"] * 4
+    + ["Lillie's Poké Doll"] * 4
+    + ["Snorlax Doll"] * 2
+    + ["Cursed Shovel"] * 3
+    + ["Life Dew"]
+    + ["Nincada"]
+    + ["Shedinja"]
+    + ["Field Blower"]
+    + ["Nest Ball"] * 2
+    + ["Buddy-Buddy Poffin"] * 2
+    + ["Crushing Hammer"] * 2
+)
 SET_MILL_NAMES = (
     ["Pichu"]
     + ["Mime Jr."]
@@ -5172,6 +5201,106 @@ _register(_proxy_item("Clefairy Doll", _CLEFAIRY_DOLL, "base1-70", 10))
 _register(_proxy_item("Mysterious Fossil", _MYSTERIOUS_FOSSIL, "ex12-79", 50))
 _register(_proxy_item("Root Fossil", _ROOT_FOSSIL, "ex12-80", 40))
 _register(_proxy_item("Claw Fossil", _CLAW_FOSSIL, "ex12-78", 40))
+# Phantom Forces 102 prints the full name. The short "Robo Substitute" stays for Mill tests.
+_register(_proxy_item("Robo Substitute Team Flare Gear", _ROBO_SUBSTITUTE, "xy4-102", 30))
+_register(
+    _trn(
+        "Dark Patch",
+        "item",
+        "Attach a basic Darkness Energy card from your discard pile to 1 of your Benched Darkness Pokémon.",
+        catalog_id="bw5-93",
+    )
+)
+_register(
+    _trn(
+        "Cursed Shovel",
+        "tool",
+        "If the Pokémon this card is attached to is Knocked Out by damage from an opponent's attack, "
+        "discard the top 2 cards of your opponent's deck.",
+        catalog_id="swsh2-157",
+    )
+)
+_register(
+    _trn(
+        "Life Dew",
+        "tool",
+        "If the Pokémon this card is attached to is Knocked Out, your opponent takes 1 fewer Prize card.",
+        catalog_id="bw9-107",
+    )
+)
+# HeartGold & SoulSilver 17. fallback_named("Cleffa") stays the Obsidian Flames Grasping Draw print.
+_CLEFFA_HGSS = _pkm(
+    "Cleffa",
+    "Basic",
+    ["Colorless"],
+    30,
+    [
+        _atk(
+            "Eeeeeeek",
+            [],
+            0,
+            "Shuffle your hand into your deck, then draw 6 cards. Cleffa is now Asleep.",
+        )
+    ],
+    retreat=0,
+    catalog_id="hgss1-17",
+    set_name="HeartGold & SoulSilver",
+    abilities=[
+        Ability(
+            name="Sweet Sleeping Face",
+            text="As long as Cleffa is Asleep, prevent all damage done to Cleffa by attacks.",
+        )
+    ],
+)
+_CLEFFA_HGSS.image = "https://assets.tcgdex.net/en/hgss/hgss1/17/low.webp"
+FALLBACK_BY_NAME["cleffa hgss"] = _CLEFFA_HGSS
+_register(
+    _pkm(
+        "Nincada",
+        "Basic",
+        ["Grass"],
+        40,
+        [
+            _atk(
+                "Fury Swipes",
+                ["Colorless"],
+                10,
+                "Flip 3 coins. This attack does 10 damage for each heads.",
+            )
+        ],
+        retreat=1,
+        weakness="Fire",
+        catalog_id="sm8-29",
+        set_name="Lost Thunder",
+    )
+)
+_VESSEL_OF_LIFE = (
+    "Once during your turn (before your attack), you may discard all cards attached to this Pokémon "
+    "and attach it to 1 of your Pokémon as a Pokémon Tool card. When the Pokémon this card is attached "
+    "to is Knocked Out, your opponent takes 1 fewer Prize card."
+)
+_SHEDINJA = _pkm(
+    "Shedinja",
+    "Stage1",
+    ["Psychic"],
+    40,
+    [
+        _atk(
+            "Haunt",
+            ["Colorless"],
+            0,
+            "Put 3 damage counters on your opponent's Active Pokémon.",
+        )
+    ],
+    evolves_from="Nincada",
+    retreat=1,
+    weakness="Darkness",
+    catalog_id="sm8-95",
+    set_name="Lost Thunder",
+    abilities=[Ability(name="Vessel of Life", text=_VESSEL_OF_LIFE)],
+)
+_SHEDINJA.text = _VESSEL_OF_LIFE
+_register(_SHEDINJA)
 
 
 def fallback_named(name: str) -> Card:
@@ -5216,6 +5345,19 @@ def build_mill_deck() -> list[Card]:
     out: list[Card] = []
     for name in SET_MILL_NAMES:
         if name == "Mime Jr.":
+            out.append(fallback_named("mime jr. col"))
+        else:
+            out.append(fallback_named(name))
+    return out
+
+
+def build_doll_deck() -> list[Card]:
+    """Locked Doll 60. Cleffa is HGSS Eeeeeeek. Mime Jr. is Call of Legends Sleepy Lost."""
+    out: list[Card] = []
+    for name in SET_DOLL_NAMES:
+        if name == "Cleffa":
+            out.append(fallback_named("cleffa hgss"))
+        elif name == "Mime Jr.":
             out.append(fallback_named("mime jr. col"))
         else:
             out.append(fallback_named(name))

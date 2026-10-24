@@ -28139,5 +28139,1644 @@
         "traits": []
       }
     ]
+  },
+  "doll": {
+    "id": "seed-doll",
+    "name": "Doll",
+    "sample": null,
+    "kind": "list",
+    "cards": [
+      {
+        "catalog_id": "hgss1-17",
+        "name": "Cleffa",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Colorless"
+        ],
+        "hp": 30,
+        "attacks": [
+          {
+            "name": "Eeeeeeek",
+            "cost": [],
+            "damage": 0,
+            "text": "Shuffle your hand into your deck, then draw 6 cards. Cleffa is now Asleep.",
+            "effects": [
+              {
+                "kind": "status",
+                "status": "asleep",
+                "coin": false,
+                "target": "self"
+              },
+              {
+                "kind": "shuffle_hand_then_draw",
+                "amount": 6
+              }
+            ]
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Sweet Sleeping Face",
+            "text": "As long as Cleffa is Asleep, prevent all damage done to Cleffa by attacks.",
+            "effects": [
+              {
+                "kind": "prevent_attack_damage_while_asleep"
+              }
+            ]
+          }
+        ],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/hgss/hgss1/17/low.webp",
+        "set_name": "HeartGold & SoulSilver",
+        "text": "",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "hgss1-17",
+        "name": "Cleffa",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Colorless"
+        ],
+        "hp": 30,
+        "attacks": [
+          {
+            "name": "Eeeeeeek",
+            "cost": [],
+            "damage": 0,
+            "text": "Shuffle your hand into your deck, then draw 6 cards. Cleffa is now Asleep.",
+            "effects": [
+              {
+                "kind": "status",
+                "status": "asleep",
+                "coin": false,
+                "target": "self"
+              },
+              {
+                "kind": "shuffle_hand_then_draw",
+                "amount": 6
+              }
+            ]
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Sweet Sleeping Face",
+            "text": "As long as Cleffa is Asleep, prevent all damage done to Cleffa by attacks.",
+            "effects": [
+              {
+                "kind": "prevent_attack_damage_while_asleep"
+              }
+            ]
+          }
+        ],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/hgss/hgss1/17/low.webp",
+        "set_name": "HeartGold & SoulSilver",
+        "text": "",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "hgss1-17",
+        "name": "Cleffa",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Colorless"
+        ],
+        "hp": 30,
+        "attacks": [
+          {
+            "name": "Eeeeeeek",
+            "cost": [],
+            "damage": 0,
+            "text": "Shuffle your hand into your deck, then draw 6 cards. Cleffa is now Asleep.",
+            "effects": [
+              {
+                "kind": "status",
+                "status": "asleep",
+                "coin": false,
+                "target": "self"
+              },
+              {
+                "kind": "shuffle_hand_then_draw",
+                "amount": 6
+              }
+            ]
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Sweet Sleeping Face",
+            "text": "As long as Cleffa is Asleep, prevent all damage done to Cleffa by attacks.",
+            "effects": [
+              {
+                "kind": "prevent_attack_damage_while_asleep"
+              }
+            ]
+          }
+        ],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/hgss/hgss1/17/low.webp",
+        "set_name": "HeartGold & SoulSilver",
+        "text": "",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "hgss1-17",
+        "name": "Cleffa",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Colorless"
+        ],
+        "hp": 30,
+        "attacks": [
+          {
+            "name": "Eeeeeeek",
+            "cost": [],
+            "damage": 0,
+            "text": "Shuffle your hand into your deck, then draw 6 cards. Cleffa is now Asleep.",
+            "effects": [
+              {
+                "kind": "status",
+                "status": "asleep",
+                "coin": false,
+                "target": "self"
+              },
+              {
+                "kind": "shuffle_hand_then_draw",
+                "amount": 6
+              }
+            ]
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Sweet Sleeping Face",
+            "text": "As long as Cleffa is Asleep, prevent all damage done to Cleffa by attacks.",
+            "effects": [
+              {
+                "kind": "prevent_attack_damage_while_asleep"
+              }
+            ]
+          }
+        ],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/hgss/hgss1/17/low.webp",
+        "set_name": "HeartGold & SoulSilver",
+        "text": "",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "hgss1-30",
+        "name": "Smoochum",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 30,
+        "attacks": [
+          {
+            "name": "Energy Antics",
+            "cost": [],
+            "damage": 0,
+            "text": "Move an Energy card attached to 1 of your opponent's Pok\u00e9mon to another of your opponent's Pok\u00e9mon. Smoochum is now Asleep.",
+            "effects": [
+              {
+                "kind": "status",
+                "status": "asleep",
+                "coin": false,
+                "target": "self"
+              },
+              {
+                "kind": "move_opponent_energy"
+              }
+            ]
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Sweet Sleeping Face",
+            "text": "As long as Smoochum is Asleep, prevent all damage done to Smoochum by attacks.",
+            "effects": [
+              {
+                "kind": "prevent_attack_damage_while_asleep"
+              }
+            ]
+          }
+        ],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/hgss/hgss1/30/low.webp",
+        "set_name": "HeartGold & SoulSilver",
+        "text": "",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "hgss1-30",
+        "name": "Smoochum",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 30,
+        "attacks": [
+          {
+            "name": "Energy Antics",
+            "cost": [],
+            "damage": 0,
+            "text": "Move an Energy card attached to 1 of your opponent's Pok\u00e9mon to another of your opponent's Pok\u00e9mon. Smoochum is now Asleep.",
+            "effects": [
+              {
+                "kind": "status",
+                "status": "asleep",
+                "coin": false,
+                "target": "self"
+              },
+              {
+                "kind": "move_opponent_energy"
+              }
+            ]
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Sweet Sleeping Face",
+            "text": "As long as Smoochum is Asleep, prevent all damage done to Smoochum by attacks.",
+            "effects": [
+              {
+                "kind": "prevent_attack_damage_while_asleep"
+              }
+            ]
+          }
+        ],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/hgss/hgss1/30/low.webp",
+        "set_name": "HeartGold & SoulSilver",
+        "text": "",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "col1-47",
+        "name": "Mime Jr.",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 30,
+        "attacks": [
+          {
+            "name": "Sleepy Lost",
+            "cost": [],
+            "damage": 0,
+            "text": "Put the top card of your opponent's deck in the Lost Zone. Mime Jr. is now Asleep.",
+            "effects": [
+              {
+                "kind": "status",
+                "status": "asleep",
+                "coin": false,
+                "target": "self"
+              },
+              {
+                "kind": "topdeck_lost_zone",
+                "whose": "opponent"
+              }
+            ]
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Sweet Sleeping Face",
+            "text": "As long as Mime Jr. is Asleep, prevent all damage done to Mime Jr. by attacks.",
+            "effects": [
+              {
+                "kind": "prevent_attack_damage_while_asleep"
+              }
+            ]
+          }
+        ],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/col/col1/47/low.webp",
+        "set_name": "Call of Legends",
+        "text": "",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "col1-47",
+        "name": "Mime Jr.",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 30,
+        "attacks": [
+          {
+            "name": "Sleepy Lost",
+            "cost": [],
+            "damage": 0,
+            "text": "Put the top card of your opponent's deck in the Lost Zone. Mime Jr. is now Asleep.",
+            "effects": [
+              {
+                "kind": "status",
+                "status": "asleep",
+                "coin": false,
+                "target": "self"
+              },
+              {
+                "kind": "topdeck_lost_zone",
+                "whose": "opponent"
+              }
+            ]
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Sweet Sleeping Face",
+            "text": "As long as Mime Jr. is Asleep, prevent all damage done to Mime Jr. by attacks.",
+            "effects": [
+              {
+                "kind": "prevent_attack_damage_while_asleep"
+              }
+            ]
+          }
+        ],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/col/col1/47/low.webp",
+        "set_name": "Call of Legends",
+        "text": "",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "sm11-207",
+        "name": "Slumbering Forest",
+        "category": "Trainer",
+        "stage": "Stadium",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "stadium",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sm/sm11/207/low.webp",
+        "set_name": null,
+        "text": "If a Pok\u00e9mon is Asleep, its owner flips 2 coins instead of 1 for that Special Condition between turns. If either of them is tails, that Pok\u00e9mon is still Asleep.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "sm11-207",
+        "name": "Slumbering Forest",
+        "category": "Trainer",
+        "stage": "Stadium",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "stadium",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sm/sm11/207/low.webp",
+        "set_name": null,
+        "text": "If a Pok\u00e9mon is Asleep, its owner flips 2 coins instead of 1 for that Special Condition between turns. If either of them is tails, that Pok\u00e9mon is still Asleep.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "me02-085",
+        "name": "Battle Cage",
+        "category": "Trainer",
+        "stage": "Stadium",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "stadium",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/me/me02/085/low.webp",
+        "set_name": null,
+        "text": "Prevent all damage counters from being placed on Benched Pok\u00e9mon (both yours and your opponent's) by effects of attacks and Abilities from the opponent's Pok\u00e9mon. (Damage from attacks is still taken.)",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "me02-085",
+        "name": "Battle Cage",
+        "category": "Trainer",
+        "stage": "Stadium",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "stadium",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/me/me02/085/low.webp",
+        "set_name": null,
+        "text": "Prevent all damage counters from being placed on Benched Pok\u00e9mon (both yours and your opponent's) by effects of attacks and Abilities from the opponent's Pok\u00e9mon. (Damage from attacks is still taken.)",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "me02-085",
+        "name": "Battle Cage",
+        "category": "Trainer",
+        "stage": "Stadium",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "stadium",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/me/me02/085/low.webp",
+        "set_name": null,
+        "text": "Prevent all damage counters from being placed on Benched Pok\u00e9mon (both yours and your opponent's) by effects of attacks and Abilities from the opponent's Pok\u00e9mon. (Damage from attacks is still taken.)",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "me02-085",
+        "name": "Battle Cage",
+        "category": "Trainer",
+        "stage": "Stadium",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "stadium",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/me/me02/085/low.webp",
+        "set_name": null,
+        "text": "Prevent all damage counters from being placed on Benched Pok\u00e9mon (both yours and your opponent's) by effects of attacks and Abilities from the opponent's Pok\u00e9mon. (Damage from attacks is still taken.)",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "swsh9-041",
+        "name": "Manaphy",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Water"
+        ],
+        "hp": 70,
+        "attacks": [
+          {
+            "name": "Rain Splash",
+            "cost": [
+              "Water"
+            ],
+            "damage": 20,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Wave Veil",
+            "text": "Prevent all damage done to your Benched Pok\u00e9mon by attacks from your opponent's Pok\u00e9mon.",
+            "effects": [
+              {
+                "kind": "prevent_bench_attack_damage"
+              }
+            ]
+          }
+        ],
+        "weaknesses": [
+          {
+            "type": "Lightning",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/swsh/swsh9/041/low.webp",
+        "set_name": "Brilliant Stars",
+        "text": "",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "sv01-194",
+        "name": "Switch",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/194/low.webp",
+        "set_name": null,
+        "text": "Switch your Active Pok\u00e9mon with 1 of your Benched Pok\u00e9mon.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "sv01-194",
+        "name": "Switch",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/194/low.webp",
+        "set_name": null,
+        "text": "Switch your Active Pok\u00e9mon with 1 of your Benched Pok\u00e9mon.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "bw6-62",
+        "name": "Sableye",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Darkness"
+        ],
+        "hp": 70,
+        "attacks": [
+          {
+            "name": "Junk Hunt",
+            "cost": [
+              "Darkness"
+            ],
+            "damage": 0,
+            "text": "Put 2 Item cards from your discard pile into your hand.",
+            "effects": [
+              {
+                "kind": "recycle_items_from_discard",
+                "count": 2
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Fighting",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/bw/bw6/62/low.webp",
+        "set_name": "Dark Explorers",
+        "text": "",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "bw6-62",
+        "name": "Sableye",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Darkness"
+        ],
+        "hp": 70,
+        "attacks": [
+          {
+            "name": "Junk Hunt",
+            "cost": [
+              "Darkness"
+            ],
+            "damage": 0,
+            "text": "Put 2 Item cards from your discard pile into your hand.",
+            "effects": [
+              {
+                "kind": "recycle_items_from_discard",
+                "count": 2
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Fighting",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/bw/bw6/62/low.webp",
+        "set_name": "Dark Explorers",
+        "text": "",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "swsh12.5-158",
+        "name": "Darkness Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Darkness"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Darkness",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/158/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "swsh12.5-158",
+        "name": "Darkness Energy",
+        "category": "Energy",
+        "stage": "Basic",
+        "types": [
+          "Darkness"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Darkness",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/158/low.webp",
+        "set_name": "Crown Zenith",
+        "text": "",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "bw5-93",
+        "name": "Dark Patch",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/bw/bw5/93/low.webp",
+        "set_name": null,
+        "text": "Attach a basic Darkness Energy card from your discard pile to 1 of your Benched Darkness Pok\u00e9mon.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "xy8-109",
+        "name": "Puzzle of Time",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/xy/xy8/109/low.webp",
+        "set_name": null,
+        "text": "You may play 2 Puzzle of Time cards at once.\n\u2022 If you played 1 card, look at the top 3 cards of your deck and put them back in any order.\n\u2022 If you played 2 cards, put 2 cards from your discard pile into your hand.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "xy8-109",
+        "name": "Puzzle of Time",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/xy/xy8/109/low.webp",
+        "set_name": null,
+        "text": "You may play 2 Puzzle of Time cards at once.\n\u2022 If you played 1 card, look at the top 3 cards of your deck and put them back in any order.\n\u2022 If you played 2 cards, put 2 cards from your discard pile into your hand.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "xy8-109",
+        "name": "Puzzle of Time",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/xy/xy8/109/low.webp",
+        "set_name": null,
+        "text": "You may play 2 Puzzle of Time cards at once.\n\u2022 If you played 1 card, look at the top 3 cards of your deck and put them back in any order.\n\u2022 If you played 2 cards, put 2 cards from your discard pile into your hand.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "xy8-109",
+        "name": "Puzzle of Time",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/xy/xy8/109/low.webp",
+        "set_name": null,
+        "text": "You may play 2 Puzzle of Time cards at once.\n\u2022 If you played 1 card, look at the top 3 cards of your deck and put them back in any order.\n\u2022 If you played 2 cards, put 2 cards from your discard pile into your hand.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "xy4-109",
+        "name": "VS Seeker",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/xy/xy4/109/low.webp",
+        "set_name": null,
+        "text": "Put a Supporter card from your discard pile into your hand.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "xy4-109",
+        "name": "VS Seeker",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/xy/xy4/109/low.webp",
+        "set_name": null,
+        "text": "Put a Supporter card from your discard pile into your hand.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "xy4-109",
+        "name": "VS Seeker",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/xy/xy4/109/low.webp",
+        "set_name": null,
+        "text": "Put a Supporter card from your discard pile into your hand.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "xy4-109",
+        "name": "VS Seeker",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/xy/xy4/109/low.webp",
+        "set_name": null,
+        "text": "Put a Supporter card from your discard pile into your hand.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "xy10-112",
+        "name": "Team Rocket's Handiwork",
+        "category": "Trainer",
+        "stage": "Supporter",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "supporter",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/xy/xy10/112/low.webp",
+        "set_name": null,
+        "text": "Flip 2 coins. For each heads, discard 2 cards from the top of your opponent's deck.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "xy10-112",
+        "name": "Team Rocket's Handiwork",
+        "category": "Trainer",
+        "stage": "Supporter",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "supporter",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/xy/xy10/112/low.webp",
+        "set_name": null,
+        "text": "Flip 2 coins. For each heads, discard 2 cards from the top of your opponent's deck.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "xy10-112",
+        "name": "Team Rocket's Handiwork",
+        "category": "Trainer",
+        "stage": "Supporter",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "supporter",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/xy/xy10/112/low.webp",
+        "set_name": null,
+        "text": "Flip 2 coins. For each heads, discard 2 cards from the top of your opponent's deck.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "xy10-112",
+        "name": "Team Rocket's Handiwork",
+        "category": "Trainer",
+        "stage": "Supporter",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "supporter",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/xy/xy10/112/low.webp",
+        "set_name": null,
+        "text": "Flip 2 coins. For each heads, discard 2 cards from the top of your opponent's deck.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "swsh7-154",
+        "name": "Rescue Carrier",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/swsh/swsh7/154/low.webp",
+        "set_name": null,
+        "text": "Put up to 2 Pok\u00e9mon, each with 90 HP or less, from your discard pile into your hand.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "swsh7-154",
+        "name": "Rescue Carrier",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/swsh/swsh7/154/low.webp",
+        "set_name": null,
+        "text": "Put up to 2 Pok\u00e9mon, each with 90 HP or less, from your discard pile into your hand.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "swsh7-154",
+        "name": "Rescue Carrier",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/swsh/swsh7/154/low.webp",
+        "set_name": null,
+        "text": "Put up to 2 Pok\u00e9mon, each with 90 HP or less, from your discard pile into your hand.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "xy4-102",
+        "name": "Robo Substitute Team Flare Gear",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 30,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/xy/xy4/102/low.webp",
+        "set_name": null,
+        "text": "Play this card as if it were a 30 HP Colorless Basic Pok\u00e9mon. At any time during your turn (before your attack), you may discard this card from play. This card can't retreat. If this card is Knocked Out, your opponent can't take any Prize cards for it.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "xy4-102",
+        "name": "Robo Substitute Team Flare Gear",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 30,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/xy/xy4/102/low.webp",
+        "set_name": null,
+        "text": "Play this card as if it were a 30 HP Colorless Basic Pok\u00e9mon. At any time during your turn (before your attack), you may discard this card from play. This card can't retreat. If this card is Knocked Out, your opponent can't take any Prize cards for it.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "xy4-102",
+        "name": "Robo Substitute Team Flare Gear",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 30,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/xy/xy4/102/low.webp",
+        "set_name": null,
+        "text": "Play this card as if it were a 30 HP Colorless Basic Pok\u00e9mon. At any time during your turn (before your attack), you may discard this card from play. This card can't retreat. If this card is Knocked Out, your opponent can't take any Prize cards for it.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "xy4-102",
+        "name": "Robo Substitute Team Flare Gear",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 30,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/xy/xy4/102/low.webp",
+        "set_name": null,
+        "text": "Play this card as if it were a 30 HP Colorless Basic Pok\u00e9mon. At any time during your turn (before your attack), you may discard this card from play. This card can't retreat. If this card is Knocked Out, your opponent can't take any Prize cards for it.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "sm12-197",
+        "name": "Lillie's Pok\u00e9 Doll",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 30,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sm/sm12/197/low.webp",
+        "set_name": null,
+        "text": "Play this card as if it were a 30-HP Colorless Basic Pok\u00e9mon. At any time during your turn (before your attack), if this Pok\u00e9mon is your Active Pok\u00e9mon, you may discard all cards from it and put it on the bottom of your deck. This card can't retreat. If this card is Knocked Out, your opponent can't take any Prize cards for it.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "sm12-197",
+        "name": "Lillie's Pok\u00e9 Doll",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 30,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sm/sm12/197/low.webp",
+        "set_name": null,
+        "text": "Play this card as if it were a 30-HP Colorless Basic Pok\u00e9mon. At any time during your turn (before your attack), if this Pok\u00e9mon is your Active Pok\u00e9mon, you may discard all cards from it and put it on the bottom of your deck. This card can't retreat. If this card is Knocked Out, your opponent can't take any Prize cards for it.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "sm12-197",
+        "name": "Lillie's Pok\u00e9 Doll",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 30,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sm/sm12/197/low.webp",
+        "set_name": null,
+        "text": "Play this card as if it were a 30-HP Colorless Basic Pok\u00e9mon. At any time during your turn (before your attack), if this Pok\u00e9mon is your Active Pok\u00e9mon, you may discard all cards from it and put it on the bottom of your deck. This card can't retreat. If this card is Knocked Out, your opponent can't take any Prize cards for it.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "sm12-197",
+        "name": "Lillie's Pok\u00e9 Doll",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 30,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sm/sm12/197/low.webp",
+        "set_name": null,
+        "text": "Play this card as if it were a 30-HP Colorless Basic Pok\u00e9mon. At any time during your turn (before your attack), if this Pok\u00e9mon is your Active Pok\u00e9mon, you may discard all cards from it and put it on the bottom of your deck. This card can't retreat. If this card is Knocked Out, your opponent can't take any Prize cards for it.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "sv04-175",
+        "name": "Snorlax Doll",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 120,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv04/175/low.webp",
+        "set_name": null,
+        "text": "If this card is in your hand when you are setting up to play, you may put it face down in the Active Spot or on your Bench as if it were a 120-HP Basic Colorless Pok\u00e9mon. (You can do this only when you are setting up to play.) At any time during your turn, you may discard this card from play. This card can't be affected by any Special Conditions and can't retreat. If this card is Knocked Out, your opponent can't take any Prize cards for it.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "sv04-175",
+        "name": "Snorlax Doll",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 120,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv04/175/low.webp",
+        "set_name": null,
+        "text": "If this card is in your hand when you are setting up to play, you may put it face down in the Active Spot or on your Bench as if it were a 120-HP Basic Colorless Pok\u00e9mon. (You can do this only when you are setting up to play.) At any time during your turn, you may discard this card from play. This card can't be affected by any Special Conditions and can't retreat. If this card is Knocked Out, your opponent can't take any Prize cards for it.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "swsh2-157",
+        "name": "Cursed Shovel",
+        "category": "Trainer",
+        "stage": "Tool",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "tool",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/swsh/swsh2/157/low.webp",
+        "set_name": null,
+        "text": "If the Pok\u00e9mon this card is attached to is Knocked Out by damage from an opponent's attack, discard the top 2 cards of your opponent's deck.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "swsh2-157",
+        "name": "Cursed Shovel",
+        "category": "Trainer",
+        "stage": "Tool",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "tool",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/swsh/swsh2/157/low.webp",
+        "set_name": null,
+        "text": "If the Pok\u00e9mon this card is attached to is Knocked Out by damage from an opponent's attack, discard the top 2 cards of your opponent's deck.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "swsh2-157",
+        "name": "Cursed Shovel",
+        "category": "Trainer",
+        "stage": "Tool",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "tool",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/swsh/swsh2/157/low.webp",
+        "set_name": null,
+        "text": "If the Pok\u00e9mon this card is attached to is Knocked Out by damage from an opponent's attack, discard the top 2 cards of your opponent's deck.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "bw9-107",
+        "name": "Life Dew",
+        "category": "Trainer",
+        "stage": "Tool",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "tool",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/bw/bw9/107/low.webp",
+        "set_name": null,
+        "text": "If the Pok\u00e9mon this card is attached to is Knocked Out, your opponent takes 1 fewer Prize card.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "sm8-29",
+        "name": "Nincada",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Grass"
+        ],
+        "hp": 40,
+        "attacks": [
+          {
+            "name": "Fury Swipes",
+            "cost": [
+              "Colorless"
+            ],
+            "damage": 10,
+            "text": "Flip 3 coins. This attack does 10 damage for each heads.",
+            "effects": [
+              {
+                "kind": "coin_times",
+                "flips": 3,
+                "per": 10
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Fire",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sm/sm8/29/low.webp",
+        "set_name": "Lost Thunder",
+        "text": "",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "sm8-95",
+        "name": "Shedinja",
+        "category": "Pokemon",
+        "stage": "Stage1",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 40,
+        "attacks": [
+          {
+            "name": "Haunt",
+            "cost": [
+              "Colorless"
+            ],
+            "damage": 0,
+            "text": "Put 3 damage counters on your opponent's Active Pok\u00e9mon.",
+            "effects": []
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Vessel of Life",
+            "text": "Once during your turn (before your attack), you may discard all cards attached to this Pok\u00e9mon and attach it to 1 of your Pok\u00e9mon as a Pok\u00e9mon Tool card. When the Pok\u00e9mon this card is attached to is Knocked Out, your opponent takes 1 fewer Prize card.",
+            "effects": [
+              {
+                "kind": "attach_self_as_tool"
+              }
+            ]
+          }
+        ],
+        "weaknesses": [
+          {
+            "type": "Darkness",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": "Nincada",
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sm/sm8/95/low.webp",
+        "set_name": "Lost Thunder",
+        "text": "Once during your turn (before your attack), you may discard all cards attached to this Pok\u00e9mon and attach it to 1 of your Pok\u00e9mon as a Pok\u00e9mon Tool card. When the Pok\u00e9mon this card is attached to is Knocked Out, your opponent takes 1 fewer Prize card.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "sm2-125",
+        "name": "Field Blower",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sm/sm2/125/low.webp",
+        "set_name": null,
+        "text": "You may discard up to 2 Pok\u00e9mon Tool cards or Stadium cards from play, or 1 of each.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "sv01-181",
+        "name": "Nest Ball",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/181/low.webp",
+        "set_name": null,
+        "text": "Search your deck for a Basic Pok\u00e9mon and put it onto your Bench. Then, shuffle your deck.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "sv01-181",
+        "name": "Nest Ball",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/181/low.webp",
+        "set_name": null,
+        "text": "Search your deck for a Basic Pok\u00e9mon and put it onto your Bench. Then, shuffle your deck.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "sv05-144",
+        "name": "Buddy-Buddy Poffin",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv05/144/low.webp",
+        "set_name": null,
+        "text": "Search your deck for up to 2 Basic Pok\u00e9mon with 70 HP or less and put them onto your Bench. Then, shuffle your deck.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "sv05-144",
+        "name": "Buddy-Buddy Poffin",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv05/144/low.webp",
+        "set_name": null,
+        "text": "Search your deck for up to 2 Basic Pok\u00e9mon with 70 HP or less and put them onto your Bench. Then, shuffle your deck.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "swsh12.5-125",
+        "name": "Crushing Hammer",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/125/low.webp",
+        "set_name": null,
+        "text": "Flip a coin. If heads, discard an Energy from 1 of your opponent's Pok\u00e9mon.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "swsh12.5-125",
+        "name": "Crushing Hammer",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/125/low.webp",
+        "set_name": null,
+        "text": "Flip a coin. If heads, discard an Energy from 1 of your opponent's Pok\u00e9mon.",
+        "dex_id": null,
+        "traits": []
+      }
+    ]
   }
 }

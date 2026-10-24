@@ -1,0 +1,36 @@
+{
+  "name": "Doll",
+  "seed_id": "seed-doll",
+  "locked": "2026-10-24",
+  "measurement": "fight-script holdout, not the product engine",
+  "note": "Item dolls are Trainers. Nest Ball does not search them. The product plays them from hand. Life Dew is one Pokémon Tool, not an ACE SPEC label. D60 wins include the mulligan cap. Carpet H did not play Battle Cage in this sample.",
+  "holdout": {
+    "seed": 20261025,
+    "games_per_seat": 1000,
+    "elapsed_seconds": 416.32,
+    "foes": 13,
+    "sisters_weighted": 0.3010752589884217,
+    "baseline_sisters_weighted": 0.2689640463132236,
+    "self_weighted": 0.301560350030175,
+    "baseline_self_weighted": 0.23640012070006033,
+    "selection_seed": 20261024,
+    "selection_games_per_seat": 100,
+    "selection_sisters_weighted": 0.314,
+    "selection_self_weighted": 0.317
+  },
+  "rows": [
+    {"key": "t60", "wr": 0.559, "seat_a": 0.576, "seat_b": 0.542, "foe_prizes": 2.741, "ties": 0},
+    {"key": "hedrick", "wr": 0.3105, "seat_a": 0.313, "seat_b": 0.308, "foe_prizes": 2.693, "ties": 0},
+    {"key": "unl", "wr": 0.7885, "seat_a": 0.786, "seat_b": 0.791, "foe_prizes": 1.897, "ties": 0},
+    {"key": "d60", "wr": 0.0205, "seat_a": 0.019, "seat_b": 0.022, "foe_prizes": 1.479, "ties": 0},
+    {"key": "s60", "wr": 0.529, "seat_a": 0.527, "seat_b": 0.531, "foe_prizes": 2.582, "ties": 0},
+    {"key": "g", "wr": 0.198, "seat_a": 0.189, "seat_b": 0.207, "foe_prizes": 4.021, "ties": 0},
+    {"key": "c60", "wr": 0.4675, "seat_a": 0.476, "seat_b": 0.459, "foe_prizes": 3.2, "ties": 0},
+    {"key": "m", "wr": 0.199, "seat_a": 0.198, "seat_b": 0.2, "foe_prizes": 3.985, "ties": 0},
+    {"key": "starmie", "wr": 0.1135, "seat_a": 0.106, "seat_b": 0.121, "foe_prizes": 3.049, "ties": 0},
+    {"key": "lucario", "wr": 0.731, "seat_a": 0.74, "seat_b": 0.722, "foe_prizes": 2.178, "ties": 0},
+    {"key": "thorns", "wr": 0.879, "seat_a": 0.873, "seat_b": 0.885, "foe_prizes": 1.554, "ties": 0},
+    {"key": "h", "wr": 0.0455, "seat_a": 0.046, "seat_b": 0.045, "foe_prizes": 3.015, "ties": 2},
+    {"key": "g30", "wr": 0.5525, "seat_a": 0.558, "seat_b": 0.547, "foe_prizes": 0.92, "ties": 0}
+  ]
+}

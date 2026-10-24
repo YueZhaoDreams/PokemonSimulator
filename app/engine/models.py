@@ -410,6 +410,7 @@ S60_SEED_IDS = frozenset(
         "seed-g30",
         "seed-l60",
         "seed-mill",
+        "seed-doll",
     }
 )
 

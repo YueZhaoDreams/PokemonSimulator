@@ -296,6 +296,8 @@ EXTRA_PRINT_IDS: dict[str, tuple[str, ...]] = {
     "Clefable": ("swsh2-75", "clc-014", "sv06-079"),
     # Paldean Fates Mimed Games stays the default. Call of Legends is the mill wall.
     "Mime Jr.": ("sv04.5-031", "col1-47"),
+    # Obsidian Flames Grasping Draw stays the default. HeartGold & SoulSilver is Doll's Eeeeeeek.
+    "Cleffa": ("sv03-080", "hgss1-17"),
 }
 
 # Household prints that are not TCGdex ids. CLC 014 reprints Jungle Clefable
