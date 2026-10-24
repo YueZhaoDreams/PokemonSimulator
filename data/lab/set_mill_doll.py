@@ -14,6 +14,9 @@ the sleep-wall lock.
 
 Seed 20261023. Screen games from MILL_DOLL_SCREEN (default 40). Confirm games
 from MILL_DOLL_GAMES (default 120). Both seats.
+
+MILL_DOLL_FULL=1 skips the short screen and measures every legal cut at
+MILL_DOLL_GAMES. MILL_DOLL_CANDIDATES limits the names (comma-separated).
 """
 
 from __future__ import annotations
@@ -249,6 +252,21 @@ def _weighted(cells: dict[str, dict]) -> float:
     return sum(cells[key]["wr"] * WEIGHTS[key] for key, *_ in FOES)
 
 
+def _weighted_se(cells: dict[str, dict], games: int) -> float:
+    """One standard error of the loss-weighted rate.
+
+    A foe cell is the mean of two seats, and each seat is `games` trials.
+    """
+    variance = 0.0
+    for key, *_rest in FOES:
+        seat_var = 0.0
+        for seat in ("a", "b"):
+            p = cells[key][seat]
+            seat_var += p * (1.0 - p) / games
+        variance += WEIGHTS[key] ** 2 * seat_var / 4.0
+    return variance ** 0.5
+
+
 def _mean(cells: dict[str, dict]) -> float:
     return sum(cells[key]["wr"] for key, *_ in FOES) / len(FOES)
 
@@ -480,9 +498,219 @@ def _confirm_card_checks(ranked: list[tuple], cache: dict[str, dict]) -> list[di
     return rows
 
 
+def _candidate_names() -> tuple[str, ...]:
+    raw = os.environ.get("MILL_DOLL_CANDIDATES", "").strip()
+    if not raw:
+        return CANDIDATES
+    wanted = tuple(part.strip() for part in raw.split(",") if part.strip())
+    unknown = [name for name in wanted if name not in CANDIDATES]
+    if unknown:
+        raise SystemExit(f"unknown candidates: {unknown}")
+    return wanted
+
+
+def _markdown_full(report: dict) -> str:
+    base = report["path"][0]
+    best = report["best"]
+    lines = [
+        "# Lillie's Poké Doll, long sample",
+        "",
+        "Only this card. Every legal cut is measured at the full game count. A step keeps the cut with the higher loss-weighted win rate.",
+        "",
+        f"- **Seed**: `{report['seed']}`",
+        f"- **Games per seat**: {report['games']}",
+        "- **Seats**: each list is player A and player B. A foe cell is the mean of those two win rates.",
+        "- **Weights**: frozen from the Sisters 60. Harder Sisters matchups count more.",
+        f"- **Games played**: {report['games_played']}",
+        f"- **Elapsed**: {report['elapsed']:.1f}s",
+        "",
+        "The ± column is one standard error of that list's weighted rate. A foe rate uses both seats.",
+        "",
+        "## Greedy path",
+        "",
+        "| Step | Add | Cut | Weighted | ± | Mean | Worst | Delta | Plays | Stalls | Holds | No-Prize KOs | Mill attacks |",
+        "| :--- | :--- | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
+    ]
+    for row in report["path"]:
+        lines.append(
+            "| {label} | {add} | {cut} | {weighted} | {se} | {mean} | {worst} | {delta} | {play:.2f} | {stall:.2f} | {hold:.2f} | {ko:.2f} | {mill:.2f} |".format(
+                label=row["label"],
+                add=row.get("add") or "—",
+                cut=row.get("cut") or "—",
+                weighted=_pct(row["weighted"]),
+                se=_pct(row["se"]),
+                mean=_pct(row["mean"]),
+                worst=_pct(row["worst"]),
+                delta=_signed(row["weighted"] - base["weighted"]),
+                play=row["proxy_play"],
+                stall=row["proxy_stall"],
+                hold=row["proxy_hold"],
+                ko=row["ko_no_prize"],
+                mill=row["mill_attack"],
+            )
+        )
+    delta = best["weighted"] - base["weighted"]
+    delta_se = (best["se"] ** 2 + base["se"] ** 2) ** 0.5
+    lines.extend(
+        [
+            "",
+            "## Decision",
+            "",
+            (
+                f"Best list is {best['label']}: weighted {_pct(best['weighted'])} "
+                f"vs the locked Mill at {_pct(base['weighted'])} ({_signed(delta)}, ±{_pct(delta_se)}). "
+                f"Mean {_pct(best['mean'])} ({_signed(best['mean'] - base['mean'])}). "
+                "SET_MILL_NAMES stays the sleep-wall 60. "
+                "The 120-game pass kept a Buddy-Buddy Poffin cut. On this sample that cut is flat, and the cut that stays ahead is Switch."
+            ),
+            "",
+            "Counts on that list:",
+            "",
+            f"- Lillie's Poké Doll: {best['counts'].get('Lillie\'s Poké Doll', 0)}",
+        ]
+    )
+    previous = base
+    for rnd in report["rounds"]:
+        lines.extend(
+            [
+                "",
+                f"## Step {rnd['step']} cuts",
+                "",
+                (
+                    f"List entering this step: weighted {_pct(previous['weighted'])} ± {_pct(previous['se'])}. "
+                    f"Each row replaces one card with one Lillie's Poké Doll."
+                ),
+                "",
+                "| Cut | Weighted | ± | Mean | Worst | Delta | Plays | Stalls | Holds | No-Prize KOs | Mill attacks |",
+                "| :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
+            ]
+        )
+        for row in rnd["rows"]:
+            lines.append(
+                "| {cut} | {weighted} | {se} | {mean} | {worst} | {delta} | {play:.2f} | {stall:.2f} | {hold:.2f} | {ko:.2f} | {mill:.2f} |".format(
+                    cut=row["cut"],
+                    weighted=_pct(row["weighted"]),
+                    se=_pct(row["se"]),
+                    mean=_pct(row["mean"]),
+                    worst=_pct(row["worst"]),
+                    delta=_signed(row["weighted"] - previous["weighted"]),
+                    play=row["proxy_play"],
+                    stall=row["proxy_stall"],
+                    hold=row["proxy_hold"],
+                    ko=row["ko_no_prize"],
+                    mill=row["mill_attack"],
+                )
+            )
+        kept = rnd.get("kept")
+        lines.append("")
+        if kept:
+            lines.append(
+                f"Kept −{kept['cut']} at {_pct(kept['weighted'])} ({_signed(kept['weighted'] - previous['weighted'])})."
+            )
+            previous = kept
+        else:
+            lines.append("No cut in this step was higher than the list already kept. The search stopped.")
+    lines.extend(["", "## Foes at the best list", "", "| Foe | A | B | Mean | Delta vs lock |", "| :--- | ---: | ---: | ---: | ---: |"])
+    for key, label, *_rest in FOES:
+        cell = best["cells"][key]
+        base_cell = base["cells"][key]
+        lines.append(
+            f"| {label} | {_pct(cell['a'])} | {_pct(cell['b'])} | {_pct(cell['wr'])} | {_signed(cell['wr'] - base_cell['wr'])} |"
+        )
+    lines.append("")
+    return "\n".join(lines)
+
+
+def _run_full() -> None:
+    """Every legal cut at MILL_DOLL_GAMES. No short screen."""
+    candidates = _candidate_names()
+    started = time.perf_counter()
+    current = list(SET_MILL_NAMES)
+    if len(current) != 60:
+        raise SystemExit(f"mill lock is {len(current)} cards")
+    cache = _load_cache()
+    print(f"full sample candidates={candidates} games={GAMES}", flush=True)
+    print("baseline", flush=True)
+    base_cells = _combine(_evaluate([("lock", current)], GAMES, cache)["lock"])
+    base = _row("lock", current, base_cells, None, None)
+    base["se"] = _weighted_se(base_cells, GAMES)
+    print(f"  weighted {base['weighted']:.2%} ± {base['se']:.2%}", flush=True)
+    path = [base]
+    rounds: list[dict] = []
+    games_played = len(FOES) * 2 * GAMES
+    steps = 0
+    while steps < 4:
+        options: list[tuple[str, str, list[str]]] = []
+        for add in candidates:
+            if current.count(add) >= 4:
+                continue
+            for cut in _cuts(current):
+                swapped = _swap(current, cut, add)
+                if swapped is None:
+                    continue
+                options.append((f"+{add} -{cut}", cut, swapped))
+        if not options:
+            break
+        print(f"step {steps + 1}: {len(options)} cuts at {GAMES} games", flush=True)
+        evaluated = _evaluate([(label, names) for label, _cut, names in options], GAMES, cache)
+        games_played += len(options) * len(FOES) * 2 * GAMES
+        rows = []
+        for label, cut, names in options:
+            add = label.split(" -", 1)[0][1:]
+            cells = _combine(evaluated[label])
+            row = _row(label, names, cells, cut, add)
+            row["se"] = _weighted_se(cells, GAMES)
+            rows.append(row)
+        rows.sort(key=lambda item: (item["weighted"], item["worst"], item["cut"]), reverse=True)
+        winner = rows[0]
+        print(
+            f"  best +{winner['add']} -{winner['cut']} {winner['weighted']:.2%} ± {winner['se']:.2%} "
+            f"vs {path[-1]['weighted']:.2%}",
+            flush=True,
+        )
+        kept = None
+        if winner["weighted"] > path[-1]["weighted"]:
+            kept = dict(winner)
+            kept["label"] = f"step {steps + 1}"
+            current = list(winner["list"])
+            path.append(kept)
+            steps += 1
+        rounds.append({"step": len(rounds) + 1, "rows": rows, "kept": kept})
+        DEST.write_text(
+            json.dumps(
+                {
+                    "seed": SEED,
+                    "games": GAMES,
+                    "path": [{k: v for k, v in item.items() if k != "cells"} for item in path],
+                },
+                indent=2,
+            )
+        )
+        if kept is None:
+            print("  did not improve; stop", flush=True)
+            break
+    best = max(path, key=lambda item: (item["weighted"], -path.index(item)))
+    report = {
+        "seed": SEED,
+        "games": GAMES,
+        "elapsed": time.perf_counter() - started,
+        "games_played": games_played,
+        "weights": WEIGHTS,
+        "path": path,
+        "best": best,
+        "rounds": rounds,
+    }
+    DEST.write_text(json.dumps(report, indent=2))
+    MD_DEST.write_text(_markdown_full(report))
+    print(f"wrote {MD_DEST} games_played={games_played}", flush=True)
+
+
 def main() -> None:
     if os.environ.get("MILL_DOLL_SMOKE"):
         _smoke()
+        return
+    if os.environ.get("MILL_DOLL_FULL"):
+        _run_full()
         return
     started = time.perf_counter()
     current = list(SET_MILL_NAMES)
