@@ -1,8 +1,10 @@
-"""Elekid in Set M: one more 30 HP Baby, and a free hit on any Pokémon the opponent has in play.
+"""Elekid in Set M: one more 30 HP Baby, and a finisher that is used only for an extreme Knock Out.
 
 Elekid (Paradox Rift 59) prints "Crackling Shot", no Energy cost: "This attack does 30 damage to 1 of
 your opponent's Pokémon. (Don't apply Weakness and Resistance for Benched Pokémon.)"
-Mew ex's Memory Helix lets it use the attacks of any Benched Pokémon, so Mew ex copies it too.
+Mew ex's Memory Helix lets it use the attacks of any Benched Pokémon, so Mew ex copies it and stays Active.
+Elekid itself goes Active only when Mew ex cannot use the attack and the Knock Out is extreme:
+it wins the game, or it takes at least 2 prizes the Active attack cannot.
 """
 
 from __future__ import annotations
@@ -101,10 +103,11 @@ def test_elekid_counts_for_bouncy_circle_and_mew_copies_its_hit():
 
 
 def test_crackling_shot_hits_one_pokemon_once():
-    game, me, foe = _board(("Mew ex", 0), [("Mew ex", 0), ("Mew ex", 20)], active="Elekid", bench=("Igglybuff",))
+    game, me, foe = _board(("Mime Jr.", 0), [("Mew ex", 130)], active="Elekid", bench=("Igglybuff",))
+    me.prizes = [me.deck.pop() for _ in range(6)]
     game._attack(me, foe, "a")
-    assert sum(mon.damage for mon in foe.in_play()) == 50
-    assert [mon.damage for mon in foe.bench] == [0, 50]
+    assert [mon.damage for mon in foe.in_play()] == [0, 160]
+    assert sum(mon.damage for mon in foe.in_play()) == 160
 
 
 def test_snipe_takes_the_two_prize_bench_knock_out_over_a_one_prize_active():
@@ -136,10 +139,13 @@ def test_snipe_applies_weakness_to_the_active_only():
     assert game._snipe_damage_on(me, foe, foe.bench[0], 30) == 30
 
 
-def test_a_single_target_hit_takes_the_knock_out_with_the_most_prizes():
+def test_cruel_arrow_keeps_its_target_and_crackling_shot_takes_the_bigger_knock_out():
     game, me, foe = _board(("Mew ex", 0), [("Igglybuff", 0), ("Mew ex", 70)])
     game._damage_one_pokemon(me, foe, 100)
-    assert [mon.damage for mon in foe.in_play()] == [0, 0, 170]
+    assert [mon.damage for mon in foe.in_play()] == [0, 100, 70]
+    game, me, foe = _board(("Mime Jr.", 0), [("Igglybuff", 0), ("Mew ex", 130)])
+    game._damage_one_pokemon(me, foe, 30, finisher=True)
+    assert [mon.damage for mon in foe.in_play()] == [0, 0, 160]
 
 
 def test_the_snipe_knock_out_replaces_the_gust():
@@ -149,12 +155,14 @@ def test_the_snipe_knock_out_replaces_the_gust():
     assert game._mew_gust_score(me, foe) == -6
 
 
-def test_the_gust_is_still_played_for_a_bigger_knock_out_than_the_snipe():
+def test_a_one_prize_snipe_does_not_replace_the_gust():
     game, me, foe = _board(("Mew ex", 0), [("Igglybuff", 0), ("Mew ex", 40)])
+    assert game._snipe_pick(me, foe, 30)[1] == 1
+    assert game._mew_strike_prizes(me, foe, game._mew_strikers(me)) == 0
     plan = game._mew_gust_plan(me, foe)
     assert plan is not None
     target, with_gust, without = plan
-    assert (_name(foe, target), with_gust, without) == ("Mew ex", 2, 1)
+    assert (_name(foe, target), with_gust, without) == ("Mew ex", 2, 0)
 
 
 def test_without_elekid_the_same_board_needs_the_gust():
@@ -165,11 +173,13 @@ def test_without_elekid_the_same_board_needs_the_gust():
     assert game._snipe_holder(me, foe) is None
 
 
-def test_elekid_takes_the_active_spot_for_a_bigger_bench_knock_out():
+def test_mew_ex_copies_the_extreme_knock_out_and_elekid_stays_benched():
     game, me, foe = _board(("Mime Jr.", 0), [("Igglybuff", 0), ("Mew ex", 130)])
-    assert game._snipe_holder(me, foe) is me.bench[0]
+    assert game._mew_can_crackling(me, foe)
+    assert game._snipe_holder(me, foe) is None
     game._retreat_baby(me, foe, "a")
-    assert _name(me, me.active) == "Elekid" and "Mew ex" in [_name(me, m) for m in me.bench]
+    assert _name(me, me.active) == "Mew ex"
+    assert "Elekid" in [_name(me, m) for m in me.bench]
     atk = game._choose_attack(me, foe, game.strats["a"])
     assert atk.name == "Crackling Shot"
     me.prizes = [me.deck.pop() for _ in range(6)]
@@ -177,6 +187,33 @@ def test_elekid_takes_the_active_spot_for_a_bigger_bench_knock_out():
     assert game._check_ko(foe, me, "b") is False
     assert me.prizes_taken == 2
     assert [_name(foe, m) for m in foe.in_play()] == ["Mime Jr.", "Igglybuff"]
+
+
+def test_a_one_prize_bench_knock_out_does_not_use_crackling_shot():
+    game, me, foe = _board(("Mew ex", 0), [("Igglybuff", 0)])
+    assert game._snipe_pick(me, foe, 30) == (foe.bench[0], 1)
+    assert game._snipe_holder(me, foe) is None
+    game._retreat_baby(me, foe, "a")
+    assert _name(me, me.active) == "Mew ex"
+    assert game._choose_attack(me, foe, game.strats["a"]).name == "Bouncy Circle"
+    assert game._mew_strike_prizes(me, foe, game._mew_strikers(me)) == 0
+
+
+def test_crackling_shot_is_used_when_the_one_prize_knock_out_wins_the_game():
+    game, me, foe = _board(("Mew ex", 0), [("Igglybuff", 0)])
+    me.prizes_taken = 5
+    assert game._snipe_holder(me, foe) is None
+    game._retreat_baby(me, foe, "a")
+    assert _name(me, me.active) == "Mew ex"
+    assert game._choose_attack(me, foe, game.strats["a"]).name == "Crackling Shot"
+    assert game._mew_strike_prizes(me, foe, game._mew_strikers(me)) == 1
+    assert game._mew_gust_plan(me, foe) is None
+
+
+def test_elekid_passes_when_its_only_knock_out_is_not_extreme():
+    game, me, foe = _board(("Mew ex", 0), [("Igglybuff", 0)], active="Elekid", bench=("Igglybuff",))
+    assert game._snipe_holder(me, foe) is None
+    assert game._choose_attack(me, foe, game.strats["a"]) is None
 
 
 def test_mew_ex_stays_active_when_bouncy_circle_takes_the_same_prizes():
@@ -205,9 +242,34 @@ def test_iron_thorns_lock_puts_elekid_in_front_for_a_bench_knock_out():
         bench=("Budew", "Elekid", "Igglybuff", "Cleffa"),
     )
     assert game._rulebox_lock_on_opponent(me)
+    assert not game._mew_can_crackling(me, foe)
     assert "Crackling Shot" not in _attack_names(game, me, me.active)
     game._retreat_baby(me, foe, "a")
     assert _name(me, me.active) == "Elekid"
+    assert game._choose_attack(me, foe, game.strats["a"]).name == "Crackling Shot"
+
+
+def test_iron_thorns_lock_does_not_put_elekid_in_front_for_a_one_prize_snipe():
+    game, me, foe = _board(
+        ("Iron Thorns ex", 0),
+        [("Igglybuff", 0)],
+        bench=("Budew", "Elekid", "Cleffa"),
+    )
+    assert game._snipe_pick(me, foe, 30)[1] == 1
+    game._retreat_baby(me, foe, "a")
+    assert _name(me, me.active) == "Budew"
+
+
+def test_iron_thorns_lock_puts_elekid_in_front_when_the_snipe_wins_the_game():
+    game, me, foe = _board(
+        ("Iron Thorns ex", 0),
+        [("Igglybuff", 0)],
+        bench=("Budew", "Elekid", "Cleffa"),
+    )
+    me.prizes_taken = 5
+    game._retreat_baby(me, foe, "a")
+    assert _name(me, me.active) == "Elekid"
+    assert game._choose_attack(me, foe, game.strats["a"]).name == "Crackling Shot"
 
 
 def test_iron_thorns_lock_keeps_budew_in_front_without_a_knock_out():

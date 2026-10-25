@@ -6382,6 +6382,7 @@ class Game:
                     foe,
                     int(effect.get("amount") or 0),
                     bench_only=bool(effect.get("bench_only")),
+                    finisher=atk.name == "Crackling Shot",
                 )
             elif effect.get("kind") == "discard_typed_energy_damage_per_card":
                 self._electro_rain(me, foe, me.active, effect)
@@ -7744,7 +7745,9 @@ class Game:
         self._bump("eco_arm")
         self._bump(f"eco_arm_{me.name.lower()}")
 
-    def _damage_one_pokemon(self, me: Player, foe: Player, amount: int, bench_only: bool = False) -> None:
+    def _damage_one_pokemon(
+        self, me: Player, foe: Player, amount: int, bench_only: bool = False, finisher: bool = False
+    ) -> None:
         if amount <= 0 or not foe.active:
             return
         if bench_only:
@@ -7773,7 +7776,8 @@ class Game:
             self._log(f"Bench hit {foe.card(target.card_i).name} for {amount}")
             return
         who = "a" if me.name == "A" else "b"
-        if self.strats[who].name in {"mew_baby", "baby"}:
+        # Only Crackling Shot uses the prize picker. Cruel Arrow, including a Mimed Games copy, keeps its old target.
+        if finisher and self.strats[who].name in {"mew_baby", "baby"}:
             self._bump(f"snipe_{who}")
             pick = self._snipe_pick(me, foe, amount)
             if pick is not None:
@@ -7928,12 +7932,28 @@ class Game:
         already_para = bool(foe.active.status & ST_PARALYZED)
         has_big = any(a.damage >= 100 for a in legal)
         snipe_prizes = 0
+        snipe_extreme = False
+        active_prizes = 0
         if strat.name in {"mew_baby", "baby"} and self._has_snipe(me):
-            # Weigh every Knock Out by its prizes, so a Benched Knock Out can beat a smaller Active one.
+            # Crackling Shot is a finisher. A 1-prize Knock Out that does not win the game is not used.
             snipe_amount = self._snipe_amount(me, foe)
             snipe_pick = self._snipe_pick(me, foe, snipe_amount) if snipe_amount > 0 else None
             snipe_prizes = snipe_pick[1] if snipe_pick else 0
             active_prizes = self._prizes_for_ko(foe.card(foe.active.card_i))
+            hit_prizes = 0
+            if foe_hp > 0:
+                for cand in legal:
+                    if cand.name == "Crackling Shot":
+                        continue
+                    if self._effective_damage(me, foe, self._resolved_attack(me, foe, cand)) >= foe_hp:
+                        hit_prizes = active_prizes
+                        break
+            remaining = self.rules.prize_count - me.prizes_taken
+            snipe_extreme = self._crackling_is_extreme(snipe_prizes, hit_prizes, remaining)
+            if not snipe_extreme:
+                legal = [cand for cand in legal if cand.name != "Crackling Shot"]
+                if not legal:
+                    return None
         best = None
         best_score = -1e9
         for atk in legal:
@@ -7941,7 +7961,7 @@ class Game:
             effective = self._effective_damage(me, foe, resolved)
             score = float(effective)
             if strat.name in {"mew_baby", "baby"} and self._has_snipe(me):
-                if self._snipe_effect(resolved) is not None:
+                if atk.name == "Crackling Shot" and snipe_extreme:
                     score += 10000 * snipe_prizes
                 elif effective >= foe_hp > 0:
                     score += 10000 * active_prizes
@@ -10149,8 +10169,13 @@ class Game:
         hit = max((self._baby_damage_if_active(me, foe, mon) for mon in strikers), default=0)
         prizes = self._prizes_for_ko(foe.card(foe.active.card_i)) if hit >= hp_left else 0
         if self._has_snipe(me):
+            # A 1-prize snipe does not count, so a gust can still pull a bigger Knock Out.
+            remaining = self.rules.prize_count - me.prizes_taken
+            hit_prizes = prizes
             for mon in strikers:
-                prizes = max(prizes, self._snipe_if_active(me, foe, mon)[1])
+                snipe_prizes = self._snipe_if_active(me, foe, mon)[1]
+                if self._crackling_is_extreme(snipe_prizes, hit_prizes, remaining):
+                    prizes = max(prizes, snipe_prizes)
         return prizes
 
     def _snipe_effect(self, atk) -> dict | None:
@@ -10230,14 +10255,44 @@ class Game:
             return amount, 0, None
         return amount, pick[1], pick[0]
 
-    def _snipe_holder(self, me: Player, foe: Player) -> Pokemon | None:
-        """The Pokémon with its own single-target hit that should hold the Active Spot this turn.
+    def _crackling_is_extreme(self, prizes: int, hit_prizes: int, remaining: int) -> bool:
+        """Crackling Shot is taken only when it wins the game, or it takes at least 2 prizes the Active hit cannot.
 
-        Only when Crackling Shot takes more prizes than any Active hit this turn. Mew ex copies it
-        too, but a 30 HP Pokémon in front keeps the 2-prize Mew ex out of the opponent's attack.
-        When the Active hit takes the same prizes or more, the usual holder stays. None keeps it.
+        A 1-prize Knock Out that leaves prizes still to take is not enough. The shot also has to beat the
+        prizes the Active attack already takes this turn.
         """
-        if not me.active or not foe.active or not self._has_snipe(me):
+        if prizes <= hit_prizes or prizes <= 0 or remaining <= 0:
+            return False
+        if prizes >= remaining:
+            return True
+        return prizes >= 2
+
+    def _mew_can_crackling(self, me: Player, foe: Player) -> bool:
+        """A Mew ex that can hold the Active Spot this turn already has Crackling Shot via Memory Helix."""
+        if self._rulebox_lock_on_opponent(me):
+            return False
+        for mon in self._mew_strikers(me):
+            if me.card(mon.card_i).name.lower() != "mew ex":
+                continue
+            restore = self._view_as_active(me, mon)
+            try:
+                locked = mon.disabled_attack or getattr(mon, "disabled_self", None)
+                for atk in self._attacks_for(me, mon):
+                    if atk.name != "Crackling Shot" or atk.name == locked:
+                        continue
+                    if can_pay_energy(self._energy_pool(me, mon), self._attack_cost(me, mon, atk, foe)):
+                        return True
+            finally:
+                restore()
+        return False
+
+    def _snipe_holder(self, me: Player, foe: Player) -> Pokemon | None:
+        """Elekid holds the Active Spot only for an extreme Crackling Shot that Mew ex cannot make.
+
+        Mew ex copies the attack and stays Active. Elekid comes forward only when no Mew ex can use it
+        (a Rule Box lock, or no Mew ex that can attack) and the Knock Out is extreme. None keeps the usual holder.
+        """
+        if not me.active or not foe.active or not self._has_snipe(me) or self._mew_can_crackling(me, foe):
             return None
         hp_left = self._max_hp(foe, foe.active) - foe.active.damage
         if hp_left <= 0:
@@ -10245,12 +10300,13 @@ class Game:
         strikers = self._mew_strikers(me)
         hit = max((self._baby_damage_if_active(me, foe, mon) for mon in strikers), default=0)
         hit_prizes = self._prizes_for_ko(foe.card(foe.active.card_i)) if hit >= hp_left else 0
+        remaining = self.rules.prize_count - me.prizes_taken
         best: tuple[tuple[int, int], Pokemon] | None = None
         for mon in strikers:
-            if not any(self._snipe_effect(atk) is not None for atk in me.card(mon.card_i).attacks):
+            if not any(atk.name == "Crackling Shot" for atk in me.card(mon.card_i).attacks):
                 continue
             _amount, prizes, _target = self._snipe_if_active(me, foe, mon)
-            if prizes <= hit_prizes:
+            if not self._crackling_is_extreme(prizes, hit_prizes, remaining):
                 continue
             key = (prizes, 1 if mon is me.active else 0)
             if best is None or key > best[0]:

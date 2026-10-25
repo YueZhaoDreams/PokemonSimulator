@@ -1,22 +1,22 @@
 #!/usr/bin/env python3
-"""Greedy Elekid search on the best Set M list, forced to four copies so the report can say how many are best.
+"""Greedy Elekid search on the locked Set M, forced to four copies so the report can say how many are best.
 
 Elekid (Paradox Rift 59) is a 30 HP Basic Lightning Pokémon with Retreat Cost 0. Crackling Shot costs no Energy:
 "This attack does 30 damage to 1 of your opponent's Pokémon. (Don't apply Weakness and Resistance for Benched
-Pokémon.)" It is one more Benched body for Igglybuff's Bouncy Circle, and a free hit that Knocks Out any Pokémon with
-30 HP or less left, which saves the Boss's Orders or Counter Catcher that the Knock Out would need. Mew ex copies it
-with Memory Helix, so who goes Active is a decision, written in `set-m-elekid-strategy.md` before the search.
+Pokémon.)" It is one more Benched body for Igglybuff's Bouncy Circle. The attack is a finisher only. It is used when
+the Knock Out wins the game, or when it takes at least 2 prizes the Active attack cannot take this turn. Mew ex copies
+it and stays Active. Elekid itself goes Active only when Mew ex cannot use the attack and that Knock Out is extreme.
+The play is written in `set-m-elekid-strategy.md` before the search.
 
-The start list is the best list of `set-m-gust-search.md` (four Sky Field, four Budew, one Counter Catcher). Each step
-adds one more Elekid and tries every other card name as the cut. Cuts are screened on SCREEN_GAMES games per foe, the
-best SCREEN_TOP are confirmed on GAMES games per foe, and the best confirmed cut is taken even when the list gets
-worse, up to MAX_COPIES (the 4-of-a-name limit). The score is the loss-weighted win rate with the weights frozen from the
-zero-Sky-Field Set M baseline, the same weights as every earlier Set M report.
+The start list is the locked `SET_M60_NAMES`: four Team Rocket's Petrel, one Junk Arm, three Sky Field, four Budew,
+no Ultra Ball, no Penny, no Boss's Orders. Each step adds one more Elekid and tries every other card name as the cut.
+Cuts are screened on SCREEN_GAMES games per foe, the best SCREEN_TOP are confirmed on GAMES games per foe, and the best
+confirmed cut is taken even when the list gets worse, up to MAX_COPIES (the 4-of-a-name limit). The score is the
+loss-weighted win rate. Weights are frozen from this locked list on the selection seed.
 
 The selection seed keeps the best of many cuts, so its gains are biased upward. Every list on the path is run again on two
-fresh seeds and pooled, and Set M, the start list, the final list and the best list on the fresh seeds are run once more
-on the clean seed of `set-m-gust-search.md`. That seed and game count are unchanged, so Set M and the start list can be
-set against their result before the engine took the Knock Out with the most prizes for a single-target hit.
+fresh seeds and pooled, and the start list, the final list and the best list on the fresh seeds are run once more on the
+clean seed used by the earlier Set M reports.
 """
 
 from __future__ import annotations
@@ -32,6 +32,7 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 
 import set_m_sky_field as base  # noqa: E402
+from app.seed_data import SET_M60_NAMES  # noqa: E402
 from set_m_sky_field import (  # noqa: E402
     FOES,
     GAMES,
@@ -42,6 +43,7 @@ from set_m_sky_field import (  # noqa: E402
     cell,
     evaluate,
     greedy_step,
+    loss_weights,
     mean,
     pct,
     row_for,
@@ -50,10 +52,9 @@ from set_m_sky_field import (  # noqa: E402
     worst,
 )
 
-START = HERE / "set-m-gust-search.json"
 DEST = Path(os.environ.get("M_ELEKID_DEST", HERE / "set-m-elekid.json"))
 MD_DEST = DEST.with_suffix(".md")
-CACHE = Path(os.environ.get("M_ELEKID_CACHE", base.ROOT / "data/cache/set-m-elekid-cells.json"))
+CACHE = Path(os.environ.get("M_ELEKID_CACHE", base.ROOT / "data/cache/set-m-elekid-finisher-cells.json"))
 ADD = "Elekid"
 COPY_LIMIT = 4
 MAX_COPIES = int(os.environ.get("M_ELEKID_MAX_COPIES", "4"))
@@ -133,29 +134,16 @@ def summarize(cells: dict[str, dict], weights: dict[str, float]) -> dict:
     }
 
 
-def old_engine(prev: dict) -> dict:
-    """Clean-seed rows of `set-m-gust-search.json`, run before the single-target hit took the best Knock Out."""
-    if (prev["clean_seed"], prev["clean_games"]) != (CLEAN_SEED, CLEAN_GAMES):
-        return {}
-    return {row["label"]: row["clean"] for row in prev["clean_rows"]}
-
-
 def copies_label(count: int) -> str:
     return "Start (no Elekid)" if count == 0 else f"{count} Elekid"
 
 
 def main() -> None:
     started = time.perf_counter()
-    prev = json.loads(START.read_text())["report"]
-    set_m = list(prev["list_set_m"])
-    weights = prev["weights"]
-    start_label = prev["best_fresh_label"]
-    start = list(next(row["list"] for row in prev["path"] if row["label"] == start_label))
-    if len(start) != 60 or start.count(ADD):
-        raise SystemExit("start list is not a 60 card list without Elekid")
-    before = old_engine(prev)
-    before_start = before.get(start_label)
-    before_set_m = before.get("Set M")
+    start = list(SET_M60_NAMES)
+    if len(start) != 60 or Counter(start)[ADD]:
+        raise SystemExit("locked Set M is not a 60 card list without Elekid")
+    start_label = copies_label(0)
 
     cache = Cache(None)
     state: dict = {"report": {}}
@@ -163,10 +151,16 @@ def main() -> None:
     def save() -> None:
         base._save(cache, state["report"])
 
-    prior = float(json.loads(DEST.read_text())["report"].get("elapsed") or 0) if DEST.exists() else 0.0
+    prior = 0.0
+    if DEST.exists():
+        old = json.loads(DEST.read_text()).get("report") or {}
+        if old.get("list_start") == start and not old.get("done"):
+            prior = float(old.get("elapsed") or 0)
 
-    print(f"start: {start_label}", flush=True)
+    print(f"start: locked Set M ({start_label})", flush=True)
     start_cells = evaluate([("start", start)], GAMES, cache, save, "start")["start"]
+    weights = loss_weights({key: start_cells[key]["a"] for key, *_ in FOES})
+    print("weights " + ", ".join(f"{key} {weights[key]:.1%}" for key, *_ in FOES), flush=True)
     current_row = row_for("—", start, start_cells, weights, Counter())
     print(f"start weighted {current_row['weighted']:.2%} mean {current_row['mean']:.2%}", flush=True)
 
@@ -189,20 +183,22 @@ def main() -> None:
             "rule_preset": "s60",
             "elapsed": time.perf_counter() - started + prior,
             "method": (
-                "greedy one-card swaps from the best Sky Field and Budew list; one more Elekid per step, forced up to "
+                "greedy one-card swaps from the locked Set M (four Petrel, one Junk Arm, three Sky Field, four Budew); "
+                "one more Elekid per step, forced up to "
                 f"{MAX_COPIES} copies (the 4-of-a-name limit); every other card name is tried as the cut; the best "
-                "confirmed cut is taken even when the list gets worse, so the fresh seeds can name the best number of copies"
+                "confirmed cut is taken even when the list gets worse, so the fresh seeds can name the best number of copies; "
+                "Crackling Shot is used only for an extreme Knock Out, and Mew ex stays Active when it can copy it"
             ),
             "add": ADD,
             "foes": {key: strat for key, _label, _names, strat in FOES},
             "weights": weights,
+            "weights_from": "locked Set M on the selection seed",
             "start_label": start_label,
-            "list_set_m": set_m,
-            "list_start": start,
+            "list_set_m": list(start),
+            "list_start": list(start),
             "list": current,
             "path": path,
             "steps": steps,
-            "before_engine": {"Set M": before_set_m, "start": before_start},
             "done": done,
         }
 
@@ -240,7 +236,7 @@ def main() -> None:
         state["report"] = report(False)
         save()
 
-    lists = [("Set M", set_m)] + [(row["label"], row["list"]) for row in path]
+    lists = [(row["label"], row["list"]) for row in path]
     print(f"fresh seed 1 ({FRESH1_SEED})", flush=True)
     held1 = evaluate(lists, FRESH1_GAMES, cache, save, "fresh 1", seed=FRESH1_SEED)
     print(f"fresh seed 2 ({FRESH2_SEED})", flush=True)
@@ -269,7 +265,7 @@ def main() -> None:
         (row["label"] for row in path), key=lambda label: fresh_by_label[label]["pooled"]["weighted"]
     )
     wanted = {path[0]["label"], final_label, best_fresh_label}
-    clean_lists = [("Set M", set_m)] + [(row["label"], row["list"]) for row in path if row["label"] in wanted]
+    clean_lists = [(row["label"], row["list"]) for row in path if row["label"] in wanted]
     print(f"clean seed {CLEAN_SEED}: {', '.join(label for label, _ in clean_lists)}", flush=True)
     clean = evaluate(clean_lists, CLEAN_GAMES, cache, save, "clean", seed=CLEAN_SEED)
     clean_rows = []
@@ -315,9 +311,8 @@ def result_lines(rep: dict) -> list[str]:
     start = path[0]["label"]
     final_label = path[-1]["label"]
     best_label = rep["best_fresh_label"]
-    set_m = clean["Set M"]
     lines = [
-        f"- Start list: {pct(path[0]['weighted'])} on the selection seed, "
+        f"- Locked Set M, no Elekid: {pct(path[0]['weighted'])} on the selection seed, "
         f"{pct(fresh[start]['pooled']['weighted'])} on the two fresh seeds pooled, "
         f"{pct(clean[start]['clean']['weighted'])} on the clean seed."
     ]
@@ -330,16 +325,6 @@ def result_lines(rep: dict) -> list[str]:
             f"- {label} (cut {row['cut']}): {pct(row['weighted'])} on the selection seed "
             f"({row['weighted'] - path[0]['weighted']:+.1%} against the start list); two fresh seeds pooled "
             f"{pct(pooled['weighted'])} ({pooled['weighted'] - base_pool['weighted']:+.1%}, {z:+.1f} standard errors)."
-        )
-    for label in [name for name in clean if name != "Set M"]:
-        other = clean[label]
-        d_clean = other["clean"]["weighted"] - set_m["clean"]["weighted"]
-        z_clean = d_clean / diff_se(other["clean"], set_m["clean"])
-        d_all = other["all_fresh"]["weighted"] - set_m["all_fresh"]["weighted"]
-        z_all = d_all / diff_se(other["all_fresh"], set_m["all_fresh"])
-        lines.append(
-            f"- {label} against Set M: clean seed {d_clean:+.2%} ({z_clean:+.1f} standard errors); "
-            f"all three seeds {d_all:+.2%} ({z_all:+.1f})."
         )
     fresh_gap = fresh[best_label]["pooled"]["weighted"] - fresh[start]["pooled"]["weighted"]
     fresh_z = fresh_gap / diff_se(fresh[best_label]["pooled"], fresh[start]["pooled"])
@@ -395,36 +380,9 @@ def result_lines(rep: dict) -> list[str]:
     return lines
 
 
-def engine_lines(rep: dict) -> list[str]:
-    before = rep.get("before_engine") or {}
-    if not before.get("Set M") or not before.get("start"):
-        return []
-    clean = {row["label"]: row for row in rep["clean_rows"]}
-    start = rep["path"][0]["label"]
-    lines = [
-        "",
-        f"## The engine changes alone, clean seed `{rep['clean_seed']}`",
-        "",
-        "Set M and the start list, same seed and game count as `set-m-gust-search.md`, before and after this change. "
-        "Neither list plays Elekid. The change is that a single-target hit (Cruel Arrow, also copied by Mime Jr.'s Mimed Games) "
-        "takes the Knock Out with the most prizes, and that a \"1 of your opponent's Pokémon\" sentence is one hit, not two "
-        "(Fezandipiti ex's Cruel Arrow used to land twice).",
-        "",
-        "| List | Before | After | Change | ±1 SE of diff |",
-        "| :--- | ---: | ---: | ---: | ---: |",
-    ]
-    for label, old in (("Set M", before["Set M"]), (start, before["start"])):
-        new = clean[label]["clean"]
-        lines.append(
-            f"| {label} | {pct(old['weighted'])} | {pct(new['weighted'])} | {new['weighted'] - old['weighted']:+.2%} | "
-            f"{pct(diff_se(old, new))} |"
-        )
-    return lines
-
-
 def usage_cells(use: dict[str, float]) -> str:
     return (
-        f"{use['elekid_games']:.2f} | {use['elekid_own'] + use['elekid_mew']:.2f} | "
+        f"{use['elekid_games']:.2f} | {use['elekid_own']:.2f} | {use['elekid_mew']:.2f} | "
         f"{use['snipe_ko']:.2f} | {use['snipe_ko_bench']:.2f} | {use['elekid_ko']:.2f} | "
         f"{use['boss_plays'] + use['catcher_plays']:.2f}"
     )
@@ -438,25 +396,29 @@ def render_md(rep: dict) -> str:
         "# Set M with Elekid",
         "",
         "Elekid (Paradox Rift 59) is a 30 HP Basic with Retreat Cost 0. Crackling Shot costs no Energy and does 30 damage to 1 of the "
-        "opponent's Pokémon, with no Weakness or Resistance on the Bench. It is one more Benched body for Bouncy Circle, and it Knocks Out "
-        "a Pokémon with 30 HP or less left without a gust. Mew ex copies it. The play, written before the search, is in "
+        "opponent's Pokémon, with no Weakness or Resistance on the Bench. It is one more Benched body for Bouncy Circle. "
+        "The attack is a finisher: it is used only when the Knock Out wins the game, or it takes at least 2 prizes the Active attack "
+        "cannot take this turn. Mew ex copies it and stays Active. Elekid itself goes Active only when Mew ex cannot use the attack "
+        "and that Knock Out is extreme. The play, written before the search, is in "
         "`set-m-elekid-strategy.md`; the engine paths are in `tests/test_mew_elekid.py`.",
         "",
-        "Start list is the best list of `set-m-gust-search.md` (four Sky Field, four Budew, one Counter Catcher, no Boss's Orders). "
+        "Start list is the locked Set M: four Team Rocket's Petrel, one Junk Arm, three Sky Field, four Budew, "
+        "no Ultra Ball, no Penny, no Boss's Orders. "
         f"Each step adds one more Elekid, forced up to {len(path) - 1} copies, and every other card name is tried as the cut. "
-        "Every list on the path is then run on two fresh seeds and pooled, and Set M, the start list, the final list and the best "
-        "fresh-seed list on the clean seed.",
+        "Every list on the path is then run on two fresh seeds and pooled, and the start list, the final list and the best "
+        "fresh-seed list go to the clean seed.",
         "",
         f"- **Selection seed**: `{rep['seed']}`; cuts screened on {rep['screen_games']} games per foe, best {rep['screen_top']} confirmed on {rep['games']}",
         f"- **Fresh seeds**: `{rep['fresh1_seed']}` with {rep['fresh1_games']} per foe, `{rep['fresh2_seed']}` with {rep['fresh2_games']}",
-        f"- **Clean seed**: `{rep['clean_seed']}` with {rep['clean_games']} per foe (the clean seed of `set-m-gust-search.md`)",
-        "- **Score**: loss-weighted win rate. Weights: " + ", ".join(f"{key} {weights[key]:.1%}" for key, *_ in FOES),
+        f"- **Clean seed**: `{rep['clean_seed']}` with {rep['clean_games']} per foe",
+        "- **Score**: loss-weighted win rate, weights frozen from the locked list on the selection seed. Weights: "
+        + ", ".join(f"{key} {weights[key]:.1%}" for key, *_ in FOES),
         f"- **Elapsed**: {rep['elapsed']:.0f}s",
         "",
         "## Path (selection seed)",
         "",
-        "| List | Cut | Weighted | ±1 SE | vs start | Mean | Worst | Games with a shot | Shots | Snipe KOs | Bench KOs | Elekid KO'd | Boss + Catcher | vs T60 | vs Hedrick | vs C60 | vs D60 | vs Thorns | vs Starmie |",
-        "| :--- | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
+        "| List | Cut | Weighted | ±1 SE | vs start | Mean | Worst | Elekid games | Elekid shots | Mew shots | Snipe KOs | Bench KOs | Elekid KO'd | Boss + Catcher | vs T60 | vs Hedrick | vs C60 | vs D60 | vs Thorns | vs Starmie |",
+        "| :--- | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
     ]
     for row in path:
         cells = row["cells"]
@@ -470,9 +432,9 @@ def render_md(rep: dict) -> str:
     lines.extend(
         [
             "",
-            "Games with a shot is the share of games in which an Elekid used Crackling Shot. Shots, Snipe KOs, Bench KOs, "
-            "Elekid KO'd and Boss + Catcher are per game, averaged over the six foes. Snipe KOs count every single-target hit "
-            "that Knocked something Out, including Mew ex's copies; Bench KOs are the ones on a Benched Pokémon.",
+            "Elekid games is the share of games in which an Elekid itself used Crackling Shot. Elekid shots and Mew shots are "
+            "per game, averaged over the six foes. Mew ex is the one that copies the shot when it can. Snipe KOs count every "
+            "Crackling Shot that Knocked something Out; Bench KOs are the ones on a Benched Pokémon. Boss + Catcher is per game.",
         ]
     )
     for step in rep["steps"]:
@@ -505,8 +467,8 @@ def render_md(rep: dict) -> str:
             "",
             "No list was chosen on these seeds. The pooled columns merge both, and differences use the unpaired standard error.",
             "",
-            "| List | Seed 1 | Seed 2 | Pooled | ±1 SE | vs start | ±1 SE of diff | Mean | Worst | Games with a shot | Shots | Snipe KOs | Bench KOs | Elekid KO'd | Boss + Catcher | vs T60 | vs Hedrick | vs C60 | vs D60 | vs Thorns | vs Starmie |",
-            "| :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
+            "| List | Seed 1 | Seed 2 | Pooled | ±1 SE | vs start | ±1 SE of diff | Mean | Worst | Elekid games | Elekid shots | Mew shots | Snipe KOs | Bench KOs | Elekid KO'd | Boss + Catcher | vs T60 | vs Hedrick | vs C60 | vs D60 | vs Thorns | vs Starmie |",
+            "| :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
         ]
     )
     for row in fresh:
@@ -519,15 +481,16 @@ def render_md(rep: dict) -> str:
             f"{cell(cells, 't60')} | {cell(cells, 'hedrick')} | "
             f"{cell(cells, 'c60')} | {cell(cells, 'd60')} | {cell(cells, 'thorns')} | {cell(cells, 'starmie')} |"
         )
-    set_m = rep["clean_rows"][0]
+    locked = rep["clean_rows"][0]
     lines.extend(
         [
             "",
             f"## Clean seed `{rep['clean_seed']}`",
             "",
-            f"{rep['clean_games']} games per foe per list. The last two columns merge this seed with both fresh seeds.",
+            f"{rep['clean_games']} games per foe per list. The first row is the locked list. "
+            "The last two columns merge this seed with both fresh seeds.",
             "",
-            "| List | Weighted | ±1 SE | vs Set M | ±1 SE of diff | Mean | Worst | vs T60 | vs Hedrick | vs C60 | vs D60 | vs Thorns | vs Starmie | Three seeds | vs Set M |",
+            "| List | Weighted | ±1 SE | vs locked | ±1 SE of diff | Mean | Worst | vs T60 | vs Hedrick | vs C60 | vs D60 | vs Thorns | vs Starmie | Three seeds | vs locked |",
             "| :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
         ]
     )
@@ -535,13 +498,12 @@ def render_md(rep: dict) -> str:
         c = row["clean"]
         cells = c["cells"]
         lines.append(
-            f"| {row['label']} | {pct(c['weighted'])} | {pct(c['se'])} | {c['weighted'] - set_m['clean']['weighted']:+.2%} | "
-            f"{pct(diff_se(c, set_m['clean']))} | {pct(c['mean'])} | {pct(c['worst'])} | {cell(cells, 't60')} | "
+            f"| {row['label']} | {pct(c['weighted'])} | {pct(c['se'])} | {c['weighted'] - locked['clean']['weighted']:+.2%} | "
+            f"{pct(diff_se(c, locked['clean']))} | {pct(c['mean'])} | {pct(c['worst'])} | {cell(cells, 't60')} | "
             f"{cell(cells, 'hedrick')} | {cell(cells, 'c60')} | {cell(cells, 'd60')} | {cell(cells, 'thorns')} | "
             f"{cell(cells, 'starmie')} | {pct(row['all_fresh']['weighted'])} | "
-            f"{row['all_fresh']['weighted'] - set_m['all_fresh']['weighted']:+.2%} |"
+            f"{row['all_fresh']['weighted'] - locked['all_fresh']['weighted']:+.2%} |"
         )
-    lines.extend(engine_lines(rep))
     lines.extend(["", "## Result", ""] + result_lines(rep))
     return "\n".join(lines)
 
