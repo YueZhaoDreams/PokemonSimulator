@@ -54,6 +54,14 @@ def _normalize_card_text(text: str) -> str:
     return t
 
 
+def parse_discard_hand_draw(text: str) -> int | None:
+    """Professor's Research: discard your hand and draw N cards. N is the printed number."""
+    found = re.search(r"discard your hand and draw (\d+) cards", _normalize_card_text(text))
+    if found:
+        return int(found.group(1))
+    return None
+
+
 def parse_draw_until_hand(text: str) -> dict[str, Any] | None:
     """Lillie UPR 125: draw until 6, or until 8 if it is your first turn."""
     t = _normalize_card_text(text)
@@ -1565,6 +1573,22 @@ def parse_trainer_effects(text: str) -> list[dict[str, Any]]:
     if crushing:
         effects.append(crushing)
         return effects
+
+    # Plasma Storm 118 Colress. The hand is shuffled back, then the draw is one
+    # card for each Benched Pokémon named in the parentheses. Not a fixed 7.
+    bench_draw = re.search(
+        r"shuffle your hand into your deck\. then, draw a number of cards equal to the number of benched pokemon \(([^)]+)\)",
+        t,
+    )
+    if bench_draw:
+        whose = {
+            "both yours and your opponent's": "both",
+            "your opponent's": "opponent",
+            "yours": "yours",
+        }.get(bench_draw.group(1).strip())
+        if whose:
+            effects.append({"kind": "shuffle_hand_draw_per_bench", "whose": whose})
+            return effects
 
     # Penny, Turo, AZ, Cheren's Care, Mr. Briney's Compassion, Seeker.
     # Damage counters are not cards: leaving play clears them.

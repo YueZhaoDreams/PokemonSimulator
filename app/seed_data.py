@@ -1087,6 +1087,12 @@ _register(
         image="https://assets.tcgdex.net/en/sv/sv01/189/low.webp",
     )
 )
+# Plasma Storm 118. Pokémon.com prints the curly apostrophe.
+_COLRESS = (
+    "Shuffle your hand into your deck. Then, draw a number of cards equal to the number of "
+    "Benched Pokémon (both yours and your opponent\u2019s)."
+)
+_register(_trn("Colress", "supporter", _COLRESS, catalog_id="bw8-118"))
 _RARE_CANDY_TEXT = (
     "Choose 1 of your Basic Pokémon in play. If you have a Stage 2 card that evolves "
     "from that Pokémon in your hand, put that card onto the Basic Pokémon to evolve it, "
