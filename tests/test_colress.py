@@ -6,13 +6,20 @@ The draw count is the benches in play, both players, which Sky Field can raise t
 
 from __future__ import annotations
 
+import importlib.util
+import json
+from collections import Counter
+from pathlib import Path
 from random import Random
+
+import pytest
 
 from app.engine.effects import parse_discard_hand_draw, parse_trainer_effects
 from app.engine.game import Game, Pokemon
+from app.engine.legality import copy_violations
 from app.engine.models import standard_60_rules
 from app.engine.strategies import StrategySpec
-from app.seed_data import build_fallback_deck, fallback_named
+from app.seed_data import SET_M60_NAMES, build_fallback_deck, fallback_named
 
 COLRESS = (
     "Shuffle your hand into your deck. Then, draw a number of cards equal to the number of "
@@ -147,3 +154,65 @@ def test_petrel_fetches_colress_once_the_benches_reach_research():
     me, foe = _ready(game, 1, 1, ["Team Rocket's Petrel"])
     me.deck = [_take(me, name) for name in ("Colress", "Iono", "Professor's Research")]
     assert game._mew_petrel_collapse(me, foe)[1] == "iono"
+
+
+def _colress_lab():
+    path = Path(__file__).resolve().parents[1] / "data" / "lab" / "set_m_colress.py"
+    spec = importlib.util.spec_from_file_location(path.stem, path)
+    module = importlib.util.module_from_spec(spec)
+    assert spec.loader is not None
+    spec.loader.exec_module(module)
+    return module
+
+
+def test_colress_report_keeps_three_on_the_selection_seed_and_leaves_set_m():
+    module = _colress_lab()
+    report_path = Path(__file__).resolve().parents[1] / "data" / "lab" / "set-m-colress.json"
+    report = json.loads(report_path.read_text())["report"]
+    assert report["done"] is True
+    assert report["copies"] == 3
+    assert [row["cut"] for row in report["array"][1:]] == [
+        "Crushing Hammer",
+        "Sky Field",
+        "Bravery Charm",
+    ]
+    assert Counter(report["list_start"]) == Counter(SET_M60_NAMES)
+    assert SET_M60_NAMES.count("Colress") == 0
+    assert len(report["list"]) == 60
+    assert report["list"].count("Colress") == 3
+    assert copy_violations(build_fallback_deck(list(SET_M60_NAMES)), standard_60_rules()) == []
+    assert copy_violations(build_fallback_deck(report["list"]), standard_60_rules()) == []
+    weights = report["weights"]
+    hold = {row["copies"]: row for row in report["holdout"]}
+    _delta, _se, z_hold = module._pair(hold[3], hold[0], weights)
+    assert z_hold == pytest.approx(1.26, abs=0.01)
+    assert z_hold < 2
+    _delta, _se, z_one = module._pair(hold[1], hold[0], weights)
+    assert z_one == pytest.approx(-1.60, abs=0.01)
+    text = report_path.with_suffix(".md").read_text()
+    assert text == module.render_md(report)
+    lines = text.splitlines()
+    for index, line in enumerate(lines[:-1]):
+        nxt = lines[index + 1]
+        if (
+            line.startswith("|")
+            and nxt.startswith("|")
+            and "-" in nxt
+            and not nxt.replace("|", "").replace(":", "").replace("-", "").strip()
+        ):
+            header = [cell for cell in line.split("|") if cell.strip()]
+            delim = [cell for cell in nxt.split("|") if cell.strip()]
+            assert len(header) == len(delim), (line, nxt)
+    assert "The selection seed kept 3." in text
+    assert "That path cuts Crushing Hammer, then Sky Field, then Bravery Charm." in text
+    assert "Professor's Research is rank 13 at 91.5%" in text
+    assert "Iono is rank 15 at 91.2%" in text
+    assert "No holdout count is 2 standard errors above zero copies." in text
+    assert "3 copies against zero is +0.74% (1.26 standard errors)." in text
+    assert "1 copy is -1.00% (-1.60 standard errors), below the starting 60." in text
+    assert "`SET_M60_NAMES` stays the starting 60." in text
+    assert "2 against 1 is +1.34% (2.17 standard errors)" in text
+    assert "3 against 2 is +0.40% (0.68 standard errors)" in text
+    assert "3 against 1 is +1.74% (2.86 standard errors)" in text
+    assert "2 and 3 against 1 clear 2 standard errors." in text
+    assert "locked as `SET_M60_NAMES`" not in text

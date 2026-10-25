@@ -308,11 +308,74 @@ def result_lines(report: dict) -> list[str]:
                 f"±1 SE of the difference {pct(se)})."
             )
     kept = int(report.get("copies") or 0)
-    lines.extend(["", f"The search kept {kept}."])
-    if kept:
-        lines.append("The list this search kept is locked as `SET_M60_NAMES`.")
-    else:
+    by_copies = {row["copies"]: row for row in holdout}
+    lines.extend(["", f"The selection seed kept {kept}."])
+    if not kept:
         lines.append("No copy raised the score, so `SET_M60_NAMES` stays the starting 60.")
+    else:
+        cuts = [row["cut"] for row in array[1:]]
+        lines.append("That path cuts " + ", then ".join(cuts) + ".")
+        neighbor = []
+        for left, right in ((2, 1), (3, 2), (3, 1), (4, 3), (4, 2), (4, 1)):
+            if left in by_copies and right in by_copies and left <= kept:
+                delta, _se, z = _pair(by_copies[left], by_copies[right], weights)
+                neighbor.append(f"{left} against {right} is {delta:+.2%} ({z:.2f} standard errors)")
+        if neighbor:
+            lines.extend(["", "On the holdout, " + "; ".join(neighbor) + "."])
+        first = ((report.get("steps") or [{}])[0]).get("screen") or []
+        screen_bits = []
+        for rank, row in enumerate(first, start=1):
+            if row.get("cut") in ("Professor's Research", "Iono"):
+                screen_bits.append(f"{row['cut']} is rank {rank} at {pct(row['weighted'])}")
+        if screen_bits:
+            lines.append("On the first screen, " + "; ".join(screen_bits) + ".")
+        kept_row = next(row for row in array if row["copies"] == kept)
+        lines.append(
+            f"At {_copies(kept)} on the selection seed, Colress is played {kept_row['plays']:.2f} times a game "
+            f"and draws {kept_row['drawn']:.1f} cards when it is played. "
+            "The rest of the hand is shuffled into the deck. "
+            "Professor's Research discards the hand and draws 7."
+        )
+        zero = holdout[0]
+        hold_z = {row["copies"]: _pair(row, zero, weights) for row in holdout[1:]}
+        above = [str(n) for n, (_delta, _se, z) in hold_z.items() if z >= 2]
+        if above:
+            lines.append(
+                "Holdout counts at or above 2 standard errors against zero: " + ", ".join(above) + ". "
+                "This note leaves `SET_M60_NAMES` unchanged."
+            )
+        else:
+            kept_delta, _kept_se, kept_z = hold_z[kept]
+            bits = [
+                "No holdout count is 2 standard errors above zero copies.",
+                f"{_copies(kept)} against zero is {kept_delta:+.2%} ({kept_z:.2f} standard errors).",
+            ]
+            one = hold_z.get(1)
+            one_z = None
+            if one is not None:
+                one_delta, _one_se, one_z = one
+                if one_z < 0:
+                    bits.append(
+                        f"{_copies(1)} is {one_delta:+.2%} ({one_z:.2f} standard errors), below the starting 60."
+                    )
+                else:
+                    bits.append(
+                        f"{_copies(1)} against zero is {one_delta:+.2%} ({one_z:.2f} standard errors)."
+                    )
+            bits.append("`SET_M60_NAMES` stays the starting 60.")
+            lines.append(" ".join(bits))
+            versus_one = []
+            if one_z is not None and one_z < 0 and 1 in by_copies:
+                for left in range(2, kept + 1):
+                    if left in by_copies and _pair(by_copies[left], by_copies[1], weights)[2] >= 2:
+                        versus_one.append(str(left))
+            if versus_one:
+                joined = " and ".join(versus_one)
+                verb = "clears" if len(versus_one) == 1 else "clear"
+                lines.append(
+                    f"{joined} against 1 {verb} 2 standard errors. "
+                    "That 1-copy list is below zero copies."
+                )
     names = report.get("list") or []
     if names:
         lines.extend(["", "The list at the end of the search:", "", "```"])
