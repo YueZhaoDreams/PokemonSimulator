@@ -153,8 +153,20 @@ def test_doll_list_is_the_locked_60():
     assert len(smoochum) == 2 and smoochum[0].attacks[0].name == "Energy Antics"
     assert smoochum[0].catalog_id == "hgss1-30"
     assert [c.attacks[0].name for c in pile if c.name == "Sableye"] == ["Junk Hunt"] * 2
+    assert [c.catalog_id for c in pile if c.name == "Sableye"] == ["bw5-62"] * 2
+    assert [c.image for c in pile if c.name == "Sableye"] == [
+        "https://assets.tcgdex.net/en/bw/bw5/62/low.webp"
+    ] * 2
     dew = [c for c in pile if c.name == "Life Dew"]
     assert len(dew) == 1 and dew[0].catalog_id == "bw9-107" and dew[0].text == _DEW
+    assert dew[0].image == "https://assets.tcgdex.net/en/bw/bw9/107/low.webp"
+    patch = next(c for c in pile if c.name == "Dark Patch")
+    assert patch.catalog_id == "bw5-93"
+    assert patch.image == "https://assets.tcgdex.net/en/bw/bw5/93/low.webp"
+    assert [c.catalog_id for c in pile if c.name == "Puzzle of Time"] == ["xy9-109"] * 4
+    assert [c.image for c in pile if c.name == "Puzzle of Time"] == [
+        "https://assets.tcgdex.net/en/xy/xy9/109/low.webp"
+    ] * 4
     robo = [c for c in pile if c.name == "Robo Substitute Team Flare Gear"]
     assert len(robo) == 4 and {c.catalog_id for c in robo} == {"xy4-102"}
     assert [c.catalog_id for c in pile if c.name == "Cursed Shovel"] == ["swsh2-157"] * 3
@@ -185,6 +197,15 @@ def test_doll_list_is_the_locked_60():
         assert loaded["name"] == "Doll"
         assert [c["name"] for c in loaded["cards"]] == names
         assert [c["catalog_id"] for c in loaded["cards"] if c["name"] == "Cleffa"] == ["hgss1-17"] * 4
+        assert [c["catalog_id"] for c in loaded["cards"] if c["name"] == "Sableye"] == ["bw5-62"] * 2
+        assert [c["image"] for c in loaded["cards"] if c["name"] == "Sableye"] == [
+            "https://assets.tcgdex.net/en/bw/bw5/62/low.webp"
+        ] * 2
+        assert [c["catalog_id"] for c in loaded["cards"] if c["name"] == "Puzzle of Time"] == ["xy9-109"] * 4
+        assert [c["image"] for c in loaded["cards"] if c["name"] == "Puzzle of Time"] == [
+            "https://assets.tcgdex.net/en/xy/xy9/109/low.webp"
+        ] * 4
+        assert [c["catalog_id"] for c in loaded["cards"] if c["name"] == "Level Ball"] == ["swsh5-129"] * 2
     assert default_rule_presets_for("seed-doll") == ["s60"]
     assert "seed-doll" in S60_SEED_IDS
     spec = StrategySpec.from_dict("doll")
