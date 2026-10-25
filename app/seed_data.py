@@ -521,28 +521,39 @@ SET_T_UNL_NAMES = (
 # Rescue Carrier already returns the 30 HP babies that Bouncy Circle counts.
 # Eco Arm only shuffles 3 Pokémon Tools into the deck, in about 6% of games.
 # That recycle does not pay for the second Spiky Energy.
+# Team Rocket's Petrel on the fresh-seed best of set-m-gust-search (four Sky Field, four Budew).
+# Selection seed 20261007, holdout 20261015, 1000 games per foe.
+# Weights frozen from that 0-Petrel list. The search kept four copies.
+# Holdout 90.0% → 91.8% (+1.73 pp, 2.73 standard errors). One, two, and three stay under 2.
+# Four against three is 1.29 standard errors. Cuts: Ultra Ball (2 → 1), Penny (2 → 0), Sky Field (4 → 3).
+# Junk Arm on that four-Petrel list. Seed 20261007, holdout 20261015, 1000 games per foe.
+# Weights frozen from the 0-Junk-Arm list: Hedrick 31.1%, Starmie 27.1%, T60 23.4%, C60 15.2%, D60 2.9%, Thorns 0.3%.
+# Selection 90.64% → 91.89% (+1.25 pp, 1.93 standard errors). The next copy (Budew, 91.54%) does not rise.
+# Holdout 91.10% → 91.22% (+0.12 pp, 0.19 standard errors). One copy is locked.
+# Cut: Ultra Ball (1 → 0). One Junk Arm.
 SET_M60_NAMES = (
     ["Mew ex"] * 3
     + ["Mime Jr."] * 2
     + ["Igglybuff"] * 4
+    + ["Budew"] * 4
     + ["Manaphy"]
     + ["Buddy-Buddy Poffin"] * 4
     + ["Nest Ball"] * 4
-    + ["Ultra Ball"] * 2
-    + ["Night Stretcher"] * 4
+    + ["Junk Arm"]
+    + ["Night Stretcher"]
     + ["Rescue Carrier"] * 2
     + ["Battle Cage"] * 4
-    + ["Bravery Charm"] * 3
-    + ["Bursting Balloon"] * 2
+    + ["Sky Field"] * 3
+    + ["Bravery Charm"] * 2
+    + ["Bursting Balloon"]
     + ["Hero's Cape"]
     + ["Max Potion"] * 3
     + ["Arven"] * 4
     + ["Iono"] * 4
     + ["Professor's Research"] * 2
-    + ["Boss's Orders"]
-    + ["Penny"] * 2
-    + ["Crushing Hammer"] * 4
-    + ["Counter Catcher"] * 2
+    + ["Team Rocket's Petrel"] * 4
+    + ["Crushing Hammer"] * 3
+    + ["Counter Catcher"]
     + ["Spiky Energy"] * 2
 )
 SET_M_NAMES = SET_M60_NAMES
@@ -611,20 +622,69 @@ SET_L60_NAMES = (
     + ["Fighting Energy"] * 11
 )
 
-# Mill: Wugtrio send. Neutralization Zone is the one ACE SPEC.
-# Loss-weighted greedy, weights frozen on the Sisters 60. Seed 20261009,
-# 250 games each seat against 12 lists: weighted 30.2% -> 40.8%,
-# plain mean 40.1% -> 51.7%, mean mill 9.95 -> 15.23.
-# Ignition cut Switch, Glimwood Tangle, Petrel, one Headquarters.
-# Reversal then cut one Fighting, the other two Headquarters, and one Boss.
+# Mill lock (2026-10-24, seed 20261023, 1000 games each seat, both seats).
+# One Lillie's Poké Doll replaces the one Switch on the 2026-10-22 sleep wall.
+# Weighted 37.867% → 38.774% (+0.907, difference ±0.405). Mean 54.065% → 54.777%.
+# A second copy's best cut was Counter Catcher at 38.641% and was not kept.
+# Buddy-Buddy Poffin was +0.090 on this sample. See data/lab/set-mill-lillie-long.md.
+# Prior sleep wall (2026-10-22, seed 20261022, 250 games each seat, both seats):
+# Sisters shell plus one Playground Pichu, one Call of Legends Mime Jr.,
+# one Slumbering Forest, and one Switch. Cuts from that shell: Fighting Energy
+# 2, Water Energy 1, Rescue Carrier 1. Undersea Tunnel is colorless.
+# Field mean 53.4% vs the frozen Sisters 60 at 49.5% (+3.9). Weighted
+# 32.9% → 37.0% (+4.1). Head to head 44.6%. See data/lab/set-mill-sleep.md.
+# Neutralization Zone stays the one ACE SPEC. Against Phantom Dive, Starmie,
+# and spread, the 30 HP cards stay in the deck.
+# Rabsca 1-1 is outside this lock. On the C60 bakeoff (seed 20260911, 3000
+# games) that line was 51.4–52.5% vs T60 against a 51.3% base, while one
+# Battle Cage was 62.0%. Rellor is 50 HP until it evolves, so Dive's 6
+# counters take it before Spherical Shield exists.
+# Battle Cage is outside this lock. Its printed text stops bench counters
+# and replaces whichever Stadium is in play, including Neutralization Zone.
+# This 60 was not remeasured with that swap.
+# Doll lock (2026-10-24). The 1000-game holdout is data/lab/set-doll.json.
+# Item dolls are Trainers. A Pokémon search does not find them.
+# Level Ball's sentence takes a Pokémon of at most the printed HP, so Shedinja qualifies.
+SET_DOLL_NAMES = (
+    ["Cleffa"] * 4
+    + ["Smoochum"] * 2
+    + ["Mime Jr."] * 2
+    + ["Slumbering Forest"] * 2
+    + ["Battle Cage"] * 4
+    + ["Manaphy"]
+    + ["Switch"] * 2
+    + ["Sableye"] * 2
+    + ["Darkness Energy"] * 2
+    + ["Dark Patch"]
+    + ["Puzzle of Time"] * 4
+    + ["VS Seeker"] * 4
+    + ["Team Rocket's Handiwork"] * 4
+    + ["Rescue Carrier"] * 3
+    + ["Robo Substitute Team Flare Gear"] * 4
+    + ["Lillie's Poké Doll"] * 4
+    + ["Snorlax Doll"] * 2
+    + ["Cursed Shovel"] * 3
+    + ["Life Dew"]
+    + ["Nincada"]
+    + ["Shedinja"]
+    + ["Field Blower"]
+    + ["Level Ball"] * 2
+    + ["Buddy-Buddy Poffin"] * 2
+    + ["Crushing Hammer"] * 2
+)
 SET_MILL_NAMES = (
-    ["Wiglett"] * 4
+    ["Pichu"]
+    + ["Mime Jr."]
+    + ["Wiglett"] * 4
     + ["Wugtrio"] * 4
     + ["Victini"]
-    + ["Level Ball"] * 3
-    + ["Nest Ball"] * 3
+    + ["Slumbering Forest"]
+    + ["Neutralization Zone"]
     + ["Buddy-Buddy Poffin"] * 4
-    + ["Rescue Carrier"] * 4
+    + ["Nest Ball"] * 3
+    + ["Level Ball"] * 3
+    + ["Rescue Carrier"] * 3
+    + ["Lillie's Poké Doll"]
     + ["Crushing Hammer"] * 4
     + ["Counter Catcher"] * 2
     + ["Miss Fortune Sisters"] * 2
@@ -632,10 +692,8 @@ SET_MILL_NAMES = (
     + ["Boss's Orders"]
     + ["Team Rocket's Handiwork"] * 2
     + ["Colress's Tenacity"] * 4
-    + ["Neutralization Zone"]
     + ["Double Turbo Energy"] * 4
-    + ["Water Energy"] * 4
-    + ["Fighting Energy"] * 2
+    + ["Water Energy"] * 3
     + ["Ignition Energy"] * 4
     + ["Reversal Energy"] * 4
 )
@@ -1350,6 +1408,15 @@ _register(
         "supporter",
         "Flip 2 coins. For each heads, discard 2 cards from the top of your opponent's deck.",
         catalog_id="xy10-112",
+    )
+)
+_register(
+    _trn(
+        "Slumbering Forest",
+        "stadium",
+        "If a Pokémon is Asleep, its owner flips 2 coins instead of 1 for that Special Condition between turns. If either of them is tails, that Pokémon is still Asleep.",
+        catalog_id="sm11-207",
+        image="https://assets.tcgdex.net/en/sm/sm11/207/low.webp",
     )
 )
 _register(
@@ -2257,7 +2324,57 @@ for card in [
         _atk("Zap Kick", ["Lightning"], 10),
         _atk("Thunder Fang", ["Colorless", "Colorless"], 20, "Flip a coin. If heads, your opponent's Active Pokémon is now Paralyzed."),
     ], weakness="Fighting", catalog_id="swsh11-054"),
-    _pkm("Pichu", "Basic", ["Lightning"], 30, [_atk("Mix-Up", ["Colorless"], 0, "Draw a card.")], weakness="Fighting"),
+    _pkm(
+        "Pichu",
+        "Basic",
+        ["Lightning"],
+        30,
+        [
+            _atk(
+                "Playground",
+                [],
+                0,
+                "Each player may search his or her deck for as many Basic Pokémon as he or she likes, "
+                "put them onto his or her Bench, and shuffle his or her deck afterward. "
+                "(You put your Pokémon on the Bench first.) Pichu is now Asleep.",
+            )
+        ],
+        retreat=0,
+        catalog_id="hgss1-28",
+        image="https://assets.tcgdex.net/en/hgss/hgss1/28/low.webp",
+        set_name="HeartGold & SoulSilver",
+        abilities=[
+            Ability(
+                name="Sweet Sleeping Face",
+                text="As long as Pichu is Asleep, prevent all damage done to Pichu by attacks.",
+            )
+        ],
+    ),
+    _pkm(
+        "Smoochum",
+        "Basic",
+        ["Psychic"],
+        30,
+        [
+            _atk(
+                "Energy Antics",
+                [],
+                0,
+                "Move an Energy card attached to 1 of your opponent's Pokémon to another of "
+                "your opponent's Pokémon. Smoochum is now Asleep.",
+            )
+        ],
+        retreat=0,
+        catalog_id="hgss1-30",
+        image="https://assets.tcgdex.net/en/hgss/hgss1/30/low.webp",
+        set_name="HeartGold & SoulSilver",
+        abilities=[
+            Ability(
+                name="Sweet Sleeping Face",
+                text="As long as Smoochum is Asleep, prevent all damage done to Smoochum by attacks.",
+            )
+        ],
+    ),
     _pkm(
         "Emolga",
         "Basic",
@@ -3418,6 +3535,7 @@ _register(
         set_name="Primal Clash",
     )
 )
+# Dark Explorers 62 is Junk Hunt. Dragons Exalted bw6-62 is Nosepass.
 _register(
     _pkm(
         "Sableye",
@@ -3425,9 +3543,9 @@ _register(
         ["Darkness"],
         70,
         [_atk("Junk Hunt", ["Darkness"], 0, _JUNK_HUNT_TEXT)],
-        catalog_id="bw6-62",
+        catalog_id="bw5-62",
         weakness="Fighting",
-        image="https://assets.tcgdex.net/en/bw/bw6/62/low.webp",
+        image="https://assets.tcgdex.net/en/bw/bw5/62/low.webp",
         set_name="Dark Explorers",
     )
 )
@@ -3534,6 +3652,34 @@ _register(
         set_name="Paldean Fates",
     )
 )
+# Call of Legends 47. Printed name is still Mime Jr. The alias keeps Paldean Fates
+# as fallback_named("Mime Jr.") for Set M.
+_MIME_JR_COL = _pkm(
+    "Mime Jr.",
+    "Basic",
+    ["Psychic"],
+    30,
+    [
+        _atk(
+            "Sleepy Lost",
+            [],
+            0,
+            "Put the top card of your opponent's deck in the Lost Zone. Mime Jr. is now Asleep.",
+        )
+    ],
+    retreat=0,
+    catalog_id="col1-47",
+    image="https://assets.tcgdex.net/en/col/col1/47/low.webp",
+    set_name="Call of Legends",
+    abilities=[
+        Ability(
+            name="Sweet Sleeping Face",
+            text="As long as Mime Jr. is Asleep, prevent all damage done to Mime Jr. by attacks.",
+        )
+    ],
+)
+FALLBACK_BY_NAME["mime jr. col"] = _MIME_JR_COL
+FALLBACK_BY_NAME["sleepy lost"] = _MIME_JR_COL
 _register(
     _pkm(
         "Cleffa",
@@ -3776,13 +3922,14 @@ _register(
         set_name="Lost Origin",
     )
 )
+# BREAKpoint 109. BREAKthrough xy8-109 is Axew.
 _register(
     _trn(
         "Puzzle of Time",
         "item",
         _PUZZLE_TEXT,
-        catalog_id="xy8-109",
-        image="https://assets.tcgdex.net/en/xy/xy8/109/low.webp",
+        catalog_id="xy9-109",
+        image="https://assets.tcgdex.net/en/xy/xy9/109/low.webp",
     )
 )
 _register(
@@ -5012,6 +5159,173 @@ _register(
 )
 
 
+# Items that enter play as Pokémon and award no Prize when Knocked Out.
+# Printed HP that is not inside the sentence lives on the card.
+_LILLIES_DOLL = (
+    "Play this card as if it were a 30-HP Colorless Basic Pokémon. "
+    "At any time during your turn (before your attack), if this Pokémon is your Active Pokémon, "
+    "you may discard all cards from it and put it on the bottom of your deck. "
+    "This card can't retreat. If this card is Knocked Out, your opponent can't take any Prize cards for it."
+)
+_ROBO_SUBSTITUTE = (
+    "Play this card as if it were a 30 HP Colorless Basic Pokémon. "
+    "At any time during your turn (before your attack), you may discard this card from play. "
+    "This card can't retreat. If this card is Knocked Out, your opponent can't take any Prize cards for it."
+)
+_SNORLAX_DOLL = (
+    "If this card is in your hand when you are setting up to play, you may put it face down "
+    "in the Active Spot or on your Bench as if it were a 120-HP Basic Colorless Pokémon. "
+    "(You can do this only when you are setting up to play.) "
+    "At any time during your turn, you may discard this card from play. "
+    "This card can't be affected by any Special Conditions and can't retreat. "
+    "If this card is Knocked Out, your opponent can't take any Prize cards for it."
+)
+_CLEFAIRY_DOLL = (
+    "Play Clefairy Doll as if it were a Basic Pokémon. While in play, Clefairy Doll counts as a Pokémon "
+    "(instead of a Trainer card). Clefairy Doll has no attacks, can't retreat, and can't be Asleep, "
+    "Confused, Paralyzed, or Poisoned. If Clefairy Doll is Knocked Out, it doesn't count as a "
+    "Knocked Out Pokémon. At any time during your turn before your attack, you may discard Clefairy Doll."
+)
+_MYSTERIOUS_FOSSIL = (
+    "Play Mysterious Fossil as if it were a Basic Pokémon. While in play, Mysterious Fossil counts as a "
+    "Colorless Pokémon (as well as a Trainer card). Mysterious Fossil has no attacks of its own, can't "
+    "retreat, and can't be affected by any Special Conditions. If Mysterious Fossil is Knocked Out, it "
+    "doesn't count as a Knocked Out Pokémon. (Discard it anyway.) At any time during your turn before "
+    "your attack, you may discard Mysterious Fossil from play."
+)
+_ROOT_FOSSIL = (
+    "Play Root Fossil as if it were a Basic Pokémon. While in play, Root Fossil counts as a Colorless "
+    "Pokémon (as well as a Trainer card). Root Fossil has no attacks of its own, can't retreat, and "
+    "can't be affected by any Special Conditions. If Root Fossil is Knocked Out, it doesn't count as a "
+    "Knocked Out Pokémon. (Discard it anyway.) At any time during your turn before your attack, you may "
+    "discard Root Fossil from play."
+)
+_CLAW_FOSSIL = (
+    "Play Claw Fossil as if it were a Basic Pokémon. While in play, Claw Fossil counts as a Colorless "
+    "Pokémon (as well as a Trainer card). Claw Fossil has no attacks of its own, can't retreat, and "
+    "can't be affected by any Special Conditions. If Claw Fossil is Knocked Out, it doesn't count as a "
+    "Knocked Out Pokémon. (Discard it anyway.) At any time during your turn before your attack, you may "
+    "discard Claw Fossil from play."
+)
+
+
+def _proxy_item(name: str, text: str, catalog_id: str, hp: int) -> Card:
+    card = _trn(name, "item", text, catalog_id=catalog_id)
+    card.hp = hp
+    return card
+
+
+_register(_proxy_item("Lillie's Poké Doll", _LILLIES_DOLL, "sm12-197", 30))
+_register(_proxy_item("Robo Substitute", _ROBO_SUBSTITUTE, "xy4-102", 30))
+_register(_proxy_item("Snorlax Doll", _SNORLAX_DOLL, "sv04-175", 120))
+_register(_proxy_item("Clefairy Doll", _CLEFAIRY_DOLL, "base1-70", 10))
+_register(_proxy_item("Mysterious Fossil", _MYSTERIOUS_FOSSIL, "ex12-79", 50))
+_register(_proxy_item("Root Fossil", _ROOT_FOSSIL, "ex12-80", 40))
+_register(_proxy_item("Claw Fossil", _CLAW_FOSSIL, "ex12-78", 40))
+# Phantom Forces 102 prints the full name. The short "Robo Substitute" stays for Mill tests.
+_register(_proxy_item("Robo Substitute Team Flare Gear", _ROBO_SUBSTITUTE, "xy4-102", 30))
+_register(
+    _trn(
+        "Dark Patch",
+        "item",
+        "Attach a basic Darkness Energy card from your discard pile to 1 of your Benched Darkness Pokémon.",
+        catalog_id="bw5-93",
+        image="https://assets.tcgdex.net/en/bw/bw5/93/low.webp",
+    )
+)
+_register(
+    _trn(
+        "Cursed Shovel",
+        "tool",
+        "If the Pokémon this card is attached to is Knocked Out by damage from an opponent's attack, "
+        "discard the top 2 cards of your opponent's deck.",
+        catalog_id="swsh2-157",
+    )
+)
+_register(
+    _trn(
+        "Life Dew",
+        "tool",
+        "If the Pokémon this card is attached to is Knocked Out, your opponent takes 1 fewer Prize card.",
+        catalog_id="bw9-107",
+        image="https://assets.tcgdex.net/en/bw/bw9/107/low.webp",
+    )
+)
+# HeartGold & SoulSilver 17. fallback_named("Cleffa") stays the Obsidian Flames Grasping Draw print.
+_CLEFFA_HGSS = _pkm(
+    "Cleffa",
+    "Basic",
+    ["Colorless"],
+    30,
+    [
+        _atk(
+            "Eeeeeeek",
+            [],
+            0,
+            "Shuffle your hand into your deck, then draw 6 cards. Cleffa is now Asleep.",
+        )
+    ],
+    retreat=0,
+    catalog_id="hgss1-17",
+    set_name="HeartGold & SoulSilver",
+    abilities=[
+        Ability(
+            name="Sweet Sleeping Face",
+            text="As long as Cleffa is Asleep, prevent all damage done to Cleffa by attacks.",
+        )
+    ],
+)
+_CLEFFA_HGSS.image = "https://assets.tcgdex.net/en/hgss/hgss1/17/low.webp"
+FALLBACK_BY_NAME["cleffa hgss"] = _CLEFFA_HGSS
+_register(
+    _pkm(
+        "Nincada",
+        "Basic",
+        ["Grass"],
+        40,
+        [
+            _atk(
+                "Fury Swipes",
+                ["Colorless"],
+                10,
+                "Flip 3 coins. This attack does 10 damage for each heads.",
+            )
+        ],
+        retreat=1,
+        weakness="Fire",
+        catalog_id="sm8-29",
+        set_name="Lost Thunder",
+    )
+)
+_VESSEL_OF_LIFE = (
+    "Once during your turn (before your attack), you may discard all cards attached to this Pokémon "
+    "and attach it to 1 of your Pokémon as a Pokémon Tool card. When the Pokémon this card is attached "
+    "to is Knocked Out, your opponent takes 1 fewer Prize card."
+)
+_SHEDINJA = _pkm(
+    "Shedinja",
+    "Stage1",
+    ["Psychic"],
+    40,
+    [
+        _atk(
+            "Haunt",
+            ["Colorless"],
+            0,
+            "Put 3 damage counters on your opponent's Active Pokémon.",
+        )
+    ],
+    evolves_from="Nincada",
+    retreat=1,
+    weakness="Darkness",
+    catalog_id="sm8-95",
+    set_name="Lost Thunder",
+    abilities=[Ability(name="Vessel of Life", text=_VESSEL_OF_LIFE)],
+)
+_SHEDINJA.text = _VESSEL_OF_LIFE
+_register(_SHEDINJA)
+
+
 def fallback_named(name: str) -> Card:
     key = name.lower()
     if "telepathic" in key:
@@ -5047,6 +5361,30 @@ def fallback_named(name: str) -> Card:
     from app.catalog import fallback_card
 
     return fallback_card(name)
+
+
+def build_mill_deck() -> list[Card]:
+    """Locked Mill 60. Mime Jr. is Call of Legends Sleepy Lost. One Lillie's Poké Doll replaces Switch."""
+    out: list[Card] = []
+    for name in SET_MILL_NAMES:
+        if name == "Mime Jr.":
+            out.append(fallback_named("mime jr. col"))
+        else:
+            out.append(fallback_named(name))
+    return out
+
+
+def build_doll_deck() -> list[Card]:
+    """Locked Doll 60. Cleffa is HGSS Eeeeeeek. Mime Jr. is Call of Legends Sleepy Lost."""
+    out: list[Card] = []
+    for name in SET_DOLL_NAMES:
+        if name == "Cleffa":
+            out.append(fallback_named("cleffa hgss"))
+        elif name == "Mime Jr.":
+            out.append(fallback_named("mime jr. col"))
+        else:
+            out.append(fallback_named(name))
+    return out
 
 
 def build_fallback_deck(names: list[str]) -> list[Card]:

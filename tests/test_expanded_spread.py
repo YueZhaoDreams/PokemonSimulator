@@ -194,11 +194,14 @@ def _kind(effects, kind: str) -> dict:
     return next(e for e in effects if e.get("kind") == kind)
 
 
-def test_set_m_list_is_unchanged():
+def test_set_m_list_keeps_expanded_attackers_out():
     assert len(SET_M60_NAMES) == 60
     assert "Electrode-GX" not in SET_M60_NAMES
     assert "Alolan Raichu" not in SET_M60_NAMES
-    assert "Sky Field" not in SET_M60_NAMES
+    assert SET_M60_NAMES.count("Sky Field") == 3
+    assert SET_M60_NAMES.count("Team Rocket's Petrel") == 4
+    assert SET_M60_NAMES.count("Junk Arm") == 1
+    assert SET_M60_NAMES.count("Ultra Ball") == 0
 
 
 def test_electro_rain_sentence_counts_discarded_cards():

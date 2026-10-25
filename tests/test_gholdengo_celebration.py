@@ -126,6 +126,9 @@ def test_g30_list_is_printed_sixty():
     assert names.count("Raikou V") == 1
     assert names.count("Gholdengo") == 0
     assert names.count("Puzzle of Time") == 4
+    puzzle = fallback_named("Puzzle of Time")
+    assert puzzle.catalog_id == "xy9-109"
+    assert puzzle.image == "https://assets.tcgdex.net/en/xy/xy9/109/low.webp"
     assert names.count("Scoop Up Net") == 2
     assert names.count("Nest Ball") == 1
     assert names.count("Rare Candy") == 4

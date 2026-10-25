@@ -678,11 +678,47 @@ STRATEGY_LIBRARY = {
             "and goes ahead of Boss's Orders so the Supporter stays in hand. "
             "Elekid is one more 30 HP Baby for Bouncy Circle. Its Crackling Shot costs no Energy and does 30 damage "
             "to 1 of the opponent's Pokémon, with no Weakness or Resistance on the Bench, and Mew ex copies it. "
-            "A hit like that takes the Knock Out that gives the most prizes, the Active Spot first on a tie. "
-            "Elekid goes Active only when Crackling Shot takes more prizes this turn than any Active hit, "
-            "so a Benched Knock Out keeps the 2-prize Mew ex out of the opponent's attack. "
-            "Otherwise Mew ex stays Active. The same Knock Out counts as already taken when Boss's Orders "
-            "and Counter Catcher are weighed, so they are played only for a bigger one."
+            "Crackling Shot is a finisher. It is used only for an extreme Knock Out: the Knock Out wins the game, "
+            "or it takes at least 2 prizes and the Active attack cannot take that many this turn. "
+            "A 1-prize Knock Out that does not win the game is not a reason to use it. "
+            "The hit, when it is used, takes the Knock Out with the most prizes, the Active Spot first on a tie. "
+            "Mew ex copies Crackling Shot and stays Active. "
+            "Elekid itself goes Active only when Mew ex cannot use the attack "
+            "(a Rule Box lock, or no Mew ex that can attack) and that Knock Out is extreme. "
+            "An extreme Knock Out counts as already taken when Boss's Orders and Counter Catcher are weighed, "
+            "so they are played only for a bigger one. A Knock Out that is not extreme does not. "
+            "Team Rocket's Petrel searches the deck for any Trainer. "
+            "An Item, a Pokémon Tool, or a Stadium found that way is played on the same turn. "
+            "A Supporter stays in the hand for the next turn. "
+            "The collapse is the Trainer this list would play next and does not already hold. "
+            "A Stadium is that collapse when its play score says so. "
+            "Sky Field, and any other Stadium whose printed sentence raises the Bench, "
+            "is taken before Buddy-Buddy Poffin when that sentence adds at least one waiting 30 HP Basic, "
+            "and the Stadium is played before the search benches into the new slots. "
+            "Area Zero Underdepths is taken when a Tera Pokémon is in play and the burst is ready. "
+            "Battle Cage is taken on the score that Stadium already uses. "
+            "Then Max Potion when a damaged Mew ex should be healed, "
+            "Hero's Cape on an open Mew ex (Bravery Charm when the Cape is not the card to take), "
+            "Counter Catcher when that gust takes more prizes this turn and more Prize cards remain than the opponent, "
+            "Buddy-Buddy Poffin when a Bench slot and a Basic with 70 HP or less are open, "
+            "then Rescue Carrier, Bursting Balloon, Night Stretcher, and Nest Ball on the scores those cards already use. "
+            "Next turn's Supporter is Boss's Orders when that gust is real but Counter Catcher cannot be played, "
+            "Penny when Manaphy is in the Active Spot, then Arven, Iono, or Professor's Research. "
+            "Arven is played instead when the collapse is an Item or Tool Arven can fetch, because Arven also takes a second card. "
+            "Arven cannot fetch a Stadium, so Petrel still takes that Stadium. "
+            "Boss's Orders is played instead when it is already in hand, so Petrel is still there for a later collapse. "
+            "While Items are locked, an Item or a Tool is held for the following turn and scores below a Stadium that can be played now. "
+            "Junk Arm discards 2 cards from the hand, then puts a Trainer from the discard pile into the hand. "
+            "It cannot choose Junk Arm. An Item, a Pokémon Tool, or a Stadium found that way is played on the same turn, "
+            "and a Supporter stays in the hand. The Trainer is the one this list would play next and does not already hold, "
+            "the same line as Petrel, including Counter Catcher, Hero's Cape, and Bursting Balloon. "
+            "Arven cannot fetch a card from the discard pile, so Junk Arm still takes that card. "
+            "Junk Arm is an Item, so Arven can still be played that turn and search the deck. "
+            "A Night Stretcher found there returns one of the discarded Pokémon. "
+            "The discarded cards are Pokémon whose printed HP a Rescue Carrier still in the deck, hand, or discard can take back, "
+            "or any other Pokémon a Night Stretcher still there can take back. "
+            "A Mew ex is one of those cards only when another Mew ex remains in play or in the hand, and only when that Night Stretcher remains. "
+            "Junk Arm is not played when those cards are not in the hand."
         ),
         prefer_damage=0.9,
         prefer_status=0.2,
@@ -792,12 +828,23 @@ STRATEGY_LIBRARY = {
     "mill": StrategySpec(
         name="mill",
         description=(
-            "Wugtrio send. Search Wiglett and Wugtrio, evolve, and mill with Undersea Tunnel. "
-            "Twisting Strike on heads keeps that Wiglett through the opponent's next turn. "
+            "Sisters shell plus one sleep wall. One Pichu and one Mime Jr. "
+            "Only one Sweet Sleeping Face is in play. Against Phantom Dive, Starmie, and spread "
+            "those 30 HP cards stay in the deck. "
+            "Playground benches Basics, user first. Sleepy Lost puts the top card of the "
+            "opponent's deck in the Lost Zone. The attack leaves that baby Asleep. "
+            "Sweet Sleeping Face prevents attack damage while it is Asleep. "
+            "Slumbering Forest makes the between-turns sleep check two coins. "
+            "The lock has no Manaphy, no Rabsca line, and no Battle Cage. "
+            "Paid Wugtrio retreats up once Undersea Tunnel is paid. "
+            "One Lillie's Poké Doll is the no-Prize body in this lock. "
             "Victory Star reflips an attack once when it shows 0 or 1 heads. "
             "Ignition Energy pays Undersea on an Evolution and leaves at the end of the turn. "
             "Reversal Energy stays, and pays three while more Prize cards remain. "
-            "Neutralization Zone is the one ACE SPEC."
+            "Neutralization Zone is the one ACE SPEC. "
+            "An Item played as a Pokémon that awards no Prize stalls in front when that "
+            "Knock Out would take the last Prize, when the opponent is ahead on Prizes, "
+            "or when it is the last Wiglett or Wugtrio."
         ),
         prefer_damage=0.2,
         prefer_status=0.0,
@@ -807,10 +854,34 @@ STRATEGY_LIBRARY = {
         item_spend=1.0,
         self_preserve=0.2,
         hold_as_energy=False,
-        protect=["Wiglett", "Wugtrio", "Victini"],
+        protect=["Wiglett", "Wugtrio", "Victini", "Pichu", "Mime Jr.", "Slumbering Forest"],
         search_aces=["Wiglett", "Wugtrio"],
         closers=["Wugtrio"],
         reflip_heads_at_most=1,
+    ),
+    "doll": StrategySpec(
+        name="doll",
+        description=(
+            "Doll lock. Go first. Item dolls are played from the hand onto an open Bench. "
+            "Level Ball puts a Pokémon of at most the HP in its sentence into the hand, including Shedinja. "
+            "One Snorlax Doll is benched during setup. "
+            "Sweet Sleeping Face stays at two, one against spread, and none against Demolish. "
+            "Battle Cage stays up against spread instead of covering it with Slumbering Forest. "
+            "Junk Hunt retrieves Item dolls and skips Snorlax Doll. "
+            "Life Dew is the single prize-cut tool. Cleffa is the HeartGold & SoulSilver Eeeeeeek print. "
+            "The measured pilot is this spec. The deck does not select it by itself."
+        ),
+        prefer_damage=0.2,
+        prefer_status=0.0,
+        bench_fill=1.0,
+        evolve_asap=1.0,
+        attach_pokemon_as_energy=0.0,
+        item_spend=1.0,
+        self_preserve=0.2,
+        hold_as_energy=False,
+        protect=["Cleffa", "Smoochum", "Mime Jr.", "Sableye", "Manaphy"],
+        search_aces=[],
+        closers=[],
     ),
 }
 

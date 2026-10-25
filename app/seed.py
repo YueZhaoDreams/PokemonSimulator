@@ -21,6 +21,7 @@ from app.seed_data import (
     SET_H_NAMES,
     SET_M_NAMES,
     SET_L60_NAMES,
+    SET_DOLL_NAMES,
     SET_MILL_NAMES,
     SET_M60_NAMES,
     SET_S_NAMES,
@@ -30,12 +31,14 @@ from app.seed_data import (
     SET_T_META_NAMES,
     SET_T_UNL_NAMES,
     SET_SPARE_NAMES,
+    build_doll_deck,
     build_fallback_deck,
     build_g30_deck,
+    build_mill_deck,
     fallback_named,
 )
 
-LIST_KEYS = ("a", "b", "c", "d", "e", "f", "g", "h", "s", "t", "c60", "d60", "m60", "s60", "t60", "t-meta", "t-unl", "g30", "l60", "mill")
+LIST_KEYS = ("a", "b", "c", "d", "e", "f", "g", "h", "s", "t", "c60", "d60", "m60", "s60", "t60", "t-meta", "t-unl", "g30", "l60", "mill", "doll")
 SEED_KEYS = (*LIST_KEYS, "spare")
 
 SEED_PATH = DATA_DIR / "seed_decks.json"
@@ -109,6 +112,8 @@ def load_seed_deck(which: str) -> dict:
         "19": "m60",
         "20": "l60",
         "21": "mill",
+        "22": "doll",
+        "doll": "doll",
         "l60": "l60",
         "mill": "mill",
         "wugtrio": "mill",
@@ -171,6 +176,7 @@ def load_seed_payload() -> dict:
             ("m60", SET_M60_NAMES),
             ("l60", SET_L60_NAMES),
             ("mill", SET_MILL_NAMES),
+            ("doll", SET_DOLL_NAMES),
             ("s60", SET_S60_NAMES),
             ("t60", SET_T60_NAMES),
             ("t-meta", SET_T_META_NAMES),
@@ -192,8 +198,22 @@ def load_seed_payload() -> dict:
                 dirty = True
             if key == "mill":
                 refreshed, mill_changed = _refresh_registered_prints(data[key]["cards"])
-                if mill_changed:
-                    data[key]["cards"] = refreshed
+                forced, force_changed = _force_mill_sleep_mime(refreshed)
+                if mill_changed or force_changed:
+                    data[key]["cards"] = forced
+                    dirty = True
+            if key == "doll":
+                # Name alignment would replace HGSS Cleffa with the Obsidian Flames print.
+                forced = [c.to_dict() for c in build_doll_deck()]
+                blob = data.get(key) or {}
+                if blob.get("cards") != forced or blob.get("id") != "seed-doll" or blob.get("name") != "Doll":
+                    data[key] = {
+                        "id": "seed-doll",
+                        "name": "Doll",
+                        "sample": None,
+                        "kind": "list",
+                        "cards": forced,
+                    }
                     dirty = True
             filled = _ensure_card_images(data[key]["cards"])
             if filled != data[key]["cards"]:
@@ -248,6 +268,22 @@ def load_seed_payload() -> dict:
     return payload
 
 
+def _force_mill_sleep_mime(cards: list) -> tuple[list, bool]:
+    """Mill's Mime Jr. is Call of Legends Sleepy Lost, not Paldean Fates Mimed Games."""
+    from app.seed_data import fallback_named
+
+    out = []
+    changed = False
+    for card in cards:
+        blob = card if isinstance(card, dict) else card.to_dict()
+        if blob.get("name") == "Mime Jr." and blob.get("catalog_id") != "col1-47":
+            out.append(fallback_named("mime jr. col").to_dict())
+            changed = True
+        else:
+            out.append(blob)
+    return out, changed
+
+
 def _refresh_registered_prints(cards: list) -> tuple[list[dict], bool]:
     """Replace a stored card when its print is not the registered fallback.
 
@@ -272,6 +308,12 @@ def _refresh_registered_prints(cards: list) -> tuple[list[dict], bool]:
             continue
         printed = (registered.text or "").strip()
         stored = (blob.get("text") or "").strip()
+        from app.catalog import allowed_print_ids
+
+        allowed = allowed_print_ids(name) or set()
+        if blob.get("catalog_id") in allowed and stored:
+            out.append(blob)
+            continue
         if blob.get("catalog_id") != registered.catalog_id or (printed and not stored):
             out.append(registered.to_dict())
             changed = True
@@ -490,7 +532,8 @@ def _cd_payload(enrich: bool = True) -> dict:
     cards_d60 = _repeat_named_cards(list(SET_D60_NAMES), enrich)
     cards_m60 = _repeat_named_cards(list(SET_M60_NAMES), enrich)
     cards_l60 = _repeat_named_cards(list(SET_L60_NAMES), enrich)
-    cards_mill = _repeat_named_cards(list(SET_MILL_NAMES), enrich)
+    cards_mill = build_mill_deck()
+    cards_doll = build_doll_deck()
     cards_s60 = _repeat_named_cards(list(SET_S60_NAMES), enrich)
     cards_t60 = _repeat_named_cards(list(SET_T60_NAMES), enrich)
     cards_t_meta = _repeat_named_cards(list(SET_T_META_NAMES), enrich)
@@ -572,6 +615,13 @@ def _cd_payload(enrich: bool = True) -> dict:
             "sample": None,
             "kind": "list",
             "cards": [c.to_dict() if isinstance(c, Card) else c for c in cards_mill],
+        },
+        "doll": {
+            "id": "seed-doll",
+            "name": "Doll",
+            "sample": None,
+            "kind": "list",
+            "cards": [c.to_dict() if isinstance(c, Card) else c for c in cards_doll],
         },
         "c60": {
             "id": "seed-c60",
@@ -720,6 +770,7 @@ def build_seed_payload(enrich: bool = True) -> dict:
         "t-unl": cd["t-unl"],
         "g30": cd["g30"],
         "mill": cd["mill"],
+        "doll": cd["doll"],
         "spare": spare["spare"],
         "hashes": {},
     }

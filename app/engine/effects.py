@@ -585,6 +585,25 @@ def parse_ability_effects(text: str) -> list[dict[str, Any]]:
     if "just played" in t and "evolved" in t and "evolve" in t:
         effects.append({"kind": "evolve_just_played_or_evolved"})
 
+    # Sweet Sleeping Face: while Asleep, attack damage does not land. Effects still do.
+    if (
+        "as long as" in t
+        and "is asleep" in t
+        and "prevent all damage" in t
+        and "by attacks" in t
+    ):
+        effects.append({"kind": "prevent_attack_damage_while_asleep"})
+
+    # Slumbering Forest: the between-turns sleep check is two coins.
+    # Still Asleep unless both are heads.
+    if (
+        "if a pokemon is asleep" in t
+        and "flips 2 coins instead of 1" in t
+        and "either of them is tails" in t
+        and "still asleep" in t
+    ):
+        effects.append({"kind": "sleep_check_two_coins"})
+
     # Tera rule printed on the Pokémon. Area Zero looks for this sentence, not the name.
     if (
         "as long as this pokemon is on your bench" in t
@@ -628,8 +647,36 @@ def parse_ability_effects(text: str) -> list[dict[str, Any]]:
             }
         )
 
+    # Vessel of Life: the Pokémon becomes a Tool. The prize sentence is on that Tool.
+    if (
+        "discard all cards attached to this pokemon" in t
+        and "attach it to 1 of your pokemon as a pokemon tool" in t
+    ):
+        effects.append({"kind": "attach_self_as_tool"})
+
     _extend_expanded_ability_effects(t, effects)
     return effects
+
+
+def _status_targets_self(text: str, status: str) -> bool:
+    """True when a sentence puts this Pokémon into the status, not the opponent.
+
+    "Jr." is part of the name, not the end of the sentence.
+    """
+    flat = text.lower().replace("jr.", "jr")
+    self_hit = False
+    for raw in re.split(r"[.]", flat):
+        clause = raw.strip().lstrip(")").strip()
+        if f"is now {status}" not in clause:
+            continue
+        if "opponent" in clause or "defending" in clause:
+            return False
+        if re.search(
+            rf"(?:this pokemon|(?:[a-z][a-z'-]* )*[a-z][a-z'-]*) is now {status}\b",
+            clause,
+        ):
+            self_hit = True
+    return self_hit
 
 
 def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
@@ -673,7 +720,11 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
     if "burn" in t:
         effects.append({"kind": "status", "status": "burned", "coin": coin})
     if "asleep" in t or "put to sleep" in t:
-        effects.append({"kind": "status", "status": "asleep", "coin": coin})
+        asleep = {"kind": "status", "status": "asleep", "coin": coin}
+        # "Pichu is now Asleep" sleeps the attacker. Opponent / Defending clauses stay on the defender.
+        if _status_targets_self(t, "asleep"):
+            asleep["target"] = "self"
+        effects.append(asleep)
 
     recoil = re.search(r"(?:also )?does (\d+) damage to itself", t)
     if recoil:
@@ -758,7 +809,16 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
     ):
         effects.append({"kind": "no_attack_second_first_turn"})
 
-    if "draw" in t and "search your deck" not in t:
+    # Eeeeeeek: shuffle the hand in, then draw the printed amount. A bare "draw"
+    # later in the same sentence must not draw a second time. Celebration's
+    # "shuffle your hand into your deck" has no "then draw".
+    shuffle_draw = re.search(r"shuffle your hand into your deck, then draw (\d+)", t)
+    if shuffle_draw:
+        effects.append({"kind": "shuffle_hand_then_draw", "amount": int(shuffle_draw.group(1))})
+
+    if "draw" in t and "search your deck" not in t and not any(
+        e.get("kind") == "shuffle_hand_then_draw" for e in effects
+    ):
         until = parse_draw_until_hand(t)
         if until:
             effects.append(until)
@@ -779,8 +839,27 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
                 "name": named_bench.group(2),
             }
         )
+    # Sleepy Lost: the top card of the opponent's deck goes to the Lost Zone.
+    if "put the top card of your opponent's deck in the lost zone" in t:
+        effects.append({"kind": "topdeck_lost_zone", "whose": "opponent"})
+    # Energy Antics: move one of the opponent's Energy cards onto another of their Pokémon.
+    if (
+        "move an energy card attached to" in t
+        and "1 of your opponent's pokemon" in t
+        and "another of your opponent's pokemon" in t
+    ):
+        effects.append({"kind": "move_opponent_energy"})
+    # Playground: each player may bench as many Basics as they like. No printed count.
+    # The user benches first. "Pichu is now Asleep" is the self-status above.
+    if (
+        "each player may search" in t
+        and "as many" in t
+        and "basic" in t
+        and "bench" in t
+    ):
+        effects.append({"kind": "playground", "user_first": "bench first" in t})
     # Call for Family / bench a Basic from deck. Turbo Energize attaches Basic Energy, not a Basic Pokémon.
-    elif "basic energy" not in t and (
+    elif "basic energy" not in t and "each player may search" not in t and (
         "call for family" in t
         or ("basic" in t and "bench" in t and "search your deck" in t)
         or "search your deck for a basic" in t
@@ -1082,6 +1161,14 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
     if bench:
         effects.append({"kind": "bench_damage_counters", "counters": int(bench.group(1))})
 
+    # Shedinja Haunt: counters on the Active. The count stays in the printed sentence.
+    active_counters = re.search(
+        r"put (\d+) damage counters? on your opponent'?s active pokemon",
+        t,
+    )
+    if active_counters:
+        effects.append({"kind": "active_damage_counters", "counters": int(active_counters.group(1))})
+
     # Volt Cyclone: move one attached Energy onto a Benched Pokémon.
     if "move an energy from this pokemon" in t and "benched" in t:
         effects.append({"kind": "move_own_energy_to_bench"})
@@ -1172,6 +1259,26 @@ def parse_energy_effects(text: str) -> list[dict[str, Any]]:
     return effects
 
 
+def _ko_tool_effects(t: str) -> list[dict[str, Any]]:
+    """Prize cut and attack-KO mill from the tool sentence. Counts stay in the match."""
+    effects: list[dict[str, Any]] = []
+    fewer = re.search(r"takes (\d+) fewer prize", t)
+    if fewer and "knocked out" in t:
+        effects.append(
+            {
+                "kind": "fewer_prizes_on_ko",
+                "count": int(fewer.group(1)),
+                # "before your attack" is ability timing. The prize line is attack-only
+                # when the Knock Out itself is by an attack.
+                "attack_only": "knocked out by" in t and "attack" in t,
+            }
+        )
+    milled = re.search(r"discard the top (\d+) cards of your opponent's deck", t)
+    if milled and "knocked out" in t and "attack" in t:
+        effects.append({"kind": "mill_top_on_attack_ko", "count": int(milled.group(1))})
+    return effects
+
+
 def _attached_tool_reactive(t: str) -> list[dict[str, Any]]:
     """Bursting Balloon: counters on the attacker, then discard at the end of the opponent's turn.
 
@@ -1192,12 +1299,57 @@ def _attached_tool_reactive(t: str) -> list[dict[str, Any]]:
     return effects
 
 
+def _play_as_pokemon_effect(t: str) -> dict[str, Any] | None:
+    """Item played as a Basic Pokémon. HP and the Prize line come from the sentence.
+
+    A Knock Out that "doesn't count as a Knocked Out Pokémon" awards no Prize.
+    A sentence that says the Knock Out counts still awards one. Discarding the
+    card yourself is not that sentence.
+    """
+    if "as if it were" not in t or "pokemon" not in t:
+        return None
+    if "look at the bottom" in t and "hp" not in t:
+        return None
+    hp_match = re.search(r"as if it were a (\d+)[ -]*hp\b", t)
+    no_prize = bool(
+        re.search(r"can'?t take any prize cards for it", t)
+        or re.search(r"cannot take any prize cards for it", t)
+        or re.search(r"if [^.]*knocked out, it does(?:n'?t| not) count as a knocked out pokemon", t)
+    )
+    if re.search(r"if [^.]*knocked out, this counts as a knocked out pokemon", t):
+        no_prize = False
+    tuck = "put it on the bottom of your deck" in t
+    immune_status: list[str] = []
+    if "can't be asleep, confused, paralyzed, or poisoned" in t:
+        immune_status = ["asleep", "confused", "paralyzed", "poisoned"]
+    effect: dict[str, Any] = {
+        "kind": "play_as_pokemon",
+        "no_prize": no_prize,
+        "cant_retreat": "can't retreat" in t or "cannot retreat" in t,
+        "setup_only": "only when you are setting up to play" in t,
+        "immune_special": (
+            "can't be affected by any special conditions" in t
+            or "can't be affected by special conditions" in t
+        ),
+        "immune_status": immune_status,
+        "tuck_bottom": tuck,
+        "active_only_tuck": tuck and "if this pokemon is your active pokemon" in t,
+        "may_discard": ("you may discard" in t or "discard this card from play" in t) and not tuck,
+    }
+    if hp_match:
+        effect["hp"] = int(hp_match.group(1))
+    return effect
+
+
 def parse_trainer_effects(text: str) -> list[dict[str, Any]]:
     """Parse Item/Supporter/Stadium sentences. Printed numbers stay in the effect dict."""
     t = _normalize_card_text(text)
     effects: list[dict[str, Any]] = []
     if not t:
         return effects
+    played = _play_as_pokemon_effect(t)
+    if played:
+        return [played]
     # Hilda: an Evolution Pokémon and an Energy card from the deck.
     if "evolution pokemon and an energy card" in t and "search your deck" in t and "into your hand" in t:
         effects.append({"kind": "search_evolution_and_energy"})
@@ -1275,6 +1427,25 @@ def parse_trainer_effects(text: str) -> list[dict[str, Any]]:
             }
         )
         return effects
+    # Dark Patch: one basic Darkness from discard onto one Benched Darkness Pokémon.
+    # Wondrous Patch already returned for the Psychic sentence.
+    if (
+        "attach a basic darkness energy card from your discard pile" in t
+        and "benched darkness pokemon" in t
+    ):
+        effects.append(
+            {
+                "kind": "attach_basic_energy_from_discard",
+                "count": 1,
+                "energy_type": "Darkness",
+                "pokemon_type": "Darkness",
+                "bench_only": True,
+            }
+        )
+        return effects
+    ko_tools = _ko_tool_effects(t)
+    if ko_tools:
+        return ko_tools
     reactive = _attached_tool_reactive(t)
     if reactive:
         return reactive

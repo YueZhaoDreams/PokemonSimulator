@@ -114,6 +114,10 @@ PREFERRED_IDS = {
     "Hisuian Sliggoo": "swsh11-133",
     "Lickilicky": "swsh11-139",
     "Emolga": "sv10.5b-029",
+    "Pichu": "hgss1-28",  # Playground / Sweet Sleeping Face
+    "Smoochum": "hgss1-30",  # Energy Antics / Sweet Sleeping Face
+    "Slumbering Forest": "sm11-207",
+
     "Spheal": "sv08-043",  # Powder Snow 10 + Asleep (Surging Sparks)
     "Sealeo": "sv08-044",  # Lunge Out 30 / Ice Ball 60
     "Walrein": "sv08-045",  # Frigid Fangs 60 / Megaton Fall 170
@@ -290,6 +294,10 @@ EXTRA_PRINT_IDS: dict[str, tuple[str, ...]] = {
     "Oranguru": ("sv08-156", "sm1-113"),
     # Rebel Clash Prankish is the default; CLC 014 / TWM 079 share the printed name.
     "Clefable": ("swsh2-75", "clc-014", "sv06-079"),
+    # Paldean Fates Mimed Games stays the default. Call of Legends is the mill wall.
+    "Mime Jr.": ("sv04.5-031", "col1-47"),
+    # Obsidian Flames Grasping Draw stays the default. HeartGold & SoulSilver is Doll's Eeeeeeek.
+    "Cleffa": ("sv03-080", "hgss1-17"),
 }
 
 # Household prints that are not TCGdex ids. CLC 014 reprints Jungle Clefable
