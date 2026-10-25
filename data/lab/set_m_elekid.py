@@ -326,6 +326,14 @@ def result_lines(rep: dict) -> list[str]:
             f"({row['weighted'] - path[0]['weighted']:+.1%} against the start list); two fresh seeds pooled "
             f"{pct(pooled['weighted'])} ({pooled['weighted'] - base_pool['weighted']:+.1%}, {z:+.1f} standard errors)."
         )
+    for prev, row in zip(path, path[1:]):
+        later = fresh[row["label"]]["pooled"]
+        earlier = fresh[prev["label"]]["pooled"]
+        gap = later["weighted"] - earlier["weighted"]
+        z_step = gap / diff_se(later, earlier)
+        lines.append(
+            f"- {row['label']} against {prev['label']} on the two fresh seeds: {gap:+.2%} ({z_step:+.1f} standard errors)."
+        )
     fresh_gap = fresh[best_label]["pooled"]["weighted"] - fresh[start]["pooled"]["weighted"]
     fresh_z = fresh_gap / diff_se(fresh[best_label]["pooled"], fresh[start]["pooled"])
     if best_label != start:
@@ -335,7 +343,7 @@ def result_lines(rep: dict) -> list[str]:
         z_all = d_all / diff_se(clean[best_label]["all_fresh"], clean[start]["all_fresh"])
         lines.append(
             f"- {best_label} against the start list: clean seed {d_clean:+.2%} ({z_clean:+.1f} standard errors); "
-            f"all three seeds {d_all:+.2%} ({z_all:+.1f})."
+            f"all three seeds {d_all:+.2%} ({z_all:+.1f} standard errors)."
         )
         if abs(fresh_z) < 2.0 and z_all < 2.0:
             verdict = (
