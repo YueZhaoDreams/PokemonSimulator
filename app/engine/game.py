@@ -6655,6 +6655,10 @@ class Game:
             return card.is_pokemon and 0 < (card.hp or 0) <= max_hp
 
         prefer = self._pokemon_search_prefer(me, who)
+        if self.strats[who].name == "doll":
+            only = doll_ai.level_ball_name(self, me)
+            if only:
+                prefer = [only]
         found = self._search(me, pred, prefer=prefer, n=1, source="level ball")
         if found:
             self._bump("level_ball")

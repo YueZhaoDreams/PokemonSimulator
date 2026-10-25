@@ -643,7 +643,8 @@ SET_L60_NAMES = (
 # and replaces whichever Stadium is in play, including Neutralization Zone.
 # This 60 was not remeasured with that swap.
 # Doll lock (2026-10-24). The 1000-game holdout is data/lab/set-doll.json.
-# Item dolls are Trainers. Nest Ball's printed search does not find them.
+# Item dolls are Trainers. A Pokémon search does not find them.
+# Level Ball's sentence takes a Pokémon of at most the printed HP, so Shedinja qualifies.
 SET_DOLL_NAMES = (
     ["Cleffa"] * 4
     + ["Smoochum"] * 2
@@ -667,7 +668,7 @@ SET_DOLL_NAMES = (
     + ["Nincada"]
     + ["Shedinja"]
     + ["Field Blower"]
-    + ["Nest Ball"] * 2
+    + ["Level Ball"] * 2
     + ["Buddy-Buddy Poffin"] * 2
     + ["Crushing Hammer"] * 2
 )
@@ -3534,6 +3535,7 @@ _register(
         set_name="Primal Clash",
     )
 )
+# Dark Explorers 62 is Junk Hunt. Dragons Exalted bw6-62 is Nosepass.
 _register(
     _pkm(
         "Sableye",
@@ -3541,9 +3543,9 @@ _register(
         ["Darkness"],
         70,
         [_atk("Junk Hunt", ["Darkness"], 0, _JUNK_HUNT_TEXT)],
-        catalog_id="bw6-62",
+        catalog_id="bw5-62",
         weakness="Fighting",
-        image="https://assets.tcgdex.net/en/bw/bw6/62/low.webp",
+        image="https://assets.tcgdex.net/en/bw/bw5/62/low.webp",
         set_name="Dark Explorers",
     )
 )
@@ -3902,13 +3904,14 @@ _register(
         set_name="Lost Origin",
     )
 )
+# BREAKpoint 109. BREAKthrough xy8-109 is Axew.
 _register(
     _trn(
         "Puzzle of Time",
         "item",
         _PUZZLE_TEXT,
-        catalog_id="xy8-109",
-        image="https://assets.tcgdex.net/en/xy/xy8/109/low.webp",
+        catalog_id="xy9-109",
+        image="https://assets.tcgdex.net/en/xy/xy9/109/low.webp",
     )
 )
 _register(
@@ -5209,6 +5212,7 @@ _register(
         "item",
         "Attach a basic Darkness Energy card from your discard pile to 1 of your Benched Darkness Pokémon.",
         catalog_id="bw5-93",
+        image="https://assets.tcgdex.net/en/bw/bw5/93/low.webp",
     )
 )
 _register(
@@ -5226,6 +5230,7 @@ _register(
         "tool",
         "If the Pokémon this card is attached to is Knocked Out, your opponent takes 1 fewer Prize card.",
         catalog_id="bw9-107",
+        image="https://assets.tcgdex.net/en/bw/bw9/107/low.webp",
     )
 )
 # HeartGold & SoulSilver 17. fallback_named("Cleffa") stays the Obsidian Flames Grasping Draw print.

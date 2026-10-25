@@ -1,7 +1,8 @@
 """Doll lock pilot. Printed sentences stay in the parsers; this file only chooses.
 
-The 1000-game holdout (seed 20261025) played this list. Item dolls are Trainers,
-so Nest Ball does not search them. They are played from hand onto an open Bench.
+The 1000-game holdout (seed 20261025) played the Nest Ball list. Item dolls are
+Trainers, so a Pokémon search does not find them. They are played from hand.
+Level Ball uses its printed HP line, which includes Shedinja once Nincada is out.
 Sweet Sleeping Face, Energy Antics, Sleepy Lost, Junk Hunt, Puzzle of Time,
 Handiwork, Dark Patch, Cursed Shovel, Life Dew, and Vessel of Life resolve from
 their own text.
@@ -17,7 +18,7 @@ KEEPERS = {
     "team rocket's handiwork",
     "vs seeker",
     "switch",
-    "nest ball",
+    "level ball",
     "buddy-buddy poffin",
     "crushing hammer",
     "dark patch",
@@ -95,7 +96,7 @@ def _hunt_worth(game, me) -> bool:
     useful = {
         "team rocket's handiwork",
         "vs seeker",
-        "nest ball",
+        "level ball",
         "buddy-buddy poffin",
         "rescue carrier",
         "switch",
@@ -178,6 +179,19 @@ def search_prefer(game, me) -> list[str]:
     ):
         prefer.append("Nincada")
     return prefer
+
+
+def level_ball_name(game, me) -> str | None:
+    """Shedinja is the Pokémon Nest Ball cannot find. Take it once Nincada is already in play."""
+    if _hard(game, me):
+        return None
+    in_play = {me.card(mon.card_i).name.lower() for mon in me.in_play()}
+    in_hand = {me.card(i).name.lower() for i in me.hand}
+    if "nincada" not in in_play or "shedinja" in in_play or "shedinja" in in_hand:
+        return None
+    if any(me.card(i).name.lower() == "shedinja" for i in me.deck):
+        return "Shedinja"
+    return None
 
 
 def energy_target(game, me):
@@ -317,6 +331,13 @@ def trainer_score(game, me, foe, card) -> float:
         return -4
     if name in {"nest ball", "nesting ball"}:
         return 20 if _bench_room(game, me) > 0 else -8
+    if name == "level ball":
+        if level_ball_name(game, me):
+            return 24
+        deck = {me.card(i).name.lower() for i in me.deck}
+        if _bench_room(game, me) > 0 and any(want.lower() in deck for want in search_prefer(game, me)):
+            return 18
+        return -8
     if name in {"buddy-buddy poffin", "buddy buddy poffin"}:
         return 26 if _bench_room(game, me) > 0 else -8
     if name == "rescue carrier":
@@ -412,7 +433,7 @@ PUZZLE_PREFER = (
     "lillie's poké doll",
     "cursed shovel",
     "switch",
-    "nest ball",
+    "level ball",
     "buddy-buddy poffin",
     "crushing hammer",
     "darkness energy",
@@ -501,7 +522,7 @@ def recycle_items(game, me, count: int) -> None:
     business = [
         "dark patch",
         "vs seeker",
-        "nest ball",
+        "level ball",
         "buddy-buddy poffin",
         "rescue carrier",
         "switch",

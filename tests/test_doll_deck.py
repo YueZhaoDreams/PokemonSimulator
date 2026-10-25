@@ -56,6 +56,7 @@ def _pile() -> list:
         ("Boss's Orders", 1),
         ("Switch", 1),
         ("Nest Ball", 1),
+        ("Level Ball", 1),
         ("Water Energy", 2),
         ("Darkness Energy", 8),
     ]
@@ -135,7 +136,8 @@ def test_doll_list_is_the_locked_60():
     assert names.count("Nincada") == 1
     assert names.count("Shedinja") == 1
     assert names.count("Field Blower") == 1
-    assert names.count("Nest Ball") == 2
+    assert names.count("Level Ball") == 2
+    assert names.count("Nest Ball") == 0
     assert names.count("Buddy-Buddy Poffin") == 2
     assert names.count("Crushing Hammer") == 2
     assert "Miss Fortune Sisters" not in names
@@ -151,8 +153,20 @@ def test_doll_list_is_the_locked_60():
     assert len(smoochum) == 2 and smoochum[0].attacks[0].name == "Energy Antics"
     assert smoochum[0].catalog_id == "hgss1-30"
     assert [c.attacks[0].name for c in pile if c.name == "Sableye"] == ["Junk Hunt"] * 2
+    assert [c.catalog_id for c in pile if c.name == "Sableye"] == ["bw5-62"] * 2
+    assert [c.image for c in pile if c.name == "Sableye"] == [
+        "https://assets.tcgdex.net/en/bw/bw5/62/low.webp"
+    ] * 2
     dew = [c for c in pile if c.name == "Life Dew"]
     assert len(dew) == 1 and dew[0].catalog_id == "bw9-107" and dew[0].text == _DEW
+    assert dew[0].image == "https://assets.tcgdex.net/en/bw/bw9/107/low.webp"
+    patch = next(c for c in pile if c.name == "Dark Patch")
+    assert patch.catalog_id == "bw5-93"
+    assert patch.image == "https://assets.tcgdex.net/en/bw/bw5/93/low.webp"
+    assert [c.catalog_id for c in pile if c.name == "Puzzle of Time"] == ["xy9-109"] * 4
+    assert [c.image for c in pile if c.name == "Puzzle of Time"] == [
+        "https://assets.tcgdex.net/en/xy/xy9/109/low.webp"
+    ] * 4
     robo = [c for c in pile if c.name == "Robo Substitute Team Flare Gear"]
     assert len(robo) == 4 and {c.catalog_id for c in robo} == {"xy4-102"}
     assert [c.catalog_id for c in pile if c.name == "Cursed Shovel"] == ["swsh2-157"] * 3
@@ -173,12 +187,25 @@ def test_doll_list_is_the_locked_60():
     assert fallback_named("Robo Substitute").catalog_id == "xy4-102"
     nest = fallback_named("Nest Ball")
     assert "basic" in nest.text.lower()
+    level = fallback_named("Level Ball")
+    assert level.catalog_id == "swsh5-129"
+    parsed_level = parse_trainer_effects(level.text)
+    assert parsed_level == [{"kind": "search_pokemon_max_hp", "max_hp": 90}]
     for key in ("doll", "22"):
         loaded = load_seed_deck(key)
         assert loaded["id"] == "seed-doll"
         assert loaded["name"] == "Doll"
         assert [c["name"] for c in loaded["cards"]] == names
         assert [c["catalog_id"] for c in loaded["cards"] if c["name"] == "Cleffa"] == ["hgss1-17"] * 4
+        assert [c["catalog_id"] for c in loaded["cards"] if c["name"] == "Sableye"] == ["bw5-62"] * 2
+        assert [c["image"] for c in loaded["cards"] if c["name"] == "Sableye"] == [
+            "https://assets.tcgdex.net/en/bw/bw5/62/low.webp"
+        ] * 2
+        assert [c["catalog_id"] for c in loaded["cards"] if c["name"] == "Puzzle of Time"] == ["xy9-109"] * 4
+        assert [c["image"] for c in loaded["cards"] if c["name"] == "Puzzle of Time"] == [
+            "https://assets.tcgdex.net/en/xy/xy9/109/low.webp"
+        ] * 4
+        assert [c["catalog_id"] for c in loaded["cards"] if c["name"] == "Level Ball"] == ["swsh5-129"] * 2
     assert default_rule_presets_for("seed-doll") == ["s60"]
     assert "seed-doll" in S60_SEED_IDS
     spec = StrategySpec.from_dict("doll")
@@ -422,6 +449,40 @@ def test_vessel_of_life_attaches_shedinja_as_a_tool():
     assert nincada in me.discard and energy in me.discard
     assert board.game.events["vessel"] == 1
     assert all(mon.card_i != shed for mon in me.in_play())
+
+
+def test_level_ball_takes_shedinja_once_nincada_is_out():
+    board = _Board()
+    me = board.seat(
+        "a",
+        active=("Cleffa", []),
+        bench=["Nincada"],
+        hand=["Level Ball"],
+        deck=["Shedinja", "Manaphy", "Sableye"],
+    )
+    board.seat("b", active=("Sableye", []))
+    played = me.hand[0]
+    me.hand.remove(played)
+    me.discard.append(played)
+    board.game._resolve_trainer(me, board.game.players["b"], me.card(played), who="a", card_i=played)
+    assert [me.card(i).name for i in me.hand] == ["Shedinja"]
+    assert board.game.events["level_ball"] == 1
+
+
+def test_level_ball_takes_a_basic_before_nincada_is_out():
+    board = _Board()
+    me = board.seat(
+        "a",
+        active=("Cleffa", []),
+        hand=["Level Ball"],
+        deck=["Shedinja", "Manaphy"],
+    )
+    board.seat("b", active=("Sableye", []))
+    played = me.hand[0]
+    me.hand.remove(played)
+    me.discard.append(played)
+    board.game._resolve_trainer(me, board.game.players["b"], me.card(played), who="a", card_i=played)
+    assert [me.card(i).name for i in me.hand] == ["Manaphy"]
 
 
 def test_puzzle_pair_leaves_the_second_card_when_only_snorlax_is_there():

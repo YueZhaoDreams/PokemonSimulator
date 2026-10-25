@@ -3,7 +3,32 @@
   "seed_id": "seed-doll",
   "locked": "2026-10-24",
   "measurement": "fight-script holdout, not the product engine",
-  "note": "Item dolls are Trainers. Nest Ball does not search them. The product plays them from hand. Life Dew is one Pokémon Tool, not an ACE SPEC label. D60 wins include the mulligan cap. Carpet H did not play Battle Cage in this sample.",
+  "note": "Item dolls are Trainers. A Pokémon search does not find them. The list uses two Level Ball. Life Dew is one Pokémon Tool, not an ACE SPEC label. D60 wins in the fight-script holdout include the mulligan cap. Carpet H did not play Battle Cage in that sample.",
+  "level_ball": {
+    "measurement": "product engine, strategy doll",
+    "seed": 20261026,
+    "games_per_seat": 1000,
+    "elapsed_seconds": 888.56,
+    "nest_sisters_weighted": 0.2885313833028641,
+    "nest_self_weighted": 0.2863494266747133,
+    "level_sisters_weighted": 0.2878743144424132,
+    "level_self_weighted": 0.28948461074230536,
+    "rows": [
+      {"key": "t60", "nest": 0.471, "level": 0.4945, "shed_tutor": 0.088},
+      {"key": "hedrick", "nest": 0.281, "level": 0.264, "shed_tutor": 0.076},
+      {"key": "unl", "nest": 0.742, "level": 0.77, "shed_tutor": 0.1605},
+      {"key": "d60", "nest": 0.0145, "level": 0.008, "shed_tutor": 0.0},
+      {"key": "s60", "nest": 0.5325, "level": 0.5325, "shed_tutor": 0.1215},
+      {"key": "g", "nest": 0.1845, "level": 0.1895, "shed_tutor": 0.0775},
+      {"key": "c60", "nest": 0.487, "level": 0.463, "shed_tutor": 0.0825},
+      {"key": "m", "nest": 0.152, "level": 0.153, "shed_tutor": 0.0805},
+      {"key": "starmie", "nest": 0.0955, "level": 0.1245, "shed_tutor": 0.0695},
+      {"key": "lucario", "nest": 0.7245, "level": 0.716, "shed_tutor": 0.075},
+      {"key": "thorns", "nest": 0.8835, "level": 0.8735, "shed_tutor": 0.119},
+      {"key": "h", "nest": 0.0625, "level": 0.055, "shed_tutor": 0.1625},
+      {"key": "g30", "nest": 0.633, "level": 0.65, "shed_tutor": 0.107}
+    ]
+  },
   "holdout": {
     "seed": 20261025,
     "games_per_seat": 1000,
