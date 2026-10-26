@@ -26,9 +26,10 @@ def test_set_m_card_count_and_composition():
     assert SET_M60_NAMES.count("Igglybuff") == 4
     assert SET_M60_NAMES.count("Budew") == 4
     assert SET_M60_NAMES.count("Manaphy") == 1
+    assert SET_M60_NAMES.count("Elekid") == 1
     assert SET_M60_NAMES.count("Cleffa") == 0
-    total_pokemon = 3 + 2 + 4 + 4 + 1
-    assert total_pokemon == 14
+    pokemon = ("Mew ex", "Mime Jr.", "Igglybuff", "Budew", "Elekid", "Manaphy")
+    assert sum(SET_M60_NAMES.count(name) for name in pokemon) == 15
 
     # Count Key Trainers. Greedy Max Potion cut 2 Cleffa, Maximum Belt, and 1 Ultra Ball.
     # One Hero's Cape then cut 1 Budew (3 → 2).
@@ -42,8 +43,9 @@ def test_set_m_card_count_and_composition():
     # Four Sky Field and four Budew, then four Team Rocket's Petrel.
     # Cuts: Ultra Ball (2 → 1), Penny (2 → 0), Sky Field (4 → 3).
     # One Junk Arm on that list. Cut: Ultra Ball (1 → 0).
+    # One Elekid on that list. Cut: Battle Cage (4 → 3). Manaphy and Counter Catcher stay.
     assert SET_M60_NAMES.count("Buddy-Buddy Poffin") == 4
-    assert SET_M60_NAMES.count("Battle Cage") == 4
+    assert SET_M60_NAMES.count("Battle Cage") == 3
     assert SET_M60_NAMES.count("Sky Field") == 3
     assert SET_M60_NAMES.count("Bravery Charm") == 2
     assert SET_M60_NAMES.count("Bursting Balloon") == 1
@@ -74,6 +76,8 @@ def test_load_seed_deck_m():
     served = [card["name"] for card in deck_m60["cards"]]
     assert served == list(SET_M60_NAMES)
     assert served.count("Manaphy") == 1
+    assert served.count("Elekid") == 1
+    assert served.count("Battle Cage") == 3
     assert served.count("Budew") == 4
     assert served.count("Sky Field") == 3
     assert served.count("Team Rocket's Petrel") == 4

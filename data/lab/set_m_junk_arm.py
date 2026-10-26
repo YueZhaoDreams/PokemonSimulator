@@ -389,7 +389,7 @@ def result_lines(report: dict) -> list[str]:
     lines.extend(
         [
             "",
-            "The list this search kept is locked as `SET_M60_NAMES`. "
+            "The list this search kept was locked as `SET_M60_NAMES` before the Elekid lock. "
             "The starting 60 is the four-Petrel list this search measured.",
             "",
             "Copies at or above 2 standard errors against zero: "
@@ -435,7 +435,7 @@ def render_md(report: dict) -> str:
         "",
         f"Starting 60 is the four-Petrel list measured before this search: {report.get('start_label')}.",
         "That list has four Team Rocket's Petrel, three Sky Field, four Budew, and zero Junk Arm.",
-        "The list this search kept is locked as `SET_M60_NAMES`.",
+        "The list this search kept was locked as `SET_M60_NAMES` before the Elekid lock.",
         "Each step cuts exactly one copy of one other card. Weights are frozen from the",
         "0-Junk-Arm measurement of this list on this engine.",
         "",

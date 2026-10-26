@@ -1774,7 +1774,8 @@ def _attack_spread_effects(t: str) -> list[dict[str, Any]]:
             }
         )
     many = re.search(r"does (\d+) damage to (\d+) of your opponent's pokemon", flat)
-    if many and "damage counters" not in flat:
+    # "1 of your opponent's Pokémon" is damage_one_pokemon. Both hooks on one sentence would hit twice.
+    if many and int(many.group(2)) > 1 and "damage counters" not in flat:
         effects.append(
             {
                 "kind": "damage_n_opponent_pokemon",

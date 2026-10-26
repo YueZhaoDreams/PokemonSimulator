@@ -531,18 +531,29 @@ SET_T_UNL_NAMES = (
 # Selection 90.64% → 91.89% (+1.25 pp, 1.93 standard errors). The next copy (Budew, 91.54%) does not rise.
 # Holdout 91.10% → 91.22% (+0.12 pp, 0.19 standard errors). One copy is locked.
 # Cut: Ultra Ball (1 → 0). One Junk Arm.
+# Elekid on that list. Paradox Rift 59. Crackling Shot is an extreme finisher only.
+# Search set-m-elekid. Selection seed 20261007, 1000 games per foe.
+# Fresh seeds 20261105 (2000) and 20261112 (3000), pooled. Clean seed 20261029, 8000.
+# Weights frozen from the 0-Elekid list:
+# Hedrick 37.7%, Starmie 23.3%, T60 20.3%, C60 16.0%, D60 1.9%, Thorns 0.8%.
+# One copy, cutting Manaphy, is +0.85 pp on the fresh seeds (+2.7 standard errors).
+# That cut is not the lock. Starmie falls, and the same games scored with the new
+# list's loss weights also prefer the list that still has Manaphy.
+# Two copies, cutting Counter Catcher, do not separate from one (+1.4 standard errors).
+# The lock is one Elekid for one Battle Cage (4 → 3). Manaphy stays. Counter Catcher stays.
 SET_M60_NAMES = (
     ["Mew ex"] * 3
     + ["Mime Jr."] * 2
     + ["Igglybuff"] * 4
     + ["Budew"] * 4
+    + ["Elekid"]
     + ["Manaphy"]
     + ["Buddy-Buddy Poffin"] * 4
     + ["Nest Ball"] * 4
     + ["Junk Arm"]
     + ["Night Stretcher"]
     + ["Rescue Carrier"] * 2
-    + ["Battle Cage"] * 4
+    + ["Battle Cage"] * 3
     + ["Sky Field"] * 3
     + ["Bravery Charm"] * 2
     + ["Bursting Balloon"]
@@ -3700,6 +3711,24 @@ _register(
         retreat=0,
         image="https://assets.tcgdex.net/en/sv/sv03/080/low.webp",
         set_name="Obsidian Flames",
+    )
+)
+_ELEKID_SHOT_TEXT = (
+    "This attack does 30 damage to 1 of your opponent's Pokémon. "
+    "(Don't apply Weakness and Resistance for Benched Pokémon.)"
+)
+_register(
+    _pkm(
+        "Elekid",
+        "Basic",
+        ["Lightning"],
+        30,
+        [_atk("Crackling Shot", [], 0, _ELEKID_SHOT_TEXT)],
+        catalog_id="sv04-059",
+        weakness="Fighting",
+        retreat=0,
+        image="https://assets.tcgdex.net/en/sv/sv04/059/low.webp",
+        set_name="Paradox Rift",
     )
 )
 _register(

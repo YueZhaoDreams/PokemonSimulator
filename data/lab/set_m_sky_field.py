@@ -87,6 +87,7 @@ QUERIES = [
     {"type": "event_sum", "prefix": "counter_catcher_a", "key": "catcher_plays"},
 ]
 QUERY_KEYS = ("sky_games", "attack6", "attack7", "attack8", "itchy")
+EXTRA_COUNT_KEYS: tuple[str, ...] = ()
 
 
 def loss_weights(rates: dict[str, float]) -> dict[str, float]:
@@ -146,6 +147,8 @@ def _run(names: list[str], games: int, foe_key: str, foe_names, foe_strat: str, 
     }
     for key in QUERY_KEYS:
         detail[key] = result["queries"].get(key, 0.0)
+    for key in EXTRA_COUNT_KEYS:
+        detail[key] = counts.get(key, 0)
     return foe_key, detail
 
 
