@@ -644,6 +644,7 @@ def test_petrel_report_is_the_finished_four_sky_field_search():
     live = Counter(SET_M60_NAMES)
     walked = list(report["list"])
     walked[walked.index("Ultra Ball")] = "Junk Arm"
+    walked[walked.index("Battle Cage")] = "Elekid"
     assert Counter(walked) == live
     assert copy_violations(build_fallback_deck(list(SET_M60_NAMES)), standard_60_rules()) == []
 

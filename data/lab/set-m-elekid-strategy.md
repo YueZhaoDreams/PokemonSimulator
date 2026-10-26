@@ -81,3 +81,8 @@ name as the cut, screened on 300 games per foe, the best six confirmed on 1000. 
 (the 4-of-a-name limit), even past the first step that does not gain, so the report can say how many copies are best.
 Weights are frozen from this locked list on the selection seed. Each list on the path is then run on two fresh seeds,
 and the best list on the fresh seeds goes to the clean seed. Same six foes and the same seeds as the earlier Set M reports.
+
+## Lock
+
+The search above is unchanged. After it, the locked 60 is that starting list with one Battle Cage cut for one Elekid.
+Manaphy and Counter Catcher stay. The greedy first cut, Manaphy, is not the lock.

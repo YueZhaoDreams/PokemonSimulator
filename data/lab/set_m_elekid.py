@@ -8,8 +8,9 @@ the Knock Out wins the game, or when it takes at least 2 prizes the Active attac
 it and stays Active. Elekid itself goes Active only when Mew ex cannot use the attack and that Knock Out is extreme.
 The play is written in `set-m-elekid-strategy.md` before the search.
 
-The start list is the locked `SET_M60_NAMES`: four Team Rocket's Petrel, one Junk Arm, three Sky Field, four Budew,
-no Ultra Ball, no Penny, no Boss's Orders. Each step adds one more Elekid and tries every other card name as the cut.
+The measured start is that report's `list_start`, the lock when the search ran: four Team Rocket's Petrel, one Junk Arm,
+three Sky Field, four Budew, four Battle Cage, no Elekid, no Ultra Ball, no Penny, no Boss's Orders. A later lock of
+`SET_M60_NAMES` does not move it. Each step adds one more Elekid and tries every other card name as the cut.
 Cuts are screened on SCREEN_GAMES games per foe, the best SCREEN_TOP are confirmed on GAMES games per foe, and the best
 confirmed cut is taken even when the list gets worse, up to MAX_COPIES (the 4-of-a-name limit). The score is the
 loss-weighted win rate. Weights are frozen from this locked list on the selection seed.
@@ -32,7 +33,6 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 
 import set_m_sky_field as base  # noqa: E402
-from app.seed_data import SET_M60_NAMES  # noqa: E402
 from set_m_sky_field import (  # noqa: E402
     FOES,
     GAMES,
@@ -138,11 +138,25 @@ def copies_label(count: int) -> str:
     return "Start (no Elekid)" if count == 0 else f"{count} Elekid"
 
 
+def starting_list() -> list[str]:
+    """The Set M this search measured. Four Battle Cage, zero Elekid.
+
+    The card order is the report's list_start. Later locks of SET_M60_NAMES
+    do not move it. The lock after this search is one Elekid for one Battle Cage.
+    """
+    if not DEST.exists():
+        raise SystemExit("measured start is the report's list_start, and that report is missing")
+    names = list(json.loads(DEST.read_text())["report"]["list_start"])
+    if len(names) != 60 or names.count(ADD) or names.count("Battle Cage") != 4:
+        raise SystemExit("measured start is not the four Battle Cage list without Elekid")
+    if names.count("Team Rocket's Petrel") != 4 or names.count("Junk Arm") != 1 or names.count("Manaphy") != 1:
+        raise SystemExit("measured start is not the Junk Arm lock")
+    return names
+
+
 def main() -> None:
     started = time.perf_counter()
-    start = list(SET_M60_NAMES)
-    if len(start) != 60 or Counter(start)[ADD]:
-        raise SystemExit("locked Set M is not a 60 card list without Elekid")
+    start = starting_list()
     start_label = copies_label(0)
 
     cache = Cache(None)

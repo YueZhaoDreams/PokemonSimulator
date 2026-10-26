@@ -20,12 +20,18 @@ def _report(name: str) -> dict:
 
 def test_elekid_search_path_adds_one_elekid_per_step_from_the_locked_list():
     rep = _report("set-m-elekid.json")
-    start = list(SET_M60_NAMES)
+    start = list(rep["list_start"])
     assert rep["done"] is True
     assert rep["list_set_m"] == start
-    assert rep["list_start"] == start
     assert rep["start_label"] == "Start (no Elekid)"
     assert rep["weights_from"] == "locked Set M on the selection seed"
+    assert Counter(start)["Elekid"] == 0
+    assert Counter(start)["Battle Cage"] == 4
+    assert Counter(start)["Manaphy"] == 1
+    assert Counter(start)["Counter Catcher"] == 1
+    live = Counter(SET_M60_NAMES)
+    assert live - Counter(start) == Counter({"Elekid": 1})
+    assert Counter(start) - live == Counter({"Battle Cage": 1})
     path = rep["path"]
     assert path[0]["list"] == start and Counter(start)["Elekid"] == 0
     assert path[0]["cut"] is None
@@ -62,7 +68,7 @@ def test_elekid_search_fresh_and_clean_tables_cover_the_path():
         assert all(cell["games"] == games for cell in row["pooled"]["cells"].values())
     clean = {row["label"]: row for row in rep["clean_rows"]}
     assert {path[0]["label"], path[-1]["label"], rep["best_fresh_label"]} <= set(clean)
-    assert clean[path[0]["label"]]["list"] == list(SET_M60_NAMES)
+    assert clean[path[0]["label"]]["list"] == list(rep["list_start"])
     fresh = {row["label"]: row for row in rep["fresh"]}
     assert rep["best_fresh_label"] == max(
         (row["label"] for row in path), key=lambda label: fresh[label]["pooled"]["weighted"]

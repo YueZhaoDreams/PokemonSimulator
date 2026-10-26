@@ -23836,6 +23836,47 @@
         "traits": []
       },
       {
+        "catalog_id": "sv04-059",
+        "name": "Elekid",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Lightning"
+        ],
+        "hp": 30,
+        "attacks": [
+          {
+            "name": "Crackling Shot",
+            "cost": [],
+            "damage": 0,
+            "text": "This attack does 30 damage to 1 of your opponent's Pok\u00e9mon. (Don't apply Weakness and Resistance for Benched Pok\u00e9mon.)",
+            "effects": [
+              {
+                "kind": "damage_one_pokemon",
+                "amount": 30
+              }
+            ]
+          }
+        ],
+        "abilities": [],
+        "weaknesses": [
+          {
+            "type": "Fighting",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv04/059/low.webp",
+        "set_name": "Paradox Rift",
+        "text": "",
+        "dex_id": null,
+        "traits": []
+      },
+      {
         "catalog_id": "swsh9-041",
         "name": "Manaphy",
         "category": "Pokemon",
@@ -24125,26 +24166,6 @@
         "text": "Put up to 2 Pok\u00e9mon, each with 90 HP or less, from your discard pile into your hand.",
         "dex_id": null,
         "traits": []
-      },
-      {
-        "catalog_id": "me02-085",
-        "name": "Battle Cage",
-        "category": "Trainer",
-        "stage": "Stadium",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "stadium",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/me/me02/085/low.webp",
-        "set_name": null,
-        "text": "Prevent all damage counters from being placed on Benched Pok\u00e9mon (both yours and your opponent's) by effects of attacks and Abilities from the opponent's Pok\u00e9mon. (Damage from attacks is still taken.)",
-        "dex_id": null
       },
       {
         "catalog_id": "me02-085",

@@ -676,6 +676,7 @@ STRATEGY_LIBRARY = {
             "and the pull is the Benched Pokémon whose Knock Out takes the most prizes. "
             "Counter Catcher also needs more Prize cards remaining than the opponent, as printed, "
             "and goes ahead of Boss's Orders so the Supporter stays in hand. "
+            "The locked list plays one Elekid and three Battle Cage. "
             "Elekid is one more 30 HP Baby for Bouncy Circle. Its Crackling Shot costs no Energy and does 30 damage "
             "to 1 of the opponent's Pokémon, with no Weakness or Resistance on the Bench, and Mew ex copies it. "
             "Crackling Shot is a finisher. It is used only for an extreme Knock Out: the Knock Out wins the game, "
