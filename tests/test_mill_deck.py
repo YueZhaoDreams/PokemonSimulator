@@ -18,7 +18,7 @@ from app.engine.effects import (
     parse_energy_effects,
     parse_trainer_effects,
 )
-from app.engine.game import Game, Pokemon
+from app.engine.game import ST_ASLEEP, Game, Pokemon
 from app.engine.legality import copy_violations
 from app.engine.models import S60_SEED_IDS, default_rule_presets_for, standard_60_rules
 from app.engine.strategies import StrategySpec
@@ -802,3 +802,127 @@ def test_level_ball_finds_wugtrio_ahead_of_a_wall_once_wiglett_is_out():
     board.game._resolve_trainer(me, foe, fallback_named("Level Ball"), "a")
     assert [me.card(i).name for i in me.hand] == ["Wugtrio"]
     assert [me.card(i).name for i in me.deck] == ["Pichu"]
+
+
+def test_survival_brace_attaches_to_a_full_wugtrio():
+    board = _Board("mill", "demolish")
+    me = board.seat("a", active=("Wiglett", []), bench=("Wiglett",))
+    foe = board.seat("b", active=("Wugtrio", []), deck=["Water Energy"] * 4)
+    trio = board.take("a", "Wugtrio")
+    pichu = _grant(board, "a", "Pichu")
+    brace = _grant(board, "a", "Survival Brace")
+    me.active = Pokemon(card_i=pichu)
+    me.bench = [Pokemon(card_i=trio)]
+    me.hand = [brace]
+    board.game._play_trainers(me, foe, "a")
+    assert me.bench[0].tool == brace
+    assert me.active.tool is None
+
+    me.bench[0].tool = None
+    me.bench[0].damage = 10
+    me.hand = [brace]
+    me.discard = [i for i in me.discard if i != brace]
+    board.game._play_trainers(me, foe, "a")
+    assert me.bench[0].tool is None
+    assert brace in me.hand
+
+
+def test_junk_arm_spends_dead_nests_on_level_ball_and_keeps_energy():
+    board = _Board("mill", "demolish")
+    me = board.seat("a", active=("Wiglett", []), bench=("Wiglett",))
+    foe = board.seat("b", active=("Wugtrio", []), deck=["Water Energy"] * 8)
+    pichu = _grant(board, "a", "Pichu")
+    me.bench = [Pokemon(card_i=pichu)]
+    arm = _grant(board, "a", "Junk Arm")
+    nest = _grant(board, "a", "Nest Ball")
+    nest_b = _grant(board, "a", "Nest Ball")
+    level = board.take("a", "Level Ball")
+    energy = board.take("a", "Water Energy")
+    trio = board.take("a", "Wugtrio")
+    me.hand = [arm, nest, nest_b, energy]
+    me.discard = [level]
+    me.deck = [trio]
+    board.game._play_trainers(me, foe, "a")
+    assert board.game.events.get("junk_arm") == 1
+    assert energy in me.hand
+    assert [me.card(i).name for i in me.hand if me.card(i).name == "Wugtrio"] == ["Wugtrio"]
+    assert nest in me.discard and nest_b in me.discard
+
+
+def test_junk_arm_waits_when_the_hand_cannot_pay_two_discards():
+    board = _Board("mill", "demolish")
+    me = board.seat("a", active=("Wiglett", []))
+    foe = board.seat("b", active=("Wugtrio", []), deck=["Water Energy"] * 4)
+    arm = _grant(board, "a", "Junk Arm")
+    energy = board.take("a", "Water Energy")
+    wally = _grant(board, "a", "Wally")
+    level = board.take("a", "Level Ball")
+    me.hand = [arm, energy, wally]
+    me.discard = [level]
+    me.deck = [board.take("a", "Wugtrio")]
+    board.game._play_trainers(me, foe, "a")
+    assert "junk_arm" not in board.game.events
+    assert energy in me.hand
+    assert arm in me.hand
+
+
+def test_cleffa_stays_in_the_deck_against_phantom_dive():
+    board = _Board("mill", "phantom")
+    me = board.seat("a", active=("Wiglett", []))
+    board.seat("b", active=("Wugtrio", []), deck=["Water Energy"] * 4)
+    cleffa = _grant(board, "a", "cleffa hgss")
+    me.hand = [cleffa]
+    me.deck = [board.take("a", "Water Energy")]
+    board.game.turn = 4
+    board.game._play_basics(me)
+    assert cleffa in me.hand
+
+
+def test_cleffa_eeeeeeek_when_the_hand_cannot_continue_undersea():
+    printed = fallback_named("cleffa hgss")
+    assert printed.hp == 30
+    assert any(atk.name == "Eeeeeeek" for atk in printed.attacks)
+    assert any(abi.name == "Sweet Sleeping Face" for abi in printed.abilities)
+    parsed = parse_effects(next(atk.text for atk in printed.attacks if atk.name == "Eeeeeeek"))
+    draw = next(e for e in parsed if e.get("kind") == "shuffle_hand_then_draw")
+    assert draw["amount"] == 6
+
+    board = _Board("mill", "demolish")
+    me = board.seat("a", active=("Wiglett", []), bench=("Wiglett",))
+    foe = board.seat("b", active=("Wugtrio", []), deck=["Water Energy"] * 4)
+    pichu = _grant(board, "a", "Pichu")
+    cleffa = _grant(board, "a", "cleffa hgss")
+    hammer = _grant(board, "a", "Crushing Hammer")
+    hammer_b = _grant(board, "a", "Crushing Hammer")
+    me.active = Pokemon(card_i=pichu)
+    me.bench = [Pokemon(card_i=cleffa)]
+    me.hand = [hammer, hammer_b]
+    me.deck = [board.take("a", "Water Energy") for _ in range(8)]
+    board.game.turn = 4
+    board.game.first = "b"
+    board.game.events["used_playground_a"] = 1
+    board.game._maybe_retreat(me, foe, "a")
+    assert me.card(me.active.card_i).name == "Cleffa"
+    board.game._attack(me, foe, "a")
+    assert board.game.events.get("eeeeeeek_shuffle") == 1
+    assert me.active.status & ST_ASLEEP
+    assert len(me.hand) == 6
+
+
+def test_paid_wugtrio_comes_up_ahead_of_cleffa():
+    board = _Board("mill", "demolish")
+    me = board.seat("a", active=("Wiglett", []), bench=("Wiglett",))
+    foe = board.seat("b", active=("Wugtrio", []), deck=["Water Energy"] * 4)
+    pichu = _grant(board, "a", "Pichu")
+    cleffa = _grant(board, "a", "cleffa hgss")
+    trio = board.take("a", "Wugtrio")
+    fuels = [board.take("a", "Water Energy") for _ in range(3)]
+    me.active = Pokemon(card_i=pichu)
+    me.bench = [Pokemon(card_i=cleffa), Pokemon(card_i=trio, energy=fuels)]
+    me.hand = [_grant(board, "a", "Crushing Hammer")]
+    me.deck = [board.take("a", "Water Energy")]
+    board.game.turn = 4
+    board.game.first = "b"
+    board.game.events["used_playground_a"] = 1
+    board.game._maybe_retreat(me, foe, "a")
+    assert me.card(me.active.card_i).name == "Wugtrio"

@@ -448,6 +448,14 @@ class Game:
                 return True
         return False
 
+    def _prints_eeeeeeek(self, card) -> bool:
+        """HeartGold & SoulSilver Cleffa: shuffle the hand in, draw 6, then Asleep."""
+        return any(
+            effect.get("kind") == "shuffle_hand_then_draw"
+            for attack in card.attacks
+            for effect in attack.effects
+        )
+
     def _is_protected_from_energy(self, me: Player, card, strat: StrategySpec) -> bool:
         """Keep the last copy of a protected attacker off the energy pile.
 
@@ -527,8 +535,14 @@ class Game:
             # is a prize (Phantom Dive puts its counters on the lowest HP).
             # The spare stays in the deck until that wall is gone. Manaphy
             # shields attack damage. Wiglett fills what's left. One Victini.
+            # Eeeeeeek Cleffa is the extra body: it comes in only when the hand
+            # cannot continue Undersea, and never into Phantom Dive or spread.
             if name == "manaphy":
                 return copies < 1
+            if self._prints_eeeeeeek(card):
+                if not self._mill_wall_match(player) or copies >= 1:
+                    return False
+                return self._mill_wants_eeeeeeek(player)
             if self._sweet_face(card):
                 # Phantom Dive, Starmie, and spread KO a 30 HP bench baby.
                 # Leave the wall in the deck in those matches and mill.
@@ -728,6 +742,8 @@ class Game:
                 return doll_ai.starter_score(self, card)
             if strat.name == "mill" and self._prints_playground(card):
                 return 4000 if self._mill_wall_match(player) else 100
+            if strat.name == "mill" and self._prints_eeeeeeek(card):
+                return 150
             if strat.name == "mill" and self._sweet_face(card):
                 return 3600 if self._mill_wall_match(player) else 100
             if strat.name == "mill" and name == "wiglett":
@@ -1208,12 +1224,16 @@ class Game:
             if strat.name == "mill":
                 if name == "manaphy":
                     return (0, 0)
-                if self._sweet_face(card):
+                if self._prints_playground(card):
                     return (1, 0)
+                if self._sweet_face(card) and not self._prints_eeeeeeek(card):
+                    return (1, 1)
                 if name == "victini":
                     return (2, 0)
                 if name == "wiglett":
                     return (3, 0)
+                if self._prints_eeeeeeek(card):
+                    return (5, 0)
                 return (4, 0)
             if strat.name == "g":
                 rank = {
@@ -6944,6 +6964,8 @@ class Game:
         name = card.name.lower()
         if name == "wugtrio" and self._mill_can_pay(player, mon):
             return 0
+        if self._prints_eeeeeeek(card) and self._mill_wants_eeeeeeek(player):
+            return 1.5
         if name == "wugtrio":
             return 1
         if name == "wiglett":
@@ -7193,6 +7215,11 @@ class Game:
                 self._bump("proxy_stall")
                 return
         if active.name.lower() == "wugtrio":
+            if self._mill_can_pay(me, me.active) or self._mill_hand_completes(me, me.active):
+                return
+            draw = self._mill_eeeeeeek_idx(me) if self._mill_wants_eeeeeeek(me) else None
+            if draw is not None:
+                self._do_retreat_into(me, draw)
             return
         for idx, mon in enumerate(me.bench):
             card = me.card(mon.card_i)
@@ -7201,6 +7228,19 @@ class Game:
             if self._mill_can_pay(me, mon) and self._do_retreat_into(me, idx):
                 return
         can_attack = self._mill_can_attack_turn(me)
+        if self._prints_eeeeeeek(active):
+            # Draw 6 only while Undersea cannot be paid. A ready line comes back up.
+            if can_attack and self._mill_wants_eeeeeeek(me):
+                return
+            if self._mill_can_retreat(me):
+                line = self._mill_line_idx(me)
+                if line is not None and self._do_retreat_into(me, line):
+                    return
+            if not can_attack:
+                hide = self._mill_hide_idx(me)
+                if hide is not None:
+                    self._do_retreat_into(me, hide)
+            return
         if self._sweet_face(active):
             # Playground once. A later Playground only refills the opponent's bench.
             if (
@@ -7209,6 +7249,10 @@ class Game:
                 and self.events.get(f"used_playground_{who}", 0) > 0
                 and self._mill_can_retreat(me)
             ):
+                if self._mill_wants_eeeeeeek(me):
+                    draw = self._mill_eeeeeeek_idx(me)
+                    if draw is not None and self._do_retreat_into(me, draw):
+                        return
                 line = self._mill_line_idx(me)
                 if line is not None:
                     self._do_retreat_into(me, line)
@@ -7221,6 +7265,10 @@ class Game:
             return
         if not can_attack:
             return
+        if self._mill_wants_eeeeeeek(me):
+            draw = self._mill_eeeeeeek_idx(me)
+            if draw is not None and self._do_retreat_into(me, draw):
+                return
         face = self._mill_face_idx(me)
         if face is not None:
             self._do_retreat_into(me, face)
@@ -7304,7 +7352,168 @@ class Game:
             if self._mill_switch_idx(me) is not None:
                 return 28
             return -12
+        if name == "junk arm":
+            # Above Nest Ball. The generic picker adds its own Nest bonus, and a
+            # dead Nest would otherwise be played before these two discards.
+            return 36 if self._mill_junk_plan(me, foe) else -12
+        if name == "survival brace":
+            # Full-HP Wugtrio survives one lethal hit at 10 HP. Demolish ignores it.
+            return 13 if self._mill_brace_target(me) is not None else -6
         return 0
+
+    def _mill_line_ready(self, me: Player) -> bool:
+        for mon in me.in_play():
+            if me.card(mon.card_i).name.lower() != "wugtrio":
+                continue
+            if self._mill_can_pay(me, mon) or self._mill_hand_completes(me, mon):
+                return True
+        return False
+
+    def _mill_card_keeps(self, me: Player, card: Card) -> bool:
+        """A card that still extends Undersea. Eeeeeeek would shuffle it away."""
+        name = card.name.lower()
+        if self._prints_eeeeeeek(card):
+            return False
+        if card.is_energy or card.is_pokemon:
+            return True
+        if name in {"wally", "level ball", "rescue carrier", "colress's tenacity", "survival brace"}:
+            return True
+        if name == "junk arm":
+            foe = self.players["b" if me.name == "A" else "a"]
+            return self._mill_junk_plan(me, foe)
+        if name in {"nest ball", "buddy-buddy poffin"}:
+            return not self._mill_setup_spent(me)
+        if name in {"slumbering forest", "neutralization zone"}:
+            return (self.stadium_name or "").lower() != name
+        return False
+
+    def _mill_setup_spent(self, me: Player) -> bool:
+        """Nest Ball and Poffin no longer extend the line."""
+        slots = self._bench_limit(me) - len(me.bench)
+        if slots <= 0:
+            return True
+        have_line = any(
+            me.card(mon.card_i).name.lower() in {"wiglett", "wugtrio"} for mon in me.in_play()
+        )
+        have_face = any(self._sweet_face(me.card(mon.card_i)) for mon in me.in_play())
+        return have_line and (have_face or not self._mill_wall_match(me))
+
+    def _mill_wants_eeeeeeek(self, me: Player) -> bool:
+        """Shuffle-draw when this hand cannot evolve or attach for Undersea."""
+        if not me.deck:
+            return False
+        if self._mill_line_ready(me):
+            return False
+        return not any(self._mill_card_keeps(me, me.card(i)) for i in me.hand)
+
+    def _mill_eeeeeeek_idx(self, me: Player) -> int | None:
+        for idx, mon in enumerate(me.bench):
+            if self._prints_eeeeeeek(me.card(mon.card_i)):
+                return idx
+        return None
+
+    def _mill_brace_target(self, me: Player) -> Pokemon | None:
+        """Survival Brace wants a full-HP Wugtrio. A damaged one never triggers it."""
+        best: tuple[tuple[int, int], Pokemon] | None = None
+        for mon in me.in_play():
+            if me.card(mon.card_i).name.lower() != "wugtrio" or mon.tool is not None or mon.damage:
+                continue
+            rank = (1 if mon is me.active else 0, len(mon.energy))
+            if best is None or rank > best[0]:
+                best = (rank, mon)
+        return None if best is None else best[1]
+
+    def _mill_retrieve_rank(self, me: Player, foe: Player, name: str) -> int:
+        in_hand = {me.card(i).name.lower() for i in me.hand}
+        repeats = {"crushing hammer", "team rocket's handiwork", "miss fortune sisters"}
+        if name in in_hand and name not in repeats:
+            return -1
+        who = "a" if me.name == "A" else "b"
+        if name == "level ball":
+            if any(me.card(i).name.lower() == "wugtrio" for i in me.deck):
+                return 30
+            return 8
+        if name == "wally":
+            return 28 if self._mill_wally_score(me, who) >= 12 else -1
+        if name == "rescue carrier":
+            return 26 if self._rescue_carrier_targets(me, 90) else -1
+        if name == "colress's tenacity":
+            return 22 if any(me.card(i).is_energy for i in me.deck) else -1
+        if name == "survival brace":
+            return 20 if self._mill_brace_target(me) is not None else -1
+        if name in {"nest ball", "buddy-buddy poffin"} and not self._mill_setup_spent(me):
+            return 16
+        if name == "team rocket's handiwork":
+            return 14 if len(foe.deck) >= 6 else -1
+        if name == "crushing hammer":
+            return 12 if foe.active and foe.active.energy else -1
+        if name == "miss fortune sisters":
+            return 11 if len(foe.deck) >= 5 else -1
+        return -1
+
+    def _mill_junk_target(self, me: Player, foe: Player) -> int | None:
+        best: int | None = None
+        best_rank = 9
+        for idx in me.discard:
+            card = me.card(idx)
+            if not card.is_trainer or card.name.lower() == "junk arm" or self._cannot_leave_discard(card):
+                continue
+            rank = self._mill_retrieve_rank(me, foe, card.name.lower())
+            if rank > best_rank:
+                best_rank = rank
+                best = idx
+        return best
+
+    def _mill_fodder_rank(self, me: Player, foe: Player, card: Card) -> int | None:
+        if card.is_energy or card.is_pokemon or card.name.lower() == "junk arm":
+            return None
+        name = card.name.lower()
+        if name in {"wally", "level ball", "rescue carrier", "colress's tenacity", "survival brace"}:
+            return None
+        if name in {"nest ball", "buddy-buddy poffin"} and self._mill_setup_spent(me):
+            return 0
+        if name in {"slumbering forest", "neutralization zone"} and (self.stadium_name or "").lower() == name:
+            return 1
+        if "poké doll" in name or "poke doll" in name:
+            if self._count_no_prize_proxies(me) or not self._mill_wall_match(me):
+                return 2
+            return None
+        if name == "crushing hammer" and not (foe.active and foe.active.energy):
+            return 3
+        return None
+
+    def _mill_junk_fodder(self, me: Player, foe: Player) -> list[int]:
+        ranked = []
+        for idx in me.hand:
+            rank = self._mill_fodder_rank(me, foe, me.card(idx))
+            if rank is None:
+                continue
+            ranked.append((rank, idx))
+        ranked.sort()
+        return [idx for _rank, idx in ranked]
+
+    def _mill_junk_plan(self, me: Player, foe: Player) -> bool:
+        return self._mill_junk_target(me, foe) is not None and len(self._mill_junk_fodder(me, foe)) >= 2
+
+    def _mill_junk_arm(self, me: Player, foe: Player, discard_n: int) -> None:
+        """Discard two cards that no longer extend the line, then one Trainer from discard."""
+        fodder = self._mill_junk_fodder(me, foe)
+        target = self._mill_junk_target(me, foe)
+        if target is None or len(fodder) < discard_n:
+            self._bump("junk_arm_fail")
+            return
+        for idx in fodder[:discard_n]:
+            me.hand.remove(idx)
+            me.discard.append(idx)
+        if target not in me.discard:
+            self._bump("junk_arm_miss")
+            return
+        me.discard.remove(target)
+        me.hand.append(target)
+        found = me.card(target).name
+        self._bump("junk_arm")
+        self._bump(f"junk_arm_into:{found}")
+        self._log(f"{me.name} Junk Arm finds {found}")
 
     def _count_psychic_energy_in_play(self, me: Player) -> int:
         """Count Psychic Energy attached to all of this player's Pokémon.
@@ -9513,6 +9722,8 @@ class Game:
                 if mon.tool is None and self._is_pokemon_v(me.card(mon.card_i)):
                     return mon
             return None
+        if name == "survival brace" and self.strats[who].name == "mill":
+            return self._mill_brace_target(me)
         if name in {"hero's cape", "survival brace"}:
             for mon in me.in_play():
                 if mon.tool is None and me.card(mon.card_i).name.lower() == "mew ex":
@@ -16027,7 +16238,9 @@ class Game:
         elif kind == "scoop_non_v_gx_to_hand":
             self._scoop_up_net(me, who)
         elif kind == "junk_arm":
-            if self.strats[who].name in {"mew_baby", "baby"}:
+            if self.strats[who].name == "mill":
+                self._mill_junk_arm(me, foe, int(eff.get("discard") or 2))
+            elif self.strats[who].name in {"mew_baby", "baby"}:
                 self._mew_junk_arm(me, who, int(eff.get("discard") or 0), bool(eff.get("exclude_self")))
             else:
                 self._junk_arm(me, who, card, int(eff.get("discard") or 2), bool(eff.get("exclude_self")))
