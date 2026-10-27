@@ -1402,6 +1402,13 @@ def parse_trainer_effects(text: str) -> list[dict[str, Any]]:
             }
         )
         return effects
+    # Phantasmal Flames Dawn: one Basic, one Stage 1, and one Stage 2 into the hand.
+    if (
+        "search your deck for a basic pokemon, a stage 1 pokemon, and a stage 2 pokemon" in t
+        and "into your hand" in t
+    ):
+        effects.append({"kind": "search_basic_stage1_stage2"})
+        return effects
     # Level Ball: a Pokémon whose printed HP is at most the number in the sentence.
     level_ball = re.search(
         r"search your deck for a pokemon with (\d+) hp or less, reveal it, and put it into your hand",

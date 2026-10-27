@@ -26,6 +26,10 @@ RESCUE_SCARF = (
     "If the Pokémon this card is attached to is Knocked Out by damage from an attack, "
     "put that Pokémon into your hand. (Discard all cards attached to that Pokémon.)"
 )
+DAWN = (
+    "Search your deck for a Basic Pokémon, a Stage 1 Pokémon, and a Stage 2 Pokémon, "
+    "reveal them, and put them into your hand. Then, shuffle your deck."
+)
 GRAND_TREE = (
     "You can't have more than 1 ACE SPEC card in your deck. "
     "Once during each player's turn, that player may search their deck for a Stage 1 Pokémon "
@@ -63,6 +67,14 @@ def _reclaim(me) -> None:
     me.hand.extend(found)
 
 
+def _grant(me, name: str) -> int:
+    card = fallback_named(name)
+    me.cards.append(card)
+    idx = len(me.cards) - 1
+    me.deck.append(idx)
+    return idx
+
+
 def _pull(me, name: str) -> int:
     for zone in (me.hand, me.deck, me.prizes, me.discard, me.lost_zone):
         for card_i in list(zone):
@@ -80,6 +92,7 @@ def test_printed_sentences_parse_without_a_fixed_devolve_count():
     four = parse_ability_effects(MOUNTAIN_ROASTING.replace("top 3", "top 4"))
     assert four == [{"kind": "mill_on_play_from_hand", "count": 4}]
     assert parse_ability_effects(FREEFLOATING) == [{"kind": "retreat_zero_if_no_energy"}]
+    assert parse_trainer_effects(DAWN) == [{"kind": "search_basic_stage1_stage2"}]
     assert {"kind": "grand_tree"} in parse_ability_effects(GRAND_TREE)
     assert not any(e.get("kind") == "mill_on_play_from_hand" for e in parse_ability_effects(GRAND_TREE))
     scarf = parse_trainer_effects(RESCUE_SCARF)
@@ -93,6 +106,7 @@ def test_printed_sentences_parse_without_a_fixed_devolve_count():
     assert lampent.abilities[0].text == FREEFLOATING
     chandelure = fallback_named("Chandelure")
     assert chandelure.abilities[0].text == MOUNTAIN_ROASTING
+    assert fallback_named("Dawn").text == DAWN
     assert fallback_named("Grand Tree").text == GRAND_TREE
     assert fallback_named("Rescue Scarf").text == RESCUE_SCARF
 
@@ -106,6 +120,10 @@ def test_roast_deck_is_sixty_and_pichu_is_playground():
     assert names.count("Pichu") == 3
     assert names.count("Cleffa") == 2
     assert names.count("Level Ball") == 4
+    assert names.count("Dawn") == 4
+    assert names.count("Grand Tree") == 0
+    assert names.count("Colress's Tenacity") == 0
+    assert names.count("Ultra Ball") == 1
     assert names.count("Nest Ball") == 0
     assert names.count("Slumbering Forest") == 1
     assert names.count("Fire Energy") == 8
@@ -170,7 +188,7 @@ def test_grand_tree_mills_nothing_and_hand_evolve_mills_three():
     lit = _pull(me, "Litwick")
     lamp = _pull(me, "Lampent")
     chand = _pull(me, "Chandelure")
-    tree = _pull(me, "Grand Tree")
+    tree = _grant(me, "Grand Tree")
     me.deck.extend([lamp, chand])
     me.active = Pokemon(card_i=celebi, played_turn=0)
     me.bench = [Pokemon(card_i=lit, played_turn=0)]
@@ -533,7 +551,7 @@ def test_playground_litwick_cannot_grand_tree_on_the_same_turn():
     lit = _pull(me, "Litwick")
     lamp = _pull(me, "Lampent")
     chand = _pull(me, "Chandelure")
-    tree = _pull(me, "Grand Tree")
+    tree = _grant(me, "Grand Tree")
     me.hand.clear()
     me.deck = [lit, lamp, chand]
     me.active = Pokemon(card_i=pichu, played_turn=0)
@@ -545,6 +563,75 @@ def test_playground_litwick_cannot_grand_tree_on_the_same_turn():
     assert me.card(me.bench[0].card_i).name == "Litwick"
     assert game.events.get("grand_tree", 0) in (None, 0)
     assert game.events.get("mountain_roasting", 0) in (None, 0)
+
+
+def test_dawn_finds_each_stage_and_the_chandelure_mills_on_a_legal_lampent():
+    game = _game()
+    me = game.players["a"]
+    foe = game.players["b"]
+    _reclaim(me)
+    cleffa = _pull(me, "Cleffa")
+    lamp_play = _pull(me, "Lampent")
+    lit = _pull(me, "Litwick")
+    lamp = _pull(me, "Lampent")
+    chand = _pull(me, "Chandelure")
+    dawn = _pull(me, "Dawn")
+    me.active = Pokemon(card_i=cleffa, played_turn=0)
+    me.bench = [Pokemon(card_i=lamp_play, played_turn=0)]
+    me.hand = [dawn]
+    me.deck = [lit, lamp, chand]
+    _ready_turn(game)
+    before = len(foe.deck)
+    game._roast_main(me, foe, "a")
+    names = [me.card(mon.card_i).name for mon in me.in_play()]
+    assert names.count("Litwick") == 1
+    assert names.count("Chandelure") == 1
+    assert lamp in me.hand
+    assert dawn in me.discard
+    assert len(foe.deck) == before - 3
+    assert game.events.get("dawn", 0) == 1
+    assert game.events.get("mountain_roasting", 0) == 1
+
+
+def test_dawn_cannot_evolve_the_basic_it_just_put_into_play():
+    game = _game()
+    me = game.players["a"]
+    foe = game.players["b"]
+    _reclaim(me)
+    cleffa = _pull(me, "Cleffa")
+    lit = _pull(me, "Litwick")
+    lamp = _pull(me, "Lampent")
+    chand = _pull(me, "Chandelure")
+    dawn = _pull(me, "Dawn")
+    me.active = Pokemon(card_i=cleffa, played_turn=0)
+    me.hand = [dawn]
+    me.deck = [lit, lamp, chand]
+    _ready_turn(game)
+    before = len(foe.deck)
+    game._roast_main(me, foe, "a")
+    assert me.card(me.bench[0].card_i).name == "Litwick"
+    assert lamp in me.hand
+    assert chand in me.hand
+    assert len(foe.deck) == before
+    assert game.events.get("mountain_roasting", 0) in (None, 0)
+
+
+def test_dawn_skips_a_stage_the_deck_does_not_have():
+    game = _game()
+    me = game.players["a"]
+    _reclaim(me)
+    cleffa = _pull(me, "Cleffa")
+    lit = _pull(me, "Litwick")
+    lamp = _pull(me, "Lampent")
+    dawn = _pull(me, "Dawn")
+    me.active = Pokemon(card_i=cleffa, played_turn=0)
+    me.hand = [dawn]
+    me.deck = [lit, lamp]
+    _ready_turn(game)
+    game._roast_trainers(me, game.players["b"], "a")
+    assert lit in me.hand
+    assert lamp in me.hand
+    assert game.events.get("dawn_cards", 0) == 2
 
 
 def test_one_chandelure_mills_three_on_three_lampent():

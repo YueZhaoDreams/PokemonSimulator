@@ -2,9 +2,9 @@
 """Celebi ◇ / Chandelure roast mill. One list, both seats, loss-weighted.
 
 Mountain Roasting discards the top 3 only when Chandelure is played from the
-hand. Pichu Playground benches Litwick and then Celebi ◇. Grand Tree jumps a
-Litwick that was already in play to Chandelure and mills 0. Celebi ◇ devolves
-that Chandelure. A Chandelure in the hand evolves onto any Lampent that can
+hand. Dawn searches the deck for a Basic Pokémon, a Stage 1 Pokémon, and a
+Stage 2 Pokémon and puts them into the hand. Pichu Playground benches Litwick
+and then Celebi ◇. A Chandelure in the hand evolves onto any Lampent that can
 evolve this turn. Team Rocket's Petrel
 searches a Trainer card. Rescue Scarf returns Celebi ◇ to the hand.
 
@@ -98,6 +98,7 @@ _COUNT_KEYS = (
     "roast_mill_cards",
     "roast_mill_turns",
     "grand_tree",
+    "dawn",
     "time_distortion",
     "rescue_scarf",
     "prism_lost_zone",
@@ -137,6 +138,11 @@ def _check() -> None:
         raise SystemExit("roast Level Ball count")
     if names.count("Slumbering Forest") < 1:
         raise SystemExit("roast has no Slumbering Forest")
+    if names.count("Dawn") != 4 or names.count("Grand Tree") or names.count("Colress's Tenacity"):
+        raise SystemExit("roast Dawn list")
+    dawn = fallback_named("Dawn")
+    if "basic pokemon, a stage 1 pokemon, and a stage 2 pokemon" not in dawn.text.lower().replace("é", "e"):
+        raise SystemExit("Dawn text")
     if fallback_named("Team Rocket's Petrel").text.lower().count("trainer") < 1:
         raise SystemExit("Petrel text missing")
 
@@ -190,6 +196,7 @@ def _run(foe_key: str, seat: str, games: int, seed: int) -> dict:
         totals["roast_mill_cards"] += result.events.get("roast_mill_cards", 0)
         totals["roast_mill_turns"] += result.events.get("roast_mill_turns", 0)
         totals["grand_tree"] += result.events.get("grand_tree", 0)
+        totals["dawn"] += result.events.get("dawn", 0)
         totals["time_distortion"] += result.events.get("time_distortion", 0)
         totals["rescue_scarf"] += result.events.get("rescue_scarf", 0)
         totals["prism_lost_zone"] += result.events.get("prism_lost_zone", 0)
@@ -216,7 +223,7 @@ def _run(foe_key: str, seat: str, games: int, seed: int) -> dict:
 
 
 def _cache_key(foe_key: str, seat: str, games: int, seed: int) -> str:
-    return f"{seed}|{games}|{seat}|{foe_key}|roast-pichu-tree"
+    return f"{seed}|{games}|{seat}|{foe_key}|roast-dawn"
 
 
 def _load_cache() -> dict[str, dict]:
@@ -321,17 +328,17 @@ def _markdown(report: dict) -> str:
         "",
         "Celebi ◇ uses Time Distortion: devolve any number of benched Pokémon as many times as you like, and put each Evolution card removed this way into the hand. The measured line devolves each benched Chandelure once, leaving Lampent.",
         "",
-        "Chandelure's Mountain Roasting says the top 3 cards are discarded when you play that Pokémon from your hand to evolve. One evolution mills 3. Three mill 9. Four mill 12. Grand Tree searches the deck, so that jump mills 0, and this list does not play it over Slumbering Forest.",
+        "Chandelure's Mountain Roasting says the top 3 cards are discarded when you play that Pokémon from your hand to evolve. One evolution mills 3. Three mill 9. Four mill 12. Dawn puts a Basic, a Stage 1, and a Stage 2 into the hand. Playing Chandelure from that hand mills.",
         "",
-        "Pichu is HeartGold & SoulSilver Playground. Each player may bench as many Basic Pokémon as they like, this player first. Roast benches Litwick until four lines are in play, then Celebi ◇. Basics played that turn cannot evolve until the next turn. Grand Tree then searches the deck for Lampent and Chandelure and evolves one Litwick that was already in play. That jump mills 0. Celebi ◇ uses Time Distortion and puts that Chandelure into the hand. The next turn plays it from the hand onto Lampent, and Mountain Roasting mills. A Chandelure already in the hand evolves onto any Lampent that can evolve this turn, including one Lampent. A Lampent played or evolved on the same turn cannot take Chandelure until the next turn. Level Ball finds a Pokémon with 90 HP or less, including Pichu and Celebi ◇, and does not find Chandelure.",
+        "Pichu is HeartGold & SoulSilver Playground. Each player may bench as many Basic Pokémon as they like, this player first. Roast benches Litwick until four lines are in play, then Celebi ◇. Basics played that turn cannot evolve until the next turn. Dawn searches the deck for one Basic Pokémon, one Stage 1 Pokémon, and one Stage 2 Pokémon and puts them into the hand. A Chandelure already in the hand evolves onto any Lampent that can evolve this turn, including one Lampent. A Lampent evolved this turn cannot take Chandelure until the next turn. Celebi ◇ uses Time Distortion and puts that Chandelure back into the hand. Level Ball finds a Pokémon with 90 HP or less, including Pichu and Celebi ◇, and does not find Chandelure.",
         "",
         "Lampent is Plasma Storm Freefloating. With no Energy attached, its retreat cost is 0. Fire Energy stays on Celebi ◇.",
         "",
-        "Rescue Scarf puts the Pokémon into the hand when an attack Knocks it Out, and discards the cards attached to it. Celebi ◇ therefore does not go to the discard pile, and the Prism Star rule does not put it in the Lost Zone. Energy Retrieval takes that Fire Energy back. Arven can find the scarf and the Item. Team Rocket's Petrel searches the deck for a Trainer card. It does not search a Pokémon or an Energy card. Colress's Tenacity searches a Stadium and an Energy. The Stadium it takes is Slumbering Forest.",
+        "Rescue Scarf puts the Pokémon into the hand when an attack Knocks it Out, and discards the cards attached to it. Celebi ◇ therefore does not go to the discard pile, and the Prism Star rule does not put it in the Lost Zone. Energy Retrieval takes that Fire Energy back. Arven can find the scarf and the Item. Team Rocket's Petrel searches the deck for a Trainer card, Dawn first. It does not search a Pokémon or an Energy card.",
         "",
-        "Cleffa is HeartGold & SoulSilver Eeeeeeek: shuffle the hand into the deck, draw 6, then Cleffa is Asleep. Pichu is the Playground attacker. Sweet Sleeping Face prevents attack damage while that Pokémon is Asleep. Slumbering Forest makes the between-turns sleep check two coins, and the Pokémon stays Asleep unless both are heads. Grand Tree stays in play while a Litwick can still jump. Asleep blocks retreat, so Switch brings Celebi ◇ Active.",
+        "Cleffa is HeartGold & SoulSilver Eeeeeeek: shuffle the hand into the deck, draw 6, then Cleffa is Asleep. Pichu is the Playground attacker. Sweet Sleeping Face prevents attack damage while that Pokémon is Asleep. Slumbering Forest makes the between-turns sleep check two coins, and the Pokémon stays Asleep unless both are heads. Asleep blocks retreat, so Switch brings Celebi ◇ Active.",
         "",
-        "The first turn cannot evolve. Playground and Grand Tree on the same turn jump only a Litwick that was already in play. The Basics Playground just benched wait until the next turn.",
+        "The first turn cannot evolve. A Litwick played on the turn Dawn finds it cannot evolve that turn. The Lampent and Chandelure stay in the hand until a later turn.",
         "",
         f"- **List**: {', '.join(f'{name} ×{counts[name]}' for name in dict.fromkeys(SET_ROAST_NAMES))}",
         f"- **Seed**: `{report['seed']}`",
@@ -345,7 +352,7 @@ def _markdown(report: dict) -> str:
         f"Games in which Mountain Roasting fired: **{_pct(report['fired'])}**. "
         f"Hand-evolve turns per game: {report['roast_mill_turns']:.2f}. "
         f"Cards milled by those turns per game: {report['roast_mill_cards']:.2f}. "
-        f"Grand Tree uses per game: {report['grand_tree']:.2f}. "
+        f"Dawn plays per game: {report['dawn']:.2f}. "
         f"Time Distortion devolves per game: {report['time_distortion']:.2f}. "
         f"Rescue Scarf returns per game: {report['rescue_scarf']:.2f}. "
         f"Celebi ◇ sent to the Lost Zone per game: {report['prism_lost_zone']:.2f}. "
@@ -358,7 +365,7 @@ def _markdown(report: dict) -> str:
         "",
         "## Wave",
         "",
-        "Each row is how often a turn's from-hand Chandelure evolutions milled that many cards. One Lampent mills 3. Grand Tree is not in this histogram. A short last row can be the opponent's deck running out.",
+        "Each row is how often a turn's from-hand Chandelure evolutions milled that many cards. One Lampent mills 3. Dawn itself is not in this histogram. A short last row can be the opponent's deck running out.",
         "",
         "| Cards milled that turn | Turns per game |",
         "| ---: | ---: |",

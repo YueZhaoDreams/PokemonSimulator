@@ -734,10 +734,9 @@ SET_ROAST_NAMES = (
     + ["Energy Search"] * 4
     + ["Energy Retrieval"] * 2
     + ["Rescue Scarf"] * 4
-    + ["Grand Tree"]
-    + ["Colress's Tenacity"] * 2
+    + ["Dawn"] * 4
     + ["Level Ball"] * 4
-    + ["Ultra Ball"] * 2
+    + ["Ultra Ball"]
     + ["Switch"] * 2
     + ["Slumbering Forest"]
     + ["Fire Energy"] * 8
@@ -1319,6 +1318,14 @@ _register(_trn("Tool Box", "item", "Look at the top 7 cards of your deck. You ma
 _register(_trn("Trekking Shoes", "item", "Look at the top card of your deck. You may put it into your hand, or discard it and draw a card."))
 _register(_trn("Lake Acuity", "stadium", "Water and Fighting Pokémon take 20 less damage from attacks."))
 _register(_trn("Jacq", "supporter", "Search your deck for up to 2 Evolution Pokémon."))
+_register(
+    _trn(
+        "Dawn",
+        "supporter",
+        "Search your deck for a Basic Pokémon, a Stage 1 Pokémon, and a Stage 2 Pokémon, reveal them, and put them into your hand. Then, shuffle your deck.",
+        catalog_id="pfl-87",
+    )
+)
 _register(
     _trn(
         "Lillie's Determination",

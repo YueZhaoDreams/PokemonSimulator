@@ -6818,6 +6818,37 @@ class Game:
         self._bump("stored_power")
         self._log(f"{me.name} moves Energy to {me.card(dest.card_i).name}")
 
+    def _dawn_prefer(self, me: Player, who: str, stage: str) -> list[str]:
+        if self.strats[who].name == "roast":
+            if stage == "basic":
+                return ["Pichu", "Litwick", "Celebi ◇", "Cleffa"]
+            if stage == "stage1":
+                return ["Lampent"]
+            return ["Chandelure"]
+        return list(self.strats[who].search_aces)
+
+    def _dawn(self, me: Player, who: str) -> None:
+        """One Basic, one Stage 1, and one Stage 2 from the deck into the hand.
+
+        A stage the deck does not have is skipped. The cards are not played.
+        """
+        found: list[str] = []
+        slots = (
+            ("basic", lambda c: c.is_pokemon and c.is_basic),
+            ("stage1", lambda c: c.is_pokemon and self._stage_token(c.stage or "") == "stage1"),
+            ("stage2", lambda c: c.is_pokemon and self._stage_token(c.stage or "") == "stage2"),
+        )
+        for stage, pred in slots:
+            card_i = self._search(me, pred, prefer=self._dawn_prefer(me, who, stage), source="dawn")
+            if card_i is not None:
+                found.append(me.card(card_i).name)
+        if found:
+            self._bump("dawn")
+            self._bump("dawn_cards", len(found))
+            self._log(f"{me.name} Dawn finds {', '.join(found)}")
+        else:
+            self._bump("dawn_miss")
+
     def _level_ball(self, me: Player, who: str, max_hp: int) -> None:
         if max_hp <= 0:
             return
@@ -16658,6 +16689,8 @@ class Game:
             self._rescue_carrier(me, who, int(eff.get("count") or 0), int(eff.get("max_hp") or 0))
         elif kind == "search_pokemon_max_hp":
             self._level_ball(me, who, int(eff.get("max_hp") or 0))
+        elif kind == "search_basic_stage1_stage2":
+            self._dawn(me, who)
         elif kind == "look_opp_discard_items":
             self._look_opp_discard_items(me, foe, int(eff.get("look") or 0))
         elif kind == "coin_mill_top":
@@ -18309,6 +18342,8 @@ class Game:
         name = card.name.lower()
         if name == "chandelure":
             return True
+        if name == "dawn":
+            return True
         if name == "grand tree":
             return (self.stadium_name or "").lower() != "grand tree"
         if self._prints_playground(card) and not any(
@@ -18402,6 +18437,21 @@ class Game:
             return False
         return any(self._roast_is_wall_card(me.card(mon.card_i)) for mon in me.bench)
 
+    def _roast_dawn_helps(self, me: Player) -> bool:
+        names = {me.card(i).name.lower() for i in me.deck}
+        if "chandelure" in names or "lampent" in names:
+            return True
+        if "litwick" in names and self._roast_lines(me) < 4:
+            return True
+        pichu_ready = any(self._prints_playground(me.card(mon.card_i)) for mon in me.in_play()) or any(
+            self._prints_playground(me.card(i)) for i in me.hand
+        )
+        if "pichu" in names and not pichu_ready:
+            return True
+        if any("celebi" in name for name in names) and self._roast_celebi(me) is None and not self._roast_celebi_in_hand(me):
+            return True
+        return False
+
     def _roast_wants_scarf_search(self, me: Player, who: str) -> bool:
         if self._roast_named(me, me.hand, "Rescue Scarf"):
             return False
@@ -18420,10 +18470,13 @@ class Game:
             and self._roast_named(me, me.deck, "Switch")
         ):
             return "Switch"
-        tree_out = (self.stadium_name or "").lower() == "grand tree"
-        if not tree_out and not self._roast_named(me, me.hand, "Grand Tree") and self._roast_named(me, me.deck, "Grand Tree"):
-            return "Grand Tree"
-        if not forest_out and tree_out and not self._roast_named(me, me.hand, "Slumbering Forest") and self._roast_named(me, me.deck, "Slumbering Forest"):
+        if (
+            self._roast_dawn_helps(me)
+            and not self._roast_named(me, me.hand, "Dawn")
+            and self._roast_named(me, me.deck, "Dawn")
+        ):
+            return "Dawn"
+        if not forest_out and not self._roast_named(me, me.hand, "Slumbering Forest") and self._roast_named(me, me.deck, "Slumbering Forest"):
             return "Slumbering Forest"
         if (
             self._roast_chandelure_hand(me) < 3
@@ -18501,7 +18554,7 @@ class Game:
             "cleffa",
             "pichu",
             "slumbering forest",
-            "grand tree",
+            "dawn",
             "level ball",
             "rescue scarf",
             "switch",
@@ -18524,15 +18577,12 @@ class Game:
         if card.is_supporter and (me.supporter_used or not self._can_play_supporter(who)):
             return -1
         forest_out = (self.stadium_name or "").lower() == "slumbering forest"
-        tree_out = (self.stadium_name or "").lower() == "grand tree"
-        if name == "grand tree":
-            return -1 if tree_out else 210
+        if name == "dawn":
+            if self._roast_needs_switch(me) and not self._roast_named(me, me.hand, "Switch"):
+                return 100
+            return 210 if self._roast_dawn_helps(me) else -1
         if name == "slumbering forest":
-            if forest_out or not tree_out or self._roast_named(me, me.hand, "Grand Tree"):
-                return -1
-            if any(me.card(mon.card_i).name.lower() == "litwick" for mon in me.in_play()):
-                return -1
-            return 40
+            return -1 if forest_out else 70
         if name == "level ball":
             return 165 if self._roast_level_helps(me) else -1
         if name in {"buddy-buddy poffin", "buddy buddy poffin"}:
@@ -18559,6 +18609,8 @@ class Game:
             want = self._roast_petrel_want(me, who)
             if want == "Switch":
                 return 175
+            if want == "Dawn":
+                return 200
             if want == "Slumbering Forest":
                 return 170
             return 110 if want else -1
