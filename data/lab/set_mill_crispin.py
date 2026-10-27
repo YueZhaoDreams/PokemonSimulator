@@ -116,6 +116,9 @@ LISTS: dict[str, tuple[str, ...]] = {
     "handi2": _swap(["Crispin"] * 2, ["Team Rocket's Handiwork"] * 2),
     "sisters": _swap(["Crispin"] * 2, ["Miss Fortune Sisters"] * 2),
     "manaphy": _swap(["Crispin"], ["Manaphy"]),
+    "types": _swap(["Water Energy"], ["Fighting Energy"]),
+    "types2": _swap(["Water Energy"] * 2, ["Fighting Energy"] * 2),
+    "carrier": _swap(["Crispin"], ["Rescue Carrier"]),
 }
 
 NOTES = {
@@ -129,6 +132,9 @@ NOTES = {
     "handi2": "Cut two Crispin for two Team Rocket's Handiwork. One Crispin stays.",
     "sisters": "Cut two Crispin for two Miss Fortune Sisters. One Crispin stays.",
     "manaphy": "Cut one Crispin for Manaphy. Wave Veil prevents bench damage from attacks.",
+    "types": "Turn one Water Energy into Fighting Energy. Three Crispin, and now two Basic types.",
+    "types2": "Turn two Water Energy into Fighting Energy. One Water stays for Twisting Strike.",
+    "carrier": "Cut one Crispin for a fourth Rescue Carrier.",
 }
 
 

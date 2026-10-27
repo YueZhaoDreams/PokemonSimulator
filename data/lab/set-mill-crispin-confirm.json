@@ -1,0 +1,802 @@
+{
+  "seed": 20261026,
+  "games": 400,
+  "elapsed": 458.2528388749997,
+  "weights": {
+    "t60": 0.04004004004004004,
+    "hedrick": 0.051051051051051045,
+    "unl": 0.022022022022022022,
+    "d60": 0.14514514514514515,
+    "s60": 0.07007007007007007,
+    "g": 0.11711711711711713,
+    "c60": 0.12412412412412413,
+    "m": 0.14514514514514515,
+    "starmie": 0.1061061061061061,
+    "lucario": 0.051051051051051045,
+    "thorns": 0.041041041041041046,
+    "h": 0.07607607607607607,
+    "g30": 0.011011011011011011
+  },
+  "lists": [
+    {
+      "label": "water3",
+      "note": "Cut all three Crispin for Water Energy.",
+      "counts": {
+        "Pichu": 1,
+        "Mime Jr.": 1,
+        "Wiglett": 4,
+        "Wugtrio": 4,
+        "Victini": 1,
+        "Slumbering Forest": 1,
+        "Neutralization Zone": 1,
+        "Buddy-Buddy Poffin": 4,
+        "Nest Ball": 3,
+        "Level Ball": 3,
+        "Rescue Carrier": 3,
+        "Lillie's Pok\u00e9 Doll": 1,
+        "Crushing Hammer": 4,
+        "Counter Catcher": 2,
+        "Miss Fortune Sisters": 2,
+        "Boss's Orders": 1,
+        "Team Rocket's Handiwork": 2,
+        "Colress's Tenacity": 4,
+        "Double Turbo Energy": 4,
+        "Water Energy": 6,
+        "Ignition Energy": 4,
+        "Reversal Energy": 4
+      },
+      "weighted": 0.3901726726726727,
+      "se": 0.00461929230431855,
+      "mean": 0.5450961538461538,
+      "worst": 0.06,
+      "worst_foe": "d60",
+      "cells": {
+        "t60": {
+          "wr": 0.73375,
+          "a": 0.7475,
+          "b": 0.72,
+          "tie": 0.0,
+          "mill_attack": 3.25875,
+          "turns": 17.67375,
+          "opp_prizes": 2.50375,
+          "reasons": {
+            "mill|b decked out": 297,
+            "foe|took all prize cards": 75,
+            "foe|opponent has no Pok\u00e9mon in play": 136,
+            "foe|more prizes at turn limit": 1,
+            "mill|opponent has no Pok\u00e9mon in play": 5,
+            "mill|a decked out": 285,
+            "foe|b had no Basic Pok\u00e9mon": 1
+          }
+        },
+        "hedrick": {
+          "wr": 0.5525,
+          "a": 0.5475,
+          "b": 0.5575,
+          "tie": 0.0,
+          "mill_attack": 2.665,
+          "turns": 17.57125,
+          "opp_prizes": 2.1712499999999997,
+          "reasons": {
+            "mill|b decked out": 217,
+            "foe|opponent has no Pok\u00e9mon in play": 249,
+            "foe|took all prize cards": 103,
+            "foe|more prizes at turn limit": 5,
+            "mill|opponent has no Pok\u00e9mon in play": 4,
+            "foe|a had no Basic Pok\u00e9mon": 1,
+            "mill|a decked out": 221
+          }
+        },
+        "unl": {
+          "wr": 0.8362499999999999,
+          "a": 0.85,
+          "b": 0.8225,
+          "tie": 0.0,
+          "mill_attack": 3.42875,
+          "turns": 15.30625,
+          "opp_prizes": 1.505,
+          "reasons": {
+            "mill|b decked out": 340,
+            "foe|took all prize cards": 47,
+            "foe|opponent has no Pok\u00e9mon in play": 84,
+            "mill|a decked out": 329
+          }
+        },
+        "d60": {
+          "wr": 0.06,
+          "a": 0.0675,
+          "b": 0.0525,
+          "tie": 0.0,
+          "mill_attack": 2.2649999999999997,
+          "turns": 15.33375,
+          "opp_prizes": 5.28125,
+          "reasons": {
+            "foe|opponent has no Pok\u00e9mon in play": 152,
+            "foe|took all prize cards": 600,
+            "mill|b decked out": 19,
+            "mill|b had no Basic Pok\u00e9mon": 8,
+            "mill|a decked out": 18,
+            "mill|a had no Basic Pok\u00e9mon": 3
+          }
+        },
+        "s60": {
+          "wr": 0.6875,
+          "a": 0.7,
+          "b": 0.675,
+          "tie": 0.0,
+          "mill_attack": 4.065,
+          "turns": 22.932499999999997,
+          "opp_prizes": 2.8987499999999997,
+          "reasons": {
+            "mill|b decked out": 280,
+            "foe|took all prize cards": 190,
+            "foe|more prizes at turn limit": 18,
+            "foe|opponent has no Pok\u00e9mon in play": 41,
+            "mill|a decked out": 270,
+            "foe|b had no Basic Pok\u00e9mon": 1
+          }
+        },
+        "g": {
+          "wr": 0.26125,
+          "a": 0.2625,
+          "b": 0.26,
+          "tie": 0.0,
+          "mill_attack": 2.4074999999999998,
+          "turns": 20.035,
+          "opp_prizes": 4.49375,
+          "reasons": {
+            "foe|took all prize cards": 456,
+            "foe|opponent has no Pok\u00e9mon in play": 132,
+            "mill|b decked out": 105,
+            "foe|more prizes at turn limit": 3,
+            "mill|a decked out": 104
+          }
+        },
+        "c60": {
+          "wr": 0.33499999999999996,
+          "a": 0.31,
+          "b": 0.36,
+          "tie": 0.0,
+          "mill_attack": 1.91625,
+          "turns": 18.42875,
+          "opp_prizes": 4.225,
+          "reasons": {
+            "mill|b decked out": 123,
+            "foe|opponent has no Pok\u00e9mon in play": 202,
+            "foe|took all prize cards": 326,
+            "foe|more prizes at turn limit": 4,
+            "mill|opponent has no Pok\u00e9mon in play": 1,
+            "mill|a decked out": 144
+          }
+        },
+        "m": {
+          "wr": 0.2,
+          "a": 0.19,
+          "b": 0.21,
+          "tie": 0.0,
+          "mill_attack": 1.65625,
+          "turns": 16.25125,
+          "opp_prizes": 4.80375,
+          "reasons": {
+            "mill|b decked out": 76,
+            "foe|took all prize cards": 474,
+            "foe|opponent has no Pok\u00e9mon in play": 164,
+            "foe|a decked out": 1,
+            "mill|a decked out": 84,
+            "foe|more prizes at turn limit": 1
+          }
+        },
+        "starmie": {
+          "wr": 0.2925,
+          "a": 0.2775,
+          "b": 0.3075,
+          "tie": 0.0,
+          "mill_attack": 2.4225,
+          "turns": 13.97125,
+          "opp_prizes": 3.2112499999999997,
+          "reasons": {
+            "foe|took all prize cards": 128,
+            "foe|opponent has no Pok\u00e9mon in play": 434,
+            "mill|b decked out": 111,
+            "foe|more prizes at turn limit": 4,
+            "mill|a decked out": 122,
+            "mill|opponent has no Pok\u00e9mon in play": 1
+          }
+        },
+        "lucario": {
+          "wr": 0.78375,
+          "a": 0.8125,
+          "b": 0.755,
+          "tie": 0.0,
+          "mill_attack": 2.2575,
+          "turns": 16.771250000000002,
+          "opp_prizes": 2.24625,
+          "reasons": {
+            "foe|opponent has no Pok\u00e9mon in play": 91,
+            "mill|b decked out": 324,
+            "foe|took all prize cards": 81,
+            "mill|opponent has no Pok\u00e9mon in play": 1,
+            "mill|a decked out": 302,
+            "foe|more remaining HP at turn limit": 1
+          }
+        },
+        "thorns": {
+          "wr": 0.9025000000000001,
+          "a": 0.92,
+          "b": 0.885,
+          "tie": 0.0,
+          "mill_attack": 3.2375,
+          "turns": 20.38125,
+          "opp_prizes": 1.74125,
+          "reasons": {
+            "mill|b decked out": 363,
+            "foe|took all prize cards": 36,
+            "foe|opponent has no Pok\u00e9mon in play": 40,
+            "mill|b had no Basic Pok\u00e9mon": 5,
+            "foe|more prizes at turn limit": 2,
+            "mill|a decked out": 352,
+            "mill|a had no Basic Pok\u00e9mon": 2
+          }
+        },
+        "h": {
+          "wr": 0.49375,
+          "a": 0.49,
+          "b": 0.4975,
+          "tie": 0.0,
+          "mill_attack": 3.8737500000000002,
+          "turns": 26.677500000000002,
+          "opp_prizes": 2.85625,
+          "reasons": {
+            "foe|opponent has no Pok\u00e9mon in play": 240,
+            "mill|b decked out": 156,
+            "mill|opponent has no Pok\u00e9mon in play": 68,
+            "foe|more prizes at turn limit": 94,
+            "foe|took all prize cards": 71,
+            "mill|more remaining HP at turn limit": 5,
+            "mill|a decked out": 165,
+            "mill|more prizes at turn limit": 1
+          }
+        },
+        "g30": {
+          "wr": 0.9475,
+          "a": 0.955,
+          "b": 0.94,
+          "tie": 0.0,
+          "mill_attack": 4.40125,
+          "turns": 22.5425,
+          "opp_prizes": 0.505,
+          "reasons": {
+            "mill|b decked out": 380,
+            "foe|more remaining HP at turn limit": 11,
+            "foe|took all prize cards": 17,
+            "foe|more prizes at turn limit": 11,
+            "mill|opponent has no Pok\u00e9mon in play": 2,
+            "foe|opponent has no Pok\u00e9mon in play": 3,
+            "mill|a decked out": 376
+          }
+        }
+      }
+    },
+    {
+      "label": "lock",
+      "note": "Three Crispin, three Water Energy, no second Basic type.",
+      "counts": {
+        "Pichu": 1,
+        "Mime Jr.": 1,
+        "Wiglett": 4,
+        "Wugtrio": 4,
+        "Victini": 1,
+        "Slumbering Forest": 1,
+        "Neutralization Zone": 1,
+        "Buddy-Buddy Poffin": 4,
+        "Nest Ball": 3,
+        "Level Ball": 3,
+        "Rescue Carrier": 3,
+        "Lillie's Pok\u00e9 Doll": 1,
+        "Crushing Hammer": 4,
+        "Counter Catcher": 2,
+        "Miss Fortune Sisters": 2,
+        "Crispin": 3,
+        "Boss's Orders": 1,
+        "Team Rocket's Handiwork": 2,
+        "Colress's Tenacity": 4,
+        "Double Turbo Energy": 4,
+        "Water Energy": 3,
+        "Ignition Energy": 4,
+        "Reversal Energy": 4
+      },
+      "weighted": 0.38918543543543543,
+      "se": 0.004558452076716102,
+      "mean": 0.5503846153846154,
+      "worst": 0.06125,
+      "worst_foe": "d60",
+      "cells": {
+        "t60": {
+          "wr": 0.73375,
+          "a": 0.7275,
+          "b": 0.74,
+          "tie": 0.0,
+          "mill_attack": 3.2525000000000004,
+          "turns": 17.591250000000002,
+          "opp_prizes": 2.35875,
+          "reasons": {
+            "mill|b decked out": 291,
+            "foe|opponent has no Pok\u00e9mon in play": 126,
+            "foe|took all prize cards": 86,
+            "mill|a decked out": 296,
+            "foe|more prizes at turn limit": 1
+          }
+        },
+        "hedrick": {
+          "wr": 0.62,
+          "a": 0.63,
+          "b": 0.61,
+          "tie": 0.0,
+          "mill_attack": 2.6799999999999997,
+          "turns": 18.245,
+          "opp_prizes": 2.165,
+          "reasons": {
+            "foe|opponent has no Pok\u00e9mon in play": 203,
+            "mill|b decked out": 251,
+            "foe|took all prize cards": 95,
+            "foe|more prizes at turn limit": 4,
+            "foe|more remaining HP at turn limit": 2,
+            "mill|more prizes at turn limit": 1,
+            "mill|a decked out": 244
+          }
+        },
+        "unl": {
+          "wr": 0.86625,
+          "a": 0.8575,
+          "b": 0.875,
+          "tie": 0.0,
+          "mill_attack": 3.3975,
+          "turns": 15.85625,
+          "opp_prizes": 1.49875,
+          "reasons": {
+            "mill|b decked out": 342,
+            "foe|took all prize cards": 32,
+            "foe|opponent has no Pok\u00e9mon in play": 74,
+            "mill|opponent has no Pok\u00e9mon in play": 1,
+            "mill|a decked out": 350,
+            "foe|b had no Basic Pok\u00e9mon": 1
+          }
+        },
+        "d60": {
+          "wr": 0.06125,
+          "a": 0.06,
+          "b": 0.0625,
+          "tie": 0.0,
+          "mill_attack": 2.3425000000000002,
+          "turns": 15.60125,
+          "opp_prizes": 5.35375,
+          "reasons": {
+            "foe|opponent has no Pok\u00e9mon in play": 133,
+            "foe|took all prize cards": 618,
+            "mill|b decked out": 22,
+            "mill|b had no Basic Pok\u00e9mon": 2,
+            "mill|a decked out": 20,
+            "mill|a had no Basic Pok\u00e9mon": 5
+          }
+        },
+        "s60": {
+          "wr": 0.675,
+          "a": 0.6425,
+          "b": 0.7075,
+          "tie": 0.0,
+          "mill_attack": 4.06875,
+          "turns": 22.28,
+          "opp_prizes": 2.84875,
+          "reasons": {
+            "mill|b decked out": 257,
+            "foe|took all prize cards": 194,
+            "foe|more prizes at turn limit": 14,
+            "foe|opponent has no Pok\u00e9mon in play": 51,
+            "foe|a had no Basic Pok\u00e9mon": 1,
+            "mill|a decked out": 283
+          }
+        },
+        "g": {
+          "wr": 0.26875000000000004,
+          "a": 0.28,
+          "b": 0.2575,
+          "tie": 0.0,
+          "mill_attack": 2.515,
+          "turns": 20.52625,
+          "opp_prizes": 4.54125,
+          "reasons": {
+            "foe|opponent has no Pok\u00e9mon in play": 128,
+            "foe|took all prize cards": 454,
+            "mill|b decked out": 110,
+            "foe|more prizes at turn limit": 3,
+            "mill|opponent has no Pok\u00e9mon in play": 2,
+            "mill|a decked out": 103
+          }
+        },
+        "c60": {
+          "wr": 0.315,
+          "a": 0.3625,
+          "b": 0.2675,
+          "tie": 0.0,
+          "mill_attack": 1.87,
+          "turns": 18.56125,
+          "opp_prizes": 4.29125,
+          "reasons": {
+            "mill|b decked out": 145,
+            "foe|opponent has no Pok\u00e9mon in play": 214,
+            "foe|took all prize cards": 333,
+            "foe|more remaining HP at turn limit": 1,
+            "mill|a decked out": 106,
+            "mill|more prizes at turn limit": 1
+          }
+        },
+        "m": {
+          "wr": 0.175,
+          "a": 0.1775,
+          "b": 0.1725,
+          "tie": 0.0,
+          "mill_attack": 1.6287500000000001,
+          "turns": 15.306249999999999,
+          "opp_prizes": 4.6525,
+          "reasons": {
+            "foe|opponent has no Pok\u00e9mon in play": 196,
+            "foe|took all prize cards": 464,
+            "mill|b decked out": 71,
+            "mill|a decked out": 69
+          }
+        },
+        "starmie": {
+          "wr": 0.30125,
+          "a": 0.3125,
+          "b": 0.29,
+          "tie": 0.0,
+          "mill_attack": 2.4362500000000002,
+          "turns": 14.31375,
+          "opp_prizes": 3.34875,
+          "reasons": {
+            "foe|opponent has no Pok\u00e9mon in play": 417,
+            "mill|b decked out": 125,
+            "foe|took all prize cards": 139,
+            "foe|more prizes at turn limit": 3,
+            "mill|a decked out": 116
+          }
+        },
+        "lucario": {
+          "wr": 0.8062499999999999,
+          "a": 0.825,
+          "b": 0.7875,
+          "tie": 0.0,
+          "mill_attack": 2.24,
+          "turns": 16.35,
+          "opp_prizes": 2.0637499999999998,
+          "reasons": {
+            "foe|opponent has no Pok\u00e9mon in play": 72,
+            "mill|b decked out": 330,
+            "foe|took all prize cards": 83,
+            "mill|a decked out": 314,
+            "mill|opponent has no Pok\u00e9mon in play": 1
+          }
+        },
+        "thorns": {
+          "wr": 0.9275,
+          "a": 0.9125,
+          "b": 0.9425,
+          "tie": 0.0,
+          "mill_attack": 3.27875,
+          "turns": 20.591250000000002,
+          "opp_prizes": 1.5787499999999999,
+          "reasons": {
+            "mill|b decked out": 363,
+            "foe|took all prize cards": 25,
+            "foe|opponent has no Pok\u00e9mon in play": 30,
+            "foe|more prizes at turn limit": 3,
+            "mill|b had no Basic Pok\u00e9mon": 2,
+            "mill|a decked out": 371,
+            "mill|a had no Basic Pok\u00e9mon": 6
+          }
+        },
+        "h": {
+          "wr": 0.46499999999999997,
+          "a": 0.4825,
+          "b": 0.4475,
+          "tie": 0.0,
+          "mill_attack": 3.9275,
+          "turns": 27.4175,
+          "opp_prizes": 3.0324999999999998,
+          "reasons": {
+            "foe|opponent has no Pok\u00e9mon in play": 246,
+            "foe|took all prize cards": 76,
+            "mill|b decked out": 173,
+            "foe|more prizes at turn limit": 105,
+            "mill|opponent has no Pok\u00e9mon in play": 41,
+            "mill|more prizes at turn limit": 2,
+            "mill|more remaining HP at turn limit": 3,
+            "mill|a decked out": 153,
+            "foe|more remaining HP at turn limit": 1
+          }
+        },
+        "g30": {
+          "wr": 0.94,
+          "a": 0.955,
+          "b": 0.925,
+          "tie": 0.0,
+          "mill_attack": 4.375,
+          "turns": 22.61625,
+          "opp_prizes": 0.44625000000000004,
+          "reasons": {
+            "mill|b decked out": 381,
+            "foe|took all prize cards": 12,
+            "foe|more remaining HP at turn limit": 21,
+            "foe|more prizes at turn limit": 13,
+            "mill|opponent has no Pok\u00e9mon in play": 2,
+            "mill|a decked out": 367,
+            "mill|more prizes at turn limit": 2,
+            "foe|opponent has no Pok\u00e9mon in play": 2
+          }
+        }
+      }
+    },
+    {
+      "label": "types",
+      "note": "Turn one Water Energy into Fighting Energy. Three Crispin, and now two Basic types.",
+      "counts": {
+        "Pichu": 1,
+        "Mime Jr.": 1,
+        "Wiglett": 4,
+        "Wugtrio": 4,
+        "Victini": 1,
+        "Slumbering Forest": 1,
+        "Neutralization Zone": 1,
+        "Buddy-Buddy Poffin": 4,
+        "Nest Ball": 3,
+        "Level Ball": 3,
+        "Rescue Carrier": 3,
+        "Lillie's Pok\u00e9 Doll": 1,
+        "Crushing Hammer": 4,
+        "Counter Catcher": 2,
+        "Miss Fortune Sisters": 2,
+        "Crispin": 3,
+        "Boss's Orders": 1,
+        "Team Rocket's Handiwork": 2,
+        "Colress's Tenacity": 4,
+        "Double Turbo Energy": 4,
+        "Water Energy": 2,
+        "Ignition Energy": 4,
+        "Reversal Energy": 4,
+        "Fighting Energy": 1
+      },
+      "weighted": 0.38077327327327326,
+      "se": 0.004538365583529478,
+      "mean": 0.5409615384615385,
+      "worst": 0.08,
+      "worst_foe": "d60",
+      "cells": {
+        "t60": {
+          "wr": 0.7125,
+          "a": 0.675,
+          "b": 0.75,
+          "tie": 0.0,
+          "mill_attack": 3.2824999999999998,
+          "turns": 17.591250000000002,
+          "opp_prizes": 2.4675,
+          "reasons": {
+            "mill|b decked out": 268,
+            "foe|opponent has no Pok\u00e9mon in play": 142,
+            "foe|took all prize cards": 86,
+            "mill|opponent has no Pok\u00e9mon in play": 3,
+            "mill|a decked out": 299,
+            "foe|more prizes at turn limit": 2
+          }
+        },
+        "hedrick": {
+          "wr": 0.60875,
+          "a": 0.6225,
+          "b": 0.595,
+          "tie": 0.0,
+          "mill_attack": 2.8912500000000003,
+          "turns": 18.3325,
+          "opp_prizes": 2.1125,
+          "reasons": {
+            "foe|opponent has no Pok\u00e9mon in play": 219,
+            "mill|b decked out": 248,
+            "foe|took all prize cards": 86,
+            "mill|opponent has no Pok\u00e9mon in play": 1,
+            "foe|more prizes at turn limit": 7,
+            "mill|a decked out": 238,
+            "foe|more remaining HP at turn limit": 1
+          }
+        },
+        "unl": {
+          "wr": 0.8575,
+          "a": 0.8525,
+          "b": 0.8625,
+          "tie": 0.0,
+          "mill_attack": 3.51625,
+          "turns": 15.7225,
+          "opp_prizes": 1.4075,
+          "reasons": {
+            "mill|b decked out": 341,
+            "foe|took all prize cards": 34,
+            "foe|opponent has no Pok\u00e9mon in play": 80,
+            "mill|a decked out": 345
+          }
+        },
+        "d60": {
+          "wr": 0.08,
+          "a": 0.08,
+          "b": 0.08,
+          "tie": 0.0,
+          "mill_attack": 2.34375,
+          "turns": 15.68,
+          "opp_prizes": 5.27125,
+          "reasons": {
+            "foe|opponent has no Pok\u00e9mon in play": 120,
+            "foe|took all prize cards": 616,
+            "mill|b decked out": 29,
+            "mill|b had no Basic Pok\u00e9mon": 3,
+            "mill|a decked out": 28,
+            "mill|opponent has no Pok\u00e9mon in play": 1,
+            "mill|a had no Basic Pok\u00e9mon": 3
+          }
+        },
+        "s60": {
+          "wr": 0.68625,
+          "a": 0.685,
+          "b": 0.6875,
+          "tie": 0.0,
+          "mill_attack": 4.04,
+          "turns": 22.403750000000002,
+          "opp_prizes": 2.82375,
+          "reasons": {
+            "foe|took all prize cards": 182,
+            "mill|b decked out": 274,
+            "foe|opponent has no Pok\u00e9mon in play": 46,
+            "foe|more prizes at turn limit": 22,
+            "foe|more remaining HP at turn limit": 1,
+            "mill|a decked out": 275
+          }
+        },
+        "g": {
+          "wr": 0.23375,
+          "a": 0.25,
+          "b": 0.2175,
+          "tie": 0.0,
+          "mill_attack": 2.3825,
+          "turns": 20.18875,
+          "opp_prizes": 4.657500000000001,
+          "reasons": {
+            "foe|opponent has no Pok\u00e9mon in play": 130,
+            "foe|took all prize cards": 481,
+            "mill|b decked out": 100,
+            "foe|more prizes at turn limit": 2,
+            "mill|a decked out": 87
+          }
+        },
+        "c60": {
+          "wr": 0.3375,
+          "a": 0.3225,
+          "b": 0.3525,
+          "tie": 0.0,
+          "mill_attack": 1.90625,
+          "turns": 18.28875,
+          "opp_prizes": 4.20875,
+          "reasons": {
+            "foe|took all prize cards": 342,
+            "foe|opponent has no Pok\u00e9mon in play": 188,
+            "mill|b decked out": 129,
+            "mill|a decked out": 141
+          }
+        },
+        "m": {
+          "wr": 0.15875,
+          "a": 0.16,
+          "b": 0.1575,
+          "tie": 0.0,
+          "mill_attack": 1.59625,
+          "turns": 15.43625,
+          "opp_prizes": 4.6725,
+          "reasons": {
+            "foe|opponent has no Pok\u00e9mon in play": 207,
+            "foe|took all prize cards": 463,
+            "mill|b decked out": 63,
+            "foe|a had no Basic Pok\u00e9mon": 1,
+            "foe|a decked out": 1,
+            "mill|opponent has no Pok\u00e9mon in play": 1,
+            "mill|a decked out": 63,
+            "foe|b decked out": 1
+          }
+        },
+        "starmie": {
+          "wr": 0.26249999999999996,
+          "a": 0.2425,
+          "b": 0.2825,
+          "tie": 0.0,
+          "mill_attack": 2.2625,
+          "turns": 13.877500000000001,
+          "opp_prizes": 3.38125,
+          "reasons": {
+            "foe|opponent has no Pok\u00e9mon in play": 434,
+            "mill|b decked out": 97,
+            "foe|took all prize cards": 150,
+            "foe|more prizes at turn limit": 5,
+            "foe|more remaining HP at turn limit": 1,
+            "mill|a decked out": 112,
+            "mill|opponent has no Pok\u00e9mon in play": 1
+          }
+        },
+        "lucario": {
+          "wr": 0.80375,
+          "a": 0.7875,
+          "b": 0.82,
+          "tie": 0.0,
+          "mill_attack": 2.29,
+          "turns": 16.535,
+          "opp_prizes": 2.1125,
+          "reasons": {
+            "foe|opponent has no Pok\u00e9mon in play": 82,
+            "mill|b decked out": 315,
+            "foe|took all prize cards": 75,
+            "mill|a decked out": 328
+          }
+        },
+        "thorns": {
+          "wr": 0.90875,
+          "a": 0.9275,
+          "b": 0.89,
+          "tie": 0.0,
+          "mill_attack": 3.21875,
+          "turns": 20.292499999999997,
+          "opp_prizes": 1.6775,
+          "reasons": {
+            "mill|b decked out": 368,
+            "foe|took all prize cards": 37,
+            "foe|opponent has no Pok\u00e9mon in play": 35,
+            "mill|b had no Basic Pok\u00e9mon": 3,
+            "mill|a decked out": 350,
+            "mill|a had no Basic Pok\u00e9mon": 6,
+            "foe|more prizes at turn limit": 1
+          }
+        },
+        "h": {
+          "wr": 0.44375,
+          "a": 0.4175,
+          "b": 0.47,
+          "tie": 0.0,
+          "mill_attack": 3.8575,
+          "turns": 26.6175,
+          "opp_prizes": 3.1174999999999997,
+          "reasons": {
+            "foe|opponent has no Pok\u00e9mon in play": 261,
+            "foe|took all prize cards": 98,
+            "mill|opponent has no Pok\u00e9mon in play": 39,
+            "mill|b decked out": 146,
+            "foe|more prizes at turn limit": 85,
+            "foe|a had no Basic Pok\u00e9mon": 1,
+            "mill|a decked out": 168,
+            "mill|more prizes at turn limit": 1,
+            "mill|more remaining HP at turn limit": 1
+          }
+        },
+        "g30": {
+          "wr": 0.93875,
+          "a": 0.9425,
+          "b": 0.935,
+          "tie": 0.0,
+          "mill_attack": 4.46125,
+          "turns": 22.009999999999998,
+          "opp_prizes": 0.51375,
+          "reasons": {
+            "mill|b decked out": 376,
+            "foe|took all prize cards": 19,
+            "foe|more remaining HP at turn limit": 13,
+            "foe|a had no Basic Pok\u00e9mon": 1,
+            "foe|more prizes at turn limit": 10,
+            "mill|more prizes at turn limit": 1,
+            "foe|opponent has no Pok\u00e9mon in play": 6,
+            "mill|a decked out": 374
+          }
+        }
+      }
+    }
+  ]
+}
