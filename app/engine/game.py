@@ -1343,10 +1343,8 @@ class Game:
                 evo = me.card(evo_i)
                 if not evo.is_pokemon or not evo.evolves_from:
                     continue
-                target = self._find_evolve_target(me, evo)
+                target = self._legal_evolve_target(me, who, evo)
                 if target is None:
-                    continue
-                if not self._can_evolve_now(me, who, target, evo):
                     continue
                 self._do_evolve(me, target, evo_i)
                 changed = True
@@ -1369,6 +1367,29 @@ class Game:
                     break
                 if changed:
                     break
+
+    def _legal_evolve_target(self, me: Player, who: str, evo: Card) -> Pokemon | None:
+        """A Pokémon this card may evolve now. Active wins when several may.
+
+        A Wiglett played this turn is not a legal target yet. An older Wiglett
+        on the bench still is. Broken Time-Space makes the fresh one legal too.
+        Rare Candy is only the backup when no direct parent can evolve.
+        """
+        want = (evo.evolves_from or "").lower()
+        direct: list[Pokemon] = []
+        candy: list[Pokemon] = []
+        for mon in me.in_play():
+            if me.card(mon.card_i).name.lower() == want:
+                if self._can_evolve_now(me, who, mon, evo):
+                    direct.append(mon)
+            elif self._candy_skip(me, mon, evo) and self._can_evolve_now(me, who, mon, evo):
+                candy.append(mon)
+        legal = direct or candy
+        if not legal:
+            return None
+        if me.active in legal:
+            return me.active
+        return legal[0]
 
     def _find_evolve_target(self, me: Player, evo: Card) -> Pokemon | None:
         want = (evo.evolves_from or "").lower()
@@ -4559,6 +4580,12 @@ class Game:
                 prefer.append("Wiglett")
             if "wugtrio" not in names:
                 prefer.append("Wugtrio")
+            # A Wiglett already in play cannot mill. The evolution comes before another wall.
+            if (
+                any(me.card(mon.card_i).name.lower() == "wiglett" for mon in me.in_play())
+                and "wugtrio" not in names
+            ):
+                prefer.insert(0, "Wugtrio")
             if "victini" not in names:
                 prefer.append("Victini")
             tail = ["Wiglett", "Wugtrio", "Manaphy", "Victini"]
@@ -4983,6 +5010,15 @@ class Game:
                 elif any("moon-watching" in (abi.name or "").lower() for abi in card.abilities):
                     if self._invitation_mon(me) is not None:
                         score += 4
+            if (
+                strat.name == "mill"
+                and name == "wugtrio"
+                and name not in in_hand
+                and name not in in_play
+                and any(me.card(mon.card_i).name.lower() == "wiglett" for mon in me.in_play())
+            ):
+                # The basic bonus below would otherwise tie a wall with this Stage 1.
+                score += 12
             if card.is_basic:
                 score += 1
             if card.hp >= 140:
@@ -7200,6 +7236,8 @@ class Game:
         if name == "level ball":
             if not have_wiglett:
                 return 16
+            if not have_trio and any(me.card(i).name.lower() == "wugtrio" for i in me.deck):
+                return 18
             return 8 if not have_trio else 2
         if name in {"nest ball", "buddy-buddy poffin", "buddy buddy poffin"}:
             slots = self._bench_limit(me) - len(me.bench)
@@ -7218,6 +7256,16 @@ class Game:
             return 12 if self._rescue_carrier_targets(me, 90) else -4
         if name == "crushing hammer":
             return 8 if foe.active and foe.active.energy else 1
+        if name == "wally":
+            who = "a" if me.name == "A" else "b"
+            return self._mill_wally_score(me, who)
+        if name == "vs seeker":
+            who = "a" if me.name == "A" else "b"
+            wally_hand = any(me.card(i).name.lower() == "wally" for i in me.hand)
+            wally_discard = any(me.card(i).name.lower() == "wally" for i in me.discard)
+            if wally_discard and not wally_hand and self._mill_wally_score(me, who) >= 12:
+                return 9
+            return -6
         if name == "miss fortune sisters":
             return 9 if len(foe.deck) >= 5 else 2
         if name == "team rocket's handiwork":
@@ -16892,14 +16940,83 @@ class Game:
         me.hand.append(pick)
         self._bump("vs_seeker")
 
+    def _mill_wally_needs_timing(self, me: Player, who: str, mon: Pokemon) -> bool:
+        return mon.played_turn == self.turn or self._is_players_first_turn(who)
+
+    def _mill_wally_wiglett(self, me: Player, who: str) -> Pokemon | None:
+        """Wiglett Wally should evolve.
+
+        Wally searches the deck. Once Wugtrio is already in hand, a Wiglett that
+        has been out since last turn evolves on its own. A charged Wiglett whose
+        evolution is still in the deck is the one that gets the search.
+        """
+        wigletts = [mon for mon in me.in_play() if me.card(mon.card_i).name.lower() == "wiglett"]
+        if not wigletts:
+            return None
+        in_hand = any(me.card(i).name.lower() == "wugtrio" for i in me.hand)
+        if in_hand:
+            wigletts = [mon for mon in wigletts if self._mill_wally_needs_timing(me, who, mon)]
+            if not wigletts:
+                return None
+
+        def key(mon: Pokemon) -> tuple[int, int, int]:
+            return (
+                0 if self._mill_wally_can_pay(me, mon) else 1,
+                0 if mon is me.active else 1,
+                0 if self._mill_wally_needs_timing(me, who, mon) else 1,
+            )
+
+        return sorted(wigletts, key=key)[0]
+
+    def _mill_wally_can_pay(self, me: Player, target: Pokemon) -> bool:
+        """Energy on that Wiglett, plus Energy in hand, after it becomes Wugtrio."""
+        host = next((me.card(i) for i in list(me.deck) + list(me.hand) if me.card(i).name.lower() == "wugtrio"), None)
+        if host is None:
+            return False
+        atk = self._mill_undersea(host)
+        if atk is None:
+            return False
+        behind = self._prizes_behind(me)
+        pool: list[str] = []
+        for card_i in list(target.energy) + list(me.hand):
+            card = me.card(card_i)
+            if card.is_energy:
+                pool.extend(energy_provided(card, prizes_behind=behind, host=host))
+        return can_pay_energy(pool, list(atk.cost))
+
+    def _mill_wally_score(self, me: Player, who: str) -> float:
+        """Wally fetches Wugtrio from the deck onto a Wiglett that can attack.
+
+        Crispin only finds Water Energy, and that Energy was landing on Wiglett.
+        This supporter spends the turn the evolution is still in the deck. It
+        waits for Colress when the Wiglett cannot pay Undersea yet.
+        """
+        target = self._mill_wally_wiglett(me, who)
+        if target is None:
+            return -8
+        if not any(me.card(i).name.lower() == "wugtrio" for i in me.deck):
+            return -8
+        trios = sum(1 for mon in me.in_play() if me.card(mon.card_i).name.lower() == "wugtrio")
+        if not self._mill_wally_can_pay(me, target):
+            return 4 if trios == 0 else -4
+        return 18 if trios == 0 else 12
+
     def _wally_evolve(self, me: Player, who: str, first_turn_ok: bool, just_played_ok: bool) -> None:
         if self._is_players_first_turn(who) and not first_turn_ok and not self._stadium_allows_immediate_evolve():
             if not just_played_ok:
                 self._bump("wally_fail")
                 return
         in_play = {me.card(m.card_i).name.lower(): m for m in me.in_play()}
-        prefer = ["ambipom", "lopunny", "jumpluff", "porygon-z"]
-        scored: list[tuple[int, Pokemon, int]] = []
+        if self.strats[who].name == "mill":
+            chosen = self._mill_wally_wiglett(me, who)
+            if chosen is not None:
+                in_play["wiglett"] = chosen
+        prefer = (
+            ["wugtrio"]
+            if self.strats[who].name == "mill"
+            else ["ambipom", "lopunny", "jumpluff", "porygon-z"]
+        )
+        scored: list[tuple[int, int, Pokemon]] = []
         for evo_i in me.deck:
             evo = me.card(evo_i)
             parent = (evo.evolves_from or "").lower()
@@ -16910,12 +17027,12 @@ class Game:
                 if self.rules.first_turn_no_evolve and self._is_players_first_turn(who) and not first_turn_ok:
                     continue
             rank = prefer.index(evo.name.lower()) if evo.name.lower() in prefer else 20
-            scored.append((rank, target, evo_i))
+            scored.append((rank, evo_i, target))
         if not scored:
             self._bump("wally_miss")
             return
-        scored.sort()
-        target, evo_i = scored[0][1], scored[0][2]
+        scored.sort(key=lambda row: (row[0], row[1]))
+        target, evo_i = scored[0][2], scored[0][1]
         me.deck.remove(evo_i)
         me.hand.append(evo_i)
         self._do_evolve(me, target, evo_i)

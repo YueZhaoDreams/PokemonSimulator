@@ -159,7 +159,8 @@ def test_mill_list_is_the_locked_60():
     assert names.count("Colress's Tenacity") == 4
     assert names.count("Miss Fortune Sisters") == 2
     assert names.count("Team Rocket's Handiwork") == 2
-    assert names.count("Crispin") == 3
+    assert names.count("Crispin") == 0
+    assert names.count("Wally") == 3
     assert names.count("Ignition Energy") == 4
     assert names.count("Reversal Energy") == 4
     assert names.count("Double Turbo Energy") == 4
@@ -697,3 +698,107 @@ def test_twisting_strike_tails_then_victory_star_buys_the_extra_turn():
         assert "extra coin" in str(exc)
     else:
         raise AssertionError("Twisting Strike reflipped twice")
+
+
+def test_mill_evolves_the_wiglett_that_is_already_legal():
+    board = _Board("mill")
+    me = board.seat("a", active=("Wiglett", []), bench=("Wiglett",))
+    foe = board.seat("b", active=("Wugtrio", []), deck=["Water Energy"] * 4)
+    board.game.turn = 5
+    board.game.first = "b"
+    me.active.played_turn = board.game.turn
+    me.bench[0].played_turn = 0
+    me.hand = [board.take("a", "Wugtrio")]
+    me.deck = []
+    board.game._evolve(me, foe, "a")
+    assert me.card(me.active.card_i).name == "Wiglett"
+    assert me.card(me.bench[0].card_i).name == "Wugtrio"
+
+
+def test_wally_evolves_the_wiglett_played_this_turn_then_ignition_pays():
+    printed = fallback_named("Wally")
+    text = (printed.text or "").lower()
+    parsed = parse_trainer_effects(printed.text or "")
+    assert parsed[0]["kind"] == "wally_evolve"
+    assert parsed[0]["first_turn_ok"] is True
+    assert parsed[0]["just_played_ok"] is True
+    assert "put into play this turn" in text
+    assert "first turn" in text
+
+    board = _Board("mill")
+    me = board.seat("a", active=("Wiglett", []))
+    foe = board.seat("b", active=("Wugtrio", []), deck=["Water Energy"] * 4)
+    me.active.played_turn = board.game.turn
+    wally = _grant(board, "a", "Wally")
+    ignition = _grant(board, "a", "Ignition Energy")
+    handi = board.take("a", "Team Rocket's Handiwork")
+    me.hand = [wally, ignition, handi]
+    me.deck = [board.take("a", "Wugtrio"), board.take("a", "Wugtrio")]
+    board.game._play_trainers(me, foe, "a")
+    assert me.card(me.active.card_i).name == "Wugtrio"
+    assert board.game.events.get("wally") == 1
+    board.game._attach_energy(me, "a")
+    assert [me.card(i).name for i in me.active.energy] == ["Ignition Energy"]
+    assert board.game._mill_can_pay(me, me.active)
+
+
+def test_wally_waits_when_the_hand_cannot_pay_and_when_evolve_is_already_legal():
+    board = _Board("mill")
+    me = board.seat("a", active=("Wiglett", []))
+    foe = board.seat("b", active=("Wugtrio", []), deck=["Water Energy"] * 4)
+    me.active.played_turn = board.game.turn
+    wally = _grant(board, "a", "Wally")
+    colress = _grant(board, "a", "Colress's Tenacity")
+    me.hand = [wally, colress]
+    me.deck = [board.take("a", "Wugtrio")]
+    board.game._play_trainers(me, foe, "a")
+    assert me.card(me.active.card_i).name == "Wiglett"
+    assert board.game.events.get("colress") == 1
+
+    later = _Board("mill")
+    me = later.seat("a", active=("Wiglett", []))
+    foe = later.seat("b", active=("Wugtrio", []), deck=["Water Energy"] * 4)
+    later.game.turn = 5
+    later.game.first = "b"
+    me.active.played_turn = 0
+    wally = _grant(later, "a", "Wally")
+    ignition = _grant(later, "a", "Ignition Energy")
+    handi = later.take("a", "Team Rocket's Handiwork")
+    trio = later.take("a", "Wugtrio")
+    me.hand = [wally, ignition, handi, trio]
+    me.deck = [later.take("a", "Wugtrio")]
+    later.game._play_trainers(me, foe, "a")
+    assert me.card(me.active.card_i).name == "Wiglett"
+    assert "wally" not in later.game.events
+
+
+def test_wally_fetches_wugtrio_onto_a_wiglett_that_can_already_pay():
+    board = _Board("mill")
+    me = board.seat("a", active=("Wiglett", ["Water Energy", "Water Energy", "Water Energy"]))
+    foe = board.seat("b", active=("Wugtrio", []), deck=["Water Energy"] * 4)
+    board.game.turn = 5
+    board.game.first = "b"
+    me.active.played_turn = 0
+    wally = _grant(board, "a", "Wally")
+    handi = board.take("a", "Team Rocket's Handiwork")
+    me.hand = [wally, handi]
+    me.deck = [board.take("a", "Wugtrio")]
+    board.game._play_trainers(me, foe, "a")
+    assert me.card(me.active.card_i).name == "Wugtrio"
+    assert board.game.events.get("wally") == 1
+    assert board.game._mill_can_pay(me, me.active)
+
+
+def test_level_ball_finds_wugtrio_ahead_of_a_wall_once_wiglett_is_out():
+    board = _Board("mill")
+    me = board.seat("a", active=("Wiglett", []))
+    foe = board.seat("b", active=("Wugtrio", []), deck=["Water Energy"] * 4)
+    pichu = _grant(board, "a", "Pichu")
+    trio = board.take("a", "Wugtrio")
+    me.deck = [pichu, trio]
+    me.hand = []
+    prefer = board.game._pokemon_search_prefer(me, "a")
+    assert prefer[0] == "Wugtrio"
+    board.game._resolve_trainer(me, foe, fallback_named("Level Ball"), "a")
+    assert [me.card(i).name for i in me.hand] == ["Wugtrio"]
+    assert [me.card(i).name for i in me.deck] == ["Pichu"]

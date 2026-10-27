@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
-"""Mill Crispin swaps. The locked 60 has three Crispin and only Water as a Basic Energy.
+"""Mill Crispin-era swaps. The 60 in this file still has three Crispin.
+
+The live Mill lock is SET_MILL_NAMES: three Wally replaced these three Crispin.
+See data/lab/set-mill-wally.md. Lists below stay on the Crispin-era 60 so this
+file can be re-run. The registered Great Ball sentence is "Search your deck for
+a Pokémon," which is not the printed coin-flip Basic search, so ball3 is not a
+lock candidate.
 
 Printed Crispin searches up to two Basic Energy cards of different types, puts one
 into the hand, and attaches the other. With one type the engine puts that single
@@ -39,7 +45,6 @@ from app.seed_data import (
     SET_H_NAMES,
     SET_L60_NAMES,
     SET_M60_NAMES,
-    SET_MILL_NAMES,
     SET_S60_NAMES,
     SET_STARMIE60_NAMES,
     SET_T60_NAMES,
@@ -94,8 +99,37 @@ DEST = Path(os.environ.get("MILL_CRISPIN_DEST", HERE / "set-mill-crispin.json"))
 MD_DEST = Path(os.environ.get("MILL_CRISPIN_MD", HERE / "set-mill-crispin.md"))
 
 
+# This file measures the Crispin-era 60. The live lock is SET_MILL_NAMES,
+# which replaced these three Crispin with Wally. See data/lab/set-mill-wally.md.
+CRISPIN_ERA = (
+    ["Pichu"]
+    + ["Mime Jr."]
+    + ["Wiglett"] * 4
+    + ["Wugtrio"] * 4
+    + ["Victini"]
+    + ["Slumbering Forest"]
+    + ["Neutralization Zone"]
+    + ["Buddy-Buddy Poffin"] * 4
+    + ["Nest Ball"] * 3
+    + ["Level Ball"] * 3
+    + ["Rescue Carrier"] * 3
+    + ["Lillie's Poké Doll"]
+    + ["Crushing Hammer"] * 4
+    + ["Counter Catcher"] * 2
+    + ["Miss Fortune Sisters"] * 2
+    + ["Crispin"] * 3
+    + ["Boss's Orders"]
+    + ["Team Rocket's Handiwork"] * 2
+    + ["Colress's Tenacity"] * 4
+    + ["Double Turbo Energy"] * 4
+    + ["Water Energy"] * 3
+    + ["Ignition Energy"] * 4
+    + ["Reversal Energy"] * 4
+)
+
+
 def _swap(cuts: list[str], adds: list[str]) -> tuple[str, ...]:
-    names = list(SET_MILL_NAMES)
+    names = list(CRISPIN_ERA)
     for card in cuts:
         names.remove(card)
     names.extend(adds)
@@ -106,7 +140,7 @@ def _swap(cuts: list[str], adds: list[str]) -> tuple[str, ...]:
 
 # The lock is measured in the same run. Every other row is one swap off that 60.
 LISTS: dict[str, tuple[str, ...]] = {
-    "lock": tuple(SET_MILL_NAMES),
+    "lock": tuple(CRISPIN_ERA),
     "water3": _swap(["Crispin"] * 3, ["Water Energy"] * 3),
     "water2": _swap(["Crispin"] * 2, ["Water Energy"] * 2),
     "dce3": _swap(["Crispin"] * 3, ["Double Colorless Energy"] * 3),
@@ -119,6 +153,14 @@ LISTS: dict[str, tuple[str, ...]] = {
     "types": _swap(["Water Energy"], ["Fighting Energy"]),
     "types2": _swap(["Water Energy"] * 2, ["Fighting Energy"] * 2),
     "carrier": _swap(["Crispin"], ["Rescue Carrier"]),
+    "wally3": _swap(["Crispin"] * 3, ["Wally"] * 3),
+    "wally2": _swap(["Crispin"] * 2, ["Wally"] * 2),
+    "seek": _swap(["Crispin"] * 3, ["Wally"] * 2 + ["VS Seeker"]),
+    "ball3": _swap(["Crispin"] * 3, ["Great Ball"] * 3),
+    "mix": _swap(["Crispin"] * 3, ["Great Ball"] * 2 + ["Wally"]),
+    "bts3": _swap(["Crispin"] * 3, ["Broken Time-Space"] * 3),
+    "bts2": _swap(["Crispin"] * 2, ["Broken Time-Space"] * 2),
+    "bts1": _swap(["Crispin"], ["Broken Time-Space"]),
 }
 
 NOTES = {
@@ -135,6 +177,14 @@ NOTES = {
     "types": "Turn one Water Energy into Fighting Energy. Three Crispin, and now two Basic types.",
     "types2": "Turn two Water Energy into Fighting Energy. One Water stays for Twisting Strike.",
     "carrier": "Cut one Crispin for a fourth Rescue Carrier.",
+    "wally3": "Cut all three Crispin for Wally. Wally fetches Wugtrio from the deck onto Wiglett.",
+    "wally2": "Cut two Crispin for Wally. One Crispin stays.",
+    "seek": "Cut all three Crispin for two Wally and one VS Seeker.",
+    "ball3": "Cut all three Crispin for Great Ball. Great Ball finds Wugtrio once Wiglett is in play.",
+    "mix": "Cut all three Crispin for two Great Ball and one Wally.",
+    "bts3": "Cut all three Crispin for Broken Time-Space. A Wiglett played this turn can evolve.",
+    "bts2": "Cut two Crispin for Broken Time-Space. One Crispin stays.",
+    "bts1": "Cut one Crispin for one Broken Time-Space.",
 }
 
 

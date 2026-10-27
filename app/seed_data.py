@@ -683,6 +683,12 @@ SET_DOLL_NAMES = (
     + ["Buddy-Buddy Poffin"] * 2
     + ["Crushing Hammer"] * 2
 )
+# Mill lock (2026-10-27, seed 20261026, 400 games each seat, both seats).
+# Three Wally replace three Crispin. Crispin only finds Water, and that Water was
+# landing on Wiglett while Wugtrio stayed in the deck. Wally's printed search
+# evolves that Wiglett, including the turn it was played. See data/lab/set-mill-wally.md.
+# Weighted 38.011% → 39.415% (+1.404, difference ±0.647, 2.17 SE).
+# Mean 53.885% → 55.221%. Worst remains D60, 7.25% → 7.38%.
 SET_MILL_NAMES = (
     ["Pichu"]
     + ["Mime Jr."]
@@ -699,7 +705,7 @@ SET_MILL_NAMES = (
     + ["Crushing Hammer"] * 4
     + ["Counter Catcher"] * 2
     + ["Miss Fortune Sisters"] * 2
-    + ["Crispin"] * 3
+    + ["Wally"] * 3
     + ["Boss's Orders"]
     + ["Team Rocket's Handiwork"] * 2
     + ["Colress's Tenacity"] * 4
@@ -5375,7 +5381,7 @@ def fallback_named(name: str) -> Card:
 
 
 def build_mill_deck() -> list[Card]:
-    """Locked Mill 60. Mime Jr. is Call of Legends Sleepy Lost. One Lillie's Poké Doll replaces Switch."""
+    """Locked Mill 60. Mime Jr. is Call of Legends Sleepy Lost. Three Wally replace Crispin."""
     out: list[Card] = []
     for name in SET_MILL_NAMES:
         if name == "Mime Jr.":

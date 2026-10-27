@@ -839,6 +839,8 @@ STRATEGY_LIBRARY = {
             "The lock has no Manaphy, no Rabsca line, and no Battle Cage. "
             "Paid Wugtrio retreats up once Undersea Tunnel is paid. "
             "One Lillie's Poké Doll is the no-Prize body in this lock. "
+            "Three Wally replace Crispin. Wally searches the deck for Wugtrio and evolves "
+            "Wiglett, including a Wiglett played this turn and the first turn. "
             "Victory Star reflips an attack once when it shows 0 or 1 heads. "
             "Ignition Energy pays Undersea on an Evolution and leaves at the end of the turn. "
             "Reversal Energy stays, and pays three while more Prize cards remain. "
