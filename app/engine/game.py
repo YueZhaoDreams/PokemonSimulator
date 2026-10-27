@@ -18495,17 +18495,17 @@ class Game:
         ):
             return "Switch"
         if (
-            self._roast_dawn_helps(me)
-            and not self._roast_named(me, me.hand, "Dawn")
-            and self._roast_named(me, me.deck, "Dawn")
-        ):
-            return "Dawn"
-        if (
             self._roast_wants_bts(me, who)
             and not self._roast_named(me, me.hand, "Broken Time-Space")
             and self._roast_named(me, me.deck, "Broken Time-Space")
         ):
             return "Broken Time-Space"
+        if (
+            self._roast_dawn_helps(me)
+            and not self._roast_named(me, me.hand, "Dawn")
+            and self._roast_named(me, me.deck, "Dawn")
+        ):
+            return "Dawn"
         if not forest_out and not self._roast_named(me, me.hand, "Slumbering Forest") and self._roast_named(me, me.deck, "Slumbering Forest"):
             return "Slumbering Forest"
         if (

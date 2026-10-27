@@ -137,7 +137,7 @@ def _check() -> None:
         kinds = {effect.get("kind") for attack in card.attacks for effect in attack.effects}
         if "shuffle_hand_then_draw" not in kinds:
             raise SystemExit("Cleffa is not Eeeeeeek")
-    if names.count("Level Ball") < 4 or names.count("Nest Ball"):
+    if names.count("Level Ball") != 3 or names.count("Nest Ball"):
         raise SystemExit("roast Level Ball count")
     if names.count("Slumbering Forest") < 1:
         raise SystemExit("roast has no Slumbering Forest")
@@ -232,7 +232,7 @@ def _run(foe_key: str, seat: str, games: int, seed: int) -> dict:
 
 
 def _cache_key(foe_key: str, seat: str, games: int, seed: int) -> str:
-    return f"{seed}|{games}|{seat}|{foe_key}|roast-bts"
+    return f"{seed}|{games}|{seat}|{foe_key}|roast-bts-petrel"
 
 
 def _load_cache() -> dict[str, dict]:

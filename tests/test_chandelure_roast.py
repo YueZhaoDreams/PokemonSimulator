@@ -488,6 +488,31 @@ def test_broken_time_space_evolves_litwick_to_chandelure_and_mills():
     assert game.events.get("roast_bts_a", 0) == 1
 
 
+def test_petrel_finds_broken_time_space_before_another_dawn():
+    game = _game()
+    me = game.players["a"]
+    foe = game.players["b"]
+    _reclaim(me)
+    cleffa = _pull(me, "Cleffa")
+    lit = _pull(me, "Litwick")
+    lamp = _pull(me, "Lampent")
+    chand = _pull(me, "Chandelure")
+    petrel = _pull(me, "Team Rocket's Petrel")
+    bts = _pull(me, "Broken Time-Space")
+    dawn = _pull(me, "Dawn")
+    me.active = Pokemon(card_i=cleffa, played_turn=0)
+    me.bench = [Pokemon(card_i=lit, played_turn=5)]
+    me.hand = [lamp, chand, petrel]
+    me.deck = [bts, dawn]
+    _ready_turn(game)
+    before = len(foe.deck)
+    assert game._roast_petrel_want(me, "a") == "Broken Time-Space"
+    game._roast_main(me, foe, "a")
+    assert (game.stadium_name or "").lower() == "broken time-space"
+    assert me.card(me.bench[0].card_i).name == "Chandelure"
+    assert len(foe.deck) == before - 3
+
+
 def test_lampent_played_this_turn_cannot_take_chandelure():
     game = _game()
     me = game.players["a"]
