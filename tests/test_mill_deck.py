@@ -151,8 +151,8 @@ def test_mill_list_is_the_locked_60():
     assert names.count("Slumbering Forest") == 1
     assert names.count("Neutralization Zone") == 1
     assert names.count("Buddy-Buddy Poffin") == 4
-    assert names.count("Nest Ball") == 1
-    assert names.count("Level Ball") == 3
+    assert names.count("Nest Ball") == 0
+    assert names.count("Level Ball") == 4
     assert names.count("Rescue Carrier") == 3
     assert names.count("Switch") == 0
     assert names.count("Lillie's Poké Doll") == 1

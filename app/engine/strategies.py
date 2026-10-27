@@ -830,7 +830,7 @@ STRATEGY_LIBRARY = {
         name="mill",
         description=(
             "Sisters shell plus one sleep wall. One Pichu, one Mime Jr., one Manaphy, "
-            "and one HeartGold & SoulSilver Cleffa. Nest Ball ×1, Level Ball ×3, Poffin ×4. "
+            "and one HeartGold & SoulSilver Cleffa. Level Ball ×4, Poffin ×4. "
             "One Sweet Sleeping Face besides Cleffa is in play. "
             "Cleffa is benched in wall matches, and against bench-damage attacks once Manaphy is in play. "
             "Damage counters such as Phantom Dive ignore Wave Veil, so Cleffa stays in the deck there. "
@@ -850,7 +850,7 @@ STRATEGY_LIBRARY = {
             "One Lillie's Poké Doll is the no-Prize body in this lock. "
             "Three Wally replace Crispin. Wally searches the deck for Wugtrio and evolves "
             "Wiglett, including a Wiglett played this turn and the first turn. "
-            "Level Ball finds that Wugtrio. It is played before Nest Ball while Wugtrio is in the deck. "
+            "Four Level Balls find that Wugtrio. A Nest Ball in hand waits while Wugtrio is still in the deck. "
             "Victory Star reflips an attack once when it shows 0 or 1 heads. "
             "Ignition Energy pays Undersea on an Evolution and leaves at the end of the turn. "
             "Reversal Energy stays, and pays three while more Prize cards remain. "

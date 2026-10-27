@@ -683,13 +683,11 @@ SET_DOLL_NAMES = (
     + ["Buddy-Buddy Poffin"] * 2
     + ["Crushing Hammer"] * 2
 )
-# Mill lock (2026-10-27, seed 20261029, 400 games each seat, both seats).
-# One Manaphy and one HGSS Cleffa replace two Nest Ball. Poffin stays ×4.
-# Level Ball stays ×3 and still finds Wugtrio. See data/lab/set-mill-veil.md.
-# Weighted 38.729% → 41.719% (+2.990, difference ±0.654, 4.57 SE).
-# Mean 54.962% → 56.798%. Worst remains D60, 5.88% → 7.25%.
-# Starmie +10.1 points, Set M +7.7. Carpet Set H −6.5: Spooky Balloon places
-# counters, and Wave Veil does not stop them, so Cleffa stays in that deck.
+# Mill lock (2026-10-27). Manaphy and HGSS Cleffa: seed 20261029, 400 games
+# each seat. Weighted 38.729% → 41.719% (+2.990, difference ±0.654, 4.57 SE).
+# See data/lab/set-mill-veil.md. The remaining Nest Ball was then replaced by a
+# fourth Level Ball without another paired run. Level Ball finds Wugtrio.
+# Poffin stays ×4 and benches Manaphy, then Cleffa.
 SET_MILL_NAMES = (
     ["Pichu"]
     + ["Mime Jr."]
@@ -701,8 +699,7 @@ SET_MILL_NAMES = (
     + ["Slumbering Forest"]
     + ["Neutralization Zone"]
     + ["Buddy-Buddy Poffin"] * 4
-    + ["Nest Ball"]
-    + ["Level Ball"] * 3
+    + ["Level Ball"] * 4
     + ["Rescue Carrier"] * 3
     + ["Lillie's Poké Doll"]
     + ["Crushing Hammer"] * 4

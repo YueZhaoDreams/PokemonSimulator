@@ -44,7 +44,7 @@ Highest weighted list in this run: `veil` at 41.7%.
 
 ## Decision
 
-`SET_MILL_NAMES` is the veil 60. Two Nest Ball leave. One Manaphy and one HeartGold & SoulSilver Cleffa come in. Level Ball stays at three. Poffin stays at four.
+`SET_MILL_NAMES` took this veil 60, then replaced the remaining Nest Ball with a fourth Level Ball. That last swap was not given another paired run. Poffin stays at four. One Manaphy and one HeartGold & SoulSilver Cleffa stay.
 
 Seed `20261029`, 400 games each seat, both seats, Sisters loss weights. Weighted 38.729% → 41.719% (+2.990 points, difference ±0.654, 4.57 SE). Mean 54.962% → 56.798%. Worst remains D60, 5.88% → 7.25%.
 

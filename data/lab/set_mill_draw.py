@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Mill draw package: Level Ball, Cleffa, Survival Brace, Junk Arm, Manaphy.
 
-The live lock is SET_MILL_NAMES: one Manaphy, one HGSS Cleffa, Nest Ball ×1.
+The live lock is SET_MILL_NAMES: one Manaphy, one HGSS Cleffa, Level Ball ×4.
 Lists here swap the previous Wally 60, frozen as _WALLY_60. Cleffa is the
 HeartGold & SoulSilver Eeeeeeek print. Survival Brace replaces the ACE SPEC.
 Junk Arm discards two cards that no longer extend Undersea and takes a Trainer
