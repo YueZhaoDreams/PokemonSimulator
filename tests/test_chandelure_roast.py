@@ -464,3 +464,87 @@ def test_lampent_played_this_turn_cannot_take_chandelure():
     assert game._roast_celebi(me) is None
     assert all(card in me.hand for card in chands)
     assert len(foe.deck) == before
+
+
+def test_active_litwick_evolves_and_chandelure_does_not_block_the_shuffle():
+    game = _game()
+    me = game.players["a"]
+    foe = game.players["b"]
+    _reclaim(me)
+    lit = _pull(me, "Litwick")
+    lamp = _pull(me, "Lampent")
+    chands = [_pull(me, "Chandelure") for _ in range(2)]
+    cleffa = _pull(me, "Cleffa")
+    switch = _pull(me, "Switch")
+    fuel = _pull(me, "Fire Energy")
+    me.active = Pokemon(card_i=lit, played_turn=0)
+    me.bench = [Pokemon(card_i=cleffa, played_turn=0)]
+    me.hand = [lamp, switch] + chands
+    me.deck = [fuel]
+    _ready_turn(game)
+    before = len(foe.deck)
+    assert game._roast_wants_eeek(me, "a") is True
+    game._roast_main(me, foe, "a")
+    assert me.card(me.active.card_i).name == "Cleffa"
+    assert [me.card(mon.card_i).name for mon in me.bench].count("Lampent") == 1
+    assert all(card in me.hand for card in chands)
+    assert game._roast_celebi(me) is None
+    assert len(foe.deck) == before
+
+    game = _game()
+    me = game.players["a"]
+    foe = game.players["b"]
+    _reclaim(me)
+    lit = _pull(me, "Litwick")
+    lamp = _pull(me, "Lampent")
+    chand = _pull(me, "Chandelure")
+    me.active = Pokemon(card_i=lit, played_turn=0)
+    me.bench = []
+    me.hand = [lamp, chand]
+    _ready_turn(game)
+    before = len(foe.deck)
+    game._roast_main(me, foe, "a")
+    assert me.active is not None and me.card(me.active.card_i).name == "Lampent"
+    assert chand in me.hand
+    assert len(foe.deck) == before
+
+
+def test_level_ball_finds_cleffa_before_lampent_when_the_wall_is_missing():
+    game = _game()
+    me = game.players["a"]
+    _reclaim(me)
+    lit = _pull(me, "Litwick")
+    cleffa = _pull(me, "Cleffa")
+    lamp = _pull(me, "Lampent")
+    ball = _pull(me, "Level Ball")
+    me.active = Pokemon(card_i=lit, played_turn=0)
+    me.bench = []
+    me.hand = [ball]
+    me.deck = [lamp, cleffa]
+    _ready_turn(game)
+    game._level_ball(me, "a", 90)
+    assert cleffa in me.hand
+    assert lamp in me.deck
+
+
+def test_three_lampent_hold_chandelure_until_the_hand_has_three():
+    game = _game()
+    me = game.players["a"]
+    foe = game.players["b"]
+    _reclaim(me)
+    cleffa = _pull(me, "Cleffa")
+    lamps = [_pull(me, "Lampent") for _ in range(3)]
+    chand = _pull(me, "Chandelure")
+    fuel = _pull(me, "Fire Energy")
+    me.active = Pokemon(card_i=cleffa, played_turn=0)
+    me.bench = [Pokemon(card_i=lamp, played_turn=0) for lamp in lamps]
+    me.hand = [chand]
+    me.deck = [fuel]
+    _ready_turn(game)
+    before = len(foe.deck)
+    assert game._roast_wants_eeek(me, "a") is False
+    assert game._roast_nine_ready(me, "a") is False
+    game._roast_main(me, foe, "a")
+    assert chand in me.hand
+    assert game._roast_celebi(me) is None
+    assert len(foe.deck) == before

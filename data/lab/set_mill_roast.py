@@ -4,8 +4,9 @@
 Mountain Roasting discards the top 3 only when Chandelure is played from the
 hand. Celebi ◇ stays in the hand until three Lampent can evolve that turn and
 three Chandelure are already in hand, so that turn mills at least 9. Until
-then Cleffa uses Eeeeeeek and Slumbering Forest keeps the wall asleep.
-Level Ball finds Lampent. Playground benches Litwick only. Team Rocket's Petrel
+three Lampent from earlier turns are benched, Cleffa uses Eeeeeeek and
+Slumbering Forest keeps the wall asleep. Level Ball finds Cleffa, Litwick, or
+Lampent. Playground benches Litwick only. Team Rocket's Petrel
 searches a Trainer card. Rescue Scarf returns Celebi ◇ to the hand.
 
 Seed 20261027 unless ROAST_SEED is set. Games per seat from ROAST_GAMES
@@ -216,7 +217,7 @@ def _run(foe_key: str, seat: str, games: int, seed: int) -> dict:
 
 
 def _cache_key(foe_key: str, seat: str, games: int, seed: int) -> str:
-    return f"{seed}|{games}|{seat}|{foe_key}|roast-sleep9"
+    return f"{seed}|{games}|{seat}|{foe_key}|roast-cycle9"
 
 
 def _load_cache() -> dict[str, dict]:
@@ -323,13 +324,13 @@ def _markdown(report: dict) -> str:
         "",
         "Chandelure's Mountain Roasting says the top 3 cards are discarded when you play that Pokémon from your hand to evolve. One evolution mills 3. Three mill 9. Four mill 12. Grand Tree searches the deck, so that jump mills 0, and this list does not play it over Slumbering Forest.",
         "",
-        "Celebi ◇ stays in the hand until three Lampent can evolve on that turn and three Chandelure are in the hand. That turn plays Celebi ◇, evolves those Chandelure from the hand, and uses Time Distortion. A Lampent played or evolved on the same turn cannot take Chandelure until the next turn. Level Ball's sentence finds a Pokémon with 90 HP or less, so it finds Lampent and Celebi ◇ and does not find Chandelure.",
+        "Celebi ◇ stays in the hand until three Lampent can evolve on that turn and three Chandelure are in the hand. That turn plays Celebi ◇, evolves those Chandelure from the hand, and uses Time Distortion. A Lampent played or evolved on the same turn cannot take Chandelure until the next turn. Level Ball's sentence finds a Pokémon with 90 HP or less. While the Bench is short it finds Cleffa or Litwick. Once a Litwick is out it finds Lampent. It does not find Chandelure.",
         "",
         "Lampent is Plasma Storm Freefloating. With no Energy attached, its retreat cost is 0. Fire Energy stays on Celebi ◇.",
         "",
         "Rescue Scarf puts the Pokémon into the hand when an attack Knocks it Out, and discards the cards attached to it. Celebi ◇ therefore does not go to the discard pile, and the Prism Star rule does not put it in the Lost Zone. Energy Retrieval takes that Fire Energy back. Arven can find the scarf and the Item. Team Rocket's Petrel searches the deck for a Trainer card. It does not search a Pokémon or an Energy card. Colress's Tenacity searches a Stadium and an Energy. The Stadium it takes is Slumbering Forest.",
         "",
-        "Cleffa is HeartGold & SoulSilver Eeeeeeek: shuffle the hand into the deck, draw 6, then Cleffa is Asleep. Pichu is HeartGold & SoulSilver Playground and benches Litwick while the line is short. The last Bench spot stays open for Celebi ◇. Sweet Sleeping Face prevents attack damage while that Pokémon is Asleep. Slumbering Forest makes the between-turns sleep check two coins, and the Pokémon stays Asleep unless both are heads. Asleep blocks retreat, so Switch brings Celebi ◇ Active. Eeeeeeek is not used while the hand still holds Chandelure or a Lampent that can evolve.",
+        "Cleffa is HeartGold & SoulSilver Eeeeeeek: shuffle the hand into the deck, draw 6, then Cleffa is Asleep. That shuffle continues until three Lampent from earlier turns are on the Bench. Chandelure stays in the hand once those Lampent are there. A Lampent that can evolve this turn is played before the shuffle, including a Litwick that is Active. Pichu is HeartGold & SoulSilver Playground and benches Litwick while the line is short. The last Bench spot stays open for Celebi ◇. Sweet Sleeping Face prevents attack damage while that Pokémon is Asleep. Slumbering Forest makes the between-turns sleep check two coins, and the Pokémon stays Asleep unless both are heads. Asleep blocks retreat, so Switch brings Celebi ◇ Active.",
         "",
         "The first turn cannot evolve. The hand-evolve mill starts once three Lampent from earlier turns are on the Bench and three Chandelure are in the hand.",
         "",
