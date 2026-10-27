@@ -912,9 +912,13 @@ STRATEGY_LIBRARY = {
             "the scarf and that Item. Team Rocket's Petrel finds a Trainer. "
             "Colress's Tenacity finds Grand Tree and a Fire Energy, and does not "
             "replace a Grand Tree that is already in play. "
-            "Cleffa is the HeartGold & SoulSilver Eeeeeeek print. "
-            "Eeeeeeek waits until the hand is thin and Celebi ◇ is not about to devolve. "
-            "Lillie's Poké Doll stalls. Fire Energy is not attached to the Litwick line."
+            "Pichu is HeartGold & SoulSilver Playground: each player may bench as many "
+            "Basic Pokémon as they like, this player first, then Pichu is Asleep. "
+            "Roast uses that attack to bench Litwick and Celebi ◇ while the line is short. "
+            "Sweet Sleeping Face prevents attack damage while Pichu is Asleep, and Asleep "
+            "blocks retreat, so Switch brings Celebi ◇ Active. "
+            "Lillie's Poké Doll stalls once the Bench no longer needs those slots. "
+            "Fire Energy is not attached to the Litwick line."
         ),
         prefer_damage=0.05,
         prefer_status=0.0,
@@ -924,8 +928,8 @@ STRATEGY_LIBRARY = {
         item_spend=1.0,
         self_preserve=0.2,
         hold_as_energy=False,
-        protect=["Celebi ◇", "Chandelure", "Lampent", "Litwick", "Grand Tree", "Rescue Scarf"],
-        search_aces=["Celebi ◇", "Litwick", "Chandelure"],
+        protect=["Celebi ◇", "Chandelure", "Lampent", "Litwick", "Pichu", "Grand Tree", "Rescue Scarf"],
+        search_aces=["Celebi ◇", "Litwick", "Pichu", "Chandelure"],
         closers=["Celebi ◇"],
     ),
 }

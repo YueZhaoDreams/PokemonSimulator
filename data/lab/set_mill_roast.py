@@ -3,8 +3,9 @@
 
 Mountain Roasting discards the top 3 only when Chandelure is played from the
 hand. Grand Tree searches the deck, so that jump mills 0. The 3–12 wave is the
-later turn that plays those Chandelure from the hand. Team Rocket's Petrel
-searches a Trainer card. Rescue Scarf returns Celebi ◇ to the hand.
+later turn that plays those Chandelure from the hand. Playground Pichu benches
+as many Basics as it likes, user first. Team Rocket's Petrel searches a Trainer
+card. Rescue Scarf returns Celebi ◇ to the hand.
 
 Seed 20261027 unless ROAST_SEED is set. Games per seat from ROAST_GAMES
 (default 20).
@@ -101,6 +102,8 @@ _COUNT_KEYS = (
     "prism_lost_zone",
     "eeeeeeek",
     "cleffa_play",
+    "playground",
+    "pichu_play",
     "turns",
     "opp_prizes",
 )
@@ -114,12 +117,13 @@ def _check() -> None:
     bad = copy_violations(pile, rules)
     if bad:
         raise SystemExit(f"roast is illegal: {bad}")
-    for card in pile:
-        if card.name != "Cleffa":
-            continue
+    pichu = [card for card in pile if card.name == "Pichu"]
+    if len(pichu) < 2:
+        raise SystemExit(f"roast has {len(pichu)} Pichu")
+    for card in pichu:
         kinds = {effect.get("kind") for attack in card.attacks for effect in attack.effects}
-        if "shuffle_hand_then_draw" not in kinds:
-            raise SystemExit("Cleffa is not Eeeeeeek")
+        if "playground" not in kinds:
+            raise SystemExit("Pichu is not Playground")
     if fallback_named("Team Rocket's Petrel").text.lower().count("trainer") < 1:
         raise SystemExit("Petrel text missing")
 
@@ -178,6 +182,8 @@ def _run(foe_key: str, seat: str, games: int, seed: int) -> dict:
         totals["prism_lost_zone"] += result.events.get("prism_lost_zone", 0)
         totals["eeeeeeek"] += result.events.get("eeeeeeek_shuffle", 0)
         totals["cleffa_play"] += result.events.get("saw_play:Cleffa", 0)
+        totals["playground"] += result.events.get(f"used_playground_{seat}", 0)
+        totals["pichu_play"] += result.events.get("saw_play:Pichu", 0)
         totals["turns"] += result.turns
         totals["opp_prizes"] += result.prizes_taken_b if roast_is_a else result.prizes_taken_a
         for key, count in result.events.items():
@@ -197,7 +203,7 @@ def _run(foe_key: str, seat: str, games: int, seed: int) -> dict:
 
 
 def _cache_key(foe_key: str, seat: str, games: int, seed: int) -> str:
-    return f"{seed}|{games}|{seat}|{foe_key}|roast"
+    return f"{seed}|{games}|{seat}|{foe_key}|roast-pichu"
 
 
 def _load_cache() -> dict[str, dict]:
@@ -308,7 +314,7 @@ def _markdown(report: dict) -> str:
         "",
         "Rescue Scarf puts the Pokémon into the hand when an attack Knocks it Out, and discards the cards attached to it. Celebi ◇ therefore does not go to the discard pile, and the Prism Star rule does not put it in the Lost Zone. Energy Retrieval takes that Fire Energy back. Arven can find the scarf and the Item. Team Rocket's Petrel searches the deck for a Trainer card: Grand Tree, Rescue Scarf, Energy Search, Energy Retrieval, Buddy-Buddy Poffin, Nest Ball, and the doll. It does not search a Pokémon or an Energy card. Colress's Tenacity searches a Stadium and an Energy. It is not played over a Grand Tree that is already in play.",
         "",
-        "Cleffa is HeartGold & SoulSilver Eeeeeeek. That attack shuffles the hand into the deck and draws 6, so it is used when the hand is thin and the devolve line is not sitting in it. Lillie's Poké Doll is the no-Prize stall. Buddy-Buddy Poffin finds Litwick and Cleffa (60 and 30 HP). Celebi ◇ is 90 HP, so Nest Ball benches it.",
+        "Pichu is HeartGold & SoulSilver Playground. Each player may bench as many Basic Pokémon as they like, the user first, and Pichu is then Asleep. Roast benches Litwick until four lines are in play, then Celebi ◇, and leaves extra Pichu in the deck. Sweet Sleeping Face prevents attack damage while that Pichu is Asleep. Asleep blocks retreat, so Switch brings Celebi ◇ Active. Buddy-Buddy Poffin finds Pichu (30 HP) and Litwick (60 HP). Celebi ◇ is 90 HP, so Nest Ball and Playground bench it. Lillie's Poké Doll waits until those Bench slots are no longer needed for the line.",
         "",
         "The first turn cannot evolve, and Grand Tree also cannot evolve a Basic that was put into play this turn. A Grand Tree jump on the second turn mills 0. The hand-evolve mill starts on a later turn, once Chandelure is in the hand and Lampent is already in play.",
         "",
@@ -327,7 +333,9 @@ def _markdown(report: dict) -> str:
         f"Grand Tree uses per game: {report['grand_tree']:.2f}. "
         f"Time Distortion devolves per game: {report['time_distortion']:.2f}. "
         f"Rescue Scarf returns per game: {report['rescue_scarf']:.2f}. "
-        f"Celebi ◇ sent to the Lost Zone per game: {report['prism_lost_zone']:.2f}.",
+        f"Celebi ◇ sent to the Lost Zone per game: {report['prism_lost_zone']:.2f}. "
+        f"Playground attacks per game: {report['playground']:.2f}. "
+        f"Pichu entered play per game: {report['pichu_play']:.2f}.",
         "",
         "## Wave",
         "",
@@ -390,6 +398,8 @@ def main() -> None:
         "weighted": _weighted(cells),
         "se": _weighted_se(seats, GAMES),
         "fired": _weighted_stat(cells, "fired"),
+        "playground": _weighted_stat(cells, "playground"),
+        "pichu_play": _weighted_stat(cells, "pichu_play"),
         "roast_mill_turns": _weighted_stat(cells, "roast_mill_turns"),
         "roast_mill_cards": _weighted_stat(cells, "roast_mill_cards"),
         "grand_tree": _weighted_stat(cells, "grand_tree"),

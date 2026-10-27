@@ -7,7 +7,7 @@ Mountain Roasting does not mill. Playing Chandelure from the hand does.
 from random import Random
 
 from app.engine.effects import parse_ability_effects, parse_effects, parse_trainer_effects
-from app.engine.game import Game, Pokemon
+from app.engine.game import ST_ASLEEP, Game, Pokemon
 from app.engine.legality import copy_violations
 from app.engine.models import standard_60_rules
 from app.engine.strategies import StrategySpec
@@ -97,17 +97,24 @@ def test_printed_sentences_parse_without_a_fixed_devolve_count():
     assert fallback_named("Rescue Scarf").text == RESCUE_SCARF
 
 
-def test_roast_deck_is_sixty_and_cleffa_is_the_eeeeeeek_print():
+def test_roast_deck_is_sixty_and_pichu_is_playground():
     deck = build_roast_deck()
     assert len(deck) == 60
     assert copy_violations(deck, standard_60_rules()) == []
     assert StrategySpec.from_dict("roast").name == "roast"
-    cleffa = [card for card in deck if card.name == "Cleffa"]
-    assert len(cleffa) == 2
-    for card in cleffa:
-        kinds = {effect.get("kind") for attack in card.attacks for effect in attack.effects}
-        assert "shuffle_hand_then_draw" in kinds
+    pichu = [card for card in deck if card.name == "Pichu"]
+    assert len(pichu) == 3
+    for card in pichu:
+        playground = next(
+            effect
+            for attack in card.attacks
+            for effect in attack.effects
+            if effect.get("kind") == "playground"
+        )
+        assert "count" not in playground
+        assert playground.get("user_first") is True
         assert any(ability.name == "Sweet Sleeping Face" for ability in card.abilities)
+        assert "as many" in card.attacks[0].text.lower()
 
 
 def test_devolve_any_number_of_times_and_roast_takes_one_step():
@@ -250,3 +257,90 @@ def test_scarf_beats_lost_city_on_an_attack_knock_out():
     assert celebi not in me.lost_zone
     assert game.events.get("rescue_scarf", 0) == 1
     assert game.events.get("lost_city", 0) == 0
+
+
+def _foe_basic(foe) -> int:
+    for mon in list(foe.bench):
+        card = foe.card(mon.card_i)
+        if card.is_basic and card.is_pokemon:
+            foe.bench.remove(mon)
+            return mon.card_i
+    for zone in (foe.hand, foe.deck, foe.prizes, foe.discard, foe.lost_zone):
+        for card_i in list(zone):
+            card = foe.card(card_i)
+            if card.is_basic and card.is_pokemon:
+                zone.remove(card_i)
+                return card_i
+    if foe.active is not None and foe.card(foe.active.card_i).is_basic:
+        card_i = foe.active.card_i
+        foe.active = None
+        return card_i
+    raise AssertionError("foe basic")
+
+
+def test_playground_benches_four_litwick_and_celebi_then_stops():
+    game = _game()
+    me = game.players["a"]
+    foe = game.players["b"]
+    _reclaim(me)
+    pichu = _pull(me, "Pichu")
+    extra = _pull(me, "Pichu")
+    celebi = _pull(me, "Celebi ◇")
+    litwicks = [_pull(me, "Litwick") for _ in range(4)]
+    me.hand.clear()
+    me.deck = litwicks + [celebi, extra]
+    me.bench = []
+    me.active = Pokemon(card_i=pichu, played_turn=0)
+    basic = _foe_basic(foe)
+    foe.bench.clear()
+    foe.deck = [basic]
+    game._playground(me, foe, "a", user_first=True)
+    names = [me.card(mon.card_i).name for mon in me.bench]
+    assert names.count("Litwick") == 4
+    assert names.count("Celebi ◇") == 1
+    assert extra in me.deck
+    assert len(foe.bench) == 1
+    assert game._roast_playground_pick(me) is None
+    assert game.events.get("playground", 0) == 6
+    assert game.events.get("used_playground_a", 0) == 1
+
+
+def test_playground_passes_when_a_benched_chandelure_can_devolve():
+    game = _game()
+    me = game.players["a"]
+    foe = game.players["b"]
+    _reclaim(me)
+    pichu = _pull(me, "Pichu")
+    lit = _pull(me, "Litwick")
+    lamp = _pull(me, "Lampent")
+    chand = _pull(me, "Chandelure")
+    celebi = _pull(me, "Celebi ◇")
+    fire = _pull(me, "Fire Energy")
+    evolved = Pokemon(card_i=chand, played_turn=0, underneath=[lit, lamp])
+    me.deck = [_pull(me, "Litwick") for _ in range(3)]
+    me.hand.clear()
+    me.active = Pokemon(card_i=pichu, played_turn=0)
+    me.bench = [evolved, Pokemon(card_i=celebi, played_turn=0, energy=[fire])]
+    assert game._roast_wants_playground(me, "a") is False
+    assert game._choose_attack(me, foe, game.strats["a"]) is None
+    me.active = Pokemon(card_i=celebi, played_turn=0, energy=[fire])
+    me.bench = [evolved, Pokemon(card_i=pichu, played_turn=0)]
+    chosen = game._choose_attack(me, foe, game.strats["a"])
+    assert chosen is not None and chosen.name == "Time Distortion"
+
+
+def test_asleep_pichu_uses_switch_to_bring_celebi_active():
+    game = _game()
+    me = game.players["a"]
+    _reclaim(me)
+    pichu = _pull(me, "Pichu")
+    celebi = _pull(me, "Celebi ◇")
+    switch = _pull(me, "Switch")
+    me.active = Pokemon(card_i=pichu, played_turn=0, status=ST_ASLEEP)
+    me.bench = [Pokemon(card_i=celebi, played_turn=0)]
+    me.hand.clear()
+    assert game._roast_bring(me, "a", lambda mon: "celebi" in me.card(mon.card_i).name.lower()) is False
+    assert me.card(me.active.card_i).name == "Pichu"
+    me.hand.append(switch)
+    assert game._roast_bring(me, "a", lambda mon: "celebi" in me.card(mon.card_i).name.lower()) is True
+    assert me.card(me.active.card_i).name == "Celebi ◇"
