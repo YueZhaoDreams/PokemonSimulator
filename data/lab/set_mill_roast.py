@@ -2,10 +2,10 @@
 """Celebi ◇ / Chandelure roast mill. One list, both seats, loss-weighted.
 
 Mountain Roasting discards the top 3 only when Chandelure is played from the
-hand. Dawn searches the deck for a Basic Pokémon, a Stage 1 Pokémon, and a
-Stage 2 Pokémon and puts them into the hand. Broken Time-Space lets a
-Pokémon that was just played or just evolved this turn evolve again.
-Pichu Playground benches Litwick
+hand. Evolution Incense is an Item. Each copy searches the deck for one Evolution
+Pokémon and puts it into the hand, and several can be played in one turn.
+Broken Time-Space lets a Pokémon that was just played or just evolved this
+turn evolve again. Pichu Playground benches Litwick
 and then Celebi ◇. A Chandelure in the hand evolves onto any Lampent that can
 evolve this turn. Team Rocket's Petrel
 searches a Trainer card. Rescue Scarf returns Celebi ◇ to the hand.
@@ -101,6 +101,7 @@ _COUNT_KEYS = (
     "roast_mill_turns",
     "grand_tree",
     "dawn",
+    "evolution_incense",
     "roast_bts",
     "time_distortion",
     "rescue_scarf",
@@ -141,16 +142,16 @@ def _check() -> None:
         raise SystemExit("roast Level Ball count")
     if names.count("Slumbering Forest") < 1:
         raise SystemExit("roast has no Slumbering Forest")
-    if names.count("Dawn") != 4 or names.count("Grand Tree") or names.count("Colress's Tenacity"):
-        raise SystemExit("roast Dawn list")
+    if names.count("Evolution Incense") != 4 or names.count("Dawn") or names.count("Grand Tree"):
+        raise SystemExit("roast Evolution Incense list")
     if names.count("Broken Time-Space") != 3:
         raise SystemExit("roast Broken Time-Space count")
     bts = fallback_named("Broken Time-Space")
     if "just played or evolved" not in bts.text.lower():
         raise SystemExit("Broken Time-Space text")
-    dawn = fallback_named("Dawn")
-    if "basic pokemon, a stage 1 pokemon, and a stage 2 pokemon" not in dawn.text.lower().replace("é", "e"):
-        raise SystemExit("Dawn text")
+    incense = fallback_named("Evolution Incense")
+    if "an evolution pokemon" not in incense.text.lower().replace("é", "e"):
+        raise SystemExit("Evolution Incense text")
     if fallback_named("Team Rocket's Petrel").text.lower().count("trainer") < 1:
         raise SystemExit("Petrel text missing")
 
@@ -205,6 +206,7 @@ def _run(foe_key: str, seat: str, games: int, seed: int) -> dict:
         totals["roast_mill_turns"] += result.events.get("roast_mill_turns", 0)
         totals["grand_tree"] += result.events.get("grand_tree", 0)
         totals["dawn"] += result.events.get("dawn", 0)
+        totals["evolution_incense"] += result.events.get("evolution_incense", 0)
         totals["roast_bts"] += result.events.get(f"roast_bts_{seat}", 0)
         totals["time_distortion"] += result.events.get("time_distortion", 0)
         totals["rescue_scarf"] += result.events.get("rescue_scarf", 0)
@@ -232,7 +234,7 @@ def _run(foe_key: str, seat: str, games: int, seed: int) -> dict:
 
 
 def _cache_key(foe_key: str, seat: str, games: int, seed: int) -> str:
-    return f"{seed}|{games}|{seat}|{foe_key}|roast-bts-petrel"
+    return f"{seed}|{games}|{seat}|{foe_key}|roast-incense"
 
 
 def _load_cache() -> dict[str, dict]:
@@ -337,19 +339,19 @@ def _markdown(report: dict) -> str:
         "",
         "Celebi ◇ uses Time Distortion: devolve any number of benched Pokémon as many times as you like, and put each Evolution card removed this way into the hand. The measured line devolves each benched Chandelure once, leaving Lampent.",
         "",
-        "Chandelure's Mountain Roasting says the top 3 cards are discarded when you play that Pokémon from your hand to evolve. One evolution mills 3. Three mill 9. Four mill 12. Dawn puts a Basic, a Stage 1, and a Stage 2 into the hand. Playing Chandelure from that hand mills.",
+        "Chandelure's Mountain Roasting says the top 3 cards are discarded when you play that Pokémon from your hand to evolve. One evolution mills 3. Three mill 9. Four mill 12. Evolution Incense puts one Evolution Pokémon into the hand. Playing Chandelure from that hand mills.",
         "",
         "Broken Time-Space says each player may evolve a Pokémon that he or she just played or evolved during that turn. With it in play, a Litwick played this turn can evolve into Lampent and then into Chandelure before the attack. Both players may use that stadium.",
         "",
-        "Pichu is HeartGold & SoulSilver Playground. Each player may bench as many Basic Pokémon as they like, this player first. Roast benches Litwick until four lines are in play, then Celebi ◇. Dawn searches the deck for one Basic Pokémon, one Stage 1 Pokémon, and one Stage 2 Pokémon and puts them into the hand. Under Broken Time-Space those cards can evolve the same turn. Celebi ◇ uses Time Distortion and puts that Chandelure back into the hand. Level Ball finds a Pokémon with 90 HP or less, including Pichu and Celebi ◇, and does not find Chandelure.",
+        "Pichu is HeartGold & SoulSilver Playground. Each player may bench as many Basic Pokémon as they like, this player first. Roast benches Litwick until four lines are in play, then Celebi ◇. Evolution Incense searches the deck for an Evolution Pokémon. It takes Lampent while a Litwick still needs one, then Chandelure. Under Broken Time-Space those cards can evolve the same turn. Celebi ◇ uses Time Distortion and puts that Chandelure back into the hand. Level Ball finds a Pokémon with 90 HP or less, including Pichu and Celebi ◇, and does not find Chandelure.",
         "",
         "Lampent is Plasma Storm Freefloating. With no Energy attached, its retreat cost is 0. Fire Energy stays on Celebi ◇.",
         "",
-        "Rescue Scarf puts the Pokémon into the hand when an attack Knocks it Out, and discards the cards attached to it. Celebi ◇ therefore does not go to the discard pile, and the Prism Star rule does not put it in the Lost Zone. Energy Retrieval takes that Fire Energy back. Arven can find the scarf and the Item. Team Rocket's Petrel searches the deck for a Trainer card, Dawn first. It does not search a Pokémon or an Energy card.",
+        "Rescue Scarf puts the Pokémon into the hand when an attack Knocks it Out, and discards the cards attached to it. Celebi ◇ therefore does not go to the discard pile, and the Prism Star rule does not put it in the Lost Zone. Energy Retrieval takes that Fire Energy back. Arven can find Evolution Incense and the scarf. Team Rocket's Petrel searches the deck for a Trainer card. It takes Broken Time-Space once the line is in the hand, and Evolution Incense before that. It does not search a Pokémon or an Energy card.",
         "",
         "Cleffa is HeartGold & SoulSilver Eeeeeeek: shuffle the hand into the deck, draw 6, then Cleffa is Asleep. Pichu is the Playground attacker. Sweet Sleeping Face prevents attack damage while that Pokémon is Asleep. Slumbering Forest makes the between-turns sleep check two coins, and the Pokémon stays Asleep unless both are heads. Asleep blocks retreat, so Switch brings Celebi ◇ Active.",
         "",
-        "A Litwick played on the turn Dawn finds it stays unevolved until Broken Time-Space is in play. The stadium also lets the Lampent that just evolved take Chandelure that same turn.",
+        "A Litwick played on the turn Evolution Incense finds Lampent stays unevolved until Broken Time-Space is in play. The stadium also lets that Lampent take Chandelure the same turn.",
         "",
         f"- **List**: {', '.join(f'{name} ×{counts[name]}' for name in dict.fromkeys(SET_ROAST_NAMES))}",
         f"- **Seed**: `{report['seed']}`",
@@ -363,7 +365,7 @@ def _markdown(report: dict) -> str:
         f"Games in which Mountain Roasting fired: **{_pct(report['fired'])}**. "
         f"Hand-evolve turns per game: {report['roast_mill_turns']:.2f}. "
         f"Cards milled by those turns per game: {report['roast_mill_cards']:.2f}. "
-        f"Dawn plays per game: {report['dawn']:.2f}. "
+        f"Evolution Incense plays per game: {report['evolution_incense']:.2f}. "
         f"Broken Time-Space plays per game: {report['roast_bts']:.2f}. "
         f"Time Distortion devolves per game: {report['time_distortion']:.2f}. "
         f"Rescue Scarf returns per game: {report['rescue_scarf']:.2f}. "
@@ -377,7 +379,7 @@ def _markdown(report: dict) -> str:
         "",
         "## Wave",
         "",
-        "Each row is how often a turn's from-hand Chandelure evolutions milled that many cards. One Lampent mills 3. Dawn itself is not in this histogram. A short last row can be the opponent's deck running out.",
+        "Each row is how often a turn's from-hand Chandelure evolutions milled that many cards. One Chandelure mills 3. Evolution Incense itself is not in this histogram. A short last row can be the opponent's deck running out.",
         "",
         "| Cards milled that turn | Turns per game |",
         "| ---: | ---: |",
@@ -449,6 +451,7 @@ def main() -> None:
         "roast_mill_cards": _weighted_stat(cells, "roast_mill_cards"),
         "grand_tree": _weighted_stat(cells, "grand_tree"),
         "dawn": _weighted_stat(cells, "dawn"),
+        "evolution_incense": _weighted_stat(cells, "evolution_incense"),
         "roast_bts": _weighted_stat(cells, "roast_bts"),
         "time_distortion": _weighted_stat(cells, "time_distortion"),
         "rescue_scarf": _weighted_stat(cells, "rescue_scarf"),

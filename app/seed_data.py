@@ -717,10 +717,11 @@ SET_MILL_NAMES = (
 
 # Celebi ◇ Time Distortion + Lost Origin Chandelure. Lampent is Plasma Storm
 # Freefloating. Mountain Roasting mills 3 only when Chandelure is played from
-# the hand. Level Ball finds Lampent (70) and Celebi ◇ (90); it does not find
-# Chandelure (150). Cleffa is the HGSS Eeeeeeek print. Slumbering Forest stays
-# up while that wall sleeps. Celebi ◇ stays in hand until three Lampent can
-# take Chandelure from the hand on the same turn. See data/lab/set-mill-roast.md.
+# the hand. Evolution Incense is an Item: each copy searches for one Evolution
+# Pokémon, and several can be played in one turn. Broken Time-Space lets that
+# Litwick become Lampent and then Chandelure the same turn. Level Ball finds
+# Lampent (70) and Celebi ◇ (90); it does not find Chandelure (150). Cleffa is
+# the HGSS Eeeeeeek print. See data/lab/set-mill-roast.md.
 SET_ROAST_NAMES = (
     ["Litwick"] * 4
     + ["Lampent"] * 4
@@ -734,7 +735,7 @@ SET_ROAST_NAMES = (
     + ["Energy Search"] * 4
     + ["Energy Retrieval"] * 2
     + ["Rescue Scarf"] * 4
-    + ["Dawn"] * 4
+    + ["Evolution Incense"] * 4
     + ["Level Ball"] * 3
     + ["Ultra Ball"]
     + ["Switch"] * 2
@@ -1325,6 +1326,14 @@ _register(
         "supporter",
         "Search your deck for a Basic Pokémon, a Stage 1 Pokémon, and a Stage 2 Pokémon, reveal them, and put them into your hand. Then, shuffle your deck.",
         catalog_id="pfl-87",
+    )
+)
+_register(
+    _trn(
+        "Evolution Incense",
+        "item",
+        "Search your deck for an Evolution Pokémon, reveal it, and put it into your hand. Then, shuffle your deck.",
+        catalog_id="swsh1-163",
     )
 )
 _register(

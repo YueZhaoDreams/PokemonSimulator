@@ -6849,6 +6849,43 @@ class Game:
         else:
             self._bump("dawn_miss")
 
+    def _is_evolution_pokemon(self, card: Card) -> bool:
+        return bool(card.is_pokemon and card.evolves_from)
+
+    def _evolution_incense(self, me: Player, who: str, count: int) -> None:
+        """Each printed search takes one Evolution Pokémon into the hand."""
+        found: list[str] = []
+        for _ in range(max(0, count)):
+            chosen: str | None = None
+            if self.strats[who].name == "roast":
+                chosen = self._roast_incense_choice(me)
+                prefer = [chosen] if chosen else ["Chandelure", "Lampent"]
+            else:
+                prefer = list(self.strats[who].search_aces)
+
+            def pred(card: Card, chosen: str | None = chosen) -> bool:
+                if not self._is_evolution_pokemon(card):
+                    return False
+                if not chosen:
+                    return True
+                return card.name.lower() == chosen.lower()
+
+            card_i = self._search(
+                me,
+                pred,
+                prefer=prefer,
+                source="evolution incense",
+            )
+            if card_i is None:
+                break
+            found.append(me.card(card_i).name)
+        if found:
+            self._bump("evolution_incense")
+            self._bump("evolution_incense_cards", len(found))
+            self._log(f"{me.name} Evolution Incense finds {', '.join(found)}")
+        else:
+            self._bump("evolution_incense_miss")
+
     def _level_ball(self, me: Player, who: str, max_hp: int) -> None:
         if max_hp <= 0:
             return
@@ -16691,6 +16728,8 @@ class Game:
             self._level_ball(me, who, int(eff.get("max_hp") or 0))
         elif kind == "search_basic_stage1_stage2":
             self._dawn(me, who)
+        elif kind == "search_evolution_pokemon":
+            self._evolution_incense(me, who, int(eff.get("count") or 1))
         elif kind == "look_opp_discard_items":
             self._look_opp_discard_items(me, foe, int(eff.get("look") or 0))
         elif kind == "coin_mill_top":
@@ -18039,8 +18078,8 @@ class Game:
                 break
 
     def _roast_main(self, me: Player, foe: Player, who: str) -> None:
-        # Dawn puts the line in the hand. Broken Time-Space then lets a Litwick
-        # played this turn evolve into Lampent and Chandelure before the attack.
+        # Evolution Incense puts Lampent and Chandelure in the hand. Broken Time-Space
+        # then lets a Litwick played this turn evolve into both before the attack.
         # Celebi ◇ devolves a benched Chandelure the same turn it can pay.
         self._roast_bench(me, who)
         self._roast_trainers(me, foe, who)
@@ -18344,7 +18383,7 @@ class Game:
         name = card.name.lower()
         if name == "chandelure":
             return True
-        if name == "dawn":
+        if name == "dawn" or name == "evolution incense":
             return True
         if name == "broken time-space" and (self.stadium_name or "").lower() != "broken time-space":
             return True
@@ -18450,9 +18489,10 @@ class Game:
         deck = {me.card(i).name.lower() for i in me.deck}
         litwick = "litwick" in hand or "litwick" in play
         lampent = "lampent" in hand or "lampent" in play
-        if litwick and ("lampent" in hand or lampent or ("lampent" in deck and "dawn" in hand)):
+        tutor = "dawn" in hand or "evolution incense" in hand
+        if litwick and ("lampent" in hand or lampent or ("lampent" in deck and tutor)):
             return True
-        if "chandelure" in hand and (litwick or lampent or ("lampent" in deck and "dawn" in hand)):
+        if "chandelure" in hand and (litwick or lampent or ("lampent" in deck and tutor)):
             return True
         return False
 
@@ -18460,6 +18500,28 @@ class Game:
         if (self.stadium_name or "").lower() == "broken time-space":
             return True
         return self._roast_wants_bts(me, who) and self._roast_named(me, me.hand, "Broken Time-Space")
+
+    def _roast_incense_choice(self, me: Player) -> str | None:
+        """The next Evolution Pokémon Evolution Incense should take.
+
+        Lampent until each Litwick has one. Then Chandelure for a Lampent already
+        in hand or in play. With neither piece out, leave the Item for later so
+        a Chandelure does not sit in hand and stop Eeeeeeek.
+        """
+        def count(zone: list[int], name: str) -> int:
+            return sum(1 for i in zone if me.card(i).name.lower() == name)
+
+        play = [mon.card_i for mon in me.in_play()]
+        room = max(0, self._bench_limit(me) - len(me.bench))
+        litwick = count(play, "litwick") + min(count(me.hand, "litwick"), room)
+        lampent = count(play, "lampent") + count(me.hand, "lampent")
+        deck_lamp = count(me.deck, "lampent")
+        deck_chand = count(me.deck, "chandelure")
+        if litwick > lampent and deck_lamp:
+            return "Lampent"
+        if deck_chand and lampent > 0:
+            return "Chandelure"
+        return None
 
     def _roast_dawn_helps(self, me: Player) -> bool:
         names = {me.card(i).name.lower() for i in me.deck}
@@ -18500,6 +18562,12 @@ class Game:
             and self._roast_named(me, me.deck, "Broken Time-Space")
         ):
             return "Broken Time-Space"
+        if (
+            self._roast_incense_choice(me) is not None
+            and not self._roast_named(me, me.hand, "Evolution Incense")
+            and self._roast_named(me, me.deck, "Evolution Incense")
+        ):
+            return "Evolution Incense"
         if (
             self._roast_dawn_helps(me)
             and not self._roast_named(me, me.hand, "Dawn")
@@ -18585,6 +18653,7 @@ class Game:
             "pichu",
             "slumbering forest",
             "broken time-space",
+            "evolution incense",
             "dawn",
             "level ball",
             "rescue scarf",
@@ -18608,6 +18677,8 @@ class Game:
         if card.is_supporter and (me.supporter_used or not self._can_play_supporter(who)):
             return -1
         forest_out = (self.stadium_name or "").lower() == "slumbering forest"
+        if name == "evolution incense":
+            return 205 if self._roast_incense_choice(me) else -1
         if name == "dawn":
             if self._roast_needs_switch(me) and not self._roast_named(me, me.hand, "Switch"):
                 return 100
@@ -18646,6 +18717,8 @@ class Game:
             want = self._roast_petrel_want(me, who)
             if want == "Switch":
                 return 175
+            if want == "Evolution Incense":
+                return 200
             if want == "Dawn":
                 return 200
             if want == "Broken Time-Space":
@@ -18654,6 +18727,8 @@ class Game:
                 return 170
             return 110 if want else -1
         if name == "arven":
+            if self._roast_incense_choice(me) and self._roast_named(me, me.deck, "Evolution Incense"):
+                return 180
             if self._roast_celebi_bare(me) and self._roast_named(me, me.deck, "Rescue Scarf"):
                 return 155
             if self._roast_level_helps(me) and self._roast_named(me, me.deck, "Level Ball"):
@@ -18917,6 +18992,8 @@ class Game:
                 source="arven",
             )
         prefer = []
+        if self._roast_incense_choice(me):
+            prefer.append("Evolution Incense")
         if self._roast_wants_energy(me, who) and any(is_basic_energy(me.card(i)) for i in me.discard):
             prefer.append("Energy Retrieval")
         if self._roast_wants_energy(me, who):

@@ -1402,6 +1402,15 @@ def parse_trainer_effects(text: str) -> list[dict[str, Any]]:
             }
         )
         return effects
+    # Sword & Shield Evolution Incense: one Evolution Pokémon into the hand.
+    # "An Evolution Pokémon" is one card. Jacq's "up to 2" is a different sentence.
+    if (
+        "search your deck for an evolution pokemon" in t
+        and "into your hand" in t
+        and "up to" not in t
+    ):
+        effects.append({"kind": "search_evolution_pokemon", "count": 1})
+        return effects
     # Phantasmal Flames Dawn: one Basic, one Stage 1, and one Stage 2 into the hand.
     if (
         "search your deck for a basic pokemon, a stage 1 pokemon, and a stage 2 pokemon" in t
