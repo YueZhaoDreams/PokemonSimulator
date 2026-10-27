@@ -207,6 +207,10 @@ class Game:
         self.blank_active_owner: str | None = None
         # Surfing Beach: one Water switch per player per turn.
         self._water_switch_used: set[str] = set()
+        # Grand Tree: once per player per turn, not once per game.
+        self._grand_tree_used: set[str] = set()
+        self._roast_ran: dict[str, int] = {}
+        self._roast_mill_this_turn: dict[str, int] = {}
 
     def _log(self, message: str) -> None:
         if self.trace_on:
@@ -314,6 +318,25 @@ class Game:
                 player.bench.append(Pokemon(card_i=card_i, played_turn=0))
                 self._bump(f"saw_play:{player.card(card_i).name}")
             self._place_setup_proxy(player)
+            _capture_opening(player)
+            return
+        if strat.name == "roast":
+            def roast_rank(card_i: int) -> tuple[int, int]:
+                name = player.card(card_i).name.lower()
+                if "celebi" in name:
+                    return (0, 0)
+                if name == "litwick":
+                    return (1, 0)
+                if name == "cleffa":
+                    return (2, 0)
+                return (3, 0)
+
+            for card_i in sorted(remaining, key=roast_rank):
+                if len(player.bench) >= self._bench_limit(player):
+                    break
+                player.hand.remove(card_i)
+                player.bench.append(Pokemon(card_i=card_i, played_turn=0))
+                self._bump(f"saw_play:{player.card(card_i).name}")
             _capture_opening(player)
             return
         if strat.hold_as_energy:
@@ -745,6 +768,14 @@ class Game:
             name = card.name.lower()
             if strat.name == "doll":
                 return doll_ai.starter_score(self, card)
+            if strat.name == "roast":
+                if name == "cleffa":
+                    return 5000
+                if name == "litwick":
+                    return 3000
+                if "celebi" in name:
+                    return 1000
+                return 100
             if strat.name == "mill" and self._prints_playground(card):
                 return 4000 if self._mill_wall_match(player) else 100
             if strat.name == "mill" and self._prints_eeeeeeek(card):
@@ -1018,6 +1049,8 @@ class Game:
         foe = self.players["b" if who == "a" else "a"]
         me.own_turns += 1
         self._water_switch_used.discard(who)
+        self._grand_tree_used.discard(who)
+        self._roast_mill_this_turn[who] = 0
         self.moonlight_pivot_mon.pop(who, None)
         self._patch_storm_lock = None
         me.supporter_used = False
@@ -1212,6 +1245,13 @@ class Game:
 
     def _play_basics(self, me: Player) -> None:
         who = "a" if me.name == "A" else "b"
+        if self.strats[who].name == "roast":
+            if self._roast_ran.get(who) == self.turn:
+                return
+            self._roast_ran[who] = self.turn
+            foe = self.players["b" if who == "a" else "a"]
+            self._roast_main(me, foe, who)
+            return
         strat = self.strats[who]
         aces = {n.lower() for n in strat.search_aces}
         backups = {n.lower() for n in strat.backups}
@@ -1340,6 +1380,10 @@ class Game:
         who = who or ("a" if me.name == "A" else "b")
         foe = foe or self.players["b" if who == "a" else "a"]
         strat = self.strats[who]
+        if strat.name != "roast":
+            self._use_grand_tree(me, who)
+        if strat.name == "roast":
+            return
         if strat.name == "party":
             self._evolve_party(me, foe, who)
             return
@@ -1470,10 +1514,13 @@ class Game:
             me.card(target.card_i), evo
         )
 
-    def _do_evolve(self, me: Player, target: Pokemon, evo_i: int) -> None:
+    def _do_evolve(self, me: Player, target: Pokemon, evo_i: int, *, from_hand: bool = True) -> None:
         evo = me.card(evo_i)
-        skip = self._candy_skip(me, target, evo)
-        me.hand.remove(evo_i)
+        skip = self._candy_skip(me, target, evo) if from_hand else False
+        if from_hand:
+            me.hand.remove(evo_i)
+        else:
+            me.deck.remove(evo_i)
         target.underneath.append(target.card_i)
         if skip:
             candy = self._first_named(me, "Rare Candy")
@@ -1492,7 +1539,12 @@ class Game:
         if evo_name == "clefable ex":
             self._bump("lunar_zone_play")
         self._log(f"{me.name} evolves into {me.card(evo_i).name}")
-        self._on_evolve(me, foe=self.players["b" if me.name == "A" else "a"], evolved=target)
+        self._on_evolve(
+            me,
+            foe=self.players["b" if me.name == "A" else "a"],
+            evolved=target,
+            from_hand=from_hand,
+        )
 
     def _has_named(self, me: Player, name: str) -> bool:
         return any(me.card(i).name.lower() == name.lower() for i in me.hand)
@@ -1631,6 +1683,8 @@ class Game:
         self._do_evolve(me, target, ex_i)
 
     def _play_trainers(self, me: Player, foe: Player, who: str) -> None:
+        if self.strats[who].name == "roast":
+            return
         strat = self.strats[who]
         # Greedy AI dumps every Item. Thrifty family play holds them unless needed.
         max_plays = 10 if strat.item_spend >= 0.75 else 1
@@ -4517,6 +4571,15 @@ class Game:
                     score += 3
             if card.name.lower() in protect:
                 score -= 10
+            if strat.name == "roast" and card.name.lower() in {
+                "celebi ◇",
+                "chandelure",
+                "lampent",
+                "litwick",
+                "grand tree",
+                "rescue scarf",
+            }:
+                score -= 50
             if strat.name in {"mew_baby", "baby"} and (
                 card.name.lower() == "area zero underdepths" or self._is_tera_card(card)
             ):
@@ -4580,6 +4643,8 @@ class Game:
 
     def _pokemon_search_prefer(self, me: Player, who: str) -> list[str]:
         strat = self.strats[who]
+        if strat.name == "roast":
+            return self._roast_pokemon_prefer(me)
         if strat.name == "doll":
             return doll_ai.search_prefer(self, me)
         if strat.name == "mill":
@@ -4880,6 +4945,8 @@ class Game:
     def _energy_search_prefer(self, me: Player, who: str) -> list[str]:
         """What Energy Search should dig for under Family Cup."""
         strat = self.strats[who]
+        if strat.name == "roast":
+            return ["Fire Energy"]
         prefer: list[str] = []
         in_play = {me.card(m.card_i).name.lower() for m in me.in_play()}
         in_hand = {me.card(i).name.lower() for i in me.hand}
@@ -5406,6 +5473,8 @@ class Game:
         if not me.active or me.energy_attached:
             return
         strat = self.strats[who]
+        if strat.name == "roast":
+            return
         foe = self.players["b" if who == "a" else "a"]
         if strat.name == "g" and self._g_horn_attach(me, foe, who):
             return
@@ -6148,6 +6217,8 @@ class Game:
         if not me.active or not me.bench:
             return
         strat = self.strats[who]
+        if strat.name == "roast":
+            return
         if strat.name == "starmie" and self._surfing_beach_switch(me, who):
             return
         if me.active.status & (ST_PARALYZED | ST_ASLEEP):
@@ -6472,6 +6543,8 @@ class Game:
                 count = int(effect.get("count") or 0)
                 if count > 0:
                     self._mill_opponent(me, foe, count)
+            elif effect.get("kind") == "devolve_benched":
+                self._time_distortion(me, who)
             elif effect.get("kind") == "coin_mill_opponent":
                 flips = int(effect.get("flips") or 0)
                 per = int(effect.get("per") or 0)
@@ -8596,6 +8669,11 @@ class Game:
                 score += 15 if strat.hold_as_energy else 55
                 if strat.name == "mill" and any(e.get("kind") == "coin_mill_opponent" for e in atk.effects):
                     score += 40
+            if strat.name == "roast" and any(e.get("kind") == "devolve_benched" for e in atk.effects):
+                if any(me.card(m.card_i).name.lower() == "chandelure" for m in me.bench):
+                    score += 2000
+            if strat.name == "roast" and any(e.get("kind") == "shuffle_hand_then_draw" for e in atk.effects):
+                score += -500 if self._roast_hand_busy(me) else 80
             if strat.name == "mill" and any(e.get("kind") == "playground" for e in resolved.effects):
                 score += 140
             if strat.name == "mill" and any(e.get("kind") == "topdeck_lost_zone" for e in resolved.effects):
@@ -8692,6 +8770,13 @@ class Game:
                 return None
             if self._is_slash_tank(card) and effective < foe_hp:
                 return None
+        if strat.name == "roast" and best is not None:
+            if any(e.get("kind") == "shuffle_hand_then_draw" for e in best.effects):
+                if self._roast_hand_busy(me):
+                    return None
+            if any(e.get("kind") == "devolve_benched" for e in best.effects):
+                if not any(me.card(m.card_i).name.lower() == "chandelure" for m in me.bench):
+                    return None
         return best
 
     def _apply_status(self, mon: Pokemon, status: str) -> None:
@@ -8790,6 +8875,8 @@ class Game:
         foe = self.players["b" if who == "a" else "a"]
         if strat.name == "thorns":
             return self._thorns_promote_idx(player)
+        if strat.name == "roast":
+            return self._roast_promote_idx(player)
         storm = strat.name == "party" and self._want_storm_line(player, foe, who)
 
         def baby_prio(card: Card) -> int:
@@ -8947,16 +9034,51 @@ class Game:
 
         return min(range(len(player.bench)), key=prio)
 
+    def _is_prism_star(self, card: Card) -> bool:
+        blob = " ".join(card.traits or []).lower()
+        if "prism star" in blob:
+            return True
+        text = (card.text or "").lower()
+        return "prism star" in text and "discard pile" in text and "lost zone" in text
+
+    def _put_discarded(self, player: Player, card_i: int) -> None:
+        if self._is_prism_star(player.card(card_i)):
+            player.lost_zone.append(card_i)
+            self._bump("prism_lost_zone")
+            return
+        player.discard.append(card_i)
+
+    def _scarf_saves(self, player: Player, mon: Pokemon) -> bool:
+        if mon.tool is None:
+            return False
+        attacked = id(mon) in self._attack_damaged_ids
+        for eff in parse_trainer_effects(player.card(mon.tool).text or ""):
+            if eff.get("kind") != "ko_to_hand":
+                continue
+            if eff.get("attack_only") and not attacked:
+                continue
+            return True
+        return False
+
     def _discard_mon(self, player: Player, mon: Pokemon) -> None:
         stack = self._pokemon_stack(mon)
-        attached = self._detach_cards(mon)
-        if any(eff.get("kind") == "ko_to_lost_zone" for eff in (self.stadium_effects or [])):
+        if self._scarf_saves(player, mon):
+            top, *under = stack
+            player.hand.append(top)
+            for card_i in under:
+                self._put_discarded(player, card_i)
+            for card_i in self._detach_cards(mon):
+                self._put_discarded(player, card_i)
+            self._bump("rescue_scarf")
+            self._log(f"{player.card(top).name} returns to {player.name}'s hand")
+        elif any(eff.get("kind") == "ko_to_lost_zone" for eff in (self.stadium_effects or [])):
             player.lost_zone.extend(stack)
-            player.discard.extend(attached)
+            player.discard.extend(self._detach_cards(mon))
             self._bump("lost_city")
         else:
-            player.discard.extend(stack)
-            player.discard.extend(attached)
+            for card_i in stack:
+                self._put_discarded(player, card_i)
+            player.discard.extend(self._detach_cards(mon))
         mon.underneath.clear()
         if player.active is mon:
             player.active = None
@@ -9857,6 +9979,13 @@ class Game:
         if self.strats[who].name == "doll" and doll_ai.claims_tool(card):
             return doll_ai.tool_host(self, me, card)
         text = (card.text or "").lower().replace("pokémon", "pokemon")
+        if card.name.lower() == "rescue scarf" or (
+            "knocked out by damage from an attack" in text and "put that pokemon into your hand" in text
+        ):
+            for mon in me.in_play():
+                if mon.tool is None and "celebi" in me.card(mon.card_i).name.lower():
+                    return mon
+            return None
         if "no retreat cost" in text and "future" in text:
             futures = [
                 mon
@@ -11220,7 +11349,9 @@ class Game:
 
     def _search_stadium_and_energy(self, me: Player) -> None:
         who = "a" if me.name == "A" else "b"
-        if self.strats[who].name == "mill":
+        if self.strats[who].name == "roast":
+            stadium_prefer = ["Grand Tree"]
+        elif self.strats[who].name == "mill":
             face_out = any(self._sweet_face(me.card(mon.card_i)) for mon in me.in_play())
             stadium_prefer = (
                 ["Slumbering Forest", "Neutralization Zone"]
@@ -11236,7 +11367,9 @@ class Game:
             source="colress",
         )
         who = "a" if me.name == "A" else "b"
-        if self.strats[who].name == "mill":
+        if self.strats[who].name == "roast":
+            energy_prefer = ["Fire Energy"]
+        elif self.strats[who].name == "mill":
             # DTE stays ahead of Ignition and Reversal. Water and Fighting keep
             # the same unlisted score they had before those two existed.
             energy_prefer = ["Double Turbo Energy", "Ignition Energy", "Reversal Energy"]
@@ -11310,6 +11443,9 @@ class Game:
         self._bump("lost_vacuum")
 
     def _arven(self, me: Player, who: str) -> None:
+        if self.strats[who].name == "roast":
+            self._roast_arven(me)
+            return
         if self.strats[who].name == "thorns":
             self._search(
                 me,
@@ -11455,7 +11591,7 @@ class Game:
             return False
         return not can_pay_energy(pool, atk.cost)
 
-    def _on_evolve(self, me: Player, foe: Player, evolved: Pokemon) -> None:
+    def _on_evolve(self, me: Player, foe: Player, evolved: Pokemon, from_hand: bool = True) -> None:
         if self._abilities_suppressed(me, evolved):
             return
         card = me.card(evolved.card_i)
@@ -11483,6 +11619,23 @@ class Game:
                     elif foe.bench:
                         self._boss_orders(me, foe)
                         self._bump("heave_ho_catcher")
+        if from_hand:
+            self._mill_on_play_from_hand(me, foe, evolved)
+
+    def _mill_on_play_from_hand(self, me: Player, foe: Player, evolved: Pokemon) -> None:
+        card = me.card(evolved.card_i)
+        for abi in card.abilities:
+            for eff in self._ability_effects(abi):
+                if eff.get("kind") != "mill_on_play_from_hand":
+                    continue
+                count = int(eff.get("count") or 0)
+                if count <= 0:
+                    continue
+                self._mill_opponent(me, foe, count)
+                self._bump("mountain_roasting")
+                self._bump("roast_mill_cards", count)
+                side = "a" if me.name == "A" else "b"
+                self._roast_mill_this_turn[side] = self._roast_mill_this_turn.get(side, 0) + count
 
     def _gust_low_hp_bench(self, foe: Player, max_remaining: int) -> bool:
         if not foe.active or not foe.bench:
@@ -15819,6 +15972,9 @@ class Game:
         return best_score, best_name
 
     def _search_trainer(self, me: Player, who: str) -> None:
+        if self.strats[who].name == "roast":
+            self._roast_petrel(me)
+            return
         if self.strats[who].name in {"mew_baby", "baby"}:
             foe = self.players["b" if who == "a" else "a"]
             collapse = self._mew_petrel_collapse(me, foe)
@@ -16863,6 +17019,8 @@ class Game:
         if not self._abilities_suppressed(me, mon):
             for abi in me.card(mon.card_i).abilities:
                 for eff in self._ability_effects(abi):
+                    if eff.get("kind") == "retreat_zero_if_no_energy" and not mon.energy:
+                        return True
                     if eff.get("kind") == "retreat_zero_if_any_energy" and mon.energy:
                         return True
         for source in me.in_play():
@@ -17801,6 +17959,611 @@ class Game:
                 break
             if not self._play_named_item(me, foe, who, "Puzzle of Time"):
                 break
+
+    def _roast_main(self, me: Player, foe: Player, who: str) -> None:
+        self._roast_bench(me, who)
+        self._roast_trainers(me, foe, who)
+        self._roast_attach(me)
+        self._roast_scarf(me, who)
+        self._roast_clear_active_line(me, who)
+        self._use_grand_tree(me, who)
+        self._roast_hand_evolve(me, who)
+        self._note_roast_mill(who)
+        self._roast_align_attack(me, who)
+
+    def _roast_named(self, me: Player, zone: list[int], name: str) -> bool:
+        want = name.lower()
+        return any(me.card(i).name.lower() == want for i in zone)
+
+    def _roast_lines(self, me: Player) -> int:
+        names = {"litwick", "lampent", "chandelure"}
+        return sum(1 for mon in me.in_play() if me.card(mon.card_i).name.lower() in names)
+
+    def _roast_celebi(self, me: Player) -> Pokemon | None:
+        for mon in me.in_play():
+            if "celebi" in me.card(mon.card_i).name.lower():
+                return mon
+        return None
+
+    def _roast_celebi_bare(self, me: Player) -> bool:
+        mon = self._roast_celebi(me)
+        return mon is not None and mon.tool is None
+
+    def _roast_can_devolve(self, me: Player, mon: Pokemon) -> bool:
+        card = me.card(mon.card_i)
+        atk = next((a for a in card.attacks if any(e.get("kind") == "devolve_benched" for e in a.effects)), None)
+        if atk is None:
+            return False
+        return can_pay_energy(self._energy_pool(me, mon), atk.cost)
+
+    def _roast_hand_busy(self, me: Player) -> bool:
+        if any(me.card(m.card_i).name.lower() == "chandelure" for m in me.bench):
+            return True
+        names = {me.card(i).name.lower() for i in me.hand}
+        kept = {
+            "chandelure",
+            "lampent",
+            "celebi ◇",
+            "grand tree",
+            "rescue scarf",
+            "energy search",
+            "energy retrieval",
+            "litwick",
+            "nest ball",
+            "buddy-buddy poffin",
+        }
+        return bool(names & kept) or len(me.hand) > 3
+
+    def _roast_will_attack(self, me: Player, who: str) -> bool:
+        if self._roast_celebi(me) is None:
+            return False
+        if any(me.card(m.card_i).name.lower() == "chandelure" for m in me.bench):
+            return True
+        if any(me.card(i).name.lower() == "chandelure" for i in me.hand) and any(
+            me.card(m.card_i).name.lower() == "lampent" for m in me.bench
+        ):
+            return True
+        tree_ready = (self.stadium_name or "").lower() == "grand tree" or self._roast_named(me, me.hand, "Grand Tree")
+        return tree_ready and self._grand_tree_target(me, who) is not None
+
+    def _roast_play_basic(self, me: Player, card_i: int) -> bool:
+        if card_i not in me.hand:
+            return False
+        if me.active is None:
+            me.hand.remove(card_i)
+            me.active = Pokemon(card_i=card_i, played_turn=self.turn)
+            self._bump(f"saw_play:{me.card(card_i).name}")
+            self._log(f"{me.name} promotes {me.card(card_i).name}")
+            return True
+        if len(me.bench) >= self._bench_limit(me):
+            return False
+        me.hand.remove(card_i)
+        me.bench.append(Pokemon(card_i=card_i, played_turn=self.turn))
+        self._bump(f"saw_play:{me.card(card_i).name}")
+        self._log(f"{me.name} benches {me.card(card_i).name}")
+        self._on_benched(me, me.bench[-1], from_hand=True)
+        return True
+
+    def _roast_take(self, me: Player, pred) -> int | None:
+        for card_i in me.hand:
+            if pred(me.card(card_i)):
+                return card_i
+        return None
+
+    def _roast_bench(self, me: Player, who: str) -> None:
+        if me.active is None:
+            cleffa = self._roast_take(me, lambda c: c.name.lower() == "cleffa")
+            dolls = [i for i in me.hand if self._no_prize_proxy(me.card(i))]
+            litwick = self._roast_take(me, lambda c: c.name.lower() == "litwick")
+            celebi = self._roast_take(me, lambda c: c.is_pokemon and "celebi" in c.name.lower())
+            if cleffa is not None:
+                self._roast_play_basic(me, cleffa)
+            elif dolls:
+                card_i = dolls[0]
+                me.hand.remove(card_i)
+                if self._put_proxy_in_play(me, card_i):
+                    self._bump(f"saw_play:{me.card(card_i).name}")
+                else:
+                    me.hand.append(card_i)
+            elif litwick is not None:
+                self._roast_play_basic(me, litwick)
+            elif celebi is not None:
+                self._roast_play_basic(me, celebi)
+        if self._roast_celebi(me) is None:
+            celebi = self._roast_take(me, lambda c: c.is_pokemon and "celebi" in c.name.lower())
+            if celebi is not None:
+                self._roast_play_basic(me, celebi)
+        while self._roast_lines(me) < 4:
+            litwick = self._roast_take(me, lambda c: c.name.lower() == "litwick")
+            if litwick is None or not self._roast_play_basic(me, litwick):
+                break
+        if not any(me.card(m.card_i).name.lower() == "cleffa" for m in me.in_play()):
+            cleffa = self._roast_take(me, lambda c: c.name.lower() == "cleffa")
+            if cleffa is not None:
+                self._roast_play_basic(me, cleffa)
+        if self._roast_will_attack(me, who):
+            return
+        for card_i in list(me.hand):
+            if not self._no_prize_proxy(me.card(card_i)):
+                continue
+            if me.active is not None and len(me.bench) >= self._bench_limit(me):
+                break
+            me.hand.remove(card_i)
+            if self._put_proxy_in_play(me, card_i):
+                self._bump("proxy_play")
+                self._bump(f"saw_play:{me.card(card_i).name}")
+            else:
+                me.hand.append(card_i)
+                break
+
+    def _roast_needs_switch(self, me: Player) -> bool:
+        if not me.active or not me.bench or self._retreat_cost(me, me.active) == 0:
+            return False
+        if me.card(me.active.card_i).name.lower() not in {"litwick", "lampent", "chandelure"}:
+            return False
+        return any(
+            "celebi" in me.card(m.card_i).name.lower()
+            or me.card(m.card_i).name.lower() == "cleffa"
+            or self._no_prize_proxy(me.card(m.card_i))
+            for m in me.bench
+        )
+
+    def _roast_petrel_want(self, me: Player, who: str) -> str | None:
+        tree_out = (self.stadium_name or "").lower() == "grand tree"
+        if not tree_out and not self._roast_named(me, me.hand, "Grand Tree") and self._roast_named(me, me.deck, "Grand Tree"):
+            return "Grand Tree"
+        if (
+            self._roast_celebi_bare(me)
+            and not self._roast_named(me, me.hand, "Rescue Scarf")
+            and self._roast_named(me, me.deck, "Rescue Scarf")
+        ):
+            return "Rescue Scarf"
+        need_energy = not any(is_basic_energy(me.card(i)) for i in me.hand)
+        discard_energy = any(is_basic_energy(me.card(i)) for i in me.discard)
+        if (
+            need_energy
+            and discard_energy
+            and not self._roast_named(me, me.hand, "Energy Retrieval")
+            and self._roast_named(me, me.deck, "Energy Retrieval")
+        ):
+            return "Energy Retrieval"
+        if (
+            need_energy
+            and any(is_basic_energy(me.card(i)) for i in me.deck)
+            and not self._roast_named(me, me.hand, "Energy Search")
+            and self._roast_named(me, me.deck, "Energy Search")
+        ):
+            return "Energy Search"
+        room = len(me.bench) < self._bench_limit(me)
+        poffin_target = any(
+            me.card(i).is_pokemon and me.card(i).is_basic and (me.card(i).hp or 0) <= 70 for i in me.deck
+        )
+        if room and poffin_target and not self._roast_named(me, me.hand, "Buddy-Buddy Poffin") and self._roast_named(me, me.deck, "Buddy-Buddy Poffin"):
+            return "Buddy-Buddy Poffin"
+        celebi_out = self._roast_celebi(me) is not None or self._roast_named(me, me.hand, "Celebi ◇")
+        if not celebi_out and not self._roast_named(me, me.hand, "Nest Ball") and self._roast_named(me, me.deck, "Nest Ball"):
+            return "Nest Ball"
+        if self._roast_wants_ultra(me) and not self._roast_named(me, me.hand, "Ultra Ball") and self._roast_named(me, me.deck, "Ultra Ball"):
+            return "Ultra Ball"
+        if not tree_out and not self._roast_named(me, me.hand, "Grand Tree") and not self._roast_named(me, me.hand, "Colress's Tenacity") and self._roast_named(me, me.deck, "Colress's Tenacity"):
+            return "Colress's Tenacity"
+        if self._roast_needs_switch(me) and not self._roast_named(me, me.hand, "Switch") and self._roast_named(me, me.deck, "Switch"):
+            return "Switch"
+        dolls_out = any(self._no_prize_proxy(me.card(m.card_i)) for m in me.in_play())
+        dolls_hand = any(self._no_prize_proxy(me.card(i)) for i in me.hand)
+        if not dolls_out and not dolls_hand:
+            for card_i in me.deck:
+                if self._no_prize_proxy(me.card(card_i)):
+                    return me.card(card_i).name
+        return None
+
+    def _roast_wants_ultra(self, me: Player) -> bool:
+        hand = {me.card(i).name.lower() for i in me.hand}
+        play = {me.card(m.card_i).name.lower() for m in me.in_play()}
+        deck = {me.card(i).name.lower() for i in me.deck}
+        if "chandelure" not in hand and "lampent" in play and "chandelure" in deck:
+            return True
+        if "lampent" not in hand and "litwick" in play and "lampent" in deck:
+            return True
+        if "celebi ◇" not in hand and "celebi ◇" not in play and "celebi ◇" in deck:
+            return True
+        return self._roast_lines(me) < 4 and "litwick" in deck
+
+    def _roast_ultra_safe(self, me: Player) -> bool:
+        protect = {"celebi ◇", "chandelure", "lampent", "litwick", "grand tree", "rescue scarf"}
+        fires = [i for i in me.hand if is_basic_energy(me.card(i))]
+        safe = 0
+        for card_i in me.hand:
+            card = me.card(card_i)
+            if card.name.lower() == "ultra ball" or card.name.lower() in protect:
+                continue
+            if card_i in fires and len(fires) == 1:
+                continue
+            safe += 1
+        return safe >= 2
+
+    def _roast_trainer_score(self, me: Player, who: str, card: Card) -> float:
+        name = card.name.lower()
+        if (card.is_item or self._is_tool_card(card)) and me.item_lock:
+            return -1
+        if card.is_supporter and (me.supporter_used or not self._can_play_supporter(who)):
+            return -1
+        tree_out = (self.stadium_name or "").lower() == "grand tree"
+        need_energy = not any(is_basic_energy(me.card(i)) for i in me.hand)
+        bare = self._roast_celebi_bare(me)
+        will = self._roast_will_attack(me, who)
+        if name == "rescue scarf":
+            return 160 if bare else -1
+        if name == "grand tree":
+            return -1 if tree_out else 148
+        if name in {"buddy-buddy poffin", "buddy buddy poffin"}:
+            room = len(me.bench) < self._bench_limit(me)
+            target = any(me.card(i).is_pokemon and me.card(i).is_basic and (me.card(i).hp or 0) <= 70 for i in me.deck)
+            return 140 if room and target else -1
+        if name == "nest ball":
+            if len(me.bench) >= self._bench_limit(me):
+                return -1
+            if self._roast_celebi(me) is None and not self._roast_named(me, me.hand, "Celebi ◇") and self._roast_named(me, me.deck, "Celebi ◇"):
+                return 135
+            if self._roast_lines(me) < 4 and self._roast_named(me, me.deck, "Litwick"):
+                return 125
+            if not any(me.card(m.card_i).name.lower() == "cleffa" for m in me.in_play()) and self._roast_named(me, me.deck, "Cleffa"):
+                return 80
+            return -1
+        if name == "energy retrieval":
+            return 128 if need_energy and any(is_basic_energy(me.card(i)) for i in me.discard) else -1
+        if name == "energy search":
+            return 125 if need_energy and any(is_basic_energy(me.card(i)) for i in me.deck) else -1
+        if name == "colress's tenacity":
+            if not tree_out and not self._roast_named(me, me.hand, "Grand Tree"):
+                return 100 if will and bare else 150
+            return 90 if need_energy else -1
+        if name == "arven":
+            if bare and self._roast_named(me, me.deck, "Rescue Scarf"):
+                return 155 if will else 80
+            if need_energy or any(is_basic_energy(me.card(i)) for i in me.discard):
+                return 105
+            return -1
+        if name == "team rocket's petrel":
+            return 110 if self._roast_petrel_want(me, who) else -1
+        if name == "switch":
+            return 100 if self._roast_needs_switch(me) else -1
+        if name == "ultra ball":
+            return 80 if self._roast_wants_ultra(me) and self._roast_ultra_safe(me) else -1
+        if self._no_prize_proxy(card):
+            if will:
+                return -1
+            if me.active is None or len(me.bench) < self._bench_limit(me):
+                return 60
+        return -1
+
+    def _roast_play(self, me: Player, foe: Player, who: str, card_i: int) -> bool:
+        if card_i not in me.hand:
+            return False
+        card = me.card(card_i)
+        me.hand.remove(card_i)
+        if card.is_supporter:
+            me.supporter_used = True
+        proxy = self._proxy_effect(card)
+        if proxy and not proxy.get("setup_only"):
+            if not self._put_proxy_in_play(me, card_i):
+                me.hand.append(card_i)
+                if card.is_supporter:
+                    me.supporter_used = False
+                return False
+            self._bump("proxy_play")
+            self._bump(f"saw_play:{card.name}")
+            return True
+        if self._is_tool_card(card):
+            if not self._attach_tool(me, who, card_i):
+                me.hand.append(card_i)
+                return False
+            self._log(f"{me.name} attaches {card.name}")
+            return True
+        if card.name.lower() != "ultra ball":
+            me.discard.append(card_i)
+        self._resolve_trainer(me, foe, card, who=who, card_i=card_i)
+        self._log(f"{me.name} plays {card.name}")
+        if card.name.lower() == "ultra ball" and card_i in me.hand:
+            return False
+        return True
+
+    def _roast_trainers(self, me: Player, foe: Player, who: str) -> None:
+        skipped: set[int] = set()
+        for _ in range(12):
+            best_i = None
+            best_s = 0.0
+            for card_i in list(me.hand):
+                if card_i in skipped:
+                    continue
+                score = self._roast_trainer_score(me, who, me.card(card_i))
+                if score > best_s:
+                    best_s = score
+                    best_i = card_i
+            if best_i is None:
+                break
+            if not self._roast_play(me, foe, who, best_i):
+                skipped.add(best_i)
+
+    def _roast_attach(self, me: Player) -> None:
+        if me.energy_attached:
+            return
+        celebi = self._roast_celebi(me)
+        if celebi is None or self._roast_can_devolve(me, celebi):
+            return
+        fuel = next((i for i in me.hand if is_basic_energy(me.card(i)) and (me.card(i).energy_type or "") == "Fire"), None)
+        if fuel is None:
+            fuel = next((i for i in me.hand if is_basic_energy(me.card(i))), None)
+        if fuel is None:
+            return
+        me.hand.remove(fuel)
+        celebi.energy.append(fuel)
+        me.energy_attached = True
+        self._log(f"{me.name} attaches {me.card(fuel).name} to {me.card(celebi.card_i).name}")
+
+    def _roast_scarf(self, me: Player, who: str) -> None:
+        if not self._roast_celebi_bare(me):
+            return
+        scarf = self._roast_take(me, lambda c: c.name.lower() == "rescue scarf")
+        if scarf is None:
+            return
+        me.hand.remove(scarf)
+        if not self._attach_tool(me, who, scarf):
+            me.hand.append(scarf)
+
+    def _roast_bring(self, me: Player, who: str, pred) -> bool:
+        if me.active is not None and pred(me.active):
+            return True
+        idx = next((i for i, mon in enumerate(me.bench) if pred(mon)), None)
+        if idx is None:
+            return False
+        if me.active is None:
+            me.active = me.bench.pop(idx)
+            return True
+        if (
+            self._retreat_cost(me, me.active) == 0
+            and not me.retreated
+            and not me.active.retreat_locked
+            and not self._proxy_cant_retreat(me.card(me.active.card_i))
+        ):
+            return self._do_retreat_into(me, idx)
+        return self._spend_switch_to(me, who, idx)
+
+    def _roast_clear_active_line(self, me: Player, who: str) -> None:
+        if me.active is None or me.card(me.active.card_i).name.lower() not in {"litwick", "lampent", "chandelure"}:
+            return
+
+        def pivot(mon: Pokemon) -> bool:
+            name = me.card(mon.card_i).name.lower()
+            return "celebi" in name or name == "cleffa" or self._no_prize_proxy(me.card(mon.card_i))
+
+        self._roast_bring(me, who, pivot)
+
+    def _roast_align_attack(self, me: Player, who: str) -> None:
+        benched = any(me.card(m.card_i).name.lower() == "chandelure" for m in me.bench)
+
+        def payer(mon: Pokemon) -> bool:
+            return "celebi" in me.card(mon.card_i).name.lower() and self._roast_can_devolve(me, mon)
+
+        if benched and self._roast_bring(me, who, payer):
+            return
+        if benched and me.active is not None and self._no_prize_proxy(me.card(me.active.card_i)):
+            self._remove_proxy(me, me.active)
+            return
+        if not benched and len(me.hand) <= 3:
+            self._roast_bring(me, who, lambda mon: me.card(mon.card_i).name.lower() == "cleffa")
+
+    def _note_roast_mill(self, who: str) -> None:
+        n = self._roast_mill_this_turn.get(who, 0)
+        if n:
+            self._bump(f"roast_mill_wave:{n}")
+            self._bump("roast_mill_turns")
+
+    def _roast_pokemon_prefer(self, me: Player) -> list[str]:
+        play = [me.card(m.card_i).name.lower() for m in me.in_play()]
+        hand = {me.card(i).name.lower() for i in me.hand}
+        prefer: list[str] = []
+        if "celebi ◇" not in play and "celebi ◇" not in hand:
+            prefer.append("Celebi ◇")
+        if "lampent" in play and "chandelure" not in hand:
+            prefer.append("Chandelure")
+        if "litwick" in play and "lampent" not in hand:
+            prefer.append("Lampent")
+        if self._roast_lines(me) < 4:
+            prefer.append("Litwick")
+        if "cleffa" not in play and "cleffa" not in hand:
+            prefer.append("Cleffa")
+        prefer.extend(["Celebi ◇", "Chandelure", "Lampent", "Litwick", "Cleffa"])
+        return list(dict.fromkeys(prefer))
+
+    def _roast_arven(self, me: Player) -> None:
+        found_tool = self._search(
+            me,
+            lambda c: c.name.lower() == "rescue scarf",
+            prefer=["Rescue Scarf"],
+            source="arven",
+        )
+        prefer = []
+        if any(is_basic_energy(me.card(i)) for i in me.discard):
+            prefer.append("Energy Retrieval")
+        prefer.extend(["Energy Search", "Nest Ball", "Buddy-Buddy Poffin", "Ultra Ball", "Switch"])
+        found_item = self._search(
+            me,
+            lambda c: c.is_item and not self._is_tool_card(c),
+            prefer=prefer,
+            source="arven",
+        )
+        if found_tool or found_item:
+            self._bump("arven")
+
+    def _roast_petrel(self, me: Player) -> None:
+        who = "a" if me.name == "A" else "b"
+        want = self._roast_petrel_want(me, who)
+        if not want:
+            self._bump("petrel_whiff")
+            return
+        found = self._search(
+            me,
+            lambda c, want=want: c.is_trainer and c.name.lower() == want.lower(),
+            prefer=[want],
+            source="petrel",
+        )
+        if found is None:
+            self._bump("petrel_whiff")
+            return
+        found_name = me.card(found).name
+        self._bump("petrel")
+        self._bump(f"petrel_into:{found_name}")
+        self._log(f"{me.name} Petrel takes {found_name}")
+
+    def _stage_token(self, stage: str) -> str:
+        return (stage or "").lower().replace(" ", "")
+
+    def _deck_evolution(self, me: Player, from_name: str, stage: str) -> int | None:
+        want = (from_name or "").lower()
+        token = self._stage_token(stage)
+        for card_i in me.deck:
+            card = me.card(card_i)
+            if (card.evolves_from or "").lower() != want:
+                continue
+            if self._stage_token(card.stage) != token:
+                continue
+            return card_i
+        return None
+
+    def _grand_tree_target(self, me: Player, who: str) -> Pokemon | None:
+        if self._is_players_first_turn(who):
+            return None
+        roast = self.strats[who].name == "roast"
+        best: Pokemon | None = None
+        best_score = -1
+        for mon in me.in_play():
+            card = me.card(mon.card_i)
+            if not card.is_basic or mon.played_turn == self.turn:
+                continue
+            if roast and mon is me.active:
+                continue
+            stage1 = self._deck_evolution(me, card.name, "stage1")
+            if stage1 is None:
+                continue
+            stage2 = self._deck_evolution(me, me.card(stage1).name, "stage2")
+            if stage2 is None and not roast:
+                continue
+            score = card.hp or 0
+            if stage2 is not None:
+                score += 100
+            if card.name.lower() == "litwick":
+                score += 50
+            if score > best_score:
+                best = mon
+                best_score = score
+        return best
+
+    def _use_grand_tree(self, me: Player, who: str) -> None:
+        if who in self._grand_tree_used:
+            return
+        if not any(e.get("kind") == "grand_tree" for e in (self.stadium_effects or [])):
+            return
+        target = self._grand_tree_target(me, who)
+        if target is None:
+            return
+        basic_name = me.card(target.card_i).name
+        stage1 = self._deck_evolution(me, basic_name, "stage1")
+        if stage1 is None:
+            return
+        self._grand_tree_used.add(who)
+        self._do_evolve(me, target, stage1, from_hand=False)
+        stage2 = self._deck_evolution(me, me.card(target.card_i).name, "stage2")
+        if stage2 is not None:
+            self._do_evolve(me, target, stage2, from_hand=False)
+        self.rng.shuffle(me.deck)
+        self._bump("grand_tree")
+        self._log(f"{me.name} Grand Tree evolves {basic_name} into {me.card(target.card_i).name}")
+
+    def _roast_bench_target(self, me: Player, who: str, evo: Card) -> Pokemon | None:
+        want = (evo.evolves_from or "").lower()
+        for mon in me.bench:
+            if me.card(mon.card_i).name.lower() != want:
+                continue
+            if self._can_evolve_now(me, who, mon, evo):
+                return mon
+        return None
+
+    def _roast_hand_evolve(self, me: Player, who: str) -> None:
+        changed = True
+        while changed:
+            changed = False
+            for evo_i in list(me.hand):
+                evo = me.card(evo_i)
+                if evo.name.lower() != "chandelure":
+                    continue
+                target = self._roast_bench_target(me, who, evo)
+                if target is None:
+                    continue
+                self._do_evolve(me, target, evo_i, from_hand=True)
+                changed = True
+                break
+        need = sum(1 for i in me.hand if me.card(i).name.lower() == "chandelure")
+        made = 0
+        while made < need:
+            evo_i = next((i for i in me.hand if me.card(i).name.lower() == "lampent"), None)
+            if evo_i is None:
+                break
+            target = self._roast_bench_target(me, who, me.card(evo_i))
+            if target is None:
+                break
+            self._do_evolve(me, target, evo_i, from_hand=True)
+            made += 1
+
+    def _devolve_times(self, me: Player, mon: Pokemon, times: int) -> list[int]:
+        returned: list[int] = []
+        for _ in range(max(0, times)):
+            if not mon.underneath:
+                break
+            current = mon.card_i
+            mon.card_i = mon.underneath.pop()
+            me.hand.append(current)
+            returned.append(current)
+            self._bump("devolve")
+            self._log(f"{me.name} devolves to {me.card(mon.card_i).name}")
+        return returned
+
+    def _time_distortion(self, me: Player, who: str) -> None:
+        """Devolve any number of times. Roast takes one step off each benched Chandelure."""
+        roast = self.strats[who].name == "roast"
+        devolved = 0
+        for mon in list(me.bench):
+            if not mon.underneath:
+                continue
+            if roast and me.card(mon.card_i).name.lower() != "chandelure":
+                continue
+            self._devolve_times(me, mon, 1)
+            devolved += 1
+        if devolved:
+            self._bump("time_distortion", devolved)
+
+    def _roast_promote_idx(self, me: Player) -> int:
+        def rank(i: int) -> tuple[int, int]:
+            mon = me.bench[i]
+            name = me.card(mon.card_i).name.lower()
+            chandelure = any(me.card(m.card_i).name.lower() == "chandelure" for m in me.bench)
+            if "celebi" in name and chandelure and self._roast_can_devolve(me, mon):
+                return (0, i)
+            if name == "cleffa" and len(me.hand) <= 3 and not chandelure:
+                return (1, i)
+            if "celebi" in name:
+                return (2, i)
+            if self._no_prize_proxy(me.card(mon.card_i)):
+                return (3, i)
+            if name == "lampent":
+                return (4, i)
+            if name == "litwick":
+                return (5, i)
+            if name == "cleffa":
+                return (6, i)
+            return (7, i)
+
+        return min(range(len(me.bench)), key=rank)
 
 
 def _capture_opening(player: Player) -> None:

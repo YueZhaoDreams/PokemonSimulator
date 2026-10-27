@@ -1,0 +1,413 @@
+#!/usr/bin/env python3
+"""Celebi ◇ / Chandelure roast mill. One list, both seats, loss-weighted.
+
+Mountain Roasting discards the top 3 only when Chandelure is played from the
+hand. Grand Tree searches the deck, so that jump mills 0. The 3–12 wave is the
+later turn that plays those Chandelure from the hand. Team Rocket's Petrel
+searches a Trainer card. Rescue Scarf returns Celebi ◇ to the hand.
+
+Seed 20261027 unless ROAST_SEED is set. Games per seat from ROAST_GAMES
+(default 20).
+"""
+
+from __future__ import annotations
+
+import json
+import os
+import sys
+import time
+from collections import Counter
+from concurrent.futures import ProcessPoolExecutor, as_completed
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT))
+
+from app.engine.game import play_game
+from app.engine.legality import copy_violations
+from app.engine.models import standard_60_rules
+from app.engine.strategies import StrategySpec
+from app.seed_data import (
+    IRON_THORNS_NAMES,
+    SET_C60_NAMES,
+    SET_D60_NAMES,
+    SET_G30_NAMES,
+    SET_G_NAMES,
+    SET_H_NAMES,
+    SET_L60_NAMES,
+    SET_M60_NAMES,
+    SET_ROAST_NAMES,
+    SET_S60_NAMES,
+    SET_STARMIE60_NAMES,
+    SET_T60_NAMES,
+    SET_T_META_NAMES,
+    SET_T_UNL_NAMES,
+    build_fallback_deck,
+    build_g30_deck,
+    build_roast_deck,
+    fallback_named,
+)
+
+FOES = (
+    ("t60", "Dragapult ex (T60)", SET_T60_NAMES, "phantom", False),
+    ("hedrick", "Hedrick Worlds Dragapult", SET_T_META_NAMES, "phantom", False),
+    ("unl", "Unlimited Dragapult", SET_T_UNL_NAMES, "phantom", False),
+    ("d60", "Cornerstone Ogerpon (D60)", SET_D60_NAMES, "demolish", False),
+    ("s60", "Wo-Chien / Floragato (S60)", SET_S60_NAMES, "slash", False),
+    ("g", "Gholdengo (G)", SET_G_NAMES, "g", False),
+    ("c60", "Clefairy / Mewtwo (C60)", SET_C60_NAMES, "party", False),
+    ("m", "Set M (Mew ex)", SET_M60_NAMES, "mew_baby", False),
+    ("starmie", "Mega Starmie ex (Kudo)", SET_STARMIE60_NAMES, "starmie", False),
+    ("lucario", "Lucario Hariyama", SET_L60_NAMES, "aura", False),
+    ("thorns", "Iron Thorns ex", IRON_THORNS_NAMES, "thorns", False),
+    ("h", "Carpet Set H", SET_H_NAMES, "nuzzle", False),
+    ("g30", "Ambipom Hand Fling", SET_G30_NAMES, "celebration", True),
+)
+
+WEIGHTS = {
+    "t60": 0.040,
+    "hedrick": 0.051,
+    "unl": 0.022,
+    "d60": 0.145,
+    "s60": 0.070,
+    "g": 0.117,
+    "c60": 0.124,
+    "m": 0.145,
+    "starmie": 0.106,
+    "lucario": 0.051,
+    "thorns": 0.041,
+    "h": 0.076,
+    "g30": 0.011,
+}
+_WEIGHT_TOTAL = sum(WEIGHTS.values())
+WEIGHTS = {key: value / _WEIGHT_TOTAL for key, value in WEIGHTS.items()}
+
+GAMES = int(os.environ.get("ROAST_GAMES", "20"))
+SEED = int(os.environ.get("ROAST_SEED", "20261027"))
+WORKERS = int(os.environ.get("ROAST_WORKERS", str(min(4, os.cpu_count() or 2))))
+HERE = Path(__file__).resolve().parent
+PARTIAL = Path(os.environ.get("ROAST_PARTIAL", "/tmp/mill-roast-partial.jsonl"))
+DEST = Path(os.environ.get("ROAST_DEST", HERE / "set-mill-roast.json"))
+MD_DEST = Path(os.environ.get("ROAST_MD", HERE / "set-mill-roast.md"))
+
+_COUNT_KEYS = (
+    "mill_attack",
+    "mountain_roasting",
+    "roast_mill_cards",
+    "roast_mill_turns",
+    "grand_tree",
+    "time_distortion",
+    "rescue_scarf",
+    "prism_lost_zone",
+    "eeeeeeek",
+    "cleffa_play",
+    "turns",
+    "opp_prizes",
+)
+
+
+def _check() -> None:
+    rules = standard_60_rules()
+    pile = build_roast_deck()
+    if len(pile) != 60:
+        raise SystemExit(f"roast has {len(pile)} cards")
+    bad = copy_violations(pile, rules)
+    if bad:
+        raise SystemExit(f"roast is illegal: {bad}")
+    for card in pile:
+        if card.name != "Cleffa":
+            continue
+        kinds = {effect.get("kind") for attack in card.attacks for effect in attack.effects}
+        if "shuffle_hand_then_draw" not in kinds:
+            raise SystemExit("Cleffa is not Eeeeeeek")
+    if fallback_named("Team Rocket's Petrel").text.lower().count("trainer") < 1:
+        raise SystemExit("Petrel text missing")
+
+
+def _foe_cards(names, g30: bool):
+    if g30:
+        return build_g30_deck()
+    return build_fallback_deck(list(names))
+
+
+def _bucket(seat: str, winner: str, reason: str) -> str:
+    if winner == "tie":
+        return f"tie|{reason}"
+    won = (seat == "a" and winner == "a") or (seat == "b" and winner == "b")
+    return f"{'roast' if won else 'foe'}|{reason}"
+
+
+def _run(foe_key: str, seat: str, games: int, seed: int) -> dict:
+    import random
+
+    _key, _label, foe_names, foe_strat, g30 = next(row for row in FOES if row[0] == foe_key)
+    subject = build_roast_deck()
+    foe = _foe_cards(foe_names, g30)
+    if seat == "a":
+        cards_a, cards_b = subject, foe
+        strat_a, strat_b = "roast", foe_strat
+    else:
+        cards_a, cards_b = foe, subject
+        strat_a, strat_b = foe_strat, "roast"
+    rules = standard_60_rules()
+    spec_a = StrategySpec.from_dict(strat_a)
+    spec_b = StrategySpec.from_dict(strat_b)
+    rng = random.Random(seed)
+    wins = 0
+    ties = 0
+    fired = 0
+    totals = Counter()
+    waves: Counter[str] = Counter()
+    reasons: Counter[str] = Counter()
+    for _ in range(games):
+        result = play_game(cards_a, cards_b, rules, spec_a, spec_b, rng)
+        roast_is_a = seat == "a"
+        if (roast_is_a and result.winner == "a") or (not roast_is_a and result.winner == "b"):
+            wins += 1
+        elif result.winner == "tie":
+            ties += 1
+        if result.events.get("mountain_roasting", 0):
+            fired += 1
+        totals["mill_attack"] += result.events.get("mill_attack", 0)
+        totals["mountain_roasting"] += result.events.get("mountain_roasting", 0)
+        totals["roast_mill_cards"] += result.events.get("roast_mill_cards", 0)
+        totals["roast_mill_turns"] += result.events.get("roast_mill_turns", 0)
+        totals["grand_tree"] += result.events.get("grand_tree", 0)
+        totals["time_distortion"] += result.events.get("time_distortion", 0)
+        totals["rescue_scarf"] += result.events.get("rescue_scarf", 0)
+        totals["prism_lost_zone"] += result.events.get("prism_lost_zone", 0)
+        totals["eeeeeeek"] += result.events.get("eeeeeeek_shuffle", 0)
+        totals["cleffa_play"] += result.events.get("saw_play:Cleffa", 0)
+        totals["turns"] += result.turns
+        totals["opp_prizes"] += result.prizes_taken_b if roast_is_a else result.prizes_taken_a
+        for key, count in result.events.items():
+            if key.startswith("roast_mill_wave:"):
+                waves[key.split(":", 1)[1]] += count
+        reasons[_bucket(seat, result.winner, result.reason)] += 1
+    row = {
+        "wr": wins / games,
+        "tie": ties / games,
+        "fired": fired / games,
+        "waves": {key: waves[key] / games for key in waves},
+        "reasons": dict(reasons),
+    }
+    for key in _COUNT_KEYS:
+        row[key] = totals[key] / games
+    return row
+
+
+def _cache_key(foe_key: str, seat: str, games: int, seed: int) -> str:
+    return f"{seed}|{games}|{seat}|{foe_key}|roast"
+
+
+def _load_cache() -> dict[str, dict]:
+    found: dict[str, dict] = {}
+    if not PARTIAL.exists():
+        return found
+    for line in PARTIAL.read_text().splitlines():
+        if not line.strip():
+            continue
+        row = json.loads(line)
+        found[row["key"]] = row["cell"]
+    return found
+
+
+def _append(key: str, cell: dict) -> None:
+    with PARTIAL.open("a") as handle:
+        handle.write(json.dumps({"key": key, "cell": cell}) + "\n")
+
+
+def _evaluate(games: int, cache: dict[str, dict]) -> dict[str, dict]:
+    out: dict[str, dict] = {}
+    jobs = []
+    for foe_key, *_ in FOES:
+        for seat in ("a", "b"):
+            key = _cache_key(foe_key, seat, games, SEED)
+            cached = cache.get(key)
+            if cached is not None:
+                out.setdefault(foe_key, {})[seat] = cached
+                continue
+            jobs.append((foe_key, seat, key))
+    print(f"{len(jobs)} cells, {games} games, seed {SEED}", flush=True)
+    if not jobs:
+        return out
+    started = time.perf_counter()
+    done = 0
+    with ProcessPoolExecutor(max_workers=WORKERS) as pool:
+        futures = {
+            pool.submit(_run, foe_key, seat, games, SEED): (foe_key, seat, key)
+            for foe_key, seat, key in jobs
+        }
+        for fut in as_completed(futures):
+            foe_key, seat, key = futures[fut]
+            cell = fut.result()
+            cache[key] = cell
+            _append(key, cell)
+            out.setdefault(foe_key, {})[seat] = cell
+            done += 1
+            elapsed = time.perf_counter() - started
+            rate = done / elapsed if elapsed else 0
+            left = (len(futures) - done) / rate if rate else 0
+            print(
+                f"  {done}/{len(futures)} seat {seat} vs {foe_key} {cell['wr']:.1%} "
+                f"fired {cell['fired']:.0%} ({left:.0f}s left)",
+                flush=True,
+            )
+    return out
+
+
+def _combine(cells: dict[str, dict]) -> dict[str, dict]:
+    combined = {}
+    for foe_key, *_ in FOES:
+        a = cells[foe_key]["a"]
+        b = cells[foe_key]["b"]
+        row = {
+            "wr": (a["wr"] + b["wr"]) / 2,
+            "a": a["wr"],
+            "b": b["wr"],
+            "tie": (a["tie"] + b["tie"]) / 2,
+            "fired": (a["fired"] + b["fired"]) / 2,
+        }
+        for key in _COUNT_KEYS:
+            row[key] = (a.get(key, 0) + b.get(key, 0)) / 2
+        waves: Counter[str] = Counter()
+        for seat in (a, b):
+            for size, count in (seat.get("waves") or {}).items():
+                waves[size] += count / 2
+        row["waves"] = dict(waves)
+        reasons: Counter[str] = Counter()
+        for seat in (a, b):
+            reasons.update(seat.get("reasons") or {})
+        row["reasons"] = dict(reasons)
+        combined[foe_key] = row
+    return combined
+
+
+def _weighted(cells: dict[str, dict]) -> float:
+    return sum(cells[key]["wr"] * WEIGHTS[key] for key, *_ in FOES)
+
+
+def _weighted_stat(cells: dict[str, dict], key: str) -> float:
+    return sum(cells[foe][key] * WEIGHTS[foe] for foe, *_ in FOES)
+
+
+def _pct(value: float) -> str:
+    return f"{value:.1%}"
+
+
+def _markdown(report: dict) -> str:
+    counts = dict(Counter(SET_ROAST_NAMES))
+    lines = [
+        "# Celebi ◇ Chandelure roast",
+        "",
+        "Celebi ◇ uses Time Distortion: devolve any number of benched Pokémon as many times as you like, and put each Evolution card removed this way into the hand. The measured line devolves each benched Chandelure once, leaving Lampent.",
+        "",
+        "Chandelure's Mountain Roasting says the top 3 cards are discarded when you play that Pokémon from your hand to evolve. Grand Tree searches the deck for a Stage 1 and then a Stage 2. Those cards are not played from the hand, so the jump mills 0. The 3-to-12 count is the later turn that plays Chandelure from the hand onto Lampent. One evolution mills 3. Four mill 12.",
+        "",
+        "Lampent is Plasma Storm Freefloating. With no Energy attached, its retreat cost is 0, so Celebi ◇ can come Active. Fire Energy stays on Celebi ◇.",
+        "",
+        "Rescue Scarf puts the Pokémon into the hand when an attack Knocks it Out, and discards the cards attached to it. Celebi ◇ therefore does not go to the discard pile, and the Prism Star rule does not put it in the Lost Zone. Energy Retrieval takes that Fire Energy back. Arven can find the scarf and the Item. Team Rocket's Petrel searches the deck for a Trainer card: Grand Tree, Rescue Scarf, Energy Search, Energy Retrieval, Buddy-Buddy Poffin, Nest Ball, and the doll. It does not search a Pokémon or an Energy card. Colress's Tenacity searches a Stadium and an Energy. It is not played over a Grand Tree that is already in play.",
+        "",
+        "Cleffa is HeartGold & SoulSilver Eeeeeeek. That attack shuffles the hand into the deck and draws 6, so it is used when the hand is thin and the devolve line is not sitting in it. Lillie's Poké Doll is the no-Prize stall. Buddy-Buddy Poffin finds Litwick and Cleffa (60 and 30 HP). Celebi ◇ is 90 HP, so Nest Ball benches it.",
+        "",
+        "The first turn cannot evolve, and Grand Tree also cannot evolve a Basic that was put into play this turn. A Grand Tree jump on the second turn mills 0. The hand-evolve mill starts on a later turn, once Chandelure is in the hand and Lampent is already in play.",
+        "",
+        f"- **List**: {', '.join(f'{name} ×{counts[name]}' for name in dict.fromkeys(SET_ROAST_NAMES))}",
+        f"- **Seed**: `{report['seed']}`",
+        f"- **Games per seat**: {report['games']}",
+        "- **Seats**: roast is player A and player B. A foe cell is the mean of those two win rates.",
+        "- **Weights**: frozen from the Sisters 60.",
+        f"- **Weights**: {', '.join(f'{key} {WEIGHTS[key]:.1%}' for key, *_ in FOES)}",
+        f"- **Elapsed**: {report['elapsed']:.1f}s",
+        "",
+        f"Weighted win rate **{_pct(report['weighted'])}** (± {_pct(report['se'])}). "
+        f"Games in which Mountain Roasting fired: **{_pct(report['fired'])}**. "
+        f"Hand-evolve turns per game: {report['roast_mill_turns']:.2f}. "
+        f"Cards milled by those turns per game: {report['roast_mill_cards']:.2f}. "
+        f"Grand Tree uses per game: {report['grand_tree']:.2f}. "
+        f"Time Distortion devolves per game: {report['time_distortion']:.2f}. "
+        f"Rescue Scarf returns per game: {report['rescue_scarf']:.2f}. "
+        f"Celebi ◇ sent to the Lost Zone per game: {report['prism_lost_zone']:.2f}.",
+        "",
+        "## Wave",
+        "",
+        "Each row is how often a turn's from-hand Chandelure evolutions milled that many cards. Grand Tree is not in this histogram.",
+        "",
+        "| Cards milled that turn | Turns per game |",
+        "| ---: | ---: |",
+    ]
+    waves = report["waves"]
+    if not waves:
+        lines.append("| — | 0 |")
+    else:
+        for size in sorted(waves, key=lambda item: int(item)):
+            lines.append(f"| {size} | {waves[size]:.3f} |")
+    lines.extend(
+        [
+            "",
+            "## Foes",
+            "",
+            "| Foe | Win rate | A | B | Fired | Mill turns | Mill cards | Scarf | Lost Zone |",
+            "| :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
+        ]
+    )
+    for key, label, *_ in FOES:
+        row = report["cells"][key]
+        lines.append(
+            f"| {label} | {_pct(row['wr'])} | {_pct(row['a'])} | {_pct(row['b'])} | "
+            f"{_pct(row['fired'])} | {row['roast_mill_turns']:.2f} | {row['roast_mill_cards']:.2f} | "
+            f"{row['rescue_scarf']:.2f} | {row['prism_lost_zone']:.2f} |"
+        )
+    lines.append("")
+    return "\n".join(lines)
+
+
+def _weighted_se(cells: dict[str, dict], games: int) -> float:
+    variance = 0.0
+    for key, *_rest in FOES:
+        seat_var = 0.0
+        for seat in ("a", "b"):
+            p = cells[key][seat]["wr"]
+            seat_var += p * (1.0 - p) / games
+        variance += WEIGHTS[key] ** 2 * seat_var / 4.0
+    return variance ** 0.5
+
+
+def main() -> None:
+    started = time.perf_counter()
+    _check()
+    cache = _load_cache()
+    seats = _evaluate(GAMES, cache)
+    cells = _combine(seats)
+    waves: Counter[str] = Counter()
+    for foe_key, *_ in FOES:
+        for size, count in cells[foe_key]["waves"].items():
+            waves[size] += count * WEIGHTS[foe_key]
+    report = {
+        "seed": SEED,
+        "games": GAMES,
+        "elapsed": time.perf_counter() - started,
+        "weighted": _weighted(cells),
+        "se": _weighted_se(seats, GAMES),
+        "fired": _weighted_stat(cells, "fired"),
+        "roast_mill_turns": _weighted_stat(cells, "roast_mill_turns"),
+        "roast_mill_cards": _weighted_stat(cells, "roast_mill_cards"),
+        "grand_tree": _weighted_stat(cells, "grand_tree"),
+        "time_distortion": _weighted_stat(cells, "time_distortion"),
+        "rescue_scarf": _weighted_stat(cells, "rescue_scarf"),
+        "prism_lost_zone": _weighted_stat(cells, "prism_lost_zone"),
+        "waves": dict(waves),
+        "cells": cells,
+        "counts": dict(Counter(SET_ROAST_NAMES)),
+    }
+    DEST.write_text(json.dumps(report, indent=2) + "\n")
+    MD_DEST.write_text(_markdown(report))
+    print(
+        f"weighted {report['weighted']:.1%} fired {report['fired']:.1%} "
+        f"mill/turn {report['roast_mill_cards']:.2f} -> {MD_DEST}",
+        flush=True,
+    )
+
+
+if __name__ == "__main__":
+    main()

@@ -715,6 +715,31 @@ SET_MILL_NAMES = (
     + ["Reversal Energy"] * 4
 )
 
+# Celebi ◇ Time Distortion + Lost Origin Chandelure. Lampent is Plasma Storm
+# Freefloating. Grand Tree jumps a Litwick from the deck and does not mill.
+# Mountain Roasting mills 3 only when Chandelure is played from the hand.
+# Rescue Scarf returns Celebi ◇ to the hand. See data/lab/set-mill-roast.md.
+SET_ROAST_NAMES = (
+    ["Litwick"] * 4
+    + ["Lampent"] * 4
+    + ["Chandelure"] * 4
+    + ["Celebi ◇"]
+    + ["Cleffa"] * 2
+    + ["Arven"] * 4
+    + ["Team Rocket's Petrel"] * 4
+    + ["Buddy-Buddy Poffin"] * 4
+    + ["Energy Search"] * 4
+    + ["Energy Retrieval"] * 2
+    + ["Rescue Scarf"] * 4
+    + ["Grand Tree"]
+    + ["Colress's Tenacity"] * 2
+    + ["Lillie's Poké Doll"] * 3
+    + ["Nest Ball"] * 4
+    + ["Ultra Ball"] * 2
+    + ["Switch"]
+    + ["Fire Energy"] * 10
+)
+
 # Unlimited 60: Ambipom PAR Hand Fling, Lopunny FLF Big Jump recycle,
 # Raikou V Fleet-Footed + Forest Seal Stone Star Alchemy, Draw Energy, Rare Candy.
 # 4/4 Aipom–Ambipom is the 2-for-1 prize race (100 HP / 1 prize vs household 2-prizers).
@@ -3228,6 +3253,99 @@ for card in [
 ]:
     _register(card)
 
+_TIME_DISTORTION = (
+    "Devolve any number of your Benched Pokémon as many times as you like. "
+    "Put each Evolution card removed this way into your hand."
+)
+_MOUNTAIN_ROASTING = (
+    "When you play this Pokémon from your hand to evolve 1 of your Pokémon during your turn, "
+    "you may discard the top 3 cards of your opponent's deck."
+)
+_FREEFLOATING = "If this Pokémon has no Energy attached to it, this Pokémon has no Retreat Cost."
+_GRAND_TREE = (
+    "You can't have more than 1 ACE SPEC card in your deck. "
+    "Once during each player's turn, that player may search their deck for a Stage 1 Pokémon "
+    "that evolves from 1 of their Basic Pokémon and put it onto that Pokémon to evolve it. "
+    "If that Pokémon was evolved in this way, that player may search their deck for a Stage 2 "
+    "Pokémon that evolves from that Pokémon and put it onto that Pokémon to evolve it. "
+    "Then, that player shuffles their deck. (Players can't evolve a Basic Pokémon during their "
+    "first turn or a Basic Pokémon that was put into play this turn.)"
+)
+_RESCUE_SCARF = (
+    "If the Pokémon this card is attached to is Knocked Out by damage from an attack, "
+    "put that Pokémon into your hand. (Discard all cards attached to that Pokémon.)"
+)
+_CELEBI_PRISM = _register(
+    _pkm(
+        "Celebi ◇",
+        "Basic",
+        ["Grass"],
+        90,
+        [
+            _atk("Time Distortion", ["Colorless"], 0, _TIME_DISTORTION),
+            _atk("Leech Seed", ["Grass"], 20, "Heal 20 damage from this Pokémon."),
+        ],
+        retreat=1,
+        catalog_id="sm8-19",
+        weakness="Fire",
+        set_name="Lost Thunder",
+        traits=["prism star"],
+    )
+)
+_CELEBI_PRISM.text = (
+    "Prism Star: You can't have more than 1 Prism Star card with the same name in your deck. "
+    "If this Pokémon would go to the discard pile, put it in the Lost Zone instead."
+)
+FALLBACK_BY_NAME["celebi prism star"] = _CELEBI_PRISM
+FALLBACK_BY_NAME["celebi prism"] = _CELEBI_PRISM
+_register(
+    _pkm(
+        "Lampent",
+        "Stage1",
+        ["Fire"],
+        70,
+        [_atk("Will-O-Wisp", ["Fire", "Colorless"], 20)],
+        evolves_from="Litwick",
+        retreat=1,
+        catalog_id="bw8-22",
+        weakness="Water",
+        set_name="Plasma Storm",
+        abilities=[Ability(name="Freefloating", text=_FREEFLOATING)],
+    )
+)
+_register(
+    _pkm(
+        "Chandelure",
+        "Stage2",
+        ["Fire"],
+        150,
+        [_atk("Heat Blast", ["Fire", "Colorless"], 90)],
+        evolves_from="Lampent",
+        retreat=2,
+        catalog_id="swsh11-026",
+        weakness="Water",
+        set_name="Lost Origin",
+        abilities=[Ability(name="Mountain Roasting", text=_MOUNTAIN_ROASTING)],
+    )
+)
+_register(
+    _trn(
+        "Grand Tree",
+        "stadium",
+        _GRAND_TREE,
+        catalog_id="sv07-136",
+        traits=["ace spec"],
+    )
+)
+_register(
+    _trn(
+        "Rescue Scarf",
+        "tool",
+        _RESCUE_SCARF,
+        catalog_id="bw6-115",
+    )
+)
+
 # TWM / CLC Clefable keep the printed name "Clefable" but live under alias keys so they
 # do not overwrite Rebel Clash Prankish in FALLBACK_BY_NAME.
 _CLEFABLE_TWM = _pkm(
@@ -5378,6 +5496,17 @@ def fallback_named(name: str) -> Card:
     from app.catalog import fallback_card
 
     return fallback_card(name)
+
+
+def build_roast_deck() -> list[Card]:
+    """Celebi ◇ roast mill. Cleffa is the HGSS Eeeeeeek print, not Grasping Draw."""
+    out: list[Card] = []
+    for name in SET_ROAST_NAMES:
+        if name == "Cleffa":
+            out.append(fallback_named("cleffa hgss"))
+        else:
+            out.append(fallback_named(name))
+    return out
 
 
 def build_mill_deck() -> list[Card]:

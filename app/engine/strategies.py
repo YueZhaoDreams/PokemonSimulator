@@ -896,6 +896,38 @@ STRATEGY_LIBRARY = {
         search_aces=[],
         closers=[],
     ),
+    "roast": StrategySpec(
+        name="roast",
+        description=(
+            "Celebi ◇ Time Distortion with four Kindling Panic Litwick lines. "
+            "Lampent is Plasma Storm Freefloating: no Energy means retreat 0. "
+            "Chandelure is Lost Origin Mountain Roasting: evolving it from the hand "
+            "discards the top 3 cards of the opponent's deck. "
+            "Grand Tree searches the deck for the Stage 1 and then the Stage 2, so that "
+            "jump does not mill. Time Distortion then returns each benched Chandelure "
+            "once, leaving Lampent. The next turn plays Chandelure from the hand. "
+            "Rescue Scarf is only for Celebi ◇. An attack Knock Out puts Celebi ◇ "
+            "into the hand, so the Prism Star rule does not put it in the Lost Zone. "
+            "Energy Retrieval takes the Fire Energy the scarf discarded. Arven finds "
+            "the scarf and that Item. Team Rocket's Petrel finds a Trainer. "
+            "Colress's Tenacity finds Grand Tree and a Fire Energy, and does not "
+            "replace a Grand Tree that is already in play. "
+            "Cleffa is the HeartGold & SoulSilver Eeeeeeek print. "
+            "Eeeeeeek waits until the hand is thin and Celebi ◇ is not about to devolve. "
+            "Lillie's Poké Doll stalls. Fire Energy is not attached to the Litwick line."
+        ),
+        prefer_damage=0.05,
+        prefer_status=0.0,
+        bench_fill=1.0,
+        evolve_asap=1.0,
+        attach_pokemon_as_energy=0.0,
+        item_spend=1.0,
+        self_preserve=0.2,
+        hold_as_energy=False,
+        protect=["Celebi ◇", "Chandelure", "Lampent", "Litwick", "Grand Tree", "Rescue Scarf"],
+        search_aces=["Celebi ◇", "Litwick", "Chandelure"],
+        closers=["Celebi ◇"],
+    ),
 }
 
 
