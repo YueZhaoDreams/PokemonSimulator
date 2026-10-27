@@ -789,6 +789,20 @@ def test_wally_fetches_wugtrio_onto_a_wiglett_that_can_already_pay():
     assert board.game._mill_can_pay(me, me.active)
 
 
+def test_level_ball_plays_before_nest_ball_when_wugtrio_is_in_the_deck():
+    board = _Board("mill")
+    me = board.seat("a", active=("Wiglett", []))
+    foe = board.seat("b", active=("Wugtrio", []), deck=["Water Energy"] * 4)
+    level = board.take("a", "Level Ball")
+    nest = board.take("a", "Nest Ball")
+    trio = board.take("a", "Wugtrio")
+    me.hand = [nest, level]
+    me.deck = [trio]
+    assert me.card(board.game._pick_trainer(me)).name == "Level Ball"
+    board.game._play_trainers(me, foe, "a")
+    assert [me.card(i).name for i in me.hand] == ["Wugtrio"]
+
+
 def test_level_ball_finds_wugtrio_ahead_of_a_wall_once_wiglett_is_out():
     board = _Board("mill")
     me = board.seat("a", active=("Wiglett", []))

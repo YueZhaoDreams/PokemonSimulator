@@ -7282,23 +7282,50 @@ class Game:
         have_wiglett = "wiglett" in in_play or "wiglett" in in_hand
         have_trio = "wugtrio" in in_play or "wugtrio" in in_hand
         if name == "level ball":
+            # Finds Wugtrio. Nest Ball cannot. A live Wally still evolves first.
+            who = "a" if me.name == "A" else "b"
+            wally_live = "wally" in in_hand and self._mill_wally_score(me, who) >= 12
+            if wally_live:
+                return 8
+            if not have_trio and any(me.card(i).name.lower() == "wugtrio" for i in me.deck):
+                return 22
             if not have_wiglett:
                 return 16
-            if not have_trio and any(me.card(i).name.lower() == "wugtrio" for i in me.deck):
-                return 18
-            return 8 if not have_trio else 2
-        if name in {"nest ball", "buddy-buddy poffin", "buddy buddy poffin"}:
+            return 4
+        if name in {"nest ball", "nesting ball"}:
             slots = self._bench_limit(me) - len(me.bench)
             if slots <= 0:
-                return -4
-            if "manaphy" not in in_play and "manaphy" not in in_hand:
-                return 14
+                return -20
+            # The generic picker adds its own Nest bonus. This keeps Level Ball ahead
+            # while Wugtrio is still in the deck.
+            if (
+                "level ball" in in_hand
+                and not have_trio
+                and any(me.card(i).name.lower() == "wugtrio" for i in me.deck)
+            ):
+                return -16
+            if not have_wiglett:
+                return 10
             faces = sum(1 for mon in me.in_play() if self._sweet_face(me.card(mon.card_i)))
             faces += sum(1 for i in me.hand if self._sweet_face(me.card(i)))
             if faces < 1:
-                return 12
+                return 8
+            if not have_trio:
+                return 4
+            return -12
+        if name in {"buddy-buddy poffin", "buddy buddy poffin"}:
+            slots = self._bench_limit(me) - len(me.bench)
+            if slots <= 0:
+                return -20
+            if (
+                "level ball" in in_hand
+                and have_wiglett
+                and not have_trio
+                and any(me.card(i).name.lower() == "wugtrio" for i in me.deck)
+            ):
+                return -16
             if not have_wiglett:
-                return 12
+                return 20
             return 4
         if name == "rescue carrier":
             return 12 if self._rescue_carrier_targets(me, 90) else -4
