@@ -15,6 +15,13 @@ that 7 without discarding the hand.
 Every cut is screened on SCREEN_GAMES games per foe. The best SCREEN_TOP cuts
 are confirmed on GAMES games per foe. The accepted lists are run again on a
 fresh seed.
+
+The current locked 60 is the Elekid list: one Elekid, three Battle Cage.
+A retest on that list sets GAMES, SCREEN_GAMES, and HOLDOUT_GAMES to 6000
+and points DEST at data/lab/set-m-colress-elekid.json. At 1000 games a
+weighted difference had a standard error near 0.59 percentage points.
+Six thousand games brings that near 0.24, so a half-point gap sits on the
+2 standard error line.
 """
 
 from __future__ import annotations
@@ -143,7 +150,7 @@ class Cache:
 def _save(cache: Cache, report: dict) -> None:
     CACHE_PATH.parent.mkdir(parents=True, exist_ok=True)
     CACHE_PATH.write_text(json.dumps(cache.cells) + "\n")
-    DEST.write_text(json.dumps({"report": report, "cells": {}}, indent=1) + "\n")
+    DEST.write_text(json.dumps({"report": report, "cells": cache.cells}, indent=1) + "\n")
     MD_DEST.write_text(render_md(report))
 
 
@@ -174,8 +181,8 @@ def evaluate(
                 foe_key, detail = fut.result()
                 cache.put(names, games, foe_key, detail, seed)
                 done += 1
+                print(f"  [{label}] {done}/{total} {key} vs {foe_key} {detail['a']:.3f}", flush=True)
                 if done % len(FOES) == 0 or done == total:
-                    print(f"  [{label}] {done}/{total} cells", flush=True)
                     save()
     out: dict[str, dict[str, dict]] = {}
     for key, names in lists:
@@ -414,6 +421,25 @@ def render_md(report: dict) -> str:
         "| Colress | Cut | Weighted | ±1 SE | vs 0 | ±1 SE of diff | Mean | Worst | Plays | Drawn | vs T60 | vs Hedrick | vs C60 | vs D60 | vs Thorns | vs Starmie |",
         "| ---: | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
     ]
+    start_counts = Counter(report.get("list_start") or [])
+    if start_counts.get("Elekid"):
+        path_at = lines.index("## Path")
+        lines[path_at:path_at] = [
+            f"This pass starts from the Elekid lock: {start_counts['Elekid']} Elekid and {start_counts['Battle Cage']} Battle Cage.",
+            "",
+        ]
+    games_n = int(report.get("games") or 0)
+    screen_n = int(report.get("screen_games") or 0)
+    if games_n >= 6000 and screen_n >= games_n:
+        se_points = 0.59 * math.sqrt(1000 / games_n)
+        path_at = lines.index("## Path")
+        lines[path_at:path_at] = [
+            "Every cut is scored on this same game count. "
+            "The 1000-game difference had a standard error near 0.59 percentage points. "
+            f"At {games_n} games that standard error is about {se_points:.2f} percentage points, "
+            f"so a half-point gap sits at about {0.50 / se_points:.1f} standard errors.",
+            "",
+        ]
     base = (report.get("array") or [{}])[0]
     base_w = base.get("weighted", 0.0)
     base_cells = base.get("cells") or {}
@@ -546,6 +572,18 @@ def greedy_step(current: list[str], weights: dict[str, float], cache: Cache, sav
 
 
 def main() -> None:
+    print(
+        f"colress greedy games={GAMES} screen={SCREEN_GAMES} top={SCREEN_TOP} "
+        f"holdout={HOLDOUT_GAMES} seed={SEED} holdout_seed={HOLDOUT_SEED} "
+        f"workers={WORKERS} dest={DEST}",
+        flush=True,
+    )
+    print(
+        f"start elekid={SET_M60_NAMES.count('Elekid')} "
+        f"battle_cage={SET_M60_NAMES.count('Battle Cage')} "
+        f"colress={SET_M60_NAMES.count(IN_NAME)}",
+        flush=True,
+    )
     started = time.perf_counter()
     saved = json.loads(DEST.read_text()) if DEST.exists() else None
     report = (saved or {}).get("report") or {}

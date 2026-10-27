@@ -176,7 +176,12 @@ def test_colress_report_keeps_three_on_the_selection_seed_and_leaves_set_m():
         "Sky Field",
         "Bravery Charm",
     ]
-    assert Counter(report["list_start"]) == Counter(SET_M60_NAMES)
+    start = Counter(report["list_start"])
+    assert start["Elekid"] == 0
+    assert start["Battle Cage"] == 4
+    assert start["Colress"] == 0
+    assert SET_M60_NAMES.count("Elekid") == 1
+    assert SET_M60_NAMES.count("Battle Cage") == 3
     assert SET_M60_NAMES.count("Colress") == 0
     assert len(report["list"]) == 60
     assert report["list"].count("Colress") == 3
