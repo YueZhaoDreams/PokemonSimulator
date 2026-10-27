@@ -9,7 +9,7 @@ or any other Pokémon a Night Stretcher can take back.
 
 Starting 60 is the four-Petrel list measured before this search: Set M (4 Petrel, 3 Sky Field, 4 Budew).
 That list has four Team Rocket's Petrel, three Sky Field, four Budew, and zero Junk Arm.
-The list this search kept is locked as `SET_M60_NAMES`.
+The list this search kept was locked as `SET_M60_NAMES` before the Elekid lock.
 Each step cuts exactly one copy of one other card. Weights are frozen from the
 0-Junk-Arm measurement of this list on this engine.
 
@@ -138,7 +138,7 @@ Holdout seed `20261015`, 1000 games per foe, same weights. Unpaired difference a
 
 Junk Arm finds a discarded Trainer. On the selection seed at 1 copy the finds per game are Hero's Cape 0.001, Bursting Balloon 0.028, Counter Catcher 0.001, Rescue Carrier 0.001, Night Stretcher 0.000. On the holdout those five are 0.001, 0.026, 0.000, 0.001, 0.001.
 
-The list this search kept is locked as `SET_M60_NAMES`. The starting 60 is the four-Petrel list this search measured.
+The list this search kept was locked as `SET_M60_NAMES` before the Elekid lock. The starting 60 is the four-Petrel list this search measured.
 
 Copies at or above 2 standard errors against zero: none. Copies under 2 standard errors against zero: 1. The search kept 1.
 1 copy against 0 copies is 0.19 standard errors, and that step cuts Ultra Ball.

@@ -297,7 +297,12 @@ def test_junk_search_starts_from_the_locked_four_petrel_list():
     assert Counter(names)["Team Rocket's Petrel"] == 4
     swapped = module.swap_one(names, "Ultra Ball")
     assert len(swapped) == 60
-    assert Counter(swapped) == Counter(SET_M60_NAMES)
+    assert Counter(swapped)["Junk Arm"] == 1
+    assert Counter(swapped)["Battle Cage"] == 4
+    assert Counter(swapped)["Elekid"] == 0
+    locked = list(swapped)
+    locked[locked.index("Battle Cage")] = "Elekid"
+    assert Counter(locked) == Counter(SET_M60_NAMES)
 
 
 def test_junk_report_keeps_one_copy_and_leaves_set_m_locked():
@@ -345,5 +350,9 @@ def test_junk_report_keeps_one_copy_and_leaves_set_m_locked():
             header = [cell for cell in line.split("|") if cell.strip()]
             delim = [cell for cell in nxt.split("|") if cell.strip()]
             assert len(header) == len(delim), (line, nxt)
-    assert "locked as `SET_M60_NAMES`" in text
-    assert Counter(SET_M60_NAMES) == kept
+    assert "before the Elekid lock" in text
+    assert kept["Battle Cage"] == 4
+    assert kept["Elekid"] == 0
+    walked = list(report["list"])
+    walked[walked.index("Battle Cage")] = "Elekid"
+    assert Counter(walked) == Counter(SET_M60_NAMES)

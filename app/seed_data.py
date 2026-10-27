@@ -531,18 +531,29 @@ SET_T_UNL_NAMES = (
 # Selection 90.64% → 91.89% (+1.25 pp, 1.93 standard errors). The next copy (Budew, 91.54%) does not rise.
 # Holdout 91.10% → 91.22% (+0.12 pp, 0.19 standard errors). One copy is locked.
 # Cut: Ultra Ball (1 → 0). One Junk Arm.
+# Elekid on that list. Paradox Rift 59. Crackling Shot is an extreme finisher only.
+# Search set-m-elekid. Selection seed 20261007, 1000 games per foe.
+# Fresh seeds 20261105 (2000) and 20261112 (3000), pooled. Clean seed 20261029, 8000.
+# Weights frozen from the 0-Elekid list:
+# Hedrick 37.7%, Starmie 23.3%, T60 20.3%, C60 16.0%, D60 1.9%, Thorns 0.8%.
+# One copy, cutting Manaphy, is +0.85 pp on the fresh seeds (+2.7 standard errors).
+# That cut is not the lock. Starmie falls, and the same games scored with the new
+# list's loss weights also prefer the list that still has Manaphy.
+# Two copies, cutting Counter Catcher, do not separate from one (+1.4 standard errors).
+# The lock is one Elekid for one Battle Cage (4 → 3). Manaphy stays. Counter Catcher stays.
 SET_M60_NAMES = (
     ["Mew ex"] * 3
     + ["Mime Jr."] * 2
     + ["Igglybuff"] * 4
     + ["Budew"] * 4
+    + ["Elekid"]
     + ["Manaphy"]
     + ["Buddy-Buddy Poffin"] * 4
     + ["Nest Ball"] * 4
     + ["Junk Arm"]
     + ["Night Stretcher"]
     + ["Rescue Carrier"] * 2
-    + ["Battle Cage"] * 4
+    + ["Battle Cage"] * 3
     + ["Sky Field"] * 3
     + ["Bravery Charm"] * 2
     + ["Bursting Balloon"]
@@ -672,23 +683,29 @@ SET_DOLL_NAMES = (
     + ["Buddy-Buddy Poffin"] * 2
     + ["Crushing Hammer"] * 2
 )
+# Mill lock (2026-10-27). Manaphy and HGSS Cleffa: seed 20261029, 400 games
+# each seat. Weighted 38.729% → 41.719% (+2.990, difference ±0.654, 4.57 SE).
+# See data/lab/set-mill-veil.md. The remaining Nest Ball was then replaced by a
+# fourth Level Ball without another paired run. Level Ball finds Wugtrio.
+# Poffin stays ×4 and benches Manaphy, then Cleffa.
 SET_MILL_NAMES = (
     ["Pichu"]
     + ["Mime Jr."]
+    + ["Cleffa"]
+    + ["Manaphy"]
     + ["Wiglett"] * 4
     + ["Wugtrio"] * 4
     + ["Victini"]
     + ["Slumbering Forest"]
     + ["Neutralization Zone"]
     + ["Buddy-Buddy Poffin"] * 4
-    + ["Nest Ball"] * 3
-    + ["Level Ball"] * 3
+    + ["Level Ball"] * 4
     + ["Rescue Carrier"] * 3
     + ["Lillie's Poké Doll"]
     + ["Crushing Hammer"] * 4
     + ["Counter Catcher"] * 2
     + ["Miss Fortune Sisters"] * 2
-    + ["Crispin"] * 3
+    + ["Wally"] * 3
     + ["Boss's Orders"]
     + ["Team Rocket's Handiwork"] * 2
     + ["Colress's Tenacity"] * 4
@@ -3708,6 +3725,24 @@ _register(
         set_name="Obsidian Flames",
     )
 )
+_ELEKID_SHOT_TEXT = (
+    "This attack does 30 damage to 1 of your opponent's Pokémon. "
+    "(Don't apply Weakness and Resistance for Benched Pokémon.)"
+)
+_register(
+    _pkm(
+        "Elekid",
+        "Basic",
+        ["Lightning"],
+        30,
+        [_atk("Crackling Shot", [], 0, _ELEKID_SHOT_TEXT)],
+        catalog_id="sv04-059",
+        weakness="Fighting",
+        retreat=0,
+        image="https://assets.tcgdex.net/en/sv/sv04/059/low.webp",
+        set_name="Paradox Rift",
+    )
+)
 _register(
     _pkm(
         "Radiant Charizard",
@@ -5352,11 +5387,13 @@ def fallback_named(name: str) -> Card:
 
 
 def build_mill_deck() -> list[Card]:
-    """Locked Mill 60. Mime Jr. is Call of Legends Sleepy Lost. One Lillie's Poké Doll replaces Switch."""
+    """Locked Mill 60. Mime Jr. is Sleepy Lost. Cleffa is the HGSS Eeeeeeek print."""
     out: list[Card] = []
     for name in SET_MILL_NAMES:
         if name == "Mime Jr.":
             out.append(fallback_named("mime jr. col"))
+        elif name == "Cleffa":
+            out.append(fallback_named("cleffa hgss"))
         else:
             out.append(fallback_named(name))
     return out
