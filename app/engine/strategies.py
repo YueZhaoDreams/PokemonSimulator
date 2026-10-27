@@ -903,21 +903,18 @@ STRATEGY_LIBRARY = {
             "Lampent is Plasma Storm Freefloating: no Energy means retreat 0. "
             "Chandelure is Lost Origin Mountain Roasting: evolving it from the hand "
             "discards the top 3 cards of the opponent's deck. "
-            "Grand Tree searches the deck for the Stage 1 and then the Stage 2, so that "
-            "jump does not mill. Time Distortion then returns each benched Chandelure "
-            "once, leaving Lampent. The next turn plays Chandelure from the hand. "
+            "The wall sleeps and cycles until three Lampent can evolve this turn and "
+            "three Chandelure are in hand. Celebi ◇ is not played before that turn. "
+            "That turn evolves those Chandelure from the hand, so the mill is at least 9, "
+            "then Time Distortion returns each benched Chandelure once and leaves Lampent. "
+            "Cleffa is HeartGold & SoulSilver Eeeeeeek. Pichu is Playground and benches "
+            "Litwick only. Slumbering Forest makes the between-turns sleep check two coins. "
+            "Level Ball finds a Pokémon of 90 HP or less, including Lampent, and does not "
+            "find Chandelure. Grand Tree is not played over Slumbering Forest. "
             "Rescue Scarf is only for Celebi ◇. An attack Knock Out puts Celebi ◇ "
             "into the hand, so the Prism Star rule does not put it in the Lost Zone. "
             "Energy Retrieval takes the Fire Energy the scarf discarded. Arven finds "
             "the scarf and that Item. Team Rocket's Petrel finds a Trainer. "
-            "Colress's Tenacity finds Grand Tree and a Fire Energy, and does not "
-            "replace a Grand Tree that is already in play. "
-            "Pichu is HeartGold & SoulSilver Playground: each player may bench as many "
-            "Basic Pokémon as they like, this player first, then Pichu is Asleep. "
-            "Roast uses that attack to bench Litwick and Celebi ◇ while the line is short. "
-            "Sweet Sleeping Face prevents attack damage while Pichu is Asleep, and Asleep "
-            "blocks retreat, so Switch brings Celebi ◇ Active. "
-            "Lillie's Poké Doll stalls once the Bench no longer needs those slots. "
             "Fire Energy is not attached to the Litwick line."
         ),
         prefer_damage=0.05,
@@ -928,8 +925,8 @@ STRATEGY_LIBRARY = {
         item_spend=1.0,
         self_preserve=0.2,
         hold_as_energy=False,
-        protect=["Celebi ◇", "Chandelure", "Lampent", "Litwick", "Pichu", "Grand Tree", "Rescue Scarf"],
-        search_aces=["Celebi ◇", "Litwick", "Pichu", "Chandelure"],
+        protect=["Celebi ◇", "Chandelure", "Lampent", "Litwick", "Cleffa", "Pichu", "Slumbering Forest", "Rescue Scarf"],
+        search_aces=["Chandelure", "Lampent", "Litwick", "Cleffa"],
         closers=["Celebi ◇"],
     ),
 }

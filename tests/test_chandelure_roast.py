@@ -102,8 +102,15 @@ def test_roast_deck_is_sixty_and_pichu_is_playground():
     assert len(deck) == 60
     assert copy_violations(deck, standard_60_rules()) == []
     assert StrategySpec.from_dict("roast").name == "roast"
+    names = [card.name for card in deck]
+    assert names.count("Pichu") == 3
+    assert names.count("Cleffa") == 2
+    assert names.count("Level Ball") == 4
+    assert names.count("Nest Ball") == 0
+    assert names.count("Slumbering Forest") == 1
+    assert names.count("Fire Energy") == 8
+    assert not any("Doll" in name for name in names)
     pichu = [card for card in deck if card.name == "Pichu"]
-    assert len(pichu) == 3
     for card in pichu:
         playground = next(
             effect
@@ -115,6 +122,14 @@ def test_roast_deck_is_sixty_and_pichu_is_playground():
         assert playground.get("user_first") is True
         assert any(ability.name == "Sweet Sleeping Face" for ability in card.abilities)
         assert "as many" in card.attacks[0].text.lower()
+    for card in deck:
+        if card.name != "Cleffa":
+            continue
+        assert any(effect.get("kind") == "shuffle_hand_then_draw" for attack in card.attacks for effect in attack.effects)
+        assert "draw 6" in card.attacks[0].text.lower()
+        assert any(ability.name == "Sweet Sleeping Face" for ability in card.abilities)
+    forest = next(card for card in deck if card.name == "Slumbering Forest")
+    assert {"kind": "sleep_check_two_coins"} in parse_ability_effects(forest.text)
 
 
 def test_devolve_any_number_of_times_and_roast_takes_one_step():
@@ -278,7 +293,7 @@ def _foe_basic(foe) -> int:
     raise AssertionError("foe basic")
 
 
-def test_playground_benches_four_litwick_and_celebi_then_stops():
+def test_playground_benches_four_litwick_and_leaves_celebi_in_the_deck():
     game = _game()
     me = game.players["a"]
     foe = game.players["b"]
@@ -297,11 +312,12 @@ def test_playground_benches_four_litwick_and_celebi_then_stops():
     game._playground(me, foe, "a", user_first=True)
     names = [me.card(mon.card_i).name for mon in me.bench]
     assert names.count("Litwick") == 4
-    assert names.count("Celebi ◇") == 1
+    assert "Celebi ◇" not in names
+    assert celebi in me.deck
     assert extra in me.deck
     assert len(foe.bench) == 1
     assert game._roast_playground_pick(me) is None
-    assert game.events.get("playground", 0) == 6
+    assert game.events.get("playground", 0) == 5
     assert game.events.get("used_playground_a", 0) == 1
 
 
@@ -344,3 +360,107 @@ def test_asleep_pichu_uses_switch_to_bring_celebi_active():
     me.hand.append(switch)
     assert game._roast_bring(me, "a", lambda mon: "celebi" in me.card(mon.card_i).name.lower()) is True
     assert me.card(me.active.card_i).name == "Celebi ◇"
+
+
+def _ready_turn(game: Game) -> None:
+    game.turn = 5
+    game.first = "b"
+    game.current = "a"
+    game.players["a"].energy_attached = False
+
+
+def test_one_lampent_does_not_bring_celebi_or_mill():
+    game = _game()
+    me = game.players["a"]
+    foe = game.players["b"]
+    _reclaim(me)
+    cleffa = _pull(me, "Cleffa")
+    lamp = _pull(me, "Lampent")
+    chands = [_pull(me, "Chandelure") for _ in range(3)]
+    celebi = _pull(me, "Celebi ◇")
+    fire = _pull(me, "Fire Energy")
+    me.active = Pokemon(card_i=cleffa, played_turn=0)
+    me.bench = [Pokemon(card_i=lamp, played_turn=0)]
+    me.hand = chands + [celebi, fire]
+    _ready_turn(game)
+    before = len(foe.deck)
+    assert game._roast_nine_ready(me, "a") is False
+    game._roast_main(me, foe, "a")
+    assert game._roast_celebi(me) is None
+    assert celebi in me.hand
+    assert all(card in me.hand for card in chands)
+    assert len(foe.deck) == before
+    assert game.events.get("mountain_roasting", 0) in (None, 0)
+
+
+def test_three_legal_lampent_bring_celebi_and_mill_nine():
+    game = _game()
+    me = game.players["a"]
+    foe = game.players["b"]
+    _reclaim(me)
+    cleffa = _pull(me, "Cleffa")
+    lamps = [_pull(me, "Lampent") for _ in range(3)]
+    chands = [_pull(me, "Chandelure") for _ in range(3)]
+    celebi = _pull(me, "Celebi ◇")
+    fire = _pull(me, "Fire Energy")
+    me.active = Pokemon(card_i=cleffa, played_turn=0)
+    me.bench = [Pokemon(card_i=lamp, played_turn=0) for lamp in lamps]
+    me.hand = chands + [celebi, fire]
+    _ready_turn(game)
+    before = len(foe.deck)
+    assert before >= 9
+    assert game._roast_nine_ready(me, "a") is True
+    game._roast_main(me, foe, "a")
+    assert me.card(me.active.card_i).name == "Celebi ◇"
+    assert len(me.active.energy) == 1
+    assert [me.card(mon.card_i).name for mon in me.bench].count("Chandelure") == 3
+    assert len(foe.deck) == before - 9
+    assert game.events.get("mountain_roasting", 0) == 3
+    assert game.events.get("roast_mill_wave:9", 0) == 1
+
+
+def test_sleep_evolves_lampent_when_chandelure_already_has_a_target():
+    game = _game()
+    me = game.players["a"]
+    foe = game.players["b"]
+    _reclaim(me)
+    cleffa = _pull(me, "Cleffa")
+    lit = _pull(me, "Litwick")
+    ready = _pull(me, "Lampent")
+    lamp = _pull(me, "Lampent")
+    chand = _pull(me, "Chandelure")
+    me.active = Pokemon(card_i=cleffa, played_turn=0)
+    me.bench = [Pokemon(card_i=ready, played_turn=0), Pokemon(card_i=lit, played_turn=0)]
+    me.hand = [lamp, chand]
+    _ready_turn(game)
+    before = len(foe.deck)
+    game._roast_main(me, foe, "a")
+    names = [me.card(mon.card_i).name for mon in me.bench]
+    assert names.count("Lampent") == 2
+    assert "Chandelure" not in names
+    assert chand in me.hand
+    assert game._roast_celebi(me) is None
+    assert len(foe.deck) == before
+
+
+def test_lampent_played_this_turn_cannot_take_chandelure():
+    game = _game()
+    me = game.players["a"]
+    foe = game.players["b"]
+    _reclaim(me)
+    cleffa = _pull(me, "Cleffa")
+    litwicks = [_pull(me, "Litwick") for _ in range(3)]
+    lamps = [_pull(me, "Lampent") for _ in range(3)]
+    chands = [_pull(me, "Chandelure") for _ in range(3)]
+    celebi = _pull(me, "Celebi ◇")
+    fire = _pull(me, "Fire Energy")
+    me.active = Pokemon(card_i=cleffa, played_turn=0)
+    me.bench = [Pokemon(card_i=lit, played_turn=0) for lit in litwicks]
+    me.hand = lamps + chands + [celebi, fire]
+    _ready_turn(game)
+    before = len(foe.deck)
+    game._roast_main(me, foe, "a")
+    assert [me.card(mon.card_i).name for mon in me.bench].count("Lampent") == 3
+    assert game._roast_celebi(me) is None
+    assert all(card in me.hand for card in chands)
+    assert len(foe.deck) == before

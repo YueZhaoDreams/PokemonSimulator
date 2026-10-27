@@ -716,16 +716,18 @@ SET_MILL_NAMES = (
 )
 
 # Celebi ◇ Time Distortion + Lost Origin Chandelure. Lampent is Plasma Storm
-# Freefloating. Grand Tree jumps a Litwick from the deck and does not mill.
-# Mountain Roasting mills 3 only when Chandelure is played from the hand.
-# Playground Pichu benches the Litwick line. Rescue Scarf returns Celebi ◇
-# to the hand. See data/lab/set-mill-roast.md.
+# Freefloating. Mountain Roasting mills 3 only when Chandelure is played from
+# the hand. Level Ball finds Lampent (70) and Celebi ◇ (90); it does not find
+# Chandelure (150). Cleffa is the HGSS Eeeeeeek print. Slumbering Forest stays
+# up while that wall sleeps. Celebi ◇ stays in hand until three Lampent can
+# take Chandelure from the hand on the same turn. See data/lab/set-mill-roast.md.
 SET_ROAST_NAMES = (
     ["Litwick"] * 4
     + ["Lampent"] * 4
     + ["Chandelure"] * 4
     + ["Celebi ◇"]
     + ["Pichu"] * 3
+    + ["Cleffa"] * 2
     + ["Arven"] * 4
     + ["Team Rocket's Petrel"] * 4
     + ["Buddy-Buddy Poffin"] * 4
@@ -734,11 +736,11 @@ SET_ROAST_NAMES = (
     + ["Rescue Scarf"] * 4
     + ["Grand Tree"]
     + ["Colress's Tenacity"] * 2
-    + ["Lillie's Poké Doll"] * 2
-    + ["Nest Ball"] * 4
+    + ["Level Ball"] * 4
     + ["Ultra Ball"] * 2
     + ["Switch"] * 2
-    + ["Fire Energy"] * 9
+    + ["Slumbering Forest"]
+    + ["Fire Energy"] * 8
 )
 
 # Unlimited 60: Ambipom PAR Hand Fling, Lopunny FLF Big Jump recycle,
@@ -5500,7 +5502,7 @@ def fallback_named(name: str) -> Card:
 
 
 def build_roast_deck() -> list[Card]:
-    """Celebi ◇ roast mill. Pichu is the HGSS Playground print."""
+    """Celebi ◇ roast mill. Cleffa is HGSS Eeeeeeek. Pichu is HGSS Playground."""
     out: list[Card] = []
     for name in SET_ROAST_NAMES:
         if name == "Cleffa":
