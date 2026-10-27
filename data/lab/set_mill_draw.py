@@ -109,6 +109,7 @@ NOTES = {
     "junk2": "Junk Arm ×2 replaces two Nest Ball",
     "pack": "Level ×4, Cleffa, Brace, Junk ×2. Cut three Nest, one Hammer, Zone",
     "wake": "Same package, Forest out and one Nest back, so sleep is one coin",
+    "veil": "Manaphy and HGSS Cleffa replace two Nest Ball. Level Ball stays ×3. Poffin stays ×4.",
 }
 
 LISTS = {
@@ -131,6 +132,7 @@ LISTS = {
         ],
         ["Level Ball", "Cleffa", "Survival Brace", "Junk Arm", "Junk Arm"],
     ),
+    "veil": _swap(["Nest Ball", "Nest Ball"], ["Manaphy", "Cleffa"]),
 }
 
 
@@ -209,6 +211,8 @@ def _run(names: tuple[str, ...], foe_key: str, seat: str, games: int, seed: int)
     eeeeeeek = 0
     junk = 0
     brace = 0
+    cleffa_play = 0
+    manaphy_play = 0
     turns = 0
     opp_prizes = 0
     reasons: Counter[str] = Counter()
@@ -223,6 +227,8 @@ def _run(names: tuple[str, ...], foe_key: str, seat: str, games: int, seed: int)
         eeeeeeek += result.events.get("eeeeeeek_shuffle", 0)
         junk += result.events.get("junk_arm", 0)
         brace += result.events.get("survival_brace", 0)
+        cleffa_play += result.events.get("saw_play:Cleffa", 0)
+        manaphy_play += result.events.get("saw_play:Manaphy", 0)
         turns += result.turns
         opp_prizes += result.prizes_taken_b if mill_is_a else result.prizes_taken_a
         reasons[_bucket(seat, result.winner, result.reason)] += 1
@@ -233,6 +239,8 @@ def _run(names: tuple[str, ...], foe_key: str, seat: str, games: int, seed: int)
         "eeeeeeek": eeeeeeek / games,
         "junk_arm": junk / games,
         "survival_brace": brace / games,
+        "cleffa_play": cleffa_play / games,
+        "manaphy_play": manaphy_play / games,
         "turns": turns / games,
         "opp_prizes": opp_prizes / games,
         "reasons": dict(reasons),
@@ -316,6 +324,8 @@ def _combine(cells: dict[str, dict]) -> dict[str, dict]:
             "eeeeeeek": (a.get("eeeeeeek", 0) + b.get("eeeeeeek", 0)) / 2,
             "junk_arm": (a.get("junk_arm", 0) + b.get("junk_arm", 0)) / 2,
             "survival_brace": (a.get("survival_brace", 0) + b.get("survival_brace", 0)) / 2,
+            "cleffa_play": (a.get("cleffa_play", 0) + b.get("cleffa_play", 0)) / 2,
+            "manaphy_play": (a.get("manaphy_play", 0) + b.get("manaphy_play", 0)) / 2,
             "turns": (a["turns"] + b["turns"]) / 2,
             "opp_prizes": (a["opp_prizes"] + b["opp_prizes"]) / 2,
         }
@@ -357,6 +367,8 @@ def _score(label: str, cells: dict[str, dict], games: int) -> dict:
         "eeeeeeek": sum(cells[key]["eeeeeeek"] for key, *_ in FOES) / len(FOES),
         "junk_arm": sum(cells[key]["junk_arm"] for key, *_ in FOES) / len(FOES),
         "survival_brace": sum(cells[key]["survival_brace"] for key, *_ in FOES) / len(FOES),
+        "cleffa_play": sum(cells[key].get("cleffa_play", 0) for key, *_ in FOES) / len(FOES),
+        "manaphy_play": sum(cells[key].get("manaphy_play", 0) for key, *_ in FOES) / len(FOES),
         "mill_attack": sum(cells[key]["mill_attack"] for key, *_ in FOES) / len(FOES),
     }
     return {
@@ -397,6 +409,10 @@ def _markdown_final(report: dict) -> str:
         "Eeeeeeek is used when the hand has neither. Brace attaches only to a full-HP Wugtrio. "
         "Junk Arm discards Nest Ball and Poffin once a Wiglett and a Sweet Sleeping Face are in play.",
         "",
+        "Manaphy Wave Veil prevents damage done to benched Pokémon by attacks. "
+        "Phantom Dive and Spooky Balloon place damage counters, and Wave Veil does not stop those, so Cleffa stays in the deck in those matches. "
+        "Against bench damage, Poffin benches Manaphy and then Cleffa. Level Ball still searches for Wugtrio.",
+        "",
         f"- **Seed**: `{report['seed']}`",
         f"- **Games per seat**: {report['games']}",
         "- **Seats**: each list is player A and player B. A foe cell is the mean of those two win rates.",
@@ -408,7 +424,7 @@ def _markdown_final(report: dict) -> str:
         "",
         "## Lists",
         "",
-        "| List | Swap | Weighted | ± | Mean | Worst | Delta | Eeeeeeek | Junk | Brace | Attacks |",
+        "| List | Swap | Weighted | ± | Mean | Worst | Delta | Eeeeeeek | Cleffa | Manaphy | Attacks |",
         "| :--- | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
     ]
     ordered = report["lists"]
@@ -418,7 +434,7 @@ def _markdown_final(report: dict) -> str:
         lines.append(
             f"| {row['label']} | {row['note']} | {_pct(row['weighted'])} | {_pct(row['se'])} | "
             f"{_pct(row['mean'])} | {_pct(row['worst'])} | {delta} | "
-            f"{played['eeeeeeek']:.2f} | {played['junk_arm']:.2f} | {played['survival_brace']:.2f} | "
+            f"{played['eeeeeeek']:.2f} | {played['cleffa_play']:.2f} | {played['manaphy_play']:.2f} | "
             f"{played['mill_attack']:.2f} |"
         )
     best = ordered[0]

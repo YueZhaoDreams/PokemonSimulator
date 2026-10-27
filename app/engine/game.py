@@ -276,6 +276,10 @@ class Game:
                 name = card.name.lower()
                 if name == "manaphy":
                     return (0, 0)
+                if self._prints_playground(card):
+                    return (1, 0)
+                if self._prints_eeeeeeek(card):
+                    return (1, 1)
                 if self._sweet_face(card):
                     return (1, 0)
                 if name == "victini":
@@ -531,18 +535,19 @@ class Game:
             return self._mew_wants_manaphy(player)
 
         if strat.name == "mill":
-            # One Sweet Sleeping Face in play. A second 30 HP baby on the bench
-            # is a prize (Phantom Dive puts its counters on the lowest HP).
-            # The spare stays in the deck until that wall is gone. Manaphy
-            # shields attack damage. Wiglett fills what's left. One Victini.
-            # Eeeeeeek Cleffa is the extra body: it comes in only when the hand
-            # cannot continue Undersea, and never into Phantom Dive or spread.
+            # One Sweet Sleeping Face besides Eeeeeeek. A second of those is a
+            # prize when the opponent places damage counters. Manaphy is benched
+            # only when an opposing attack does damage a Benched Pokémon can take.
+            # Cleffa is a long-term body in wall matches, and also once Wave Veil
+            # is in play against that damage. Phantom Dive's counters ignore Wave
+            # Veil, so Cleffa stays in the deck there. Eeeeeeek itself still waits
+            # for a hand that cannot continue Undersea.
             if name == "manaphy":
-                return copies < 1
+                return self._mew_wants_manaphy(player)
             if self._prints_eeeeeeek(card):
-                if not self._mill_wall_match(player) or copies >= 1:
+                if copies >= 1:
                     return False
-                return self._mill_wants_eeeeeeek(player)
+                return self._mill_cleffa_safe(player)
             if self._sweet_face(card):
                 # Phantom Dive, Starmie, and spread KO a 30 HP bench baby.
                 # Leave the wall in the deck in those matches and mill.
@@ -1226,14 +1231,14 @@ class Game:
                     return (0, 0)
                 if self._prints_playground(card):
                     return (1, 0)
-                if self._sweet_face(card) and not self._prints_eeeeeeek(card):
+                if self._prints_eeeeeeek(card):
                     return (1, 1)
+                if self._sweet_face(card):
+                    return (1, 2)
                 if name == "victini":
                     return (2, 0)
                 if name == "wiglett":
                     return (3, 0)
-                if self._prints_eeeeeeek(card):
-                    return (5, 0)
                 return (4, 0)
             if strat.name == "g":
                 rank = {
@@ -6729,6 +6734,9 @@ class Game:
             only = doll_ai.level_ball_name(self, me)
             if only:
                 prefer = [only]
+        elif self.strats[who].name == "mill" and self._mill_veil_package(me):
+            # Poffin and Nest bench Manaphy and Cleffa. This search keeps the line.
+            prefer = [name for name in prefer if name.lower() not in {"manaphy", "cleffa"}]
         found = self._search(me, pred, prefer=prefer, n=1, source="level ball")
         if found:
             self._bump("level_ball")
@@ -7089,6 +7097,101 @@ class Game:
         """Bench counters and spread make a 30 HP wall into prize cards."""
         return self._foe_strat_name(player) not in {"phantom", "starmie", "nuzzle"}
 
+    def _mill_veil_package(self, me: Player) -> bool:
+        """This 60 contains Manaphy or Eeeeeeek Cleffa. The Wally lock has neither."""
+        return self._deck_has(me, "manaphy") or self._deck_has(me, "cleffa")
+
+    def _attack_places_bench_counters(self, atk) -> bool:
+        effects = parse_effects(atk.text or "", str(atk.damage or ""))
+        return any(effect.get("kind") == "bench_damage_counters" for effect in effects)
+
+    def _foe_places_bench_counters(self, me: Player) -> bool:
+        """An opposing attack places damage counters on Benched Pokémon.
+
+        Wave Veil prevents damage from attacks. It does not stop this sentence.
+        """
+        for card in self._foe_card_list(me):
+            if not card.is_pokemon:
+                continue
+            if any(self._attack_places_bench_counters(atk) for atk in card.attacks):
+                return True
+        return False
+
+    def _mill_cleffa_in_play(self, me: Player) -> bool:
+        return any(self._prints_eeeeeeek(me.card(mon.card_i)) for mon in me.in_play())
+
+    def _mill_cleffa_safe(self, me: Player) -> bool:
+        """One Eeeeeeek Cleffa can sit on the bench.
+
+        Wall matches already bench a 30 HP face. Bench-damage attacks become safe
+        once Wave Veil is in play. Phantom Dive and Spooky Balloon place counters,
+        and those matches leave Cleffa in the deck even with Manaphy out.
+        """
+        if self._foe_places_bench_counters(me):
+            return False
+        if self._mill_wall_match(me):
+            return True
+        return self._count_named_in_play(me, "Manaphy") >= 1
+
+    def _mill_cleffa_pending(self, me: Player) -> bool:
+        """Cleffa is still in the deck and would be benched by Poffin or Nest Ball."""
+        if not self._mill_veil_package(me) or not self._mill_cleffa_safe(me):
+            return False
+        if self._mill_cleffa_in_play(me):
+            return False
+        if any(self._prints_eeeeeeek(me.card(i)) for i in me.hand):
+            return False
+        return any(self._prints_eeeeeeek(me.card(i)) for i in me.deck)
+
+    def _mill_shield_needed(self, me: Player) -> bool:
+        """Wave Veil is missing and an opposing attack can damage the bench."""
+        return self._mill_veil_package(me) and self._mew_wants_manaphy(me)
+
+    def _mill_bench_search_score(self, me: Player, card: Card) -> float:
+        """Poffin and Nest Ball order once this list runs Manaphy or Cleffa.
+
+        Called again for each body, so the second Poffin target sees the Manaphy
+        this Item just benched. Wugtrio stays on Level Ball: it is not a Basic.
+        """
+        name = card.name.lower()
+        if name == "manaphy" and self._mew_wants_manaphy(me):
+            return 100
+        if self._prints_playground(card) and self._mill_wall_match(me):
+            have_play = any(self._prints_playground(me.card(mon.card_i)) for mon in me.in_play()) or any(
+                self._prints_playground(me.card(i)) for i in me.hand
+            )
+            if not have_play:
+                return 90
+        if self._prints_eeeeeeek(card) and self._mill_cleffa_safe(me):
+            have_cleffa = self._mill_cleffa_in_play(me) or any(
+                self._prints_eeeeeeek(me.card(i)) for i in me.hand
+            )
+            if not have_cleffa:
+                return 80
+        if name == "wiglett":
+            have_wiglett = any(me.card(mon.card_i).name.lower() == "wiglett" for mon in me.in_play()) or any(
+                me.card(i).name.lower() == "wiglett" for i in me.hand
+            )
+            return 70 if not have_wiglett else 40
+        if self._sweet_face(card) and self._mill_wall_match(me):
+            faces = sum(
+                1
+                for mon in me.in_play()
+                if self._sweet_face(me.card(mon.card_i)) and not self._prints_eeeeeeek(me.card(mon.card_i))
+            )
+            faces += sum(
+                1
+                for i in me.hand
+                if self._sweet_face(me.card(i)) and not self._prints_eeeeeeek(me.card(i))
+            )
+            if faces < 1:
+                return 60
+        if name == "victini" and self._count_named_in_play(me, "Victini") < 1 and not any(
+            me.card(i).name.lower() == "victini" for i in me.hand
+        ):
+            return 30
+        return 10
+
     def _mill_line_idx(self, me: Player) -> int | None:
         """Bench Wiglett or Wugtrio to take over after Playground has been used."""
         best: tuple[tuple[int, int, int], int] | None = None
@@ -7304,6 +7407,13 @@ class Game:
                 and any(me.card(i).name.lower() == "wugtrio" for i in me.deck)
             ):
                 return -16
+            poffin_in_hand = "buddy-buddy poffin" in in_hand or "buddy buddy poffin" in in_hand
+            manaphy_in_deck = any(me.card(i).name.lower() == "manaphy" for i in me.deck)
+            if self._mill_shield_needed(me) and manaphy_in_deck:
+                # One Poffin benches Manaphy and the next Pokémon of 70 HP or less.
+                return -16 if poffin_in_hand else 16
+            if self._mill_cleffa_pending(me):
+                return -16 if poffin_in_hand else 14
             if not have_wiglett:
                 return 10
             faces = sum(1 for mon in me.in_play() if self._sweet_face(me.card(mon.card_i)))
@@ -7317,6 +7427,18 @@ class Game:
             slots = self._bench_limit(me) - len(me.bench)
             if slots <= 0:
                 return -20
+            if self._mill_shield_needed(me) and any(me.card(i).name.lower() == "manaphy" for i in me.deck):
+                # Above Level Ball. Wave Veil has to be on the bench before Cleffa.
+                return 24
+            if self._mill_cleffa_pending(me):
+                if (
+                    "level ball" in in_hand
+                    and have_wiglett
+                    and not have_trio
+                    and any(me.card(i).name.lower() == "wugtrio" for i in me.deck)
+                ):
+                    return 8
+                return 18
             if (
                 "level ball" in in_hand
                 and have_wiglett
@@ -7424,6 +7546,10 @@ class Game:
         slots = self._bench_limit(me) - len(me.bench)
         if slots <= 0:
             return True
+        if self._mill_cleffa_pending(me):
+            return False
+        if self._mill_shield_needed(me) and any(me.card(i).name.lower() == "manaphy" for i in me.deck):
+            return False
         have_line = any(
             me.card(mon.card_i).name.lower() in {"wiglett", "wugtrio"} for mon in me.in_play()
         )
@@ -10063,7 +10189,11 @@ class Game:
                 ):
                     continue
                 score = 0.0
-                if name in prefer:
+                if strat.name == "mill" and self._mill_veil_package(me):
+                    # Live board, not the snapshot from before this Item. The second
+                    # Poffin body can be Cleffa once Manaphy has just been benched.
+                    score = self._mill_bench_search_score(me, card)
+                elif name in prefer:
                     score += 20 - prefer.index(name)
                 if (
                     strat.name in {"mew_baby", "baby"}

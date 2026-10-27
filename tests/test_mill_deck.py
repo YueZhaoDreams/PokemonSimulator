@@ -887,7 +887,9 @@ def test_opening_cleffa_does_not_need_the_opponent_seat():
     arm = _grant(board, "a", "Junk Arm")
     me.hand = [cleffa, arm]
     del board.game.players
-    assert board.game._wants_in_play(me, me.card(cleffa), board.game.strats["a"]) is False
+    # A wall match benches Cleffa. Eeeeeeek still does not fire while Junk Arm is a keeper.
+    assert board.game._wants_in_play(me, me.card(cleffa), board.game.strats["a"]) is True
+    assert board.game._mill_wants_eeeeeeek(me) is False
 
 
 def test_cleffa_stays_in_the_deck_against_phantom_dive():
@@ -931,6 +933,140 @@ def test_cleffa_eeeeeeek_when_the_hand_cannot_continue_undersea():
     assert board.game.events.get("eeeeeeek_shuffle") == 1
     assert me.active.status & ST_ASLEEP
     assert len(me.hand) == 6
+
+
+def test_cleffa_is_benched_in_a_wall_match_while_the_hand_can_still_pay():
+    board = _Board("mill", "demolish")
+    me = board.seat("a", active=("Wiglett", []))
+    board.seat("b", active=("Wugtrio", []), deck=["Water Energy"] * 4)
+    cleffa = _grant(board, "a", "cleffa hgss")
+    energy = board.take("a", "Water Energy")
+    me.hand = [cleffa, energy]
+    board.game.turn = 4
+    board.game._play_basics(me)
+    assert [me.card(mon.card_i).name for mon in me.bench] == ["Cleffa"]
+    assert energy in me.hand
+    assert board.game._mill_wants_eeeeeeek(me) is False
+
+
+def test_cleffa_waits_for_wave_veil_against_bench_damage():
+    board = _Board("mill", "starmie")
+    me = board.seat("a", active=("Wiglett", []))
+    board.seat("b", active=("Wugtrio", []), deck=["Water Energy"] * 4)
+    _grant(board, "b", "Mega Starmie ex")
+    cleffa = _grant(board, "a", "cleffa hgss")
+    me.hand = [cleffa]
+    board.game.turn = 4
+    board.game._play_basics(me)
+    assert cleffa in me.hand
+
+    manaphy = _grant(board, "a", "Manaphy")
+    me.bench.append(Pokemon(card_i=manaphy))
+    board.game._play_basics(me)
+    assert [me.card(mon.card_i).name for mon in me.bench] == ["Manaphy", "Cleffa"]
+
+
+def test_cleffa_stays_in_hand_when_manaphy_cannot_stop_bench_counters():
+    board = _Board("mill", "phantom")
+    me = board.seat("a", active=("Wiglett", []))
+    board.seat("b", active=("Wugtrio", []), deck=["Water Energy"] * 4)
+    _grant(board, "b", "Dragapult ex")
+    cleffa = _grant(board, "a", "cleffa hgss")
+    manaphy = _grant(board, "a", "Manaphy")
+    me.bench.append(Pokemon(card_i=manaphy))
+    me.hand = [cleffa]
+    board.game.turn = 4
+    board.game._play_basics(me)
+    assert cleffa in me.hand
+
+    wall = _Board("mill", "demolish")
+    host = wall.seat("a", active=("Wiglett", []))
+    wall.seat("b", active=("Wugtrio", []), deck=["Water Energy"] * 4)
+    _grant(wall, "b", "Drifblim")
+    stuck = _grant(wall, "a", "cleffa hgss")
+    shield = _grant(wall, "a", "Manaphy")
+    host.bench.append(Pokemon(card_i=shield))
+    host.hand = [stuck]
+    wall.game.turn = 4
+    wall.game._play_basics(host)
+    assert stuck in host.hand
+
+
+def test_poffin_benches_manaphy_then_cleffa_against_bench_damage():
+    board = _Board("mill", "starmie")
+    me = board.seat("a", active=("Wiglett", []))
+    board.seat("b", active=("Wugtrio", []), deck=["Water Energy"] * 4)
+    _grant(board, "b", "Mega Starmie ex")
+    manaphy = _grant(board, "a", "Manaphy")
+    cleffa = _grant(board, "a", "cleffa hgss")
+    spare = _grant(board, "a", "Wiglett")
+    me.deck = [manaphy, cleffa, spare]
+    me.hand = []
+    board.game._bench_basic_from_deck(me, "a", count=2, max_hp=70, source="poffin")
+    assert [me.card(mon.card_i).name for mon in me.bench] == ["Manaphy", "Cleffa"]
+    assert spare in me.deck
+
+
+def test_poffin_benches_pichu_then_cleffa_in_a_wall_match():
+    board = _Board("mill", "demolish")
+    me = board.seat("a", active=("Wiglett", []))
+    board.seat("b", active=("Wugtrio", []), deck=["Water Energy"] * 4)
+    pichu = _grant(board, "a", "Pichu")
+    cleffa = _grant(board, "a", "cleffa hgss")
+    mime = _grant(board, "a", "mime jr. col")
+    me.deck = [mime, cleffa, pichu]
+    me.hand = []
+    board.game._bench_basic_from_deck(me, "a", count=2, max_hp=70, source="poffin")
+    assert [me.card(mon.card_i).name for mon in me.bench] == ["Pichu", "Cleffa"]
+    assert mime in me.deck
+
+
+def test_poffin_without_the_veil_package_still_takes_pichu_then_wiglett():
+    board = _Board("mill", "demolish")
+    me = board.seat("a", active=("Wiglett", []))
+    board.seat("b", active=("Wugtrio", []), deck=["Water Energy"] * 4)
+    pichu = _grant(board, "a", "Pichu")
+    mime = _grant(board, "a", "mime jr. col")
+    spare = _grant(board, "a", "Wiglett")
+    me.deck = [spare, mime, pichu]
+    me.hand = []
+    board.game._bench_basic_from_deck(me, "a", count=2, max_hp=70, source="poffin")
+    # One Sweet Sleeping Face. The second body is Wiglett, and Mime Jr. stays in the deck.
+    assert [me.card(mon.card_i).name for mon in me.bench] == ["Pichu", "Wiglett"]
+    assert mime in me.deck
+
+
+def test_level_ball_still_finds_wugtrio_when_manaphy_and_cleffa_are_in_the_deck():
+    board = _Board("mill", "starmie")
+    me = board.seat("a", active=("Wiglett", []))
+    foe = board.seat("b", active=("Wugtrio", []), deck=["Water Energy"] * 4)
+    _grant(board, "b", "Mega Starmie ex")
+    trio = board.take("a", "Wugtrio")
+    manaphy = _grant(board, "a", "Manaphy")
+    cleffa = _grant(board, "a", "cleffa hgss")
+    me.deck = [manaphy, cleffa, trio]
+    me.hand = []
+    board.game._resolve_trainer(me, foe, fallback_named("Level Ball"), "a")
+    assert [me.card(i).name for i in me.hand] == ["Wugtrio"]
+
+
+def test_poffin_plays_before_nest_ball_when_wave_veil_is_missing():
+    board = _Board("mill", "starmie")
+    me = board.seat("a", active=("Wiglett", []))
+    foe = board.seat("b", active=("Wugtrio", []), deck=["Water Energy"] * 4)
+    _grant(board, "b", "Mega Starmie ex")
+    nest = board.take("a", "Nest Ball")
+    poffin = _grant(board, "a", "Buddy-Buddy Poffin")
+    level = board.take("a", "Level Ball")
+    manaphy = _grant(board, "a", "Manaphy")
+    cleffa = _grant(board, "a", "cleffa hgss")
+    trio = board.take("a", "Wugtrio")
+    me.hand = [nest, level, poffin]
+    me.deck = [cleffa, manaphy, trio]
+    assert me.card(board.game._pick_trainer(me)).name == "Buddy-Buddy Poffin"
+    board.game._play_trainers(me, foe, "a")
+    assert [me.card(mon.card_i).name for mon in me.bench] == ["Manaphy", "Cleffa"]
+    assert [me.card(i).name for i in me.hand if me.card(i).name == "Wugtrio"] == ["Wugtrio"]
 
 
 def test_paid_wugtrio_comes_up_ahead_of_cleffa():
