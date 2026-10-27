@@ -293,7 +293,7 @@ def _foe_basic(foe) -> int:
     raise AssertionError("foe basic")
 
 
-def test_playground_benches_four_litwick_and_leaves_celebi_in_the_deck():
+def test_playground_benches_four_litwick_then_celebi():
     game = _game()
     me = game.players["a"]
     foe = game.players["b"]
@@ -312,12 +312,12 @@ def test_playground_benches_four_litwick_and_leaves_celebi_in_the_deck():
     game._playground(me, foe, "a", user_first=True)
     names = [me.card(mon.card_i).name for mon in me.bench]
     assert names.count("Litwick") == 4
-    assert "Celebi ◇" not in names
-    assert celebi in me.deck
+    assert names.count("Celebi ◇") == 1
+    assert celebi not in me.deck
     assert extra in me.deck
     assert len(foe.bench) == 1
     assert game._roast_playground_pick(me) is None
-    assert game.events.get("playground", 0) == 5
+    assert game.events.get("playground", 0) == 6
     assert game.events.get("used_playground_a", 0) == 1
 
 
@@ -369,7 +369,7 @@ def _ready_turn(game: Game) -> None:
     game.players["a"].energy_attached = False
 
 
-def test_one_lampent_does_not_bring_celebi_or_mill():
+def test_one_lampent_hand_evolves_and_brings_celebi():
     game = _game()
     me = game.players["a"]
     foe = game.players["b"]
@@ -384,13 +384,13 @@ def test_one_lampent_does_not_bring_celebi_or_mill():
     me.hand = chands + [celebi, fire]
     _ready_turn(game)
     before = len(foe.deck)
-    assert game._roast_nine_ready(me, "a") is False
     game._roast_main(me, foe, "a")
-    assert game._roast_celebi(me) is None
-    assert celebi in me.hand
-    assert all(card in me.hand for card in chands)
-    assert len(foe.deck) == before
-    assert game.events.get("mountain_roasting", 0) in (None, 0)
+    assert me.card(me.active.card_i).name == "Celebi ◇"
+    assert len(me.active.energy) == 1
+    assert [me.card(mon.card_i).name for mon in me.bench].count("Chandelure") == 1
+    assert sum(1 for i in me.hand if me.card(i).name == "Chandelure") == 2
+    assert len(foe.deck) == before - 3
+    assert game.events.get("mountain_roasting", 0) == 1
 
 
 def test_three_legal_lampent_bring_celebi_and_mill_nine():
@@ -436,11 +436,10 @@ def test_sleep_evolves_lampent_when_chandelure_already_has_a_target():
     before = len(foe.deck)
     game._roast_main(me, foe, "a")
     names = [me.card(mon.card_i).name for mon in me.bench]
-    assert names.count("Lampent") == 2
-    assert "Chandelure" not in names
-    assert chand in me.hand
-    assert game._roast_celebi(me) is None
-    assert len(foe.deck) == before
+    assert names.count("Lampent") == 1
+    assert names.count("Chandelure") == 1
+    assert chand not in me.hand
+    assert len(foe.deck) == before - 3
 
 
 def test_lampent_played_this_turn_cannot_take_chandelure():
@@ -461,12 +460,11 @@ def test_lampent_played_this_turn_cannot_take_chandelure():
     before = len(foe.deck)
     game._roast_main(me, foe, "a")
     assert [me.card(mon.card_i).name for mon in me.bench].count("Lampent") == 3
-    assert game._roast_celebi(me) is None
     assert all(card in me.hand for card in chands)
     assert len(foe.deck) == before
 
 
-def test_active_litwick_evolves_and_chandelure_does_not_block_the_shuffle():
+def test_active_litwick_evolves_and_same_turn_lampent_cannot_take_chandelure():
     game = _game()
     me = game.players["a"]
     foe = game.players["b"]
@@ -483,7 +481,6 @@ def test_active_litwick_evolves_and_chandelure_does_not_block_the_shuffle():
     me.deck = [fuel]
     _ready_turn(game)
     before = len(foe.deck)
-    assert game._roast_wants_eeek(me, "a") is True
     game._roast_main(me, foe, "a")
     assert me.card(me.active.card_i).name == "Cleffa"
     assert [me.card(mon.card_i).name for mon in me.bench].count("Lampent") == 1
@@ -527,7 +524,30 @@ def test_level_ball_finds_cleffa_before_lampent_when_the_wall_is_missing():
     assert lamp in me.deck
 
 
-def test_three_lampent_hold_chandelure_until_the_hand_has_three():
+def test_playground_litwick_cannot_grand_tree_on_the_same_turn():
+    game = _game()
+    me = game.players["a"]
+    foe = game.players["b"]
+    _reclaim(me)
+    pichu = _pull(me, "Pichu")
+    lit = _pull(me, "Litwick")
+    lamp = _pull(me, "Lampent")
+    chand = _pull(me, "Chandelure")
+    tree = _pull(me, "Grand Tree")
+    me.hand.clear()
+    me.deck = [lit, lamp, chand]
+    me.active = Pokemon(card_i=pichu, played_turn=0)
+    me.bench = []
+    _ready_turn(game)
+    game._playground(me, foe, "a", user_first=True)
+    game._set_stadium(me.card(tree), owner=me)
+    game._use_grand_tree(me, "a")
+    assert me.card(me.bench[0].card_i).name == "Litwick"
+    assert game.events.get("grand_tree", 0) in (None, 0)
+    assert game.events.get("mountain_roasting", 0) in (None, 0)
+
+
+def test_one_chandelure_mills_three_on_three_lampent():
     game = _game()
     me = game.players["a"]
     foe = game.players["b"]
@@ -535,16 +555,12 @@ def test_three_lampent_hold_chandelure_until_the_hand_has_three():
     cleffa = _pull(me, "Cleffa")
     lamps = [_pull(me, "Lampent") for _ in range(3)]
     chand = _pull(me, "Chandelure")
-    fuel = _pull(me, "Fire Energy")
     me.active = Pokemon(card_i=cleffa, played_turn=0)
     me.bench = [Pokemon(card_i=lamp, played_turn=0) for lamp in lamps]
     me.hand = [chand]
-    me.deck = [fuel]
     _ready_turn(game)
     before = len(foe.deck)
-    assert game._roast_wants_eeek(me, "a") is False
-    assert game._roast_nine_ready(me, "a") is False
     game._roast_main(me, foe, "a")
-    assert chand in me.hand
-    assert game._roast_celebi(me) is None
-    assert len(foe.deck) == before
+    assert [me.card(mon.card_i).name for mon in me.bench].count("Chandelure") == 1
+    assert [me.card(mon.card_i).name for mon in me.bench].count("Lampent") == 2
+    assert len(foe.deck) == before - 3

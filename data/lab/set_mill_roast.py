@@ -2,11 +2,10 @@
 """Celebi ◇ / Chandelure roast mill. One list, both seats, loss-weighted.
 
 Mountain Roasting discards the top 3 only when Chandelure is played from the
-hand. Celebi ◇ stays in the hand until three Lampent can evolve that turn and
-three Chandelure are already in hand, so that turn mills at least 9. Until
-three Lampent from earlier turns are benched, Cleffa uses Eeeeeeek and
-Slumbering Forest keeps the wall asleep. Level Ball finds Cleffa, Litwick, or
-Lampent. Playground benches Litwick only. Team Rocket's Petrel
+hand. Pichu Playground benches Litwick and then Celebi ◇. Grand Tree jumps a
+Litwick that was already in play to Chandelure and mills 0. Celebi ◇ devolves
+that Chandelure. A Chandelure in the hand evolves onto any Lampent that can
+evolve this turn. Team Rocket's Petrel
 searches a Trainer card. Rescue Scarf returns Celebi ◇ to the hand.
 
 Seed 20261027 unless ROAST_SEED is set. Games per seat from ROAST_GAMES
@@ -217,7 +216,7 @@ def _run(foe_key: str, seat: str, games: int, seed: int) -> dict:
 
 
 def _cache_key(foe_key: str, seat: str, games: int, seed: int) -> str:
-    return f"{seed}|{games}|{seat}|{foe_key}|roast-cycle9"
+    return f"{seed}|{games}|{seat}|{foe_key}|roast-pichu-tree"
 
 
 def _load_cache() -> dict[str, dict]:
@@ -324,15 +323,15 @@ def _markdown(report: dict) -> str:
         "",
         "Chandelure's Mountain Roasting says the top 3 cards are discarded when you play that Pokémon from your hand to evolve. One evolution mills 3. Three mill 9. Four mill 12. Grand Tree searches the deck, so that jump mills 0, and this list does not play it over Slumbering Forest.",
         "",
-        "Celebi ◇ stays in the hand until three Lampent can evolve on that turn and three Chandelure are in the hand. That turn plays Celebi ◇, evolves those Chandelure from the hand, and uses Time Distortion. A Lampent played or evolved on the same turn cannot take Chandelure until the next turn. Level Ball's sentence finds a Pokémon with 90 HP or less. While the Bench is short it finds Cleffa or Litwick. Once a Litwick is out it finds Lampent. It does not find Chandelure.",
+        "Pichu is HeartGold & SoulSilver Playground. Each player may bench as many Basic Pokémon as they like, this player first. Roast benches Litwick until four lines are in play, then Celebi ◇. Basics played that turn cannot evolve until the next turn. Grand Tree then searches the deck for Lampent and Chandelure and evolves one Litwick that was already in play. That jump mills 0. Celebi ◇ uses Time Distortion and puts that Chandelure into the hand. The next turn plays it from the hand onto Lampent, and Mountain Roasting mills. A Chandelure already in the hand evolves onto any Lampent that can evolve this turn, including one Lampent. A Lampent played or evolved on the same turn cannot take Chandelure until the next turn. Level Ball finds a Pokémon with 90 HP or less, including Pichu and Celebi ◇, and does not find Chandelure.",
         "",
         "Lampent is Plasma Storm Freefloating. With no Energy attached, its retreat cost is 0. Fire Energy stays on Celebi ◇.",
         "",
         "Rescue Scarf puts the Pokémon into the hand when an attack Knocks it Out, and discards the cards attached to it. Celebi ◇ therefore does not go to the discard pile, and the Prism Star rule does not put it in the Lost Zone. Energy Retrieval takes that Fire Energy back. Arven can find the scarf and the Item. Team Rocket's Petrel searches the deck for a Trainer card. It does not search a Pokémon or an Energy card. Colress's Tenacity searches a Stadium and an Energy. The Stadium it takes is Slumbering Forest.",
         "",
-        "Cleffa is HeartGold & SoulSilver Eeeeeeek: shuffle the hand into the deck, draw 6, then Cleffa is Asleep. That shuffle continues until three Lampent from earlier turns are on the Bench. Chandelure stays in the hand once those Lampent are there. A Lampent that can evolve this turn is played before the shuffle, including a Litwick that is Active. Pichu is HeartGold & SoulSilver Playground and benches Litwick while the line is short. The last Bench spot stays open for Celebi ◇. Sweet Sleeping Face prevents attack damage while that Pokémon is Asleep. Slumbering Forest makes the between-turns sleep check two coins, and the Pokémon stays Asleep unless both are heads. Asleep blocks retreat, so Switch brings Celebi ◇ Active.",
+        "Cleffa is HeartGold & SoulSilver Eeeeeeek: shuffle the hand into the deck, draw 6, then Cleffa is Asleep. Pichu is the Playground attacker. Sweet Sleeping Face prevents attack damage while that Pokémon is Asleep. Slumbering Forest makes the between-turns sleep check two coins, and the Pokémon stays Asleep unless both are heads. Grand Tree stays in play while a Litwick can still jump. Asleep blocks retreat, so Switch brings Celebi ◇ Active.",
         "",
-        "The first turn cannot evolve. The hand-evolve mill starts once three Lampent from earlier turns are on the Bench and three Chandelure are in the hand.",
+        "The first turn cannot evolve. Playground and Grand Tree on the same turn jump only a Litwick that was already in play. The Basics Playground just benched wait until the next turn.",
         "",
         f"- **List**: {', '.join(f'{name} ×{counts[name]}' for name in dict.fromkeys(SET_ROAST_NAMES))}",
         f"- **Seed**: `{report['seed']}`",
@@ -354,11 +353,12 @@ def _markdown(report: dict) -> str:
         f"Pichu entered play per game: {report['pichu_play']:.2f}. "
         f"Eeeeeeek per game: {report['eeeeeeek']:.2f}. "
         f"Cleffa entered play per game: {report['cleffa_play']:.2f}. "
-        f"Mill turns of 9 or more: {report['wave_ge9']:.1%}.",
+        f"Mill turns of 9 or more: {report['wave_ge9']:.1%}. "
+        "A shorter row can be one Lampent taking one Chandelure from the hand, or the opponent's deck running out.",
         "",
         "## Wave",
         "",
-        "Each row is how often a turn's from-hand Chandelure evolutions milled that many cards. Celebi ◇ is sent up when that turn can mill at least 9. A shorter row is the opponent's deck running out.",
+        "Each row is how often a turn's from-hand Chandelure evolutions milled that many cards. One Lampent mills 3. Grand Tree is not in this histogram. A short last row can be the opponent's deck running out.",
         "",
         "| Cards milled that turn | Turns per game |",
         "| ---: | ---: |",

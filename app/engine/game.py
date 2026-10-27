@@ -326,21 +326,22 @@ class Game:
                 name = card.name.lower()
                 if name == "litwick":
                     return (0, 0)
-                if self._prints_eeeeeeek(card):
-                    return (2, 0)
+                if "celebi" in name:
+                    return (1, 0)
                 if self._prints_playground(card):
+                    return (2, 0)
+                if self._prints_eeeeeeek(card):
                     return (2, 1)
                 return (9, 0)
 
-            # The last Bench spot stays open so Celebi ◇ can be played on the mill turn.
-            limit = self._bench_limit(player) - 1
+            # One Bench spot stays open when Celebi ◇ is still in the deck.
+            celebi_here = any("celebi" in player.card(i).name.lower() for i in remaining) or "celebi" in player.card(active_i).name.lower()
+            limit = self._bench_limit(player) if celebi_here else self._bench_limit(player) - 1
             wall = self._prints_eeeeeeek(player.card(active_i)) or self._prints_playground(player.card(active_i))
             for card_i in sorted(remaining, key=roast_rank):
                 if len(player.bench) >= limit:
                     break
                 card = player.card(card_i)
-                if "celebi" in card.name.lower():
-                    continue
                 if self._prints_eeeeeeek(card) or self._prints_playground(card):
                     if wall:
                         continue
@@ -780,14 +781,14 @@ class Game:
             if strat.name == "doll":
                 return doll_ai.starter_score(self, card)
             if strat.name == "roast":
-                if self._prints_eeeeeeek(card):
-                    return 6000
                 if self._prints_playground(card):
-                    return 5000
+                    return 7000
+                if self._prints_eeeeeeek(card):
+                    return 4000
                 if name == "litwick":
                     return 3000
                 if "celebi" in name:
-                    return 100
+                    return 800
                 return 50
             if strat.name == "mill" and self._prints_playground(card):
                 return 4000 if self._mill_wall_match(player) else 100
@@ -11391,8 +11392,8 @@ class Game:
     def _search_stadium_and_energy(self, me: Player) -> None:
         who = "a" if me.name == "A" else "b"
         if self.strats[who].name == "roast":
-            # Forest stays in play. Grand Tree is the other Stadium on the list.
-            stadium_prefer = ["Slumbering Forest", "Grand Tree"]
+            # Grand Tree is the jump. Forest is the sleep stadium after that jump is done.
+            stadium_prefer = ["Grand Tree", "Slumbering Forest"]
         elif self.strats[who].name == "mill":
             face_out = any(self._sweet_face(me.card(mon.card_i)) for mon in me.in_play())
             stadium_prefer = (
@@ -18005,21 +18006,26 @@ class Game:
                 break
 
     def _roast_main(self, me: Player, foe: Player, who: str) -> None:
-        # Sleep and cycle until three Lampent can take Chandelure from the hand
-        # on this turn. Celebi ◇ is played on that turn, and the mill is at least 9.
+        # Pichu Playground benches the Basics. Grand Tree jumps a Litwick that
+        # was already in play. Chandelure from the hand mills on any legal Lampent.
+        # Celebi ◇ devolves a benched Chandelure the same turn it can pay.
         self._roast_bench(me, who)
         self._roast_trainers(me, foe, who)
-        # Level Ball puts a Basic into the hand. It still has to be played this turn.
         self._roast_bench(me, who)
-        if not self._roast_should_mill(me, who):
-            self._roast_park_line(me, who)
+        self._use_grand_tree(me, who)
         self._roast_evolve_lampent(me, who)
-        if not self._roast_should_mill(me, who):
-            # Lampent that was the Active can step behind the wall once Freefloating applies.
-            self._roast_park_line(me, who)
-        if self._roast_should_mill(me, who):
-            self._roast_commit(me, who)
-            return
+        self._roast_evolve_chandelure(me, who)
+        self._note_roast_mill(who)
+        self._roast_play_celebi(me)
+        self._roast_attach(me)
+        self._roast_scarf(me, who)
+        if self._roast_benched_chandelure(me) and self._roast_can_pay_time(me):
+            if self._roast_bring(
+                me,
+                who,
+                lambda mon: "celebi" in me.card(mon.card_i).name.lower() and self._roast_can_devolve(me, mon),
+            ):
+                return
         self._roast_align_sleep(me, who)
 
     def _roast_commit(self, me: Player, who: str) -> None:
@@ -18191,24 +18197,31 @@ class Game:
         return self._roast_close(me, who)
 
     def _roast_playground_pick(self, player: Player) -> int | None:
-        """Litwick only, and the last Bench spot stays open for Celebi ◇.
+        """Litwick, then Celebi ◇. The printed attack has no count.
 
-        The printed attack has no count. Extra Pichu and Celebi ◇ stay in the deck.
+        Extra Pichu stays in the deck. Basics played this way cannot evolve this turn.
         """
-        if self._roast_lines(player) >= 4 or self._roast_open_slots(player) <= 0:
+        if len(player.bench) >= self._bench_limit(player):
             return None
-        for card_i in player.deck:
-            card = player.card(card_i)
-            if card.is_basic and card.is_pokemon and card.name.lower() == "litwick":
-                return card_i
+        if self._roast_lines(player) < 4:
+            for card_i in player.deck:
+                card = player.card(card_i)
+                if card.is_basic and card.is_pokemon and card.name.lower() == "litwick":
+                    return card_i
+        if self._roast_celebi(player) is None:
+            for card_i in player.deck:
+                if "celebi" in player.card(card_i).name.lower():
+                    return card_i
         return None
 
     def _roast_wants_playground(self, me: Player, who: str) -> bool:
-        if not self._roast_can_attack_turn(me) or self._roast_should_mill(me, who):
+        if not self._roast_can_attack_turn(me) or self._roast_playground_pick(me) is None:
             return False
-        if self._roast_benched_chandelure(me):
-            return False
-        if self._roast_playground_pick(me) is None:
+        if (
+            self._roast_benched_chandelure(me)
+            and self._roast_can_pay_time(me)
+            and self._roast_can_bring_celebi(me)
+        ):
             return False
         return self._roast_pichu_reachable(me)
 
@@ -18259,6 +18272,11 @@ class Game:
 
     def _roast_level_helps(self, me: Player) -> bool:
         deck = {me.card(i).name.lower() for i in me.deck}
+        pichu_ready = any(self._prints_playground(me.card(mon.card_i)) for mon in me.in_play()) or any(
+            self._prints_playground(me.card(i)) for i in me.hand
+        )
+        if not pichu_ready and "pichu" in deck:
+            return True
         if not self._roast_wall_present(me) and self._roast_open_slots(me) > 0 and ({"cleffa", "pichu"} & deck):
             return True
         if self._roast_lines(me) < 4 and "litwick" in deck and self._roast_open_slots(me) > 0:
@@ -18274,6 +18292,11 @@ class Game:
         deck = {me.card(i).name.lower() for i in me.deck}
         if self._roast_lines(me) < 4 and "litwick" in deck:
             return True
+        pichu_ready = any(self._prints_playground(me.card(mon.card_i)) for mon in me.in_play()) or any(
+            self._prints_playground(me.card(i)) for i in me.hand
+        )
+        if not pichu_ready and "pichu" in deck:
+            return True
         return not self._roast_wall_present(me) and bool({"cleffa", "pichu"} & deck)
 
     def _roast_keeps(self, me: Player, who: str, card: Card) -> bool:
@@ -18285,11 +18308,13 @@ class Game:
         """
         name = card.name.lower()
         if name == "chandelure":
-            if self._roast_benched_chandelure(me):
-                return True
-            # Once three Lampent are lined up, keep every Chandelure. Shuffling
-            # the first copy away costs the nine-card turn.
-            return self._roast_lampent_after_this_turn(me, who) >= 3
+            return True
+        if name == "grand tree":
+            return (self.stadium_name or "").lower() != "grand tree"
+        if self._prints_playground(card) and not any(
+            self._prints_playground(me.card(mon.card_i)) for mon in me.in_play()
+        ):
+            return True
         if name == "lampent":
             return any(
                 me.card(mon.card_i).name.lower() == "litwick" and not self._can_evolve_now(me, who, mon)
@@ -18340,8 +18365,8 @@ class Game:
     def _roast_bench(self, me: Player, who: str) -> None:
         if me.active is None:
             for pred in (
-                self._prints_eeeeeeek,
                 self._prints_playground,
+                self._prints_eeeeeeek,
                 lambda c: c.name.lower() == "litwick",
                 lambda c: c.is_pokemon and "celebi" in c.name.lower(),
             ):
@@ -18357,6 +18382,7 @@ class Game:
             litwick = self._roast_take(me, lambda c: c.name.lower() == "litwick")
             if litwick is None or not self._roast_play_basic(me, litwick):
                 break
+        self._roast_play_celebi(me)
 
     def _roast_play_celebi(self, me: Player) -> None:
         if self._roast_celebi(me) is not None:
@@ -18369,7 +18395,7 @@ class Game:
         if not me.active or not self._roast_active_stuck(me):
             return False
         who = "a" if me.name == "A" else "b"
-        if self._roast_pieces_ready(me, who) or self._roast_benched_chandelure(me):
+        if self._roast_benched_chandelure(me) or self._roast_pieces_ready(me, who):
             return self._roast_celebi(me) is not None or self._roast_celebi_in_hand(me)
         active = me.card(me.active.card_i)
         if self._roast_is_wall_card(active):
@@ -18394,7 +18420,10 @@ class Game:
             and self._roast_named(me, me.deck, "Switch")
         ):
             return "Switch"
-        if not forest_out and not self._roast_named(me, me.hand, "Slumbering Forest") and self._roast_named(me, me.deck, "Slumbering Forest"):
+        tree_out = (self.stadium_name or "").lower() == "grand tree"
+        if not tree_out and not self._roast_named(me, me.hand, "Grand Tree") and self._roast_named(me, me.deck, "Grand Tree"):
+            return "Grand Tree"
+        if not forest_out and tree_out and not self._roast_named(me, me.hand, "Slumbering Forest") and self._roast_named(me, me.deck, "Slumbering Forest"):
             return "Slumbering Forest"
         if (
             self._roast_chandelure_hand(me) < 3
@@ -18472,6 +18501,7 @@ class Game:
             "cleffa",
             "pichu",
             "slumbering forest",
+            "grand tree",
             "level ball",
             "rescue scarf",
             "switch",
@@ -18494,10 +18524,15 @@ class Game:
         if card.is_supporter and (me.supporter_used or not self._can_play_supporter(who)):
             return -1
         forest_out = (self.stadium_name or "").lower() == "slumbering forest"
-        if name == "slumbering forest":
-            return -1 if forest_out else 180
+        tree_out = (self.stadium_name or "").lower() == "grand tree"
         if name == "grand tree":
-            return -1
+            return -1 if tree_out else 210
+        if name == "slumbering forest":
+            if forest_out or not tree_out or self._roast_named(me, me.hand, "Grand Tree"):
+                return -1
+            if any(me.card(mon.card_i).name.lower() == "litwick" for mon in me.in_play()):
+                return -1
+            return 40
         if name == "level ball":
             return 165 if self._roast_level_helps(me) else -1
         if name in {"buddy-buddy poffin", "buddy buddy poffin"}:
@@ -18671,8 +18706,13 @@ class Game:
         name = card.name.lower()
         who = "a" if me.name == "A" else "b"
         hand = sum(1 for i in me.hand if me.card(i).name.lower() == name)
-        if "celebi" in name and self._roast_lampent_after_this_turn(me, who) < 3:
-            return -30.0
+        pichu_ready = any(self._prints_playground(me.card(mon.card_i)) for mon in me.in_play()) or any(
+            self._prints_playground(me.card(i)) for i in me.hand
+        )
+        if self._prints_playground(card) and not pichu_ready:
+            return 50.0
+        if "celebi" in name and self._roast_celebi(me) is None and hand == 0:
+            return 22.0
         if (
             not self._roast_wall_present(me)
             and self._roast_open_slots(me) > 0
@@ -18711,10 +18751,11 @@ class Game:
         name = card.name.lower()
         if "celebi" in name or self._roast_open_slots(me) <= 0:
             return -1.0
+        pichu_out = any(self._prints_playground(me.card(mon.card_i)) for mon in me.in_play())
+        if self._prints_playground(card):
+            return -1.0 if pichu_out else 90.0
         if not self._roast_wall_present(me) and self._prints_eeeeeeek(card):
             return 80.0
-        if not self._roast_wall_present(me) and self._prints_playground(card):
-            return 70.0
         if name == "litwick" and self._roast_lines(me) < 4:
             return 60.0
         return -1.0
@@ -18845,7 +18886,7 @@ class Game:
             card = me.card(mon.card_i)
             if not card.is_basic or mon.played_turn == self.turn:
                 continue
-            if roast and mon is me.active:
+            if roast and self._roast_is_wall_card(card):
                 continue
             stage1 = self._deck_evolution(me, card.name, "stage1")
             if stage1 is None:
