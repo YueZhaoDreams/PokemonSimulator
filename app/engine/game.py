@@ -7379,7 +7379,12 @@ class Game:
         if name in {"wally", "level ball", "rescue carrier", "colress's tenacity", "survival brace"}:
             return True
         if name == "junk arm":
-            foe = self.players["b" if me.name == "A" else "a"]
+            # Opening runs inside _deal, before self.players exists. Keep the
+            # Arm in hand so Cleffa is not benched just to shuffle that hand away.
+            players = getattr(self, "players", None)
+            if not players:
+                return True
+            foe = players["b" if me.name == "A" else "a"]
             return self._mill_junk_plan(me, foe)
         if name in {"nest ball", "buddy-buddy poffin"}:
             return not self._mill_setup_spent(me)

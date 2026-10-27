@@ -866,6 +866,16 @@ def test_junk_arm_waits_when_the_hand_cannot_pay_two_discards():
     assert arm in me.hand
 
 
+def test_opening_cleffa_does_not_need_the_opponent_seat():
+    board = _Board("mill", "demolish")
+    me = board.seat("a", active=("Wiglett", []))
+    cleffa = _grant(board, "a", "cleffa hgss")
+    arm = _grant(board, "a", "Junk Arm")
+    me.hand = [cleffa, arm]
+    del board.game.players
+    assert board.game._wants_in_play(me, me.card(cleffa), board.game.strats["a"]) is False
+
+
 def test_cleffa_stays_in_the_deck_against_phantom_dive():
     board = _Board("mill", "phantom")
     me = board.seat("a", active=("Wiglett", []))
