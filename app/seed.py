@@ -269,7 +269,7 @@ def load_seed_payload() -> dict:
 
 
 def _force_mill_sleep_mime(cards: list) -> tuple[list, bool]:
-    """Mill's Mime Jr. is Call of Legends Sleepy Lost, not Paldean Fates Mimed Games."""
+    """Mill's Mime Jr. is Sleepy Lost. Mill's Cleffa is HGSS Eeeeeeek."""
     from app.seed_data import fallback_named
 
     out = []
@@ -278,6 +278,9 @@ def _force_mill_sleep_mime(cards: list) -> tuple[list, bool]:
         blob = card if isinstance(card, dict) else card.to_dict()
         if blob.get("name") == "Mime Jr." and blob.get("catalog_id") != "col1-47":
             out.append(fallback_named("mime jr. col").to_dict())
+            changed = True
+        elif blob.get("name") == "Cleffa" and blob.get("catalog_id") != "hgss1-17":
+            out.append(fallback_named("cleffa hgss").to_dict())
             changed = True
         else:
             out.append(blob)

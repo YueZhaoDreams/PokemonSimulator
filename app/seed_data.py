@@ -683,23 +683,29 @@ SET_DOLL_NAMES = (
     + ["Buddy-Buddy Poffin"] * 2
     + ["Crushing Hammer"] * 2
 )
+# Mill lock (2026-10-27). Manaphy and HGSS Cleffa: seed 20261029, 400 games
+# each seat. Weighted 38.729% → 41.719% (+2.990, difference ±0.654, 4.57 SE).
+# See data/lab/set-mill-veil.md. The remaining Nest Ball was then replaced by a
+# fourth Level Ball without another paired run. Level Ball finds Wugtrio.
+# Poffin stays ×4 and benches Manaphy, then Cleffa.
 SET_MILL_NAMES = (
     ["Pichu"]
     + ["Mime Jr."]
+    + ["Cleffa"]
+    + ["Manaphy"]
     + ["Wiglett"] * 4
     + ["Wugtrio"] * 4
     + ["Victini"]
     + ["Slumbering Forest"]
     + ["Neutralization Zone"]
     + ["Buddy-Buddy Poffin"] * 4
-    + ["Nest Ball"] * 3
-    + ["Level Ball"] * 3
+    + ["Level Ball"] * 4
     + ["Rescue Carrier"] * 3
     + ["Lillie's Poké Doll"]
     + ["Crushing Hammer"] * 4
     + ["Counter Catcher"] * 2
     + ["Miss Fortune Sisters"] * 2
-    + ["Crispin"] * 3
+    + ["Wally"] * 3
     + ["Boss's Orders"]
     + ["Team Rocket's Handiwork"] * 2
     + ["Colress's Tenacity"] * 4
@@ -5375,11 +5381,13 @@ def fallback_named(name: str) -> Card:
 
 
 def build_mill_deck() -> list[Card]:
-    """Locked Mill 60. Mime Jr. is Call of Legends Sleepy Lost. One Lillie's Poké Doll replaces Switch."""
+    """Locked Mill 60. Mime Jr. is Sleepy Lost. Cleffa is the HGSS Eeeeeeek print."""
     out: list[Card] = []
     for name in SET_MILL_NAMES:
         if name == "Mime Jr.":
             out.append(fallback_named("mime jr. col"))
+        elif name == "Cleffa":
+            out.append(fallback_named("cleffa hgss"))
         else:
             out.append(fallback_named(name))
     return out

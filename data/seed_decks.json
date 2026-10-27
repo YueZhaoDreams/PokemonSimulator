@@ -26659,6 +26659,106 @@
         "traits": []
       },
       {
+        "catalog_id": "hgss1-17",
+        "name": "Cleffa",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Colorless"
+        ],
+        "hp": 30,
+        "attacks": [
+          {
+            "name": "Eeeeeeek",
+            "cost": [],
+            "damage": 0,
+            "text": "Shuffle your hand into your deck, then draw 6 cards. Cleffa is now Asleep.",
+            "effects": [
+              {
+                "kind": "status",
+                "status": "asleep",
+                "coin": false,
+                "target": "self"
+              },
+              {
+                "kind": "shuffle_hand_then_draw",
+                "amount": 6
+              }
+            ]
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Sweet Sleeping Face",
+            "text": "As long as Cleffa is Asleep, prevent all damage done to Cleffa by attacks.",
+            "effects": [
+              {
+                "kind": "prevent_attack_damage_while_asleep"
+              }
+            ]
+          }
+        ],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/hgss/hgss1/17/low.webp",
+        "set_name": "HeartGold & SoulSilver",
+        "text": "",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "swsh9-041",
+        "name": "Manaphy",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Water"
+        ],
+        "hp": 70,
+        "attacks": [
+          {
+            "name": "Rain Splash",
+            "cost": [
+              "Water"
+            ],
+            "damage": 20,
+            "text": "",
+            "effects": []
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Wave Veil",
+            "text": "Prevent all damage done to your Benched Pok\u00e9mon by attacks from your opponent's Pok\u00e9mon.",
+            "effects": [
+              {
+                "kind": "prevent_bench_attack_damage"
+              }
+            ]
+          }
+        ],
+        "weaknesses": [
+          {
+            "type": "Lightning",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/swsh/swsh9/041/low.webp",
+        "set_name": "Brilliant Stars",
+        "text": "",
+        "dex_id": null,
+        "traits": []
+      },
+      {
         "catalog_id": "sv01-055",
         "name": "Wiglett",
         "category": "Pokemon",
@@ -27227,8 +27327,8 @@
         "traits": []
       },
       {
-        "catalog_id": "sv01-181",
-        "name": "Nest Ball",
+        "catalog_id": "swsh5-129",
+        "name": "Level Ball",
         "category": "Trainer",
         "stage": "Item",
         "types": [],
@@ -27241,51 +27341,9 @@
         "evolves_from": null,
         "trainer_kind": "item",
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv01/181/low.webp",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh5/129/low.webp",
         "set_name": null,
-        "text": "Search your deck for a Basic Pok\u00e9mon and put it onto your Bench. Then, shuffle your deck.",
-        "dex_id": null,
-        "traits": []
-      },
-      {
-        "catalog_id": "sv01-181",
-        "name": "Nest Ball",
-        "category": "Trainer",
-        "stage": "Item",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "item",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv01/181/low.webp",
-        "set_name": null,
-        "text": "Search your deck for a Basic Pok\u00e9mon and put it onto your Bench. Then, shuffle your deck.",
-        "dex_id": null,
-        "traits": []
-      },
-      {
-        "catalog_id": "sv01-181",
-        "name": "Nest Ball",
-        "category": "Trainer",
-        "stage": "Item",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "item",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv01/181/low.webp",
-        "set_name": null,
-        "text": "Search your deck for a Basic Pok\u00e9mon and put it onto your Bench. Then, shuffle your deck.",
+        "text": "Search your deck for a Pok\u00e9mon with 90 HP or less, reveal it, and put it into your hand. Then, shuffle your deck.",
         "dex_id": null,
         "traits": []
       },
@@ -27605,8 +27663,8 @@
         "traits": []
       },
       {
-        "catalog_id": "sv07-133",
-        "name": "Crispin",
+        "catalog_id": "xy6-94",
+        "name": "Wally",
         "category": "Trainer",
         "stage": "Supporter",
         "types": [],
@@ -27619,15 +27677,15 @@
         "evolves_from": null,
         "trainer_kind": "supporter",
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv07/133/low.webp",
+        "image": "https://assets.tcgdex.net/en/xy/xy6/94/low.webp",
         "set_name": null,
-        "text": "Search your deck for up to 2 Basic Energy cards of different types, reveal them, and put 1 of them into your hand. Attach the other to 1 of your Pok\u00e9mon. Then, shuffle your deck.",
+        "text": "Search your deck for a card that evolves from 1 of your Pok\u00e9mon (excluding Pok\u00e9mon-EX) and put it onto that Pok\u00e9mon. (This counts as evolving that Pok\u00e9mon.) Shuffle your deck afterward. You can use this card during your first turn or on a Pok\u00e9mon that was put into play this turn.",
         "dex_id": null,
         "traits": []
       },
       {
-        "catalog_id": "sv07-133",
-        "name": "Crispin",
+        "catalog_id": "xy6-94",
+        "name": "Wally",
         "category": "Trainer",
         "stage": "Supporter",
         "types": [],
@@ -27640,15 +27698,15 @@
         "evolves_from": null,
         "trainer_kind": "supporter",
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv07/133/low.webp",
+        "image": "https://assets.tcgdex.net/en/xy/xy6/94/low.webp",
         "set_name": null,
-        "text": "Search your deck for up to 2 Basic Energy cards of different types, reveal them, and put 1 of them into your hand. Attach the other to 1 of your Pok\u00e9mon. Then, shuffle your deck.",
+        "text": "Search your deck for a card that evolves from 1 of your Pok\u00e9mon (excluding Pok\u00e9mon-EX) and put it onto that Pok\u00e9mon. (This counts as evolving that Pok\u00e9mon.) Shuffle your deck afterward. You can use this card during your first turn or on a Pok\u00e9mon that was put into play this turn.",
         "dex_id": null,
         "traits": []
       },
       {
-        "catalog_id": "sv07-133",
-        "name": "Crispin",
+        "catalog_id": "xy6-94",
+        "name": "Wally",
         "category": "Trainer",
         "stage": "Supporter",
         "types": [],
@@ -27661,9 +27719,9 @@
         "evolves_from": null,
         "trainer_kind": "supporter",
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv07/133/low.webp",
+        "image": "https://assets.tcgdex.net/en/xy/xy6/94/low.webp",
         "set_name": null,
-        "text": "Search your deck for up to 2 Basic Energy cards of different types, reveal them, and put 1 of them into your hand. Attach the other to 1 of your Pok\u00e9mon. Then, shuffle your deck.",
+        "text": "Search your deck for a card that evolves from 1 of your Pok\u00e9mon (excluding Pok\u00e9mon-EX) and put it onto that Pok\u00e9mon. (This counts as evolving that Pok\u00e9mon.) Shuffle your deck afterward. You can use this card during your first turn or on a Pok\u00e9mon that was put into play this turn.",
         "dex_id": null,
         "traits": []
       },
