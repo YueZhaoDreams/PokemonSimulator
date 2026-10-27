@@ -145,12 +145,13 @@ def test_mill_list_is_the_locked_60():
     assert names.count("Battle Cage") == 0
     assert names.count("Wiglett") == 4
     assert names.count("Wugtrio") == 4
-    assert names.count("Manaphy") == 0
+    assert names.count("Manaphy") == 1
+    assert names.count("Cleffa") == 1
     assert names.count("Victini") == 1
     assert names.count("Slumbering Forest") == 1
     assert names.count("Neutralization Zone") == 1
     assert names.count("Buddy-Buddy Poffin") == 4
-    assert names.count("Nest Ball") == 3
+    assert names.count("Nest Ball") == 1
     assert names.count("Level Ball") == 3
     assert names.count("Rescue Carrier") == 3
     assert names.count("Switch") == 0
@@ -176,6 +177,9 @@ def test_mill_list_is_the_locked_60():
     pile = build_mill_deck()
     assert copy_violations(pile, standard_60_rules()) == []
     assert [c.catalog_id for c in pile if c.name == "Mime Jr."] == ["col1-47"]
+    assert [c.catalog_id for c in pile if c.name == "Cleffa"] == ["hgss1-17"]
+    assert [c.attacks[0].name for c in pile if c.name == "Cleffa"] == ["Eeeeeeek"]
+    assert [c.catalog_id for c in pile if c.name == "Manaphy"] == ["swsh9-041"]
     assert [c.catalog_id for c in pile if c.name == "Lillie's Poké Doll"] == ["sm12-197"]
     assert [c.hp for c in pile if c.name == "Lillie's Poké Doll"] == [30]
     assert fallback_named("Mime Jr.").catalog_id == "sv04.5-031"

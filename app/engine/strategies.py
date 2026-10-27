@@ -829,11 +829,10 @@ STRATEGY_LIBRARY = {
     "mill": StrategySpec(
         name="mill",
         description=(
-            "Sisters shell plus one sleep wall. One Pichu and one Mime Jr. "
-            "Only one Sweet Sleeping Face is in play. Against Phantom Dive, Starmie, and spread "
-            "those 30 HP cards stay in the deck. "
-            "HeartGold & SoulSilver Cleffa, when the list has it, is a long-term piece. "
-            "It is benched in wall matches, and against bench-damage attacks once Manaphy is in play. "
+            "Sisters shell plus one sleep wall. One Pichu, one Mime Jr., one Manaphy, "
+            "and one HeartGold & SoulSilver Cleffa. Nest Ball ×1, Level Ball ×3, Poffin ×4. "
+            "One Sweet Sleeping Face besides Cleffa is in play. "
+            "Cleffa is benched in wall matches, and against bench-damage attacks once Manaphy is in play. "
             "Damage counters such as Phantom Dive ignore Wave Veil, so Cleffa stays in the deck there. "
             "Eeeeeeek is used only when the hand cannot continue Undersea: the attack shuffles "
             "that hand into the deck, draws 6, and leaves Cleffa Asleep. "
@@ -844,8 +843,8 @@ STRATEGY_LIBRARY = {
             "opponent's deck in the Lost Zone. The attack leaves that baby Asleep. "
             "Sweet Sleeping Face prevents attack damage while it is Asleep. "
             "Slumbering Forest makes the between-turns sleep check two coins. "
-            "Manaphy, when the list has it, is benched only when an opposing attack does damage to the bench. "
-            "Poffin then takes Manaphy and Cleffa before Nest Ball. Level Ball still finds Wugtrio. "
+            "Manaphy is benched only when an opposing attack does damage to the bench. "
+            "Poffin takes Manaphy and then Cleffa. Level Ball still finds Wugtrio. "
             "The lock has no Rabsca line and no Battle Cage. "
             "Paid Wugtrio retreats up once Undersea Tunnel is paid. "
             "One Lillie's Poké Doll is the no-Prize body in this lock. "

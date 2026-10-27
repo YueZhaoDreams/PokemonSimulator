@@ -683,22 +683,25 @@ SET_DOLL_NAMES = (
     + ["Buddy-Buddy Poffin"] * 2
     + ["Crushing Hammer"] * 2
 )
-# Mill lock (2026-10-27, seed 20261026, 400 games each seat, both seats).
-# Three Wally replace three Crispin. Crispin only finds Water, and that Water was
-# landing on Wiglett while Wugtrio stayed in the deck. Wally's printed search
-# evolves that Wiglett, including the turn it was played. See data/lab/set-mill-wally.md.
-# Weighted 38.011% → 39.415% (+1.404, difference ±0.647, 2.17 SE).
-# Mean 53.885% → 55.221%. Worst remains D60, 7.25% → 7.38%.
+# Mill lock (2026-10-27, seed 20261029, 400 games each seat, both seats).
+# One Manaphy and one HGSS Cleffa replace two Nest Ball. Poffin stays ×4.
+# Level Ball stays ×3 and still finds Wugtrio. See data/lab/set-mill-veil.md.
+# Weighted 38.729% → 41.719% (+2.990, difference ±0.654, 4.57 SE).
+# Mean 54.962% → 56.798%. Worst remains D60, 5.88% → 7.25%.
+# Starmie +10.1 points, Set M +7.7. Carpet Set H −6.5: Spooky Balloon places
+# counters, and Wave Veil does not stop them, so Cleffa stays in that deck.
 SET_MILL_NAMES = (
     ["Pichu"]
     + ["Mime Jr."]
+    + ["Cleffa"]
+    + ["Manaphy"]
     + ["Wiglett"] * 4
     + ["Wugtrio"] * 4
     + ["Victini"]
     + ["Slumbering Forest"]
     + ["Neutralization Zone"]
     + ["Buddy-Buddy Poffin"] * 4
-    + ["Nest Ball"] * 3
+    + ["Nest Ball"]
     + ["Level Ball"] * 3
     + ["Rescue Carrier"] * 3
     + ["Lillie's Poké Doll"]
@@ -5381,11 +5384,13 @@ def fallback_named(name: str) -> Card:
 
 
 def build_mill_deck() -> list[Card]:
-    """Locked Mill 60. Mime Jr. is Call of Legends Sleepy Lost. Three Wally replace Crispin."""
+    """Locked Mill 60. Mime Jr. is Sleepy Lost. Cleffa is the HGSS Eeeeeeek print."""
     out: list[Card] = []
     for name in SET_MILL_NAMES:
         if name == "Mime Jr.":
             out.append(fallback_named("mime jr. col"))
+        elif name == "Cleffa":
+            out.append(fallback_named("cleffa hgss"))
         else:
             out.append(fallback_named(name))
     return out

@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
-"""Mill draw package: Level Ball, Cleffa, Survival Brace, Junk Arm.
+"""Mill draw package: Level Ball, Cleffa, Survival Brace, Junk Arm, Manaphy.
 
-The live lock is SET_MILL_NAMES (three Wally, Neutralization Zone). Lists here
-swap that 60. Cleffa is the HeartGold & SoulSilver Eeeeeeek print. Survival
-Brace replaces the ACE SPEC. Junk Arm discards two cards that no longer extend
-Undersea and takes a Trainer from the discard.
+The live lock is SET_MILL_NAMES: one Manaphy, one HGSS Cleffa, Nest Ball ×1.
+Lists here swap the previous Wally 60, frozen as _WALLY_60. Cleffa is the
+HeartGold & SoulSilver Eeeeeeek print. Survival Brace replaces the ACE SPEC.
+Junk Arm discards two cards that no longer extend Undersea and takes a Trainer
+from the discard.
 
 Both seats. Loss-weighted win rate. Weights frozen from the Sisters 60.
-Seed 20261027. Games per seat from MILL_DRAW_GAMES (default 160).
-MILL_DRAW_LISTS limits the names (comma-separated).
+Seed 20261027 unless MILL_DRAW_SEED is set. Games per seat from MILL_DRAW_GAMES
+(default 160). MILL_DRAW_LISTS limits the names (comma-separated).
 """
 
 from __future__ import annotations
@@ -37,7 +38,6 @@ from app.seed_data import (
     SET_H_NAMES,
     SET_L60_NAMES,
     SET_M60_NAMES,
-    SET_MILL_NAMES,
     SET_S60_NAMES,
     SET_STARMIE60_NAMES,
     SET_T60_NAMES,
@@ -91,8 +91,36 @@ DEST = Path(os.environ.get("MILL_DRAW_DEST", HERE / "set-mill-draw.json"))
 MD_DEST = Path(os.environ.get("MILL_DRAW_MD", HERE / "set-mill-draw.md"))
 
 
+# Previous Wally lock, before Manaphy and Cleffa. The live 60 is SET_MILL_NAMES.
+_WALLY_60 = (
+    ["Pichu"]
+    + ["Mime Jr."]
+    + ["Wiglett"] * 4
+    + ["Wugtrio"] * 4
+    + ["Victini"]
+    + ["Slumbering Forest"]
+    + ["Neutralization Zone"]
+    + ["Buddy-Buddy Poffin"] * 4
+    + ["Nest Ball"] * 3
+    + ["Level Ball"] * 3
+    + ["Rescue Carrier"] * 3
+    + ["Lillie's Poké Doll"]
+    + ["Crushing Hammer"] * 4
+    + ["Counter Catcher"] * 2
+    + ["Miss Fortune Sisters"] * 2
+    + ["Wally"] * 3
+    + ["Boss's Orders"]
+    + ["Team Rocket's Handiwork"] * 2
+    + ["Colress's Tenacity"] * 4
+    + ["Double Turbo Energy"] * 4
+    + ["Water Energy"] * 3
+    + ["Ignition Energy"] * 4
+    + ["Reversal Energy"] * 4
+)
+
+
 def _swap(cuts: list[str], adds: list[str]) -> tuple[str, ...]:
-    names = list(SET_MILL_NAMES)
+    names = list(_WALLY_60)
     for card in cuts:
         names.remove(card)
     names.extend(adds)
@@ -113,7 +141,7 @@ NOTES = {
 }
 
 LISTS = {
-    "lock": tuple(SET_MILL_NAMES),
+    "lock": tuple(_WALLY_60),
     "level4": _swap(["Nest Ball"], ["Level Ball"]),
     "brace": _swap(["Neutralization Zone"], ["Survival Brace"]),
     "cleffa": _swap(["Nest Ball"], ["Cleffa"]),

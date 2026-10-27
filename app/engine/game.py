@@ -7098,7 +7098,7 @@ class Game:
         return self._foe_strat_name(player) not in {"phantom", "starmie", "nuzzle"}
 
     def _mill_veil_package(self, me: Player) -> bool:
-        """This 60 contains Manaphy or Eeeeeeek Cleffa. The Wally lock has neither."""
+        """This 60 contains Manaphy or Eeeeeeek Cleffa."""
         return self._deck_has(me, "manaphy") or self._deck_has(me, "cleffa")
 
     def _attack_places_bench_counters(self, atk) -> bool:
