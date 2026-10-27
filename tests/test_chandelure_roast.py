@@ -164,7 +164,9 @@ def test_grand_tree_mills_nothing_and_hand_evolve_mills_three():
     assert game.events.get("grand_tree", 0) == 1
     game._time_distortion(me, "a")
     assert me.card(me.bench[0].card_i).name == "Lampent"
-    assert chand in me.hand
+    assert any(me.card(i).name == "Chandelure" for i in me.hand)
+    # Grand Tree played Lampent this turn. It can take Chandelure from the hand next turn.
+    game.turn = 5
     game._roast_hand_evolve(me, "a")
     assert me.card(me.bench[0].card_i).name == "Chandelure"
     assert len(foe.deck) == before - 3

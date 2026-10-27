@@ -6680,7 +6680,7 @@ class Game:
             f"{foe.card(src.card_i).name} to {foe.card(dst.card_i).name}"
         )
 
-    def _mill_opponent(self, me: Player, foe: Player, count: int = 1) -> None:
+    def _mill_opponent(self, me: Player, foe: Player, count: int = 1) -> int:
         milled = 0
         for _ in range(max(1, count)):
             if not foe.deck:
@@ -6692,6 +6692,7 @@ class Game:
             self._log(f"{me.name} mills {foe.card(card_i).name} from {foe.name}'s deck")
         if milled:
             self._bump("mill_attack")
+        return milled
 
     def _flip_coins(self, n: int) -> int:
         heads = 0
@@ -11631,11 +11632,13 @@ class Game:
                 count = int(eff.get("count") or 0)
                 if count <= 0:
                     continue
-                self._mill_opponent(me, foe, count)
+                milled = self._mill_opponent(me, foe, count)
+                if milled <= 0:
+                    continue
                 self._bump("mountain_roasting")
-                self._bump("roast_mill_cards", count)
+                self._bump("roast_mill_cards", milled)
                 side = "a" if me.name == "A" else "b"
-                self._roast_mill_this_turn[side] = self._roast_mill_this_turn.get(side, 0) + count
+                self._roast_mill_this_turn[side] = self._roast_mill_this_turn.get(side, 0) + milled
 
     def _gust_low_hp_bench(self, foe: Player, max_remaining: int) -> bool:
         if not foe.active or not foe.bench:
