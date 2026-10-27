@@ -904,10 +904,10 @@ STRATEGY_LIBRARY = {
             "Chandelure is Lost Origin Mountain Roasting: evolving it from the hand "
             "discards the top 3 cards of the opponent's deck. "
             "Pichu is HeartGold & SoulSilver Playground and benches Litwick, then Celebi ◇. "
-            "Evolution Incense is an Item. Each one searches the deck for an Evolution "
-            "Pokémon and puts it into the hand, so several can be played in one turn. "
-            "Broken Time-Space lets that Litwick evolve into Lampent and then Chandelure "
-            "on the turn it was played. Chandelure played from that hand mills. "
+            "Dawn searches the deck for a Basic Pokémon, a Stage 1 Pokémon, and a Stage 2 "
+            "Pokémon and puts them into the hand. "
+            "Broken Time-Space lets a Litwick played this turn evolve into Lampent and "
+            "then Chandelure. Chandelure played from that hand mills. "
             "Celebi ◇ uses Time Distortion on a benched Chandelure the same turn it can pay. "
             "Chandelure played from the hand mills on every Lampent that can evolve, "
             "including a single one. A Lampent evolved this turn cannot take Chandelure "
@@ -918,7 +918,7 @@ STRATEGY_LIBRARY = {
             "Rescue Scarf is only for Celebi ◇. An attack Knock Out puts Celebi ◇ "
             "into the hand, so the Prism Star rule does not put it in the Lost Zone. "
             "Energy Retrieval takes the Fire Energy the scarf discarded. Arven finds "
-            "the scarf and that Item. Team Rocket's Petrel finds a Trainer. "
+            "the scarf and an Item. Team Rocket's Petrel finds a Trainer. "
             "Fire Energy is not attached to the Litwick line."
         ),
         prefer_damage=0.05,

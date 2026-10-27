@@ -126,8 +126,8 @@ def test_roast_deck_is_sixty_and_pichu_is_playground():
     assert names.count("Pichu") == 3
     assert names.count("Cleffa") == 2
     assert names.count("Level Ball") == 3
-    assert names.count("Evolution Incense") == 4
-    assert names.count("Dawn") == 0
+    assert names.count("Dawn") == 4
+    assert names.count("Evolution Incense") == 0
     assert names.count("Buddy-Buddy Poffin") == 3
     assert names.count("Broken Time-Space") == 3
     assert names.count("Slumbering Forest") == 1
@@ -506,11 +506,11 @@ def test_petrel_finds_broken_time_space_before_another_dawn():
     chand = _pull(me, "Chandelure")
     petrel = _pull(me, "Team Rocket's Petrel")
     bts = _pull(me, "Broken Time-Space")
-    incense = _pull(me, "Evolution Incense")
+    dawn = _pull(me, "Dawn")
     me.active = Pokemon(card_i=cleffa, played_turn=0)
     me.bench = [Pokemon(card_i=lit, played_turn=5)]
     me.hand = [lamp, chand, petrel]
-    me.deck = [bts, incense]
+    me.deck = [bts, dawn]
     _ready_turn(game)
     before = len(foe.deck)
     assert game._roast_petrel_want(me, "a") == "Broken Time-Space"
@@ -634,7 +634,7 @@ def test_two_incense_and_broken_time_space_mill_six():
     lits = [_pull(me, "Litwick") for _ in range(2)]
     lamps = [_pull(me, "Lampent") for _ in range(2)]
     chands = [_pull(me, "Chandelure") for _ in range(2)]
-    incense = [_pull(me, "Evolution Incense") for _ in range(4)]
+    incense = [_grant(me, "Evolution Incense") for _ in range(4)]
     bts = _pull(me, "Broken Time-Space")
     me.active = Pokemon(card_i=cleffa, played_turn=0)
     me.bench = [Pokemon(card_i=lit, played_turn=0) for lit in lits]
@@ -659,7 +659,7 @@ def test_incense_does_not_find_a_basic():
     lit = _pull(me, "Litwick")
     other = _pull(me, "Litwick")
     lamp = _pull(me, "Lampent")
-    incense = _pull(me, "Evolution Incense")
+    incense = _grant(me, "Evolution Incense")
     me.active = Pokemon(card_i=cleffa, played_turn=0)
     me.bench = [Pokemon(card_i=lit, played_turn=0)]
     me.hand = [incense]
@@ -679,7 +679,7 @@ def test_incense_takes_chandelure_when_spare_lampent_remain():
     lamps = [_pull(me, "Lampent") for _ in range(2)]
     spare = _pull(me, "Lampent")
     chands = [_pull(me, "Chandelure") for _ in range(2)]
-    incense = [_pull(me, "Evolution Incense") for _ in range(2)]
+    incense = [_grant(me, "Evolution Incense") for _ in range(2)]
     me.active = Pokemon(card_i=cleffa, played_turn=0)
     me.bench = [Pokemon(card_i=lit, played_turn=0) for lit in lits]
     me.hand = lamps + incense
@@ -697,7 +697,7 @@ def test_incense_stays_unplayed_without_a_line():
     cleffa = _pull(me, "Cleffa")
     lamp = _pull(me, "Lampent")
     chand = _pull(me, "Chandelure")
-    incense = _pull(me, "Evolution Incense")
+    incense = _grant(me, "Evolution Incense")
     me.active = Pokemon(card_i=cleffa, played_turn=0)
     me.bench = []
     me.hand = [incense]
