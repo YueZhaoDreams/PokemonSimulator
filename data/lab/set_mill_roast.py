@@ -436,6 +436,7 @@ def main() -> None:
         "roast_mill_turns": _weighted_stat(cells, "roast_mill_turns"),
         "roast_mill_cards": _weighted_stat(cells, "roast_mill_cards"),
         "grand_tree": _weighted_stat(cells, "grand_tree"),
+        "dawn": _weighted_stat(cells, "dawn"),
         "time_distortion": _weighted_stat(cells, "time_distortion"),
         "rescue_scarf": _weighted_stat(cells, "rescue_scarf"),
         "prism_lost_zone": _weighted_stat(cells, "prism_lost_zone"),
