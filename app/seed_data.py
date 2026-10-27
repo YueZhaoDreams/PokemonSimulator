@@ -730,16 +730,17 @@ SET_ROAST_NAMES = (
     + ["Cleffa"] * 2
     + ["Arven"] * 4
     + ["Team Rocket's Petrel"] * 4
-    + ["Buddy-Buddy Poffin"] * 4
+    + ["Buddy-Buddy Poffin"] * 3
     + ["Energy Search"] * 4
     + ["Energy Retrieval"] * 2
     + ["Rescue Scarf"] * 4
     + ["Dawn"] * 4
-    + ["Level Ball"] * 4
+    + ["Level Ball"] * 3
     + ["Ultra Ball"]
     + ["Switch"] * 2
+    + ["Broken Time-Space"] * 3
     + ["Slumbering Forest"]
-    + ["Fire Energy"] * 8
+    + ["Fire Energy"] * 7
 )
 
 # Unlimited 60: Ambipom PAR Hand Fling, Lopunny FLF Big Jump recycle,

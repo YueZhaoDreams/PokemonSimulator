@@ -18039,14 +18039,16 @@ class Game:
                 break
 
     def _roast_main(self, me: Player, foe: Player, who: str) -> None:
-        # Pichu Playground benches the Basics. Grand Tree jumps a Litwick that
-        # was already in play. Chandelure from the hand mills on any legal Lampent.
+        # Dawn puts the line in the hand. Broken Time-Space then lets a Litwick
+        # played this turn evolve into Lampent and Chandelure before the attack.
         # Celebi ◇ devolves a benched Chandelure the same turn it can pay.
         self._roast_bench(me, who)
         self._roast_trainers(me, foe, who)
         self._roast_bench(me, who)
         self._use_grand_tree(me, who)
         self._roast_evolve_lampent(me, who)
+        if self._roast_chandelure_hand(me):
+            self._roast_park_line(me, who)
         self._roast_evolve_chandelure(me, who)
         self._note_roast_mill(who)
         self._roast_play_celebi(me)
@@ -18344,6 +18346,8 @@ class Game:
             return True
         if name == "dawn":
             return True
+        if name == "broken time-space" and (self.stadium_name or "").lower() != "broken time-space":
+            return True
         if name == "grand tree":
             return (self.stadium_name or "").lower() != "grand tree"
         if self._prints_playground(card) and not any(
@@ -18437,6 +18441,26 @@ class Game:
             return False
         return any(self._roast_is_wall_card(me.card(mon.card_i)) for mon in me.bench)
 
+    def _roast_wants_bts(self, me: Player, who: str) -> bool:
+        """Broken Time-Space is useful while a same-turn Litwick line is still in hand."""
+        if (self.stadium_name or "").lower() == "broken time-space":
+            return False
+        hand = {me.card(i).name.lower() for i in me.hand}
+        play = {me.card(mon.card_i).name.lower() for mon in me.in_play()}
+        deck = {me.card(i).name.lower() for i in me.deck}
+        litwick = "litwick" in hand or "litwick" in play
+        lampent = "lampent" in hand or "lampent" in play
+        if litwick and ("lampent" in hand or lampent or ("lampent" in deck and "dawn" in hand)):
+            return True
+        if "chandelure" in hand and (litwick or lampent or ("lampent" in deck and "dawn" in hand)):
+            return True
+        return False
+
+    def _roast_bts_stays(self, me: Player, who: str) -> bool:
+        if (self.stadium_name or "").lower() == "broken time-space":
+            return True
+        return self._roast_wants_bts(me, who) and self._roast_named(me, me.hand, "Broken Time-Space")
+
     def _roast_dawn_helps(self, me: Player) -> bool:
         names = {me.card(i).name.lower() for i in me.deck}
         if "chandelure" in names or "lampent" in names:
@@ -18476,6 +18500,12 @@ class Game:
             and self._roast_named(me, me.deck, "Dawn")
         ):
             return "Dawn"
+        if (
+            self._roast_wants_bts(me, who)
+            and not self._roast_named(me, me.hand, "Broken Time-Space")
+            and self._roast_named(me, me.deck, "Broken Time-Space")
+        ):
+            return "Broken Time-Space"
         if not forest_out and not self._roast_named(me, me.hand, "Slumbering Forest") and self._roast_named(me, me.deck, "Slumbering Forest"):
             return "Slumbering Forest"
         if (
@@ -18554,6 +18584,7 @@ class Game:
             "cleffa",
             "pichu",
             "slumbering forest",
+            "broken time-space",
             "dawn",
             "level ball",
             "rescue scarf",
@@ -18581,8 +18612,14 @@ class Game:
             if self._roast_needs_switch(me) and not self._roast_named(me, me.hand, "Switch"):
                 return 100
             return 210 if self._roast_dawn_helps(me) else -1
+        if name == "broken time-space":
+            if (self.stadium_name or "").lower() == "broken time-space":
+                return -1
+            return 190 if self._roast_wants_bts(me, who) else -1
         if name == "slumbering forest":
-            return -1 if forest_out else 70
+            if forest_out or self._roast_bts_stays(me, who):
+                return -1
+            return 70
         if name == "level ball":
             return 165 if self._roast_level_helps(me) else -1
         if name in {"buddy-buddy poffin", "buddy buddy poffin"}:
@@ -18611,6 +18648,8 @@ class Game:
                 return 175
             if want == "Dawn":
                 return 200
+            if want == "Broken Time-Space":
+                return 185
             if want == "Slumbering Forest":
                 return 170
             return 110 if want else -1
@@ -18653,6 +18692,9 @@ class Game:
         if card.name.lower() != "ultra ball":
             me.discard.append(card_i)
         self._resolve_trainer(me, foe, card, who=who, card_i=card_i)
+        if card.name.lower() == "broken time-space":
+            self._bump("roast_bts")
+            self._bump(f"roast_bts_{who}")
         self._log(f"{me.name} plays {card.name}")
         if card.name.lower() == "ultra ball" and card_i in me.hand:
             return False

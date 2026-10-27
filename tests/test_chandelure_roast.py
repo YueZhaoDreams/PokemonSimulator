@@ -119,14 +119,17 @@ def test_roast_deck_is_sixty_and_pichu_is_playground():
     names = [card.name for card in deck]
     assert names.count("Pichu") == 3
     assert names.count("Cleffa") == 2
-    assert names.count("Level Ball") == 4
+    assert names.count("Level Ball") == 3
     assert names.count("Dawn") == 4
+    assert names.count("Buddy-Buddy Poffin") == 3
+    assert names.count("Broken Time-Space") == 3
+    assert names.count("Slumbering Forest") == 1
+    assert names.count("Fire Energy") == 7
     assert names.count("Grand Tree") == 0
     assert names.count("Colress's Tenacity") == 0
     assert names.count("Ultra Ball") == 1
     assert names.count("Nest Ball") == 0
     assert names.count("Slumbering Forest") == 1
-    assert names.count("Fire Energy") == 8
     assert not any("Doll" in name for name in names)
     pichu = [card for card in deck if card.name == "Pichu"]
     for card in pichu:
@@ -458,6 +461,31 @@ def test_sleep_evolves_lampent_when_chandelure_already_has_a_target():
     assert names.count("Chandelure") == 1
     assert chand not in me.hand
     assert len(foe.deck) == before - 3
+
+
+def test_broken_time_space_evolves_litwick_to_chandelure_and_mills():
+    game = _game()
+    me = game.players["a"]
+    foe = game.players["b"]
+    _reclaim(me)
+    cleffa = _pull(me, "Cleffa")
+    lit = _pull(me, "Litwick")
+    lamp = _pull(me, "Lampent")
+    chand = _pull(me, "Chandelure")
+    bts = _pull(me, "Broken Time-Space")
+    me.active = Pokemon(card_i=cleffa, played_turn=0)
+    me.bench = [Pokemon(card_i=lit, played_turn=5)]
+    me.hand = [lamp, chand, bts]
+    me.deck = []
+    _ready_turn(game)
+    before = len(foe.deck)
+    game._roast_main(me, foe, "a")
+    assert (game.stadium_name or "").lower() == "broken time-space"
+    assert me.card(me.bench[0].card_i).name == "Chandelure"
+    assert me.bench[0].underneath
+    assert len(foe.deck) == before - 3
+    assert game.events.get("mountain_roasting", 0) == 1
+    assert game.events.get("roast_bts_a", 0) == 1
 
 
 def test_lampent_played_this_turn_cannot_take_chandelure():
