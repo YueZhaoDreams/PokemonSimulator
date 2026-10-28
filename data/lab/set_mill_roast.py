@@ -11,7 +11,7 @@ evolve this turn. Team Rocket's Petrel
 searches a Trainer card. Rescue Scarf returns Celebi ◇ to the hand.
 
 Seed 20261027 unless ROAST_SEED is set. Games per seat from ROAST_GAMES
-(default 20).
+(default 400).
 """
 
 from __future__ import annotations
@@ -86,7 +86,7 @@ WEIGHTS = {
 _WEIGHT_TOTAL = sum(WEIGHTS.values())
 WEIGHTS = {key: value / _WEIGHT_TOTAL for key, value in WEIGHTS.items()}
 
-GAMES = int(os.environ.get("ROAST_GAMES", "20"))
+GAMES = int(os.environ.get("ROAST_GAMES", "400"))
 SEED = int(os.environ.get("ROAST_SEED", "20261027"))
 WORKERS = int(os.environ.get("ROAST_WORKERS", str(min(4, os.cpu_count() or 2))))
 HERE = Path(__file__).resolve().parent
@@ -102,6 +102,8 @@ _COUNT_KEYS = (
     "grand_tree",
     "dawn",
     "evolution_incense",
+    "hyper_aroma",
+    "hyper_aroma_cards",
     "hisuian_heavy_ball",
     "roast_bts",
     "time_distortion",
@@ -151,7 +153,8 @@ def _check() -> None:
         raise SystemExit("roast Broken Time-Space count")
     if (
         names.count("Hisuian Heavy Ball") != 1
-        or names.count("Ultra Ball") != 1
+        or names.count("Ultra Ball") != 0
+        or names.count("Hyper Aroma") != 1
         or names.count("Energy Search") != 4
         or names.count("Switch") != 1
     ):
@@ -223,6 +226,8 @@ def _run(foe_key: str, seat: str, games: int, seed: int) -> dict:
         totals["grand_tree"] += result.events.get("grand_tree", 0)
         totals["dawn"] += result.events.get("dawn", 0)
         totals["evolution_incense"] += result.events.get("evolution_incense", 0)
+        totals["hyper_aroma"] += result.events.get("hyper_aroma", 0)
+        totals["hyper_aroma_cards"] += result.events.get("hyper_aroma_cards", 0)
         totals["hisuian_heavy_ball"] += result.events.get("hisuian_heavy_ball", 0)
         totals["roast_bts"] += result.events.get(f"roast_bts_{seat}", 0)
         totals["time_distortion"] += result.events.get("time_distortion", 0)
@@ -251,7 +256,7 @@ def _run(foe_key: str, seat: str, games: int, seed: int) -> dict:
 
 
 def _cache_key(foe_key: str, seat: str, games: int, seed: int) -> str:
-    return f"{seed}|{games}|{seat}|{foe_key}|roast-incense-three"
+    return f"{seed}|{games}|{seat}|{foe_key}|roast-aroma-one"
 
 
 def _load_cache() -> dict[str, dict]:
@@ -366,13 +371,15 @@ def _markdown(report: dict) -> str:
         "",
         "Jacq searches the deck for up to 2 Evolution Pokémon. On the Heavy Ball list the same one-card search tried every other name as the cut. The highest cut was one Litwick at 33.7%, below 34.5%, so that list kept zero Jacq. See data/lab/set-mill-roast-jacq.md.",
         "",
-        "Evolution Incense searches the deck for one Evolution Pokémon. Roast takes Chandelure once a Lampent is in hand or in play, and takes Lampent only while a Litwick still has no Stage 1. Three copies replaced one Level Ball and both Cleffa. A fourth copy did not raise the weighted win rate. See data/lab/set-mill-roast-incense.md.",
+        "Evolution Incense searches the deck for one Evolution Pokémon. Roast takes Chandelure once a Lampent is in hand or in play, and takes Lampent only while a Litwick still has no Stage 1. Three copies replaced one Level Ball and both Cleffa. A fourth copy did not raise the weighted win rate. See data/lab/set-mill-roast-incense.md. That search was 40 games per seat. The same list at 400 games per seat is 34.4%.",
+        "",
+        "Hyper Aroma searches the deck for up to 3 Stage 1 Pokémon. Roast takes Lampent and stops once four Lampent are in hand or in play. The printed count is the parser's search_stage1 count. One copy replaces Ultra Ball. At 400 games per seat that swap is 38.5% against the 34.4% list. See data/lab/set-mill-roast-aroma.md.",
         "",
         "Lampent is Plasma Storm Freefloating. With no Energy attached, its retreat cost is 0. Fire Energy stays on Celebi ◇.",
         "",
         "Rescue Scarf puts the Pokémon into the hand when an attack Knocks it Out, and discards the cards attached to it. Celebi ◇ therefore does not go to the discard pile, and the Prism Star rule does not put it in the Lost Zone. Energy Retrieval takes that Fire Energy back. Arven can find an Item and the scarf. When Celebi ◇ or a needed Litwick or Pichu is in the prizes and Hisuian Heavy Ball is still in the deck, Arven takes that ball. Team Rocket's Petrel searches the deck for a Trainer card. It takes Hisuian Heavy Ball before Broken Time-Space when that prize is Celebi ◇, a stuck Pichu, or a Litwick with almost none of the line outside the prizes. A spare Litwick waits until after Dawn. Petrel does not search a Pokémon or an Energy card.",
         "",
-        "The search cut both Cleffa, so this list does not play Eeeeeeek. Pichu is the Playground attacker. Sweet Sleeping Face prevents attack damage while that Pokémon is Asleep. Slumbering Forest makes the between-turns sleep check two coins, and the Pokémon stays Asleep unless both are heads. Asleep blocks retreat, so Switch brings Celebi ◇ Active.",
+        "Cleffa was tried again on the Hyper Aroma list at 400 games per seat. Each step would replace one other card with one Cleffa. The highest first cut, one Switch, is 38.1%, below 38.5%, so the list keeps zero Cleffa. When one Cleffa is in the deck it enters play about 0.41 times per game and Eeeeeeek fires about 0.02 times. It is a backup wall behind Pichu. See data/lab/set-mill-roast-cleffa.md. Pichu is the Playground attacker. Sweet Sleeping Face prevents attack damage while that Pokémon is Asleep. Slumbering Forest makes the between-turns sleep check two coins, and the Pokémon stays Asleep unless both are heads. Asleep blocks retreat, so Switch brings Celebi ◇ Active.",
         "",
         "A Litwick played on the turn Dawn finds Lampent stays unevolved until Broken Time-Space is in play. The stadium also lets that Lampent take Chandelure the same turn.",
         "",
@@ -390,6 +397,8 @@ def _markdown(report: dict) -> str:
         f"Cards milled by those turns per game: {report['roast_mill_cards']:.2f}. "
         f"Dawn plays per game: {report['dawn']:.2f}. "
         f"Evolution Incense plays per game: {report['evolution_incense']:.2f}. "
+        f"Hyper Aroma plays per game: {report['hyper_aroma']:.2f}. "
+        f"Lampent found by Hyper Aroma per game: {report['hyper_aroma_cards']:.2f}. "
         f"Hisuian Heavy Ball swaps per game: {report['hisuian_heavy_ball']:.2f}. "
         f"Broken Time-Space plays per game: {report['roast_bts']:.2f}. "
         f"Time Distortion devolves per game: {report['time_distortion']:.2f}. "
@@ -477,6 +486,8 @@ def main() -> None:
         "grand_tree": _weighted_stat(cells, "grand_tree"),
         "dawn": _weighted_stat(cells, "dawn"),
         "evolution_incense": _weighted_stat(cells, "evolution_incense"),
+        "hyper_aroma": _weighted_stat(cells, "hyper_aroma"),
+        "hyper_aroma_cards": _weighted_stat(cells, "hyper_aroma_cards"),
         "hisuian_heavy_ball": _weighted_stat(cells, "hisuian_heavy_ball"),
         "roast_bts": _weighted_stat(cells, "roast_bts"),
         "time_distortion": _weighted_stat(cells, "time_distortion"),

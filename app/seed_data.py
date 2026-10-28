@@ -731,7 +731,8 @@ SET_MILL_NAMES = (
 # rate. See data/lab/set-mill-roast-incense.md. One Hyper Aroma replaces the
 # Ultra Ball. The printed sentence searches the deck for up to 3 Stage 1
 # Pokémon. 400 games per seat, and every other card was the cut. See
-# data/lab/set-mill-roast-aroma.md.
+# data/lab/set-mill-roast-aroma.md. Cleffa was searched on this list at the
+# same depth and kept at zero. See data/lab/set-mill-roast-cleffa.md.
 SET_ROAST_NAMES = (
     ["Litwick"] * 4
     + ["Lampent"] * 4
