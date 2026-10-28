@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
 """Why the locked Doll 60 loses.
 
-The list is SET_DOLL_NAMES: one Switch, one Black Market. Both seats, the same
-13 foes and Sisters loss weights as the Doll lock. Each cell starts from
-DOLL_LOSS_SEED (default 20261028), which is the Black Market confirm seed.
-Games per seat from DOLL_LOSS_GAMES (default 200).
+The list is SET_DOLL_NAMES: two Cleffa, one Arven, one Team Rocket's Petrel.
+Both seats, the same 13 foes and Sisters loss weights as the Doll lock. Each
+cell starts from DOLL_LOSS_SEED (default 20261029), which is the Arven/Petrel
+confirm seed. Games per seat from DOLL_LOSS_GAMES (default 200).
+
+The Black Market 60 breakdown stays in set-doll-losses.md. This script writes
+set-doll-arven-petrel-losses.md.
 
 A loss reason is the engine's GameResult.reason, read from Doll's seat.
 """
@@ -85,12 +88,12 @@ PRIZE_BODIES = ("Cleffa", "Smoochum", "Mime Jr.", "Manaphy", "Sableye", "Nincada
 DOLL_BODIES = ("Lillie's Poké Doll", "Robo Substitute Team Flare Gear", "Snorlax Doll")
 
 GAMES = int(os.environ.get("DOLL_LOSS_GAMES", "200"))
-SEED = int(os.environ.get("DOLL_LOSS_SEED", "20261028"))
+SEED = int(os.environ.get("DOLL_LOSS_SEED", "20261029"))
 WORKERS = int(os.environ.get("DOLL_LOSS_WORKERS", str(min(4, os.cpu_count() or 2))))
 HERE = Path(__file__).resolve().parent
-PARTIAL = Path(os.environ.get("DOLL_LOSS_PARTIAL", HERE / "set-doll-losses-partial.jsonl"))
-DEST = Path(os.environ.get("DOLL_LOSS_DEST", HERE / "set-doll-losses.json"))
-MD_DEST = Path(os.environ.get("DOLL_LOSS_MD", HERE / "set-doll-losses.md"))
+PARTIAL = Path(os.environ.get("DOLL_LOSS_PARTIAL", HERE / "set-doll-arven-petrel-losses-partial.jsonl"))
+DEST = Path(os.environ.get("DOLL_LOSS_DEST", HERE / "set-doll-arven-petrel-losses.json"))
+MD_DEST = Path(os.environ.get("DOLL_LOSS_MD", HERE / "set-doll-arven-petrel-losses.md"))
 
 LOSS_KINDS = ("prizes", "empty", "decked", "no_basic", "turn_prizes", "turn_hp")
 WIN_KINDS = ("foe_decked", "foe_empty", "foe_no_basic", "prizes", "turn_prizes", "turn_hp")
@@ -342,9 +345,11 @@ def _write(report: dict) -> None:
     lines = [
         "# Doll losses",
         "",
-        "Locked 60: one Switch, one Black Market. Strategy `doll`. Product engine. "
+        "Locked 60: two Cleffa, one Switch, one Black Market, one Arven, one Team Rocket's Petrel. "
+        "Lillie's Poké Doll and Robo Substitute stay at four. Strategy `doll`. Product engine. "
         "Both seats. Doll goes first in either seat. "
-        "The win rates are the Switch confirm in `set-doll-black-market.md`: same seed, same list, same games.",
+        "Seed 20261029 and 200 games per seat are the Petrel confirm in `set-doll-arven-petrel.md`. "
+        "`set-doll-losses.md` is the earlier Black Market 60.",
         "",
         f"- **Seed**: `{report['seed']}`",
         f"- **Games per seat**: {games}",
@@ -567,8 +572,15 @@ def _write(report: dict) -> None:
 
 
 def main() -> None:
-    if len(SET_DOLL_NAMES) != 60 or SET_DOLL_NAMES.count("Black Market") != 1 or SET_DOLL_NAMES.count("Switch") != 1:
-        raise SystemExit("SET_DOLL_NAMES is not the one-Switch, one-Black-Market lock")
+    if (
+        len(SET_DOLL_NAMES) != 60
+        or SET_DOLL_NAMES.count("Cleffa") != 2
+        or SET_DOLL_NAMES.count("Arven") != 1
+        or SET_DOLL_NAMES.count("Team Rocket's Petrel") != 1
+        or SET_DOLL_NAMES.count("Black Market") != 1
+        or SET_DOLL_NAMES.count("Switch") != 1
+    ):
+        raise SystemExit("SET_DOLL_NAMES is not the Arven and Petrel lock")
     started = time.perf_counter()
     cache = _load_cache()
     cells = _evaluate(cache)

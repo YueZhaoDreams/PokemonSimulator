@@ -28,7 +28,29 @@
     "cleffa": 2,
     "lillies_poke_doll": 4,
     "robo_substitute": 4,
-    "note": "Sequential greedy. Arven's confirm is not separated from VS Seeker, Switch, or Crushing Hammer. Petrel was measured on the Cleffa cut. This sample is not the 1000-game holdout. The loss shares below are the earlier Black Market 60."
+    "note": "Sequential greedy. Arven's confirm is not separated from VS Seeker, Switch, or Crushing Hammer. Petrel was measured on the Cleffa cut. This sample is not the 1000-game holdout. The loss shares in losses are the earlier Black Market 60. current_losses is this lock."
+  },
+  "current_losses": {
+    "seed": 20261029,
+    "games_per_seat": 200,
+    "sisters_weighted_win": 0.338,
+    "sisters_weighted_loss": 0.662,
+    "share_of_weighted_losses": {
+      "empty": 0.610,
+      "prizes": 0.203,
+      "turn_prizes": 0.168,
+      "turn_hp": 0.018
+    },
+    "share_by_foe": {
+      "d60": 0.217,
+      "m": 0.157,
+      "starmie": 0.142,
+      "g": 0.135,
+      "h": 0.108
+    },
+    "doll_deckouts": 0,
+    "doll_no_basic": 0,
+    "detail": "data/lab/set-doll-arven-petrel-losses.md"
   },
   "losses": {
     "seed": 20261028,
