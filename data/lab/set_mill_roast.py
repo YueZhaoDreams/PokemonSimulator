@@ -133,18 +133,20 @@ def _check() -> None:
         if "playground" not in kinds:
             raise SystemExit("Pichu is not Playground")
     cleffa = [card for card in pile if card.name == "Cleffa"]
-    if len(cleffa) < 1:
-        raise SystemExit("roast has no Cleffa")
     for card in cleffa:
         kinds = {effect.get("kind") for attack in card.attacks for effect in attack.effects}
         if "shuffle_hand_then_draw" not in kinds:
             raise SystemExit("Cleffa is not Eeeeeeek")
-    if names.count("Level Ball") != 3 or names.count("Nest Ball"):
+    if names.count("Level Ball") != 2 or names.count("Nest Ball"):
         raise SystemExit("roast Level Ball count")
     if names.count("Slumbering Forest") < 1:
         raise SystemExit("roast has no Slumbering Forest")
-    if names.count("Dawn") != 4 or names.count("Evolution Incense") or names.count("Grand Tree"):
+    if names.count("Dawn") != 4 or names.count("Evolution Incense") != 3 or names.count("Grand Tree"):
         raise SystemExit("roast Dawn list")
+    incense = fallback_named("Evolution Incense")
+    incense_text = incense.text.lower().replace("é", "e")
+    if "evolution pokemon" not in incense_text or "up to" in incense_text:
+        raise SystemExit("Evolution Incense text")
     if names.count("Broken Time-Space") != 3:
         raise SystemExit("roast Broken Time-Space count")
     if (
@@ -249,7 +251,7 @@ def _run(foe_key: str, seat: str, games: int, seed: int) -> dict:
 
 
 def _cache_key(foe_key: str, seat: str, games: int, seed: int) -> str:
-    return f"{seed}|{games}|{seat}|{foe_key}|roast-heavy-one"
+    return f"{seed}|{games}|{seat}|{foe_key}|roast-incense-three"
 
 
 def _load_cache() -> dict[str, dict]:
@@ -362,13 +364,15 @@ def _markdown(report: dict) -> str:
         "",
         "Hisuian Heavy Ball looks at the face-down Prize cards. It may reveal a Basic Pokémon, put that Pokémon into the hand, and put this card in its place as a face-down Prize card. If it does not reveal a Basic, this card goes to the discard pile. Then the face-down prizes are shuffled. When more than one Basic is there, roast reveals Celebi ◇ before Litwick, then a Pichu or Cleffa the deck no longer has. The roast list has one copy. That copy replaced one Switch: every other card was measured as the cut, this swap had the higher weighted win rate, and a second copy did not raise it. See data/lab/set-mill-roast-heavy.md.",
         "",
-        "Jacq searches the deck for up to 2 Evolution Pokémon. On this locked list the same one-card search tried every other name as the cut. The highest cut was one Litwick at 33.7%, below the locked 34.5%, so the list keeps zero Jacq. See data/lab/set-mill-roast-jacq.md.",
+        "Jacq searches the deck for up to 2 Evolution Pokémon. On the Heavy Ball list the same one-card search tried every other name as the cut. The highest cut was one Litwick at 33.7%, below 34.5%, so that list kept zero Jacq. See data/lab/set-mill-roast-jacq.md.",
+        "",
+        "Evolution Incense searches the deck for one Evolution Pokémon. Roast takes Chandelure once a Lampent is in hand or in play, and takes Lampent only while a Litwick still has no Stage 1. Three copies replaced one Level Ball and both Cleffa. A fourth copy did not raise the weighted win rate. See data/lab/set-mill-roast-incense.md.",
         "",
         "Lampent is Plasma Storm Freefloating. With no Energy attached, its retreat cost is 0. Fire Energy stays on Celebi ◇.",
         "",
         "Rescue Scarf puts the Pokémon into the hand when an attack Knocks it Out, and discards the cards attached to it. Celebi ◇ therefore does not go to the discard pile, and the Prism Star rule does not put it in the Lost Zone. Energy Retrieval takes that Fire Energy back. Arven can find an Item and the scarf. When Celebi ◇ or a needed Litwick or Pichu is in the prizes and Hisuian Heavy Ball is still in the deck, Arven takes that ball. Team Rocket's Petrel searches the deck for a Trainer card. It takes Hisuian Heavy Ball before Broken Time-Space when that prize is Celebi ◇, a stuck Pichu, or a Litwick with almost none of the line outside the prizes. A spare Litwick waits until after Dawn. Petrel does not search a Pokémon or an Energy card.",
         "",
-        "Cleffa is HeartGold & SoulSilver Eeeeeeek: shuffle the hand into the deck, draw 6, then Cleffa is Asleep. Pichu is the Playground attacker. Sweet Sleeping Face prevents attack damage while that Pokémon is Asleep. Slumbering Forest makes the between-turns sleep check two coins, and the Pokémon stays Asleep unless both are heads. Asleep blocks retreat, so Switch brings Celebi ◇ Active.",
+        "The search cut both Cleffa, so this list does not play Eeeeeeek. Pichu is the Playground attacker. Sweet Sleeping Face prevents attack damage while that Pokémon is Asleep. Slumbering Forest makes the between-turns sleep check two coins, and the Pokémon stays Asleep unless both are heads. Asleep blocks retreat, so Switch brings Celebi ◇ Active.",
         "",
         "A Litwick played on the turn Dawn finds Lampent stays unevolved until Broken Time-Space is in play. The stadium also lets that Lampent take Chandelure the same turn.",
         "",
@@ -385,6 +389,7 @@ def _markdown(report: dict) -> str:
         f"Hand-evolve turns per game: {report['roast_mill_turns']:.2f}. "
         f"Cards milled by those turns per game: {report['roast_mill_cards']:.2f}. "
         f"Dawn plays per game: {report['dawn']:.2f}. "
+        f"Evolution Incense plays per game: {report['evolution_incense']:.2f}. "
         f"Hisuian Heavy Ball swaps per game: {report['hisuian_heavy_ball']:.2f}. "
         f"Broken Time-Space plays per game: {report['roast_bts']:.2f}. "
         f"Time Distortion devolves per game: {report['time_distortion']:.2f}. "

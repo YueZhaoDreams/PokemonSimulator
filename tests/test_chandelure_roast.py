@@ -89,6 +89,12 @@ def _grant(me, name: str) -> int:
     return idx
 
 
+def _cleffa(me) -> int:
+    card_i = _grant(me, "cleffa hgss")
+    me.deck.remove(card_i)
+    return card_i
+
+
 def _pull(me, name: str) -> int:
     for zone in (me.hand, me.deck, me.prizes, me.discard, me.lost_zone):
         for card_i in list(zone):
@@ -138,10 +144,10 @@ def test_roast_deck_is_sixty_and_pichu_is_playground():
     assert StrategySpec.from_dict("roast").name == "roast"
     names = [card.name for card in deck]
     assert names.count("Pichu") == 3
-    assert names.count("Cleffa") == 2
-    assert names.count("Level Ball") == 3
+    assert names.count("Cleffa") == 0
+    assert names.count("Level Ball") == 2
     assert names.count("Dawn") == 4
-    assert names.count("Evolution Incense") == 0
+    assert names.count("Evolution Incense") == 3
     assert names.count("Buddy-Buddy Poffin") == 3
     assert names.count("Broken Time-Space") == 3
     assert names.count("Slumbering Forest") == 1
@@ -168,12 +174,10 @@ def test_roast_deck_is_sixty_and_pichu_is_playground():
         assert playground.get("user_first") is True
         assert any(ability.name == "Sweet Sleeping Face" for ability in card.abilities)
         assert "as many" in card.attacks[0].text.lower()
-    for card in deck:
-        if card.name != "Cleffa":
-            continue
-        assert any(effect.get("kind") == "shuffle_hand_then_draw" for attack in card.attacks for effect in attack.effects)
-        assert "draw 6" in card.attacks[0].text.lower()
-        assert any(ability.name == "Sweet Sleeping Face" for ability in card.abilities)
+    cleffa = fallback_named("cleffa hgss")
+    assert any(effect.get("kind") == "shuffle_hand_then_draw" for attack in cleffa.attacks for effect in attack.effects)
+    assert "draw 6" in cleffa.attacks[0].text.lower()
+    assert any(ability.name == "Sweet Sleeping Face" for ability in cleffa.abilities)
     forest = next(card for card in deck if card.name == "Slumbering Forest")
     assert {"kind": "sleep_check_two_coins"} in parse_ability_effects(forest.text)
 
@@ -420,7 +424,7 @@ def test_one_lampent_hand_evolves_and_brings_celebi():
     me = game.players["a"]
     foe = game.players["b"]
     _reclaim(me)
-    cleffa = _pull(me, "Cleffa")
+    cleffa = _cleffa(me)
     lamp = _pull(me, "Lampent")
     chands = [_pull(me, "Chandelure") for _ in range(3)]
     celebi = _pull(me, "Celebi ◇")
@@ -444,7 +448,7 @@ def test_three_legal_lampent_bring_celebi_and_mill_nine():
     me = game.players["a"]
     foe = game.players["b"]
     _reclaim(me)
-    cleffa = _pull(me, "Cleffa")
+    cleffa = _cleffa(me)
     lamps = [_pull(me, "Lampent") for _ in range(3)]
     chands = [_pull(me, "Chandelure") for _ in range(3)]
     celebi = _pull(me, "Celebi ◇")
@@ -470,7 +474,7 @@ def test_sleep_evolves_lampent_when_chandelure_already_has_a_target():
     me = game.players["a"]
     foe = game.players["b"]
     _reclaim(me)
-    cleffa = _pull(me, "Cleffa")
+    cleffa = _cleffa(me)
     lit = _pull(me, "Litwick")
     ready = _pull(me, "Lampent")
     lamp = _pull(me, "Lampent")
@@ -493,7 +497,7 @@ def test_broken_time_space_evolves_litwick_to_chandelure_and_mills():
     me = game.players["a"]
     foe = game.players["b"]
     _reclaim(me)
-    cleffa = _pull(me, "Cleffa")
+    cleffa = _cleffa(me)
     lit = _pull(me, "Litwick")
     lamp = _pull(me, "Lampent")
     chand = _pull(me, "Chandelure")
@@ -518,7 +522,7 @@ def test_petrel_finds_broken_time_space_before_another_dawn():
     me = game.players["a"]
     foe = game.players["b"]
     _reclaim(me)
-    cleffa = _pull(me, "Cleffa")
+    cleffa = _cleffa(me)
     lit = _pull(me, "Litwick")
     lamp = _pull(me, "Lampent")
     chand = _pull(me, "Chandelure")
@@ -543,7 +547,7 @@ def test_lampent_played_this_turn_cannot_take_chandelure():
     me = game.players["a"]
     foe = game.players["b"]
     _reclaim(me)
-    cleffa = _pull(me, "Cleffa")
+    cleffa = _cleffa(me)
     litwicks = [_pull(me, "Litwick") for _ in range(3)]
     lamps = [_pull(me, "Lampent") for _ in range(3)]
     chands = [_pull(me, "Chandelure") for _ in range(3)]
@@ -568,7 +572,7 @@ def test_active_litwick_evolves_and_same_turn_lampent_cannot_take_chandelure():
     lit = _pull(me, "Litwick")
     lamp = _pull(me, "Lampent")
     chands = [_pull(me, "Chandelure") for _ in range(2)]
-    cleffa = _pull(me, "Cleffa")
+    cleffa = _cleffa(me)
     switch = _pull(me, "Switch")
     fuel = _pull(me, "Fire Energy")
     me.active = Pokemon(card_i=lit, played_turn=0)
@@ -607,7 +611,7 @@ def test_level_ball_finds_cleffa_before_lampent_when_the_wall_is_missing():
     me = game.players["a"]
     _reclaim(me)
     lit = _pull(me, "Litwick")
-    cleffa = _pull(me, "Cleffa")
+    cleffa = _cleffa(me)
     lamp = _pull(me, "Lampent")
     ball = _pull(me, "Level Ball")
     me.active = Pokemon(card_i=lit, played_turn=0)
@@ -648,7 +652,7 @@ def test_two_incense_and_broken_time_space_mill_six():
     me = game.players["a"]
     foe = game.players["b"]
     _reclaim(me)
-    cleffa = _pull(me, "Cleffa")
+    cleffa = _cleffa(me)
     lits = [_pull(me, "Litwick") for _ in range(2)]
     lamps = [_pull(me, "Lampent") for _ in range(2)]
     chands = [_pull(me, "Chandelure") for _ in range(2)]
@@ -673,7 +677,7 @@ def test_incense_does_not_find_a_basic():
     game = _game()
     me = game.players["a"]
     _reclaim(me)
-    cleffa = _pull(me, "Cleffa")
+    cleffa = _cleffa(me)
     lit = _pull(me, "Litwick")
     other = _pull(me, "Litwick")
     lamp = _pull(me, "Lampent")
@@ -692,7 +696,7 @@ def test_incense_takes_chandelure_while_a_litwick_still_needs_lampent():
     game = _game()
     me = game.players["a"]
     _reclaim(me)
-    cleffa = _pull(me, "Cleffa")
+    cleffa = _cleffa(me)
     lits = [_pull(me, "Litwick") for _ in range(2)]
     lamp_hand = _pull(me, "Lampent")
     lamp_deck = _pull(me, "Lampent")
@@ -715,7 +719,7 @@ def test_incense_takes_chandelure_when_spare_lampent_remain():
     game = _game()
     me = game.players["a"]
     _reclaim(me)
-    cleffa = _pull(me, "Cleffa")
+    cleffa = _cleffa(me)
     lits = [_pull(me, "Litwick") for _ in range(2)]
     lamps = [_pull(me, "Lampent") for _ in range(2)]
     spare = _pull(me, "Lampent")
@@ -735,7 +739,7 @@ def test_incense_stays_unplayed_without_a_line():
     game = _game()
     me = game.players["a"]
     _reclaim(me)
-    cleffa = _pull(me, "Cleffa")
+    cleffa = _cleffa(me)
     lamp = _pull(me, "Lampent")
     chand = _pull(me, "Chandelure")
     incense = _grant(me, "Evolution Incense")
@@ -755,7 +759,7 @@ def test_dawn_finds_each_stage_and_the_chandelure_mills_on_a_legal_lampent():
     me = game.players["a"]
     foe = game.players["b"]
     _reclaim(me)
-    cleffa = _pull(me, "Cleffa")
+    cleffa = _cleffa(me)
     lamp_play = _pull(me, "Lampent")
     lit = _pull(me, "Litwick")
     lamp = _pull(me, "Lampent")
@@ -783,7 +787,7 @@ def test_dawn_cannot_evolve_the_basic_it_just_put_into_play():
     me = game.players["a"]
     foe = game.players["b"]
     _reclaim(me)
-    cleffa = _pull(me, "Cleffa")
+    cleffa = _cleffa(me)
     lit = _pull(me, "Litwick")
     lamp = _pull(me, "Lampent")
     chand = _pull(me, "Chandelure")
@@ -805,7 +809,7 @@ def test_dawn_skips_a_stage_the_deck_does_not_have():
     game = _game()
     me = game.players["a"]
     _reclaim(me)
-    cleffa = _pull(me, "Cleffa")
+    cleffa = _cleffa(me)
     lit = _pull(me, "Litwick")
     lamp = _pull(me, "Lampent")
     dawn = _grant(me, "Dawn")
@@ -824,7 +828,7 @@ def test_one_chandelure_mills_three_on_three_lampent():
     me = game.players["a"]
     foe = game.players["b"]
     _reclaim(me)
-    cleffa = _pull(me, "Cleffa")
+    cleffa = _cleffa(me)
     lamps = [_pull(me, "Lampent") for _ in range(3)]
     chand = _pull(me, "Chandelure")
     me.active = Pokemon(card_i=cleffa, played_turn=0)
@@ -941,7 +945,7 @@ def test_jacq_takes_lampent_then_chandelure_for_one_legal_litwick():
     game = _game()
     me = game.players["a"]
     _reclaim(me)
-    cleffa = _pull(me, "Cleffa")
+    cleffa = _cleffa(me)
     lit = _pull(me, "Litwick")
     lamp = _pull(me, "Lampent")
     chand = _pull(me, "Chandelure")
@@ -988,7 +992,7 @@ def test_jacq_takes_two_chandelure_when_lampent_are_already_out():
     game = _game()
     me = game.players["a"]
     _reclaim(me)
-    cleffa = _pull(me, "Cleffa")
+    cleffa = _cleffa(me)
     lamps = [_pull(me, "Lampent") for _ in range(2)]
     chands = [_pull(me, "Chandelure") for _ in range(2)]
     jacq = _grant(me, "Jacq")
