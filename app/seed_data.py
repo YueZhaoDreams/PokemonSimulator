@@ -715,6 +715,35 @@ SET_MILL_NAMES = (
     + ["Reversal Energy"] * 4
 )
 
+# Celebi ◇ Time Distortion + Lost Origin Chandelure. Lampent is Plasma Storm
+# Freefloating. Mountain Roasting mills 3 only when Chandelure is played from
+# the hand. Dawn searches the deck for a Basic Pokémon, a Stage 1 Pokémon, and
+# a Stage 2 Pokémon. Broken Time-Space lets that Litwick become Lampent and then
+# Chandelure the same turn. Level Ball finds
+# Lampent (70) and Celebi ◇ (90); it does not find Chandelure (150). Cleffa is
+# the HGSS Eeeeeeek print. See data/lab/set-mill-roast.md.
+SET_ROAST_NAMES = (
+    ["Litwick"] * 4
+    + ["Lampent"] * 4
+    + ["Chandelure"] * 4
+    + ["Celebi ◇"]
+    + ["Pichu"] * 3
+    + ["Cleffa"] * 2
+    + ["Arven"] * 4
+    + ["Team Rocket's Petrel"] * 4
+    + ["Buddy-Buddy Poffin"] * 3
+    + ["Energy Search"] * 4
+    + ["Energy Retrieval"] * 2
+    + ["Rescue Scarf"] * 4
+    + ["Dawn"] * 4
+    + ["Level Ball"] * 3
+    + ["Ultra Ball"]
+    + ["Switch"] * 2
+    + ["Broken Time-Space"] * 3
+    + ["Slumbering Forest"]
+    + ["Fire Energy"] * 7
+)
+
 # Unlimited 60: Ambipom PAR Hand Fling, Lopunny FLF Big Jump recycle,
 # Raikou V Fleet-Footed + Forest Seal Stone Star Alchemy, Draw Energy, Rare Candy.
 # 4/4 Aipom–Ambipom is the 2-for-1 prize race (100 HP / 1 prize vs household 2-prizers).
@@ -1291,6 +1320,22 @@ _register(_trn("Tool Box", "item", "Look at the top 7 cards of your deck. You ma
 _register(_trn("Trekking Shoes", "item", "Look at the top card of your deck. You may put it into your hand, or discard it and draw a card."))
 _register(_trn("Lake Acuity", "stadium", "Water and Fighting Pokémon take 20 less damage from attacks."))
 _register(_trn("Jacq", "supporter", "Search your deck for up to 2 Evolution Pokémon."))
+_register(
+    _trn(
+        "Dawn",
+        "supporter",
+        "Search your deck for a Basic Pokémon, a Stage 1 Pokémon, and a Stage 2 Pokémon, reveal them, and put them into your hand. Then, shuffle your deck.",
+        catalog_id="pfl-87",
+    )
+)
+_register(
+    _trn(
+        "Evolution Incense",
+        "item",
+        "Search your deck for an Evolution Pokémon, reveal it, and put it into your hand. Then, shuffle your deck.",
+        catalog_id="swsh1-163",
+    )
+)
 _register(
     _trn(
         "Lillie's Determination",
@@ -3227,6 +3272,99 @@ for card in [
     ),
 ]:
     _register(card)
+
+_TIME_DISTORTION = (
+    "Devolve any number of your Benched Pokémon as many times as you like. "
+    "Put each Evolution card removed this way into your hand."
+)
+_MOUNTAIN_ROASTING = (
+    "When you play this Pokémon from your hand to evolve 1 of your Pokémon during your turn, "
+    "you may discard the top 3 cards of your opponent's deck."
+)
+_FREEFLOATING = "If this Pokémon has no Energy attached to it, this Pokémon has no Retreat Cost."
+_GRAND_TREE = (
+    "You can't have more than 1 ACE SPEC card in your deck. "
+    "Once during each player's turn, that player may search their deck for a Stage 1 Pokémon "
+    "that evolves from 1 of their Basic Pokémon and put it onto that Pokémon to evolve it. "
+    "If that Pokémon was evolved in this way, that player may search their deck for a Stage 2 "
+    "Pokémon that evolves from that Pokémon and put it onto that Pokémon to evolve it. "
+    "Then, that player shuffles their deck. (Players can't evolve a Basic Pokémon during their "
+    "first turn or a Basic Pokémon that was put into play this turn.)"
+)
+_RESCUE_SCARF = (
+    "If the Pokémon this card is attached to is Knocked Out by damage from an attack, "
+    "put that Pokémon into your hand. (Discard all cards attached to that Pokémon.)"
+)
+_CELEBI_PRISM = _register(
+    _pkm(
+        "Celebi ◇",
+        "Basic",
+        ["Grass"],
+        90,
+        [
+            _atk("Time Distortion", ["Colorless"], 0, _TIME_DISTORTION),
+            _atk("Leech Seed", ["Grass"], 20, "Heal 20 damage from this Pokémon."),
+        ],
+        retreat=1,
+        catalog_id="sm8-19",
+        weakness="Fire",
+        set_name="Lost Thunder",
+        traits=["prism star"],
+    )
+)
+_CELEBI_PRISM.text = (
+    "Prism Star: You can't have more than 1 Prism Star card with the same name in your deck. "
+    "If this Pokémon would go to the discard pile, put it in the Lost Zone instead."
+)
+FALLBACK_BY_NAME["celebi prism star"] = _CELEBI_PRISM
+FALLBACK_BY_NAME["celebi prism"] = _CELEBI_PRISM
+_register(
+    _pkm(
+        "Lampent",
+        "Stage1",
+        ["Fire"],
+        70,
+        [_atk("Will-O-Wisp", ["Fire", "Colorless"], 20)],
+        evolves_from="Litwick",
+        retreat=1,
+        catalog_id="bw8-22",
+        weakness="Water",
+        set_name="Plasma Storm",
+        abilities=[Ability(name="Freefloating", text=_FREEFLOATING)],
+    )
+)
+_register(
+    _pkm(
+        "Chandelure",
+        "Stage2",
+        ["Fire"],
+        150,
+        [_atk("Heat Blast", ["Fire", "Colorless"], 90)],
+        evolves_from="Lampent",
+        retreat=2,
+        catalog_id="swsh11-026",
+        weakness="Water",
+        set_name="Lost Origin",
+        abilities=[Ability(name="Mountain Roasting", text=_MOUNTAIN_ROASTING)],
+    )
+)
+_register(
+    _trn(
+        "Grand Tree",
+        "stadium",
+        _GRAND_TREE,
+        catalog_id="sv07-136",
+        traits=["ace spec"],
+    )
+)
+_register(
+    _trn(
+        "Rescue Scarf",
+        "tool",
+        _RESCUE_SCARF,
+        catalog_id="bw6-115",
+    )
+)
 
 # TWM / CLC Clefable keep the printed name "Clefable" but live under alias keys so they
 # do not overwrite Rebel Clash Prankish in FALLBACK_BY_NAME.
@@ -5378,6 +5516,17 @@ def fallback_named(name: str) -> Card:
     from app.catalog import fallback_card
 
     return fallback_card(name)
+
+
+def build_roast_deck() -> list[Card]:
+    """Celebi ◇ roast mill. Cleffa is HGSS Eeeeeeek. Pichu is HGSS Playground."""
+    out: list[Card] = []
+    for name in SET_ROAST_NAMES:
+        if name == "Cleffa":
+            out.append(fallback_named("cleffa hgss"))
+        else:
+            out.append(fallback_named(name))
+    return out
 
 
 def build_mill_deck() -> list[Card]:
