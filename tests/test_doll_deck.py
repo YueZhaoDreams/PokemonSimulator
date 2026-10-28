@@ -120,7 +120,8 @@ def test_doll_list_is_the_locked_60():
     assert names.count("Slumbering Forest") == 2
     assert names.count("Battle Cage") == 4
     assert names.count("Manaphy") == 1
-    assert names.count("Switch") == 2
+    assert names.count("Switch") == 1
+    assert names.count("Black Market") == 1
     assert names.count("Sableye") == 2
     assert names.count("Darkness Energy") == 2
     assert names.count("Dark Patch") == 1
@@ -172,6 +173,9 @@ def test_doll_list_is_the_locked_60():
     assert [c.catalog_id for c in pile if c.name == "Cursed Shovel"] == ["swsh2-157"] * 3
     assert [c.catalog_id for c in pile if c.name == "Nincada"] == ["sm8-29"]
     assert [c.attacks[0].text for c in pile if c.name == "Nincada"] == [_SWIPES]
+    market = next(c for c in pile if c.name == "Black Market")
+    assert market.catalog_id == "sm9-134"
+    assert market.trainer_kind == "stadium"
     shed = next(c for c in pile if c.name == "Shedinja")
     assert shed.catalog_id == "sm8-95"
     assert shed.text == _VESSEL
@@ -206,6 +210,7 @@ def test_doll_list_is_the_locked_60():
             "https://assets.tcgdex.net/en/xy/xy9/109/low.webp"
         ] * 4
         assert [c["catalog_id"] for c in loaded["cards"] if c["name"] == "Level Ball"] == ["swsh5-129"] * 2
+        assert [c["catalog_id"] for c in loaded["cards"] if c["name"] == "Black Market"] == ["sm9-134"]
     assert default_rule_presets_for("seed-doll") == ["s60"]
     assert "seed-doll" in S60_SEED_IDS
     spec = StrategySpec.from_dict("doll")

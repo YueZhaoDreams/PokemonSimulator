@@ -43,3 +43,29 @@ The holdout above is the Nest Ball list on the fight script. The swap was measur
 | Level Ball | 28.8% | 28.9% |
 
 Level Ball tutored Shedinja, and Vessel of Life fired more often. The weighted rates stayed inside the noise of this sample. These games are not the fight-script holdout.
+
+## Black Market
+
+The locked 60 cuts one of the two Switches for one Black Market ◇ (Team Up 134). The confirm is the product engine, strategy `doll`, seed 20261028, 200 games each seat. Sisters-weighted 27.6% on the two-Switch list, 29.4% after the cut. The gap's standard error is about 0.81 points. The Stadium is played about once every ten games, and the prize line fires less often, because Battle Cage stays up against spread. Darkness Energy still has to be attached before that line applies. Life Dew stays off Sableye when Black Market is in play. This confirm is not the 1000-game holdout above. The loss reasons below are that same confirm, with each game's reason kept.
+
+## Why it loses
+
+Sisters-weighted win rate on this sample is 29.4%. The weighted losses are an empty board 56.7%, the opponent taking all 6 Prize cards 27.1%, and the 40-turn limit 16.2% (14.5% because the opponent had more Prizes, 1.7% because they had more remaining HP). Doll did not deck out in these 5200 games, and Doll did not fail to find a Basic. A win is the opponent decking out. D60's three wins, and three of Iron Thorns' wins, are the opponent still having no Basic after the mulligan cap. One Lucario win is an empty opposing board. One game against M and one against H win on remaining HP at the turn limit. The detail is `data/lab/set-doll-losses.md`.
+
+Black Market was in play in 7.1% of the losses, and its prize line fired in 2.9%. Against spread and Demolish the pilot keeps Battle Cage, so the Stadium is usually not the card in play when the game is lost.
+
+The weighted losses sit on five foes:
+
+| Foe | Share of weighted losses | What happens |
+| --- | ---: | --- |
+| D60 | 20.4% | 395 of 400 games end with an empty board. The opponent has taken 2.01 Prizes. The other 3 games are the opponent still having no Basic after the mulligan cap. |
+| M | 17.1% | 182 games the opponent takes 6 Prizes. 148 end with an empty board, at a mean of 8.3 turns. |
+| Starmie | 13.3% | 231 games end with an empty board, at a mean of 13.4 turns. 85 are 6 Prizes. |
+| G | 13.1% | 155 games are 6 Prizes. 137 are an empty board. |
+| H | 10.0% | 294 games reach the turn limit with H ahead on Prizes: 97 at 3, 83 at 4, 51 at 5. The mill finishes in 6.5% of games. |
+
+Demolish does 140, and that damage is not affected by any effects on the opponent's Active Pokémon. Sweet Sleeping Face does not stop it. The pilot does not play those faces into Demolish. Lillie's Poké Doll and Robo Substitute award no Prize and have 30 HP, so Ogerpon can Knock them Out without taking a Prize. The game ends when the Active is Knocked Out and the Bench is empty. In those games Doll has lost about 2.9 dolls and 2.3 prize bodies.
+
+Sweet Sleeping Face prevents attack damage only while that Pokémon is Asleep. Between turns its owner flips 1 coin. Under Slumbering Forest the flip is 2 coins, and Asleep ends only when every coin is heads. Against Dragapult, Starmie, and Carpet H the pilot keeps Battle Cage, so the check stays 1 coin. Damage counters are not attack damage. Phantom Dive places its counters on one Benched Pokémon, and Battle Cage is what stops that placement. A 30 HP doll is Knocked Out by those counters. Sableye has no Sweet Sleeping Face. Where the opponent takes 6 Prizes, the Knock Outs are Cleffa, Smoochum, Mime Jr., and Sableye. Shedinja is not among them. Set M also plays Mime Jr. and Manaphy, so those two names are not separated in that matchup.
+
+Carpet H's Wicked Thunder does 60. An Asleep face in the Active Spot does not take that attack damage. Over 40 turns H still leaves with 3, 4, or 5 Prizes, and Doll's mill has not finished. S60 is the same shape at a smaller weight: the mill wins 55%, and 27.5% of games hit the turn limit. Ambipom's non-mill losses are the turn limit on remaining HP, 116 games. Its Sisters weight is 1.1%.

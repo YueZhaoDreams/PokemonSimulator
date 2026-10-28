@@ -882,6 +882,7 @@ STRATEGY_LIBRARY = {
             "Battle Cage stays up against spread instead of covering it with Slumbering Forest. "
             "Junk Hunt retrieves Item dolls and skips Snorlax Doll. "
             "Life Dew is the single prize-cut tool. Cleffa is the HeartGold & SoulSilver Eeeeeeek print. "
+            "The locked list is one Switch and one Black Market. "
             "Black Market is played for a Sableye that has, or can attach, Darkness Energy. "
             "It does not replace Battle Cage against spread, or Slumbering Forest while a face is Asleep. "
             "With Black Market in play, Life Dew stays off Sableye. "

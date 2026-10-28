@@ -1,7 +1,34 @@
 {
   "name": "Doll",
   "seed_id": "seed-doll",
-  "locked": "2026-10-24",
+  "locked": "2026-10-28",
+  "black_market": {
+    "measurement": "product engine, strategy doll, same games as data/lab/set-doll-losses.json",
+    "seed": 20261028,
+    "games_per_seat": 200,
+    "cut": "Switch",
+    "two_switch_sisters_weighted": 0.27644144144144145,
+    "sisters_weighted": 0.29387387387387387,
+    "se": 0.005855004948530075,
+    "note": "One Black Market replaces one Switch. The 1000-game holdout below is the earlier two-Switch list."
+  },
+  "losses": {
+    "seed": 20261028,
+    "games_per_seat": 200,
+    "sisters_weighted_win": 0.293874,
+    "sisters_weighted_loss": 0.706126,
+    "share_of_weighted_losses": {
+      "empty": 0.567,
+      "prizes": 0.271,
+      "turn_prizes": 0.145,
+      "turn_hp": 0.017
+    },
+    "market_in_play_on_losses": 0.071,
+    "market_prize_cut_on_losses": 0.029,
+    "doll_deckouts": 0,
+    "doll_no_basic": 0,
+    "detail": "data/lab/set-doll-losses.md"
+  },
   "measurement": "fight-script holdout, not the product engine",
   "note": "Item dolls are Trainers. A Pokémon search does not find them. The list uses two Level Ball. Life Dew is one Pokémon Tool, not an ACE SPEC label. D60 wins in the fight-script holdout include the mulligan cap. Carpet H did not play Battle Cage in that sample.",
   "level_ball": {

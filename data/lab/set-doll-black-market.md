@@ -57,7 +57,7 @@ The pilot plays it for Sableye once that Sableye has Darkness Energy, or can att
 
 ## Decision
 
-The highest confirm cuts one Switch for one Black Market. Weighted 29.4% vs the locked Doll at 27.6% (+1.7%; SE 0.59% on the swap and 0.56% on the lock, so the gap's SE is about 0.81%). The Stadium comes down about once every ten games, and the prize line fires less often than that, because Battle Cage stays up against spread. SET_DOLL_NAMES stays the locked 60. This sample is not the 1000-game holdout.
+The highest confirm cuts one Switch for one Black Market. Weighted 29.4% vs the two-Switch Doll at 27.6% (+1.7%; SE 0.59% on the swap and 0.56% on the two-Switch list, so the gap's SE is about 0.81%). The Stadium comes down about once every ten games, and the prize line fires less often than that, because Battle Cage stays up against spread. That cut is now SET_DOLL_NAMES: one Switch, one Black Market. This sample is not the 1000-game holdout.
 
 ## Foes on the confirm
 

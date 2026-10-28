@@ -1,14 +1,17 @@
 #!/usr/bin/env python3
-"""One Black Market on the locked Doll 60.
+"""One Black Market measured on the two-Switch Doll 60.
 
 Dark Market is Black Market ◇ (Team Up 134). The step adds that one Stadium and
 cuts one other card. Every cut is screened, then the cuts that can still beat
-the locked list are confirmed. The score is the frozen Sisters loss-weighted
+the two-Switch list are confirmed. The score is the frozen Sisters loss-weighted
 win rate. Both seats. Doll goes first in either seat.
 
 Seed from DOLL_MARKET_SEED (default 20261028). Screen games per seat from
 DOLL_MARKET_SCREEN (default 40). Confirm games per seat from DOLL_MARKET_GAMES
-(default 120). SET_DOLL_NAMES is not changed here.
+(default 120).
+
+The confirm that cut one Switch is now SET_DOLL_NAMES. This script exits when
+Black Market is already in that list, so it is not re-run against the lock.
 """
 
 from __future__ import annotations
@@ -348,12 +351,12 @@ def _markdown(report: dict) -> str:
     if report["kept"]:
         decision = (
             f"The highest confirm cuts one {best['cut']} for one Black Market. "
-            f"Weighted {_pct(best['weighted'])} vs the locked Doll at {_pct(base['weighted'])} "
-            f"({_signed(delta)}; SE {best['se']:.2%} on the swap and {base['se']:.2%} on the lock, "
+            f"Weighted {_pct(best['weighted'])} vs the two-Switch Doll at {_pct(base['weighted'])} "
+            f"({_signed(delta)}; SE {best['se']:.2%} on the swap and {base['se']:.2%} on the two-Switch list, "
             f"so the gap's SE is about {gap_se:.2%}). "
             "The Stadium comes down about once every ten games, and the prize line fires less often than that, "
             "because Battle Cage stays up against spread. "
-            "SET_DOLL_NAMES stays the locked 60. This sample is not the 1000-game holdout."
+            "That Switch cut is the Doll lock. This sample is not the 1000-game holdout."
         )
     else:
         decision = (
@@ -384,7 +387,7 @@ def main() -> None:
     cache = _load_cache()
     base_names = list(SET_DOLL_NAMES)
     if len(base_names) != 60 or base_names.count(ADD):
-        raise SystemExit("locked Doll is not a 60 without Black Market")
+        raise SystemExit("this measurement is the two-Switch list; Black Market is already the lock")
     cuts = sorted(Counter(base_names))
     screen_lists = [("locked", base_names)] + [(cut, _swap(base_names, cut)) for cut in cuts]
     print(f"screen {len(screen_lists)} lists", flush=True)
