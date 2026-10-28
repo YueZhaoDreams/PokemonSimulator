@@ -2466,8 +2466,16 @@ class Game:
 
     def _resolve_trainer(self, me: Player, foe: Player, card: Card, who: str = "a", card_i: int | None = None) -> None:
         name = card.name.lower()
-        if name in {"hop"}:
-            self._draw(me, 3)
+        if name == "hop":
+            amount = 0
+            for eff in parse_trainer_effects(card.text or ""):
+                if eff.get("kind") == "draw":
+                    amount = int(eff.get("amount") or 0)
+                    break
+            drawn = self._draw(me, amount)
+            if drawn:
+                self._bump("hop")
+                self._bump("hop_cards", len(drawn))
         elif name == "lillie":
             spec = parse_draw_until_hand(card.text or "")
             if spec:
@@ -18507,6 +18515,8 @@ class Game:
             return self._roast_lampent_short(me) > 0
         if name == "jacq":
             return bool(self._roast_jacq_picks(me, who))
+        if name == "hop":
+            return self._roast_hop_safe(me, card)
         if name == "hisuian heavy ball":
             return self._roast_heavy_best(me) is not None
         if name == "broken time-space" and (self.stadium_name or "").lower() != "broken time-space":
@@ -18706,6 +18716,29 @@ class Game:
             return "Chandelure"
         return None
 
+    def _roast_hop_amount(self, card: Card) -> int:
+        for eff in parse_trainer_effects(card.text or ""):
+            if eff.get("kind") == "draw":
+                return int(eff.get("amount") or 0)
+        return 0
+
+    def _roast_hop_safe(self, me: Player, card: Card) -> bool:
+        """Draw only while five cards would remain for later turns."""
+        amount = self._roast_hop_amount(card)
+        return amount > 0 and len(me.deck) >= amount + 5
+
+    def _roast_line_uncovered(self, me: Player, who: str) -> bool:
+        """A Lampent can evolve with no Chandelure in hand, or a Litwick still needs Lampent."""
+        if self._roast_legal_lampent(me, who) > self._roast_chandelure_hand(me):
+            return True
+        open_litwick = sum(
+            1
+            for mon in me.in_play()
+            if me.card(mon.card_i).name.lower() == "litwick" and self._can_evolve_now(me, who, mon)
+        )
+        lamp_hand = sum(1 for i in me.hand if me.card(i).name.lower() == "lampent")
+        return open_litwick > lamp_hand
+
     def _roast_jacq_picks(self, me: Player, who: str) -> list[str]:
         taken: dict[str, int] = {}
         picks: list[str] = []
@@ -18844,6 +18877,14 @@ class Game:
             and self._roast_named(me, me.deck, "Dawn")
         ):
             return "Dawn"
+        if (
+            self._roast_line_uncovered(me, who)
+            and not self._roast_named(me, me.hand, "Hop")
+            and self._roast_named(me, me.deck, "Hop")
+        ):
+            hop = next(me.card(i) for i in me.deck if me.card(i).name.lower() == "hop")
+            if self._roast_hop_safe(me, hop):
+                return "Hop"
         if self._roast_heavy_deck_only(me):
             return "Hisuian Heavy Ball"
         if not forest_out and not self._roast_named(me, me.hand, "Slumbering Forest") and self._roast_named(me, me.deck, "Slumbering Forest"):
@@ -18929,6 +18970,7 @@ class Game:
             "hyper aroma",
             "dawn",
             "jacq",
+            "hop",
             "hisuian heavy ball",
             "level ball",
             "rescue scarf",
@@ -18970,6 +19012,12 @@ class Game:
             if len(picks) >= 2 or self._roast_wants_playground(me, who):
                 return 225
             return 175
+        if name == "hop":
+            if not self._roast_hop_safe(me, card):
+                return -1
+            if self._roast_line_uncovered(me, who):
+                return 165
+            return 100
         if name == "dawn":
             if self._roast_needs_switch(me) and not self._roast_named(me, me.hand, "Switch"):
                 return 100
@@ -19031,6 +19079,8 @@ class Game:
                 return 215
             if want == "Dawn":
                 return 200
+            if want == "Hop":
+                return 165
             if want == "Broken Time-Space":
                 return 185
             if want == "Slumbering Forest":

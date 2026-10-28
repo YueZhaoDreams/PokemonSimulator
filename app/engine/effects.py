@@ -1377,6 +1377,10 @@ def parse_trainer_effects(text: str) -> list[dict[str, Any]]:
     effects: list[dict[str, Any]] = []
     if not t:
         return effects
+    # Hop: the whole sentence is "Draw N cards." The count stays in the effect.
+    plain_draw = re.fullmatch(r"draw (\d+) cards?\.?", t.strip())
+    if plain_draw:
+        return [{"kind": "draw", "amount": int(plain_draw.group(1))}]
     played = _play_as_pokemon_effect(t)
     if played:
         return [played]
