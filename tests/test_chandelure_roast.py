@@ -11,7 +11,7 @@ from app.engine.game import ST_ASLEEP, Game, Pokemon
 from app.engine.legality import copy_violations
 from app.engine.models import standard_60_rules
 from app.engine.strategies import StrategySpec
-from app.seed_data import build_fallback_deck, build_roast_deck, fallback_named
+from app.seed_data import SET_ROAST_NAMES, build_fallback_deck, build_roast_deck, fallback_named
 
 TIME_DISTORTION = (
     "Devolve any number of your Benched Pokémon as many times as you like. "
@@ -33,6 +33,22 @@ INCENSE = (
 DAWN = (
     "Search your deck for a Basic Pokémon, a Stage 1 Pokémon, and a Stage 2 Pokémon, "
     "reveal them, and put them into your hand. Then, shuffle your deck."
+)
+HEAVY = (
+    "Look at your face-down Prize cards. You may reveal a Basic Pokémon you find there, "
+    "put it into your hand, and put this Hisuian Heavy Ball in its place as a face-down Prize card. "
+    "(If you don't reveal a Basic Pokémon, put this card in the discard pile.) "
+    "Then, shuffle your face-down Prize cards."
+)
+JACQ = (
+    "Search your deck for up to 2 Evolution Pokémon, reveal them, and put them into your hand. "
+    "Then, shuffle your deck."
+)
+HOP = "Draw 3 cards."
+AROMA = (
+    "You can't have more than 1 ACE SPEC card in your deck. "
+    "Search your deck for up to 3 Stage 1 Pokémon, reveal them, and put them into your hand. "
+    "Then, shuffle your deck."
 )
 GRAND_TREE = (
     "You can't have more than 1 ACE SPEC card in your deck. "
@@ -79,6 +95,12 @@ def _grant(me, name: str) -> int:
     return idx
 
 
+def _cleffa(me) -> int:
+    card_i = _grant(me, "cleffa hgss")
+    me.deck.remove(card_i)
+    return card_i
+
+
 def _pull(me, name: str) -> int:
     for zone in (me.hand, me.deck, me.prizes, me.discard, me.lost_zone):
         for card_i in list(zone):
@@ -97,7 +119,11 @@ def test_printed_sentences_parse_without_a_fixed_devolve_count():
     assert four == [{"kind": "mill_on_play_from_hand", "count": 4}]
     assert parse_ability_effects(FREEFLOATING) == [{"kind": "retreat_zero_if_no_energy"}]
     assert parse_trainer_effects(INCENSE) == [{"kind": "search_evolution_pokemon", "count": 1}]
+    assert parse_trainer_effects(AROMA) == [{"kind": "search_stage1", "count": 3}]
+    assert parse_trainer_effects(AROMA.replace("up to 3", "up to 4")) == [{"kind": "search_stage1", "count": 4}]
     assert parse_trainer_effects(DAWN) == [{"kind": "search_basic_stage1_stage2"}]
+    assert parse_trainer_effects(HEAVY) == [{"kind": "hisuian_heavy_ball"}]
+    assert not any(e.get("kind") == "search_evolution_pokemon" for e in parse_trainer_effects(JACQ))
     assert {"kind": "grand_tree"} in parse_ability_effects(GRAND_TREE)
     assert not any(e.get("kind") == "mill_on_play_from_hand" for e in parse_ability_effects(GRAND_TREE))
     scarf = parse_trainer_effects(RESCUE_SCARF)
@@ -113,6 +139,11 @@ def test_printed_sentences_parse_without_a_fixed_devolve_count():
     assert chandelure.abilities[0].text == MOUNTAIN_ROASTING
     assert fallback_named("Evolution Incense").text == INCENSE
     assert fallback_named("Dawn").text == DAWN
+    assert fallback_named("Hisuian Heavy Ball").text == HEAVY
+    assert fallback_named("Jacq").text == JACQ
+    assert fallback_named("Hop").text == HOP
+    assert fallback_named("Hyper Aroma").text == AROMA
+    assert "ace spec" in [trait.lower() for trait in fallback_named("Hyper Aroma").traits]
     assert fallback_named("Grand Tree").text == GRAND_TREE
     assert fallback_named("Rescue Scarf").text == RESCUE_SCARF
 
@@ -123,20 +154,28 @@ def test_roast_deck_is_sixty_and_pichu_is_playground():
     assert copy_violations(deck, standard_60_rules()) == []
     assert StrategySpec.from_dict("roast").name == "roast"
     names = [card.name for card in deck]
+    assert names == list(SET_ROAST_NAMES)
     assert names.count("Pichu") == 3
-    assert names.count("Cleffa") == 2
-    assert names.count("Level Ball") == 3
+    assert names.count("Cleffa") == 0
+    assert names.count("Level Ball") == 2
     assert names.count("Dawn") == 4
-    assert names.count("Evolution Incense") == 0
-    assert names.count("Buddy-Buddy Poffin") == 3
+    assert names.count("Evolution Incense") == 3
+    assert names.count("Buddy-Buddy Poffin") == 2
+    assert names.count("Energy Retrieval") == 1
     assert names.count("Broken Time-Space") == 3
-    assert names.count("Slumbering Forest") == 1
+    assert names.count("Slumbering Forest") == 0
     assert names.count("Fire Energy") == 7
     assert names.count("Grand Tree") == 0
     assert names.count("Colress's Tenacity") == 0
-    assert names.count("Ultra Ball") == 1
+    assert names.count("Ultra Ball") == 0
+    assert names.count("Hisuian Heavy Ball") == 1
+    assert names.count("Energy Search") == 3
+    assert names.count("Switch") == 0
+    assert names.count("Jacq") == 2
+    assert names.count("Hop") == 4
+    assert names.count("Team Rocket's Petrel") == 3
+    assert names.count("Hyper Aroma") == 1
     assert names.count("Nest Ball") == 0
-    assert names.count("Slumbering Forest") == 1
     assert not any("Doll" in name for name in names)
     pichu = [card for card in deck if card.name == "Pichu"]
     for card in pichu:
@@ -150,13 +189,11 @@ def test_roast_deck_is_sixty_and_pichu_is_playground():
         assert playground.get("user_first") is True
         assert any(ability.name == "Sweet Sleeping Face" for ability in card.abilities)
         assert "as many" in card.attacks[0].text.lower()
-    for card in deck:
-        if card.name != "Cleffa":
-            continue
-        assert any(effect.get("kind") == "shuffle_hand_then_draw" for attack in card.attacks for effect in attack.effects)
-        assert "draw 6" in card.attacks[0].text.lower()
-        assert any(ability.name == "Sweet Sleeping Face" for ability in card.abilities)
-    forest = next(card for card in deck if card.name == "Slumbering Forest")
+    cleffa = fallback_named("cleffa hgss")
+    assert any(effect.get("kind") == "shuffle_hand_then_draw" for attack in cleffa.attacks for effect in attack.effects)
+    assert "draw 6" in cleffa.attacks[0].text.lower()
+    assert any(ability.name == "Sweet Sleeping Face" for ability in cleffa.abilities)
+    forest = fallback_named("Slumbering Forest")
     assert {"kind": "sleep_check_two_coins"} in parse_ability_effects(forest.text)
 
 
@@ -379,7 +416,8 @@ def test_asleep_pichu_uses_switch_to_bring_celebi_active():
     _reclaim(me)
     pichu = _pull(me, "Pichu")
     celebi = _pull(me, "Celebi ◇")
-    switch = _pull(me, "Switch")
+    switch = _grant(me, "Switch")
+    me.deck.remove(switch)
     me.active = Pokemon(card_i=pichu, played_turn=0, status=ST_ASLEEP)
     me.bench = [Pokemon(card_i=celebi, played_turn=0)]
     me.hand.clear()
@@ -402,7 +440,7 @@ def test_one_lampent_hand_evolves_and_brings_celebi():
     me = game.players["a"]
     foe = game.players["b"]
     _reclaim(me)
-    cleffa = _pull(me, "Cleffa")
+    cleffa = _cleffa(me)
     lamp = _pull(me, "Lampent")
     chands = [_pull(me, "Chandelure") for _ in range(3)]
     celebi = _pull(me, "Celebi ◇")
@@ -426,7 +464,7 @@ def test_three_legal_lampent_bring_celebi_and_mill_nine():
     me = game.players["a"]
     foe = game.players["b"]
     _reclaim(me)
-    cleffa = _pull(me, "Cleffa")
+    cleffa = _cleffa(me)
     lamps = [_pull(me, "Lampent") for _ in range(3)]
     chands = [_pull(me, "Chandelure") for _ in range(3)]
     celebi = _pull(me, "Celebi ◇")
@@ -452,7 +490,7 @@ def test_sleep_evolves_lampent_when_chandelure_already_has_a_target():
     me = game.players["a"]
     foe = game.players["b"]
     _reclaim(me)
-    cleffa = _pull(me, "Cleffa")
+    cleffa = _cleffa(me)
     lit = _pull(me, "Litwick")
     ready = _pull(me, "Lampent")
     lamp = _pull(me, "Lampent")
@@ -475,7 +513,7 @@ def test_broken_time_space_evolves_litwick_to_chandelure_and_mills():
     me = game.players["a"]
     foe = game.players["b"]
     _reclaim(me)
-    cleffa = _pull(me, "Cleffa")
+    cleffa = _cleffa(me)
     lit = _pull(me, "Litwick")
     lamp = _pull(me, "Lampent")
     chand = _pull(me, "Chandelure")
@@ -500,7 +538,7 @@ def test_petrel_finds_broken_time_space_before_another_dawn():
     me = game.players["a"]
     foe = game.players["b"]
     _reclaim(me)
-    cleffa = _pull(me, "Cleffa")
+    cleffa = _cleffa(me)
     lit = _pull(me, "Litwick")
     lamp = _pull(me, "Lampent")
     chand = _pull(me, "Chandelure")
@@ -525,7 +563,7 @@ def test_lampent_played_this_turn_cannot_take_chandelure():
     me = game.players["a"]
     foe = game.players["b"]
     _reclaim(me)
-    cleffa = _pull(me, "Cleffa")
+    cleffa = _cleffa(me)
     litwicks = [_pull(me, "Litwick") for _ in range(3)]
     lamps = [_pull(me, "Lampent") for _ in range(3)]
     chands = [_pull(me, "Chandelure") for _ in range(3)]
@@ -550,8 +588,9 @@ def test_active_litwick_evolves_and_same_turn_lampent_cannot_take_chandelure():
     lit = _pull(me, "Litwick")
     lamp = _pull(me, "Lampent")
     chands = [_pull(me, "Chandelure") for _ in range(2)]
-    cleffa = _pull(me, "Cleffa")
-    switch = _pull(me, "Switch")
+    cleffa = _cleffa(me)
+    switch = _grant(me, "Switch")
+    me.deck.remove(switch)
     fuel = _pull(me, "Fire Energy")
     me.active = Pokemon(card_i=lit, played_turn=0)
     me.bench = [Pokemon(card_i=cleffa, played_turn=0)]
@@ -589,7 +628,7 @@ def test_level_ball_finds_cleffa_before_lampent_when_the_wall_is_missing():
     me = game.players["a"]
     _reclaim(me)
     lit = _pull(me, "Litwick")
-    cleffa = _pull(me, "Cleffa")
+    cleffa = _cleffa(me)
     lamp = _pull(me, "Lampent")
     ball = _pull(me, "Level Ball")
     me.active = Pokemon(card_i=lit, played_turn=0)
@@ -630,7 +669,7 @@ def test_two_incense_and_broken_time_space_mill_six():
     me = game.players["a"]
     foe = game.players["b"]
     _reclaim(me)
-    cleffa = _pull(me, "Cleffa")
+    cleffa = _cleffa(me)
     lits = [_pull(me, "Litwick") for _ in range(2)]
     lamps = [_pull(me, "Lampent") for _ in range(2)]
     chands = [_pull(me, "Chandelure") for _ in range(2)]
@@ -655,7 +694,7 @@ def test_incense_does_not_find_a_basic():
     game = _game()
     me = game.players["a"]
     _reclaim(me)
-    cleffa = _pull(me, "Cleffa")
+    cleffa = _cleffa(me)
     lit = _pull(me, "Litwick")
     other = _pull(me, "Litwick")
     lamp = _pull(me, "Lampent")
@@ -670,11 +709,34 @@ def test_incense_does_not_find_a_basic():
     assert other in me.deck
 
 
+def test_incense_takes_chandelure_while_a_litwick_still_needs_lampent():
+    game = _game()
+    me = game.players["a"]
+    _reclaim(me)
+    cleffa = _cleffa(me)
+    lits = [_pull(me, "Litwick") for _ in range(2)]
+    lamp_hand = _pull(me, "Lampent")
+    lamp_deck = _pull(me, "Lampent")
+    chand = _pull(me, "Chandelure")
+    incense = _grant(me, "Evolution Incense")
+    me.deck.remove(incense)
+    me.active = Pokemon(card_i=cleffa, played_turn=0)
+    me.bench = [Pokemon(card_i=lit, played_turn=0) for lit in lits]
+    me.hand = [lamp_hand, incense]
+    me.deck = [lamp_deck, chand]
+    _ready_turn(game)
+    assert game._roast_incense_choice(me) == "Chandelure"
+    game._roast_trainers(me, game.players["b"], "a")
+    assert chand in me.hand
+    assert lamp_deck in me.deck
+    assert incense in me.discard
+
+
 def test_incense_takes_chandelure_when_spare_lampent_remain():
     game = _game()
     me = game.players["a"]
     _reclaim(me)
-    cleffa = _pull(me, "Cleffa")
+    cleffa = _cleffa(me)
     lits = [_pull(me, "Litwick") for _ in range(2)]
     lamps = [_pull(me, "Lampent") for _ in range(2)]
     spare = _pull(me, "Lampent")
@@ -694,7 +756,7 @@ def test_incense_stays_unplayed_without_a_line():
     game = _game()
     me = game.players["a"]
     _reclaim(me)
-    cleffa = _pull(me, "Cleffa")
+    cleffa = _cleffa(me)
     lamp = _pull(me, "Lampent")
     chand = _pull(me, "Chandelure")
     incense = _grant(me, "Evolution Incense")
@@ -714,7 +776,7 @@ def test_dawn_finds_each_stage_and_the_chandelure_mills_on_a_legal_lampent():
     me = game.players["a"]
     foe = game.players["b"]
     _reclaim(me)
-    cleffa = _pull(me, "Cleffa")
+    cleffa = _cleffa(me)
     lamp_play = _pull(me, "Lampent")
     lit = _pull(me, "Litwick")
     lamp = _pull(me, "Lampent")
@@ -742,7 +804,7 @@ def test_dawn_cannot_evolve_the_basic_it_just_put_into_play():
     me = game.players["a"]
     foe = game.players["b"]
     _reclaim(me)
-    cleffa = _pull(me, "Cleffa")
+    cleffa = _cleffa(me)
     lit = _pull(me, "Litwick")
     lamp = _pull(me, "Lampent")
     chand = _pull(me, "Chandelure")
@@ -764,7 +826,7 @@ def test_dawn_skips_a_stage_the_deck_does_not_have():
     game = _game()
     me = game.players["a"]
     _reclaim(me)
-    cleffa = _pull(me, "Cleffa")
+    cleffa = _cleffa(me)
     lit = _pull(me, "Litwick")
     lamp = _pull(me, "Lampent")
     dawn = _grant(me, "Dawn")
@@ -783,7 +845,7 @@ def test_one_chandelure_mills_three_on_three_lampent():
     me = game.players["a"]
     foe = game.players["b"]
     _reclaim(me)
-    cleffa = _pull(me, "Cleffa")
+    cleffa = _cleffa(me)
     lamps = [_pull(me, "Lampent") for _ in range(3)]
     chand = _pull(me, "Chandelure")
     me.active = Pokemon(card_i=cleffa, played_turn=0)
@@ -795,3 +857,434 @@ def test_one_chandelure_mills_three_on_three_lampent():
     assert [me.card(mon.card_i).name for mon in me.bench].count("Chandelure") == 1
     assert [me.card(mon.card_i).name for mon in me.bench].count("Lampent") == 2
     assert len(foe.deck) == before - 3
+
+
+def test_level_ball_takes_lampent_when_playground_is_certain():
+    game = _game()
+    me = game.players["a"]
+    _reclaim(me)
+    pichu = _pull(me, "Pichu")
+    lit = _pull(me, "Litwick")
+    lamp = _pull(me, "Lampent")
+    ball = _pull(me, "Level Ball")
+    me.active = Pokemon(card_i=pichu, played_turn=0)
+    me.bench = []
+    me.hand = [ball]
+    me.deck = [lit, lamp]
+    _ready_turn(game)
+    assert game._roast_wants_playground(me, "a")
+    game._roast_trainers(me, game.players["b"], "a")
+    assert lamp in me.hand
+    assert lit in me.deck
+    assert ball in me.discard
+
+
+def test_heavy_ball_takes_celebi_and_leaves_the_prized_litwick():
+    game = _game()
+    me = game.players["a"]
+    _reclaim(me)
+    celebi = _pull(me, "Celebi ◇")
+    lit = _pull(me, "Litwick")
+    ball = _grant(me, "Hisuian Heavy Ball")
+    me.deck.remove(ball)
+    me.active = None
+    me.bench = []
+    me.hand = [ball]
+    me.deck = []
+    me.prizes = [lit, celebi]
+    _ready_turn(game)
+    assert game._roast_heavy_best(me) == (celebi, 100)
+    game._roast_trainers(me, game.players["b"], "a")
+    assert celebi in me.hand
+    assert lit in me.prizes
+    assert ball in me.prizes
+    assert ball not in me.discard
+    assert len(me.prizes) == 2
+
+
+def test_heavy_ball_discards_itself_when_the_prize_is_not_basic():
+    game = _game()
+    me = game.players["a"]
+    lamp = _pull(me, "Lampent")
+    ball = _grant(me, "Hisuian Heavy Ball")
+    me.deck.remove(ball)
+    me.discard.append(ball)
+    me.prizes = [lamp]
+    game._hisuian_heavy_ball(me, "a", ball)
+    assert ball in me.discard
+    assert ball not in me.prizes
+    assert lamp in me.prizes
+    assert me.discard.count(ball) == 1
+
+
+def test_heavy_ball_stays_in_hand_when_four_lines_and_celebi_are_already_out():
+    game = _game()
+    me = game.players["a"]
+    _reclaim(me)
+    pichu = _pull(me, "Pichu")
+    celebi = _pull(me, "Celebi ◇")
+    lines = [_pull(me, "Chandelure") for _ in range(4)]
+    extra = _pull(me, "Litwick")
+    ball = _grant(me, "Hisuian Heavy Ball")
+    me.deck.remove(ball)
+    me.active = Pokemon(card_i=pichu, played_turn=0)
+    me.bench = [Pokemon(card_i=card_i, played_turn=0) for card_i in lines]
+    me.bench.append(Pokemon(card_i=celebi, played_turn=0))
+    me.hand = [ball]
+    me.deck = []
+    me.prizes = [extra]
+    _ready_turn(game)
+    assert game._roast_heavy_best(me) is None
+    game._roast_trainers(me, game.players["b"], "a")
+    assert ball in me.hand
+    assert extra in me.prizes
+
+
+def test_petrel_takes_heavy_ball_before_dawn_when_celebi_is_prized():
+    game = _game()
+    me = game.players["a"]
+    _reclaim(me)
+    celebi = _pull(me, "Celebi ◇")
+    lamp = _pull(me, "Lampent")
+    ball = _grant(me, "Hisuian Heavy Ball")
+    dawn = _pull(me, "Dawn")
+    me.deck.remove(ball)
+    me.hand = []
+    me.deck = [ball, dawn, lamp]
+    me.prizes = [celebi]
+    me.active = None
+    me.bench = []
+    assert game._roast_petrel_want(me, "a") == "Hisuian Heavy Ball"
+    assert game._roast_trainer_score(me, "a", me.card(dawn)) == 100
+
+
+def test_jacq_takes_lampent_then_chandelure_for_one_legal_litwick():
+    game = _game()
+    me = game.players["a"]
+    _reclaim(me)
+    cleffa = _cleffa(me)
+    lit = _pull(me, "Litwick")
+    lamp = _pull(me, "Lampent")
+    chand = _pull(me, "Chandelure")
+    jacq = _grant(me, "Jacq")
+    me.deck.remove(jacq)
+    me.active = Pokemon(card_i=cleffa, played_turn=0)
+    me.bench = [Pokemon(card_i=lit, played_turn=0)]
+    me.hand = [jacq]
+    me.deck = [lamp, chand]
+    _ready_turn(game)
+    assert game._roast_jacq_picks(me, "a") == ["Lampent", "Chandelure"]
+    game._roast_trainers(me, game.players["b"], "a")
+    assert lamp in me.hand
+    assert chand in me.hand
+    assert jacq in me.discard
+    assert game.events.get("jacq_cards", 0) == 2
+
+
+def test_jacq_takes_two_lampent_when_playground_will_bench_litwick():
+    game = _game()
+    me = game.players["a"]
+    _reclaim(me)
+    pichu = _pull(me, "Pichu")
+    litwick = [_pull(me, "Litwick") for _ in range(3)]
+    lamps = [_pull(me, "Lampent") for _ in range(2)]
+    chand = _pull(me, "Chandelure")
+    jacq = _grant(me, "Jacq")
+    me.deck.remove(jacq)
+    me.active = Pokemon(card_i=pichu, played_turn=0)
+    me.bench = []
+    me.hand = [jacq]
+    me.deck = litwick + lamps + [chand]
+    _ready_turn(game)
+    assert game._roast_wants_playground(me, "a")
+    assert game._roast_jacq_picks(me, "a") == ["Lampent", "Lampent"]
+    game._roast_trainers(me, game.players["b"], "a")
+    assert all(card_i in me.hand for card_i in lamps)
+    assert all(card_i in me.deck for card_i in litwick)
+    assert chand in me.deck
+    assert jacq in me.discard
+
+
+def test_jacq_takes_two_chandelure_when_lampent_are_already_out():
+    game = _game()
+    me = game.players["a"]
+    _reclaim(me)
+    cleffa = _cleffa(me)
+    lamps = [_pull(me, "Lampent") for _ in range(2)]
+    chands = [_pull(me, "Chandelure") for _ in range(2)]
+    jacq = _grant(me, "Jacq")
+    me.deck.remove(jacq)
+    me.active = Pokemon(card_i=cleffa, played_turn=0)
+    me.bench = [Pokemon(card_i=card_i, played_turn=0) for card_i in lamps]
+    me.hand = [jacq]
+    me.deck = list(chands)
+    _ready_turn(game)
+    assert game._roast_jacq_picks(me, "a") == ["Chandelure", "Chandelure"]
+    game._roast_trainers(me, game.players["b"], "a")
+    assert all(card_i in me.hand for card_i in chands)
+    assert jacq in me.discard
+
+
+def _aroma_board(game: Game, *, hand_lamps: int, deck_lamps: int, play_lamps: int = 0):
+    me = game.players["a"]
+    _reclaim(me)
+    cleffa = _cleffa(me)
+    aroma = _grant(me, "Hyper Aroma")
+    me.deck.remove(aroma)
+    need = hand_lamps + deck_lamps + play_lamps
+    lamps: list[int] = []
+    while len(lamps) < need and len(lamps) < 4:
+        lamps.append(_pull(me, "Lampent"))
+    while len(lamps) < need:
+        extra = _grant(me, "Lampent")
+        me.deck.remove(extra)
+        lamps.append(extra)
+    me.active = Pokemon(card_i=cleffa, played_turn=0)
+    me.bench = [Pokemon(card_i=lamps[i], played_turn=0) for i in range(play_lamps)]
+    used = play_lamps
+    me.hand = lamps[used : used + hand_lamps] + [aroma]
+    me.deck = lamps[used + hand_lamps : used + hand_lamps + deck_lamps]
+    _ready_turn(game)
+    return me, aroma, lamps
+
+
+def test_hyper_aroma_takes_three_lampent_and_leaves_one():
+    game = _game()
+    me, aroma, lamps = _aroma_board(game, hand_lamps=0, deck_lamps=4)
+    game._roast_trainers(me, game.players["b"], "a")
+    assert sum(1 for card_i in me.hand if me.card(card_i).name == "Lampent") == 3
+    assert sum(1 for card_i in me.deck if me.card(card_i).name == "Lampent") == 1
+    assert aroma in me.discard
+    assert game.events.get("hyper_aroma_cards", 0) == 3
+    assert game.events.get("tutor:Lampent:hyper aroma", 0) == 3
+
+
+def test_hyper_aroma_stops_once_four_lampent_are_in_hand():
+    game = _game()
+    me, aroma, _lamps = _aroma_board(game, hand_lamps=2, deck_lamps=3)
+    assert game._roast_aroma_take(me, me.card(aroma)) == 2
+    game._roast_trainers(me, game.players["b"], "a")
+    assert sum(1 for card_i in me.hand if me.card(card_i).name == "Lampent") == 4
+    assert sum(1 for card_i in me.deck if me.card(card_i).name == "Lampent") == 1
+    assert game.events.get("hyper_aroma_cards", 0) == 2
+    assert aroma in me.discard
+
+
+def test_hyper_aroma_stays_unplayed_when_four_lampent_are_out():
+    game = _game()
+    me, aroma, _lamps = _aroma_board(game, hand_lamps=0, deck_lamps=1, play_lamps=4)
+    assert game._roast_trainer_score(me, "a", me.card(aroma)) < 0
+    game._roast_trainers(me, game.players["b"], "a")
+    assert aroma in me.hand
+    assert sum(1 for card_i in me.deck if me.card(card_i).name == "Lampent") == 1
+    assert game.events.get("hyper_aroma", 0) == 0
+
+
+def test_hyper_aroma_follows_the_printed_count():
+    game = _game()
+    me, aroma, _lamps = _aroma_board(game, hand_lamps=0, deck_lamps=4)
+    me.card(aroma).text = AROMA.replace("up to 3", "up to 1")
+    assert game._roast_aroma_take(me, me.card(aroma)) == 1
+    game._roast_trainers(me, game.players["b"], "a")
+    assert sum(1 for card_i in me.hand if me.card(card_i).name == "Lampent") == 1
+    assert sum(1 for card_i in me.deck if me.card(card_i).name == "Lampent") == 3
+    assert game.events.get("hyper_aroma_cards", 0) == 1
+
+    game = _game()
+    me, aroma, _lamps = _aroma_board(game, hand_lamps=0, deck_lamps=4)
+    me.card(aroma).text = AROMA.replace("up to 3", "up to 4")
+    assert parse_trainer_effects(me.card(aroma).text) == [{"kind": "search_stage1", "count": 4}]
+    assert game._roast_aroma_take(me, me.card(aroma)) == 4
+    game._roast_trainers(me, game.players["b"], "a")
+    assert sum(1 for card_i in me.hand if me.card(card_i).name == "Lampent") == 4
+    assert me.deck == []
+    assert game.events.get("hyper_aroma_cards", 0) == 4
+
+
+def test_petrel_fetches_hyper_aroma_before_incense_when_two_lampent_are_short():
+    game = _game()
+    me = game.players["a"]
+    _reclaim(me)
+    cleffa = _cleffa(me)
+    aroma = _grant(me, "Hyper Aroma")
+    incense = _grant(me, "Evolution Incense")
+    petrel = _pull(me, "Team Rocket's Petrel")
+    lamps = [_pull(me, "Lampent") for _ in range(3)]
+    chand = _pull(me, "Chandelure")
+    me.deck.remove(aroma)
+    me.deck.remove(incense)
+    me.active = Pokemon(card_i=cleffa, played_turn=0)
+    me.hand = [petrel]
+    me.deck = lamps + [chand, aroma, incense]
+    _ready_turn(game)
+    assert game._roast_petrel_want(me, "a") == "Hyper Aroma"
+    game._roast_trainers(me, game.players["b"], "a")
+    assert aroma in me.discard
+    assert all(card_i in me.hand for card_i in lamps)
+    assert incense in me.deck
+    assert game.events.get("hyper_aroma_cards", 0) == 3
+
+
+def test_one_lampent_short_does_not_make_petrel_skip_incense():
+    game = _game()
+    me = game.players["a"]
+    _reclaim(me)
+    cleffa = _cleffa(me)
+    aroma = _grant(me, "Hyper Aroma")
+    incense = _grant(me, "Evolution Incense")
+    petrel = _pull(me, "Team Rocket's Petrel")
+    lamps = [_pull(me, "Lampent") for _ in range(4)]
+    chand = _pull(me, "Chandelure")
+    me.deck.remove(aroma)
+    me.deck.remove(incense)
+    me.active = Pokemon(card_i=cleffa, played_turn=0)
+    me.bench = [Pokemon(card_i=card_i, played_turn=0) for card_i in lamps[:3]]
+    me.hand = [petrel]
+    me.deck = [lamps[3], chand, aroma, incense]
+    _ready_turn(game)
+    assert game._roast_aroma_take(me) == 1
+    assert game._roast_petrel_want(me, "a") == "Evolution Incense"
+
+
+def test_arven_takes_hyper_aroma_before_evolution_incense():
+    game = _game()
+    me = game.players["a"]
+    _reclaim(me)
+    cleffa = _cleffa(me)
+    aroma = _grant(me, "Hyper Aroma")
+    incense = _grant(me, "Evolution Incense")
+    arven = _pull(me, "Arven")
+    lamps = [_pull(me, "Lampent") for _ in range(2)]
+    me.deck.remove(aroma)
+    me.deck.remove(incense)
+    me.active = Pokemon(card_i=cleffa, played_turn=0)
+    me.hand = [arven]
+    me.deck = lamps + [aroma, incense]
+    _ready_turn(game)
+    game._roast_trainers(me, game.players["b"], "a")
+    assert aroma in me.discard
+    assert all(card_i in me.hand for card_i in lamps)
+    assert incense in me.deck
+    assert game.events.get("arven", 0) == 1
+
+
+def test_hop_draw_count_comes_from_the_printed_sentence():
+    assert parse_trainer_effects(HOP) == [{"kind": "draw", "amount": 3}]
+    assert parse_trainer_effects("Draw 4 cards.") == [{"kind": "draw", "amount": 4}]
+    game = _game()
+    me = game.players["a"]
+    _reclaim(me)
+    hop = _grant(me, "Hop")
+    me.deck.remove(hop)
+    fillers = []
+    for _ in range(4):
+        card_i = _grant(me, "Fire Energy")
+        me.deck.remove(card_i)
+        fillers.append(card_i)
+    me.card(hop).text = "Draw 4 cards."
+    me.hand = []
+    me.deck = list(fillers)
+    game._resolve_trainer(me, game.players["b"], me.card(hop), "a")
+    assert game.events.get("hop_cards", 0) == 4
+    assert all(card_i in me.hand for card_i in fillers)
+
+
+def test_hop_draws_three_when_a_lampent_has_no_chandelure():
+    game = _game()
+    me = game.players["a"]
+    _reclaim(me)
+    cleffa = _cleffa(me)
+    lamp = _pull(me, "Lampent")
+    hop = _grant(me, "Hop")
+    me.deck.remove(hop)
+    fillers = []
+    for _ in range(8):
+        card_i = _grant(me, "Fire Energy")
+        me.deck.remove(card_i)
+        fillers.append(card_i)
+    me.active = Pokemon(card_i=cleffa, played_turn=0)
+    me.bench = [Pokemon(card_i=lamp, played_turn=0)]
+    me.hand = [hop]
+    me.deck = list(fillers)
+    _ready_turn(game)
+    assert game._roast_trainer_score(me, "a", me.card(hop)) == 165
+    game._roast_trainers(me, game.players["b"], "a")
+    assert hop in me.discard
+    assert game.events.get("hop_cards", 0) == 3
+    assert sum(1 for card_i in fillers if card_i in me.hand) == 3
+
+
+def test_hop_stays_in_hand_when_the_deck_would_not_keep_five_cards():
+    game = _game()
+    me = game.players["a"]
+    _reclaim(me)
+    cleffa = _cleffa(me)
+    lamp = _pull(me, "Lampent")
+    hop = _grant(me, "Hop")
+    me.deck.remove(hop)
+    fillers = []
+    for _ in range(4):
+        card_i = _grant(me, "Fire Energy")
+        me.deck.remove(card_i)
+        fillers.append(card_i)
+    me.active = Pokemon(card_i=cleffa, played_turn=0)
+    me.bench = [Pokemon(card_i=lamp, played_turn=0)]
+    me.hand = [hop]
+    me.deck = list(fillers)
+    _ready_turn(game)
+    assert game._roast_trainer_score(me, "a", me.card(hop)) < 0
+    game._roast_trainers(me, game.players["b"], "a")
+    assert hop in me.hand
+    assert game.events.get("hop", 0) == 0
+
+
+def test_jacq_plays_before_hop_when_both_can_find_a_piece():
+    game = _game()
+    me = game.players["a"]
+    _reclaim(me)
+    cleffa = _cleffa(me)
+    lamps = [_pull(me, "Lampent") for _ in range(2)]
+    chands = [_pull(me, "Chandelure") for _ in range(2)]
+    jacq = _grant(me, "Jacq")
+    hop = _grant(me, "Hop")
+    me.deck.remove(jacq)
+    me.deck.remove(hop)
+    fillers = []
+    for _ in range(8):
+        card_i = _grant(me, "Fire Energy")
+        me.deck.remove(card_i)
+        fillers.append(card_i)
+    me.active = Pokemon(card_i=cleffa, played_turn=0)
+    me.bench = [Pokemon(card_i=card_i, played_turn=0) for card_i in lamps]
+    me.hand = [jacq, hop]
+    me.deck = list(chands) + fillers
+    _ready_turn(game)
+    game._roast_trainers(me, game.players["b"], "a")
+    assert jacq in me.discard
+    assert hop in me.hand
+    assert all(card_i in me.hand for card_i in chands)
+
+
+def test_petrel_takes_hop_when_a_lampent_is_uncovered():
+    game = _game()
+    me = game.players["a"]
+    _reclaim(me)
+    cleffa = _cleffa(me)
+    lamp = _pull(me, "Lampent")
+    hop = _grant(me, "Hop")
+    petrel = _pull(me, "Team Rocket's Petrel")
+    me.deck.remove(hop)
+    fillers = []
+    for _ in range(8):
+        card_i = _grant(me, "Fire Energy")
+        me.deck.remove(card_i)
+        fillers.append(card_i)
+    me.active = Pokemon(card_i=cleffa, played_turn=0)
+    me.bench = [Pokemon(card_i=lamp, played_turn=0)]
+    me.hand = [petrel]
+    me.deck = [hop] + fillers
+    _ready_turn(game)
+    assert game._roast_petrel_want(me, "a") == "Hop"
+    game._roast_trainers(me, game.players["b"], "a")
+    assert petrel in me.discard
+    assert hop in me.hand

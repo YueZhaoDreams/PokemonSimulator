@@ -1377,6 +1377,10 @@ def parse_trainer_effects(text: str) -> list[dict[str, Any]]:
     effects: list[dict[str, Any]] = []
     if not t:
         return effects
+    # Hop: the whole sentence is "Draw N cards." The count stays in the effect.
+    plain_draw = re.fullmatch(r"draw (\d+) cards?\.?", t.strip())
+    if plain_draw:
+        return [{"kind": "draw", "amount": int(plain_draw.group(1))}]
     played = _play_as_pokemon_effect(t)
     if played:
         return [played]
@@ -1411,12 +1415,24 @@ def parse_trainer_effects(text: str) -> list[dict[str, Any]]:
     ):
         effects.append({"kind": "search_evolution_pokemon", "count": 1})
         return effects
+    # Twilight Masquerade Hyper Aroma: up to N Stage 1 Pokémon into the hand.
+    aroma = re.search(
+        r"search your deck for up to (\d+) stage 1 pokemon, reveal them, and put them into your hand",
+        t,
+    )
+    if aroma:
+        effects.append({"kind": "search_stage1", "count": int(aroma.group(1))})
+        return effects
     # Phantasmal Flames Dawn: one Basic, one Stage 1, and one Stage 2 into the hand.
     if (
         "search your deck for a basic pokemon, a stage 1 pokemon, and a stage 2 pokemon" in t
         and "into your hand" in t
     ):
         effects.append({"kind": "search_basic_stage1_stage2"})
+        return effects
+    # Hisuian Heavy Ball (ASR 146): swap this card for a Basic in the face-down prizes.
+    if "face-down prize" in t and "in its place" in t and "basic pokemon" in t:
+        effects.append({"kind": "hisuian_heavy_ball"})
         return effects
     # Level Ball: a Pokémon whose printed HP is at most the number in the sentence.
     level_ball = re.search(

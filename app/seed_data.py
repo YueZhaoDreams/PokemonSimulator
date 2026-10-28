@@ -720,28 +720,53 @@ SET_MILL_NAMES = (
 # the hand. Dawn searches the deck for a Basic Pokémon, a Stage 1 Pokémon, and
 # a Stage 2 Pokémon. Broken Time-Space lets that Litwick become Lampent and then
 # Chandelure the same turn. Level Ball finds
-# Lampent (70) and Celebi ◇ (90); it does not find Chandelure (150). Cleffa is
-# the HGSS Eeeeeeek print. See data/lab/set-mill-roast.md.
+# Lampent (70) and Celebi ◇ (90); it does not find Chandelure (150). When
+# Playground is certain this turn, that search takes a Stage 1 so the Basics
+# stay in the deck. One Hisuian Heavy Ball replaces one Switch. The copy count
+# is the greedy search in data/lab/set-mill-roast-heavy.md: every other card
+# was tried as the cut, and a second copy did not raise the weighted win rate.
+# Jacq was searched the same way on that list and kept at zero copies.
+# See data/lab/set-mill-roast-jacq.md. Three Evolution Incense replace one
+# Level Ball and both Cleffa. A fourth copy did not raise the weighted win
+# rate. See data/lab/set-mill-roast-incense.md. One Hyper Aroma replaces the
+# Ultra Ball. The printed sentence searches the deck for up to 3 Stage 1
+# Pokémon. 400 games per seat, and every other card was the cut. See
+# data/lab/set-mill-roast-aroma.md. Cleffa was searched on this list at the
+# same depth and kept at zero. See data/lab/set-mill-roast-cleffa.md.
+# Jacq was searched again on this list at 400 games per seat. Three copies
+# replace one Switch, one Energy Retrieval, and one Buddy-Buddy Poffin.
+# A fourth copy did not raise the weighted win rate. See
+# data/lab/set-mill-roast-jacq.md.
+# Hop was searched on that list at the same depth. Four copies replace one
+# Jacq, one Energy Search, Slumbering Forest, and one Team Rocket's Petrel.
+# The path is 41.1%, 42.0%, 42.6%, 43.3%, 45.1%. The second and third copies
+# each gain about one combined standard error. On the second copy, Energy
+# Search is 42.632% and Broken Time-Space is 42.613%. The fourth copy gains
+# about 2.9 combined standard errors, and cutting Petrel leads Energy
+# Retrieval at 43.944% by about 1.2 points. The search stopped at four
+# because four is the copy cap. The best of about twenty cuts sits a little
+# high. See data/lab/set-mill-roast-hop.md.
 SET_ROAST_NAMES = (
     ["Litwick"] * 4
     + ["Lampent"] * 4
     + ["Chandelure"] * 4
     + ["Celebi ◇"]
     + ["Pichu"] * 3
-    + ["Cleffa"] * 2
     + ["Arven"] * 4
-    + ["Team Rocket's Petrel"] * 4
-    + ["Buddy-Buddy Poffin"] * 3
-    + ["Energy Search"] * 4
-    + ["Energy Retrieval"] * 2
+    + ["Team Rocket's Petrel"] * 3
+    + ["Buddy-Buddy Poffin"] * 2
+    + ["Energy Search"] * 3
+    + ["Energy Retrieval"]
     + ["Rescue Scarf"] * 4
     + ["Dawn"] * 4
-    + ["Level Ball"] * 3
-    + ["Ultra Ball"]
-    + ["Switch"] * 2
+    + ["Level Ball"] * 2
     + ["Broken Time-Space"] * 3
-    + ["Slumbering Forest"]
     + ["Fire Energy"] * 7
+    + ["Hisuian Heavy Ball"]
+    + ["Evolution Incense"] * 3
+    + ["Hyper Aroma"]
+    + ["Jacq"] * 2
+    + ["Hop"] * 4
 )
 
 # Unlimited 60: Ambipom PAR Hand Fling, Lopunny FLF Big Jump recycle,
@@ -1319,7 +1344,14 @@ _register(_trn("Ultra Ball", "item", "Discard 2 cards from your hand. Search you
 _register(_trn("Tool Box", "item", "Look at the top 7 cards of your deck. You may put any Pokémon Tool cards you find there into your hand."))
 _register(_trn("Trekking Shoes", "item", "Look at the top card of your deck. You may put it into your hand, or discard it and draw a card."))
 _register(_trn("Lake Acuity", "stadium", "Water and Fighting Pokémon take 20 less damage from attacks."))
-_register(_trn("Jacq", "supporter", "Search your deck for up to 2 Evolution Pokémon."))
+_register(
+    _trn(
+        "Jacq",
+        "supporter",
+        "Search your deck for up to 2 Evolution Pokémon, reveal them, and put them into your hand. Then, shuffle your deck.",
+        catalog_id="sv01-175",
+    )
+)
 _register(
     _trn(
         "Dawn",
@@ -1334,6 +1366,14 @@ _register(
         "item",
         "Search your deck for an Evolution Pokémon, reveal it, and put it into your hand. Then, shuffle your deck.",
         catalog_id="swsh1-163",
+    )
+)
+_register(
+    _trn(
+        "Hisuian Heavy Ball",
+        "item",
+        "Look at your face-down Prize cards. You may reveal a Basic Pokémon you find there, put it into your hand, and put this Hisuian Heavy Ball in its place as a face-down Prize card. (If you don't reveal a Basic Pokémon, put this card in the discard pile.) Then, shuffle your face-down Prize cards.",
+        catalog_id="swsh10-146",
     )
 )
 _register(
@@ -1633,6 +1673,15 @@ _register(
         "item",
         "Switch in 1 of your opponent's Benched Pokémon to the Active Spot. If you do, switch your Active Pokémon with 1 of your Benched Pokémon.",
         catalog_id="sv05-157",
+    )
+)
+_register(
+    _trn(
+        "Hyper Aroma",
+        "item",
+        "You can't have more than 1 ACE SPEC card in your deck. Search your deck for up to 3 Stage 1 Pokémon, reveal them, and put them into your hand. Then, shuffle your deck.",
+        catalog_id="sv06-152",
+        traits=["ace spec"],
     )
 )
 _register(
