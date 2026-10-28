@@ -1,18 +1,20 @@
 #!/usr/bin/env python3
-"""Greedy Jacq swaps on the locked roast 60.
+"""Greedy Jacq swaps on the Hyper Aroma roast 60.
 
-Start from the locked list: one Hisuian Heavy Ball, one Switch, four Dawn.
+Start from the locked list: one Hyper Aroma, three Evolution Incense, zero
+Cleffa, zero Jacq. An earlier pass on the Heavy Ball list used 40 games per
+seat and kept zero Jacq. This pass is 400 games per seat on the list that
+search locked.
+
 Each step replaces exactly one copy of one other card with one Jacq. Every
 name still in the list is a cut. The step keeps the cut with the higher
-loss-weighted win rate, then the next copy is tried the same way. Stop when
-the next copy does not raise the score, or at 4.
+Sisters-weighted win rate, then the next copy is tried the same way. Stop
+when the next copy does not raise the score, or at 4. A foe cell is the mean
+of the two seats. Seed 20261027.
 
-The score is the Sisters 60 loss weight, both seats, seed 20261027. Same
-measurement as data/lab/set_mill_roast.py. A foe cell is the mean of the two
-seats.
-
-Jacq (SV 175) searches the deck for up to 2 Evolution Pokémon. Roast uses it
-for Lampent and Chandelure after Playground has taken the Basics.
+Jacq (SVI 175) searches the deck for up to 2 Evolution Pokémon. Roast takes
+Lampent while uncovered Litwick remain, then Chandelure once a Lampent is in
+hand or in play.
 """
 
 from __future__ import annotations
@@ -89,15 +91,24 @@ WEIGHTS = {
 _WEIGHT_TOTAL = sum(WEIGHTS.values())
 WEIGHTS = {key: value / _WEIGHT_TOTAL for key, value in WEIGHTS.items()}
 
-GAMES = int(os.environ.get("ROAST_JACQ_GAMES", "40"))
+GAMES = int(os.environ.get("ROAST_JACQ_GAMES", "400"))
 SEED = int(os.environ.get("ROAST_JACQ_SEED", "20261027"))
 WORKERS = int(os.environ.get("ROAST_JACQ_WORKERS", str(os.cpu_count() or 2)))
 HERE = Path(__file__).resolve().parent
-PARTIAL = Path(os.environ.get("ROAST_JACQ_PARTIAL", "/tmp/mill-roast-jacq-partial.jsonl"))
+PARTIAL = Path(os.environ.get("ROAST_JACQ_PARTIAL", "/tmp/mill-roast-jacq-aroma-partial.jsonl"))
 DEST = Path(os.environ.get("ROAST_JACQ_DEST", HERE / "set-mill-roast-jacq.json"))
 MD_DEST = Path(os.environ.get("ROAST_JACQ_MD", HERE / "set-mill-roast-jacq.md"))
 
-_STATS = ("jacq", "roast_mill_cards", "dawn", "hisuian_heavy_ball", "playground", "fired")
+_STATS = (
+    "jacq",
+    "jacq_cards",
+    "hyper_aroma",
+    "evolution_incense",
+    "roast_mill_cards",
+    "dawn",
+    "playground",
+    "fired",
+)
 
 
 def _cards(names: list[str]):
@@ -152,18 +163,28 @@ def _run(names: tuple[str, ...], foe_key: str, seat: str, games: int, seed: int)
         if result.events.get("mountain_roasting", 0):
             fired += 1
         totals["jacq"] += result.events.get("jacq", 0)
+        totals["jacq_cards"] += result.events.get("jacq_cards", 0)
+        totals["hyper_aroma"] += result.events.get("hyper_aroma", 0)
+        totals["evolution_incense"] += result.events.get("evolution_incense", 0)
         totals["roast_mill_cards"] += result.events.get("roast_mill_cards", 0)
         totals["dawn"] += result.events.get("dawn", 0)
-        totals["hisuian_heavy_ball"] += result.events.get("hisuian_heavy_ball", 0)
         totals["playground"] += result.events.get(f"used_playground_{seat}", 0)
     cell = {"wr": wins / games, "fired": fired / games}
-    for key in ("jacq", "roast_mill_cards", "dawn", "hisuian_heavy_ball", "playground"):
+    for key in (
+        "jacq",
+        "jacq_cards",
+        "hyper_aroma",
+        "evolution_incense",
+        "roast_mill_cards",
+        "dawn",
+        "playground",
+    ):
         cell[key] = totals[key] / games
     return cell
 
 
 def _cache_key(names: tuple[str, ...], foe_key: str, seat: str, games: int, seed: int) -> str:
-    return f"{seed}|{games}|{seat}|{foe_key}|{'/'.join(names)}|roast-jacq-v1"
+    return f"{seed}|{games}|{seat}|{foe_key}|{'/'.join(names)}|roast-jacq-aroma-v1"
 
 
 def _load_cache() -> dict[str, dict]:
@@ -302,9 +323,11 @@ def _row(label: str, names: list[str], seats: dict[str, dict], cut: str | None) 
         "mean": _mean(cells),
         "worst": _worst(cells),
         "jacq": _avg(cells, "jacq"),
+        "jacq_cards": _avg(cells, "jacq_cards"),
+        "hyper_aroma": _avg(cells, "hyper_aroma"),
+        "evolution_incense": _avg(cells, "evolution_incense"),
         "roast_mill_cards": _avg(cells, "roast_mill_cards"),
         "dawn": _avg(cells, "dawn"),
-        "hisuian_heavy_ball": _avg(cells, "hisuian_heavy_ball"),
         "playground": _avg(cells, "playground"),
         "fired": _avg(cells, "fired"),
         "cells": {key: {"wr": cell["wr"], "a": cell["a"], "b": cell["b"]} for key, cell in cells.items()},
@@ -318,7 +341,9 @@ def _markdown(report: dict) -> str:
         "",
         "Each step tries every other card as the one copy to replace with one Jacq. The cut with the higher Sisters-weighted win rate is kept, and the next copy is tried the same way.",
         "",
-        "The starting 60 is the locked list: one Hisuian Heavy Ball in place of one Switch. Jacq searches the deck for up to 2 Evolution Pokémon. Roast takes Lampent while uncovered Litwick remain, counting Litwick that Playground will bench, then Chandelure once a Lampent is in hand or in play.",
+        "The starting 60 is the locked Hyper Aroma list: one Hyper Aroma in place of Ultra Ball, three Evolution Incense, zero Cleffa, zero Jacq. Jacq searches the deck for up to 2 Evolution Pokémon. Roast takes Lampent while uncovered Litwick remain, counting Litwick that Playground will bench, then Chandelure once a Lampent is in hand or in play.",
+        "",
+        "An earlier search on the Heavy Ball list used 40 games per seat. Its best cut was one Litwick at 33.7%, below that list's 34.5%, so it kept zero Jacq. This table is the retry at 400 games per seat.",
         "",
         f"- **Seed**: `{report['seed']}`",
         f"- **Games per seat**: {report['games']}",
@@ -328,12 +353,12 @@ def _markdown(report: dict) -> str:
         "",
         "## Path",
         "",
-        "| Step | Copies | Cut | Weighted | ± | Mean | Worst | Delta | Jacq | Mill cards | Dawn | Heavy Ball | Playground |",
-        "| :--- | ---: | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
+        "| Step | Copies | Cut | Weighted | ± | Mean | Worst | Delta | Jacq | Cards | Mill cards | Aroma | Incense | Dawn |",
+        "| :--- | ---: | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
     ]
     for row in report["path"]:
         lines.append(
-            "| {label} | {copies} | {cut} | {weighted} | {se} | {mean} | {worst} | {delta} | {jacq:.2f} | {mill:.2f} | {dawn:.2f} | {heavy:.2f} | {play:.2f} |".format(
+            "| {label} | {copies} | {cut} | {weighted} | {se} | {mean} | {worst} | {delta} | {jacq:.2f} | {cards:.2f} | {mill:.2f} | {aroma:.2f} | {incense:.2f} | {dawn:.2f} |".format(
                 label=row["label"],
                 copies=row["copies"],
                 cut=row.get("cut") or "—",
@@ -343,10 +368,11 @@ def _markdown(report: dict) -> str:
                 worst=_pct(row["worst"]),
                 delta=_signed(row["weighted"] - base["weighted"]),
                 jacq=row["jacq"],
+                cards=row["jacq_cards"],
                 mill=row["roast_mill_cards"],
+                aroma=row["hyper_aroma"],
+                incense=row["evolution_incense"],
                 dawn=row["dawn"],
-                heavy=row["hisuian_heavy_ball"],
-                play=row["playground"],
             )
         )
     best = report["best"]
@@ -379,13 +405,13 @@ def _markdown(report: dict) -> str:
                     "Each row replaces one copy of that card with one Jacq."
                 ),
                 "",
-                "| Cut | Copies before | Weighted | ± | Mean | Worst | Delta | Jacq | Mill cards |",
-                "| :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
+                "| Cut | Copies before | Weighted | ± | Mean | Worst | Delta | Jacq | Cards | Mill cards | Aroma | Incense | Dawn |",
+                "| :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
             ]
         )
         for row in rnd["rows"]:
             lines.append(
-                "| {cut} | {before} | {weighted} | {se} | {mean} | {worst} | {delta} | {jacq:.2f} | {mill:.2f} |".format(
+                "| {cut} | {before} | {weighted} | {se} | {mean} | {worst} | {delta} | {jacq:.2f} | {cards:.2f} | {mill:.2f} | {aroma:.2f} | {incense:.2f} | {dawn:.2f} |".format(
                     cut=row["cut"],
                     before=row["copies_before"],
                     weighted=_pct(row["weighted"]),
@@ -394,7 +420,11 @@ def _markdown(report: dict) -> str:
                     worst=_pct(row["worst"]),
                     delta=_signed(row["weighted"] - previous["weighted"]),
                     jacq=row["jacq"],
+                    cards=row["jacq_cards"],
                     mill=row["roast_mill_cards"],
+                    aroma=row["hyper_aroma"],
+                    incense=row["evolution_incense"],
+                    dawn=row["dawn"],
                 )
             )
         kept = rnd.get("kept")
@@ -420,8 +450,17 @@ def _markdown(report: dict) -> str:
 def main() -> None:
     started = time.perf_counter()
     current = list(SET_ROAST_NAMES)
-    if current.count("Jacq") != 0 or current.count("Hisuian Heavy Ball") != 1:
-        raise SystemExit("baseline must be the locked Heavy Ball list with no Jacq")
+    if (
+        current.count("Jacq") != 0
+        or current.count("Hyper Aroma") != 1
+        or current.count("Ultra Ball") != 0
+        or current.count("Evolution Incense") != 3
+        or current.count("Cleffa") != 0
+        or current.count("Hisuian Heavy Ball") != 1
+    ):
+        raise SystemExit(
+            "Jacq search starts from the Hyper Aroma lock: one Hyper Aroma, no Ultra Ball, three Evolution Incense, zero Cleffa, zero Jacq"
+        )
     _check_list(current)
     cache = _load_cache()
     print(f"baseline locked, {GAMES} games, seed {SEED}", flush=True)
@@ -469,7 +508,7 @@ def main() -> None:
         "elapsed": time.perf_counter() - started,
         "weights": WEIGHTS,
         "method": (
-            "greedy one-card Jacq swaps from the locked roast 60; "
+            "greedy one-card Jacq swaps from the Hyper Aroma roast 60; "
             "every other card name is tried as the cut; a step is kept only when its "
             "Sisters-weighted win rate is higher than the list already kept"
         ),
