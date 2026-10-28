@@ -11,7 +11,7 @@ from app.engine.game import ST_ASLEEP, Game, Pokemon
 from app.engine.legality import copy_violations
 from app.engine.models import standard_60_rules
 from app.engine.strategies import StrategySpec
-from app.seed_data import build_fallback_deck, build_roast_deck, fallback_named
+from app.seed_data import SET_ROAST_NAMES, build_fallback_deck, build_roast_deck, fallback_named
 
 TIME_DISTORTION = (
     "Devolve any number of your Benched Pokémon as many times as you like. "
@@ -152,12 +152,14 @@ def test_roast_deck_is_sixty_and_pichu_is_playground():
     assert copy_violations(deck, standard_60_rules()) == []
     assert StrategySpec.from_dict("roast").name == "roast"
     names = [card.name for card in deck]
+    assert names == list(SET_ROAST_NAMES)
     assert names.count("Pichu") == 3
     assert names.count("Cleffa") == 0
     assert names.count("Level Ball") == 2
     assert names.count("Dawn") == 4
     assert names.count("Evolution Incense") == 3
-    assert names.count("Buddy-Buddy Poffin") == 3
+    assert names.count("Buddy-Buddy Poffin") == 2
+    assert names.count("Energy Retrieval") == 1
     assert names.count("Broken Time-Space") == 3
     assert names.count("Slumbering Forest") == 1
     assert names.count("Fire Energy") == 7
@@ -166,8 +168,8 @@ def test_roast_deck_is_sixty_and_pichu_is_playground():
     assert names.count("Ultra Ball") == 0
     assert names.count("Hisuian Heavy Ball") == 1
     assert names.count("Energy Search") == 4
-    assert names.count("Switch") == 1
-    assert names.count("Jacq") == 0
+    assert names.count("Switch") == 0
+    assert names.count("Jacq") == 3
     assert names.count("Hyper Aroma") == 1
     assert names.count("Nest Ball") == 0
     assert names.count("Slumbering Forest") == 1
@@ -411,7 +413,8 @@ def test_asleep_pichu_uses_switch_to_bring_celebi_active():
     _reclaim(me)
     pichu = _pull(me, "Pichu")
     celebi = _pull(me, "Celebi ◇")
-    switch = _pull(me, "Switch")
+    switch = _grant(me, "Switch")
+    me.deck.remove(switch)
     me.active = Pokemon(card_i=pichu, played_turn=0, status=ST_ASLEEP)
     me.bench = [Pokemon(card_i=celebi, played_turn=0)]
     me.hand.clear()
@@ -583,7 +586,8 @@ def test_active_litwick_evolves_and_same_turn_lampent_cannot_take_chandelure():
     lamp = _pull(me, "Lampent")
     chands = [_pull(me, "Chandelure") for _ in range(2)]
     cleffa = _cleffa(me)
-    switch = _pull(me, "Switch")
+    switch = _grant(me, "Switch")
+    me.deck.remove(switch)
     fuel = _pull(me, "Fire Energy")
     me.active = Pokemon(card_i=lit, played_turn=0)
     me.bench = [Pokemon(card_i=cleffa, played_turn=0)]

@@ -733,6 +733,10 @@ SET_MILL_NAMES = (
 # Pokémon. 400 games per seat, and every other card was the cut. See
 # data/lab/set-mill-roast-aroma.md. Cleffa was searched on this list at the
 # same depth and kept at zero. See data/lab/set-mill-roast-cleffa.md.
+# Jacq was searched again on this list at 400 games per seat. Three copies
+# replace one Switch, one Energy Retrieval, and one Buddy-Buddy Poffin.
+# A fourth copy did not raise the weighted win rate. See
+# data/lab/set-mill-roast-jacq.md.
 SET_ROAST_NAMES = (
     ["Litwick"] * 4
     + ["Lampent"] * 4
@@ -741,19 +745,19 @@ SET_ROAST_NAMES = (
     + ["Pichu"] * 3
     + ["Arven"] * 4
     + ["Team Rocket's Petrel"] * 4
-    + ["Buddy-Buddy Poffin"] * 3
+    + ["Buddy-Buddy Poffin"] * 2
     + ["Energy Search"] * 4
-    + ["Energy Retrieval"] * 2
+    + ["Energy Retrieval"]
     + ["Rescue Scarf"] * 4
     + ["Dawn"] * 4
     + ["Level Ball"] * 2
-    + ["Switch"]
     + ["Broken Time-Space"] * 3
     + ["Slumbering Forest"]
     + ["Fire Energy"] * 7
     + ["Hisuian Heavy Ball"]
     + ["Evolution Incense"] * 3
     + ["Hyper Aroma"]
+    + ["Jacq"] * 3
 )
 
 # Unlimited 60: Ambipom PAR Hand Fling, Lopunny FLF Big Jump recycle,

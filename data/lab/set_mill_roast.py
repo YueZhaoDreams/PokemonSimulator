@@ -104,6 +104,8 @@ _COUNT_KEYS = (
     "evolution_incense",
     "hyper_aroma",
     "hyper_aroma_cards",
+    "jacq",
+    "jacq_cards",
     "hisuian_heavy_ball",
     "roast_bts",
     "time_distortion",
@@ -156,10 +158,12 @@ def _check() -> None:
         or names.count("Ultra Ball") != 0
         or names.count("Hyper Aroma") != 1
         or names.count("Energy Search") != 4
-        or names.count("Switch") != 1
+        or names.count("Switch") != 0
+        or names.count("Energy Retrieval") != 1
+        or names.count("Buddy-Buddy Poffin") != 2
     ):
         raise SystemExit("roast Hisuian Heavy Ball count")
-    if names.count("Jacq") != 0:
+    if names.count("Jacq") != 3:
         raise SystemExit("roast Jacq count")
     heavy = fallback_named("Hisuian Heavy Ball")
     heavy_text = heavy.text.lower().replace("é", "e")
@@ -228,6 +232,8 @@ def _run(foe_key: str, seat: str, games: int, seed: int) -> dict:
         totals["evolution_incense"] += result.events.get("evolution_incense", 0)
         totals["hyper_aroma"] += result.events.get("hyper_aroma", 0)
         totals["hyper_aroma_cards"] += result.events.get("hyper_aroma_cards", 0)
+        totals["jacq"] += result.events.get("jacq", 0)
+        totals["jacq_cards"] += result.events.get("jacq_cards", 0)
         totals["hisuian_heavy_ball"] += result.events.get("hisuian_heavy_ball", 0)
         totals["roast_bts"] += result.events.get(f"roast_bts_{seat}", 0)
         totals["time_distortion"] += result.events.get("time_distortion", 0)
@@ -256,7 +262,7 @@ def _run(foe_key: str, seat: str, games: int, seed: int) -> dict:
 
 
 def _cache_key(foe_key: str, seat: str, games: int, seed: int) -> str:
-    return f"{seed}|{games}|{seat}|{foe_key}|roast-aroma-one"
+    return f"{seed}|{games}|{seat}|{foe_key}|roast-jacq-three"
 
 
 def _load_cache() -> dict[str, dict]:
@@ -369,7 +375,7 @@ def _markdown(report: dict) -> str:
         "",
         "Hisuian Heavy Ball looks at the face-down Prize cards. It may reveal a Basic Pokémon, put that Pokémon into the hand, and put this card in its place as a face-down Prize card. If it does not reveal a Basic, this card goes to the discard pile. Then the face-down prizes are shuffled. When more than one Basic is there, roast reveals Celebi ◇ before Litwick, then a Pichu or Cleffa the deck no longer has. The roast list has one copy. That copy replaced one Switch: every other card was measured as the cut, this swap had the higher weighted win rate, and a second copy did not raise it. See data/lab/set-mill-roast-heavy.md.",
         "",
-        "Jacq searches the deck for up to 2 Evolution Pokémon. On the Heavy Ball list the same one-card search tried every other name as the cut. The highest cut was one Litwick at 33.7%, below 34.5%, so that list kept zero Jacq. See data/lab/set-mill-roast-jacq.md.",
+        "Jacq searches the deck for up to 2 Evolution Pokémon. An earlier search on the Heavy Ball list at 40 games per seat kept zero; its best cut was one Litwick at 33.7%, below 34.5%. The same search on the Hyper Aroma list at 400 games per seat kept three copies: one Switch, then one Energy Retrieval, then one Buddy-Buddy Poffin. The path is 38.5%, 39.7%, 40.7%, 41.1%. The fourth copy's best cut, one Broken Time-Space, is 41.1% and is not higher. The third copy's gain is inside one standard error, and the best of about twenty cuts sits a little high. See data/lab/set-mill-roast-jacq.md.",
         "",
         "Evolution Incense searches the deck for one Evolution Pokémon. Roast takes Chandelure once a Lampent is in hand or in play, and takes Lampent only while a Litwick still has no Stage 1. Three copies replaced one Level Ball and both Cleffa. A fourth copy did not raise the weighted win rate. See data/lab/set-mill-roast-incense.md. That search was 40 games per seat. The same list at 400 games per seat is 34.4%.",
         "",
@@ -379,7 +385,7 @@ def _markdown(report: dict) -> str:
         "",
         "Rescue Scarf puts the Pokémon into the hand when an attack Knocks it Out, and discards the cards attached to it. Celebi ◇ therefore does not go to the discard pile, and the Prism Star rule does not put it in the Lost Zone. Energy Retrieval takes that Fire Energy back. Arven can find an Item and the scarf. When Celebi ◇ or a needed Litwick or Pichu is in the prizes and Hisuian Heavy Ball is still in the deck, Arven takes that ball. Team Rocket's Petrel searches the deck for a Trainer card. It takes Hisuian Heavy Ball before Broken Time-Space when that prize is Celebi ◇, a stuck Pichu, or a Litwick with almost none of the line outside the prizes. A spare Litwick waits until after Dawn. Petrel does not search a Pokémon or an Energy card.",
         "",
-        "Cleffa was tried again on the Hyper Aroma list at 400 games per seat. Each step would replace one other card with one Cleffa. The highest first cut, one Switch, is 38.1%, below 38.5%, so the list keeps zero Cleffa. When one Cleffa is in the deck it enters play about 0.41 times per game and Eeeeeeek fires about 0.02 times. It is a backup wall behind Pichu. See data/lab/set-mill-roast-cleffa.md. Pichu is the Playground attacker. Sweet Sleeping Face prevents attack damage while that Pokémon is Asleep. Slumbering Forest makes the between-turns sleep check two coins, and the Pokémon stays Asleep unless both are heads. Asleep blocks retreat, so Switch brings Celebi ◇ Active.",
+        "Cleffa was tried again on the Hyper Aroma list at 400 games per seat. Each step would replace one other card with one Cleffa. The highest first cut, one Switch, is 38.1%, below 38.5%, so the list keeps zero Cleffa. When one Cleffa is in the deck it enters play about 0.41 times per game and Eeeeeeek fires about 0.02 times. It is a backup wall behind Pichu. See data/lab/set-mill-roast-cleffa.md. Pichu is the Playground attacker. Sweet Sleeping Face prevents attack damage while that Pokémon is Asleep. Slumbering Forest makes the between-turns sleep check two coins, and the Pokémon stays Asleep unless both are heads. Asleep blocks retreat. This list has no Switch.",
         "",
         "A Litwick played on the turn Dawn finds Lampent stays unevolved until Broken Time-Space is in play. The stadium also lets that Lampent take Chandelure the same turn.",
         "",
@@ -399,6 +405,8 @@ def _markdown(report: dict) -> str:
         f"Evolution Incense plays per game: {report['evolution_incense']:.2f}. "
         f"Hyper Aroma plays per game: {report['hyper_aroma']:.2f}. "
         f"Lampent found by Hyper Aroma per game: {report['hyper_aroma_cards']:.2f}. "
+        f"Jacq plays per game: {report['jacq']:.2f}. "
+        f"Evolution Pokémon found by Jacq per game: {report['jacq_cards']:.2f}. "
         f"Hisuian Heavy Ball swaps per game: {report['hisuian_heavy_ball']:.2f}. "
         f"Broken Time-Space plays per game: {report['roast_bts']:.2f}. "
         f"Time Distortion devolves per game: {report['time_distortion']:.2f}. "
@@ -488,6 +496,8 @@ def main() -> None:
         "evolution_incense": _weighted_stat(cells, "evolution_incense"),
         "hyper_aroma": _weighted_stat(cells, "hyper_aroma"),
         "hyper_aroma_cards": _weighted_stat(cells, "hyper_aroma_cards"),
+        "jacq": _weighted_stat(cells, "jacq"),
+        "jacq_cards": _weighted_stat(cells, "jacq_cards"),
         "hisuian_heavy_ball": _weighted_stat(cells, "hisuian_heavy_ball"),
         "roast_bts": _weighted_stat(cells, "roast_bts"),
         "time_distortion": _weighted_stat(cells, "time_distortion"),
