@@ -725,6 +725,8 @@ SET_MILL_NAMES = (
 # stay in the deck. One Hisuian Heavy Ball replaces one Switch. The copy count
 # is the greedy search in data/lab/set-mill-roast-heavy.md: every other card
 # was tried as the cut, and a second copy did not raise the weighted win rate.
+# Jacq was searched the same way on this list and kept at zero copies.
+# See data/lab/set-mill-roast-jacq.md.
 # Cleffa is the HGSS Eeeeeeek print. See data/lab/set-mill-roast.md.
 SET_ROAST_NAMES = (
     ["Litwick"] * 4
