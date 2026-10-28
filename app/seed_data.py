@@ -737,6 +737,15 @@ SET_MILL_NAMES = (
 # replace one Switch, one Energy Retrieval, and one Buddy-Buddy Poffin.
 # A fourth copy did not raise the weighted win rate. See
 # data/lab/set-mill-roast-jacq.md.
+# Hop was searched on that list at the same depth. Four copies replace one
+# Jacq, one Energy Search, Slumbering Forest, and one Team Rocket's Petrel.
+# The path is 41.1%, 42.0%, 42.6%, 43.3%, 45.1%. The second and third copies
+# each gain about one combined standard error. On the second copy, Energy
+# Search is 42.632% and Broken Time-Space is 42.613%. The fourth copy gains
+# about 2.9 combined standard errors, and cutting Petrel leads Energy
+# Retrieval at 43.944% by about 1.2 points. The search stopped at four
+# because four is the copy cap. The best of about twenty cuts sits a little
+# high. See data/lab/set-mill-roast-hop.md.
 SET_ROAST_NAMES = (
     ["Litwick"] * 4
     + ["Lampent"] * 4
@@ -744,20 +753,20 @@ SET_ROAST_NAMES = (
     + ["Celebi ◇"]
     + ["Pichu"] * 3
     + ["Arven"] * 4
-    + ["Team Rocket's Petrel"] * 4
+    + ["Team Rocket's Petrel"] * 3
     + ["Buddy-Buddy Poffin"] * 2
-    + ["Energy Search"] * 4
+    + ["Energy Search"] * 3
     + ["Energy Retrieval"]
     + ["Rescue Scarf"] * 4
     + ["Dawn"] * 4
     + ["Level Ball"] * 2
     + ["Broken Time-Space"] * 3
-    + ["Slumbering Forest"]
     + ["Fire Energy"] * 7
     + ["Hisuian Heavy Ball"]
     + ["Evolution Incense"] * 3
     + ["Hyper Aroma"]
-    + ["Jacq"] * 3
+    + ["Jacq"] * 2
+    + ["Hop"] * 4
 )
 
 # Unlimited 60: Ambipom PAR Hand Fling, Lopunny FLF Big Jump recycle,

@@ -163,19 +163,19 @@ def test_roast_deck_is_sixty_and_pichu_is_playground():
     assert names.count("Buddy-Buddy Poffin") == 2
     assert names.count("Energy Retrieval") == 1
     assert names.count("Broken Time-Space") == 3
-    assert names.count("Slumbering Forest") == 1
+    assert names.count("Slumbering Forest") == 0
     assert names.count("Fire Energy") == 7
     assert names.count("Grand Tree") == 0
     assert names.count("Colress's Tenacity") == 0
     assert names.count("Ultra Ball") == 0
     assert names.count("Hisuian Heavy Ball") == 1
-    assert names.count("Energy Search") == 4
+    assert names.count("Energy Search") == 3
     assert names.count("Switch") == 0
-    assert names.count("Jacq") == 3
-    assert names.count("Hop") == 0
+    assert names.count("Jacq") == 2
+    assert names.count("Hop") == 4
+    assert names.count("Team Rocket's Petrel") == 3
     assert names.count("Hyper Aroma") == 1
     assert names.count("Nest Ball") == 0
-    assert names.count("Slumbering Forest") == 1
     assert not any("Doll" in name for name in names)
     pichu = [card for card in deck if card.name == "Pichu"]
     for card in pichu:
@@ -193,7 +193,7 @@ def test_roast_deck_is_sixty_and_pichu_is_playground():
     assert any(effect.get("kind") == "shuffle_hand_then_draw" for attack in cleffa.attacks for effect in attack.effects)
     assert "draw 6" in cleffa.attacks[0].text.lower()
     assert any(ability.name == "Sweet Sleeping Face" for ability in cleffa.abilities)
-    forest = next(card for card in deck if card.name == "Slumbering Forest")
+    forest = fallback_named("Slumbering Forest")
     assert {"kind": "sleep_check_two_coins"} in parse_ability_effects(forest.text)
 
 

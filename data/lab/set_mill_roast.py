@@ -106,6 +106,8 @@ _COUNT_KEYS = (
     "hyper_aroma_cards",
     "jacq",
     "jacq_cards",
+    "hop",
+    "hop_cards",
     "hisuian_heavy_ball",
     "roast_bts",
     "time_distortion",
@@ -143,8 +145,8 @@ def _check() -> None:
             raise SystemExit("Cleffa is not Eeeeeeek")
     if names.count("Level Ball") != 2 or names.count("Nest Ball"):
         raise SystemExit("roast Level Ball count")
-    if names.count("Slumbering Forest") < 1:
-        raise SystemExit("roast has no Slumbering Forest")
+    if names.count("Slumbering Forest") != 0:
+        raise SystemExit("roast Slumbering Forest count")
     if names.count("Dawn") != 4 or names.count("Evolution Incense") != 3 or names.count("Grand Tree"):
         raise SystemExit("roast Dawn list")
     incense = fallback_named("Evolution Incense")
@@ -157,14 +159,17 @@ def _check() -> None:
         names.count("Hisuian Heavy Ball") != 1
         or names.count("Ultra Ball") != 0
         or names.count("Hyper Aroma") != 1
-        or names.count("Energy Search") != 4
+        or names.count("Energy Search") != 3
         or names.count("Switch") != 0
         or names.count("Energy Retrieval") != 1
         or names.count("Buddy-Buddy Poffin") != 2
+        or names.count("Team Rocket's Petrel") != 3
     ):
         raise SystemExit("roast Hisuian Heavy Ball count")
-    if names.count("Jacq") != 3:
+    if names.count("Jacq") != 2:
         raise SystemExit("roast Jacq count")
+    if names.count("Hop") != 4:
+        raise SystemExit("roast Hop count")
     heavy = fallback_named("Hisuian Heavy Ball")
     heavy_text = heavy.text.lower().replace("é", "e")
     if "basic pokemon" not in heavy_text or "face-down prize" not in heavy_text:
@@ -234,6 +239,8 @@ def _run(foe_key: str, seat: str, games: int, seed: int) -> dict:
         totals["hyper_aroma_cards"] += result.events.get("hyper_aroma_cards", 0)
         totals["jacq"] += result.events.get("jacq", 0)
         totals["jacq_cards"] += result.events.get("jacq_cards", 0)
+        totals["hop"] += result.events.get("hop", 0)
+        totals["hop_cards"] += result.events.get("hop_cards", 0)
         totals["hisuian_heavy_ball"] += result.events.get("hisuian_heavy_ball", 0)
         totals["roast_bts"] += result.events.get(f"roast_bts_{seat}", 0)
         totals["time_distortion"] += result.events.get("time_distortion", 0)
@@ -262,7 +269,7 @@ def _run(foe_key: str, seat: str, games: int, seed: int) -> dict:
 
 
 def _cache_key(foe_key: str, seat: str, games: int, seed: int) -> str:
-    return f"{seed}|{games}|{seat}|{foe_key}|roast-jacq-three"
+    return f"{seed}|{games}|{seat}|{foe_key}|roast-hop-four"
 
 
 def _load_cache() -> dict[str, dict]:
@@ -377,6 +384,8 @@ def _markdown(report: dict) -> str:
         "",
         "Jacq searches the deck for up to 2 Evolution Pokémon. An earlier search on the Heavy Ball list at 40 games per seat kept zero; its best cut was one Litwick at 33.7%, below 34.5%. The same search on the Hyper Aroma list at 400 games per seat kept three copies: one Switch, then one Energy Retrieval, then one Buddy-Buddy Poffin. The path is 38.5%, 39.7%, 40.7%, 41.1%. The fourth copy's best cut, one Broken Time-Space, is 41.1% and is not higher. The third copy's gain is inside one standard error, and the best of about twenty cuts sits a little high. See data/lab/set-mill-roast-jacq.md.",
         "",
+        "Hop's printed sentence is \"Draw 3 cards.\" Roast draws that parsed count while five cards would remain in the deck. Petrel fetches Hop when a Lampent or Litwick is still short a piece. Four copies replace one Jacq, one Energy Search, Slumbering Forest, and one Team Rocket's Petrel. The path at 400 games per seat is 41.1%, 42.0%, 42.6%, 43.3%, 45.1%. The second and third copies each gain about one combined standard error. On the second copy, Energy Search is 42.6% and Broken Time-Space is 42.6%. The fourth copy gains about 2.9 combined standard errors, and cutting Petrel leads the next cut, Energy Retrieval at 43.9%, by about 1.2 points. The search stopped at four because four is the copy cap. The best of about twenty cuts sits a little high. See data/lab/set-mill-roast-hop.md.",
+        "",
         "Evolution Incense searches the deck for one Evolution Pokémon. Roast takes Chandelure once a Lampent is in hand or in play, and takes Lampent only while a Litwick still has no Stage 1. Three copies replaced one Level Ball and both Cleffa. A fourth copy did not raise the weighted win rate. See data/lab/set-mill-roast-incense.md. That search was 40 games per seat. The same list at 400 games per seat is 34.4%.",
         "",
         "Hyper Aroma searches the deck for up to 3 Stage 1 Pokémon. Roast takes Lampent and stops once four Lampent are in hand or in play. The printed count is the parser's search_stage1 count. One copy replaces Ultra Ball. At 400 games per seat that swap is 38.5% against the 34.4% list. See data/lab/set-mill-roast-aroma.md.",
@@ -385,7 +394,7 @@ def _markdown(report: dict) -> str:
         "",
         "Rescue Scarf puts the Pokémon into the hand when an attack Knocks it Out, and discards the cards attached to it. Celebi ◇ therefore does not go to the discard pile, and the Prism Star rule does not put it in the Lost Zone. Energy Retrieval takes that Fire Energy back. Arven can find an Item and the scarf. When Celebi ◇ or a needed Litwick or Pichu is in the prizes and Hisuian Heavy Ball is still in the deck, Arven takes that ball. Team Rocket's Petrel searches the deck for a Trainer card. It takes Hisuian Heavy Ball before Broken Time-Space when that prize is Celebi ◇, a stuck Pichu, or a Litwick with almost none of the line outside the prizes. A spare Litwick waits until after Dawn. Petrel does not search a Pokémon or an Energy card.",
         "",
-        "Cleffa was tried again on the Hyper Aroma list at 400 games per seat. Each step would replace one other card with one Cleffa. The highest first cut, one Switch, is 38.1%, below 38.5%, so the list keeps zero Cleffa. When one Cleffa is in the deck it enters play about 0.41 times per game and Eeeeeeek fires about 0.02 times. It is a backup wall behind Pichu. See data/lab/set-mill-roast-cleffa.md. Pichu is the Playground attacker. Sweet Sleeping Face prevents attack damage while that Pokémon is Asleep. Slumbering Forest makes the between-turns sleep check two coins, and the Pokémon stays Asleep unless both are heads. Asleep blocks retreat. This list has no Switch.",
+        "Cleffa was tried again on the Hyper Aroma list at 400 games per seat. Each step would replace one other card with one Cleffa. The highest first cut, one Switch, is 38.1%, below 38.5%, so the list keeps zero Cleffa. When one Cleffa is in the deck it enters play about 0.41 times per game and Eeeeeeek fires about 0.02 times. It is a backup wall behind Pichu. See data/lab/set-mill-roast-cleffa.md. Pichu is the Playground attacker. Sweet Sleeping Face prevents attack damage while that Pokémon is Asleep. Asleep blocks retreat. This list has no Switch and no Slumbering Forest.",
         "",
         "A Litwick played on the turn Dawn finds Lampent stays unevolved until Broken Time-Space is in play. The stadium also lets that Lampent take Chandelure the same turn.",
         "",
@@ -407,6 +416,8 @@ def _markdown(report: dict) -> str:
         f"Lampent found by Hyper Aroma per game: {report['hyper_aroma_cards']:.2f}. "
         f"Jacq plays per game: {report['jacq']:.2f}. "
         f"Evolution Pokémon found by Jacq per game: {report['jacq_cards']:.2f}. "
+        f"Hop plays per game: {report['hop']:.2f}. "
+        f"Cards drawn by Hop per game: {report['hop_cards']:.2f}. "
         f"Hisuian Heavy Ball swaps per game: {report['hisuian_heavy_ball']:.2f}. "
         f"Broken Time-Space plays per game: {report['roast_bts']:.2f}. "
         f"Time Distortion devolves per game: {report['time_distortion']:.2f}. "
@@ -498,6 +509,8 @@ def main() -> None:
         "hyper_aroma_cards": _weighted_stat(cells, "hyper_aroma_cards"),
         "jacq": _weighted_stat(cells, "jacq"),
         "jacq_cards": _weighted_stat(cells, "jacq_cards"),
+        "hop": _weighted_stat(cells, "hop"),
+        "hop_cards": _weighted_stat(cells, "hop_cards"),
         "hisuian_heavy_ball": _weighted_stat(cells, "hisuian_heavy_ball"),
         "roast_bts": _weighted_stat(cells, "roast_bts"),
         "time_distortion": _weighted_stat(cells, "time_distortion"),

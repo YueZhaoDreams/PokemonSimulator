@@ -440,9 +440,12 @@ def _markdown(report: dict) -> str:
 def main() -> None:
     started = time.perf_counter()
     current = list(SET_ROAST_NAMES)
+    if current.count("Hop") != 0:
+        raise SystemExit(
+            "Hop is already in SET_ROAST_NAMES. This script measured the three-Jacq list and must not overwrite that report."
+        )
     if (
-        current.count("Hop") != 0
-        or current.count("Jacq") != 3
+        current.count("Jacq") != 3
         or current.count("Hyper Aroma") != 1
         or current.count("Ultra Ball") != 0
         or current.count("Switch") != 0
