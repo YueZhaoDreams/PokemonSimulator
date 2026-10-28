@@ -5250,6 +5250,28 @@ _register(
         image="https://assets.tcgdex.net/en/bw/bw5/93/low.webp",
     )
 )
+# Team Up 134. Prism Star. The prize line needs a Darkness Pokémon with Darkness Energy.
+# An Item or Supporter cannot affect the Stadium. Another Stadium still replaces it,
+# and the replaced card goes to the Lost Zone.
+_BLACK_MARKET = (
+    "You can't have more than 1 card with the same name in your deck. "
+    "If a card would go to the discard pile, put it in the Lost Zone instead. "
+    "When a Darkness Pokémon (yours or your opponent's) that has any Darkness Energy attached to it "
+    "is Knocked Out by damage from an opponent's attack, that player takes 1 fewer Prize card. "
+    "Whenever any player plays an Item or Supporter card from their hand, prevent all effects of that card done to this Stadium card. "
+    "This card stays in play when you play it. Discard this card if another Stadium card comes into play. "
+    "If another card with the same name is in play, you can't play this card."
+)
+_register(
+    _trn(
+        "Black Market",
+        "stadium",
+        _BLACK_MARKET,
+        catalog_id="sm9-134",
+        image="https://assets.tcgdex.net/en/sm/sm9/134/low.webp",
+    )
+)
+FALLBACK_BY_NAME["dark market"] = FALLBACK_BY_NAME["black market"]
 _register(
     _trn(
         "Cursed Shovel",

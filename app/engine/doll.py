@@ -29,6 +29,7 @@ KEEPERS = {
     "rescue carrier",
     "field blower",
     "darkness energy",
+    "black market",
 }
 
 
@@ -329,6 +330,20 @@ def trainer_score(game, me, foe, card) -> float:
         if face_asleep:
             return -8
         return -4
+    if name == "black market":
+        # Prize line needs a Darkness Pokémon with Darkness Energy. Sableye is that Pokémon.
+        # Battle Cage stays against spread. Slumbering Forest stays while a face is Asleep.
+        if stadium == "black market":
+            return -8
+        if not _sableye_market_ready(game, me):
+            return -6
+        if (spread or _hard(game, me)) and stadium == "battle cage":
+            return -20
+        if spread and any(me.card(i).name.lower() == "battle cage" for i in me.hand):
+            return -12
+        if stadium == "slumbering forest" and face_asleep:
+            return -10
+        return 18
     if name in {"nest ball", "nesting ball"}:
         return 20 if _bench_room(game, me) > 0 else -8
     if name == "level ball":
@@ -561,6 +576,31 @@ def recycle_items(game, me, count: int) -> None:
         game._log(f"{me.name} Junk Hunt takes {me.card(card_i).name}")
 
 
+def _sableye_market_ready(game, me) -> bool:
+    """Sableye is in play and can have Darkness Energy on it this turn.
+
+    Trainers resolve before the Energy attach, so a Darkness Energy still in hand counts.
+    Dark Patch can put one from the discard onto a Benched Sableye during this same window.
+    """
+    darkness_hand = any(me.card(i).name.lower() == "darkness energy" for i in me.hand)
+    patch = any(me.card(i).name.lower() == "dark patch" for i in me.hand)
+    darkness_discard = any(me.card(i).name.lower() == "darkness energy" for i in me.discard)
+    for mon in me.in_play():
+        if me.card(mon.card_i).name.lower() != "sableye":
+            continue
+        if _can_pay(game, me, mon, "Junk Hunt") or darkness_hand:
+            return True
+        if mon is not me.active and patch and darkness_discard:
+            return True
+    return False
+
+
+def _market_for_sableye(game, me) -> bool:
+    if (game.stadium_name or "").lower() == "black market":
+        return True
+    return any(me.card(i).name.lower() == "black market" for i in me.hand)
+
+
 def tool_host(game, me, card):
     name = card.name.lower()
     open_mons = [mon for mon in me.in_play() if mon.tool is None]
@@ -574,8 +614,11 @@ def tool_host(game, me, card):
             return me.active
         return dolls[0]
     if name == "life dew":
+        # Black Market already cuts the Prize on an energized Sableye, so the tool
+        # stays off that body and can go on a Pokémon that still gives a Prize.
+        skip_sableye = _market_for_sableye(game, me)
         for mon in open_mons:
-            if me.card(mon.card_i).name.lower() == "sableye":
+            if me.card(mon.card_i).name.lower() == "sableye" and not skip_sableye:
                 return mon
         for mon in open_mons:
             if game._sweet_face(me.card(mon.card_i)):

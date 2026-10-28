@@ -18,6 +18,11 @@ def copy_limit_for(card: Card, rules: FamilyRules | None = None) -> int | None:
     rules = rules or default_family_rules()
     if card.is_energy and not is_special_energy(card):
         return None
+    # Prism Star rule: one card of that name. A second copy would go to the Lost Zone
+    # instead of the discard pile, so the deck cannot hold two.
+    text = (card.text or "").lower()
+    if "can't have more than 1" in text and "same name" in text and "lost zone instead" in text:
+        return 1
     return rules.max_copies_except_basic_energy
 
 

@@ -570,7 +570,9 @@ def parse_ability_effects(text: str) -> list[dict[str, Any]]:
         effects.append({"kind": "copy_benched_attacks"})
 
     # Lost City: the Knocked Out Pokémon goes to the Lost Zone; attachments are discarded.
-    if "knocked out" in t and "lost zone" in t and "discard pile" in t:
+    # The sentence names that Pokémon. A Prism Star rule that sends the Stadium
+    # itself to the Lost Zone is a different sentence.
+    if "put that pokemon in the lost zone instead of the discard pile" in t:
         effects.append({"kind": "ko_to_lost_zone"})
 
     # Radiant Charizard Excited Heart: attacks cost [C] less for each Prize card your opponent has taken.
@@ -653,6 +655,25 @@ def parse_ability_effects(text: str) -> list[dict[str, Any]]:
         and "attach it to 1 of your pokemon as a pokemon tool" in t
     ):
         effects.append({"kind": "attach_self_as_tool"})
+
+    # Black Market ◇: a Darkness Pokémon with Darkness Energy attached gives
+    # one fewer Prize when an opponent's attack Knocks it Out. The count is printed.
+    market = re.search(
+        r"when a darkness pokemon \(yours or your opponent's\) that has any darkness energy attached to it "
+        r"is knocked out by damage from an opponent's attack, that player takes (\d+) fewer prize",
+        t,
+    )
+    if market:
+        effects.append(
+            {
+                "kind": "fewer_prizes_on_ko",
+                "count": int(market.group(1)),
+                "attack_only": True,
+                "require_type": "Darkness",
+                "require_energy": "Darkness",
+                "both_players": True,
+            }
+        )
 
     _extend_expanded_ability_effects(t, effects)
     return effects
