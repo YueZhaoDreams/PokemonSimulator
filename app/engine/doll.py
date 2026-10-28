@@ -7,6 +7,8 @@ Sweet Sleeping Face, Energy Antics, Sleepy Lost, Junk Hunt, Puzzle of Time,
 Handiwork, Dark Patch, Cursed Shovel, Life Dew, and Vessel of Life resolve from
 their own text. One Supporter is played each turn. Arven finds an Item and a
 Pokémon Tool. Petrel finds one Trainer. The other Supporter stays in hand.
+Eeeeeeek stays a shuffle-and-draw. When the doll supply is about to run out,
+Cleffa is sent Active to use it, and Life Dew goes on that Cleffa.
 """
 
 from __future__ import annotations
@@ -78,6 +80,31 @@ def _replayable_doll(game, card) -> bool:
     return bool(eff.get("no_prize") and not eff.get("setup_only"))
 
 
+def _replayable_in_play(game, player) -> int:
+    return sum(1 for mon in player.in_play() if _replayable_doll(game, player.card(mon.card_i)))
+
+
+def _replayable_in_deck(game, player) -> int:
+    return sum(1 for i in player.deck if _replayable_doll(game, player.card(i)))
+
+
+def _dolls_in_hand(game, me) -> int:
+    return sum(1 for i in me.hand if _replayable_doll(game, me.card(i)))
+
+
+def _dolls_running_out(game, player) -> bool:
+    """The next Knock Out would leave too few dolls, and the deck still has one.
+
+    Two dolls in hand can replace what leaves play. Three replayable dolls
+    already in play keep the strict Eeeeeeek. A thinner board sends Cleffa up.
+    """
+    if _replayable_in_deck(game, player) < 1:
+        return False
+    if _dolls_in_hand(game, player) >= 2:
+        return False
+    return _replayable_in_play(game, player) <= 2
+
+
 def _can_pay(game, me, mon, attack_name: str) -> bool:
     card = me.card(mon.card_i)
     atk = next((a for a in card.attacks if a.name.lower() == attack_name.lower()), None)
@@ -129,7 +156,10 @@ def wants_pokemon(game, player, card) -> bool:
             return False
         return copies < 1
     if game._sweet_face(card):
-        return _face_count(game, player, extra_hand=False) < _face_cap(game, player)
+        under_cap = _face_count(game, player, extra_hand=False) < _face_cap(game, player)
+        if name == "cleffa" and copies < 1 and _dolls_running_out(game, player):
+            return True
+        return under_cap
     if name == "sableye":
         return copies < 1
     if name == "nincada":
@@ -169,10 +199,14 @@ def search_prefer(game, me) -> list[str]:
     names = {me.card(mon.card_i).name.lower() for mon in me.in_play()}
     names |= {me.card(i).name.lower() for i in me.hand}
     prefer = []
+    if _dolls_running_out(game, me) and "cleffa" not in names:
+        prefer.append("Cleffa")
     if not _hard(game, me) and "manaphy" not in names:
         prefer.append("Manaphy")
     if _face_count(game, me) < _face_cap(game, me):
-        prefer.extend(["Mime Jr.", "Smoochum", "Cleffa"])
+        for face in ("Mime Jr.", "Smoochum", "Cleffa"):
+            if face not in prefer:
+                prefer.append(face)
     if "sableye" not in names:
         prefer.append("Sableye")
     if (
@@ -272,6 +306,12 @@ def switch_idx(game, me):
             and _hunt_worth(game, me)
         ):
             return idx
+    if _dolls_running_out(game, me):
+        if name == "cleffa" and not asleep:
+            return None
+        cleffa = _awake_cleffa_idx(game, me)
+        if cleffa is not None:
+            return cleffa
     if _hard(game, me):
         if game._no_prize_proxy(card):
             return None
@@ -288,18 +328,31 @@ def switch_idx(game, me):
     return _asleep_face_idx(game, me)
 
 
+def _awake_cleffa_idx(game, me):
+    for idx, mon in enumerate(me.bench):
+        if me.card(mon.card_i).name.lower() == "cleffa" and not _asleep(mon):
+            return idx
+    return None
+
+
 def retreat(game, me) -> None:
     if any(me.card(i).name.lower() == "switch" for i in me.hand):
         return
     idx = switch_idx(game, me)
     if idx is None or not me.active:
         return
-    if game._retreat_cost(me, me.active) == 0:
-        game._do_retreat_into(me, idx)
-
-
-def _dolls_in_hand(game, me) -> int:
-    return sum(1 for i in me.hand if _replayable_doll(game, me.card(i)))
+    active = me.card(me.active.card_i)
+    if game._retreat_cost(me, me.active) == 0 and not game._proxy_cant_retreat(active):
+        if game._do_retreat_into(me, idx):
+            return
+    # Printed item dolls can't retreat. Lillie's own sentence puts it on the
+    # bottom of the deck; Robo Substitute and Snorlax Doll discard themselves.
+    # Another Pokémon has to stay benched so the Eeeeeeek hand is still playable.
+    if me.card(me.bench[idx].card_i).name.lower() != "cleffa":
+        return
+    if len(me.bench) < 2 or not game._no_prize_proxy(active):
+        return
+    game._remove_proxy(me, me.active)
 
 
 def _in_deck(me, name: str) -> bool:
@@ -635,8 +688,12 @@ def choose_attack(game, me, foe):
         return by_name["sleepy lost"]
     if name == "smoochum" and "energy antics" in by_name:
         return by_name["energy antics"]
-    if name == "cleffa" and "eeeeeeek" in by_name and not _hand_has_keepers(game, me):
-        return by_name["eeeeeeek"]
+    if name == "cleffa" and "eeeeeeek" in by_name:
+        panic = not _hand_has_keepers(game, me)
+        # An empty Bench would end the game before the new six cards are played.
+        sacrifice = _dolls_running_out(game, me) and bool(me.bench)
+        if panic or sacrifice:
+            return by_name["eeeeeeek"]
     if name == "sableye" and "junk hunt" in by_name and _discard_items(game, me) >= 2 and _hunt_worth(game, me):
         return by_name["junk hunt"]
     return None
@@ -645,6 +702,15 @@ def choose_attack(game, me, foe):
 def promote_rank(game, player, index: int) -> tuple:
     mon = player.bench[index]
     card = player.card(mon.card_i)
+    if (
+        card.name.lower() == "sableye"
+        and _can_pay(game, player, mon, "Junk Hunt")
+        and _discard_items(game, player) >= 2
+        and _hunt_worth(game, player)
+    ):
+        return (-2, 0)
+    if _dolls_running_out(game, player) and card.name.lower() == "cleffa" and not _asleep(mon):
+        return (-1, 0)
     hard = _hard(game, player)
     asleep_face = game._sweet_face(card) and _asleep(mon)
     if game._no_prize_proxy(card) and hard:
@@ -838,6 +904,11 @@ def tool_host(game, me, card):
             return me.active
         return dolls[0]
     if name == "life dew":
+        # The sacrificed Cleffa is the Knock Out. Life Dew makes that Prize cheaper.
+        if _dolls_running_out(game, me):
+            for mon in open_mons:
+                if me.card(mon.card_i).name.lower() == "cleffa":
+                    return mon
         # Black Market already cuts the Prize on an energized Sableye, so the tool
         # stays off that body and can go on a Pokémon that still gives a Prize.
         skip_sableye = _market_for_sableye(game, me)

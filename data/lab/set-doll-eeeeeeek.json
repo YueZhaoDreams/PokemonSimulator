@@ -1,0 +1,348 @@
+{
+  "seed": 20261029,
+  "games": 200,
+  "policy": "sacrifice-when-dolls-run-out",
+  "weights": {
+    "t60": 0.04004004004004004,
+    "hedrick": 0.051051051051051045,
+    "unl": 0.022022022022022022,
+    "d60": 0.14514514514514515,
+    "s60": 0.07007007007007007,
+    "g": 0.11711711711711713,
+    "c60": 0.12412412412412413,
+    "m": 0.14514514514514515,
+    "starmie": 0.1061061061061061,
+    "lucario": 0.051051051051051045,
+    "thorns": 0.041041041041041046,
+    "h": 0.07607607607607607,
+    "g30": 0.011011011011011011
+  },
+  "elapsed": 120.17459901899929,
+  "weighted": 0.4350625625625626,
+  "se": 0.006777948884827148,
+  "eeeeeeek": 1.829416916916917,
+  "life_dew": 0.5642642642642642,
+  "empty": 0.2669019019019019,
+  "baseline": {
+    "weighted": 0.33789289289289287,
+    "se": 0.0061339034456608385,
+    "cells": {
+      "t60": 0.5349999999999999,
+      "hedrick": 0.3225,
+      "unl": 0.7925,
+      "d60": 0.01,
+      "s60": 0.6125,
+      "g": 0.235,
+      "c60": 0.5675,
+      "m": 0.2825,
+      "starmie": 0.115,
+      "lucario": 0.75,
+      "thorns": 0.885,
+      "h": 0.0625,
+      "g30": 0.6950000000000001
+    },
+    "empty": {
+      "t60": 0.325,
+      "hedrick": 0.43,
+      "unl": 0.1375,
+      "d60": 0.985,
+      "s60": 0.05,
+      "g": 0.3775,
+      "c60": 0.2875,
+      "m": 0.365,
+      "starmie": 0.625,
+      "lucario": 0.205,
+      "thorns": 0.0425,
+      "h": 0.1025,
+      "g30": 0.045
+    }
+  },
+  "cells": {
+    "t60": {
+      "a": {
+        "games": 200,
+        "wins": 137,
+        "wr": 0.685,
+        "empty": 37,
+        "empty_rate": 0.185,
+        "eeeeeeek": 2.22,
+        "life_dew": 0.45,
+        "cleffa_ko": 1.135
+      },
+      "b": {
+        "games": 200,
+        "wins": 138,
+        "wr": 0.69,
+        "empty": 45,
+        "empty_rate": 0.225,
+        "eeeeeeek": 2.315,
+        "life_dew": 0.48,
+        "cleffa_ko": 1.165
+      }
+    },
+    "hedrick": {
+      "a": {
+        "games": 200,
+        "wins": 89,
+        "wr": 0.445,
+        "empty": 54,
+        "empty_rate": 0.27,
+        "eeeeeeek": 1.98,
+        "life_dew": 0.445,
+        "cleffa_ko": 1.155
+      },
+      "b": {
+        "games": 200,
+        "wins": 99,
+        "wr": 0.495,
+        "empty": 53,
+        "empty_rate": 0.265,
+        "eeeeeeek": 1.855,
+        "life_dew": 0.43,
+        "cleffa_ko": 1.02
+      }
+    },
+    "d60": {
+      "a": {
+        "games": 200,
+        "wins": 19,
+        "wr": 0.095,
+        "empty": 144,
+        "empty_rate": 0.72,
+        "eeeeeeek": 2.025,
+        "life_dew": 0.57,
+        "cleffa_ko": 1.755
+      },
+      "b": {
+        "games": 200,
+        "wins": 23,
+        "wr": 0.115,
+        "empty": 138,
+        "empty_rate": 0.69,
+        "eeeeeeek": 1.905,
+        "life_dew": 0.535,
+        "cleffa_ko": 1.76
+      }
+    },
+    "unl": {
+      "b": {
+        "games": 200,
+        "wins": 166,
+        "wr": 0.83,
+        "empty": 16,
+        "empty_rate": 0.08,
+        "eeeeeeek": 2.205,
+        "life_dew": 0.665,
+        "cleffa_ko": 0.99
+      },
+      "a": {
+        "games": 200,
+        "wins": 176,
+        "wr": 0.88,
+        "empty": 10,
+        "empty_rate": 0.05,
+        "eeeeeeek": 1.97,
+        "life_dew": 0.635,
+        "cleffa_ko": 0.8
+      }
+    },
+    "s60": {
+      "a": {
+        "games": 200,
+        "wins": 135,
+        "wr": 0.675,
+        "empty": 5,
+        "empty_rate": 0.025,
+        "eeeeeeek": 1.855,
+        "life_dew": 0.695,
+        "cleffa_ko": 0.765
+      },
+      "b": {
+        "games": 200,
+        "wins": 131,
+        "wr": 0.655,
+        "empty": 11,
+        "empty_rate": 0.055,
+        "eeeeeeek": 2.095,
+        "life_dew": 0.75,
+        "cleffa_ko": 0.735
+      }
+    },
+    "g": {
+      "b": {
+        "games": 200,
+        "wins": 90,
+        "wr": 0.45,
+        "empty": 30,
+        "empty_rate": 0.15,
+        "eeeeeeek": 2.01,
+        "life_dew": 0.6,
+        "cleffa_ko": 1.365
+      },
+      "a": {
+        "games": 200,
+        "wins": 74,
+        "wr": 0.37,
+        "empty": 43,
+        "empty_rate": 0.215,
+        "eeeeeeek": 1.875,
+        "life_dew": 0.595,
+        "cleffa_ko": 1.355
+      }
+    },
+    "c60": {
+      "b": {
+        "games": 200,
+        "wins": 134,
+        "wr": 0.67,
+        "empty": 40,
+        "empty_rate": 0.2,
+        "eeeeeeek": 1.605,
+        "life_dew": 0.615,
+        "cleffa_ko": 1.08
+      },
+      "a": {
+        "games": 200,
+        "wins": 142,
+        "wr": 0.71,
+        "empty": 27,
+        "empty_rate": 0.135,
+        "eeeeeeek": 1.695,
+        "life_dew": 0.605,
+        "cleffa_ko": 1.095
+      }
+    },
+    "m": {
+      "a": {
+        "games": 200,
+        "wins": 56,
+        "wr": 0.28,
+        "empty": 63,
+        "empty_rate": 0.315,
+        "eeeeeeek": 1.22,
+        "life_dew": 0.445,
+        "cleffa_ko": 1.345
+      },
+      "b": {
+        "games": 200,
+        "wins": 66,
+        "wr": 0.33,
+        "empty": 49,
+        "empty_rate": 0.245,
+        "eeeeeeek": 1.505,
+        "life_dew": 0.435,
+        "cleffa_ko": 1.58
+      }
+    },
+    "starmie": {
+      "a": {
+        "games": 200,
+        "wins": 41,
+        "wr": 0.205,
+        "empty": 90,
+        "empty_rate": 0.45,
+        "eeeeeeek": 1.81,
+        "life_dew": 0.52,
+        "cleffa_ko": 1.465
+      },
+      "b": {
+        "games": 200,
+        "wins": 56,
+        "wr": 0.28,
+        "empty": 74,
+        "empty_rate": 0.37,
+        "eeeeeeek": 1.965,
+        "life_dew": 0.49,
+        "cleffa_ko": 1.53
+      }
+    },
+    "lucario": {
+      "b": {
+        "games": 200,
+        "wins": 168,
+        "wr": 0.84,
+        "empty": 25,
+        "empty_rate": 0.125,
+        "eeeeeeek": 1.87,
+        "life_dew": 0.535,
+        "cleffa_ko": 0.725
+      },
+      "a": {
+        "games": 200,
+        "wins": 164,
+        "wr": 0.82,
+        "empty": 22,
+        "empty_rate": 0.11,
+        "eeeeeeek": 1.665,
+        "life_dew": 0.505,
+        "cleffa_ko": 0.665
+      }
+    },
+    "h": {
+      "a": {
+        "games": 200,
+        "wins": 23,
+        "wr": 0.115,
+        "empty": 13,
+        "empty_rate": 0.065,
+        "eeeeeeek": 1.97,
+        "life_dew": 0.715,
+        "cleffa_ko": 1.555
+      },
+      "b": {
+        "games": 200,
+        "wins": 31,
+        "wr": 0.155,
+        "empty": 14,
+        "empty_rate": 0.07,
+        "eeeeeeek": 1.93,
+        "life_dew": 0.685,
+        "cleffa_ko": 1.35
+      }
+    },
+    "thorns": {
+      "a": {
+        "games": 200,
+        "wins": 186,
+        "wr": 0.93,
+        "empty": 7,
+        "empty_rate": 0.035,
+        "eeeeeeek": 2.085,
+        "life_dew": 0.68,
+        "cleffa_ko": 0.52
+      },
+      "b": {
+        "games": 200,
+        "wins": 189,
+        "wr": 0.945,
+        "empty": 2,
+        "empty_rate": 0.01,
+        "eeeeeeek": 2.2,
+        "life_dew": 0.675,
+        "cleffa_ko": 0.575
+      }
+    },
+    "g30": {
+      "a": {
+        "games": 200,
+        "wins": 146,
+        "wr": 0.73,
+        "empty": 0,
+        "empty_rate": 0.0,
+        "eeeeeeek": 1.445,
+        "life_dew": 0.685,
+        "cleffa_ko": 0.3
+      },
+      "b": {
+        "games": 200,
+        "wins": 148,
+        "wr": 0.74,
+        "empty": 4,
+        "empty_rate": 0.02,
+        "eeeeeeek": 1.155,
+        "life_dew": 0.665,
+        "cleffa_ko": 0.185
+      }
+    }
+  }
+}
