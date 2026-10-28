@@ -114,7 +114,7 @@ class _Board:
 def test_doll_list_is_the_locked_60():
     names = list(SET_DOLL_NAMES)
     assert len(names) == 60
-    assert names.count("Cleffa") == 4
+    assert names.count("Cleffa") == 2
     assert names.count("Smoochum") == 2
     assert names.count("Mime Jr.") == 2
     assert names.count("Slumbering Forest") == 2
@@ -122,6 +122,8 @@ def test_doll_list_is_the_locked_60():
     assert names.count("Manaphy") == 1
     assert names.count("Switch") == 1
     assert names.count("Black Market") == 1
+    assert names.count("Arven") == 1
+    assert names.count("Team Rocket's Petrel") == 1
     assert names.count("Sableye") == 2
     assert names.count("Darkness Energy") == 2
     assert names.count("Dark Patch") == 1
@@ -145,9 +147,9 @@ def test_doll_list_is_the_locked_60():
     assert "Energy Retrieval" not in names
     pile = build_doll_deck()
     assert copy_violations(pile, standard_60_rules()) == []
-    assert [c.catalog_id for c in pile if c.name == "Cleffa"] == ["hgss1-17"] * 4
-    assert [c.attacks[0].name for c in pile if c.name == "Cleffa"] == ["Eeeeeeek"] * 4
-    assert [c.attacks[0].text for c in pile if c.name == "Cleffa"] == [_EEEEEK] * 4
+    assert [c.catalog_id for c in pile if c.name == "Cleffa"] == ["hgss1-17"] * 2
+    assert [c.attacks[0].name for c in pile if c.name == "Cleffa"] == ["Eeeeeeek"] * 2
+    assert [c.attacks[0].text for c in pile if c.name == "Cleffa"] == [_EEEEEK] * 2
     assert [c.catalog_id for c in pile if c.name == "Mime Jr."] == ["col1-47"] * 2
     assert [c.attacks[0].name for c in pile if c.name == "Mime Jr."] == ["Sleepy Lost"] * 2
     smoochum = [c for c in pile if c.name == "Smoochum"]
@@ -176,6 +178,20 @@ def test_doll_list_is_the_locked_60():
     market = next(c for c in pile if c.name == "Black Market")
     assert market.catalog_id == "sm9-134"
     assert market.trainer_kind == "stadium"
+    arven = next(c for c in pile if c.name == "Arven")
+    assert arven.catalog_id == "sv01-166"
+    assert arven.trainer_kind == "supporter"
+    assert arven.text == (
+        "Search your deck for an Item card and a Pokémon Tool card, reveal them, "
+        "and put them into your hand. Then, shuffle your deck."
+    )
+    petrel = next(c for c in pile if c.name == "Team Rocket's Petrel")
+    assert petrel.catalog_id == "sv10-176"
+    assert petrel.trainer_kind == "supporter"
+    assert petrel.text == (
+        "Search your deck for a Trainer card, reveal it, and put it into your hand. "
+        "Then, shuffle your deck."
+    )
     shed = next(c for c in pile if c.name == "Shedinja")
     assert shed.catalog_id == "sm8-95"
     assert shed.text == _VESSEL
@@ -200,7 +216,7 @@ def test_doll_list_is_the_locked_60():
         assert loaded["id"] == "seed-doll"
         assert loaded["name"] == "Doll"
         assert [c["name"] for c in loaded["cards"]] == names
-        assert [c["catalog_id"] for c in loaded["cards"] if c["name"] == "Cleffa"] == ["hgss1-17"] * 4
+        assert [c["catalog_id"] for c in loaded["cards"] if c["name"] == "Cleffa"] == ["hgss1-17"] * 2
         assert [c["catalog_id"] for c in loaded["cards"] if c["name"] == "Sableye"] == ["bw5-62"] * 2
         assert [c["image"] for c in loaded["cards"] if c["name"] == "Sableye"] == [
             "https://assets.tcgdex.net/en/bw/bw5/62/low.webp"

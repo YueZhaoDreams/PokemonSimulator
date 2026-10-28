@@ -5,7 +5,8 @@ Trainers, so a Pokémon search does not find them. They are played from hand.
 Level Ball uses its printed HP line, which includes Shedinja once Nincada is out.
 Sweet Sleeping Face, Energy Antics, Sleepy Lost, Junk Hunt, Puzzle of Time,
 Handiwork, Dark Patch, Cursed Shovel, Life Dew, and Vessel of Life resolve from
-their own text.
+their own text. One Supporter is played each turn. Arven finds an Item and a
+Pokémon Tool. Petrel finds one Trainer. The other Supporter stays in hand.
 """
 
 from __future__ import annotations
@@ -30,6 +31,8 @@ KEEPERS = {
     "field blower",
     "darkness energy",
     "black market",
+    "arven",
+    "team rocket's petrel",
 }
 
 
@@ -295,6 +298,221 @@ def retreat(game, me) -> None:
         game._do_retreat_into(me, idx)
 
 
+def _dolls_in_hand(game, me) -> int:
+    return sum(1 for i in me.hand if _replayable_doll(game, me.card(i)))
+
+
+def _in_deck(me, name: str) -> bool:
+    want = name.lower()
+    return any(me.card(i).name.lower() == want for i in me.deck)
+
+
+def _holding_tool(me, name: str) -> bool:
+    want = name.lower()
+    if any(me.card(i).name.lower() == want for i in me.hand):
+        return True
+    return any(mon.tool is not None and me.card(mon.tool).name.lower() == want for mon in me.in_play())
+
+
+def _need_doll(game, me) -> bool:
+    """One doll leaves play on a typical turn. The hand keeps the replacement."""
+    return _dolls_in_hand(game, me) < 1
+
+
+def _tool_name(game, me) -> str | None:
+    """One tool. Shovel mills the doll that gets Knocked Out. Life Dew is the other."""
+    if not _holding_tool(me, "cursed shovel") and _in_deck(me, "cursed shovel"):
+        return "Cursed Shovel"
+    if not _holding_tool(me, "life dew") and _in_deck(me, "life dew"):
+        return "Life Dew"
+    return None
+
+
+def _face_asleep(game, me) -> bool:
+    return bool(me.active and _asleep(me.active) and game._sweet_face(me.card(me.active.card_i)))
+
+
+def _stadium_name(game, me) -> str | None:
+    """The Stadium this position would play, when that card is still in the deck."""
+    stadium = (game.stadium_name or "").lower()
+    hand = {me.card(i).name.lower() for i in me.hand}
+    spread = _spread(game, me)
+    if "battle cage" not in hand and stadium != "battle cage" and (spread or _hard(game, me)) and _in_deck(me, "battle cage"):
+        return "Battle Cage"
+    cage_blocks_forest = spread and (stadium == "battle cage" or "battle cage" in hand)
+    if (
+        not cage_blocks_forest
+        and "slumbering forest" not in hand
+        and stadium != "slumbering forest"
+        and _face_asleep(game, me)
+        and _in_deck(me, "slumbering forest")
+    ):
+        return "Slumbering Forest"
+    cage_blocks_market = (spread or _hard(game, me)) and stadium == "battle cage"
+    forest_blocks_market = stadium == "slumbering forest" and _face_asleep(game, me)
+    if (
+        _sableye_market_ready(game, me)
+        and not cage_blocks_market
+        and not (spread and "battle cage" in hand)
+        and not forest_blocks_market
+        and "black market" not in hand
+        and stadium != "black market"
+        and _in_deck(me, "black market")
+    ):
+        return "Black Market"
+    return None
+
+
+def _spare_items(game, me, foe) -> list[str]:
+    """Item half of Arven once a doll is already in hand."""
+    prefer = []
+    if level_ball_name(game, me):
+        prefer.append("Level Ball")
+    unpaid = any(
+        me.card(mon.card_i).name.lower() == "sableye" and not _can_pay(game, me, mon, "Junk Hunt")
+        for mon in me.in_play()
+    )
+    if unpaid:
+        prefer.append("Dark Patch")
+    puzzles = sum(1 for i in me.hand if me.card(i).name.lower() == "puzzle of time")
+    if puzzles < 2:
+        prefer.append("Puzzle of Time")
+    if _bench_room(game, me) > 0:
+        prefer.append("Buddy-Buddy Poffin")
+    if switch_idx(game, me) is not None:
+        prefer.append("Switch")
+    if foe.active and foe.active.energy:
+        prefer.append("Crushing Hammer")
+    if game.stadium_owner is foe or any(mon.tool is not None for mon in foe.in_play()):
+        prefer.append("Field Blower")
+    return [name for name in prefer if _in_deck(me, name)]
+
+
+def _petrel_want(game, me, foe) -> str | None:
+    """One Trainer. The hand keeps whichever Supporter was not played."""
+    hand = {me.card(i).name.lower() for i in me.hand}
+    if _need_doll(game, me) and any(_replayable_doll(game, me.card(i)) for i in me.deck):
+        return "doll"
+    stadium = _stadium_name(game, me)
+    if stadium:
+        return stadium
+    if foe.deck and "team rocket's handiwork" not in hand and _in_deck(me, "team rocket's handiwork"):
+        return "Team Rocket's Handiwork"
+    if "arven" not in hand:
+        tool = _tool_name(game, me)
+        if tool:
+            return tool
+    if (
+        "arven" not in hand
+        and _in_deck(me, "arven")
+        and (_need_doll(game, me) or _tool_name(game, me))
+    ):
+        return "Arven"
+    if (
+        "vs seeker" not in hand
+        and any(me.card(i).name.lower() == "team rocket's handiwork" for i in me.discard)
+        and _in_deck(me, "vs seeker")
+    ):
+        return "VS Seeker"
+    return None
+
+
+def _arven_score(game, me, foe) -> float:
+    """Added to the generic Supporter score. A doll in the hand outranks the mill."""
+    doll = _need_doll(game, me) and any(_replayable_doll(game, me.card(i)) for i in me.deck)
+    tool = _tool_name(game, me)
+    spare = _spare_items(game, me, foe)
+    if doll:
+        return 22
+    if tool:
+        return 12
+    if spare:
+        return 4
+    return -14
+
+
+def _petrel_score(game, me, foe) -> float:
+    want = _petrel_want(game, me, foe)
+    if want == "doll":
+        return 24
+    if want == "Battle Cage":
+        return 32
+    if want == "Slumbering Forest":
+        return 22
+    if want == "Team Rocket's Handiwork":
+        return 18
+    if want in {"Cursed Shovel", "Life Dew"}:
+        return 16
+    if want == "Black Market":
+        return 20
+    if want == "Arven":
+        return 10
+    if want == "VS Seeker":
+        return 14
+    return -12
+
+
+def play_arven(game, me, foe) -> None:
+    """Printed Arven: one Item and one Pokémon Tool, then one shuffle per search."""
+    tool = _tool_name(game, me)
+    found = False
+    if tool:
+        got = game._search(me, lambda c, tool=tool: c.name.lower() == tool.lower(), prefer=[tool], source="arven")
+        found = got is not None or found
+    if _need_doll(game, me) and any(_replayable_doll(game, me.card(i)) for i in me.deck):
+        got = game._search(
+            me,
+            lambda c: _replayable_doll(game, c),
+            prefer=["Lillie's Poké Doll", "Robo Substitute Team Flare Gear"],
+            source="arven",
+        )
+        found = got is not None or found
+    else:
+        spare = _spare_items(game, me, foe)
+        if spare:
+            wanted = {name.lower() for name in spare}
+            got = game._search(
+                me,
+                lambda c, wanted=wanted: c.is_item and not _replayable_doll(game, c) and c.name.lower() in wanted,
+                prefer=spare,
+                source="arven",
+            )
+            found = got is not None or found
+    if found:
+        game._bump("arven")
+        game._bump("doll_arven")
+
+
+def play_petrel(game, me, foe) -> None:
+    """Printed Petrel: one Trainer. A doll, the Stadium, or the mill, in that order."""
+    want = _petrel_want(game, me, foe)
+    if want is None:
+        game._bump("petrel_whiff")
+        return
+    if want == "doll":
+        found = game._search(
+            me,
+            lambda c: _replayable_doll(game, c),
+            prefer=["Lillie's Poké Doll", "Robo Substitute Team Flare Gear"],
+            source="petrel",
+        )
+    else:
+        found = game._search(
+            me,
+            lambda c, want=want: c.is_trainer and c.name.lower() == want.lower(),
+            prefer=[want],
+            source="petrel",
+        )
+    if found is None:
+        game._bump("petrel_whiff")
+        return
+    found_name = me.card(found).name
+    game._bump("petrel")
+    game._bump("doll_petrel")
+    game._bump(f"petrel_into:{found_name}")
+    game._log(f"{me.name} Petrel takes {found_name}")
+
+
 def trainer_score(game, me, foe, card) -> float:
     name = card.name.lower()
     if game._proxy_effect(card):
@@ -304,6 +522,10 @@ def trainer_score(game, me, foe, card) -> float:
         if _bench_room(game, me) <= 0 and me.active is not None:
             return -8
         return 30
+    if name == "arven":
+        return _arven_score(game, me, foe)
+    if name == "team rocket's petrel":
+        return _petrel_score(game, me, foe)
     spread = _spread(game, me)
     stadium = (game.stadium_name or "").lower()
     face_asleep = bool(me.active and _asleep(me.active) and game._sweet_face(me.card(me.active.card_i)))
@@ -442,6 +664,8 @@ def promote_rank(game, player, index: int) -> tuple:
 
 PUZZLE_PREFER = (
     "team rocket's handiwork",
+    "arven",
+    "team rocket's petrel",
     "vs seeker",
     "dark patch",
     "robo substitute team flare gear",
@@ -508,7 +732,7 @@ def seeker(game, me) -> None:
     if not supporters:
         game._bump("vs_seeker_miss")
         return
-    prefer = ["team rocket's handiwork"]
+    prefer = ["team rocket's handiwork", "arven", "team rocket's petrel"]
 
     def rank(idx: int) -> int:
         name = me.card(idx).name.lower()

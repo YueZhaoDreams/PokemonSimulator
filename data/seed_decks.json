@@ -28330,110 +28330,6 @@
         "traits": []
       },
       {
-        "catalog_id": "hgss1-17",
-        "name": "Cleffa",
-        "category": "Pokemon",
-        "stage": "Basic",
-        "types": [
-          "Colorless"
-        ],
-        "hp": 30,
-        "attacks": [
-          {
-            "name": "Eeeeeeek",
-            "cost": [],
-            "damage": 0,
-            "text": "Shuffle your hand into your deck, then draw 6 cards. Cleffa is now Asleep.",
-            "effects": [
-              {
-                "kind": "status",
-                "status": "asleep",
-                "coin": false,
-                "target": "self"
-              },
-              {
-                "kind": "shuffle_hand_then_draw",
-                "amount": 6
-              }
-            ]
-          }
-        ],
-        "abilities": [
-          {
-            "name": "Sweet Sleeping Face",
-            "text": "As long as Cleffa is Asleep, prevent all damage done to Cleffa by attacks.",
-            "effects": [
-              {
-                "kind": "prevent_attack_damage_while_asleep"
-              }
-            ]
-          }
-        ],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/hgss/hgss1/17/low.webp",
-        "set_name": "HeartGold & SoulSilver",
-        "text": "",
-        "dex_id": null,
-        "traits": []
-      },
-      {
-        "catalog_id": "hgss1-17",
-        "name": "Cleffa",
-        "category": "Pokemon",
-        "stage": "Basic",
-        "types": [
-          "Colorless"
-        ],
-        "hp": 30,
-        "attacks": [
-          {
-            "name": "Eeeeeeek",
-            "cost": [],
-            "damage": 0,
-            "text": "Shuffle your hand into your deck, then draw 6 cards. Cleffa is now Asleep.",
-            "effects": [
-              {
-                "kind": "status",
-                "status": "asleep",
-                "coin": false,
-                "target": "self"
-              },
-              {
-                "kind": "shuffle_hand_then_draw",
-                "amount": 6
-              }
-            ]
-          }
-        ],
-        "abilities": [
-          {
-            "name": "Sweet Sleeping Face",
-            "text": "As long as Cleffa is Asleep, prevent all damage done to Cleffa by attacks.",
-            "effects": [
-              {
-                "kind": "prevent_attack_damage_while_asleep"
-              }
-            ]
-          }
-        ],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/hgss/hgss1/17/low.webp",
-        "set_name": "HeartGold & SoulSilver",
-        "text": "",
-        "dex_id": null,
-        "traits": []
-      },
-      {
         "catalog_id": "hgss1-30",
         "name": "Smoochum",
         "category": "Pokemon",
@@ -29858,6 +29754,48 @@
         "image": "https://assets.tcgdex.net/en/sm/sm9/134/low.webp",
         "set_name": null,
         "text": "You can't have more than 1 card with the same name in your deck. If a card would go to the discard pile, put it in the Lost Zone instead. When a Darkness Pok\u00e9mon (yours or your opponent's) that has any Darkness Energy attached to it is Knocked Out by damage from an opponent's attack, that player takes 1 fewer Prize card. Whenever any player plays an Item or Supporter card from their hand, prevent all effects of that card done to this Stadium card. This card stays in play when you play it. Discard this card if another Stadium card comes into play. If another card with the same name is in play, you can't play this card.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "sv01-166",
+        "name": "Arven",
+        "category": "Trainer",
+        "stage": "Supporter",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "supporter",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv01/166/low.webp",
+        "set_name": null,
+        "text": "Search your deck for an Item card and a Pok\u00e9mon Tool card, reveal them, and put them into your hand. Then, shuffle your deck.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "sv10-176",
+        "name": "Team Rocket's Petrel",
+        "category": "Trainer",
+        "stage": "Supporter",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "supporter",
+        "energy_type": null,
+        "image": "https://images.pokemontcg.io/sv10/176.png",
+        "set_name": null,
+        "text": "Search your deck for a Trainer card, reveal it, and put it into your hand. Then, shuffle your deck.",
         "dex_id": null,
         "traits": []
       }
