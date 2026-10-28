@@ -728,7 +728,10 @@ SET_MILL_NAMES = (
 # Jacq was searched the same way on that list and kept at zero copies.
 # See data/lab/set-mill-roast-jacq.md. Three Evolution Incense replace one
 # Level Ball and both Cleffa. A fourth copy did not raise the weighted win
-# rate. See data/lab/set-mill-roast-incense.md.
+# rate. See data/lab/set-mill-roast-incense.md. One Hyper Aroma replaces the
+# Ultra Ball. The printed sentence searches the deck for up to 3 Stage 1
+# Pokémon. 400 games per seat, and every other card was the cut. See
+# data/lab/set-mill-roast-aroma.md.
 SET_ROAST_NAMES = (
     ["Litwick"] * 4
     + ["Lampent"] * 4
@@ -743,13 +746,13 @@ SET_ROAST_NAMES = (
     + ["Rescue Scarf"] * 4
     + ["Dawn"] * 4
     + ["Level Ball"] * 2
-    + ["Ultra Ball"]
     + ["Switch"]
     + ["Broken Time-Space"] * 3
     + ["Slumbering Forest"]
     + ["Fire Energy"] * 7
     + ["Hisuian Heavy Ball"]
     + ["Evolution Incense"] * 3
+    + ["Hyper Aroma"]
 )
 
 # Unlimited 60: Ambipom PAR Hand Fling, Lopunny FLF Big Jump recycle,

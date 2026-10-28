@@ -441,8 +441,15 @@ def _markdown(report: dict) -> str:
 def main() -> None:
     started = time.perf_counter()
     current = list(SET_ROAST_NAMES)
-    if current.count("Cleffa") != 0:
-        raise SystemExit("Cleffa search starts from the post-Aroma list, which has zero Cleffa")
+    if (
+        current.count("Cleffa") != 0
+        or current.count("Hyper Aroma") != 1
+        or current.count("Ultra Ball") != 0
+        or current.count("Evolution Incense") != 3
+    ):
+        raise SystemExit(
+            "Cleffa search starts from the Hyper Aroma lock: one Hyper Aroma, no Ultra Ball, three Evolution Incense, zero Cleffa"
+        )
     _check_list(current)
     cache = _load_cache()
     print(f"baseline locked, {GAMES} games, seed {SEED}", flush=True)
