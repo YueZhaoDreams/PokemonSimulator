@@ -418,6 +418,7 @@ def _markdown(report: dict) -> str:
         f"Evolution Pokémon found by Jacq per game: {report['jacq_cards']:.2f}. "
         f"Hop plays per game: {report['hop']:.2f}. "
         f"Cards drawn by Hop per game: {report['hop_cards']:.2f}. "
+        "Those two Hop rows count every Hop played in the game, including the opponent. "
         f"Hisuian Heavy Ball swaps per game: {report['hisuian_heavy_ball']:.2f}. "
         f"Broken Time-Space plays per game: {report['roast_bts']:.2f}. "
         f"Time Distortion devolves per game: {report['time_distortion']:.2f}. "
