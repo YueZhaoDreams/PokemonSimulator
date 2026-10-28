@@ -2480,6 +2480,9 @@ class Game:
                 self._bump("lillie")
                 self._bump(f"lillie_{me.name.lower()}")
         elif name == "jacq":
+            if self.strats[who].name == "roast":
+                self._roast_jacq(me, who)
+                return
             prefer = ["Mega Clefable ex", "Clefable ex", "Clefable"]
             if self.strats[who].name == "party" and self._facing_aura(me):
                 prefer = ["Clefable ex", "Mega Clefable ex", "Clefable"]
@@ -6885,6 +6888,33 @@ class Game:
             self._log(f"{me.name} Evolution Incense finds {', '.join(found)}")
         else:
             self._bump("evolution_incense_miss")
+
+    def _roast_jacq(self, me: Player, who: str) -> None:
+        """Up to 2 Evolution Pokémon. Each pick is chosen after the previous one is in hand.
+
+        The live search passes an empty taken map. _search has already moved the
+        earlier pick into the hand, so counting it again would skip a second Lampent.
+        """
+        found: list[str] = []
+        for _ in range(2):
+            choice = self._roast_jacq_choice(me, who, {})
+            if not choice:
+                break
+            card_i = self._search(
+                me,
+                lambda c, choice=choice: self._is_evolution_pokemon(c) and c.name.lower() == choice.lower(),
+                prefer=[choice],
+                source="jacq",
+            )
+            if card_i is None:
+                break
+            found.append(me.card(card_i).name)
+        if found:
+            self._bump("jacq")
+            self._bump("jacq_cards", len(found))
+            self._log(f"{me.name} Jacq finds {', '.join(found)}")
+        else:
+            self._bump("jacq_miss")
 
     def _level_ball(self, me: Player, who: str, max_hp: int) -> None:
         if max_hp <= 0:
@@ -18442,6 +18472,8 @@ class Game:
             return True
         if name == "dawn" or name == "evolution incense":
             return True
+        if name == "jacq":
+            return bool(self._roast_jacq_picks(me, who))
         if name == "hisuian heavy ball":
             return self._roast_heavy_best(me) is not None
         if name == "broken time-space" and (self.stadium_name or "").lower() != "broken time-space":
@@ -18582,6 +18614,50 @@ class Game:
             return "Chandelure"
         return None
 
+    def _roast_jacq_choice(self, me: Player, who: str, taken: dict[str, int]) -> str | None:
+        """Next Evolution Pokémon for one of Jacq's two picks.
+
+        Litwick that Playground will bench still need a Lampent. Chandelure waits
+        until a Lampent is in hand or in play, including one this Jacq already took.
+        """
+
+        def count(zone: list[int], name: str) -> int:
+            return sum(1 for i in zone if me.card(i).name.lower() == name)
+
+        play = [mon.card_i for mon in me.in_play()]
+        room = max(0, self._bench_limit(me) - len(me.bench))
+        incoming = 0
+        if self._roast_wants_playground(me, who):
+            incoming = min(count(me.deck, "litwick"), max(0, 4 - self._roast_lines(me)))
+        litwick = count(play, "litwick") + min(count(me.hand, "litwick"), room) + incoming
+        lampent = count(play, "lampent") + count(me.hand, "lampent") + taken.get("Lampent", 0)
+        deck_lamp = count(me.deck, "lampent") - taken.get("Lampent", 0)
+        deck_chand = count(me.deck, "chandelure") - taken.get("Chandelure", 0)
+        if litwick > lampent and deck_lamp > 0:
+            return "Lampent"
+        if deck_chand > 0 and lampent > 0:
+            return "Chandelure"
+        return None
+
+    def _roast_jacq_picks(self, me: Player, who: str) -> list[str]:
+        taken: dict[str, int] = {}
+        picks: list[str] = []
+        for _ in range(2):
+            choice = self._roast_jacq_choice(me, who, taken)
+            if not choice:
+                break
+            picks.append(choice)
+            taken[choice] = taken.get(choice, 0) + 1
+        return picks
+
+    def _roast_jacq_before_dawn(self, me: Player, who: str) -> bool:
+        picks = self._roast_jacq_picks(me, who)
+        if not picks:
+            return False
+        if len(picks) >= 2 or self._roast_wants_playground(me, who):
+            return True
+        return not self._roast_dawn_helps(me)
+
     def _roast_dawn_helps(self, me: Player) -> bool:
         names = {me.card(i).name.lower() for i in me.deck}
         if "chandelure" in names or "lampent" in names:
@@ -18683,6 +18759,13 @@ class Game:
         ):
             return "Evolution Incense"
         if (
+            self._roast_jacq_before_dawn(me, who)
+            and not self._roast_named(me, me.hand, "Jacq")
+            and self._roast_named(me, me.deck, "Jacq")
+            and not (self._roast_dawn_helps(me) and self._roast_named(me, me.hand, "Dawn"))
+        ):
+            return "Jacq"
+        if (
             self._roast_dawn_helps(me)
             and not self._roast_named(me, me.hand, "Dawn")
             and self._roast_named(me, me.deck, "Dawn")
@@ -18771,6 +18854,7 @@ class Game:
             "broken time-space",
             "evolution incense",
             "dawn",
+            "jacq",
             "hisuian heavy ball",
             "level ball",
             "rescue scarf",
@@ -18796,6 +18880,13 @@ class Game:
         forest_out = (self.stadium_name or "").lower() == "slumbering forest"
         if name == "evolution incense":
             return 205 if self._roast_incense_choice(me) else -1
+        if name == "jacq":
+            picks = self._roast_jacq_picks(me, who)
+            if not picks:
+                return -1
+            if len(picks) >= 2 or self._roast_wants_playground(me, who):
+                return 225
+            return 175
         if name == "dawn":
             if self._roast_needs_switch(me) and not self._roast_named(me, me.hand, "Switch"):
                 return 100
@@ -18851,6 +18942,8 @@ class Game:
                 return 205 if self._roast_heavy_score(me) >= 70 else 150
             if want == "Evolution Incense":
                 return 200
+            if want == "Jacq":
+                return 215
             if want == "Dawn":
                 return 200
             if want == "Broken Time-Space":

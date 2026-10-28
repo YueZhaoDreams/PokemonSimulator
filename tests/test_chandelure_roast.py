@@ -40,6 +40,10 @@ HEAVY = (
     "(If you don't reveal a Basic Pokémon, put this card in the discard pile.) "
     "Then, shuffle your face-down Prize cards."
 )
+JACQ = (
+    "Search your deck for up to 2 Evolution Pokémon, reveal them, and put them into your hand. "
+    "Then, shuffle your deck."
+)
 GRAND_TREE = (
     "You can't have more than 1 ACE SPEC card in your deck. "
     "Once during each player's turn, that player may search their deck for a Stage 1 Pokémon "
@@ -105,6 +109,7 @@ def test_printed_sentences_parse_without_a_fixed_devolve_count():
     assert parse_trainer_effects(INCENSE) == [{"kind": "search_evolution_pokemon", "count": 1}]
     assert parse_trainer_effects(DAWN) == [{"kind": "search_basic_stage1_stage2"}]
     assert parse_trainer_effects(HEAVY) == [{"kind": "hisuian_heavy_ball"}]
+    assert not any(e.get("kind") == "search_evolution_pokemon" for e in parse_trainer_effects(JACQ))
     assert {"kind": "grand_tree"} in parse_ability_effects(GRAND_TREE)
     assert not any(e.get("kind") == "mill_on_play_from_hand" for e in parse_ability_effects(GRAND_TREE))
     scarf = parse_trainer_effects(RESCUE_SCARF)
@@ -121,6 +126,7 @@ def test_printed_sentences_parse_without_a_fixed_devolve_count():
     assert fallback_named("Evolution Incense").text == INCENSE
     assert fallback_named("Dawn").text == DAWN
     assert fallback_named("Hisuian Heavy Ball").text == HEAVY
+    assert fallback_named("Jacq").text == JACQ
     assert fallback_named("Grand Tree").text == GRAND_TREE
     assert fallback_named("Rescue Scarf").text == RESCUE_SCARF
 
@@ -905,3 +911,70 @@ def test_petrel_takes_heavy_ball_before_dawn_when_celebi_is_prized():
     me.bench = []
     assert game._roast_petrel_want(me, "a") == "Hisuian Heavy Ball"
     assert game._roast_trainer_score(me, "a", me.card(dawn)) == 100
+
+
+def test_jacq_takes_lampent_then_chandelure_for_one_legal_litwick():
+    game = _game()
+    me = game.players["a"]
+    _reclaim(me)
+    cleffa = _pull(me, "Cleffa")
+    lit = _pull(me, "Litwick")
+    lamp = _pull(me, "Lampent")
+    chand = _pull(me, "Chandelure")
+    jacq = _grant(me, "Jacq")
+    me.deck.remove(jacq)
+    me.active = Pokemon(card_i=cleffa, played_turn=0)
+    me.bench = [Pokemon(card_i=lit, played_turn=0)]
+    me.hand = [jacq]
+    me.deck = [lamp, chand]
+    _ready_turn(game)
+    assert game._roast_jacq_picks(me, "a") == ["Lampent", "Chandelure"]
+    game._roast_trainers(me, game.players["b"], "a")
+    assert lamp in me.hand
+    assert chand in me.hand
+    assert jacq in me.discard
+    assert game.events.get("jacq_cards", 0) == 2
+
+
+def test_jacq_takes_two_lampent_when_playground_will_bench_litwick():
+    game = _game()
+    me = game.players["a"]
+    _reclaim(me)
+    pichu = _pull(me, "Pichu")
+    litwick = [_pull(me, "Litwick") for _ in range(3)]
+    lamps = [_pull(me, "Lampent") for _ in range(2)]
+    chand = _pull(me, "Chandelure")
+    jacq = _grant(me, "Jacq")
+    me.deck.remove(jacq)
+    me.active = Pokemon(card_i=pichu, played_turn=0)
+    me.bench = []
+    me.hand = [jacq]
+    me.deck = litwick + lamps + [chand]
+    _ready_turn(game)
+    assert game._roast_wants_playground(me, "a")
+    assert game._roast_jacq_picks(me, "a") == ["Lampent", "Lampent"]
+    game._roast_trainers(me, game.players["b"], "a")
+    assert all(card_i in me.hand for card_i in lamps)
+    assert all(card_i in me.deck for card_i in litwick)
+    assert chand in me.deck
+    assert jacq in me.discard
+
+
+def test_jacq_takes_two_chandelure_when_lampent_are_already_out():
+    game = _game()
+    me = game.players["a"]
+    _reclaim(me)
+    cleffa = _pull(me, "Cleffa")
+    lamps = [_pull(me, "Lampent") for _ in range(2)]
+    chands = [_pull(me, "Chandelure") for _ in range(2)]
+    jacq = _grant(me, "Jacq")
+    me.deck.remove(jacq)
+    me.active = Pokemon(card_i=cleffa, played_turn=0)
+    me.bench = [Pokemon(card_i=card_i, played_turn=0) for card_i in lamps]
+    me.hand = [jacq]
+    me.deck = list(chands)
+    _ready_turn(game)
+    assert game._roast_jacq_picks(me, "a") == ["Chandelure", "Chandelure"]
+    game._roast_trainers(me, game.players["b"], "a")
+    assert all(card_i in me.hand for card_i in chands)
+    assert jacq in me.discard

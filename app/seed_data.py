@@ -1324,7 +1324,14 @@ _register(_trn("Ultra Ball", "item", "Discard 2 cards from your hand. Search you
 _register(_trn("Tool Box", "item", "Look at the top 7 cards of your deck. You may put any Pokémon Tool cards you find there into your hand."))
 _register(_trn("Trekking Shoes", "item", "Look at the top card of your deck. You may put it into your hand, or discard it and draw a card."))
 _register(_trn("Lake Acuity", "stadium", "Water and Fighting Pokémon take 20 less damage from attacks."))
-_register(_trn("Jacq", "supporter", "Search your deck for up to 2 Evolution Pokémon."))
+_register(
+    _trn(
+        "Jacq",
+        "supporter",
+        "Search your deck for up to 2 Evolution Pokémon, reveal them, and put them into your hand. Then, shuffle your deck.",
+        catalog_id="sv01-175",
+    )
+)
 _register(
     _trn(
         "Dawn",

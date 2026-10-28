@@ -906,6 +906,8 @@ STRATEGY_LIBRARY = {
             "Pichu is HeartGold & SoulSilver Playground and benches Litwick, then Celebi ◇. "
             "Dawn searches the deck for a Basic Pokémon, a Stage 1 Pokémon, and a Stage 2 "
             "Pokémon and puts them into the hand. "
+            "Jacq searches the deck for up to 2 Evolution Pokémon. "
+            "Playground has usually taken the Basics, so Jacq takes Lampent, Chandelure, or both. "
             "Broken Time-Space lets a Litwick played this turn evolve into Lampent and "
             "then Chandelure. Chandelure played from that hand mills. "
             "Celebi ◇ uses Time Distortion on a benched Chandelure the same turn it can pay. "
