@@ -18162,8 +18162,9 @@ class Game:
                 break
 
     def _roast_main(self, me: Player, foe: Player, who: str) -> None:
-        # Evolution Incense puts Lampent and Chandelure in the hand. Broken Time-Space
-        # then lets a Litwick played this turn evolve into both before the attack.
+        # Evolution Incense takes Chandelure once a Lampent is in hand or in play.
+        # Lampent is only the fallback while a Litwick still has no Stage 1.
+        # Broken Time-Space then lets a Litwick played this turn evolve into both.
         # Celebi ◇ devolves a benched Chandelure the same turn it can pay.
         self._roast_bench(me, who)
         self._roast_trainers(me, foe, who)
@@ -18595,9 +18596,9 @@ class Game:
     def _roast_incense_choice(self, me: Player) -> str | None:
         """The next Evolution Pokémon Evolution Incense should take.
 
-        Lampent until each Litwick has one. Then Chandelure for a Lampent already
-        in hand or in play. With neither piece out, leave the Item for later so
-        a Chandelure does not sit in hand and stop Eeeeeeek.
+        Chandelure comes first once a Lampent is in hand or in play. Lampent is
+        only the fallback while a Litwick still has no Stage 1. With neither
+        piece out, leave the Item so a Chandelure does not sit in hand.
         """
         def count(zone: list[int], name: str) -> int:
             return sum(1 for i in zone if me.card(i).name.lower() == name)
@@ -18608,10 +18609,10 @@ class Game:
         lampent = count(play, "lampent") + count(me.hand, "lampent")
         deck_lamp = count(me.deck, "lampent")
         deck_chand = count(me.deck, "chandelure")
-        if litwick > lampent and deck_lamp:
-            return "Lampent"
         if deck_chand and lampent > 0:
             return "Chandelure"
+        if litwick > lampent and deck_lamp:
+            return "Lampent"
         return None
 
     def _roast_jacq_choice(self, me: Player, who: str, taken: dict[str, int]) -> str | None:

@@ -688,6 +688,29 @@ def test_incense_does_not_find_a_basic():
     assert other in me.deck
 
 
+def test_incense_takes_chandelure_while_a_litwick_still_needs_lampent():
+    game = _game()
+    me = game.players["a"]
+    _reclaim(me)
+    cleffa = _pull(me, "Cleffa")
+    lits = [_pull(me, "Litwick") for _ in range(2)]
+    lamp_hand = _pull(me, "Lampent")
+    lamp_deck = _pull(me, "Lampent")
+    chand = _pull(me, "Chandelure")
+    incense = _grant(me, "Evolution Incense")
+    me.deck.remove(incense)
+    me.active = Pokemon(card_i=cleffa, played_turn=0)
+    me.bench = [Pokemon(card_i=lit, played_turn=0) for lit in lits]
+    me.hand = [lamp_hand, incense]
+    me.deck = [lamp_deck, chand]
+    _ready_turn(game)
+    assert game._roast_incense_choice(me) == "Chandelure"
+    game._roast_trainers(me, game.players["b"], "a")
+    assert chand in me.hand
+    assert lamp_deck in me.deck
+    assert incense in me.discard
+
+
 def test_incense_takes_chandelure_when_spare_lampent_remain():
     game = _game()
     me = game.players["a"]
