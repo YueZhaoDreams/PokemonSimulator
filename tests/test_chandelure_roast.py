@@ -44,6 +44,11 @@ JACQ = (
     "Search your deck for up to 2 Evolution Pokémon, reveal them, and put them into your hand. "
     "Then, shuffle your deck."
 )
+AROMA = (
+    "You can't have more than 1 ACE SPEC card in your deck. "
+    "Search your deck for up to 3 Stage 1 Pokémon, reveal them, and put them into your hand. "
+    "Then, shuffle your deck."
+)
 GRAND_TREE = (
     "You can't have more than 1 ACE SPEC card in your deck. "
     "Once during each player's turn, that player may search their deck for a Stage 1 Pokémon "
@@ -113,6 +118,8 @@ def test_printed_sentences_parse_without_a_fixed_devolve_count():
     assert four == [{"kind": "mill_on_play_from_hand", "count": 4}]
     assert parse_ability_effects(FREEFLOATING) == [{"kind": "retreat_zero_if_no_energy"}]
     assert parse_trainer_effects(INCENSE) == [{"kind": "search_evolution_pokemon", "count": 1}]
+    assert parse_trainer_effects(AROMA) == [{"kind": "search_stage1", "count": 3}]
+    assert parse_trainer_effects(AROMA.replace("up to 3", "up to 4")) == [{"kind": "search_stage1", "count": 4}]
     assert parse_trainer_effects(DAWN) == [{"kind": "search_basic_stage1_stage2"}]
     assert parse_trainer_effects(HEAVY) == [{"kind": "hisuian_heavy_ball"}]
     assert not any(e.get("kind") == "search_evolution_pokemon" for e in parse_trainer_effects(JACQ))
@@ -133,6 +140,8 @@ def test_printed_sentences_parse_without_a_fixed_devolve_count():
     assert fallback_named("Dawn").text == DAWN
     assert fallback_named("Hisuian Heavy Ball").text == HEAVY
     assert fallback_named("Jacq").text == JACQ
+    assert fallback_named("Hyper Aroma").text == AROMA
+    assert "ace spec" in [trait.lower() for trait in fallback_named("Hyper Aroma").traits]
     assert fallback_named("Grand Tree").text == GRAND_TREE
     assert fallback_named("Rescue Scarf").text == RESCUE_SCARF
 
@@ -159,6 +168,7 @@ def test_roast_deck_is_sixty_and_pichu_is_playground():
     assert names.count("Energy Search") == 4
     assert names.count("Switch") == 1
     assert names.count("Jacq") == 0
+    assert names.count("Hyper Aroma") == 0
     assert names.count("Nest Ball") == 0
     assert names.count("Slumbering Forest") == 1
     assert not any("Doll" in name for name in names)
@@ -1006,3 +1016,146 @@ def test_jacq_takes_two_chandelure_when_lampent_are_already_out():
     game._roast_trainers(me, game.players["b"], "a")
     assert all(card_i in me.hand for card_i in chands)
     assert jacq in me.discard
+
+
+def _aroma_board(game: Game, *, hand_lamps: int, deck_lamps: int, play_lamps: int = 0):
+    me = game.players["a"]
+    _reclaim(me)
+    cleffa = _cleffa(me)
+    aroma = _grant(me, "Hyper Aroma")
+    me.deck.remove(aroma)
+    need = hand_lamps + deck_lamps + play_lamps
+    lamps: list[int] = []
+    while len(lamps) < need and len(lamps) < 4:
+        lamps.append(_pull(me, "Lampent"))
+    while len(lamps) < need:
+        extra = _grant(me, "Lampent")
+        me.deck.remove(extra)
+        lamps.append(extra)
+    me.active = Pokemon(card_i=cleffa, played_turn=0)
+    me.bench = [Pokemon(card_i=lamps[i], played_turn=0) for i in range(play_lamps)]
+    used = play_lamps
+    me.hand = lamps[used : used + hand_lamps] + [aroma]
+    me.deck = lamps[used + hand_lamps : used + hand_lamps + deck_lamps]
+    _ready_turn(game)
+    return me, aroma, lamps
+
+
+def test_hyper_aroma_takes_three_lampent_and_leaves_one():
+    game = _game()
+    me, aroma, lamps = _aroma_board(game, hand_lamps=0, deck_lamps=4)
+    game._roast_trainers(me, game.players["b"], "a")
+    assert sum(1 for card_i in me.hand if me.card(card_i).name == "Lampent") == 3
+    assert sum(1 for card_i in me.deck if me.card(card_i).name == "Lampent") == 1
+    assert aroma in me.discard
+    assert game.events.get("hyper_aroma_cards", 0) == 3
+    assert game.events.get("tutor:Lampent:hyper aroma", 0) == 3
+
+
+def test_hyper_aroma_stops_once_four_lampent_are_in_hand():
+    game = _game()
+    me, aroma, _lamps = _aroma_board(game, hand_lamps=2, deck_lamps=3)
+    assert game._roast_aroma_take(me, me.card(aroma)) == 2
+    game._roast_trainers(me, game.players["b"], "a")
+    assert sum(1 for card_i in me.hand if me.card(card_i).name == "Lampent") == 4
+    assert sum(1 for card_i in me.deck if me.card(card_i).name == "Lampent") == 1
+    assert game.events.get("hyper_aroma_cards", 0) == 2
+    assert aroma in me.discard
+
+
+def test_hyper_aroma_stays_unplayed_when_four_lampent_are_out():
+    game = _game()
+    me, aroma, _lamps = _aroma_board(game, hand_lamps=0, deck_lamps=1, play_lamps=4)
+    assert game._roast_trainer_score(me, "a", me.card(aroma)) < 0
+    game._roast_trainers(me, game.players["b"], "a")
+    assert aroma in me.hand
+    assert sum(1 for card_i in me.deck if me.card(card_i).name == "Lampent") == 1
+    assert game.events.get("hyper_aroma", 0) == 0
+
+
+def test_hyper_aroma_follows_the_printed_count():
+    game = _game()
+    me, aroma, _lamps = _aroma_board(game, hand_lamps=0, deck_lamps=4)
+    me.card(aroma).text = AROMA.replace("up to 3", "up to 1")
+    assert game._roast_aroma_take(me, me.card(aroma)) == 1
+    game._roast_trainers(me, game.players["b"], "a")
+    assert sum(1 for card_i in me.hand if me.card(card_i).name == "Lampent") == 1
+    assert sum(1 for card_i in me.deck if me.card(card_i).name == "Lampent") == 3
+    assert game.events.get("hyper_aroma_cards", 0) == 1
+
+    game = _game()
+    me, aroma, _lamps = _aroma_board(game, hand_lamps=0, deck_lamps=4)
+    me.card(aroma).text = AROMA.replace("up to 3", "up to 4")
+    assert parse_trainer_effects(me.card(aroma).text) == [{"kind": "search_stage1", "count": 4}]
+    assert game._roast_aroma_take(me, me.card(aroma)) == 4
+    game._roast_trainers(me, game.players["b"], "a")
+    assert sum(1 for card_i in me.hand if me.card(card_i).name == "Lampent") == 4
+    assert me.deck == []
+    assert game.events.get("hyper_aroma_cards", 0) == 4
+
+
+def test_petrel_fetches_hyper_aroma_before_incense_when_two_lampent_are_short():
+    game = _game()
+    me = game.players["a"]
+    _reclaim(me)
+    cleffa = _cleffa(me)
+    aroma = _grant(me, "Hyper Aroma")
+    incense = _grant(me, "Evolution Incense")
+    petrel = _pull(me, "Team Rocket's Petrel")
+    lamps = [_pull(me, "Lampent") for _ in range(3)]
+    chand = _pull(me, "Chandelure")
+    me.deck.remove(aroma)
+    me.deck.remove(incense)
+    me.active = Pokemon(card_i=cleffa, played_turn=0)
+    me.hand = [petrel]
+    me.deck = lamps + [chand, aroma, incense]
+    _ready_turn(game)
+    assert game._roast_petrel_want(me, "a") == "Hyper Aroma"
+    game._roast_trainers(me, game.players["b"], "a")
+    assert aroma in me.discard
+    assert all(card_i in me.hand for card_i in lamps)
+    assert incense in me.deck
+    assert game.events.get("hyper_aroma_cards", 0) == 3
+
+
+def test_one_lampent_short_does_not_make_petrel_skip_incense():
+    game = _game()
+    me = game.players["a"]
+    _reclaim(me)
+    cleffa = _cleffa(me)
+    aroma = _grant(me, "Hyper Aroma")
+    incense = _grant(me, "Evolution Incense")
+    petrel = _pull(me, "Team Rocket's Petrel")
+    lamps = [_pull(me, "Lampent") for _ in range(4)]
+    chand = _pull(me, "Chandelure")
+    me.deck.remove(aroma)
+    me.deck.remove(incense)
+    me.active = Pokemon(card_i=cleffa, played_turn=0)
+    me.bench = [Pokemon(card_i=card_i, played_turn=0) for card_i in lamps[:3]]
+    me.hand = [petrel]
+    me.deck = [lamps[3], chand, aroma, incense]
+    _ready_turn(game)
+    assert game._roast_aroma_take(me) == 1
+    assert game._roast_petrel_want(me, "a") == "Evolution Incense"
+
+
+def test_arven_takes_hyper_aroma_before_evolution_incense():
+    game = _game()
+    me = game.players["a"]
+    _reclaim(me)
+    cleffa = _cleffa(me)
+    aroma = _grant(me, "Hyper Aroma")
+    incense = _grant(me, "Evolution Incense")
+    arven = _pull(me, "Arven")
+    lamps = [_pull(me, "Lampent") for _ in range(2)]
+    me.deck.remove(aroma)
+    me.deck.remove(incense)
+    me.active = Pokemon(card_i=cleffa, played_turn=0)
+    me.hand = [arven]
+    me.deck = lamps + [aroma, incense]
+    _ready_turn(game)
+    game._roast_trainers(me, game.players["b"], "a")
+    assert aroma in me.discard
+    assert all(card_i in me.hand for card_i in lamps)
+    assert incense in me.deck
+    assert game.events.get("arven", 0) == 1

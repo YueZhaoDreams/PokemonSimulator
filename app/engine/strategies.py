@@ -909,6 +909,8 @@ STRATEGY_LIBRARY = {
             "Evolution Incense searches the deck for one Evolution Pokémon. "
             "Roast takes Chandelure once a Lampent is in hand or in play, and takes "
             "Lampent only while a Litwick still has no Stage 1. "
+            "Hyper Aroma searches the deck for up to 3 Stage 1 Pokémon. "
+            "Roast takes Lampent and stops once four Lampent are in hand or in play. "
             "Jacq searches the deck for up to 2 Evolution Pokémon. "
             "Playground has usually taken the Basics, so Jacq takes Lampent, Chandelure, or both. "
             "Broken Time-Space lets a Litwick played this turn evolve into Lampent and "

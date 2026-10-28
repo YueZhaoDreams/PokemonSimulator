@@ -1411,6 +1411,14 @@ def parse_trainer_effects(text: str) -> list[dict[str, Any]]:
     ):
         effects.append({"kind": "search_evolution_pokemon", "count": 1})
         return effects
+    # Twilight Masquerade Hyper Aroma: up to N Stage 1 Pokémon into the hand.
+    aroma = re.search(
+        r"search your deck for up to (\d+) stage 1 pokemon, reveal them, and put them into your hand",
+        t,
+    )
+    if aroma:
+        effects.append({"kind": "search_stage1", "count": int(aroma.group(1))})
+        return effects
     # Phantasmal Flames Dawn: one Basic, one Stage 1, and one Stage 2 into the hand.
     if (
         "search your deck for a basic pokemon, a stage 1 pokemon, and a stage 2 pokemon" in t

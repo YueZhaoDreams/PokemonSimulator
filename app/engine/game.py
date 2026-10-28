@@ -6889,6 +6889,33 @@ class Game:
         else:
             self._bump("evolution_incense_miss")
 
+    def _hyper_aroma(self, me: Player, who: str, count: int) -> None:
+        """Up to the printed number of Stage 1 Pokémon. Roast takes Lampent for the four lines."""
+        found: list[str] = []
+        for _ in range(max(0, count)):
+            roast = self.strats[who].name == "roast"
+            if roast and self._roast_lampent_short(me) <= 0:
+                break
+            prefer = ["Lampent"] if roast else list(self.strats[who].search_aces)
+
+            def pred(card: Card, roast: bool = roast) -> bool:
+                if not card.is_pokemon or self._stage_token(card.stage) != "stage1":
+                    return False
+                if roast:
+                    return card.name.lower() == "lampent"
+                return True
+
+            card_i = self._search(me, pred, prefer=prefer, source="hyper aroma")
+            if card_i is None:
+                break
+            found.append(me.card(card_i).name)
+        if found:
+            self._bump("hyper_aroma")
+            self._bump("hyper_aroma_cards", len(found))
+            self._log(f"{me.name} Hyper Aroma finds {', '.join(found)}")
+        else:
+            self._bump("hyper_aroma_miss")
+
     def _roast_jacq(self, me: Player, who: str) -> None:
         """Up to 2 Evolution Pokémon. Each pick is chosen after the previous one is in hand.
 
@@ -16814,6 +16841,8 @@ class Game:
             self._dawn(me, who)
         elif kind == "search_evolution_pokemon":
             self._evolution_incense(me, who, int(eff.get("count") or 1))
+        elif kind == "search_stage1":
+            self._hyper_aroma(me, who, int(eff.get("count") or 0))
         elif kind == "look_opp_discard_items":
             self._look_opp_discard_items(me, foe, int(eff.get("look") or 0))
         elif kind == "coin_mill_top":
@@ -18164,6 +18193,7 @@ class Game:
     def _roast_main(self, me: Player, foe: Player, who: str) -> None:
         # Evolution Incense takes Chandelure once a Lampent is in hand or in play.
         # Lampent is only the fallback while a Litwick still has no Stage 1.
+        # Hyper Aroma takes Lampent, and stops once four Lampent are in hand or in play.
         # Broken Time-Space then lets a Litwick played this turn evolve into both.
         # Celebi ◇ devolves a benched Chandelure the same turn it can pay.
         self._roast_bench(me, who)
@@ -18473,6 +18503,8 @@ class Game:
             return True
         if name == "dawn" or name == "evolution incense":
             return True
+        if name == "hyper aroma":
+            return self._roast_lampent_short(me) > 0
         if name == "jacq":
             return bool(self._roast_jacq_picks(me, who))
         if name == "hisuian heavy ball":
@@ -18581,7 +18613,7 @@ class Game:
         deck = {me.card(i).name.lower() for i in me.deck}
         litwick = "litwick" in hand or "litwick" in play
         lampent = "lampent" in hand or "lampent" in play
-        tutor = "dawn" in hand or "evolution incense" in hand
+        tutor = "dawn" in hand or "evolution incense" in hand or "hyper aroma" in hand
         if litwick and ("lampent" in hand or lampent or ("lampent" in deck and tutor)):
             return True
         if "chandelure" in hand and (litwick or lampent or ("lampent" in deck and tutor)):
@@ -18614,6 +18646,40 @@ class Game:
         if litwick > lampent and deck_lamp:
             return "Lampent"
         return None
+
+    def _roast_lampent_short(self, me: Player) -> int:
+        """Lampent still short of the four lines, and still sitting in the deck.
+
+        Hyper Aroma's printed "up to N" is the search_stage1 count on the card.
+        Four is the Kindling Panic line, the same bound the other Lampent searches use.
+        """
+        have = sum(1 for i in me.hand if me.card(i).name.lower() == "lampent")
+        have += sum(1 for mon in me.in_play() if me.card(mon.card_i).name.lower() == "lampent")
+        deck = sum(1 for i in me.deck if me.card(i).name.lower() == "lampent")
+        return min(deck, max(0, 4 - have))
+
+    def _roast_aroma_take(self, me: Player, card: Card | None = None) -> int:
+        """How many Lampent this Hyper Aroma would take. The cap is the printed count."""
+        short = self._roast_lampent_short(me)
+        if short <= 0:
+            return 0
+        source = card if card is not None and card.name.lower() == "hyper aroma" else None
+        if source is None:
+            for card_i in (*me.hand, *me.deck):
+                found = me.card(card_i)
+                if found.name.lower() == "hyper aroma":
+                    source = found
+                    break
+        if source is None:
+            return 0
+        printed = 0
+        for eff in parse_trainer_effects(source.text or ""):
+            if eff.get("kind") == "search_stage1":
+                printed = int(eff.get("count") or 0)
+                break
+        if printed <= 0:
+            return 0
+        return min(printed, short)
 
     def _roast_jacq_choice(self, me: Player, who: str, taken: dict[str, int]) -> str | None:
         """Next Evolution Pokémon for one of Jacq's two picks.
@@ -18754,6 +18820,12 @@ class Game:
         ):
             return "Broken Time-Space"
         if (
+            self._roast_aroma_take(me) >= 2
+            and not self._roast_named(me, me.hand, "Hyper Aroma")
+            and self._roast_named(me, me.deck, "Hyper Aroma")
+        ):
+            return "Hyper Aroma"
+        if (
             self._roast_incense_choice(me) is not None
             and not self._roast_named(me, me.hand, "Evolution Incense")
             and self._roast_named(me, me.deck, "Evolution Incense")
@@ -18854,6 +18926,7 @@ class Game:
             "slumbering forest",
             "broken time-space",
             "evolution incense",
+            "hyper aroma",
             "dawn",
             "jacq",
             "hisuian heavy ball",
@@ -18879,6 +18952,15 @@ class Game:
         if card.is_supporter and (me.supporter_used or not self._can_play_supporter(who)):
             return -1
         forest_out = (self.stadium_name or "").lower() == "slumbering forest"
+        if name == "hyper aroma":
+            taken = self._roast_aroma_take(me, card)
+            if taken >= 3:
+                return 230
+            if taken == 2:
+                return 210
+            if taken == 1:
+                return 170
+            return -1
         if name == "evolution incense":
             return 205 if self._roast_incense_choice(me) else -1
         if name == "jacq":
@@ -18941,6 +19023,8 @@ class Game:
                 return 175
             if want == "Hisuian Heavy Ball":
                 return 205 if self._roast_heavy_score(me) >= 70 else 150
+            if want == "Hyper Aroma":
+                return 220
             if want == "Evolution Incense":
                 return 200
             if want == "Jacq":
@@ -18955,6 +19039,8 @@ class Game:
         if name == "arven":
             if self._roast_heavy_deck_only(me) and self._roast_heavy_score(me) >= 70:
                 return 230
+            if self._roast_aroma_take(me) >= 1 and self._roast_named(me, me.deck, "Hyper Aroma"):
+                return 190
             if self._roast_incense_choice(me) and self._roast_named(me, me.deck, "Evolution Incense"):
                 return 180
             if self._roast_celebi_bare(me) and self._roast_named(me, me.deck, "Rescue Scarf"):
@@ -19222,6 +19308,8 @@ class Game:
         prefer = []
         if self._roast_heavy_best(me) is not None and self._roast_named(me, me.deck, "Hisuian Heavy Ball"):
             prefer.append("Hisuian Heavy Ball")
+        if self._roast_aroma_take(me) >= 1 and self._roast_named(me, me.deck, "Hyper Aroma"):
+            prefer.append("Hyper Aroma")
         if self._roast_incense_choice(me):
             prefer.append("Evolution Incense")
         if self._roast_wants_energy(me, who) and any(is_basic_energy(me.card(i)) for i in me.discard):

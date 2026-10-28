@@ -1660,6 +1660,15 @@ _register(
 )
 _register(
     _trn(
+        "Hyper Aroma",
+        "item",
+        "You can't have more than 1 ACE SPEC card in your deck. Search your deck for up to 3 Stage 1 Pokémon, reveal them, and put them into your hand. Then, shuffle your deck.",
+        catalog_id="sv06-152",
+        traits=["ace spec"],
+    )
+)
+_register(
+    _trn(
         "Energy Loto",
         "item",
         "Look at the top 7 cards of your deck. You may reveal an Energy card you find there and put it into your hand. Shuffle the other cards back into your deck.",
