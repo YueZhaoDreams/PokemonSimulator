@@ -1418,6 +1418,10 @@ def parse_trainer_effects(text: str) -> list[dict[str, Any]]:
     ):
         effects.append({"kind": "search_basic_stage1_stage2"})
         return effects
+    # Hisuian Heavy Ball (ASR 146): swap this card for a Basic in the face-down prizes.
+    if "face-down prize" in t and "in its place" in t and "basic pokemon" in t:
+        effects.append({"kind": "hisuian_heavy_ball"})
+        return effects
     # Level Ball: a Pokémon whose printed HP is at most the number in the sentence.
     level_ball = re.search(
         r"search your deck for a pokemon with (\d+) hp or less, reveal it, and put it into your hand",

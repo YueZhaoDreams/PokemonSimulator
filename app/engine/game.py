@@ -6889,11 +6889,18 @@ class Game:
     def _level_ball(self, me: Player, who: str, max_hp: int) -> None:
         if max_hp <= 0:
             return
+        # Playground benches Basics from the deck after trainers. A certain
+        # Playground keeps those Basics there and takes a Stage 1 instead.
+        stage1 = self.strats[who].name == "roast" and self._roast_wants_playground(me, who)
 
         def pred(card: Card) -> bool:
-            return card.is_pokemon and 0 < (card.hp or 0) <= max_hp
+            if not card.is_pokemon or not (0 < (card.hp or 0) <= max_hp):
+                return False
+            if stage1 and self._stage_token(card.stage) != "stage1":
+                return False
+            return True
 
-        prefer = self._pokemon_search_prefer(me, who)
+        prefer = ["Lampent"] if stage1 else self._pokemon_search_prefer(me, who)
         if self.strats[who].name == "doll":
             only = doll_ai.level_ball_name(self, me)
             if only:
@@ -6905,6 +6912,51 @@ class Game:
         if found:
             self._bump("level_ball")
             self._log(f"{me.name} Level Ball finds {me.card(found).name}")
+
+    def _hisuian_heavy_ball(self, me: Player, who: str, card_i: int | None) -> None:
+        """Face-down prizes only. A revealed Basic swaps with this card; a miss discards it.
+
+        The play path has already put the Item in the discard. A hit pulls it
+        back out and leaves it face-down in that prize slot. Prizes are shuffled
+        either way, which is the last sentence of the card.
+        """
+        chosen = self._heavy_ball_basic(me, who)
+        if chosen is not None and chosen in me.prizes and card_i is not None:
+            me.prizes.remove(chosen)
+            me.hand.append(chosen)
+            for zone in (me.discard, me.hand, me.deck, me.lost_zone):
+                if card_i in zone:
+                    zone.remove(card_i)
+                    break
+            me.prizes.append(card_i)
+            self._bump("hisuian_heavy_ball")
+            self._log(f"{me.name} Hisuian Heavy Ball takes {me.card(chosen).name}")
+        elif card_i is not None and card_i not in me.discard and card_i not in me.prizes:
+            if card_i in me.hand:
+                me.hand.remove(card_i)
+            elif card_i in me.deck:
+                me.deck.remove(card_i)
+            me.discard.append(card_i)
+            self._bump("hisuian_heavy_ball_miss")
+        else:
+            self._bump("hisuian_heavy_ball_miss")
+        self.rng.shuffle(me.prizes)
+
+    def _heavy_ball_basic(self, me: Player, who: str) -> int | None:
+        if self.strats[who].name == "roast":
+            best = self._roast_heavy_best(me)
+            return best[0] if best else None
+        basics = [i for i in me.prizes if me.card(i).is_basic and me.card(i).is_pokemon]
+        if not basics:
+            return None
+        prefer = [name.lower() for name in self._pokemon_search_prefer(me, who)]
+
+        def rank(card_i: int) -> int:
+            name = me.card(card_i).name.lower()
+            return prefer.index(name) if name in prefer else len(prefer)
+
+        basics.sort(key=rank)
+        return basics[0]
 
     def _look_opp_discard_items(self, me: Player, foe: Player, look: int) -> None:
         n = min(int(look), len(foe.deck))
@@ -16726,6 +16778,8 @@ class Game:
             self._rescue_carrier(me, who, int(eff.get("count") or 0), int(eff.get("max_hp") or 0))
         elif kind == "search_pokemon_max_hp":
             self._level_ball(me, who, int(eff.get("max_hp") or 0))
+        elif kind == "hisuian_heavy_ball":
+            self._hisuian_heavy_ball(me, who, card_i)
         elif kind == "search_basic_stage1_stage2":
             self._dawn(me, who)
         elif kind == "search_evolution_pokemon":
@@ -18345,7 +18399,10 @@ class Game:
         return self._retreat_cost(me, me.active) == 0
 
     def _roast_level_helps(self, me: Player) -> bool:
+        who = "a" if me.name == "A" else "b"
         deck = {me.card(i).name.lower() for i in me.deck}
+        if self._roast_wants_playground(me, who):
+            return "lampent" in deck
         pichu_ready = any(self._prints_playground(me.card(mon.card_i)) for mon in me.in_play()) or any(
             self._prints_playground(me.card(i)) for i in me.hand
         )
@@ -18385,6 +18442,8 @@ class Game:
             return True
         if name == "dawn" or name == "evolution incense":
             return True
+        if name == "hisuian heavy ball":
+            return self._roast_heavy_best(me) is not None
         if name == "broken time-space" and (self.stadium_name or "").lower() != "broken time-space":
             return True
         if name == "grand tree":
@@ -18538,6 +18597,59 @@ class Game:
             return True
         return False
 
+    def _roast_heavy_best(self, me: Player) -> tuple[int, int] | None:
+        """Greedy face-down prize: Celebi ◇, then a missing Litwick, then a stuck Pichu or Cleffa.
+
+        The score is what one copy is worth against leaving an Item in the prizes.
+        100 Celebi ◇ still in the prizes. Litwick is 90, 75, 60, or 45 as more of
+        the line is already outside the prizes, and 0 once four are outside.
+        Pichu is 70 only when none remain in the deck. Cleffa is 40 when no wall
+        is in hand or play and none remain in the deck. Anything under 40 stays.
+        """
+        lines = self._roast_lines(me)
+        litwick_out = (
+            lines
+            + sum(1 for i in me.hand if me.card(i).name.lower() == "litwick")
+            + sum(1 for i in me.deck if me.card(i).name.lower() == "litwick")
+        )
+        litwick_score = 90 - 15 * litwick_out if litwick_out < 4 else 0
+        celebi_missing = self._roast_celebi(me) is None and not self._roast_celebi_in_hand(me)
+        pichu_stuck = not any(
+            self._prints_playground(me.card(i)) for i in (*[m.card_i for m in me.in_play()], *me.hand, *me.deck)
+        )
+        cleffa_stuck = not self._roast_wall_present(me) and not any(
+            self._prints_eeeeeeek(me.card(i)) for i in me.deck
+        )
+        best: tuple[int, int] | None = None
+        for card_i in me.prizes:
+            card = me.card(card_i)
+            if not card.is_basic:
+                continue
+            name = card.name.lower()
+            score = 0
+            if "celebi" in name and celebi_missing:
+                score = 100
+            elif name == "litwick":
+                score = litwick_score
+            elif self._prints_playground(card) and pichu_stuck:
+                score = 70
+            elif self._prints_eeeeeeek(card) and cleffa_stuck:
+                score = 40
+            if score >= 40 and (best is None or score > best[1]):
+                best = (card_i, score)
+        return best
+
+    def _roast_heavy_score(self, me: Player) -> int:
+        best = self._roast_heavy_best(me)
+        return best[1] if best else 0
+
+    def _roast_heavy_deck_only(self, me: Player) -> bool:
+        return (
+            self._roast_heavy_best(me) is not None
+            and not self._roast_named(me, me.hand, "Hisuian Heavy Ball")
+            and self._roast_named(me, me.deck, "Hisuian Heavy Ball")
+        )
+
     def _roast_wants_scarf_search(self, me: Player, who: str) -> bool:
         if self._roast_named(me, me.hand, "Rescue Scarf"):
             return False
@@ -18556,6 +18668,8 @@ class Game:
             and self._roast_named(me, me.deck, "Switch")
         ):
             return "Switch"
+        if self._roast_heavy_deck_only(me) and self._roast_heavy_score(me) >= 70:
+            return "Hisuian Heavy Ball"
         if (
             self._roast_wants_bts(me, who)
             and not self._roast_named(me, me.hand, "Broken Time-Space")
@@ -18574,6 +18688,8 @@ class Game:
             and self._roast_named(me, me.deck, "Dawn")
         ):
             return "Dawn"
+        if self._roast_heavy_deck_only(me):
+            return "Hisuian Heavy Ball"
         if not forest_out and not self._roast_named(me, me.hand, "Slumbering Forest") and self._roast_named(me, me.deck, "Slumbering Forest"):
             return "Slumbering Forest"
         if (
@@ -18655,6 +18771,7 @@ class Game:
             "broken time-space",
             "evolution incense",
             "dawn",
+            "hisuian heavy ball",
             "level ball",
             "rescue scarf",
             "switch",
@@ -18682,7 +18799,20 @@ class Game:
         if name == "dawn":
             if self._roast_needs_switch(me) and not self._roast_named(me, me.hand, "Switch"):
                 return 100
-            return 210 if self._roast_dawn_helps(me) else -1
+            if not self._roast_dawn_helps(me):
+                return -1
+            if self._roast_heavy_deck_only(me) and self._roast_heavy_score(me) >= 70:
+                return 100
+            return 210
+        if name == "hisuian heavy ball":
+            score = self._roast_heavy_score(me)
+            if score >= 100:
+                return 230
+            if score >= 70:
+                return 195
+            if score >= 40:
+                return 155
+            return -1
         if name == "broken time-space":
             if (self.stadium_name or "").lower() == "broken time-space":
                 return -1
@@ -18717,6 +18847,8 @@ class Game:
             want = self._roast_petrel_want(me, who)
             if want == "Switch":
                 return 175
+            if want == "Hisuian Heavy Ball":
+                return 205 if self._roast_heavy_score(me) >= 70 else 150
             if want == "Evolution Incense":
                 return 200
             if want == "Dawn":
@@ -18727,6 +18859,8 @@ class Game:
                 return 170
             return 110 if want else -1
         if name == "arven":
+            if self._roast_heavy_deck_only(me) and self._roast_heavy_score(me) >= 70:
+                return 230
             if self._roast_incense_choice(me) and self._roast_named(me, me.deck, "Evolution Incense"):
                 return 180
             if self._roast_celebi_bare(me) and self._roast_named(me, me.deck, "Rescue Scarf"):
@@ -18992,6 +19126,8 @@ class Game:
                 source="arven",
             )
         prefer = []
+        if self._roast_heavy_best(me) is not None and self._roast_named(me, me.deck, "Hisuian Heavy Ball"):
+            prefer.append("Hisuian Heavy Ball")
         if self._roast_incense_choice(me):
             prefer.append("Evolution Incense")
         if self._roast_wants_energy(me, who) and any(is_basic_energy(me.card(i)) for i in me.discard):

@@ -102,6 +102,7 @@ _COUNT_KEYS = (
     "grand_tree",
     "dawn",
     "evolution_incense",
+    "hisuian_heavy_ball",
     "roast_bts",
     "time_distortion",
     "rescue_scarf",
@@ -146,6 +147,12 @@ def _check() -> None:
         raise SystemExit("roast Dawn list")
     if names.count("Broken Time-Space") != 3:
         raise SystemExit("roast Broken Time-Space count")
+    if names.count("Hisuian Heavy Ball") != 2 or names.count("Ultra Ball") or names.count("Energy Search") != 3:
+        raise SystemExit("roast Hisuian Heavy Ball count")
+    heavy = fallback_named("Hisuian Heavy Ball")
+    heavy_text = heavy.text.lower().replace("é", "e")
+    if "basic pokemon" not in heavy_text or "face-down prize" not in heavy_text:
+        raise SystemExit("Hisuian Heavy Ball text")
     bts = fallback_named("Broken Time-Space")
     if "just played or evolved" not in bts.text.lower():
         raise SystemExit("Broken Time-Space text")
@@ -207,6 +214,7 @@ def _run(foe_key: str, seat: str, games: int, seed: int) -> dict:
         totals["grand_tree"] += result.events.get("grand_tree", 0)
         totals["dawn"] += result.events.get("dawn", 0)
         totals["evolution_incense"] += result.events.get("evolution_incense", 0)
+        totals["hisuian_heavy_ball"] += result.events.get("hisuian_heavy_ball", 0)
         totals["roast_bts"] += result.events.get(f"roast_bts_{seat}", 0)
         totals["time_distortion"] += result.events.get("time_distortion", 0)
         totals["rescue_scarf"] += result.events.get("rescue_scarf", 0)
@@ -234,7 +242,7 @@ def _run(foe_key: str, seat: str, games: int, seed: int) -> dict:
 
 
 def _cache_key(foe_key: str, seat: str, games: int, seed: int) -> str:
-    return f"{seed}|{games}|{seat}|{foe_key}|roast-dawn-bts"
+    return f"{seed}|{games}|{seat}|{foe_key}|roast-heavy-ball"
 
 
 def _load_cache() -> dict[str, dict]:
@@ -343,11 +351,13 @@ def _markdown(report: dict) -> str:
         "",
         "Broken Time-Space says each player may evolve a Pokémon that he or she just played or evolved during that turn. With it in play, a Litwick played this turn can evolve into Lampent and then into Chandelure before the attack. Both players may use that stadium.",
         "",
-        "Pichu is HeartGold & SoulSilver Playground. Each player may bench as many Basic Pokémon as they like, this player first. Roast benches Litwick until four lines are in play, then Celebi ◇. Dawn searches the deck for a Basic Pokémon, a Stage 1 Pokémon, and a Stage 2 Pokémon. It takes Pichu, Litwick, or Celebi ◇ for the Basic, Lampent for the Stage 1, and Chandelure for the Stage 2. Under Broken Time-Space a Litwick played this turn can evolve twice before the attack. Celebi ◇ uses Time Distortion and puts that Chandelure back into the hand. Level Ball finds a Pokémon with 90 HP or less, including Pichu and Celebi ◇, and does not find Chandelure.",
+        "Pichu is HeartGold & SoulSilver Playground. Each player may bench as many Basic Pokémon as they like, this player first. Roast benches Litwick until four lines are in play, then Celebi ◇. Dawn searches the deck for a Basic Pokémon, a Stage 1 Pokémon, and a Stage 2 Pokémon. It takes Pichu, Litwick, or Celebi ◇ for the Basic, Lampent for the Stage 1, and Chandelure for the Stage 2. Under Broken Time-Space a Litwick played this turn can evolve twice before the attack. Celebi ◇ uses Time Distortion and puts that Chandelure back into the hand. Level Ball finds a Pokémon with 90 HP or less and does not find Chandelure. When this turn will play Playground, Level Ball searches a Stage 1, so Litwick stays in the deck for that attack.",
+        "",
+        "Hisuian Heavy Ball looks at the face-down Prize cards. It may reveal a Basic Pokémon, put that Pokémon into the hand, and put this card in its place as a face-down Prize card. If it does not reveal a Basic, this card goes to the discard pile. Then the face-down prizes are shuffled. Roast takes Celebi ◇ first, then a Litwick while fewer than four of the line are outside the prizes, then a Pichu or Cleffa that is no longer in the deck. Lampent is not a Basic, so the ball cannot take it.",
         "",
         "Lampent is Plasma Storm Freefloating. With no Energy attached, its retreat cost is 0. Fire Energy stays on Celebi ◇.",
         "",
-        "Rescue Scarf puts the Pokémon into the hand when an attack Knocks it Out, and discards the cards attached to it. Celebi ◇ therefore does not go to the discard pile, and the Prism Star rule does not put it in the Lost Zone. Energy Retrieval takes that Fire Energy back. Arven can find an Item and the scarf. Team Rocket's Petrel searches the deck for a Trainer card. It takes Broken Time-Space once the line is in the hand, and Dawn before that. It does not search a Pokémon or an Energy card.",
+        "Rescue Scarf puts the Pokémon into the hand when an attack Knocks it Out, and discards the cards attached to it. Celebi ◇ therefore does not go to the discard pile, and the Prism Star rule does not put it in the Lost Zone. Energy Retrieval takes that Fire Energy back. Arven can find an Item and the scarf. When Celebi ◇ or a needed Litwick or Pichu is in the prizes and Hisuian Heavy Ball is still in the deck, Arven takes that ball. Team Rocket's Petrel searches the deck for a Trainer card. It takes Hisuian Heavy Ball before Broken Time-Space when that prize is Celebi ◇, a stuck Pichu, or a Litwick with almost none of the line outside the prizes. A spare Litwick waits until after Dawn. Petrel does not search a Pokémon or an Energy card.",
         "",
         "Cleffa is HeartGold & SoulSilver Eeeeeeek: shuffle the hand into the deck, draw 6, then Cleffa is Asleep. Pichu is the Playground attacker. Sweet Sleeping Face prevents attack damage while that Pokémon is Asleep. Slumbering Forest makes the between-turns sleep check two coins, and the Pokémon stays Asleep unless both are heads. Asleep blocks retreat, so Switch brings Celebi ◇ Active.",
         "",
@@ -366,6 +376,7 @@ def _markdown(report: dict) -> str:
         f"Hand-evolve turns per game: {report['roast_mill_turns']:.2f}. "
         f"Cards milled by those turns per game: {report['roast_mill_cards']:.2f}. "
         f"Dawn plays per game: {report['dawn']:.2f}. "
+        f"Hisuian Heavy Ball swaps per game: {report['hisuian_heavy_ball']:.2f}. "
         f"Broken Time-Space plays per game: {report['roast_bts']:.2f}. "
         f"Time Distortion devolves per game: {report['time_distortion']:.2f}. "
         f"Rescue Scarf returns per game: {report['rescue_scarf']:.2f}. "
@@ -452,6 +463,7 @@ def main() -> None:
         "grand_tree": _weighted_stat(cells, "grand_tree"),
         "dawn": _weighted_stat(cells, "dawn"),
         "evolution_incense": _weighted_stat(cells, "evolution_incense"),
+        "hisuian_heavy_ball": _weighted_stat(cells, "hisuian_heavy_ball"),
         "roast_bts": _weighted_stat(cells, "roast_bts"),
         "time_distortion": _weighted_stat(cells, "time_distortion"),
         "rescue_scarf": _weighted_stat(cells, "rescue_scarf"),

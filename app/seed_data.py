@@ -720,8 +720,10 @@ SET_MILL_NAMES = (
 # the hand. Dawn searches the deck for a Basic Pokémon, a Stage 1 Pokémon, and
 # a Stage 2 Pokémon. Broken Time-Space lets that Litwick become Lampent and then
 # Chandelure the same turn. Level Ball finds
-# Lampent (70) and Celebi ◇ (90); it does not find Chandelure (150). Cleffa is
-# the HGSS Eeeeeeek print. See data/lab/set-mill-roast.md.
+# Lampent (70) and Celebi ◇ (90); it does not find Chandelure (150). When
+# Playground is certain this turn, that search takes a Stage 1 so the Basics
+# stay in the deck. Hisuian Heavy Ball swaps a face-down prize for a Basic.
+# Cleffa is the HGSS Eeeeeeek print. See data/lab/set-mill-roast.md.
 SET_ROAST_NAMES = (
     ["Litwick"] * 4
     + ["Lampent"] * 4
@@ -732,12 +734,12 @@ SET_ROAST_NAMES = (
     + ["Arven"] * 4
     + ["Team Rocket's Petrel"] * 4
     + ["Buddy-Buddy Poffin"] * 3
-    + ["Energy Search"] * 4
+    + ["Energy Search"] * 3
     + ["Energy Retrieval"] * 2
     + ["Rescue Scarf"] * 4
     + ["Dawn"] * 4
     + ["Level Ball"] * 3
-    + ["Ultra Ball"]
+    + ["Hisuian Heavy Ball"] * 2
     + ["Switch"] * 2
     + ["Broken Time-Space"] * 3
     + ["Slumbering Forest"]
@@ -1334,6 +1336,14 @@ _register(
         "item",
         "Search your deck for an Evolution Pokémon, reveal it, and put it into your hand. Then, shuffle your deck.",
         catalog_id="swsh1-163",
+    )
+)
+_register(
+    _trn(
+        "Hisuian Heavy Ball",
+        "item",
+        "Look at your face-down Prize cards. You may reveal a Basic Pokémon you find there, put it into your hand, and put this Hisuian Heavy Ball in its place as a face-down Prize card. (If you don't reveal a Basic Pokémon, put this card in the discard pile.) Then, shuffle your face-down Prize cards.",
+        catalog_id="swsh10-146",
     )
 )
 _register(

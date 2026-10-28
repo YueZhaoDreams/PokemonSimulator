@@ -34,6 +34,12 @@ DAWN = (
     "Search your deck for a Basic Pokémon, a Stage 1 Pokémon, and a Stage 2 Pokémon, "
     "reveal them, and put them into your hand. Then, shuffle your deck."
 )
+HEAVY = (
+    "Look at your face-down Prize cards. You may reveal a Basic Pokémon you find there, "
+    "put it into your hand, and put this Hisuian Heavy Ball in its place as a face-down Prize card. "
+    "(If you don't reveal a Basic Pokémon, put this card in the discard pile.) "
+    "Then, shuffle your face-down Prize cards."
+)
 GRAND_TREE = (
     "You can't have more than 1 ACE SPEC card in your deck. "
     "Once during each player's turn, that player may search their deck for a Stage 1 Pokémon "
@@ -98,6 +104,7 @@ def test_printed_sentences_parse_without_a_fixed_devolve_count():
     assert parse_ability_effects(FREEFLOATING) == [{"kind": "retreat_zero_if_no_energy"}]
     assert parse_trainer_effects(INCENSE) == [{"kind": "search_evolution_pokemon", "count": 1}]
     assert parse_trainer_effects(DAWN) == [{"kind": "search_basic_stage1_stage2"}]
+    assert parse_trainer_effects(HEAVY) == [{"kind": "hisuian_heavy_ball"}]
     assert {"kind": "grand_tree"} in parse_ability_effects(GRAND_TREE)
     assert not any(e.get("kind") == "mill_on_play_from_hand" for e in parse_ability_effects(GRAND_TREE))
     scarf = parse_trainer_effects(RESCUE_SCARF)
@@ -113,6 +120,7 @@ def test_printed_sentences_parse_without_a_fixed_devolve_count():
     assert chandelure.abilities[0].text == MOUNTAIN_ROASTING
     assert fallback_named("Evolution Incense").text == INCENSE
     assert fallback_named("Dawn").text == DAWN
+    assert fallback_named("Hisuian Heavy Ball").text == HEAVY
     assert fallback_named("Grand Tree").text == GRAND_TREE
     assert fallback_named("Rescue Scarf").text == RESCUE_SCARF
 
@@ -134,7 +142,9 @@ def test_roast_deck_is_sixty_and_pichu_is_playground():
     assert names.count("Fire Energy") == 7
     assert names.count("Grand Tree") == 0
     assert names.count("Colress's Tenacity") == 0
-    assert names.count("Ultra Ball") == 1
+    assert names.count("Ultra Ball") == 0
+    assert names.count("Hisuian Heavy Ball") == 2
+    assert names.count("Energy Search") == 3
     assert names.count("Nest Ball") == 0
     assert names.count("Slumbering Forest") == 1
     assert not any("Doll" in name for name in names)
@@ -795,3 +805,102 @@ def test_one_chandelure_mills_three_on_three_lampent():
     assert [me.card(mon.card_i).name for mon in me.bench].count("Chandelure") == 1
     assert [me.card(mon.card_i).name for mon in me.bench].count("Lampent") == 2
     assert len(foe.deck) == before - 3
+
+
+def test_level_ball_takes_lampent_when_playground_is_certain():
+    game = _game()
+    me = game.players["a"]
+    _reclaim(me)
+    pichu = _pull(me, "Pichu")
+    lit = _pull(me, "Litwick")
+    lamp = _pull(me, "Lampent")
+    ball = _pull(me, "Level Ball")
+    me.active = Pokemon(card_i=pichu, played_turn=0)
+    me.bench = []
+    me.hand = [ball]
+    me.deck = [lit, lamp]
+    _ready_turn(game)
+    assert game._roast_wants_playground(me, "a")
+    game._roast_trainers(me, game.players["b"], "a")
+    assert lamp in me.hand
+    assert lit in me.deck
+    assert ball in me.discard
+
+
+def test_heavy_ball_takes_celebi_and_leaves_the_prized_litwick():
+    game = _game()
+    me = game.players["a"]
+    _reclaim(me)
+    celebi = _pull(me, "Celebi ◇")
+    lit = _pull(me, "Litwick")
+    ball = _grant(me, "Hisuian Heavy Ball")
+    me.deck.remove(ball)
+    me.active = None
+    me.bench = []
+    me.hand = [ball]
+    me.deck = []
+    me.prizes = [lit, celebi]
+    _ready_turn(game)
+    assert game._roast_heavy_best(me) == (celebi, 100)
+    game._roast_trainers(me, game.players["b"], "a")
+    assert celebi in me.hand
+    assert lit in me.prizes
+    assert ball in me.prizes
+    assert ball not in me.discard
+    assert len(me.prizes) == 2
+
+
+def test_heavy_ball_discards_itself_when_the_prize_is_not_basic():
+    game = _game()
+    me = game.players["a"]
+    lamp = _pull(me, "Lampent")
+    ball = _grant(me, "Hisuian Heavy Ball")
+    me.deck.remove(ball)
+    me.discard.append(ball)
+    me.prizes = [lamp]
+    game._hisuian_heavy_ball(me, "a", ball)
+    assert ball in me.discard
+    assert ball not in me.prizes
+    assert lamp in me.prizes
+    assert me.discard.count(ball) == 1
+
+
+def test_heavy_ball_stays_in_hand_when_four_lines_and_celebi_are_already_out():
+    game = _game()
+    me = game.players["a"]
+    _reclaim(me)
+    pichu = _pull(me, "Pichu")
+    celebi = _pull(me, "Celebi ◇")
+    lines = [_pull(me, "Chandelure") for _ in range(4)]
+    extra = _pull(me, "Litwick")
+    ball = _grant(me, "Hisuian Heavy Ball")
+    me.deck.remove(ball)
+    me.active = Pokemon(card_i=pichu, played_turn=0)
+    me.bench = [Pokemon(card_i=card_i, played_turn=0) for card_i in lines]
+    me.bench.append(Pokemon(card_i=celebi, played_turn=0))
+    me.hand = [ball]
+    me.deck = []
+    me.prizes = [extra]
+    _ready_turn(game)
+    assert game._roast_heavy_best(me) is None
+    game._roast_trainers(me, game.players["b"], "a")
+    assert ball in me.hand
+    assert extra in me.prizes
+
+
+def test_petrel_takes_heavy_ball_before_dawn_when_celebi_is_prized():
+    game = _game()
+    me = game.players["a"]
+    _reclaim(me)
+    celebi = _pull(me, "Celebi ◇")
+    lamp = _pull(me, "Lampent")
+    ball = _grant(me, "Hisuian Heavy Ball")
+    dawn = _pull(me, "Dawn")
+    me.deck.remove(ball)
+    me.hand = []
+    me.deck = [ball, dawn, lamp]
+    me.prizes = [celebi]
+    me.active = None
+    me.bench = []
+    assert game._roast_petrel_want(me, "a") == "Hisuian Heavy Ball"
+    assert game._roast_trainer_score(me, "a", me.card(dawn)) == 100
