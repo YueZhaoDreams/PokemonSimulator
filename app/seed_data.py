@@ -722,7 +722,9 @@ SET_MILL_NAMES = (
 # Chandelure the same turn. Level Ball finds
 # Lampent (70) and Celebi ◇ (90); it does not find Chandelure (150). When
 # Playground is certain this turn, that search takes a Stage 1 so the Basics
-# stay in the deck. Hisuian Heavy Ball swaps a face-down prize for a Basic.
+# stay in the deck. One Hisuian Heavy Ball replaces one Switch. The copy count
+# is the greedy search in data/lab/set-mill-roast-heavy.md: every other card
+# was tried as the cut, and a second copy did not raise the weighted win rate.
 # Cleffa is the HGSS Eeeeeeek print. See data/lab/set-mill-roast.md.
 SET_ROAST_NAMES = (
     ["Litwick"] * 4
@@ -734,16 +736,17 @@ SET_ROAST_NAMES = (
     + ["Arven"] * 4
     + ["Team Rocket's Petrel"] * 4
     + ["Buddy-Buddy Poffin"] * 3
-    + ["Energy Search"] * 3
+    + ["Energy Search"] * 4
     + ["Energy Retrieval"] * 2
     + ["Rescue Scarf"] * 4
     + ["Dawn"] * 4
     + ["Level Ball"] * 3
-    + ["Hisuian Heavy Ball"] * 2
-    + ["Switch"] * 2
+    + ["Ultra Ball"]
+    + ["Switch"]
     + ["Broken Time-Space"] * 3
     + ["Slumbering Forest"]
     + ["Fire Energy"] * 7
+    + ["Hisuian Heavy Ball"]
 )
 
 # Unlimited 60: Ambipom PAR Hand Fling, Lopunny FLF Big Jump recycle,

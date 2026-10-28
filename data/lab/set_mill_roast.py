@@ -147,7 +147,12 @@ def _check() -> None:
         raise SystemExit("roast Dawn list")
     if names.count("Broken Time-Space") != 3:
         raise SystemExit("roast Broken Time-Space count")
-    if names.count("Hisuian Heavy Ball") != 2 or names.count("Ultra Ball") or names.count("Energy Search") != 3:
+    if (
+        names.count("Hisuian Heavy Ball") != 1
+        or names.count("Ultra Ball") != 1
+        or names.count("Energy Search") != 4
+        or names.count("Switch") != 1
+    ):
         raise SystemExit("roast Hisuian Heavy Ball count")
     heavy = fallback_named("Hisuian Heavy Ball")
     heavy_text = heavy.text.lower().replace("é", "e")
@@ -242,7 +247,7 @@ def _run(foe_key: str, seat: str, games: int, seed: int) -> dict:
 
 
 def _cache_key(foe_key: str, seat: str, games: int, seed: int) -> str:
-    return f"{seed}|{games}|{seat}|{foe_key}|roast-heavy-ball"
+    return f"{seed}|{games}|{seat}|{foe_key}|roast-heavy-one"
 
 
 def _load_cache() -> dict[str, dict]:
@@ -353,7 +358,7 @@ def _markdown(report: dict) -> str:
         "",
         "Pichu is HeartGold & SoulSilver Playground. Each player may bench as many Basic Pokémon as they like, this player first. Roast benches Litwick until four lines are in play, then Celebi ◇. Dawn searches the deck for a Basic Pokémon, a Stage 1 Pokémon, and a Stage 2 Pokémon. It takes Pichu, Litwick, or Celebi ◇ for the Basic, Lampent for the Stage 1, and Chandelure for the Stage 2. Under Broken Time-Space a Litwick played this turn can evolve twice before the attack. Celebi ◇ uses Time Distortion and puts that Chandelure back into the hand. Level Ball finds a Pokémon with 90 HP or less and does not find Chandelure. When this turn will play Playground, Level Ball searches a Stage 1, so Litwick stays in the deck for that attack.",
         "",
-        "Hisuian Heavy Ball looks at the face-down Prize cards. It may reveal a Basic Pokémon, put that Pokémon into the hand, and put this card in its place as a face-down Prize card. If it does not reveal a Basic, this card goes to the discard pile. Then the face-down prizes are shuffled. Roast takes Celebi ◇ first, then a Litwick while fewer than four of the line are outside the prizes, then a Pichu or Cleffa that is no longer in the deck. Lampent is not a Basic, so the ball cannot take it.",
+        "Hisuian Heavy Ball looks at the face-down Prize cards. It may reveal a Basic Pokémon, put that Pokémon into the hand, and put this card in its place as a face-down Prize card. If it does not reveal a Basic, this card goes to the discard pile. Then the face-down prizes are shuffled. When more than one Basic is there, roast reveals Celebi ◇ before Litwick, then a Pichu or Cleffa the deck no longer has. The roast list has one copy. That copy replaced one Switch: every other card was measured as the cut, this swap had the higher weighted win rate, and a second copy did not raise it. See data/lab/set-mill-roast-heavy.md.",
         "",
         "Lampent is Plasma Storm Freefloating. With no Energy attached, its retreat cost is 0. Fire Energy stays on Celebi ◇.",
         "",
