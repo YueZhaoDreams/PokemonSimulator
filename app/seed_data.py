@@ -656,11 +656,15 @@ SET_L60_NAMES = (
 # Doll lock (2026-10-28). One Black Market replaces one Switch.
 # Confirm seed 20261028, 200 games each seat: sisters-weighted 27.6% → 29.4%.
 # See data/lab/set-doll-black-market.md and data/lab/set-doll-losses.md.
+# The same day, two Cleffa are cut for one Arven and one Team Rocket's Petrel.
+# Confirm seed 20261029, 200 games each seat. Arven: 29.5% → 31.2% (+1.7, gap SE 0.84).
+# Petrel, on that list: 31.2% → 33.8% (+2.6, gap SE 0.86).
+# Lillie's Poké Doll and Robo Substitute stay at four. See data/lab/set-doll-arven-petrel.md.
 # The 1000-game holdout in data/lab/set-doll.json is the earlier two-Switch list.
 # Item dolls are Trainers. A Pokémon search does not find them.
 # Level Ball's sentence takes a Pokémon of at most the printed HP, so Shedinja qualifies.
 SET_DOLL_NAMES = (
-    ["Cleffa"] * 4
+    ["Cleffa"] * 2
     + ["Smoochum"] * 2
     + ["Mime Jr."] * 2
     + ["Slumbering Forest"] * 2
@@ -686,6 +690,8 @@ SET_DOLL_NAMES = (
     + ["Buddy-Buddy Poffin"] * 2
     + ["Crushing Hammer"] * 2
     + ["Black Market"]
+    + ["Arven"]
+    + ["Team Rocket's Petrel"]
 )
 # Mill lock (2026-10-27). Manaphy and HGSS Cleffa: seed 20261029, 400 games
 # each seat. Weighted 38.729% → 41.719% (+2.990, difference ±0.654, 4.57 SE).

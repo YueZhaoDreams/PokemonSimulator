@@ -12,6 +12,62 @@
     "se": 0.005855004948530075,
     "note": "One Black Market replaces one Switch. The 1000-game holdout below is the earlier two-Switch list."
   },
+  "supporters": {
+    "measurement": "product engine, strategy doll, data/lab/set-doll-arven-petrel.json",
+    "seed": 20261029,
+    "screen_games_per_seat": 40,
+    "games_per_seat": 200,
+    "arven_cut": "Cleffa",
+    "arven_baseline": 0.2951926926926927,
+    "arven_weighted": 0.3118818818818819,
+    "arven_gap_se": 0.00837,
+    "petrel_cut": "Cleffa",
+    "petrel_baseline": 0.3118818818818819,
+    "petrel_weighted": 0.33789289289289287,
+    "petrel_gap_se": 0.00859,
+    "cleffa": 2,
+    "lillies_poke_doll": 4,
+    "robo_substitute": 4,
+    "note": "Sequential greedy. Arven's confirm is not separated from VS Seeker, Switch, or Crushing Hammer. Petrel was measured on the Cleffa cut. This sample is not the 1000-game holdout. The loss shares in losses are the earlier Black Market 60. current_losses is this lock before the looser Eeeeeeek."
+  },
+  "eeeeeeek": {
+    "measurement": "product engine, strategy doll, data/lab/set-doll-eeeeeeek.json",
+    "seed": 20261029,
+    "games_per_seat": 200,
+    "baseline_weighted": 0.33789289289289287,
+    "baseline_se": 0.0061339034456608385,
+    "weighted": 0.4350625625625626,
+    "se": 0.006777948884827148,
+    "gap": 0.09716966966966973,
+    "gap_se": 0.009141409222106813,
+    "eeeeeeek_per_game": 1.829416916916917,
+    "life_dew_per_game": 0.5642642642642642,
+    "empty_rate": 0.2669019019019019,
+    "baseline_empty_rate": 0.404,
+    "note": "Same 60 cards as the Petrel confirm. Cleffa still shuffles the hand and draws 6 when dolls are about to run out. Life Dew prefers that Cleffa. Not the 1000-game holdout."
+  },
+  "current_losses": {
+    "seed": 20261029,
+    "games_per_seat": 200,
+    "sisters_weighted_win": 0.338,
+    "sisters_weighted_loss": 0.662,
+    "share_of_weighted_losses": {
+      "empty": 0.610,
+      "prizes": 0.203,
+      "turn_prizes": 0.168,
+      "turn_hp": 0.018
+    },
+    "share_by_foe": {
+      "d60": 0.217,
+      "m": 0.157,
+      "starmie": 0.142,
+      "g": 0.135,
+      "h": 0.108
+    },
+    "doll_deckouts": 0,
+    "doll_no_basic": 0,
+    "detail": "data/lab/set-doll-arven-petrel-losses.md"
+  },
   "losses": {
     "seed": 20261028,
     "games_per_seat": 200,

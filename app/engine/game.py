@@ -11345,6 +11345,10 @@ class Game:
         self._bump("lost_vacuum")
 
     def _arven(self, me: Player, who: str) -> None:
+        if self.strats[who].name == "doll":
+            foe = self.players["b" if who == "a" else "a"]
+            doll_ai.play_arven(self, me, foe)
+            return
         if self.strats[who].name == "thorns":
             self._search(
                 me,
@@ -15854,6 +15858,10 @@ class Game:
         return best_score, best_name
 
     def _search_trainer(self, me: Player, who: str) -> None:
+        if self.strats[who].name == "doll":
+            foe = self.players["b" if who == "a" else "a"]
+            doll_ai.play_petrel(self, me, foe)
+            return
         if self.strats[who].name in {"mew_baby", "baby"}:
             foe = self.players["b" if who == "a" else "a"]
             collapse = self._mew_petrel_collapse(me, foe)
