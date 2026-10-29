@@ -14,6 +14,9 @@ Prize cards remain. It is played when the doll supply is about to run out.
 Items, Stadiums, Arven, and Petrel outrank it. Handiwork yields on that turn.
 Igglybuff's Sleepy Voice flips one coin from the Bench or the Active Spot.
 Heads puts the opponent's Active Pokémon to sleep, and that use ends the turn.
+The coin replaces an attack only when that attack cannot stop the hit, as with
+Demolish. Against every other deck, Eeeeeeek, Energy Antics, Sleepy Lost, and
+Junk Hunt stay. A turn with no attack still flips when their hit would land.
 """
 
 from __future__ import annotations
@@ -161,10 +164,104 @@ def _sleepy_voice(card) -> bool:
     )
 
 
+def _payable_attacks(game, me, foe):
+    if not foe.active:
+        return []
+    pool = game._energy_pool(foe, foe.active)
+    legal = []
+    for atk in foe.card(foe.active.card_i).attacks:
+        if can_pay_energy(pool, game._attack_cost(foe, foe.active, atk, me)):
+            legal.append(atk)
+    return legal
+
+
+def _ignores_face(atk) -> bool:
+    return any(eff.get("kind") == "ignore_active_effects" for eff in (atk.effects or []))
+
+
+def _face_blocks_damage(game, me) -> bool:
+    if not me.active or not _asleep(me.active):
+        return False
+    return bool(game._sweet_face(me.card(me.active.card_i)))
+
+
+def _active_hit(game, me, foe, atk) -> int:
+    """Damage and counters that would land on our Active."""
+    if not me.active:
+        return 0
+    damage = int(game._raw_attack_damage(foe, me, foe.active, atk) or 0)
+    if _face_blocks_damage(game, me) and not _ignores_face(atk):
+        damage = 0
+    counters = sum(
+        int(eff.get("counters") or 0)
+        for eff in (atk.effects or [])
+        if eff.get("kind") == "active_damage_counters"
+    )
+    return damage + 10 * counters
+
+
+def _bench_hit_open(game, me, atk) -> bool:
+    if not me.bench:
+        return False
+    kinds = {eff.get("kind") for eff in (atk.effects or [])}
+    if "bench_damage_counters" in kinds:
+        if game._stadium_blocks_bench_counters():
+            return False
+        if game._has_bench_shield(me, "prevent_bench_damage_and_attack_effects"):
+            return False
+        return True
+    if not kinds & {"damage_each_with_counters", "damage_n_opponent_pokemon", "damage_one_pokemon"}:
+        return False
+    for kind in (
+        "prevent_bench_damage_and_attack_effects",
+        "prevent_bench_attack_damage",
+        "prevent_bench_attack_damage_no_rulebox",
+    ):
+        if game._has_bench_shield(me, kind):
+            return False
+    return True
+
+
+def _hit_lands(game, me, foe, attacks) -> bool:
+    for atk in attacks:
+        if _active_hit(game, me, foe, atk) > 0 or _bench_hit_open(game, me, atk):
+            return True
+    return False
+
+
+def _ignore_face_ko(game, me, foe, attacks) -> bool:
+    """Demolish: the printed sentence ignores effects on the opponent's Active."""
+    if not me.active:
+        return False
+    remain = game._max_hp(me, me.active) - me.active.damage
+    if remain <= 0:
+        return False
+    for atk in attacks:
+        if not _ignores_face(atk):
+            continue
+        raw = int(game._raw_attack_damage(foe, me, foe.active, atk) or 0)
+        if raw >= remain:
+            return True
+    return False
+
+
 def wants_sleepy_voice(game, me, foe) -> bool:
-    """The printed may. Skip it when the Active is already Asleep."""
-    del game, me
-    return bool(foe.active) and not _asleep(foe.active)
+    """The printed may. Flip when the sleep is worth ending the turn.
+
+    Demolish ignores effects on the Active, so the coin replaces Eeeeeeek.
+    Every other attack Doll would use stays. A turn with no attack flips
+    only when their hit is not already blanked.
+    """
+    if not foe.active or _asleep(foe.active):
+        return False
+    legal = _payable_attacks(game, me, foe)
+    if not legal:
+        return False
+    if _ignore_face_ko(game, me, foe, legal):
+        return True
+    if choose_attack(game, me, foe) is not None:
+        return False
+    return _hit_lands(game, me, foe, legal)
 
 
 def wants_pokemon(game, player, card) -> bool:

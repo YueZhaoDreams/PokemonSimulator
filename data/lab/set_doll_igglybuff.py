@@ -50,6 +50,7 @@ from app.seed_data import (
 )
 
 ADD = "Igglybuff"
+POLICY = "benefit"
 FOES = (
     ("t60", "Dragapult ex (T60)", SET_T60_NAMES, "phantom", False),
     ("hedrick", "Hedrick Worlds Dragapult", SET_T_META_NAMES, "phantom", False),
@@ -89,7 +90,7 @@ GAMES = int(os.environ.get("DOLL_IGGLYBUFF_GAMES", "400"))
 SEED = int(os.environ.get("DOLL_IGGLYBUFF_SEED", "20261029"))
 WORKERS = int(os.environ.get("DOLL_IGGLYBUFF_WORKERS", str(min(4, os.cpu_count() or 2))))
 HERE = Path(__file__).resolve().parent
-PARTIAL = Path(os.environ.get("DOLL_IGGLYBUFF_PARTIAL", HERE / "set-doll-igglybuff-partial.jsonl"))
+PARTIAL = Path(os.environ.get("DOLL_IGGLYBUFF_PARTIAL", HERE / "set-doll-igglybuff-benefit-partial.jsonl"))
 DEST = Path(os.environ.get("DOLL_IGGLYBUFF_DEST", HERE / "set-doll-igglybuff.json"))
 MD_DEST = Path(os.environ.get("DOLL_IGGLYBUFF_MD", HERE / "set-doll-igglybuff.md"))
 
@@ -155,7 +156,7 @@ def _run(names: tuple[str, ...], foe_key: str, seat: str, games: int, seed: int)
 
 
 def _cache_key(names: tuple[str, ...], foe_key: str, seat: str, games: int, seed: int) -> str:
-    return f"{seed}|{games}|{seat}|{foe_key}|{'/'.join(names)}"
+    return f"{POLICY}|{seed}|{games}|{seat}|{foe_key}|{'/'.join(names)}"
 
 
 def _load_cache() -> dict[str, dict]:
@@ -391,8 +392,15 @@ def _markdown(report: dict) -> str:
         "If heads, your opponent's Active Pokémon is now Asleep. "
         "If you use this Ability, your turn ends. "
         "The sentence does not say the Active Spot, so a Benched Igglybuff can use it. "
-        "Doll uses it when that Active is not already Asleep. The turn then has no attack. "
+        "Doll spends that attack on the coin only when the hit ignores effects on the Active, as Demolish does. "
+        "Eeeeeeek, Energy Antics, Sleepy Lost, and Junk Hunt stay ahead of the coin against every other deck. "
+        "A turn with no attack still flips when their hit would land. "
         "Slumbering Forest is the wake check that is already in the list.",
+        "",
+        "An earlier sample used the coin whenever the Active was awake. "
+        "That confirm cut Cleffa and landed at 50.1% against its own 53.0% baseline. "
+        "D60 rose from 6.0% to 20.0%, and the ended turn cost the other foes. "
+        "This sample is the benefit rule.",
         "",
         f"- **Seed**: `{report['seed']}`",
         f"- **Screen games per seat**: {report['screen_games']}",
@@ -458,6 +466,8 @@ def _load_prior() -> list[dict]:
     if not DEST.exists():
         return []
     old = json.loads(DEST.read_text())
+    if old.get("policy") != POLICY:
+        return []
     if old.get("steps"):
         return list(old["steps"])
     if old.get("step"):
@@ -510,6 +520,7 @@ def main() -> None:
         step = _step(base, cache)
         steps.append(step)
         report = {
+            "policy": POLICY,
             "seed": SEED,
             "screen_games": SCREEN_GAMES,
             "games": GAMES,

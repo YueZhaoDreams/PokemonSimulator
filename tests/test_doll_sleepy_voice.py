@@ -119,8 +119,37 @@ def test_default_igglybuff_stays_bouncy_circle():
     assert not wants_pokemon(_game(), _game().players["a"], bouncy)
 
 
-def test_heads_from_the_bench_sleeps_the_opponent_and_ends_the_turn():
-    game = _game(rng=_Coin(0.0))
+def _vs(foe_names: list[str], strat: str, rng=None) -> Game:
+    return Game(
+        _cards(
+            "Cleffa",
+            "Igglybuff",
+            "Lillie's Determination",
+            "Lillie's Poké Doll",
+            "Puzzle of Time",
+            "Puzzle of Time",
+            "Nincada",
+            "Shedinja",
+        ),
+        _cards(*foe_names),
+        standard_60_rules(),
+        StrategySpec.from_dict("doll"),
+        StrategySpec.from_dict(strat),
+        rng or Random(1),
+    )
+
+
+def _pay(player, names: list[str]) -> None:
+    paid = []
+    for name in names:
+        idx = next(i for i in player.deck if player.card(i).name == name)
+        player.deck.remove(idx)
+        paid.append(idx)
+    player.active.energy = paid
+
+
+def test_demolish_spends_eeeeeeek_on_the_coin():
+    game = _vs(["Cornerstone Mask Ogerpon ex", "Fighting Energy"], "demolish", _Coin(0.0))
     me = _seat(
         game,
         "a",
@@ -129,7 +158,14 @@ def test_heads_from_the_bench_sleeps_the_opponent_and_ends_the_turn():
         deck=["Darkness Energy"] * 8,
         bench=["Igglybuff"],
     )
-    foe = _seat(game, "b", active="Cleffa", hand=[], deck=["Darkness Energy"] * 8)
+    foe = _seat(
+        game,
+        "b",
+        active="Cornerstone Mask Ogerpon ex",
+        hand=[],
+        deck=["Fighting Energy", "Darkness Energy", "Darkness Energy", "Darkness Energy"],
+    )
+    _pay(foe, ["Fighting Energy", "Darkness Energy", "Darkness Energy"])
     iggly = me.bench[0]
     attack = choose_attack(game, me, foe)
     assert attack is not None and attack.name == "Eeeeeeek"
@@ -138,7 +174,6 @@ def test_heads_from_the_bench_sleeps_the_opponent_and_ends_the_turn():
     assert foe.active.status & ST_ASLEEP
     assert not (me.active.status & ST_ASLEEP)
     assert iggly.ability_used
-    assert not me.active.ability_used
     assert game.turn_ended_by_ability
     assert game.events.get("doll_sleepy_flip") == 1
     assert game.events.get("doll_sleepy_heads") == 1
@@ -146,17 +181,78 @@ def test_heads_from_the_bench_sleeps_the_opponent_and_ends_the_turn():
     assert game.events.get("doll_sleepy_flip") == 1
 
 
-def test_tails_ends_the_turn_without_sleep():
-    game = _game(rng=_Coin(0.99))
+def test_eeeeeeek_stays_against_a_normal_knock_out():
+    game = _vs(["Dragapult ex"], "phantom", _Coin(0.0))
     me = _seat(
         game,
         "a",
         active="Cleffa",
-        hand=[],
+        hand=["Lillie's Determination"],
         deck=["Darkness Energy"] * 8,
         bench=["Igglybuff"],
     )
-    foe = _seat(game, "b", active="Cleffa", hand=[], deck=["Darkness Energy"] * 8)
+    foe = _seat(game, "b", active="Dragapult ex", hand=[], deck=["Darkness Energy"] * 4)
+    _pay(foe, ["Darkness Energy"])
+    attack = choose_attack(game, me, foe)
+    assert attack is not None and attack.name == "Eeeeeeek"
+    assert game._try_sleepy_voice(me, "a") is False
+    assert not (foe.active.status & ST_ASLEEP)
+    assert not game.turn_ended_by_ability
+    assert "doll_sleepy_flip" not in game.events
+
+
+def test_a_free_coin_when_their_hit_would_land():
+    game = _vs(["Dragapult ex"], "phantom", _Coin(0.0))
+    me = _seat(
+        game,
+        "a",
+        active="Cleffa",
+        hand=["Puzzle of Time", "Puzzle of Time"],
+        deck=["Darkness Energy"] * 8,
+        bench=["Igglybuff"],
+    )
+    foe = _seat(game, "b", active="Dragapult ex", hand=[], deck=["Darkness Energy"] * 4)
+    _pay(foe, ["Darkness Energy"])
+    assert choose_attack(game, me, foe) is None
+    assert game._try_sleepy_voice(me, "a") is True
+    assert foe.active.status & ST_ASLEEP
+    assert game.events.get("doll_sleepy_flip") == 1
+
+
+def test_no_flip_when_the_attack_cannot_be_paid():
+    game = _vs(["Dragapult ex"], "phantom", _Coin(0.0))
+    me = _seat(
+        game,
+        "a",
+        active="Cleffa",
+        hand=["Puzzle of Time", "Puzzle of Time"],
+        deck=["Darkness Energy"] * 8,
+        bench=["Igglybuff"],
+    )
+    foe = _seat(game, "b", active="Dragapult ex", hand=[], deck=["Darkness Energy"] * 4)
+    assert choose_attack(game, me, foe) is None
+    assert game._try_sleepy_voice(me, "a") is False
+    assert "doll_sleepy_flip" not in game.events
+
+
+def test_tails_ends_the_turn_without_sleep():
+    game = _vs(["Cornerstone Mask Ogerpon ex", "Fighting Energy"], "demolish", _Coin(0.99))
+    me = _seat(
+        game,
+        "a",
+        active="Cleffa",
+        hand=["Lillie's Determination"],
+        deck=["Darkness Energy"] * 8,
+        bench=["Igglybuff"],
+    )
+    foe = _seat(
+        game,
+        "b",
+        active="Cornerstone Mask Ogerpon ex",
+        hand=[],
+        deck=["Fighting Energy", "Darkness Energy", "Darkness Energy", "Darkness Energy"],
+    )
+    _pay(foe, ["Fighting Energy", "Darkness Energy", "Darkness Energy"])
     assert game._try_sleepy_voice(me, "a") is True
     assert not (foe.active.status & ST_ASLEEP)
     assert game.turn_ended_by_ability
