@@ -4722,9 +4722,11 @@ class Game:
                 and "wugtrio" not in names
             ):
                 prefer.insert(0, "Wugtrio")
+            if "luvdisc" not in names:
+                prefer.append("Luvdisc")
             if "victini" not in names:
                 prefer.append("Victini")
-            tail = ["Wiglett", "Wugtrio", "Manaphy", "Victini"]
+            tail = ["Wiglett", "Wugtrio", "Luvdisc", "Manaphy", "Victini"]
             if wall:
                 tail[2:2] = ["Pichu", "Mime Jr.", "Smoochum"]
             prefer.extend(tail)
@@ -7387,6 +7389,91 @@ class Game:
             score += 35.0
         return score
 
+    def _mill_dual_sleeper_out(self, me: Player) -> bool:
+        if any(self._mill_dual_sleeper(me.card(mon.card_i)) for mon in me.in_play()):
+            return True
+        return any(self._mill_dual_sleeper(me.card(i)) for i in me.hand)
+
+    def _mill_pulse_ready(self, me: Player, mon: Pokemon) -> bool:
+        pulse = self._opponent_sleep_attack(me.card(mon.card_i))
+        return pulse is not None and self._mill_can_pay_attack(me, mon, pulse)
+
+    def _mill_wants_water_pulse(self, me: Player, foe: Player) -> bool:
+        """Pulse before another Undersea when Forest can hold it, or a KO is coming.
+
+        Spread matches do not keep a Sweet Sleeping Face, so Forest plus the
+        opponent's sleep is the protection. Wall matches stay on the mill line
+        while that Active would live. Playground still comes first.
+        """
+        who = "a" if me.name == "A" else "b"
+        if not self._mill_can_attack_turn(me) or self._mill_playground_pending(me, who):
+            return False
+        if foe.active is None or foe.active.status & ST_ASLEEP:
+            return False
+        if not any(self._mill_pulse_ready(me, mon) for mon in me.in_play()):
+            return False
+        if self._mill_active_would_die(me, foe):
+            return True
+        forest = (self.stadium_name or "").lower() == "slumbering forest"
+        return forest and not self._mill_wall_match(me)
+
+    def _mill_pulse_bench_idx(self, me: Player, foe: Player) -> int | None:
+        if not self._mill_wants_water_pulse(me, foe):
+            return None
+        for idx, mon in enumerate(me.bench):
+            if self._mill_pulse_ready(me, mon):
+                return idx
+        return None
+
+    def _mill_undersea_survives_retreat(self, me: Player) -> bool:
+        """True when retreating would leave Undersea paid on that Wugtrio."""
+        mon = me.active
+        if mon is None:
+            return True
+        card = me.card(mon.card_i)
+        if card.name.lower() != "wugtrio" or not self._mill_can_pay(me, mon):
+            return True
+        retreat = self._retreat_cost(me, mon)
+        if retreat <= 0:
+            return True
+        if len(mon.energy) <= retreat:
+            return False
+        kept = list(mon.energy[:-retreat])
+        atk = self._mill_undersea(card)
+        if atk is None:
+            return True
+        behind, host = self._energy_context(me, mon)
+        pool: list[str] = []
+        for card_i in kept:
+            pool.extend(energy_provided(me.card(card_i), prizes_behind=behind, host=host))
+        return can_pay_energy(pool, self._attack_cost(me, mon, atk))
+
+    def _mill_wants_water_for_pulse(self, me: Player) -> bool:
+        for mon in me.in_play():
+            card = me.card(mon.card_i)
+            pulse = self._opponent_sleep_attack(card)
+            if pulse is None or not self._mill_dual_sleeper(card):
+                continue
+            if not self._mill_can_pay_attack(me, mon, pulse):
+                return True
+        return False
+
+    def _mill_pulse_fuel(self, me: Player) -> Pokemon | None:
+        """One Water on Luvdisc. An unpaid Wugtrio still takes the attach."""
+        who = "a" if me.name == "A" else "b"
+        if self._mill_playground_pending(me, who):
+            return None
+        asleep = self._mill_asleep_shield(me)
+        for mon in me.in_play():
+            card = me.card(mon.card_i)
+            if not self._mill_dual_sleeper(card) or self._mill_pulse_ready(me, mon):
+                continue
+            if mon is me.active:
+                return None if asleep else mon
+            if asleep or self._mill_can_retreat(me) or self._retreat_cost(me, me.active) == 0:
+                return mon
+        return None
+
     def _mill_searcher_value(self, me: Player, foe: Player, mon: Pokemon) -> float:
         card = me.card(mon.card_i)
         best = -1e9
@@ -7513,6 +7600,10 @@ class Game:
             return me.active
         if unpaid:
             return unpaid[0]
+        if any(me.card(mon.card_i).name.lower() == "wugtrio" for mon in me.in_play()):
+            fuel = self._mill_pulse_fuel(me)
+            if fuel is not None:
+                return fuel
         if not any(me.card(mon.card_i).name.lower() == "wugtrio" for mon in me.in_play()):
             searcher = self._mill_energy_searcher(me)
             if searcher is not None:
@@ -7681,7 +7772,11 @@ class Game:
             return 30
         if self._mill_dual_sleeper(card) and not any(self._mill_dual_sleeper(me.card(mon.card_i)) for mon in me.in_play()):
             if not any(self._mill_dual_sleeper(me.card(i)) for i in me.hand):
-                return 32
+                have_wiglett = any(me.card(mon.card_i).name.lower() == "wiglett" for mon in me.in_play()) or any(
+                    me.card(i).name.lower() == "wiglett" for i in me.hand
+                )
+                # After the first Wiglett. Ahead of a second Wiglett so Poffin takes the sleeper.
+                return 45 if have_wiglett else 32
         return 10
 
     def _mill_line_idx(self, me: Player) -> int | None:
@@ -7825,19 +7920,35 @@ class Game:
             if proxy is not None and self._do_retreat_into(me, proxy):
                 self._bump("proxy_stall")
                 return
+        pulse_idx = self._mill_pulse_bench_idx(me, foe)
+        active_pulse = (
+            self._mill_pulse_ready(me, me.active)
+            and self._mill_wants_water_pulse(me, foe)
+        )
         if active.name.lower() == "wugtrio":
-            if self._mill_can_pay(me, me.active) or self._mill_hand_completes(me, me.active):
+            paid = self._mill_can_pay(me, me.active) or self._mill_hand_completes(me, me.active)
+            # Retreat discards Energy. Leave a paid Undersea only to blank a KO,
+            # or when the Energy left behind still pays the attack.
+            if pulse_idx is not None and (
+                self._mill_active_would_die(me, foe) or self._mill_undersea_survives_retreat(me)
+            ):
+                if self._do_retreat_into(me, pulse_idx):
+                    return
+            if paid:
                 return
             draw = self._mill_eeeeeeek_idx(me) if self._mill_wants_eeeeeeek(me) else None
             if draw is not None:
                 self._do_retreat_into(me, draw)
             return
-        for idx, mon in enumerate(me.bench):
-            card = me.card(mon.card_i)
-            if card.name.lower() != "wugtrio":
-                continue
-            if self._mill_can_pay(me, mon) and self._do_retreat_into(me, idx):
-                return
+        if pulse_idx is not None and self._do_retreat_into(me, pulse_idx):
+            return
+        if not active_pulse:
+            for idx, mon in enumerate(me.bench):
+                card = me.card(mon.card_i)
+                if card.name.lower() != "wugtrio":
+                    continue
+                if self._mill_can_pay(me, mon) and self._do_retreat_into(me, idx):
+                    return
         can_attack = self._mill_can_attack_turn(me)
         if self._mill_dual_sleeper(active):
             if can_attack and self._mill_playground_pending(me, who):
@@ -8007,18 +8118,25 @@ class Game:
             # defender to stay Asleep. Either one is a reason to play Forest.
             baby = any(self._sweet_face(me.card(mon.card_i)) for mon in me.in_play())
             lock = self._mill_sleep_lock_live(me)
-            if not baby and not lock:
+            sleeper = self._mill_dual_sleeper_out(me)
+            if not baby and not lock and not sleeper:
                 return -8
             asleep = bool(me.active and me.active.status & ST_ASLEEP and self._sweet_face(me.card(me.active.card_i)))
             if asleep:
                 return 20
             if lock and foe.active and not (foe.active.status & ST_ASLEEP):
                 return 18
+            if sleeper and not baby:
+                # Forest goes down before Water Pulse is paid, so the two-coin check is waiting.
+                return 16
             if baby:
                 return 15
             return 12
         if name == "neutralization zone":
-            if (self.stadium_name or "").lower() == "slumbering forest" and me.active and me.active.status & ST_ASLEEP:
+            if (self.stadium_name or "").lower() == "slumbering forest" and (
+                (me.active and me.active.status & ST_ASLEEP and self._sweet_face(me.card(me.active.card_i)))
+                or self._mill_dual_sleeper_out(me)
+            ):
                 return -8
             if (self.stadium_name or "").lower() == name:
                 return -6
@@ -11940,9 +12058,11 @@ class Game:
             stadium_prefer = ["Grand Tree", "Slumbering Forest"]
         elif self.strats[who].name == "mill":
             face_out = any(self._sweet_face(me.card(mon.card_i)) for mon in me.in_play())
+            # Luvdisc wants Forest in front of Neutralization Zone. The two-coin
+            # sleep check is the turn Water Pulse is for.
             stadium_prefer = (
                 ["Slumbering Forest", "Neutralization Zone"]
-                if face_out
+                if face_out or self._mill_dual_sleeper_out(me)
                 else ["Neutralization Zone", "Slumbering Forest"]
             )
         else:
@@ -11957,9 +12077,13 @@ class Game:
         if self.strats[who].name == "roast":
             energy_prefer = ["Fire Energy"]
         elif self.strats[who].name == "mill":
-            # DTE stays ahead of Ignition and Reversal. Water and Fighting keep
-            # the same unlisted score they had before those two existed.
-            energy_prefer = ["Double Turbo Energy", "Ignition Energy", "Reversal Energy"]
+            # Water pays Water Pulse. Once that attack is paid, DTE still leads
+            # the Undersea attaches. Ignition leaves at the end of the turn.
+            energy_prefer = (
+                ["Water Energy", "Double Turbo Energy", "Ignition Energy", "Reversal Energy"]
+                if self._mill_wants_water_for_pulse(me)
+                else ["Double Turbo Energy", "Ignition Energy", "Reversal Energy"]
+            )
         else:
             energy_prefer = ["Lightning Energy", "Double Turbo Energy"]
         self._search(

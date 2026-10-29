@@ -1,8 +1,8 @@
 {
-  "seed": 20261030,
-  "screen_games": 30,
-  "games": 80,
-  "elapsed": 399.832809191,
+  "seed": 20261031,
+  "screen_games": 400,
+  "games": 400,
+  "elapsed": 3559.0,
   "weights": {
     "t60": 0.04004004004004004,
     "hedrick": 0.051051051051051045,
@@ -111,83 +111,83 @@
         "Ignition Energy": 4,
         "Reversal Energy": 4
       },
-      "weighted": 0.44846096096096094,
-      "se": 0.011103917698616649,
-      "mean": 0.5875,
-      "worst": 0.10625000000000001,
+      "weighted": 0.42583458458458456,
+      "se": 0.004826908108738686,
+      "mean": 0.57375,
+      "worst": 0.08374999999999999,
       "matching": 0.0,
       "matching_cards": 0.0,
-      "opponent_asleep": 0.0009615384615384616,
-      "forest": 0.8567307692307692,
-      "face": 9.067307692307692,
-      "mill_attack": 3.3120192307692307,
+      "opponent_asleep": 0.002211538461538462,
+      "forest": 0.935673076923077,
+      "face": 10.301923076923078,
+      "mill_attack": 3.3047115384615386,
       "luvdisc": 0.0,
-      "forest_play": 0.5240384615384616,
+      "forest_play": 0.5221153846153846,
       "cells": {
         "t60": {
-          "wr": 0.70625,
-          "a": 0.6625,
-          "b": 0.75
+          "wr": 0.7362500000000001,
+          "a": 0.7325,
+          "b": 0.74
         },
         "hedrick": {
-          "wr": 0.64375,
-          "a": 0.7,
+          "wr": 0.60375,
+          "a": 0.62,
           "b": 0.5875
         },
         "unl": {
           "wr": 0.8625,
-          "a": 0.875,
-          "b": 0.85
+          "a": 0.8675,
+          "b": 0.8575
         },
         "d60": {
-          "wr": 0.10625000000000001,
-          "a": 0.1125,
-          "b": 0.1
+          "wr": 0.08374999999999999,
+          "a": 0.095,
+          "b": 0.0725
         },
         "s60": {
-          "wr": 0.66875,
-          "a": 0.6625,
-          "b": 0.675
+          "wr": 0.71875,
+          "a": 0.6975,
+          "b": 0.74
         },
         "g": {
-          "wr": 0.4125,
-          "a": 0.3625,
-          "b": 0.4625
+          "wr": 0.3025,
+          "a": 0.335,
+          "b": 0.27
         },
         "c60": {
-          "wr": 0.45625,
+          "wr": 0.41625,
           "a": 0.4,
-          "b": 0.5125
+          "b": 0.4325
         },
         "m": {
-          "wr": 0.25625,
-          "a": 0.25,
-          "b": 0.2625
+          "wr": 0.24375,
+          "a": 0.245,
+          "b": 0.2425
         },
         "starmie": {
-          "wr": 0.38125,
-          "a": 0.3875,
+          "wr": 0.355,
+          "a": 0.335,
           "b": 0.375
         },
         "lucario": {
-          "wr": 0.8,
+          "wr": 0.82125,
           "a": 0.8125,
-          "b": 0.7875
+          "b": 0.83
         },
         "thorns": {
-          "wr": 0.94375,
-          "a": 0.9375,
-          "b": 0.95
+          "wr": 0.9025000000000001,
+          "a": 0.895,
+          "b": 0.91
         },
         "h": {
-          "wr": 0.4375,
-          "a": 0.4125,
-          "b": 0.4625
+          "wr": 0.45125000000000004,
+          "a": 0.4625,
+          "b": 0.44
         },
         "g30": {
-          "wr": 0.9624999999999999,
-          "a": 0.975,
-          "b": 0.95
+          "wr": 0.9612499999999999,
+          "a": 0.9575,
+          "b": 0.965
         }
       }
     }
@@ -195,14 +195,166 @@
   "rounds": [
     {
       "step": 1,
-      "entering": 0.44846096096096094,
-      "screen_cut": "Rescue Carrier",
-      "screen_best": 0.44279279279279277,
-      "screen_lock": 0.44222555889222553,
+      "entering": 0.42583458458458456,
+      "screen_cut": "Wally",
+      "screen_best": 0.42634259259259255,
+      "screen_lock": 0.42583458458458456,
+      "screened": [
+        {
+          "cut": "Wally",
+          "weighted": 0.42634259259259255,
+          "mean": 0.5693269230769231,
+          "worst": 0.11,
+          "matching": 0.30336538461538465,
+          "opponent_asleep": 0.4124038461538462,
+          "mill_attack": 3.163173076923077,
+          "luvdisc": 0.7464423076923077
+        },
+        {
+          "cut": "Level Ball",
+          "weighted": 0.41807557557557556,
+          "mean": 0.5617307692307693,
+          "worst": 0.10500000000000001,
+          "matching": 0.29951923076923076,
+          "opponent_asleep": 0.43288461538461537,
+          "mill_attack": 3.1409615384615384,
+          "luvdisc": 0.7300961538461539
+        },
+        {
+          "cut": "Boss's Orders",
+          "weighted": 0.415467967967968,
+          "mean": 0.5592307692307692,
+          "worst": 0.10375000000000001,
+          "matching": 0.2949038461538462,
+          "opponent_asleep": 0.4009615384615385,
+          "mill_attack": 3.182980769230769,
+          "luvdisc": 0.7516346153846154
+        },
+        {
+          "cut": "Buddy-Buddy Poffin",
+          "weighted": 0.4141529029029029,
+          "mean": 0.5572115384615384,
+          "worst": 0.11125,
+          "matching": 0.29134615384615387,
+          "opponent_asleep": 0.3825,
+          "mill_attack": 3.163557692307692,
+          "luvdisc": 0.7133653846153846
+        },
+        {
+          "cut": "Rescue Carrier",
+          "weighted": 0.412733983983984,
+          "mean": 0.5605769230769231,
+          "worst": 0.0925,
+          "matching": 0.3004807692307692,
+          "opponent_asleep": 0.40086538461538457,
+          "mill_attack": 3.1674038461538463,
+          "luvdisc": 0.7471153846153846
+        },
+        {
+          "cut": "Team Rocket's Handiwork",
+          "weighted": 0.4121709209209209,
+          "mean": 0.5582692307692307,
+          "worst": 0.1,
+          "matching": 0.28288461538461535,
+          "opponent_asleep": 0.4061538461538462,
+          "mill_attack": 2.9836538461538464,
+          "luvdisc": 0.7434615384615384
+        },
+        {
+          "cut": "Crushing Hammer",
+          "weighted": 0.40967842842842844,
+          "mean": 0.5535576923076924,
+          "worst": 0.09875,
+          "matching": 0.30009615384615385,
+          "opponent_asleep": 0.38740384615384615,
+          "mill_attack": 3.1484615384615386,
+          "luvdisc": 0.7468269230769231
+        },
+        {
+          "cut": "Counter Catcher",
+          "weighted": 0.40881006006006004,
+          "mean": 0.5510576923076923,
+          "worst": 0.11125,
+          "matching": 0.27990384615384617,
+          "opponent_asleep": 0.39365384615384613,
+          "mill_attack": 3.1631730769230773,
+          "luvdisc": 0.7369230769230769
+        },
+        {
+          "cut": "Colress's Tenacity",
+          "weighted": 0.4079504504504505,
+          "mean": 0.5509615384615384,
+          "worst": 0.11125,
+          "matching": 0.29125,
+          "opponent_asleep": 0.38298076923076924,
+          "mill_attack": 3.1111538461538464,
+          "luvdisc": 0.739326923076923
+        },
+        {
+          "cut": "Ignition Energy",
+          "weighted": 0.40709709709709707,
+          "mean": 0.5534615384615384,
+          "worst": 0.09125,
+          "matching": 0.3010576923076923,
+          "opponent_asleep": 0.42567307692307693,
+          "mill_attack": 3.076923076923077,
+          "luvdisc": 0.7468269230769231
+        },
+        {
+          "cut": "Water Energy",
+          "weighted": 0.40691816816816817,
+          "mean": 0.55625,
+          "worst": 0.09875,
+          "matching": 0.29615384615384616,
+          "opponent_asleep": 0.32230769230769235,
+          "mill_attack": 3.1257692307692304,
+          "luvdisc": 0.7530769230769232
+        },
+        {
+          "cut": "Miss Fortune Sisters",
+          "weighted": 0.4016366366366366,
+          "mean": 0.5502884615384616,
+          "worst": 0.095,
+          "matching": 0.2778846153846154,
+          "opponent_asleep": 0.4034615384615385,
+          "mill_attack": 3.2360576923076922,
+          "luvdisc": 0.7426923076923077
+        },
+        {
+          "cut": "Lillie's Pok\u00e9 Doll",
+          "weighted": 0.4011549049049049,
+          "mean": 0.55125,
+          "worst": 0.0775,
+          "matching": 0.2910576923076923,
+          "opponent_asleep": 0.4005769230769231,
+          "mill_attack": 3.198942307692308,
+          "luvdisc": 0.7435576923076923
+        },
+        {
+          "cut": "Double Turbo Energy",
+          "weighted": 0.39919294294294294,
+          "mean": 0.5460576923076923,
+          "worst": 0.08625,
+          "matching": 0.26875,
+          "opponent_asleep": 0.38134615384615383,
+          "mill_attack": 3.0935576923076926,
+          "luvdisc": 0.7494230769230769
+        },
+        {
+          "cut": "Reversal Energy",
+          "weighted": 0.39444069069069065,
+          "mean": 0.5424038461538461,
+          "worst": 0.07500000000000001,
+          "matching": 0.27798076923076925,
+          "opponent_asleep": 0.39644230769230765,
+          "mill_attack": 3.072019230769231,
+          "luvdisc": 0.7482692307692307
+        }
+      ],
       "confirms": [
         {
-          "label": "-Lillie's Pok\u00e9 Doll",
-          "cut": "Lillie's Pok\u00e9 Doll",
+          "label": "-Wally",
+          "cut": "Wally",
           "add": "Luvdisc",
           "list": [
             "Pichu",
@@ -231,6 +383,7 @@
             "Rescue Carrier",
             "Rescue Carrier",
             "Rescue Carrier",
+            "Lillie's Pok\u00e9 Doll",
             "Crushing Hammer",
             "Crushing Hammer",
             "Crushing Hammer",
@@ -239,7 +392,6 @@
             "Counter Catcher",
             "Miss Fortune Sisters",
             "Miss Fortune Sisters",
-            "Wally",
             "Wally",
             "Wally",
             "Boss's Orders",
@@ -279,184 +431,11 @@
             "Buddy-Buddy Poffin": 4,
             "Level Ball": 4,
             "Rescue Carrier": 3,
-            "Crushing Hammer": 4,
-            "Counter Catcher": 2,
-            "Miss Fortune Sisters": 2,
-            "Wally": 3,
-            "Boss's Orders": 1,
-            "Team Rocket's Handiwork": 2,
-            "Colress's Tenacity": 4,
-            "Double Turbo Energy": 4,
-            "Water Energy": 3,
-            "Ignition Energy": 4,
-            "Reversal Energy": 4,
-            "Luvdisc": 1
-          },
-          "weighted": 0.437769019019019,
-          "se": 0.010848214919513566,
-          "mean": 0.5879807692307693,
-          "worst": 0.09375,
-          "matching": 0.20721153846153847,
-          "matching_cards": 0.3658653846153846,
-          "opponent_asleep": 0.0889423076923077,
-          "forest": 0.9576923076923076,
-          "face": 8.878846153846153,
-          "mill_attack": 3.314423076923077,
-          "luvdisc": 0.5370192307692307,
-          "forest_play": 0.56875,
-          "screen_weighted": 0.4391891891891892,
-          "cells": {
-            "t60": {
-              "wr": 0.7625,
-              "a": 0.7875,
-              "b": 0.7375
-            },
-            "hedrick": {
-              "wr": 0.6625,
-              "a": 0.6375,
-              "b": 0.6875
-            },
-            "unl": {
-              "wr": 0.8625,
-              "a": 0.925,
-              "b": 0.8
-            },
-            "d60": {
-              "wr": 0.09375,
-              "a": 0.0875,
-              "b": 0.1
-            },
-            "s60": {
-              "wr": 0.66875,
-              "a": 0.6375,
-              "b": 0.7
-            },
-            "g": {
-              "wr": 0.38749999999999996,
-              "a": 0.4125,
-              "b": 0.3625
-            },
-            "c60": {
-              "wr": 0.34375,
-              "a": 0.375,
-              "b": 0.3125
-            },
-            "m": {
-              "wr": 0.22499999999999998,
-              "a": 0.2375,
-              "b": 0.2125
-            },
-            "starmie": {
-              "wr": 0.40625,
-              "a": 0.35,
-              "b": 0.4625
-            },
-            "lucario": {
-              "wr": 0.81875,
-              "a": 0.8125,
-              "b": 0.825
-            },
-            "thorns": {
-              "wr": 0.90625,
-              "a": 0.9125,
-              "b": 0.9
-            },
-            "h": {
-              "wr": 0.53125,
-              "a": 0.5375,
-              "b": 0.525
-            },
-            "g30": {
-              "wr": 0.975,
-              "a": 0.975,
-              "b": 0.975
-            }
-          }
-        },
-        {
-          "label": "-Rescue Carrier",
-          "cut": "Rescue Carrier",
-          "add": "Luvdisc",
-          "list": [
-            "Pichu",
-            "Mime Jr.",
-            "Cleffa",
-            "Manaphy",
-            "Wiglett",
-            "Wiglett",
-            "Wiglett",
-            "Wiglett",
-            "Wugtrio",
-            "Wugtrio",
-            "Wugtrio",
-            "Wugtrio",
-            "Victini",
-            "Slumbering Forest",
-            "Neutralization Zone",
-            "Buddy-Buddy Poffin",
-            "Buddy-Buddy Poffin",
-            "Buddy-Buddy Poffin",
-            "Buddy-Buddy Poffin",
-            "Level Ball",
-            "Level Ball",
-            "Level Ball",
-            "Level Ball",
-            "Rescue Carrier",
-            "Rescue Carrier",
-            "Lillie's Pok\u00e9 Doll",
-            "Crushing Hammer",
-            "Crushing Hammer",
-            "Crushing Hammer",
-            "Crushing Hammer",
-            "Counter Catcher",
-            "Counter Catcher",
-            "Miss Fortune Sisters",
-            "Miss Fortune Sisters",
-            "Wally",
-            "Wally",
-            "Wally",
-            "Boss's Orders",
-            "Team Rocket's Handiwork",
-            "Team Rocket's Handiwork",
-            "Colress's Tenacity",
-            "Colress's Tenacity",
-            "Colress's Tenacity",
-            "Colress's Tenacity",
-            "Double Turbo Energy",
-            "Double Turbo Energy",
-            "Double Turbo Energy",
-            "Double Turbo Energy",
-            "Water Energy",
-            "Water Energy",
-            "Water Energy",
-            "Ignition Energy",
-            "Ignition Energy",
-            "Ignition Energy",
-            "Ignition Energy",
-            "Reversal Energy",
-            "Reversal Energy",
-            "Reversal Energy",
-            "Reversal Energy",
-            "Luvdisc"
-          ],
-          "counts": {
-            "Pichu": 1,
-            "Mime Jr.": 1,
-            "Cleffa": 1,
-            "Manaphy": 1,
-            "Wiglett": 4,
-            "Wugtrio": 4,
-            "Victini": 1,
-            "Slumbering Forest": 1,
-            "Neutralization Zone": 1,
-            "Buddy-Buddy Poffin": 4,
-            "Level Ball": 4,
-            "Rescue Carrier": 2,
             "Lillie's Pok\u00e9 Doll": 1,
             "Crushing Hammer": 4,
             "Counter Catcher": 2,
             "Miss Fortune Sisters": 2,
-            "Wally": 3,
+            "Wally": 2,
             "Boss's Orders": 1,
             "Team Rocket's Handiwork": 2,
             "Colress's Tenacity": 4,
@@ -466,84 +445,84 @@
             "Reversal Energy": 4,
             "Luvdisc": 1
           },
-          "weighted": 0.4318756256256256,
-          "se": 0.010903418700312556,
-          "mean": 0.5754807692307693,
-          "worst": 0.06875,
-          "matching": 0.23317307692307693,
-          "matching_cards": 0.4120192307692308,
-          "opponent_asleep": 0.11201923076923077,
-          "forest": 0.9927884615384616,
-          "face": 8.666826923076924,
-          "mill_attack": 3.2740384615384617,
-          "luvdisc": 0.5221153846153846,
-          "forest_play": 0.551923076923077,
-          "screen_weighted": 0.44279279279279277,
+          "weighted": 0.42634259259259255,
+          "se": 0.004879470778567227,
+          "mean": 0.5693269230769231,
+          "worst": 0.11,
+          "matching": 0.30336538461538465,
+          "matching_cards": 0.5542307692307692,
+          "opponent_asleep": 0.4124038461538462,
+          "forest": 1.7292307692307693,
+          "face": 8.893846153846154,
+          "mill_attack": 3.163173076923077,
+          "luvdisc": 0.7464423076923077,
+          "forest_play": 0.6894230769230769,
+          "screen_weighted": 0.42634259259259255,
           "cells": {
             "t60": {
-              "wr": 0.725,
-              "a": 0.75,
-              "b": 0.7
+              "wr": 0.6475,
+              "a": 0.655,
+              "b": 0.64
             },
             "hedrick": {
-              "wr": 0.6,
-              "a": 0.625,
-              "b": 0.575
+              "wr": 0.605,
+              "a": 0.5975,
+              "b": 0.6125
             },
             "unl": {
-              "wr": 0.90625,
-              "a": 0.9,
-              "b": 0.9125
+              "wr": 0.84875,
+              "a": 0.8375,
+              "b": 0.86
             },
             "d60": {
-              "wr": 0.06875,
-              "a": 0.0375,
-              "b": 0.1
+              "wr": 0.11,
+              "a": 0.1075,
+              "b": 0.1125
             },
             "s60": {
-              "wr": 0.6499999999999999,
-              "a": 0.6375,
-              "b": 0.6625
+              "wr": 0.68875,
+              "a": 0.6725,
+              "b": 0.705
             },
             "g": {
-              "wr": 0.35,
-              "a": 0.325,
-              "b": 0.375
+              "wr": 0.31375,
+              "a": 0.3125,
+              "b": 0.315
             },
             "c60": {
-              "wr": 0.44375,
-              "a": 0.475,
-              "b": 0.4125
+              "wr": 0.4,
+              "a": 0.405,
+              "b": 0.395
             },
             "m": {
-              "wr": 0.24375,
-              "a": 0.2375,
-              "b": 0.25
+              "wr": 0.22,
+              "a": 0.225,
+              "b": 0.215
             },
             "starmie": {
-              "wr": 0.4375,
-              "a": 0.425,
-              "b": 0.45
+              "wr": 0.37625,
+              "a": 0.395,
+              "b": 0.3575
             },
             "lucario": {
-              "wr": 0.78125,
-              "a": 0.8,
-              "b": 0.7625
+              "wr": 0.79875,
+              "a": 0.7825,
+              "b": 0.815
             },
             "thorns": {
-              "wr": 0.875,
-              "a": 0.8625,
-              "b": 0.8875
+              "wr": 0.92625,
+              "a": 0.9325,
+              "b": 0.92
             },
             "h": {
-              "wr": 0.42500000000000004,
-              "a": 0.45,
-              "b": 0.4
+              "wr": 0.5137499999999999,
+              "a": 0.485,
+              "b": 0.5425
             },
             "g30": {
-              "wr": 0.9750000000000001,
-              "a": 0.9625,
-              "b": 0.9875
+              "wr": 0.9525,
+              "a": 0.9575,
+              "b": 0.9475
             }
           }
         },
@@ -640,241 +619,262 @@
             "Reversal Energy": 4,
             "Luvdisc": 1
           },
-          "weighted": 0.4046921921921922,
-          "se": 0.01058228648625935,
-          "mean": 0.5543269230769231,
-          "worst": 0.04375,
-          "matching": 0.2326923076923077,
-          "matching_cards": 0.3971153846153846,
-          "opponent_asleep": 0.12451923076923076,
-          "forest": 1.0375,
-          "face": 9.65,
-          "mill_attack": 3.2105769230769234,
-          "luvdisc": 0.5230769230769231,
-          "forest_play": 0.5485576923076922,
-          "screen_weighted": 0.43843843843843844,
+          "weighted": 0.41807557557557556,
+          "se": 0.0048687763706756395,
+          "mean": 0.5617307692307693,
+          "worst": 0.10500000000000001,
+          "matching": 0.29951923076923076,
+          "matching_cards": 0.541923076923077,
+          "opponent_asleep": 0.43288461538461537,
+          "forest": 1.7253846153846153,
+          "face": 9.334903846153846,
+          "mill_attack": 3.1409615384615384,
+          "luvdisc": 0.7300961538461539,
+          "forest_play": 0.680673076923077,
+          "screen_weighted": 0.41807557557557556,
           "cells": {
             "t60": {
-              "wr": 0.73125,
-              "a": 0.75,
-              "b": 0.7125
+              "wr": 0.63,
+              "a": 0.63,
+              "b": 0.63
             },
             "hedrick": {
-              "wr": 0.58125,
-              "a": 0.55,
-              "b": 0.6125
+              "wr": 0.59875,
+              "a": 0.6225,
+              "b": 0.575
             },
             "unl": {
-              "wr": 0.8625,
-              "a": 0.875,
-              "b": 0.85
+              "wr": 0.86625,
+              "a": 0.86,
+              "b": 0.8725
             },
             "d60": {
-              "wr": 0.04375,
-              "a": 0.05,
-              "b": 0.0375
+              "wr": 0.10500000000000001,
+              "a": 0.125,
+              "b": 0.085
             },
             "s60": {
-              "wr": 0.625,
-              "a": 0.6375,
-              "b": 0.6125
+              "wr": 0.665,
+              "a": 0.6475,
+              "b": 0.6825
             },
             "g": {
-              "wr": 0.2875,
-              "a": 0.2625,
-              "b": 0.3125
+              "wr": 0.33375,
+              "a": 0.3475,
+              "b": 0.32
             },
             "c60": {
-              "wr": 0.42500000000000004,
-              "a": 0.4625,
-              "b": 0.3875
+              "wr": 0.365,
+              "a": 0.3575,
+              "b": 0.3725
             },
             "m": {
-              "wr": 0.25625,
-              "a": 0.3125,
-              "b": 0.2
+              "wr": 0.22749999999999998,
+              "a": 0.22,
+              "b": 0.235
             },
             "starmie": {
-              "wr": 0.3125,
-              "a": 0.3375,
-              "b": 0.2875
+              "wr": 0.33999999999999997,
+              "a": 0.33,
+              "b": 0.35
             },
             "lucario": {
-              "wr": 0.775,
-              "a": 0.8125,
-              "b": 0.7375
+              "wr": 0.79375,
+              "a": 0.795,
+              "b": 0.7925
             },
             "thorns": {
-              "wr": 0.90625,
-              "a": 0.9,
-              "b": 0.9125
+              "wr": 0.91875,
+              "a": 0.9025,
+              "b": 0.935
             },
             "h": {
-              "wr": 0.425,
-              "a": 0.35,
-              "b": 0.5
+              "wr": 0.51625,
+              "a": 0.535,
+              "b": 0.4975
             },
             "g30": {
-              "wr": 0.975,
-              "a": 0.975,
-              "b": 0.975
+              "wr": 0.9425,
+              "a": 0.9375,
+              "b": 0.9475
+            }
+          }
+        },
+        {
+          "label": "-Boss's Orders",
+          "cut": "Boss's Orders",
+          "add": "Luvdisc",
+          "list": [
+            "Pichu",
+            "Mime Jr.",
+            "Cleffa",
+            "Manaphy",
+            "Wiglett",
+            "Wiglett",
+            "Wiglett",
+            "Wiglett",
+            "Wugtrio",
+            "Wugtrio",
+            "Wugtrio",
+            "Wugtrio",
+            "Victini",
+            "Slumbering Forest",
+            "Neutralization Zone",
+            "Buddy-Buddy Poffin",
+            "Buddy-Buddy Poffin",
+            "Buddy-Buddy Poffin",
+            "Buddy-Buddy Poffin",
+            "Level Ball",
+            "Level Ball",
+            "Level Ball",
+            "Level Ball",
+            "Rescue Carrier",
+            "Rescue Carrier",
+            "Rescue Carrier",
+            "Lillie's Pok\u00e9 Doll",
+            "Crushing Hammer",
+            "Crushing Hammer",
+            "Crushing Hammer",
+            "Crushing Hammer",
+            "Counter Catcher",
+            "Counter Catcher",
+            "Miss Fortune Sisters",
+            "Miss Fortune Sisters",
+            "Wally",
+            "Wally",
+            "Wally",
+            "Team Rocket's Handiwork",
+            "Team Rocket's Handiwork",
+            "Colress's Tenacity",
+            "Colress's Tenacity",
+            "Colress's Tenacity",
+            "Colress's Tenacity",
+            "Double Turbo Energy",
+            "Double Turbo Energy",
+            "Double Turbo Energy",
+            "Double Turbo Energy",
+            "Water Energy",
+            "Water Energy",
+            "Water Energy",
+            "Ignition Energy",
+            "Ignition Energy",
+            "Ignition Energy",
+            "Ignition Energy",
+            "Reversal Energy",
+            "Reversal Energy",
+            "Reversal Energy",
+            "Reversal Energy",
+            "Luvdisc"
+          ],
+          "counts": {
+            "Pichu": 1,
+            "Mime Jr.": 1,
+            "Cleffa": 1,
+            "Manaphy": 1,
+            "Wiglett": 4,
+            "Wugtrio": 4,
+            "Victini": 1,
+            "Slumbering Forest": 1,
+            "Neutralization Zone": 1,
+            "Buddy-Buddy Poffin": 4,
+            "Level Ball": 4,
+            "Rescue Carrier": 3,
+            "Lillie's Pok\u00e9 Doll": 1,
+            "Crushing Hammer": 4,
+            "Counter Catcher": 2,
+            "Miss Fortune Sisters": 2,
+            "Wally": 3,
+            "Team Rocket's Handiwork": 2,
+            "Colress's Tenacity": 4,
+            "Double Turbo Energy": 4,
+            "Water Energy": 3,
+            "Ignition Energy": 4,
+            "Reversal Energy": 4,
+            "Luvdisc": 1
+          },
+          "weighted": 0.415467967967968,
+          "se": 0.004852149047190526,
+          "mean": 0.5592307692307692,
+          "worst": 0.10375000000000001,
+          "matching": 0.2949038461538462,
+          "matching_cards": 0.5243269230769231,
+          "opponent_asleep": 0.4009615384615385,
+          "forest": 1.6934615384615386,
+          "face": 8.773076923076923,
+          "mill_attack": 3.182980769230769,
+          "luvdisc": 0.7516346153846154,
+          "forest_play": 0.6879807692307692,
+          "screen_weighted": 0.415467967967968,
+          "cells": {
+            "t60": {
+              "wr": 0.625,
+              "a": 0.64,
+              "b": 0.61
+            },
+            "hedrick": {
+              "wr": 0.57375,
+              "a": 0.555,
+              "b": 0.5925
+            },
+            "unl": {
+              "wr": 0.85625,
+              "a": 0.8575,
+              "b": 0.855
+            },
+            "d60": {
+              "wr": 0.10375000000000001,
+              "a": 0.11,
+              "b": 0.0975
+            },
+            "s60": {
+              "wr": 0.6775,
+              "a": 0.6675,
+              "b": 0.6875
+            },
+            "g": {
+              "wr": 0.29374999999999996,
+              "a": 0.295,
+              "b": 0.2925
+            },
+            "c60": {
+              "wr": 0.34,
+              "a": 0.34,
+              "b": 0.34
+            },
+            "m": {
+              "wr": 0.2375,
+              "a": 0.265,
+              "b": 0.21
+            },
+            "starmie": {
+              "wr": 0.37625,
+              "a": 0.3875,
+              "b": 0.365
+            },
+            "lucario": {
+              "wr": 0.81,
+              "a": 0.835,
+              "b": 0.785
+            },
+            "thorns": {
+              "wr": 0.9075,
+              "a": 0.89,
+              "b": 0.925
+            },
+            "h": {
+              "wr": 0.5225,
+              "a": 0.5125,
+              "b": 0.5325
+            },
+            "g30": {
+              "wr": 0.94625,
+              "a": 0.9575,
+              "b": 0.935
             }
           }
         }
       ],
-      "kept": null,
-      "screened": [
-        {
-          "cut": "Rescue Carrier",
-          "weighted": 0.44279279279279277,
-          "mean": 0.5794871794871794,
-          "worst": 0.1,
-          "matching": 0.21794871794871795,
-          "opponent_asleep": 0.09102564102564102,
-          "mill_attack": 3.2435897435897436,
-          "luvdisc": 0.5256410256410257
-        },
-        {
-          "cut": "Lillie's Pok\u00e9 Doll",
-          "weighted": 0.4391891891891892,
-          "mean": 0.5807692307692307,
-          "worst": 0.08333333333333334,
-          "matching": 0.2205128205128205,
-          "opponent_asleep": 0.11153846153846153,
-          "mill_attack": 3.303846153846154,
-          "luvdisc": 0.5294871794871795
-        },
-        {
-          "cut": "Level Ball",
-          "weighted": 0.43843843843843844,
-          "mean": 0.5756410256410256,
-          "worst": 0.06666666666666667,
-          "matching": 0.24871794871794872,
-          "opponent_asleep": 0.14487179487179486,
-          "mill_attack": 3.246153846153846,
-          "luvdisc": 0.5230769230769231
-        },
-        {
-          "cut": "Miss Fortune Sisters",
-          "weighted": 0.43635301968635304,
-          "mean": 0.5935897435897436,
-          "worst": 0.08333333333333334,
-          "matching": 0.24487179487179486,
-          "opponent_asleep": 0.11666666666666667,
-          "mill_attack": 3.4256410256410255,
-          "luvdisc": 0.5397435897435897
-        },
-        {
-          "cut": "Crushing Hammer",
-          "weighted": 0.4300633967300634,
-          "mean": 0.5782051282051281,
-          "worst": 0.016666666666666666,
-          "matching": 0.2717948717948718,
-          "opponent_asleep": 0.13205128205128205,
-          "mill_attack": 3.2628205128205128,
-          "luvdisc": 0.5641025641025641
-        },
-        {
-          "cut": "Counter Catcher",
-          "weighted": 0.4182349015682349,
-          "mean": 0.5564102564102564,
-          "worst": 0.05,
-          "matching": 0.2602564102564103,
-          "opponent_asleep": 0.11666666666666668,
-          "mill_attack": 3.164102564102564,
-          "luvdisc": 0.5474358974358974
-        },
-        {
-          "cut": "Colress's Tenacity",
-          "weighted": 0.41538204871538204,
-          "mean": 0.5525641025641026,
-          "worst": 0.05,
-          "matching": 0.23076923076923078,
-          "opponent_asleep": 0.08846153846153847,
-          "mill_attack": 3.158974358974359,
-          "luvdisc": 0.541025641025641
-        },
-        {
-          "cut": "Reversal Energy",
-          "weighted": 0.4136136136136136,
-          "mean": 0.5717948717948718,
-          "worst": 0.08333333333333334,
-          "matching": 0.17435897435897435,
-          "opponent_asleep": 0.1,
-          "mill_attack": 3.2358974358974355,
-          "luvdisc": 0.517948717948718
-        },
-        {
-          "cut": "Double Turbo Energy",
-          "weighted": 0.41159492826159494,
-          "mean": 0.5487179487179487,
-          "worst": 0.11666666666666667,
-          "matching": 0.22692307692307695,
-          "opponent_asleep": 0.11538461538461539,
-          "mill_attack": 3.174358974358974,
-          "luvdisc": 0.5243589743589744
-        },
-        {
-          "cut": "Ignition Energy",
-          "weighted": 0.40567233900567234,
-          "mean": 0.558974358974359,
-          "worst": 0.03333333333333333,
-          "matching": 0.2012820512820513,
-          "opponent_asleep": 0.10384615384615385,
-          "mill_attack": 3.2384615384615385,
-          "luvdisc": 0.5307692307692308
-        },
-        {
-          "cut": "Buddy-Buddy Poffin",
-          "weighted": 0.40543877210543877,
-          "mean": 0.5551282051282052,
-          "worst": 0.05,
-          "matching": 0.24871794871794872,
-          "opponent_asleep": 0.10897435897435898,
-          "mill_attack": 3.1487179487179486,
-          "luvdisc": 0.5025641025641026
-        },
-        {
-          "cut": "Wally",
-          "weighted": 0.40383717050383716,
-          "mean": 0.5448717948717948,
-          "worst": 0.08333333333333333,
-          "matching": 0.23846153846153847,
-          "opponent_asleep": 0.11282051282051281,
-          "mill_attack": 3.214102564102564,
-          "luvdisc": 0.5692307692307692
-        },
-        {
-          "cut": "Boss's Orders",
-          "weighted": 0.39878211544878206,
-          "mean": 0.5448717948717948,
-          "worst": 0.05,
-          "matching": 0.2076923076923077,
-          "opponent_asleep": 0.0935897435897436,
-          "mill_attack": 3.287179487179487,
-          "luvdisc": 0.5423076923076923
-        },
-        {
-          "cut": "Water Energy",
-          "weighted": 0.39554554554554555,
-          "mean": 0.5448717948717949,
-          "worst": 0.11666666666666667,
-          "matching": 0.24487179487179486,
-          "opponent_asleep": 0.06282051282051282,
-          "mill_attack": 3.2551282051282047,
-          "luvdisc": 0.5499999999999999
-        },
-        {
-          "cut": "Team Rocket's Handiwork",
-          "weighted": 0.3828828828828829,
-          "mean": 0.5346153846153846,
-          "worst": 0.03333333333333333,
-          "matching": 0.23974358974358975,
-          "opponent_asleep": 0.10512820512820513,
-          "mill_attack": 2.880769230769231,
-          "luvdisc": 0.5333333333333333
-        }
-      ]
+      "kept": null
     }
   ],
   "best": {
@@ -969,83 +969,83 @@
       "Ignition Energy": 4,
       "Reversal Energy": 4
     },
-    "weighted": 0.44846096096096094,
-    "se": 0.011103917698616649,
-    "mean": 0.5875,
-    "worst": 0.10625000000000001,
+    "weighted": 0.42583458458458456,
+    "se": 0.004826908108738686,
+    "mean": 0.57375,
+    "worst": 0.08374999999999999,
     "matching": 0.0,
     "matching_cards": 0.0,
-    "opponent_asleep": 0.0009615384615384616,
-    "forest": 0.8567307692307692,
-    "face": 9.067307692307692,
-    "mill_attack": 3.3120192307692307,
+    "opponent_asleep": 0.002211538461538462,
+    "forest": 0.935673076923077,
+    "face": 10.301923076923078,
+    "mill_attack": 3.3047115384615386,
     "luvdisc": 0.0,
-    "forest_play": 0.5240384615384616,
+    "forest_play": 0.5221153846153846,
     "cells": {
       "t60": {
-        "wr": 0.70625,
-        "a": 0.6625,
-        "b": 0.75
+        "wr": 0.7362500000000001,
+        "a": 0.7325,
+        "b": 0.74
       },
       "hedrick": {
-        "wr": 0.64375,
-        "a": 0.7,
+        "wr": 0.60375,
+        "a": 0.62,
         "b": 0.5875
       },
       "unl": {
         "wr": 0.8625,
-        "a": 0.875,
-        "b": 0.85
+        "a": 0.8675,
+        "b": 0.8575
       },
       "d60": {
-        "wr": 0.10625000000000001,
-        "a": 0.1125,
-        "b": 0.1
+        "wr": 0.08374999999999999,
+        "a": 0.095,
+        "b": 0.0725
       },
       "s60": {
-        "wr": 0.66875,
-        "a": 0.6625,
-        "b": 0.675
+        "wr": 0.71875,
+        "a": 0.6975,
+        "b": 0.74
       },
       "g": {
-        "wr": 0.4125,
-        "a": 0.3625,
-        "b": 0.4625
+        "wr": 0.3025,
+        "a": 0.335,
+        "b": 0.27
       },
       "c60": {
-        "wr": 0.45625,
+        "wr": 0.41625,
         "a": 0.4,
-        "b": 0.5125
+        "b": 0.4325
       },
       "m": {
-        "wr": 0.25625,
-        "a": 0.25,
-        "b": 0.2625
+        "wr": 0.24375,
+        "a": 0.245,
+        "b": 0.2425
       },
       "starmie": {
-        "wr": 0.38125,
-        "a": 0.3875,
+        "wr": 0.355,
+        "a": 0.335,
         "b": 0.375
       },
       "lucario": {
-        "wr": 0.8,
+        "wr": 0.82125,
         "a": 0.8125,
-        "b": 0.7875
+        "b": 0.83
       },
       "thorns": {
-        "wr": 0.94375,
-        "a": 0.9375,
-        "b": 0.95
+        "wr": 0.9025000000000001,
+        "a": 0.895,
+        "b": 0.91
       },
       "h": {
-        "wr": 0.4375,
-        "a": 0.4125,
-        "b": 0.4625
+        "wr": 0.45125000000000004,
+        "a": 0.4625,
+        "b": 0.44
       },
       "g30": {
-        "wr": 0.9624999999999999,
-        "a": 0.975,
-        "b": 0.95
+        "wr": 0.9612499999999999,
+        "a": 0.9575,
+        "b": 0.965
       }
     }
   }

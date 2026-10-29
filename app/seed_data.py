@@ -709,10 +709,10 @@ SET_DOLL_NAMES = (
 # See data/lab/set-mill-veil.md. The remaining Nest Ball was then replaced by a
 # fourth Level Ball without another paired run. Level Ball finds Wugtrio.
 # Poffin stays ×4 and benches Manaphy, then Cleffa.
-# Paldea Evolved Luvdisc was screened on this lock (seed 20261030). Every legal
-# cut was at or under the lock on the 30-game screen. The closest 80-game
-# confirm replaced Lillie's Poké Doll and finished lower. See
-# data/lab/set-mill-luvdisc.md. Luvdisc stays at zero copies.
+# Paldea Evolved Luvdisc, seed 20261031, 400 games each seat. Every legal cut
+# was measured. The closest confirm replaced one Wally: 42.583% → 42.634%
+# (+0.051, difference ±0.687, 0.07 SE). The other fourteen cuts were lower.
+# See data/lab/set-mill-luvdisc.md. Luvdisc stays at zero copies.
 SET_MILL_NAMES = (
     ["Pichu"]
     + ["Mime Jr."]

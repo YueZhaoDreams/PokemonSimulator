@@ -11,8 +11,9 @@ on the short sample. The three best cuts are confirmed on the long sample.
 A step keeps a confirm only when its loss-weighted win rate is higher.
 Weights are the frozen Sisters 60 loss weights.
 
-Seed 20261030. Screen games from MILL_LUVDISC_SCREEN (default 30). Confirm
-games from MILL_LUVDISC_GAMES (default 80). Both seats.
+Seed 20261031. Screen games from MILL_LUVDISC_SCREEN (default 400). Confirm
+games from MILL_LUVDISC_GAMES (default 400). Both seats. The 80-game pass
+was too short to judge when Water Pulse should come up.
 
 MILL_LUVDISC_SMOKE=1 plays two foes for 8 games and exits.
 """
@@ -101,9 +102,9 @@ PROTECT = {
     "Neutralization Zone",
 }
 
-SCREEN_GAMES = int(os.environ.get("MILL_LUVDISC_SCREEN", "30"))
-GAMES = int(os.environ.get("MILL_LUVDISC_GAMES", "80"))
-SEED = int(os.environ.get("MILL_LUVDISC_SEED", "20261030"))
+SCREEN_GAMES = int(os.environ.get("MILL_LUVDISC_SCREEN", "400"))
+GAMES = int(os.environ.get("MILL_LUVDISC_GAMES", "400"))
+SEED = int(os.environ.get("MILL_LUVDISC_SEED", "20261031"))
 WORKERS = int(os.environ.get("MILL_LUVDISC_WORKERS", str(os.cpu_count() or 2)))
 HERE = Path(__file__).resolve().parent
 PARTIAL = Path(os.environ.get("MILL_LUVDISC_PARTIAL", HERE / "set-mill-luvdisc-partial.jsonl"))
@@ -356,7 +357,12 @@ def _markdown(report: dict) -> str:
         "Water Pulse does 20 and the opponent's Active is Asleep. "
         "Slumbering Forest flips 2 coins between turns and the Pokémon stays Asleep unless both are heads. "
         "Sweet Sleeping Face prevents attack damage while that Pokémon is Asleep. "
-        "Forest and Sweet Sleeping Face are the two protections.",
+        "Forest and Sweet Sleeping Face are the two protections. "
+        "Water Pulse comes up in a spread match while Forest is in play and the opponent is awake, "
+        "and in a wall match when the Active would be Knocked Out. "
+        "A paid Wugtrio mills once that Pokémon is Asleep. "
+        "Retreat discards Energy, so a paid Wugtrio stays unless Undersea would still be paid "
+        "or that Active would be Knocked Out.",
         "",
         f"- **Seed**: `{report['seed']}`",
         f"- **Screen games per seat**: {report['screen_games']}",
@@ -368,7 +374,7 @@ def _markdown(report: dict) -> str:
         f"- **Elapsed**: {report['elapsed']:.1f}s",
         "",
         "The ± column is one standard error of that list's weighted rate, measured on the confirm sample. "
-        "A step keeps the confirm only when the weighted rate rises.",
+        "A step keeps the confirm only when the gain is larger than one standard error of the difference.",
         "",
         "## Greedy path",
         "",
@@ -414,11 +420,12 @@ def _markdown(report: dict) -> str:
         gap = closest["weighted"] - base["weighted"]
         gap_se = (closest["se"] ** 2 + base["se"] ** 2) ** 0.5
         decision = (
-            f"No confirm beat the lock. The closest is −{closest['cut']} at {_pct(closest['weighted'])} "
+            f"No confirm beat the lock by more than one standard error. "
+            f"The closest is −{closest['cut']} at {_pct(closest['weighted'])} "
             f"({_signed(gap)}, difference ±{_pct(gap_se)}). "
             f"Matching averaged {closest['matching']:.2f} per game and the opponent fell Asleep "
             f"{closest['opponent_asleep']:.2f} times per game. Luvdisc saw play in {closest['luvdisc']:.0%} of games. "
-            "The gap is not a gain, so SET_MILL_NAMES stays the current 60."
+            "SET_MILL_NAMES stays the current 60."
         )
     else:
         decision = (
@@ -451,7 +458,7 @@ def _markdown(report: dict) -> str:
         if screened:
             lines.extend(
                 [
-                    "Every legal cut, on the short sample:",
+                    "Every legal cut:",
                     "",
                     "| Cut | Screen | Mean | Worst | Delta | Matching | Asleep | Luvdisc | Mill attacks |",
                     "| :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
@@ -502,7 +509,9 @@ def _markdown(report: dict) -> str:
                 f"({_signed(kept_row['weighted'] - previous)})."
             )
         else:
-            lines.append("No confirm in this step was higher than the list already kept. The search stopped.")
+            lines.append(
+                "No confirm cleared one standard error over the list already kept. The search stopped."
+            )
         if rnd["confirms"] and best["label"] == base["label"]:
             lines.extend(
                 [
@@ -607,7 +616,8 @@ def main() -> None:
         confirms.sort(key=lambda item: (item["weighted"], item["worst"]), reverse=True)
         winner = confirms[0]
         kept = None
-        if winner["weighted"] > path[-1]["weighted"]:
+        gap_se = (winner["se"] ** 2 + path[-1]["se"] ** 2) ** 0.5
+        if winner["weighted"] > path[-1]["weighted"] + gap_se:
             kept = dict(winner)
             kept["label"] = f"step {len(rounds) + 1}"
             current = list(winner["list"])

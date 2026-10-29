@@ -69,6 +69,7 @@ class _Board:
             "Ignition Energy",
             "Switch",
             "Nest Ball",
+            "Level Ball",
         ]
         while len(names) < 40:
             names.append("Water Energy")
@@ -187,7 +188,7 @@ def test_mill_matches_when_water_pulse_cannot_be_paid():
     assert chosen is not None and chosen.name == "Matching"
 
 
-def test_paid_wugtrio_comes_up_ahead_of_luvdisc():
+def test_paid_wugtrio_mills_when_the_wall_is_safe():
     board = _Board()
     me = board.seat(
         "a",
@@ -198,6 +199,118 @@ def test_paid_wugtrio_comes_up_ahead_of_luvdisc():
     board.game._set_stadium(fallback_named("Slumbering Forest"), me)
     board.game._retreat_mill(me, "a")
     assert me.card(me.active.card_i).name == "Wugtrio"
+
+
+def test_spread_match_pulses_before_a_paid_wugtrio():
+    board = _Board("phantom")
+    me = board.seat(
+        "a",
+        active=("Luvdisc", ["Water Energy"]),
+        bench=(("Wugtrio", ["Water Energy", "Water Energy", "Water Energy"]),),
+    )
+    foe = board.seat("b", active=("Wiglett", []))
+    board.game._set_stadium(fallback_named("Slumbering Forest"), me)
+    board.game._retreat_mill(me, "a")
+    assert me.card(me.active.card_i).name == "Luvdisc"
+    chosen = board.game._choose_attack(me, foe, StrategySpec.from_dict("mill"))
+    assert chosen is not None and chosen.name == "Water Pulse"
+
+
+def test_asleep_opponent_brings_the_paid_line_back():
+    board = _Board("phantom")
+    me = board.seat(
+        "a",
+        active=("Luvdisc", ["Water Energy"]),
+        bench=(("Wugtrio", ["Water Energy", "Water Energy", "Water Energy"]),),
+    )
+    foe = board.seat("b", active=("Wiglett", []))
+    foe.active.status |= ST_ASLEEP
+    board.game._set_stadium(fallback_named("Slumbering Forest"), me)
+    board.game._retreat_mill(me, "a")
+    assert me.card(me.active.card_i).name == "Wugtrio"
+
+
+def test_lethal_active_retreats_into_water_pulse():
+    board = _Board()
+    me = board.seat(
+        "a",
+        active=("Wugtrio", ["Water Energy", "Water Energy", "Water Energy"]),
+        bench=(("Luvdisc", ["Water Energy"]),),
+    )
+    me.active.damage = 89
+    board.seat("b", active=("Wiglett", ["Water Energy"]))
+    board.game._set_stadium(fallback_named("Slumbering Forest"), me)
+    board.game._retreat_mill(me, "a")
+    assert me.card(me.active.card_i).name == "Luvdisc"
+
+
+def test_paid_line_still_takes_energy_before_luvdisc():
+    board = _Board()
+    me = board.seat(
+        "a",
+        active=("Wugtrio", ["Water Energy"]),
+        bench=(("Luvdisc", []),),
+        hand=("Water Energy",),
+    )
+    board.seat("b", active=("Wiglett", []))
+    assert me.card(board.game._mill_energy_target(me).card_i).name == "Wugtrio"
+
+
+def test_paid_wugtrio_leaves_the_next_water_for_pulse():
+    board = _Board()
+    me = board.seat(
+        "a",
+        active=("Wugtrio", ["Water Energy", "Water Energy", "Water Energy"]),
+        bench=(("Luvdisc", []),),
+        hand=("Water Energy", "Double Turbo Energy"),
+    )
+    board.seat("b", active=("Wiglett", []))
+    assert board.game._mill_energy_target(me).card_i == me.bench[0].card_i
+    board.game._attach_energy(me, "a")
+    assert [me.card(i).name for i in me.bench[0].energy] == ["Water Energy"]
+
+
+def test_colress_finds_forest_then_water_for_pulse():
+    board = _Board()
+    me = board.seat(
+        "a",
+        active=("Luvdisc", []),
+        deck=(
+            "Neutralization Zone",
+            "Slumbering Forest",
+            "Double Turbo Energy",
+            "Water Energy",
+        ),
+    )
+    board.seat("b", active=("Wiglett", []))
+    board.game._search_stadium_and_energy(me)
+    found = [me.card(i).name for i in me.hand]
+    assert found[0] == "Slumbering Forest"
+    assert "Water Energy" in found
+
+
+def test_level_ball_finds_luvdisc_once_wugtrio_is_in_hand():
+    board = _Board()
+    me = board.seat(
+        "a",
+        active=("Wiglett", []),
+        hand=("Wugtrio",),
+        deck=("Victini", "Luvdisc", "Water Energy"),
+    )
+    board.seat("b", active=("Wiglett", []))
+    board.game._level_ball(me, "a", 90)
+    assert "Luvdisc" in [me.card(i).name for i in me.hand]
+
+
+def test_forest_is_kept_while_luvdisc_is_waiting_for_water():
+    board = _Board()
+    me = board.seat("a", active=("Luvdisc", []))
+    foe = board.seat("b", active=("Wiglett", []))
+    forest = fallback_named("Slumbering Forest")
+    zone = fallback_named("Neutralization Zone")
+    assert board.game._mill_trainer_score(me, foe, forest) == 16
+    board.game._set_stadium(forest, me)
+    assert board.game._mill_trainer_score(me, foe, zone) == -8
 
 
 def test_energy_reaches_luvdisc_only_when_the_line_is_not_out():
