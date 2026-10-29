@@ -171,10 +171,12 @@ def test_fresh_colress_search_puts_the_locked_copy_back_as_hammer():
     assert len(start) == 60
     assert start.count("Colress") == 0
     assert start.count("Crushing Hammer") == 3
+    assert start.count("Penny") == 0
+    assert start.count("Team Rocket's Petrel") == 4
     assert start.count("Elekid") == 1
     assert start.count("Battle Cage") == 3
-    assert Counter(start) - Counter(SET_M60_NAMES) == Counter({"Crushing Hammer": 1})
-    assert Counter(SET_M60_NAMES) - Counter(start) == Counter({"Colress": 1})
+    assert Counter(start) - Counter(SET_M60_NAMES) == Counter({"Crushing Hammer": 2})
+    assert Counter(SET_M60_NAMES) - Counter(start) == Counter({"Colress": 1, "Penny": 1})
 
 
 def test_colress_report_keeps_three_and_the_live_list_locks_one_hammer_swap():
@@ -195,7 +197,9 @@ def test_colress_report_keeps_three_and_the_live_list_locks_one_hammer_swap():
     assert SET_M60_NAMES.count("Elekid") == 1
     assert SET_M60_NAMES.count("Battle Cage") == 3
     assert SET_M60_NAMES.count("Colress") == 1
-    assert SET_M60_NAMES.count("Crushing Hammer") == 2
+    assert SET_M60_NAMES.count("Crushing Hammer") == 1
+    assert SET_M60_NAMES.count("Penny") == 1
+    assert SET_M60_NAMES.count("Team Rocket's Petrel") == 4
     assert len(report["list"]) == 60
     assert report["list"].count("Colress") == 3
     assert copy_violations(build_fallback_deck(list(SET_M60_NAMES)), standard_60_rules()) == []

@@ -551,6 +551,11 @@ SET_T_UNL_NAMES = (
 # The lock is one Colress for one Crushing Hammer (3 → 2). The list already wins about
 # nine games in ten, so the per-game standard deviation barely moves. Sky Field,
 # Bravery Charm, Elekid, Battle Cage, Manaphy, and Counter Catcher stay.
+# Trainer lock: one Penny for one Crushing Hammer (2 → 1).
+# Printed Penny: Put 1 of your Basic Pokémon and all attached cards into your hand.
+# Team Rocket's Petrel stays at four.
+# Sky Field, Budew, Junk Arm, Elekid, Battle Cage, Manaphy, Counter Catcher,
+# and Colress stay.
 SET_M60_NAMES = (
     ["Mew ex"] * 3
     + ["Mime Jr."] * 2
@@ -574,7 +579,8 @@ SET_M60_NAMES = (
     + ["Professor's Research"] * 2
     + ["Team Rocket's Petrel"] * 4
     + ["Colress"]
-    + ["Crushing Hammer"] * 2
+    + ["Crushing Hammer"]
+    + ["Penny"]
     + ["Counter Catcher"]
     + ["Spiky Energy"] * 2
 )
