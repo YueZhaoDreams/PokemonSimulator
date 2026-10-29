@@ -713,9 +713,11 @@ SET_DOLL_NAMES = (
 # was measured. The closest confirm replaced one Wally: 42.583% → 42.634%
 # (+0.051, difference ±0.686, 0.07 SE). The other fourteen cuts were lower.
 # See data/lab/set-mill-luvdisc.md. The same seed was then extended to 1000
-# games per seat for that one swap: 42.518% → 41.691% (−0.827, difference
-# ±0.431, −1.92 SE). See data/lab/set-mill-luvdisc-wally-1000.md. Wally stays
-# ×3. Luvdisc stays at zero copies.
+# games per seat for every legal cut. The lock is 42.518% ± 0.304%. The closest
+# is still −Wally at 41.691% (−0.827, difference ±0.431, −1.92 SE). The other
+# cuts run from −Level Ball at 41.408% (−1.110, −2.57 SE) down to −Reversal
+# Energy at 39.442% (−3.076, −7.22 SE). See data/lab/set-mill-luvdisc-cuts-1000.md.
+# Wally stays ×3. Luvdisc stays at zero copies.
 SET_MILL_NAMES = (
     ["Pichu"]
     + ["Mime Jr."]
