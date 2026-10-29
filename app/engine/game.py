@@ -1734,7 +1734,7 @@ class Game:
                 self._mew_refresh_bench(me, strat)
                 continue
             if name not in {"ultra ball"}:
-                me.discard.append(found)
+                self._place_discarded(me, found)
             forced_bounce = False
             if strat.name in {"mew_baby", "baby"} and self._is_bounce_supporter(card):
                 # Active Manaphy comes off first: Penny returns that Basic, then it
@@ -1749,6 +1749,8 @@ class Game:
                 if forced_bounce:
                     self._forced_bounce_target = None
             self._log(f"{me.name} plays {card.name}")
+            if strat.name == "doll" and name == "lillie's determination":
+                self._bump("doll_determination")
             self._mew_refresh_bench(me, strat)
 
     def _pick_trainer(self, me: Player) -> int | None:
@@ -4671,7 +4673,7 @@ class Game:
         for _, i in scored[:n]:
             if i in me.hand:
                 me.hand.remove(i)
-                me.discard.append(i)
+                self._place_discarded(me, i)
                 taken += 1
         return taken
 
@@ -6724,7 +6726,7 @@ class Game:
             if not foe.deck:
                 break
             card_i = foe.deck.pop(0)
-            foe.discard.append(card_i)
+            self._place_discarded(foe, card_i)
             milled += 1
             self._bump("mill_opponent")
             self._log(f"{me.name} mills {foe.card(card_i).name} from {foe.name}'s deck")
@@ -9102,7 +9104,11 @@ class Game:
                 self._bump("baby_ko_bench_a" if where == "bench" else "baby_ko_active_a")
             n = self._prizes_for_ko(card)
             cut, mill_n = self._ko_tool_mods(victim_owner, mon)
+            stadium_cut = self._stadium_prize_cut(victim_owner, mon)
+            cut += stadium_cut
             n = max(0, n - cut)
+            if stadium_cut:
+                self._bump("market_prize_cut", stadium_cut)
             if mill_n:
                 self._mill_opponent(victim_owner, slayer, mill_n)
                 self._bump("shovel_mill")
@@ -9150,6 +9156,32 @@ class Game:
             elif eff.get("kind") == "mill_top_on_attack_ko" and attacked:
                 mill_n += int(eff.get("count") or 0)
         return cut, mill_n
+
+    def _stadium_prize_cut(self, owner: Player, mon: Pokemon) -> int:
+        """Black Market: Darkness Pokémon with Darkness Energy, Knocked Out by an attack."""
+        attacked = id(mon) in self._attack_damaged_ids
+        card = owner.card(mon.card_i)
+        cut = 0
+        for eff in self.stadium_effects or []:
+            if eff.get("kind") != "fewer_prizes_on_ko":
+                continue
+            if eff.get("attack_only") and not attacked:
+                continue
+            need_type = eff.get("require_type")
+            if need_type and need_type not in (card.types or []):
+                continue
+            need_energy = eff.get("require_energy")
+            if need_energy and self._typed_energy_units(owner, mon, str(need_energy)) <= 0:
+                continue
+            cut += int(eff.get("count") or 0)
+        return cut
+
+    def _place_discarded(self, player: Player, card_i: int) -> None:
+        if self._is_prism_star(player.card(card_i)):
+            player.lost_zone.append(card_i)
+            self._bump("prism_lost_zone")
+            return
+        player.discard.append(card_i)
 
     def _promote_idx(self, player: Player, who: str) -> int:
         if not player.bench:
@@ -9318,11 +9350,18 @@ class Game:
         return min(range(len(player.bench)), key=prio)
 
     def _is_prism_star(self, card: Card) -> bool:
+        """A discard sends this card to the Lost Zone.
+
+        Celebi ◇ carries Prism Star in its traits. Black Market ◇ prints the
+        same rule as the same-name sentence and does not use those words.
+        """
         blob = " ".join(card.traits or []).lower()
         if "prism star" in blob:
             return True
         text = (card.text or "").lower()
-        return "prism star" in text and "discard pile" in text and "lost zone" in text
+        if "prism star" in text and "discard pile" in text and "lost zone" in text:
+            return True
+        return "same name" in text and "discard pile" in text and "lost zone instead" in text
 
     def _put_discarded(self, player: Player, card_i: int) -> None:
         if self._is_prism_star(player.card(card_i)):
@@ -11735,6 +11774,10 @@ class Game:
         self._bump("lost_vacuum")
 
     def _arven(self, me: Player, who: str) -> None:
+        if self.strats[who].name == "doll":
+            foe = self.players["b" if who == "a" else "a"]
+            doll_ai.play_arven(self, me, foe)
+            return
         if self.strats[who].name == "roast":
             self._roast_arven(me)
             return
@@ -16276,6 +16319,10 @@ class Game:
         return best_score, best_name
 
     def _search_trainer(self, me: Player, who: str) -> None:
+        if self.strats[who].name == "doll":
+            foe = self.players["b" if who == "a" else "a"]
+            doll_ai.play_petrel(self, me, foe)
+            return
         if self.strats[who].name == "roast":
             self._roast_petrel(me)
             return

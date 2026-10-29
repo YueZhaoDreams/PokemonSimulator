@@ -1,7 +1,155 @@
 {
   "name": "Doll",
   "seed_id": "seed-doll",
-  "locked": "2026-10-24",
+  "locked": "2026-10-28",
+  "black_market": {
+    "measurement": "product engine, strategy doll, same games as data/lab/set-doll-losses.json",
+    "seed": 20261028,
+    "games_per_seat": 200,
+    "cut": "Switch",
+    "two_switch_sisters_weighted": 0.27644144144144145,
+    "sisters_weighted": 0.29387387387387387,
+    "se": 0.005855004948530075,
+    "note": "One Black Market replaces one Switch. The 1000-game holdout below is the earlier two-Switch list."
+  },
+  "supporters": {
+    "measurement": "product engine, strategy doll, data/lab/set-doll-arven-petrel.json",
+    "seed": 20261029,
+    "screen_games_per_seat": 40,
+    "games_per_seat": 200,
+    "arven_cut": "Cleffa",
+    "arven_baseline": 0.2951926926926927,
+    "arven_weighted": 0.3118818818818819,
+    "arven_gap_se": 0.00837,
+    "petrel_cut": "Cleffa",
+    "petrel_baseline": 0.3118818818818819,
+    "petrel_weighted": 0.33789289289289287,
+    "petrel_gap_se": 0.00859,
+    "cleffa": 2,
+    "lillies_poke_doll": 4,
+    "robo_substitute": 4,
+    "note": "Sequential greedy. Arven's confirm is not separated from VS Seeker, Switch, or Crushing Hammer. Petrel was measured on the Cleffa cut. This sample is not the 1000-game holdout. The loss shares in losses are the earlier Black Market 60. current_losses is this lock before the looser Eeeeeeek."
+  },
+  "eeeeeeek": {
+    "measurement": "product engine, strategy doll, data/lab/set-doll-eeeeeeek.json",
+    "seed": 20261029,
+    "games_per_seat": 200,
+    "baseline_weighted": 0.33789289289289287,
+    "baseline_se": 0.0061339034456608385,
+    "weighted": 0.4350625625625626,
+    "se": 0.006777948884827148,
+    "gap": 0.09716966966966973,
+    "gap_se": 0.009141409222106813,
+    "eeeeeeek_per_game": 1.829416916916917,
+    "life_dew_per_game": 0.5642642642642642,
+    "empty_rate": 0.2669019019019019,
+    "baseline_empty_rate": 0.404,
+    "note": "Same 60 cards as the Petrel confirm. Cleffa still shuffles the hand and draws 6 when dolls are about to run out. Life Dew prefers that Cleffa. Not the 1000-game holdout."
+  },
+  "lillie": {
+    "measurement": "product engine, strategy doll, data/lab/set-doll-lillie.json",
+    "seed": 20261029,
+    "screen_games_per_seat": 40,
+    "games_per_seat": 400,
+    "locked": true,
+    "copies": 4,
+    "cuts": ["Darkness Energy", "Dark Patch", "Cleffa", "Smoochum"],
+    "baseline_weighted": 0.43682307307307305,
+    "baseline_se": 0.004738790876811624,
+    "weighted": 0.5147872872872873,
+    "se": 0.004729909563886567,
+    "determination_per_game": 1.512839089089089,
+    "cleffa": 1,
+    "smoochum": 1,
+    "darkness_energy": 1,
+    "dark_patch": 0,
+    "steps": [
+      {
+        "copy": 1,
+        "cut": "Darkness Energy",
+        "baseline_weighted": 0.43682307307307305,
+        "baseline_se": 0.004738790876811624,
+        "weighted": 0.45028653653653655,
+        "se": 0.004771348014058699,
+        "gap": 0.013463463463463499,
+        "gap_se": 0.006724723105482855,
+        "determination_per_game": 0.40499124124124125
+      },
+      {
+        "copy": 2,
+        "cut": "Dark Patch",
+        "baseline_weighted": 0.45028653653653655,
+        "baseline_se": 0.004771348014058699,
+        "weighted": 0.46767392392392393,
+        "se": 0.004646135239553896,
+        "gap": 0.017387387387387376,
+        "gap_se": 0.006659754840494238,
+        "determination_per_game": 0.8078303303303304
+      },
+      {
+        "copy": 3,
+        "cut": "Cleffa",
+        "baseline_weighted": 0.46767392392392393,
+        "baseline_se": 0.004646135239553896,
+        "weighted": 0.49496496496496495,
+        "se": 0.004671941227839658,
+        "gap": 0.02729104104104102,
+        "gap_se": 0.006588900325593981,
+        "determination_per_game": 1.1488713713713714
+      },
+      {
+        "copy": 4,
+        "cut": "Smoochum",
+        "baseline_weighted": 0.49496496496496495,
+        "baseline_se": 0.004671941227839658,
+        "weighted": 0.5147872872872873,
+        "se": 0.004729909563886567,
+        "gap": 0.01982232232232234,
+        "gap_se": 0.006648238813319926,
+        "determination_per_game": 1.512839089089089
+      }
+    ],
+    "note": "400 games per seat. Four sequential confirms each beat their own baseline. The cuts are Darkness Energy, Dark Patch, Cleffa, and Smoochum. Four copies is the cap. Not the 1000-game holdout."
+  },
+  "current_losses": {
+    "seed": 20261029,
+    "games_per_seat": 200,
+    "sisters_weighted_win": 0.338,
+    "sisters_weighted_loss": 0.662,
+    "share_of_weighted_losses": {
+      "empty": 0.610,
+      "prizes": 0.203,
+      "turn_prizes": 0.168,
+      "turn_hp": 0.018
+    },
+    "share_by_foe": {
+      "d60": 0.217,
+      "m": 0.157,
+      "starmie": 0.142,
+      "g": 0.135,
+      "h": 0.108
+    },
+    "doll_deckouts": 0,
+    "doll_no_basic": 0,
+    "detail": "data/lab/set-doll-arven-petrel-losses.md"
+  },
+  "losses": {
+    "seed": 20261028,
+    "games_per_seat": 200,
+    "sisters_weighted_win": 0.293874,
+    "sisters_weighted_loss": 0.706126,
+    "share_of_weighted_losses": {
+      "empty": 0.567,
+      "prizes": 0.271,
+      "turn_prizes": 0.145,
+      "turn_hp": 0.017
+    },
+    "market_in_play_on_losses": 0.071,
+    "market_prize_cut_on_losses": 0.029,
+    "doll_deckouts": 0,
+    "doll_no_basic": 0,
+    "detail": "data/lab/set-doll-losses.md"
+  },
   "measurement": "fight-script holdout, not the product engine",
   "note": "Item dolls are Trainers. A Pokémon search does not find them. The list uses two Level Ball. Life Dew is one Pokémon Tool, not an ACE SPEC label. D60 wins in the fight-script holdout include the mulligan cap. Carpet H did not play Battle Cage in that sample.",
   "level_ball": {

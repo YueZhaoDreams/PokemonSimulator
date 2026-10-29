@@ -664,20 +664,26 @@ SET_L60_NAMES = (
 # Battle Cage is outside this lock. Its printed text stops bench counters
 # and replaces whichever Stadium is in play, including Neutralization Zone.
 # This 60 was not remeasured with that swap.
-# Doll lock (2026-10-24). The 1000-game holdout is data/lab/set-doll.json.
+# Doll lock (2026-10-28). One Black Market replaces one Switch.
+# Confirm seed 20261028, 200 games each seat: sisters-weighted 27.6% → 29.4%.
+# See data/lab/set-doll-black-market.md and data/lab/set-doll-losses.md.
+# The same day, two Cleffa are cut for one Arven and one Team Rocket's Petrel.
+# Confirm seed 20261029, 200 games each seat. Arven: 29.5% → 31.2% (+1.7, gap SE 0.84).
+# Petrel, on that list: 31.2% → 33.8% (+2.6, gap SE 0.86).
+# Lillie's Poké Doll and Robo Substitute stay at four. See data/lab/set-doll-arven-petrel.md.
+# The 1000-game holdout in data/lab/set-doll.json is the earlier two-Switch list.
 # Item dolls are Trainers. A Pokémon search does not find them.
 # Level Ball's sentence takes a Pokémon of at most the printed HP, so Shedinja qualifies.
 SET_DOLL_NAMES = (
-    ["Cleffa"] * 4
-    + ["Smoochum"] * 2
+    ["Cleffa"]
+    + ["Smoochum"]
     + ["Mime Jr."] * 2
     + ["Slumbering Forest"] * 2
     + ["Battle Cage"] * 4
     + ["Manaphy"]
-    + ["Switch"] * 2
+    + ["Switch"]
     + ["Sableye"] * 2
-    + ["Darkness Energy"] * 2
-    + ["Dark Patch"]
+    + ["Darkness Energy"]
     + ["Puzzle of Time"] * 4
     + ["VS Seeker"] * 4
     + ["Team Rocket's Handiwork"] * 4
@@ -693,6 +699,10 @@ SET_DOLL_NAMES = (
     + ["Level Ball"] * 2
     + ["Buddy-Buddy Poffin"] * 2
     + ["Crushing Hammer"] * 2
+    + ["Black Market"]
+    + ["Arven"]
+    + ["Team Rocket's Petrel"]
+    + ["Lillie's Determination"] * 4
 )
 # Mill lock (2026-10-27). Manaphy and HGSS Cleffa: seed 20261029, 400 games
 # each seat. Weighted 38.729% → 41.719% (+2.990, difference ±0.654, 4.57 SE).
@@ -5454,6 +5464,28 @@ _register(
         image="https://assets.tcgdex.net/en/bw/bw5/93/low.webp",
     )
 )
+# Team Up 134. Prism Star. The prize line needs a Darkness Pokémon with Darkness Energy.
+# An Item or Supporter cannot affect the Stadium. Another Stadium still replaces it,
+# and the replaced card goes to the Lost Zone.
+_BLACK_MARKET = (
+    "You can't have more than 1 card with the same name in your deck. "
+    "If a card would go to the discard pile, put it in the Lost Zone instead. "
+    "When a Darkness Pokémon (yours or your opponent's) that has any Darkness Energy attached to it "
+    "is Knocked Out by damage from an opponent's attack, that player takes 1 fewer Prize card. "
+    "Whenever any player plays an Item or Supporter card from their hand, prevent all effects of that card done to this Stadium card. "
+    "This card stays in play when you play it. Discard this card if another Stadium card comes into play. "
+    "If another card with the same name is in play, you can't play this card."
+)
+_register(
+    _trn(
+        "Black Market",
+        "stadium",
+        _BLACK_MARKET,
+        catalog_id="sm9-134",
+        image="https://assets.tcgdex.net/en/sm/sm9/134/low.webp",
+    )
+)
+FALLBACK_BY_NAME["dark market"] = FALLBACK_BY_NAME["black market"]
 _register(
     _trn(
         "Cursed Shovel",
