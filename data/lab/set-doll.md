@@ -60,9 +60,18 @@ Same seed 20261029, 200 games each seat, Sisters weights, product engine, strate
 
 ## Lillie's Determination
 
-The locked 60 cuts one Darkness Energy for one Lillie's Determination. Printed text: shuffle your hand into your deck, then draw 6 cards. If you have exactly 6 Prize cards remaining, draw 8 cards instead. Doll plays it when the deck still has a replayable doll, the hand has fewer than two, and at most two are in play. A doll, Life Dew, Cursed Shovel, the Stadiums, Arven, and Petrel outrank it. Handiwork yields on that turn. One Darkness Energy remains for Sableye.
+The locked 60 has four Lillie's Determination. Each copy replaced one card, and the next copy was measured on that new list. Printed text: shuffle your hand into your deck, then draw 6 cards. If you have exactly 6 Prize cards remaining, draw 8 cards instead. Doll plays it when the deck still has a replayable doll, the hand has fewer than two, and at most two are in play. A doll, Life Dew, Cursed Shovel, the Stadiums, Arven, and Petrel outrank it. Handiwork yields on that turn. One Darkness Energy remains. Dark Patch is out. Cleffa and Smoochum are one each.
 
-The decision sample is seed 20261029, 400 games each seat, Sisters weights, product engine, strategy `doll`. The screen is still 40 games. The baseline, this same 60 without the swap, is 43.7% (SE 0.47 points). The highest confirm is 45.0% (SE 0.48 points). The gap is +1.3 points, and the gap's standard error is 0.67 points, about 2.0 standard errors. Slumbering Forest is next at 44.7%. Lillie's Determination resolves 0.40 times a game. D60 goes from 8.2% to 8.6%, and Starmie from 24.2% to 26.2%. S60 goes from 69.0% to 63.3%, and Carpet H from 14.9% to 12.0%. This confirm is not the 1000-game holdout. Detail is `data/lab/set-doll-lillie.md`.
+The decision sample is seed 20261029, 400 games each seat, Sisters weights, product engine, strategy `doll`. The screen is 40 games. A confirm higher than its own baseline is the next list. Four is the maximum.
+
+| Copy | Cut | Baseline | Confirm | Gap | Gap SE |
+| --- | --- | ---: | ---: | ---: | ---: |
+| 1 | Darkness Energy | 43.7% | 45.0% | +1.3 | 0.67 |
+| 2 | Dark Patch | 45.0% | 46.8% | +1.7 | 0.67 |
+| 3 | Cleffa | 46.8% | 49.5% | +2.7 | 0.66 |
+| 4 | Smoochum | 49.5% | 51.5% | +2.0 | 0.66 |
+
+Lillie's Determination resolves 0.40, 0.81, 1.15, then 1.51 times a game. This confirm is not the 1000-game holdout. Detail is `data/lab/set-doll-lillie.md`.
 
 ## Why the strict Eeeeeeek 60 loses
 

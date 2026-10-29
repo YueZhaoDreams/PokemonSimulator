@@ -664,8 +664,8 @@ SET_L60_NAMES = (
 # Item dolls are Trainers. A Pokémon search does not find them.
 # Level Ball's sentence takes a Pokémon of at most the printed HP, so Shedinja qualifies.
 SET_DOLL_NAMES = (
-    ["Cleffa"] * 2
-    + ["Smoochum"] * 2
+    ["Cleffa"]
+    + ["Smoochum"]
     + ["Mime Jr."] * 2
     + ["Slumbering Forest"] * 2
     + ["Battle Cage"] * 4
@@ -673,7 +673,6 @@ SET_DOLL_NAMES = (
     + ["Switch"]
     + ["Sableye"] * 2
     + ["Darkness Energy"]
-    + ["Dark Patch"]
     + ["Puzzle of Time"] * 4
     + ["VS Seeker"] * 4
     + ["Team Rocket's Handiwork"] * 4
@@ -692,7 +691,7 @@ SET_DOLL_NAMES = (
     + ["Black Market"]
     + ["Arven"]
     + ["Team Rocket's Petrel"]
-    + ["Lillie's Determination"]
+    + ["Lillie's Determination"] * 4
 )
 # Mill lock (2026-10-27). Manaphy and HGSS Cleffa: seed 20261029, 400 games
 # each seat. Weighted 38.729% → 41.719% (+2.990, difference ±0.654, 4.57 SE).

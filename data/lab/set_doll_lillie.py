@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """Add one Lillie's Determination to the current Doll 60.
 
-The add replaces one other card. Every cut is screened, then the cuts that
-can still beat the baseline are confirmed at 400 games per seat. A confirm
-higher than the baseline is the list. This script records the sample; it does
-not edit SET_DOLL_NAMES.
+Each step adds one copy and replaces one other card. Every cut is screened,
+then the cuts that can still beat that step's baseline are confirmed at 400
+games per seat. A confirm higher than its baseline becomes the next list, and
+the next copy is measured. Four is the maximum. This script records the
+sample; it does not edit SET_DOLL_NAMES.
 
 Printed text: shuffle the hand into the deck, draw 6, or draw 8 when exactly
 6 Prize cards remain. Doll plays that redraw when the doll supply is about to
@@ -292,11 +293,12 @@ def _signed(value: float) -> str:
 
 
 def _step(base_names: list[str], cache: dict[str, dict]) -> dict:
-    if base_names.count(ADD):
-        raise SystemExit(f"{ADD} is already in this list")
-    cuts = sorted(Counter(base_names))
+    have = base_names.count(ADD)
+    if have >= 4:
+        raise SystemExit(f"{ADD} is already at four")
+    cuts = sorted(name for name in Counter(base_names) if name != ADD)
     screen_lists = [("baseline", base_names)] + [(cut, _swap(base_names, cut, ADD)) for cut in cuts]
-    print(f"screen {ADD}: {len(screen_lists)} lists", flush=True)
+    print(f"screen copy {have + 1}: {len(screen_lists)} lists", flush=True)
     screened = _evaluate(screen_lists, SCREEN_GAMES, cache)
     screen_rows = [
         _row(label, names, screened[label], SCREEN_GAMES, None if label == "baseline" else label)
@@ -319,7 +321,7 @@ def _step(base_names: list[str], cache: dict[str, dict]) -> dict:
     confirm_lists = [("baseline", base_names)] + [
         (cut, _swap(base_names, cut, ADD)) for cut in confirm_labels if cut != "baseline"
     ]
-    print(f"confirm {ADD}: " + ", ".join(label for label, _names in confirm_lists), flush=True)
+    print(f"confirm copy {have + 1}: " + ", ".join(label for label, _names in confirm_lists), flush=True)
     confirmed = _evaluate(confirm_lists, GAMES, cache)
     confirm_rows = [
         _row(label, names, confirmed[label], GAMES, None if label == "baseline" else label)
@@ -335,6 +337,7 @@ def _step(base_names: list[str], cache: dict[str, dict]) -> dict:
     best = best_swap if locked else base
     return {
         "add": ADD,
+        "starting_copies": have,
         "screen_band": band,
         "screen": [{key: value for key, value in row.items() if key != "list"} for row in screen_rows],
         "confirm": [
@@ -375,11 +378,8 @@ def _table(rows: list[dict], base_weighted: float) -> list[str]:
 
 
 def _markdown(report: dict) -> str:
-    step = report["step"]
-    base = step["baseline"]
-    swap = step["best_swap"]
     lines = [
-        "# Doll, one Lillie's Determination",
+        "# Doll, Lillie's Determination",
         "",
         "Printed text: shuffle your hand into your deck, then draw 6 cards. "
         "If you have exactly 6 Prize cards remaining, draw 8 cards instead. "
@@ -394,80 +394,128 @@ def _markdown(report: dict) -> str:
         "- **Weights**: frozen Sisters loss weights. The same weights as the Doll lock.",
         f"- **Elapsed**: {report['elapsed']:.1f}s",
         "",
-        "The baseline is the current Doll 60, including the Eeeeeeek pilot. "
-        "The confirm is 400 games per seat. A cut higher than that baseline is the list. "
+        "Each step adds one Lillie's Determination. The confirm is 400 games per seat. "
+        "A cut higher than that step's baseline is the next list. Four is the maximum. "
         "This sample is not the 1000-game holdout.",
         "",
-        "### Screen",
-        "",
-        *_table(step["screen"], next(row["weighted"] for row in step["screen"] if row["cut"] is None)),
-        "",
-        "### Confirm",
-        "",
-        *_table(step["confirm"], base["weighted"]),
-        "",
     ]
-    if step["locked"]:
-        lines.append(
-            f"The confirm cuts one {swap['cut']} for one {ADD}. "
-            f"Weighted {_pct(swap['weighted'])} vs {_pct(base['weighted'])} "
-            f"({_signed(step['gap'])}; SE {swap['se']:.2%} on the swap and {base['se']:.2%} on the baseline, "
-            f"so the gap's SE is about {step['gap_se']:.2%}, {step['gap'] / step['gap_se']:.1f} SE). "
-            f"Lillie's Determination resolves {swap['determination_weighted']:.2f} times a game on the Sisters weights."
+    for index, step in enumerate(report["steps"], start=1):
+        base = step["baseline"]
+        swap = step["best_swap"]
+        have = step.get("starting_copies", index - 1)
+        lines.extend(
+            [
+                f"## Copy {have + 1}",
+                "",
+                "### Screen",
+                "",
+                *_table(step["screen"], next(row["weighted"] for row in step["screen"] if row["cut"] is None)),
+                "",
+                "### Confirm",
+                "",
+                *_table(step["confirm"], base["weighted"]),
+                "",
+            ]
         )
-    else:
-        lines.append(
-            f"No confirm beat this baseline. Best confirm is {swap['cut']}: "
-            f"weighted {_pct(swap['weighted'])} vs {_pct(base['weighted'])} "
-            f"({_signed(step['gap'])}; the gap's SE is about {step['gap_se']:.2%}). "
-            f"The 60 stays unchanged."
-        )
-    lines.append("")
-    lines.append("| Foe | Baseline | " + " | ".join(row["cut"] for row in step["confirm"] if row["cut"]) + " |")
-    lines.append("| :--- | ---: | " + " | ".join("---:" for row in step["confirm"] if row["cut"]) + " |")
-    for key, label, *_rest in FOES:
-        bits = [f"| {label} | {_pct(base['cells'][key]['wr'])}"]
-        for row in step["confirm"]:
-            if not row["cut"]:
-                continue
-            bits.append(_pct(row["cells"][key]["wr"]))
-        lines.append(" | ".join(bits) + " |")
-    lines.append("")
+        if step["locked"]:
+            lines.append(
+                f"The confirm cuts one {swap['cut']} for copy {have + 1}. "
+                f"Weighted {_pct(swap['weighted'])} vs {_pct(base['weighted'])} "
+                f"({_signed(step['gap'])}; SE {swap['se']:.2%} on the swap and {base['se']:.2%} on the baseline, "
+                f"so the gap's SE is about {step['gap_se']:.2%}, {step['gap'] / step['gap_se']:.1f} SE). "
+                f"Lillie's Determination resolves {swap['determination_weighted']:.2f} times a game on the Sisters weights."
+            )
+        else:
+            lines.append(
+                f"No confirm beat this baseline. Best confirm is {swap['cut']}: "
+                f"weighted {_pct(swap['weighted'])} vs {_pct(base['weighted'])} "
+                f"({_signed(step['gap'])}; the gap's SE is about {step['gap_se']:.2%}). "
+                f"The list stays at {have} copies."
+            )
+        lines.append("")
+        lines.append("| Foe | Baseline | " + " | ".join(row["cut"] for row in step["confirm"] if row["cut"]) + " |")
+        lines.append("| :--- | ---: | " + " | ".join("---:" for row in step["confirm"] if row["cut"]) + " |")
+        for key, label, *_rest in FOES:
+            bits = [f"| {label} | {_pct(base['cells'][key]['wr'])}"]
+            for row in step["confirm"]:
+                if not row["cut"]:
+                    continue
+                bits.append(_pct(row["cells"][key]["wr"]))
+            lines.append(" | ".join(bits) + " |")
+        lines.append("")
     return "\n".join(lines)
 
 
+def _load_prior() -> list[dict]:
+    if not DEST.exists():
+        return []
+    old = json.loads(DEST.read_text())
+    if old.get("steps"):
+        return list(old["steps"])
+    if old.get("step"):
+        return [old["step"]]
+    return []
+
+
+def _resume(prior: list[dict], start: list[str]) -> tuple[list[dict], list[str] | None]:
+    """Keep finished steps and continue from the last list that was kept."""
+    kept: list[dict] = []
+    base = list(start)
+    for step in prior:
+        have = step.get("starting_copies")
+        if have is None and step.get("locked") and step.get("best_list", []).count(ADD) == 1:
+            have = 0
+        if have is None or have > base.count(ADD):
+            break
+        if have < base.count(ADD):
+            kept.append(step)
+            continue
+        kept.append(step)
+        if step.get("locked") and step.get("best_list"):
+            base = list(step["best_list"])
+            continue
+        return kept, None
+    return kept, base
+
+
 def main() -> None:
-    names = list(SET_DOLL_NAMES)
-    if names.count(ADD):
-        raise SystemExit("Lillie's Determination is already the lock")
-    if (
-        len(names) != 60
-        or names.count("Arven") != 1
-        or names.count("Team Rocket's Petrel") != 1
-        or names.count("Cleffa") != 2
-        or names.count("Darkness Energy") != 2
-    ):
-        raise SystemExit("Doll lock is not the two-Darkness Eeeeeeek 60")
+    start = list(SET_DOLL_NAMES)
+    if len(start) != 60 or start.count("Arven") != 1 or start.count("Team Rocket's Petrel") != 1:
+        raise SystemExit("Doll lock is not the current 60")
+    prior, base = _resume(_load_prior(), start)
+    if base is None:
+        print("the greedy already stopped", flush=True)
+        return
+    if base.count(ADD) >= 4:
+        print("already at four copies", flush=True)
+        return
     started = time.perf_counter()
     cache = _load_cache()
-    step = _step(names, cache)
-    report = {
-        "seed": SEED,
-        "screen_games": SCREEN_GAMES,
-        "games": GAMES,
-        "weights": WEIGHTS,
-        "elapsed": time.perf_counter() - started,
-        "step": step,
-    }
-    DEST.write_text(json.dumps(report, indent=2) + "\n")
-    MD_DEST.write_text(_markdown(report))
+    steps = list(prior)
+    while base and base.count(ADD) < 4:
+        step = _step(base, cache)
+        steps.append(step)
+        report = {
+            "seed": SEED,
+            "screen_games": SCREEN_GAMES,
+            "games": GAMES,
+            "weights": WEIGHTS,
+            "elapsed": time.perf_counter() - started,
+            "steps": steps,
+            "step": step,
+        }
+        DEST.write_text(json.dumps(report, indent=2) + "\n")
+        MD_DEST.write_text(_markdown(report))
+        print(
+            f"copy {step['starting_copies'] + 1} locked={step['locked']} cut={step['best_swap']['cut']} "
+            f"{_pct(step['best_swap']['weighted'])} baseline {_pct(step['baseline']['weighted'])} "
+            f"gap {_signed(step['gap'])} gap_se {step['gap_se']:.2%}",
+            flush=True,
+        )
+        if not step["locked"]:
+            break
+        base = list(step["best_list"])
     print(MD_DEST, flush=True)
-    print(
-        f"locked={step['locked']} kept={step['kept']} cut={step['best_swap']['cut']} "
-        f"{_pct(step['best_swap']['weighted'])} baseline {_pct(step['baseline']['weighted'])} "
-        f"gap {_signed(step['gap'])} gap_se {step['gap_se']:.2%}",
-        flush=True,
-    )
 
 
 if __name__ == "__main__":

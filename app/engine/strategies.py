@@ -886,7 +886,7 @@ STRATEGY_LIBRARY = {
             "Cleffa is benched and Life Dew goes on that Cleffa. "
             "Item dolls can't retreat. Switch swaps one for Cleffa. Otherwise the Active doll is put on the bottom of the deck or discarded by its own sentence, and Cleffa is promoted, only while another Pokémon remains benched. "
             "Cleffa then uses Eeeeeeek, including against Demolish. Junk Hunt stays ahead of that. "
-            "The locked list is two Cleffa, one Switch, one Darkness Energy, one Black Market, one Arven, one Team Rocket's Petrel, and one Lillie's Determination. "
+            "The locked list is one Cleffa, one Smoochum, one Switch, one Darkness Energy, one Black Market, one Arven, one Team Rocket's Petrel, and four Lillie's Determination. "
             "Lillie's Poké Doll and Robo Substitute stay at four. "
             "One Supporter is played each turn. Arven searches an Item and a Pokémon Tool: "
             "a doll when the hand has none, then Cursed Shovel or Life Dew. "

@@ -52,16 +52,64 @@
     "screen_games_per_seat": 40,
     "games_per_seat": 400,
     "locked": true,
-    "cut": "Darkness Energy",
+    "copies": 4,
+    "cuts": ["Darkness Energy", "Dark Patch", "Cleffa", "Smoochum"],
     "baseline_weighted": 0.43682307307307305,
     "baseline_se": 0.004738790876811624,
-    "weighted": 0.45028653653653655,
-    "se": 0.004771348014058699,
-    "gap": 0.013463463463463499,
-    "gap_se": 0.006724723105482855,
-    "determination_per_game": 0.40499124124124125,
+    "weighted": 0.5147872872872873,
+    "se": 0.004729909563886567,
+    "determination_per_game": 1.512839089089089,
+    "cleffa": 1,
+    "smoochum": 1,
     "darkness_energy": 1,
-    "note": "400 games per seat. One Darkness Energy is replaced by one Lillie's Determination. The gap is about 2.0 SE. Not the 1000-game holdout."
+    "dark_patch": 0,
+    "steps": [
+      {
+        "copy": 1,
+        "cut": "Darkness Energy",
+        "baseline_weighted": 0.43682307307307305,
+        "baseline_se": 0.004738790876811624,
+        "weighted": 0.45028653653653655,
+        "se": 0.004771348014058699,
+        "gap": 0.013463463463463499,
+        "gap_se": 0.006724723105482855,
+        "determination_per_game": 0.40499124124124125
+      },
+      {
+        "copy": 2,
+        "cut": "Dark Patch",
+        "baseline_weighted": 0.45028653653653655,
+        "baseline_se": 0.004771348014058699,
+        "weighted": 0.46767392392392393,
+        "se": 0.004646135239553896,
+        "gap": 0.017387387387387376,
+        "gap_se": 0.006659754840494238,
+        "determination_per_game": 0.8078303303303304
+      },
+      {
+        "copy": 3,
+        "cut": "Cleffa",
+        "baseline_weighted": 0.46767392392392393,
+        "baseline_se": 0.004646135239553896,
+        "weighted": 0.49496496496496495,
+        "se": 0.004671941227839658,
+        "gap": 0.02729104104104102,
+        "gap_se": 0.006588900325593981,
+        "determination_per_game": 1.1488713713713714
+      },
+      {
+        "copy": 4,
+        "cut": "Smoochum",
+        "baseline_weighted": 0.49496496496496495,
+        "baseline_se": 0.004671941227839658,
+        "weighted": 0.5147872872872873,
+        "se": 0.004729909563886567,
+        "gap": 0.01982232232232234,
+        "gap_se": 0.006648238813319926,
+        "determination_per_game": 1.512839089089089
+      }
+    ],
+    "note": "400 games per seat. Four sequential confirms each beat their own baseline. The cuts are Darkness Energy, Dark Patch, Cleffa, and Smoochum. Four copies is the cap. Not the 1000-game holdout."
   },
   "current_losses": {
     "seed": 20261029,
