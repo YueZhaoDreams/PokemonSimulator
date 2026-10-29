@@ -12,11 +12,13 @@ Cleffa is sent Active to use it, and Life Dew goes on that Cleffa.
 Lillie's Determination shuffles the hand and draws 6, or 8 when exactly 6
 Prize cards remain. It is played when the doll supply is about to run out.
 Items, Stadiums, Arven, and Petrel outrank it. Handiwork yields on that turn.
+Igglybuff's Sleepy Voice flips one coin from the Bench or the Active Spot.
+Heads puts the opponent's Active Pokémon to sleep, and that use ends the turn.
 """
 
 from __future__ import annotations
 
-from app.engine.effects import can_pay_energy
+from app.engine.effects import can_pay_energy, parse_ability_effects
 
 SPREAD = {"phantom", "starmie", "nuzzle"}
 KEEPERS = {
@@ -151,9 +153,25 @@ def _hand_has_keepers(game, me) -> bool:
     return len(me.hand) > 1
 
 
+def _sleepy_voice(card) -> bool:
+    return any(
+        eff.get("kind") == "sleepy_voice"
+        for abi in card.abilities
+        for eff in parse_ability_effects(abi.text or "")
+    )
+
+
+def wants_sleepy_voice(game, me, foe) -> bool:
+    """The printed may. Skip it when the Active is already Asleep."""
+    del game, me
+    return bool(foe.active) and not _asleep(foe.active)
+
+
 def wants_pokemon(game, player, card) -> bool:
     name = card.name.lower()
     copies = game._count_named_in_play(player, card.name)
+    if _sleepy_voice(card):
+        return copies < 1
     if name == "manaphy":
         if _hard(game, player):
             return False
@@ -182,6 +200,8 @@ def starter_score(game, card) -> float:
         return 20
     if card.name.lower() == "manaphy":
         return 10
+    if _sleepy_voice(card):
+        return 15
     return 0
 
 
@@ -189,6 +209,8 @@ def bench_prio(game, card) -> tuple:
     name = card.name.lower()
     if name == "manaphy":
         return (0, 0)
+    if _sleepy_voice(card):
+        return (0, 1)
     if game._sweet_face(card):
         return (1, 0)
     if name == "sableye":
@@ -204,6 +226,8 @@ def search_prefer(game, me) -> list[str]:
     prefer = []
     if _dolls_running_out(game, me) and "cleffa" not in names:
         prefer.append("Cleffa")
+    if "igglybuff" not in names:
+        prefer.append("Igglybuff")
     if not _hard(game, me) and "manaphy" not in names:
         prefer.append("Manaphy")
     if _face_count(game, me) < _face_cap(game, me):
@@ -223,11 +247,18 @@ def search_prefer(game, me) -> list[str]:
 
 
 def level_ball_name(game, me) -> str | None:
-    """Shedinja is the Pokémon Nest Ball cannot find. Take it once Nincada is already in play."""
-    if _hard(game, me):
-        return None
+    """Shedinja is the Pokémon Nest Ball cannot find. Take it once Nincada is already in play.
+
+    Sleepy Voice Igglybuff comes first, including against Demolish, where the
+    Shedinja line stays down.
+    """
     in_play = {me.card(mon.card_i).name.lower() for mon in me.in_play()}
     in_hand = {me.card(i).name.lower() for i in me.hand}
+    if "igglybuff" not in in_play and "igglybuff" not in in_hand:
+        if any(me.card(i).name.lower() == "igglybuff" for i in me.deck):
+            return "Igglybuff"
+    if _hard(game, me):
+        return None
     if "nincada" not in in_play or "shedinja" in in_play or "shedinja" in in_hand:
         return None
     if any(me.card(i).name.lower() == "shedinja" for i in me.deck):

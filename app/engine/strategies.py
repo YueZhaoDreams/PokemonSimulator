@@ -893,6 +893,8 @@ STRATEGY_LIBRARY = {
             "Cleffa is benched and Life Dew goes on that Cleffa. "
             "Item dolls can't retreat. Switch swaps one for Cleffa. Otherwise the Active doll is put on the bottom of the deck or discarded by its own sentence, and Cleffa is promoted, only while another Pokémon remains benched. "
             "Cleffa then uses Eeeeeeek, including against Demolish. Junk Hunt stays ahead of that. "
+            "Igglybuff's Sleepy Voice flips a coin from the Bench or the Active Spot when the opponent's Active Pokémon is not already Asleep. "
+            "Heads puts that Pokémon to sleep. Using the Ability ends the turn, so that turn has no attack. "
             "The locked list is one Cleffa, one Smoochum, one Switch, one Darkness Energy, one Black Market, one Arven, one Team Rocket's Petrel, and four Lillie's Determination. "
             "Lillie's Poké Doll and Robo Substitute stay at four. "
             "One Supporter is played each turn. Arven searches an Item and a Pokémon Tool: "

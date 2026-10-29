@@ -67,6 +67,7 @@ PUBLISHED_EFFECT_KINDS = frozenset(
         "return_self_to_hand",
         "search_any_card",
         "draw_end_turn",
+        "sleepy_voice",
         "prevent_bench_attack_damage",
         "stadium_bench_limit",
         "tools_to_lost_zone_bonus",

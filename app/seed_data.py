@@ -5530,6 +5530,25 @@ _CLEFFA_HGSS = _pkm(
 )
 _CLEFFA_HGSS.image = "https://assets.tcgdex.net/en/hgss/hgss1/17/low.webp"
 FALLBACK_BY_NAME["cleffa hgss"] = _CLEFFA_HGSS
+# Cosmic Eclipse 168. fallback_named("Igglybuff") stays the Set M Bouncy Circle print.
+_SLEEPY_VOICE = (
+    "Once during your turn (before your attack), you may flip a coin. "
+    "If heads, your opponent's Active Pokémon is now Asleep. "
+    "If you use this Ability, your turn ends."
+)
+_IGGLYBUFF_SLEEPY = _pkm(
+    "Igglybuff",
+    "Basic",
+    ["Colorless"],
+    60,
+    [],
+    retreat=0,
+    catalog_id="sm12-168",
+    set_name="Cosmic Eclipse",
+    abilities=[Ability(name="Sleepy Voice", text=_SLEEPY_VOICE)],
+    image="https://assets.tcgdex.net/en/sm/sm12/168/low.webp",
+)
+FALLBACK_BY_NAME["igglybuff sleepy"] = _IGGLYBUFF_SLEEPY
 _register(
     _pkm(
         "Nincada",
@@ -5648,6 +5667,8 @@ def build_doll_deck() -> list[Card]:
             out.append(fallback_named("cleffa hgss"))
         elif name == "Mime Jr.":
             out.append(fallback_named("mime jr. col"))
+        elif name == "Igglybuff":
+            out.append(fallback_named("igglybuff sleepy"))
         else:
             out.append(fallback_named(name))
     return out
