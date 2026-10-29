@@ -721,6 +721,10 @@ SET_DOLL_NAMES = (
 # See data/lab/set-mill-veil.md. The remaining Nest Ball was then replaced by a
 # fourth Level Ball without another paired run. Level Ball finds Wugtrio.
 # Poffin stays ×4 and benches Manaphy, then Cleffa.
+# Sleepy Voice Igglybuff (Cosmic Eclipse 168) is outside this lock.
+# The benefit rule matches Doll: the coin replaces Undersea Tunnel, Playground,
+# Sleepy Lost, or Eeeeeeek only when the hit ignores effects on the Active.
+# data/lab/set_mill_igglybuff.py is the greedy search that adds one copy at a time.
 SET_MILL_NAMES = (
     ["Pichu"]
     + ["Mime Jr."]
@@ -5658,17 +5662,20 @@ def build_roast_deck() -> list[Card]:
     return out
 
 
+def mill_named(name: str) -> Card:
+    """Mill prints. Igglybuff is Sleepy Voice when a list includes that name."""
+    if name == "Mime Jr.":
+        return fallback_named("mime jr. col")
+    if name == "Cleffa":
+        return fallback_named("cleffa hgss")
+    if name == "Igglybuff":
+        return fallback_named("igglybuff sleepy")
+    return fallback_named(name)
+
+
 def build_mill_deck() -> list[Card]:
     """Locked Mill 60. Mime Jr. is Sleepy Lost. Cleffa is the HGSS Eeeeeeek print."""
-    out: list[Card] = []
-    for name in SET_MILL_NAMES:
-        if name == "Mime Jr.":
-            out.append(fallback_named("mime jr. col"))
-        elif name == "Cleffa":
-            out.append(fallback_named("cleffa hgss"))
-        else:
-            out.append(fallback_named(name))
-    return out
+    return [mill_named(name) for name in SET_MILL_NAMES]
 
 
 def build_doll_deck() -> list[Card]:
