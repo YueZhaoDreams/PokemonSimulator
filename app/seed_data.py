@@ -767,6 +767,14 @@ SET_MILL_NAMES = (
 # Retrieval at 43.944% by about 1.2 points. The search stopped at four
 # because four is the copy cap. The best of about twenty cuts sits a little
 # high. See data/lab/set-mill-roast-hop.md.
+# Luvdisc (Paldea Evolved 47) was searched on this list at the same seed.
+# Matching searches the deck for up to 2 Supporter cards. Water Pulse costs
+# Water and the opponent's Active Pokémon is now Asleep. One card at a time
+# does not beat 45.2%. The highest Luvdisc confirm replaces one Evolution
+# Incense and keeps seven Fire Energy, at 44.4%. One, three, and seven Water
+# are lower. Forest and Switch together on that list are 41.2%. This list
+# stays at zero Luvdisc, zero Water Energy, zero Slumbering Forest, and zero
+# Switch. See data/lab/set-mill-roast-luvdisc.md.
 SET_ROAST_NAMES = (
     ["Litwick"] * 4
     + ["Lampent"] * 4
@@ -3394,6 +3402,28 @@ _CELEBI_PRISM.text = (
 )
 FALLBACK_BY_NAME["celebi prism star"] = _CELEBI_PRISM
 FALLBACK_BY_NAME["celebi prism"] = _CELEBI_PRISM
+# Paldea Evolved 47. Matching tutors Supporters. Water Pulse sleeps the defender.
+_LUVDISC_MATCHING = (
+    "Search your deck for up to 2 Supporter cards, reveal them, and put them into your hand. "
+    "Then, shuffle your deck."
+)
+_LUVDISC_PULSE = "Your opponent's Active Pokémon is now Asleep."
+_register(
+    _pkm(
+        "Luvdisc",
+        "Basic",
+        ["Water"],
+        70,
+        [
+            _atk("Matching", ["Colorless"], 0, _LUVDISC_MATCHING),
+            _atk("Water Pulse", ["Water"], 20, _LUVDISC_PULSE),
+        ],
+        retreat=1,
+        weakness="Lightning",
+        catalog_id="sv02-047",
+        set_name="Paldea Evolved",
+    )
+)
 _register(
     _pkm(
         "Lampent",

@@ -919,6 +919,14 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
         up_to = re.search(r"up to (\d+)", t)
         effects.append({"kind": "call_family", "count": int(up_to.group(1)) if up_to else 1})
 
+    # Paldea Evolved Luvdisc, Matching. "Up to N" is the printed count.
+    supporter_search = re.search(
+        r"search your deck for up to (\d+) supporter cards?, reveal them, and put them into your hand",
+        t,
+    )
+    if supporter_search:
+        effects.append({"kind": "search_supporter", "count": int(supporter_search.group(1))})
+
     # Carbink Lucky Find / item search attacks
     if "search your deck" in t and "item" in t:
         up_to = re.search(r"up to (\d+)", t)

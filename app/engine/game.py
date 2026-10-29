@@ -2651,7 +2651,10 @@ class Game:
                     + (" (as energy)" if card_found.is_pokemon else "")
                 )
         elif name == "energy retrieval":
-            found = [i for i in me.discard if me.card(i).is_energy][:2]
+            found = [i for i in me.discard if me.card(i).is_energy]
+            if self.strats[who].name == "roast" and self._roast_wants_water_card(me, who):
+                found.sort(key=lambda i: 0 if (me.card(i).energy_type or "") == "Water" else 1)
+            found = found[:2]
             for i in found:
                 me.discard.remove(i)
                 me.hand.append(i)
@@ -4982,7 +4985,9 @@ class Game:
         """What Energy Search should dig for under Family Cup."""
         strat = self.strats[who]
         if strat.name == "roast":
-            return ["Fire Energy"]
+            if self._roast_wants_water_card(me, who):
+                return ["Water Energy", "Fire Energy"]
+            return ["Fire Energy", "Water Energy"]
         prefer: list[str] = []
         in_play = {me.card(m.card_i).name.lower() for m in me.in_play()}
         in_hand = {me.card(i).name.lower() for i in me.hand}
@@ -6495,6 +6500,12 @@ class Game:
                 self._apply_status(target_mon, effect["status"])
                 self._bump(f"status:{attacker.name}:{landed}:{effect['status']}")
                 self._bump(f"status:{effect['status']}")
+                if (
+                    effect["status"] == "asleep"
+                    and effect.get("target") != "self"
+                    and atk.name.lower() == "water pulse"
+                ):
+                    self._bump("water_pulse")
             elif effect.get("kind") == "heal":
                 me.active.damage = max(0, me.active.damage - int(effect.get("amount") or 0))
             elif effect.get("kind") == "shuffle_hand_then_draw":
@@ -6531,6 +6542,8 @@ class Game:
             elif effect.get("kind") == "search_item":
                 prefer = ["Ultra Ball", "Poké Ball", "Poke Ball", "Energy Search", "Energy Switch", "Trekking Shoes"]
                 self._search_items(me, count=int(effect.get("count") or 2), prefer_names=prefer)
+            elif effect.get("kind") == "search_supporter":
+                self._search_supporters(me, who, int(effect.get("count") or 1))
             elif effect.get("kind") == "swallow_energy":
                 look = int(effect.get("look") or 0)
                 if look > 0:
@@ -6839,7 +6852,13 @@ class Game:
     def _dawn_prefer(self, me: Player, who: str, stage: str) -> list[str]:
         if self.strats[who].name == "roast":
             if stage == "basic":
-                return ["Pichu", "Litwick", "Celebi ◇", "Cleffa"]
+                prefer = ["Pichu", "Litwick", "Celebi ◇", "Cleffa"]
+                if self._roast_luvdisc_in_deck(me) and self._roast_luvdisc(me) is None and not self._roast_luvdisc_in_hand(me):
+                    if self._roast_lines(me) >= 3:
+                        prefer = ["Pichu", "Luvdisc", "Celebi ◇", "Litwick", "Cleffa"]
+                    else:
+                        prefer = ["Pichu", "Litwick", "Celebi ◇", "Luvdisc", "Cleffa"]
+                return prefer
             if stage == "stage1":
                 return ["Lampent"]
             return ["Chandelure"]
@@ -8955,6 +8974,13 @@ class Game:
                     score -= 500
             if strat.name == "roast" and any(e.get("kind") == "shuffle_hand_then_draw" for e in atk.effects):
                 score += 80 if self._roast_wants_eeek(me, who) else -500
+            if strat.name == "roast" and any(e.get("kind") == "search_supporter" for e in atk.effects):
+                score += 2400 if self._roast_wants_matching(me, who) else -500
+            if strat.name == "roast" and any(
+                e.get("kind") == "status" and e.get("status") == "asleep" and e.get("target") != "self"
+                for e in atk.effects
+            ):
+                score += 2200 if self._roast_wants_pulse(me, who) else -500
             if strat.name == "mill" and any(e.get("kind") == "playground" for e in resolved.effects):
                 score += 140
             if strat.name == "mill" and any(e.get("kind") == "topdeck_lost_zone" for e in resolved.effects):
@@ -9058,6 +9084,13 @@ class Game:
                     return best
                 return None
             if "playground" in kinds and self._roast_wants_playground(me, who):
+                return best
+            if "search_supporter" in kinds and self._roast_wants_matching(me, who):
+                return best
+            if self._roast_wants_pulse(me, who) and any(
+                e.get("kind") == "status" and e.get("status") == "asleep" and e.get("target") != "self"
+                for e in best.effects
+            ):
                 return best
             if "shuffle_hand_then_draw" in kinds and self._roast_wants_eeek(me, who):
                 return best
@@ -18517,20 +18550,39 @@ class Game:
         return self._roast_close(me, who)
 
     def _roast_playground_pick(self, player: Player) -> int | None:
-        """Litwick, then Celebi ◇. The printed attack has no count.
+        """Litwick, then Celebi ◇, then Luvdisc. The printed attack has no count.
 
         Extra Pichu stays in the deck. Basics played this way cannot evolve this turn.
+        A Luvdisc still in the deck keeps one slot, and Celebi ◇ keeps another, so the
+        line stops at three when both still have to come out.
         """
         if len(player.bench) >= self._bench_limit(player):
             return None
-        if self._roast_lines(player) < 4:
+        slots_left = self._bench_limit(player) - len(player.bench)
+        celebi_deck = self._roast_celebi(player) is None and any(
+            "celebi" in player.card(i).name.lower() for i in player.deck
+        )
+        luv_deck = self._roast_luvdisc(player) is None and any(
+            player.card(i).name.lower() == "luvdisc" for i in player.deck
+        )
+        reserve = int(celebi_deck) + int(luv_deck)
+        if self._roast_lines(player) < 4 and slots_left > reserve:
             for card_i in player.deck:
                 card = player.card(card_i)
                 if card.is_basic and card.is_pokemon and card.name.lower() == "litwick":
                     return card_i
-        if self._roast_celebi(player) is None:
+        if celebi_deck:
             for card_i in player.deck:
                 if "celebi" in player.card(card_i).name.lower():
+                    return card_i
+        if luv_deck:
+            for card_i in player.deck:
+                if player.card(card_i).name.lower() == "luvdisc":
+                    return card_i
+        if self._roast_lines(player) < 4:
+            for card_i in player.deck:
+                card = player.card(card_i)
+                if card.is_basic and card.is_pokemon and card.name.lower() == "litwick":
                     return card_i
         return None
 
@@ -18640,6 +18692,12 @@ class Game:
             return bool(self._roast_jacq_picks(me, who))
         if name == "hop":
             return self._roast_hop_safe(me, card)
+        if name == "luvdisc" and self._roast_luvdisc(me) is None:
+            return True
+        if name == "slumbering forest" and self._roast_wants_forest(me, who):
+            return True
+        if name == "switch" and self._roast_needs_switch(me):
+            return True
         if name == "hisuian heavy ball":
             return self._roast_heavy_best(me) is not None
         if name == "broken time-space" and (self.stadium_name or "").lower() != "broken time-space":
@@ -18704,6 +18762,7 @@ class Game:
                 self._prints_eeeeeeek,
                 lambda c: c.name.lower() == "litwick",
                 lambda c: c.is_pokemon and "celebi" in c.name.lower(),
+                lambda c: c.name.lower() == "luvdisc",
             ):
                 card_i = self._roast_take(me, pred)
                 if card_i is not None and self._roast_play_basic(me, card_i):
@@ -18713,11 +18772,12 @@ class Game:
                 card_i = self._roast_take(me, pred)
                 if card_i is not None and self._roast_play_basic(me, card_i):
                     break
-        while self._roast_lines(me) < 4 and self._roast_open_slots(me) > 0:
+        while self._roast_lines(me) < self._roast_litwick_cap(me) and self._roast_open_slots(me) > 0:
             litwick = self._roast_take(me, lambda c: c.name.lower() == "litwick")
             if litwick is None or not self._roast_play_basic(me, litwick):
                 break
         self._roast_play_celebi(me)
+        self._roast_place_luvdisc(me)
 
     def _roast_play_celebi(self, me: Player) -> None:
         if self._roast_celebi(me) is not None:
@@ -18734,6 +18794,13 @@ class Game:
             return self._roast_celebi(me) is not None or self._roast_celebi_in_hand(me)
         active = me.card(me.active.card_i)
         if self._roast_is_wall_card(active):
+            celebi_ready = self._roast_celebi(me) is not None or self._roast_celebi_in_hand(me)
+            if celebi_ready and self._roast_close(me, who):
+                return True
+            luv_ready = self._roast_luvdisc(me) is not None or self._roast_luvdisc_in_hand(me)
+            deck = {me.card(i).name.lower() for i in me.deck}
+            if luv_ready and deck & {"dawn", "jacq", "hop", "arven", "team rocket's petrel"}:
+                return True
             return False
         return any(self._roast_is_wall_card(me.card(mon.card_i)) for mon in me.bench)
 
@@ -18959,10 +19026,11 @@ class Game:
             return True
         return self._roast_close(me, who)
 
-    def _roast_petrel_want(self, me: Player, who: str) -> str | None:
+    def _roast_petrel_want(self, me: Player, who: str, *, for_matching: bool = False) -> str | None:
         forest_out = (self.stadium_name or "").lower() == "slumbering forest"
         if (
-            self._roast_needs_switch(me)
+            not for_matching
+            and self._roast_needs_switch(me)
             and not self._roast_named(me, me.hand, "Switch")
             and self._roast_named(me, me.deck, "Switch")
         ):
@@ -19008,9 +19076,21 @@ class Game:
             hop = next(me.card(i) for i in me.deck if me.card(i).name.lower() == "hop")
             if self._roast_hop_safe(me, hop):
                 return "Hop"
+        if (
+            self._roast_sleep_package(me)
+            and self._roast_wants_forest(me, who)
+            and not self._roast_named(me, me.hand, "Slumbering Forest")
+            and self._roast_named(me, me.deck, "Slumbering Forest")
+        ):
+            return "Slumbering Forest"
         if self._roast_heavy_deck_only(me):
             return "Hisuian Heavy Ball"
-        if not forest_out and not self._roast_named(me, me.hand, "Slumbering Forest") and self._roast_named(me, me.deck, "Slumbering Forest"):
+        if (
+            not self._roast_sleep_package(me)
+            and not forest_out
+            and not self._roast_named(me, me.hand, "Slumbering Forest")
+            and self._roast_named(me, me.deck, "Slumbering Forest")
+        ):
             return "Slumbering Forest"
         if (
             self._roast_chandelure_hand(me) < 3
@@ -19165,6 +19245,8 @@ class Game:
         if name == "slumbering forest":
             if forest_out or self._roast_bts_stays(me, who):
                 return -1
+            if self._roast_sleep_package(me):
+                return 168 if self._roast_wants_forest(me, who) else -1
             return 70
         if name == "level ball":
             return 165 if self._roast_level_helps(me) else -1
@@ -19279,21 +19361,314 @@ class Game:
             if not self._roast_play(me, foe, who, best_i):
                 skipped.add(best_i)
 
+    def _roast_luvdisc(self, me: Player) -> Pokemon | None:
+        for mon in me.in_play():
+            if me.card(mon.card_i).name.lower() == "luvdisc":
+                return mon
+        return None
+
+    def _roast_luvdisc_in_hand(self, me: Player) -> bool:
+        return any(me.card(i).name.lower() == "luvdisc" for i in me.hand)
+
+    def _roast_luvdisc_in_deck(self, me: Player) -> bool:
+        return any(me.card(i).name.lower() == "luvdisc" for i in me.deck)
+
+    def _roast_luvdisc_waiting(self, me: Player) -> bool:
+        """Luvdisc still needs a slot. A copy already in play does not."""
+        if self._roast_luvdisc(me) is not None:
+            return False
+        return self._roast_luvdisc_in_hand(me) or self._roast_luvdisc_in_deck(me)
+
+    def _roast_sleep_package(self, me: Player) -> bool:
+        if self._roast_luvdisc(me) is not None or self._roast_luvdisc_waiting(me):
+            return True
+        return any(me.card(i).name.lower() == "luvdisc" for i in (*me.discard, *me.prizes))
+
+    def _roast_litwick_cap(self, me: Player) -> int:
+        """Leave Bench room for Luvdisc and for Celebi ◇ when both are still out."""
+        if not self._roast_luvdisc_waiting(me):
+            return 4
+        slots = self._bench_limit(me)
+        line_names = {"litwick", "lampent", "chandelure"}
+        other = 0
+        lines_benched = 0
+        for mon in me.bench:
+            if me.card(mon.card_i).name.lower() in line_names:
+                lines_benched += 1
+            else:
+                other += 1
+        lines_active = 0
+        if me.active is not None and me.card(me.active.card_i).name.lower() in line_names:
+            lines_active = 1
+        celebi_needs = 1 if self._roast_celebi(me) is None else 0
+        available = slots - other - celebi_needs - 1
+        current = lines_benched + lines_active
+        return max(current, min(4, current + max(0, available)))
+
+    def _roast_place_luvdisc(self, me: Player) -> None:
+        if self._roast_luvdisc(me) is not None:
+            return
+        if me.active is not None and len(me.bench) >= self._bench_limit(me):
+            return
+        card_i = self._roast_take(me, lambda c: c.name.lower() == "luvdisc")
+        if card_i is not None:
+            self._roast_play_basic(me, card_i)
+
+    def _roast_attack_for(self, card: Card, kind: str):
+        for atk in card.attacks:
+            if kind == "pulse":
+                if any(
+                    e.get("kind") == "status" and e.get("status") == "asleep" and e.get("target") != "self"
+                    for e in atk.effects
+                ):
+                    return atk
+                continue
+            if any(e.get("kind") == kind for e in atk.effects):
+                return atk
+        return None
+
+    def _roast_paid(self, me: Player, mon: Pokemon, kind: str) -> bool:
+        atk = self._roast_attack_for(me.card(mon.card_i), kind)
+        if atk is None:
+            return False
+        return can_pay_energy(self._energy_pool(me, mon), atk.cost)
+
+    def _roast_hand_energy(self, me: Player) -> list[int]:
+        return [i for i in me.hand if is_basic_energy(me.card(i))]
+
+    def _roast_hand_has_type(self, me: Player, energy_type: str) -> bool:
+        return any((me.card(i).energy_type or "") == energy_type for i in self._roast_hand_energy(me))
+
+    def _roast_celebi_unpaid(self, me: Player) -> bool:
+        celebi = self._roast_celebi(me)
+        return celebi is not None and not self._roast_can_devolve(me, celebi)
+
+    def _roast_active_can_leave(self, me: Player) -> bool:
+        if me.active is None:
+            return True
+        if not self._roast_active_stuck(me) and self._retreat_cost(me, me.active) == 0:
+            return True
+        return self._first_named(me, "Switch") is not None and not me.item_lock
+
+    def _roast_luvdisc_can_attack(self, me: Player) -> bool:
+        if self._roast_luvdisc(me) is None and not self._roast_luvdisc_in_hand(me):
+            return False
+        if me.active is None:
+            return True
+        if me.card(me.active.card_i).name.lower() == "luvdisc":
+            return True
+        if self._roast_luvdisc(me) is None and len(me.bench) >= self._bench_limit(me):
+            return False
+        return self._roast_active_can_leave(me)
+
+    def _roast_wall_asleep(self, me: Player) -> bool:
+        return any(
+            self._roast_is_wall_card(me.card(mon.card_i)) and bool(mon.status & ST_ASLEEP)
+            for mon in me.in_play()
+        )
+
+    def _roast_switch_in_hand_or_deck(self, me: Player) -> bool:
+        return self._roast_named(me, me.hand, "Switch") or self._roast_named(me, me.deck, "Switch")
+
+    def _roast_matching_name(self, me: Player, who: str) -> str | None:
+        """The next Supporter Matching should take. The attack may repeat this up to its printed count."""
+        deck = {me.card(i).name.lower() for i in me.deck}
+
+        def has(name: str) -> bool:
+            return name.lower() in deck
+
+        if self._roast_needs_switch(me) and has("Team Rocket's Petrel"):
+            return "Team Rocket's Petrel"
+        if self._roast_jacq_before_dawn(me, who) and has("Jacq"):
+            return "Jacq"
+        if self._roast_dawn_helps(me) and has("Dawn"):
+            return "Dawn"
+        if self._roast_jacq_picks(me, who) and has("Jacq"):
+            return "Jacq"
+        want = self._roast_petrel_want(me, who, for_matching=True)
+        if want and has("Team Rocket's Petrel"):
+            return "Team Rocket's Petrel"
+        if self._roast_line_uncovered(me, who) and has("Hop"):
+            hop = next(me.card(i) for i in me.deck if me.card(i).name.lower() == "hop")
+            if self._roast_hop_safe(me, hop):
+                return "Hop"
+        if has("Arven"):
+            card = next(me.card(i) for i in me.deck if me.card(i).name.lower() == "arven")
+            if self._roast_trainer_score(me, who, card) > 0:
+                return "Arven"
+        return None
+
+    def _search_supporters(self, me: Player, who: str, count: int) -> None:
+        """Up to the printed number of Supporter cards. Roast stops when the next one is not useful."""
+        found = 0
+        for _ in range(max(0, count)):
+            if self.strats[who].name == "roast":
+                name = self._roast_matching_name(me, who)
+                if not name:
+                    break
+                got = self._search(
+                    me,
+                    lambda c, name=name: c.is_supporter and c.name.lower() == name.lower(),
+                    prefer=[name],
+                    source="matching",
+                )
+            else:
+                got = self._search(me, lambda c: c.is_supporter, source="matching")
+            if got is None:
+                break
+            found += 1
+            self._log(f"{me.name} Matching takes {me.card(got).name}")
+        if found:
+            self._bump("luvdisc_matching", found)
+
+    def _roast_wants_matching(self, me: Player, who: str) -> bool:
+        if not self._roast_can_attack_turn(me):
+            return False
+        if self._roast_should_mill(me, who) or self._roast_wants_playground(me, who):
+            return False
+        if not self._roast_luvdisc_can_attack(me):
+            return False
+        mon = self._roast_luvdisc(me)
+        if mon is not None and self._roast_paid(me, mon, "search_supporter"):
+            pass
+        elif me.energy_attached or not self._roast_hand_energy(me):
+            return False
+        return self._roast_matching_name(me, who) is not None
+
+    def _roast_wants_pulse(self, me: Player, who: str) -> bool:
+        if not self._roast_can_attack_turn(me):
+            return False
+        if self._roast_should_mill(me, who) or self._roast_wants_playground(me, who):
+            return False
+        foe = self.players["b" if me.name == "A" else "a"]
+        if foe.active is None or foe.active.status & ST_ASLEEP:
+            return False
+        mon = self._roast_luvdisc(me)
+        if mon is None or not self._roast_paid(me, mon, "pulse"):
+            return False
+        return self._roast_luvdisc_can_attack(me)
+
+    def _roast_will_pulse(self, me: Player, who: str) -> bool:
+        """Water Pulse is still possible this turn, including an energy that has not been attached yet."""
+        if not self._roast_can_attack_turn(me):
+            return False
+        if self._roast_should_mill(me, who) or self._roast_wants_playground(me, who):
+            return False
+        foe = self.players["b" if me.name == "A" else "a"]
+        if foe.active is None or foe.active.status & ST_ASLEEP:
+            return False
+        if not self._roast_luvdisc_can_attack(me):
+            return False
+        mon = self._roast_luvdisc(me)
+        if mon is not None and self._roast_paid(me, mon, "pulse"):
+            return True
+        return not me.energy_attached and self._roast_hand_has_type(me, "Water")
+
+    def _roast_wants_forest(self, me: Player, who: str) -> bool:
+        """Slumbering Forest is the second lock: the opponent stays Asleep, and so does the wall.
+
+        Broken Time-Space still wins on a same-turn evolution. Without Switch, an Asleep
+        wall that is one Time Distortion away from milling does not take the stadium.
+        """
+        if (self.stadium_name or "").lower() == "slumbering forest":
+            return False
+        if self._roast_bts_stays(me, who):
+            return False
+        if not self._roast_sleep_package(me):
+            return False
+        foe = self.players["b" if me.name == "A" else "a"]
+        if foe.active is not None and foe.active.status & ST_ASLEEP:
+            return True
+        if self._roast_will_pulse(me, who):
+            return True
+        if not self._roast_wall_asleep(me):
+            return False
+        stuck_wall = (
+            me.active is not None
+            and self._roast_is_wall_card(me.card(me.active.card_i))
+            and self._roast_active_stuck(me)
+        )
+        if stuck_wall and self._roast_close(me, who) and not self._roast_switch_in_hand_or_deck(me):
+            return False
+        return True
+
+    def _roast_wants_water_card(self, me: Player, who: str) -> bool:
+        if self._roast_luvdisc(me) is None and not self._roast_luvdisc_waiting(me):
+            return False
+        mon = self._roast_luvdisc(me)
+        if mon is not None and self._roast_paid(me, mon, "pulse"):
+            return False
+        if self._roast_hand_has_type(me, "Water"):
+            return False
+        if self._roast_celebi_unpaid(me) and (self._roast_close(me, who) or self._roast_should_mill(me, who)):
+            return False
+        return True
+
+    def _roast_give_energy(self, me: Player, mon: Pokemon, *, water_only: bool = False, prefer_fire: bool = False) -> bool:
+        fires: list[int] = []
+        waters: list[int] = []
+        others: list[int] = []
+        for card_i in self._roast_hand_energy(me):
+            kind = me.card(card_i).energy_type or ""
+            if kind == "Fire":
+                fires.append(card_i)
+            elif kind == "Water":
+                waters.append(card_i)
+            else:
+                others.append(card_i)
+        if water_only:
+            choice = waters[0] if waters else None
+        elif prefer_fire:
+            choice = (fires or others or waters or [None])[0]
+        else:
+            choice = (waters or fires or others or [None])[0]
+        if choice is None:
+            return False
+        me.hand.remove(choice)
+        mon.energy.append(choice)
+        me.energy_attached = True
+        self._log(f"{me.name} attaches {me.card(choice).name} to {me.card(mon.card_i).name}")
+        return True
+
     def _roast_attach(self, me: Player) -> None:
         if me.energy_attached:
             return
+        who = "a" if me.name == "A" else "b"
+        luv_around = self._roast_luvdisc(me) is not None or self._roast_luvdisc_in_hand(me)
+        if not luv_around:
+            celebi = self._roast_celebi(me)
+            if celebi is None or self._roast_can_devolve(me, celebi):
+                return
+            self._roast_give_energy(me, celebi, prefer_fire=True)
+            return
+        mill_soon = self._roast_close(me, who) or self._roast_should_mill(me, who)
         celebi = self._roast_celebi(me)
-        if celebi is None or self._roast_can_devolve(me, celebi):
+        if self._roast_celebi_unpaid(me) and mill_soon and celebi is not None:
+            self._roast_give_energy(me, celebi, prefer_fire=True)
             return
-        fuel = next((i for i in me.hand if is_basic_energy(me.card(i)) and (me.card(i).energy_type or "") == "Fire"), None)
-        if fuel is None:
-            fuel = next((i for i in me.hand if is_basic_energy(me.card(i))), None)
-        if fuel is None:
-            return
-        me.hand.remove(fuel)
-        celebi.energy.append(fuel)
-        me.energy_attached = True
-        self._log(f"{me.name} attaches {me.card(fuel).name} to {me.card(celebi.card_i).name}")
+        luv = self._roast_luvdisc(me)
+        if (
+            luv is not None
+            and not self._roast_wants_playground(me, who)
+            and not mill_soon
+            and not self._roast_paid(me, luv, "pulse")
+            and self._roast_hand_has_type(me, "Water")
+            and self.players["b" if me.name == "A" else "a"].active is not None
+            and not (self.players["b" if me.name == "A" else "a"].active.status & ST_ASLEEP)
+        ):
+            if self._roast_give_energy(me, luv, water_only=True):
+                return
+        if (
+            luv is not None
+            and not self._roast_wants_playground(me, who)
+            and not mill_soon
+            and not self._roast_paid(me, luv, "search_supporter")
+            and self._roast_matching_name(me, who) is not None
+        ):
+            if self._roast_give_energy(me, luv, prefer_fire=True):
+                return
+        if self._roast_celebi_unpaid(me) and celebi is not None:
+            self._roast_give_energy(me, celebi, prefer_fire=True)
 
     def _roast_scarf(self, me: Player, who: str) -> None:
         if not self._roast_celebi_bare(me):
@@ -19350,6 +19725,12 @@ class Game:
         if self._roast_wants_playground(me, who):
             if self._roast_bring(me, who, lambda mon: self._roast_awake_pichu(me, mon)):
                 return
+        if self._roast_wants_matching(me, who):
+            if self._roast_bring(me, who, lambda mon: me.card(mon.card_i).name.lower() == "luvdisc"):
+                return
+        if self._roast_wants_pulse(me, who):
+            if self._roast_bring(me, who, lambda mon: me.card(mon.card_i).name.lower() == "luvdisc"):
+                return
         if self._roast_wants_eeek(me, who):
             if self._roast_bring(me, who, lambda mon: self._roast_awake_cleffa(me, mon)):
                 return
@@ -19394,7 +19775,13 @@ class Game:
             and self._roast_open_slots(me) > 0
             and (self._roast_lines(me) < 3 or unevolved == 0)
         ):
+            if self._roast_lines(me) >= 3 and self._roast_luvdisc_waiting(me):
+                return 0.0
             return 24.0
+        if name == "luvdisc" and self._roast_luvdisc(me) is None and hand == 0:
+            if self._roast_lines(me) >= 3:
+                return 32.0
+            return 8.0
         if (
             name == "chandelure"
             and hand < 3
@@ -19412,7 +19799,11 @@ class Game:
             return -1.0 if pichu_out else 90.0
         if not self._roast_wall_present(me) and self._prints_eeeeeeek(card):
             return 80.0
+        if name == "luvdisc" and self._roast_luvdisc(me) is None:
+            return 75.0 if self._roast_lines(me) >= 3 else 30.0
         if name == "litwick" and self._roast_lines(me) < 4:
+            if self._roast_lines(me) >= 3 and self._roast_luvdisc_waiting(me):
+                return -1.0
             return 60.0
         return -1.0
 
@@ -19428,6 +19819,10 @@ class Game:
         if self._roast_wants_playground(me, who):
             for i, mon in enumerate(me.bench):
                 if self._roast_awake_pichu(me, mon):
+                    return i
+        if self._roast_wants_matching(me, who) or self._roast_wants_pulse(me, who):
+            for i, mon in enumerate(me.bench):
+                if me.card(mon.card_i).name.lower() == "luvdisc":
                     return i
         if self._roast_wants_eeek(me, who):
             for i, mon in enumerate(me.bench):
@@ -19459,13 +19854,19 @@ class Game:
         if unevolved and lamp < 4:
             prefer.append("Lampent")
         if self._roast_lines(me) < 4 and self._roast_open_slots(me) > 0:
-            prefer.append("Litwick")
+            if self._roast_lines(me) >= 3 and self._roast_luvdisc_waiting(me):
+                prefer.append("Luvdisc")
+            else:
+                prefer.append("Litwick")
         if self._roast_chandelure_hand(me) < 3 and self._roast_lampent_after_this_turn(me, who) >= 3:
             prefer.append("Chandelure")
         celebi_out = any("celebi" in me.card(mon.card_i).name.lower() for mon in me.in_play())
         if self._roast_lampent_after_this_turn(me, who) >= 3 and "celebi ◇" not in hand and not celebi_out:
             prefer.append("Celebi ◇")
-        prefer.extend(["Cleffa", "Pichu", "Litwick", "Lampent", "Chandelure"])
+        tail = ["Cleffa", "Pichu", "Litwick", "Lampent", "Chandelure"]
+        if self._roast_luvdisc_waiting(me):
+            tail.append("Luvdisc")
+        prefer.extend(tail)
         return list(dict.fromkeys(prefer))
 
     def _roast_arven(self, me: Player) -> None:

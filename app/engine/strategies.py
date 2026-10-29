@@ -954,7 +954,20 @@ STRATEGY_LIBRARY = {
             "into the hand, so the Prism Star rule does not put it in the Lost Zone. "
             "Energy Retrieval takes the Fire Energy the scarf discarded. Arven finds "
             "the scarf and an Item. Team Rocket's Petrel finds a Trainer. "
-            "Fire Energy is not attached to the Litwick line."
+            "Fire Energy is not attached to the Litwick line. "
+            "Luvdisc is Paldea Evolved. Matching searches the deck for up to 2 Supporter cards. "
+            "Water Pulse costs Water and the opponent's Active Pokémon is now Asleep. "
+            "Playground still comes first while it can bench a Litwick. "
+            "Once that attack has nothing left to bench, Matching takes Dawn, Jacq, Petrel, Hop, or Arven. "
+            "Water Pulse is the attack when those Supporters are not in the deck. "
+            "Celebi ◇ is paid first on a mill turn. Extra energy, or any energy before that turn, "
+            "can go to Luvdisc. Water pays Water Pulse. Fire still pays Matching and Time Distortion. "
+            "Slumbering Forest stays behind Broken Time-Space while a same-turn evolution is waiting. "
+            "With Luvdisc in the deck it comes in when the opponent is Asleep, Water Pulse is ready, "
+            "or a Sweet Sleeping Face is already Asleep and Celebi ◇ can still reach the Active. "
+            "The face is the wall. The Asleep attacker is the other half. "
+            "One Bench slot stays open for Luvdisc once Celebi ◇ also needs a slot, so Playground "
+            "stops at three Litwick before it takes those two."
         ),
         prefer_damage=0.05,
         prefer_status=0.0,
@@ -964,8 +977,8 @@ STRATEGY_LIBRARY = {
         item_spend=1.0,
         self_preserve=0.2,
         hold_as_energy=False,
-        protect=["Celebi ◇", "Chandelure", "Lampent", "Litwick", "Cleffa", "Pichu", "Slumbering Forest", "Rescue Scarf"],
-        search_aces=["Chandelure", "Lampent", "Litwick", "Cleffa"],
+        protect=["Celebi ◇", "Chandelure", "Lampent", "Litwick", "Cleffa", "Pichu", "Luvdisc", "Slumbering Forest", "Rescue Scarf"],
+        search_aces=["Chandelure", "Lampent", "Litwick", "Cleffa", "Luvdisc"],
         closers=["Celebi ◇"],
     ),
 }
