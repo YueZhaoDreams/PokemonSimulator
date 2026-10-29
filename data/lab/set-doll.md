@@ -58,6 +58,21 @@ The locked 60 is unchanged. Cleffa is still HeartGold & SoulSilver 17: shuffle t
 
 Same seed 20261029, 200 games each seat, Sisters weights, product engine, strategy `doll`. Weighted win rate 43.5% against the Petrel confirm 33.8% (+9.7 points; the gap's standard error is 0.91 points, about 10.6 standard errors). Eeeeeeek resolves 1.83 times a game. Life Dew is attached 0.56 times a game. Sisters-weighted empty boards fall from 40.4% of games to 26.7%. D60 goes from 1.0% to 10.5%, and its empty games from 98.5% to 70.5%. Starmie goes from 11.5% to 24.2% (empty 62.5% to 41.0%). G goes from 23.5% to 41.0% (empty 37.8% to 18.2%). Every foe in the thirteen is higher. This confirm is not the 1000-game holdout. Detail is `data/lab/set-doll-eeeeeeek.md`.
 
+## Lillie's Determination
+
+The locked 60 has four Lillie's Determination. Each copy replaced one card, and the next copy was measured on that new list. Printed text: shuffle your hand into your deck, then draw 6 cards. If you have exactly 6 Prize cards remaining, draw 8 cards instead. Doll plays it when the deck still has a replayable doll, the hand has fewer than two, and at most two are in play. A doll, Life Dew, Cursed Shovel, the Stadiums, Arven, and Petrel outrank it. Handiwork yields on that turn. One Darkness Energy remains. Dark Patch is out. Cleffa and Smoochum are one each.
+
+The decision sample is seed 20261029, 400 games each seat, Sisters weights, product engine, strategy `doll`. The screen is 40 games. A confirm higher than its own baseline is the next list. Four is the maximum.
+
+| Copy | Cut | Baseline | Confirm | Gap | Gap SE |
+| --- | --- | ---: | ---: | ---: | ---: |
+| 1 | Darkness Energy | 43.7% | 45.0% | +1.3 | 0.67 |
+| 2 | Dark Patch | 45.0% | 46.8% | +1.7 | 0.67 |
+| 3 | Cleffa | 46.8% | 49.5% | +2.7 | 0.66 |
+| 4 | Smoochum | 49.5% | 51.5% | +2.0 | 0.66 |
+
+Lillie's Determination resolves 0.40, 0.81, 1.15, then 1.51 times a game. This confirm is not the 1000-game holdout. Detail is `data/lab/set-doll-lillie.md`.
+
 ## Why the strict Eeeeeeek 60 loses
 
 This sample is the Arven and Petrel lock before Cleffa was sent up to draw, seed 20261029, 200 games each seat, the same games as the Petrel confirm. Sisters-weighted win rate is 33.8%. The weighted losses are an empty board 61.0%, the opponent taking all 6 Prize cards 20.3%, and the 40-turn limit 18.6% (16.8% because the opponent had more Prizes, 1.8% because they had more remaining HP). The empty board is 40.4% of games, the same band as the Black Market 60. The six-Prize losses are what shrank. Doll did not deck out, and Doll did not fail to find a Basic. A win is the opponent decking out. Two D60 games and eight Iron Thorns games are the opponent still having no Basic after the mulligan cap. One Starmie game is Doll having more Prizes at the turn limit. The detail is `data/lab/set-doll-arven-petrel-losses.md`.

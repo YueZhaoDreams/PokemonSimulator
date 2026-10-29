@@ -114,8 +114,8 @@ class _Board:
 def test_doll_list_is_the_locked_60():
     names = list(SET_DOLL_NAMES)
     assert len(names) == 60
-    assert names.count("Cleffa") == 2
-    assert names.count("Smoochum") == 2
+    assert names.count("Cleffa") == 1
+    assert names.count("Smoochum") == 1
     assert names.count("Mime Jr.") == 2
     assert names.count("Slumbering Forest") == 2
     assert names.count("Battle Cage") == 4
@@ -125,8 +125,9 @@ def test_doll_list_is_the_locked_60():
     assert names.count("Arven") == 1
     assert names.count("Team Rocket's Petrel") == 1
     assert names.count("Sableye") == 2
-    assert names.count("Darkness Energy") == 2
-    assert names.count("Dark Patch") == 1
+    assert names.count("Darkness Energy") == 1
+    assert names.count("Lillie's Determination") == 4
+    assert names.count("Dark Patch") == 0
     assert names.count("Puzzle of Time") == 4
     assert names.count("VS Seeker") == 4
     assert names.count("Team Rocket's Handiwork") == 4
@@ -147,13 +148,13 @@ def test_doll_list_is_the_locked_60():
     assert "Energy Retrieval" not in names
     pile = build_doll_deck()
     assert copy_violations(pile, standard_60_rules()) == []
-    assert [c.catalog_id for c in pile if c.name == "Cleffa"] == ["hgss1-17"] * 2
-    assert [c.attacks[0].name for c in pile if c.name == "Cleffa"] == ["Eeeeeeek"] * 2
-    assert [c.attacks[0].text for c in pile if c.name == "Cleffa"] == [_EEEEEK] * 2
+    assert [c.catalog_id for c in pile if c.name == "Cleffa"] == ["hgss1-17"]
+    assert [c.attacks[0].name for c in pile if c.name == "Cleffa"] == ["Eeeeeeek"]
+    assert [c.attacks[0].text for c in pile if c.name == "Cleffa"] == [_EEEEEK]
     assert [c.catalog_id for c in pile if c.name == "Mime Jr."] == ["col1-47"] * 2
     assert [c.attacks[0].name for c in pile if c.name == "Mime Jr."] == ["Sleepy Lost"] * 2
     smoochum = [c for c in pile if c.name == "Smoochum"]
-    assert len(smoochum) == 2 and smoochum[0].attacks[0].name == "Energy Antics"
+    assert len(smoochum) == 1 and smoochum[0].attacks[0].name == "Energy Antics"
     assert smoochum[0].catalog_id == "hgss1-30"
     assert [c.attacks[0].name for c in pile if c.name == "Sableye"] == ["Junk Hunt"] * 2
     assert [c.catalog_id for c in pile if c.name == "Sableye"] == ["bw5-62"] * 2
@@ -163,7 +164,8 @@ def test_doll_list_is_the_locked_60():
     dew = [c for c in pile if c.name == "Life Dew"]
     assert len(dew) == 1 and dew[0].catalog_id == "bw9-107" and dew[0].text == _DEW
     assert dew[0].image == "https://assets.tcgdex.net/en/bw/bw9/107/low.webp"
-    patch = next(c for c in pile if c.name == "Dark Patch")
+    assert names.count("Dark Patch") == 0
+    patch = fallback_named("Dark Patch")
     assert patch.catalog_id == "bw5-93"
     assert patch.image == "https://assets.tcgdex.net/en/bw/bw5/93/low.webp"
     assert [c.catalog_id for c in pile if c.name == "Puzzle of Time"] == ["xy9-109"] * 4
@@ -192,6 +194,13 @@ def test_doll_list_is_the_locked_60():
         "Search your deck for a Trainer card, reveal it, and put it into your hand. "
         "Then, shuffle your deck."
     )
+    determination = next(c for c in pile if c.name == "Lillie's Determination")
+    assert determination.catalog_id == "me01-119"
+    assert determination.trainer_kind == "supporter"
+    assert determination.text == (
+        "Shuffle your hand into your deck. Then, draw 6 cards. "
+        "If you have exactly 6 Prize cards remaining, draw 8 cards instead."
+    )
     shed = next(c for c in pile if c.name == "Shedinja")
     assert shed.catalog_id == "sm8-95"
     assert shed.text == _VESSEL
@@ -216,7 +225,7 @@ def test_doll_list_is_the_locked_60():
         assert loaded["id"] == "seed-doll"
         assert loaded["name"] == "Doll"
         assert [c["name"] for c in loaded["cards"]] == names
-        assert [c["catalog_id"] for c in loaded["cards"] if c["name"] == "Cleffa"] == ["hgss1-17"] * 2
+        assert [c["catalog_id"] for c in loaded["cards"] if c["name"] == "Cleffa"] == ["hgss1-17"]
         assert [c["catalog_id"] for c in loaded["cards"] if c["name"] == "Sableye"] == ["bw5-62"] * 2
         assert [c["image"] for c in loaded["cards"] if c["name"] == "Sableye"] == [
             "https://assets.tcgdex.net/en/bw/bw5/62/low.webp"
