@@ -541,6 +541,16 @@ SET_T_UNL_NAMES = (
 # list's loss weights also prefer the list that still has Manaphy.
 # Two copies, cutting Counter Catcher, do not separate from one (+1.4 standard errors).
 # The lock is one Elekid for one Battle Cage (4 → 3). Manaphy stays. Counter Catcher stays.
+# Colress on that Elekid list. Plasma Storm 118.
+# Search set-m-colress. Selection seed 20261007, holdout 20261015, 1000 games per foe.
+# The measured 60 was the pre-Elekid list: zero Elekid, four Battle Cage, three Crushing Hammer.
+# The selection seed kept three copies. The first cut was Crushing Hammer
+# (92.07% → 92.37%, +0.29 pp, 0.48 standard errors), then Sky Field, then Bravery Charm.
+# Holdout of three against zero is +0.74 pp (1.26 standard errors). One copy on that
+# holdout is -1.00 pp (-1.60 standard errors).
+# The lock is one Colress for one Crushing Hammer (3 → 2). The list already wins about
+# nine games in ten, so the per-game standard deviation barely moves. Sky Field,
+# Bravery Charm, Elekid, Battle Cage, Manaphy, and Counter Catcher stay.
 SET_M60_NAMES = (
     ["Mew ex"] * 3
     + ["Mime Jr."] * 2
@@ -563,7 +573,8 @@ SET_M60_NAMES = (
     + ["Iono"] * 4
     + ["Professor's Research"] * 2
     + ["Team Rocket's Petrel"] * 4
-    + ["Crushing Hammer"] * 3
+    + ["Colress"]
+    + ["Crushing Hammer"] * 2
     + ["Counter Catcher"]
     + ["Spiky Energy"] * 2
 )

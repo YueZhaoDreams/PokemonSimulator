@@ -44,6 +44,7 @@ def test_set_m_card_count_and_composition():
     # Cuts: Ultra Ball (2 → 1), Penny (2 → 0), Sky Field (4 → 3).
     # One Junk Arm on that list. Cut: Ultra Ball (1 → 0).
     # One Elekid on that list. Cut: Battle Cage (4 → 3). Manaphy and Counter Catcher stay.
+    # One Colress on that list. Cut: Crushing Hammer (3 → 2).
     assert SET_M60_NAMES.count("Buddy-Buddy Poffin") == 4
     assert SET_M60_NAMES.count("Battle Cage") == 3
     assert SET_M60_NAMES.count("Sky Field") == 3
@@ -56,7 +57,8 @@ def test_set_m_card_count_and_composition():
     assert SET_M60_NAMES.count("Junk Arm") == 1
     assert SET_M60_NAMES.count("Night Stretcher") == 1
     assert SET_M60_NAMES.count("Rescue Carrier") == 2
-    assert SET_M60_NAMES.count("Crushing Hammer") == 3
+    assert SET_M60_NAMES.count("Crushing Hammer") == 2
+    assert SET_M60_NAMES.count("Colress") == 1
     assert SET_M60_NAMES.count("Switch") == 0
     assert SET_M60_NAMES.count("Boss's Orders") == 0
     assert SET_M60_NAMES.count("Team Rocket's Petrel") == 4
@@ -78,6 +80,8 @@ def test_load_seed_deck_m():
     assert served.count("Manaphy") == 1
     assert served.count("Elekid") == 1
     assert served.count("Battle Cage") == 3
+    assert served.count("Colress") == 1
+    assert served.count("Crushing Hammer") == 2
     assert served.count("Budew") == 4
     assert served.count("Sky Field") == 3
     assert served.count("Team Rocket's Petrel") == 4

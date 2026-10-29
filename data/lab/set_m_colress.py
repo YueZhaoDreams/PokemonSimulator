@@ -16,12 +16,10 @@ Every cut is screened on SCREEN_GAMES games per foe. The best SCREEN_TOP cuts
 are confirmed on GAMES games per foe. The accepted lists are run again on a
 fresh seed.
 
-The current locked 60 is the Elekid list: one Elekid, three Battle Cage.
-A retest on that list sets GAMES, SCREEN_GAMES, and HOLDOUT_GAMES to 6000
-and points DEST at data/lab/set-m-colress-elekid.json. At 1000 games a
-weighted difference had a standard error near 0.59 percentage points.
-Six thousand games brings that near 0.24, so a half-point gap sits on the
-2 standard error line.
+The locked 60 is the Elekid list plus one Colress: one Elekid, three Battle Cage,
+one Colress, and two Crushing Hammer. data/lab/set-m-colress.json is the
+pre-Elekid measurement and still starts from zero Colress. A later 6000-game
+retest on the Elekid list was stopped during step 1 and did not choose this lock.
 """
 
 from __future__ import annotations

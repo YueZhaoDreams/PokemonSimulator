@@ -165,7 +165,7 @@ def _colress_lab():
     return module
 
 
-def test_colress_report_keeps_three_on_the_selection_seed_and_leaves_set_m():
+def test_colress_report_keeps_three_and_the_live_list_locks_one_hammer_swap():
     module = _colress_lab()
     report_path = Path(__file__).resolve().parents[1] / "data" / "lab" / "set-m-colress.json"
     report = json.loads(report_path.read_text())["report"]
@@ -182,7 +182,8 @@ def test_colress_report_keeps_three_on_the_selection_seed_and_leaves_set_m():
     assert start["Colress"] == 0
     assert SET_M60_NAMES.count("Elekid") == 1
     assert SET_M60_NAMES.count("Battle Cage") == 3
-    assert SET_M60_NAMES.count("Colress") == 0
+    assert SET_M60_NAMES.count("Colress") == 1
+    assert SET_M60_NAMES.count("Crushing Hammer") == 2
     assert len(report["list"]) == 60
     assert report["list"].count("Colress") == 3
     assert copy_violations(build_fallback_deck(list(SET_M60_NAMES)), standard_60_rules()) == []
