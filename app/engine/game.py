@@ -291,6 +291,8 @@ class Game:
                     return (2, 0)
                 if name == "wiglett":
                     return (3, 0)
+                if self._mill_dual_sleeper(card):
+                    return (3, 1)
                 return (4, 0)
 
             # Snorlax Doll is only played while setting up. Leave it one Bench spot.
@@ -595,6 +597,9 @@ class Game:
                 return copies < 1
             if name == "wiglett":
                 return True
+            if self._mill_dual_sleeper(card):
+                # One Luvdisc. Matching and Water Pulse need the Active spot, not a bench full of them.
+                return copies < 1
 
         if strat.name == "celebration":
             caps = {
@@ -799,6 +804,9 @@ class Game:
                 return 3600 if self._mill_wall_match(player) else 100
             if strat.name == "mill" and name == "wiglett":
                 return 2500
+            if strat.name == "mill" and self._mill_dual_sleeper(card):
+                # Under a Sweet Sleeping Face opener. Ahead of Wiglett when that face is not in hand.
+                return 2700
             if strat.name == "mill" and name == "victini":
                 return 900
             if strat.name == "mill" and name == "manaphy":
@@ -1294,6 +1302,8 @@ class Game:
                     return (2, 0)
                 if name == "wiglett":
                     return (3, 0)
+                if self._mill_dual_sleeper(card):
+                    return (3, 1)
                 return (4, 0)
             if strat.name == "g":
                 rank = {
@@ -5373,6 +5383,8 @@ class Game:
                 score += 10
             if strat.name == "mill" and name == "wiglett":
                 score += 6
+            if strat.name == "mill" and self._mill_dual_sleeper(card) and name not in in_play:
+                score += 8
             if name in in_play:
                 score -= 2
             if best is None or score > best[0]:
@@ -6495,6 +6507,8 @@ class Game:
                 self._apply_status(target_mon, effect["status"])
                 self._bump(f"status:{attacker.name}:{landed}:{effect['status']}")
                 self._bump(f"status:{effect['status']}")
+                if effect.get("target") != "self" and effect["status"] == "asleep":
+                    self._bump("opponent_asleep")
             elif effect.get("kind") == "heal":
                 me.active.damage = max(0, me.active.damage - int(effect.get("amount") or 0))
             elif effect.get("kind") == "shuffle_hand_then_draw":
@@ -6531,6 +6545,8 @@ class Game:
             elif effect.get("kind") == "search_item":
                 prefer = ["Ultra Ball", "Poké Ball", "Poke Ball", "Energy Search", "Energy Switch", "Trekking Shoes"]
                 self._search_items(me, count=int(effect.get("count") or 2), prefer_names=prefer)
+            elif effect.get("kind") == "search_supporter":
+                self._search_supporters(me, foe, int(effect.get("count") or 1))
             elif effect.get("kind") == "swallow_energy":
                 look = int(effect.get("look") or 0)
                 if look > 0:
@@ -7266,6 +7282,10 @@ class Game:
             return 1
         if name == "wiglett":
             return 2
+        if self._mill_dual_sleeper(card):
+            who = "a" if player.name == "A" else "b"
+            # Playground still comes up first. After that, Matching and Water Pulse do.
+            return 3.5 if self._mill_playground_pending(player, who) else 2.5
         if self._sweet_face(card):
             return 3
         if self._no_prize_proxy(card):
@@ -7305,6 +7325,183 @@ class Game:
             return False
         return can_pay_energy(self._energy_pool(me, mon), self._attack_cost(me, mon, atk))
 
+    def _supporter_search_attack(self, card: Card):
+        for atk in card.attacks:
+            if any(effect.get("kind") == "search_supporter" for effect in atk.effects):
+                return atk
+        return None
+
+    def _opponent_sleep_attack(self, card: Card):
+        for atk in card.attacks:
+            if any(
+                effect.get("kind") == "status"
+                and effect.get("status") == "asleep"
+                and effect.get("target") != "self"
+                for effect in atk.effects
+            ):
+                return atk
+        return None
+
+    def _mill_dual_sleeper(self, card: Card) -> bool:
+        """Matching plus an attack that puts the opponent's Active Asleep."""
+        return self._supporter_search_attack(card) is not None and self._opponent_sleep_attack(card) is not None
+
+    def _mill_can_pay_attack(self, me: Player, mon: Pokemon, atk) -> bool:
+        if atk is None:
+            return False
+        return can_pay_energy(self._energy_pool(me, mon), self._attack_cost(me, mon, atk))
+
+    def _mill_ranked_supporters(self, me: Player, foe: Player) -> list[tuple[float, int]]:
+        hand_names = {me.card(i).name.lower() for i in me.hand}
+        ranked: list[tuple[float, int]] = []
+        for card_i in me.deck:
+            card = me.card(card_i)
+            if not card.is_supporter:
+                continue
+            score = float(self._mill_trainer_score(me, foe, card))
+            if card.name.lower() in hand_names:
+                score -= 12
+            ranked.append((score, card_i))
+        ranked.sort(key=lambda item: item[0], reverse=True)
+        return ranked
+
+    def _mill_matching_attack_score(self, me: Player, foe: Player, atk) -> float:
+        count = 1
+        for effect in atk.effects:
+            if effect.get("kind") == "search_supporter":
+                count = int(effect.get("count") or 1)
+        take = [score for score, _card_i in self._mill_ranked_supporters(me, foe) if score > 0][:count]
+        if not take:
+            return -40.0
+        return 25.0 + sum(take)
+
+    def _mill_pulse_attack_score(self, me: Player, foe: Player) -> float:
+        """Water Pulse under Slumbering Forest. Sweet Sleeping Face is the other layer."""
+        if foe.active is None:
+            return -40.0
+        if foe.active.status & ST_ASLEEP:
+            return -20.0
+        forest = (self.stadium_name or "").lower() == "slumbering forest"
+        score = 70.0 if forest else 25.0
+        if self._mill_active_would_die(me, foe):
+            score += 35.0
+        return score
+
+    def _mill_searcher_value(self, me: Player, foe: Player, mon: Pokemon) -> float:
+        card = me.card(mon.card_i)
+        best = -1e9
+        for atk in card.attacks:
+            if not self._mill_can_pay_attack(me, mon, atk):
+                continue
+            if any(effect.get("kind") == "search_supporter" for effect in atk.effects):
+                best = max(best, self._mill_matching_attack_score(me, foe, atk))
+            if any(
+                effect.get("kind") == "status"
+                and effect.get("status") == "asleep"
+                and effect.get("target") != "self"
+                for effect in atk.effects
+            ):
+                best = max(best, self._mill_pulse_attack_score(me, foe) + float(atk.damage or 0))
+        return best
+
+    def _mill_playground_pending(self, me: Player, who: str) -> bool:
+        if not self._mill_wall_match(me):
+            return False
+        if self.events.get(f"used_playground_{who}", 0) > 0:
+            return False
+        return any(self._prints_playground(me.card(mon.card_i)) for mon in me.in_play())
+
+    def _mill_asleep_shield(self, me: Player) -> bool:
+        if not me.active or not (me.active.status & ST_ASLEEP):
+            return False
+        return self._sweet_face(me.card(me.active.card_i))
+
+    def _mill_searcher_bench_idx(self, me: Player, foe: Player) -> int | None:
+        best: tuple[float, int] | None = None
+        for idx, mon in enumerate(me.bench):
+            if not self._mill_dual_sleeper(me.card(mon.card_i)):
+                continue
+            value = self._mill_searcher_value(me, foe, mon)
+            if value < 25:
+                continue
+            if best is None or value > best[0]:
+                best = (value, idx)
+        return None if best is None else best[1]
+
+    def _mill_sleep_lock_live(self, me: Player) -> bool:
+        """Water Pulse can be paid this turn, so Forest has a defender to hold."""
+        for mon in me.in_play():
+            pulse = self._opponent_sleep_attack(me.card(mon.card_i))
+            if pulse is None:
+                continue
+            if self._mill_can_pay_attack(me, mon, pulse):
+                return True
+            if me.energy_attached:
+                continue
+            behind, host = self._energy_context(me, mon)
+            pool = self._energy_pool(me, mon)
+            cost = self._attack_cost(me, mon, pulse)
+            for card_i in me.hand:
+                if not me.card(card_i).is_energy:
+                    continue
+                units = energy_provided(me.card(card_i), prizes_behind=behind, host=host)
+                if can_pay_energy(pool + units, cost):
+                    return True
+        return False
+
+    def _mill_energy_searcher(self, me: Player) -> Pokemon | None:
+        """Attach to Luvdisc when that card can attack this turn and Wugtrio is not out."""
+        who = "a" if me.name == "A" else "b"
+        if self._mill_playground_pending(me, who) or self._mill_asleep_shield(me):
+            return None
+        for mon in me.in_play():
+            card = me.card(mon.card_i)
+            matching = self._supporter_search_attack(card)
+            if matching is None or not self._mill_dual_sleeper(card):
+                continue
+            if self._mill_can_pay_attack(me, mon, matching):
+                continue
+            if mon is not me.active and not (
+                self._mill_can_retreat(me) or self._retreat_cost(me, me.active) == 0
+            ):
+                continue
+            if mon is me.active:
+                return mon
+            return mon
+        return None
+
+    def _search_supporters(self, me: Player, foe: Player, count: int) -> None:
+        """Take up to `count` Supporters. The printed sentence supplies `count`."""
+        who = "a" if me.name == "A" else "b"
+        taken = 0
+        for _ in range(max(0, count)):
+            best_score = 0.0
+            best_i: int | None = None
+            hand_names = {me.card(i).name.lower() for i in me.hand}
+            for card_i in me.deck:
+                card = me.card(card_i)
+                if not card.is_supporter:
+                    continue
+                if self.strats[who].name == "mill":
+                    score = float(self._mill_trainer_score(me, foe, card))
+                    if card.name.lower() in hand_names:
+                        score -= 12
+                else:
+                    score = 5.0 if card.name.lower() not in hand_names else 1.0
+                if score > best_score:
+                    best_score = score
+                    best_i = card_i
+            if best_i is None:
+                break
+            me.deck.remove(best_i)
+            me.hand.append(best_i)
+            taken += 1
+            self._bump(f"tutor:{me.card(best_i).name}")
+            self._log(f"{me.name} Matching takes {me.card(best_i).name}")
+        self.rng.shuffle(me.deck)
+        self._bump("match_use")
+        self._bump("match_take", taken)
+
     def _mill_energy_target(self, me: Player) -> Pokemon:
         assert me.active
         unpaid = [
@@ -7316,6 +7513,10 @@ class Game:
             return me.active
         if unpaid:
             return unpaid[0]
+        if not any(me.card(mon.card_i).name.lower() == "wugtrio" for mon in me.in_play()):
+            searcher = self._mill_energy_searcher(me)
+            if searcher is not None:
+                return searcher
         # The wall stalls in front. Energy lands on the line that will mill.
         active_card = me.card(me.active.card_i)
         if self._sweet_face(active_card) or self._no_prize_proxy(active_card):
@@ -7478,6 +7679,9 @@ class Game:
             me.card(i).name.lower() == "victini" for i in me.hand
         ):
             return 30
+        if self._mill_dual_sleeper(card) and not any(self._mill_dual_sleeper(me.card(mon.card_i)) for mon in me.in_play()):
+            if not any(self._mill_dual_sleeper(me.card(i)) for i in me.hand):
+                return 32
         return 10
 
     def _mill_line_idx(self, me: Player) -> int | None:
@@ -7561,6 +7765,22 @@ class Game:
         def units(card_i: int) -> list[str]:
             return energy_provided(me.card(card_i), prizes_behind=behind, host=host)
 
+        if self._mill_dual_sleeper(card):
+            # Water pays Water Pulse. Colorless still pays Matching. Ignition leaves.
+            def water_rank(card_i: int) -> tuple[int, str]:
+                provided = units(card_i)
+                energy_name = me.card(card_i).name.lower()
+                if "Water" in provided:
+                    return (0, energy_name)
+                if "Any" in provided:
+                    return (1, energy_name)
+                return (2, energy_name)
+
+            staying_water = [i for i in hand if not leaves(i)]
+            if not staying_water:
+                return None
+            return min(staying_water, key=water_rank)
+
         def completes(card_i: int) -> bool:
             return atk is not None and can_pay_energy(pool + units(card_i), cost)
 
@@ -7619,6 +7839,17 @@ class Game:
             if self._mill_can_pay(me, mon) and self._do_retreat_into(me, idx):
                 return
         can_attack = self._mill_can_attack_turn(me)
+        if self._mill_dual_sleeper(active):
+            if can_attack and self._mill_playground_pending(me, who):
+                face = self._mill_face_idx(me)
+                if (
+                    face is not None
+                    and self._prints_playground(me.card(me.bench[face].card_i))
+                    and self._do_retreat_into(me, face)
+                ):
+                    return
+            if can_attack and self._mill_searcher_value(me, foe, me.active) >= 25:
+                return
         if self._prints_eeeeeeek(active):
             # Draw 6 only while Undersea cannot be paid. A ready line comes back up.
             if can_attack and self._mill_wants_eeeeeeek(me):
@@ -7648,6 +7879,10 @@ class Game:
                 if line is not None:
                     self._do_retreat_into(me, line)
                     return
+                if not self._mill_asleep_shield(me):
+                    searcher = self._mill_searcher_bench_idx(me, foe)
+                    if searcher is not None and self._do_retreat_into(me, searcher):
+                        return
             if can_attack:
                 return
             hide = self._mill_hide_idx(me)
@@ -7659,6 +7894,14 @@ class Game:
         if self._mill_wants_eeeeeeek(me):
             draw = self._mill_eeeeeeek_idx(me)
             if draw is not None and self._do_retreat_into(me, draw):
+                return
+        if can_attack and self._mill_playground_pending(me, who):
+            face = self._mill_face_idx(me)
+            if face is not None and self._do_retreat_into(me, face):
+                return
+        if not self._mill_asleep_shield(me):
+            searcher = self._mill_searcher_bench_idx(me, foe)
+            if searcher is not None and self._do_retreat_into(me, searcher):
                 return
         face = self._mill_face_idx(me)
         if face is not None:
@@ -7760,14 +8003,20 @@ class Game:
         if name == "slumbering forest":
             if (self.stadium_name or "").lower() == name:
                 return -6
-            # Forest does nothing until a Sweet Sleeping Face is in play.
-            # Playing it over Neutralization Zone turns Fezandipiti and friends back on.
-            if not any(self._sweet_face(me.card(mon.card_i)) for mon in me.in_play()):
+            # Sweet Sleeping Face wants to stay Asleep. Water Pulse wants the
+            # defender to stay Asleep. Either one is a reason to play Forest.
+            baby = any(self._sweet_face(me.card(mon.card_i)) for mon in me.in_play())
+            lock = self._mill_sleep_lock_live(me)
+            if not baby and not lock:
                 return -8
             asleep = bool(me.active and me.active.status & ST_ASLEEP and self._sweet_face(me.card(me.active.card_i)))
             if asleep:
                 return 20
-            return 15
+            if lock and foe.active and not (foe.active.status & ST_ASLEEP):
+                return 18
+            if baby:
+                return 15
+            return 12
         if name == "neutralization zone":
             if (self.stadium_name or "").lower() == "slumbering forest" and me.active and me.active.status & ST_ASLEEP:
                 return -8
@@ -8961,6 +9210,13 @@ class Game:
                 score += 120
             if strat.name == "mill" and any(e.get("kind") == "move_opponent_energy" for e in resolved.effects):
                 score += 90 if any(mon.energy for mon in foe.in_play()) else 40
+            if strat.name == "mill" and any(e.get("kind") == "search_supporter" for e in atk.effects):
+                score += self._mill_matching_attack_score(me, foe, atk)
+            if strat.name == "mill" and any(
+                e.get("kind") == "status" and e.get("status") == "asleep" and e.get("target") != "self"
+                for e in atk.effects
+            ):
+                score += self._mill_pulse_attack_score(me, foe)
             if any(e.get("kind") == "draw" for e in atk.effects) and atk.damage <= 30:
                 score += 15
             if any(e.get("kind") == "hand_count_times" for e in resolved.effects):

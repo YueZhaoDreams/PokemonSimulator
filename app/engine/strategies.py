@@ -850,6 +850,12 @@ STRATEGY_LIBRARY = {
             "opponent's deck in the Lost Zone. The attack leaves that baby Asleep. "
             "Sweet Sleeping Face prevents attack damage while it is Asleep. "
             "Slumbering Forest makes the between-turns sleep check two coins. "
+            "Paldea Evolved Luvdisc, when the list has it, uses Matching to take the printed "
+            "number of Supporter cards and Water Pulse to make the opponent's Active Asleep. "
+            "Those two sleeps are the double protection: Forest holds either Asleep Pokémon, "
+            "and Sweet Sleeping Face stops attack damage while this side is Asleep. "
+            "One Luvdisc is benched. Water Energy pays Water Pulse. "
+            "A paid Wugtrio still comes up for Undersea Tunnel. "
             "Manaphy is benched only when an opposing attack does damage to the bench. "
             "Poffin takes Manaphy and then Cleffa. Level Ball still finds Wugtrio. "
             "The lock has no Rabsca line and no Battle Cage. "
@@ -874,7 +880,7 @@ STRATEGY_LIBRARY = {
         item_spend=1.0,
         self_preserve=0.2,
         hold_as_energy=False,
-        protect=["Wiglett", "Wugtrio", "Victini", "Pichu", "Mime Jr.", "Slumbering Forest"],
+        protect=["Wiglett", "Wugtrio", "Victini", "Pichu", "Mime Jr.", "Luvdisc", "Slumbering Forest"],
         search_aces=["Wiglett", "Wugtrio"],
         closers=["Wugtrio"],
         reflip_heads_at_most=1,

@@ -709,6 +709,10 @@ SET_DOLL_NAMES = (
 # See data/lab/set-mill-veil.md. The remaining Nest Ball was then replaced by a
 # fourth Level Ball without another paired run. Level Ball finds Wugtrio.
 # Poffin stays ×4 and benches Manaphy, then Cleffa.
+# Paldea Evolved Luvdisc was screened on this lock (seed 20261030). Every legal
+# cut was at or under the lock on the 30-game screen. The closest 80-game
+# confirm replaced Lillie's Poké Doll and finished lower. See
+# data/lab/set-mill-luvdisc.md. Luvdisc stays at zero copies.
 SET_MILL_NAMES = (
     ["Pichu"]
     + ["Mime Jr."]
@@ -3235,6 +3239,32 @@ for card in [
         catalog_id="swsh9-041",
         image="https://assets.tcgdex.net/en/swsh/swsh9/041/low.webp",
         set_name="Brilliant Stars",
+    ),
+    # Paldea Evolved 047. Matching takes up to 2 Supporters. Water Pulse sleeps the defender.
+    _pkm(
+        "Luvdisc",
+        "Basic",
+        ["Water"],
+        70,
+        [
+            _atk(
+                "Matching",
+                ["Colorless"],
+                0,
+                "Search your deck for up to 2 Supporter cards, reveal them, and put them into your hand. Then, shuffle your deck.",
+            ),
+            _atk(
+                "Water Pulse",
+                ["Water"],
+                20,
+                "Your opponent's Active Pokémon is now Asleep.",
+            ),
+        ],
+        retreat=1,
+        weakness="Lightning",
+        catalog_id="sv02-047",
+        image="https://assets.tcgdex.net/en/sv/sv02/047/low.webp",
+        set_name="Paldea Evolved",
     ),
     _pkm(
         "Glimmet",

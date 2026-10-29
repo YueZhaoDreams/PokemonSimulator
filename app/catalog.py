@@ -114,6 +114,7 @@ PREFERRED_IDS = {
     "Hisuian Sliggoo": "swsh11-133",
     "Lickilicky": "swsh11-139",
     "Emolga": "sv10.5b-029",
+    "Luvdisc": "sv02-047",  # Paldea Evolved Matching / Water Pulse
     "Pichu": "hgss1-28",  # Playground / Sweet Sleeping Face
     "Smoochum": "hgss1-30",  # Energy Antics / Sweet Sleeping Face
     "Slumbering Forest": "sm11-207",
@@ -441,6 +442,7 @@ PRINT_PREFER = {
     "Rotom V": ["instant charge"],
     "Lumineon V": ["luminous sign"],
     "Manaphy": ["wave veil"],
+    "Luvdisc": ["matching", "water pulse"],
     "Counter Catcher": ["more prize cards remaining"],
     "Forest Seal Stone": ["star alchemy"],
     "Raikou V": ["fleet-footed", "lightning streak"],

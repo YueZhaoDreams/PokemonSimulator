@@ -162,6 +162,9 @@ def build_catalog_kg(cards: list[Card], rules: FamilyRules | None = None) -> KG:
             elif kind == "search_item":
                 add_role("role:item", "Item")
                 add(src, "role:item", "searches_role", sentence, effect)
+            elif kind == "search_supporter":
+                add_role("role:supporter", "Supporter")
+                add(src, "role:supporter", "searches_role", sentence, effect)
             elif kind == "search_pokemon_no_rule_box":
                 add_role("role:no-rule-box", "Pokémon without a Rule Box")
                 add(src, "role:no-rule-box", "searches_role", sentence, effect)

@@ -33,6 +33,7 @@ PUBLISHED_EFFECT_KINDS = frozenset(
         "move_opponent_energy",
         "sleep_check_two_coins",
         "search_item",
+        "search_supporter",
         "mill_opponent",
         "coin_whiff",
         "require_equal_hands",
