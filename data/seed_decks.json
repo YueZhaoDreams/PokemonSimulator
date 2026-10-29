@@ -28840,29 +28840,6 @@
         "traits": []
       },
       {
-        "catalog_id": "swsh12.5-158",
-        "name": "Darkness Energy",
-        "category": "Energy",
-        "stage": "Basic",
-        "types": [
-          "Darkness"
-        ],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": "Darkness",
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/158/low.webp",
-        "set_name": "Crown Zenith",
-        "text": "",
-        "dex_id": null,
-        "traits": []
-      },
-      {
         "catalog_id": "bw5-93",
         "name": "Dark Patch",
         "category": "Trainer",
@@ -29796,6 +29773,27 @@
         "image": "https://images.pokemontcg.io/sv10/176.png",
         "set_name": null,
         "text": "Search your deck for a Trainer card, reveal it, and put it into your hand. Then, shuffle your deck.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "me01-119",
+        "name": "Lillie's Determination",
+        "category": "Trainer",
+        "stage": "Supporter",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "supporter",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/me/me01/119/low.webp",
+        "set_name": null,
+        "text": "Shuffle your hand into your deck. Then, draw 6 cards. If you have exactly 6 Prize cards remaining, draw 8 cards instead.",
         "dex_id": null,
         "traits": []
       }

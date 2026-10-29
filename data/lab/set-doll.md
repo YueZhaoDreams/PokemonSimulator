@@ -60,9 +60,9 @@ Same seed 20261029, 200 games each seat, Sisters weights, product engine, strate
 
 ## Lillie's Determination
 
-The locked 60 is unchanged. One Lillie's Determination was screened against every other card, then the cuts inside the screen band were confirmed. Printed text: shuffle your hand into your deck, then draw 6 cards. If you have exactly 6 Prize cards remaining, draw 8 cards instead. It is not a search. Doll plays it when the deck still has a replayable doll, the hand has fewer than two, and at most two are in play. A doll, Life Dew, Cursed Shovel, the Stadiums, Arven, and Petrel outrank it. Handiwork yields on that turn.
+The locked 60 cuts one Darkness Energy for one Lillie's Determination. Printed text: shuffle your hand into your deck, then draw 6 cards. If you have exactly 6 Prize cards remaining, draw 8 cards instead. Doll plays it when the deck still has a replayable doll, the hand has fewer than two, and at most two are in play. A doll, Life Dew, Cursed Shovel, the Stadiums, Arven, and Petrel outrank it. Handiwork yields on that turn. One Darkness Energy remains for Sableye.
 
-Same seed 20261029, 200 games each seat, Sisters weights, product engine, strategy `doll`. The baseline is the Eeeeeeek 60 at 43.5% (SE 0.68 points). The highest confirm cuts one Slumbering Forest: 44.8% (SE 0.67 points). The gap is +1.3 points, and the gap's standard error is 0.95 points, about 1.3 standard errors. That is noise. Switch, Darkness Energy, and Crushing Hammer are next, each under one point. D60 stays 10.5% and Starmie stays 24.2% on the Forest cut. Lillie's Determination resolves 0.39 times a game on that cut. Detail is `data/lab/set-doll-lillie.md`.
+The decision sample is seed 20261029, 400 games each seat, Sisters weights, product engine, strategy `doll`. The screen is still 40 games. The baseline, this same 60 without the swap, is 43.7% (SE 0.47 points). The highest confirm is 45.0% (SE 0.48 points). The gap is +1.3 points, and the gap's standard error is 0.67 points, about 2.0 standard errors. Slumbering Forest is next at 44.7%. Lillie's Determination resolves 0.40 times a game. D60 goes from 8.2% to 8.6%, and Starmie from 24.2% to 26.2%. S60 goes from 69.0% to 63.3%, and Carpet H from 14.9% to 12.0%. This confirm is not the 1000-game holdout. Detail is `data/lab/set-doll-lillie.md`.
 
 ## Why the strict Eeeeeeek 60 loses
 

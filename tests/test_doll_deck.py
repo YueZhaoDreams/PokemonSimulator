@@ -125,7 +125,8 @@ def test_doll_list_is_the_locked_60():
     assert names.count("Arven") == 1
     assert names.count("Team Rocket's Petrel") == 1
     assert names.count("Sableye") == 2
-    assert names.count("Darkness Energy") == 2
+    assert names.count("Darkness Energy") == 1
+    assert names.count("Lillie's Determination") == 1
     assert names.count("Dark Patch") == 1
     assert names.count("Puzzle of Time") == 4
     assert names.count("VS Seeker") == 4
@@ -191,6 +192,13 @@ def test_doll_list_is_the_locked_60():
     assert petrel.text == (
         "Search your deck for a Trainer card, reveal it, and put it into your hand. "
         "Then, shuffle your deck."
+    )
+    determination = next(c for c in pile if c.name == "Lillie's Determination")
+    assert determination.catalog_id == "me01-119"
+    assert determination.trainer_kind == "supporter"
+    assert determination.text == (
+        "Shuffle your hand into your deck. Then, draw 6 cards. "
+        "If you have exactly 6 Prize cards remaining, draw 8 cards instead."
     )
     shed = next(c for c in pile if c.name == "Shedinja")
     assert shed.catalog_id == "sm8-95"

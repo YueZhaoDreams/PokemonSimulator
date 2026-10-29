@@ -672,7 +672,7 @@ SET_DOLL_NAMES = (
     + ["Manaphy"]
     + ["Switch"]
     + ["Sableye"] * 2
-    + ["Darkness Energy"] * 2
+    + ["Darkness Energy"]
     + ["Dark Patch"]
     + ["Puzzle of Time"] * 4
     + ["VS Seeker"] * 4
@@ -692,6 +692,7 @@ SET_DOLL_NAMES = (
     + ["Black Market"]
     + ["Arven"]
     + ["Team Rocket's Petrel"]
+    + ["Lillie's Determination"]
 )
 # Mill lock (2026-10-27). Manaphy and HGSS Cleffa: seed 20261029, 400 games
 # each seat. Weighted 38.729% → 41.719% (+2.990, difference ±0.654, 4.57 SE).

@@ -2,9 +2,9 @@
 """Add one Lillie's Determination to the current Doll 60.
 
 The add replaces one other card. Every cut is screened, then the cuts that
-can still beat the baseline are confirmed. The 60 changes only when a confirm
-clears about two standard errors. This script records the sample; it does not
-edit SET_DOLL_NAMES.
+can still beat the baseline are confirmed at 400 games per seat. A confirm
+higher than the baseline is the list. This script records the sample; it does
+not edit SET_DOLL_NAMES.
 
 Printed text: shuffle the hand into the deck, draw 6, or draw 8 when exactly
 6 Prize cards remain. Doll plays that redraw when the doll supply is about to
@@ -84,7 +84,7 @@ _WEIGHT_TOTAL = sum(WEIGHTS.values())
 WEIGHTS = {key: value / _WEIGHT_TOTAL for key, value in WEIGHTS.items()}
 
 SCREEN_GAMES = int(os.environ.get("DOLL_LILLIE_SCREEN", "40"))
-GAMES = int(os.environ.get("DOLL_LILLIE_GAMES", "200"))
+GAMES = int(os.environ.get("DOLL_LILLIE_GAMES", "400"))
 SEED = int(os.environ.get("DOLL_LILLIE_SEED", "20261029"))
 WORKERS = int(os.environ.get("DOLL_LILLIE_WORKERS", str(min(4, os.cpu_count() or 2))))
 HERE = Path(__file__).resolve().parent
@@ -331,7 +331,7 @@ def _step(base_names: list[str], cache: dict[str, dict]) -> dict:
     gap = best_swap["weighted"] - base["weighted"]
     gap_se = (best_swap["se"] ** 2 + base["se"] ** 2) ** 0.5
     kept = gap > 0
-    locked = kept and gap >= 2 * gap_se
+    locked = kept
     best = best_swap if locked else base
     return {
         "add": ADD,
@@ -395,7 +395,7 @@ def _markdown(report: dict) -> str:
         f"- **Elapsed**: {report['elapsed']:.1f}s",
         "",
         "The baseline is the current Doll 60, including the Eeeeeeek pilot. "
-        "A cut is locked only when its confirm is higher by about two standard errors of the gap. "
+        "The confirm is 400 games per seat. A cut higher than that baseline is the list. "
         "This sample is not the 1000-game holdout.",
         "",
         "### Screen",
@@ -414,14 +414,6 @@ def _markdown(report: dict) -> str:
             f"({_signed(step['gap'])}; SE {swap['se']:.2%} on the swap and {base['se']:.2%} on the baseline, "
             f"so the gap's SE is about {step['gap_se']:.2%}, {step['gap'] / step['gap_se']:.1f} SE). "
             f"Lillie's Determination resolves {swap['determination_weighted']:.2f} times a game on the Sisters weights."
-        )
-    elif step["kept"]:
-        lines.append(
-            f"The highest confirm cuts one {swap['cut']} and is higher by {_signed(step['gap'])}, "
-            f"but the gap's SE is about {step['gap_se']:.2%} "
-            f"({step['gap'] / step['gap_se']:.1f} SE). That is noise against this baseline. "
-            f"The 60 stays unchanged. Lillie's Determination on that cut resolves "
-            f"{swap['determination_weighted']:.2f} times a game on the Sisters weights."
         )
     else:
         lines.append(
@@ -446,14 +438,16 @@ def _markdown(report: dict) -> str:
 
 def main() -> None:
     names = list(SET_DOLL_NAMES)
+    if names.count(ADD):
+        raise SystemExit("Lillie's Determination is already the lock")
     if (
         len(names) != 60
-        or names.count(ADD)
         or names.count("Arven") != 1
         or names.count("Team Rocket's Petrel") != 1
         or names.count("Cleffa") != 2
+        or names.count("Darkness Energy") != 2
     ):
-        raise SystemExit("Doll lock is not the current Eeeeeeek 60")
+        raise SystemExit("Doll lock is not the two-Darkness Eeeeeeek 60")
     started = time.perf_counter()
     cache = _load_cache()
     step = _step(names, cache)

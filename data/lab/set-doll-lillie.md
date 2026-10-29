@@ -4,12 +4,12 @@ Printed text: shuffle your hand into your deck, then draw 6 cards. If you have e
 
 - **Seed**: `20261029`
 - **Screen games per seat**: 40
-- **Confirm games per seat**: 200
+- **Confirm games per seat**: 400
 - **Seats**: each list is player A and player B. A foe cell is the mean of those two win rates. Doll goes first in either seat.
 - **Weights**: frozen Sisters loss weights. The same weights as the Doll lock.
-- **Elapsed**: 1553.5s
+- **Elapsed**: 1791.4s
 
-The baseline is the current Doll 60, including the Eeeeeeek pilot. A cut is locked only when its confirm is higher by about two standard errors of the gap. This sample is not the 1000-game holdout.
+The baseline is the current Doll 60, including the Eeeeeeek pilot. The confirm is 400 games per seat. A cut higher than that baseline is the list. This sample is not the 1000-game holdout.
 
 ### Screen
 
@@ -49,29 +49,29 @@ The baseline is the current Doll 60, including the Eeeeeeek pilot. A cut is lock
 
 | Cut | Weighted | SE | vs baseline | Mean | Worst | Determination | Doll plays |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| — baseline — | 43.5% | 0.68% | +0.0% | 54.4% | 10.5% | 0.00 | 4.15 |
-| Slumbering Forest | 44.8% | 0.67% | +1.3% | 56.0% | 10.5% | 0.39 | 4.32 |
-| Switch | 44.5% | 0.68% | +1.0% | 54.9% | 9.0% | 0.39 | 4.30 |
-| Darkness Energy | 44.5% | 0.67% | +0.9% | 54.8% | 7.5% | 0.40 | 4.23 |
-| Crushing Hammer | 44.3% | 0.66% | +0.8% | 55.1% | 7.3% | 0.39 | 4.34 |
-| Battle Cage | 44.0% | 0.67% | +0.5% | 54.8% | 8.0% | 0.39 | 4.28 |
-| Shedinja | 43.8% | 0.68% | +0.3% | 55.1% | 9.5% | 0.40 | 4.21 |
-| Buddy-Buddy Poffin | 43.5% | 0.67% | -0.0% | 54.3% | 8.2% | 0.38 | 4.33 |
+| — baseline — | 43.7% | 0.47% | +0.0% | 54.8% | 8.2% | 0.00 | 4.12 |
+| Darkness Energy | 45.0% | 0.48% | +1.3% | 55.2% | 8.6% | 0.40 | 4.21 |
+| Slumbering Forest | 44.7% | 0.48% | +1.0% | 55.9% | 9.8% | 0.39 | 4.31 |
+| Crushing Hammer | 44.3% | 0.47% | +0.7% | 55.1% | 8.4% | 0.39 | 4.34 |
+| Battle Cage | 44.3% | 0.48% | +0.6% | 54.9% | 9.9% | 0.39 | 4.27 |
+| Switch | 44.2% | 0.48% | +0.6% | 55.1% | 8.2% | 0.39 | 4.29 |
+| Shedinja | 44.0% | 0.47% | +0.3% | 55.3% | 9.5% | 0.40 | 4.19 |
+| Buddy-Buddy Poffin | 43.9% | 0.48% | +0.2% | 54.5% | 10.6% | 0.38 | 4.33 |
 
-The highest confirm cuts one Slumbering Forest and is higher by +1.3%, but the gap's SE is about 0.95% (1.3 SE). That is noise against this baseline. The 60 stays unchanged. Lillie's Determination on that cut resolves 0.39 times a game on the Sisters weights.
+The confirm cuts one Darkness Energy for one Lillie's Determination. Weighted 45.0% vs 43.7% (+1.3%; SE 0.48% on the swap and 0.47% on the baseline, so the gap's SE is about 0.67%, 2.0 SE). Lillie's Determination resolves 0.40 times a game on the Sisters weights.
 
-| Foe | Baseline | Slumbering Forest | Switch | Darkness Energy | Crushing Hammer | Battle Cage | Shedinja | Buddy-Buddy Poffin |
+| Foe | Baseline | Darkness Energy | Slumbering Forest | Crushing Hammer | Battle Cage | Switch | Shedinja | Buddy-Buddy Poffin |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| Dragapult ex (T60) | 68.8% | 75.0% | 74.2% | 71.2% | 72.5% | 71.0% | 72.8% | 70.0% |
-| Hedrick Worlds Dragapult | 47.0% | 45.0% | 47.0% | 50.8% | 49.5% | 47.0% | 53.2% | 46.0% |
-| Unlimited Dragapult | 85.5% | 90.0% | 86.0% | 87.5% | 84.7% | 86.5% | 86.8% | 86.8% |
-| Cornerstone Ogerpon (D60) | 10.5% | 10.5% | 9.0% | 7.5% | 7.3% | 8.0% | 9.5% | 8.2% |
-| Wo-Chien / Floragato (S60) | 66.5% | 72.2% | 64.0% | 64.0% | 66.3% | 65.3% | 65.3% | 64.2% |
-| Gholdengo (G) | 41.0% | 41.8% | 43.5% | 44.0% | 44.0% | 42.8% | 45.5% | 44.0% |
-| Clefairy / Mewtwo (C60) | 69.0% | 72.2% | 67.2% | 72.0% | 73.2% | 70.5% | 66.3% | 71.2% |
-| Set M (Mew ex) | 30.5% | 30.2% | 34.0% | 35.0% | 30.0% | 31.5% | 29.0% | 29.8% |
-| Mega Starmie ex (Kudo) | 24.2% | 24.2% | 28.5% | 25.5% | 26.0% | 27.0% | 24.0% | 23.5% |
-| Lucario Hariyama | 83.0% | 84.5% | 84.7% | 82.7% | 82.5% | 84.5% | 85.2% | 83.0% |
-| Iron Thorns ex | 93.8% | 92.5% | 95.0% | 93.2% | 94.0% | 94.0% | 92.8% | 94.2% |
-| Carpet Set H | 13.5% | 15.2% | 13.8% | 11.0% | 13.8% | 12.0% | 14.0% | 13.5% |
-| Ambipom Hand Fling | 73.5% | 74.2% | 67.0% | 67.5% | 72.8% | 73.0% | 72.0% | 71.0% |
+| Dragapult ex (T60) | 69.4% | 71.6% | 73.2% | 72.8% | 71.1% | 73.0% | 75.5% | 71.5% |
+| Hedrick Worlds Dragapult | 48.9% | 50.4% | 49.5% | 50.0% | 47.1% | 48.9% | 54.9% | 46.6% |
+| Unlimited Dragapult | 87.4% | 88.0% | 87.5% | 85.0% | 86.4% | 85.5% | 86.0% | 87.2% |
+| Cornerstone Ogerpon (D60) | 8.2% | 8.6% | 9.8% | 8.4% | 9.9% | 8.2% | 9.5% | 10.6% |
+| Wo-Chien / Floragato (S60) | 69.0% | 63.3% | 71.1% | 64.6% | 65.4% | 66.9% | 65.5% | 65.4% |
+| Gholdengo (G) | 41.4% | 45.0% | 43.6% | 42.8% | 42.2% | 42.6% | 42.8% | 42.0% |
+| Clefairy / Mewtwo (C60) | 69.2% | 73.9% | 68.6% | 73.5% | 72.2% | 66.6% | 68.8% | 70.6% |
+| Set M (Mew ex) | 30.4% | 34.4% | 30.9% | 30.9% | 31.2% | 32.8% | 28.1% | 32.0% |
+| Mega Starmie ex (Kudo) | 24.2% | 26.2% | 24.6% | 26.4% | 26.9% | 26.6% | 24.1% | 24.1% |
+| Lucario Hariyama | 84.1% | 82.5% | 84.9% | 81.6% | 83.9% | 85.1% | 86.0% | 81.9% |
+| Iron Thorns ex | 92.8% | 94.6% | 93.4% | 94.0% | 93.6% | 95.1% | 93.9% | 93.9% |
+| Carpet Set H | 14.9% | 12.0% | 15.8% | 13.4% | 12.0% | 15.8% | 14.0% | 11.9% |
+| Ambipom Hand Fling | 72.4% | 67.6% | 74.0% | 73.5% | 71.1% | 69.0% | 70.2% | 71.4% |
