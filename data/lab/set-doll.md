@@ -73,6 +73,23 @@ The decision sample is seed 20261029, 400 games each seat, Sisters weights, prod
 
 Lillie's Determination resolves 0.40, 0.81, 1.15, then 1.51 times a game. This confirm is not the 1000-game holdout. Detail is `data/lab/set-doll-lillie.md`.
 
+## Sleepy Voice Igglybuff
+
+The locked 60 has three Cosmic Eclipse 168 Igglybuff. Smoochum stays at one. `fallback_named("Igglybuff")` stays the Set M Bouncy Circle print. Printed text: once during your turn, before your attack, you may flip a coin. If heads, your opponent's Active Pokémon is now Asleep. If you use this Ability, your turn ends. A Benched copy can use it. Doll spends that attack on the coin only when the hit ignores effects on the Active, as Demolish does. Eeeeeeek, Energy Antics, Sleepy Lost, and Junk Hunt stay ahead of the coin against every other deck. A turn with no attack still flips when their hit would land.
+
+An always-on coin, used whenever the Active was awake, lost its confirm: 50.1% against a 53.0% baseline. D60 rose to 20.0% and the other foes paid for the ended turn.
+
+This sample is the benefit rule. Seed 20261029, 400 games each seat, Sisters weights, product engine, strategy `doll`. The screen is 40 games. A confirm higher than its own baseline is the next list. Four is the maximum.
+
+| Copy | Cut | Baseline | Confirm | Gap | Gap SE | D60 |
+| --- | --- | ---: | ---: | ---: | ---: | ---: |
+| 1 | Black Market | 53.0% | 57.7% | +4.7 | 0.68 | 6.0% → 23.6% |
+| 2 | Rescue Carrier | 57.7% | 58.2% | +0.5 | 0.70 | 23.6% → 26.2% |
+| 3 | Battle Cage | 58.2% | 59.6% | +1.4 | 0.70 | 26.2% → 27.6% |
+| 4 | Smoochum | 59.6% | 59.7% | +0.05 | 0.70 | 27.6% → 24.9% |
+
+Sleepy Voice flips 3.36, 3.96, then 4.14 times a game on the locked list. Black Market is out. Battle Cage is three. Rescue Carrier is two. Smoochum stays. Copy 4 cut Smoochum and was higher than its baseline by 0.05 points, about 0.07 standard errors. That cut is not locked. This confirm is not the 1000-game holdout. Detail is `data/lab/set-doll-igglybuff.md`.
+
 ## Why the strict Eeeeeeek 60 loses
 
 This sample is the Arven and Petrel lock before Cleffa was sent up to draw, seed 20261029, 200 games each seat, the same games as the Petrel confirm. Sisters-weighted win rate is 33.8%. The weighted losses are an empty board 61.0%, the opponent taking all 6 Prize cards 20.3%, and the 40-turn limit 18.6% (16.8% because the opponent had more Prizes, 1.8% because they had more remaining HP). The empty board is 40.4% of games, the same band as the Black Market 60. The six-Prize losses are what shrank. Doll did not deck out, and Doll did not fail to find a Basic. A win is the opponent decking out. Two D60 games and eight Iron Thorns games are the opponent still having no Basic after the mulligan cap. One Starmie game is Doll having more Prizes at the turn limit. The detail is `data/lab/set-doll-arven-petrel-losses.md`.

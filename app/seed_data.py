@@ -680,12 +680,19 @@ SET_L60_NAMES = (
 # The 1000-game holdout in data/lab/set-doll.json is the earlier two-Switch list.
 # Item dolls are Trainers. A Pokémon search does not find them.
 # Level Ball's sentence takes a Pokémon of at most the printed HP, so Shedinja qualifies.
+# Sleepy Voice Igglybuff (Cosmic Eclipse 168). Seed 20261029, 400 games each seat.
+# The coin replaces an attack only when the hit ignores effects on the Active.
+# Three copies, each above that step's own baseline: Black Market 53.0% → 57.7%,
+# Rescue Carrier 57.7% → 58.2%, Battle Cage 58.2% → 59.6%.
+# The fourth confirm cut Smoochum and was 59.6% → 59.7% (gap 0.05, about 0.07 SE).
+# That cut stays out of the lock. Smoochum remains one. See data/lab/set-doll-igglybuff.md.
 SET_DOLL_NAMES = (
     ["Cleffa"]
     + ["Smoochum"]
+    + ["Igglybuff"] * 3
     + ["Mime Jr."] * 2
     + ["Slumbering Forest"] * 2
-    + ["Battle Cage"] * 4
+    + ["Battle Cage"] * 3
     + ["Manaphy"]
     + ["Switch"]
     + ["Sableye"] * 2
@@ -693,7 +700,7 @@ SET_DOLL_NAMES = (
     + ["Puzzle of Time"] * 4
     + ["VS Seeker"] * 4
     + ["Team Rocket's Handiwork"] * 4
-    + ["Rescue Carrier"] * 3
+    + ["Rescue Carrier"] * 2
     + ["Robo Substitute Team Flare Gear"] * 4
     + ["Lillie's Poké Doll"] * 4
     + ["Snorlax Doll"] * 2
@@ -705,7 +712,6 @@ SET_DOLL_NAMES = (
     + ["Level Ball"] * 2
     + ["Buddy-Buddy Poffin"] * 2
     + ["Crushing Hammer"] * 2
-    + ["Black Market"]
     + ["Arven"]
     + ["Team Rocket's Petrel"]
     + ["Lillie's Determination"] * 4
@@ -5536,6 +5542,25 @@ _CLEFFA_HGSS = _pkm(
 )
 _CLEFFA_HGSS.image = "https://assets.tcgdex.net/en/hgss/hgss1/17/low.webp"
 FALLBACK_BY_NAME["cleffa hgss"] = _CLEFFA_HGSS
+# Cosmic Eclipse 168. fallback_named("Igglybuff") stays the Set M Bouncy Circle print.
+_SLEEPY_VOICE = (
+    "Once during your turn (before your attack), you may flip a coin. "
+    "If heads, your opponent's Active Pokémon is now Asleep. "
+    "If you use this Ability, your turn ends."
+)
+_IGGLYBUFF_SLEEPY = _pkm(
+    "Igglybuff",
+    "Basic",
+    ["Colorless"],
+    60,
+    [],
+    retreat=0,
+    catalog_id="sm12-168",
+    set_name="Cosmic Eclipse",
+    abilities=[Ability(name="Sleepy Voice", text=_SLEEPY_VOICE)],
+    image="https://assets.tcgdex.net/en/sm/sm12/168/low.webp",
+)
+FALLBACK_BY_NAME["igglybuff sleepy"] = _IGGLYBUFF_SLEEPY
 _register(
     _pkm(
         "Nincada",
@@ -5654,6 +5679,8 @@ def build_doll_deck() -> list[Card]:
             out.append(fallback_named("cleffa hgss"))
         elif name == "Mime Jr.":
             out.append(fallback_named("mime jr. col"))
+        elif name == "Igglybuff":
+            out.append(fallback_named("igglybuff sleepy"))
         else:
             out.append(fallback_named(name))
     return out

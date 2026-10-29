@@ -12,11 +12,16 @@ Cleffa is sent Active to use it, and Life Dew goes on that Cleffa.
 Lillie's Determination shuffles the hand and draws 6, or 8 when exactly 6
 Prize cards remain. It is played when the doll supply is about to run out.
 Items, Stadiums, Arven, and Petrel outrank it. Handiwork yields on that turn.
+Igglybuff's Sleepy Voice flips one coin from the Bench or the Active Spot.
+Heads puts the opponent's Active Pokémon to sleep, and that use ends the turn.
+The coin replaces an attack only when that attack cannot stop the hit, as with
+Demolish. Against every other deck, Eeeeeeek, Energy Antics, Sleepy Lost, and
+Junk Hunt stay. A turn with no attack still flips when their hit would land.
 """
 
 from __future__ import annotations
 
-from app.engine.effects import can_pay_energy
+from app.engine.effects import can_pay_energy, parse_ability_effects
 
 SPREAD = {"phantom", "starmie", "nuzzle"}
 KEEPERS = {
@@ -151,9 +156,119 @@ def _hand_has_keepers(game, me) -> bool:
     return len(me.hand) > 1
 
 
+def _sleepy_voice(card) -> bool:
+    return any(
+        eff.get("kind") == "sleepy_voice"
+        for abi in card.abilities
+        for eff in parse_ability_effects(abi.text or "")
+    )
+
+
+def _payable_attacks(game, me, foe):
+    if not foe.active:
+        return []
+    pool = game._energy_pool(foe, foe.active)
+    legal = []
+    for atk in foe.card(foe.active.card_i).attacks:
+        if can_pay_energy(pool, game._attack_cost(foe, foe.active, atk, me)):
+            legal.append(atk)
+    return legal
+
+
+def _ignores_face(atk) -> bool:
+    return any(eff.get("kind") == "ignore_active_effects" for eff in (atk.effects or []))
+
+
+def _face_blocks_damage(game, me) -> bool:
+    if not me.active or not _asleep(me.active):
+        return False
+    return bool(game._sweet_face(me.card(me.active.card_i)))
+
+
+def _active_hit(game, me, foe, atk) -> int:
+    """Damage and counters that would land on our Active."""
+    if not me.active:
+        return 0
+    damage = int(game._raw_attack_damage(foe, me, foe.active, atk) or 0)
+    if _face_blocks_damage(game, me) and not _ignores_face(atk):
+        damage = 0
+    counters = sum(
+        int(eff.get("counters") or 0)
+        for eff in (atk.effects or [])
+        if eff.get("kind") == "active_damage_counters"
+    )
+    return damage + 10 * counters
+
+
+def _bench_hit_open(game, me, atk) -> bool:
+    if not me.bench:
+        return False
+    kinds = {eff.get("kind") for eff in (atk.effects or [])}
+    if "bench_damage_counters" in kinds:
+        if game._stadium_blocks_bench_counters():
+            return False
+        if game._has_bench_shield(me, "prevent_bench_damage_and_attack_effects"):
+            return False
+        return True
+    if not kinds & {"damage_each_with_counters", "damage_n_opponent_pokemon", "damage_one_pokemon"}:
+        return False
+    for kind in (
+        "prevent_bench_damage_and_attack_effects",
+        "prevent_bench_attack_damage",
+        "prevent_bench_attack_damage_no_rulebox",
+    ):
+        if game._has_bench_shield(me, kind):
+            return False
+    return True
+
+
+def _hit_lands(game, me, foe, attacks) -> bool:
+    for atk in attacks:
+        if _active_hit(game, me, foe, atk) > 0 or _bench_hit_open(game, me, atk):
+            return True
+    return False
+
+
+def _ignore_face_ko(game, me, foe, attacks) -> bool:
+    """Demolish: the printed sentence ignores effects on the opponent's Active."""
+    if not me.active:
+        return False
+    remain = game._max_hp(me, me.active) - me.active.damage
+    if remain <= 0:
+        return False
+    for atk in attacks:
+        if not _ignores_face(atk):
+            continue
+        raw = int(game._raw_attack_damage(foe, me, foe.active, atk) or 0)
+        if raw >= remain:
+            return True
+    return False
+
+
+def wants_sleepy_voice(game, me, foe) -> bool:
+    """The printed may. Flip when the sleep is worth ending the turn.
+
+    Demolish ignores effects on the Active, so the coin replaces Eeeeeeek.
+    Every other attack Doll would use stays. A turn with no attack flips
+    only when their hit is not already blanked.
+    """
+    if not foe.active or _asleep(foe.active):
+        return False
+    legal = _payable_attacks(game, me, foe)
+    if not legal:
+        return False
+    if _ignore_face_ko(game, me, foe, legal):
+        return True
+    if choose_attack(game, me, foe) is not None:
+        return False
+    return _hit_lands(game, me, foe, legal)
+
+
 def wants_pokemon(game, player, card) -> bool:
     name = card.name.lower()
     copies = game._count_named_in_play(player, card.name)
+    if _sleepy_voice(card):
+        return copies < 1
     if name == "manaphy":
         if _hard(game, player):
             return False
@@ -182,6 +297,8 @@ def starter_score(game, card) -> float:
         return 20
     if card.name.lower() == "manaphy":
         return 10
+    if _sleepy_voice(card):
+        return 15
     return 0
 
 
@@ -189,6 +306,8 @@ def bench_prio(game, card) -> tuple:
     name = card.name.lower()
     if name == "manaphy":
         return (0, 0)
+    if _sleepy_voice(card):
+        return (0, 1)
     if game._sweet_face(card):
         return (1, 0)
     if name == "sableye":
@@ -204,6 +323,8 @@ def search_prefer(game, me) -> list[str]:
     prefer = []
     if _dolls_running_out(game, me) and "cleffa" not in names:
         prefer.append("Cleffa")
+    if "igglybuff" not in names:
+        prefer.append("Igglybuff")
     if not _hard(game, me) and "manaphy" not in names:
         prefer.append("Manaphy")
     if _face_count(game, me) < _face_cap(game, me):
@@ -223,11 +344,18 @@ def search_prefer(game, me) -> list[str]:
 
 
 def level_ball_name(game, me) -> str | None:
-    """Shedinja is the Pokémon Nest Ball cannot find. Take it once Nincada is already in play."""
-    if _hard(game, me):
-        return None
+    """Shedinja is the Pokémon Nest Ball cannot find. Take it once Nincada is already in play.
+
+    Sleepy Voice Igglybuff comes first, including against Demolish, where the
+    Shedinja line stays down.
+    """
     in_play = {me.card(mon.card_i).name.lower() for mon in me.in_play()}
     in_hand = {me.card(i).name.lower() for i in me.hand}
+    if "igglybuff" not in in_play and "igglybuff" not in in_hand:
+        if any(me.card(i).name.lower() == "igglybuff" for i in me.deck):
+            return "Igglybuff"
+    if _hard(game, me):
+        return None
     if "nincada" not in in_play or "shedinja" in in_play or "shedinja" in in_hand:
         return None
     if any(me.card(i).name.lower() == "shedinja" for i in me.deck):

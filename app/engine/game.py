@@ -1174,7 +1174,7 @@ class Game:
             self._g_match_horn_hands(me, foe, who)
         if getattr(self, "winner", None):
             return True
-        if not self._try_draw_end_turn(me, who):
+        if not self._try_draw_end_turn(me, who) and not self._try_sleepy_voice(me, who):
             can_attack = not (first_turn and who == self.first and self.rules.first_player_no_attack)
             if self._seeker_then_attack(me, foe, who, can_attack):
                 # A KO returns before the usual end-of-turn cleanup. The balloon
@@ -8161,6 +8161,45 @@ class Game:
                     self.turn_ended_by_ability = True
                     self._bump("instant_charge")
                     self._log(f"{card.name} Instant Charge draws {len(drawn)} and ends the turn")
+                    return True
+        return False
+
+    def _try_sleepy_voice(self, me: Player, who: str) -> bool:
+        """Sleepy Voice. A Benched copy can use it. Heads sleeps the opponent's Active. The turn ends either way."""
+        foe = self.players["b" if who == "a" else "a"]
+        mons = list(me.bench)
+        if me.active is not None:
+            mons.append(me.active)
+        for mon in mons:
+            if mon.ability_used or self._abilities_suppressed(me, mon):
+                continue
+            card = me.card(mon.card_i)
+            for abi in card.abilities:
+                for eff in self._ability_effects(abi):
+                    if eff.get("kind") != "sleepy_voice":
+                        continue
+                    if self.strats[who].name == "doll":
+                        if not doll_ai.wants_sleepy_voice(self, me, foe):
+                            return False
+                    elif foe.active is None or (foe.active.status & ST_ASLEEP):
+                        return False
+                    heads = self.rng.random() < 0.5
+                    mon.ability_used = True
+                    self.turn_ended_by_ability = True
+                    if self.strats[who].name == "doll":
+                        self._bump("doll_sleepy_flip")
+                        if heads:
+                            self._bump("doll_sleepy_heads")
+                    slept = ""
+                    if heads and foe.active is not None:
+                        self._apply_status(foe.active, "asleep")
+                        if foe.active.status & ST_ASLEEP:
+                            slept = foe.card(foe.active.card_i).name
+                    if slept:
+                        self._log(f"{card.name} Sleepy Voice: heads, {slept} is Asleep, and the turn ends")
+                    else:
+                        face = "heads" if heads else "tails"
+                        self._log(f"{card.name} Sleepy Voice: {face}, and the turn ends")
                     return True
         return False
 

@@ -400,6 +400,16 @@ def parse_ability_effects(text: str) -> list[dict[str, Any]]:
             }
         )
 
+    # Igglybuff Sleepy Voice. The coin and the ended turn are both printed.
+    # It does not say the Active Spot, so a Benched copy can use it.
+    if (
+        "before your attack" in t
+        and "you may flip a coin" in t
+        and "if heads, your opponent's active pokemon is now asleep" in t
+        and "if you use this ability, your turn ends" in t
+    ):
+        effects.append({"kind": "sleepy_voice", "once_per_turn": True, "ends_turn": True})
+
     # Bench shields. Damage and damage counters are different layers:
     # "does damage to benched" is damage; "put damage counters on benched" is an effect.
     # Rabsca Spherical Shield (TEF 24): "Prevent all damage from and effects of attacks
