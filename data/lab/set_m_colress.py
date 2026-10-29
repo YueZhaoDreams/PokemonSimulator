@@ -18,8 +18,10 @@ fresh seed.
 
 The locked 60 is the Elekid list plus one Colress: one Elekid, three Battle Cage,
 one Colress, and two Crushing Hammer. data/lab/set-m-colress.json is the
-pre-Elekid measurement and still starts from zero Colress. A later 6000-game
-retest on the Elekid list was stopped during step 1 and did not choose this lock.
+pre-Elekid measurement and its list_start still has zero Colress. A fresh run
+with no saved list puts that locked Colress back as Crushing Hammer, so the
+search still starts from zero Colress. A later 6000-game retest on the Elekid
+list was stopped during step 1 and did not choose this lock.
 """
 
 from __future__ import annotations
@@ -90,6 +92,20 @@ def list_key(names: list[str]) -> str:
 
 def cell_key(names: list[str], games: int, foe_key: str, seed: int) -> str:
     return f"v1|seed{seed}|{games}|{foe_key}|{list_key(names)}"
+
+
+def zero_colress_start() -> list[str]:
+    """The 60 a fresh search adds Colress to.
+
+    The live lock already has one Colress in place of one Crushing Hammer.
+    Put that copy back so the search still starts at zero Colress.
+    """
+    names = list(SET_M60_NAMES)
+    if names.count(IN_NAME) == 1 and names.count("Crushing Hammer") == 2:
+        names[names.index(IN_NAME)] = "Crushing Hammer"
+    if len(names) != 60 or names.count(IN_NAME) != 0 or names.count("Crushing Hammer") != 3:
+        raise SystemExit("start list is not the 60-card list with zero Colress")
+    return names
 
 
 def swap_one(names: list[str], cut: str) -> list[str]:
@@ -576,24 +592,26 @@ def main() -> None:
         f"workers={WORKERS} dest={DEST}",
         flush=True,
     )
-    print(
-        f"start elekid={SET_M60_NAMES.count('Elekid')} "
-        f"battle_cage={SET_M60_NAMES.count('Battle Cage')} "
-        f"colress={SET_M60_NAMES.count(IN_NAME)}",
-        flush=True,
-    )
     started = time.perf_counter()
     saved = json.loads(DEST.read_text()) if DEST.exists() else None
     report = (saved or {}).get("report") or {}
     if report.get("seed") not in (None, SEED) or report.get("games") not in (None, GAMES):
         report = {}
         saved = None
-    start = list(report.get("list_start") or SET_M60_NAMES)
-    if len(start) != 60 or start.count(IN_NAME) != 0:
-        raise SystemExit("start list is not the 60-card list with zero Colress")
+    start = list(report.get("list_start") or zero_colress_start())
     if report.get("list_start") not in (None, start):
         report = {}
-        start = list(SET_M60_NAMES)
+        saved = None
+        start = zero_colress_start()
+    if len(start) != 60 or start.count(IN_NAME) != 0:
+        raise SystemExit("start list is not the 60-card list with zero Colress")
+    print(
+        f"start elekid={start.count('Elekid')} "
+        f"battle_cage={start.count('Battle Cage')} "
+        f"colress={start.count(IN_NAME)} "
+        f"hammer={start.count('Crushing Hammer')}",
+        flush=True,
+    )
 
     cache = Cache(saved if report else None)
     prior = float(report.get("elapsed") or 0) if report else 0.0

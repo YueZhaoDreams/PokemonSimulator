@@ -165,6 +165,18 @@ def _colress_lab():
     return module
 
 
+def test_fresh_colress_search_puts_the_locked_copy_back_as_hammer():
+    module = _colress_lab()
+    start = module.zero_colress_start()
+    assert len(start) == 60
+    assert start.count("Colress") == 0
+    assert start.count("Crushing Hammer") == 3
+    assert start.count("Elekid") == 1
+    assert start.count("Battle Cage") == 3
+    assert Counter(start) - Counter(SET_M60_NAMES) == Counter({"Crushing Hammer": 1})
+    assert Counter(SET_M60_NAMES) - Counter(start) == Counter({"Colress": 1})
+
+
 def test_colress_report_keeps_three_and_the_live_list_locks_one_hammer_swap():
     module = _colress_lab()
     report_path = Path(__file__).resolve().parents[1] / "data" / "lab" / "set-m-colress.json"
