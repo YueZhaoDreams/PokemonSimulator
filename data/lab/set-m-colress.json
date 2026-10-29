@@ -1,0 +1,6846 @@
+{
+ "report": {
+  "list_start": [
+   "Mew ex",
+   "Mew ex",
+   "Mew ex",
+   "Mime Jr.",
+   "Mime Jr.",
+   "Igglybuff",
+   "Igglybuff",
+   "Igglybuff",
+   "Igglybuff",
+   "Budew",
+   "Budew",
+   "Budew",
+   "Budew",
+   "Manaphy",
+   "Buddy-Buddy Poffin",
+   "Buddy-Buddy Poffin",
+   "Buddy-Buddy Poffin",
+   "Buddy-Buddy Poffin",
+   "Nest Ball",
+   "Nest Ball",
+   "Nest Ball",
+   "Nest Ball",
+   "Junk Arm",
+   "Night Stretcher",
+   "Rescue Carrier",
+   "Rescue Carrier",
+   "Battle Cage",
+   "Battle Cage",
+   "Battle Cage",
+   "Battle Cage",
+   "Sky Field",
+   "Sky Field",
+   "Sky Field",
+   "Bravery Charm",
+   "Bravery Charm",
+   "Bursting Balloon",
+   "Hero's Cape",
+   "Max Potion",
+   "Max Potion",
+   "Max Potion",
+   "Arven",
+   "Arven",
+   "Arven",
+   "Arven",
+   "Iono",
+   "Iono",
+   "Iono",
+   "Iono",
+   "Professor's Research",
+   "Professor's Research",
+   "Team Rocket's Petrel",
+   "Team Rocket's Petrel",
+   "Team Rocket's Petrel",
+   "Team Rocket's Petrel",
+   "Crushing Hammer",
+   "Crushing Hammer",
+   "Crushing Hammer",
+   "Counter Catcher",
+   "Spiky Energy",
+   "Spiky Energy"
+  ],
+  "seed": 20261007,
+  "games": 1000,
+  "screen_games": 300,
+  "screen_top": 6,
+  "holdout_seed": 20261015,
+  "holdout_games": 1000,
+  "in": "Colress",
+  "rule_preset": "s60",
+  "elapsed": 8497.648613055,
+  "weights": {
+   "t60": 0.22629969418960233,
+   "hedrick": 0.2935779816513761,
+   "c60": 0.18348623853211027,
+   "d60": 0.0214067278287462,
+   "thorns": 0.009174311926605514,
+   "starmie": 0.26605504587155954
+  },
+  "rates": {
+   "t60": 0.926,
+   "hedrick": 0.904,
+   "c60": 0.94,
+   "d60": 0.993,
+   "thorns": 0.997,
+   "starmie": 0.913
+  },
+  "array": [
+   {
+    "copies": 0,
+    "cut": null,
+    "cuts": [],
+    "weighted": 0.9207370030581039,
+    "se": 0.004302763731567164,
+    "mean": 0.9455,
+    "worst": 0.904,
+    "plays": 0.0,
+    "drawn": 0.0,
+    "cells": {
+     "t60": {
+      "a": 0.926,
+      "games": 1000,
+      "plays": 0.0,
+      "drawn": 0.0
+     },
+     "hedrick": {
+      "a": 0.904,
+      "games": 1000,
+      "plays": 0.0,
+      "drawn": 0.0
+     },
+     "c60": {
+      "a": 0.94,
+      "games": 1000,
+      "plays": 0.0,
+      "drawn": 0.0
+     },
+     "d60": {
+      "a": 0.993,
+      "games": 1000,
+      "plays": 0.0,
+      "drawn": 0.0
+     },
+     "thorns": {
+      "a": 0.997,
+      "games": 1000,
+      "plays": 0.0,
+      "drawn": 0.0
+     },
+     "starmie": {
+      "a": 0.913,
+      "games": 1000,
+      "plays": 0.0,
+      "drawn": 0.0
+     }
+    },
+    "list": [
+     "Mew ex",
+     "Mew ex",
+     "Mew ex",
+     "Mime Jr.",
+     "Mime Jr.",
+     "Igglybuff",
+     "Igglybuff",
+     "Igglybuff",
+     "Igglybuff",
+     "Budew",
+     "Budew",
+     "Budew",
+     "Budew",
+     "Manaphy",
+     "Buddy-Buddy Poffin",
+     "Buddy-Buddy Poffin",
+     "Buddy-Buddy Poffin",
+     "Buddy-Buddy Poffin",
+     "Nest Ball",
+     "Nest Ball",
+     "Nest Ball",
+     "Nest Ball",
+     "Junk Arm",
+     "Night Stretcher",
+     "Rescue Carrier",
+     "Rescue Carrier",
+     "Battle Cage",
+     "Battle Cage",
+     "Battle Cage",
+     "Battle Cage",
+     "Sky Field",
+     "Sky Field",
+     "Sky Field",
+     "Bravery Charm",
+     "Bravery Charm",
+     "Bursting Balloon",
+     "Hero's Cape",
+     "Max Potion",
+     "Max Potion",
+     "Max Potion",
+     "Arven",
+     "Arven",
+     "Arven",
+     "Arven",
+     "Iono",
+     "Iono",
+     "Iono",
+     "Iono",
+     "Professor's Research",
+     "Professor's Research",
+     "Team Rocket's Petrel",
+     "Team Rocket's Petrel",
+     "Team Rocket's Petrel",
+     "Team Rocket's Petrel",
+     "Crushing Hammer",
+     "Crushing Hammer",
+     "Crushing Hammer",
+     "Counter Catcher",
+     "Spiky Energy",
+     "Spiky Energy"
+    ]
+   },
+   {
+    "copies": 1,
+    "cut": "Crushing Hammer",
+    "cuts": [
+     "Crushing Hammer"
+    ],
+    "weighted": 0.9236544342507645,
+    "se": 0.004227534915770132,
+    "mean": 0.9470000000000001,
+    "worst": 0.906,
+    "plays": 0.25566666666666665,
+    "drawn": 8.198174706649283,
+    "cells": {
+     "t60": {
+      "a": 0.917,
+      "games": 1000,
+      "plays": 0.219,
+      "drawn": 1.633
+     },
+     "hedrick": {
+      "a": 0.906,
+      "games": 1000,
+      "plays": 0.279,
+      "drawn": 2.368
+     },
+     "c60": {
+      "a": 0.948,
+      "games": 1000,
+      "plays": 0.364,
+      "drawn": 2.819
+     },
+     "d60": {
+      "a": 0.993,
+      "games": 1000,
+      "plays": 0.032,
+      "drawn": 0.19
+     },
+     "thorns": {
+      "a": 0.994,
+      "games": 1000,
+      "plays": 0.268,
+      "drawn": 1.93
+     },
+     "starmie": {
+      "a": 0.924,
+      "games": 1000,
+      "plays": 0.372,
+      "drawn": 3.636
+     }
+    },
+    "list": [
+     "Mew ex",
+     "Mew ex",
+     "Mew ex",
+     "Mime Jr.",
+     "Mime Jr.",
+     "Igglybuff",
+     "Igglybuff",
+     "Igglybuff",
+     "Igglybuff",
+     "Budew",
+     "Budew",
+     "Budew",
+     "Budew",
+     "Manaphy",
+     "Buddy-Buddy Poffin",
+     "Buddy-Buddy Poffin",
+     "Buddy-Buddy Poffin",
+     "Buddy-Buddy Poffin",
+     "Nest Ball",
+     "Nest Ball",
+     "Nest Ball",
+     "Nest Ball",
+     "Junk Arm",
+     "Night Stretcher",
+     "Rescue Carrier",
+     "Rescue Carrier",
+     "Battle Cage",
+     "Battle Cage",
+     "Battle Cage",
+     "Battle Cage",
+     "Sky Field",
+     "Sky Field",
+     "Sky Field",
+     "Bravery Charm",
+     "Bravery Charm",
+     "Bursting Balloon",
+     "Hero's Cape",
+     "Max Potion",
+     "Max Potion",
+     "Max Potion",
+     "Arven",
+     "Arven",
+     "Arven",
+     "Arven",
+     "Iono",
+     "Iono",
+     "Iono",
+     "Iono",
+     "Professor's Research",
+     "Professor's Research",
+     "Team Rocket's Petrel",
+     "Team Rocket's Petrel",
+     "Team Rocket's Petrel",
+     "Team Rocket's Petrel",
+     "Crushing Hammer",
+     "Crushing Hammer",
+     "Counter Catcher",
+     "Spiky Energy",
+     "Spiky Energy",
+     "Colress"
+    ]
+   },
+   {
+    "copies": 2,
+    "cut": "Sky Field",
+    "cuts": [
+     "Crushing Hammer",
+     "Sky Field"
+    ],
+    "weighted": 0.9284984709480122,
+    "se": 0.0041185148269858975,
+    "mean": 0.9508333333333333,
+    "worst": 0.909,
+    "plays": 0.4908333333333333,
+    "drawn": 8.325976230899832,
+    "cells": {
+     "t60": {
+      "a": 0.933,
+      "games": 1000,
+      "plays": 0.392,
+      "drawn": 2.951
+     },
+     "hedrick": {
+      "a": 0.909,
+      "games": 1000,
+      "plays": 0.565,
+      "drawn": 4.87
+     },
+     "c60": {
+      "a": 0.956,
+      "games": 1000,
+      "plays": 0.755,
+      "drawn": 6.114
+     },
+     "d60": {
+      "a": 0.988,
+      "games": 1000,
+      "plays": 0.059,
+      "drawn": 0.349
+     },
+     "thorns": {
+      "a": 0.999,
+      "games": 1000,
+      "plays": 0.481,
+      "drawn": 3.421
+     },
+     "starmie": {
+      "a": 0.92,
+      "games": 1000,
+      "plays": 0.693,
+      "drawn": 6.815
+     }
+    },
+    "list": [
+     "Mew ex",
+     "Mew ex",
+     "Mew ex",
+     "Mime Jr.",
+     "Mime Jr.",
+     "Igglybuff",
+     "Igglybuff",
+     "Igglybuff",
+     "Igglybuff",
+     "Budew",
+     "Budew",
+     "Budew",
+     "Budew",
+     "Manaphy",
+     "Buddy-Buddy Poffin",
+     "Buddy-Buddy Poffin",
+     "Buddy-Buddy Poffin",
+     "Buddy-Buddy Poffin",
+     "Nest Ball",
+     "Nest Ball",
+     "Nest Ball",
+     "Nest Ball",
+     "Junk Arm",
+     "Night Stretcher",
+     "Rescue Carrier",
+     "Rescue Carrier",
+     "Battle Cage",
+     "Battle Cage",
+     "Battle Cage",
+     "Battle Cage",
+     "Sky Field",
+     "Sky Field",
+     "Bravery Charm",
+     "Bravery Charm",
+     "Bursting Balloon",
+     "Hero's Cape",
+     "Max Potion",
+     "Max Potion",
+     "Max Potion",
+     "Arven",
+     "Arven",
+     "Arven",
+     "Arven",
+     "Iono",
+     "Iono",
+     "Iono",
+     "Iono",
+     "Professor's Research",
+     "Professor's Research",
+     "Team Rocket's Petrel",
+     "Team Rocket's Petrel",
+     "Team Rocket's Petrel",
+     "Team Rocket's Petrel",
+     "Crushing Hammer",
+     "Crushing Hammer",
+     "Counter Catcher",
+     "Spiky Energy",
+     "Spiky Energy",
+     "Colress",
+     "Colress"
+    ]
+   },
+   {
+    "copies": 3,
+    "cut": "Bravery Charm",
+    "cuts": [
+     "Crushing Hammer",
+     "Sky Field",
+     "Bravery Charm"
+    ],
+    "weighted": 0.9295810397553517,
+    "se": 0.004064628157569937,
+    "mean": 0.951,
+    "worst": 0.91,
+    "plays": 0.7003333333333334,
+    "drawn": 8.361018562589242,
+    "cells": {
+     "t60": {
+      "a": 0.942,
+      "games": 1000,
+      "plays": 0.595,
+      "drawn": 4.538
+     },
+     "hedrick": {
+      "a": 0.924,
+      "games": 1000,
+      "plays": 0.795,
+      "drawn": 6.719
+     },
+     "c60": {
+      "a": 0.941,
+      "games": 1000,
+      "plays": 1.034,
+      "drawn": 8.345
+     },
+     "d60": {
+      "a": 0.991,
+      "games": 1000,
+      "plays": 0.072,
+      "drawn": 0.413
+     },
+     "thorns": {
+      "a": 0.998,
+      "games": 1000,
+      "plays": 0.706,
+      "drawn": 5.055
+     },
+     "starmie": {
+      "a": 0.91,
+      "games": 1000,
+      "plays": 1.0,
+      "drawn": 10.063
+     }
+    },
+    "list": [
+     "Mew ex",
+     "Mew ex",
+     "Mew ex",
+     "Mime Jr.",
+     "Mime Jr.",
+     "Igglybuff",
+     "Igglybuff",
+     "Igglybuff",
+     "Igglybuff",
+     "Budew",
+     "Budew",
+     "Budew",
+     "Budew",
+     "Manaphy",
+     "Buddy-Buddy Poffin",
+     "Buddy-Buddy Poffin",
+     "Buddy-Buddy Poffin",
+     "Buddy-Buddy Poffin",
+     "Nest Ball",
+     "Nest Ball",
+     "Nest Ball",
+     "Nest Ball",
+     "Junk Arm",
+     "Night Stretcher",
+     "Rescue Carrier",
+     "Rescue Carrier",
+     "Battle Cage",
+     "Battle Cage",
+     "Battle Cage",
+     "Battle Cage",
+     "Sky Field",
+     "Sky Field",
+     "Bravery Charm",
+     "Bursting Balloon",
+     "Hero's Cape",
+     "Max Potion",
+     "Max Potion",
+     "Max Potion",
+     "Arven",
+     "Arven",
+     "Arven",
+     "Arven",
+     "Iono",
+     "Iono",
+     "Iono",
+     "Iono",
+     "Professor's Research",
+     "Professor's Research",
+     "Team Rocket's Petrel",
+     "Team Rocket's Petrel",
+     "Team Rocket's Petrel",
+     "Team Rocket's Petrel",
+     "Crushing Hammer",
+     "Crushing Hammer",
+     "Counter Catcher",
+     "Spiky Energy",
+     "Spiky Energy",
+     "Colress",
+     "Colress",
+     "Colress"
+    ]
+   }
+  ],
+  "steps": [
+   {
+    "copies_after": 1,
+    "current_weighted": 0.9207370030581039,
+    "chosen": "Crushing Hammer",
+    "chosen_weighted": 0.9236544342507645,
+    "list": [
+     "Mew ex",
+     "Mew ex",
+     "Mew ex",
+     "Mime Jr.",
+     "Mime Jr.",
+     "Igglybuff",
+     "Igglybuff",
+     "Igglybuff",
+     "Igglybuff",
+     "Budew",
+     "Budew",
+     "Budew",
+     "Budew",
+     "Manaphy",
+     "Buddy-Buddy Poffin",
+     "Buddy-Buddy Poffin",
+     "Buddy-Buddy Poffin",
+     "Buddy-Buddy Poffin",
+     "Nest Ball",
+     "Nest Ball",
+     "Nest Ball",
+     "Nest Ball",
+     "Junk Arm",
+     "Night Stretcher",
+     "Rescue Carrier",
+     "Rescue Carrier",
+     "Battle Cage",
+     "Battle Cage",
+     "Battle Cage",
+     "Battle Cage",
+     "Sky Field",
+     "Sky Field",
+     "Sky Field",
+     "Bravery Charm",
+     "Bravery Charm",
+     "Bursting Balloon",
+     "Hero's Cape",
+     "Max Potion",
+     "Max Potion",
+     "Max Potion",
+     "Arven",
+     "Arven",
+     "Arven",
+     "Arven",
+     "Iono",
+     "Iono",
+     "Iono",
+     "Iono",
+     "Professor's Research",
+     "Professor's Research",
+     "Team Rocket's Petrel",
+     "Team Rocket's Petrel",
+     "Team Rocket's Petrel",
+     "Team Rocket's Petrel",
+     "Crushing Hammer",
+     "Crushing Hammer",
+     "Counter Catcher",
+     "Spiky Energy",
+     "Spiky Energy",
+     "Colress"
+    ],
+    "accepted": true,
+    "screen": [
+     {
+      "cut": "Crushing Hammer",
+      "copies_before": 3,
+      "colress": 1,
+      "weighted": 0.9296330275229358,
+      "se": 0.0074450892392414515,
+      "mean": 0.9511111111111111,
+      "worst": 0.9166666666666666,
+      "plays": 0.2555555555555556,
+      "drawn": 8.382608695652173,
+      "cells": {
+       "t60": {
+        "a": 0.9266666666666666,
+        "games": 300,
+        "plays": 0.24,
+        "drawn": 1.81
+       },
+       "hedrick": {
+        "a": 0.92,
+        "games": 300,
+        "plays": 0.25,
+        "drawn": 2.2066666666666666
+       },
+       "c60": {
+        "a": 0.9566666666666667,
+        "games": 300,
+        "plays": 0.37666666666666665,
+        "drawn": 3.0166666666666666
+       },
+       "d60": {
+        "a": 0.9966666666666667,
+        "games": 300,
+        "plays": 0.03333333333333333,
+        "drawn": 0.20666666666666667
+       },
+       "thorns": {
+        "a": 0.99,
+        "games": 300,
+        "plays": 0.26,
+        "drawn": 1.8566666666666667
+       },
+       "starmie": {
+        "a": 0.9166666666666666,
+        "games": 300,
+        "plays": 0.37333333333333335,
+        "drawn": 3.756666666666667
+       }
+      }
+     },
+     {
+      "cut": "Sky Field",
+      "copies_before": 3,
+      "colress": 1,
+      "weighted": 0.9288990825688074,
+      "se": 0.007490390430888924,
+      "mean": 0.9527777777777778,
+      "worst": 0.91,
+      "plays": 0.24111111111111114,
+      "drawn": 8.158986175115208,
+      "cells": {
+       "t60": {
+        "a": 0.92,
+        "games": 300,
+        "plays": 0.18666666666666668,
+        "drawn": 1.3333333333333333
+       },
+       "hedrick": {
+        "a": 0.91,
+        "games": 300,
+        "plays": 0.24333333333333335,
+        "drawn": 2.0233333333333334
+       },
+       "c60": {
+        "a": 0.9566666666666667,
+        "games": 300,
+        "plays": 0.38,
+        "drawn": 3.026666666666667
+       },
+       "d60": {
+        "a": 1.0,
+        "games": 300,
+        "plays": 0.02666666666666667,
+        "drawn": 0.15333333333333332
+       },
+       "thorns": {
+        "a": 1.0,
+        "games": 300,
+        "plays": 0.25,
+        "drawn": 1.7433333333333334
+       },
+       "starmie": {
+        "a": 0.93,
+        "games": 300,
+        "plays": 0.36,
+        "drawn": 3.5233333333333334
+       }
+      }
+     },
+     {
+      "cut": "Battle Cage",
+      "copies_before": 4,
+      "colress": 1,
+      "weighted": 0.928868501529052,
+      "se": 0.0074224994562423945,
+      "mean": 0.9505555555555555,
+      "worst": 0.9,
+      "plays": 0.25333333333333335,
+      "drawn": 8.265350877192981,
+      "cells": {
+       "t60": {
+        "a": 0.9,
+        "games": 300,
+        "plays": 0.23333333333333334,
+        "drawn": 1.7733333333333334
+       },
+       "hedrick": {
+        "a": 0.93,
+        "games": 300,
+        "plays": 0.2633333333333333,
+        "drawn": 2.26
+       },
+       "c60": {
+        "a": 0.96,
+        "games": 300,
+        "plays": 0.39,
+        "drawn": 3.1866666666666665
+       },
+       "d60": {
+        "a": 0.99,
+        "games": 300,
+        "plays": 0.03666666666666667,
+        "drawn": 0.22333333333333333
+       },
+       "thorns": {
+        "a": 1.0,
+        "games": 300,
+        "plays": 0.25666666666666665,
+        "drawn": 1.8866666666666667
+       },
+       "starmie": {
+        "a": 0.9233333333333333,
+        "games": 300,
+        "plays": 0.34,
+        "drawn": 3.2333333333333334
+       }
+      }
+     },
+     {
+      "cut": "Rescue Carrier",
+      "copies_before": 2,
+      "colress": 1,
+      "weighted": 0.925270132517839,
+      "se": 0.007590354640920538,
+      "mean": 0.9461111111111111,
+      "worst": 0.9166666666666666,
+      "plays": 0.255,
+      "drawn": 8.289760348583878,
+      "cells": {
+       "t60": {
+        "a": 0.93,
+        "games": 300,
+        "plays": 0.22666666666666666,
+        "drawn": 1.77
+       },
+       "hedrick": {
+        "a": 0.92,
+        "games": 300,
+        "plays": 0.2733333333333333,
+        "drawn": 2.2533333333333334
+       },
+       "c60": {
+        "a": 0.93,
+        "games": 300,
+        "plays": 0.3933333333333333,
+        "drawn": 3.183333333333333
+       },
+       "d60": {
+        "a": 0.9833333333333333,
+        "games": 300,
+        "plays": 0.02666666666666667,
+        "drawn": 0.16666666666666666
+       },
+       "thorns": {
+        "a": 0.9966666666666667,
+        "games": 300,
+        "plays": 0.29333333333333333,
+        "drawn": 2.203333333333333
+       },
+       "starmie": {
+        "a": 0.9166666666666666,
+        "games": 300,
+        "plays": 0.31666666666666665,
+        "drawn": 3.1066666666666665
+       }
+      }
+     },
+     {
+      "cut": "Budew",
+      "copies_before": 4,
+      "colress": 1,
+      "weighted": 0.9218042813455657,
+      "se": 0.007772766586539243,
+      "mean": 0.945,
+      "worst": 0.9066666666666666,
+      "plays": 0.2577777777777778,
+      "drawn": 8.168103448275863,
+      "cells": {
+       "t60": {
+        "a": 0.9233333333333333,
+        "games": 300,
+        "plays": 0.20333333333333334,
+        "drawn": 1.4866666666666666
+       },
+       "hedrick": {
+        "a": 0.9066666666666666,
+        "games": 300,
+        "plays": 0.29,
+        "drawn": 2.3666666666666667
+       },
+       "c60": {
+        "a": 0.93,
+        "games": 300,
+        "plays": 0.36333333333333334,
+        "drawn": 2.9066666666666667
+       },
+       "d60": {
+        "a": 0.9933333333333333,
+        "games": 300,
+        "plays": 0.023333333333333334,
+        "drawn": 0.14333333333333334
+       },
+       "thorns": {
+        "a": 0.9933333333333333,
+        "games": 300,
+        "plays": 0.2866666666666667,
+        "drawn": 2.0633333333333335
+       },
+       "starmie": {
+        "a": 0.9233333333333333,
+        "games": 300,
+        "plays": 0.38,
+        "drawn": 3.6666666666666665
+       }
+      }
+     },
+     {
+      "cut": "Counter Catcher",
+      "copies_before": 1,
+      "colress": 1,
+      "weighted": 0.9198674821610601,
+      "se": 0.007920180703312827,
+      "mean": 0.9472222222222223,
+      "worst": 0.8733333333333333,
+      "plays": 0.23722222222222222,
+      "drawn": 8.299765807962528,
+      "cells": {
+       "t60": {
+        "a": 0.9333333333333333,
+        "games": 300,
+        "plays": 0.21333333333333335,
+        "drawn": 1.5533333333333332
+       },
+       "hedrick": {
+        "a": 0.8733333333333333,
+        "games": 300,
+        "plays": 0.26666666666666666,
+        "drawn": 2.4
+       },
+       "c60": {
+        "a": 0.94,
+        "games": 300,
+        "plays": 0.33,
+        "drawn": 2.6233333333333335
+       },
+       "d60": {
+        "a": 1.0,
+        "games": 300,
+        "plays": 0.03333333333333333,
+        "drawn": 0.19666666666666666
+       },
+       "thorns": {
+        "a": 1.0,
+        "games": 300,
+        "plays": 0.25,
+        "drawn": 1.78
+       },
+       "starmie": {
+        "a": 0.9366666666666666,
+        "games": 300,
+        "plays": 0.33,
+        "drawn": 3.26
+       }
+      }
+     },
+     {
+      "cut": "Junk Arm",
+      "copies_before": 1,
+      "colress": 1,
+      "weighted": 0.9191743119266055,
+      "se": 0.007942908349848716,
+      "mean": 0.9455555555555556,
+      "worst": 0.8966666666666666,
+      "plays": 0.23777777777777778,
+      "drawn": 8.36214953271028,
+      "cells": {
+       "t60": {
+        "a": 0.9166666666666666,
+        "games": 300,
+        "plays": 0.17666666666666667,
+        "drawn": 1.3766666666666667
+       },
+       "hedrick": {
+        "a": 0.91,
+        "games": 300,
+        "plays": 0.25666666666666665,
+        "drawn": 2.1566666666666667
+       },
+       "c60": {
+        "a": 0.9566666666666667,
+        "games": 300,
+        "plays": 0.37333333333333335,
+        "drawn": 3.026666666666667
+       },
+       "d60": {
+        "a": 0.9966666666666667,
+        "games": 300,
+        "plays": 0.023333333333333334,
+        "drawn": 0.13
+       },
+       "thorns": {
+        "a": 0.9966666666666667,
+        "games": 300,
+        "plays": 0.2833333333333333,
+        "drawn": 2.0866666666666664
+       },
+       "starmie": {
+        "a": 0.8966666666666666,
+        "games": 300,
+        "plays": 0.31333333333333335,
+        "drawn": 3.1533333333333333
+       }
+      }
+     },
+     {
+      "cut": "Igglybuff",
+      "copies_before": 4,
+      "colress": 1,
+      "weighted": 0.9181651376146789,
+      "se": 0.007910101023630167,
+      "mean": 0.9422222222222222,
+      "worst": 0.9033333333333333,
+      "plays": 0.26055555555555554,
+      "drawn": 8.16631130063966,
+      "cells": {
+       "t60": {
+        "a": 0.9033333333333333,
+        "games": 300,
+        "plays": 0.21333333333333335,
+        "drawn": 1.5533333333333332
+       },
+       "hedrick": {
+        "a": 0.9066666666666666,
+        "games": 300,
+        "plays": 0.31666666666666665,
+        "drawn": 2.716666666666667
+       },
+       "c60": {
+        "a": 0.93,
+        "games": 300,
+        "plays": 0.41,
+        "drawn": 3.3366666666666664
+       },
+       "d60": {
+        "a": 0.9933333333333333,
+        "games": 300,
+        "plays": 0.023333333333333334,
+        "drawn": 0.13
+       },
+       "thorns": {
+        "a": 0.9933333333333333,
+        "games": 300,
+        "plays": 0.22333333333333333,
+        "drawn": 1.6166666666666667
+       },
+       "starmie": {
+        "a": 0.9266666666666666,
+        "games": 300,
+        "plays": 0.37666666666666665,
+        "drawn": 3.4133333333333336
+       }
+      }
+     },
+     {
+      "cut": "Team Rocket's Petrel",
+      "copies_before": 4,
+      "colress": 1,
+      "weighted": 0.917288481141692,
+      "se": 0.008035223700916964,
+      "mean": 0.9433333333333334,
+      "worst": 0.89,
+      "plays": 0.2588888888888889,
+      "drawn": 8.218884120171674,
+      "cells": {
+       "t60": {
+        "a": 0.9366666666666666,
+        "games": 300,
+        "plays": 0.25,
+        "drawn": 1.8933333333333333
+       },
+       "hedrick": {
+        "a": 0.89,
+        "games": 300,
+        "plays": 0.25333333333333335,
+        "drawn": 2.19
+       },
+       "c60": {
+        "a": 0.94,
+        "games": 300,
+        "plays": 0.42333333333333334,
+        "drawn": 3.3933333333333335
+       },
+       "d60": {
+        "a": 0.99,
+        "games": 300,
+        "plays": 0.05,
+        "drawn": 0.2833333333333333
+       },
+       "thorns": {
+        "a": 0.9966666666666667,
+        "games": 300,
+        "plays": 0.23,
+        "drawn": 1.68
+       },
+       "starmie": {
+        "a": 0.9066666666666666,
+        "games": 300,
+        "plays": 0.3466666666666667,
+        "drawn": 3.3266666666666667
+       }
+      }
+     },
+     {
+      "cut": "Mew ex",
+      "copies_before": 3,
+      "colress": 1,
+      "weighted": 0.9172782874617736,
+      "se": 0.008068870576161841,
+      "mean": 0.9427777777777777,
+      "worst": 0.88,
+      "plays": 0.24277777777777776,
+      "drawn": 8.308924485125859,
+      "cells": {
+       "t60": {
+        "a": 0.9366666666666666,
+        "games": 300,
+        "plays": 0.19666666666666666,
+        "drawn": 1.5133333333333334
+       },
+       "hedrick": {
+        "a": 0.88,
+        "games": 300,
+        "plays": 0.29,
+        "drawn": 2.43
+       },
+       "c60": {
+        "a": 0.9566666666666667,
+        "games": 300,
+        "plays": 0.42,
+        "drawn": 3.4466666666666668
+       },
+       "d60": {
+        "a": 0.9866666666666667,
+        "games": 300,
+        "plays": 0.043333333333333335,
+        "drawn": 0.24333333333333335
+       },
+       "thorns": {
+        "a": 0.99,
+        "games": 300,
+        "plays": 0.17,
+        "drawn": 1.24
+       },
+       "starmie": {
+        "a": 0.9066666666666666,
+        "games": 300,
+        "plays": 0.33666666666666667,
+        "drawn": 3.23
+       }
+      }
+     },
+     {
+      "cut": "Nest Ball",
+      "copies_before": 4,
+      "colress": 1,
+      "weighted": 0.9167584097859327,
+      "se": 0.008054901345846445,
+      "mean": 0.9427777777777777,
+      "worst": 0.8833333333333333,
+      "plays": 0.2677777777777778,
+      "drawn": 8.132780082987551,
+      "cells": {
+       "t60": {
+        "a": 0.9366666666666666,
+        "games": 300,
+        "plays": 0.26666666666666666,
+        "drawn": 2.006666666666667
+       },
+       "hedrick": {
+        "a": 0.9033333333333333,
+        "games": 300,
+        "plays": 0.2833333333333333,
+        "drawn": 2.4033333333333333
+       },
+       "c60": {
+        "a": 0.95,
+        "games": 300,
+        "plays": 0.43666666666666665,
+        "drawn": 3.51
+       },
+       "d60": {
+        "a": 0.9866666666666667,
+        "games": 300,
+        "plays": 0.03333333333333333,
+        "drawn": 0.2
+       },
+       "thorns": {
+        "a": 0.9966666666666667,
+        "games": 300,
+        "plays": 0.2633333333333333,
+        "drawn": 1.8566666666666667
+       },
+       "starmie": {
+        "a": 0.8833333333333333,
+        "games": 300,
+        "plays": 0.3233333333333333,
+        "drawn": 3.09
+       }
+      }
+     },
+     {
+      "cut": "Bravery Charm",
+      "copies_before": 2,
+      "colress": 1,
+      "weighted": 0.9161060142711518,
+      "se": 0.008090719876895755,
+      "mean": 0.9422222222222222,
+      "worst": 0.89,
+      "plays": 0.26166666666666666,
+      "drawn": 8.35031847133758,
+      "cells": {
+       "t60": {
+        "a": 0.9433333333333334,
+        "games": 300,
+        "plays": 0.26,
+        "drawn": 2.04
+       },
+       "hedrick": {
+        "a": 0.89,
+        "games": 300,
+        "plays": 0.32,
+        "drawn": 2.7266666666666666
+       },
+       "c60": {
+        "a": 0.94,
+        "games": 300,
+        "plays": 0.3566666666666667,
+        "drawn": 2.816666666666667
+       },
+       "d60": {
+        "a": 0.99,
+        "games": 300,
+        "plays": 0.03666666666666667,
+        "drawn": 0.23
+       },
+       "thorns": {
+        "a": 0.9933333333333333,
+        "games": 300,
+        "plays": 0.23666666666666666,
+        "drawn": 1.7466666666666666
+       },
+       "starmie": {
+        "a": 0.8966666666666666,
+        "games": 300,
+        "plays": 0.36,
+        "drawn": 3.55
+       }
+      }
+     },
+     {
+      "cut": "Professor's Research",
+      "copies_before": 2,
+      "colress": 1,
+      "weighted": 0.9147502548419979,
+      "se": 0.008015984933971345,
+      "mean": 0.9394444444444444,
+      "worst": 0.8966666666666666,
+      "plays": 0.2488888888888889,
+      "drawn": 8.203124999999998,
+      "cells": {
+       "t60": {
+        "a": 0.9033333333333333,
+        "games": 300,
+        "plays": 0.16666666666666666,
+        "drawn": 1.24
+       },
+       "hedrick": {
+        "a": 0.9266666666666666,
+        "games": 300,
+        "plays": 0.28,
+        "drawn": 2.3033333333333332
+       },
+       "c60": {
+        "a": 0.9233333333333333,
+        "games": 300,
+        "plays": 0.44666666666666666,
+        "drawn": 3.56
+       },
+       "d60": {
+        "a": 0.9866666666666667,
+        "games": 300,
+        "plays": 0.04,
+        "drawn": 0.24
+       },
+       "thorns": {
+        "a": 1.0,
+        "games": 300,
+        "plays": 0.22666666666666666,
+        "drawn": 1.65
+       },
+       "starmie": {
+        "a": 0.8966666666666666,
+        "games": 300,
+        "plays": 0.3333333333333333,
+        "drawn": 3.256666666666667
+       }
+      }
+     },
+     {
+      "cut": "Manaphy",
+      "copies_before": 1,
+      "colress": 1,
+      "weighted": 0.9129459734964323,
+      "se": 0.008110634251855429,
+      "mean": 0.9405555555555556,
+      "worst": 0.8333333333333334,
+      "plays": 0.24611111111111114,
+      "drawn": 8.171557562076748,
+      "cells": {
+       "t60": {
+        "a": 0.9366666666666666,
+        "games": 300,
+        "plays": 0.18333333333333332,
+        "drawn": 1.3733333333333333
+       },
+       "hedrick": {
+        "a": 0.9333333333333333,
+        "games": 300,
+        "plays": 0.2833333333333333,
+        "drawn": 2.4033333333333333
+       },
+       "c60": {
+        "a": 0.9533333333333334,
+        "games": 300,
+        "plays": 0.4166666666666667,
+        "drawn": 3.296666666666667
+       },
+       "d60": {
+        "a": 0.99,
+        "games": 300,
+        "plays": 0.02,
+        "drawn": 0.1
+       },
+       "thorns": {
+        "a": 0.9966666666666667,
+        "games": 300,
+        "plays": 0.26,
+        "drawn": 1.8666666666666667
+       },
+       "starmie": {
+        "a": 0.8333333333333334,
+        "games": 300,
+        "plays": 0.31333333333333335,
+        "drawn": 3.026666666666667
+       }
+      }
+     },
+     {
+      "cut": "Iono",
+      "copies_before": 4,
+      "colress": 1,
+      "weighted": 0.9118960244648318,
+      "se": 0.008238394019593136,
+      "mean": 0.9377777777777778,
+      "worst": 0.8933333333333333,
+      "plays": 0.255,
+      "drawn": 8.320261437908496,
+      "cells": {
+       "t60": {
+        "a": 0.9233333333333333,
+        "games": 300,
+        "plays": 0.2633333333333333,
+        "drawn": 2.006666666666667
+       },
+       "hedrick": {
+        "a": 0.8966666666666666,
+        "games": 300,
+        "plays": 0.31333333333333335,
+        "drawn": 2.6466666666666665
+       },
+       "c60": {
+        "a": 0.9366666666666666,
+        "games": 300,
+        "plays": 0.35333333333333333,
+        "drawn": 2.93
+       },
+       "d60": {
+        "a": 0.9833333333333333,
+        "games": 300,
+        "plays": 0.03666666666666667,
+        "drawn": 0.22333333333333333
+       },
+       "thorns": {
+        "a": 0.9933333333333333,
+        "games": 300,
+        "plays": 0.24666666666666667,
+        "drawn": 1.81
+       },
+       "starmie": {
+        "a": 0.8933333333333333,
+        "games": 300,
+        "plays": 0.31666666666666665,
+        "drawn": 3.1133333333333333
+       }
+      }
+     },
+     {
+      "cut": "Night Stretcher",
+      "copies_before": 1,
+      "colress": 1,
+      "weighted": 0.9092864424057084,
+      "se": 0.008363536724233067,
+      "mean": 0.9361111111111112,
+      "worst": 0.87,
+      "plays": 0.24111111111111114,
+      "drawn": 8.359447004608295,
+      "cells": {
+       "t60": {
+        "a": 0.93,
+        "games": 300,
+        "plays": 0.26,
+        "drawn": 2.03
+       },
+       "hedrick": {
+        "a": 0.87,
+        "games": 300,
+        "plays": 0.23,
+        "drawn": 1.8533333333333333
+       },
+       "c60": {
+        "a": 0.9333333333333333,
+        "games": 300,
+        "plays": 0.3933333333333333,
+        "drawn": 3.276666666666667
+       },
+       "d60": {
+        "a": 0.9766666666666667,
+        "games": 300,
+        "plays": 0.04666666666666667,
+        "drawn": 0.27
+       },
+       "thorns": {
+        "a": 0.9966666666666667,
+        "games": 300,
+        "plays": 0.20333333333333334,
+        "drawn": 1.51
+       },
+       "starmie": {
+        "a": 0.91,
+        "games": 300,
+        "plays": 0.31333333333333335,
+        "drawn": 3.1533333333333333
+       }
+      }
+     },
+     {
+      "cut": "Bursting Balloon",
+      "copies_before": 1,
+      "colress": 1,
+      "weighted": 0.9083995922528032,
+      "se": 0.008393709239269739,
+      "mean": 0.9366666666666666,
+      "worst": 0.8866666666666667,
+      "plays": 0.2727777777777778,
+      "drawn": 8.35030549898167,
+      "cells": {
+       "t60": {
+        "a": 0.9166666666666666,
+        "games": 300,
+        "plays": 0.24666666666666667,
+        "drawn": 1.9833333333333334
+       },
+       "hedrick": {
+        "a": 0.8866666666666667,
+        "games": 300,
+        "plays": 0.2633333333333333,
+        "drawn": 2.16
+       },
+       "c60": {
+        "a": 0.9366666666666666,
+        "games": 300,
+        "plays": 0.4,
+        "drawn": 3.2066666666666666
+       },
+       "d60": {
+        "a": 0.9833333333333333,
+        "games": 300,
+        "plays": 0.04,
+        "drawn": 0.24666666666666667
+       },
+       "thorns": {
+        "a": 1.0,
+        "games": 300,
+        "plays": 0.29,
+        "drawn": 2.1433333333333335
+       },
+       "starmie": {
+        "a": 0.8966666666666666,
+        "games": 300,
+        "plays": 0.39666666666666667,
+        "drawn": 3.9266666666666667
+       }
+      }
+     },
+     {
+      "cut": "Hero's Cape",
+      "copies_before": 1,
+      "colress": 1,
+      "weighted": 0.9081753312945973,
+      "se": 0.008368751504018283,
+      "mean": 0.9366666666666666,
+      "worst": 0.8833333333333333,
+      "plays": 0.2611111111111111,
+      "drawn": 8.161702127659572,
+      "cells": {
+       "t60": {
+        "a": 0.9066666666666666,
+        "games": 300,
+        "plays": 0.25333333333333335,
+        "drawn": 1.8733333333333333
+       },
+       "hedrick": {
+        "a": 0.8833333333333333,
+        "games": 300,
+        "plays": 0.27,
+        "drawn": 2.3
+       },
+       "c60": {
+        "a": 0.9233333333333333,
+        "games": 300,
+        "plays": 0.36,
+        "drawn": 2.92
+       },
+       "d60": {
+        "a": 0.99,
+        "games": 300,
+        "plays": 0.03,
+        "drawn": 0.16333333333333333
+       },
+       "thorns": {
+        "a": 1.0,
+        "games": 300,
+        "plays": 0.31,
+        "drawn": 2.25
+       },
+       "starmie": {
+        "a": 0.9166666666666666,
+        "games": 300,
+        "plays": 0.3433333333333333,
+        "drawn": 3.28
+       }
+      }
+     },
+     {
+      "cut": "Arven",
+      "copies_before": 4,
+      "colress": 1,
+      "weighted": 0.9066258919469928,
+      "se": 0.008514707878288636,
+      "mean": 0.9383333333333334,
+      "worst": 0.8733333333333333,
+      "plays": 0.26666666666666666,
+      "drawn": 8.222916666666666,
+      "cells": {
+       "t60": {
+        "a": 0.9366666666666666,
+        "games": 300,
+        "plays": 0.23,
+        "drawn": 1.7066666666666668
+       },
+       "hedrick": {
+        "a": 0.8733333333333333,
+        "games": 300,
+        "plays": 0.3,
+        "drawn": 2.61
+       },
+       "c60": {
+        "a": 0.9466666666666667,
+        "games": 300,
+        "plays": 0.37333333333333335,
+        "drawn": 2.9066666666666667
+       },
+       "d60": {
+        "a": 0.9933333333333333,
+        "games": 300,
+        "plays": 0.05,
+        "drawn": 0.3
+       },
+       "thorns": {
+        "a": 1.0,
+        "games": 300,
+        "plays": 0.2966666666666667,
+        "drawn": 2.1133333333333333
+       },
+       "starmie": {
+        "a": 0.88,
+        "games": 300,
+        "plays": 0.35,
+        "drawn": 3.52
+       }
+      }
+     },
+     {
+      "cut": "Buddy-Buddy Poffin",
+      "copies_before": 4,
+      "colress": 1,
+      "weighted": 0.9061467889908257,
+      "se": 0.008485172077611713,
+      "mean": 0.9355555555555556,
+      "worst": 0.8766666666666667,
+      "plays": 0.23611111111111113,
+      "drawn": 8.190588235294117,
+      "cells": {
+       "t60": {
+        "a": 0.93,
+        "games": 300,
+        "plays": 0.18666666666666668,
+        "drawn": 1.4533333333333334
+       },
+       "hedrick": {
+        "a": 0.8766666666666667,
+        "games": 300,
+        "plays": 0.25666666666666665,
+        "drawn": 2.046666666666667
+       },
+       "c60": {
+        "a": 0.9233333333333333,
+        "games": 300,
+        "plays": 0.37,
+        "drawn": 2.9266666666666667
+       },
+       "d60": {
+        "a": 0.99,
+        "games": 300,
+        "plays": 0.013333333333333334,
+        "drawn": 0.08333333333333333
+       },
+       "thorns": {
+        "a": 0.9966666666666667,
+        "games": 300,
+        "plays": 0.25,
+        "drawn": 1.7766666666666666
+       },
+       "starmie": {
+        "a": 0.8966666666666666,
+        "games": 300,
+        "plays": 0.34,
+        "drawn": 3.316666666666667
+       }
+      }
+     },
+     {
+      "cut": "Max Potion",
+      "copies_before": 3,
+      "colress": 1,
+      "weighted": 0.905453618756371,
+      "se": 0.008551511458944243,
+      "mean": 0.9377777777777778,
+      "worst": 0.8733333333333333,
+      "plays": 0.24777777777777776,
+      "drawn": 8.278026905829597,
+      "cells": {
+       "t60": {
+        "a": 0.9233333333333333,
+        "games": 300,
+        "plays": 0.19666666666666666,
+        "drawn": 1.49
+       },
+       "hedrick": {
+        "a": 0.8833333333333333,
+        "games": 300,
+        "plays": 0.29,
+        "drawn": 2.46
+       },
+       "c60": {
+        "a": 0.95,
+        "games": 300,
+        "plays": 0.34,
+        "drawn": 2.723333333333333
+       },
+       "d60": {
+        "a": 0.9966666666666667,
+        "games": 300,
+        "plays": 0.02,
+        "drawn": 0.12
+       },
+       "thorns": {
+        "a": 1.0,
+        "games": 300,
+        "plays": 0.28,
+        "drawn": 1.9533333333333334
+       },
+       "starmie": {
+        "a": 0.8733333333333333,
+        "games": 300,
+        "plays": 0.36,
+        "drawn": 3.56
+       }
+      }
+     },
+     {
+      "cut": "Spiky Energy",
+      "copies_before": 2,
+      "colress": 1,
+      "weighted": 0.9049847094801222,
+      "se": 0.008546085929013684,
+      "mean": 0.9366666666666666,
+      "worst": 0.8833333333333333,
+      "plays": 0.245,
+      "drawn": 8.346938775510203,
+      "cells": {
+       "t60": {
+        "a": 0.8833333333333333,
+        "games": 300,
+        "plays": 0.24333333333333335,
+        "drawn": 1.91
+       },
+       "hedrick": {
+        "a": 0.8833333333333333,
+        "games": 300,
+        "plays": 0.27666666666666667,
+        "drawn": 2.3333333333333335
+       },
+       "c60": {
+        "a": 0.9633333333333334,
+        "games": 300,
+        "plays": 0.36666666666666664,
+        "drawn": 2.9466666666666668
+       },
+       "d60": {
+        "a": 0.9933333333333333,
+        "games": 300,
+        "plays": 0.02666666666666667,
+        "drawn": 0.17333333333333334
+       },
+       "thorns": {
+        "a": 1.0,
+        "games": 300,
+        "plays": 0.21333333333333335,
+        "drawn": 1.5266666666666666
+       },
+       "starmie": {
+        "a": 0.8966666666666666,
+        "games": 300,
+        "plays": 0.3433333333333333,
+        "drawn": 3.38
+       }
+      }
+     },
+     {
+      "cut": "Mime Jr.",
+      "copies_before": 2,
+      "colress": 1,
+      "weighted": 0.8927624872579001,
+      "se": 0.009013330832026548,
+      "mean": 0.9205555555555556,
+      "worst": 0.8466666666666667,
+      "plays": 0.26555555555555554,
+      "drawn": 8.230125523012553,
+      "cells": {
+       "t60": {
+        "a": 0.9233333333333333,
+        "games": 300,
+        "plays": 0.20333333333333334,
+        "drawn": 1.5866666666666667
+       },
+       "hedrick": {
+        "a": 0.8466666666666667,
+        "games": 300,
+        "plays": 0.26666666666666666,
+        "drawn": 2.2266666666666666
+       },
+       "c60": {
+        "a": 0.9466666666666667,
+        "games": 300,
+        "plays": 0.4033333333333333,
+        "drawn": 3.223333333333333
+       },
+       "d60": {
+        "a": 0.9366666666666666,
+        "games": 300,
+        "plays": 0.07,
+        "drawn": 0.43333333333333335
+       },
+       "thorns": {
+        "a": 0.9966666666666667,
+        "games": 300,
+        "plays": 0.29333333333333333,
+        "drawn": 2.09
+       },
+       "starmie": {
+        "a": 0.8733333333333333,
+        "games": 300,
+        "plays": 0.3566666666666667,
+        "drawn": 3.5533333333333332
+       }
+      }
+     }
+    ],
+    "confirm": [
+     {
+      "cut": "Crushing Hammer",
+      "copies_before": 3,
+      "colress": 1,
+      "weighted": 0.9236544342507645,
+      "se": 0.004227534915770132,
+      "mean": 0.9470000000000001,
+      "worst": 0.906,
+      "plays": 0.25566666666666665,
+      "drawn": 8.198174706649283,
+      "cells": {
+       "t60": {
+        "a": 0.917,
+        "games": 1000,
+        "plays": 0.219,
+        "drawn": 1.633
+       },
+       "hedrick": {
+        "a": 0.906,
+        "games": 1000,
+        "plays": 0.279,
+        "drawn": 2.368
+       },
+       "c60": {
+        "a": 0.948,
+        "games": 1000,
+        "plays": 0.364,
+        "drawn": 2.819
+       },
+       "d60": {
+        "a": 0.993,
+        "games": 1000,
+        "plays": 0.032,
+        "drawn": 0.19
+       },
+       "thorns": {
+        "a": 0.994,
+        "games": 1000,
+        "plays": 0.268,
+        "drawn": 1.93
+       },
+       "starmie": {
+        "a": 0.924,
+        "games": 1000,
+        "plays": 0.372,
+        "drawn": 3.636
+       }
+      }
+     },
+     {
+      "cut": "Battle Cage",
+      "copies_before": 4,
+      "colress": 1,
+      "weighted": 0.9221834862385321,
+      "se": 0.004266934538258836,
+      "mean": 0.9461666666666666,
+      "worst": 0.907,
+      "plays": 0.253,
+      "drawn": 8.279973649538867,
+      "cells": {
+       "t60": {
+        "a": 0.928,
+        "games": 1000,
+        "plays": 0.216,
+        "drawn": 1.63
+       },
+       "hedrick": {
+        "a": 0.91,
+        "games": 1000,
+        "plays": 0.264,
+        "drawn": 2.275
+       },
+       "c60": {
+        "a": 0.945,
+        "games": 1000,
+        "plays": 0.384,
+        "drawn": 3.135
+       },
+       "d60": {
+        "a": 0.988,
+        "games": 1000,
+        "plays": 0.036,
+        "drawn": 0.22
+       },
+       "thorns": {
+        "a": 0.999,
+        "games": 1000,
+        "plays": 0.274,
+        "drawn": 1.953
+       },
+       "starmie": {
+        "a": 0.907,
+        "games": 1000,
+        "plays": 0.344,
+        "drawn": 3.356
+       }
+      }
+     },
+     {
+      "cut": "Rescue Carrier",
+      "copies_before": 2,
+      "colress": 1,
+      "weighted": 0.9208318042813456,
+      "se": 0.0043015046844870975,
+      "mean": 0.9448333333333334,
+      "worst": 0.905,
+      "plays": 0.2511666666666667,
+      "drawn": 8.276708692767086,
+      "cells": {
+       "t60": {
+        "a": 0.93,
+        "games": 1000,
+        "plays": 0.227,
+        "drawn": 1.742
+       },
+       "hedrick": {
+        "a": 0.905,
+        "games": 1000,
+        "plays": 0.279,
+        "drawn": 2.337
+       },
+       "c60": {
+        "a": 0.942,
+        "games": 1000,
+        "plays": 0.395,
+        "drawn": 3.187
+       },
+       "d60": {
+        "a": 0.986,
+        "games": 1000,
+        "plays": 0.029,
+        "drawn": 0.179
+       },
+       "thorns": {
+        "a": 0.998,
+        "games": 1000,
+        "plays": 0.264,
+        "drawn": 1.969
+       },
+       "starmie": {
+        "a": 0.908,
+        "games": 1000,
+        "plays": 0.313,
+        "drawn": 3.059
+       }
+      }
+     },
+     {
+      "cut": "Counter Catcher",
+      "copies_before": 1,
+      "colress": 1,
+      "weighted": 0.9207889908256881,
+      "se": 0.004318082081324686,
+      "mean": 0.9463333333333334,
+      "worst": 0.893,
+      "plays": 0.24766666666666667,
+      "drawn": 8.28129205921938,
+      "cells": {
+       "t60": {
+        "a": 0.926,
+        "games": 1000,
+        "plays": 0.209,
+        "drawn": 1.587
+       },
+       "hedrick": {
+        "a": 0.893,
+        "games": 1000,
+        "plays": 0.282,
+        "drawn": 2.417
+       },
+       "c60": {
+        "a": 0.949,
+        "games": 1000,
+        "plays": 0.383,
+        "drawn": 3.126
+       },
+       "d60": {
+        "a": 0.995,
+        "games": 1000,
+        "plays": 0.026,
+        "drawn": 0.16
+       },
+       "thorns": {
+        "a": 0.996,
+        "games": 1000,
+        "plays": 0.252,
+        "drawn": 1.792
+       },
+       "starmie": {
+        "a": 0.919,
+        "games": 1000,
+        "plays": 0.334,
+        "drawn": 3.224
+       }
+      }
+     },
+     {
+      "cut": "Sky Field",
+      "copies_before": 3,
+      "colress": 1,
+      "weighted": 0.9207737003058104,
+      "se": 0.004320844402418863,
+      "mean": 0.9468333333333333,
+      "worst": 0.898,
+      "plays": 0.251,
+      "drawn": 8.214475431606907,
+      "cells": {
+       "t60": {
+        "a": 0.927,
+        "games": 1000,
+        "plays": 0.203,
+        "drawn": 1.525
+       },
+       "hedrick": {
+        "a": 0.898,
+        "games": 1000,
+        "plays": 0.271,
+        "drawn": 2.25
+       },
+       "c60": {
+        "a": 0.951,
+        "games": 1000,
+        "plays": 0.382,
+        "drawn": 3.011
+       },
+       "d60": {
+        "a": 0.997,
+        "games": 1000,
+        "plays": 0.028,
+        "drawn": 0.164
+       },
+       "thorns": {
+        "a": 0.997,
+        "games": 1000,
+        "plays": 0.239,
+        "drawn": 1.704
+       },
+       "starmie": {
+        "a": 0.911,
+        "games": 1000,
+        "plays": 0.383,
+        "drawn": 3.717
+       }
+      }
+     },
+     {
+      "cut": "Budew",
+      "copies_before": 4,
+      "colress": 1,
+      "weighted": 0.9193425076452599,
+      "se": 0.004321768527004023,
+      "mean": 0.9438333333333334,
+      "worst": 0.899,
+      "plays": 0.26233333333333336,
+      "drawn": 8.242058449809402,
+      "cells": {
+       "t60": {
+        "a": 0.928,
+        "games": 1000,
+        "plays": 0.223,
+        "drawn": 1.683
+       },
+       "hedrick": {
+        "a": 0.899,
+        "games": 1000,
+        "plays": 0.291,
+        "drawn": 2.482
+       },
+       "c60": {
+        "a": 0.925,
+        "games": 1000,
+        "plays": 0.413,
+        "drawn": 3.303
+       },
+       "d60": {
+        "a": 0.992,
+        "games": 1000,
+        "plays": 0.026,
+        "drawn": 0.152
+       },
+       "thorns": {
+        "a": 0.997,
+        "games": 1000,
+        "plays": 0.271,
+        "drawn": 1.969
+       },
+       "starmie": {
+        "a": 0.922,
+        "games": 1000,
+        "plays": 0.35,
+        "drawn": 3.384
+       }
+      }
+     }
+    ]
+   },
+   {
+    "copies_after": 2,
+    "current_weighted": 0.9236544342507645,
+    "chosen": "Sky Field",
+    "chosen_weighted": 0.9284984709480122,
+    "list": [
+     "Mew ex",
+     "Mew ex",
+     "Mew ex",
+     "Mime Jr.",
+     "Mime Jr.",
+     "Igglybuff",
+     "Igglybuff",
+     "Igglybuff",
+     "Igglybuff",
+     "Budew",
+     "Budew",
+     "Budew",
+     "Budew",
+     "Manaphy",
+     "Buddy-Buddy Poffin",
+     "Buddy-Buddy Poffin",
+     "Buddy-Buddy Poffin",
+     "Buddy-Buddy Poffin",
+     "Nest Ball",
+     "Nest Ball",
+     "Nest Ball",
+     "Nest Ball",
+     "Junk Arm",
+     "Night Stretcher",
+     "Rescue Carrier",
+     "Rescue Carrier",
+     "Battle Cage",
+     "Battle Cage",
+     "Battle Cage",
+     "Battle Cage",
+     "Sky Field",
+     "Sky Field",
+     "Bravery Charm",
+     "Bravery Charm",
+     "Bursting Balloon",
+     "Hero's Cape",
+     "Max Potion",
+     "Max Potion",
+     "Max Potion",
+     "Arven",
+     "Arven",
+     "Arven",
+     "Arven",
+     "Iono",
+     "Iono",
+     "Iono",
+     "Iono",
+     "Professor's Research",
+     "Professor's Research",
+     "Team Rocket's Petrel",
+     "Team Rocket's Petrel",
+     "Team Rocket's Petrel",
+     "Team Rocket's Petrel",
+     "Crushing Hammer",
+     "Crushing Hammer",
+     "Counter Catcher",
+     "Spiky Energy",
+     "Spiky Energy",
+     "Colress",
+     "Colress"
+    ],
+    "accepted": true,
+    "screen": [
+     {
+      "cut": "Sky Field",
+      "copies_before": 3,
+      "colress": 2,
+      "weighted": 0.9440468909276248,
+      "se": 0.006683376116393448,
+      "mean": 0.9611111111111111,
+      "worst": 0.9333333333333333,
+      "plays": 0.4794444444444444,
+      "drawn": 8.404403244495946,
+      "cells": {
+       "t60": {
+        "a": 0.9466666666666667,
+        "games": 300,
+        "plays": 0.35333333333333333,
+        "drawn": 2.69
+       },
+       "hedrick": {
+        "a": 0.9366666666666666,
+        "games": 300,
+        "plays": 0.5766666666666667,
+        "drawn": 4.906666666666666
+       },
+       "c60": {
+        "a": 0.96,
+        "games": 300,
+        "plays": 0.74,
+        "drawn": 6.036666666666667
+       },
+       "d60": {
+        "a": 0.99,
+        "games": 300,
+        "plays": 0.04,
+        "drawn": 0.21666666666666667
+       },
+       "thorns": {
+        "a": 1.0,
+        "games": 300,
+        "plays": 0.44,
+        "drawn": 3.12
+       },
+       "starmie": {
+        "a": 0.9333333333333333,
+        "games": 300,
+        "plays": 0.7266666666666667,
+        "drawn": 7.206666666666667
+       }
+      }
+     },
+     {
+      "cut": "Bravery Charm",
+      "copies_before": 2,
+      "colress": 2,
+      "weighted": 0.9294189602446483,
+      "se": 0.007439677469384598,
+      "mean": 0.9505555555555555,
+      "worst": 0.9133333333333333,
+      "plays": 0.4788888888888889,
+      "drawn": 8.59628770301624,
+      "cells": {
+       "t60": {
+        "a": 0.9133333333333333,
+        "games": 300,
+        "plays": 0.38333333333333336,
+        "drawn": 2.95
+       },
+       "hedrick": {
+        "a": 0.92,
+        "games": 300,
+        "plays": 0.5566666666666666,
+        "drawn": 4.8966666666666665
+       },
+       "c60": {
+        "a": 0.9633333333333334,
+        "games": 300,
+        "plays": 0.7166666666666667,
+        "drawn": 5.843333333333334
+       },
+       "d60": {
+        "a": 0.9833333333333333,
+        "games": 300,
+        "plays": 0.04,
+        "drawn": 0.25666666666666665
+       },
+       "thorns": {
+        "a": 1.0,
+        "games": 300,
+        "plays": 0.4766666666666667,
+        "drawn": 3.5566666666666666
+       },
+       "starmie": {
+        "a": 0.9233333333333333,
+        "games": 300,
+        "plays": 0.7,
+        "drawn": 7.196666666666666
+       }
+      }
+     },
+     {
+      "cut": "Mew ex",
+      "copies_before": 3,
+      "colress": 2,
+      "weighted": 0.9280020387359836,
+      "se": 0.007621895002444651,
+      "mean": 0.9527777777777778,
+      "worst": 0.89,
+      "plays": 0.4772222222222222,
+      "drawn": 8.366705471478465,
+      "cells": {
+       "t60": {
+        "a": 0.9566666666666667,
+        "games": 300,
+        "plays": 0.4166666666666667,
+        "drawn": 3.236666666666667
+       },
+       "hedrick": {
+        "a": 0.89,
+        "games": 300,
+        "plays": 0.51,
+        "drawn": 4.3533333333333335
+       },
+       "c60": {
+        "a": 0.9733333333333334,
+        "games": 300,
+        "plays": 0.7733333333333333,
+        "drawn": 6.35
+       },
+       "d60": {
+        "a": 0.9933333333333333,
+        "games": 300,
+        "plays": 0.07,
+        "drawn": 0.44333333333333336
+       },
+       "thorns": {
+        "a": 0.9966666666666667,
+        "games": 300,
+        "plays": 0.49,
+        "drawn": 3.45
+       },
+       "starmie": {
+        "a": 0.9066666666666666,
+        "games": 300,
+        "plays": 0.6033333333333334,
+        "drawn": 6.123333333333333
+       }
+      }
+     },
+     {
+      "cut": "Night Stretcher",
+      "copies_before": 1,
+      "colress": 2,
+      "weighted": 0.9264016309887869,
+      "se": 0.007614864530053942,
+      "mean": 0.9494444444444444,
+      "worst": 0.8866666666666667,
+      "plays": 0.4855555555555556,
+      "drawn": 8.3558352402746,
+      "cells": {
+       "t60": {
+        "a": 0.9366666666666666,
+        "games": 300,
+        "plays": 0.42333333333333334,
+        "drawn": 3.256666666666667
+       },
+       "hedrick": {
+        "a": 0.8866666666666667,
+        "games": 300,
+        "plays": 0.51,
+        "drawn": 4.383333333333334
+       },
+       "c60": {
+        "a": 0.9466666666666667,
+        "games": 300,
+        "plays": 0.7533333333333333,
+        "drawn": 6.1066666666666665
+       },
+       "d60": {
+        "a": 0.99,
+        "games": 300,
+        "plays": 0.05,
+        "drawn": 0.3
+       },
+       "thorns": {
+        "a": 0.9966666666666667,
+        "games": 300,
+        "plays": 0.4633333333333333,
+        "drawn": 3.33
+       },
+       "starmie": {
+        "a": 0.94,
+        "games": 300,
+        "plays": 0.7133333333333334,
+        "drawn": 6.966666666666667
+       }
+      }
+     },
+     {
+      "cut": "Counter Catcher",
+      "copies_before": 1,
+      "colress": 2,
+      "weighted": 0.9248114169215087,
+      "se": 0.007619795489981299,
+      "mean": 0.9477777777777777,
+      "worst": 0.9166666666666666,
+      "plays": 0.5061111111111111,
+      "drawn": 8.420417124039519,
+      "cells": {
+       "t60": {
+        "a": 0.93,
+        "games": 300,
+        "plays": 0.39666666666666667,
+        "drawn": 3.1066666666666665
+       },
+       "hedrick": {
+        "a": 0.9166666666666666,
+        "games": 300,
+        "plays": 0.56,
+        "drawn": 4.866666666666666
+       },
+       "c60": {
+        "a": 0.9266666666666666,
+        "games": 300,
+        "plays": 0.78,
+        "drawn": 6.3966666666666665
+       },
+       "d60": {
+        "a": 0.9933333333333333,
+        "games": 300,
+        "plays": 0.06666666666666667,
+        "drawn": 0.4166666666666667
+       },
+       "thorns": {
+        "a": 1.0,
+        "games": 300,
+        "plays": 0.5333333333333333,
+        "drawn": 3.85
+       },
+       "starmie": {
+        "a": 0.92,
+        "games": 300,
+        "plays": 0.7,
+        "drawn": 6.933333333333334
+       }
+      }
+     },
+     {
+      "cut": "Junk Arm",
+      "copies_before": 1,
+      "colress": 2,
+      "weighted": 0.9241794087665647,
+      "se": 0.007750195022219682,
+      "mean": 0.9500000000000001,
+      "worst": 0.9,
+      "plays": 0.4772222222222222,
+      "drawn": 8.441210710128056,
+      "cells": {
+       "t60": {
+        "a": 0.92,
+        "games": 300,
+        "plays": 0.43333333333333335,
+        "drawn": 3.4133333333333336
+       },
+       "hedrick": {
+        "a": 0.9,
+        "games": 300,
+        "plays": 0.54,
+        "drawn": 4.846666666666667
+       },
+       "c60": {
+        "a": 0.9666666666666667,
+        "games": 300,
+        "plays": 0.7166666666666667,
+        "drawn": 5.863333333333333
+       },
+       "d60": {
+        "a": 0.9966666666666667,
+        "games": 300,
+        "plays": 0.05333333333333334,
+        "drawn": 0.33
+       },
+       "thorns": {
+        "a": 1.0,
+        "games": 300,
+        "plays": 0.5,
+        "drawn": 3.5566666666666666
+       },
+       "starmie": {
+        "a": 0.9166666666666666,
+        "games": 300,
+        "plays": 0.62,
+        "drawn": 6.16
+       }
+      }
+     },
+     {
+      "cut": "Manaphy",
+      "copies_before": 1,
+      "colress": 2,
+      "weighted": 0.9226911314984709,
+      "se": 0.0077444094723135345,
+      "mean": 0.9466666666666667,
+      "worst": 0.8533333333333334,
+      "plays": 0.4666666666666666,
+      "drawn": 8.146428571428572,
+      "cells": {
+       "t60": {
+        "a": 0.95,
+        "games": 300,
+        "plays": 0.3466666666666667,
+        "drawn": 2.65
+       },
+       "hedrick": {
+        "a": 0.93,
+        "games": 300,
+        "plays": 0.5366666666666666,
+        "drawn": 4.4366666666666665
+       },
+       "c60": {
+        "a": 0.9666666666666667,
+        "games": 300,
+        "plays": 0.73,
+        "drawn": 5.993333333333333
+       },
+       "d60": {
+        "a": 0.99,
+        "games": 300,
+        "plays": 0.08666666666666667,
+        "drawn": 0.5166666666666667
+       },
+       "thorns": {
+        "a": 0.99,
+        "games": 300,
+        "plays": 0.52,
+        "drawn": 3.75
+       },
+       "starmie": {
+        "a": 0.8533333333333334,
+        "games": 300,
+        "plays": 0.58,
+        "drawn": 5.463333333333333
+       }
+      }
+     },
+     {
+      "cut": "Spiky Energy",
+      "copies_before": 2,
+      "colress": 2,
+      "weighted": 0.922354740061162,
+      "se": 0.007793565987574314,
+      "mean": 0.9472222222222223,
+      "worst": 0.9033333333333333,
+      "plays": 0.49,
+      "drawn": 8.43764172335601,
+      "cells": {
+       "t60": {
+        "a": 0.9033333333333333,
+        "games": 300,
+        "plays": 0.4166666666666667,
+        "drawn": 3.1
+       },
+       "hedrick": {
+        "a": 0.91,
+        "games": 300,
+        "plays": 0.4633333333333333,
+        "drawn": 4.03
+       },
+       "c60": {
+        "a": 0.9666666666666667,
+        "games": 300,
+        "plays": 0.7566666666666667,
+        "drawn": 6.21
+       },
+       "d60": {
+        "a": 0.9933333333333333,
+        "games": 300,
+        "plays": 0.06666666666666667,
+        "drawn": 0.37666666666666665
+       },
+       "thorns": {
+        "a": 0.9966666666666667,
+        "games": 300,
+        "plays": 0.5733333333333334,
+        "drawn": 4.343333333333334
+       },
+       "starmie": {
+        "a": 0.9133333333333333,
+        "games": 300,
+        "plays": 0.6633333333333333,
+        "drawn": 6.746666666666667
+       }
+      }
+     },
+     {
+      "cut": "Bursting Balloon",
+      "copies_before": 1,
+      "colress": 2,
+      "weighted": 0.9213047910295616,
+      "se": 0.00784396778970002,
+      "mean": 0.9466666666666667,
+      "worst": 0.8833333333333333,
+      "plays": 0.5222222222222223,
+      "drawn": 8.454255319148936,
+      "cells": {
+       "t60": {
+        "a": 0.9433333333333334,
+        "games": 300,
+        "plays": 0.48,
+        "drawn": 3.6666666666666665
+       },
+       "hedrick": {
+        "a": 0.9133333333333333,
+        "games": 300,
+        "plays": 0.6366666666666667,
+        "drawn": 5.49
+       },
+       "c60": {
+        "a": 0.95,
+        "games": 300,
+        "plays": 0.71,
+        "drawn": 5.776666666666666
+       },
+       "d60": {
+        "a": 0.99,
+        "games": 300,
+        "plays": 0.07,
+        "drawn": 0.41333333333333333
+       },
+       "thorns": {
+        "a": 1.0,
+        "games": 300,
+        "plays": 0.4666666666666667,
+        "drawn": 3.4066666666666667
+       },
+       "starmie": {
+        "a": 0.8833333333333333,
+        "games": 300,
+        "plays": 0.77,
+        "drawn": 7.736666666666666
+       }
+      }
+     },
+     {
+      "cut": "Professor's Research",
+      "copies_before": 2,
+      "colress": 2,
+      "weighted": 0.9202140672782874,
+      "se": 0.007892719117788655,
+      "mean": 0.9455555555555555,
+      "worst": 0.9,
+      "plays": 0.4711111111111111,
+      "drawn": 8.320754716981133,
+      "cells": {
+       "t60": {
+        "a": 0.94,
+        "games": 300,
+        "plays": 0.39,
+        "drawn": 2.986666666666667
+       },
+       "hedrick": {
+        "a": 0.9033333333333333,
+        "games": 300,
+        "plays": 0.64,
+        "drawn": 5.41
+       },
+       "c60": {
+        "a": 0.94,
+        "games": 300,
+        "plays": 0.7,
+        "drawn": 5.586666666666667
+       },
+       "d60": {
+        "a": 0.99,
+        "games": 300,
+        "plays": 0.056666666666666664,
+        "drawn": 0.32666666666666666
+       },
+       "thorns": {
+        "a": 1.0,
+        "games": 300,
+        "plays": 0.42,
+        "drawn": 2.9766666666666666
+       },
+       "starmie": {
+        "a": 0.9,
+        "games": 300,
+        "plays": 0.62,
+        "drawn": 6.233333333333333
+       }
+      }
+     },
+     {
+      "cut": "Buddy-Buddy Poffin",
+      "copies_before": 4,
+      "colress": 2,
+      "weighted": 0.9198980632008155,
+      "se": 0.007871614240266145,
+      "mean": 0.9444444444444445,
+      "worst": 0.9,
+      "plays": 0.47444444444444445,
+      "drawn": 8.4519906323185,
+      "cells": {
+       "t60": {
+        "a": 0.9366666666666666,
+        "games": 300,
+        "plays": 0.38333333333333336,
+        "drawn": 2.92
+       },
+       "hedrick": {
+        "a": 0.9,
+        "games": 300,
+        "plays": 0.47,
+        "drawn": 4.1066666666666665
+       },
+       "c60": {
+        "a": 0.9233333333333333,
+        "games": 300,
+        "plays": 0.6933333333333334,
+        "drawn": 5.6
+       },
+       "d60": {
+        "a": 0.9933333333333333,
+        "games": 300,
+        "plays": 0.056666666666666664,
+        "drawn": 0.31666666666666665
+       },
+       "thorns": {
+        "a": 0.9966666666666667,
+        "games": 300,
+        "plays": 0.49666666666666665,
+        "drawn": 3.6766666666666667
+       },
+       "starmie": {
+        "a": 0.9166666666666666,
+        "games": 300,
+        "plays": 0.7466666666666667,
+        "drawn": 7.44
+       }
+      }
+     },
+     {
+      "cut": "Arven",
+      "copies_before": 4,
+      "colress": 2,
+      "weighted": 0.9193272171253822,
+      "se": 0.007988412663444602,
+      "mean": 0.9466666666666667,
+      "worst": 0.8933333333333333,
+      "plays": 0.5111111111111112,
+      "drawn": 8.43478260869565,
+      "cells": {
+       "t60": {
+        "a": 0.91,
+        "games": 300,
+        "plays": 0.44,
+        "drawn": 3.4833333333333334
+       },
+       "hedrick": {
+        "a": 0.8933333333333333,
+        "games": 300,
+        "plays": 0.6033333333333334,
+        "drawn": 5.246666666666667
+       },
+       "c60": {
+        "a": 0.9833333333333333,
+        "games": 300,
+        "plays": 0.7866666666666666,
+        "drawn": 6.57
+       },
+       "d60": {
+        "a": 0.99,
+        "games": 300,
+        "plays": 0.05,
+        "drawn": 0.29333333333333333
+       },
+       "thorns": {
+        "a": 1.0,
+        "games": 300,
+        "plays": 0.4633333333333333,
+        "drawn": 3.34
+       },
+       "starmie": {
+        "a": 0.9033333333333333,
+        "games": 300,
+        "plays": 0.7233333333333334,
+        "drawn": 6.933333333333334
+       }
+      }
+     },
+     {
+      "cut": "Battle Cage",
+      "copies_before": 4,
+      "colress": 2,
+      "weighted": 0.9181141692150866,
+      "se": 0.007990916367400652,
+      "mean": 0.9444444444444445,
+      "worst": 0.8933333333333333,
+      "plays": 0.48833333333333334,
+      "drawn": 8.484641638225256,
+      "cells": {
+       "t60": {
+        "a": 0.9066666666666666,
+        "games": 300,
+        "plays": 0.43333333333333335,
+        "drawn": 3.24
+       },
+       "hedrick": {
+        "a": 0.8933333333333333,
+        "games": 300,
+        "plays": 0.5466666666666666,
+        "drawn": 4.92
+       },
+       "c60": {
+        "a": 0.9566666666666667,
+        "games": 300,
+        "plays": 0.74,
+        "drawn": 6.093333333333334
+       },
+       "d60": {
+        "a": 0.99,
+        "games": 300,
+        "plays": 0.06333333333333334,
+        "drawn": 0.39666666666666667
+       },
+       "thorns": {
+        "a": 1.0,
+        "games": 300,
+        "plays": 0.4766666666666667,
+        "drawn": 3.52
+       },
+       "starmie": {
+        "a": 0.92,
+        "games": 300,
+        "plays": 0.67,
+        "drawn": 6.69
+       }
+      }
+     },
+     {
+      "cut": "Max Potion",
+      "copies_before": 3,
+      "colress": 2,
+      "weighted": 0.9170336391437308,
+      "se": 0.008030288754365317,
+      "mean": 0.9433333333333334,
+      "worst": 0.8966666666666666,
+      "plays": 0.5055555555555555,
+      "drawn": 8.426373626373628,
+      "cells": {
+       "t60": {
+        "a": 0.9133333333333333,
+        "games": 300,
+        "plays": 0.48,
+        "drawn": 3.7133333333333334
+       },
+       "hedrick": {
+        "a": 0.8966666666666666,
+        "games": 300,
+        "plays": 0.56,
+        "drawn": 4.836666666666667
+       },
+       "c60": {
+        "a": 0.9466666666666667,
+        "games": 300,
+        "plays": 0.7433333333333333,
+        "drawn": 6.11
+       },
+       "d60": {
+        "a": 0.9933333333333333,
+        "games": 300,
+        "plays": 0.05333333333333334,
+        "drawn": 0.30666666666666664
+       },
+       "thorns": {
+        "a": 0.9966666666666667,
+        "games": 300,
+        "plays": 0.48,
+        "drawn": 3.43
+       },
+       "starmie": {
+        "a": 0.9133333333333333,
+        "games": 300,
+        "plays": 0.7166666666666667,
+        "drawn": 7.163333333333333
+       }
+      }
+     },
+     {
+      "cut": "Rescue Carrier",
+      "copies_before": 2,
+      "colress": 2,
+      "weighted": 0.9160142711518858,
+      "se": 0.008103360792349098,
+      "mean": 0.9433333333333334,
+      "worst": 0.89,
+      "plays": 0.47611111111111115,
+      "drawn": 8.327887981330221,
+      "cells": {
+       "t60": {
+        "a": 0.9333333333333333,
+        "games": 300,
+        "plays": 0.38,
+        "drawn": 2.966666666666667
+       },
+       "hedrick": {
+        "a": 0.89,
+        "games": 300,
+        "plays": 0.52,
+        "drawn": 4.336666666666667
+       },
+       "c60": {
+        "a": 0.9466666666666667,
+        "games": 300,
+        "plays": 0.7966666666666666,
+        "drawn": 6.553333333333334
+       },
+       "d60": {
+        "a": 0.99,
+        "games": 300,
+        "plays": 0.06666666666666667,
+        "drawn": 0.4
+       },
+       "thorns": {
+        "a": 1.0,
+        "games": 300,
+        "plays": 0.42333333333333334,
+        "drawn": 3.006666666666667
+       },
+       "starmie": {
+        "a": 0.9,
+        "games": 300,
+        "plays": 0.67,
+        "drawn": 6.526666666666666
+       }
+      }
+     },
+     {
+      "cut": "Crushing Hammer",
+      "copies_before": 2,
+      "colress": 2,
+      "weighted": 0.9154434250764526,
+      "se": 0.008118065590632604,
+      "mean": 0.9427777777777777,
+      "worst": 0.87,
+      "plays": 0.48833333333333334,
+      "drawn": 8.36405005688282,
+      "cells": {
+       "t60": {
+        "a": 0.9433333333333334,
+        "games": 300,
+        "plays": 0.4633333333333333,
+        "drawn": 3.59
+       },
+       "hedrick": {
+        "a": 0.9033333333333333,
+        "games": 300,
+        "plays": 0.5,
+        "drawn": 4.34
+       },
+       "c60": {
+        "a": 0.9533333333333334,
+        "games": 300,
+        "plays": 0.7566666666666667,
+        "drawn": 6.136666666666667
+       },
+       "d60": {
+        "a": 0.9933333333333333,
+        "games": 300,
+        "plays": 0.08666666666666667,
+        "drawn": 0.4766666666666667
+       },
+       "thorns": {
+        "a": 0.9933333333333333,
+        "games": 300,
+        "plays": 0.43666666666666665,
+        "drawn": 3.236666666666667
+       },
+       "starmie": {
+        "a": 0.87,
+        "games": 300,
+        "plays": 0.6866666666666666,
+        "drawn": 6.726666666666667
+       }
+      }
+     },
+     {
+      "cut": "Iono",
+      "copies_before": 4,
+      "colress": 2,
+      "weighted": 0.9153618756371049,
+      "se": 0.008060267676703332,
+      "mean": 0.94,
+      "worst": 0.9033333333333333,
+      "plays": 0.49500000000000005,
+      "drawn": 8.457912457912457,
+      "cells": {
+       "t60": {
+        "a": 0.9166666666666666,
+        "games": 300,
+        "plays": 0.45,
+        "drawn": 3.47
+       },
+       "hedrick": {
+        "a": 0.9066666666666666,
+        "games": 300,
+        "plays": 0.5866666666666667,
+        "drawn": 4.976666666666667
+       },
+       "c60": {
+        "a": 0.9333333333333333,
+        "games": 300,
+        "plays": 0.7133333333333334,
+        "drawn": 5.816666666666666
+       },
+       "d60": {
+        "a": 0.98,
+        "games": 300,
+        "plays": 0.06666666666666667,
+        "drawn": 0.4066666666666667
+       },
+       "thorns": {
+        "a": 1.0,
+        "games": 300,
+        "plays": 0.42333333333333334,
+        "drawn": 3.13
+       },
+       "starmie": {
+        "a": 0.9033333333333333,
+        "games": 300,
+        "plays": 0.73,
+        "drawn": 7.32
+       }
+      }
+     },
+     {
+      "cut": "Team Rocket's Petrel",
+      "copies_before": 4,
+      "colress": 2,
+      "weighted": 0.9143832823649337,
+      "se": 0.008150452275592388,
+      "mean": 0.9416666666666668,
+      "worst": 0.8933333333333333,
+      "plays": 0.4877777777777778,
+      "drawn": 8.355353075170843,
+      "cells": {
+       "t60": {
+        "a": 0.9233333333333333,
+        "games": 300,
+        "plays": 0.37,
+        "drawn": 2.966666666666667
+       },
+       "hedrick": {
+        "a": 0.9,
+        "games": 300,
+        "plays": 0.54,
+        "drawn": 4.7
+       },
+       "c60": {
+        "a": 0.9433333333333334,
+        "games": 300,
+        "plays": 0.7966666666666666,
+        "drawn": 6.456666666666667
+       },
+       "d60": {
+        "a": 0.9966666666666667,
+        "games": 300,
+        "plays": 0.07333333333333333,
+        "drawn": 0.41333333333333333
+       },
+       "thorns": {
+        "a": 0.9933333333333333,
+        "games": 300,
+        "plays": 0.44666666666666666,
+        "drawn": 3.216666666666667
+       },
+       "starmie": {
+        "a": 0.8933333333333333,
+        "games": 300,
+        "plays": 0.7,
+        "drawn": 6.7
+       }
+      }
+     },
+     {
+      "cut": "Nest Ball",
+      "copies_before": 4,
+      "colress": 2,
+      "weighted": 0.9119164118246686,
+      "se": 0.008293919998286901,
+      "mean": 0.9411111111111111,
+      "worst": 0.88,
+      "plays": 0.4861111111111111,
+      "drawn": 8.317714285714287,
+      "cells": {
+       "t60": {
+        "a": 0.9333333333333333,
+        "games": 300,
+        "plays": 0.42333333333333334,
+        "drawn": 3.276666666666667
+       },
+       "hedrick": {
+        "a": 0.88,
+        "games": 300,
+        "plays": 0.51,
+        "drawn": 4.3933333333333335
+       },
+       "c60": {
+        "a": 0.95,
+        "games": 300,
+        "plays": 0.7866666666666666,
+        "drawn": 6.333333333333333
+       },
+       "d60": {
+        "a": 0.99,
+        "games": 300,
+        "plays": 0.06,
+        "drawn": 0.32666666666666666
+       },
+       "thorns": {
+        "a": 1.0,
+        "games": 300,
+        "plays": 0.5066666666666667,
+        "drawn": 3.73
+       },
+       "starmie": {
+        "a": 0.8933333333333333,
+        "games": 300,
+        "plays": 0.63,
+        "drawn": 6.2
+       }
+      }
+     },
+     {
+      "cut": "Budew",
+      "copies_before": 4,
+      "colress": 2,
+      "weighted": 0.9113965341488277,
+      "se": 0.008281120500358535,
+      "mean": 0.94,
+      "worst": 0.89,
+      "plays": 0.4794444444444445,
+      "drawn": 8.235225955967556,
+      "cells": {
+       "t60": {
+        "a": 0.9133333333333333,
+        "games": 300,
+        "plays": 0.4033333333333333,
+        "drawn": 3.0766666666666667
+       },
+       "hedrick": {
+        "a": 0.8966666666666666,
+        "games": 300,
+        "plays": 0.5333333333333333,
+        "drawn": 4.47
+       },
+       "c60": {
+        "a": 0.95,
+        "games": 300,
+        "plays": 0.79,
+        "drawn": 6.286666666666667
+       },
+       "d60": {
+        "a": 0.99,
+        "games": 300,
+        "plays": 0.05,
+        "drawn": 0.28
+       },
+       "thorns": {
+        "a": 1.0,
+        "games": 300,
+        "plays": 0.47333333333333333,
+        "drawn": 3.4133333333333336
+       },
+       "starmie": {
+        "a": 0.89,
+        "games": 300,
+        "plays": 0.6266666666666667,
+        "drawn": 6.163333333333333
+       }
+      }
+     },
+     {
+      "cut": "Mime Jr.",
+      "copies_before": 2,
+      "colress": 2,
+      "weighted": 0.9099898063200815,
+      "se": 0.008289063309791934,
+      "mean": 0.9266666666666667,
+      "worst": 0.8766666666666667,
+      "plays": 0.5033333333333333,
+      "drawn": 8.390728476821193,
+      "cells": {
+       "t60": {
+        "a": 0.9133333333333333,
+        "games": 300,
+        "plays": 0.43666666666666665,
+        "drawn": 3.3766666666666665
+       },
+       "hedrick": {
+        "a": 0.8766666666666667,
+        "games": 300,
+        "plays": 0.5433333333333333,
+        "drawn": 4.663333333333333
+       },
+       "c60": {
+        "a": 0.95,
+        "games": 300,
+        "plays": 0.7366666666666667,
+        "drawn": 6.01
+       },
+       "d60": {
+        "a": 0.91,
+        "games": 300,
+        "plays": 0.12666666666666668,
+        "drawn": 0.8333333333333334
+       },
+       "thorns": {
+        "a": 0.9966666666666667,
+        "games": 300,
+        "plays": 0.49333333333333335,
+        "drawn": 3.5566666666666666
+       },
+       "starmie": {
+        "a": 0.9133333333333333,
+        "games": 300,
+        "plays": 0.6833333333333333,
+        "drawn": 6.9
+       }
+      }
+     },
+     {
+      "cut": "Igglybuff",
+      "copies_before": 4,
+      "colress": 2,
+      "weighted": 0.90638124362895,
+      "se": 0.008466709562209802,
+      "mean": 0.9355555555555556,
+      "worst": 0.8866666666666667,
+      "plays": 0.4894444444444444,
+      "drawn": 8.211123723041998,
+      "cells": {
+       "t60": {
+        "a": 0.9033333333333333,
+        "games": 300,
+        "plays": 0.41333333333333333,
+        "drawn": 3.1166666666666667
+       },
+       "hedrick": {
+        "a": 0.8866666666666667,
+        "games": 300,
+        "plays": 0.56,
+        "drawn": 4.78
+       },
+       "c60": {
+        "a": 0.9366666666666666,
+        "games": 300,
+        "plays": 0.7,
+        "drawn": 5.6033333333333335
+       },
+       "d60": {
+        "a": 0.99,
+        "games": 300,
+        "plays": 0.06666666666666667,
+        "drawn": 0.35
+       },
+       "thorns": {
+        "a": 0.9966666666666667,
+        "games": 300,
+        "plays": 0.5366666666666666,
+        "drawn": 3.8633333333333333
+       },
+       "starmie": {
+        "a": 0.9,
+        "games": 300,
+        "plays": 0.66,
+        "drawn": 6.4
+       }
+      }
+     },
+     {
+      "cut": "Hero's Cape",
+      "copies_before": 1,
+      "colress": 2,
+      "weighted": 0.89986748216106,
+      "se": 0.008737111206459707,
+      "mean": 0.9333333333333332,
+      "worst": 0.8733333333333333,
+      "plays": 0.5044444444444445,
+      "drawn": 8.30396475770925,
+      "cells": {
+       "t60": {
+        "a": 0.9133333333333333,
+        "games": 300,
+        "plays": 0.43666666666666665,
+        "drawn": 3.4433333333333334
+       },
+       "hedrick": {
+        "a": 0.8733333333333333,
+        "games": 300,
+        "plays": 0.5,
+        "drawn": 4.286666666666667
+       },
+       "c60": {
+        "a": 0.9233333333333333,
+        "games": 300,
+        "plays": 0.8,
+        "drawn": 6.443333333333333
+       },
+       "d60": {
+        "a": 1.0,
+        "games": 300,
+        "plays": 0.08,
+        "drawn": 0.4633333333333333
+       },
+       "thorns": {
+        "a": 1.0,
+        "games": 300,
+        "plays": 0.5533333333333333,
+        "drawn": 4.03
+       },
+       "starmie": {
+        "a": 0.89,
+        "games": 300,
+        "plays": 0.6566666666666666,
+        "drawn": 6.466666666666667
+       }
+      }
+     }
+    ],
+    "confirm": [
+     {
+      "cut": "Sky Field",
+      "copies_before": 3,
+      "colress": 2,
+      "weighted": 0.9284984709480122,
+      "se": 0.0041185148269858975,
+      "mean": 0.9508333333333333,
+      "worst": 0.909,
+      "plays": 0.4908333333333333,
+      "drawn": 8.325976230899832,
+      "cells": {
+       "t60": {
+        "a": 0.933,
+        "games": 1000,
+        "plays": 0.392,
+        "drawn": 2.951
+       },
+       "hedrick": {
+        "a": 0.909,
+        "games": 1000,
+        "plays": 0.565,
+        "drawn": 4.87
+       },
+       "c60": {
+        "a": 0.956,
+        "games": 1000,
+        "plays": 0.755,
+        "drawn": 6.114
+       },
+       "d60": {
+        "a": 0.988,
+        "games": 1000,
+        "plays": 0.059,
+        "drawn": 0.349
+       },
+       "thorns": {
+        "a": 0.999,
+        "games": 1000,
+        "plays": 0.481,
+        "drawn": 3.421
+       },
+       "starmie": {
+        "a": 0.92,
+        "games": 1000,
+        "plays": 0.693,
+        "drawn": 6.815
+       }
+      }
+     },
+     {
+      "cut": "Night Stretcher",
+      "copies_before": 1,
+      "colress": 2,
+      "weighted": 0.9253058103975534,
+      "se": 0.004203276512207557,
+      "mean": 0.9486666666666667,
+      "worst": 0.9,
+      "plays": 0.4928333333333333,
+      "drawn": 8.37707135610416,
+      "cells": {
+       "t60": {
+        "a": 0.94,
+        "games": 1000,
+        "plays": 0.406,
+        "drawn": 3.158
+       },
+       "hedrick": {
+        "a": 0.9,
+        "games": 1000,
+        "plays": 0.537,
+        "drawn": 4.556
+       },
+       "c60": {
+        "a": 0.947,
+        "games": 1000,
+        "plays": 0.772,
+        "drawn": 6.284
+       },
+       "d60": {
+        "a": 0.992,
+        "games": 1000,
+        "plays": 0.052,
+        "drawn": 0.299
+       },
+       "thorns": {
+        "a": 0.995,
+        "games": 1000,
+        "plays": 0.487,
+        "drawn": 3.531
+       },
+       "starmie": {
+        "a": 0.918,
+        "games": 1000,
+        "plays": 0.703,
+        "drawn": 6.943
+       }
+      }
+     },
+     {
+      "cut": "Junk Arm",
+      "copies_before": 1,
+      "colress": 2,
+      "weighted": 0.9247584097859327,
+      "se": 0.004228573807192361,
+      "mean": 0.9493333333333333,
+      "worst": 0.9,
+      "plays": 0.48233333333333334,
+      "drawn": 8.362128541810643,
+      "cells": {
+       "t60": {
+        "a": 0.941,
+        "games": 1000,
+        "plays": 0.413,
+        "drawn": 3.197
+       },
+       "hedrick": {
+        "a": 0.906,
+        "games": 1000,
+        "plays": 0.514,
+        "drawn": 4.559
+       },
+       "c60": {
+        "a": 0.959,
+        "games": 1000,
+        "plays": 0.739,
+        "drawn": 5.971
+       },
+       "d60": {
+        "a": 0.994,
+        "games": 1000,
+        "plays": 0.069,
+        "drawn": 0.391
+       },
+       "thorns": {
+        "a": 0.996,
+        "games": 1000,
+        "plays": 0.502,
+        "drawn": 3.673
+       },
+       "starmie": {
+        "a": 0.9,
+        "games": 1000,
+        "plays": 0.657,
+        "drawn": 6.409
+       }
+      }
+     },
+     {
+      "cut": "Bravery Charm",
+      "copies_before": 2,
+      "colress": 2,
+      "weighted": 0.9232507645259939,
+      "se": 0.004221263524652241,
+      "mean": 0.9463333333333334,
+      "worst": 0.914,
+      "plays": 0.48216666666666663,
+      "drawn": 8.508123055651573,
+      "cells": {
+       "t60": {
+        "a": 0.919,
+        "games": 1000,
+        "plays": 0.414,
+        "drawn": 3.187
+       },
+       "hedrick": {
+        "a": 0.914,
+        "games": 1000,
+        "plays": 0.572,
+        "drawn": 4.936
+       },
+       "c60": {
+        "a": 0.938,
+        "games": 1000,
+        "plays": 0.726,
+        "drawn": 5.953
+       },
+       "d60": {
+        "a": 0.989,
+        "games": 1000,
+        "plays": 0.049,
+        "drawn": 0.294
+       },
+       "thorns": {
+        "a": 0.999,
+        "games": 1000,
+        "plays": 0.452,
+        "drawn": 3.293
+       },
+       "starmie": {
+        "a": 0.919,
+        "games": 1000,
+        "plays": 0.68,
+        "drawn": 6.951
+       }
+      }
+     },
+     {
+      "cut": "Counter Catcher",
+      "copies_before": 1,
+      "colress": 2,
+      "weighted": 0.918782874617737,
+      "se": 0.004345339833195116,
+      "mean": 0.9433333333333334,
+      "worst": 0.905,
+      "plays": 0.5001666666666666,
+      "drawn": 8.342219260246585,
+      "cells": {
+       "t60": {
+        "a": 0.922,
+        "games": 1000,
+        "plays": 0.427,
+        "drawn": 3.297
+       },
+       "hedrick": {
+        "a": 0.905,
+        "games": 1000,
+        "plays": 0.544,
+        "drawn": 4.585
+       },
+       "c60": {
+        "a": 0.939,
+        "games": 1000,
+        "plays": 0.77,
+        "drawn": 6.264
+       },
+       "d60": {
+        "a": 0.989,
+        "games": 1000,
+        "plays": 0.066,
+        "drawn": 0.41
+       },
+       "thorns": {
+        "a": 0.996,
+        "games": 1000,
+        "plays": 0.494,
+        "drawn": 3.566
+       },
+       "starmie": {
+        "a": 0.909,
+        "games": 1000,
+        "plays": 0.7,
+        "drawn": 6.913
+       }
+      }
+     },
+     {
+      "cut": "Mew ex",
+      "copies_before": 3,
+      "colress": 2,
+      "weighted": 0.9171804281345566,
+      "se": 0.004397245052193689,
+      "mean": 0.9436666666666667,
+      "worst": 0.897,
+      "plays": 0.4921666666666667,
+      "drawn": 8.416864205892313,
+      "cells": {
+       "t60": {
+        "a": 0.916,
+        "games": 1000,
+        "plays": 0.444,
+        "drawn": 3.473
+       },
+       "hedrick": {
+        "a": 0.897,
+        "games": 1000,
+        "plays": 0.545,
+        "drawn": 4.662
+       },
+       "c60": {
+        "a": 0.947,
+        "games": 1000,
+        "plays": 0.753,
+        "drawn": 6.198
+       },
+       "d60": {
+        "a": 0.993,
+        "games": 1000,
+        "plays": 0.061,
+        "drawn": 0.37
+       },
+       "thorns": {
+        "a": 0.998,
+        "games": 1000,
+        "plays": 0.479,
+        "drawn": 3.482
+       },
+       "starmie": {
+        "a": 0.911,
+        "games": 1000,
+        "plays": 0.671,
+        "drawn": 6.67
+       }
+      }
+     }
+    ]
+   },
+   {
+    "copies_after": 3,
+    "current_weighted": 0.9284984709480122,
+    "chosen": "Bravery Charm",
+    "chosen_weighted": 0.9295810397553517,
+    "list": [
+     "Mew ex",
+     "Mew ex",
+     "Mew ex",
+     "Mime Jr.",
+     "Mime Jr.",
+     "Igglybuff",
+     "Igglybuff",
+     "Igglybuff",
+     "Igglybuff",
+     "Budew",
+     "Budew",
+     "Budew",
+     "Budew",
+     "Manaphy",
+     "Buddy-Buddy Poffin",
+     "Buddy-Buddy Poffin",
+     "Buddy-Buddy Poffin",
+     "Buddy-Buddy Poffin",
+     "Nest Ball",
+     "Nest Ball",
+     "Nest Ball",
+     "Nest Ball",
+     "Junk Arm",
+     "Night Stretcher",
+     "Rescue Carrier",
+     "Rescue Carrier",
+     "Battle Cage",
+     "Battle Cage",
+     "Battle Cage",
+     "Battle Cage",
+     "Sky Field",
+     "Sky Field",
+     "Bravery Charm",
+     "Bursting Balloon",
+     "Hero's Cape",
+     "Max Potion",
+     "Max Potion",
+     "Max Potion",
+     "Arven",
+     "Arven",
+     "Arven",
+     "Arven",
+     "Iono",
+     "Iono",
+     "Iono",
+     "Iono",
+     "Professor's Research",
+     "Professor's Research",
+     "Team Rocket's Petrel",
+     "Team Rocket's Petrel",
+     "Team Rocket's Petrel",
+     "Team Rocket's Petrel",
+     "Crushing Hammer",
+     "Crushing Hammer",
+     "Counter Catcher",
+     "Spiky Energy",
+     "Spiky Energy",
+     "Colress",
+     "Colress",
+     "Colress"
+    ],
+    "accepted": true,
+    "screen": [
+     {
+      "cut": "Bravery Charm",
+      "copies_before": 2,
+      "colress": 3,
+      "weighted": 0.9336085626911315,
+      "se": 0.007184572450410915,
+      "mean": 0.9522222222222222,
+      "worst": 0.8966666666666666,
+      "plays": 0.7222222222222222,
+      "drawn": 8.366153846153846,
+      "cells": {
+       "t60": {
+        "a": 0.9633333333333334,
+        "games": 300,
+        "plays": 0.59,
+        "drawn": 4.523333333333333
+       },
+       "hedrick": {
+        "a": 0.9366666666666666,
+        "games": 300,
+        "plays": 0.7566666666666667,
+        "drawn": 6.27
+       },
+       "c60": {
+        "a": 0.9366666666666666,
+        "games": 300,
+        "plays": 1.0366666666666666,
+        "drawn": 8.33
+       },
+       "d60": {
+        "a": 0.9833333333333333,
+        "games": 300,
+        "plays": 0.07333333333333333,
+        "drawn": 0.43333333333333335
+       },
+       "thorns": {
+        "a": 0.9966666666666667,
+        "games": 300,
+        "plays": 0.8166666666666667,
+        "drawn": 5.92
+       },
+       "starmie": {
+        "a": 0.8966666666666666,
+        "games": 300,
+        "plays": 1.06,
+        "drawn": 10.776666666666667
+       }
+      }
+     },
+     {
+      "cut": "Battle Cage",
+      "copies_before": 4,
+      "colress": 3,
+      "weighted": 0.932874617737003,
+      "se": 0.007280849874114647,
+      "mean": 0.9533333333333333,
+      "worst": 0.9133333333333333,
+      "plays": 0.7038888888888889,
+      "drawn": 8.294396211523283,
+      "cells": {
+       "t60": {
+        "a": 0.9266666666666666,
+        "games": 300,
+        "plays": 0.61,
+        "drawn": 4.796666666666667
+       },
+       "hedrick": {
+        "a": 0.9133333333333333,
+        "games": 300,
+        "plays": 0.7633333333333333,
+        "drawn": 6.41
+       },
+       "c60": {
+        "a": 0.9566666666666667,
+        "games": 300,
+        "plays": 1.0433333333333332,
+        "drawn": 8.223333333333333
+       },
+       "d60": {
+        "a": 0.9866666666666667,
+        "games": 300,
+        "plays": 0.09,
+        "drawn": 0.5066666666666667
+       },
+       "thorns": {
+        "a": 1.0,
+        "games": 300,
+        "plays": 0.7166666666666667,
+        "drawn": 5.22
+       },
+       "starmie": {
+        "a": 0.9366666666666666,
+        "games": 300,
+        "plays": 1.0,
+        "drawn": 9.873333333333333
+       }
+      }
+     },
+     {
+      "cut": "Mime Jr.",
+      "copies_before": 2,
+      "colress": 3,
+      "weighted": 0.9322731906218145,
+      "se": 0.007229890939204569,
+      "mean": 0.9433333333333334,
+      "worst": 0.92,
+      "plays": 0.7066666666666667,
+      "drawn": 8.28930817610063,
+      "cells": {
+       "t60": {
+        "a": 0.93,
+        "games": 300,
+        "plays": 0.66,
+        "drawn": 5.203333333333333
+       },
+       "hedrick": {
+        "a": 0.93,
+        "games": 300,
+        "plays": 0.6633333333333333,
+        "drawn": 5.59
+       },
+       "c60": {
+        "a": 0.9533333333333334,
+        "games": 300,
+        "plays": 1.0466666666666666,
+        "drawn": 8.283333333333333
+       },
+       "d60": {
+        "a": 0.9333333333333333,
+        "games": 300,
+        "plays": 0.18333333333333332,
+        "drawn": 1.1066666666666667
+       },
+       "thorns": {
+        "a": 0.9933333333333333,
+        "games": 300,
+        "plays": 0.67,
+        "drawn": 4.78
+       },
+       "starmie": {
+        "a": 0.92,
+        "games": 300,
+        "plays": 1.0166666666666666,
+        "drawn": 10.183333333333334
+       }
+      }
+     },
+     {
+      "cut": "Junk Arm",
+      "copies_before": 1,
+      "colress": 3,
+      "weighted": 0.9321304791029561,
+      "se": 0.007320341012156731,
+      "mean": 0.9527777777777778,
+      "worst": 0.9066666666666666,
+      "plays": 0.7122222222222222,
+      "drawn": 8.47113884555382,
+      "cells": {
+       "t60": {
+        "a": 0.9333333333333333,
+        "games": 300,
+        "plays": 0.6533333333333333,
+        "drawn": 5.1
+       },
+       "hedrick": {
+        "a": 0.9066666666666666,
+        "games": 300,
+        "plays": 0.79,
+        "drawn": 6.68
+       },
+       "c60": {
+        "a": 0.95,
+        "games": 300,
+        "plays": 1.0766666666666667,
+        "drawn": 8.793333333333333
+       },
+       "d60": {
+        "a": 0.99,
+        "games": 300,
+        "plays": 0.09666666666666666,
+        "drawn": 0.5833333333333334
+       },
+       "thorns": {
+        "a": 0.9966666666666667,
+        "games": 300,
+        "plays": 0.6333333333333333,
+        "drawn": 4.67
+       },
+       "starmie": {
+        "a": 0.94,
+        "games": 300,
+        "plays": 1.0233333333333334,
+        "drawn": 10.373333333333333
+       }
+      }
+     },
+     {
+      "cut": "Team Rocket's Petrel",
+      "copies_before": 4,
+      "colress": 3,
+      "weighted": 0.9309378185524975,
+      "se": 0.007386561591267192,
+      "mean": 0.9516666666666667,
+      "worst": 0.9133333333333333,
+      "plays": 0.7227777777777779,
+      "drawn": 8.359723289777094,
+      "cells": {
+       "t60": {
+        "a": 0.93,
+        "games": 300,
+        "plays": 0.6066666666666667,
+        "drawn": 4.703333333333333
+       },
+       "hedrick": {
+        "a": 0.9133333333333333,
+        "games": 300,
+        "plays": 0.89,
+        "drawn": 7.576666666666667
+       },
+       "c60": {
+        "a": 0.9566666666666667,
+        "games": 300,
+        "plays": 1.09,
+        "drawn": 8.783333333333333
+       },
+       "d60": {
+        "a": 0.9866666666666667,
+        "games": 300,
+        "plays": 0.08666666666666667,
+        "drawn": 0.5
+       },
+       "thorns": {
+        "a": 0.9966666666666667,
+        "games": 300,
+        "plays": 0.6366666666666667,
+        "drawn": 4.46
+       },
+       "starmie": {
+        "a": 0.9266666666666666,
+        "games": 300,
+        "plays": 1.0266666666666666,
+        "drawn": 10.23
+       }
+      }
+     },
+     {
+      "cut": "Night Stretcher",
+      "copies_before": 1,
+      "colress": 3,
+      "weighted": 0.926901121304791,
+      "se": 0.007615784999046535,
+      "mean": 0.9494444444444444,
+      "worst": 0.8966666666666666,
+      "plays": 0.7194444444444444,
+      "drawn": 8.429343629343629,
+      "cells": {
+       "t60": {
+        "a": 0.9466666666666667,
+        "games": 300,
+        "plays": 0.5466666666666666,
+        "drawn": 4.1433333333333335
+       },
+       "hedrick": {
+        "a": 0.91,
+        "games": 300,
+        "plays": 0.8266666666666667,
+        "drawn": 7.233333333333333
+       },
+       "c60": {
+        "a": 0.9633333333333334,
+        "games": 300,
+        "plays": 1.0466666666666666,
+        "drawn": 8.486666666666666
+       },
+       "d60": {
+        "a": 0.9833333333333333,
+        "games": 300,
+        "plays": 0.08333333333333333,
+        "drawn": 0.47
+       },
+       "thorns": {
+        "a": 0.9966666666666667,
+        "games": 300,
+        "plays": 0.7766666666666666,
+        "drawn": 5.73
+       },
+       "starmie": {
+        "a": 0.8966666666666666,
+        "games": 300,
+        "plays": 1.0366666666666666,
+        "drawn": 10.323333333333334
+       }
+      }
+     },
+     {
+      "cut": "Mew ex",
+      "copies_before": 3,
+      "colress": 3,
+      "weighted": 0.9261671763506626,
+      "se": 0.007631325368866824,
+      "mean": 0.9500000000000001,
+      "worst": 0.9033333333333333,
+      "plays": 0.6838888888888889,
+      "drawn": 8.28919577579204,
+      "cells": {
+       "t60": {
+        "a": 0.9433333333333334,
+        "games": 300,
+        "plays": 0.56,
+        "drawn": 4.193333333333333
+       },
+       "hedrick": {
+        "a": 0.9033333333333333,
+        "games": 300,
+        "plays": 0.8333333333333334,
+        "drawn": 7.14
+       },
+       "c60": {
+        "a": 0.9433333333333334,
+        "games": 300,
+        "plays": 1.0766666666666667,
+        "drawn": 8.56
+       },
+       "d60": {
+        "a": 1.0,
+        "games": 300,
+        "plays": 0.05,
+        "drawn": 0.2633333333333333
+       },
+       "thorns": {
+        "a": 0.9933333333333333,
+        "games": 300,
+        "plays": 0.6133333333333333,
+        "drawn": 4.38
+       },
+       "starmie": {
+        "a": 0.9166666666666666,
+        "games": 300,
+        "plays": 0.97,
+        "drawn": 9.476666666666667
+       }
+      }
+     },
+     {
+      "cut": "Spiky Energy",
+      "copies_before": 2,
+      "colress": 3,
+      "weighted": 0.925769622833843,
+      "se": 0.007555600756753317,
+      "mean": 0.9483333333333333,
+      "worst": 0.9133333333333333,
+      "plays": 0.6966666666666667,
+      "drawn": 8.363636363636365,
+      "cells": {
+       "t60": {
+        "a": 0.9166666666666666,
+        "games": 300,
+        "plays": 0.49333333333333335,
+        "drawn": 3.6966666666666668
+       },
+       "hedrick": {
+        "a": 0.93,
+        "games": 300,
+        "plays": 0.83,
+        "drawn": 7.21
+       },
+       "c60": {
+        "a": 0.9366666666666666,
+        "games": 300,
+        "plays": 1.0266666666666666,
+        "drawn": 8.353333333333333
+       },
+       "d60": {
+        "a": 0.9933333333333333,
+        "games": 300,
+        "plays": 0.10333333333333333,
+        "drawn": 0.5966666666666667
+       },
+       "thorns": {
+        "a": 1.0,
+        "games": 300,
+        "plays": 0.7166666666666667,
+        "drawn": 5.166666666666667
+       },
+       "starmie": {
+        "a": 0.9133333333333333,
+        "games": 300,
+        "plays": 1.01,
+        "drawn": 9.936666666666667
+       }
+      }
+     },
+     {
+      "cut": "Bursting Balloon",
+      "copies_before": 1,
+      "colress": 3,
+      "weighted": 0.9224974515800204,
+      "se": 0.007762333358357248,
+      "mean": 0.9472222222222223,
+      "worst": 0.9,
+      "plays": 0.8011111111111111,
+      "drawn": 8.500693481276006,
+      "cells": {
+       "t60": {
+        "a": 0.9,
+        "games": 300,
+        "plays": 0.6933333333333334,
+        "drawn": 5.1866666666666665
+       },
+       "hedrick": {
+        "a": 0.91,
+        "games": 300,
+        "plays": 0.9466666666666667,
+        "drawn": 8.143333333333333
+       },
+       "c60": {
+        "a": 0.9566666666666667,
+        "games": 300,
+        "plays": 1.15,
+        "drawn": 9.41
+       },
+       "d60": {
+        "a": 0.9966666666666667,
+        "games": 300,
+        "plays": 0.09666666666666666,
+        "drawn": 0.5933333333333334
+       },
+       "thorns": {
+        "a": 0.9966666666666667,
+        "games": 300,
+        "plays": 0.7833333333333333,
+        "drawn": 5.713333333333333
+       },
+       "starmie": {
+        "a": 0.9233333333333333,
+        "games": 300,
+        "plays": 1.1366666666666667,
+        "drawn": 11.813333333333333
+       }
+      }
+     },
+     {
+      "cut": "Professor's Research",
+      "copies_before": 2,
+      "colress": 3,
+      "weighted": 0.9218654434250765,
+      "se": 0.007822493835539998,
+      "mean": 0.9472222222222223,
+      "worst": 0.8866666666666667,
+      "plays": 0.6788888888888889,
+      "drawn": 8.420621931260229,
+      "cells": {
+       "t60": {
+        "a": 0.9333333333333333,
+        "games": 300,
+        "plays": 0.5566666666666666,
+        "drawn": 4.273333333333333
+       },
+       "hedrick": {
+        "a": 0.8866666666666667,
+        "games": 300,
+        "plays": 0.7966666666666666,
+        "drawn": 6.72
+       },
+       "c60": {
+        "a": 0.94,
+        "games": 300,
+        "plays": 1.0233333333333334,
+        "drawn": 8.2
+       },
+       "d60": {
+        "a": 0.9933333333333333,
+        "games": 300,
+        "plays": 0.06333333333333334,
+        "drawn": 0.4066666666666667
+       },
+       "thorns": {
+        "a": 1.0,
+        "games": 300,
+        "plays": 0.6033333333333334,
+        "drawn": 4.343333333333334
+       },
+       "starmie": {
+        "a": 0.93,
+        "games": 300,
+        "plays": 1.03,
+        "drawn": 10.356666666666667
+       }
+      }
+     },
+     {
+      "cut": "Crushing Hammer",
+      "copies_before": 2,
+      "colress": 3,
+      "weighted": 0.9207135575942915,
+      "se": 0.007906770042195496,
+      "mean": 0.9461111111111111,
+      "worst": 0.8866666666666667,
+      "plays": 0.7005555555555555,
+      "drawn": 8.314829500396511,
+      "cells": {
+       "t60": {
+        "a": 0.94,
+        "games": 300,
+        "plays": 0.62,
+        "drawn": 4.76
+       },
+       "hedrick": {
+        "a": 0.8866666666666667,
+        "games": 300,
+        "plays": 0.8133333333333334,
+        "drawn": 7.006666666666667
+       },
+       "c60": {
+        "a": 0.95,
+        "games": 300,
+        "plays": 1.0333333333333334,
+        "drawn": 8.293333333333333
+       },
+       "d60": {
+        "a": 0.9933333333333333,
+        "games": 300,
+        "plays": 0.10666666666666667,
+        "drawn": 0.5966666666666667
+       },
+       "thorns": {
+        "a": 0.9933333333333333,
+        "games": 300,
+        "plays": 0.6766666666666666,
+        "drawn": 4.793333333333333
+       },
+       "starmie": {
+        "a": 0.9133333333333333,
+        "games": 300,
+        "plays": 0.9533333333333334,
+        "drawn": 9.5
+       }
+      }
+     },
+     {
+      "cut": "Budew",
+      "copies_before": 4,
+      "colress": 3,
+      "weighted": 0.9203567787971457,
+      "se": 0.007858090370374106,
+      "mean": 0.9461111111111111,
+      "worst": 0.9,
+      "plays": 0.7105555555555556,
+      "drawn": 8.183737294761533,
+      "cells": {
+       "t60": {
+        "a": 0.92,
+        "games": 300,
+        "plays": 0.64,
+        "drawn": 4.68
+       },
+       "hedrick": {
+        "a": 0.9166666666666666,
+        "games": 300,
+        "plays": 0.8366666666666667,
+        "drawn": 7.2
+       },
+       "c60": {
+        "a": 0.9433333333333334,
+        "games": 300,
+        "plays": 1.08,
+        "drawn": 8.62
+       },
+       "d60": {
+        "a": 0.9966666666666667,
+        "games": 300,
+        "plays": 0.07666666666666666,
+        "drawn": 0.42
+       },
+       "thorns": {
+        "a": 1.0,
+        "games": 300,
+        "plays": 0.6533333333333333,
+        "drawn": 4.65
+       },
+       "starmie": {
+        "a": 0.9,
+        "games": 300,
+        "plays": 0.9766666666666667,
+        "drawn": 9.32
+       }
+      }
+     },
+     {
+      "cut": "Arven",
+      "copies_before": 4,
+      "colress": 3,
+      "weighted": 0.9201427115188583,
+      "se": 0.00784241585169615,
+      "mean": 0.9455555555555556,
+      "worst": 0.89,
+      "plays": 0.6933333333333334,
+      "drawn": 8.393429487179485,
+      "cells": {
+       "t60": {
+        "a": 0.94,
+        "games": 300,
+        "plays": 0.5033333333333333,
+        "drawn": 3.77
+       },
+       "hedrick": {
+        "a": 0.92,
+        "games": 300,
+        "plays": 0.8233333333333334,
+        "drawn": 7.14
+       },
+       "c60": {
+        "a": 0.9266666666666666,
+        "games": 300,
+        "plays": 0.9966666666666667,
+        "drawn": 7.963333333333333
+       },
+       "d60": {
+        "a": 0.9966666666666667,
+        "games": 300,
+        "plays": 0.07666666666666666,
+        "drawn": 0.43333333333333335
+       },
+       "thorns": {
+        "a": 1.0,
+        "games": 300,
+        "plays": 0.65,
+        "drawn": 4.6466666666666665
+       },
+       "starmie": {
+        "a": 0.89,
+        "games": 300,
+        "plays": 1.11,
+        "drawn": 10.963333333333333
+       }
+      }
+     },
+     {
+      "cut": "Sky Field",
+      "copies_before": 2,
+      "colress": 3,
+      "weighted": 0.9200101936799184,
+      "se": 0.007871106281513671,
+      "mean": 0.9438888888888889,
+      "worst": 0.8933333333333333,
+      "plays": 0.7627777777777779,
+      "drawn": 8.020393299344502,
+      "cells": {
+       "t60": {
+        "a": 0.9466666666666667,
+        "games": 300,
+        "plays": 0.6533333333333333,
+        "drawn": 4.78
+       },
+       "hedrick": {
+        "a": 0.91,
+        "games": 300,
+        "plays": 0.8366666666666667,
+        "drawn": 6.956666666666667
+       },
+       "c60": {
+        "a": 0.93,
+        "games": 300,
+        "plays": 1.1933333333333334,
+        "drawn": 9.396666666666667
+       },
+       "d60": {
+        "a": 0.99,
+        "games": 300,
+        "plays": 0.08333333333333333,
+        "drawn": 0.46
+       },
+       "thorns": {
+        "a": 0.9933333333333333,
+        "games": 300,
+        "plays": 0.7766666666666666,
+        "drawn": 5.303333333333334
+       },
+       "starmie": {
+        "a": 0.8933333333333333,
+        "games": 300,
+        "plays": 1.0333333333333334,
+        "drawn": 9.81
+       }
+      }
+     },
+     {
+      "cut": "Counter Catcher",
+      "copies_before": 1,
+      "colress": 3,
+      "weighted": 0.9197655453618756,
+      "se": 0.00789892900656673,
+      "mean": 0.9455555555555556,
+      "worst": 0.87,
+      "plays": 0.6772222222222223,
+      "drawn": 8.398687448728465,
+      "cells": {
+       "t60": {
+        "a": 0.9233333333333333,
+        "games": 300,
+        "plays": 0.5333333333333333,
+        "drawn": 3.9633333333333334
+       },
+       "hedrick": {
+        "a": 0.9233333333333333,
+        "games": 300,
+        "plays": 0.81,
+        "drawn": 6.97
+       },
+       "c60": {
+        "a": 0.97,
+        "games": 300,
+        "plays": 1.02,
+        "drawn": 8.313333333333333
+       },
+       "d60": {
+        "a": 0.9866666666666667,
+        "games": 300,
+        "plays": 0.08,
+        "drawn": 0.45666666666666667
+       },
+       "thorns": {
+        "a": 1.0,
+        "games": 300,
+        "plays": 0.61,
+        "drawn": 4.3933333333333335
+       },
+       "starmie": {
+        "a": 0.87,
+        "games": 300,
+        "plays": 1.01,
+        "drawn": 10.03
+       }
+      }
+     },
+     {
+      "cut": "Nest Ball",
+      "copies_before": 4,
+      "colress": 3,
+      "weighted": 0.9181549439347604,
+      "se": 0.008029896665910658,
+      "mean": 0.9444444444444445,
+      "worst": 0.8833333333333333,
+      "plays": 0.7205555555555555,
+      "drawn": 8.376252891287587,
+      "cells": {
+       "t60": {
+        "a": 0.9466666666666667,
+        "games": 300,
+        "plays": 0.6666666666666666,
+        "drawn": 5.06
+       },
+       "hedrick": {
+        "a": 0.8833333333333333,
+        "games": 300,
+        "plays": 0.8033333333333333,
+        "drawn": 6.796666666666667
+       },
+       "c60": {
+        "a": 0.9533333333333334,
+        "games": 300,
+        "plays": 1.11,
+        "drawn": 8.86
+       },
+       "d60": {
+        "a": 0.9833333333333333,
+        "games": 300,
+        "plays": 0.12,
+        "drawn": 0.6566666666666666
+       },
+       "thorns": {
+        "a": 1.0,
+        "games": 300,
+        "plays": 0.5666666666666667,
+        "drawn": 4.113333333333333
+       },
+       "starmie": {
+        "a": 0.9,
+        "games": 300,
+        "plays": 1.0566666666666666,
+        "drawn": 10.726666666666667
+       }
+      }
+     },
+     {
+      "cut": "Rescue Carrier",
+      "copies_before": 2,
+      "colress": 3,
+      "weighted": 0.9167686034658511,
+      "se": 0.008048582228404716,
+      "mean": 0.9427777777777777,
+      "worst": 0.8933333333333333,
+      "plays": 0.7394444444444445,
+      "drawn": 8.320811419984974,
+      "cells": {
+       "t60": {
+        "a": 0.9366666666666666,
+        "games": 300,
+        "plays": 0.7133333333333334,
+        "drawn": 5.55
+       },
+       "hedrick": {
+        "a": 0.8933333333333333,
+        "games": 300,
+        "plays": 0.7466666666666667,
+        "drawn": 6.283333333333333
+       },
+       "c60": {
+        "a": 0.9366666666666666,
+        "games": 300,
+        "plays": 1.16,
+        "drawn": 9.326666666666666
+       },
+       "d60": {
+        "a": 0.99,
+        "games": 300,
+        "plays": 0.11666666666666667,
+        "drawn": 0.6833333333333333
+       },
+       "thorns": {
+        "a": 0.9966666666666667,
+        "games": 300,
+        "plays": 0.6466666666666666,
+        "drawn": 4.653333333333333
+       },
+       "starmie": {
+        "a": 0.9033333333333333,
+        "games": 300,
+        "plays": 1.0533333333333332,
+        "drawn": 10.42
+       }
+      }
+     },
+     {
+      "cut": "Iono",
+      "copies_before": 4,
+      "colress": 3,
+      "weighted": 0.9144546381243629,
+      "se": 0.0081502812443265,
+      "mean": 0.9422222222222222,
+      "worst": 0.8766666666666667,
+      "plays": 0.6811111111111111,
+      "drawn": 8.37357259380098,
+      "cells": {
+       "t60": {
+        "a": 0.9266666666666666,
+        "games": 300,
+        "plays": 0.57,
+        "drawn": 4.3566666666666665
+       },
+       "hedrick": {
+        "a": 0.9066666666666666,
+        "games": 300,
+        "plays": 0.78,
+        "drawn": 6.466666666666667
+       },
+       "c60": {
+        "a": 0.9533333333333334,
+        "games": 300,
+        "plays": 0.9733333333333334,
+        "drawn": 7.92
+       },
+       "d60": {
+        "a": 0.9933333333333333,
+        "games": 300,
+        "plays": 0.08,
+        "drawn": 0.48333333333333334
+       },
+       "thorns": {
+        "a": 0.9966666666666667,
+        "games": 300,
+        "plays": 0.6166666666666667,
+        "drawn": 4.32
+       },
+       "starmie": {
+        "a": 0.8766666666666667,
+        "games": 300,
+        "plays": 1.0666666666666667,
+        "drawn": 10.673333333333334
+       }
+      }
+     },
+     {
+      "cut": "Igglybuff",
+      "copies_before": 4,
+      "colress": 3,
+      "weighted": 0.9141386340468909,
+      "se": 0.008113055368119177,
+      "mean": 0.9388888888888888,
+      "worst": 0.8966666666666666,
+      "plays": 0.7116666666666666,
+      "drawn": 8.35753317720531,
+      "cells": {
+       "t60": {
+        "a": 0.9266666666666666,
+        "games": 300,
+        "plays": 0.6766666666666666,
+        "drawn": 5.126666666666667
+       },
+       "hedrick": {
+        "a": 0.8966666666666666,
+        "games": 300,
+        "plays": 0.7566666666666667,
+        "drawn": 6.373333333333333
+       },
+       "c60": {
+        "a": 0.92,
+        "games": 300,
+        "plays": 1.0133333333333334,
+        "drawn": 8.23
+       },
+       "d60": {
+        "a": 0.99,
+        "games": 300,
+        "plays": 0.10333333333333333,
+        "drawn": 0.57
+       },
+       "thorns": {
+        "a": 0.99,
+        "games": 300,
+        "plays": 0.6466666666666666,
+        "drawn": 4.573333333333333
+       },
+       "starmie": {
+        "a": 0.91,
+        "games": 300,
+        "plays": 1.0733333333333333,
+        "drawn": 10.813333333333333
+       }
+      }
+     },
+     {
+      "cut": "Buddy-Buddy Poffin",
+      "copies_before": 4,
+      "colress": 3,
+      "weighted": 0.9066666666666666,
+      "se": 0.008459791281790316,
+      "mean": 0.9338888888888889,
+      "worst": 0.87,
+      "plays": 0.7111111111111111,
+      "drawn": 8.14140625,
+      "cells": {
+       "t60": {
+        "a": 0.92,
+        "games": 300,
+        "plays": 0.6666666666666666,
+        "drawn": 4.953333333333333
+       },
+       "hedrick": {
+        "a": 0.8966666666666666,
+        "games": 300,
+        "plays": 0.8633333333333333,
+        "drawn": 7.173333333333333
+       },
+       "c60": {
+        "a": 0.9466666666666667,
+        "games": 300,
+        "plays": 1.05,
+        "drawn": 8.24
+       },
+       "d60": {
+        "a": 0.98,
+        "games": 300,
+        "plays": 0.07666666666666666,
+        "drawn": 0.47333333333333333
+       },
+       "thorns": {
+        "a": 0.99,
+        "games": 300,
+        "plays": 0.6466666666666666,
+        "drawn": 4.6433333333333335
+       },
+       "starmie": {
+        "a": 0.87,
+        "games": 300,
+        "plays": 0.9633333333333334,
+        "drawn": 9.253333333333334
+       }
+      }
+     },
+     {
+      "cut": "Max Potion",
+      "copies_before": 3,
+      "colress": 3,
+      "weighted": 0.9051172273190622,
+      "se": 0.008553064504319897,
+      "mean": 0.9366666666666666,
+      "worst": 0.8666666666666667,
+      "plays": 0.7311111111111112,
+      "drawn": 8.5129179331307,
+      "cells": {
+       "t60": {
+        "a": 0.91,
+        "games": 300,
+        "plays": 0.65,
+        "drawn": 5.15
+       },
+       "hedrick": {
+        "a": 0.8666666666666667,
+        "games": 300,
+        "plays": 0.7833333333333333,
+        "drawn": 6.876666666666667
+       },
+       "c60": {
+        "a": 0.9433333333333334,
+        "games": 300,
+        "plays": 1.0733333333333333,
+        "drawn": 8.82
+       },
+       "d60": {
+        "a": 0.9933333333333333,
+        "games": 300,
+        "plays": 0.08,
+        "drawn": 0.47333333333333333
+       },
+       "thorns": {
+        "a": 1.0,
+        "games": 300,
+        "plays": 0.7366666666666667,
+        "drawn": 5.28
+       },
+       "starmie": {
+        "a": 0.9066666666666666,
+        "games": 300,
+        "plays": 1.0633333333333332,
+        "drawn": 10.743333333333334
+       }
+      }
+     },
+     {
+      "cut": "Manaphy",
+      "copies_before": 1,
+      "colress": 3,
+      "weighted": 0.9041794087665648,
+      "se": 0.008413493473255911,
+      "mean": 0.9355555555555556,
+      "worst": 0.8066666666666666,
+      "plays": 0.6711111111111111,
+      "drawn": 8.060430463576157,
+      "cells": {
+       "t60": {
+        "a": 0.9466666666666667,
+        "games": 300,
+        "plays": 0.5566666666666666,
+        "drawn": 4.12
+       },
+       "hedrick": {
+        "a": 0.93,
+        "games": 300,
+        "plays": 0.7633333333333333,
+        "drawn": 6.446666666666666
+       },
+       "c60": {
+        "a": 0.9366666666666666,
+        "games": 300,
+        "plays": 1.1333333333333333,
+        "drawn": 8.893333333333333
+       },
+       "d60": {
+        "a": 0.9933333333333333,
+        "games": 300,
+        "plays": 0.06666666666666667,
+        "drawn": 0.35333333333333333
+       },
+       "thorns": {
+        "a": 1.0,
+        "games": 300,
+        "plays": 0.6533333333333333,
+        "drawn": 4.596666666666667
+       },
+       "starmie": {
+        "a": 0.8066666666666666,
+        "games": 300,
+        "plays": 0.8533333333333334,
+        "drawn": 8.046666666666667
+       }
+      }
+     },
+     {
+      "cut": "Hero's Cape",
+      "copies_before": 1,
+      "colress": 3,
+      "weighted": 0.9039653414882772,
+      "se": 0.008599736519274809,
+      "mean": 0.9355555555555556,
+      "worst": 0.8566666666666667,
+      "plays": 0.6972222222222223,
+      "drawn": 8.580876494023903,
+      "cells": {
+       "t60": {
+        "a": 0.9366666666666666,
+        "games": 300,
+        "plays": 0.58,
+        "drawn": 4.39
+       },
+       "hedrick": {
+        "a": 0.8566666666666667,
+        "games": 300,
+        "plays": 0.7433333333333333,
+        "drawn": 6.383333333333334
+       },
+       "c60": {
+        "a": 0.93,
+        "games": 300,
+        "plays": 1.0333333333333334,
+        "drawn": 8.55
+       },
+       "d60": {
+        "a": 0.9933333333333333,
+        "games": 300,
+        "plays": 0.09,
+        "drawn": 0.51
+       },
+       "thorns": {
+        "a": 0.9966666666666667,
+        "games": 300,
+        "plays": 0.6733333333333333,
+        "drawn": 5.053333333333334
+       },
+       "starmie": {
+        "a": 0.9,
+        "games": 300,
+        "plays": 1.0633333333333332,
+        "drawn": 11.01
+       }
+      }
+     }
+    ],
+    "confirm": [
+     {
+      "cut": "Bravery Charm",
+      "copies_before": 2,
+      "colress": 3,
+      "weighted": 0.9295810397553517,
+      "se": 0.004064628157569937,
+      "mean": 0.951,
+      "worst": 0.91,
+      "plays": 0.7003333333333334,
+      "drawn": 8.361018562589242,
+      "cells": {
+       "t60": {
+        "a": 0.942,
+        "games": 1000,
+        "plays": 0.595,
+        "drawn": 4.538
+       },
+       "hedrick": {
+        "a": 0.924,
+        "games": 1000,
+        "plays": 0.795,
+        "drawn": 6.719
+       },
+       "c60": {
+        "a": 0.941,
+        "games": 1000,
+        "plays": 1.034,
+        "drawn": 8.345
+       },
+       "d60": {
+        "a": 0.991,
+        "games": 1000,
+        "plays": 0.072,
+        "drawn": 0.413
+       },
+       "thorns": {
+        "a": 0.998,
+        "games": 1000,
+        "plays": 0.706,
+        "drawn": 5.055
+       },
+       "starmie": {
+        "a": 0.91,
+        "games": 1000,
+        "plays": 1.0,
+        "drawn": 10.063
+       }
+      }
+     },
+     {
+      "cut": "Junk Arm",
+      "copies_before": 1,
+      "colress": 3,
+      "weighted": 0.9291437308868502,
+      "se": 0.004075320019039256,
+      "mean": 0.9503333333333334,
+      "worst": 0.913,
+      "plays": 0.6998333333333333,
+      "drawn": 8.376518218623483,
+      "cells": {
+       "t60": {
+        "a": 0.925,
+        "games": 1000,
+        "plays": 0.604,
+        "drawn": 4.698
+       },
+       "hedrick": {
+        "a": 0.913,
+        "games": 1000,
+        "plays": 0.771,
+        "drawn": 6.582
+       },
+       "c60": {
+        "a": 0.944,
+        "games": 1000,
+        "plays": 1.044,
+        "drawn": 8.428
+       },
+       "d60": {
+        "a": 0.99,
+        "games": 1000,
+        "plays": 0.096,
+        "drawn": 0.57
+       },
+       "thorns": {
+        "a": 0.997,
+        "games": 1000,
+        "plays": 0.676,
+        "drawn": 4.877
+       },
+       "starmie": {
+        "a": 0.933,
+        "games": 1000,
+        "plays": 1.008,
+        "drawn": 10.018
+       }
+      }
+     },
+     {
+      "cut": "Team Rocket's Petrel",
+      "copies_before": 4,
+      "colress": 3,
+      "weighted": 0.9244770642201835,
+      "se": 0.004210264616740064,
+      "mean": 0.9478333333333334,
+      "worst": 0.908,
+      "plays": 0.7266666666666667,
+      "drawn": 8.283715596330275,
+      "cells": {
+       "t60": {
+        "a": 0.922,
+        "games": 1000,
+        "plays": 0.627,
+        "drawn": 4.786
+       },
+       "hedrick": {
+        "a": 0.908,
+        "games": 1000,
+        "plays": 0.86,
+        "drawn": 7.274
+       },
+       "c60": {
+        "a": 0.949,
+        "games": 1000,
+        "plays": 1.101,
+        "drawn": 8.812
+       },
+       "d60": {
+        "a": 0.991,
+        "games": 1000,
+        "plays": 0.091,
+        "drawn": 0.53
+       },
+       "thorns": {
+        "a": 0.997,
+        "games": 1000,
+        "plays": 0.664,
+        "drawn": 4.714
+       },
+       "starmie": {
+        "a": 0.92,
+        "games": 1000,
+        "plays": 1.017,
+        "drawn": 10.001
+       }
+      }
+     },
+     {
+      "cut": "Night Stretcher",
+      "copies_before": 1,
+      "colress": 3,
+      "weighted": 0.9239113149847095,
+      "se": 0.004230463987294229,
+      "mean": 0.9475000000000001,
+      "worst": 0.904,
+      "plays": 0.7003333333333334,
+      "drawn": 8.344121846739647,
+      "cells": {
+       "t60": {
+        "a": 0.936,
+        "games": 1000,
+        "plays": 0.553,
+        "drawn": 4.173
+       },
+       "hedrick": {
+        "a": 0.904,
+        "games": 1000,
+        "plays": 0.796,
+        "drawn": 6.793
+       },
+       "c60": {
+        "a": 0.944,
+        "games": 1000,
+        "plays": 1.033,
+        "drawn": 8.266
+       },
+       "d60": {
+        "a": 0.988,
+        "games": 1000,
+        "plays": 0.094,
+        "drawn": 0.547
+       },
+       "thorns": {
+        "a": 0.999,
+        "games": 1000,
+        "plays": 0.691,
+        "drawn": 5.013
+       },
+       "starmie": {
+        "a": 0.914,
+        "games": 1000,
+        "plays": 1.035,
+        "drawn": 10.27
+       }
+      }
+     },
+     {
+      "cut": "Mime Jr.",
+      "copies_before": 2,
+      "colress": 3,
+      "weighted": 0.9223975535168195,
+      "se": 0.004227518858748316,
+      "mean": 0.9361666666666667,
+      "worst": 0.903,
+      "plays": 0.7288333333333333,
+      "drawn": 8.23530756917448,
+      "cells": {
+       "t60": {
+        "a": 0.934,
+        "games": 1000,
+        "plays": 0.626,
+        "drawn": 4.829
+       },
+       "hedrick": {
+        "a": 0.915,
+        "games": 1000,
+        "plays": 0.779,
+        "drawn": 6.632
+       },
+       "c60": {
+        "a": 0.944,
+        "games": 1000,
+        "plays": 1.05,
+        "drawn": 8.283
+       },
+       "d60": {
+        "a": 0.926,
+        "games": 1000,
+        "plays": 0.198,
+        "drawn": 1.205
+       },
+       "thorns": {
+        "a": 0.995,
+        "games": 1000,
+        "plays": 0.7,
+        "drawn": 4.971
+       },
+       "starmie": {
+        "a": 0.903,
+        "games": 1000,
+        "plays": 1.02,
+        "drawn": 10.093
+       }
+      }
+     },
+     {
+      "cut": "Battle Cage",
+      "copies_before": 4,
+      "colress": 3,
+      "weighted": 0.9215015290519878,
+      "se": 0.004292040173693988,
+      "mean": 0.9458333333333333,
+      "worst": 0.895,
+      "plays": 0.6960000000000001,
+      "drawn": 8.368295019157086,
+      "cells": {
+       "t60": {
+        "a": 0.924,
+        "games": 1000,
+        "plays": 0.596,
+        "drawn": 4.635
+       },
+       "hedrick": {
+        "a": 0.895,
+        "games": 1000,
+        "plays": 0.768,
+        "drawn": 6.481
+       },
+       "c60": {
+        "a": 0.947,
+        "games": 1000,
+        "plays": 1.008,
+        "drawn": 8.065
+       },
+       "d60": {
+        "a": 0.989,
+        "games": 1000,
+        "plays": 0.093,
+        "drawn": 0.528
+       },
+       "thorns": {
+        "a": 0.997,
+        "games": 1000,
+        "plays": 0.691,
+        "drawn": 5.029
+       },
+       "starmie": {
+        "a": 0.923,
+        "games": 1000,
+        "plays": 1.02,
+        "drawn": 10.208
+       }
+      }
+     }
+    ]
+   },
+   {
+    "copies_after": 4,
+    "current_weighted": 0.9295810397553517,
+    "chosen": "Sky Field",
+    "chosen_weighted": 0.9274862385321101,
+    "list": [
+     "Mew ex",
+     "Mew ex",
+     "Mew ex",
+     "Mime Jr.",
+     "Mime Jr.",
+     "Igglybuff",
+     "Igglybuff",
+     "Igglybuff",
+     "Igglybuff",
+     "Budew",
+     "Budew",
+     "Budew",
+     "Budew",
+     "Manaphy",
+     "Buddy-Buddy Poffin",
+     "Buddy-Buddy Poffin",
+     "Buddy-Buddy Poffin",
+     "Buddy-Buddy Poffin",
+     "Nest Ball",
+     "Nest Ball",
+     "Nest Ball",
+     "Nest Ball",
+     "Junk Arm",
+     "Night Stretcher",
+     "Rescue Carrier",
+     "Rescue Carrier",
+     "Battle Cage",
+     "Battle Cage",
+     "Battle Cage",
+     "Battle Cage",
+     "Sky Field",
+     "Bravery Charm",
+     "Bursting Balloon",
+     "Hero's Cape",
+     "Max Potion",
+     "Max Potion",
+     "Max Potion",
+     "Arven",
+     "Arven",
+     "Arven",
+     "Arven",
+     "Iono",
+     "Iono",
+     "Iono",
+     "Iono",
+     "Professor's Research",
+     "Professor's Research",
+     "Team Rocket's Petrel",
+     "Team Rocket's Petrel",
+     "Team Rocket's Petrel",
+     "Team Rocket's Petrel",
+     "Crushing Hammer",
+     "Crushing Hammer",
+     "Counter Catcher",
+     "Spiky Energy",
+     "Spiky Energy",
+     "Colress",
+     "Colress",
+     "Colress",
+     "Colress"
+    ],
+    "accepted": false,
+    "screen": [
+     {
+      "cut": "Arven",
+      "copies_before": 4,
+      "colress": 4,
+      "weighted": 0.9355147808358817,
+      "se": 0.007128773127292503,
+      "mean": 0.9555555555555556,
+      "worst": 0.9233333333333333,
+      "plays": 0.9294444444444445,
+      "drawn": 8.37059175134489,
+      "cells": {
+       "t60": {
+        "a": 0.95,
+        "games": 300,
+        "plays": 0.7433333333333333,
+        "drawn": 5.583333333333333
+       },
+       "hedrick": {
+        "a": 0.9233333333333333,
+        "games": 300,
+        "plays": 1.09,
+        "drawn": 9.21
+       },
+       "c60": {
+        "a": 0.94,
+        "games": 300,
+        "plays": 1.3866666666666667,
+        "drawn": 11.25
+       },
+       "d60": {
+        "a": 0.9933333333333333,
+        "games": 300,
+        "plays": 0.14,
+        "drawn": 0.8366666666666667
+       },
+       "thorns": {
+        "a": 1.0,
+        "games": 300,
+        "plays": 0.89,
+        "drawn": 6.406666666666666
+       },
+       "starmie": {
+        "a": 0.9266666666666666,
+        "games": 300,
+        "plays": 1.3266666666666667,
+        "drawn": 13.393333333333333
+       }
+      }
+     },
+     {
+      "cut": "Nest Ball",
+      "copies_before": 4,
+      "colress": 4,
+      "weighted": 0.9324057084607543,
+      "se": 0.007298062581929406,
+      "mean": 0.9505555555555555,
+      "worst": 0.9066666666666666,
+      "plays": 0.9327777777777778,
+      "drawn": 8.388326384752828,
+      "cells": {
+       "t60": {
+        "a": 0.9533333333333334,
+        "games": 300,
+        "plays": 0.7533333333333333,
+        "drawn": 5.706666666666667
+       },
+       "hedrick": {
+        "a": 0.9233333333333333,
+        "games": 300,
+        "plays": 1.06,
+        "drawn": 8.873333333333333
+       },
+       "c60": {
+        "a": 0.95,
+        "games": 300,
+        "plays": 1.4233333333333333,
+        "drawn": 11.463333333333333
+       },
+       "d60": {
+        "a": 0.98,
+        "games": 300,
+        "plays": 0.12666666666666668,
+        "drawn": 0.75
+       },
+       "thorns": {
+        "a": 0.99,
+        "games": 300,
+        "plays": 0.86,
+        "drawn": 6.126666666666667
+       },
+       "starmie": {
+        "a": 0.9066666666666666,
+        "games": 300,
+        "plays": 1.3733333333333333,
+        "drawn": 14.026666666666667
+       }
+      }
+     },
+     {
+      "cut": "Counter Catcher",
+      "copies_before": 1,
+      "colress": 4,
+      "weighted": 0.9318144750254842,
+      "se": 0.007355767363531878,
+      "mean": 0.9533333333333333,
+      "worst": 0.8966666666666666,
+      "plays": 0.8666666666666667,
+      "drawn": 8.45448717948718,
+      "cells": {
+       "t60": {
+        "a": 0.9333333333333333,
+        "games": 300,
+        "plays": 0.7466666666666667,
+        "drawn": 5.706666666666667
+       },
+       "hedrick": {
+        "a": 0.93,
+        "games": 300,
+        "plays": 0.9666666666666667,
+        "drawn": 8.37
+       },
+       "c60": {
+        "a": 0.9733333333333334,
+        "games": 300,
+        "plays": 1.39,
+        "drawn": 11.383333333333333
+       },
+       "d60": {
+        "a": 0.9966666666666667,
+        "games": 300,
+        "plays": 0.07333333333333333,
+        "drawn": 0.4
+       },
+       "thorns": {
+        "a": 0.99,
+        "games": 300,
+        "plays": 0.7433333333333333,
+        "drawn": 5.326666666666667
+       },
+       "starmie": {
+        "a": 0.8966666666666666,
+        "games": 300,
+        "plays": 1.28,
+        "drawn": 12.776666666666667
+       }
+      }
+     },
+     {
+      "cut": "Sky Field",
+      "copies_before": 2,
+      "colress": 4,
+      "weighted": 0.9316921508664628,
+      "se": 0.007321342082508471,
+      "mean": 0.9522222222222223,
+      "worst": 0.92,
+      "plays": 0.9027777777777777,
+      "drawn": 8.18153846153846,
+      "cells": {
+       "t60": {
+        "a": 0.9233333333333333,
+        "games": 300,
+        "plays": 0.7866666666666666,
+        "drawn": 5.97
+       },
+       "hedrick": {
+        "a": 0.92,
+        "games": 300,
+        "plays": 1.1233333333333333,
+        "drawn": 9.54
+       },
+       "c60": {
+        "a": 0.9533333333333334,
+        "games": 300,
+        "plays": 1.3333333333333333,
+        "drawn": 10.516666666666667
+       },
+       "d60": {
+        "a": 0.9866666666666667,
+        "games": 300,
+        "plays": 0.1,
+        "drawn": 0.5533333333333333
+       },
+       "thorns": {
+        "a": 1.0,
+        "games": 300,
+        "plays": 0.8266666666666667,
+        "drawn": 5.816666666666666
+       },
+       "starmie": {
+        "a": 0.93,
+        "games": 300,
+        "plays": 1.2466666666666666,
+        "drawn": 11.92
+       }
+      }
+     },
+     {
+      "cut": "Manaphy",
+      "copies_before": 1,
+      "colress": 4,
+      "weighted": 0.9305504587155963,
+      "se": 0.0073856925382985595,
+      "mean": 0.9522222222222222,
+      "worst": 0.9,
+      "plays": 0.8183333333333334,
+      "drawn": 8.327902240325866,
+      "cells": {
+       "t60": {
+        "a": 0.95,
+        "games": 300,
+        "plays": 0.7566666666666667,
+        "drawn": 5.826666666666667
+       },
+       "hedrick": {
+        "a": 0.9266666666666666,
+        "games": 300,
+        "plays": 0.8133333333333334,
+        "drawn": 6.946666666666666
+       },
+       "c60": {
+        "a": 0.9466666666666667,
+        "games": 300,
+        "plays": 1.27,
+        "drawn": 10.303333333333333
+       },
+       "d60": {
+        "a": 0.99,
+        "games": 300,
+        "plays": 0.11666666666666667,
+        "drawn": 0.68
+       },
+       "thorns": {
+        "a": 1.0,
+        "games": 300,
+        "plays": 0.7633333333333333,
+        "drawn": 5.503333333333333
+       },
+       "starmie": {
+        "a": 0.9,
+        "games": 300,
+        "plays": 1.19,
+        "drawn": 11.63
+       }
+      }
+     },
+     {
+      "cut": "Team Rocket's Petrel",
+      "copies_before": 4,
+      "colress": 4,
+      "weighted": 0.9299490316004078,
+      "se": 0.007420285715480686,
+      "mean": 0.9511111111111111,
+      "worst": 0.9033333333333333,
+      "plays": 0.9550000000000001,
+      "drawn": 8.372891215823152,
+      "cells": {
+       "t60": {
+        "a": 0.9466666666666667,
+        "games": 300,
+        "plays": 0.8833333333333333,
+        "drawn": 6.843333333333334
+       },
+       "hedrick": {
+        "a": 0.9033333333333333,
+        "games": 300,
+        "plays": 0.9666666666666667,
+        "drawn": 8.03
+       },
+       "c60": {
+        "a": 0.9366666666666666,
+        "games": 300,
+        "plays": 1.4366666666666668,
+        "drawn": 11.66
+       },
+       "d60": {
+        "a": 0.99,
+        "games": 300,
+        "plays": 0.16333333333333333,
+        "drawn": 0.9733333333333334
+       },
+       "thorns": {
+        "a": 0.9966666666666667,
+        "games": 300,
+        "plays": 0.9133333333333333,
+        "drawn": 6.613333333333333
+       },
+       "starmie": {
+        "a": 0.9333333333333333,
+        "games": 300,
+        "plays": 1.3666666666666667,
+        "drawn": 13.856666666666667
+       }
+      }
+     },
+     {
+      "cut": "Igglybuff",
+      "copies_before": 4,
+      "colress": 4,
+      "weighted": 0.9267278287461773,
+      "se": 0.00753414089731274,
+      "mean": 0.9466666666666667,
+      "worst": 0.9166666666666666,
+      "plays": 0.94,
+      "drawn": 8.358156028368795,
+      "cells": {
+       "t60": {
+        "a": 0.93,
+        "games": 300,
+        "plays": 0.8266666666666667,
+        "drawn": 6.233333333333333
+       },
+       "hedrick": {
+        "a": 0.9166666666666666,
+        "games": 300,
+        "plays": 1.0433333333333332,
+        "drawn": 8.93
+       },
+       "c60": {
+        "a": 0.9333333333333333,
+        "games": 300,
+        "plays": 1.3533333333333333,
+        "drawn": 10.903333333333334
+       },
+       "d60": {
+        "a": 0.99,
+        "games": 300,
+        "plays": 0.09666666666666666,
+        "drawn": 0.5366666666666666
+       },
+       "thorns": {
+        "a": 0.9866666666666667,
+        "games": 300,
+        "plays": 0.9466666666666667,
+        "drawn": 6.783333333333333
+       },
+       "starmie": {
+        "a": 0.9233333333333333,
+        "games": 300,
+        "plays": 1.3733333333333333,
+        "drawn": 13.753333333333334
+       }
+      }
+     },
+     {
+      "cut": "Professor's Research",
+      "copies_before": 2,
+      "colress": 4,
+      "weighted": 0.9254128440366972,
+      "se": 0.007589701696411047,
+      "mean": 0.9472222222222223,
+      "worst": 0.9166666666666666,
+      "plays": 0.8416666666666667,
+      "drawn": 8.485808580858086,
+      "cells": {
+       "t60": {
+        "a": 0.93,
+        "games": 300,
+        "plays": 0.7166666666666667,
+        "drawn": 5.593333333333334
+       },
+       "hedrick": {
+        "a": 0.92,
+        "games": 300,
+        "plays": 0.93,
+        "drawn": 8.03
+       },
+       "c60": {
+        "a": 0.93,
+        "games": 300,
+        "plays": 1.21,
+        "drawn": 9.743333333333334
+       },
+       "d60": {
+        "a": 0.99,
+        "games": 300,
+        "plays": 0.10333333333333333,
+        "drawn": 0.5866666666666667
+       },
+       "thorns": {
+        "a": 0.9966666666666667,
+        "games": 300,
+        "plays": 0.8066666666666666,
+        "drawn": 5.836666666666667
+       },
+       "starmie": {
+        "a": 0.9166666666666666,
+        "games": 300,
+        "plays": 1.2833333333333334,
+        "drawn": 13.063333333333333
+       }
+      }
+     },
+     {
+      "cut": "Max Potion",
+      "copies_before": 3,
+      "colress": 4,
+      "weighted": 0.9244240570846075,
+      "se": 0.007619665937430855,
+      "mean": 0.9483333333333334,
+      "worst": 0.9066666666666666,
+      "plays": 0.895,
+      "drawn": 8.40533829919305,
+      "cells": {
+       "t60": {
+        "a": 0.9233333333333333,
+        "games": 300,
+        "plays": 0.8433333333333334,
+        "drawn": 6.56
+       },
+       "hedrick": {
+        "a": 0.93,
+        "games": 300,
+        "plays": 0.9566666666666667,
+        "drawn": 7.836666666666667
+       },
+       "c60": {
+        "a": 0.93,
+        "games": 300,
+        "plays": 1.2766666666666666,
+        "drawn": 10.456666666666667
+       },
+       "d60": {
+        "a": 1.0,
+        "games": 300,
+        "plays": 0.08666666666666667,
+        "drawn": 0.4633333333333333
+       },
+       "thorns": {
+        "a": 1.0,
+        "games": 300,
+        "plays": 0.8566666666666667,
+        "drawn": 6.236666666666666
+       },
+       "starmie": {
+        "a": 0.9066666666666666,
+        "games": 300,
+        "plays": 1.35,
+        "drawn": 13.583333333333334
+       }
+      }
+     },
+     {
+      "cut": "Rescue Carrier",
+      "copies_before": 2,
+      "colress": 4,
+      "weighted": 0.9242813455657491,
+      "se": 0.007697506785239096,
+      "mean": 0.9488888888888889,
+      "worst": 0.8966666666666666,
+      "plays": 0.8733333333333334,
+      "drawn": 8.306615776081424,
+      "cells": {
+       "t60": {
+        "a": 0.9466666666666667,
+        "games": 300,
+        "plays": 0.7766666666666666,
+        "drawn": 5.9366666666666665
+       },
+       "hedrick": {
+        "a": 0.8966666666666666,
+        "games": 300,
+        "plays": 0.9966666666666667,
+        "drawn": 8.436666666666667
+       },
+       "c60": {
+        "a": 0.93,
+        "games": 300,
+        "plays": 1.38,
+        "drawn": 11.166666666666666
+       },
+       "d60": {
+        "a": 0.9966666666666667,
+        "games": 300,
+        "plays": 0.06666666666666667,
+        "drawn": 0.37666666666666665
+       },
+       "thorns": {
+        "a": 1.0,
+        "games": 300,
+        "plays": 0.8333333333333334,
+        "drawn": 6.053333333333334
+       },
+       "starmie": {
+        "a": 0.9233333333333333,
+        "games": 300,
+        "plays": 1.1866666666666668,
+        "drawn": 11.556666666666667
+       }
+      }
+     },
+     {
+      "cut": "Mime Jr.",
+      "copies_before": 2,
+      "colress": 4,
+      "weighted": 0.9237308868501528,
+      "se": 0.0075155032452670235,
+      "mean": 0.9383333333333334,
+      "worst": 0.9066666666666666,
+      "plays": 0.8972222222222223,
+      "drawn": 8.316408668730649,
+      "cells": {
+       "t60": {
+        "a": 0.9066666666666666,
+        "games": 300,
+        "plays": 0.7133333333333334,
+        "drawn": 5.303333333333334
+       },
+       "hedrick": {
+        "a": 0.9366666666666666,
+        "games": 300,
+        "plays": 1.0466666666666666,
+        "drawn": 8.963333333333333
+       },
+       "c60": {
+        "a": 0.9133333333333333,
+        "games": 300,
+        "plays": 1.32,
+        "drawn": 10.656666666666666
+       },
+       "d60": {
+        "a": 0.9466666666666667,
+        "games": 300,
+        "plays": 0.2,
+        "drawn": 1.1833333333333333
+       },
+       "thorns": {
+        "a": 1.0,
+        "games": 300,
+        "plays": 0.7966666666666666,
+        "drawn": 5.633333333333334
+       },
+       "starmie": {
+        "a": 0.9266666666666666,
+        "games": 300,
+        "plays": 1.3066666666666666,
+        "drawn": 13.03
+       }
+      }
+     },
+     {
+      "cut": "Junk Arm",
+      "copies_before": 1,
+      "colress": 4,
+      "weighted": 0.9232110091743119,
+      "se": 0.007779210795219759,
+      "mean": 0.9488888888888889,
+      "worst": 0.9033333333333333,
+      "plays": 0.8705555555555556,
+      "drawn": 8.562858966177409,
+      "cells": {
+       "t60": {
+        "a": 0.9366666666666666,
+        "games": 300,
+        "plays": 0.7066666666666667,
+        "drawn": 5.463333333333333
+       },
+       "hedrick": {
+        "a": 0.9033333333333333,
+        "games": 300,
+        "plays": 0.98,
+        "drawn": 8.42
+       },
+       "c60": {
+        "a": 0.95,
+        "games": 300,
+        "plays": 1.3066666666666666,
+        "drawn": 10.676666666666666
+       },
+       "d60": {
+        "a": 0.9966666666666667,
+        "games": 300,
+        "plays": 0.07,
+        "drawn": 0.3933333333333333
+       },
+       "thorns": {
+        "a": 1.0,
+        "games": 300,
+        "plays": 0.84,
+        "drawn": 6.15
+       },
+       "starmie": {
+        "a": 0.9066666666666666,
+        "games": 300,
+        "plays": 1.32,
+        "drawn": 13.623333333333333
+       }
+      }
+     },
+     {
+      "cut": "Bursting Balloon",
+      "copies_before": 1,
+      "colress": 4,
+      "weighted": 0.9213047910295616,
+      "se": 0.007792822574315927,
+      "mean": 0.9455555555555555,
+      "worst": 0.9033333333333333,
+      "plays": 0.9822222222222222,
+      "drawn": 8.436085972850679,
+      "cells": {
+       "t60": {
+        "a": 0.9066666666666666,
+        "games": 300,
+        "plays": 0.8666666666666667,
+        "drawn": 6.626666666666667
+       },
+       "hedrick": {
+        "a": 0.9233333333333333,
+        "games": 300,
+        "plays": 1.1233333333333333,
+        "drawn": 9.816666666666666
+       },
+       "c60": {
+        "a": 0.95,
+        "games": 300,
+        "plays": 1.4366666666666668,
+        "drawn": 11.666666666666666
+       },
+       "d60": {
+        "a": 0.9933333333333333,
+        "games": 300,
+        "plays": 0.11666666666666667,
+        "drawn": 0.7
+       },
+       "thorns": {
+        "a": 0.9966666666666667,
+        "games": 300,
+        "plays": 0.95,
+        "drawn": 6.806666666666667
+       },
+       "starmie": {
+        "a": 0.9033333333333333,
+        "games": 300,
+        "plays": 1.4,
+        "drawn": 14.1
+       }
+      }
+     },
+     {
+      "cut": "Bravery Charm",
+      "copies_before": 1,
+      "colress": 4,
+      "weighted": 0.921111111111111,
+      "se": 0.007837522401115887,
+      "mean": 0.9466666666666667,
+      "worst": 0.9066666666666666,
+      "plays": 0.8961111111111112,
+      "drawn": 8.402975821450713,
+      "cells": {
+       "t60": {
+        "a": 0.9266666666666666,
+        "games": 300,
+        "plays": 0.7966666666666666,
+        "drawn": 6.193333333333333
+       },
+       "hedrick": {
+        "a": 0.91,
+        "games": 300,
+        "plays": 0.9866666666666667,
+        "drawn": 8.426666666666666
+       },
+       "c60": {
+        "a": 0.94,
+        "games": 300,
+        "plays": 1.2733333333333334,
+        "drawn": 10.176666666666666
+       },
+       "d60": {
+        "a": 1.0,
+        "games": 300,
+        "plays": 0.08333333333333333,
+        "drawn": 0.47
+       },
+       "thorns": {
+        "a": 0.9966666666666667,
+        "games": 300,
+        "plays": 0.91,
+        "drawn": 6.67
+       },
+       "starmie": {
+        "a": 0.9066666666666666,
+        "games": 300,
+        "plays": 1.3266666666666667,
+        "drawn": 13.243333333333334
+       }
+      }
+     },
+     {
+      "cut": "Spiky Energy",
+      "copies_before": 2,
+      "colress": 4,
+      "weighted": 0.9200509683995922,
+      "se": 0.007907843214290618,
+      "mean": 0.9444444444444445,
+      "worst": 0.9033333333333333,
+      "plays": 0.9705555555555555,
+      "drawn": 8.311390955924441,
+      "cells": {
+       "t60": {
+        "a": 0.91,
+        "games": 300,
+        "plays": 0.85,
+        "drawn": 6.35
+       },
+       "hedrick": {
+        "a": 0.9066666666666666,
+        "games": 300,
+        "plays": 1.0733333333333333,
+        "drawn": 9.19
+       },
+       "c60": {
+        "a": 0.9666666666666667,
+        "games": 300,
+        "plays": 1.5033333333333334,
+        "drawn": 12.083333333333334
+       },
+       "d60": {
+        "a": 0.9866666666666667,
+        "games": 300,
+        "plays": 0.12666666666666668,
+        "drawn": 0.7333333333333333
+       },
+       "thorns": {
+        "a": 0.9933333333333333,
+        "games": 300,
+        "plays": 1.0133333333333334,
+        "drawn": 7.42
+       },
+       "starmie": {
+        "a": 0.9033333333333333,
+        "games": 300,
+        "plays": 1.2566666666666666,
+        "drawn": 12.623333333333333
+       }
+      }
+     },
+     {
+      "cut": "Mew ex",
+      "copies_before": 3,
+      "colress": 4,
+      "weighted": 0.9188379204892966,
+      "se": 0.007899697818300511,
+      "mean": 0.9433333333333334,
+      "worst": 0.91,
+      "plays": 0.91,
+      "drawn": 8.436507936507937,
+      "cells": {
+       "t60": {
+        "a": 0.9266666666666666,
+        "games": 300,
+        "plays": 0.7533333333333333,
+        "drawn": 5.836666666666667
+       },
+       "hedrick": {
+        "a": 0.91,
+        "games": 300,
+        "plays": 1.05,
+        "drawn": 9.116666666666667
+       },
+       "c60": {
+        "a": 0.9233333333333333,
+        "games": 300,
+        "plays": 1.4166666666666667,
+        "drawn": 11.36
+       },
+       "d60": {
+        "a": 0.9966666666666667,
+        "games": 300,
+        "plays": 0.09666666666666666,
+        "drawn": 0.5433333333333333
+       },
+       "thorns": {
+        "a": 0.9933333333333333,
+        "games": 300,
+        "plays": 0.8433333333333334,
+        "drawn": 5.983333333333333
+       },
+       "starmie": {
+        "a": 0.91,
+        "games": 300,
+        "plays": 1.3,
+        "drawn": 13.223333333333333
+       }
+      }
+     },
+     {
+      "cut": "Iono",
+      "copies_before": 4,
+      "colress": 4,
+      "weighted": 0.9183893985728847,
+      "se": 0.007959333422071889,
+      "mean": 0.9422222222222222,
+      "worst": 0.8966666666666666,
+      "plays": 0.918888888888889,
+      "drawn": 8.434099153567109,
+      "cells": {
+       "t60": {
+        "a": 0.9466666666666667,
+        "games": 300,
+        "plays": 0.8133333333333334,
+        "drawn": 6.243333333333333
+       },
+       "hedrick": {
+        "a": 0.9,
+        "games": 300,
+        "plays": 1.08,
+        "drawn": 9.266666666666667
+       },
+       "c60": {
+        "a": 0.9333333333333333,
+        "games": 300,
+        "plays": 1.2666666666666666,
+        "drawn": 9.97
+       },
+       "d60": {
+        "a": 0.98,
+        "games": 300,
+        "plays": 0.12,
+        "drawn": 0.7933333333333333
+       },
+       "thorns": {
+        "a": 0.9966666666666667,
+        "games": 300,
+        "plays": 0.9233333333333333,
+        "drawn": 6.656666666666666
+       },
+       "starmie": {
+        "a": 0.8966666666666666,
+        "games": 300,
+        "plays": 1.31,
+        "drawn": 13.57
+       }
+      }
+     },
+     {
+      "cut": "Battle Cage",
+      "copies_before": 4,
+      "colress": 4,
+      "weighted": 0.9156167176350662,
+      "se": 0.008038514984015603,
+      "mean": 0.9405555555555556,
+      "worst": 0.8933333333333333,
+      "plays": 0.9077777777777777,
+      "drawn": 8.432068543451653,
+      "cells": {
+       "t60": {
+        "a": 0.8933333333333333,
+        "games": 300,
+        "plays": 0.8133333333333334,
+        "drawn": 6.126666666666667
+       },
+       "hedrick": {
+        "a": 0.9066666666666666,
+        "games": 300,
+        "plays": 1.0166666666666666,
+        "drawn": 8.656666666666666
+       },
+       "c60": {
+        "a": 0.9433333333333334,
+        "games": 300,
+        "plays": 1.3633333333333333,
+        "drawn": 11.046666666666667
+       },
+       "d60": {
+        "a": 0.99,
+        "games": 300,
+        "plays": 0.09666666666666666,
+        "drawn": 0.5666666666666667
+       },
+       "thorns": {
+        "a": 0.9933333333333333,
+        "games": 300,
+        "plays": 0.78,
+        "drawn": 5.656666666666666
+       },
+       "starmie": {
+        "a": 0.9166666666666666,
+        "games": 300,
+        "plays": 1.3766666666666667,
+        "drawn": 13.873333333333333
+       }
+      }
+     },
+     {
+      "cut": "Budew",
+      "copies_before": 4,
+      "colress": 4,
+      "weighted": 0.9150968399592253,
+      "se": 0.008164496168188066,
+      "mean": 0.9433333333333334,
+      "worst": 0.8766666666666667,
+      "plays": 0.8572222222222222,
+      "drawn": 8.360337005832793,
+      "cells": {
+       "t60": {
+        "a": 0.9333333333333333,
+        "games": 300,
+        "plays": 0.7533333333333333,
+        "drawn": 5.6866666666666665
+       },
+       "hedrick": {
+        "a": 0.8766666666666667,
+        "games": 300,
+        "plays": 0.91,
+        "drawn": 7.586666666666667
+       },
+       "c60": {
+        "a": 0.9533333333333334,
+        "games": 300,
+        "plays": 1.3233333333333333,
+        "drawn": 10.606666666666667
+       },
+       "d60": {
+        "a": 0.99,
+        "games": 300,
+        "plays": 0.09,
+        "drawn": 0.5466666666666666
+       },
+       "thorns": {
+        "a": 1.0,
+        "games": 300,
+        "plays": 0.7466666666666667,
+        "drawn": 5.34
+       },
+       "starmie": {
+        "a": 0.9066666666666666,
+        "games": 300,
+        "plays": 1.32,
+        "drawn": 13.233333333333333
+       }
+      }
+     },
+     {
+      "cut": "Crushing Hammer",
+      "copies_before": 2,
+      "colress": 4,
+      "weighted": 0.9134148827726809,
+      "se": 0.008164527964894154,
+      "mean": 0.9394444444444444,
+      "worst": 0.8966666666666666,
+      "plays": 0.8966666666666666,
+      "drawn": 8.311028500619578,
+      "cells": {
+       "t60": {
+        "a": 0.9166666666666666,
+        "games": 300,
+        "plays": 0.8066666666666666,
+        "drawn": 6.183333333333334
+       },
+       "hedrick": {
+        "a": 0.9033333333333333,
+        "games": 300,
+        "plays": 1.03,
+        "drawn": 8.85
+       },
+       "c60": {
+        "a": 0.9366666666666666,
+        "games": 300,
+        "plays": 1.3633333333333333,
+        "drawn": 11.083333333333334
+       },
+       "d60": {
+        "a": 0.9933333333333333,
+        "games": 300,
+        "plays": 0.10666666666666667,
+        "drawn": 0.5866666666666667
+       },
+       "thorns": {
+        "a": 0.99,
+        "games": 300,
+        "plays": 0.8766666666666667,
+        "drawn": 6.303333333333334
+       },
+       "starmie": {
+        "a": 0.8966666666666666,
+        "games": 300,
+        "plays": 1.1966666666666668,
+        "drawn": 11.706666666666667
+       }
+      }
+     },
+     {
+      "cut": "Buddy-Buddy Poffin",
+      "copies_before": 4,
+      "colress": 4,
+      "weighted": 0.9066564729867482,
+      "se": 0.008485003772340367,
+      "mean": 0.9377777777777778,
+      "worst": 0.8766666666666667,
+      "plays": 0.8711111111111111,
+      "drawn": 8.240433673469388,
+      "cells": {
+       "t60": {
+        "a": 0.9066666666666666,
+        "games": 300,
+        "plays": 0.7066666666666667,
+        "drawn": 5.3
+       },
+       "hedrick": {
+        "a": 0.8933333333333333,
+        "games": 300,
+        "plays": 0.9866666666666667,
+        "drawn": 8.306666666666667
+       },
+       "c60": {
+        "a": 0.9566666666666667,
+        "games": 300,
+        "plays": 1.2966666666666666,
+        "drawn": 10.186666666666667
+       },
+       "d60": {
+        "a": 0.9933333333333333,
+        "games": 300,
+        "plays": 0.08,
+        "drawn": 0.46
+       },
+       "thorns": {
+        "a": 1.0,
+        "games": 300,
+        "plays": 0.9033333333333333,
+        "drawn": 6.443333333333333
+       },
+       "starmie": {
+        "a": 0.8766666666666667,
+        "games": 300,
+        "plays": 1.2533333333333334,
+        "drawn": 12.373333333333333
+       }
+      }
+     },
+     {
+      "cut": "Night Stretcher",
+      "copies_before": 1,
+      "colress": 4,
+      "weighted": 0.9064016309887869,
+      "se": 0.008450459616725177,
+      "mean": 0.9333333333333332,
+      "worst": 0.89,
+      "plays": 0.8933333333333334,
+      "drawn": 8.425373134328357,
+      "cells": {
+       "t60": {
+        "a": 0.9,
+        "games": 300,
+        "plays": 0.84,
+        "drawn": 6.4366666666666665
+       },
+       "hedrick": {
+        "a": 0.89,
+        "games": 300,
+        "plays": 0.9733333333333334,
+        "drawn": 8.283333333333333
+       },
+       "c60": {
+        "a": 0.9366666666666666,
+        "games": 300,
+        "plays": 1.32,
+        "drawn": 10.636666666666667
+       },
+       "d60": {
+        "a": 0.9833333333333333,
+        "games": 300,
+        "plays": 0.08666666666666667,
+        "drawn": 0.5066666666666667
+       },
+       "thorns": {
+        "a": 0.99,
+        "games": 300,
+        "plays": 0.8233333333333334,
+        "drawn": 5.833333333333333
+       },
+       "starmie": {
+        "a": 0.9,
+        "games": 300,
+        "plays": 1.3166666666666667,
+        "drawn": 13.463333333333333
+       }
+      }
+     },
+     {
+      "cut": "Hero's Cape",
+      "copies_before": 1,
+      "colress": 4,
+      "weighted": 0.9063098878695208,
+      "se": 0.008463334393261378,
+      "mean": 0.9355555555555556,
+      "worst": 0.8666666666666667,
+      "plays": 0.9,
+      "drawn": 8.424074074074074,
+      "cells": {
+       "t60": {
+        "a": 0.9466666666666667,
+        "games": 300,
+        "plays": 0.8066666666666666,
+        "drawn": 6.193333333333333
+       },
+       "hedrick": {
+        "a": 0.8666666666666667,
+        "games": 300,
+        "plays": 1.04,
+        "drawn": 9.11
+       },
+       "c60": {
+        "a": 0.91,
+        "games": 300,
+        "plays": 1.3933333333333333,
+        "drawn": 11.576666666666666
+       },
+       "d60": {
+        "a": 0.99,
+        "games": 300,
+        "plays": 0.10333333333333333,
+        "drawn": 0.6
+       },
+       "thorns": {
+        "a": 0.9966666666666667,
+        "games": 300,
+        "plays": 0.8533333333333334,
+        "drawn": 6.08
+       },
+       "starmie": {
+        "a": 0.9033333333333333,
+        "games": 300,
+        "plays": 1.2033333333333334,
+        "drawn": 11.93
+       }
+      }
+     }
+    ],
+    "confirm": [
+     {
+      "cut": "Sky Field",
+      "copies_before": 2,
+      "colress": 4,
+      "weighted": 0.9274862385321101,
+      "se": 0.004127452157183787,
+      "mean": 0.949,
+      "worst": 0.911,
+      "plays": 0.9168333333333334,
+      "drawn": 8.210870750772585,
+      "cells": {
+       "t60": {
+        "a": 0.935,
+        "games": 1000,
+        "plays": 0.778,
+        "drawn": 5.872
+       },
+       "hedrick": {
+        "a": 0.911,
+        "games": 1000,
+        "plays": 1.058,
+        "drawn": 9.102
+       },
+       "c60": {
+        "a": 0.942,
+        "games": 1000,
+        "plays": 1.363,
+        "drawn": 10.705
+       },
+       "d60": {
+        "a": 0.989,
+        "games": 1000,
+        "plays": 0.109,
+        "drawn": 0.574
+       },
+       "thorns": {
+        "a": 0.995,
+        "games": 1000,
+        "plays": 0.905,
+        "drawn": 6.362
+       },
+       "starmie": {
+        "a": 0.922,
+        "games": 1000,
+        "plays": 1.288,
+        "drawn": 12.553
+       }
+      }
+     },
+     {
+      "cut": "Counter Catcher",
+      "copies_before": 1,
+      "colress": 4,
+      "weighted": 0.9268165137614679,
+      "se": 0.004147301898538745,
+      "mean": 0.9500000000000001,
+      "worst": 0.903,
+      "plays": 0.8775,
+      "drawn": 8.467616334283,
+      "cells": {
+       "t60": {
+        "a": 0.93,
+        "games": 1000,
+        "plays": 0.725,
+        "drawn": 5.541
+       },
+       "hedrick": {
+        "a": 0.923,
+        "games": 1000,
+        "plays": 1.001,
+        "drawn": 8.751
+       },
+       "c60": {
+        "a": 0.952,
+        "games": 1000,
+        "plays": 1.366,
+        "drawn": 11.18
+       },
+       "d60": {
+        "a": 0.996,
+        "games": 1000,
+        "plays": 0.085,
+        "drawn": 0.48
+       },
+       "thorns": {
+        "a": 0.996,
+        "games": 1000,
+        "plays": 0.82,
+        "drawn": 5.884
+       },
+       "starmie": {
+        "a": 0.903,
+        "games": 1000,
+        "plays": 1.268,
+        "drawn": 12.746
+       }
+      }
+     },
+     {
+      "cut": "Arven",
+      "copies_before": 4,
+      "colress": 4,
+      "weighted": 0.9233363914373088,
+      "se": 0.004240958375293273,
+      "mean": 0.9470000000000001,
+      "worst": 0.906,
+      "plays": 0.9171666666666667,
+      "drawn": 8.381610030892242,
+      "cells": {
+       "t60": {
+        "a": 0.922,
+        "games": 1000,
+        "plays": 0.775,
+        "drawn": 5.877
+       },
+       "hedrick": {
+        "a": 0.906,
+        "games": 1000,
+        "plays": 1.033,
+        "drawn": 8.929
+       },
+       "c60": {
+        "a": 0.949,
+        "games": 1000,
+        "plays": 1.375,
+        "drawn": 11.073
+       },
+       "d60": {
+        "a": 0.99,
+        "games": 1000,
+        "plays": 0.118,
+        "drawn": 0.708
+       },
+       "thorns": {
+        "a": 0.997,
+        "games": 1000,
+        "plays": 0.857,
+        "drawn": 6.092
+       },
+       "starmie": {
+        "a": 0.918,
+        "games": 1000,
+        "plays": 1.345,
+        "drawn": 13.445
+       }
+      }
+     },
+     {
+      "cut": "Team Rocket's Petrel",
+      "copies_before": 4,
+      "colress": 4,
+      "weighted": 0.9225810397553517,
+      "se": 0.004259195983184853,
+      "mean": 0.9460000000000001,
+      "worst": 0.902,
+      "plays": 0.9431666666666666,
+      "drawn": 8.392648877893622,
+      "cells": {
+       "t60": {
+        "a": 0.929,
+        "games": 1000,
+        "plays": 0.848,
+        "drawn": 6.516
+       },
+       "hedrick": {
+        "a": 0.902,
+        "games": 1000,
+        "plays": 1.018,
+        "drawn": 8.574
+       },
+       "c60": {
+        "a": 0.943,
+        "games": 1000,
+        "plays": 1.421,
+        "drawn": 11.542
+       },
+       "d60": {
+        "a": 0.987,
+        "games": 1000,
+        "plays": 0.131,
+        "drawn": 0.768
+       },
+       "thorns": {
+        "a": 0.997,
+        "games": 1000,
+        "plays": 0.881,
+        "drawn": 6.264
+       },
+       "starmie": {
+        "a": 0.918,
+        "games": 1000,
+        "plays": 1.36,
+        "drawn": 13.83
+       }
+      }
+     },
+     {
+      "cut": "Manaphy",
+      "copies_before": 1,
+      "colress": 4,
+      "weighted": 0.9220764525993883,
+      "se": 0.0042698299773658915,
+      "mean": 0.9474999999999999,
+      "worst": 0.867,
+      "plays": 0.8210000000000001,
+      "drawn": 8.21254567600487,
+      "cells": {
+       "t60": {
+        "a": 0.946,
+        "games": 1000,
+        "plays": 0.717,
+        "drawn": 5.446
+       },
+       "hedrick": {
+        "a": 0.923,
+        "games": 1000,
+        "plays": 0.941,
+        "drawn": 8.019
+       },
+       "c60": {
+        "a": 0.959,
+        "games": 1000,
+        "plays": 1.27,
+        "drawn": 10.279
+       },
+       "d60": {
+        "a": 0.992,
+        "games": 1000,
+        "plays": 0.1,
+        "drawn": 0.573
+       },
+       "thorns": {
+        "a": 0.998,
+        "games": 1000,
+        "plays": 0.836,
+        "drawn": 6.072
+       },
+       "starmie": {
+        "a": 0.867,
+        "games": 1000,
+        "plays": 1.062,
+        "drawn": 10.066
+       }
+      }
+     },
+     {
+      "cut": "Nest Ball",
+      "copies_before": 4,
+      "colress": 4,
+      "weighted": 0.9169724770642201,
+      "se": 0.004391017702474871,
+      "mean": 0.9418333333333333,
+      "worst": 0.897,
+      "plays": 0.8916666666666667,
+      "drawn": 8.463551401869159,
+      "cells": {
+       "t60": {
+        "a": 0.914,
+        "games": 1000,
+        "plays": 0.749,
+        "drawn": 5.808
+       },
+       "hedrick": {
+        "a": 0.897,
+        "games": 1000,
+        "plays": 1.012,
+        "drawn": 8.623
+       },
+       "c60": {
+        "a": 0.942,
+        "games": 1000,
+        "plays": 1.324,
+        "drawn": 10.66
+       },
+       "d60": {
+        "a": 0.986,
+        "games": 1000,
+        "plays": 0.116,
+        "drawn": 0.679
+       },
+       "thorns": {
+        "a": 0.996,
+        "games": 1000,
+        "plays": 0.807,
+        "drawn": 5.795
+       },
+       "starmie": {
+        "a": 0.916,
+        "games": 1000,
+        "plays": 1.342,
+        "drawn": 13.715
+       }
+      }
+     }
+    ]
+   }
+  ],
+  "current": [
+   "Mew ex",
+   "Mew ex",
+   "Mew ex",
+   "Mime Jr.",
+   "Mime Jr.",
+   "Igglybuff",
+   "Igglybuff",
+   "Igglybuff",
+   "Igglybuff",
+   "Budew",
+   "Budew",
+   "Budew",
+   "Budew",
+   "Manaphy",
+   "Buddy-Buddy Poffin",
+   "Buddy-Buddy Poffin",
+   "Buddy-Buddy Poffin",
+   "Buddy-Buddy Poffin",
+   "Nest Ball",
+   "Nest Ball",
+   "Nest Ball",
+   "Nest Ball",
+   "Junk Arm",
+   "Night Stretcher",
+   "Rescue Carrier",
+   "Rescue Carrier",
+   "Battle Cage",
+   "Battle Cage",
+   "Battle Cage",
+   "Battle Cage",
+   "Sky Field",
+   "Sky Field",
+   "Bravery Charm",
+   "Bursting Balloon",
+   "Hero's Cape",
+   "Max Potion",
+   "Max Potion",
+   "Max Potion",
+   "Arven",
+   "Arven",
+   "Arven",
+   "Arven",
+   "Iono",
+   "Iono",
+   "Iono",
+   "Iono",
+   "Professor's Research",
+   "Professor's Research",
+   "Team Rocket's Petrel",
+   "Team Rocket's Petrel",
+   "Team Rocket's Petrel",
+   "Team Rocket's Petrel",
+   "Crushing Hammer",
+   "Crushing Hammer",
+   "Counter Catcher",
+   "Spiky Energy",
+   "Spiky Energy",
+   "Colress",
+   "Colress",
+   "Colress"
+  ],
+  "stopped": "Stopped at 3. The next copy, cutting Sky Field, is 92.75% against 92.96%.",
+  "copies": 3,
+  "list": [
+   "Mew ex",
+   "Mew ex",
+   "Mew ex",
+   "Mime Jr.",
+   "Mime Jr.",
+   "Igglybuff",
+   "Igglybuff",
+   "Igglybuff",
+   "Igglybuff",
+   "Budew",
+   "Budew",
+   "Budew",
+   "Budew",
+   "Manaphy",
+   "Buddy-Buddy Poffin",
+   "Buddy-Buddy Poffin",
+   "Buddy-Buddy Poffin",
+   "Buddy-Buddy Poffin",
+   "Nest Ball",
+   "Nest Ball",
+   "Nest Ball",
+   "Nest Ball",
+   "Junk Arm",
+   "Night Stretcher",
+   "Rescue Carrier",
+   "Rescue Carrier",
+   "Battle Cage",
+   "Battle Cage",
+   "Battle Cage",
+   "Battle Cage",
+   "Sky Field",
+   "Sky Field",
+   "Bravery Charm",
+   "Bursting Balloon",
+   "Hero's Cape",
+   "Max Potion",
+   "Max Potion",
+   "Max Potion",
+   "Arven",
+   "Arven",
+   "Arven",
+   "Arven",
+   "Iono",
+   "Iono",
+   "Iono",
+   "Iono",
+   "Professor's Research",
+   "Professor's Research",
+   "Team Rocket's Petrel",
+   "Team Rocket's Petrel",
+   "Team Rocket's Petrel",
+   "Team Rocket's Petrel",
+   "Crushing Hammer",
+   "Crushing Hammer",
+   "Counter Catcher",
+   "Spiky Energy",
+   "Spiky Energy",
+   "Colress",
+   "Colress",
+   "Colress"
+  ],
+  "holdout": [
+   {
+    "copies": 0,
+    "cut": null,
+    "weighted": 0.921519877675841,
+    "se": 0.004285214884337011,
+    "mean": 0.9465,
+    "worst": 0.903,
+    "plays": 0.0,
+    "drawn": 0.0,
+    "cells": {
+     "t60": {
+      "a": 0.928,
+      "games": 1000,
+      "plays": 0.0,
+      "drawn": 0.0
+     },
+     "hedrick": {
+      "a": 0.911,
+      "games": 1000,
+      "plays": 0.0,
+      "drawn": 0.0
+     },
+     "c60": {
+      "a": 0.945,
+      "games": 1000,
+      "plays": 0.0,
+      "drawn": 0.0
+     },
+     "d60": {
+      "a": 0.993,
+      "games": 1000,
+      "plays": 0.0,
+      "drawn": 0.0
+     },
+     "thorns": {
+      "a": 0.999,
+      "games": 1000,
+      "plays": 0.0,
+      "drawn": 0.0
+     },
+     "starmie": {
+      "a": 0.903,
+      "games": 1000,
+      "plays": 0.0,
+      "drawn": 0.0
+     }
+    }
+   },
+   {
+    "copies": 1,
+    "cut": "Crushing Hammer",
+    "weighted": 0.911519877675841,
+    "se": 0.004539359419647855,
+    "mean": 0.9398333333333334,
+    "worst": 0.891,
+    "plays": 0.25516666666666665,
+    "drawn": 8.298497713912477,
+    "cells": {
+     "t60": {
+      "a": 0.919,
+      "games": 1000,
+      "plays": 0.241,
+      "drawn": 1.872
+     },
+     "hedrick": {
+      "a": 0.891,
+      "games": 1000,
+      "plays": 0.301,
+      "drawn": 2.524
+     },
+     "c60": {
+      "a": 0.95,
+      "games": 1000,
+      "plays": 0.393,
+      "drawn": 3.253
+     },
+     "d60": {
+      "a": 0.99,
+      "games": 1000,
+      "plays": 0.035,
+      "drawn": 0.203
+     },
+     "thorns": {
+      "a": 0.997,
+      "games": 1000,
+      "plays": 0.243,
+      "drawn": 1.771
+     },
+     "starmie": {
+      "a": 0.892,
+      "games": 1000,
+      "plays": 0.318,
+      "drawn": 3.082
+     }
+    }
+   },
+   {
+    "copies": 2,
+    "cut": "Sky Field",
+    "weighted": 0.9249510703363913,
+    "se": 0.0042056031415851885,
+    "mean": 0.9486666666666667,
+    "worst": 0.908,
+    "plays": 0.48333333333333334,
+    "drawn": 8.338275862068967,
+    "cells": {
+     "t60": {
+      "a": 0.933,
+      "games": 1000,
+      "plays": 0.408,
+      "drawn": 3.164
+     },
+     "hedrick": {
+      "a": 0.908,
+      "games": 1000,
+      "plays": 0.558,
+      "drawn": 4.777
+     },
+     "c60": {
+      "a": 0.948,
+      "games": 1000,
+      "plays": 0.743,
+      "drawn": 5.87
+     },
+     "d60": {
+      "a": 0.992,
+      "games": 1000,
+      "plays": 0.053,
+      "drawn": 0.309
+     },
+     "thorns": {
+      "a": 0.998,
+      "games": 1000,
+      "plays": 0.442,
+      "drawn": 3.116
+     },
+     "starmie": {
+      "a": 0.913,
+      "games": 1000,
+      "plays": 0.696,
+      "drawn": 6.945
+     }
+    }
+   },
+   {
+    "copies": 3,
+    "cut": "Bravery Charm",
+    "weighted": 0.9289663608562692,
+    "se": 0.004083822029871916,
+    "mean": 0.9505,
+    "worst": 0.916,
+    "plays": 0.6916666666666668,
+    "drawn": 8.358313253012048,
+    "cells": {
+     "t60": {
+      "a": 0.922,
+      "games": 1000,
+      "plays": 0.606,
+      "drawn": 4.736
+     },
+     "hedrick": {
+      "a": 0.916,
+      "games": 1000,
+      "plays": 0.773,
+      "drawn": 6.521
+     },
+     "c60": {
+      "a": 0.949,
+      "games": 1000,
+      "plays": 1.013,
+      "drawn": 8.127
+     },
+     "d60": {
+      "a": 0.992,
+      "games": 1000,
+      "plays": 0.089,
+      "drawn": 0.509
+     },
+     "thorns": {
+      "a": 0.996,
+      "games": 1000,
+      "plays": 0.661,
+      "drawn": 4.835
+     },
+     "starmie": {
+      "a": 0.928,
+      "games": 1000,
+      "plays": 1.008,
+      "drawn": 9.959
+     }
+    }
+   }
+  ],
+  "done": true
+ },
+ "cells": {}
+}

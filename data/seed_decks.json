@@ -24716,10 +24716,10 @@
         "traits": []
       },
       {
-        "catalog_id": "swsh12.5-125",
-        "name": "Crushing Hammer",
+        "catalog_id": "bw8-118",
+        "name": "Colress",
         "category": "Trainer",
-        "stage": "Item",
+        "stage": "Supporter",
         "types": [],
         "hp": 0,
         "attacks": [],
@@ -24728,12 +24728,13 @@
         "resistances": [],
         "retreat": 0,
         "evolves_from": null,
-        "trainer_kind": "item",
+        "trainer_kind": "supporter",
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/125/low.webp",
+        "image": "https://assets.tcgdex.net/en/bw/bw8/118/low.webp",
         "set_name": null,
-        "text": "Flip a coin. If heads, discard an Energy from 1 of your opponent's Pok\u00e9mon.",
-        "dex_id": null
+        "text": "Shuffle your hand into your deck. Then, draw a number of cards equal to the number of Benched Pok\u00e9mon (both yours and your opponent\u2019s).",
+        "dex_id": null,
+        "traits": []
       },
       {
         "catalog_id": "swsh12.5-125",

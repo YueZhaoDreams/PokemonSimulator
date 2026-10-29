@@ -541,6 +541,16 @@ SET_T_UNL_NAMES = (
 # list's loss weights also prefer the list that still has Manaphy.
 # Two copies, cutting Counter Catcher, do not separate from one (+1.4 standard errors).
 # The lock is one Elekid for one Battle Cage (4 → 3). Manaphy stays. Counter Catcher stays.
+# Colress on that Elekid list. Plasma Storm 118.
+# Search set-m-colress. Selection seed 20261007, holdout 20261015, 1000 games per foe.
+# The measured 60 was the pre-Elekid list: zero Elekid, four Battle Cage, three Crushing Hammer.
+# The selection seed kept three copies. The first cut was Crushing Hammer
+# (92.07% → 92.37%, +0.29 pp, 0.48 standard errors), then Sky Field, then Bravery Charm.
+# Holdout of three against zero is +0.74 pp (1.26 standard errors). One copy on that
+# holdout is -1.00 pp (-1.60 standard errors).
+# The lock is one Colress for one Crushing Hammer (3 → 2). The list already wins about
+# nine games in ten, so the per-game standard deviation barely moves. Sky Field,
+# Bravery Charm, Elekid, Battle Cage, Manaphy, and Counter Catcher stay.
 SET_M60_NAMES = (
     ["Mew ex"] * 3
     + ["Mime Jr."] * 2
@@ -563,7 +573,8 @@ SET_M60_NAMES = (
     + ["Iono"] * 4
     + ["Professor's Research"] * 2
     + ["Team Rocket's Petrel"] * 4
-    + ["Crushing Hammer"] * 3
+    + ["Colress"]
+    + ["Crushing Hammer"] * 2
     + ["Counter Catcher"]
     + ["Spiky Energy"] * 2
 )
@@ -723,6 +734,60 @@ SET_MILL_NAMES = (
     + ["Water Energy"] * 3
     + ["Ignition Energy"] * 4
     + ["Reversal Energy"] * 4
+)
+
+# Celebi ◇ Time Distortion + Lost Origin Chandelure. Lampent is Plasma Storm
+# Freefloating. Mountain Roasting mills 3 only when Chandelure is played from
+# the hand. Dawn searches the deck for a Basic Pokémon, a Stage 1 Pokémon, and
+# a Stage 2 Pokémon. Broken Time-Space lets that Litwick become Lampent and then
+# Chandelure the same turn. Level Ball finds
+# Lampent (70) and Celebi ◇ (90); it does not find Chandelure (150). When
+# Playground is certain this turn, that search takes a Stage 1 so the Basics
+# stay in the deck. One Hisuian Heavy Ball replaces one Switch. The copy count
+# is the greedy search in data/lab/set-mill-roast-heavy.md: every other card
+# was tried as the cut, and a second copy did not raise the weighted win rate.
+# Jacq was searched the same way on that list and kept at zero copies.
+# See data/lab/set-mill-roast-jacq.md. Three Evolution Incense replace one
+# Level Ball and both Cleffa. A fourth copy did not raise the weighted win
+# rate. See data/lab/set-mill-roast-incense.md. One Hyper Aroma replaces the
+# Ultra Ball. The printed sentence searches the deck for up to 3 Stage 1
+# Pokémon. 400 games per seat, and every other card was the cut. See
+# data/lab/set-mill-roast-aroma.md. Cleffa was searched on this list at the
+# same depth and kept at zero. See data/lab/set-mill-roast-cleffa.md.
+# Jacq was searched again on this list at 400 games per seat. Three copies
+# replace one Switch, one Energy Retrieval, and one Buddy-Buddy Poffin.
+# A fourth copy did not raise the weighted win rate. See
+# data/lab/set-mill-roast-jacq.md.
+# Hop was searched on that list at the same depth. Four copies replace one
+# Jacq, one Energy Search, Slumbering Forest, and one Team Rocket's Petrel.
+# The path is 41.1%, 42.0%, 42.6%, 43.3%, 45.1%. The second and third copies
+# each gain about one combined standard error. On the second copy, Energy
+# Search is 42.632% and Broken Time-Space is 42.613%. The fourth copy gains
+# about 2.9 combined standard errors, and cutting Petrel leads Energy
+# Retrieval at 43.944% by about 1.2 points. The search stopped at four
+# because four is the copy cap. The best of about twenty cuts sits a little
+# high. See data/lab/set-mill-roast-hop.md.
+SET_ROAST_NAMES = (
+    ["Litwick"] * 4
+    + ["Lampent"] * 4
+    + ["Chandelure"] * 4
+    + ["Celebi ◇"]
+    + ["Pichu"] * 3
+    + ["Arven"] * 4
+    + ["Team Rocket's Petrel"] * 3
+    + ["Buddy-Buddy Poffin"] * 2
+    + ["Energy Search"] * 3
+    + ["Energy Retrieval"]
+    + ["Rescue Scarf"] * 4
+    + ["Dawn"] * 4
+    + ["Level Ball"] * 2
+    + ["Broken Time-Space"] * 3
+    + ["Fire Energy"] * 7
+    + ["Hisuian Heavy Ball"]
+    + ["Evolution Incense"] * 3
+    + ["Hyper Aroma"]
+    + ["Jacq"] * 2
+    + ["Hop"] * 4
 )
 
 # Unlimited 60: Ambipom PAR Hand Fling, Lopunny FLF Big Jump recycle,
@@ -1114,6 +1179,12 @@ _register(
         image="https://assets.tcgdex.net/en/sv/sv01/189/low.webp",
     )
 )
+# Plasma Storm 118. Pokémon.com prints the curly apostrophe.
+_COLRESS = (
+    "Shuffle your hand into your deck. Then, draw a number of cards equal to the number of "
+    "Benched Pokémon (both yours and your opponent\u2019s)."
+)
+_register(_trn("Colress", "supporter", _COLRESS, catalog_id="bw8-118"))
 _RARE_CANDY_TEXT = (
     "Choose 1 of your Basic Pokémon in play. If you have a Stage 2 card that evolves "
     "from that Pokémon in your hand, put that card onto the Basic Pokémon to evolve it, "
@@ -1300,7 +1371,38 @@ _register(_trn("Ultra Ball", "item", "Discard 2 cards from your hand. Search you
 _register(_trn("Tool Box", "item", "Look at the top 7 cards of your deck. You may put any Pokémon Tool cards you find there into your hand."))
 _register(_trn("Trekking Shoes", "item", "Look at the top card of your deck. You may put it into your hand, or discard it and draw a card."))
 _register(_trn("Lake Acuity", "stadium", "Water and Fighting Pokémon take 20 less damage from attacks."))
-_register(_trn("Jacq", "supporter", "Search your deck for up to 2 Evolution Pokémon."))
+_register(
+    _trn(
+        "Jacq",
+        "supporter",
+        "Search your deck for up to 2 Evolution Pokémon, reveal them, and put them into your hand. Then, shuffle your deck.",
+        catalog_id="sv01-175",
+    )
+)
+_register(
+    _trn(
+        "Dawn",
+        "supporter",
+        "Search your deck for a Basic Pokémon, a Stage 1 Pokémon, and a Stage 2 Pokémon, reveal them, and put them into your hand. Then, shuffle your deck.",
+        catalog_id="pfl-87",
+    )
+)
+_register(
+    _trn(
+        "Evolution Incense",
+        "item",
+        "Search your deck for an Evolution Pokémon, reveal it, and put it into your hand. Then, shuffle your deck.",
+        catalog_id="swsh1-163",
+    )
+)
+_register(
+    _trn(
+        "Hisuian Heavy Ball",
+        "item",
+        "Look at your face-down Prize cards. You may reveal a Basic Pokémon you find there, put it into your hand, and put this Hisuian Heavy Ball in its place as a face-down Prize card. (If you don't reveal a Basic Pokémon, put this card in the discard pile.) Then, shuffle your face-down Prize cards.",
+        catalog_id="swsh10-146",
+    )
+)
 _register(
     _trn(
         "Lillie's Determination",
@@ -1598,6 +1700,15 @@ _register(
         "item",
         "Switch in 1 of your opponent's Benched Pokémon to the Active Spot. If you do, switch your Active Pokémon with 1 of your Benched Pokémon.",
         catalog_id="sv05-157",
+    )
+)
+_register(
+    _trn(
+        "Hyper Aroma",
+        "item",
+        "You can't have more than 1 ACE SPEC card in your deck. Search your deck for up to 3 Stage 1 Pokémon, reveal them, and put them into your hand. Then, shuffle your deck.",
+        catalog_id="sv06-152",
+        traits=["ace spec"],
     )
 )
 _register(
@@ -3237,6 +3348,99 @@ for card in [
     ),
 ]:
     _register(card)
+
+_TIME_DISTORTION = (
+    "Devolve any number of your Benched Pokémon as many times as you like. "
+    "Put each Evolution card removed this way into your hand."
+)
+_MOUNTAIN_ROASTING = (
+    "When you play this Pokémon from your hand to evolve 1 of your Pokémon during your turn, "
+    "you may discard the top 3 cards of your opponent's deck."
+)
+_FREEFLOATING = "If this Pokémon has no Energy attached to it, this Pokémon has no Retreat Cost."
+_GRAND_TREE = (
+    "You can't have more than 1 ACE SPEC card in your deck. "
+    "Once during each player's turn, that player may search their deck for a Stage 1 Pokémon "
+    "that evolves from 1 of their Basic Pokémon and put it onto that Pokémon to evolve it. "
+    "If that Pokémon was evolved in this way, that player may search their deck for a Stage 2 "
+    "Pokémon that evolves from that Pokémon and put it onto that Pokémon to evolve it. "
+    "Then, that player shuffles their deck. (Players can't evolve a Basic Pokémon during their "
+    "first turn or a Basic Pokémon that was put into play this turn.)"
+)
+_RESCUE_SCARF = (
+    "If the Pokémon this card is attached to is Knocked Out by damage from an attack, "
+    "put that Pokémon into your hand. (Discard all cards attached to that Pokémon.)"
+)
+_CELEBI_PRISM = _register(
+    _pkm(
+        "Celebi ◇",
+        "Basic",
+        ["Grass"],
+        90,
+        [
+            _atk("Time Distortion", ["Colorless"], 0, _TIME_DISTORTION),
+            _atk("Leech Seed", ["Grass"], 20, "Heal 20 damage from this Pokémon."),
+        ],
+        retreat=1,
+        catalog_id="sm8-19",
+        weakness="Fire",
+        set_name="Lost Thunder",
+        traits=["prism star"],
+    )
+)
+_CELEBI_PRISM.text = (
+    "Prism Star: You can't have more than 1 Prism Star card with the same name in your deck. "
+    "If this Pokémon would go to the discard pile, put it in the Lost Zone instead."
+)
+FALLBACK_BY_NAME["celebi prism star"] = _CELEBI_PRISM
+FALLBACK_BY_NAME["celebi prism"] = _CELEBI_PRISM
+_register(
+    _pkm(
+        "Lampent",
+        "Stage1",
+        ["Fire"],
+        70,
+        [_atk("Will-O-Wisp", ["Fire", "Colorless"], 20)],
+        evolves_from="Litwick",
+        retreat=1,
+        catalog_id="bw8-22",
+        weakness="Water",
+        set_name="Plasma Storm",
+        abilities=[Ability(name="Freefloating", text=_FREEFLOATING)],
+    )
+)
+_register(
+    _pkm(
+        "Chandelure",
+        "Stage2",
+        ["Fire"],
+        150,
+        [_atk("Heat Blast", ["Fire", "Colorless"], 90)],
+        evolves_from="Lampent",
+        retreat=2,
+        catalog_id="swsh11-026",
+        weakness="Water",
+        set_name="Lost Origin",
+        abilities=[Ability(name="Mountain Roasting", text=_MOUNTAIN_ROASTING)],
+    )
+)
+_register(
+    _trn(
+        "Grand Tree",
+        "stadium",
+        _GRAND_TREE,
+        catalog_id="sv07-136",
+        traits=["ace spec"],
+    )
+)
+_register(
+    _trn(
+        "Rescue Scarf",
+        "tool",
+        _RESCUE_SCARF,
+        catalog_id="bw6-115",
+    )
+)
 
 # TWM / CLC Clefable keep the printed name "Clefable" but live under alias keys so they
 # do not overwrite Rebel Clash Prankish in FALLBACK_BY_NAME.
@@ -5410,6 +5614,17 @@ def fallback_named(name: str) -> Card:
     from app.catalog import fallback_card
 
     return fallback_card(name)
+
+
+def build_roast_deck() -> list[Card]:
+    """Celebi ◇ roast mill. Cleffa is HGSS Eeeeeeek. Pichu is HGSS Playground."""
+    out: list[Card] = []
+    for name in SET_ROAST_NAMES:
+        if name == "Cleffa":
+            out.append(fallback_named("cleffa hgss"))
+        else:
+            out.append(fallback_named(name))
+    return out
 
 
 def build_mill_deck() -> list[Card]:

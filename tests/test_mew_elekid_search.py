@@ -30,8 +30,10 @@ def test_elekid_search_path_adds_one_elekid_per_step_from_the_locked_list():
     assert Counter(start)["Manaphy"] == 1
     assert Counter(start)["Counter Catcher"] == 1
     live = Counter(SET_M60_NAMES)
-    assert live - Counter(start) == Counter({"Elekid": 1})
-    assert Counter(start) - live == Counter({"Battle Cage": 1})
+    assert Counter(start)["Crushing Hammer"] == 3
+    assert Counter(start)["Colress"] == 0
+    assert live - Counter(start) == Counter({"Elekid": 1, "Colress": 1})
+    assert Counter(start) - live == Counter({"Battle Cage": 1, "Crushing Hammer": 1})
     path = rep["path"]
     assert path[0]["list"] == start and Counter(start)["Elekid"] == 0
     assert path[0]["cut"] is None
