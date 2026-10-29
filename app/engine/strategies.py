@@ -903,6 +903,56 @@ STRATEGY_LIBRARY = {
         search_aces=[],
         closers=[],
     ),
+    "roast": StrategySpec(
+        name="roast",
+        description=(
+            "Celebi ◇ Time Distortion with four Kindling Panic Litwick lines. "
+            "Lampent is Plasma Storm Freefloating: no Energy means retreat 0. "
+            "Chandelure is Lost Origin Mountain Roasting: evolving it from the hand "
+            "discards the top 3 cards of the opponent's deck. "
+            "Pichu is HeartGold & SoulSilver Playground and benches Litwick, then Celebi ◇. "
+            "Dawn searches the deck for a Basic Pokémon, a Stage 1 Pokémon, and a Stage 2 "
+            "Pokémon and puts them into the hand. "
+            "Evolution Incense searches the deck for one Evolution Pokémon. "
+            "Roast takes Chandelure once a Lampent is in hand or in play, and takes "
+            "Lampent only while a Litwick still has no Stage 1. "
+            "Hyper Aroma searches the deck for up to 3 Stage 1 Pokémon. "
+            "Roast takes Lampent and stops once four Lampent are in hand or in play. "
+            "Jacq searches the deck for up to 2 Evolution Pokémon. "
+            "Playground has usually taken the Basics, so Jacq takes Lampent, Chandelure, or both. "
+            "Hop draws cards. The count is the number printed in that sentence. "
+            "Roast plays it while five cards would remain in the deck, and Petrel fetches it "
+            "when a Lampent or Litwick is still short a piece. "
+            "Broken Time-Space lets a Litwick played this turn evolve into Lampent and "
+            "then Chandelure. Chandelure played from that hand mills. "
+            "Celebi ◇ uses Time Distortion on a benched Chandelure the same turn it can pay. "
+            "Chandelure played from the hand mills on every Lampent that can evolve, "
+            "including a single one. A Lampent evolved this turn cannot take Chandelure "
+            "until the next turn. "
+            "Cleffa is HeartGold & SoulSilver Eeeeeeek. "
+            "Slumbering Forest makes the between-turns sleep check two coins. "
+            "Level Ball finds a Pokémon of 90 HP or less and does not find Chandelure. "
+            "When Playground is certain this turn, Level Ball searches a Stage 1 so the Basics stay in the deck. "
+            "Hisuian Heavy Ball looks at the face-down prizes and may swap itself for a Basic Pokémon. "
+            "Roast takes Celebi ◇ first, then a Litwick the line is short of, then a Pichu or Cleffa that the deck no longer has. "
+            "Rescue Scarf is only for Celebi ◇. An attack Knock Out puts Celebi ◇ "
+            "into the hand, so the Prism Star rule does not put it in the Lost Zone. "
+            "Energy Retrieval takes the Fire Energy the scarf discarded. Arven finds "
+            "the scarf and an Item. Team Rocket's Petrel finds a Trainer. "
+            "Fire Energy is not attached to the Litwick line."
+        ),
+        prefer_damage=0.05,
+        prefer_status=0.0,
+        bench_fill=1.0,
+        evolve_asap=1.0,
+        attach_pokemon_as_energy=0.0,
+        item_spend=1.0,
+        self_preserve=0.2,
+        hold_as_energy=False,
+        protect=["Celebi ◇", "Chandelure", "Lampent", "Litwick", "Cleffa", "Pichu", "Slumbering Forest", "Rescue Scarf"],
+        search_aces=["Chandelure", "Lampent", "Litwick", "Cleffa"],
+        closers=["Celebi ◇"],
+    ),
 }
 
 

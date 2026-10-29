@@ -141,6 +141,11 @@ PUBLISHED_EFFECT_KINDS = frozenset(
         "attach_self_as_tool",
         "fewer_prizes_on_ko",
         "mill_top_on_attack_ko",
+        "mill_on_play_from_hand",
+        "retreat_zero_if_no_energy",
+        "grand_tree",
+        "devolve_benched",
+        "ko_to_hand",
     }
 )
 

@@ -662,6 +662,28 @@ def parse_ability_effects(text: str) -> list[dict[str, Any]]:
     ):
         effects.append({"kind": "attach_self_as_tool"})
 
+    # Lost Origin Chandelure Mountain Roasting. The count is the printed number.
+    # Grand Tree puts the evolution on from the deck, so this sentence does not match it.
+    roasting = re.search(
+        r"when you play this pokemon from your hand to evolve 1 of your pokemon during your turn, "
+        r"you may discard the top (\d+) cards of your opponent'?s deck",
+        t,
+    )
+    if roasting:
+        effects.append({"kind": "mill_on_play_from_hand", "count": int(roasting.group(1))})
+
+    # Plasma Storm Lampent Freefloating. "Any Energy" is a different sentence.
+    if "if this pokemon has no energy attached to it, this pokemon has no retreat cost" in t:
+        effects.append({"kind": "retreat_zero_if_no_energy"})
+
+    # Stellar Crown Grand Tree. Stage 2 is optional; the engine still shuffles.
+    if (
+        "once during each player's turn" in t
+        and "stage 1 pokemon that evolves from 1 of their basic" in t
+        and "stage 2 pokemon that evolves from that pokemon" in t
+    ):
+        effects.append({"kind": "grand_tree"})
+
     _extend_expanded_ability_effects(t, effects)
     return effects
 
@@ -899,6 +921,10 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
     elif "discard the top" in t and "opponent" in t and "deck" in t:
         top = re.search(r"top (\d+)", t)
         effects.append({"kind": "mill_opponent", "count": int(top.group(1)) if top else 1})
+
+    # Celebi ◇ Time Distortion. How many times is the attack's choice, not a printed count.
+    if "devolve any number of your benched pokemon" in t and "as many times as you like" in t:
+        effects.append({"kind": "devolve_benched"})
 
     # Victini Stored Power: move every attached Energy onto one Benched Pokémon.
     if "move all energy attached to this pokemon" in t and "benched" in t:
@@ -1284,6 +1310,10 @@ def _ko_tool_effects(t: str) -> list[dict[str, Any]]:
     milled = re.search(r"discard the top (\d+) cards of your opponent's deck", t)
     if milled and "knocked out" in t and "attack" in t:
         effects.append({"kind": "mill_top_on_attack_ko", "count": int(milled.group(1))})
+    # Rescue Scarf: an attack KO sends that Pokémon to the hand, so a Prism Star
+    # never reaches the discard pile. Attachments are still discarded.
+    if "knocked out by damage from an attack" in t and "put that pokemon into your hand" in t:
+        effects.append({"kind": "ko_to_hand", "attack_only": True})
     return effects
 
 
@@ -1355,6 +1385,10 @@ def parse_trainer_effects(text: str) -> list[dict[str, Any]]:
     effects: list[dict[str, Any]] = []
     if not t:
         return effects
+    # Hop: the whole sentence is "Draw N cards." The count stays in the effect.
+    plain_draw = re.fullmatch(r"draw (\d+) cards?\.?", t.strip())
+    if plain_draw:
+        return [{"kind": "draw", "amount": int(plain_draw.group(1))}]
     played = _play_as_pokemon_effect(t)
     if played:
         return [played]
@@ -1379,6 +1413,34 @@ def parse_trainer_effects(text: str) -> list[dict[str, Any]]:
                 "max_hp": int(carrier.group(2)),
             }
         )
+        return effects
+    # Sword & Shield Evolution Incense: one Evolution Pokémon into the hand.
+    # "An Evolution Pokémon" is one card. Jacq's "up to 2" is a different sentence.
+    if (
+        "search your deck for an evolution pokemon" in t
+        and "into your hand" in t
+        and "up to" not in t
+    ):
+        effects.append({"kind": "search_evolution_pokemon", "count": 1})
+        return effects
+    # Twilight Masquerade Hyper Aroma: up to N Stage 1 Pokémon into the hand.
+    aroma = re.search(
+        r"search your deck for up to (\d+) stage 1 pokemon, reveal them, and put them into your hand",
+        t,
+    )
+    if aroma:
+        effects.append({"kind": "search_stage1", "count": int(aroma.group(1))})
+        return effects
+    # Phantasmal Flames Dawn: one Basic, one Stage 1, and one Stage 2 into the hand.
+    if (
+        "search your deck for a basic pokemon, a stage 1 pokemon, and a stage 2 pokemon" in t
+        and "into your hand" in t
+    ):
+        effects.append({"kind": "search_basic_stage1_stage2"})
+        return effects
+    # Hisuian Heavy Ball (ASR 146): swap this card for a Basic in the face-down prizes.
+    if "face-down prize" in t and "in its place" in t and "basic pokemon" in t:
+        effects.append({"kind": "hisuian_heavy_ball"})
         return effects
     # Level Ball: a Pokémon whose printed HP is at most the number in the sentence.
     level_ball = re.search(
