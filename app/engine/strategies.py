@@ -843,6 +843,15 @@ STRATEGY_LIBRARY = {
             "Damage counters such as Phantom Dive ignore Wave Veil, so Cleffa stays in the deck there. "
             "Eeeeeeek is used only when the hand cannot continue Undersea: the attack shuffles "
             "that hand into the deck, draws 6, and leaves Cleffa Asleep. "
+            "Igglybuff is Cosmic Eclipse Sleepy Voice, and the locked list has zero copies. "
+            "One copy is benched where Cleffa would be safe. "
+            "The coin replaces Undersea Tunnel, Playground, Sleepy Lost, or Eeeeeeek only when "
+            "the hit ignores effects on the Active, as Demolish does. "
+            "Those attacks stay ahead of the coin against every other deck. "
+            "A turn that cannot attack still flips when their hit would land. "
+            "Level Ball still takes Wiglett or Wugtrio while that piece is only in the deck. "
+            "Against Demolish, Poffin takes the first Wiglett and then Igglybuff, ahead of Playground. "
+            "Manaphy still comes first when an opposing attack does damage to the bench. "
             "Survival Brace, when the list has it, attaches to a full-HP Wugtrio. "
             "Junk Arm discards two cards that no longer extend the line and takes a Trainer "
             "from the discard pile. "
@@ -874,7 +883,7 @@ STRATEGY_LIBRARY = {
         item_spend=1.0,
         self_preserve=0.2,
         hold_as_energy=False,
-        protect=["Wiglett", "Wugtrio", "Victini", "Pichu", "Mime Jr.", "Slumbering Forest"],
+        protect=["Wiglett", "Wugtrio", "Victini", "Pichu", "Mime Jr.", "Igglybuff", "Slumbering Forest"],
         search_aces=["Wiglett", "Wugtrio"],
         closers=["Wugtrio"],
         reflip_heads_at_most=1,

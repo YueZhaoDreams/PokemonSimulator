@@ -245,12 +245,18 @@ def _ignore_face_ko(game, me, foe, attacks) -> bool:
     return False
 
 
-def wants_sleepy_voice(game, me, foe) -> bool:
+_DOLL_ATTACK = object()
+
+
+def wants_sleepy_voice(game, me, foe, *, attack: object = _DOLL_ATTACK) -> bool:
     """The printed may. Flip when the sleep is worth ending the turn.
 
-    Demolish ignores effects on the Active, so the coin replaces Eeeeeeek.
-    Every other attack Doll would use stays. A turn with no attack flips
+    Demolish ignores effects on the Active, so the coin replaces the attack
+    this seat would use. Every other attack stays. A turn with no attack flips
     only when their hit is not already blanked.
+
+    The default attack is Doll's chooser. Another seat can pass the attack it
+    would actually use, or None when that turn cannot attack.
     """
     if not foe.active or _asleep(foe.active):
         return False
@@ -259,7 +265,8 @@ def wants_sleepy_voice(game, me, foe) -> bool:
         return False
     if _ignore_face_ko(game, me, foe, legal):
         return True
-    if choose_attack(game, me, foe) is not None:
+    chosen = choose_attack(game, me, foe) if attack is _DOLL_ATTACK else attack
+    if chosen is not None:
         return False
     return _hit_lands(game, me, foe, legal)
 

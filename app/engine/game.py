@@ -6,6 +6,7 @@ from dataclasses import dataclass, field
 from typing import Any
 
 from app.engine import doll as doll_ai
+from app.engine import mill_sleepy as mill_sleepy
 from app.engine.decisions import LOOK_THEN_ATTACH, DecisionContext, decide
 from app.engine.effects import (
     can_pay_energy,
@@ -279,6 +280,9 @@ class Game:
             def bench_rank(card_i: int) -> tuple[int, int]:
                 card = player.card(card_i)
                 name = card.name.lower()
+                sleepy = mill_sleepy.bench_rank(self, player, card)
+                if sleepy is not None:
+                    return sleepy
                 if name == "manaphy":
                     return (0, 0)
                 if self._prints_playground(card):
@@ -595,6 +599,8 @@ class Game:
                 return copies < 1
             if name == "wiglett":
                 return True
+            if mill_sleepy.is_sleepy_voice(card):
+                return mill_sleepy.wants_in_play(self, player, card)
 
         if strat.name == "celebration":
             caps = {
@@ -803,6 +809,10 @@ class Game:
                 return 900
             if strat.name == "mill" and name == "manaphy":
                 return 200
+            if strat.name == "mill":
+                sleepy_lead = mill_sleepy.starter_score(card)
+                if sleepy_lead is not None:
+                    return sleepy_lead
             if strat.name in {"mew_baby", "baby"}:
                 rank = {
                     "mew ex": 5000,
@@ -1282,6 +1292,9 @@ class Game:
             if strat.name == "doll":
                 return doll_ai.bench_prio(self, card)
             if strat.name == "mill":
+                sleepy = mill_sleepy.bench_rank(self, me, card)
+                if sleepy is not None:
+                    return sleepy
                 if name == "manaphy":
                     return (0, 0)
                 if self._prints_playground(card):
@@ -4712,6 +4725,7 @@ class Game:
                 and "wugtrio" not in names
             ):
                 prefer.insert(0, "Wugtrio")
+            prefer = mill_sleepy.place_in_search(prefer, self, me)
             if "victini" not in names:
                 prefer.append("Victini")
             tail = ["Wiglett", "Wugtrio", "Manaphy", "Victini"]
@@ -6979,7 +6993,8 @@ class Game:
                 prefer = [only]
         elif self.strats[who].name == "mill" and self._mill_veil_package(me):
             # Poffin and Nest bench Manaphy and Cleffa. This search keeps the line.
-            prefer = [name for name in prefer if name.lower() not in {"manaphy", "cleffa"}]
+            # Sleepy Voice also waits while Wiglett or Wugtrio is only in the deck.
+            prefer = [name for name in prefer if name.lower() not in mill_sleepy.level_ball_skip(me)]
         found = self._search(me, pred, prefer=prefer, n=1, source="level ball")
         if found:
             self._bump("level_ball")
@@ -7268,6 +7283,8 @@ class Game:
             return 2
         if self._sweet_face(card):
             return 3
+        if mill_sleepy.is_sleepy_voice(card):
+            return 7
         if self._no_prize_proxy(card):
             return 4
         if name == "victini":
@@ -7374,7 +7391,7 @@ class Game:
         best: tuple[tuple[int, int], int] | None = None
         for idx, mon in enumerate(me.bench):
             card = me.card(mon.card_i)
-            if not card.is_basic or self._sweet_face(card):
+            if not card.is_basic or self._sweet_face(card) or mill_sleepy.is_sleepy_voice(card):
                 continue
             rank = (card.hp or 0, 1 if card.name.lower() == "wiglett" else 0)
             if best is None or rank > best[0]:
@@ -7386,8 +7403,12 @@ class Game:
         return self._foe_strat_name(player) not in {"phantom", "starmie", "nuzzle"}
 
     def _mill_veil_package(self, me: Player) -> bool:
-        """This 60 contains Manaphy or Eeeeeeek Cleffa."""
-        return self._deck_has(me, "manaphy") or self._deck_has(me, "cleffa")
+        """This 60 contains Manaphy, Eeeeeeek Cleffa, or Sleepy Voice."""
+        return (
+            self._deck_has(me, "manaphy")
+            or self._deck_has(me, "cleffa")
+            or mill_sleepy.list_has_sleepy(me)
+        )
 
     def _attack_places_bench_counters(self, atk) -> bool:
         effects = parse_effects(atk.text or "", str(atk.damage or ""))
@@ -7436,7 +7457,7 @@ class Game:
         return self._mill_veil_package(me) and self._mew_wants_manaphy(me)
 
     def _mill_bench_search_score(self, me: Player, card: Card) -> float:
-        """Poffin and Nest Ball order once this list runs Manaphy or Cleffa.
+        """Poffin and Nest Ball order once this list runs Manaphy, Cleffa, or Sleepy Voice.
 
         Called again for each body, so the second Poffin target sees the Manaphy
         this Item just benched. Wugtrio stays on Level Ball: it is not a Basic.
@@ -7444,6 +7465,9 @@ class Game:
         name = card.name.lower()
         if name == "manaphy" and self._mew_wants_manaphy(me):
             return 100
+        sleepy_score = mill_sleepy.bench_score(self, me, card)
+        if sleepy_score is not None:
+            return sleepy_score
         if self._prints_playground(card) and self._mill_wall_match(me):
             have_play = any(self._prints_playground(me.card(mon.card_i)) for mon in me.in_play()) or any(
                 self._prints_playground(me.card(i)) for i in me.hand
@@ -7460,7 +7484,12 @@ class Game:
             have_wiglett = any(me.card(mon.card_i).name.lower() == "wiglett" for mon in me.in_play()) or any(
                 me.card(i).name.lower() == "wiglett" for i in me.hand
             )
-            return 70 if not have_wiglett else 40
+            if not have_wiglett:
+                boosted = mill_sleepy.first_wiglett_score(self, me)
+                if boosted is not None:
+                    return boosted
+                return 70
+            return 40
         if self._sweet_face(card) and self._mill_wall_match(me):
             faces = sum(
                 1
@@ -7810,6 +7839,8 @@ class Game:
         """A card that still extends Undersea. Eeeeeeek would shuffle it away."""
         name = card.name.lower()
         if self._prints_eeeeeeek(card):
+            return False
+        if mill_sleepy.is_sleepy_voice(card) and not mill_sleepy.wants_in_play(self, me, card):
             return False
         if card.is_energy or card.is_pokemon:
             return True
@@ -8181,6 +8212,9 @@ class Game:
                     if self.strats[who].name == "doll":
                         if not doll_ai.wants_sleepy_voice(self, me, foe):
                             return False
+                    elif self.strats[who].name == "mill":
+                        if not mill_sleepy.wants_sleepy_voice(self, me, foe):
+                            return False
                     elif foe.active is None or (foe.active.status & ST_ASLEEP):
                         return False
                     heads = self.rng.random() < 0.5
@@ -8190,6 +8224,10 @@ class Game:
                         self._bump("doll_sleepy_flip")
                         if heads:
                             self._bump("doll_sleepy_heads")
+                    elif self.strats[who].name == "mill":
+                        self._bump("mill_sleepy_flip")
+                        if heads:
+                            self._bump("mill_sleepy_heads")
                     slept = ""
                     if heads and foe.active is not None:
                         self._apply_status(foe.active, "asleep")

@@ -147,6 +147,7 @@ def test_mill_list_is_the_locked_60():
     assert names.count("Wugtrio") == 4
     assert names.count("Manaphy") == 1
     assert names.count("Cleffa") == 1
+    assert names.count("Igglybuff") == 0
     assert names.count("Victini") == 1
     assert names.count("Slumbering Forest") == 1
     assert names.count("Neutralization Zone") == 1
