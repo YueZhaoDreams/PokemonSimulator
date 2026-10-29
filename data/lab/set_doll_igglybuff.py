@@ -503,7 +503,6 @@ def main() -> None:
         or start.count("Arven") != 1
         or start.count("Team Rocket's Petrel") != 1
         or start.count("Lillie's Determination") != 4
-        or start.count("Igglybuff") != 0
     ):
         raise SystemExit("Doll lock is not the current 60")
     prior, base = _resume(_load_prior(), start)

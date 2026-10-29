@@ -115,13 +115,14 @@ def test_doll_list_is_the_locked_60():
     names = list(SET_DOLL_NAMES)
     assert len(names) == 60
     assert names.count("Cleffa") == 1
-    assert names.count("Smoochum") == 1
+    assert names.count("Igglybuff") == 4
+    assert names.count("Smoochum") == 0
     assert names.count("Mime Jr.") == 2
     assert names.count("Slumbering Forest") == 2
-    assert names.count("Battle Cage") == 4
+    assert names.count("Battle Cage") == 3
     assert names.count("Manaphy") == 1
     assert names.count("Switch") == 1
-    assert names.count("Black Market") == 1
+    assert names.count("Black Market") == 0
     assert names.count("Arven") == 1
     assert names.count("Team Rocket's Petrel") == 1
     assert names.count("Sableye") == 2
@@ -131,7 +132,7 @@ def test_doll_list_is_the_locked_60():
     assert names.count("Puzzle of Time") == 4
     assert names.count("VS Seeker") == 4
     assert names.count("Team Rocket's Handiwork") == 4
-    assert names.count("Rescue Carrier") == 3
+    assert names.count("Rescue Carrier") == 2
     assert names.count("Robo Substitute Team Flare Gear") == 4
     assert names.count("Lillie's Poké Doll") == 4
     assert names.count("Snorlax Doll") == 2
@@ -153,9 +154,16 @@ def test_doll_list_is_the_locked_60():
     assert [c.attacks[0].text for c in pile if c.name == "Cleffa"] == [_EEEEEK]
     assert [c.catalog_id for c in pile if c.name == "Mime Jr."] == ["col1-47"] * 2
     assert [c.attacks[0].name for c in pile if c.name == "Mime Jr."] == ["Sleepy Lost"] * 2
-    smoochum = [c for c in pile if c.name == "Smoochum"]
-    assert len(smoochum) == 1 and smoochum[0].attacks[0].name == "Energy Antics"
-    assert smoochum[0].catalog_id == "hgss1-30"
+    iggly = [c for c in pile if c.name == "Igglybuff"]
+    assert len(iggly) == 4
+    assert {c.catalog_id for c in iggly} == {"sm12-168"}
+    assert iggly[0].hp == 60 and iggly[0].attacks == []
+    assert iggly[0].abilities[0].name == "Sleepy Voice"
+    assert iggly[0].abilities[0].text == (
+        "Once during your turn (before your attack), you may flip a coin. "
+        "If heads, your opponent's Active Pokémon is now Asleep. "
+        "If you use this Ability, your turn ends."
+    )
     assert [c.attacks[0].name for c in pile if c.name == "Sableye"] == ["Junk Hunt"] * 2
     assert [c.catalog_id for c in pile if c.name == "Sableye"] == ["bw5-62"] * 2
     assert [c.image for c in pile if c.name == "Sableye"] == [
@@ -177,7 +185,7 @@ def test_doll_list_is_the_locked_60():
     assert [c.catalog_id for c in pile if c.name == "Cursed Shovel"] == ["swsh2-157"] * 3
     assert [c.catalog_id for c in pile if c.name == "Nincada"] == ["sm8-29"]
     assert [c.attacks[0].text for c in pile if c.name == "Nincada"] == [_SWIPES]
-    market = next(c for c in pile if c.name == "Black Market")
+    market = fallback_named("Black Market")
     assert market.catalog_id == "sm9-134"
     assert market.trainer_kind == "stadium"
     arven = next(c for c in pile if c.name == "Arven")
@@ -235,7 +243,8 @@ def test_doll_list_is_the_locked_60():
             "https://assets.tcgdex.net/en/xy/xy9/109/low.webp"
         ] * 4
         assert [c["catalog_id"] for c in loaded["cards"] if c["name"] == "Level Ball"] == ["swsh5-129"] * 2
-        assert [c["catalog_id"] for c in loaded["cards"] if c["name"] == "Black Market"] == ["sm9-134"]
+        assert [c["catalog_id"] for c in loaded["cards"] if c["name"] == "Igglybuff"] == ["sm12-168"] * 4
+        assert [c["catalog_id"] for c in loaded["cards"] if c["name"] == "Black Market"] == []
     assert default_rule_presets_for("seed-doll") == ["s60"]
     assert "seed-doll" in S60_SEED_IDS
     spec = StrategySpec.from_dict("doll")

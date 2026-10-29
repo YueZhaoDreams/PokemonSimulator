@@ -674,12 +674,17 @@ SET_L60_NAMES = (
 # The 1000-game holdout in data/lab/set-doll.json is the earlier two-Switch list.
 # Item dolls are Trainers. A Pokémon search does not find them.
 # Level Ball's sentence takes a Pokémon of at most the printed HP, so Shedinja qualifies.
+# Sleepy Voice Igglybuff (Cosmic Eclipse 168). Seed 20261029, 400 games each seat.
+# The coin replaces an attack only when the hit ignores effects on the Active.
+# Four copies, each above that step's own baseline: Black Market 53.0% → 57.7%,
+# Rescue Carrier 57.7% → 58.2%, Battle Cage 58.2% → 59.6%, Smoochum 59.6% → 59.7%.
+# See data/lab/set-doll-igglybuff.md.
 SET_DOLL_NAMES = (
     ["Cleffa"]
-    + ["Smoochum"]
+    + ["Igglybuff"] * 4
     + ["Mime Jr."] * 2
     + ["Slumbering Forest"] * 2
-    + ["Battle Cage"] * 4
+    + ["Battle Cage"] * 3
     + ["Manaphy"]
     + ["Switch"]
     + ["Sableye"] * 2
@@ -687,7 +692,7 @@ SET_DOLL_NAMES = (
     + ["Puzzle of Time"] * 4
     + ["VS Seeker"] * 4
     + ["Team Rocket's Handiwork"] * 4
-    + ["Rescue Carrier"] * 3
+    + ["Rescue Carrier"] * 2
     + ["Robo Substitute Team Flare Gear"] * 4
     + ["Lillie's Poké Doll"] * 4
     + ["Snorlax Doll"] * 2
@@ -699,7 +704,6 @@ SET_DOLL_NAMES = (
     + ["Level Ball"] * 2
     + ["Buddy-Buddy Poffin"] * 2
     + ["Crushing Hammer"] * 2
-    + ["Black Market"]
     + ["Arven"]
     + ["Team Rocket's Petrel"]
     + ["Lillie's Determination"] * 4
