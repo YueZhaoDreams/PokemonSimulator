@@ -73,6 +73,19 @@ The decision sample is seed 20261029, 400 games each seat, Sisters weights, prod
 
 Lillie's Determination resolves 0.40, 0.81, 1.15, then 1.51 times a game. This confirm is not the 1000-game holdout. Detail is `data/lab/set-doll-lillie.md`.
 
+## Sleepy Voice Igglybuff
+
+The locked 60 is unchanged. Cosmic Eclipse 168 is registered as `igglybuff sleepy`. `fallback_named("Igglybuff")` stays the Set M Bouncy Circle print. Printed text: once during your turn, before your attack, you may flip a coin. If heads, your opponent's Active Pokémon is now Asleep. If you use this Ability, your turn ends. A Benched copy can use it. Doll uses it when that Active is not already Asleep, and that turn has no attack.
+
+Same seed 20261029, 400 games each seat, Sisters weights, product engine, strategy `doll`. The screen is 40 games. Every screen cut was below this script's baseline. The two cuts inside the confirm band also lost.
+
+| Cut | Baseline | Confirm | Gap | Gap SE |
+| --- | ---: | ---: | ---: | ---: |
+| Cleffa | 53.0% | 50.1% | -2.9 | 0.69 |
+| Lillie's Poké Doll | 53.0% | 45.7% | -7.3 | 0.69 |
+
+The Cleffa cut flips Sleepy Voice 8.76 times a game and lands heads 4.37 times. D60 goes from 6.0% to 20.0%. S60 goes from 70.6% to 60.6%, C60 from 82.9% to 72.6%, Carpet H from 11.5% to 5.1%, and Ambipom from 72.6% to 59.5%. The list stays at zero Igglybuff. This confirm is not the 1000-game holdout. Detail is `data/lab/set-doll-igglybuff.md`.
+
 ## Why the strict Eeeeeeek 60 loses
 
 This sample is the Arven and Petrel lock before Cleffa was sent up to draw, seed 20261029, 200 games each seat, the same games as the Petrel confirm. Sisters-weighted win rate is 33.8%. The weighted losses are an empty board 61.0%, the opponent taking all 6 Prize cards 20.3%, and the 40-turn limit 18.6% (16.8% because the opponent had more Prizes, 1.8% because they had more remaining HP). The empty board is 40.4% of games, the same band as the Black Market 60. The six-Prize losses are what shrank. Doll did not deck out, and Doll did not fail to find a Basic. A win is the opponent decking out. Two D60 games and eight Iron Thorns games are the opponent still having no Basic after the mulligan cap. One Starmie game is Doll having more Prizes at the turn limit. The detail is `data/lab/set-doll-arven-petrel-losses.md`.

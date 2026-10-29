@@ -111,6 +111,27 @@
     ],
     "note": "400 games per seat. Four sequential confirms each beat their own baseline. The cuts are Darkness Energy, Dark Patch, Cleffa, and Smoochum. Four copies is the cap. Not the 1000-game holdout."
   },
+  "igglybuff": {
+    "measurement": "product engine, strategy doll, data/lab/set-doll-igglybuff.json",
+    "seed": 20261029,
+    "screen_games_per_seat": 40,
+    "games_per_seat": 400,
+    "locked": false,
+    "copies": 0,
+    "catalog_id": "sm12-168",
+    "best_cut": "Cleffa",
+    "baseline_weighted": 0.5301138638638638,
+    "baseline_se": 0.004672581608527728,
+    "weighted": 0.5009296796796797,
+    "se": 0.005053434922541246,
+    "gap": -0.029184184184184114,
+    "gap_se": 0.006882602952714258,
+    "sleepy_flip_per_game": 8.764087837837838,
+    "sleepy_heads_per_game": 4.369094094094094,
+    "d60_baseline": 0.06,
+    "d60_weighted": 0.2,
+    "note": "No confirm beat this script's baseline, so the locked 60 stays at zero Igglybuff. D60 rises and the other foes pay for the ended turn. Not the 1000-game holdout."
+  },
   "current_losses": {
     "seed": 20261029,
     "games_per_seat": 200,
