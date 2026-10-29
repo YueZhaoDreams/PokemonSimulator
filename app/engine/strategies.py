@@ -898,7 +898,7 @@ STRATEGY_LIBRARY = {
             "Doll spends the attack on that coin only when the hit ignores effects on the Active, as Demolish does. "
             "Eeeeeeek, Energy Antics, Sleepy Lost, and Junk Hunt stay ahead of the coin against every other deck. "
             "A turn with no attack still flips when their hit would land. "
-            "The locked list is one Cleffa, four Igglybuff, one Switch, one Darkness Energy, three Battle Cage, two Rescue Carrier, one Arven, one Team Rocket's Petrel, and four Lillie's Determination. Smoochum and Black Market are out. "
+            "The locked list is one Cleffa, one Smoochum, three Igglybuff, one Switch, one Darkness Energy, three Battle Cage, two Rescue Carrier, one Arven, one Team Rocket's Petrel, and four Lillie's Determination. Black Market is out. "
             "Lillie's Poké Doll and Robo Substitute stay at four. "
             "One Supporter is played each turn. Arven searches an Item and a Pokémon Tool: "
             "a doll when the hand has none, then Cursed Shovel or Life Dew. "

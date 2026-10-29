@@ -75,7 +75,7 @@ Lillie's Determination resolves 0.40, 0.81, 1.15, then 1.51 times a game. This c
 
 ## Sleepy Voice Igglybuff
 
-The locked 60 has four Cosmic Eclipse 168 Igglybuff. `fallback_named("Igglybuff")` stays the Set M Bouncy Circle print. Printed text: once during your turn, before your attack, you may flip a coin. If heads, your opponent's Active Pokémon is now Asleep. If you use this Ability, your turn ends. A Benched copy can use it. Doll spends that attack on the coin only when the hit ignores effects on the Active, as Demolish does. Eeeeeeek, Energy Antics, Sleepy Lost, and Junk Hunt stay ahead of the coin against every other deck. A turn with no attack still flips when their hit would land.
+The locked 60 has three Cosmic Eclipse 168 Igglybuff. Smoochum stays at one. `fallback_named("Igglybuff")` stays the Set M Bouncy Circle print. Printed text: once during your turn, before your attack, you may flip a coin. If heads, your opponent's Active Pokémon is now Asleep. If you use this Ability, your turn ends. A Benched copy can use it. Doll spends that attack on the coin only when the hit ignores effects on the Active, as Demolish does. Eeeeeeek, Energy Antics, Sleepy Lost, and Junk Hunt stay ahead of the coin against every other deck. A turn with no attack still flips when their hit would land.
 
 An always-on coin, used whenever the Active was awake, lost its confirm: 50.1% against a 53.0% baseline. D60 rose to 20.0% and the other foes paid for the ended turn.
 
@@ -88,7 +88,7 @@ This sample is the benefit rule. Seed 20261029, 400 games each seat, Sisters wei
 | 3 | Battle Cage | 58.2% | 59.6% | +1.4 | 0.70 | 26.2% → 27.6% |
 | 4 | Smoochum | 59.6% | 59.7% | +0.05 | 0.70 | 27.6% → 24.9% |
 
-Sleepy Voice flips 3.36, 3.96, 4.14, then 4.60 times a game on the Sisters weights. Smoochum and Black Market are out. Battle Cage is three. Rescue Carrier is two. Copy 4 is higher than its baseline by 0.05 points, about 0.07 standard errors. Four is the cap. This confirm is not the 1000-game holdout. Detail is `data/lab/set-doll-igglybuff.md`.
+Sleepy Voice flips 3.36, 3.96, then 4.14 times a game on the locked list. Black Market is out. Battle Cage is three. Rescue Carrier is two. Smoochum stays. Copy 4 cut Smoochum and was higher than its baseline by 0.05 points, about 0.07 standard errors. That cut is not locked. This confirm is not the 1000-game holdout. Detail is `data/lab/set-doll-igglybuff.md`.
 
 ## Why the strict Eeeeeeek 60 loses
 

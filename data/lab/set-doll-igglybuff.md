@@ -11,7 +11,7 @@ An earlier sample used the coin whenever the Active was awake. That confirm cut 
 - **Weights**: frozen Sisters loss weights. The same weights as the Doll lock.
 - **Elapsed**: 11206.8s
 
-Each step adds one Sleepy Voice Igglybuff. The confirm is 400 games per seat. A cut higher than that step's baseline is the next list. Four is the maximum. This sample is not the 1000-game holdout.
+Each step adds one Sleepy Voice Igglybuff. The confirm is 400 games per seat. A cut higher than that step's baseline is the next list. Four is the maximum. This sample is not the 1000-game holdout. The locked list stops after copy 3. Smoochum stays. Copy 4 is recorded below and is not the list.
 
 ## Copy 1
 
@@ -259,7 +259,7 @@ The confirm cuts one Battle Cage for copy 3. Weighted 59.6% vs 58.2% (+1.4%; SE 
 | Team Rocket's Petrel | 58.2% | 0.50% | -1.5% | 65.6% | 9.1% | 3.46 | 1.73 | 4.22 |
 | Lillie's Determination | 57.3% | 0.49% | -2.3% | 65.2% | 9.6% | 3.51 | 1.75 | 4.25 |
 
-The confirm cuts one Smoochum for copy 4. Weighted 59.7% vs 59.6% (+0.0%; SE 0.49% on the swap and 0.50% on the baseline, so the gap's SE is about 0.70%, 0.1 SE). Sleepy Voice flips 4.60 times a game and lands heads 2.29 times, on the Sisters weights.
+The confirm cuts one Smoochum for copy 4. Weighted 59.7% vs 59.6% (+0.0%; SE 0.49% on the swap and 0.50% on the baseline, so the gap's SE is about 0.70%, 0.1 SE). Sleepy Voice flips 4.60 times a game and lands heads 2.29 times, on the Sisters weights. That cut is not locked. The list keeps Smoochum and three Igglybuff.
 
 | Foe | Baseline | Smoochum | Rescue Carrier | Snorlax Doll | Battle Cage | Team Rocket's Petrel | Lillie's Determination |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |

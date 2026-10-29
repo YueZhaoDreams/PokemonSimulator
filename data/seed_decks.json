@@ -28279,24 +28279,40 @@
         "traits": []
       },
       {
-        "catalog_id": "sm12-168",
-        "name": "Igglybuff",
+        "catalog_id": "hgss1-30",
+        "name": "Smoochum",
         "category": "Pokemon",
         "stage": "Basic",
         "types": [
-          "Colorless"
+          "Psychic"
         ],
-        "hp": 60,
-        "attacks": [],
-        "abilities": [
+        "hp": 30,
+        "attacks": [
           {
-            "name": "Sleepy Voice",
-            "text": "Once during your turn (before your attack), you may flip a coin. If heads, your opponent's Active Pok\u00e9mon is now Asleep. If you use this Ability, your turn ends.",
+            "name": "Energy Antics",
+            "cost": [],
+            "damage": 0,
+            "text": "Move an Energy card attached to 1 of your opponent's Pok\u00e9mon to another of your opponent's Pok\u00e9mon. Smoochum is now Asleep.",
             "effects": [
               {
-                "kind": "sleepy_voice",
-                "once_per_turn": true,
-                "ends_turn": true
+                "kind": "status",
+                "status": "asleep",
+                "coin": false,
+                "target": "self"
+              },
+              {
+                "kind": "move_opponent_energy"
+              }
+            ]
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Sweet Sleeping Face",
+            "text": "As long as Smoochum is Asleep, prevent all damage done to Smoochum by attacks.",
+            "effects": [
+              {
+                "kind": "prevent_attack_damage_while_asleep"
               }
             ]
           }
@@ -28307,8 +28323,8 @@
         "evolves_from": null,
         "trainer_kind": null,
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sm/sm12/168/low.webp",
-        "set_name": "Cosmic Eclipse",
+        "image": "https://assets.tcgdex.net/en/hgss/hgss1/30/low.webp",
+        "set_name": "HeartGold & SoulSilver",
         "text": "",
         "dex_id": null,
         "traits": []

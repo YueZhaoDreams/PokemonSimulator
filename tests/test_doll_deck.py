@@ -115,8 +115,8 @@ def test_doll_list_is_the_locked_60():
     names = list(SET_DOLL_NAMES)
     assert len(names) == 60
     assert names.count("Cleffa") == 1
-    assert names.count("Igglybuff") == 4
-    assert names.count("Smoochum") == 0
+    assert names.count("Igglybuff") == 3
+    assert names.count("Smoochum") == 1
     assert names.count("Mime Jr.") == 2
     assert names.count("Slumbering Forest") == 2
     assert names.count("Battle Cage") == 3
@@ -155,7 +155,7 @@ def test_doll_list_is_the_locked_60():
     assert [c.catalog_id for c in pile if c.name == "Mime Jr."] == ["col1-47"] * 2
     assert [c.attacks[0].name for c in pile if c.name == "Mime Jr."] == ["Sleepy Lost"] * 2
     iggly = [c for c in pile if c.name == "Igglybuff"]
-    assert len(iggly) == 4
+    assert len(iggly) == 3
     assert {c.catalog_id for c in iggly} == {"sm12-168"}
     assert iggly[0].hp == 60 and iggly[0].attacks == []
     assert iggly[0].abilities[0].name == "Sleepy Voice"
@@ -243,7 +243,8 @@ def test_doll_list_is_the_locked_60():
             "https://assets.tcgdex.net/en/xy/xy9/109/low.webp"
         ] * 4
         assert [c["catalog_id"] for c in loaded["cards"] if c["name"] == "Level Ball"] == ["swsh5-129"] * 2
-        assert [c["catalog_id"] for c in loaded["cards"] if c["name"] == "Igglybuff"] == ["sm12-168"] * 4
+        assert [c["catalog_id"] for c in loaded["cards"] if c["name"] == "Igglybuff"] == ["sm12-168"] * 3
+        assert [c["catalog_id"] for c in loaded["cards"] if c["name"] == "Smoochum"] == ["hgss1-30"]
         assert [c["catalog_id"] for c in loaded["cards"] if c["name"] == "Black Market"] == []
     assert default_rule_presets_for("seed-doll") == ["s60"]
     assert "seed-doll" in S60_SEED_IDS

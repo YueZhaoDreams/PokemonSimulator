@@ -118,20 +118,20 @@
     "games_per_seat": 400,
     "policy": "benefit",
     "locked": true,
-    "copies": 4,
+    "copies": 3,
     "catalog_id": "sm12-168",
-    "cuts": ["Black Market", "Rescue Carrier", "Battle Cage", "Smoochum"],
+    "cuts": ["Black Market", "Rescue Carrier", "Battle Cage"],
     "baseline_weighted": 0.5301138638638638,
     "baseline_se": 0.004672581608527728,
-    "weighted": 0.596712962962963,
-    "se": 0.004912926404460654,
-    "sleepy_flip_per_game": 4.596965715715716,
-    "sleepy_heads_per_game": 2.2921884384384383,
+    "weighted": 0.59621996996997,
+    "se": 0.004991248999604636,
+    "sleepy_flip_per_game": 4.139086586586586,
+    "sleepy_heads_per_game": 2.0561624124124123,
     "d60_baseline": 0.06,
-    "d60": 0.24874999999999997,
+    "d60": 0.27625,
     "battle_cage": 3,
     "rescue_carrier": 2,
-    "smoochum": 0,
+    "smoochum": 1,
     "black_market": 0,
     "steps": [
       {
@@ -187,7 +187,7 @@
         "sleepy_flip_per_game": 4.596965715715716
       }
     ],
-    "note": "Benefit rule. The coin replaces an attack only when the hit ignores effects on the Active. Four confirms are each above their own baseline. Copy 4 is 0.07 SE. The always-on coin was not kept. Not the 1000-game holdout."
+    "note": "Benefit rule. The coin replaces an attack only when the hit ignores effects on the Active. Copies 1-3 are the lock: Black Market, Rescue Carrier, and Battle Cage. Copy 4 cut Smoochum and is 0.07 SE; that cut is not locked. The always-on coin was not kept. Not the 1000-game holdout."
   },
   "current_losses": {
     "seed": 20261029,

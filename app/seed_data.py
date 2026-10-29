@@ -676,12 +676,14 @@ SET_L60_NAMES = (
 # Level Ball's sentence takes a Pokémon of at most the printed HP, so Shedinja qualifies.
 # Sleepy Voice Igglybuff (Cosmic Eclipse 168). Seed 20261029, 400 games each seat.
 # The coin replaces an attack only when the hit ignores effects on the Active.
-# Four copies, each above that step's own baseline: Black Market 53.0% → 57.7%,
-# Rescue Carrier 57.7% → 58.2%, Battle Cage 58.2% → 59.6%, Smoochum 59.6% → 59.7%.
-# See data/lab/set-doll-igglybuff.md.
+# Three copies, each above that step's own baseline: Black Market 53.0% → 57.7%,
+# Rescue Carrier 57.7% → 58.2%, Battle Cage 58.2% → 59.6%.
+# The fourth confirm cut Smoochum and was 59.6% → 59.7% (gap 0.05, about 0.07 SE).
+# That cut stays out of the lock. Smoochum remains one. See data/lab/set-doll-igglybuff.md.
 SET_DOLL_NAMES = (
     ["Cleffa"]
-    + ["Igglybuff"] * 4
+    + ["Smoochum"]
+    + ["Igglybuff"] * 3
     + ["Mime Jr."] * 2
     + ["Slumbering Forest"] * 2
     + ["Battle Cage"] * 3
