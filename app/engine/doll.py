@@ -9,6 +9,9 @@ their own text. One Supporter is played each turn. Arven finds an Item and a
 Pokémon Tool. Petrel finds one Trainer. The other Supporter stays in hand.
 Eeeeeeek stays a shuffle-and-draw. When the doll supply is about to run out,
 Cleffa is sent Active to use it, and Life Dew goes on that Cleffa.
+Lillie's Determination shuffles the hand and draws 6, or 8 when exactly 6
+Prize cards remain. It is played when the doll supply is about to run out.
+Items, Stadiums, Arven, and Petrel outrank it. Handiwork yields on that turn.
 """
 
 from __future__ import annotations
@@ -484,6 +487,20 @@ def _arven_score(game, me, foe) -> float:
     return -14
 
 
+def _determination_score(game, me) -> float:
+    """Added to the generic +9 (a hand of 5 or fewer) or +5.
+
+    The printed sentence shuffles the hand into the deck and draws 6, or 8
+    when exactly 6 Prize cards remain. The summed score is 11 while the supply
+    is about to run out: below Life Dew and Cursed Shovel, above a Handiwork
+    that yields for this turn, and below Arven or Petrel finding a doll.
+    """
+    generic = 9 if len(me.hand) <= 5 else 5
+    if not _dolls_running_out(game, me):
+        return -30
+    return 11 - generic
+
+
 def _petrel_score(game, me, foe) -> float:
     want = _petrel_want(game, me, foe)
     if want == "doll":
@@ -579,6 +596,8 @@ def trainer_score(game, me, foe, card) -> float:
         return _arven_score(game, me, foe)
     if name == "team rocket's petrel":
         return _petrel_score(game, me, foe)
+    if name == "lillie's determination":
+        return _determination_score(game, me)
     spread = _spread(game, me)
     stadium = (game.stadium_name or "").lower()
     face_asleep = bool(me.active and _asleep(me.active) and game._sweet_face(me.card(me.active.card_i)))
@@ -639,6 +658,12 @@ def trainer_score(game, me, foe, card) -> float:
             return 8
         return -6
     if name == "team rocket's handiwork":
+        # One Supporter. While the dolls are running out, the redraw looks for
+        # the next doll and this mill waits in the deck.
+        if _dolls_running_out(game, me) and any(
+            me.card(i).name.lower() == "lillie's determination" for i in me.hand
+        ):
+            return -4
         return 16 if foe.deck else -4
     if name == "puzzle of time":
         puzzles = sum(1 for i in me.hand if me.card(i).name.lower() == name)

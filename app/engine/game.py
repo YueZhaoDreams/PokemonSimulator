@@ -1680,6 +1680,8 @@ class Game:
                 if forced_bounce:
                     self._forced_bounce_target = None
             self._log(f"{me.name} plays {card.name}")
+            if strat.name == "doll" and name == "lillie's determination":
+                self._bump("doll_determination")
             self._mew_refresh_bench(me, strat)
 
     def _pick_trainer(self, me: Player) -> int | None:

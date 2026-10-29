@@ -1,0 +1,5975 @@
+{
+  "seed": 20261029,
+  "screen_games": 40,
+  "games": 200,
+  "weights": {
+    "t60": 0.04004004004004004,
+    "hedrick": 0.051051051051051045,
+    "unl": 0.022022022022022022,
+    "d60": 0.14514514514514515,
+    "s60": 0.07007007007007007,
+    "g": 0.11711711711711713,
+    "c60": 0.12412412412412413,
+    "m": 0.14514514514514515,
+    "starmie": 0.1061061061061061,
+    "lucario": 0.051051051051051045,
+    "thorns": 0.041041041041041046,
+    "h": 0.07607607607607607,
+    "g30": 0.011011011011011011
+  },
+  "elapsed": 1553.5377270249992,
+  "step": {
+    "add": "Lillie's Determination",
+    "screen_band": 0.02995918324811488,
+    "screen": [
+      {
+        "label": "Crushing Hammer",
+        "cut": "Crushing Hammer",
+        "copies_before": 2,
+        "weighted": 0.4730855855855856,
+        "se": 0.01497959162405744,
+        "mean": 0.5826923076923077,
+        "worst": 0.125,
+        "determination": 0.38653846153846155,
+        "determination_weighted": 0.3898773773773774,
+        "arven": 0.6980769230769232,
+        "petrel": 0.7221153846153846,
+        "proxy": 4.341346153846154,
+        "junk_hunt": 3.455769230769231,
+        "cells": {
+          "t60": {
+            "wr": 0.8,
+            "a": 0.8,
+            "b": 0.8,
+            "determination": 0.4875,
+            "arven": 0.675,
+            "petrel": 0.6875,
+            "proxy": 4.574999999999999,
+            "junk_hunt": 2.45
+          },
+          "hedrick": {
+            "wr": 0.5625,
+            "a": 0.55,
+            "b": 0.575,
+            "determination": 0.35,
+            "arven": 0.625,
+            "petrel": 0.525,
+            "proxy": 3.8874999999999997,
+            "junk_hunt": 2.825
+          },
+          "unl": {
+            "wr": 0.9,
+            "a": 0.925,
+            "b": 0.875,
+            "determination": 0.35,
+            "arven": 0.85,
+            "petrel": 0.825,
+            "proxy": 4.6,
+            "junk_hunt": 3.425
+          },
+          "d60": {
+            "wr": 0.125,
+            "a": 0.125,
+            "b": 0.125,
+            "determination": 0.475,
+            "arven": 0.625,
+            "petrel": 0.8625,
+            "proxy": 7.0625,
+            "junk_hunt": 3.4000000000000004
+          },
+          "s60": {
+            "wr": 0.6875,
+            "a": 0.65,
+            "b": 0.725,
+            "determination": 0.4375,
+            "arven": 0.8625,
+            "petrel": 0.925,
+            "proxy": 3.7125000000000004,
+            "junk_hunt": 3.975
+          },
+          "g": {
+            "wr": 0.45,
+            "a": 0.4,
+            "b": 0.5,
+            "determination": 0.4,
+            "arven": 0.7875000000000001,
+            "petrel": 0.9875,
+            "proxy": 4.9375,
+            "junk_hunt": 3.825
+          },
+          "c60": {
+            "wr": 0.775,
+            "a": 0.775,
+            "b": 0.775,
+            "determination": 0.35,
+            "arven": 0.625,
+            "petrel": 0.5875,
+            "proxy": 3.7625,
+            "junk_hunt": 2.1
+          },
+          "m": {
+            "wr": 0.3375,
+            "a": 0.275,
+            "b": 0.4,
+            "determination": 0.3125,
+            "arven": 0.4625,
+            "petrel": 0.5625,
+            "proxy": 4.300000000000001,
+            "junk_hunt": 1.575
+          },
+          "starmie": {
+            "wr": 0.2375,
+            "a": 0.15,
+            "b": 0.325,
+            "determination": 0.4,
+            "arven": 0.5625,
+            "petrel": 0.625,
+            "proxy": 4.375,
+            "junk_hunt": 2.45
+          },
+          "lucario": {
+            "wr": 0.8875,
+            "a": 0.9,
+            "b": 0.875,
+            "determination": 0.4125,
+            "arven": 0.6625000000000001,
+            "petrel": 0.6375,
+            "proxy": 3.65,
+            "junk_hunt": 1.8
+          },
+          "thorns": {
+            "wr": 0.9624999999999999,
+            "a": 0.975,
+            "b": 0.95,
+            "determination": 0.36250000000000004,
+            "arven": 0.75,
+            "petrel": 0.7125,
+            "proxy": 4.35,
+            "junk_hunt": 3.025
+          },
+          "h": {
+            "wr": 0.1375,
+            "a": 0.125,
+            "b": 0.15,
+            "determination": 0.3625,
+            "arven": 0.725,
+            "petrel": 0.7625,
+            "proxy": 4.45,
+            "junk_hunt": 6.675000000000001
+          },
+          "g30": {
+            "wr": 0.7125,
+            "a": 0.775,
+            "b": 0.65,
+            "determination": 0.325,
+            "arven": 0.8625,
+            "petrel": 0.6875,
+            "proxy": 2.7750000000000004,
+            "junk_hunt": 7.4
+          }
+        }
+      },
+      {
+        "label": "Darkness Energy",
+        "cut": "Darkness Energy",
+        "copies_before": 2,
+        "weighted": 0.4651901901901902,
+        "se": 0.015252775848020874,
+        "mean": 0.5471153846153846,
+        "worst": 0.0875,
+        "determination": 0.39519230769230773,
+        "determination_weighted": 0.40484234234234234,
+        "arven": 0.7134615384615385,
+        "petrel": 0.6519230769230769,
+        "proxy": 4.327884615384615,
+        "junk_hunt": 2.2423076923076923,
+        "cells": {
+          "t60": {
+            "wr": 0.7375,
+            "a": 0.75,
+            "b": 0.725,
+            "determination": 0.45,
+            "arven": 0.7375,
+            "petrel": 0.625,
+            "proxy": 4.4875,
+            "junk_hunt": 1.8
+          },
+          "hedrick": {
+            "wr": 0.4875,
+            "a": 0.5,
+            "b": 0.475,
+            "determination": 0.4125,
+            "arven": 0.575,
+            "petrel": 0.6375,
+            "proxy": 3.9125,
+            "junk_hunt": 1.025
+          },
+          "unl": {
+            "wr": 0.825,
+            "a": 0.875,
+            "b": 0.775,
+            "determination": 0.44999999999999996,
+            "arven": 0.7125,
+            "petrel": 0.5625,
+            "proxy": 4.8125,
+            "junk_hunt": 2.1500000000000004
+          },
+          "d60": {
+            "wr": 0.1375,
+            "a": 0.25,
+            "b": 0.025,
+            "determination": 0.575,
+            "arven": 0.7749999999999999,
+            "petrel": 0.7875,
+            "proxy": 6.7125,
+            "junk_hunt": 2.025
+          },
+          "s60": {
+            "wr": 0.6375,
+            "a": 0.625,
+            "b": 0.65,
+            "determination": 0.475,
+            "arven": 0.8875,
+            "petrel": 0.875,
+            "proxy": 3.7750000000000004,
+            "junk_hunt": 3.05
+          },
+          "g": {
+            "wr": 0.425,
+            "a": 0.35,
+            "b": 0.5,
+            "determination": 0.3875,
+            "arven": 0.7375,
+            "petrel": 0.6000000000000001,
+            "proxy": 4.775,
+            "junk_hunt": 1.5750000000000002
+          },
+          "c60": {
+            "wr": 0.7749999999999999,
+            "a": 0.7,
+            "b": 0.85,
+            "determination": 0.425,
+            "arven": 0.5875,
+            "petrel": 0.5375,
+            "proxy": 3.6125,
+            "junk_hunt": 1.075
+          },
+          "m": {
+            "wr": 0.38749999999999996,
+            "a": 0.3,
+            "b": 0.475,
+            "determination": 0.3125,
+            "arven": 0.7250000000000001,
+            "petrel": 0.5,
+            "proxy": 4.4375,
+            "junk_hunt": 0.85
+          },
+          "starmie": {
+            "wr": 0.32499999999999996,
+            "a": 0.3,
+            "b": 0.35,
+            "determination": 0.36250000000000004,
+            "arven": 0.6,
+            "petrel": 0.6125,
+            "proxy": 4.65,
+            "junk_hunt": 2.3499999999999996
+          },
+          "lucario": {
+            "wr": 0.8,
+            "a": 0.825,
+            "b": 0.775,
+            "determination": 0.2625,
+            "arven": 0.6375,
+            "petrel": 0.425,
+            "proxy": 3.6625,
+            "junk_hunt": 0.95
+          },
+          "thorns": {
+            "wr": 0.9125000000000001,
+            "a": 0.925,
+            "b": 0.9,
+            "determination": 0.35,
+            "arven": 0.775,
+            "petrel": 0.6625,
+            "proxy": 4.0375,
+            "junk_hunt": 2.025
+          },
+          "h": {
+            "wr": 0.0875,
+            "a": 0.1,
+            "b": 0.075,
+            "determination": 0.3375,
+            "arven": 0.875,
+            "petrel": 0.925,
+            "proxy": 4.574999999999999,
+            "junk_hunt": 5.0
+          },
+          "g30": {
+            "wr": 0.575,
+            "a": 0.525,
+            "b": 0.625,
+            "determination": 0.3375,
+            "arven": 0.65,
+            "petrel": 0.725,
+            "proxy": 2.8125,
+            "junk_hunt": 5.275
+          }
+        }
+      },
+      {
+        "label": "Battle Cage",
+        "cut": "Battle Cage",
+        "copies_before": 4,
+        "weighted": 0.45843343343343346,
+        "se": 0.01548305068226222,
+        "mean": 0.5596153846153846,
+        "worst": 0.075,
+        "determination": 0.3865384615384615,
+        "determination_weighted": 0.401514014014014,
+        "arven": 0.739423076923077,
+        "petrel": 0.6548076923076922,
+        "proxy": 4.286538461538462,
+        "junk_hunt": 3.335576923076923,
+        "cells": {
+          "t60": {
+            "wr": 0.7,
+            "a": 0.675,
+            "b": 0.725,
+            "determination": 0.475,
+            "arven": 0.8,
+            "petrel": 0.6,
+            "proxy": 4.7,
+            "junk_hunt": 2.475
+          },
+          "hedrick": {
+            "wr": 0.44999999999999996,
+            "a": 0.475,
+            "b": 0.425,
+            "determination": 0.375,
+            "arven": 0.575,
+            "petrel": 0.5125,
+            "proxy": 3.2750000000000004,
+            "junk_hunt": 1.6
+          },
+          "unl": {
+            "wr": 0.8625,
+            "a": 0.9,
+            "b": 0.825,
+            "determination": 0.3125,
+            "arven": 0.75,
+            "petrel": 0.6125,
+            "proxy": 4.725,
+            "junk_hunt": 3.9749999999999996
+          },
+          "d60": {
+            "wr": 0.075,
+            "a": 0.075,
+            "b": 0.075,
+            "determination": 0.475,
+            "arven": 0.9,
+            "petrel": 0.6875,
+            "proxy": 6.4375,
+            "junk_hunt": 3.425
+          },
+          "s60": {
+            "wr": 0.65,
+            "a": 0.675,
+            "b": 0.625,
+            "determination": 0.4125,
+            "arven": 0.9125000000000001,
+            "petrel": 0.8875,
+            "proxy": 3.775,
+            "junk_hunt": 4.050000000000001
+          },
+          "g": {
+            "wr": 0.4875,
+            "a": 0.475,
+            "b": 0.5,
+            "determination": 0.32499999999999996,
+            "arven": 0.65,
+            "petrel": 0.675,
+            "proxy": 4.737500000000001,
+            "junk_hunt": 2.025
+          },
+          "c60": {
+            "wr": 0.6625,
+            "a": 0.7,
+            "b": 0.625,
+            "determination": 0.3875,
+            "arven": 0.6875,
+            "petrel": 0.625,
+            "proxy": 3.8499999999999996,
+            "junk_hunt": 1.6749999999999998
+          },
+          "m": {
+            "wr": 0.4,
+            "a": 0.375,
+            "b": 0.425,
+            "determination": 0.4125,
+            "arven": 0.85,
+            "petrel": 0.6125,
+            "proxy": 4.85,
+            "junk_hunt": 2.0125
+          },
+          "starmie": {
+            "wr": 0.3125,
+            "a": 0.3,
+            "b": 0.325,
+            "determination": 0.425,
+            "arven": 0.675,
+            "petrel": 0.7250000000000001,
+            "proxy": 4.6625,
+            "junk_hunt": 3.125
+          },
+          "lucario": {
+            "wr": 0.8125,
+            "a": 0.8,
+            "b": 0.825,
+            "determination": 0.32499999999999996,
+            "arven": 0.5375,
+            "petrel": 0.44999999999999996,
+            "proxy": 3.2375,
+            "junk_hunt": 2.8499999999999996
+          },
+          "thorns": {
+            "wr": 0.9624999999999999,
+            "a": 0.975,
+            "b": 0.95,
+            "determination": 0.425,
+            "arven": 0.8625,
+            "petrel": 0.675,
+            "proxy": 4.0375,
+            "junk_hunt": 2.6
+          },
+          "h": {
+            "wr": 0.1625,
+            "a": 0.2,
+            "b": 0.125,
+            "determination": 0.4,
+            "arven": 0.7124999999999999,
+            "petrel": 0.8,
+            "proxy": 4.7625,
+            "junk_hunt": 6.55
+          },
+          "g30": {
+            "wr": 0.7375,
+            "a": 0.625,
+            "b": 0.85,
+            "determination": 0.275,
+            "arven": 0.7,
+            "petrel": 0.65,
+            "proxy": 2.675,
+            "junk_hunt": 7.0
+          }
+        }
+      },
+      {
+        "label": "Slumbering Forest",
+        "cut": "Slumbering Forest",
+        "copies_before": 2,
+        "weighted": 0.4584209209209209,
+        "se": 0.014596317672033801,
+        "mean": 0.5807692307692307,
+        "worst": 0.0625,
+        "determination": 0.39903846153846156,
+        "determination_weighted": 0.40142642642642645,
+        "arven": 0.7442307692307693,
+        "petrel": 0.6769230769230768,
+        "proxy": 4.480769230769231,
+        "junk_hunt": 3.539423076923077,
+        "cells": {
+          "t60": {
+            "wr": 0.775,
+            "a": 0.875,
+            "b": 0.675,
+            "determination": 0.4625,
+            "arven": 0.75,
+            "petrel": 0.6125,
+            "proxy": 5.0,
+            "junk_hunt": 2.75
+          },
+          "hedrick": {
+            "wr": 0.575,
+            "a": 0.6,
+            "b": 0.55,
+            "determination": 0.4625,
+            "arven": 0.75,
+            "petrel": 0.6375,
+            "proxy": 3.9625,
+            "junk_hunt": 2.3
+          },
+          "unl": {
+            "wr": 0.9,
+            "a": 0.875,
+            "b": 0.925,
+            "determination": 0.36250000000000004,
+            "arven": 0.6875,
+            "petrel": 0.7125,
+            "proxy": 4.525,
+            "junk_hunt": 3.6999999999999997
+          },
+          "d60": {
+            "wr": 0.0625,
+            "a": 0.025,
+            "b": 0.1,
+            "determination": 0.55,
+            "arven": 1.0125,
+            "petrel": 0.8374999999999999,
+            "proxy": 7.637499999999999,
+            "junk_hunt": 3.325
+          },
+          "s60": {
+            "wr": 0.75,
+            "a": 0.85,
+            "b": 0.65,
+            "determination": 0.3625,
+            "arven": 0.9125000000000001,
+            "petrel": 0.75,
+            "proxy": 3.9875000000000003,
+            "junk_hunt": 5.2
+          },
+          "g": {
+            "wr": 0.35,
+            "a": 0.35,
+            "b": 0.35,
+            "determination": 0.4,
+            "arven": 0.825,
+            "petrel": 0.7,
+            "proxy": 4.925000000000001,
+            "junk_hunt": 3.0
+          },
+          "c60": {
+            "wr": 0.7250000000000001,
+            "a": 0.65,
+            "b": 0.8,
+            "determination": 0.375,
+            "arven": 0.6125,
+            "petrel": 0.625,
+            "proxy": 3.6,
+            "junk_hunt": 2.4
+          },
+          "m": {
+            "wr": 0.3625,
+            "a": 0.425,
+            "b": 0.3,
+            "determination": 0.3625,
+            "arven": 0.7250000000000001,
+            "petrel": 0.6625,
+            "proxy": 4.675,
+            "junk_hunt": 1.8125
+          },
+          "starmie": {
+            "wr": 0.23750000000000002,
+            "a": 0.2,
+            "b": 0.275,
+            "determination": 0.3125,
+            "arven": 0.575,
+            "petrel": 0.4125,
+            "proxy": 4.2875,
+            "junk_hunt": 2.6
+          },
+          "lucario": {
+            "wr": 0.95,
+            "a": 0.95,
+            "b": 0.95,
+            "determination": 0.35,
+            "arven": 0.575,
+            "petrel": 0.7125,
+            "proxy": 4.0125,
+            "junk_hunt": 2.4
+          },
+          "thorns": {
+            "wr": 0.9125000000000001,
+            "a": 0.9,
+            "b": 0.925,
+            "determination": 0.4125,
+            "arven": 0.7375,
+            "petrel": 0.7625,
+            "proxy": 4.0625,
+            "junk_hunt": 2.3
+          },
+          "h": {
+            "wr": 0.175,
+            "a": 0.2,
+            "b": 0.15,
+            "determination": 0.36250000000000004,
+            "arven": 0.775,
+            "petrel": 0.8374999999999999,
+            "proxy": 4.5875,
+            "junk_hunt": 6.35
+          },
+          "g30": {
+            "wr": 0.775,
+            "a": 0.75,
+            "b": 0.8,
+            "determination": 0.4125,
+            "arven": 0.7374999999999999,
+            "petrel": 0.5375,
+            "proxy": 2.9875,
+            "junk_hunt": 7.875
+          }
+        }
+      },
+      {
+        "label": "Buddy-Buddy Poffin",
+        "cut": "Buddy-Buddy Poffin",
+        "copies_before": 2,
+        "weighted": 0.4571196196196196,
+        "se": 0.014850471535169479,
+        "mean": 0.5663461538461538,
+        "worst": 0.0875,
+        "determination": 0.39903846153846156,
+        "determination_weighted": 0.40176426426426426,
+        "arven": 0.7365384615384615,
+        "petrel": 0.6615384615384615,
+        "proxy": 4.496153846153846,
+        "junk_hunt": 2.9403846153846156,
+        "cells": {
+          "t60": {
+            "wr": 0.7,
+            "a": 0.675,
+            "b": 0.725,
+            "determination": 0.44999999999999996,
+            "arven": 0.7875,
+            "petrel": 0.5,
+            "proxy": 4.275,
+            "junk_hunt": 2.125
+          },
+          "hedrick": {
+            "wr": 0.55,
+            "a": 0.55,
+            "b": 0.55,
+            "determination": 0.4875,
+            "arven": 0.65,
+            "petrel": 0.5625,
+            "proxy": 4.112500000000001,
+            "junk_hunt": 1.925
+          },
+          "unl": {
+            "wr": 0.9125000000000001,
+            "a": 0.9,
+            "b": 0.925,
+            "determination": 0.44999999999999996,
+            "arven": 0.95,
+            "petrel": 0.725,
+            "proxy": 5.15,
+            "junk_hunt": 3.175
+          },
+          "d60": {
+            "wr": 0.0875,
+            "a": 0.05,
+            "b": 0.125,
+            "determination": 0.5375,
+            "arven": 0.8,
+            "petrel": 0.85,
+            "proxy": 7.112500000000001,
+            "junk_hunt": 2.825
+          },
+          "s60": {
+            "wr": 0.7375,
+            "a": 0.725,
+            "b": 0.75,
+            "determination": 0.3625,
+            "arven": 0.7749999999999999,
+            "petrel": 0.8625,
+            "proxy": 4.2875,
+            "junk_hunt": 3.1500000000000004
+          },
+          "g": {
+            "wr": 0.375,
+            "a": 0.425,
+            "b": 0.325,
+            "determination": 0.47500000000000003,
+            "arven": 0.6875,
+            "petrel": 0.5,
+            "proxy": 4.6625,
+            "junk_hunt": 2.5
+          },
+          "c60": {
+            "wr": 0.7625,
+            "a": 0.825,
+            "b": 0.7,
+            "determination": 0.35,
+            "arven": 0.625,
+            "petrel": 0.6875,
+            "proxy": 4.05,
+            "junk_hunt": 2.05
+          },
+          "m": {
+            "wr": 0.3125,
+            "a": 0.35,
+            "b": 0.275,
+            "determination": 0.2625,
+            "arven": 0.6,
+            "petrel": 0.475,
+            "proxy": 4.15,
+            "junk_hunt": 1.725
+          },
+          "starmie": {
+            "wr": 0.325,
+            "a": 0.25,
+            "b": 0.4,
+            "determination": 0.35,
+            "arven": 0.6625000000000001,
+            "petrel": 0.425,
+            "proxy": 4.475,
+            "junk_hunt": 3.1
+          },
+          "lucario": {
+            "wr": 0.8375,
+            "a": 0.875,
+            "b": 0.8,
+            "determination": 0.35,
+            "arven": 0.7125,
+            "petrel": 0.5625,
+            "proxy": 4.0375,
+            "junk_hunt": 2.025
+          },
+          "thorns": {
+            "wr": 0.8999999999999999,
+            "a": 0.85,
+            "b": 0.95,
+            "determination": 0.475,
+            "arven": 0.85,
+            "petrel": 0.7375,
+            "proxy": 4.3125,
+            "junk_hunt": 2.6
+          },
+          "h": {
+            "wr": 0.1375,
+            "a": 0.15,
+            "b": 0.125,
+            "determination": 0.4125,
+            "arven": 0.75,
+            "petrel": 1.0499999999999998,
+            "proxy": 4.8,
+            "junk_hunt": 5.25
+          },
+          "g30": {
+            "wr": 0.725,
+            "a": 0.75,
+            "b": 0.7,
+            "determination": 0.225,
+            "arven": 0.725,
+            "petrel": 0.6625,
+            "proxy": 3.0250000000000004,
+            "junk_hunt": 5.775
+          }
+        }
+      },
+      {
+        "label": "Shedinja",
+        "cut": "Shedinja",
+        "copies_before": 1,
+        "weighted": 0.4541041041041041,
+        "se": 0.015286237521741072,
+        "mean": 0.5682692307692307,
+        "worst": 0.1125,
+        "determination": 0.41346153846153844,
+        "determination_weighted": 0.41692942942942945,
+        "arven": 0.7134615384615385,
+        "petrel": 0.6653846153846155,
+        "proxy": 4.181730769230769,
+        "junk_hunt": 3.243269230769231,
+        "cells": {
+          "t60": {
+            "wr": 0.825,
+            "a": 0.875,
+            "b": 0.775,
+            "determination": 0.3875,
+            "arven": 0.7749999999999999,
+            "petrel": 0.6375,
+            "proxy": 4.325,
+            "junk_hunt": 2.375
+          },
+          "hedrick": {
+            "wr": 0.5625,
+            "a": 0.575,
+            "b": 0.55,
+            "determination": 0.4125,
+            "arven": 0.5875,
+            "petrel": 0.6,
+            "proxy": 3.9,
+            "junk_hunt": 1.9
+          },
+          "unl": {
+            "wr": 0.9,
+            "a": 0.9,
+            "b": 0.9,
+            "determination": 0.4875,
+            "arven": 0.9125000000000001,
+            "petrel": 0.7875,
+            "proxy": 4.35,
+            "junk_hunt": 3.6500000000000004
+          },
+          "d60": {
+            "wr": 0.1125,
+            "a": 0.125,
+            "b": 0.1,
+            "determination": 0.5125,
+            "arven": 0.75,
+            "petrel": 0.7375,
+            "proxy": 7.074999999999999,
+            "junk_hunt": 3.325
+          },
+          "s60": {
+            "wr": 0.625,
+            "a": 0.675,
+            "b": 0.575,
+            "determination": 0.42500000000000004,
+            "arven": 0.7875,
+            "petrel": 0.7625,
+            "proxy": 3.5875000000000004,
+            "junk_hunt": 5.574999999999999
+          },
+          "g": {
+            "wr": 0.4625,
+            "a": 0.55,
+            "b": 0.375,
+            "determination": 0.5,
+            "arven": 0.875,
+            "petrel": 0.7749999999999999,
+            "proxy": 4.8125,
+            "junk_hunt": 2.925
+          },
+          "c60": {
+            "wr": 0.675,
+            "a": 0.725,
+            "b": 0.625,
+            "determination": 0.3125,
+            "arven": 0.7375,
+            "petrel": 0.5375,
+            "proxy": 3.4625000000000004,
+            "junk_hunt": 2.3
+          },
+          "m": {
+            "wr": 0.3125,
+            "a": 0.3,
+            "b": 0.325,
+            "determination": 0.3375,
+            "arven": 0.6625,
+            "petrel": 0.625,
+            "proxy": 4.6125,
+            "junk_hunt": 1.3875000000000002
+          },
+          "starmie": {
+            "wr": 0.2625,
+            "a": 0.15,
+            "b": 0.375,
+            "determination": 0.4,
+            "arven": 0.5375000000000001,
+            "petrel": 0.6375,
+            "proxy": 4.3375,
+            "junk_hunt": 2.075
+          },
+          "lucario": {
+            "wr": 0.8125,
+            "a": 0.85,
+            "b": 0.775,
+            "determination": 0.3125,
+            "arven": 0.5125,
+            "petrel": 0.3875,
+            "proxy": 3.5625,
+            "junk_hunt": 2.3
+          },
+          "thorns": {
+            "wr": 0.9375,
+            "a": 0.925,
+            "b": 0.95,
+            "determination": 0.4125,
+            "arven": 0.75,
+            "petrel": 0.875,
+            "proxy": 3.625,
+            "junk_hunt": 3.0
+          },
+          "h": {
+            "wr": 0.175,
+            "a": 0.225,
+            "b": 0.125,
+            "determination": 0.525,
+            "arven": 0.8125,
+            "petrel": 0.725,
+            "proxy": 4.3,
+            "junk_hunt": 5.8
+          },
+          "g30": {
+            "wr": 0.7250000000000001,
+            "a": 0.675,
+            "b": 0.775,
+            "determination": 0.35,
+            "arven": 0.575,
+            "petrel": 0.5625,
+            "proxy": 2.4125,
+            "junk_hunt": 5.55
+          }
+        }
+      },
+      {
+        "label": "Switch",
+        "cut": "Switch",
+        "copies_before": 1,
+        "weighted": 0.4536411411411412,
+        "se": 0.015413241441588843,
+        "mean": 0.5605769230769231,
+        "worst": 0.0875,
+        "determination": 0.3971153846153846,
+        "determination_weighted": 0.404542042042042,
+        "arven": 0.6990384615384616,
+        "petrel": 0.6846153846153846,
+        "proxy": 4.285576923076923,
+        "junk_hunt": 3.2326923076923078,
+        "cells": {
+          "t60": {
+            "wr": 0.8,
+            "a": 0.85,
+            "b": 0.75,
+            "determination": 0.4625,
+            "arven": 0.7250000000000001,
+            "petrel": 0.6375,
+            "proxy": 4.475,
+            "junk_hunt": 2.3
+          },
+          "hedrick": {
+            "wr": 0.5375000000000001,
+            "a": 0.55,
+            "b": 0.525,
+            "determination": 0.425,
+            "arven": 0.675,
+            "petrel": 0.6125,
+            "proxy": 3.85,
+            "junk_hunt": 1.825
+          },
+          "unl": {
+            "wr": 0.8625,
+            "a": 0.85,
+            "b": 0.875,
+            "determination": 0.35,
+            "arven": 0.8,
+            "petrel": 0.75,
+            "proxy": 4.8625,
+            "junk_hunt": 2.625
+          },
+          "d60": {
+            "wr": 0.1375,
+            "a": 0.125,
+            "b": 0.15,
+            "determination": 0.5375,
+            "arven": 0.7375,
+            "petrel": 0.75,
+            "proxy": 6.875,
+            "junk_hunt": 3.3
+          },
+          "s60": {
+            "wr": 0.675,
+            "a": 0.65,
+            "b": 0.7,
+            "determination": 0.4875,
+            "arven": 0.85,
+            "petrel": 0.8,
+            "proxy": 3.5625,
+            "junk_hunt": 4.95
+          },
+          "g": {
+            "wr": 0.425,
+            "a": 0.425,
+            "b": 0.425,
+            "determination": 0.3375,
+            "arven": 0.6499999999999999,
+            "petrel": 0.65,
+            "proxy": 4.6875,
+            "junk_hunt": 2.8499999999999996
+          },
+          "c60": {
+            "wr": 0.675,
+            "a": 0.675,
+            "b": 0.675,
+            "determination": 0.35,
+            "arven": 0.5125,
+            "petrel": 0.6625,
+            "proxy": 3.5374999999999996,
+            "junk_hunt": 2.325
+          },
+          "m": {
+            "wr": 0.3,
+            "a": 0.3,
+            "b": 0.3,
+            "determination": 0.3375,
+            "arven": 0.5625,
+            "petrel": 0.5125,
+            "proxy": 4.3625,
+            "junk_hunt": 2.025
+          },
+          "starmie": {
+            "wr": 0.325,
+            "a": 0.275,
+            "b": 0.375,
+            "determination": 0.35,
+            "arven": 0.6875,
+            "petrel": 0.575,
+            "proxy": 4.5625,
+            "junk_hunt": 3.6750000000000003
+          },
+          "lucario": {
+            "wr": 0.8500000000000001,
+            "a": 0.925,
+            "b": 0.775,
+            "determination": 0.475,
+            "arven": 0.42500000000000004,
+            "petrel": 0.7,
+            "proxy": 3.5625,
+            "junk_hunt": 1.825
+          },
+          "thorns": {
+            "wr": 0.95,
+            "a": 1.0,
+            "b": 0.9,
+            "determination": 0.45,
+            "arven": 0.875,
+            "petrel": 0.7,
+            "proxy": 4.35,
+            "junk_hunt": 2.975
+          },
+          "h": {
+            "wr": 0.0875,
+            "a": 0.1,
+            "b": 0.075,
+            "determination": 0.4,
+            "arven": 0.8374999999999999,
+            "petrel": 0.875,
+            "proxy": 4.1625,
+            "junk_hunt": 6.075
+          },
+          "g30": {
+            "wr": 0.6625,
+            "a": 0.6,
+            "b": 0.725,
+            "determination": 0.2,
+            "arven": 0.75,
+            "petrel": 0.675,
+            "proxy": 2.8625,
+            "junk_hunt": 5.275
+          }
+        }
+      },
+      {
+        "label": "Cleffa",
+        "cut": "Cleffa",
+        "copies_before": 2,
+        "weighted": 0.4513013013013013,
+        "se": 0.015004839154866965,
+        "mean": 0.5557692307692308,
+        "worst": 0.0625,
+        "determination": 0.35192307692307695,
+        "determination_weighted": 0.3438063063063063,
+        "arven": 0.6625000000000001,
+        "petrel": 0.5971153846153846,
+        "proxy": 4.155769230769231,
+        "junk_hunt": 3.0653846153846156,
+        "cells": {
+          "t60": {
+            "wr": 0.7124999999999999,
+            "a": 0.7,
+            "b": 0.725,
+            "determination": 0.4125,
+            "arven": 0.7250000000000001,
+            "petrel": 0.45,
+            "proxy": 4.4375,
+            "junk_hunt": 1.875
+          },
+          "hedrick": {
+            "wr": 0.3875,
+            "a": 0.375,
+            "b": 0.4,
+            "determination": 0.3125,
+            "arven": 0.5125,
+            "petrel": 0.48750000000000004,
+            "proxy": 3.2874999999999996,
+            "junk_hunt": 1.3250000000000002
+          },
+          "unl": {
+            "wr": 0.925,
+            "a": 0.925,
+            "b": 0.925,
+            "determination": 0.475,
+            "arven": 0.6499999999999999,
+            "petrel": 0.6125,
+            "proxy": 4.775,
+            "junk_hunt": 3.2
+          },
+          "d60": {
+            "wr": 0.0625,
+            "a": 0.05,
+            "b": 0.075,
+            "determination": 0.35,
+            "arven": 0.675,
+            "petrel": 0.65,
+            "proxy": 6.012499999999999,
+            "junk_hunt": 2.9000000000000004
+          },
+          "s60": {
+            "wr": 0.5875,
+            "a": 0.525,
+            "b": 0.65,
+            "determination": 0.375,
+            "arven": 0.7125,
+            "petrel": 0.825,
+            "proxy": 3.55,
+            "junk_hunt": 3.95
+          },
+          "g": {
+            "wr": 0.4625,
+            "a": 0.4,
+            "b": 0.525,
+            "determination": 0.4125,
+            "arven": 0.7125,
+            "petrel": 0.55,
+            "proxy": 4.512499999999999,
+            "junk_hunt": 3.5749999999999997
+          },
+          "c60": {
+            "wr": 0.7,
+            "a": 0.675,
+            "b": 0.725,
+            "determination": 0.325,
+            "arven": 0.625,
+            "petrel": 0.625,
+            "proxy": 3.6875,
+            "junk_hunt": 2.025
+          },
+          "m": {
+            "wr": 0.4375,
+            "a": 0.4,
+            "b": 0.475,
+            "determination": 0.275,
+            "arven": 0.6875,
+            "petrel": 0.4375,
+            "proxy": 4.6625,
+            "junk_hunt": 2.025
+          },
+          "starmie": {
+            "wr": 0.2125,
+            "a": 0.125,
+            "b": 0.3,
+            "determination": 0.3375,
+            "arven": 0.5625,
+            "petrel": 0.6125,
+            "proxy": 4.3375,
+            "junk_hunt": 2.1
+          },
+          "lucario": {
+            "wr": 0.8625,
+            "a": 0.825,
+            "b": 0.9,
+            "determination": 0.3,
+            "arven": 0.475,
+            "petrel": 0.65,
+            "proxy": 3.6375,
+            "junk_hunt": 2.45
+          },
+          "thorns": {
+            "wr": 1.0,
+            "a": 1.0,
+            "b": 1.0,
+            "determination": 0.425,
+            "arven": 0.6875,
+            "petrel": 0.55,
+            "proxy": 4.0375,
+            "junk_hunt": 2.525
+          },
+          "h": {
+            "wr": 0.1625,
+            "a": 0.225,
+            "b": 0.1,
+            "determination": 0.3125,
+            "arven": 0.8875,
+            "petrel": 0.6125,
+            "proxy": 4.35,
+            "junk_hunt": 5.775
+          },
+          "g30": {
+            "wr": 0.7125,
+            "a": 0.75,
+            "b": 0.675,
+            "determination": 0.2625,
+            "arven": 0.7,
+            "petrel": 0.7,
+            "proxy": 2.7375,
+            "junk_hunt": 6.125
+          }
+        }
+      },
+      {
+        "label": "Smoochum",
+        "cut": "Smoochum",
+        "copies_before": 2,
+        "weighted": 0.45082582582582587,
+        "se": 0.014990631529751771,
+        "mean": 0.5596153846153846,
+        "worst": 0.1,
+        "determination": 0.38269230769230766,
+        "determination_weighted": 0.37446196196196196,
+        "arven": 0.6798076923076923,
+        "petrel": 0.6730769230769231,
+        "proxy": 4.352884615384616,
+        "junk_hunt": 3.4836538461538464,
+        "cells": {
+          "t60": {
+            "wr": 0.6625000000000001,
+            "a": 0.675,
+            "b": 0.65,
+            "determination": 0.4125,
+            "arven": 0.7375,
+            "petrel": 0.6625,
+            "proxy": 4.65,
+            "junk_hunt": 2.4749999999999996
+          },
+          "hedrick": {
+            "wr": 0.5125,
+            "a": 0.35,
+            "b": 0.675,
+            "determination": 0.4125,
+            "arven": 0.5125,
+            "petrel": 0.5875,
+            "proxy": 4.05,
+            "junk_hunt": 2.625
+          },
+          "unl": {
+            "wr": 0.875,
+            "a": 0.9,
+            "b": 0.85,
+            "determination": 0.4,
+            "arven": 0.825,
+            "petrel": 0.8125,
+            "proxy": 4.55,
+            "junk_hunt": 3.45
+          },
+          "d60": {
+            "wr": 0.1,
+            "a": 0.1,
+            "b": 0.1,
+            "determination": 0.4625,
+            "arven": 0.6125,
+            "petrel": 0.7124999999999999,
+            "proxy": 6.824999999999999,
+            "junk_hunt": 2.7249999999999996
+          },
+          "s60": {
+            "wr": 0.7,
+            "a": 0.725,
+            "b": 0.675,
+            "determination": 0.5625,
+            "arven": 0.7875,
+            "petrel": 0.825,
+            "proxy": 3.875,
+            "junk_hunt": 5.6
+          },
+          "g": {
+            "wr": 0.475,
+            "a": 0.6,
+            "b": 0.35,
+            "determination": 0.4,
+            "arven": 0.7375,
+            "petrel": 0.55,
+            "proxy": 4.6625,
+            "junk_hunt": 2.25
+          },
+          "c60": {
+            "wr": 0.7125,
+            "a": 0.75,
+            "b": 0.675,
+            "determination": 0.3375,
+            "arven": 0.7,
+            "petrel": 0.7,
+            "proxy": 4.0875,
+            "junk_hunt": 1.8250000000000002
+          },
+          "m": {
+            "wr": 0.2375,
+            "a": 0.225,
+            "b": 0.25,
+            "determination": 0.2,
+            "arven": 0.5875,
+            "petrel": 0.5,
+            "proxy": 3.775,
+            "junk_hunt": 1.8624999999999998
+          },
+          "starmie": {
+            "wr": 0.3125,
+            "a": 0.35,
+            "b": 0.275,
+            "determination": 0.35,
+            "arven": 0.7,
+            "petrel": 0.55,
+            "proxy": 4.7,
+            "junk_hunt": 2.025
+          },
+          "lucario": {
+            "wr": 0.8,
+            "a": 0.775,
+            "b": 0.825,
+            "determination": 0.2875,
+            "arven": 0.4125,
+            "petrel": 0.5875,
+            "proxy": 3.7625,
+            "junk_hunt": 3.125
+          },
+          "thorns": {
+            "wr": 0.9375,
+            "a": 0.95,
+            "b": 0.925,
+            "determination": 0.3875,
+            "arven": 0.6375,
+            "petrel": 0.675,
+            "proxy": 3.9375,
+            "junk_hunt": 3.325
+          },
+          "h": {
+            "wr": 0.21250000000000002,
+            "a": 0.225,
+            "b": 0.2,
+            "determination": 0.42500000000000004,
+            "arven": 0.9,
+            "petrel": 0.925,
+            "proxy": 4.7125,
+            "junk_hunt": 6.575
+          },
+          "g30": {
+            "wr": 0.7375,
+            "a": 0.75,
+            "b": 0.725,
+            "determination": 0.3375,
+            "arven": 0.6875,
+            "petrel": 0.6625,
+            "proxy": 3.0,
+            "junk_hunt": 7.425000000000001
+          }
+        }
+      },
+      {
+        "label": "Rescue Carrier",
+        "cut": "Rescue Carrier",
+        "copies_before": 3,
+        "weighted": 0.44844844844844844,
+        "se": 0.014958345522213447,
+        "mean": 0.5576923076923077,
+        "worst": 0.15,
+        "determination": 0.3855769230769231,
+        "determination_weighted": 0.4011511511511512,
+        "arven": 0.7086538461538462,
+        "petrel": 0.6432692307692308,
+        "proxy": 4.270192307692308,
+        "junk_hunt": 3.3971153846153848,
+        "cells": {
+          "t60": {
+            "wr": 0.7625,
+            "a": 0.675,
+            "b": 0.85,
+            "determination": 0.5125,
+            "arven": 0.7,
+            "petrel": 0.675,
+            "proxy": 4.4,
+            "junk_hunt": 2.625
+          },
+          "hedrick": {
+            "wr": 0.4625,
+            "a": 0.45,
+            "b": 0.475,
+            "determination": 0.30000000000000004,
+            "arven": 0.625,
+            "petrel": 0.625,
+            "proxy": 4.1,
+            "junk_hunt": 2.425
+          },
+          "unl": {
+            "wr": 0.85,
+            "a": 0.85,
+            "b": 0.85,
+            "determination": 0.3625,
+            "arven": 0.8375,
+            "petrel": 0.7124999999999999,
+            "proxy": 4.4,
+            "junk_hunt": 3.425
+          },
+          "d60": {
+            "wr": 0.15,
+            "a": 0.125,
+            "b": 0.175,
+            "determination": 0.5125,
+            "arven": 0.6625,
+            "petrel": 0.6375,
+            "proxy": 6.3875,
+            "junk_hunt": 2.6
+          },
+          "s60": {
+            "wr": 0.6625,
+            "a": 0.625,
+            "b": 0.7,
+            "determination": 0.4,
+            "arven": 0.925,
+            "petrel": 0.7749999999999999,
+            "proxy": 3.9625,
+            "junk_hunt": 4.45
+          },
+          "g": {
+            "wr": 0.4375,
+            "a": 0.35,
+            "b": 0.525,
+            "determination": 0.4375,
+            "arven": 0.6875,
+            "petrel": 0.6499999999999999,
+            "proxy": 4.875,
+            "junk_hunt": 2.4749999999999996
+          },
+          "c60": {
+            "wr": 0.7625,
+            "a": 0.75,
+            "b": 0.775,
+            "determination": 0.4,
+            "arven": 0.8125,
+            "petrel": 0.625,
+            "proxy": 3.725,
+            "junk_hunt": 2.875
+          },
+          "m": {
+            "wr": 0.25,
+            "a": 0.25,
+            "b": 0.25,
+            "determination": 0.3375,
+            "arven": 0.65,
+            "petrel": 0.55,
+            "proxy": 4.550000000000001,
+            "junk_hunt": 2.2625
+          },
+          "starmie": {
+            "wr": 0.2,
+            "a": 0.175,
+            "b": 0.225,
+            "determination": 0.4,
+            "arven": 0.5,
+            "petrel": 0.4625,
+            "proxy": 4.425000000000001,
+            "junk_hunt": 2.175
+          },
+          "lucario": {
+            "wr": 0.8625,
+            "a": 0.875,
+            "b": 0.85,
+            "determination": 0.25,
+            "arven": 0.5625,
+            "petrel": 0.48750000000000004,
+            "proxy": 3.5374999999999996,
+            "junk_hunt": 1.8250000000000002
+          },
+          "thorns": {
+            "wr": 0.9125000000000001,
+            "a": 0.925,
+            "b": 0.9,
+            "determination": 0.36250000000000004,
+            "arven": 0.65,
+            "petrel": 0.7,
+            "proxy": 3.8625,
+            "junk_hunt": 3.55
+          },
+          "h": {
+            "wr": 0.1875,
+            "a": 0.175,
+            "b": 0.2,
+            "determination": 0.4125,
+            "arven": 0.6499999999999999,
+            "petrel": 0.9,
+            "proxy": 4.487500000000001,
+            "junk_hunt": 5.725
+          },
+          "g30": {
+            "wr": 0.75,
+            "a": 0.75,
+            "b": 0.75,
+            "determination": 0.325,
+            "arven": 0.95,
+            "petrel": 0.5625,
+            "proxy": 2.8,
+            "junk_hunt": 7.75
+          }
+        }
+      },
+      {
+        "label": "Black Market",
+        "cut": "Black Market",
+        "copies_before": 1,
+        "weighted": 0.44710960960960966,
+        "se": 0.01422328660790921,
+        "mean": 0.5625,
+        "worst": 0.0625,
+        "determination": 0.37692307692307697,
+        "determination_weighted": 0.38891391391391394,
+        "arven": 0.7288461538461538,
+        "petrel": 0.7067307692307693,
+        "proxy": 4.335576923076923,
+        "junk_hunt": 3.514423076923077,
+        "cells": {
+          "t60": {
+            "wr": 0.8125,
+            "a": 0.85,
+            "b": 0.775,
+            "determination": 0.47500000000000003,
+            "arven": 0.925,
+            "petrel": 0.7375,
+            "proxy": 4.8375,
+            "junk_hunt": 2.8499999999999996
+          },
+          "hedrick": {
+            "wr": 0.4875,
+            "a": 0.475,
+            "b": 0.5,
+            "determination": 0.325,
+            "arven": 0.65,
+            "petrel": 0.525,
+            "proxy": 3.6625,
+            "junk_hunt": 2.0250000000000004
+          },
+          "unl": {
+            "wr": 0.9,
+            "a": 0.9,
+            "b": 0.9,
+            "determination": 0.36250000000000004,
+            "arven": 0.6375,
+            "petrel": 0.6125,
+            "proxy": 4.1,
+            "junk_hunt": 4.375
+          },
+          "d60": {
+            "wr": 0.0625,
+            "a": 0.125,
+            "b": 0.0,
+            "determination": 0.4125,
+            "arven": 0.8625,
+            "petrel": 0.7875,
+            "proxy": 6.7875,
+            "junk_hunt": 3.15
+          },
+          "s60": {
+            "wr": 0.65,
+            "a": 0.625,
+            "b": 0.675,
+            "determination": 0.42500000000000004,
+            "arven": 0.85,
+            "petrel": 0.8875,
+            "proxy": 3.4875,
+            "junk_hunt": 5.275
+          },
+          "g": {
+            "wr": 0.375,
+            "a": 0.275,
+            "b": 0.475,
+            "determination": 0.55,
+            "arven": 0.6375,
+            "petrel": 0.65,
+            "proxy": 4.637499999999999,
+            "junk_hunt": 2.9
+          },
+          "c60": {
+            "wr": 0.8,
+            "a": 0.775,
+            "b": 0.825,
+            "determination": 0.35,
+            "arven": 0.7375,
+            "petrel": 0.875,
+            "proxy": 3.8,
+            "junk_hunt": 2.425
+          },
+          "m": {
+            "wr": 0.30000000000000004,
+            "a": 0.275,
+            "b": 0.325,
+            "determination": 0.4,
+            "arven": 0.5375,
+            "petrel": 0.5125,
+            "proxy": 4.675,
+            "junk_hunt": 1.8875
+          },
+          "starmie": {
+            "wr": 0.275,
+            "a": 0.275,
+            "b": 0.275,
+            "determination": 0.25,
+            "arven": 0.8,
+            "petrel": 0.5875,
+            "proxy": 4.7125,
+            "junk_hunt": 3.175
+          },
+          "lucario": {
+            "wr": 0.925,
+            "a": 0.925,
+            "b": 0.925,
+            "determination": 0.3,
+            "arven": 0.5874999999999999,
+            "petrel": 0.625,
+            "proxy": 4.0,
+            "junk_hunt": 2.325
+          },
+          "thorns": {
+            "wr": 0.9125000000000001,
+            "a": 0.925,
+            "b": 0.9,
+            "determination": 0.425,
+            "arven": 0.7875,
+            "petrel": 0.675,
+            "proxy": 4.1,
+            "junk_hunt": 2.625
+          },
+          "h": {
+            "wr": 0.0875,
+            "a": 0.125,
+            "b": 0.05,
+            "determination": 0.36250000000000004,
+            "arven": 0.6,
+            "petrel": 0.9375,
+            "proxy": 4.8875,
+            "junk_hunt": 6.475
+          },
+          "g30": {
+            "wr": 0.725,
+            "a": 0.75,
+            "b": 0.7,
+            "determination": 0.2625,
+            "arven": 0.8625,
+            "petrel": 0.7749999999999999,
+            "proxy": 2.675,
+            "junk_hunt": 6.199999999999999
+          }
+        }
+      },
+      {
+        "label": "Robo Substitute Team Flare Gear",
+        "cut": "Robo Substitute Team Flare Gear",
+        "copies_before": 4,
+        "weighted": 0.44682182182182184,
+        "se": 0.01420800451478645,
+        "mean": 0.5528846153846154,
+        "worst": 0.1125,
+        "determination": 0.3942307692307692,
+        "determination_weighted": 0.39313063063063064,
+        "arven": 0.7567307692307692,
+        "petrel": 0.6625000000000001,
+        "proxy": 3.9836538461538464,
+        "junk_hunt": 3.463461538461538,
+        "cells": {
+          "t60": {
+            "wr": 0.7375,
+            "a": 0.725,
+            "b": 0.75,
+            "determination": 0.475,
+            "arven": 0.8,
+            "petrel": 0.75,
+            "proxy": 3.9625,
+            "junk_hunt": 2.375
+          },
+          "hedrick": {
+            "wr": 0.44999999999999996,
+            "a": 0.575,
+            "b": 0.325,
+            "determination": 0.3625,
+            "arven": 0.7125,
+            "petrel": 0.6625000000000001,
+            "proxy": 4.15,
+            "junk_hunt": 2.525
+          },
+          "unl": {
+            "wr": 0.85,
+            "a": 0.85,
+            "b": 0.85,
+            "determination": 0.4125,
+            "arven": 0.7375,
+            "petrel": 0.625,
+            "proxy": 4.324999999999999,
+            "junk_hunt": 3.3
+          },
+          "d60": {
+            "wr": 0.1125,
+            "a": 0.1,
+            "b": 0.125,
+            "determination": 0.4,
+            "arven": 0.9375,
+            "petrel": 0.7875000000000001,
+            "proxy": 5.7375,
+            "junk_hunt": 3.325
+          },
+          "s60": {
+            "wr": 0.65,
+            "a": 0.625,
+            "b": 0.675,
+            "determination": 0.5125,
+            "arven": 0.8,
+            "petrel": 0.8625,
+            "proxy": 3.425,
+            "junk_hunt": 4.2
+          },
+          "g": {
+            "wr": 0.4375,
+            "a": 0.525,
+            "b": 0.35,
+            "determination": 0.3875,
+            "arven": 0.8125,
+            "petrel": 0.575,
+            "proxy": 4.2625,
+            "junk_hunt": 3.625
+          },
+          "c60": {
+            "wr": 0.8375,
+            "a": 0.8,
+            "b": 0.875,
+            "determination": 0.4375,
+            "arven": 0.825,
+            "petrel": 0.6499999999999999,
+            "proxy": 3.6125,
+            "junk_hunt": 2.6
+          },
+          "m": {
+            "wr": 0.2375,
+            "a": 0.225,
+            "b": 0.25,
+            "determination": 0.3,
+            "arven": 0.5874999999999999,
+            "petrel": 0.5375,
+            "proxy": 4.025,
+            "junk_hunt": 1.475
+          },
+          "starmie": {
+            "wr": 0.2,
+            "a": 0.15,
+            "b": 0.25,
+            "determination": 0.4,
+            "arven": 0.4875,
+            "petrel": 0.5,
+            "proxy": 4.0375,
+            "junk_hunt": 2.625
+          },
+          "lucario": {
+            "wr": 0.8875,
+            "a": 0.925,
+            "b": 0.85,
+            "determination": 0.3,
+            "arven": 0.6875,
+            "petrel": 0.4375,
+            "proxy": 3.45,
+            "junk_hunt": 2.2
+          },
+          "thorns": {
+            "wr": 0.9624999999999999,
+            "a": 0.95,
+            "b": 0.975,
+            "determination": 0.4875,
+            "arven": 0.7375,
+            "petrel": 0.8125,
+            "proxy": 3.9000000000000004,
+            "junk_hunt": 3.625
+          },
+          "h": {
+            "wr": 0.1375,
+            "a": 0.15,
+            "b": 0.125,
+            "determination": 0.375,
+            "arven": 0.8500000000000001,
+            "petrel": 0.75,
+            "proxy": 4.262499999999999,
+            "junk_hunt": 6.375
+          },
+          "g30": {
+            "wr": 0.6875,
+            "a": 0.725,
+            "b": 0.65,
+            "determination": 0.275,
+            "arven": 0.8625,
+            "petrel": 0.6625,
+            "proxy": 2.6375,
+            "junk_hunt": 6.775
+          }
+        }
+      },
+      {
+        "label": "Field Blower",
+        "cut": "Field Blower",
+        "copies_before": 1,
+        "weighted": 0.4467842842842843,
+        "se": 0.01503925837806112,
+        "mean": 0.5567307692307693,
+        "worst": 0.0875,
+        "determination": 0.39519230769230773,
+        "determination_weighted": 0.4010760760760761,
+        "arven": 0.7019230769230769,
+        "petrel": 0.6942307692307692,
+        "proxy": 4.295192307692307,
+        "junk_hunt": 3.457692307692308,
+        "cells": {
+          "t60": {
+            "wr": 0.7625,
+            "a": 0.7,
+            "b": 0.825,
+            "determination": 0.5,
+            "arven": 0.75,
+            "petrel": 0.725,
+            "proxy": 4.7125,
+            "junk_hunt": 2.65
+          },
+          "hedrick": {
+            "wr": 0.55,
+            "a": 0.55,
+            "b": 0.55,
+            "determination": 0.425,
+            "arven": 0.5625,
+            "petrel": 0.6000000000000001,
+            "proxy": 3.85,
+            "junk_hunt": 2.45
+          },
+          "unl": {
+            "wr": 0.8374999999999999,
+            "a": 0.825,
+            "b": 0.85,
+            "determination": 0.325,
+            "arven": 0.8125,
+            "petrel": 0.875,
+            "proxy": 4.6875,
+            "junk_hunt": 3.475
+          },
+          "d60": {
+            "wr": 0.0875,
+            "a": 0.1,
+            "b": 0.075,
+            "determination": 0.4875,
+            "arven": 0.7,
+            "petrel": 0.7375,
+            "proxy": 6.85,
+            "junk_hunt": 2.75
+          },
+          "s60": {
+            "wr": 0.625,
+            "a": 0.625,
+            "b": 0.625,
+            "determination": 0.4125,
+            "arven": 0.8625,
+            "petrel": 0.8500000000000001,
+            "proxy": 3.775,
+            "junk_hunt": 3.55
+          },
+          "g": {
+            "wr": 0.375,
+            "a": 0.45,
+            "b": 0.3,
+            "determination": 0.45,
+            "arven": 0.6,
+            "petrel": 0.7125,
+            "proxy": 4.8,
+            "junk_hunt": 2.2
+          },
+          "c60": {
+            "wr": 0.7124999999999999,
+            "a": 0.7,
+            "b": 0.725,
+            "determination": 0.35,
+            "arven": 0.6125,
+            "petrel": 0.8500000000000001,
+            "proxy": 3.5875000000000004,
+            "junk_hunt": 2.525
+          },
+          "m": {
+            "wr": 0.3375,
+            "a": 0.45,
+            "b": 0.225,
+            "determination": 0.325,
+            "arven": 0.5125,
+            "petrel": 0.48750000000000004,
+            "proxy": 4.075,
+            "junk_hunt": 2.1
+          },
+          "starmie": {
+            "wr": 0.325,
+            "a": 0.45,
+            "b": 0.2,
+            "determination": 0.425,
+            "arven": 0.5125,
+            "petrel": 0.5,
+            "proxy": 4.5625,
+            "junk_hunt": 2.55
+          },
+          "lucario": {
+            "wr": 0.775,
+            "a": 0.775,
+            "b": 0.775,
+            "determination": 0.4,
+            "arven": 0.7625,
+            "petrel": 0.65,
+            "proxy": 3.925,
+            "junk_hunt": 3.0
+          },
+          "thorns": {
+            "wr": 0.95,
+            "a": 0.925,
+            "b": 0.975,
+            "determination": 0.425,
+            "arven": 0.9,
+            "petrel": 0.6375,
+            "proxy": 4.0375,
+            "junk_hunt": 3.825
+          },
+          "h": {
+            "wr": 0.1375,
+            "a": 0.15,
+            "b": 0.125,
+            "determination": 0.3,
+            "arven": 0.7625,
+            "petrel": 0.8374999999999999,
+            "proxy": 4.25,
+            "junk_hunt": 6.375
+          },
+          "g30": {
+            "wr": 0.7625,
+            "a": 0.75,
+            "b": 0.775,
+            "determination": 0.3125,
+            "arven": 0.775,
+            "petrel": 0.5625,
+            "proxy": 2.7249999999999996,
+            "junk_hunt": 7.5
+          }
+        }
+      },
+      {
+        "label": "Dark Patch",
+        "cut": "Dark Patch",
+        "copies_before": 1,
+        "weighted": 0.4465215215215215,
+        "se": 0.014631102440454976,
+        "mean": 0.551923076923077,
+        "worst": 0.0875,
+        "determination": 0.3557692307692308,
+        "determination_weighted": 0.36017267267267267,
+        "arven": 0.7298076923076924,
+        "petrel": 0.6567307692307692,
+        "proxy": 4.345192307692307,
+        "junk_hunt": 2.855769230769231,
+        "cells": {
+          "t60": {
+            "wr": 0.7875,
+            "a": 0.875,
+            "b": 0.7,
+            "determination": 0.47500000000000003,
+            "arven": 0.8125,
+            "petrel": 0.6375,
+            "proxy": 4.6625,
+            "junk_hunt": 2.625
+          },
+          "hedrick": {
+            "wr": 0.4125,
+            "a": 0.45,
+            "b": 0.375,
+            "determination": 0.35,
+            "arven": 0.675,
+            "petrel": 0.6125,
+            "proxy": 3.5,
+            "junk_hunt": 2.55
+          },
+          "unl": {
+            "wr": 0.85,
+            "a": 0.825,
+            "b": 0.875,
+            "determination": 0.425,
+            "arven": 0.675,
+            "petrel": 0.7125,
+            "proxy": 4.375,
+            "junk_hunt": 3.625
+          },
+          "d60": {
+            "wr": 0.0875,
+            "a": 0.125,
+            "b": 0.05,
+            "determination": 0.4125,
+            "arven": 0.7875,
+            "petrel": 0.7,
+            "proxy": 6.75,
+            "junk_hunt": 2.3499999999999996
+          },
+          "s60": {
+            "wr": 0.7,
+            "a": 0.7,
+            "b": 0.7,
+            "determination": 0.375,
+            "arven": 1.0750000000000002,
+            "petrel": 0.8500000000000001,
+            "proxy": 3.825,
+            "junk_hunt": 3.675
+          },
+          "g": {
+            "wr": 0.3625,
+            "a": 0.35,
+            "b": 0.375,
+            "determination": 0.3375,
+            "arven": 0.8500000000000001,
+            "petrel": 0.675,
+            "proxy": 4.4375,
+            "junk_hunt": 1.825
+          },
+          "c60": {
+            "wr": 0.775,
+            "a": 0.8,
+            "b": 0.75,
+            "determination": 0.275,
+            "arven": 0.6499999999999999,
+            "petrel": 0.65,
+            "proxy": 3.7625,
+            "junk_hunt": 2.2
+          },
+          "m": {
+            "wr": 0.25,
+            "a": 0.3,
+            "b": 0.2,
+            "determination": 0.38749999999999996,
+            "arven": 0.575,
+            "petrel": 0.4875,
+            "proxy": 4.9125,
+            "junk_hunt": 1.275
+          },
+          "starmie": {
+            "wr": 0.3875,
+            "a": 0.45,
+            "b": 0.325,
+            "determination": 0.38749999999999996,
+            "arven": 0.55,
+            "petrel": 0.65,
+            "proxy": 4.8125,
+            "junk_hunt": 3.3
+          },
+          "lucario": {
+            "wr": 0.8125,
+            "a": 0.875,
+            "b": 0.75,
+            "determination": 0.225,
+            "arven": 0.7,
+            "petrel": 0.5375,
+            "proxy": 3.6125,
+            "junk_hunt": 2.35
+          },
+          "thorns": {
+            "wr": 0.95,
+            "a": 0.95,
+            "b": 0.95,
+            "determination": 0.3375,
+            "arven": 0.8,
+            "petrel": 0.7375,
+            "proxy": 4.2625,
+            "junk_hunt": 2.2
+          },
+          "h": {
+            "wr": 0.125,
+            "a": 0.125,
+            "b": 0.125,
+            "determination": 0.375,
+            "arven": 0.6625000000000001,
+            "petrel": 0.775,
+            "proxy": 4.7375,
+            "junk_hunt": 5.1
+          },
+          "g30": {
+            "wr": 0.675,
+            "a": 0.7,
+            "b": 0.65,
+            "determination": 0.2625,
+            "arven": 0.675,
+            "petrel": 0.5125,
+            "proxy": 2.8375,
+            "junk_hunt": 4.050000000000001
+          }
+        }
+      },
+      {
+        "label": "Snorlax Doll",
+        "cut": "Snorlax Doll",
+        "copies_before": 2,
+        "weighted": 0.44625875875875876,
+        "se": 0.015623296564664236,
+        "mean": 0.5432692307692307,
+        "worst": 0.125,
+        "determination": 0.36538461538461536,
+        "determination_weighted": 0.3578203203203203,
+        "arven": 0.7144230769230769,
+        "petrel": 0.6961538461538462,
+        "proxy": 4.298076923076923,
+        "junk_hunt": 3.506730769230769,
+        "cells": {
+          "t60": {
+            "wr": 0.6875,
+            "a": 0.675,
+            "b": 0.7,
+            "determination": 0.4625,
+            "arven": 0.6499999999999999,
+            "petrel": 0.6625000000000001,
+            "proxy": 4.0375,
+            "junk_hunt": 2.425
+          },
+          "hedrick": {
+            "wr": 0.4625,
+            "a": 0.5,
+            "b": 0.425,
+            "determination": 0.3625,
+            "arven": 0.525,
+            "petrel": 0.625,
+            "proxy": 3.6625,
+            "junk_hunt": 1.725
+          },
+          "unl": {
+            "wr": 0.8375,
+            "a": 0.875,
+            "b": 0.8,
+            "determination": 0.4125,
+            "arven": 0.7375,
+            "petrel": 0.7875,
+            "proxy": 4.8625,
+            "junk_hunt": 3.875
+          },
+          "d60": {
+            "wr": 0.125,
+            "a": 0.175,
+            "b": 0.075,
+            "determination": 0.4625,
+            "arven": 0.7,
+            "petrel": 0.6625,
+            "proxy": 6.6375,
+            "junk_hunt": 2.7
+          },
+          "s60": {
+            "wr": 0.7375,
+            "a": 0.825,
+            "b": 0.65,
+            "determination": 0.45,
+            "arven": 1.0375,
+            "petrel": 0.7875,
+            "proxy": 3.95,
+            "junk_hunt": 5.525
+          },
+          "g": {
+            "wr": 0.4,
+            "a": 0.475,
+            "b": 0.325,
+            "determination": 0.375,
+            "arven": 0.8625,
+            "petrel": 0.7375,
+            "proxy": 5.050000000000001,
+            "junk_hunt": 2.875
+          },
+          "c60": {
+            "wr": 0.6375,
+            "a": 0.65,
+            "b": 0.625,
+            "determination": 0.2375,
+            "arven": 0.6125,
+            "petrel": 0.575,
+            "proxy": 3.35,
+            "junk_hunt": 1.9000000000000001
+          },
+          "m": {
+            "wr": 0.35,
+            "a": 0.325,
+            "b": 0.375,
+            "determination": 0.2875,
+            "arven": 0.55,
+            "petrel": 0.5125,
+            "proxy": 4.325,
+            "junk_hunt": 1.8125
+          },
+          "starmie": {
+            "wr": 0.3,
+            "a": 0.25,
+            "b": 0.35,
+            "determination": 0.325,
+            "arven": 0.6,
+            "petrel": 0.8,
+            "proxy": 4.825,
+            "junk_hunt": 3.575
+          },
+          "lucario": {
+            "wr": 0.8,
+            "a": 0.75,
+            "b": 0.85,
+            "determination": 0.2875,
+            "arven": 0.625,
+            "petrel": 0.625,
+            "proxy": 3.4124999999999996,
+            "junk_hunt": 2.2750000000000004
+          },
+          "thorns": {
+            "wr": 0.9,
+            "a": 0.925,
+            "b": 0.875,
+            "determination": 0.4125,
+            "arven": 0.675,
+            "petrel": 0.85,
+            "proxy": 4.25,
+            "junk_hunt": 4.125
+          },
+          "h": {
+            "wr": 0.175,
+            "a": 0.15,
+            "b": 0.2,
+            "determination": 0.375,
+            "arven": 0.9125,
+            "petrel": 0.7375,
+            "proxy": 4.637499999999999,
+            "junk_hunt": 5.800000000000001
+          },
+          "g30": {
+            "wr": 0.6499999999999999,
+            "a": 0.7,
+            "b": 0.6,
+            "determination": 0.30000000000000004,
+            "arven": 0.8,
+            "petrel": 0.6875,
+            "proxy": 2.875,
+            "junk_hunt": 6.975
+          }
+        }
+      },
+      {
+        "label": "Sableye",
+        "cut": "Sableye",
+        "copies_before": 2,
+        "weighted": 0.4446196196196196,
+        "se": 0.015148335944227554,
+        "mean": 0.5451923076923078,
+        "worst": 0.07500000000000001,
+        "determination": 0.3403846153846154,
+        "determination_weighted": 0.3450450450450451,
+        "arven": 0.6442307692307693,
+        "petrel": 0.6375,
+        "proxy": 4.218269230769231,
+        "junk_hunt": 2.3,
+        "cells": {
+          "t60": {
+            "wr": 0.7250000000000001,
+            "a": 0.65,
+            "b": 0.8,
+            "determination": 0.3875,
+            "arven": 0.7375,
+            "petrel": 0.575,
+            "proxy": 4.2375,
+            "junk_hunt": 1.7000000000000002
+          },
+          "hedrick": {
+            "wr": 0.4,
+            "a": 0.35,
+            "b": 0.45,
+            "determination": 0.32499999999999996,
+            "arven": 0.525,
+            "petrel": 0.6625,
+            "proxy": 3.4875,
+            "junk_hunt": 1.35
+          },
+          "unl": {
+            "wr": 0.825,
+            "a": 0.8,
+            "b": 0.85,
+            "determination": 0.4125,
+            "arven": 0.7,
+            "petrel": 0.7,
+            "proxy": 4.7,
+            "junk_hunt": 2.3
+          },
+          "d60": {
+            "wr": 0.07500000000000001,
+            "a": 0.1,
+            "b": 0.05,
+            "determination": 0.4375,
+            "arven": 0.5625,
+            "petrel": 0.8,
+            "proxy": 5.887499999999999,
+            "junk_hunt": 1.775
+          },
+          "s60": {
+            "wr": 0.625,
+            "a": 0.575,
+            "b": 0.675,
+            "determination": 0.3125,
+            "arven": 0.75,
+            "petrel": 0.7875000000000001,
+            "proxy": 3.9124999999999996,
+            "junk_hunt": 2.9
+          },
+          "g": {
+            "wr": 0.4125,
+            "a": 0.525,
+            "b": 0.3,
+            "determination": 0.3375,
+            "arven": 0.5625,
+            "petrel": 0.7,
+            "proxy": 4.75,
+            "junk_hunt": 2.275
+          },
+          "c60": {
+            "wr": 0.7124999999999999,
+            "a": 0.725,
+            "b": 0.7,
+            "determination": 0.35,
+            "arven": 0.5874999999999999,
+            "petrel": 0.6,
+            "proxy": 3.6625,
+            "junk_hunt": 1.65
+          },
+          "m": {
+            "wr": 0.36250000000000004,
+            "a": 0.325,
+            "b": 0.4,
+            "determination": 0.325,
+            "arven": 0.5625,
+            "petrel": 0.55,
+            "proxy": 4.475,
+            "junk_hunt": 1.125
+          },
+          "starmie": {
+            "wr": 0.275,
+            "a": 0.325,
+            "b": 0.225,
+            "determination": 0.3375,
+            "arven": 0.6375,
+            "petrel": 0.6,
+            "proxy": 4.2625,
+            "junk_hunt": 2.375
+          },
+          "lucario": {
+            "wr": 0.8375,
+            "a": 0.775,
+            "b": 0.9,
+            "determination": 0.3125,
+            "arven": 0.6000000000000001,
+            "petrel": 0.35,
+            "proxy": 3.4625,
+            "junk_hunt": 2.075
+          },
+          "thorns": {
+            "wr": 0.925,
+            "a": 0.925,
+            "b": 0.925,
+            "determination": 0.35,
+            "arven": 0.7125,
+            "petrel": 0.75,
+            "proxy": 4.2125,
+            "junk_hunt": 1.9
+          },
+          "h": {
+            "wr": 0.2,
+            "a": 0.2,
+            "b": 0.2,
+            "determination": 0.25,
+            "arven": 0.825,
+            "petrel": 0.7,
+            "proxy": 4.9625,
+            "junk_hunt": 3.575
+          },
+          "g30": {
+            "wr": 0.7124999999999999,
+            "a": 0.7,
+            "b": 0.725,
+            "determination": 0.2875,
+            "arven": 0.6125,
+            "petrel": 0.5125,
+            "proxy": 2.825,
+            "junk_hunt": 4.9
+          }
+        }
+      },
+      {
+        "label": "Team Rocket's Petrel",
+        "cut": "Team Rocket's Petrel",
+        "copies_before": 1,
+        "weighted": 0.4393643643643644,
+        "se": 0.014729687798085046,
+        "mean": 0.5528846153846154,
+        "worst": 0.1,
+        "determination": 0.41923076923076924,
+        "determination_weighted": 0.4231981981981982,
+        "arven": 0.7711538461538462,
+        "petrel": 0.0,
+        "proxy": 4.134615384615385,
+        "junk_hunt": 3.5201923076923074,
+        "cells": {
+          "t60": {
+            "wr": 0.75,
+            "a": 0.8,
+            "b": 0.7,
+            "determination": 0.525,
+            "arven": 0.7375,
+            "petrel": 0.0,
+            "proxy": 5.075,
+            "junk_hunt": 2.925
+          },
+          "hedrick": {
+            "wr": 0.42500000000000004,
+            "a": 0.45,
+            "b": 0.4,
+            "determination": 0.4125,
+            "arven": 0.5375,
+            "petrel": 0.0,
+            "proxy": 3.2625,
+            "junk_hunt": 2.175
+          },
+          "unl": {
+            "wr": 0.825,
+            "a": 0.825,
+            "b": 0.825,
+            "determination": 0.425,
+            "arven": 0.8,
+            "petrel": 0.0,
+            "proxy": 4.375,
+            "junk_hunt": 3.95
+          },
+          "d60": {
+            "wr": 0.1,
+            "a": 0.075,
+            "b": 0.125,
+            "determination": 0.5,
+            "arven": 0.9125,
+            "petrel": 0.0,
+            "proxy": 6.1,
+            "junk_hunt": 2.8
+          },
+          "s60": {
+            "wr": 0.6375,
+            "a": 0.65,
+            "b": 0.625,
+            "determination": 0.4625,
+            "arven": 0.9624999999999999,
+            "petrel": 0.0,
+            "proxy": 3.7,
+            "junk_hunt": 4.85
+          },
+          "g": {
+            "wr": 0.45,
+            "a": 0.45,
+            "b": 0.45,
+            "determination": 0.4375,
+            "arven": 0.8,
+            "petrel": 0.0,
+            "proxy": 4.4375,
+            "junk_hunt": 2.8
+          },
+          "c60": {
+            "wr": 0.7,
+            "a": 0.775,
+            "b": 0.625,
+            "determination": 0.375,
+            "arven": 0.7375,
+            "petrel": 0.0,
+            "proxy": 3.55,
+            "junk_hunt": 1.775
+          },
+          "m": {
+            "wr": 0.275,
+            "a": 0.125,
+            "b": 0.425,
+            "determination": 0.36250000000000004,
+            "arven": 0.5249999999999999,
+            "petrel": 0.0,
+            "proxy": 4.1875,
+            "junk_hunt": 1.5375
+          },
+          "starmie": {
+            "wr": 0.275,
+            "a": 0.25,
+            "b": 0.3,
+            "determination": 0.45,
+            "arven": 0.75,
+            "petrel": 0.0,
+            "proxy": 4.637499999999999,
+            "junk_hunt": 3.3
+          },
+          "lucario": {
+            "wr": 0.8875,
+            "a": 0.825,
+            "b": 0.95,
+            "determination": 0.4125,
+            "arven": 0.5625,
+            "petrel": 0.0,
+            "proxy": 3.625,
+            "junk_hunt": 2.4
+          },
+          "thorns": {
+            "wr": 0.975,
+            "a": 1.0,
+            "b": 0.95,
+            "determination": 0.4,
+            "arven": 0.8999999999999999,
+            "petrel": 0.0,
+            "proxy": 4.0625,
+            "junk_hunt": 2.75
+          },
+          "h": {
+            "wr": 0.1,
+            "a": 0.1,
+            "b": 0.1,
+            "determination": 0.3625,
+            "arven": 0.95,
+            "petrel": 0.0,
+            "proxy": 4.0875,
+            "junk_hunt": 6.775
+          },
+          "g30": {
+            "wr": 0.7875,
+            "a": 0.825,
+            "b": 0.75,
+            "determination": 0.325,
+            "arven": 0.85,
+            "petrel": 0.0,
+            "proxy": 2.6500000000000004,
+            "junk_hunt": 7.725
+          }
+        }
+      },
+      {
+        "label": "Lillie's Pok\u00e9 Doll",
+        "cut": "Lillie's Pok\u00e9 Doll",
+        "copies_before": 4,
+        "weighted": 0.4390265265265265,
+        "se": 0.015127608351722416,
+        "mean": 0.5538461538461539,
+        "worst": 0.1,
+        "determination": 0.39807692307692305,
+        "determination_weighted": 0.3960710710710711,
+        "arven": 0.7086538461538462,
+        "petrel": 0.6721153846153847,
+        "proxy": 3.9538461538461545,
+        "junk_hunt": 3.7586538461538463,
+        "cells": {
+          "t60": {
+            "wr": 0.825,
+            "a": 0.875,
+            "b": 0.775,
+            "determination": 0.4625,
+            "arven": 0.8,
+            "petrel": 0.675,
+            "proxy": 4.075,
+            "junk_hunt": 1.975
+          },
+          "hedrick": {
+            "wr": 0.3625,
+            "a": 0.375,
+            "b": 0.35,
+            "determination": 0.375,
+            "arven": 0.5375,
+            "petrel": 0.5,
+            "proxy": 3.0250000000000004,
+            "junk_hunt": 1.95
+          },
+          "unl": {
+            "wr": 0.8375,
+            "a": 0.9,
+            "b": 0.775,
+            "determination": 0.35,
+            "arven": 0.7875,
+            "petrel": 0.9125,
+            "proxy": 4.2125,
+            "junk_hunt": 4.2
+          },
+          "d60": {
+            "wr": 0.1,
+            "a": 0.15,
+            "b": 0.05,
+            "determination": 0.4125,
+            "arven": 0.7,
+            "petrel": 0.6,
+            "proxy": 5.625,
+            "junk_hunt": 2.8
+          },
+          "s60": {
+            "wr": 0.6625,
+            "a": 0.7,
+            "b": 0.625,
+            "determination": 0.44999999999999996,
+            "arven": 0.7749999999999999,
+            "petrel": 1.05,
+            "proxy": 3.675,
+            "junk_hunt": 4.4
+          },
+          "g": {
+            "wr": 0.3875,
+            "a": 0.4,
+            "b": 0.375,
+            "determination": 0.4,
+            "arven": 0.8125,
+            "petrel": 0.65,
+            "proxy": 4.325,
+            "junk_hunt": 2.925
+          },
+          "c60": {
+            "wr": 0.6875,
+            "a": 0.65,
+            "b": 0.725,
+            "determination": 0.3375,
+            "arven": 0.6625000000000001,
+            "petrel": 0.65,
+            "proxy": 3.675,
+            "junk_hunt": 2.2
+          },
+          "m": {
+            "wr": 0.3125,
+            "a": 0.225,
+            "b": 0.4,
+            "determination": 0.375,
+            "arven": 0.575,
+            "petrel": 0.4125,
+            "proxy": 4.075,
+            "junk_hunt": 1.6625
+          },
+          "starmie": {
+            "wr": 0.25,
+            "a": 0.175,
+            "b": 0.325,
+            "determination": 0.4,
+            "arven": 0.6,
+            "petrel": 0.6625,
+            "proxy": 4.2125,
+            "junk_hunt": 3.2
+          },
+          "lucario": {
+            "wr": 0.8125,
+            "a": 0.8,
+            "b": 0.825,
+            "determination": 0.35,
+            "arven": 0.575,
+            "petrel": 0.5375,
+            "proxy": 3.6375,
+            "junk_hunt": 1.975
+          },
+          "thorns": {
+            "wr": 0.925,
+            "a": 0.9,
+            "b": 0.95,
+            "determination": 0.475,
+            "arven": 0.9375,
+            "petrel": 0.7625,
+            "proxy": 4.075,
+            "junk_hunt": 3.125
+          },
+          "h": {
+            "wr": 0.225,
+            "a": 0.275,
+            "b": 0.175,
+            "determination": 0.425,
+            "arven": 0.6625000000000001,
+            "petrel": 0.6375,
+            "proxy": 4.15,
+            "junk_hunt": 8.05
+          },
+          "g30": {
+            "wr": 0.8125,
+            "a": 0.825,
+            "b": 0.8,
+            "determination": 0.3625,
+            "arven": 0.7875,
+            "petrel": 0.6875,
+            "proxy": 2.6375,
+            "junk_hunt": 10.4
+          }
+        }
+      },
+      {
+        "label": "Nincada",
+        "cut": "Nincada",
+        "copies_before": 1,
+        "weighted": 0.4383758758758759,
+        "se": 0.014983688150502949,
+        "mean": 0.5538461538461539,
+        "worst": 0.11249999999999999,
+        "determination": 0.3894230769230769,
+        "determination_weighted": 0.402515015015015,
+        "arven": 0.7211538461538461,
+        "petrel": 0.6413461538461539,
+        "proxy": 4.375,
+        "junk_hunt": 3.5326923076923076,
+        "cells": {
+          "t60": {
+            "wr": 0.7875,
+            "a": 0.725,
+            "b": 0.85,
+            "determination": 0.375,
+            "arven": 0.6625,
+            "petrel": 0.5875,
+            "proxy": 4.3375,
+            "junk_hunt": 3.2
+          },
+          "hedrick": {
+            "wr": 0.5,
+            "a": 0.45,
+            "b": 0.55,
+            "determination": 0.45,
+            "arven": 0.7375,
+            "petrel": 0.6375,
+            "proxy": 4.1375,
+            "junk_hunt": 2.5
+          },
+          "unl": {
+            "wr": 0.8,
+            "a": 0.775,
+            "b": 0.825,
+            "determination": 0.3125,
+            "arven": 0.7375,
+            "petrel": 0.5125,
+            "proxy": 4.725,
+            "junk_hunt": 3.925
+          },
+          "d60": {
+            "wr": 0.11249999999999999,
+            "a": 0.075,
+            "b": 0.15,
+            "determination": 0.48750000000000004,
+            "arven": 0.9875,
+            "petrel": 0.7250000000000001,
+            "proxy": 6.487500000000001,
+            "junk_hunt": 3.7750000000000004
+          },
+          "s60": {
+            "wr": 0.725,
+            "a": 0.7,
+            "b": 0.75,
+            "determination": 0.4125,
+            "arven": 0.925,
+            "petrel": 0.725,
+            "proxy": 3.6375,
+            "junk_hunt": 5.574999999999999
+          },
+          "g": {
+            "wr": 0.35,
+            "a": 0.375,
+            "b": 0.325,
+            "determination": 0.4375,
+            "arven": 0.7,
+            "petrel": 0.6875,
+            "proxy": 4.7125,
+            "junk_hunt": 3.05
+          },
+          "c60": {
+            "wr": 0.7124999999999999,
+            "a": 0.7,
+            "b": 0.725,
+            "determination": 0.3125,
+            "arven": 0.6000000000000001,
+            "petrel": 0.725,
+            "proxy": 3.7,
+            "junk_hunt": 2.9
+          },
+          "m": {
+            "wr": 0.30000000000000004,
+            "a": 0.275,
+            "b": 0.325,
+            "determination": 0.3,
+            "arven": 0.6375,
+            "petrel": 0.525,
+            "proxy": 4.55,
+            "junk_hunt": 1.5750000000000002
+          },
+          "starmie": {
+            "wr": 0.2125,
+            "a": 0.175,
+            "b": 0.25,
+            "determination": 0.4625,
+            "arven": 0.5125,
+            "petrel": 0.6125,
+            "proxy": 4.9625,
+            "junk_hunt": 2.5
+          },
+          "lucario": {
+            "wr": 0.8125,
+            "a": 0.85,
+            "b": 0.775,
+            "determination": 0.35,
+            "arven": 0.6125,
+            "petrel": 0.35,
+            "proxy": 3.7875,
+            "junk_hunt": 2.25
+          },
+          "thorns": {
+            "wr": 0.9125000000000001,
+            "a": 0.9,
+            "b": 0.925,
+            "determination": 0.5125,
+            "arven": 0.975,
+            "petrel": 0.75,
+            "proxy": 4.5625,
+            "junk_hunt": 3.025
+          },
+          "h": {
+            "wr": 0.175,
+            "a": 0.175,
+            "b": 0.175,
+            "determination": 0.45,
+            "arven": 0.7124999999999999,
+            "petrel": 0.725,
+            "proxy": 4.2375,
+            "junk_hunt": 5.9
+          },
+          "g30": {
+            "wr": 0.8,
+            "a": 0.75,
+            "b": 0.85,
+            "determination": 0.2,
+            "arven": 0.575,
+            "petrel": 0.775,
+            "proxy": 3.0375,
+            "junk_hunt": 5.75
+          }
+        }
+      },
+      {
+        "label": "Arven",
+        "cut": "Arven",
+        "copies_before": 1,
+        "weighted": 0.4371996996996997,
+        "se": 0.014527778593581587,
+        "mean": 0.5596153846153846,
+        "worst": 0.05,
+        "determination": 0.4269230769230769,
+        "determination_weighted": 0.4146521521521522,
+        "arven": 0.0,
+        "petrel": 0.739423076923077,
+        "proxy": 4.045192307692307,
+        "junk_hunt": 3.701923076923077,
+        "cells": {
+          "t60": {
+            "wr": 0.7,
+            "a": 0.625,
+            "b": 0.775,
+            "determination": 0.4625,
+            "arven": 0.0,
+            "petrel": 0.6625000000000001,
+            "proxy": 4.075,
+            "junk_hunt": 2.3499999999999996
+          },
+          "hedrick": {
+            "wr": 0.5875,
+            "a": 0.65,
+            "b": 0.525,
+            "determination": 0.3625,
+            "arven": 0.0,
+            "petrel": 0.6125,
+            "proxy": 3.7625,
+            "junk_hunt": 2.425
+          },
+          "unl": {
+            "wr": 0.8375,
+            "a": 0.8,
+            "b": 0.875,
+            "determination": 0.5,
+            "arven": 0.0,
+            "petrel": 0.9125000000000001,
+            "proxy": 4.2,
+            "junk_hunt": 3.5999999999999996
+          },
+          "d60": {
+            "wr": 0.05,
+            "a": 0.075,
+            "b": 0.025,
+            "determination": 0.42500000000000004,
+            "arven": 0.0,
+            "petrel": 1.0125,
+            "proxy": 5.925,
+            "junk_hunt": 3.25
+          },
+          "s60": {
+            "wr": 0.675,
+            "a": 0.6,
+            "b": 0.75,
+            "determination": 0.5,
+            "arven": 0.0,
+            "petrel": 0.825,
+            "proxy": 3.6125,
+            "junk_hunt": 4.825
+          },
+          "g": {
+            "wr": 0.42500000000000004,
+            "a": 0.45,
+            "b": 0.4,
+            "determination": 0.575,
+            "arven": 0.0,
+            "petrel": 0.9375,
+            "proxy": 4.2625,
+            "junk_hunt": 3.2
+          },
+          "c60": {
+            "wr": 0.7,
+            "a": 0.7,
+            "b": 0.7,
+            "determination": 0.325,
+            "arven": 0.0,
+            "petrel": 0.55,
+            "proxy": 3.5125,
+            "junk_hunt": 1.6
+          },
+          "m": {
+            "wr": 0.2625,
+            "a": 0.275,
+            "b": 0.25,
+            "determination": 0.2875,
+            "arven": 0.0,
+            "petrel": 0.5625,
+            "proxy": 3.9375,
+            "junk_hunt": 1.7000000000000002
+          },
+          "starmie": {
+            "wr": 0.2625,
+            "a": 0.325,
+            "b": 0.2,
+            "determination": 0.35,
+            "arven": 0.0,
+            "petrel": 0.575,
+            "proxy": 4.35,
+            "junk_hunt": 3.05
+          },
+          "lucario": {
+            "wr": 0.8875,
+            "a": 0.875,
+            "b": 0.9,
+            "determination": 0.4625,
+            "arven": 0.0,
+            "petrel": 0.5625,
+            "proxy": 3.7375,
+            "junk_hunt": 2.4
+          },
+          "thorns": {
+            "wr": 0.95,
+            "a": 0.925,
+            "b": 0.975,
+            "determination": 0.5375,
+            "arven": 0.0,
+            "petrel": 0.7625,
+            "proxy": 4.15,
+            "junk_hunt": 2.8
+          },
+          "h": {
+            "wr": 0.1375,
+            "a": 0.15,
+            "b": 0.125,
+            "determination": 0.44999999999999996,
+            "arven": 0.0,
+            "petrel": 0.85,
+            "proxy": 4.4625,
+            "junk_hunt": 7.25
+          },
+          "g30": {
+            "wr": 0.8,
+            "a": 0.825,
+            "b": 0.775,
+            "determination": 0.3125,
+            "arven": 0.0,
+            "petrel": 0.7875,
+            "proxy": 2.5999999999999996,
+            "junk_hunt": 9.675
+          }
+        }
+      },
+      {
+        "label": "Puzzle of Time",
+        "cut": "Puzzle of Time",
+        "copies_before": 4,
+        "weighted": 0.4358858858858859,
+        "se": 0.014797663854566705,
+        "mean": 0.5394230769230769,
+        "worst": 0.0625,
+        "determination": 0.38461538461538464,
+        "determination_weighted": 0.38448448448448447,
+        "arven": 0.6451923076923076,
+        "petrel": 0.5961538461538461,
+        "proxy": 4.279807692307693,
+        "junk_hunt": 3.173076923076923,
+        "cells": {
+          "t60": {
+            "wr": 0.7375,
+            "a": 0.7,
+            "b": 0.775,
+            "determination": 0.4625,
+            "arven": 0.6125,
+            "petrel": 0.5875,
+            "proxy": 4.3125,
+            "junk_hunt": 2.4
+          },
+          "hedrick": {
+            "wr": 0.5375,
+            "a": 0.575,
+            "b": 0.5,
+            "determination": 0.3875,
+            "arven": 0.5874999999999999,
+            "petrel": 0.48750000000000004,
+            "proxy": 3.925,
+            "junk_hunt": 1.6749999999999998
+          },
+          "unl": {
+            "wr": 0.8374999999999999,
+            "a": 0.85,
+            "b": 0.825,
+            "determination": 0.4,
+            "arven": 0.7250000000000001,
+            "petrel": 0.5875,
+            "proxy": 4.3,
+            "junk_hunt": 3.7
+          },
+          "d60": {
+            "wr": 0.0625,
+            "a": 0.075,
+            "b": 0.05,
+            "determination": 0.425,
+            "arven": 0.725,
+            "petrel": 0.6125,
+            "proxy": 6.762499999999999,
+            "junk_hunt": 3.475
+          },
+          "s60": {
+            "wr": 0.6,
+            "a": 0.575,
+            "b": 0.625,
+            "determination": 0.425,
+            "arven": 0.8875,
+            "petrel": 0.6875,
+            "proxy": 3.8625,
+            "junk_hunt": 3.875
+          },
+          "g": {
+            "wr": 0.3,
+            "a": 0.25,
+            "b": 0.35,
+            "determination": 0.36250000000000004,
+            "arven": 0.6499999999999999,
+            "petrel": 0.6499999999999999,
+            "proxy": 4.65,
+            "junk_hunt": 2.125
+          },
+          "c60": {
+            "wr": 0.7250000000000001,
+            "a": 0.775,
+            "b": 0.675,
+            "determination": 0.3875,
+            "arven": 0.5875,
+            "petrel": 0.6375,
+            "proxy": 3.8625,
+            "junk_hunt": 2.225
+          },
+          "m": {
+            "wr": 0.35,
+            "a": 0.25,
+            "b": 0.45,
+            "determination": 0.32499999999999996,
+            "arven": 0.55,
+            "petrel": 0.4875,
+            "proxy": 4.5,
+            "junk_hunt": 1.55
+          },
+          "starmie": {
+            "wr": 0.3625,
+            "a": 0.375,
+            "b": 0.35,
+            "determination": 0.325,
+            "arven": 0.5,
+            "petrel": 0.6000000000000001,
+            "proxy": 4.4625,
+            "junk_hunt": 4.225
+          },
+          "lucario": {
+            "wr": 0.8375,
+            "a": 0.8,
+            "b": 0.875,
+            "determination": 0.2875,
+            "arven": 0.5874999999999999,
+            "petrel": 0.525,
+            "proxy": 3.4125,
+            "junk_hunt": 2.2
+          },
+          "thorns": {
+            "wr": 0.9125,
+            "a": 0.95,
+            "b": 0.875,
+            "determination": 0.4375,
+            "arven": 0.6375,
+            "petrel": 0.6000000000000001,
+            "proxy": 3.8625,
+            "junk_hunt": 3.425
+          },
+          "h": {
+            "wr": 0.1,
+            "a": 0.1,
+            "b": 0.1,
+            "determination": 0.5,
+            "arven": 0.6,
+            "petrel": 0.7,
+            "proxy": 4.8375,
+            "junk_hunt": 5.575
+          },
+          "g30": {
+            "wr": 0.65,
+            "a": 0.675,
+            "b": 0.625,
+            "determination": 0.275,
+            "arven": 0.7375,
+            "petrel": 0.5875,
+            "proxy": 2.8875,
+            "junk_hunt": 4.8
+          }
+        }
+      },
+      {
+        "label": "Manaphy",
+        "cut": "Manaphy",
+        "copies_before": 1,
+        "weighted": 0.43074324324324326,
+        "se": 0.014528754400081287,
+        "mean": 0.5442307692307693,
+        "worst": 0.09999999999999999,
+        "determination": 0.3557692307692308,
+        "determination_weighted": 0.3596596596596597,
+        "arven": 0.7086538461538462,
+        "petrel": 0.6865384615384615,
+        "proxy": 4.5442307692307695,
+        "junk_hunt": 3.5548076923076923,
+        "cells": {
+          "t60": {
+            "wr": 0.7250000000000001,
+            "a": 0.775,
+            "b": 0.675,
+            "determination": 0.4875,
+            "arven": 0.75,
+            "petrel": 0.7375,
+            "proxy": 4.800000000000001,
+            "junk_hunt": 2.4
+          },
+          "hedrick": {
+            "wr": 0.5,
+            "a": 0.5,
+            "b": 0.5,
+            "determination": 0.375,
+            "arven": 0.4875,
+            "petrel": 0.48750000000000004,
+            "proxy": 3.8,
+            "junk_hunt": 1.65
+          },
+          "unl": {
+            "wr": 0.8500000000000001,
+            "a": 0.8,
+            "b": 0.9,
+            "determination": 0.375,
+            "arven": 0.7,
+            "petrel": 0.675,
+            "proxy": 4.862500000000001,
+            "junk_hunt": 4.15
+          },
+          "d60": {
+            "wr": 0.09999999999999999,
+            "a": 0.175,
+            "b": 0.025,
+            "determination": 0.3375,
+            "arven": 0.7875,
+            "petrel": 0.7,
+            "proxy": 6.525,
+            "junk_hunt": 3.15
+          },
+          "s60": {
+            "wr": 0.675,
+            "a": 0.725,
+            "b": 0.625,
+            "determination": 0.2625,
+            "arven": 0.9375,
+            "petrel": 0.9375,
+            "proxy": 4.3,
+            "junk_hunt": 4.875
+          },
+          "g": {
+            "wr": 0.3875,
+            "a": 0.325,
+            "b": 0.45,
+            "determination": 0.44999999999999996,
+            "arven": 0.9375,
+            "petrel": 0.525,
+            "proxy": 5.225,
+            "junk_hunt": 3.7
+          },
+          "c60": {
+            "wr": 0.7375,
+            "a": 0.8,
+            "b": 0.675,
+            "determination": 0.3125,
+            "arven": 0.825,
+            "petrel": 0.7749999999999999,
+            "proxy": 4.1375,
+            "junk_hunt": 2.55
+          },
+          "m": {
+            "wr": 0.275,
+            "a": 0.25,
+            "b": 0.3,
+            "determination": 0.375,
+            "arven": 0.675,
+            "petrel": 0.6375,
+            "proxy": 4.575,
+            "junk_hunt": 1.8375
+          },
+          "starmie": {
+            "wr": 0.1625,
+            "a": 0.1,
+            "b": 0.225,
+            "determination": 0.375,
+            "arven": 0.4625,
+            "petrel": 0.6499999999999999,
+            "proxy": 4.7125,
+            "junk_hunt": 3.3
+          },
+          "lucario": {
+            "wr": 0.8375,
+            "a": 0.8,
+            "b": 0.875,
+            "determination": 0.3375,
+            "arven": 0.6625000000000001,
+            "petrel": 0.6125,
+            "proxy": 3.9000000000000004,
+            "junk_hunt": 2.8
+          },
+          "thorns": {
+            "wr": 0.9375,
+            "a": 0.95,
+            "b": 0.925,
+            "determination": 0.3375,
+            "arven": 0.7875,
+            "petrel": 0.625,
+            "proxy": 4.1625,
+            "junk_hunt": 3.175
+          },
+          "h": {
+            "wr": 0.1625,
+            "a": 0.25,
+            "b": 0.075,
+            "determination": 0.3375,
+            "arven": 0.5625,
+            "petrel": 0.85,
+            "proxy": 4.9625,
+            "junk_hunt": 6.574999999999999
+          },
+          "g30": {
+            "wr": 0.725,
+            "a": 0.7,
+            "b": 0.75,
+            "determination": 0.2625,
+            "arven": 0.6375,
+            "petrel": 0.7125,
+            "proxy": 3.1125,
+            "junk_hunt": 6.05
+          }
+        }
+      },
+      {
+        "label": "Cursed Shovel",
+        "cut": "Cursed Shovel",
+        "copies_before": 3,
+        "weighted": 0.42865365365365365,
+        "se": 0.015418222857891085,
+        "mean": 0.5375,
+        "worst": 0.125,
+        "determination": 0.375,
+        "determination_weighted": 0.3868118118118118,
+        "arven": 0.6942307692307692,
+        "petrel": 0.6673076923076924,
+        "proxy": 4.360576923076923,
+        "junk_hunt": 3.527884615384615,
+        "cells": {
+          "t60": {
+            "wr": 0.75,
+            "a": 0.75,
+            "b": 0.75,
+            "determination": 0.3375,
+            "arven": 0.625,
+            "petrel": 0.675,
+            "proxy": 4.2,
+            "junk_hunt": 2.7
+          },
+          "hedrick": {
+            "wr": 0.4125,
+            "a": 0.375,
+            "b": 0.45,
+            "determination": 0.36250000000000004,
+            "arven": 0.5,
+            "petrel": 0.6625,
+            "proxy": 4.375,
+            "junk_hunt": 1.7999999999999998
+          },
+          "unl": {
+            "wr": 0.8875,
+            "a": 0.875,
+            "b": 0.9,
+            "determination": 0.4,
+            "arven": 0.7125,
+            "petrel": 0.525,
+            "proxy": 4.5,
+            "junk_hunt": 3.1500000000000004
+          },
+          "d60": {
+            "wr": 0.125,
+            "a": 0.1,
+            "b": 0.15,
+            "determination": 0.44999999999999996,
+            "arven": 0.65,
+            "petrel": 0.675,
+            "proxy": 6.65,
+            "junk_hunt": 3.425
+          },
+          "s60": {
+            "wr": 0.625,
+            "a": 0.65,
+            "b": 0.6,
+            "determination": 0.375,
+            "arven": 0.9874999999999999,
+            "petrel": 0.7875,
+            "proxy": 3.875,
+            "junk_hunt": 4.55
+          },
+          "g": {
+            "wr": 0.45,
+            "a": 0.4,
+            "b": 0.5,
+            "determination": 0.4875,
+            "arven": 0.7124999999999999,
+            "petrel": 0.775,
+            "proxy": 4.6125,
+            "junk_hunt": 3.925
+          },
+          "c60": {
+            "wr": 0.625,
+            "a": 0.625,
+            "b": 0.625,
+            "determination": 0.35,
+            "arven": 0.6625,
+            "petrel": 0.425,
+            "proxy": 3.725,
+            "junk_hunt": 2.7249999999999996
+          },
+          "m": {
+            "wr": 0.2875,
+            "a": 0.25,
+            "b": 0.325,
+            "determination": 0.2875,
+            "arven": 0.425,
+            "petrel": 0.625,
+            "proxy": 4.4625,
+            "junk_hunt": 1.3875
+          },
+          "starmie": {
+            "wr": 0.23750000000000002,
+            "a": 0.275,
+            "b": 0.2,
+            "determination": 0.3875,
+            "arven": 0.6125,
+            "petrel": 0.625,
+            "proxy": 4.8125,
+            "junk_hunt": 3.325
+          },
+          "lucario": {
+            "wr": 0.8375,
+            "a": 0.75,
+            "b": 0.925,
+            "determination": 0.275,
+            "arven": 0.675,
+            "petrel": 0.6375,
+            "proxy": 3.675,
+            "junk_hunt": 2.75
+          },
+          "thorns": {
+            "wr": 0.875,
+            "a": 0.9,
+            "b": 0.85,
+            "determination": 0.3875,
+            "arven": 0.7,
+            "petrel": 0.775,
+            "proxy": 4.15,
+            "junk_hunt": 3.125
+          },
+          "h": {
+            "wr": 0.1625,
+            "a": 0.2,
+            "b": 0.125,
+            "determination": 0.5,
+            "arven": 1.075,
+            "petrel": 0.8875,
+            "proxy": 4.8,
+            "junk_hunt": 7.325
+          },
+          "g30": {
+            "wr": 0.7125,
+            "a": 0.65,
+            "b": 0.775,
+            "determination": 0.275,
+            "arven": 0.6875,
+            "petrel": 0.6,
+            "proxy": 2.85,
+            "junk_hunt": 5.675
+          }
+        }
+      },
+      {
+        "label": "baseline",
+        "cut": null,
+        "copies_before": 0,
+        "weighted": 0.4270895895895896,
+        "se": 0.014757988293886689,
+        "mean": 0.5394230769230769,
+        "worst": 0.0875,
+        "determination": 0.0,
+        "determination_weighted": 0.0,
+        "arven": 0.6461538461538462,
+        "petrel": 0.6019230769230769,
+        "proxy": 4.131730769230769,
+        "junk_hunt": 3.2951923076923078,
+        "cells": {
+          "t60": {
+            "wr": 0.725,
+            "a": 0.725,
+            "b": 0.725,
+            "determination": 0.0,
+            "arven": 0.6625,
+            "petrel": 0.5875,
+            "proxy": 4.2125,
+            "junk_hunt": 2.05
+          },
+          "hedrick": {
+            "wr": 0.5,
+            "a": 0.45,
+            "b": 0.55,
+            "determination": 0.0,
+            "arven": 0.4375,
+            "petrel": 0.5,
+            "proxy": 3.675,
+            "junk_hunt": 1.825
+          },
+          "unl": {
+            "wr": 0.8,
+            "a": 0.775,
+            "b": 0.825,
+            "determination": 0.0,
+            "arven": 0.75,
+            "petrel": 0.5875,
+            "proxy": 4.262499999999999,
+            "junk_hunt": 3.9000000000000004
+          },
+          "d60": {
+            "wr": 0.1,
+            "a": 0.075,
+            "b": 0.125,
+            "determination": 0.0,
+            "arven": 0.5125,
+            "petrel": 0.625,
+            "proxy": 6.4625,
+            "junk_hunt": 2.5
+          },
+          "s60": {
+            "wr": 0.6625,
+            "a": 0.575,
+            "b": 0.75,
+            "determination": 0.0,
+            "arven": 0.6625,
+            "petrel": 0.6000000000000001,
+            "proxy": 3.45,
+            "junk_hunt": 5.725
+          },
+          "g": {
+            "wr": 0.4375,
+            "a": 0.35,
+            "b": 0.525,
+            "determination": 0.0,
+            "arven": 0.6625000000000001,
+            "petrel": 0.7250000000000001,
+            "proxy": 4.4625,
+            "junk_hunt": 2.5
+          },
+          "c60": {
+            "wr": 0.6625000000000001,
+            "a": 0.775,
+            "b": 0.55,
+            "determination": 0.0,
+            "arven": 0.625,
+            "petrel": 0.4125,
+            "proxy": 3.6625,
+            "junk_hunt": 1.35
+          },
+          "m": {
+            "wr": 0.275,
+            "a": 0.275,
+            "b": 0.275,
+            "determination": 0.0,
+            "arven": 0.475,
+            "petrel": 0.6375,
+            "proxy": 4.1625,
+            "junk_hunt": 1.1124999999999998
+          },
+          "starmie": {
+            "wr": 0.21250000000000002,
+            "a": 0.225,
+            "b": 0.2,
+            "determination": 0.0,
+            "arven": 0.7,
+            "petrel": 0.375,
+            "proxy": 4.375,
+            "junk_hunt": 3.225
+          },
+          "lucario": {
+            "wr": 0.85,
+            "a": 0.85,
+            "b": 0.85,
+            "determination": 0.0,
+            "arven": 0.6125,
+            "petrel": 0.625,
+            "proxy": 3.45,
+            "junk_hunt": 2.675
+          },
+          "thorns": {
+            "wr": 0.975,
+            "a": 0.95,
+            "b": 1.0,
+            "determination": 0.0,
+            "arven": 0.8999999999999999,
+            "petrel": 0.5875,
+            "proxy": 4.15,
+            "junk_hunt": 4.0
+          },
+          "h": {
+            "wr": 0.0875,
+            "a": 0.025,
+            "b": 0.15,
+            "determination": 0.0,
+            "arven": 0.7375,
+            "petrel": 0.7125,
+            "proxy": 4.55,
+            "junk_hunt": 5.5
+          },
+          "g30": {
+            "wr": 0.725,
+            "a": 0.7,
+            "b": 0.75,
+            "determination": 0.0,
+            "arven": 0.6625000000000001,
+            "petrel": 0.85,
+            "proxy": 2.8375,
+            "junk_hunt": 6.475
+          }
+        }
+      },
+      {
+        "label": "Level Ball",
+        "cut": "Level Ball",
+        "copies_before": 2,
+        "weighted": 0.42154654654654655,
+        "se": 0.014231452524168235,
+        "mean": 0.5451923076923076,
+        "worst": 0.037500000000000006,
+        "determination": 0.4,
+        "determination_weighted": 0.39592092092092096,
+        "arven": 0.7028846153846153,
+        "petrel": 0.6730769230769231,
+        "proxy": 4.311538461538461,
+        "junk_hunt": 3.1653846153846152,
+        "cells": {
+          "t60": {
+            "wr": 0.6875,
+            "a": 0.725,
+            "b": 0.65,
+            "determination": 0.4375,
+            "arven": 0.5875,
+            "petrel": 0.625,
+            "proxy": 4.65,
+            "junk_hunt": 2.4
+          },
+          "hedrick": {
+            "wr": 0.55,
+            "a": 0.5,
+            "b": 0.6,
+            "determination": 0.5125,
+            "arven": 0.625,
+            "petrel": 0.7125,
+            "proxy": 4.1875,
+            "junk_hunt": 2.05
+          },
+          "unl": {
+            "wr": 0.825,
+            "a": 0.875,
+            "b": 0.775,
+            "determination": 0.4,
+            "arven": 0.75,
+            "petrel": 0.6875,
+            "proxy": 4.449999999999999,
+            "junk_hunt": 3.125
+          },
+          "d60": {
+            "wr": 0.037500000000000006,
+            "a": 0.05,
+            "b": 0.025,
+            "determination": 0.5125,
+            "arven": 0.6375,
+            "petrel": 0.7375,
+            "proxy": 6.575,
+            "junk_hunt": 3.1500000000000004
+          },
+          "s60": {
+            "wr": 0.625,
+            "a": 0.6,
+            "b": 0.65,
+            "determination": 0.375,
+            "arven": 0.9375,
+            "petrel": 0.8875,
+            "proxy": 3.925,
+            "junk_hunt": 3.5
+          },
+          "g": {
+            "wr": 0.375,
+            "a": 0.4,
+            "b": 0.35,
+            "determination": 0.4,
+            "arven": 0.7625,
+            "petrel": 0.8125,
+            "proxy": 4.5375,
+            "junk_hunt": 3.35
+          },
+          "c60": {
+            "wr": 0.7124999999999999,
+            "a": 0.7,
+            "b": 0.725,
+            "determination": 0.30000000000000004,
+            "arven": 0.5874999999999999,
+            "petrel": 0.675,
+            "proxy": 3.5625,
+            "junk_hunt": 1.8
+          },
+          "m": {
+            "wr": 0.26249999999999996,
+            "a": 0.175,
+            "b": 0.35,
+            "determination": 0.30000000000000004,
+            "arven": 0.5,
+            "petrel": 0.475,
+            "proxy": 4.175,
+            "junk_hunt": 1.8250000000000002
+          },
+          "starmie": {
+            "wr": 0.2,
+            "a": 0.125,
+            "b": 0.275,
+            "determination": 0.3875,
+            "arven": 0.85,
+            "petrel": 0.5125,
+            "proxy": 4.612500000000001,
+            "junk_hunt": 2.675
+          },
+          "lucario": {
+            "wr": 0.8875,
+            "a": 0.925,
+            "b": 0.85,
+            "determination": 0.325,
+            "arven": 0.775,
+            "petrel": 0.6,
+            "proxy": 3.6625,
+            "junk_hunt": 2.45
+          },
+          "thorns": {
+            "wr": 0.9375,
+            "a": 0.925,
+            "b": 0.95,
+            "determination": 0.425,
+            "arven": 0.8,
+            "petrel": 0.6,
+            "proxy": 3.95,
+            "junk_hunt": 2.95
+          },
+          "h": {
+            "wr": 0.1875,
+            "a": 0.125,
+            "b": 0.25,
+            "determination": 0.47500000000000003,
+            "arven": 0.65,
+            "petrel": 0.8,
+            "proxy": 4.6625,
+            "junk_hunt": 6.55
+          },
+          "g30": {
+            "wr": 0.8,
+            "a": 0.8,
+            "b": 0.8,
+            "determination": 0.35,
+            "arven": 0.675,
+            "petrel": 0.625,
+            "proxy": 3.1,
+            "junk_hunt": 5.325
+          }
+        }
+      },
+      {
+        "label": "Mime Jr.",
+        "cut": "Mime Jr.",
+        "copies_before": 2,
+        "weighted": 0.41765515515515517,
+        "se": 0.01480439942747845,
+        "mean": 0.5307692307692308,
+        "worst": 0.0625,
+        "determination": 0.37692307692307697,
+        "determination_weighted": 0.37247247247247245,
+        "arven": 0.7019230769230769,
+        "petrel": 0.7076923076923076,
+        "proxy": 4.302884615384615,
+        "junk_hunt": 3.6903846153846156,
+        "cells": {
+          "t60": {
+            "wr": 0.6875,
+            "a": 0.725,
+            "b": 0.65,
+            "determination": 0.3375,
+            "arven": 0.65,
+            "petrel": 0.675,
+            "proxy": 4.4,
+            "junk_hunt": 2.5
+          },
+          "hedrick": {
+            "wr": 0.4625,
+            "a": 0.325,
+            "b": 0.6,
+            "determination": 0.4,
+            "arven": 0.7124999999999999,
+            "petrel": 0.625,
+            "proxy": 4.0375,
+            "junk_hunt": 1.925
+          },
+          "unl": {
+            "wr": 0.875,
+            "a": 0.85,
+            "b": 0.9,
+            "determination": 0.375,
+            "arven": 0.7,
+            "petrel": 0.7,
+            "proxy": 4.6625,
+            "junk_hunt": 4.525
+          },
+          "d60": {
+            "wr": 0.0625,
+            "a": 0.1,
+            "b": 0.025,
+            "determination": 0.4375,
+            "arven": 0.675,
+            "petrel": 0.7124999999999999,
+            "proxy": 6.675,
+            "junk_hunt": 2.8499999999999996
+          },
+          "s60": {
+            "wr": 0.675,
+            "a": 0.725,
+            "b": 0.625,
+            "determination": 0.35,
+            "arven": 0.8625,
+            "petrel": 0.9125,
+            "proxy": 4.0625,
+            "junk_hunt": 5.225
+          },
+          "g": {
+            "wr": 0.44999999999999996,
+            "a": 0.475,
+            "b": 0.425,
+            "determination": 0.4125,
+            "arven": 0.7250000000000001,
+            "petrel": 0.5625,
+            "proxy": 4.5,
+            "junk_hunt": 3.1500000000000004
+          },
+          "c60": {
+            "wr": 0.6125,
+            "a": 0.725,
+            "b": 0.5,
+            "determination": 0.3,
+            "arven": 0.6125,
+            "petrel": 0.575,
+            "proxy": 3.3625,
+            "junk_hunt": 1.8250000000000002
+          },
+          "m": {
+            "wr": 0.275,
+            "a": 0.325,
+            "b": 0.225,
+            "determination": 0.30000000000000004,
+            "arven": 0.5875,
+            "petrel": 0.525,
+            "proxy": 4.125,
+            "junk_hunt": 1.975
+          },
+          "starmie": {
+            "wr": 0.25,
+            "a": 0.15,
+            "b": 0.35,
+            "determination": 0.4125,
+            "arven": 0.7,
+            "petrel": 0.6625,
+            "proxy": 4.9125,
+            "junk_hunt": 2.875
+          },
+          "lucario": {
+            "wr": 0.7625,
+            "a": 0.725,
+            "b": 0.8,
+            "determination": 0.4375,
+            "arven": 0.6125,
+            "petrel": 0.55,
+            "proxy": 3.7625,
+            "junk_hunt": 2.55
+          },
+          "thorns": {
+            "wr": 0.9375,
+            "a": 0.95,
+            "b": 0.925,
+            "determination": 0.5,
+            "arven": 0.7375,
+            "petrel": 0.8625,
+            "proxy": 4.15,
+            "junk_hunt": 3.7249999999999996
+          },
+          "h": {
+            "wr": 0.1375,
+            "a": 0.15,
+            "b": 0.125,
+            "determination": 0.3,
+            "arven": 0.775,
+            "petrel": 1.0,
+            "proxy": 4.4875,
+            "junk_hunt": 7.475
+          },
+          "g30": {
+            "wr": 0.7125,
+            "a": 0.775,
+            "b": 0.65,
+            "determination": 0.3375,
+            "arven": 0.7749999999999999,
+            "petrel": 0.8375,
+            "proxy": 2.8,
+            "junk_hunt": 7.375
+          }
+        }
+      },
+      {
+        "label": "Team Rocket's Handiwork",
+        "cut": "Team Rocket's Handiwork",
+        "copies_before": 4,
+        "weighted": 0.4161786786786787,
+        "se": 0.014556590357811042,
+        "mean": 0.5278846153846154,
+        "worst": 0.05,
+        "determination": 0.36538461538461536,
+        "determination_weighted": 0.3731231231231231,
+        "arven": 0.8067307692307691,
+        "petrel": 0.7019230769230769,
+        "proxy": 4.447115384615385,
+        "junk_hunt": 3.623076923076923,
+        "cells": {
+          "t60": {
+            "wr": 0.725,
+            "a": 0.7,
+            "b": 0.75,
+            "determination": 0.4375,
+            "arven": 0.8375,
+            "petrel": 0.7124999999999999,
+            "proxy": 4.8125,
+            "junk_hunt": 2.825
+          },
+          "hedrick": {
+            "wr": 0.4625,
+            "a": 0.425,
+            "b": 0.5,
+            "determination": 0.375,
+            "arven": 0.7124999999999999,
+            "petrel": 0.55,
+            "proxy": 4.1625,
+            "junk_hunt": 1.875
+          },
+          "unl": {
+            "wr": 0.85,
+            "a": 0.85,
+            "b": 0.85,
+            "determination": 0.4,
+            "arven": 0.7124999999999999,
+            "petrel": 0.8500000000000001,
+            "proxy": 4.475,
+            "junk_hunt": 4.7
+          },
+          "d60": {
+            "wr": 0.05,
+            "a": 0.025,
+            "b": 0.075,
+            "determination": 0.4625,
+            "arven": 1.0875,
+            "petrel": 0.725,
+            "proxy": 7.3625,
+            "junk_hunt": 3.5
+          },
+          "s60": {
+            "wr": 0.6125,
+            "a": 0.675,
+            "b": 0.55,
+            "determination": 0.3625,
+            "arven": 0.9624999999999999,
+            "petrel": 0.8625,
+            "proxy": 3.7375,
+            "junk_hunt": 5.074999999999999
+          },
+          "g": {
+            "wr": 0.3875,
+            "a": 0.325,
+            "b": 0.45,
+            "determination": 0.3375,
+            "arven": 0.7125,
+            "petrel": 0.7375,
+            "proxy": 4.675,
+            "junk_hunt": 2.8
+          },
+          "c60": {
+            "wr": 0.6875,
+            "a": 0.7,
+            "b": 0.675,
+            "determination": 0.32499999999999996,
+            "arven": 0.8125,
+            "petrel": 0.6625,
+            "proxy": 3.775,
+            "junk_hunt": 2.2750000000000004
+          },
+          "m": {
+            "wr": 0.2625,
+            "a": 0.25,
+            "b": 0.275,
+            "determination": 0.3875,
+            "arven": 0.575,
+            "petrel": 0.5874999999999999,
+            "proxy": 4.5625,
+            "junk_hunt": 1.65
+          },
+          "starmie": {
+            "wr": 0.2375,
+            "a": 0.325,
+            "b": 0.15,
+            "determination": 0.4125,
+            "arven": 0.7375,
+            "petrel": 0.65,
+            "proxy": 4.85,
+            "junk_hunt": 2.9
+          },
+          "lucario": {
+            "wr": 0.825,
+            "a": 0.875,
+            "b": 0.775,
+            "determination": 0.225,
+            "arven": 0.6000000000000001,
+            "petrel": 0.4625,
+            "proxy": 3.5625,
+            "junk_hunt": 1.85
+          },
+          "thorns": {
+            "wr": 0.95,
+            "a": 0.925,
+            "b": 0.975,
+            "determination": 0.35,
+            "arven": 1.075,
+            "petrel": 0.9,
+            "proxy": 4.375,
+            "junk_hunt": 3.0
+          },
+          "h": {
+            "wr": 0.1625,
+            "a": 0.125,
+            "b": 0.2,
+            "determination": 0.3375,
+            "arven": 0.825,
+            "petrel": 0.7,
+            "proxy": 4.4625,
+            "junk_hunt": 7.025
+          },
+          "g30": {
+            "wr": 0.65,
+            "a": 0.65,
+            "b": 0.65,
+            "determination": 0.3375,
+            "arven": 0.8375,
+            "petrel": 0.7250000000000001,
+            "proxy": 3.0,
+            "junk_hunt": 7.625
+          }
+        }
+      },
+      {
+        "label": "VS Seeker",
+        "cut": "VS Seeker",
+        "copies_before": 4,
+        "weighted": 0.40289039039039043,
+        "se": 0.014689290141826005,
+        "mean": 0.5269230769230769,
+        "worst": 0.0875,
+        "determination": 0.39903846153846156,
+        "determination_weighted": 0.38637387387387384,
+        "arven": 0.7375,
+        "petrel": 0.6826923076923077,
+        "proxy": 4.354807692307692,
+        "junk_hunt": 3.506730769230769,
+        "cells": {
+          "t60": {
+            "wr": 0.75,
+            "a": 0.825,
+            "b": 0.675,
+            "determination": 0.4,
+            "arven": 0.8999999999999999,
+            "petrel": 0.6,
+            "proxy": 4.3625,
+            "junk_hunt": 2.3499999999999996
+          },
+          "hedrick": {
+            "wr": 0.4625,
+            "a": 0.55,
+            "b": 0.375,
+            "determination": 0.44999999999999996,
+            "arven": 0.7125,
+            "petrel": 0.675,
+            "proxy": 4.15,
+            "junk_hunt": 2.75
+          },
+          "unl": {
+            "wr": 0.8625,
+            "a": 0.875,
+            "b": 0.85,
+            "determination": 0.375,
+            "arven": 0.8,
+            "petrel": 0.7125,
+            "proxy": 4.5375,
+            "junk_hunt": 3.9
+          },
+          "d60": {
+            "wr": 0.0875,
+            "a": 0.075,
+            "b": 0.1,
+            "determination": 0.44999999999999996,
+            "arven": 0.7,
+            "petrel": 0.875,
+            "proxy": 6.975,
+            "junk_hunt": 3.2
+          },
+          "s60": {
+            "wr": 0.575,
+            "a": 0.55,
+            "b": 0.6,
+            "determination": 0.3375,
+            "arven": 0.7,
+            "petrel": 0.775,
+            "proxy": 3.7375,
+            "junk_hunt": 5.550000000000001
+          },
+          "g": {
+            "wr": 0.2625,
+            "a": 0.325,
+            "b": 0.2,
+            "determination": 0.3625,
+            "arven": 0.75,
+            "petrel": 0.85,
+            "proxy": 4.725,
+            "junk_hunt": 2.55
+          },
+          "c60": {
+            "wr": 0.6375,
+            "a": 0.525,
+            "b": 0.75,
+            "determination": 0.3125,
+            "arven": 0.6,
+            "petrel": 0.6125,
+            "proxy": 3.8375,
+            "junk_hunt": 1.7
+          },
+          "m": {
+            "wr": 0.3,
+            "a": 0.3,
+            "b": 0.3,
+            "determination": 0.375,
+            "arven": 0.6375,
+            "petrel": 0.625,
+            "proxy": 4.9875,
+            "junk_hunt": 1.8125
+          },
+          "starmie": {
+            "wr": 0.2,
+            "a": 0.225,
+            "b": 0.175,
+            "determination": 0.35,
+            "arven": 0.4625,
+            "petrel": 0.675,
+            "proxy": 4.75,
+            "junk_hunt": 2.8
+          },
+          "lucario": {
+            "wr": 0.8500000000000001,
+            "a": 0.925,
+            "b": 0.775,
+            "determination": 0.4125,
+            "arven": 0.625,
+            "petrel": 0.42500000000000004,
+            "proxy": 3.375,
+            "junk_hunt": 1.5
+          },
+          "thorns": {
+            "wr": 0.9375,
+            "a": 0.95,
+            "b": 0.925,
+            "determination": 0.4,
+            "arven": 0.875,
+            "petrel": 0.7124999999999999,
+            "proxy": 4.025,
+            "junk_hunt": 3.175
+          },
+          "h": {
+            "wr": 0.16249999999999998,
+            "a": 0.15,
+            "b": 0.175,
+            "determination": 0.45,
+            "arven": 0.8374999999999999,
+            "petrel": 0.7875,
+            "proxy": 4.425000000000001,
+            "junk_hunt": 6.050000000000001
+          },
+          "g30": {
+            "wr": 0.7625,
+            "a": 0.85,
+            "b": 0.675,
+            "determination": 0.5125,
+            "arven": 0.9875,
+            "petrel": 0.55,
+            "proxy": 2.725,
+            "junk_hunt": 8.25
+          }
+        }
+      },
+      {
+        "label": "Life Dew",
+        "cut": "Life Dew",
+        "copies_before": 1,
+        "weighted": 0.39705955955955957,
+        "se": 0.014758152462500132,
+        "mean": 0.510576923076923,
+        "worst": 0.1,
+        "determination": 0.3721153846153846,
+        "determination_weighted": 0.37683933933933933,
+        "arven": 0.6875,
+        "petrel": 0.6403846153846153,
+        "proxy": 4.253846153846154,
+        "junk_hunt": 3.3576923076923078,
+        "cells": {
+          "t60": {
+            "wr": 0.6125,
+            "a": 0.675,
+            "b": 0.55,
+            "determination": 0.4125,
+            "arven": 0.7124999999999999,
+            "petrel": 0.5625,
+            "proxy": 4.55,
+            "junk_hunt": 2.775
+          },
+          "hedrick": {
+            "wr": 0.5375000000000001,
+            "a": 0.55,
+            "b": 0.525,
+            "determination": 0.3625,
+            "arven": 0.525,
+            "petrel": 0.7125,
+            "proxy": 3.8625000000000003,
+            "junk_hunt": 2.3499999999999996
+          },
+          "unl": {
+            "wr": 0.7625,
+            "a": 0.75,
+            "b": 0.775,
+            "determination": 0.36250000000000004,
+            "arven": 0.875,
+            "petrel": 0.6125,
+            "proxy": 4.6875,
+            "junk_hunt": 3.75
+          },
+          "d60": {
+            "wr": 0.1,
+            "a": 0.075,
+            "b": 0.125,
+            "determination": 0.38749999999999996,
+            "arven": 0.725,
+            "petrel": 0.6125,
+            "proxy": 6.2125,
+            "junk_hunt": 3.375
+          },
+          "s60": {
+            "wr": 0.6375,
+            "a": 0.625,
+            "b": 0.65,
+            "determination": 0.4375,
+            "arven": 0.9,
+            "petrel": 0.8875,
+            "proxy": 3.8125,
+            "junk_hunt": 5.375
+          },
+          "g": {
+            "wr": 0.3375,
+            "a": 0.325,
+            "b": 0.35,
+            "determination": 0.3875,
+            "arven": 0.725,
+            "petrel": 0.7250000000000001,
+            "proxy": 4.7125,
+            "junk_hunt": 3.25
+          },
+          "c60": {
+            "wr": 0.5875,
+            "a": 0.65,
+            "b": 0.525,
+            "determination": 0.25,
+            "arven": 0.6875,
+            "petrel": 0.6375,
+            "proxy": 3.4749999999999996,
+            "junk_hunt": 1.85
+          },
+          "m": {
+            "wr": 0.175,
+            "a": 0.15,
+            "b": 0.2,
+            "determination": 0.44999999999999996,
+            "arven": 0.5249999999999999,
+            "petrel": 0.5375000000000001,
+            "proxy": 4.6,
+            "junk_hunt": 1.725
+          },
+          "starmie": {
+            "wr": 0.275,
+            "a": 0.3,
+            "b": 0.25,
+            "determination": 0.36250000000000004,
+            "arven": 0.575,
+            "petrel": 0.4125,
+            "proxy": 4.637499999999999,
+            "junk_hunt": 3.075
+          },
+          "lucario": {
+            "wr": 0.8625,
+            "a": 0.8,
+            "b": 0.925,
+            "determination": 0.375,
+            "arven": 0.5625,
+            "petrel": 0.5,
+            "proxy": 3.5875000000000004,
+            "junk_hunt": 2.25
+          },
+          "thorns": {
+            "wr": 0.9125,
+            "a": 0.875,
+            "b": 0.95,
+            "determination": 0.3875,
+            "arven": 0.7250000000000001,
+            "petrel": 0.7375,
+            "proxy": 4.1375,
+            "junk_hunt": 3.05
+          },
+          "h": {
+            "wr": 0.175,
+            "a": 0.175,
+            "b": 0.175,
+            "determination": 0.375,
+            "arven": 0.7875000000000001,
+            "petrel": 0.725,
+            "proxy": 4.425,
+            "junk_hunt": 5.125
+          },
+          "g30": {
+            "wr": 0.6625000000000001,
+            "a": 0.65,
+            "b": 0.675,
+            "determination": 0.2875,
+            "arven": 0.6125,
+            "petrel": 0.6625,
+            "proxy": 2.6,
+            "junk_hunt": 5.7
+          }
+        }
+      }
+    ],
+    "confirm": [
+      {
+        "label": "baseline",
+        "cut": null,
+        "copies_before": 0,
+        "weighted": 0.4350625625625626,
+        "se": 0.006777948884827148,
+        "mean": 0.5436538461538462,
+        "worst": 0.10500000000000001,
+        "determination": 0.0,
+        "determination_weighted": 0.0,
+        "arven": 0.6615384615384615,
+        "petrel": 0.635576923076923,
+        "proxy": 4.153269230769231,
+        "junk_hunt": 3.147884615384615,
+        "cells": {
+          "t60": {
+            "wr": 0.6875,
+            "a": 0.685,
+            "b": 0.69,
+            "determination": 0.0,
+            "arven": 0.6950000000000001,
+            "petrel": 0.6425000000000001,
+            "proxy": 4.18,
+            "junk_hunt": 2.08
+          },
+          "hedrick": {
+            "wr": 0.47,
+            "a": 0.445,
+            "b": 0.495,
+            "determination": 0.0,
+            "arven": 0.5375,
+            "petrel": 0.6,
+            "proxy": 3.7424999999999997,
+            "junk_hunt": 1.84
+          },
+          "unl": {
+            "wr": 0.855,
+            "a": 0.88,
+            "b": 0.83,
+            "determination": 0.0,
+            "arven": 0.7125,
+            "petrel": 0.6725,
+            "proxy": 4.495,
+            "junk_hunt": 3.41
+          },
+          "d60": {
+            "wr": 0.10500000000000001,
+            "a": 0.095,
+            "b": 0.115,
+            "determination": 0.0,
+            "arven": 0.655,
+            "petrel": 0.5725,
+            "proxy": 6.205,
+            "junk_hunt": 2.58
+          },
+          "s60": {
+            "wr": 0.665,
+            "a": 0.675,
+            "b": 0.655,
+            "determination": 0.0,
+            "arven": 0.82,
+            "petrel": 0.7125,
+            "proxy": 3.545,
+            "junk_hunt": 4.625
+          },
+          "g": {
+            "wr": 0.41000000000000003,
+            "a": 0.37,
+            "b": 0.45,
+            "determination": 0.0,
+            "arven": 0.645,
+            "petrel": 0.635,
+            "proxy": 4.53,
+            "junk_hunt": 2.84
+          },
+          "c60": {
+            "wr": 0.69,
+            "a": 0.71,
+            "b": 0.67,
+            "determination": 0.0,
+            "arven": 0.66,
+            "petrel": 0.61,
+            "proxy": 3.71,
+            "junk_hunt": 2.08
+          },
+          "m": {
+            "wr": 0.30500000000000005,
+            "a": 0.28,
+            "b": 0.33,
+            "determination": 0.0,
+            "arven": 0.5025,
+            "petrel": 0.5475000000000001,
+            "proxy": 4.0725,
+            "junk_hunt": 1.4675
+          },
+          "starmie": {
+            "wr": 0.2425,
+            "a": 0.205,
+            "b": 0.28,
+            "determination": 0.0,
+            "arven": 0.62,
+            "petrel": 0.56,
+            "proxy": 4.43,
+            "junk_hunt": 2.795
+          },
+          "lucario": {
+            "wr": 0.83,
+            "a": 0.82,
+            "b": 0.84,
+            "determination": 0.0,
+            "arven": 0.55,
+            "petrel": 0.5449999999999999,
+            "proxy": 3.4850000000000003,
+            "junk_hunt": 2.075
+          },
+          "thorns": {
+            "wr": 0.9375,
+            "a": 0.93,
+            "b": 0.945,
+            "determination": 0.0,
+            "arven": 0.7324999999999999,
+            "petrel": 0.6825,
+            "proxy": 4.0925,
+            "junk_hunt": 3.145
+          },
+          "h": {
+            "wr": 0.135,
+            "a": 0.115,
+            "b": 0.155,
+            "determination": 0.0,
+            "arven": 0.735,
+            "petrel": 0.7825,
+            "proxy": 4.555,
+            "junk_hunt": 5.38
+          },
+          "g30": {
+            "wr": 0.735,
+            "a": 0.73,
+            "b": 0.74,
+            "determination": 0.0,
+            "arven": 0.735,
+            "petrel": 0.7,
+            "proxy": 2.95,
+            "junk_hunt": 6.605
+          }
+        }
+      },
+      {
+        "label": "Slumbering Forest",
+        "cut": "Slumbering Forest",
+        "copies_before": 2,
+        "weighted": 0.4477802802802803,
+        "se": 0.0067258480307455385,
+        "mean": 0.5598076923076923,
+        "worst": 0.105,
+        "determination": 0.3913461538461539,
+        "determination_weighted": 0.3908283283283283,
+        "arven": 0.7009615384615385,
+        "petrel": 0.678076923076923,
+        "proxy": 4.323653846153846,
+        "junk_hunt": 3.431730769230769,
+        "cells": {
+          "t60": {
+            "wr": 0.75,
+            "a": 0.75,
+            "b": 0.75,
+            "determination": 0.4575,
+            "arven": 0.725,
+            "petrel": 0.6475,
+            "proxy": 4.6,
+            "junk_hunt": 2.59
+          },
+          "hedrick": {
+            "wr": 0.44999999999999996,
+            "a": 0.485,
+            "b": 0.415,
+            "determination": 0.3725,
+            "arven": 0.635,
+            "petrel": 0.5525,
+            "proxy": 3.8200000000000003,
+            "junk_hunt": 1.99
+          },
+          "unl": {
+            "wr": 0.9,
+            "a": 0.9,
+            "b": 0.9,
+            "determination": 0.38749999999999996,
+            "arven": 0.815,
+            "petrel": 0.73,
+            "proxy": 4.4575,
+            "junk_hunt": 4.125
+          },
+          "d60": {
+            "wr": 0.105,
+            "a": 0.105,
+            "b": 0.105,
+            "determination": 0.4675,
+            "arven": 0.8200000000000001,
+            "petrel": 0.75,
+            "proxy": 6.88,
+            "junk_hunt": 2.9299999999999997
+          },
+          "s60": {
+            "wr": 0.7224999999999999,
+            "a": 0.73,
+            "b": 0.715,
+            "determination": 0.4525,
+            "arven": 0.865,
+            "petrel": 0.855,
+            "proxy": 3.73,
+            "junk_hunt": 5.025
+          },
+          "g": {
+            "wr": 0.4175,
+            "a": 0.445,
+            "b": 0.39,
+            "determination": 0.4,
+            "arven": 0.685,
+            "petrel": 0.725,
+            "proxy": 4.705,
+            "junk_hunt": 2.66
+          },
+          "c60": {
+            "wr": 0.7224999999999999,
+            "a": 0.735,
+            "b": 0.71,
+            "determination": 0.355,
+            "arven": 0.6275,
+            "petrel": 0.6225,
+            "proxy": 3.7625,
+            "junk_hunt": 2.005
+          },
+          "m": {
+            "wr": 0.3025,
+            "a": 0.32,
+            "b": 0.285,
+            "determination": 0.32499999999999996,
+            "arven": 0.5325,
+            "petrel": 0.5525,
+            "proxy": 4.4375,
+            "junk_hunt": 1.5075
+          },
+          "starmie": {
+            "wr": 0.2425,
+            "a": 0.235,
+            "b": 0.25,
+            "determination": 0.3775,
+            "arven": 0.5675,
+            "petrel": 0.585,
+            "proxy": 4.49,
+            "junk_hunt": 2.495
+          },
+          "lucario": {
+            "wr": 0.845,
+            "a": 0.815,
+            "b": 0.875,
+            "determination": 0.3175,
+            "arven": 0.59,
+            "petrel": 0.6325,
+            "proxy": 3.745,
+            "junk_hunt": 2.355
+          },
+          "thorns": {
+            "wr": 0.925,
+            "a": 0.935,
+            "b": 0.915,
+            "determination": 0.435,
+            "arven": 0.74,
+            "petrel": 0.6875,
+            "proxy": 4.0675,
+            "junk_hunt": 3.13
+          },
+          "h": {
+            "wr": 0.1525,
+            "a": 0.155,
+            "b": 0.15,
+            "determination": 0.385,
+            "arven": 0.7825,
+            "petrel": 0.8125,
+            "proxy": 4.5825,
+            "junk_hunt": 6.55
+          },
+          "g30": {
+            "wr": 0.7424999999999999,
+            "a": 0.75,
+            "b": 0.735,
+            "determination": 0.355,
+            "arven": 0.7275,
+            "petrel": 0.6625,
+            "proxy": 2.9299999999999997,
+            "junk_hunt": 7.25
+          }
+        }
+      },
+      {
+        "label": "Switch",
+        "cut": "Switch",
+        "copies_before": 1,
+        "weighted": 0.44467217217217214,
+        "se": 0.006843240246802961,
+        "mean": 0.5492307692307692,
+        "worst": 0.09,
+        "determination": 0.39403846153846156,
+        "determination_weighted": 0.3981006006006006,
+        "arven": 0.6861538461538461,
+        "petrel": 0.6567307692307692,
+        "proxy": 4.297307692307692,
+        "junk_hunt": 3.171346153846154,
+        "cells": {
+          "t60": {
+            "wr": 0.7424999999999999,
+            "a": 0.74,
+            "b": 0.745,
+            "determination": 0.4425,
+            "arven": 0.6100000000000001,
+            "petrel": 0.645,
+            "proxy": 4.4,
+            "junk_hunt": 2.0949999999999998
+          },
+          "hedrick": {
+            "wr": 0.47,
+            "a": 0.46,
+            "b": 0.48,
+            "determination": 0.36750000000000005,
+            "arven": 0.62,
+            "petrel": 0.5575,
+            "proxy": 3.7975,
+            "junk_hunt": 1.97
+          },
+          "unl": {
+            "wr": 0.86,
+            "a": 0.845,
+            "b": 0.875,
+            "determination": 0.4375,
+            "arven": 0.7949999999999999,
+            "petrel": 0.6825,
+            "proxy": 4.515000000000001,
+            "junk_hunt": 3.245
+          },
+          "d60": {
+            "wr": 0.09,
+            "a": 0.08,
+            "b": 0.1,
+            "determination": 0.5175000000000001,
+            "arven": 0.7975,
+            "petrel": 0.735,
+            "proxy": 6.9350000000000005,
+            "junk_hunt": 3.06
+          },
+          "s60": {
+            "wr": 0.64,
+            "a": 0.6,
+            "b": 0.68,
+            "determination": 0.4125,
+            "arven": 0.8425,
+            "petrel": 0.8125,
+            "proxy": 3.615,
+            "junk_hunt": 4.305
+          },
+          "g": {
+            "wr": 0.435,
+            "a": 0.46,
+            "b": 0.41,
+            "determination": 0.405,
+            "arven": 0.6575,
+            "petrel": 0.6950000000000001,
+            "proxy": 4.75,
+            "junk_hunt": 2.735
+          },
+          "c60": {
+            "wr": 0.6725,
+            "a": 0.64,
+            "b": 0.705,
+            "determination": 0.32,
+            "arven": 0.595,
+            "petrel": 0.6425000000000001,
+            "proxy": 3.6550000000000002,
+            "junk_hunt": 2.32
+          },
+          "m": {
+            "wr": 0.33999999999999997,
+            "a": 0.37,
+            "b": 0.31,
+            "determination": 0.35,
+            "arven": 0.585,
+            "petrel": 0.5425,
+            "proxy": 4.4,
+            "junk_hunt": 1.7375
+          },
+          "starmie": {
+            "wr": 0.28500000000000003,
+            "a": 0.28,
+            "b": 0.29,
+            "determination": 0.3575,
+            "arven": 0.5475000000000001,
+            "petrel": 0.565,
+            "proxy": 4.5,
+            "junk_hunt": 2.865
+          },
+          "lucario": {
+            "wr": 0.8474999999999999,
+            "a": 0.855,
+            "b": 0.84,
+            "determination": 0.3775,
+            "arven": 0.525,
+            "petrel": 0.585,
+            "proxy": 3.6075,
+            "junk_hunt": 2.175
+          },
+          "thorns": {
+            "wr": 0.95,
+            "a": 0.955,
+            "b": 0.945,
+            "determination": 0.4325,
+            "arven": 0.77,
+            "petrel": 0.7,
+            "proxy": 4.217499999999999,
+            "junk_hunt": 3.065
+          },
+          "h": {
+            "wr": 0.1375,
+            "a": 0.135,
+            "b": 0.14,
+            "determination": 0.42000000000000004,
+            "arven": 0.8875,
+            "petrel": 0.7450000000000001,
+            "proxy": 4.555,
+            "junk_hunt": 5.995
+          },
+          "g30": {
+            "wr": 0.6699999999999999,
+            "a": 0.63,
+            "b": 0.71,
+            "determination": 0.2825,
+            "arven": 0.6875,
+            "petrel": 0.63,
+            "proxy": 2.9175,
+            "junk_hunt": 5.66
+          }
+        }
+      },
+      {
+        "label": "Darkness Energy",
+        "cut": "Darkness Energy",
+        "copies_before": 2,
+        "weighted": 0.444512012012012,
+        "se": 0.006721648325605858,
+        "mean": 0.5476923076923077,
+        "worst": 0.075,
+        "determination": 0.40442307692307694,
+        "determination_weighted": 0.4061611611611612,
+        "arven": 0.6976923076923077,
+        "petrel": 0.6394230769230769,
+        "proxy": 4.226153846153846,
+        "junk_hunt": 2.230769230769231,
+        "cells": {
+          "t60": {
+            "wr": 0.7124999999999999,
+            "a": 0.73,
+            "b": 0.695,
+            "determination": 0.4625,
+            "arven": 0.6950000000000001,
+            "petrel": 0.5975,
+            "proxy": 4.470000000000001,
+            "junk_hunt": 1.69
+          },
+          "hedrick": {
+            "wr": 0.5075000000000001,
+            "a": 0.505,
+            "b": 0.51,
+            "determination": 0.385,
+            "arven": 0.605,
+            "petrel": 0.605,
+            "proxy": 3.8525,
+            "junk_hunt": 1.19
+          },
+          "unl": {
+            "wr": 0.875,
+            "a": 0.9,
+            "b": 0.85,
+            "determination": 0.4225,
+            "arven": 0.8049999999999999,
+            "petrel": 0.7,
+            "proxy": 4.555,
+            "junk_hunt": 2.5549999999999997
+          },
+          "d60": {
+            "wr": 0.075,
+            "a": 0.09,
+            "b": 0.06,
+            "determination": 0.47,
+            "arven": 0.73,
+            "petrel": 0.6725,
+            "proxy": 6.17,
+            "junk_hunt": 1.69
+          },
+          "s60": {
+            "wr": 0.64,
+            "a": 0.615,
+            "b": 0.665,
+            "determination": 0.47250000000000003,
+            "arven": 0.915,
+            "petrel": 0.8225,
+            "proxy": 3.6624999999999996,
+            "junk_hunt": 2.6399999999999997
+          },
+          "g": {
+            "wr": 0.44,
+            "a": 0.405,
+            "b": 0.475,
+            "determination": 0.385,
+            "arven": 0.7025,
+            "petrel": 0.6275,
+            "proxy": 4.654999999999999,
+            "junk_hunt": 1.95
+          },
+          "c60": {
+            "wr": 0.72,
+            "a": 0.72,
+            "b": 0.72,
+            "determination": 0.365,
+            "arven": 0.655,
+            "petrel": 0.585,
+            "proxy": 3.7325,
+            "junk_hunt": 1.3849999999999998
+          },
+          "m": {
+            "wr": 0.35,
+            "a": 0.33,
+            "b": 0.37,
+            "determination": 0.35,
+            "arven": 0.54,
+            "petrel": 0.5575000000000001,
+            "proxy": 4.1625,
+            "junk_hunt": 0.9299999999999999
+          },
+          "starmie": {
+            "wr": 0.255,
+            "a": 0.23,
+            "b": 0.28,
+            "determination": 0.41000000000000003,
+            "arven": 0.5825,
+            "petrel": 0.595,
+            "proxy": 4.4725,
+            "junk_hunt": 1.9700000000000002
+          },
+          "lucario": {
+            "wr": 0.8274999999999999,
+            "a": 0.815,
+            "b": 0.84,
+            "determination": 0.34750000000000003,
+            "arven": 0.5525,
+            "petrel": 0.51,
+            "proxy": 3.6550000000000002,
+            "junk_hunt": 1.395
+          },
+          "thorns": {
+            "wr": 0.9325,
+            "a": 0.925,
+            "b": 0.94,
+            "determination": 0.44,
+            "arven": 0.7525,
+            "petrel": 0.655,
+            "proxy": 4.0075,
+            "junk_hunt": 2.01
+          },
+          "h": {
+            "wr": 0.11,
+            "a": 0.12,
+            "b": 0.1,
+            "determination": 0.44,
+            "arven": 0.8525,
+            "petrel": 0.8,
+            "proxy": 4.744999999999999,
+            "junk_hunt": 4.58
+          },
+          "g30": {
+            "wr": 0.675,
+            "a": 0.675,
+            "b": 0.675,
+            "determination": 0.3075,
+            "arven": 0.6825,
+            "petrel": 0.585,
+            "proxy": 2.8,
+            "junk_hunt": 5.015
+          }
+        }
+      },
+      {
+        "label": "Crushing Hammer",
+        "cut": "Crushing Hammer",
+        "copies_before": 2,
+        "weighted": 0.4426576576576577,
+        "se": 0.0066421008170626855,
+        "mean": 0.5511538461538461,
+        "worst": 0.07250000000000001,
+        "determination": 0.3894230769230769,
+        "determination_weighted": 0.3936761761761762,
+        "arven": 0.7048076923076922,
+        "petrel": 0.6834615384615385,
+        "proxy": 4.3398076923076925,
+        "junk_hunt": 3.3042307692307693,
+        "cells": {
+          "t60": {
+            "wr": 0.725,
+            "a": 0.73,
+            "b": 0.72,
+            "determination": 0.41000000000000003,
+            "arven": 0.6775,
+            "petrel": 0.6325000000000001,
+            "proxy": 4.5125,
+            "junk_hunt": 2.68
+          },
+          "hedrick": {
+            "wr": 0.495,
+            "a": 0.53,
+            "b": 0.46,
+            "determination": 0.40249999999999997,
+            "arven": 0.6275,
+            "petrel": 0.535,
+            "proxy": 4.025,
+            "junk_hunt": 2.26
+          },
+          "unl": {
+            "wr": 0.8474999999999999,
+            "a": 0.83,
+            "b": 0.865,
+            "determination": 0.435,
+            "arven": 0.845,
+            "petrel": 0.7975,
+            "proxy": 4.7675,
+            "junk_hunt": 3.645
+          },
+          "d60": {
+            "wr": 0.07250000000000001,
+            "a": 0.07,
+            "b": 0.075,
+            "determination": 0.505,
+            "arven": 0.745,
+            "petrel": 0.775,
+            "proxy": 6.975,
+            "junk_hunt": 3.1
+          },
+          "s60": {
+            "wr": 0.6625000000000001,
+            "a": 0.665,
+            "b": 0.66,
+            "determination": 0.4375,
+            "arven": 0.8275,
+            "petrel": 0.8574999999999999,
+            "proxy": 3.7,
+            "junk_hunt": 3.7800000000000002
+          },
+          "g": {
+            "wr": 0.44,
+            "a": 0.395,
+            "b": 0.485,
+            "determination": 0.4175,
+            "arven": 0.73,
+            "petrel": 0.7949999999999999,
+            "proxy": 4.7725,
+            "junk_hunt": 2.98
+          },
+          "c60": {
+            "wr": 0.7324999999999999,
+            "a": 0.74,
+            "b": 0.725,
+            "determination": 0.3325,
+            "arven": 0.745,
+            "petrel": 0.6174999999999999,
+            "proxy": 3.8475,
+            "junk_hunt": 2.1950000000000003
+          },
+          "m": {
+            "wr": 0.30000000000000004,
+            "a": 0.26,
+            "b": 0.34,
+            "determination": 0.3025,
+            "arven": 0.575,
+            "petrel": 0.585,
+            "proxy": 4.415,
+            "junk_hunt": 1.615
+          },
+          "starmie": {
+            "wr": 0.26,
+            "a": 0.24,
+            "b": 0.28,
+            "determination": 0.395,
+            "arven": 0.5275000000000001,
+            "petrel": 0.54,
+            "proxy": 4.3925,
+            "junk_hunt": 2.6849999999999996
+          },
+          "lucario": {
+            "wr": 0.825,
+            "a": 0.805,
+            "b": 0.845,
+            "determination": 0.315,
+            "arven": 0.6174999999999999,
+            "petrel": 0.5349999999999999,
+            "proxy": 3.61,
+            "junk_hunt": 2.175
+          },
+          "thorns": {
+            "wr": 0.94,
+            "a": 0.935,
+            "b": 0.945,
+            "determination": 0.385,
+            "arven": 0.74,
+            "petrel": 0.7324999999999999,
+            "proxy": 4.18,
+            "junk_hunt": 3.04
+          },
+          "h": {
+            "wr": 0.1375,
+            "a": 0.14,
+            "b": 0.135,
+            "determination": 0.42,
+            "arven": 0.7975000000000001,
+            "petrel": 0.7825,
+            "proxy": 4.452500000000001,
+            "junk_hunt": 5.95
+          },
+          "g30": {
+            "wr": 0.7275,
+            "a": 0.77,
+            "b": 0.685,
+            "determination": 0.30500000000000005,
+            "arven": 0.7075,
+            "petrel": 0.7,
+            "proxy": 2.7675,
+            "junk_hunt": 6.85
+          }
+        }
+      },
+      {
+        "label": "Battle Cage",
+        "cut": "Battle Cage",
+        "copies_before": 4,
+        "weighted": 0.43963213213213215,
+        "se": 0.0067168537772125305,
+        "mean": 0.5484615384615384,
+        "worst": 0.08,
+        "determination": 0.3873076923076923,
+        "determination_weighted": 0.390492992992993,
+        "arven": 0.7165384615384615,
+        "petrel": 0.6761538461538461,
+        "proxy": 4.282692307692307,
+        "junk_hunt": 3.389423076923077,
+        "cells": {
+          "t60": {
+            "wr": 0.71,
+            "a": 0.7,
+            "b": 0.72,
+            "determination": 0.425,
+            "arven": 0.6725000000000001,
+            "petrel": 0.6375,
+            "proxy": 4.4175,
+            "junk_hunt": 2.515
+          },
+          "hedrick": {
+            "wr": 0.47,
+            "a": 0.455,
+            "b": 0.485,
+            "determination": 0.38749999999999996,
+            "arven": 0.6125,
+            "petrel": 0.4925,
+            "proxy": 3.7199999999999998,
+            "junk_hunt": 2.01
+          },
+          "unl": {
+            "wr": 0.865,
+            "a": 0.88,
+            "b": 0.85,
+            "determination": 0.375,
+            "arven": 0.8025,
+            "petrel": 0.6924999999999999,
+            "proxy": 4.4725,
+            "junk_hunt": 3.6799999999999997
+          },
+          "d60": {
+            "wr": 0.08,
+            "a": 0.08,
+            "b": 0.08,
+            "determination": 0.5075000000000001,
+            "arven": 0.6799999999999999,
+            "petrel": 0.6875,
+            "proxy": 6.49,
+            "junk_hunt": 2.875
+          },
+          "s60": {
+            "wr": 0.6525000000000001,
+            "a": 0.675,
+            "b": 0.63,
+            "determination": 0.44499999999999995,
+            "arven": 0.8875,
+            "petrel": 0.9199999999999999,
+            "proxy": 3.8175,
+            "junk_hunt": 4.609999999999999
+          },
+          "g": {
+            "wr": 0.4275,
+            "a": 0.46,
+            "b": 0.395,
+            "determination": 0.385,
+            "arven": 0.705,
+            "petrel": 0.7075,
+            "proxy": 4.635,
+            "junk_hunt": 2.585
+          },
+          "c60": {
+            "wr": 0.7050000000000001,
+            "a": 0.74,
+            "b": 0.67,
+            "determination": 0.33999999999999997,
+            "arven": 0.6875,
+            "petrel": 0.7,
+            "proxy": 3.84,
+            "junk_hunt": 2.1950000000000003
+          },
+          "m": {
+            "wr": 0.315,
+            "a": 0.315,
+            "b": 0.315,
+            "determination": 0.3225,
+            "arven": 0.69,
+            "petrel": 0.5375,
+            "proxy": 4.4975,
+            "junk_hunt": 1.7225000000000001
+          },
+          "starmie": {
+            "wr": 0.27,
+            "a": 0.24,
+            "b": 0.3,
+            "determination": 0.3575,
+            "arven": 0.6074999999999999,
+            "petrel": 0.5800000000000001,
+            "proxy": 4.49,
+            "junk_hunt": 2.855
+          },
+          "lucario": {
+            "wr": 0.845,
+            "a": 0.85,
+            "b": 0.84,
+            "determination": 0.355,
+            "arven": 0.6174999999999999,
+            "petrel": 0.53,
+            "proxy": 3.5975,
+            "junk_hunt": 2.5949999999999998
+          },
+          "thorns": {
+            "wr": 0.94,
+            "a": 0.945,
+            "b": 0.935,
+            "determination": 0.4075,
+            "arven": 0.7925,
+            "petrel": 0.735,
+            "proxy": 4.119999999999999,
+            "junk_hunt": 3.245
+          },
+          "h": {
+            "wr": 0.12,
+            "a": 0.145,
+            "b": 0.095,
+            "determination": 0.395,
+            "arven": 0.9025,
+            "petrel": 0.8175,
+            "proxy": 4.7175,
+            "junk_hunt": 6.165
+          },
+          "g30": {
+            "wr": 0.73,
+            "a": 0.69,
+            "b": 0.77,
+            "determination": 0.3325,
+            "arven": 0.6575,
+            "petrel": 0.7525,
+            "proxy": 2.8600000000000003,
+            "junk_hunt": 7.01
+          }
+        }
+      },
+      {
+        "label": "Shedinja",
+        "cut": "Shedinja",
+        "copies_before": 1,
+        "weighted": 0.43817067067067067,
+        "se": 0.006770230705473549,
+        "mean": 0.5509615384615385,
+        "worst": 0.095,
+        "determination": 0.3975,
+        "determination_weighted": 0.39643643643643645,
+        "arven": 0.7038461538461539,
+        "petrel": 0.6530769230769231,
+        "proxy": 4.206538461538462,
+        "junk_hunt": 3.4117307692307692,
+        "cells": {
+          "t60": {
+            "wr": 0.7275,
+            "a": 0.735,
+            "b": 0.72,
+            "determination": 0.4425,
+            "arven": 0.7975,
+            "petrel": 0.6125,
+            "proxy": 4.4425,
+            "junk_hunt": 2.76
+          },
+          "hedrick": {
+            "wr": 0.5325,
+            "a": 0.495,
+            "b": 0.57,
+            "determination": 0.3775,
+            "arven": 0.615,
+            "petrel": 0.6125,
+            "proxy": 3.8525,
+            "junk_hunt": 2.19
+          },
+          "unl": {
+            "wr": 0.8674999999999999,
+            "a": 0.845,
+            "b": 0.89,
+            "determination": 0.45499999999999996,
+            "arven": 0.7575000000000001,
+            "petrel": 0.69,
+            "proxy": 4.5175,
+            "junk_hunt": 3.76
+          },
+          "d60": {
+            "wr": 0.095,
+            "a": 0.085,
+            "b": 0.105,
+            "determination": 0.495,
+            "arven": 0.76,
+            "petrel": 0.75,
+            "proxy": 6.755000000000001,
+            "junk_hunt": 3.2
+          },
+          "s60": {
+            "wr": 0.6525000000000001,
+            "a": 0.67,
+            "b": 0.635,
+            "determination": 0.43,
+            "arven": 0.8425,
+            "petrel": 0.8225,
+            "proxy": 3.6125,
+            "junk_hunt": 4.41
+          },
+          "g": {
+            "wr": 0.455,
+            "a": 0.45,
+            "b": 0.46,
+            "determination": 0.4175,
+            "arven": 0.7250000000000001,
+            "petrel": 0.635,
+            "proxy": 4.5775,
+            "junk_hunt": 3.09
+          },
+          "c60": {
+            "wr": 0.6625000000000001,
+            "a": 0.67,
+            "b": 0.655,
+            "determination": 0.3025,
+            "arven": 0.6499999999999999,
+            "petrel": 0.535,
+            "proxy": 3.5525,
+            "junk_hunt": 2.22
+          },
+          "m": {
+            "wr": 0.29,
+            "a": 0.29,
+            "b": 0.29,
+            "determination": 0.365,
+            "arven": 0.6174999999999999,
+            "petrel": 0.5725,
+            "proxy": 4.48,
+            "junk_hunt": 1.5225
+          },
+          "starmie": {
+            "wr": 0.24,
+            "a": 0.225,
+            "b": 0.255,
+            "determination": 0.3525,
+            "arven": 0.6325000000000001,
+            "petrel": 0.6325000000000001,
+            "proxy": 4.5675,
+            "junk_hunt": 2.92
+          },
+          "lucario": {
+            "wr": 0.8525,
+            "a": 0.84,
+            "b": 0.865,
+            "determination": 0.3825,
+            "arven": 0.5675,
+            "petrel": 0.515,
+            "proxy": 3.5575,
+            "junk_hunt": 2.52
+          },
+          "thorns": {
+            "wr": 0.9275,
+            "a": 0.915,
+            "b": 0.94,
+            "determination": 0.42500000000000004,
+            "arven": 0.7125,
+            "petrel": 0.7625,
+            "proxy": 3.9525,
+            "junk_hunt": 3.3049999999999997
+          },
+          "h": {
+            "wr": 0.14,
+            "a": 0.145,
+            "b": 0.135,
+            "determination": 0.395,
+            "arven": 0.7975,
+            "petrel": 0.6975,
+            "proxy": 4.1975,
+            "junk_hunt": 5.720000000000001
+          },
+          "g30": {
+            "wr": 0.72,
+            "a": 0.71,
+            "b": 0.73,
+            "determination": 0.3275,
+            "arven": 0.675,
+            "petrel": 0.6525,
+            "proxy": 2.62,
+            "junk_hunt": 6.734999999999999
+          }
+        }
+      },
+      {
+        "label": "Buddy-Buddy Poffin",
+        "cut": "Buddy-Buddy Poffin",
+        "copies_before": 2,
+        "weighted": 0.4348373373373373,
+        "se": 0.006678372654750566,
+        "mean": 0.5426923076923077,
+        "worst": 0.0825,
+        "determination": 0.3798076923076923,
+        "determination_weighted": 0.37487987987987986,
+        "arven": 0.6932692307692307,
+        "petrel": 0.643846153846154,
+        "proxy": 4.334615384615384,
+        "junk_hunt": 2.9042307692307694,
+        "cells": {
+          "t60": {
+            "wr": 0.7,
+            "a": 0.73,
+            "b": 0.67,
+            "determination": 0.4325,
+            "arven": 0.6799999999999999,
+            "petrel": 0.6275,
+            "proxy": 4.3100000000000005,
+            "junk_hunt": 2.24
+          },
+          "hedrick": {
+            "wr": 0.45999999999999996,
+            "a": 0.425,
+            "b": 0.495,
+            "determination": 0.38,
+            "arven": 0.5874999999999999,
+            "petrel": 0.49750000000000005,
+            "proxy": 3.8325,
+            "junk_hunt": 1.9449999999999998
+          },
+          "unl": {
+            "wr": 0.8674999999999999,
+            "a": 0.9,
+            "b": 0.835,
+            "determination": 0.4225,
+            "arven": 0.7649999999999999,
+            "petrel": 0.6825,
+            "proxy": 4.827500000000001,
+            "junk_hunt": 3.12
+          },
+          "d60": {
+            "wr": 0.0825,
+            "a": 0.065,
+            "b": 0.1,
+            "determination": 0.475,
+            "arven": 0.81,
+            "petrel": 0.715,
+            "proxy": 6.48,
+            "junk_hunt": 2.6950000000000003
+          },
+          "s60": {
+            "wr": 0.6425,
+            "a": 0.585,
+            "b": 0.7,
+            "determination": 0.3625,
+            "arven": 0.795,
+            "petrel": 0.8175,
+            "proxy": 4.0325,
+            "junk_hunt": 3.56
+          },
+          "g": {
+            "wr": 0.44,
+            "a": 0.44,
+            "b": 0.44,
+            "determination": 0.435,
+            "arven": 0.7525,
+            "petrel": 0.605,
+            "proxy": 4.81,
+            "junk_hunt": 2.4299999999999997
+          },
+          "c60": {
+            "wr": 0.7124999999999999,
+            "a": 0.72,
+            "b": 0.705,
+            "determination": 0.2925,
+            "arven": 0.6025,
+            "petrel": 0.6025,
+            "proxy": 3.7675,
+            "junk_hunt": 1.83
+          },
+          "m": {
+            "wr": 0.2975,
+            "a": 0.32,
+            "b": 0.275,
+            "determination": 0.2975,
+            "arven": 0.54,
+            "petrel": 0.4525,
+            "proxy": 4.1274999999999995,
+            "junk_hunt": 1.4049999999999998
+          },
+          "starmie": {
+            "wr": 0.235,
+            "a": 0.215,
+            "b": 0.255,
+            "determination": 0.3225,
+            "arven": 0.5925,
+            "petrel": 0.475,
+            "proxy": 4.3125,
+            "junk_hunt": 2.48
+          },
+          "lucario": {
+            "wr": 0.83,
+            "a": 0.825,
+            "b": 0.835,
+            "determination": 0.3675,
+            "arven": 0.6125,
+            "petrel": 0.5575000000000001,
+            "proxy": 3.855,
+            "junk_hunt": 2.15
+          },
+          "thorns": {
+            "wr": 0.9425,
+            "a": 0.93,
+            "b": 0.955,
+            "determination": 0.40249999999999997,
+            "arven": 0.705,
+            "petrel": 0.765,
+            "proxy": 4.225,
+            "junk_hunt": 2.925
+          },
+          "h": {
+            "wr": 0.135,
+            "a": 0.14,
+            "b": 0.13,
+            "determination": 0.405,
+            "arven": 0.8625,
+            "petrel": 0.8975,
+            "proxy": 4.715,
+            "junk_hunt": 5.345000000000001
+          },
+          "g30": {
+            "wr": 0.71,
+            "a": 0.695,
+            "b": 0.725,
+            "determination": 0.3425,
+            "arven": 0.7075,
+            "petrel": 0.675,
+            "proxy": 3.055,
+            "junk_hunt": 5.63
+          }
+        }
+      }
+    ],
+    "baseline": {
+      "label": "baseline",
+      "cut": null,
+      "copies_before": 0,
+      "weighted": 0.4350625625625626,
+      "se": 0.006777948884827148,
+      "mean": 0.5436538461538462,
+      "worst": 0.10500000000000001,
+      "determination": 0.0,
+      "determination_weighted": 0.0,
+      "arven": 0.6615384615384615,
+      "petrel": 0.635576923076923,
+      "proxy": 4.153269230769231,
+      "junk_hunt": 3.147884615384615,
+      "cells": {
+        "t60": {
+          "wr": 0.6875,
+          "a": 0.685,
+          "b": 0.69,
+          "determination": 0.0,
+          "arven": 0.6950000000000001,
+          "petrel": 0.6425000000000001,
+          "proxy": 4.18,
+          "junk_hunt": 2.08
+        },
+        "hedrick": {
+          "wr": 0.47,
+          "a": 0.445,
+          "b": 0.495,
+          "determination": 0.0,
+          "arven": 0.5375,
+          "petrel": 0.6,
+          "proxy": 3.7424999999999997,
+          "junk_hunt": 1.84
+        },
+        "unl": {
+          "wr": 0.855,
+          "a": 0.88,
+          "b": 0.83,
+          "determination": 0.0,
+          "arven": 0.7125,
+          "petrel": 0.6725,
+          "proxy": 4.495,
+          "junk_hunt": 3.41
+        },
+        "d60": {
+          "wr": 0.10500000000000001,
+          "a": 0.095,
+          "b": 0.115,
+          "determination": 0.0,
+          "arven": 0.655,
+          "petrel": 0.5725,
+          "proxy": 6.205,
+          "junk_hunt": 2.58
+        },
+        "s60": {
+          "wr": 0.665,
+          "a": 0.675,
+          "b": 0.655,
+          "determination": 0.0,
+          "arven": 0.82,
+          "petrel": 0.7125,
+          "proxy": 3.545,
+          "junk_hunt": 4.625
+        },
+        "g": {
+          "wr": 0.41000000000000003,
+          "a": 0.37,
+          "b": 0.45,
+          "determination": 0.0,
+          "arven": 0.645,
+          "petrel": 0.635,
+          "proxy": 4.53,
+          "junk_hunt": 2.84
+        },
+        "c60": {
+          "wr": 0.69,
+          "a": 0.71,
+          "b": 0.67,
+          "determination": 0.0,
+          "arven": 0.66,
+          "petrel": 0.61,
+          "proxy": 3.71,
+          "junk_hunt": 2.08
+        },
+        "m": {
+          "wr": 0.30500000000000005,
+          "a": 0.28,
+          "b": 0.33,
+          "determination": 0.0,
+          "arven": 0.5025,
+          "petrel": 0.5475000000000001,
+          "proxy": 4.0725,
+          "junk_hunt": 1.4675
+        },
+        "starmie": {
+          "wr": 0.2425,
+          "a": 0.205,
+          "b": 0.28,
+          "determination": 0.0,
+          "arven": 0.62,
+          "petrel": 0.56,
+          "proxy": 4.43,
+          "junk_hunt": 2.795
+        },
+        "lucario": {
+          "wr": 0.83,
+          "a": 0.82,
+          "b": 0.84,
+          "determination": 0.0,
+          "arven": 0.55,
+          "petrel": 0.5449999999999999,
+          "proxy": 3.4850000000000003,
+          "junk_hunt": 2.075
+        },
+        "thorns": {
+          "wr": 0.9375,
+          "a": 0.93,
+          "b": 0.945,
+          "determination": 0.0,
+          "arven": 0.7324999999999999,
+          "petrel": 0.6825,
+          "proxy": 4.0925,
+          "junk_hunt": 3.145
+        },
+        "h": {
+          "wr": 0.135,
+          "a": 0.115,
+          "b": 0.155,
+          "determination": 0.0,
+          "arven": 0.735,
+          "petrel": 0.7825,
+          "proxy": 4.555,
+          "junk_hunt": 5.38
+        },
+        "g30": {
+          "wr": 0.735,
+          "a": 0.73,
+          "b": 0.74,
+          "determination": 0.0,
+          "arven": 0.735,
+          "petrel": 0.7,
+          "proxy": 2.95,
+          "junk_hunt": 6.605
+        }
+      }
+    },
+    "best_swap": {
+      "label": "Slumbering Forest",
+      "cut": "Slumbering Forest",
+      "copies_before": 2,
+      "weighted": 0.4477802802802803,
+      "se": 0.0067258480307455385,
+      "mean": 0.5598076923076923,
+      "worst": 0.105,
+      "determination": 0.3913461538461539,
+      "determination_weighted": 0.3908283283283283,
+      "arven": 0.7009615384615385,
+      "petrel": 0.678076923076923,
+      "proxy": 4.323653846153846,
+      "junk_hunt": 3.431730769230769,
+      "cells": {
+        "t60": {
+          "wr": 0.75,
+          "a": 0.75,
+          "b": 0.75,
+          "determination": 0.4575,
+          "arven": 0.725,
+          "petrel": 0.6475,
+          "proxy": 4.6,
+          "junk_hunt": 2.59
+        },
+        "hedrick": {
+          "wr": 0.44999999999999996,
+          "a": 0.485,
+          "b": 0.415,
+          "determination": 0.3725,
+          "arven": 0.635,
+          "petrel": 0.5525,
+          "proxy": 3.8200000000000003,
+          "junk_hunt": 1.99
+        },
+        "unl": {
+          "wr": 0.9,
+          "a": 0.9,
+          "b": 0.9,
+          "determination": 0.38749999999999996,
+          "arven": 0.815,
+          "petrel": 0.73,
+          "proxy": 4.4575,
+          "junk_hunt": 4.125
+        },
+        "d60": {
+          "wr": 0.105,
+          "a": 0.105,
+          "b": 0.105,
+          "determination": 0.4675,
+          "arven": 0.8200000000000001,
+          "petrel": 0.75,
+          "proxy": 6.88,
+          "junk_hunt": 2.9299999999999997
+        },
+        "s60": {
+          "wr": 0.7224999999999999,
+          "a": 0.73,
+          "b": 0.715,
+          "determination": 0.4525,
+          "arven": 0.865,
+          "petrel": 0.855,
+          "proxy": 3.73,
+          "junk_hunt": 5.025
+        },
+        "g": {
+          "wr": 0.4175,
+          "a": 0.445,
+          "b": 0.39,
+          "determination": 0.4,
+          "arven": 0.685,
+          "petrel": 0.725,
+          "proxy": 4.705,
+          "junk_hunt": 2.66
+        },
+        "c60": {
+          "wr": 0.7224999999999999,
+          "a": 0.735,
+          "b": 0.71,
+          "determination": 0.355,
+          "arven": 0.6275,
+          "petrel": 0.6225,
+          "proxy": 3.7625,
+          "junk_hunt": 2.005
+        },
+        "m": {
+          "wr": 0.3025,
+          "a": 0.32,
+          "b": 0.285,
+          "determination": 0.32499999999999996,
+          "arven": 0.5325,
+          "petrel": 0.5525,
+          "proxy": 4.4375,
+          "junk_hunt": 1.5075
+        },
+        "starmie": {
+          "wr": 0.2425,
+          "a": 0.235,
+          "b": 0.25,
+          "determination": 0.3775,
+          "arven": 0.5675,
+          "petrel": 0.585,
+          "proxy": 4.49,
+          "junk_hunt": 2.495
+        },
+        "lucario": {
+          "wr": 0.845,
+          "a": 0.815,
+          "b": 0.875,
+          "determination": 0.3175,
+          "arven": 0.59,
+          "petrel": 0.6325,
+          "proxy": 3.745,
+          "junk_hunt": 2.355
+        },
+        "thorns": {
+          "wr": 0.925,
+          "a": 0.935,
+          "b": 0.915,
+          "determination": 0.435,
+          "arven": 0.74,
+          "petrel": 0.6875,
+          "proxy": 4.0675,
+          "junk_hunt": 3.13
+        },
+        "h": {
+          "wr": 0.1525,
+          "a": 0.155,
+          "b": 0.15,
+          "determination": 0.385,
+          "arven": 0.7825,
+          "petrel": 0.8125,
+          "proxy": 4.5825,
+          "junk_hunt": 6.55
+        },
+        "g30": {
+          "wr": 0.7424999999999999,
+          "a": 0.75,
+          "b": 0.735,
+          "determination": 0.355,
+          "arven": 0.7275,
+          "petrel": 0.6625,
+          "proxy": 2.9299999999999997,
+          "junk_hunt": 7.25
+        }
+      }
+    },
+    "best": {
+      "label": "baseline",
+      "cut": null,
+      "copies_before": 0,
+      "weighted": 0.4350625625625626,
+      "se": 0.006777948884827148,
+      "mean": 0.5436538461538462,
+      "worst": 0.10500000000000001,
+      "determination": 0.0,
+      "determination_weighted": 0.0,
+      "arven": 0.6615384615384615,
+      "petrel": 0.635576923076923,
+      "proxy": 4.153269230769231,
+      "junk_hunt": 3.147884615384615,
+      "cells": {
+        "t60": {
+          "wr": 0.6875,
+          "a": 0.685,
+          "b": 0.69,
+          "determination": 0.0,
+          "arven": 0.6950000000000001,
+          "petrel": 0.6425000000000001,
+          "proxy": 4.18,
+          "junk_hunt": 2.08
+        },
+        "hedrick": {
+          "wr": 0.47,
+          "a": 0.445,
+          "b": 0.495,
+          "determination": 0.0,
+          "arven": 0.5375,
+          "petrel": 0.6,
+          "proxy": 3.7424999999999997,
+          "junk_hunt": 1.84
+        },
+        "unl": {
+          "wr": 0.855,
+          "a": 0.88,
+          "b": 0.83,
+          "determination": 0.0,
+          "arven": 0.7125,
+          "petrel": 0.6725,
+          "proxy": 4.495,
+          "junk_hunt": 3.41
+        },
+        "d60": {
+          "wr": 0.10500000000000001,
+          "a": 0.095,
+          "b": 0.115,
+          "determination": 0.0,
+          "arven": 0.655,
+          "petrel": 0.5725,
+          "proxy": 6.205,
+          "junk_hunt": 2.58
+        },
+        "s60": {
+          "wr": 0.665,
+          "a": 0.675,
+          "b": 0.655,
+          "determination": 0.0,
+          "arven": 0.82,
+          "petrel": 0.7125,
+          "proxy": 3.545,
+          "junk_hunt": 4.625
+        },
+        "g": {
+          "wr": 0.41000000000000003,
+          "a": 0.37,
+          "b": 0.45,
+          "determination": 0.0,
+          "arven": 0.645,
+          "petrel": 0.635,
+          "proxy": 4.53,
+          "junk_hunt": 2.84
+        },
+        "c60": {
+          "wr": 0.69,
+          "a": 0.71,
+          "b": 0.67,
+          "determination": 0.0,
+          "arven": 0.66,
+          "petrel": 0.61,
+          "proxy": 3.71,
+          "junk_hunt": 2.08
+        },
+        "m": {
+          "wr": 0.30500000000000005,
+          "a": 0.28,
+          "b": 0.33,
+          "determination": 0.0,
+          "arven": 0.5025,
+          "petrel": 0.5475000000000001,
+          "proxy": 4.0725,
+          "junk_hunt": 1.4675
+        },
+        "starmie": {
+          "wr": 0.2425,
+          "a": 0.205,
+          "b": 0.28,
+          "determination": 0.0,
+          "arven": 0.62,
+          "petrel": 0.56,
+          "proxy": 4.43,
+          "junk_hunt": 2.795
+        },
+        "lucario": {
+          "wr": 0.83,
+          "a": 0.82,
+          "b": 0.84,
+          "determination": 0.0,
+          "arven": 0.55,
+          "petrel": 0.5449999999999999,
+          "proxy": 3.4850000000000003,
+          "junk_hunt": 2.075
+        },
+        "thorns": {
+          "wr": 0.9375,
+          "a": 0.93,
+          "b": 0.945,
+          "determination": 0.0,
+          "arven": 0.7324999999999999,
+          "petrel": 0.6825,
+          "proxy": 4.0925,
+          "junk_hunt": 3.145
+        },
+        "h": {
+          "wr": 0.135,
+          "a": 0.115,
+          "b": 0.155,
+          "determination": 0.0,
+          "arven": 0.735,
+          "petrel": 0.7825,
+          "proxy": 4.555,
+          "junk_hunt": 5.38
+        },
+        "g30": {
+          "wr": 0.735,
+          "a": 0.73,
+          "b": 0.74,
+          "determination": 0.0,
+          "arven": 0.735,
+          "petrel": 0.7,
+          "proxy": 2.95,
+          "junk_hunt": 6.605
+        }
+      }
+    },
+    "best_list": [
+      "Cleffa",
+      "Cleffa",
+      "Smoochum",
+      "Smoochum",
+      "Mime Jr.",
+      "Mime Jr.",
+      "Slumbering Forest",
+      "Slumbering Forest",
+      "Battle Cage",
+      "Battle Cage",
+      "Battle Cage",
+      "Battle Cage",
+      "Manaphy",
+      "Switch",
+      "Sableye",
+      "Sableye",
+      "Darkness Energy",
+      "Darkness Energy",
+      "Dark Patch",
+      "Puzzle of Time",
+      "Puzzle of Time",
+      "Puzzle of Time",
+      "Puzzle of Time",
+      "VS Seeker",
+      "VS Seeker",
+      "VS Seeker",
+      "VS Seeker",
+      "Team Rocket's Handiwork",
+      "Team Rocket's Handiwork",
+      "Team Rocket's Handiwork",
+      "Team Rocket's Handiwork",
+      "Rescue Carrier",
+      "Rescue Carrier",
+      "Rescue Carrier",
+      "Robo Substitute Team Flare Gear",
+      "Robo Substitute Team Flare Gear",
+      "Robo Substitute Team Flare Gear",
+      "Robo Substitute Team Flare Gear",
+      "Lillie's Pok\u00e9 Doll",
+      "Lillie's Pok\u00e9 Doll",
+      "Lillie's Pok\u00e9 Doll",
+      "Lillie's Pok\u00e9 Doll",
+      "Snorlax Doll",
+      "Snorlax Doll",
+      "Cursed Shovel",
+      "Cursed Shovel",
+      "Cursed Shovel",
+      "Life Dew",
+      "Nincada",
+      "Shedinja",
+      "Field Blower",
+      "Level Ball",
+      "Level Ball",
+      "Buddy-Buddy Poffin",
+      "Buddy-Buddy Poffin",
+      "Crushing Hammer",
+      "Crushing Hammer",
+      "Black Market",
+      "Arven",
+      "Team Rocket's Petrel"
+    ],
+    "gap": 0.01271771771771768,
+    "gap_se": 0.009548697440908535,
+    "kept": true,
+    "locked": false
+  }
+}

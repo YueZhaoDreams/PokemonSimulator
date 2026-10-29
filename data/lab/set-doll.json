@@ -46,6 +46,22 @@
     "baseline_empty_rate": 0.404,
     "note": "Same 60 cards as the Petrel confirm. Cleffa still shuffles the hand and draws 6 when dolls are about to run out. Life Dew prefers that Cleffa. Not the 1000-game holdout."
   },
+  "lillie": {
+    "measurement": "product engine, strategy doll, data/lab/set-doll-lillie.json",
+    "seed": 20261029,
+    "screen_games_per_seat": 40,
+    "games_per_seat": 200,
+    "locked": false,
+    "cut": "Slumbering Forest",
+    "baseline_weighted": 0.4350625625625626,
+    "baseline_se": 0.006777948884827148,
+    "weighted": 0.4477802802802803,
+    "se": 0.0067258480307455385,
+    "gap": 0.01271771771771768,
+    "gap_se": 0.009548697440908535,
+    "determination_per_game": 0.3908283283283283,
+    "note": "One Lillie's Determination was not locked. The highest confirm is about 1.3 SE over the Eeeeeeek 60. The 60 is unchanged. Not the 1000-game holdout."
+  },
   "current_losses": {
     "seed": 20261029,
     "games_per_seat": 200,
