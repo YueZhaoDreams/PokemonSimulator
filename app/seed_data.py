@@ -712,7 +712,10 @@ SET_DOLL_NAMES = (
 # Paldea Evolved Luvdisc, seed 20261031, 400 games each seat. Every legal cut
 # was measured. The closest confirm replaced one Wally: 42.583% → 42.634%
 # (+0.051, difference ±0.686, 0.07 SE). The other fourteen cuts were lower.
-# See data/lab/set-mill-luvdisc.md. Luvdisc stays at zero copies.
+# See data/lab/set-mill-luvdisc.md. The same seed was then extended to 1000
+# games per seat for that one swap: 42.518% → 41.691% (−0.827, difference
+# ±0.431, −1.92 SE). See data/lab/set-mill-luvdisc-wally-1000.md. Wally stays
+# ×3. Luvdisc stays at zero copies.
 SET_MILL_NAMES = (
     ["Pichu"]
     + ["Mime Jr."]
