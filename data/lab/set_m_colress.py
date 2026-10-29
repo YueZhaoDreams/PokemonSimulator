@@ -16,12 +16,14 @@ Every cut is screened on SCREEN_GAMES games per foe. The best SCREEN_TOP cuts
 are confirmed on GAMES games per foe. The accepted lists are run again on a
 fresh seed.
 
-The locked 60 is the Elekid list plus one Colress: one Elekid, three Battle Cage,
-one Colress, and two Crushing Hammer. data/lab/set-m-colress.json is the
+The locked 60 is the Elekid list plus one Colress, then one Penny for one
+Crushing Hammer: one Elekid, three Battle Cage, one Colress, one Penny, four
+Team Rocket's Petrel, and one Crushing Hammer. data/lab/set-m-colress.json is the
 pre-Elekid measurement and its list_start still has zero Colress. A fresh run
-with no saved list puts that locked Colress back as Crushing Hammer, so the
-search still starts from zero Colress. A later 6000-game retest on the Elekid
-list was stopped during step 1 and did not choose this lock.
+with no saved list puts that locked Colress and that Penny back as Crushing
+Hammer, so the search still starts from zero Colress and three Crushing Hammer.
+A later 6000-game retest on the Elekid list was stopped during step 1 and did
+not choose this lock.
 """
 
 from __future__ import annotations
@@ -97,13 +99,24 @@ def cell_key(names: list[str], games: int, foe_key: str, seed: int) -> str:
 def zero_colress_start() -> list[str]:
     """The 60 a fresh search adds Colress to.
 
-    The live lock already has one Colress in place of one Crushing Hammer.
-    Put that copy back so the search still starts at zero Colress.
+    The live lock has one Colress in place of one Crushing Hammer, and one
+    Penny in place of another. Put both copies back so the search still
+    starts at zero Colress and three Crushing Hammer.
     """
     names = list(SET_M60_NAMES)
-    if names.count(IN_NAME) == 1 and names.count("Crushing Hammer") == 2:
+    if (
+        names.count(IN_NAME) == 1
+        and names.count("Penny") == 1
+        and names.count("Crushing Hammer") == 1
+    ):
         names[names.index(IN_NAME)] = "Crushing Hammer"
-    if len(names) != 60 or names.count(IN_NAME) != 0 or names.count("Crushing Hammer") != 3:
+        names[names.index("Penny")] = "Crushing Hammer"
+    if (
+        len(names) != 60
+        or names.count(IN_NAME) != 0
+        or names.count("Penny") != 0
+        or names.count("Crushing Hammer") != 3
+    ):
         raise SystemExit("start list is not the 60-card list with zero Colress")
     return names
 

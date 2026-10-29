@@ -24757,10 +24757,10 @@
         "dex_id": null
       },
       {
-        "catalog_id": "swsh12.5-125",
-        "name": "Crushing Hammer",
+        "catalog_id": "sv01-183",
+        "name": "Penny",
         "category": "Trainer",
-        "stage": "Item",
+        "stage": "Supporter",
         "types": [],
         "hp": 0,
         "attacks": [],
@@ -24769,12 +24769,13 @@
         "resistances": [],
         "retreat": 0,
         "evolves_from": null,
-        "trainer_kind": "item",
+        "trainer_kind": "supporter",
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/swsh/swsh12.5/125/low.webp",
+        "image": "https://assets.tcgdex.net/en/sv/sv01/183/low.webp",
         "set_name": null,
-        "text": "Flip a coin. If heads, discard an Energy from 1 of your opponent's Pok\u00e9mon.",
-        "dex_id": null
+        "text": "Put 1 of your Basic Pok\u00e9mon and all attached cards into your hand.",
+        "dex_id": null,
+        "traits": []
       },
       {
         "catalog_id": "sv04-160",
