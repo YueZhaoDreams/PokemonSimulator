@@ -24,6 +24,7 @@ from app.engine.effects import (
     is_speed_lightning_energy,
     is_telepathic_energy,
     parse_ability_effects,
+    parse_discard_hand_draw,
     parse_draw_until_hand,
     parse_effects,
     parse_energy_effects,
@@ -2378,6 +2379,10 @@ class Game:
                 collapse = self._petrel_pick
                 # The card already in hand plays first when the two scores match.
                 score += (collapse[0] - 0.25) if collapse else -20
+            elif any(
+                e.get("kind") == "shuffle_hand_draw_per_bench" for e in parse_trainer_effects(card.text or "")
+            ):
+                score += self._shuffle_draw_per_bench_score(me, foe, strat, card, missing_protect)
             else:
                 score += 0.5
             # Greedy Family Cup: Energy Search is also a Pokémon tutor.
@@ -8164,6 +8169,65 @@ class Game:
         player.deck.extend(list(player.hand))
         player.hand.clear()
         self.rng.shuffle(player.deck)
+
+    def _bench_draw_count(self, me: Player, foe: Player, whose: str) -> int:
+        """Benched Pokémon named by a shuffle-then-draw sentence. The Active is not benched."""
+        if whose == "both":
+            return len(me.bench) + len(foe.bench)
+        if whose == "yours":
+            return len(me.bench)
+        if whose == "opponent":
+            return len(foe.bench)
+        return 0
+
+    def _research_draw_amount(self, me: Player) -> int:
+        """Printed draw on Professor's Research. The number stays on that card."""
+        for card in me.cards:
+            if "professor" not in card.name.lower() or "turo" in card.name.lower():
+                continue
+            amount = parse_discard_hand_draw(card.text or "")
+            if amount:
+                return amount
+        from app.seed_data import fallback_named
+
+        return int(parse_discard_hand_draw(fallback_named("Professor's Research").text or "") or 0)
+
+    def _shuffle_draw_per_bench_score(
+        self,
+        me: Player,
+        foe: Player,
+        strat: StrategySpec,
+        card: Card,
+        missing_protect: list[str],
+    ) -> float:
+        spec = next(
+            e for e in parse_trainer_effects(card.text or "") if e.get("kind") == "shuffle_hand_draw_per_bench"
+        )
+        drawn = self._bench_draw_count(me, foe, str(spec.get("whose") or ""))
+        research = self._research_draw_amount(me)
+        if strat.name in {"mew_baby", "baby"}:
+            if drawn >= research:
+                slots = self._bench_limit(me) - len(me.bench)
+                # Nest Ball scores 10 while an ace is missing and a Bench slot is open.
+                if missing_protect and slots > 0:
+                    return 9
+                # Research is 8 or 4. Iono is 10 or 2. The hand is shuffled back, not discarded.
+                return 11
+            if drawn >= research - 2 and len(me.hand) > 4:
+                # Research scores 4 once the hand is past 4 cards, and that hand would be discarded.
+                return 5
+            return -12
+        return 8 if drawn >= research else -6
+
+    def _shuffle_hand_draw_per_bench(self, me: Player, foe: Player, whose: str) -> None:
+        drawn = self._bench_draw_count(me, foe, whose)
+        self._shuffle_hand_into_deck(me)
+        self._draw(me, drawn)
+        side = me.name.lower()
+        self._bump("shuffle_hand_draw_per_bench")
+        self._bump(f"shuffle_hand_draw_per_bench_{side}")
+        self._bump(f"colress_drawn_{side}", drawn)
+        self._log(f"{me.name} shuffles the hand and draws {drawn}")
 
     def _hp_min_bench(self, foe: Player) -> Pokemon | None:
         if not foe.bench:
@@ -16084,6 +16148,7 @@ class Game:
             "boss's orders",
             "penny",
             "arven",
+            "colress",
             "iono",
             "professor's research",
         )
@@ -16195,6 +16260,15 @@ class Game:
         research = by_name.get("professor's research")
         if research is not None and len(me.hand) <= 2:
             offer(research, 6)
+        for card in by_name.values():
+            spec = next(
+                (e for e in parse_trainer_effects(card.text or "") if e.get("kind") == "shuffle_hand_draw_per_bench"),
+                None,
+            )
+            drawn = self._bench_draw_count(me, foe, str(spec.get("whose") or "")) if spec is not None else 0
+            if spec is not None and drawn >= self._research_draw_amount(me):
+                # Above Iono. A Supporter found by Petrel waits until next turn.
+                offer(card, 8.7)
         if not options:
             return None
         options.sort(key=lambda row: (-row[0], row[1], row[2]))
@@ -16857,6 +16931,8 @@ class Game:
             self._coin_mill_top(me, foe, int(eff.get("flips") or 0), int(eff.get("per") or 0))
         elif kind == "shuffle_tools_to_deck":
             self._shuffle_tools_to_deck(me, int(eff.get("count") or 0))
+        elif kind == "shuffle_hand_draw_per_bench":
+            self._shuffle_hand_draw_per_bench(me, foe, str(eff.get("whose") or ""))
         elif kind == "shuffle_special_energy_to_deck":
             self._shuffle_special_energy_to_deck(me, int(eff.get("count") or 0))
         elif kind == "discard_tools_and_stadiums":

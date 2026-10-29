@@ -302,6 +302,7 @@ def test_junk_search_starts_from_the_locked_four_petrel_list():
     assert Counter(swapped)["Elekid"] == 0
     locked = list(swapped)
     locked[locked.index("Battle Cage")] = "Elekid"
+    locked[locked.index("Crushing Hammer")] = "Colress"
     assert Counter(locked) == Counter(SET_M60_NAMES)
 
 
@@ -355,4 +356,5 @@ def test_junk_report_keeps_one_copy_and_leaves_set_m_locked():
     assert kept["Elekid"] == 0
     walked = list(report["list"])
     walked[walked.index("Battle Cage")] = "Elekid"
+    walked[walked.index("Crushing Hammer")] = "Colress"
     assert Counter(walked) == Counter(SET_M60_NAMES)
