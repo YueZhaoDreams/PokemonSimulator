@@ -721,6 +721,12 @@ SET_DOLL_NAMES = (
 # See data/lab/set-mill-veil.md. The remaining Nest Ball was then replaced by a
 # fourth Level Ball without another paired run. Level Ball finds Wugtrio.
 # Poffin stays ×4 and benches Manaphy, then Cleffa.
+# Sleepy Voice Igglybuff (Cosmic Eclipse 168). Seed 20261029, 400 games each
+# seat. The highest row replaced Manaphy: 41.4% → 44.9% (+3.4, about 5.0 SE)
+# and took Mega Starmie from 36.4% to 32.0%. This lock keeps Manaphy and
+# replaces Boss's Orders: 41.4% → 44.6% (+3.1, gap SE 0.69, about 4.5 SE).
+# Starmie on that cut is 36.4% → 40.8%. A second copy was not measured on
+# the Boss's Orders list. See data/lab/set-mill-igglybuff.md.
 SET_MILL_NAMES = (
     ["Pichu"]
     + ["Mime Jr."]
@@ -739,7 +745,7 @@ SET_MILL_NAMES = (
     + ["Counter Catcher"] * 2
     + ["Miss Fortune Sisters"] * 2
     + ["Wally"] * 3
-    + ["Boss's Orders"]
+    + ["Igglybuff"]
     + ["Team Rocket's Handiwork"] * 2
     + ["Colress's Tenacity"] * 4
     + ["Double Turbo Energy"] * 4
@@ -5653,6 +5659,8 @@ def build_roast_deck() -> list[Card]:
     for name in SET_ROAST_NAMES:
         if name == "Cleffa":
             out.append(fallback_named("cleffa hgss"))
+        elif name == "Igglybuff":
+            out.append(fallback_named("igglybuff sleepy"))
         else:
             out.append(fallback_named(name))
     return out
@@ -5666,6 +5674,8 @@ def build_mill_deck() -> list[Card]:
             out.append(fallback_named("mime jr. col"))
         elif name == "Cleffa":
             out.append(fallback_named("cleffa hgss"))
+        elif name == "Igglybuff":
+            out.append(fallback_named("igglybuff sleepy"))
         else:
             out.append(fallback_named(name))
     return out

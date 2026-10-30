@@ -1,0 +1,5756 @@
+{
+  "deck": "mill",
+  "policy": "benefit",
+  "seed": 20261029,
+  "games": 400,
+  "weights": {
+    "t60": 0.04004004004004004,
+    "hedrick": 0.051051051051051045,
+    "unl": 0.022022022022022022,
+    "d60": 0.14514514514514515,
+    "s60": 0.07007007007007007,
+    "g": 0.11711711711711713,
+    "c60": 0.12412412412412413,
+    "m": 0.14514514514514515,
+    "starmie": 0.1061061061061061,
+    "lucario": 0.051051051051051045,
+    "thorns": 0.041041041041041046,
+    "h": 0.07607607607607607,
+    "g30": 0.011011011011011011
+  },
+  "elapsed": 2862.4043599171564,
+  "method": "greedy one-card Igglybuff swap from the locked mill 60; every other card name is tried as the cut; a step is kept only when its Sisters-weighted win rate is higher than the list already kept",
+  "path": [
+    {
+      "label": "locked",
+      "cut": null,
+      "copies": 0,
+      "copies_before": null,
+      "counts": {
+        "Pichu": 1,
+        "Mime Jr.": 1,
+        "Cleffa": 1,
+        "Manaphy": 1,
+        "Wiglett": 4,
+        "Wugtrio": 4,
+        "Victini": 1,
+        "Slumbering Forest": 1,
+        "Neutralization Zone": 1,
+        "Buddy-Buddy Poffin": 4,
+        "Level Ball": 4,
+        "Rescue Carrier": 3,
+        "Lillie's Pok\u00e9 Doll": 1,
+        "Crushing Hammer": 4,
+        "Counter Catcher": 2,
+        "Miss Fortune Sisters": 2,
+        "Wally": 3,
+        "Boss's Orders": 1,
+        "Team Rocket's Handiwork": 2,
+        "Colress's Tenacity": 4,
+        "Double Turbo Energy": 4,
+        "Water Energy": 3,
+        "Ignition Energy": 4,
+        "Reversal Energy": 4
+      },
+      "weighted": 0.4143818818818819,
+      "se": 0.004760586558951918,
+      "mean": 0.565,
+      "worst": 0.0775,
+      "sleepy_flip": 0.0,
+      "sleepy_heads": 0.0,
+      "plays": 0.4501313813813814,
+      "progress": 14.203727477477479,
+      "cells": {
+        "t60": {
+          "wr": 0.73125,
+          "a": 0.7625,
+          "b": 0.7
+        },
+        "hedrick": {
+          "wr": 0.5862499999999999,
+          "a": 0.595,
+          "b": 0.5775
+        },
+        "unl": {
+          "wr": 0.8425,
+          "a": 0.855,
+          "b": 0.83
+        },
+        "d60": {
+          "wr": 0.0775,
+          "a": 0.08,
+          "b": 0.075
+        },
+        "s60": {
+          "wr": 0.71,
+          "a": 0.7075,
+          "b": 0.7125
+        },
+        "g": {
+          "wr": 0.30125,
+          "a": 0.3025,
+          "b": 0.3
+        },
+        "c60": {
+          "wr": 0.3925,
+          "a": 0.38,
+          "b": 0.405
+        },
+        "m": {
+          "wr": 0.21125,
+          "a": 0.205,
+          "b": 0.2175
+        },
+        "starmie": {
+          "wr": 0.36375,
+          "a": 0.3425,
+          "b": 0.385
+        },
+        "lucario": {
+          "wr": 0.8225,
+          "a": 0.8375,
+          "b": 0.8075
+        },
+        "thorns": {
+          "wr": 0.91,
+          "a": 0.92,
+          "b": 0.9
+        },
+        "h": {
+          "wr": 0.425,
+          "a": 0.4225,
+          "b": 0.4275
+        },
+        "g30": {
+          "wr": 0.97125,
+          "a": 0.965,
+          "b": 0.9775
+        }
+      },
+      "list": [
+        "Pichu",
+        "Mime Jr.",
+        "Cleffa",
+        "Manaphy",
+        "Wiglett",
+        "Wiglett",
+        "Wiglett",
+        "Wiglett",
+        "Wugtrio",
+        "Wugtrio",
+        "Wugtrio",
+        "Wugtrio",
+        "Victini",
+        "Slumbering Forest",
+        "Neutralization Zone",
+        "Buddy-Buddy Poffin",
+        "Buddy-Buddy Poffin",
+        "Buddy-Buddy Poffin",
+        "Buddy-Buddy Poffin",
+        "Level Ball",
+        "Level Ball",
+        "Level Ball",
+        "Level Ball",
+        "Rescue Carrier",
+        "Rescue Carrier",
+        "Rescue Carrier",
+        "Lillie's Pok\u00e9 Doll",
+        "Crushing Hammer",
+        "Crushing Hammer",
+        "Crushing Hammer",
+        "Crushing Hammer",
+        "Counter Catcher",
+        "Counter Catcher",
+        "Miss Fortune Sisters",
+        "Miss Fortune Sisters",
+        "Wally",
+        "Wally",
+        "Wally",
+        "Boss's Orders",
+        "Team Rocket's Handiwork",
+        "Team Rocket's Handiwork",
+        "Colress's Tenacity",
+        "Colress's Tenacity",
+        "Colress's Tenacity",
+        "Colress's Tenacity",
+        "Double Turbo Energy",
+        "Double Turbo Energy",
+        "Double Turbo Energy",
+        "Double Turbo Energy",
+        "Water Energy",
+        "Water Energy",
+        "Water Energy",
+        "Ignition Energy",
+        "Ignition Energy",
+        "Ignition Energy",
+        "Ignition Energy",
+        "Reversal Energy",
+        "Reversal Energy",
+        "Reversal Energy",
+        "Reversal Energy"
+      ]
+    },
+    {
+      "label": "1 Igglybuff",
+      "cut": "Manaphy",
+      "copies": 1,
+      "copies_before": 1,
+      "counts": {
+        "Pichu": 1,
+        "Mime Jr.": 1,
+        "Cleffa": 1,
+        "Wiglett": 4,
+        "Wugtrio": 4,
+        "Victini": 1,
+        "Slumbering Forest": 1,
+        "Neutralization Zone": 1,
+        "Buddy-Buddy Poffin": 4,
+        "Level Ball": 4,
+        "Rescue Carrier": 3,
+        "Lillie's Pok\u00e9 Doll": 1,
+        "Crushing Hammer": 4,
+        "Counter Catcher": 2,
+        "Miss Fortune Sisters": 2,
+        "Wally": 3,
+        "Boss's Orders": 1,
+        "Team Rocket's Handiwork": 2,
+        "Colress's Tenacity": 4,
+        "Double Turbo Energy": 4,
+        "Water Energy": 3,
+        "Ignition Energy": 4,
+        "Reversal Energy": 4,
+        "Igglybuff": 1
+      },
+      "weighted": 0.44854104104104103,
+      "se": 0.004945799542666166,
+      "mean": 0.5924038461538461,
+      "worst": 0.1275,
+      "sleepy_flip": 1.8575963463463463,
+      "sleepy_heads": 0.914522022022022,
+      "plays": 1.1993455955955956,
+      "progress": 14.33933058058058,
+      "cells": {
+        "t60": {
+          "wr": 0.7462500000000001,
+          "a": 0.7425,
+          "b": 0.75
+        },
+        "hedrick": {
+          "wr": 0.6187499999999999,
+          "a": 0.6375,
+          "b": 0.6
+        },
+        "unl": {
+          "wr": 0.86875,
+          "a": 0.8725,
+          "b": 0.865
+        },
+        "d60": {
+          "wr": 0.1275,
+          "a": 0.1175,
+          "b": 0.1375
+        },
+        "s60": {
+          "wr": 0.72,
+          "a": 0.7325,
+          "b": 0.7075
+        },
+        "g": {
+          "wr": 0.43125,
+          "a": 0.4075,
+          "b": 0.455
+        },
+        "c60": {
+          "wr": 0.40375,
+          "a": 0.41,
+          "b": 0.3975
+        },
+        "m": {
+          "wr": 0.23875000000000002,
+          "a": 0.25,
+          "b": 0.2275
+        },
+        "starmie": {
+          "wr": 0.32,
+          "a": 0.3025,
+          "b": 0.3375
+        },
+        "lucario": {
+          "wr": 0.825,
+          "a": 0.8225,
+          "b": 0.8275
+        },
+        "thorns": {
+          "wr": 0.9275,
+          "a": 0.9425,
+          "b": 0.9125
+        },
+        "h": {
+          "wr": 0.5125,
+          "a": 0.5575,
+          "b": 0.4675
+        },
+        "g30": {
+          "wr": 0.9612499999999999,
+          "a": 0.9625,
+          "b": 0.96
+        }
+      },
+      "gap": 0.034159159159159125,
+      "gap_se": 0.006864700831173237,
+      "list": [
+        "Pichu",
+        "Mime Jr.",
+        "Cleffa",
+        "Wiglett",
+        "Wiglett",
+        "Wiglett",
+        "Wiglett",
+        "Wugtrio",
+        "Wugtrio",
+        "Wugtrio",
+        "Wugtrio",
+        "Victini",
+        "Slumbering Forest",
+        "Neutralization Zone",
+        "Buddy-Buddy Poffin",
+        "Buddy-Buddy Poffin",
+        "Buddy-Buddy Poffin",
+        "Buddy-Buddy Poffin",
+        "Level Ball",
+        "Level Ball",
+        "Level Ball",
+        "Level Ball",
+        "Rescue Carrier",
+        "Rescue Carrier",
+        "Rescue Carrier",
+        "Lillie's Pok\u00e9 Doll",
+        "Crushing Hammer",
+        "Crushing Hammer",
+        "Crushing Hammer",
+        "Crushing Hammer",
+        "Counter Catcher",
+        "Counter Catcher",
+        "Miss Fortune Sisters",
+        "Miss Fortune Sisters",
+        "Wally",
+        "Wally",
+        "Wally",
+        "Boss's Orders",
+        "Team Rocket's Handiwork",
+        "Team Rocket's Handiwork",
+        "Colress's Tenacity",
+        "Colress's Tenacity",
+        "Colress's Tenacity",
+        "Colress's Tenacity",
+        "Double Turbo Energy",
+        "Double Turbo Energy",
+        "Double Turbo Energy",
+        "Double Turbo Energy",
+        "Water Energy",
+        "Water Energy",
+        "Water Energy",
+        "Ignition Energy",
+        "Ignition Energy",
+        "Ignition Energy",
+        "Ignition Energy",
+        "Reversal Energy",
+        "Reversal Energy",
+        "Reversal Energy",
+        "Reversal Energy",
+        "Igglybuff"
+      ]
+    }
+  ],
+  "best": {
+    "label": "1 Igglybuff",
+    "cut": "Manaphy",
+    "copies": 1,
+    "copies_before": 1,
+    "counts": {
+      "Pichu": 1,
+      "Mime Jr.": 1,
+      "Cleffa": 1,
+      "Wiglett": 4,
+      "Wugtrio": 4,
+      "Victini": 1,
+      "Slumbering Forest": 1,
+      "Neutralization Zone": 1,
+      "Buddy-Buddy Poffin": 4,
+      "Level Ball": 4,
+      "Rescue Carrier": 3,
+      "Lillie's Pok\u00e9 Doll": 1,
+      "Crushing Hammer": 4,
+      "Counter Catcher": 2,
+      "Miss Fortune Sisters": 2,
+      "Wally": 3,
+      "Boss's Orders": 1,
+      "Team Rocket's Handiwork": 2,
+      "Colress's Tenacity": 4,
+      "Double Turbo Energy": 4,
+      "Water Energy": 3,
+      "Ignition Energy": 4,
+      "Reversal Energy": 4,
+      "Igglybuff": 1
+    },
+    "weighted": 0.44854104104104103,
+    "se": 0.004945799542666166,
+    "mean": 0.5924038461538461,
+    "worst": 0.1275,
+    "sleepy_flip": 1.8575963463463463,
+    "sleepy_heads": 0.914522022022022,
+    "plays": 1.1993455955955956,
+    "progress": 14.33933058058058,
+    "cells": {
+      "t60": {
+        "wr": 0.7462500000000001,
+        "a": 0.7425,
+        "b": 0.75
+      },
+      "hedrick": {
+        "wr": 0.6187499999999999,
+        "a": 0.6375,
+        "b": 0.6
+      },
+      "unl": {
+        "wr": 0.86875,
+        "a": 0.8725,
+        "b": 0.865
+      },
+      "d60": {
+        "wr": 0.1275,
+        "a": 0.1175,
+        "b": 0.1375
+      },
+      "s60": {
+        "wr": 0.72,
+        "a": 0.7325,
+        "b": 0.7075
+      },
+      "g": {
+        "wr": 0.43125,
+        "a": 0.4075,
+        "b": 0.455
+      },
+      "c60": {
+        "wr": 0.40375,
+        "a": 0.41,
+        "b": 0.3975
+      },
+      "m": {
+        "wr": 0.23875000000000002,
+        "a": 0.25,
+        "b": 0.2275
+      },
+      "starmie": {
+        "wr": 0.32,
+        "a": 0.3025,
+        "b": 0.3375
+      },
+      "lucario": {
+        "wr": 0.825,
+        "a": 0.8225,
+        "b": 0.8275
+      },
+      "thorns": {
+        "wr": 0.9275,
+        "a": 0.9425,
+        "b": 0.9125
+      },
+      "h": {
+        "wr": 0.5125,
+        "a": 0.5575,
+        "b": 0.4675
+      },
+      "g30": {
+        "wr": 0.9612499999999999,
+        "a": 0.9625,
+        "b": 0.96
+      }
+    },
+    "gap": 0.034159159159159125,
+    "gap_se": 0.006864700831173237,
+    "list": [
+      "Pichu",
+      "Mime Jr.",
+      "Cleffa",
+      "Wiglett",
+      "Wiglett",
+      "Wiglett",
+      "Wiglett",
+      "Wugtrio",
+      "Wugtrio",
+      "Wugtrio",
+      "Wugtrio",
+      "Victini",
+      "Slumbering Forest",
+      "Neutralization Zone",
+      "Buddy-Buddy Poffin",
+      "Buddy-Buddy Poffin",
+      "Buddy-Buddy Poffin",
+      "Buddy-Buddy Poffin",
+      "Level Ball",
+      "Level Ball",
+      "Level Ball",
+      "Level Ball",
+      "Rescue Carrier",
+      "Rescue Carrier",
+      "Rescue Carrier",
+      "Lillie's Pok\u00e9 Doll",
+      "Crushing Hammer",
+      "Crushing Hammer",
+      "Crushing Hammer",
+      "Crushing Hammer",
+      "Counter Catcher",
+      "Counter Catcher",
+      "Miss Fortune Sisters",
+      "Miss Fortune Sisters",
+      "Wally",
+      "Wally",
+      "Wally",
+      "Boss's Orders",
+      "Team Rocket's Handiwork",
+      "Team Rocket's Handiwork",
+      "Colress's Tenacity",
+      "Colress's Tenacity",
+      "Colress's Tenacity",
+      "Colress's Tenacity",
+      "Double Turbo Energy",
+      "Double Turbo Energy",
+      "Double Turbo Energy",
+      "Double Turbo Energy",
+      "Water Energy",
+      "Water Energy",
+      "Water Energy",
+      "Ignition Energy",
+      "Ignition Energy",
+      "Ignition Energy",
+      "Ignition Energy",
+      "Reversal Energy",
+      "Reversal Energy",
+      "Reversal Energy",
+      "Reversal Energy",
+      "Igglybuff"
+    ]
+  },
+  "rounds": [
+    {
+      "step": 1,
+      "rows": [
+        {
+          "label": "Manaphy",
+          "cut": "Manaphy",
+          "copies": 1,
+          "copies_before": 1,
+          "counts": {
+            "Pichu": 1,
+            "Mime Jr.": 1,
+            "Cleffa": 1,
+            "Wiglett": 4,
+            "Wugtrio": 4,
+            "Victini": 1,
+            "Slumbering Forest": 1,
+            "Neutralization Zone": 1,
+            "Buddy-Buddy Poffin": 4,
+            "Level Ball": 4,
+            "Rescue Carrier": 3,
+            "Lillie's Pok\u00e9 Doll": 1,
+            "Crushing Hammer": 4,
+            "Counter Catcher": 2,
+            "Miss Fortune Sisters": 2,
+            "Wally": 3,
+            "Boss's Orders": 1,
+            "Team Rocket's Handiwork": 2,
+            "Colress's Tenacity": 4,
+            "Double Turbo Energy": 4,
+            "Water Energy": 3,
+            "Ignition Energy": 4,
+            "Reversal Energy": 4,
+            "Igglybuff": 1
+          },
+          "weighted": 0.44854104104104103,
+          "se": 0.004945799542666166,
+          "mean": 0.5924038461538461,
+          "worst": 0.1275,
+          "sleepy_flip": 1.8575963463463463,
+          "sleepy_heads": 0.914522022022022,
+          "plays": 1.1993455955955956,
+          "progress": 14.33933058058058,
+          "cells": {
+            "t60": {
+              "wr": 0.7462500000000001,
+              "a": 0.7425,
+              "b": 0.75
+            },
+            "hedrick": {
+              "wr": 0.6187499999999999,
+              "a": 0.6375,
+              "b": 0.6
+            },
+            "unl": {
+              "wr": 0.86875,
+              "a": 0.8725,
+              "b": 0.865
+            },
+            "d60": {
+              "wr": 0.1275,
+              "a": 0.1175,
+              "b": 0.1375
+            },
+            "s60": {
+              "wr": 0.72,
+              "a": 0.7325,
+              "b": 0.7075
+            },
+            "g": {
+              "wr": 0.43125,
+              "a": 0.4075,
+              "b": 0.455
+            },
+            "c60": {
+              "wr": 0.40375,
+              "a": 0.41,
+              "b": 0.3975
+            },
+            "m": {
+              "wr": 0.23875000000000002,
+              "a": 0.25,
+              "b": 0.2275
+            },
+            "starmie": {
+              "wr": 0.32,
+              "a": 0.3025,
+              "b": 0.3375
+            },
+            "lucario": {
+              "wr": 0.825,
+              "a": 0.8225,
+              "b": 0.8275
+            },
+            "thorns": {
+              "wr": 0.9275,
+              "a": 0.9425,
+              "b": 0.9125
+            },
+            "h": {
+              "wr": 0.5125,
+              "a": 0.5575,
+              "b": 0.4675
+            },
+            "g30": {
+              "wr": 0.9612499999999999,
+              "a": 0.9625,
+              "b": 0.96
+            }
+          }
+        },
+        {
+          "label": "Boss's Orders",
+          "cut": "Boss's Orders",
+          "copies": 1,
+          "copies_before": 1,
+          "counts": {
+            "Pichu": 1,
+            "Mime Jr.": 1,
+            "Cleffa": 1,
+            "Manaphy": 1,
+            "Wiglett": 4,
+            "Wugtrio": 4,
+            "Victini": 1,
+            "Slumbering Forest": 1,
+            "Neutralization Zone": 1,
+            "Buddy-Buddy Poffin": 4,
+            "Level Ball": 4,
+            "Rescue Carrier": 3,
+            "Lillie's Pok\u00e9 Doll": 1,
+            "Crushing Hammer": 4,
+            "Counter Catcher": 2,
+            "Miss Fortune Sisters": 2,
+            "Wally": 3,
+            "Team Rocket's Handiwork": 2,
+            "Colress's Tenacity": 4,
+            "Double Turbo Energy": 4,
+            "Water Energy": 3,
+            "Ignition Energy": 4,
+            "Reversal Energy": 4,
+            "Igglybuff": 1
+          },
+          "weighted": 0.4456606606606607,
+          "se": 0.004958565196354101,
+          "mean": 0.5860576923076923,
+          "worst": 0.125,
+          "sleepy_flip": 1.8798948948948948,
+          "sleepy_heads": 0.9445357857857858,
+          "plays": 1.186036036036036,
+          "progress": 14.256470220220221,
+          "cells": {
+            "t60": {
+              "wr": 0.75125,
+              "a": 0.77,
+              "b": 0.7325
+            },
+            "hedrick": {
+              "wr": 0.60625,
+              "a": 0.5975,
+              "b": 0.615
+            },
+            "unl": {
+              "wr": 0.84625,
+              "a": 0.87,
+              "b": 0.8225
+            },
+            "d60": {
+              "wr": 0.125,
+              "a": 0.1375,
+              "b": 0.1125
+            },
+            "s60": {
+              "wr": 0.72875,
+              "a": 0.7375,
+              "b": 0.72
+            },
+            "g": {
+              "wr": 0.39125,
+              "a": 0.385,
+              "b": 0.3975
+            },
+            "c60": {
+              "wr": 0.37375,
+              "a": 0.3775,
+              "b": 0.37
+            },
+            "m": {
+              "wr": 0.245,
+              "a": 0.275,
+              "b": 0.215
+            },
+            "starmie": {
+              "wr": 0.4075,
+              "a": 0.3925,
+              "b": 0.4225
+            },
+            "lucario": {
+              "wr": 0.8325,
+              "a": 0.8375,
+              "b": 0.8275
+            },
+            "thorns": {
+              "wr": 0.91,
+              "a": 0.895,
+              "b": 0.925
+            },
+            "h": {
+              "wr": 0.46875,
+              "a": 0.48,
+              "b": 0.4575
+            },
+            "g30": {
+              "wr": 0.9325,
+              "a": 0.9275,
+              "b": 0.9375
+            }
+          }
+        },
+        {
+          "label": "Counter Catcher",
+          "cut": "Counter Catcher",
+          "copies": 1,
+          "copies_before": 2,
+          "counts": {
+            "Pichu": 1,
+            "Mime Jr.": 1,
+            "Cleffa": 1,
+            "Manaphy": 1,
+            "Wiglett": 4,
+            "Wugtrio": 4,
+            "Victini": 1,
+            "Slumbering Forest": 1,
+            "Neutralization Zone": 1,
+            "Buddy-Buddy Poffin": 4,
+            "Level Ball": 4,
+            "Rescue Carrier": 3,
+            "Lillie's Pok\u00e9 Doll": 1,
+            "Crushing Hammer": 4,
+            "Counter Catcher": 1,
+            "Miss Fortune Sisters": 2,
+            "Wally": 3,
+            "Boss's Orders": 1,
+            "Team Rocket's Handiwork": 2,
+            "Colress's Tenacity": 4,
+            "Double Turbo Energy": 4,
+            "Water Energy": 3,
+            "Ignition Energy": 4,
+            "Reversal Energy": 4,
+            "Igglybuff": 1
+          },
+          "weighted": 0.43991616616616613,
+          "se": 0.0049613654807548774,
+          "mean": 0.5824038461538461,
+          "worst": 0.12375,
+          "sleepy_flip": 1.8754166666666665,
+          "sleepy_heads": 0.9250650650650651,
+          "plays": 1.1882344844844845,
+          "progress": 14.240880880880882,
+          "cells": {
+            "t60": {
+              "wr": 0.75125,
+              "a": 0.73,
+              "b": 0.7725
+            },
+            "hedrick": {
+              "wr": 0.6200000000000001,
+              "a": 0.6175,
+              "b": 0.6225
+            },
+            "unl": {
+              "wr": 0.8475,
+              "a": 0.8475,
+              "b": 0.8475
+            },
+            "d60": {
+              "wr": 0.12375,
+              "a": 0.1175,
+              "b": 0.13
+            },
+            "s60": {
+              "wr": 0.7,
+              "a": 0.685,
+              "b": 0.715
+            },
+            "g": {
+              "wr": 0.34750000000000003,
+              "a": 0.3375,
+              "b": 0.3575
+            },
+            "c60": {
+              "wr": 0.4075,
+              "a": 0.415,
+              "b": 0.4
+            },
+            "m": {
+              "wr": 0.25,
+              "a": 0.27,
+              "b": 0.23
+            },
+            "starmie": {
+              "wr": 0.37625,
+              "a": 0.395,
+              "b": 0.3575
+            },
+            "lucario": {
+              "wr": 0.80625,
+              "a": 0.8075,
+              "b": 0.805
+            },
+            "thorns": {
+              "wr": 0.905,
+              "a": 0.905,
+              "b": 0.905
+            },
+            "h": {
+              "wr": 0.475,
+              "a": 0.5025,
+              "b": 0.4475
+            },
+            "g30": {
+              "wr": 0.9612499999999999,
+              "a": 0.9525,
+              "b": 0.97
+            }
+          }
+        },
+        {
+          "label": "Wugtrio",
+          "cut": "Wugtrio",
+          "copies": 1,
+          "copies_before": 4,
+          "counts": {
+            "Pichu": 1,
+            "Mime Jr.": 1,
+            "Cleffa": 1,
+            "Manaphy": 1,
+            "Wiglett": 4,
+            "Wugtrio": 3,
+            "Victini": 1,
+            "Slumbering Forest": 1,
+            "Neutralization Zone": 1,
+            "Buddy-Buddy Poffin": 4,
+            "Level Ball": 4,
+            "Rescue Carrier": 3,
+            "Lillie's Pok\u00e9 Doll": 1,
+            "Crushing Hammer": 4,
+            "Counter Catcher": 2,
+            "Miss Fortune Sisters": 2,
+            "Wally": 3,
+            "Boss's Orders": 1,
+            "Team Rocket's Handiwork": 2,
+            "Colress's Tenacity": 4,
+            "Double Turbo Energy": 4,
+            "Water Energy": 3,
+            "Ignition Energy": 4,
+            "Reversal Energy": 4,
+            "Igglybuff": 1
+          },
+          "weighted": 0.43809934934934935,
+          "se": 0.00492892423856094,
+          "mean": 0.5825961538461539,
+          "worst": 0.11,
+          "sleepy_flip": 1.8613863863863862,
+          "sleepy_heads": 0.9217742742742743,
+          "plays": 1.1808433433433434,
+          "progress": 13.928882632632632,
+          "cells": {
+            "t60": {
+              "wr": 0.7462500000000001,
+              "a": 0.745,
+              "b": 0.7475
+            },
+            "hedrick": {
+              "wr": 0.6174999999999999,
+              "a": 0.625,
+              "b": 0.61
+            },
+            "unl": {
+              "wr": 0.8525,
+              "a": 0.845,
+              "b": 0.86
+            },
+            "d60": {
+              "wr": 0.11,
+              "a": 0.1,
+              "b": 0.12
+            },
+            "s60": {
+              "wr": 0.67625,
+              "a": 0.67,
+              "b": 0.6825
+            },
+            "g": {
+              "wr": 0.39875,
+              "a": 0.4125,
+              "b": 0.385
+            },
+            "c60": {
+              "wr": 0.39375000000000004,
+              "a": 0.4,
+              "b": 0.3875
+            },
+            "m": {
+              "wr": 0.2375,
+              "a": 0.2375,
+              "b": 0.2375
+            },
+            "starmie": {
+              "wr": 0.37375,
+              "a": 0.38,
+              "b": 0.3675
+            },
+            "lucario": {
+              "wr": 0.83,
+              "a": 0.825,
+              "b": 0.835
+            },
+            "thorns": {
+              "wr": 0.93125,
+              "a": 0.9275,
+              "b": 0.935
+            },
+            "h": {
+              "wr": 0.4425,
+              "a": 0.445,
+              "b": 0.44
+            },
+            "g30": {
+              "wr": 0.96375,
+              "a": 0.965,
+              "b": 0.9625
+            }
+          }
+        },
+        {
+          "label": "Rescue Carrier",
+          "cut": "Rescue Carrier",
+          "copies": 1,
+          "copies_before": 3,
+          "counts": {
+            "Pichu": 1,
+            "Mime Jr.": 1,
+            "Cleffa": 1,
+            "Manaphy": 1,
+            "Wiglett": 4,
+            "Wugtrio": 4,
+            "Victini": 1,
+            "Slumbering Forest": 1,
+            "Neutralization Zone": 1,
+            "Buddy-Buddy Poffin": 4,
+            "Level Ball": 4,
+            "Rescue Carrier": 2,
+            "Lillie's Pok\u00e9 Doll": 1,
+            "Crushing Hammer": 4,
+            "Counter Catcher": 2,
+            "Miss Fortune Sisters": 2,
+            "Wally": 3,
+            "Boss's Orders": 1,
+            "Team Rocket's Handiwork": 2,
+            "Colress's Tenacity": 4,
+            "Double Turbo Energy": 4,
+            "Water Energy": 3,
+            "Ignition Energy": 4,
+            "Reversal Energy": 4,
+            "Igglybuff": 1
+          },
+          "weighted": 0.4378490990990991,
+          "se": 0.004925136295143537,
+          "mean": 0.5832692307692308,
+          "worst": 0.11125,
+          "sleepy_flip": 1.8534196696696699,
+          "sleepy_heads": 0.9176576576576576,
+          "plays": 1.1736461461461463,
+          "progress": 14.000215215215215,
+          "cells": {
+            "t60": {
+              "wr": 0.75125,
+              "a": 0.735,
+              "b": 0.7675
+            },
+            "hedrick": {
+              "wr": 0.62875,
+              "a": 0.6175,
+              "b": 0.64
+            },
+            "unl": {
+              "wr": 0.865,
+              "a": 0.8775,
+              "b": 0.8525
+            },
+            "d60": {
+              "wr": 0.11125,
+              "a": 0.125,
+              "b": 0.0975
+            },
+            "s60": {
+              "wr": 0.68875,
+              "a": 0.715,
+              "b": 0.6625
+            },
+            "g": {
+              "wr": 0.39749999999999996,
+              "a": 0.41,
+              "b": 0.385
+            },
+            "c60": {
+              "wr": 0.37,
+              "a": 0.385,
+              "b": 0.355
+            },
+            "m": {
+              "wr": 0.2425,
+              "a": 0.2525,
+              "b": 0.2325
+            },
+            "starmie": {
+              "wr": 0.38,
+              "a": 0.3725,
+              "b": 0.3875
+            },
+            "lucario": {
+              "wr": 0.82875,
+              "a": 0.8125,
+              "b": 0.845
+            },
+            "thorns": {
+              "wr": 0.92125,
+              "a": 0.9275,
+              "b": 0.915
+            },
+            "h": {
+              "wr": 0.44125000000000003,
+              "a": 0.44,
+              "b": 0.4425
+            },
+            "g30": {
+              "wr": 0.95625,
+              "a": 0.9575,
+              "b": 0.955
+            }
+          }
+        },
+        {
+          "label": "Team Rocket's Handiwork",
+          "cut": "Team Rocket's Handiwork",
+          "copies": 1,
+          "copies_before": 2,
+          "counts": {
+            "Pichu": 1,
+            "Mime Jr.": 1,
+            "Cleffa": 1,
+            "Manaphy": 1,
+            "Wiglett": 4,
+            "Wugtrio": 4,
+            "Victini": 1,
+            "Slumbering Forest": 1,
+            "Neutralization Zone": 1,
+            "Buddy-Buddy Poffin": 4,
+            "Level Ball": 4,
+            "Rescue Carrier": 3,
+            "Lillie's Pok\u00e9 Doll": 1,
+            "Crushing Hammer": 4,
+            "Counter Catcher": 2,
+            "Miss Fortune Sisters": 2,
+            "Wally": 3,
+            "Boss's Orders": 1,
+            "Team Rocket's Handiwork": 1,
+            "Colress's Tenacity": 4,
+            "Double Turbo Energy": 4,
+            "Water Energy": 3,
+            "Ignition Energy": 4,
+            "Reversal Energy": 4,
+            "Igglybuff": 1
+          },
+          "weighted": 0.43614114114114116,
+          "se": 0.004919301507721439,
+          "mean": 0.5815384615384616,
+          "worst": 0.10625,
+          "sleepy_flip": 1.8634434434434433,
+          "sleepy_heads": 0.9284684684684684,
+          "plays": 1.1893405905905905,
+          "progress": 13.83456081081081,
+          "cells": {
+            "t60": {
+              "wr": 0.7475,
+              "a": 0.7425,
+              "b": 0.7525
+            },
+            "hedrick": {
+              "wr": 0.61375,
+              "a": 0.6125,
+              "b": 0.615
+            },
+            "unl": {
+              "wr": 0.8612500000000001,
+              "a": 0.85,
+              "b": 0.8725
+            },
+            "d60": {
+              "wr": 0.10625,
+              "a": 0.11,
+              "b": 0.1025
+            },
+            "s60": {
+              "wr": 0.7012499999999999,
+              "a": 0.7125,
+              "b": 0.69
+            },
+            "g": {
+              "wr": 0.38,
+              "a": 0.39,
+              "b": 0.37
+            },
+            "c60": {
+              "wr": 0.3825,
+              "a": 0.3775,
+              "b": 0.3875
+            },
+            "m": {
+              "wr": 0.245,
+              "a": 0.255,
+              "b": 0.235
+            },
+            "starmie": {
+              "wr": 0.3725,
+              "a": 0.3825,
+              "b": 0.3625
+            },
+            "lucario": {
+              "wr": 0.81625,
+              "a": 0.8275,
+              "b": 0.805
+            },
+            "thorns": {
+              "wr": 0.915,
+              "a": 0.905,
+              "b": 0.925
+            },
+            "h": {
+              "wr": 0.4525,
+              "a": 0.4575,
+              "b": 0.4475
+            },
+            "g30": {
+              "wr": 0.96625,
+              "a": 0.9575,
+              "b": 0.975
+            }
+          }
+        },
+        {
+          "label": "Mime Jr.",
+          "cut": "Mime Jr.",
+          "copies": 1,
+          "copies_before": 1,
+          "counts": {
+            "Pichu": 1,
+            "Cleffa": 1,
+            "Manaphy": 1,
+            "Wiglett": 4,
+            "Wugtrio": 4,
+            "Victini": 1,
+            "Slumbering Forest": 1,
+            "Neutralization Zone": 1,
+            "Buddy-Buddy Poffin": 4,
+            "Level Ball": 4,
+            "Rescue Carrier": 3,
+            "Lillie's Pok\u00e9 Doll": 1,
+            "Crushing Hammer": 4,
+            "Counter Catcher": 2,
+            "Miss Fortune Sisters": 2,
+            "Wally": 3,
+            "Boss's Orders": 1,
+            "Team Rocket's Handiwork": 2,
+            "Colress's Tenacity": 4,
+            "Double Turbo Energy": 4,
+            "Water Energy": 3,
+            "Ignition Energy": 4,
+            "Reversal Energy": 4,
+            "Igglybuff": 1
+          },
+          "weighted": 0.43611486486486484,
+          "se": 0.004855004600795613,
+          "mean": 0.5869230769230769,
+          "worst": 0.10875,
+          "sleepy_flip": 1.9151326326326326,
+          "sleepy_heads": 0.9530167667667667,
+          "plays": 1.1960710710710711,
+          "progress": 14.180898398398398,
+          "cells": {
+            "t60": {
+              "wr": 0.77125,
+              "a": 0.7575,
+              "b": 0.785
+            },
+            "hedrick": {
+              "wr": 0.63375,
+              "a": 0.6325,
+              "b": 0.635
+            },
+            "unl": {
+              "wr": 0.86375,
+              "a": 0.87,
+              "b": 0.8575
+            },
+            "d60": {
+              "wr": 0.10875,
+              "a": 0.125,
+              "b": 0.0925
+            },
+            "s60": {
+              "wr": 0.69875,
+              "a": 0.69,
+              "b": 0.7075
+            },
+            "g": {
+              "wr": 0.36125,
+              "a": 0.3375,
+              "b": 0.385
+            },
+            "c60": {
+              "wr": 0.36624999999999996,
+              "a": 0.3625,
+              "b": 0.37
+            },
+            "m": {
+              "wr": 0.22125,
+              "a": 0.215,
+              "b": 0.2275
+            },
+            "starmie": {
+              "wr": 0.35625,
+              "a": 0.3775,
+              "b": 0.335
+            },
+            "lucario": {
+              "wr": 0.85,
+              "a": 0.865,
+              "b": 0.835
+            },
+            "thorns": {
+              "wr": 0.92,
+              "a": 0.92,
+              "b": 0.92
+            },
+            "h": {
+              "wr": 0.5225,
+              "a": 0.51,
+              "b": 0.535
+            },
+            "g30": {
+              "wr": 0.95625,
+              "a": 0.9675,
+              "b": 0.945
+            }
+          }
+        },
+        {
+          "label": "Water Energy",
+          "cut": "Water Energy",
+          "copies": 1,
+          "copies_before": 3,
+          "counts": {
+            "Pichu": 1,
+            "Mime Jr.": 1,
+            "Cleffa": 1,
+            "Manaphy": 1,
+            "Wiglett": 4,
+            "Wugtrio": 4,
+            "Victini": 1,
+            "Slumbering Forest": 1,
+            "Neutralization Zone": 1,
+            "Buddy-Buddy Poffin": 4,
+            "Level Ball": 4,
+            "Rescue Carrier": 3,
+            "Lillie's Pok\u00e9 Doll": 1,
+            "Crushing Hammer": 4,
+            "Counter Catcher": 2,
+            "Miss Fortune Sisters": 2,
+            "Wally": 3,
+            "Boss's Orders": 1,
+            "Team Rocket's Handiwork": 2,
+            "Colress's Tenacity": 4,
+            "Double Turbo Energy": 4,
+            "Water Energy": 2,
+            "Ignition Energy": 4,
+            "Reversal Energy": 4,
+            "Igglybuff": 1
+          },
+          "weighted": 0.4343455955955956,
+          "se": 0.004891509671405936,
+          "mean": 0.5784615384615385,
+          "worst": 0.1075,
+          "sleepy_flip": 1.8915052552552554,
+          "sleepy_heads": 0.93375,
+          "plays": 1.1855555555555557,
+          "progress": 13.861778028028027,
+          "cells": {
+            "t60": {
+              "wr": 0.71625,
+              "a": 0.6925,
+              "b": 0.74
+            },
+            "hedrick": {
+              "wr": 0.595,
+              "a": 0.5725,
+              "b": 0.6175
+            },
+            "unl": {
+              "wr": 0.885,
+              "a": 0.8975,
+              "b": 0.8725
+            },
+            "d60": {
+              "wr": 0.1075,
+              "a": 0.095,
+              "b": 0.12
+            },
+            "s60": {
+              "wr": 0.70375,
+              "a": 0.715,
+              "b": 0.6925
+            },
+            "g": {
+              "wr": 0.3525,
+              "a": 0.3575,
+              "b": 0.3475
+            },
+            "c60": {
+              "wr": 0.44125000000000003,
+              "a": 0.4375,
+              "b": 0.445
+            },
+            "m": {
+              "wr": 0.22999999999999998,
+              "a": 0.245,
+              "b": 0.215
+            },
+            "starmie": {
+              "wr": 0.3375,
+              "a": 0.34,
+              "b": 0.335
+            },
+            "lucario": {
+              "wr": 0.8262499999999999,
+              "a": 0.8225,
+              "b": 0.83
+            },
+            "thorns": {
+              "wr": 0.9299999999999999,
+              "a": 0.9325,
+              "b": 0.9275
+            },
+            "h": {
+              "wr": 0.45999999999999996,
+              "a": 0.475,
+              "b": 0.445
+            },
+            "g30": {
+              "wr": 0.935,
+              "a": 0.9275,
+              "b": 0.9425
+            }
+          }
+        },
+        {
+          "label": "Wally",
+          "cut": "Wally",
+          "copies": 1,
+          "copies_before": 3,
+          "counts": {
+            "Pichu": 1,
+            "Mime Jr.": 1,
+            "Cleffa": 1,
+            "Manaphy": 1,
+            "Wiglett": 4,
+            "Wugtrio": 4,
+            "Victini": 1,
+            "Slumbering Forest": 1,
+            "Neutralization Zone": 1,
+            "Buddy-Buddy Poffin": 4,
+            "Level Ball": 4,
+            "Rescue Carrier": 3,
+            "Lillie's Pok\u00e9 Doll": 1,
+            "Crushing Hammer": 4,
+            "Counter Catcher": 2,
+            "Miss Fortune Sisters": 2,
+            "Wally": 2,
+            "Boss's Orders": 1,
+            "Team Rocket's Handiwork": 2,
+            "Colress's Tenacity": 4,
+            "Double Turbo Energy": 4,
+            "Water Energy": 3,
+            "Ignition Energy": 4,
+            "Reversal Energy": 4,
+            "Igglybuff": 1
+          },
+          "weighted": 0.4325813313313313,
+          "se": 0.004884731892264581,
+          "mean": 0.5777884615384615,
+          "worst": 0.09625,
+          "sleepy_flip": 1.8996283783783783,
+          "sleepy_heads": 0.9480843343343344,
+          "plays": 1.194212962962963,
+          "progress": 13.928628628628628,
+          "cells": {
+            "t60": {
+              "wr": 0.7350000000000001,
+              "a": 0.7375,
+              "b": 0.7325
+            },
+            "hedrick": {
+              "wr": 0.60625,
+              "a": 0.59,
+              "b": 0.6225
+            },
+            "unl": {
+              "wr": 0.84625,
+              "a": 0.8525,
+              "b": 0.84
+            },
+            "d60": {
+              "wr": 0.09625,
+              "a": 0.0975,
+              "b": 0.095
+            },
+            "s60": {
+              "wr": 0.68625,
+              "a": 0.675,
+              "b": 0.6975
+            },
+            "g": {
+              "wr": 0.38875000000000004,
+              "a": 0.395,
+              "b": 0.3825
+            },
+            "c60": {
+              "wr": 0.385,
+              "a": 0.4025,
+              "b": 0.3675
+            },
+            "m": {
+              "wr": 0.22875,
+              "a": 0.24,
+              "b": 0.2175
+            },
+            "starmie": {
+              "wr": 0.39249999999999996,
+              "a": 0.355,
+              "b": 0.43
+            },
+            "lucario": {
+              "wr": 0.8274999999999999,
+              "a": 0.815,
+              "b": 0.84
+            },
+            "thorns": {
+              "wr": 0.91875,
+              "a": 0.9075,
+              "b": 0.93
+            },
+            "h": {
+              "wr": 0.43,
+              "a": 0.445,
+              "b": 0.415
+            },
+            "g30": {
+              "wr": 0.97,
+              "a": 0.97,
+              "b": 0.97
+            }
+          }
+        },
+        {
+          "label": "Colress's Tenacity",
+          "cut": "Colress's Tenacity",
+          "copies": 1,
+          "copies_before": 4,
+          "counts": {
+            "Pichu": 1,
+            "Mime Jr.": 1,
+            "Cleffa": 1,
+            "Manaphy": 1,
+            "Wiglett": 4,
+            "Wugtrio": 4,
+            "Victini": 1,
+            "Slumbering Forest": 1,
+            "Neutralization Zone": 1,
+            "Buddy-Buddy Poffin": 4,
+            "Level Ball": 4,
+            "Rescue Carrier": 3,
+            "Lillie's Pok\u00e9 Doll": 1,
+            "Crushing Hammer": 4,
+            "Counter Catcher": 2,
+            "Miss Fortune Sisters": 2,
+            "Wally": 3,
+            "Boss's Orders": 1,
+            "Team Rocket's Handiwork": 2,
+            "Colress's Tenacity": 3,
+            "Double Turbo Energy": 4,
+            "Water Energy": 3,
+            "Ignition Energy": 4,
+            "Reversal Energy": 4,
+            "Igglybuff": 1
+          },
+          "weighted": 0.4322647647647648,
+          "se": 0.004948089789090761,
+          "mean": 0.5723076923076923,
+          "worst": 0.12125,
+          "sleepy_flip": 1.9122372372372372,
+          "sleepy_heads": 0.9620658158158159,
+          "plays": 1.1794657157157158,
+          "progress": 13.87244994994995,
+          "cells": {
+            "t60": {
+              "wr": 0.7124999999999999,
+              "a": 0.695,
+              "b": 0.73
+            },
+            "hedrick": {
+              "wr": 0.5862499999999999,
+              "a": 0.5775,
+              "b": 0.595
+            },
+            "unl": {
+              "wr": 0.8475,
+              "a": 0.8425,
+              "b": 0.8525
+            },
+            "d60": {
+              "wr": 0.12125,
+              "a": 0.12,
+              "b": 0.1225
+            },
+            "s60": {
+              "wr": 0.6725,
+              "a": 0.6525,
+              "b": 0.6925
+            },
+            "g": {
+              "wr": 0.37875000000000003,
+              "a": 0.3925,
+              "b": 0.365
+            },
+            "c60": {
+              "wr": 0.4,
+              "a": 0.43,
+              "b": 0.37
+            },
+            "m": {
+              "wr": 0.23375,
+              "a": 0.23,
+              "b": 0.2375
+            },
+            "starmie": {
+              "wr": 0.36125,
+              "a": 0.38,
+              "b": 0.3425
+            },
+            "lucario": {
+              "wr": 0.81,
+              "a": 0.8025,
+              "b": 0.8175
+            },
+            "thorns": {
+              "wr": 0.90875,
+              "a": 0.895,
+              "b": 0.9225
+            },
+            "h": {
+              "wr": 0.46125000000000005,
+              "a": 0.4025,
+              "b": 0.52
+            },
+            "g30": {
+              "wr": 0.94625,
+              "a": 0.945,
+              "b": 0.9475
+            }
+          }
+        },
+        {
+          "label": "Crushing Hammer",
+          "cut": "Crushing Hammer",
+          "copies": 1,
+          "copies_before": 4,
+          "counts": {
+            "Pichu": 1,
+            "Mime Jr.": 1,
+            "Cleffa": 1,
+            "Manaphy": 1,
+            "Wiglett": 4,
+            "Wugtrio": 4,
+            "Victini": 1,
+            "Slumbering Forest": 1,
+            "Neutralization Zone": 1,
+            "Buddy-Buddy Poffin": 4,
+            "Level Ball": 4,
+            "Rescue Carrier": 3,
+            "Lillie's Pok\u00e9 Doll": 1,
+            "Crushing Hammer": 3,
+            "Counter Catcher": 2,
+            "Miss Fortune Sisters": 2,
+            "Wally": 3,
+            "Boss's Orders": 1,
+            "Team Rocket's Handiwork": 2,
+            "Colress's Tenacity": 4,
+            "Double Turbo Energy": 4,
+            "Water Energy": 3,
+            "Ignition Energy": 4,
+            "Reversal Energy": 4,
+            "Igglybuff": 1
+          },
+          "weighted": 0.4315503003003003,
+          "se": 0.004861294358395081,
+          "mean": 0.5793269230769231,
+          "worst": 0.09625,
+          "sleepy_flip": 1.881808058058058,
+          "sleepy_heads": 0.9269544544544545,
+          "plays": 1.1880005005005005,
+          "progress": 13.969608358358359,
+          "cells": {
+            "t60": {
+              "wr": 0.73875,
+              "a": 0.75,
+              "b": 0.7275
+            },
+            "hedrick": {
+              "wr": 0.6399999999999999,
+              "a": 0.6375,
+              "b": 0.6425
+            },
+            "unl": {
+              "wr": 0.8574999999999999,
+              "a": 0.8775,
+              "b": 0.8375
+            },
+            "d60": {
+              "wr": 0.09625,
+              "a": 0.0875,
+              "b": 0.105
+            },
+            "s60": {
+              "wr": 0.6925,
+              "a": 0.7,
+              "b": 0.685
+            },
+            "g": {
+              "wr": 0.365,
+              "a": 0.3525,
+              "b": 0.3775
+            },
+            "c60": {
+              "wr": 0.39125,
+              "a": 0.375,
+              "b": 0.4075
+            },
+            "m": {
+              "wr": 0.23125,
+              "a": 0.2125,
+              "b": 0.25
+            },
+            "starmie": {
+              "wr": 0.34125,
+              "a": 0.32,
+              "b": 0.3625
+            },
+            "lucario": {
+              "wr": 0.8200000000000001,
+              "a": 0.83,
+              "b": 0.81
+            },
+            "thorns": {
+              "wr": 0.9225,
+              "a": 0.9325,
+              "b": 0.9125
+            },
+            "h": {
+              "wr": 0.48124999999999996,
+              "a": 0.48,
+              "b": 0.4825
+            },
+            "g30": {
+              "wr": 0.95375,
+              "a": 0.9525,
+              "b": 0.955
+            }
+          }
+        },
+        {
+          "label": "Lillie's Pok\u00e9 Doll",
+          "cut": "Lillie's Pok\u00e9 Doll",
+          "copies": 1,
+          "copies_before": 1,
+          "counts": {
+            "Pichu": 1,
+            "Mime Jr.": 1,
+            "Cleffa": 1,
+            "Manaphy": 1,
+            "Wiglett": 4,
+            "Wugtrio": 4,
+            "Victini": 1,
+            "Slumbering Forest": 1,
+            "Neutralization Zone": 1,
+            "Buddy-Buddy Poffin": 4,
+            "Level Ball": 4,
+            "Rescue Carrier": 3,
+            "Crushing Hammer": 4,
+            "Counter Catcher": 2,
+            "Miss Fortune Sisters": 2,
+            "Wally": 3,
+            "Boss's Orders": 1,
+            "Team Rocket's Handiwork": 2,
+            "Colress's Tenacity": 4,
+            "Double Turbo Energy": 4,
+            "Water Energy": 3,
+            "Ignition Energy": 4,
+            "Reversal Energy": 4,
+            "Igglybuff": 1
+          },
+          "weighted": 0.4292642642642643,
+          "se": 0.004842227752884202,
+          "mean": 0.5764423076923078,
+          "worst": 0.0975,
+          "sleepy_flip": 1.7777552552552551,
+          "sleepy_heads": 0.8857282282282283,
+          "plays": 1.192436186186186,
+          "progress": 14.218727477477477,
+          "cells": {
+            "t60": {
+              "wr": 0.7637499999999999,
+              "a": 0.76,
+              "b": 0.7675
+            },
+            "hedrick": {
+              "wr": 0.6075,
+              "a": 0.6175,
+              "b": 0.5975
+            },
+            "unl": {
+              "wr": 0.835,
+              "a": 0.805,
+              "b": 0.865
+            },
+            "d60": {
+              "wr": 0.0975,
+              "a": 0.1125,
+              "b": 0.0825
+            },
+            "s60": {
+              "wr": 0.6875,
+              "a": 0.69,
+              "b": 0.685
+            },
+            "g": {
+              "wr": 0.3825,
+              "a": 0.3625,
+              "b": 0.4025
+            },
+            "c60": {
+              "wr": 0.37875000000000003,
+              "a": 0.3725,
+              "b": 0.385
+            },
+            "m": {
+              "wr": 0.20750000000000002,
+              "a": 0.2025,
+              "b": 0.2125
+            },
+            "starmie": {
+              "wr": 0.36624999999999996,
+              "a": 0.3825,
+              "b": 0.35
+            },
+            "lucario": {
+              "wr": 0.8225,
+              "a": 0.835,
+              "b": 0.81
+            },
+            "thorns": {
+              "wr": 0.925,
+              "a": 0.92,
+              "b": 0.93
+            },
+            "h": {
+              "wr": 0.47,
+              "a": 0.465,
+              "b": 0.475
+            },
+            "g30": {
+              "wr": 0.95,
+              "a": 0.935,
+              "b": 0.965
+            }
+          }
+        },
+        {
+          "label": "Slumbering Forest",
+          "cut": "Slumbering Forest",
+          "copies": 1,
+          "copies_before": 1,
+          "counts": {
+            "Pichu": 1,
+            "Mime Jr.": 1,
+            "Cleffa": 1,
+            "Manaphy": 1,
+            "Wiglett": 4,
+            "Wugtrio": 4,
+            "Victini": 1,
+            "Neutralization Zone": 1,
+            "Buddy-Buddy Poffin": 4,
+            "Level Ball": 4,
+            "Rescue Carrier": 3,
+            "Lillie's Pok\u00e9 Doll": 1,
+            "Crushing Hammer": 4,
+            "Counter Catcher": 2,
+            "Miss Fortune Sisters": 2,
+            "Wally": 3,
+            "Boss's Orders": 1,
+            "Team Rocket's Handiwork": 2,
+            "Colress's Tenacity": 4,
+            "Double Turbo Energy": 4,
+            "Water Energy": 3,
+            "Ignition Energy": 4,
+            "Reversal Energy": 4,
+            "Igglybuff": 1
+          },
+          "weighted": 0.42826576576576575,
+          "se": 0.004803947272518181,
+          "mean": 0.5790384615384615,
+          "worst": 0.07,
+          "sleepy_flip": 1.9087625125125125,
+          "sleepy_heads": 0.953775025025025,
+          "plays": 1.1784421921921922,
+          "progress": 14.167143393393394,
+          "cells": {
+            "t60": {
+              "wr": 0.735,
+              "a": 0.72,
+              "b": 0.75
+            },
+            "hedrick": {
+              "wr": 0.59125,
+              "a": 0.5575,
+              "b": 0.625
+            },
+            "unl": {
+              "wr": 0.88625,
+              "a": 0.8975,
+              "b": 0.875
+            },
+            "d60": {
+              "wr": 0.07,
+              "a": 0.08,
+              "b": 0.06
+            },
+            "s60": {
+              "wr": 0.68625,
+              "a": 0.6975,
+              "b": 0.675
+            },
+            "g": {
+              "wr": 0.3375,
+              "a": 0.335,
+              "b": 0.34
+            },
+            "c60": {
+              "wr": 0.385,
+              "a": 0.38,
+              "b": 0.39
+            },
+            "m": {
+              "wr": 0.2275,
+              "a": 0.23,
+              "b": 0.225
+            },
+            "starmie": {
+              "wr": 0.39625,
+              "a": 0.4125,
+              "b": 0.38
+            },
+            "lucario": {
+              "wr": 0.82875,
+              "a": 0.8325,
+              "b": 0.825
+            },
+            "thorns": {
+              "wr": 0.92125,
+              "a": 0.92,
+              "b": 0.9225
+            },
+            "h": {
+              "wr": 0.49624999999999997,
+              "a": 0.4825,
+              "b": 0.51
+            },
+            "g30": {
+              "wr": 0.96625,
+              "a": 0.96,
+              "b": 0.9725
+            }
+          }
+        },
+        {
+          "label": "Double Turbo Energy",
+          "cut": "Double Turbo Energy",
+          "copies": 1,
+          "copies_before": 4,
+          "counts": {
+            "Pichu": 1,
+            "Mime Jr.": 1,
+            "Cleffa": 1,
+            "Manaphy": 1,
+            "Wiglett": 4,
+            "Wugtrio": 4,
+            "Victini": 1,
+            "Slumbering Forest": 1,
+            "Neutralization Zone": 1,
+            "Buddy-Buddy Poffin": 4,
+            "Level Ball": 4,
+            "Rescue Carrier": 3,
+            "Lillie's Pok\u00e9 Doll": 1,
+            "Crushing Hammer": 4,
+            "Counter Catcher": 2,
+            "Miss Fortune Sisters": 2,
+            "Wally": 3,
+            "Boss's Orders": 1,
+            "Team Rocket's Handiwork": 2,
+            "Colress's Tenacity": 4,
+            "Double Turbo Energy": 3,
+            "Water Energy": 3,
+            "Ignition Energy": 4,
+            "Reversal Energy": 4,
+            "Igglybuff": 1
+          },
+          "weighted": 0.427972972972973,
+          "se": 0.0048700267583999925,
+          "mean": 0.5736538461538461,
+          "worst": 0.10500000000000001,
+          "sleepy_flip": 1.921507757757758,
+          "sleepy_heads": 0.9480768268268268,
+          "plays": 1.1984384384384383,
+          "progress": 13.710573073073073,
+          "cells": {
+            "t60": {
+              "wr": 0.71,
+              "a": 0.725,
+              "b": 0.695
+            },
+            "hedrick": {
+              "wr": 0.625,
+              "a": 0.6325,
+              "b": 0.6175
+            },
+            "unl": {
+              "wr": 0.86625,
+              "a": 0.86,
+              "b": 0.8725
+            },
+            "d60": {
+              "wr": 0.10500000000000001,
+              "a": 0.115,
+              "b": 0.095
+            },
+            "s60": {
+              "wr": 0.69375,
+              "a": 0.705,
+              "b": 0.6825
+            },
+            "g": {
+              "wr": 0.37,
+              "a": 0.3975,
+              "b": 0.3425
+            },
+            "c60": {
+              "wr": 0.385,
+              "a": 0.4125,
+              "b": 0.3575
+            },
+            "m": {
+              "wr": 0.21999999999999997,
+              "a": 0.235,
+              "b": 0.205
+            },
+            "starmie": {
+              "wr": 0.34375,
+              "a": 0.335,
+              "b": 0.3525
+            },
+            "lucario": {
+              "wr": 0.80625,
+              "a": 0.8175,
+              "b": 0.795
+            },
+            "thorns": {
+              "wr": 0.91625,
+              "a": 0.93,
+              "b": 0.9025
+            },
+            "h": {
+              "wr": 0.47375,
+              "a": 0.4625,
+              "b": 0.485
+            },
+            "g30": {
+              "wr": 0.9425,
+              "a": 0.955,
+              "b": 0.93
+            }
+          }
+        },
+        {
+          "label": "Miss Fortune Sisters",
+          "cut": "Miss Fortune Sisters",
+          "copies": 1,
+          "copies_before": 2,
+          "counts": {
+            "Pichu": 1,
+            "Mime Jr.": 1,
+            "Cleffa": 1,
+            "Manaphy": 1,
+            "Wiglett": 4,
+            "Wugtrio": 4,
+            "Victini": 1,
+            "Slumbering Forest": 1,
+            "Neutralization Zone": 1,
+            "Buddy-Buddy Poffin": 4,
+            "Level Ball": 4,
+            "Rescue Carrier": 3,
+            "Lillie's Pok\u00e9 Doll": 1,
+            "Crushing Hammer": 4,
+            "Counter Catcher": 2,
+            "Miss Fortune Sisters": 1,
+            "Wally": 3,
+            "Boss's Orders": 1,
+            "Team Rocket's Handiwork": 2,
+            "Colress's Tenacity": 4,
+            "Double Turbo Energy": 4,
+            "Water Energy": 3,
+            "Ignition Energy": 4,
+            "Reversal Energy": 4,
+            "Igglybuff": 1
+          },
+          "weighted": 0.4258846346346346,
+          "se": 0.004837447071814563,
+          "mean": 0.5764423076923076,
+          "worst": 0.0975,
+          "sleepy_flip": 1.834745995995996,
+          "sleepy_heads": 0.9027464964964965,
+          "plays": 1.1912487487487489,
+          "progress": 14.282238488488488,
+          "cells": {
+            "t60": {
+              "wr": 0.74125,
+              "a": 0.745,
+              "b": 0.7375
+            },
+            "hedrick": {
+              "wr": 0.6325,
+              "a": 0.6325,
+              "b": 0.6325
+            },
+            "unl": {
+              "wr": 0.8674999999999999,
+              "a": 0.8425,
+              "b": 0.8925
+            },
+            "d60": {
+              "wr": 0.0975,
+              "a": 0.0775,
+              "b": 0.1175
+            },
+            "s60": {
+              "wr": 0.67125,
+              "a": 0.675,
+              "b": 0.6675
+            },
+            "g": {
+              "wr": 0.34375,
+              "a": 0.345,
+              "b": 0.3425
+            },
+            "c60": {
+              "wr": 0.3775,
+              "a": 0.4,
+              "b": 0.355
+            },
+            "m": {
+              "wr": 0.225,
+              "a": 0.26,
+              "b": 0.19
+            },
+            "starmie": {
+              "wr": 0.345,
+              "a": 0.3175,
+              "b": 0.3725
+            },
+            "lucario": {
+              "wr": 0.8425,
+              "a": 0.83,
+              "b": 0.855
+            },
+            "thorns": {
+              "wr": 0.90875,
+              "a": 0.9075,
+              "b": 0.91
+            },
+            "h": {
+              "wr": 0.4775,
+              "a": 0.47,
+              "b": 0.485
+            },
+            "g30": {
+              "wr": 0.96375,
+              "a": 0.955,
+              "b": 0.9725
+            }
+          }
+        },
+        {
+          "label": "Level Ball",
+          "cut": "Level Ball",
+          "copies": 1,
+          "copies_before": 4,
+          "counts": {
+            "Pichu": 1,
+            "Mime Jr.": 1,
+            "Cleffa": 1,
+            "Manaphy": 1,
+            "Wiglett": 4,
+            "Wugtrio": 4,
+            "Victini": 1,
+            "Slumbering Forest": 1,
+            "Neutralization Zone": 1,
+            "Buddy-Buddy Poffin": 4,
+            "Level Ball": 3,
+            "Rescue Carrier": 3,
+            "Lillie's Pok\u00e9 Doll": 1,
+            "Crushing Hammer": 4,
+            "Counter Catcher": 2,
+            "Miss Fortune Sisters": 2,
+            "Wally": 3,
+            "Boss's Orders": 1,
+            "Team Rocket's Handiwork": 2,
+            "Colress's Tenacity": 4,
+            "Double Turbo Energy": 4,
+            "Water Energy": 3,
+            "Ignition Energy": 4,
+            "Reversal Energy": 4,
+            "Igglybuff": 1
+          },
+          "weighted": 0.42485110110110114,
+          "se": 0.004871379084420327,
+          "mean": 0.5727884615384615,
+          "worst": 0.0975,
+          "sleepy_flip": 1.8166954454454454,
+          "sleepy_heads": 0.9194006506506507,
+          "plays": 1.1627002002002003,
+          "progress": 13.6741504004004,
+          "cells": {
+            "t60": {
+              "wr": 0.7675000000000001,
+              "a": 0.765,
+              "b": 0.77
+            },
+            "hedrick": {
+              "wr": 0.6112500000000001,
+              "a": 0.61,
+              "b": 0.6125
+            },
+            "unl": {
+              "wr": 0.85625,
+              "a": 0.855,
+              "b": 0.8575
+            },
+            "d60": {
+              "wr": 0.0975,
+              "a": 0.1075,
+              "b": 0.0875
+            },
+            "s60": {
+              "wr": 0.6575,
+              "a": 0.655,
+              "b": 0.66
+            },
+            "g": {
+              "wr": 0.36375,
+              "a": 0.37,
+              "b": 0.3575
+            },
+            "c60": {
+              "wr": 0.37375,
+              "a": 0.38,
+              "b": 0.3675
+            },
+            "m": {
+              "wr": 0.22625,
+              "a": 0.2275,
+              "b": 0.225
+            },
+            "starmie": {
+              "wr": 0.36624999999999996,
+              "a": 0.3825,
+              "b": 0.35
+            },
+            "lucario": {
+              "wr": 0.8087500000000001,
+              "a": 0.8075,
+              "b": 0.81
+            },
+            "thorns": {
+              "wr": 0.90375,
+              "a": 0.8825,
+              "b": 0.925
+            },
+            "h": {
+              "wr": 0.44875,
+              "a": 0.4575,
+              "b": 0.44
+            },
+            "g30": {
+              "wr": 0.9650000000000001,
+              "a": 0.9625,
+              "b": 0.9675
+            }
+          }
+        },
+        {
+          "label": "Wiglett",
+          "cut": "Wiglett",
+          "copies": 1,
+          "copies_before": 4,
+          "counts": {
+            "Pichu": 1,
+            "Mime Jr.": 1,
+            "Cleffa": 1,
+            "Manaphy": 1,
+            "Wiglett": 3,
+            "Wugtrio": 4,
+            "Victini": 1,
+            "Slumbering Forest": 1,
+            "Neutralization Zone": 1,
+            "Buddy-Buddy Poffin": 4,
+            "Level Ball": 4,
+            "Rescue Carrier": 3,
+            "Lillie's Pok\u00e9 Doll": 1,
+            "Crushing Hammer": 4,
+            "Counter Catcher": 2,
+            "Miss Fortune Sisters": 2,
+            "Wally": 3,
+            "Boss's Orders": 1,
+            "Team Rocket's Handiwork": 2,
+            "Colress's Tenacity": 4,
+            "Double Turbo Energy": 4,
+            "Water Energy": 3,
+            "Ignition Energy": 4,
+            "Reversal Energy": 4,
+            "Igglybuff": 1
+          },
+          "weighted": 0.4239314314314314,
+          "se": 0.004885489538507497,
+          "mean": 0.5702884615384616,
+          "worst": 0.10375000000000001,
+          "sleepy_flip": 1.9779892392392393,
+          "sleepy_heads": 0.9944844844844845,
+          "plays": 1.2003528528528529,
+          "progress": 13.36670920920921,
+          "cells": {
+            "t60": {
+              "wr": 0.75,
+              "a": 0.745,
+              "b": 0.755
+            },
+            "hedrick": {
+              "wr": 0.60875,
+              "a": 0.625,
+              "b": 0.5925
+            },
+            "unl": {
+              "wr": 0.8375,
+              "a": 0.8425,
+              "b": 0.8325
+            },
+            "d60": {
+              "wr": 0.10375000000000001,
+              "a": 0.1,
+              "b": 0.1075
+            },
+            "s60": {
+              "wr": 0.64625,
+              "a": 0.645,
+              "b": 0.6475
+            },
+            "g": {
+              "wr": 0.3425,
+              "a": 0.3275,
+              "b": 0.3575
+            },
+            "c60": {
+              "wr": 0.395,
+              "a": 0.3775,
+              "b": 0.4125
+            },
+            "m": {
+              "wr": 0.23375,
+              "a": 0.235,
+              "b": 0.2325
+            },
+            "starmie": {
+              "wr": 0.35125,
+              "a": 0.3625,
+              "b": 0.34
+            },
+            "lucario": {
+              "wr": 0.8274999999999999,
+              "a": 0.815,
+              "b": 0.84
+            },
+            "thorns": {
+              "wr": 0.9175,
+              "a": 0.905,
+              "b": 0.93
+            },
+            "h": {
+              "wr": 0.43625,
+              "a": 0.435,
+              "b": 0.4375
+            },
+            "g30": {
+              "wr": 0.96375,
+              "a": 0.9675,
+              "b": 0.96
+            }
+          }
+        },
+        {
+          "label": "Cleffa",
+          "cut": "Cleffa",
+          "copies": 1,
+          "copies_before": 1,
+          "counts": {
+            "Pichu": 1,
+            "Mime Jr.": 1,
+            "Manaphy": 1,
+            "Wiglett": 4,
+            "Wugtrio": 4,
+            "Victini": 1,
+            "Slumbering Forest": 1,
+            "Neutralization Zone": 1,
+            "Buddy-Buddy Poffin": 4,
+            "Level Ball": 4,
+            "Rescue Carrier": 3,
+            "Lillie's Pok\u00e9 Doll": 1,
+            "Crushing Hammer": 4,
+            "Counter Catcher": 2,
+            "Miss Fortune Sisters": 2,
+            "Wally": 3,
+            "Boss's Orders": 1,
+            "Team Rocket's Handiwork": 2,
+            "Colress's Tenacity": 4,
+            "Double Turbo Energy": 4,
+            "Water Energy": 3,
+            "Ignition Energy": 4,
+            "Reversal Energy": 4,
+            "Igglybuff": 1
+          },
+          "weighted": 0.42371996996996997,
+          "se": 0.004844072589276492,
+          "mean": 0.5725,
+          "worst": 0.12875,
+          "sleepy_flip": 1.942967967967968,
+          "sleepy_heads": 0.9805330330330331,
+          "plays": 1.2026551551551552,
+          "progress": 13.544171671671672,
+          "cells": {
+            "t60": {
+              "wr": 0.7250000000000001,
+              "a": 0.7225,
+              "b": 0.7275
+            },
+            "hedrick": {
+              "wr": 0.615,
+              "a": 0.6125,
+              "b": 0.6175
+            },
+            "unl": {
+              "wr": 0.85375,
+              "a": 0.855,
+              "b": 0.8525
+            },
+            "d60": {
+              "wr": 0.12875,
+              "a": 0.1325,
+              "b": 0.125
+            },
+            "s60": {
+              "wr": 0.7075,
+              "a": 0.7125,
+              "b": 0.7025
+            },
+            "g": {
+              "wr": 0.33375,
+              "a": 0.32,
+              "b": 0.3475
+            },
+            "c60": {
+              "wr": 0.36875,
+              "a": 0.3425,
+              "b": 0.395
+            },
+            "m": {
+              "wr": 0.19124999999999998,
+              "a": 0.1775,
+              "b": 0.205
+            },
+            "starmie": {
+              "wr": 0.34625,
+              "a": 0.3775,
+              "b": 0.315
+            },
+            "lucario": {
+              "wr": 0.8087500000000001,
+              "a": 0.8,
+              "b": 0.8175
+            },
+            "thorns": {
+              "wr": 0.91625,
+              "a": 0.925,
+              "b": 0.9075
+            },
+            "h": {
+              "wr": 0.4925,
+              "a": 0.515,
+              "b": 0.47
+            },
+            "g30": {
+              "wr": 0.9550000000000001,
+              "a": 0.9675,
+              "b": 0.9425
+            }
+          }
+        },
+        {
+          "label": "Pichu",
+          "cut": "Pichu",
+          "copies": 1,
+          "copies_before": 1,
+          "counts": {
+            "Mime Jr.": 1,
+            "Cleffa": 1,
+            "Manaphy": 1,
+            "Wiglett": 4,
+            "Wugtrio": 4,
+            "Victini": 1,
+            "Slumbering Forest": 1,
+            "Neutralization Zone": 1,
+            "Buddy-Buddy Poffin": 4,
+            "Level Ball": 4,
+            "Rescue Carrier": 3,
+            "Lillie's Pok\u00e9 Doll": 1,
+            "Crushing Hammer": 4,
+            "Counter Catcher": 2,
+            "Miss Fortune Sisters": 2,
+            "Wally": 3,
+            "Boss's Orders": 1,
+            "Team Rocket's Handiwork": 2,
+            "Colress's Tenacity": 4,
+            "Double Turbo Energy": 4,
+            "Water Energy": 3,
+            "Ignition Energy": 4,
+            "Reversal Energy": 4,
+            "Igglybuff": 1
+          },
+          "weighted": 0.4230618118118118,
+          "se": 0.004819458697112983,
+          "mean": 0.5724038461538462,
+          "worst": 0.1075,
+          "sleepy_flip": 1.8397134634634633,
+          "sleepy_heads": 0.9261524024024024,
+          "plays": 1.150661911911912,
+          "progress": 13.736742992992992,
+          "cells": {
+            "t60": {
+              "wr": 0.76125,
+              "a": 0.755,
+              "b": 0.7675
+            },
+            "hedrick": {
+              "wr": 0.605,
+              "a": 0.6125,
+              "b": 0.5975
+            },
+            "unl": {
+              "wr": 0.8625,
+              "a": 0.8575,
+              "b": 0.8675
+            },
+            "d60": {
+              "wr": 0.1075,
+              "a": 0.105,
+              "b": 0.11
+            },
+            "s60": {
+              "wr": 0.7,
+              "a": 0.7125,
+              "b": 0.6875
+            },
+            "g": {
+              "wr": 0.34125,
+              "a": 0.32,
+              "b": 0.3625
+            },
+            "c60": {
+              "wr": 0.38375000000000004,
+              "a": 0.3875,
+              "b": 0.38
+            },
+            "m": {
+              "wr": 0.18875,
+              "a": 0.2075,
+              "b": 0.17
+            },
+            "starmie": {
+              "wr": 0.36750000000000005,
+              "a": 0.335,
+              "b": 0.4
+            },
+            "lucario": {
+              "wr": 0.8025,
+              "a": 0.8075,
+              "b": 0.7975
+            },
+            "thorns": {
+              "wr": 0.8975,
+              "a": 0.8925,
+              "b": 0.9025
+            },
+            "h": {
+              "wr": 0.47,
+              "a": 0.465,
+              "b": 0.475
+            },
+            "g30": {
+              "wr": 0.95375,
+              "a": 0.965,
+              "b": 0.9425
+            }
+          }
+        },
+        {
+          "label": "Neutralization Zone",
+          "cut": "Neutralization Zone",
+          "copies": 1,
+          "copies_before": 1,
+          "counts": {
+            "Pichu": 1,
+            "Mime Jr.": 1,
+            "Cleffa": 1,
+            "Manaphy": 1,
+            "Wiglett": 4,
+            "Wugtrio": 4,
+            "Victini": 1,
+            "Slumbering Forest": 1,
+            "Buddy-Buddy Poffin": 4,
+            "Level Ball": 4,
+            "Rescue Carrier": 3,
+            "Lillie's Pok\u00e9 Doll": 1,
+            "Crushing Hammer": 4,
+            "Counter Catcher": 2,
+            "Miss Fortune Sisters": 2,
+            "Wally": 3,
+            "Boss's Orders": 1,
+            "Team Rocket's Handiwork": 2,
+            "Colress's Tenacity": 4,
+            "Double Turbo Energy": 4,
+            "Water Energy": 3,
+            "Ignition Energy": 4,
+            "Reversal Energy": 4,
+            "Igglybuff": 1
+          },
+          "weighted": 0.42236236236236235,
+          "se": 0.004946714811543218,
+          "mean": 0.5465384615384615,
+          "worst": 0.175,
+          "sleepy_flip": 1.864079079079079,
+          "sleepy_heads": 0.9342442442442442,
+          "plays": 1.154054054054054,
+          "progress": 13.974401901901901,
+          "cells": {
+            "t60": {
+              "wr": 0.42625,
+              "a": 0.4275,
+              "b": 0.425
+            },
+            "hedrick": {
+              "wr": 0.54125,
+              "a": 0.54,
+              "b": 0.5425
+            },
+            "unl": {
+              "wr": 0.75625,
+              "a": 0.745,
+              "b": 0.7675
+            },
+            "d60": {
+              "wr": 0.1775,
+              "a": 0.1775,
+              "b": 0.1775
+            },
+            "s60": {
+              "wr": 0.7375,
+              "a": 0.7525,
+              "b": 0.7225
+            },
+            "g": {
+              "wr": 0.41875,
+              "a": 0.4025,
+              "b": 0.435
+            },
+            "c60": {
+              "wr": 0.43375,
+              "a": 0.4,
+              "b": 0.4675
+            },
+            "m": {
+              "wr": 0.175,
+              "a": 0.1775,
+              "b": 0.1725
+            },
+            "starmie": {
+              "wr": 0.28125,
+              "a": 0.28,
+              "b": 0.2825
+            },
+            "lucario": {
+              "wr": 0.7925,
+              "a": 0.815,
+              "b": 0.77
+            },
+            "thorns": {
+              "wr": 0.9175,
+              "a": 0.915,
+              "b": 0.92
+            },
+            "h": {
+              "wr": 0.4825,
+              "a": 0.49,
+              "b": 0.475
+            },
+            "g30": {
+              "wr": 0.9650000000000001,
+              "a": 0.9575,
+              "b": 0.9725
+            }
+          }
+        },
+        {
+          "label": "Reversal Energy",
+          "cut": "Reversal Energy",
+          "copies": 1,
+          "copies_before": 4,
+          "counts": {
+            "Pichu": 1,
+            "Mime Jr.": 1,
+            "Cleffa": 1,
+            "Manaphy": 1,
+            "Wiglett": 4,
+            "Wugtrio": 4,
+            "Victini": 1,
+            "Slumbering Forest": 1,
+            "Neutralization Zone": 1,
+            "Buddy-Buddy Poffin": 4,
+            "Level Ball": 4,
+            "Rescue Carrier": 3,
+            "Lillie's Pok\u00e9 Doll": 1,
+            "Crushing Hammer": 4,
+            "Counter Catcher": 2,
+            "Miss Fortune Sisters": 2,
+            "Wally": 3,
+            "Boss's Orders": 1,
+            "Team Rocket's Handiwork": 2,
+            "Colress's Tenacity": 4,
+            "Double Turbo Energy": 4,
+            "Water Energy": 3,
+            "Ignition Energy": 4,
+            "Reversal Energy": 3,
+            "Igglybuff": 1
+          },
+          "weighted": 0.41881381381381383,
+          "se": 0.004837216843027471,
+          "mean": 0.5688461538461538,
+          "worst": 0.11125,
+          "sleepy_flip": 1.9465553053053053,
+          "sleepy_heads": 0.9715215215215215,
+          "plays": 1.18387012012012,
+          "progress": 13.525259009009009,
+          "cells": {
+            "t60": {
+              "wr": 0.74,
+              "a": 0.7425,
+              "b": 0.7375
+            },
+            "hedrick": {
+              "wr": 0.6100000000000001,
+              "a": 0.6225,
+              "b": 0.5975
+            },
+            "unl": {
+              "wr": 0.865,
+              "a": 0.8725,
+              "b": 0.8575
+            },
+            "d60": {
+              "wr": 0.11125,
+              "a": 0.0925,
+              "b": 0.13
+            },
+            "s60": {
+              "wr": 0.6799999999999999,
+              "a": 0.655,
+              "b": 0.705
+            },
+            "g": {
+              "wr": 0.33,
+              "a": 0.325,
+              "b": 0.335
+            },
+            "c60": {
+              "wr": 0.3575,
+              "a": 0.3575,
+              "b": 0.3575
+            },
+            "m": {
+              "wr": 0.20500000000000002,
+              "a": 0.19,
+              "b": 0.22
+            },
+            "starmie": {
+              "wr": 0.36124999999999996,
+              "a": 0.3575,
+              "b": 0.365
+            },
+            "lucario": {
+              "wr": 0.79625,
+              "a": 0.7975,
+              "b": 0.795
+            },
+            "thorns": {
+              "wr": 0.91625,
+              "a": 0.9075,
+              "b": 0.925
+            },
+            "h": {
+              "wr": 0.46375,
+              "a": 0.47,
+              "b": 0.4575
+            },
+            "g30": {
+              "wr": 0.95875,
+              "a": 0.955,
+              "b": 0.9625
+            }
+          }
+        },
+        {
+          "label": "Ignition Energy",
+          "cut": "Ignition Energy",
+          "copies": 1,
+          "copies_before": 4,
+          "counts": {
+            "Pichu": 1,
+            "Mime Jr.": 1,
+            "Cleffa": 1,
+            "Manaphy": 1,
+            "Wiglett": 4,
+            "Wugtrio": 4,
+            "Victini": 1,
+            "Slumbering Forest": 1,
+            "Neutralization Zone": 1,
+            "Buddy-Buddy Poffin": 4,
+            "Level Ball": 4,
+            "Rescue Carrier": 3,
+            "Lillie's Pok\u00e9 Doll": 1,
+            "Crushing Hammer": 4,
+            "Counter Catcher": 2,
+            "Miss Fortune Sisters": 2,
+            "Wally": 3,
+            "Boss's Orders": 1,
+            "Team Rocket's Handiwork": 2,
+            "Colress's Tenacity": 4,
+            "Double Turbo Energy": 4,
+            "Water Energy": 3,
+            "Ignition Energy": 3,
+            "Reversal Energy": 4,
+            "Igglybuff": 1
+          },
+          "weighted": 0.4186186186186186,
+          "se": 0.0048001346902765704,
+          "mean": 0.5688461538461538,
+          "worst": 0.08625,
+          "sleepy_flip": 1.8984747247247247,
+          "sleepy_heads": 0.940807057057057,
+          "plays": 1.1899587087087087,
+          "progress": 13.565774524524524,
+          "cells": {
+            "t60": {
+              "wr": 0.71625,
+              "a": 0.7175,
+              "b": 0.715
+            },
+            "hedrick": {
+              "wr": 0.6074999999999999,
+              "a": 0.5875,
+              "b": 0.6275
+            },
+            "unl": {
+              "wr": 0.87375,
+              "a": 0.885,
+              "b": 0.8625
+            },
+            "d60": {
+              "wr": 0.08625,
+              "a": 0.0875,
+              "b": 0.085
+            },
+            "s60": {
+              "wr": 0.6837500000000001,
+              "a": 0.68,
+              "b": 0.6875
+            },
+            "g": {
+              "wr": 0.34625,
+              "a": 0.38,
+              "b": 0.3125
+            },
+            "c60": {
+              "wr": 0.36124999999999996,
+              "a": 0.3675,
+              "b": 0.355
+            },
+            "m": {
+              "wr": 0.21250000000000002,
+              "a": 0.2275,
+              "b": 0.1975
+            },
+            "starmie": {
+              "wr": 0.3675,
+              "a": 0.3625,
+              "b": 0.3725
+            },
+            "lucario": {
+              "wr": 0.825,
+              "a": 0.8425,
+              "b": 0.8075
+            },
+            "thorns": {
+              "wr": 0.9199999999999999,
+              "a": 0.9225,
+              "b": 0.9175
+            },
+            "h": {
+              "wr": 0.4425,
+              "a": 0.4225,
+              "b": 0.4625
+            },
+            "g30": {
+              "wr": 0.9525,
+              "a": 0.9575,
+              "b": 0.9475
+            }
+          }
+        },
+        {
+          "label": "Buddy-Buddy Poffin",
+          "cut": "Buddy-Buddy Poffin",
+          "copies": 1,
+          "copies_before": 4,
+          "counts": {
+            "Pichu": 1,
+            "Mime Jr.": 1,
+            "Cleffa": 1,
+            "Manaphy": 1,
+            "Wiglett": 4,
+            "Wugtrio": 4,
+            "Victini": 1,
+            "Slumbering Forest": 1,
+            "Neutralization Zone": 1,
+            "Buddy-Buddy Poffin": 3,
+            "Level Ball": 4,
+            "Rescue Carrier": 3,
+            "Lillie's Pok\u00e9 Doll": 1,
+            "Crushing Hammer": 4,
+            "Counter Catcher": 2,
+            "Miss Fortune Sisters": 2,
+            "Wally": 3,
+            "Boss's Orders": 1,
+            "Team Rocket's Handiwork": 2,
+            "Colress's Tenacity": 4,
+            "Double Turbo Energy": 4,
+            "Water Energy": 3,
+            "Ignition Energy": 4,
+            "Reversal Energy": 4,
+            "Igglybuff": 1
+          },
+          "weighted": 0.41680555555555554,
+          "se": 0.004821461034965763,
+          "mean": 0.5651923076923077,
+          "worst": 0.08125,
+          "sleepy_flip": 1.7323998998999,
+          "sleepy_heads": 0.8616804304304304,
+          "plays": 1.1291028528528528,
+          "progress": 13.542997997997999,
+          "cells": {
+            "t60": {
+              "wr": 0.6950000000000001,
+              "a": 0.675,
+              "b": 0.715
+            },
+            "hedrick": {
+              "wr": 0.6287499999999999,
+              "a": 0.6375,
+              "b": 0.62
+            },
+            "unl": {
+              "wr": 0.86375,
+              "a": 0.8675,
+              "b": 0.86
+            },
+            "d60": {
+              "wr": 0.08125,
+              "a": 0.07,
+              "b": 0.0925
+            },
+            "s60": {
+              "wr": 0.7025,
+              "a": 0.6825,
+              "b": 0.7225
+            },
+            "g": {
+              "wr": 0.36624999999999996,
+              "a": 0.3625,
+              "b": 0.37
+            },
+            "c60": {
+              "wr": 0.35875,
+              "a": 0.3575,
+              "b": 0.36
+            },
+            "m": {
+              "wr": 0.23625000000000002,
+              "a": 0.24,
+              "b": 0.2325
+            },
+            "starmie": {
+              "wr": 0.32375,
+              "a": 0.345,
+              "b": 0.3025
+            },
+            "lucario": {
+              "wr": 0.79125,
+              "a": 0.795,
+              "b": 0.7875
+            },
+            "thorns": {
+              "wr": 0.89625,
+              "a": 0.9175,
+              "b": 0.875
+            },
+            "h": {
+              "wr": 0.4325,
+              "a": 0.4275,
+              "b": 0.4375
+            },
+            "g30": {
+              "wr": 0.97125,
+              "a": 0.9625,
+              "b": 0.98
+            }
+          }
+        },
+        {
+          "label": "Victini",
+          "cut": "Victini",
+          "copies": 1,
+          "copies_before": 1,
+          "counts": {
+            "Pichu": 1,
+            "Mime Jr.": 1,
+            "Cleffa": 1,
+            "Manaphy": 1,
+            "Wiglett": 4,
+            "Wugtrio": 4,
+            "Slumbering Forest": 1,
+            "Neutralization Zone": 1,
+            "Buddy-Buddy Poffin": 4,
+            "Level Ball": 4,
+            "Rescue Carrier": 3,
+            "Lillie's Pok\u00e9 Doll": 1,
+            "Crushing Hammer": 4,
+            "Counter Catcher": 2,
+            "Miss Fortune Sisters": 2,
+            "Wally": 3,
+            "Boss's Orders": 1,
+            "Team Rocket's Handiwork": 2,
+            "Colress's Tenacity": 4,
+            "Double Turbo Energy": 4,
+            "Water Energy": 3,
+            "Ignition Energy": 4,
+            "Reversal Energy": 4,
+            "Igglybuff": 1
+          },
+          "weighted": 0.4101076076076076,
+          "se": 0.00475963967397821,
+          "mean": 0.5634615384615385,
+          "worst": 0.08875,
+          "sleepy_flip": 1.9703653653653654,
+          "sleepy_heads": 0.9794982482482483,
+          "plays": 1.2341591591591592,
+          "progress": 13.306058558558558,
+          "cells": {
+            "t60": {
+              "wr": 0.7437499999999999,
+              "a": 0.725,
+              "b": 0.7625
+            },
+            "hedrick": {
+              "wr": 0.615,
+              "a": 0.6275,
+              "b": 0.6025
+            },
+            "unl": {
+              "wr": 0.87,
+              "a": 0.855,
+              "b": 0.885
+            },
+            "d60": {
+              "wr": 0.08875,
+              "a": 0.11,
+              "b": 0.0675
+            },
+            "s60": {
+              "wr": 0.665,
+              "a": 0.6575,
+              "b": 0.6725
+            },
+            "g": {
+              "wr": 0.35375,
+              "a": 0.3625,
+              "b": 0.345
+            },
+            "c60": {
+              "wr": 0.3375,
+              "a": 0.3425,
+              "b": 0.3325
+            },
+            "m": {
+              "wr": 0.19125,
+              "a": 0.1925,
+              "b": 0.19
+            },
+            "starmie": {
+              "wr": 0.345,
+              "a": 0.3375,
+              "b": 0.3525
+            },
+            "lucario": {
+              "wr": 0.81625,
+              "a": 0.805,
+              "b": 0.8275
+            },
+            "thorns": {
+              "wr": 0.89625,
+              "a": 0.915,
+              "b": 0.8775
+            },
+            "h": {
+              "wr": 0.44125000000000003,
+              "a": 0.44,
+              "b": 0.4425
+            },
+            "g30": {
+              "wr": 0.9612499999999999,
+              "a": 0.9625,
+              "b": 0.96
+            }
+          }
+        }
+      ],
+      "kept": {
+        "label": "1 Igglybuff",
+        "cut": "Manaphy",
+        "copies": 1,
+        "copies_before": 1,
+        "counts": {
+          "Pichu": 1,
+          "Mime Jr.": 1,
+          "Cleffa": 1,
+          "Wiglett": 4,
+          "Wugtrio": 4,
+          "Victini": 1,
+          "Slumbering Forest": 1,
+          "Neutralization Zone": 1,
+          "Buddy-Buddy Poffin": 4,
+          "Level Ball": 4,
+          "Rescue Carrier": 3,
+          "Lillie's Pok\u00e9 Doll": 1,
+          "Crushing Hammer": 4,
+          "Counter Catcher": 2,
+          "Miss Fortune Sisters": 2,
+          "Wally": 3,
+          "Boss's Orders": 1,
+          "Team Rocket's Handiwork": 2,
+          "Colress's Tenacity": 4,
+          "Double Turbo Energy": 4,
+          "Water Energy": 3,
+          "Ignition Energy": 4,
+          "Reversal Energy": 4,
+          "Igglybuff": 1
+        },
+        "weighted": 0.44854104104104103,
+        "se": 0.004945799542666166,
+        "mean": 0.5924038461538461,
+        "worst": 0.1275,
+        "sleepy_flip": 1.8575963463463463,
+        "sleepy_heads": 0.914522022022022,
+        "plays": 1.1993455955955956,
+        "progress": 14.33933058058058,
+        "cells": {
+          "t60": {
+            "wr": 0.7462500000000001,
+            "a": 0.7425,
+            "b": 0.75
+          },
+          "hedrick": {
+            "wr": 0.6187499999999999,
+            "a": 0.6375,
+            "b": 0.6
+          },
+          "unl": {
+            "wr": 0.86875,
+            "a": 0.8725,
+            "b": 0.865
+          },
+          "d60": {
+            "wr": 0.1275,
+            "a": 0.1175,
+            "b": 0.1375
+          },
+          "s60": {
+            "wr": 0.72,
+            "a": 0.7325,
+            "b": 0.7075
+          },
+          "g": {
+            "wr": 0.43125,
+            "a": 0.4075,
+            "b": 0.455
+          },
+          "c60": {
+            "wr": 0.40375,
+            "a": 0.41,
+            "b": 0.3975
+          },
+          "m": {
+            "wr": 0.23875000000000002,
+            "a": 0.25,
+            "b": 0.2275
+          },
+          "starmie": {
+            "wr": 0.32,
+            "a": 0.3025,
+            "b": 0.3375
+          },
+          "lucario": {
+            "wr": 0.825,
+            "a": 0.8225,
+            "b": 0.8275
+          },
+          "thorns": {
+            "wr": 0.9275,
+            "a": 0.9425,
+            "b": 0.9125
+          },
+          "h": {
+            "wr": 0.5125,
+            "a": 0.5575,
+            "b": 0.4675
+          },
+          "g30": {
+            "wr": 0.9612499999999999,
+            "a": 0.9625,
+            "b": 0.96
+          }
+        },
+        "gap": 0.034159159159159125,
+        "gap_se": 0.006864700831173237,
+        "list": [
+          "Pichu",
+          "Mime Jr.",
+          "Cleffa",
+          "Wiglett",
+          "Wiglett",
+          "Wiglett",
+          "Wiglett",
+          "Wugtrio",
+          "Wugtrio",
+          "Wugtrio",
+          "Wugtrio",
+          "Victini",
+          "Slumbering Forest",
+          "Neutralization Zone",
+          "Buddy-Buddy Poffin",
+          "Buddy-Buddy Poffin",
+          "Buddy-Buddy Poffin",
+          "Buddy-Buddy Poffin",
+          "Level Ball",
+          "Level Ball",
+          "Level Ball",
+          "Level Ball",
+          "Rescue Carrier",
+          "Rescue Carrier",
+          "Rescue Carrier",
+          "Lillie's Pok\u00e9 Doll",
+          "Crushing Hammer",
+          "Crushing Hammer",
+          "Crushing Hammer",
+          "Crushing Hammer",
+          "Counter Catcher",
+          "Counter Catcher",
+          "Miss Fortune Sisters",
+          "Miss Fortune Sisters",
+          "Wally",
+          "Wally",
+          "Wally",
+          "Boss's Orders",
+          "Team Rocket's Handiwork",
+          "Team Rocket's Handiwork",
+          "Colress's Tenacity",
+          "Colress's Tenacity",
+          "Colress's Tenacity",
+          "Colress's Tenacity",
+          "Double Turbo Energy",
+          "Double Turbo Energy",
+          "Double Turbo Energy",
+          "Double Turbo Energy",
+          "Water Energy",
+          "Water Energy",
+          "Water Energy",
+          "Ignition Energy",
+          "Ignition Energy",
+          "Ignition Energy",
+          "Ignition Energy",
+          "Reversal Energy",
+          "Reversal Energy",
+          "Reversal Energy",
+          "Reversal Energy",
+          "Igglybuff"
+        ]
+      }
+    },
+    {
+      "step": 2,
+      "rows": [
+        {
+          "label": "Pichu",
+          "cut": "Pichu",
+          "copies": 2,
+          "copies_before": 1,
+          "counts": {
+            "Mime Jr.": 1,
+            "Cleffa": 1,
+            "Wiglett": 4,
+            "Wugtrio": 4,
+            "Victini": 1,
+            "Slumbering Forest": 1,
+            "Neutralization Zone": 1,
+            "Buddy-Buddy Poffin": 4,
+            "Level Ball": 4,
+            "Rescue Carrier": 3,
+            "Lillie's Pok\u00e9 Doll": 1,
+            "Crushing Hammer": 4,
+            "Counter Catcher": 2,
+            "Miss Fortune Sisters": 2,
+            "Wally": 3,
+            "Boss's Orders": 1,
+            "Team Rocket's Handiwork": 2,
+            "Colress's Tenacity": 4,
+            "Double Turbo Energy": 4,
+            "Water Energy": 3,
+            "Ignition Energy": 4,
+            "Reversal Energy": 4,
+            "Igglybuff": 2
+          },
+          "weighted": 0.4432344844844845,
+          "se": 0.0049554165128559285,
+          "mean": 0.5865384615384616,
+          "worst": 0.135,
+          "sleepy_flip": 2.280439189189189,
+          "sleepy_heads": 1.1422134634634633,
+          "plays": 1.351773023023023,
+          "progress": 14.078268268268268,
+          "cells": {
+            "t60": {
+              "wr": 0.75875,
+              "a": 0.7675,
+              "b": 0.75
+            },
+            "hedrick": {
+              "wr": 0.6325000000000001,
+              "a": 0.635,
+              "b": 0.63
+            },
+            "unl": {
+              "wr": 0.855,
+              "a": 0.8625,
+              "b": 0.8475
+            },
+            "d60": {
+              "wr": 0.135,
+              "a": 0.145,
+              "b": 0.125
+            },
+            "s60": {
+              "wr": 0.70125,
+              "a": 0.7175,
+              "b": 0.685
+            },
+            "g": {
+              "wr": 0.3975,
+              "a": 0.4025,
+              "b": 0.3925
+            },
+            "c60": {
+              "wr": 0.4075,
+              "a": 0.405,
+              "b": 0.41
+            },
+            "m": {
+              "wr": 0.22625,
+              "a": 0.2475,
+              "b": 0.205
+            },
+            "starmie": {
+              "wr": 0.33125,
+              "a": 0.365,
+              "b": 0.2975
+            },
+            "lucario": {
+              "wr": 0.80125,
+              "a": 0.815,
+              "b": 0.7875
+            },
+            "thorns": {
+              "wr": 0.88125,
+              "a": 0.885,
+              "b": 0.8775
+            },
+            "h": {
+              "wr": 0.5275,
+              "a": 0.5175,
+              "b": 0.5375
+            },
+            "g30": {
+              "wr": 0.97,
+              "a": 0.9725,
+              "b": 0.9675
+            }
+          }
+        },
+        {
+          "label": "Lillie's Pok\u00e9 Doll",
+          "cut": "Lillie's Pok\u00e9 Doll",
+          "copies": 2,
+          "copies_before": 1,
+          "counts": {
+            "Pichu": 1,
+            "Mime Jr.": 1,
+            "Cleffa": 1,
+            "Wiglett": 4,
+            "Wugtrio": 4,
+            "Victini": 1,
+            "Slumbering Forest": 1,
+            "Neutralization Zone": 1,
+            "Buddy-Buddy Poffin": 4,
+            "Level Ball": 4,
+            "Rescue Carrier": 3,
+            "Crushing Hammer": 4,
+            "Counter Catcher": 2,
+            "Miss Fortune Sisters": 2,
+            "Wally": 3,
+            "Boss's Orders": 1,
+            "Team Rocket's Handiwork": 2,
+            "Colress's Tenacity": 4,
+            "Double Turbo Energy": 4,
+            "Water Energy": 3,
+            "Ignition Energy": 4,
+            "Reversal Energy": 4,
+            "Igglybuff": 2
+          },
+          "weighted": 0.44236611611611615,
+          "se": 0.004836622060937931,
+          "mean": 0.5954807692307692,
+          "worst": 0.12875,
+          "sleepy_flip": 2.1779416916916916,
+          "sleepy_heads": 1.07623998998999,
+          "plays": 1.3599474474474473,
+          "progress": 14.341537787787788,
+          "cells": {
+            "t60": {
+              "wr": 0.785,
+              "a": 0.76,
+              "b": 0.81
+            },
+            "hedrick": {
+              "wr": 0.6525,
+              "a": 0.6275,
+              "b": 0.6775
+            },
+            "unl": {
+              "wr": 0.875,
+              "a": 0.8775,
+              "b": 0.8725
+            },
+            "d60": {
+              "wr": 0.12875,
+              "a": 0.1175,
+              "b": 0.14
+            },
+            "s60": {
+              "wr": 0.73875,
+              "a": 0.7425,
+              "b": 0.735
+            },
+            "g": {
+              "wr": 0.39,
+              "a": 0.405,
+              "b": 0.375
+            },
+            "c60": {
+              "wr": 0.41000000000000003,
+              "a": 0.3925,
+              "b": 0.4275
+            },
+            "m": {
+              "wr": 0.185,
+              "a": 0.1825,
+              "b": 0.1875
+            },
+            "starmie": {
+              "wr": 0.3175,
+              "a": 0.3175,
+              "b": 0.3175
+            },
+            "lucario": {
+              "wr": 0.84125,
+              "a": 0.84,
+              "b": 0.8425
+            },
+            "thorns": {
+              "wr": 0.93125,
+              "a": 0.9375,
+              "b": 0.925
+            },
+            "h": {
+              "wr": 0.51125,
+              "a": 0.55,
+              "b": 0.4725
+            },
+            "g30": {
+              "wr": 0.9750000000000001,
+              "a": 0.9875,
+              "b": 0.9625
+            }
+          }
+        },
+        {
+          "label": "Water Energy",
+          "cut": "Water Energy",
+          "copies": 2,
+          "copies_before": 3,
+          "counts": {
+            "Pichu": 1,
+            "Mime Jr.": 1,
+            "Cleffa": 1,
+            "Wiglett": 4,
+            "Wugtrio": 4,
+            "Victini": 1,
+            "Slumbering Forest": 1,
+            "Neutralization Zone": 1,
+            "Buddy-Buddy Poffin": 4,
+            "Level Ball": 4,
+            "Rescue Carrier": 3,
+            "Lillie's Pok\u00e9 Doll": 1,
+            "Crushing Hammer": 4,
+            "Counter Catcher": 2,
+            "Miss Fortune Sisters": 2,
+            "Wally": 3,
+            "Boss's Orders": 1,
+            "Team Rocket's Handiwork": 2,
+            "Colress's Tenacity": 4,
+            "Double Turbo Energy": 4,
+            "Water Energy": 2,
+            "Ignition Energy": 4,
+            "Reversal Energy": 4,
+            "Igglybuff": 2
+          },
+          "weighted": 0.4412237237237237,
+          "se": 0.004912900203282571,
+          "mean": 0.5842307692307692,
+          "worst": 0.12125,
+          "sleepy_flip": 2.324064064064064,
+          "sleepy_heads": 1.1603415915915916,
+          "plays": 1.364167917917918,
+          "progress": 13.933309559559559,
+          "cells": {
+            "t60": {
+              "wr": 0.74375,
+              "a": 0.77,
+              "b": 0.7175
+            },
+            "hedrick": {
+              "wr": 0.6212500000000001,
+              "a": 0.62,
+              "b": 0.6225
+            },
+            "unl": {
+              "wr": 0.84875,
+              "a": 0.8425,
+              "b": 0.855
+            },
+            "d60": {
+              "wr": 0.12125,
+              "a": 0.125,
+              "b": 0.1175
+            },
+            "s60": {
+              "wr": 0.7050000000000001,
+              "a": 0.73,
+              "b": 0.68
+            },
+            "g": {
+              "wr": 0.39875,
+              "a": 0.41,
+              "b": 0.3875
+            },
+            "c60": {
+              "wr": 0.4425,
+              "a": 0.445,
+              "b": 0.44
+            },
+            "m": {
+              "wr": 0.2175,
+              "a": 0.235,
+              "b": 0.2
+            },
+            "starmie": {
+              "wr": 0.31625000000000003,
+              "a": 0.3225,
+              "b": 0.31
+            },
+            "lucario": {
+              "wr": 0.8162499999999999,
+              "a": 0.8125,
+              "b": 0.82
+            },
+            "thorns": {
+              "wr": 0.9199999999999999,
+              "a": 0.9275,
+              "b": 0.9125
+            },
+            "h": {
+              "wr": 0.49124999999999996,
+              "a": 0.4975,
+              "b": 0.485
+            },
+            "g30": {
+              "wr": 0.9524999999999999,
+              "a": 0.94,
+              "b": 0.965
+            }
+          }
+        },
+        {
+          "label": "Boss's Orders",
+          "cut": "Boss's Orders",
+          "copies": 2,
+          "copies_before": 1,
+          "counts": {
+            "Pichu": 1,
+            "Mime Jr.": 1,
+            "Cleffa": 1,
+            "Wiglett": 4,
+            "Wugtrio": 4,
+            "Victini": 1,
+            "Slumbering Forest": 1,
+            "Neutralization Zone": 1,
+            "Buddy-Buddy Poffin": 4,
+            "Level Ball": 4,
+            "Rescue Carrier": 3,
+            "Lillie's Pok\u00e9 Doll": 1,
+            "Crushing Hammer": 4,
+            "Counter Catcher": 2,
+            "Miss Fortune Sisters": 2,
+            "Wally": 3,
+            "Team Rocket's Handiwork": 2,
+            "Colress's Tenacity": 4,
+            "Double Turbo Energy": 4,
+            "Water Energy": 3,
+            "Ignition Energy": 4,
+            "Reversal Energy": 4,
+            "Igglybuff": 2
+          },
+          "weighted": 0.43966466466466464,
+          "se": 0.0049005458437398714,
+          "mean": 0.5860576923076922,
+          "worst": 0.12375,
+          "sleepy_flip": 2.2611574074074072,
+          "sleepy_heads": 1.1018443443443444,
+          "plays": 1.3844094094094095,
+          "progress": 14.364166666666668,
+          "cells": {
+            "t60": {
+              "wr": 0.745,
+              "a": 0.7525,
+              "b": 0.7375
+            },
+            "hedrick": {
+              "wr": 0.645,
+              "a": 0.6425,
+              "b": 0.6475
+            },
+            "unl": {
+              "wr": 0.845,
+              "a": 0.8475,
+              "b": 0.8425
+            },
+            "d60": {
+              "wr": 0.12375,
+              "a": 0.1275,
+              "b": 0.12
+            },
+            "s60": {
+              "wr": 0.72375,
+              "a": 0.74,
+              "b": 0.7075
+            },
+            "g": {
+              "wr": 0.35125,
+              "a": 0.3425,
+              "b": 0.36
+            },
+            "c60": {
+              "wr": 0.42874999999999996,
+              "a": 0.4275,
+              "b": 0.43
+            },
+            "m": {
+              "wr": 0.24625,
+              "a": 0.2475,
+              "b": 0.245
+            },
+            "starmie": {
+              "wr": 0.27625,
+              "a": 0.28,
+              "b": 0.2725
+            },
+            "lucario": {
+              "wr": 0.84,
+              "a": 0.83,
+              "b": 0.85
+            },
+            "thorns": {
+              "wr": 0.92,
+              "a": 0.935,
+              "b": 0.905
+            },
+            "h": {
+              "wr": 0.5125,
+              "a": 0.5075,
+              "b": 0.5175
+            },
+            "g30": {
+              "wr": 0.9612499999999999,
+              "a": 0.9575,
+              "b": 0.965
+            }
+          }
+        },
+        {
+          "label": "Crushing Hammer",
+          "cut": "Crushing Hammer",
+          "copies": 2,
+          "copies_before": 4,
+          "counts": {
+            "Pichu": 1,
+            "Mime Jr.": 1,
+            "Cleffa": 1,
+            "Wiglett": 4,
+            "Wugtrio": 4,
+            "Victini": 1,
+            "Slumbering Forest": 1,
+            "Neutralization Zone": 1,
+            "Buddy-Buddy Poffin": 4,
+            "Level Ball": 4,
+            "Rescue Carrier": 3,
+            "Lillie's Pok\u00e9 Doll": 1,
+            "Crushing Hammer": 3,
+            "Counter Catcher": 2,
+            "Miss Fortune Sisters": 2,
+            "Wally": 3,
+            "Boss's Orders": 1,
+            "Team Rocket's Handiwork": 2,
+            "Colress's Tenacity": 4,
+            "Double Turbo Energy": 4,
+            "Water Energy": 3,
+            "Ignition Energy": 4,
+            "Reversal Energy": 4,
+            "Igglybuff": 2
+          },
+          "weighted": 0.4388588588588589,
+          "se": 0.004842408224152397,
+          "mean": 0.5872115384615385,
+          "worst": 0.0975,
+          "sleepy_flip": 2.2961386386386384,
+          "sleepy_heads": 1.1513876376376375,
+          "plays": 1.3717967967967968,
+          "progress": 14.28650900900901,
+          "cells": {
+            "t60": {
+              "wr": 0.75,
+              "a": 0.7675,
+              "b": 0.7325
+            },
+            "hedrick": {
+              "wr": 0.5900000000000001,
+              "a": 0.5875,
+              "b": 0.5925
+            },
+            "unl": {
+              "wr": 0.8574999999999999,
+              "a": 0.8375,
+              "b": 0.8775
+            },
+            "d60": {
+              "wr": 0.0975,
+              "a": 0.08,
+              "b": 0.115
+            },
+            "s60": {
+              "wr": 0.70625,
+              "a": 0.7,
+              "b": 0.7125
+            },
+            "g": {
+              "wr": 0.40625,
+              "a": 0.415,
+              "b": 0.3975
+            },
+            "c60": {
+              "wr": 0.42125,
+              "a": 0.435,
+              "b": 0.4075
+            },
+            "m": {
+              "wr": 0.2125,
+              "a": 0.215,
+              "b": 0.21
+            },
+            "starmie": {
+              "wr": 0.31875,
+              "a": 0.3175,
+              "b": 0.32
+            },
+            "lucario": {
+              "wr": 0.85,
+              "a": 0.8125,
+              "b": 0.8875
+            },
+            "thorns": {
+              "wr": 0.94,
+              "a": 0.94,
+              "b": 0.94
+            },
+            "h": {
+              "wr": 0.5125,
+              "a": 0.5125,
+              "b": 0.5125
+            },
+            "g30": {
+              "wr": 0.97125,
+              "a": 0.9725,
+              "b": 0.97
+            }
+          }
+        },
+        {
+          "label": "Double Turbo Energy",
+          "cut": "Double Turbo Energy",
+          "copies": 2,
+          "copies_before": 4,
+          "counts": {
+            "Pichu": 1,
+            "Mime Jr.": 1,
+            "Cleffa": 1,
+            "Wiglett": 4,
+            "Wugtrio": 4,
+            "Victini": 1,
+            "Slumbering Forest": 1,
+            "Neutralization Zone": 1,
+            "Buddy-Buddy Poffin": 4,
+            "Level Ball": 4,
+            "Rescue Carrier": 3,
+            "Lillie's Pok\u00e9 Doll": 1,
+            "Crushing Hammer": 4,
+            "Counter Catcher": 2,
+            "Miss Fortune Sisters": 2,
+            "Wally": 3,
+            "Boss's Orders": 1,
+            "Team Rocket's Handiwork": 2,
+            "Colress's Tenacity": 4,
+            "Double Turbo Energy": 3,
+            "Water Energy": 3,
+            "Ignition Energy": 4,
+            "Reversal Energy": 4,
+            "Igglybuff": 2
+          },
+          "weighted": 0.4387012012012012,
+          "se": 0.004920268459171351,
+          "mean": 0.5816346153846154,
+          "worst": 0.1125,
+          "sleepy_flip": 2.3249612112112112,
+          "sleepy_heads": 1.151076076076076,
+          "plays": 1.388430930930931,
+          "progress": 13.914557057057058,
+          "cells": {
+            "t60": {
+              "wr": 0.70625,
+              "a": 0.71,
+              "b": 0.7025
+            },
+            "hedrick": {
+              "wr": 0.635,
+              "a": 0.6075,
+              "b": 0.6625
+            },
+            "unl": {
+              "wr": 0.8712500000000001,
+              "a": 0.8725,
+              "b": 0.87
+            },
+            "d60": {
+              "wr": 0.1125,
+              "a": 0.1125,
+              "b": 0.1125
+            },
+            "s60": {
+              "wr": 0.69375,
+              "a": 0.69,
+              "b": 0.6975
+            },
+            "g": {
+              "wr": 0.41875,
+              "a": 0.4,
+              "b": 0.4375
+            },
+            "c60": {
+              "wr": 0.40625,
+              "a": 0.3875,
+              "b": 0.425
+            },
+            "m": {
+              "wr": 0.23249999999999998,
+              "a": 0.2275,
+              "b": 0.2375
+            },
+            "starmie": {
+              "wr": 0.32625,
+              "a": 0.345,
+              "b": 0.3075
+            },
+            "lucario": {
+              "wr": 0.81,
+              "a": 0.81,
+              "b": 0.81
+            },
+            "thorns": {
+              "wr": 0.9299999999999999,
+              "a": 0.9325,
+              "b": 0.9275
+            },
+            "h": {
+              "wr": 0.475,
+              "a": 0.4525,
+              "b": 0.4975
+            },
+            "g30": {
+              "wr": 0.94375,
+              "a": 0.9425,
+              "b": 0.945
+            }
+          }
+        },
+        {
+          "label": "Wally",
+          "cut": "Wally",
+          "copies": 2,
+          "copies_before": 3,
+          "counts": {
+            "Pichu": 1,
+            "Mime Jr.": 1,
+            "Cleffa": 1,
+            "Wiglett": 4,
+            "Wugtrio": 4,
+            "Victini": 1,
+            "Slumbering Forest": 1,
+            "Neutralization Zone": 1,
+            "Buddy-Buddy Poffin": 4,
+            "Level Ball": 4,
+            "Rescue Carrier": 3,
+            "Lillie's Pok\u00e9 Doll": 1,
+            "Crushing Hammer": 4,
+            "Counter Catcher": 2,
+            "Miss Fortune Sisters": 2,
+            "Wally": 2,
+            "Boss's Orders": 1,
+            "Team Rocket's Handiwork": 2,
+            "Colress's Tenacity": 4,
+            "Double Turbo Energy": 4,
+            "Water Energy": 3,
+            "Ignition Energy": 4,
+            "Reversal Energy": 4,
+            "Igglybuff": 2
+          },
+          "weighted": 0.43832832832832835,
+          "se": 0.004904849086652014,
+          "mean": 0.5855769230769231,
+          "worst": 0.13,
+          "sleepy_flip": 2.3605155155155155,
+          "sleepy_heads": 1.191677927927928,
+          "plays": 1.3811799299299299,
+          "progress": 13.972197197197197,
+          "cells": {
+            "t60": {
+              "wr": 0.76375,
+              "a": 0.7475,
+              "b": 0.78
+            },
+            "hedrick": {
+              "wr": 0.62625,
+              "a": 0.6575,
+              "b": 0.595
+            },
+            "unl": {
+              "wr": 0.85875,
+              "a": 0.8575,
+              "b": 0.86
+            },
+            "d60": {
+              "wr": 0.13,
+              "a": 0.1275,
+              "b": 0.1325
+            },
+            "s60": {
+              "wr": 0.7350000000000001,
+              "a": 0.7375,
+              "b": 0.7325
+            },
+            "g": {
+              "wr": 0.38125,
+              "a": 0.37,
+              "b": 0.3925
+            },
+            "c60": {
+              "wr": 0.415,
+              "a": 0.4125,
+              "b": 0.4175
+            },
+            "m": {
+              "wr": 0.235,
+              "a": 0.2325,
+              "b": 0.2375
+            },
+            "starmie": {
+              "wr": 0.27625,
+              "a": 0.2825,
+              "b": 0.27
+            },
+            "lucario": {
+              "wr": 0.81875,
+              "a": 0.8075,
+              "b": 0.83
+            },
+            "thorns": {
+              "wr": 0.9325000000000001,
+              "a": 0.935,
+              "b": 0.93
+            },
+            "h": {
+              "wr": 0.47624999999999995,
+              "a": 0.4825,
+              "b": 0.47
+            },
+            "g30": {
+              "wr": 0.96375,
+              "a": 0.97,
+              "b": 0.9575
+            }
+          }
+        },
+        {
+          "label": "Rescue Carrier",
+          "cut": "Rescue Carrier",
+          "copies": 2,
+          "copies_before": 3,
+          "counts": {
+            "Pichu": 1,
+            "Mime Jr.": 1,
+            "Cleffa": 1,
+            "Wiglett": 4,
+            "Wugtrio": 4,
+            "Victini": 1,
+            "Slumbering Forest": 1,
+            "Neutralization Zone": 1,
+            "Buddy-Buddy Poffin": 4,
+            "Level Ball": 4,
+            "Rescue Carrier": 2,
+            "Lillie's Pok\u00e9 Doll": 1,
+            "Crushing Hammer": 4,
+            "Counter Catcher": 2,
+            "Miss Fortune Sisters": 2,
+            "Wally": 3,
+            "Boss's Orders": 1,
+            "Team Rocket's Handiwork": 2,
+            "Colress's Tenacity": 4,
+            "Double Turbo Energy": 4,
+            "Water Energy": 3,
+            "Ignition Energy": 4,
+            "Reversal Energy": 4,
+            "Igglybuff": 2
+          },
+          "weighted": 0.43576201201201203,
+          "se": 0.004854908461242258,
+          "mean": 0.5869230769230769,
+          "worst": 0.10250000000000001,
+          "sleepy_flip": 2.2868255755755755,
+          "sleepy_heads": 1.1359384384384383,
+          "plays": 1.370588088088088,
+          "progress": 14.007307307307308,
+          "cells": {
+            "t60": {
+              "wr": 0.77,
+              "a": 0.765,
+              "b": 0.775
+            },
+            "hedrick": {
+              "wr": 0.6212500000000001,
+              "a": 0.6125,
+              "b": 0.63
+            },
+            "unl": {
+              "wr": 0.85875,
+              "a": 0.86,
+              "b": 0.8575
+            },
+            "d60": {
+              "wr": 0.10250000000000001,
+              "a": 0.105,
+              "b": 0.1
+            },
+            "s60": {
+              "wr": 0.70625,
+              "a": 0.715,
+              "b": 0.6975
+            },
+            "g": {
+              "wr": 0.38375000000000004,
+              "a": 0.4,
+              "b": 0.3675
+            },
+            "c60": {
+              "wr": 0.38875,
+              "a": 0.41,
+              "b": 0.3675
+            },
+            "m": {
+              "wr": 0.23375,
+              "a": 0.225,
+              "b": 0.2425
+            },
+            "starmie": {
+              "wr": 0.31625000000000003,
+              "a": 0.3025,
+              "b": 0.33
+            },
+            "lucario": {
+              "wr": 0.865,
+              "a": 0.865,
+              "b": 0.865
+            },
+            "thorns": {
+              "wr": 0.93875,
+              "a": 0.94,
+              "b": 0.9375
+            },
+            "h": {
+              "wr": 0.47125,
+              "a": 0.4625,
+              "b": 0.48
+            },
+            "g30": {
+              "wr": 0.97375,
+              "a": 0.9775,
+              "b": 0.97
+            }
+          }
+        },
+        {
+          "label": "Miss Fortune Sisters",
+          "cut": "Miss Fortune Sisters",
+          "copies": 2,
+          "copies_before": 2,
+          "counts": {
+            "Pichu": 1,
+            "Mime Jr.": 1,
+            "Cleffa": 1,
+            "Wiglett": 4,
+            "Wugtrio": 4,
+            "Victini": 1,
+            "Slumbering Forest": 1,
+            "Neutralization Zone": 1,
+            "Buddy-Buddy Poffin": 4,
+            "Level Ball": 4,
+            "Rescue Carrier": 3,
+            "Lillie's Pok\u00e9 Doll": 1,
+            "Crushing Hammer": 4,
+            "Counter Catcher": 2,
+            "Miss Fortune Sisters": 1,
+            "Wally": 3,
+            "Boss's Orders": 1,
+            "Team Rocket's Handiwork": 2,
+            "Colress's Tenacity": 4,
+            "Double Turbo Energy": 4,
+            "Water Energy": 3,
+            "Ignition Energy": 4,
+            "Reversal Energy": 4,
+            "Igglybuff": 2
+          },
+          "weighted": 0.43549424424424427,
+          "se": 0.004814869388879147,
+          "mean": 0.5859615384615384,
+          "worst": 0.09,
+          "sleepy_flip": 2.3318993993993993,
+          "sleepy_heads": 1.159451951951952,
+          "plays": 1.3823148148148148,
+          "progress": 14.454274274274274,
+          "cells": {
+            "t60": {
+              "wr": 0.75875,
+              "a": 0.775,
+              "b": 0.7425
+            },
+            "hedrick": {
+              "wr": 0.65125,
+              "a": 0.6525,
+              "b": 0.65
+            },
+            "unl": {
+              "wr": 0.865,
+              "a": 0.8775,
+              "b": 0.8525
+            },
+            "d60": {
+              "wr": 0.09,
+              "a": 0.085,
+              "b": 0.095
+            },
+            "s60": {
+              "wr": 0.68875,
+              "a": 0.7125,
+              "b": 0.665
+            },
+            "g": {
+              "wr": 0.37375,
+              "a": 0.395,
+              "b": 0.3525
+            },
+            "c60": {
+              "wr": 0.42125,
+              "a": 0.415,
+              "b": 0.4275
+            },
+            "m": {
+              "wr": 0.21125,
+              "a": 0.205,
+              "b": 0.2175
+            },
+            "starmie": {
+              "wr": 0.31875,
+              "a": 0.315,
+              "b": 0.3225
+            },
+            "lucario": {
+              "wr": 0.82875,
+              "a": 0.83,
+              "b": 0.8275
+            },
+            "thorns": {
+              "wr": 0.93875,
+              "a": 0.94,
+              "b": 0.9375
+            },
+            "h": {
+              "wr": 0.52125,
+              "a": 0.53,
+              "b": 0.5125
+            },
+            "g30": {
+              "wr": 0.95,
+              "a": 0.95,
+              "b": 0.95
+            }
+          }
+        },
+        {
+          "label": "Buddy-Buddy Poffin",
+          "cut": "Buddy-Buddy Poffin",
+          "copies": 2,
+          "copies_before": 4,
+          "counts": {
+            "Pichu": 1,
+            "Mime Jr.": 1,
+            "Cleffa": 1,
+            "Wiglett": 4,
+            "Wugtrio": 4,
+            "Victini": 1,
+            "Slumbering Forest": 1,
+            "Neutralization Zone": 1,
+            "Buddy-Buddy Poffin": 3,
+            "Level Ball": 4,
+            "Rescue Carrier": 3,
+            "Lillie's Pok\u00e9 Doll": 1,
+            "Crushing Hammer": 4,
+            "Counter Catcher": 2,
+            "Miss Fortune Sisters": 2,
+            "Wally": 3,
+            "Boss's Orders": 1,
+            "Team Rocket's Handiwork": 2,
+            "Colress's Tenacity": 4,
+            "Double Turbo Energy": 4,
+            "Water Energy": 3,
+            "Ignition Energy": 4,
+            "Reversal Energy": 4,
+            "Igglybuff": 2
+          },
+          "weighted": 0.43342217217217216,
+          "se": 0.0048789830204789275,
+          "mean": 0.5797115384615384,
+          "worst": 0.10999999999999999,
+          "sleepy_flip": 2.1943055555555553,
+          "sleepy_heads": 1.1010635635635635,
+          "plays": 1.353933933933934,
+          "progress": 13.810902152152153,
+          "cells": {
+            "t60": {
+              "wr": 0.735,
+              "a": 0.725,
+              "b": 0.745
+            },
+            "hedrick": {
+              "wr": 0.60625,
+              "a": 0.62,
+              "b": 0.5925
+            },
+            "unl": {
+              "wr": 0.85625,
+              "a": 0.86,
+              "b": 0.8525
+            },
+            "d60": {
+              "wr": 0.10999999999999999,
+              "a": 0.1175,
+              "b": 0.1025
+            },
+            "s60": {
+              "wr": 0.7262500000000001,
+              "a": 0.735,
+              "b": 0.7175
+            },
+            "g": {
+              "wr": 0.35250000000000004,
+              "a": 0.335,
+              "b": 0.37
+            },
+            "c60": {
+              "wr": 0.41374999999999995,
+              "a": 0.4075,
+              "b": 0.42
+            },
+            "m": {
+              "wr": 0.23249999999999998,
+              "a": 0.215,
+              "b": 0.25
+            },
+            "starmie": {
+              "wr": 0.31875,
+              "a": 0.3325,
+              "b": 0.305
+            },
+            "lucario": {
+              "wr": 0.82,
+              "a": 0.815,
+              "b": 0.825
+            },
+            "thorns": {
+              "wr": 0.92125,
+              "a": 0.91,
+              "b": 0.9325
+            },
+            "h": {
+              "wr": 0.485,
+              "a": 0.505,
+              "b": 0.465
+            },
+            "g30": {
+              "wr": 0.95875,
+              "a": 0.9625,
+              "b": 0.955
+            }
+          }
+        },
+        {
+          "label": "Counter Catcher",
+          "cut": "Counter Catcher",
+          "copies": 2,
+          "copies_before": 2,
+          "counts": {
+            "Pichu": 1,
+            "Mime Jr.": 1,
+            "Cleffa": 1,
+            "Wiglett": 4,
+            "Wugtrio": 4,
+            "Victini": 1,
+            "Slumbering Forest": 1,
+            "Neutralization Zone": 1,
+            "Buddy-Buddy Poffin": 4,
+            "Level Ball": 4,
+            "Rescue Carrier": 3,
+            "Lillie's Pok\u00e9 Doll": 1,
+            "Crushing Hammer": 4,
+            "Counter Catcher": 1,
+            "Miss Fortune Sisters": 2,
+            "Wally": 3,
+            "Boss's Orders": 1,
+            "Team Rocket's Handiwork": 2,
+            "Colress's Tenacity": 4,
+            "Double Turbo Energy": 4,
+            "Water Energy": 3,
+            "Ignition Energy": 4,
+            "Reversal Energy": 4,
+            "Igglybuff": 2
+          },
+          "weighted": 0.4333883883883884,
+          "se": 0.004854921262625907,
+          "mean": 0.5808653846153846,
+          "worst": 0.09875,
+          "sleepy_flip": 2.291052302302302,
+          "sleepy_heads": 1.1404029029029028,
+          "plays": 1.386567817817818,
+          "progress": 14.201136136136135,
+          "cells": {
+            "t60": {
+              "wr": 0.7537499999999999,
+              "a": 0.735,
+              "b": 0.7725
+            },
+            "hedrick": {
+              "wr": 0.6125,
+              "a": 0.605,
+              "b": 0.62
+            },
+            "unl": {
+              "wr": 0.8612500000000001,
+              "a": 0.8625,
+              "b": 0.86
+            },
+            "d60": {
+              "wr": 0.09875,
+              "a": 0.1025,
+              "b": 0.095
+            },
+            "s60": {
+              "wr": 0.7075,
+              "a": 0.7175,
+              "b": 0.6975
+            },
+            "g": {
+              "wr": 0.36375,
+              "a": 0.375,
+              "b": 0.3525
+            },
+            "c60": {
+              "wr": 0.42374999999999996,
+              "a": 0.43,
+              "b": 0.4175
+            },
+            "m": {
+              "wr": 0.23875000000000002,
+              "a": 0.2275,
+              "b": 0.25
+            },
+            "starmie": {
+              "wr": 0.2825,
+              "a": 0.2825,
+              "b": 0.2825
+            },
+            "lucario": {
+              "wr": 0.835,
+              "a": 0.8375,
+              "b": 0.8325
+            },
+            "thorns": {
+              "wr": 0.90875,
+              "a": 0.905,
+              "b": 0.9125
+            },
+            "h": {
+              "wr": 0.51,
+              "a": 0.515,
+              "b": 0.505
+            },
+            "g30": {
+              "wr": 0.9550000000000001,
+              "a": 0.9575,
+              "b": 0.9525
+            }
+          }
+        },
+        {
+          "label": "Level Ball",
+          "cut": "Level Ball",
+          "copies": 2,
+          "copies_before": 4,
+          "counts": {
+            "Pichu": 1,
+            "Mime Jr.": 1,
+            "Cleffa": 1,
+            "Wiglett": 4,
+            "Wugtrio": 4,
+            "Victini": 1,
+            "Slumbering Forest": 1,
+            "Neutralization Zone": 1,
+            "Buddy-Buddy Poffin": 4,
+            "Level Ball": 3,
+            "Rescue Carrier": 3,
+            "Lillie's Pok\u00e9 Doll": 1,
+            "Crushing Hammer": 4,
+            "Counter Catcher": 2,
+            "Miss Fortune Sisters": 2,
+            "Wally": 3,
+            "Boss's Orders": 1,
+            "Team Rocket's Handiwork": 2,
+            "Colress's Tenacity": 4,
+            "Double Turbo Energy": 4,
+            "Water Energy": 3,
+            "Ignition Energy": 4,
+            "Reversal Energy": 4,
+            "Igglybuff": 2
+          },
+          "weighted": 0.4329041541541542,
+          "se": 0.004873685113239846,
+          "mean": 0.5805769230769231,
+          "worst": 0.11875000000000001,
+          "sleepy_flip": 2.2768255755755757,
+          "sleepy_heads": 1.133848848848849,
+          "plays": 1.3664326826826827,
+          "progress": 13.82373998998999,
+          "cells": {
+            "t60": {
+              "wr": 0.76,
+              "a": 0.7475,
+              "b": 0.7725
+            },
+            "hedrick": {
+              "wr": 0.6387499999999999,
+              "a": 0.6325,
+              "b": 0.645
+            },
+            "unl": {
+              "wr": 0.8512500000000001,
+              "a": 0.8475,
+              "b": 0.855
+            },
+            "d60": {
+              "wr": 0.11875000000000001,
+              "a": 0.1,
+              "b": 0.1375
+            },
+            "s60": {
+              "wr": 0.6950000000000001,
+              "a": 0.6625,
+              "b": 0.7275
+            },
+            "g": {
+              "wr": 0.38375000000000004,
+              "a": 0.365,
+              "b": 0.4025
+            },
+            "c60": {
+              "wr": 0.405,
+              "a": 0.4075,
+              "b": 0.4025
+            },
+            "m": {
+              "wr": 0.21500000000000002,
+              "a": 0.2,
+              "b": 0.23
+            },
+            "starmie": {
+              "wr": 0.2975,
+              "a": 0.33,
+              "b": 0.265
+            },
+            "lucario": {
+              "wr": 0.80375,
+              "a": 0.795,
+              "b": 0.8125
+            },
+            "thorns": {
+              "wr": 0.9299999999999999,
+              "a": 0.9375,
+              "b": 0.9225
+            },
+            "h": {
+              "wr": 0.4925,
+              "a": 0.505,
+              "b": 0.48
+            },
+            "g30": {
+              "wr": 0.95625,
+              "a": 0.9525,
+              "b": 0.96
+            }
+          }
+        },
+        {
+          "label": "Team Rocket's Handiwork",
+          "cut": "Team Rocket's Handiwork",
+          "copies": 2,
+          "copies_before": 2,
+          "counts": {
+            "Pichu": 1,
+            "Mime Jr.": 1,
+            "Cleffa": 1,
+            "Wiglett": 4,
+            "Wugtrio": 4,
+            "Victini": 1,
+            "Slumbering Forest": 1,
+            "Neutralization Zone": 1,
+            "Buddy-Buddy Poffin": 4,
+            "Level Ball": 4,
+            "Rescue Carrier": 3,
+            "Lillie's Pok\u00e9 Doll": 1,
+            "Crushing Hammer": 4,
+            "Counter Catcher": 2,
+            "Miss Fortune Sisters": 2,
+            "Wally": 3,
+            "Boss's Orders": 1,
+            "Team Rocket's Handiwork": 1,
+            "Colress's Tenacity": 4,
+            "Double Turbo Energy": 4,
+            "Water Energy": 3,
+            "Ignition Energy": 4,
+            "Reversal Energy": 4,
+            "Igglybuff": 2
+          },
+          "weighted": 0.4318355855855856,
+          "se": 0.00489893598016401,
+          "mean": 0.5793269230769231,
+          "worst": 0.14125,
+          "sleepy_flip": 2.3369031531531532,
+          "sleepy_heads": 1.1740027527527528,
+          "plays": 1.3758095595595596,
+          "progress": 13.790198948948948,
+          "cells": {
+            "t60": {
+              "wr": 0.73375,
+              "a": 0.7375,
+              "b": 0.73
+            },
+            "hedrick": {
+              "wr": 0.62875,
+              "a": 0.64,
+              "b": 0.6175
+            },
+            "unl": {
+              "wr": 0.8625,
+              "a": 0.875,
+              "b": 0.85
+            },
+            "d60": {
+              "wr": 0.14125,
+              "a": 0.1575,
+              "b": 0.125
+            },
+            "s60": {
+              "wr": 0.6725,
+              "a": 0.6875,
+              "b": 0.6575
+            },
+            "g": {
+              "wr": 0.38,
+              "a": 0.355,
+              "b": 0.405
+            },
+            "c60": {
+              "wr": 0.38249999999999995,
+              "a": 0.415,
+              "b": 0.35
+            },
+            "m": {
+              "wr": 0.21375,
+              "a": 0.2125,
+              "b": 0.215
+            },
+            "starmie": {
+              "wr": 0.29000000000000004,
+              "a": 0.3075,
+              "b": 0.2725
+            },
+            "lucario": {
+              "wr": 0.84875,
+              "a": 0.8175,
+              "b": 0.88
+            },
+            "thorns": {
+              "wr": 0.9325000000000001,
+              "a": 0.935,
+              "b": 0.93
+            },
+            "h": {
+              "wr": 0.49874999999999997,
+              "a": 0.5125,
+              "b": 0.485
+            },
+            "g30": {
+              "wr": 0.94625,
+              "a": 0.95,
+              "b": 0.9425
+            }
+          }
+        },
+        {
+          "label": "Colress's Tenacity",
+          "cut": "Colress's Tenacity",
+          "copies": 2,
+          "copies_before": 4,
+          "counts": {
+            "Pichu": 1,
+            "Mime Jr.": 1,
+            "Cleffa": 1,
+            "Wiglett": 4,
+            "Wugtrio": 4,
+            "Victini": 1,
+            "Slumbering Forest": 1,
+            "Neutralization Zone": 1,
+            "Buddy-Buddy Poffin": 4,
+            "Level Ball": 4,
+            "Rescue Carrier": 3,
+            "Lillie's Pok\u00e9 Doll": 1,
+            "Crushing Hammer": 4,
+            "Counter Catcher": 2,
+            "Miss Fortune Sisters": 2,
+            "Wally": 3,
+            "Boss's Orders": 1,
+            "Team Rocket's Handiwork": 2,
+            "Colress's Tenacity": 3,
+            "Double Turbo Energy": 4,
+            "Water Energy": 3,
+            "Ignition Energy": 4,
+            "Reversal Energy": 4,
+            "Igglybuff": 2
+          },
+          "weighted": 0.4311336336336336,
+          "se": 0.0048951405619339534,
+          "mean": 0.5779807692307692,
+          "worst": 0.1325,
+          "sleepy_flip": 2.3448235735735734,
+          "sleepy_heads": 1.162942942942943,
+          "plays": 1.3768455955955956,
+          "progress": 13.967896646646647,
+          "cells": {
+            "t60": {
+              "wr": 0.7275,
+              "a": 0.715,
+              "b": 0.74
+            },
+            "hedrick": {
+              "wr": 0.6299999999999999,
+              "a": 0.6325,
+              "b": 0.6275
+            },
+            "unl": {
+              "wr": 0.8574999999999999,
+              "a": 0.845,
+              "b": 0.87
+            },
+            "d60": {
+              "wr": 0.1325,
+              "a": 0.1225,
+              "b": 0.1425
+            },
+            "s60": {
+              "wr": 0.71375,
+              "a": 0.6975,
+              "b": 0.73
+            },
+            "g": {
+              "wr": 0.39625,
+              "a": 0.39,
+              "b": 0.4025
+            },
+            "c60": {
+              "wr": 0.3825,
+              "a": 0.3925,
+              "b": 0.3725
+            },
+            "m": {
+              "wr": 0.22,
+              "a": 0.2075,
+              "b": 0.2325
+            },
+            "starmie": {
+              "wr": 0.28625,
+              "a": 0.29,
+              "b": 0.2825
+            },
+            "lucario": {
+              "wr": 0.82,
+              "a": 0.825,
+              "b": 0.815
+            },
+            "thorns": {
+              "wr": 0.93125,
+              "a": 0.9375,
+              "b": 0.925
+            },
+            "h": {
+              "wr": 0.45875,
+              "a": 0.4525,
+              "b": 0.465
+            },
+            "g30": {
+              "wr": 0.9575,
+              "a": 0.96,
+              "b": 0.955
+            }
+          }
+        },
+        {
+          "label": "Slumbering Forest",
+          "cut": "Slumbering Forest",
+          "copies": 2,
+          "copies_before": 1,
+          "counts": {
+            "Pichu": 1,
+            "Mime Jr.": 1,
+            "Cleffa": 1,
+            "Wiglett": 4,
+            "Wugtrio": 4,
+            "Victini": 1,
+            "Neutralization Zone": 1,
+            "Buddy-Buddy Poffin": 4,
+            "Level Ball": 4,
+            "Rescue Carrier": 3,
+            "Lillie's Pok\u00e9 Doll": 1,
+            "Crushing Hammer": 4,
+            "Counter Catcher": 2,
+            "Miss Fortune Sisters": 2,
+            "Wally": 3,
+            "Boss's Orders": 1,
+            "Team Rocket's Handiwork": 2,
+            "Colress's Tenacity": 4,
+            "Double Turbo Energy": 4,
+            "Water Energy": 3,
+            "Ignition Energy": 4,
+            "Reversal Energy": 4,
+            "Igglybuff": 2
+          },
+          "weighted": 0.4293455955955956,
+          "se": 0.004744601075118531,
+          "mean": 0.5805769230769231,
+          "worst": 0.04875,
+          "sleepy_flip": 2.3140465465465465,
+          "sleepy_heads": 1.14509009009009,
+          "plays": 1.3645282782782784,
+          "progress": 14.248506006006005,
+          "cells": {
+            "t60": {
+              "wr": 0.7525,
+              "a": 0.7475,
+              "b": 0.7575
+            },
+            "hedrick": {
+              "wr": 0.6187499999999999,
+              "a": 0.61,
+              "b": 0.6275
+            },
+            "unl": {
+              "wr": 0.85875,
+              "a": 0.8525,
+              "b": 0.865
+            },
+            "d60": {
+              "wr": 0.04875,
+              "a": 0.0475,
+              "b": 0.05
+            },
+            "s60": {
+              "wr": 0.6825,
+              "a": 0.6825,
+              "b": 0.6825
+            },
+            "g": {
+              "wr": 0.35125,
+              "a": 0.335,
+              "b": 0.3675
+            },
+            "c60": {
+              "wr": 0.43625,
+              "a": 0.4575,
+              "b": 0.415
+            },
+            "m": {
+              "wr": 0.2225,
+              "a": 0.225,
+              "b": 0.22
+            },
+            "starmie": {
+              "wr": 0.345,
+              "a": 0.3325,
+              "b": 0.3575
+            },
+            "lucario": {
+              "wr": 0.8475,
+              "a": 0.8475,
+              "b": 0.8475
+            },
+            "thorns": {
+              "wr": 0.92125,
+              "a": 0.925,
+              "b": 0.9175
+            },
+            "h": {
+              "wr": 0.49874999999999997,
+              "a": 0.5275,
+              "b": 0.47
+            },
+            "g30": {
+              "wr": 0.96375,
+              "a": 0.9625,
+              "b": 0.965
+            }
+          }
+        },
+        {
+          "label": "Reversal Energy",
+          "cut": "Reversal Energy",
+          "copies": 2,
+          "copies_before": 4,
+          "counts": {
+            "Pichu": 1,
+            "Mime Jr.": 1,
+            "Cleffa": 1,
+            "Wiglett": 4,
+            "Wugtrio": 4,
+            "Victini": 1,
+            "Slumbering Forest": 1,
+            "Neutralization Zone": 1,
+            "Buddy-Buddy Poffin": 4,
+            "Level Ball": 4,
+            "Rescue Carrier": 3,
+            "Lillie's Pok\u00e9 Doll": 1,
+            "Crushing Hammer": 4,
+            "Counter Catcher": 2,
+            "Miss Fortune Sisters": 2,
+            "Wally": 3,
+            "Boss's Orders": 1,
+            "Team Rocket's Handiwork": 2,
+            "Colress's Tenacity": 4,
+            "Double Turbo Energy": 4,
+            "Water Energy": 3,
+            "Ignition Energy": 4,
+            "Reversal Energy": 3,
+            "Igglybuff": 2
+          },
+          "weighted": 0.42891016016016015,
+          "se": 0.004880810376799879,
+          "mean": 0.5766346153846154,
+          "worst": 0.13125,
+          "sleepy_flip": 2.3604967467467466,
+          "sleepy_heads": 1.1791103603603603,
+          "plays": 1.3660773273273275,
+          "progress": 13.632996746746747,
+          "cells": {
+            "t60": {
+              "wr": 0.745,
+              "a": 0.775,
+              "b": 0.715
+            },
+            "hedrick": {
+              "wr": 0.6100000000000001,
+              "a": 0.6125,
+              "b": 0.6075
+            },
+            "unl": {
+              "wr": 0.85625,
+              "a": 0.8725,
+              "b": 0.84
+            },
+            "d60": {
+              "wr": 0.13125,
+              "a": 0.1225,
+              "b": 0.14
+            },
+            "s60": {
+              "wr": 0.6825,
+              "a": 0.6775,
+              "b": 0.6875
+            },
+            "g": {
+              "wr": 0.36,
+              "a": 0.345,
+              "b": 0.375
+            },
+            "c60": {
+              "wr": 0.4075,
+              "a": 0.3875,
+              "b": 0.4275
+            },
+            "m": {
+              "wr": 0.20750000000000002,
+              "a": 0.2025,
+              "b": 0.2125
+            },
+            "starmie": {
+              "wr": 0.29625,
+              "a": 0.2925,
+              "b": 0.3
+            },
+            "lucario": {
+              "wr": 0.83375,
+              "a": 0.815,
+              "b": 0.8525
+            },
+            "thorns": {
+              "wr": 0.9237500000000001,
+              "a": 0.91,
+              "b": 0.9375
+            },
+            "h": {
+              "wr": 0.485,
+              "a": 0.49,
+              "b": 0.48
+            },
+            "g30": {
+              "wr": 0.9575,
+              "a": 0.9675,
+              "b": 0.9475
+            }
+          }
+        },
+        {
+          "label": "Wugtrio",
+          "cut": "Wugtrio",
+          "copies": 2,
+          "copies_before": 4,
+          "counts": {
+            "Pichu": 1,
+            "Mime Jr.": 1,
+            "Cleffa": 1,
+            "Wiglett": 4,
+            "Wugtrio": 3,
+            "Victini": 1,
+            "Slumbering Forest": 1,
+            "Neutralization Zone": 1,
+            "Buddy-Buddy Poffin": 4,
+            "Level Ball": 4,
+            "Rescue Carrier": 3,
+            "Lillie's Pok\u00e9 Doll": 1,
+            "Crushing Hammer": 4,
+            "Counter Catcher": 2,
+            "Miss Fortune Sisters": 2,
+            "Wally": 3,
+            "Boss's Orders": 1,
+            "Team Rocket's Handiwork": 2,
+            "Colress's Tenacity": 4,
+            "Double Turbo Energy": 4,
+            "Water Energy": 3,
+            "Ignition Energy": 4,
+            "Reversal Energy": 4,
+            "Igglybuff": 2
+          },
+          "weighted": 0.4288250750750751,
+          "se": 0.004850127611361003,
+          "mean": 0.5788461538461539,
+          "worst": 0.10375000000000001,
+          "sleepy_flip": 2.392772772772773,
+          "sleepy_heads": 1.1818856356356358,
+          "plays": 1.3926889389389392,
+          "progress": 13.78799924924925,
+          "cells": {
+            "t60": {
+              "wr": 0.74,
+              "a": 0.74,
+              "b": 0.74
+            },
+            "hedrick": {
+              "wr": 0.6225,
+              "a": 0.6275,
+              "b": 0.6175
+            },
+            "unl": {
+              "wr": 0.87,
+              "a": 0.87,
+              "b": 0.87
+            },
+            "d60": {
+              "wr": 0.10375000000000001,
+              "a": 0.125,
+              "b": 0.0825
+            },
+            "s60": {
+              "wr": 0.7012499999999999,
+              "a": 0.6875,
+              "b": 0.715
+            },
+            "g": {
+              "wr": 0.35375,
+              "a": 0.385,
+              "b": 0.3225
+            },
+            "c60": {
+              "wr": 0.39625,
+              "a": 0.3725,
+              "b": 0.42
+            },
+            "m": {
+              "wr": 0.23375,
+              "a": 0.215,
+              "b": 0.2525
+            },
+            "starmie": {
+              "wr": 0.3125,
+              "a": 0.3125,
+              "b": 0.3125
+            },
+            "lucario": {
+              "wr": 0.8362499999999999,
+              "a": 0.8275,
+              "b": 0.845
+            },
+            "thorns": {
+              "wr": 0.9450000000000001,
+              "a": 0.955,
+              "b": 0.935
+            },
+            "h": {
+              "wr": 0.45125000000000004,
+              "a": 0.45,
+              "b": 0.4525
+            },
+            "g30": {
+              "wr": 0.95875,
+              "a": 0.94,
+              "b": 0.9775
+            }
+          }
+        },
+        {
+          "label": "Ignition Energy",
+          "cut": "Ignition Energy",
+          "copies": 2,
+          "copies_before": 4,
+          "counts": {
+            "Pichu": 1,
+            "Mime Jr.": 1,
+            "Cleffa": 1,
+            "Wiglett": 4,
+            "Wugtrio": 4,
+            "Victini": 1,
+            "Slumbering Forest": 1,
+            "Neutralization Zone": 1,
+            "Buddy-Buddy Poffin": 4,
+            "Level Ball": 4,
+            "Rescue Carrier": 3,
+            "Lillie's Pok\u00e9 Doll": 1,
+            "Crushing Hammer": 4,
+            "Counter Catcher": 2,
+            "Miss Fortune Sisters": 2,
+            "Wally": 3,
+            "Boss's Orders": 1,
+            "Team Rocket's Handiwork": 2,
+            "Colress's Tenacity": 4,
+            "Double Turbo Energy": 4,
+            "Water Energy": 3,
+            "Ignition Energy": 3,
+            "Reversal Energy": 4,
+            "Igglybuff": 2
+          },
+          "weighted": 0.42874124124124124,
+          "se": 0.004826079266652169,
+          "mean": 0.5807692307692307,
+          "worst": 0.125,
+          "sleepy_flip": 2.336355105105105,
+          "sleepy_heads": 1.164242992992993,
+          "plays": 1.3823711211211211,
+          "progress": 13.75282032032032,
+          "cells": {
+            "t60": {
+              "wr": 0.765,
+              "a": 0.765,
+              "b": 0.765
+            },
+            "hedrick": {
+              "wr": 0.6575,
+              "a": 0.6475,
+              "b": 0.6675
+            },
+            "unl": {
+              "wr": 0.8687499999999999,
+              "a": 0.8875,
+              "b": 0.85
+            },
+            "d60": {
+              "wr": 0.125,
+              "a": 0.1225,
+              "b": 0.1275
+            },
+            "s60": {
+              "wr": 0.70625,
+              "a": 0.7425,
+              "b": 0.67
+            },
+            "g": {
+              "wr": 0.34375,
+              "a": 0.355,
+              "b": 0.3325
+            },
+            "c60": {
+              "wr": 0.40375,
+              "a": 0.4175,
+              "b": 0.39
+            },
+            "m": {
+              "wr": 0.2025,
+              "a": 0.19,
+              "b": 0.215
+            },
+            "starmie": {
+              "wr": 0.275,
+              "a": 0.2825,
+              "b": 0.2675
+            },
+            "lucario": {
+              "wr": 0.8275,
+              "a": 0.81,
+              "b": 0.845
+            },
+            "thorns": {
+              "wr": 0.92125,
+              "a": 0.9125,
+              "b": 0.93
+            },
+            "h": {
+              "wr": 0.50375,
+              "a": 0.4925,
+              "b": 0.515
+            },
+            "g30": {
+              "wr": 0.95,
+              "a": 0.9425,
+              "b": 0.9575
+            }
+          }
+        },
+        {
+          "label": "Mime Jr.",
+          "cut": "Mime Jr.",
+          "copies": 2,
+          "copies_before": 1,
+          "counts": {
+            "Pichu": 1,
+            "Cleffa": 1,
+            "Wiglett": 4,
+            "Wugtrio": 4,
+            "Victini": 1,
+            "Slumbering Forest": 1,
+            "Neutralization Zone": 1,
+            "Buddy-Buddy Poffin": 4,
+            "Level Ball": 4,
+            "Rescue Carrier": 3,
+            "Lillie's Pok\u00e9 Doll": 1,
+            "Crushing Hammer": 4,
+            "Counter Catcher": 2,
+            "Miss Fortune Sisters": 2,
+            "Wally": 3,
+            "Boss's Orders": 1,
+            "Team Rocket's Handiwork": 2,
+            "Colress's Tenacity": 4,
+            "Double Turbo Energy": 4,
+            "Water Energy": 3,
+            "Ignition Energy": 4,
+            "Reversal Energy": 4,
+            "Igglybuff": 2
+          },
+          "weighted": 0.42855855855855857,
+          "se": 0.004841316580298961,
+          "mean": 0.5771153846153847,
+          "worst": 0.1,
+          "sleepy_flip": 2.3653490990990993,
+          "sleepy_heads": 1.1811636636636638,
+          "plays": 1.377613863863864,
+          "progress": 14.256532782782783,
+          "cells": {
+            "t60": {
+              "wr": 0.72875,
+              "a": 0.7175,
+              "b": 0.74
+            },
+            "hedrick": {
+              "wr": 0.63375,
+              "a": 0.6225,
+              "b": 0.645
+            },
+            "unl": {
+              "wr": 0.86875,
+              "a": 0.8725,
+              "b": 0.865
+            },
+            "d60": {
+              "wr": 0.1,
+              "a": 0.1175,
+              "b": 0.0825
+            },
+            "s60": {
+              "wr": 0.65625,
+              "a": 0.66,
+              "b": 0.6525
+            },
+            "g": {
+              "wr": 0.40249999999999997,
+              "a": 0.39,
+              "b": 0.415
+            },
+            "c60": {
+              "wr": 0.3875,
+              "a": 0.375,
+              "b": 0.4
+            },
+            "m": {
+              "wr": 0.2025,
+              "a": 0.1925,
+              "b": 0.2125
+            },
+            "starmie": {
+              "wr": 0.3275,
+              "a": 0.32,
+              "b": 0.335
+            },
+            "lucario": {
+              "wr": 0.8175,
+              "a": 0.8125,
+              "b": 0.8225
+            },
+            "thorns": {
+              "wr": 0.92625,
+              "a": 0.935,
+              "b": 0.9175
+            },
+            "h": {
+              "wr": 0.49625,
+              "a": 0.535,
+              "b": 0.4575
+            },
+            "g30": {
+              "wr": 0.9550000000000001,
+              "a": 0.9475,
+              "b": 0.9625
+            }
+          }
+        },
+        {
+          "label": "Wiglett",
+          "cut": "Wiglett",
+          "copies": 2,
+          "copies_before": 4,
+          "counts": {
+            "Pichu": 1,
+            "Mime Jr.": 1,
+            "Cleffa": 1,
+            "Wiglett": 3,
+            "Wugtrio": 4,
+            "Victini": 1,
+            "Slumbering Forest": 1,
+            "Neutralization Zone": 1,
+            "Buddy-Buddy Poffin": 4,
+            "Level Ball": 4,
+            "Rescue Carrier": 3,
+            "Lillie's Pok\u00e9 Doll": 1,
+            "Crushing Hammer": 4,
+            "Counter Catcher": 2,
+            "Miss Fortune Sisters": 2,
+            "Wally": 3,
+            "Boss's Orders": 1,
+            "Team Rocket's Handiwork": 2,
+            "Colress's Tenacity": 4,
+            "Double Turbo Energy": 4,
+            "Water Energy": 3,
+            "Ignition Energy": 4,
+            "Reversal Energy": 4,
+            "Igglybuff": 2
+          },
+          "weighted": 0.42687187187187187,
+          "se": 0.004880405778911791,
+          "mean": 0.5749038461538462,
+          "worst": 0.125,
+          "sleepy_flip": 2.389725975975976,
+          "sleepy_heads": 1.1793981481481481,
+          "plays": 1.4069994994994994,
+          "progress": 13.51549174174174,
+          "cells": {
+            "t60": {
+              "wr": 0.7275,
+              "a": 0.705,
+              "b": 0.75
+            },
+            "hedrick": {
+              "wr": 0.6012500000000001,
+              "a": 0.635,
+              "b": 0.5675
+            },
+            "unl": {
+              "wr": 0.85625,
+              "a": 0.8375,
+              "b": 0.875
+            },
+            "d60": {
+              "wr": 0.125,
+              "a": 0.1325,
+              "b": 0.1175
+            },
+            "s60": {
+              "wr": 0.7424999999999999,
+              "a": 0.725,
+              "b": 0.76
+            },
+            "g": {
+              "wr": 0.35250000000000004,
+              "a": 0.34,
+              "b": 0.365
+            },
+            "c60": {
+              "wr": 0.35125,
+              "a": 0.365,
+              "b": 0.3375
+            },
+            "m": {
+              "wr": 0.24625000000000002,
+              "a": 0.22,
+              "b": 0.2725
+            },
+            "starmie": {
+              "wr": 0.31375,
+              "a": 0.3125,
+              "b": 0.315
+            },
+            "lucario": {
+              "wr": 0.85,
+              "a": 0.85,
+              "b": 0.85
+            },
+            "thorns": {
+              "wr": 0.92625,
+              "a": 0.9175,
+              "b": 0.935
+            },
+            "h": {
+              "wr": 0.4225,
+              "a": 0.395,
+              "b": 0.45
+            },
+            "g30": {
+              "wr": 0.95875,
+              "a": 0.9625,
+              "b": 0.955
+            }
+          }
+        },
+        {
+          "label": "Cleffa",
+          "cut": "Cleffa",
+          "copies": 2,
+          "copies_before": 1,
+          "counts": {
+            "Pichu": 1,
+            "Mime Jr.": 1,
+            "Wiglett": 4,
+            "Wugtrio": 4,
+            "Victini": 1,
+            "Slumbering Forest": 1,
+            "Neutralization Zone": 1,
+            "Buddy-Buddy Poffin": 4,
+            "Level Ball": 4,
+            "Rescue Carrier": 3,
+            "Lillie's Pok\u00e9 Doll": 1,
+            "Crushing Hammer": 4,
+            "Counter Catcher": 2,
+            "Miss Fortune Sisters": 2,
+            "Wally": 3,
+            "Boss's Orders": 1,
+            "Team Rocket's Handiwork": 2,
+            "Colress's Tenacity": 4,
+            "Double Turbo Energy": 4,
+            "Water Energy": 3,
+            "Ignition Energy": 4,
+            "Reversal Energy": 4,
+            "Igglybuff": 2
+          },
+          "weighted": 0.42357357357357356,
+          "se": 0.004777031735849776,
+          "mean": 0.5748076923076924,
+          "worst": 0.10875,
+          "sleepy_flip": 2.281086086086086,
+          "sleepy_heads": 1.1350325325325326,
+          "plays": 1.3573998998999,
+          "progress": 13.793996496496497,
+          "cells": {
+            "t60": {
+              "wr": 0.73375,
+              "a": 0.745,
+              "b": 0.7225
+            },
+            "hedrick": {
+              "wr": 0.6287499999999999,
+              "a": 0.62,
+              "b": 0.6375
+            },
+            "unl": {
+              "wr": 0.84625,
+              "a": 0.8325,
+              "b": 0.86
+            },
+            "d60": {
+              "wr": 0.10875,
+              "a": 0.115,
+              "b": 0.1025
+            },
+            "s60": {
+              "wr": 0.7350000000000001,
+              "a": 0.7375,
+              "b": 0.7325
+            },
+            "g": {
+              "wr": 0.365,
+              "a": 0.38,
+              "b": 0.35
+            },
+            "c60": {
+              "wr": 0.34750000000000003,
+              "a": 0.355,
+              "b": 0.34
+            },
+            "m": {
+              "wr": 0.18625,
+              "a": 0.185,
+              "b": 0.1875
+            },
+            "starmie": {
+              "wr": 0.32125000000000004,
+              "a": 0.3125,
+              "b": 0.33
+            },
+            "lucario": {
+              "wr": 0.825,
+              "a": 0.825,
+              "b": 0.825
+            },
+            "thorns": {
+              "wr": 0.915,
+              "a": 0.9175,
+              "b": 0.9125
+            },
+            "h": {
+              "wr": 0.5137499999999999,
+              "a": 0.52,
+              "b": 0.5075
+            },
+            "g30": {
+              "wr": 0.94625,
+              "a": 0.955,
+              "b": 0.9375
+            }
+          }
+        },
+        {
+          "label": "Neutralization Zone",
+          "cut": "Neutralization Zone",
+          "copies": 2,
+          "copies_before": 1,
+          "counts": {
+            "Pichu": 1,
+            "Mime Jr.": 1,
+            "Cleffa": 1,
+            "Wiglett": 4,
+            "Wugtrio": 4,
+            "Victini": 1,
+            "Slumbering Forest": 1,
+            "Buddy-Buddy Poffin": 4,
+            "Level Ball": 4,
+            "Rescue Carrier": 3,
+            "Lillie's Pok\u00e9 Doll": 1,
+            "Crushing Hammer": 4,
+            "Counter Catcher": 2,
+            "Miss Fortune Sisters": 2,
+            "Wally": 3,
+            "Boss's Orders": 1,
+            "Team Rocket's Handiwork": 2,
+            "Colress's Tenacity": 4,
+            "Double Turbo Energy": 4,
+            "Water Energy": 3,
+            "Ignition Energy": 4,
+            "Reversal Energy": 4,
+            "Igglybuff": 2
+          },
+          "weighted": 0.4183470970970971,
+          "se": 0.004914872451268142,
+          "mean": 0.5479807692307692,
+          "worst": 0.17125,
+          "sleepy_flip": 2.2467655155155155,
+          "sleepy_heads": 1.1341403903903904,
+          "plays": 1.3377077077077077,
+          "progress": 13.990863363363363,
+          "cells": {
+            "t60": {
+              "wr": 0.445,
+              "a": 0.425,
+              "b": 0.465
+            },
+            "hedrick": {
+              "wr": 0.58375,
+              "a": 0.5775,
+              "b": 0.59
+            },
+            "unl": {
+              "wr": 0.76625,
+              "a": 0.745,
+              "b": 0.7875
+            },
+            "d60": {
+              "wr": 0.20750000000000002,
+              "a": 0.2,
+              "b": 0.215
+            },
+            "s60": {
+              "wr": 0.73125,
+              "a": 0.725,
+              "b": 0.7375
+            },
+            "g": {
+              "wr": 0.41374999999999995,
+              "a": 0.4075,
+              "b": 0.42
+            },
+            "c60": {
+              "wr": 0.37875000000000003,
+              "a": 0.39,
+              "b": 0.3675
+            },
+            "m": {
+              "wr": 0.17125,
+              "a": 0.16,
+              "b": 0.1825
+            },
+            "starmie": {
+              "wr": 0.20750000000000002,
+              "a": 0.195,
+              "b": 0.22
+            },
+            "lucario": {
+              "wr": 0.7887500000000001,
+              "a": 0.775,
+              "b": 0.8025
+            },
+            "thorns": {
+              "wr": 0.91875,
+              "a": 0.895,
+              "b": 0.9425
+            },
+            "h": {
+              "wr": 0.5462499999999999,
+              "a": 0.5275,
+              "b": 0.565
+            },
+            "g30": {
+              "wr": 0.9650000000000001,
+              "a": 0.9625,
+              "b": 0.9675
+            }
+          }
+        },
+        {
+          "label": "Victini",
+          "cut": "Victini",
+          "copies": 2,
+          "copies_before": 1,
+          "counts": {
+            "Pichu": 1,
+            "Mime Jr.": 1,
+            "Cleffa": 1,
+            "Wiglett": 4,
+            "Wugtrio": 4,
+            "Slumbering Forest": 1,
+            "Neutralization Zone": 1,
+            "Buddy-Buddy Poffin": 4,
+            "Level Ball": 4,
+            "Rescue Carrier": 3,
+            "Lillie's Pok\u00e9 Doll": 1,
+            "Crushing Hammer": 4,
+            "Counter Catcher": 2,
+            "Miss Fortune Sisters": 2,
+            "Wally": 3,
+            "Boss's Orders": 1,
+            "Team Rocket's Handiwork": 2,
+            "Colress's Tenacity": 4,
+            "Double Turbo Energy": 4,
+            "Water Energy": 3,
+            "Ignition Energy": 4,
+            "Reversal Energy": 4,
+            "Igglybuff": 2
+          },
+          "weighted": 0.41390515515515514,
+          "se": 0.004722385599439396,
+          "mean": 0.5688461538461538,
+          "worst": 0.08625,
+          "sleepy_flip": 2.3491028528528526,
+          "sleepy_heads": 1.1757732732732733,
+          "plays": 1.4080905905905905,
+          "progress": 13.406143643643643,
+          "cells": {
+            "t60": {
+              "wr": 0.7537499999999999,
+              "a": 0.7625,
+              "b": 0.745
+            },
+            "hedrick": {
+              "wr": 0.62375,
+              "a": 0.6525,
+              "b": 0.595
+            },
+            "unl": {
+              "wr": 0.8574999999999999,
+              "a": 0.855,
+              "b": 0.86
+            },
+            "d60": {
+              "wr": 0.08625,
+              "a": 0.0775,
+              "b": 0.095
+            },
+            "s60": {
+              "wr": 0.6975,
+              "a": 0.675,
+              "b": 0.72
+            },
+            "g": {
+              "wr": 0.36875,
+              "a": 0.375,
+              "b": 0.3625
+            },
+            "c60": {
+              "wr": 0.36875,
+              "a": 0.365,
+              "b": 0.3725
+            },
+            "m": {
+              "wr": 0.18,
+              "a": 0.17,
+              "b": 0.19
+            },
+            "starmie": {
+              "wr": 0.29874999999999996,
+              "a": 0.2825,
+              "b": 0.315
+            },
+            "lucario": {
+              "wr": 0.82125,
+              "a": 0.8275,
+              "b": 0.815
+            },
+            "thorns": {
+              "wr": 0.9225000000000001,
+              "a": 0.92,
+              "b": 0.925
+            },
+            "h": {
+              "wr": 0.4525,
+              "a": 0.4525,
+              "b": 0.4525
+            },
+            "g30": {
+              "wr": 0.96375,
+              "a": 0.97,
+              "b": 0.9575
+            }
+          }
+        }
+      ],
+      "kept": null
+    }
+  ]
+}

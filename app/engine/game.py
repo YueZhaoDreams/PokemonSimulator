@@ -488,6 +488,13 @@ class Game:
                 return True
         return False
 
+    def _sleepy_voice_card(self, card) -> bool:
+        """Sleepy Voice. The sentence does not say the Active Spot."""
+        for abi in card.abilities or []:
+            if any(eff.get("kind") == "sleepy_voice" for eff in parse_ability_effects(abi.text or "")):
+                return True
+        return False
+
     def _prints_eeeeeeek(self, card) -> bool:
         """HeartGold & SoulSilver Cleffa: shuffle the hand in, draw 6, then Asleep."""
         return any(
@@ -595,6 +602,9 @@ class Game:
                 return copies < 1
             if name == "wiglett":
                 return True
+            if self._sleepy_voice_card(card):
+                # One sleeper. The ability is once a turn, from the Bench or the Active.
+                return copies < 1
 
         if strat.name == "celebration":
             caps = {
@@ -801,6 +811,8 @@ class Game:
                 return 2500
             if strat.name == "mill" and name == "victini":
                 return 900
+            if strat.name == "mill" and self._sleepy_voice_card(card):
+                return 500
             if strat.name == "mill" and name == "manaphy":
                 return 200
             if strat.name in {"mew_baby", "baby"}:
@@ -1294,6 +1306,8 @@ class Game:
                     return (2, 0)
                 if name == "wiglett":
                     return (3, 0)
+                if self._sleepy_voice_card(card):
+                    return (3, 1)
                 return (4, 0)
             if strat.name == "g":
                 rank = {
@@ -4714,6 +4728,8 @@ class Game:
                 prefer.insert(0, "Wugtrio")
             if "victini" not in names:
                 prefer.append("Victini")
+            if "igglybuff" not in names:
+                prefer.append("Igglybuff")
             tail = ["Wiglett", "Wugtrio", "Manaphy", "Victini"]
             if wall:
                 tail[2:2] = ["Pichu", "Mime Jr.", "Smoochum"]
@@ -7478,6 +7494,17 @@ class Game:
             me.card(i).name.lower() == "victini" for i in me.hand
         ):
             return 30
+        if self._sleepy_voice_card(card):
+            # After the first Wiglett and the wall. Ahead of a second Wiglett.
+            have = self._count_named_in_play(me, card.name) >= 1 or any(
+                self._sleepy_voice_card(me.card(i)) for i in me.hand
+            )
+            if have:
+                return 10
+            wiglett = any(me.card(mon.card_i).name.lower() == "wiglett" for mon in me.in_play()) or any(
+                me.card(i).name.lower() == "wiglett" for i in me.hand
+            )
+            return 50 if wiglett else 20
         return 10
 
     def _mill_line_idx(self, me: Player) -> int | None:
@@ -7844,6 +7871,45 @@ class Game:
         have_face = any(self._sweet_face(me.card(mon.card_i)) for mon in me.in_play())
         return have_line and (have_face or not self._mill_wall_match(me))
 
+    def _payable_attack(self, me: Player, mon: Pokemon, foe: Player, kind: str) -> bool:
+        card = me.card(mon.card_i)
+        for atk in card.attacks:
+            if not any(effect.get("kind") == kind for effect in atk.effects):
+                continue
+            if can_pay_energy(self._energy_pool(me, mon), self._attack_cost(me, mon, atk, foe)):
+                return True
+        return False
+
+    def _mill_plan_attack(self, me: Player, foe: Player) -> bool:
+        """Undersea, Sleepy Lost, a useful Eeeeeeek, and the first Playground.
+
+        Headbutt is not one of these. The coin can replace a turn that would
+        only chip. A later Playground only refills the opponent's Bench.
+        """
+        if not me.active or not self._mill_can_attack_turn(me):
+            return False
+        if me.active.status & (ST_ASLEEP | ST_PARALYZED):
+            return False
+        card = me.card(me.active.card_i)
+        who = "a" if me.name == "A" else "b"
+        if self._payable_attack(me, me.active, foe, "coin_mill_opponent"):
+            return True
+        if self._payable_attack(me, me.active, foe, "topdeck_lost_zone"):
+            return True
+        if self._prints_eeeeeeek(card) and self._mill_wants_eeeeeeek(me):
+            if self._payable_attack(me, me.active, foe, "shuffle_hand_then_draw"):
+                return True
+        if (
+            self._prints_playground(card)
+            and self.events.get(f"used_playground_{who}", 0) == 0
+            and self._payable_attack(me, me.active, foe, "playground")
+        ):
+            return True
+        return False
+
+    def _mill_wants_sleepy_voice(self, me: Player, foe: Player) -> bool:
+        return doll_ai.benefit_sleepy_voice(self, me, foe, self._mill_plan_attack(me, foe))
+
     def _mill_wants_eeeeeeek(self, me: Player) -> bool:
         """Shuffle-draw when this hand cannot evolve or attach for Undersea."""
         if not me.deck:
@@ -8178,15 +8244,25 @@ class Game:
                 for eff in self._ability_effects(abi):
                     if eff.get("kind") != "sleepy_voice":
                         continue
-                    if self.strats[who].name == "doll":
+                    strat_name = self.strats[who].name
+                    if strat_name == "doll":
                         if not doll_ai.wants_sleepy_voice(self, me, foe):
+                            return False
+                    elif strat_name == "mill":
+                        if not self._mill_wants_sleepy_voice(me, foe):
+                            return False
+                    elif strat_name == "roast":
+                        if not self._roast_wants_sleepy_voice(me, foe, who):
                             return False
                     elif foe.active is None or (foe.active.status & ST_ASLEEP):
                         return False
                     heads = self.rng.random() < 0.5
                     mon.ability_used = True
                     self.turn_ended_by_ability = True
-                    if self.strats[who].name == "doll":
+                    self._bump("sleepy_flip")
+                    if heads:
+                        self._bump("sleepy_heads")
+                    if strat_name == "doll":
                         self._bump("doll_sleepy_flip")
                         if heads:
                             self._bump("doll_sleepy_heads")
@@ -18659,6 +18735,13 @@ class Game:
         )
         if not pichu_ready and "pichu" in deck:
             return True
+        if (
+            self._roast_lines(me) >= 3
+            and "igglybuff" in deck
+            and not any(self._sleepy_voice_card(me.card(mon.card_i)) for mon in me.in_play())
+            and not any(self._sleepy_voice_card(me.card(i)) for i in me.hand)
+        ):
+            return True
         return not self._roast_wall_present(me) and bool({"cleffa", "pichu"} & deck)
 
     def _roast_keeps(self, me: Player, who: str, card: Card) -> bool:
@@ -18705,6 +18788,32 @@ class Game:
             return mon is None or not self._roast_can_devolve(me, mon)
         return False
 
+    def _roast_plan_attack(self, me: Player, foe: Player, who: str) -> bool:
+        """Time Distortion, Kindling Panic, a wanted Playground, and a wanted Eeeeeeek.
+
+        Leech Seed is not the mill. Mountain Roasting already happened when
+        Chandelure was played from the hand, before this check.
+        """
+        if not me.active or not self._roast_can_attack_turn(me):
+            return False
+        if me.active.status & (ST_ASLEEP | ST_PARALYZED):
+            return False
+        card = me.card(me.active.card_i)
+        if (
+            "celebi" in card.name.lower()
+            and self._roast_benched_chandelure(me)
+            and self._roast_can_devolve(me, me.active)
+        ):
+            return True
+        if self._prints_playground(card) and self._roast_wants_playground(me, who):
+            return True
+        if self._prints_eeeeeeek(card) and self._roast_wants_eeek(me, who):
+            return True
+        return self._payable_attack(me, me.active, foe, "mill_opponent")
+
+    def _roast_wants_sleepy_voice(self, me: Player, foe: Player, who: str) -> bool:
+        return doll_ai.benefit_sleepy_voice(self, me, foe, self._roast_plan_attack(me, foe, who))
+
     def _roast_wants_eeek(self, me: Player, who: str) -> bool:
         if not self._roast_can_attack_turn(me) or not me.deck or not self._roast_cleffa_can_attack(me):
             return False
@@ -18743,6 +18852,7 @@ class Game:
                 self._prints_eeeeeeek,
                 lambda c: c.name.lower() == "litwick",
                 lambda c: c.is_pokemon and "celebi" in c.name.lower(),
+                self._sleepy_voice_card,
             ):
                 card_i = self._roast_take(me, pred)
                 if card_i is not None and self._roast_play_basic(me, card_i):
@@ -18752,6 +18862,21 @@ class Game:
                 card_i = self._roast_take(me, pred)
                 if card_i is not None and self._roast_play_basic(me, card_i):
                     break
+        while self._roast_lines(me) < 3 and self._roast_open_slots(me) > 0:
+            litwick = self._roast_take(me, lambda c: c.name.lower() == "litwick")
+            if litwick is None or not self._roast_play_basic(me, litwick):
+                break
+        # The fourth line waits. One sleeper takes that slot once three lines are out,
+        # or once no Litwick remains in hand. Celebi ◇ still has its reserved spot.
+        litwick_left = self._roast_take(me, lambda c: c.name.lower() == "litwick") is not None
+        if (
+            not any(self._sleepy_voice_card(me.card(mon.card_i)) for mon in me.in_play())
+            and self._roast_open_slots(me) > 0
+            and (self._roast_lines(me) >= 3 or not litwick_left)
+        ):
+            sleeper = self._roast_take(me, self._sleepy_voice_card)
+            if sleeper is not None:
+                self._roast_play_basic(me, sleeper)
         while self._roast_lines(me) < 4 and self._roast_open_slots(me) > 0:
             litwick = self._roast_take(me, lambda c: c.name.lower() == "litwick")
             if litwick is None or not self._roast_play_basic(me, litwick):
@@ -19453,6 +19578,14 @@ class Game:
             return 80.0
         if name == "litwick" and self._roast_lines(me) < 4:
             return 60.0
+        if self._sleepy_voice_card(card):
+            # Once three lines are out, the sleeper comes ahead of a fourth Litwick.
+            have = any(self._sleepy_voice_card(me.card(mon.card_i)) for mon in me.in_play()) or any(
+                self._sleepy_voice_card(me.card(i)) for i in me.hand
+            )
+            if have or self._roast_lines(me) < 3:
+                return -1.0
+            return 70.0
         return -1.0
 
     def _roast_switch_idx(self, me: Player) -> int | None:
@@ -19505,6 +19638,10 @@ class Game:
         if self._roast_lampent_after_this_turn(me, who) >= 3 and "celebi ◇" not in hand and not celebi_out:
             prefer.append("Celebi ◇")
         prefer.extend(["Cleffa", "Pichu", "Litwick", "Lampent", "Chandelure"])
+        if "igglybuff" not in hand and not any(
+            self._sleepy_voice_card(me.card(mon.card_i)) for mon in me.in_play()
+        ):
+            prefer.append("Igglybuff")
         return list(dict.fromkeys(prefer))
 
     def _roast_arven(self, me: Player) -> None:

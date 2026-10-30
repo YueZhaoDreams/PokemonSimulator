@@ -298,6 +298,8 @@ EXTRA_PRINT_IDS: dict[str, tuple[str, ...]] = {
     "Mime Jr.": ("sv04.5-031", "col1-47"),
     # Obsidian Flames Grasping Draw stays the default. HeartGold & SoulSilver is Doll's Eeeeeeek.
     "Cleffa": ("sv03-080", "hgss1-17"),
+    # 30th Celebration Bouncy Circle stays the default. Cosmic Eclipse is Mill's Sleepy Voice.
+    "Igglybuff": ("30th-120", "sm12-168"),
 }
 
 # Household prints that are not TCGdex ids. CLC 014 reprints Jungle Clefable
