@@ -2453,6 +2453,8 @@ class Game:
 
     def _energy_switch_helps(self, me: Player) -> bool:
         who = "a" if me.name == "A" else "b"
+        if self.strats[who].name == "party" and self._facing_mew(me):
+            return self._party_vs_mew_switch_pair(me) is not None
         if self.strats[who].name == "party":
             mewtwo = self._mewtwo_mon(me)
             if mewtwo is not None and not self._mewtwo_can_pay_photon(me, mewtwo):
@@ -5397,6 +5399,15 @@ class Game:
 
     def _energy_switch(self, me: Player) -> None:
         who = "a" if me.name == "A" else "b"
+        if self.strats[who].name == "party" and self._facing_mew(me):
+            pair = self._party_vs_mew_switch_pair(me)
+            if pair is None:
+                return
+            donor, target, energy_i = pair
+            donor.energy.remove(energy_i)
+            target.energy.append(energy_i)
+            self._log(f"{me.name} Energy Switch onto {me.card(target.card_i).name}")
+            return
         if self.strats[who].name == "party":
             mewtwo = self._mewtwo_mon(me)
             if mewtwo is not None and not self._mewtwo_can_pay_photon(me, mewtwo):
@@ -5919,6 +5930,8 @@ class Game:
                 return self._storm_energy_target(me)
             if self._facing_aura(me):
                 return self._party_vs_aura_energy_target(me)
+            if self._facing_mew(me):
+                return self._party_vs_mew_energy_target(me, foe)
             if self._seeker_moons_wants_attach(me, foe):
                 mega = self._mega_mon(me)
                 if mega is not None:
@@ -8848,8 +8861,8 @@ class Game:
                 score += 1000
             elif strat.name == "party" and "mewtwo" in card.name.lower() and effective > 0:
                 # Acerola resets a non-KO. Wait for 260+ unless Transfer Charge is setting up.
-                # Vs Dragapult there is no Acerola: Photon chip after Party instead of passing.
-                if self._facing_phantom(me):
+                # Vs Dragapult and Mew there is no Acerola: Photon chip instead of passing.
+                if self._facing_phantom(me) or self._facing_mew(me):
                     score += 80
                 elif any(e.get("kind") == "transfer_charge" for e in atk.effects):
                     score += 80
@@ -9129,6 +9142,7 @@ class Game:
                 and not setup
                 and "mewtwo" in card.name.lower()
                 and not self._facing_phantom(me)
+                and not self._facing_mew(me)
             ):
                 return None
             if (
@@ -9370,6 +9384,8 @@ class Game:
                 if name == "spinarak":
                     return 5
                 return 9
+            if strat.name == "party" and self._facing_mew(player):
+                return self._party_vs_mew_promote_rank(player, foe, mon)
             if strat.name == "party" and storm:
                 if self._is_clefairy(player.card(mon.card_i)):
                     if self._can_pay_wonder_storm(player, mon):
@@ -12304,6 +12320,544 @@ class Game:
         foe = self.players["b" if me.name == "A" else "a"]
         return any(card.name.lower() == "mega lucario ex" for card in foe.cards)
 
+    def _facing_mew(self, me: Player) -> bool:
+        """Mew ex copies Bouncy Circle. A 60 HP Clefairy is one prize once that hit connects."""
+        return self._foe_strat_name(me) in {"mew_baby", "baby"}
+
+    def _remaining_hp(self, owner: Player, mon: Pokemon) -> int:
+        return self._max_hp(owner, mon) - mon.damage
+
+    def _mew_hit(self, attacker: Player, defender: Player, victim: Pokemon | None = None) -> int:
+        """Damage Mew can deal to the opponent's Active on the coming attack.
+
+        Memory Helix uses a Benched attack and still pays that attack's cost.
+        The per-Pokémon damage and the HP it counts are the printed Bouncy
+        Circle sentence. Basics already in hand, and Basics a search in hand
+        can put on the Bench, are included. A promotion has no Active yet:
+        `victim` (or the first Benched Pokémon) stands in so the hit is real.
+        """
+        restore = self._borrow_defender_active(defender, victim)
+        if restore is False:
+            return 0
+        try:
+            current = self._payable_active_damage(attacker, defender)
+            projected = self._mew_projected_circle(attacker, defender)
+            return max(current, projected)
+        finally:
+            if restore:
+                restore()
+
+    def _borrow_defender_active(self, defender: Player, victim: Pokemon | None):
+        """Stand a Benched Pokémon in the Active Spot. The returned callable restores it."""
+        if defender.active is not None:
+            return None
+        mon = victim if victim is not None else (defender.bench[0] if defender.bench else None)
+        if mon is None or mon not in defender.bench:
+            return False
+        idx = defender.bench.index(mon)
+        defender.bench.pop(idx)
+        defender.active = mon
+
+        def restore() -> None:
+            defender.active = None
+            defender.bench.insert(idx, mon)
+
+        return restore
+
+    def _payable_active_damage(self, attacker: Player, defender: Player) -> int:
+        if not attacker.active or not defender.active:
+            return 0
+        best = 0
+        for atk in self._attacks_for(attacker, attacker.active):
+            if any(e.get("kind") in {"coin_times", "coin_damage_bonus"} for e in (atk.effects or [])):
+                continue
+            cost = self._attack_cost(attacker, attacker.active, atk, defender)
+            if not can_pay_energy(self._energy_pool(attacker, attacker.active), cost):
+                continue
+            best = max(best, self._raw_attack_damage(attacker, defender, attacker.active, atk))
+        return best
+
+    def _card_circle_spec(self, card: Card) -> tuple[int, int] | None:
+        """Printed Bouncy Circle: damage per counted Pokémon, and the HP it counts."""
+        for atk in card.attacks:
+            for eff in atk.effects or []:
+                if eff.get("kind") != "benched_30hp_pokemon_times" or eff.get("per") is None:
+                    continue
+                hp_m = re.search(r"maximum hp of (\d+)", (atk.text or "").lower())
+                if not hp_m:
+                    continue
+                return int(eff["per"]), int(hp_m.group(1))
+        return None
+
+    def _attacker_circle_spec(self, attacker: Player) -> tuple[int, int] | None:
+        cards = [attacker.card(mon.card_i) for mon in attacker.in_play()]
+        cards.extend(attacker.card(i) for i in attacker.hand)
+        cards.extend(attacker.card(i) for i in attacker.deck)
+        for card in cards:
+            spec = self._card_circle_spec(card)
+            if spec is not None:
+                return spec
+        return None
+
+    def _placed_ids(self, player: Player) -> set[int]:
+        placed = {mon.card_i for mon in player.in_play()}
+        placed.update(player.hand)
+        placed.update(player.discard)
+        placed.update(player.prizes)
+        return placed
+
+    def _mew_can_reach_active(self, attacker: Player) -> bool:
+        mews = [mon for mon in attacker.in_play() if attacker.card(mon.card_i).name.lower() == "mew ex"]
+        if not mews:
+            return False
+        if attacker.active is None or any(mon is attacker.active for mon in mews):
+            return True
+        switches = {"switch", "switch cart", "escape rope", "surfer"}
+        if any(attacker.card(i).name.lower() in switches for i in attacker.hand):
+            return True
+        return len(attacker.active.energy) >= self._retreat_cost(attacker, attacker.active)
+
+    def _projected_baby_slots(self, attacker: Player, extra_card: Card | None = None) -> int:
+        """Open Bench spots for 30 HP Basics, including a Stadium that raises it.
+
+        The Stadium can already be in hand, or be the Trainer a search in hand
+        would take from the deck and play before the attack.
+        """
+        open_now = max(0, self._non_shield_bench_cap(attacker) - len(attacker.bench))
+        extra = 0
+        cards = [attacker.card(card_i) for card_i in attacker.hand]
+        if extra_card is not None:
+            cards.append(extra_card)
+        for card in cards:
+            if (card.trainer_kind or "").lower() != "stadium":
+                continue
+            extra = max(extra, self._mew_bench_raise_gain(attacker, card))
+        return open_now + extra
+
+    def _hand_babies(self, attacker: Player, hp: int) -> int:
+        return sum(
+            1
+            for card_i in attacker.hand
+            if attacker.card(card_i).is_basic and (attacker.card(card_i).hp or 0) == hp
+        )
+
+    def _item_bench_fetch(self, card: Card, hp: int, hand_size: int) -> tuple[int, int]:
+        """Printed Item: how many Basics it can bench, and how many cards that discard spends."""
+        if not card.is_item:
+            return 0, 0
+        text = (card.text or "").lower().replace("pokémon", "pokemon")
+        if "onto your bench" in text and "basic" in text:
+            hp_m = re.search(r"(\d+) hp or less", text)
+            if hp_m and hp > int(hp_m.group(1)):
+                return 0, 0
+            count_m = re.search(r"up to (\d+)", text)
+            return (int(count_m.group(1)) if count_m else 1), 0
+        if "into your hand" in text and "search your deck for a pokemon" in text:
+            discard_m = re.search(r"discard (\d+) other cards", text)
+            need = int(discard_m.group(1)) if discard_m else 0
+            if hand_size < need + 1:
+                return 0, 0
+            return 1, need
+        return 0, 0
+
+    def _fetchable_babies(self, attacker: Player, hp: int, extra_card: Card | None = None) -> int:
+        """Basics a search in hand can put on the Bench. Counts come from the printed sentence."""
+        if attacker.pending_item_lock:
+            return 0
+        placed = self._placed_ids(attacker)
+        deck_babies = sum(
+            1
+            for card_i in attacker.deck
+            if card_i not in placed
+            and attacker.card(card_i).is_basic
+            and (attacker.card(card_i).hp or 0) == hp
+        )
+        if deck_babies <= 0:
+            return 0
+        fetch = 0
+        hand_size = len(attacker.hand)
+        cards = [attacker.card(card_i) for card_i in attacker.hand]
+        if extra_card is not None:
+            cards.append(extra_card)
+        for card in cards:
+            count, spent = self._item_bench_fetch(card, hp, hand_size)
+            if count <= 0:
+                continue
+            fetch += count
+            hand_size -= spent
+        return min(deck_babies, fetch)
+
+    def _trainer_search_card(self, attacker: Player, defender: Player) -> Card | None:
+        """Trainer a 'search your deck for a Trainer' card in hand would take and play."""
+        if attacker.supporter_used or getattr(self, "_in_petrel_project", False):
+            return None
+        if not any(
+            e.get("kind") == "search_trainer"
+            for card_i in attacker.hand
+            for e in parse_trainer_effects(attacker.card(card_i).text or "")
+        ):
+            return None
+        self._in_petrel_project = True
+        try:
+            collapse = self._mew_petrel_collapse(attacker, defender)
+        finally:
+            self._in_petrel_project = False
+        if collapse is None:
+            return None
+        want = collapse[1]
+        placed = self._placed_ids(attacker)
+        for card_i in attacker.deck:
+            if card_i in placed:
+                continue
+            card = attacker.card(card_i)
+            if card.name.lower() == want:
+                return card
+        return None
+
+    def _circle_source_available(self, attacker: Player, slots: int) -> bool:
+        def is_source(card: Card) -> bool:
+            return self._card_circle_spec(card) is not None
+
+        if any(is_source(attacker.card(mon.card_i)) for mon in attacker.in_play()):
+            return True
+        if slots <= 0:
+            return False
+        if any(is_source(attacker.card(i)) for i in attacker.hand):
+            return True
+        if attacker.pending_item_lock:
+            return False
+        placed = self._placed_ids(attacker)
+        in_deck = any(is_source(attacker.card(i)) for i in attacker.deck if i not in placed)
+        return in_deck and self._fetchable_babies(attacker, self._attacker_circle_spec(attacker)[1]) > 0
+
+    def _mew_projected_circle(self, attacker: Player, defender: Player) -> int:
+        """Bouncy Circle after the Basics they can bench before the attack."""
+        spec = self._attacker_circle_spec(attacker)
+        if spec is None or not defender.active:
+            return 0
+        per, hp = spec
+        active_has = attacker.active is not None and self._card_circle_spec(attacker.card(attacker.active.card_i))
+        mew_ready = self._mew_can_reach_active(attacker)
+        if not mew_ready and not active_has:
+            return 0
+        found = self._trainer_search_card(attacker, defender)
+        slots = self._projected_baby_slots(attacker, found)
+        if not self._circle_source_available(attacker, slots):
+            return 0
+        added = min(slots, self._hand_babies(attacker, hp) + self._fetchable_babies(attacker, hp, found))
+        current = sum(1 for mon in attacker.bench if (attacker.card(mon.card_i).hp or 0) == hp)
+        joining = 0
+        if (
+            mew_ready
+            and attacker.active is not None
+            and attacker.card(attacker.active.card_i).name.lower() != "mew ex"
+            and (attacker.card(attacker.active.card_i).hp or 0) == hp
+            and any(attacker.card(mon.card_i).name.lower() == "mew ex" for mon in attacker.bench)
+        ):
+            joining = 1
+        total = current + joining + added
+        if total <= 0:
+            return 0
+        attacker_card = attacker.card(attacker.active.card_i) if attacker.active is not None else None
+        if mew_ready:
+            mew = next(
+                (mon for mon in attacker.in_play() if attacker.card(mon.card_i).name.lower() == "mew ex"),
+                None,
+            )
+            if mew is not None:
+                attacker_card = attacker.card(mew.card_i)
+        if attacker_card is None:
+            return per * total
+        dmg = per * total
+        dmg *= weakness_multiplier(
+            self._defender_weaknesses(attacker, defender, defender.card(defender.active.card_i)),
+            attacker_card.types,
+        )
+        defender_card = defender.card(defender.active.card_i)
+        return max(0, dmg - resistance_reduce(defender_card.resistances, attacker_card.types))
+
+    def _party_vs_mew_promote_rank(self, me: Player, foe: Player, mon: Pokemon) -> float:
+        """A Knock Out this turn comes up. Otherwise a Pokémon that survives, else fewer prizes.
+
+        Promotion happens before this player's attack, so Photon or Wondrous Moon
+        still goes through before Bouncy Circle hits back.
+        """
+        card = me.card(mon.card_i)
+        name = card.name.lower()
+        hit = self._mew_hit(foe, me, mon)
+        left = self._remaining_hp(me, mon)
+        dies = hit > 0 and left <= hit
+        photon_ko = bool(self._is_mewtwo(card) and foe.active and self._mewtwo_photon_kos(me, foe, mon))
+        moon_ko = bool(name == "clefable ex" and foe.active and self._moon_ko(me, foe, mon))
+        if photon_ko:
+            return 2 if dies else 0
+        if moon_ko:
+            return 2 if dies else 1
+        if dies:
+            return 10 + self._prizes_for_ko(card)
+        if "mewtwo" in name:
+            return 3 - min(len(mon.energy), 4) * 0.1
+        if name == "clefable ex":
+            return 4
+        if "mega clefable" in name:
+            return 5
+        if self._is_ex(card):
+            return 6
+        if self._is_clefairy(card):
+            return 8
+        return 9
+
+    def _mew_ko_rank(self, me: Player, foe: Player, mon: Pokemon) -> int:
+        card = me.card(mon.card_i)
+        if self._is_mewtwo(card) and self._mewtwo_photon_kos(me, foe, mon):
+            return 3
+        if self._is_clefable_ex(card) and self._moon_ko(me, foe, mon):
+            return 3
+        if "mega clefable" in card.name.lower() and self._shooting_moons_ko(me, foe, mon):
+            return 2
+        return 0
+
+    def _best_mew_active(self, me: Player, foe: Player) -> Pokemon | None:
+        """Clefairy while Bouncy Circle cannot Knock it Out. Otherwise an ex that survives.
+
+        A Knock Out this turn outranks both. If every body would be Knocked Out,
+        the 1-prize Clefairy stays so the ex is not the prize.
+        """
+        if not me.in_play():
+            return None
+        hit = self._mew_hit(foe, me)
+
+        def score(mon: Pokemon) -> tuple:
+            card = me.card(mon.card_i)
+            left = self._remaining_hp(me, mon)
+            survives = 1 if hit <= 0 or left > hit else 0
+            party = 1 if survives and self._is_clefairy(card) else 0
+            prizes = self._prizes_for_ko(card)
+            # Moon moves the Energy onto the Mewtwo that comes up, so it swings
+            # even when the foe survives. Latias ex tanks only when the closers would be Knocked Out.
+            threatened = hit > 0 and any(self._remaining_hp(me, other) <= hit for other in me.in_play())
+            moon_pivot = (
+                1
+                if threatened and self._is_clefable_ex(card) and self._can_pay_wondrous_moon(me, mon)
+                else 0
+            )
+            name = card.name.lower()
+            if not survives:
+                closer = 0
+            elif self._is_mewtwo(card):
+                closer = 4
+            elif name == "clefable ex":
+                closer = 3
+            elif "mega clefable" in name:
+                closer = 2
+            elif self._is_ex(card):
+                closer = 1
+            else:
+                closer = 0
+            return (
+                self._mew_ko_rank(me, foe, mon),
+                moon_pivot,
+                party,
+                survives,
+                closer,
+                left if survives else -prizes,
+                len(mon.energy),
+            )
+
+        return max(me.in_play(), key=score)
+
+    def _mew_energy_home(self, me: Player, avoid: Pokemon | None) -> Pokemon | None:
+        """Where Psychic Energy goes so a Knock Out does not discard it."""
+        mewtwos = [mon for mon in self._mewtwo_mons(me) if mon is not avoid]
+        if mewtwos:
+            return max(mewtwos, key=lambda mon: (len(mon.energy), self._remaining_hp(me, mon)))
+        others = [
+            mon
+            for mon in me.in_play()
+            if mon is not avoid
+            and (
+                self._is_clefable_ex(me.card(mon.card_i))
+                or "mega clefable" in me.card(mon.card_i).name.lower()
+            )
+        ]
+        if others:
+            return max(others, key=lambda mon: self._remaining_hp(me, mon))
+        rest = [mon for mon in me.in_play() if mon is not avoid]
+        return rest[0] if rest else None
+
+    def _psychic_short(self, me: Player, mon: Pokemon, atk) -> int:
+        """How many attached Psychic cards this attack's printed cost is still short."""
+        if atk is None or can_pay_energy(self._energy_pool(me, mon), atk.cost):
+            return 0
+        return max(0, len(atk.cost) - self._psychic_on(me, mon))
+
+    def _party_vs_mew_switch_pair(self, me: Player) -> tuple[Pokemon, Pokemon, int] | None:
+        """One Basic Psychic: finish Wondrous Moon, otherwise Photon. Do not strip Clefable ex."""
+        moon_target = None
+        for mon in me.in_play():
+            if not self._is_clefable_ex(me.card(mon.card_i)):
+                continue
+            if self._psychic_short(me, mon, self._wondrous_moon_attack(me.card(mon.card_i))) == 1:
+                moon_target = mon
+                break
+        target = moon_target
+        if target is None:
+            unpaid = [mon for mon in self._mewtwo_mons(me) if not self._mewtwo_can_pay_photon(me, mon)]
+            if unpaid:
+                target = max(unpaid, key=lambda mon: len(mon.energy))
+        if target is None:
+            return None
+
+        def donor_key(mon: Pokemon) -> tuple:
+            card = me.card(mon.card_i)
+            return (0 if self._is_clefairy(card) else 1, -len(mon.energy))
+
+        donors = []
+        for mon in me.in_play():
+            if mon is target or self._is_clefable_ex(me.card(mon.card_i)):
+                continue
+            fuels = [
+                i
+                for i in mon.energy
+                if self._is_psychic_energy_card(me.card(i))
+                and is_basic_energy(me.card(i), pokemon_as_energy=self.rules.pokemon_as_energy)
+            ]
+            if fuels:
+                donors.append((mon, fuels[0]))
+        if not donors:
+            return None
+        donors.sort(key=lambda row: donor_key(row[0]))
+        donor, energy_i = donors[0]
+        return donor, target, energy_i
+
+    def _party_vs_mew_energy_target(self, me: Player, foe: Player) -> Pokemon:
+        """Feed Clefable ex until Wondrous Moon is payable. That attack moves the Energy to Mewtwo."""
+        assert me.active
+        hit = self._mew_hit(foe, me)
+        hungry = [
+            mon
+            for mon in me.in_play()
+            if self._is_clefable_ex(me.card(mon.card_i)) and not self._can_pay_wondrous_moon(me, mon)
+        ]
+        this_turn = [
+            mon
+            for mon in hungry
+            if self._psychic_short(me, mon, self._wondrous_moon_attack(me.card(mon.card_i))) <= 1
+        ]
+        safe = [mon for mon in hungry if hit <= 0 or self._remaining_hp(me, mon) > hit]
+        if this_turn:
+            return max(this_turn, key=lambda mon: self._psychic_on(me, mon))
+        if safe:
+            return max(safe, key=lambda mon: self._psychic_on(me, mon))
+        end = self._best_mew_active(me, foe) or me.active
+        card = me.card(end.card_i)
+        if self._is_mewtwo(card) and not self._mewtwo_can_pay_photon(me, end):
+            return end
+        if "mega clefable" in card.name.lower() and not self._can_pay_shooting_moons(me, end):
+            return end
+        unpaid = [mon for mon in self._mewtwo_mons(me) if not self._mewtwo_can_pay_photon(me, mon)]
+        if unpaid:
+            return max(unpaid, key=lambda mon: len(mon.energy))
+        if hit > 0 and self._remaining_hp(me, end) <= hit:
+            home = self._mew_energy_home(me, end)
+            if home is not None:
+                return home
+        return end
+
+    def _evolve_party_vs_mew(self, me: Player, foe: Player, who: str) -> None:
+        """Clefable ex replaces a Clefairy that Bouncy Circle would Knock Out.
+
+        The evolution's printed HP has to survive that hit. Damage counters
+        already on the Clefairy stay. A later Mega does the same when no
+        Clefable ex is in hand.
+        """
+        hit = self._mew_hit(foe, me)
+        if hit <= 0:
+            return
+
+        def evo_index(name: str) -> int | None:
+            for card_i in me.hand:
+                if me.card(card_i).name.lower() == name.lower():
+                    return card_i
+            return None
+
+        def threatened(mon: Pokemon) -> bool:
+            return self._is_clefairy(me.card(mon.card_i)) and self._remaining_hp(me, mon) <= hit
+
+        def survives_as(mon: Pokemon, evo: Card) -> bool:
+            return (evo.hp or 0) - mon.damage > hit
+
+        while True:
+            evo_i = evo_index("Clefable ex")
+            if evo_i is None:
+                break
+            evo = me.card(evo_i)
+            candidates = [
+                mon
+                for mon in me.in_play()
+                if threatened(mon) and self._can_evolve_now(me, who, mon, evo) and survives_as(mon, evo)
+            ]
+            if not candidates:
+                break
+            candidates.sort(key=lambda mon: (0 if mon is me.active else 1, -len(mon.energy)))
+            self._do_evolve(me, candidates[0], evo_i)
+            self._bump("mew_evolve_ex")
+        evo_i = evo_index("Mega Clefable ex")
+        if evo_i is None or self._mega_mon(me) is not None:
+            return
+        evo = me.card(evo_i)
+        candidates = [
+            mon
+            for mon in me.in_play()
+            if threatened(mon) and self._can_evolve_now(me, who, mon, evo) and survives_as(mon, evo)
+        ]
+        if not candidates:
+            return
+        candidates.sort(key=lambda mon: (0 if mon is me.active else 1, -len(mon.energy)))
+        self._do_evolve(me, candidates[0], evo_i)
+        self._bump("mew_evolve_mega")
+
+    def _retreat_party_vs_mew(self, me: Player, foe: Player, who: str) -> None:
+        if self._photon_ko(me, foe):
+            killer = self._photon_killer(me, foe)
+            if killer is None or killer is me.active:
+                return
+            for idx, mon in enumerate(me.bench):
+                if mon is killer:
+                    self._swap_to_bench(me, who, idx, allow_paid=True)
+                    return
+            return
+        end = self._best_mew_active(me, foe)
+        if end is None or end is me.active:
+            return
+        for idx, mon in enumerate(me.bench):
+            if mon is end:
+                if self._swap_to_bench(me, who, idx, allow_paid=True):
+                    self._bump("mew_ex_switch")
+                return
+
+    def _move_psychic_to_home(self, me: Player, attacker: Pokemon) -> None:
+        """Wondrous Moon: the Pokémon that would be Knocked Out does not keep the Energy.
+
+        Printed: move any amount of Psychic Energy from your Pokémon to your
+        other Pokémon. The Mewtwo ex that comes up is the one that pays Photon.
+        """
+        dest = self._mew_energy_home(me, attacker)
+        if dest is None:
+            return
+        psychics = [i for i in list(attacker.energy) if self._is_psychic_energy_card(me.card(i))]
+        moved = 0
+        for card_i in psychics:
+            if card_i not in attacker.energy:
+                continue
+            attacker.energy.remove(card_i)
+            dest.energy.append(card_i)
+            moved += 1
+        if moved:
+            self._bump("wondrous_moon_move", moved)
+            self._bump("mew_moon_save", moved)
+            self._log(f"{me.card(attacker.card_i).name} moves {moved} Psychic Energy")
+
     def _party_swing_damage(self, me: Player, foe: Player, mon: Pokemon) -> int:
         """Best payable non-setup hit from this Pokémon (vs Dragapult: chip counts)."""
         if not foe.active:
@@ -12662,7 +13216,17 @@ class Game:
             evolve_fueled("Mega Clefable ex")
 
     def _move_psychic_energy(self, me: Player, attacker: Pokemon) -> None:
-        """Wondrous Moon: keep 3 Psychic on the cannon, dump surplus onto Mewtwo."""
+        """Wondrous Moon: keep 3 Psychic on the cannon, dump surplus onto Mewtwo.
+
+        Vs Mew, a Pokémon that would be Knocked Out gives its Psychic Energy to
+        the Mewtwo ex that comes up. The printed sentence allows any amount.
+        """
+        if self._facing_mew(me):
+            foe = self.players["b" if me.name == "A" else "a"]
+            hit = self._mew_hit(foe, me)
+            if hit > 0 and self._remaining_hp(me, attacker) <= hit:
+                self._move_psychic_to_home(me, attacker)
+                return
         dest = self._mewtwo_mon(me)
         if dest is None or dest is attacker:
             dest = self._mega_mon(me)
@@ -14253,7 +14817,7 @@ class Game:
 
     def _moonlight_pivot_hostile(self, me: Player, foe: Player) -> bool:
         """Ending the turn on 60 HP Clefairy is a prize. Keep a Switch to leave."""
-        if self._facing_phantom(me) or self._facing_slash(me):
+        if self._facing_phantom(me) or self._facing_slash(me) or self._facing_mew(me):
             return True
         return bool(self._ogerpon_threat(foe) and self._best_tank_idx(me) is not None)
 
@@ -14469,6 +15033,12 @@ class Game:
                 self._moon_watching_party(me, me.active)
             self._try_moonlight_party_pivot(me, foe, who)
             return False
+        if self._facing_mew(me):
+            # One Party, then the retreat stays for Clefable ex / Mewtwo ex.
+            # Rotating another 60 HP Clefairy spends that retreat.
+            if self._is_clefairy(me.card(me.active.card_i)) and not me.active.ability_used:
+                self._moon_watching_party(me, me.active)
+            return False
         for _ in range(6):
             if not me.active:
                 return False
@@ -14562,6 +15132,9 @@ class Game:
             # Leave the Clefairy that is about to Wonder Storm as a Basic.
             return
         if self.rules.first_turn_no_evolve and self._is_players_first_turn(who):
+            return
+        if self._facing_mew(me):
+            self._evolve_party_vs_mew(me, foe, who)
             return
         if self._facing_aura(me):
             self._evolve_party_vs_aura(me, who)
@@ -14811,6 +15384,9 @@ class Game:
 
     def _retreat_party(self, me: Player, foe: Player, who: str) -> None:
         if not me.active or not me.bench:
+            return
+        if self._facing_mew(me):
+            self._retreat_party_vs_mew(me, foe, who)
             return
         if self._want_storm_line(me, foe, who):
             self._retreat_party_storm(me, foe, who)
