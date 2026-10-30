@@ -1,0 +1,4859 @@
+{
+  "deck": "roast",
+  "policy": "benefit",
+  "seed": 20261029,
+  "games": 400,
+  "weights": {
+    "t60": 0.04004004004004004,
+    "hedrick": 0.051051051051051045,
+    "unl": 0.022022022022022022,
+    "d60": 0.14514514514514515,
+    "s60": 0.07007007007007007,
+    "g": 0.11711711711711713,
+    "c60": 0.12412412412412413,
+    "m": 0.14514514514514515,
+    "starmie": 0.1061061061061061,
+    "lucario": 0.051051051051051045,
+    "thorns": 0.041041041041041046,
+    "h": 0.07607607607607607,
+    "g30": 0.011011011011011011
+  },
+  "elapsed": 1852.2256182499696,
+  "method": "greedy one-card Igglybuff swap from the locked roast 60; every other card name is tried as the cut; a step is kept only when its Sisters-weighted win rate is higher than the list already kept",
+  "path": [
+    {
+      "label": "locked",
+      "cut": null,
+      "copies": 0,
+      "copies_before": null,
+      "counts": {
+        "Litwick": 4,
+        "Lampent": 4,
+        "Chandelure": 4,
+        "Celebi \u25c7": 1,
+        "Pichu": 3,
+        "Arven": 4,
+        "Team Rocket's Petrel": 3,
+        "Buddy-Buddy Poffin": 2,
+        "Energy Search": 3,
+        "Energy Retrieval": 1,
+        "Rescue Scarf": 4,
+        "Dawn": 4,
+        "Level Ball": 2,
+        "Broken Time-Space": 3,
+        "Fire Energy": 7,
+        "Hisuian Heavy Ball": 1,
+        "Evolution Incense": 3,
+        "Hyper Aroma": 1,
+        "Jacq": 2,
+        "Hop": 4
+      },
+      "weighted": 0.44802552552552555,
+      "se": 0.004710212949108126,
+      "mean": 0.5660576923076923,
+      "worst": 0.14750000000000002,
+      "sleepy_flip": 0.0,
+      "sleepy_heads": 0.0,
+      "plays": 0.42364239239239243,
+      "progress": 18.376511511511513,
+      "cells": {
+        "t60": {
+          "wr": 0.4075,
+          "a": 0.3875,
+          "b": 0.4275
+        },
+        "hedrick": {
+          "wr": 0.635,
+          "a": 0.625,
+          "b": 0.645
+        },
+        "unl": {
+          "wr": 0.6499999999999999,
+          "a": 0.6425,
+          "b": 0.6575
+        },
+        "d60": {
+          "wr": 0.17125,
+          "a": 0.185,
+          "b": 0.1575
+        },
+        "s60": {
+          "wr": 0.72375,
+          "a": 0.715,
+          "b": 0.7325
+        },
+        "g": {
+          "wr": 0.4875,
+          "a": 0.49,
+          "b": 0.485
+        },
+        "c60": {
+          "wr": 0.47250000000000003,
+          "a": 0.485,
+          "b": 0.46
+        },
+        "m": {
+          "wr": 0.16499999999999998,
+          "a": 0.1725,
+          "b": 0.1575
+        },
+        "starmie": {
+          "wr": 0.14750000000000002,
+          "a": 0.1375,
+          "b": 0.1575
+        },
+        "lucario": {
+          "wr": 0.7150000000000001,
+          "a": 0.7175,
+          "b": 0.7125
+        },
+        "thorns": {
+          "wr": 0.8899999999999999,
+          "a": 0.8975,
+          "b": 0.8825
+        },
+        "h": {
+          "wr": 0.925,
+          "a": 0.9175,
+          "b": 0.9325
+        },
+        "g30": {
+          "wr": 0.96875,
+          "a": 0.965,
+          "b": 0.9725
+        }
+      },
+      "list": [
+        "Litwick",
+        "Litwick",
+        "Litwick",
+        "Litwick",
+        "Lampent",
+        "Lampent",
+        "Lampent",
+        "Lampent",
+        "Chandelure",
+        "Chandelure",
+        "Chandelure",
+        "Chandelure",
+        "Celebi \u25c7",
+        "Pichu",
+        "Pichu",
+        "Pichu",
+        "Arven",
+        "Arven",
+        "Arven",
+        "Arven",
+        "Team Rocket's Petrel",
+        "Team Rocket's Petrel",
+        "Team Rocket's Petrel",
+        "Buddy-Buddy Poffin",
+        "Buddy-Buddy Poffin",
+        "Energy Search",
+        "Energy Search",
+        "Energy Search",
+        "Energy Retrieval",
+        "Rescue Scarf",
+        "Rescue Scarf",
+        "Rescue Scarf",
+        "Rescue Scarf",
+        "Dawn",
+        "Dawn",
+        "Dawn",
+        "Dawn",
+        "Level Ball",
+        "Level Ball",
+        "Broken Time-Space",
+        "Broken Time-Space",
+        "Broken Time-Space",
+        "Fire Energy",
+        "Fire Energy",
+        "Fire Energy",
+        "Fire Energy",
+        "Fire Energy",
+        "Fire Energy",
+        "Fire Energy",
+        "Hisuian Heavy Ball",
+        "Evolution Incense",
+        "Evolution Incense",
+        "Evolution Incense",
+        "Hyper Aroma",
+        "Jacq",
+        "Jacq",
+        "Hop",
+        "Hop",
+        "Hop",
+        "Hop"
+      ]
+    },
+    {
+      "label": "1 Igglybuff",
+      "cut": "Team Rocket's Petrel",
+      "copies": 1,
+      "copies_before": 3,
+      "counts": {
+        "Litwick": 4,
+        "Lampent": 4,
+        "Chandelure": 4,
+        "Celebi \u25c7": 1,
+        "Pichu": 3,
+        "Arven": 4,
+        "Team Rocket's Petrel": 2,
+        "Buddy-Buddy Poffin": 2,
+        "Energy Search": 3,
+        "Energy Retrieval": 1,
+        "Rescue Scarf": 4,
+        "Dawn": 4,
+        "Level Ball": 2,
+        "Broken Time-Space": 3,
+        "Fire Energy": 7,
+        "Hisuian Heavy Ball": 1,
+        "Evolution Incense": 3,
+        "Hyper Aroma": 1,
+        "Jacq": 2,
+        "Hop": 4,
+        "Igglybuff": 1
+      },
+      "weighted": 0.4492867867867868,
+      "se": 0.004604136430928381,
+      "mean": 0.5633653846153847,
+      "worst": 0.14,
+      "sleepy_flip": 0.9972297297297297,
+      "sleepy_heads": 0.5066128628628629,
+      "plays": 0.9436311311311312,
+      "progress": 17.946691691691694,
+      "cells": {
+        "t60": {
+          "wr": 0.39875000000000005,
+          "a": 0.395,
+          "b": 0.4025
+        },
+        "hedrick": {
+          "wr": 0.6112500000000001,
+          "a": 0.6075,
+          "b": 0.615
+        },
+        "unl": {
+          "wr": 0.63625,
+          "a": 0.66,
+          "b": 0.6125
+        },
+        "d60": {
+          "wr": 0.14,
+          "a": 0.13,
+          "b": 0.15
+        },
+        "s60": {
+          "wr": 0.73125,
+          "a": 0.74,
+          "b": 0.7225
+        },
+        "g": {
+          "wr": 0.52,
+          "a": 0.5375,
+          "b": 0.5025
+        },
+        "c60": {
+          "wr": 0.52625,
+          "a": 0.5375,
+          "b": 0.515
+        },
+        "m": {
+          "wr": 0.14500000000000002,
+          "a": 0.135,
+          "b": 0.155
+        },
+        "starmie": {
+          "wr": 0.145,
+          "a": 0.1425,
+          "b": 0.1475
+        },
+        "lucario": {
+          "wr": 0.7012499999999999,
+          "a": 0.715,
+          "b": 0.6875
+        },
+        "thorns": {
+          "wr": 0.905,
+          "a": 0.895,
+          "b": 0.915
+        },
+        "h": {
+          "wr": 0.92875,
+          "a": 0.9375,
+          "b": 0.92
+        },
+        "g30": {
+          "wr": 0.935,
+          "a": 0.94,
+          "b": 0.93
+        }
+      },
+      "gap": 0.0012612612612612484,
+      "gap_se": 0.006586666706350626,
+      "list": [
+        "Litwick",
+        "Litwick",
+        "Litwick",
+        "Litwick",
+        "Lampent",
+        "Lampent",
+        "Lampent",
+        "Lampent",
+        "Chandelure",
+        "Chandelure",
+        "Chandelure",
+        "Chandelure",
+        "Celebi \u25c7",
+        "Pichu",
+        "Pichu",
+        "Pichu",
+        "Arven",
+        "Arven",
+        "Arven",
+        "Arven",
+        "Team Rocket's Petrel",
+        "Team Rocket's Petrel",
+        "Buddy-Buddy Poffin",
+        "Buddy-Buddy Poffin",
+        "Energy Search",
+        "Energy Search",
+        "Energy Search",
+        "Energy Retrieval",
+        "Rescue Scarf",
+        "Rescue Scarf",
+        "Rescue Scarf",
+        "Rescue Scarf",
+        "Dawn",
+        "Dawn",
+        "Dawn",
+        "Dawn",
+        "Level Ball",
+        "Level Ball",
+        "Broken Time-Space",
+        "Broken Time-Space",
+        "Broken Time-Space",
+        "Fire Energy",
+        "Fire Energy",
+        "Fire Energy",
+        "Fire Energy",
+        "Fire Energy",
+        "Fire Energy",
+        "Fire Energy",
+        "Hisuian Heavy Ball",
+        "Evolution Incense",
+        "Evolution Incense",
+        "Evolution Incense",
+        "Hyper Aroma",
+        "Jacq",
+        "Jacq",
+        "Hop",
+        "Hop",
+        "Hop",
+        "Hop",
+        "Igglybuff"
+      ]
+    }
+  ],
+  "best": {
+    "label": "1 Igglybuff",
+    "cut": "Team Rocket's Petrel",
+    "copies": 1,
+    "copies_before": 3,
+    "counts": {
+      "Litwick": 4,
+      "Lampent": 4,
+      "Chandelure": 4,
+      "Celebi \u25c7": 1,
+      "Pichu": 3,
+      "Arven": 4,
+      "Team Rocket's Petrel": 2,
+      "Buddy-Buddy Poffin": 2,
+      "Energy Search": 3,
+      "Energy Retrieval": 1,
+      "Rescue Scarf": 4,
+      "Dawn": 4,
+      "Level Ball": 2,
+      "Broken Time-Space": 3,
+      "Fire Energy": 7,
+      "Hisuian Heavy Ball": 1,
+      "Evolution Incense": 3,
+      "Hyper Aroma": 1,
+      "Jacq": 2,
+      "Hop": 4,
+      "Igglybuff": 1
+    },
+    "weighted": 0.4492867867867868,
+    "se": 0.004604136430928381,
+    "mean": 0.5633653846153847,
+    "worst": 0.14,
+    "sleepy_flip": 0.9972297297297297,
+    "sleepy_heads": 0.5066128628628629,
+    "plays": 0.9436311311311312,
+    "progress": 17.946691691691694,
+    "cells": {
+      "t60": {
+        "wr": 0.39875000000000005,
+        "a": 0.395,
+        "b": 0.4025
+      },
+      "hedrick": {
+        "wr": 0.6112500000000001,
+        "a": 0.6075,
+        "b": 0.615
+      },
+      "unl": {
+        "wr": 0.63625,
+        "a": 0.66,
+        "b": 0.6125
+      },
+      "d60": {
+        "wr": 0.14,
+        "a": 0.13,
+        "b": 0.15
+      },
+      "s60": {
+        "wr": 0.73125,
+        "a": 0.74,
+        "b": 0.7225
+      },
+      "g": {
+        "wr": 0.52,
+        "a": 0.5375,
+        "b": 0.5025
+      },
+      "c60": {
+        "wr": 0.52625,
+        "a": 0.5375,
+        "b": 0.515
+      },
+      "m": {
+        "wr": 0.14500000000000002,
+        "a": 0.135,
+        "b": 0.155
+      },
+      "starmie": {
+        "wr": 0.145,
+        "a": 0.1425,
+        "b": 0.1475
+      },
+      "lucario": {
+        "wr": 0.7012499999999999,
+        "a": 0.715,
+        "b": 0.6875
+      },
+      "thorns": {
+        "wr": 0.905,
+        "a": 0.895,
+        "b": 0.915
+      },
+      "h": {
+        "wr": 0.92875,
+        "a": 0.9375,
+        "b": 0.92
+      },
+      "g30": {
+        "wr": 0.935,
+        "a": 0.94,
+        "b": 0.93
+      }
+    },
+    "gap": 0.0012612612612612484,
+    "gap_se": 0.006586666706350626,
+    "list": [
+      "Litwick",
+      "Litwick",
+      "Litwick",
+      "Litwick",
+      "Lampent",
+      "Lampent",
+      "Lampent",
+      "Lampent",
+      "Chandelure",
+      "Chandelure",
+      "Chandelure",
+      "Chandelure",
+      "Celebi \u25c7",
+      "Pichu",
+      "Pichu",
+      "Pichu",
+      "Arven",
+      "Arven",
+      "Arven",
+      "Arven",
+      "Team Rocket's Petrel",
+      "Team Rocket's Petrel",
+      "Buddy-Buddy Poffin",
+      "Buddy-Buddy Poffin",
+      "Energy Search",
+      "Energy Search",
+      "Energy Search",
+      "Energy Retrieval",
+      "Rescue Scarf",
+      "Rescue Scarf",
+      "Rescue Scarf",
+      "Rescue Scarf",
+      "Dawn",
+      "Dawn",
+      "Dawn",
+      "Dawn",
+      "Level Ball",
+      "Level Ball",
+      "Broken Time-Space",
+      "Broken Time-Space",
+      "Broken Time-Space",
+      "Fire Energy",
+      "Fire Energy",
+      "Fire Energy",
+      "Fire Energy",
+      "Fire Energy",
+      "Fire Energy",
+      "Fire Energy",
+      "Hisuian Heavy Ball",
+      "Evolution Incense",
+      "Evolution Incense",
+      "Evolution Incense",
+      "Hyper Aroma",
+      "Jacq",
+      "Jacq",
+      "Hop",
+      "Hop",
+      "Hop",
+      "Hop",
+      "Igglybuff"
+    ]
+  },
+  "rounds": [
+    {
+      "step": 1,
+      "rows": [
+        {
+          "label": "Team Rocket's Petrel",
+          "cut": "Team Rocket's Petrel",
+          "copies": 1,
+          "copies_before": 3,
+          "counts": {
+            "Litwick": 4,
+            "Lampent": 4,
+            "Chandelure": 4,
+            "Celebi \u25c7": 1,
+            "Pichu": 3,
+            "Arven": 4,
+            "Team Rocket's Petrel": 2,
+            "Buddy-Buddy Poffin": 2,
+            "Energy Search": 3,
+            "Energy Retrieval": 1,
+            "Rescue Scarf": 4,
+            "Dawn": 4,
+            "Level Ball": 2,
+            "Broken Time-Space": 3,
+            "Fire Energy": 7,
+            "Hisuian Heavy Ball": 1,
+            "Evolution Incense": 3,
+            "Hyper Aroma": 1,
+            "Jacq": 2,
+            "Hop": 4,
+            "Igglybuff": 1
+          },
+          "weighted": 0.4492867867867868,
+          "se": 0.004604136430928381,
+          "mean": 0.5633653846153847,
+          "worst": 0.14,
+          "sleepy_flip": 0.9972297297297297,
+          "sleepy_heads": 0.5066128628628629,
+          "plays": 0.9436311311311312,
+          "progress": 17.946691691691694,
+          "cells": {
+            "t60": {
+              "wr": 0.39875000000000005,
+              "a": 0.395,
+              "b": 0.4025
+            },
+            "hedrick": {
+              "wr": 0.6112500000000001,
+              "a": 0.6075,
+              "b": 0.615
+            },
+            "unl": {
+              "wr": 0.63625,
+              "a": 0.66,
+              "b": 0.6125
+            },
+            "d60": {
+              "wr": 0.14,
+              "a": 0.13,
+              "b": 0.15
+            },
+            "s60": {
+              "wr": 0.73125,
+              "a": 0.74,
+              "b": 0.7225
+            },
+            "g": {
+              "wr": 0.52,
+              "a": 0.5375,
+              "b": 0.5025
+            },
+            "c60": {
+              "wr": 0.52625,
+              "a": 0.5375,
+              "b": 0.515
+            },
+            "m": {
+              "wr": 0.14500000000000002,
+              "a": 0.135,
+              "b": 0.155
+            },
+            "starmie": {
+              "wr": 0.145,
+              "a": 0.1425,
+              "b": 0.1475
+            },
+            "lucario": {
+              "wr": 0.7012499999999999,
+              "a": 0.715,
+              "b": 0.6875
+            },
+            "thorns": {
+              "wr": 0.905,
+              "a": 0.895,
+              "b": 0.915
+            },
+            "h": {
+              "wr": 0.92875,
+              "a": 0.9375,
+              "b": 0.92
+            },
+            "g30": {
+              "wr": 0.935,
+              "a": 0.94,
+              "b": 0.93
+            }
+          }
+        },
+        {
+          "label": "Broken Time-Space",
+          "cut": "Broken Time-Space",
+          "copies": 1,
+          "copies_before": 3,
+          "counts": {
+            "Litwick": 4,
+            "Lampent": 4,
+            "Chandelure": 4,
+            "Celebi \u25c7": 1,
+            "Pichu": 3,
+            "Arven": 4,
+            "Team Rocket's Petrel": 3,
+            "Buddy-Buddy Poffin": 2,
+            "Energy Search": 3,
+            "Energy Retrieval": 1,
+            "Rescue Scarf": 4,
+            "Dawn": 4,
+            "Level Ball": 2,
+            "Broken Time-Space": 2,
+            "Fire Energy": 7,
+            "Hisuian Heavy Ball": 1,
+            "Evolution Incense": 3,
+            "Hyper Aroma": 1,
+            "Jacq": 2,
+            "Hop": 4,
+            "Igglybuff": 1
+          },
+          "weighted": 0.4468480980980981,
+          "se": 0.004590584772667616,
+          "mean": 0.5647115384615385,
+          "worst": 0.12875,
+          "sleepy_flip": 0.9771096096096096,
+          "sleepy_heads": 0.495706956956957,
+          "plays": 0.931567817817818,
+          "progress": 17.691924424424425,
+          "cells": {
+            "t60": {
+              "wr": 0.42625,
+              "a": 0.4325,
+              "b": 0.42
+            },
+            "hedrick": {
+              "wr": 0.615,
+              "a": 0.615,
+              "b": 0.615
+            },
+            "unl": {
+              "wr": 0.63625,
+              "a": 0.655,
+              "b": 0.6175
+            },
+            "d60": {
+              "wr": 0.12875,
+              "a": 0.1525,
+              "b": 0.105
+            },
+            "s60": {
+              "wr": 0.69875,
+              "a": 0.695,
+              "b": 0.7025
+            },
+            "g": {
+              "wr": 0.5075000000000001,
+              "a": 0.49,
+              "b": 0.525
+            },
+            "c60": {
+              "wr": 0.52875,
+              "a": 0.545,
+              "b": 0.5125
+            },
+            "m": {
+              "wr": 0.15375,
+              "a": 0.1325,
+              "b": 0.175
+            },
+            "starmie": {
+              "wr": 0.13375,
+              "a": 0.1275,
+              "b": 0.14
+            },
+            "lucario": {
+              "wr": 0.7175,
+              "a": 0.6925,
+              "b": 0.7425
+            },
+            "thorns": {
+              "wr": 0.915,
+              "a": 0.9125,
+              "b": 0.9175
+            },
+            "h": {
+              "wr": 0.92625,
+              "a": 0.9275,
+              "b": 0.925
+            },
+            "g30": {
+              "wr": 0.95375,
+              "a": 0.95,
+              "b": 0.9575
+            }
+          }
+        },
+        {
+          "label": "Fire Energy",
+          "cut": "Fire Energy",
+          "copies": 1,
+          "copies_before": 7,
+          "counts": {
+            "Litwick": 4,
+            "Lampent": 4,
+            "Chandelure": 4,
+            "Celebi \u25c7": 1,
+            "Pichu": 3,
+            "Arven": 4,
+            "Team Rocket's Petrel": 3,
+            "Buddy-Buddy Poffin": 2,
+            "Energy Search": 3,
+            "Energy Retrieval": 1,
+            "Rescue Scarf": 4,
+            "Dawn": 4,
+            "Level Ball": 2,
+            "Broken Time-Space": 3,
+            "Fire Energy": 6,
+            "Hisuian Heavy Ball": 1,
+            "Evolution Incense": 3,
+            "Hyper Aroma": 1,
+            "Jacq": 2,
+            "Hop": 4,
+            "Igglybuff": 1
+          },
+          "weighted": 0.44536661661661664,
+          "se": 0.004599921665110421,
+          "mean": 0.5596153846153846,
+          "worst": 0.1225,
+          "sleepy_flip": 0.9679329329329329,
+          "sleepy_heads": 0.4774461961961962,
+          "plays": 0.949019019019019,
+          "progress": 17.660934684684687,
+          "cells": {
+            "t60": {
+              "wr": 0.3875,
+              "a": 0.3875,
+              "b": 0.3875
+            },
+            "hedrick": {
+              "wr": 0.6125,
+              "a": 0.625,
+              "b": 0.6
+            },
+            "unl": {
+              "wr": 0.62625,
+              "a": 0.6075,
+              "b": 0.645
+            },
+            "d60": {
+              "wr": 0.1475,
+              "a": 0.1725,
+              "b": 0.1225
+            },
+            "s60": {
+              "wr": 0.7375,
+              "a": 0.7575,
+              "b": 0.7175
+            },
+            "g": {
+              "wr": 0.5175000000000001,
+              "a": 0.55,
+              "b": 0.485
+            },
+            "c60": {
+              "wr": 0.51125,
+              "a": 0.5075,
+              "b": 0.515
+            },
+            "m": {
+              "wr": 0.14625,
+              "a": 0.155,
+              "b": 0.1375
+            },
+            "starmie": {
+              "wr": 0.1225,
+              "a": 0.13,
+              "b": 0.115
+            },
+            "lucario": {
+              "wr": 0.70625,
+              "a": 0.7125,
+              "b": 0.7
+            },
+            "thorns": {
+              "wr": 0.91625,
+              "a": 0.925,
+              "b": 0.9075
+            },
+            "h": {
+              "wr": 0.9137500000000001,
+              "a": 0.9,
+              "b": 0.9275
+            },
+            "g30": {
+              "wr": 0.9299999999999999,
+              "a": 0.9475,
+              "b": 0.9125
+            }
+          }
+        },
+        {
+          "label": "Jacq",
+          "cut": "Jacq",
+          "copies": 1,
+          "copies_before": 2,
+          "counts": {
+            "Litwick": 4,
+            "Lampent": 4,
+            "Chandelure": 4,
+            "Celebi \u25c7": 1,
+            "Pichu": 3,
+            "Arven": 4,
+            "Team Rocket's Petrel": 3,
+            "Buddy-Buddy Poffin": 2,
+            "Energy Search": 3,
+            "Energy Retrieval": 1,
+            "Rescue Scarf": 4,
+            "Dawn": 4,
+            "Level Ball": 2,
+            "Broken Time-Space": 3,
+            "Fire Energy": 7,
+            "Hisuian Heavy Ball": 1,
+            "Evolution Incense": 3,
+            "Hyper Aroma": 1,
+            "Jacq": 1,
+            "Hop": 4,
+            "Igglybuff": 1
+          },
+          "weighted": 0.44457332332332333,
+          "se": 0.004564952089147113,
+          "mean": 0.5608653846153846,
+          "worst": 0.11499999999999999,
+          "sleepy_flip": 0.9620382882882883,
+          "sleepy_heads": 0.482693943943944,
+          "plays": 0.9409371871871871,
+          "progress": 17.858557307307308,
+          "cells": {
+            "t60": {
+              "wr": 0.40375000000000005,
+              "a": 0.4025,
+              "b": 0.405
+            },
+            "hedrick": {
+              "wr": 0.61375,
+              "a": 0.6325,
+              "b": 0.595
+            },
+            "unl": {
+              "wr": 0.6275,
+              "a": 0.63,
+              "b": 0.625
+            },
+            "d60": {
+              "wr": 0.11499999999999999,
+              "a": 0.1275,
+              "b": 0.1025
+            },
+            "s60": {
+              "wr": 0.725,
+              "a": 0.71,
+              "b": 0.74
+            },
+            "g": {
+              "wr": 0.51125,
+              "a": 0.475,
+              "b": 0.5475
+            },
+            "c60": {
+              "wr": 0.49875,
+              "a": 0.515,
+              "b": 0.4825
+            },
+            "m": {
+              "wr": 0.16625,
+              "a": 0.1775,
+              "b": 0.155
+            },
+            "starmie": {
+              "wr": 0.12875,
+              "a": 0.1325,
+              "b": 0.125
+            },
+            "lucario": {
+              "wr": 0.735,
+              "a": 0.7175,
+              "b": 0.7525
+            },
+            "thorns": {
+              "wr": 0.90875,
+              "a": 0.89,
+              "b": 0.9275
+            },
+            "h": {
+              "wr": 0.93625,
+              "a": 0.9225,
+              "b": 0.95
+            },
+            "g30": {
+              "wr": 0.92125,
+              "a": 0.9225,
+              "b": 0.92
+            }
+          }
+        },
+        {
+          "label": "Energy Retrieval",
+          "cut": "Energy Retrieval",
+          "copies": 1,
+          "copies_before": 1,
+          "counts": {
+            "Litwick": 4,
+            "Lampent": 4,
+            "Chandelure": 4,
+            "Celebi \u25c7": 1,
+            "Pichu": 3,
+            "Arven": 4,
+            "Team Rocket's Petrel": 3,
+            "Buddy-Buddy Poffin": 2,
+            "Energy Search": 3,
+            "Rescue Scarf": 4,
+            "Dawn": 4,
+            "Level Ball": 2,
+            "Broken Time-Space": 3,
+            "Fire Energy": 7,
+            "Hisuian Heavy Ball": 1,
+            "Evolution Incense": 3,
+            "Hyper Aroma": 1,
+            "Jacq": 2,
+            "Hop": 4,
+            "Igglybuff": 1
+          },
+          "weighted": 0.4410548048048048,
+          "se": 0.004605297410339519,
+          "mean": 0.5585576923076924,
+          "worst": 0.1275,
+          "sleepy_flip": 0.9668193193193193,
+          "sleepy_heads": 0.4843993993993994,
+          "plays": 0.9581118618618619,
+          "progress": 17.8573485985986,
+          "cells": {
+            "t60": {
+              "wr": 0.42374999999999996,
+              "a": 0.4275,
+              "b": 0.42
+            },
+            "hedrick": {
+              "wr": 0.6112500000000001,
+              "a": 0.62,
+              "b": 0.6025
+            },
+            "unl": {
+              "wr": 0.61875,
+              "a": 0.645,
+              "b": 0.5925
+            },
+            "d60": {
+              "wr": 0.1275,
+              "a": 0.1225,
+              "b": 0.1325
+            },
+            "s60": {
+              "wr": 0.7124999999999999,
+              "a": 0.705,
+              "b": 0.72
+            },
+            "g": {
+              "wr": 0.485,
+              "a": 0.4775,
+              "b": 0.4925
+            },
+            "c60": {
+              "wr": 0.49375,
+              "a": 0.5325,
+              "b": 0.455
+            },
+            "m": {
+              "wr": 0.15625,
+              "a": 0.1525,
+              "b": 0.16
+            },
+            "starmie": {
+              "wr": 0.14500000000000002,
+              "a": 0.1575,
+              "b": 0.1325
+            },
+            "lucario": {
+              "wr": 0.71625,
+              "a": 0.72,
+              "b": 0.7125
+            },
+            "thorns": {
+              "wr": 0.91,
+              "a": 0.905,
+              "b": 0.915
+            },
+            "h": {
+              "wr": 0.92625,
+              "a": 0.915,
+              "b": 0.9375
+            },
+            "g30": {
+              "wr": 0.935,
+              "a": 0.9425,
+              "b": 0.9275
+            }
+          }
+        },
+        {
+          "label": "Arven",
+          "cut": "Arven",
+          "copies": 1,
+          "copies_before": 4,
+          "counts": {
+            "Litwick": 4,
+            "Lampent": 4,
+            "Chandelure": 4,
+            "Celebi \u25c7": 1,
+            "Pichu": 3,
+            "Arven": 3,
+            "Team Rocket's Petrel": 3,
+            "Buddy-Buddy Poffin": 2,
+            "Energy Search": 3,
+            "Energy Retrieval": 1,
+            "Rescue Scarf": 4,
+            "Dawn": 4,
+            "Level Ball": 2,
+            "Broken Time-Space": 3,
+            "Fire Energy": 7,
+            "Hisuian Heavy Ball": 1,
+            "Evolution Incense": 3,
+            "Hyper Aroma": 1,
+            "Jacq": 2,
+            "Hop": 4,
+            "Igglybuff": 1
+          },
+          "weighted": 0.4396946946946947,
+          "se": 0.004585761484791255,
+          "mean": 0.5583653846153847,
+          "worst": 0.13374999999999998,
+          "sleepy_flip": 1.0093493493493493,
+          "sleepy_heads": 0.5024674674674674,
+          "plays": 0.971428928928929,
+          "progress": 17.721054804804805,
+          "cells": {
+            "t60": {
+              "wr": 0.4075,
+              "a": 0.4125,
+              "b": 0.4025
+            },
+            "hedrick": {
+              "wr": 0.6387499999999999,
+              "a": 0.63,
+              "b": 0.6475
+            },
+            "unl": {
+              "wr": 0.64,
+              "a": 0.645,
+              "b": 0.635
+            },
+            "d60": {
+              "wr": 0.13374999999999998,
+              "a": 0.1225,
+              "b": 0.145
+            },
+            "s60": {
+              "wr": 0.7075,
+              "a": 0.69,
+              "b": 0.725
+            },
+            "g": {
+              "wr": 0.5075000000000001,
+              "a": 0.545,
+              "b": 0.47
+            },
+            "c60": {
+              "wr": 0.48375,
+              "a": 0.5025,
+              "b": 0.465
+            },
+            "m": {
+              "wr": 0.135,
+              "a": 0.1425,
+              "b": 0.1275
+            },
+            "starmie": {
+              "wr": 0.14625,
+              "a": 0.145,
+              "b": 0.1475
+            },
+            "lucario": {
+              "wr": 0.7075,
+              "a": 0.7125,
+              "b": 0.7025
+            },
+            "thorns": {
+              "wr": 0.9175,
+              "a": 0.93,
+              "b": 0.905
+            },
+            "h": {
+              "wr": 0.90875,
+              "a": 0.905,
+              "b": 0.9125
+            },
+            "g30": {
+              "wr": 0.925,
+              "a": 0.925,
+              "b": 0.925
+            }
+          }
+        },
+        {
+          "label": "Energy Search",
+          "cut": "Energy Search",
+          "copies": 1,
+          "copies_before": 3,
+          "counts": {
+            "Litwick": 4,
+            "Lampent": 4,
+            "Chandelure": 4,
+            "Celebi \u25c7": 1,
+            "Pichu": 3,
+            "Arven": 4,
+            "Team Rocket's Petrel": 3,
+            "Buddy-Buddy Poffin": 2,
+            "Energy Search": 2,
+            "Energy Retrieval": 1,
+            "Rescue Scarf": 4,
+            "Dawn": 4,
+            "Level Ball": 2,
+            "Broken Time-Space": 3,
+            "Fire Energy": 7,
+            "Hisuian Heavy Ball": 1,
+            "Evolution Incense": 3,
+            "Hyper Aroma": 1,
+            "Jacq": 2,
+            "Hop": 4,
+            "Igglybuff": 1
+          },
+          "weighted": 0.4364514514514514,
+          "se": 0.004583782873598963,
+          "mean": 0.5535576923076924,
+          "worst": 0.12625,
+          "sleepy_flip": 0.9737925425425424,
+          "sleepy_heads": 0.4864677177177177,
+          "plays": 0.9394932432432433,
+          "progress": 17.756966966966967,
+          "cells": {
+            "t60": {
+              "wr": 0.39749999999999996,
+              "a": 0.4275,
+              "b": 0.3675
+            },
+            "hedrick": {
+              "wr": 0.6,
+              "a": 0.6325,
+              "b": 0.5675
+            },
+            "unl": {
+              "wr": 0.60625,
+              "a": 0.605,
+              "b": 0.6075
+            },
+            "d60": {
+              "wr": 0.12625,
+              "a": 0.115,
+              "b": 0.1375
+            },
+            "s60": {
+              "wr": 0.7225,
+              "a": 0.7125,
+              "b": 0.7325
+            },
+            "g": {
+              "wr": 0.49,
+              "a": 0.4875,
+              "b": 0.4925
+            },
+            "c60": {
+              "wr": 0.46625,
+              "a": 0.4475,
+              "b": 0.485
+            },
+            "m": {
+              "wr": 0.155,
+              "a": 0.1575,
+              "b": 0.1525
+            },
+            "starmie": {
+              "wr": 0.13625,
+              "a": 0.135,
+              "b": 0.1375
+            },
+            "lucario": {
+              "wr": 0.7275,
+              "a": 0.725,
+              "b": 0.73
+            },
+            "thorns": {
+              "wr": 0.9075,
+              "a": 0.91,
+              "b": 0.905
+            },
+            "h": {
+              "wr": 0.9299999999999999,
+              "a": 0.9375,
+              "b": 0.9225
+            },
+            "g30": {
+              "wr": 0.93125,
+              "a": 0.9475,
+              "b": 0.915
+            }
+          }
+        },
+        {
+          "label": "Hop",
+          "cut": "Hop",
+          "copies": 1,
+          "copies_before": 4,
+          "counts": {
+            "Litwick": 4,
+            "Lampent": 4,
+            "Chandelure": 4,
+            "Celebi \u25c7": 1,
+            "Pichu": 3,
+            "Arven": 4,
+            "Team Rocket's Petrel": 3,
+            "Buddy-Buddy Poffin": 2,
+            "Energy Search": 3,
+            "Energy Retrieval": 1,
+            "Rescue Scarf": 4,
+            "Dawn": 4,
+            "Level Ball": 2,
+            "Broken Time-Space": 3,
+            "Fire Energy": 7,
+            "Hisuian Heavy Ball": 1,
+            "Evolution Incense": 3,
+            "Hyper Aroma": 1,
+            "Jacq": 2,
+            "Hop": 3,
+            "Igglybuff": 1
+          },
+          "weighted": 0.435711961961962,
+          "se": 0.0046313481253572155,
+          "mean": 0.5536538461538462,
+          "worst": 0.12875,
+          "sleepy_flip": 0.9788475975975975,
+          "sleepy_heads": 0.5000875875875875,
+          "plays": 0.9300362862862862,
+          "progress": 17.493335835835836,
+          "cells": {
+            "t60": {
+              "wr": 0.4175,
+              "a": 0.44,
+              "b": 0.395
+            },
+            "hedrick": {
+              "wr": 0.61,
+              "a": 0.645,
+              "b": 0.575
+            },
+            "unl": {
+              "wr": 0.605,
+              "a": 0.6175,
+              "b": 0.5925
+            },
+            "d60": {
+              "wr": 0.1475,
+              "a": 0.1475,
+              "b": 0.1475
+            },
+            "s60": {
+              "wr": 0.72125,
+              "a": 0.745,
+              "b": 0.6975
+            },
+            "g": {
+              "wr": 0.45875,
+              "a": 0.4525,
+              "b": 0.465
+            },
+            "c60": {
+              "wr": 0.4675,
+              "a": 0.4575,
+              "b": 0.4775
+            },
+            "m": {
+              "wr": 0.1575,
+              "a": 0.1575,
+              "b": 0.1575
+            },
+            "starmie": {
+              "wr": 0.12875,
+              "a": 0.12,
+              "b": 0.1375
+            },
+            "lucario": {
+              "wr": 0.7224999999999999,
+              "a": 0.71,
+              "b": 0.735
+            },
+            "thorns": {
+              "wr": 0.9125000000000001,
+              "a": 0.92,
+              "b": 0.905
+            },
+            "h": {
+              "wr": 0.91625,
+              "a": 0.9075,
+              "b": 0.925
+            },
+            "g30": {
+              "wr": 0.9325,
+              "a": 0.955,
+              "b": 0.91
+            }
+          }
+        },
+        {
+          "label": "Level Ball",
+          "cut": "Level Ball",
+          "copies": 1,
+          "copies_before": 2,
+          "counts": {
+            "Litwick": 4,
+            "Lampent": 4,
+            "Chandelure": 4,
+            "Celebi \u25c7": 1,
+            "Pichu": 3,
+            "Arven": 4,
+            "Team Rocket's Petrel": 3,
+            "Buddy-Buddy Poffin": 2,
+            "Energy Search": 3,
+            "Energy Retrieval": 1,
+            "Rescue Scarf": 4,
+            "Dawn": 4,
+            "Level Ball": 1,
+            "Broken Time-Space": 3,
+            "Fire Energy": 7,
+            "Hisuian Heavy Ball": 1,
+            "Evolution Incense": 3,
+            "Hyper Aroma": 1,
+            "Jacq": 2,
+            "Hop": 4,
+            "Igglybuff": 1
+          },
+          "weighted": 0.4355568068068068,
+          "se": 0.004523286455956129,
+          "mean": 0.5522115384615385,
+          "worst": 0.11124999999999999,
+          "sleepy_flip": 0.9734922422422423,
+          "sleepy_heads": 0.48353603603603607,
+          "plays": 0.9262387387387387,
+          "progress": 17.397140890890892,
+          "cells": {
+            "t60": {
+              "wr": 0.4075,
+              "a": 0.4125,
+              "b": 0.4025
+            },
+            "hedrick": {
+              "wr": 0.59875,
+              "a": 0.6,
+              "b": 0.5975
+            },
+            "unl": {
+              "wr": 0.61,
+              "a": 0.61,
+              "b": 0.61
+            },
+            "d60": {
+              "wr": 0.11124999999999999,
+              "a": 0.1175,
+              "b": 0.105
+            },
+            "s60": {
+              "wr": 0.7025,
+              "a": 0.73,
+              "b": 0.675
+            },
+            "g": {
+              "wr": 0.51,
+              "a": 0.52,
+              "b": 0.5
+            },
+            "c60": {
+              "wr": 0.495,
+              "a": 0.5025,
+              "b": 0.4875
+            },
+            "m": {
+              "wr": 0.1475,
+              "a": 0.15,
+              "b": 0.145
+            },
+            "starmie": {
+              "wr": 0.11875,
+              "a": 0.1025,
+              "b": 0.135
+            },
+            "lucario": {
+              "wr": 0.7050000000000001,
+              "a": 0.7375,
+              "b": 0.6725
+            },
+            "thorns": {
+              "wr": 0.9075,
+              "a": 0.9075,
+              "b": 0.9075
+            },
+            "h": {
+              "wr": 0.93625,
+              "a": 0.9325,
+              "b": 0.94
+            },
+            "g30": {
+              "wr": 0.92875,
+              "a": 0.92,
+              "b": 0.9375
+            }
+          }
+        },
+        {
+          "label": "Buddy-Buddy Poffin",
+          "cut": "Buddy-Buddy Poffin",
+          "copies": 1,
+          "copies_before": 2,
+          "counts": {
+            "Litwick": 4,
+            "Lampent": 4,
+            "Chandelure": 4,
+            "Celebi \u25c7": 1,
+            "Pichu": 3,
+            "Arven": 4,
+            "Team Rocket's Petrel": 3,
+            "Buddy-Buddy Poffin": 1,
+            "Energy Search": 3,
+            "Energy Retrieval": 1,
+            "Rescue Scarf": 4,
+            "Dawn": 4,
+            "Level Ball": 2,
+            "Broken Time-Space": 3,
+            "Fire Energy": 7,
+            "Hisuian Heavy Ball": 1,
+            "Evolution Incense": 3,
+            "Hyper Aroma": 1,
+            "Jacq": 2,
+            "Hop": 4,
+            "Igglybuff": 1
+          },
+          "weighted": 0.43486486486486486,
+          "se": 0.004521243096907201,
+          "mean": 0.5558653846153846,
+          "worst": 0.11499999999999999,
+          "sleepy_flip": 0.8807532532532532,
+          "sleepy_heads": 0.44263388388388386,
+          "plays": 0.8873548548548549,
+          "progress": 17.509685935935938,
+          "cells": {
+            "t60": {
+              "wr": 0.40875,
+              "a": 0.435,
+              "b": 0.3825
+            },
+            "hedrick": {
+              "wr": 0.6275,
+              "a": 0.595,
+              "b": 0.66
+            },
+            "unl": {
+              "wr": 0.6387499999999999,
+              "a": 0.645,
+              "b": 0.6325
+            },
+            "d60": {
+              "wr": 0.11624999999999999,
+              "a": 0.115,
+              "b": 0.1175
+            },
+            "s60": {
+              "wr": 0.7150000000000001,
+              "a": 0.7325,
+              "b": 0.6975
+            },
+            "g": {
+              "wr": 0.49375,
+              "a": 0.515,
+              "b": 0.4725
+            },
+            "c60": {
+              "wr": 0.49249999999999994,
+              "a": 0.4725,
+              "b": 0.5125
+            },
+            "m": {
+              "wr": 0.14125,
+              "a": 0.145,
+              "b": 0.1375
+            },
+            "starmie": {
+              "wr": 0.11499999999999999,
+              "a": 0.11,
+              "b": 0.12
+            },
+            "lucario": {
+              "wr": 0.7150000000000001,
+              "a": 0.7275,
+              "b": 0.7025
+            },
+            "thorns": {
+              "wr": 0.90125,
+              "a": 0.905,
+              "b": 0.8975
+            },
+            "h": {
+              "wr": 0.91875,
+              "a": 0.935,
+              "b": 0.9025
+            },
+            "g30": {
+              "wr": 0.9425,
+              "a": 0.95,
+              "b": 0.935
+            }
+          }
+        },
+        {
+          "label": "Rescue Scarf",
+          "cut": "Rescue Scarf",
+          "copies": 1,
+          "copies_before": 4,
+          "counts": {
+            "Litwick": 4,
+            "Lampent": 4,
+            "Chandelure": 4,
+            "Celebi \u25c7": 1,
+            "Pichu": 3,
+            "Arven": 4,
+            "Team Rocket's Petrel": 3,
+            "Buddy-Buddy Poffin": 2,
+            "Energy Search": 3,
+            "Energy Retrieval": 1,
+            "Rescue Scarf": 3,
+            "Dawn": 4,
+            "Level Ball": 2,
+            "Broken Time-Space": 3,
+            "Fire Energy": 7,
+            "Hisuian Heavy Ball": 1,
+            "Evolution Incense": 3,
+            "Hyper Aroma": 1,
+            "Jacq": 2,
+            "Hop": 4,
+            "Igglybuff": 1
+          },
+          "weighted": 0.4326338838838839,
+          "se": 0.0045289267073344705,
+          "mean": 0.5535576923076924,
+          "worst": 0.11125,
+          "sleepy_flip": 0.978267017017017,
+          "sleepy_heads": 0.4893668668668669,
+          "plays": 0.9352452452452453,
+          "progress": 17.587055805805807,
+          "cells": {
+            "t60": {
+              "wr": 0.42000000000000004,
+              "a": 0.4025,
+              "b": 0.4375
+            },
+            "hedrick": {
+              "wr": 0.6000000000000001,
+              "a": 0.6075,
+              "b": 0.5925
+            },
+            "unl": {
+              "wr": 0.6174999999999999,
+              "a": 0.61,
+              "b": 0.625
+            },
+            "d60": {
+              "wr": 0.11125,
+              "a": 0.115,
+              "b": 0.1075
+            },
+            "s60": {
+              "wr": 0.7450000000000001,
+              "a": 0.7425,
+              "b": 0.7475
+            },
+            "g": {
+              "wr": 0.4875,
+              "a": 0.475,
+              "b": 0.5
+            },
+            "c60": {
+              "wr": 0.46625,
+              "a": 0.4425,
+              "b": 0.49
+            },
+            "m": {
+              "wr": 0.1475,
+              "a": 0.1525,
+              "b": 0.1425
+            },
+            "starmie": {
+              "wr": 0.12375,
+              "a": 0.135,
+              "b": 0.1125
+            },
+            "lucario": {
+              "wr": 0.7275,
+              "a": 0.7325,
+              "b": 0.7225
+            },
+            "thorns": {
+              "wr": 0.9025,
+              "a": 0.8925,
+              "b": 0.9125
+            },
+            "h": {
+              "wr": 0.9099999999999999,
+              "a": 0.9025,
+              "b": 0.9175
+            },
+            "g30": {
+              "wr": 0.9375,
+              "a": 0.935,
+              "b": 0.94
+            }
+          }
+        },
+        {
+          "label": "Evolution Incense",
+          "cut": "Evolution Incense",
+          "copies": 1,
+          "copies_before": 3,
+          "counts": {
+            "Litwick": 4,
+            "Lampent": 4,
+            "Chandelure": 4,
+            "Celebi \u25c7": 1,
+            "Pichu": 3,
+            "Arven": 4,
+            "Team Rocket's Petrel": 3,
+            "Buddy-Buddy Poffin": 2,
+            "Energy Search": 3,
+            "Energy Retrieval": 1,
+            "Rescue Scarf": 4,
+            "Dawn": 4,
+            "Level Ball": 2,
+            "Broken Time-Space": 3,
+            "Fire Energy": 7,
+            "Hisuian Heavy Ball": 1,
+            "Evolution Incense": 2,
+            "Hyper Aroma": 1,
+            "Jacq": 2,
+            "Hop": 4,
+            "Igglybuff": 1
+          },
+          "weighted": 0.4323023023023023,
+          "se": 0.004515109559192466,
+          "mean": 0.5504807692307693,
+          "worst": 0.0975,
+          "sleepy_flip": 0.965970970970971,
+          "sleepy_heads": 0.4850312812812813,
+          "plays": 0.9472822822822823,
+          "progress": 17.48522772772773,
+          "cells": {
+            "t60": {
+              "wr": 0.3625,
+              "a": 0.36,
+              "b": 0.365
+            },
+            "hedrick": {
+              "wr": 0.6112500000000001,
+              "a": 0.605,
+              "b": 0.6175
+            },
+            "unl": {
+              "wr": 0.6112500000000001,
+              "a": 0.6125,
+              "b": 0.61
+            },
+            "d60": {
+              "wr": 0.0975,
+              "a": 0.1,
+              "b": 0.095
+            },
+            "s60": {
+              "wr": 0.72125,
+              "a": 0.7225,
+              "b": 0.72
+            },
+            "g": {
+              "wr": 0.46875,
+              "a": 0.495,
+              "b": 0.4425
+            },
+            "c60": {
+              "wr": 0.47375,
+              "a": 0.4875,
+              "b": 0.46
+            },
+            "m": {
+              "wr": 0.15000000000000002,
+              "a": 0.14,
+              "b": 0.16
+            },
+            "starmie": {
+              "wr": 0.155,
+              "a": 0.155,
+              "b": 0.155
+            },
+            "lucario": {
+              "wr": 0.73125,
+              "a": 0.7475,
+              "b": 0.715
+            },
+            "thorns": {
+              "wr": 0.8987499999999999,
+              "a": 0.9075,
+              "b": 0.89
+            },
+            "h": {
+              "wr": 0.9475,
+              "a": 0.955,
+              "b": 0.94
+            },
+            "g30": {
+              "wr": 0.9275,
+              "a": 0.9375,
+              "b": 0.9175
+            }
+          }
+        },
+        {
+          "label": "Dawn",
+          "cut": "Dawn",
+          "copies": 1,
+          "copies_before": 4,
+          "counts": {
+            "Litwick": 4,
+            "Lampent": 4,
+            "Chandelure": 4,
+            "Celebi \u25c7": 1,
+            "Pichu": 3,
+            "Arven": 4,
+            "Team Rocket's Petrel": 3,
+            "Buddy-Buddy Poffin": 2,
+            "Energy Search": 3,
+            "Energy Retrieval": 1,
+            "Rescue Scarf": 4,
+            "Dawn": 3,
+            "Level Ball": 2,
+            "Broken Time-Space": 3,
+            "Fire Energy": 7,
+            "Hisuian Heavy Ball": 1,
+            "Evolution Incense": 3,
+            "Hyper Aroma": 1,
+            "Jacq": 2,
+            "Hop": 4,
+            "Igglybuff": 1
+          },
+          "weighted": 0.4320107607607608,
+          "se": 0.004524349828258675,
+          "mean": 0.5505769230769231,
+          "worst": 0.12375,
+          "sleepy_flip": 0.9408683683683683,
+          "sleepy_heads": 0.46968593593593594,
+          "plays": 0.9223348348348349,
+          "progress": 17.534253003003002,
+          "cells": {
+            "t60": {
+              "wr": 0.38875,
+              "a": 0.365,
+              "b": 0.4125
+            },
+            "hedrick": {
+              "wr": 0.6087499999999999,
+              "a": 0.6375,
+              "b": 0.58
+            },
+            "unl": {
+              "wr": 0.58375,
+              "a": 0.5825,
+              "b": 0.585
+            },
+            "d60": {
+              "wr": 0.1275,
+              "a": 0.135,
+              "b": 0.12
+            },
+            "s60": {
+              "wr": 0.72875,
+              "a": 0.7325,
+              "b": 0.725
+            },
+            "g": {
+              "wr": 0.48750000000000004,
+              "a": 0.465,
+              "b": 0.51
+            },
+            "c60": {
+              "wr": 0.4625,
+              "a": 0.4575,
+              "b": 0.4675
+            },
+            "m": {
+              "wr": 0.12375,
+              "a": 0.135,
+              "b": 0.1125
+            },
+            "starmie": {
+              "wr": 0.14,
+              "a": 0.1325,
+              "b": 0.1475
+            },
+            "lucario": {
+              "wr": 0.74375,
+              "a": 0.7325,
+              "b": 0.755
+            },
+            "thorns": {
+              "wr": 0.90625,
+              "a": 0.925,
+              "b": 0.8875
+            },
+            "h": {
+              "wr": 0.9225000000000001,
+              "a": 0.925,
+              "b": 0.92
+            },
+            "g30": {
+              "wr": 0.9337500000000001,
+              "a": 0.9325,
+              "b": 0.935
+            }
+          }
+        },
+        {
+          "label": "Pichu",
+          "cut": "Pichu",
+          "copies": 1,
+          "copies_before": 3,
+          "counts": {
+            "Litwick": 4,
+            "Lampent": 4,
+            "Chandelure": 4,
+            "Celebi \u25c7": 1,
+            "Pichu": 2,
+            "Arven": 4,
+            "Team Rocket's Petrel": 3,
+            "Buddy-Buddy Poffin": 2,
+            "Energy Search": 3,
+            "Energy Retrieval": 1,
+            "Rescue Scarf": 4,
+            "Dawn": 4,
+            "Level Ball": 2,
+            "Broken Time-Space": 3,
+            "Fire Energy": 7,
+            "Hisuian Heavy Ball": 1,
+            "Evolution Incense": 3,
+            "Hyper Aroma": 1,
+            "Jacq": 2,
+            "Hop": 4,
+            "Igglybuff": 1
+          },
+          "weighted": 0.42920045045045047,
+          "se": 0.004561859642543201,
+          "mean": 0.5496153846153846,
+          "worst": 0.1125,
+          "sleepy_flip": 1.0668168168168168,
+          "sleepy_heads": 0.5302777777777777,
+          "plays": 0.9804942442442443,
+          "progress": 17.099445695695696,
+          "cells": {
+            "t60": {
+              "wr": 0.40375,
+              "a": 0.415,
+              "b": 0.3925
+            },
+            "hedrick": {
+              "wr": 0.61625,
+              "a": 0.61,
+              "b": 0.6225
+            },
+            "unl": {
+              "wr": 0.64,
+              "a": 0.655,
+              "b": 0.625
+            },
+            "d60": {
+              "wr": 0.1125,
+              "a": 0.11,
+              "b": 0.115
+            },
+            "s60": {
+              "wr": 0.70375,
+              "a": 0.7125,
+              "b": 0.695
+            },
+            "g": {
+              "wr": 0.49874999999999997,
+              "a": 0.5075,
+              "b": 0.49
+            },
+            "c60": {
+              "wr": 0.44625,
+              "a": 0.4725,
+              "b": 0.42
+            },
+            "m": {
+              "wr": 0.13125,
+              "a": 0.1475,
+              "b": 0.115
+            },
+            "starmie": {
+              "wr": 0.16875,
+              "a": 0.17,
+              "b": 0.1675
+            },
+            "lucario": {
+              "wr": 0.69,
+              "a": 0.7025,
+              "b": 0.6775
+            },
+            "thorns": {
+              "wr": 0.88125,
+              "a": 0.8925,
+              "b": 0.87
+            },
+            "h": {
+              "wr": 0.91125,
+              "a": 0.9125,
+              "b": 0.91
+            },
+            "g30": {
+              "wr": 0.9412499999999999,
+              "a": 0.9375,
+              "b": 0.945
+            }
+          }
+        },
+        {
+          "label": "Hisuian Heavy Ball",
+          "cut": "Hisuian Heavy Ball",
+          "copies": 1,
+          "copies_before": 1,
+          "counts": {
+            "Litwick": 4,
+            "Lampent": 4,
+            "Chandelure": 4,
+            "Celebi \u25c7": 1,
+            "Pichu": 3,
+            "Arven": 4,
+            "Team Rocket's Petrel": 3,
+            "Buddy-Buddy Poffin": 2,
+            "Energy Search": 3,
+            "Energy Retrieval": 1,
+            "Rescue Scarf": 4,
+            "Dawn": 4,
+            "Level Ball": 2,
+            "Broken Time-Space": 3,
+            "Fire Energy": 7,
+            "Evolution Incense": 3,
+            "Hyper Aroma": 1,
+            "Jacq": 2,
+            "Hop": 4,
+            "Igglybuff": 1
+          },
+          "weighted": 0.4188863863863864,
+          "se": 0.004638423126766708,
+          "mean": 0.5345192307692308,
+          "worst": 0.13125,
+          "sleepy_flip": 1.0937349849849851,
+          "sleepy_heads": 0.5413638638638639,
+          "plays": 0.9561411411411411,
+          "progress": 16.876665415415413,
+          "cells": {
+            "t60": {
+              "wr": 0.395,
+              "a": 0.415,
+              "b": 0.375
+            },
+            "hedrick": {
+              "wr": 0.59375,
+              "a": 0.61,
+              "b": 0.5775
+            },
+            "unl": {
+              "wr": 0.6275,
+              "a": 0.635,
+              "b": 0.62
+            },
+            "d60": {
+              "wr": 0.13125,
+              "a": 0.1475,
+              "b": 0.115
+            },
+            "s60": {
+              "wr": 0.67,
+              "a": 0.665,
+              "b": 0.675
+            },
+            "g": {
+              "wr": 0.48,
+              "a": 0.475,
+              "b": 0.485
+            },
+            "c60": {
+              "wr": 0.42875,
+              "a": 0.4025,
+              "b": 0.455
+            },
+            "m": {
+              "wr": 0.14750000000000002,
+              "a": 0.14,
+              "b": 0.155
+            },
+            "starmie": {
+              "wr": 0.13874999999999998,
+              "a": 0.1525,
+              "b": 0.125
+            },
+            "lucario": {
+              "wr": 0.7050000000000001,
+              "a": 0.7125,
+              "b": 0.6975
+            },
+            "thorns": {
+              "wr": 0.88375,
+              "a": 0.8825,
+              "b": 0.885
+            },
+            "h": {
+              "wr": 0.85875,
+              "a": 0.8575,
+              "b": 0.86
+            },
+            "g30": {
+              "wr": 0.8887499999999999,
+              "a": 0.8825,
+              "b": 0.895
+            }
+          }
+        },
+        {
+          "label": "Hyper Aroma",
+          "cut": "Hyper Aroma",
+          "copies": 1,
+          "copies_before": 1,
+          "counts": {
+            "Litwick": 4,
+            "Lampent": 4,
+            "Chandelure": 4,
+            "Celebi \u25c7": 1,
+            "Pichu": 3,
+            "Arven": 4,
+            "Team Rocket's Petrel": 3,
+            "Buddy-Buddy Poffin": 2,
+            "Energy Search": 3,
+            "Energy Retrieval": 1,
+            "Rescue Scarf": 4,
+            "Dawn": 4,
+            "Level Ball": 2,
+            "Broken Time-Space": 3,
+            "Fire Energy": 7,
+            "Hisuian Heavy Ball": 1,
+            "Evolution Incense": 3,
+            "Jacq": 2,
+            "Hop": 4,
+            "Igglybuff": 1
+          },
+          "weighted": 0.41696696696696695,
+          "se": 0.004506677888468426,
+          "mean": 0.5382692307692307,
+          "worst": 0.1225,
+          "sleepy_flip": 1.0079842342342342,
+          "sleepy_heads": 0.5101026026026027,
+          "plays": 0.9601914414414415,
+          "progress": 16.976032282282283,
+          "cells": {
+            "t60": {
+              "wr": 0.39375,
+              "a": 0.4175,
+              "b": 0.37
+            },
+            "hedrick": {
+              "wr": 0.59,
+              "a": 0.61,
+              "b": 0.57
+            },
+            "unl": {
+              "wr": 0.5974999999999999,
+              "a": 0.6,
+              "b": 0.595
+            },
+            "d60": {
+              "wr": 0.1225,
+              "a": 0.15,
+              "b": 0.095
+            },
+            "s60": {
+              "wr": 0.69875,
+              "a": 0.7025,
+              "b": 0.695
+            },
+            "g": {
+              "wr": 0.4375,
+              "a": 0.4425,
+              "b": 0.4325
+            },
+            "c60": {
+              "wr": 0.41625,
+              "a": 0.42,
+              "b": 0.4125
+            },
+            "m": {
+              "wr": 0.1225,
+              "a": 0.1525,
+              "b": 0.0925
+            },
+            "starmie": {
+              "wr": 0.14750000000000002,
+              "a": 0.1625,
+              "b": 0.1325
+            },
+            "lucario": {
+              "wr": 0.73125,
+              "a": 0.725,
+              "b": 0.7375
+            },
+            "thorns": {
+              "wr": 0.89625,
+              "a": 0.89,
+              "b": 0.9025
+            },
+            "h": {
+              "wr": 0.92875,
+              "a": 0.935,
+              "b": 0.9225
+            },
+            "g30": {
+              "wr": 0.915,
+              "a": 0.9125,
+              "b": 0.9175
+            }
+          }
+        },
+        {
+          "label": "Chandelure",
+          "cut": "Chandelure",
+          "copies": 1,
+          "copies_before": 4,
+          "counts": {
+            "Litwick": 4,
+            "Lampent": 4,
+            "Chandelure": 3,
+            "Celebi \u25c7": 1,
+            "Pichu": 3,
+            "Arven": 4,
+            "Team Rocket's Petrel": 3,
+            "Buddy-Buddy Poffin": 2,
+            "Energy Search": 3,
+            "Energy Retrieval": 1,
+            "Rescue Scarf": 4,
+            "Dawn": 4,
+            "Level Ball": 2,
+            "Broken Time-Space": 3,
+            "Fire Energy": 7,
+            "Hisuian Heavy Ball": 1,
+            "Evolution Incense": 3,
+            "Hyper Aroma": 1,
+            "Jacq": 2,
+            "Hop": 4,
+            "Igglybuff": 1
+          },
+          "weighted": 0.4148698698698699,
+          "se": 0.0044259583876974165,
+          "mean": 0.5350961538461538,
+          "worst": 0.09125,
+          "sleepy_flip": 0.9891316316316318,
+          "sleepy_heads": 0.48631381381381383,
+          "plays": 0.9513163163163164,
+          "progress": 17.014406906906906,
+          "cells": {
+            "t60": {
+              "wr": 0.3325,
+              "a": 0.335,
+              "b": 0.33
+            },
+            "hedrick": {
+              "wr": 0.605,
+              "a": 0.6125,
+              "b": 0.5975
+            },
+            "unl": {
+              "wr": 0.61375,
+              "a": 0.5975,
+              "b": 0.63
+            },
+            "d60": {
+              "wr": 0.09125,
+              "a": 0.1075,
+              "b": 0.075
+            },
+            "s60": {
+              "wr": 0.685,
+              "a": 0.6975,
+              "b": 0.6725
+            },
+            "g": {
+              "wr": 0.47250000000000003,
+              "a": 0.4875,
+              "b": 0.4575
+            },
+            "c60": {
+              "wr": 0.43125,
+              "a": 0.435,
+              "b": 0.4275
+            },
+            "m": {
+              "wr": 0.135,
+              "a": 0.1425,
+              "b": 0.1275
+            },
+            "starmie": {
+              "wr": 0.11374999999999999,
+              "a": 0.11,
+              "b": 0.1175
+            },
+            "lucario": {
+              "wr": 0.7112499999999999,
+              "a": 0.6975,
+              "b": 0.725
+            },
+            "thorns": {
+              "wr": 0.90375,
+              "a": 0.93,
+              "b": 0.8775
+            },
+            "h": {
+              "wr": 0.9450000000000001,
+              "a": 0.9525,
+              "b": 0.9375
+            },
+            "g30": {
+              "wr": 0.91625,
+              "a": 0.9325,
+              "b": 0.9
+            }
+          }
+        },
+        {
+          "label": "Litwick",
+          "cut": "Litwick",
+          "copies": 1,
+          "copies_before": 4,
+          "counts": {
+            "Litwick": 3,
+            "Lampent": 4,
+            "Chandelure": 4,
+            "Celebi \u25c7": 1,
+            "Pichu": 3,
+            "Arven": 4,
+            "Team Rocket's Petrel": 3,
+            "Buddy-Buddy Poffin": 2,
+            "Energy Search": 3,
+            "Energy Retrieval": 1,
+            "Rescue Scarf": 4,
+            "Dawn": 4,
+            "Level Ball": 2,
+            "Broken Time-Space": 3,
+            "Fire Energy": 7,
+            "Hisuian Heavy Ball": 1,
+            "Evolution Incense": 3,
+            "Hyper Aroma": 1,
+            "Jacq": 2,
+            "Hop": 4,
+            "Igglybuff": 1
+          },
+          "weighted": 0.4076413913913914,
+          "se": 0.004385252855193656,
+          "mean": 0.5382692307692307,
+          "worst": 0.095,
+          "sleepy_flip": 1.1082144644644645,
+          "sleepy_heads": 0.5508208208208208,
+          "plays": 1.022067067067067,
+          "progress": 16.454766016016016,
+          "cells": {
+            "t60": {
+              "wr": 0.4225,
+              "a": 0.385,
+              "b": 0.46
+            },
+            "hedrick": {
+              "wr": 0.60625,
+              "a": 0.6025,
+              "b": 0.61
+            },
+            "unl": {
+              "wr": 0.625,
+              "a": 0.6225,
+              "b": 0.6275
+            },
+            "d60": {
+              "wr": 0.095,
+              "a": 0.1175,
+              "b": 0.0725
+            },
+            "s60": {
+              "wr": 0.7262500000000001,
+              "a": 0.7325,
+              "b": 0.72
+            },
+            "g": {
+              "wr": 0.42874999999999996,
+              "a": 0.445,
+              "b": 0.4125
+            },
+            "c60": {
+              "wr": 0.41625,
+              "a": 0.41,
+              "b": 0.4225
+            },
+            "m": {
+              "wr": 0.10375,
+              "a": 0.1175,
+              "b": 0.09
+            },
+            "starmie": {
+              "wr": 0.12375,
+              "a": 0.135,
+              "b": 0.1125
+            },
+            "lucario": {
+              "wr": 0.675,
+              "a": 0.6625,
+              "b": 0.6875
+            },
+            "thorns": {
+              "wr": 0.91125,
+              "a": 0.91,
+              "b": 0.9125
+            },
+            "h": {
+              "wr": 0.905,
+              "a": 0.905,
+              "b": 0.905
+            },
+            "g30": {
+              "wr": 0.95875,
+              "a": 0.9675,
+              "b": 0.95
+            }
+          }
+        },
+        {
+          "label": "Lampent",
+          "cut": "Lampent",
+          "copies": 1,
+          "copies_before": 4,
+          "counts": {
+            "Litwick": 4,
+            "Lampent": 3,
+            "Chandelure": 4,
+            "Celebi \u25c7": 1,
+            "Pichu": 3,
+            "Arven": 4,
+            "Team Rocket's Petrel": 3,
+            "Buddy-Buddy Poffin": 2,
+            "Energy Search": 3,
+            "Energy Retrieval": 1,
+            "Rescue Scarf": 4,
+            "Dawn": 4,
+            "Level Ball": 2,
+            "Broken Time-Space": 3,
+            "Fire Energy": 7,
+            "Hisuian Heavy Ball": 1,
+            "Evolution Incense": 3,
+            "Hyper Aroma": 1,
+            "Jacq": 2,
+            "Hop": 4,
+            "Igglybuff": 1
+          },
+          "weighted": 0.3893681181181181,
+          "se": 0.004416324154904687,
+          "mean": 0.5073076923076922,
+          "worst": 0.07875,
+          "sleepy_flip": 1.0837625125125125,
+          "sleepy_heads": 0.5397797797797798,
+          "plays": 0.9650825825825826,
+          "progress": 16.301612862862864,
+          "cells": {
+            "t60": {
+              "wr": 0.345,
+              "a": 0.3275,
+              "b": 0.3625
+            },
+            "hedrick": {
+              "wr": 0.53125,
+              "a": 0.51,
+              "b": 0.5525
+            },
+            "unl": {
+              "wr": 0.5725,
+              "a": 0.5575,
+              "b": 0.5875
+            },
+            "d60": {
+              "wr": 0.07875,
+              "a": 0.075,
+              "b": 0.0825
+            },
+            "s60": {
+              "wr": 0.65125,
+              "a": 0.665,
+              "b": 0.6375
+            },
+            "g": {
+              "wr": 0.41625,
+              "a": 0.43,
+              "b": 0.4025
+            },
+            "c60": {
+              "wr": 0.40875,
+              "a": 0.4025,
+              "b": 0.415
+            },
+            "m": {
+              "wr": 0.13124999999999998,
+              "a": 0.1425,
+              "b": 0.12
+            },
+            "starmie": {
+              "wr": 0.10625,
+              "a": 0.1075,
+              "b": 0.105
+            },
+            "lucario": {
+              "wr": 0.70875,
+              "a": 0.705,
+              "b": 0.7125
+            },
+            "thorns": {
+              "wr": 0.84625,
+              "a": 0.865,
+              "b": 0.8275
+            },
+            "h": {
+              "wr": 0.895,
+              "a": 0.895,
+              "b": 0.895
+            },
+            "g30": {
+              "wr": 0.90375,
+              "a": 0.8975,
+              "b": 0.91
+            }
+          }
+        },
+        {
+          "label": "Celebi \u25c7",
+          "cut": "Celebi \u25c7",
+          "copies": 1,
+          "copies_before": 1,
+          "counts": {
+            "Litwick": 4,
+            "Lampent": 4,
+            "Chandelure": 4,
+            "Pichu": 3,
+            "Arven": 4,
+            "Team Rocket's Petrel": 3,
+            "Buddy-Buddy Poffin": 2,
+            "Energy Search": 3,
+            "Energy Retrieval": 1,
+            "Rescue Scarf": 4,
+            "Dawn": 4,
+            "Level Ball": 2,
+            "Broken Time-Space": 3,
+            "Fire Energy": 7,
+            "Hisuian Heavy Ball": 1,
+            "Evolution Incense": 3,
+            "Hyper Aroma": 1,
+            "Jacq": 2,
+            "Hop": 4,
+            "Igglybuff": 1
+          },
+          "weighted": 0.08085710710710711,
+          "se": 0.0019454329483845525,
+          "mean": 0.15846153846153846,
+          "worst": 0.0,
+          "sleepy_flip": 2.380295295295295,
+          "sleepy_heads": 1.1906994494494496,
+          "plays": 1.0753653653653654,
+          "progress": 6.679030280280281,
+          "cells": {
+            "t60": {
+              "wr": 0.08,
+              "a": 0.08,
+              "b": 0.08
+            },
+            "hedrick": {
+              "wr": 0.08374999999999999,
+              "a": 0.06,
+              "b": 0.1075
+            },
+            "unl": {
+              "wr": 0.27749999999999997,
+              "a": 0.3025,
+              "b": 0.2525
+            },
+            "d60": {
+              "wr": 0.00625,
+              "a": 0.0,
+              "b": 0.0125
+            },
+            "s60": {
+              "wr": 0.065,
+              "a": 0.055,
+              "b": 0.075
+            },
+            "g": {
+              "wr": 0.005,
+              "a": 0.005,
+              "b": 0.005
+            },
+            "c60": {
+              "wr": 0.045,
+              "a": 0.05,
+              "b": 0.04
+            },
+            "m": {
+              "wr": 0.0125,
+              "a": 0.01,
+              "b": 0.015
+            },
+            "starmie": {
+              "wr": 0.00875,
+              "a": 0.01,
+              "b": 0.0075
+            },
+            "lucario": {
+              "wr": 0.51375,
+              "a": 0.4975,
+              "b": 0.53
+            },
+            "thorns": {
+              "wr": 0.535,
+              "a": 0.545,
+              "b": 0.525
+            },
+            "h": {
+              "wr": 0.0,
+              "a": 0.0,
+              "b": 0.0
+            },
+            "g30": {
+              "wr": 0.4275,
+              "a": 0.415,
+              "b": 0.44
+            }
+          }
+        }
+      ],
+      "kept": {
+        "label": "1 Igglybuff",
+        "cut": "Team Rocket's Petrel",
+        "copies": 1,
+        "copies_before": 3,
+        "counts": {
+          "Litwick": 4,
+          "Lampent": 4,
+          "Chandelure": 4,
+          "Celebi \u25c7": 1,
+          "Pichu": 3,
+          "Arven": 4,
+          "Team Rocket's Petrel": 2,
+          "Buddy-Buddy Poffin": 2,
+          "Energy Search": 3,
+          "Energy Retrieval": 1,
+          "Rescue Scarf": 4,
+          "Dawn": 4,
+          "Level Ball": 2,
+          "Broken Time-Space": 3,
+          "Fire Energy": 7,
+          "Hisuian Heavy Ball": 1,
+          "Evolution Incense": 3,
+          "Hyper Aroma": 1,
+          "Jacq": 2,
+          "Hop": 4,
+          "Igglybuff": 1
+        },
+        "weighted": 0.4492867867867868,
+        "se": 0.004604136430928381,
+        "mean": 0.5633653846153847,
+        "worst": 0.14,
+        "sleepy_flip": 0.9972297297297297,
+        "sleepy_heads": 0.5066128628628629,
+        "plays": 0.9436311311311312,
+        "progress": 17.946691691691694,
+        "cells": {
+          "t60": {
+            "wr": 0.39875000000000005,
+            "a": 0.395,
+            "b": 0.4025
+          },
+          "hedrick": {
+            "wr": 0.6112500000000001,
+            "a": 0.6075,
+            "b": 0.615
+          },
+          "unl": {
+            "wr": 0.63625,
+            "a": 0.66,
+            "b": 0.6125
+          },
+          "d60": {
+            "wr": 0.14,
+            "a": 0.13,
+            "b": 0.15
+          },
+          "s60": {
+            "wr": 0.73125,
+            "a": 0.74,
+            "b": 0.7225
+          },
+          "g": {
+            "wr": 0.52,
+            "a": 0.5375,
+            "b": 0.5025
+          },
+          "c60": {
+            "wr": 0.52625,
+            "a": 0.5375,
+            "b": 0.515
+          },
+          "m": {
+            "wr": 0.14500000000000002,
+            "a": 0.135,
+            "b": 0.155
+          },
+          "starmie": {
+            "wr": 0.145,
+            "a": 0.1425,
+            "b": 0.1475
+          },
+          "lucario": {
+            "wr": 0.7012499999999999,
+            "a": 0.715,
+            "b": 0.6875
+          },
+          "thorns": {
+            "wr": 0.905,
+            "a": 0.895,
+            "b": 0.915
+          },
+          "h": {
+            "wr": 0.92875,
+            "a": 0.9375,
+            "b": 0.92
+          },
+          "g30": {
+            "wr": 0.935,
+            "a": 0.94,
+            "b": 0.93
+          }
+        },
+        "gap": 0.0012612612612612484,
+        "gap_se": 0.006586666706350626,
+        "list": [
+          "Litwick",
+          "Litwick",
+          "Litwick",
+          "Litwick",
+          "Lampent",
+          "Lampent",
+          "Lampent",
+          "Lampent",
+          "Chandelure",
+          "Chandelure",
+          "Chandelure",
+          "Chandelure",
+          "Celebi \u25c7",
+          "Pichu",
+          "Pichu",
+          "Pichu",
+          "Arven",
+          "Arven",
+          "Arven",
+          "Arven",
+          "Team Rocket's Petrel",
+          "Team Rocket's Petrel",
+          "Buddy-Buddy Poffin",
+          "Buddy-Buddy Poffin",
+          "Energy Search",
+          "Energy Search",
+          "Energy Search",
+          "Energy Retrieval",
+          "Rescue Scarf",
+          "Rescue Scarf",
+          "Rescue Scarf",
+          "Rescue Scarf",
+          "Dawn",
+          "Dawn",
+          "Dawn",
+          "Dawn",
+          "Level Ball",
+          "Level Ball",
+          "Broken Time-Space",
+          "Broken Time-Space",
+          "Broken Time-Space",
+          "Fire Energy",
+          "Fire Energy",
+          "Fire Energy",
+          "Fire Energy",
+          "Fire Energy",
+          "Fire Energy",
+          "Fire Energy",
+          "Hisuian Heavy Ball",
+          "Evolution Incense",
+          "Evolution Incense",
+          "Evolution Incense",
+          "Hyper Aroma",
+          "Jacq",
+          "Jacq",
+          "Hop",
+          "Hop",
+          "Hop",
+          "Hop",
+          "Igglybuff"
+        ]
+      }
+    },
+    {
+      "step": 2,
+      "rows": [
+        {
+          "label": "Evolution Incense",
+          "cut": "Evolution Incense",
+          "copies": 2,
+          "copies_before": 3,
+          "counts": {
+            "Litwick": 4,
+            "Lampent": 4,
+            "Chandelure": 4,
+            "Celebi \u25c7": 1,
+            "Pichu": 3,
+            "Arven": 4,
+            "Team Rocket's Petrel": 2,
+            "Buddy-Buddy Poffin": 2,
+            "Energy Search": 3,
+            "Energy Retrieval": 1,
+            "Rescue Scarf": 4,
+            "Dawn": 4,
+            "Level Ball": 2,
+            "Broken Time-Space": 3,
+            "Fire Energy": 7,
+            "Hisuian Heavy Ball": 1,
+            "Evolution Incense": 2,
+            "Hyper Aroma": 1,
+            "Jacq": 2,
+            "Hop": 4,
+            "Igglybuff": 2
+          },
+          "weighted": 0.44790415415415413,
+          "se": 0.004675767074671458,
+          "mean": 0.5550961538461539,
+          "worst": 0.12125,
+          "sleepy_flip": 1.4082157157157158,
+          "sleepy_heads": 0.6998873873873874,
+          "plays": 1.2020820820820821,
+          "progress": 17.25407907907908,
+          "cells": {
+            "t60": {
+              "wr": 0.395,
+              "a": 0.375,
+              "b": 0.415
+            },
+            "hedrick": {
+              "wr": 0.61125,
+              "a": 0.6325,
+              "b": 0.59
+            },
+            "unl": {
+              "wr": 0.56875,
+              "a": 0.5625,
+              "b": 0.575
+            },
+            "d60": {
+              "wr": 0.13875,
+              "a": 0.17,
+              "b": 0.1075
+            },
+            "s60": {
+              "wr": 0.72375,
+              "a": 0.7425,
+              "b": 0.705
+            },
+            "g": {
+              "wr": 0.495,
+              "a": 0.4525,
+              "b": 0.5375
+            },
+            "c60": {
+              "wr": 0.5225,
+              "a": 0.52,
+              "b": 0.525
+            },
+            "m": {
+              "wr": 0.19624999999999998,
+              "a": 0.205,
+              "b": 0.1875
+            },
+            "starmie": {
+              "wr": 0.12125,
+              "a": 0.14,
+              "b": 0.1025
+            },
+            "lucario": {
+              "wr": 0.72375,
+              "a": 0.7,
+              "b": 0.7475
+            },
+            "thorns": {
+              "wr": 0.8875,
+              "a": 0.895,
+              "b": 0.88
+            },
+            "h": {
+              "wr": 0.91875,
+              "a": 0.9125,
+              "b": 0.925
+            },
+            "g30": {
+              "wr": 0.9137500000000001,
+              "a": 0.925,
+              "b": 0.9025
+            }
+          }
+        },
+        {
+          "label": "Team Rocket's Petrel",
+          "cut": "Team Rocket's Petrel",
+          "copies": 2,
+          "copies_before": 2,
+          "counts": {
+            "Litwick": 4,
+            "Lampent": 4,
+            "Chandelure": 4,
+            "Celebi \u25c7": 1,
+            "Pichu": 3,
+            "Arven": 4,
+            "Team Rocket's Petrel": 1,
+            "Buddy-Buddy Poffin": 2,
+            "Energy Search": 3,
+            "Energy Retrieval": 1,
+            "Rescue Scarf": 4,
+            "Dawn": 4,
+            "Level Ball": 2,
+            "Broken Time-Space": 3,
+            "Fire Energy": 7,
+            "Hisuian Heavy Ball": 1,
+            "Evolution Incense": 3,
+            "Hyper Aroma": 1,
+            "Jacq": 2,
+            "Hop": 4,
+            "Igglybuff": 2
+          },
+          "weighted": 0.44593218218218217,
+          "se": 0.004622026960927489,
+          "mean": 0.5600961538461539,
+          "worst": 0.1225,
+          "sleepy_flip": 1.4182044544544545,
+          "sleepy_heads": 0.7127627627627627,
+          "plays": 1.2119732232232232,
+          "progress": 17.495802052052053,
+          "cells": {
+            "t60": {
+              "wr": 0.40125,
+              "a": 0.4,
+              "b": 0.4025
+            },
+            "hedrick": {
+              "wr": 0.64375,
+              "a": 0.6625,
+              "b": 0.625
+            },
+            "unl": {
+              "wr": 0.59875,
+              "a": 0.5975,
+              "b": 0.6
+            },
+            "d60": {
+              "wr": 0.14,
+              "a": 0.1375,
+              "b": 0.1425
+            },
+            "s60": {
+              "wr": 0.7224999999999999,
+              "a": 0.725,
+              "b": 0.72
+            },
+            "g": {
+              "wr": 0.49874999999999997,
+              "a": 0.49,
+              "b": 0.5075
+            },
+            "c60": {
+              "wr": 0.50375,
+              "a": 0.4925,
+              "b": 0.515
+            },
+            "m": {
+              "wr": 0.16499999999999998,
+              "a": 0.145,
+              "b": 0.185
+            },
+            "starmie": {
+              "wr": 0.1225,
+              "a": 0.105,
+              "b": 0.14
+            },
+            "lucario": {
+              "wr": 0.7375,
+              "a": 0.755,
+              "b": 0.72
+            },
+            "thorns": {
+              "wr": 0.92,
+              "a": 0.915,
+              "b": 0.925
+            },
+            "h": {
+              "wr": 0.9137500000000001,
+              "a": 0.9225,
+              "b": 0.905
+            },
+            "g30": {
+              "wr": 0.9137500000000001,
+              "a": 0.915,
+              "b": 0.9125
+            }
+          }
+        },
+        {
+          "label": "Fire Energy",
+          "cut": "Fire Energy",
+          "copies": 2,
+          "copies_before": 7,
+          "counts": {
+            "Litwick": 4,
+            "Lampent": 4,
+            "Chandelure": 4,
+            "Celebi \u25c7": 1,
+            "Pichu": 3,
+            "Arven": 4,
+            "Team Rocket's Petrel": 2,
+            "Buddy-Buddy Poffin": 2,
+            "Energy Search": 3,
+            "Energy Retrieval": 1,
+            "Rescue Scarf": 4,
+            "Dawn": 4,
+            "Level Ball": 2,
+            "Broken Time-Space": 3,
+            "Fire Energy": 6,
+            "Hisuian Heavy Ball": 1,
+            "Evolution Incense": 3,
+            "Hyper Aroma": 1,
+            "Jacq": 2,
+            "Hop": 4,
+            "Igglybuff": 2
+          },
+          "weighted": 0.44510635635635637,
+          "se": 0.004605859812116178,
+          "mean": 0.5575961538461539,
+          "worst": 0.12625,
+          "sleepy_flip": 1.4160685685685686,
+          "sleepy_heads": 0.6979904904904904,
+          "plays": 1.2028415915915915,
+          "progress": 17.62998998998999,
+          "cells": {
+            "t60": {
+              "wr": 0.38125,
+              "a": 0.39,
+              "b": 0.3725
+            },
+            "hedrick": {
+              "wr": 0.565,
+              "a": 0.5825,
+              "b": 0.5475
+            },
+            "unl": {
+              "wr": 0.62375,
+              "a": 0.6075,
+              "b": 0.64
+            },
+            "d60": {
+              "wr": 0.13874999999999998,
+              "a": 0.1425,
+              "b": 0.135
+            },
+            "s60": {
+              "wr": 0.715,
+              "a": 0.705,
+              "b": 0.725
+            },
+            "g": {
+              "wr": 0.49375,
+              "a": 0.4925,
+              "b": 0.495
+            },
+            "c60": {
+              "wr": 0.53375,
+              "a": 0.535,
+              "b": 0.5325
+            },
+            "m": {
+              "wr": 0.15875,
+              "a": 0.185,
+              "b": 0.1325
+            },
+            "starmie": {
+              "wr": 0.12625,
+              "a": 0.105,
+              "b": 0.1475
+            },
+            "lucario": {
+              "wr": 0.7625,
+              "a": 0.775,
+              "b": 0.75
+            },
+            "thorns": {
+              "wr": 0.8975,
+              "a": 0.905,
+              "b": 0.89
+            },
+            "h": {
+              "wr": 0.9275,
+              "a": 0.93,
+              "b": 0.925
+            },
+            "g30": {
+              "wr": 0.925,
+              "a": 0.92,
+              "b": 0.93
+            }
+          }
+        },
+        {
+          "label": "Energy Search",
+          "cut": "Energy Search",
+          "copies": 2,
+          "copies_before": 3,
+          "counts": {
+            "Litwick": 4,
+            "Lampent": 4,
+            "Chandelure": 4,
+            "Celebi \u25c7": 1,
+            "Pichu": 3,
+            "Arven": 4,
+            "Team Rocket's Petrel": 2,
+            "Buddy-Buddy Poffin": 2,
+            "Energy Search": 2,
+            "Energy Retrieval": 1,
+            "Rescue Scarf": 4,
+            "Dawn": 4,
+            "Level Ball": 2,
+            "Broken Time-Space": 3,
+            "Fire Energy": 7,
+            "Hisuian Heavy Ball": 1,
+            "Evolution Incense": 3,
+            "Hyper Aroma": 1,
+            "Jacq": 2,
+            "Hop": 4,
+            "Igglybuff": 2
+          },
+          "weighted": 0.4413000500500501,
+          "se": 0.004557148555604039,
+          "mean": 0.5556730769230769,
+          "worst": 0.10750000000000001,
+          "sleepy_flip": 1.4322935435435435,
+          "sleepy_heads": 0.706871871871872,
+          "plays": 1.2014564564564565,
+          "progress": 17.47417292292292,
+          "cells": {
+            "t60": {
+              "wr": 0.4075,
+              "a": 0.4125,
+              "b": 0.4025
+            },
+            "hedrick": {
+              "wr": 0.6100000000000001,
+              "a": 0.5975,
+              "b": 0.6225
+            },
+            "unl": {
+              "wr": 0.5687500000000001,
+              "a": 0.5775,
+              "b": 0.56
+            },
+            "d60": {
+              "wr": 0.10750000000000001,
+              "a": 0.115,
+              "b": 0.1
+            },
+            "s60": {
+              "wr": 0.71625,
+              "a": 0.7375,
+              "b": 0.695
+            },
+            "g": {
+              "wr": 0.50625,
+              "a": 0.4975,
+              "b": 0.515
+            },
+            "c60": {
+              "wr": 0.5049999999999999,
+              "a": 0.5075,
+              "b": 0.5025
+            },
+            "m": {
+              "wr": 0.16125,
+              "a": 0.15,
+              "b": 0.1725
+            },
+            "starmie": {
+              "wr": 0.13375,
+              "a": 0.13,
+              "b": 0.1375
+            },
+            "lucario": {
+              "wr": 0.745,
+              "a": 0.7575,
+              "b": 0.7325
+            },
+            "thorns": {
+              "wr": 0.9125000000000001,
+              "a": 0.89,
+              "b": 0.935
+            },
+            "h": {
+              "wr": 0.9237500000000001,
+              "a": 0.9375,
+              "b": 0.91
+            },
+            "g30": {
+              "wr": 0.92625,
+              "a": 0.925,
+              "b": 0.9275
+            }
+          }
+        },
+        {
+          "label": "Buddy-Buddy Poffin",
+          "cut": "Buddy-Buddy Poffin",
+          "copies": 2,
+          "copies_before": 2,
+          "counts": {
+            "Litwick": 4,
+            "Lampent": 4,
+            "Chandelure": 4,
+            "Celebi \u25c7": 1,
+            "Pichu": 3,
+            "Arven": 4,
+            "Team Rocket's Petrel": 2,
+            "Buddy-Buddy Poffin": 1,
+            "Energy Search": 3,
+            "Energy Retrieval": 1,
+            "Rescue Scarf": 4,
+            "Dawn": 4,
+            "Level Ball": 2,
+            "Broken Time-Space": 3,
+            "Fire Energy": 7,
+            "Hisuian Heavy Ball": 1,
+            "Evolution Incense": 3,
+            "Hyper Aroma": 1,
+            "Jacq": 2,
+            "Hop": 4,
+            "Igglybuff": 2
+          },
+          "weighted": 0.4388250750750751,
+          "se": 0.004489983721786611,
+          "mean": 0.5567307692307693,
+          "worst": 0.11125,
+          "sleepy_flip": 1.290950950950951,
+          "sleepy_heads": 0.6416554054054053,
+          "plays": 1.108287037037037,
+          "progress": 17.213564814814816,
+          "cells": {
+            "t60": {
+              "wr": 0.40375,
+              "a": 0.395,
+              "b": 0.4125
+            },
+            "hedrick": {
+              "wr": 0.6012500000000001,
+              "a": 0.585,
+              "b": 0.6175
+            },
+            "unl": {
+              "wr": 0.6112500000000001,
+              "a": 0.615,
+              "b": 0.6075
+            },
+            "d60": {
+              "wr": 0.12125,
+              "a": 0.115,
+              "b": 0.1275
+            },
+            "s60": {
+              "wr": 0.7150000000000001,
+              "a": 0.7325,
+              "b": 0.6975
+            },
+            "g": {
+              "wr": 0.51125,
+              "a": 0.48,
+              "b": 0.5425
+            },
+            "c60": {
+              "wr": 0.515,
+              "a": 0.5425,
+              "b": 0.4875
+            },
+            "m": {
+              "wr": 0.12875,
+              "a": 0.13,
+              "b": 0.1275
+            },
+            "starmie": {
+              "wr": 0.11125,
+              "a": 0.1,
+              "b": 0.1225
+            },
+            "lucario": {
+              "wr": 0.74875,
+              "a": 0.7575,
+              "b": 0.74
+            },
+            "thorns": {
+              "wr": 0.93,
+              "a": 0.93,
+              "b": 0.93
+            },
+            "h": {
+              "wr": 0.92,
+              "a": 0.925,
+              "b": 0.915
+            },
+            "g30": {
+              "wr": 0.92,
+              "a": 0.915,
+              "b": 0.925
+            }
+          }
+        },
+        {
+          "label": "Energy Retrieval",
+          "cut": "Energy Retrieval",
+          "copies": 2,
+          "copies_before": 1,
+          "counts": {
+            "Litwick": 4,
+            "Lampent": 4,
+            "Chandelure": 4,
+            "Celebi \u25c7": 1,
+            "Pichu": 3,
+            "Arven": 4,
+            "Team Rocket's Petrel": 2,
+            "Buddy-Buddy Poffin": 2,
+            "Energy Search": 3,
+            "Rescue Scarf": 4,
+            "Dawn": 4,
+            "Level Ball": 2,
+            "Broken Time-Space": 3,
+            "Fire Energy": 7,
+            "Hisuian Heavy Ball": 1,
+            "Evolution Incense": 3,
+            "Hyper Aroma": 1,
+            "Jacq": 2,
+            "Hop": 4,
+            "Igglybuff": 2
+          },
+          "weighted": 0.43850225225225226,
+          "se": 0.004618629669850211,
+          "mean": 0.5526923076923077,
+          "worst": 0.12,
+          "sleepy_flip": 1.4454116616616617,
+          "sleepy_heads": 0.7218055555555555,
+          "plays": 1.1968518518518518,
+          "progress": 17.588584834834837,
+          "cells": {
+            "t60": {
+              "wr": 0.435,
+              "a": 0.4525,
+              "b": 0.4175
+            },
+            "hedrick": {
+              "wr": 0.6112500000000001,
+              "a": 0.6125,
+              "b": 0.61
+            },
+            "unl": {
+              "wr": 0.5974999999999999,
+              "a": 0.61,
+              "b": 0.585
+            },
+            "d60": {
+              "wr": 0.12,
+              "a": 0.12,
+              "b": 0.12
+            },
+            "s60": {
+              "wr": 0.69875,
+              "a": 0.705,
+              "b": 0.6925
+            },
+            "g": {
+              "wr": 0.495,
+              "a": 0.4875,
+              "b": 0.5025
+            },
+            "c60": {
+              "wr": 0.485,
+              "a": 0.4975,
+              "b": 0.4725
+            },
+            "m": {
+              "wr": 0.17125,
+              "a": 0.1825,
+              "b": 0.16
+            },
+            "starmie": {
+              "wr": 0.13124999999999998,
+              "a": 0.12,
+              "b": 0.1425
+            },
+            "lucario": {
+              "wr": 0.72125,
+              "a": 0.72,
+              "b": 0.7225
+            },
+            "thorns": {
+              "wr": 0.905,
+              "a": 0.9125,
+              "b": 0.8975
+            },
+            "h": {
+              "wr": 0.9137500000000001,
+              "a": 0.9275,
+              "b": 0.9
+            },
+            "g30": {
+              "wr": 0.9,
+              "a": 0.905,
+              "b": 0.895
+            }
+          }
+        },
+        {
+          "label": "Broken Time-Space",
+          "cut": "Broken Time-Space",
+          "copies": 2,
+          "copies_before": 3,
+          "counts": {
+            "Litwick": 4,
+            "Lampent": 4,
+            "Chandelure": 4,
+            "Celebi \u25c7": 1,
+            "Pichu": 3,
+            "Arven": 4,
+            "Team Rocket's Petrel": 2,
+            "Buddy-Buddy Poffin": 2,
+            "Energy Search": 3,
+            "Energy Retrieval": 1,
+            "Rescue Scarf": 4,
+            "Dawn": 4,
+            "Level Ball": 2,
+            "Broken Time-Space": 2,
+            "Fire Energy": 7,
+            "Hisuian Heavy Ball": 1,
+            "Evolution Incense": 3,
+            "Hyper Aroma": 1,
+            "Jacq": 2,
+            "Hop": 4,
+            "Igglybuff": 2
+          },
+          "weighted": 0.4362575075075075,
+          "se": 0.00457415240367931,
+          "mean": 0.5482692307692308,
+          "worst": 0.10375000000000001,
+          "sleepy_flip": 1.4002102102102103,
+          "sleepy_heads": 0.6947560060060061,
+          "plays": 1.1801601601601601,
+          "progress": 17.40272772772773,
+          "cells": {
+            "t60": {
+              "wr": 0.37875000000000003,
+              "a": 0.3625,
+              "b": 0.395
+            },
+            "hedrick": {
+              "wr": 0.57125,
+              "a": 0.5775,
+              "b": 0.565
+            },
+            "unl": {
+              "wr": 0.59125,
+              "a": 0.5925,
+              "b": 0.59
+            },
+            "d60": {
+              "wr": 0.10375000000000001,
+              "a": 0.1075,
+              "b": 0.1
+            },
+            "s60": {
+              "wr": 0.68625,
+              "a": 0.6875,
+              "b": 0.685
+            },
+            "g": {
+              "wr": 0.49624999999999997,
+              "a": 0.51,
+              "b": 0.4825
+            },
+            "c60": {
+              "wr": 0.50875,
+              "a": 0.5175,
+              "b": 0.5
+            },
+            "m": {
+              "wr": 0.16375,
+              "a": 0.1525,
+              "b": 0.175
+            },
+            "starmie": {
+              "wr": 0.14375,
+              "a": 0.155,
+              "b": 0.1325
+            },
+            "lucario": {
+              "wr": 0.73375,
+              "a": 0.7325,
+              "b": 0.735
+            },
+            "thorns": {
+              "wr": 0.9175,
+              "a": 0.9225,
+              "b": 0.9125
+            },
+            "h": {
+              "wr": 0.925,
+              "a": 0.93,
+              "b": 0.92
+            },
+            "g30": {
+              "wr": 0.9075,
+              "a": 0.925,
+              "b": 0.89
+            }
+          }
+        },
+        {
+          "label": "Arven",
+          "cut": "Arven",
+          "copies": 2,
+          "copies_before": 4,
+          "counts": {
+            "Litwick": 4,
+            "Lampent": 4,
+            "Chandelure": 4,
+            "Celebi \u25c7": 1,
+            "Pichu": 3,
+            "Arven": 3,
+            "Team Rocket's Petrel": 2,
+            "Buddy-Buddy Poffin": 2,
+            "Energy Search": 3,
+            "Energy Retrieval": 1,
+            "Rescue Scarf": 4,
+            "Dawn": 4,
+            "Level Ball": 2,
+            "Broken Time-Space": 3,
+            "Fire Energy": 7,
+            "Hisuian Heavy Ball": 1,
+            "Evolution Incense": 3,
+            "Hyper Aroma": 1,
+            "Jacq": 2,
+            "Hop": 4,
+            "Igglybuff": 2
+          },
+          "weighted": 0.4344319319319319,
+          "se": 0.004523427401264839,
+          "mean": 0.5496153846153846,
+          "worst": 0.1075,
+          "sleepy_flip": 1.4376864364364363,
+          "sleepy_heads": 0.7086311311311311,
+          "plays": 1.2032532532532532,
+          "progress": 17.19708333333333,
+          "cells": {
+            "t60": {
+              "wr": 0.385,
+              "a": 0.37,
+              "b": 0.4
+            },
+            "hedrick": {
+              "wr": 0.61875,
+              "a": 0.63,
+              "b": 0.6075
+            },
+            "unl": {
+              "wr": 0.5862499999999999,
+              "a": 0.59,
+              "b": 0.5825
+            },
+            "d60": {
+              "wr": 0.1075,
+              "a": 0.1175,
+              "b": 0.0975
+            },
+            "s60": {
+              "wr": 0.7,
+              "a": 0.6775,
+              "b": 0.7225
+            },
+            "g": {
+              "wr": 0.47125,
+              "a": 0.4525,
+              "b": 0.49
+            },
+            "c60": {
+              "wr": 0.51375,
+              "a": 0.54,
+              "b": 0.4875
+            },
+            "m": {
+              "wr": 0.16,
+              "a": 0.1625,
+              "b": 0.1575
+            },
+            "starmie": {
+              "wr": 0.11000000000000001,
+              "a": 0.085,
+              "b": 0.135
+            },
+            "lucario": {
+              "wr": 0.74375,
+              "a": 0.75,
+              "b": 0.7375
+            },
+            "thorns": {
+              "wr": 0.91875,
+              "a": 0.9225,
+              "b": 0.915
+            },
+            "h": {
+              "wr": 0.925,
+              "a": 0.9075,
+              "b": 0.9425
+            },
+            "g30": {
+              "wr": 0.905,
+              "a": 0.91,
+              "b": 0.9
+            }
+          }
+        },
+        {
+          "label": "Jacq",
+          "cut": "Jacq",
+          "copies": 2,
+          "copies_before": 2,
+          "counts": {
+            "Litwick": 4,
+            "Lampent": 4,
+            "Chandelure": 4,
+            "Celebi \u25c7": 1,
+            "Pichu": 3,
+            "Arven": 4,
+            "Team Rocket's Petrel": 2,
+            "Buddy-Buddy Poffin": 2,
+            "Energy Search": 3,
+            "Energy Retrieval": 1,
+            "Rescue Scarf": 4,
+            "Dawn": 4,
+            "Level Ball": 2,
+            "Broken Time-Space": 3,
+            "Fire Energy": 7,
+            "Hisuian Heavy Ball": 1,
+            "Evolution Incense": 3,
+            "Hyper Aroma": 1,
+            "Jacq": 1,
+            "Hop": 4,
+            "Igglybuff": 2
+          },
+          "weighted": 0.4336048548548549,
+          "se": 0.004584430984005051,
+          "mean": 0.5459615384615385,
+          "worst": 0.11875,
+          "sleepy_flip": 1.4743355855855855,
+          "sleepy_heads": 0.750721971971972,
+          "plays": 1.1978465965965965,
+          "progress": 17.33141141141141,
+          "cells": {
+            "t60": {
+              "wr": 0.38375000000000004,
+              "a": 0.37,
+              "b": 0.3975
+            },
+            "hedrick": {
+              "wr": 0.54375,
+              "a": 0.5625,
+              "b": 0.525
+            },
+            "unl": {
+              "wr": 0.58125,
+              "a": 0.58,
+              "b": 0.5825
+            },
+            "d60": {
+              "wr": 0.12375,
+              "a": 0.1275,
+              "b": 0.12
+            },
+            "s60": {
+              "wr": 0.7175,
+              "a": 0.71,
+              "b": 0.725
+            },
+            "g": {
+              "wr": 0.49125,
+              "a": 0.515,
+              "b": 0.4675
+            },
+            "c60": {
+              "wr": 0.47875,
+              "a": 0.475,
+              "b": 0.4825
+            },
+            "m": {
+              "wr": 0.16625,
+              "a": 0.1525,
+              "b": 0.18
+            },
+            "starmie": {
+              "wr": 0.11875,
+              "a": 0.125,
+              "b": 0.1125
+            },
+            "lucario": {
+              "wr": 0.74875,
+              "a": 0.755,
+              "b": 0.7425
+            },
+            "thorns": {
+              "wr": 0.8899999999999999,
+              "a": 0.9025,
+              "b": 0.8775
+            },
+            "h": {
+              "wr": 0.93125,
+              "a": 0.9425,
+              "b": 0.92
+            },
+            "g30": {
+              "wr": 0.9225,
+              "a": 0.9225,
+              "b": 0.9225
+            }
+          }
+        },
+        {
+          "label": "Dawn",
+          "cut": "Dawn",
+          "copies": 2,
+          "copies_before": 4,
+          "counts": {
+            "Litwick": 4,
+            "Lampent": 4,
+            "Chandelure": 4,
+            "Celebi \u25c7": 1,
+            "Pichu": 3,
+            "Arven": 4,
+            "Team Rocket's Petrel": 2,
+            "Buddy-Buddy Poffin": 2,
+            "Energy Search": 3,
+            "Energy Retrieval": 1,
+            "Rescue Scarf": 4,
+            "Dawn": 3,
+            "Level Ball": 2,
+            "Broken Time-Space": 3,
+            "Fire Energy": 7,
+            "Hisuian Heavy Ball": 1,
+            "Evolution Incense": 3,
+            "Hyper Aroma": 1,
+            "Jacq": 2,
+            "Hop": 4,
+            "Igglybuff": 2
+          },
+          "weighted": 0.4308783783783784,
+          "se": 0.004569343196953293,
+          "mean": 0.5484615384615384,
+          "worst": 0.11875,
+          "sleepy_flip": 1.4158233233233233,
+          "sleepy_heads": 0.7052890390390391,
+          "plays": 1.1734972472472474,
+          "progress": 16.971776776776778,
+          "cells": {
+            "t60": {
+              "wr": 0.4125,
+              "a": 0.3975,
+              "b": 0.4275
+            },
+            "hedrick": {
+              "wr": 0.59125,
+              "a": 0.585,
+              "b": 0.5975
+            },
+            "unl": {
+              "wr": 0.6,
+              "a": 0.605,
+              "b": 0.595
+            },
+            "d60": {
+              "wr": 0.11875,
+              "a": 0.095,
+              "b": 0.1425
+            },
+            "s60": {
+              "wr": 0.70375,
+              "a": 0.6825,
+              "b": 0.725
+            },
+            "g": {
+              "wr": 0.47250000000000003,
+              "a": 0.4525,
+              "b": 0.4925
+            },
+            "c60": {
+              "wr": 0.47125,
+              "a": 0.48,
+              "b": 0.4625
+            },
+            "m": {
+              "wr": 0.1525,
+              "a": 0.16,
+              "b": 0.145
+            },
+            "starmie": {
+              "wr": 0.12875,
+              "a": 0.1325,
+              "b": 0.125
+            },
+            "lucario": {
+              "wr": 0.75875,
+              "a": 0.7125,
+              "b": 0.805
+            },
+            "thorns": {
+              "wr": 0.90375,
+              "a": 0.895,
+              "b": 0.9125
+            },
+            "h": {
+              "wr": 0.90625,
+              "a": 0.9,
+              "b": 0.9125
+            },
+            "g30": {
+              "wr": 0.91,
+              "a": 0.925,
+              "b": 0.895
+            }
+          }
+        },
+        {
+          "label": "Level Ball",
+          "cut": "Level Ball",
+          "copies": 2,
+          "copies_before": 2,
+          "counts": {
+            "Litwick": 4,
+            "Lampent": 4,
+            "Chandelure": 4,
+            "Celebi \u25c7": 1,
+            "Pichu": 3,
+            "Arven": 4,
+            "Team Rocket's Petrel": 2,
+            "Buddy-Buddy Poffin": 2,
+            "Energy Search": 3,
+            "Energy Retrieval": 1,
+            "Rescue Scarf": 4,
+            "Dawn": 4,
+            "Level Ball": 1,
+            "Broken Time-Space": 3,
+            "Fire Energy": 7,
+            "Hisuian Heavy Ball": 1,
+            "Evolution Incense": 3,
+            "Hyper Aroma": 1,
+            "Jacq": 2,
+            "Hop": 4,
+            "Igglybuff": 2
+          },
+          "weighted": 0.4308696196196196,
+          "se": 0.0044872105043187215,
+          "mean": 0.5471153846153846,
+          "worst": 0.1,
+          "sleepy_flip": 1.390621871871872,
+          "sleepy_heads": 0.6813188188188188,
+          "plays": 1.170198948948949,
+          "progress": 17.210215215215214,
+          "cells": {
+            "t60": {
+              "wr": 0.3825,
+              "a": 0.3775,
+              "b": 0.3875
+            },
+            "hedrick": {
+              "wr": 0.5925,
+              "a": 0.5975,
+              "b": 0.5875
+            },
+            "unl": {
+              "wr": 0.58875,
+              "a": 0.58,
+              "b": 0.5975
+            },
+            "d60": {
+              "wr": 0.1,
+              "a": 0.11,
+              "b": 0.09
+            },
+            "s60": {
+              "wr": 0.71,
+              "a": 0.7175,
+              "b": 0.7025
+            },
+            "g": {
+              "wr": 0.49249999999999994,
+              "a": 0.5075,
+              "b": 0.4775
+            },
+            "c60": {
+              "wr": 0.49249999999999994,
+              "a": 0.5075,
+              "b": 0.4775
+            },
+            "m": {
+              "wr": 0.14,
+              "a": 0.155,
+              "b": 0.125
+            },
+            "starmie": {
+              "wr": 0.12125,
+              "a": 0.1175,
+              "b": 0.125
+            },
+            "lucario": {
+              "wr": 0.7737499999999999,
+              "a": 0.7925,
+              "b": 0.755
+            },
+            "thorns": {
+              "wr": 0.91625,
+              "a": 0.9175,
+              "b": 0.915
+            },
+            "h": {
+              "wr": 0.90875,
+              "a": 0.925,
+              "b": 0.8925
+            },
+            "g30": {
+              "wr": 0.89375,
+              "a": 0.8975,
+              "b": 0.89
+            }
+          }
+        },
+        {
+          "label": "Rescue Scarf",
+          "cut": "Rescue Scarf",
+          "copies": 2,
+          "copies_before": 4,
+          "counts": {
+            "Litwick": 4,
+            "Lampent": 4,
+            "Chandelure": 4,
+            "Celebi \u25c7": 1,
+            "Pichu": 3,
+            "Arven": 4,
+            "Team Rocket's Petrel": 2,
+            "Buddy-Buddy Poffin": 2,
+            "Energy Search": 3,
+            "Energy Retrieval": 1,
+            "Rescue Scarf": 3,
+            "Dawn": 4,
+            "Level Ball": 2,
+            "Broken Time-Space": 3,
+            "Fire Energy": 7,
+            "Hisuian Heavy Ball": 1,
+            "Evolution Incense": 3,
+            "Hyper Aroma": 1,
+            "Jacq": 2,
+            "Hop": 4,
+            "Igglybuff": 2
+          },
+          "weighted": 0.4296483983983984,
+          "se": 0.0045377705992664915,
+          "mean": 0.5475,
+          "worst": 0.11,
+          "sleepy_flip": 1.4439439439439439,
+          "sleepy_heads": 0.7015277777777778,
+          "plays": 1.1899774774774776,
+          "progress": 17.26618993993994,
+          "cells": {
+            "t60": {
+              "wr": 0.40249999999999997,
+              "a": 0.385,
+              "b": 0.42
+            },
+            "hedrick": {
+              "wr": 0.595,
+              "a": 0.6075,
+              "b": 0.5825
+            },
+            "unl": {
+              "wr": 0.6,
+              "a": 0.595,
+              "b": 0.605
+            },
+            "d60": {
+              "wr": 0.11,
+              "a": 0.11,
+              "b": 0.11
+            },
+            "s60": {
+              "wr": 0.7,
+              "a": 0.69,
+              "b": 0.71
+            },
+            "g": {
+              "wr": 0.4675,
+              "a": 0.4725,
+              "b": 0.4625
+            },
+            "c60": {
+              "wr": 0.47625,
+              "a": 0.455,
+              "b": 0.4975
+            },
+            "m": {
+              "wr": 0.15125,
+              "a": 0.1625,
+              "b": 0.14
+            },
+            "starmie": {
+              "wr": 0.1275,
+              "a": 0.105,
+              "b": 0.15
+            },
+            "lucario": {
+              "wr": 0.7475,
+              "a": 0.76,
+              "b": 0.735
+            },
+            "thorns": {
+              "wr": 0.90125,
+              "a": 0.905,
+              "b": 0.8975
+            },
+            "h": {
+              "wr": 0.925,
+              "a": 0.9175,
+              "b": 0.9325
+            },
+            "g30": {
+              "wr": 0.9137500000000001,
+              "a": 0.92,
+              "b": 0.9075
+            }
+          }
+        },
+        {
+          "label": "Hop",
+          "cut": "Hop",
+          "copies": 2,
+          "copies_before": 4,
+          "counts": {
+            "Litwick": 4,
+            "Lampent": 4,
+            "Chandelure": 4,
+            "Celebi \u25c7": 1,
+            "Pichu": 3,
+            "Arven": 4,
+            "Team Rocket's Petrel": 2,
+            "Buddy-Buddy Poffin": 2,
+            "Energy Search": 3,
+            "Energy Retrieval": 1,
+            "Rescue Scarf": 4,
+            "Dawn": 4,
+            "Level Ball": 2,
+            "Broken Time-Space": 3,
+            "Fire Energy": 7,
+            "Hisuian Heavy Ball": 1,
+            "Evolution Incense": 3,
+            "Hyper Aroma": 1,
+            "Jacq": 2,
+            "Hop": 3,
+            "Igglybuff": 2
+          },
+          "weighted": 0.42333833833833834,
+          "se": 0.0045422948791023765,
+          "mean": 0.5407692307692308,
+          "worst": 0.11499999999999999,
+          "sleepy_flip": 1.42382007007007,
+          "sleepy_heads": 0.705792042042042,
+          "plays": 1.1766666666666667,
+          "progress": 16.93802052052052,
+          "cells": {
+            "t60": {
+              "wr": 0.40625,
+              "a": 0.4075,
+              "b": 0.405
+            },
+            "hedrick": {
+              "wr": 0.58,
+              "a": 0.585,
+              "b": 0.575
+            },
+            "unl": {
+              "wr": 0.56875,
+              "a": 0.5725,
+              "b": 0.565
+            },
+            "d60": {
+              "wr": 0.13125,
+              "a": 0.135,
+              "b": 0.1275
+            },
+            "s60": {
+              "wr": 0.68375,
+              "a": 0.705,
+              "b": 0.6625
+            },
+            "g": {
+              "wr": 0.45125000000000004,
+              "a": 0.435,
+              "b": 0.4675
+            },
+            "c60": {
+              "wr": 0.4675,
+              "a": 0.4725,
+              "b": 0.4625
+            },
+            "m": {
+              "wr": 0.135,
+              "a": 0.135,
+              "b": 0.135
+            },
+            "starmie": {
+              "wr": 0.11499999999999999,
+              "a": 0.125,
+              "b": 0.105
+            },
+            "lucario": {
+              "wr": 0.74375,
+              "a": 0.7375,
+              "b": 0.75
+            },
+            "thorns": {
+              "wr": 0.90375,
+              "a": 0.905,
+              "b": 0.9025
+            },
+            "h": {
+              "wr": 0.92125,
+              "a": 0.9275,
+              "b": 0.915
+            },
+            "g30": {
+              "wr": 0.9225000000000001,
+              "a": 0.92,
+              "b": 0.925
+            }
+          }
+        },
+        {
+          "label": "Chandelure",
+          "cut": "Chandelure",
+          "copies": 2,
+          "copies_before": 4,
+          "counts": {
+            "Litwick": 4,
+            "Lampent": 4,
+            "Chandelure": 3,
+            "Celebi \u25c7": 1,
+            "Pichu": 3,
+            "Arven": 4,
+            "Team Rocket's Petrel": 2,
+            "Buddy-Buddy Poffin": 2,
+            "Energy Search": 3,
+            "Energy Retrieval": 1,
+            "Rescue Scarf": 4,
+            "Dawn": 4,
+            "Level Ball": 2,
+            "Broken Time-Space": 3,
+            "Fire Energy": 7,
+            "Hisuian Heavy Ball": 1,
+            "Evolution Incense": 3,
+            "Hyper Aroma": 1,
+            "Jacq": 2,
+            "Hop": 4,
+            "Igglybuff": 2
+          },
+          "weighted": 0.4221609109109109,
+          "se": 0.004512016534609855,
+          "mean": 0.5381730769230769,
+          "worst": 0.10750000000000001,
+          "sleepy_flip": 1.3833571071071071,
+          "sleepy_heads": 0.6888125625625626,
+          "plays": 1.1753378378378379,
+          "progress": 16.930564314314314,
+          "cells": {
+            "t60": {
+              "wr": 0.40125,
+              "a": 0.37,
+              "b": 0.4325
+            },
+            "hedrick": {
+              "wr": 0.605,
+              "a": 0.5975,
+              "b": 0.6125
+            },
+            "unl": {
+              "wr": 0.56125,
+              "a": 0.5525,
+              "b": 0.57
+            },
+            "d60": {
+              "wr": 0.10750000000000001,
+              "a": 0.115,
+              "b": 0.1
+            },
+            "s60": {
+              "wr": 0.6675,
+              "a": 0.655,
+              "b": 0.68
+            },
+            "g": {
+              "wr": 0.47,
+              "a": 0.4825,
+              "b": 0.4575
+            },
+            "c60": {
+              "wr": 0.4625,
+              "a": 0.49,
+              "b": 0.435
+            },
+            "m": {
+              "wr": 0.13125,
+              "a": 0.1225,
+              "b": 0.14
+            },
+            "starmie": {
+              "wr": 0.1375,
+              "a": 0.16,
+              "b": 0.115
+            },
+            "lucario": {
+              "wr": 0.7350000000000001,
+              "a": 0.7325,
+              "b": 0.7375
+            },
+            "thorns": {
+              "wr": 0.89625,
+              "a": 0.9,
+              "b": 0.8925
+            },
+            "h": {
+              "wr": 0.9225,
+              "a": 0.9225,
+              "b": 0.9225
+            },
+            "g30": {
+              "wr": 0.8987499999999999,
+              "a": 0.875,
+              "b": 0.9225
+            }
+          }
+        },
+        {
+          "label": "Pichu",
+          "cut": "Pichu",
+          "copies": 2,
+          "copies_before": 3,
+          "counts": {
+            "Litwick": 4,
+            "Lampent": 4,
+            "Chandelure": 4,
+            "Celebi \u25c7": 1,
+            "Pichu": 2,
+            "Arven": 4,
+            "Team Rocket's Petrel": 2,
+            "Buddy-Buddy Poffin": 2,
+            "Energy Search": 3,
+            "Energy Retrieval": 1,
+            "Rescue Scarf": 4,
+            "Dawn": 4,
+            "Level Ball": 2,
+            "Broken Time-Space": 3,
+            "Fire Energy": 7,
+            "Hisuian Heavy Ball": 1,
+            "Evolution Incense": 3,
+            "Hyper Aroma": 1,
+            "Jacq": 2,
+            "Hop": 4,
+            "Igglybuff": 2
+          },
+          "weighted": 0.4210935935935936,
+          "se": 0.004428985280124841,
+          "mean": 0.5429807692307692,
+          "worst": 0.10875,
+          "sleepy_flip": 1.5826576576576579,
+          "sleepy_heads": 0.7896946946946947,
+          "plays": 1.254049049049049,
+          "progress": 16.75091091091091,
+          "cells": {
+            "t60": {
+              "wr": 0.39125,
+              "a": 0.385,
+              "b": 0.3975
+            },
+            "hedrick": {
+              "wr": 0.61875,
+              "a": 0.6125,
+              "b": 0.625
+            },
+            "unl": {
+              "wr": 0.59,
+              "a": 0.57,
+              "b": 0.61
+            },
+            "d60": {
+              "wr": 0.10999999999999999,
+              "a": 0.1175,
+              "b": 0.1025
+            },
+            "s60": {
+              "wr": 0.735,
+              "a": 0.7575,
+              "b": 0.7125
+            },
+            "g": {
+              "wr": 0.4475,
+              "a": 0.4375,
+              "b": 0.4575
+            },
+            "c60": {
+              "wr": 0.4675,
+              "a": 0.4575,
+              "b": 0.4775
+            },
+            "m": {
+              "wr": 0.10875,
+              "a": 0.1175,
+              "b": 0.1
+            },
+            "starmie": {
+              "wr": 0.12,
+              "a": 0.125,
+              "b": 0.115
+            },
+            "lucario": {
+              "wr": 0.7424999999999999,
+              "a": 0.765,
+              "b": 0.72
+            },
+            "thorns": {
+              "wr": 0.8975,
+              "a": 0.8975,
+              "b": 0.8975
+            },
+            "h": {
+              "wr": 0.915,
+              "a": 0.92,
+              "b": 0.91
+            },
+            "g30": {
+              "wr": 0.915,
+              "a": 0.93,
+              "b": 0.9
+            }
+          }
+        },
+        {
+          "label": "Hyper Aroma",
+          "cut": "Hyper Aroma",
+          "copies": 2,
+          "copies_before": 1,
+          "counts": {
+            "Litwick": 4,
+            "Lampent": 4,
+            "Chandelure": 4,
+            "Celebi \u25c7": 1,
+            "Pichu": 3,
+            "Arven": 4,
+            "Team Rocket's Petrel": 2,
+            "Buddy-Buddy Poffin": 2,
+            "Energy Search": 3,
+            "Energy Retrieval": 1,
+            "Rescue Scarf": 4,
+            "Dawn": 4,
+            "Level Ball": 2,
+            "Broken Time-Space": 3,
+            "Fire Energy": 7,
+            "Hisuian Heavy Ball": 1,
+            "Evolution Incense": 3,
+            "Jacq": 2,
+            "Hop": 4,
+            "Igglybuff": 2
+          },
+          "weighted": 0.41292792792792793,
+          "se": 0.004451167987028916,
+          "mean": 0.5311538461538462,
+          "worst": 0.09,
+          "sleepy_flip": 1.5073711211211211,
+          "sleepy_heads": 0.7473711211211211,
+          "plays": 1.2368405905905906,
+          "progress": 16.810055055055056,
+          "cells": {
+            "t60": {
+              "wr": 0.35875,
+              "a": 0.34,
+              "b": 0.3775
+            },
+            "hedrick": {
+              "wr": 0.55625,
+              "a": 0.5525,
+              "b": 0.56
+            },
+            "unl": {
+              "wr": 0.595,
+              "a": 0.59,
+              "b": 0.6
+            },
+            "d60": {
+              "wr": 0.09,
+              "a": 0.095,
+              "b": 0.085
+            },
+            "s60": {
+              "wr": 0.6912499999999999,
+              "a": 0.6825,
+              "b": 0.7
+            },
+            "g": {
+              "wr": 0.42625,
+              "a": 0.425,
+              "b": 0.4275
+            },
+            "c60": {
+              "wr": 0.46375,
+              "a": 0.47,
+              "b": 0.4575
+            },
+            "m": {
+              "wr": 0.15,
+              "a": 0.175,
+              "b": 0.125
+            },
+            "starmie": {
+              "wr": 0.1075,
+              "a": 0.1075,
+              "b": 0.1075
+            },
+            "lucario": {
+              "wr": 0.70625,
+              "a": 0.68,
+              "b": 0.7325
+            },
+            "thorns": {
+              "wr": 0.90625,
+              "a": 0.89,
+              "b": 0.9225
+            },
+            "h": {
+              "wr": 0.9412499999999999,
+              "a": 0.945,
+              "b": 0.9375
+            },
+            "g30": {
+              "wr": 0.9125000000000001,
+              "a": 0.9,
+              "b": 0.925
+            }
+          }
+        },
+        {
+          "label": "Litwick",
+          "cut": "Litwick",
+          "copies": 2,
+          "copies_before": 4,
+          "counts": {
+            "Litwick": 3,
+            "Lampent": 4,
+            "Chandelure": 4,
+            "Celebi \u25c7": 1,
+            "Pichu": 3,
+            "Arven": 4,
+            "Team Rocket's Petrel": 2,
+            "Buddy-Buddy Poffin": 2,
+            "Energy Search": 3,
+            "Energy Retrieval": 1,
+            "Rescue Scarf": 4,
+            "Dawn": 4,
+            "Level Ball": 2,
+            "Broken Time-Space": 3,
+            "Fire Energy": 7,
+            "Hisuian Heavy Ball": 1,
+            "Evolution Incense": 3,
+            "Hyper Aroma": 1,
+            "Jacq": 2,
+            "Hop": 4,
+            "Igglybuff": 2
+          },
+          "weighted": 0.40872497497497495,
+          "se": 0.0043889567255633605,
+          "mean": 0.5357692307692308,
+          "worst": 0.09125,
+          "sleepy_flip": 1.5661649149149148,
+          "sleepy_heads": 0.7741766766766767,
+          "plays": 1.299562062062062,
+          "progress": 16.728586086086086,
+          "cells": {
+            "t60": {
+              "wr": 0.39125,
+              "a": 0.3925,
+              "b": 0.39
+            },
+            "hedrick": {
+              "wr": 0.6075,
+              "a": 0.6025,
+              "b": 0.6125
+            },
+            "unl": {
+              "wr": 0.61625,
+              "a": 0.5925,
+              "b": 0.64
+            },
+            "d60": {
+              "wr": 0.09125,
+              "a": 0.09,
+              "b": 0.0925
+            },
+            "s60": {
+              "wr": 0.705,
+              "a": 0.695,
+              "b": 0.715
+            },
+            "g": {
+              "wr": 0.44375,
+              "a": 0.445,
+              "b": 0.4425
+            },
+            "c60": {
+              "wr": 0.42374999999999996,
+              "a": 0.4375,
+              "b": 0.41
+            },
+            "m": {
+              "wr": 0.0925,
+              "a": 0.095,
+              "b": 0.09
+            },
+            "starmie": {
+              "wr": 0.15125,
+              "a": 0.1425,
+              "b": 0.16
+            },
+            "lucario": {
+              "wr": 0.68125,
+              "a": 0.675,
+              "b": 0.6875
+            },
+            "thorns": {
+              "wr": 0.8987499999999999,
+              "a": 0.8775,
+              "b": 0.92
+            },
+            "h": {
+              "wr": 0.91625,
+              "a": 0.9025,
+              "b": 0.93
+            },
+            "g30": {
+              "wr": 0.94625,
+              "a": 0.9425,
+              "b": 0.95
+            }
+          }
+        },
+        {
+          "label": "Hisuian Heavy Ball",
+          "cut": "Hisuian Heavy Ball",
+          "copies": 2,
+          "copies_before": 1,
+          "counts": {
+            "Litwick": 4,
+            "Lampent": 4,
+            "Chandelure": 4,
+            "Celebi \u25c7": 1,
+            "Pichu": 3,
+            "Arven": 4,
+            "Team Rocket's Petrel": 2,
+            "Buddy-Buddy Poffin": 2,
+            "Energy Search": 3,
+            "Energy Retrieval": 1,
+            "Rescue Scarf": 4,
+            "Dawn": 4,
+            "Level Ball": 2,
+            "Broken Time-Space": 3,
+            "Fire Energy": 7,
+            "Evolution Incense": 3,
+            "Hyper Aroma": 1,
+            "Jacq": 2,
+            "Hop": 4,
+            "Igglybuff": 2
+          },
+          "weighted": 0.4034421921921922,
+          "se": 0.004543110695590218,
+          "mean": 0.5177884615384616,
+          "worst": 0.09625,
+          "sleepy_flip": 1.608531031031031,
+          "sleepy_heads": 0.7969244244244245,
+          "plays": 1.2126126126126127,
+          "progress": 16.508297047047048,
+          "cells": {
+            "t60": {
+              "wr": 0.355,
+              "a": 0.3525,
+              "b": 0.3575
+            },
+            "hedrick": {
+              "wr": 0.57875,
+              "a": 0.59,
+              "b": 0.5675
+            },
+            "unl": {
+              "wr": 0.57125,
+              "a": 0.55,
+              "b": 0.5925
+            },
+            "d60": {
+              "wr": 0.09625,
+              "a": 0.0925,
+              "b": 0.1
+            },
+            "s60": {
+              "wr": 0.6625,
+              "a": 0.6375,
+              "b": 0.6875
+            },
+            "g": {
+              "wr": 0.4525,
+              "a": 0.4325,
+              "b": 0.4725
+            },
+            "c60": {
+              "wr": 0.44,
+              "a": 0.4125,
+              "b": 0.4675
+            },
+            "m": {
+              "wr": 0.14125,
+              "a": 0.135,
+              "b": 0.1475
+            },
+            "starmie": {
+              "wr": 0.1225,
+              "a": 0.14,
+              "b": 0.105
+            },
+            "lucario": {
+              "wr": 0.71625,
+              "a": 0.69,
+              "b": 0.7425
+            },
+            "thorns": {
+              "wr": 0.8674999999999999,
+              "a": 0.86,
+              "b": 0.875
+            },
+            "h": {
+              "wr": 0.8362499999999999,
+              "a": 0.8325,
+              "b": 0.84
+            },
+            "g30": {
+              "wr": 0.89125,
+              "a": 0.895,
+              "b": 0.8875
+            }
+          }
+        },
+        {
+          "label": "Lampent",
+          "cut": "Lampent",
+          "copies": 2,
+          "copies_before": 4,
+          "counts": {
+            "Litwick": 4,
+            "Lampent": 3,
+            "Chandelure": 4,
+            "Celebi \u25c7": 1,
+            "Pichu": 3,
+            "Arven": 4,
+            "Team Rocket's Petrel": 2,
+            "Buddy-Buddy Poffin": 2,
+            "Energy Search": 3,
+            "Energy Retrieval": 1,
+            "Rescue Scarf": 4,
+            "Dawn": 4,
+            "Level Ball": 2,
+            "Broken Time-Space": 3,
+            "Fire Energy": 7,
+            "Hisuian Heavy Ball": 1,
+            "Evolution Incense": 3,
+            "Hyper Aroma": 1,
+            "Jacq": 2,
+            "Hop": 4,
+            "Igglybuff": 2
+          },
+          "weighted": 0.38745995995995997,
+          "se": 0.004335051443537344,
+          "mean": 0.5023076923076923,
+          "worst": 0.07875,
+          "sleepy_flip": 1.552245995995996,
+          "sleepy_heads": 0.7648185685685686,
+          "plays": 1.206483983983984,
+          "progress": 15.9015990990991,
+          "cells": {
+            "t60": {
+              "wr": 0.35,
+              "a": 0.33,
+              "b": 0.37
+            },
+            "hedrick": {
+              "wr": 0.5225,
+              "a": 0.5175,
+              "b": 0.5275
+            },
+            "unl": {
+              "wr": 0.535,
+              "a": 0.54,
+              "b": 0.53
+            },
+            "d60": {
+              "wr": 0.07875,
+              "a": 0.065,
+              "b": 0.0925
+            },
+            "s60": {
+              "wr": 0.63375,
+              "a": 0.635,
+              "b": 0.6325
+            },
+            "g": {
+              "wr": 0.41500000000000004,
+              "a": 0.43,
+              "b": 0.4
+            },
+            "c60": {
+              "wr": 0.44125000000000003,
+              "a": 0.445,
+              "b": 0.4375
+            },
+            "m": {
+              "wr": 0.10625,
+              "a": 0.1025,
+              "b": 0.11
+            },
+            "starmie": {
+              "wr": 0.09125,
+              "a": 0.1025,
+              "b": 0.08
+            },
+            "lucario": {
+              "wr": 0.6925,
+              "a": 0.7075,
+              "b": 0.6775
+            },
+            "thorns": {
+              "wr": 0.8674999999999999,
+              "a": 0.845,
+              "b": 0.89
+            },
+            "h": {
+              "wr": 0.92125,
+              "a": 0.9425,
+              "b": 0.9
+            },
+            "g30": {
+              "wr": 0.875,
+              "a": 0.9025,
+              "b": 0.8475
+            }
+          }
+        },
+        {
+          "label": "Celebi \u25c7",
+          "cut": "Celebi \u25c7",
+          "copies": 2,
+          "copies_before": 1,
+          "counts": {
+            "Litwick": 4,
+            "Lampent": 4,
+            "Chandelure": 4,
+            "Pichu": 3,
+            "Arven": 4,
+            "Team Rocket's Petrel": 2,
+            "Buddy-Buddy Poffin": 2,
+            "Energy Search": 3,
+            "Energy Retrieval": 1,
+            "Rescue Scarf": 4,
+            "Dawn": 4,
+            "Level Ball": 2,
+            "Broken Time-Space": 3,
+            "Fire Energy": 7,
+            "Hisuian Heavy Ball": 1,
+            "Evolution Incense": 3,
+            "Hyper Aroma": 1,
+            "Jacq": 2,
+            "Hop": 4,
+            "Igglybuff": 2
+          },
+          "weighted": 0.08463588588588589,
+          "se": 0.002084223403767619,
+          "mean": 0.15884615384615383,
+          "worst": 0.0,
+          "sleepy_flip": 3.284797297297297,
+          "sleepy_heads": 1.6431906906906908,
+          "plays": 1.3718918918918919,
+          "progress": 6.677881631631632,
+          "cells": {
+            "t60": {
+              "wr": 0.09,
+              "a": 0.075,
+              "b": 0.105
+            },
+            "hedrick": {
+              "wr": 0.095,
+              "a": 0.1,
+              "b": 0.09
+            },
+            "unl": {
+              "wr": 0.3025,
+              "a": 0.3225,
+              "b": 0.2825
+            },
+            "d60": {
+              "wr": 0.0075,
+              "a": 0.0075,
+              "b": 0.0075
+            },
+            "s60": {
+              "wr": 0.08499999999999999,
+              "a": 0.09,
+              "b": 0.08
+            },
+            "g": {
+              "wr": 0.0075,
+              "a": 0.01,
+              "b": 0.005
+            },
+            "c60": {
+              "wr": 0.06,
+              "a": 0.06,
+              "b": 0.06
+            },
+            "m": {
+              "wr": 0.015,
+              "a": 0.01,
+              "b": 0.02
+            },
+            "starmie": {
+              "wr": 0.00875,
+              "a": 0.0075,
+              "b": 0.01
+            },
+            "lucario": {
+              "wr": 0.51,
+              "a": 0.5025,
+              "b": 0.5175
+            },
+            "thorns": {
+              "wr": 0.50875,
+              "a": 0.5,
+              "b": 0.5175
+            },
+            "h": {
+              "wr": 0.0,
+              "a": 0.0,
+              "b": 0.0
+            },
+            "g30": {
+              "wr": 0.375,
+              "a": 0.3375,
+              "b": 0.4125
+            }
+          }
+        }
+      ],
+      "kept": null
+    }
+  ]
+}

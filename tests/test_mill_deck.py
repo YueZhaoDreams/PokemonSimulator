@@ -166,7 +166,8 @@ def test_mill_list_is_the_locked_60():
     assert names.count("Reversal Energy") == 4
     assert names.count("Double Turbo Energy") == 4
     assert names.count("Water Energy") == 3
-    assert names.count("Boss's Orders") == 1
+    assert names.count("Boss's Orders") == 0
+    assert names.count("Igglybuff") == 1
     assert names.count("Counter Catcher") == 2
     assert names.count("Fighting Energy") == 0
     assert names.count("Glimwood Tangle") == 0
@@ -180,6 +181,8 @@ def test_mill_list_is_the_locked_60():
     assert [c.catalog_id for c in pile if c.name == "Cleffa"] == ["hgss1-17"]
     assert [c.attacks[0].name for c in pile if c.name == "Cleffa"] == ["Eeeeeeek"]
     assert [c.catalog_id for c in pile if c.name == "Manaphy"] == ["swsh9-041"]
+    assert [c.catalog_id for c in pile if c.name == "Igglybuff"] == ["sm12-168"]
+    assert [c.abilities[0].name for c in pile if c.name == "Igglybuff"] == ["Sleepy Voice"]
     assert [c.catalog_id for c in pile if c.name == "Lillie's Poké Doll"] == ["sm12-197"]
     assert [c.hp for c in pile if c.name == "Lillie's Poké Doll"] == [30]
     assert fallback_named("Mime Jr.").catalog_id == "sv04.5-031"
@@ -189,6 +192,7 @@ def test_mill_list_is_the_locked_60():
         assert loaded["id"] == "seed-mill"
         assert loaded["name"] == "Mill"
         assert [c["name"] for c in loaded["cards"]] == names
+        assert [c["catalog_id"] for c in loaded["cards"] if c["name"] == "Igglybuff"] == ["sm12-168"]
     assert default_rule_presets_for("seed-mill") == ["s60"]
     assert "seed-mill" in S60_SEED_IDS
     assert StrategySpec.from_dict("mill").reflip_heads_at_most == 1

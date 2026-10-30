@@ -245,12 +245,13 @@ def _ignore_face_ko(game, me, foe, attacks) -> bool:
     return False
 
 
-def wants_sleepy_voice(game, me, foe) -> bool:
+def benefit_sleepy_voice(game, me, foe, plan_attack: bool) -> bool:
     """The printed may. Flip when the sleep is worth ending the turn.
 
-    Demolish ignores effects on the Active, so the coin replaces Eeeeeeek.
-    Every other attack Doll would use stays. A turn with no attack flips
-    only when their hit is not already blanked.
+    An attack that ignores effects on the Active, as Demolish does, spends
+    this turn on the coin. A plan attack stays ahead of the coin against
+    every other deck. A turn with no plan attack still flips when their hit
+    would land.
     """
     if not foe.active or _asleep(foe.active):
         return False
@@ -259,9 +260,14 @@ def wants_sleepy_voice(game, me, foe) -> bool:
         return False
     if _ignore_face_ko(game, me, foe, legal):
         return True
-    if choose_attack(game, me, foe) is not None:
+    if plan_attack:
         return False
     return _hit_lands(game, me, foe, legal)
+
+
+def wants_sleepy_voice(game, me, foe) -> bool:
+    """Doll spends the coin on Demolish. Eeeeeeek, Energy Antics, Sleepy Lost, and Junk Hunt stay ahead."""
+    return benefit_sleepy_voice(game, me, foe, choose_attack(game, me, foe) is not None)
 
 
 def wants_pokemon(game, player, card) -> bool:

@@ -837,7 +837,8 @@ STRATEGY_LIBRARY = {
         name="mill",
         description=(
             "Sisters shell plus one sleep wall. One Pichu, one Mime Jr., one Manaphy, "
-            "and one HeartGold & SoulSilver Cleffa. Level Ball ×4, Poffin ×4. "
+            "one HeartGold & SoulSilver Cleffa, and one Cosmic Eclipse Igglybuff. "
+            "Boss's Orders is out of this lock. Level Ball ×4, Poffin ×4. "
             "One Sweet Sleeping Face besides Cleffa is in play. "
             "Cleffa is benched in wall matches, and against bench-damage attacks once Manaphy is in play. "
             "Damage counters such as Phantom Dive ignore Wave Veil, so Cleffa stays in the deck there. "
@@ -850,6 +851,14 @@ STRATEGY_LIBRARY = {
             "opponent's deck in the Lost Zone. The attack leaves that baby Asleep. "
             "Sweet Sleeping Face prevents attack damage while it is Asleep. "
             "Slumbering Forest makes the between-turns sleep check two coins. "
+            "Igglybuff's Sleepy Voice flips a coin from the Bench or the Active Spot. "
+            "Heads puts the opponent's Active Pokémon to sleep, and that use ends the turn. "
+            "Undersea Tunnel, Sleepy Lost, Eeeeeeek, and the first Playground stay ahead of the coin. "
+            "The coin replaces those attacks only when the hit ignores effects on the Active, as Demolish does. "
+            "A turn with none of those attacks still flips when their hit would land. "
+            "One Igglybuff is benched once a Wiglett is already in play or in hand. "
+            "Poffin takes it after the wall and the first Wiglett, ahead of a second Wiglett. "
+            "Level Ball still finds Wugtrio. "
             "Manaphy is benched only when an opposing attack does damage to the bench. "
             "Poffin takes Manaphy and then Cleffa. Level Ball still finds Wugtrio. "
             "The lock has no Rabsca line and no Battle Cage. "
@@ -959,7 +968,14 @@ STRATEGY_LIBRARY = {
             "into the hand, so the Prism Star rule does not put it in the Lost Zone. "
             "Energy Retrieval takes the Fire Energy the scarf discarded. Arven finds "
             "the scarf and an Item. Team Rocket's Petrel finds a Trainer. "
-            "Fire Energy is not attached to the Litwick line."
+            "Fire Energy is not attached to the Litwick line. "
+            "Igglybuff's Sleepy Voice flips a coin from the Bench or the Active Spot. "
+            "Heads puts the opponent's Active Pokémon to sleep, and that use ends the turn. "
+            "Time Distortion, Kindling Panic, Playground, and Eeeeeeek stay ahead of the coin. "
+            "The coin replaces those attacks only when the hit ignores effects on the Active, as Demolish does. "
+            "A turn that cannot mill or Playground still flips when their hit would land. "
+            "One copy is benched once three Litwick lines are out, in the slot a fourth line would have used. "
+            "Celebi ◇ keeps its Bench spot. Poffin takes the sleeper only after those three lines."
         ),
         prefer_damage=0.05,
         prefer_status=0.0,

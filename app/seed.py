@@ -269,7 +269,11 @@ def load_seed_payload() -> dict:
 
 
 def _force_mill_sleep_mime(cards: list) -> tuple[list, bool]:
-    """Mill's Mime Jr. is Sleepy Lost. Mill's Cleffa is HGSS Eeeeeeek."""
+    """Mill's Mime Jr. is Sleepy Lost. Mill's Cleffa is HGSS Eeeeeeek.
+
+    Mill's Igglybuff is Cosmic Eclipse Sleepy Voice. fallback_named("Igglybuff")
+    stays the Set M Bouncy Circle print.
+    """
     from app.seed_data import fallback_named
 
     out = []
@@ -281,6 +285,9 @@ def _force_mill_sleep_mime(cards: list) -> tuple[list, bool]:
             changed = True
         elif blob.get("name") == "Cleffa" and blob.get("catalog_id") != "hgss1-17":
             out.append(fallback_named("cleffa hgss").to_dict())
+            changed = True
+        elif blob.get("name") == "Igglybuff" and blob.get("catalog_id") != "sm12-168":
+            out.append(fallback_named("igglybuff sleepy").to_dict())
             changed = True
         else:
             out.append(blob)

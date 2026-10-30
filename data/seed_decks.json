@@ -27728,23 +27728,37 @@
         "traits": []
       },
       {
-        "catalog_id": "sv02-172",
-        "name": "Boss's Orders",
-        "category": "Trainer",
-        "stage": "Supporter",
-        "types": [],
-        "hp": 0,
+        "catalog_id": "sm12-168",
+        "name": "Igglybuff",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Colorless"
+        ],
+        "hp": 60,
         "attacks": [],
-        "abilities": [],
+        "abilities": [
+          {
+            "name": "Sleepy Voice",
+            "text": "Once during your turn (before your attack), you may flip a coin. If heads, your opponent's Active Pok\u00e9mon is now Asleep. If you use this Ability, your turn ends.",
+            "effects": [
+              {
+                "kind": "sleepy_voice",
+                "once_per_turn": true,
+                "ends_turn": true
+              }
+            ]
+          }
+        ],
         "weaknesses": [],
         "resistances": [],
         "retreat": 0,
         "evolves_from": null,
-        "trainer_kind": "supporter",
+        "trainer_kind": null,
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv02/172/low.webp",
-        "set_name": null,
-        "text": "Switch in 1 of your opponent's Benched Pok\u00e9mon to the Active Spot.",
+        "image": "https://assets.tcgdex.net/en/sm/sm12/168/low.webp",
+        "set_name": "Cosmic Eclipse",
+        "text": "",
         "dex_id": null,
         "traits": []
       },
