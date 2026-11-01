@@ -1288,3 +1288,220 @@ def test_petrel_takes_hop_when_a_lampent_is_uncovered():
     game._roast_trainers(me, game.players["b"], "a")
     assert petrel in me.discard
     assert hop in me.hand
+
+
+SPRAY = (
+    "Devolve 1 of your evolved Pokémon and put the highest Stage Evolution card on it into your hand. "
+    "(That Pokémon can't evolve this turn.)"
+)
+
+
+def test_devolution_spray_parses_the_printed_count_and_the_lock():
+    assert parse_trainer_effects(SPRAY) == [
+        {"kind": "devolve_to_hand", "count": 1, "cannot_evolve_this_turn": True}
+    ]
+    two = SPRAY.replace("Devolve 1", "Devolve 2")
+    assert parse_trainer_effects(two) == [
+        {"kind": "devolve_to_hand", "count": 2, "cannot_evolve_this_turn": True}
+    ]
+    unlocked = parse_trainer_effects(SPRAY.split("(")[0].strip())
+    assert unlocked == [{"kind": "devolve_to_hand", "count": 1}]
+    assert fallback_named("Devolution Spray").text == SPRAY
+    assert not any(effect.get("kind") == "devolve_to_hand" for effect in parse_effects(TIME_DISTORTION))
+
+
+def _chandelure_stack(me, names=("Litwick", "Lampent", "Chandelure")):
+    cards = [_pull(me, name) for name in names]
+    mon = Pokemon(card_i=cards[-1], played_turn=0, underneath=cards[:-1])
+    return mon, cards
+
+
+def test_spray_locks_that_pokemon_and_a_different_lampent_mills():
+    game = _game()
+    me = game.players["a"]
+    foe = game.players["b"]
+    _reclaim(me)
+    stuck, stuck_cards = _chandelure_stack(me)
+    other_lit = _pull(me, "Litwick")
+    other_lamp = _pull(me, "Lampent")
+    spray = _grant(me, "Devolution Spray")
+    me.deck.remove(spray)
+    stuck.status = ST_ASLEEP
+    me.active = Pokemon(card_i=_cleffa(me), played_turn=0)
+    me.bench = [stuck, Pokemon(card_i=other_lamp, played_turn=0, underneath=[other_lit])]
+    me.hand = [spray]
+    me.deck.clear()
+    _ready_turn(game)
+    before = len(foe.deck)
+    game._roast_sprays(me, foe, "a")
+    assert me.card(stuck.card_i).name == "Lampent"
+    assert stuck.cannot_evolve_turn == game.turn
+    assert stuck.status & ST_ASLEEP
+    assert me.card(me.bench[1].card_i).name == "Chandelure"
+    assert len(foe.deck) == before - 3
+    assert game.events.get("devolution_spray") == 1
+    assert game.events.get("mountain_roasting") == 1
+    game._set_stadium(fallback_named("Broken Time-Space"), owner=me)
+    assert game._can_evolve_now(me, "a", stuck, me.card(stuck_cards[-1])) is False
+
+
+def test_spray_lock_ends_on_the_next_turn_and_the_replay_mills():
+    game = _game()
+    me = game.players["a"]
+    foe = game.players["b"]
+    _reclaim(me)
+    mon, cards = _chandelure_stack(me)
+    spray = _grant(me, "Devolution Spray")
+    me.deck.remove(spray)
+    me.active = Pokemon(card_i=_cleffa(me), played_turn=0)
+    me.bench = [mon]
+    me.hand = [spray]
+    me.deck.clear()
+    _ready_turn(game)
+    game._roast_sprays(me, foe, "a")
+    assert me.card(mon.card_i).name == "Lampent"
+    assert cards[-1] in me.hand
+    assert game._can_evolve_now(me, "a", mon, me.card(cards[-1])) is False
+    before = len(foe.deck)
+    game.turn += 1
+    assert game._can_evolve_now(me, "a", mon, me.card(cards[-1])) is True
+    game._roast_evolve_chandelure(me, "a")
+    assert me.card(mon.card_i).name == "Chandelure"
+    assert len(foe.deck) == before - 3
+    assert game.events.get("mountain_roasting") == 1
+
+
+def test_printed_count_devolves_that_many_pokemon():
+    game = _game()
+    me = game.players["a"]
+    foe = game.players["b"]
+    _reclaim(me)
+    first, _ = _chandelure_stack(me)
+    second, _ = _chandelure_stack(me)
+    spray = _grant(me, "Devolution Spray")
+    me.deck.remove(spray)
+    me.card(spray).text = SPRAY.replace("Devolve 1", "Devolve 2")
+    me.active = Pokemon(card_i=_cleffa(me), played_turn=0)
+    me.bench = [first, second]
+    me.hand = [spray]
+    me.deck.clear()
+    _ready_turn(game)
+    game._roast_sprays(me, foe, "a")
+    assert me.card(first.card_i).name == "Lampent"
+    assert me.card(second.card_i).name == "Lampent"
+    assert first.cannot_evolve_turn == game.turn
+    assert second.cannot_evolve_turn == game.turn
+    assert game.events.get("devolution_spray") == 2
+    assert spray in me.discard
+
+
+def test_roast_does_not_spray_a_benched_chandelure_time_distortion_will_take():
+    game = _game()
+    me = game.players["a"]
+    foe = game.players["b"]
+    _reclaim(me)
+    mon, _cards = _chandelure_stack(me)
+    celebi = _pull(me, "Celebi ◇")
+    fire = _pull(me, "Fire Energy")
+    spray = _grant(me, "Devolution Spray")
+    me.deck.remove(spray)
+    me.active = Pokemon(card_i=celebi, played_turn=0, energy=[fire])
+    me.bench = [mon]
+    me.hand = [spray]
+    me.deck.clear()
+    _ready_turn(game)
+    game._roast_sprays(me, foe, "a")
+    assert spray in me.hand
+    assert me.card(mon.card_i).name == "Chandelure"
+    assert game.events.get("devolution_spray", 0) == 0
+
+
+def test_roast_sprays_a_benched_chandelure_when_celebi_is_asleep():
+    game = _game()
+    me = game.players["a"]
+    foe = game.players["b"]
+    _reclaim(me)
+    mon, cards = _chandelure_stack(me)
+    celebi = _pull(me, "Celebi ◇")
+    fire = _pull(me, "Fire Energy")
+    spray = _grant(me, "Devolution Spray")
+    me.deck.remove(spray)
+    me.active = Pokemon(card_i=celebi, played_turn=0, energy=[fire], status=ST_ASLEEP)
+    me.bench = [mon]
+    me.hand = [spray]
+    me.deck.clear()
+    _ready_turn(game)
+    game._roast_sprays(me, foe, "a")
+    assert spray in me.discard
+    assert me.card(mon.card_i).name == "Lampent"
+    assert cards[-1] in me.hand
+    assert game._can_evolve_now(me, "a", mon, me.card(cards[-1])) is False
+
+
+def test_roast_sprays_an_active_chandelure_even_when_celebi_can_attack():
+    game = _game()
+    me = game.players["a"]
+    foe = game.players["b"]
+    _reclaim(me)
+    active, _active_cards = _chandelure_stack(me)
+    lamp_lit = _pull(me, "Litwick")
+    lamp = _pull(me, "Lampent")
+    celebi = _pull(me, "Celebi ◇")
+    fire = _pull(me, "Fire Energy")
+    spray = _grant(me, "Devolution Spray")
+    me.deck.remove(spray)
+    me.active = active
+    me.bench = [
+        Pokemon(card_i=lamp, played_turn=0, underneath=[lamp_lit]),
+        Pokemon(card_i=celebi, played_turn=0, energy=[fire]),
+    ]
+    me.hand = [spray]
+    me.deck.clear()
+    _ready_turn(game)
+    before = len(foe.deck)
+    game._roast_sprays(me, foe, "a")
+    assert me.card(active.card_i).name == "Lampent"
+    assert active.cannot_evolve_turn == game.turn
+    assert me.card(me.bench[0].card_i).name == "Chandelure"
+    assert len(foe.deck) == before - 3
+    assert game.events.get("devolution_spray") == 1
+
+
+def test_roast_will_not_spray_into_a_knock_out():
+    game = _game()
+    me = game.players["a"]
+    _reclaim(me)
+    mon, _cards = _chandelure_stack(me)
+    mon.damage = 70
+    spray = _grant(me, "Devolution Spray")
+    me.deck.remove(spray)
+    me.active = Pokemon(card_i=_cleffa(me), played_turn=0)
+    me.bench = [mon]
+    me.hand = [spray]
+    me.deck.clear()
+    _ready_turn(game)
+    assert game._roast_spray_target(me, "a") is None
+    game._roast_sprays(me, game.players["b"], "a")
+    assert spray in me.hand
+    assert me.card(mon.card_i).name == "Chandelure"
+
+
+def test_petrel_fetches_devolution_spray_when_celebi_cannot_attack():
+    game = _game()
+    me = game.players["a"]
+    _reclaim(me)
+    mon, _cards = _chandelure_stack(me)
+    celebi = _pull(me, "Celebi ◇")
+    fire = _pull(me, "Fire Energy")
+    spray = _grant(me, "Devolution Spray")
+    petrel = _pull(me, "Team Rocket's Petrel")
+    me.deck.remove(spray)
+    me.active = Pokemon(card_i=celebi, played_turn=0, energy=[fire], status=ST_ASLEEP)
+    me.bench = [mon]
+    me.hand = [petrel]
+    me.deck = [spray]
+    _ready_turn(game)
+    assert game._roast_petrel_want(me, "a") == "Devolution Spray"
+    game._roast_trainers(me, game.players["b"], "a")
+    assert spray in me.hand
+    assert petrel in me.discard

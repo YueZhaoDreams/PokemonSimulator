@@ -1462,6 +1462,18 @@ def parse_trainer_effects(text: str) -> list[dict[str, Any]]:
     if aroma:
         effects.append({"kind": "search_stage1", "count": int(aroma.group(1))})
         return effects
+    # Evolutions 76 Devolution Spray. The number is how many Pokémon. Each one
+    # loses only its highest Stage Evolution card. The parenthetical is printed
+    # on this card: that Pokémon can't evolve this turn.
+    spray = re.search(
+        r"devolve (\d+) of your evolved pokemon and put the highest stage evolution card on it into your hand",
+        t,
+    )
+    if spray:
+        effect: dict[str, Any] = {"kind": "devolve_to_hand", "count": int(spray.group(1))}
+        if "can't evolve this turn" in t or "cannot evolve this turn" in t:
+            effect["cannot_evolve_this_turn"] = True
+        return [effect]
     # Phantasmal Flames Dawn: one Basic, one Stage 1, and one Stage 2 into the hand.
     if (
         "search your deck for a basic pokemon, a stage 1 pokemon, and a stage 2 pokemon" in t

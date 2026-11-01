@@ -3389,6 +3389,10 @@ _RESCUE_SCARF = (
     "If the Pokémon this card is attached to is Knocked Out by damage from an attack, "
     "put that Pokémon into your hand. (Discard all cards attached to that Pokémon.)"
 )
+_DEVOLUTION_SPRAY = (
+    "Devolve 1 of your evolved Pokémon and put the highest Stage Evolution card on it into your hand. "
+    "(That Pokémon can't evolve this turn.)"
+)
 _CELEBI_PRISM = _register(
     _pkm(
         "Celebi ◇",
@@ -3457,6 +3461,14 @@ _register(
         "tool",
         _RESCUE_SCARF,
         catalog_id="bw6-115",
+    )
+)
+_register(
+    _trn(
+        "Devolution Spray",
+        "item",
+        _DEVOLUTION_SPRAY,
+        catalog_id="xy12-76",
     )
 )
 
