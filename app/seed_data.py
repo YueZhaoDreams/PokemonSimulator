@@ -1411,7 +1411,7 @@ _register(
         "Dawn",
         "supporter",
         "Search your deck for a Basic Pokémon, a Stage 1 Pokémon, and a Stage 2 Pokémon, reveal them, and put them into your hand. Then, shuffle your deck.",
-        catalog_id="pfl-87",
+        catalog_id="me02-087",
     )
 )
 _register(
@@ -3436,6 +3436,7 @@ _register(
         retreat=1,
         catalog_id="bw8-22",
         weakness="Water",
+        image="https://assets.tcgdex.net/en/bw/bw8/22/low.webp",
         set_name="Plasma Storm",
         abilities=[Ability(name="Freefloating", text=_FREEFLOATING)],
     )
@@ -3470,6 +3471,7 @@ _register(
         "tool",
         _RESCUE_SCARF,
         catalog_id="bw6-115",
+        image="https://assets.tcgdex.net/en/bw/bw6/115/low.webp",
     )
 )
 _register(
@@ -5675,7 +5677,7 @@ def fallback_named(name: str) -> Card:
 
 
 def build_roast_deck() -> list[Card]:
-    """Celebi ◇ roast mill. Cleffa is HGSS Eeeeeeek. Pichu is HGSS Playground."""
+    """Celebi Mill. Cleffa is HGSS Eeeeeeek. Pichu is HGSS Playground."""
     out: list[Card] = []
     for name in SET_ROAST_NAMES:
         if name == "Cleffa":

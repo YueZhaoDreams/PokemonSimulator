@@ -9,8 +9,9 @@ from random import Random
 from app.engine.effects import parse_ability_effects, parse_effects, parse_trainer_effects
 from app.engine.game import ST_ASLEEP, Game, Pokemon
 from app.engine.legality import copy_violations
-from app.engine.models import standard_60_rules
+from app.engine.models import S60_SEED_IDS, default_rule_presets_for, standard_60_rules
 from app.engine.strategies import StrategySpec
+from app.seed import load_seed_deck
 from app.seed_data import SET_ROAST_NAMES, build_fallback_deck, build_roast_deck, fallback_named
 
 TIME_DISTORTION = (
@@ -178,6 +179,18 @@ def test_roast_deck_is_sixty_and_pichu_is_playground():
     assert names.count("Hyper Aroma") == 1
     assert names.count("Nest Ball") == 0
     assert not any("Doll" in name for name in names)
+    for key in ("celebi", "celebi-mill", "roast", "23"):
+        loaded = load_seed_deck(key)
+        assert loaded["id"] == "seed-celebi"
+        assert loaded["name"] == "Celebi Mill"
+        assert [c["name"] for c in loaded["cards"]] == names
+        assert all(c.get("image") for c in loaded["cards"])
+    assert default_rule_presets_for("seed-celebi") == ["s60"]
+    assert "seed-celebi" in S60_SEED_IDS
+    assert [c.catalog_id for c in deck if c.name == "Dawn"] == ["me02-087"] * 4
+    assert [c.catalog_id for c in deck if c.name == "Lampent"] == ["bw8-22"] * 4
+    assert [c.catalog_id for c in deck if c.name == "Rescue Scarf"] == ["bw6-115"] * 4
+    assert [c.catalog_id for c in deck if c.name == "Celebi ◇"] == ["sm8-19"]
     pichu = [card for card in deck if card.name == "Pichu"]
     for card in pichu:
         playground = next(
