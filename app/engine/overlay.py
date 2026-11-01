@@ -146,6 +146,7 @@ PUBLISHED_EFFECT_KINDS = frozenset(
         "retreat_zero_if_no_energy",
         "grand_tree",
         "devolve_benched",
+        "devolve_to_hand",
         "ko_to_hand",
     }
 )

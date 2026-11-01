@@ -955,6 +955,10 @@ STRATEGY_LIBRARY = {
             "Broken Time-Space lets a Litwick played this turn evolve into Lampent and "
             "then Chandelure. Chandelure played from that hand mills. "
             "Celebi ◇ uses Time Distortion on a benched Chandelure the same turn it can pay. "
+            "Devolution Spray devolves 1 evolved Pokémon and puts the highest Stage Evolution "
+            "card on it into the hand. That Pokémon can't evolve this turn. "
+            "Roast plays it on a Chandelure that Time Distortion will not devolve, including the Active. "
+            "Petrel and Arven take it when Celebi ◇ will not use Time Distortion. "
             "Chandelure played from the hand mills on every Lampent that can evolve, "
             "including a single one. A Lampent evolved this turn cannot take Chandelure "
             "until the next turn. "
@@ -966,7 +970,7 @@ STRATEGY_LIBRARY = {
             "Roast takes Celebi ◇ first, then a Litwick the line is short of, then a Pichu or Cleffa that the deck no longer has. "
             "Rescue Scarf is only for Celebi ◇. An attack Knock Out puts Celebi ◇ "
             "into the hand, so the Prism Star rule does not put it in the Lost Zone. "
-            "Energy Retrieval takes the Fire Energy the scarf discarded. Arven finds "
+            "The locked list plays four Devolution Spray. Arven finds "
             "the scarf and an Item. Team Rocket's Petrel finds a Trainer. "
             "Fire Energy is not attached to the Litwick line. "
             "Igglybuff's Sleepy Voice flips a coin from the Bench or the Active Spot. "
@@ -985,7 +989,7 @@ STRATEGY_LIBRARY = {
         item_spend=1.0,
         self_preserve=0.2,
         hold_as_energy=False,
-        protect=["Celebi ◇", "Chandelure", "Lampent", "Litwick", "Cleffa", "Pichu", "Slumbering Forest", "Rescue Scarf"],
+        protect=["Celebi ◇", "Chandelure", "Lampent", "Litwick", "Cleffa", "Pichu", "Slumbering Forest", "Rescue Scarf", "Devolution Spray"],
         search_aces=["Chandelure", "Lampent", "Litwick", "Cleffa"],
         closers=["Celebi ◇"],
     ),

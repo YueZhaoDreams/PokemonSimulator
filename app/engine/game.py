@@ -80,6 +80,7 @@ class Pokemon:
     weakness_override_expires: tuple[int, str] | None = None
     disabled_attack: str | None = None
     retreat_locked: bool = False
+    cannot_evolve_turn: int = -1
 
     @property
     def remaining(self) -> int:
@@ -1611,6 +1612,10 @@ class Game:
         return not (who == self.first and self.turn == 1)
 
     def _can_evolve_now(self, me: Player, who: str, target: Pokemon, evo: Card | None = None) -> bool:
+        # Devolution Spray: "That Pokémon can't evolve this turn."
+        # Broken Time-Space does not override that sentence.
+        if target.cannot_evolve_turn == self.turn:
+            return False
         # Mega Evolution ex rule on Mega Lucario ex: evolve the turn the Basic
         # was played, including the first turn. Other Megas keep the old timing.
         if evo is not None and (evo.name or "").lower() == "mega lucario ex":
@@ -17087,6 +17092,8 @@ class Game:
             self._evolution_incense(me, who, int(eff.get("count") or 1))
         elif kind == "search_stage1":
             self._hyper_aroma(me, who, int(eff.get("count") or 0))
+        elif kind == "devolve_to_hand":
+            self._devolution_spray(me, foe, who, eff)
         elif kind == "look_opp_discard_items":
             self._look_opp_discard_items(me, foe, int(eff.get("look") or 0))
         elif kind == "coin_mill_top":
@@ -18450,10 +18457,13 @@ class Game:
         if self._roast_chandelure_hand(me):
             self._roast_park_line(me, who)
         self._roast_evolve_chandelure(me, who)
-        self._note_roast_mill(who)
         self._roast_play_celebi(me)
         self._roast_attach(me)
         self._roast_scarf(me, who)
+        # Devolution Spray is only for a Chandelure Time Distortion will not reach.
+        # The printed sentence stops that Pokémon from evolving this turn.
+        self._roast_sprays(me, foe, who)
+        self._note_roast_mill(who)
         if self._roast_benched_chandelure(me) and self._roast_can_pay_time(me):
             if self._roast_bring(
                 me,
@@ -18762,6 +18772,8 @@ class Game:
             return bool(self._roast_jacq_picks(me, who))
         if name == "hop":
             return self._roast_hop_safe(me, card)
+        if name == "devolution spray":
+            return self._roast_wants_spray(me, who)
         if name == "hisuian heavy ball":
             return self._roast_heavy_best(me) is not None
         if name == "broken time-space" and (self.stadium_name or "").lower() != "broken time-space":
@@ -19139,6 +19151,8 @@ class Game:
             and self._roast_named(me, me.deck, "Broken Time-Space")
         ):
             return "Broken Time-Space"
+        if self._roast_spray_fetch(me, who) and self._roast_spray_target(me, who) is not None:
+            return "Devolution Spray"
         if (
             self._roast_aroma_take(me) >= 2
             and not self._roast_named(me, me.hand, "Hyper Aroma")
@@ -19164,6 +19178,8 @@ class Game:
             and self._roast_named(me, me.deck, "Dawn")
         ):
             return "Dawn"
+        if self._roast_spray_fetch(me, who):
+            return "Devolution Spray"
         if (
             self._roast_line_uncovered(me, who)
             and not self._roast_named(me, me.hand, "Hop")
@@ -19259,6 +19275,7 @@ class Game:
             "jacq",
             "hop",
             "hisuian heavy ball",
+            "devolution spray",
             "level ball",
             "rescue scarf",
             "switch",
@@ -19368,6 +19385,8 @@ class Game:
                 return 200
             if want == "Hop":
                 return 165
+            if want == "Devolution Spray":
+                return 208
             if want == "Broken Time-Space":
                 return 185
             if want == "Slumbering Forest":
@@ -19376,6 +19395,12 @@ class Game:
         if name == "arven":
             if self._roast_heavy_deck_only(me) and self._roast_heavy_score(me) >= 70:
                 return 230
+            if (
+                self._roast_spray_target(me, who) is not None
+                and not self._roast_named(me, me.hand, "Devolution Spray")
+                and self._roast_named(me, me.deck, "Devolution Spray")
+            ):
+                return 192
             if self._roast_aroma_take(me) >= 1 and self._roast_named(me, me.deck, "Hyper Aroma"):
                 return 190
             if self._roast_incense_choice(me) and self._roast_named(me, me.deck, "Evolution Incense"):
@@ -19657,6 +19682,12 @@ class Game:
         prefer = []
         if self._roast_heavy_best(me) is not None and self._roast_named(me, me.deck, "Hisuian Heavy Ball"):
             prefer.append("Hisuian Heavy Ball")
+        if (
+            self._roast_spray_target(me, who) is not None
+            and not self._roast_named(me, me.hand, "Devolution Spray")
+            and self._roast_named(me, me.deck, "Devolution Spray")
+        ):
+            prefer.append("Devolution Spray")
         if self._roast_aroma_take(me) >= 1 and self._roast_named(me, me.deck, "Hyper Aroma"):
             prefer.append("Hyper Aroma")
         if self._roast_incense_choice(me):
@@ -19665,6 +19696,8 @@ class Game:
             prefer.append("Energy Retrieval")
         if self._roast_wants_energy(me, who):
             prefer.append("Energy Search")
+        if self._roast_spray_fetch(me, who) and self._roast_spray_target(me, who) is None:
+            prefer.append("Devolution Spray")
         if self._roast_need_bodies(me):
             prefer.extend(["Buddy-Buddy Poffin", "Level Ball"])
         else:
@@ -19824,6 +19857,117 @@ class Game:
             devolved += 1
         if devolved:
             self._bump("time_distortion", devolved)
+
+    def _devolution_spray(self, me: Player, foe: Player, who: str, eff: dict) -> None:
+        """Highest Stage Evolution card into the hand, once per printed Pokémon."""
+        count = int(eff.get("count") or 0)
+        lock = bool(eff.get("cannot_evolve_this_turn"))
+        for _ in range(max(0, count)):
+            mon = self._devolution_spray_target(me, who)
+            if mon is None or not mon.underneath:
+                self._bump("devolution_spray_miss")
+                return
+            self._devolve_times(me, mon, 1)
+            if lock:
+                mon.cannot_evolve_turn = self.turn
+            self._bump("devolution_spray")
+            self._log(f"{me.name} devolves {me.card(mon.card_i).name} with Devolution Spray")
+            if self._check_ko(me, foe, who):
+                return
+
+    def _devolution_spray_target(self, me: Player, who: str) -> Pokemon | None:
+        if self.strats[who].name == "roast":
+            return self._roast_spray_target(me, who)
+        if me.active is not None and me.active.underneath:
+            return me.active
+        for mon in me.bench:
+            if mon.underneath:
+                return mon
+        return None
+
+    def _roast_celebi_can_attack(self, me: Player, who: str) -> bool:
+        if not self._roast_can_attack_turn(me):
+            return False
+        mon = self._roast_celebi(me)
+        if mon is not None and (mon.status & (ST_PARALYZED | ST_ASLEEP)):
+            return False
+        cap = self.energy_attack_lock.get(who)
+        if cap is None:
+            return True
+        energy_n = len(mon.energy) if mon is not None else 0
+        if not me.energy_attached and any(is_basic_energy(me.card(i)) for i in me.hand):
+            energy_n += 1
+        return energy_n > cap
+
+    def _roast_td_pending(self, me: Player, who: str) -> bool:
+        """Celebi ◇ will devolve every benched Chandelure when it attacks."""
+        return bool(
+            self._roast_celebi_can_attack(me, who)
+            and self._roast_benched_chandelure(me)
+            and self._roast_can_pay_time(me)
+            and self._roast_can_bring_celebi(me)
+        )
+
+    def _roast_spray_ko(self, me: Player, mon: Pokemon) -> bool:
+        if not mon.underneath:
+            return True
+        return mon.damage >= (me.card(mon.underneath[-1]).hp or 0)
+
+    def _roast_spray_target(self, me: Player, who: str) -> Pokemon | None:
+        """A Chandelure Time Distortion will leave in play. Active is never devolved by that attack."""
+        if me.item_lock:
+            return None
+        td = self._roast_td_pending(me, who)
+        if (
+            me.active is not None
+            and me.card(me.active.card_i).name.lower() == "chandelure"
+            and me.active.underneath
+            and not self._roast_spray_ko(me, me.active)
+        ):
+            return me.active
+        if td:
+            return None
+        for mon in me.bench:
+            if me.card(mon.card_i).name.lower() != "chandelure" or not mon.underneath:
+                continue
+            if self._roast_spray_ko(me, mon):
+                continue
+            return mon
+        return None
+
+    def _roast_spray_fetch(self, me: Player, who: str) -> bool:
+        if not self._roast_wants_spray(me, who):
+            return False
+        if self._roast_named(me, me.hand, "Devolution Spray"):
+            return False
+        return self._roast_named(me, me.deck, "Devolution Spray")
+
+    def _roast_wants_spray(self, me: Player, who: str) -> bool:
+        if me.item_lock:
+            return False
+        if self._roast_spray_target(me, who) is not None:
+            return True
+        if self._roast_td_pending(me, who):
+            return False
+        return self._roast_chandelure_hand(me) >= 1 and self._roast_legal_lampent(me, who) >= 1
+
+    def _roast_sprays(self, me: Player, foe: Player, who: str) -> None:
+        if me.item_lock:
+            return
+        for _ in range(4):
+            if self._roast_spray_target(me, who) is None:
+                return
+            card_i = self._first_named(me, "Devolution Spray")
+            if card_i is None:
+                return
+            before = self.events.get("devolution_spray", 0)
+            if not self._roast_play(me, foe, who, card_i):
+                return
+            if self.events.get("devolution_spray", 0) == before:
+                return
+            if self._roast_chandelure_hand(me):
+                self._roast_park_line(me, who)
+            self._roast_evolve_chandelure(me, who)
 
     def _roast_promote_idx(self, me: Player) -> int:
         who = "a" if me.name == "A" else "b"
