@@ -161,8 +161,9 @@ def test_roast_deck_is_sixty_and_pichu_is_playground():
     assert names.count("Dawn") == 4
     assert names.count("Evolution Incense") == 3
     assert names.count("Buddy-Buddy Poffin") == 2
-    assert names.count("Energy Retrieval") == 1
-    assert names.count("Broken Time-Space") == 3
+    assert names.count("Energy Retrieval") == 0
+    assert names.count("Devolution Spray") == 4
+    assert names.count("Broken Time-Space") == 2
     assert names.count("Slumbering Forest") == 0
     assert names.count("Fire Energy") == 7
     assert names.count("Grand Tree") == 0
@@ -171,9 +172,9 @@ def test_roast_deck_is_sixty_and_pichu_is_playground():
     assert names.count("Hisuian Heavy Ball") == 1
     assert names.count("Energy Search") == 3
     assert names.count("Switch") == 0
-    assert names.count("Jacq") == 2
+    assert names.count("Jacq") == 1
     assert names.count("Hop") == 4
-    assert names.count("Team Rocket's Petrel") == 3
+    assert names.count("Team Rocket's Petrel") == 2
     assert names.count("Hyper Aroma") == 1
     assert names.count("Nest Ball") == 0
     assert not any("Doll" in name for name in names)

@@ -970,7 +970,7 @@ STRATEGY_LIBRARY = {
             "Roast takes Celebi ◇ first, then a Litwick the line is short of, then a Pichu or Cleffa that the deck no longer has. "
             "Rescue Scarf is only for Celebi ◇. An attack Knock Out puts Celebi ◇ "
             "into the hand, so the Prism Star rule does not put it in the Lost Zone. "
-            "Energy Retrieval takes the Fire Energy the scarf discarded. Arven finds "
+            "The locked list plays four Devolution Spray. Arven finds "
             "the scarf and an Item. Team Rocket's Petrel finds a Trainer. "
             "Fire Energy is not attached to the Litwick line. "
             "Igglybuff's Sleepy Voice flips a coin from the Bench or the Active Spot. "

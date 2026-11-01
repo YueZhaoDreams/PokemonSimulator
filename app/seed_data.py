@@ -785,6 +785,15 @@ SET_MILL_NAMES = (
 # Retrieval at 43.944% by about 1.2 points. The search stopped at four
 # because four is the copy cap. The best of about twenty cuts sits a little
 # high. See data/lab/set-mill-roast-hop.md.
+# Devolution Spray was searched on that list at 400 games per seat, seed
+# 20261031. The printed sentence devolves 1 evolved Pokémon and puts the
+# highest Stage Evolution card into the hand. That Pokémon can't evolve this
+# turn. Four copies replace one Broken Time-Space, one Team Rocket's Petrel,
+# one Jacq, and Energy Retrieval. The path is 44.7%, 45.5%, 45.5%, 45.9%,
+# 46.2%. The second copy gains 0.08 points. The third and fourth each gain
+# about 0.3 points, inside one standard error of that step. The four-copy
+# list is 46.2% against the 44.7% list. The search stopped at four because
+# four is the copy cap. See data/lab/set-mill-roast-spray.md.
 SET_ROAST_NAMES = (
     ["Litwick"] * 4
     + ["Lampent"] * 4
@@ -792,20 +801,20 @@ SET_ROAST_NAMES = (
     + ["Celebi ◇"]
     + ["Pichu"] * 3
     + ["Arven"] * 4
-    + ["Team Rocket's Petrel"] * 3
+    + ["Team Rocket's Petrel"] * 2
     + ["Buddy-Buddy Poffin"] * 2
     + ["Energy Search"] * 3
-    + ["Energy Retrieval"]
     + ["Rescue Scarf"] * 4
     + ["Dawn"] * 4
     + ["Level Ball"] * 2
-    + ["Broken Time-Space"] * 3
+    + ["Broken Time-Space"] * 2
     + ["Fire Energy"] * 7
     + ["Hisuian Heavy Ball"]
     + ["Evolution Incense"] * 3
     + ["Hyper Aroma"]
-    + ["Jacq"] * 2
+    + ["Jacq"]
     + ["Hop"] * 4
+    + ["Devolution Spray"] * 4
 )
 
 # Unlimited 60: Ambipom PAR Hand Fling, Lopunny FLF Big Jump recycle,

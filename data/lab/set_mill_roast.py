@@ -153,20 +153,22 @@ def _check() -> None:
     incense_text = incense.text.lower().replace("é", "e")
     if "evolution pokemon" not in incense_text or "up to" in incense_text:
         raise SystemExit("Evolution Incense text")
-    if names.count("Broken Time-Space") != 3:
+    if names.count("Broken Time-Space") != 2:
         raise SystemExit("roast Broken Time-Space count")
+    if names.count("Devolution Spray") != 4:
+        raise SystemExit("roast Devolution Spray count")
     if (
         names.count("Hisuian Heavy Ball") != 1
         or names.count("Ultra Ball") != 0
         or names.count("Hyper Aroma") != 1
         or names.count("Energy Search") != 3
         or names.count("Switch") != 0
-        or names.count("Energy Retrieval") != 1
+        or names.count("Energy Retrieval") != 0
         or names.count("Buddy-Buddy Poffin") != 2
-        or names.count("Team Rocket's Petrel") != 3
+        or names.count("Team Rocket's Petrel") != 2
     ):
         raise SystemExit("roast Hisuian Heavy Ball count")
-    if names.count("Jacq") != 2:
+    if names.count("Jacq") != 1:
         raise SystemExit("roast Jacq count")
     if names.count("Hop") != 4:
         raise SystemExit("roast Hop count")
@@ -386,13 +388,15 @@ def _markdown(report: dict) -> str:
         "",
         "Hop's printed sentence is \"Draw 3 cards.\" Roast draws that parsed count while five cards would remain in the deck. Petrel fetches Hop when a Lampent or Litwick is still short a piece. Four copies replace one Jacq, one Energy Search, Slumbering Forest, and one Team Rocket's Petrel. The path at 400 games per seat is 41.1%, 42.0%, 42.6%, 43.3%, 45.1%. The second and third copies each gain about one combined standard error. On the second copy, Energy Search is 42.6% and Broken Time-Space is 42.6%. The fourth copy gains about 2.9 combined standard errors, and cutting Petrel leads the next cut, Energy Retrieval at 43.9%, by about 1.2 points. The search stopped at four because four is the copy cap. The best of about twenty cuts sits a little high. See data/lab/set-mill-roast-hop.md.",
         "",
+        "Devolution Spray devolves 1 evolved Pokémon and puts the highest Stage Evolution card into the hand. That Pokémon can't evolve this turn. Roast plays it on a Chandelure that Time Distortion will not devolve. Four copies replace one Broken Time-Space, one Team Rocket's Petrel, one Jacq, and Energy Retrieval. The path at 400 games per seat, seed 20261031, is 44.7%, 45.5%, 45.5%, 45.9%, 46.2%. The search stopped at four because four is the copy cap. See data/lab/set-mill-roast-spray.md.",
+        "",
         "Evolution Incense searches the deck for one Evolution Pokémon. Roast takes Chandelure once a Lampent is in hand or in play, and takes Lampent only while a Litwick still has no Stage 1. Three copies replaced one Level Ball and both Cleffa. A fourth copy did not raise the weighted win rate. See data/lab/set-mill-roast-incense.md. That search was 40 games per seat. The same list at 400 games per seat is 34.4%.",
         "",
         "Hyper Aroma searches the deck for up to 3 Stage 1 Pokémon. Roast takes Lampent and stops once four Lampent are in hand or in play. The printed count is the parser's search_stage1 count. One copy replaces Ultra Ball. At 400 games per seat that swap is 38.5% against the 34.4% list. See data/lab/set-mill-roast-aroma.md.",
         "",
         "Lampent is Plasma Storm Freefloating. With no Energy attached, its retreat cost is 0. Fire Energy stays on Celebi ◇.",
         "",
-        "Rescue Scarf puts the Pokémon into the hand when an attack Knocks it Out, and discards the cards attached to it. Celebi ◇ therefore does not go to the discard pile, and the Prism Star rule does not put it in the Lost Zone. Energy Retrieval takes that Fire Energy back. Arven can find an Item and the scarf. When Celebi ◇ or a needed Litwick or Pichu is in the prizes and Hisuian Heavy Ball is still in the deck, Arven takes that ball. Team Rocket's Petrel searches the deck for a Trainer card. It takes Hisuian Heavy Ball before Broken Time-Space when that prize is Celebi ◇, a stuck Pichu, or a Litwick with almost none of the line outside the prizes. A spare Litwick waits until after Dawn. Petrel does not search a Pokémon or an Energy card.",
+        "Rescue Scarf puts the Pokémon into the hand when an attack Knocks it Out, and discards the cards attached to it. Celebi ◇ therefore does not go to the discard pile, and the Prism Star rule does not put it in the Lost Zone. The Fire Energy that scarf discarded stays in the discard pile. Arven can find an Item and the scarf. When Celebi ◇ or a needed Litwick or Pichu is in the prizes and Hisuian Heavy Ball is still in the deck, Arven takes that ball. Team Rocket's Petrel searches the deck for a Trainer card. It takes Hisuian Heavy Ball before Broken Time-Space when that prize is Celebi ◇, a stuck Pichu, or a Litwick with almost none of the line outside the prizes. A spare Litwick waits until after Dawn. Petrel does not search a Pokémon or an Energy card.",
         "",
         "Cleffa was tried again on the Hyper Aroma list at 400 games per seat. Each step would replace one other card with one Cleffa. The highest first cut, one Switch, is 38.1%, below 38.5%, so the list keeps zero Cleffa. When one Cleffa is in the deck it enters play about 0.41 times per game and Eeeeeeek fires about 0.02 times. It is a backup wall behind Pichu. See data/lab/set-mill-roast-cleffa.md. Pichu is the Playground attacker. Sweet Sleeping Face prevents attack damage while that Pokémon is Asleep. Asleep blocks retreat. This list has no Switch and no Slumbering Forest.",
         "",
