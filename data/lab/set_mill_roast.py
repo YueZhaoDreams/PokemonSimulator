@@ -184,6 +184,13 @@ def _check() -> None:
         raise SystemExit("Dawn text")
     if fallback_named("Team Rocket's Petrel").text.lower().count("trainer") < 1:
         raise SystemExit("Petrel text missing")
+    litwick = [card for card in pile if card.name == "Litwick"]
+    if len(litwick) != 4 or any(
+        card.catalog_id != "sm2-11" or card.attacks[0].name != "Flickering Flames" for card in litwick
+    ):
+        raise SystemExit("roast Litwick is not Flickering Flames")
+    if fallback_named("Litwick").catalog_id != "swsh11-024":
+        raise SystemExit("default Litwick print changed")
 
 
 def _foe_cards(names, g30: bool):

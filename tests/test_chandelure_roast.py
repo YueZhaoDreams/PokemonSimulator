@@ -4,6 +4,8 @@ Printed sentences are the engine source. Grand Tree evolves from the deck, so
 Mountain Roasting does not mill. Playing Chandelure from the hand does.
 """
 
+import json
+from pathlib import Path
 from random import Random
 
 from app.engine.effects import parse_ability_effects, parse_effects, parse_trainer_effects
@@ -12,7 +14,14 @@ from app.engine.legality import copy_violations
 from app.engine.models import S60_SEED_IDS, default_rule_presets_for, standard_60_rules
 from app.engine.strategies import StrategySpec
 from app.seed import load_seed_deck
-from app.seed_data import SET_ROAST_NAMES, build_fallback_deck, build_roast_deck, fallback_named
+from app.seed_data import (
+    SET_ROAST_NAMES,
+    SET_ROAST_TWO_FOREST_NAMES,
+    build_fallback_deck,
+    build_roast_deck,
+    build_roast_two_forest_deck,
+    fallback_named,
+)
 
 TIME_DISTORTION = (
     "Devolve any number of your Benched Pokémon as many times as you like. "
@@ -178,6 +187,19 @@ def test_roast_deck_is_sixty_and_pichu_is_playground():
     assert names.count("Team Rocket's Petrel") == 2
     assert names.count("Hyper Aroma") == 1
     assert names.count("Nest Ball") == 0
+    litwick = [card for card in deck if card.name == "Litwick"]
+    assert len(litwick) == 4
+    for card in litwick:
+        assert card.catalog_id == "sm2-11"
+        assert card.hp == 50
+        assert card.attacks[0].name == "Flickering Flames"
+        assert card.attacks[0].damage == 10
+        assert card.attacks[0].text == "Your opponent's Active Pokémon is now Asleep."
+        asleep = next(effect for effect in card.attacks[0].effects if effect.get("status") == "asleep")
+        assert asleep.get("target") != "self"
+    mill = fallback_named("Litwick")
+    assert mill.catalog_id == "swsh11-024"
+    assert any(attack.name == "Kindling Panic" for attack in mill.attacks)
     assert not any("Doll" in name for name in names)
     for key in ("celebi", "celebi-mill", "roast", "23"):
         loaded = load_seed_deck(key)
@@ -209,6 +231,54 @@ def test_roast_deck_is_sixty_and_pichu_is_playground():
     assert any(ability.name == "Sweet Sleeping Face" for ability in cleffa.abilities)
     forest = fallback_named("Slumbering Forest")
     assert {"kind": "sleep_check_two_coins"} in parse_ability_effects(forest.text)
+
+
+def test_two_forest_is_its_own_seed():
+    recorded = json.loads(Path("data/lab/set-mill-roast-forest.json").read_text())
+    assert list(SET_ROAST_TWO_FOREST_NAMES) == recorded["best"]["list"]
+    deck = build_roast_two_forest_deck()
+    assert len(deck) == 60
+    assert copy_violations(deck, standard_60_rules()) == []
+    names = [card.name for card in deck]
+    assert names == list(SET_ROAST_TWO_FOREST_NAMES)
+    assert names.count("Slumbering Forest") == 2
+    assert names.count("Rescue Scarf") == 3
+    assert names.count("Evolution Incense") == 2
+    assert names.count("Pichu") == 3
+    assert names.count("Hyper Aroma") == 1
+    assert names.count("Devolution Spray") == 4
+    assert names.count("Fire Energy") == 7
+    assert names.count("Psychic Energy") == 0
+    for card in deck:
+        if card.name == "Litwick":
+            assert card.catalog_id == "sm2-11"
+            assert card.attacks[0].name == "Flickering Flames"
+            assert card.attacks[0].text == "Your opponent's Active Pokémon is now Asleep."
+        if card.name == "Lampent":
+            assert card.catalog_id == "bw8-22"
+            assert any(ability.name == "Freefloating" for ability in card.abilities)
+            assert not any(
+                effect.get("kind") == "call_family"
+                for attack in card.attacks
+                for effect in attack.effects
+            )
+    assert fallback_named("Litwick").catalog_id == "swsh11-024"
+    for key in ("two-forest", "24", "二森林", "seed-two-forest"):
+        loaded = load_seed_deck(key)
+        assert loaded["id"] == "seed-two-forest"
+        assert loaded["name"] == "二森林"
+        assert loaded["kind"] == "list"
+        assert [c["name"] for c in loaded["cards"]] == names
+        assert [c["catalog_id"] for c in loaded["cards"] if c["name"] == "Litwick"] == ["sm2-11"] * 4
+        assert [c["catalog_id"] for c in loaded["cards"] if c["name"] == "Lampent"] == ["bw8-22"] * 4
+        assert all(c.get("image") for c in loaded["cards"])
+    celebi = load_seed_deck("celebi")
+    assert celebi["id"] == "seed-celebi"
+    assert celebi["name"] == "Celebi Mill"
+    assert [c["name"] for c in celebi["cards"]].count("Slumbering Forest") == 0
+    assert [c["catalog_id"] for c in celebi["cards"] if c["name"] == "Litwick"] == ["sm2-11"] * 4
+    assert default_rule_presets_for("seed-two-forest") == ["s60"]
+    assert "seed-two-forest" in S60_SEED_IDS
 
 
 def test_devolve_any_number_of_times_and_roast_takes_one_step():
@@ -589,7 +659,8 @@ def test_lampent_played_this_turn_cannot_take_chandelure():
     _ready_turn(game)
     before = len(foe.deck)
     game._roast_main(me, foe, "a")
-    assert [me.card(mon.card_i).name for mon in me.bench].count("Lampent") == 3
+    assert me.card(me.active.card_i).name == "Litwick"
+    assert [me.card(mon.card_i).name for mon in me.bench].count("Lampent") == 2
     assert all(card in me.hand for card in chands)
     assert len(foe.deck) == before
 
@@ -1498,6 +1569,136 @@ def test_roast_will_not_spray_into_a_knock_out():
     game._roast_sprays(me, game.players["b"], "a")
     assert spray in me.hand
     assert me.card(mon.card_i).name == "Chandelure"
+
+
+FLICKER = "Your opponent's Active Pokémon is now Asleep."
+
+
+def test_flickering_flames_parses_onto_the_opponent():
+    effects = parse_effects(FLICKER)
+    asleep = next(effect for effect in effects if effect.get("kind") == "status")
+    assert asleep == {"kind": "status", "status": "asleep", "coin": False}
+    self_sleep = parse_effects("Litwick is now Asleep.")
+    own = next(effect for effect in self_sleep if effect.get("status") == "asleep")
+    assert own.get("target") == "self"
+
+
+def test_roast_uses_flickering_flames_on_an_awake_opponent():
+    game = _game()
+    me = game.players["a"]
+    foe = game.players["b"]
+    _reclaim(me)
+    cleffa = _cleffa(me)
+    lit = _pull(me, "Litwick")
+    lamp = _pull(me, "Lampent")
+    chand = _pull(me, "Chandelure")
+    fire = _pull(me, "Fire Energy")
+    me.active = Pokemon(card_i=cleffa, played_turn=0)
+    me.bench = [Pokemon(card_i=lit, played_turn=0)]
+    me.hand = [lamp, chand, fire]
+    me.deck = []
+    _ready_turn(game)
+    before = len(foe.deck)
+    game._roast_main(me, foe, "a")
+    assert me.card(me.active.card_i).name == "Litwick"
+    assert len(me.active.energy) == 1
+    assert lamp in me.hand and chand in me.hand
+    assert len(foe.deck) == before
+    game._attack(me, foe, "a")
+    assert foe.active.status & ST_ASLEEP
+    assert game.events.get("attack:Litwick:Flickering Flames", 0) == 1
+
+
+def test_flickering_flames_pays_celebi_retreat():
+    game = _game()
+    me = game.players["a"]
+    foe = game.players["b"]
+    _reclaim(me)
+    celebi = _pull(me, "Celebi ◇")
+    lit = _pull(me, "Litwick")
+    paid = _pull(me, "Fire Energy")
+    fresh = _pull(me, "Fire Energy")
+    me.active = Pokemon(card_i=celebi, played_turn=0, energy=[paid])
+    me.bench = [Pokemon(card_i=lit, played_turn=0)]
+    me.hand = [fresh]
+    me.deck = []
+    _ready_turn(game)
+    game._roast_main(me, foe, "a")
+    assert me.card(me.active.card_i).name == "Litwick"
+    assert me.active.energy == [fresh]
+    celebi_mon = next(mon for mon in me.bench if "celebi" in me.card(mon.card_i).name.lower())
+    assert celebi_mon.energy == []
+    assert paid in me.discard
+
+
+def test_asleep_opponent_keeps_time_distortion_ahead_of_flickering_flames():
+    game = _game()
+    me = game.players["a"]
+    foe = game.players["b"]
+    _reclaim(me)
+    cleffa = _cleffa(me)
+    lit = _pull(me, "Litwick")
+    lamp = _pull(me, "Lampent")
+    chand = _pull(me, "Chandelure")
+    celebi = _pull(me, "Celebi ◇")
+    fire = _pull(me, "Fire Energy")
+    me.active = Pokemon(card_i=cleffa, played_turn=0)
+    me.bench = [Pokemon(card_i=lamp, played_turn=0), Pokemon(card_i=lit, played_turn=0)]
+    me.hand = [chand, celebi, fire]
+    me.deck = []
+    _ready_turn(game)
+    foe.active.status |= ST_ASLEEP
+    before = len(foe.deck)
+    game._roast_main(me, foe, "a")
+    assert me.card(me.active.card_i).name == "Celebi ◇"
+    assert len(me.active.energy) == 1
+    names = [me.card(mon.card_i).name for mon in me.bench]
+    assert names.count("Chandelure") == 1
+    assert names.count("Litwick") == 1
+    assert len(foe.deck) == before - 3
+    chosen = game._choose_attack(me, foe, game.strats["a"])
+    assert chosen is not None and chosen.name == "Time Distortion"
+
+
+def test_slumbering_forest_replaces_broken_time_space_when_nothing_was_just_played():
+    game = _game()
+    me = game.players["a"]
+    foe = game.players["b"]
+    _reclaim(me)
+    cleffa = _cleffa(me)
+    lamp = _pull(me, "Lampent")
+    chand = _pull(me, "Chandelure")
+    forest = _grant(me, "Slumbering Forest")
+    me.deck.remove(forest)
+    me.active = Pokemon(card_i=cleffa, played_turn=0)
+    me.bench = [Pokemon(card_i=lamp, played_turn=0)]
+    me.hand = [forest, chand]
+    me.deck = []
+    _ready_turn(game)
+    game._set_stadium(fallback_named("Broken Time-Space"), owner=me)
+    before = len(foe.deck)
+    game._roast_main(me, foe, "a")
+    assert (game.stadium_name or "").lower() == "slumbering forest"
+    assert {"kind": "sleep_check_two_coins"} in (game.stadium_effects or [])
+    assert me.card(me.bench[0].card_i).name == "Chandelure"
+    assert len(foe.deck) == before - 3
+
+
+def test_petrel_fetches_slumbering_forest_when_broken_time_space_can_wait():
+    game = _game()
+    me = game.players["a"]
+    _reclaim(me)
+    cleffa = _cleffa(me)
+    lamp = _pull(me, "Lampent")
+    petrel = _pull(me, "Team Rocket's Petrel")
+    forest = _grant(me, "Slumbering Forest")
+    me.deck.remove(forest)
+    me.active = Pokemon(card_i=cleffa, played_turn=0)
+    me.bench = [Pokemon(card_i=lamp, played_turn=0)]
+    me.hand = [petrel]
+    me.deck = [forest]
+    _ready_turn(game)
+    assert game._roast_petrel_want(me, "a") == "Slumbering Forest"
 
 
 def test_petrel_fetches_devolution_spray_when_celebi_cannot_attack():
