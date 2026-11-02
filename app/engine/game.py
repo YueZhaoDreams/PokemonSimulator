@@ -323,6 +323,8 @@ class Game:
             _capture_opening(player)
             return
         if strat.name == "roast":
+            spreading = self._roast_spreading_list(player)
+
             def roast_rank(card_i: int) -> tuple[int, int]:
                 card = player.card(card_i)
                 name = card.name.lower()
@@ -337,13 +339,20 @@ class Game:
                 return (9, 0)
 
             # One Bench spot stays open when Celebi ◇ is still in the deck.
+            # Spreading Light needs three spots, so only one extra Litwick comes down.
             celebi_here = any("celebi" in player.card(i).name.lower() for i in remaining) or "celebi" in player.card(active_i).name.lower()
-            limit = self._bench_limit(player) if celebi_here else self._bench_limit(player) - 1
+            if spreading:
+                limit = max(0, self._bench_limit(player) - 3)
+            else:
+                limit = self._bench_limit(player) if celebi_here else self._bench_limit(player) - 1
             wall = self._prints_eeeeeeek(player.card(active_i)) or self._prints_playground(player.card(active_i))
+            litwick_out = 1 if player.card(active_i).name.lower() == "litwick" else 0
             for card_i in sorted(remaining, key=roast_rank):
                 if len(player.bench) >= limit:
                     break
                 card = player.card(card_i)
+                if spreading and card.name.lower() == "litwick" and litwick_out >= 2:
+                    continue
                 if self._prints_eeeeeeek(card) or self._prints_playground(card):
                     if wall:
                         continue
@@ -351,6 +360,8 @@ class Game:
                 player.hand.remove(card_i)
                 player.bench.append(Pokemon(card_i=card_i, played_turn=0))
                 self._bump(f"saw_play:{player.card(card_i).name}")
+                if card.name.lower() == "litwick":
+                    litwick_out += 1
             _capture_opening(player)
             return
         if strat.hold_as_energy:
@@ -5003,6 +5014,8 @@ class Game:
         """What Energy Search should dig for under Family Cup."""
         strat = self.strats[who]
         if strat.name == "roast":
+            if self._roast_spreading_wants_psychic(me):
+                return ["Psychic Energy", "Fire Energy"]
             return ["Fire Energy"]
         prefer: list[str] = []
         in_play = {me.card(m.card_i).name.lower() for m in me.in_play()}
@@ -5286,9 +5299,13 @@ class Game:
             in_play = {me.card(m.card_i).name.lower() for m in me.in_play()}
             for card_i in me.deck:
                 card = me.card(card_i)
-                if not card.is_basic:
-                    continue
                 card_name = card.name.lower()
+                # A named search puts that Pokémon on the Bench even when it is
+                # not a Basic. Spreading Light names Lampent. An unnamed Call
+                # for Family still takes Basics only.
+                named = bool(want) and card.is_pokemon and card_name == want
+                if not named and not card.is_basic:
+                    continue
                 if want_type and want_type not in (card.types or []):
                     continue
                 if want and card_name != want:
@@ -5334,6 +5351,7 @@ class Game:
             self._bump("call_family")
             if want:
                 self._bump("moon_viewing_invitation")
+                self._bump(f"call_family:{want}")
             self._log(f"{me.name} Call for Family benches {me.card(card_i).name}")
             self.rng.shuffle(me.deck)
         if want_type and take > 0 and benched == 0:
@@ -6985,9 +7003,12 @@ class Game:
         # Playground benches Basics from the deck after trainers. A certain
         # Playground keeps those Basics there and takes a Stage 1 instead.
         stage1 = self.strats[who].name == "roast" and self._roast_wants_playground(me, who)
+        skip_lampent = self.strats[who].name == "roast" and self._roast_spreading_holds_stock(me)
 
         def pred(card: Card) -> bool:
             if not card.is_pokemon or not (0 < (card.hp or 0) <= max_hp):
+                return False
+            if skip_lampent and card.name.lower() == "lampent":
                 return False
             if stage1 and self._stage_token(card.stage) != "stage1":
                 return False
@@ -9179,6 +9200,11 @@ class Game:
             if self._is_slash_tank(card) and effective < foe_hp:
                 return None
         if strat.name == "roast" and best is not None:
+            if any(
+                effect.get("kind") == "call_family" and (effect.get("name") or "").lower() == "lampent"
+                for effect in best.effects
+            ) and self._roast_spreading_assembling(me):
+                return best
             kinds = {e.get("kind") for e in best.effects}
             if "devolve_benched" in kinds:
                 if any(me.card(m.card_i).name.lower() == "chandelure" for m in me.bench):
@@ -18452,12 +18478,247 @@ class Game:
             if not self._play_named_item(me, foe, who, "Puzzle of Time"):
                 break
 
+    def _roast_prints_spreading(self, card: Card) -> bool:
+        return any(
+            effect.get("kind") == "call_family" and (effect.get("name") or "").lower() == "lampent"
+            for attack in card.attacks
+            for effect in attack.effects
+        )
+
+    def _roast_spreading_list(self, me: Player) -> bool:
+        """This seat's Lampent print is Spreading Light, wherever those cards sit."""
+        indexes: list[int] = []
+        for zone in (me.hand, me.deck, me.discard, me.prizes, me.lost_zone):
+            indexes.extend(zone)
+        for mon in me.in_play():
+            indexes.append(mon.card_i)
+            indexes.extend(mon.underneath)
+        return any(self._roast_prints_spreading(me.card(card_i)) for card_i in indexes)
+
+    def _roast_lampent_deck_count(self, me: Player) -> int:
+        return sum(1 for card_i in me.deck if me.card(card_i).name.lower() == "lampent")
+
+    def _roast_lampent_in_play_count(self, me: Player) -> int:
+        return sum(1 for mon in me.in_play() if me.card(mon.card_i).name.lower() == "lampent")
+
+    def _roast_lampent_held(self, me: Player) -> int:
+        held = sum(1 for card_i in me.hand if me.card(card_i).name.lower() == "lampent")
+        return held + self._roast_lampent_in_play_count(me)
+
+    def _roast_spreading_pending(self, me: Player) -> bool:
+        """Lampent remain in the deck and the Bench still has a spot for one."""
+        if not self._roast_spreading_list(me):
+            return False
+        if self._roast_lampent_deck_count(me) <= 0:
+            return False
+        return len(me.bench) < self._bench_limit(me)
+
+    def _roast_spreading_holds_stock(self, me: Player) -> bool:
+        """One Lampent is already out. The rest stay in the deck for the attack."""
+        return self._roast_spreading_pending(me) and self._roast_lampent_held(me) >= 1
+
+    def _roast_spreading_has_body(self, me: Player) -> bool:
+        return any(me.card(mon.card_i).name.lower() in {"litwick", "lampent"} for mon in me.in_play())
+
+    def _roast_candle_count(self, me: Player) -> int:
+        return sum(
+            1
+            for mon in me.in_play()
+            if me.card(mon.card_i).name.lower() in {"lampent", "chandelure"}
+        )
+
+    def _roast_bare_lampent_benched(self, me: Player) -> bool:
+        """Spreading Light puts Lampent onto the Bench with nothing underneath."""
+        return any(
+            me.card(mon.card_i).name.lower() == "lampent" and not mon.underneath for mon in me.bench
+        )
+
+    def _roast_spreading_assembling(self, me: Player) -> bool:
+        """The call still comes before the mill.
+
+        Once Lampent is already on the Bench, or three candles are out, Time
+        Distortion replays the line. A later call can use a freed spot.
+        """
+        if not self._roast_spreading_pending(me):
+            return False
+        if self._roast_candle_count(me) >= 3:
+            return False
+        if self._roast_bare_lampent_benched(me) or self._roast_benched_chandelure(me):
+            return False
+        return True
+
+    def _roast_spreading_mill_turn(self, me: Player, who: str) -> bool:
+        """A benched Lampent can become Chandelure and Celebi ◇ can attack."""
+        if not self._roast_spreading_list(me) or self._roast_spreading_assembling(me):
+            return False
+        if not self._roast_can_attack_turn(me):
+            return False
+        lampent_out = any(me.card(mon.card_i).name.lower() == "lampent" for mon in me.in_play())
+        if not self._roast_benched_chandelure(me) and not (self._roast_chandelure_hand(me) and lampent_out):
+            return False
+        if self._roast_celebi(me) is not None:
+            return True
+        if not self._roast_celebi_in_hand(me):
+            return False
+        return me.active is None or len(me.bench) < self._bench_limit(me)
+
+    def _roast_spreading_attack(self, card: Card):
+        for attack in card.attacks:
+            if any(
+                effect.get("kind") == "call_family" and (effect.get("name") or "").lower() == "lampent"
+                for effect in attack.effects
+            ):
+                return attack
+        return None
+
+    def _roast_psychic_in_hand(self, me: Player) -> int | None:
+        for card_i in me.hand:
+            card = me.card(card_i)
+            if is_basic_energy(card) and (card.energy_type or "") == "Psychic":
+                return card_i
+        return None
+
+    def _roast_spreading_ready(self, me: Player, mon: Pokemon) -> bool:
+        if mon.status & (ST_ASLEEP | ST_PARALYZED):
+            return False
+        attack = self._roast_spreading_attack(me.card(mon.card_i))
+        if attack is None:
+            return False
+        foe = self.players["b" if me.name == "A" else "a"]
+        return can_pay_energy(self._energy_pool(me, mon), self._attack_cost(me, mon, attack, foe))
+
+    def _roast_could_pay_spreading(self, me: Player, mon: Pokemon) -> bool:
+        if self._roast_spreading_ready(me, mon):
+            return True
+        if me.energy_attached or mon.status & (ST_ASLEEP | ST_PARALYZED):
+            return False
+        attack = self._roast_spreading_attack(me.card(mon.card_i))
+        if attack is None or self._roast_psychic_in_hand(me) is None:
+            return False
+        foe = self.players["b" if me.name == "A" else "a"]
+        pool = list(self._energy_pool(me, mon))
+        return can_pay_energy(pool + ["Psychic"], self._attack_cost(me, mon, attack, foe))
+
+    def _roast_spreading_holder(self, me: Player) -> Pokemon | None:
+        """The one Lampent that pays Spreading Light. The others stay in the deck."""
+        if not self._roast_spreading_pending(me):
+            return None
+        holders = [mon for mon in me.in_play() if self._roast_spreading_attack(me.card(mon.card_i))]
+        if not holders:
+            return None
+
+        def rank(mon: Pokemon) -> tuple[int, int, int, int]:
+            could = 0 if self._roast_could_pay_spreading(me, mon) else 1
+            ready = 0 if self._roast_spreading_ready(me, mon) else 1
+            reach = 0 if self._roast_can_reach(me, mon, pay=True) else 1
+            spot = 0 if mon is me.active else 1
+            return (could, reach, ready, spot)
+
+        holders.sort(key=rank)
+        return holders[0]
+
+    def _roast_spreading_wants_psychic(self, me: Player) -> bool:
+        if not self._roast_spreading_pending(me):
+            return False
+        holder = self._roast_spreading_holder(me)
+        return holder is None or not self._roast_spreading_ready(me, holder)
+
+    def _roast_attach_to(self, me: Player, mon: Pokemon, fuel: int) -> None:
+        me.hand.remove(fuel)
+        mon.energy.append(fuel)
+        me.energy_attached = True
+        self._log(f"{me.name} attaches {me.card(fuel).name} to {me.card(mon.card_i).name}")
+
+    def _roast_retreat_fuel(self, me: Player) -> int | None:
+        psychic = None
+        for card_i in me.hand:
+            card = me.card(card_i)
+            if not is_basic_energy(card):
+                continue
+            if (card.energy_type or "") == "Psychic":
+                psychic = card_i
+                continue
+            return card_i
+        return psychic
+
+    def _roast_attach_spreading(self, me: Player) -> bool:
+        """Psychic goes on the caller. Retreat fuel is attached only after that.
+
+        Returns True when this turn's attachment is reserved for that plan,
+        including a turn that does not attach yet.
+        """
+        if not self._roast_spreading_assembling(me):
+            return False
+        holder = self._roast_spreading_holder(me)
+        if holder is None:
+            return True
+        if not self._roast_spreading_ready(me, holder):
+            fuel = self._roast_psychic_in_hand(me)
+            if fuel is not None:
+                self._roast_attach_to(me, holder, fuel)
+            return True
+        if holder is me.active or me.active is None or self._roast_can_reach(me, holder, pay=True):
+            return True
+        if me.active.status & (ST_ASLEEP | ST_PARALYZED):
+            return True
+        if me.retreated or me.active.retreat_locked or self._proxy_cant_retreat(me.card(me.active.card_i)):
+            return True
+        if len(me.active.energy) >= self._retreat_cost(me, me.active):
+            return True
+        fuel = self._roast_retreat_fuel(me)
+        if fuel is not None:
+            self._roast_attach_to(me, me.active, fuel)
+        return True
+
+    def _roast_bench_for_spreading(self, me: Player) -> None:
+        """Two Litwick until a Lampent exists, then Celebi if the call still fits.
+
+        One Litwick evolves into the caller. The other stays when that Pokémon
+        is Knocked Out. Active is not a Bench spot, so Celebi plus one Litwick
+        still leaves three spots for Spreading Light.
+        """
+        call = min(3, self._roast_lampent_deck_count(me))
+        if self._roast_lampent_in_play_count(me) == 0:
+            while sum(1 for mon in me.in_play() if me.card(mon.card_i).name.lower() == "litwick") < 2:
+                litwick = self._roast_take(me, lambda card: card.name.lower() == "litwick")
+                if litwick is None:
+                    break
+                spare = self._bench_limit(me) - len(me.bench) - call
+                if me.active is not None and spare <= 0:
+                    break
+                if not self._roast_play_basic(me, litwick):
+                    break
+        spare = self._bench_limit(me) - len(me.bench) - call
+        if self._roast_celebi(me) is None and (me.active is None or spare > 0):
+            self._roast_play_celebi(me)
+
+    def _roast_spreading_evolve_target(self, me: Player, who: str, evo: Card) -> Pokemon | None:
+        """The Active Litwick evolves first, so the caller does not pay a retreat."""
+        foe = self.players["b" if me.name == "A" else "a"]
+        reserved = self._roast_flicker_target(me, foe)
+        ordered: list[Pokemon] = []
+        if me.active is not None:
+            ordered.append(me.active)
+        ordered.extend(me.bench)
+        want = (evo.evolves_from or "").lower()
+        for mon in ordered:
+            if mon is reserved:
+                continue
+            if me.card(mon.card_i).name.lower() != want:
+                continue
+            if self._can_evolve_now(me, who, mon, evo):
+                return mon
+        return None
+
     def _roast_main(self, me: Player, foe: Player, who: str) -> None:
         # Evolution Incense takes Chandelure once a Lampent is in hand or in play.
         # Lampent is only the fallback while a Litwick still has no Stage 1.
         # Hyper Aroma takes Lampent, and stops once four Lampent are in hand or in play.
         # Broken Time-Space then lets a Litwick played this turn evolve into both.
         # Celebi ◇ devolves a benched Chandelure the same turn it can pay.
+        # Spreading Light keeps one Lampent and leaves the others in the deck.
+        # After that attack has put Lampent on the Bench, those Lampent evolve,
+        # the caller retreats, and Celebi ◇ uses Time Distortion.
         self._roast_bench(me, who)
         self._roast_trainers(me, foe, who)
         self._roast_bench(me, who)
@@ -18472,7 +18733,19 @@ class Game:
         # Devolution Spray is only for a Chandelure Time Distortion will not reach.
         # The printed sentence stops that Pokémon from evolving this turn.
         self._roast_sprays(me, foe, who)
+        finished = self._roast_spreading_finish_mill(me, who)
         self._note_roast_mill(who)
+        if finished:
+            return
+        if self._roast_spreading_assembling(me) and self._roast_can_attack_turn(me):
+            holder = self._roast_spreading_holder(me)
+            if (
+                holder is not None
+                and self._roast_spreading_ready(me, holder)
+                and self._roast_can_reach(me, holder, pay=True)
+            ):
+                if self._roast_bring(me, who, lambda mon, held=holder: mon is held, pay=True):
+                    return
         flicker = self._roast_flicker_target(me, foe)
         if flicker is not None and self._roast_flicker_ready(me, flicker):
             if self._roast_bring(me, who, lambda mon, held=flicker: mon is held, pay=True):
@@ -18554,6 +18827,14 @@ class Game:
         return 1
 
     def _roast_open_slots(self, me: Player) -> int:
+        if self._roast_spreading_pending(me):
+            # Two Litwick until the caller exists. Further Basics would take a call spot.
+            litwick = sum(1 for mon in me.in_play() if me.card(mon.card_i).name.lower() == "litwick")
+            if self._roast_lampent_in_play_count(me) >= 1 or litwick >= 2:
+                return 0
+            call = min(3, self._roast_lampent_deck_count(me))
+            room = self._bench_limit(me) - len(me.bench) - self._roast_reserve_slot(me) - call
+            return max(0, min(2 - litwick, room))
         return max(0, self._bench_limit(me) - len(me.bench) - self._roast_reserve_slot(me))
 
     def _roast_chandelure_hand(self, me: Player) -> int:
@@ -18650,6 +18931,8 @@ class Game:
         return self._roast_lines(me) < 3
 
     def _roast_wants_energy(self, me: Player, who: str) -> bool:
+        if self._roast_spreading_wants_psychic(me) and self._roast_psychic_in_hand(me) is None:
+            return True
         if self._roast_can_pay_time(me):
             return False
         return self._roast_close(me, who)
@@ -18730,6 +19013,25 @@ class Game:
 
     def _roast_level_helps(self, me: Player) -> bool:
         who = "a" if me.name == "A" else "b"
+        if self._roast_spreading_pending(me):
+            deck_names = {me.card(i).name.lower() for i in me.deck}
+            unevolved = any(me.card(mon.card_i).name.lower() == "litwick" for mon in me.in_play())
+            if self._roast_lampent_held(me) < 1 and unevolved and "lampent" in deck_names:
+                return True
+            if self._roast_spreading_holds_stock(me):
+                if (
+                    not self._roast_spreading_has_body(me)
+                    and "litwick" in deck_names
+                    and self._roast_open_slots(me) > 0
+                ):
+                    return True
+                if (
+                    self._roast_celebi(me) is None
+                    and not self._roast_celebi_in_hand(me)
+                    and any("celebi" in name for name in deck_names)
+                ):
+                    return True
+                return False
         deck = {me.card(i).name.lower() for i in me.deck}
         if self._roast_wants_playground(me, who):
             return "lampent" in deck
@@ -18830,6 +19132,8 @@ class Game:
             and self._roast_can_devolve(me, me.active)
         ):
             return True
+        if self._roast_spreading_assembling(me) and self._roast_spreading_ready(me, me.active):
+            return True
         if self._prints_playground(card) and self._roast_wants_playground(me, who):
             return True
         if self._prints_eeeeeeek(card) and self._roast_wants_eeek(me, who):
@@ -18878,6 +19182,9 @@ class Game:
         return None
 
     def _roast_bench(self, me: Player, who: str) -> None:
+        if self._roast_spreading_pending(me):
+            self._roast_bench_for_spreading(me)
+            return
         if me.active is None:
             for pred in (
                 self._prints_playground,
@@ -18918,6 +19225,10 @@ class Game:
     def _roast_play_celebi(self, me: Player) -> None:
         if self._roast_celebi(me) is not None:
             return
+        if self._roast_spreading_pending(me) and me.active is not None:
+            call = min(3, self._roast_lampent_deck_count(me))
+            if self._bench_limit(me) - len(me.bench) - call <= 0:
+                return
         celebi = self._roast_take(me, lambda c: c.is_pokemon and "celebi" in c.name.lower())
         if celebi is not None:
             self._roast_play_basic(me, celebi)
@@ -19000,6 +19311,10 @@ class Game:
             return None
         if foe.active.status & ST_ASLEEP or self._roast_wants_playground(me, who):
             return None
+        if self._roast_spreading_assembling(me) and self._roast_lampent_in_play_count(me) == 0:
+            return None
+        if self._roast_spreading_mill_turn(me, who):
+            return None
         ranked: list[tuple[int, int, Pokemon]] = []
         for mon in me.in_play():
             if not self._roast_could_pay_flicker(me, mon):
@@ -19066,6 +19381,10 @@ class Game:
         lampent = count(play, "lampent") + count(me.hand, "lampent")
         deck_lamp = count(me.deck, "lampent")
         deck_chand = count(me.deck, "chandelure")
+        if self._roast_spreading_pending(me):
+            if lampent >= 1:
+                return "Chandelure" if deck_chand else None
+            return "Lampent" if deck_lamp else None
         if deck_chand and lampent > 0:
             return "Chandelure"
         if litwick > lampent and deck_lamp:
@@ -19077,7 +19396,12 @@ class Game:
 
         Hyper Aroma's printed "up to N" is the search_stage1 count on the card.
         Four is the candle line, the same bound the other Lampent searches use.
+        Spreading Light needs one Lampent. The others stay in the deck.
         """
+        if self._roast_spreading_pending(me):
+            if self._roast_lampent_held(me) >= 1:
+                return 0
+            return min(self._roast_lampent_deck_count(me), 1)
         have = sum(1 for i in me.hand if me.card(i).name.lower() == "lampent")
         have += sum(1 for mon in me.in_play() if me.card(mon.card_i).name.lower() == "lampent")
         deck = sum(1 for i in me.deck if me.card(i).name.lower() == "lampent")
@@ -19125,6 +19449,10 @@ class Game:
         lampent = count(play, "lampent") + count(me.hand, "lampent") + taken.get("Lampent", 0)
         deck_lamp = count(me.deck, "lampent") - taken.get("Lampent", 0)
         deck_chand = count(me.deck, "chandelure") - taken.get("Chandelure", 0)
+        if self._roast_spreading_pending(me):
+            if lampent >= 1:
+                return "Chandelure" if deck_chand > 0 else None
+            return "Lampent" if deck_lamp > 0 else None
         if litwick > lampent and deck_lamp > 0:
             return "Lampent"
         if deck_chand > 0 and lampent > 0:
@@ -19138,7 +19466,13 @@ class Game:
         return 0
 
     def _roast_hop_safe(self, me: Player, card: Card) -> bool:
-        """Draw only while five cards would remain for later turns."""
+        """Draw only while five cards would remain for later turns.
+
+        A draw can also take Lampent out of the deck. Spreading Light still
+        has to find those cards, so Hop waits until that attack is finished.
+        """
+        if self._roast_spreading_pending(me):
+            return False
         amount = self._roast_hop_amount(card)
         return amount > 0 and len(me.deck) >= amount + 5
 
@@ -19174,6 +19508,10 @@ class Game:
         return not self._roast_dawn_helps(me)
 
     def _roast_dawn_helps(self, me: Player) -> bool:
+        # Dawn's printed search takes a Stage 1. Once one Lampent is out, that
+        # would pull the stock Spreading Light is supposed to find.
+        if self._roast_spreading_holds_stock(me):
+            return False
         names = {me.card(i).name.lower() for i in me.deck}
         if "chandelure" in names or "lampent" in names:
             return True
@@ -19367,6 +19705,19 @@ class Game:
 
     def _roast_wants_ultra(self, me: Player) -> bool:
         who = "a" if me.name == "A" else "b"
+        if self._roast_spreading_pending(me):
+            deck_names = {me.card(i).name.lower() for i in me.deck}
+            if not self._roast_spreading_holds_stock(me):
+                return "lampent" in deck_names and any(
+                    me.card(mon.card_i).name.lower() == "litwick" for mon in me.in_play()
+                )
+            if "chandelure" in deck_names and self._roast_chandelure_hand(me) < 4:
+                return True
+            return (
+                self._roast_celebi(me) is None
+                and not self._roast_celebi_in_hand(me)
+                and any("celebi" in name for name in deck_names)
+            )
         deck = {me.card(i).name.lower() for i in me.deck}
         play = {me.card(m.card_i).name.lower() for m in me.in_play()}
         if (
@@ -19593,6 +19944,8 @@ class Game:
     def _roast_attach(self, me: Player) -> None:
         if me.energy_attached:
             return
+        if self._roast_attach_spreading(me):
+            return
         foe = self.players["b" if me.name == "A" else "a"]
         flicker = self._roast_flicker_target(me, foe)
         if flicker is not None and not self._roast_flicker_ready(me, flicker):
@@ -19705,6 +20058,8 @@ class Game:
         ):
             return 28.0
         unevolved = sum(1 for mon in me.in_play() if me.card(mon.card_i).name.lower() == "litwick")
+        if name == "lampent" and self._roast_spreading_holds_stock(me):
+            return -40.0
         if name == "lampent":
             have = hand + sum(1 for mon in me.in_play() if me.card(mon.card_i).name.lower() == "lampent")
             if unevolved and have < unevolved:
@@ -19750,6 +20105,11 @@ class Game:
     def _roast_switch_idx(self, me: Player) -> int | None:
         who = "a" if me.name == "A" else "b"
         foe = self.players["b" if me.name == "A" else "a"]
+        if self._roast_spreading_mill_turn(me, who):
+            for i, mon in enumerate(me.bench):
+                if "celebi" in me.card(mon.card_i).name.lower():
+                    return i
+            return None
         if self._roast_wants_playground(me, who):
             for i, mon in enumerate(me.bench):
                 if self._roast_awake_pichu(me, mon):
@@ -19789,6 +20149,13 @@ class Game:
         prefer: list[str] = []
         if not self._roast_wall_present(me) and self._roast_open_slots(me) > 0:
             prefer.extend(["Cleffa", "Pichu"])
+        if self._roast_spreading_holds_stock(me):
+            if self._roast_chandelure_hand(me) < 4:
+                prefer.append("Chandelure")
+            if self._roast_celebi(me) is None and "celebi ◇" not in hand:
+                prefer.append("Celebi ◇")
+            prefer.extend(["Litwick", "Chandelure", "Celebi ◇", "Cleffa", "Pichu"])
+            return list(dict.fromkeys(prefer))
         unevolved = sum(1 for mon in me.in_play() if me.card(mon.card_i).name.lower() == "litwick")
         lamp = sum(1 for i in me.hand if me.card(i).name.lower() == "lampent")
         lamp += sum(1 for mon in me.in_play() if me.card(mon.card_i).name.lower() == "lampent")
@@ -19891,6 +20258,10 @@ class Game:
             return None
         roast = self.strats[who].name == "roast"
         reserved = None
+        if roast and self._roast_spreading_pending(me):
+            # Grand Tree would take Lampent out of the deck, so Spreading Light
+            # could not put them onto the Bench.
+            return None
         if roast:
             foe = self.players["b" if me.name == "A" else "a"]
             reserved = self._roast_flicker_target(me, foe)
@@ -19945,11 +20316,14 @@ class Game:
         want = (evo.evolves_from or "").lower()
         foe = self.players["b" if me.name == "A" else "a"]
         reserved = self._roast_flicker_target(me, foe)
+        holder = None
+        if (evo.name or "").lower() == "chandelure" and self._roast_spreading_assembling(me):
+            holder = self._roast_spreading_holder(me)
         candidates = list(me.bench)
         if include_active and me.active is not None:
             candidates.append(me.active)
         for mon in candidates:
-            if mon is reserved:
+            if mon is reserved or mon is holder:
                 continue
             if me.card(mon.card_i).name.lower() != want:
                 continue
@@ -19972,6 +20346,19 @@ class Game:
         # Flickering Flames stays a Basic while the opponent is awake.
         # Chandelure stays on the Bench, because Time Distortion only devolves
         # Benched Pokémon.
+        # Spreading Light evolves one Litwick into the caller and leaves the
+        # other Lampent in the deck.
+        if self._roast_spreading_pending(me):
+            if self._roast_lampent_in_play_count(me) >= 1:
+                return
+            evo_i = next((i for i in me.hand if me.card(i).name.lower() == "lampent"), None)
+            if evo_i is None:
+                return
+            target = self._roast_spreading_evolve_target(me, who, me.card(evo_i))
+            if target is None:
+                return
+            self._do_evolve(me, target, evo_i, from_hand=True)
+            return
         self._roast_evolve_named(me, who, "lampent", include_active=True)
 
     def _roast_evolve_chandelure(self, me: Player, who: str) -> None:
@@ -20064,9 +20451,53 @@ class Game:
             return True
         return mon.damage >= (me.card(mon.underneath[-1]).hp or 0)
 
+    def _roast_spreading_finish_mill(self, me: Player, who: str) -> bool:
+        """Retreat the caller, evolve the Lampent now on the Bench, and leave Celebi ◇ Active.
+
+        Psychic already on the caller pays its retreat. The attachment this turn
+        goes to Celebi ◇, because Time Distortion takes one of any Energy.
+        """
+        if not self._roast_spreading_mill_turn(me, who):
+            return False
+        if self._roast_celebi(me) is None:
+            celebi_i = self._roast_take(me, lambda card: card.is_pokemon and "celebi" in card.name.lower())
+            if celebi_i is not None:
+                self._roast_play_basic(me, celebi_i)
+        celebi = self._roast_celebi(me)
+        if celebi is None:
+            return False
+        if not self._roast_can_devolve(me, celebi) and not me.energy_attached:
+            fuel = self._roast_retreat_fuel(me)
+            if fuel is not None:
+                self._roast_attach_to(me, celebi, fuel)
+        if me.active is not None and me.active is not celebi:
+            if (
+                not me.energy_attached
+                and self._roast_can_devolve(me, celebi)
+                and not self._roast_active_stuck(me)
+                and len(me.active.energy) < self._retreat_cost(me, me.active)
+            ):
+                fuel = self._roast_retreat_fuel(me)
+                if fuel is not None:
+                    self._roast_attach_to(me, me.active, fuel)
+            self._roast_bring(me, who, lambda mon, held=celebi: mon is held, pay=True)
+        self._roast_evolve_chandelure(me, who)
+        if not self._roast_benched_chandelure(me):
+            return False
+        if me.active is celebi and self._roast_can_devolve(me, celebi):
+            return True
+        return self._roast_bring(
+            me,
+            who,
+            lambda mon: "celebi" in me.card(mon.card_i).name.lower() and self._roast_can_devolve(me, mon),
+            pay=True,
+        )
+
     def _roast_spray_target(self, me: Player, who: str) -> Pokemon | None:
         """A Chandelure Time Distortion will leave in play. Active is never devolved by that attack."""
         if me.item_lock:
+            return None
+        if self._roast_spreading_mill_turn(me, who):
             return None
         td = self._roast_td_pending(me, who)
         if (
@@ -20128,6 +20559,27 @@ class Game:
             card = me.card(mon.card_i)
             name = card.name.lower()
             foe = self.players["b" if me.name == "A" else "a"]
+            if self._roast_spreading_list(me):
+                candle = name in {"lampent", "chandelure"}
+                if self._roast_spreading_mill_turn(me, who):
+                    if "celebi" in name:
+                        return (0, i)
+                    if candle:
+                        return (9, i)
+                    return (3, i)
+                if self._roast_spreading_assembling(me):
+                    if self._roast_spreading_attack(card) and (
+                        self._roast_spreading_ready(me, mon) or self._roast_could_pay_spreading(me, mon)
+                    ):
+                        return (0, i)
+                    if name == "litwick":
+                        return (1, i)
+                    if "celebi" in name:
+                        return (2, i)
+                    if candle:
+                        return (9, i)
+                elif candle:
+                    return (9, i)
             if (
                 foe.active is not None
                 and not (foe.active.status & ST_ASLEEP)

@@ -797,7 +797,8 @@ SET_MILL_NAMES = (
 # Roast Litwick is Guardians Rising 11, Flickering Flames. The printed sentence
 # is "Your opponent's Active Pokémon is now Asleep." fallback_named("Litwick")
 # stays Lost Origin Kindling Panic. Slumbering Forest is not in this list.
-# See data/lab/set-mill-roast-forest.md.
+# 二森林, the recorded 2-Forest intermediate, is SET_ROAST_TWO_FOREST_NAMES.
+# See data/lab/set-mill-roast-two-forest.md and data/lab/set-mill-roast-forest.md.
 SET_ROAST_NAMES = (
     ["Litwick"] * 4
     + ["Lampent"] * 4
@@ -819,6 +820,60 @@ SET_ROAST_NAMES = (
     + ["Jacq"]
     + ["Hop"] * 4
     + ["Devolution Spray"] * 4
+)
+
+# 二森林. The kept 2-Slumbering-Forest list. Not the locked list.
+# Litwick is Guardians Rising Flickering Flames. Lampent is Plasma Storm
+# Freefloating. Three Pichu and one Hyper Aroma stay. Four Devolution Spray stay.
+# See data/lab/set-mill-roast-two-forest.md.
+SET_ROAST_TWO_FOREST_NAMES = (
+    ["Litwick"] * 4
+    + ["Lampent"] * 4
+    + ["Chandelure"] * 4
+    + ["Celebi ◇"]
+    + ["Pichu"] * 3
+    + ["Arven"] * 4
+    + ["Team Rocket's Petrel"] * 2
+    + ["Buddy-Buddy Poffin"] * 2
+    + ["Energy Search"] * 3
+    + ["Rescue Scarf"] * 3
+    + ["Dawn"] * 4
+    + ["Level Ball"] * 2
+    + ["Broken Time-Space"] * 2
+    + ["Fire Energy"] * 7
+    + ["Hisuian Heavy Ball"]
+    + ["Evolution Incense"] * 2
+    + ["Hyper Aroma"]
+    + ["Jacq"]
+    + ["Hop"] * 4
+    + ["Devolution Spray"] * 4
+    + ["Slumbering Forest"] * 2
+)
+
+# Spreading Light 60, built from 二森林. Lampent is Pitch Black me05-037.
+# Three Pichu and one Hyper Aroma come out. Four Psychic Energy go in.
+# This list is not the lock.
+SET_ROAST_SPREADING_NAMES = (
+    ["Litwick"] * 4
+    + ["Lampent"] * 4
+    + ["Chandelure"] * 4
+    + ["Celebi ◇"]
+    + ["Arven"] * 4
+    + ["Team Rocket's Petrel"] * 2
+    + ["Buddy-Buddy Poffin"] * 2
+    + ["Energy Search"] * 3
+    + ["Rescue Scarf"] * 3
+    + ["Dawn"] * 4
+    + ["Level Ball"] * 2
+    + ["Broken Time-Space"] * 2
+    + ["Fire Energy"] * 7
+    + ["Hisuian Heavy Ball"]
+    + ["Evolution Incense"] * 2
+    + ["Jacq"]
+    + ["Hop"] * 4
+    + ["Devolution Spray"] * 4
+    + ["Slumbering Forest"] * 2
+    + ["Psychic Energy"] * 4
 )
 
 # Unlimited 60: Ambipom PAR Hand Fling, Lopunny FLF Big Jump recycle,
@@ -5607,6 +5662,25 @@ _LITWICK_FLICKER = _pkm(
     image="https://assets.tcgdex.net/en/sm/sm2/11/low.webp",
 )
 FALLBACK_BY_NAME["litwick flickering"] = _LITWICK_FLICKER
+# Pitch Black 037. fallback_named("Lampent") stays Plasma Storm Freefloating.
+_SPREADING_LIGHT = (
+    "Search your deck for up to 3 Lampent and put them onto your Bench. Then, shuffle your deck."
+)
+_LAMPENT_SPREADING = _pkm(
+    "Lampent",
+    "Stage1",
+    ["Psychic"],
+    90,
+    [_atk("Spreading Light", ["Psychic"], 0, _SPREADING_LIGHT)],
+    evolves_from="Litwick",
+    retreat=1,
+    weakness="Darkness",
+    resistances=[{"type": "Fighting", "value": "-30"}],
+    catalog_id="me05-037",
+    set_name="Pitch Black",
+    image="https://assets.tcgdex.net/en/me/me05/037/low.webp",
+)
+FALLBACK_BY_NAME["lampent spreading"] = _LAMPENT_SPREADING
 _register(
     _pkm(
         "Nincada",
@@ -5707,6 +5781,23 @@ def roast_card(name: str) -> Card:
 def build_roast_deck() -> list[Card]:
     """Celebi ◇ roast mill. Litwick is Guardians Rising Flickering Flames."""
     return [roast_card(name) for name in SET_ROAST_NAMES]
+
+
+def build_roast_two_forest_deck() -> list[Card]:
+    """二森林. Flickering Flames Litwick and Freefloating Lampent."""
+    return [roast_card(name) for name in SET_ROAST_TWO_FOREST_NAMES]
+
+
+def spread_card(name: str) -> Card:
+    """One Spreading Light 60 card. Lampent is Pitch Black, not Freefloating."""
+    if name == "Lampent":
+        return fallback_named("lampent spreading")
+    return roast_card(name)
+
+
+def build_roast_spreading_deck() -> list[Card]:
+    """Pitch Black Lampent. No Pichu, no Hyper Aroma, four Psychic Energy."""
+    return [spread_card(name) for name in SET_ROAST_SPREADING_NAMES]
 
 
 def build_mill_deck() -> list[Card]:

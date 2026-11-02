@@ -4,6 +4,8 @@ Printed sentences are the engine source. Grand Tree evolves from the deck, so
 Mountain Roasting does not mill. Playing Chandelure from the hand does.
 """
 
+import json
+from pathlib import Path
 from random import Random
 
 from app.engine.effects import parse_ability_effects, parse_effects, parse_trainer_effects
@@ -11,7 +13,16 @@ from app.engine.game import ST_ASLEEP, Game, Pokemon
 from app.engine.legality import copy_violations
 from app.engine.models import standard_60_rules
 from app.engine.strategies import StrategySpec
-from app.seed_data import SET_ROAST_NAMES, build_fallback_deck, build_roast_deck, fallback_named
+from app.seed_data import (
+    SET_ROAST_NAMES,
+    SET_ROAST_SPREADING_NAMES,
+    SET_ROAST_TWO_FOREST_NAMES,
+    build_fallback_deck,
+    build_roast_deck,
+    build_roast_spreading_deck,
+    build_roast_two_forest_deck,
+    fallback_named,
+)
 
 TIME_DISTORTION = (
     "Devolve any number of your Benched Pokémon as many times as you like. "
@@ -1650,3 +1661,314 @@ def test_petrel_fetches_devolution_spray_when_celebi_cannot_attack():
     game._roast_trainers(me, game.players["b"], "a")
     assert spray in me.hand
     assert petrel in me.discard
+
+
+SPREADING = (
+    "Search your deck for up to 3 Lampent and put them onto your Bench. Then, shuffle your deck."
+)
+
+
+def _spread_game() -> Game:
+    foe = build_fallback_deck(["Dondozo"] + ["Hop"] * 59)
+    return Game(
+        build_roast_spreading_deck(),
+        foe,
+        standard_60_rules(),
+        StrategySpec.from_dict("roast"),
+        StrategySpec.from_dict("balanced"),
+        Random(1),
+    )
+
+
+def test_two_forest_is_the_recorded_intermediate():
+    report = json.loads(
+        (Path(__file__).resolve().parents[1] / "data/lab/set-mill-roast-forest.json").read_text()
+    )
+    assert list(SET_ROAST_TWO_FOREST_NAMES) == report["best"]["list"]
+    deck = build_roast_two_forest_deck()
+    assert [card.name for card in deck] == list(SET_ROAST_TWO_FOREST_NAMES)
+    assert len(deck) == 60
+    assert copy_violations(deck, standard_60_rules()) == []
+    lampent = [card for card in deck if card.name == "Lampent"]
+    assert len(lampent) == 4
+    assert {card.catalog_id for card in lampent} == {"bw8-22"}
+    assert all(card.abilities[0].name == "Freefloating" for card in lampent)
+    assert sum(card.name == "Pichu" for card in deck) == 3
+    assert sum(card.name == "Hyper Aroma" for card in deck) == 1
+    assert sum(card.name == "Slumbering Forest" for card in deck) == 2
+    assert sum(card.name == "Psychic Energy" for card in deck) == 0
+
+
+def test_spreading_light_parses_the_printed_sentence():
+    assert parse_effects(SPREADING) == [{"kind": "call_family", "count": 3, "name": "lampent"}]
+    card = fallback_named("lampent spreading")
+    assert card.name == "Lampent"
+    assert card.catalog_id == "me05-037"
+    assert card.set_name == "Pitch Black"
+    assert card.hp == 90
+    assert card.retreat == 1
+    assert card.types == ["Psychic"]
+    assert card.evolves_from == "Litwick"
+    assert card.weaknesses == [{"type": "Darkness", "value": "×2"}]
+    assert card.resistances == [{"type": "Fighting", "value": "-30"}]
+    attack = card.attacks[0]
+    assert attack.name == "Spreading Light"
+    assert attack.cost == ["Psychic"]
+    assert attack.damage == 0
+    assert attack.text == SPREADING
+    assert attack.effects == [{"kind": "call_family", "count": 3, "name": "lampent"}]
+    freefloating = fallback_named("Lampent")
+    assert freefloating.catalog_id == "bw8-22"
+    assert freefloating.abilities[0].name == "Freefloating"
+    assert not any(
+        effect.get("kind") == "call_family" for atk in freefloating.attacks for effect in atk.effects
+    )
+
+
+def test_spreading_deck_replaces_pichu_and_aroma_with_psychic():
+    deck = build_roast_spreading_deck()
+    assert len(deck) == 60
+    assert [card.name for card in deck] == list(SET_ROAST_SPREADING_NAMES)
+    assert copy_violations(deck, standard_60_rules()) == []
+    assert sum(card.name == "Pichu" for card in deck) == 0
+    assert sum(card.name == "Hyper Aroma" for card in deck) == 0
+    assert sum(card.name == "Psychic Energy" for card in deck) == 4
+    assert sum(card.name == "Fire Energy" for card in deck) == 7
+    assert sum(card.name == "Slumbering Forest" for card in deck) == 2
+    assert sum(card.name == "Devolution Spray" for card in deck) == 4
+    lampent = [card for card in deck if card.name == "Lampent"]
+    assert len(lampent) == 4
+    assert all(card.catalog_id == "me05-037" and card.attacks[0].text == SPREADING for card in lampent)
+    litwick = [card for card in deck if card.name == "Litwick"]
+    assert all(card.catalog_id == "sm2-11" for card in litwick)
+
+
+def test_unnamed_call_family_skips_stage1():
+    game = _game()
+    me = game.players["a"]
+    _reclaim(me)
+    lit = _pull(me, "Litwick")
+    lamp = _pull(me, "Lampent")
+    me.active = None
+    me.bench = []
+    me.hand = []
+    me.deck = [lamp, lit]
+    game._call_family(me, "a", count=2)
+    assert [me.card(mon.card_i).name for mon in me.bench] == ["Litwick"]
+    assert lamp in me.deck
+
+
+def test_named_call_family_benches_lampent_from_the_deck():
+    game = _spread_game()
+    me = game.players["a"]
+    _reclaim(me)
+    held = _pull(me, "Lampent")
+    stock = [_pull(me, "Lampent") for _ in range(3)]
+    fillers = [_pull(me, "Litwick") for _ in range(4)]
+    me.hand = [held]
+    me.deck = list(stock)
+    me.active = None
+    me.bench = []
+    game._call_family(me, "a", count=3, name="lampent")
+    assert [me.card(mon.card_i).name for mon in me.bench] == ["Lampent", "Lampent", "Lampent"]
+    assert held in me.hand
+    assert me.deck == []
+    assert game.events.get("call_family:lampent") == 3
+
+    me.bench = [Pokemon(card_i=card_i, played_turn=0) for card_i in fillers[1:]]
+    me.active = Pokemon(card_i=fillers[0], played_turn=0)
+    me.deck = list(stock)
+    game._call_family(me, "a", count=3, name="lampent")
+    benched = [mon for mon in me.bench if me.card(mon.card_i).name == "Lampent"]
+    assert len(benched) == 2
+    assert sum(card_i in me.deck for card_i in stock) == 1
+    assert held in me.hand
+
+
+def test_spreading_searches_leave_the_stock_in_the_deck():
+    game = _spread_game()
+    me = game.players["a"]
+    foe = game.players["b"]
+    _reclaim(me)
+    lit = _pull(me, "Litwick")
+    extra = _pull(me, "Litwick")
+    held = _pull(me, "Lampent")
+    stock = [_pull(me, "Lampent") for _ in range(3)]
+    chands = [_pull(me, "Chandelure") for _ in range(2)]
+    incense = _pull(me, "Evolution Incense")
+    dawn = _pull(me, "Dawn")
+    me.active = Pokemon(card_i=lit, played_turn=0)
+    me.bench = [Pokemon(card_i=extra, played_turn=0), Pokemon(card_i=held, played_turn=0)]
+    me.hand = []
+    me.deck = stock + chands
+    _ready_turn(game)
+    assert game._roast_incense_choice(me) == "Chandelure"
+    assert game._roast_jacq_picks(me, "a") == ["Chandelure", "Chandelure"]
+    assert game._roast_lampent_short(me) == 0
+    assert game._roast_dawn_helps(me) is False
+    me.hand = [incense]
+    game._roast_trainers(me, foe, "a")
+    assert sum(me.card(card_i).name == "Chandelure" for card_i in me.hand) == 1
+    assert all(card_i in me.deck for card_i in stock)
+    me.hand = [dawn]
+    me.deck = list(stock) + [card_i for card_i in chands if card_i not in me.hand]
+    game._roast_trainers(me, foe, "a")
+    assert dawn in me.hand
+    assert all(card_i in me.deck for card_i in stock)
+
+
+def test_roast_uses_spreading_light_and_keeps_one_lampent():
+    game = _spread_game()
+    me = game.players["a"]
+    foe = game.players["b"]
+    _reclaim(me)
+    lit = _pull(me, "Litwick")
+    caller = _pull(me, "Lampent")
+    stock = [_pull(me, "Lampent") for _ in range(3)]
+    chand = _pull(me, "Chandelure")
+    celebi = _pull(me, "Celebi ◇")
+    fire = _pull(me, "Fire Energy")
+    psychic = _pull(me, "Psychic Energy")
+    me.active = Pokemon(card_i=celebi, played_turn=0, energy=[fire])
+    me.bench = [Pokemon(card_i=lit, played_turn=0)]
+    me.hand = [caller, chand, psychic]
+    me.deck = list(stock)
+    _ready_turn(game)
+    before = len(foe.deck)
+    game._roast_main(me, foe, "a")
+    assert me.card(me.active.card_i).name == "Lampent"
+    assert me.active.underneath == [lit]
+    assert me.active.energy == [psychic]
+    assert fire in me.discard
+    assert chand in me.hand
+    assert me.deck == stock
+    game._attack(me, foe, "a")
+    assert game.events.get("attack:Lampent:Spreading Light") == 1
+    assert game.events.get("call_family:lampent") == 3
+    assert len(foe.deck) == before
+    assert me.card(me.active.card_i).name == "Lampent"
+    assert me.active.energy == [psychic]
+    found = [mon for mon in me.bench if me.card(mon.card_i).name == "Lampent"]
+    assert len(found) == 3
+    assert all(mon.played_turn == game.turn for mon in found)
+    assert me.deck == []
+
+
+def _stash(me) -> None:
+    _reclaim(me)
+    found: list[int] = []
+    for zone in (me.hand, me.deck, me.prizes, me.discard, me.lost_zone):
+        found.extend(list(zone))
+        zone.clear()
+    me.discard = found
+    me.active = None
+    me.bench.clear()
+
+
+def test_spreading_opening_leaves_three_call_spots():
+    game = _spread_game()
+    me = game.players["a"]
+    _stash(me)
+    me.hand = [_pull(me, "Litwick") for _ in range(4)]
+    me.hand.append(_pull(me, "Celebi ◇"))
+    me.deck = [_pull(me, "Lampent") for _ in range(4)]
+    game._opening(me, game.strats["a"])
+    assert me.card(me.active.card_i).name == "Litwick"
+    assert sum(me.card(mon.card_i).name == "Litwick" for mon in me.in_play()) == 2
+    assert any("Celebi" in me.card(mon.card_i).name for mon in me.in_play())
+    assert sum(me.card(mon.card_i).name == "Lampent" for mon in me.in_play()) == 0
+    assert game._bench_limit(me) - len(me.bench) == 3
+
+
+def test_freefloating_opening_still_benches_the_litwick_line():
+    game = _game()
+    me = game.players["a"]
+    _stash(me)
+    me.hand = [_pull(me, "Litwick") for _ in range(4)]
+    me.hand.append(_pull(me, "Celebi ◇"))
+    game._opening(me, game.strats["a"])
+    assert me.card(me.active.card_i).name == "Litwick"
+    assert sum(me.card(mon.card_i).name == "Litwick" for mon in me.in_play()) == 4
+    assert any("Celebi" in me.card(mon.card_i).name for mon in me.bench)
+
+
+def test_after_spreading_light_celebi_mills_instead_of_flickering():
+    game = _spread_game()
+    me = game.players["a"]
+    foe = game.players["b"]
+    _reclaim(me)
+    lit = _pull(me, "Litwick")
+    caller = _pull(me, "Lampent")
+    stock = [_pull(me, "Lampent") for _ in range(2)]
+    leftover = _pull(me, "Lampent")
+    chands = [_pull(me, "Chandelure") for _ in range(2)]
+    celebi = _pull(me, "Celebi ◇")
+    flicker = _pull(me, "Litwick")
+    caller_energy = _pull(me, "Psychic Energy")
+    flicker_energy = _pull(me, "Fire Energy")
+    pay = _pull(me, "Psychic Energy")
+    me.active = Pokemon(card_i=caller, played_turn=0, underneath=[lit], energy=[caller_energy])
+    me.bench = [
+        Pokemon(card_i=stock[0], played_turn=0),
+        Pokemon(card_i=stock[1], played_turn=0),
+        Pokemon(card_i=celebi, played_turn=0),
+        Pokemon(card_i=flicker, played_turn=0, energy=[flicker_energy]),
+    ]
+    me.hand = chands + [pay]
+    me.deck = [leftover]
+    _ready_turn(game)
+    before = len(foe.deck)
+    game._roast_main(me, foe, "a")
+    assert me.card(me.active.card_i).name == "Celebi ◇"
+    assert pay in me.active.energy
+    assert sum(me.card(mon.card_i).name == "Chandelure" for mon in me.bench) == 2
+    assert leftover in me.deck
+    assert caller_energy in me.discard
+    game._attack(me, foe, "a")
+    assert game.events.get("time_distortion", 0) >= 1
+    assert game.events.get("attack:Lampent:Spreading Light", 0) == 0
+    assert game.events.get("roast_mill_cards", 0) == 6
+    assert len(foe.deck) == before - 6
+    assert leftover in me.deck
+
+
+def test_spreading_knockout_promotes_celebi_not_a_candle():
+    game = _spread_game()
+    me = game.players["a"]
+    _reclaim(me)
+    lamp = _pull(me, "Lampent")
+    lit = _pull(me, "Litwick")
+    celebi = _pull(me, "Celebi ◇")
+    fire = _pull(me, "Fire Energy")
+    chand = _pull(me, "Chandelure")
+    me.bench = [
+        Pokemon(card_i=lamp, played_turn=0),
+        Pokemon(card_i=lit, played_turn=0, energy=[fire]),
+        Pokemon(card_i=celebi, played_turn=0),
+    ]
+    me.hand = [chand]
+    me.active = None
+    _ready_turn(game)
+    chosen = me.bench[game._roast_promote_idx(me)]
+    assert me.card(chosen.card_i).name == "Celebi ◇"
+
+
+def test_spreading_promotes_the_caller_while_the_call_is_unfinished():
+    game = _spread_game()
+    me = game.players["a"]
+    _reclaim(me)
+    lit = _pull(me, "Litwick")
+    caller = _pull(me, "Lampent")
+    other = _pull(me, "Litwick")
+    psychic = _pull(me, "Psychic Energy")
+    leftover = _pull(me, "Lampent")
+    me.bench = [
+        Pokemon(card_i=other, played_turn=0),
+        Pokemon(card_i=caller, played_turn=0, underneath=[lit], energy=[psychic]),
+    ]
+    me.hand = []
+    me.deck = [leftover]
+    me.active = None
+    _ready_turn(game)
+    chosen = me.bench[game._roast_promote_idx(me)]
+    assert chosen.card_i == caller
