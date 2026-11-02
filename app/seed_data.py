@@ -794,6 +794,11 @@ SET_MILL_NAMES = (
 # about 0.3 points, inside one standard error of that step. The four-copy
 # list is 46.2% against the 44.7% list. The search stopped at four because
 # four is the copy cap. See data/lab/set-mill-roast-spray.md.
+# Roast Litwick is Guardians Rising 11, Flickering Flames. The printed sentence
+# is "Your opponent's Active Pokémon is now Asleep." fallback_named("Litwick")
+# stays Lost Origin Kindling Panic. This list stays zero Slumbering Forest.
+# 二森林 is the independent seed seed-two-forest.
+# See data/lab/set-mill-roast-two-forest.md.
 SET_ROAST_NAMES = (
     ["Litwick"] * 4
     + ["Lampent"] * 4
@@ -815,6 +820,38 @@ SET_ROAST_NAMES = (
     + ["Jacq"]
     + ["Hop"] * 4
     + ["Devolution Spray"] * 4
+)
+
+# 二森林. Independent seed seed-two-forest. The pilot is strategy roast.
+# The deck does not select that spec by itself. This is the 2-Slumbering-Forest
+# list kept by data/lab/set-mill-roast-forest.json: one Rescue Scarf and one
+# Evolution Incense from Celebi Mill, replaced by Slumbering Forest. Litwick is
+# Flickering Flames. Lampent is Plasma Storm Freefloating. Holdout seed
+# 20261102, 400 games per seat, both seats, weighted 0.4530442942942943.
+# Forest search seed 20261101 is 0.4627802802802803.
+# See data/lab/set-mill-roast-two-forest.md.
+SET_ROAST_TWO_FOREST_NAMES = (
+    ["Litwick"] * 4
+    + ["Lampent"] * 4
+    + ["Chandelure"] * 4
+    + ["Celebi ◇"]
+    + ["Pichu"] * 3
+    + ["Arven"] * 4
+    + ["Team Rocket's Petrel"] * 2
+    + ["Buddy-Buddy Poffin"] * 2
+    + ["Energy Search"] * 3
+    + ["Rescue Scarf"] * 3
+    + ["Dawn"] * 4
+    + ["Level Ball"] * 2
+    + ["Broken Time-Space"] * 2
+    + ["Fire Energy"] * 7
+    + ["Hisuian Heavy Ball"]
+    + ["Evolution Incense"] * 2
+    + ["Hyper Aroma"]
+    + ["Jacq"]
+    + ["Hop"] * 4
+    + ["Devolution Spray"] * 4
+    + ["Slumbering Forest"] * 2
 )
 
 # Unlimited 60: Ambipom PAR Hand Fling, Lopunny FLF Big Jump recycle,
@@ -5590,6 +5627,21 @@ _IGGLYBUFF_SLEEPY = _pkm(
     image="https://assets.tcgdex.net/en/sm/sm12/168/low.webp",
 )
 FALLBACK_BY_NAME["igglybuff sleepy"] = _IGGLYBUFF_SLEEPY
+# Guardians Rising 11. fallback_named("Litwick") stays Lost Origin Kindling Panic.
+_FLICKERING_FLAMES = "Your opponent's Active Pokémon is now Asleep."
+_LITWICK_FLICKER = _pkm(
+    "Litwick",
+    "Basic",
+    ["Fire"],
+    50,
+    [_atk("Flickering Flames", ["Fire"], 10, _FLICKERING_FLAMES)],
+    retreat=1,
+    weakness="Water",
+    catalog_id="sm2-11",
+    set_name="Guardians Rising",
+    image="https://assets.tcgdex.net/en/sm/sm2/11/low.webp",
+)
+FALLBACK_BY_NAME["litwick flickering"] = _LITWICK_FLICKER
 _register(
     _pkm(
         "Nincada",
@@ -5676,17 +5728,29 @@ def fallback_named(name: str) -> Card:
     return fallback_card(name)
 
 
+def roast_card(name: str) -> Card:
+    """One Celebi Mill card. Litwick is Flickering Flames, not Kindling Panic."""
+    if name == "Cleffa":
+        return fallback_named("cleffa hgss")
+    if name == "Igglybuff":
+        return fallback_named("igglybuff sleepy")
+    if name == "Litwick":
+        return fallback_named("litwick flickering")
+    return fallback_named(name)
+
+
 def build_roast_deck() -> list[Card]:
-    """Celebi Mill. Cleffa is HGSS Eeeeeeek. Pichu is HGSS Playground."""
-    out: list[Card] = []
-    for name in SET_ROAST_NAMES:
-        if name == "Cleffa":
-            out.append(fallback_named("cleffa hgss"))
-        elif name == "Igglybuff":
-            out.append(fallback_named("igglybuff sleepy"))
-        else:
-            out.append(fallback_named(name))
-    return out
+    """Celebi Mill. Litwick is Guardians Rising Flickering Flames. Pichu is Playground."""
+    return [roast_card(name) for name in SET_ROAST_NAMES]
+
+
+def build_roast_two_forest_deck() -> list[Card]:
+    """二森林. Locked 60. Seed id seed-two-forest. The pilot is strategy roast.
+
+    Litwick is Guardians Rising Flickering Flames. Lampent is Plasma Storm
+    Freefloating. The deck does not select that spec by itself.
+    """
+    return [roast_card(name) for name in SET_ROAST_TWO_FOREST_NAMES]
 
 
 def build_mill_deck() -> list[Card]:

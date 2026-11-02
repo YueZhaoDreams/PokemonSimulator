@@ -24,6 +24,7 @@ from app.seed_data import (
     SET_DOLL_NAMES,
     SET_MILL_NAMES,
     SET_ROAST_NAMES,
+    SET_ROAST_TWO_FOREST_NAMES,
     SET_M60_NAMES,
     SET_S_NAMES,
     SET_S60_NAMES,
@@ -37,10 +38,11 @@ from app.seed_data import (
     build_g30_deck,
     build_mill_deck,
     build_roast_deck,
+    build_roast_two_forest_deck,
     fallback_named,
 )
 
-LIST_KEYS = ("a", "b", "c", "d", "e", "f", "g", "h", "s", "t", "c60", "d60", "m60", "s60", "t60", "t-meta", "t-unl", "g30", "l60", "mill", "doll", "celebi")
+LIST_KEYS = ("a", "b", "c", "d", "e", "f", "g", "h", "s", "t", "c60", "d60", "m60", "s60", "t60", "t-meta", "t-unl", "g30", "l60", "mill", "doll", "celebi", "two-forest")
 SEED_KEYS = (*LIST_KEYS, "spare")
 
 SEED_PATH = DATA_DIR / "seed_decks.json"
@@ -116,11 +118,14 @@ def load_seed_deck(which: str) -> dict:
         "21": "mill",
         "22": "doll",
         "23": "celebi",
+        "24": "two-forest",
         "doll": "doll",
         "celebi": "celebi",
         "celebi-mill": "celebi",
         "celebimill": "celebi",
         "roast": "celebi",
+        "two-forest": "two-forest",
+        "二森林": "two-forest",
         "l60": "l60",
         "mill": "mill",
         "wugtrio": "mill",
@@ -185,6 +190,7 @@ def load_seed_payload() -> dict:
             ("mill", SET_MILL_NAMES),
             ("doll", SET_DOLL_NAMES),
             ("celebi", SET_ROAST_NAMES),
+            ("two-forest", SET_ROAST_TWO_FOREST_NAMES),
             ("s60", SET_S60_NAMES),
             ("t60", SET_T60_NAMES),
             ("t-meta", SET_T_META_NAMES),
@@ -223,9 +229,16 @@ def load_seed_payload() -> dict:
                         "cards": forced,
                     }
                     dirty = True
+            # Image fill treats a Litwick print outside the Kindling Panic allow-list as stale
+            # and would put Lost Origin 24 back. These two seeds keep Guardians Rising 11.
+            if key not in {"celebi", "two-forest"}:
+                filled = _ensure_card_images(data[key]["cards"])
+                if filled != data[key]["cards"]:
+                    data[key]["cards"] = filled
+                    dirty = True
             if key == "celebi":
-                # Name alignment would swap Plasma Storm Lampent and Phantasmal Flames Dawn
-                # for whatever print is already stored under those names.
+                # Name alignment would replace Flickering Flames Litwick with Kindling Panic,
+                # and would swap the Plasma Storm Lampent and Mega Evolution Dawn prints.
                 forced = [c.to_dict() for c in build_roast_deck()]
                 blob = data.get(key) or {}
                 if blob.get("cards") != forced or blob.get("id") != "seed-celebi" or blob.get("name") != "Celebi Mill":
@@ -237,10 +250,19 @@ def load_seed_payload() -> dict:
                         "cards": forced,
                     }
                     dirty = True
-            filled = _ensure_card_images(data[key]["cards"])
-            if filled != data[key]["cards"]:
-                data[key]["cards"] = filled
-                dirty = True
+            if key == "two-forest":
+                # Name alignment would replace Flickering Flames Litwick with Kindling Panic.
+                forced = [c.to_dict() for c in build_roast_two_forest_deck()]
+                blob = data.get(key) or {}
+                if blob.get("cards") != forced or blob.get("id") != "seed-two-forest" or blob.get("name") != "二森林":
+                    data[key] = {
+                        "id": "seed-two-forest",
+                        "name": "二森林",
+                        "sample": None,
+                        "kind": "list",
+                        "cards": forced,
+                    }
+                    dirty = True
         from app.seed_data import fallback_named as _fallback_named
 
         nuzzle = _fallback_named("pikachu-nuzzle")
@@ -567,6 +589,7 @@ def _cd_payload(enrich: bool = True) -> dict:
     cards_mill = build_mill_deck()
     cards_doll = build_doll_deck()
     cards_celebi = build_roast_deck()
+    cards_two_forest = build_roast_two_forest_deck()
     cards_s60 = _repeat_named_cards(list(SET_S60_NAMES), enrich)
     cards_t60 = _repeat_named_cards(list(SET_T60_NAMES), enrich)
     cards_t_meta = _repeat_named_cards(list(SET_T_META_NAMES), enrich)
@@ -662,6 +685,13 @@ def _cd_payload(enrich: bool = True) -> dict:
             "sample": None,
             "kind": "list",
             "cards": [c.to_dict() if isinstance(c, Card) else c for c in cards_celebi],
+        },
+        "two-forest": {
+            "id": "seed-two-forest",
+            "name": "二森林",
+            "sample": None,
+            "kind": "list",
+            "cards": [c.to_dict() if isinstance(c, Card) else c for c in cards_two_forest],
         },
         "c60": {
             "id": "seed-c60",
@@ -812,6 +842,7 @@ def build_seed_payload(enrich: bool = True) -> dict:
         "mill": cd["mill"],
         "doll": cd["doll"],
         "celebi": cd["celebi"],
+        "two-forest": cd["two-forest"],
         "spare": spare["spare"],
         "hashes": {},
     }

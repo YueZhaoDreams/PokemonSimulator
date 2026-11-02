@@ -9075,6 +9075,13 @@ class Game:
                     score -= 500
             if strat.name == "roast" and any(e.get("kind") == "shuffle_hand_then_draw" for e in atk.effects):
                 score += 80 if self._roast_wants_eeek(me, who) else -500
+            if (
+                strat.name == "roast"
+                and self._roast_attack_sleeps_opponent(atk)
+                and foe.active
+                and not (foe.active.status & ST_ASLEEP)
+            ):
+                score += 1800
             if strat.name == "mill" and any(e.get("kind") == "playground" for e in resolved.effects):
                 score += 140
             if strat.name == "mill" and any(e.get("kind") == "topdeck_lost_zone" for e in resolved.effects):
@@ -9180,6 +9187,8 @@ class Game:
             if "playground" in kinds and self._roast_wants_playground(me, who):
                 return best
             if "shuffle_hand_then_draw" in kinds and self._roast_wants_eeek(me, who):
+                return best
+            if self._roast_attack_sleeps_opponent(best) and foe.active and not (foe.active.status & ST_ASLEEP):
                 return best
             return None
         return best
@@ -18464,6 +18473,10 @@ class Game:
         # The printed sentence stops that Pokémon from evolving this turn.
         self._roast_sprays(me, foe, who)
         self._note_roast_mill(who)
+        flicker = self._roast_flicker_target(me, foe)
+        if flicker is not None and self._roast_flicker_ready(me, flicker):
+            if self._roast_bring(me, who, lambda mon, held=flicker: mon is held, pay=True):
+                return
         if self._roast_benched_chandelure(me) and self._roast_can_pay_time(me):
             if self._roast_bring(
                 me,
@@ -18801,7 +18814,7 @@ class Game:
         return False
 
     def _roast_plan_attack(self, me: Player, foe: Player, who: str) -> bool:
-        """Time Distortion, Kindling Panic, a wanted Playground, and a wanted Eeeeeeek.
+        """Time Distortion, Flickering Flames, a wanted Playground, and a wanted Eeeeeeek.
 
         Leech Seed is not the mill. Mountain Roasting already happened when
         Chandelure was played from the hand, before this check.
@@ -18820,6 +18833,13 @@ class Game:
         if self._prints_playground(card) and self._roast_wants_playground(me, who):
             return True
         if self._prints_eeeeeeek(card) and self._roast_wants_eeek(me, who):
+            return True
+        if (
+            foe.active is not None
+            and not (foe.active.status & ST_ASLEEP)
+            and self._roast_flicker_ready(me, me.active)
+            and not self._roast_wants_playground(me, who)
+        ):
             return True
         return self._payable_attack(me, me.active, foe, "mill_opponent")
 
@@ -18913,26 +18933,122 @@ class Game:
             return False
         return any(self._roast_is_wall_card(me.card(mon.card_i)) for mon in me.bench)
 
+    def _roast_attack_sleeps_opponent(self, atk) -> bool:
+        return any(
+            effect.get("kind") == "status"
+            and effect.get("status") == "asleep"
+            and effect.get("target") != "self"
+            for effect in atk.effects
+        )
+
+    def _roast_flicker_attack(self, card: Card):
+        for atk in card.attacks:
+            if self._roast_attack_sleeps_opponent(atk):
+                return atk
+        return None
+
+    def _roast_fire_in_hand(self, me: Player) -> int | None:
+        for card_i in me.hand:
+            card = me.card(card_i)
+            if is_basic_energy(card) and (card.energy_type or "") == "Fire":
+                return card_i
+        return None
+
+    def _roast_flicker_ready(self, me: Player, mon: Pokemon) -> bool:
+        if mon.status & (ST_ASLEEP | ST_PARALYZED):
+            return False
+        atk = self._roast_flicker_attack(me.card(mon.card_i))
+        if atk is None:
+            return False
+        foe = self.players["b" if me.name == "A" else "a"]
+        return can_pay_energy(self._energy_pool(me, mon), self._attack_cost(me, mon, atk, foe))
+
+    def _roast_could_pay_flicker(self, me: Player, mon: Pokemon) -> bool:
+        if self._roast_flicker_ready(me, mon):
+            return True
+        if me.energy_attached or mon.status & (ST_ASLEEP | ST_PARALYZED):
+            return False
+        atk = self._roast_flicker_attack(me.card(mon.card_i))
+        if atk is None or self._roast_fire_in_hand(me) is None:
+            return False
+        foe = self.players["b" if me.name == "A" else "a"]
+        pool = list(self._energy_pool(me, mon))
+        return can_pay_energy(pool + ["Fire"], self._attack_cost(me, mon, atk, foe))
+
+    def _roast_can_reach(self, me: Player, mon: Pokemon, *, pay: bool) -> bool:
+        if mon is me.active:
+            return not (mon.status & (ST_ASLEEP | ST_PARALYZED))
+        if mon not in me.bench:
+            return False
+        if me.active is None:
+            return True
+        if self._roast_active_stuck(me):
+            return self._first_named(me, "Switch") is not None and not me.item_lock
+        cost = self._retreat_cost(me, me.active)
+        if cost == 0:
+            return True
+        return pay and len(me.active.energy) >= cost
+
+    def _roast_flicker_target(self, me: Player, foe: Player) -> Pokemon | None:
+        """One Litwick that can put the opponent's Active to sleep this turn.
+
+        Playground still takes the attack while the bench needs Basics.
+        The Litwick stays unevolved so Flickering Flames can be used.
+        """
+        who = "a" if me.name == "A" else "b"
+        if not self._roast_can_attack_turn(me) or foe.active is None:
+            return None
+        if foe.active.status & ST_ASLEEP or self._roast_wants_playground(me, who):
+            return None
+        ranked: list[tuple[int, int, Pokemon]] = []
+        for mon in me.in_play():
+            if not self._roast_could_pay_flicker(me, mon):
+                continue
+            if not self._roast_can_reach(me, mon, pay=True):
+                continue
+            paid = 0 if self._roast_flicker_ready(me, mon) else 1
+            spot = 1 if mon is me.active else 0
+            ranked.append((paid, spot, mon))
+        if not ranked:
+            return None
+        ranked.sort(key=lambda row: (row[0], row[1]))
+        return ranked[0][2]
+
+    def _roast_bts_needed(self, me: Player, who: str) -> bool:
+        """A Pokémon played this turn still has its next stage in hand.
+
+        The Litwick held for Flickering Flames is not that body. A Litwick
+        still in hand counts when this turn can put it into play and Lampent
+        is already in hand.
+        """
+        foe = self.players["b" if me.name == "A" else "a"]
+        reserved = self._roast_flicker_target(me, foe)
+        for mon in me.in_play():
+            if mon is reserved or mon.played_turn != self.turn:
+                continue
+            name = me.card(mon.card_i).name.lower()
+            if any((me.card(i).evolves_from or "").lower() == name for i in me.hand):
+                return True
+        if self._roast_lines(me) >= 4:
+            return False
+        if not self._roast_named(me, me.hand, "Litwick") or not self._roast_named(me, me.hand, "Lampent"):
+            return False
+        if me.active is None:
+            return True
+        return len(me.bench) < self._bench_limit(me)
+
     def _roast_wants_bts(self, me: Player, who: str) -> bool:
-        """Broken Time-Space is useful while a same-turn Litwick line is still in hand."""
+        """Play Broken Time-Space only when this turn still needs that stadium."""
         if (self.stadium_name or "").lower() == "broken time-space":
             return False
-        hand = {me.card(i).name.lower() for i in me.hand}
-        play = {me.card(mon.card_i).name.lower() for mon in me.in_play()}
-        deck = {me.card(i).name.lower() for i in me.deck}
-        litwick = "litwick" in hand or "litwick" in play
-        lampent = "lampent" in hand or "lampent" in play
-        tutor = "dawn" in hand or "evolution incense" in hand or "hyper aroma" in hand
-        if litwick and ("lampent" in hand or lampent or ("lampent" in deck and tutor)):
-            return True
-        if "chandelure" in hand and (litwick or lampent or ("lampent" in deck and tutor)):
-            return True
-        return False
+        return self._roast_bts_needed(me, who)
 
     def _roast_bts_stays(self, me: Player, who: str) -> bool:
+        if not self._roast_bts_needed(me, who):
+            return False
         if (self.stadium_name or "").lower() == "broken time-space":
             return True
-        return self._roast_wants_bts(me, who) and self._roast_named(me, me.hand, "Broken Time-Space")
+        return self._roast_named(me, me.hand, "Broken Time-Space")
 
     def _roast_incense_choice(self, me: Player) -> str | None:
         """The next Evolution Pokémon Evolution Incense should take.
@@ -18960,7 +19076,7 @@ class Game:
         """Lampent still short of the four lines, and still sitting in the deck.
 
         Hyper Aroma's printed "up to N" is the search_stage1 count on the card.
-        Four is the Kindling Panic line, the same bound the other Lampent searches use.
+        Four is the candle line, the same bound the other Lampent searches use.
         """
         have = sum(1 for i in me.hand if me.card(i).name.lower() == "lampent")
         have += sum(1 for mon in me.in_play() if me.card(mon.card_i).name.lower() == "lampent")
@@ -19190,7 +19306,12 @@ class Game:
                 return "Hop"
         if self._roast_heavy_deck_only(me):
             return "Hisuian Heavy Ball"
-        if not forest_out and not self._roast_named(me, me.hand, "Slumbering Forest") and self._roast_named(me, me.deck, "Slumbering Forest"):
+        if (
+            not forest_out
+            and not self._roast_bts_stays(me, who)
+            and not self._roast_named(me, me.hand, "Slumbering Forest")
+            and self._roast_named(me, me.deck, "Slumbering Forest")
+        ):
             return "Slumbering Forest"
         if (
             self._roast_chandelure_hand(me) < 3
@@ -19236,6 +19357,7 @@ class Game:
             return "Buddy-Buddy Poffin"
         if (
             not forest_out
+            and not self._roast_bts_stays(me, who)
             and not self._roast_named(me, me.hand, "Slumbering Forest")
             and not self._roast_named(me, me.hand, "Colress's Tenacity")
             and self._roast_named(me, me.deck, "Colress's Tenacity")
@@ -19471,6 +19593,16 @@ class Game:
     def _roast_attach(self, me: Player) -> None:
         if me.energy_attached:
             return
+        foe = self.players["b" if me.name == "A" else "a"]
+        flicker = self._roast_flicker_target(me, foe)
+        if flicker is not None and not self._roast_flicker_ready(me, flicker):
+            fuel = self._roast_fire_in_hand(me)
+            if fuel is not None:
+                me.hand.remove(fuel)
+                flicker.energy.append(fuel)
+                me.energy_attached = True
+                self._log(f"{me.name} attaches {me.card(fuel).name} to {me.card(flicker.card_i).name}")
+                return
         celebi = self._roast_celebi(me)
         if celebi is None or self._roast_can_devolve(me, celebi):
             return
@@ -19494,7 +19626,7 @@ class Game:
         if not self._attach_tool(me, who, scarf):
             me.hand.append(scarf)
 
-    def _roast_bring(self, me: Player, who: str, pred) -> bool:
+    def _roast_bring(self, me: Player, who: str, pred, *, pay: bool = False) -> bool:
         if me.active is not None and pred(me.active):
             return True
         idx = next((i for i, mon in enumerate(me.bench) if pred(mon)), None)
@@ -19503,8 +19635,10 @@ class Game:
         if me.active is None:
             me.active = me.bench.pop(idx)
             return True
-        if not self._roast_active_stuck(me) and self._retreat_cost(me, me.active) == 0:
-            return self._do_retreat_into(me, idx)
+        if not self._roast_active_stuck(me):
+            cost = self._retreat_cost(me, me.active)
+            if cost == 0 or (pay and len(me.active.energy) >= cost):
+                return self._do_retreat_into(me, idx)
         return self._spend_switch_to(me, who, idx)
 
     def _roast_hide_behind(self, me: Player, who: str, mon: Pokemon) -> bool:
@@ -19615,16 +19749,21 @@ class Game:
 
     def _roast_switch_idx(self, me: Player) -> int | None:
         who = "a" if me.name == "A" else "b"
+        foe = self.players["b" if me.name == "A" else "a"]
+        if self._roast_wants_playground(me, who):
+            for i, mon in enumerate(me.bench):
+                if self._roast_awake_pichu(me, mon):
+                    return i
+        elif foe.active is not None and not (foe.active.status & ST_ASLEEP):
+            for i, mon in enumerate(me.bench):
+                if self._roast_flicker_ready(me, mon):
+                    return i
         milling = self._roast_nine_ready(me, who) or (
             self._roast_benched_chandelure(me) and self._roast_can_pay_time(me)
         )
         if milling:
             for i, mon in enumerate(me.bench):
                 if "celebi" in me.card(mon.card_i).name.lower():
-                    return i
-        if self._roast_wants_playground(me, who):
-            for i, mon in enumerate(me.bench):
-                if self._roast_awake_pichu(me, mon):
                     return i
         if self._roast_wants_eeek(me, who):
             for i, mon in enumerate(me.bench):
@@ -19751,6 +19890,10 @@ class Game:
         if self._is_players_first_turn(who):
             return None
         roast = self.strats[who].name == "roast"
+        reserved = None
+        if roast:
+            foe = self.players["b" if me.name == "A" else "a"]
+            reserved = self._roast_flicker_target(me, foe)
         best: Pokemon | None = None
         best_score = -1
         for mon in me.in_play():
@@ -19758,6 +19901,8 @@ class Game:
             if not card.is_basic or mon.played_turn == self.turn:
                 continue
             if roast and self._roast_is_wall_card(card):
+                continue
+            if reserved is not None and mon is reserved:
                 continue
             stage1 = self._deck_evolution(me, card.name, "stage1")
             if stage1 is None:
@@ -19798,10 +19943,14 @@ class Game:
 
     def _roast_evolve_target(self, me: Player, who: str, evo: Card, include_active: bool) -> Pokemon | None:
         want = (evo.evolves_from or "").lower()
+        foe = self.players["b" if me.name == "A" else "a"]
+        reserved = self._roast_flicker_target(me, foe)
         candidates = list(me.bench)
         if include_active and me.active is not None:
             candidates.append(me.active)
         for mon in candidates:
+            if mon is reserved:
+                continue
             if me.card(mon.card_i).name.lower() != want:
                 continue
             if self._can_evolve_now(me, who, mon, evo):
@@ -19819,8 +19968,10 @@ class Game:
             self._do_evolve(me, target, evo_i, from_hand=True)
 
     def _roast_evolve_lampent(self, me: Player, who: str) -> None:
-        # The Active Litwick is a target too. Chandelure stays on the Bench,
-        # because Time Distortion only devolves Benched Pokémon.
+        # The Active Litwick is a target too. One Litwick that can pay
+        # Flickering Flames stays a Basic while the opponent is awake.
+        # Chandelure stays on the Bench, because Time Distortion only devolves
+        # Benched Pokémon.
         self._roast_evolve_named(me, who, "lampent", include_active=True)
 
     def _roast_evolve_chandelure(self, me: Player, who: str) -> None:
@@ -19976,6 +20127,14 @@ class Game:
             mon = me.bench[i]
             card = me.card(mon.card_i)
             name = card.name.lower()
+            foe = self.players["b" if me.name == "A" else "a"]
+            if (
+                foe.active is not None
+                and not (foe.active.status & ST_ASLEEP)
+                and not self._roast_wants_playground(me, who)
+                and self._roast_flicker_ready(me, mon)
+            ):
+                return (-1, i)
             if "celebi" in name and self._roast_benched_chandelure(me) and self._roast_can_devolve(me, mon):
                 return (0, i)
             if "celebi" in name and self._roast_pieces_ready(me, who):
