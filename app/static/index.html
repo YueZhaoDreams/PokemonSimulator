@@ -9,7 +9,7 @@
   <title>Family Pokémon Cup</title>
   <link rel="manifest" href="/static/manifest.json" />
   <link rel="icon" href="/static/icon.svg" />
-  <link rel="stylesheet" href="/static/styles.css?v=pad-2" />
+  <link rel="stylesheet" href="/static/styles.css?v=pad-3" />
 </head>
 <body>
   <a class="skip" href="#main">Skip to the arena</a>
@@ -105,6 +105,9 @@
             <div id="padPokemon">
               <label for="padQuery">Search</label>
               <input id="padQuery" placeholder="皮卡丘, Pikachu, 25" autocomplete="off" />
+              <label class="scan-btn" for="padPhoto">Photo
+                <input id="padPhoto" type="file" accept="image/*,.heic,.HEIC" capture="environment" />
+              </label>
               <div id="padHits" class="pad-hits" hidden></div>
               <div id="padReadout" class="pad-readout"></div>
             </div>
@@ -293,6 +296,6 @@
   <button id="cubLauncher" type="button" aria-expanded="false" aria-controls="agentPanel" title="Combo Cub">
     <img src="/static/cub.png" alt="Combo Cub" />
   </button>
-  <script src="/static/app.js?v=pad-2"></script>
+  <script src="/static/app.js?v=pad-3"></script>
 </body>
 </html>

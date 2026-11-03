@@ -3273,6 +3273,40 @@ $("#padQuery")?.addEventListener("input", () => {
 });
 $("#padSpeak")?.addEventListener("click", togglePadSpeech);
 
+async function searchPadPhoto(file) {
+  const seq = ++padSeq;
+  const fd = new FormData();
+  fd.append("file", file);
+  try {
+    const data = await api("/api/pad/photo", { method: "POST", body: fd });
+    if (seq !== padSeq) return;
+    if (data.match === "many") {
+      clearPadScreen();
+      renderPadList(data.results);
+      return;
+    }
+    if (data.match === "one" && data.entry) {
+      renderPadEntry(data.entry);
+      return;
+    }
+    clearPadScreen();
+    const box = $("#padReadout");
+    if (box) box.textContent = "没找到。";
+  } catch (err) {
+    if (seq !== padSeq) return;
+    clearPadScreen();
+    const box = $("#padReadout");
+    if (box) box.textContent = "没找到。";
+  }
+}
+
+$("#padPhoto")?.addEventListener("change", async (e) => {
+  const file = e.target.files?.[0];
+  e.target.value = "";
+  if (!file) return;
+  await searchPadPhoto(file);
+});
+
 $$("[data-pad-mode]").forEach((b) => {
   b.onclick = () => setPadMode(b.dataset.padMode);
 });

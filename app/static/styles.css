@@ -847,6 +847,7 @@ body.shiny .brand img { animation: spin 4s linear infinite; }
 }
 .pad-modes button[aria-pressed="true"] { background: #e2231a; color: white; }
 #padQuery, .pad-readout, .pad-hits { width: 100%; }
+#padPokemon .scan-btn { margin-top: 10px; }
 .pad-readout { margin-top: 10px; line-height: 1.35; }
 .pad-hits { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
 .pad-device[data-mode="pokemon"] #cardsHost { display: none; }

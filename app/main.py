@@ -18,7 +18,10 @@ from app.ai.llm import provider_status
 from app.ai.tools import reset_viewer, use_viewer
 from app.auth import hash_password, normalize_email, valid_email, verify_password
 from app.catalog import PREFERRED_IDS, fill_missing_card_image, lookup_seed_card, resolve_name, search_local, fetch_full, normalize_card
-from app.pad.species import HttpxTransport, build_entry, search_species
+from app.pad import species as pad_species
+from app.pad.gallery import load_hashes, rank
+from app.pad.species import HttpxTransport, build_entry, display_name, parse_names, search_species
+from app.recognition.images import dhash, load_image
 from app.config import SAMPLES_DIR, SESSION_COOKIE, SESSION_DAYS, SESSION_SECURE, STATIC_DIR, UPLOADS_DIR
 from app.db import (
     create_session,
@@ -368,6 +371,33 @@ def api_pad_species_id(species_id: int, _user: dict = Depends(require_user)) -> 
     with HttpxTransport() as transport:
         try:
             entry = build_entry(species_id, transport)
+        except LookupError as exc:
+            raise HTTPException(404, "Not found") from exc
+    return {"match": "one", "entry": entry}
+
+
+def _pad_suggestion_names(species_ids: list[int]) -> list[dict]:
+    path = pad_species.CACHE / "species_names.csv"
+    index = parse_names(path.read_text(encoding="utf-8")) if path.exists() else {}
+    return [{"id": species_id, "name": display_name(species_id, index)} for species_id in species_ids]
+
+
+@app.post("/api/pad/photo")
+async def api_pad_photo(file: UploadFile = File(...), _user: dict = Depends(require_user)) -> dict:
+    raw = await file.read()
+    if not raw:
+        raise HTTPException(400, "That photo was empty.")
+    try:
+        ranked = rank(dhash(load_image(raw)), load_hashes(pad_species.CACHE))
+    except (UnidentifiedImageError, OSError) as exc:
+        raise HTTPException(400, "That photo could not be read.") from exc
+    if ranked["match"] == "none":
+        return {"match": "none", "results": []}
+    if ranked["match"] == "many":
+        return {"match": "many", "results": _pad_suggestion_names(ranked["ids"])}
+    with HttpxTransport() as transport:
+        try:
+            entry = build_entry(ranked["id"], transport)
         except LookupError as exc:
             raise HTTPException(404, "Not found") from exc
     return {"match": "one", "entry": entry}
