@@ -39,6 +39,9 @@ def test_pad_shell_css_matches_the_handheld():
     assert ".pad-white" in css
     assert ".pad-ball" in css
     assert ".pad-pulse" in css
+    assert ".pad-idle[hidden]" in css
+    assert "#padSprite[hidden]" in css
+    assert ".pad-hits[hidden]" in css
     assert "(orientation: landscape)" in css
     assert '.pad-device[data-mode="pokemon"] #cardsHost' in css
     assert '.pad-device[data-mode="card"] #padPokemon' in css

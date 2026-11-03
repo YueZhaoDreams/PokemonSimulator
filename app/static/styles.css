@@ -762,6 +762,10 @@ body.shiny .brand img { animation: spin 4s linear infinite; }
   inset: 0;
 }
 .pad-idle { display: grid; place-items: center; }
+.pad-idle[hidden],
+#padSprite[hidden] {
+  display: none;
+}
 .pad-pulse {
   position: absolute;
   left: 6%;
@@ -850,6 +854,7 @@ body.shiny .brand img { animation: spin 4s linear infinite; }
 #padPokemon .scan-btn { margin-top: 10px; }
 .pad-readout { margin-top: 10px; line-height: 1.35; }
 .pad-hits { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.pad-hits[hidden] { display: none; }
 .pad-device[data-mode="pokemon"] #cardsHost { display: none; }
 .pad-device[data-mode="card"] #padPokemon { display: none; }
 .pad-white #ownedGrid { max-height: 240px; overflow: auto; }
