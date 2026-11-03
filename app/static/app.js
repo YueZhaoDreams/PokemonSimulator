@@ -3111,6 +3111,23 @@ document.addEventListener("keydown", (e) => {
   if (map[e.key]) show(map[e.key]);
 });
 
+function setPadMode(mode) {
+  const device = $("#padDevice");
+  if (!device) return;
+  const next = mode === "card" ? "card" : "pokemon";
+  device.dataset.mode = next;
+  $("#padModePokemon")?.setAttribute("aria-pressed", next === "pokemon" ? "true" : "false");
+  $("#padModeCard")?.setAttribute("aria-pressed", next === "card" ? "true" : "false");
+  if (next === "card") {
+    parkCardsPanel($("#cardsHost"));
+    renderCollection();
+  }
+}
+
+$$("[data-pad-mode]").forEach((b) => {
+  b.onclick = () => setPadMode(b.dataset.padMode);
+});
+
 $$(".nav button").forEach((b) => b.onclick = () => show(b.dataset.view));
 boot().catch((err) => {
   console.error(err);

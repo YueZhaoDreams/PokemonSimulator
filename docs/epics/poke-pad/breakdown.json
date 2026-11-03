@@ -1,0 +1,70 @@
+{
+  "version": 1,
+  "epic_slug": "poke-pad",
+  "plan_status": "approved",
+  "features": [
+    {
+      "slug": "pad-device-shell",
+      "depends_on": [],
+      "parallel_group": 1
+    },
+    {
+      "slug": "pad-species-entry",
+      "depends_on": ["pad-device-shell"],
+      "parallel_group": 2
+    },
+    {
+      "slug": "pad-photo-match",
+      "depends_on": ["pad-species-entry"],
+      "parallel_group": 3
+    }
+  ],
+  "acceptance_gates": [
+    {
+      "id": "pad-shows-pikachu",
+      "title": "Pad shows Pikachu on the device",
+      "after_features": ["pad-device-shell", "pad-species-entry", "pad-photo-match"],
+      "consumer": "both",
+      "verifier": "agent-auto",
+      "verify": [
+        ".venv/bin/pytest -q tests/test_pad_shell.py tests/test_pad_species.py tests/test_ui.py passes.",
+        "Served HTML nav and #view-cards title say Pad. data-view cards, decks, fight, and lab remain. #padDevice starts at data-mode=pokemon and contains a play control named 朗读.",
+        "styles.css has a landscape rule for .pad-device, a red upper shell, a white lower shell, and a screen idle state. Page chrome does not include TRAINER or 081/088.",
+        "GET /api/pad/species?q=皮卡丘 returns one entry: id 25, name 皮卡丘, type 电, category 鼠宝可梦, ability 静电, height_m 0.4, weight_kg 6.0, a non-empty zh-Hans flavor line, artwork URL, animation URL, cry URL, and speech_text containing 皮卡丘, 鼠宝可梦, and that flavor line.",
+        "q=pikachu and q=25 return the same id. An unknown query returns HTTP 404 and no invented flavor.",
+        "Species 152 returns name 菊草叶, an empty flavor, and speech_text that contains 菊草叶 and no Latin Pokédex sentence.",
+        "app.js starts speechSynthesis from #padSpeak with lang zh-CN and cancels speech on a second press. The cry URL is assigned to an audio element.",
+        "#findPanel, #addName, #findScan, and #ownedGrid remain inside #view-cards. parkCardsPanel still moves the finder. Card mode is #padDevice[data-mode=card] showing #cardsHost."
+      ],
+      "blocks_dispatch": true
+    },
+    {
+      "id": "pad-finds-from-photo",
+      "title": "A photo resolves to a species",
+      "after_features": ["pad-photo-match"],
+      "consumer": "agent",
+      "verifier": "agent-auto",
+      "verify": [
+        ".venv/bin/pytest -q tests/test_pad_photo.py passes.",
+        "Posting an image whose dHash matches cached official artwork of species 25 returns match one and id 25.",
+        "Two close hashes and no clear winner return match many including the right id. A distant hash returns match none and no entry name.",
+        "POST /api/pad/photo does not create a deck and does not call the card recognizer. #findScan still submits card photos through the existing recognize path."
+      ],
+      "blocks_dispatch": true
+    },
+    {
+      "id": "epic-exit",
+      "title": "Pad epic exit",
+      "after_features": ["__all__"],
+      "consumer": "both",
+      "verifier": "agent-auto",
+      "verify": [
+        ".venv/bin/pytest -q tests/test_pad_shell.py tests/test_pad_species.py tests/test_pad_photo.py tests/test_ui.py passes.",
+        "Pad slices do not modify app/engine/game.py or app/engine/effects.py.",
+        "The Pad page still has one device, Pokémon search, 朗读, card mode, and photo match, as locked by those tests."
+      ],
+      "blocks_dispatch": false,
+      "blocks_epic_done": true
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "epic_slug": "poke-pad",
+  "comments": [
+    {
+      "at": "2026-11-03T02:37:00Z",
+      "author": "operator-chat",
+      "text": "Draft only. Turn the Cards screen into Pad for the household kid: Card / Pokémon toggle, Pokémon intro like the cartoon, species card laid out like the 52Poké 皮卡丘 page (that page is a layout reference only), 朗读, and photo lookup from a toy or an animation. Data source decision in docs/epics/poke-pad/spec.md: PokéAPI, not 52Poké. Do not slice, implement, or open a GitHub issue until a human accepts the outcome."
+    },
+    {
+      "at": "2026-11-03T02:45:00Z",
+      "author": "operator-chat",
+      "text": "UX reference is the Poké Pad Trainer card the operator linked: Perfect Order 081/088 (TCGplayer 684332, TCGdex me03-081). Same art and effect as the stored printing Ascended Heroes me02.5-198. The page is that handheld (red/white shell, screen, play triangle as 朗读), not a scan of the Trainer card and not a generic dex layout. Do not add a me03-081 row for this epic. The kid uses the household iPad in Safari, landscape, as a webpage. Likeness to the card is the bar."
+    },
+    {
+      "at": "2026-11-03T02:54:00Z",
+      "author": "operator-chat",
+      "text": "Operator approved the epic and the breakdown, and set every gate verifier to agent-auto. Auto-pass gates in this session when verify steps pass. Implement poke-pad. Do not wait for a human sign-off."
+    }
+  ],
+  "passed_gates": [],
+  "gate_reports": {}
+}
