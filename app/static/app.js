@@ -3126,8 +3126,39 @@ function setPadMode(mode) {
 
 let padSpeaking = false;
 
+function stopPadSpeech() {
+  if (window.speechSynthesis) speechSynthesis.cancel();
+  padSpeaking = false;
+}
+
+function clearPadScreen() {
+  stopPadSpeech();
+  const idle = $("#padIdle");
+  const img = $("#padSprite");
+  if (idle) idle.hidden = false;
+  if (img) {
+    img.hidden = true;
+    img.removeAttribute("src");
+  }
+  const box = $("#padReadout");
+  if (box) box.innerHTML = "";
+  const device = $("#padDevice");
+  if (device) {
+    delete device.dataset.speech;
+    delete device.dataset.cry;
+  }
+  const cry = $("#padCry");
+  if (cry) cry.removeAttribute("src");
+  const hits = $("#padHits");
+  if (hits) {
+    hits.hidden = true;
+    hits.innerHTML = "";
+  }
+}
+
 function renderPadEntry(entry) {
   if (!entry) return;
+  stopPadSpeech();
   const idle = $("#padIdle");
   const img = $("#padSprite");
   if (idle) idle.hidden = true;
@@ -3183,43 +3214,20 @@ async function openPadId(id) {
 
 async function searchPad(query) {
   const text = (query || "").trim();
-  const box = $("#padReadout");
   if (!text) {
-    const idle = $("#padIdle");
-    const img = $("#padSprite");
-    if (idle) idle.hidden = false;
-    if (img) {
-      img.hidden = true;
-      img.removeAttribute("src");
-    }
-    if (box) box.innerHTML = "";
+    clearPadScreen();
     return;
   }
   try {
     const data = await api(`/api/pad/species?q=${encodeURIComponent(text)}`);
-    if (data.match === "many") renderPadList(data.results);
-    else renderPadEntry(data.entry);
+    if (data.match === "many") {
+      clearPadScreen();
+      renderPadList(data.results);
+    } else renderPadEntry(data.entry);
   } catch (err) {
+    clearPadScreen();
+    const box = $("#padReadout");
     if (box) box.textContent = "没找到。";
-    const idle = $("#padIdle");
-    const img = $("#padSprite");
-    if (idle) idle.hidden = false;
-    if (img) {
-      img.hidden = true;
-      img.removeAttribute("src");
-    }
-    const device = $("#padDevice");
-    if (device) {
-      delete device.dataset.speech;
-      delete device.dataset.cry;
-    }
-    const cry = $("#padCry");
-    if (cry) cry.removeAttribute("src");
-    const hits = $("#padHits");
-    if (hits) {
-      hits.hidden = true;
-      hits.innerHTML = "";
-    }
   }
 }
 

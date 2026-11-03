@@ -46,6 +46,15 @@ class HttpxTransport:
         response.raise_for_status()
         return response.content
 
+    def close(self) -> None:
+        self._client.close()
+
+    def __enter__(self) -> "HttpxTransport":
+        return self
+
+    def __exit__(self, *_exc) -> None:
+        self.close()
+
 
 def clean_text(text: str) -> str:
     return " ".join(text.replace("\f", " ").replace("\n", " ").split())
@@ -202,7 +211,16 @@ def search_species(
     names: dict[tuple[int, str], str] | None = None,
     cache_dir: Path = CACHE,
 ) -> dict:
+    owns_transport = transport is None
     transport = transport or HttpxTransport()
+    try:
+        return _search_species(query, transport, names, cache_dir)
+    finally:
+        if owns_transport:
+            transport.close()
+
+
+def _search_species(query, transport, names, cache_dir: Path) -> dict:
     index = names if names is not None else load_name_index(transport, cache_dir)
     found = find_ids(query, index)
     if not found:
