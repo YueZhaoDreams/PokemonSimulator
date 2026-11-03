@@ -3125,6 +3125,7 @@ function setPadMode(mode) {
 }
 
 let padSpeaking = false;
+let padSeq = 0;
 
 function stopPadSpeech() {
   if (window.speechSynthesis) speechSynthesis.cancel();
@@ -3206,10 +3207,13 @@ function renderPadList(results) {
 }
 
 async function openPadId(id) {
+  const seq = ++padSeq;
   try {
     const data = await api(`/api/pad/species/${encodeURIComponent(id)}`);
+    if (seq !== padSeq) return;
     renderPadEntry(data.entry);
   } catch (err) {
+    if (seq !== padSeq) return;
     const box = $("#padReadout");
     if (box) box.textContent = "没找到。";
   }
@@ -3230,6 +3234,7 @@ async function searchPad(query) {
       renderPadList(data.results);
     } else renderPadEntry(data.entry);
   } catch (err) {
+    if (seq !== padSeq) return;
     clearPadScreen();
     const box = $("#padReadout");
     if (box) box.textContent = "没找到。";
@@ -3256,7 +3261,6 @@ function togglePadSpeech() {
 }
 
 let padTimer = 0;
-let padSeq = 0;
 $("#padQuery")?.addEventListener("input", () => {
   clearTimeout(padTimer);
   const value = $("#padQuery").value;
