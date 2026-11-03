@@ -3214,6 +3214,11 @@ async function openPadId(id) {
     renderPadEntry(data.entry);
   } catch (err) {
     if (seq !== padSeq) return;
+    const hits = $("#padHits");
+    if (hits) {
+      hits.hidden = true;
+      hits.innerHTML = "";
+    }
     const box = $("#padReadout");
     if (box) box.textContent = "没找到。";
   }
