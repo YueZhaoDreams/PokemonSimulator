@@ -3172,8 +3172,13 @@ function renderPadList(results) {
 }
 
 async function openPadId(id) {
-  const data = await api(`/api/pad/species/${encodeURIComponent(id)}`);
-  renderPadEntry(data.entry);
+  try {
+    const data = await api(`/api/pad/species/${encodeURIComponent(id)}`);
+    renderPadEntry(data.entry);
+  } catch (err) {
+    const box = $("#padReadout");
+    if (box) box.textContent = "没找到。";
+  }
 }
 
 async function searchPad(query) {
@@ -3210,6 +3215,11 @@ async function searchPad(query) {
     }
     const cry = $("#padCry");
     if (cry) cry.removeAttribute("src");
+    const hits = $("#padHits");
+    if (hits) {
+      hits.hidden = true;
+      hits.innerHTML = "";
+    }
   }
 }
 

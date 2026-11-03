@@ -178,6 +178,8 @@ def test_pad_speech_uses_chinese_voice():
     assert "speechSynthesis.cancel" in js
     assert "speechSynthesis.speak" in js
     assert "img.removeAttribute(\"src\")" in js
+    assert "hits.innerHTML = \"\"" in js
+    assert "async function openPadId" in js
     assert 'cry.src = entry.cry_url' in js
     html = (STATIC_DIR / "index.html").read_text(encoding="utf-8")
     assert 'id="padCry"' in html
@@ -207,3 +209,22 @@ def test_pad_species_route(tmp_path, monkeypatch):
         hit = client.get("/api/pad/species", params={"q": "皮卡丘"})
         assert hit.status_code == 200
         assert hit.json()["entry"]["id"] == 25
+
+
+def test_species_id_route_is_404_when_missing(tmp_path, monkeypatch):
+    monkeypatch.setattr("app.db.DB_PATH", tmp_path / "app.db")
+
+    async def _noop():
+        return None
+
+    monkeypatch.setattr("app.main.start_cursor_runtime", _noop)
+    monkeypatch.setattr("app.main.stop_cursor_runtime", _noop)
+
+    def missing(species_id, transport, cache_dir=None):
+        raise LookupError(str(species_id))
+
+    monkeypatch.setattr("app.main.build_entry", missing)
+    with TestClient(app) as client:
+        client.post("/api/auth/login", json={"email": ADMIN_EMAIL, "password": ADMIN_PASSWORD})
+        res = client.get("/api/pad/species/999999")
+        assert res.status_code == 404

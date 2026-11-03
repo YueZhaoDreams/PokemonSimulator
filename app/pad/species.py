@@ -150,8 +150,11 @@ def build_entry(species_id: int, transport: HttpxTransport, cache_dir: Path = CA
     cached = cache_dir / f"{species_id}.json"
     if cached.exists():
         return json.loads(cached.read_text(encoding="utf-8"))
-    species = transport.get_json(f"{POKEAPI}/pokemon-species/{species_id}/")
-    pokemon = transport.get_json(f"{POKEAPI}/pokemon/{species_id}/")
+    try:
+        species = transport.get_json(f"{POKEAPI}/pokemon-species/{species_id}/")
+        pokemon = transport.get_json(f"{POKEAPI}/pokemon/{species_id}/")
+    except (httpx.HTTPError, KeyError) as exc:
+        raise LookupError(str(species_id)) from exc
     sprites = (pokemon.get("sprites") or {}).get("other") or {}
     artwork = ((sprites.get("official-artwork") or {}).get("front_default")) or ""
     animation = ((sprites.get("showdown") or {}).get("front_default")) or ""

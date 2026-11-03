@@ -365,7 +365,11 @@ def api_pad_species(q: str, _user: dict = Depends(require_user)) -> dict:
 
 @app.get("/api/pad/species/{species_id}")
 def api_pad_species_id(species_id: int, _user: dict = Depends(require_user)) -> dict:
-    return {"match": "one", "entry": build_entry(species_id, HttpxTransport())}
+    try:
+        entry = build_entry(species_id, HttpxTransport())
+    except LookupError as exc:
+        raise HTTPException(404, "Not found") from exc
+    return {"match": "one", "entry": entry}
 
 
 @app.get("/api/cards/search")
