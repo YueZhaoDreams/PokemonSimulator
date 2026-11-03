@@ -1,6 +1,6 @@
 # Pad photo match
 
-Status: in_review
+Status: done
 
 Epic: poke-pad
 

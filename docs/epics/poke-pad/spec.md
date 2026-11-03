@@ -1,6 +1,6 @@
 # Pad
 
-Status: in_delivery
+Status: done
 
 GitHub Issue: TBD
 

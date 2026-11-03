@@ -15,8 +15,122 @@
       "at": "2026-11-03T02:54:00Z",
       "author": "operator-chat",
       "text": "Operator approved the epic and the breakdown, and set every gate verifier to agent-auto. Auto-pass gates in this session when verify steps pass. Implement poke-pad. Do not wait for a human sign-off."
+    },
+    {
+      "at": "2026-11-03T04:42:00Z",
+      "author": "cursor-verify-gate",
+      "text": "All three gates passed on http://127.0.0.1:8000 serving main 1227c15 after #194, #195, #196, and #197. The first browser check showed the idle ball over the sprite; #197 made hidden win over display. Operator had already requested auto-pass, so passed_gates lists pad-shows-pikachu, pad-finds-from-photo, and epic-exit."
     }
   ],
-  "passed_gates": [],
-  "gate_reports": {}
+  "passed_gates": ["pad-shows-pikachu", "pad-finds-from-photo", "epic-exit"],
+  "gate_reports": {
+    "pad-shows-pikachu": {
+      "verified_at": "2026-11-03T04:42:00Z",
+      "verifier_agent": "cursor-verify-gate",
+      "consumer": "both",
+      "verifier": "agent-auto",
+      "environment": "http://127.0.0.1:8000 serving main 1227c15 (#197). ./run.sh restarted after that merge.",
+      "overall_status": "pass",
+      "steps": [
+        {
+          "step": "pytest shell, species, and ui",
+          "status": "pass",
+          "evidence": ".venv/bin/pytest -q tests/test_pad_shell.py tests/test_pad_species.py tests/test_ui.py is included in 27 passed (those three files plus test_pad_photo.py)."
+        },
+        {
+          "step": "Served HTML nav and title say Pad; views and 朗读 remain",
+          "status": "pass",
+          "evidence": "GET / on the restarted server: nav contains >Pad<, data-view cards/decks/fight/lab, #padDevice data-mode=pokemon, aria-label 朗读. Browser snapshot shows Pad, Pokémon pressed, and the 朗读 button."
+        },
+        {
+          "step": "Landscape device CSS, red and white shells, idle screen, no TRAINER chrome",
+          "status": "pass",
+          "evidence": "Served styles.css?v=pad-4 has (orientation: landscape), .pad-red, .pad-white, .pad-ball, .pad-pulse. Served #view-cards has no TRAINER and no 081/088. iPad landscape screenshot shows the blue field, red rim, green screen, and Pikachu."
+        },
+        {
+          "step": "GET /api/pad/species?q=皮卡丘",
+          "status": "pass",
+          "evidence": "200 match one. id 25, name 皮卡丘, types [电], category 鼠宝可梦, abilities include 静电, height_m 0.4, weight_kg 6.0, flavor 皮卡丘们把尾巴 贴在一起交换电流， 其实是在互相打招呼。 artwork, showdown gif, cry ogg. speech_text starts 皮卡丘，鼠宝可梦。 and includes that flavor."
+        },
+        {
+          "step": "pikachu and 25 match; unknown is 404",
+          "status": "pass",
+          "evidence": "q=pikachu and q=25 both return id 25. q=not-a-real-pokemon-zzz is 404 {\"detail\":\"Not found\"} with no flavor."
+        },
+        {
+          "step": "Species 152 has no Latin dex line",
+          "status": "pass",
+          "evidence": "GET /api/pad/species/152 name 菊草叶, flavor empty, speech_text 菊草叶，叶子宝可梦。属性草。身高0.9米。体重6.4千克。 No A-Z letters."
+        },
+        {
+          "step": "Speech is zh-CN and the cry is assigned",
+          "status": "pass",
+          "evidence": "Served app.js?v=pad-4 contains utter.lang = \"zh-CN\", speechSynthesis.speak, speechSynthesis.cancel, and cry.src = entry.cry_url. #padSpeak and #padCry are in the served HTML."
+        },
+        {
+          "step": "Card finder stays inside the device and card mode shows it",
+          "status": "pass",
+          "evidence": "Served HTML keeps #findPanel, #addName, #findScan, and #ownedGrid inside #view-cards. app.js still has parkCardsPanel. Browser: Pokémon mode #cardsHost display none and #padPokemon display block. Card mode reverses that and shows Find a card plus Scan photo."
+        }
+      ],
+      "recommendation": "pass. Operator requested auto-pass in this session. Appended to passed_gates."
+    },
+    "pad-finds-from-photo": {
+      "verified_at": "2026-11-03T04:42:00Z",
+      "verifier_agent": "cursor-verify-gate",
+      "consumer": "agent",
+      "verifier": "agent-auto",
+      "environment": "http://127.0.0.1:8000 serving main 1227c15 (#197). ./run.sh restarted after that merge.",
+      "overall_status": "pass",
+      "steps": [
+        {
+          "step": "pytest photo",
+          "status": "pass",
+          "evidence": ".venv/bin/pytest -q tests/test_pad_photo.py passed inside the 27-test run. Covers same hash, two close hashes, a distant hash, and no card scan."
+        },
+        {
+          "step": "Official artwork of species 25 is match one",
+          "status": "pass",
+          "evidence": "After the live 皮卡丘 entry, cached dHash for 25 matched the official artwork bytes. POST /api/pad/photo of that PNG returned match one and id 25."
+        },
+        {
+          "step": "Close hashes are many; a distant image is none",
+          "status": "pass",
+          "evidence": "tests/test_pad_photo.py::test_two_close_hashes_are_a_list returns match many including id 25 and no entry. A solid blue PNG posted live returned {\"match\":\"none\",\"results\":[]}."
+        },
+        {
+          "step": "Photo does not create a deck or call recognize; card scan stays on recognize",
+          "status": "pass",
+          "evidence": "Deck count stayed 60 across the live photo posts. The photo test monkeypatches create_scan_job, save_deck, and recognize_image and still returns match none. Served app.js posts #padPhoto to /api/pad/photo and #findScan still calls recognizePhoto, which posts /api/recognize."
+        }
+      ],
+      "recommendation": "pass. Operator requested auto-pass in this session. Appended to passed_gates."
+    },
+    "epic-exit": {
+      "verified_at": "2026-11-03T04:42:00Z",
+      "verifier_agent": "cursor-verify-gate",
+      "consumer": "both",
+      "verifier": "agent-auto",
+      "environment": "http://127.0.0.1:8000 serving main 1227c15 (#197). ./run.sh restarted after that merge.",
+      "overall_status": "pass",
+      "steps": [
+        {
+          "step": "pytest shell, species, photo, and ui",
+          "status": "pass",
+          "evidence": ".venv/bin/pytest -q tests/test_pad_shell.py tests/test_pad_species.py tests/test_pad_photo.py tests/test_ui.py: 27 passed."
+        },
+        {
+          "step": "Pad slices do not modify the match engine",
+          "status": "pass",
+          "evidence": "git diff --name-only 24fb69c..HEAD -- app/engine/game.py app/engine/effects.py is empty. 24fb69c is the commit before #194."
+        },
+        {
+          "step": "One device, Pokémon search, 朗读, card mode, and photo match",
+          "status": "pass",
+          "evidence": "The shell, species, and photo tests lock those pieces, and the browser on the restarted server showed the device, a 皮卡丘 entry with the idle ball hidden, card mode with Scan photo, and a Pokémon Photo control."
+        }
+      ],
+      "recommendation": "pass. Operator requested auto-pass in this session. Appended to passed_gates. Epic spec set to done in the same record."
+    }
+  }
 }
