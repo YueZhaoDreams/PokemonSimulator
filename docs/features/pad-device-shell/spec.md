@@ -1,6 +1,6 @@
 # Pad device shell
 
-Status: in_review
+Status: done
 
 Epic: poke-pad
 

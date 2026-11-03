@@ -18,6 +18,7 @@ from app.ai.llm import provider_status
 from app.ai.tools import reset_viewer, use_viewer
 from app.auth import hash_password, normalize_email, valid_email, verify_password
 from app.catalog import PREFERRED_IDS, fill_missing_card_image, lookup_seed_card, resolve_name, search_local, fetch_full, normalize_card
+from app.pad.species import HttpxTransport, build_entry, search_species
 from app.config import SAMPLES_DIR, SESSION_COOKIE, SESSION_DAYS, SESSION_SECURE, STATIC_DIR, UPLOADS_DIR
 from app.db import (
     create_session,
@@ -350,6 +351,21 @@ def api_delete_deck(deck_id: str, user: dict = Depends(require_user)) -> dict:
         raise HTTPException(400, "Starter sets cannot be deleted")
     delete_deck(deck_id)
     return {"ok": True}
+
+
+@app.get("/api/pad/species")
+def api_pad_species(q: str, _user: dict = Depends(require_user)) -> dict:
+    if not str(q or "").strip():
+        raise HTTPException(400, "name required")
+    found = search_species(q)
+    if found.get("match") == "none":
+        raise HTTPException(404, "Not found")
+    return found
+
+
+@app.get("/api/pad/species/{species_id}")
+def api_pad_species_id(species_id: int, _user: dict = Depends(require_user)) -> dict:
+    return {"match": "one", "entry": build_entry(species_id, HttpxTransport())}
 
 
 @app.get("/api/cards/search")

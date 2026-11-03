@@ -3124,6 +3124,110 @@ function setPadMode(mode) {
   }
 }
 
+let padSpeaking = false;
+
+function renderPadEntry(entry) {
+  if (!entry) return;
+  const idle = $("#padIdle");
+  const img = $("#padSprite");
+  if (idle) idle.hidden = true;
+  if (img) {
+    img.hidden = false;
+    img.alt = entry.name || "";
+    img.src = entry.animation_url || entry.artwork_url || "";
+  }
+  const box = $("#padReadout");
+  if (box) {
+    const types = (entry.types || []).join("、");
+    const abilities = (entry.abilities || []).join("、");
+    box.innerHTML = `<b>#${esc(entry.id)} ${esc(entry.name || "")}</b>
+      <p>${esc(types)} ${esc(entry.category || "")}</p>
+      <p>${esc(entry.height_m)} m · ${esc(entry.weight_kg)} kg · ${esc(abilities)}</p>
+      <p>${esc(entry.flavor || "")}</p>`;
+  }
+  const device = $("#padDevice");
+  if (device) {
+    device.dataset.speech = entry.speech_text || "";
+    device.dataset.cry = entry.cry_url || "";
+  }
+  const cry = $("#padCry");
+  if (cry) cry.src = entry.cry_url || "";
+  const hits = $("#padHits");
+  if (hits) {
+    hits.hidden = true;
+    hits.innerHTML = "";
+  }
+}
+
+function renderPadList(results) {
+  const hits = $("#padHits");
+  if (!hits) return;
+  hits.hidden = false;
+  hits.innerHTML = (results || []).map((row) =>
+    `<button type="button" data-pad-id="${esc(row.id)}">${esc(row.name || row.id)}</button>`
+  ).join("");
+  hits.querySelectorAll("[data-pad-id]").forEach((b) => {
+    b.onclick = () => openPadId(b.dataset.padId);
+  });
+}
+
+async function openPadId(id) {
+  const data = await api(`/api/pad/species/${encodeURIComponent(id)}`);
+  renderPadEntry(data.entry);
+}
+
+async function searchPad(query) {
+  const text = (query || "").trim();
+  const box = $("#padReadout");
+  if (!text) {
+    const idle = $("#padIdle");
+    const img = $("#padSprite");
+    if (idle) idle.hidden = false;
+    if (img) {
+      img.hidden = true;
+      img.removeAttribute("src");
+    }
+    if (box) box.innerHTML = "";
+    return;
+  }
+  try {
+    const data = await api(`/api/pad/species?q=${encodeURIComponent(text)}`);
+    if (data.match === "many") renderPadList(data.results);
+    else renderPadEntry(data.entry);
+  } catch (err) {
+    if (box) box.textContent = "没找到。";
+    const idle = $("#padIdle");
+    if (idle) idle.hidden = false;
+  }
+}
+
+function togglePadSpeech() {
+  const text = $("#padDevice")?.dataset.speech || "";
+  if (!window.speechSynthesis) return;
+  if (padSpeaking) {
+    speechSynthesis.cancel();
+    padSpeaking = false;
+    return;
+  }
+  if (!text) return;
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = "zh-CN";
+  utter.onend = () => { padSpeaking = false; };
+  padSpeaking = true;
+  speechSynthesis.cancel();
+  speechSynthesis.speak(utter);
+  const cry = $("#padCry");
+  if (cry && cry.src) cry.play().catch(() => {});
+}
+
+let padTimer = 0;
+$("#padQuery")?.addEventListener("input", () => {
+  clearTimeout(padTimer);
+  const value = $("#padQuery").value;
+  padTimer = setTimeout(() => searchPad(value), 250);
+});
+$("#padSpeak")?.addEventListener("click", togglePadSpeech);
+
 $$("[data-pad-mode]").forEach((b) => {
   b.onclick = () => setPadMode(b.dataset.padMode);
 });
