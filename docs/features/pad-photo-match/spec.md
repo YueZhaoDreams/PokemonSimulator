@@ -1,6 +1,6 @@
 # Pad photo match
 
-Status: ready
+Status: in_review
 
 Epic: poke-pad
 
@@ -41,11 +41,11 @@ A photo of a Pokémon picture should open the same device entry as a text search
 
 ## Acceptance Criteria
 
-- [ ] An image with the same dHash as cached species 25 returns that entry.
-- [ ] Two close hashes without a clear winner return `match: many` including the right id.
-- [ ] A distant hash returns `match: none`.
-- [ ] The photo route does not create a deck.
-- [ ] Card scan still uses the recognize path.
+- [x] An image with the same dHash as cached species 25 returns that entry.
+- [x] Two close hashes without a clear winner return `match: many` including the right id.
+- [x] A distant hash returns `match: none`.
+- [x] The photo route does not create a deck.
+- [x] Card scan still uses the recognize path.
 
 ## Validation Plan
 

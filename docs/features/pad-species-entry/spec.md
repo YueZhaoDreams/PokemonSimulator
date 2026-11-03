@@ -1,6 +1,6 @@
 # Pad species entry
 
-Status: in_review
+Status: done
 
 Epic: poke-pad
 
