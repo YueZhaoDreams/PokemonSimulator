@@ -180,6 +180,8 @@ def test_pad_speech_uses_chinese_voice():
     assert "img.removeAttribute(\"src\")" in js
     assert "hits.innerHTML = \"\"" in js
     assert "async function openPadId" in js
+    assert "seq !== padSeq" in js
+    assert "cry.getAttribute(\"src\")" in js
     assert 'cry.src = entry.cry_url' in js
     html = (STATIC_DIR / "index.html").read_text(encoding="utf-8")
     assert 'id="padCry"' in html

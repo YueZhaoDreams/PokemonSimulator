@@ -3182,7 +3182,10 @@ function renderPadEntry(entry) {
     device.dataset.cry = entry.cry_url || "";
   }
   const cry = $("#padCry");
-  if (cry) cry.src = entry.cry_url || "";
+  if (cry) {
+    if (entry.cry_url) cry.src = entry.cry_url;
+    else cry.removeAttribute("src");
+  }
   const hits = $("#padHits");
   if (hits) {
     hits.hidden = true;
@@ -3214,12 +3217,14 @@ async function openPadId(id) {
 
 async function searchPad(query) {
   const text = (query || "").trim();
+  const seq = ++padSeq;
   if (!text) {
     clearPadScreen();
     return;
   }
   try {
     const data = await api(`/api/pad/species?q=${encodeURIComponent(text)}`);
+    if (seq !== padSeq) return;
     if (data.match === "many") {
       clearPadScreen();
       renderPadList(data.results);
@@ -3247,10 +3252,11 @@ function togglePadSpeech() {
   speechSynthesis.cancel();
   speechSynthesis.speak(utter);
   const cry = $("#padCry");
-  if (cry && cry.src) cry.play().catch(() => {});
+  if (cry && cry.getAttribute("src")) cry.play().catch(() => {});
 }
 
 let padTimer = 0;
+let padSeq = 0;
 $("#padQuery")?.addEventListener("input", () => {
   clearTimeout(padTimer);
   const value = $("#padQuery").value;
