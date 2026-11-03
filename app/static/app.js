@@ -3124,6 +3124,155 @@ function setPadMode(mode) {
   }
 }
 
+let padSpeaking = false;
+let padSeq = 0;
+
+function stopPadSpeech() {
+  if (window.speechSynthesis) speechSynthesis.cancel();
+  padSpeaking = false;
+}
+
+function clearPadScreen() {
+  stopPadSpeech();
+  const idle = $("#padIdle");
+  const img = $("#padSprite");
+  if (idle) idle.hidden = false;
+  if (img) {
+    img.hidden = true;
+    img.removeAttribute("src");
+  }
+  const box = $("#padReadout");
+  if (box) box.innerHTML = "";
+  const device = $("#padDevice");
+  if (device) {
+    delete device.dataset.speech;
+    delete device.dataset.cry;
+  }
+  const cry = $("#padCry");
+  if (cry) cry.removeAttribute("src");
+  const hits = $("#padHits");
+  if (hits) {
+    hits.hidden = true;
+    hits.innerHTML = "";
+  }
+}
+
+function renderPadEntry(entry) {
+  if (!entry) return;
+  stopPadSpeech();
+  const idle = $("#padIdle");
+  const img = $("#padSprite");
+  if (idle) idle.hidden = true;
+  if (img) {
+    img.hidden = false;
+    img.alt = entry.name || "";
+    img.src = entry.animation_url || entry.artwork_url || "";
+  }
+  const box = $("#padReadout");
+  if (box) {
+    const types = (entry.types || []).join("、");
+    const abilities = (entry.abilities || []).join("、");
+    box.innerHTML = `<b>#${esc(entry.id)} ${esc(entry.name || "")}</b>
+      <p>${esc(types)} ${esc(entry.category || "")}</p>
+      <p>${esc(entry.height_m)} m · ${esc(entry.weight_kg)} kg · ${esc(abilities)}</p>
+      <p>${esc(entry.flavor || "")}</p>`;
+  }
+  const device = $("#padDevice");
+  if (device) {
+    device.dataset.speech = entry.speech_text || "";
+    device.dataset.cry = entry.cry_url || "";
+  }
+  const cry = $("#padCry");
+  if (cry) {
+    if (entry.cry_url) cry.src = entry.cry_url;
+    else cry.removeAttribute("src");
+  }
+  const hits = $("#padHits");
+  if (hits) {
+    hits.hidden = true;
+    hits.innerHTML = "";
+  }
+}
+
+function renderPadList(results) {
+  const hits = $("#padHits");
+  if (!hits) return;
+  hits.hidden = false;
+  hits.innerHTML = (results || []).map((row) =>
+    `<button type="button" data-pad-id="${esc(row.id)}">${esc(row.name || row.id)}</button>`
+  ).join("");
+  hits.querySelectorAll("[data-pad-id]").forEach((b) => {
+    b.onclick = () => openPadId(b.dataset.padId);
+  });
+}
+
+async function openPadId(id) {
+  const seq = ++padSeq;
+  try {
+    const data = await api(`/api/pad/species/${encodeURIComponent(id)}`);
+    if (seq !== padSeq) return;
+    renderPadEntry(data.entry);
+  } catch (err) {
+    if (seq !== padSeq) return;
+    const hits = $("#padHits");
+    if (hits) {
+      hits.hidden = true;
+      hits.innerHTML = "";
+    }
+    const box = $("#padReadout");
+    if (box) box.textContent = "没找到。";
+  }
+}
+
+async function searchPad(query) {
+  const text = (query || "").trim();
+  const seq = ++padSeq;
+  if (!text) {
+    clearPadScreen();
+    return;
+  }
+  try {
+    const data = await api(`/api/pad/species?q=${encodeURIComponent(text)}`);
+    if (seq !== padSeq) return;
+    if (data.match === "many") {
+      clearPadScreen();
+      renderPadList(data.results);
+    } else renderPadEntry(data.entry);
+  } catch (err) {
+    if (seq !== padSeq) return;
+    clearPadScreen();
+    const box = $("#padReadout");
+    if (box) box.textContent = "没找到。";
+  }
+}
+
+function togglePadSpeech() {
+  const text = $("#padDevice")?.dataset.speech || "";
+  if (!window.speechSynthesis) return;
+  if (padSpeaking) {
+    speechSynthesis.cancel();
+    padSpeaking = false;
+    return;
+  }
+  if (!text) return;
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = "zh-CN";
+  utter.onend = () => { padSpeaking = false; };
+  padSpeaking = true;
+  speechSynthesis.cancel();
+  speechSynthesis.speak(utter);
+  const cry = $("#padCry");
+  if (cry && cry.getAttribute("src")) cry.play().catch(() => {});
+}
+
+let padTimer = 0;
+$("#padQuery")?.addEventListener("input", () => {
+  clearTimeout(padTimer);
+  const value = $("#padQuery").value;
+  padTimer = setTimeout(() => searchPad(value), 250);
+});
+$("#padSpeak")?.addEventListener("click", togglePadSpeech);
+
 $$("[data-pad-mode]").forEach((b) => {
   b.onclick = () => setPadMode(b.dataset.padMode);
 });

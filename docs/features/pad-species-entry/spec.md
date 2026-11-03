@@ -1,6 +1,6 @@
 # Pad species entry
 
-Status: ready
+Status: in_review
 
 Epic: poke-pad
 
@@ -44,11 +44,11 @@ New read-only routes. Cache files live in `data/cache/pad/`.
 
 ## Acceptance Criteria
 
-- [ ] 皮卡丘 returns id 25, type 电, category 鼠宝可梦, ability 静电, 0.4 m, 6.0 kg, a zh-Hans flavor line, artwork, animation, cry, and speech_text that includes the flavor line.
-- [ ] pikachu and 25 return the same id.
-- [ ] An unknown name is 404.
-- [ ] 菊草叶 has an empty flavor and speech_text without a Latin sentence.
-- [ ] The play control uses `zh-CN` and cancels speech when pressed again.
+- [x] 皮卡丘 returns id 25, type 电, category 鼠宝可梦, ability 静电, 0.4 m, 6.0 kg, a zh-Hans flavor line, artwork, animation, cry, and speech_text that includes the flavor line.
+- [x] pikachu and 25 return the same id.
+- [x] An unknown name is 404.
+- [x] 菊草叶 has an empty flavor and speech_text without a Latin sentence.
+- [x] The play control uses `zh-CN` and cancels speech when pressed again.
 
 ## Validation Plan
 
