@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import csv
+import io
 import json
 import re
 from pathlib import Path
@@ -51,13 +53,13 @@ def clean_text(text: str) -> str:
 
 def parse_names(csv_text: str) -> dict[tuple[int, str], str]:
     names: dict[tuple[int, str], str] = {}
-    for line in csv_text.splitlines():
-        if not line or line.startswith("species_id"):
+    for row in csv.reader(io.StringIO(csv_text)):
+        if not row or row[0] == "species_id" or len(row) < 3:
             continue
-        species_id, language_id, name = line.split(",", 2)
-        lang = LANG_IDS.get(language_id)
+        lang = LANG_IDS.get(row[1])
+        name = row[2].strip()
         if lang and name:
-            names[(int(species_id), lang)] = name.strip()
+            names[(int(row[0]), lang)] = name
     return names
 
 

@@ -145,6 +145,15 @@ def test_unknown_query_is_a_miss(tmp_path):
     assert found == {"match": "none", "results": []}
 
 
+def test_name_csv_ignores_genus_column():
+    from app.pad.species import parse_names
+
+    text = "species_id,local_language_id,name,genus\n25,12,皮卡丘,鼠宝可梦\n25,9,Pikachu,Mouse Pokémon\n"
+    names = parse_names(text)
+    assert names[(25, "zh-hans")] == "皮卡丘"
+    assert names[(25, "en")] == "Pikachu"
+
+
 def test_speech_text_keeps_a_flavor_line():
     spoken = speech_text({"name": "皮卡丘", "category": "鼠宝可梦", "flavor": "打招呼", "types": ["电"]})
     assert spoken == "皮卡丘，鼠宝可梦。打招呼"
@@ -168,6 +177,7 @@ def test_pad_speech_uses_chinese_voice():
     assert 'utter.lang = "zh-CN"' in js
     assert "speechSynthesis.cancel" in js
     assert "speechSynthesis.speak" in js
+    assert "img.removeAttribute(\"src\")" in js
     assert 'cry.src = entry.cry_url' in js
     html = (STATIC_DIR / "index.html").read_text(encoding="utf-8")
     assert 'id="padCry"' in html

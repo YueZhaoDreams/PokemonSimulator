@@ -3197,7 +3197,19 @@ async function searchPad(query) {
   } catch (err) {
     if (box) box.textContent = "没找到。";
     const idle = $("#padIdle");
+    const img = $("#padSprite");
     if (idle) idle.hidden = false;
+    if (img) {
+      img.hidden = true;
+      img.removeAttribute("src");
+    }
+    const device = $("#padDevice");
+    if (device) {
+      delete device.dataset.speech;
+      delete device.dataset.cry;
+    }
+    const cry = $("#padCry");
+    if (cry) cry.removeAttribute("src");
   }
 }
 
