@@ -9,7 +9,7 @@
   <title>Family Pokémon Cup</title>
   <link rel="manifest" href="/static/manifest.json" />
   <link rel="icon" href="/static/icon.svg" />
-  <link rel="stylesheet" href="/static/styles.css?v=rules-s60-1" />
+  <link rel="stylesheet" href="/static/styles.css?v=pad-1" />
 </head>
 <body>
   <a class="skip" href="#main">Skip to the arena</a>
@@ -79,24 +79,53 @@
     </section>
 
     <section id="view-cards">
-      <h2 class="screen-title">Cards</h2>
-      <p class="lede">Every card you own, from every set. Tap a card for details.</p>
-      <div id="cardsHost">
-        <div id="findPanel" class="panel">
-          <div class="row">
-            <div class="grow search-wrap">
-              <label for="addName">Find a card</label>
-              <input id="addName" placeholder="Pikachu, Nest Ball, Water Energy…" autocomplete="off" />
+      <h2 class="screen-title">Pad</h2>
+      <div class="pad-stage">
+        <div class="pad-device" id="padDevice" data-mode="pokemon">
+          <div class="pad-red">
+            <div class="pad-screen">
+              <div class="pad-glass" id="padGlass">
+                <div class="pad-idle" id="padIdle">
+                  <svg class="pad-pulse" viewBox="0 0 320 120" aria-hidden="true">
+                    <path d="M8 62 H108 L128 62 L148 28 L168 96 L188 62 H312" />
+                  </svg>
+                  <div class="pad-ball" aria-hidden="true"><i></i></div>
+                </div>
+                <img id="padSprite" alt="" hidden />
+              </div>
             </div>
-            <label class="scan-btn" for="findScan">Scan photo
-              <input id="findScan" type="file" accept="image/*,.heic,.HEIC" capture="environment" />
-            </label>
-            <button id="cancelReplace" class="ghost hidden" type="button">Cancel replace</button>
+            <button id="padSpeak" class="pad-play" type="button" aria-label="朗读"></button>
           </div>
-          <p id="findHint" class="tiny">Search or scan. A photo of several cards starts a new set.</p>
-          <div id="addHits" class="search-hits" hidden></div>
+          <div class="pad-white">
+            <div class="pad-modes" role="group" aria-label="Pad mode">
+              <button id="padModePokemon" type="button" data-pad-mode="pokemon" aria-pressed="true">Pokémon</button>
+              <button id="padModeCard" type="button" data-pad-mode="card" aria-pressed="false">Card</button>
+            </div>
+            <div id="padPokemon">
+              <label for="padQuery">Search</label>
+              <input id="padQuery" placeholder="皮卡丘, Pikachu, 25" autocomplete="off" />
+              <div id="padHits" class="pad-hits" hidden></div>
+              <div id="padReadout" class="pad-readout"></div>
+            </div>
+            <div id="cardsHost">
+              <div id="findPanel" class="panel">
+                <div class="row">
+                  <div class="grow search-wrap">
+                    <label for="addName">Find a card</label>
+                    <input id="addName" placeholder="Pikachu, Nest Ball, Water Energy…" autocomplete="off" />
+                  </div>
+                  <label class="scan-btn" for="findScan">Scan photo
+                    <input id="findScan" type="file" accept="image/*,.heic,.HEIC" capture="environment" />
+                  </label>
+                  <button id="cancelReplace" class="ghost hidden" type="button">Cancel replace</button>
+                </div>
+                <p id="findHint" class="tiny">Search or scan. A photo of several cards starts a new set.</p>
+                <div id="addHits" class="search-hits" hidden></div>
+              </div>
+              <div id="ownedGrid" class="grid"></div>
+            </div>
+          </div>
         </div>
-        <div id="ownedGrid" class="grid"></div>
       </div>
     </section>
 
@@ -171,7 +200,7 @@
   </main>
 
   <nav class="nav" aria-label="Main">
-    <button data-view="cards" class="active" type="button"><span class="nav-ico" aria-hidden="true">🔎</span><span>Cards</span></button>
+    <button data-view="cards" class="active" type="button"><span class="nav-ico" aria-hidden="true">🔎</span><span>Pad</span></button>
     <button data-view="decks" type="button"><span class="nav-ico" aria-hidden="true">🃏</span><span>Sets</span></button>
     <button data-view="fight" type="button"><span class="nav-ico" aria-hidden="true">⚡</span><span>Fight</span></button>
     <button data-view="lab" type="button"><span class="nav-ico" aria-hidden="true">🧪</span><span>Lab</span></button>
@@ -263,6 +292,6 @@
   <button id="cubLauncher" type="button" aria-expanded="false" aria-controls="agentPanel" title="Combo Cub">
     <img src="/static/cub.png" alt="Combo Cub" />
   </button>
-  <script src="/static/app.js?v=rules-s60-1"></script>
+  <script src="/static/app.js?v=pad-1"></script>
 </body>
 </html>
