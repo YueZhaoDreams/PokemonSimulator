@@ -1,6 +1,6 @@
 # Pad device shell
 
-Status: in_progress
+Status: in_review
 
 Epic: poke-pad
 
@@ -41,11 +41,11 @@ None.
 
 ## Acceptance Criteria
 
-- [ ] Nav and title say Pad. View ids for cards, decks, fight, and lab remain.
-- [ ] `#padDevice[data-mode="pokemon"]` shows the idle screen and hides `#cardsHost`.
-- [ ] `#padDevice[data-mode="card"]` shows `#cardsHost` with the existing finder.
-- [ ] CSS includes the red shell, white shell, idle ball, pulse, and a landscape rule for `.pad-device`.
-- [ ] `#padSpeak` accessible name is 朗读.
+- [x] Nav and title say Pad. View ids for cards, decks, fight, and lab remain.
+- [x] `#padDevice[data-mode="pokemon"]` shows the idle screen and hides `#cardsHost`.
+- [x] `#padDevice[data-mode="card"]` shows `#cardsHost` with the existing finder.
+- [x] CSS includes the red shell, white shell, idle ball, pulse, and a landscape rule for `.pad-device`.
+- [x] `#padSpeak` accessible name is 朗读.
 
 ## Validation Plan
 
