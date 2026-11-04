@@ -52,6 +52,9 @@ def test_pad_shell_css_matches_the_handheld():
     assert ".pad-idle[hidden]" in css
     assert "#padSprite[hidden]" in css
     assert ".pad-hits[hidden]" in css
+    assert ".pad-hits.pad-dex" in css
+    assert ".pad-hits.pad-dex[hidden]" in css
+    assert ".pad-back[hidden]" in css
     assert "(orientation: landscape)" in css
     assert "max-width: 700px" in css
     assert "(max-width: 700px) and (orientation: portrait)" in css

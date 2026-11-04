@@ -20,7 +20,15 @@ from app.auth import hash_password, normalize_email, valid_email, verify_passwor
 from app.catalog import PREFERRED_IDS, fill_missing_card_image, lookup_seed_card, resolve_name, search_local, fetch_full, normalize_card
 from app.pad import species as pad_species
 from app.pad.gallery import load_hashes, rank
-from app.pad.species import HttpxTransport, build_entry, parse_names, search_species, suggestion_row
+from app.pad.species import (
+    HttpxTransport,
+    build_entry,
+    catalog_rows,
+    load_name_index,
+    parse_names,
+    search_species,
+    suggestion_row,
+)
 from app.recognition.images import dhash, load_image
 from app.config import SAMPLES_DIR, SESSION_COOKIE, SESSION_DAYS, SESSION_SECURE, STATIC_DIR, UPLOADS_DIR
 from app.db import (
@@ -354,6 +362,13 @@ def api_delete_deck(deck_id: str, user: dict = Depends(require_user)) -> dict:
         raise HTTPException(400, "Starter sets cannot be deleted")
     delete_deck(deck_id)
     return {"ok": True}
+
+
+@app.get("/api/pad/dex")
+def api_pad_dex(_user: dict = Depends(require_user)) -> dict:
+    with HttpxTransport() as transport:
+        index = load_name_index(transport)
+    return {"results": catalog_rows(index)}
 
 
 @app.get("/api/pad/species")

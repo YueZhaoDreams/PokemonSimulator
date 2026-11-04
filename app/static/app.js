@@ -868,6 +868,7 @@ async function loadApp() {
   fillFight();
   renderUsers();
   show("cards");
+  showPadCatalog();
 }
 
 function renderUsers() {
@@ -3161,6 +3162,8 @@ function setPadMode(mode) {
     }
   } else if (query?.value.trim()) {
     searchPad(query.value);
+  } else if (!padEntry && !padListRows) {
+    showPadCatalog();
   }
 }
 
@@ -3168,6 +3171,9 @@ let padSpeaking = false;
 let padSeq = 0;
 let padEntry = null;
 let padListRows = null;
+let padBackRows = null;
+let padCatalog = null;
+let padScroll = 0;
 
 function stopPadSpeech() {
   if (window.speechSynthesis) speechSynthesis.cancel();
@@ -3178,6 +3184,7 @@ function clearPadScreen() {
   stopPadSpeech();
   padEntry = null;
   padListRows = null;
+  padBackRows = null;
   const glass = $("#padGlass");
   if (glass) glass.hidden = false;
   const idle = $("#padIdle");
@@ -3200,7 +3207,9 @@ function clearPadScreen() {
   if (hits) {
     hits.hidden = true;
     hits.innerHTML = "";
+    hits.classList.remove("pad-dex");
   }
+  paintPadBack(false);
 }
 
 function renderPadEntry(entry) {
@@ -3242,19 +3251,47 @@ function renderPadEntry(entry) {
     else cry.removeAttribute("src");
   }
   const hits = $("#padHits");
+  const scroller = $("#main");
+  if (scroller && hits && !hits.hidden) padScroll = scroller.scrollTop;
+  if (scroller) scroller.scrollTop = 0;
   if (hits) {
     hits.hidden = true;
     hits.innerHTML = "";
   }
+  paintPadBack(true);
 }
 
-function renderPadList(results) {
+function paintPadBack(show) {
+  const back = $("#padBack");
+  if (!back) return;
+  back.hidden = !show;
+  if (!show) return;
+  const en = padLang() === "en";
+  const fromList = padBackRows && padBackRows !== padCatalog;
+  back.textContent = fromList ? (en ? "Back" : "返回") : (en ? "Pokédex" : "图鉴");
+}
+
+function renderPadList(results, kind) {
   const hits = $("#padHits");
   if (!hits) return;
+  stopPadSpeech();
   padListRows = results || [];
+  padBackRows = padListRows;
   padEntry = null;
+  const device = $("#padDevice");
+  if (device) {
+    delete device.dataset.speech;
+    delete device.dataset.cry;
+  }
+  const cry = $("#padCry");
+  if (cry) cry.removeAttribute("src");
+  const dex = kind === "dex";
+  hits.classList.toggle("pad-dex", dex);
   const glass = $("#padGlass");
   if (glass) glass.hidden = true;
+  paintPadBack(false);
+  const box = $("#padReadout");
+  if (box) box.innerHTML = "";
   hits.hidden = false;
   const en = padLang() === "en";
   hits.innerHTML = (results || []).map((row) => {
@@ -3262,12 +3299,52 @@ function renderPadList(results) {
     const secondary = en
       ? (row.name && row.name !== primary ? row.name : "")
       : (row.name_en && row.name_en !== primary ? row.name_en : "");
-    const thumb = row.thumb_url ? `<img src="${esc(row.thumb_url)}" alt="" />` : "";
-    return `<button type="button" class="pad-hit" data-pad-id="${esc(row.id)}">${thumb}<span><b>${esc(primary)}</b><small>${esc(secondary)}</small></span></button>`;
+    const thumb = row.thumb_url
+      ? `<img src="${esc(row.thumb_url)}" alt="" loading="lazy" decoding="async" />`
+      : "";
+    const label = dex
+      ? `<b>#${esc(String(row.id).padStart(4, "0"))}</b><small>${esc(primary)}</small>`
+      : `<b>${esc(primary)}</b><small>${esc(secondary)}</small>`;
+    return `<button type="button" class="pad-hit" data-pad-id="${esc(row.id)}">${thumb}<span>${label}</span></button>`;
   }).join("");
   hits.querySelectorAll("[data-pad-id]").forEach((b) => {
     b.onclick = () => openPadId(b.dataset.padId);
   });
+  const scroller = $("#main");
+  if (scroller) scroller.scrollTop = 0;
+}
+
+function showPadCatalog() {
+  if ($("#padDevice")?.dataset.mode === "card") return;
+  if ($("#padQuery")?.value.trim()) return;
+  const seq = ++padSeq;
+  if (padCatalog) {
+    renderPadList(padCatalog, "dex");
+    return;
+  }
+  clearPadScreen();
+  api("/api/pad/dex").then((data) => {
+    if (seq !== padSeq) return;
+    if ($("#padQuery")?.value.trim() || $("#padDevice")?.dataset.mode === "card") return;
+    padCatalog = data.results || [];
+    renderPadList(padCatalog, "dex");
+  }).catch(() => {
+    if (seq !== padSeq) return;
+  });
+}
+
+function backPad() {
+  const y = padScroll;
+  const query = $("#padQuery");
+  const fromList = padBackRows && padBackRows !== padCatalog;
+  if (fromList) {
+    renderPadList(padBackRows);
+  } else {
+    if (query) query.value = "";
+    showPadCatalog();
+  }
+  const scroller = $("#main");
+  if (scroller) scroller.scrollTop = y;
 }
 
 async function openPadId(id) {
@@ -3290,18 +3367,21 @@ async function openPadId(id) {
 
 async function searchPad(query) {
   const text = (query || "").trim();
-  const seq = ++padSeq;
   if (!text) {
-    clearPadScreen();
+    showPadCatalog();
     return;
   }
+  const seq = ++padSeq;
   try {
     const data = await api(`/api/pad/species?q=${encodeURIComponent(text)}`);
     if (seq !== padSeq) return;
     if (data.match === "many") {
       clearPadScreen();
       renderPadList(data.results);
-    } else renderPadEntry(data.entry);
+    } else {
+      padBackRows = null;
+      renderPadEntry(data.entry);
+    }
   } catch (err) {
     if (seq !== padSeq) return;
     clearPadScreen();
@@ -3350,13 +3430,16 @@ $("#padQuery")?.addEventListener("keydown", (e) => {
   $("#addCard")?.click();
 });
 $("#padSpeak")?.addEventListener("click", togglePadSpeech);
+$("#padBack")?.addEventListener("click", backPad);
 const padLangSelect = $("#padLang");
 if (padLangSelect) {
   padLangSelect.value = padLang();
   padLangSelect.addEventListener("change", () => {
     try { localStorage.setItem(PAD_LANG_STORE, padLangSelect.value === "en" ? "en" : "zh-hans"); } catch { /* private mode */ }
+    const y = $("#main")?.scrollTop || 0;
     if (padEntry) renderPadEntry(padEntry);
-    else if (padListRows) renderPadList(padListRows);
+    else if (padListRows) renderPadList(padListRows, $("#padHits")?.classList.contains("pad-dex") ? "dex" : "");
+    if (!padEntry && $("#main")) $("#main").scrollTop = y;
   });
 }
 
@@ -3373,6 +3456,7 @@ async function searchPadPhoto(file) {
       return;
     }
     if (data.match === "one" && data.entry) {
+      padBackRows = null;
       renderPadEntry(data.entry);
       return;
     }
