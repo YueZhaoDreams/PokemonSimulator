@@ -19,6 +19,10 @@ def test_pad_shell_is_the_cards_screen():
     assert 'class="pad-portrait"' in cards
     assert 'class="pad-toolbar"' in cards
     assert 'data-mode="pokemon"' in cards
+    assert 'class="pad-search"' in cards
+    assert 'id="padCamera"' in cards
+    assert 'aria-label="Pokémon"' in cards
+    assert 'aria-label="Card"' in cards
     assert 'id="padSpeak"' in cards
     assert 'aria-label="朗读"' in cards
     assert 'id="padIdle"' in cards
@@ -50,6 +54,8 @@ def test_pad_shell_css_matches_the_handheld():
     assert ".pad-hits[hidden]" in css
     assert "(orientation: landscape)" in css
     assert "max-width: 700px" in css
+    assert "(max-width: 700px) and (orientation: portrait)" in css
+    assert "grid-template-columns: minmax(0, 1fr)" in css
     assert '.pad-device[data-mode="pokemon"] #cardsHost' in css
     assert '.pad-device[data-mode="card"] #padPokemon' in css
 
@@ -59,3 +65,5 @@ def test_pad_mode_toggle_uses_the_device():
     assert "function setPadMode" in js
     assert "parkCardsPanel" in js
     assert 'dataset.mode' in js
+    assert 'cardMode ? "#findScan" : "#padPhoto"' in js
+    assert 'query.placeholder = next === "card"' in js

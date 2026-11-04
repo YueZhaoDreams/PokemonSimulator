@@ -180,8 +180,8 @@ def test_index_keeps_combo_cub_controls():
     assert "Talk 语音" not in html
     assert 'id="cubLauncher"' in html
     assert 'src="/static/cub.png"' in html
-    assert 'href="/static/styles.css?v=pad-7"' in html
-    assert 'src="/static/app.js?v=pad-7"' in html
+    assert 'href="/static/styles.css?v=pad-9"' in html
+    assert 'src="/static/app.js?v=pad-9"' in html
     assert 'id="padLang"' in html
     assert "<strong>Combo Cub</strong>" in html
     assert 'title="Combo Cub"' in html

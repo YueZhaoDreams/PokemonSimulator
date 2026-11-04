@@ -3146,9 +3146,21 @@ function setPadMode(mode) {
   device.dataset.mode = next;
   $("#padModePokemon")?.setAttribute("aria-pressed", next === "pokemon" ? "true" : "false");
   $("#padModeCard")?.setAttribute("aria-pressed", next === "card" ? "true" : "false");
+  const query = $("#padQuery");
+  if (query) {
+    query.placeholder = next === "card" ? "Pikachu, Nest Ball, Water Energy…" : "皮卡丘, Pikachu, 25";
+  }
+  $("#padCamera")?.setAttribute("aria-label", next === "card" ? "Scan photo" : "Photo");
   if (next === "card") {
     parkCardsPanel($("#cardsHost"));
     renderCollection();
+    const card = $("#addName");
+    if (query && card && card.value !== query.value) {
+      card.value = query.value;
+      card.dispatchEvent(new Event("input", { bubbles: true }));
+    }
+  } else if (query?.value.trim()) {
+    searchPad(query.value);
   }
 }
 
@@ -3322,7 +3334,20 @@ let padTimer = 0;
 $("#padQuery")?.addEventListener("input", () => {
   clearTimeout(padTimer);
   const value = $("#padQuery").value;
+  if ($("#padDevice")?.dataset.mode === "card") {
+    const card = $("#addName");
+    if (card && card.value !== value) {
+      card.value = value;
+      card.dispatchEvent(new Event("input", { bubbles: true }));
+    }
+    return;
+  }
   padTimer = setTimeout(() => searchPad(value), 250);
+});
+$("#padQuery")?.addEventListener("keydown", (e) => {
+  if ($("#padDevice")?.dataset.mode !== "card" || e.key !== "Enter") return;
+  e.preventDefault();
+  $("#addCard")?.click();
 });
 $("#padSpeak")?.addEventListener("click", togglePadSpeech);
 const padLangSelect = $("#padLang");
@@ -3367,6 +3392,10 @@ $("#padPhoto")?.addEventListener("change", async (e) => {
   e.target.value = "";
   if (!file) return;
   await searchPadPhoto(file);
+});
+$("#padCamera")?.addEventListener("click", () => {
+  const cardMode = $("#padDevice")?.dataset.mode === "card";
+  $(cardMode ? "#findScan" : "#padPhoto")?.click();
 });
 
 $$("[data-pad-mode]").forEach((b) => {
