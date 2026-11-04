@@ -799,24 +799,69 @@ body.shiny .brand img { animation: spin 4s linear infinite; }
   position: sticky;
   top: 0;
   z-index: 3;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  gap: 8px;
   padding: 10px 12px;
   background: linear-gradient(#f4ffc8, #e7f7a8);
 }
-.pad-toolbar .grow { flex: 1 0 100%; min-width: 0; }
-#padPokemon, #cardsHost { padding: 0 12px 16px; }
-#padQuery { font-size: 16px; }
-.pad-toolbar label { color: #245033; }
-.pad-play {
-  width: 52px;
-  height: 52px;
+.pad-search {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+  min-height: 56px;
+  padding: 4px 6px 4px 4px;
+  border-radius: 999px;
+  background: #fff;
+  border: 3px solid #d7e4c8;
+  box-shadow: 0 4px 0 rgba(30, 90, 40, 0.12);
+}
+.pad-search #padQuery {
+  flex: 1;
+  width: auto;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  color: #17321c;
+  box-shadow: none;
+  padding: 8px 6px;
+  font-size: 16px;
+}
+.pad-modes { display: flex; gap: 2px; flex: 0 0 auto; }
+.pad-modes button,
+.pad-camera {
+  width: 44px;
+  height: 44px;
+  padding: 5px;
   border-radius: 50%;
-  border: 3px solid #d7e0ea;
+  background: transparent;
+  color: #245033;
+  box-shadow: none;
+  border: 0;
+  flex: 0 0 auto;
+}
+.pad-modes button[aria-pressed="true"] {
+  background: #fff4f2;
+  box-shadow: inset 0 0 0 2px #e2231a;
+}
+.pad-modes svg,
+.pad-camera svg { width: 100%; height: 100%; display: block; }
+.pad-file {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+#padPokemon, #cardsHost { padding: 0 12px 16px; }
+.pad-play {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid #d7e0ea;
   background: radial-gradient(circle at 40% 35%, #ffffff, #d5deea 70%);
-  box-shadow: 0 4px 0 rgba(90, 16, 16, 0.25);
+  box-shadow: none;
   display: grid;
   place-items: center;
   padding: 0;
@@ -832,14 +877,6 @@ body.shiny .brand img { animation: spin 4s linear infinite; }
   border-width: 10px 0 10px 16px;
   border-color: transparent transparent transparent #243044;
 }
-.pad-modes { display: flex; gap: 8px; }
-.pad-modes button {
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.8);
-  color: #1b2838;
-  padding: 10px 12px;
-}
-.pad-modes button[aria-pressed="true"] { background: #e2231a; color: white; }
 .pad-portrait {
   position: relative;
   width: min(280px, 72%);
@@ -931,17 +968,53 @@ body.shiny .brand img { animation: spin 4s linear infinite; }
 }
 .pad-hit small { display: block; color: #3d5c46; font-weight: 700; }
 .pad-device[data-mode="pokemon"] #cardsHost { display: none; }
-.pad-device[data-mode="card"] .pad-toolbar .grow,
-.pad-device[data-mode="card"] .pad-toolbar .scan-btn,
-.pad-device[data-mode="card"] .pad-toolbar .pad-play,
+.pad-device[data-mode="card"] #padSpeak,
 .pad-device[data-mode="card"] #padPokemon { display: none; }
-#view-cards #findPanel { position: sticky; top: 56px; z-index: 2; }
+#cardsHost #findPanel {
+  position: relative;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  padding: 0;
+  margin: 0;
+}
+#cardsHost #findHint { display: none; }
+#cardsHost #findPanel > .row {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+}
+#view-cards #findPanel { position: sticky; top: 64px; z-index: 2; }
 @media (orientation: landscape) {
   .pad-portrait { width: min(240px, 42vh); }
 }
 @media (max-width: 700px) {
-  .pad-modes { width: 100%; }
   .pad-portrait { width: min(220px, 68vw); }
+}
+@media (max-width: 700px) and (orientation: portrait) {
+  .app-shell {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr) auto;
+  }
+  .wrap { grid-column: 1; grid-row: 2; margin: 0; }
+  .nav {
+    grid-column: 1;
+    grid-row: 3;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 8px 10px;
+    background: #f7f4ef;
+    border-top: 3px solid #e7eef6;
+    overflow: visible;
+  }
+  .nav button { flex: 1; max-width: 92px; }
+  .shell-chin { display: none; }
+  #cubLauncher { bottom: calc(86px + var(--safe-bottom)); }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

@@ -9,7 +9,7 @@
   <title>Family Pokémon Cup</title>
   <link rel="manifest" href="/static/manifest.json" />
   <link rel="icon" href="/static/icon.svg" />
-  <link rel="stylesheet" href="/static/styles.css?v=pad-7" />
+  <link rel="stylesheet" href="/static/styles.css?v=pad-9" />
 </head>
 <body>
   <a class="skip" href="#main">Skip to the arena</a>
@@ -90,16 +90,43 @@
       <div class="pad-stage">
         <div class="pad-device" id="padDevice" data-mode="pokemon">
           <div class="pad-toolbar">
-            <label class="grow" for="padQuery">Search
-              <input id="padQuery" placeholder="皮卡丘, Pikachu, 25" autocomplete="off" enterkeyhint="search" />
-            </label>
-            <label class="scan-btn" for="padPhoto">Photo
-              <input id="padPhoto" type="file" accept="image/*,.heic,.HEIC" capture="environment" />
-            </label>
-            <button id="padSpeak" class="pad-play" type="button" aria-label="朗读"></button>
-            <div class="pad-modes" role="group" aria-label="Pad mode">
-              <button id="padModePokemon" type="button" data-pad-mode="pokemon" aria-pressed="true">Pokémon</button>
-              <button id="padModeCard" type="button" data-pad-mode="card" aria-pressed="false">Card</button>
+            <div class="pad-search">
+              <div class="pad-modes" role="group" aria-label="Pad mode">
+                <button id="padModePokemon" type="button" data-pad-mode="pokemon" aria-pressed="true" aria-label="Pokémon">
+                  <svg viewBox="0 0 64 64" aria-hidden="true">
+                    <path fill="#1b2838" d="M18 24 L11 6 L28 20 Z"/>
+                    <path fill="#f6c414" d="M20 22 L16 10 L27 20 Z"/>
+                    <path fill="#1b2838" d="M46 24 L53 6 L36 20 Z"/>
+                    <path fill="#f6c414" d="M44 22 L48 10 L37 20 Z"/>
+                    <circle cx="32" cy="36" r="18" fill="#f6c414"/>
+                    <circle cx="22" cy="40" r="4.2" fill="#e2231a"/>
+                    <circle cx="42" cy="40" r="4.2" fill="#e2231a"/>
+                    <circle cx="26" cy="33" r="2.3" fill="#1b2838"/>
+                    <circle cx="38" cy="33" r="2.3" fill="#1b2838"/>
+                    <path d="M27 44 Q32 49 37 44" fill="none" stroke="#1b2838" stroke-width="2" stroke-linecap="round"/>
+                  </svg>
+                </button>
+                <button id="padModeCard" type="button" data-pad-mode="card" aria-pressed="false" aria-label="Card">
+                  <svg viewBox="0 0 64 64" aria-hidden="true">
+                    <rect x="16" y="8" width="32" height="48" rx="5" fill="#1d4e9f" stroke="#f4f7fb" stroke-width="2"/>
+                    <circle cx="32" cy="32" r="11" fill="#e2231a"/>
+                    <rect x="21" y="32" width="22" height="12" fill="#f7f4ef"/>
+                    <rect x="21" y="30" width="22" height="4" fill="#1b2838"/>
+                    <circle cx="32" cy="32" r="3.2" fill="#f7f4ef" stroke="#1b2838" stroke-width="1.6"/>
+                  </svg>
+                </button>
+              </div>
+              <input id="padQuery" aria-label="Search" placeholder="皮卡丘, Pikachu, 25" autocomplete="off" enterkeyhint="search" />
+              <button id="padCamera" class="pad-camera" type="button" aria-label="Photo">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M9 7.2 10.4 5h3.2L15 7.2H18a2 2 0 0 1 2 2V17a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V9.2a2 2 0 0 1 2-2Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                  <circle cx="12" cy="12.2" r="3.1" fill="none" stroke="currentColor" stroke-width="1.8"/>
+                </svg>
+              </button>
+              <button id="padSpeak" class="pad-play" type="button" aria-label="朗读"></button>
+              <label class="pad-file" for="padPhoto">Photo
+                <input id="padPhoto" type="file" accept="image/*,.heic,.HEIC" capture="environment" />
+              </label>
             </div>
           </div>
           <div id="padPokemon">
@@ -301,6 +328,6 @@
   <button id="cubLauncher" type="button" aria-expanded="false" aria-controls="agentPanel" title="Combo Cub">
     <img src="/static/cub.png" alt="Combo Cub" />
   </button>
-  <script src="/static/app.js?v=pad-7"></script>
+  <script src="/static/app.js?v=pad-9"></script>
 </body>
 </html>
