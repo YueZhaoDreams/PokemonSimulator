@@ -6,7 +6,15 @@ from PIL import Image
 
 from app.config import ADMIN_EMAIL, ADMIN_PASSWORD, STATIC_DIR
 from app.main import app
-from app.pad.species import HttpxTransport, USER_AGENT, search_species, speech_text
+from app.pad.species import (
+    HttpxTransport,
+    USER_AGENT,
+    artwork_thumb,
+    catalog_rows,
+    search_species,
+    speech_text,
+    sprite_thumb,
+)
 from fastapi.testclient import TestClient
 
 POKE = "https://pokeapi.co/api/v2"
@@ -200,6 +208,16 @@ def test_transport_sends_user_agent():
     assert "ComboCubFamilyPad" in seen["ua"]
 
 
+def test_catalog_rows_follow_national_number():
+    rows = catalog_rows(_names())
+    assert [row["id"] for row in rows] == [1, 25, 152]
+    assert rows[1]["name"] == "皮卡丘"
+    assert rows[1]["name_en"] == "Pikachu"
+    assert rows[1]["thumb_url"] == sprite_thumb(25)
+    assert "official-artwork" not in rows[1]["thumb_url"]
+    assert artwork_thumb(25).endswith("/official-artwork/25.png")
+
+
 def test_pad_speech_uses_chinese_voice():
     js = (STATIC_DIR / "app.js").read_text(encoding="utf-8")
     assert "function togglePadSpeech" in js
@@ -219,6 +237,12 @@ def test_pad_speech_uses_chinese_voice():
     assert 'id="padLang"' in html
     assert 'id="padCry"' in html
     assert 'id="padSpeak"' in html
+    assert 'id="padBack"' in html
+    assert "/api/pad/dex" in js
+    assert "function showPadCatalog" in js
+    assert "pad-dex" in js
+    search = js[js.index("async function searchPad") : js.index("function togglePadSpeech")]
+    assert "showPadCatalog()" in search
 
 
 def test_pad_species_route(tmp_path, monkeypatch):
@@ -244,6 +268,25 @@ def test_pad_species_route(tmp_path, monkeypatch):
         hit = client.get("/api/pad/species", params={"q": "皮卡丘"})
         assert hit.status_code == 200
         assert hit.json()["entry"]["id"] == 25
+
+
+def test_pad_dex_lists_species_by_number(tmp_path, monkeypatch):
+    monkeypatch.setattr("app.db.DB_PATH", tmp_path / "app.db")
+
+    async def _noop():
+        return None
+
+    monkeypatch.setattr("app.main.start_cursor_runtime", _noop)
+    monkeypatch.setattr("app.main.stop_cursor_runtime", _noop)
+    monkeypatch.setattr("app.main.load_name_index", lambda _transport: _names())
+    with TestClient(app) as client:
+        client.post("/api/auth/login", json={"email": ADMIN_EMAIL, "password": ADMIN_PASSWORD})
+        res = client.get("/api/pad/dex")
+        assert res.status_code == 200
+        body = res.json()
+        assert [row["id"] for row in body["results"]] == [1, 25, 152]
+        assert body["results"][1]["name"] == "皮卡丘"
+        assert body["results"][1]["thumb_url"].endswith("/sprites/pokemon/25.png")
 
 
 def test_species_id_route_is_404_when_missing(tmp_path, monkeypatch):

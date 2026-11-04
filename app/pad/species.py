@@ -152,6 +152,14 @@ def artwork_thumb(species_id: int) -> str:
     )
 
 
+def sprite_thumb(species_id: int) -> str:
+    """Small sprite for the numbered index. Official art stays on the opened entry."""
+    return (
+        "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/"
+        f"{int(species_id)}.png"
+    )
+
+
 def _edit_distance(left: str, right: str, limit: int) -> int:
     if abs(len(left) - len(right)) > limit:
         return limit + 1
@@ -295,6 +303,15 @@ def suggestion_row(species_id: int, names: dict[tuple[int, str], str]) -> dict:
         "name_en": names.get((species_id, "en")) or "",
         "thumb_url": artwork_thumb(species_id),
     }
+
+
+def catalog_rows(names: dict[tuple[int, str], str]) -> list[dict]:
+    rows = []
+    for species_id in sorted({species_id for species_id, _lang in names}):
+        row = suggestion_row(species_id, names)
+        row["thumb_url"] = sprite_thumb(species_id)
+        rows.append(row)
+    return rows
 
 
 def search_species(
