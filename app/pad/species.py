@@ -90,18 +90,38 @@ def _localized(rows: list[dict], key: str, language: str = "zh-hans") -> str:
     return ""
 
 
-def flavor_line(species: dict) -> str:
+def flavor_line(species: dict, language: str = "zh-hans") -> str:
     hits = [
         row
         for row in species.get("flavor_text_entries") or []
-        if str((row.get("language") or {}).get("name") or "").lower() == "zh-hans"
+        if str((row.get("language") or {}).get("name") or "").lower() == language
     ]
     if not hits:
         return ""
     return clean_text(str(hits[-1].get("flavor_text") or ""))
 
 
-def speech_text(entry: dict) -> str:
+def speech_text(entry: dict, language: str = "zh-hans") -> str:
+    if language == "en":
+        name = entry.get("name_en") or ""
+        category = entry.get("category_en") or ""
+        flavor = entry.get("flavor_en") or ""
+        if flavor:
+            head = f"{name}, {category}. " if category else f"{name}. "
+            return head + flavor
+        parts = [part for part in (name, category) if part]
+        sentence = ", ".join(parts) + "." if parts else ""
+        extras = []
+        types = ", ".join(entry.get("types_en") or [])
+        if types:
+            extras.append(f"Type {types}")
+        if entry.get("height_m") is not None:
+            extras.append(f"{entry['height_m']} m")
+        if entry.get("weight_kg") is not None:
+            extras.append(f"{entry['weight_kg']} kg")
+        if extras:
+            sentence += " " + ". ".join(extras) + "."
+        return sentence
     name = entry.get("name") or ""
     category = entry.get("category") or ""
     flavor = entry.get("flavor") or ""
@@ -125,6 +145,39 @@ def speech_text(entry: dict) -> str:
     return sentence
 
 
+def artwork_thumb(species_id: int) -> str:
+    return (
+        "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/"
+        f"{int(species_id)}.png"
+    )
+
+
+def _edit_distance(left: str, right: str, limit: int) -> int:
+    if abs(len(left) - len(right)) > limit:
+        return limit + 1
+    previous = list(range(len(right) + 1))
+    for i, char_left in enumerate(left, 1):
+        current = [i]
+        best = limit + 1
+        for j, char_right in enumerate(right, 1):
+            cost = 0 if char_left == char_right else 1
+            current.append(min(current[-1] + 1, previous[j] + 1, previous[j - 1] + cost))
+            best = min(best, current[-1])
+        if best > limit:
+            return limit + 1
+        previous = current
+    return previous[-1]
+
+
+def _fuzzy_limit(text: str) -> int:
+    length = len(text)
+    if length < 2:
+        return 0
+    if length <= 4:
+        return 1
+    return 2
+
+
 def find_ids(query: str, names: dict[tuple[int, str], str]) -> list[int]:
     text = query.strip()
     if not text:
@@ -134,31 +187,49 @@ def find_ids(query: str, names: dict[tuple[int, str], str]) -> list[int]:
         known = {species_id for species_id, _lang in names}
         return [number] if number in known else []
     folded = text.casefold()
-    exact: list[int] = []
-    partial: list[int] = []
+    limit = _fuzzy_limit(folded)
+    best: dict[int, int] = {}
     for (species_id, _lang), name in names.items():
         label = name.casefold()
         if label == folded:
-            exact.append(species_id)
-        elif folded in label:
-            partial.append(species_id)
-    chosen = exact or partial
-    seen: list[int] = []
-    for species_id in chosen:
-        if species_id not in seen:
-            seen.append(species_id)
-    return seen[:8]
+            rank = 0
+        elif folded in label or label in folded:
+            rank = 1
+        elif limit:
+            distance = _edit_distance(folded, label, limit)
+            if distance > limit:
+                continue
+            rank = 1 + distance
+        else:
+            continue
+        previous = best.get(species_id)
+        if previous is None or rank < previous:
+            best[species_id] = rank
+    if not best:
+        return []
+    if any(rank == 0 for rank in best.values()):
+        chosen = [species_id for species_id, rank in best.items() if rank == 0]
+    elif any(rank == 1 for rank in best.values()):
+        chosen = [species_id for species_id, rank in best.items() if rank == 1]
+    else:
+        nearest = min(best.values())
+        chosen = [species_id for species_id, rank in best.items() if rank == nearest]
+    chosen.sort(key=lambda species_id: (best[species_id], species_id))
+    return chosen[:8]
 
 
-def _named(transport: HttpxTransport, url: str) -> str:
+def _labels(transport: HttpxTransport, url: str) -> tuple[str, str]:
     payload = transport.get_json(url)
-    return _localized(payload.get("names") or [], "name")
+    rows = payload.get("names") or []
+    return _localized(rows, "name", "zh-hans"), _localized(rows, "name", "en")
 
 
 def build_entry(species_id: int, transport: HttpxTransport, cache_dir: Path = CACHE) -> dict:
     cached = cache_dir / f"{species_id}.json"
     if cached.exists():
-        return json.loads(cached.read_text(encoding="utf-8"))
+        stored = json.loads(cached.read_text(encoding="utf-8"))
+        if "name_en" in stored and "speech_en" in stored:
+            return stored
     try:
         species = transport.get_json(f"{POKEAPI}/pokemon-species/{species_id}/")
         pokemon = transport.get_json(f"{POKEAPI}/pokemon/{species_id}/")
@@ -168,29 +239,41 @@ def build_entry(species_id: int, transport: HttpxTransport, cache_dir: Path = CA
     artwork = ((sprites.get("official-artwork") or {}).get("front_default")) or ""
     animation = ((sprites.get("showdown") or {}).get("front_default")) or ""
     types = []
+    types_en = []
     for row in pokemon.get("types") or []:
-        label = _named(transport, row["type"]["url"])
+        label, label_en = _labels(transport, row["type"]["url"])
         if label:
             types.append(label)
+        if label_en:
+            types_en.append(label_en)
     abilities = []
+    abilities_en = []
     for row in pokemon.get("abilities") or []:
-        label = _named(transport, row["ability"]["url"])
+        label, label_en = _labels(transport, row["ability"]["url"])
         if label:
             abilities.append(label)
+        if label_en:
+            abilities_en.append(label_en)
     entry = {
         "id": species_id,
         "name": _localized(species.get("names") or [], "name") or str(species.get("name") or species_id),
+        "name_en": _localized(species.get("names") or [], "name", "en"),
         "types": types,
+        "types_en": types_en,
         "category": _localized(species.get("genera") or [], "genus"),
+        "category_en": _localized(species.get("genera") or [], "genus", "en"),
         "abilities": abilities,
+        "abilities_en": abilities_en,
         "height_m": round(int(pokemon.get("height") or 0) / 10, 1),
         "weight_kg": round(int(pokemon.get("weight") or 0) / 10, 1),
         "flavor": flavor_line(species),
+        "flavor_en": flavor_line(species, "en"),
         "artwork_url": artwork,
         "animation_url": animation,
         "cry_url": (pokemon.get("cries") or {}).get("latest") or "",
     }
     entry["speech_text"] = speech_text(entry)
+    entry["speech_en"] = speech_text(entry, "en")
     cache_dir.mkdir(parents=True, exist_ok=True)
     cached.write_text(json.dumps(entry, ensure_ascii=False), encoding="utf-8")
     if artwork:
@@ -203,6 +286,15 @@ def build_entry(species_id: int, transport: HttpxTransport, cache_dir: Path = CA
 
 def display_name(species_id: int, names: dict[tuple[int, str], str]) -> str:
     return names.get((species_id, "zh-hans")) or names.get((species_id, "en")) or str(species_id)
+
+
+def suggestion_row(species_id: int, names: dict[tuple[int, str], str]) -> dict:
+    return {
+        "id": species_id,
+        "name": display_name(species_id, names),
+        "name_en": names.get((species_id, "en")) or "",
+        "thumb_url": artwork_thumb(species_id),
+    }
 
 
 def search_species(
@@ -228,6 +320,6 @@ def _search_species(query, transport, names, cache_dir: Path) -> dict:
     if len(found) > 1:
         return {
             "match": "many",
-            "results": [{"id": species_id, "name": display_name(species_id, index)} for species_id in found],
+            "results": [suggestion_row(species_id, index) for species_id in found],
         }
     return {"match": "one", "entry": build_entry(found[0], transport, cache_dir)}

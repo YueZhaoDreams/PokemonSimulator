@@ -3,6 +3,7 @@ const $$ = (sel) => [...document.querySelectorAll(sel)];
 let state = { decks: [], strategies: [], rulePresets: [], scanCards: [], scanCrops: [], chatId: null, history: [], chatMode: "list", chatLang: "zh", chatOpened: false, rules: null, user: null, users: [] };
 const CHAT_STORE = "family-cup-chat-id";
 const SFX_STORE = "family-cup-sfx";
+const PAD_LANG_STORE = "family-cup-lang";
 const SHINY_STORE = "family-cup-shiny";
 const REDUCE = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -3111,6 +3112,33 @@ document.addEventListener("keydown", (e) => {
   if (map[e.key]) show(map[e.key]);
 });
 
+function padLang() {
+  try {
+    return localStorage.getItem(PAD_LANG_STORE) === "en" ? "en" : "zh-hans";
+  } catch {
+    return "zh-hans";
+  }
+}
+
+function padList(preferred, fallback) {
+  return preferred && preferred.length ? preferred : (fallback || []);
+}
+
+function padFields(entry) {
+  const en = padLang() === "en";
+  return {
+    name: en ? (entry.name_en || entry.name || "") : (entry.name || entry.name_en || ""),
+    other: en
+      ? (entry.name && entry.name !== (entry.name_en || entry.name) ? entry.name : "")
+      : (entry.name_en && entry.name_en !== (entry.name || entry.name_en) ? entry.name_en : ""),
+    category: en ? (entry.category_en || entry.category || "") : (entry.category || ""),
+    flavor: en ? (entry.flavor_en || "") : (entry.flavor || ""),
+    types: padList(en ? entry.types_en : entry.types, entry.types),
+    abilities: padList(en ? entry.abilities_en : entry.abilities, entry.abilities),
+    speech: en ? (entry.speech_en || entry.speech_text || "") : (entry.speech_text || ""),
+  };
+}
+
 function setPadMode(mode) {
   const device = $("#padDevice");
   if (!device) return;
@@ -3126,6 +3154,8 @@ function setPadMode(mode) {
 
 let padSpeaking = false;
 let padSeq = 0;
+let padEntry = null;
+let padListRows = null;
 
 function stopPadSpeech() {
   if (window.speechSynthesis) speechSynthesis.cancel();
@@ -3134,6 +3164,10 @@ function stopPadSpeech() {
 
 function clearPadScreen() {
   stopPadSpeech();
+  padEntry = null;
+  padListRows = null;
+  const glass = $("#padGlass");
+  if (glass) glass.hidden = false;
   const idle = $("#padIdle");
   const img = $("#padSprite");
   if (idle) idle.hidden = false;
@@ -3159,27 +3193,35 @@ function clearPadScreen() {
 
 function renderPadEntry(entry) {
   if (!entry) return;
+  padEntry = entry;
+  padListRows = null;
   stopPadSpeech();
+  const fields = padFields(entry);
+  const glass = $("#padGlass");
+  if (glass) glass.hidden = false;
   const idle = $("#padIdle");
   const img = $("#padSprite");
   if (idle) idle.hidden = true;
   if (img) {
     img.hidden = false;
-    img.alt = entry.name || "";
-    img.src = entry.animation_url || entry.artwork_url || "";
+    img.alt = fields.name || "";
+    img.src = entry.artwork_url || entry.animation_url || "";
   }
   const box = $("#padReadout");
   if (box) {
-    const types = (entry.types || []).join("、");
-    const abilities = (entry.abilities || []).join("、");
-    box.innerHTML = `<b>#${esc(entry.id)} ${esc(entry.name || "")}</b>
-      <p>${esc(types)} ${esc(entry.category || "")}</p>
+    const sep = padLang() === "en" ? ", " : "、";
+    const types = (fields.types || []).join(sep);
+    const abilities = (fields.abilities || []).join(sep);
+    const other = fields.other ? `<p>${esc(fields.other)}</p>` : "";
+    box.innerHTML = `<b>#${esc(entry.id)} ${esc(fields.name || "")}</b>
+      ${other}
+      <p>${esc(types)} ${esc(fields.category || "")}</p>
       <p>${esc(entry.height_m)} m · ${esc(entry.weight_kg)} kg · ${esc(abilities)}</p>
-      <p>${esc(entry.flavor || "")}</p>`;
+      <p>${esc(fields.flavor || "")}</p>`;
   }
   const device = $("#padDevice");
   if (device) {
-    device.dataset.speech = entry.speech_text || "";
+    device.dataset.speech = fields.speech || "";
     device.dataset.cry = entry.cry_url || "";
   }
   const cry = $("#padCry");
@@ -3197,10 +3239,20 @@ function renderPadEntry(entry) {
 function renderPadList(results) {
   const hits = $("#padHits");
   if (!hits) return;
+  padListRows = results || [];
+  padEntry = null;
+  const glass = $("#padGlass");
+  if (glass) glass.hidden = true;
   hits.hidden = false;
-  hits.innerHTML = (results || []).map((row) =>
-    `<button type="button" data-pad-id="${esc(row.id)}">${esc(row.name || row.id)}</button>`
-  ).join("");
+  const en = padLang() === "en";
+  hits.innerHTML = (results || []).map((row) => {
+    const primary = en ? (row.name_en || row.name || row.id) : (row.name || row.name_en || row.id);
+    const secondary = en
+      ? (row.name && row.name !== primary ? row.name : "")
+      : (row.name_en && row.name_en !== primary ? row.name_en : "");
+    const thumb = row.thumb_url ? `<img src="${esc(row.thumb_url)}" alt="" />` : "";
+    return `<button type="button" class="pad-hit" data-pad-id="${esc(row.id)}">${thumb}<span><b>${esc(primary)}</b><small>${esc(secondary)}</small></span></button>`;
+  }).join("");
   hits.querySelectorAll("[data-pad-id]").forEach((b) => {
     b.onclick = () => openPadId(b.dataset.padId);
   });
@@ -3257,6 +3309,7 @@ function togglePadSpeech() {
   if (!text) return;
   const utter = new SpeechSynthesisUtterance(text);
   utter.lang = "zh-CN";
+  if (padLang() === "en") utter.lang = "en-US";
   utter.onend = () => { padSpeaking = false; };
   padSpeaking = true;
   speechSynthesis.cancel();
@@ -3272,6 +3325,15 @@ $("#padQuery")?.addEventListener("input", () => {
   padTimer = setTimeout(() => searchPad(value), 250);
 });
 $("#padSpeak")?.addEventListener("click", togglePadSpeech);
+const padLangSelect = $("#padLang");
+if (padLangSelect) {
+  padLangSelect.value = padLang();
+  padLangSelect.addEventListener("change", () => {
+    try { localStorage.setItem(PAD_LANG_STORE, padLangSelect.value === "en" ? "en" : "zh-hans"); } catch { /* private mode */ }
+    if (padEntry) renderPadEntry(padEntry);
+    else if (padListRows) renderPadList(padListRows);
+  });
+}
 
 async function searchPadPhoto(file) {
   const seq = ++padSeq;

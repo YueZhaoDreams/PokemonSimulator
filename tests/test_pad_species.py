@@ -123,6 +123,10 @@ def test_pikachu_entry_uses_chinese_fields(tmp_path):
     assert "皮卡丘" in entry["speech_text"]
     assert "鼠宝可梦" in entry["speech_text"]
     assert entry["flavor"] in entry["speech_text"]
+    assert entry["name_en"] == "Pikachu"
+    assert "Pikachu" in entry["speech_en"]
+    assert "English only line" not in entry["speech_text"]
+    assert "English only line" in entry["speech_en"]
     again = search_species("pikachu", transport=transport, names=_names(), cache_dir=tmp_path)
     number = search_species("25", transport=transport, names=_names(), cache_dir=tmp_path)
     assert again["entry"]["id"] == number["entry"]["id"] == 25
@@ -137,6 +141,31 @@ def test_missing_flavor_does_not_speak_english(tmp_path):
     assert entry["flavor"] == ""
     assert "菊草叶" in entry["speech_text"]
     assert not re.search(r"[A-Za-z]", entry["speech_text"])
+
+
+def test_typo_and_suggestions_include_english_and_a_picture(tmp_path):
+    names = _names()
+    names[(172, "zh-hans")] = "皮丘"
+    names[(172, "en")] = "Pichu"
+    docs, art = _docs()
+    blobs = {art: _png()}
+    listed = search_species("皮", transport=MapTransport(docs, blobs), names=names, cache_dir=tmp_path)
+    assert listed["match"] == "many"
+    row = next(item for item in listed["results"] if item["id"] == 25)
+    assert row["name"] == "皮卡丘"
+    assert row["name_en"] == "Pikachu"
+    assert row["thumb_url"].endswith("/25.png")
+    assert 172 in [item["id"] for item in listed["results"]]
+    typed = search_species("皮卡秋", transport=MapTransport(docs, blobs), names=names, cache_dir=tmp_path / "typo")
+    assert typed["match"] == "one"
+    assert typed["entry"]["id"] == 25
+    english = search_species("pikchu", transport=MapTransport(docs, blobs), names=names, cache_dir=tmp_path / "en")
+    assert english["match"] == "many"
+    found = {item["id"]: item for item in english["results"]}
+    assert found[25]["name_en"] == "Pikachu"
+    assert found[172]["name_en"] == "Pichu"
+    assert found[25]["thumb_url"].endswith("/25.png")
+    assert found[172]["thumb_url"].endswith("/172.png")
 
 
 def test_unknown_query_is_a_miss(tmp_path):
@@ -183,7 +212,11 @@ def test_pad_speech_uses_chinese_voice():
     assert "seq !== padSeq" in js
     assert "cry.getAttribute(\"src\")" in js
     assert 'cry.src = entry.cry_url' in js
+    assert "entry.artwork_url || entry.animation_url" in js
+    assert "function padLang" in js
+    assert "thumb_url" in js
     html = (STATIC_DIR / "index.html").read_text(encoding="utf-8")
+    assert 'id="padLang"' in html
     assert 'id="padCry"' in html
     assert 'id="padSpeak"' in html
 
