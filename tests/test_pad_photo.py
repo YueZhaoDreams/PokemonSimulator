@@ -106,9 +106,9 @@ def test_photo_does_not_start_a_card_scan(tmp_path, monkeypatch):
 def test_pad_photo_control_is_not_card_scan():
     html = (STATIC_DIR / "index.html").read_text(encoding="utf-8")
     cards = html[html.index('id="view-cards"') : html.index('id="view-fight"')]
-    pokemon = cards[cards.index('id="padPokemon"') : cards.index('id="cardsHost"')]
+    toolbar = cards[cards.index('class="pad-toolbar"') : cards.index('id="padPokemon"')]
     finder = cards[cards.index('id="findPanel"') : cards.index('id="ownedGrid"')]
-    assert 'id="padPhoto"' in pokemon
+    assert 'id="padPhoto"' in toolbar
     assert 'id="padPhoto"' not in finder
     assert 'id="findScan"' in finder
     js = (STATIC_DIR / "app.js").read_text(encoding="utf-8")

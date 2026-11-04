@@ -20,7 +20,7 @@ from app.auth import hash_password, normalize_email, valid_email, verify_passwor
 from app.catalog import PREFERRED_IDS, fill_missing_card_image, lookup_seed_card, resolve_name, search_local, fetch_full, normalize_card
 from app.pad import species as pad_species
 from app.pad.gallery import load_hashes, rank
-from app.pad.species import HttpxTransport, build_entry, display_name, parse_names, search_species
+from app.pad.species import HttpxTransport, build_entry, parse_names, search_species, suggestion_row
 from app.recognition.images import dhash, load_image
 from app.config import SAMPLES_DIR, SESSION_COOKIE, SESSION_DAYS, SESSION_SECURE, STATIC_DIR, UPLOADS_DIR
 from app.db import (
@@ -379,7 +379,7 @@ def api_pad_species_id(species_id: int, _user: dict = Depends(require_user)) -> 
 def _pad_suggestion_names(species_ids: list[int]) -> list[dict]:
     path = pad_species.CACHE / "species_names.csv"
     index = parse_names(path.read_text(encoding="utf-8")) if path.exists() else {}
-    return [{"id": species_id, "name": display_name(species_id, index)} for species_id in species_ids]
+    return [suggestion_row(species_id, index) for species_id in species_ids]
 
 
 @app.post("/api/pad/photo")
