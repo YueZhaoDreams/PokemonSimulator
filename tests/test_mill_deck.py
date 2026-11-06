@@ -1094,3 +1094,107 @@ def test_paid_wugtrio_comes_up_ahead_of_cleffa():
     board.game.events["used_playground_a"] = 1
     board.game._maybe_retreat(me, foe, "a")
     assert me.card(me.active.card_i).name == "Wugtrio"
+
+
+def _hilda_turn(board: _Board) -> None:
+    board.game.turn = 5
+    board.game.first = "b"
+
+
+def test_hilda_finds_wugtrio_and_ignition_then_undersea_is_paid():
+    board = _Board("mill")
+    me = board.seat("a", active=("Wiglett", []))
+    foe = board.seat("b", active=("Wugtrio", []), deck=["Water Energy"] * 4)
+    _hilda_turn(board)
+    me.active.played_turn = 0
+    hilda = _grant(board, "a", "Hilda")
+    level = board.take("a", "Level Ball")
+    me.hand = [hilda, level]
+    me.deck = [
+        board.take("a", "Wugtrio"),
+        _grant(board, "a", "Double Turbo Energy"),
+        _grant(board, "a", "Ignition Energy"),
+        board.take("a", "Water Energy"),
+    ]
+    assert me.card(board.game._pick_trainer(me)).name == "Hilda"
+    board.game._play_trainers(me, foe, "a")
+    assert board.game.events.get("hilda") == 1
+    assert board.game.events.get("evo_from_hilda") == 1
+    assert board.game.events.get("energy_from_hilda") == 1
+    hand = [me.card(i).name for i in me.hand]
+    assert "Wugtrio" in hand
+    assert "Ignition Energy" in hand
+    board.game._evolve(me, foe, "a")
+    assert me.card(me.active.card_i).name == "Wugtrio"
+    board.game._attach_energy(me, "a")
+    assert [me.card(i).name for i in me.active.energy] == ["Ignition Energy"]
+    assert board.game._mill_can_pay(me, me.active)
+
+
+def test_hilda_takes_reversal_while_more_prizes_remain():
+    board = _Board("mill")
+    me = board.seat("a", active=("Wiglett", []))
+    foe = board.seat("b", active=("Wugtrio", []), deck=["Water Energy"] * 4)
+    _hilda_turn(board)
+    me.active.played_turn = 0
+    me.prizes = [0, 1, 2, 3, 4, 5]
+    foe.prizes = [0, 1, 2, 3]
+    hilda = _grant(board, "a", "Hilda")
+    me.hand = [hilda]
+    me.deck = [
+        board.take("a", "Wugtrio"),
+        _grant(board, "a", "Ignition Energy"),
+        _grant(board, "a", "Double Turbo Energy"),
+        _grant(board, "a", "Reversal Energy"),
+    ]
+    board.game._play_trainers(me, foe, "a")
+    assert "Reversal Energy" in [me.card(i).name for i in me.hand]
+    assert "Ignition Energy" not in [me.card(i).name for i in me.hand]
+
+
+def test_wally_evolves_before_hilda_when_the_line_can_already_pay():
+    board = _Board("mill")
+    me = board.seat("a", active=("Wiglett", []))
+    foe = board.seat("b", active=("Wugtrio", []), deck=["Water Energy"] * 4)
+    _hilda_turn(board)
+    me.active.played_turn = board.game.turn
+    wally = _grant(board, "a", "Wally")
+    hilda = _grant(board, "a", "Hilda")
+    ignition = _grant(board, "a", "Ignition Energy")
+    me.hand = [hilda, wally, ignition]
+    me.deck = [board.take("a", "Wugtrio"), _grant(board, "a", "Ignition Energy")]
+    assert me.card(board.game._pick_trainer(me)).name == "Wally"
+    board.game._play_trainers(me, foe, "a")
+    assert me.card(me.active.card_i).name == "Wugtrio"
+    assert board.game.events.get("wally") == 1
+    assert "hilda" not in board.game.events
+    assert "Hilda" in [me.card(i).name for i in me.hand]
+
+
+def test_level_ball_stays_ahead_of_hilda_while_wiglett_is_missing():
+    board = _Board("mill")
+    me = board.seat("a", active=("Victini", []))
+    foe = board.seat("b", active=("Wugtrio", []), deck=["Water Energy"] * 4)
+    _hilda_turn(board)
+    hilda = _grant(board, "a", "Hilda")
+    level = board.take("a", "Level Ball")
+    me.hand = [hilda, level]
+    me.deck = [
+        board.take("a", "Wiglett"),
+        board.take("a", "Wugtrio"),
+        _grant(board, "a", "Ignition Energy"),
+    ]
+    assert me.card(board.game._pick_trainer(me)).name == "Level Ball"
+
+
+def test_hilda_waits_when_undersea_is_already_paid():
+    board = _Board("mill")
+    fuels = ["Water Energy", "Water Energy", "Water Energy"]
+    me = board.seat("a", active=("Wugtrio", fuels))
+    foe = board.seat("b", active=("Wugtrio", []), deck=["Water Energy"] * 4)
+    _hilda_turn(board)
+    hilda = _grant(board, "a", "Hilda")
+    handi = board.take("a", "Team Rocket's Handiwork")
+    me.hand = [hilda, handi]
+    me.deck = [board.take("a", "Wugtrio"), _grant(board, "a", "Ignition Energy")]
+    assert me.card(board.game._pick_trainer(me)).name == "Team Rocket's Handiwork"
