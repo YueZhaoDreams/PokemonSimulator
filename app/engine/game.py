@@ -2358,10 +2358,14 @@ class Game:
             elif name == "iono":
                 score += 10 if len(me.hand) <= 3 else 2
             elif name == "hilda":
-                have_mega = any(
-                    me.card(m.card_i).name.lower() == "mega starmie ex" for m in me.in_play()
-                ) or any(me.card(i).name.lower() == "mega starmie ex" for i in me.hand)
-                score += 24 if strat.name == "starmie" and not have_mega else 8
+                if strat.name == "mill":
+                    # Mill scores this against Wally and Level Ball.
+                    pass
+                else:
+                    have_mega = any(
+                        me.card(m.card_i).name.lower() == "mega starmie ex" for m in me.in_play()
+                    ) or any(me.card(i).name.lower() == "mega starmie ex" for i in me.hand)
+                    score += 24 if strat.name == "starmie" and not have_mega else 8
             elif name == "lucian":
                 score += 8 if len(me.hand) <= 2 else -12
             elif name == "penny" and strat.name in {"mew_baby", "baby"}:
@@ -5735,6 +5739,9 @@ class Game:
                 "Darkness Energy",
                 "Psychic Energy",
             ]
+        elif self.strats[who].name == "mill":
+            prefer_evo = ["Wugtrio"]
+            prefer_nrg = self._mill_hilda_energy_prefer(me)
         else:
             prefer_evo = list(self._pokemon_search_prefer(me, who))
             prefer_nrg = ["Water Energy", "Psychic Energy", "Darkness Energy"]
@@ -5746,6 +5753,10 @@ class Game:
             source="hilda",
         )
         found_nrg = self._search(me, lambda c: c.is_energy, prefer=prefer_nrg, n=1, source="hilda")
+        if found_evo is not None:
+            self._bump("evo_from_hilda")
+        if found_nrg is not None:
+            self._bump("energy_from_hilda")
         if found_evo is not None or found_nrg is not None:
             self._bump("hilda")
 
@@ -7776,6 +7787,9 @@ class Game:
         if name == "wally":
             who = "a" if me.name == "A" else "b"
             return self._mill_wally_score(me, who)
+        if name == "hilda":
+            who = "a" if me.name == "A" else "b"
+            return self._mill_hilda_score(me, who)
         if name == "vs seeker":
             who = "a" if me.name == "A" else "b"
             wally_hand = any(me.card(i).name.lower() == "wally" for i in me.hand)
@@ -7859,6 +7873,12 @@ class Game:
             return not self._mill_setup_spent(me)
         if name in {"slumbering forest", "neutralization zone"}:
             return (self.stadium_name or "").lower() != name
+        if name == "hilda":
+            who = "a" if me.name == "A" else "b"
+            players = getattr(self, "players", None)
+            if not players:
+                return True
+            return self._mill_hilda_score(me, who) >= 16
         return False
 
     def _mill_setup_spent(self, me: Player) -> bool:
@@ -18025,6 +18045,56 @@ class Game:
         if not self._mill_wally_can_pay(me, target):
             return 4 if trios == 0 else -4
         return 18 if trios == 0 else 12
+
+    def _mill_hilda_needs_energy(self, me: Player) -> bool:
+        """No Wiglett or Wugtrio can pay Undersea with the cards already held."""
+        for mon in me.in_play():
+            name = me.card(mon.card_i).name.lower()
+            if name == "wugtrio" and self._mill_hand_completes(me, mon):
+                return False
+            if name == "wiglett" and self._mill_wally_can_pay(me, mon):
+                return False
+        return True
+
+    def _mill_hilda_energy_prefer(self, me: Player) -> list[str]:
+        """The Energy Hilda takes. A paid line keeps a card that stays attached."""
+        if not self._mill_hilda_needs_energy(me):
+            return ["Double Turbo Energy", "Water Energy", "Reversal Energy", "Ignition Energy"]
+        if self._prizes_behind(me):
+            return ["Reversal Energy", "Ignition Energy", "Double Turbo Energy", "Water Energy"]
+        return ["Ignition Energy", "Double Turbo Energy", "Reversal Energy", "Water Energy"]
+
+    def _mill_hilda_score(self, me: Player, who: str) -> float:
+        """Hilda takes Wugtrio and the Energy that pays Undersea.
+
+        Wally still evolves a Wiglett that can attack this turn, including one
+        played this turn. Level Ball and Poffin stay ahead while Wiglett is
+        missing, because this search cannot take a Basic.
+        """
+        trio_deck = any(me.card(i).name.lower() == "wugtrio" for i in me.deck)
+        energy_deck = any(me.card(i).is_energy for i in me.deck)
+        if not trio_deck and not energy_deck:
+            return -8
+        in_play = {me.card(mon.card_i).name.lower() for mon in me.in_play()}
+        in_hand = {me.card(i).name.lower() for i in me.hand}
+        have_wiglett = "wiglett" in in_play or "wiglett" in in_hand
+        have_trio = "wugtrio" in in_play or "wugtrio" in in_hand
+        if self._mill_wally_score(me, who) >= 12:
+            return 6
+        needs_energy = self._mill_hilda_needs_energy(me)
+        if have_trio and needs_energy and energy_deck:
+            return 16
+        if have_trio:
+            return -6
+        if not have_wiglett:
+            return 4
+        if trio_deck and energy_deck and needs_energy:
+            return 26
+        if trio_deck:
+            return 4
+        if needs_energy and energy_deck:
+            return 16
+        return -6
 
     def _wally_evolve(self, me: Player, who: str, first_turn_ok: bool, just_played_ok: bool) -> None:
         if self._is_players_first_turn(who) and not first_turn_ok and not self._stadium_allows_immediate_evolve():
