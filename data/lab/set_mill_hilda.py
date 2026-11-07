@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 """Greedy Hilda swaps on the locked Wiglett Mill 60.
 
+The recorded run is data/lab/set-mill-hilda.md. SET_MILL_NAMES is now that
+four-Hilda list, so this file stops if it is started again.
+
 Start from the locked list: zero Hilda. Each step replaces exactly one copy
 of one other card with one Hilda. Every name still in the list is a cut. The
 step keeps the cut with the higher Sisters-weighted win rate, then the next

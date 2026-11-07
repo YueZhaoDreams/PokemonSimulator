@@ -727,11 +727,23 @@ SET_DOLL_NAMES = (
 # replaces Boss's Orders: 41.4% → 44.6% (+3.1, gap SE 0.69, about 4.5 SE).
 # Starmie on that cut is 36.4% → 40.8%. A second copy was not measured on
 # the Boss's Orders list. See data/lab/set-mill-igglybuff.md.
+# Hilda (2026-11-06). Seed 20261106, 400 games each seat, both seats.
+# Greedy one-card swaps from that zero-Hilda 60. Every other card was the cut.
+# The path is 43.4189%, 46.6368%, 47.7980%, 49.0443%, 50.0806%.
+# Cuts are Manaphy, one Wally (3 → 2), one Counter Catcher (2 → 1), and one
+# Ignition Energy (4 → 3). The search stopped at four because four is the cap.
+# Step 1 is +3.22 points, 4.60 combined standard errors. Steps 2 to 4 each
+# gain about 1.0 to 1.2 points, 1.45 to 1.74 combined standard errors, and
+# each of those is the best of about twenty cuts. See data/lab/set-mill-hilda.md.
+# On step 1, Double Turbo Energy is 46.5943% beside Manaphy at 46.6368%.
+# The search kept Manaphy. That single cut takes Mega Starmie from 34.625%
+# to 33.125% and Set M from 26.750% to 25.250%. The four-Hilda list is
+# Mega Starmie 34.375% (−0.25) and Set M 32.250% (+5.50) against the
+# zero-Hilda list.
 SET_MILL_NAMES = (
     ["Pichu"]
     + ["Mime Jr."]
     + ["Cleffa"]
-    + ["Manaphy"]
     + ["Wiglett"] * 4
     + ["Wugtrio"] * 4
     + ["Victini"]
@@ -742,16 +754,17 @@ SET_MILL_NAMES = (
     + ["Rescue Carrier"] * 3
     + ["Lillie's Poké Doll"]
     + ["Crushing Hammer"] * 4
-    + ["Counter Catcher"] * 2
+    + ["Counter Catcher"]
     + ["Miss Fortune Sisters"] * 2
-    + ["Wally"] * 3
+    + ["Wally"] * 2
     + ["Igglybuff"]
     + ["Team Rocket's Handiwork"] * 2
     + ["Colress's Tenacity"] * 4
     + ["Double Turbo Energy"] * 4
     + ["Water Energy"] * 3
-    + ["Ignition Energy"] * 4
+    + ["Ignition Energy"] * 3
     + ["Reversal Energy"] * 4
+    + ["Hilda"] * 4
 )
 
 # Celebi ◇ Time Distortion + Lost Origin Chandelure. Lampent is Plasma Storm

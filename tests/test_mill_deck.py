@@ -145,7 +145,8 @@ def test_mill_list_is_the_locked_60():
     assert names.count("Battle Cage") == 0
     assert names.count("Wiglett") == 4
     assert names.count("Wugtrio") == 4
-    assert names.count("Manaphy") == 1
+    assert names.count("Manaphy") == 0
+    assert names.count("Hilda") == 4
     assert names.count("Cleffa") == 1
     assert names.count("Victini") == 1
     assert names.count("Slumbering Forest") == 1
@@ -161,14 +162,14 @@ def test_mill_list_is_the_locked_60():
     assert names.count("Miss Fortune Sisters") == 2
     assert names.count("Team Rocket's Handiwork") == 2
     assert names.count("Crispin") == 0
-    assert names.count("Wally") == 3
-    assert names.count("Ignition Energy") == 4
+    assert names.count("Wally") == 2
+    assert names.count("Ignition Energy") == 3
     assert names.count("Reversal Energy") == 4
     assert names.count("Double Turbo Energy") == 4
     assert names.count("Water Energy") == 3
     assert names.count("Boss's Orders") == 0
     assert names.count("Igglybuff") == 1
-    assert names.count("Counter Catcher") == 2
+    assert names.count("Counter Catcher") == 1
     assert names.count("Fighting Energy") == 0
     assert names.count("Glimwood Tangle") == 0
     assert names.count("Team Rocket's Petrel") == 0
@@ -180,7 +181,8 @@ def test_mill_list_is_the_locked_60():
     assert [c.catalog_id for c in pile if c.name == "Mime Jr."] == ["col1-47"]
     assert [c.catalog_id for c in pile if c.name == "Cleffa"] == ["hgss1-17"]
     assert [c.attacks[0].name for c in pile if c.name == "Cleffa"] == ["Eeeeeeek"]
-    assert [c.catalog_id for c in pile if c.name == "Manaphy"] == ["swsh9-041"]
+    assert [c.catalog_id for c in pile if c.name == "Manaphy"] == []
+    assert [c.catalog_id for c in pile if c.name == "Hilda"] == ["sv10.5w-084"] * 4
     assert [c.catalog_id for c in pile if c.name == "Igglybuff"] == ["sm12-168"]
     assert [c.abilities[0].name for c in pile if c.name == "Igglybuff"] == ["Sleepy Voice"]
     assert [c.catalog_id for c in pile if c.name == "Lillie's Poké Doll"] == ["sm12-197"]
@@ -265,7 +267,7 @@ def test_mill_seed_special_energy_keeps_printed_text():
     loaded = load_seed_deck("mill")
     ignition = [c for c in loaded["cards"] if c["name"] == "Ignition Energy"]
     reversal = [c for c in loaded["cards"] if c["name"] == "Reversal Energy"]
-    assert len(ignition) == 4
+    assert len(ignition) == 3
     assert len(reversal) == 4
     assert {c["catalog_id"] for c in ignition} == {"me02-124"}
     assert {c["catalog_id"] for c in reversal} == {"sv02-192"}
