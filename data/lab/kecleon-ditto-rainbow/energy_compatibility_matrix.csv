@@ -1,0 +1,129 @@
+pokemon,attack,cost,printed_base,energy,provides,pays_cost
+Kecleon,whip,C C,0,Double Colorless Energy,C C,yes
+Kecleon,whip,C C,0,"Counter Energy, behind, not GX/EX",A A,yes
+Kecleon,whip,C C,0,"Counter Energy, not behind",C,no
+Kecleon,whip,C C,0,"Reversal Energy, behind, no Rule Box",A A A,yes
+Kecleon,whip,C C,0,"Reversal Energy, behind, Rule Box",C,no
+Kecleon,whip,C C,0,Triple Acceleration Energy on an Evolution,C C C,yes
+Kecleon,whip,C C,0,Ignition Energy on an Evolution,C C C,yes
+Kecleon,whip,C C,0,Ignition Energy on a Basic,C,no
+Volcarona,burst,C C C,120,Double Colorless Energy,C C,no
+Volcarona,burst,C C C,120,"Counter Energy, behind, not GX/EX",A A,no
+Volcarona,burst,C C C,120,"Counter Energy, not behind",C,no
+Volcarona,burst,C C C,120,"Reversal Energy, behind, no Rule Box",A A A,yes
+Volcarona,burst,C C C,120,"Reversal Energy, behind, Rule Box",C,no
+Volcarona,burst,C C C,120,Triple Acceleration Energy on an Evolution,C C C,yes
+Volcarona,burst,C C C,120,Ignition Energy on an Evolution,C C C,yes
+Volcarona,burst,C C C,120,Ignition Energy on a Basic,C,no
+Volcarona,scales,Grass,20,Double Colorless Energy,C C,no
+Volcarona,scales,Grass,20,"Counter Energy, behind, not GX/EX",A A,yes
+Volcarona,scales,Grass,20,"Counter Energy, not behind",C,no
+Volcarona,scales,Grass,20,"Reversal Energy, behind, no Rule Box",A A A,yes
+Volcarona,scales,Grass,20,"Reversal Energy, behind, Rule Box",C,no
+Volcarona,scales,Grass,20,Triple Acceleration Energy on an Evolution,C C C,no
+Volcarona,scales,Grass,20,Ignition Energy on an Evolution,C C C,no
+Volcarona,scales,Grass,20,Ignition Energy on a Basic,C,no
+Azumarill,coin30,C C,30,Double Colorless Energy,C C,yes
+Azumarill,coin30,C C,30,"Counter Energy, behind, not GX/EX",A A,yes
+Azumarill,coin30,C C,30,"Counter Energy, not behind",C,no
+Azumarill,coin30,C C,30,"Reversal Energy, behind, no Rule Box",A A A,yes
+Azumarill,coin30,C C,30,"Reversal Energy, behind, Rule Box",C,no
+Azumarill,coin30,C C,30,Triple Acceleration Energy on an Evolution,C C C,yes
+Azumarill,coin30,C C,30,Ignition Energy on an Evolution,C C C,yes
+Azumarill,coin30,C C,30,Ignition Energy on a Basic,C,no
+Marowak δ,crusher,Fighting C C,50,Double Colorless Energy,C C,no
+Marowak δ,crusher,Fighting C C,50,"Counter Energy, behind, not GX/EX",A A,no
+Marowak δ,crusher,Fighting C C,50,"Counter Energy, not behind",C,no
+Marowak δ,crusher,Fighting C C,50,"Reversal Energy, behind, no Rule Box",A A A,yes
+Marowak δ,crusher,Fighting C C,50,"Reversal Energy, behind, Rule Box",C,no
+Marowak δ,crusher,Fighting C C,50,Triple Acceleration Energy on an Evolution,C C C,no
+Marowak δ,crusher,Fighting C C,50,Ignition Energy on an Evolution,C C C,no
+Marowak δ,crusher,Fighting C C,50,Ignition Energy on a Basic,C,no
+Dark Magneton,lines,Lightning C,20,Double Colorless Energy,C C,no
+Dark Magneton,lines,Lightning C,20,"Counter Energy, behind, not GX/EX",A A,yes
+Dark Magneton,lines,Lightning C,20,"Counter Energy, not behind",C,no
+Dark Magneton,lines,Lightning C,20,"Reversal Energy, behind, no Rule Box",A A A,yes
+Dark Magneton,lines,Lightning C,20,"Reversal Energy, behind, Rule Box",C,no
+Dark Magneton,lines,Lightning C,20,Triple Acceleration Energy on an Evolution,C C C,no
+Dark Magneton,lines,Lightning C,20,Ignition Energy on an Evolution,C C C,no
+Dark Magneton,lines,Lightning C,20,Ignition Energy on a Basic,C,no
+Dark Hypno,link,C,0,Double Colorless Energy,C C,yes
+Dark Hypno,link,C,0,"Counter Energy, behind, not GX/EX",A A,yes
+Dark Hypno,link,C,0,"Counter Energy, not behind",C,yes
+Dark Hypno,link,C,0,"Reversal Energy, behind, no Rule Box",A A A,yes
+Dark Hypno,link,C,0,"Reversal Energy, behind, Rule Box",C,yes
+Dark Hypno,link,C,0,Triple Acceleration Energy on an Evolution,C C C,yes
+Dark Hypno,link,C,0,Ignition Energy on an Evolution,C C C,yes
+Dark Hypno,link,C,0,Ignition Energy on a Basic,C,yes
+Druddigon,shred,C,40,Double Colorless Energy,C C,yes
+Druddigon,shred,C,40,"Counter Energy, behind, not GX/EX",A A,yes
+Druddigon,shred,C,40,"Counter Energy, not behind",C,yes
+Druddigon,shred,C,40,"Reversal Energy, behind, no Rule Box",A A A,yes
+Druddigon,shred,C,40,"Reversal Energy, behind, Rule Box",C,yes
+Druddigon,shred,C,40,Triple Acceleration Energy on an Evolution,C C C,yes
+Druddigon,shred,C,40,Ignition Energy on an Evolution,C C C,yes
+Druddigon,shred,C,40,Ignition Energy on a Basic,C,yes
+Galvantula,spread,C,30,Double Colorless Energy,C C,yes
+Galvantula,spread,C,30,"Counter Energy, behind, not GX/EX",A A,yes
+Galvantula,spread,C,30,"Counter Energy, not behind",C,yes
+Galvantula,spread,C,30,"Reversal Energy, behind, no Rule Box",A A A,yes
+Galvantula,spread,C,30,"Reversal Energy, behind, Rule Box",C,yes
+Galvantula,spread,C,30,Triple Acceleration Energy on an Evolution,C C C,yes
+Galvantula,spread,C,30,Ignition Energy on an Evolution,C C C,yes
+Galvantula,spread,C,30,Ignition Energy on a Basic,C,yes
+Bisharp,retaliate,C,30,Double Colorless Energy,C C,yes
+Bisharp,retaliate,C,30,"Counter Energy, behind, not GX/EX",A A,yes
+Bisharp,retaliate,C,30,"Counter Energy, not behind",C,yes
+Bisharp,retaliate,C,30,"Reversal Energy, behind, no Rule Box",A A A,yes
+Bisharp,retaliate,C,30,"Reversal Energy, behind, Rule Box",C,yes
+Bisharp,retaliate,C,30,Triple Acceleration Energy on an Evolution,C C C,yes
+Bisharp,retaliate,C,30,Ignition Energy on an Evolution,C C C,yes
+Bisharp,retaliate,C,30,Ignition Energy on a Basic,C,yes
+Shiftry,samehand,C C,60,Double Colorless Energy,C C,yes
+Shiftry,samehand,C C,60,"Counter Energy, behind, not GX/EX",A A,yes
+Shiftry,samehand,C C,60,"Counter Energy, not behind",C,no
+Shiftry,samehand,C C,60,"Reversal Energy, behind, no Rule Box",A A A,yes
+Shiftry,samehand,C C,60,"Reversal Energy, behind, Rule Box",C,no
+Shiftry,samehand,C C,60,Triple Acceleration Energy on an Evolution,C C C,yes
+Shiftry,samehand,C C,60,Ignition Energy on an Evolution,C C C,yes
+Shiftry,samehand,C C,60,Ignition Energy on a Basic,C,no
+Marowak,bone,C C,60,Double Colorless Energy,C C,yes
+Marowak,bone,C C,60,"Counter Energy, behind, not GX/EX",A A,yes
+Marowak,bone,C C,60,"Counter Energy, not behind",C,no
+Marowak,bone,C C,60,"Reversal Energy, behind, no Rule Box",A A A,yes
+Marowak,bone,C C,60,"Reversal Energy, behind, Rule Box",C,no
+Marowak,bone,C C,60,Triple Acceleration Energy on an Evolution,C C C,yes
+Marowak,bone,C C,60,Ignition Energy on an Evolution,C C C,yes
+Marowak,bone,C C,60,Ignition Energy on a Basic,C,no
+Banette,search,Psychic,80,Double Colorless Energy,C C,no
+Banette,search,Psychic,80,"Counter Energy, behind, not GX/EX",A A,yes
+Banette,search,Psychic,80,"Counter Energy, not behind",C,no
+Banette,search,Psychic,80,"Reversal Energy, behind, no Rule Box",A A A,yes
+Banette,search,Psychic,80,"Reversal Energy, behind, Rule Box",C,no
+Banette,search,Psychic,80,Triple Acceleration Energy on an Evolution,C C C,no
+Banette,search,Psychic,80,Ignition Energy on an Evolution,C C C,no
+Banette,search,Psychic,80,Ignition Energy on a Basic,C,no
+Seaking,draw2,C,60,Double Colorless Energy,C C,yes
+Seaking,draw2,C,60,"Counter Energy, behind, not GX/EX",A A,yes
+Seaking,draw2,C,60,"Counter Energy, not behind",C,yes
+Seaking,draw2,C,60,"Reversal Energy, behind, no Rule Box",A A A,yes
+Seaking,draw2,C,60,"Reversal Energy, behind, Rule Box",C,yes
+Seaking,draw2,C,60,Triple Acceleration Energy on an Evolution,C C C,yes
+Seaking,draw2,C,60,Ignition Energy on an Evolution,C C C,yes
+Seaking,draw2,C,60,Ignition Energy on a Basic,C,yes
+Aerodactyl,devolve,C C,100,Double Colorless Energy,C C,yes
+Aerodactyl,devolve,C C,100,"Counter Energy, behind, not GX/EX",A A,yes
+Aerodactyl,devolve,C C,100,"Counter Energy, not behind",C,no
+Aerodactyl,devolve,C C,100,"Reversal Energy, behind, no Rule Box",A A A,yes
+Aerodactyl,devolve,C C,100,"Reversal Energy, behind, Rule Box",C,no
+Aerodactyl,devolve,C C,100,Triple Acceleration Energy on an Evolution,C C C,yes
+Aerodactyl,devolve,C C,100,Ignition Energy on an Evolution,C C C,yes
+Aerodactyl,devolve,C C,100,Ignition Energy on a Basic,C,no
+Aerodactyl,glide,C,30,Double Colorless Energy,C C,yes
+Aerodactyl,glide,C,30,"Counter Energy, behind, not GX/EX",A A,yes
+Aerodactyl,glide,C,30,"Counter Energy, not behind",C,yes
+Aerodactyl,glide,C,30,"Reversal Energy, behind, no Rule Box",A A A,yes
+Aerodactyl,glide,C,30,"Reversal Energy, behind, Rule Box",C,yes
+Aerodactyl,glide,C,30,Triple Acceleration Energy on an Evolution,C C C,yes
+Aerodactyl,glide,C,30,Ignition Energy on an Evolution,C C C,yes
+Aerodactyl,glide,C,30,Ignition Energy on a Basic,C,yes
