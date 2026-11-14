@@ -1140,15 +1140,45 @@ let pickerSeq = 0;
 let cardSearchTimer = 0;
 let searchSeq = 0;
 
+function cardCategory() {
+  return $("#cardCatDual")?.getAttribute("aria-pressed") === "true" ? "dual" : "";
+}
+
+function dualQueryAlias(q) {
+  const text = String(q || "").trim().toLowerCase();
+  return text === "双属性" || text === "dual" || text === "dual type" || text === "dual-type";
+}
+
+function setCardCategory(category, opts = {}) {
+  const dual = category === "dual";
+  $("#cardCatAll")?.setAttribute("aria-pressed", dual ? "false" : "true");
+  $("#cardCatDual")?.setAttribute("aria-pressed", dual ? "true" : "false");
+  const sort = $("#dualSort");
+  if (sort) sort.hidden = !dual;
+  if (dual && dualQueryAlias($("#addName")?.value || "")) {
+    const pad = $("#padQuery");
+    const add = $("#addName");
+    if (pad) pad.value = "";
+    if (add) add.value = "";
+  }
+  if (opts.search === false) return;
+  runCardSearch($("#addName")?.value || "");
+}
+
 function searchHitHtml(hits) {
   if (!hits.length) return `<p class="tiny">No matches yet. Keep typing, then tap a card.</p>`;
   const action = pickerTarget?.kind === "replace" ? "Replace" : pickerTarget?.kind === "add" ? "+" : "View";
   return hits.map((h) => {
     const code = h.code || h.local_id || "";
+    const types = Array.isArray(h.types) ? h.types.join(" · ") : "";
+    const attack = [h.attack_name, h.attack].filter(Boolean).join(" ");
     return `
     <button type="button" class="search-hit" data-card-id="${esc(h.id || "")}" data-card-name="${esc(h.name || "")}">
       ${h.image ? `<img src="${esc(h.image)}" alt="${esc(h.name || "")}">` : ""}
       <span>${esc(h.name || "")}</span>
+      ${h.search_category ? `<span class="hit-code">${esc(h.search_category)}</span>` : ""}
+      ${types ? `<span class="hit-code">${esc(types)}</span>` : ""}
+      ${attack ? `<span class="hit-code">${esc(attack)}</span>` : ""}
       ${code ? `<span class="hit-code">${esc(code)}</span>` : ""}
       ${h.hp ? `<span class="hit-code">${esc(String(h.hp))} HP</span>` : ""}
       <span class="hit-add">${action}</span>
@@ -1158,24 +1188,41 @@ function searchHitHtml(hits) {
 
 async function lookupCards(q, scope = "all") {
   const query = (q || "").trim();
-  if (query.length < 2) return [];
-  return api(`/api/cards/search?q=${encodeURIComponent(query)}&scope=${encodeURIComponent(scope)}`);
+  const category = cardCategory() || (dualQueryAlias(query) ? "dual" : "");
+  if (!category && query.length < 2) return [];
+  const params = new URLSearchParams({
+    q: category && dualQueryAlias(query) ? "" : query,
+    scope,
+  });
+  if (category) {
+    params.set("category", "dual");
+    params.set("sort", $("#dualSort")?.value || "attack");
+  }
+  return api(`/api/cards/search?${params}`);
 }
 
 async function runCardSearch(q) {
   const box = $("#addHits");
   if (!box) return;
   const query = (q || "").trim();
+  const category = cardCategory() || (dualQueryAlias(query) ? "dual" : "");
   const seq = ++searchSeq;
-  if (query.length < 2) {
+  if (!category && query.length < 2) {
     box.hidden = true;
     box.innerHTML = "";
     box.dataset.query = "";
     return;
   }
   box.hidden = false;
-  box.innerHTML = `<p class="tiny">Looking up ${esc(query)}…</p>`;
+  box.innerHTML = `<p class="tiny">${category ? "双属性…" : `Looking up ${esc(query)}…`}</p>`;
   try {
+    if (category) {
+      if (dualQueryAlias(query)) setCardCategory("dual", { search: false });
+      const hits = await lookupCards(category && dualQueryAlias(query) ? "" : query, "local");
+      if (seq !== searchSeq) return;
+      paintHits(box, hits);
+      return;
+    }
     const local = await lookupCards(query, "local");
     if (seq !== searchSeq) return;
     paintHits(box, local);
@@ -1376,12 +1423,22 @@ function paintCardDetail(card) {
   if (!host || !card) return;
   const sets = setsHoldingCard(card);
   const hp = card.hp ? `${card.hp} HP` : "";
+  const types = Array.isArray(card.types) && card.types.length ? card.types.join(" · ") : typeOf(card);
+  const dual = Array.isArray(card.types) && card.types.length >= 2 ? "双属性" : "";
+  const attacks = (card.attacks || []).map((attack) => {
+    const cost = Array.isArray(attack.cost) ? attack.cost.join(" ") : (attack.cost || "");
+    const damage = attack.printed_damage || (attack.damage ? String(attack.damage) : "");
+    const text = attack.text ? `<br>${esc(attack.text)}` : "";
+    return `<p class="tiny"><b>${esc(attack.name || "Attack")}</b> ${esc(cost)} ${esc(damage)}${text}</p>`;
+  }).join("");
   host.innerHTML = `
     <div class="card-detail">
       ${card.image ? `<img src="${esc(card.image)}" alt="${esc(card.name || "")}">` : ""}
       <div>
         <b>${esc(card.name || "")}</b>
-        <p class="tiny">${esc(card.category || "")} ${esc(card.stage || "")} ${esc(hp)} ${esc(typeOf(card))}</p>
+        <p class="tiny">${esc(dual)} ${esc(card.category || "")} ${esc(card.stage || "")} ${esc(hp)} ${esc(types)}</p>
+        ${card.text ? `<p class="tiny">${esc(card.text)}</p>` : ""}
+        ${attacks}
         ${sets.length
           ? `<p class="tiny">In these sets</p><ul class="set-list">${sets.map((s) => `<li>${esc(s.name)}${s.copies > 1 ? ` ×${s.copies}` : ""}</li>`).join("")}</ul>`
           : `<p class="tiny">Not in a set yet.</p>`}
@@ -2201,6 +2258,9 @@ $("#addName")?.addEventListener("keydown", (e) => {
     $("#addCard")?.click();
   }
 });
+$("#cardCatAll")?.addEventListener("click", () => setCardCategory(""));
+$("#cardCatDual")?.addEventListener("click", () => setCardCategory("dual"));
+$("#dualSort")?.addEventListener("change", () => runCardSearch($("#addName")?.value || ""));
 $("#addToSet")?.addEventListener("change", () => {
   syncNewSetWrap();
 });
@@ -3159,6 +3219,8 @@ function setPadMode(mode) {
     if (query && card && card.value !== query.value) {
       card.value = query.value;
       card.dispatchEvent(new Event("input", { bubbles: true }));
+    } else if (cardCategory() === "dual") {
+      runCardSearch(card?.value || "");
     }
   } else if (query?.value.trim()) {
     searchPad(query.value);

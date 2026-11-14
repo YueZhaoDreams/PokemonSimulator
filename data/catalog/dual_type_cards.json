@@ -1,0 +1,3872 @@
+[
+  {
+    "id": "ex4-1",
+    "name": "Team Aqua's Cacturne",
+    "set": "Team Magma vs Team Aqua",
+    "number": "1/95",
+    "types": [
+      "Grass",
+      "Darkness"
+    ],
+    "stage": "Stage 1",
+    "hp": 80,
+    "evolves": "Team Aqua's Cacnea",
+    "abilities": [],
+    "attacks": [
+      {
+        "name": "Dark Bind",
+        "cost": "Darkness",
+        "damage": "10",
+        "text": "You may discard a Darkness Energy card attached to Team Aqua's Cacturne. If you do, the Defending Pokémon is now Paralyzed."
+      },
+      {
+        "name": "Poison Barb",
+        "cost": "Grass Colorless Colorless",
+        "damage": "40",
+        "text": "The Defending Pokémon is now Poisoned."
+      }
+    ],
+    "weak": "Fire ×2",
+    "resist": "",
+    "retreat": "Colorless Colorless",
+    "rules": "This Pokémon is both Grass Darkness type.",
+    "image": "https://images.pokemontcg.io/ex4/1.png",
+    "dex": [
+      332
+    ]
+  },
+  {
+    "id": "ex4-2",
+    "name": "Team Aqua's Crawdaunt",
+    "set": "Team Magma vs Team Aqua",
+    "number": "2/95",
+    "types": [
+      "Water",
+      "Darkness"
+    ],
+    "stage": "Stage 1",
+    "hp": 80,
+    "evolves": "Team Aqua's Corphish",
+    "abilities": [],
+    "attacks": [
+      {
+        "name": "Aqua Reverse",
+        "cost": "Darkness Colorless",
+        "damage": "20",
+        "text": "Before doing damage, you may choose 1 of your opponent's Benched Pokémon that has Team Magma in its name and switch it with 1 of the Defending Pokémon. Your opponent chooses the Defending Pokémon to switch."
+      },
+      {
+        "name": "Deep Impact",
+        "cost": "Water Water Colorless",
+        "damage": "40",
+        "text": "If the Defending Pokémon already has any damage counters on it, the Defending Pokémon is now Confused."
+      }
+    ],
+    "weak": "Lightning ×2",
+    "resist": "",
+    "retreat": "Colorless",
+    "rules": "This Pokémon is both Water Darkness type.",
+    "image": "https://images.pokemontcg.io/ex4/2.png",
+    "dex": [
+      342
+    ]
+  },
+  {
+    "id": "ex4-3",
+    "name": "Team Aqua's Kyogre",
+    "set": "Team Magma vs Team Aqua",
+    "number": "3/95",
+    "types": [
+      "Water",
+      "Darkness"
+    ],
+    "stage": "Basic",
+    "hp": 100,
+    "evolves": "",
+    "abilities": [
+      {
+        "name": "Power Saver",
+        "text": "As long as the number of Pokémon in play (both yours and your opponent's) that has Team Aqua in its name is 3 or less, Team Aqua's Kyogre can't attack."
+      }
+    ],
+    "attacks": [
+      {
+        "name": "Aqua Trip",
+        "cost": "Water Colorless",
+        "damage": "10",
+        "text": "Flip a coin. If heads, the Defending Pokémon is now Confused. If tails, the Defending Pokémon is now Asleep."
+      },
+      {
+        "name": "Aqua Smash",
+        "cost": "Water Water Colorless",
+        "damage": "50+",
+        "text": "If the Defending Pokémon is affected by a Special Condition, this attack does 50 damage plus 20 more damage."
+      }
+    ],
+    "weak": "Grass ×2",
+    "resist": "",
+    "retreat": "Colorless Colorless Colorless",
+    "rules": "This Pokémon is both Water Darkness type.",
+    "image": "https://images.pokemontcg.io/ex4/3.png",
+    "dex": [
+      382
+    ]
+  },
+  {
+    "id": "ex4-4",
+    "name": "Team Aqua's Manectric",
+    "set": "Team Magma vs Team Aqua",
+    "number": "4/95",
+    "types": [
+      "Lightning",
+      "Darkness"
+    ],
+    "stage": "Stage 1",
+    "hp": 70,
+    "evolves": "Team Aqua's Electrike",
+    "abilities": [
+      {
+        "name": "Power Shift",
+        "text": "Once during your turn (before your attack), you may move any number of basic Energy cards attached to 1 of your Pokémon with Team Aqua in its name to another of your Pokémon. This power can't be used if Team Aqua's Manectric is affected by a Special Condition."
+      }
+    ],
+    "attacks": [
+      {
+        "name": "Thunderspark",
+        "cost": "Lightning Colorless Colorless",
+        "damage": "50",
+        "text": "Does 10 damage to each Benched Pokémon (both yours and your opponent's) that has Energy cards attached to it. (Don't apply Weakness and Resistance for Benched Pokémon.)"
+      }
+    ],
+    "weak": "Fighting ×2",
+    "resist": "Metal -30",
+    "retreat": "Colorless",
+    "rules": "This Pokémon is both Lightning Darkness type.",
+    "image": "https://images.pokemontcg.io/ex4/4.png",
+    "dex": [
+      310
+    ]
+  },
+  {
+    "id": "ex4-5",
+    "name": "Team Aqua's Sharpedo",
+    "set": "Team Magma vs Team Aqua",
+    "number": "5/95",
+    "types": [
+      "Water",
+      "Darkness"
+    ],
+    "stage": "Stage 1",
+    "hp": 70,
+    "evolves": "Team Aqua's Carvanha",
+    "abilities": [],
+    "attacks": [
+      {
+        "name": "Rage",
+        "cost": "Colorless Colorless",
+        "damage": "10+",
+        "text": "Does 10 damage plus 10 more damage for each damage counter on Team Aqua's Sharpedo."
+      },
+      {
+        "name": "Aqua Slash",
+        "cost": "Water Water Colorless",
+        "damage": "60",
+        "text": "Team Aqua's Sharpedo can't attack during your next turn."
+      }
+    ],
+    "weak": "Lightning ×2",
+    "resist": "",
+    "retreat": "0",
+    "rules": "This Pokémon is both Water Darkness type.",
+    "image": "https://images.pokemontcg.io/ex4/5.png",
+    "dex": [
+      319
+    ]
+  },
+  {
+    "id": "ex4-6",
+    "name": "Team Aqua's Walrein",
+    "set": "Team Magma vs Team Aqua",
+    "number": "6/95",
+    "types": [
+      "Water",
+      "Darkness"
+    ],
+    "stage": "Stage 2",
+    "hp": 120,
+    "evolves": "Team Aqua's Sealeo",
+    "abilities": [],
+    "attacks": [
+      {
+        "name": "Power Blow",
+        "cost": "Water",
+        "damage": "10+",
+        "text": "Does 10 damage plus 10 more damage for each Energy attached to Team Aqua's Walrein."
+      },
+      {
+        "name": "Hydro Reverse",
+        "cost": "Water Water Colorless Colorless",
+        "damage": "50+",
+        "text": "You may return any number of basic Water Energy cards attached to all of your Pokémon to your hand. If you do, this attack does 50 damage plus 10 more damage for each Energy you returned."
+      }
+    ],
+    "weak": "Fighting ×2, Metal ×2",
+    "resist": "",
+    "retreat": "Colorless Colorless",
+    "rules": "This Pokémon is both Water Darkness type.",
+    "image": "https://images.pokemontcg.io/ex4/6.png",
+    "dex": [
+      365
+    ]
+  },
+  {
+    "id": "ex4-7",
+    "name": "Team Magma's Aggron",
+    "set": "Team Magma vs Team Aqua",
+    "number": "7/95",
+    "types": [
+      "Fighting",
+      "Darkness"
+    ],
+    "stage": "Stage 2",
+    "hp": 120,
+    "evolves": "Team Magma's Lairon",
+    "abilities": [],
+    "attacks": [
+      {
+        "name": "Crush",
+        "cost": "Fighting",
+        "damage": "30×",
+        "text": "Flip a coin for each Energy attached to Team Magma's Aggron. This attack does 30 damage times the number of heads."
+      },
+      {
+        "name": "Land Stream",
+        "cost": "Fighting Fighting Colorless Colorless",
+        "damage": "50+",
+        "text": "You may discard any number of basic Energy cards attached to Team Magma's Aggron. If you do, this attack does 50 damage plus 20 more damage for each basic Energy card you discarded."
+      }
+    ],
+    "weak": "Grass ×2, Water ×2",
+    "resist": "",
+    "retreat": "Colorless Colorless",
+    "rules": "This Pokémon is both Fighting Darkness type.",
+    "image": "https://images.pokemontcg.io/ex4/7.png",
+    "dex": [
+      306
+    ]
+  },
+  {
+    "id": "ex4-8",
+    "name": "Team Magma's Claydol",
+    "set": "Team Magma vs Team Aqua",
+    "number": "8/95",
+    "types": [
+      "Psychic",
+      "Darkness"
+    ],
+    "stage": "Stage 1",
+    "hp": 80,
+    "evolves": "Team Magma's Baltoy",
+    "abilities": [
+      {
+        "name": "Magma Switch",
+        "text": "Once during your turn (before your attack), you may move an Energy card attached to your Pokémon with Team Magma in its name to another of your Pokémon. This power can't be used if Team Magma's Claydol is affected by a Special Condition."
+      }
+    ],
+    "attacks": [
+      {
+        "name": "Dark Hand",
+        "cost": "Psychic Colorless Colorless",
+        "damage": "40+",
+        "text": "If you have more cards in your hand than your opponent, this attack does 40 damage plus 20 more damage."
+      }
+    ],
+    "weak": "Psychic ×2",
+    "resist": "",
+    "retreat": "Colorless Colorless",
+    "rules": "This Pokémon is both Psychic Darkness type.",
+    "image": "https://images.pokemontcg.io/ex4/8.png",
+    "dex": [
+      344
+    ]
+  },
+  {
+    "id": "ex4-9",
+    "name": "Team Magma's Groudon",
+    "set": "Team Magma vs Team Aqua",
+    "number": "9/95",
+    "types": [
+      "Fighting",
+      "Darkness"
+    ],
+    "stage": "Basic",
+    "hp": 100,
+    "evolves": "",
+    "abilities": [
+      {
+        "name": "Power Saver",
+        "text": "As long as the number of Pokémon in play (both yours and your opponent's) that has Team Magma in its name is 3 or less, Team Magma's Groudon can't attack."
+      }
+    ],
+    "attacks": [
+      {
+        "name": "Linear Attack",
+        "cost": "Fighting Colorless",
+        "damage": "",
+        "text": "Choose 1 of your opponent's Pokémon. This attack does 20 damage to that Pokémon. (Don't apply Weakness and Resistance for Benched Pokémon.)"
+      },
+      {
+        "name": "Pulverize",
+        "cost": "Fighting Fighting Colorless",
+        "damage": "50+",
+        "text": "If the Defending Pokémon already has at least 2 damage counters on it, this attack does 50 damage plus 20 more damage."
+      }
+    ],
+    "weak": "Grass ×2",
+    "resist": "",
+    "retreat": "Colorless Colorless Colorless",
+    "rules": "This Pokémon is both Fighting Darkness type.",
+    "image": "https://images.pokemontcg.io/ex4/9.png",
+    "dex": [
+      383
+    ]
+  },
+  {
+    "id": "ex4-10",
+    "name": "Team Magma's Houndoom",
+    "set": "Team Magma vs Team Aqua",
+    "number": "10/95",
+    "types": [
+      "Fire",
+      "Darkness"
+    ],
+    "stage": "Stage 1",
+    "hp": 70,
+    "evolves": "Team Magma's Houndour",
+    "abilities": [],
+    "attacks": [
+      {
+        "name": "Roasting Heat",
+        "cost": "Fire Colorless",
+        "damage": "30+",
+        "text": "If the Defending Pokémon is Burned, this attack does 30 damage plus 20 more damage."
+      },
+      {
+        "name": "Magma Spurt",
+        "cost": "Fire Colorless Colorless",
+        "damage": "30×",
+        "text": "Discard the top 5 cards from your deck. This attack does 30 damage times the number of Fire and Fighting basic Energy cards discarded in this way."
+      }
+    ],
+    "weak": "Water ×2",
+    "resist": "",
+    "retreat": "Colorless",
+    "rules": "This Pokémon is both Fire Darkness type.",
+    "image": "https://images.pokemontcg.io/ex4/10.png",
+    "dex": [
+      229
+    ]
+  },
+  {
+    "id": "ex4-11",
+    "name": "Team Magma's Rhydon",
+    "set": "Team Magma vs Team Aqua",
+    "number": "11/95",
+    "types": [
+      "Fighting",
+      "Darkness"
+    ],
+    "stage": "Stage 1",
+    "hp": 90,
+    "evolves": "Team Magma's Rhyhorn",
+    "abilities": [],
+    "attacks": [
+      {
+        "name": "Magma Jab",
+        "cost": "Darkness Colorless",
+        "damage": "20",
+        "text": "This attack's damage is not affected by Resistance."
+      },
+      {
+        "name": "Shoot Down",
+        "cost": "Fighting Fighting Colorless",
+        "damage": "50",
+        "text": "If the Defending Pokémon has Team Aqua in its name, the Defending Pokémon is now Confused."
+      }
+    ],
+    "weak": "Grass ×2",
+    "resist": "",
+    "retreat": "Colorless Colorless",
+    "rules": "This Pokémon is both Fighting Darkness type.",
+    "image": "https://images.pokemontcg.io/ex4/11.png",
+    "dex": [
+      112
+    ]
+  },
+  {
+    "id": "ex4-12",
+    "name": "Team Magma's Torkoal",
+    "set": "Team Magma vs Team Aqua",
+    "number": "12/95",
+    "types": [
+      "Fire",
+      "Darkness"
+    ],
+    "stage": "Basic",
+    "hp": 80,
+    "evolves": "",
+    "abilities": [],
+    "attacks": [
+      {
+        "name": "Magma Burn",
+        "cost": "Fire",
+        "damage": "10",
+        "text": "Discard the top card from your opponent's deck, and flip a coin. If tails, discard a Fire Energy attached to Team Magma's Torkoal."
+      },
+      {
+        "name": "Hot Air",
+        "cost": "Fire Colorless",
+        "damage": "30",
+        "text": "Discard a Fire Energy attached to Team Magma's Torkoal and your opponent switches the Defending Pokémon with 1 of his or her Benched Pokémon, if any."
+      }
+    ],
+    "weak": "Water ×2",
+    "resist": "",
+    "retreat": "Colorless Colorless",
+    "rules": "This Pokémon is both Fire Darkness type.",
+    "image": "https://images.pokemontcg.io/ex4/12.png",
+    "dex": [
+      324
+    ]
+  },
+  {
+    "id": "ex4-24",
+    "name": "Team Aqua's Cacnea",
+    "set": "Team Magma vs Team Aqua",
+    "number": "24/95",
+    "types": [
+      "Grass",
+      "Darkness"
+    ],
+    "stage": "Basic",
+    "hp": 50,
+    "evolves": "",
+    "abilities": [],
+    "attacks": [
+      {
+        "name": "Paralyzing Gaze",
+        "cost": "Colorless",
+        "damage": "",
+        "text": "Flip a coin. If heads, the Defending Pokémon is now Paralyzed."
+      },
+      {
+        "name": "Pin Missile",
+        "cost": "Colorless Colorless",
+        "damage": "10×",
+        "text": "Flip 4 coins. This attack does 10 damage times the number of heads."
+      }
+    ],
+    "weak": "Fire ×2",
+    "resist": "",
+    "retreat": "Colorless",
+    "rules": "This Pokémon is both Grass Darkness type.",
+    "image": "https://images.pokemontcg.io/ex4/24.png",
+    "dex": [
+      331
+    ]
+  },
+  {
+    "id": "ex5-4",
+    "name": "Dark Celebi",
+    "set": "Hidden Legends",
+    "number": "4/101",
+    "types": [
+      "Grass",
+      "Darkness"
+    ],
+    "stage": "Basic",
+    "hp": 70,
+    "evolves": "",
+    "abilities": [],
+    "attacks": [
+      {
+        "name": "Dark Provide",
+        "cost": "Colorless",
+        "damage": "",
+        "text": "Attach up to 1 Grass or Darkness Energy card from your hand to your Pokémon."
+      },
+      {
+        "name": "Leaf Poison",
+        "cost": "Grass Darkness",
+        "damage": "20",
+        "text": "The Defending Pokémon is now Poisoned."
+      }
+    ],
+    "weak": "Fire ×2",
+    "resist": "",
+    "retreat": "Colorless",
+    "rules": "This Pokémon is both GrassDarkness type.",
+    "image": "https://images.pokemontcg.io/ex5/4.png",
+    "dex": [
+      251
+    ]
+  },
+  {
+    "id": "ex5-8",
+    "name": "Jirachi",
+    "set": "Hidden Legends",
+    "number": "8/101",
+    "types": [
+      "Psychic",
+      "Metal"
+    ],
+    "stage": "Basic",
+    "hp": 70,
+    "evolves": "",
+    "abilities": [],
+    "attacks": [
+      {
+        "name": "Make a Wish",
+        "cost": "Colorless",
+        "damage": "",
+        "text": "Search your deck for a card that evolves from 1 of your Pokémon and put it on that Pokémon. (This counts as evolving that Pokémon.) If you do, put 1 damage counter on Jirachi. Shuffle your deck afterward."
+      },
+      {
+        "name": "Mind Bend",
+        "cost": "Psychic Metal",
+        "damage": "30",
+        "text": "Flip a coin. If heads, the Defending Pokémon is now Confused."
+      }
+    ],
+    "weak": "Fire ×2",
+    "resist": "",
+    "retreat": "Colorless",
+    "rules": "This Pokémon is both Psychic Metal type.",
+    "image": "https://images.pokemontcg.io/ex5/8.png",
+    "dex": [
+      385
+    ]
+  },
+  {
+    "id": "ex5-11",
+    "name": "Metagross",
+    "set": "Hidden Legends",
+    "number": "11/101",
+    "types": [
+      "Psychic",
+      "Metal"
+    ],
+    "stage": "Stage 2",
+    "hp": 100,
+    "evolves": "Metang",
+    "abilities": [
+      {
+        "name": "Metal Juncture",
+        "text": "As often as you like during your turn (before your attack), you may move a Metal Energy card attached to 1 of your Benched Pokémon to your Active Pokémon. This power can't be used if Metagross is affected by a Special Condition."
+      }
+    ],
+    "attacks": [
+      {
+        "name": "Squared Attack",
+        "cost": "Psychic Metal Colorless",
+        "damage": "30×",
+        "text": "Flip 4 coins. This attack does 30 damage times the number of heads."
+      }
+    ],
+    "weak": "Fire ×2",
+    "resist": "Psychic -30",
+    "retreat": "Colorless Colorless",
+    "rules": "This Pokémon is both Psychic Metal type.",
+    "image": "https://images.pokemontcg.io/ex5/11.png",
+    "dex": [
+      376
+    ]
+  },
+  {
+    "id": "ex7-2",
+    "name": "Dark Ampharos",
+    "set": "Team Rocket Returns",
+    "number": "2/109",
+    "types": [
+      "Lightning",
+      "Darkness"
+    ],
+    "stage": "Stage 2",
+    "hp": 120,
+    "evolves": "Dark Flaaffy",
+    "abilities": [
+      {
+        "name": "Darkest Impulse",
+        "text": "As long as Dark Ampharos is in play, whenever your opponent plays an Evolution card from his or her hand to evolve 1 of his or her Pokémon, put 2 damage counters on that Pokémon. You can't use more than 1 Darkest Impulse Poké-Body each turn."
+      }
+    ],
+    "attacks": [
+      {
+        "name": "Ram",
+        "cost": "Colorless Colorless",
+        "damage": "30",
+        "text": ""
+      },
+      {
+        "name": "Shock Bolt",
+        "cost": "Lightning Colorless Colorless",
+        "damage": "70",
+        "text": "Discard all Lightning Energy attached to Dark Ampharos."
+      }
+    ],
+    "weak": "Fighting ×2",
+    "resist": "",
+    "retreat": "Colorless Colorless",
+    "rules": "This Pokémon is both Lightning Darkness type.",
+    "image": "https://images.pokemontcg.io/ex7/2.png",
+    "dex": [
+      181
+    ]
+  },
+  {
+    "id": "ex7-3",
+    "name": "Dark Crobat",
+    "set": "Team Rocket Returns",
+    "number": "3/109",
+    "types": [
+      "Grass",
+      "Darkness"
+    ],
+    "stage": "Stage 2",
+    "hp": 90,
+    "evolves": "Dark Golbat",
+    "abilities": [
+      {
+        "name": "Black Beam",
+        "text": "Once during your turn (before your attack), if Dark Crobat is your Active Pokémon, you may choose 1 of the Defending Pokémon. That Pokémon is now Poisoned. This power can't be used if Dark Crobat is affected by a Special Condition."
+      }
+    ],
+    "attacks": [
+      {
+        "name": "Dark Drain",
+        "cost": "Grass Colorless",
+        "damage": "",
+        "text": "Does 10 damage to each of your opponent's Pokémon. (Don't apply Weakness and Resistance for Benched Pokémon.) Remove from Dark Crobat a number of damage counters equal to the number of your opponent's Pokémon in play."
+      },
+      {
+        "name": "Skill Dive",
+        "cost": "Grass Colorless",
+        "damage": "",
+        "text": "Does 30 damage to 1 of your opponent's Pokémon. (Don't apply Weakness and Resistance for Benched Pokémon.)"
+      }
+    ],
+    "weak": "Lightning ×2",
+    "resist": "Fighting -30",
+    "retreat": "Colorless",
+    "rules": "This Pokémon is both Grass Darkness type.",
+    "image": "https://images.pokemontcg.io/ex7/3.png",
+    "dex": [
+      169
+    ]
+  },
+  {
+    "id": "ex7-4",
+    "name": "Dark Electrode",
+    "set": "Team Rocket Returns",
+    "number": "4/109",
+    "types": [
+      "Lightning",
+      "Darkness"
+    ],
+    "stage": "Stage 1",
+    "hp": 70,
+    "evolves": "Voltorb",
+    "abilities": [
+      {
+        "name": "Darkness Navigation",
+        "text": "Once during your turn (before your attack), if Dark Electrode has no Energy attached to it, you may search your deck for a Darkness or Dark Metal Energy and attach it to Dark Electrode. Shuffle your deck afterward. This power can't be used if Dark Electrode is affected by a Special Condition."
+      }
+    ],
+    "attacks": [
+      {
+        "name": "Energy Bomb",
+        "cost": "Lightning",
+        "damage": "30",
+        "text": "You may move all Energy cards attached to Dark Electrode to your Benched Pokémon in any way you like."
+      }
+    ],
+    "weak": "Fighting ×2",
+    "resist": "",
+    "retreat": "Colorless",
+    "rules": "This Pokémon is both Lightning Darkness type.",
+    "image": "https://images.pokemontcg.io/ex7/4.png",
+    "dex": [
+      101
+    ]
+  },
+  {
+    "id": "ex7-5",
+    "name": "Dark Houndoom",
+    "set": "Team Rocket Returns",
+    "number": "5/109",
+    "types": [
+      "Fire",
+      "Darkness"
+    ],
+    "stage": "Stage 1",
+    "hp": 70,
+    "evolves": "Houndour",
+    "abilities": [],
+    "attacks": [
+      {
+        "name": "Shakedown",
+        "cost": "Darkness Colorless",
+        "damage": "20",
+        "text": "Choose a card from your opponent's hand without looking and discard it."
+      },
+      {
+        "name": "Dark Fire",
+        "cost": "Fire Colorless Colorless",
+        "damage": "40+",
+        "text": "You may discard a Fire Energy or Darkness Energy attached to Dark Houndoom. If you do, this attack does 40 damage plus 20 more damage."
+      }
+    ],
+    "weak": "Fighting ×2",
+    "resist": "Psychic -30",
+    "retreat": "Colorless",
+    "rules": "This Pokémon is both Fire Darkness type.",
+    "image": "https://images.pokemontcg.io/ex7/5.png",
+    "dex": [
+      229
+    ]
+  },
+  {
+    "id": "ex7-6",
+    "name": "Dark Hypno",
+    "set": "Team Rocket Returns",
+    "number": "6/109",
+    "types": [
+      "Psychic",
+      "Darkness"
+    ],
+    "stage": "Stage 1",
+    "hp": 70,
+    "evolves": "Drowzee",
+    "abilities": [],
+    "attacks": [
+      {
+        "name": "Dark Link",
+        "cost": "Colorless",
+        "damage": "",
+        "text": "Flip a coin. If heads, choose an attack on 1 of your Pokémon in play that has Dark in its name (excluding this one). Dark Link copies that attack except for its Energy cost. (You must still do anything else required for that attack.) (No matter what type that Pokémon is, Dark Hypno's type is still Psychic Darkness.) Dark Hypno performs that attack."
+      },
+      {
+        "name": "Black Magic",
+        "cost": "Psychic Colorless",
+        "damage": "20×",
+        "text": "Does 20 damage times the number of your opponent's Benched Pokémon."
+      }
+    ],
+    "weak": "Psychic ×2",
+    "resist": "",
+    "retreat": "Colorless",
+    "rules": "This Pokémon is both Psychic Darkness type.",
+    "image": "https://images.pokemontcg.io/ex7/6.png",
+    "dex": [
+      97
+    ]
+  },
+  {
+    "id": "ex7-7",
+    "name": "Dark Marowak",
+    "set": "Team Rocket Returns",
+    "number": "7/109",
+    "types": [
+      "Fighting",
+      "Darkness"
+    ],
+    "stage": "Stage 1",
+    "hp": 70,
+    "evolves": "Cubone",
+    "abilities": [],
+    "attacks": [
+      {
+        "name": "Brick Smash",
+        "cost": "Colorless Colorless",
+        "damage": "30",
+        "text": "This attack's damage isn't affected by Resistance, Poké-Powers, Poké-Bodies, or any other effects on the Defending Pokémon."
+      },
+      {
+        "name": "Hard Bone",
+        "cost": "Fighting Fighting Colorless",
+        "damage": "70",
+        "text": "Discard a Basic Pokémon or Evolution card from your hand or this attack does nothing."
+      }
+    ],
+    "weak": "Grass ×2",
+    "resist": "",
+    "retreat": "Colorless",
+    "rules": "This Pokémon is both Fighting Darkness type.",
+    "image": "https://images.pokemontcg.io/ex7/7.png",
+    "dex": [
+      105
+    ]
+  },
+  {
+    "id": "ex7-8",
+    "name": "Dark Octillery",
+    "set": "Team Rocket Returns",
+    "number": "8/109",
+    "types": [
+      "Water",
+      "Darkness"
+    ],
+    "stage": "Stage 1",
+    "hp": 70,
+    "evolves": "Remoraid",
+    "abilities": [],
+    "attacks": [
+      {
+        "name": "Black Suction Cups",
+        "cost": "Water",
+        "damage": "",
+        "text": "Does 10 damage to each Defending Pokémon. Flip a coin. If heads, each Defending Pokémon is now Paralyzed."
+      },
+      {
+        "name": "Ink Blast",
+        "cost": "Colorless Colorless",
+        "damage": "30+",
+        "text": "Does 30 damage plus 10 more damage for each Energy attached to Dark Octillery but not used to pay for this attack's Energy cost. You can't add more than 20 damage in this way."
+      }
+    ],
+    "weak": "Lightning ×2",
+    "resist": "",
+    "retreat": "Colorless",
+    "rules": "This Pokémon is both Water Darkness type.",
+    "image": "https://images.pokemontcg.io/ex7/8.png",
+    "dex": [
+      224
+    ]
+  },
+  {
+    "id": "ex7-9",
+    "name": "Dark Slowking",
+    "set": "Team Rocket Returns",
+    "number": "9/109",
+    "types": [
+      "Psychic",
+      "Darkness"
+    ],
+    "stage": "Stage 1",
+    "hp": 80,
+    "evolves": "Slowpoke",
+    "abilities": [
+      {
+        "name": "Cunning",
+        "text": "Once during your turn (before your attack), you may look at the top card of your opponent's deck. Then, you may shuffle his or her deck. This power can't be used if Dark Slowking is affected by a Special Condition."
+      }
+    ],
+    "attacks": [
+      {
+        "name": "Litter",
+        "cost": "Psychic Colorless",
+        "damage": "20+",
+        "text": "You may discard a combination of up to 2 Pokémon Tool cards and Rocket's Secret Machine cards from your hand. If you do, this attack does 20 damage plus 30 more damage for each card you discarded."
+      }
+    ],
+    "weak": "Grass ×2",
+    "resist": "",
+    "retreat": "Colorless",
+    "rules": "This Pokémon is both Psychic Darkness type.",
+    "image": "https://images.pokemontcg.io/ex7/9.png",
+    "dex": [
+      199
+    ]
+  },
+  {
+    "id": "ex7-10",
+    "name": "Dark Steelix",
+    "set": "Team Rocket Returns",
+    "number": "10/109",
+    "types": [
+      "Darkness",
+      "Metal"
+    ],
+    "stage": "Stage 1",
+    "hp": 110,
+    "evolves": "Onix",
+    "abilities": [],
+    "attacks": [
+      {
+        "name": "Energy Link",
+        "cost": "Colorless Colorless",
+        "damage": "20",
+        "text": "Search your discard pile for an Energy card and attach it to Dark Steelix."
+      },
+      {
+        "name": "Heavy Impact",
+        "cost": "Fighting Colorless Colorless Colorless",
+        "damage": "60",
+        "text": ""
+      }
+    ],
+    "weak": "Fire ×2",
+    "resist": "Grass -30",
+    "retreat": "Colorless Colorless Colorless Colorless",
+    "rules": "This Pokémon is both Darkness Metal type.",
+    "image": "https://images.pokemontcg.io/ex7/10.png",
+    "dex": [
+      208
+    ]
+  },
+  {
+    "id": "ex7-16",
+    "name": "Dark Muk",
+    "set": "Team Rocket Returns",
+    "number": "16/109",
+    "types": [
+      "Grass",
+      "Darkness"
+    ],
+    "stage": "Stage 1",
+    "hp": 80,
+    "evolves": "Grimer",
+    "abilities": [
+      {
+        "name": "Sticky Goo",
+        "text": "As long as Dark Muk is your Active Pokémon, your opponent pays ColorlessColorless more to retreat his or her Active Pokémon."
+      }
+    ],
+    "attacks": [
+      {
+        "name": "Slimy Water",
+        "cost": "Colorless Colorless",
+        "damage": "10×",
+        "text": "Does 10 damage times the number of Colorless Energy in the Defending Pokémon's Retreat Cost (after applying effects to the Retreat Cost)."
+      },
+      {
+        "name": "Acidic Poison",
+        "cost": "Grass Colorless",
+        "damage": "10",
+        "text": "The Defending Pokémon is now Burned and Poisoned."
+      }
+    ],
+    "weak": "Psychic ×2",
+    "resist": "",
+    "retreat": "Colorless",
+    "rules": "This Pokémon is both Grass Darkness type.",
+    "image": "https://images.pokemontcg.io/ex7/16.png",
+    "dex": [
+      89
+    ]
+  },
+  {
+    "id": "ex7-18",
+    "name": "Dark Sandslash",
+    "set": "Team Rocket Returns",
+    "number": "18/109",
+    "types": [
+      "Fighting",
+      "Darkness"
+    ],
+    "stage": "Stage 1",
+    "hp": 70,
+    "evolves": "Sandshrew",
+    "abilities": [
+      {
+        "name": "Poison Payback",
+        "text": "If Dark Sandslash is your Active Pokémon and is damaged by an opponent's attack (even if Dark Sandslash is Knocked Out), the Attacking Pokémon is now Poisoned."
+      }
+    ],
+    "attacks": [
+      {
+        "name": "Swift",
+        "cost": "Colorless Colorless Colorless",
+        "damage": "50",
+        "text": "This attack's damage isn't affected by Weakness, Resistance, Poké-Powers, Poké-Bodies, or any other effects on the Defending Pokémon."
+      }
+    ],
+    "weak": "Grass ×2",
+    "resist": "",
+    "retreat": "0",
+    "rules": "This Pokémon is both Fighting Darkness type.",
+    "image": "https://images.pokemontcg.io/ex7/18.png",
+    "dex": [
+      28
+    ]
+  },
+  {
+    "id": "ex7-20",
+    "name": "Dark Tyranitar",
+    "set": "Team Rocket Returns",
+    "number": "20/109",
+    "types": [
+      "Fighting",
+      "Darkness"
+    ],
+    "stage": "Stage 2",
+    "hp": 120,
+    "evolves": "Dark Pupitar",
+    "abilities": [
+      {
+        "name": "Sand Damage",
+        "text": "As long as Dark Tyranitar is your Active Pokémon, put 1 damage counter on each of your opponent's Benched Basic Pokémon between turns. You can't use more than 1 Sand Damage Poké-Body between turns."
+      }
+    ],
+    "attacks": [
+      {
+        "name": "Second Strike",
+        "cost": "Fighting Colorless Colorless",
+        "damage": "50+",
+        "text": "If the Defending Pokémon already has at least 2 damage counters on it, this attack does 50 damage plus 20 more damage."
+      }
+    ],
+    "weak": "Grass ×2",
+    "resist": "",
+    "retreat": "Colorless Colorless Colorless",
+    "rules": "This Pokémon is both Fighting Darkness type.",
+    "image": "https://images.pokemontcg.io/ex7/20.png",
+    "dex": [
+      248
+    ]
+  },
+  {
+    "id": "ex7-29",
+    "name": "Dark Arbok",
+    "set": "Team Rocket Returns",
+    "number": "29/109",
+    "types": [
+      "Grass",
+      "Darkness"
+    ],
+    "stage": "Stage 1",
+    "hp": 90,
+    "evolves": "Ekans",
+    "abilities": [],
+    "attacks": [
+      {
+        "name": "Swallow Up",
+        "cost": "Grass",
+        "damage": "10+",
+        "text": "Before doing damage, count the remaining HP of the Defending Pokémon and Dark Arbok. If the Defending Pokémon has fewer remaining HP than Dark Arbok's, this attack does 10 damage plus 30 more damage."
+      },
+      {
+        "name": "Extra Poison",
+        "cost": "Colorless Colorless",
+        "damage": "30",
+        "text": "If the Defending Pokémon is Pokémon-ex, the Defending Pokémon is now Asleep and Poisoned."
+      }
+    ],
+    "weak": "Psychic ×2",
+    "resist": "",
+    "retreat": "Colorless",
+    "rules": "This Pokémon is both Grass Darkness type.",
+    "image": "https://images.pokemontcg.io/ex7/29.png",
+    "dex": [
+      24
+    ]
+  },
+  {
+    "id": "ex7-30",
+    "name": "Dark Ariados",
+    "set": "Team Rocket Returns",
+    "number": "30/109",
+    "types": [
+      "Grass",
+      "Darkness"
+    ],
+    "stage": "Stage 1",
+    "hp": 70,
+    "evolves": "Spinarak",
+    "abilities": [],
+    "attacks": [
+      {
+        "name": "Super Poison Breath",
+        "cost": "Colorless",
+        "damage": "",
+        "text": "Each Defending Pokémon is now Poisoned."
+      },
+      {
+        "name": "Breaking Impact",
+        "cost": "Grass Colorless Colorless",
+        "damage": "",
+        "text": "Choose 1 of your opponent's Pokémon. This attack does 20 damage for each Colorless Energy in that Pokémon's Retreat Cost (after applying effects to the Retreat Cost). (Don't apply Weakness and Resistance for Benched Pokémon.)"
+      }
+    ],
+    "weak": "Fire ×2",
+    "resist": "",
+    "retreat": "Colorless",
+    "rules": "This Pokémon is both Grass Darkness type.",
+    "image": "https://images.pokemontcg.io/ex7/30.png",
+    "dex": [
+      168
+    ]
+  },
+  {
+    "id": "ex7-33",
+    "name": "Dark Flaaffy",
+    "set": "Team Rocket Returns",
+    "number": "33/109",
+    "types": [
+      "Lightning",
+      "Darkness"
+    ],
+    "stage": "Stage 1",
+    "hp": 80,
+    "evolves": "Mareep",
+    "abilities": [],
+    "attacks": [
+      {
+        "name": "Thunder Slash",
+        "cost": "Colorless",
+        "damage": "10",
+        "text": "If the Defending Pokémon is a Basic Pokémon, the Defending Pokémon is now Paralyzed. Dark Flaaffy can't use Thunder Slash during your next turn."
+      },
+      {
+        "name": "Headbutt",
+        "cost": "Lightning Colorless",
+        "damage": "20",
+        "text": ""
+      }
+    ],
+    "weak": "Fighting ×2",
+    "resist": "",
+    "retreat": "Colorless",
+    "rules": "This Pokémon is both Lightning Darkness type.",
+    "image": "https://images.pokemontcg.io/ex7/33.png",
+    "dex": [
+      180
+    ]
+  },
+  {
+    "id": "ex7-34",
+    "name": "Dark Golbat",
+    "set": "Team Rocket Returns",
+    "number": "34/109",
+    "types": [
+      "Grass",
+      "Darkness"
+    ],
+    "stage": "Stage 1",
+    "hp": 70,
+    "evolves": "Zubat",
+    "abilities": [],
+    "attacks": [
+      {
+        "name": "Night Ambush",
+        "cost": "Grass",
+        "damage": "",
+        "text": "Does 30 damage to 1 of your opponent's Pokémon. Dark Golbat can't attack during your next turn. (Don't apply Weakness and Resistance for Benched Pokémon.)"
+      }
+    ],
+    "weak": "Psychic ×2",
+    "resist": "",
+    "retreat": "0",
+    "rules": "This Pokémon is both Grass Darkness type.",
+    "image": "https://images.pokemontcg.io/ex7/34.png",
+    "dex": [
+      42
+    ]
+  },
+  {
+    "id": "ex7-35",
+    "name": "Dark Golduck",
+    "set": "Team Rocket Returns",
+    "number": "35/109",
+    "types": [
+      "Water",
+      "Darkness"
+    ],
+    "stage": "Stage 1",
+    "hp": 70,
+    "evolves": "Psyduck",
+    "abilities": [],
+    "attacks": [
+      {
+        "name": "Darkness Shield",
+        "cost": "Water Colorless",
+        "damage": "20",
+        "text": "Flip a coin. If heads, prevent all effects of an attack, including damage, done to each of your Active Pokémon during your opponent's next turn."
+      },
+      {
+        "name": "Cold Crush",
+        "cost": "Water Colorless Colorless",
+        "damage": "40",
+        "text": "You may discard an Energy card attached to Dark Golduck. If you do, discard an Energy attached to the Defending Pokémon."
+      }
+    ],
+    "weak": "Lightning ×2",
+    "resist": "",
+    "retreat": "Colorless",
+    "rules": "This Pokémon is both Water Darkness type.",
+    "image": "https://images.pokemontcg.io/ex7/35.png",
+    "dex": [
+      55
+    ]
+  },
+  {
+    "id": "ex7-36",
+    "name": "Dark Gyarados",
+    "set": "Team Rocket Returns",
+    "number": "36/109",
+    "types": [
+      "Water",
+      "Darkness"
+    ],
+    "stage": "Stage 1",
+    "hp": 80,
+    "evolves": "Magikarp",
+    "abilities": [
+      {
+        "name": "Dark Scale",
+        "text": "If Dark Gyarados is your Active Pokémon and is Knocked Out by an opponent's attack, put 3 damage counters on the Attacking Pokémon."
+      }
+    ],
+    "attacks": [
+      {
+        "name": "Sharp Fang",
+        "cost": "Water Colorless",
+        "damage": "30",
+        "text": ""
+      },
+      {
+        "name": "Dark Streak",
+        "cost": "Water Colorless Colorless",
+        "damage": "40",
+        "text": "Flip a coin. If heads, each Defending Pokémon is now Paralyzed."
+      }
+    ],
+    "weak": "Lightning ×2",
+    "resist": "Fighting -30",
+    "retreat": "Colorless Colorless",
+    "rules": "This Pokémon is both Water Darkness type.",
+    "image": "https://images.pokemontcg.io/ex7/36.png",
+    "dex": [
+      130
+    ]
+  },
+  {
+    "id": "ex7-37",
+    "name": "Dark Houndoom",
+    "set": "Team Rocket Returns",
+    "number": "37/109",
+    "types": [
+      "Fire",
+      "Darkness"
+    ],
+    "stage": "Stage 1",
+    "hp": 70,
+    "evolves": "Houndour",
+    "abilities": [
+      {
+        "name": "Fire Breath",
+        "text": "Once during your turn (before your attack), if Dark Houndoom is your Active Pokémon, you may flip a coin. If heads, the Defending Pokémon (choose 1 if there are 2) is now Burned. This power can't be used if Dark Houndoom is affected by a Special Condition."
+      }
+    ],
+    "attacks": [
+      {
+        "name": "Fire Payback",
+        "cost": "Fire Colorless Colorless",
+        "damage": "40+",
+        "text": "If you have less Benched Pokémon than your opponent, this attack does 40 damage plus 20 more damage."
+      }
+    ],
+    "weak": "Water ×2",
+    "resist": "",
+    "retreat": "Colorless",
+    "rules": "This Pokémon is both Fire Darkness type.",
+    "image": "https://images.pokemontcg.io/ex7/37.png",
+    "dex": [
+      229
+    ]
+  },
+  {
+    "id": "ex7-38",
+    "name": "Dark Magcargo",
+    "set": "Team Rocket Returns",
+    "number": "38/109",
+    "types": [
+      "Fire",
+      "Darkness"
+    ],
+    "stage": "Stage 1",
+    "hp": 80,
+    "evolves": "Slugma",
+    "abilities": [],
+    "attacks": [
+      {
+        "name": "Energy Press",
+        "cost": "Colorless",
+        "damage": "10+",
+        "text": "Does 10 damage plus 10 more damage for each basic Energy card attached to all of your Active Pokémon."
+      },
+      {
+        "name": "Linear Attack",
+        "cost": "Fighting Colorless Colorless",
+        "damage": "",
+        "text": "Choose 1 of your opponent's Pokémon. This attack does 40 damage to that Pokémon. (Don't apply Weakness and Resistance for Benched Pokémon.)"
+      }
+    ],
+    "weak": "Water ×2",
+    "resist": "",
+    "retreat": "Colorless Colorless",
+    "rules": "This Pokémon is both Fire Darkness type.",
+    "image": "https://images.pokemontcg.io/ex7/38.png",
+    "dex": [
+      219
+    ]
+  },
+  {
+    "id": "ex7-39",
+    "name": "Dark Magneton",
+    "set": "Team Rocket Returns",
+    "number": "39/109",
+    "types": [
+      "Lightning",
+      "Darkness"
+    ],
+    "stage": "Stage 1",
+    "hp": 70,
+    "evolves": "Magnemite",
+    "abilities": [],
+    "attacks": [
+      {
+        "name": "Magnetic Lines",
+        "cost": "Lightning Colorless",
+        "damage": "20",
+        "text": "If your opponent has at least 2 Pokémon in play, move a basic Energy card from the Defending Pokémon to another of your opponent's Pokémon."
+      },
+      {
+        "name": "Poison Pulse",
+        "cost": "Lightning Colorless Colorless",
+        "damage": "40",
+        "text": "The Defending Pokémon is now Poisoned."
+      }
+    ],
+    "weak": "Fighting ×2",
+    "resist": "",
+    "retreat": "Colorless",
+    "rules": "This Pokémon is both Lightning Darkness type.",
+    "image": "https://images.pokemontcg.io/ex7/39.png",
+    "dex": [
+      82
+    ]
+  },
+  {
+    "id": "ex7-40",
+    "name": "Dark Pupitar",
+    "set": "Team Rocket Returns",
+    "number": "40/109",
+    "types": [
+      "Fighting",
+      "Darkness"
+    ],
+    "stage": "Stage 1",
+    "hp": 70,
+    "evolves": "Larvitar",
+    "abilities": [],
+    "attacks": [
+      {
+        "name": "Explosive Evolution",
+        "cost": "Colorless",
+        "damage": "",
+        "text": "Flip a coin. If heads, this attack does 10 damage to each of your opponent's Pokémon. (Don't apply Weakness and Resistance.) Then, search your deck for a card that evolves from Dark Pupitar and put it on Dark Pupitar. (This counts as evolving Dark Pupitar.) Shuffle your deck afterward."
+      },
+      {
+        "name": "Double Tackle",
+        "cost": "Fighting Colorless",
+        "damage": "",
+        "text": "Does 20 damage to each Defending Pokémon."
+      }
+    ],
+    "weak": "Grass ×2",
+    "resist": "",
+    "retreat": "Colorless",
+    "rules": "This Pokémon is both Fighting Darkness type.",
+    "image": "https://images.pokemontcg.io/ex7/40.png",
+    "dex": [
+      247
+    ]
+  },
+  {
+    "id": "ex7-41",
+    "name": "Dark Pupitar",
+    "set": "Team Rocket Returns",
+    "number": "41/109",
+    "types": [
+      "Fighting",
+      "Darkness"
+    ],
+    "stage": "Stage 1",
+    "hp": 80,
+    "evolves": "Larvitar",
+    "abilities": [],
+    "attacks": [
+      {
+        "name": "Dark Streak",
+        "cost": "Colorless Colorless",
+        "damage": "20",
+        "text": "Flip a coin. If heads, each Defending Pokémon is now Paralyzed."
+      },
+      {
+        "name": "Rock Tumble",
+        "cost": "Fighting Colorless Colorless",
+        "damage": "40",
+        "text": "This attack's damage is not affected by Resistance."
+      }
+    ],
+    "weak": "Grass ×2",
+    "resist": "",
+    "retreat": "Colorless Colorless",
+    "rules": "This Pokémon is both Fighting Darkness type.",
+    "image": "https://images.pokemontcg.io/ex7/41.png",
+    "dex": [
+      247
+    ]
+  },
+  {
+    "id": "ex7-42",
+    "name": "Dark Weezing",
+    "set": "Team Rocket Returns",
+    "number": "42/109",
+    "types": [
+      "Grass",
+      "Darkness"
+    ],
+    "stage": "Stage 1",
+    "hp": 80,
+    "evolves": "Koffing",
+    "abilities": [
+      {
+        "name": "Methane Leak",
+        "text": "As long as Dark Weezing is your Active Pokémon, put 1 damage counter on each Pokémon that remains Poisoned between turns."
+      }
+    ],
+    "attacks": [
+      {
+        "name": "Smog",
+        "cost": "Colorless",
+        "damage": "",
+        "text": "The Defending Pokémon is now Poisoned."
+      },
+      {
+        "name": "Darkness Charge",
+        "cost": "Grass Colorless Colorless",
+        "damage": "50",
+        "text": "Put 2 damage counters on Dark Weezing."
+      }
+    ],
+    "weak": "Psychic ×2",
+    "resist": "",
+    "retreat": "Colorless Colorless",
+    "rules": "This Pokémon is both Grass Darkness type.",
+    "image": "https://images.pokemontcg.io/ex7/42.png",
+    "dex": [
+      110
+    ]
+  },
+  {
+    "id": "ex11-1",
+    "name": "Beedrill δ",
+    "set": "Delta Species",
+    "number": "1/113",
+    "types": [
+      "Grass",
+      "Metal"
+    ],
+    "stage": "Stage 2",
+    "hp": 90,
+    "evolves": "Kakuna",
+    "abilities": [
+      {
+        "name": "Final Sting",
+        "text": "Once during your turn (before your attack), you may Knock Out Beedrill. If you do, choose 1 of your opponent's Defending Pokémon. That Pokémon is now Paralyzed and Poisoned. Put 2 damage counters instead of 1 on that Pokémon between turns. This power can't be used if Beedrill is affected by a Special Condition."
+      }
+    ],
+    "attacks": [
+      {
+        "name": "Super Slash",
+        "cost": "Grass Metal Colorless",
+        "damage": "50+",
+        "text": "If the Defending Pokémon is an Evolved Pokémon, this attack does 50 damage plus 30 more damage."
+      }
+    ],
+    "weak": "Fire ×2",
+    "resist": "",
+    "retreat": "0",
+    "rules": "This Pokémon is both Grass Metal type.",
+    "image": "https://images.pokemontcg.io/ex11/1.png",
+    "dex": [
+      15
+    ]
+  },
+  {
+    "id": "ex11-2",
+    "name": "Crobat δ",
+    "set": "Delta Species",
+    "number": "2/113",
+    "types": [
+      "Grass",
+      "Metal"
+    ],
+    "stage": "Stage 2",
+    "hp": 90,
+    "evolves": "Golbat",
+    "abilities": [],
+    "attacks": [
+      {
+        "name": "Radar Jam",
+        "cost": "Colorless Colorless",
+        "damage": "30",
+        "text": "Your opponent can't play any Trainer cards (except for Supporter cards) from his or her hand during your opponent's next turn."
+      },
+      {
+        "name": "Target Attack",
+        "cost": "Grass Metal Colorless",
+        "damage": "",
+        "text": "Choose 1 of your opponent's Pokémon. This attack does 40 damage to that Pokémon. If that Pokémon already has damage counters on it, this attack does 60 damage instead. (Don't apply Weakness and Resistance for Benched Pokémon.)"
+      }
+    ],
+    "weak": "Psychic ×2",
+    "resist": "",
+    "retreat": "0",
+    "rules": "This Pokémon is both Grass Metal type.",
+    "image": "https://images.pokemontcg.io/ex11/2.png",
+    "dex": [
+      169
+    ]
+  },
+  {
+    "id": "ex11-3",
+    "name": "Dragonite δ",
+    "set": "Delta Species",
+    "number": "3/113",
+    "types": [
+      "Lightning",
+      "Metal"
+    ],
+    "stage": "Stage 2",
+    "hp": 100,
+    "evolves": "Dragonair",
+    "abilities": [
+      {
+        "name": "Delta Charge",
+        "text": "Once during your turn (before your attack), you may attach a Lightning Energy card from your discard pile to 1 of your Benched Pokémon. This power can't be used if Dragonite is affected by a Special Condition."
+      }
+    ],
+    "attacks": [
+      {
+        "name": "Agility",
+        "cost": "Lightning Colorless",
+        "damage": "30",
+        "text": "Flip a coin. If heads, prevent all effects of an attack, including damage, done to Dragonite during your opponent's next turn."
+      },
+      {
+        "name": "Heavy Impact",
+        "cost": "Lightning Metal Colorless Colorless",
+        "damage": "70",
+        "text": ""
+      }
+    ],
+    "weak": "Colorless ×2",
+    "resist": "Grass -30, Fighting -30",
+    "retreat": "Colorless Colorless",
+    "rules": "This Pokémon is both Lightning Metal type.",
+    "image": "https://images.pokemontcg.io/ex11/3.png",
+    "dex": [
+      149
+    ]
+  },
+  {
+    "id": "ex11-4",
+    "name": "Espeon δ",
+    "set": "Delta Species",
+    "number": "4/113",
+    "types": [
+      "Psychic",
+      "Metal"
+    ],
+    "stage": "Stage 1",
+    "hp": 70,
+    "evolves": "Eevee",
+    "abilities": [
+      {
+        "name": "Delta Heal",
+        "text": "Once during your turn (before your attack), you may remove 1 damage counter from each of your Pokémon that has δ on its card. You can't use more than 1 Delta Heal Poké-Power each turn. This power can't be used if Espeon is affected by a Special Condition."
+      }
+    ],
+    "attacks": [
+      {
+        "name": "Psyshock",
+        "cost": "Psychic Metal",
+        "damage": "30",
+        "text": "Flip a coin. If heads, the Defending Pokémon is now Paralyzed."
+      }
+    ],
+    "weak": "Psychic ×2",
+    "resist": "",
+    "retreat": "Colorless",
+    "rules": "This Pokémon is both Psychic Metal type.",
+    "image": "https://images.pokemontcg.io/ex11/4.png",
+    "dex": [
+      196
+    ]
+  },
+  {
+    "id": "ex11-5",
+    "name": "Flareon δ",
+    "set": "Delta Species",
+    "number": "5/113",
+    "types": [
+      "Fire",
+      "Metal"
+    ],
+    "stage": "Stage 1",
+    "hp": 70,
+    "evolves": "Eevee",
+    "abilities": [],
+    "attacks": [
+      {
+        "name": "Delta Search",
+        "cost": "Colorless",
+        "damage": "10",
+        "text": "Search your deck for a Holon Energy card and attach it to Flareon. Shuffle your deck afterward."
+      },
+      {
+        "name": "Return Burn",
+        "cost": "Fire Metal Colorless",
+        "damage": "50",
+        "text": "You may return an Energy card attached to Flareon to your hand. If you do, the Defending Pokémon is now Burned."
+      }
+    ],
+    "weak": "Water ×2",
+    "resist": "",
+    "retreat": "Colorless",
+    "rules": "This Pokémon is both Fire Metal type.",
+    "image": "https://images.pokemontcg.io/ex11/5.png",
+    "dex": [
+      136
+    ]
+  },
+  {
+    "id": "ex11-6",
+    "name": "Gardevoir δ",
+    "set": "Delta Species",
+    "number": "6/113",
+    "types": [
+      "Psychic",
+      "Metal"
+    ],
+    "stage": "Stage 2",
+    "hp": 100,
+    "evolves": "Kirlia",
+    "abilities": [
+      {
+        "name": "Energy Jump",
+        "text": "Once during your turn (before your attack), you may move an Energy card attached to 1 of your Pokémon to another of your Pokémon. This power can't be used if Gardevoir is affected by a Special Condition."
+      }
+    ],
+    "attacks": [
+      {
+        "name": "Psychic Rage",
+        "cost": "Metal Colorless",
+        "damage": "",
+        "text": "Choose 1 of your opponent's Pokémon. This attack does 10 damage for each damage counter on Gardevoir to that Pokémon. (Don't apply Weakness and Resistance for Benched Pokémon.)"
+      },
+      {
+        "name": "Black Magic",
+        "cost": "Psychic Colorless Colorless",
+        "damage": "10+",
+        "text": "Does 10 damage plus 20 more damage times the number of your opponent's Benched Pokémon."
+      }
+    ],
+    "weak": "Psychic ×2",
+    "resist": "",
+    "retreat": "Colorless Colorless",
+    "rules": "This Pokémon is both Psychic Metal type.",
+    "image": "https://images.pokemontcg.io/ex11/6.png",
+    "dex": [
+      282
+    ]
+  },
+  {
+    "id": "ex11-7",
+    "name": "Jolteon δ",
+    "set": "Delta Species",
+    "number": "7/113",
+    "types": [
+      "Lightning",
+      "Metal"
+    ],
+    "stage": "Stage 1",
+    "hp": 70,
+    "evolves": "Eevee",
+    "abilities": [],
+    "attacks": [
+      {
+        "name": "Delta Search",
+        "cost": "Colorless",
+        "damage": "10",
+        "text": "Search your deck for a Holon Energy card and attach it to Jolteon. Shuffle your deck afterward."
+      },
+      {
+        "name": "Return Spark",
+        "cost": "Lightning Metal Colorless",
+        "damage": "50",
+        "text": "You may return an Energy card attached to Jolteon to your hand. If you do, this attack does 20 damage to 1 of your opponent's Benched Pokémon. (Don't apply Weakness and Resistance for Benched Pokémon.)"
+      }
+    ],
+    "weak": "Fighting ×2",
+    "resist": "Metal -30",
+    "retreat": "Colorless",
+    "rules": "This Pokémon is both Lightning Metal type.",
+    "image": "https://images.pokemontcg.io/ex11/7.png",
+    "dex": [
+      135
+    ]
+  },
+  {
+    "id": "ex11-8",
+    "name": "Latias δ",
+    "set": "Delta Species",
+    "number": "8/113",
+    "types": [
+      "Lightning",
+      "Metal"
+    ],
+    "stage": "Basic",
+    "hp": 70,
+    "evolves": "",
+    "abilities": [
+      {
+        "name": "Delta Aura",
+        "text": "If you have Latios or Latios ex in play, the attack cost of Latias's Extra Crush is now Lightning MetalColorless."
+      }
+    ],
+    "attacks": [
+      {
+        "name": "Spiral Drain",
+        "cost": "Metal Colorless",
+        "damage": "20",
+        "text": "Remove 2 damage counters fro Latias."
+      },
+      {
+        "name": "Extra Crush",
+        "cost": "Lightning Metal Colorless Colorless Colorless",
+        "damage": "80",
+        "text": "If your opponent has no Pokémon-ex in play, this attack does nothing."
+      }
+    ],
+    "weak": "Colorless ×2",
+    "resist": "Psychic -30, Fighting -30",
+    "retreat": "Colorless",
+    "rules": "This Pokémon is both Lightning Metal type.",
+    "image": "https://images.pokemontcg.io/ex11/8.png",
+    "dex": [
+      380
+    ]
+  },
+  {
+    "id": "ex11-9",
+    "name": "Latios δ",
+    "set": "Delta Species",
+    "number": "9/113",
+    "types": [
+      "Lightning",
+      "Metal"
+    ],
+    "stage": "Basic",
+    "hp": 80,
+    "evolves": "",
+    "abilities": [
+      {
+        "name": "Delta Aura",
+        "text": "If you have Latias or Latias ex in play, the attack cost of Latios's Psychic Force is now Lightning MetalColorless."
+      }
+    ],
+    "attacks": [
+      {
+        "name": "Dragon Claw",
+        "cost": "Colorless Colorless",
+        "damage": "20",
+        "text": ""
+      },
+      {
+        "name": "Psychic Force",
+        "cost": "Lightning Metal Colorless Colorless Colorless",
+        "damage": "80",
+        "text": "If your opponent has no Stage 2 Evolved Pokémon in play, this attack does nothing."
+      }
+    ],
+    "weak": "Colorless ×2",
+    "resist": "Grass -30, Fighting -30",
+    "retreat": "Colorless Colorless",
+    "rules": "This Pokémon is both Lightning Metal type.",
+    "image": "https://images.pokemontcg.io/ex11/9.png",
+    "dex": [
+      381
+    ]
+  },
+  {
+    "id": "ex11-10",
+    "name": "Marowak δ",
+    "set": "Delta Species",
+    "number": "10/113",
+    "types": [
+      "Fighting",
+      "Metal"
+    ],
+    "stage": "Stage 1",
+    "hp": 80,
+    "evolves": "Cubone",
+    "abilities": [],
+    "attacks": [
+      {
+        "name": "Energy Bone",
+        "cost": "Fighting Metal",
+        "damage": "",
+        "text": "Choose a number of your opponent's Pokémon up to the amount of Energy attached to Marowak. This attack does 20 damage to each of them."
+      },
+      {
+        "name": "Metal Crusher",
+        "cost": "Fighting Colorless Colorless",
+        "damage": "50",
+        "text": "If the Defending Pokémon is Metal Pokémon, this attack's base damage is 90."
+      }
+    ],
+    "weak": "Grass ×2",
+    "resist": "",
+    "retreat": "Colorless",
+    "rules": "This Pokémon is both Fighting Metal type.",
+    "image": "https://images.pokemontcg.io/ex11/10.png",
+    "dex": [
+      105
+    ]
+  },
+  {
+    "id": "ex11-11",
+    "name": "Metagross δ",
+    "set": "Delta Species",
+    "number": "11/113",
+    "types": [
+      "Lightning",
+      "Metal"
+    ],
+    "stage": "Stage 2",
+    "hp": 100,
+    "evolves": "Metang",
+    "abilities": [
+      {
+        "name": "Delta Control",
+        "text": "Once during your turn (before your attack), you may look at the top 4 cards of your deck, choose 1 of them, and put it into your hand. Put the 3 other cards on the bottom of your deck in any order. This power can't be used if Metagross is affected by a Special Condition."
+      }
+    ],
+    "attacks": [
+      {
+        "name": "Crush and Burn",
+        "cost": "Lightning Metal",
+        "damage": "30+",
+        "text": "You may discard as many Energy cards as you like attached to your Pokémon in play. If you do, this attack does 30 damage plus 20 more damage for each Energy card you discarded."
+      }
+    ],
+    "weak": "Fire ×2",
+    "resist": "Grass -30",
+    "retreat": "Colorless Colorless Colorless",
+    "rules": "This Pokémon is both Lightning Metal type.",
+    "image": "https://images.pokemontcg.io/ex11/11.png",
+    "dex": [
+      376
+    ]
+  },
+  {
+    "id": "ex11-12",
+    "name": "Mewtwo δ",
+    "set": "Delta Species",
+    "number": "12/113",
+    "types": [
+      "Fire",
+      "Metal"
+    ],
+    "stage": "Basic",
+    "hp": 70,
+    "evolves": "",
+    "abilities": [
+      {
+        "name": "Delta Switch",
+        "text": "Once during your turn, when you put Mewtwo from your hand onto your Bench, you may move any number of basic Energy cards attached to your Pokémon to your other Pokémon (excluding Mewtwo) in any way you like."
+      }
+    ],
+    "attacks": [
+      {
+        "name": "Energy Burst",
+        "cost": "Fire Metal",
+        "damage": "10×",
+        "text": "Does 10 damage times the total amount of Energy attached to Mewtwo and the Defending Pokémon."
+      }
+    ],
+    "weak": "Psychic ×2",
+    "resist": "",
+    "retreat": "Colorless",
+    "rules": "This Pokémon is both Fire Metal type.",
+    "image": "https://images.pokemontcg.io/ex11/12.png",
+    "dex": [
+      150
+    ]
+  },
+  {
+    "id": "ex11-13",
+    "name": "Rayquaza δ",
+    "set": "Delta Species",
+    "number": "13/113",
+    "types": [
+      "Lightning",
+      "Metal"
+    ],
+    "stage": "Basic",
+    "hp": 90,
+    "evolves": "",
+    "abilities": [
+      {
+        "name": "Delta Guard",
+        "text": "As long as Rayquaza has any Holon Energy cards attached to it, ignore the effect of Rayquaza's Lightning Storm attack."
+      }
+    ],
+    "attacks": [
+      {
+        "name": "Power Blow",
+        "cost": "Lightning",
+        "damage": "10×",
+        "text": "Does 10 damage times the amount of Energy attached to Rayquaza."
+      },
+      {
+        "name": "Lightning Storm",
+        "cost": "Lightning Metal Colorless Colorless",
+        "damage": "70",
+        "text": "Put 7 damage counters on Rayquaza."
+      }
+    ],
+    "weak": "Colorless ×2",
+    "resist": "Water -30, Fighting -30",
+    "retreat": "Colorless Colorless Colorless",
+    "rules": "This Pokémon is both Lightning Metal type.",
+    "image": "https://images.pokemontcg.io/ex11/13.png",
+    "dex": [
+      384
+    ]
+  },
+  {
+    "id": "ex11-14",
+    "name": "Salamence δ",
+    "set": "Delta Species",
+    "number": "14/113",
+    "types": [
+      "Fire",
+      "Metal"
+    ],
+    "stage": "Stage 2",
+    "hp": 110,
+    "evolves": "Shelgon",
+    "abilities": [],
+    "attacks": [
+      {
+        "name": "Fire Dance",
+        "cost": "Fire Colorless",
+        "damage": "30",
+        "text": "Search your discard pile for a Fire Energy card and attach it to 1 of your Pokémon."
+      },
+      {
+        "name": "Delta Blast",
+        "cost": "Fire Metal Colorless Colorless",
+        "damage": "100",
+        "text": "Discard a Metal Energy card attached to Salamence."
+      }
+    ],
+    "weak": "Colorless ×2",
+    "resist": "Fire -30, Fighting -30",
+    "retreat": "Colorless",
+    "rules": "This Pokémon is both Fire Metal type.",
+    "image": "https://images.pokemontcg.io/ex11/14.png",
+    "dex": [
+      373
+    ]
+  },
+  {
+    "id": "ex11-15",
+    "name": "Starmie δ",
+    "set": "Delta Species",
+    "number": "15/113",
+    "types": [
+      "Water",
+      "Metal"
+    ],
+    "stage": "Stage 1",
+    "hp": 60,
+    "evolves": "Staryu",
+    "abilities": [
+      {
+        "name": "Metal Navigation",
+        "text": "Once during your turn (before your attack), you may search your deck for a Metal Energy card and attach it to Starmie. Shuffle your deck afterward. This power can't be used if Starmie is affected by a Special Condition."
+      }
+    ],
+    "attacks": [
+      {
+        "name": "Collect",
+        "cost": "Water",
+        "damage": "",
+        "text": "Draw 3 cards."
+      },
+      {
+        "name": "Energy Loop",
+        "cost": "Metal",
+        "damage": "30",
+        "text": "Return an Energy card attached to Starmie to your hand."
+      }
+    ],
+    "weak": "Lightning ×2",
+    "resist": "",
+    "retreat": "0",
+    "rules": "This Pokémon is both Water Metal type.",
+    "image": "https://images.pokemontcg.io/ex11/15.png",
+    "dex": [
+      121
+    ]
+  },
+  {
+    "id": "ex11-16",
+    "name": "Tyranitar δ",
+    "set": "Delta Species",
+    "number": "16/113",
+    "types": [
+      "Fire",
+      "Metal"
+    ],
+    "stage": "Stage 2",
+    "hp": 120,
+    "evolves": "Pupitar",
+    "abilities": [
+      {
+        "name": "Crush Draw",
+        "text": "Once during your turn (before your attack), you may reveal the top card of your deck. If that card is a basic Energy card, attach it to 1 of your Pokémon. If not, put the card back on top of your deck. This power can't be used if Tyranitar is affected by a Special Condition."
+      }
+    ],
+    "attacks": [
+      {
+        "name": "Delta Crush",
+        "cost": "Fire Metal Colorless",
+        "damage": "50+",
+        "text": "You may discard an Energy card attached to Tyranitar. If you do, this attack does 50 damage plus 20 more damage."
+      }
+    ],
+    "weak": "Grass ×2",
+    "resist": "",
+    "retreat": "Colorless Colorless",
+    "rules": "This Pokémon is both Fire Metal type.",
+    "image": "https://images.pokemontcg.io/ex11/16.png",
+    "dex": [
+      248
+    ]
+  },
+  {
+    "id": "ex11-17",
+    "name": "Umbreon δ",
+    "set": "Delta Species",
+    "number": "17/113",
+    "types": [
+      "Darkness",
+      "Metal"
+    ],
+    "stage": "Stage 1",
+    "hp": 70,
+    "evolves": "Eevee",
+    "abilities": [
+      {
+        "name": "Delta Moon",
+        "text": "When your opponent attaches a Special Energy card from his or her hand to 1 of his or her Pokémon, put 1 damage counter on that Pokémon. You can't use more than 1 Delta Moon Poké-Body each turn."
+      }
+    ],
+    "attacks": [
+      {
+        "name": "Feint Attack",
+        "cost": "Darkness Metal",
+        "damage": "",
+        "text": "Choose 1 of your opponent's Pokémon. This attack does 30 damage to that Pokémon. This attack's damage isn't affected by Weakness, Resistance, Poké-Powers, Poké-Bodies, or any other effects on that Pokémon."
+      }
+    ],
+    "weak": "Fighting ×2",
+    "resist": "Psychic -30",
+    "retreat": "Colorless",
+    "rules": "This Pokémon is both Darkness Metal type.",
+    "image": "https://images.pokemontcg.io/ex11/17.png",
+    "dex": [
+      197
+    ]
+  },
+  {
+    "id": "ex11-18",
+    "name": "Vaporeon δ",
+    "set": "Delta Species",
+    "number": "18/113",
+    "types": [
+      "Water",
+      "Metal"
+    ],
+    "stage": "Stage 1",
+    "hp": 70,
+    "evolves": "Eevee",
+    "abilities": [],
+    "attacks": [
+      {
+        "name": "Delta Search",
+        "cost": "Colorless",
+        "damage": "10",
+        "text": "Search your deck for a Holon Energy card and attach it to Vaporeon. Shuffle your deck afterward."
+      },
+      {
+        "name": "Return Wave",
+        "cost": "Water Metal Colorless",
+        "damage": "50",
+        "text": "You may return an Energy card attached to Vaporeon to your hand. If you do, choose an Energy card attached to the Defending Pokémon and return it to your opponent's hand."
+      }
+    ],
+    "weak": "Lightning ×2",
+    "resist": "",
+    "retreat": "Colorless",
+    "rules": "This Pokémon is both Water Metal type.",
+    "image": "https://images.pokemontcg.io/ex11/18.png",
+    "dex": [
+      134
+    ]
+  },
+  {
+    "id": "ex11-19",
+    "name": "Azumarill δ",
+    "set": "Delta Species",
+    "number": "19/113",
+    "types": [
+      "Water",
+      "Metal"
+    ],
+    "stage": "Stage 1",
+    "hp": 80,
+    "evolves": "Marill",
+    "abilities": [],
+    "attacks": [
+      {
+        "name": "Bubblebeam",
+        "cost": "Colorless Colorless",
+        "damage": "20",
+        "text": "Flip a coin. If heads, the Defending Pokémon is now Paralyzed."
+      },
+      {
+        "name": "Rolling Tackle",
+        "cost": "Water Colorless Colorless",
+        "damage": "50",
+        "text": ""
+      }
+    ],
+    "weak": "Lightning ×2",
+    "resist": "",
+    "retreat": "Colorless Colorless",
+    "rules": "This Pokémon is both Water Metal type.",
+    "image": "https://images.pokemontcg.io/ex11/19.png",
+    "dex": [
+      184
+    ]
+  },
+  {
+    "id": "ex11-24",
+    "name": "Mightyena δ",
+    "set": "Delta Species",
+    "number": "24/113",
+    "types": [
+      "Darkness",
+      "Metal"
+    ],
+    "stage": "Stage 1",
+    "hp": 70,
+    "evolves": "Poochyena",
+    "abilities": [],
+    "attacks": [
+      {
+        "name": "Delta Fang",
+        "cost": "Darkness Colorless",
+        "damage": "20",
+        "text": "If the Defending Pokémon is Pokémon-ex, that Pokémon can't attack during your opponent's next turn."
+      },
+      {
+        "name": "Gang Up",
+        "cost": "Metal Colorless",
+        "damage": "10×",
+        "text": "Does 10 damage times the number of Darkness Pokémon and Metal Pokémon you have in play."
+      }
+    ],
+    "weak": "Fighting ×2",
+    "resist": "Psychic -30",
+    "retreat": "Colorless",
+    "rules": "This Pokémon is both Darkness Metal type.",
+    "image": "https://images.pokemontcg.io/ex11/24.png",
+    "dex": [
+      262
+    ]
+  },
+  {
+    "id": "ex11-27",
+    "name": "Sandslash δ",
+    "set": "Delta Species",
+    "number": "27/113",
+    "types": [
+      "Fighting",
+      "Metal"
+    ],
+    "stage": "Stage 1",
+    "hp": 80,
+    "evolves": "Sandshrew",
+    "abilities": [
+      {
+        "name": "Delta Storm",
+        "text": "As long as Sandslash is your Active Pokémon, put 1 damage counter on each of your opponent's Pokémon-ex between turns."
+      }
+    ],
+    "attacks": [
+      {
+        "name": "Rend",
+        "cost": "Fighting Colorless",
+        "damage": "20+",
+        "text": "If the Defending Pokémon already has any damage counters on it, this attack does 20 damage plus 20 more damage."
+      },
+      {
+        "name": "Slash",
+        "cost": "Metal Colorless Colorless",
+        "damage": "50",
+        "text": ""
+      }
+    ],
+    "weak": "Grass ×2",
+    "resist": "",
+    "retreat": "Colorless",
+    "rules": "This Pokémon is both Fighting Metal type.",
+    "image": "https://images.pokemontcg.io/ex11/27.png",
+    "dex": [
+      28
+    ]
+  },
+  {
+    "id": "ex11-30",
+    "name": "Starmie δ",
+    "set": "Delta Species",
+    "number": "30/113",
+    "types": [
+      "Water",
+      "Metal"
+    ],
+    "stage": "Stage 1",
+    "hp": 70,
+    "evolves": "Staryu",
+    "abilities": [],
+    "attacks": [
+      {
+        "name": "Surf",
+        "cost": "Water",
+        "damage": "20",
+        "text": ""
+      },
+      {
+        "name": "Swift",
+        "cost": "Colorless Colorless Colorless",
+        "damage": "50",
+        "text": "This attack's damage isn't affected by Weakness, Resistance, Poké-Powers, Poké-Bodies, or any other effects on the Defending Pokémon."
+      }
+    ],
+    "weak": "Lightning ×2",
+    "resist": "",
+    "retreat": "Colorless",
+    "rules": "This Pokémon is both Water Metal type.",
+    "image": "https://images.pokemontcg.io/ex11/30.png",
+    "dex": [
+      121
+    ]
+  },
+  {
+    "id": "ex13-1",
+    "name": "Armaldo δ",
+    "set": "Holon Phantoms",
+    "number": "1/110",
+    "types": [
+      "Fighting",
+      "Metal"
+    ],
+    "stage": "Stage 2",
+    "hp": 110,
+    "evolves": "Anorith",
+    "abilities": [],
+    "attacks": [
+      {
+        "name": "Delta Edge",
+        "cost": "Metal Colorless",
+        "damage": "70",
+        "text": "If you have any Supporter cards in play, this attack's base damage is 20 instead of 70."
+      },
+      {
+        "name": "Fossil Charge",
+        "cost": "Fighting Colorless Colorless",
+        "damage": "50",
+        "text": "You may discard a Claw Fossil, Mysterious Fossil, Root Fossil, or Holon Fossil from your hand. If you do, choose 1 of your opponent's Benched Pokémon and do 30 damage to that Pokémon. (Don't apply Weakness and Resistance for Benched Pokémon.)"
+      }
+    ],
+    "weak": "Grass ×2",
+    "resist": "",
+    "retreat": "Colorless Colorless Colorless",
+    "rules": "This Pokémon is both Fighting Metal type.",
+    "image": "https://images.pokemontcg.io/ex13/1.png",
+    "dex": [
+      348
+    ]
+  },
+  {
+    "id": "ex13-2",
+    "name": "Cradily δ",
+    "set": "Holon Phantoms",
+    "number": "2/110",
+    "types": [
+      "Darkness",
+      "Metal"
+    ],
+    "stage": "Stage 2",
+    "hp": 100,
+    "evolves": "Lileep",
+    "abilities": [],
+    "attacks": [
+      {
+        "name": "Harsh Fluid",
+        "cost": "Darkness Colorless",
+        "damage": "20",
+        "text": "Put 5 damage counters on the Defending Pokémon at the end of your opponent's next turn."
+      },
+      {
+        "name": "Poison Tentacles",
+        "cost": "Metal Colorless Colorless",
+        "damage": "50",
+        "text": "The Defending Pokémon is now Poisoned."
+      }
+    ],
+    "weak": "Fire ×2",
+    "resist": "",
+    "retreat": "Colorless Colorless",
+    "rules": "This Pokémon is both Darkness Metal type.",
+    "image": "https://images.pokemontcg.io/ex13/2.png",
+    "dex": [
+      346
+    ]
+  },
+  {
+    "id": "ex13-7",
+    "name": "Flygon δ",
+    "set": "Holon Phantoms",
+    "number": "7/110",
+    "types": [
+      "Grass",
+      "Metal"
+    ],
+    "stage": "Stage 2",
+    "hp": 110,
+    "evolves": "Vibrava",
+    "abilities": [
+      {
+        "name": "Delta Supply",
+        "text": "Once during your turn (before your attack), you may attach a basic Energy card or a δ Rainbow Energy card from your hand to 1 of your Pokémon that has δ on its card. This power can't be used if Flygon is affected by a Special Condition."
+      }
+    ],
+    "attacks": [
+      {
+        "name": "Swift",
+        "cost": "Grass Metal Colorless",
+        "damage": "60",
+        "text": "This attack's damage isn't affected by Weakness, Resistance, Poké-Powers, Poké-Bodies, or any other effects on the Defending Pokémon."
+      }
+    ],
+    "weak": "Colorless ×2",
+    "resist": "Lightning -30, Fighting -30",
+    "retreat": "Colorless Colorless",
+    "rules": "This Pokémon is both Grass Metal type.",
+    "image": "https://images.pokemontcg.io/ex13/7.png",
+    "dex": [
+      330
+    ]
+  },
+  {
+    "id": "ex13-8",
+    "name": "Gyarados δ",
+    "set": "Holon Phantoms",
+    "number": "8/110",
+    "types": [
+      "Lightning",
+      "Metal"
+    ],
+    "stage": "Stage 1",
+    "hp": 90,
+    "evolves": "Magikarp",
+    "abilities": [
+      {
+        "name": "Delta Reactor",
+        "text": "As long as any Stadium card with Holon in its name is in play, each of your Pokémon that has δ on its card does 10 more damage to the Defending Pokémon (before applying Weakness and Resistance)."
+      }
+    ],
+    "attacks": [
+      {
+        "name": "Hyper Beam",
+        "cost": "Metal Colorless",
+        "damage": "20",
+        "text": "Flip a coin. If heads, discard an Energy card attached to the Defending Pokémon."
+      },
+      {
+        "name": "Heavy Impact",
+        "cost": "Lightning Metal Colorless Colorless Colorless",
+        "damage": "80",
+        "text": ""
+      }
+    ],
+    "weak": "Lightning ×2",
+    "resist": "",
+    "retreat": "Colorless Colorless",
+    "rules": "This Pokémon is both Lightning Metal type.",
+    "image": "https://images.pokemontcg.io/ex13/8.png",
+    "dex": [
+      130
+    ]
+  },
+  {
+    "id": "ex13-10",
+    "name": "Kingdra δ",
+    "set": "Holon Phantoms",
+    "number": "10/110",
+    "types": [
+      "Fire",
+      "Metal"
+    ],
+    "stage": "Stage 2",
+    "hp": 110,
+    "evolves": "Seadra",
+    "abilities": [
+      {
+        "name": "Dragon Curse",
+        "text": "Once during your turn (before your attack), if Kingdra is your Active Pokémon, you may put 2 damage counters on 1 of your opponent's Pokémon with δ on its card. This power can't be used if Kingdra is affected by a Special Condition."
+      }
+    ],
+    "attacks": [
+      {
+        "name": "Extra Flame",
+        "cost": "Fire Colorless",
+        "damage": "30+",
+        "text": "If the Defending Pokémon is Pokémon-ex, this attack does 30 damage plus 30 more damage."
+      },
+      {
+        "name": "Heat Blast",
+        "cost": "Fire Metal Colorless Colorless",
+        "damage": "80",
+        "text": ""
+      }
+    ],
+    "weak": "Lightning ×2",
+    "resist": "",
+    "retreat": "Colorless Colorless",
+    "rules": "This Pokémon is both Fire Metal type.",
+    "image": "https://images.pokemontcg.io/ex13/10.png",
+    "dex": [
+      230
+    ]
+  },
+  {
+    "id": "ex13-14",
+    "name": "Pidgeot δ",
+    "set": "Holon Phantoms",
+    "number": "14/110",
+    "types": [
+      "Lightning",
+      "Metal"
+    ],
+    "stage": "Stage 2",
+    "hp": 100,
+    "evolves": "Pidgeotto",
+    "abilities": [
+      {
+        "name": "Delta Reserve",
+        "text": "As long as Pidgeot has any Holon Energy cards attached to it, each player's Pokémon (excluding Pokémon that has δ on its card) can't use any Poké-Powers."
+      }
+    ],
+    "attacks": [
+      {
+        "name": "Rotating Claws",
+        "cost": "Lightning Metal Colorless",
+        "damage": "50",
+        "text": "You may discard an Energy card attached to Pidgeot. If you do, search your discard pile for an Energy card (excluding the one you discarded) and attach it to Pidgeot."
+      }
+    ],
+    "weak": "Lightning ×2",
+    "resist": "Fighting -30",
+    "retreat": "Colorless",
+    "rules": "This Pokémon is both Lightning Metal type.",
+    "image": "https://images.pokemontcg.io/ex13/14.png",
+    "dex": [
+      18
+    ]
+  },
+  {
+    "id": "ex13-16",
+    "name": "Rayquaza δ",
+    "set": "Holon Phantoms",
+    "number": "16/110",
+    "types": [
+      "Water",
+      "Metal"
+    ],
+    "stage": "Basic",
+    "hp": 80,
+    "evolves": "",
+    "abilities": [
+      {
+        "name": "Hydro Barrier",
+        "text": "As long as Rayquaza has any Holon Energy cards attached to it, each of your Water Pokémon has no Weakness."
+      }
+    ],
+    "attacks": [
+      {
+        "name": "Delta Search",
+        "cost": "Colorless",
+        "damage": "",
+        "text": "Search your deck for a Holon Energy card and attach it to Rayquaza. Shuffle your deck afterward."
+      },
+      {
+        "name": "Ozone Flare",
+        "cost": "Water Metal Colorless Colorless",
+        "damage": "60",
+        "text": ""
+      }
+    ],
+    "weak": "Colorless ×2",
+    "resist": "Water -30, Fighting -30",
+    "retreat": "Colorless Colorless",
+    "rules": "This Pokémon is both Water Metal type.",
+    "image": "https://images.pokemontcg.io/ex13/16.png",
+    "dex": [
+      384
+    ]
+  },
+  {
+    "id": "ex13-17",
+    "name": "Vileplume δ",
+    "set": "Holon Phantoms",
+    "number": "17/110",
+    "types": [
+      "Psychic",
+      "Metal"
+    ],
+    "stage": "Stage 2",
+    "hp": 90,
+    "evolves": "Gloom",
+    "abilities": [
+      {
+        "name": "Poison Pollen",
+        "text": "Once during your turn (before your attack), you may flip a coin. If heads, choose 1 of the Defending Pokémon. That Pokémon is now Poisoned. This power can't be used if Vileplume is affected by a Special Condition."
+      }
+    ],
+    "attacks": [
+      {
+        "name": "Poltergeist",
+        "cost": "Psychic Metal",
+        "damage": "30+",
+        "text": "Look at your opponent's hand. This attack does 30 damage plus 10 more damage for each Trainer card in your opponent's hand."
+      }
+    ],
+    "weak": "Psychic ×2",
+    "resist": "",
+    "retreat": "Colorless",
+    "rules": "This Pokémon is both Psychic Metal type.",
+    "image": "https://images.pokemontcg.io/ex13/17.png",
+    "dex": [
+      45
+    ]
+  },
+  {
+    "id": "ex13-48",
+    "name": "Persian δ",
+    "set": "Holon Phantoms",
+    "number": "48/110",
+    "types": [
+      "Darkness",
+      "Metal"
+    ],
+    "stage": "Stage 1",
+    "hp": 70,
+    "evolves": "Meowth",
+    "abilities": [],
+    "attacks": [
+      {
+        "name": "Scratch and Draw",
+        "cost": "Darkness Colorless",
+        "damage": "30",
+        "text": "If any Stadium card with Holon in its name is in play, draw 3 cards."
+      },
+      {
+        "name": "Deceive",
+        "cost": "Metal Colorless",
+        "damage": "",
+        "text": "Your opponent chooses 1 of his or her Pokémon. Put 4 damage counters on that Pokémon."
+      }
+    ],
+    "weak": "Fighting ×2",
+    "resist": "",
+    "retreat": "0",
+    "rules": "This Pokémon is both Darkness Metal type.",
+    "image": "https://images.pokemontcg.io/ex13/48.png",
+    "dex": [
+      53
+    ]
+  },
+  {
+    "id": "ex13-71",
+    "name": "Meowth δ",
+    "set": "Holon Phantoms",
+    "number": "71/110",
+    "types": [
+      "Darkness",
+      "Metal"
+    ],
+    "stage": "Basic",
+    "hp": 50,
+    "evolves": "",
+    "abilities": [],
+    "attacks": [
+      {
+        "name": "Slash",
+        "cost": "Darkness",
+        "damage": "10",
+        "text": ""
+      },
+      {
+        "name": "Pay Day",
+        "cost": "Metal Colorless",
+        "damage": "10",
+        "text": "Draw a card."
+      }
+    ],
+    "weak": "Fighting ×2",
+    "resist": "",
+    "retreat": "Colorless",
+    "rules": "This Pokémon is both Darkness Metal type.",
+    "image": "https://images.pokemontcg.io/ex13/71.png",
+    "dex": [
+      52
+    ]
+  },
+  {
+    "id": "ex14-2",
+    "name": "Blastoise δ",
+    "set": "Crystal Guardians",
+    "number": "2/100",
+    "types": [
+      "Fighting",
+      "Metal"
+    ],
+    "stage": "Stage 2",
+    "hp": 110,
+    "evolves": "Wartortle",
+    "abilities": [
+      {
+        "name": "Shield Veil",
+        "text": "Each of your Active Pokémon has no Weakness."
+      }
+    ],
+    "attacks": [
+      {
+        "name": "Enraged Linear Attack",
+        "cost": "Fighting Colorless",
+        "damage": "",
+        "text": "Choose 1 of your opponent's Pokémon. This attack does 10 damage for each damage counter on Blastoise to that Pokémon. (Don't apply Weakness and Resistance for Benched Pokémon.)"
+      },
+      {
+        "name": "Skull Bash",
+        "cost": "Metal Colorless Colorless",
+        "damage": "60",
+        "text": ""
+      }
+    ],
+    "weak": "Lightning ×2",
+    "resist": "",
+    "retreat": "Colorless Colorless Colorless",
+    "rules": "This Pokémon is both Fighting Metal type.",
+    "image": "https://images.pokemontcg.io/ex14/2.png",
+    "dex": [
+      9
+    ]
+  },
+  {
+    "id": "ex14-4",
+    "name": "Charizard δ",
+    "set": "Crystal Guardians",
+    "number": "4/100",
+    "types": [
+      "Lightning",
+      "Metal"
+    ],
+    "stage": "Stage 2",
+    "hp": 120,
+    "evolves": "Charmeleon",
+    "abilities": [
+      {
+        "name": "Peal of Thunder",
+        "text": "Once during your turn, when you play Charizard from your hand to evolve 1 of your Pokémon, you may look at the top 5 cards of your deck, choose as many Energy cards as you like, and attach them to 1 of your Pokémon. Discard the other cards."
+      }
+    ],
+    "attacks": [
+      {
+        "name": "Metal Burn",
+        "cost": "Lightning Metal Metal Colorless",
+        "damage": "120",
+        "text": "Discard all Metal Energy attached to Charizard."
+      }
+    ],
+    "weak": "Water ×2",
+    "resist": "",
+    "retreat": "Colorless Colorless",
+    "rules": "This Pokémon is both Lightning Metal type.",
+    "image": "https://images.pokemontcg.io/ex14/4.png",
+    "dex": [
+      6
+    ]
+  },
+  {
+    "id": "ex14-22",
+    "name": "Kingler δ",
+    "set": "Crystal Guardians",
+    "number": "22/100",
+    "types": [
+      "Fire",
+      "Metal"
+    ],
+    "stage": "Stage 1",
+    "hp": 80,
+    "evolves": "Krabby",
+    "abilities": [],
+    "attacks": [
+      {
+        "name": "Body Slam",
+        "cost": "Metal Colorless",
+        "damage": "30",
+        "text": "Flip a coin. If heads, the Defending Pokémon is now Paralyzed."
+      },
+      {
+        "name": "Prop-up Pinchers",
+        "cost": "Fire Colorless Colorless",
+        "damage": "40+",
+        "text": "If Kingler has a Pokémon Tool card attached to it, this attack does 40 damage plus 40 more damage."
+      }
+    ],
+    "weak": "Lightning ×2",
+    "resist": "",
+    "retreat": "Colorless Colorless Colorless",
+    "rules": "This Pokémon is both Fire Metal type.",
+    "image": "https://images.pokemontcg.io/ex14/22.png",
+    "dex": [
+      99
+    ]
+  },
+  {
+    "id": "hgss2-90",
+    "name": "Entei & Raikou LEGEND",
+    "set": "HS—Unleashed",
+    "number": "90/95",
+    "types": [
+      "Fire",
+      "Lightning"
+    ],
+    "stage": "LEGEND",
+    "hp": 140,
+    "evolves": "",
+    "abilities": [],
+    "attacks": [
+      {
+        "name": "Detonation Spin",
+        "cost": "Fire Colorless",
+        "damage": "90",
+        "text": "Discard a Fire Energy attached to Entei & Raikou LEGEND."
+      },
+      {
+        "name": "Thunder Fall",
+        "cost": "Lightning Colorless",
+        "damage": "",
+        "text": "Discard all Energy attached to Entei & Raikou LEGEND. This attack does 80 damage to each Pokémon that has any Poké-Powers (both yours and your opponent's). This attack's damage isn't affected by Weakness or Resistance."
+      }
+    ],
+    "weak": "Water ×2",
+    "resist": "",
+    "retreat": "0",
+    "rules": "Put this card from your hand onto your Bench only with the other half of Entei & Raikou LEGEND. When this Pokémon has been Knocked Out, your opponent takes 2 Prize cards.",
+    "image": "https://images.pokemontcg.io/hgss2/90.png",
+    "dex": [
+      243,
+      244
+    ]
+  },
+  {
+    "id": "hgss2-91",
+    "name": "Entei & Raikou LEGEND",
+    "set": "HS—Unleashed",
+    "number": "91/95",
+    "types": [
+      "Fire",
+      "Lightning"
+    ],
+    "stage": "LEGEND",
+    "hp": 140,
+    "evolves": "",
+    "abilities": [],
+    "attacks": [
+      {
+        "name": "Detonation Spin",
+        "cost": "Fire Colorless",
+        "damage": "90",
+        "text": "Discard a Fire Energy attached to Entei & Raikou LEGEND."
+      },
+      {
+        "name": "Thunder Fall",
+        "cost": "Lightning Colorless",
+        "damage": "",
+        "text": "Discard all Energy attached to Entei & Raikou LEGEND. This attack does 80 damage to each Pokémon that has any Poké-Powers (both yours and your opponent's). This attack's damage isn't affected by Weakness or Resistance."
+      }
+    ],
+    "weak": "Water ×2, Fighting ×2",
+    "resist": "",
+    "retreat": "0",
+    "rules": "Put this card from your hand onto your Bench only with the other half of Entei & Raikou LEGEND. When this Pokémon has been Knocked Out, your opponent takes 2 Prize cards.",
+    "image": "https://images.pokemontcg.io/hgss2/91.png",
+    "dex": [
+      243,
+      244
+    ]
+  },
+  {
+    "id": "hgss2-92",
+    "name": "Raikou & Suicune LEGEND",
+    "set": "HS—Unleashed",
+    "number": "92/95",
+    "types": [
+      "Lightning",
+      "Water"
+    ],
+    "stage": "LEGEND",
+    "hp": 160,
+    "evolves": "",
+    "abilities": [],
+    "attacks": [
+      {
+        "name": "Thunderbolt Spear",
+        "cost": "Lightning Lightning Colorless",
+        "damage": "150",
+        "text": "Raikou & Suicune LEGEND does 50 damage to itself and don't apply Weakness to this damage."
+      },
+      {
+        "name": "Aurora Gain",
+        "cost": "Water Colorless Colorless",
+        "damage": "50",
+        "text": "Remove 5 damage counters from Raikou & Suicune LEGEND."
+      }
+    ],
+    "weak": "Fighting ×2, Lightning ×2",
+    "resist": "",
+    "retreat": "Colorless",
+    "rules": "Put this card from your hand onto your Bench only with the other half of Raikou & Suicune LEGEND. When this Pokémon has been Knocked Out, your opponent takes 2 Prize cards.",
+    "image": "https://images.pokemontcg.io/hgss2/92.png",
+    "dex": [
+      243,
+      245
+    ]
+  },
+  {
+    "id": "hgss2-93",
+    "name": "Raikou & Suicune LEGEND",
+    "set": "HS—Unleashed",
+    "number": "93/95",
+    "types": [
+      "Lightning",
+      "Water"
+    ],
+    "stage": "LEGEND",
+    "hp": 160,
+    "evolves": "",
+    "abilities": [],
+    "attacks": [
+      {
+        "name": "Thunderbolt Spear",
+        "cost": "Lightning Lightning Colorless",
+        "damage": "150",
+        "text": "Raikou & Suicune LEGEND does 50 damage to itself and don't apply Weakness to this damage."
+      },
+      {
+        "name": "Aurora Gain",
+        "cost": "Water Colorless Colorless",
+        "damage": "50",
+        "text": "Remove 5 damage counters from Raikou & Suicune LEGEND."
+      }
+    ],
+    "weak": "Fighting ×2, Lightning ×2",
+    "resist": "",
+    "retreat": "Colorless",
+    "rules": "Put this card from your hand onto your Bench only with the other half of Raikou & Suicune LEGEND. When this Pokémon has been Knocked Out, your opponent takes 2 Prize cards.",
+    "image": "https://images.pokemontcg.io/hgss2/93.png",
+    "dex": [
+      243,
+      245
+    ]
+  },
+  {
+    "id": "hgss2-94",
+    "name": "Suicune & Entei LEGEND",
+    "set": "HS—Unleashed",
+    "number": "94/95",
+    "types": [
+      "Water",
+      "Fire"
+    ],
+    "stage": "LEGEND",
+    "hp": 160,
+    "evolves": "",
+    "abilities": [],
+    "attacks": [
+      {
+        "name": "Torrent Blade",
+        "cost": "Water Water Colorless",
+        "damage": "",
+        "text": "Return 2 Water Energy attached to Suicune & Entei LEGEND to your hand. Choose 1 of your opponent's Benched Pokémon. This attack does 100 damage to that Pokémon. (Don't apply Weakness or Resistance for Benched Pokémon.)"
+      },
+      {
+        "name": "Bursting Inferno",
+        "cost": "Fire Colorless Colorless",
+        "damage": "80",
+        "text": "The Defending Pokémon is now Burned."
+      }
+    ],
+    "weak": "Lightning ×2, Water ×2",
+    "resist": "",
+    "retreat": "Colorless",
+    "rules": "Put this card from your hand onto your Bench only with the other half of Suicune & Entei LEGEND. When this Pokémon has been Knocked Out, your opponent takes 2 Prize cards.",
+    "image": "https://images.pokemontcg.io/hgss2/94.png",
+    "dex": [
+      244,
+      245
+    ]
+  },
+  {
+    "id": "hgss2-95",
+    "name": "Suicune & Entei LEGEND",
+    "set": "HS—Unleashed",
+    "number": "95/95",
+    "types": [
+      "Water",
+      "Fire"
+    ],
+    "stage": "LEGEND",
+    "hp": 160,
+    "evolves": "",
+    "abilities": [],
+    "attacks": [
+      {
+        "name": "Torrent Blade",
+        "cost": "Water Water Colorless",
+        "damage": "",
+        "text": "Return 2 Water Energy attached to Suicune & Entei LEGEND to your hand. Choose 1 of your opponent's Benched Pokémon. This attack does 100 damage to that Pokémon. (Don't apply Weakness or Resistance for Benched Pokémon.)"
+      },
+      {
+        "name": "Bursting Inferno",
+        "cost": "Fire Colorless Colorless",
+        "damage": "80",
+        "text": "The Defending Pokémon is now Burned."
+      }
+    ],
+    "weak": "Lightning ×2, Water ×2",
+    "resist": "",
+    "retreat": "Colorless",
+    "rules": "Put this card from your hand onto your Bench only with the other half of Suicune & Entei LEGEND. When this Pokémon has been Knocked Out, your opponent takes 2 Prize cards.",
+    "image": "https://images.pokemontcg.io/hgss2/95.png",
+    "dex": [
+      244,
+      245
+    ]
+  },
+  {
+    "id": "hgss3-87",
+    "name": "Kyogre & Groudon LEGEND",
+    "set": "HS—Undaunted",
+    "number": "87/90",
+    "types": [
+      "Water",
+      "Fighting"
+    ],
+    "stage": "LEGEND",
+    "hp": 150,
+    "evolves": "",
+    "abilities": [],
+    "attacks": [
+      {
+        "name": "Mega Tidal Wave",
+        "cost": "Water Water Colorless Colorless",
+        "damage": "",
+        "text": "Discard the top 5 cards from your opponent's deck. This attack does 30 damage times the number of Energy cards you discarded to each of your opponent's Benched Pokémon. (Don't apply Weakness and Resistance for Benched Pokémon.)"
+      },
+      {
+        "name": "Massive Eruption",
+        "cost": "Fighting Fighting Colorless Colorless",
+        "damage": "100×",
+        "text": "Discard the top 5 cards from your deck. This attack does 100 damage times the number of Energy cards you discarded."
+      }
+    ],
+    "weak": "Lightning ×2, Grass ×2",
+    "resist": "",
+    "retreat": "Colorless Colorless Colorless",
+    "rules": "Put this card from your hand onto your Bench only with the other half of Kyogre & Groudon LEGEND. When this Pokémon has been Knocked Out, your opponent takes 2 Prize cards.",
+    "image": "https://images.pokemontcg.io/hgss3/87.png",
+    "dex": [
+      382,
+      383
+    ]
+  },
+  {
+    "id": "hgss3-88",
+    "name": "Kyogre & Groudon LEGEND",
+    "set": "HS—Undaunted",
+    "number": "88/90",
+    "types": [
+      "Water",
+      "Fighting"
+    ],
+    "stage": "LEGEND",
+    "hp": 150,
+    "evolves": "",
+    "abilities": [],
+    "attacks": [
+      {
+        "name": "Mega Tidal Wave",
+        "cost": "Water Water Colorless Colorless",
+        "damage": "",
+        "text": "Discard the top 5 cards from your opponent's deck. This attack does 30 damage times the number of Energy cards you discarded to each of your opponent's Benched Pokémon. (Don't apply Weakness and Resistance for Benched Pokémon.)"
+      },
+      {
+        "name": "Massive Eruption",
+        "cost": "Fighting Fighting Colorless Colorless",
+        "damage": "100×",
+        "text": "Discard the top 5 cards from your deck. This attack does 100 damage times the number of Energy cards you discarded."
+      }
+    ],
+    "weak": "Lightning ×2, Grass ×2",
+    "resist": "",
+    "retreat": "Colorless Colorless Colorless",
+    "rules": "Put this card from your hand onto your Bench only with the other half of Kyogre & Groudon LEGEND. When this Pokémon has been Knocked Out, your opponent takes 2 Prize cards.",
+    "image": "https://images.pokemontcg.io/hgss3/88.png",
+    "dex": [
+      382,
+      383
+    ]
+  },
+  {
+    "id": "hgss3-89",
+    "name": "Rayquaza & Deoxys LEGEND",
+    "set": "HS—Undaunted",
+    "number": "89/90",
+    "types": [
+      "Colorless",
+      "Psychic"
+    ],
+    "stage": "LEGEND",
+    "hp": 140,
+    "evolves": "",
+    "abilities": [
+      {
+        "name": "Space Virus",
+        "text": "If your opponent's Pokémon is Knocked Out by damage from an attack of Rayquaza & Deoxys LEGEND, take 1 more Prize card."
+      }
+    ],
+    "attacks": [
+      {
+        "name": "Ozone Buster",
+        "cost": "Fire Fire Lightning Colorless",
+        "damage": "150",
+        "text": "Discard all Fire Energy attached to Rayquaza & Deoxys LEGEND."
+      }
+    ],
+    "weak": "Colorless ×2, Psychic ×2",
+    "resist": "",
+    "retreat": "Colorless Colorless Colorless",
+    "rules": "Put this card from your hand onto your Bench only with the other half of Rayquaza & Deoxys LEGEND. When this Pokémon has been Knocked Out, your opponent takes 2 Prize cards.",
+    "image": "https://images.pokemontcg.io/hgss3/89.png",
+    "dex": [
+      384,
+      386
+    ]
+  },
+  {
+    "id": "hgss3-90",
+    "name": "Rayquaza & Deoxys LEGEND",
+    "set": "HS—Undaunted",
+    "number": "90/90",
+    "types": [
+      "Colorless",
+      "Psychic"
+    ],
+    "stage": "LEGEND",
+    "hp": 140,
+    "evolves": "",
+    "abilities": [
+      {
+        "name": "Space Virus",
+        "text": "If your opponent's Pokémon is Knocked Out by damage from an attack of Rayquaza & Deoxys LEGEND, take 1 more Prize card."
+      }
+    ],
+    "attacks": [
+      {
+        "name": "Ozone Buster",
+        "cost": "Fire Fire Lightning Colorless",
+        "damage": "150",
+        "text": "Discard all Fire Energy attached to Rayquaza & Deoxys LEGEND."
+      }
+    ],
+    "weak": "Colorless ×2, Psychic ×2",
+    "resist": "",
+    "retreat": "Colorless Colorless Colorless",
+    "rules": "Put this card from your hand onto your Bench only with the other half of Rayquaza & Deoxys LEGEND. When this Pokémon has been Knocked Out, your opponent takes 2 Prize cards.",
+    "image": "https://images.pokemontcg.io/hgss3/90.png",
+    "dex": [
+      384,
+      386
+    ]
+  },
+  {
+    "id": "hgss4-99",
+    "name": "Darkrai & Cresselia LEGEND",
+    "set": "HS—Triumphant",
+    "number": "99/102",
+    "types": [
+      "Darkness",
+      "Psychic"
+    ],
+    "stage": "LEGEND",
+    "hp": 150,
+    "evolves": "",
+    "abilities": [],
+    "attacks": [
+      {
+        "name": "Lost Crisis",
+        "cost": "Darkness Darkness Colorless Colorless",
+        "damage": "100",
+        "text": "Choose 2 Energy attached to Darkrai & Cresselia LEGEND and put them in the Lost Zone. If any of your opponent's Pokémon would be Knocked Out by damage from this attack, put that Pokémon and all cards attached to it in the Lost Zone instead of discarding it."
+      },
+      {
+        "name": "Moon's Invite",
+        "cost": "Psychic",
+        "damage": "",
+        "text": "Move as many damage counters on your opponent's Pokémon as you like to any of your opponent's other Pokémon in any way you like."
+      }
+    ],
+    "weak": "Fighting ×2, Psychic ×2",
+    "resist": "",
+    "retreat": "Colorless Colorless",
+    "rules": "Put this card from your hand onto your Bench only with the other half of Darkrai & Cresselia LEGEND. When this Pokémon has been Knocked Out, your opponent takes 2 Prize cards.",
+    "image": "https://images.pokemontcg.io/hgss4/99.png",
+    "dex": [
+      488,
+      491
+    ]
+  },
+  {
+    "id": "hgss4-100",
+    "name": "Darkrai & Cresselia LEGEND",
+    "set": "HS—Triumphant",
+    "number": "100/102",
+    "types": [
+      "Darkness",
+      "Psychic"
+    ],
+    "stage": "LEGEND",
+    "hp": 150,
+    "evolves": "",
+    "abilities": [],
+    "attacks": [
+      {
+        "name": "Lost Crisis",
+        "cost": "Darkness Darkness Colorless Colorless",
+        "damage": "100",
+        "text": "Choose 2 Energy attached to Darkrai & Cresselia LEGEND and put them in the Lost Zone. If any of your opponent's Pokémon would be Knocked Out by damage from this attack, put that Pokémon and all cards attached to it in the Lost Zone instead of discarding it."
+      },
+      {
+        "name": "Moon's Invite",
+        "cost": "Psychic",
+        "damage": "",
+        "text": "Move as many damage counters on your opponent's Pokémon as you like to any of your opponent's other Pokémon in any way you like."
+      }
+    ],
+    "weak": "Fighting ×2, Psychic ×2",
+    "resist": "",
+    "retreat": "Colorless Colorless",
+    "rules": "Put this card from your hand onto your Bench only with the other half of Darkrai & Cresselia LEGEND. When this Pokémon has been Knocked Out, your opponent takes 2 Prize cards.",
+    "image": "https://images.pokemontcg.io/hgss4/100.png",
+    "dex": [
+      488,
+      491
+    ]
+  },
+  {
+    "id": "hgss4-101",
+    "name": "Palkia & Dialga LEGEND",
+    "set": "HS—Triumphant",
+    "number": "101/102",
+    "types": [
+      "Water",
+      "Metal"
+    ],
+    "stage": "LEGEND",
+    "hp": 160,
+    "evolves": "",
+    "abilities": [],
+    "attacks": [
+      {
+        "name": "Sudden Delete",
+        "cost": "Water Colorless Colorless",
+        "damage": "",
+        "text": "Choose 1 of your opponent's Benched Pokémon. Put that Pokémon and all cards attached to it back to your opponent's hand."
+      },
+      {
+        "name": "Time Control",
+        "cost": "Metal Metal Colorless",
+        "damage": "",
+        "text": "Discard all Metal Energy attached to Palkia & Dialga LEGEND. Add the top 2 cards of your opponent's deck to his or her Prize cards."
+      }
+    ],
+    "weak": "Lightning ×2, Fire ×2",
+    "resist": "",
+    "retreat": "Colorless Colorless Colorless",
+    "rules": "Put this card from your hand onto your Bench only with the other half of Palkia & Dialga LEGEND. When this Pokémon has been Knocked Out, your opponent takes 2 Prize cards.",
+    "image": "https://images.pokemontcg.io/hgss4/101.png",
+    "dex": [
+      483,
+      484
+    ]
+  },
+  {
+    "id": "hgss4-102",
+    "name": "Palkia & Dialga LEGEND",
+    "set": "HS—Triumphant",
+    "number": "102/102",
+    "types": [
+      "Water",
+      "Metal"
+    ],
+    "stage": "LEGEND",
+    "hp": 160,
+    "evolves": "",
+    "abilities": [],
+    "attacks": [
+      {
+        "name": "Sudden Delete",
+        "cost": "Water Colorless Colorless",
+        "damage": "",
+        "text": "Choose 1 of your opponent's Benched Pokémon. Put that Pokémon and all cards attached to it back to your opponent's hand."
+      },
+      {
+        "name": "Time Control",
+        "cost": "Metal Metal Colorless",
+        "damage": "",
+        "text": "Discard all Metal Energy attached to Palkia & Dialga LEGEND. Add the top 2 cards of your opponent's deck to his or her Prize cards."
+      }
+    ],
+    "weak": "Lightning ×2, Fire ×2",
+    "resist": "",
+    "retreat": "Colorless Colorless Colorless",
+    "rules": "Put this card from your hand onto your Bench only with the other half of Palkia & Dialga LEGEND. When this Pokémon has been Knocked Out, your opponent takes 2 Prize cards.",
+    "image": "https://images.pokemontcg.io/hgss4/102.png",
+    "dex": [
+      483,
+      484
+    ]
+  },
+  {
+    "id": "xyp-XY173",
+    "name": "Volcanion-EX",
+    "set": "XY Black Star Promos",
+    "number": "XY173",
+    "types": [
+      "Fire",
+      "Water"
+    ],
+    "stage": "Basic",
+    "hp": 180,
+    "evolves": "",
+    "abilities": [
+      {
+        "name": "Steam Up",
+        "text": "Once during your turn (before your attack), you may discard a Fire Energy card from your hand. If you do, during this turn, your Basic Fire Pokémon's attacks do 30 more damage to your opponent's Active Pokémon (before applying Weakness and Resistance)."
+      }
+    ],
+    "attacks": [
+      {
+        "name": "Volcanic Heat",
+        "cost": "Fire Fire Colorless",
+        "damage": "130",
+        "text": "This Pokémon can't attack during your next turn."
+      }
+    ],
+    "weak": "Water ×2",
+    "resist": "",
+    "retreat": "Colorless Colorless Colorless",
+    "rules": "Pokémon-EX rule: When a Pokémon-EX has been Knocked Out, your opponent takes 2 Prize cards.",
+    "image": "https://images.pokemontcg.io/xyp/XY173.png",
+    "dex": [
+      721
+    ]
+  },
+  {
+    "id": "xy11-11",
+    "name": "Shiftry",
+    "set": "Steam Siege",
+    "number": "11/114",
+    "types": [
+      "Grass",
+      "Darkness"
+    ],
+    "stage": "Stage 2",
+    "hp": 140,
+    "evolves": "Nuzleaf",
+    "abilities": [],
+    "attacks": [
+      {
+        "name": "Wicked Wind",
+        "cost": "Grass",
+        "damage": "40",
+        "text": "Until the end of your opponent's next turn, each Stadium or Pokémon Tool card in play has no effect. (This includes cards that come into play on that turn.)"
+      },
+      {
+        "name": "Extrasensory",
+        "cost": "Colorless Colorless",
+        "damage": "60+",
+        "text": "If you have the same number of cards in your hand as your opponent, this attack does 60 more damage."
+      }
+    ],
+    "weak": "Fire ×2",
+    "resist": "",
+    "retreat": "Colorless Colorless",
+    "rules": "",
+    "image": "https://images.pokemontcg.io/xy11/11.png",
+    "dex": [
+      275
+    ]
+  },
+  {
+    "id": "xy11-15",
+    "name": "Volcarona",
+    "set": "Steam Siege",
+    "number": "15/114",
+    "types": [
+      "Fire",
+      "Grass"
+    ],
+    "stage": "Stage 1",
+    "hp": 110,
+    "evolves": "Larvesta",
+    "abilities": [],
+    "attacks": [
+      {
+        "name": "Shimmering Scales",
+        "cost": "Grass",
+        "damage": "20",
+        "text": "Flip a coin. If heads, your opponent's Active Pokémon is now Confused. If tails, your opponent's Active Pokémon is now Paralyzed."
+      },
+      {
+        "name": "Power Hurricane",
+        "cost": "Colorless Colorless Colorless",
+        "damage": "120",
+        "text": "Discard all Energy attached to this Pokémon."
+      }
+    ],
+    "weak": "Fire ×2",
+    "resist": "",
+    "retreat": "Colorless",
+    "rules": "",
+    "image": "https://images.pokemontcg.io/xy11/15.png",
+    "dex": [
+      637
+    ]
+  },
+  {
+    "id": "xy11-26",
+    "name": "Volcanion-EX",
+    "set": "Steam Siege",
+    "number": "26/114",
+    "types": [
+      "Fire",
+      "Water"
+    ],
+    "stage": "Basic",
+    "hp": 180,
+    "evolves": "",
+    "abilities": [
+      {
+        "name": "Steam Up",
+        "text": "Once during your turn (before your attack), you may discard a Fire Energy card from your hand. If you do, during this turn, your Basic Fire Pokémon's attacks do 30 more damage to your opponent's Active Pokémon (before applying Weakness and Resistance)."
+      }
+    ],
+    "attacks": [
+      {
+        "name": "Volcanic Heat",
+        "cost": "Fire Fire Colorless",
+        "damage": "130",
+        "text": ""
+      }
+    ],
+    "weak": "Water ×2",
+    "resist": "",
+    "retreat": "Colorless Colorless Colorless",
+    "rules": "Pokémon-EX rule: When a Pokémon-EX has been Knocked Out, your opponent takes 2 Prize cards.",
+    "image": "https://images.pokemontcg.io/xy11/26.png",
+    "dex": [
+      721
+    ]
+  },
+  {
+    "id": "xy11-42",
+    "name": "Galvantula",
+    "set": "Steam Siege",
+    "number": "42/114",
+    "types": [
+      "Lightning",
+      "Grass"
+    ],
+    "stage": "Stage 1",
+    "hp": 90,
+    "evolves": "Joltik",
+    "abilities": [],
+    "attacks": [
+      {
+        "name": "Double Thread",
+        "cost": "Colorless",
+        "damage": "",
+        "text": "This attack does 30 damage to 2 of your opponent's Pokémon. Also apply Weakness and Resistance for Benched Pokémon."
+      },
+      {
+        "name": "Electroweb",
+        "cost": "Lightning",
+        "damage": "30",
+        "text": "The Defending Pokémon can't retreat during your opponent's next turn."
+      }
+    ],
+    "weak": "Fighting ×2",
+    "resist": "Metal -20",
+    "retreat": "Colorless",
+    "rules": "",
+    "image": "https://images.pokemontcg.io/xy11/42.png",
+    "dex": [
+      596
+    ]
+  },
+  {
+    "id": "xy11-64",
+    "name": "Bisharp",
+    "set": "Steam Siege",
+    "number": "64/114",
+    "types": [
+      "Darkness",
+      "Metal"
+    ],
+    "stage": "Stage 1",
+    "hp": 100,
+    "evolves": "Pawniard",
+    "abilities": [],
+    "attacks": [
+      {
+        "name": "Retaliate",
+        "cost": "Colorless",
+        "damage": "30+",
+        "text": "If any of your Pokémon were Knocked Out by damage from an opponent's attack during his or her last turn, this attack does 60 more damage."
+      },
+      {
+        "name": "Mach Claw",
+        "cost": "Darkness Colorless",
+        "damage": "60",
+        "text": "This attack's damage isn't affected by Resistance."
+      }
+    ],
+    "weak": "Fighting ×2",
+    "resist": "Psychic -20",
+    "retreat": "Colorless Colorless",
+    "rules": "",
+    "image": "https://images.pokemontcg.io/xy11/64.png",
+    "dex": [
+      625
+    ]
+  },
+  {
+    "id": "xy11-68",
+    "name": "M Steelix-EX",
+    "set": "Steam Siege",
+    "number": "68/114",
+    "types": [
+      "Metal",
+      "Fighting"
+    ],
+    "stage": "MEGA",
+    "hp": 240,
+    "evolves": "Steelix-EX",
+    "abilities": [],
+    "attacks": [
+      {
+        "name": "Canyon Axe",
+        "cost": "Metal Colorless Colorless Colorless Colorless",
+        "damage": "160",
+        "text": "This attack does 10 damage to each of your opponent's Benched Pokémon. (Don't apply Weakness and Resistance for Benched Pokémon.)"
+      }
+    ],
+    "weak": "Fire ×2",
+    "resist": "Psychic -20",
+    "retreat": "Colorless Colorless Colorless Colorless",
+    "rules": "Mega Evolution rule: When 1 of your Pokémon becomes a Mega Evolution Pokémon, your turn ends. Pokémon-EX rule: When a Pokémon-EX has been Knocked Out, your opponent takes 2 Prize cards.",
+    "image": "https://images.pokemontcg.io/xy11/68.png",
+    "dex": [
+      208
+    ]
+  },
+  {
+    "id": "xy11-77",
+    "name": "Azumarill",
+    "set": "Steam Siege",
+    "number": "77/114",
+    "types": [
+      "Fairy",
+      "Water"
+    ],
+    "stage": "Stage 1",
+    "hp": 100,
+    "evolves": "Marill",
+    "abilities": [],
+    "attacks": [
+      {
+        "name": "Play Rough",
+        "cost": "Colorless Colorless",
+        "damage": "30+",
+        "text": "Flip a coin. If heads, this attack does 30 more damage."
+      },
+      {
+        "name": "Bubble Drain",
+        "cost": "Fairy Fairy Colorless",
+        "damage": "80",
+        "text": "Heal 30 damage from this Pokémon."
+      }
+    ],
+    "weak": "Metal ×2",
+    "resist": "Darkness -20",
+    "retreat": "Colorless Colorless",
+    "rules": "",
+    "image": "https://images.pokemontcg.io/xy11/77.png",
+    "dex": [
+      184
+    ]
+  },
+  {
+    "id": "xy11-79",
+    "name": "M Gardevoir-EX",
+    "set": "Steam Siege",
+    "number": "79/114",
+    "types": [
+      "Fairy",
+      "Psychic"
+    ],
+    "stage": "MEGA",
+    "hp": 210,
+    "evolves": "Gardevoir-EX",
+    "abilities": [],
+    "attacks": [
+      {
+        "name": "Despair Ray",
+        "cost": "Fairy Colorless",
+        "damage": "110+",
+        "text": "Discard as many of your Benched Pokémon as you like. This attack does 10 more damage for each Benched Pokémon you discarded in this way."
+      }
+    ],
+    "weak": "Metal ×2",
+    "resist": "Darkness -20",
+    "retreat": "Colorless Colorless",
+    "rules": "Mega Evolution rule: When 1 of your Pokémon becomes a Mega Evolution Pokémon, your turn ends. Pokémon-EX rule: When a Pokémon-EX has been Knocked Out, your opponent takes 2 Prize cards.",
+    "image": "https://images.pokemontcg.io/xy11/79.png",
+    "dex": [
+      282
+    ]
+  },
+  {
+    "id": "xy11-107",
+    "name": "Volcanion-EX",
+    "set": "Steam Siege",
+    "number": "107/114",
+    "types": [
+      "Fire",
+      "Water"
+    ],
+    "stage": "Basic",
+    "hp": 180,
+    "evolves": "",
+    "abilities": [
+      {
+        "name": "Steam Up",
+        "text": "Once during your turn (before your attack), you may discard a Fire Energy card from your hand. If you do, during this turn, your Basic Fire Pokémon's attacks do 30 more damage to your opponent's Active Pokémon (before applying Weakness and Resistance)."
+      }
+    ],
+    "attacks": [
+      {
+        "name": "Volcanic Heat",
+        "cost": "Fire Fire Colorless",
+        "damage": "130",
+        "text": "This Pokémon can't attack during your next turn."
+      }
+    ],
+    "weak": "Water ×2",
+    "resist": "",
+    "retreat": "Colorless Colorless Colorless",
+    "rules": "Pokémon-EX rule: When a Pokémon-EX has been Knocked Out, your opponent takes 2 Prize cards.",
+    "image": "https://images.pokemontcg.io/xy11/107.png",
+    "dex": [
+      721
+    ]
+  },
+  {
+    "id": "xy11-109",
+    "name": "M Steelix-EX",
+    "set": "Steam Siege",
+    "number": "109/114",
+    "types": [
+      "Metal",
+      "Fighting"
+    ],
+    "stage": "MEGA",
+    "hp": 240,
+    "evolves": "Steelix-EX",
+    "abilities": [],
+    "attacks": [
+      {
+        "name": "Canyon Axe",
+        "cost": "Metal Colorless Colorless Colorless Colorless",
+        "damage": "160",
+        "text": "This attack does 10 damage to each of your opponent's Benched Pokémon. (Don't apply Weakness and Resistance for Benched Pokémon.)"
+      }
+    ],
+    "weak": "Fire ×2",
+    "resist": "Psychic -20",
+    "retreat": "Colorless Colorless Colorless Colorless",
+    "rules": "Mega Evolution rule: When 1 of your Pokémon becomes a Mega Evolution Pokémon, your turn ends. Pokémon-EX rule: When a Pokémon-EX has been Knocked Out, your opponent takes 2 Prize cards.",
+    "image": "https://images.pokemontcg.io/xy11/109.png",
+    "dex": [
+      208
+    ]
+  },
+  {
+    "id": "xy11-112",
+    "name": "M Gardevoir-EX",
+    "set": "Steam Siege",
+    "number": "112/114",
+    "types": [
+      "Fairy",
+      "Psychic"
+    ],
+    "stage": "MEGA",
+    "hp": 210,
+    "evolves": "Gardevoir-EX",
+    "abilities": [],
+    "attacks": [
+      {
+        "name": "Despair Ray",
+        "cost": "Fairy Colorless",
+        "damage": "110+",
+        "text": "Discard as many of your Benched Pokémon as you like. This attack does 10 more damage for each Benched Pokémon you discarded in this way."
+      }
+    ],
+    "weak": "Metal ×2",
+    "resist": "Darkness -20",
+    "retreat": "Colorless Colorless",
+    "rules": "Mega Evolution rule: When 1 of your Pokémon becomes a Mega Evolution Pokémon, your turn ends. Pokémon-EX rule: When a Pokémon-EX has been Knocked Out, your opponent takes 2 Prize cards.",
+    "image": "https://images.pokemontcg.io/xy11/112.png",
+    "dex": [
+      282
+    ]
+  },
+  {
+    "id": "xy11-115",
+    "name": "Volcanion-EX",
+    "set": "Steam Siege",
+    "number": "115/114",
+    "types": [
+      "Fire",
+      "Water"
+    ],
+    "stage": "Basic",
+    "hp": 180,
+    "evolves": "",
+    "abilities": [
+      {
+        "name": "Steam Up",
+        "text": "Once during your turn (before your attack), you may discard a Fire Energy card from your hand. If you do, during this turn, your Basic Fire Pokémon's attacks do 30 more damage to your opponent's Active Pokémon (before applying Weakness and Resistance)."
+      }
+    ],
+    "attacks": [
+      {
+        "name": "Volcanic Heat",
+        "cost": "Fire Fire Colorless",
+        "damage": "130",
+        "text": "This Pokémon can't attack during your next turn."
+      }
+    ],
+    "weak": "Water ×2",
+    "resist": "",
+    "retreat": "Colorless Colorless Colorless",
+    "rules": "Pokémon-EX rule: When a Pokémon-EX has been Knocked Out, your opponent takes 2 Prize cards.",
+    "image": "https://images.pokemontcg.io/xy11/115.png",
+    "dex": [
+      721
+    ]
+  },
+  {
+    "id": "cel25c-9_A",
+    "name": "Team Magma's Groudon",
+    "set": "Celebrations: Classic Collection",
+    "number": "9/25",
+    "types": [
+      "Fighting",
+      "Darkness"
+    ],
+    "stage": "Basic",
+    "hp": 100,
+    "evolves": "",
+    "abilities": [
+      {
+        "name": "Power Saver",
+        "text": "As long as the number of Pokémon in play (both yours and your opponent's) that has Team Magma in its name is 3 or less, Team Magma's Groudon can't attack."
+      }
+    ],
+    "attacks": [
+      {
+        "name": "Linear Attack",
+        "cost": "Fighting Colorless",
+        "damage": "",
+        "text": "Choose 1 of your opponent's Pokémon. This attack does 20 damage to that Pokémon. (Don't apply Weakness and Resistance for Benched Pokémon.)"
+      },
+      {
+        "name": "Pulverize",
+        "cost": "Fighting Fighting Colorless",
+        "damage": "50+",
+        "text": "If the Defending Pokémon already has at least 2 damage counters on it, this attack does 50 damage plus 20 more damage."
+      }
+    ],
+    "weak": "Grass ×2",
+    "resist": "",
+    "retreat": "Colorless Colorless Colorless",
+    "rules": "This Pokémon is both Fighting Darkness type.",
+    "image": "https://images.pokemontcg.io/cel25c/9_A.png",
+    "dex": [
+      383
+    ]
+  },
+  {
+    "id": "me55c-11",
+    "name": "Metagross",
+    "set": "30th Celebration: Classic Collection",
+    "number": "11",
+    "types": [
+      "Lightning",
+      "Metal"
+    ],
+    "stage": "Stage 2",
+    "hp": 100,
+    "evolves": "Metang",
+    "abilities": [
+      {
+        "name": "Delta Control",
+        "text": "Once during your turn (before your attack), you may look at the top 4 cards of your deck, choose 1 of them, and put it into your hand. Put the 3 other cards on the bottom of your deck in any order. This power can't be used if Metagross is affected by a Special Condition."
+      }
+    ],
+    "attacks": [
+      {
+        "name": "Crush and Burn",
+        "cost": "Lightning Metal",
+        "damage": "30+",
+        "text": "You may discard as many Energy cards as you like attached to your Pokémon in play. If you do, this attack does 30 damage plus 20 more damage for each Energy card you discarded."
+      }
+    ],
+    "weak": "Fire ×2",
+    "resist": "Grass -30",
+    "retreat": "Colorless Colorless Colorless",
+    "rules": "This Pokémon is both Lightning Metal type.",
+    "image": "https://images.scrydex.com/pokemon/me55c-11/small",
+    "dex": [
+      376
+    ]
+  },
+  {
+    "id": "me55c-99",
+    "name": "Darkrai & Cresselia LEGEND",
+    "set": "30th Celebration: Classic Collection",
+    "number": "99",
+    "types": [
+      "Darkness",
+      "Psychic"
+    ],
+    "stage": "LEGEND",
+    "hp": 150,
+    "evolves": "",
+    "abilities": [],
+    "attacks": [
+      {
+        "name": "Lost Crisis",
+        "cost": "Darkness Darkness Colorless Colorless",
+        "damage": "100",
+        "text": "Choose 2 Energy attached to Darkrai & Cresselia LEGEND and put them in the Lost Zone. If any of your opponent's Pokémon would be Knocked Out by damage from this attack, put that Pokémon and all cards attached to it in the Lost Zone instead of discarding it."
+      },
+      {
+        "name": "Moon's Invite",
+        "cost": "Psychic",
+        "damage": "",
+        "text": "Move as many damage counters on your opponent's Pokémon as you like to any of your opponent's other Pokémon in any way you like."
+      }
+    ],
+    "weak": "Fighting ×2, Psychic ×2",
+    "resist": "",
+    "retreat": "Colorless Colorless",
+    "rules": "Put this card from your hand onto your Bench only with the other half of Darkrai & Cresselia LEGEND. When this Pokémon has been Knocked Out, your opponent takes 2 Prize cards.",
+    "image": "https://images.scrydex.com/pokemon/me55c-99/small",
+    "dex": [
+      488
+    ]
+  },
+  {
+    "id": "me55c-100",
+    "name": "Darkrai & Cresselia LEGEND",
+    "set": "30th Celebration: Classic Collection",
+    "number": "100",
+    "types": [
+      "Darkness",
+      "Psychic"
+    ],
+    "stage": "LEGEND",
+    "hp": 150,
+    "evolves": "",
+    "abilities": [],
+    "attacks": [
+      {
+        "name": "Lost Crisis",
+        "cost": "Darkness Darkness Colorless Colorless",
+        "damage": "100",
+        "text": "Choose 2 Energy attached to Darkrai & Cresselia LEGEND and put them in the Lost Zone. If any of your opponent's Pokémon would be Knocked Out by damage from this attack, put that Pokémon and all cards attached to it in the Lost Zone instead of discarding it."
+      },
+      {
+        "name": "Moon's Invite",
+        "cost": "Psychic",
+        "damage": "",
+        "text": "Move as many damage counters on your opponent's Pokémon as you like to any of your opponent's other Pokémon in any way you like."
+      }
+    ],
+    "weak": "Fighting ×2, Psychic ×2",
+    "resist": "",
+    "retreat": "Colorless Colorless",
+    "rules": "Put this card from your hand onto your Bench only with the other half of Darkrai & Cresselia LEGEND. When this Pokémon has been Knocked Out, your opponent takes 2 Prize cards.",
+    "image": "https://images.scrydex.com/pokemon/me55c-100/small",
+    "dex": [
+      488
+    ]
+  }
+]

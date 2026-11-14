@@ -18,6 +18,7 @@ from app.ai.llm import provider_status
 from app.ai.tools import reset_viewer, use_viewer
 from app.auth import hash_password, normalize_email, valid_email, verify_password
 from app.catalog import PREFERRED_IDS, fill_missing_card_image, lookup_seed_card, resolve_name, search_local, fetch_full, normalize_card
+from app.dual_type import dual_type_record, is_dual_category, search_dual_type
 from app.pad import species as pad_species
 from app.pad.gallery import load_hashes, rank
 from app.pad.species import (
@@ -419,7 +420,16 @@ async def api_pad_photo(file: UploadFile = File(...), _user: dict = Depends(requ
 
 
 @app.get("/api/cards/search")
-def api_card_search(q: str, scope: str = "all", _user: dict = Depends(require_user)) -> list:
+def api_card_search(
+    q: str = "",
+    scope: str = "all",
+    category: str = "",
+    sort: str = "attack",
+    _user: dict = Depends(require_user),
+) -> list:
+    if is_dual_category(category) or is_dual_category(q):
+        query = "" if is_dual_category(q) else q
+        return search_dual_type(query, sort=sort)
     remote = str(scope or "all").lower() != "local"
     return search_local(q, remote=remote)
 
@@ -429,6 +439,9 @@ def api_resolve(payload: dict, _user: dict = Depends(require_user)) -> dict:
     cid = str(payload.get("id") or payload.get("catalog_id") or "").strip()
     name = str(payload.get("name") or "").strip()
     if cid:
+        dual = dual_type_record(cid)
+        if dual:
+            return fill_missing_card_image(dual)
         seed = lookup_seed_card(catalog_id=cid)
         if seed:
             return fill_missing_card_image(seed.to_dict())
