@@ -90,6 +90,14 @@
       <div class="pad-stage">
         <div class="pad-device" id="padDevice" data-mode="pokemon">
           <div class="pad-toolbar">
+            <div class="pad-cats" id="padCardCats">
+              <button type="button" class="pad-cat" id="cardCatAll" aria-pressed="true">All</button>
+              <button type="button" class="pad-cat" id="cardCatDual" aria-pressed="false">双属性</button>
+              <select id="dualSort" class="pad-cat" aria-label="Sort" hidden>
+                <option value="attack">Attack</option>
+                <option value="name">Name</option>
+              </select>
+            </div>
             <div class="pad-search">
               <div class="pad-modes" role="group" aria-label="Pad mode">
                 <button id="padModePokemon" type="button" data-pad-mode="pokemon" aria-pressed="true" aria-label="Pokémon">

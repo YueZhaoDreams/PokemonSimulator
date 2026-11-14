@@ -802,6 +802,22 @@ body.shiny .brand img { animation: spin 4s linear infinite; }
   padding: 10px 12px;
   background: linear-gradient(#f4ffc8, #e7f7a8);
 }
+.pad-device[data-mode="pokemon"] #padCardCats { display: none; }
+.pad-cats { display: flex; gap: 6px; align-items: center; margin-bottom: 8px; }
+.pad-cat {
+  border: 2px solid #d7e4c8;
+  background: #fff;
+  color: #17321c;
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-weight: 800;
+  font-size: 13px;
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+.pad-cat[aria-pressed="true"] { background: #17321c; color: #f4ffc8; border-color: #17321c; }
+select.pad-cat { padding: 6px 8px; }
+.pad-cat[hidden] { display: none; }
 .pad-search {
   display: flex;
   align-items: center;
