@@ -64,13 +64,471 @@
   ],
   "games_per_seat": 400,
   "seed": 20261115,
-  "rules": "standard_60",
-  "seconds": 71.3,
-  "mean": 0.5083333333333333,
+  "seconds": 248.7,
+  "mean_s60": 0.5380833333333332,
+  "mean_30": 0.6654687499999999,
   "field": [
+    {
+      "key": "c60",
+      "name": "Set C Standard 60 (Clefairy / Mewtwo)",
+      "cards": 60,
+      "rules": "s60",
+      "rules_name": "Standard 60 cards, 4 of a name",
+      "prize_count": 6,
+      "pokemon_as_energy": false,
+      "foe_strategy": "party",
+      "kecleon_as_a": 0.2275,
+      "kecleon_as_b": 0.2775,
+      "mean": 0.2525,
+      "a": {
+        "win_rate": 0.2275,
+        "games": 400,
+        "queries": {
+          "whip": 0.865,
+          "whip_types": 16.945,
+          "ring": 1.3825,
+          "teammates": 0.7425,
+          "fez": 0.625,
+          "radar": 0.7225
+        },
+        "query_counts": {
+          "whip": 346,
+          "whip_types": 6778,
+          "ring": 553,
+          "teammates": 297,
+          "fez": 250,
+          "radar": 289
+        }
+      },
+      "b": {
+        "win_rate": 0.2775,
+        "games": 400,
+        "queries": {
+          "whip": 0.85,
+          "whip_types": 16.91,
+          "ring": 1.3825,
+          "teammates": 0.695,
+          "fez": 0.585,
+          "radar": 0.71
+        },
+        "query_counts": {
+          "whip": 340,
+          "whip_types": 6764,
+          "ring": 553,
+          "teammates": 278,
+          "fez": 234,
+          "radar": 284
+        }
+      }
+    },
+    {
+      "key": "h",
+      "name": "Carpet Set H (Team Rocket's Zapdos)",
+      "cards": 60,
+      "rules": "s60",
+      "rules_name": "Standard 60 cards, 4 of a name",
+      "prize_count": 6,
+      "pokemon_as_energy": false,
+      "foe_strategy": "nuzzle",
+      "kecleon_as_a": 0.95,
+      "kecleon_as_b": 0.9725,
+      "mean": 0.9612499999999999,
+      "a": {
+        "win_rate": 0.95,
+        "games": 400,
+        "queries": {
+          "whip": 0.8575,
+          "whip_types": 15.985,
+          "ring": 1.135,
+          "radar": 0.6925,
+          "teammates": 0.2275,
+          "fez": 0.215
+        },
+        "query_counts": {
+          "whip": 343,
+          "whip_types": 6394,
+          "ring": 454,
+          "radar": 277,
+          "teammates": 91,
+          "fez": 86
+        }
+      },
+      "b": {
+        "win_rate": 0.9725,
+        "games": 400,
+        "queries": {
+          "whip": 0.8825,
+          "whip_types": 17.2825,
+          "ring": 1.3025,
+          "radar": 0.6975,
+          "teammates": 0.215,
+          "fez": 0.195
+        },
+        "query_counts": {
+          "whip": 353,
+          "whip_types": 6913,
+          "ring": 521,
+          "radar": 279,
+          "teammates": 86,
+          "fez": 78
+        }
+      }
+    },
+    {
+      "key": "m60",
+      "name": "Set M (Mew ex)",
+      "cards": 60,
+      "rules": "s60",
+      "rules_name": "Standard 60 cards, 4 of a name",
+      "prize_count": 6,
+      "pokemon_as_energy": false,
+      "foe_strategy": "mew_baby",
+      "kecleon_as_a": 0.035,
+      "kecleon_as_b": 0.05,
+      "mean": 0.0425,
+      "a": {
+        "win_rate": 0.035,
+        "games": 400,
+        "queries": {
+          "whip": 0.685,
+          "whip_types": 8.2575,
+          "ring": 1.2825,
+          "teammates": 0.68,
+          "fez": 0.505,
+          "radar": 0.64
+        },
+        "query_counts": {
+          "whip": 274,
+          "whip_types": 3303,
+          "ring": 513,
+          "teammates": 272,
+          "fez": 202,
+          "radar": 256
+        }
+      },
+      "b": {
+        "win_rate": 0.05,
+        "games": 400,
+        "queries": {
+          "whip_types": 9.4525,
+          "ring": 1.2225,
+          "radar": 0.665,
+          "teammates": 0.6525,
+          "fez": 0.5075,
+          "whip": 0.7425
+        },
+        "query_counts": {
+          "whip_types": 3781,
+          "ring": 489,
+          "radar": 266,
+          "teammates": 261,
+          "fez": 203,
+          "whip": 297
+        }
+      }
+    },
+    {
+      "key": "l60",
+      "name": "Lucario / Hariyama",
+      "cards": 60,
+      "rules": "s60",
+      "rules_name": "Standard 60 cards, 4 of a name",
+      "prize_count": 6,
+      "pokemon_as_energy": false,
+      "foe_strategy": "aura",
+      "kecleon_as_a": 0.3575,
+      "kecleon_as_b": 0.3125,
+      "mean": 0.33499999999999996,
+      "a": {
+        "win_rate": 0.3575,
+        "games": 400,
+        "queries": {
+          "whip": 0.8325,
+          "whip_types": 14.1225,
+          "ring": 1.655,
+          "teammates": 0.635,
+          "fez": 0.55,
+          "radar": 0.775
+        },
+        "query_counts": {
+          "whip": 333,
+          "whip_types": 5649,
+          "ring": 662,
+          "teammates": 254,
+          "fez": 220,
+          "radar": 310
+        }
+      },
+      "b": {
+        "win_rate": 0.3125,
+        "games": 400,
+        "queries": {
+          "whip_types": 13.71,
+          "ring": 1.575,
+          "teammates": 0.6575,
+          "fez": 0.55,
+          "radar": 0.75,
+          "whip": 0.8475
+        },
+        "query_counts": {
+          "whip_types": 5484,
+          "ring": 630,
+          "teammates": 263,
+          "fez": 220,
+          "radar": 300,
+          "whip": 339
+        }
+      }
+    },
+    {
+      "key": "g30",
+      "name": "Ambipom Hand Fling",
+      "cards": 60,
+      "rules": "s60",
+      "rules_name": "Standard 60 cards, 4 of a name",
+      "prize_count": 6,
+      "pokemon_as_energy": false,
+      "foe_strategy": "celebration",
+      "kecleon_as_a": 0.9675,
+      "kecleon_as_b": 0.9675,
+      "mean": 0.9675,
+      "a": {
+        "win_rate": 0.9675,
+        "games": 400,
+        "queries": {
+          "whip": 0.93,
+          "whip_types": 25.8125,
+          "ring": 1.5475,
+          "radar": 0.7825,
+          "teammates": 0.145,
+          "fez": 0.1425
+        },
+        "query_counts": {
+          "whip": 372,
+          "whip_types": 10325,
+          "ring": 619,
+          "radar": 313,
+          "teammates": 58,
+          "fez": 57
+        }
+      },
+      "b": {
+        "win_rate": 0.9675,
+        "games": 400,
+        "queries": {
+          "whip": 0.9475,
+          "whip_types": 28.0425,
+          "ring": 1.62,
+          "radar": 0.82,
+          "teammates": 0.1625,
+          "fez": 0.14
+        },
+        "query_counts": {
+          "whip": 379,
+          "whip_types": 11217,
+          "ring": 648,
+          "radar": 328,
+          "teammates": 65,
+          "fez": 56
+        }
+      }
+    },
+    {
+      "key": "mill",
+      "name": "Mill",
+      "cards": 60,
+      "rules": "s60",
+      "rules_name": "Standard 60 cards, 4 of a name",
+      "prize_count": 6,
+      "pokemon_as_energy": false,
+      "foe_strategy": "mill",
+      "kecleon_as_a": 0.645,
+      "kecleon_as_b": 0.6175,
+      "mean": 0.6312500000000001,
+      "a": {
+        "win_rate": 0.645,
+        "games": 400,
+        "queries": {
+          "whip": 0.8625,
+          "whip_types": 27.3925,
+          "ring": 0.805,
+          "radar": 0.755,
+          "teammates": 0.065,
+          "fez": 0.0575
+        },
+        "query_counts": {
+          "whip": 345,
+          "whip_types": 10957,
+          "ring": 322,
+          "radar": 302,
+          "teammates": 26,
+          "fez": 23
+        }
+      },
+      "b": {
+        "win_rate": 0.6175,
+        "games": 400,
+        "queries": {
+          "whip": 0.8425,
+          "whip_types": 28.7225,
+          "ring": 0.8425,
+          "radar": 0.8,
+          "fez": 0.0775,
+          "teammates": 0.08
+        },
+        "query_counts": {
+          "whip": 337,
+          "whip_types": 11489,
+          "ring": 337,
+          "radar": 320,
+          "fez": 31,
+          "teammates": 32
+        }
+      }
+    },
+    {
+      "key": "doll",
+      "name": "Doll",
+      "cards": 60,
+      "rules": "s60",
+      "rules_name": "Standard 60 cards, 4 of a name",
+      "prize_count": 6,
+      "pokemon_as_energy": false,
+      "foe_strategy": "doll",
+      "kecleon_as_a": 0.7775,
+      "kecleon_as_b": 0.7925,
+      "mean": 0.7849999999999999,
+      "a": {
+        "win_rate": 0.7775,
+        "games": 400,
+        "queries": {
+          "whip": 0.9025,
+          "whip_types": 41.345,
+          "ring": 1.5225,
+          "radar": 0.84
+        },
+        "query_counts": {
+          "whip": 361,
+          "whip_types": 16538,
+          "ring": 609,
+          "radar": 336
+        }
+      },
+      "b": {
+        "win_rate": 0.7925,
+        "games": 400,
+        "queries": {
+          "whip": 0.9225,
+          "whip_types": 43.2775,
+          "ring": 1.625,
+          "radar": 0.845
+        },
+        "query_counts": {
+          "whip": 369,
+          "whip_types": 17311,
+          "ring": 650,
+          "radar": 338
+        }
+      }
+    },
+    {
+      "key": "celebi",
+      "name": "Celebi Mill",
+      "cards": 60,
+      "rules": "s60",
+      "rules_name": "Standard 60 cards, 4 of a name",
+      "prize_count": 6,
+      "pokemon_as_energy": false,
+      "foe_strategy": "roast",
+      "kecleon_as_a": 0.505,
+      "kecleon_as_b": 0.5375,
+      "mean": 0.52125,
+      "a": {
+        "win_rate": 0.505,
+        "games": 400,
+        "queries": {
+          "whip": 0.8525,
+          "whip_types": 18.715,
+          "ring": 0.5925,
+          "radar": 0.735
+        },
+        "query_counts": {
+          "whip": 341,
+          "whip_types": 7486,
+          "ring": 237,
+          "radar": 294
+        }
+      },
+      "b": {
+        "win_rate": 0.5375,
+        "games": 400,
+        "queries": {
+          "whip": 0.8625,
+          "whip_types": 20.88,
+          "ring": 0.6675,
+          "radar": 0.7225
+        },
+        "query_counts": {
+          "whip": 345,
+          "whip_types": 8352,
+          "ring": 267,
+          "radar": 289
+        }
+      }
+    },
+    {
+      "key": "two-forest",
+      "name": "\u4e8c\u68ee\u6797",
+      "cards": 60,
+      "rules": "s60",
+      "rules_name": "Standard 60 cards, 4 of a name",
+      "prize_count": 6,
+      "pokemon_as_energy": false,
+      "foe_strategy": "roast",
+      "kecleon_as_a": 0.5575,
+      "kecleon_as_b": 0.4925,
+      "mean": 0.525,
+      "a": {
+        "win_rate": 0.5575,
+        "games": 400,
+        "queries": {
+          "whip": 0.82,
+          "whip_types": 19.4925,
+          "ring": 0.63,
+          "radar": 0.7525
+        },
+        "query_counts": {
+          "whip": 328,
+          "whip_types": 7797,
+          "ring": 252,
+          "radar": 301
+        }
+      },
+      "b": {
+        "win_rate": 0.4925,
+        "games": 400,
+        "queries": {
+          "whip": 0.845,
+          "whip_types": 20.5225,
+          "ring": 0.6325,
+          "radar": 0.705
+        },
+        "query_counts": {
+          "whip": 338,
+          "whip_types": 8209,
+          "ring": 253,
+          "radar": 282
+        }
+      }
+    },
     {
       "key": "t60",
       "name": "Dragapult ex (T60)",
+      "cards": 60,
+      "rules": "s60",
+      "rules_name": "Standard 60 cards, 4 of a name",
+      "prize_count": 6,
+      "pokemon_as_energy": false,
       "foe_strategy": "phantom",
       "kecleon_as_a": 0.2475,
       "kecleon_as_b": 0.245,
@@ -119,6 +577,11 @@
     {
       "key": "hedrick",
       "name": "Hedrick Worlds Dragapult",
+      "cards": 60,
+      "rules": "s60",
+      "rules_name": "Standard 60 cards, 4 of a name",
+      "prize_count": 6,
+      "pokemon_as_energy": false,
       "foe_strategy": "phantom",
       "kecleon_as_a": 0.335,
       "kecleon_as_b": 0.3425,
@@ -167,6 +630,11 @@
     {
       "key": "unl",
       "name": "Unlimited Dragapult",
+      "cards": 60,
+      "rules": "s60",
+      "rules_name": "Standard 60 cards, 4 of a name",
+      "prize_count": 6,
+      "pokemon_as_energy": false,
       "foe_strategy": "phantom",
       "kecleon_as_a": 0.505,
       "kecleon_as_b": 0.475,
@@ -215,6 +683,11 @@
     {
       "key": "d60",
       "name": "Cornerstone Ogerpon (D60)",
+      "cards": 60,
+      "rules": "s60",
+      "rules_name": "Standard 60 cards, 4 of a name",
+      "prize_count": 6,
+      "pokemon_as_energy": false,
       "foe_strategy": "demolish",
       "kecleon_as_a": 0.775,
       "kecleon_as_b": 0.725,
@@ -263,6 +736,11 @@
     {
       "key": "s60",
       "name": "Wo-Chien / Floragato (S60)",
+      "cards": 60,
+      "rules": "s60",
+      "rules_name": "Standard 60 cards, 4 of a name",
+      "prize_count": 6,
+      "pokemon_as_energy": false,
       "foe_strategy": "slash",
       "kecleon_as_a": 0.7175,
       "kecleon_as_b": 0.75,
@@ -311,6 +789,11 @@
     {
       "key": "g",
       "name": "Carpet Set G",
+      "cards": 60,
+      "rules": "s60",
+      "rules_name": "Standard 60 cards, 4 of a name",
+      "prize_count": 6,
+      "pokemon_as_energy": false,
       "foe_strategy": "g",
       "kecleon_as_a": 0.5,
       "kecleon_as_b": 0.4825,
@@ -353,6 +836,430 @@
           "radar": 294,
           "fez": 215,
           "teammates": 254
+        }
+      }
+    },
+    {
+      "key": "a",
+      "name": "Carpet Set A (Dondozo / Staraptor)",
+      "cards": 30,
+      "rules": "family",
+      "rules_name": "Family Cup",
+      "prize_count": 3,
+      "pokemon_as_energy": true,
+      "foe_strategy": "thrifty",
+      "kecleon_as_a": 0.605,
+      "kecleon_as_b": 0.5875,
+      "mean": 0.59625,
+      "a": {
+        "win_rate": 0.605,
+        "games": 400,
+        "queries": {
+          "whip": 0.7825,
+          "whip_types": 9.435,
+          "ring": 1.0725,
+          "teammates": 0.43,
+          "fez": 0.3875,
+          "radar": 0.6475
+        },
+        "query_counts": {
+          "whip": 313,
+          "whip_types": 3774,
+          "ring": 429,
+          "teammates": 172,
+          "fez": 155,
+          "radar": 259
+        }
+      },
+      "b": {
+        "win_rate": 0.5875,
+        "games": 400,
+        "queries": {
+          "whip": 0.78,
+          "whip_types": 8.8,
+          "ring": 1.06,
+          "teammates": 0.41,
+          "fez": 0.34,
+          "radar": 0.5775
+        },
+        "query_counts": {
+          "whip": 312,
+          "whip_types": 3520,
+          "ring": 424,
+          "teammates": 164,
+          "fez": 136,
+          "radar": 231
+        }
+      }
+    },
+    {
+      "key": "b",
+      "name": "Carpet Set B (Walrein / Pikachu)",
+      "cards": 30,
+      "rules": "family",
+      "rules_name": "Family Cup",
+      "prize_count": 3,
+      "pokemon_as_energy": true,
+      "foe_strategy": "shock",
+      "kecleon_as_a": 0.8775,
+      "kecleon_as_b": 0.8425,
+      "mean": 0.86,
+      "a": {
+        "win_rate": 0.8775,
+        "games": 400,
+        "queries": {
+          "whip": 0.8775,
+          "whip_types": 13.92,
+          "ring": 1.4225,
+          "radar": 0.7575,
+          "teammates": 0.355,
+          "fez": 0.3425
+        },
+        "query_counts": {
+          "whip": 351,
+          "whip_types": 5568,
+          "ring": 569,
+          "radar": 303,
+          "teammates": 142,
+          "fez": 137
+        }
+      },
+      "b": {
+        "win_rate": 0.8425,
+        "games": 400,
+        "queries": {
+          "whip": 0.87,
+          "whip_types": 13.5325,
+          "ring": 1.385,
+          "radar": 0.7225,
+          "teammates": 0.3475,
+          "fez": 0.32
+        },
+        "query_counts": {
+          "whip": 348,
+          "whip_types": 5413,
+          "ring": 554,
+          "radar": 289,
+          "teammates": 139,
+          "fez": 128
+        }
+      }
+    },
+    {
+      "key": "c",
+      "name": "Set C (Clefairy / Mewtwo)",
+      "cards": 30,
+      "rules": "family",
+      "rules_name": "Family Cup",
+      "prize_count": 3,
+      "pokemon_as_energy": true,
+      "foe_strategy": "party",
+      "kecleon_as_a": 0.4975,
+      "kecleon_as_b": 0.445,
+      "mean": 0.47125,
+      "a": {
+        "win_rate": 0.4975,
+        "games": 400,
+        "queries": {
+          "whip": 0.735,
+          "whip_types": 6.8525,
+          "ring": 1.25,
+          "teammates": 0.4325,
+          "fez": 0.415,
+          "radar": 0.6575
+        },
+        "query_counts": {
+          "whip": 294,
+          "whip_types": 2741,
+          "ring": 500,
+          "teammates": 173,
+          "fez": 166,
+          "radar": 263
+        }
+      },
+      "b": {
+        "win_rate": 0.445,
+        "games": 400,
+        "queries": {
+          "whip": 0.7575,
+          "whip_types": 6.44,
+          "ring": 1.135,
+          "teammates": 0.4025,
+          "fez": 0.3925,
+          "radar": 0.6275
+        },
+        "query_counts": {
+          "whip": 303,
+          "whip_types": 2576,
+          "ring": 454,
+          "teammates": 161,
+          "fez": 157,
+          "radar": 251
+        }
+      }
+    },
+    {
+      "key": "d",
+      "name": "Set D (Charm Ogerpon)",
+      "cards": 30,
+      "rules": "family",
+      "rules_name": "Family Cup",
+      "prize_count": 3,
+      "pokemon_as_energy": true,
+      "foe_strategy": "demolish",
+      "kecleon_as_a": 0.26,
+      "kecleon_as_b": 0.27,
+      "mean": 0.265,
+      "a": {
+        "win_rate": 0.26,
+        "games": 400,
+        "queries": {
+          "whip": 0.65,
+          "whip_types": 3.78,
+          "ring": 0.89,
+          "teammates": 0.5125,
+          "fez": 0.4425,
+          "radar": 0.54
+        },
+        "query_counts": {
+          "whip": 260,
+          "whip_types": 1512,
+          "ring": 356,
+          "teammates": 205,
+          "fez": 177,
+          "radar": 216
+        }
+      },
+      "b": {
+        "win_rate": 0.27,
+        "games": 400,
+        "queries": {
+          "whip_types": 4.0475,
+          "ring": 0.8275,
+          "teammates": 0.5125,
+          "fez": 0.39,
+          "radar": 0.5175,
+          "whip": 0.6825
+        },
+        "query_counts": {
+          "whip_types": 1619,
+          "ring": 331,
+          "teammates": 205,
+          "fez": 156,
+          "radar": 207,
+          "whip": 273
+        }
+      }
+    },
+    {
+      "key": "s",
+      "name": "Set S (Floragato)",
+      "cards": 30,
+      "rules": "family",
+      "rules_name": "Family Cup",
+      "prize_count": 3,
+      "pokemon_as_energy": true,
+      "foe_strategy": "slash",
+      "kecleon_as_a": 0.835,
+      "kecleon_as_b": 0.84,
+      "mean": 0.8374999999999999,
+      "a": {
+        "win_rate": 0.835,
+        "games": 400,
+        "queries": {
+          "whip": 0.8125,
+          "whip_types": 9.58,
+          "ring": 1.47,
+          "teammates": 0.625,
+          "fez": 0.5125,
+          "radar": 0.745
+        },
+        "query_counts": {
+          "whip": 325,
+          "whip_types": 3832,
+          "ring": 588,
+          "teammates": 250,
+          "fez": 205,
+          "radar": 298
+        }
+      },
+      "b": {
+        "win_rate": 0.84,
+        "games": 400,
+        "queries": {
+          "whip": 0.8675,
+          "whip_types": 10.67,
+          "ring": 1.6425,
+          "teammates": 0.6425,
+          "fez": 0.605,
+          "radar": 0.8025
+        },
+        "query_counts": {
+          "whip": 347,
+          "whip_types": 4268,
+          "ring": 657,
+          "teammates": 257,
+          "fez": 242,
+          "radar": 321
+        }
+      }
+    },
+    {
+      "key": "e",
+      "name": "Carpet Set E (Walrein / Iris)",
+      "cards": 30,
+      "rules": "family-energy",
+      "rules_name": "30 Cards 4 of a name",
+      "prize_count": 3,
+      "pokemon_as_energy": false,
+      "foe_strategy": "shock",
+      "kecleon_as_a": 0.8325,
+      "kecleon_as_b": 0.8525,
+      "mean": 0.8425,
+      "a": {
+        "win_rate": 0.8325,
+        "games": 400,
+        "queries": {
+          "whip": 0.855,
+          "whip_types": 12.02,
+          "ring": 1.4225,
+          "radar": 0.7325,
+          "teammates": 0.385,
+          "fez": 0.38
+        },
+        "query_counts": {
+          "whip": 342,
+          "whip_types": 4808,
+          "ring": 569,
+          "radar": 293,
+          "teammates": 154,
+          "fez": 152
+        }
+      },
+      "b": {
+        "win_rate": 0.8525,
+        "games": 400,
+        "queries": {
+          "whip": 0.8475,
+          "whip_types": 12.305,
+          "ring": 1.42,
+          "radar": 0.745,
+          "fez": 0.3775,
+          "teammates": 0.3825
+        },
+        "query_counts": {
+          "whip": 339,
+          "whip_types": 4922,
+          "ring": 568,
+          "radar": 298,
+          "fez": 151,
+          "teammates": 153
+        }
+      }
+    },
+    {
+      "key": "f",
+      "name": "Carpet Set F (Staraptor / Gengar)",
+      "cards": 30,
+      "rules": "family-energy",
+      "rules_name": "30 Cards 4 of a name",
+      "prize_count": 3,
+      "pokemon_as_energy": false,
+      "foe_strategy": "carnival",
+      "kecleon_as_a": 0.9075,
+      "kecleon_as_b": 0.9025,
+      "mean": 0.905,
+      "a": {
+        "win_rate": 0.9075,
+        "games": 400,
+        "queries": {
+          "whip": 0.865,
+          "whip_types": 11.45,
+          "ring": 1.565,
+          "radar": 0.6825,
+          "teammates": 0.2475,
+          "fez": 0.215
+        },
+        "query_counts": {
+          "whip": 346,
+          "whip_types": 4580,
+          "ring": 626,
+          "radar": 273,
+          "teammates": 99,
+          "fez": 86
+        }
+      },
+      "b": {
+        "win_rate": 0.9025,
+        "games": 400,
+        "queries": {
+          "whip": 0.8775,
+          "whip_types": 11.25,
+          "ring": 1.415,
+          "teammates": 0.2275,
+          "fez": 0.215,
+          "radar": 0.7125
+        },
+        "query_counts": {
+          "whip": 351,
+          "whip_types": 4500,
+          "ring": 566,
+          "teammates": 91,
+          "fez": 86,
+          "radar": 285
+        }
+      }
+    },
+    {
+      "key": "t",
+      "name": "Set T (Dragapult ex)",
+      "cards": 30,
+      "rules": "s30",
+      "rules_name": "Standard 30 cards, 2 of a name",
+      "prize_count": 3,
+      "pokemon_as_energy": false,
+      "foe_strategy": "phantom",
+      "kecleon_as_a": 0.5475,
+      "kecleon_as_b": 0.545,
+      "mean": 0.54625,
+      "a": {
+        "win_rate": 0.5475,
+        "games": 400,
+        "queries": {
+          "whip": 0.6825,
+          "whip_types": 4.7475,
+          "ring": 1.1925,
+          "fez": 0.555,
+          "radar": 0.62,
+          "teammates": 0.365
+        },
+        "query_counts": {
+          "whip": 273,
+          "whip_types": 1899,
+          "ring": 477,
+          "fez": 222,
+          "radar": 248,
+          "teammates": 146
+        }
+      },
+      "b": {
+        "win_rate": 0.545,
+        "games": 400,
+        "queries": {
+          "whip": 0.6625,
+          "whip_types": 4.8775,
+          "ring": 1.175,
+          "teammates": 0.38,
+          "fez": 0.5925,
+          "radar": 0.6325
+        },
+        "query_counts": {
+          "whip": 265,
+          "whip_types": 1951,
+          "ring": 470,
+          "teammates": 152,
+          "fez": 237,
+          "radar": 253
         }
       }
     }
