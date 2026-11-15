@@ -1,6 +1,6 @@
 ---
 name: greedy
-description: Run a one-card greedy search on a 60-card list. Every current 60-card deck is a foe, each cell is 400 games on one shared seed, weights are an input that can change, and a higher copy count can gain more than a lower one. Each kept win-rate change gets a written reason from the printed text, the foe table, the effect counters, and the end reasons. Use when the user invokes /greedy, asks for a greedy swap, or wants to try cards one copy at a time.
+description: Run a one-card greedy search on a 60-card list. Every current 60-card deck that is not archived is a foe, each cell is 400 games on one shared seed, weights are an input that can change, and a higher copy count can gain more than a lower one. Each kept win-rate change gets a written reason from the printed text, the foe table, the effect counters, and the end reasons. Use when the user invokes /greedy, asks for a greedy swap, or wants to try cards one copy at a time.
 ---
 
 # Greedy
@@ -13,7 +13,7 @@ Follow the one-card loop in `data/lab/set_mill_hilda.py` and `data/lab/set-mill-
 
 Read those labs. Then name three things, and stop if any one is missing:
 
-- The starting list. A locked `SET_*_NAMES` of 60 cards, or a 60 the user wrote down. A 30-card list is not a start.
+- The starting list. A locked `SET_*_NAMES` of 60 cards, or a 60 the user wrote down. A 30-card list is not a start. An archived list is not a start either. The same `archived` check used for foes applies to the subject.
 - The card coming in, or the exact pair when the user already chose both the card that comes in and the card that leaves.
 - The subject's strategy name. Use the strategy that already plays this list. Do not add a `strat.name ==` branch, and do not hardcode a look size into `app/engine/game.py`.
 
@@ -23,11 +23,13 @@ Quote the printed sentence from the catalog or the card text. A lab note, a memo
 
 ## Every 60-card deck
 
-Build the foe field at the start of the run from the live registry, `LIST_KEYS` and `load_seed_payload()`. A foe is every entry whose kind is a list and whose card count is 60. Decks get added. The next run tests the new ones too. A deck with no row in this note was not tested.
+Build the foe field at the start of the run from the live registry, `LIST_KEYS` and `load_seed_payload()`. A foe is every entry whose kind is a list, whose card count is 60, and which is not archived. Decks get added. The next run tests the new ones too. A live 60 with no row in this note was not tested.
 
-Judge the field by `len(cards) == 60`. Leave out a 30-card list (Carpet A, B, C, D, E, F, S, and T today) and the spare pile. `seed-g30` is 60 cards now, so it is in the field. Build it with `build_g30_deck()`, because that list's Aipom is the Paradox Rift print. Build Mill, Doll, Celebi Mill, and 二森林 with their own builders. Build the rest with `build_fallback_deck`.
+An archived deck is not a foe. Read `archived` on the deck record when the record has it. When it does not, use `deck_archived_for_presets(default_rule_presets_for(deck_id))` in `app/engine/models.py`. That is the app's check: a deck whose presets are only the retired `b` and `c` rules is archived. Carpet sets A–F and S, and Spare Cards, are archived today. A deck archived later, including a 60, drops out of the next run. Name the skipped archived decks in the note. They get no row and no weight.
 
-Also test a 60-card list that the current labs already play and that is not a seed key yet. Today that is Mega Starmie (`SET_STARMIE60_NAMES`, strategy `starmie`) and Iron Thorns (`IRON_THORNS_NAMES`, strategy `thorns`). When one of those is registered as a seed, the registry row replaces the extra row.
+Judge the field by `len(cards) == 60`. A 30-card list stays out even when it is not archived. Set T is Standard 30 (`s30`) and is not archived, and it is still not a foe. `seed-g30` is 60 cards now, so it is in the field. Build it with `build_g30_deck()`, because that list's Aipom is the Paradox Rift print. Build Mill, Doll, Celebi Mill, and 二森林 with their own builders. Build the rest with `build_fallback_deck`.
+
+Also test a 60-card list that the current labs already play and that is not a seed key yet, unless that list is archived. Today that is Mega Starmie (`SET_STARMIE60_NAMES`, strategy `starmie`) and Iron Thorns (`IRON_THORNS_NAMES`, strategy `thorns`). When one of those is registered as a seed, the registry row replaces the extra row. If that seed is archived, the row goes away.
 
 The strategies that already play today's 60s:
 
@@ -58,7 +60,7 @@ Check `len(cards) == 60` for the subject and for every foe before the first game
 
 Weights are an input. They change. Store every foe cell first: both seats, the win rate, the reason buckets, and the counters. Apply a weight vector after the games. A new vector re-scores those cells. It does not replay the games, and it does not change the seed.
 
-Use the vector the user names for this run, including a weight they set to zero. When they name none, give every tested 60 the same weight, `1 / N`, and write that equal weights are the stand-in. A new deck has a slot. Leaving it out of the score is the same as not testing it.
+Use the vector the user names for this run, including a weight they set to zero. When they name none, give every tested 60 the same weight, `1 / N`, and write that equal weights are the stand-in. A new deck that is not archived has a slot. An archived deck is left out of the field and out of the weights. Leaving any other live 60 out of the score is the same as not testing it.
 
 Also re-score the same cells with the Sisters vector in `data/lab/set-mill-sleep.md`, after dropping any foe that vector has no slot for and dividing the rest by their sum in the script. That column is a past vector. A deck it never had is absent from that column, and the note says so. The kept list follows the vector that covers every tested deck.
 
@@ -142,13 +144,13 @@ The six sample traces from `run_simulation` are not this tally. Count every game
 Write three files under `data/lab/`:
 
 - `<slug>.py` runs the search.
-- `<slug>.json` stores the seed, the games, the foe keys actually tested and each one's card count, the decision vector and its source, the Sisters column, the per-foe cells, every count through the cap, the path, the rounds, the best list, and `complete`.
+- `<slug>.json` stores the seed, the games, the foe keys actually tested and each one's card count, the archived decks that were skipped, the decision vector and its source, the Sisters column, the per-foe cells, every count through the cap, the path, the rounds, the best list, and `complete`.
 - `<slug>.md` is the note a person reads.
 
-The note starts the way `data/lab/set-mill-hilda.md` starts: what one step does, the printed sentence, the seed, 400 games per seat, both seats, the decks tested, the decision vector, and the elapsed time. Then the path table (count, cut, decision-vector rate, standard error, equal-weight mean, worst, delta against the start, delta against the previous count, and the sentence counters), the decision, the counts, each step's full cut table, the reason paragraphs, and the foe table at the kept list (A, B, mean, delta against the start).
+The note starts the way `data/lab/set-mill-hilda.md` starts: what one step does, the printed sentence, the seed, 400 games per seat, both seats, the decks tested, the archived decks skipped, the decision vector, and the elapsed time. Then the path table (count, cut, decision-vector rate, standard error, equal-weight mean, worst, delta against the start, delta against the previous count, and the sentence counters), the decision, the counts, each step's full cut table, the reason paragraphs, and the foe table at the kept list (A, B, mean, delta against the start).
 
 The script records the sample. It does not assign `SET_*_NAMES` and it does not change a lock. Say that in the note.
 
 ## Done
 
-The search is done when every 60-card deck in this checkout's registry has a row, the path runs through the copy cap, and the kept count is the one with the largest gain over the start under a vector that covers every tested deck. The note has the foe table and a reason paragraph for every count that cites the printed sentences, the weighted contributions, the counters, and the end-reason mix. The same seed and 400 games appear on every row. A 30-card deck has no row. The stored cells can be re-scored with a new vector without new games.
+The search is done when every 60-card deck in this checkout's registry that is not archived has a row, the path runs through the copy cap, and the kept count is the one with the largest gain over the start under a vector that covers every tested deck. The note names the archived decks it skipped. It has the foe table and a reason paragraph for every count that cites the printed sentences, the weighted contributions, the counters, and the end-reason mix. The same seed and 400 games appear on every row. A 30-card deck has no row, and an archived deck has no row. The stored cells can be re-scored with a new vector without new games.
