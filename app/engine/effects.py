@@ -123,6 +123,21 @@ def parse_ability_effects(text: str) -> list[dict[str, Any]]:
     if not t:
         return effects
 
+    # Ancient Origins 36 Scoundrel Ring. The search happens only when this
+    # Pokémon is played from the hand onto the bench. The count is printed.
+    hoopa = re.search(
+        r"when you play this pokemon from your hand onto your bench, you may search your deck for up to (\d+) pokemon-ex \(except for ([^)]+)\)",
+        t,
+    )
+    if hoopa and "into your hand" in t:
+        effects.append(
+            {
+                "kind": "search_hyphen_ex_from_hand",
+                "count": int(hoopa.group(1)),
+                "except_name": hoopa.group(2).strip().rstrip("."),
+            }
+        )
+
     energy = re.search(
         r"(grass|fire|water|lightning|psychic|fighting|darkness|metal|fairy|colorless) energy",
         t,
@@ -1144,6 +1159,15 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
     elif psychic_ref and "more damage" in t and "for each" in t:
         n = re.search(r"(\d+) more damage for each", t)
         effects.append({"kind": "psychic_energy_bonus", "per": int(n.group(1)) if n else 30})
+    elif (
+        whip := re.search(
+            r"reveal any number of pokemon from your hand, and this attack does (\d+) damage for each different type of pokemon you revealed in this way",
+            t,
+        )
+    ):
+        # Delta Reign 83 Colorful Whip. The printed 30 is per different type
+        # among the revealed Pokémon, not a flat base.
+        effects.append({"kind": "reveal_hand_types", "per": int(whip.group(1))})
     elif "×" in damage_raw or "x" in damage_raw.lower() or "for each" in t:
         # Clefairy Wonder Storm style: scale by Psychic Energy in play.
         if psychic_ref and "attached" in t and "discarded" not in t:
@@ -1602,6 +1626,14 @@ def parse_trainer_effects(text: str) -> list[dict[str, Any]]:
         )
         return effects
 
+    teammates = re.search(
+        r"knocked out during your opponent's last turn\. search your deck for up to (\d+) cards and put them into your hand",
+        t,
+    )
+    if teammates:
+        effects.append({"kind": "search_if_ko_last_turn", "count": int(teammates.group(1))})
+        return effects
+
     mill = re.search(
         r"search your deck for up to (\d+) cards and discard them",
         t,
@@ -1672,6 +1704,14 @@ def parse_trainer_effects(text: str) -> list[dict[str, Any]]:
     # Poké Pad ME02.5 198: a Pokémon without a Rule Box, not a look-N.
     if "search your deck for a pokemon" in t and "rule box" in t and "doesn't have" in t:
         effects.append({"kind": "search_pokemon_no_rule_box"})
+        return effects
+
+    radar = re.search(
+        r"look at the top (\d+) cards of your deck, choose as many pokemon as you like, show them to your opponent, and put them into your hand",
+        t,
+    )
+    if radar and "put the other cards back on top" in t:
+        effects.append({"kind": "look_top_pokemon", "look": int(radar.group(1))})
         return effects
 
     crushing = _crushing_thorn_trainer(t)

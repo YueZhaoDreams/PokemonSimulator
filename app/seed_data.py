@@ -5703,6 +5703,264 @@ _SHEDINJA = _pkm(
 _SHEDINJA.text = _VESSEL_OF_LIFE
 _register(_SHEDINJA)
 
+_COLORFUL_WHIP = (
+    "Reveal any number of Pokémon from your hand, and this attack does 30 damage "
+    "for each different type of Pokémon you revealed in this way."
+)
+_SCOUNDREL_RING = (
+    "When you play this Pokémon from your hand onto your Bench, you may search your deck "
+    "for up to 3 Pokémon-EX (except for Hoopa-EX), reveal them, and put them into your hand. "
+    "Shuffle your deck afterward."
+)
+_HYPERSPACE_FURY = (
+    "Discard 2 Energy attached to this Pokémon. This attack does 100 damage to 1 of your "
+    "opponent's Pokémon. (Don't apply Weakness and Resistance for Benched Pokémon.)"
+)
+_STEAM_UP = (
+    "Once during your turn (before your attack), you may discard a Fire Energy card from your hand. "
+    "If you do, during this turn, your Basic Fire Pokémon's attacks do 30 more damage to your "
+    "opponent's Active Pokémon (before applying Weakness and Resistance)."
+)
+_TEAMMATES = (
+    "You can play this card only if 1 of your Pokémon was Knocked Out during your opponent's last turn. "
+    "Search your deck for up to 2 cards and put them into your hand. Shuffle your deck afterward."
+)
+_POKE_RADAR = (
+    "Look at the top 5 cards of your deck, choose as many Pokémon as you like, show them to your "
+    "opponent, and put them into your hand. Put the other cards back on top of your deck. "
+    "Shuffle your deck afterward."
+)
+_register(
+    _pkm(
+        "Kecleon",
+        "Basic",
+        ["Colorless"],
+        90,
+        [_atk("Colorful Whip", ["Colorless", "Colorless"], "30×", _COLORFUL_WHIP)],
+        retreat=2,
+        catalog_id="me6-83",
+        weakness="Fighting",
+        set_name="Delta Reign",
+    )
+)
+_register(
+    _pkm(
+        "Druddigon",
+        "Basic",
+        ["Dragon"],
+        120,
+        [
+            _atk(
+                "Shred",
+                ["Colorless"],
+                40,
+                "This attack's damage isn't affected by any effects on your opponent's Active Pokémon.",
+            ),
+            _atk(
+                "Ambush",
+                ["Fire", "Water", "Colorless"],
+                "90+",
+                "Flip a coin. If heads, this attack does 60 more damage.",
+            ),
+        ],
+        retreat=2,
+        catalog_id="rsv10pt5-71",
+        set_name="White Flare",
+    )
+)
+_register(
+    _pkm(
+        "Hoopa-EX",
+        "Basic",
+        ["Psychic"],
+        170,
+        [_atk("Hyperspace Fury", ["Psychic", "Psychic", "Psychic"], 0, _HYPERSPACE_FURY)],
+        retreat=2,
+        catalog_id="xy7-36",
+        abilities=[Ability("Scoundrel Ring", _SCOUNDREL_RING)],
+        weakness="Psychic",
+        set_name="Ancient Origins",
+    )
+)
+_register(
+    _pkm(
+        "Volcanion-EX",
+        "Basic",
+        ["Fire", "Water"],
+        180,
+        [_atk("Volcanic Heat", ["Fire", "Fire", "Colorless"], 130, "")],
+        retreat=3,
+        catalog_id="xy11-26",
+        abilities=[Ability("Steam Up", _STEAM_UP)],
+        weakness="Water",
+        set_name="Steam Siege",
+    )
+)
+_register(
+    _pkm(
+        "M Gardevoir-EX",
+        "Mega",
+        ["Fairy", "Psychic"],
+        210,
+        [
+            _atk(
+                "Despair Ray",
+                ["Fairy", "Colorless"],
+                "110+",
+                "Discard as many of your Benched Pokémon as you like. This attack does 10 more damage for each Benched Pokémon you discarded in this way.",
+            )
+        ],
+        retreat=2,
+        catalog_id="xy11-79",
+        weakness="Metal",
+        set_name="Steam Siege",
+        evolves_from="Gardevoir-EX",
+    )
+)
+_register(
+    _pkm(
+        "M Steelix-EX",
+        "Mega",
+        ["Metal", "Fighting"],
+        240,
+        [
+            _atk(
+                "Canyon Axe",
+                ["Metal", "Colorless", "Colorless", "Colorless", "Colorless"],
+                160,
+                "This attack does 10 damage to each of your opponent's Benched Pokémon. (Don't apply Weakness and Resistance for Benched Pokémon.)",
+            )
+        ],
+        retreat=4,
+        catalog_id="xy11-68",
+        weakness="Fire",
+        set_name="Steam Siege",
+        evolves_from="Steelix-EX",
+    )
+)
+_register(
+    _pkm(
+        "M Sceptile-EX",
+        "Mega",
+        ["Grass"],
+        220,
+        [
+            _atk(
+                "Jagged Saber",
+                ["Grass", "Colorless"],
+                100,
+                "You may attach up to 2 Grass Energy cards from your hand to your Benched Pokémon in any way you like. If you attached Energy to a Pokémon in this way, heal all damage from that Pokémon.",
+            )
+        ],
+        retreat=2,
+        catalog_id="xy7-8",
+        weakness="Fire",
+        set_name="Ancient Origins",
+        evolves_from="Sceptile-EX",
+    )
+)
+_register(
+    _pkm(
+        "M Manectric-EX",
+        "Mega",
+        ["Lightning"],
+        210,
+        [
+            _atk(
+                "Turbo Bolt",
+                ["Lightning", "Colorless"],
+                110,
+                "Attach 2 basic Energy cards from your discard pile to 1 of your Benched Pokémon.",
+            )
+        ],
+        retreat=0,
+        catalog_id="xy4-24",
+        weakness="Fighting",
+        set_name="Phantom Forces",
+        evolves_from="Manectric-EX",
+    )
+)
+_register(
+    _pkm(
+        "M Tyranitar-EX",
+        "Mega",
+        ["Darkness"],
+        240,
+        [
+            _atk(
+                "Destroyer King",
+                ["Darkness", "Darkness", "Colorless", "Colorless"],
+                "110+",
+                "This attack does 60 more damage for each damage counter on your opponent's Active Pokémon.",
+            )
+        ],
+        retreat=4,
+        catalog_id="xy7-43",
+        weakness="Fighting",
+        set_name="Ancient Origins",
+        evolves_from="Tyranitar-EX",
+    )
+)
+_register(
+    _pkm(
+        "M Latios-EX",
+        "Mega",
+        ["Dragon"],
+        220,
+        [
+            _atk(
+                "Sonic Ace",
+                ["Water", "Psychic", "Colorless"],
+                0,
+                "Discard 2 Energy attached to this Pokémon. This attack does 120 damage to 1 of your opponent's Pokémon. (Don't apply Weakness and Resistance for Benched Pokémon.)",
+            )
+        ],
+        retreat=0,
+        catalog_id="xy6-59",
+        weakness="Fairy",
+        set_name="Roaring Skies",
+        evolves_from="Latios-EX",
+    )
+)
+_register(_trn("Teammates", "supporter", _TEAMMATES, catalog_id="xy5-141"))
+_register(_trn("Poké Radar", "item", _POKE_RADAR, catalog_id="dp6-133"))
+
+SET_KECLEON_NAMES = (
+    ["Kecleon"] * 4
+    + ["Druddigon"] * 2
+    + ["Hoopa-EX"] * 2
+    + ["Fezandipiti ex"] * 2
+    + ["Volcanion-EX"]
+    + ["M Gardevoir-EX"]
+    + ["M Steelix-EX"]
+    + ["M Sceptile-EX"]
+    + ["M Manectric-EX"]
+    + ["M Tyranitar-EX"]
+    + ["M Latios-EX"]
+    + ["Double Colorless Energy"] * 4
+    + ["Counter Energy"] * 3
+    + ["Psychic Energy"] * 3
+    + ["Fire Energy"] * 2
+    + ["Arven"] * 4
+    + ["Teammates"] * 4
+    + ["Energy Loto"] * 3
+    + ["Counter Gain"] * 2
+    + ["VS Seeker"] * 2
+    + ["Battle Compressor"]
+    + ["Poké Radar"] * 4
+    + ["Nest Ball"] * 2
+    + ["Ultra Ball"]
+    + ["Energy Retrieval"] * 2
+    + ["Special Charge"]
+    + ["Rescue Scarf"] * 3
+    + ["Switch"]
+    + ["Boss's Orders"]
+)
+
+
+def build_kecleon_deck() -> list[Card]:
+    return [fallback_named(name) for name in SET_KECLEON_NAMES]
+
 
 def fallback_named(name: str) -> Card:
     key = name.lower()

@@ -1,0 +1,360 @@
+{
+  "deck": "Kecleon",
+  "cards": [
+    "Kecleon",
+    "Kecleon",
+    "Kecleon",
+    "Kecleon",
+    "Druddigon",
+    "Druddigon",
+    "Hoopa-EX",
+    "Hoopa-EX",
+    "Fezandipiti ex",
+    "Fezandipiti ex",
+    "Volcanion-EX",
+    "M Gardevoir-EX",
+    "M Steelix-EX",
+    "M Sceptile-EX",
+    "M Manectric-EX",
+    "M Tyranitar-EX",
+    "M Latios-EX",
+    "Double Colorless Energy",
+    "Double Colorless Energy",
+    "Double Colorless Energy",
+    "Double Colorless Energy",
+    "Counter Energy",
+    "Counter Energy",
+    "Counter Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Fire Energy",
+    "Fire Energy",
+    "Arven",
+    "Arven",
+    "Arven",
+    "Arven",
+    "Teammates",
+    "Teammates",
+    "Teammates",
+    "Teammates",
+    "Energy Loto",
+    "Energy Loto",
+    "Energy Loto",
+    "Counter Gain",
+    "Counter Gain",
+    "VS Seeker",
+    "VS Seeker",
+    "Battle Compressor",
+    "Pok\u00e9 Radar",
+    "Pok\u00e9 Radar",
+    "Pok\u00e9 Radar",
+    "Pok\u00e9 Radar",
+    "Nest Ball",
+    "Nest Ball",
+    "Ultra Ball",
+    "Energy Retrieval",
+    "Energy Retrieval",
+    "Special Charge",
+    "Rescue Scarf",
+    "Rescue Scarf",
+    "Rescue Scarf",
+    "Switch",
+    "Boss's Orders"
+  ],
+  "games_per_seat": 400,
+  "seed": 20261115,
+  "rules": "standard_60",
+  "seconds": 71.3,
+  "mean": 0.5083333333333333,
+  "field": [
+    {
+      "key": "t60",
+      "name": "Dragapult ex (T60)",
+      "foe_strategy": "phantom",
+      "kecleon_as_a": 0.2475,
+      "kecleon_as_b": 0.245,
+      "mean": 0.24625,
+      "a": {
+        "win_rate": 0.2475,
+        "games": 400,
+        "queries": {
+          "whip": 0.7975,
+          "whip_types": 10.0225,
+          "ring": 1.925,
+          "radar": 0.8125,
+          "teammates": 0.6775,
+          "fez": 0.7275
+        },
+        "query_counts": {
+          "whip": 319,
+          "whip_types": 4009,
+          "ring": 770,
+          "radar": 325,
+          "teammates": 271,
+          "fez": 291
+        }
+      },
+      "b": {
+        "win_rate": 0.245,
+        "games": 400,
+        "queries": {
+          "whip": 0.835,
+          "whip_types": 10.225,
+          "ring": 1.985,
+          "radar": 0.795,
+          "teammates": 0.6975,
+          "fez": 0.74
+        },
+        "query_counts": {
+          "whip": 334,
+          "whip_types": 4090,
+          "ring": 794,
+          "radar": 318,
+          "teammates": 279,
+          "fez": 296
+        }
+      }
+    },
+    {
+      "key": "hedrick",
+      "name": "Hedrick Worlds Dragapult",
+      "foe_strategy": "phantom",
+      "kecleon_as_a": 0.335,
+      "kecleon_as_b": 0.3425,
+      "mean": 0.33875,
+      "a": {
+        "win_rate": 0.335,
+        "games": 400,
+        "queries": {
+          "whip": 0.81,
+          "whip_types": 13.0025,
+          "ring": 1.7225,
+          "teammates": 0.6575,
+          "fez": 0.7225,
+          "radar": 0.795
+        },
+        "query_counts": {
+          "whip": 324,
+          "whip_types": 5201,
+          "ring": 689,
+          "teammates": 263,
+          "fez": 289,
+          "radar": 318
+        }
+      },
+      "b": {
+        "win_rate": 0.3425,
+        "games": 400,
+        "queries": {
+          "whip": 0.84,
+          "whip_types": 13.1125,
+          "ring": 1.8125,
+          "teammates": 0.6725,
+          "radar": 0.805,
+          "fez": 0.7425
+        },
+        "query_counts": {
+          "whip": 336,
+          "whip_types": 5245,
+          "ring": 725,
+          "teammates": 269,
+          "radar": 322,
+          "fez": 297
+        }
+      }
+    },
+    {
+      "key": "unl",
+      "name": "Unlimited Dragapult",
+      "foe_strategy": "phantom",
+      "kecleon_as_a": 0.505,
+      "kecleon_as_b": 0.475,
+      "mean": 0.49,
+      "a": {
+        "win_rate": 0.505,
+        "games": 400,
+        "queries": {
+          "whip": 0.895,
+          "whip_types": 16.5675,
+          "ring": 2.2,
+          "teammates": 0.5825,
+          "fez": 0.6825,
+          "radar": 0.8725
+        },
+        "query_counts": {
+          "whip": 358,
+          "whip_types": 6627,
+          "ring": 880,
+          "teammates": 233,
+          "fez": 273,
+          "radar": 349
+        }
+      },
+      "b": {
+        "win_rate": 0.475,
+        "games": 400,
+        "queries": {
+          "whip": 0.905,
+          "whip_types": 17.7925,
+          "ring": 2.2125,
+          "teammates": 0.61,
+          "fez": 0.7025,
+          "radar": 0.875
+        },
+        "query_counts": {
+          "whip": 362,
+          "whip_types": 7117,
+          "ring": 885,
+          "teammates": 244,
+          "fez": 281,
+          "radar": 350
+        }
+      }
+    },
+    {
+      "key": "d60",
+      "name": "Cornerstone Ogerpon (D60)",
+      "foe_strategy": "demolish",
+      "kecleon_as_a": 0.775,
+      "kecleon_as_b": 0.725,
+      "mean": 0.75,
+      "a": {
+        "win_rate": 0.775,
+        "games": 400,
+        "queries": {
+          "whip": 0.89,
+          "whip_types": 8.665,
+          "ring": 1.5025,
+          "teammates": 0.5775,
+          "fez": 0.54,
+          "radar": 0.73
+        },
+        "query_counts": {
+          "whip": 356,
+          "whip_types": 3466,
+          "ring": 601,
+          "teammates": 231,
+          "fez": 216,
+          "radar": 292
+        }
+      },
+      "b": {
+        "win_rate": 0.725,
+        "games": 400,
+        "queries": {
+          "whip": 0.88,
+          "whip_types": 8.2625,
+          "ring": 1.63,
+          "teammates": 0.6025,
+          "fez": 0.5175,
+          "radar": 0.73
+        },
+        "query_counts": {
+          "whip": 352,
+          "whip_types": 3305,
+          "ring": 652,
+          "teammates": 241,
+          "fez": 207,
+          "radar": 292
+        }
+      }
+    },
+    {
+      "key": "s60",
+      "name": "Wo-Chien / Floragato (S60)",
+      "foe_strategy": "slash",
+      "kecleon_as_a": 0.7175,
+      "kecleon_as_b": 0.75,
+      "mean": 0.73375,
+      "a": {
+        "win_rate": 0.7175,
+        "games": 400,
+        "queries": {
+          "whip": 0.97,
+          "whip_types": 23.9125,
+          "ring": 2.29,
+          "radar": 0.8975,
+          "teammates": 0.7125,
+          "fez": 0.72
+        },
+        "query_counts": {
+          "whip": 388,
+          "whip_types": 9565,
+          "ring": 916,
+          "radar": 359,
+          "teammates": 285,
+          "fez": 288
+        }
+      },
+      "b": {
+        "win_rate": 0.75,
+        "games": 400,
+        "queries": {
+          "whip": 0.965,
+          "whip_types": 23.915,
+          "ring": 2.3675,
+          "radar": 0.915,
+          "teammates": 0.78,
+          "fez": 0.775
+        },
+        "query_counts": {
+          "whip": 386,
+          "whip_types": 9566,
+          "ring": 947,
+          "radar": 366,
+          "teammates": 312,
+          "fez": 310
+        }
+      }
+    },
+    {
+      "key": "g",
+      "name": "Carpet Set G",
+      "foe_strategy": "g",
+      "kecleon_as_a": 0.5,
+      "kecleon_as_b": 0.4825,
+      "mean": 0.49124999999999996,
+      "a": {
+        "win_rate": 0.5,
+        "games": 400,
+        "queries": {
+          "whip": 0.8875,
+          "whip_types": 19.825,
+          "ring": 1.46,
+          "radar": 0.7425,
+          "teammates": 0.5775,
+          "fez": 0.475
+        },
+        "query_counts": {
+          "whip": 355,
+          "whip_types": 7930,
+          "ring": 584,
+          "radar": 297,
+          "teammates": 231,
+          "fez": 190
+        }
+      },
+      "b": {
+        "win_rate": 0.4825,
+        "games": 400,
+        "queries": {
+          "whip": 0.8975,
+          "whip_types": 20.1225,
+          "ring": 1.4125,
+          "radar": 0.735,
+          "fez": 0.5375,
+          "teammates": 0.635
+        },
+        "query_counts": {
+          "whip": 359,
+          "whip_types": 8049,
+          "ring": 565,
+          "radar": 294,
+          "fez": 215,
+          "teammates": 254
+        }
+      }
+    }
+  ]
+}
