@@ -1,9 +1,9 @@
 ---
-name: greed
-description: Run a one-card greedy search on a 60-card list. Each comparison is 400 games per seat on one shared seed, 30-card decks are left out, and every kept win-rate change gets a written reason from the printed text, the foe table, the effect counters, and the end reasons. Use when the user invokes /greed, asks for a greedy swap, or wants to try cards one copy at a time.
+name: greedy
+description: Run a one-card greedy search on a 60-card list. Each comparison is 400 games per seat on one shared seed, 30-card decks are left out, and every kept win-rate change gets a written reason from the printed text, the foe table, the effect counters, and the end reasons. Use when the user invokes /greedy, asks for a greedy swap, or wants to try cards one copy at a time.
 ---
 
-# Greed
+# Greedy
 
 Measure one copy in and one copy out. Keep the swap only when its Sisters-weighted win rate is higher than the list already kept. Record the sample. Do not edit a locked list.
 
