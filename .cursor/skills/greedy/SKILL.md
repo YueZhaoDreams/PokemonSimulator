@@ -62,7 +62,24 @@ Weights are an input. They change. Store every foe cell first: both seats, the w
 
 Use the vector the user names for this run, including a weight they set to zero. When they name none, give every tested 60 the same weight, `1 / N`, and write that equal weights are the stand-in. A new deck that is not archived has a slot. An archived deck is left out of the field and out of the weights. Leaving any other live 60 out of the score is the same as not testing it.
 
-Also re-score the same cells with the Sisters vector in `data/lab/set-mill-sleep.md`, after dropping any foe that vector has no slot for and dividing the rest by their sum in the script. That column is a past vector. A deck it never had is absent from that column, and the note says so. The kept list follows the vector that covers every tested deck.
+Also re-score the same cells with the Sisters vector in `data/lab/set-mill-sleep.md`. Join that vector to the registry by this table, then divide the joined raw weights by their sum in the script. A Sisters name with no row here, and a registry key with no Sisters name, stays out of that column.
+
+| Sisters name | Registry key | Raw weight |
+| :--- | :--- | ---: |
+| t60 | t60 | 0.040 |
+| hedrick | t-meta | 0.051 |
+| unl | t-unl | 0.022 |
+| d60 | d60 | 0.145 |
+| s60 | s60 | 0.070 |
+| g | g | 0.117 |
+| c60 | c60 | 0.124 |
+| m | m60 | 0.145 |
+| starmie | starmie | 0.106 |
+| lucario | l60 | 0.051 |
+| thorns | thorns | 0.041 |
+| h | h | 0.076 |
+
+The old `g30` slot (raw 0.011) was the earlier Ambipom list. The current `seed-g30` is a different 60, so that slot does not attach to it. That column is a past vector. A deck it never had is absent from that column, and the note says which keys were left out. The kept list follows the vector that covers every tested deck.
 
 Do not type a pre-rounded weight into the score. Write the vector, its source, and the date of the run.
 
