@@ -1,0 +1,273 @@
+{
+  "dual_type_cards": 106,
+  "dual_type_names": 86,
+  "basic_dual_type_cards": 17,
+  "dragon_dual_type_cards": 0,
+  "sets": {
+    "Team Magma vs Team Aqua": 13,
+    "Hidden Legends": 3,
+    "Team Rocket Returns": 24,
+    "Delta Species": 22,
+    "Holon Phantoms": 10,
+    "Crystal Guardians": 3,
+    "HS\u2014Unleashed": 6,
+    "HS\u2014Undaunted": 4,
+    "HS\u2014Triumphant": 4,
+    "XY Black Star Promos": 1,
+    "Steam Siege": 12,
+    "Celebrations: Classic Collection": 1,
+    "30th Celebration: Classic Collection": 3
+  },
+  "stages": {
+    "Stage 1": 46,
+    "Basic": 17,
+    "Stage 2": 23,
+    "LEGEND": 16,
+    "MEGA": 4
+  },
+  "unlimited_cover": {
+    "cards": 5,
+    "pokemon": [
+      {
+        "pokemon": "Team Magma's Rhydon",
+        "set": "Team Magma vs Team Aqua",
+        "printed_as": "11/95",
+        "types": [
+          "Darkness",
+          "Fighting"
+        ],
+        "stage": "Stage 1",
+        "legality": "Unlimited"
+      },
+      {
+        "pokemon": "Espeon \u03b4",
+        "set": "Delta Species",
+        "printed_as": "4/113",
+        "types": [
+          "Metal",
+          "Psychic"
+        ],
+        "stage": "Stage 1",
+        "legality": "Unlimited"
+      },
+      {
+        "pokemon": "Beedrill \u03b4",
+        "set": "Delta Species",
+        "printed_as": "1/113",
+        "types": [
+          "Grass",
+          "Metal"
+        ],
+        "stage": "Stage 2",
+        "legality": "Unlimited"
+      },
+      {
+        "pokemon": "Entei & Raikou LEGEND",
+        "set": "HS\u2014Unleashed",
+        "printed_as": "90/95",
+        "types": [
+          "Fire",
+          "Lightning"
+        ],
+        "stage": "LEGEND",
+        "legality": "Unlimited"
+      },
+      {
+        "pokemon": "Azumarill",
+        "set": "Steam Siege",
+        "printed_as": "77/114",
+        "types": [
+          "Fairy",
+          "Water"
+        ],
+        "stage": "Stage 1",
+        "legality": "Expanded; Unlimited"
+      }
+    ]
+  },
+  "expanded_cover": {
+    "cards": 5,
+    "pokemon": [
+      {
+        "pokemon": "Volcanion-EX",
+        "set": "XY Black Star Promos",
+        "printed_as": "XY173",
+        "types": [
+          "Fire",
+          "Water"
+        ],
+        "stage": "Basic",
+        "legality": "Expanded; Unlimited"
+      },
+      {
+        "pokemon": "M Steelix-EX",
+        "set": "Steam Siege",
+        "printed_as": "109/114",
+        "types": [
+          "Fighting",
+          "Metal"
+        ],
+        "stage": "MEGA",
+        "legality": "Expanded; Unlimited"
+      },
+      {
+        "pokemon": "Galvantula",
+        "set": "Steam Siege",
+        "printed_as": "42/114",
+        "types": [
+          "Grass",
+          "Lightning"
+        ],
+        "stage": "Stage 1",
+        "legality": "Expanded; Unlimited"
+      },
+      {
+        "pokemon": "Azumarill",
+        "set": "Steam Siege",
+        "printed_as": "77/114",
+        "types": [
+          "Fairy",
+          "Water"
+        ],
+        "stage": "Stage 1",
+        "legality": "Expanded; Unlimited"
+      },
+      {
+        "pokemon": "Darkrai & Cresselia LEGEND",
+        "set": "30th Celebration: Classic Collection",
+        "printed_as": "100",
+        "types": [
+          "Darkness",
+          "Psychic"
+        ],
+        "stage": "LEGEND",
+        "legality": "Expanded; Unlimited"
+      }
+    ]
+  },
+  "unlimited_playable_cover": {
+    "cards": 5,
+    "pokemon": [
+      {
+        "pokemon": "Team Magma's Rhydon",
+        "set": "Team Magma vs Team Aqua",
+        "printed_as": "11/95",
+        "types": [
+          "Darkness",
+          "Fighting"
+        ],
+        "stage": "Stage 1",
+        "legality": "Unlimited"
+      },
+      {
+        "pokemon": "Espeon \u03b4",
+        "set": "Delta Species",
+        "printed_as": "4/113",
+        "types": [
+          "Metal",
+          "Psychic"
+        ],
+        "stage": "Stage 1",
+        "legality": "Unlimited"
+      },
+      {
+        "pokemon": "Flareon \u03b4",
+        "set": "Delta Species",
+        "printed_as": "5/113",
+        "types": [
+          "Fire",
+          "Metal"
+        ],
+        "stage": "Stage 1",
+        "legality": "Unlimited"
+      },
+      {
+        "pokemon": "Galvantula",
+        "set": "Steam Siege",
+        "printed_as": "42/114",
+        "types": [
+          "Grass",
+          "Lightning"
+        ],
+        "stage": "Stage 1",
+        "legality": "Expanded; Unlimited"
+      },
+      {
+        "pokemon": "Azumarill",
+        "set": "Steam Siege",
+        "printed_as": "77/114",
+        "types": [
+          "Fairy",
+          "Water"
+        ],
+        "stage": "Stage 1",
+        "legality": "Expanded; Unlimited"
+      }
+    ]
+  },
+  "expanded_playable_cover": {
+    "cards": null,
+    "pokemon": []
+  },
+  "deck_a_cover": {
+    "cards": 5,
+    "pokemon": [
+      {
+        "pokemon": "Volcarona",
+        "set": "Steam Siege",
+        "printed_as": "15/114",
+        "types": [
+          "Fire",
+          "Grass"
+        ],
+        "stage": "Stage 1",
+        "legality": "Expanded; Unlimited"
+      },
+      {
+        "pokemon": "Azumarill",
+        "set": "Steam Siege",
+        "printed_as": "77/114",
+        "types": [
+          "Fairy",
+          "Water"
+        ],
+        "stage": "Stage 1",
+        "legality": "Expanded; Unlimited"
+      },
+      {
+        "pokemon": "Marowak \u03b4",
+        "set": "Delta Species",
+        "printed_as": "10/113",
+        "types": [
+          "Fighting",
+          "Metal"
+        ],
+        "stage": "Stage 1",
+        "legality": "Unlimited"
+      },
+      {
+        "pokemon": "Dark Magneton",
+        "set": "Team Rocket Returns",
+        "printed_as": "39/109",
+        "types": [
+          "Darkness",
+          "Lightning"
+        ],
+        "stage": "Stage 1",
+        "legality": "Unlimited"
+      },
+      {
+        "pokemon": "Dark Hypno",
+        "set": "Team Rocket Returns",
+        "printed_as": "6/109",
+        "types": [
+          "Darkness",
+          "Psychic"
+        ],
+        "stage": "Stage 1",
+        "legality": "Unlimited"
+      }
+    ]
+  },
+  "source": "Physical-card JSON snapshot at /tmp/tcg. Pocket cards are not included."
+}
