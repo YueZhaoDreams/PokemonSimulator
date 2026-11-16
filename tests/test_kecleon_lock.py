@@ -3,7 +3,7 @@
 from random import Random
 
 from app.engine.effects import parse_ability_effects, parse_effects, parse_trainer_effects
-from app.engine.game import Game, Pokemon
+from app.engine.game import ST_ASLEEP, Game, Pokemon
 from app.engine.legality import copy_violations
 from app.engine.models import standard_60_rules
 from app.engine.strategies import StrategySpec
@@ -185,6 +185,95 @@ def test_teammates_waits_for_the_knock_out():
     assert game.events.get("teammates") == 1
 
 
+def test_skyliner_lets_a_stuck_basic_retreat_into_kecleon():
+    """Printed Skyliner: Your Basic Pokémon in play have no Retreat Cost."""
+    deck = build_fallback_deck(
+        ["Kecleon", "Druddigon", "Latias ex", "Double Colorless Energy"] + ["Psychic Energy"] * 56
+    )
+    foe = build_fallback_deck(["Starly"] + ["Hop"] * 59)
+    game = Game(
+        deck,
+        foe,
+        standard_60_rules(),
+        StrategySpec.from_dict("kecleon"),
+        StrategySpec.from_dict("balanced"),
+        Random(2),
+    )
+    me = game.players["a"]
+    drud = _idx(me, "Druddigon")
+    kec = _idx(me, "Kecleon")
+    lat = _idx(me, "Latias ex")
+    dce = _idx(me, "Double Colorless Energy")
+    me.active = Pokemon(card_i=drud, played_turn=0)
+    me.bench = [Pokemon(card_i=kec, energy=[dce], played_turn=0)]
+    me.hand = []
+    assert game._retreat_cost(me, me.active) == 2
+    game._maybe_retreat(me, game.players["b"], "a")
+    assert me.card(me.active.card_i).name == "Druddigon"
+
+    me.bench.append(Pokemon(card_i=lat, played_turn=0))
+    assert game._retreat_cost(me, me.active) == 0
+    game._maybe_retreat(me, game.players["b"], "a")
+    assert me.card(me.active.card_i).name == "Kecleon"
+
+
+def test_promote_and_switch_choose_kecleon():
+    deck = build_fallback_deck(
+        ["Kecleon", "Druddigon", "Hoopa-EX", "Latias ex", "Double Colorless Energy"] + ["Psychic Energy"] * 55
+    )
+    foe = build_fallback_deck(["Starly"] + ["Hop"] * 59)
+    game = Game(
+        deck,
+        foe,
+        standard_60_rules(),
+        StrategySpec.from_dict("kecleon"),
+        StrategySpec.from_dict("balanced"),
+        Random(3),
+    )
+    me = game.players["a"]
+    me.active = Pokemon(card_i=_idx(me, "Hoopa-EX"), played_turn=0)
+    me.bench = [
+        Pokemon(card_i=_idx(me, "Druddigon"), played_turn=0),
+        Pokemon(card_i=_idx(me, "Latias ex"), played_turn=0),
+        Pokemon(card_i=_idx(me, "Kecleon"), energy=[_idx(me, "Double Colorless Energy")], played_turn=0),
+    ]
+    assert me.card(me.bench[game._promote_idx(me, "a")].card_i).name == "Kecleon"
+    assert me.card(me.bench[game._switch_target_idx(me, "a")].card_i).name == "Kecleon"
+
+
+def test_one_latias_ex_benches_and_does_not_open():
+    deck = build_fallback_deck(
+        ["Kecleon", "Latias ex", "Latias ex", "Druddigon", "Hoopa-EX"] + ["Psychic Energy"] * 55
+    )
+    foe = build_fallback_deck(["Starly"] + ["Hop"] * 59)
+    game = Game(
+        deck,
+        foe,
+        standard_60_rules(),
+        StrategySpec.from_dict("kecleon"),
+        StrategySpec.from_dict("balanced"),
+        Random(4),
+    )
+    me = game.players["a"]
+    kec = _idx(me, "Kecleon")
+    lat = [_idx(me, "Latias ex"), _idx(me, "Latias ex", 1)]
+    me.hand = [kec, *lat]
+    me.deck = [i for i in range(len(me.cards)) if i not in set(me.hand)]
+    me.active = None
+    me.bench = []
+    game._play_basics(me)
+    assert me.card(me.active.card_i).name == "Kecleon"
+    benched = [me.card(mon.card_i).name for mon in me.bench]
+    assert benched.count("Latias ex") == 1
+    spare = next(i for i in lat if i in me.hand)
+
+    me.hand = []
+    me.deck = [spare, _idx(me, "Druddigon")]
+    game._bench_basic_from_deck(me, "a", source="nest ball")
+    assert [me.card(mon.card_i).name for mon in me.bench].count("Latias ex") == 1
+    assert me.card(me.bench[-1].card_i).name == "Druddigon"
+
+
 def test_energy_retrieval_leaves_special_energy():
     game = _game()
     me = game.players["a"]
@@ -196,3 +285,150 @@ def test_energy_retrieval_leaves_special_energy():
     game._resolve_trainer(me, game.players["b"], me.card(retrieval), who="a", card_i=retrieval)
     assert fire in me.hand
     assert dce in me.discard
+
+
+STELLAR = (
+    "When you play this Pokémon from your hand onto your Bench, you may search your deck "
+    "for a Supporter card, reveal it, and put it into your hand. Shuffle your deck afterward."
+)
+HYPN = "Both this Pokémon and the Defending Pokémon are now Asleep."
+PENNY = "Put 1 of your Basic Pokémon and all attached cards into your hand."
+CATCHER = (
+    "You can use this card only if you have more Prize cards remaining than your opponent.\n\n"
+    "Switch in 1 of your opponent's Benched Pokémon to the Active Spot."
+)
+
+
+def test_jirachi_ex_prints_parse():
+    card = fallback_named("Jirachi-EX")
+    assert card.text == STELLAR or any(abi.text == STELLAR for abi in card.abilities)
+    assert card.types == ["Metal"]
+    assert card.hp == 90
+    guidance = parse_ability_effects(STELLAR)
+    assert guidance[0]["kind"] == "search_supporter_on_bench"
+    strike = parse_effects(HYPN, "60")
+    assert any(e.get("kind") == "status" and e.get("status") == "asleep" and e.get("target") != "self" for e in strike)
+    assert any(e.get("kind") == "status" and e.get("status") == "asleep" and e.get("target") == "self" for e in strike)
+    assert {"kind": "return_pokemon_to_hand", "basic_only": True, "attachments": "hand"} in parse_trainer_effects(PENNY)
+    assert any(e.get("kind") == "force_opponent_active" for e in parse_trainer_effects(CATCHER))
+
+
+def test_hoopa_searches_two_dual_types_then_jirachi():
+    game = _game()
+    me = game.players["a"]
+    kecleon = _idx(me, "Kecleon")
+    hoopa = _idx(me, "Hoopa-EX")
+    # Jirachi is not in the locked 60. Put one into the deck by swapping a spare card.
+    spare = _idx(me, "Switch")
+    me.cards[spare] = fallback_named("Jirachi-EX")
+    package = [
+        spare,
+        _idx(me, "M Gardevoir-EX"),
+        _idx(me, "M Steelix-EX"),
+        _idx(me, "Volcanion-EX"),
+        _idx(me, "M Latios-EX"),
+    ]
+    me.active = Pokemon(card_i=kecleon, played_turn=0)
+    me.bench = []
+    me.hand = [hoopa]
+    me.deck = package + [i for i in range(len(me.cards)) if i not in {kecleon, hoopa, *package}]
+    me.discard = []
+    game._play_basics(me)
+    found = {me.card(i).name for i in me.hand}
+    assert any(me.card(mon.card_i).name == "Jirachi-EX" for mon in me.bench)
+    assert "Jirachi-EX" not in found
+    assert len({"M Gardevoir-EX", "M Steelix-EX", "Volcanion-EX", "M Latios-EX"} & found) == 2
+    assert game.events.get("scoundrel_ring") == 3
+    assert game.events.get("stellar_guidance") == 1
+
+
+def test_penny_replays_hoopa_and_searches_again():
+    game = _game()
+    me = game.players["a"]
+    kecleon = _idx(me, "Kecleon")
+    hoopa = _idx(me, "Hoopa-EX")
+    penny = _idx(me, "Arven")
+    me.cards[penny] = fallback_named("Penny")
+    exes = [
+        _idx(me, "M Gardevoir-EX"),
+        _idx(me, "M Steelix-EX"),
+        _idx(me, "Volcanion-EX"),
+        _idx(me, "M Sceptile-EX"),
+        _idx(me, "M Manectric-EX"),
+        _idx(me, "M Latios-EX"),
+    ]
+    me.active = Pokemon(card_i=kecleon, played_turn=0)
+    me.bench = []
+    me.hand = [hoopa, penny]
+    me.deck = exes + [i for i in range(len(me.cards)) if i not in {kecleon, hoopa, penny, *exes}]
+    me.discard = []
+    game._play_basics(me)
+    assert game.events.get("scoundrel_ring") == 3
+    assert any(me.card(mon.card_i).name == "Hoopa-EX" for mon in me.bench)
+    game._play_trainers(me, game.players["b"], "a")
+    assert hoopa in me.hand
+    assert not any(me.card(mon.card_i).name == "Hoopa-EX" for mon in me.in_play())
+    game._play_basics(me)
+    assert game.events.get("scoundrel_ring") == 6
+    assert any(me.card(mon.card_i).name == "Hoopa-EX" for mon in me.bench)
+
+
+def test_jirachi_from_hand_searches_penny_for_the_board():
+    deck = build_fallback_deck(
+        ["Kecleon", "Hoopa-EX", "Jirachi-EX", "Penny", "Arven", "Double Colorless Energy"] + ["Psychic Energy"] * 54
+    )
+    foe = build_fallback_deck(["Starly"] + ["Hop"] * 4 + ["Psychic Energy"] * 55)
+    game = Game(
+        deck,
+        foe,
+        standard_60_rules(),
+        StrategySpec.from_dict("kecleon"),
+        StrategySpec.from_dict("balanced"),
+        Random(3),
+    )
+    me = game.players["a"]
+    foe_p = game.players["b"]
+    kecleon = _idx(me, "Kecleon")
+    hoopa = _idx(me, "Hoopa-EX")
+    jirachi = _idx(me, "Jirachi-EX")
+    penny = _idx(me, "Penny")
+    arven = _idx(me, "Arven")
+    ex = _idx(me, "Hoopa-EX")  # only one; deck still needs an EX for the penny target after Hoopa is out
+    # A second EX so Penny's replay line is live while Jirachi chooses.
+    spare = _idx(me, "Psychic Energy")
+    me.cards[spare] = fallback_named("Volcanion-EX")
+    me.active = Pokemon(card_i=kecleon, played_turn=0)
+    me.bench = [Pokemon(card_i=hoopa, played_turn=0)]
+    me.hand = [jirachi]
+    me.deck = [penny, arven, spare]
+    me.discard = []
+    foe_p.active = Pokemon(card_i=_idx(foe_p, "Starly"), played_turn=0)
+    game._play_basics(me)
+    assert any(me.card(mon.card_i).name == "Jirachi-EX" for mon in me.bench)
+    assert penny in me.hand
+    assert game.events.get("stellar_guidance") == 1
+    assert (me.active.status & ST_ASLEEP) == 0
+
+
+def test_hypnostrike_sleeps_both_pokemon():
+    deck = build_fallback_deck(["Jirachi-EX", "Metal Energy"] + ["Psychic Energy"] * 58)
+    foe = build_fallback_deck(["Starly"] + ["Hop"] * 59)
+    game = Game(
+        deck,
+        foe,
+        standard_60_rules(),
+        StrategySpec.from_dict("kecleon"),
+        StrategySpec.from_dict("balanced"),
+        Random(5),
+    )
+    me = game.players["a"]
+    foe_p = game.players["b"]
+    jirachi = _idx(me, "Jirachi-EX")
+    energy = [_idx(me, "Metal Energy"), _idx(me, "Psychic Energy"), _idx(me, "Psychic Energy", 1)]
+    me.active = Pokemon(card_i=jirachi, energy=energy, played_turn=0)
+    me.hand = []
+    me.bench = []
+    foe_p.active = Pokemon(card_i=_idx(foe_p, "Starly"), played_turn=0)
+    game._attack(me, foe_p, "a")
+    assert me.active.status & ST_ASLEEP
+    assert foe_p.active.status & ST_ASLEEP

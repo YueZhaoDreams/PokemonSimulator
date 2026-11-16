@@ -801,6 +801,9 @@ def parse_effects(text: str, damage_raw: str = "") -> list[dict[str, Any]]:
         if _status_targets_self(t, "asleep"):
             asleep["target"] = "self"
         effects.append(asleep)
+        # Jirachi-EX Hypnostrike: both this Pokémon and the Defending Pokémon are now Asleep.
+        if "both this pokemon and the defending pokemon are now asleep" in t:
+            effects.append({"kind": "status", "status": "asleep", "target": "self", "coin": coin})
 
     recoil = re.search(r"(?:also )?does (\d+) damage to itself", t)
     if recoil:

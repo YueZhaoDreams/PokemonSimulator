@@ -4580,6 +4580,35 @@ _register(
         set_name="Surging Sparks",
     )
 )
+# Plasma Blast 60. Stellar Guidance searches a Supporter only when this
+# Basic is played from the hand onto the Bench.
+_STELLAR_GUIDANCE = (
+    "When you play this Pokémon from your hand onto your Bench, you may search your deck "
+    "for a Supporter card, reveal it, and put it into your hand. Shuffle your deck afterward."
+)
+_register(
+    _pkm(
+        "Jirachi-EX",
+        "Basic",
+        ["Metal"],
+        90,
+        [
+            _atk(
+                "Hypnostrike",
+                ["Metal", "Colorless", "Colorless"],
+                60,
+                "Both this Pokémon and the Defending Pokémon are now Asleep.",
+            )
+        ],
+        catalog_id="bw10-60",
+        weakness="Fire",
+        retreat=1,
+        abilities=[Ability(name="Stellar Guidance", text=_STELLAR_GUIDANCE)],
+        resistances=[{"type": "Psychic", "value": "-20"}],
+        image="https://assets.tcgdex.net/en/bw/bw10/60/low.webp",
+        set_name="Plasma Blast",
+    )
+)
 
 # Chris Brewer Lucario Hariyama prints. Texts are the pokemontcg.io English sentences.
 _register(
