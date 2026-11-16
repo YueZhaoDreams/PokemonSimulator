@@ -91,7 +91,7 @@ se = sqrt(variance)
 gap_se = sqrt(se_before^2 + se_after^2)
 ```
 
-Report a gap as the rate difference and as `gap / gap_se` combined standard errors. Two vectors mean two standard errors.
+Report a gap as the rate difference and as `gap / gap_se` combined standard errors. Two vectors mean two standard errors. On a list after the 0-copy pass, the parked foes are held at their stored rates, so their terms add nothing to the gap or to its standard error. The variance sum for that gap runs over the active set.
 
 ## One seed, 400 games
 
