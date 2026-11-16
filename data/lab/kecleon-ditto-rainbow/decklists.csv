@@ -1,0 +1,78 @@
+deck,count,name,set,number,kind,types,stage
+rainbow,4,Kecleon,Delta Reign,83/103,pokemon,Colorless,basic
+rainbow,1,Ditto ◇,Lost Thunder,154/214,pokemon,Colorless,basic
+rainbow,2,Volcarona,Steam Siege,15/114,pokemon,Fire Grass,stage1
+rainbow,2,Azumarill,Steam Siege,77/114,pokemon,Fairy Water,stage1
+rainbow,2,Marowak δ,Delta Species,10/113,pokemon,Fighting Metal,stage1
+rainbow,2,Dark Magneton,Team Rocket Returns,39/109,pokemon,Lightning Darkness,stage1
+rainbow,2,Dark Hypno,Team Rocket Returns,6/109,pokemon,Psychic Darkness,stage1
+rainbow,2,Druddigon,White Flare,71/86,pokemon,Dragon,basic
+rainbow,1,Galvantula,Steam Siege,42/114,pokemon,Lightning Grass,stage1
+rainbow,1,Bisharp,Steam Siege,64/114,pokemon,Darkness Metal,stage1
+rainbow,1,Shiftry,Steam Siege,11/114,pokemon,Grass Darkness,stage2
+rainbow,4,Dawn,Phantasmal Flames,87/94,trainer,,
+rainbow,3,Hilda,White Flare,84/86,trainer,,
+rainbow,1,Hyper Aroma,Twilight Masquerade,152/167,trainer,,
+rainbow,4,Ultra Ball,Mega Evolution,131/132,trainer,,
+rainbow,3,Nest Ball,Scarlet & Violet,181/198,trainer,,
+rainbow,2,Buddy-Buddy Poffin,Temporal Forces,144/162,trainer,,
+rainbow,3,Rescue Scarf,Dragons Exalted,115/124,trainer,,
+rainbow,2,Night Stretcher,Shrouded Fable,61/64,trainer,,
+rainbow,2,Rescue Stretcher,Guardians Rising,130/145,trainer,,
+rainbow,2,Switch,Mega Evolution,130/132,trainer,,
+rainbow,2,Boss's Orders,Mega Evolution,114/132,trainer,,
+rainbow,4,Double Colorless Energy,Fates Collide,114/124,energy,,
+rainbow,4,Counter Energy,Crimson Invasion,100/111,energy,,
+rainbow,2,Triple Acceleration Energy,Unbroken Bonds,190/214,energy,,
+rainbow,2,Fighting Energy,Crown Zenith,157/159,energy,,
+hybrid,4,Kecleon,Delta Reign,83/103,pokemon,Colorless,basic
+hybrid,1,Ditto ◇,Lost Thunder,154/214,pokemon,Colorless,basic
+hybrid,2,Azumarill,Steam Siege,77/114,pokemon,Fairy Water,stage1
+hybrid,2,Galvantula,Steam Siege,42/114,pokemon,Lightning Grass,stage1
+hybrid,2,Bisharp,Steam Siege,64/114,pokemon,Darkness Metal,stage1
+hybrid,2,Volcarona,Steam Siege,15/114,pokemon,Fire Grass,stage1
+hybrid,2,Marowak,Stellar Crown,73/142,pokemon,Fighting,stage1
+hybrid,2,Banette,Pitch Black,34/84,pokemon,Psychic,stage1
+hybrid,2,Druddigon,White Flare,71/86,pokemon,Dragon,basic
+hybrid,1,Shiftry,Steam Siege,11/114,pokemon,Grass Darkness,stage2
+hybrid,4,Dawn,Phantasmal Flames,87/94,trainer,,
+hybrid,3,Hilda,White Flare,84/86,trainer,,
+hybrid,1,Hyper Aroma,Twilight Masquerade,152/167,trainer,,
+hybrid,4,Ultra Ball,Mega Evolution,131/132,trainer,,
+hybrid,3,Nest Ball,Scarlet & Violet,181/198,trainer,,
+hybrid,2,Buddy-Buddy Poffin,Temporal Forces,144/162,trainer,,
+hybrid,3,Rescue Scarf,Dragons Exalted,115/124,trainer,,
+hybrid,2,Night Stretcher,Shrouded Fable,61/64,trainer,,
+hybrid,2,Rescue Stretcher,Guardians Rising,130/145,trainer,,
+hybrid,2,Switch,Mega Evolution,130/132,trainer,,
+hybrid,2,Boss's Orders,Mega Evolution,114/132,trainer,,
+hybrid,4,Double Colorless Energy,Fates Collide,114/124,energy,,
+hybrid,4,Counter Energy,Crimson Invasion,100/111,energy,,
+hybrid,2,Triple Acceleration Energy,Unbroken Bonds,190/214,energy,,
+hybrid,2,Psychic Energy,Crown Zenith,156/159,energy,,
+toolbox,3,Kecleon,Delta Reign,83/103,pokemon,Colorless,basic
+toolbox,1,Ditto ◇,Lost Thunder,154/214,pokemon,Colorless,basic
+toolbox,2,Bisharp,Steam Siege,64/114,pokemon,Darkness Metal,stage1
+toolbox,2,Galvantula,Steam Siege,42/114,pokemon,Lightning Grass,stage1
+toolbox,2,Seaking,Prismatic Evolutions,21/131,pokemon,Water,stage1
+toolbox,2,Banette,Pitch Black,34/84,pokemon,Psychic,stage1
+toolbox,2,Druddigon,White Flare,71/86,pokemon,Dragon,basic
+toolbox,1,Marowak,Stellar Crown,73/142,pokemon,Fighting,stage1
+toolbox,1,Aerodactyl,151,142/165,pokemon,Colorless,stage1
+toolbox,1,Shiftry,Steam Siege,11/114,pokemon,Grass Darkness,stage2
+toolbox,4,Dawn,Phantasmal Flames,87/94,trainer,,
+toolbox,3,Hilda,White Flare,84/86,trainer,,
+toolbox,1,Hyper Aroma,Twilight Masquerade,152/167,trainer,,
+toolbox,4,Ultra Ball,Mega Evolution,131/132,trainer,,
+toolbox,3,Nest Ball,Scarlet & Violet,181/198,trainer,,
+toolbox,2,Buddy-Buddy Poffin,Temporal Forces,144/162,trainer,,
+toolbox,3,Rescue Scarf,Dragons Exalted,115/124,trainer,,
+toolbox,3,Night Stretcher,Shrouded Fable,61/64,trainer,,
+toolbox,2,Rescue Stretcher,Guardians Rising,130/145,trainer,,
+toolbox,2,Switch,Mega Evolution,130/132,trainer,,
+toolbox,2,Boss's Orders,Mega Evolution,114/132,trainer,,
+toolbox,2,Professor's Research,Paldean Fates,87/91,trainer,,
+toolbox,4,Double Colorless Energy,Fates Collide,114/124,energy,,
+toolbox,4,Counter Energy,Crimson Invasion,100/111,energy,,
+toolbox,2,Triple Acceleration Energy,Unbroken Bonds,190/214,energy,,
+toolbox,2,Psychic Energy,Crown Zenith,156/159,energy,,

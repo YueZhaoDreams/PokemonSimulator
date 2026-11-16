@@ -1,0 +1,166 @@
+attacker,attacker_types,defender_type,defender_weak_to,printed_base_damage,weakness_applies,damage_after_weakness
+Kecleon,Colorless,Grass,Fire,0,no,0
+Kecleon,Colorless,Fire,Water,0,no,0
+Kecleon,Colorless,Water,Lightning,0,no,0
+Kecleon,Colorless,Lightning,Fighting,0,no,0
+Kecleon,Colorless,Psychic,Darkness,0,no,0
+Kecleon,Colorless,Fighting,Psychic,0,no,0
+Kecleon,Colorless,Darkness,Grass,0,no,0
+Kecleon,Colorless,Metal,Fire,0,no,0
+Kecleon,Colorless,Fairy,Metal,0,no,0
+Kecleon,Colorless,Dragon,Fairy,0,no,0
+Kecleon,Colorless,Colorless,Fighting,0,no,0
+Ditto ◇,Colorless,Grass,Fire,,no,0
+Ditto ◇,Colorless,Fire,Water,,no,0
+Ditto ◇,Colorless,Water,Lightning,,no,0
+Ditto ◇,Colorless,Lightning,Fighting,,no,0
+Ditto ◇,Colorless,Psychic,Darkness,,no,0
+Ditto ◇,Colorless,Fighting,Psychic,,no,0
+Ditto ◇,Colorless,Darkness,Grass,,no,0
+Ditto ◇,Colorless,Metal,Fire,,no,0
+Ditto ◇,Colorless,Fairy,Metal,,no,0
+Ditto ◇,Colorless,Dragon,Fairy,,no,0
+Ditto ◇,Colorless,Colorless,Fighting,,no,0
+Volcarona,Fire Grass,Grass,Fire,120,yes,240
+Volcarona,Fire Grass,Fire,Water,120,no,120
+Volcarona,Fire Grass,Water,Lightning,120,no,120
+Volcarona,Fire Grass,Lightning,Fighting,120,no,120
+Volcarona,Fire Grass,Psychic,Darkness,120,no,120
+Volcarona,Fire Grass,Fighting,Psychic,120,no,120
+Volcarona,Fire Grass,Darkness,Grass,120,yes,240
+Volcarona,Fire Grass,Metal,Fire,120,yes,240
+Volcarona,Fire Grass,Fairy,Metal,120,no,120
+Volcarona,Fire Grass,Dragon,Fairy,120,no,120
+Volcarona,Fire Grass,Colorless,Fighting,120,no,120
+Azumarill,Fairy Water,Grass,Fire,30,no,30
+Azumarill,Fairy Water,Fire,Water,30,yes,60
+Azumarill,Fairy Water,Water,Lightning,30,no,30
+Azumarill,Fairy Water,Lightning,Fighting,30,no,30
+Azumarill,Fairy Water,Psychic,Darkness,30,no,30
+Azumarill,Fairy Water,Fighting,Psychic,30,no,30
+Azumarill,Fairy Water,Darkness,Grass,30,no,30
+Azumarill,Fairy Water,Metal,Fire,30,no,30
+Azumarill,Fairy Water,Fairy,Metal,30,no,30
+Azumarill,Fairy Water,Dragon,Fairy,30,yes,60
+Azumarill,Fairy Water,Colorless,Fighting,30,no,30
+Marowak δ,Fighting Metal,Grass,Fire,50,no,50
+Marowak δ,Fighting Metal,Fire,Water,50,no,50
+Marowak δ,Fighting Metal,Water,Lightning,50,no,50
+Marowak δ,Fighting Metal,Lightning,Fighting,50,yes,100
+Marowak δ,Fighting Metal,Psychic,Darkness,50,no,50
+Marowak δ,Fighting Metal,Fighting,Psychic,50,no,50
+Marowak δ,Fighting Metal,Darkness,Grass,50,no,50
+Marowak δ,Fighting Metal,Metal,Fire,50,no,50
+Marowak δ,Fighting Metal,Fairy,Metal,50,yes,100
+Marowak δ,Fighting Metal,Dragon,Fairy,50,no,50
+Marowak δ,Fighting Metal,Colorless,Fighting,50,yes,100
+Dark Magneton,Lightning Darkness,Grass,Fire,20,no,20
+Dark Magneton,Lightning Darkness,Fire,Water,20,no,20
+Dark Magneton,Lightning Darkness,Water,Lightning,20,yes,40
+Dark Magneton,Lightning Darkness,Lightning,Fighting,20,no,20
+Dark Magneton,Lightning Darkness,Psychic,Darkness,20,yes,40
+Dark Magneton,Lightning Darkness,Fighting,Psychic,20,no,20
+Dark Magneton,Lightning Darkness,Darkness,Grass,20,no,20
+Dark Magneton,Lightning Darkness,Metal,Fire,20,no,20
+Dark Magneton,Lightning Darkness,Fairy,Metal,20,no,20
+Dark Magneton,Lightning Darkness,Dragon,Fairy,20,no,20
+Dark Magneton,Lightning Darkness,Colorless,Fighting,20,no,20
+Dark Hypno,Psychic Darkness,Grass,Fire,0,no,0
+Dark Hypno,Psychic Darkness,Fire,Water,0,no,0
+Dark Hypno,Psychic Darkness,Water,Lightning,0,no,0
+Dark Hypno,Psychic Darkness,Lightning,Fighting,0,no,0
+Dark Hypno,Psychic Darkness,Psychic,Darkness,0,no,0
+Dark Hypno,Psychic Darkness,Fighting,Psychic,0,no,0
+Dark Hypno,Psychic Darkness,Darkness,Grass,0,no,0
+Dark Hypno,Psychic Darkness,Metal,Fire,0,no,0
+Dark Hypno,Psychic Darkness,Fairy,Metal,0,no,0
+Dark Hypno,Psychic Darkness,Dragon,Fairy,0,no,0
+Dark Hypno,Psychic Darkness,Colorless,Fighting,0,no,0
+Druddigon,Dragon,Grass,Fire,40,no,40
+Druddigon,Dragon,Fire,Water,40,no,40
+Druddigon,Dragon,Water,Lightning,40,no,40
+Druddigon,Dragon,Lightning,Fighting,40,no,40
+Druddigon,Dragon,Psychic,Darkness,40,no,40
+Druddigon,Dragon,Fighting,Psychic,40,no,40
+Druddigon,Dragon,Darkness,Grass,40,no,40
+Druddigon,Dragon,Metal,Fire,40,no,40
+Druddigon,Dragon,Fairy,Metal,40,no,40
+Druddigon,Dragon,Dragon,Fairy,40,no,40
+Druddigon,Dragon,Colorless,Fighting,40,no,40
+Galvantula,Lightning Grass,Grass,Fire,30,no,30
+Galvantula,Lightning Grass,Fire,Water,30,no,30
+Galvantula,Lightning Grass,Water,Lightning,30,yes,60
+Galvantula,Lightning Grass,Lightning,Fighting,30,no,30
+Galvantula,Lightning Grass,Psychic,Darkness,30,no,30
+Galvantula,Lightning Grass,Fighting,Psychic,30,no,30
+Galvantula,Lightning Grass,Darkness,Grass,30,yes,60
+Galvantula,Lightning Grass,Metal,Fire,30,no,30
+Galvantula,Lightning Grass,Fairy,Metal,30,no,30
+Galvantula,Lightning Grass,Dragon,Fairy,30,no,30
+Galvantula,Lightning Grass,Colorless,Fighting,30,no,30
+Bisharp,Darkness Metal,Grass,Fire,30,no,30
+Bisharp,Darkness Metal,Fire,Water,30,no,30
+Bisharp,Darkness Metal,Water,Lightning,30,no,30
+Bisharp,Darkness Metal,Lightning,Fighting,30,no,30
+Bisharp,Darkness Metal,Psychic,Darkness,30,yes,60
+Bisharp,Darkness Metal,Fighting,Psychic,30,no,30
+Bisharp,Darkness Metal,Darkness,Grass,30,no,30
+Bisharp,Darkness Metal,Metal,Fire,30,no,30
+Bisharp,Darkness Metal,Fairy,Metal,30,yes,60
+Bisharp,Darkness Metal,Dragon,Fairy,30,no,30
+Bisharp,Darkness Metal,Colorless,Fighting,30,no,30
+Shiftry,Grass Darkness,Grass,Fire,60,no,60
+Shiftry,Grass Darkness,Fire,Water,60,no,60
+Shiftry,Grass Darkness,Water,Lightning,60,no,60
+Shiftry,Grass Darkness,Lightning,Fighting,60,no,60
+Shiftry,Grass Darkness,Psychic,Darkness,60,yes,120
+Shiftry,Grass Darkness,Fighting,Psychic,60,no,60
+Shiftry,Grass Darkness,Darkness,Grass,60,yes,120
+Shiftry,Grass Darkness,Metal,Fire,60,no,60
+Shiftry,Grass Darkness,Fairy,Metal,60,no,60
+Shiftry,Grass Darkness,Dragon,Fairy,60,no,60
+Shiftry,Grass Darkness,Colorless,Fighting,60,no,60
+Marowak,Fighting,Grass,Fire,60,no,60
+Marowak,Fighting,Fire,Water,60,no,60
+Marowak,Fighting,Water,Lightning,60,no,60
+Marowak,Fighting,Lightning,Fighting,60,yes,120
+Marowak,Fighting,Psychic,Darkness,60,no,60
+Marowak,Fighting,Fighting,Psychic,60,no,60
+Marowak,Fighting,Darkness,Grass,60,no,60
+Marowak,Fighting,Metal,Fire,60,no,60
+Marowak,Fighting,Fairy,Metal,60,no,60
+Marowak,Fighting,Dragon,Fairy,60,no,60
+Marowak,Fighting,Colorless,Fighting,60,yes,120
+Banette,Psychic,Grass,Fire,80,no,80
+Banette,Psychic,Fire,Water,80,no,80
+Banette,Psychic,Water,Lightning,80,no,80
+Banette,Psychic,Lightning,Fighting,80,no,80
+Banette,Psychic,Psychic,Darkness,80,no,80
+Banette,Psychic,Fighting,Psychic,80,yes,160
+Banette,Psychic,Darkness,Grass,80,no,80
+Banette,Psychic,Metal,Fire,80,no,80
+Banette,Psychic,Fairy,Metal,80,no,80
+Banette,Psychic,Dragon,Fairy,80,no,80
+Banette,Psychic,Colorless,Fighting,80,no,80
+Seaking,Water,Grass,Fire,60,no,60
+Seaking,Water,Fire,Water,60,yes,120
+Seaking,Water,Water,Lightning,60,no,60
+Seaking,Water,Lightning,Fighting,60,no,60
+Seaking,Water,Psychic,Darkness,60,no,60
+Seaking,Water,Fighting,Psychic,60,no,60
+Seaking,Water,Darkness,Grass,60,no,60
+Seaking,Water,Metal,Fire,60,no,60
+Seaking,Water,Fairy,Metal,60,no,60
+Seaking,Water,Dragon,Fairy,60,no,60
+Seaking,Water,Colorless,Fighting,60,no,60
+Aerodactyl,Colorless,Grass,Fire,100,no,100
+Aerodactyl,Colorless,Fire,Water,100,no,100
+Aerodactyl,Colorless,Water,Lightning,100,no,100
+Aerodactyl,Colorless,Lightning,Fighting,100,no,100
+Aerodactyl,Colorless,Psychic,Darkness,100,no,100
+Aerodactyl,Colorless,Fighting,Psychic,100,no,100
+Aerodactyl,Colorless,Darkness,Grass,100,no,100
+Aerodactyl,Colorless,Metal,Fire,100,no,100
+Aerodactyl,Colorless,Fairy,Metal,100,no,100
+Aerodactyl,Colorless,Dragon,Fairy,100,no,100
+Aerodactyl,Colorless,Colorless,Fighting,100,no,100
