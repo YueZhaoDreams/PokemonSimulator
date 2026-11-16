@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-"""One-copy search on the two-Latias Kecleon list.
+"""Copy search on the two-Latias Kecleon list.
 
 The locked SET_KECLEON_NAMES list is not edited. The sample starts from that
 lock with Battle Compressor and Boss's Orders removed and two Latias ex added.
-Three named cards come in, one copy each: Counter Catcher, then Penny, then
-Jirachi-EX. The cut is not named, so every other name still in the list is
-tried. The best cut is kept, including when the rate falls, and the next card
-is tried on that list. A second copy of the same card is not tried.
+Counter Catcher, Penny, Jirachi-EX, and Prism Energy each walk from one copy
+through four. The next copy is built on the list that just added a copy. After
+those counts, that card keeps the count with the highest 0-copy weighted rate,
+and the next card starts there. A dip stays on the path.
 
 Seed 20261116. 400 games a seat. Both seats. Each cell starts at
 random.Random(20261116). Weights are the 0-copy loss rates. Later games use
@@ -28,6 +28,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
+from app.engine.effects import is_basic_energy
 from app.engine.game import GameResult, play_game
 from app.engine.legality import copy_violations
 from app.engine.models import deck_archived_for_presets, default_rule_presets_for, standard_60_rules
@@ -75,6 +76,7 @@ SEED = 20261116
 GAMES = 400
 WORKERS = int(os.environ.get("KECLEON_GREEDY_WORKERS", str(os.cpu_count() or 2)))
 INCOMING = ("Counter Catcher", "Penny", "Jirachi-EX", "Prism Energy")
+COPY_CAP = 4
 SUBJECT = "kecleon"
 
 HERE = Path(__file__).resolve().parent
@@ -207,6 +209,13 @@ def _cards_for(builder: str, names: tuple[str, ...] | list[str]):
 
 def _subject_cards(names: tuple[str, ...] | list[str]):
     return [fallback_named(name) for name in names]
+
+
+def _copy_cap(name: str) -> int:
+    """Four of a name, or the whole deck for basic Energy."""
+    if is_basic_energy(fallback_named(name), pokemon_as_energy=False):
+        return 60
+    return COPY_CAP
 
 
 def starting_list() -> list[str]:
@@ -678,7 +687,7 @@ def _markdown(state: dict) -> str:
     foes = state["foes"]
     labels = {foe["key"]: foe["label"] for foe in foes}
     lines = [
-        "# Kecleon, one-copy swaps",
+        "# Kecleon, copies through the cap",
         "",
         "One step removes one copy of one other card and adds one copy of the named card. "
         "The list stays 60. The locked `SET_KECLEON_NAMES` list is not assigned and is not changed. "
@@ -688,13 +697,17 @@ def _markdown(state: dict) -> str:
         "and two Latias ex added. Latias ex says: "
         f"\"{state['quotes']['Latias ex']}\"",
         "",
-        "The rounds add one copy each, in this order: "
+        "The cards come in, in this order: "
         + ", ".join(state["incoming"])
         + ". "
-        "A second copy of the same card is not tried. The request names these rounds, not a walk "
-        "to the 4-copy cap. Every other name still in the list is a cut. Nothing is protected. "
-        "The step keeps the highest 0-copy weighted rate, then the higher worst active foe, "
-        "then the cut that had more copies, then the name. A dip is kept.",
+        "Each card is added one copy at a time through 4, or through the whole deck when the "
+        "card is basic Energy. The next copy is built on the list that just added a copy. "
+        "After those counts, that card keeps the count with the highest 0-copy weighted rate, "
+        "and the next card starts from that count. The list before the card is one of the counts. "
+        "Every other name still in the list is a cut. The incoming card is not cut while its own "
+        "count is being built. Nothing is protected. The step keeps the highest 0-copy weighted "
+        "rate, then the higher worst active foe, then the cut that had more copies, then the name. "
+        "A dip stays on the path.",
         "",
         f"Seed {state['seed']}. {state['games']} games per seat. Both seats. "
         "Each cell starts a new `random.Random` at that seed and plays its games on that generator. "
@@ -776,7 +789,10 @@ def _markdown(state: dict) -> str:
         "There is no second seed."
     )
     for round_row in state["rounds"]:
-        lines.extend(["", f"## {round_row['incoming']}", ""])
+        heading = round_row["incoming"]
+        if round_row.get("count"):
+            heading = f"{heading} ×{round_row['count']}"
+        lines.extend(["", f"## {heading}", ""])
         lines.append("Quotes: " + round_row["incoming"] + " — " + state["quotes"][round_row["incoming"]])
         lines.append("")
         lines.append(
@@ -974,156 +990,193 @@ def main() -> None:
     )
 
     current = list(start)
-    previous_cells = start_cells
+    previous_full = start_cells
     previous_rate = start_rate
     views = [("start", list(start), start_cells)]
-    for step, incoming in enumerate(INCOMING, start=1):
-        counts = Counter(current)
-        cut_rows = []
-        measured: dict[str, dict] = {}
-        for cut in sorted(counts):
-            trial = list(current)
-            trial.remove(cut)
-            trial.append(incoming)
-            try:
-                _check_list(trial)
-            except SystemExit as exc:
-                print(f"skip {cut}: {exc}", flush=True)
-                continue
-            cells = _evaluate(trial, active_foes, cache, f"{step} {incoming} minus {cut}")
-            view = _view(cells, {foe: start_cells[foe] for foe in parked})
-            # Step 1's previous map is the full 0-copy pass. Later steps keep the
-            # active cells only, and the parked foes come back from that pass.
-            if step == 1:
-                full_prev = start_cells
-            else:
-                full_prev = _view(previous_cells, {foe: start_cells[foe] for foe in parked})
-            worst_rate, worst_name = _worst(view, active)
-            row = {
-                "cut": cut,
-                "copies": counts[cut],
-                "names": trial,
-                "weighted": _rate(view, weights),
-                "se": _se(view, weights),
-                "unweighted": _unweighted(view, active),
-                "worst": worst_rate,
-                "worst_foe": worst_name,
-                "delta_prev": _rate(view, weights) - previous_rate,
-                "delta_start": _rate(view, weights) - start_rate,
-                "gap_se_prev": _gap_se(full_prev, view, weights, active),
-                "gap_se_start": _gap_se(start_cells, view, weights, active),
-            }
-            row["ratio_prev"] = _ratio(row["delta_prev"], row["gap_se_prev"])
-            cut_rows.append(row)
-            measured[cut] = view
-        cut_rows.sort(key=lambda row: (-row["weighted"], -row["worst"], -row["copies"], row["cut"]))
-        kept = cut_rows[0]
-        kept_view = measured[kept["cut"]]
-        reasons = []
-        for row in cut_rows:
-            moved = abs(row["delta_prev"]) >= row["gap_se_prev"] and row["gap_se_prev"] > 0
-            if row["cut"] != kept["cut"] and not moved:
-                continue
-            full_prev = start_cells if step == 1 else _view(previous_cells, {foe: start_cells[foe] for foe in parked})
-            reasons.append(
-                _reason(
-                    incoming,
-                    row["cut"],
-                    row["copies"],
-                    full_prev,
-                    measured[row["cut"]],
-                    start_cells,
-                    weights,
-                    active,
-                    cut_rows,
-                    labels,
+    kept_counts: list[str] = []
+    step = 0
+    for incoming_index, incoming in enumerate(INCOMING, start=1):
+        cap = _copy_cap(incoming)
+        # Count 0 is the list before this card. A later copy is built on the
+        # path, including a dip. The card then keeps the highest rate.
+        card_options = [(previous_rate, 0, list(current), previous_full)]
+        for count in range(1, cap + 1):
+            if current.count(incoming) >= cap:
+                break
+            counts = Counter(current)
+            full_prev = previous_full
+            cut_rows = []
+            measured: dict[str, dict] = {}
+            for cut in sorted(counts):
+                if cut == incoming:
+                    continue
+                trial = list(current)
+                trial.remove(cut)
+                trial.append(incoming)
+                try:
+                    _check_list(trial)
+                except SystemExit as exc:
+                    print(f"skip {cut}: {exc}", flush=True)
+                    continue
+                cells = _evaluate(trial, active_foes, cache, f"{count} {incoming} minus {cut}")
+                view = _view(cells, {foe: start_cells[foe] for foe in parked})
+                worst_rate, worst_name = _worst(view, active)
+                row = {
+                    "cut": cut,
+                    "copies": counts[cut],
+                    "names": trial,
+                    "weighted": _rate(view, weights),
+                    "se": _se(view, weights),
+                    "unweighted": _unweighted(view, active),
+                    "worst": worst_rate,
+                    "worst_foe": worst_name,
+                    "delta_prev": _rate(view, weights) - previous_rate,
+                    "delta_start": _rate(view, weights) - start_rate,
+                    "gap_se_prev": _gap_se(full_prev, view, weights, active),
+                    "gap_se_start": _gap_se(start_cells, view, weights, active),
+                }
+                row["ratio_prev"] = _ratio(row["delta_prev"], row["gap_se_prev"])
+                cut_rows.append(row)
+                measured[cut] = view
+            if not cut_rows:
+                print(f"no legal cut for {count} {incoming}", flush=True)
+                break
+            cut_rows.sort(key=lambda row: (-row["weighted"], -row["worst"], -row["copies"], row["cut"]))
+            kept = cut_rows[0]
+            kept_view = measured[kept["cut"]]
+            reasons = []
+            for row in cut_rows:
+                moved = abs(row["delta_prev"]) >= row["gap_se_prev"] and row["gap_se_prev"] > 0
+                if row["cut"] != kept["cut"] and not moved:
+                    continue
+                reasons.append(
+                    _reason(
+                        incoming,
+                        row["cut"],
+                        row["copies"],
+                        full_prev,
+                        measured[row["cut"]],
+                        start_cells,
+                        weights,
+                        active,
+                        cut_rows,
+                        labels,
+                    )
                 )
+            state["rounds"].append(
+                {
+                    "incoming": incoming,
+                    "count": count,
+                    "kept_cut": kept["cut"],
+                    "cuts": [
+                        {
+                            "cut": row["cut"],
+                            "copies": row["copies"],
+                            "names": row["names"],
+                            "weighted": row["weighted"],
+                            "se": row["se"],
+                            "unweighted": row["unweighted"],
+                            "worst": row["worst"],
+                            "worst_foe": row["worst_foe"],
+                            "delta_prev": row["delta_prev"],
+                            "delta_start": row["delta_start"],
+                            "gap_se_prev": row["gap_se_prev"],
+                            "gap_se_start": row["gap_se_start"],
+                            "ratio_prev": row["ratio_prev"],
+                            "cells": {
+                                foe: {
+                                    "a": _public_cell(measured[row["cut"]][foe]["a"]),
+                                    "b": _public_cell(measured[row["cut"]][foe]["b"]),
+                                }
+                                for foe in weights
+                            },
+                        }
+                        for row in cut_rows
+                    ],
+                    "reasons": reasons,
+                }
             )
-        state["rounds"].append(
-            {
-                "incoming": incoming,
-                "kept_cut": kept["cut"],
-                "cuts": [
-                    {
-                        "cut": row["cut"],
-                        "copies": row["copies"],
-                        "names": row["names"],
-                        "weighted": row["weighted"],
-                        "se": row["se"],
-                        "unweighted": row["unweighted"],
-                        "worst": row["worst"],
-                        "worst_foe": row["worst_foe"],
-                        "delta_prev": row["delta_prev"],
-                        "delta_start": row["delta_start"],
-                        "gap_se_prev": row["gap_se_prev"],
-                        "gap_se_start": row["gap_se_start"],
-                        "ratio_prev": row["ratio_prev"],
-                        "cells": {
-                            foe: {
-                                "a": _public_cell(measured[row["cut"]][foe]["a"]),
-                                "b": _public_cell(measured[row["cut"]][foe]["b"]),
-                            }
-                            for foe in weights
-                        },
-                    }
-                    for row in cut_rows
-                ],
-                "reasons": reasons,
+            step += 1
+            state["path"].append(
+                {
+                    "step": str(step),
+                    "incoming": f"{incoming} ×{count}",
+                    "cut": kept["cut"],
+                    "weighted": kept["weighted"],
+                    "se": kept["se"],
+                    "unweighted": kept["unweighted"],
+                    "worst": kept["worst"],
+                    "worst_foe": kept["worst_foe"],
+                    "delta_start": kept["delta_start"],
+                    "delta_prev": kept["delta_prev"],
+                    "counter_catcher": _share(kept_view, weights, "counter_catcher", "events"),
+                    "bounce_penny": _share(kept_view, weights, "bounce_penny", "events"),
+                    "stellar_guidance": _share(kept_view, weights, "stellar_guidance", "events"),
+                    "colorful_whip": _share(kept_view, weights, "colorful_whip", "events"),
+                    "prism_any": _share(kept_view, weights, "prism_any", "events"),
+                }
+            )
+            current = list(kept["names"])
+            previous_full = kept_view
+            previous_rate = kept["weighted"]
+            card_options.append((previous_rate, count, list(current), previous_full))
+            views.append((f"{count} {incoming} minus {kept['cut']}", list(current), kept_view))
+            best = max(views, key=lambda item: _rate(item[2], weights))
+            state["decision"] = (
+                f"After {count} {incoming}, the path cuts {kept['cut']} "
+                f"({_pct(kept['weighted'])}, {_pp(kept['delta_start'])} against the start, "
+                f"{_pp(kept['delta_prev'])} against the previous list). "
+                "The best cut on this seed is a little high."
+            )
+            state["path_label"] = views[-1][0]
+            state["path_list"] = list(current)
+            state["path_cells"] = {
+                foe: {"a": _public_cell(views[-1][2][foe]["a"]), "b": _public_cell(views[-1][2][foe]["b"])}
+                for foe in weights
             }
-        )
-        state["path"].append(
-            {
-                "step": str(step),
-                "incoming": incoming,
-                "cut": kept["cut"],
-                "weighted": kept["weighted"],
-                "se": kept["se"],
-                "unweighted": kept["unweighted"],
-                "worst": kept["worst"],
-                "worst_foe": kept["worst_foe"],
-                "delta_start": kept["delta_start"],
-                "delta_prev": kept["delta_prev"],
-                "counter_catcher": _share(kept_view, weights, "counter_catcher", "events"),
-                "bounce_penny": _share(kept_view, weights, "bounce_penny", "events"),
-                "stellar_guidance": _share(kept_view, weights, "stellar_guidance", "events"),
-                "colorful_whip": _share(kept_view, weights, "colorful_whip", "events"),
+            state["kept_label"] = best[0]
+            state["kept_list"] = list(best[1])
+            state["kept_cells"] = {
+                foe: {"a": _public_cell(best[2][foe]["a"]), "b": _public_cell(best[2][foe]["b"])} for foe in weights
             }
-        )
-        current = list(kept["names"])
-        previous_cells = {foe: kept_view[foe] for foe in active}
-        previous_rate = kept["weighted"]
-        views.append((f"{step} {incoming} minus {kept['cut']}", list(current), kept_view))
+            state["elapsed_s"] = time.time() - started
+            state["complete"] = False
+            _write(state)
+            print(
+                f"kept {count} {incoming} by cutting {kept['cut']} -> {_pct(kept['weighted'])}",
+                flush=True,
+            )
+        best_rate, best_count, best_names, best_full = max(card_options, key=lambda item: (item[0], -item[1]))
+        current = list(best_names)
+        previous_full = best_full
+        previous_rate = best_rate
+        kept_counts.append(f"{best_count} {incoming}")
         best = max(views, key=lambda item: _rate(item[2], weights))
         state["decision"] = (
-            f"After {incoming}, the path cuts {kept['cut']} "
-            f"({_pct(kept['weighted'])}, {_pp(kept['delta_start'])} against the start, "
-            f"{_pp(kept['delta_prev'])} against the previous list). "
+            f"After {incoming}, the card keeps {best_count} "
+            f"({_pct(best_rate)}). The path walked through {cap}. "
+            "The next card starts from that count. "
             "The best cut on this seed is a little high."
         )
-        state["path_label"] = views[-1][0]
-        state["path_list"] = list(current)
-        state["path_cells"] = {
-            foe: {"a": _public_cell(views[-1][2][foe]["a"]), "b": _public_cell(views[-1][2][foe]["b"])}
-            for foe in weights
-        }
         state["kept_label"] = best[0]
         state["kept_list"] = list(best[1])
         state["kept_cells"] = {
             foe: {"a": _public_cell(best[2][foe]["a"]), "b": _public_cell(best[2][foe]["b"])} for foe in weights
         }
         state["elapsed_s"] = time.time() - started
-        state["complete"] = step == len(INCOMING)
+        state["complete"] = incoming_index == len(INCOMING)
         if state["complete"]:
             rates = [(label, _rate(view, weights)) for label, _names, view in views]
             winner = max(rates, key=lambda item: item[1])
             state["decision"] = (
-                f"The rounds are on the path. The highest 0-copy weighted rate is {winner[0]} "
-                f"at {_pct(winner[1])}. The path ends at {views[-1][0]} at {_pct(rates[-1][1])}. "
+                f"Kept counts: {', '.join(kept_counts)}. "
+                f"The highest 0-copy weighted rate is {winner[0]} at {_pct(winner[1])}. "
+                f"The path ends at {views[-1][0]} at {_pct(rates[-1][1])}. "
                 "Each step took the best cut on this seed, so that path sits a little high. "
                 "The script does not write the list into SET_KECLEON_NAMES."
             )
         _write(state)
-        print(f"kept {incoming} by cutting {kept['cut']} -> {_pct(kept['weighted'])}", flush=True)
+        print(f"card {incoming} keeps {best_count} -> {_pct(best_rate)}", flush=True)
 
 
 if __name__ == "__main__":
