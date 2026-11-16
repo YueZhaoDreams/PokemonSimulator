@@ -1,13 +1,13 @@
 ---
 name: greedy
-description: Run a one-card greedy search on a 60-card list. Every current 60-card deck that is not archived is a foe, each cell is 400 games on one shared seed, weights are an input that can change, and a higher copy count can gain more than a lower one. Each kept win-rate change gets a written reason from the printed text, the foe table, the effect counters, and the end reasons. Use when the user invokes /greedy, asks for a greedy swap, or wants to try cards one copy at a time.
+description: Run a one-card greedy search on a 60-card list. Every current 60-card deck that is not archived is measured once at 0 copies, weights are those loss rates, and later games keep only the foes whose weights sum to 90%. A higher copy count can gain more than a lower one. Each kept win-rate change gets a written reason from the printed text, the foe table, the effect counters, and the end reasons. Use when the user invokes /greedy, asks for a greedy swap, or wants to try cards one copy at a time.
 ---
 
 # Greedy
 
 Measure one copy in and one copy out. Record every count up to the cap, then keep the count whose gain over the starting list is the largest. A later count can raise the rate by more than an earlier count. Record the sample. Do not edit a locked list.
 
-Follow the one-card loop in `data/lab/set_mill_hilda.py` and `data/lab/set-mill-hilda.md`: same shape of path, both seats, and the same standard-error formula. `data/lab/set_igglybuff_greedy.py` is that loop on a second list. `data/lab/set_doll_losses.py` supplies the end-reason buckets. `data/lab/set-mill-sleep.md` is one past weight vector, not the vector for this run. `data/lab/set_mill_doll.py` screens at 40 games and confirms at 120. This skill measures every cut at 400 and leaves that screen unused. Those older scripts also stop when the next copy fails to beat the list already kept, and they play a fixed foe list. This skill does neither.
+Follow the one-card loop in `data/lab/set_mill_hilda.py` and `data/lab/set-mill-hilda.md` for the shape of the path and for both seats. The per-list standard error is that script's formula. The gap standard error is not: `_gap_se` there is `sqrt(se_before^2 + se_after^2)`, and this skill does not use that once parked foes are held at their 0-copy rates. Sum the gap variance over the active set, as written under Weights. `data/lab/set_igglybuff_greedy.py` is the Hilda loop on a second list. `data/lab/set_doll_losses.py` supplies the end-reason buckets. `data/lab/set-mill-sleep.md` is one past weight vector, not the vector for this run. `data/lab/set_mill_doll.py` screens at 40 games and confirms at 120. This skill measures every cut at 400 and leaves that screen unused. Those older scripts also stop when the next copy fails to beat the list already kept, and they play a fixed foe list. This skill does neither.
 
 ## Before measuring
 
@@ -58,48 +58,54 @@ Check `len(cards) == 60` for the subject and for every foe before the first game
 
 ## Weights
 
-Weights are an input. They change. Store every foe cell first: both seats, the win rate, the reason buckets, and the counters. Apply a weight vector after the games. A new vector re-scores those cells. It does not replay the games, and it does not change the seed.
+The decision weights come from the 0-copy list. That is the starting 60, before any copy of the incoming card is added. The first measurement plays that list against every live 60, on the search seed.
 
-Use the vector the user names for this run, including a weight they set to zero. When they name none, give every tested 60 the same weight, `1 / N`, and write that equal weights are the stand-in. A new deck that is not archived has a slot. An archived deck is left out of the field and out of the weights. Leaving any other live 60 out of the score is the same as not testing it.
+A foe cell is the mean of the two seats. The raw weight is how often that list loses the cell. This is `_weights` in `data/lab/set_mill_sleep.py`, the same rule that froze the Sisters 60's own losses:
 
-Also re-score the same cells with the Sisters vector in `data/lab/set-mill-sleep.md`. Join that vector to the registry by this table, then divide the joined raw weights by their sum in the script. A Sisters name with no row here, and a registry key with no Sisters name, stays out of that column.
+```text
+raw[foe] = max(1e-6, 1 - win_rate_at_0_copies)
+weight[foe] = raw[foe] / sum(raw)
+```
 
-| Sisters name | Registry key | Raw weight |
-| :--- | :--- | ---: |
-| t60 | t60 | 0.040 |
-| hedrick | t-meta | 0.051 |
-| unl | t-unl | 0.022 |
-| d60 | d60 | 0.145 |
-| s60 | s60 | 0.070 |
-| g | g | 0.117 |
-| c60 | c60 | 0.124 |
-| m | m60 | 0.145 |
-| starmie | starmie | 0.106 |
-| lucario | l60 | 0.051 |
-| thorns | thorns | 0.041 |
-| h | h | 0.076 |
+A foe the 0-copy list loses more often counts more. A foe it beats in every game still gets the `1e-6` floor before the division, so the weight is never exactly zero. Divide in the script. Do not type a pre-rounded weight into the score.
 
-The old `g30` slot (raw 0.011) was the earlier Ambipom list. The current `seed-g30` is a different 60, so that slot does not attach to it. That column is a past vector. A deck it never had is absent from that column, and the note says which keys were left out. The kept list follows the vector that covers every tested deck.
+Freeze that vector for the rest of this search. Copy 1, copy 2, and copy 4 all use the 0-copy weights. Do not recompute the weights from a later count. The Sisters numbers in `data/lab/set-mill-sleep.md` are the losses of that old list. They are not the weights for a new starting 60.
 
-Do not type a pre-rounded weight into the score. Write the vector, its source, and the date of the run.
+After the 0-copy measurement, rank the foes by weight, highest first. Break a tie by the foe key. Walk down that ranking and keep a foe while the weights taken so far are under 90%. The foe that makes the sum reach 90% is kept too. Those foes are the active set. Every later cell, both seats and every copy, is played only against the active set.
 
-For every list on the path, report the rate under the decision vector, the equal-weight mean, the worst foe, and the rate under the Sisters column. If another vector keeps a different cut or a different copy count, write that winner too. The other winner stays in the note, so a weight change is visible from the stored cells.
+The foes past that line are parked. Write each parked foe's 0-copy win rate, both seats, and its weight. Do not play them again. Their weight stays in the vector. On every later list their win rate stays the 0-copy rate, so their contribution `weight * win_rate_at_0_copies` is a constant. The weighted rate of a later list is the active foes at their new rates plus the parked foes at those stored rates. A parked foe cannot change which cut wins. Say the cumulative weight of the active set, and list the parked foes under it.
 
-The standard error uses the vector of the score being quoted. For each foe, each seat contributes `p * (1 - p) / 400`, the two seats are averaged, and the foe variances combine with the squared weights:
+The first measurement is the only pass over the full field. A smoke does not choose the active set.
+
+The weights change when the 0-copy measurement changes. A different starting list, a deck added to the field, or a deck archived out of it, produces a new set of losses and a new vector. The kept list for this run is the one scored with the 0-copy weights.
+
+A stored cell can be re-scored only for a foe that was actually played at that copy count. The active set has a cell at every later count. A parked foe has the 0-copy cell and nothing after it. A new vector reuses the stored cells without new games when every foe in its own 90% prefix already has a cell at the counts being compared. A smaller prefix of the same active set qualifies. Those played foes use their stored later rates, and any foe the new vector still parks stays at the 0-copy rate. Say which matchups were not replayed. A vector that would pull a parked foe into its 90% prefix is not a free re-score. That foe has no later cell, so it needs new games at the lists being compared before that vector can choose a cut.
+
+An archived deck is not in the field, so it has no loss and no weight. A new live 60 is in the 0-copy measurement, so it has a weight. Leaving any other live 60 out of that measurement leaves it out of the score.
+
+Write each foe's 0-copy win rate and its weight in the note. Also report the unweighted mean and the worst foe. Those two columns do not choose the cut. If the user names a different vector and every foe it would make active already has a cell at the counts being compared, re-score those cells and say whether the kept count changes. The keeper stays the 0-copy weights unless the user says to keep the other vector.
+
+The standard error of one list uses the vector of the score being quoted. For each foe, each seat contributes `p * (1 - p) / 400`, the two seats are averaged, and the foe variances combine with the squared weights. A parked foe uses the variances from its stored 0-copy games:
 
 ```text
 variance += weight^2 * (seat_var_a + seat_var_b) / 4
 se = sqrt(variance)
-gap_se = sqrt(se_before^2 + se_after^2)
 ```
 
-Report a gap as the rate difference and as `gap / gap_se` combined standard errors. Two vectors mean two standard errors.
+A gap is the difference of two lists that share the same parked rates. Those parked terms cancel, so they are not in the gap and they are not in its standard error. Do not form the gap standard error from the two full-list standard errors: each of those includes parked variance that the gap does not contain. Sum the gap variance over the active set only, using each list's own seat variances for those foes:
+
+```text
+gap_var += weight^2 * ((var_a_before + var_b_before) + (var_a_after + var_b_after)) / 4
+gap_se = sqrt(gap_var)
+```
+
+Report a gap as the rate difference and as `gap / gap_se` combined standard errors. Two vectors mean two standard errors, and each one drops the foes that vector holds constant.
 
 ## One seed, 400 games
 
 One comparison is one list, one foe, and one seat, and that cell is 400 games. The other seat is its own 400, from the same seed. A 20-game or 40-game run is a smoke. Label it smoke, and leave it out of the keep rule.
 
-One integer seed covers the whole search: the baseline, every cut, both seats, every foe, and every later copy. Write that integer into the script before the first game. If the user names a seed, use it. If they do not, use a `YYYYMMDD` integer and do not change it later.
+One integer seed covers the whole search: the 0-copy pass over every live 60, then every later cut against the active set, both seats, and every later copy. Write that integer into the script before the first game. If the user names a seed, use it. If they do not, use a `YYYYMMDD` integer and do not change it later.
 
 Each cell starts with `random.Random(SEED)` and then plays its 400 games on that generator, as `set_mill_hilda.py` does. Do not add the foe index, the seat, or the step to the seed. Do not continue one generator from one foe into the next. Two lists still diverge after the first choice that consumes a different number of random draws. Say that in the note. Do not claim the streams stayed identical.
 
@@ -117,26 +123,26 @@ A step removes one copy and appends one copy. The list stays 60 cards. `copy_vio
 
 Every other name is a legal cut, unless the user named cards that stay. Do not copy the Doll `PROTECT` set on your own. Do not cut the incoming card below the count this step is building.
 
-Sort the step by the decision-vector rate, then worst foe, then how many copies the cut had before, then the name. Take that best cut and continue, including when its rate is below the count before it and below the start. A dip is a row. The search stops at the cap.
+Sort the step by the 0-copy weighted rate, then worst foe, then how many copies the cut had before, then the name. Take that best cut and continue, including when its rate is below the count before it and below the start. A dip is a row. The search stops at the cap. A user-named vector is a column in the note. It does not sort the step and it does not choose the cut unless the user says to keep that vector.
 
-After the last count, keep the count whose rate under the decision vector is highest against the starting list. If the start is higher than every count, keep the start. A count of 3 or 4 can be the keeper when its gain over the start is larger than the gain at 1 or 2. The path is one line: the next copy is built on the list that just added a copy, not on a second branch from an earlier count.
+After the last count, keep the count whose rate under the 0-copy weights is highest against the starting list. If the start is higher than every count, keep the start. A count of 3 or 4 can be the keeper when its gain over the start is larger than the gain at 1 or 2. The path is one line: the next copy is built on the list that just added a copy, not on a second branch from an earlier count.
 
 The path table has two deltas for each count: against the start, and against the previous count. The decision names the count with the largest gain over the start, and it says when a higher count gained more than a lower one. The step gain of a later copy can be larger than the step gain of an earlier copy. Report that when it happens.
 
 Write the json and the markdown after every count, with `complete` still false until the cap is done.
 
-Each step took the best cut on this seed, so that path sits a little high. Say so in the decision. Continuing through a dip does not remove that. A second seed is a holdout, and only when the user asks. The holdout is still 400 games, the same foes, and a new seed. Label it holdout. It does not replace the search seed, and it does not choose a different cut.
+Each step took the best cut on this seed, so that path sits a little high. Say so in the decision. Continuing through a dip does not remove that. A second seed is a holdout, and only when the user asks. The holdout is still 400 games and a new seed, against the same active set. Parked foes stay at their stored 0-copy rates and are not replayed. Label it holdout. It does not replace the search seed, and it does not choose a different cut.
 
 ## Why the rate moved
 
-Write the reason in prose beside the path table. After each count, and in the decision, that prose uses only the measurements below. For a named swap, write it for that swap. Also write it for any other cut in the same step whose move under the decision vector is at least one combined standard error, so a cut that lost for a different reason is visible.
+Write the reason in prose beside the path table. After each count, and in the decision, that prose uses only the measurements below. For a named swap, write it for that swap. Also write it for any other cut in the same step whose move under the 0-copy weights is at least one combined standard error, so a cut that lost for a different reason is visible.
 
 Each reason has these parts, in this order:
 
 1. The printed sentence of the card that came in, and the printed sentence of the card that left. Quote the text the engine parsed.
-2. The decision vector, named. The delta against the start and the delta against the previous count, with both standard errors, the combined standard error, and the ratio. When a higher count gained more than a lower count, say both gains.
+2. The 0-copy loss weights. The delta against the start and the delta against the previous count, with both standard errors, the combined standard error, and the ratio. When a higher count gained more than a lower count, say both gains.
 3. The foes that carry the move. For each foe, contribution is `weight * (new cell − old cell)` under the vector being quoted. Name the largest contributions in both directions. A foe that did not move does not explain the rate. If a higher count wins because a different foe moved, say that. If it wins because the same foe moved further, say that.
-4. The other vectors. If equal weights or the Sisters column would keep another cut or another count, name that list and the foes that flip the order.
+4. The unweighted mean. If it would keep another cut or another count, name that list and the foes that flip the order. The keeper is still the 0-copy loss weights.
 5. The counters for those two sentences, before and after, on the same weights as the quoted score. Use the event key the engine already bumps for that sentence (`event_sum` or the key passed to `_bump`). Count how often the sentence resolved, and how often the line it feeds resolved: the attack, the mill, the search, the evolve. If the engine bumps no event for that sentence, say the sample has no counter for it. Do not invent a rate, and do not add a look size to `app/engine/game.py` to manufacture one.
 6. The end reasons, tallied for all 400 games from the subject's seat. Use the buckets in `set_doll_losses.py` `_kind`, read from `GameResult.reason`:
 
@@ -161,13 +167,13 @@ The six sample traces from `run_simulation` are not this tally. Count every game
 Write three files under `data/lab/`:
 
 - `<slug>.py` runs the search.
-- `<slug>.json` stores the seed, the games, the foe keys actually tested and each one's card count, the archived decks that were skipped, the decision vector and its source, the Sisters column, the per-foe cells, every count through the cap, the path, the rounds, the best list, and `complete`.
+- `<slug>.json` stores the seed, the games, the foe keys in the 0-copy pass and each one's card count, the archived decks that were skipped, the 0-copy win rate and weight of each foe, the active set, the parked foes with their stored rates, the per-foe cells, every count through the cap, the path, the rounds, the best list, and `complete`.
 - `<slug>.md` is the note a person reads.
 
-The note starts the way `data/lab/set-mill-hilda.md` starts: what one step does, the printed sentence, the seed, 400 games per seat, both seats, the decks tested, the archived decks skipped, the decision vector, and the elapsed time. Then the path table (count, cut, decision-vector rate, standard error, equal-weight mean, worst, delta against the start, delta against the previous count, and the sentence counters), the decision, the counts, each step's full cut table, the reason paragraphs, and the foe table at the kept list (A, B, mean, delta against the start).
+The note starts the way `data/lab/set-mill-hilda.md` starts: what one step does, the printed sentence, the seed, 400 games per seat, both seats, the decks in the 0-copy pass, the active set and its cumulative weight, the parked foes with their stored rates, the archived decks skipped, the 0-copy weights, and the elapsed time. Then the path table (count, cut, weighted rate, standard error, unweighted mean, worst, delta against the start, delta against the previous count, and the sentence counters), the decision, the counts, each step's full cut table, the reason paragraphs, and the foe table at the kept list (A, B, mean, delta against the start). A parked foe's row repeats the 0-copy rate.
 
 The script records the sample. It does not assign `SET_*_NAMES` and it does not change a lock. Say that in the note.
 
 ## Done
 
-The search is done when every 60-card deck in this checkout's registry that is not archived has a row, the path runs through the copy cap, and the kept count is the one with the largest gain over the start under a vector that covers every tested deck. The note names the archived decks it skipped. It has the foe table and a reason paragraph for every count that cites the printed sentences, the weighted contributions, the counters, and the end-reason mix. The same seed and 400 games appear on every row. A 30-card deck has no row, and an archived deck has no row. The stored cells can be re-scored with a new vector without new games.
+The search is done when every 60-card deck in this checkout's registry that is not archived has a 0-copy row, the active set is the weight prefix that reaches 90%, the path runs through the copy cap against that set only, and the kept count is the one with the largest gain over the start under the 0-copy weights. The note names the parked foes and the archived decks it skipped. It has the foe table and a reason paragraph for every count that cites the printed sentences, the weighted contributions, the counters, and the end-reason mix. The same seed and 400 games appear on every row. A 30-card deck has no row, and an archived deck has no row. A new vector reuses the stored cells without new games when every foe in its own 90% prefix already has a cell at the counts being compared, including a smaller prefix of the same active set. A vector that would promote a parked foe needs new games for that foe before it can choose a cut.
