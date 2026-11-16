@@ -3,7 +3,7 @@
   "games": 400,
   "complete": false,
   "started": 1794837646.6293504,
-  "elapsed_s": 25252.993633270264,
+  "elapsed_s": 31001.108980178833,
   "subject_strategy": "kecleon",
   "start": [
     "Kecleon",
@@ -1178,7 +1178,7 @@
     },
     {
       "step": "1",
-      "incoming": "Counter Catcher",
+      "incoming": "Counter Catcher \u00d71",
       "cut": "Counter Gain",
       "weighted": 0.5106707875457875,
       "se": 0.004389437277415598,
@@ -1190,12 +1190,14 @@
       "counter_catcher": 0.1835212912087912,
       "bounce_penny": 0.0,
       "stellar_guidance": 0.0,
-      "colorful_whip": 4.906631181318681
+      "colorful_whip": 4.906631181318681,
+      "prism_any": 0.0
     }
   ],
   "rounds": [
     {
       "incoming": "Counter Catcher",
+      "count": 1,
       "kept_cut": "Counter Gain",
       "cuts": [
         {
@@ -25680,7 +25682,7 @@
       ]
     }
   ],
-  "decision": "After Counter Catcher, the path cuts Counter Gain (51.07%, +1.23 pp against the start, +1.23 pp against the previous list). The best cut on this seed is a little high.",
+  "decision": "After 1 Counter Catcher, the path cuts Counter Gain (51.07%, +1.23 pp against the start, +1.23 pp against the previous list). The best cut on this seed is a little high.",
   "kept_label": "1 Counter Catcher minus Counter Gain",
   "kept_list": [
     "Kecleon",

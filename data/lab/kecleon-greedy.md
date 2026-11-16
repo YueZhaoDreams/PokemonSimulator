@@ -1,16 +1,16 @@
-# Kecleon, one-copy swaps
+# Kecleon, copies through the cap
 
 One step removes one copy of one other card and adds one copy of the named card. The list stays 60. The locked `SET_KECLEON_NAMES` list is not assigned and is not changed. The mirror plays that locked list.
 
 The starting 60 is the lock with one Battle Compressor and one Boss's Orders removed and two Latias ex added. Latias ex says: "Skyliner: Your Basic Pokémon in play have no Retreat Cost. Eon Blade: During your next turn, this Pokémon can't attack."
 
-The rounds add one copy each, in this order: Counter Catcher, Penny, Jirachi-EX, Prism Energy. A second copy of the same card is not tried. The request names these rounds, not a walk to the 4-copy cap. Every other name still in the list is a cut. Nothing is protected. The step keeps the highest 0-copy weighted rate, then the higher worst active foe, then the cut that had more copies, then the name. A dip is kept.
+The cards come in, in this order: Counter Catcher, Penny, Jirachi-EX, Prism Energy. Each card is added one copy at a time through 4, or through the whole deck when the card is basic Energy. The next copy is built on the list that just added a copy. After those counts, that card keeps the count with the highest 0-copy weighted rate, and the next card starts from that count. The list before the card is one of the counts. Every other name still in the list is a cut. The incoming card is not cut while its own count is being built. Nothing is protected. The step keeps the highest 0-copy weighted rate, then the higher worst active foe, then the cut that had more copies, then the name. A dip stays on the path.
 
 Seed 20261116. 400 games per seat. Both seats. Each cell starts a new `random.Random` at that seed and plays its games on that generator. The foe, the seat, and the step are not mixed into the seed. Two lists diverge after the first choice that consumes a different number of draws.
 
 Rules are standard 60. Weights are `max(1e-6, 1 - win rate)` on the starting list, divided by the sum. A tie is not a win, so it sits on the loss side of that formula. The same vector scores every later list. Parked foes keep their 0-copy win rate and are not replayed. Gap standard error is summed on the active set only.
 
-Elapsed 25253s.
+Elapsed 31001s.
 
 ## Field
 
@@ -87,15 +87,15 @@ Parked foes stay at the win rate in that table.
 | Step | Card in | Cut | Weighted | SE | Unweighted | Worst | Δ start | Δ previous | Catcher | Penny | Jirachi | Whip | Prism |
 | :--- | :--- | :--- | ---: | ---: | ---: | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | 0 | — | — | 49.84% | 0.44% | 51.70% | Set M Standard 60 (Mew ex / Spiky Energy) 14.00% | 0.00 pp | 0.00 pp | 0.000 | 0.000 | 0.000 | 4.845 | 0.000 |
-| 1 | Counter Catcher | Counter Gain | 51.07% | 0.44% | 53.12% | Set M Standard 60 (Mew ex / Spiky Energy) 13.50% | +1.23 pp | +1.23 pp | 0.184 | 0.000 | 0.000 | 4.907 | 0.000 |
+| 1 | Counter Catcher ×1 | Counter Gain | 51.07% | 0.44% | 53.12% | Set M Standard 60 (Mew ex / Spiky Energy) 13.50% | +1.23 pp | +1.23 pp | 0.184 | 0.000 | 0.000 | 4.907 | 0.000 |
 
 ## Decision
 
-After Counter Catcher, the path cuts Counter Gain (51.07%, +1.23 pp against the start, +1.23 pp against the previous list). The best cut on this seed is a little high.
+After 1 Counter Catcher, the path cuts Counter Gain (51.07%, +1.23 pp against the start, +1.23 pp against the previous list). The best cut on this seed is a little high.
 
 Each step took the best cut on this one seed, so the path sits a little high. There is no second seed.
 
-## Counter Catcher
+## Counter Catcher ×1
 
 Quotes: Counter Catcher — You can use this card only if you have more Prize cards remaining than your opponent. Switch in 1 of your opponent's Benched Pokémon to the Active Spot.
 
