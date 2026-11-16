@@ -74,7 +74,7 @@ from app.seed_data import (
 SEED = 20261116
 GAMES = 400
 WORKERS = int(os.environ.get("KECLEON_GREEDY_WORKERS", str(os.cpu_count() or 2)))
-INCOMING = ("Counter Catcher", "Penny", "Jirachi-EX")
+INCOMING = ("Counter Catcher", "Penny", "Jirachi-EX", "Prism Energy")
 SUBJECT = "kecleon"
 
 HERE = Path(__file__).resolve().parent
@@ -141,6 +141,7 @@ EVENT_KEYS = (
     "scoundrel_ring",
     "colorful_whip",
     "colorful_whip_types",
+    "prism_any",
 )
 
 # Same buckets as data/lab/set_doll_losses.py _kind.
@@ -368,7 +369,10 @@ def _load_cache() -> dict[str, dict]:
     for line in PARTIAL.read_text().splitlines():
         if not line.strip():
             continue
-        row = json.loads(line)
+        try:
+            row = json.loads(line)
+        except json.JSONDecodeError:
+            continue
         found[row["key"]] = row["cell"]
     return found
 
@@ -407,6 +411,7 @@ def _run(names: tuple[str, ...], foe: dict, seat: str, games: int, seed: int) ->
         events["scoundrel_ring"] += int(ev.get(f"scoundrel_ring_{seat}", 0))
         events["colorful_whip"] += int(ev.get("colorful_whip", 0))
         events["colorful_whip_types"] += int(ev.get("colorful_whip_types", 0))
+        events["prism_any"] += int(ev.get(f"prism_any_{seat}", 0))
         _outcome, kind = _kind(result, seat)
         reasons[kind] += 1
     return {"wins": wins, "games": games, "events": dict(events), "reasons": dict(reasons)}
@@ -673,7 +678,7 @@ def _markdown(state: dict) -> str:
     foes = state["foes"]
     labels = {foe["key"]: foe["label"] for foe in foes}
     lines = [
-        "# Kecleon, three one-copy swaps",
+        "# Kecleon, one-copy swaps",
         "",
         "One step removes one copy of one other card and adds one copy of the named card. "
         "The list stays 60. The locked `SET_KECLEON_NAMES` list is not assigned and is not changed. "
@@ -683,8 +688,10 @@ def _markdown(state: dict) -> str:
         "and two Latias ex added. Latias ex says: "
         f"\"{state['quotes']['Latias ex']}\"",
         "",
-        "The three rounds add one copy each, in this order: Counter Catcher, Penny, Jirachi-EX. "
-        "A second copy of the same card is not tried. The request names three rounds, not a walk "
+        "The rounds add one copy each, in this order: "
+        + ", ".join(state["incoming"])
+        + ". "
+        "A second copy of the same card is not tried. The request names these rounds, not a walk "
         "to the 4-copy cap. Every other name still in the list is a cut. Nothing is protected. "
         "The step keeps the highest 0-copy weighted rate, then the higher worst active foe, "
         "then the cut that had more copies, then the name. A dip is kept.",
@@ -750,15 +757,16 @@ def _markdown(state: dict) -> str:
     lines.extend(["", "## Path", ""])
     lines.append(
         "| Step | Card in | Cut | Weighted | SE | Unweighted | Worst | Δ start | Δ previous | "
-        "Catcher | Penny | Jirachi | Whip |"
+        "Catcher | Penny | Jirachi | Whip | Prism |"
     )
-    lines.append("| :--- | :--- | :--- | ---: | ---: | ---: | :--- | ---: | ---: | ---: | ---: | ---: | ---: |")
+    lines.append("| :--- | :--- | :--- | ---: | ---: | ---: | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |")
     for row in state["path"]:
         lines.append(
             f"| {row['step']} | {row['incoming']} | {row['cut']} | {_pct(row['weighted'])} | {_pct(row['se'])} | "
             f"{_pct(row['unweighted'])} | {labels[row['worst_foe']]} {_pct(row['worst'])} | "
             f"{_pp(row['delta_start'])} | {_pp(row['delta_prev'])} | {row['counter_catcher']:.3f} | "
-            f"{row['bounce_penny']:.3f} | {row['stellar_guidance']:.3f} | {row['colorful_whip']:.3f} |"
+            f"{row['bounce_penny']:.3f} | {row['stellar_guidance']:.3f} | {row['colorful_whip']:.3f} | "
+            f"{row.get('prism_any', 0):.3f} |"
         )
     lines.extend(["", "## Decision", ""])
     lines.append(state["decision"])
@@ -800,7 +808,7 @@ def _markdown(state: dict) -> str:
             f"{_pp(_mean(pair) - _mean(start_pair))} |"
         )
     if state.get("path_cells") and state["path_label"] != state["kept_label"]:
-        lines.extend(["", "## Foe table after the three rounds", ""])
+        lines.extend(["", "## Foe table after the rounds", ""])
         lines.append(state["path_label"])
         lines.append("")
         lines.append("| Foe | Weight | A | B | Mean | Δ start |")
@@ -834,6 +842,7 @@ def _snapshot(names: list[str], view: dict[str, dict], weights: dict[str, float]
         "bounce_penny": _share(view, weights, "bounce_penny", "events"),
         "stellar_guidance": _share(view, weights, "stellar_guidance", "events"),
         "colorful_whip": _share(view, weights, "colorful_whip", "events"),
+        "prism_any": _share(view, weights, "prism_any", "events"),
         "cells": {foe: {"a": _public_cell(view[foe]["a"]), "b": _public_cell(view[foe]["b"])} for foe in weights},
     }
 
@@ -954,7 +963,7 @@ def main() -> None:
             "cut": "—",
             **{key: snap[key] for key in (
                 "weighted", "se", "unweighted", "worst", "worst_foe", "delta_start", "delta_prev",
-                "counter_catcher", "bounce_penny", "stellar_guidance", "colorful_whip",
+                "counter_catcher", "bounce_penny", "stellar_guidance", "colorful_whip", "prism_any",
             )},
         }
     ]
@@ -1108,7 +1117,7 @@ def main() -> None:
             rates = [(label, _rate(view, weights)) for label, _names, view in views]
             winner = max(rates, key=lambda item: item[1])
             state["decision"] = (
-                f"The three rounds are on the path. The highest 0-copy weighted rate is {winner[0]} "
+                f"The rounds are on the path. The highest 0-copy weighted rate is {winner[0]} "
                 f"at {_pct(winner[1])}. The path ends at {views[-1][0]} at {_pct(rates[-1][1])}. "
                 "Each step took the best cut on this seed, so that path sits a little high. "
                 "The script does not write the list into SET_KECLEON_NAMES."

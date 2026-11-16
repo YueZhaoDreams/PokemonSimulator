@@ -1017,7 +1017,9 @@ STRATEGY_LIBRARY = {
             "Latias ex, when it is in the list, benches one copy. Skyliner says your Basic "
             "Pokémon in play have no Retreat Cost, so the Whip body can come Active after a KO. "
             "Penny returns a Basic, including Hoopa-EX, so the search can happen again. "
-            "Jirachi-EX, played from the hand, searches a Supporter for the board."
+            "Jirachi-EX, played from the hand, searches a Supporter for the board. "
+            "Prism Energy, on a Basic, provides every type but only 1 Energy at a time, "
+            "so Kecleon, Druddigon, and Fezandipiti ex can share that one copy."
         ),
         prefer_damage=1.0,
         prefer_status=0.0,

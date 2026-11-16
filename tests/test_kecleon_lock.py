@@ -2,7 +2,14 @@
 
 from random import Random
 
-from app.engine.effects import parse_ability_effects, parse_effects, parse_trainer_effects
+from app.engine.effects import (
+    can_pay_energy,
+    energy_provided,
+    parse_ability_effects,
+    parse_effects,
+    parse_energy_effects,
+    parse_trainer_effects,
+)
 from app.engine.game import ST_ASLEEP, Game, Pokemon
 from app.engine.legality import copy_violations
 from app.engine.models import standard_60_rules
@@ -432,3 +439,69 @@ def test_hypnostrike_sleeps_both_pokemon():
     game._attack(me, foe_p, "a")
     assert me.active.status & ST_ASLEEP
     assert foe_p.active.status & ST_ASLEEP
+
+
+PRISM = (
+    "As long as this card is attached to a Pokémon, it provides {C} Energy.\n\n"
+    "If this card is attached to a Basic Pokémon, this card provides every type of Energy "
+    "but provides only 1 Energy at a time."
+)
+
+
+def test_prism_energy_is_every_type_on_a_basic():
+    prism = fallback_named("Prism Energy")
+    assert prism.text == PRISM
+    spec = next(e for e in parse_energy_effects(prism.text) if e["kind"] == "provides_any_when")
+    assert spec["count"] == 1
+    assert spec["basic_only"] is True
+    assert energy_provided(prism, host=fallback_named("Kecleon")) == ["Any"]
+    assert energy_provided(prism, host=fallback_named("Druddigon")) == ["Any"]
+    assert energy_provided(prism, host=fallback_named("Fezandipiti ex")) == ["Any"]
+    assert energy_provided(prism, host=fallback_named("M Gardevoir-EX")) == ["Colorless"]
+    assert can_pay_energy(["Any"], ["Fire"])
+    assert can_pay_energy(["Any"], ["Water"])
+    assert not can_pay_energy(["Colorless"], ["Fire"])
+
+
+def test_teammates_can_find_prism_energy():
+    game = _game()
+    me = game.players["a"]
+    me.hand = []
+    prefer = game._kecleon_teammates_prefer(me)
+    assert prefer.index("Double Colorless Energy") < prefer.index("Prism Energy")
+    assert prefer.index("Prism Energy") < prefer.index("Latias ex")
+
+
+def test_prism_attaches_to_the_basic_fighter_that_needs_the_type():
+    game = _game()
+    me = game.players["a"]
+    kecleon = _idx(me, "Kecleon")
+    druddigon = _idx(me, "Druddigon")
+    dce = _idx(me, "Double Colorless Energy")
+    fire = _idx(me, "Fire Energy")
+    psychic = _idx(me, "Psychic Energy")
+    me.cards[psychic] = fallback_named("Prism Energy")
+    prism = psychic
+    me.active = Pokemon(card_i=druddigon, played_turn=0)
+    me.bench = [Pokemon(card_i=kecleon, energy=[dce], played_turn=0)]
+    me.hand = [prism, fire]
+    me.deck = [i for i in range(len(me.cards)) if i not in me.hand and i != kecleon and i != druddigon and i != dce]
+    strat = StrategySpec.from_dict("kecleon")
+    assert me.card(game._kecleon_energy_target(me).card_i).name == "Druddigon"
+    assert game._choose_energy_card(me, me.active, strat) == fire
+
+    me.hand = [prism, _idx(me, "Psychic Energy", 1)]
+    assert game._choose_energy_card(me, me.active, strat) == prism
+    game._attach_energy(me, "a")
+    assert me.active.energy == [prism]
+    assert energy_provided(me.card(prism), host=me.card(druddigon)) == ["Any"]
+    assert game.events.get("prism_any_a") == 1
+    shred = next(atk for atk in me.card(druddigon).attacks if atk.name == "Shred")
+    assert can_pay_energy(game._energy_pool(me, me.active), shred.cost)
+
+    unpaid = Pokemon(card_i=_idx(me, "Kecleon", 1), played_turn=0)
+    me.active = unpaid
+    me.bench = []
+    me.energy_attached = False
+    me.hand = [dce, prism]
+    assert game._choose_energy_card(me, unpaid, strat) == dce

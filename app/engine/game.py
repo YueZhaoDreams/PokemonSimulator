@@ -4626,6 +4626,8 @@ class Game:
             prefer.append("Double Colorless Energy")
         if "counter energy" not in have:
             prefer.append("Counter Energy")
+        if "prism energy" not in have:
+            prefer.append("Prism Energy")
         if "latias ex" not in have and "latias ex" not in play:
             prefer.append("Latias ex")
         if "jirachi-ex" not in have and "jirachi-ex" not in play:
@@ -4649,6 +4651,22 @@ class Game:
             return me.active
         if unpaid:
             return unpaid[0]
+        # Whip is paid. The next energy goes to another Basic fighter that
+        # still cannot attack, so one Prism Energy can be attached there.
+        fighters = {"druddigon", "fezandipiti ex"}
+        waiting: list[Pokemon] = []
+        for mon in me.in_play():
+            card = me.card(mon.card_i)
+            if card.name.lower() not in fighters or not card.is_basic or not card.attacks:
+                continue
+            pool = self._energy_pool(me, mon)
+            if any(can_pay_energy(pool, self._attack_cost(me, mon, atk)) for atk in card.attacks):
+                continue
+            waiting.append(mon)
+        if me.active in waiting:
+            return me.active
+        if waiting:
+            return waiting[0]
         return me.active
 
     def _kecleon_trainer_score(self, me: Player, foe: Player, card: Card) -> float:
@@ -5964,6 +5982,9 @@ class Game:
             self._bump("pokemon_as_energy")
         if any(eff.get("kind") == "counters_on_attacker" for eff in parse_energy_effects(src.text or "")):
             self._bump("attach_spiky_energy")
+        if "Any" in energy_provided(src, host=me.card(target.card_i)):
+            self._bump("prism_any")
+            self._bump(f"prism_any_{who}")
         self._resolve_energy_attach_from_hand(me, who, target, energy_i)
 
     def _resolve_energy_attach_from_hand(self, me: Player, who: str, target: Pokemon, energy_i: int) -> None:
@@ -6647,6 +6668,9 @@ class Game:
         if matching_nrg:
             typed = [i for i in matching_nrg if me.card(i).as_energy_type in need]
             return (typed or matching_nrg)[0]
+        prism = self._kecleon_prism_choice(me, target, strat, need, pool)
+        if prism is not None:
+            return prism
         if strat.name == "celebration":
             return None
         if dce and (not need or "Colorless" in need or not need):
@@ -6672,6 +6696,30 @@ class Game:
         if candidates[0][0] >= 0 or need:
             return candidates[0][1]
         return energies[0] if energies else None
+
+    def _kecleon_prism_choice(
+        self, me: Player, target: Pokemon, strat: StrategySpec, need: set[str], pool: list[str]
+    ) -> int | None:
+        """White Flare Prism Energy provides every type on a Basic, one at a time."""
+        if strat.name != "kecleon":
+            return None
+        host = me.card(target.card_i)
+        if not host.is_basic:
+            return None
+        prisms = [i for i in me.hand if me.card(i).name.lower() == "prism energy"]
+        if not prisms:
+            return None
+        if "Any" not in energy_provided(me.card(prisms[0]), host=host):
+            return None
+        basic_types = {
+            me.card(i).as_energy_type
+            for i in me.hand
+            if is_basic_energy(me.card(i), pokemon_as_energy=False) and me.card(i).as_energy_type
+        }
+        missing = [t for t in need if t != "Colorless" and t not in pool and t not in basic_types]
+        if missing:
+            return prisms[0]
+        return None
 
     def _needed_types(self, me: Player, target: Pokemon) -> set[str]:
         card = me.card(target.card_i)
