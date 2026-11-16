@@ -1,0 +1,2884 @@
+{
+  "seed": 20261116,
+  "games": 400,
+  "complete": false,
+  "started": 1794837646.6293504,
+  "elapsed_s": 295.1678194999695,
+  "subject_strategy": "kecleon",
+  "start": [
+    "Kecleon",
+    "Kecleon",
+    "Kecleon",
+    "Kecleon",
+    "Druddigon",
+    "Druddigon",
+    "Hoopa-EX",
+    "Hoopa-EX",
+    "Fezandipiti ex",
+    "Fezandipiti ex",
+    "Volcanion-EX",
+    "M Gardevoir-EX",
+    "M Steelix-EX",
+    "M Sceptile-EX",
+    "M Manectric-EX",
+    "M Tyranitar-EX",
+    "M Latios-EX",
+    "Double Colorless Energy",
+    "Double Colorless Energy",
+    "Double Colorless Energy",
+    "Double Colorless Energy",
+    "Counter Energy",
+    "Counter Energy",
+    "Counter Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Fire Energy",
+    "Fire Energy",
+    "Arven",
+    "Arven",
+    "Arven",
+    "Arven",
+    "Teammates",
+    "Teammates",
+    "Teammates",
+    "Teammates",
+    "Energy Loto",
+    "Energy Loto",
+    "Energy Loto",
+    "Counter Gain",
+    "Counter Gain",
+    "VS Seeker",
+    "VS Seeker",
+    "Pok\u00e9 Radar",
+    "Pok\u00e9 Radar",
+    "Pok\u00e9 Radar",
+    "Pok\u00e9 Radar",
+    "Nest Ball",
+    "Nest Ball",
+    "Ultra Ball",
+    "Energy Retrieval",
+    "Energy Retrieval",
+    "Special Charge",
+    "Rescue Scarf",
+    "Rescue Scarf",
+    "Rescue Scarf",
+    "Switch",
+    "Latias ex",
+    "Latias ex"
+  ],
+  "incoming": [
+    "Counter Catcher",
+    "Penny",
+    "Jirachi-EX"
+  ],
+  "quotes": {
+    "Latias ex": "Skyliner: Your Basic Pok\u00e9mon in play have no Retreat Cost. Eon Blade: During your next turn, this Pok\u00e9mon can't attack.",
+    "Counter Catcher": "You can use this card only if you have more Prize cards remaining than your opponent. Switch in 1 of your opponent's Benched Pok\u00e9mon to the Active Spot.",
+    "Penny": "Put 1 of your Basic Pok\u00e9mon and all attached cards into your hand.",
+    "Jirachi-EX": "Stellar Guidance: When you play this Pok\u00e9mon from your hand onto your Bench, you may search your deck for a Supporter card, reveal it, and put it into your hand. Shuffle your deck afterward. Hypnostrike: Both this Pok\u00e9mon and the Defending Pok\u00e9mon are now Asleep."
+  },
+  "foes": [
+    {
+      "key": "g",
+      "label": "Carpet Set G (Clefairy / Ledian 60)",
+      "id": "seed-g",
+      "strategy": "g",
+      "cards": 60
+    },
+    {
+      "key": "h",
+      "label": "Carpet Set H (Team Rocket's Zapdos / Pikachu 60)",
+      "id": "seed-h",
+      "strategy": "nuzzle",
+      "cards": 60
+    },
+    {
+      "key": "c60",
+      "label": "Set C Standard 60 (Clefairy / Mewtwo)",
+      "id": "seed-c60",
+      "strategy": "party",
+      "cards": 60
+    },
+    {
+      "key": "d60",
+      "label": "Set D Standard 60 (Charm Ogerpon)",
+      "id": "seed-d60",
+      "strategy": "demolish",
+      "cards": 60
+    },
+    {
+      "key": "m60",
+      "label": "Set M Standard 60 (Mew ex / Spiky Energy)",
+      "id": "seed-m60",
+      "strategy": "mew_baby",
+      "cards": 60
+    },
+    {
+      "key": "s60",
+      "label": "Set S Standard 60 (Floragato hunter)",
+      "id": "seed-s60",
+      "strategy": "slash",
+      "cards": 60
+    },
+    {
+      "key": "t60",
+      "label": "Set T Standard 60 (Dragapult ex)",
+      "id": "seed-t60",
+      "strategy": "phantom",
+      "cards": 60
+    },
+    {
+      "key": "t-meta",
+      "label": "Worlds 2026 Hedrick Dragapult",
+      "id": "seed-t-meta",
+      "strategy": "phantom",
+      "cards": 60
+    },
+    {
+      "key": "t-unl",
+      "label": "Unlimited Dragapult (Pidgeot / Rotom V)",
+      "id": "seed-t-unl",
+      "strategy": "phantom",
+      "cards": 60
+    },
+    {
+      "key": "g30",
+      "label": "Unlimited 60 (Ambipom Hand Fling)",
+      "id": "seed-g30",
+      "strategy": "celebration",
+      "cards": 60
+    },
+    {
+      "key": "l60",
+      "label": "Chris Brewer Lucario Hariyama",
+      "id": "seed-l60",
+      "strategy": "aura",
+      "cards": 60
+    },
+    {
+      "key": "mill",
+      "label": "Mill",
+      "id": "seed-mill",
+      "strategy": "mill",
+      "cards": 60
+    },
+    {
+      "key": "doll",
+      "label": "Doll",
+      "id": "seed-doll",
+      "strategy": "doll",
+      "cards": 60
+    },
+    {
+      "key": "celebi",
+      "label": "Celebi Mill",
+      "id": "seed-celebi",
+      "strategy": "roast",
+      "cards": 60
+    },
+    {
+      "key": "two-forest",
+      "label": "\u4e8c\u68ee\u6797",
+      "id": "seed-two-forest",
+      "strategy": "roast",
+      "cards": 60
+    },
+    {
+      "key": "kecleon",
+      "label": "Kecleon",
+      "id": "seed-kecleon",
+      "strategy": "kecleon",
+      "cards": 60
+    },
+    {
+      "key": "starmie",
+      "label": "Mega Starmie",
+      "id": "starmie",
+      "strategy": "starmie",
+      "cards": 60
+    },
+    {
+      "key": "thorns",
+      "label": "Iron Thorns",
+      "id": "thorns",
+      "strategy": "thorns",
+      "cards": 60
+    }
+  ],
+  "archived": [
+    {
+      "key": "a",
+      "label": "Carpet Set A (Dondozo / Staraptor)",
+      "id": "seed-a",
+      "kind": "list",
+      "cards": 30,
+      "presets": [
+        "b"
+      ],
+      "archived": true,
+      "error": null
+    },
+    {
+      "key": "b",
+      "label": "Carpet Set B (Walrein / Pikachu shock)",
+      "id": "seed-b",
+      "kind": "list",
+      "cards": 30,
+      "presets": [
+        "b"
+      ],
+      "archived": true,
+      "error": null
+    },
+    {
+      "key": "c",
+      "label": "Set C (Clefairy / Mewtwo)",
+      "id": "seed-c",
+      "kind": "list",
+      "cards": 30,
+      "presets": [
+        "b"
+      ],
+      "archived": true,
+      "error": null
+    },
+    {
+      "key": "d",
+      "label": "Set D (Charm Ogerpon)",
+      "id": "seed-d",
+      "kind": "list",
+      "cards": 30,
+      "presets": [
+        "b"
+      ],
+      "archived": true,
+      "error": null
+    },
+    {
+      "key": "e",
+      "label": "Carpet Set E (Walrein / Iris)",
+      "id": "seed-e",
+      "kind": "list",
+      "cards": 30,
+      "presets": [
+        "c"
+      ],
+      "archived": true,
+      "error": null
+    },
+    {
+      "key": "f",
+      "label": "Carpet Set F (Staraptor / Gengar)",
+      "id": "seed-f",
+      "kind": "list",
+      "cards": 30,
+      "presets": [
+        "c"
+      ],
+      "archived": true,
+      "error": null
+    },
+    {
+      "key": "s",
+      "label": "Set S (Floragato hunter)",
+      "id": "seed-s",
+      "kind": "list",
+      "cards": 30,
+      "presets": [
+        "b"
+      ],
+      "archived": true,
+      "error": null
+    }
+  ],
+  "short": [
+    {
+      "key": "t",
+      "label": "Set T (Dragapult ex)",
+      "id": "seed-t",
+      "kind": "list",
+      "cards": 30,
+      "presets": [
+        "s30"
+      ],
+      "archived": false,
+      "error": null
+    }
+  ],
+  "not_list": [
+    {
+      "key": "spare",
+      "label": "Spare Cards",
+      "id": "seed-spare",
+      "kind": "spare",
+      "cards": 4,
+      "presets": [
+        "b"
+      ],
+      "archived": true,
+      "error": null
+    }
+  ],
+  "weights": {
+    "h": 0.0010989010989010917,
+    "g": 0.03901098901098901,
+    "d60": 0.021611721611721604,
+    "c60": 0.07564102564102564,
+    "s60": 0.016117216117216115,
+    "t60": 0.09487179487179487,
+    "t-meta": 0.08186813186813188,
+    "m60": 0.126007326007326,
+    "g30": 0.0021978021978021995,
+    "t-unl": 0.06025641025641026,
+    "l60": 0.06904761904761904,
+    "mill": 0.05402930402930403,
+    "celebi": 0.0467032967032967,
+    "doll": 0.07912087912087912,
+    "two-forest": 0.0510989010989011,
+    "kecleon": 0.06978021978021977,
+    "starmie": 0.07124542124542124,
+    "thorns": 0.040293040293040296
+  },
+  "active": [
+    "m60",
+    "t60",
+    "t-meta",
+    "doll",
+    "c60",
+    "starmie",
+    "kecleon",
+    "l60",
+    "t-unl",
+    "mill",
+    "two-forest",
+    "celebi",
+    "thorns"
+  ],
+  "parked": [
+    "g",
+    "d60",
+    "s60",
+    "g30",
+    "h"
+  ],
+  "active_weight": 0.9199633699633699,
+  "start_cells": {
+    "h": {
+      "a": {
+        "wins": 398,
+        "games": 400,
+        "wr": 0.995,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 498,
+          "colorful_whip": 1334,
+          "colorful_whip_types": 6771
+        },
+        "reasons": {
+          "foe_empty": 313,
+          "prizes": 62,
+          "turn_prizes": 21,
+          "turn_hp": 4
+        }
+      },
+      "b": {
+        "wins": 396,
+        "games": 400,
+        "wr": 0.99,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 431,
+          "colorful_whip": 1291,
+          "colorful_whip_types": 6428
+        },
+        "reasons": {
+          "foe_empty": 323,
+          "prizes": 55,
+          "turn_prizes": 18,
+          "turn_hp": 4
+        }
+      }
+    },
+    "g": {
+      "a": {
+        "wins": 285,
+        "games": 400,
+        "wr": 0.7125,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 580,
+          "colorful_whip": 1683,
+          "colorful_whip_types": 10491
+        },
+        "reasons": {
+          "prizes": 271,
+          "foe_empty": 94,
+          "turn_prizes": 2,
+          "empty": 30,
+          "decked": 3
+        }
+      },
+      "b": {
+        "wins": 302,
+        "games": 400,
+        "wr": 0.755,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 606,
+          "colorful_whip": 1684,
+          "colorful_whip_types": 10839
+        },
+        "reasons": {
+          "prizes": 262,
+          "foe_empty": 104,
+          "decked": 5,
+          "empty": 26,
+          "turn_prizes": 2,
+          "turn_hp": 1
+        }
+      }
+    },
+    "d60": {
+      "a": {
+        "wins": 342,
+        "games": 400,
+        "wr": 0.855,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 597,
+          "colorful_whip": 824,
+          "colorful_whip_types": 3769
+        },
+        "reasons": {
+          "foe_empty": 338,
+          "prizes": 33,
+          "foe_no_basic": 4,
+          "empty": 25
+        }
+      },
+      "b": {
+        "wins": 340,
+        "games": 400,
+        "wr": 0.85,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 551,
+          "colorful_whip": 854,
+          "colorful_whip_types": 3782
+        },
+        "reasons": {
+          "foe_empty": 336,
+          "foe_no_basic": 4,
+          "empty": 35,
+          "prizes": 25
+        }
+      }
+    },
+    "c60": {
+      "a": {
+        "wins": 205,
+        "games": 400,
+        "wr": 0.5125,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 2,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 734,
+          "colorful_whip": 1482,
+          "colorful_whip_types": 9511
+        },
+        "reasons": {
+          "prizes": 306,
+          "empty": 80,
+          "foe_empty": 13,
+          "decked": 1
+        }
+      },
+      "b": {
+        "wins": 182,
+        "games": 400,
+        "wr": 0.455,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 3,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 590,
+          "colorful_whip": 1424,
+          "colorful_whip_types": 8673
+        },
+        "reasons": {
+          "empty": 99,
+          "prizes": 283,
+          "decked": 2,
+          "foe_empty": 15,
+          "turn_prizes": 1
+        }
+      }
+    },
+    "s60": {
+      "a": {
+        "wins": 356,
+        "games": 400,
+        "wr": 0.89,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 807,
+          "colorful_whip": 1993,
+          "colorful_whip_types": 10587
+        },
+        "reasons": {
+          "foe_empty": 149,
+          "prizes": 227,
+          "empty": 9,
+          "turn_prizes": 8,
+          "turn_hp": 4,
+          "decked": 3
+        }
+      },
+      "b": {
+        "wins": 356,
+        "games": 400,
+        "wr": 0.89,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 822,
+          "colorful_whip": 2178,
+          "colorful_whip_types": 11252
+        },
+        "reasons": {
+          "foe_empty": 122,
+          "prizes": 254,
+          "empty": 7,
+          "turn_prizes": 7,
+          "decked": 6,
+          "turn_hp": 4
+        }
+      }
+    },
+    "t60": {
+      "a": {
+        "wins": 150,
+        "games": 400,
+        "wr": 0.375,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 809,
+          "colorful_whip": 1532,
+          "colorful_whip_types": 6410
+        },
+        "reasons": {
+          "prizes": 283,
+          "foe_decked": 25,
+          "empty": 27,
+          "foe_empty": 63,
+          "turn_hp": 2
+        }
+      },
+      "b": {
+        "wins": 132,
+        "games": 400,
+        "wr": 0.33,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 771,
+          "colorful_whip": 1312,
+          "colorful_whip_types": 5880
+        },
+        "reasons": {
+          "foe_empty": 65,
+          "prizes": 270,
+          "empty": 41,
+          "foe_decked": 23,
+          "turn_prizes": 1
+        }
+      }
+    },
+    "t-meta": {
+      "a": {
+        "wins": 182,
+        "games": 400,
+        "wr": 0.455,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 723,
+          "colorful_whip": 1609,
+          "colorful_whip_types": 7501
+        },
+        "reasons": {
+          "prizes": 276,
+          "foe_decked": 35,
+          "foe_empty": 42,
+          "empty": 41,
+          "turn_hp": 3,
+          "turn_prizes": 3
+        }
+      },
+      "b": {
+        "wins": 171,
+        "games": 400,
+        "wr": 0.4275,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 718,
+          "colorful_whip": 1519,
+          "colorful_whip_types": 7067
+        },
+        "reasons": {
+          "prizes": 274,
+          "turn_prizes": 3,
+          "foe_decked": 55,
+          "empty": 34,
+          "foe_empty": 27,
+          "turn_hp": 7
+        }
+      }
+    },
+    "m60": {
+      "a": {
+        "wins": 55,
+        "games": 400,
+        "wr": 0.1375,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 567,
+          "colorful_whip": 861,
+          "colorful_whip_types": 5211
+        },
+        "reasons": {
+          "empty": 111,
+          "prizes": 285,
+          "foe_empty": 4
+        }
+      },
+      "b": {
+        "wins": 57,
+        "games": 400,
+        "wr": 0.1425,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 579,
+          "colorful_whip": 908,
+          "colorful_whip_types": 5560
+        },
+        "reasons": {
+          "prizes": 270,
+          "foe_empty": 9,
+          "empty": 121
+        }
+      }
+    },
+    "g30": {
+      "a": {
+        "wins": 396,
+        "games": 400,
+        "wr": 0.99,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 639,
+          "colorful_whip": 2073,
+          "colorful_whip_types": 10330
+        },
+        "reasons": {
+          "prizes": 200,
+          "foe_empty": 176,
+          "turn_prizes": 4,
+          "foe_decked": 15,
+          "empty": 2,
+          "turn_hp": 3
+        }
+      },
+      "b": {
+        "wins": 392,
+        "games": 400,
+        "wr": 0.98,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 623,
+          "colorful_whip": 2191,
+          "colorful_whip_types": 11242
+        },
+        "reasons": {
+          "prizes": 232,
+          "foe_empty": 140,
+          "turn_hp": 4,
+          "foe_decked": 16,
+          "empty": 2,
+          "decked": 2,
+          "turn_prizes": 4
+        }
+      }
+    },
+    "t-unl": {
+      "a": {
+        "wins": 242,
+        "games": 400,
+        "wr": 0.605,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 810,
+          "colorful_whip": 2074,
+          "colorful_whip_types": 9075
+        },
+        "reasons": {
+          "prizes": 275,
+          "foe_empty": 36,
+          "foe_decked": 76,
+          "empty": 13
+        }
+      },
+      "b": {
+        "wins": 229,
+        "games": 400,
+        "wr": 0.5725,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 760,
+          "colorful_whip": 2035,
+          "colorful_whip_types": 9184
+        },
+        "reasons": {
+          "prizes": 281,
+          "foe_decked": 61,
+          "foe_empty": 37,
+          "empty": 15,
+          "decked": 5,
+          "turn_prizes": 1
+        }
+      }
+    },
+    "l60": {
+      "a": {
+        "wins": 214,
+        "games": 400,
+        "wr": 0.535,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 717,
+          "colorful_whip": 1643,
+          "colorful_whip_types": 8659
+        },
+        "reasons": {
+          "empty": 52,
+          "prizes": 250,
+          "foe_decked": 66,
+          "foe_empty": 30,
+          "turn_prizes": 2
+        }
+      },
+      "b": {
+        "wins": 209,
+        "games": 400,
+        "wr": 0.5225,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 706,
+          "colorful_whip": 1689,
+          "colorful_whip_types": 8605
+        },
+        "reasons": {
+          "prizes": 243,
+          "foe_decked": 66,
+          "foe_empty": 31,
+          "empty": 58,
+          "decked": 2
+        }
+      }
+    },
+    "mill": {
+      "a": {
+        "wins": 264,
+        "games": 400,
+        "wr": 0.66,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 336,
+          "colorful_whip": 2406,
+          "colorful_whip_types": 11989
+        },
+        "reasons": {
+          "prizes": 180,
+          "decked": 136,
+          "foe_empty": 81,
+          "turn_prizes": 2,
+          "turn_hp": 1
+        }
+      },
+      "b": {
+        "wins": 241,
+        "games": 400,
+        "wr": 0.6025,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 363,
+          "colorful_whip": 2505,
+          "colorful_whip_types": 12940
+        },
+        "reasons": {
+          "decked": 159,
+          "prizes": 180,
+          "foe_empty": 57,
+          "turn_prizes": 4
+        }
+      }
+    },
+    "celebi": {
+      "a": {
+        "wins": 265,
+        "games": 400,
+        "wr": 0.6625,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 253,
+          "colorful_whip": 2273,
+          "colorful_whip_types": 10883
+        },
+        "reasons": {
+          "prizes": 218,
+          "foe_empty": 47,
+          "decked": 135
+        }
+      },
+      "b": {
+        "wins": 280,
+        "games": 400,
+        "wr": 0.7,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 213,
+          "colorful_whip": 2276,
+          "colorful_whip_types": 10815
+        },
+        "reasons": {
+          "foe_empty": 44,
+          "prizes": 234,
+          "decked": 120,
+          "turn_prizes": 2
+        }
+      }
+    },
+    "doll": {
+      "a": {
+        "wins": 189,
+        "games": 400,
+        "wr": 0.4725,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 632,
+          "colorful_whip": 4211,
+          "colorful_whip_types": 26929
+        },
+        "reasons": {
+          "decked": 211,
+          "turn_hp": 7,
+          "foe_empty": 37,
+          "turn_prizes": 103,
+          "prizes": 42
+        }
+      },
+      "b": {
+        "wins": 179,
+        "games": 400,
+        "wr": 0.4475,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 700,
+          "colorful_whip": 4133,
+          "colorful_whip_types": 26889
+        },
+        "reasons": {
+          "turn_prizes": 100,
+          "decked": 221,
+          "foe_empty": 40,
+          "prizes": 28,
+          "turn_hp": 11
+        }
+      }
+    },
+    "two-forest": {
+      "a": {
+        "wins": 265,
+        "games": 400,
+        "wr": 0.6625,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 216,
+          "colorful_whip": 2277,
+          "colorful_whip_types": 10767
+        },
+        "reasons": {
+          "prizes": 213,
+          "decked": 135,
+          "foe_empty": 52
+        }
+      },
+      "b": {
+        "wins": 256,
+        "games": 400,
+        "wr": 0.64,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 227,
+          "colorful_whip": 2345,
+          "colorful_whip_types": 11271
+        },
+        "reasons": {
+          "foe_empty": 42,
+          "decked": 144,
+          "prizes": 214
+        }
+      }
+    },
+    "kecleon": {
+      "a": {
+        "wins": 202,
+        "games": 400,
+        "wr": 0.505,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 597,
+          "colorful_whip": 3338,
+          "colorful_whip_types": 20340
+        },
+        "reasons": {
+          "prizes": 254,
+          "decked": 6,
+          "empty": 45,
+          "foe_empty": 87,
+          "turn_prizes": 1,
+          "turn_hp": 2,
+          "foe_decked": 5
+        }
+      },
+      "b": {
+        "wins": 217,
+        "games": 400,
+        "wr": 0.5425,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 543,
+          "colorful_whip": 3316,
+          "colorful_whip_types": 20590
+        },
+        "reasons": {
+          "prizes": 243,
+          "foe_empty": 90,
+          "empty": 51,
+          "decked": 8,
+          "foe_decked": 7,
+          "turn_prizes": 1
+        }
+      }
+    },
+    "starmie": {
+      "a": {
+        "wins": 205,
+        "games": 400,
+        "wr": 0.5125,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 605,
+          "colorful_whip": 1403,
+          "colorful_whip_types": 8350
+        },
+        "reasons": {
+          "prizes": 301,
+          "empty": 76,
+          "foe_empty": 22,
+          "turn_prizes": 1
+        }
+      },
+      "b": {
+        "wins": 206,
+        "games": 400,
+        "wr": 0.515,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 564,
+          "colorful_whip": 1367,
+          "colorful_whip_types": 8020
+        },
+        "reasons": {
+          "prizes": 296,
+          "empty": 75,
+          "foe_empty": 29
+        }
+      }
+    },
+    "thorns": {
+      "a": {
+        "wins": 296,
+        "games": 400,
+        "wr": 0.74,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 917,
+          "colorful_whip": 1814,
+          "colorful_whip_types": 8252
+        },
+        "reasons": {
+          "prizes": 276,
+          "foe_empty": 88,
+          "empty": 14,
+          "foe_decked": 13,
+          "foe_no_basic": 4,
+          "turn_prizes": 3,
+          "turn_hp": 2
+        }
+      },
+      "b": {
+        "wins": 284,
+        "games": 400,
+        "wr": 0.71,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 875,
+          "colorful_whip": 1830,
+          "colorful_whip_types": 8313
+        },
+        "reasons": {
+          "foe_empty": 71,
+          "prizes": 291,
+          "foe_decked": 14,
+          "empty": 11,
+          "turn_prizes": 8,
+          "foe_no_basic": 4,
+          "turn_hp": 1
+        }
+      }
+    }
+  },
+  "start_unweighted_all": 0.6208333333333333,
+  "start_unweighted_active": 0.5170192307692308,
+  "start_worst": 0.14,
+  "start_worst_foe": "m60",
+  "path": [
+    {
+      "step": "0",
+      "incoming": "\u2014",
+      "cut": "\u2014",
+      "weighted": 0.4983905677655678,
+      "se": 0.004413674804544453,
+      "unweighted": 0.5170192307692308,
+      "worst": 0.14,
+      "worst_foe": "m60",
+      "delta_start": 0.0,
+      "delta_prev": 0.0,
+      "counter_catcher": 0.0,
+      "bounce_penny": 0.0,
+      "stellar_guidance": 0.0,
+      "colorful_whip": 4.845030677655676
+    }
+  ],
+  "rounds": [],
+  "decision": "0-copy weighted rate 49.84% (SE 0.44%). Active Set M Standard 60 (Mew ex / Spiky Energy), Set T Standard 60 (Dragapult ex), Worlds 2026 Hedrick Dragapult, Doll, Set C Standard 60 (Clefairy / Mewtwo), Mega Starmie, Kecleon, Chris Brewer Lucario Hariyama, Unlimited Dragapult (Pidgeot / Rotom V), Mill, \u4e8c\u68ee\u6797, Celebi Mill, Iron Thorns.",
+  "kept_label": "start",
+  "kept_list": [
+    "Kecleon",
+    "Kecleon",
+    "Kecleon",
+    "Kecleon",
+    "Druddigon",
+    "Druddigon",
+    "Hoopa-EX",
+    "Hoopa-EX",
+    "Fezandipiti ex",
+    "Fezandipiti ex",
+    "Volcanion-EX",
+    "M Gardevoir-EX",
+    "M Steelix-EX",
+    "M Sceptile-EX",
+    "M Manectric-EX",
+    "M Tyranitar-EX",
+    "M Latios-EX",
+    "Double Colorless Energy",
+    "Double Colorless Energy",
+    "Double Colorless Energy",
+    "Double Colorless Energy",
+    "Counter Energy",
+    "Counter Energy",
+    "Counter Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Fire Energy",
+    "Fire Energy",
+    "Arven",
+    "Arven",
+    "Arven",
+    "Arven",
+    "Teammates",
+    "Teammates",
+    "Teammates",
+    "Teammates",
+    "Energy Loto",
+    "Energy Loto",
+    "Energy Loto",
+    "Counter Gain",
+    "Counter Gain",
+    "VS Seeker",
+    "VS Seeker",
+    "Pok\u00e9 Radar",
+    "Pok\u00e9 Radar",
+    "Pok\u00e9 Radar",
+    "Pok\u00e9 Radar",
+    "Nest Ball",
+    "Nest Ball",
+    "Ultra Ball",
+    "Energy Retrieval",
+    "Energy Retrieval",
+    "Special Charge",
+    "Rescue Scarf",
+    "Rescue Scarf",
+    "Rescue Scarf",
+    "Switch",
+    "Latias ex",
+    "Latias ex"
+  ],
+  "kept_cells": {
+    "h": {
+      "a": {
+        "wins": 398,
+        "games": 400,
+        "wr": 0.995,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 498,
+          "colorful_whip": 1334,
+          "colorful_whip_types": 6771
+        },
+        "reasons": {
+          "foe_empty": 313,
+          "prizes": 62,
+          "turn_prizes": 21,
+          "turn_hp": 4
+        }
+      },
+      "b": {
+        "wins": 396,
+        "games": 400,
+        "wr": 0.99,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 431,
+          "colorful_whip": 1291,
+          "colorful_whip_types": 6428
+        },
+        "reasons": {
+          "foe_empty": 323,
+          "prizes": 55,
+          "turn_prizes": 18,
+          "turn_hp": 4
+        }
+      }
+    },
+    "g": {
+      "a": {
+        "wins": 285,
+        "games": 400,
+        "wr": 0.7125,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 580,
+          "colorful_whip": 1683,
+          "colorful_whip_types": 10491
+        },
+        "reasons": {
+          "prizes": 271,
+          "foe_empty": 94,
+          "turn_prizes": 2,
+          "empty": 30,
+          "decked": 3
+        }
+      },
+      "b": {
+        "wins": 302,
+        "games": 400,
+        "wr": 0.755,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 606,
+          "colorful_whip": 1684,
+          "colorful_whip_types": 10839
+        },
+        "reasons": {
+          "prizes": 262,
+          "foe_empty": 104,
+          "decked": 5,
+          "empty": 26,
+          "turn_prizes": 2,
+          "turn_hp": 1
+        }
+      }
+    },
+    "d60": {
+      "a": {
+        "wins": 342,
+        "games": 400,
+        "wr": 0.855,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 597,
+          "colorful_whip": 824,
+          "colorful_whip_types": 3769
+        },
+        "reasons": {
+          "foe_empty": 338,
+          "prizes": 33,
+          "foe_no_basic": 4,
+          "empty": 25
+        }
+      },
+      "b": {
+        "wins": 340,
+        "games": 400,
+        "wr": 0.85,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 551,
+          "colorful_whip": 854,
+          "colorful_whip_types": 3782
+        },
+        "reasons": {
+          "foe_empty": 336,
+          "foe_no_basic": 4,
+          "empty": 35,
+          "prizes": 25
+        }
+      }
+    },
+    "c60": {
+      "a": {
+        "wins": 205,
+        "games": 400,
+        "wr": 0.5125,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 2,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 734,
+          "colorful_whip": 1482,
+          "colorful_whip_types": 9511
+        },
+        "reasons": {
+          "prizes": 306,
+          "empty": 80,
+          "foe_empty": 13,
+          "decked": 1
+        }
+      },
+      "b": {
+        "wins": 182,
+        "games": 400,
+        "wr": 0.455,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 3,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 590,
+          "colorful_whip": 1424,
+          "colorful_whip_types": 8673
+        },
+        "reasons": {
+          "empty": 99,
+          "prizes": 283,
+          "decked": 2,
+          "foe_empty": 15,
+          "turn_prizes": 1
+        }
+      }
+    },
+    "s60": {
+      "a": {
+        "wins": 356,
+        "games": 400,
+        "wr": 0.89,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 807,
+          "colorful_whip": 1993,
+          "colorful_whip_types": 10587
+        },
+        "reasons": {
+          "foe_empty": 149,
+          "prizes": 227,
+          "empty": 9,
+          "turn_prizes": 8,
+          "turn_hp": 4,
+          "decked": 3
+        }
+      },
+      "b": {
+        "wins": 356,
+        "games": 400,
+        "wr": 0.89,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 822,
+          "colorful_whip": 2178,
+          "colorful_whip_types": 11252
+        },
+        "reasons": {
+          "foe_empty": 122,
+          "prizes": 254,
+          "empty": 7,
+          "turn_prizes": 7,
+          "decked": 6,
+          "turn_hp": 4
+        }
+      }
+    },
+    "t60": {
+      "a": {
+        "wins": 150,
+        "games": 400,
+        "wr": 0.375,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 809,
+          "colorful_whip": 1532,
+          "colorful_whip_types": 6410
+        },
+        "reasons": {
+          "prizes": 283,
+          "foe_decked": 25,
+          "empty": 27,
+          "foe_empty": 63,
+          "turn_hp": 2
+        }
+      },
+      "b": {
+        "wins": 132,
+        "games": 400,
+        "wr": 0.33,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 771,
+          "colorful_whip": 1312,
+          "colorful_whip_types": 5880
+        },
+        "reasons": {
+          "foe_empty": 65,
+          "prizes": 270,
+          "empty": 41,
+          "foe_decked": 23,
+          "turn_prizes": 1
+        }
+      }
+    },
+    "t-meta": {
+      "a": {
+        "wins": 182,
+        "games": 400,
+        "wr": 0.455,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 723,
+          "colorful_whip": 1609,
+          "colorful_whip_types": 7501
+        },
+        "reasons": {
+          "prizes": 276,
+          "foe_decked": 35,
+          "foe_empty": 42,
+          "empty": 41,
+          "turn_hp": 3,
+          "turn_prizes": 3
+        }
+      },
+      "b": {
+        "wins": 171,
+        "games": 400,
+        "wr": 0.4275,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 718,
+          "colorful_whip": 1519,
+          "colorful_whip_types": 7067
+        },
+        "reasons": {
+          "prizes": 274,
+          "turn_prizes": 3,
+          "foe_decked": 55,
+          "empty": 34,
+          "foe_empty": 27,
+          "turn_hp": 7
+        }
+      }
+    },
+    "m60": {
+      "a": {
+        "wins": 55,
+        "games": 400,
+        "wr": 0.1375,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 567,
+          "colorful_whip": 861,
+          "colorful_whip_types": 5211
+        },
+        "reasons": {
+          "empty": 111,
+          "prizes": 285,
+          "foe_empty": 4
+        }
+      },
+      "b": {
+        "wins": 57,
+        "games": 400,
+        "wr": 0.1425,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 579,
+          "colorful_whip": 908,
+          "colorful_whip_types": 5560
+        },
+        "reasons": {
+          "prizes": 270,
+          "foe_empty": 9,
+          "empty": 121
+        }
+      }
+    },
+    "g30": {
+      "a": {
+        "wins": 396,
+        "games": 400,
+        "wr": 0.99,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 639,
+          "colorful_whip": 2073,
+          "colorful_whip_types": 10330
+        },
+        "reasons": {
+          "prizes": 200,
+          "foe_empty": 176,
+          "turn_prizes": 4,
+          "foe_decked": 15,
+          "empty": 2,
+          "turn_hp": 3
+        }
+      },
+      "b": {
+        "wins": 392,
+        "games": 400,
+        "wr": 0.98,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 623,
+          "colorful_whip": 2191,
+          "colorful_whip_types": 11242
+        },
+        "reasons": {
+          "prizes": 232,
+          "foe_empty": 140,
+          "turn_hp": 4,
+          "foe_decked": 16,
+          "empty": 2,
+          "decked": 2,
+          "turn_prizes": 4
+        }
+      }
+    },
+    "t-unl": {
+      "a": {
+        "wins": 242,
+        "games": 400,
+        "wr": 0.605,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 810,
+          "colorful_whip": 2074,
+          "colorful_whip_types": 9075
+        },
+        "reasons": {
+          "prizes": 275,
+          "foe_empty": 36,
+          "foe_decked": 76,
+          "empty": 13
+        }
+      },
+      "b": {
+        "wins": 229,
+        "games": 400,
+        "wr": 0.5725,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 760,
+          "colorful_whip": 2035,
+          "colorful_whip_types": 9184
+        },
+        "reasons": {
+          "prizes": 281,
+          "foe_decked": 61,
+          "foe_empty": 37,
+          "empty": 15,
+          "decked": 5,
+          "turn_prizes": 1
+        }
+      }
+    },
+    "l60": {
+      "a": {
+        "wins": 214,
+        "games": 400,
+        "wr": 0.535,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 717,
+          "colorful_whip": 1643,
+          "colorful_whip_types": 8659
+        },
+        "reasons": {
+          "empty": 52,
+          "prizes": 250,
+          "foe_decked": 66,
+          "foe_empty": 30,
+          "turn_prizes": 2
+        }
+      },
+      "b": {
+        "wins": 209,
+        "games": 400,
+        "wr": 0.5225,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 706,
+          "colorful_whip": 1689,
+          "colorful_whip_types": 8605
+        },
+        "reasons": {
+          "prizes": 243,
+          "foe_decked": 66,
+          "foe_empty": 31,
+          "empty": 58,
+          "decked": 2
+        }
+      }
+    },
+    "mill": {
+      "a": {
+        "wins": 264,
+        "games": 400,
+        "wr": 0.66,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 336,
+          "colorful_whip": 2406,
+          "colorful_whip_types": 11989
+        },
+        "reasons": {
+          "prizes": 180,
+          "decked": 136,
+          "foe_empty": 81,
+          "turn_prizes": 2,
+          "turn_hp": 1
+        }
+      },
+      "b": {
+        "wins": 241,
+        "games": 400,
+        "wr": 0.6025,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 363,
+          "colorful_whip": 2505,
+          "colorful_whip_types": 12940
+        },
+        "reasons": {
+          "decked": 159,
+          "prizes": 180,
+          "foe_empty": 57,
+          "turn_prizes": 4
+        }
+      }
+    },
+    "celebi": {
+      "a": {
+        "wins": 265,
+        "games": 400,
+        "wr": 0.6625,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 253,
+          "colorful_whip": 2273,
+          "colorful_whip_types": 10883
+        },
+        "reasons": {
+          "prizes": 218,
+          "foe_empty": 47,
+          "decked": 135
+        }
+      },
+      "b": {
+        "wins": 280,
+        "games": 400,
+        "wr": 0.7,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 213,
+          "colorful_whip": 2276,
+          "colorful_whip_types": 10815
+        },
+        "reasons": {
+          "foe_empty": 44,
+          "prizes": 234,
+          "decked": 120,
+          "turn_prizes": 2
+        }
+      }
+    },
+    "doll": {
+      "a": {
+        "wins": 189,
+        "games": 400,
+        "wr": 0.4725,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 632,
+          "colorful_whip": 4211,
+          "colorful_whip_types": 26929
+        },
+        "reasons": {
+          "decked": 211,
+          "turn_hp": 7,
+          "foe_empty": 37,
+          "turn_prizes": 103,
+          "prizes": 42
+        }
+      },
+      "b": {
+        "wins": 179,
+        "games": 400,
+        "wr": 0.4475,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 700,
+          "colorful_whip": 4133,
+          "colorful_whip_types": 26889
+        },
+        "reasons": {
+          "turn_prizes": 100,
+          "decked": 221,
+          "foe_empty": 40,
+          "prizes": 28,
+          "turn_hp": 11
+        }
+      }
+    },
+    "two-forest": {
+      "a": {
+        "wins": 265,
+        "games": 400,
+        "wr": 0.6625,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 216,
+          "colorful_whip": 2277,
+          "colorful_whip_types": 10767
+        },
+        "reasons": {
+          "prizes": 213,
+          "decked": 135,
+          "foe_empty": 52
+        }
+      },
+      "b": {
+        "wins": 256,
+        "games": 400,
+        "wr": 0.64,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 227,
+          "colorful_whip": 2345,
+          "colorful_whip_types": 11271
+        },
+        "reasons": {
+          "foe_empty": 42,
+          "decked": 144,
+          "prizes": 214
+        }
+      }
+    },
+    "kecleon": {
+      "a": {
+        "wins": 202,
+        "games": 400,
+        "wr": 0.505,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 597,
+          "colorful_whip": 3338,
+          "colorful_whip_types": 20340
+        },
+        "reasons": {
+          "prizes": 254,
+          "decked": 6,
+          "empty": 45,
+          "foe_empty": 87,
+          "turn_prizes": 1,
+          "turn_hp": 2,
+          "foe_decked": 5
+        }
+      },
+      "b": {
+        "wins": 217,
+        "games": 400,
+        "wr": 0.5425,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 543,
+          "colorful_whip": 3316,
+          "colorful_whip_types": 20590
+        },
+        "reasons": {
+          "prizes": 243,
+          "foe_empty": 90,
+          "empty": 51,
+          "decked": 8,
+          "foe_decked": 7,
+          "turn_prizes": 1
+        }
+      }
+    },
+    "starmie": {
+      "a": {
+        "wins": 205,
+        "games": 400,
+        "wr": 0.5125,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 605,
+          "colorful_whip": 1403,
+          "colorful_whip_types": 8350
+        },
+        "reasons": {
+          "prizes": 301,
+          "empty": 76,
+          "foe_empty": 22,
+          "turn_prizes": 1
+        }
+      },
+      "b": {
+        "wins": 206,
+        "games": 400,
+        "wr": 0.515,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 564,
+          "colorful_whip": 1367,
+          "colorful_whip_types": 8020
+        },
+        "reasons": {
+          "prizes": 296,
+          "empty": 75,
+          "foe_empty": 29
+        }
+      }
+    },
+    "thorns": {
+      "a": {
+        "wins": 296,
+        "games": 400,
+        "wr": 0.74,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 917,
+          "colorful_whip": 1814,
+          "colorful_whip_types": 8252
+        },
+        "reasons": {
+          "prizes": 276,
+          "foe_empty": 88,
+          "empty": 14,
+          "foe_decked": 13,
+          "foe_no_basic": 4,
+          "turn_prizes": 3,
+          "turn_hp": 2
+        }
+      },
+      "b": {
+        "wins": 284,
+        "games": 400,
+        "wr": 0.71,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 875,
+          "colorful_whip": 1830,
+          "colorful_whip_types": 8313
+        },
+        "reasons": {
+          "foe_empty": 71,
+          "prizes": 291,
+          "foe_decked": 14,
+          "empty": 11,
+          "turn_prizes": 8,
+          "foe_no_basic": 4,
+          "turn_hp": 1
+        }
+      }
+    }
+  },
+  "path_label": "start",
+  "path_list": [
+    "Kecleon",
+    "Kecleon",
+    "Kecleon",
+    "Kecleon",
+    "Druddigon",
+    "Druddigon",
+    "Hoopa-EX",
+    "Hoopa-EX",
+    "Fezandipiti ex",
+    "Fezandipiti ex",
+    "Volcanion-EX",
+    "M Gardevoir-EX",
+    "M Steelix-EX",
+    "M Sceptile-EX",
+    "M Manectric-EX",
+    "M Tyranitar-EX",
+    "M Latios-EX",
+    "Double Colorless Energy",
+    "Double Colorless Energy",
+    "Double Colorless Energy",
+    "Double Colorless Energy",
+    "Counter Energy",
+    "Counter Energy",
+    "Counter Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Psychic Energy",
+    "Fire Energy",
+    "Fire Energy",
+    "Arven",
+    "Arven",
+    "Arven",
+    "Arven",
+    "Teammates",
+    "Teammates",
+    "Teammates",
+    "Teammates",
+    "Energy Loto",
+    "Energy Loto",
+    "Energy Loto",
+    "Counter Gain",
+    "Counter Gain",
+    "VS Seeker",
+    "VS Seeker",
+    "Pok\u00e9 Radar",
+    "Pok\u00e9 Radar",
+    "Pok\u00e9 Radar",
+    "Pok\u00e9 Radar",
+    "Nest Ball",
+    "Nest Ball",
+    "Ultra Ball",
+    "Energy Retrieval",
+    "Energy Retrieval",
+    "Special Charge",
+    "Rescue Scarf",
+    "Rescue Scarf",
+    "Rescue Scarf",
+    "Switch",
+    "Latias ex",
+    "Latias ex"
+  ],
+  "path_cells": {
+    "h": {
+      "a": {
+        "wins": 398,
+        "games": 400,
+        "wr": 0.995,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 498,
+          "colorful_whip": 1334,
+          "colorful_whip_types": 6771
+        },
+        "reasons": {
+          "foe_empty": 313,
+          "prizes": 62,
+          "turn_prizes": 21,
+          "turn_hp": 4
+        }
+      },
+      "b": {
+        "wins": 396,
+        "games": 400,
+        "wr": 0.99,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 431,
+          "colorful_whip": 1291,
+          "colorful_whip_types": 6428
+        },
+        "reasons": {
+          "foe_empty": 323,
+          "prizes": 55,
+          "turn_prizes": 18,
+          "turn_hp": 4
+        }
+      }
+    },
+    "g": {
+      "a": {
+        "wins": 285,
+        "games": 400,
+        "wr": 0.7125,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 580,
+          "colorful_whip": 1683,
+          "colorful_whip_types": 10491
+        },
+        "reasons": {
+          "prizes": 271,
+          "foe_empty": 94,
+          "turn_prizes": 2,
+          "empty": 30,
+          "decked": 3
+        }
+      },
+      "b": {
+        "wins": 302,
+        "games": 400,
+        "wr": 0.755,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 606,
+          "colorful_whip": 1684,
+          "colorful_whip_types": 10839
+        },
+        "reasons": {
+          "prizes": 262,
+          "foe_empty": 104,
+          "decked": 5,
+          "empty": 26,
+          "turn_prizes": 2,
+          "turn_hp": 1
+        }
+      }
+    },
+    "d60": {
+      "a": {
+        "wins": 342,
+        "games": 400,
+        "wr": 0.855,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 597,
+          "colorful_whip": 824,
+          "colorful_whip_types": 3769
+        },
+        "reasons": {
+          "foe_empty": 338,
+          "prizes": 33,
+          "foe_no_basic": 4,
+          "empty": 25
+        }
+      },
+      "b": {
+        "wins": 340,
+        "games": 400,
+        "wr": 0.85,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 551,
+          "colorful_whip": 854,
+          "colorful_whip_types": 3782
+        },
+        "reasons": {
+          "foe_empty": 336,
+          "foe_no_basic": 4,
+          "empty": 35,
+          "prizes": 25
+        }
+      }
+    },
+    "c60": {
+      "a": {
+        "wins": 205,
+        "games": 400,
+        "wr": 0.5125,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 2,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 734,
+          "colorful_whip": 1482,
+          "colorful_whip_types": 9511
+        },
+        "reasons": {
+          "prizes": 306,
+          "empty": 80,
+          "foe_empty": 13,
+          "decked": 1
+        }
+      },
+      "b": {
+        "wins": 182,
+        "games": 400,
+        "wr": 0.455,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 3,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 590,
+          "colorful_whip": 1424,
+          "colorful_whip_types": 8673
+        },
+        "reasons": {
+          "empty": 99,
+          "prizes": 283,
+          "decked": 2,
+          "foe_empty": 15,
+          "turn_prizes": 1
+        }
+      }
+    },
+    "s60": {
+      "a": {
+        "wins": 356,
+        "games": 400,
+        "wr": 0.89,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 807,
+          "colorful_whip": 1993,
+          "colorful_whip_types": 10587
+        },
+        "reasons": {
+          "foe_empty": 149,
+          "prizes": 227,
+          "empty": 9,
+          "turn_prizes": 8,
+          "turn_hp": 4,
+          "decked": 3
+        }
+      },
+      "b": {
+        "wins": 356,
+        "games": 400,
+        "wr": 0.89,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 822,
+          "colorful_whip": 2178,
+          "colorful_whip_types": 11252
+        },
+        "reasons": {
+          "foe_empty": 122,
+          "prizes": 254,
+          "empty": 7,
+          "turn_prizes": 7,
+          "decked": 6,
+          "turn_hp": 4
+        }
+      }
+    },
+    "t60": {
+      "a": {
+        "wins": 150,
+        "games": 400,
+        "wr": 0.375,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 809,
+          "colorful_whip": 1532,
+          "colorful_whip_types": 6410
+        },
+        "reasons": {
+          "prizes": 283,
+          "foe_decked": 25,
+          "empty": 27,
+          "foe_empty": 63,
+          "turn_hp": 2
+        }
+      },
+      "b": {
+        "wins": 132,
+        "games": 400,
+        "wr": 0.33,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 771,
+          "colorful_whip": 1312,
+          "colorful_whip_types": 5880
+        },
+        "reasons": {
+          "foe_empty": 65,
+          "prizes": 270,
+          "empty": 41,
+          "foe_decked": 23,
+          "turn_prizes": 1
+        }
+      }
+    },
+    "t-meta": {
+      "a": {
+        "wins": 182,
+        "games": 400,
+        "wr": 0.455,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 723,
+          "colorful_whip": 1609,
+          "colorful_whip_types": 7501
+        },
+        "reasons": {
+          "prizes": 276,
+          "foe_decked": 35,
+          "foe_empty": 42,
+          "empty": 41,
+          "turn_hp": 3,
+          "turn_prizes": 3
+        }
+      },
+      "b": {
+        "wins": 171,
+        "games": 400,
+        "wr": 0.4275,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 718,
+          "colorful_whip": 1519,
+          "colorful_whip_types": 7067
+        },
+        "reasons": {
+          "prizes": 274,
+          "turn_prizes": 3,
+          "foe_decked": 55,
+          "empty": 34,
+          "foe_empty": 27,
+          "turn_hp": 7
+        }
+      }
+    },
+    "m60": {
+      "a": {
+        "wins": 55,
+        "games": 400,
+        "wr": 0.1375,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 567,
+          "colorful_whip": 861,
+          "colorful_whip_types": 5211
+        },
+        "reasons": {
+          "empty": 111,
+          "prizes": 285,
+          "foe_empty": 4
+        }
+      },
+      "b": {
+        "wins": 57,
+        "games": 400,
+        "wr": 0.1425,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 579,
+          "colorful_whip": 908,
+          "colorful_whip_types": 5560
+        },
+        "reasons": {
+          "prizes": 270,
+          "foe_empty": 9,
+          "empty": 121
+        }
+      }
+    },
+    "g30": {
+      "a": {
+        "wins": 396,
+        "games": 400,
+        "wr": 0.99,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 639,
+          "colorful_whip": 2073,
+          "colorful_whip_types": 10330
+        },
+        "reasons": {
+          "prizes": 200,
+          "foe_empty": 176,
+          "turn_prizes": 4,
+          "foe_decked": 15,
+          "empty": 2,
+          "turn_hp": 3
+        }
+      },
+      "b": {
+        "wins": 392,
+        "games": 400,
+        "wr": 0.98,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 623,
+          "colorful_whip": 2191,
+          "colorful_whip_types": 11242
+        },
+        "reasons": {
+          "prizes": 232,
+          "foe_empty": 140,
+          "turn_hp": 4,
+          "foe_decked": 16,
+          "empty": 2,
+          "decked": 2,
+          "turn_prizes": 4
+        }
+      }
+    },
+    "t-unl": {
+      "a": {
+        "wins": 242,
+        "games": 400,
+        "wr": 0.605,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 810,
+          "colorful_whip": 2074,
+          "colorful_whip_types": 9075
+        },
+        "reasons": {
+          "prizes": 275,
+          "foe_empty": 36,
+          "foe_decked": 76,
+          "empty": 13
+        }
+      },
+      "b": {
+        "wins": 229,
+        "games": 400,
+        "wr": 0.5725,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 760,
+          "colorful_whip": 2035,
+          "colorful_whip_types": 9184
+        },
+        "reasons": {
+          "prizes": 281,
+          "foe_decked": 61,
+          "foe_empty": 37,
+          "empty": 15,
+          "decked": 5,
+          "turn_prizes": 1
+        }
+      }
+    },
+    "l60": {
+      "a": {
+        "wins": 214,
+        "games": 400,
+        "wr": 0.535,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 717,
+          "colorful_whip": 1643,
+          "colorful_whip_types": 8659
+        },
+        "reasons": {
+          "empty": 52,
+          "prizes": 250,
+          "foe_decked": 66,
+          "foe_empty": 30,
+          "turn_prizes": 2
+        }
+      },
+      "b": {
+        "wins": 209,
+        "games": 400,
+        "wr": 0.5225,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 706,
+          "colorful_whip": 1689,
+          "colorful_whip_types": 8605
+        },
+        "reasons": {
+          "prizes": 243,
+          "foe_decked": 66,
+          "foe_empty": 31,
+          "empty": 58,
+          "decked": 2
+        }
+      }
+    },
+    "mill": {
+      "a": {
+        "wins": 264,
+        "games": 400,
+        "wr": 0.66,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 336,
+          "colorful_whip": 2406,
+          "colorful_whip_types": 11989
+        },
+        "reasons": {
+          "prizes": 180,
+          "decked": 136,
+          "foe_empty": 81,
+          "turn_prizes": 2,
+          "turn_hp": 1
+        }
+      },
+      "b": {
+        "wins": 241,
+        "games": 400,
+        "wr": 0.6025,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 363,
+          "colorful_whip": 2505,
+          "colorful_whip_types": 12940
+        },
+        "reasons": {
+          "decked": 159,
+          "prizes": 180,
+          "foe_empty": 57,
+          "turn_prizes": 4
+        }
+      }
+    },
+    "celebi": {
+      "a": {
+        "wins": 265,
+        "games": 400,
+        "wr": 0.6625,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 253,
+          "colorful_whip": 2273,
+          "colorful_whip_types": 10883
+        },
+        "reasons": {
+          "prizes": 218,
+          "foe_empty": 47,
+          "decked": 135
+        }
+      },
+      "b": {
+        "wins": 280,
+        "games": 400,
+        "wr": 0.7,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 213,
+          "colorful_whip": 2276,
+          "colorful_whip_types": 10815
+        },
+        "reasons": {
+          "foe_empty": 44,
+          "prizes": 234,
+          "decked": 120,
+          "turn_prizes": 2
+        }
+      }
+    },
+    "doll": {
+      "a": {
+        "wins": 189,
+        "games": 400,
+        "wr": 0.4725,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 632,
+          "colorful_whip": 4211,
+          "colorful_whip_types": 26929
+        },
+        "reasons": {
+          "decked": 211,
+          "turn_hp": 7,
+          "foe_empty": 37,
+          "turn_prizes": 103,
+          "prizes": 42
+        }
+      },
+      "b": {
+        "wins": 179,
+        "games": 400,
+        "wr": 0.4475,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 700,
+          "colorful_whip": 4133,
+          "colorful_whip_types": 26889
+        },
+        "reasons": {
+          "turn_prizes": 100,
+          "decked": 221,
+          "foe_empty": 40,
+          "prizes": 28,
+          "turn_hp": 11
+        }
+      }
+    },
+    "two-forest": {
+      "a": {
+        "wins": 265,
+        "games": 400,
+        "wr": 0.6625,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 216,
+          "colorful_whip": 2277,
+          "colorful_whip_types": 10767
+        },
+        "reasons": {
+          "prizes": 213,
+          "decked": 135,
+          "foe_empty": 52
+        }
+      },
+      "b": {
+        "wins": 256,
+        "games": 400,
+        "wr": 0.64,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 227,
+          "colorful_whip": 2345,
+          "colorful_whip_types": 11271
+        },
+        "reasons": {
+          "foe_empty": 42,
+          "decked": 144,
+          "prizes": 214
+        }
+      }
+    },
+    "kecleon": {
+      "a": {
+        "wins": 202,
+        "games": 400,
+        "wr": 0.505,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 597,
+          "colorful_whip": 3338,
+          "colorful_whip_types": 20340
+        },
+        "reasons": {
+          "prizes": 254,
+          "decked": 6,
+          "empty": 45,
+          "foe_empty": 87,
+          "turn_prizes": 1,
+          "turn_hp": 2,
+          "foe_decked": 5
+        }
+      },
+      "b": {
+        "wins": 217,
+        "games": 400,
+        "wr": 0.5425,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 543,
+          "colorful_whip": 3316,
+          "colorful_whip_types": 20590
+        },
+        "reasons": {
+          "prizes": 243,
+          "foe_empty": 90,
+          "empty": 51,
+          "decked": 8,
+          "foe_decked": 7,
+          "turn_prizes": 1
+        }
+      }
+    },
+    "starmie": {
+      "a": {
+        "wins": 205,
+        "games": 400,
+        "wr": 0.5125,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 605,
+          "colorful_whip": 1403,
+          "colorful_whip_types": 8350
+        },
+        "reasons": {
+          "prizes": 301,
+          "empty": 76,
+          "foe_empty": 22,
+          "turn_prizes": 1
+        }
+      },
+      "b": {
+        "wins": 206,
+        "games": 400,
+        "wr": 0.515,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 564,
+          "colorful_whip": 1367,
+          "colorful_whip_types": 8020
+        },
+        "reasons": {
+          "prizes": 296,
+          "empty": 75,
+          "foe_empty": 29
+        }
+      }
+    },
+    "thorns": {
+      "a": {
+        "wins": 296,
+        "games": 400,
+        "wr": 0.74,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 917,
+          "colorful_whip": 1814,
+          "colorful_whip_types": 8252
+        },
+        "reasons": {
+          "prizes": 276,
+          "foe_empty": 88,
+          "empty": 14,
+          "foe_decked": 13,
+          "foe_no_basic": 4,
+          "turn_prizes": 3,
+          "turn_hp": 2
+        }
+      },
+      "b": {
+        "wins": 284,
+        "games": 400,
+        "wr": 0.71,
+        "events": {
+          "counter_catcher": 0,
+          "bounce_penny": 0,
+          "bounce_heal": 0,
+          "stellar_guidance": 0,
+          "scoundrel_ring": 875,
+          "colorful_whip": 1830,
+          "colorful_whip_types": 8313
+        },
+        "reasons": {
+          "foe_empty": 71,
+          "prizes": 291,
+          "foe_decked": 14,
+          "empty": 11,
+          "turn_prizes": 8,
+          "foe_no_basic": 4,
+          "turn_hp": 1
+        }
+      }
+    }
+  },
+  "note": "The script records the sample. It does not assign SET_KECLEON_NAMES. Each named card is one copy. The cut search keeps the best cut and continues."
+}
