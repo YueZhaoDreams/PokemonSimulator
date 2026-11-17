@@ -4,13 +4,13 @@ One step removes one copy of one other card and adds one copy of the named card.
 
 The starting 60 is the lock with one Battle Compressor and one Boss's Orders removed and two Latias ex added. Latias ex says: "Skyliner: Your Basic Pokémon in play have no Retreat Cost. Eon Blade: During your next turn, this Pokémon can't attack."
 
-The cards come in, in this order: Counter Catcher, Penny, Jirachi-EX, Prism Energy. Each card is added one copy at a time through 4, or through the whole deck when the card is basic Energy. The next copy is built on the list that just added a copy. After those counts, that card keeps the count with the highest 0-copy weighted rate, and the next card starts from that count. The list before the card is one of the counts. Every other name still in the list is a cut. The incoming card is not cut while its own count is being built. Nothing is protected. The step keeps the highest 0-copy weighted rate, then the higher worst active foe, then the cut that had more copies, then the name. A dip stays on the path. The second Counter Catcher does not cut the last Counter Gain. That list is measured, and when it is the best cut the swap is left untaken. One Counter Catcher stays, and the next card starts from that list.
+The cards come in, in this order: Counter Catcher, Penny, Jirachi-EX, Prism Energy. Each card is added one copy at a time through 4, or through the whole deck when the card is basic Energy. The next copy is built on the list that just added a copy. After those counts, that card keeps the count with the highest 0-copy weighted rate, and the next card starts from that count. The list before the card is one of the counts. Every other name still in the list is a cut. The incoming card is not cut while its own count is being built. Nothing is protected. The step keeps the highest 0-copy weighted rate, then the higher worst active foe, then the cut that had more copies, then the name. A dip stays on the path. The second Counter Catcher does not cut the last Counter Gain. That list is measured, and when it is the best cut the swap is left untaken. One Counter Catcher stays, and the next card starts from that list. The second Penny is measured too. When its best cut is below one Penny, copies 3 and 4 are not played. One Penny stays, and the next card starts from that list.
 
 Seed 20261116. 400 games per seat. Both seats. Each cell starts a new `random.Random` at that seed and plays its games on that generator. The foe, the seat, and the step are not mixed into the seed. Two lists diverge after the first choice that consumes a different number of draws.
 
 Rules are standard 60. Weights are `max(1e-6, 1 - win rate)` on the starting list, divided by the sum. A tie is not a win, so it sits on the loss side of that formula. The same vector scores every later list. Parked foes keep their 0-copy win rate and are not replayed. Gap standard error is summed on the active set only.
 
-Elapsed 72768s.
+Elapsed 96799s.
 
 ## Field
 
