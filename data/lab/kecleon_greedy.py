@@ -211,6 +211,11 @@ def _subject_cards(names: tuple[str, ...] | list[str]):
     return [fallback_named(name) for name in names]
 
 
+def _leave_last_counter_gain(incoming: str, count: int, cut: str, copies_before: int) -> bool:
+    """Do not spend the last Counter Gain on a second Counter Catcher."""
+    return incoming == "Counter Catcher" and count == 2 and cut == "Counter Gain" and copies_before == 1
+
+
 def _copy_cap(name: str) -> int:
     """Four of a name, or the whole deck for basic Energy."""
     if is_basic_energy(fallback_named(name), pokemon_as_energy=False):
@@ -707,7 +712,9 @@ def _markdown(state: dict) -> str:
         "Every other name still in the list is a cut. The incoming card is not cut while its own "
         "count is being built. Nothing is protected. The step keeps the highest 0-copy weighted "
         "rate, then the higher worst active foe, then the cut that had more copies, then the name. "
-        "A dip stays on the path.",
+        "A dip stays on the path. The second Counter Catcher does not cut the last Counter Gain. "
+        "That list is measured, and when it is the best cut the swap is left untaken. "
+        "One Counter Catcher stays, and the next card starts from that list.",
         "",
         f"Seed {state['seed']}. {state['games']} games per seat. Both seats. "
         "Each cell starts a new `random.Random` at that seed and plays its games on that generator. "
@@ -1000,6 +1007,7 @@ def main() -> None:
         # Count 0 is the list before this card. A later copy is built on the
         # path, including a dip. The card then keeps the highest rate.
         card_options = [(previous_rate, 0, list(current), previous_full)]
+        left_last_gain = False
         for count in range(1, cap + 1):
             if current.count(incoming) >= cap:
                 break
@@ -1146,18 +1154,46 @@ def main() -> None:
                 f"kept {count} {incoming} by cutting {kept['cut']} -> {_pct(kept['weighted'])}",
                 flush=True,
             )
+            if _leave_last_counter_gain(incoming, count, kept["cut"], counts.get("Counter Gain", 0)):
+                card_options.pop()
+                views.pop()
+                left_last_gain = True
+                state["decision"] = (
+                    f"2 Counter Catcher would cut the last Counter Gain "
+                    f"({_pct(kept['weighted'])}, {_pp(kept['delta_prev'])} against one copy). "
+                    "That gain is too small, so the cut is not taken. "
+                    "One Counter Catcher stays, and the next card starts from that list."
+                )
+                kept_now = max(views, key=lambda item: _rate(item[2], weights))
+                state["kept_label"] = kept_now[0]
+                state["kept_list"] = list(kept_now[1])
+                state["kept_cells"] = {
+                    foe: {"a": _public_cell(kept_now[2][foe]["a"]), "b": _public_cell(kept_now[2][foe]["b"])}
+                    for foe in weights
+                }
+                state["elapsed_s"] = time.time() - started
+                _write(state)
+                print("leave the last Counter Gain; keep 1 Counter Catcher", flush=True)
+                break
         best_rate, best_count, best_names, best_full = max(card_options, key=lambda item: (item[0], -item[1]))
         current = list(best_names)
         previous_full = best_full
         previous_rate = best_rate
         kept_counts.append(f"{best_count} {incoming}")
         best = max(views, key=lambda item: _rate(item[2], weights))
-        state["decision"] = (
-            f"After {incoming}, the card keeps {best_count} "
-            f"({_pct(best_rate)}). The path walked through {cap}. "
-            "The next card starts from that count. "
-            "The best cut on this seed is a little high."
-        )
+        if left_last_gain:
+            state["decision"] = (
+                f"After {incoming}, the card keeps {best_count} ({_pct(best_rate)}). "
+                "The second copy's best cut was the last Counter Gain, and that gain is too small, "
+                "so the cut is not taken. The next card starts from one Counter Catcher."
+            )
+        else:
+            state["decision"] = (
+                f"After {incoming}, the card keeps {best_count} "
+                f"({_pct(best_rate)}). The path walked through {cap}. "
+                "The next card starts from that count. "
+                "The best cut on this seed is a little high."
+            )
         state["kept_label"] = best[0]
         state["kept_list"] = list(best[1])
         state["kept_cells"] = {

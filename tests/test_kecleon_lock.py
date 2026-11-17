@@ -505,3 +505,12 @@ def test_prism_attaches_to_the_basic_fighter_that_needs_the_type():
     me.energy_attached = False
     me.hand = [dce, prism]
     assert game._choose_energy_card(me, unpaid, strat) == dce
+
+
+def test_second_counter_catcher_leaves_the_last_counter_gain():
+    from data.lab.kecleon_greedy import _leave_last_counter_gain
+
+    assert _leave_last_counter_gain("Counter Catcher", 2, "Counter Gain", 1)
+    assert not _leave_last_counter_gain("Counter Catcher", 2, "Energy Loto", 3)
+    assert not _leave_last_counter_gain("Counter Catcher", 1, "Counter Gain", 2)
+    assert not _leave_last_counter_gain("Penny", 2, "Counter Gain", 1)
