@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 """Greedy Lillie's Determination on the locked Wiglett Mill.
 
-The starting 60 is SET_MILL_NAMES, which has zero copies. Each step replaces
-one copy of one other card with one Lillie's Determination. The search runs
-through four copies. The kept count is the one with the largest gain over the
-start under the 0-copy loss weights. This file does not assign SET_MILL_NAMES.
+The recorded search started from the zero-Determination Wiglett Mill. Each step
+replaces one copy of one other card with one Lillie's Determination and runs
+through four copies. The point estimate with the largest gain over that start
+is four copies. The fourth step is inside one combined standard error, and the
+lock keeps three: one Ignition Energy, Pichu, and Counter Catcher. Wugtrio
+stays at four. This file does not assign SET_MILL_NAMES.
 """
 
 from __future__ import annotations
@@ -842,9 +844,9 @@ def _markdown(report: dict) -> str:
         "",
         f"Printed sentence: \"{PRINTED}\"",
         "",
-        "The starting 60 is the locked Wiglett Mill, `SET_MILL_NAMES`, which has zero copies of this card. "
+        "The starting 60 is the Wiglett Mill before this card, four Hilda and zero Lillie's Determination. "
         "Mill's strategy already plays a Supporter the picker selects. "
-        "This search does not add a strategy branch and does not change the lock.",
+        "This search does not add a strategy branch. The lock written after the sample is the three-copy list.",
         "",
         f"- **Seed**: `{SEED}`",
         f"- **Games per seat**: {GAMES}",
@@ -966,7 +968,18 @@ def _markdown(report: dict) -> str:
         lines.append("")
         lines.append("This file records the sample. It does not assign `SET_MILL_NAMES`.")
         lines.append("")
-        lines.append("Counts on the kept list:")
+        locked = next(row for row in report["path"] if row["copies"] == 3)
+        lines.append(
+            "The lock is that three-copy list: one Ignition Energy, Pichu, and Counter Catcher. "
+            "Wugtrio stays at four. The fourth copy stays out of the lock."
+        )
+        lines.append("")
+        lines.append("Counts on the locked list:")
+        lines.append("")
+        for name, count in _counts(locked["names"]):
+            lines.append(f"- {name} ×{count}")
+        lines.append("")
+        lines.append("Counts on the four-copy sample list:")
         lines.append("")
         for name, count in _counts(best["names"]):
             lines.append(f"- {name} ×{count}")

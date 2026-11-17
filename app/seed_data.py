@@ -740,9 +740,15 @@ SET_DOLL_NAMES = (
 # to 33.125% and Set M from 26.750% to 25.250%. The four-Hilda list is
 # Mega Starmie 34.375% (−0.25) and Set M 32.250% (+5.50) against the
 # zero-Hilda list.
+# Lillie's Determination (2026-11-17). Seed 20261116, 400 games each seat,
+# both seats. Weights are that zero-Determination 60's own losses. The path
+# is 49.50%, 51.57%, 52.89%, 55.00%, 55.29%. Cuts on the path are one
+# Ignition Energy (3 → 2), Pichu, Counter Catcher, and one Wugtrio (4 → 3).
+# The first three steps are +2.08, +1.32, and +2.10 points, 2.02 to 3.20
+# combined standard errors. The fourth step is +0.29 points, 0.44 combined
+# standard errors, so Wugtrio stays at four. See data/lab/set-mill-determination.md.
 SET_MILL_NAMES = (
-    ["Pichu"]
-    + ["Mime Jr."]
+    ["Mime Jr."]
     + ["Cleffa"]
     + ["Wiglett"] * 4
     + ["Wugtrio"] * 4
@@ -754,7 +760,6 @@ SET_MILL_NAMES = (
     + ["Rescue Carrier"] * 3
     + ["Lillie's Poké Doll"]
     + ["Crushing Hammer"] * 4
-    + ["Counter Catcher"]
     + ["Miss Fortune Sisters"] * 2
     + ["Wally"] * 2
     + ["Igglybuff"]
@@ -762,9 +767,10 @@ SET_MILL_NAMES = (
     + ["Colress's Tenacity"] * 4
     + ["Double Turbo Energy"] * 4
     + ["Water Energy"] * 3
-    + ["Ignition Energy"] * 3
+    + ["Ignition Energy"] * 2
     + ["Reversal Energy"] * 4
     + ["Hilda"] * 4
+    + ["Lillie's Determination"] * 3
 )
 
 # Celebi ◇ Time Distortion + Lost Origin Chandelure. Lampent is Plasma Storm
