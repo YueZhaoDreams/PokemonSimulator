@@ -216,6 +216,11 @@ def _leave_last_counter_gain(incoming: str, count: int, cut: str, copies_before:
     return incoming == "Counter Catcher" and count == 2 and cut == "Counter Gain" and copies_before == 1
 
 
+def _leave_negative_second_penny(incoming: str, count: int, delta_prev: float) -> bool:
+    """A second Penny whose best cut is below one Penny is not kept."""
+    return incoming == "Penny" and count == 2 and delta_prev < 0
+
+
 def _copy_cap(name: str) -> int:
     """Four of a name, or the whole deck for basic Energy."""
     if is_basic_energy(fallback_named(name), pokemon_as_energy=False):
@@ -714,7 +719,9 @@ def _markdown(state: dict) -> str:
         "rate, then the higher worst active foe, then the cut that had more copies, then the name. "
         "A dip stays on the path. The second Counter Catcher does not cut the last Counter Gain. "
         "That list is measured, and when it is the best cut the swap is left untaken. "
-        "One Counter Catcher stays, and the next card starts from that list.",
+        "One Counter Catcher stays, and the next card starts from that list. "
+        "The second Penny is measured too. When its best cut is below one Penny, "
+        "copies 3 and 4 are not played. One Penny stays, and the next card starts from that list.",
         "",
         f"Seed {state['seed']}. {state['games']} games per seat. Both seats. "
         "Each cell starts a new `random.Random` at that seed and plays its games on that generator. "
@@ -1008,6 +1015,7 @@ def main() -> None:
         # path, including a dip. The card then keeps the highest rate.
         card_options = [(previous_rate, 0, list(current), previous_full)]
         left_last_gain = False
+        left_negative_penny = False
         for count in range(1, cap + 1):
             if current.count(incoming) >= cap:
                 break
@@ -1175,6 +1183,27 @@ def main() -> None:
                 _write(state)
                 print("leave the last Counter Gain; keep 1 Counter Catcher", flush=True)
                 break
+            if _leave_negative_second_penny(incoming, count, kept["delta_prev"]):
+                card_options.pop()
+                views.pop()
+                left_negative_penny = True
+                state["decision"] = (
+                    f"2 Penny would cut {kept['cut']} "
+                    f"({_pct(kept['weighted'])}, {_pp(kept['delta_prev'])} against one Penny). "
+                    "That cut is below one Penny, so it is not taken. "
+                    "Copies 3 and 4 are not played. One Penny stays, and the next card starts from that list."
+                )
+                kept_now = max(views, key=lambda item: _rate(item[2], weights))
+                state["kept_label"] = kept_now[0]
+                state["kept_list"] = list(kept_now[1])
+                state["kept_cells"] = {
+                    foe: {"a": _public_cell(kept_now[2][foe]["a"]), "b": _public_cell(kept_now[2][foe]["b"])}
+                    for foe in weights
+                }
+                state["elapsed_s"] = time.time() - started
+                _write(state)
+                print("leave the negative second Penny; keep 1 Penny", flush=True)
+                break
         best_rate, best_count, best_names, best_full = max(card_options, key=lambda item: (item[0], -item[1]))
         current = list(best_names)
         previous_full = best_full
@@ -1186,6 +1215,12 @@ def main() -> None:
                 f"After {incoming}, the card keeps {best_count} ({_pct(best_rate)}). "
                 "The second copy's best cut was the last Counter Gain, and that gain is too small, "
                 "so the cut is not taken. The next card starts from one Counter Catcher."
+            )
+        elif left_negative_penny:
+            state["decision"] = (
+                f"After {incoming}, the card keeps {best_count} ({_pct(best_rate)}). "
+                "The second copy's best cut is below one Penny, so it is not taken. "
+                "Copies 3 and 4 are not played. The next card starts from one Penny."
             )
         else:
             state["decision"] = (

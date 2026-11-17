@@ -514,3 +514,13 @@ def test_second_counter_catcher_leaves_the_last_counter_gain():
     assert not _leave_last_counter_gain("Counter Catcher", 2, "Energy Loto", 3)
     assert not _leave_last_counter_gain("Counter Catcher", 1, "Counter Gain", 2)
     assert not _leave_last_counter_gain("Penny", 2, "Counter Gain", 1)
+
+
+def test_second_penny_stops_when_its_best_cut_is_below_one_penny():
+    from data.lab.kecleon_greedy import _leave_negative_second_penny
+
+    assert _leave_negative_second_penny("Penny", 2, -0.0032)
+    assert not _leave_negative_second_penny("Penny", 2, 0.001)
+    assert not _leave_negative_second_penny("Penny", 2, 0.0)
+    assert not _leave_negative_second_penny("Penny", 1, -0.01)
+    assert not _leave_negative_second_penny("Jirachi-EX", 2, -0.01)
