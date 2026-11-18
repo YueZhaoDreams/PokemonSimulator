@@ -517,12 +517,82 @@ def test_second_counter_catcher_leaves_the_last_counter_gain():
 
 
 def test_penny_and_jirachi_stop_at_two_copies():
-    from data.lab.kecleon_greedy import _copy_cap
+    from data.lab.kecleon_greedy import INCOMING, _copy_cap
 
     assert _copy_cap("Penny") == 2
     assert _copy_cap("Jirachi-EX") == 2
     assert _copy_cap("Counter Catcher") == 4
     assert _copy_cap("Prism Energy") == 4
+    assert INCOMING[-2:] == ("Prism Energy", "Scoop Up Cyclone")
+    assert _copy_cap("Scoop Up Cyclone") == 1
+
+
+CYCLONE = (
+    "You can't have more than 1 ACE SPEC card in your deck.\n\n"
+    "Put 1 of your Pokémon and all attached cards into your hand."
+)
+
+
+def test_scoop_up_cyclone_sentence_returns_any_pokemon_with_attachments():
+    card = fallback_named("Scoop Up Cyclone")
+    assert card.catalog_id == "sv06-162"
+    assert card.trainer_kind == "item"
+    assert card.text == CYCLONE
+    assert "ace spec" in [trait.lower() for trait in card.traits]
+    assert parse_trainer_effects(CYCLONE) == [
+        {"kind": "return_pokemon_to_hand", "attachments": "hand"}
+    ]
+    assert parse_trainer_effects(PENNY) == [
+        {"kind": "return_pokemon_to_hand", "basic_only": True, "attachments": "hand"}
+    ]
+    plasma = "Put 1 of your Pokémon and all cards attached to it into your hand."
+    assert all(effect.get("kind") != "return_pokemon_to_hand" for effect in parse_trainer_effects(plasma))
+
+
+def test_scoop_up_cyclone_returns_hoopa_while_the_deck_has_another_ex():
+    game = _game()
+    me = game.players["a"]
+    kecleon = _idx(me, "Kecleon")
+    hoopa = _idx(me, "Hoopa-EX")
+    mega = _idx(me, "M Gardevoir-EX")
+    cyclone = _idx(me, "Switch")
+    me.cards[cyclone] = fallback_named("Scoop Up Cyclone")
+    me.active = Pokemon(card_i=kecleon, played_turn=0)
+    me.bench = [
+        Pokemon(card_i=hoopa, played_turn=0),
+        Pokemon(card_i=mega, played_turn=0, damage=40),
+    ]
+    me.hand = [cyclone]
+    used = {kecleon, hoopa, mega, cyclone}
+    me.deck = [i for i in range(len(me.cards)) if i not in used]
+    me.discard = []
+    game._play_trainers(me, game.players["b"], "a")
+    assert hoopa in me.hand
+    assert cyclone in me.discard
+    assert any(me.card(mon.card_i).name == "M Gardevoir-EX" for mon in me.in_play())
+    assert game.events.get("bounce_a:Scoop Up Cyclone") == 1
+
+
+def test_scoop_up_cyclone_returns_a_damaged_mega_and_its_energy():
+    game = _game()
+    me = game.players["a"]
+    kecleon = _idx(me, "Kecleon")
+    mega = _idx(me, "M Gardevoir-EX")
+    energy = _idx(me, "Psychic Energy")
+    cyclone = _idx(me, "Switch")
+    me.cards[cyclone] = fallback_named("Scoop Up Cyclone")
+    me.active = Pokemon(card_i=kecleon, played_turn=0, damage=10)
+    me.bench = [Pokemon(card_i=mega, played_turn=0, damage=30, energy=[energy])]
+    me.hand = [cyclone]
+    used = {kecleon, mega, energy, cyclone}
+    me.deck = [i for i in range(len(me.cards)) if i not in used and me.card(i).name != "Hoopa-EX"]
+    me.discard = []
+    game._play_trainers(me, game.players["b"], "a")
+    assert mega in me.hand
+    assert energy in me.hand
+    assert kecleon == me.active.card_i
+    assert cyclone in me.discard
+    assert game.events.get("bounce_a:Scoop Up Cyclone") == 1
 
 
 def test_second_penny_stops_when_its_best_cut_is_below_one_penny():

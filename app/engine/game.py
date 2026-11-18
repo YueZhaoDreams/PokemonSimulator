@@ -1832,9 +1832,17 @@ class Game:
                 forced_bounce = True
             elif strat.name == "kecleon" and self._is_bounce_supporter(card):
                 # Penny: "Put 1 of your Basic Pokémon and all attached cards into your hand."
-                # Hoopa-EX comes back so Scoundrel Ring can search again. A damaged Basic
-                # comes back when that replay is not available.
-                self._forced_bounce_target = self._kecleon_penny_target(me)
+                # Scoop Up Cyclone: "Put 1 of your Pokémon and all attached cards into your hand."
+                # Hoopa-EX comes back so Scoundrel Ring can search again. Penny then takes a
+                # damaged Basic. Cyclone takes a damaged Pokémon that is not Basic.
+                effects = parse_trainer_effects(card.text or "")
+                any_pokemon = any(
+                    eff.get("kind") == "return_pokemon_to_hand" and not eff.get("basic_only")
+                    for eff in effects
+                )
+                self._forced_bounce_target = (
+                    self._kecleon_cyclone_target(me) if any_pokemon else self._kecleon_penny_target(me)
+                )
                 forced_bounce = True
             try:
                 self._resolve_trainer(me, foe, card, who=who, card_i=found)
@@ -4740,6 +4748,10 @@ class Game:
             # Below Teammates after a Knock Out. Above Arven when Hoopa can search again
             # or a damaged Basic would return to hand.
             return 32.0 if self._kecleon_penny_target(me) is not None else -20.0
+        if name == "scoop up cyclone":
+            # Item, so it does not spend the Supporter. Above Arven when the
+            # printed line has a Pokémon to return.
+            return 30.0 if self._kecleon_cyclone_target(me) is not None else -20.0
         if name == "energy retrieval":
             basics = sum(1 for i in me.discard if is_basic_energy(me.card(i)))
             return 10.0 if basics else -15.0
@@ -4777,6 +4789,37 @@ class Game:
         damaged = [mon for mon in basics if mon.damage > 0]
         if not damaged:
             return None
+        hand_types: set[str] = set()
+        for idx in me.hand:
+            card = me.card(idx)
+            if card.is_pokemon:
+                hand_types.update(card.types or [])
+
+        def adds(mon: Pokemon) -> int:
+            return len(set(me.card(mon.card_i).types or []) - hand_types)
+
+        return max(damaged, key=lambda mon: (adds(mon), mon.damage))
+
+    def _kecleon_cyclone_target(self, me: Player) -> Pokemon | None:
+        """Scoop Up Cyclone returns one Pokémon and every card attached to it.
+
+        Replay Hoopa-EX while the deck still has another Pokémon-EX. Otherwise
+        return a damaged Pokémon that is not Basic. A damaged Basic stays for
+        Penny while Penny is in hand.
+        """
+        if len(me.in_play()) < 2:
+            return None
+        hoopas = [mon for mon in me.in_play() if me.card(mon.card_i).name.lower() == "hoopa-ex"]
+        deck_ex = any(
+            host_is_gx_or_hyphen_ex(me.card(i)) and me.card(i).name.lower() != "hoopa-ex" for i in me.deck
+        )
+        if hoopas and deck_ex:
+            return max(hoopas, key=lambda mon: mon.damage)
+        damaged = [mon for mon in me.in_play() if mon.damage > 0 and not me.card(mon.card_i).is_basic]
+        if not damaged:
+            if self._first_named(me, "Penny") is not None:
+                return None
+            return self._kecleon_penny_target(me)
         hand_types: set[str] = set()
         for idx in me.hand:
             card = me.card(idx)

@@ -76,7 +76,7 @@ from app.seed_data import (
 SEED = 20261116
 GAMES = 400
 WORKERS = int(os.environ.get("KECLEON_GREEDY_WORKERS", str(os.cpu_count() or 2)))
-INCOMING = ("Counter Catcher", "Penny", "Jirachi-EX", "Prism Energy")
+INCOMING = ("Counter Catcher", "Penny", "Jirachi-EX", "Prism Energy", "Scoop Up Cyclone")
 COPY_CAP = 4
 SUBJECT = "kecleon"
 
@@ -145,6 +145,7 @@ EVENT_KEYS = (
     "colorful_whip",
     "colorful_whip_types",
     "prism_any",
+    "bounce_cyclone",
 )
 
 # Same buckets as data/lab/set_doll_losses.py _kind.
@@ -223,7 +224,12 @@ def _leave_negative_second_penny(incoming: str, count: int, delta_prev: float) -
 
 
 def _copy_cap(name: str) -> int:
-    """Penny and Jirachi-EX stop at two. Basic Energy can fill the deck."""
+    """Penny and Jirachi-EX stop at two. Scoop Up Cyclone is added once.
+
+    Basic Energy can fill the deck.
+    """
+    if name == "Scoop Up Cyclone":
+        return 1
     if name in {"Penny", "Jirachi-EX"}:
         return 2
     if is_basic_energy(fallback_named(name), pokemon_as_energy=False):
@@ -434,6 +440,7 @@ def _run(names: tuple[str, ...], foe: dict, seat: str, games: int, seed: int) ->
         events["colorful_whip"] += int(ev.get("colorful_whip", 0))
         events["colorful_whip_types"] += int(ev.get("colorful_whip_types", 0))
         events["prism_any"] += int(ev.get(f"prism_any_{seat}", 0))
+        events["bounce_cyclone"] += int(ev.get(f"bounce_{seat}:Scoop Up Cyclone", 0))
         _outcome, kind = _kind(result, seat)
         reasons[kind] += 1
     return {"wins": wins, "games": games, "events": dict(events), "reasons": dict(reasons)}
@@ -680,6 +687,7 @@ def _reason(
         "Counter Catcher": "counter_catcher",
         "Penny": "bounce_penny",
         "Jirachi-EX": "stellar_guidance",
+        "Scoop Up Cyclone": "bounce_cyclone",
     }.get(incoming)
     fired = _share(after, weights, own, "events") if own else 0.0
     before_fired = _share(before, weights, own, "events") if own else 0.0
@@ -714,6 +722,7 @@ def _markdown(state: dict) -> str:
         + ", ".join(state["incoming"])
         + ". "
         "Counter Catcher and Prism Energy are added through 4. Penny and Jirachi-EX stop at 2. "
+        "Scoop Up Cyclone is added once, after Prism Energy. "
         "Basic Energy can fill the deck. The next copy is built on the list that just added a copy. "
         "After those counts, that card keeps the count with the highest 0-copy weighted rate, "
         "and the next card starts from that count. The list before the card is one of the counts. "
@@ -787,16 +796,16 @@ def _markdown(state: dict) -> str:
     lines.extend(["", "## Path", ""])
     lines.append(
         "| Step | Card in | Cut | Weighted | SE | Unweighted | Worst | Δ start | Δ previous | "
-        "Catcher | Penny | Jirachi | Whip | Prism |"
+        "Catcher | Penny | Jirachi | Whip | Prism | Cyclone |"
     )
-    lines.append("| :--- | :--- | :--- | ---: | ---: | ---: | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |")
+    lines.append("| :--- | :--- | :--- | ---: | ---: | ---: | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |")
     for row in state["path"]:
         lines.append(
             f"| {row['step']} | {row['incoming']} | {row['cut']} | {_pct(row['weighted'])} | {_pct(row['se'])} | "
             f"{_pct(row['unweighted'])} | {labels[row['worst_foe']]} {_pct(row['worst'])} | "
             f"{_pp(row['delta_start'])} | {_pp(row['delta_prev'])} | {row['counter_catcher']:.3f} | "
             f"{row['bounce_penny']:.3f} | {row['stellar_guidance']:.3f} | {row['colorful_whip']:.3f} | "
-            f"{row.get('prism_any', 0):.3f} |"
+            f"{row.get('prism_any', 0):.3f} | {row.get('bounce_cyclone', 0):.3f} |"
         )
     lines.extend(["", "## Decision", ""])
     lines.append(state["decision"])
@@ -876,6 +885,7 @@ def _snapshot(names: list[str], view: dict[str, dict], weights: dict[str, float]
         "stellar_guidance": _share(view, weights, "stellar_guidance", "events"),
         "colorful_whip": _share(view, weights, "colorful_whip", "events"),
         "prism_any": _share(view, weights, "prism_any", "events"),
+        "bounce_cyclone": _share(view, weights, "bounce_cyclone", "events"),
         "cells": {foe: {"a": _public_cell(view[foe]["a"]), "b": _public_cell(view[foe]["b"])} for foe in weights},
     }
 
@@ -997,6 +1007,7 @@ def main() -> None:
             **{key: snap[key] for key in (
                 "weighted", "se", "unweighted", "worst", "worst_foe", "delta_start", "delta_prev",
                 "counter_catcher", "bounce_penny", "stellar_guidance", "colorful_whip", "prism_any",
+                "bounce_cyclone",
             )},
         }
     ]
@@ -1133,6 +1144,7 @@ def main() -> None:
                     "stellar_guidance": _share(kept_view, weights, "stellar_guidance", "events"),
                     "colorful_whip": _share(kept_view, weights, "colorful_whip", "events"),
                     "prism_any": _share(kept_view, weights, "prism_any", "events"),
+                    "bounce_cyclone": _share(kept_view, weights, "bounce_cyclone", "events"),
                 }
             )
             current = list(kept["names"])

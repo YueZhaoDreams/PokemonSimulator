@@ -1740,6 +1740,17 @@ _register(
 )
 _register(
     _trn(
+        "Scoop Up Cyclone",
+        "item",
+        "You can't have more than 1 ACE SPEC card in your deck.\n\n"
+        "Put 1 of your Pokémon and all attached cards into your hand.",
+        catalog_id="sv06-162",
+        image="https://assets.tcgdex.net/en/sv/sv06/162/low.webp",
+        traits=["ace spec"],
+    )
+)
+_register(
+    _trn(
         "Pokégear 3.0",
         "item",
         "Look at the top 7 cards of your deck. You may reveal a Supporter card you find there and put it into your hand. Shuffle the other cards back into your deck.",

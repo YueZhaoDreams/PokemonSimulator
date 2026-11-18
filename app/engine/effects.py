@@ -1789,6 +1789,13 @@ def _return_pokemon_to_hand_effect(t: str) -> dict[str, Any] | None:
             "basic_only": True,
             "attachments": "hand",
         }
+    # Twilight Masquerade 162 Scoop Up Cyclone. Penny says Basic. Plasma Blast 95
+    # says "all cards attached to it", which is a different sentence.
+    if "put 1 of your pokemon and all attached cards into your hand" in t:
+        return {
+            "kind": "return_pokemon_to_hand",
+            "attachments": "hand",
+        }
     if "damage counter" in t and "attached" in t and "colorless" in t and "put 1 of your" in t:
         return {
             "kind": "return_pokemon_to_hand",
