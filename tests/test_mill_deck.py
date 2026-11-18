@@ -137,8 +137,8 @@ class _Board:
 def test_mill_list_is_the_locked_60():
     names = list(SET_MILL_NAMES)
     assert len(names) == 60
-    assert names.count("Pichu") == 0
-    assert names.count("Lillie's Determination") == 3
+    assert names.count("Pichu") == 1
+    assert names.count("Lillie's Determination") == 2
     assert names.count("Mime Jr.") == 1
     assert names.count("Smoochum") == 0
     assert names.count("Rellor") == 0
@@ -184,10 +184,12 @@ def test_mill_list_is_the_locked_60():
     assert [c.attacks[0].name for c in pile if c.name == "Cleffa"] == ["Eeeeeeek"]
     assert [c.catalog_id for c in pile if c.name == "Manaphy"] == []
     assert [c.catalog_id for c in pile if c.name == "Hilda"] == ["sv10.5w-084"] * 4
-    assert [c.catalog_id for c in pile if c.name == "Lillie's Determination"] == ["me01-119"] * 3
+    assert [c.catalog_id for c in pile if c.name == "Pichu"] == ["hgss1-28"]
+    assert [c.attacks[0].name for c in pile if c.name == "Pichu"] == ["Playground"]
+    assert [c.catalog_id for c in pile if c.name == "Lillie's Determination"] == ["me01-119"] * 2
     assert [c.text for c in pile if c.name == "Lillie's Determination"] == [
         "Shuffle your hand into your deck. Then, draw 6 cards. If you have exactly 6 Prize cards remaining, draw 8 cards instead."
-    ] * 3
+    ] * 2
     assert [c.catalog_id for c in pile if c.name == "Igglybuff"] == ["sm12-168"]
     assert [c.abilities[0].name for c in pile if c.name == "Igglybuff"] == ["Sleepy Voice"]
     assert [c.catalog_id for c in pile if c.name == "Lillie's Poké Doll"] == ["sm12-197"]
