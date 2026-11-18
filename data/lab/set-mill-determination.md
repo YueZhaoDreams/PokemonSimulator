@@ -4,7 +4,7 @@ Each step replaces one copy of one other card with one Lillie's Determination. T
 
 Printed sentence: "Shuffle your hand into your deck. Then, draw 6 cards. If you have exactly 6 Prize cards remaining, draw 8 cards instead."
 
-The starting 60 is the Wiglett Mill before this card, four Hilda and zero Lillie's Determination. Mill's strategy already plays a Supporter the picker selects. This search does not add a strategy branch. The lock written after the sample is the three-copy list.
+The starting 60 is the Wiglett Mill before this card, four Hilda and zero Lillie's Determination. Mill's strategy already plays a Supporter the picker selects. This search does not add a strategy branch. The three-copy list was the first lock. Playtesting put Pichu back and kept two copies.
 
 - **Seed**: `20261116`
 - **Games per seat**: 400
@@ -94,9 +94,36 @@ Each step took the best cut on this seed, so that path sits a little high. Conti
 
 This file records the sample. It does not assign `SET_MILL_NAMES`.
 
-The lock is that three-copy list: one Ignition Energy, Pichu, and Counter Catcher. Wugtrio stays at four. The fourth copy stays out of the lock.
+The first lock was that three-copy list: one Ignition Energy, Pichu, and Counter Catcher, with Wugtrio at four. Playtesting that list was too easy to wipe, so the live lock puts Pichu back and keeps two Lillie's Determination. Ignition Energy stays at two, Counter Catcher stays out, and Wugtrio stays at four.
 
-Counts on the locked list:
+Counts on the live lock:
+
+- Mime Jr. ×1
+- Cleffa ×1
+- Wiglett ×4
+- Wugtrio ×4
+- Victini ×1
+- Slumbering Forest ×1
+- Neutralization Zone ×1
+- Buddy-Buddy Poffin ×4
+- Level Ball ×4
+- Rescue Carrier ×3
+- Lillie's Poké Doll ×1
+- Crushing Hammer ×4
+- Miss Fortune Sisters ×2
+- Wally ×2
+- Igglybuff ×1
+- Team Rocket's Handiwork ×2
+- Colress's Tenacity ×4
+- Double Turbo Energy ×4
+- Water Energy ×3
+- Ignition Energy ×2
+- Reversal Energy ×4
+- Hilda ×4
+- Lillie's Determination ×2
+- Pichu ×1
+
+Counts on the three-copy sample list:
 
 - Mime Jr. ×1
 - Cleffa ×1

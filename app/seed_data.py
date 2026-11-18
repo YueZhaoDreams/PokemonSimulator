@@ -747,8 +747,12 @@ SET_DOLL_NAMES = (
 # The first three steps are +2.08, +1.32, and +2.10 points, 2.02 to 3.20
 # combined standard errors. The fourth step is +0.29 points, 0.44 combined
 # standard errors, so Wugtrio stays at four. See data/lab/set-mill-determination.md.
+# Playtest (2026-11-18). That three-copy list was easy to wipe, so Pichu
+# returns and Lillie's Determination goes from three to two. Ignition Energy
+# stays at two, Counter Catcher stays out, and Wugtrio stays at four.
 SET_MILL_NAMES = (
-    ["Mime Jr."]
+    ["Pichu"]
+    + ["Mime Jr."]
     + ["Cleffa"]
     + ["Wiglett"] * 4
     + ["Wugtrio"] * 4
@@ -770,7 +774,7 @@ SET_MILL_NAMES = (
     + ["Ignition Energy"] * 2
     + ["Reversal Energy"] * 4
     + ["Hilda"] * 4
-    + ["Lillie's Determination"] * 3
+    + ["Lillie's Determination"] * 2
 )
 
 # Celebi ◇ Time Distortion + Lost Origin Chandelure. Lampent is Plasma Storm

@@ -4,9 +4,11 @@
 The recorded search started from the zero-Determination Wiglett Mill. Each step
 replaces one copy of one other card with one Lillie's Determination and runs
 through four copies. The point estimate with the largest gain over that start
-is four copies. The fourth step is inside one combined standard error, and the
-lock keeps three: one Ignition Energy, Pichu, and Counter Catcher. Wugtrio
-stays at four. This file does not assign SET_MILL_NAMES.
+is four copies. The fourth step is inside one combined standard error.
+Playtesting the three-copy list was too easy to wipe, so the live lock puts
+Pichu back and keeps two Lillie's Determination. Ignition Energy stays at two,
+Counter Catcher stays out, and Wugtrio stays at four. This file does not
+assign SET_MILL_NAMES.
 """
 
 from __future__ import annotations
@@ -846,7 +848,8 @@ def _markdown(report: dict) -> str:
         "",
         "The starting 60 is the Wiglett Mill before this card, four Hilda and zero Lillie's Determination. "
         "Mill's strategy already plays a Supporter the picker selects. "
-        "This search does not add a strategy branch. The lock written after the sample is the three-copy list.",
+        "This search does not add a strategy branch. "
+        "The three-copy list was the first lock. Playtesting put Pichu back and kept two copies.",
         "",
         f"- **Seed**: `{SEED}`",
         f"- **Games per seat**: {GAMES}",
@@ -968,15 +971,25 @@ def _markdown(report: dict) -> str:
         lines.append("")
         lines.append("This file records the sample. It does not assign `SET_MILL_NAMES`.")
         lines.append("")
-        locked = next(row for row in report["path"] if row["copies"] == 3)
+        sample3 = next(row for row in report["path"] if row["copies"] == 3)
+        revised = list(sample3["names"])
+        revised.remove("Lillie's Determination")
+        revised.append("Pichu")
         lines.append(
-            "The lock is that three-copy list: one Ignition Energy, Pichu, and Counter Catcher. "
-            "Wugtrio stays at four. The fourth copy stays out of the lock."
+            "The first lock was that three-copy list: one Ignition Energy, Pichu, and Counter Catcher, "
+            "with Wugtrio at four. Playtesting that list was too easy to wipe, so the live lock puts "
+            "Pichu back and keeps two Lillie's Determination. Ignition Energy stays at two, "
+            "Counter Catcher stays out, and Wugtrio stays at four."
         )
         lines.append("")
-        lines.append("Counts on the locked list:")
+        lines.append("Counts on the live lock:")
         lines.append("")
-        for name, count in _counts(locked["names"]):
+        for name, count in _counts(revised):
+            lines.append(f"- {name} ×{count}")
+        lines.append("")
+        lines.append("Counts on the three-copy sample list:")
+        lines.append("")
+        for name, count in _counts(sample3["names"]):
             lines.append(f"- {name} ×{count}")
         lines.append("")
         lines.append("Counts on the four-copy sample list:")

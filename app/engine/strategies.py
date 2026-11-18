@@ -836,7 +836,7 @@ STRATEGY_LIBRARY = {
     "mill": StrategySpec(
         name="mill",
         description=(
-            "Sisters shell plus one sleep wall. Pichu is out of this lock. One Mime Jr., "
+            "Sisters shell plus one sleep wall. One Pichu, one Mime Jr., "
             "one HeartGold & SoulSilver Cleffa, and one Cosmic Eclipse Igglybuff. "
             "Manaphy is out of this lock. Boss's Orders is out of this lock. "
             "Counter Catcher is out of this lock. Level Ball ×4, Poffin ×4. "
@@ -869,7 +869,7 @@ STRATEGY_LIBRARY = {
             "Wiglett, including a Wiglett played this turn and the first turn. "
             "Four Level Balls find that Wugtrio. A Nest Ball in hand waits while Wugtrio is still in the deck. "
             "Four Hilda search the deck for an Evolution Pokémon and an Energy card. "
-            "Three Lillie's Determination shuffle the hand into the deck and draw 6, "
+            "Two Lillie's Determination shuffle the hand into the deck and draw 6, "
             "or 8 when exactly 6 Prize cards remain. "
             "Mill takes Wugtrio, and the Energy that pays Undersea: Reversal Energy while more "
             "Prize cards remain, otherwise Ignition Energy, then Double Turbo Energy. "
