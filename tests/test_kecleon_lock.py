@@ -516,6 +516,15 @@ def test_second_counter_catcher_leaves_the_last_counter_gain():
     assert not _leave_last_counter_gain("Penny", 2, "Counter Gain", 1)
 
 
+def test_penny_and_jirachi_stop_at_two_copies():
+    from data.lab.kecleon_greedy import _copy_cap
+
+    assert _copy_cap("Penny") == 2
+    assert _copy_cap("Jirachi-EX") == 2
+    assert _copy_cap("Counter Catcher") == 4
+    assert _copy_cap("Prism Energy") == 4
+
+
 def test_second_penny_stops_when_its_best_cut_is_below_one_penny():
     from data.lab.kecleon_greedy import _leave_negative_second_penny
 

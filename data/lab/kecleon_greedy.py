@@ -3,10 +3,11 @@
 
 The locked SET_KECLEON_NAMES list is not edited. The sample starts from that
 lock with Battle Compressor and Boss's Orders removed and two Latias ex added.
-Counter Catcher, Penny, Jirachi-EX, and Prism Energy each walk from one copy
-through four. The next copy is built on the list that just added a copy. After
-those counts, that card keeps the count with the highest 0-copy weighted rate,
-and the next card starts there. A dip stays on the path.
+Counter Catcher and Prism Energy walk from one copy through four. Penny keeps
+two: its third copy was measured and is not taken. Jirachi-EX walks through two.
+The next copy is built on the list that just added a copy. After those counts,
+that card keeps the count with the highest 0-copy weighted rate, and the next
+card starts there. A dip stays on the path.
 
 Seed 20261116. 400 games a seat. Both seats. Each cell starts at
 random.Random(20261116). Weights are the 0-copy loss rates. Later games use
@@ -222,7 +223,9 @@ def _leave_negative_second_penny(incoming: str, count: int, delta_prev: float) -
 
 
 def _copy_cap(name: str) -> int:
-    """Four of a name, or the whole deck for basic Energy."""
+    """Penny and Jirachi-EX stop at two. Basic Energy can fill the deck."""
+    if name in {"Penny", "Jirachi-EX"}:
+        return 2
     if is_basic_energy(fallback_named(name), pokemon_as_energy=False):
         return 60
     return COPY_CAP
@@ -710,8 +713,8 @@ def _markdown(state: dict) -> str:
         "The cards come in, in this order: "
         + ", ".join(state["incoming"])
         + ". "
-        "Each card is added one copy at a time through 4, or through the whole deck when the "
-        "card is basic Energy. The next copy is built on the list that just added a copy. "
+        "Counter Catcher and Prism Energy are added through 4. Penny and Jirachi-EX stop at 2. "
+        "Basic Energy can fill the deck. The next copy is built on the list that just added a copy. "
         "After those counts, that card keeps the count with the highest 0-copy weighted rate, "
         "and the next card starts from that count. The list before the card is one of the counts. "
         "Every other name still in the list is a cut. The incoming card is not cut while its own "
@@ -720,8 +723,8 @@ def _markdown(state: dict) -> str:
         "A dip stays on the path. The second Counter Catcher does not cut the last Counter Gain. "
         "That list is measured, and when it is the best cut the swap is left untaken. "
         "One Counter Catcher stays, and the next card starts from that list. "
-        "The second Penny is measured too. When its best cut is below one Penny, "
-        "copies 3 and 4 are not played. One Penny stays, and the next card starts from that list.",
+        "Penny keeps two copies. Copy 3, cutting Counter Catcher, measured 53.35% and is not kept. "
+        "Jirachi-EX is added at most twice. The next card starts from two Penny.",
         "",
         f"Seed {state['seed']}. {state['games']} games per seat. Both seats. "
         "Each cell starts a new `random.Random` at that seed and plays its games on that generator. "
@@ -1215,6 +1218,12 @@ def main() -> None:
                 f"After {incoming}, the card keeps {best_count} ({_pct(best_rate)}). "
                 "The second copy's best cut was the last Counter Gain, and that gain is too small, "
                 "so the cut is not taken. The next card starts from one Counter Catcher."
+            )
+        elif incoming == "Penny" and best_count == 2:
+            state["decision"] = (
+                f"After Penny, the card keeps 2 ({_pct(best_rate)}). "
+                "Copy 3 measured a cut of Counter Catcher at 53.35% and is not kept. "
+                "The next card starts from two Penny."
             )
         elif left_negative_penny:
             state["decision"] = (
