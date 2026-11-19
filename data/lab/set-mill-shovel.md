@@ -80,6 +80,10 @@ Delta start is against the 0-copy list. Delta step is against the previous count
 | 3 | Wally | 51.90% | 0.48% | 67.69% | 18.75% | +1.25% | -0.53% | 21.97 | 0.54 | 1.09 |
 | 4 | Crushing Hammer | 52.47% | 0.48% | 68.11% | 20.00% | +1.82% | +0.57% | 21.99 | 0.68 | 1.41 |
 
+## Lock
+
+The search keeps four copies because that unrounded rate is the highest. The locked list is one Cursed Shovel in place of one Buddy-Buddy Poffin. That is the one-copy row: 52.47% against the start at 50.65% (+1.82%, 2.74 combined standard errors). Four copies print the same rate and lead that row by 0.0048 percentage points. `SET_MILL_NAMES` is the one-copy list.
+
 ## Decision
 
 Kept count is 4 Cursed Shovel: weighted 52.47% against the start at 50.65% (+1.82%, gap SE 0.66%, 2.75 combined standard errors).

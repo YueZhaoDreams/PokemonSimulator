@@ -750,6 +750,12 @@ SET_DOLL_NAMES = (
 # Playtest (2026-11-18). That three-copy list was easy to wipe, so Pichu
 # returns and Lillie's Determination goes from three to two. Ignition Energy
 # stays at two, Counter Catcher stays out, and Wugtrio stays at four.
+# Cursed Shovel (2026-11-19). Seed 20261118, 400 games each seat, both seats.
+# Weights are that zero-Shovel 60's own losses. One copy, cutting one
+# Buddy-Buddy Poffin, is 52.47% against the start at 50.65% (+1.82 points,
+# 2.74 combined standard errors). Copies 2 and 3 dip. Copy 4 prints the same
+# 52.47% and leads the one-copy list by 0.0048 points, inside the gap
+# standard error. The lock is that one copy. See data/lab/set-mill-shovel.md.
 SET_MILL_NAMES = (
     ["Pichu"]
     + ["Mime Jr."]
@@ -759,7 +765,8 @@ SET_MILL_NAMES = (
     + ["Victini"]
     + ["Slumbering Forest"]
     + ["Neutralization Zone"]
-    + ["Buddy-Buddy Poffin"] * 4
+    + ["Cursed Shovel"]
+    + ["Buddy-Buddy Poffin"] * 3
     + ["Level Ball"] * 4
     + ["Rescue Carrier"] * 3
     + ["Lillie's Poké Doll"]
