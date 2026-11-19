@@ -633,6 +633,18 @@ def _signed(value: float) -> str:
     return f"{value:+.2%}"
 
 
+def _higher_count(later_copies: int, later_gain: float, earlier_copies: int, earlier_gain: float) -> str:
+    line = (
+        f"Copy {later_copies} gains {_signed(later_gain)} over the start. "
+        f"Copy {earlier_copies} gains {_signed(earlier_gain)}. The higher count gained more."
+    )
+    if _signed(later_gain) == _signed(earlier_gain):
+        line += (
+            f" Unrounded, copy {later_copies} leads by {later_gain - earlier_gain:+.4%}."
+        )
+    return line
+
+
 def _se_text(delta: float, se: float) -> str:
     ratio = _ratio(delta, se)
     if ratio is None:
@@ -734,9 +746,7 @@ def _paragraph(row: dict, entering: dict, start: dict, path: list[dict], foes: d
     for item in earlier:
         if row["delta_start"] > item["delta_start"] + 1e-12:
             lines.append(
-                f"Copy {row['copies']} gains {_signed(row['delta_start'])} over the start. "
-                f"Copy {item['copies']} gains {_signed(item['delta_start'])}. "
-                "The higher count gained more."
+                _higher_count(row["copies"], row["delta_start"], item["copies"], item["delta_start"])
             )
             break
     for item in earlier:
@@ -956,10 +966,7 @@ def _markdown(report: dict) -> str:
             if copies == 0 or copies == best["copies"]:
                 continue
             if best["delta_start"] > gain + 1e-12 and best["copies"] > copies:
-                lines.append(
-                    f"Copy {best['copies']} gains {_signed(best['delta_start'])} over the start. "
-                    f"Copy {copies} gains {_signed(gain)}. The higher count gained more."
-                )
+                lines.append(_higher_count(best["copies"], best["delta_start"], copies, gain))
         lines.append("")
         if best["copies"] > 0 and best["gap_se_prev"] > 0 and abs(best["delta_prev"]) < best["gap_se_prev"]:
             lines.append(
