@@ -152,7 +152,8 @@ def test_mill_list_is_the_locked_60():
     assert names.count("Victini") == 1
     assert names.count("Slumbering Forest") == 1
     assert names.count("Neutralization Zone") == 1
-    assert names.count("Buddy-Buddy Poffin") == 4
+    assert names.count("Buddy-Buddy Poffin") == 3
+    assert names.count("Cursed Shovel") == 1
     assert names.count("Nest Ball") == 0
     assert names.count("Level Ball") == 4
     assert names.count("Rescue Carrier") == 3
@@ -193,6 +194,11 @@ def test_mill_list_is_the_locked_60():
     assert [c.catalog_id for c in pile if c.name == "Igglybuff"] == ["sm12-168"]
     assert [c.abilities[0].name for c in pile if c.name == "Igglybuff"] == ["Sleepy Voice"]
     assert [c.catalog_id for c in pile if c.name == "Lillie's Poké Doll"] == ["sm12-197"]
+    assert [c.catalog_id for c in pile if c.name == "Cursed Shovel"] == ["swsh2-157"]
+    assert [c.text for c in pile if c.name == "Cursed Shovel"] == [
+        "If the Pokémon this card is attached to is Knocked Out by damage from an opponent's attack, "
+        "discard the top 2 cards of your opponent's deck."
+    ]
     assert [c.hp for c in pile if c.name == "Lillie's Poké Doll"] == [30]
     assert fallback_named("Mime Jr.").catalog_id == "sv04.5-031"
     assert fallback_named("Mime Jr.").attacks[0].name == "Mimed Games"

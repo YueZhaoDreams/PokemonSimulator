@@ -27197,10 +27197,10 @@
         "traits": []
       },
       {
-        "catalog_id": "sv05-144",
-        "name": "Buddy-Buddy Poffin",
+        "catalog_id": "swsh2-157",
+        "name": "Cursed Shovel",
         "category": "Trainer",
-        "stage": "Item",
+        "stage": "Tool",
         "types": [],
         "hp": 0,
         "attacks": [],
@@ -27209,11 +27209,11 @@
         "resistances": [],
         "retreat": 0,
         "evolves_from": null,
-        "trainer_kind": "item",
+        "trainer_kind": "tool",
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv05/144/low.webp",
+        "image": "https://assets.tcgdex.net/en/swsh/swsh2/157/low.webp",
         "set_name": null,
-        "text": "Search your deck for up to 2 Basic Pok\u00e9mon with 70 HP or less and put them onto your Bench. Then, shuffle your deck.",
+        "text": "If the Pok\u00e9mon this card is attached to is Knocked Out by damage from an opponent's attack, discard the top 2 cards of your opponent's deck.",
         "dex_id": null,
         "traits": []
       },
