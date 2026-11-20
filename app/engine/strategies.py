@@ -1018,6 +1018,8 @@ STRATEGY_LIBRARY = {
             "Pokémon in play have no Retreat Cost, so the Whip body can come Active after a KO. "
             "Penny returns a Basic, including Hoopa-EX, so the search can happen again. "
             "Scoop Up Cyclone returns any one Pokémon and the cards attached to it. "
+            "It replays Hoopa-EX while another Pokémon-EX is in the deck, and replays "
+            "Jirachi-EX while a Supporter is in the deck. "
             "Jirachi-EX, played from the hand, searches a Supporter for the board. "
             "Prism Energy, on a Basic, provides every type but only 1 Energy at a time, "
             "so Kecleon, Druddigon, and Fezandipiti ex can share that one copy."

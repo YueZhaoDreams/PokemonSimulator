@@ -1833,7 +1833,8 @@ class Game:
             elif strat.name == "kecleon" and self._is_bounce_supporter(card):
                 # Penny: "Put 1 of your Basic Pokémon and all attached cards into your hand."
                 # Scoop Up Cyclone: "Put 1 of your Pokémon and all attached cards into your hand."
-                # Hoopa-EX comes back so Scoundrel Ring can search again. Penny then takes a
+                # Hoopa-EX comes back so Scoundrel Ring can search again. Jirachi-EX comes
+                # back so Stellar Guidance can search a Supporter. Penny then takes a
                 # damaged Basic. Cyclone takes a damaged Pokémon that is not Basic.
                 effects = parse_trainer_effects(card.text or "")
                 any_pokemon = any(
@@ -4803,9 +4804,10 @@ class Game:
     def _kecleon_cyclone_target(self, me: Player) -> Pokemon | None:
         """Scoop Up Cyclone returns one Pokémon and every card attached to it.
 
-        Replay Hoopa-EX while the deck still has another Pokémon-EX. Otherwise
-        return a damaged Pokémon that is not Basic. A damaged Basic stays for
-        Penny while Penny is in hand.
+        Replay Hoopa-EX while the deck still has another Pokémon-EX. Replay
+        Jirachi-EX while the deck still has a Supporter, so Stellar Guidance
+        can search again. Otherwise return a damaged Pokémon that is not Basic.
+        A damaged Basic stays for Penny while Penny is in hand.
         """
         if len(me.in_play()) < 2:
             return None
@@ -4815,6 +4817,10 @@ class Game:
         )
         if hoopas and deck_ex:
             return max(hoopas, key=lambda mon: mon.damage)
+        jirachi = [mon for mon in me.in_play() if me.card(mon.card_i).name.lower() == "jirachi-ex"]
+        deck_supporter = any(me.card(i).is_supporter for i in me.deck)
+        if jirachi and deck_supporter:
+            return max(jirachi, key=lambda mon: mon.damage)
         damaged = [mon for mon in me.in_play() if mon.damage > 0 and not me.card(mon.card_i).is_basic]
         if not damaged:
             if self._first_named(me, "Penny") is not None:

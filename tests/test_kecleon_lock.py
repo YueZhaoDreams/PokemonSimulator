@@ -549,28 +549,70 @@ def test_scoop_up_cyclone_sentence_returns_any_pokemon_with_attachments():
     assert all(effect.get("kind") != "return_pokemon_to_hand" for effect in parse_trainer_effects(plasma))
 
 
+STELLAR = (
+    "When you play this Pokémon from your hand onto your Bench, you may search your deck "
+    "for a Supporter card, reveal it, and put it into your hand. Shuffle your deck afterward."
+)
+
+
 def test_scoop_up_cyclone_returns_hoopa_while_the_deck_has_another_ex():
     game = _game()
     me = game.players["a"]
     kecleon = _idx(me, "Kecleon")
     hoopa = _idx(me, "Hoopa-EX")
     mega = _idx(me, "M Gardevoir-EX")
+    jirachi = _idx(me, "Ultra Ball")
+    me.cards[jirachi] = fallback_named("Jirachi-EX")
     cyclone = _idx(me, "Switch")
     me.cards[cyclone] = fallback_named("Scoop Up Cyclone")
     me.active = Pokemon(card_i=kecleon, played_turn=0)
     me.bench = [
         Pokemon(card_i=hoopa, played_turn=0),
+        Pokemon(card_i=jirachi, played_turn=0),
         Pokemon(card_i=mega, played_turn=0, damage=40),
     ]
     me.hand = [cyclone]
-    used = {kecleon, hoopa, mega, cyclone}
+    used = {kecleon, hoopa, mega, jirachi, cyclone}
     me.deck = [i for i in range(len(me.cards)) if i not in used]
     me.discard = []
     game._play_trainers(me, game.players["b"], "a")
     assert hoopa in me.hand
     assert cyclone in me.discard
     assert any(me.card(mon.card_i).name == "M Gardevoir-EX" for mon in me.in_play())
+    assert any(me.card(mon.card_i).name == "Jirachi-EX" for mon in me.in_play())
     assert game.events.get("bounce_a:Scoop Up Cyclone") == 1
+
+
+def test_scoop_up_cyclone_returns_jirachi_and_searches_a_supporter():
+    game = _game()
+    me = game.players["a"]
+    kecleon = _idx(me, "Kecleon")
+    jirachi = _idx(me, "Ultra Ball")
+    me.cards[jirachi] = fallback_named("Jirachi-EX")
+    assert me.cards[jirachi].abilities[0].text == STELLAR
+    mega = _idx(me, "M Gardevoir-EX")
+    energy = _idx(me, "Psychic Energy")
+    cyclone = _idx(me, "Switch")
+    me.cards[cyclone] = fallback_named("Scoop Up Cyclone")
+    me.active = Pokemon(card_i=kecleon, played_turn=0)
+    me.bench = [
+        Pokemon(card_i=jirachi, played_turn=0),
+        Pokemon(card_i=mega, played_turn=0, damage=30, energy=[energy]),
+    ]
+    me.hand = [cyclone]
+    used = {kecleon, jirachi, mega, energy, cyclone}
+    me.deck = [i for i in range(len(me.cards)) if i not in used]
+    me.discard = []
+    assert any(me.card(i).is_supporter for i in me.deck)
+    game._play_trainers(me, game.players["b"], "a")
+    assert jirachi in me.hand
+    gardevoir = next(mon for mon in me.in_play() if me.card(mon.card_i).name == "M Gardevoir-EX")
+    assert energy in gardevoir.energy
+    game._play_basics(me)
+    assert any(me.card(mon.card_i).name == "Jirachi-EX" for mon in me.in_play())
+    assert any(me.card(i).is_supporter for i in me.hand)
+    assert game.events.get("stellar_guidance_a") == 1
+    assert cyclone in me.discard
 
 
 def test_scoop_up_cyclone_returns_a_damaged_mega_and_its_energy():
