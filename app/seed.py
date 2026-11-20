@@ -33,8 +33,10 @@ from app.seed_data import (
     SET_T_META_NAMES,
     SET_T_UNL_NAMES,
     SET_SPARE_NAMES,
+    SET_KECLEON_NAMES,
     build_doll_deck,
     build_fallback_deck,
+    build_kecleon_deck,
     build_g30_deck,
     build_mill_deck,
     build_roast_deck,
@@ -42,7 +44,7 @@ from app.seed_data import (
     fallback_named,
 )
 
-LIST_KEYS = ("a", "b", "c", "d", "e", "f", "g", "h", "s", "t", "c60", "d60", "m60", "s60", "t60", "t-meta", "t-unl", "g30", "l60", "mill", "doll", "celebi", "two-forest")
+LIST_KEYS = ("a", "b", "c", "d", "e", "f", "g", "h", "s", "t", "c60", "d60", "m60", "s60", "t60", "t-meta", "t-unl", "g30", "l60", "mill", "doll", "celebi", "two-forest", "kecleon")
 SEED_KEYS = (*LIST_KEYS, "spare")
 
 SEED_PATH = DATA_DIR / "seed_decks.json"
@@ -120,6 +122,7 @@ def load_seed_deck(which: str) -> dict:
         "23": "celebi",
         "24": "two-forest",
         "doll": "doll",
+        "kecleon": "kecleon",
         "celebi": "celebi",
         "celebi-mill": "celebi",
         "celebimill": "celebi",
@@ -301,6 +304,18 @@ def load_seed_payload() -> dict:
         want_g30_ids = [c.get("catalog_id") for c in g30["cards"]]
         if have_g30 != list(SET_G30_NAMES) or have_g30_ids != want_g30_ids or (data.get("g30") or {}).get("id") != "seed-g30":
             data["g30"] = g30
+            dirty = True
+        kecleon = _kecleon_blob()
+        have_kecleon = [c.get("name") for c in (data.get("kecleon") or {}).get("cards") or []]
+        have_kecleon_ids = [c.get("catalog_id") for c in (data.get("kecleon") or {}).get("cards") or []]
+        want_kecleon_ids = [c.get("catalog_id") for c in kecleon["cards"]]
+        if (
+            have_kecleon != list(SET_KECLEON_NAMES)
+            or have_kecleon_ids != want_kecleon_ids
+            or (data.get("kecleon") or {}).get("id") != "seed-kecleon"
+            or (data.get("kecleon") or {}).get("name") != "Kecleon"
+        ):
+            data["kecleon"] = kecleon
             dirty = True
         if dirty:
             SEED_PATH.write_text(json.dumps(data, indent=2))
@@ -736,6 +751,17 @@ def _cd_payload(enrich: bool = True) -> dict:
             "cards": [c.to_dict() if isinstance(c, Card) else c for c in cards_t_unl],
         },
         "g30": _g30_blob(),
+    }
+
+
+def _kecleon_blob() -> dict:
+    """Locked Colorful Whip list. Prints come from the registered sentences."""
+    return {
+        "id": "seed-kecleon",
+        "name": "Kecleon",
+        "sample": None,
+        "kind": "list",
+        "cards": [c.to_dict() for c in build_kecleon_deck()],
     }
 
 

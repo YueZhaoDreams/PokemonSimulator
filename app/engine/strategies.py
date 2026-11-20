@@ -1017,6 +1017,49 @@ STRATEGY_LIBRARY = {
         search_aces=["Chandelure", "Lampent", "Litwick", "Cleffa"],
         closers=["Celebi ◇"],
     ),
+    "kecleon": StrategySpec(
+        name="kecleon",
+        description=(
+            "Colorful Whip. Megas stay in hand as types. Hoopa-EX is played from the hand. "
+            "Latias ex, when it is in the list, benches one copy. Skyliner says your Basic "
+            "Pokémon in play have no Retreat Cost, so the Whip body can come Active after a KO. "
+            "Penny returns a Basic, including Hoopa-EX, so the search can happen again. "
+            "Scoop Up Cyclone returns any one Pokémon and the cards attached to it. "
+            "It replays Hoopa-EX while another Pokémon-EX is in the deck, and replays "
+            "Jirachi-EX while a Supporter is in the deck. "
+            "Jirachi-EX, played from the hand, searches a Supporter for the board. "
+            "Prism Energy, on a Basic, provides every type but only 1 Energy at a time, "
+            "so Kecleon, Druddigon, and Fezandipiti ex can share that one copy."
+        ),
+        prefer_damage=1.0,
+        prefer_status=0.0,
+        bench_fill=0.0,
+        evolve_asap=0.0,
+        attach_pokemon_as_energy=0.0,
+        item_spend=1.0,
+        self_preserve=0.1,
+        hold_as_energy=False,
+        max_ace_copies=2,
+        search_aces=["Kecleon"],
+        backups=["Druddigon", "Fezandipiti ex"],
+        protect=[
+            "Kecleon",
+            "Hoopa-EX",
+            "Volcanion-EX",
+            "M Gardevoir-EX",
+            "M Steelix-EX",
+            "M Sceptile-EX",
+            "M Manectric-EX",
+            "M Tyranitar-EX",
+            "M Latios-EX",
+            "Druddigon",
+            "Fezandipiti ex",
+            "Double Colorless Energy",
+            "Counter Energy",
+            "Rescue Scarf",
+            "Counter Gain",
+        ],
+    ),
 }
 
 

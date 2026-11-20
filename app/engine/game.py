@@ -550,6 +550,46 @@ class Game:
         if strat.name == "doll":
             return doll_ai.wants_pokemon(self, player, card)
         name = card.name.lower()
+        if strat.name == "kecleon":
+            copies = self._count_named_in_play(player, name)
+            if name == "kecleon":
+                return copies < 2
+            if name == "druddigon":
+                return copies < 1
+            if name == "fezandipiti ex":
+                return copies < 1
+            if name == "hoopa-ex":
+                # Scoundrel Ring only searches when Hoopa-EX is played from the hand
+                # onto the bench. It is not the opening Active when a Whip body is there.
+                if player.active is None and any(
+                    player.card(i).name.lower() in {"kecleon", "druddigon", "fezandipiti ex"}
+                    for i in player.hand
+                ):
+                    return False
+                return copies < 2
+            if name == "latias ex":
+                # Skyliner: "Your Basic Pokémon in play have no Retreat Cost."
+                # One copy on the bench. It is not the opening Active when a Whip body is there.
+                if copies >= 1:
+                    return False
+                if player.active is None and any(
+                    player.card(i).name.lower() in {"kecleon", "druddigon", "fezandipiti ex"}
+                    for i in player.hand
+                ):
+                    return False
+                return True
+            if name == "jirachi-ex":
+                # Stellar Guidance searches a Supporter only from a hand-to-bench play.
+                # One copy. It is not the opening Active when a Whip body is there.
+                if copies >= 1:
+                    return False
+                if player.active is None and any(
+                    player.card(i).name.lower() in {"kecleon", "druddigon", "fezandipiti ex"}
+                    for i in player.hand
+                ):
+                    return False
+                return True
+            return False
         aces = {n.lower() for n in strat.search_aces}
         backups = {n.lower() for n in strat.backups}
         insurance = {n.lower() for n in (strat.insurance or strat.backups)}
@@ -792,6 +832,15 @@ class Game:
             name = card.name.lower()
             if strat.name == "doll":
                 return doll_ai.starter_score(self, card)
+            if strat.name == "kecleon":
+                return {
+                    "kecleon": 5000,
+                    "druddigon": 3000,
+                    "fezandipiti ex": 2000,
+                    "hoopa-ex": 100,
+                    "latias ex": 40,
+                    "volcanion-ex": 0,
+                }.get(name, 50)
             if strat.name == "roast":
                 if self._prints_playground(card):
                     return 7000
@@ -1121,7 +1170,7 @@ class Game:
         self._play_basics(me)
         self._play_trainers(me, foe, who)
         self._play_basics(me)
-        if self.strats[who].name in {"party", "demolish", "slash", "shock", "thrifty", "phantom", "carnival", "g", "celebration", "aura", "thorns", "electro_rain", "regidrago", "mill", "doll"}:
+        if self.strats[who].name in {"party", "demolish", "slash", "shock", "thrifty", "phantom", "carnival", "g", "celebration", "aura", "thorns", "electro_rain", "regidrago", "mill", "doll", "kecleon"}:
             self._play_trainers(me, foe, who)
             self._play_basics(me)
         if self.strats[who].name in {"party", "g"}:
@@ -1135,7 +1184,7 @@ class Game:
             self._party_bounce_combo(me, foe, who)
         self._evolve(me, foe, who)
         self._play_basics(me)
-        if self.strats[who].name in {"party", "demolish", "slash", "shock", "thrifty", "phantom", "carnival", "g", "celebration", "aura", "thorns", "electro_rain", "regidrago", "mill", "doll"}:
+        if self.strats[who].name in {"party", "demolish", "slash", "shock", "thrifty", "phantom", "carnival", "g", "celebration", "aura", "thorns", "electro_rain", "regidrago", "mill", "doll", "kecleon"}:
             self._play_trainers(me, foe, who)
         if self.strats[who].name == "celebration":
             self._evolve(me, foe, who)
@@ -1339,6 +1388,18 @@ class Game:
                     rank["plusle"] = 1
                     rank["iron boulder"] = 2
                 return (rank.get(name, 20), -(card.hp or 0))
+            if strat.name == "kecleon" and name == "latias ex":
+                # After Kecleon and the backup bodies, before Hoopa takes the last slot.
+                return (2, 0)
+            if strat.name == "kecleon" and name == "jirachi-ex":
+                # Hoopa plays first when it is still in hand, so Stellar Guidance
+                # sees the Supporter search after Scoundrel Ring. Once Hoopa is
+                # out, Jirachi takes the next open slot ahead of a second Hoopa.
+                hoopa_out = any(me.card(m.card_i).name.lower() == "hoopa-ex" for m in me.in_play())
+                hoopa_hand = any(me.card(i).name.lower() == "hoopa-ex" for i in me.hand)
+                if not hoopa_out and hoopa_hand:
+                    return (6, 0)
+                return (4, 0)
             if name in aces:
                 bonus = 80 if self._invitation_attack(card) else 0
                 return (0, -(bonus + self._print_value(card, strat)))
@@ -1361,26 +1422,31 @@ class Game:
             return (9, 0)
 
         # Aces, then fallback attackers, then KO insurance — never random fuel.
-        ordered = sorted((i for i in list(me.hand) if self._is_playable_pokemon(me.card(i))), key=prio)
-        for card_i in ordered:
-            card = me.card(card_i)
-            if card_i not in me.hand:
-                continue
-            if not self._wants_in_play(me, card, strat, ace_out=ace_out):
-                continue
-            if me.active is None:
-                me.hand.remove(card_i)
-                me.active = Pokemon(card_i=card_i, played_turn=self.turn)
-                self._bump(f"saw_play:{card.name}")
-                self._log(f"{me.name} promotes {card.name}")
-            elif self._bench_room_for(me, card):
-                me.hand.remove(card_i)
-                me.bench.append(Pokemon(card_i=card_i, played_turn=self.turn))
-                self._bump(f"saw_play:{card.name}")
-                self._log(f"{me.name} benches {card.name}")
-                self._on_benched(me, me.bench[-1], from_hand=True)
-            if card.name.lower() in aces:
-                ace_out = True
+        # Kecleon walks the hand twice. Hoopa-EX's search can put Jirachi-EX
+        # into the hand, and Stellar Guidance only searches when that Basic is
+        # played from the hand before the Supporter.
+        passes = 2 if strat.name == "kecleon" else 1
+        for _ in range(passes):
+            ordered = sorted((i for i in list(me.hand) if self._is_playable_pokemon(me.card(i))), key=prio)
+            for card_i in ordered:
+                card = me.card(card_i)
+                if card_i not in me.hand:
+                    continue
+                if not self._wants_in_play(me, card, strat, ace_out=ace_out):
+                    continue
+                if me.active is None:
+                    me.hand.remove(card_i)
+                    me.active = Pokemon(card_i=card_i, played_turn=self.turn)
+                    self._bump(f"saw_play:{card.name}")
+                    self._log(f"{me.name} promotes {card.name}")
+                elif self._bench_room_for(me, card):
+                    me.hand.remove(card_i)
+                    me.bench.append(Pokemon(card_i=card_i, played_turn=self.turn))
+                    self._bump(f"saw_play:{card.name}")
+                    self._log(f"{me.name} benches {card.name}")
+                    self._on_benched(me, me.bench[-1], from_hand=True)
+                if card.name.lower() in aces:
+                    ace_out = True
         if strat.hold_as_energy:
             return
         reserve = 0 if ace_out else 1
@@ -1397,6 +1463,8 @@ class Game:
             if strat.name == "mill" and not self._wants_in_play(me, me.card(card_i), strat):
                 continue
             if strat.name == "doll" and not self._wants_in_play(me, me.card(card_i), strat):
+                continue
+            if strat.name == "kecleon" and not self._wants_in_play(me, me.card(card_i), strat):
                 continue
             if not self._bench_room_for(me, me.card(card_i)):
                 continue
@@ -1761,6 +1829,21 @@ class Game:
                 # picks up the charged Mew ex that would be Knocked Out, or a Baby
                 # when Terapagos ex needs the bench spot.
                 self._forced_bounce_target = self._mew_penny_target(me, foe) or self._mew_tera_slot_bounce(me)
+                forced_bounce = True
+            elif strat.name == "kecleon" and self._is_bounce_supporter(card):
+                # Penny: "Put 1 of your Basic Pokémon and all attached cards into your hand."
+                # Scoop Up Cyclone: "Put 1 of your Pokémon and all attached cards into your hand."
+                # Hoopa-EX comes back so Scoundrel Ring can search again. Jirachi-EX comes
+                # back so Stellar Guidance can search a Supporter. Penny then takes a
+                # damaged Basic. Cyclone takes a damaged Pokémon that is not Basic.
+                effects = parse_trainer_effects(card.text or "")
+                any_pokemon = any(
+                    eff.get("kind") == "return_pokemon_to_hand" and not eff.get("basic_only")
+                    for eff in effects
+                )
+                self._forced_bounce_target = (
+                    self._kecleon_cyclone_target(me) if any_pokemon else self._kecleon_penny_target(me)
+                )
                 forced_bounce = True
             try:
                 self._resolve_trainer(me, foe, card, who=who, card_i=found)
@@ -2429,6 +2512,8 @@ class Game:
                 score += self._mill_trainer_score(me, foe, card)
             if strat.name == "doll":
                 score += doll_ai.trainer_score(self, me, foe, card)
+            if strat.name == "kecleon":
+                score += self._kecleon_trainer_score(me, foe, card)
             if card.is_supporter and hold_for_bounce:
                 # The scripted Penny, Prankish, and Seeker lines play the
                 # supporter themselves. A generic play spends it on the
@@ -2648,6 +2733,8 @@ class Game:
                 self._bump("ultra_ball_fail")
                 return
             prefer = self._pokemon_search_prefer(me, who)
+            if self.strats[who].name == "kecleon":
+                prefer = self._kecleon_hand_prefer(me)
             found = self._search(me, lambda c: c.is_pokemon, prefer=prefer, source="ultra ball")
             if found:
                 self._bump("ball_search_hit")
@@ -2674,7 +2761,16 @@ class Game:
                     + (" (as energy)" if card_found.is_pokemon else "")
                 )
         elif name == "energy retrieval":
-            found = [i for i in me.discard if me.card(i).is_energy][:2]
+            # Printed sentence: Basic Energy only. Special Charge returns the specials.
+            basic_only = "basic energy" in (card.text or "").lower()
+
+            def _retrieval_ok(idx: int) -> bool:
+                found_card = me.card(idx)
+                if basic_only:
+                    return is_basic_energy(found_card)
+                return found_card.is_energy
+
+            found = [i for i in me.discard if _retrieval_ok(i)][:2]
             for i in found:
                 me.discard.remove(i)
                 me.hand.append(i)
@@ -4433,6 +4529,370 @@ class Game:
         self._apply_stadium_bench(me, mon)
         if from_hand:
             self._try_last_ditch_catch(me, mon)
+            card = me.card(mon.card_i)
+            for abi in card.abilities:
+                for eff in self._ability_effects(abi):
+                    if eff.get("kind") != "search_hyphen_ex_from_hand":
+                        continue
+                    self._scoundrel_ring(
+                        me,
+                        int(eff.get("count") or 0),
+                        str(eff.get("except_name") or ""),
+                    )
+
+    def _hand_pokemon_type_count(self, me: Player) -> int:
+        """Different types among Pokémon in hand. A dual-type card counts as both."""
+        seen: set[str] = set()
+        for idx in me.hand:
+            card = me.card(idx)
+            if not card.is_pokemon:
+                continue
+            for typ in card.types or []:
+                if typ:
+                    seen.add(typ)
+        return len(seen)
+
+    def _scoundrel_ring(self, me: Player, count: int, except_name: str) -> None:
+        ban = (except_name or "").lower()
+
+        def pred(card: Card) -> bool:
+            return host_is_gx_or_hyphen_ex(card) and card.name.lower() != ban
+
+        before = len(me.hand)
+        prefer = [
+            "M Gardevoir-EX",
+            "M Steelix-EX",
+            "Volcanion-EX",
+            "M Sceptile-EX",
+            "M Manectric-EX",
+            "M Tyranitar-EX",
+            "M Latios-EX",
+        ]
+        deck_names = {me.card(i).name.lower() for i in me.deck}
+        have = {me.card(i).name.lower() for i in me.hand}
+        have |= {me.card(mon.card_i).name.lower() for mon in me.in_play()}
+        if "jirachi-ex" in deck_names and "jirachi-ex" not in have:
+            duals = {
+                "m gardevoir-ex",
+                "m steelix-ex",
+                "volcanion-ex",
+                "m sceptile-ex",
+                "m manectric-ex",
+                "m tyranitar-ex",
+                "m latios-ex",
+            }
+            missing = [name for name in prefer if name.lower() in duals and name.lower() not in have]
+            # Two searches. A single ranked pass lets a 220 HP Mega outscore Jirachi-EX.
+            take = min(2, len(missing), max(0, count))
+            if take:
+                self._search(me, pred, prefer=missing, n=take, source="scoundrel ring")
+            if len(me.hand) - before < count:
+                self._search(me, pred, prefer=["Jirachi-EX"], n=1, source="scoundrel ring")
+            if len(me.hand) - before < count:
+                self._search(
+                    me,
+                    pred,
+                    prefer=prefer,
+                    n=count - (len(me.hand) - before),
+                    source="scoundrel ring",
+                )
+        else:
+            self._search(
+                me,
+                pred,
+                prefer=prefer,
+                n=max(0, count),
+                source="scoundrel ring",
+            )
+        if len(me.hand) > before:
+            self._bump("scoundrel_ring", len(me.hand) - before)
+            self._bump(f"scoundrel_ring_{me.name.lower()}", len(me.hand) - before)
+
+    def _kecleon_hand_prefer(self, me: Player) -> list[str]:
+        have = {me.card(i).name.lower() for i in me.hand}
+        have |= {me.card(m.card_i).name.lower() for m in me.in_play()}
+        order = [
+            "Hoopa-EX",
+            "M Gardevoir-EX",
+            "M Steelix-EX",
+            "Volcanion-EX",
+            "M Sceptile-EX",
+            "M Manectric-EX",
+            "M Tyranitar-EX",
+            "M Latios-EX",
+            "Kecleon",
+            "Druddigon",
+            "Fezandipiti ex",
+        ]
+        missing = [name for name in order if name.lower() not in have]
+        return missing or order
+
+    def _kecleon_teammates_prefer(self, me: Player) -> list[str]:
+        have = {me.card(i).name.lower() for i in me.hand}
+        play = {me.card(mon.card_i).name.lower() for mon in me.in_play()}
+        prefer: list[str] = []
+        if "double colorless energy" not in have:
+            prefer.append("Double Colorless Energy")
+        if "counter energy" not in have:
+            prefer.append("Counter Energy")
+        if "prism energy" not in have:
+            prefer.append("Prism Energy")
+        if "latias ex" not in have and "latias ex" not in play:
+            prefer.append("Latias ex")
+        if "jirachi-ex" not in have and "jirachi-ex" not in play:
+            prefer.append("Jirachi-EX")
+        prefer.extend(self._kecleon_hand_prefer(me))
+        prefer.extend(["Boss's Orders", "Arven", "Energy Loto", "Poké Radar", "Rescue Scarf"])
+        return prefer
+
+    def _kecleon_energy_target(self, me: Player) -> Pokemon:
+        assert me.active
+        unpaid: list[Pokemon] = []
+        for mon in me.in_play():
+            if me.card(mon.card_i).name.lower() != "kecleon":
+                continue
+            whip = next((atk for atk in me.card(mon.card_i).attacks if "colorful whip" in atk.name.lower()), None)
+            if whip is None:
+                continue
+            if not can_pay_energy(self._energy_pool(me, mon), self._attack_cost(me, mon, whip)):
+                unpaid.append(mon)
+        if me.active in unpaid:
+            return me.active
+        if unpaid:
+            return unpaid[0]
+        # Whip is paid. The next energy goes to another Basic fighter that
+        # still cannot attack, so one Prism Energy can be attached there.
+        fighters = {"druddigon", "fezandipiti ex"}
+        waiting: list[Pokemon] = []
+        for mon in me.in_play():
+            card = me.card(mon.card_i)
+            if card.name.lower() not in fighters or not card.is_basic or not card.attacks:
+                continue
+            pool = self._energy_pool(me, mon)
+            if any(can_pay_energy(pool, self._attack_cost(me, mon, atk)) for atk in card.attacks):
+                continue
+            waiting.append(mon)
+        if me.active in waiting:
+            return me.active
+        if waiting:
+            return waiting[0]
+        return me.active
+
+    def _kecleon_trainer_score(self, me: Player, foe: Player, card: Card) -> float:
+        name = card.name.lower()
+        ko = me.ko_since_opp_turn
+        deck_names = {me.card(i).name.lower() for i in me.deck}
+        hand_names = {me.card(i).name.lower() for i in me.hand}
+        discard_names = {me.card(i).name.lower() for i in me.discard}
+        play_names = {me.card(m.card_i).name.lower() for m in me.in_play()}
+        if name == "teammates":
+            return 40.0 if ko else -50.0
+        if name == "arven":
+            return 22.0
+        if "boss" in name:
+            return -30.0 if ko else (6.0 if foe.bench else -8.0)
+        if name == "battle compressor":
+            if "teammates" in deck_names and "teammates" not in hand_names and "teammates" not in discard_names:
+                return 18.0
+            return -30.0
+        if name == "vs seeker":
+            if "teammates" in discard_names and ko:
+                return 28.0
+            if "arven" in discard_names and not me.supporter_used:
+                return 8.0
+            return -12.0
+        if name == "energy loto":
+            return 14.0
+        if name in {"poké radar", "poke radar"}:
+            return 16.0
+        if name == "nest ball":
+            slots = self._bench_limit(me) - len(me.bench)
+            kec_out = sum(1 for n in play_names if n == "kecleon")
+            if slots > 0 and "kecleon" in deck_names and kec_out < 1:
+                return 12.0
+            if slots > 0 and "latias ex" in deck_names and "latias ex" not in play_names:
+                return 14.0
+            if slots > 0 and "kecleon" in deck_names and kec_out < 2:
+                return 12.0
+            if slots > 0 and "druddigon" in deck_names and "druddigon" not in play_names:
+                return 8.0
+            if slots > 0 and "fezandipiti ex" in deck_names and "fezandipiti ex" not in play_names:
+                return 8.0
+            return -8.0
+        if name == "ultra ball":
+            fuel = {
+                "hoopa-ex",
+                "volcanion-ex",
+                "m gardevoir-ex",
+                "m steelix-ex",
+                "m sceptile-ex",
+                "m manectric-ex",
+                "m tyranitar-ex",
+                "m latios-ex",
+            }
+            if "hoopa-ex" not in hand_names and "hoopa-ex" not in play_names and "hoopa-ex" in deck_names and len(me.hand) >= 4:
+                return 6.0
+            if fuel - hand_names - play_names and len(me.hand) >= 4:
+                return -4.0
+            return -20.0
+        if name == "rescue scarf":
+            bare = any(
+                mon.tool is None and me.card(mon.card_i).name.lower() == "kecleon" for mon in me.in_play()
+            )
+            return 20.0 if bare else -15.0
+        if name == "counter gain":
+            fez = any(
+                mon.tool is None and me.card(mon.card_i).name.lower() == "fezandipiti ex" for mon in me.in_play()
+            )
+            return 12.0 if fez else -20.0
+        if name == "penny":
+            # Below Teammates after a Knock Out. Above Arven when Hoopa can search again
+            # or a damaged Basic would return to hand.
+            return 32.0 if self._kecleon_penny_target(me) is not None else -20.0
+        if name == "scoop up cyclone":
+            # Item, so it does not spend the Supporter. Above Arven when the
+            # printed line has a Pokémon to return.
+            return 30.0 if self._kecleon_cyclone_target(me) is not None else -20.0
+        if name == "energy retrieval":
+            basics = sum(1 for i in me.discard if is_basic_energy(me.card(i)))
+            return 10.0 if basics else -15.0
+        if name == "special charge":
+            specials = sum(
+                1 for i in me.discard if me.card(i).is_energy and not is_basic_energy(me.card(i))
+            )
+            return 10.0 if specials else -15.0
+        if name == "switch":
+            if (
+                me.active
+                and me.card(me.active.card_i).name.lower() != "kecleon"
+                and any(me.card(m.card_i).name.lower() == "kecleon" for m in me.bench)
+            ):
+                return 16.0
+            return -12.0
+        return 0.0
+
+    def _kecleon_penny_target(self, me: Player) -> Pokemon | None:
+        """Basic Penny returns. Replay Hoopa-EX while the deck still has Pokémon-EX.
+
+        Otherwise return a damaged Basic, preferring one whose type is not already in hand.
+        """
+        if len(me.in_play()) < 2:
+            return None
+        basics = [mon for mon in me.in_play() if me.card(mon.card_i).is_basic]
+        if not basics:
+            return None
+        hoopas = [mon for mon in basics if me.card(mon.card_i).name.lower() == "hoopa-ex"]
+        deck_ex = any(
+            host_is_gx_or_hyphen_ex(me.card(i)) and me.card(i).name.lower() != "hoopa-ex" for i in me.deck
+        )
+        if hoopas and deck_ex:
+            return max(hoopas, key=lambda mon: mon.damage)
+        damaged = [mon for mon in basics if mon.damage > 0]
+        if not damaged:
+            return None
+        hand_types: set[str] = set()
+        for idx in me.hand:
+            card = me.card(idx)
+            if card.is_pokemon:
+                hand_types.update(card.types or [])
+
+        def adds(mon: Pokemon) -> int:
+            return len(set(me.card(mon.card_i).types or []) - hand_types)
+
+        return max(damaged, key=lambda mon: (adds(mon), mon.damage))
+
+    def _kecleon_cyclone_target(self, me: Player) -> Pokemon | None:
+        """Scoop Up Cyclone returns one Pokémon and every card attached to it.
+
+        Replay Hoopa-EX while the deck still has another Pokémon-EX. Replay
+        Jirachi-EX while the deck still has a Supporter, so Stellar Guidance
+        can search again. Otherwise return a damaged Pokémon that is not Basic.
+        A damaged Basic stays for Penny while Penny is in hand.
+        """
+        if len(me.in_play()) < 2:
+            return None
+        hoopas = [mon for mon in me.in_play() if me.card(mon.card_i).name.lower() == "hoopa-ex"]
+        deck_ex = any(
+            host_is_gx_or_hyphen_ex(me.card(i)) and me.card(i).name.lower() != "hoopa-ex" for i in me.deck
+        )
+        if hoopas and deck_ex:
+            return max(hoopas, key=lambda mon: mon.damage)
+        jirachi = [mon for mon in me.in_play() if me.card(mon.card_i).name.lower() == "jirachi-ex"]
+        deck_supporter = any(me.card(i).is_supporter for i in me.deck)
+        if jirachi and deck_supporter:
+            return max(jirachi, key=lambda mon: mon.damage)
+        damaged = [mon for mon in me.in_play() if mon.damage > 0 and not me.card(mon.card_i).is_basic]
+        if not damaged:
+            if self._first_named(me, "Penny") is not None:
+                return None
+            return self._kecleon_penny_target(me)
+        hand_types: set[str] = set()
+        for idx in me.hand:
+            card = me.card(idx)
+            if card.is_pokemon:
+                hand_types.update(card.types or [])
+
+        def adds(mon: Pokemon) -> int:
+            return len(set(me.card(mon.card_i).types or []) - hand_types)
+
+        return max(damaged, key=lambda mon: (adds(mon), mon.damage))
+
+    def _jirachi_supporter_prefer(self, me: Player, foe: Player) -> list[str]:
+        """Stellar Guidance picks the Supporter the board can play."""
+        deck = {me.card(i).name.lower() for i in me.deck}
+        discard = {me.card(i).name.lower() for i in me.discard}
+        order: list[str] = []
+
+        def add(name: str) -> None:
+            if name.lower() in deck and name not in order:
+                order.append(name)
+
+        if me.ko_since_opp_turn and "teammates" in discard and "teammates" not in deck:
+            add("VS Seeker")
+        if me.ko_since_opp_turn:
+            add("Teammates")
+        if self._kecleon_penny_target(me) is not None and not me.supporter_used:
+            add("Penny")
+        add("Arven")
+        if foe.bench:
+            add("Boss's Orders")
+        add("VS Seeker")
+        add("Penny")
+        add("Teammates")
+        return order or ["Arven", "Teammates", "Penny", "Boss's Orders", "VS Seeker"]
+
+    def _look_top_pokemon(self, me: Player, look: int) -> None:
+        n = min(int(look or 0), len(me.deck))
+        if n <= 0:
+            return
+        seen = me.deck[:n]
+        me.deck = me.deck[n:]
+        rest: list[int] = []
+        for idx in seen:
+            if me.card(idx).is_pokemon:
+                me.hand.append(idx)
+                self._bump("poke_radar")
+            else:
+                rest.append(idx)
+        me.deck.extend(rest)
+        self.rng.shuffle(me.deck)
+
+    def _search_if_ko_last_turn(self, me: Player, card_i: int | None, count: int) -> None:
+        if not me.ko_since_opp_turn:
+            if card_i is not None and card_i in me.discard:
+                me.discard.remove(card_i)
+                me.hand.append(card_i)
+            me.supporter_used = False
+            self._bump("teammates_illegal")
+            return
+        self._search(
+            me,
+            lambda _card: True,
+            prefer=self._kecleon_teammates_prefer(me),
+            n=max(0, count),
+            source="teammates",
+        )
+        self._bump("teammates")
 
     def _apply_stadium_bench(self, me: Player, mon: Pokemon) -> None:
         card = me.card(mon.card_i)
@@ -4464,21 +4924,28 @@ class Game:
                     continue
                 if lock and lock not in (abi.name or "").lower() and lock not in (abi.text or "").lower():
                     continue
-                prefer = [
-                    "Iono",
-                    "Arven",
-                    "Boss's Orders",
-                    "Professor Turo's Scenario",
-                    "Rosa's Encouragement",
-                    "Lillie's Determination",
-                    "Crispin",
-                ]
+                if me.card(mon.card_i).name.lower() == "jirachi-ex":
+                    foe = self.players["b" if me.name == "A" else "a"]
+                    prefer = self._jirachi_supporter_prefer(me, foe)
+                else:
+                    prefer = [
+                        "Iono",
+                        "Arven",
+                        "Boss's Orders",
+                        "Professor Turo's Scenario",
+                        "Rosa's Encouragement",
+                        "Lillie's Determination",
+                        "Crispin",
+                    ]
                 found = self._search(me, lambda c: c.is_supporter, prefer=prefer, source="bench supporter search")
                 if lock == "last-ditch":
                     self.last_ditch_used = True
                     self._bump("last_ditch_catch")
                 else:
                     self._bump("luminous_sign")
+                    if me.card(mon.card_i).name.lower() == "jirachi-ex":
+                        self._bump("stellar_guidance")
+                        self._bump(f"stellar_guidance_{me.name.lower()}")
                 mon.ability_used = True
                 if found:
                     self._log(f"{me.card(mon.card_i).name} finds {me.card(found).name}")
@@ -4680,7 +5147,7 @@ class Game:
             if card.hp and card.hp >= 140:
                 score -= 3
             if (
-                strat.name == "party"
+                strat.name in {"party", "kecleon"}
                 and card.name.lower() == "latias ex"
                 and self._count_named_in_play(me, "Latias ex") == 0
             ):
@@ -4706,6 +5173,13 @@ class Game:
             return self._roast_pokemon_prefer(me)
         if strat.name == "doll":
             return doll_ai.search_prefer(self, me)
+        if strat.name == "kecleon":
+            play = {me.card(mon.card_i).name.lower() for mon in me.in_play()}
+            prefer = ["Kecleon"]
+            if "latias ex" not in play:
+                prefer.append("Latias ex")
+            prefer.extend(["Druddigon", "Fezandipiti ex"])
+            return prefer
         if strat.name == "mill":
             names = {me.card(mon.card_i).name.lower() for mon in me.in_play()}
             names |= {me.card(i).name.lower() for i in me.hand}
@@ -5557,6 +6031,9 @@ class Game:
             self._bump("pokemon_as_energy")
         if any(eff.get("kind") == "counters_on_attacker" for eff in parse_energy_effects(src.text or "")):
             self._bump("attach_spiky_energy")
+        if "Any" in energy_provided(src, host=me.card(target.card_i)):
+            self._bump("prism_any")
+            self._bump(f"prism_any_{who}")
         self._resolve_energy_attach_from_hand(me, who, target, energy_i)
 
     def _resolve_energy_attach_from_hand(self, me: Player, who: str, target: Pokemon, energy_i: int) -> None:
@@ -5898,6 +6375,8 @@ class Game:
 
     def _energy_target(self, me: Player, strat: StrategySpec) -> Pokemon:
         assert me.active
+        if strat.name == "kecleon":
+            return self._kecleon_energy_target(me)
         if strat.name == "doll":
             return doll_ai.energy_target(self, me) or me.active
         if strat.name == "mill":
@@ -6238,6 +6717,9 @@ class Game:
         if matching_nrg:
             typed = [i for i in matching_nrg if me.card(i).as_energy_type in need]
             return (typed or matching_nrg)[0]
+        prism = self._kecleon_prism_choice(me, target, strat, need, pool)
+        if prism is not None:
+            return prism
         if strat.name == "celebration":
             return None
         if dce and (not need or "Colorless" in need or not need):
@@ -6263,6 +6745,30 @@ class Game:
         if candidates[0][0] >= 0 or need:
             return candidates[0][1]
         return energies[0] if energies else None
+
+    def _kecleon_prism_choice(
+        self, me: Player, target: Pokemon, strat: StrategySpec, need: set[str], pool: list[str]
+    ) -> int | None:
+        """White Flare Prism Energy provides every type on a Basic, one at a time."""
+        if strat.name != "kecleon":
+            return None
+        host = me.card(target.card_i)
+        if not host.is_basic:
+            return None
+        prisms = [i for i in me.hand if me.card(i).name.lower() == "prism energy"]
+        if not prisms:
+            return None
+        if "Any" not in energy_provided(me.card(prisms[0]), host=host):
+            return None
+        basic_types = {
+            me.card(i).as_energy_type
+            for i in me.hand
+            if is_basic_energy(me.card(i), pokemon_as_energy=False) and me.card(i).as_energy_type
+        }
+        missing = [t for t in need if t != "Colorless" and t not in pool and t not in basic_types]
+        if missing:
+            return prisms[0]
+        return None
 
     def _needed_types(self, me: Player, target: Pokemon) -> set[str]:
         card = me.card(target.card_i)
@@ -6415,6 +6921,9 @@ class Game:
         defender = foe.card(foe.active.card_i)
         self._bump(f"attack:{attacker.name}:{atk.name}")
         self._bump(f"attack_by:{who}")
+        if any(e.get("kind") == "reveal_hand_types" for e in atk.effects):
+            self._bump("colorful_whip")
+            self._bump("colorful_whip_types", self._hand_pokemon_type_count(me))
         me.fate_first_attack.setdefault(f"{attacker.name}|{atk.name}", me.own_turns)
         if resolved is not atk:
             self._bump(f"metronome:{resolved.name}")
@@ -9349,6 +9858,16 @@ class Game:
         def prio(i: int) -> float:
             mon = player.bench[i]
             name = player.card(mon.card_i).name.lower()
+            if strat.name == "kecleon":
+                if name == "kecleon":
+                    card = player.card(mon.card_i)
+                    whip = next((atk for atk in card.attacks if "colorful whip" in atk.name.lower()), None)
+                    if whip and can_pay_energy(
+                        self._energy_pool(player, mon), self._attack_cost(player, mon, whip)
+                    ):
+                        return 0
+                    return 1
+                return {"druddigon": 2, "hoopa-ex": 3, "fezandipiti ex": 4, "latias ex": 6}.get(name, 5)
             if strat.name == "doll":
                 return doll_ai.promote_rank(self, player, i)
             if strat.name == "mill":
@@ -10229,6 +10748,13 @@ class Game:
             return 0
         attacker = me.card(mon.card_i)
         defender = foe.card(foe.active.card_i)
+        if any(e.get("kind") == "reveal_hand_types" for e in atk.effects):
+            per = 0
+            for effect in atk.effects:
+                if effect.get("kind") == "reveal_hand_types":
+                    per = int(effect.get("per") or 0)
+            # Revealing every Pokémon in hand cannot lower the type count.
+            return per * self._hand_pokemon_type_count(me)
         dmg = atk.damage
         if any(e.get("kind") == "require_equal_hands" for e in atk.effects):
             if not ignore_hand_gate and len(me.hand) != len(foe.hand):
@@ -10453,8 +10979,22 @@ class Game:
         if card.name.lower() == "rescue scarf" or (
             "knocked out by damage from an attack" in text and "put that pokemon into your hand" in text
         ):
+            if self.strats[who].name == "kecleon":
+                kecleons = [
+                    mon
+                    for mon in me.in_play()
+                    if mon.tool is None and me.card(mon.card_i).name.lower() == "kecleon"
+                ]
+                if me.active in kecleons:
+                    return me.active
+                return kecleons[0] if kecleons else None
             for mon in me.in_play():
                 if mon.tool is None and "celebi" in me.card(mon.card_i).name.lower():
+                    return mon
+            return None
+        if card.name.lower() == "counter gain" and self.strats[who].name == "kecleon":
+            for mon in me.in_play():
+                if mon.tool is None and me.card(mon.card_i).name.lower() == "fezandipiti ex":
                     return mon
             return None
         if "no retreat cost" in text and "future" in text:
@@ -10767,6 +11307,10 @@ class Game:
                         continue
                     if any(me.card(i).name.lower() == "latias ex" for i in me.hand):
                         continue
+                if strat.name == "kecleon" and name in {"hoopa-ex", "volcanion-ex", "jirachi-ex"}:
+                    continue
+                if strat.name == "kecleon" and name == "latias ex" and "latias ex" in in_play:
+                    continue
                 if strat.name == "slash" and name not in {"wo-chien ex", "sprigatito"}:
                     continue
                 if strat.name == "phantom" and name not in {
@@ -10904,6 +11448,11 @@ class Game:
             for idx, mon in enumerate(me.bench):
                 if me.card(mon.card_i).name.lower() == "mew ex":
                     return idx
+        if strat.name == "kecleon":
+            for idx, mon in enumerate(me.bench):
+                if me.card(mon.card_i).name.lower() == "kecleon":
+                    return idx
+            return 0
         return 0
 
     def _play_switch(self, me: Player, who: str, target_idx: int | None = None) -> bool:
@@ -10929,6 +11478,9 @@ class Game:
         cost = self._retreat_cost(me, me.active)
         if len(me.active.energy) < cost:
             return False
+        who = "a" if me.name == "A" else "b"
+        if cost == 0 and self.strats[who].name == "kecleon" and self._basics_retreat_free(me, me.active):
+            self._bump("skyliner_retreat")
         for _ in range(cost):
             me.discard.append(me.active.energy.pop())
         incoming = me.bench.pop(incoming_idx)
@@ -11749,7 +12301,10 @@ class Game:
             ]
         else:
             cands = [i for i in seen if me.card(i).is_energy]
-            prefer = ["lightning energy", "double turbo energy"]
+            if self.strats[who].name == "kecleon":
+                prefer = ["double colorless energy", "counter energy", "fire energy", "psychic energy"]
+            else:
+                prefer = ["lightning energy", "double turbo energy"]
 
         def rank(card_i: int) -> int:
             name = me.card(card_i).name.lower()
@@ -11923,6 +12478,30 @@ class Game:
         self._bump("lost_vacuum")
 
     def _arven(self, me: Player, who: str) -> None:
+        if self.strats[who].name == "kecleon":
+            scarf_on = any(
+                mon.tool is not None and me.card(mon.tool).name.lower() == "rescue scarf" for mon in me.in_play()
+            )
+            tool_prefer = ["Counter Gain", "Rescue Scarf"] if scarf_on else ["Rescue Scarf", "Counter Gain"]
+            self._search(me, self._is_tool_card, prefer=tool_prefer, source="arven")
+            self._search(
+                me,
+                lambda c: c.is_item and not self._is_tool_card(c),
+                prefer=[
+                    "Energy Loto",
+                    "Poké Radar",
+                    "Nest Ball",
+                    "VS Seeker",
+                    "Switch",
+                    "Energy Retrieval",
+                    "Special Charge",
+                    "Battle Compressor",
+                    "Ultra Ball",
+                ],
+                source="arven",
+            )
+            self._bump("arven")
+            return
         if self.strats[who].name == "doll":
             foe = self.players["b" if who == "a" else "a"]
             doll_ai.play_arven(self, me, foe)
@@ -17064,6 +17643,10 @@ class Game:
                 self._junk_arm(me, who, card, int(eff.get("discard") or 2), bool(eff.get("exclude_self")))
         elif kind == "mill_own_deck":
             self._battle_compressor(me, int(eff.get("count") or 0))
+        elif kind == "search_if_ko_last_turn":
+            self._search_if_ko_last_turn(me, card_i, int(eff.get("count") or 0))
+        elif kind == "look_top_pokemon":
+            self._look_top_pokemon(me, int(eff.get("look") or 0))
         elif kind == "recycle_supporter_from_discard":
             self._vs_seeker(me)
         elif kind == "wally_evolve":
@@ -17947,6 +18530,14 @@ class Game:
         if self.strats[who].name == "regidrago":
             self._compressor_ranked(me, count, self._regidrago_compressor_rank)
             return
+        if self.strats[who].name == "kecleon":
+            # Up to 3 is the printed maximum. One Teammates is enough for VS Seeker.
+            self._compressor_ranked(
+                me,
+                1,
+                lambda player, idx: 0 if player.card(idx).name.lower() == "teammates" else 99,
+            )
+            return
         prefer = ["puzzle of time", "scoop up net", "junk arm"]
         ranked = []
         for i in me.deck:
@@ -17974,7 +18565,10 @@ class Game:
         if not supporters:
             self._bump("vs_seeker_miss")
             return
-        prefer = ["wally", "professor's research"]
+        if self.strats[who].name == "kecleon":
+            prefer = ["teammates", "arven", "boss's orders"]
+        else:
+            prefer = ["wally", "professor's research"]
 
         def rank(idx: int) -> int:
             name = me.card(idx).name.lower()
