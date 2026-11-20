@@ -33750,6 +33750,266 @@
         "traits": []
       },
       {
+        "catalog_id": "bw10-60",
+        "name": "Jirachi-EX",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Metal"
+        ],
+        "hp": 90,
+        "attacks": [
+          {
+            "name": "Hypnostrike",
+            "cost": [
+              "Metal",
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 60,
+            "text": "Both this Pok\u00e9mon and the Defending Pok\u00e9mon are now Asleep.",
+            "effects": [
+              {
+                "kind": "status",
+                "status": "asleep",
+                "coin": false
+              },
+              {
+                "kind": "status",
+                "status": "asleep",
+                "target": "self",
+                "coin": false
+              }
+            ]
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Stellar Guidance",
+            "text": "When you play this Pok\u00e9mon from your hand onto your Bench, you may search your deck for a Supporter card, reveal it, and put it into your hand. Shuffle your deck afterward.",
+            "effects": [
+              {
+                "kind": "search_supporter_on_bench",
+                "once_per_turn": true,
+                "name_lock": null
+              }
+            ]
+          }
+        ],
+        "weaknesses": [
+          {
+            "type": "Fire",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [
+          {
+            "type": "Psychic",
+            "value": "-20"
+          }
+        ],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/bw/bw10/60/low.webp",
+        "set_name": "Plasma Blast",
+        "text": "",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "bw10-60",
+        "name": "Jirachi-EX",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Metal"
+        ],
+        "hp": 90,
+        "attacks": [
+          {
+            "name": "Hypnostrike",
+            "cost": [
+              "Metal",
+              "Colorless",
+              "Colorless"
+            ],
+            "damage": 60,
+            "text": "Both this Pok\u00e9mon and the Defending Pok\u00e9mon are now Asleep.",
+            "effects": [
+              {
+                "kind": "status",
+                "status": "asleep",
+                "coin": false
+              },
+              {
+                "kind": "status",
+                "status": "asleep",
+                "target": "self",
+                "coin": false
+              }
+            ]
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Stellar Guidance",
+            "text": "When you play this Pok\u00e9mon from your hand onto your Bench, you may search your deck for a Supporter card, reveal it, and put it into your hand. Shuffle your deck afterward.",
+            "effects": [
+              {
+                "kind": "search_supporter_on_bench",
+                "once_per_turn": true,
+                "name_lock": null
+              }
+            ]
+          }
+        ],
+        "weaknesses": [
+          {
+            "type": "Fire",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [
+          {
+            "type": "Psychic",
+            "value": "-20"
+          }
+        ],
+        "retreat": 1,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/bw/bw10/60/low.webp",
+        "set_name": "Plasma Blast",
+        "text": "",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "sv08-076",
+        "name": "Latias ex",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 210,
+        "attacks": [
+          {
+            "name": "Eon Blade",
+            "cost": [
+              "Psychic",
+              "Psychic",
+              "Colorless"
+            ],
+            "damage": 200,
+            "text": "During your next turn, this Pok\u00e9mon can't attack.",
+            "effects": [
+              {
+                "kind": "disable_self_attack_next_turn"
+              }
+            ]
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Skyliner",
+            "text": "Your Basic Pok\u00e9mon in play have no Retreat Cost.",
+            "effects": [
+              {
+                "kind": "basic_retreat_zero",
+                "basic_only": true,
+                "owner_only": true
+              }
+            ]
+          }
+        ],
+        "weaknesses": [
+          {
+            "type": "Darkness",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [
+          {
+            "type": "Fighting",
+            "value": "-30"
+          }
+        ],
+        "retreat": 2,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv08/076/low.webp",
+        "set_name": "Surging Sparks",
+        "text": "",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "sv08-076",
+        "name": "Latias ex",
+        "category": "Pokemon",
+        "stage": "Basic",
+        "types": [
+          "Psychic"
+        ],
+        "hp": 210,
+        "attacks": [
+          {
+            "name": "Eon Blade",
+            "cost": [
+              "Psychic",
+              "Psychic",
+              "Colorless"
+            ],
+            "damage": 200,
+            "text": "During your next turn, this Pok\u00e9mon can't attack.",
+            "effects": [
+              {
+                "kind": "disable_self_attack_next_turn"
+              }
+            ]
+          }
+        ],
+        "abilities": [
+          {
+            "name": "Skyliner",
+            "text": "Your Basic Pok\u00e9mon in play have no Retreat Cost.",
+            "effects": [
+              {
+                "kind": "basic_retreat_zero",
+                "basic_only": true,
+                "owner_only": true
+              }
+            ]
+          }
+        ],
+        "weaknesses": [
+          {
+            "type": "Darkness",
+            "value": "\u00d72"
+          }
+        ],
+        "resistances": [
+          {
+            "type": "Fighting",
+            "value": "-30"
+          }
+        ],
+        "retreat": 2,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv08/076/low.webp",
+        "set_name": "Surging Sparks",
+        "text": "",
+        "dex_id": null,
+        "traits": []
+      },
+      {
         "catalog_id": "xy11-26",
         "name": "Volcanion-EX",
         "category": "Pokemon",
@@ -34141,6 +34401,98 @@
         "traits": []
       },
       {
+        "catalog_id": "sv10.5b-086",
+        "name": "Prism Energy",
+        "category": "Energy",
+        "stage": "Special",
+        "types": [
+          "Colorless"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Colorless",
+        "image": "https://assets.tcgdex.net/en/sv/sv10.5b/086/low.webp",
+        "set_name": "White Flare",
+        "text": "As long as this card is attached to a Pok\u00e9mon, it provides {C} Energy.\n\nIf this card is attached to a Basic Pok\u00e9mon, this card provides every type of Energy but provides only 1 Energy at a time.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "sv10.5b-086",
+        "name": "Prism Energy",
+        "category": "Energy",
+        "stage": "Special",
+        "types": [
+          "Colorless"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Colorless",
+        "image": "https://assets.tcgdex.net/en/sv/sv10.5b/086/low.webp",
+        "set_name": "White Flare",
+        "text": "As long as this card is attached to a Pok\u00e9mon, it provides {C} Energy.\n\nIf this card is attached to a Basic Pok\u00e9mon, this card provides every type of Energy but provides only 1 Energy at a time.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "sv10.5b-086",
+        "name": "Prism Energy",
+        "category": "Energy",
+        "stage": "Special",
+        "types": [
+          "Colorless"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Colorless",
+        "image": "https://assets.tcgdex.net/en/sv/sv10.5b/086/low.webp",
+        "set_name": "White Flare",
+        "text": "As long as this card is attached to a Pok\u00e9mon, it provides {C} Energy.\n\nIf this card is attached to a Basic Pok\u00e9mon, this card provides every type of Energy but provides only 1 Energy at a time.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "sv10.5b-086",
+        "name": "Prism Energy",
+        "category": "Energy",
+        "stage": "Special",
+        "types": [
+          "Colorless"
+        ],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": null,
+        "energy_type": "Colorless",
+        "image": "https://assets.tcgdex.net/en/sv/sv10.5b/086/low.webp",
+        "set_name": "White Flare",
+        "text": "As long as this card is attached to a Pok\u00e9mon, it provides {C} Energy.\n\nIf this card is attached to a Basic Pok\u00e9mon, this card provides every type of Energy but provides only 1 Energy at a time.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
         "catalog_id": "sm4-100",
         "name": "Counter Energy",
         "category": "Energy",
@@ -34493,10 +34845,10 @@
         "traits": []
       },
       {
-        "catalog_id": "sv08-140",
-        "name": "Energy Loto",
+        "catalog_id": "sv01-183",
+        "name": "Penny",
         "category": "Trainer",
-        "stage": "Item",
+        "stage": "Supporter",
         "types": [],
         "hp": 0,
         "attacks": [],
@@ -34505,19 +34857,19 @@
         "resistances": [],
         "retreat": 0,
         "evolves_from": null,
-        "trainer_kind": "item",
+        "trainer_kind": "supporter",
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv08/140/low.webp",
+        "image": "https://assets.tcgdex.net/en/sv/sv01/183/low.webp",
         "set_name": null,
-        "text": "Look at the top 7 cards of your deck. You may reveal an Energy card you find there and put it into your hand. Shuffle the other cards back into your deck.",
+        "text": "Put 1 of your Basic Pok\u00e9mon and all attached cards into your hand.",
         "dex_id": null,
         "traits": []
       },
       {
-        "catalog_id": "sv08-140",
-        "name": "Energy Loto",
+        "catalog_id": "sv01-183",
+        "name": "Penny",
         "category": "Trainer",
-        "stage": "Item",
+        "stage": "Supporter",
         "types": [],
         "hp": 0,
         "attacks": [],
@@ -34526,137 +34878,11 @@
         "resistances": [],
         "retreat": 0,
         "evolves_from": null,
-        "trainer_kind": "item",
+        "trainer_kind": "supporter",
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv08/140/low.webp",
+        "image": "https://assets.tcgdex.net/en/sv/sv01/183/low.webp",
         "set_name": null,
-        "text": "Look at the top 7 cards of your deck. You may reveal an Energy card you find there and put it into your hand. Shuffle the other cards back into your deck.",
-        "dex_id": null,
-        "traits": []
-      },
-      {
-        "catalog_id": "sv08-140",
-        "name": "Energy Loto",
-        "category": "Trainer",
-        "stage": "Item",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "item",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv08/140/low.webp",
-        "set_name": null,
-        "text": "Look at the top 7 cards of your deck. You may reveal an Energy card you find there and put it into your hand. Shuffle the other cards back into your deck.",
-        "dex_id": null,
-        "traits": []
-      },
-      {
-        "catalog_id": "sm8-170",
-        "name": "Counter Gain",
-        "category": "Trainer",
-        "stage": "Tool",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "tool",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sm/sm8/170/low.webp",
-        "set_name": null,
-        "text": "If you have more Prize cards remaining than your opponent, the attacks of the Pok\u00e9mon this card is attached to cost Colorless less.",
-        "dex_id": null,
-        "traits": []
-      },
-      {
-        "catalog_id": "sm8-170",
-        "name": "Counter Gain",
-        "category": "Trainer",
-        "stage": "Tool",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "tool",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sm/sm8/170/low.webp",
-        "set_name": null,
-        "text": "If you have more Prize cards remaining than your opponent, the attacks of the Pok\u00e9mon this card is attached to cost Colorless less.",
-        "dex_id": null,
-        "traits": []
-      },
-      {
-        "catalog_id": "xy4-109",
-        "name": "VS Seeker",
-        "category": "Trainer",
-        "stage": "Item",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "item",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/xy/xy4/109/low.webp",
-        "set_name": null,
-        "text": "Put a Supporter card from your discard pile into your hand.",
-        "dex_id": null,
-        "traits": []
-      },
-      {
-        "catalog_id": "xy4-109",
-        "name": "VS Seeker",
-        "category": "Trainer",
-        "stage": "Item",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "item",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/xy/xy4/109/low.webp",
-        "set_name": null,
-        "text": "Put a Supporter card from your discard pile into your hand.",
-        "dex_id": null,
-        "traits": []
-      },
-      {
-        "catalog_id": "xy3-92",
-        "name": "Battle Compressor",
-        "category": "Trainer",
-        "stage": "Item",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "item",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/xy/xy3/92/low.webp",
-        "set_name": null,
-        "text": "Search your deck for up to 3 cards and discard them. Shuffle your deck afterward.",
+        "text": "Put 1 of your Basic Pok\u00e9mon and all attached cards into your hand.",
         "dex_id": null,
         "traits": []
       },
@@ -34787,27 +35013,6 @@
         "traits": []
       },
       {
-        "catalog_id": "sv04.5-091",
-        "name": "Ultra Ball",
-        "category": "Trainer",
-        "stage": "Item",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "item",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv04.5/091/low.webp",
-        "set_name": null,
-        "text": "Discard 2 cards from your hand. Search your deck for a Pok\u00e9mon.",
-        "dex_id": null,
-        "traits": []
-      },
-      {
         "catalog_id": "sv01-171",
         "name": "Energy Retrieval",
         "category": "Trainer",
@@ -34846,6 +35051,90 @@
         "image": "https://assets.tcgdex.net/en/sv/sv01/171/low.webp",
         "set_name": null,
         "text": "Put up to 2 Basic Energy cards from your discard pile into your hand.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "bw6-115",
+        "name": "Rescue Scarf",
+        "category": "Trainer",
+        "stage": "Tool",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "tool",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/bw/bw6/115/low.webp",
+        "set_name": null,
+        "text": "If the Pok\u00e9mon this card is attached to is Knocked Out by damage from an attack, put that Pok\u00e9mon into your hand. (Discard all cards attached to that Pok\u00e9mon.)",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "bw6-115",
+        "name": "Rescue Scarf",
+        "category": "Trainer",
+        "stage": "Tool",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "tool",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/bw/bw6/115/low.webp",
+        "set_name": null,
+        "text": "If the Pok\u00e9mon this card is attached to is Knocked Out by damage from an attack, put that Pok\u00e9mon into your hand. (Discard all cards attached to that Pok\u00e9mon.)",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "sv08-140",
+        "name": "Energy Loto",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv08/140/low.webp",
+        "set_name": null,
+        "text": "Look at the top 7 cards of your deck. You may reveal an Energy card you find there and put it into your hand. Shuffle the other cards back into your deck.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "xy4-109",
+        "name": "VS Seeker",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/xy/xy4/109/low.webp",
+        "set_name": null,
+        "text": "Put a Supporter card from your discard pile into your hand.",
         "dex_id": null,
         "traits": []
       },
@@ -34867,111 +35156,6 @@
         "image": "https://assets.tcgdex.net/en/xy/xy11/105/low.webp",
         "set_name": null,
         "text": "Shuffle 2 Special Energy cards from your discard pile into your deck.",
-        "dex_id": null,
-        "traits": []
-      },
-      {
-        "catalog_id": "bw6-115",
-        "name": "Rescue Scarf",
-        "category": "Trainer",
-        "stage": "Tool",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "tool",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/bw/bw6/115/low.webp",
-        "set_name": null,
-        "text": "If the Pok\u00e9mon this card is attached to is Knocked Out by damage from an attack, put that Pok\u00e9mon into your hand. (Discard all cards attached to that Pok\u00e9mon.)",
-        "dex_id": null,
-        "traits": []
-      },
-      {
-        "catalog_id": "bw6-115",
-        "name": "Rescue Scarf",
-        "category": "Trainer",
-        "stage": "Tool",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "tool",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/bw/bw6/115/low.webp",
-        "set_name": null,
-        "text": "If the Pok\u00e9mon this card is attached to is Knocked Out by damage from an attack, put that Pok\u00e9mon into your hand. (Discard all cards attached to that Pok\u00e9mon.)",
-        "dex_id": null,
-        "traits": []
-      },
-      {
-        "catalog_id": "bw6-115",
-        "name": "Rescue Scarf",
-        "category": "Trainer",
-        "stage": "Tool",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "tool",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/bw/bw6/115/low.webp",
-        "set_name": null,
-        "text": "If the Pok\u00e9mon this card is attached to is Knocked Out by damage from an attack, put that Pok\u00e9mon into your hand. (Discard all cards attached to that Pok\u00e9mon.)",
-        "dex_id": null,
-        "traits": []
-      },
-      {
-        "catalog_id": "sv01-194",
-        "name": "Switch",
-        "category": "Trainer",
-        "stage": "Item",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "item",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv01/194/low.webp",
-        "set_name": null,
-        "text": "Switch your Active Pok\u00e9mon with 1 of your Benched Pok\u00e9mon.",
-        "dex_id": null,
-        "traits": []
-      },
-      {
-        "catalog_id": "sv02-172",
-        "name": "Boss's Orders",
-        "category": "Trainer",
-        "stage": "Supporter",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "supporter",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv02/172/low.webp",
-        "set_name": null,
-        "text": "Switch in 1 of your opponent's Benched Pok\u00e9mon to the Active Spot.",
         "dex_id": null,
         "traits": []
       }

@@ -125,7 +125,11 @@ def test_scoundrel_ring_searches_only_from_the_hand():
     me.active = Pokemon(card_i=kecleon, played_turn=0)
     me.bench = []
     me.hand = [hoopa]
-    me.deck = package + [i for i in range(len(me.cards)) if i not in {kecleon, hoopa, *package}]
+    me.deck = package + [
+        i
+        for i in range(len(me.cards))
+        if i not in {kecleon, hoopa, *package} and me.card(i).name != "Jirachi-EX"
+    ]
     me.discard = []
     game._play_basics(me)
     assert any(me.card(mon.card_i).name == "Hoopa-EX" for mon in me.bench)
@@ -153,7 +157,7 @@ def test_poke_radar_takes_every_pokemon_from_the_printed_look():
         _idx(me, "Kecleon"),
         _idx(me, "Fire Energy"),
         _idx(me, "Druddigon"),
-        _idx(me, "Switch"),
+        _idx(me, "Energy Loto"),
         _idx(me, "Psychic Energy"),
     ]
     me.hand = [radar]
@@ -172,7 +176,7 @@ def test_teammates_waits_for_the_knock_out():
     me = game.players["a"]
     mates = _idx(me, "Teammates")
     dce = _idx(me, "Double Colorless Energy")
-    boss = _idx(me, "Boss's Orders")
+    boss = _idx(me, "VS Seeker")
     me.hand = []
     me.deck = [dce, boss]
     me.discard = [mates]
@@ -325,9 +329,7 @@ def test_hoopa_searches_two_dual_types_then_jirachi():
     me = game.players["a"]
     kecleon = _idx(me, "Kecleon")
     hoopa = _idx(me, "Hoopa-EX")
-    # Jirachi is not in the locked 60. Put one into the deck by swapping a spare card.
-    spare = _idx(me, "Switch")
-    me.cards[spare] = fallback_named("Jirachi-EX")
+    spare = _idx(me, "Jirachi-EX")
     package = [
         spare,
         _idx(me, "M Gardevoir-EX"),
@@ -561,9 +563,8 @@ def test_scoop_up_cyclone_returns_hoopa_while_the_deck_has_another_ex():
     kecleon = _idx(me, "Kecleon")
     hoopa = _idx(me, "Hoopa-EX")
     mega = _idx(me, "M Gardevoir-EX")
-    jirachi = _idx(me, "Ultra Ball")
-    me.cards[jirachi] = fallback_named("Jirachi-EX")
-    cyclone = _idx(me, "Switch")
+    jirachi = _idx(me, "Jirachi-EX")
+    cyclone = _idx(me, "Special Charge")
     me.cards[cyclone] = fallback_named("Scoop Up Cyclone")
     me.active = Pokemon(card_i=kecleon, played_turn=0)
     me.bench = [
@@ -587,12 +588,11 @@ def test_scoop_up_cyclone_returns_jirachi_and_searches_a_supporter():
     game = _game()
     me = game.players["a"]
     kecleon = _idx(me, "Kecleon")
-    jirachi = _idx(me, "Ultra Ball")
-    me.cards[jirachi] = fallback_named("Jirachi-EX")
+    jirachi = _idx(me, "Jirachi-EX")
     assert me.cards[jirachi].abilities[0].text == STELLAR
     mega = _idx(me, "M Gardevoir-EX")
     energy = _idx(me, "Psychic Energy")
-    cyclone = _idx(me, "Switch")
+    cyclone = _idx(me, "Special Charge")
     me.cards[cyclone] = fallback_named("Scoop Up Cyclone")
     me.active = Pokemon(card_i=kecleon, played_turn=0)
     me.bench = [
@@ -621,7 +621,7 @@ def test_scoop_up_cyclone_returns_a_damaged_mega_and_its_energy():
     kecleon = _idx(me, "Kecleon")
     mega = _idx(me, "M Gardevoir-EX")
     energy = _idx(me, "Psychic Energy")
-    cyclone = _idx(me, "Switch")
+    cyclone = _idx(me, "Special Charge")
     me.cards[cyclone] = fallback_named("Scoop Up Cyclone")
     me.active = Pokemon(card_i=kecleon, played_turn=0, damage=10)
     me.bench = [Pokemon(card_i=mega, played_turn=0, damage=30, energy=[energy])]

@@ -5982,11 +5982,16 @@ _register(
 _register(_trn("Teammates", "supporter", _TEAMMATES, catalog_id="xy5-141"))
 _register(_trn("Poké Radar", "item", _POKE_RADAR, catalog_id="dp6-133"))
 
+# Kept by the seed-20261116 copy search: one Counter Catcher stays off the list,
+# Penny and Jirachi-EX stay at two, and Prism Energy stays at four by cutting
+# one VS Seeker. Weighted rate 56.20%. Scoop Up Cyclone is not in this lock.
 SET_KECLEON_NAMES = (
     ["Kecleon"] * 4
     + ["Druddigon"] * 2
     + ["Hoopa-EX"] * 2
     + ["Fezandipiti ex"] * 2
+    + ["Jirachi-EX"] * 2
+    + ["Latias ex"] * 2
     + ["Volcanion-EX"]
     + ["M Gardevoir-EX"]
     + ["M Steelix-EX"]
@@ -5995,23 +6000,20 @@ SET_KECLEON_NAMES = (
     + ["M Tyranitar-EX"]
     + ["M Latios-EX"]
     + ["Double Colorless Energy"] * 4
+    + ["Prism Energy"] * 4
     + ["Counter Energy"] * 3
     + ["Psychic Energy"] * 3
     + ["Fire Energy"] * 2
     + ["Arven"] * 4
     + ["Teammates"] * 4
-    + ["Energy Loto"] * 3
-    + ["Counter Gain"] * 2
-    + ["VS Seeker"] * 2
-    + ["Battle Compressor"]
+    + ["Penny"] * 2
     + ["Poké Radar"] * 4
     + ["Nest Ball"] * 2
-    + ["Ultra Ball"]
     + ["Energy Retrieval"] * 2
+    + ["Rescue Scarf"] * 2
+    + ["Energy Loto"]
+    + ["VS Seeker"]
     + ["Special Charge"]
-    + ["Rescue Scarf"] * 3
-    + ["Switch"]
-    + ["Boss's Orders"]
 )
 
 

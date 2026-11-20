@@ -48,7 +48,6 @@ from app.seed_data import (
     SET_G30_NAMES,
     SET_G_NAMES,
     SET_H_NAMES,
-    SET_KECLEON_NAMES,
     SET_L60_NAMES,
     SET_M60_NAMES,
     SET_MILL_NAMES,
@@ -66,7 +65,6 @@ from app.seed_data import (
     build_doll_deck,
     build_fallback_deck,
     build_g30_deck,
-    build_kecleon_deck,
     build_mill_deck,
     build_roast_deck,
     build_roast_two_forest_deck,
@@ -108,6 +106,43 @@ STRATS = {
     "thorns": "thorns",
 }
 
+# The lock this sample mirrored. The live SET_KECLEON_NAMES is the kept list.
+MIRROR_LOCK = (
+    ["Kecleon"] * 4
+    + ["Druddigon"] * 2
+    + ["Hoopa-EX"] * 2
+    + ["Fezandipiti ex"] * 2
+    + ["Volcanion-EX"]
+    + ["M Gardevoir-EX"]
+    + ["M Steelix-EX"]
+    + ["M Sceptile-EX"]
+    + ["M Manectric-EX"]
+    + ["M Tyranitar-EX"]
+    + ["M Latios-EX"]
+    + ["Double Colorless Energy"] * 4
+    + ["Counter Energy"] * 3
+    + ["Psychic Energy"] * 3
+    + ["Fire Energy"] * 2
+    + ["Arven"] * 4
+    + ["Teammates"] * 4
+    + ["Energy Loto"] * 3
+    + ["Counter Gain"] * 2
+    + ["VS Seeker"] * 2
+    + ["Battle Compressor"]
+    + ["Poké Radar"] * 4
+    + ["Nest Ball"] * 2
+    + ["Ultra Ball"]
+    + ["Energy Retrieval"] * 2
+    + ["Special Charge"]
+    + ["Rescue Scarf"] * 3
+    + ["Switch"]
+    + ["Boss's Orders"]
+)
+SEARCH_START = (
+    [name for name in MIRROR_LOCK if name not in {"Battle Compressor", "Boss's Orders"}]
+    + ["Latias ex", "Latias ex"]
+)
+
 _NAMES = {
     "a": ("fallback", SET_A_NAMES),
     "b": ("fallback", SET_B_NAMES),
@@ -132,7 +167,8 @@ _NAMES = {
     "doll": ("doll", SET_DOLL_NAMES),
     "celebi": ("celebi", SET_ROAST_NAMES),
     "two-forest": ("two-forest", SET_ROAST_TWO_FOREST_NAMES),
-    "kecleon": ("kecleon", SET_KECLEON_NAMES),
+    # The mirror is the lock this sample was played against, not the later kept list.
+    "kecleon": ("kecleon", MIRROR_LOCK),
     "spare": ("fallback", SET_SPARE_NAMES),
 }
 
@@ -205,7 +241,7 @@ def _cards_for(builder: str, names: tuple[str, ...] | list[str]):
     if builder == "two-forest":
         return build_roast_two_forest_deck()
     if builder == "kecleon":
-        return build_kecleon_deck()
+        return _subject_cards(names)
     return build_fallback_deck(list(names))
 
 
@@ -238,13 +274,8 @@ def _copy_cap(name: str) -> int:
 
 
 def starting_list() -> list[str]:
-    """Locked Kecleon, minus Battle Compressor and Boss's Orders, plus two Latias ex."""
-    names = list(SET_KECLEON_NAMES)
-    if names.count("Battle Compressor") != 1 or names.count("Boss's Orders") != 1:
-        raise SystemExit("the lock no longer has one Battle Compressor and one Boss's Orders")
-    names.remove("Battle Compressor")
-    names.remove("Boss's Orders")
-    names.extend(["Latias ex", "Latias ex"])
+    """The 0-copy list: previous lock, minus Battle Compressor and Boss's Orders, plus two Latias ex."""
+    names = list(SEARCH_START)
     if names.count("Latias ex") != 2 or len(names) != 60:
         raise SystemExit(f"start list is {len(names)} cards with {names.count('Latias ex')} Latias ex")
     return names
