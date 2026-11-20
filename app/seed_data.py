@@ -1821,7 +1821,7 @@ _register(
         "Energy Loto",
         "item",
         "Look at the top 7 cards of your deck. You may reveal an Energy card you find there and put it into your hand. Shuffle the other cards back into your deck.",
-        catalog_id="sv08-140",
+        catalog_id="swsh10-140",
     )
 )
 _register(
@@ -5795,7 +5795,7 @@ _register(
         90,
         [_atk("Colorful Whip", ["Colorless", "Colorless"], "30×", _COLORFUL_WHIP)],
         retreat=2,
-        catalog_id="me6-83",
+        catalog_id="me06-083",
         weakness="Fighting",
         set_name="Delta Reign",
     )
@@ -5821,7 +5821,7 @@ _register(
             ),
         ],
         retreat=2,
-        catalog_id="rsv10pt5-71",
+        catalog_id="sv10.5w-071",
         set_name="White Flare",
     )
 )

@@ -400,6 +400,27 @@ def _seed_wrong_named_art(cards_json: str | None) -> bool:
     return False
 
 
+def _seed_misprinted_art(cards_json: str | None) -> bool:
+    """True when a saved seed still uses an id whose picture is a different card."""
+    from app.catalog import WRONG_PRINT_IDS
+
+    raw = cards_json or ""
+    if not any(name in raw for name, _cid in WRONG_PRINT_IDS):
+        return False
+    try:
+        have = json.loads(raw)
+    except (TypeError, json.JSONDecodeError):
+        return False
+    if not isinstance(have, list):
+        return False
+    for card in have:
+        if not isinstance(card, dict):
+            continue
+        if (card.get("name"), str(card.get("catalog_id") or "")) in WRONG_PRINT_IDS:
+            return True
+    return False
+
+
 def _seed_print_art_stale(cards_json: str | None, want_cards: list) -> bool:
     """True when a saved seed still shows the wrong scan for a pinned print."""
     from app.catalog import PRINT_ART_URLS, _is_tcgdex_asset_url
@@ -463,6 +484,7 @@ def _upsert_seed_decks(conn: sqlite3.Connection, owner_id: str | None = None) ->
                 or _seed_print_art_stale(existing["cards_json"], want_cards)
                 or _seed_slowking_on_seeker(existing["cards_json"])
                 or _seed_wrong_named_art(existing["cards_json"])
+                or _seed_misprinted_art(existing["cards_json"])
             ):
                 conn.execute(
                     "UPDATE decks SET name=?, source=?, cards_json=?, owner_id=COALESCE(owner_id, ?), "
