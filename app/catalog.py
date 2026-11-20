@@ -152,6 +152,8 @@ PREFERRED_IDS = {
     "Maximum Belt": "sv05-154",
     "Muscle Band": "xy1-121",
     "Energy Search": "sv01-172",
+    # Astral Radiance 140. sv08-140 is Appletun.
+    "Energy Loto": "swsh10-140",
     "Energy Retrieval": "sv01-171",
     "Trekking Shoes": "swsh12.5-145",
     "Switch": "sv01-194",
@@ -211,6 +213,7 @@ PREFERRED_IDS = {
     "Zekrom": "sv04-066",  # Paradox Rift Crushing Short / Raging Thunder — Hidden Fates has no art
     "Minun": "xy3-32",  # Furious Fists Negative Discard / Static Shock
     "Kecleon": "sv09-122",  # Journey Together Stealth Attack
+    "Druddigon": "sv10.5w-071",  # White Flare Shred / Ambush — rsv10pt5-71 is not a TCGdex id
     "Zoroark": "sv10.5w-062",  # White Flare Mind Jack / Foul Play
     "Hisuian Voltorb": "swsh10-002",
     "Sandygast": "sv02-095",  # Paldea Evolved Mumble / Mud Shot
@@ -311,6 +314,16 @@ PRINT_ART_URLS = {
 # Undaunted #85 on TCGdex is Slowking Prime. Seeker is Triumphant #88.
 SLOWKING_PRIME_ART = "https://assets.tcgdex.net/en/hgss/hgss3/85"
 SEEKER_ART = "https://assets.tcgdex.net/en/hgss/hgss4/88/low.webp"
+
+# Saved ids whose TCGdex file is a different card, or no card.
+# me6-83 404s; Delta Reign Colorful Whip is me06-083.
+# rsv10pt5-71 is not an id; White Flare Shred / Ambush is sv10.5w-071.
+# sv08-140 is Appletun; Astral Radiance Energy Loto is swsh10-140.
+WRONG_PRINT_IDS = {
+    ("Kecleon", "me6-83"): "me06-083",
+    ("Druddigon", "rsv10pt5-71"): "sv10.5w-071",
+    ("Energy Loto", "sv08-140"): "swsh10-140",
+}
 
 
 def allowed_print_ids(name: str) -> set[str] | None:
@@ -842,6 +855,12 @@ def fill_missing_card_image(card: dict[str, Any]) -> dict[str, Any]:
         patched = dict(card)
         patched["catalog_id"] = PREFERRED_IDS["Seeker"]
         patched["image"] = SEEKER_ART
+        return patched
+    fixed = WRONG_PRINT_IDS.get((name, cid))
+    if fixed and _looks_like_tcgdex_id(fixed):
+        patched = dict(card)
+        patched["catalog_id"] = fixed
+        patched["image"] = _tcgdex_low(fixed)
         return patched
     pinned = PRINT_ART_URLS.get(cid)
     if pinned:

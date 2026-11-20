@@ -1,5 +1,6 @@
 """Locked Kecleon list and the printed sentences that list uses."""
 
+import json
 from random import Random
 
 from app.engine.effects import (
@@ -59,13 +60,28 @@ def test_kecleon_list_is_sixty_and_named():
     assert [c.name for c in deck] == list(SET_KECLEON_NAMES)
     assert copy_violations(deck, standard_60_rules()) == []
     kecleon = fallback_named("Kecleon")
-    assert kecleon.catalog_id == "me6-83"
+    assert kecleon.catalog_id == "me06-083"
+    assert kecleon.image == "https://assets.tcgdex.net/en/me/me06/083/low.webp"
     assert kecleon.hp == 90
     assert any(a.name == "Colorful Whip" for a in kecleon.attacks)
+    druddigon = fallback_named("Druddigon")
+    assert druddigon.catalog_id == "sv10.5w-071"
+    assert druddigon.image == "https://assets.tcgdex.net/en/sv/sv10.5w/071/low.webp"
+    loto = fallback_named("Energy Loto")
+    assert loto.catalog_id == "swsh10-140"
+    assert loto.image == "https://assets.tcgdex.net/en/swsh/swsh10/140/low.webp"
+    assert "sv08/140" not in (loto.image or "")
     locked = load_seed_deck("kecleon")
     assert locked["name"] == "Kecleon"
     assert locked["id"] == "seed-kecleon"
     assert [c["name"] for c in locked["cards"]] == list(SET_KECLEON_NAMES)
+    pictures = {c["name"]: c for c in locked["cards"]}
+    assert pictures["Kecleon"]["catalog_id"] == "me06-083"
+    assert pictures["Kecleon"]["image"] == kecleon.image
+    assert pictures["Druddigon"]["catalog_id"] == "sv10.5w-071"
+    assert pictures["Druddigon"]["image"] == druddigon.image
+    assert pictures["Energy Loto"]["catalog_id"] == "swsh10-140"
+    assert pictures["Energy Loto"]["image"] == loto.image
 
 
 def _game():
@@ -645,3 +661,81 @@ def test_second_penny_stops_when_its_best_cut_is_below_one_penny():
     assert not _leave_negative_second_penny("Penny", 2, 0.0)
     assert not _leave_negative_second_penny("Penny", 1, -0.01)
     assert not _leave_negative_second_penny("Jirachi-EX", 2, -0.01)
+
+
+def test_wrong_kecleon_prints_keep_appletun_off_energy_loto():
+    """sv08-140 is Appletun. A real Appletun must keep that picture."""
+    from app.catalog import fill_missing_card_image
+
+    loto = fill_missing_card_image(
+        {
+            "name": "Energy Loto",
+            "catalog_id": "sv08-140",
+            "image": "https://assets.tcgdex.net/en/sv/sv08/140/low.webp",
+        }
+    )
+    assert loto["catalog_id"] == "swsh10-140"
+    assert loto["image"] == "https://assets.tcgdex.net/en/swsh/swsh10/140/low.webp"
+    apple = fill_missing_card_image(
+        {
+            "name": "Appletun",
+            "catalog_id": "sv08-140",
+            "image": "https://assets.tcgdex.net/en/sv/sv08/140/low.webp",
+        }
+    )
+    assert apple["catalog_id"] == "sv08-140"
+    assert apple["image"] == "https://assets.tcgdex.net/en/sv/sv08/140/low.webp"
+    kecleon = fill_missing_card_image(
+        {
+            "name": "Kecleon",
+            "catalog_id": "me6-83",
+            "image": "https://assets.tcgdex.net/en/me/me6/83/low.webp",
+        }
+    )
+    assert kecleon["catalog_id"] == "me06-083"
+    assert "me06/083" in kecleon["image"]
+    druddigon = fill_missing_card_image(
+        {"name": "Druddigon", "catalog_id": "rsv10pt5-71", "image": None}
+    )
+    assert druddigon["catalog_id"] == "sv10.5w-071"
+    assert "sv10.5w/071" in druddigon["image"]
+
+
+def test_existing_kecleon_seed_replaces_wrong_art(tmp_path, monkeypatch):
+    monkeypatch.setattr("app.db.DB_PATH", tmp_path / "app.db")
+    from app.db import connect, init_db
+
+    init_db()
+    with connect() as conn:
+        raw = conn.execute("SELECT cards_json FROM decks WHERE id='seed-kecleon'").fetchone()["cards_json"]
+        cards = json.loads(raw)
+        for card in cards:
+            if card.get("name") == "Kecleon":
+                card["catalog_id"] = "me6-83"
+                card["image"] = "https://assets.tcgdex.net/en/me/me6/83/low.webp"
+            elif card.get("name") == "Druddigon":
+                card["catalog_id"] = "rsv10pt5-71"
+                card["image"] = None
+            elif card.get("name") == "Energy Loto":
+                card["catalog_id"] = "sv08-140"
+                card["image"] = "https://assets.tcgdex.net/en/sv/sv08/140/low.webp"
+        conn.execute(
+            "UPDATE decks SET cards_json=? WHERE id='seed-kecleon'",
+            (json.dumps(cards),),
+        )
+    init_db()
+    with connect() as conn:
+        stored = json.loads(
+            conn.execute("SELECT cards_json FROM decks WHERE id='seed-kecleon'").fetchone()["cards_json"]
+        )
+    kecleon = next(c for c in stored if c.get("name") == "Kecleon")
+    druddigon = next(c for c in stored if c.get("name") == "Druddigon")
+    loto = next(c for c in stored if c.get("name") == "Energy Loto")
+    assert kecleon["catalog_id"] == "me06-083"
+    assert "me06/083" in kecleon["image"]
+    assert "Colorful Whip" in kecleon["attacks"][0]["name"]
+    assert druddigon["catalog_id"] == "sv10.5w-071"
+    assert "sv10.5w/071" in druddigon["image"]
+    assert loto["catalog_id"] == "swsh10-140"
+    assert "swsh10/140" in loto["image"]
+    assert "sv08/140" not in loto["image"]
