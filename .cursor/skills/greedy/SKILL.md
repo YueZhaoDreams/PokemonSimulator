@@ -17,7 +17,7 @@ Read those labs. Then name three things, and stop if any one is missing:
 - The card coming in, or the exact pair when the user already chose both the card that comes in and the card that leaves.
 - The subject's strategy name. Use the strategy that already plays this list. Do not add a `strat.name ==` branch, and do not hardcode a look size into `app/engine/game.py`.
 
-If the engine does not execute the printed sentence of the card coming in, stop before the first game. A win rate from an ignored sentence is not a result. A new sentence needs a parser branch and a test that uses the exact printed wording. That work is not this search.
+If the engine does not execute the printed sentence of the card coming in, add that sentence before the first game. A win rate from an ignored sentence is not a result. Add a parser branch and a test that uses the exact printed wording, and run that test. Then run the search. Do not add a `strat.name ==` branch for the new card, and do not hardcode a look size into `app/engine/game.py`. The first measured game waits until that test passes.
 
 Quote the printed sentence from the catalog or the card text. A lab note, a memory of the line, or a strategy comment does not choose the cut.
 

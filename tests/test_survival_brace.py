@@ -3,11 +3,13 @@
 from random import Random
 
 from app.engine.game import Game, Pokemon
+from app.engine.legality import copy_limit_for
 from app.engine.models import standard_60_rules
 from app.engine.strategies import StrategySpec
 from app.seed_data import build_fallback_deck, fallback_named
 
 SURVIVAL_BRACE_TEXT = (
+    "You can't have more than 1 ACE SPEC card in your deck.\n\n"
     "If the Pokémon this card is attached to has full HP and would be Knocked Out by damage "
     "from an attack from your opponent's Pokémon, it is not Knocked Out, and its remaining HP "
     "becomes 10. Then, discard this card."
@@ -29,6 +31,75 @@ def test_survival_brace_printed_text():
     card = fallback_named("Survival Brace")
     assert card.text == SURVIVAL_BRACE_TEXT
     assert card.catalog_id == "sv06-164"
+    assert "ace spec" in card.traits
+    assert copy_limit_for(card, standard_60_rules()) == 1
+
+
+def test_kecleon_attaches_survival_brace_to_a_full_kecleon():
+    game = Game(
+        build_fallback_deck(["Kecleon", "Kecleon", "Rescue Scarf", "Survival Brace"] + ["Hop"] * 56),
+        build_fallback_deck(["Dondozo"] * 60),
+        standard_60_rules(),
+        StrategySpec.from_dict("kecleon"),
+        StrategySpec.from_dict("balanced"),
+        Random(1),
+    )
+    me = game.players["a"]
+    kecleons = [i for i, c in enumerate(me.cards) if c.name == "Kecleon"]
+    scarf_i = next(i for i, c in enumerate(me.cards) if c.name == "Rescue Scarf")
+    brace_i = next(i for i, c in enumerate(me.cards) if c.name == "Survival Brace")
+    me.active = Pokemon(card_i=kecleons[0])
+    me.bench = [Pokemon(card_i=kecleons[1])]
+    me.hand = [scarf_i, brace_i]
+    me.deck = []
+    me.discard = []
+    me.prizes = []
+    game._play_trainers(me, game.players["b"], "a")
+    assert me.active.tool == scarf_i
+    assert me.bench[0].tool == brace_i
+    assert game.events["tool:Survival Brace:Kecleon"] == 1
+
+
+def test_damaged_kecleon_does_not_take_survival_brace():
+    game = Game(
+        build_fallback_deck(["Kecleon", "Survival Brace"] + ["Hop"] * 58),
+        build_fallback_deck(["Dondozo"] * 60),
+        standard_60_rules(),
+        StrategySpec.from_dict("kecleon"),
+        StrategySpec.from_dict("balanced"),
+        Random(1),
+    )
+    me = game.players["a"]
+    kecleon_i = next(i for i, c in enumerate(me.cards) if c.name == "Kecleon")
+    brace_i = next(i for i, c in enumerate(me.cards) if c.name == "Survival Brace")
+    me.active = Pokemon(card_i=kecleon_i, damage=30)
+    me.hand = [brace_i]
+    me.deck = []
+    me.discard = []
+    me.prizes = []
+    game._play_trainers(me, game.players["b"], "a")
+    assert me.active.tool is None
+    assert brace_i in me.hand
+
+
+def test_arven_finds_survival_brace():
+    game = Game(
+        build_fallback_deck(["Kecleon", "Survival Brace", "Nest Ball"] + ["Hop"] * 57),
+        build_fallback_deck(["Dondozo"] * 60),
+        standard_60_rules(),
+        StrategySpec.from_dict("kecleon"),
+        StrategySpec.from_dict("balanced"),
+        Random(1),
+    )
+    me = game.players["a"]
+    brace_i = next(i for i, c in enumerate(me.cards) if c.name == "Survival Brace")
+    nest_i = next(i for i, c in enumerate(me.cards) if c.name == "Nest Ball")
+    me.hand = []
+    me.deck = [brace_i, nest_i]
+    me.discard = []
+    me.prizes = []
+    game._arven(me, "a")
+    assert brace_i in me.hand
 
 
 def test_phantom_dive_leaves_a_full_mew_at_10_and_discards_the_brace():

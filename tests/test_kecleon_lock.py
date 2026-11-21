@@ -302,7 +302,17 @@ def test_one_latias_ex_benches_and_does_not_open():
 
 
 def test_energy_retrieval_leaves_special_energy():
-    game = _game()
+    deck = build_fallback_deck(
+        ["Kecleon", "Energy Retrieval", "Fire Energy", "Double Colorless Energy"] + ["Psychic Energy"] * 56
+    )
+    game = Game(
+        deck,
+        build_fallback_deck(["Starly"] + ["Hop"] * 59),
+        standard_60_rules(),
+        StrategySpec.from_dict("kecleon"),
+        StrategySpec.from_dict("balanced"),
+        Random(1),
+    )
     me = game.players["a"]
     retrieval = _idx(me, "Energy Retrieval")
     fire = _idx(me, "Fire Energy")

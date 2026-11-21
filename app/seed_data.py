@@ -1319,13 +1319,22 @@ _HEROS_CAPE_TEXT = (
     "The Pokémon this card is attached to gets +100 HP, and can't be affected by any Special Conditions."
 )
 _register(_trn("Hero's Cape", "item", _HEROS_CAPE_TEXT, catalog_id="sv05-152"))
-# Twilight Masquerade ACE SPEC. One copy per deck.
+# Twilight Masquerade 164. One ACE SPEC Pokémon Tool.
 _SURVIVAL_BRACE_TEXT = (
+    "You can't have more than 1 ACE SPEC card in your deck.\n\n"
     "If the Pokémon this card is attached to has full HP and would be Knocked Out by damage "
     "from an attack from your opponent's Pokémon, it is not Knocked Out, and its remaining HP "
     "becomes 10. Then, discard this card."
 )
-_register(_trn("Survival Brace", "item", _SURVIVAL_BRACE_TEXT, catalog_id="sv06-164"))
+_register(
+    _trn(
+        "Survival Brace",
+        "item",
+        _SURVIVAL_BRACE_TEXT,
+        catalog_id="sv06-164",
+        traits=["ace spec"],
+    )
+)
 # XY—BREAKpoint 97. Pokémon.com prints the curly apostrophes.
 _BURSTING_BALLOON_TEXT = (
     "If this card is attached to 1 of your Pokémon, discard it at the end of your opponent’s turn.\n\n"
@@ -1533,6 +1542,12 @@ _register(
         "Put a Pokémon or a Basic Energy card from your discard pile into your hand.",
     )
 )
+# EX Delta Species 89. Two coins. Each heads is one Basic Pokémon into the hand.
+_DUAL_BALL_TEXT = (
+    "Flip 2 coins. For each head, search your deck for a Basic Pokémon card, "
+    "show it to your opponent, and put it into your hand. Shuffle your deck afterward."
+)
+_register(_trn("Dual Ball", "item", _DUAL_BALL_TEXT, catalog_id="ex11-89"))
 # Evolving Skies 154. Printed HP, not remaining HP. Mew ex is 160 and stays in the discard.
 _RESCUE_CARRIER_TEXT = (
     "Put up to 2 Pokémon, each with 90 HP or less, from your discard pile into your hand."
@@ -1652,6 +1667,7 @@ _register(
 )
 # Shrouded Fable 060. One ACE SPEC. Non-Rule-Box Pokémon are protected from the opponent's Pokémon ex and Pokémon V.
 _NEUTRALIZATION_ZONE_TEXT = (
+    "You can't have more than 1 ACE SPEC card in your deck.\n\n"
     "Prevent all damage done to Pokémon that don't have a Rule Box (both yours and your opponent's) "
     "by attacks from the opponent's Pokémon ex and Pokémon V. (Pokémon ex, Pokémon V, etc. have Rule Boxes.)\n\n"
     "This card can't be put into your hand or deck from the discard pile."
@@ -1662,6 +1678,7 @@ _register(
         "stadium",
         _NEUTRALIZATION_ZONE_TEXT,
         catalog_id="sv06.5-060",
+        traits=["ace spec"],
     )
 )
 _register(
@@ -5982,16 +5999,15 @@ _register(
 _register(_trn("Teammates", "supporter", _TEAMMATES, catalog_id="xy5-141"))
 _register(_trn("Poké Radar", "item", _POKE_RADAR, catalog_id="dp6-133"))
 
-# Kept by the seed-20261116 copy search: one Counter Catcher stays off the list,
-# Penny and Jirachi-EX stay at two, and Prism Energy stays at four by cutting
-# one VS Seeker. Weighted rate 56.20%. Scoop Up Cyclone is not in this lock.
+# Kept by the Neutralization Zone search, seed 20261121: the 4 Dual Ball
+# lock, minus one Jirachi-EX, plus one Neutralization Zone. Weighted rate 59.80%.
 SET_KECLEON_NAMES = (
     ["Kecleon"] * 4
-    + ["Druddigon"] * 2
+    + ["Druddigon"]
     + ["Hoopa-EX"] * 2
     + ["Fezandipiti ex"] * 2
-    + ["Jirachi-EX"] * 2
-    + ["Latias ex"] * 2
+    + ["Jirachi-EX"]
+    + ["Latias ex"]
     + ["Volcanion-EX"]
     + ["M Gardevoir-EX"]
     + ["M Steelix-EX"]
@@ -6009,11 +6025,12 @@ SET_KECLEON_NAMES = (
     + ["Penny"] * 2
     + ["Poké Radar"] * 4
     + ["Nest Ball"] * 2
-    + ["Energy Retrieval"] * 2
     + ["Rescue Scarf"] * 2
     + ["Energy Loto"]
     + ["VS Seeker"]
     + ["Special Charge"]
+    + ["Dual Ball"] * 4
+    + ["Neutralization Zone"]
 )
 
 

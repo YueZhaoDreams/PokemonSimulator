@@ -23,6 +23,9 @@ def copy_limit_for(card: Card, rules: FamilyRules | None = None) -> int | None:
     text = (card.text or "").lower()
     if "can't have more than 1" in text and "same name" in text and "lost zone instead" in text:
         return 1
+    traits = " ".join(card.traits or []).lower()
+    if "ace spec" in traits or "1 ace spec" in text:
+        return 1
     return rules.max_copies_except_basic_energy
 
 
