@@ -137,6 +137,7 @@ PUBLISHED_EFFECT_KINDS = frozenset(
         "look_opp_discard_items",
         "coin_mill_top",
         "search_pokemon_max_hp",
+        "search_pokemon_except_lvx",
         "shuffle_hand_then_draw",
         "attach_basic_energy_from_discard",
         "attach_self_as_tool",

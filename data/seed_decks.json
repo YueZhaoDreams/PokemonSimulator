@@ -33418,59 +33418,6 @@
         "traits": []
       },
       {
-        "catalog_id": "sv10.5w-071",
-        "name": "Druddigon",
-        "category": "Pokemon",
-        "stage": "Basic",
-        "types": [
-          "Dragon"
-        ],
-        "hp": 120,
-        "attacks": [
-          {
-            "name": "Shred",
-            "cost": [
-              "Colorless"
-            ],
-            "damage": 40,
-            "text": "This attack's damage isn't affected by any effects on your opponent's Active Pok\u00e9mon.",
-            "effects": [
-              {
-                "kind": "ignore_active_effects"
-              }
-            ]
-          },
-          {
-            "name": "Ambush",
-            "cost": [
-              "Fire",
-              "Water",
-              "Colorless"
-            ],
-            "damage": 90,
-            "text": "Flip a coin. If heads, this attack does 60 more damage.",
-            "effects": [
-              {
-                "kind": "coin_damage_bonus",
-                "bonus": 60
-              }
-            ]
-          }
-        ],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 2,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv10.5w/071/low.webp",
-        "set_name": "White Flare",
-        "text": "",
-        "dex_id": null,
-        "traits": []
-      },
-      {
         "catalog_id": "xy7-36",
         "name": "Hoopa-EX",
         "category": "Pokemon",
@@ -35017,6 +34964,27 @@
         "image": "https://assets.tcgdex.net/en/ex/ex11/89/low.webp",
         "set_name": null,
         "text": "Flip 2 coins. For each head, search your deck for a Basic Pok\u00e9mon card, show it to your opponent, and put it into your hand. Shuffle your deck afterward.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "dp7-86",
+        "name": "Luxury Ball",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/dp/dp7/86/low.webp",
+        "set_name": null,
+        "text": "Search your deck for a Pok\u00e9mon (excluding Pok\u00e9mon LV.X), show it to your opponent, and put it into your hand. Shuffle your deck afterward. If any Luxury Ball is in your discard pile, you can't play this card.",
         "dex_id": null,
         "traits": []
       },
