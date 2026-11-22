@@ -45,7 +45,10 @@ def _idx(player, name: str, skip: int = 0) -> int:
 
 
 def test_delta_species_sentence_parses_two_coins():
-    assert fallback_named("Dual Ball").text == DUAL_BALL
+    card = fallback_named("Dual Ball")
+    assert card.text == DUAL_BALL
+    assert card.catalog_id == "ex11-89"
+    assert card.image == "https://assets.tcgdex.net/en/ex/ex11/89/low.webp"
     assert parse_trainer_effects(DUAL_BALL) == [
         {
             "kind": "coin_search_basic_to_hand",
