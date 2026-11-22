@@ -306,10 +306,12 @@ EXTRA_PRINT_IDS: dict[str, tuple[str, ...]] = {
     "Igglybuff": ("30th-120", "sm12-168"),
 }
 
-# Household prints that are not TCGdex ids. CLC 014 reprints Jungle Clefable
-# (Mitsuhiro Arita, base2-1). base1-5 is Base Set Clefairy.
+# Prints whose picture is not `{series}/{series}/{number}`.
+# CLC 014 reprints Jungle Clefable (Mitsuhiro Arita, base2-1).
+# EX Delta Species 89 lives under `ex/ex11`, not `ex11/ex11`.
 PRINT_ART_URLS = {
     "clc-014": "https://assets.tcgdex.net/en/base/base2/1/low.webp",
+    "ex11-89": "https://assets.tcgdex.net/en/ex/ex11/89/low.webp",
 }
 
 # Undaunted #85 on TCGdex is Slowking Prime. Seeker is Triumphant #88.
@@ -991,8 +993,8 @@ def _local_name_catalog() -> tuple[tuple[str, str, str], ...]:
         if not cid and any(_fold_name(existing) == fold and existing_cid for existing_cid, existing, _img in rows):
             return
         seen.add(key)
-        image = ""
-        if _looks_like_tcgdex_id(cid):
+        image = PRINT_ART_URLS.get(cid) or ""
+        if not image and _looks_like_tcgdex_id(cid):
             try:
                 image = _tcgdex_low(cid)
             except Exception:
@@ -1449,7 +1451,7 @@ def _remote_search_briefs(query: str, parsed: dict[str, str] | None = None) -> l
                 "id": cid,
                 "name": parsed["name"] or cid,
                 "localId": _local_id_from_catalog_id(cid),
-                "image": _tcgdex_low(cid) if _looks_like_tcgdex_id(cid) else "",
+                "image": PRINT_ART_URLS.get(cid) or (_tcgdex_low(cid) if _looks_like_tcgdex_id(cid) else ""),
             },
         )
     return briefs

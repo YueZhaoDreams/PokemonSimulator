@@ -1,5 +1,6 @@
 """Dual Ball uses the Delta Species sentence: two coins, one Basic per heads."""
 
+import json
 from random import Random
 
 from app.engine.effects import parse_trainer_effects
@@ -49,6 +50,36 @@ def test_delta_species_sentence_parses_two_coins():
     assert card.text == DUAL_BALL
     assert card.catalog_id == "ex11-89"
     assert card.image == "https://assets.tcgdex.net/en/ex/ex11/89/low.webp"
+
+
+def test_saved_deck_fills_blank_dual_ball_art(tmp_path, monkeypatch):
+    """ex11-89 does not build a TCGdex path, so a stored blank stays blank unless pinned."""
+    from app.catalog import fill_missing_card_image
+
+    filled = fill_missing_card_image({"name": "Dual Ball", "catalog_id": "ex11-89", "image": None})
+    assert filled["image"] == "https://assets.tcgdex.net/en/ex/ex11/89/low.webp"
+
+    monkeypatch.setattr("app.db.DB_PATH", tmp_path / "app.db")
+    from app.db import connect, init_db
+
+    init_db()
+    with connect() as conn:
+        raw = conn.execute("SELECT cards_json FROM decks WHERE id='seed-kecleon'").fetchone()["cards_json"]
+        cards = json.loads(raw)
+        for card in cards:
+            if card.get("name") == "Dual Ball":
+                card["image"] = None
+        conn.execute(
+            "UPDATE decks SET cards_json=? WHERE id='seed-kecleon'",
+            (json.dumps(cards),),
+        )
+    init_db()
+    with connect() as conn:
+        stored = json.loads(
+            conn.execute("SELECT cards_json FROM decks WHERE id='seed-kecleon'").fetchone()["cards_json"]
+        )
+    images = {card.get("image") for card in stored if card.get("name") == "Dual Ball"}
+    assert images == {"https://assets.tcgdex.net/en/ex/ex11/89/low.webp"}
     assert parse_trainer_effects(DUAL_BALL) == [
         {
             "kind": "coin_search_basic_to_hand",
