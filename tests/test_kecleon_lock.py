@@ -62,6 +62,8 @@ def test_printed_sentences_parse_their_numbers():
 
 def test_kecleon_list_is_sixty_and_named():
     assert len(SET_KECLEON_NAMES) == 60
+    assert SET_KECLEON_NAMES.count("Boss's Orders") == 1
+    assert SET_KECLEON_NAMES.count("Poké Radar") == 3
     deck = build_kecleon_deck()
     assert [c.name for c in deck] == list(SET_KECLEON_NAMES)
     assert copy_violations(deck, standard_60_rules()) == []
