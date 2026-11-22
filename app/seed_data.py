@@ -1547,7 +1547,15 @@ _DUAL_BALL_TEXT = (
     "Flip 2 coins. For each head, search your deck for a Basic Pokémon card, "
     "show it to your opponent, and put it into your hand. Shuffle your deck afterward."
 )
-_register(_trn("Dual Ball", "item", _DUAL_BALL_TEXT, catalog_id="ex11-89"))
+_register(
+    _trn(
+        "Dual Ball",
+        "item",
+        _DUAL_BALL_TEXT,
+        catalog_id="ex11-89",
+        image="https://assets.tcgdex.net/en/ex/ex11/89/low.webp",
+    )
+)
 # Evolving Skies 154. Printed HP, not remaining HP. Mew ex is 160 and stays in the discard.
 _RESCUE_CARRIER_TEXT = (
     "Put up to 2 Pokémon, each with 90 HP or less, from your discard pile into your hand."

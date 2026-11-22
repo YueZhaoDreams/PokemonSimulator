@@ -82,6 +82,9 @@ def test_kecleon_list_is_sixty_and_named():
     assert pictures["Druddigon"]["image"] == druddigon.image
     assert pictures["Energy Loto"]["catalog_id"] == "swsh10-140"
     assert pictures["Energy Loto"]["image"] == loto.image
+    ball = fallback_named("Dual Ball")
+    assert pictures["Dual Ball"]["catalog_id"] == "ex11-89"
+    assert pictures["Dual Ball"]["image"] == ball.image
 
 
 def _game():

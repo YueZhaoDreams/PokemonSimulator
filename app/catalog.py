@@ -176,6 +176,7 @@ PREFERRED_IDS = {
     "Hero's Cape": "sv05-152",  # Temporal Forces ACE SPEC: +100 HP, immune to Special Conditions
     "Eco Arm": "xy7-71",  # Ancient Origins: shuffle 3 Pokémon Tools from discard into the deck
     "Survival Brace": "sv06-164",  # Twilight Masquerade ACE SPEC: full HP lethal attack leaves 10 HP
+    "Dual Ball": "ex11-89",  # EX Delta Species: two coins, one Basic per heads
     "Acerola": "sm3-112",
     "Double Colorless Energy": "sm1-136",
     "Spiky Energy": "sv09-159",  # Journey Together: Colorless, counters stack, no Tool clause
