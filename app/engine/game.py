@@ -4685,6 +4685,20 @@ class Game:
         hand_names = {me.card(i).name.lower() for i in me.hand}
         discard_names = {me.card(i).name.lower() for i in me.discard}
         play_names = {me.card(m.card_i).name.lower() for m in me.in_play()}
+        if any(e.get("kind") == "coin_search_basic_to_hand" for e in parse_trainer_effects(card.text or "")):
+            # The sentence puts Basics into the hand. Kecleon is the attacker.
+            # Hoopa-EX and Jirachi-EX search only when played from the hand.
+            if "kecleon" in deck_names and "kecleon" not in play_names and "kecleon" not in hand_names:
+                return 24.0
+            if "hoopa-ex" in deck_names and "hoopa-ex" not in hand_names and "hoopa-ex" not in play_names:
+                return 18.0
+            if "latias ex" in deck_names and "latias ex" not in play_names:
+                return 16.0
+            if "jirachi-ex" in deck_names and "jirachi-ex" not in hand_names and "jirachi-ex" not in play_names:
+                return 14.0
+            if any(me.card(i).is_basic for i in me.deck):
+                return 4.0
+            return -12.0
         if name == "teammates":
             return 40.0 if ko else -50.0
         if name == "arven":
@@ -5175,11 +5189,19 @@ class Game:
             return doll_ai.search_prefer(self, me)
         if strat.name == "kecleon":
             play = {me.card(mon.card_i).name.lower() for mon in me.in_play()}
-            prefer = ["Kecleon"]
+            hand = {me.card(i).name.lower() for i in me.hand}
+            have = play | hand
+            prefer: list[str] = []
+            if "kecleon" not in have:
+                prefer.append("Kecleon")
+            if "hoopa-ex" not in have:
+                prefer.append("Hoopa-EX")
             if "latias ex" not in play:
                 prefer.append("Latias ex")
-            prefer.extend(["Druddigon", "Fezandipiti ex"])
-            return prefer
+            if "jirachi-ex" not in have:
+                prefer.append("Jirachi-EX")
+            prefer.extend(["Kecleon", "Druddigon", "Fezandipiti ex", "Hoopa-EX", "Latias ex", "Jirachi-EX"])
+            return list(dict.fromkeys(prefer))
         if strat.name == "mill":
             names = {me.card(mon.card_i).name.lower() for mon in me.in_play()}
             names |= {me.card(i).name.lower() for i in me.hand}
@@ -7593,6 +7615,52 @@ class Game:
         self._bump("miss_fortune_sisters")
         if not discarded:
             self._bump("sisters_miss")
+
+    def _coin_search_basic_to_hand(self, me: Player, who: str, eff: dict) -> None:
+        """Dual Ball: one Basic into the hand for each heads, then one shuffle.
+
+        The printed line does not rank the Basics. This deck's search order does,
+        and it has to beat attack-damage scoring or Latias ex comes out first.
+        """
+        heads = self._flip_coins(int(eff.get("flips") or 0))
+        exclude_baby = bool(eff.get("exclude_baby"))
+        self._bump("dual_ball")
+        self._bump(f"dual_ball_{me.name.lower()}")
+        found = 0
+        for _ in range(heads):
+            card_i = self._take_ranked_basic(me, who, exclude_baby)
+            if card_i is None:
+                break
+            found += 1
+            name = me.card(card_i).name
+            self._bump("dual_ball_basic")
+            self._bump(f"dual_ball_basic_{me.name.lower()}")
+            self._bump(f"tutor:{name}")
+            self._bump("tutor:" + name + ":dual ball")
+            self._bump(f"tutor_{me.name.lower()}:{name}:dual ball")
+            self._log(f"{me.name} Dual Ball takes {name}")
+        shuffle = str(eff.get("shuffle") or "after")
+        if shuffle == "after" or (shuffle == "if_found" and found):
+            self.rng.shuffle(me.deck)
+
+    def _take_ranked_basic(self, me: Player, who: str, exclude_baby: bool) -> int | None:
+        prefer = [name.lower() for name in self._pokemon_search_prefer(me, who)]
+        ranked: list[tuple[int, int, int]] = []
+        for idx, card_i in enumerate(me.deck):
+            card = me.card(card_i)
+            if not card.is_basic:
+                continue
+            if exclude_baby and (card.stage or "").lower() == "baby":
+                continue
+            name = card.name.lower()
+            rank = prefer.index(name) if name in prefer else len(prefer)
+            ranked.append((rank, idx, card_i))
+        if not ranked:
+            return None
+        _, _, card_i = min(ranked)
+        me.deck.pop(me.deck.index(card_i))
+        me.hand.append(card_i)
+        return card_i
 
     def _coin_mill_top(self, me: Player, foe: Player, flips: int, per: int) -> None:
         """Handiwork flips its own coins. Victory Star and Glimwood do not reflip them."""
@@ -10972,6 +11040,23 @@ class Game:
             return False
         return can_pay_energy(self._energy_pool(foe, foe.active), atk.cost)
 
+    def _survival_brace_host(self, me: Player, who: str) -> Pokemon | None:
+        """The sentence leaves a full-HP Pokémon at 10. A damaged one never triggers it.
+
+        The strategy's search ace is the host when that Pokémon is still at full HP.
+        """
+        aces = {n.lower() for n in (self.strats[who].search_aces or [])}
+        bare = [mon for mon in me.in_play() if mon.tool is None and mon.damage <= 0]
+        for mon in bare:
+            if mon is me.active and me.card(mon.card_i).name.lower() in aces:
+                return mon
+        for mon in bare:
+            if me.card(mon.card_i).name.lower() in aces:
+                return mon
+        if me.active is not None and me.active in bare:
+            return me.active
+        return bare[0] if bare else None
+
     def _tool_target(self, me: Player, who: str, card: Card) -> Pokemon | None:
         if self.strats[who].name == "doll" and doll_ai.claims_tool(card):
             return doll_ai.tool_host(self, me, card)
@@ -11022,7 +11107,14 @@ class Game:
             return None
         if name == "survival brace" and self.strats[who].name == "mill":
             return self._mill_brace_target(me)
-        if name in {"hero's cape", "survival brace"}:
+        if name == "survival brace":
+            for mon in me.in_play():
+                if mon.tool is None and me.card(mon.card_i).name.lower() == "mew ex":
+                    return mon
+            if self.strats[who].name in {"mew_baby", "baby"}:
+                return None
+            return self._survival_brace_host(me, who)
+        if name == "hero's cape":
             for mon in me.in_play():
                 if mon.tool is None and me.card(mon.card_i).name.lower() == "mew ex":
                     return mon
@@ -11145,8 +11237,10 @@ class Game:
         mon.damage = max(0, hp - 10)
         owner.discard.append(mon.tool)
         mon.tool = None
+        host_name = owner.card(mon.card_i).name
         self._bump("survival_brace")
-        self._log(f"Survival Brace leaves {owner.card(mon.card_i).name} with 10 HP")
+        self._bump(f"survival_brace:{host_name}")
+        self._log(f"Survival Brace leaves {host_name} with 10 HP")
 
     def _add_attack_damage(
         self,
@@ -11268,8 +11362,11 @@ class Game:
         target.tool = card_i
         if self._blocks_special_conditions(me, target):
             target.status = 0
-        self._bump(f"tool:{me.card(card_i).name}")
-        self._log(f"{me.name} attaches {me.card(card_i).name} to {me.card(target.card_i).name}")
+        tool_name = me.card(card_i).name
+        host_name = me.card(target.card_i).name
+        self._bump(f"tool:{tool_name}")
+        self._bump(f"tool:{tool_name}:{host_name}")
+        self._log(f"{me.name} attaches {tool_name} to {host_name}")
         return True
 
     def _bench_basic_from_deck(self, me: Player, who: str, count: int = 1, max_hp: int | None = None, source: str = "ball") -> None:
@@ -17708,6 +17805,8 @@ class Game:
             self._devolution_spray(me, foe, who, eff)
         elif kind == "look_opp_discard_items":
             self._look_opp_discard_items(me, foe, int(eff.get("look") or 0))
+        elif kind == "coin_search_basic_to_hand":
+            self._coin_search_basic_to_hand(me, who, eff)
         elif kind == "coin_mill_top":
             self._coin_mill_top(me, foe, int(eff.get("flips") or 0), int(eff.get("per") or 0))
         elif kind == "shuffle_tools_to_deck":

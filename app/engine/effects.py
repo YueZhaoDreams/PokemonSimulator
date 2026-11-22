@@ -1520,6 +1520,29 @@ def parse_trainer_effects(text: str) -> list[dict[str, Any]]:
     if level_ball:
         effects.append({"kind": "search_pokemon_max_hp", "max_hp": int(level_ball.group(1))})
         return effects
+    # Dual Ball (EX Delta Species 89). Each heads searches one Basic into the hand.
+    # "For each head" and "for each heads" are the two official prints. Expedition
+    # adds "other than a Baby Pokémon card". Shuffle is once afterward, or only
+    # "If you do" on the Call of Legends print.
+    dual_ball = re.search(
+        r"flip (\d+) coins?\. for each heads?, search your deck for a basic pokemon(?: card)?"
+        r"(?: other than a baby pokemon card)?, show it to your opponent, and put it into your hand",
+        t,
+    )
+    if dual_ball:
+        if "if you do, shuffle your deck afterward" in t:
+            shuffle = "if_found"
+        else:
+            shuffle = "after"
+        effects.append(
+            {
+                "kind": "coin_search_basic_to_hand",
+                "flips": int(dual_ball.group(1)),
+                "exclude_baby": "other than a baby pokemon card" in t,
+                "shuffle": shuffle,
+            }
+        )
+        return effects
     # Miss Fortune Sisters: look at the top N of the opponent's deck and discard items found there.
     sisters = re.search(
         r"look at the top (\d+) cards of your opponent's deck and discard any number of item cards",

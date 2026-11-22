@@ -19,7 +19,7 @@ from app.engine.effects import (
     parse_trainer_effects,
 )
 from app.engine.game import ST_ASLEEP, Game, Pokemon
-from app.engine.legality import copy_violations
+from app.engine.legality import copy_limit_for, copy_violations
 from app.engine.models import S60_SEED_IDS, default_rule_presets_for, standard_60_rules
 from app.engine.strategies import StrategySpec
 from app.seed import _is_basic_energy_name, load_seed_deck
@@ -321,9 +321,13 @@ def test_printed_sentences_parse_to_the_mill_effects():
     assert parse_ability_effects(glimwood.text) == [{"kind": "reflip_attack_coins", "each_player": True}]
 
     zone = fallback_named("Neutralization Zone")
+    assert zone.text.startswith("You can't have more than 1 ACE SPEC card in your deck.")
+    assert "ace spec" in [trait.lower() for trait in zone.traits]
+    assert copy_limit_for(zone, standard_60_rules()) == 1
     zone_fx = parse_ability_effects(zone.text)
     assert {"kind": "prevent_ex_v_damage_no_rule_box", "both_players": True} in zone_fx
     assert {"kind": "cannot_leave_discard"} in zone_fx
+    assert copy_violations([zone, zone], standard_60_rules()) == [{"name": "Neutralization Zone", "count": 2, "max": 1}]
 
     hq = fallback_named("Pokémon League Headquarters")
     assert hq.text == _HQ

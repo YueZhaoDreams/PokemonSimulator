@@ -27192,9 +27192,11 @@
         "energy_type": null,
         "image": "https://assets.tcgdex.net/en/sv/sv06.5/060/low.webp",
         "set_name": null,
-        "text": "Prevent all damage done to Pok\u00e9mon that don't have a Rule Box (both yours and your opponent's) by attacks from the opponent's Pok\u00e9mon ex and Pok\u00e9mon V. (Pok\u00e9mon ex, Pok\u00e9mon V, etc. have Rule Boxes.)\n\nThis card can't be put into your hand or deck from the discard pile.",
+        "text": "You can't have more than 1 ACE SPEC card in your deck.\n\nPrevent all damage done to Pok\u00e9mon that don't have a Rule Box (both yours and your opponent's) by attacks from the opponent's Pok\u00e9mon ex and Pok\u00e9mon V. (Pok\u00e9mon ex, Pok\u00e9mon V, etc. have Rule Boxes.)\n\nThis card can't be put into your hand or deck from the discard pile.",
         "dex_id": null,
-        "traits": []
+        "traits": [
+          "ace spec"
+        ]
       },
       {
         "catalog_id": "swsh2-157",
@@ -33469,59 +33471,6 @@
         "traits": []
       },
       {
-        "catalog_id": "sv10.5w-071",
-        "name": "Druddigon",
-        "category": "Pokemon",
-        "stage": "Basic",
-        "types": [
-          "Dragon"
-        ],
-        "hp": 120,
-        "attacks": [
-          {
-            "name": "Shred",
-            "cost": [
-              "Colorless"
-            ],
-            "damage": 40,
-            "text": "This attack's damage isn't affected by any effects on your opponent's Active Pok\u00e9mon.",
-            "effects": [
-              {
-                "kind": "ignore_active_effects"
-              }
-            ]
-          },
-          {
-            "name": "Ambush",
-            "cost": [
-              "Fire",
-              "Water",
-              "Colorless"
-            ],
-            "damage": 90,
-            "text": "Flip a coin. If heads, this attack does 60 more damage.",
-            "effects": [
-              {
-                "kind": "coin_damage_bonus",
-                "bonus": 60
-              }
-            ]
-          }
-        ],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 2,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv10.5w/071/low.webp",
-        "set_name": "White Flare",
-        "text": "",
-        "dex_id": null,
-        "traits": []
-      },
-      {
         "catalog_id": "xy7-36",
         "name": "Hoopa-EX",
         "category": "Pokemon",
@@ -33814,136 +33763,6 @@
         "energy_type": null,
         "image": "https://assets.tcgdex.net/en/bw/bw10/60/low.webp",
         "set_name": "Plasma Blast",
-        "text": "",
-        "dex_id": null,
-        "traits": []
-      },
-      {
-        "catalog_id": "bw10-60",
-        "name": "Jirachi-EX",
-        "category": "Pokemon",
-        "stage": "Basic",
-        "types": [
-          "Metal"
-        ],
-        "hp": 90,
-        "attacks": [
-          {
-            "name": "Hypnostrike",
-            "cost": [
-              "Metal",
-              "Colorless",
-              "Colorless"
-            ],
-            "damage": 60,
-            "text": "Both this Pok\u00e9mon and the Defending Pok\u00e9mon are now Asleep.",
-            "effects": [
-              {
-                "kind": "status",
-                "status": "asleep",
-                "coin": false
-              },
-              {
-                "kind": "status",
-                "status": "asleep",
-                "target": "self",
-                "coin": false
-              }
-            ]
-          }
-        ],
-        "abilities": [
-          {
-            "name": "Stellar Guidance",
-            "text": "When you play this Pok\u00e9mon from your hand onto your Bench, you may search your deck for a Supporter card, reveal it, and put it into your hand. Shuffle your deck afterward.",
-            "effects": [
-              {
-                "kind": "search_supporter_on_bench",
-                "once_per_turn": true,
-                "name_lock": null
-              }
-            ]
-          }
-        ],
-        "weaknesses": [
-          {
-            "type": "Fire",
-            "value": "\u00d72"
-          }
-        ],
-        "resistances": [
-          {
-            "type": "Psychic",
-            "value": "-20"
-          }
-        ],
-        "retreat": 1,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/bw/bw10/60/low.webp",
-        "set_name": "Plasma Blast",
-        "text": "",
-        "dex_id": null,
-        "traits": []
-      },
-      {
-        "catalog_id": "sv08-076",
-        "name": "Latias ex",
-        "category": "Pokemon",
-        "stage": "Basic",
-        "types": [
-          "Psychic"
-        ],
-        "hp": 210,
-        "attacks": [
-          {
-            "name": "Eon Blade",
-            "cost": [
-              "Psychic",
-              "Psychic",
-              "Colorless"
-            ],
-            "damage": 200,
-            "text": "During your next turn, this Pok\u00e9mon can't attack.",
-            "effects": [
-              {
-                "kind": "disable_self_attack_next_turn"
-              }
-            ]
-          }
-        ],
-        "abilities": [
-          {
-            "name": "Skyliner",
-            "text": "Your Basic Pok\u00e9mon in play have no Retreat Cost.",
-            "effects": [
-              {
-                "kind": "basic_retreat_zero",
-                "basic_only": true,
-                "owner_only": true
-              }
-            ]
-          }
-        ],
-        "weaknesses": [
-          {
-            "type": "Darkness",
-            "value": "\u00d72"
-          }
-        ],
-        "resistances": [
-          {
-            "type": "Fighting",
-            "value": "-30"
-          }
-        ],
-        "retreat": 2,
-        "evolves_from": null,
-        "trainer_kind": null,
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv08/076/low.webp",
-        "set_name": "Surging Sparks",
         "text": "",
         "dex_id": null,
         "traits": []
@@ -35013,48 +34832,6 @@
         "traits": []
       },
       {
-        "catalog_id": "sv01-171",
-        "name": "Energy Retrieval",
-        "category": "Trainer",
-        "stage": "Item",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "item",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv01/171/low.webp",
-        "set_name": null,
-        "text": "Put up to 2 Basic Energy cards from your discard pile into your hand.",
-        "dex_id": null,
-        "traits": []
-      },
-      {
-        "catalog_id": "sv01-171",
-        "name": "Energy Retrieval",
-        "category": "Trainer",
-        "stage": "Item",
-        "types": [],
-        "hp": 0,
-        "attacks": [],
-        "abilities": [],
-        "weaknesses": [],
-        "resistances": [],
-        "retreat": 0,
-        "evolves_from": null,
-        "trainer_kind": "item",
-        "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/sv/sv01/171/low.webp",
-        "set_name": null,
-        "text": "Put up to 2 Basic Energy cards from your discard pile into your hand.",
-        "dex_id": null,
-        "traits": []
-      },
-      {
         "catalog_id": "bw6-115",
         "name": "Rescue Scarf",
         "category": "Trainer",
@@ -35158,6 +34935,113 @@
         "text": "Shuffle 2 Special Energy cards from your discard pile into your deck.",
         "dex_id": null,
         "traits": []
+      },
+      {
+        "catalog_id": "ex11-89",
+        "name": "Dual Ball",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": null,
+        "set_name": null,
+        "text": "Flip 2 coins. For each head, search your deck for a Basic Pok\u00e9mon card, show it to your opponent, and put it into your hand. Shuffle your deck afterward.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "ex11-89",
+        "name": "Dual Ball",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": null,
+        "set_name": null,
+        "text": "Flip 2 coins. For each head, search your deck for a Basic Pok\u00e9mon card, show it to your opponent, and put it into your hand. Shuffle your deck afterward.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "ex11-89",
+        "name": "Dual Ball",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": null,
+        "set_name": null,
+        "text": "Flip 2 coins. For each head, search your deck for a Basic Pok\u00e9mon card, show it to your opponent, and put it into your hand. Shuffle your deck afterward.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "ex11-89",
+        "name": "Dual Ball",
+        "category": "Trainer",
+        "stage": "Item",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "item",
+        "energy_type": null,
+        "image": null,
+        "set_name": null,
+        "text": "Flip 2 coins. For each head, search your deck for a Basic Pok\u00e9mon card, show it to your opponent, and put it into your hand. Shuffle your deck afterward.",
+        "dex_id": null,
+        "traits": []
+      },
+      {
+        "catalog_id": "sv06.5-060",
+        "name": "Neutralization Zone",
+        "category": "Trainer",
+        "stage": "Stadium",
+        "types": [],
+        "hp": 0,
+        "attacks": [],
+        "abilities": [],
+        "weaknesses": [],
+        "resistances": [],
+        "retreat": 0,
+        "evolves_from": null,
+        "trainer_kind": "stadium",
+        "energy_type": null,
+        "image": "https://assets.tcgdex.net/en/sv/sv06.5/060/low.webp",
+        "set_name": null,
+        "text": "You can't have more than 1 ACE SPEC card in your deck.\n\nPrevent all damage done to Pok\u00e9mon that don't have a Rule Box (both yours and your opponent's) by attacks from the opponent's Pok\u00e9mon ex and Pok\u00e9mon V. (Pok\u00e9mon ex, Pok\u00e9mon V, etc. have Rule Boxes.)\n\nThis card can't be put into your hand or deck from the discard pile.",
+        "dex_id": null,
+        "traits": [
+          "ace spec"
+        ]
       }
     ]
   }
