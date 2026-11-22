@@ -115,7 +115,7 @@ def test_two_heads_take_kecleon_then_hoopa_and_leave_the_mega():
     me.hand = []
     me.deck = [mega, kecleon, hoopa, latias, energy]
     me.discard = []
-    me.active = Pokemon(card_i=_idx(me, "Druddigon"), played_turn=0)
+    me.active = Pokemon(card_i=_idx(me, "Fezandipiti ex"), played_turn=0)
     me.bench = []
     rolls = _Rolls([0.0, 0.0])
     game.rng = rolls
@@ -135,7 +135,7 @@ def test_tails_and_a_mega_only_deck_do_not_take_a_card():
     me.hand = []
     me.deck = [mega, energy]
     me.discard = []
-    me.active = Pokemon(card_i=_idx(me, "Druddigon"), played_turn=0)
+    me.active = Pokemon(card_i=_idx(me, "Fezandipiti ex"), played_turn=0)
     me.bench = []
     rolls = _Rolls([0.9, 0.9])
     game.rng = rolls
@@ -161,6 +161,6 @@ def test_kecleon_plays_dual_ball_while_kecleon_is_still_in_the_deck():
     # The registered card is not in the built deck. Score the sentence itself.
     me.hand = []
     me.deck = [_idx(me, "Kecleon")]
-    me.active = Pokemon(card_i=_idx(me, "Druddigon"), played_turn=0)
+    me.active = Pokemon(card_i=_idx(me, "Fezandipiti ex"), played_turn=0)
     me.bench = []
     assert game._kecleon_trainer_score(me, game.players["b"], ball) == 24.0

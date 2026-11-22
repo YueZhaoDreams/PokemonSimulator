@@ -1028,6 +1028,8 @@ STRATEGY_LIBRARY = {
             "It replays Hoopa-EX while another Pokémon-EX is in the deck, and replays "
             "Jirachi-EX while a Supporter is in the deck. "
             "Jirachi-EX, played from the hand, searches a Supporter for the board. "
+            "Against Doll, once a Pokémon already in play can Knock Out the Active, "
+            "the turn attaches and attacks without playing another card. "
             "Prism Energy, on a Basic, provides every type but only 1 Energy at a time, "
             "so Kecleon, Druddigon, and Fezandipiti ex can share that one copy."
         ),

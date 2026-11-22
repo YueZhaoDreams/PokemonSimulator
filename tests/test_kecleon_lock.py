@@ -16,7 +16,13 @@ from app.engine.legality import copy_violations
 from app.engine.models import standard_60_rules
 from app.engine.strategies import StrategySpec
 from app.seed import load_seed_deck
-from app.seed_data import SET_KECLEON_NAMES, build_fallback_deck, build_kecleon_deck, fallback_named
+from app.seed_data import (
+    SET_KECLEON_NAMES,
+    build_doll_deck,
+    build_fallback_deck,
+    build_kecleon_deck,
+    fallback_named,
+)
 
 WHIP = (
     "Reveal any number of Pokémon from your hand, and this attack does 30 damage "
@@ -78,8 +84,10 @@ def test_kecleon_list_is_sixty_and_named():
     pictures = {c["name"]: c for c in locked["cards"]}
     assert pictures["Kecleon"]["catalog_id"] == "me06-083"
     assert pictures["Kecleon"]["image"] == kecleon.image
-    assert pictures["Druddigon"]["catalog_id"] == "sv10.5w-071"
-    assert pictures["Druddigon"]["image"] == druddigon.image
+    assert "Druddigon" not in pictures
+    luxury = fallback_named("Luxury Ball")
+    assert pictures["Luxury Ball"]["catalog_id"] == "dp7-86"
+    assert pictures["Luxury Ball"]["image"] == luxury.image
     assert pictures["Energy Loto"]["catalog_id"] == "swsh10-140"
     assert pictures["Energy Loto"]["image"] == loto.image
     ball = fallback_named("Dual Ball")
@@ -175,7 +183,7 @@ def test_poke_radar_takes_every_pokemon_from_the_printed_look():
     top = [
         _idx(me, "Kecleon"),
         _idx(me, "Fire Energy"),
-        _idx(me, "Druddigon"),
+        _idx(me, "Fezandipiti ex"),
         _idx(me, "Energy Loto"),
         _idx(me, "Psychic Energy"),
     ]
@@ -185,7 +193,7 @@ def test_poke_radar_takes_every_pokemon_from_the_printed_look():
     card = me.card(radar)
     game._resolve_trainer(me, game.players["b"], card, who="a", card_i=radar)
     assert _idx(me, "Kecleon") in me.hand
-    assert _idx(me, "Druddigon") in me.hand
+    assert _idx(me, "Fezandipiti ex") in me.hand
     assert _idx(me, "Fire Energy") not in me.hand
     assert game.events.get("poke_radar") == 2
 
@@ -504,7 +512,19 @@ def test_teammates_can_find_prism_energy():
 
 
 def test_prism_attaches_to_the_basic_fighter_that_needs_the_type():
-    game = _game()
+    deck = build_fallback_deck(
+        ["Druddigon", "Kecleon", "Kecleon", "Double Colorless Energy", "Fire Energy"]
+        + ["Psychic Energy"] * 3
+        + ["Hop"] * 52
+    )
+    game = Game(
+        deck,
+        build_fallback_deck(["Starly"] + ["Hop"] * 59),
+        standard_60_rules(),
+        StrategySpec.from_dict("kecleon"),
+        StrategySpec.from_dict("balanced"),
+        Random(1),
+    )
     me = game.players["a"]
     kecleon = _idx(me, "Kecleon")
     druddigon = _idx(me, "Druddigon")
@@ -726,8 +746,8 @@ def test_existing_kecleon_seed_replaces_wrong_art(tmp_path, monkeypatch):
             if card.get("name") == "Kecleon":
                 card["catalog_id"] = "me6-83"
                 card["image"] = "https://assets.tcgdex.net/en/me/me6/83/low.webp"
-            elif card.get("name") == "Druddigon":
-                card["catalog_id"] = "rsv10pt5-71"
+            elif card.get("name") == "Luxury Ball":
+                card["catalog_id"] = "dp7-00"
                 card["image"] = None
             elif card.get("name") == "Energy Loto":
                 card["catalog_id"] = "sv08-140"
@@ -742,13 +762,96 @@ def test_existing_kecleon_seed_replaces_wrong_art(tmp_path, monkeypatch):
             conn.execute("SELECT cards_json FROM decks WHERE id='seed-kecleon'").fetchone()["cards_json"]
         )
     kecleon = next(c for c in stored if c.get("name") == "Kecleon")
-    druddigon = next(c for c in stored if c.get("name") == "Druddigon")
+    luxury = next(c for c in stored if c.get("name") == "Luxury Ball")
     loto = next(c for c in stored if c.get("name") == "Energy Loto")
     assert kecleon["catalog_id"] == "me06-083"
     assert "me06/083" in kecleon["image"]
     assert "Colorful Whip" in kecleon["attacks"][0]["name"]
-    assert druddigon["catalog_id"] == "sv10.5w-071"
-    assert "sv10.5w/071" in druddigon["image"]
+    assert luxury["catalog_id"] == "dp7-86"
+    assert "dp/dp7/86" in luxury["image"]
+    assert not any(c.get("name") == "Druddigon" for c in stored)
     assert loto["catalog_id"] == "swsh10-140"
     assert "swsh10/140" in loto["image"]
     assert "sv08/140" not in loto["image"]
+
+
+def _doll_game():
+    return Game(
+        build_kecleon_deck(),
+        build_doll_deck(),
+        standard_60_rules(),
+        StrategySpec.from_dict("kecleon"),
+        StrategySpec.from_dict("doll"),
+        Random(1),
+    )
+
+
+def _first_idx(player, name):
+    return next(i for i, card in enumerate(player.cards) if card.name == name)
+
+
+def _script_board(player, active, hand, energy=None):
+    used = {active, *hand, *(energy or [])}
+    player.active = Pokemon(card_i=active, energy=list(energy or []), played_turn=0)
+    player.bench = []
+    player.hand = list(hand)
+    player.discard = []
+    player.prizes = [i for i in player.prizes if i not in used]
+    parked = set(player.prizes)
+    player.deck = [i for i in range(len(player.cards)) if i not in used and i not in parked]
+
+
+def test_doll_hold_skips_cards_when_whip_already_kos():
+    game = _doll_game()
+    game.turn = 2
+    me = game.players["a"]
+    foe = game.players["b"]
+    kecleon = _first_idx(me, "Kecleon")
+    dce = _first_idx(me, "Double Colorless Energy")
+    hoopa = _first_idx(me, "Hoopa-EX")
+    arven = _first_idx(me, "Arven")
+    volcanion = _first_idx(me, "Volcanion-EX")
+    _script_board(me, kecleon, [hoopa, arven, volcanion], energy=[dce])
+    doll = _first_idx(foe, "Lillie's Poké Doll")
+    _script_board(foe, doll, [])
+    assert game._kecleon_doll_hold_plays(me)
+    game._play_basics(me)
+    game._play_trainers(me, foe, "a")
+    assert me.hand == [hoopa, arven, volcanion]
+    assert me.bench == []
+    assert game.events["doll_hold"] == 1
+    game._attack(me, foe, "a")
+    assert foe.active is None or foe.active.card_i != doll or foe.active.damage >= 30
+
+
+def test_doll_hold_waits_when_the_doll_is_not_in_range():
+    game = _doll_game()
+    game.turn = 2
+    me = game.players["a"]
+    foe = game.players["b"]
+    kecleon = _first_idx(me, "Kecleon")
+    dce = _first_idx(me, "Double Colorless Energy")
+    hoopa = _first_idx(me, "Hoopa-EX")
+    arven = _first_idx(me, "Arven")
+    _script_board(me, kecleon, [hoopa, arven], energy=[dce])
+    snorlax = _first_idx(foe, "Snorlax Doll")
+    _script_board(foe, snorlax, [])
+    assert not game._kecleon_doll_hold_plays(me)
+    game._play_basics(me)
+    assert hoopa not in me.hand
+
+
+def test_doll_hold_waits_until_whip_can_be_paid():
+    game = _doll_game()
+    game.turn = 2
+    me = game.players["a"]
+    foe = game.players["b"]
+    kecleon = _first_idx(me, "Kecleon")
+    hoopa = _first_idx(me, "Hoopa-EX")
+    arven = _first_idx(me, "Arven")
+    _script_board(me, kecleon, [hoopa, arven])
+    doll = _first_idx(foe, "Lillie's Poké Doll")
+    _script_board(foe, doll, [])
+    assert not game._kecleon_doll_hold_plays(me)
+    game._play_basics(me)
+    assert hoopa not in me.hand

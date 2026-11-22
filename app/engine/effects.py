@@ -1543,6 +1543,23 @@ def parse_trainer_effects(text: str) -> list[dict[str, Any]]:
             }
         )
         return effects
+    # Stormfront 86 Luxury Ball. The parentheses exclude LV.X. The last sentence
+    # names the card that locks this play once one copy is in the discard.
+    luxury = re.search(
+        r"search your deck for a pokemon \(excluding pokemon lv\.x\), show it to your opponent, "
+        r"and put it into your hand\. shuffle your deck afterward\. "
+        r"if any (.+?) is in your discard pile, you can't play this card",
+        t,
+    )
+    if luxury:
+        effects.append(
+            {
+                "kind": "search_pokemon_except_lvx",
+                "exclude_lv_x": True,
+                "unplayable_if_in_discard": luxury.group(1).strip(),
+            }
+        )
+        return effects
     # Miss Fortune Sisters: look at the top N of the opponent's deck and discard items found there.
     sisters = re.search(
         r"look at the top (\d+) cards of your opponent's deck and discard any number of item cards",

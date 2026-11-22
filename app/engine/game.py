@@ -213,6 +213,7 @@ class Game:
         self._grand_tree_used: set[str] = set()
         self._roast_ran: dict[str, int] = {}
         self._roast_mill_this_turn: dict[str, int] = {}
+        self._doll_hold_mark: tuple[int, str] | None = None
 
     def _log(self, message: str) -> None:
         if self.trace_on:
@@ -1321,6 +1322,8 @@ class Game:
                 self._wake_asleep(player.active)
 
     def _play_basics(self, me: Player) -> None:
+        if self._kecleon_doll_hold_plays(me):
+            return
         who = "a" if me.name == "A" else "b"
         if self.strats[who].name == "roast":
             if self._roast_ran.get(who) == self.turn:
@@ -1785,6 +1788,8 @@ class Game:
         self._do_evolve(me, target, ex_i)
 
     def _play_trainers(self, me: Player, foe: Player, who: str) -> None:
+        if self._kecleon_doll_hold_plays(me):
+            return
         if self.strats[who].name == "roast":
             return
         strat = self.strats[who]
@@ -1888,6 +1893,8 @@ class Game:
             if card.is_supporter and not self._can_play_supporter(who):
                 continue
             if (card.is_item or self._is_tool_card(card)) and me.item_lock:
+                continue
+            if self._trainer_blocked_by_discard(me, card):
                 continue
             name = card.name.lower()
             if name == "ultra ball" and len(me.hand) < 3:
@@ -2492,7 +2499,18 @@ class Game:
             ):
                 score += self._shuffle_draw_per_bench_score(me, foe, strat, card, missing_protect)
             else:
-                score += 0.5
+                spec = next(
+                    (
+                        e
+                        for e in parse_trainer_effects(card.text or "")
+                        if e.get("kind") == "search_pokemon_except_lvx"
+                    ),
+                    None,
+                )
+                if spec is not None:
+                    score += self._search_pokemon_except_lvx_score(me, who)
+                else:
+                    score += 0.5
             # Greedy Family Cup: Energy Search is also a Pokémon tutor.
             if name == "energy search" and self.rules.pokemon_as_energy and strat.item_spend >= 0.75:
                 score += 3
@@ -2732,9 +2750,7 @@ class Game:
             if discarded < 2:
                 self._bump("ultra_ball_fail")
                 return
-            prefer = self._pokemon_search_prefer(me, who)
-            if self.strats[who].name == "kecleon":
-                prefer = self._kecleon_hand_prefer(me)
+            prefer = self._any_pokemon_prefer(me, who)
             found = self._search(me, lambda c: c.is_pokemon, prefer=prefer, source="ultra ball")
             if found:
                 self._bump("ball_search_hit")
@@ -4552,6 +4568,92 @@ class Game:
                     seen.add(typ)
         return len(seen)
 
+    def _kecleon_attack_is_sure(self, atk) -> bool:
+        """A hold can use this attack only when the damage does not flip a coin."""
+        if "flip a coin" in (atk.text or "").lower():
+            return False
+        return not any(str(eff.get("kind") or "").startswith("coin") for eff in atk.effects)
+
+    def _kecleon_one_attach_pays(self, me: Player, mon: Pokemon, cost: list[str]) -> bool:
+        """True when one Energy card in hand pays this attack. A Pokémon does not count."""
+        behind, host = self._energy_context(me, mon)
+        pool = self._energy_pool(me, mon)
+        for idx in me.hand:
+            card = me.card(idx)
+            if not card.is_energy or card.is_pokemon:
+                continue
+            extra = energy_provided(card, prizes_behind=behind, host=host)
+            if can_pay_energy([*pool, *extra], cost):
+                return True
+        return False
+
+    def _kecleon_mon_can_ko(self, me: Player, foe: Player, mon: Pokemon, remain: int, attach: bool) -> bool:
+        for atk in self._attacks_for(me, mon):
+            if not self._kecleon_attack_is_sure(atk):
+                continue
+            cost = self._attack_cost(me, mon, atk, foe)
+            paid = can_pay_energy(self._energy_pool(me, mon), cost)
+            if not paid and attach and self._kecleon_one_attach_pays(me, mon, cost):
+                paid = True
+            if not paid:
+                continue
+            if self._raw_attack_damage(me, foe, mon, atk) >= remain:
+                return True
+        return False
+
+    def _kecleon_doll_hold_plays(self, me: Player) -> bool:
+        """Against Doll, skip cards once a Pokémon already in play can take the Knock Out.
+
+        The turn still attaches one Energy and retreats. Balls, Radar, and a Bench
+        play would search the deck or take Pokémon out of the hand before Whip.
+        """
+        who = "a" if me.name == "A" else "b"
+        if self.strats[who].name != "kecleon":
+            return False
+        foe_who = "b" if who == "a" else "a"
+        if self.strats[foe_who].name != "doll":
+            return False
+        if self.turn == 1 and who == self.first and self.rules.first_player_no_attack:
+            return False
+        foe = self.players[foe_who]
+        if not me.active or not foe.active:
+            return False
+        if me.active.status & (ST_PARALYZED | ST_ASLEEP):
+            return False
+        remain = self._max_hp(foe, foe.active) - foe.active.damage
+        if remain <= 0:
+            return False
+        attach_active = not me.energy_attached
+        if self._kecleon_mon_can_ko(me, foe, me.active, remain, attach=attach_active):
+            self._mark_doll_hold(who)
+            return True
+        if not self._kecleon_can_retreat(me):
+            return False
+        target = self._kecleon_energy_target(me)
+        for mon in me.bench:
+            can_attach = attach_active and mon is target
+            if self._kecleon_mon_can_ko(me, foe, mon, remain, attach=can_attach):
+                self._mark_doll_hold(who)
+                return True
+        return False
+
+    def _kecleon_can_retreat(self, me: Player) -> bool:
+        if not me.active or not me.bench:
+            return False
+        if me.active.retreat_locked or self._proxy_cant_retreat(me.card(me.active.card_i)):
+            return False
+        if self.rules.one_retreat_per_turn and me.retreated:
+            return False
+        return len(me.active.energy) >= self._retreat_cost(me, me.active)
+
+    def _mark_doll_hold(self, who: str) -> None:
+        mark = (self.turn, who)
+        if self._doll_hold_mark == mark:
+            return
+        self._doll_hold_mark = mark
+        self._bump("doll_hold")
+        self._bump(f"doll_hold_{who}")
+
     def _scoundrel_ring(self, me: Player, count: int, except_name: str) -> None:
         ban = (except_name or "").lower()
 
@@ -5180,6 +5282,66 @@ class Game:
                 self._place_discarded(me, i)
                 taken += 1
         return taken
+
+    def _any_pokemon_prefer(self, me: Player, who: str) -> list[str]:
+        """Search order for a sentence that says any Pokémon.
+
+        Kecleon's order is the one Ultra Ball already uses.
+        """
+        if self.strats[who].name == "kecleon":
+            return self._kecleon_hand_prefer(me)
+        return self._pokemon_search_prefer(me, who)
+
+    def _is_pokemon_lv_x(self, card: Card) -> bool:
+        blob = f"{card.name} {card.stage}".lower().replace(" ", "")
+        return "lv.x" in blob
+
+    def _trainer_blocked_by_discard(self, me: Player, card: Card) -> bool:
+        """The printed line names a card that locks the play once it is discarded."""
+        for eff in parse_trainer_effects(card.text or ""):
+            blocked = str(eff.get("unplayable_if_in_discard") or "").lower()
+            if blocked and any(me.card(i).name.lower() == blocked for i in me.discard):
+                return True
+        return False
+
+    def _search_pokemon_except_lvx_score(self, me: Player, who: str) -> float:
+        prefer = {name.lower() for name in self._any_pokemon_prefer(me, who)}
+        have = {me.card(i).name.lower() for i in me.hand}
+        have |= {me.card(mon.card_i).name.lower() for mon in me.in_play()}
+        other = False
+        for idx in me.deck:
+            card = me.card(idx)
+            if not card.is_pokemon or self._is_pokemon_lv_x(card):
+                continue
+            if card.name.lower() in have:
+                continue
+            if card.name.lower() in prefer:
+                return 8.0
+            other = True
+        return 3.0 if other else -12.0
+
+    def _search_pokemon_except_lvx(self, me: Player, who: str, eff: dict, card_i: int | None) -> None:
+        blocked = str(eff.get("unplayable_if_in_discard") or "").lower()
+        key = blocked.replace(" ", "_") or "search_pokemon_except_lvx"
+        if blocked and any(i != card_i and me.card(i).name.lower() == blocked for i in me.discard):
+            self._bump(f"{key}_illegal")
+            self._bump(f"{key}_illegal_{me.name.lower()}")
+            return
+
+        def ok(card: Card) -> bool:
+            if not card.is_pokemon:
+                return False
+            return not (eff.get("exclude_lv_x") and self._is_pokemon_lv_x(card))
+
+        found = self._search(me, ok, prefer=self._any_pokemon_prefer(me, who), source=blocked or key)
+        if found is None:
+            self.rng.shuffle(me.deck)
+            self._bump(f"{key}_miss")
+            self._bump(f"{key}_miss_{me.name.lower()}")
+            return
+        self._bump(key)
+        self._bump(f"{key}_{me.name.lower()}")
+        self._log(f"{me.name} finds {me.card(found).name}")
 
     def _pokemon_search_prefer(self, me: Player, who: str) -> list[str]:
         strat = self.strats[who]
@@ -17807,6 +17969,8 @@ class Game:
             self._look_opp_discard_items(me, foe, int(eff.get("look") or 0))
         elif kind == "coin_search_basic_to_hand":
             self._coin_search_basic_to_hand(me, who, eff)
+        elif kind == "search_pokemon_except_lvx":
+            self._search_pokemon_except_lvx(me, who, eff, card_i)
         elif kind == "coin_mill_top":
             self._coin_mill_top(me, foe, int(eff.get("flips") or 0), int(eff.get("per") or 0))
         elif kind == "shuffle_tools_to_deck":

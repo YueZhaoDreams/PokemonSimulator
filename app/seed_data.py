@@ -1556,6 +1556,22 @@ _register(
         image="https://assets.tcgdex.net/en/ex/ex11/89/low.webp",
     )
 )
+# Stormfront 86. One Pokémon into the hand. LV.X is excluded. A second copy
+# cannot be played once any Luxury Ball is in the discard pile.
+_LUXURY_BALL_TEXT = (
+    "Search your deck for a Pokémon (excluding Pokémon LV.X), show it to your opponent, "
+    "and put it into your hand. Shuffle your deck afterward. "
+    "If any Luxury Ball is in your discard pile, you can't play this card."
+)
+_register(
+    _trn(
+        "Luxury Ball",
+        "item",
+        _LUXURY_BALL_TEXT,
+        catalog_id="dp7-86",
+        image="https://assets.tcgdex.net/en/dp/dp7/86/low.webp",
+    )
+)
 # Evolving Skies 154. Printed HP, not remaining HP. Mew ex is 160 and stays in the discard.
 _RESCUE_CARRIER_TEXT = (
     "Put up to 2 Pokémon, each with 90 HP or less, from your discard pile into your hand."
@@ -6007,11 +6023,11 @@ _register(
 _register(_trn("Teammates", "supporter", _TEAMMATES, catalog_id="xy5-141"))
 _register(_trn("Poké Radar", "item", _POKE_RADAR, catalog_id="dp6-133"))
 
-# Kept by the Neutralization Zone search, seed 20261121: the 4 Dual Ball
-# lock, minus one Jirachi-EX, plus one Neutralization Zone. Weighted rate 59.80%.
+# Luxury Ball replaces Druddigon. Seed 20261121, 400 games each seat, Doll left
+# out of the 0-copy weights. 61.49% against the Neutralization Zone start at
+# 60.80% (+0.69 pp, 1.02 combined SE). See data/lab/kecleon-luxury-hold.md.
 SET_KECLEON_NAMES = (
     ["Kecleon"] * 4
-    + ["Druddigon"]
     + ["Hoopa-EX"] * 2
     + ["Fezandipiti ex"] * 2
     + ["Jirachi-EX"]
@@ -6038,6 +6054,7 @@ SET_KECLEON_NAMES = (
     + ["VS Seeker"]
     + ["Special Charge"]
     + ["Dual Ball"] * 4
+    + ["Luxury Ball"]
     + ["Neutralization Zone"]
 )
 
