@@ -34653,10 +34653,10 @@
         "traits": []
       },
       {
-        "catalog_id": "dp6-133",
-        "name": "Pok\u00e9 Radar",
+        "catalog_id": "sv02-172",
+        "name": "Boss's Orders",
         "category": "Trainer",
-        "stage": "Item",
+        "stage": "Supporter",
         "types": [],
         "hp": 0,
         "attacks": [],
@@ -34665,11 +34665,11 @@
         "resistances": [],
         "retreat": 0,
         "evolves_from": null,
-        "trainer_kind": "item",
+        "trainer_kind": "supporter",
         "energy_type": null,
-        "image": "https://assets.tcgdex.net/en/dp/dp6/133/low.webp",
+        "image": "https://assets.tcgdex.net/en/sv/sv02/172/low.webp",
         "set_name": null,
-        "text": "Look at the top 5 cards of your deck, choose as many Pok\u00e9mon as you like, show them to your opponent, and put them into your hand. Put the other cards back on top of your deck. Shuffle your deck afterward.",
+        "text": "Switch in 1 of your opponent's Benched Pok\u00e9mon to the Active Spot.",
         "dex_id": null,
         "traits": []
       },

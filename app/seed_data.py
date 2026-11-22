@@ -6023,9 +6023,10 @@ _register(
 _register(_trn("Teammates", "supporter", _TEAMMATES, catalog_id="xy5-141"))
 _register(_trn("Poké Radar", "item", _POKE_RADAR, catalog_id="dp6-133"))
 
-# Luxury Ball replaces Druddigon. Seed 20261121, 400 games each seat, Doll left
-# out of the 0-copy weights. 61.49% against the Neutralization Zone start at
-# 60.80% (+0.69 pp, 1.02 combined SE). See data/lab/kecleon-luxury-hold.md.
+# Boss's Orders replaces one Poké Radar. Seed 20261122, 400 games each seat.
+# 60.20% against the 0-copy list at 60.50% (-0.30 pp, gap SE 0.66 pp, -0.45
+# combined). The 0-copy list is higher. This lock keeps the one copy. Copies 2
+# and 3 are lower, and the copy-4 pass was stopped. See data/lab/kecleon-boss.md.
 SET_KECLEON_NAMES = (
     ["Kecleon"] * 4
     + ["Hoopa-EX"] * 2
@@ -6047,7 +6048,8 @@ SET_KECLEON_NAMES = (
     + ["Arven"] * 4
     + ["Teammates"] * 4
     + ["Penny"] * 2
-    + ["Poké Radar"] * 4
+    + ["Boss's Orders"]
+    + ["Poké Radar"] * 3
     + ["Nest Ball"] * 2
     + ["Rescue Scarf"] * 2
     + ["Energy Loto"]
